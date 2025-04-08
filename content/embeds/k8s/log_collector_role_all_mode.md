@@ -171,13 +171,6 @@ rules:
   - get
   - list
 - apiGroups:
-  - policy
-  resources:
-  - podsecuritypolicy
-  verbs:
-  - get
-  - list
-- apiGroups:
   - certificates.k8s.io
   resources:
   - certificatesigningrequests

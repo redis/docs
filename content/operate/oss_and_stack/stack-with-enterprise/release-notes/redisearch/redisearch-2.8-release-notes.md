@@ -13,10 +13,27 @@ weight: 91
 ---
 ## Requirements
 
-RediSearch v2.8.24 requires:
+RediSearch v2.8.25 requires:
 
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
+
+## v2.8.25 (March 2025)
+
+This is a maintenance release for RediSearch 2.8.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#5709](https://github.com/redisearch/redisearch/pull/5709) Weights in the query string are ignored if using `SCORER BM25` (MOD-7896)
+- [#5788](https://github.com/redisearch/redisearch/pull/5788) Cursor with `SORTBY` is never depleted, blocking queries if the cursor limit is reached (MOD-8483)
+- [#5788](https://github.com/redisearch/redisearch/pull/5788) Empty results with RESP3 due to the `TIMEOUT`, even if `ON_TIMEOUT` is set to `RETURN`(MOD-8482)
+- [#5788](https://github.com/redisearch/redisearch/pull/5788) Cursor with RESP3 on `FT.AGGREGATE` is never depleted, blocking queries if cursor the limit is achieved (MOD-8515)
+- [#5788](https://github.com/redisearch/redisearch/pull/5788) Using `FT.CURSOR READ` on queries that timed out led to fewer results than expected (MOD-8606)
+- [#5810](https://github.com/redisearch/redisearch/pull/5810) The `total_results` field of the `FT.AGGREGATE` command is not correct in RESP3 (MOD-9054)
+
+Improvements:
+- [#5788](https://github.com/redisearch/redisearch/pull/5788) Corrected a coordinator race condition that prevented premature release, avoiding errors and inconsistencies during query executions (MOD-8794)
 
 ## v2.8.24 (February 2025)
 

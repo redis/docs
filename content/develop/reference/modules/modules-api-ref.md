@@ -7843,9 +7843,6 @@ position so it can later use [`RedisModule_DefragCursorGet()`](#RedisModule_Defr
 When stopped and more work is left to be done, the callback should
 return 1. Otherwise, it should return 0.
 
-NOTE: Modules should consider the frequency in which this function is called,
-so it generally makes sense to do small batches of work in between calls.
-
 <span id="RedisModule_DefragCursorSet"></span>
 
 ### `RedisModule_DefragCursorSet`
@@ -7976,8 +7973,9 @@ on the Redis side is dropped as soon as the command callback returns).
 Defragment a Redis Module Dictionary by scanning its contents and calling a value
 callback for each value.
 
-The callback gets the current value in the dict, and should return non-NULL with a new pointer,
+The callback gets the current value in the dict, and should update newptr to the new pointer,
 if the value was re-allocated to a different address. The callback also gets the key name just as a reference.
+The callback returns 0 when defrag is complete for this node, 1 when node needs more work.
 
 The API can work incrementally by accepting a seek position to continue from, and
 returning the next position to seek to on the next call (or return NULL when the iteration is completed).

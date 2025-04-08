@@ -34,7 +34,7 @@ rladmin failover
 
 Returns `Finished successfully` if the failover completed. Otherwise, it returns an error.
 
-Use [`rladmin status shards`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-shards" >}}) to verify that the failover completed.
+Use [`rladmin status shards`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/status#status-shards" >}}) to verify that the failover completed.
 
 ### Example
 

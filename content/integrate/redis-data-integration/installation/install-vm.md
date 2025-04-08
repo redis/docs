@@ -161,9 +161,10 @@ ufw allow 9121/tcp  # rdi-metric-exporter
 
 Follow the steps below for each of your VMs:
 
-1.  Download the RDI installer from the [Redis download center](https://cloud.redis.io/#/rlec-downloads)
-    (under the *Modules, Tools & Integration* dropdown)
-    and extract it to your preferred installation folder.
+1.  Download the RDI installer from the
+    [Redis download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-installation-1.6.4.tar.gz)
+    (from the *Modules, Tools & Integration* category) and extract it to your preferred installation
+    folder.
 
 1. Go to the installation folder:
 

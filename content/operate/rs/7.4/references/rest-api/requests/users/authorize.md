@@ -45,7 +45,7 @@ Generate a JSON Web Token (JWT) for a user to use as authorization to access the
 
 #### Request body
 
-Include a [JWT authorize object]({{< relref "/operate/rs/references/rest-api/objects/jwt_authorize" >}}) with a valid username and password in the request body.
+Include a [JWT authorize object]({{< relref "/operate/rs/7.4/references/rest-api/objects/jwt_authorize" >}}) with a valid username and password in the request body.
 
 ### Response {#post-response}
 

@@ -36,7 +36,7 @@ For antivirus solutions that intercept processes, binary files may have to be ex
     | /opt/redislabs/lib | System library files |
     | /opt/redislabs/sbin | System binaries for tweaking provisioning |
 
-- **Send logs to a remote logging server**: Redis Enterprise is configured to send logs by default to syslog. To send these logs to a remote logging server you must [configure syslog]({{<relref "/operate/rs/clusters/logging/log-security">}}) based the requirements of the remote logging server vendor. Remote logging helps ensure that the logs are not deleted so that you can rotate the logs to prevent your server disk from filling up.
+- **Send logs to a remote logging server**: Redis Enterprise is configured to send logs by default to syslog. To send these logs to a remote logging server you must [configure syslog]({{<relref "/operate/rs/7.4/clusters/logging/log-security">}}) based the requirements of the remote logging server vendor. Remote logging helps ensure that the logs are not deleted so that you can rotate the logs to prevent your server disk from filling up.
 
 - **Deploy clusters with an odd number of 3 or more nodes**: Redis is an available and partition-tolerant database. We recommend that Redis Enterprise be deployed in a cluster of an odd number of 3 or more nodes so that you are able to successfully failover in the event of a failure.
 
@@ -46,11 +46,11 @@ For antivirus solutions that intercept processes, binary files may have to be ex
 
 ## Cluster security
 
-- **Control the level of access to your system**: Redis Enterprise lets you decide which users can access the cluster, which users can access databases, and which users can access both. We recommend preventing database users from accessing the cluster. See [Access control]({{<relref "/operate/rs/security/access-control">}}) for more information.
+- **Control the level of access to your system**: Redis Enterprise lets you decide which users can access the cluster, which users can access databases, and which users can access both. We recommend preventing database users from accessing the cluster. See [Access control]({{<relref "/operate/rs/7.4/security/access-control">}}) for more information.
 
 - **Enable LDAP authentication**: If your organization uses the Lightweight Directory Access Protocol (LDAP), we recommend enabling Redis Enterprise Software support for role-based LDAP authentication.
 
-- **Require HTTPS for API endpoints**: Redis Enterprise comes with a REST API to help automate tasks. This API is available in both an encrypted and unencrypted endpoint for backward compatibility. You can [disable the unencrypted endpoint]({{<relref "/operate/rs/references/rest-api/encryption#require-https-for-api-endpoints">}}) with no loss in functionality.
+- **Require HTTPS for API endpoints**: Redis Enterprise comes with a REST API to help automate tasks. This API is available in both an encrypted and unencrypted endpoint for backward compatibility. You can [disable the unencrypted endpoint]({{<relref "/operate/rs/7.4/references/rest-api/encryption#require-https-for-api-endpoints">}}) with no loss in functionality.
 
 ## Database security
 
@@ -58,12 +58,12 @@ Redis Enterprise offers several database security controls to help protect your 
 
 - **Use strong Redis passwords**: A frequent recommendation in the security industry is to use strong passwords to authenticate users. This helps to prevent brute force password guessing attacks against your database. Its important to check that your password aligns with your organizations security policy.
 
-- **Deactivate default user access**: Redis Enterprise comes with a "default" user for backwards compatibility with applications designed with versions of Redis prior to Redis Enterprise 6. The default user is turned on by default. This allows you to access the database without specifying a username and only using a shared secret. For applications designed to use access control lists, we recommend that you [deactivate default user access]({{<relref "/operate/rs/security/access-control/manage-users/default-user#deactivate-default-user">}}).
+- **Deactivate default user access**: Redis Enterprise comes with a "default" user for backwards compatibility with applications designed with versions of Redis prior to Redis Enterprise 6. The default user is turned on by default. This allows you to access the database without specifying a username and only using a shared secret. For applications designed to use access control lists, we recommend that you [deactivate default user access]({{<relref "/operate/rs/7.4/security/access-control/manage-users/default-user#deactivate-default-user">}}).
 
-- **Configure Transport Layer Security (TLS)**: Similar to the control plane, you can also [configure TLS protocols]({{<relref "/operate/rs/security/encryption/tls/tls-protocols">}}) to help support your security and compliance needs.
+- **Configure Transport Layer Security (TLS)**: Similar to the control plane, you can also [configure TLS protocols]({{<relref "/operate/rs/7.4/security/encryption/tls/tls-protocols">}}) to help support your security and compliance needs.
 
-- **Enable client certificate authentication**: To prevent unauthorized access to your data, Redis Enterprise databases support the [TLS protocol]({{<relref "/operate/rs/security/encryption/tls#client-certificate-authentication">}}), which includes authentication and encryption. Client certificate authentication can be used to ensure only authorized hosts can access the database.
+- **Enable client certificate authentication**: To prevent unauthorized access to your data, Redis Enterprise databases support the [TLS protocol]({{<relref "/operate/rs/7.4/security/encryption/tls#client-certificate-authentication">}}), which includes authentication and encryption. Client certificate authentication can be used to ensure only authorized hosts can access the database.
 
-- **Install trusted certificates**: Redis implements self-signed certificates for the database proxy and replication service, but many organizations prefer to [use their own certificates]({{<relref "/operate/rs/security/certificates/create-certificates">}}).
+- **Install trusted certificates**: Redis implements self-signed certificates for the database proxy and replication service, but many organizations prefer to [use their own certificates]({{<relref "/operate/rs/7.4/security/certificates/create-certificates">}}).
 
-- **Configure and verify database backups**: Implementing a disaster recovery strategy is an important part of data security. Redis Enterprise supports [database backups to many destinations]({{<relref "/operate/rs/databases/import-export/schedule-backups">}}).
+- **Configure and verify database backups**: Implementing a disaster recovery strategy is an important part of data security. Redis Enterprise supports [database backups to many destinations]({{<relref "/operate/rs/7.4/databases/import-export/schedule-backups">}}).

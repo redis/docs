@@ -19,13 +19,13 @@ You can manage your Redis Enterprise Software databases with several tools:
 
 - Command-line tools:
 
-    - [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}) for standalone database configuration
+    - [`rladmin`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin" >}}) for standalone database configuration
 
-    - [`crdb-cli`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli" >}}) for Active-Active database configuration
+    - [`crdb-cli`]({{< relref "/operate/rs/7.4/references/cli-utilities/crdb-cli" >}}) for Active-Active database configuration
 
     - [`redis-cli`]({{< relref "/develop/tools/cli" >}}) for Redis Open Source configuration
 
-- [REST API]({{< relref "/operate/rs/references/rest-api/_index.md" >}})
+- [REST API]({{< relref "/operate/rs/7.4/references/rest-api/_index.md" >}})
 
 ## Edit database settings
 
@@ -40,7 +40,7 @@ To edit the configuration of a database using the Cluster Manager UI:
 1. Change any [configurable database settings](#config-settings).
 
     {{< note >}}
-For [Active-Active database instances]({{< relref "/operate/rs/databases/active-active" >}}), most database settings only apply to the instance that you are editing.
+For [Active-Active database instances]({{< relref "/operate/rs/7.4/databases/active-active" >}}), most database settings only apply to the instance that you are editing.
     {{< /note >}}
 
 1. Select **Save**.
@@ -62,11 +62,11 @@ For [Active-Active database instances]({{< relref "/operate/rs/databases/active-
 - **Endpoint port number** - You can define the port number that clients use to connect to the database. Otherwise, a port is randomly selected.
 
     {{< note >}}
-You cannot change the [port number]({{< relref "/operate/rs/networking/port-configurations.md" >}})
+You cannot change the [port number]({{< relref "/operate/rs/7.4/networking/port-configurations.md" >}})
 after the database is created.
     {{< /note >}}
 
-- **Memory limit** - [Database memory limits]({{< relref "/operate/rs/databases/memory-performance/memory-limit.md" >}}) include all database replicas and shards, including replica shards in database replication and database shards in database clustering.
+- **Memory limit** - [Database memory limits]({{< relref "/operate/rs/7.4/databases/memory-performance/memory-limit.md" >}}) include all database replicas and shards, including replica shards in database replication and database shards in database clustering.
 
     If the total size of the database in the cluster reaches the memory limit, the data eviction policy for the database is enforced.
 
@@ -93,30 +93,30 @@ You cannot enable them after database creation.
 
 ### High availability & durability
 
-- [**Replication**]({{< relref "/operate/rs/databases/durability-ha/replication.md" >}}) - We recommend you use intra-cluster replication to create replica shards for each database for high availability.
+- [**Replication**]({{< relref "/operate/rs/7.4/databases/durability-ha/replication.md" >}}) - We recommend you use intra-cluster replication to create replica shards for each database for high availability.
 
-    If the cluster is configured to support [rack-zone awareness]({{< relref "/operate/rs/clusters/configure/rack-zone-awareness.md" >}}), you can also enable rack-zone awareness for the database.
+    If the cluster is configured to support [rack-zone awareness]({{< relref "/operate/rs/7.4/clusters/configure/rack-zone-awareness.md" >}}), you can also enable rack-zone awareness for the database.
 
-- [**Replica high availability**]({{< relref "/operate/rs/databases/configure/replica-ha" >}}) - Automatically migrates replica shards to an available node if a replica node fails or is promoted to primary.
+- [**Replica high availability**]({{< relref "/operate/rs/7.4/databases/configure/replica-ha" >}}) - Automatically migrates replica shards to an available node if a replica node fails or is promoted to primary.
 
-- [**Persistence**]({{< relref "/operate/rs/databases/configure/database-persistence.md" >}}) - To protect against loss of data stored in RAM, you can enable data persistence and store a copy of the data on disk with snapshots or an Append Only File.
+- [**Persistence**]({{< relref "/operate/rs/7.4/databases/configure/database-persistence.md" >}}) - To protect against loss of data stored in RAM, you can enable data persistence and store a copy of the data on disk with snapshots or an Append Only File.
 
-- [**Data eviction policy**]({{< relref "/operate/rs/databases/memory-performance/eviction-policy.md" >}}) - By default, when the total size of the database reaches its memory limit the database evicts keys according to the least recently used keys out of all keys with an "expire" field set in order to make room for new keys. You can select a different data eviction policy.
+- [**Data eviction policy**]({{< relref "/operate/rs/7.4/databases/memory-performance/eviction-policy.md" >}}) - By default, when the total size of the database reaches its memory limit the database evicts keys according to the least recently used keys out of all keys with an "expire" field set in order to make room for new keys. You can select a different data eviction policy.
 
 ### Clustering
 
 - **Sharding** - You can either:
-    - Turn on **Sharding** to enable [database clustering]({{< relref "/operate/rs/databases/durability-ha/clustering.md" >}}) and select the number of database shards.
+    - Turn on **Sharding** to enable [database clustering]({{< relref "/operate/rs/7.4/databases/durability-ha/clustering.md" >}}) and select the number of database shards.
 
-        When database clustering is enabled, databases are subject to limitations on [Multi-key commands]({{< relref "/operate/rs/databases/durability-ha/clustering.md" >}}).
+        When database clustering is enabled, databases are subject to limitations on [Multi-key commands]({{< relref "/operate/rs/7.4/databases/durability-ha/clustering.md" >}}).
         
         You can increase the number of shards in the database at any time.
 
-        You can accept the [standard hashing policy]({{< relref "/operate/rs/databases/durability-ha/clustering#standard-hashing-policy" >}}), which is compatible with Redis Open Source, or define a [custom hashing policy]({{< relref "/operate/rs/databases/durability-ha/clustering#custom-hashing-policy" >}}) to define where keys are located in the clustered database.
+        You can accept the [standard hashing policy]({{< relref "/operate/rs/7.4/databases/durability-ha/clustering#standard-hashing-policy" >}}), which is compatible with Redis Open Source, or define a [custom hashing policy]({{< relref "/operate/rs/7.4/databases/durability-ha/clustering#custom-hashing-policy" >}}) to define where keys are located in the clustered database.
 
-    - Turn off **Sharding** to use only one shard so that you can use [Multi-key commands]({{< relref "/operate/rs/databases/durability-ha/clustering.md" >}}) without the limitations.
+    - Turn off **Sharding** to use only one shard so that you can use [Multi-key commands]({{< relref "/operate/rs/7.4/databases/durability-ha/clustering.md" >}}) without the limitations.
 
-- [**OSS Cluster API**]({{< relref "/operate/rs/databases/configure/oss-cluster-api.md" >}}) - The OSS Cluster API configuration allows access to multiple endpoints for increased throughput.
+- [**OSS Cluster API**]({{< relref "/operate/rs/7.4/databases/configure/oss-cluster-api.md" >}}) - The OSS Cluster API configuration allows access to multiple endpoints for increased throughput.
 
     This configuration requires clients to connect to the primary node to retrieve the cluster topology before they can connect directly to proxies on each node.
     
@@ -126,31 +126,31 @@ You cannot enable them after database creation.
 You must use a client that supports the cluster API to connect to a database that has the cluster API enabled.
     {{</note>}}
 
-- [**Shards placement**]({{< relref "/operate/rs/databases/memory-performance/shard-placement-policy" >}}) - Determines how to distribute database shards across nodes in the cluster.
+- [**Shards placement**]({{< relref "/operate/rs/7.4/databases/memory-performance/shard-placement-policy" >}}) - Determines how to distribute database shards across nodes in the cluster.
 
     - _Dense_ places shards on the smallest number of nodes.
     
     - _Sparse_ spreads shards across many nodes.
 
-- [**Database proxy**]({{< relref "/operate/rs/databases/configure/proxy-policy" >}}) - Determines the number and location of active proxies, which manage incoming database operation requests.
+- [**Database proxy**]({{< relref "/operate/rs/7.4/databases/configure/proxy-policy" >}}) - Determines the number and location of active proxies, which manage incoming database operation requests.
 
 ### Replica Of
 
-With [**Replica Of**]({{< relref "/operate/rs/databases/import-export/replica-of/create.md" >}}), you can make the database a repository for keys from other databases.
+With [**Replica Of**]({{< relref "/operate/rs/7.4/databases/import-export/replica-of/create.md" >}}), you can make the database a repository for keys from other databases.
 
 ### Scheduled backup
 
-You can configure [periodic backups]({{< relref "/operate/rs/databases/import-export/schedule-backups" >}}) of the database, including the interval and backup location parameters.
+You can configure [periodic backups]({{< relref "/operate/rs/7.4/databases/import-export/schedule-backups" >}}) of the database, including the interval and backup location parameters.
 
 ### Alerts
 
-Select [alerts]({{< relref "/operate/rs/clusters/monitoring#database-alerts" >}}) to show in the database status and configure their thresholds.
+Select [alerts]({{< relref "/operate/rs/7.4/clusters/monitoring#database-alerts" >}}) to show in the database status and configure their thresholds.
 
-You can also choose to [send alerts by email]({{< relref "/operate/rs/clusters/monitoring#send-alerts-by-email" >}}) to relevant users.
+You can also choose to [send alerts by email]({{< relref "/operate/rs/7.4/clusters/monitoring#send-alerts-by-email" >}}) to relevant users.
 
 ### TLS
 
-You can require [**TLS**]({{< relref "/operate/rs/security/encryption/tls/" >}}) encryption and authentication for all communications, TLS encryption and authentication for Replica Of communication only, and TLS authentication for clients.
+You can require [**TLS**]({{< relref "/operate/rs/7.4/security/encryption/tls/" >}}) encryption and authentication for all communications, TLS encryption and authentication for Replica Of communication only, and TLS authentication for clients.
 
 ### Access control
 
@@ -162,19 +162,19 @@ You can require [**TLS**]({{< relref "/operate/rs/security/encryption/tls/" >}})
 
     Creating a database without ACLs enables a *default* user with full access to the database. You can secure default user access by requiring a password.
 
-- **Access Control List** - You can specify the [user roles]({{< relref "/operate/rs/security/access-control/create-db-roles" >}}) that have access to the database and the [Redis ACLs]({{< relref "/operate/rs/security/access-control/redis-acl-overview" >}}) that apply to those connections.
+- **Access Control List** - You can specify the [user roles]({{< relref "/operate/rs/7.4/security/access-control/create-db-roles" >}}) that have access to the database and the [Redis ACLs]({{< relref "/operate/rs/7.4/security/access-control/redis-acl-overview" >}}) that apply to those connections.
 
     To define an access control list for a database:
 
     1. In **Security > Access Control > Access Control List**, select **+ Add ACL**.
 
-    1. Select a [role]({{< relref "/operate/rs/security/access-control/create-db-roles" >}}) to grant database access.
+    1. Select a [role]({{< relref "/operate/rs/7.4/security/access-control/create-db-roles" >}}) to grant database access.
 
-    1. Associate a [Redis ACL]({{< relref "/operate/rs/security/access-control/create-db-roles" >}}) with the role and database.
+    1. Associate a [Redis ACL]({{< relref "/operate/rs/7.4/security/access-control/create-db-roles" >}}) with the role and database.
 
     1. Select the check mark to add the ACL.
 
 ### Internode encryption
 
-Enable **Internode encryption** to encrypt data in transit between nodes for this database. See [Internode encryption]({{< relref "/operate/rs/security/encryption/internode-encryption" >}}) for more information.
+Enable **Internode encryption** to encrypt data in transit between nodes for this database. See [Internode encryption]({{< relref "/operate/rs/7.4/security/encryption/internode-encryption" >}}) for more information.
 

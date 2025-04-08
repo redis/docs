@@ -22,18 +22,7 @@ rules:
   - apiGroups:
       - app.redislabs.com
     resources:
-      - redisenterpriseclusters
-      - redisenterpriseclusters/status
-      - redisenterpriseclusters/finalizers
-      - redisenterprisedatabases
-      - redisenterprisedatabases/status
-      - redisenterprisedatabases/finalizers
-      - redisenterpriseremoteclusters
-      - redisenterpriseremoteclusters/status
-      - redisenterpriseremoteclusters/finalizers
-      - redisenterpriseactiveactivedatabases
-      - redisenterpriseactiveactivedatabases/status
-      - redisenterpriseactiveactivedatabases/finalizers
+      - "*"
     verbs:
       - delete
       - get
@@ -93,6 +82,7 @@ rules:
       - get
       - list
       - watch
+      - update
   - apiGroups:
       - ""
     resources:
@@ -138,14 +128,6 @@ rules:
       - create
       - delete
       - watch
-  - apiGroups:
-      - policy
-    resourceNames:
-      - redis-enterprise-psp
-    resources:
-      - podsecuritypolicies
-    verbs:
-      - use
   - apiGroups:
       - networking.k8s.io
     resources:

@@ -18,7 +18,7 @@ In the Redis Enterprise Cluster Manager UI, you can see real-time metrics and co
 
 To integrate Redis Enterprise metrics into your monitoring environment, see the integration guides for [Prometheus and Grafana]({{< relref "/integrate/prometheus-with-redis-enterprise/" >}}) or [Uptrace]({{< relref "/integrate/uptrace-with-redis-enterprise/" >}}).
 
-Make sure you read the [definition of each metric]({{< relref "/operate/rs/references/metrics/" >}})
+Make sure you read the [definition of each metric]({{< relref "/operate/rs/7.4/references/metrics/" >}})
 so that you understand exactly what it represents.
 
 ## Real-time metrics
@@ -79,8 +79,8 @@ To enable alerts for a database:
 To send cluster and database alerts by email:
 
 1. In **Cluster > Alert Settings**, click **Edit**.
-1. Select **Set an email** to configure the [email server settings]({{< relref "/operate/rs/clusters/configure/cluster-settings#configuring-email-server-settings" >}}).
+1. Select **Set an email** to configure the [email server settings]({{< relref "/operate/rs/7.4/clusters/configure/cluster-settings#configuring-email-server-settings" >}}).
 1. In **Configuration** for the database, click **Edit**.
 1. Select the **Alerts** section to open it.
 1. Select **Receive email alerts** and click **Save**.
-1. In **Access Control**, select the [database and cluster alerts]({{< relref "/operate/rs/security/access-control/manage-users" >}}) that you want each user to receive.
+1. In **Access Control**, select the [database and cluster alerts]({{< relref "/operate/rs/7.4/security/access-control/manage-users" >}}) that you want each user to receive.
