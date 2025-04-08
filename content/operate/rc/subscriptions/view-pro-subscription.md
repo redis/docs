@@ -31,8 +31,6 @@ From here, you can:
 
     {{<image filename="images/rc/icon-database-status-active.png#no-click" alt="When a subscription is active, the status icon displays a green circle with a checkmark." class="inline" >}} &nbsp; {{<image filename="images/rc/icon-subscription-status-pending.png#no-click" alt="When a subscription is pending, the status icon displays a gre, animated circle." class="inline">}}
 
-- {{< embed-md "rc-version-upgrade.md" >}}
-
 Because subscriptions represent active deployments, there aren't many details you can change.  If your needs change, [create a new subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) and then [migrate the existing data]({{< relref "/operate/rc/databases/migrate-databases" >}}) to the new databases.
 
 In addition, three tabs are available:
