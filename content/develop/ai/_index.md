@@ -36,11 +36,11 @@ This page organized into a few sections depending on what you’re trying to do:
 1. [**Configure vector queries at runtime**]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#runtime-query-parameters" >}}). Select the best filter mode to optimize query execution.
 
 #### Learn how to index and query vector embeddings
-* [redis-py (Python)]({{< relref "/develop/clients/redis-py/vecsearch/)" >}})
-* [NRedisStack (C#/.NET)]({{< relref "/develop/clients/dotnet/vecsearch/)" >}})
-* [node-redis (JavaScript)]({{< relref "/develop/clients/nodejs/vecsearch/)" >}}) 
-* [Jedis (Java)]({{< relref "/develop/clients/jedis/vecsearch/)" >}})
-* [go-redis (Go)]({{< relref "/develop/clients/go/vecsearch/)" >}}) 
+* [redis-py (Python)]({{< relref "/develop/clients/redis-py/vecsearch" >}})
+* [NRedisStack (C#/.NET)]({{< relref "/develop/clients/dotnet/vecsearch" >}})
+* [node-redis (JavaScript)]({{< relref "/develop/clients/nodejs/vecsearch" >}}) 
+* [Jedis (Java)]({{< relref "/develop/clients/jedis/vecsearch" >}})
+* [go-redis (Go)]({{< relref "/develop/clients/go/vecsearch" >}}) 
 
 ## Concepts 
 
