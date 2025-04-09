@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: Metrics stream engine GA. Diagnostic logging service. Revamp database API. Migration status API. Usage reports in support packages. Two-dimensional rack awareness. New version for actions API. Additional REST API enhancements.
+description: Diagnostic logging service. Revamp database API. Migration status API. Usage reports in support packages. Two-dimensional rack awareness. New version for actions API. Additional REST API enhancements.
 linkTitle: 7.22.x-tba (April 2025)
 weight: 90
 ---
@@ -16,8 +16,6 @@ weight: 90
 ## Highlights
 
 This version offers:
-
-- Metrics stream engine GA
 
 - Diagnostic logging service
 
@@ -36,8 +34,6 @@ This version offers:
 ## New in this release
 
 ### New features
-
-- The [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}) is now generally available.
 
 - [Diagnostic logging service]({{<relref "/operate/rs/clusters/logging/diagnostic-logging">}}):
 
