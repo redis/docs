@@ -1,18 +1,18 @@
 ---
-Title: Metrics stream engine for monitoring v2
+Title: Metrics stream engine preview for monitoring v2
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
 - kubernetes
-description: The new metrics stream engine for monitoring Redis Enterprise Software.
+description: Preview the new metrics stream engine for monitoring Redis Enterprise Software.
 hideListLinks: true
-linkTitle: Metrics stream engine for monitoring v2
+linkTitle: Metrics stream engine preview for monitoring v2
 weight: 60
 ---
 
-The new metrics stream engine is generally available as of [Redis Enterprise Software version 7.22]({{<relref "/operate/rs/release-notes/rs-7-22-releases">}}).
+A preview of the new metrics stream engine is available as of [Redis Enterprise Software version 7.8.2]({{<relref "/operate/rs/release-notes/rs-7-8-releases">}}).
 
 The new metrics stream engine:
 
