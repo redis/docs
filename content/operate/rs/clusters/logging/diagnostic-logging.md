@@ -14,7 +14,7 @@ The diagnostic logging service collects detailed system logs, which you can use 
 
 ## View diagnostic logs
 
-Diagnostic logs are collected at scheduled intervals and saved in the `/var/opt/redislabs/log/diagnostics/` directory. The log files are rotated once a day.
+Diagnostic logs are collected at scheduled intervals and saved in the `/var/opt/redislabs/log/diagnostics/` directory. Each diagnostic log file is overwritten with the new data at the scheduled collection interval.
 
 ## View log collector settings
 
