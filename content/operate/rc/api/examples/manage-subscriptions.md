@@ -66,13 +66,13 @@ You can only change the following settings with this endpoint:
 
 - **`planId`** - Specify a new Essentials plan to change to.
 
-    Use [`GET /v1/fixed/plans`]({{< relref "/operate/rc/api/api-reference#tag/Subscriptions-Essentials/operation/getAllFixedSubscriptionsPlans" >}}) to get a list of plan IDs.
-
     You can only change to a plan that:
         
     - Is in the same cloud provider and region of your current plan.
         
     - Has a compatible [High-availability option]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) to your current plan. For example, if your current plan has single-zone replication, you cannot switch to a plan with multi-zone replication, but you can switch to a plan with no replication. If your current plan has multi-zone replication, you must switch to a plan with multi-zone replication.
+
+    Use [`GET /v1/fixed/plans/subscriptions/{subscriptionID}`]({{< relref "/operate/rc/api/api-reference#tag/Subscriptions-Essentials/operation/getFixedSubscriptionsPlanById" >}}) to get a list of plan IDs that are compatible with your subscription.
 
 - **`paymentMethodId`** - Specify a different payment method connected to your account.
 
