@@ -54,24 +54,37 @@ Returns a [job_scheduler object]({{<relref "/operate/rs/references/rest-api/obje
 
 ```json
 {
-   "backup_job_settings": {
-     "cron_expression": "0 * * * *",
-     "enabled": true
-   },
-   "redis_cleanup_job_settings": {
-     "cron_expression": "0 * * * *",
-     "enabled": true
-   },
-   "rotate_ccs_job_settings": {
-     "cron_expression": "*/5 * * * *",
-     "file_suffix": "5min",
-     "rotate_max_num": 24,
-     "enabled": true
-   },
-   "node_checks_job_settings": {
-     "cron_expression": "*/5 * * * *",
-     "enabled": false
-   }
+  "backup_job_settings": {
+    "cron_expression": "*/5 * * * *",
+    "enabled": true
+  },
+  "bdb_usage_report_job_settings": {
+    "cron_expression": "0 */1 * * *",
+    "enabled": false,
+    "file_retention_days": 365
+  },
+  "cert_rotation_job_settings": {
+    "cron_expression": "0 * * * *",
+    "enabled": true,
+    "expiry_days_before_rotation": 60
+  },
+  "log_rotation_job_settings": {
+    "cron_expression": "*/5 * * * *",
+    "enabled": true
+  },
+  "node_checks_job_settings": {
+    "cron_expression": "0 * * * *",
+    "enabled": true
+  },
+  "redis_cleanup_job_settings": {
+    "cron_expression": "0 * * * *"
+  },
+  "rotate_ccs_job_settings": {
+    "cron_expression": "*/5 * * * *",
+    "enabled": true,
+    "file_suffix": "5min",
+    "rotate_max_num": 24
+  }
 }
 ```
 
@@ -108,7 +121,7 @@ PUT /v1/job_scheduler
 ```json
 {
    "backup_job_settings": {
-     "cron_expression": "5 * * * *"
+     "cron_expression": "*/10 * * * *"
    }
 }
 ```
@@ -133,22 +146,34 @@ Returns a [job_scheduler object]({{<relref "/operate/rs/references/rest-api/obje
 
 ```json
 {
-   "backup_job_settings": {
-     "cron_expression": "5 * * * *",
-     "enabled": false,
-   },
-   "redis_cleanup_job_settings": {
-     "cron_expression": "0 * * * *"
-   },
-   "rotate_ccs_job_settings": {
-     "cron_expression": "*/5 * * * *",
-     "file_suffix": "5min",
-     "rotate_max_num": 24
-   },
-   "node_checks_job_settings": {
-     "cron_expression": "*/5 * * * *",
-     "enabled": true,
-   }
+    "backup_job_settings": {
+        "cron_expression": "*/10 * * * *",
+        "enabled": true
+    },
+    "bdb_usage_report_job_settings": {
+        "cron_expression": "0 */1 * * *",
+        "enabled": false,
+        "file_retention_days": 365
+    },
+    "cert_rotation_job_settings": {
+        "cron_expression": "0 * * * *",
+        "enabled": true,
+        "expiry_days_before_rotation": 60
+    },
+    "log_rotation_job_settings": {
+        "cron_expression": "*/5 * * * *",
+        "enabled": true
+    },
+    "node_checks_job_settings": {
+        "cron_expression": "0 * * * *",
+        "enabled": true
+    },
+    "rotate_ccs_job_settings": {
+        "cron_expression": "*/5 * * * *",
+        "enabled": true,
+        "file_suffix": "5min",
+        "rotate_max_num": 24
+    }
 }
 ```
 
