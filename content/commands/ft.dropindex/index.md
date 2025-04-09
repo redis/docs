@@ -1,4 +1,9 @@
 ---
+acl_categories:
+- '@dangerous'
+- '@search'
+- '@slow'
+- '@write'
 arguments:
 - name: index
   type: string
@@ -83,4 +88,3 @@ OK
 ## Related topics
 
 [RediSearch]({{< relref "/develop/interact/search-and-query/" >}})
-
