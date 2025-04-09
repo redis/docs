@@ -17,7 +17,7 @@ Roles with cluster access allow access to the Cluster Management UI and REST API
 
 ## Default management roles
 
-Redis Enterprise Software includes five predefined roles that determine a user's level of access to the Cluster Manager UI and [REST API]({{<relref "/operate/rs/references/rest-api">}}).
+Redis Enterprise Software includes five predefined roles that determine a user's level of access to the Cluster Manager UI and [REST API]({{<relref "/operate/rs/7.4/references/rest-api">}}).
 
 1. **DB Viewer** - Read database settings
 1. **DB Member** - Administer databases
@@ -26,7 +26,7 @@ Redis Enterprise Software includes five predefined roles that determine a user's
 1. **Admin** - Full cluster access
 1. **None** - For data access only - cannot access the Cluster Manager UI or use the REST API
 
-For more details about the privileges granted by each of these roles, see [Cluster Manager UI permissions](#cluster-manager-ui-permissions) or [REST API permissions]({{<relref "/operate/rs/references/rest-api/permissions">}}).
+For more details about the privileges granted by each of these roles, see [Cluster Manager UI permissions](#cluster-manager-ui-permissions) or [REST API permissions]({{<relref "/operate/rs/7.4/references/rest-api/permissions">}}).
 
 ## Cluster Manager UI permissions
 
@@ -70,4 +70,4 @@ To create a role that grants cluster access but does not grant access to any dat
 
 1. Select **Save**.
 
-You can [assign the new role to users]({{<relref "/operate/rs/security/access-control/create-users#assign-roles-to-users">}}) to grant cluster access.
+You can [assign the new role to users]({{<relref "/operate/rs/7.4/security/access-control/create-users#assign-roles-to-users">}}) to grant cluster access.

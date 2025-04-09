@@ -27,13 +27,13 @@ the custom resource with default values to create a full specification. It then 
 database on the specified Redis Enterprise cluster (REC).
 
 Once the database is created, it is exposed with the same service mechanisms by the service rigger for the Redis Enterprise cluster.
-If the database [custom resource is deleted]({{< relref "/operate/kubernetes/delete-custom-resources" >}}), the database and its services are deleted from the cluster.
+If the database [custom resource is deleted]({{< relref "/operate/kubernetes/7.4.6/delete-custom-resources" >}}), the database and its services are deleted from the cluster.
 
 ### Flexible deployment options
 
-Databases in multiple namespaces can be managed by the same operator. To learn more, see [Manage databases in multiple namespaces]({{< relref "/operate/kubernetes/re-clusters/multi-namespace" >}}).
+Databases in multiple namespaces can be managed by the same operator. To learn more, see [Manage databases in multiple namespaces]({{< relref "/operate/kubernetes/7.4.6/re-clusters/multi-namespace" >}}).
 
-To learn more about designing a multi-namespace Redis Enterprise cluster, see [flexible deployment options]({{< relref "/operate/kubernetes/deployment/deployment-options" >}}).
+To learn more about designing a multi-namespace Redis Enterprise cluster, see [flexible deployment options]({{< relref "/operate/kubernetes/7.4.6/deployment/deployment-options" >}}).
 
 ## Create a database
 
@@ -85,7 +85,7 @@ To modify the database:
     ```
 
 1. Change the specification (only properties in `spec` section) and save the changes.  
-    For more details, see [RedisEnterpriseDatabaseSpec](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/redis_enterprise_database_api.md#redisenterprisedatabasespec) or [Options for Redis Enterprise databases]({{< relref "/operate/kubernetes/reference/redis_enterprise_database_api" >}}). 
+    For more details, see [RedisEnterpriseDatabaseSpec](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/redis_enterprise_database_api.md#redisenterprisedatabasespec) or [Options for Redis Enterprise databases]({{< relref "/operate/kubernetes/7.4.6/reference/redis_enterprise_database_api" >}}). 
 
 1. Monitor the status to see when the changes take effect:
 
@@ -119,7 +119,7 @@ Connection information for the database is stored in a Kubernetes [secret](https
 The name of that secret is stored in the database custom resource.
 
 {{<note>}}
-Use these steps to connect to your database from within your K8s cluster. To access your database from outside the K8s cluster, set up the [Ingress]({{< relref "/operate/kubernetes/networking/ingress.md" >}}) controller or use OpenShift routes.
+Use these steps to connect to your database from within your K8s cluster. To access your database from outside the K8s cluster, set up the [Ingress]({{< relref "/operate/kubernetes/7.4.6/networking/ingress.md" >}}) controller or use OpenShift routes.
 {{</note>}}
 
 1. Retrieve the secret name.

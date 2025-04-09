@@ -12,13 +12,13 @@ weight: 35
 url: '/operate/rs/7.4/installing-upgrading/install/'
 ---
 
-After you [plan your deployment]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment" >}}), [download a Redis Enterprise Software installation package]({{< relref "/operate/rs/installing-upgrading/install/prepare-install/download-install-package" >}}), and finish [installation preparation]({{< relref "/operate/rs/installing-upgrading/install/prepare-install" >}}):
+After you [plan your deployment]({{< relref "/operate/rs/7.4/installing-upgrading/install/plan-deployment" >}}), [download a Redis Enterprise Software installation package]({{< relref "/operate/rs/7.4/installing-upgrading/install/prepare-install/download-install-package" >}}), and finish [installation preparation]({{< relref "/operate/rs/7.4/installing-upgrading/install/prepare-install" >}}):
 
-1. [Install the Redis Enterprise Software package]({{< relref "/operate/rs/installing-upgrading/install/install-on-linux" >}}) on one of the nodes in the cluster.
+1. [Install the Redis Enterprise Software package]({{< relref "/operate/rs/7.4/installing-upgrading/install/install-on-linux" >}}) on one of the nodes in the cluster.
 
 1. Repeat this process for each node in the cluster.
 
-For installation on machines without an internet connection, see [Offline installation]({{< relref "/operate/rs/installing-upgrading/install/offline-installation" >}}).
+For installation on machines without an internet connection, see [Offline installation]({{< relref "/operate/rs/7.4/installing-upgrading/install/offline-installation" >}}).
 
 ## Permissions and access
 
@@ -36,26 +36,26 @@ Do not reduce permissions to `700`. This configuration has not been tested and i
 
 If you've already installed Redis Enterprise Software, you can also:
 
-- [Upgrade an existing deployment]({{< relref "/operate/rs/installing-upgrading/upgrading" >}}).
+- [Upgrade an existing deployment]({{< relref "/operate/rs/7.4/installing-upgrading/upgrading" >}}).
 
-- [Uninstall an existing deployment]({{< relref "/operate/rs/installing-upgrading/uninstalling.md" >}}).
+- [Uninstall an existing deployment]({{< relref "/operate/rs/7.4/installing-upgrading/uninstalling.md" >}}).
 
 To learn more about customization and find answers to related questions, see:
 
-- [CentOS/RHEL Firewall configuration]({{< relref "/operate/rs/installing-upgrading/configuring/centos-rhel-firewall.md" >}})
-- [Change socket file location]({{< relref "/operate/rs/installing-upgrading/configuring/change-location-socket-files.md" >}})
-- [Cluster DNS configuration]({{< relref "/operate/rs/networking/cluster-dns.md" >}})
-- [Cluster load balancer setup]({{< relref "/operate/rs/networking/cluster-lba-setup.md" >}})
-- [File locations]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/file-locations.md" >}})
-- [Supported platforms]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/supported-platforms.md" >}})
-- [Manage installation questions]({{< relref "/operate/rs/installing-upgrading/install/manage-installation-questions.md" >}})
-- [mDNS client prerequisites]({{< relref "/operate/rs/networking/mdns.md" >}})
-- [User and group ownership]({{< relref "/operate/rs/installing-upgrading/install/customize-user-and-group.md" >}})
+- [CentOS/RHEL Firewall configuration]({{< relref "/operate/rs/7.4/installing-upgrading/configuring/centos-rhel-firewall.md" >}})
+- [Change socket file location]({{< relref "/operate/rs/7.4/installing-upgrading/configuring/change-location-socket-files.md" >}})
+- [Cluster DNS configuration]({{< relref "/operate/rs/7.4/networking/cluster-dns.md" >}})
+- [Cluster load balancer setup]({{< relref "/operate/rs/7.4/networking/cluster-lba-setup.md" >}})
+- [File locations]({{< relref "/operate/rs/7.4/installing-upgrading/install/plan-deployment/file-locations.md" >}})
+- [Supported platforms]({{< relref "/operate/rs/7.4/installing-upgrading/install/plan-deployment/supported-platforms.md" >}})
+- [Manage installation questions]({{< relref "/operate/rs/7.4/installing-upgrading/install/manage-installation-questions.md" >}})
+- [mDNS client prerequisites]({{< relref "/operate/rs/7.4/networking/mdns.md" >}})
+- [User and group ownership]({{< relref "/operate/rs/7.4/installing-upgrading/install/customize-user-and-group.md" >}})
 
 ## Next steps
 
 After your cluster is set up with nodes, you can:
 
-- [Add users]({{< relref "/operate/rs/security/access-control/create-users" >}}) to the cluster with specific permissions.  To begin, start with [Access control]({{< relref "/operate/rs/security/access-control" >}}).
-- [Create databases]({{< relref "/operate/rs/databases/create" >}}) to use with your applications.
+- [Add users]({{< relref "/operate/rs/7.4/security/access-control/create-users" >}}) to the cluster with specific permissions.  To begin, start with [Access control]({{< relref "/operate/rs/7.4/security/access-control" >}}).
+- [Create databases]({{< relref "/operate/rs/7.4/databases/create" >}}) to use with your applications.
 

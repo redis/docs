@@ -135,20 +135,7 @@ As seen above, the sample `user_embedding` vectors are converted into bytes. Usi
 
 ## Create a `SearchIndex`
 
-With the schema and sample dataset ready, instantiate a `SearchIndex`:
-
-
-```python
-from redisvl.index import SearchIndex
-
-index = SearchIndex.from_dict(schema)
-# or use .from_yaml('schema_file.yaml')
-```
-
-Now we also need to facilitate a Redis connection. There are a few ways to do this:
-
-- Create & manage your own client connection (recommended)
-- Provide a Redis URL and let RedisVL connect on your behalf (by default, it will connect to "redis://localhost:6379")
+With the schema and sample dataset ready, create a `SearchIndex`.
 
 ### Bring your own Redis connection instance
 
@@ -156,25 +143,12 @@ This is ideal in scenarios where you have custom settings on the connection inst
 
 
 ```python
+from redisvl.index import SearchIndex
 from redis import Redis
 
 client = Redis.from_url("redis://localhost:6379")
-index = SearchIndex.from_dict(schema, redis_client=client)
-
-# alternatively, provide an async Redis client object to enable async index operations
-# from redis.asyncio import Redis
-# from redisvl.index import AsyncSearchIndex
-# client = Redis.from_url("redis://localhost:6379")
-# index = AsyncSearchIndex.from_dict(schema, redis_client=client)
-
+index = SearchIndex.from_dict(schema, redis_client=client, validate_on_load=True)
 ```
-
-
-
-
-    <redisvl.index.index.SearchIndex at 0x10faca900>
-
-
 
 ### Let the index manage the connection instance
 
@@ -182,10 +156,10 @@ This is ideal for simple cases:
 
 
 ```python
-index = SearchIndex.from_dict(schema, redis_url="redis://localhost:6379")
+index = SearchIndex.from_dict(schema, redis_url="redis://localhost:6379", validate_on_load=True)
 
 # If you don't specify a client or Redis URL, the index will attempt to
-# connect to Redis at the default address ("redis://localhost:6379").
+# connect to Redis at the default address "redis://localhost:6379".
 ```
 
 
@@ -195,7 +169,7 @@ index = SearchIndex.from_dict(schema, redis_url="redis://localhost:6379")
 
 
 
-### Create the underlying index
+### Create the index
 
 Now that we are connected to Redis, we need to run the create command.
 
@@ -214,8 +188,8 @@ Use the `rvl` CLI to inspect the created index and its fields:
 !rvl index listall
 ```
 
-    11:50:15 [RedisVL] INFO   Indices:
-    11:50:15 [RedisVL] INFO   1. user_simple
+    10:59:25 [RedisVL] INFO   Indices:
+    10:59:25 [RedisVL] INFO   1. user_simple
 
 
 
@@ -245,7 +219,10 @@ Use the `rvl` CLI to inspect the created index and its fields:
 
 ## Load Data to `SearchIndex`
 
-Load the sample dataset to Redis:
+Load the sample dataset to Redis.
+
+### Validate data entries on load
+RedisVL uses pydantic validation under the hood to ensure loaded data is valid and confirms to your schema. This setting is optional and can be configured in the `SearchIndex` class.
 
 
 ```python
@@ -254,10 +231,164 @@ keys = index.load(data)
 print(keys)
 ```
 
-    ['user_simple_docs:01JM2NWFWNH0BNA640MT5DS8BD', 'user_simple_docs:01JM2NWFWNF4S2V4E4HYG25CVA', 'user_simple_docs:01JM2NWFWNBFXJJ4PV9F4KMJSE']
+    ['user_simple_docs:01JQ9FEZ4GAAYT9W7BWAF7CV18', 'user_simple_docs:01JQ9FEZ4JCE5FD1D5QY6BAJ0J', 'user_simple_docs:01JQ9FEZ4KF9AZYBKMYNMYBZ5A']
 
 
 By default, `load` will create a unique Redis key as a combination of the index key `prefix` and a random ULID. You can also customize the key by providing direct keys or pointing to a specified `id_field` on load.
+
+### Load invalid data
+This will raise a `SchemaValidationError` if `validate_on_load` is set to true in the `SearchIndex` class.
+
+
+```python
+# NBVAL_SKIP
+
+keys = index.load([{"user_embedding": True}])
+```
+
+    11:00:03 redisvl.index.index ERROR   Schema validation error while loading data
+    Traceback (most recent call last):
+      File "/Users/tyler.hutcherson/Documents/AppliedAI/redis-vl-python/redisvl/index/storage.py", line 204, in _preprocess_and_validate_objects
+        processed_obj = self._validate(processed_obj)
+      File "/Users/tyler.hutcherson/Documents/AppliedAI/redis-vl-python/redisvl/index/storage.py", line 160, in _validate
+        return validate_object(self.index_schema, obj)
+      File "/Users/tyler.hutcherson/Documents/AppliedAI/redis-vl-python/redisvl/schema/validation.py", line 274, in validate_object
+        validated = model_class.model_validate(flat_obj)
+      File "/Users/tyler.hutcherson/Library/Caches/pypoetry/virtualenvs/redisvl-VnTEShF2-py3.13/lib/python3.13/site-packages/pydantic/main.py", line 627, in model_validate
+        return cls.__pydantic_validator__.validate_python(
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+            obj, strict=strict, from_attributes=from_attributes, context=context
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        )
+        ^
+    pydantic_core._pydantic_core.ValidationError: 1 validation error for user_simple__PydanticModel
+    user_embedding
+      Input should be a valid bytes [type=bytes_type, input_value=True, input_type=bool]
+        For further information visit https://errors.pydantic.dev/2.10/v/bytes_type
+    
+    The above exception was the direct cause of the following exception:
+    
+    Traceback (most recent call last):
+      File "/Users/tyler.hutcherson/Documents/AppliedAI/redis-vl-python/redisvl/index/index.py", line 586, in load
+        return self._storage.write(
+               ~~~~~~~~~~~~~~~~~~~^
+            self._redis_client,  # type: ignore
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        ...<6 lines>...
+            validate=self._validate_on_load,
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        )
+        ^
+      File "/Users/tyler.hutcherson/Documents/AppliedAI/redis-vl-python/redisvl/index/storage.py", line 265, in write
+        prepared_objects = self._preprocess_and_validate_objects(
+            list(objects),  # Convert Iterable to List
+        ...<3 lines>...
+            validate=validate,
+        )
+      File "/Users/tyler.hutcherson/Documents/AppliedAI/redis-vl-python/redisvl/index/storage.py", line 211, in _preprocess_and_validate_objects
+        raise SchemaValidationError(str(e), index=i) from e
+    redisvl.exceptions.SchemaValidationError: Validation failed for object at index 0: 1 validation error for user_simple__PydanticModel
+    user_embedding
+      Input should be a valid bytes [type=bytes_type, input_value=True, input_type=bool]
+        For further information visit https://errors.pydantic.dev/2.10/v/bytes_type
+
+
+
+    ---------------------------------------------------------------------------
+
+    ValidationError                           Traceback (most recent call last)
+
+    File ~/Documents/AppliedAI/redis-vl-python/redisvl/index/storage.py:204, in BaseStorage._preprocess_and_validate_objects(self, objects, id_field, keys, preprocess, validate)
+        203 if validate:
+    --> 204     processed_obj = self._validate(processed_obj)
+        206 # Store valid object with its key for writing
+
+
+    File ~/Documents/AppliedAI/redis-vl-python/redisvl/index/storage.py:160, in BaseStorage._validate(self, obj)
+        159 # Pass directly to validation function and let any errors propagate
+    --> 160 return validate_object(self.index_schema, obj)
+
+
+    File ~/Documents/AppliedAI/redis-vl-python/redisvl/schema/validation.py:274, in validate_object(schema, obj)
+        273 # Validate against model
+    --> 274 validated = model_class.model_validate(flat_obj)
+        275 return validated.model_dump(exclude_none=True)
+
+
+    File ~/Library/Caches/pypoetry/virtualenvs/redisvl-VnTEShF2-py3.13/lib/python3.13/site-packages/pydantic/main.py:627, in BaseModel.model_validate(cls, obj, strict, from_attributes, context)
+        626 __tracebackhide__ = True
+    --> 627 return cls.__pydantic_validator__.validate_python(
+        628     obj, strict=strict, from_attributes=from_attributes, context=context
+        629 )
+
+
+    ValidationError: 1 validation error for user_simple__PydanticModel
+    user_embedding
+      Input should be a valid bytes [type=bytes_type, input_value=True, input_type=bool]
+        For further information visit https://errors.pydantic.dev/2.10/v/bytes_type
+
+    
+    The above exception was the direct cause of the following exception:
+
+
+    SchemaValidationError                     Traceback (most recent call last)
+
+    Cell In[16], line 1
+    ----> 1 keys = index.load([{"user_embedding": True}])
+
+
+    File ~/Documents/AppliedAI/redis-vl-python/redisvl/index/index.py:586, in SearchIndex.load(self, data, id_field, keys, ttl, preprocess, batch_size)
+        556 """Load objects to the Redis database. Returns the list of keys loaded
+        557 to Redis.
+        558 
+       (...)
+        583     RedisVLError: If there's an error loading data to Redis.
+        584 """
+        585 try:
+    --> 586     return self._storage.write(
+        587         self._redis_client,  # type: ignore
+        588         objects=data,
+        589         id_field=id_field,
+        590         keys=keys,
+        591         ttl=ttl,
+        592         preprocess=preprocess,
+        593         batch_size=batch_size,
+        594         validate=self._validate_on_load,
+        595     )
+        596 except SchemaValidationError:
+        597     # Pass through validation errors directly
+        598     logger.exception("Schema validation error while loading data")
+
+
+    File ~/Documents/AppliedAI/redis-vl-python/redisvl/index/storage.py:265, in BaseStorage.write(self, redis_client, objects, id_field, keys, ttl, preprocess, batch_size, validate)
+        262     return []
+        264 # Pass 1: Preprocess and validate all objects
+    --> 265 prepared_objects = self._preprocess_and_validate_objects(
+        266     list(objects),  # Convert Iterable to List
+        267     id_field=id_field,
+        268     keys=keys,
+        269     preprocess=preprocess,
+        270     validate=validate,
+        271 )
+        273 # Pass 2: Write all valid objects in batches
+        274 added_keys = []
+
+
+    File ~/Documents/AppliedAI/redis-vl-python/redisvl/index/storage.py:211, in BaseStorage._preprocess_and_validate_objects(self, objects, id_field, keys, preprocess, validate)
+        207     prepared_objects.append((key, processed_obj))
+        209 except ValidationError as e:
+        210     # Convert Pydantic ValidationError to SchemaValidationError with index context
+    --> 211     raise SchemaValidationError(str(e), index=i) from e
+        212 except Exception as e:
+        213     # Capture other exceptions with context
+        214     object_id = f"at index {i}"
+
+
+    SchemaValidationError: Validation failed for object at index 0: 1 validation error for user_simple__PydanticModel
+    user_embedding
+      Input should be a valid bytes [type=bytes_type, input_value=True, input_type=bool]
+        For further information visit https://errors.pydantic.dev/2.10/v/bytes_type
+
 
 ### Upsert the index with new data
 Upsert data by using the `load` method again:
@@ -277,7 +408,7 @@ keys = index.load(new_data)
 print(keys)
 ```
 
-    ['user_simple_docs:01JM2NWJGYMJ0QTR5YB4MB0BX9']
+    ['user_simple_docs:01JQ9FHCB1B64GXF6WPK127VZ6']
 
 
 ## Creating `VectorQuery` Objects
@@ -306,11 +437,8 @@ results = index.query(query)
 result_print(results)
 ```
 
-    *=>[KNN 3 @user_embedding $vector AS vector_distance] RETURN 6 user age job credit_score vector_distance vector_distance SORTBY vector_distance ASC DIALECT 2 LIMIT 0 3
 
-
-
-table><tr><th>vector_distance</th><th>user</th><th>age</th><th>job</th><th>credit_score</th></tr><tr><td>0</td><td>john</td><td>1</td><td>engineer</td><td>high</td></tr><tr><td>0</td><td>mary</td><td>2</td><td>doctor</td><td>low</td></tr><tr><td>0.0566299557686</td><td>tyler</td><td>9</td><td>engineer</td><td>high</td></tr></table>
+<table><tr><th>vector_distance</th><th>user</th><th>age</th><th>job</th><th>credit_score</th></tr><tr><td>0</td><td>john</td><td>1</td><td>engineer</td><td>high</td></tr><tr><td>0</td><td>mary</td><td>2</td><td>doctor</td><td>low</td></tr><tr><td>0.0566299557686</td><td>tyler</td><td>9</td><td>engineer</td><td>high</td></tr></table>
 
 
 ## Using an Asynchronous Redis Client
@@ -346,16 +474,8 @@ from redisvl.index import AsyncSearchIndex
 from redis.asyncio import Redis
 
 client = Redis.from_url("redis://localhost:6379")
-
 index = AsyncSearchIndex.from_dict(schema, redis_client=client)
 ```
-
-
-
-
-    <redisvl.index.index.AsyncSearchIndex at 0x10facacf0>
-
-
 
 
 ```python
@@ -402,7 +522,7 @@ index.schema.add_fields([
 await index.create(overwrite=True, drop=False)
 ```
 
-    11:28:32 redisvl.index.index INFO   Index already exists, overwriting.
+    11:01:30 redisvl.index.index INFO   Index already exists, overwriting.
 
 
 
@@ -413,7 +533,7 @@ result_print(results)
 ```
 
 
-<table><tr><th>vector_distance</th><th>user</th><th>age</th><th>job</th><th>credit_score</th></tr><tr><td>0</td><td>mary</td><td>2</td><td>doctor</td><td>low</td></tr><tr><td>0</td><td>john</td><td>1</td><td>engineer</td><td>high</td></tr><tr><td>0.0566299557686</td><td>tyler</td><td>9</td><td>engineer</td><td>high</td></tr></table>
+<table><tr><th>vector_distance</th><th>user</th><th>age</th><th>job</th><th>credit_score</th></tr><tr><td>0</td><td>john</td><td>1</td><td>engineer</td><td>high</td></tr><tr><td>0</td><td>mary</td><td>2</td><td>doctor</td><td>low</td></tr><tr><td>0.0566299557686</td><td>tyler</td><td>9</td><td>engineer</td><td>high</td></tr></table>
 
 
 ## Check Index Stats
@@ -430,9 +550,9 @@ Use the `rvl` CLI to check the stats for the index:
     │ Stat Key                    │ Value       │
     ├─────────────────────────────┼─────────────┤
     │ num_docs                    │ 4           │
-    │ num_terms                   │ 4           │
+    │ num_terms                   │ 0           │
     │ max_doc_id                  │ 4           │
-    │ num_records                 │ 22          │
+    │ num_records                 │ 20          │
     │ percent_indexed             │ 1           │
     │ hash_indexing_failures      │ 0           │
     │ number_of_uses              │ 2           │
@@ -445,9 +565,9 @@ Use the `rvl` CLI to check the stats for the index:
     │ offsets_per_term_avg        │ 0           │
     │ records_per_doc_avg         │ 5           │
     │ sortable_values_size_mb     │ 0           │
-    │ total_indexing_time         │ 0.239       │
+    │ total_indexing_time         │ 6.529       │
     │ total_inverted_index_blocks │ 11          │
-    │ vector_index_sz_mb          │ 0.235603    │
+    │ vector_index_sz_mb          │ 0.235947    │
     ╰─────────────────────────────┴─────────────╯
 
 

@@ -111,8 +111,8 @@ On-premises environments support more deployment options than other environments
 
 ## Next steps
 
-- [Auto Tiering metrics]({{< relref "/operate/rs/references/metrics/auto-tiering" >}})
-- [Auto Tiering quick start]({{< relref "/operate/rs/databases/auto-tiering/quickstart.md" >}})
+- [Auto Tiering metrics]({{< relref "/operate/rs/7.4/references/metrics/auto-tiering" >}})
+- [Auto Tiering quick start]({{< relref "/operate/rs/7.4/databases/auto-tiering/quickstart.md" >}})
 
-- [Ephemeral and persistent storage]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}})
-- [Hardware requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md" >}})
+- [Ephemeral and persistent storage]({{< relref "/operate/rs/7.4/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}})
+- [Hardware requirements]({{< relref "/operate/rs/7.4/installing-upgrading/install/plan-deployment/hardware-requirements.md" >}})
