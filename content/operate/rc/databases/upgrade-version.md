@@ -76,6 +76,7 @@ This allows you to connect to the database on the previous version without chang
 
 If you did not back up your database before upgrading:
 
+1. [Back up your database]({{< relref "/operate/rc/databases/back-up-data" >}}).
 1. [Create a new database]({{< relref "/operate/rc/databases/create-database/create-pro-database-existing" >}}) in your subscription and select the original version of Redis.
-1. [Migrate data]({{< relref "/operate/rc/databases/migrate-databases" >}}) from the original database to the new database.
+1. [Import the backup files]({{< relref "/operate/rc/databases/import-data" >}}) into the new database.
 1. Change connection details in your application from the old database to the new database.
