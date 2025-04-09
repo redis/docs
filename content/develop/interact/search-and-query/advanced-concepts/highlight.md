@@ -15,7 +15,7 @@ title: Highlighting
 weight: 7
 ---
 
-Redis Stack uses advanced algorithms for highlighting and summarizing, which enable only the relevant portions of a document to appear in response to a search query. This feature allows users to immediately understand the relevance of a document to their search criteria, typically highlighting the matching terms in bold text.
+Redis Community Edition uses advanced algorithms for highlighting and summarizing, which enable only the relevant portions of a document to appear in response to a search query. This feature allows users to immediately understand the relevance of a document to their search criteria, typically highlighting the matching terms in bold text.
 
 ## Command syntax
 
@@ -36,7 +36,7 @@ FT.SEARCH ...
 
 Summarization will fragment the text into smaller sized snippets, each of which containing the found term(s) and some additional surrounding context.
 
-Redis Stack can perform summarization using the `SUMMARIZE` keyword. If no additional arguments are passed, all returned fields are summarized using built-in defaults.
+Redis can perform summarization using the `SUMMARIZE` keyword. If no additional arguments are passed, all returned fields are summarized using built-in defaults.
 
 The `SUMMARIZE` keyword accepts the following arguments:
 
@@ -65,7 +65,7 @@ FT.SEARCH ... HIGHLIGHT [FIELDS {num} {field}] [TAGS {openTag} {closeTag}]
 
 Highlighting will surround the found term (and its variants) with a user-defined pair of tags. This may be used to display the matched text in a different typeface using a markup language, or to otherwise make the text appear differently.
 
-Redis Stack performs highlighting using the `HIGHLIGHT` keyword. If no additional arguments are passed, all returned fields are highlighted using built-in defaults.
+Redis performs highlighting using the `HIGHLIGHT` keyword. If no additional arguments are passed, all returned fields are highlighted using built-in defaults.
 
 The `HIGHLIGHT` keyword accepts the following arguments:
 

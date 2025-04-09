@@ -166,6 +166,13 @@ router = SemanticRouter(
 router.to_yaml("router.yaml")
 ```
 
+#### `update_route_thresholds(route_thresholds)`
+
+Update the distance thresholds for each route.
+
+* **Parameters:**
+  **route_thresholds** (*Dict* *[* *str* *,* *float* *]*) – Dictionary of route names and their distance thresholds.
+
 #### `update_routing_config(routing_config)`
 
 Update the routing configuration.
@@ -253,9 +260,9 @@ self is explicitly positional-only to allow self as a field name.
   * **name** (*str*)
   * **references** (*List* *[* *str* *]*)
   * **metadata** (*Dict* *[* *str* *,* *Any* *]*)
-  * **distance_threshold** (*Annotated* *[* *float* *,* *FieldInfo* *(* *annotation=NoneType* *,* *required=True* *,* *metadata=* *[* *Strict* *(* *strict=True* *)* *,* *Gt* *(* *gt=0* *)* *,* *Le* *(* *le=1* *)* *]* *)* *]*)
+  * **distance_threshold** (*Annotated* *[* *float* *,* *FieldInfo* *(* *annotation=NoneType* *,* *required=True* *,* *metadata=* *[* *Strict* *(* *strict=True* *)* *,* *Gt* *(* *gt=0* *)* *,* *Le* *(* *le=2* *)* *]* *)* *]*)
 
-#### `distance_threshold: Annotated[float, FieldInfo(annotation=NoneType, required=True, metadata=[Strict(strict=True), Gt(gt=0), Le(le=1)])]`
+#### `distance_threshold: Annotated[float, FieldInfo(annotation=NoneType, required=True, metadata=[Strict(strict=True), Gt(gt=0), Le(le=2)])]`
 
 Distance threshold for matching the route.
 

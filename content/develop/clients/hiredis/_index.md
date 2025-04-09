@@ -30,8 +30,6 @@ Then, in a terminal, go into the `hiredis` folder and run the `make` command to 
 the dynamically-loaded library for `hiredis` (this has the name `libhiredis.dylib` on
 MacOS and `libhiredis.so` on Linux). You can copy this library to your
 project folder or run `sudo make install` to install it to `/usr/local/lib`.
-You should also copy the header files `hiredis.h`, `alloc.h`, `read.h`, and
-`sds.h` to your project.
 
 ## Connect and test
 
@@ -43,7 +41,7 @@ connection. An explanation of the code follows the example.
 ```c
 #include <stdio.h>
 
-#include "hiredis.h"
+#include <hiredis/hiredis.h>
 
 int main() {
     // The `redisContext` type represents the connection
@@ -81,8 +79,9 @@ int main() {
 
 For a real project, you would build your code with a makefile, but for
 this simple test, you can just place it in a file called `main.c` and
-build it with the following command (assuming you used `make install` to
-install the `libhiredis` library):
+build it with the following command. (If you didn't install `hiredis`
+using `make install`, then you should also use the `-I` option to
+specify the folder that contains the `hiredis` headers.)
 
 ```bash
 cc main.c -L/usr/local/lib -lhiredis
@@ -123,11 +122,7 @@ to prevent errors.
 The [`hiredis`](https://github.com/redis/hiredis) Github repository contains
 examples and details that may be useful if you are using `hiredis` to
 implement a higher-level client for another programming language. There are
-also examples showing how to use `hiredis` from a
-[C++ application](https://github.com/redis/hiredis/blob/master/examples/example-qt.cpp)
-created with [Qt](https://www.qt.io/) and how to use the
-[asynchronous API](https://github.com/redis/hiredis?tab=readme-ov-file#asynchronous-api)
-with the [libev](https://software.schmorp.de/pkg/libev.html) and
-[libevent](https://libevent.org/) libraries.
+also examples showing how to use `hiredis` adapter headers to integrate with
+various event handling frameworks.
 
 See the other pages in this section for more information and examples.

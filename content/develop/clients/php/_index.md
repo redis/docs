@@ -24,8 +24,7 @@ The sections below explain how to install `Predis` and connect your application 
 client library and is not developed or supported directly by Redis.
 {{< /note >}}
 
-`Predis` requires a running Redis or
-[Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) server.
+`Predis` requires a running [Redis Community Edition]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) server.
 See [Getting started]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis installation
 instructions.
 
