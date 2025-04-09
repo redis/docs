@@ -3,7 +3,7 @@
   "info": {
     "title": "Redis Data Integration API",
     "description": "API for Redis Data Integration services",
-    "version": "1.6.4"
+    "version": "1.6.5"
   },
   "paths": {
     "/": {
