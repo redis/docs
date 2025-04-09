@@ -1,0 +1,38 @@
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  if_merged:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    env:
+      STAGING_BUCKET: docs-staging-learn-redis-com
+      STAGING_PROJECT_ID: ${{ secrets.GCP_PROJECT_STAGING }}
+      STAGING_SERVICE_ACCOUNT: ${{ secrets.STAGING_SERVICE_ACCOUNT }}
+      STAGING_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.STAGING_WORKLOAD_IDENTITY_PROVIDER }}
+
+    steps:
+    - name: 'Google auth'
+      uses: 'google-github-actions/auth@v2'
+      with:
+        project_id: '${{ env.STAGING_PROJECT_ID }}'
+        service_account: '${{ env.STAGING_SERVICE_ACCOUNT }}'
+        workload_identity_provider: '${{ env.STAGING_WORKLOAD_IDENTITY_PROVIDER }}'
+
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v2'
+      with:
+        project_id: '${{ env.STAGING_PROJECT_ID }}'
+        version: '>= 363.0.0'
+
+    - name: Remove pull request staging folder 
+      run: |
+        BRANCH_TO_CLEANUP="${{ github.event.pull_request.head.ref }}"
+        STAGING_BUCKET="${{ env.STAGING_BUCKET }}"
+
+        if gsutil -q stat gs://${STAGING_BUCKET}/staging/${BRANCH_TO_CLEANUP}/*; then
+          gsutil -q -m rm -r gs://${STAGING_BUCKET}/staging/${BRANCH_TO_CLEANUP}/*
+          echo "Removed gs://${STAGING_BUCKET}/staging/${BRANCH_TO_CLEANUP}"
+        fi
