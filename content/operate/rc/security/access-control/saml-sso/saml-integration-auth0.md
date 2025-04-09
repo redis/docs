@@ -175,7 +175,7 @@ Replace `ID` so it matches the `AssertionConsumerService` Location URL ID (the c
 
     {{<image filename="images/rc/saml/sm_saml_8.png" >}}
 
-   A popup appears, explaining that, in order to test the SAML connection, that we need to login with credentials of a user defined in Auth0. Select **Continue** to go to the Auth0 login screen.
+   A popup appears, explaining that, in order to test the SAML connection, we need to login with credentials of a user defined in Auth0. Select **Continue** to go to the Auth0 login screen.
 
 1. The Auth0 login screen appears. Enter the credentials and select **Sign In**.
 
