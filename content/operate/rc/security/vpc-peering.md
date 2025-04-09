@@ -62,7 +62,8 @@ To set up VPC peering:
 1. Select **Initiate peering**.
 1. Note the **Peering ID** of the VPC peering request.
 
-    {{<image filename="images/rc/subscription-connectivity-vpc-peering-aws.png" width="350px" alt="View VPC peering list." >}}
+<!-- This image needs to be replaced the next time someone can set up VPC peering with AWS.
+    {{<image filename="images/rc/subscription-connectivity-vpc-peering-aws.png" width="350px" alt="View VPC peering list." >}} -->
 
 ### Approve VPC peering request {#approve-aws-vpc-peering}
 
