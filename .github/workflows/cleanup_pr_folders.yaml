@@ -41,3 +41,39 @@ jobs:
           gsutil -q -m rm -r gs://${STAGING_BUCKET}/staging/${BRANCH_TO_CLEANUP}/*
           echo "Removed gs://${STAGING_BUCKET}/staging/${BRANCH_TO_CLEANUP}"
         fi
+
+  prod:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    env:
+      PROD_BUCKET: docs-prod-learn-redis-com
+      PROD_PROJECT_ID: ${{ secrets.GCP_PROJECT_PROD }}
+      PROD_SERVICE_ACCOUNT: ${{ secrets.PROD_SERVICE_ACCOUNT }}
+      PROD_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.PROD_WORKLOAD_IDENTITY_PROVIDER }}
+
+    steps:
+    - name: 'Google auth'
+      uses: 'google-github-actions/auth@v2'
+      with:
+        project_id: '${{ env.PROD_PROJECT_ID }}'
+        service_account: '${{ env.PROD_SERVICE_ACCOUNT }}'
+        workload_identity_provider: '${{ env.PROD_WORKLOAD_IDENTITY_PROVIDER }}'
+
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v2'
+      with:
+        project_id: '${{ env.PROD_PROJECT_ID }}'
+        version: '>= 363.0.0'
+
+    - name: Remove pull request staging folder
+      run: |
+        BRANCH_TO_CLEANUP="${{ github.event.pull_request.head.ref }}"
+        PROD_BUCKET="${{ env.PROD_BUCKET }}"
+
+        if gsutil -q stat gs://${PROD_BUCKET}/staging/${BRANCH_TO_CLEANUP}/*; then
+          gsutil -q -m rm -r gs://${PROD_BUCKET}/staging/${BRANCH_TO_CLEANUP}/*
+          echo "Removed gs://${PROD_BUCKET}/staging/${BRANCH_TO_CLEANUP}"
+        fi
