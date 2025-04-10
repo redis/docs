@@ -36,7 +36,7 @@ jobs:
         version: '>= 363.0.0'
 
     - name: List files
-      run: ./google-cloud-sdk/bin/gsutil ls gs://$BUCKET
+      run: gsutil ls gs://$BUCKET
     - name: End
       run: echo "This job's status is ${{ job.status }}."
    

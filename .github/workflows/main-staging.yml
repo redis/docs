@@ -194,7 +194,7 @@ jobs:
           else
             bucket_path=staging/${{ github.ref_name }}
           fi \
-          && ./google-cloud-sdk/bin/gsutil -m rsync -r -c -j html -d ${{ github.workspace }}/public gs://$BUCKET/$bucket_path
+          && gsutil -m rsync -r -c -j html -d ${{ github.workspace }}/public gs://$BUCKET/$bucket_path
 
           versioned_builds=($(find . -type d -regex ".*[0-9-]" -maxdepth 1 | sed -E 's/^.\///'))
           for versioned_build in "${versioned_builds[@]}"; do

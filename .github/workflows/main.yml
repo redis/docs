@@ -194,7 +194,7 @@ jobs:
           else
             bucket_path=staging/${{ github.ref_name }}
           fi \
-          && ./google-cloud-sdk/bin/gsutil -m rsync -r -c -j html -d ${{ github.workspace }}/public gs://$BUCKET/$bucket_path
+          && gsutil -m rsync -r -c -j html -d ${{ github.workspace }}/public gs://$BUCKET/$bucket_path
 
           if [[ "${{ github.ref_name }}" == "latest" ]]
           then
