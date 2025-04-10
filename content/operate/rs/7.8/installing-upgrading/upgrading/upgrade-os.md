@@ -25,7 +25,7 @@ Before you upgrade a cluster's operating system:
 
 1. If the cluster contains any databases that use modules:
 
-    1. Update all nodes in the cluster to [Redis Enterprise Software version 7.2.4-52]({{< relref "/operate/rs/release-notes/rs-7-2-4-releases" >}}) or later before you upgrade the OS.
+    1. Update all nodes in the cluster to [Redis Enterprise Software version 7.2.4-52](https://redis.io/docs/latest/operate/rs/release-notes/rs-7-2-4-releases) or later before you upgrade the OS.
 
     1. Check the status of modules using [`rladmin`]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin" >}}):
 

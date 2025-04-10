@@ -35,7 +35,7 @@ Before upgrading a cluster:
 
 - Verify access to [rlcheck]({{< relref "/operate/rs/7.8/references/cli-utilities/rlcheck/" >}}) and [rladmin]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin/#use-the-rladmin-shell" >}}) commands
 
-- Verify that you meet the upgrade path requirements for the target cluster version and review the relevant [release notes]({{< relref "/operate/rs/release-notes" >}}) for any preparation instructions.
+- Verify that you meet the upgrade path requirements for the target cluster version and review the relevant [release notes](https://redis.io/docs/latest/operate/rs/release-notes/) for any preparation instructions.
 
 - [Upgrade your databases]({{<relref "/operate/rs/7.8/installing-upgrading/upgrading/upgrade-database">}}) to a version that is supported by the target Redis Enterprise Software version before upgrading the cluster. We recommend you upgrade the databases to the latest supported version if possible. Make sure to test the upgrade in a non-production environment to determine any impact.
 

@@ -13,7 +13,7 @@ weight: 60
 url: '/operate/rs/7.8/monitoring/metrics_stream_engine/'
 ---
 
-A preview of the new metrics stream engine is available as of [Redis Enterprise Software version 7.8.2]({{<relref "/operate/rs/release-notes/rs-7-8-releases">}}).
+A preview of the new metrics stream engine is available as of Redis Enterprise Software version 7.8.2.
 
 The new metrics stream engine:
 
