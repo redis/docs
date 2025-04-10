@@ -51,9 +51,8 @@ jobs:
             $FILES_URL \
               | jq -r --arg prefix $BRANCH_NAME/ '.[] | select(((.filename | test("content\/.+\\.md")) and .status != "removed")) | ($prefix + .filename)' \
               | sed -E -e 's|(^[^/]+/)([^/]+/)|\1|' -e 's|^|https://redis.io/docs/staging/|' -e 's|(_?index)?\.md||' \
-              | uniq \
-              | xargs \
-              | sed 's/ /<br>/g')
+              | sort \
+              | uniq)
 
           # Get all changed image files
           CHANGED_IMAGE_FILES=$(curl -Ls \
@@ -70,14 +69,19 @@ jobs:
             for CHANGED_IMAGE_FILE in $CHANGED_IMAGE_FILES; do
               MD_FILE_WITH_IMAGE=$(grep -ro "$CHANGED_IMAGE_FILE" content \
                 | sed -E -e 's|:.+||' -e "s|^content/|https://redis.io/docs/staging/$BRANCH_NAME/|" -e 's|(_?index)?\.md||' \
+                | sort \
                 | uniq)
               MD_FILES_WITH_IMAGE+=($MD_FILE_WITH_IMAGE)
             done
-              CHANGED_MD_FILES_WITH_IMAGE=$(printf "%s\n" "${MD_FILES_WITH_IMAGE[@]}" \
+              CHANGED_MD_FILES=$(printf "%s\n" "${CHANGED_MD_FILES}" "${MD_FILES_WITH_IMAGE[@]}" \
+                | sort \
                 | uniq \
                 | xargs \
                 | sed 's/ /<br>/g')
-              CHANGED_MD_FILES="${CHANGED_MD_FILES}<br>${CHANGED_MD_FILES_WITH_IMAGE}"
+          else
+            CHANGED_MD_FILES=$(printf "%s\n" "${CHANGED_MD_FILES}" \
+                | xargs \
+                | sed 's/ /<br>/g')
           fi
 
           if [[ -z "$CHANGED_MD_FILES" ]]

@@ -14,9 +14,9 @@ url: '/operate/rs/7.4/networking/mdns/'
 mDNS is only supported for development and testing environments.
 {{< /note >}}
 
-If you choose to use the mDNS protocol when [you set the cluster name]({{< relref "/operate/rs/networking/cluster-dns" >}}),
+If you choose to use the mDNS protocol when [you set the cluster name]({{< relref "/operate/rs/7.4/networking/cluster-dns" >}}),
 make sure that the configurations and prerequisites for resolving database endpoints are met on the client machines.
-If you have [Replica Of]({{< relref "/operate/rs/databases/import-export/replica-of/" >}}) databases on the cluster,
+If you have [Replica Of]({{< relref "/operate/rs/7.4/databases/import-export/replica-of/" >}}) databases on the cluster,
 the configurations and prerequisites are also required for the Redis Enterprise Software nodes.
 
 To prepare a client or node for mDNS:
@@ -47,7 +47,7 @@ To prepare a client or node for mDNS:
         $ service avahi-daemon start
         ```
 
-1. If you are using [mDNS with IPv6 addresses]({{< relref "/operate/rs/networking/multi-ip-ipv6.md" >}}),
+1. If you are using [mDNS with IPv6 addresses]({{< relref "/operate/rs/7.4/networking/multi-ip-ipv6" >}}),
     update the hosts line in `/etc/nsswitch.conf` to:
 
     ```yaml

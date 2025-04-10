@@ -35,6 +35,6 @@ The operator currently runs within a single namespace and is scoped to operate o
 
 ## Compatibility
 
-Before installing, check [Supported Kubernetes distributions]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions" >}}) to see which Redis Enterprise operator version supports your Kubernetes distribution.
+Before installing, check [Supported Kubernetes distributions]({{< relref "/operate/kubernetes/7.4.6/reference/supported_k8s_distributions" >}}) to see which Redis Enterprise operator version supports your Kubernetes distribution.
 
 

@@ -17,7 +17,7 @@ title: Internal design
 weight: 1
 ---
 
-Redis Stack implements inverted indexes on top of Redis, but unlike previous implementations of Redis inverted indexes, it uses a custom data encoding that allows more memory and CPU efficient searches, and more advanced search features.
+Redis Community Edition ("CE") implements inverted indexes on top of Redis, but unlike previous implementations of Redis inverted indexes, it uses a custom data encoding that allows more memory and CPU efficient searches, and more advanced search features.
 
 This document details some of the design choices and how these features are implemented.
 
@@ -41,7 +41,7 @@ An [inverted index](https://en.wikipedia.org/wiki/Inverted_index) is the data st
 
 When a search is performed, either a single index is traversed, or the intersection or union of two or more indexes is traversed. Classic Redis implementations of search engines use sorted sets as inverted indexes. This works but has significant memory overhead, and it also does not allow for encoding of offsets, as explained above.
 
-Redis Stack uses string DMA (see above) to efficiently encode inverted indexes. It combines [delta encoding](https://en.wikipedia.org/wiki/Delta_encoding) and [varint encoding](https://developers.google.com/protocol-buffers/docs/encoding#varints) to encode entries, minimizing space used for indexes, while keeping decompression and traversal efficient.
+Redis CE uses string DMA (see above) to efficiently encode inverted indexes. It combines [delta encoding](https://en.wikipedia.org/wiki/Delta_encoding) and [varint encoding](https://developers.google.com/protocol-buffers/docs/encoding#varints) to encode entries, minimizing space used for indexes, while keeping decompression and traversal efficient.
 
 For each hit (document/word entry), the following items are encoded:
 
@@ -134,7 +134,7 @@ As of release 0.6, the implementation uses a multi-level range tree, saving rang
 
 Another important feature for searching and querying is auto-completion or suggestion. It allows you to create dictionaries of weighted terms, and then query them for completion suggestions to a given user prefix.  For example, if you put the term “lcd tv” into a dictionary, sending the prefix “lc” will return it as a result. The dictionary is modeled as a compressed trie (prefix tree) with weights, that is traversed to find the top suffixes of a prefix.
 
-Redis Stack also allows for fuzzy suggestions, meaning you can get suggestions to user prefixes even if the user has a typo in the prefix. This is enabled using a Levenshtein automaton, allowing efficient searching of a dictionary for all terms within a maximal Levenshtein distance of a term or prefix. Suggestions are weighted based on both their original score and their distance from a prefix typed by the user. Only suggestions where the prefix is up to one Levenshtein distance away from the typed prefix are supported for performance reasons.
+Redis CE also allows for fuzzy suggestions, meaning you can get suggestions to user prefixes even if the user has a typo in the prefix. This is enabled using a Levenshtein automaton, allowing efficient searching of a dictionary for all terms within a maximal Levenshtein distance of a term or prefix. Suggestions are weighted based on both their original score and their distance from a prefix typed by the user. Only suggestions where the prefix is up to one Levenshtein distance away from the typed prefix are supported for performance reasons.
 
 However, since searching for fuzzy prefixes, especially very short ones, will traverse an enormous amount of suggestions (in fact, fuzzy suggestions for any single letter will traverse the entire dictionary!), it is recommended that you use this feature carefully, and only when considering the performance penalty it incurs. Since Redis is single threaded, blocking it for any amount of time means no other queries can be processed at that time.
 

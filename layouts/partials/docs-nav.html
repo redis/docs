@@ -1,7 +1,6 @@
 {{ define "li" -}}
   {{ $page := .page -}}
   {{ $pages := .pages -}}
-
   {{ range $pages -}}
     {{ $isActive := eq $page . -}}
     {{ $isActivePath := $page.IsDescendant . -}}
@@ -25,8 +24,9 @@
             <span class="menu__version-selector__toggler closer version-selector-control">&#x25B2;</span>
         </button>
         <div id="versionDropdownKubernetes" class="menu__version-selector__list version-selector-control">
-            <a href="https://redis.io/docs/latest/operate/kubernetes/" id="kubernetes-version-select-latest" onclick="_setSelectedVersion('kubernetes', 'latest')">latest</a>
-            <a href="https://redis.io/docs/latest/operate/kubernetes/7.4.6/" id="kubernetes-version-select-7.4.6" onclick="_setSelectedVersion('kubernetes', 'v7.4.6')">v7.4.6</a> 
+            <a href="{{ absURL "operate/kubernetes/" }}" id="kubernetes-version-select-latest" onclick="_setSelectedVersion('kubernetes', 'latest')">latest</a>
+            <a href="{{ absURL "operate/kubernetes/7.8.4/" }}" id="kubernetes-version-select-7.8.4" onclick="_setSelectedVersion('kubernetes', 'v7.8.4')">v7.8.4</a>
+            <a href="{{ absURL "operate/kubernetes/7.4.6/" }}" id="kubernetes-version-select-7.4.6" onclick="_setSelectedVersion('kubernetes', 'v7.4.6')">v7.4.6</a> 
         </div>
       </div>
       {{else if (eq (.Params.linkTitle) "Redis Software")}}
@@ -37,8 +37,8 @@
             <span class="menu__version-selector__toggler closer version-selector-control">&#x25B2;</span>
         </button>
         <div id="versionDropdownRs" class="menu__version-selector__list version-selector-control">
-            <a href="https://redis.io/docs/latest/operate/rs/" id="rs-version-select-latest" onclick="_setSelectedVersion('rs', 'latest')">latest</a>
-            <a href="https://redis.io/docs/latest/operate/rs/7.4/" id="rs-version-select-7.4" onclick="_setSelectedVersion('rs', 'v7.4')">v7.4</a>  
+            <a href="{{ absURL "operate/rs/" }}" id="rs-version-select-latest" onclick="_setSelectedVersion('rs', 'latest')">latest</a>
+            <a href="{{ absURL "operate/rs/7.4/" }}" id="rs-version-select-7.4" onclick="_setSelectedVersion('rs', 'v7.4')">v7.4</a>  
         </div>
       </div>
     </li>

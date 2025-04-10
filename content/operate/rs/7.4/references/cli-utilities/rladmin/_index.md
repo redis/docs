@@ -39,6 +39,6 @@ In the `rladmin` shell, you can:
 
 - Run any `rladmin` command without prefacing it with `rladmin`.
 - Enter `?` to view the full list of available commands.
-- Enter [`help`]({{< relref "/operate/rs/references/cli-utilities/rladmin/help" >}}) followed by the name of a command for a detailed explanation of the command and its usage.
+- Enter [`help`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/help" >}}) followed by the name of a command for a detailed explanation of the command and its usage.
 - Press the `Tab` key for command completion.
 - Enter `exit` or press `Control+D` to exit the `rladmin` shell and return to the terminal prompt.

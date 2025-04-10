@@ -37,8 +37,9 @@ The installation creates the following K8s objects:
 You can use this installation on [OpenShift](https://docs.openshift.com/) and other K8s distributions
 including cloud providers' K8s managed clusters.
 
-You can pull the RDI images from
-[Docker Hub](https://hub.docker.com/) or from your own [private image registry](#using-a-private-image-registry).
+You can pull the RDI images from the 
+[download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-1.6.5.tgz)
+or from your own [private image registry](#using-a-private-image-registry).
 
 ## Before you install
 
@@ -49,7 +50,8 @@ Complete the following steps before running Helm:
     for the RDI database if you prefer not to use the default password (see
     [Access control]({{< relref "/operate/rs/security/access-control" >}}) for
     more information).
--   Download the RDI helm chart tar file from the [download center](https://cloud.redis.io/#rlec-downloads).
+-   Download the RDI helm chart tar file from the
+    [download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-1.6.5.tgz).
 -   If you want to use a private image registry,
     [prepare it with the RDI images](#using-a-private-image-registry).
 
@@ -102,7 +104,9 @@ file as described below.
 
 ### Using a private image registry
 
-Add the RDI images from [Docker Hub](https://hub.docker.com/) to your local registry.
+Add the RDI images from the
+[download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-1.6.5.tgz)
+to your local registry.
 The example below shows how to specify the registry and image pull secret in the
 [`values.yaml`](#the-valuesyaml-file) file for the Helm chart:
 

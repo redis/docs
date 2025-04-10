@@ -13,7 +13,7 @@ categories:
 description: Server-assisted, client-side caching in Redis
 linkTitle: Client-side caching
 title: Client-side caching introduction
-weight: 20
+weight: 30
 ---
 
 *Client-side caching* reduces network traffic between

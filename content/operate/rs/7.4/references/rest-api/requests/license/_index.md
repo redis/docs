@@ -29,7 +29,7 @@ and supported features.
 
 | Permission name |
 |-----------------|
-| [view_license]({{< relref "/operate/rs/references/rest-api/permissions#view_license" >}}) |
+| [view_license]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_license" >}}) |
 
 ### Request {#get-request} 
 
@@ -98,13 +98,13 @@ Returns a JSON object that contains the license details:
 
 Validate and install a new license string.
 
-If you do not provide a valid license, the cluster behaves as if the license was deleted. See [Expired cluster license]({{< relref "/operate/rs/clusters/configure/license-keys#expired-cluster-license" >}}) for a list of available actions and restrictions.
+If you do not provide a valid license, the cluster behaves as if the license was deleted. See [Expired cluster license]({{< relref "/operate/rs/7.4/clusters/configure/license-keys#expired-cluster-license" >}}) for a list of available actions and restrictions.
 
 #### Required permissions
 
 | Permission name |
 |-----------------|
-| [install_new_license]({{< relref "/operate/rs/references/rest-api/permissions#install_new_license" >}}) |
+| [install_new_license]({{< relref "/operate/rs/7.4/references/rest-api/permissions#install_new_license" >}}) |
 
 ### Request {#put-request} 
 
