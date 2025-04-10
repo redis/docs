@@ -56,7 +56,7 @@ import numpy as np
 
 The first of these imports is the
 `SentenceTransformer` class, which generates an embedding from a section of text.
-Here, we create an instance of `SentenceTransformer` that uses the
+This example uses an instance of `SentenceTransformer` with the
 [`all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2)
 model for the embeddings. This model generates vectors with 384 dimensions, regardless
 of the length of the input text, but note that the input is truncated to 256
@@ -71,8 +71,8 @@ model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
 
 ## Create the data
 
-For the example, we will use a dictionary of data that contains brief
-descriptions of some famous people:
+The example data is contained a dictionary with some brief
+descriptions of famous people:
 
 ```python
 peopleData = {
@@ -146,11 +146,11 @@ The code below uses the dictionary's
 view to iterate through all the key-value pairs and add corresponding
 elements to a vector set called `famousPeople`.
 
-We use the
+Use the
 [`encode()`](https://sbert.net/docs/package_reference/sentence_transformer/SentenceTransformer.html#sentence_transformers.SentenceTransformer.encode)
 method of `SentenceTransformer` to generate the
 embedding as an array of `float32` values. The `tobytes()` method converts
-the array to a byte string that we pass to the
+the array to a byte string that you can pass to the
 [`vadd()`]({{< relref "/commands/vadd" >}}) command to set the embedding.
 Note that `vadd()` can also accept a list of `float` values to set the
 vector, but the byte string format is more compact and saves a little
@@ -183,9 +183,9 @@ for name, details in peopleData.items():
 
 ## Query the vector set
 
-We can now query the data in the set. The basic approach is to use the
+You can now query the data in the set. The basic approach is to use the
 `encode()` method to generate another embedding vector for the query text.
-(This is the same method we used when we added the elements to the set.) Then, we pass
+(This is the same method used to add the elements to the set.) Then, pass
 the query vector to [`vsim()`]({{< relref "/commands/vsim" >}}) to return elements
 of the set, ranked in order of similarity to the query.
 
@@ -211,8 +211,8 @@ This returns the following list of elements (formatted slightly for clarity):
 ```
 
 The first two people in the list are the two actors, as expected, but none of the
-people from Linus Pauling onward was especially well-known for acting (and we certainly
-didn't include any information about that in the short description text).
+people from Linus Pauling onward was especially well-known for acting (and there certainly
+isn't any information about that in the short description text).
 As it stands, the search attempts to rank all the elements in the set, based
 on the information contained in the embedding model.
 You can use the `count` parameter of `vsim()` to limit the list of elements
@@ -234,10 +234,9 @@ print(f"'actors (2)': {two_actors_results}")
 The reason for using text embeddings rather than simple text search
 is that the embeddings represent semantic information. This allows a query
 to find elements with a similar meaning even if the text is
-different. For example, we
-don't use the word "entertainer" in any of the descriptions but
-if we use it as a query, the actors and musicians are ranked highest
-in the results list:
+different. For example, the word "entertainer" doesn't appear in any of the
+descriptions but if you use it as a query, the actors and musicians are ranked
+highest in the results list:
 
 ```py
 query_value = "entertainer"
@@ -253,7 +252,7 @@ print(f"'entertainer': {entertainer_results}")
 # 'Paul Erdos', 'Maryam Mirzakhani', 'Marie Curie']
 ```
 
-Similarly, if we use "science" as a query, we get the following results:
+Similarly, if you use "science" as a query, you get the following results:
 
 ```
 'science': ['Marie Curie', 'Linus Pauling', 'Maryam Mirzakhani',
