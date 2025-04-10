@@ -6,6 +6,9 @@ jobs:
   build_docs:
     name: Build the staging documentation site
     runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
     env:
       HUGO_VERSION: 0.143.1
       GCLOUD_VERSION: 458.0.1-linux-x86_64
