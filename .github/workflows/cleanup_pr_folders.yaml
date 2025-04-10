@@ -1,3 +1,5 @@
+name: cleanup_pr_folders
+
 on:
   pull_request:
     types:
@@ -7,6 +9,9 @@ jobs:
   staging:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
     env:
       STAGING_BUCKET: docs-staging-learn-redis-com
       STAGING_PROJECT_ID: ${{ secrets.GCP_PROJECT_STAGING }}
