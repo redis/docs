@@ -15,3 +15,4 @@ url: '/operate/rs/7.8/references/rest-api/objects/job_scheduler/backup_job_setti
 | Name | Type/Value | Description |
 |------|------------|-------------|
 | cron_expression | string | [CRON expression](https://en.wikipedia.org/wiki/Cron#CRON_expression) that defines the backup schedule |
+| enabled | boolean (default: true) | Indicates whether this job is enabled |

@@ -15,3 +15,4 @@ url: '/operate/rs/7.8/references/rest-api/objects/job_scheduler/node_checks_job_
 | Name | Type/Value | Description |
 |------|------------|-------------|
 | cron_expression | string | [CRON expression](https://en.wikipedia.org/wiki/Cron#CRON_expression) that defines the node checks schedule |
+| enabled | boolean (default: true) | Indicates whether this job is enabled |
