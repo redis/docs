@@ -22,18 +22,18 @@ jobs:
     - name: Start
       run: echo "The name of the branch is ${{ github.ref }} on ${{ github.repository }}"
 
-    - name: Install the Google Cloud CLI
-      run: |
-          wget -O ${{ github.workspace }}/google-cloud-cli.tar.gz "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-$GCLOUD_VERSION.tar.gz" \
-          && tar -xvf google-cloud-cli.tar.gz -C ${{ github.workspace }}\
-          && ${{ github.workspace }}/google-cloud-sdk/install.sh --quiet
-
     - name: 'Google auth'
       uses: 'google-github-actions/auth@v2'
       with:
         project_id: '${{ env.PROD_PROJECT_ID }}'
         service_account: '${{ env.PROD_SERVICE_ACCOUNT }}'
         workload_identity_provider: '${{ env.PROD_WORKLOAD_IDENTITY_PROVIDER }}'
+
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v2'
+      with:
+        project_id: '${{ env.PROD_PROJECT_ID }}'
+        version: '>= 363.0.0'
 
     - name: List files
       run: ./google-cloud-sdk/bin/gsutil ls gs://$BUCKET
