@@ -28,7 +28,7 @@ you can connect your [Prometheus](https://prometheus.io/) and [Grafana](https://
 
 See [Prometheus integration]({{< relref "/operate/rs/monitoring/prometheus_and_grafana" >}}) to learn how to connect Prometheus and Grafana to your Redis Enterprise database.
 
-Redis Enterprise version 7.8.2 introduces a preview of the new metrics stream engine that exposes the v2  Prometheus scraping endpoint at `https://<IP>:8070/v2`.
+Redis Enterprise Software version 7.8.2 introduces a preview of the new metrics stream engine that exposes the v2  Prometheus scraping endpoint at `https://<IP>:8070/v2`.
 This new engine exports all time-series metrics to external monitoring tools such as Grafana, DataDog, NewRelic, and Dynatrace using Prometheus.
 
 The new engine enables real-time monitoring, including full monitoring during maintenance operations, providing full visibility into performance during events such as shards' failovers and scaling operations.

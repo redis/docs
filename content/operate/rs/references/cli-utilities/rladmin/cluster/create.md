@@ -24,6 +24,7 @@ cluster create
         [ node_uid <node UID> ] 
         [ rack_aware ]
         [ rack_id <node rack ID> ]
+        [ second_rack_id <node's second rack ID> ]
         [ license_file <file> ]
         [ ephemeral_path <path> ]
         [ persistent_path <path> ]
@@ -53,6 +54,7 @@ cluster create
 | rack_aware | | Activates or deactivates rack awareness (optional) |
 | rack_id | string | The rack's unique identifier (optional) |
 | register_dns_suffix | | Enables database mapping to both internal and external IP addresses (optional) |
+| second_rack_id | string | The unique identifier of the node's second rack ID for two-dimensional rack awareness (optional) |
 | username | email address | Admin user's email address |
 
 ### Returns
