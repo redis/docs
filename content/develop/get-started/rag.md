@@ -9,12 +9,11 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Understand how to use Redis for Retrieval Augmented Generation
-linkTitle: Overview of RAG with Redis
+description: Understand how to use Redis for RAG use cases
+linkTitle: RAG with Redis
 stack: true
-title: Overview of RAG with Redis
+title: RAG with Redis
 weight: 4
-aliases: /develop/get-started/rag
 ---
 ### What is Retrieval Augmented Generation (RAG)?
 Large Language Models (LLMs) generate human-like text but are limited by the data they were trained on. RAG enhances LLMs by integrating them with external, domain-specific data stored in a Redis [vector database]({{< relref "/develop/get-started/vector-database" >}}).
@@ -48,7 +47,7 @@ To build a RAG application with Redis, follow these general steps:
     1. **Popular AI frameworks**: Redis integrates seamlessly with various AI frameworks and tools. For instance, combining Redis with [LangChain](https://python.langchain.com/v0.2/docs/integrations/vectorstores/redis/) or [LlamaIndex](https://docs.llamaindex.ai/en/latest/examples/vector_stores/RedisIndexDemo/), libraries for building language models, enables developers to create sophisticated RAG pipelines. These integrations support efficient data management and building real-time LLM chains.
     1. **Spring AI and Redis**: Using [Spring AI with Redis](https://redis.io/blog/building-a-rag-application-with-redis-and-spring-ai/) simplifies building RAG applications. Spring AI provides a structured approach to integrating AI capabilities into applications, while Redis handles data management, ensuring the RAG pipeline is efficient and scalable.
 
-1. **Embed and store data**: Convert your data into vector embeddings using a suitable model (e.g., BERT, GPT). Store these embeddings in Redis, where they can be quickly retrieved based on vector searches. The [client library guides]({{< relref "/develop/clients" >}}) have code examples showing how to do this.
+1. **Embed and store data**: Convert your data into vector embeddings using a suitable model (e.g., BERT, GPT). Store these embeddings in Redis, where they can be quickly retrieved based on vector searches.
 
 1. **Integrate with a generative model**: Use a generative AI model that can leverage the retrieved data. The model will use the vectors stored in Redis to augment its generation process, ensuring the output is informed by relevant, up-to-date information.
 
