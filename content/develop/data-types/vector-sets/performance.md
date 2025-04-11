@@ -41,6 +41,29 @@ Quantization greatly impacts both speed and memory:
 - `NOQUANT` (`FP32`): Full precision, slower performance, highest memory use
 
 Use the quantization mode that best fits your tradeoff between precision and efficiency.
+The examples below show how the different modes affect a simple vector.
+Note that even with `NOQUANT` mode, the values change slightly,
+due to floating point rounding.
+
+{{< clients-example vecset_tutorial add_quant >}}
+> VADD quantSetQ8 VALUES 2 1.262185 1.958231 quantElement Q8
+(integer) 1
+> VEMB quantSetQ8 quantElement
+1) "1.2643694877624512"
+2) "1.958230972290039"
+
+> VADD quantSetNoQ VALUES 2 1.262185 1.958231 quantElement NOQUANT
+(integer) 1
+> VEMB quantSetNoQ quantElement
+1) "1.262184977531433"
+2) "1.958230972290039"
+
+> VADD quantSetBin VALUES 2 1.262185 1.958231 quantElement BIN
+(integer) 1
+> VEMB quantSetBin quantElement
+1) "1"
+2) "1"
+{{< /clients-example >}}
 
 ## Deletion performance
 

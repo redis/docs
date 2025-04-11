@@ -64,11 +64,19 @@ High-dimensional vectors increase storage:
 - 300 components at `FP32` = 1200 bytes/vector
 - 300 components at `Q8` = 300 bytes/vector
 
-You can reduce this using the `REDUCE` option during [`VADD`]({{< relref "/commands/vadd" >}}), which applies random projection.
+You can reduce this using the `REDUCE` option during [`VADD`]({{< relref "/commands/vadd" >}}), which applies [random projection](https://en.wikipedia.org/wiki/Random_projection):
 
-```bash
-VADD vset REDUCE 100 VALUES 300 ... item1
-```
+{{< clients-example vecset_tutorial add_reduce >}}
+>VADD setNotReduced VALUES 300 ... element
+(integer) 1
+> VDIM setNotReduced
+(integer) 300
+
+>VADD setReduced REDUCE 100 VALUES 300 ... element
+(integer) 1
+> VDIM setReduced
+(integer) 100
+{{< /clients-example >}}
 
 This projects a 300-dimensional vector into 100 dimensions, reducing size and improving speed at the cost of some recall.
 
