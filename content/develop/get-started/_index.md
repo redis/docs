@@ -22,7 +22,7 @@ Redis can be used as a database, cache, streaming engine, message broker, and mo
 
 1. [Data structure store]({{< relref "/develop/get-started/data-store" >}})
 2. [Document database]({{< relref "/develop/get-started/document-database" >}})
-3. [Vector database]({{< relref "/develop/ai/vector-database" >}})
+3. [Vector database]({{< relref "/develop/get-started/vector-database" >}})
 
 Please select the guide that aligns best with your specific usage scenario.
 
