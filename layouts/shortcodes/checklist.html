@@ -23,33 +23,6 @@
             clChange("{{ $formId }}");
         }
     });
-
-    /*
-    function clChange(formId) {
-        let form = document.getElementById(formId);
-        let counts = {R: 0, G: 0, A: 0, X:0};
-
-        let listItems = form.getElementsByTagName("li");
-
-        for (let elem of listItems) {
-            let menu = elem.getElementsByTagName("select")[0];
-            let mvalue = menu.value;
-
-            counts[mvalue]++;
-        }
-
-        form.elements["rcount"].value = counts["R"];
-        form.elements["gcount"].value = counts["G"];
-        form.elements["acount"].value = counts["A"];
-        form.elements["xcount"].value = counts["X"];
-
-        let numClItems = listItems.length - counts["X"];
-        form.elements["rtotal"].value = numClItems;
-        form.elements["gtotal"].value = numClItems;
-        form.elements["atotal"].value = numClItems;
-        form.elements["xtotal"].value = listItems.length;
-    }
-        */
    
 
     function getStringFromCLItems(formId) {
