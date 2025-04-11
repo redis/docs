@@ -110,13 +110,35 @@ To create a support package from the Cluster Manager UI:
 
 1. In the navigation menu, select **Support**.
 
-    {{<image filename="images/rs/screenshots/create-support-package.png"  width="60%" alt="Select Support and create a support package.">}}
+    {{<image filename="images/rs/screenshots/create-support-package/support-package-dialog.png"  width="60%" alt="Select Support from the navigation menu and create a support package.">}}
 
-1. Select **Proceed**.
+1. Click **Proceed**.
 
-1. In the **Create support package** dialog, select **Run process**.
+1. In the **Generate support package** dialog, select one of the following options:
+
+    - **Full package including all nodes and databases**: Creates a support package with information about all nodes and databases in the cluster.
+
+    - **For Databases**: Creates a support package that includes database information.
+
+        - Select **All Databases** from the **Database name (Database ID)** list to include information about all databases in the cluster.
+
+        - Select a specific database from the **Database name (Database ID)** list to include information about that database only.
+
+        {{<image filename="images/rs/screenshots/create-support-package/generate-support-package-select-db.png"  width="60%" alt="The list of databases you can include in the support package.">}}
+
+    - **For Nodes**: Creates a support package that includes node information.
+
+        - Select **All Nodes** from the **Node ID (IP Addresses)** list to include information about all nodes in the cluster.
+
+        - Select a specific node from the **Node ID (IP Addresses)** list to include information about that node only.
+
+        {{<image filename="images/rs/screenshots/create-support-package/generate-support-package-select-node.png"  width="60%" alt="The list of nodes you can include in the support package.">}}
+
+1. Click **Generate package**.
 
 1. The package is created and downloaded by your browser.
+
+    {{<image filename="images/rs/screenshots/create-support-package/support-package-created-alert.png"  width="60%" alt="An alert appears that says, 'Support package created, attach it to your request in the Redis Support portal'. The Redis Support portal is a button you can click to contact Redis Support.">}}
 
 ### Command-line method
 
