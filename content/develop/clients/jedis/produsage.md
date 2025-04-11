@@ -24,7 +24,6 @@ Each item in the checklist below links to the section
 for a recommendation. Use the checklist icons to record your
 progress in implementing the recommendations.
 
-[](#client-side-caching)
 {{< checklist "prodlist" >}}
     {{< checklist-item "#connection-pooling" >}}Connection pooling{{< /checklist-item >}}
     {{< checklist-item "#client-side-caching" >}}Client-side caching{{< /checklist-item >}}
