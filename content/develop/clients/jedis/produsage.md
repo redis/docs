@@ -57,7 +57,7 @@ to learn how to use this technique with Jedis.
 
 [Client-side caching]({{< relref "/develop/clients/client-side-caching" >}})
 involves storing the results from read-only commands in a local cache. If the
-same command is executed again later, the result can be obtained from the cache,
+same command is executed again later, the results can be obtained from the cache,
 without contacting the server. This improves command execution time on the client,
 while also reducing network traffic and server load. See
 [Connect using client-side caching]({{< relref "/develop/clients/jedis/connect#connect-using-client-side-caching" >}})
@@ -129,7 +129,7 @@ inactivity.
 
 Redis handles many errors using return values from commands, but there
 are also situations where exceptions can be thrown. In production code,
-you should handle 
+you should handle exceptions as they occur.
 
 The Jedis exception hierarchy is rooted on `JedisException`, which implements
 `RuntimeException`. All exceptions in the hierarchy are therefore unchecked
