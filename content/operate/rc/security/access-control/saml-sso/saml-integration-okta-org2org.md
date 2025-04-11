@@ -241,20 +241,14 @@ Replace `<ID>` so it matches the AssertionConsumerService Location URL ID (the c
 
     {{<image filename="images/rc/saml/sm_saml_8.png" >}}
 
-   A popup appears, explaining that, to test the SAML connection, you need to log in with Okta credentials of the user defined in the Redis Cloud group. This user is part of the group to which you assigned the Redis Cloud application.
+   A popup appears, explaining that, to test the SAML connection, you need to log in with Okta credentials of the user defined in the Redis Cloud group. This user is part of the group to which you assigned the Redis Cloud application. Select **Continue** to go to the Okta login screen.
 
-    {{<image filename="images/rc/saml/sm_saml_9.png" >}}
-
-1. The Okta log-in screen appears. Enter the credentials and select **Sign In**.
+1. The Okta login screen appears. Enter the credentials and select **Sign In**.
 
     {{<image filename="images/rc/saml/sm_saml_10.png" >}}
 
-1. If the test succeeds, the next screen appears. Your local account is now considered a SAML account. Going forward, to log in to Redis Cloud console, select **Sign in with SSO**.
+If everything is configured correctly, you will see the the Redis Cloud console screen. Your local account is now considered a SAML account. 
 
-    {{<image filename="images/rc/saml/sm_saml_11.png" >}}
+To log in to the Redis Cloud console from now on, click on **Sign in with SSO**.
 
-1. Enter your SAML email and select **Login**
-
-    {{<image filename="images/rc/saml/sm_saml_12.png" >}}
-
-You have successfully configured SAML as an identity provider.
+{{<image filename="images/rc/button-sign-in-sso.png" width="50px" alt="Sign in with SSO button">}}

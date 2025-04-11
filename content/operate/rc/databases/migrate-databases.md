@@ -69,7 +69,7 @@ Follow these detailed steps to migrate data using Active-Passive syncing:
 
     {{<image filename="images/rc/migrate-database-select-source.png" alt="Select the target database from the database list." >}}
 
-4.  From the **Configuration** tab of the target database, select **Edit database**.
+4.  From the **Configuration** tab of the target database, select **Edit**.
 
     {{<image filename="images/rc/migrate-data-target-edit.png" alt="Use the **Edit Database** button to change the configuration of the target database." >}}
 
@@ -81,41 +81,41 @@ Follow these detailed steps to migrate data using Active-Passive syncing:
 
 6. This will open the **Add Active-Passive Redis** screen. Select where the source database is located.
 
-    {{<image filename="images/rc/migrate-data-add-active-passive.png" alt="The Add Active-Passive Redis screen." >}}
+    {{<image filename="images/rc/migrate-data-add-active-passive.png" alt="The Add Active-Passive Redis screen." width=70% >}}
 
     - Select **Current account** if the source database is located in this Redis Cloud account. 
     
         Select the source database from the **Source database** list. You can type in the database's name to find it.
 
-        {{<image filename="images/rc/database-add-account-path-list.png" alt="Select the Source database from the database list." >}}
+        {{<image filename="images/rc/database-add-account-path-list.png" alt="Select the Source database from the database list." width=70% >}}
 
     - If the source database is hosted externally, select **External**.
 
         1.  In the **Enter the source URI** field, type `redis://` and then paste in the public endpoint details. 
 
-            {{<image filename="images/rc/migrate-data-specify-source-uri.png" alt="The source URI must be specified using the 'redis://' protocol." >}}
+            {{<image filename="images/rc/migrate-data-specify-source-uri.png" alt="The source URI must be specified using the 'redis://' protocol." width=70% >}}
 
         1. Select if the source database requires Transport Layer Security (TLS).
         
             - If the source database requires TLS, select **TLS** and enter the public server certificate in the **Server Certificate** field.
 
-            {{<image filename="images/rc/migrate-data-tls-server-cert.png" alt="The Server Certificate field." >}}
+            {{<image filename="images/rc/migrate-data-tls-server-cert.png" alt="The Server Certificate field." width=70% >}}
 
             - If the source database requires client authentication, select **Mutual TLS**.
 
                 1. Enter the public server certificate in the **Server Certificate** field.
 
-                    {{<image filename="images/rc/migrate-data-tls-server-cert.png" alt="The Server Certificate field." >}}
+                    {{<image filename="images/rc/migrate-data-tls-server-cert.png" alt="The Server Certificate field." width=70% >}}
 
                 1. Select **Download** to download the client certificate. 
 
-                    {{<image filename="images/rc/migrate-data-tls-client-cert.png" alt="The Client Certificate field. Select Download to download the client certificate." >}}
+                    {{<image filename="images/rc/migrate-data-tls-client-cert.png" alt="The Client Certificate field. Select Download to download the client certificate." width=70% >}}
 
                 1. Configure the source database to accept the client certificate.
 
 7. Select **Save Active-Passive** to save your Active-Passive settings.
 
-    {{<image filename="images/rc/icon-database-save-active-passive.png" alt="The **Save** button verifies the Source URI and you can't save until it validates." width="200px">}}
+    {{<image filename="images/rc/icon-database-save-active-passive.png" alt="The **Save** button verifies the Source URI and you can't save until it validates." width="150px">}}
 
     For an external database, we'll verify the endpoint at this step. If the endpoint can't be verified, make sure that you've copied the details directly from the source database and that the value you entered starts with `redis://`.
 
@@ -133,7 +133,7 @@ Follow these detailed steps to migrate data using Active-Passive syncing:
 
     When data has fully migrated to the target database, database status reports `Synced`.  
 
-    {{<image filename="images/rc/migrate-data-status-synced.png" alt="When the data is migrated, the target database status displays `Synced`." >}}
+    {{<image filename="images/rc/migrate-data-status-synced.png" alt="When the data is migrated, the target database status displays `Synced`." width=100px >}}
 
 Active-Passive sync lets you migrate data while apps and other connections are using the source database.  Once the data is migrated, you should migrate active connections to the target database.  
 

@@ -33,7 +33,7 @@ The **API account key** is used as the value of the `x-api-key` HTTP header in o
 
 By default, the **API account key** is masked; that is, it is obscured for security reasons.  You can use the **Show** button to display the key and the **Hide** button to mask it.
 
-{{<image filename="images/rc/button-access-management-show-key.png" alt="The **Show** button displays the account key." class="inline" >}} &nbsp; {{<image filename="images/rc/button-access-management-hide-key.png#no-click" alt="The **Hide** button masks the account key." class="inline">}}
+{{<image filename="images/rc/button-access-management-show-key.png#no-click" alt="The **Show** button displays the account key." class="inline" >}} &nbsp; {{<image filename="images/rc/button-access-management-hide-key.png#no-click" alt="The **Hide** button masks the account key." class="inline">}}
 
 The **Copy** button copies the account key to the Clipboard.
 
@@ -77,19 +77,17 @@ This is the only time the value of the user key is available.  Save it to a secu
 If you lose the user key value, it cannot be retrieved.  If this happens, create a new key to replace the lost one.
 {{</warning>}}
 
-When you've saved the user key, use the **Finish** button to close the dialog box.
-
-(The **Finish** button is disabled until you copy the key to the Clipboard.)
+The **Finish** button is inactive until you copy the key to the clipboard. After you save the user key, you can also select **Copy account key** to save the account key.
 
 ### Delete a user key
 
 To delete a user key:
 
-1.  Use the **API Keys** tab of the **Access Management** screen to locate the target key
+1.  Use the **API Keys** tab of the **Access Management** screen to locate the target key. Hover over the key to display the **Delete** button.
 
     {{<image filename="images/rc/access-management-api-user-key-delete.png" alt="The **Delete** button appears to the right of the selected user key." >}}<br/>
 
-2.  Select the **Delete** button displayed to the right.
+2.  Select the **Delete** button.
 
     {{<image filename="images/rc/button-access-management-api-user-key-delete.png" alt="Select the **Delete** button to begin deleting the selected user key." >}}
 
@@ -105,7 +103,7 @@ By default, REST API requests are allowed from all IP addresses.  To limit acces
 
 To manage the CIDR allow list:
 
-1.  Use the **API Keys** tab of the **Access Management** screen to locate the target key
+1.  Use the **API Keys** tab of the **Access Management** screen to locate the target key. Hover over the key to display the **Manage** link.
 
     {{<image filename="images/rc/access-management-api-user-key-delete.png" alt="The **Manage** link appears to the right of the user name for the selected user key." >}}
 

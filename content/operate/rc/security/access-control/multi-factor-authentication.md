@@ -46,7 +46,7 @@ Your account is now configured for MFA.
 We recommend that you also [configure MFA for an authenticator app](#app) as an additional factor.
 {{< /note >}}
 
-If you cannot sign in to your account because of MFA, please [contact support](https://redislabs.com/company/support/).
+If you cannot sign in to your account because of MFA, please [contact support](https://redis.io/support/).
 
 If your mobile phone is lost or stolen, make sure that you update the MFA configuration to prevent unauthorized sign-ins.
 
@@ -100,6 +100,8 @@ To enable MFA enforcement for all user accounts:
 
 - When you enable MFA enforcement, users cannot disable MFA for their account.
 - When you disable MFA enforcement, users can disable MFA for their account.
+
+4. Select **Save changes** to save your changes.
 
 {{< tip >}}
 Notify all of your Redis Cloud console users before enabling MFA enforcement.

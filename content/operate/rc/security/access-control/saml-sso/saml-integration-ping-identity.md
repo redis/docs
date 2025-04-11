@@ -162,25 +162,19 @@ To activate SAML, you must have a local user (or social sign-on user) with the *
 
 1. Return to the Redis Cloud console and select **Activate**.
 
-    {{<image filename="images/rc/saml/ping_identity_saml_19.png" >}}
+    {{<image filename="images/rc/saml/sm_saml_8.png" >}}
 
-1. A popup appears, explaining that to test the SAML connection, you need to log in with credentials of a user defined in Ping Federate.
-
-    {{<image filename="images/rc/saml/sm_saml_9.png" >}}
+1. A popup appears, explaining that to test the SAML connection, you need to log in with credentials of a user defined in Ping Federate. Select **Continue** to go to the Ping Federate login screen.
 
 1. The Ping Federate login screen will appear. Enter the credentials and select **Sign In**.
 
     {{<image filename="images/rc/saml/ping_identity_saml_20.png" >}}
 
-1. If the test has succeeded, you will see the following screen. Your local account is now considered a SAML account. To log in to Redis Cloud console going forward, select the **Sign in with SSO** button.
+If everything is configured correctly, you will see the the Redis Cloud console screen. Your local account is now considered a SAML account. 
 
-    {{<image filename="images/rc/saml/sm_saml_11.png" >}}
+To log in to the Redis Cloud console from now on, click on **Sign in with SSO**.
 
-1. In the screen, enter your SAML email and select *Login*.
-
-    {{<image filename="images/rc/saml/ad_saml_21.png" >}}
-
-   You have successfully configured SAML as an identity provider.
+{{<image filename="images/rc/button-sign-in-sso.png" width="50px" alt="Sign in with SSO button">}}
 
 ## IdP-initiated SSO
 

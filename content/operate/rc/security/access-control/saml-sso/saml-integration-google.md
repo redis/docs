@@ -163,10 +163,8 @@ A logout notification screen displays, letting you know that you are redirected 
 
    {{<image filename="images/rc/saml/google_workspace_saml_18.png" >}}
 
-1. If everything is configured correctly, you should get a **SAML activation succeeded** message. From this point forward, users need to click **SSO** to log in to the Redis Cloud console.
+If everything is configured correctly, you will see the the Redis Cloud console screen. Your local account is now considered a SAML account. 
 
-   {{<image filename="images/rc/saml/google_workspace_saml_19.png" >}}
+To log in to the Redis Cloud console from now on, click on **Sign in with SSO**.
 
-A message displays, stating that your local user is now converted to a SAML user. Select **Confirm**.
-
-You have successfully configured Google Workspace as an identification provider.
+{{<image filename="images/rc/button-sign-in-sso.png" width="50px" alt="Sign in with SSO button">}}

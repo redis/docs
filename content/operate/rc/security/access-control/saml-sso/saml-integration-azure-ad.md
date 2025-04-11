@@ -163,23 +163,17 @@ Make sure the **Namespace** field is empty when modifying these claims.
 
     {{<image filename="images/rc/saml/sm_saml_8.png" >}}
 
-1. A popup appears, explaining that you must log in with the credentials of a Microsoft Entra user to test the SAML connection.
-
-    {{<image filename="images/rc/saml/sm_saml_9.png" >}}
+1. A popup appears, explaining that you must log in with the credentials of a Microsoft Entra user to test the SAML connection. Select **Continue** to go to the Microsoft login screen.
 
 1. The Microsoft login screen will appear. Enter the credentials and click **Sign In**.
 
     {{<image filename="images/rc/saml/ad_saml_19.png" >}}
 
-1. If the test has succeeded, you will see the following screen. Your local account is now considered a SAML account. To log in to Redis Cloud console going forward, select **Sign in with SSO**.
+If everything is configured correctly, you will see the the Redis Cloud console screen. Your local account is now considered a SAML account. 
 
-    {{<image filename="images/rc/saml/sm_saml_11.png" >}}
+To log in to the Redis Cloud console from now on, click on **Sign in with SSO**.
 
-1. Enter your SAML email and click **Login**.
-
-    {{<image filename="images/rc/saml/ad_saml_21.png" >}}
-
-   You have successfully configured SAML as an identification provider.
+{{<image filename="images/rc/button-sign-in-sso.png" width="50px" alt="Sign in with SSO button">}}
 
 ## Claim conditions and user groups
 
