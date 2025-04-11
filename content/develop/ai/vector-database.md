@@ -9,11 +9,12 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Understand how to use Redis as a vector database
-linkTitle: Vector database
+description: Understand how to use Redis vector database
+linkTitle: Vector database quick start
 stack: true
-title: Redis as a vector database quick start guide
-weight: 3
+title: Redis vector database quick start guide
+weight: 1
+aliases: /develop/get-started/vector-database
 ---
 
 This quick start guide helps you to:
@@ -58,7 +59,7 @@ The easiest way to get started is to use Redis Cloud:
 
 1. Create a [free account](https://redis.com/try-free?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users).
 
-   <img src="../img/free-cloud-db.png" width="500px">
+   {{<image filename="images/rc/quickstart-essentials.png" width="75%" alt="Create your database with Essentials selected." >}} 
 2. Follow the instructions to create a free database.
 
 This free Redis Cloud database comes out of the box with all the Redis Community Edition features.

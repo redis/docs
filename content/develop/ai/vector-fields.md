@@ -10,10 +10,11 @@ categories:
 - kubernetes
 - clients
 description: Learn how to use vector fields and perform vector searches in Redis
-linkTitle: Vectors
+linkTitle: Advanced vector queries guide
 math: true
-title: Vectors
-weight: 14
+title: Perform advanced queries with vector fields
+weight: 3
+aliases: /develop/interact/search-and-query/advanced-concepts/vectors
 ---
 
 Redis includes a [high-performance vector database](https://redis.io/blog/benchmarking-results-for-vector-databases/) that lets you perform semantic searches over vector embeddings. You can augment these searches with filtering over text, numerical, geospatial, and tag metadata.
@@ -523,7 +524,3 @@ Here are some additonal resources that apply vector search for different use cas
 
 - [Retrieval augmented generation from scratch](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/RAG/01_redisvl.ipynb)
 - [Semantic caching](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/semantic-cache/semantic_caching_gemini.ipynb)
-
-## Continue learning with Redis University
-
-{{< university-links >}}
