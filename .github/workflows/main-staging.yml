@@ -6,13 +6,17 @@ jobs:
   build_docs:
     name: Build the staging documentation site
     runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
     env:
       HUGO_VERSION: 0.143.1
       GCLOUD_VERSION: 458.0.1-linux-x86_64
       BUCKET: docs-staging-learn-redis-com
-      BUCKET_SERVICE_ACCOUNT: ${{ secrets.BUCKET_DOCUMENTATION_SA_STAGING }}
-      BUCKET_SECRET: ${{ secrets.BUCKET_DOCUMENTATION_STAGING }}
-      GCP_PROJECT: ${{ secrets.GCP_PROJECT_STAGING }}
+      STAGING_PROJECT_ID: ${{ secrets.GCP_PROJECT_STAGING }}
+      STAGING_SERVICE_ACCOUNT: ${{ secrets.STAGING_SERVICE_ACCOUNT }}
+      STAGING_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.STAGING_WORKLOAD_IDENTITY_PROVIDER }}
+
     steps:
     - name: Start
       run: echo "The name of the branch is ${{ github.ref }} on ${{ github.repository }}"
@@ -162,17 +166,20 @@ jobs:
       run: ls "${{ github.workspace }}/examples"
     - name: List files to be published
       run: ls "${{ github.workspace }}/public"    
-    - name: Install the Google Cloud CLI
-      run: |
-          wget -O ${{ github.workspace }}/google-cloud-cli.tar.gz "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-$GCLOUD_VERSION.tar.gz" \
-          && tar -xvf google-cloud-cli.tar.gz -C ${{ github.workspace }}\
-          && ${{ github.workspace }}/google-cloud-sdk/install.sh --quiet
-    - name: Prepare bucket authentication
-      run: echo $BUCKET_SECRET | base64 --decode > service_account.json && ls -a service_account.json
-    - name: Authenticate to the bucket
-      run: |
-          ./google-cloud-sdk/bin/gcloud auth activate-service-account $BUCKET_SERVICE_ACCOUNT --key-file=./service_account.json --project=$GCP_PROJECT \
-          && ./google-cloud-sdk/bin/gcloud auth list
+
+    - name: 'Google auth'
+      uses: 'google-github-actions/auth@v2'
+      with:
+        project_id: '${{ env.STAGING_PROJECT_ID }}'
+        service_account: '${{ env.STAGING_SERVICE_ACCOUNT }}'
+        workload_identity_provider: '${{ env.STAGING_WORKLOAD_IDENTITY_PROVIDER }}'
+
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v2'
+      with:
+        project_id: '${{ env.STAGING_PROJECT_ID }}'
+        version: '>= 363.0.0'
+
     - name: Sync the branch to the bucket
       run: |
           if [[ "${{ github.ref_name }}" == "main" ]]
@@ -187,7 +194,7 @@ jobs:
           else
             bucket_path=staging/${{ github.ref_name }}
           fi \
-          && ./google-cloud-sdk/bin/gsutil -m rsync -r -c -j html -d ${{ github.workspace }}/public gs://$BUCKET/$bucket_path
+          && gsutil -m rsync -r -c -j html -d ${{ github.workspace }}/public gs://$BUCKET/$bucket_path
 
           versioned_builds=($(find . -type d -regex ".*[0-9-]" -maxdepth 1 | sed -E 's/^.\///'))
           for versioned_build in "${versioned_builds[@]}"; do
