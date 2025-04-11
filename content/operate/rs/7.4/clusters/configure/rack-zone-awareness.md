@@ -31,7 +31,7 @@ Rack-zone awareness affects various cluster, node, and database actions, such as
 The rack-zone ID must comply with the following rules:
 
 - Maximum length of 63 characters.
-- Characters consist of letters, digits, and hyphens ('-'). Underscores ('_') are also accepted as of Redis Enterprise Software [6.4.2-61]({{< relref "/operate/rs/release-notes/rs-6-4-2-releases/rs-6-4-2-61" >}}).
+- Characters consist of letters, digits, and hyphens ('-'). Underscores ('_') are also accepted as of Redis Enterprise Software 6.4.2-61.
 - ID starts with a letter and ends with a letter or a digit.
 
 {{< note >}}
