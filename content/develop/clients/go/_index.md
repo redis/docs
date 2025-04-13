@@ -92,11 +92,11 @@ fmt.Println("foo", val)
 You can also easily store and retrieve a [hash]({{< relref "/develop/data-types/hashes" >}}):
 
 ```go
-hashFields := []string{
-    "model", "Deimos",
-    "brand", "Ergonom",
-    "type", "Enduro bikes",
-    "price", "4972",
+hashFields := map[string]string{
+    "model": "Deimos",
+    "brand": "Ergonom",
+    "type":  "Enduro bikes",
+    "price": "4972",
 }
 
 res1, err := client.HSet(ctx, "bike:1", hashFields).Result()
