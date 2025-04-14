@@ -8,7 +8,12 @@ metadata:
 rules:
   - apiGroups:
       - app.redislabs.com
-    resources: ["redisenterprisedatabases", "redisenterprisedatabases/status", "redisenterprisedatabases/finalizers"]
+    resources: ["redisenterprisedatabases",
+                "redisenterprisedatabases/status",
+                "redisenterprisedatabases/finalizers",
+                "redisenterpriseactiveactivedatabases",
+                "redisenterpriseactiveactivedatabases/status",
+                "redisenterpriseactiveactivedatabases/finalizers"]
     verbs: ["delete", "get", "list", "patch", "create", "update", "watch"]
   - apiGroups: [""]
     resources: ["secrets"]
@@ -18,7 +23,7 @@ rules:
     verbs: ["get", "list", "watch"]
   - apiGroups: [""]
     resources: ["events"]
-    verbs: ["create"]
+    verbs: ["create", "patch"]
   - apiGroups: [""]
     resources: ["services"]
     verbs: ["get", "list", "update", "patch", "create", "delete", "watch"]
