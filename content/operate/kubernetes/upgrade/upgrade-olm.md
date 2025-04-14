@@ -75,7 +75,6 @@ You can monitor the upgrade from the **Installed Operators** page. A new Redis E
 
 ## Reapply the SCC
 
-
 If you are using OpenShift, you must manually reappply the [security context constraints (SCC)](https://docs.openshift.com/container-platform/4.8/authentication/managing-security-context-constraints.html) file ([`scc.yaml`]({{< relref "/operate/kubernetes/deployment/openshift/openshift-cli#deploy-the-operator" >}})) and bind it to your service account.
 
 ```sh
@@ -86,6 +85,7 @@ oc apply -f openshift/scc.yaml
 oc adm policy add-scc-to-user redis-enterprise-scc-v2 \
   system:serviceaccount:<my-project>:<rec-name>
 ```
+
 ## Upgrade the Redis Enterprise Cluster 
 
 {{<warning>}}
