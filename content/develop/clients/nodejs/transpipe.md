@@ -152,3 +152,29 @@ const updatedPath = await client.get('shellpath');
 console.log(updatedPath);
 // >>> /usr/syscmds/:/usr/mycmds/
 ```
+
+In an environment where multiple concurrent requests are sharing a connection
+(such as a web server), you must wrap the above transaction logic in a call to
+`client.executeIsolated` to get an isolated connection, like so:
+
+```js
+await client.executeIsolated(async (client) => {
+   await client.watch('shellpath');
+   // ...
+})
+```
+
+This is important because the server tracks the state of the WATCH on a
+per-connection basis, and concurrent WATCH and MULTI/EXEC calls on the same
+connection will interfere with one another.
+
+You can configure the size of the isolation pool when calling `createClient`:
+
+```js
+const client = createClient({
+    isolationPoolOptions: {
+        min: 1,
+        max: 100,
+    },
+})
+```
