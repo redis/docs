@@ -9,6 +9,7 @@ description: This section shows how to set up an Active-Active Redis Enterprise 
   on Kubernetes using the Redis Enterprise Software operator.
 linkTitle: Create Active-Active with crdb-cli
 weight: 99
+url: '/operate/kubernetes/7.8.6/active-active/create-aa-crdb-cli/'
 ---
 {{<note>}} Versions 6.4.2 and later support the Active-Active database controller. This controller allows you to create Redis Enterprise Active-Active databases (REAADB) and Redis Enterprise remote clusters (RERC) with custom resources. We recommend using the [REAADB method for creating Active-Active databases]({{< relref "/operate/kubernetes/7.8.6/active-active/create-reaadb.md" >}}).{{</note>}}
 

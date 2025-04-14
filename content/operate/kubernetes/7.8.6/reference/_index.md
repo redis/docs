@@ -10,6 +10,7 @@ description: Reference material for the operator, cluster, and database deployme
 hideListLinks: false
 linkTitle: Reference
 weight: 89
+url: '/operate/kubernetes/7.8.6/reference/'
 ---
 
 This section contains the API reference for Redis custom resources and supported distributions.

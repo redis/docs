@@ -9,6 +9,7 @@ description: This section describes how the database controller provides the abi
   to create, manage, and use databases via a database custom resource.
 linkTitle: Manage databases
 weight: 5
+url: '/operate/kubernetes/7.8.6/re-databases/db-controller/'
 ---
 ## Redis Enterprise database (REDB) lifecycle
 

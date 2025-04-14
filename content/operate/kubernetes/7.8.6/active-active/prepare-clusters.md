@@ -9,6 +9,7 @@ description: Prepare your participating RECs to be part of an Active-Active data
   deployment.
 linkTitle: Prepare clusters
 weight: 10
+url: '/operate/kubernetes/7.8.6/active-active/prepare-clusters/'
 ---
 
 {{<note>}}This feature is supported for general availability in releases 6.4.2-6 and later. Some of these features were available as a preview in 6.4.2-4 and 6.4.2-5. Please upgrade to 6.4.2-6 for the full set of general availability features and bug fixes.{{</note>}}

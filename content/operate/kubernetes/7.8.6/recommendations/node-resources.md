@@ -9,6 +9,7 @@ description: Recommendations on managing node resources and setting eviction thr
   with Redis Enterprise for Kubernetes.
 linktitle: Manage resources
 weight: 17
+url: '/operate/kubernetes/7.8.6/recommendations/node-resources/'
 ---
  
 

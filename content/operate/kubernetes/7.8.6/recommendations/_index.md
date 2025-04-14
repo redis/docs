@@ -10,6 +10,7 @@ description: Settings and configuration recommendations for your Redis Enterpris
 hideListLinks: false
 linkTitle: Recommendations
 weight: 80
+url: '/operate/kubernetes/7.8.6/recommendations/'
 ---
 
 This section contains  recommended settings and configuration for your Redis Enterprise for Kubernetes deployment.

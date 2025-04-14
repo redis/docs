@@ -7,6 +7,7 @@ categories:
 - kubernetes
 linkTitle: Manage REC credentials
 weight: 93
+url: '/operate/kubernetes/7.8.6/security/manage-rec-credentials/'
 ---
 Redis Enterprise for Kubernetes uses a custom resource called [`RedisEnterpriseCluster`]({{< relref "/operate/kubernetes/7.8.6/reference/redis_enterprise_cluster_api" >}}) to create a Redis Enterprise cluster (REC). During creation it generates random credentials for the operator to use. The credentials are saved in a Kubernetes (K8s) [secret](https://kubernetes.io/docs/concepts/configuration/secret/). The secret name defaults to the name of the cluster.
 

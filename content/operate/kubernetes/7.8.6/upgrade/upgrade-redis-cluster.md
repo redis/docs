@@ -9,6 +9,7 @@ description: This task describes how to upgrade a Redis Enterprise cluster via t
   operator.
 linkTitle: Kubernetes
 weight: 10
+url: '/operate/kubernetes/7.8.6/upgrade/upgrade-redis-cluster/'
 ---
 
 Redis implements rolling updates for software upgrades in Kubernetes deployments. The upgrade process includes updating three components:

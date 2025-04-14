@@ -9,6 +9,7 @@ description: Describes where to view the archive of Redis Enterprise for Kuberne
   documentation.
 linkTitle: Archive
 weight: 99999999999
+url: '/operate/kubernetes/7.8.6/kubernetes-archive/'
 ---
 
 The Redis Enterprise for Kubernetes documentation is versioned. You are looking at the documentation for the latest release.

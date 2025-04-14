@@ -9,6 +9,7 @@ description: This section provides information about how Redis Enterprise cluste
   pods can be scheduled to only be placed on specific nodes or node pools.
 linkTitle: Node selection
 weight: 80
+url: '/operate/kubernetes/7.8.6/recommendations/node-selection/'
 ---
 
 Many Kubernetes cluster deployments have different kinds of nodes that have

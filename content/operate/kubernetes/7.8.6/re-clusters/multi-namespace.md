@@ -10,6 +10,7 @@ description: Redis Enterprise for Kubernetes allows you to deploy to multiple na
   Enterprise cluster to connect to databases in multiple namespaces
 linktitle: Manage multiple namespaces
 weight: 17
+url: '/operate/kubernetes/7.8.6/re-clusters/multi-namespace/'
 ---
 
 Multiple Redis Enterprise database resources (REDBs) can be associated with a single Redis Enterprise cluster resource (REC) even if they reside in different namespaces.

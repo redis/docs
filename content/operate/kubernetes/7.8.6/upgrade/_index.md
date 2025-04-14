@@ -10,6 +10,7 @@ hideListLinks: true
 linkTitle: Upgrade
 weight: 15
 bannerChildren: true
+url: '/operate/kubernetes/7.8.6/upgrade/'
 ---
 
 The upgrade process includes updating three components:

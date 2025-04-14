@@ -7,6 +7,7 @@ categories:
 - kubernetes
 linkTitle: REC API
 weight: 30
+url: '/operate/kubernetes/7.8.6/reference/redis_enterprise_cluster_api/'
 ---
 
 apiVersion:

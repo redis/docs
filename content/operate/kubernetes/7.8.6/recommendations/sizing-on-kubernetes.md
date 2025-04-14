@@ -9,6 +9,7 @@ description: This section provides information about sizing and scaling Redis En
   in a Kubernetes deployment.
 linkTitle: Sizing and scaling
 weight: 50
+url: '/operate/kubernetes/7.8.6/recommendations/sizing-on-kubernetes/'
 ---
 The following article reviews the mechanism and methods available for sizing
 and scaling a Redis Enterprise cluster deployment.

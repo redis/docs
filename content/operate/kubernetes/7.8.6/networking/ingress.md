@@ -9,6 +9,7 @@ description: Configure an ingress controller to access your Redis Enterprise dat
   from outside the Kubernetes cluster.
 linkTitle: Ingress routing
 weight: 5
+url: '/operate/kubernetes/7.8.6/networking/ingress/'
 ---
 
 ## Prerequisites

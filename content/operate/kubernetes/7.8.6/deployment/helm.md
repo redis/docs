@@ -8,6 +8,7 @@ categories:
 description: Install Redis Enterprise for Kubernetes version 7.8.6 using Helm charts.
 linkTitle: Helm
 weight: 11
+url: '/operate/kubernetes/7.8.6/deployment/helm/'
 ---
 
 Helm charts provide a simple way to install the Redis Enterprise for Kubernetes operator in just a few steps. For more information about Helm, go to [https://helm.sh/docs/](https://helm.sh/docs/).

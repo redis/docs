@@ -8,6 +8,7 @@ categories:
 description: Support matrix for the current Redis Enterprise K8s operator
 linkTitle: Supported distributions
 weight: 30
+url: '/operate/kubernetes/7.8.6/reference/supported_k8s_distributions/'
 ---
 
 Each release of Redis Enterprise for Kubernetes is thoroughly tested against a set of Kubernetes distributions. The table below lists Redis Enterprise for Kubernetes versions and the Kubernetes distributions they support.
