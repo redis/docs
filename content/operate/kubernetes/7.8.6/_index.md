@@ -10,6 +10,7 @@ description: The Redis Enterprise operators allows you to use Redis Enterprise f
 hideListLinks: false
 linkTitle: 7.8.6
 weight: 50
+bannerText: This documentation applies to version 7.8.6. For documentation on the latest version, see [redis.io/docs/latest/operate/kubernetes/](https://redis.io/docs/latest/operate/kubernetes/).
 url: '/operate/kubernetes/7.8.6/'
 ---
 
