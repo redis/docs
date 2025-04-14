@@ -3,6 +3,18 @@ from typing import Iterator, Match, Callable
 
 import re
 
+
+class TextPosInfo:
+    line: int
+    start: int
+    end: int
+
+    def __init__(self, line, start, end):
+        self.line = line
+        self.start = start
+        self.end = end
+
+
 shortcode_re_pattern_start = r"(\n)|\{\{[<%]\s*"
 shortcode_re_body = r"(/)?([\w\-]+)\s*(.+?)?"
 shortcode_re_pattern_end = r"\s*[>%]\}\}"
@@ -103,7 +115,7 @@ class ShortcodeIterator:
     def __iter__(self):
         return self
 
-    def __next__(self) -> tuple[ShortcodeInfo, int]:
+    def __next__(self) -> tuple[ShortcodeInfo, TextPosInfo]:
         next_match = self.re_iterator.__next__()
 
         while True:
@@ -115,7 +127,14 @@ class ShortcodeIterator:
                 )
 
                 if self.sc_filter(self, result):
-                    return (result, self.linenum)
+                    return (
+                        result,
+                        TextPosInfo(
+                            self.linenum,
+                            next_match.start(),
+                            next_match.end()
+                        )
+                    )
             else:
                 result = ShortcodeInfo(
                     next_match[3],
@@ -124,6 +143,13 @@ class ShortcodeIterator:
                 )
 
                 if self.sc_filter(self, result):
-                    return (result, self.linenum)
+                    return (
+                        result,
+                        TextPosInfo(
+                            self.linenum,
+                            next_match.start(),
+                            next_match.end()
+                        )
+                    )
 
             next_match = self.re_iterator.__next__()
