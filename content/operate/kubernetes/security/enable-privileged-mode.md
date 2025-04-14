@@ -64,6 +64,14 @@ OpenShift users upgrading to 7.22.0-6 need to make changes to your existing SCC 
 
 If running in **unprivileged mode**, remove the custom `redis-enterprise-scc-v2` SCC and unbind it from the REC service account after completing your upgrade.
 
+```sh
+oc delete scc/redis-enterprise-scc-v2
+```
+
+```sh
+oc adm policy remove-scc-from-user redis-enterprise-scc-v2 -z <service-account-name>
+```
+
 If running in **privileged mode**, manually reapply the [security context constraints (SCC)](https://docs.openshift.com/container-platform/4.8/authentication/managing-security-context-constraints.html) file ([`scc.yaml`]({{< relref "/operate/kubernetes/deployment/openshift/openshift-cli#deploy-the-operator" >}})) and rebind it to the REC service account.
 
 ```sh
