@@ -81,12 +81,12 @@ To upgrade a database:
 
 1.  _(Optional)_  Back up the database to minimize the risk of data loss.
 
-1.  Use [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin/upgrade" >}}) to upgrade the database. During the upgrade process, the database will restart without losing any data.
+1.  Use [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin/upgrade" >}}) to upgrade the database. During the upgrade process, the database will restart without losing any data. Use the `preserve_roles` option to keep the database's current state, including primary shard placement.
 
     - To upgrade a database and its modules:
 
         ``` shell
-        rladmin upgrade db <database name | database ID>
+        rladmin upgrade db <database name | database ID> preserve_roles
         ```
 
         Example of a successful upgrade:
@@ -104,7 +104,7 @@ To upgrade a database:
     - To upgrade the database to a version other than the default version, use the `redis_version` parameter:
 
         ```sh
-        rladmin upgrade db <database name | database ID> redis_version <version>
+        rladmin upgrade db <database name | database ID> redis_version <version> preserve_roles
         ```
 
 1. Check the Redis database compatibility version for the database to confirm the upgrade.  
