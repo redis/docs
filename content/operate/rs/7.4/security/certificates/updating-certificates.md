@@ -17,7 +17,7 @@ When you update the certificates, the new certificate replaces the same certific
 
 ## How to update certificates
 
-You can use the [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}) command-line interface (CLI) or the [REST API]({{< relref "/operate/rs/references/rest-api" >}}) to update certificates. The Cluster Manager UI lets you update proxy and syncer certificates on the **Cluster > Security > Certificates** screen.
+You can use the [`rladmin`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin" >}}) command-line interface (CLI) or the [REST API]({{< relref "/operate/rs/7.4/references/rest-api" >}}) to update certificates. The Cluster Manager UI lets you update proxy and syncer certificates on the **Cluster > Security > Certificates** screen.
 
 The new certificates are used the next time the clients connect to the database.
 
@@ -51,7 +51,7 @@ To replace proxy or syncer certificates using the Cluster Manager UI:
 
 ### Use the CLI
 
-To replace certificates with the `rladmin` CLI, run the [`cluster certificate set`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/certificate" >}}) command:
+To replace certificates with the `rladmin` CLI, run the [`cluster certificate set`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/cluster/certificate" >}}) command:
 
 ```sh
  rladmin cluster certificate set <cert-name> certificate_file <cert-file-name>.pem key_file <key-file-name>.pem
@@ -59,7 +59,7 @@ To replace certificates with the `rladmin` CLI, run the [`cluster certificate se
 
 Replace the following variables with your own values:
 
-- `<cert-name>` - The name of the certificate you want to replace. See the [certificates table]({{< relref "/operate/rs/security/certificates" >}}) for the list of valid certificate names.
+- `<cert-name>` - The name of the certificate you want to replace. See the [certificates table]({{< relref "/operate/rs/7.4/security/certificates" >}}) for the list of valid certificate names.
 - `<cert-file-name>` - The name of your certificate file
 - `<key-file-name>` - The name of your key file
 
@@ -71,7 +71,7 @@ rladmin cluster certificate set cm certificate_file cluster.pem key_file key.pem
 
 ### Use the REST API
 
-To replace a certificate using the REST API, use [`PUT /v1/cluster/update_cert`]({{< relref "/operate/rs/references/rest-api/requests/cluster/certificates#put-cluster-update_cert" >}}):
+To replace a certificate using the REST API, use [`PUT /v1/cluster/update_cert`]({{< relref "/operate/rs/7.4/references/rest-api/requests/cluster/certificates#put-cluster-update_cert" >}}):
 
 ```sh
 PUT https://[host][:port]/v1/cluster/update_cert
@@ -80,7 +80,7 @@ PUT https://[host][:port]/v1/cluster/update_cert
 
 Replace the following variables with your own values:
 
-- `<cert_name>` - The name of the certificate to replace. See the [certificates table]({{< relref "/operate/rs/security/certificates" >}}) for the list of valid certificate names.
+- `<cert_name>` - The name of the certificate to replace. See the [certificates table]({{< relref "/operate/rs/7.4/security/certificates" >}}) for the list of valid certificate names.
 - `<key>` - The contents of the \*\_key.pem file
 
     {{< tip >}}
@@ -101,7 +101,7 @@ To update the proxy certificate on clusters running Replica Of databases:
 
 1. Use the Cluster Manager UI, `rladmin`, or the REST API to update the proxy certificate on the source database cluster.
 
-1. From the Cluster Manager UI, update the destination database (_replica_) configuration with the [new certificate]({{< relref "/operate/rs/databases/import-export/replica-of/create#encrypt-replica-database-traffic" >}}).
+1. From the Cluster Manager UI, update the destination database (_replica_) configuration with the [new certificate]({{< relref "/operate/rs/7.4/databases/import-export/replica-of/create#encrypt-replica-database-traffic" >}}).
 
 {{<note>}}
 - Perform step 2 as quickly as possible after performing step 1.  Connections using the previous certificate are rejected after applying the new certificate.  Until both steps are performed, recovery of the database sync cannot be established.
@@ -115,7 +115,7 @@ To update proxy certificate on clusters running Active-Active databases:
 
 1. Use the Cluster Manager UI, `rladmin`, or the REST API to update proxy certificates on a single cluster, multiple clusters, or all participating clusters.
 
-1. Use the [`crdb-cli`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli" >}}) utility to update Active-Active database configuration from the command line. Run the following command once for each Active-Active database residing on the modified clusters:
+1. Use the [`crdb-cli`]({{< relref "/operate/rs/7.4/references/cli-utilities/crdb-cli" >}}) utility to update Active-Active database configuration from the command line. Run the following command once for each Active-Active database residing on the modified clusters:
 
     ```sh
     crdb-cli crdb update --crdb-guid <CRDB-GUID> --force
@@ -132,7 +132,7 @@ To update your syncer certificate on clusters running Active-Active databases, f
 
 1. Update your syncer certificate on one or more of the participating clusters using the Cluster Manager UI, `rladmin`, or the REST API. You can update a single cluster, multiple clusters, or all participating clusters.
 
-1. Update the Active-Active database configuration from the command line with the [`crdb-cli`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli" >}}) utility. Run this command once for each Active-Active database that resides on the modified clusters:
+1. Update the Active-Active database configuration from the command line with the [`crdb-cli`]({{< relref "/operate/rs/7.4/references/cli-utilities/crdb-cli" >}}) utility. Run this command once for each Active-Active database that resides on the modified clusters:
 
     ```sh
     crdb-cli crdb update --crdb-guid <CRDB-GUID> --force

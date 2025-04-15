@@ -11,11 +11,11 @@ linkTitle: Create
 weight: 25
 url: '/operate/rs/7.4/databases/active-active/create/'
 ---
-[Active-Active geo-replicated databases]({{< relref "/operate/rs/databases/active-active" >}}) (formerly known as CRDBs) give applications write access
+[Active-Active geo-replicated databases]({{< relref "/operate/rs/7.4/databases/active-active" >}}) (formerly known as CRDBs) give applications write access
 to replicas of the dataset in different geographical locations.
 
 The participating Redis Enterprise Software clusters that host the instances can be distributed in different geographic locations.
-Every instance of an Active-Active database can receive write operations, and all operations are [synchronized]({{< relref "/operate/rs/databases/active-active/develop#example-of-synchronization" >}}) to all instances without conflict.
+Every instance of an Active-Active database can receive write operations, and all operations are [synchronized]({{< relref "/operate/rs/7.4/databases/active-active/develop#example-of-synchronization" >}}) to all instances without conflict.
 
 ## Steps to create an Active-Active database
 
@@ -30,7 +30,7 @@ Every instance of an Active-Active database can receive write operations, and al
 
 - Two or more machines with the same version of Redis Enterprise Software installed
 - Network connectivity and cluster FQDN name resolution between all participating clusters
-- [Network time service]({{< relref "/operate/rs/databases/active-active#network-time-service-ntp-or-chrony" >}}) listener (ntpd) configured and running on each node in all clusters
+- [Network time service]({{< relref "/operate/rs/7.4/databases/active-active#network-time-service-ntp-or-chrony" >}}) listener (ntpd) configured and running on each node in all clusters
 
 ## Create an Active-Active database
 
@@ -88,14 +88,14 @@ Every instance of an Active-Active database can receive write operations, and al
         {{<image filename="images/rs/screenshots/databases/active-active-databases/create-db-add-participating-clusters.png" alt="Add cluster panel.">}}
 
         {{<note>}}
-If an Active-Active database [runs on flash memory]({{<relref "/operate/rs/databases/auto-tiering">}}), you cannot add participating clusters that run on RAM only.
+If an Active-Active database [runs on flash memory]({{<relref "/operate/rs/7.4/databases/auto-tiering">}}), you cannot add participating clusters that run on RAM only.
         {{</note>}}
 
     1. Click **Join cluster** to add the cluster to the list of participating clusters. 
 
 1. Enter a **Database name**.
 
-1. If your cluster supports [Auto Tiering]({{< relref "/operate/rs/databases/auto-tiering/" >}}), in **Runs on** you can select **Flash** so that your database uses Flash memory. We recommend that you use AOF every 1 sec for the best performance during the initial Active-Active database sync of a new replica.
+1. If your cluster supports [Auto Tiering]({{< relref "/operate/rs/7.4/databases/auto-tiering/" >}}), in **Runs on** you can select **Flash** so that your database uses Flash memory. We recommend that you use AOF every 1 sec for the best performance during the initial Active-Active database sync of a new replica.
 
 1. To configure additional database settings, expand each relevant section to make changes.
 
@@ -120,11 +120,11 @@ If an Active-Active database [runs on flash memory]({{<relref "/operate/rs/datab
 - **Port** - You can define the port number that clients use to connect to the database. Otherwise, a port is randomly selected.
 
     {{< note >}}
-You cannot change the [port number]({{< relref "/operate/rs/networking/port-configurations.md" >}})
+You cannot change the [port number]({{< relref "/operate/rs/7.4/networking/port-configurations.md" >}})
 after the database is created.
     {{< /note >}}
 
-- **Memory limit** - [Database memory limits]({{< relref "/operate/rs/databases/memory-performance/memory-limit.md" >}}) include all database replicas and shards, including replica shards in database replication and database shards in database clustering.
+- **Memory limit** - [Database memory limits]({{< relref "/operate/rs/7.4/databases/memory-performance/memory-limit.md" >}}) include all database replicas and shards, including replica shards in database replication and database shards in database clustering.
 
     If the total size of the database in the cluster reaches the memory limit, the data eviction policy for the database is enforced.
 
@@ -157,17 +157,17 @@ After you create the Active-Active database, you can set the TLS mode to **Requi
 
 ### High availability & durability
 
-- [**Replication**]({{< relref "/operate/rs/databases/durability-ha/replication" >}}) - We recommend that all Active-Active database use replication for best intercluster synchronization performance.
+- [**Replication**]({{< relref "/operate/rs/7.4/databases/durability-ha/replication" >}}) - We recommend that all Active-Active database use replication for best intercluster synchronization performance.
     
     When replication is enabled, every Active-Active database master shard is replicated to a corresponding replica shard. The replica shards are then used to synchronize data between the instances, and the master shards are dedicated to handling client requests.
     
-    We also recommend that you enable [replica HA]({{< relref "/operate/rs/databases/configure/replica-ha" >}}) to ensure that the replica shards are highly-available for this synchronization.
+    We also recommend that you enable [replica HA]({{< relref "/operate/rs/7.4/databases/configure/replica-ha" >}}) to ensure that the replica shards are highly-available for this synchronization.
 
-- [**Data persistence**]({{< relref "/operate/rs/databases/configure/database-persistence.md" >}}) - To protect against loss of data stored in RAM, you can enable data persistence to store a copy of the data on disk.
+- [**Data persistence**]({{< relref "/operate/rs/7.4/databases/configure/database-persistence.md" >}}) - To protect against loss of data stored in RAM, you can enable data persistence to store a copy of the data on disk.
         
     Active-Active databases support append-only file (AOF) persistence only. Snapshot persistence is not supported for Active-Active databases.
 
-- **Eviction policy** - The default eviction policy for Active-Active databases is `noeviction`. Redis Enterprise version 6.0.20 and later support all eviction policies for Active-Active databases, unless [Auto Tiering]({{< relref "/operate/rs/databases/auto-tiering" >}}) is enabled.
+- **Eviction policy** - The default eviction policy for Active-Active databases is `noeviction`. Redis Enterprise version 6.0.20 and later support all eviction policies for Active-Active databases, unless [Auto Tiering]({{< relref "/operate/rs/7.4/databases/auto-tiering" >}}) is enabled.
 
 ### Clustering
 
@@ -175,18 +175,18 @@ After you create the Active-Active database, you can set the TLS mode to **Requi
 
     - Make sure the Database clustering is enabled and select the number of shards
         that you want to have in the database. When database clustering is enabled,
-        databases are subject to limitations on [Multi-key commands]({{< relref "/operate/rs/databases/durability-ha/clustering.md" >}}).
+        databases are subject to limitations on [Multi-key commands]({{< relref "/operate/rs/7.4/databases/durability-ha/clustering.md" >}}).
         You can increase the number of shards in the database at any time.
         
     - Clear the **Database clustering** option to use only one shard so that you
-        can use [Multi-key commands]({{< relref "/operate/rs/databases/durability-ha/clustering.md" >}})
+        can use [Multi-key commands]({{< relref "/operate/rs/7.4/databases/durability-ha/clustering.md" >}})
         without the limitations.
 
     {{<note>}}
 You cannot enable or turn off database clustering after the Active-Active database is created.
     {{</note>}}
 
-- [**OSS Cluster API**]({{< relref "/operate/rs/databases/configure/oss-cluster-api.md" >}}) - {{< embed-md "oss-cluster-api-intro.md"  >}}
+- [**OSS Cluster API**]({{< relref "/operate/rs/7.4/databases/configure/oss-cluster-api.md" >}}) - {{< embed-md "oss-cluster-api-intro.md"  >}}
 
 ### Access control
 
@@ -198,7 +198,7 @@ You cannot enable or turn off database clustering after the Active-Active databa
 
     Creating a database without ACLs enables a *default* user with full access to the database. You can secure default user access by requiring a password.
 
-- **Access Control List** - You can specify the [user roles]({{< relref "/operate/rs/security/access-control/create-db-roles" >}}) that have access to the database and the [Redis ACLs]({{< relref "/operate/rs/security/access-control/redis-acl-overview" >}}) that apply to those connections.
+- **Access Control List** - You can specify the [user roles]({{< relref "/operate/rs/7.4/security/access-control/create-db-roles" >}}) that have access to the database and the [Redis ACLs]({{< relref "/operate/rs/7.4/security/access-control/redis-acl-overview" >}}) that apply to those connections.
 
     You can only configure access control after the Active-Active database is created. In each participating cluster, add ACLs after database creation.
 
@@ -206,19 +206,19 @@ You cannot enable or turn off database clustering after the Active-Active databa
 
     1. In **Security > Access Control > Access Control List**, select **+ Add ACL**.
 
-    1. Select a [role]({{< relref "/operate/rs/security/access-control/create-db-roles" >}}) to grant database access.
+    1. Select a [role]({{< relref "/operate/rs/7.4/security/access-control/create-db-roles" >}}) to grant database access.
 
-    1. Associate a [Redis ACL]({{< relref "/operate/rs/security/access-control/create-db-roles" >}}) with the role and database.
+    1. Associate a [Redis ACL]({{< relref "/operate/rs/7.4/security/access-control/create-db-roles" >}}) with the role and database.
 
     1. Select the check mark to add the ACL.
 
 ### Causal consistency
 
-[**Causal consistency**]({{< relref "/operate/rs/databases/active-active/causal-consistency" >}}) in an Active-Active database guarantees that the order of operations on a specific key is maintained across all instances of an Active-Active database.
+[**Causal consistency**]({{< relref "/operate/rs/7.4/databases/active-active/causal-consistency" >}}) in an Active-Active database guarantees that the order of operations on a specific key is maintained across all instances of an Active-Active database.
     
 To enable causal consistency for an existing Active-Active database, use the REST API.
 
 <!-- Also in getting-started-crdbs.md -->
 ## Test Active-Active database connections
 
-With the Redis database created, you are ready to connect to your database. See [Connect to Active-Active databases]({{< relref "/operate/rs/databases/active-active/connect.md" >}}) for tutorials and examples of multiple connection methods.
+With the Redis database created, you are ready to connect to your database. See [Connect to Active-Active databases]({{< relref "/operate/rs/7.4/databases/active-active/connect.md" >}}) for tutorials and examples of multiple connection methods.

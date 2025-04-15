@@ -18,12 +18,12 @@ Here's the list of self-signed certificates that create secure, encrypted connec
 
 | Certificate name | Description |
 |------------------|-------------|
-| `api` | Encrypts [REST API]({{< relref "/operate/rs/references/rest-api/" >}}) requests and responses. |
+| `api` | Encrypts [REST API]({{< relref "/operate/rs/7.4/references/rest-api/" >}}) requests and responses. |
 | `cm` | Secures connections to the Redis Enterprise Cluster Manager UI. |
 | `ldap_client` | Secures connections between LDAP clients and LDAP servers. |
-| `metrics_exporter` | Sends Redis Enterprise metrics to external [monitoring tools]({{< relref "/operate/rs/clusters/monitoring/" >}}) over a secure connection. |
+| `metrics_exporter` | Sends Redis Enterprise metrics to external [monitoring tools]({{< relref "/operate/rs/7.4/clusters/monitoring/" >}}) over a secure connection. |
 | `proxy` | Creates secure, encrypted connections between clients and databases. |
-| `syncer` | For [Active-Active]({{< relref "/operate/rs/databases/active-active/" >}}) or [Replica Of]({{< relref "/operate/rs/databases/import-export/replica-of/" >}}) databases, encrypts data during the synchronization of participating clusters. |
+| `syncer` | For [Active-Active]({{< relref "/operate/rs/7.4/databases/active-active/" >}}) or [Replica Of]({{< relref "/operate/rs/7.4/databases/import-export/replica-of/" >}}) databases, encrypts data during the synchronization of participating clusters. |
 
 These self-signed certificates are generated on the first node of each Redis Enterprise Software installation and are copied to all other nodes added to the cluster.
 

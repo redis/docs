@@ -84,9 +84,9 @@ To add a new credit card:
 
     {{<image filename="images/rc/billing-add-credit-card.png" width="80%" alt="Select Add Credit Card to add a new payment method" >}}
 
-3.  If you need to change the account billing address for this card, activate the **Change Address** slider and enter the new billing address.
+3.  If you need to change the account billing address, activate the **Change address** slider and enter the new billing address.
 
-    {{<image filename="images/rc/billing-update-billing-address.png" width="80%" alt="Deactivate the Use account address slider to specify a different billing address." >}}
+    {{<image filename="images/rc/billing-update-billing-address.png" width="80%" alt="Activate the Change address slider to specify a different billing address." >}}
 
     {{< note >}}
 Changing the billing address for your account will remove any payment methods associated with the old billing address. 
@@ -116,11 +116,7 @@ To edit the Redis Cloud account billing address:
 
     {{<image filename="images/rc/account-settings-change-billing-address.png" alt="The Edit account billing address screen." width="80%">}}
 
-    Select the checkbox to confirm that your previous payment methods will be removed.
-
-    {{<image filename="images/rc/account-settings-confirm-billing-address.png" alt="The Edit account billing address screen." width="80%">}}
-
-    Select **Continue** to save your new address.
+    Select **Update** to save your new address.
 
     {{< note >}}
 Changing the billing address for your account will remove any payment methods associated with the old billing address. See [Add payment method](#add-payment-method) to learn how to add a payment method back to your account.
@@ -139,6 +135,8 @@ To edit the mailing address associated with a payment method:
 3. If the mailing address is different from the billing address, deactivate the **Use billing address** slider and enter the new mailing address. 
 
     {{<image filename="images/rc/billing-change-mailing-address.png" alt="The Edit mailing address screen." width="80%">}}
+
+    Select **Update** to save your changes.
 
 ## Apply coupon
 

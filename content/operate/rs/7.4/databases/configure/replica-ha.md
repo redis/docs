@@ -12,7 +12,7 @@ weight: 50
 url: '/operate/rs/7.4/databases/configure/replica-ha/'
 ---
 
-When you enable [database replication]({{< relref "/operate/rs/databases/durability-ha/replication.md" >}}),
+When you enable [database replication]({{< relref "/operate/rs/7.4/databases/durability-ha/replication.md" >}}),
 Redis Enterprise Software creates a replica of each primary (master) shard.  The replica shard will always be 
 located on a different node than the primary shard to make your data highly available.  If the primary shard 
 fails or if the node hosting the primary shard fails, then the replica is promoted to primary.
@@ -26,7 +26,7 @@ the former replica shard which has been promoted to primary and a new replica sh
 
 An available node:
 
-1. Meets replica migration requirements, such as [rack-awareness]({{< relref "/operate/rs/clusters/configure/rack-zone-awareness.md" >}}).
+1. Meets replica migration requirements, such as [rack-awareness]({{< relref "/operate/rs/7.4/clusters/configure/rack-zone-awareness.md" >}}).
 1. Has enough available RAM to store the replica shard.
 1. Does not also contain the master shard.
 
@@ -44,7 +44,7 @@ For example:
 1. The data from the master shard is replicated to the new replica shard.
 
 {{< note >}}
-- Replica HA follows all prerequisites of replica migration, such as [rack-awareness]({{< relref "/operate/rs/clusters/configure/rack-zone-awareness.md" >}}).
+- Replica HA follows all prerequisites of replica migration, such as [rack-awareness]({{< relref "/operate/rs/7.4/clusters/configure/rack-zone-awareness.md" >}}).
 - Replica HA migrates as many shards as possible based on available DRAM in the target node. When no DRAM is available, replica HA stops migrating replica shards to that node.
 {{< /note >}}
 
@@ -77,13 +77,13 @@ The replica HA cluster policy is deprecated as of Redis Enterprise Software vers
 
 To enable or turn off replica high availability by default for the entire cluster, use one of the following methods:
 
-- [rladmin tune cluster]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-cluster" >}}): 
+- [rladmin tune cluster]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/tune#tune-cluster" >}}): 
     
     ```sh
     rladmin tune cluster slave_ha { enabled | disabled }
     ```
 
-- [Update cluster policy]({{< relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) REST API request:
+- [Update cluster policy]({{< relref "/operate/rs/7.4/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) REST API request:
 
     ```sh
     PUT /v1/cluster/policy 
@@ -151,7 +151,7 @@ database in the cluster until the cooldown period ends. The default is one hour.
 After a database is migrated with replica HA,
 it cannot go through another migration due to another node failure until the cooldown period for the database (`slave_ha_bdb_cooldown_period`) ends. The default is two hours.
 
-To configure cooldown periods, use [`rladmin tune cluster`]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-cluster" >}}):
+To configure cooldown periods, use [`rladmin tune cluster`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/tune#tune-cluster" >}}):
 
 - For the cluster:
 

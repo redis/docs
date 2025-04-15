@@ -58,9 +58,9 @@ Updates the cluster configuration.
 
 | Parameter | Type/Value | Description |
 |-----------|------------|-------------|
-| audit_address | string | TCP/IP address where a listener can capture [audit event notifications]({{< relref "/operate/rs/security/audit-events" >}}) |
-| audit_port | string | Port where a listener can capture [audit event notifications]({{< relref "/operate/rs/security/audit-events" >}}) |
-| audit_protocol | `tcp`<br/>`local` | Protocol used for [audit event notifications]({{< relref "/operate/rs/security/audit-events" >}})<br/>For production systems, only `tcp` is supported. |
+| audit_address | string | TCP/IP address where a listener can capture [audit event notifications]({{< relref "/operate/rs/7.4/security/audit-events" >}}) |
+| audit_port | string | Port where a listener can capture [audit event notifications]({{< relref "/operate/rs/7.4/security/audit-events" >}}) |
+| audit_protocol | `tcp`<br/>`local` | Protocol used for [audit event notifications]({{< relref "/operate/rs/7.4/security/audit-events" >}})<br/>For production systems, only `tcp` is supported. |
 | control_cipher_suites | list of ciphers | Cipher suites used for TLS connections to the Cluster Manager UI (specified in the format understood by the BoringSSL library)<br />(previously named `cipher_suites`) |
 | cm_port | integer | UI server listening port |
 | cm_session_timeout_minutes | integer | Timeout in minutes for the CM session

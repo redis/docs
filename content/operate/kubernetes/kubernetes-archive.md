@@ -11,7 +11,12 @@ linkTitle: Archive
 weight: 99999999999
 ---
 
-Previous versions of Redis Enterprise for Kubernetes documentation are available on the archived web site:
+The Redis Enterprise for Kubernetes documentation is versioned. You are looking at the documentation for the latest release.
+
+View the [7.4.6 docs](https://redis.io/docs/latest/operate/kubernetes/7.4.6/) for Redis Enterprise for Kubernetes versions 7.4.6-2 and 7.4.6-6.
+View the [7.8.4 docs](](https://redis.io/docs/latest/operate/kubernetes/7.8.4/)) for Redis Enterprise for Kubernetes versions 7.8.2-6, 7.8.4-8, and 7.8.4-9.
+
+Older versions of Redis Enterprise for Kubernetes documentation are available on the archived web site:
 
 - [Redis Enterprise for Kubernetes v7.4 documentation archive](https://docs.redis.com/7.4/kubernetes/) 
 

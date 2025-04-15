@@ -12,7 +12,7 @@ categories:
 description: Connect your Python application to a Redis database
 linkTitle: Connect
 title: Connect to the server
-weight: 2
+weight: 20
 ---
 
 ## Basic connection

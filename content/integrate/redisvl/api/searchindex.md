@@ -14,7 +14,7 @@ type: integration
 
 ## SearchIndex
 
-### `class SearchIndex(schema, redis_client=None, redis_url=None, connection_kwargs=None, **kwargs)`
+### `class SearchIndex(schema, redis_client=None, redis_url=None, connection_kwargs=None, validate_on_load=False, **kwargs)`
 
 A search index class for interacting with Redis as a vector database.
 
@@ -26,10 +26,14 @@ settings and field configurations.
 from redisvl.index import SearchIndex
 
 # initialize the index object with schema from file
-index = SearchIndex.from_yaml("schemas/schema.yaml", redis_url="redis://localhost:6379")
+index = SearchIndex.from_yaml(
+    "schemas/schema.yaml",
+    redis_url="redis://localhost:6379",
+    validate_on_load=True
+)
 
 # create the index
-index.create(overwrite=True)
+index.create(overwrite=True, drop=False)
 
 # data is an iterable of dictionaries
 index.load(data)
@@ -50,6 +54,8 @@ kwargs.
     connect to.
   * **connection_kwargs** (*Dict* *[* *str* *,* *Any* *]* *,* *optional*) – Redis client connection
     args.
+  * **validate_on_load** (*bool* *,* *optional*) – Whether to validate data against schema
+    when loading. Defaults to False.
 
 #### `aggregate(*args, **kwargs)`
 
@@ -63,6 +69,36 @@ to the redis-py ft().aggregate() method.
   Raw Redis aggregation results.
 * **Return type:**
   Result
+
+#### `batch_query(queries, batch_size=10)`
+
+Execute a batch of queries and process results.
+
+* **Parameters:**
+  * **queries** (*List* *[* *BaseQuery* *]*)
+  * **batch_size** (*int*)
+* **Return type:**
+  *List*[*List*[*Dict*[str, *Any*]]]
+
+#### `batch_search(queries, batch_size=10)`
+
+Perform a search against the index for multiple queries.
+
+This method takes a list of queries and optionally query params and
+returns a list of Result objects for each query. Results are
+returned in the same order as the queries.
+
+* **Parameters:**
+  * **queries** (*List* *[* *SearchParams* *]*) – The queries to search for. batch_size
+  * **(* ***int** – The number of queries to search for at a time.
+    Defaults to 10.
+  * **optional****)** – The number of queries to search for at a time.
+    Defaults to 10.
+  * **batch_size** (*int*)
+* **Returns:**
+  The search results for each query.
+* **Return type:**
+  List[Result]
 
 #### `clear()`
 
@@ -91,10 +127,6 @@ extra options specific to the Redis connection.
   * **ValueError** – If the Redis URL is not provided nor accessible
         through the REDIS_URL environment variable.
   * **ModuleNotFoundError** – If required Redis modules are not installed.
-
-```python
-index.connect(redis_url="redis://localhost:6379")
-```
 
 #### `create(overwrite=False, drop=False)`
 
@@ -206,7 +238,7 @@ index = SearchIndex.from_dict({
     "fields": [
         {"name": "doc-id", "type": "tag"}
     ]
-})
+}, redis_url="redis://localhost:6379")
 ```
 
 #### `classmethod from_existing(name, redis_client=None, redis_url=None, **kwargs)`
@@ -237,7 +269,7 @@ Create a SearchIndex from a YAML schema file.
 ```python
 from redisvl.index import SearchIndex
 
-index = SearchIndex.from_yaml("schemas/schema.yaml")
+index = SearchIndex.from_yaml("schemas/schema.yaml", redis_url="redis://localhost:6379")
 ```
 
 #### `info(name=None)`
@@ -306,27 +338,8 @@ optional preprocessing steps, and setting optional expiration
 * **Return type:**
   List[str]
 * **Raises:**
-  **ValueError** – If the length of provided keys does not match the length
-      of objects.
-
-```python
-data = [{"test": "foo"}, {"test": "bar"}]
-
-# simple case
-keys = index.load(data)
-
-# set 360 second ttl policy on data
-keys = index.load(data, ttl=360)
-
-# load data with predefined keys
-keys = index.load(data, keys=["rvl:foo", "rvl:bar"])
-
-# load data with preprocessing step
-def add_field(d):
-    d["new_field"] = 123
-    return d
-keys = index.load(data, preprocess=add_field)
-```
+  * **SchemaValidationError** – If validation fails when validate_on_load is enabled.
+  * **RedisVLError** – If there’s an error loading data to Redis.
 
 #### `paginate(query, page_size=30)`
 
@@ -365,11 +378,11 @@ considerations and the expected volume of search results.
 
 Execute a query on the index.
 
-This method takes a BaseQuery object directly, runs the search, and
+This method takes a BaseQuery or AggregationQuery object directly, and
 handles post-processing of the search.
 
 * **Parameters:**
-  **query** (*BaseQuery*) – The query to run.
+  **query** (*Union* *[* *BaseQuery* *,* *AggregateQuery* *]*) – The query to run.
 * **Returns:**
   A list of search results.
 * **Return type:**
@@ -414,15 +427,6 @@ custom-configured client is preferred instead of creating a new one.
 * **Raises:**
   **TypeError** – If the provided client is not valid.
 
-```python
-import redis
-from redisvl.index import SearchIndex
-
-client = redis.Redis.from_url("redis://localhost:6379")
-index = SearchIndex.from_yaml("schemas/schema.yaml")
-index.set_client(client)
-```
-
 #### `property client: Redis | None`
 
 The underlying redis-py client object.
@@ -450,7 +454,7 @@ hash or json.
 
 ## AsyncSearchIndex
 
-### `class AsyncSearchIndex(schema, *, redis_url=None, redis_client=None, connection_kwargs=None, **kwargs)`
+### `class AsyncSearchIndex(schema, *, redis_url=None, redis_client=None, connection_kwargs=None, validate_on_load=False, **kwargs)`
 
 A search index class for interacting with Redis as a vector database in
 async-mode.
@@ -465,11 +469,12 @@ from redisvl.index import AsyncSearchIndex
 # initialize the index object with schema from file
 index = AsyncSearchIndex.from_yaml(
     "schemas/schema.yaml",
-    redis_url="redis://localhost:6379"
+    redis_url="redis://localhost:6379",
+    validate_on_load=True
 )
 
 # create the index
-await index.create(overwrite=True)
+await index.create(overwrite=True, drop=False)
 
 # data is an iterable of dictionaries
 await index.load(data)
@@ -488,6 +493,8 @@ Initialize the RedisVL async search index with a schema.
     instantiated redis client.
   * **connection_kwargs** (*Optional* *[* *Dict* *[* *str* *,* *Any* *]* *]*) – Redis client connection
     args.
+  * **validate_on_load** (*bool* *,* *optional*) – Whether to validate data against schema
+    when loading. Defaults to False.
 
 #### `async aggregate(*args, **kwargs)`
 
@@ -501,6 +508,35 @@ to the redis-py ft().aggregate() method.
   Raw Redis aggregation results.
 * **Return type:**
   Result
+
+#### `async batch_query(queries, batch_size=10)`
+
+Asynchronously execute a batch of queries and process results.
+
+* **Parameters:**
+  * **queries** (*List* *[* *BaseQuery* *]*)
+  * **batch_size** (*int*)
+* **Return type:**
+  *List*[*List*[*Dict*[str, *Any*]]]
+
+#### `async batch_search(queries, batch_size=10)`
+
+Perform a search against the index for multiple queries.
+
+This method takes a list of queries and returns a list of Result objects
+for each query. Results are returned in the same order as the queries.
+
+* **Parameters:**
+  * **queries** (*List* *[* *SearchParams* *]*) – The queries to search for. batch_size
+  * **(* ***int** – The number of queries to search for at a time.
+    Defaults to 10.
+  * **optional****)** – The number of queries to search for at a time.
+    Defaults to 10.
+  * **batch_size** (*int*)
+* **Returns:**
+  The search results for each query.
+* **Return type:**
+  List[Result]
 
 #### `async clear()`
 
@@ -627,7 +663,7 @@ index = SearchIndex.from_dict({
     "fields": [
         {"name": "doc-id", "type": "tag"}
     ]
-})
+}, redis_url="redis://localhost:6379")
 ```
 
 #### `async classmethod* from_existing(name, redis_client=None, redis_url=None, **kwargs)`
@@ -655,7 +691,7 @@ Create a SearchIndex from a YAML schema file.
 ```python
 from redisvl.index import SearchIndex
 
-index = SearchIndex.from_yaml("schemas/schema.yaml")
+index = SearchIndex.from_yaml("schemas/schema.yaml", redis_url="redis://localhost:6379")
 ```
 
 #### `async info(name=None)`
@@ -696,10 +732,10 @@ List all search indices in Redis database.
 * **Return type:**
   List[str]
 
-#### `async load(data, id_field=None, keys=None, ttl=None, preprocess=None, concurrency=None)`
+#### `load(data, id_field=None, keys=None, ttl=None, preprocess=None, concurrency=None, batch_size=None)`
 
-Asynchronously load objects to Redis with concurrency control.
-Returns the list of keys loaded to Redis.
+Asynchronously load objects to Redis. Returns the list of keys loaded
+to Redis.
 
 RedisVL automatically handles constructing the object keys, batching,
 optional preprocessing steps, and setting optional expiration
@@ -714,18 +750,19 @@ optional preprocessing steps, and setting optional expiration
     Must match the length of objects if provided. Defaults to None.
   * **ttl** (*Optional* *[* *int* *]* *,* *optional*) – Time-to-live in seconds for each key.
     Defaults to None.
-  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – An async function to
+  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – A function to
     preprocess objects before storage. Defaults to None.
-  * **concurrency** (*Optional* *[* *int* *]* *,* *optional*) – The maximum number of
-    concurrent write operations. Defaults to class’s default
-    concurrency level.
+  * **batch_size** (*Optional* *[* *int* *]* *,* *optional*) – Number of objects to write in
+    a single Redis pipeline execution. Defaults to class’s
+    default batch size.
+  * **concurrency** (*int* *|* *None*)
 * **Returns:**
   List of keys loaded to Redis.
 * **Return type:**
   List[str]
 * **Raises:**
-  **ValueError** – If the length of provided keys does not match the
-      length of objects.
+  * **SchemaValidationError** – If validation fails when validate_on_load is enabled.
+  * **RedisVLError** – If there’s an error loading data to Redis.
 
 ```python
 data = [{"test": "foo"}, {"test": "bar"}]
@@ -740,7 +777,7 @@ keys = await index.load(data, ttl=360)
 keys = await index.load(data, keys=["rvl:foo", "rvl:bar"])
 
 # load data with preprocessing step
-async def add_field(d):
+def add_field(d):
     d["new_field"] = 123
     return d
 keys = await index.load(data, preprocess=add_field)
@@ -783,11 +820,11 @@ considerations and the expected volume of search results.
 
 Asynchronously execute a query on the index.
 
-This method takes a BaseQuery object directly, runs the search, and
-handles post-processing of the search.
+This method takes a BaseQuery or AggregationQuery object directly, runs
+the search, and handles post-processing of the search.
 
 * **Parameters:**
-  **query** (*BaseQuery*) – The query to run.
+  **query** (*Union* *[* *BaseQuery* *,* *AggregateQuery* *]*) – The query to run.
 * **Returns:**
   A list of search results.
 * **Return type:**

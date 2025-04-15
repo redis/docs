@@ -34,7 +34,7 @@ When you use the mouse to point to a smaller graph, three things appear:
 - A promotion icon pointing right
 - A summary panel showing the minimum, average, maximum, and most recent values displayed in the graph.
 
-{{<image filename="images/rc/metrics-promote-graphs.png" width="50%" alt="Promoting graphs to primary positions" >}}
+{{<image filename="images/rc/metrics-promote-graphs.png" width="300px" alt="Promoting graphs to primary positions" >}}
 
 Use the promotion icons to promote the smaller graph to one of the primary positions. The left icon promotes the smaller graph to the left position and the right icon promotes the smaller graph to the right position.
 
@@ -58,16 +58,29 @@ Several metric graphs are available:
 | [Evicted objects/sec]({{< relref "/operate/rs/references/metrics/database-operations#evicted-objectssec" >}}) | Number of objects evicted from the database per second. |
 | [Expired objects/sec]({{< relref "/operate/rs/references/metrics/database-operations#expired-objectssec" >}}) | Number of expired objects per second. An expired object is an object with expired TTL that was deleted from the database. |
 | [Hit ratio]({{< relref "/operate/rs/references/metrics/database-operations#hit-ratio" >}}) | Percent of operations on existing keys out of the total number database operations |
+| Network Ingress bytes/sec | Amount of traffic in bytes per second entering the database network |
+| Network Egress bytes/sec | Amount of traffic in bytes per second exiting the database network |
 
 For more detailed analysis, consider using [Redis Insight]({{< relref "/develop/tools/insight" >}}) or [Prometheus and Grafana]({{< relref "/integrate/prometheus-with-redis-cloud/" >}}).
 
-## Configure metric alerts
+## Configure alerts {#configure-metric-alerts}
 
 Depending on your subscription plan, you can enable alerts for several metrics for a given database.
 
-To do so, go to the **Configuration** tab of the database and then locate the **Alerts** section. For details, including a breakdown of alerts available for each subscription type, see [Alerts section]({{< relref "/operate/rc/databases/view-edit-database#alerts-section" >}}).
+To do so, go to the **Configuration** tab of the database and then locate the **Alerts** section. 
 
-Alert settings are specific to a given database.  To receive alerts for multiple databases, make sure each is configured accordingly.
+| Setting name | Description | Default Value | Accepted Range |
+|---|---|---|---|
+| **Dataset size has reached** | Sends an alert when the dataset size reaches or exceeds the defined percentage of the memory limit. (_Pro only_) | 80% | 1-100% |
+| **Total size of datasets under this plan reached** | Sends an alert when the total size of all datasets in the plan reaches or exceeds the defined percentage of the plan limit. (_Essentials only_) | 80% | 1-100% |
+| **Throughput is higher than** | Sends an alert when throughput is over the defined limit in operations per second (ops/sec). (_Paid Essentials or Pro only_) | 1000 ops/sec | 1-10000000 ops/sec |
+| **Throughput is lower than** | Sends an alert when throughput is under the defined limit in operations per second (ops/sec). (_Paid Essentials or Pro only_) | 10 ops/sec | 1-10000000 ops/sec |
+| **Latency is higher than** | Sends an alert when the latency is over the defined limit in milliseconds (msec). (_Paid Essentials or Pro only_) | 10 msec | 1-10000 msec |
+| **Number of connections** | Sends an alert when the number of connections exceeds the defined percentage of the plan limit.  (_Essentials only_) | 80% | 1-100% |
+| **Replica Of - database unable to sync with source** | Sends an alert when the target database cannot sync with the source database after the defined number of seconds. (_Pro only_) | 1 second | 0-1 seconds |
+| **Replica Of - sync lag is higher than** | Sends an alert if lag between the source and target databases exceeds the defined number of seconds. (_Pro only_) | 600 seconds | 1-86400 seconds |
+
+Alert settings are specific to each database. Make sure you've configured alerts for all desired databases.
 
 ## Change alert recipients
 

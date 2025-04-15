@@ -117,7 +117,7 @@ The following values are supported for the _\<CertName>_ parameter:
 | `proxy` | The database endpoint |
 | `syncer` | The synchronization process |
 
-You can also use the REST API.  To learn more, see [Update certificates]({{< relref "/operate/rs/security/certificates/updating-certificates#how-to-update-certificates" >}}).
+You can also use the REST API.  To learn more, see [Update certificates]({{< relref "/operate/rs/7.4/security/certificates/updating-certificates#how-to-update-certificates" >}}).
 
 ## Create CA-signed certificates
 
@@ -223,7 +223,7 @@ However you choose to create the certificates, be sure to incorporate the guidel
 
 4.  Upload the certificate to your cluster.
 
-    You can use [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/certificate" >}}) to replace the existing certificates with new certificates:
+    You can use [`rladmin`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/cluster/certificate" >}}) to replace the existing certificates with new certificates:
 
     ``` console
     $ rladmin cluster certificate set <cert-name> certificate_file \
@@ -232,5 +232,5 @@ However you choose to create the certificates, be sure to incorporate the guidel
 
     For a list of values supported by the `<cert-name>` parameter, see the [earlier table](#replace-self-signed).
 
-    You can also use the REST API.  To learn more, see [Update certificates]({{< relref "/operate/rs/security/certificates/updating-certificates#how-to-update-certificates" >}}).
+    You can also use the REST API.  To learn more, see [Update certificates]({{< relref "/operate/rs/7.4/security/certificates/updating-certificates#how-to-update-certificates" >}}).
 
