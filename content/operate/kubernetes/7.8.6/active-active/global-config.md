@@ -5,8 +5,8 @@ categories:
 - docs
 - operate
 - kubernetes
-description: The REAADB contains the field '.spec.globalConfigurations' and through
-  this the database configurations are set.
+description: The REAADB contains the field '.spec.globalConfigurations'. Use
+  this to set the database configurations.
 linkTitle: Global configuration
 weight: 50
 url: '/operate/kubernetes/7.8.6/active-active/global-config/'
