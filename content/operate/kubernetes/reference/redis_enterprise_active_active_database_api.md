@@ -135,6 +135,13 @@ RedisEnterpriseActiveActiveDatabaseSpec defines the desired state of RedisEnterp
           The desired replication endpoint's port number for users who utilize LoadBalancers for sync between AA replicas and need to provide the specific port number that the LoadBalancer listens to.<br/>
         </td>
         <td>false</td>
+      </tr><tr>
+        <td>namespace</td>
+        <td>string</td>
+        <td>
+          Namespace in which the REAADB object will be deployed to within the corresponding participating cluster. The user must ensure that the Redis Enterprise operator is configured to watch this namespace in the corresponding cluster, and the required RBAC configuration is properly set up. See https://redis.io/docs/latest/operate/kubernetes/re-clusters/multi-namespace/ for more information how to set up multiple namespaces. If no namespace is specified, then the REAADB is deployed to the REC's namespace in the corresponding cluster.<br/>
+        </td>
+        <td>false</td>
       </tr></tbody>
 </table>
 
@@ -158,6 +165,13 @@ The Active-Active database global configurations, contains the global properties
         <td>object</td>
         <td>
           Connection/ association to the Active-Active database.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specglobalconfigurationsalertsettings">alertSettings</a></td>
+        <td>object</td>
+        <td>
+          Settings for database alerts. Note - Alert settings are not supported for Active-Active database.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -396,6 +410,571 @@ Connection/ association to the Active-Active database.
         <td>true</td>
       </tr></tbody>
 </table>
+
+
+### spec.globalConfigurations.alertSettings
+<sup><sup>[↩ Parent](#specglobalconfigurations)</sup></sup>
+
+Settings for database alerts. Note - Alert settings are not supported for Active-Active database.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td><a href="#specglobalconfigurationsalertsettingsbdb_backup_delayed">bdb_backup_delayed</a></td>
+        <td>object</td>
+        <td>
+          Periodic backup has been delayed for longer than specified threshold value [minutes]<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specglobalconfigurationsalertsettingsbdb_crdt_src_high_syncer_lag">bdb_crdt_src_high_syncer_lag</a></td>
+        <td>object</td>
+        <td>
+          Active-active source - sync lag is higher than specified threshold value [seconds]<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specglobalconfigurationsalertsettingsbdb_crdt_src_syncer_connection_error">bdb_crdt_src_syncer_connection_error</a></td>
+        <td>object</td>
+        <td>
+          Active-active source - sync has connection error while trying to connect replica source<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specglobalconfigurationsalertsettingsbdb_crdt_src_syncer_general_error">bdb_crdt_src_syncer_general_error</a></td>
+        <td>object</td>
+        <td>
+          Active-active source - sync encountered in general error<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specglobalconfigurationsalertsettingsbdb_high_latency">bdb_high_latency</a></td>
+        <td>object</td>
+        <td>
+          Latency is higher than specified threshold value [micro-sec]<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specglobalconfigurationsalertsettingsbdb_high_throughput">bdb_high_throughput</a></td>
+        <td>object</td>
+        <td>
+          Throughput is higher than specified threshold value [requests / sec.]<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specglobalconfigurationsalertsettingsbdb_long_running_action">bdb_long_running_action</a></td>
+        <td>object</td>
+        <td>
+          An alert for state-machines that are running for too long<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specglobalconfigurationsalertsettingsbdb_low_throughput">bdb_low_throughput</a></td>
+        <td>object</td>
+        <td>
+          Throughput is lower than specified threshold value [requests / sec.]<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specglobalconfigurationsalertsettingsbdb_ram_dataset_overhead">bdb_ram_dataset_overhead</a></td>
+        <td>object</td>
+        <td>
+          Dataset RAM overhead of a shard has reached the threshold value [% of its RAM limit]<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specglobalconfigurationsalertsettingsbdb_ram_values">bdb_ram_values</a></td>
+        <td>object</td>
+        <td>
+          Percent of values kept in a shard's RAM is lower than [% of its key count]<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specglobalconfigurationsalertsettingsbdb_replica_src_high_syncer_lag">bdb_replica_src_high_syncer_lag</a></td>
+        <td>object</td>
+        <td>
+          Replica-of source - sync lag is higher than specified threshold value [seconds]<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specglobalconfigurationsalertsettingsbdb_replica_src_syncer_connection_error">bdb_replica_src_syncer_connection_error</a></td>
+        <td>object</td>
+        <td>
+          Replica-of source - sync has connection error while trying to connect replica source<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specglobalconfigurationsalertsettingsbdb_shard_num_ram_values">bdb_shard_num_ram_values</a></td>
+        <td>object</td>
+        <td>
+          Number of values kept in a shard's RAM is lower than [values]<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specglobalconfigurationsalertsettingsbdb_size">bdb_size</a></td>
+        <td>object</td>
+        <td>
+          Dataset size has reached the threshold value [% of the memory limit]<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.globalConfigurations.alertSettings.bdb_backup_delayed
+<sup><sup>[↩ Parent](#specglobalconfigurationsalertsettings)</sup></sup>
+
+Periodic backup has been delayed for longer than specified threshold value [minutes]
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>enabled</td>
+        <td>boolean</td>
+        <td>
+          Alert enabled or disabled<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>threshold</td>
+        <td>string</td>
+        <td>
+          Threshold for alert going on/off<br/>
+        </td>
+        <td>true</td>
+      </tr></tbody>
+</table>
+
+
+### spec.globalConfigurations.alertSettings.bdb_crdt_src_high_syncer_lag
+<sup><sup>[↩ Parent](#specglobalconfigurationsalertsettings)</sup></sup>
+
+Active-active source - sync lag is higher than specified threshold value [seconds]
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>enabled</td>
+        <td>boolean</td>
+        <td>
+          Alert enabled or disabled<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>threshold</td>
+        <td>string</td>
+        <td>
+          Threshold for alert going on/off<br/>
+        </td>
+        <td>true</td>
+      </tr></tbody>
+</table>
+
+
+### spec.globalConfigurations.alertSettings.bdb_crdt_src_syncer_connection_error
+<sup><sup>[↩ Parent](#specglobalconfigurationsalertsettings)</sup></sup>
+
+Active-active source - sync has connection error while trying to connect replica source
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>enabled</td>
+        <td>boolean</td>
+        <td>
+          Alert enabled or disabled<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>threshold</td>
+        <td>string</td>
+        <td>
+          Threshold for alert going on/off<br/>
+        </td>
+        <td>true</td>
+      </tr></tbody>
+</table>
+
+
+### spec.globalConfigurations.alertSettings.bdb_crdt_src_syncer_general_error
+<sup><sup>[↩ Parent](#specglobalconfigurationsalertsettings)</sup></sup>
+
+Active-active source - sync encountered in general error
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>enabled</td>
+        <td>boolean</td>
+        <td>
+          Alert enabled or disabled<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>threshold</td>
+        <td>string</td>
+        <td>
+          Threshold for alert going on/off<br/>
+        </td>
+        <td>true</td>
+      </tr></tbody>
+</table>
+
+
+### spec.globalConfigurations.alertSettings.bdb_high_latency
+<sup><sup>[↩ Parent](#specglobalconfigurationsalertsettings)</sup></sup>
+
+Latency is higher than specified threshold value [micro-sec]
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>enabled</td>
+        <td>boolean</td>
+        <td>
+          Alert enabled or disabled<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>threshold</td>
+        <td>string</td>
+        <td>
+          Threshold for alert going on/off<br/>
+        </td>
+        <td>true</td>
+      </tr></tbody>
+</table>
+
+
+### spec.globalConfigurations.alertSettings.bdb_high_throughput
+<sup><sup>[↩ Parent](#specglobalconfigurationsalertsettings)</sup></sup>
+
+Throughput is higher than specified threshold value [requests / sec.]
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>enabled</td>
+        <td>boolean</td>
+        <td>
+          Alert enabled or disabled<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>threshold</td>
+        <td>string</td>
+        <td>
+          Threshold for alert going on/off<br/>
+        </td>
+        <td>true</td>
+      </tr></tbody>
+</table>
+
+
+### spec.globalConfigurations.alertSettings.bdb_long_running_action
+<sup><sup>[↩ Parent](#specglobalconfigurationsalertsettings)</sup></sup>
+
+An alert for state-machines that are running for too long
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>enabled</td>
+        <td>boolean</td>
+        <td>
+          Alert enabled or disabled<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>threshold</td>
+        <td>string</td>
+        <td>
+          Threshold for alert going on/off<br/>
+        </td>
+        <td>true</td>
+      </tr></tbody>
+</table>
+
+
+### spec.globalConfigurations.alertSettings.bdb_low_throughput
+<sup><sup>[↩ Parent](#specglobalconfigurationsalertsettings)</sup></sup>
+
+Throughput is lower than specified threshold value [requests / sec.]
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>enabled</td>
+        <td>boolean</td>
+        <td>
+          Alert enabled or disabled<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>threshold</td>
+        <td>string</td>
+        <td>
+          Threshold for alert going on/off<br/>
+        </td>
+        <td>true</td>
+      </tr></tbody>
+</table>
+
+
+### spec.globalConfigurations.alertSettings.bdb_ram_dataset_overhead
+<sup><sup>[↩ Parent](#specglobalconfigurationsalertsettings)</sup></sup>
+
+Dataset RAM overhead of a shard has reached the threshold value [% of its RAM limit]
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>enabled</td>
+        <td>boolean</td>
+        <td>
+          Alert enabled or disabled<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>threshold</td>
+        <td>string</td>
+        <td>
+          Threshold for alert going on/off<br/>
+        </td>
+        <td>true</td>
+      </tr></tbody>
+</table>
+
+
+### spec.globalConfigurations.alertSettings.bdb_ram_values
+<sup><sup>[↩ Parent](#specglobalconfigurationsalertsettings)</sup></sup>
+
+Percent of values kept in a shard's RAM is lower than [% of its key count]
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>enabled</td>
+        <td>boolean</td>
+        <td>
+          Alert enabled or disabled<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>threshold</td>
+        <td>string</td>
+        <td>
+          Threshold for alert going on/off<br/>
+        </td>
+        <td>true</td>
+      </tr></tbody>
+</table>
+
+
+### spec.globalConfigurations.alertSettings.bdb_replica_src_high_syncer_lag
+<sup><sup>[↩ Parent](#specglobalconfigurationsalertsettings)</sup></sup>
+
+Replica-of source - sync lag is higher than specified threshold value [seconds]
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>enabled</td>
+        <td>boolean</td>
+        <td>
+          Alert enabled or disabled<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>threshold</td>
+        <td>string</td>
+        <td>
+          Threshold for alert going on/off<br/>
+        </td>
+        <td>true</td>
+      </tr></tbody>
+</table>
+
+
+### spec.globalConfigurations.alertSettings.bdb_replica_src_syncer_connection_error
+<sup><sup>[↩ Parent](#specglobalconfigurationsalertsettings)</sup></sup>
+
+Replica-of source - sync has connection error while trying to connect replica source
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>enabled</td>
+        <td>boolean</td>
+        <td>
+          Alert enabled or disabled<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>threshold</td>
+        <td>string</td>
+        <td>
+          Threshold for alert going on/off<br/>
+        </td>
+        <td>true</td>
+      </tr></tbody>
+</table>
+
+
+### spec.globalConfigurations.alertSettings.bdb_shard_num_ram_values
+<sup><sup>[↩ Parent](#specglobalconfigurationsalertsettings)</sup></sup>
+
+Number of values kept in a shard's RAM is lower than [values]
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>enabled</td>
+        <td>boolean</td>
+        <td>
+          Alert enabled or disabled<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>threshold</td>
+        <td>string</td>
+        <td>
+          Threshold for alert going on/off<br/>
+        </td>
+        <td>true</td>
+      </tr></tbody>
+</table>
+
+
+### spec.globalConfigurations.alertSettings.bdb_size
+<sup><sup>[↩ Parent](#specglobalconfigurationsalertsettings)</sup></sup>
+
+Dataset size has reached the threshold value [% of the memory limit]
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>enabled</td>
+        <td>boolean</td>
+        <td>
+          Alert enabled or disabled<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>threshold</td>
+        <td>string</td>
+        <td>
+          Threshold for alert going on/off<br/>
+        </td>
+        <td>true</td>
+      </tr></tbody>
+</table>
+
 
 ### spec.globalConfigurations.backup
 <sup><sup>[↩ Parent](#specglobalconfigurations)</sup></sup>
