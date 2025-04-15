@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - kubernetes
-description: The Redis Enterprise operators allows you to use Redis Enterprise for
+description: The Redis Enterprise operator allows you to use Redis Enterprise for
   Kubernetes.
 hideListLinks: false
 linkTitle: 7.8.6
