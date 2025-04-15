@@ -49,7 +49,7 @@ jobs:
             -H "X-GitHub-Api-Version: 2022-11-28" \
             -H "Authorization: Bearer ${GITHUB_TOKEN}" \
             $FILES_URL \
-              | jq -r --arg prefix $BRANCH_NAME/ '.[] | select(((.filename | test("content\/.+\\.md")) and .status != "removed")) | ($prefix + .filename)' \
+              | jq -r --arg prefix $BRANCH_NAME/ '.[] | select(((.filename | test("content/(?!.*embed).*\\.md")) and .status != "removed")) | ($prefix + .filename)' \
               | sed -E -e 's|(^[^/]+/)([^/]+/)|\1|' -e 's|^|https://redis.io/docs/staging/|' -e 's|(_?index)?\.md||' \
               | sort \
               | uniq)
@@ -62,27 +62,50 @@ jobs:
             $FILES_URL \
               | jq -r '.[] | select(.filename | test("^static/images\/.+(.png|.svg|.gif|.)")) | .filename | sub("^static/";"")')
 
+          # Get all changed embeds files
+          CHANGED_EMBED_FILES=$(curl -Ls \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+            $FILES_URL \
+              | jq -r '.[] | select(.filename | test("^content/embeds\/.+.md")) | .filename | split("/")[-1]')
+
           if [[ -n "$CHANGED_IMAGE_FILES" ]]
           then
             # For each image, work out in which README it is present
             MD_FILES_WITH_IMAGE=()
-            for CHANGED_IMAGE_FILE in $CHANGED_IMAGE_FILES; do
+            for CHANGED_IMAGE_FILE in "${CHANGED_IMAGE_FILES[@]}"; do
               MD_FILE_WITH_IMAGE=$(grep -ro "$CHANGED_IMAGE_FILE" content \
                 | sed -E -e 's|:.+||' -e "s|^content/|https://redis.io/docs/staging/$BRANCH_NAME/|" -e 's|(_?index)?\.md||' \
+                | grep -v "https://redis.io/docs/staging/$BRANCH_NAME/embeds/" \
                 | sort \
                 | uniq)
               MD_FILES_WITH_IMAGE+=($MD_FILE_WITH_IMAGE)
             done
               CHANGED_MD_FILES=$(printf "%s\n" "${CHANGED_MD_FILES}" "${MD_FILES_WITH_IMAGE[@]}" \
                 | sort \
-                | uniq \
-                | xargs \
-                | sed 's/ /<br>/g')
-          else
-            CHANGED_MD_FILES=$(printf "%s\n" "${CHANGED_MD_FILES}" \
-                | xargs \
-                | sed 's/ /<br>/g')
+                | uniq)
           fi
+
+          if [[ -n "$CHANGED_EMBED_FILES" ]]
+          then
+            # For each embed, work out in which README it is present
+            MD_FILES_WITH_EMBED=()
+            for CHANGED_EMBED_FILE in "${CHANGED_EMBED_FILES[@]}"; do
+              MD_FILE_WITH_EMBED=$(grep -ro "< embed-md \"${CHANGED_EMBED_FILE}\" >" content \
+                | sed -E -e 's|:.+||' -e "s|^content/|https://redis.io/docs/staging/$BRANCH_NAME/|" -e 's|(_?index)?\.md||' \
+                | sort \
+                | uniq)
+              MD_FILES_WITH_EMBED+=($MD_FILE_WITH_EMBED)
+            done
+              CHANGED_MD_FILES=$(printf "%s\n" "${CHANGED_MD_FILES}" "${MD_FILES_WITH_EMBED[@]}" \
+                | sort \
+                | uniq)
+          fi
+
+          CHANGED_MD_FILES=$(printf "%s\n" "${CHANGED_MD_FILES}" \
+            | xargs \
+            | sed 's/ /<br>/g')
 
           if [[ -z "$CHANGED_MD_FILES" ]]
           then
