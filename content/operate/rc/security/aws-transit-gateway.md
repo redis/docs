@@ -44,13 +44,11 @@ Consider using VPC peering and Transit Gateway in parallel for the following sit
 
 ## Prerequisites
 
-Before you can set up Transit Gateway:
+Before you can set up Transit Gateway, you need to:
 
 1. [Create a database with Redis Cloud Pro]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) from the [Redis Cloud console](https://cloud.redis.io/#/).
 
-1. [Create a transit gateway](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-transit-gateways.html#create-tgw) from the [AWS VPC console](https://console.aws.amazon.com/vpc/).
-
-1. [Share the transit gateway](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-transit-gateways.html#tgw-sharing) from the [AWS resource access manager](https://console.aws.amazon.com/ram/).
+1. [Create a transit gateway](https://docs.aws.amazon.com/vpc/latest/tgw/create-tgw.html) from the [AWS VPC console](https://console.aws.amazon.com/vpc/) in the same region as your database.
 
 {{< note >}}
 If you have a self-managed AWS account, you will need to set its IAM Instance Policy to include Transit Gateway. See [Create IAM resources using the AWS console]({{< relref "/operate/rc/cloud-integrations/aws-cloud-accounts/iam-resources/aws-console.md" >}}) (deprecated) for more information.
@@ -84,7 +82,7 @@ To use the AWS console to set up the resource share:
 
     {{<image filename="images/rc/tgw-share-transit-gateway.png" width="80%" alt="The Share Transit Gateway section." >}}
 
-1. Follow the guide to [Update a resource share](https://docs.aws.amazon.com/ram/latest/userguide/working-with-sharing-update.html) in the [AWS resource access manager](https://console.aws.amazon.com/ram/). 
+1. If you don't have a resource share for your transit gateway, follow the guide to [create a resource share](https://docs.aws.amazon.com/ram/latest/userguide/working-with-sharing-create.html) in the [AWS resource access manager](https://console.aws.amazon.com/ram/home). If you do, follow the guide to [update](https://docs.aws.amazon.com/ram/latest/userguide/working-with-sharing-update.html) the resource share to include the provided AWS account as an Allowed Principal.
 
     During the **Grant access to principals** step, select **AWS Account** in the **Select principal type** field. Enter the copied AWS account number in the **Enter an AWS Account ID** field. 
 
@@ -138,7 +136,7 @@ After you've associated the Redis AWS account with your resource share, you must
 
     Select **Add** to add another CIDR if needed.
 
-    {{<image filename="images/rc/tgw-add-additional-cidrs-button.png" width="150px" alt="The Add button for adding additional CIDRs." >}}
+    {{<image filename="images/rc/tgw-add-additional-cidrs-button.png" width="100px" alt="The Add button for adding additional CIDRs." >}}
 
     Select **Save** to save your changes.
 
