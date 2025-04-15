@@ -73,20 +73,13 @@ Use `kubectl get rec` and verify the `LICENSE STATE` is valid on your REC before
 
 You can monitor the upgrade from the **Installed Operators** page. A new Redis Enterprise Operator will appear in the list, with the status "Installing". OpenShift will delete the old operator, showing the "Cannot update" status during deletion.
 
-## Reapply the SCC
+## Security context constraints
 
+Upgrades to versions 7.22.0-6 and later run in **unprivileged mode** without any additional permissions or capabilities. If you don't specifally require additional capabilities, we recommend you maintain the default unprivileged mode, as its more secure. After upgrading, remove the existing `redis-enterprise-scc-v2` SCC and unbind it from the REC service account.
 
-If you are using OpenShift, you must manually reappply the [security context constraints (SCC)](https://docs.openshift.com/container-platform/4.8/authentication/managing-security-context-constraints.html) file ([`scc.yaml`]({{< relref "/operate/kubernetes/deployment/openshift/openshift-cli#deploy-the-operator" >}})) and bind it to your service account.
+To enable privileged mode, see [Enable privileged mode > OpenShift upgrades]({{<relref "/operate/kubernetes/security/enable-privileged-mode#openshift-upgrades">}}).
 
-```sh
-oc apply -f openshift/scc.yaml
-```
-
-```sh
-oc adm policy add-scc-to-user redis-enterprise-scc-v2 \
-  system:serviceaccount:<my-project>:<rec-name>
-```
-## Upgrade the Redis Enterprise Cluster 
+## Upgrade the Redis Enterprise cluster
 
 {{<warning>}}
 Verify your license is valid before upgrading. Invalid licenses will cause the upgrade to fail.
