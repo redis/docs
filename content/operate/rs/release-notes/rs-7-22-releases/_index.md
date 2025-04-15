@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: Diagnostic logging service. Call home client to send daily usage statistics to Redis. Revamp database API. Migration status API. Usage reports in support packages. Two-dimensional rack awareness. New version for actions API. Additional REST API enhancements.
+description: Diagnostic logging service. Call home client to send daily usage statistics to Redis. Usage reports in support packages. Revamp database API. Migration status API. Two-dimensional rack awareness. New version for actions API. Additional REST API enhancements.
 hideListLinks: true
 linkTitle: 7.22.x releases
 toc: 'true'
@@ -23,11 +23,11 @@ This version offers:
 
 - Call home client to send daily usage statistics to Redis
 
+- Usage reports in support packages
+
 - Revamp database API
 
 - Migration status API
-
-- Usage reports in support packages
 
 - Two-dimensional rack awareness
 
