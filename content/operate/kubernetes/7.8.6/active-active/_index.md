@@ -94,6 +94,6 @@ For a full list of fields and options, see the [RERC API reference]({{<relref "/
 * No support for migration from old (`crdb-cli`) Active-Active database method to new Active-Active controller.
 * No support for REAADB with participating clusters co-located within the same Kubernetes cluster, except for a single designated local participating cluster.
 
-## More info
+## More information
 
 For more general information about Active-Active, see the [Redis Enterprise Software docs]({{< relref "/operate/rs/databases/active-active/" >}}).
