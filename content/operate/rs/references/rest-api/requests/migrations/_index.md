@@ -53,7 +53,7 @@ GET /v1/migrations/1
 
 ### Response {#get-response}
 
-Returns a JSON array with all data required by the Azure migration orchestrator.
+Returns a JSON array with all data required by the migration orchestrator.
 
 #### Example response body
 
