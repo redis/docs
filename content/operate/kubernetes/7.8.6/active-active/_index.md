@@ -26,7 +26,7 @@ We recommend creating new Active-Active databases using the RedisEnterpriseActiv
 
 ### Active-Active controller method
 
-Versions 6.4.2-6 or later fully support the Active-Active controller. Some of these features were available as a preview in 6.4.2-4 and 6.4.2-5. Please upgrade to 6.4.2-6 for the full set of general availability features and bug fixes.
+Versions 6.4.2-6 or later fully support the Active-Active controller. Some of these features were available as a preview in 6.4.2-4 and 6.4.2-5. Upgrade to 6.4.2-6 for the full set of general availability features and bug fixes.
 
 This setup method includes the following steps:
 
