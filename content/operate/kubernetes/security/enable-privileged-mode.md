@@ -3,7 +3,7 @@ categories:
 - docs
 - operate
 - kubernetes
-description: Enable adding additional capabilities to the security context for the Redis Enterprise container by editing the `allowPrivilegeEscalation` field in the REC.
+description: Enable adding additional capabilities to the security context for the Redis Enterprise container by enabling `allowAutoAdjustment`.
 linkTitle: Enable privileged mode
 title: Enable privileged mode
 weight: 98
@@ -44,7 +44,7 @@ spec:
       allowAutoAdjustment: true
 ```
 
-In privileged mode, the security context should look like this:
+Allowing automatic resource limit adjustment will result in the security context looking like this:
 
 ```yaml
 securityContext:
@@ -72,7 +72,7 @@ oc delete scc/redis-enterprise-scc-v2
 oc adm policy remove-scc-from-user redis-enterprise-scc-v2 -z <service-account-name>
 ```
 
-If running in **privileged mode**, manually reapply the [security context constraints (SCC)](https://docs.openshift.com/container-platform/4.8/authentication/managing-security-context-constraints.html) file ([`scc.yaml`]({{< relref "/operate/kubernetes/deployment/openshift/openshift-cli#deploy-the-operator" >}})) and rebind it to the REC service account.
+If running in **privileged mode**, manually reapply the [security context constraints (SCC)](https://docs.openshift.com/container-platform/4.8/authentication/managing-security-context-constraints.html) file ([`scc.yaml`]({{< relref "/operate/kubernetes/deployment/openshift/openshift-cli#deploy-the-operator" >}})).
 
 ```sh
 oc apply -f openshift/scc.yaml
@@ -85,7 +85,7 @@ oc adm policy add-scc-to-user redis-enterprise-scc-v2 \
 
 ## New OpenShift installations
 
-New installations of Redis Enterprise for Kubernetes 7.22.0-6 and later automatically run in **unprivileged mode**, using a built-in `nonroot-v2-SCC` which is less permissive and more secure.
+New installations of Redis Enterprise for Kubernetes 7.22.0-6 and later automatically run in **unprivileged mode**, using a built-in `nonroot-v2` which is less permissive and more secure.
 
 To enable **privileged mode** after installation, apply and grant permissions to the `redis-enterprise-scc-v2` SCC.
 
