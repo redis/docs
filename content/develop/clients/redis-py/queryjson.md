@@ -12,7 +12,7 @@ categories:
 description: Learn how to use the Redis query engine with JSON
 linkTitle: Index and query JSON
 title: Example - Index and query JSON documents
-weight: 3
+weight: 30
 ---
 
 This example shows how to create a
@@ -20,7 +20,7 @@ This example shows how to create a
 for [JSON]({{< relref "/develop/data-types/json" >}}) data and
 run queries against the index.
 
-Make sure that you have Redis Stack and `redis-py` installed.
+Make sure that you have Redis Community Edition and `redis-py` installed.
 
 Import dependencies:
 

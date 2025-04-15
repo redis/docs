@@ -61,13 +61,14 @@ Embed a chunk of text using the Hugging Face sentence transformer.
   * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
     to a byte string. Defaults to False.
 * **Returns:**
-  Embedding.
+  Embedding as a list of floats, or as a bytes
+  object if as_buffer=True
 * **Return type:**
-  List[float]
+  Union[List[float], bytes]
 * **Raises:**
   **TypeError** – If the wrong input type is passed in for the text.
 
-#### `embed_many(texts, preprocess=None, batch_size=1000, as_buffer=False, **kwargs)`
+#### `embed_many(texts, preprocess=None, batch_size=10, as_buffer=False, **kwargs)`
 
 Asynchronously embed many chunks of texts using the Hugging Face
 sentence transformer.
@@ -81,9 +82,10 @@ sentence transformer.
   * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
     to a byte string. Defaults to False.
 * **Returns:**
-  List of embeddings.
+  List of embeddings as lists of floats,
+  or as bytes objects if as_buffer=True
 * **Return type:**
-  List[List[float]]
+  Union[List[List[float]], List[bytes]]
 * **Raises:**
   **TypeError** – If the wrong input type is passed in for the test.
 
@@ -167,13 +169,14 @@ Asynchronously embed a chunk of text using the OpenAI API.
   * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
     to a byte string. Defaults to False.
 * **Returns:**
-  Embedding.
+  Embedding as a list of floats, or as a bytes
+  object if as_buffer=True
 * **Return type:**
-  List[float]
+  Union[List[float], bytes]
 * **Raises:**
   **TypeError** – If the wrong input type is passed in for the text.
 
-#### `aembed_many(texts, preprocess=None, batch_size=1000, as_buffer=False, **kwargs)`
+#### `aembed_many(texts, preprocess=None, batch_size=10, as_buffer=False, **kwargs)`
 
 Asynchronously embed many chunks of texts using the OpenAI API.
 
@@ -186,9 +189,10 @@ Asynchronously embed many chunks of texts using the OpenAI API.
   * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
     to a byte string. Defaults to False.
 * **Returns:**
-  List of embeddings.
+  List of embeddings as lists of floats,
+  or as bytes objects if as_buffer=True
 * **Return type:**
-  List[List[float]]
+  Union[List[List[float]], List[bytes]]
 * **Raises:**
   **TypeError** – If the wrong input type is passed in for the text.
 
@@ -203,9 +207,10 @@ Embed a chunk of text using the OpenAI API.
   * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
     to a byte string. Defaults to False.
 * **Returns:**
-  Embedding.
+  Embedding as a list of floats, or as a bytes
+  object if as_buffer=True
 * **Return type:**
-  List[float]
+  Union[List[float], bytes]
 * **Raises:**
   **TypeError** – If the wrong input type is passed in for the text.
 
@@ -222,9 +227,10 @@ Embed many chunks of texts using the OpenAI API.
   * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
     to a byte string. Defaults to False.
 * **Returns:**
-  List of embeddings.
+  List of embeddings as lists of floats,
+  or as bytes objects if as_buffer=True
 * **Return type:**
-  List[List[float]]
+  Union[List[List[float]], List[bytes]]
 * **Raises:**
   **TypeError** – If the wrong input type is passed in for the text.
 
@@ -315,13 +321,14 @@ Asynchronously embed a chunk of text using the OpenAI API.
   * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
     to a byte string. Defaults to False.
 * **Returns:**
-  Embedding.
+  Embedding as a list of floats, or as a bytes
+  object if as_buffer=True
 * **Return type:**
-  List[float]
+  Union[List[float], bytes]
 * **Raises:**
   **TypeError** – If the wrong input type is passed in for the test.
 
-#### `aembed_many(texts, preprocess=None, batch_size=1000, as_buffer=False, **kwargs)`
+#### `aembed_many(texts, preprocess=None, batch_size=10, as_buffer=False, **kwargs)`
 
 Asynchronously embed many chunks of texts using the AzureOpenAI API.
 
@@ -334,9 +341,10 @@ Asynchronously embed many chunks of texts using the AzureOpenAI API.
   * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
     to a byte string. Defaults to False.
 * **Returns:**
-  List of embeddings.
+  List of embeddings as lists of floats,
+  or as bytes objects if as_buffer=True
 * **Return type:**
-  List[List[float]]
+  Union[List[List[float]], List[bytes]]
 * **Raises:**
   **TypeError** – If the wrong input type is passed in for the test.
 
@@ -351,9 +359,10 @@ Embed a chunk of text using the AzureOpenAI API.
   * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
     to a byte string. Defaults to False.
 * **Returns:**
-  Embedding.
+  Embedding as a list of floats, or as a bytes
+  object if as_buffer=True
 * **Return type:**
-  List[float]
+  Union[List[float], bytes]
 * **Raises:**
   **TypeError** – If the wrong input type is passed in for the test.
 
@@ -370,9 +379,10 @@ Embed many chunks of texts using the AzureOpenAI API.
   * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
     to a byte string. Defaults to False.
 * **Returns:**
-  List of embeddings.
+  List of embeddings as lists of floats,
+  or as bytes objects if as_buffer=True
 * **Return type:**
-  List[List[float]]
+  Union[List[List[float]], List[bytes]]
 * **Raises:**
   **TypeError** – If the wrong input type is passed in for the test.
 
@@ -448,7 +458,7 @@ Initialize the VertexAI vectorizer.
 
 #### `embed(text, preprocess=None, as_buffer=False, **kwargs)`
 
-Embed a chunk of text using the VertexAI API.
+Embed a chunk of text using the VertexAI Embeddings API.
 
 * **Parameters:**
   * **text** (*str*) – Chunk of text to embed.
@@ -457,15 +467,16 @@ Embed a chunk of text using the VertexAI API.
   * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
     to a byte string. Defaults to False.
 * **Returns:**
-  Embedding.
+  Embedding as a list of floats, or as a bytes
+  object if as_buffer=True
 * **Return type:**
-  List[float]
+  Union[List[float], bytes]
 * **Raises:**
   **TypeError** – If the wrong input type is passed in for the test.
 
 #### `embed_many(texts, preprocess=None, batch_size=10, as_buffer=False, **kwargs)`
 
-Embed many chunks of texts using the VertexAI API.
+Embed many chunks of text using the VertexAI Embeddings API.
 
 * **Parameters:**
   * **texts** (*List* *[* *str* *]*) – List of text chunks to embed.
@@ -476,9 +487,10 @@ Embed many chunks of texts using the VertexAI API.
   * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
     to a byte string. Defaults to False.
 * **Returns:**
-  List of embeddings.
+  List of embeddings as lists of floats,
+  or as bytes objects if as_buffer=True
 * **Return type:**
-  List[List[float]]
+  Union[List[List[float]], List[bytes]]
 * **Raises:**
   **TypeError** – If the wrong input type is passed in for the test.
 
@@ -546,7 +558,8 @@ Visit [https://cohere.ai/embed](https://cohere.ai/embed) to learn about embeddin
     Defaults to None.
   * **dtype** (*str*) – the default datatype to use when embedding text as byte arrays.
     Used when setting as_buffer=True in calls to embed() and embed_many().
-    Defaults to ‘float32’.
+    ‘float32’ will use Cohere’s float embeddings, ‘int8’ and ‘uint8’ will map
+    to Cohere’s corresponding embedding types. Defaults to ‘float32’.
   * **dims** (*int* *|* *None*)
 * **Raises:**
   * **ImportError** – If the cohere library is not installed.
@@ -582,9 +595,12 @@ task downstream, you should set input_type= “classification” or
   * **input_type** (*str*) – Specifies the type of input passed to the model.
     Required for embedding models v3 and higher.
 * **Returns:**
-  Embedding.
+  - If as_buffer=True: Returns a bytes object
+  - If as_buffer=False:
+    - For dtype=”float32”: Returns a list of floats
+    - For dtype=”int8” or “uint8”: Returns a list of integers
 * **Return type:**
-  List[float]
+  Union[List[float], List[int], bytes]
 * **Raises:**
   **TypeError** – In an invalid input_type is provided.
 
@@ -619,9 +635,12 @@ task downstream, you should set input_type= “classification” or
   * **input_type** (*str*) – Specifies the type of input passed to the model.
     Required for embedding models v3 and higher.
 * **Returns:**
-  List of embeddings.
+  - If as_buffer=True: Returns a list of bytes objects
+  - If as_buffer=False:
+    - For dtype=”float32”: Returns a list of lists of floats
+    - For dtype=”int8” or “uint8”: Returns a list of lists of integers
 * **Return type:**
-  List[List[float]]
+  Union[List[List[float]], List[List[int]], List[bytes]]
 * **Raises:**
   **TypeError** – In an invalid input_type is provided.
 
@@ -699,32 +718,34 @@ Initialize the AWS Bedrock Vectorizer.
 
 #### `embed(text, preprocess=None, as_buffer=False, **kwargs)`
 
-Embed a chunk of text using Amazon Bedrock.
+Embed a chunk of text using the AWS Bedrock Embeddings API.
 
 * **Parameters:**
   * **text** (*str*) – Text to embed.
   * **preprocess** (*Optional* *[* *Callable* *]*) – Optional preprocessing function.
   * **as_buffer** (*bool*) – Whether to return as byte buffer.
 * **Returns:**
-  The embedding vector.
+  Embedding as a list of floats, or as a bytes
+  object if as_buffer=True
 * **Return type:**
-  List[float]
+  Union[List[float], bytes]
 * **Raises:**
   **TypeError** – If text is not a string.
 
 #### `embed_many(texts, preprocess=None, batch_size=10, as_buffer=False, **kwargs)`
 
-Embed multiple texts using Amazon Bedrock.
+Embed many chunks of text using the AWS Bedrock Embeddings API.
 
 * **Parameters:**
   * **texts** (*List* *[* *str* *]*) – List of texts to embed.
   * **preprocess** (*Optional* *[* *Callable* *]*) – Optional preprocessing function.
-  * **batch_size** (*int*) – Size of batches for processing.
+  * **batch_size** (*int*) – Size of batches for processing. Defaults to 10.
   * **as_buffer** (*bool*) – Whether to return as byte buffers.
 * **Returns:**
-  List of embedding vectors.
+  List of embeddings as lists of floats,
+  or as bytes objects if as_buffer=True
 * **Return type:**
-  List[List[float]]
+  Union[List[List[float]], List[bytes]]
 * **Raises:**
   **TypeError** – If texts is not a list of strings.
 
@@ -788,6 +809,35 @@ Initialize the Custom vectorizer.
 * **Raises:**
   **ValueError** – if embedding validation fails.
 
+#### `async aembed(*args, **kwargs)`
+
+Asynchronously embed a chunk of text.
+
+* **Parameters:**
+  * **text** – Text to embed
+  * **preprocess** – Optional function to preprocess text
+  * **as_buffer** – If True, returns a bytes object instead of a list
+* **Returns:**
+  Embedding as a list of floats, or as a bytes
+  object if as_buffer=True
+* **Return type:**
+  Union[List[float], bytes]
+
+#### `async aembed_many(*args, **kwargs)`
+
+Asynchronously embed multiple chunks of text.
+
+* **Parameters:**
+  * **texts** – List of texts to embed
+  * **preprocess** – Optional function to preprocess text
+  * **batch_size** – Number of texts to process in each batch
+  * **as_buffer** – If True, returns each embedding as a bytes object
+* **Returns:**
+  List of embeddings as lists of floats,
+  or as bytes objects if as_buffer=True
+* **Return type:**
+  Union[List[List[float]], List[bytes]]
+
 #### `embed(text, preprocess=None, as_buffer=False, **kwargs)`
 
 Generate an embedding for a single piece of text using your sync embed function.
@@ -799,7 +849,7 @@ Generate an embedding for a single piece of text using your sync embed function.
 * **Returns:**
   The embedding of the input text.
 * **Return type:**
-  List[float]
+  Union[List[float], bytes]
 * **Raises:**
   **TypeError** – If the input is not a string.
 
@@ -813,9 +863,9 @@ Generate embeddings for multiple pieces of text in batches using your sync embed
   * **batch_size** (*int*) – Number of texts per batch.
   * **as_buffer** (*bool*) – If True, convert each embedding to a byte buffer.
 * **Returns:**
-  A list of embeddings, where each embedding is a list of floats.
+  A list of embeddings, where each embedding is a list of floats or bytes.
 * **Return type:**
-  List[List[float]]
+  Union[List[List[float]], List[bytes]]
 * **Raises:**
   * **TypeError** – If the input is not a list of strings.
   * **NotImplementedError** – If no embed_many function was provided.
@@ -979,9 +1029,10 @@ querying the database, you should set the input_type=”query”.
   * **truncation** (*bool*) – Whether to truncate the input texts to fit within the context length.
     Check [https://docs.voyageai.com/docs/embeddings](https://docs.voyageai.com/docs/embeddings)
 * **Returns:**
-  Embedding.
+  Embedding as a list of floats, or as a bytes
+  object if as_buffer=True
 * **Return type:**
-  List[float]
+  Union[List[float], bytes]
 * **Raises:**
   **TypeError** – If an invalid input_type is provided.
 
@@ -1012,9 +1063,10 @@ querying the database, you should set the input_type=”query”.
   * **truncation** (*bool*) – Whether to truncate the input texts to fit within the context length.
     Check [https://docs.voyageai.com/docs/embeddings](https://docs.voyageai.com/docs/embeddings)
 * **Returns:**
-  List of embeddings.
+  List of embeddings as lists of floats,
+  or as bytes objects if as_buffer=True
 * **Return type:**
-  List[List[float]]
+  Union[List[List[float]], List[bytes]]
 * **Raises:**
   **TypeError** – If an invalid input_type is provided.
 
