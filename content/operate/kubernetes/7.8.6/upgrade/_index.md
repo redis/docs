@@ -9,7 +9,6 @@ description: Information about upgrading your Redis Enterprise cluster on Kubern
 hideListLinks: true
 linkTitle: Upgrade
 weight: 15
-bannerChildren: true
 url: '/operate/kubernetes/7.8.6/upgrade/'
 ---
 

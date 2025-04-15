@@ -9,7 +9,6 @@ description: Information about upgrading your Redis Enterprise cluster on Kubern
 hideListLinks: true
 linkTitle: Upgrade
 weight: 15
-bannerChildren: true
 ---
 
 The upgrade process includes updating three components:
