@@ -136,7 +136,7 @@ After you've associated the Redis AWS account with your resource share, you must
 
     Select **Add** to add another CIDR if needed.
 
-    {{<image filename="images/rc/tgw-add-additional-cidrs-button.png" width="150px" alt="The Add button for adding additional CIDRs." >}}
+    {{<image filename="images/rc/tgw-add-additional-cidrs-button.png" width="100px" alt="The Add button for adding additional CIDRs." >}}
 
     Select **Save** to save your changes.
 
