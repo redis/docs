@@ -150,7 +150,7 @@ HAproxy:
 No changes are required to the REC spec if you are using [Istio]({{< relref "/operate/kubernetes/7.8.6/networking/istio-ingress.md" >}}) in place of an ingress controller. The `activeActive` section added above creates ingress resources. The two custom resources used to configure Istio (Gateway and VirtualService) replace the need for ingress resources.
 
 {{<warning>}}
-These custom resources are not controlled by the operator and will need to be configured and maintained manually.
+These custom resources are not controlled by the operator and you will need to configure and maintain them manually.
 {{</warning>}}
 
 For each cluster, verify the VirtualService resource has two `- match:` blocks in the `tls` section. The hostname under `sniHosts:` should match your `<replication-hostname>`.
