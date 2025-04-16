@@ -14,6 +14,6 @@ url: '/operate/rs/7.4/references/upgrade-paths/'
 
 {{<embed-md "rs-upgrade-paths.md">}}
 
-For detailed upgrade instructions, see [Upgrade a Redis Enterprise Software cluster]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster">}}).
+For detailed upgrade instructions, see [Upgrade a Redis Enterprise Software cluster]({{<relref "/operate/rs/7.4/installing-upgrading/upgrading/upgrade-cluster">}}).
 
-See the [Redis Enterprise Software product lifecycle]({{<relref "/operate/rs/installing-upgrading/product-lifecycle">}}) for more information about release numbers and the end-of-life schedule.
+See the [Redis Enterprise Software product lifecycle]({{<relref "/operate/rs/7.4/installing-upgrading/product-lifecycle">}}) for more information about release numbers and the end-of-life schedule.

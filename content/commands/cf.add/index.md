@@ -1,4 +1,8 @@
 ---
+acl_categories:
+- '@cuckoo'
+- '@write'
+- '@slow'
 arguments:
 - name: key
   type: key
@@ -30,7 +34,7 @@ title: CF.ADD
 Adds an item to the cuckoo filter.
 
 Cuckoo filters can contain the same item multiple times, and consider each addition as separate.
-Use [`CF.ADDNX`]({{< baseurl >}}commands/cf.addnx/) to add an item only if it does not exist.
+Use [`CF.ADDNX`]({{< relref "commands/cf.addnx/" >}}) to add an item only if it does not exist.
 
 ## Required arguments
 

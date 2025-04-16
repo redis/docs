@@ -31,7 +31,7 @@ Details:
 - Bug fixes:
 
     - [#481](https://github.com/RedisBloom/RedisBloom/issues/481) CF crashes on expansion 0
-    - [#478](https://github.com/RedisBloom/RedisBloom/pull/478) [`BF.INFO`]({{< baseurl >}}commands/bf.info) reports an inaccurate result about the memory footprint
+    - [#478](https://github.com/RedisBloom/RedisBloom/pull/478) [`BF.INFO`]({{< relref "commands/bf.info" >}}) reports an inaccurate result about the memory footprint
 
 ## v2.2.17 (June 2022)
 
@@ -43,10 +43,10 @@ Details:
 
 - Bug fixes:
 
-    - [#451](https://github.com/RedisBloom/RedisBloom/pull/451) [`TOPK.INCRBY`]({{< baseurl >}}commands/topk.incrby): fix calculation when old fingerprint count is reduced to 0
-    - [#462](https://github.com/RedisBloom/RedisBloom/pull/462) [`CF.RESERVE`]({{< baseurl >}}commands/cf.reserve): fix potential crash on incorrect number of parameters
-    - [#434](https://github.com/RedisBloom/RedisBloom/pull/434) [`CF.INSERT`]({{< baseurl >}}commands/cf.insert): fix crash when capacity is negative
-    - [#450](https://github.com/RedisBloom/RedisBloom/pull/450) [`TOPK.INCRBY`]({{< baseurl >}}commands/topk.incrby): limit increment to 100,000 to prevent potential long freezes
+    - [#451](https://github.com/RedisBloom/RedisBloom/pull/451) [`TOPK.INCRBY`]({{< relref "commands/topk.incrby" >}}): fix calculation when old fingerprint count is reduced to 0
+    - [#462](https://github.com/RedisBloom/RedisBloom/pull/462) [`CF.RESERVE`]({{< relref "commands/cf.reserve" >}}): fix potential crash on incorrect number of parameters
+    - [#434](https://github.com/RedisBloom/RedisBloom/pull/434) [`CF.INSERT`]({{< relref "commands/cf.insert" >}}): fix crash when capacity is negative
+    - [#450](https://github.com/RedisBloom/RedisBloom/pull/450) [`TOPK.INCRBY`]({{< relref "commands/topk.incrby" >}}): limit increment to 100,000 to prevent potential long freezes
 
 ## v2.2.15 (May 2022)
 

@@ -1,4 +1,6 @@
 ---
+acl_categories:
+- '@search'
 arguments:
 - name: dict
   type: string
@@ -67,7 +69,7 @@ FT.DICTDEL returns an integer reply, the number of new terms that were deleted.
 
 ## See also
 
-[`FT.DICTADD`]({{< baseurl >}}commands/ft.dictadd/) | [`FT.DICTDUMP`]({{< baseurl >}}commands/ft.dictdump/)
+[`FT.DICTADD`]({{< relref "commands/ft.dictadd/" >}}) | [`FT.DICTDUMP`]({{< relref "commands/ft.dictdump/" >}})
 
 ## Related topics
 

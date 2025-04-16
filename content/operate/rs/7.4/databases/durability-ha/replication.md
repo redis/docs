@@ -22,13 +22,13 @@ guarantees that data is served with minimal interruption.
 You can tune your high availability configuration with:
 
 - [Rack/Zone
-Awareness]({{< relref "/operate/rs/clusters/configure/rack-zone-awareness.md" >}}) - When rack-zone awareness is used additional logic ensures that master and replica shards never share the same rack, thus ensuring availability even under loss of an entire rack.
-- [High Availability for Replica Shards]({{< relref "/operate/rs/databases/configure/replica-ha.md" >}}) - When high availability
+Awareness]({{< relref "/operate/rs/7.4/clusters/configure/rack-zone-awareness.md" >}}) - When rack-zone awareness is used additional logic ensures that master and replica shards never share the same rack, thus ensuring availability even under loss of an entire rack.
+- [High Availability for Replica Shards]({{< relref "/operate/rs/7.4/databases/configure/replica-ha.md" >}}) - When high availability
 for replica shards is used, the replica shard is automatically migrated on node failover to maintain high availability.
 
 {{< warning >}}
 Enabling replication has implications for the total database size,
-as explained in [Database memory limits]({{< relref "/operate/rs/databases/memory-performance/memory-limit.md" >}}).
+as explained in [Database memory limits]({{< relref "/operate/rs/7.4/databases/memory-performance/memory-limit.md" >}}).
 {{< /warning >}}
 
 ## Auto Tiering replication considerations
@@ -61,9 +61,9 @@ only one primary and one replica can be part of a full sync replication process.
 
 ## Database replication backlog
 
-Redis databases that use [replication for high availability]({{< relref "/operate/rs/databases/durability-ha/replication.md" >}}) maintain a replication backlog (per shard) to synchronize the primary and replica shards of a database.
+Redis databases that use [replication for high availability]({{< relref "/operate/rs/7.4/databases/durability-ha/replication.md" >}}) maintain a replication backlog (per shard) to synchronize the primary and replica shards of a database.
 By default, the replication backlog is set to one percent (1%) of the database size divided by the database number of shards and ranges between 1MB to 250MB per shard.
-Use the [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}) and the [`crdb-cli`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli" >}}) utilities to control the size of the replication backlog. You can set it to `auto` or set a specific size.  
+Use the [`rladmin`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin" >}}) and the [`crdb-cli`]({{< relref "/operate/rs/7.4/references/cli-utilities/crdb-cli" >}}) utilities to control the size of the replication backlog. You can set it to `auto` or set a specific size.  
 
 The syntax varies between regular and Active-Active databases. 
 
@@ -81,7 +81,7 @@ crdb-cli crdb update --crdb-guid <crdb_guid> --default-db-config "{\"repl_backlo
 
 In addition to the database replication backlog, Active-Active databases maintain a backlog (per shard) to synchronize the database instances between clusters.
 By default, the Active-Active replication backlog is set to one percent (1%) of the database size divided by the database number of shards, and ranges between 1MB to 250MB per shard.
-Use the [`crdb-cli`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli" >}}) utility to control the size of the CRDT replication backlog. You can set it to `auto` or set a specific size:  
+Use the [`crdb-cli`]({{< relref "/operate/rs/7.4/references/cli-utilities/crdb-cli" >}}) utility to control the size of the CRDT replication backlog. You can set it to `auto` or set a specific size:  
 
 ```text
 crdb-cli crdb update --crdb-guid <crdb_guid> --default-db-config "{\"crdt_repl_backlog_size\": <size in MB | 'auto'>}"
@@ -89,7 +89,7 @@ crdb-cli crdb update --crdb-guid <crdb_guid> --default-db-config "{\"crdt_repl_b
 
 **For Redis Software versions earlier than 6.0.20:**
 The replication backlog and the CRDT replication backlog defaults are set to 1MB and cannot be set dynamically with 'auto' mode.
-To control the size of the replication log, use [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}) to tune the local database instance in each cluster.
+To control the size of the replication log, use [`rladmin`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin" >}}) to tune the local database instance in each cluster.
 ```text
 rladmin tune db <db:id | name> repl_backlog <Backlog size in MB (or if ending with bytes, KB or GB, in the respective unit)>
 ```

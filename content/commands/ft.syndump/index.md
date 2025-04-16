@@ -1,4 +1,6 @@
 ---
+acl_categories:
+- '@search'
 arguments:
 - name: index
   type: string
@@ -66,7 +68,7 @@ FT.SYNDUMP returns an array reply, with a pair of `term` and an array of synonym
 
 ## See also
 
-[`FT.SYNUPDATE`]({{< baseurl >}}commands/ft.synupdate/) 
+[`FT.SYNUPDATE`]({{< relref "commands/ft.synupdate/" >}}) 
 
 ## Related topics
 

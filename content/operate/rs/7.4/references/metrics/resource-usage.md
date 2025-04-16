@@ -50,7 +50,7 @@ Remaining unused disk space.
 ## Memory
 ### Used memory 
 
-Total memory used by the database, including RAM, [Flash]({{< relref "/operate/rs/databases/auto-tiering" >}}) (if enabled), and [replication]({{< relref "/operate/rs/databases/durability-ha/replication" >}}) (if enabled).
+Total memory used by the database, including RAM, [Flash]({{< relref "/operate/rs/7.4/databases/auto-tiering" >}}) (if enabled), and [replication]({{< relref "/operate/rs/7.4/databases/durability-ha/replication" >}}) (if enabled).
 
 Used memory does not include:
 
@@ -62,7 +62,7 @@ Used memory does not include:
     - A database snapshot process
     - AOF rewrite process
 
-Used memory is not measured during [shard migration]({{< relref "/operate/rs/databases/configure/replica-ha" >}}).
+Used memory is not measured during [shard migration]({{< relref "/operate/rs/7.4/databases/configure/replica-ha" >}}).
 
 **Components measured**: Database and Shard
 
@@ -89,23 +89,23 @@ Percent of memory used by Redis out of the [memory limit](#memory-limit).
 
 Total incoming traffic to the database in bytes/sec.
 
-All incoming traffic is not measured during [shard migration]({{< relref "/operate/rs/databases/configure/replica-ha" >}}).
+All incoming traffic is not measured during [shard migration]({{< relref "/operate/rs/7.4/databases/configure/replica-ha" >}}).
 
 **Components measured**: Cluster, Node and Database
 
 #### Incoming traffic compressed
 
-Total incoming compressed traffic (in bytes/sec) per [Active-Active]({{< relref "/operate/rs/databases/active-active" >}}) replica database. 
+Total incoming compressed traffic (in bytes/sec) per [Active-Active]({{< relref "/operate/rs/7.4/databases/active-active" >}}) replica database. 
 
 #### Incoming traffic uncompressed
 
-Total incoming uncompressed traffic (in bytes/sec) per [Active-Active]({{< relref "/operate/rs/databases/active-active" >}}) replica database. 
+Total incoming uncompressed traffic (in bytes/sec) per [Active-Active]({{< relref "/operate/rs/7.4/databases/active-active" >}}) replica database. 
 
 ### Outgoing traffic 
 
 Total outgoing traffic from the database in bytes per second.
 
-Outgoing traffic is not measured during [shard migration]({{< relref "/operate/rs/databases/configure/replica-ha" >}}).
+Outgoing traffic is not measured during [shard migration]({{< relref "/operate/rs/7.4/databases/configure/replica-ha" >}}).
 
 **Components measured**: Cluster, Node and Database
 

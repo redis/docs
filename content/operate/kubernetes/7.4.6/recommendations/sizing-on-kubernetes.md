@@ -117,5 +117,5 @@ Then, apply the file by running:
 When adjusting compute resources, make sure the ratio of persistent volume size and the new memory size are in accordance to the [Hardware
 requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md" >}}). 
 
-Persistent volume claims can be expanded, but not reduced after creation. See [Expand PersistentVolumeClaim (PVC)]({{<relref "/operate/kubernetes/re-clusters/expand-pvc">}}) for details.
+Persistent volume claims can be expanded, but not reduced after creation. See [Expand PersistentVolumeClaim (PVC)]({{<relref "/operate/kubernetes/7.4.6/re-clusters/expand-pvc">}}) for details.
 {{< /warning >}}

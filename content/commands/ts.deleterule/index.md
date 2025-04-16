@@ -1,4 +1,8 @@
 ---
+acl_categories:
+- '@timeseries'
+- '@write'
+- '@fast'
 arguments:
 - name: sourceKey
   type: key
@@ -56,7 +60,7 @@ Returns one of these replies:
 
 ## See also
 
-[`TS.CREATERULE`]({{< baseurl >}}commands/ts.createrule/) 
+[`TS.CREATERULE`]({{< relref "commands/ts.createrule/" >}}) 
 
 ## Related topics
 

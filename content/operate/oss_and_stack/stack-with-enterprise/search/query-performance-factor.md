@@ -91,7 +91,7 @@ You can use the Cluster Manager UI to configure the query performance factor whe
 
 1. Adjust the **RediSearch** parameters to include: 
 
-    `MT_MODE MT_MODE_FULL WORKER_THREADS <NUMBER_OF_THREADS>`
+    `WORKERS <NUMBER_OF_THREADS>`
 
     See [Calculate query performance factor](#calculate-query-performance-factor) to determine the minimum CPUs required to use for `<NUMBER_OF_THREADS>`.
     

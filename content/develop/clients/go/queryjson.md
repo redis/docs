@@ -19,7 +19,7 @@ This example shows how to create a
 for [JSON]({{< relref "/develop/data-types/json" >}}) data and
 run queries against the index.
 
-Make sure that you have Redis Stack and `go-redis` installed. 
+Make sure that you have Redis Community Edition and `go-redis` installed. 
 
 Start by importing dependencies:
 
@@ -100,6 +100,13 @@ and have an `age` value in the range 30 to 40:
 Specify query options to return only the `city` field:
 
 {{< clients-example go_home_json query2 >}}
+{{< /clients-example >}}
+
+You can also use the same query with the `CountOnly` option
+enabled to get the number of documents found without
+returning the documents themselves.
+
+{{< clients-example go_home_json query2count_only >}}
 {{< /clients-example >}}
 
 Use an

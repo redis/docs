@@ -1,4 +1,8 @@
 ---
+acl_categories:
+- '@json'
+- '@write'
+- '@slow'
 arguments:
 - name: key
   type: key
@@ -163,7 +167,7 @@ redis> JSON.SET nonexistentkey $.x 5
 
 ## See also
 
-[`JSON.GET`]({{< baseurl >}}commands/json.get/) | [`JSON.MGET`]({{< baseurl >}}commands/json.mget/) 
+[`JSON.GET`]({{< relref "commands/json.get/" >}}) | [`JSON.MGET`]({{< relref "commands/json.mget/" >}}) 
 
 ## Related topics
 

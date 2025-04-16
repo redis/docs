@@ -9,9 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Quick Start Guide to Time Series
-
-  '
+description: Quick Start Guide to Time Series
 linkTitle: Quickstart
 title: Quickstart
 weight: 2
@@ -19,7 +17,7 @@ weight: 2
 
 ## Setup
 
-You can get RedisTimeSeries setup in the cloud, in a Docker container or on your own machine.
+You can get Redis Time Series setup in the cloud, in a Docker container, or on your own machine.
 
 ### Redis Cloud
 
@@ -29,7 +27,7 @@ Redis Time Series are available on all Redis Cloud managed services, including a
 
 
 ### Docker
-To quickly try out Redis Time Series, launch an instance of Redis Stack using docker:
+To quickly try out Redis Time Series, launch an instance of Redis Community Edition using docker:
 ```sh
 docker run -p 6379:6379 -it --rm redis/redis-stack-server
 ```
@@ -107,7 +105,7 @@ OK
 
 
 ## Creating a timeseries
-A new timeseries can be created with the [`TS.CREATE`]({{< baseurl >}}commands/ts.create/) command; for example, to create a timeseries named `sensor1` run the following:
+A new timeseries can be created with the [`TS.CREATE`]({{< relref "commands/ts.create/" >}}) command; for example, to create a timeseries named `sensor1` run the following:
 
 ```
 TS.CREATE sensor1
@@ -122,7 +120,7 @@ This will create a timeseries called `sensor1` and trim it to values of up to on
 
 
 ## Adding data points
-For adding new data points to a timeseries we use the [`TS.ADD`]({{< baseurl >}}commands/ts.add/) command:
+For adding new data points to a timeseries we use the [`TS.ADD`]({{< relref "commands/ts.add/" >}}) command:
 
 ```
 TS.ADD key timestamp value
@@ -141,14 +139,14 @@ To **add a datapoint with the current timestamp** you can use a `*` instead of a
 TS.ADD sensor1 * 26
 ```
 
-You can **append data points to multiple timeseries** at the same time with the [`TS.MADD`]({{< baseurl >}}commands/ts.madd/) command:
+You can **append data points to multiple timeseries** at the same time with the [`TS.MADD`]({{< relref "commands/ts.madd/" >}}) command:
 ```
 TS.MADD key timestamp value [key timestamp value ...]
 ```
 
 
 ## Deleting data points
-Data points between two timestamps (inclusive) can be deleted with the [`TS.DEL`]({{< baseurl >}}commands/ts.del/) command:
+Data points between two timestamps (inclusive) can be deleted with the [`TS.DEL`]({{< relref "commands/ts.del/" >}}) command:
 ```
 TS.DEL key fromTimestamp toTimestamp
 ```
@@ -175,7 +173,7 @@ TS.CREATE sensor1 LABELS region east
 
 
 ## Compaction
-Another useful feature of Redis Time Series is compacting data by creating a rule for compaction ([`TS.CREATERULE`]({{< baseurl >}}commands/ts.createrule/)). For example, if you have collected more than one billion data points in a day, you could aggregate the data by every minute in order to downsample it, thereby reducing the dataset size to 24 * 60 = 1,440 data points. You can choose one of the many available aggregation types in order to aggregate multiple data points from a certain minute into a single one. The currently supported aggregation types are: `avg, sum, min, max, range, count, first, last, std.p, std.s, var.p, var.s and twa`.
+Another useful feature of Redis Time Series is compacting data by creating a rule for compaction ([`TS.CREATERULE`]({{< relref "commands/ts.createrule/" >}})). For example, if you have collected more than one billion data points in a day, you could aggregate the data by every minute in order to downsample it, thereby reducing the dataset size to 24 * 60 = 1,440 data points. You can choose one of the many available aggregation types in order to aggregate multiple data points from a certain minute into a single one. The currently supported aggregation types are: `avg, sum, min, max, range, count, first, last, std.p, std.s, var.p, var.s and twa`.
 
 It's important to point out that there is no data rewriting on the original timeseries; the compaction happens in a new series, while the original one stays the same. In order to prevent the original timeseries from growing indefinitely, you can use the retention option, which will trim it down to a certain period of time.
 
@@ -207,7 +205,7 @@ TS.MRANGE - + FILTER area_id=32
 
 This query will show data from all sensors (timeseries) that have a label of `area_id` with a value of `32`. The results will be grouped by timeseries.
 
-Or we can also use the [`TS.MGET`]({{< baseurl >}}commands/ts.mget/) command to get the last sample that matches the specific filter:
+Or we can also use the [`TS.MGET`]({{< relref "commands/ts.mget/" >}}) command to get the last sample that matches the specific filter:
 
 ```
 TS.MGET FILTER area_id=32

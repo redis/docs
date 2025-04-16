@@ -16,6 +16,8 @@ For [Active-Active databases]({{< relref "/operate/rc/databases/configuration/ac
 
 1. Go to **Data Access Control > Roles** and either select `+` to create a new role or point to an existing role and select the pencil icon to edit it.
 
+    {{<image filename="images/rc/data-access-control-roles-add-or-edit.png" width="300px" alt="Add or edit a role." >}}
+
 1. In the **Associations** section of the **Edit role** or **Create new role** screen, you can select `+` to create a new association or point to an existing association and select the pencil icon to edit it.
 
 1. Select one or more Active-Active databases from the **Databases** list. Active-Active databases are marked with a globe icon.

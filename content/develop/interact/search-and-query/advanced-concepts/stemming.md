@@ -27,7 +27,7 @@ For further details see the [Snowball Stemmer website](https://snowballstem.org/
 Stemming maps different forms of the same word to a common root - "stem" - for example, the English stemmer maps *studied* ,*studies* and *study* to *studi* . So a searching for *studied* would also find documents which only have the other forms.
 
 
-In order to define which language the Stemmer should apply when building the index, you need to specify the `LANGUAGE` parameter for the entire index or for the specific field. For more details check the [FT.CREATE]({{< baseurl >}}develop/commands/ft.create) syntax.
+In order to define which language the Stemmer should apply when building the index, you need to specify the `LANGUAGE` parameter for the entire index or for the specific field. For more details check the [FT.CREATE]({{< relref "commands/ft.create" >}}) syntax.
 
 **Create a index with language definition**
 
@@ -106,7 +106,7 @@ Indexing a Chinese document is different than indexing a document in most other 
 
 Chinese tokenization is done by scanning the input text and checking every character or sequence of characters against a dictionary of predefined terms and determining the most likely match based on the surrounding terms and characters.
 
-Redis Stack makes use of the [Friso](https://github.com/lionsoul2014/friso) chinese tokenization library for this purpose. This is largely transparent to the user and often no additional configuration is required.
+Redis Community Edition makes use of the [Friso](https://github.com/lionsoul2014/friso) chinese tokenization library for this purpose. This is largely transparent to the user and often no additional configuration is required.
 
 ## Using custom dictionaries
 

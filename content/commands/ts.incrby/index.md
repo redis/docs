@@ -1,4 +1,8 @@
 ---
+acl_categories:
+- '@timeseries'
+- '@write'
+- '@slow'
 arguments:
 - name: key
   type: key
@@ -94,7 +98,7 @@ is numeric value of the addend (double).
 - When specified key does not exist, a new time series is created.  
 - You can use this command as a counter or gauge that automatically gets history as a time series.
 - If a policy for handling duplicate samples (`IGNORE`) is defined for this time series - `TS.INCRBY` operations are affected as well (sample additions/modifications can be filtered).
-- Explicitly adding samples to a compacted time series (using [`TS.ADD`]({{< baseurl >}}commands/ts.add/), [`TS.MADD`]({{< baseurl >}}commands/ts.madd/), `TS.INCRBY`, or [`TS.DECRBY`]({{< baseurl >}}commands/ts.decrby/)) may result in inconsistencies between the raw and the compacted data. The compaction process may override such samples.  
+- Explicitly adding samples to a compacted time series (using [`TS.ADD`]({{< relref "commands/ts.add/" >}}), [`TS.MADD`]({{< relref "commands/ts.madd/" >}}), `TS.INCRBY`, or [`TS.DECRBY`]({{< relref "commands/ts.decrby/" >}})) may result in inconsistencies between the raw and the compacted data. The compaction process may override such samples.  
 </note>
 
 ## Optional arguments
@@ -116,28 +120,28 @@ When not specified, the timestamp is set to the Unix time of the server's clock.
 
 is maximum retention period, compared to the maximum existing timestamp, in milliseconds.
 
-Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `RETENTION` in [`TS.CREATE`]({{< baseurl >}}commands/ts.create/).
+Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `RETENTION` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}}).
 </details>
 
 <details open><summary><code>ENCODING enc</code></summary> 
 
 specifies the series sample encoding format.
 
-Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `ENCODING` in [`TS.CREATE`]({{< baseurl >}}commands/ts.create/).
+Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `ENCODING` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}}).
 </details>
 
 <details open><summary><code>CHUNK_SIZE size</code></summary> 
 
 is memory size, in bytes, allocated for each data chunk.
 
-Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `CHUNK_SIZE` in [`TS.CREATE`]({{< baseurl >}}commands/ts.create/).
+Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `CHUNK_SIZE` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}}).
 </details>
 
 <details open><summary><code>DUPLICATE_POLICY policy</code></summary>
 
-is policy for handling insertion ([`TS.ADD`]({{< baseurl >}}commands/ts.add/) and [`TS.MADD`]({{< baseurl >}}commands/ts.madd/)) of multiple samples with identical timestamps.
+is policy for handling insertion ([`TS.ADD`]({{< relref "commands/ts.add/" >}}) and [`TS.MADD`]({{< relref "commands/ts.madd/" >}})) of multiple samples with identical timestamps.
 
-Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `DUPLICATE_POLICY` in [`TS.CREATE`]({{< baseurl >}}commands/ts.create/).
+Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `DUPLICATE_POLICY` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}}).
 </details>
 
 <details open><summary><code>IGNORE ignoreMaxTimediff ignoreMaxValDiff</code></summary> 
@@ -152,7 +156,7 @@ is the policy for handling duplicate samples. A new sample is considered a dupli
 
 where `max_timestamp` is the timestamp of the sample with the largest timestamp in the time series, and `value_at_max_timestamp` is the value at `max_timestamp`.
 
-When not specified: set to the global [IGNORE_MAX_TIME_DIFF]({{< baseurl >}}develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff) and [IGNORE_MAX_VAL_DIFF]({{< baseurl >}}develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff), which are, by default, both set to 0.
+When not specified: set to the global [IGNORE_MAX_TIME_DIFF]({{< relref "develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff" >}}) and [IGNORE_MAX_VAL_DIFF]({{< relref "develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff" >}}), which are, by default, both set to 0.
 
 These parameters are used when creating a new time series to set the per-key parameters, and are ignored when called with an existing time series (the existing per-key configuration parameters are used).
 </details>
@@ -161,7 +165,7 @@ These parameters are used when creating a new time series to set the per-key par
 
 is set of label-value pairs that represent metadata labels of the key and serve as a secondary index.
 
-Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `LABELS` in [`TS.CREATE`]({{< baseurl >}}commands/ts.create/).
+Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `LABELS` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}}).
 </details>
 
 <note><b>Notes</b>
@@ -174,7 +178,7 @@ Use it only if you are creating a new time series. It is ignored if you are addi
 
 Returns one of these replies:
 
-- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - the timestamp of the upserted sample. If the sample is ignored (See `IGNORE` in [`TS.CREATE`]({{< baseurl >}}commands/ts.create/)), the reply will be the largest timestamp in the time series.
+- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - the timestamp of the upserted sample. If the sample is ignored (See `IGNORE` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}})), the reply will be the largest timestamp in the time series.
 - [] on error (invalid arguments, wrong key type, etc.), or when `timestamp` is not equal to or higher than the maximum existing timestamp
 
 ## Examples
@@ -216,7 +220,7 @@ The timestamp is filled automatically.
 
 ## See also
 
-[`TS.DECRBY`]({{< baseurl >}}commands/ts.decrby/) | [`TS.CREATE`]({{< baseurl >}}commands/ts.create/) 
+[`TS.DECRBY`]({{< relref "commands/ts.decrby/" >}}) | [`TS.CREATE`]({{< relref "commands/ts.create/" >}}) 
 
 ## Related topics
 

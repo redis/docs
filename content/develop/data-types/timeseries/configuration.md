@@ -9,60 +9,60 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'RedisTimeSeries supports multiple module configuration parameters. All
-  of these parameters can only be set at load-time.
-
-  '
+description: Redis time series support multiple configuration parameters.
 linkTitle: Configuration
 title: Configuration Parameters
 weight: 3
 ---
+{{< note >}}
+As of Redis Community Edition 8.0, configuration parameters for the time series data structure are now set in the following ways:
+* At load time via your `redis.conf` file.
+* At run time (where applicable) using the [`CONFIG SET`]({{< relref "/commands/config-set" >}}) command.
 
-## Setting configuration parameters on module load
+Also, Redis CE 8.0 persists probabilistic configuration parameters just like any other configuration parameters (e.g., using the [`CONFIG REWRITE`]({{< relref "/commands/config-rewrite/" >}}) command).
+{{< /note >}}
 
-Setting configuration parameters at load-time is done by appending arguments after the `--loadmodule` argument when starting a server from the command line or after the `loadmodule` directive in a Redis config file. For example:
+## Time series configuration parameters
 
-In [redis.conf]({{< relref "/operate/oss_and_stack/management/config" >}}):
+| Parameter name<br />(version < 8.0) | Parameter name<br />(version &#8805; 8.0) | Run-time | Redis<br />Software | Redis<br />Cloud |
+| :------- | :------- | :------- | :------- | :------- |
+| CHUNK_SIZE_BYTES     | [ts-chunk-size-bytes](#ts-chunk-size-bytes)                   | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| COMPACTION_POLICY    | [ts-compaction-policy](#ts-compaction-policy)                 | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| DUPLICATE_POLICY     | [ts-duplicate-policy](#ts-duplicate-policy)                   | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| ENCODING             | [ts-encoding](#ts-encoding)                                   | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| IGNORE_MAX_TIME_DIFF | [ts-ignore-max-time-diff](#ts-ignore-max-time-diff-and-ts-ignore-max-val-diff) | :white_check_mark:   |||
+| IGNORE_MAX_VAL_DIFF  | [ts-ignore-max-val-diff](#ts-ignore-max-time-diff-and-ts-ignore-max-val-diff)  | :white_check_mark:   |||
+| NUM_THREADS          | [ts-num-threads](#ts-num-threads)                             | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| RETENTION_POLICY     | [ts-retention-policy](#ts-retention-policy)                   | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| OSS_GLOBAL_PASSWORD  | Deprecated in v8.0.0. Replace with the `masterauth` password. | :white_check_mark:   |||
 
-```sh
-loadmodule ./redistimeseries.so [OPT VAL]...
-```
+{{< note >}}
+Parameter names for Redis CE versions < 8.0, while deprecated, will still be supported in version 8.0.
+{{< /note >}}
 
-From the [Redis CLI]({{< relref "/develop/tools/cli" >}}), using the [MODULE LOAD]({{< relref "/commands/module-load" >}}) command:
+---
 
-```
-127.0.0.6379> MODULE LOAD redistimeseries.so [OPT VAL]...
-```
+### ts-chunk-size-bytes
 
-From the command line:
+Default initial allocation size, in bytes, for the data part of each new chunk.
+This default value is applied to each new time series upon its creation.
+Actual chunks may consume more memory.
 
-```sh
-$ redis-server --loadmodule ./redistimeseries.so [OPT VAL]...
-```
+Type: integer
 
-## RedisTimeSeries configuration parameters
+Valid range: `[48 .. 1048576]`; must be a multiple of 8
 
-The following table summarizes which configuration parameters can be set at module load-time and run-time:
+Default: `4096`
 
-| Configuration Parameter                                                                             | Load-time          | Run-time             |
-| :-------                                                                                            | :-----             | :-----------         |
-| [NUM_THREADS](#num_threads) (since RedisTimeSeries v1.6)                                            | :white_check_mark: | :white_large_square: |
-| [COMPACTION_POLICY](#compaction_policy)                                                             | :white_check_mark: | :white_large_square: |
-| [RETENTION_POLICY](#retention_policy)                                                               | :white_check_mark: | :white_large_square: |
-| [DUPLICATE_POLICY](#duplicate_policy)                                                               | :white_check_mark: | :white_large_square: |
-| [ENCODING](#encoding) (since RedisTimeSeries v1.6)                                                  | :white_check_mark: | :white_large_square: |
-| [CHUNK_SIZE_BYTES](#chunk_size_bytes)                                                               | :white_check_mark: | :white_large_square: |
-| [OSS_GLOBAL_PASSWORD](#oss_global_password) (since RedisTimeSeries v1.8.4)                          | :white_check_mark: | :white_large_square: |
-| [IGNORE_MAX_TIME_DIFF](#ignore_max_time_diff-and-ignore_max_val_diff) (since RedisTimeSeries v1.12) | :white_check_mark: | :white_large_square: |
-| [IGNORE_MAX_VAL_DIFF](#ignore_max_time_diff-and-ignore_max_val_diff) (since RedisTimeSeries v1.12)  | :white_check_mark: | :white_large_square: |
+### ts-compaction-policy
 
-### NUM_THREADS
+Default compaction rules for newly created keys with [`TS.ADD`]({{< relref "/commands/ts.add/" >}}), [`TS.INCRBY`]({{< relref "/commands/ts.incrby/" >}}), and  [`TS.DECRBY`]({{< relref "/commands/ts.decrby/" >}}).
 
-The maximal number of per-shard threads for cross-key queries when using cluster mode (TS.MRANGE, TS.MREVRANGE, TS.MGET, and TS.QUERYINDEX). The value must be equal to or greater than 1. Note that increasing this value may either increase or decrease the performance!
+Type: string
 
-#### Default
+Default: No compaction rules.
 
-`3`
+**Discussion**
 
 #### Example
 
@@ -72,28 +72,29 @@ $ redis-server --loadmodule ./redistimeseries.so NUM_THREADS 3
 
 ### COMPACTION_POLICY
 
-Default compaction rules for newly created key with [`TS.ADD`]({{< baseurl >}}commands/ts.add/), [`TS.INCRBY`]({{< baseurl >}}commands/ts.incrby/), and  [`TS.DECRBY`]({{< baseurl >}}commands/ts.decrby/).
+Default compaction rules for newly created key with [`TS.ADD`]({{< relref "commands/ts.add/" >}}), [`TS.INCRBY`]({{< relref "commands/ts.incrby/" >}}), and  [`TS.DECRBY`]({{< relref "commands/ts.decrby/" >}}).
 
-Note that `COMPACTION_POLICY` has no effect on keys created with [`TS.CREATE`]({{< baseurl >}}commands/ts.create/). To understand the motivation for this behavior, consider the following scenario: Suppose a `COMPACTION_POLICY` is defined, but then one wants to manually create an additional compaction rule (using [`TS.CREATERULE`]({{< baseurl >}}commands/ts.createrule/)) which requires first creating an empty destination key (using [`TS.CREATE`]({{< baseurl >}}commands/ts.create/)). But now there is a problem: due to the `COMPACTION_POLICY`, automatic compactions would be undesirably created for that destination key.
+Note that `COMPACTION_POLICY` has no effect on keys created with [`TS.CREATE`]({{< relref "commands/ts.create/" >}}). To understand the motivation for this behavior, consider the following scenario: Suppose a `COMPACTION_POLICY` is defined, but then one wants to manually create an additional compaction rule (using [`TS.CREATERULE`]({{< relref "commands/ts.createrule/" >}})) which requires first creating an empty destination key (using [`TS.CREATE`]({{< relref "commands/ts.create/" >}})). But now there is a problem: due to the `COMPACTION_POLICY`, automatic compactions would be undesirably created for that destination key.
 
 Each rule is separated by a semicolon (`;`), the rule consists of multiple fields that are separated by a colon (`:`):
 
 * Aggregation type: One of the following:
-  | aggregator | description                                                      |
+
+  | Aggregator | Description                                                      |
   | ---------- | ---------------------------------------------------------------- |
-  | `avg`      | arithmetic mean of all values                                    |
-  | `sum`      | sum of all values                                                |
-  | `min`      | minimum value                                                    |
-  | `max`      | maximum value                                                    |
-  | `range`    | difference between the highest and the lowest value              |
-  | `count`    | number of values                                                 |
-  | `first`    | the value with the lowest timestamp in the bucket                |
-  | `last`     | the value with the highest timestamp in the bucket               |
-  | `std.p`    | population standard deviation of the values                      |
-  | `std.s`    | sample standard deviation of the values                          |
-  | `var.p`    | population variance of the values                                |
-  | `var.s`    | sample variance of the values                                    |
-  | `twa`      | time-weighted average of all values (since RedisTimeSeries v1.8) |
+  | `avg`      | Arithmetic mean of all values                                    |
+  | `sum`      | Sum of all values                                                |
+  | `min`      | Minimum value                                                    |
+  | `max`      | Maximum value                                                    |
+  | `range`    | Difference between the highest and the lowest value              |
+  | `count`    | Number of values                                                 |
+  | `first`    | The value with the lowest timestamp in the bucket                |
+  | `last`     | The value with the highest timestamp in the bucket               |
+  | `std.p`    | Population standard deviation of the values                      |
+  | `std.s`    | Sample standard deviation of the values                          |
+  | `var.p`    | Population variance of the values                                |
+  | `var.s`    | Sample variance of the values                                    |
+  | `twa`      | Time-weighted average of all values (since v1.8)                 |
 
 * Duration of each time bucket - number and the time representation (Example for one minute: `1M`, `60s`, or `60000m`)
 
@@ -113,7 +114,7 @@ Each rule is separated by a semicolon (`;`), the rule consists of multiple field
     
   `0m`, `0s`, `0M`, `0h`, or `0d` means no expiration.
 
-* (since RedisTimeSeries v1.8):
+* (Since v1.8):
 
   Optional: Time bucket alignment - number and the time representation (Example for one minute: `1M`, `60s`, or `60000m`)
 
@@ -139,14 +140,14 @@ When a compaction policy is defined, compaction rules will be created automatica
 
    _key_agg_dur_aln_ where _key_ is the key of the source time series, _agg_ is the aggregator (in uppercase), _dur_ is the bucket duration in milliseconds, and _aln_ is the time bucket alignment in milliseconds. Example: `key_SUM_60000_1000`.
 
-Examples:
+**Examples**
 
 - `max:1M:1h` - Aggregate using `max` over one-minute windows and retain the last hour
 - `twa:1d:0m:360M` - Aggregate daily [06:00 .. 06:00) using `twa`; no expiration
 
-#### Default
+### ts-duplicate-policy
 
-No compaction rules.
+The default policy for handling insertion ([`TS.ADD`]({{< relref "/commands/ts.add/" >}}) and [`TS.MADD`]({{< relref "/commands/ts.madd/" >}})) of multiple samples with identical timestamps, with one of the following values:
 
 #### Example
 
@@ -158,7 +159,7 @@ $ redis-server --loadmodule ./redistimeseries.so COMPACTION_POLICY max:1m:1h;min
 
 Default retention period, in milliseconds, for newly created keys.
 
-Retention period is the maximum age of samples compared to highest reported timestamp, per key. Samples are expired based solely on the difference between their timestamp and the timestamps passed to subsequent [`TS.ADD`]({{< baseurl >}}commands/ts.add/), [`TS.MADD`]({{< baseurl >}}commands/ts.madd/), [`TS.INCRBY`]({{< baseurl >}}commands/ts.incrby/), and [`TS.DECRBY`]({{< baseurl >}}commands/ts.decrby/) calls.
+Retention period is the maximum age of samples compared to highest reported timestamp, per key. Samples are expired based solely on the difference between their timestamp and the timestamps passed to subsequent [`TS.ADD`]({{< relref "commands/ts.add/" >}}), [`TS.MADD`]({{< relref "commands/ts.madd/" >}}), [`TS.INCRBY`]({{< relref "commands/ts.incrby/" >}}), and [`TS.DECRBY`]({{< relref "commands/ts.decrby/" >}}) calls.
 
 The value `0` means no expiration.
 
@@ -178,105 +179,126 @@ $ redis-server --loadmodule ./redistimeseries.so RETENTION_POLICY 25920000000
 
 ### DUPLICATE_POLICY
 
-Is policy for handling insertion ([`TS.ADD`]({{< baseurl >}}commands/ts.add/) and [`TS.MADD`]({{< baseurl >}}commands/ts.madd/)) of multiple samples with identical timestamps, with one of the following values:
+Is policy for handling insertion ([`TS.ADD`]({{< relref "commands/ts.add/" >}}) and [`TS.MADD`]({{< relref "commands/ts.madd/" >}})) of multiple samples with identical timestamps, with one of the following values:
 
   | policy     | description                                                      |
   | ---------- | ---------------------------------------------------------------- |
-  | `BLOCK`    | ignore any newly reported value and reply with an error          |
-  | `FIRST`    | ignore any newly reported value                                  |
-  | `LAST`     | override with the newly reported value                           |
-  | `MIN`      | only override if the value is lower than the existing value      |
-  | `MAX`      | only override if the value is higher than the existing value     |
+  | `BLOCK`    | Ignore any newly reported value and reply with an error          |
+  | `FIRST`    | Ignore any newly reported value                                  |
+  | `LAST`     | Override with the newly reported value                           |
+  | `MIN`      | Only override if the value is lower than the existing value      |
+  | `MAX`      | Only override if the value is higher than the existing value     |
   | `SUM`      | If a previous sample exists, add the new sample to it so that the updated value is equal to (previous + new). If no previous sample exists, set the updated value equal to the new value. |
 
-#### Precedence order
+The default value is applied to each new time series upon its creation.
+
+Type: string
+
+Default: `BLOCK`
+
+**Precedence order**
+
 Since the duplication policy can be provided at different levels, the actual precedence of the used policy will be:
 
-1. [`TS.ADD`]({{< baseurl >}}commands/ts.add/)'s `ON_DUPLICATE_policy` optional argument
-2. Key-level policy (as set with [`TS.CREATE`]({{< baseurl >}}commands/ts.create/)'s and [`TS.ALTER`]({{< baseurl >}}commands/ts.alter/)'s `DUPLICATE_POLICY` optional argument)
-3. The `DUPLICATE_POLICY` module configuration parameter
-4. The default policy
+1. [`TS.ADD`]({{< relref "/commands/ts.add/" >}})'s `ON_DUPLICATE_POLICY` optional argument.
+1. Key-level policy, as set with [`TS.CREATE`]({{< relref "/commands/ts.create/" >}})'s and [`TS.ALTER`]({{< relref "/commands/ts.alter/" >}})'s `DUPLICATE_POLICY` optional argument.
+1. The `ts-duplicate-policy` configuration parameter.
+1. The default policy.
 
-#### Default
+### ts-encoding
 
-The default policy is `BLOCK`. Both new and pre-existing keys will conform to this default policy.
+Note: Before v1.6 this configuration parameter was named `CHUNK_TYPE`.
 
-#### Example
+Default chunk encoding for automatically created time series keys when [ts-compaction-policy](#ts-compaction-policy) is configured.
 
-```
-$ redis-server --loadmodule ./redistimeseries.so DUPLICATE_POLICY LAST
-```
+Type: string
 
-### ENCODING
+Valid values: `COMPRESSED`, `UNCOMPRESSED`
 
-Default chunk encoding for automatically created keys when [COMPACTION_POLICY](#COMPACTION_POLICY) is configured.
+Default: `COMPRESSED`
 
-Possible values: `COMPRESSED`, `UNCOMPRESSED`.
-
-Note: Before RedisTimeSeries 1.6 this configuration parameter was named `CHUNK_TYPE`.
-
-#### Default
-
-`COMPRESSED`
-
-#### Example
-
-```
-$ redis-server --loadmodule ./redistimeseries.so COMPACTION_POLICY max:1m:1h; ENCODING COMPRESSED
-```
-
-### CHUNK_SIZE_BYTES
-
-Default initial allocation size, in bytes, for the data part of each new chunk, for newly created time series. Actual chunks may consume more memory.
-
-#### Default
-
-4096
-
-#### Example
-
-```
-$ redis-server --loadmodule ./redistimeseries.so COMPACTION_POLICY max:1m:1h; CHUNK_SIZE_BYTES 2048
-```
-
-### OSS_GLOBAL_PASSWORD
-
-Global Redis Community Edition cluster password used for connecting to other shards.
-
-#### Default
-
-Not set
-
-#### Example
-
-```
-$ redis-server --loadmodule ./redistimeseries.so OSS_GLOBAL_PASSWORD password
-```
-
-### IGNORE_MAX_TIME_DIFF and IGNORE_MAX_VAL_DIFF
+### ts-ignore-max-time-diff and ts-ignore-max-val-diff
 
 Default values for newly created keys.
+
+Types:
+- `ts-ignore-max-time-diff`: integer
+- `ts-ignore-max-val-diff`: double
+
+Valid ranges:
+- `ts-ignore-max-time-diff`: `[0 .. 9,223,372,036,854,775,807]`
+- `ts-ignore-max-val-diff`: `[0 .. 1.7976931348623157e+308]`
+
+Defaults:
+- `ts-ignore-max-time-diff`: 0
+- `ts-ignore-max-val-diff`: 0.0
+
+**Discussion**
 
 Many sensors report data periodically. Often, the difference between the measured value and the previous measured value is negligible and related to random noise or to measurement accuracy limitations. In such situations it may be preferable not to add the new measurement to the time series.
 
 A new sample is considered a duplicate and is ignored if the following conditions are met:
 
-1. The time series is not a compaction;
-1. The time series' `DUPLICATE_POLICY` IS `LAST`;
-1. The sample is added in-order (`timestamp ≥ max_timestamp`);
-1. The difference of the current timestamp from the previous timestamp (`timestamp - max_timestamp`) is less than or equal to `IGNORE_MAX_TIME_DIFF`;
-1. The absolute value difference of the current value from the value at the previous maximum timestamp (`abs(value - value_at_max_timestamp`) is less than or equal to `IGNORE_MAX_VAL_DIFF`.
+1. The time series is not a compaction.
+1. The time series' `ts-duplicate-policy` is `LAST`.
+1. The sample is added in-order (`timestamp ≥ max_timestamp`).
+1. The difference of the current timestamp from the previous timestamp (`timestamp - max_timestamp`) is less than or equal to `ts-ignore-max-time-diff`.
+1. The absolute value difference of the current value from the value at the previous maximum timestamp (`abs(value - value_at_max_timestamp`) is less than or equal to `ts-ignore-max-val-diff`.
 
 where `max_timestamp` is the timestamp of the sample with the largest timestamp in the time series, and `value_at_max_timestamp` is the value at `max_timestamp`.
 
-#### Defaults
+### ts-num-threads
 
-`IGNORE_MAX_TIME_DIFF`: 0
+The maximum number of per-shard threads for cross-key queries when using cluster mode ([`TS.MRANGE`]({{< relref "/commands/ts.mrange/" >}}), [`TS.MREVRANGE`]({{< relref "/commands/ts.mrevrange/" >}}), [`TS.MGET`]({{< relref "/commands/ts.mget/" >}}), and [`TS.QUERYINDEX`]({{< relref "/commands/ts.queryindex/" >}})). The value must be equal to or greater than `1`. Note that increasing this value may either increase or decrease the performance!
 
-`IGNORE_MAX_VAL_DIFF`: 0.0
+Type: integer
 
-#### Example
+Valid range: `[1..16]`
+
+Redis CE default: `3`
+
+Redis Software default: Set by plan, and automatically updates when you change your plan.
+
+Redis Cloud defaults:
+- Flexible & Annual: Set by plan
+- Free & Fixed: `1`
+
+### ts-retention-policy
+
+Default retention period, in milliseconds, for newly created keys.
+
+Type: integer
+
+Valid range: `[0 .. 9,223,372,036,854,775,807]`
+
+Default: `0`
+
+Retention period is the maximum age of samples compared to highest reported timestamp, per key. Samples are expired based solely on the difference between their timestamps and the timestamps passed to subsequent [`TS.ADD`]({{< relref "/commands/ts.add/" >}}), [`TS.MADD`]({{< relref "/commands/ts.madd/" >}}), [`TS.INCRBY`]({{< relref "/commands/ts.incrby/" >}}), and [`TS.DECRBY`]({{< relref "/commands/ts.decrby/" >}}) calls.
+
+The value `0` means no expiration.
+
+When both `ts-compaction-policy` and `ts-retention-policy` are specified, the retention of newly created compactions is according to the retention time specified in `ts-compaction-policy`.
+
+## Setting configuration parameters on module load (deprecated)
+
+These methods are deprecated beginning with Redis CE v8.0.0.
+
+Setting configuration parameters at load-time is done by appending arguments after the `--loadmodule` argument when starting a server from the command line or after the `loadmodule` directive in a Redis config file. For example:
+
+In [redis.conf]({{< relref "/operate/oss_and_stack/management/config" >}}):
+
+```sh
+loadmodule ./redistimeseries.so [OPT VAL]...
+```
+
+From the [Redis CLI]({{< relref "/develop/tools/cli" >}}), using the [MODULE LOAD]({{< relref "/commands/module-load" >}}) command:
 
 ```
-$ redis-server --loadmodule ./redistimeseries.so IGNORE_MAX_TIME_DIFF 1 IGNORE_MAX_VALUE_DIFF 0.1
+127.0.0.6379> MODULE LOAD redistimeseries.so [OPT VAL]...
+```
+
+From the command line:
+
+```sh
+$ redis-server --loadmodule ./redistimeseries.so [OPT VAL]...
 ```

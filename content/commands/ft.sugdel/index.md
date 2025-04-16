@@ -1,4 +1,7 @@
 ---
+acl_categories:
+- '@search'
+- '@write'
 arguments:
 - name: key
   type: string
@@ -68,7 +71,7 @@ FT.SUGDEL returns an integer reply, 1 if the string was found and deleted, 0 oth
 
 ## See also
 
-[`FT.SUGGET`]({{< baseurl >}}commands/ft.sugget/) | [`FT.SUGADD`]({{< baseurl >}}commands/ft.sugadd/) | [`FT.SUGLEN`]({{< baseurl >}}commands/ft.suglen/) 
+[`FT.SUGGET`]({{< relref "commands/ft.sugget/" >}}) | [`FT.SUGADD`]({{< relref "commands/ft.sugadd/" >}}) | [`FT.SUGLEN`]({{< relref "commands/ft.suglen/" >}}) 
 
 ## Related topics
 
