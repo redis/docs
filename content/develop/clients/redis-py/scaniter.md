@@ -12,7 +12,7 @@ categories:
 description: Iterate through results from `SCAN`, `HSCAN`, etc.
 linkTitle: Scan iteration
 title: Scan iteration
-weight: 5
+weight: 60
 ---
 
 Redis has a small family of related commands that retrieve

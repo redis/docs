@@ -73,6 +73,18 @@ rules:
       - list
       - watch
   - apiGroups:
+      - batch
+    resources:
+      - cronjobs
+    verbs:
+      - create
+      - delete
+      - get
+      - patch
+      - update
+      - list
+      - watch
+  - apiGroups:
       - policy
     resources:
       - poddisruptionbudgets
@@ -169,7 +181,7 @@ rules:
   - apiGroups:
       - security.openshift.io
     resourceNames:
-      - nonroot
+      - nonroot-v2
     resources:
       - securitycontextconstraints
     verbs:

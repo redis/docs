@@ -645,18 +645,18 @@ from redisvl.index import SearchIndex
 index = SearchIndex.from_yaml("path/to/index.yaml")
 
 query = HybridQuery(
-text="example text",
-text_field_name="text_field",
-vector=[0.1, 0.2, 0.3],
-vector_field_name="vector_field",
-text_scorer="BM25STD",
-filter_expression=None,
-alpha=0.7,
-dtype="float32",
-num_results=10,
-return_fields=["field1", "field2"],
-stopwords="english",
-dialect=2,
+    text="example text",
+    text_field_name="text_field",
+    vector=[0.1, 0.2, 0.3],
+    vector_field_name="vector_field",
+    text_scorer="BM25STD",
+    filter_expression=None,
+    alpha=0.7,
+    dtype="float32",
+    num_results=10,
+    return_fields=["field1", "field2"],
+    stopwords="english",
+    dialect=2,
 )
 
 results = index.query(query)

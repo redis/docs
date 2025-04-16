@@ -22,7 +22,7 @@ Opening your database with Redis Insight in your browser is currently available 
 
 To open your database with Redis Insight on Redis Cloud, select **Open with Redis Insight** on the [database screen]({{< relref "/operate/rc/databases/view-edit-database" >}}).
 
-{{<image filename="images/rc/rc-ri-open.png" alt="Open with Redis Insight" width=200px >}}
+{{<image filename="images/rc/rc-ri-open.png" alt="Open with Redis Insight" width=400px >}}
 
 Redis Insight will open in a new tab. 
 

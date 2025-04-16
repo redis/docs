@@ -19,7 +19,7 @@ Before running this notebook, be sure to
 !rvl version
 ```
 
-    16:19:10 [RedisVL] INFO   RedisVL version 0.4.0
+    09:58:03 [RedisVL] INFO   RedisVL version 0.5.2
 
 
 ## Commands
