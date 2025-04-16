@@ -70,7 +70,7 @@ scripts/rdi-secret.sh set <SECRET-KEY> <SECRET-VALUE>
 
 The script offers functionality to retrieve a specific secret, as well as the capability to list all available secrets within the system:
 ```bash
-# Get specific secret
+# Set specific secret
 scripts/rdi-secret.sh set <SECRET-KEY>
 
 # List all secrets
