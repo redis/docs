@@ -4,15 +4,15 @@ categories:
 - operate
 - stack
 - oss
-description: Upgrade a standalone instance of Redis Community Edition or Redis Stack to Redis 8
+description: Upgrade a standalone instance of Redis Open Source or Redis Stack to Redis 8
 linkTitle: Standalone (single node)
 title: Upgrade a standalone Redis instance to Redis 8
 weight: 20
 ---
 {{< note >}}
 The supported upgrade paths are:
-- Redis Community Edition 7.x (with or without modules) to Redis Community Edition 8
-- Redis Stack 7.2 or 7.4 to Redis Community Edition 8
+- Redis Open Source 7.x (with or without modules) to Redis 8 in Redis Open Source
+- Redis Stack 7.2 or 7.4 to Redis 8 in Redis Open Source
 {{< /note >}}
 
 {{< note >}}
