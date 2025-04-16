@@ -47,7 +47,7 @@ Make a copy of the files contained in each of those directories before proceedin
 
 Upgrade each node one at a time, starting with the replicas, using these steps:
 
-1. Stop the current version of Redis CE or Redis Stack server.
+1. Stop the current version of Redis Open Source or Redis Stack server.
 1. Follow the installation steps that correspond to your [Redis distribution]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) to install Redis 8.
 1. Start Redis 8 if it didn't start automatically.
 

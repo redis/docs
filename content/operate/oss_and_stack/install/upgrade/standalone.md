@@ -48,7 +48,7 @@ cp -r /path/to/redis-data-dir/ /path/to/backup/
 
 Follow these steps to upgrade Redis.
 
-1. Stop the current version of Redis CE or Redis Stack server.
+1. Stop the current version of Redis Open Source or Redis Stack server.
 1. Follow the installation steps that correspond to your [Redis distribution]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) to install Redis 8.
 1. Start Redis 8 if it didn't start automatically.
 

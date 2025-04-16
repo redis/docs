@@ -5,7 +5,7 @@ categories:
 - stack
 - oss
 description: Upgrade Redis Open Source
-linkTitle: Upgrade Redis CE
+linkTitle: Upgrade Redis Open Source
 stack: true
 title: Upgrade Redis Open Source
 weight: 10
