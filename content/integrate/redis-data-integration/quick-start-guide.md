@@ -26,7 +26,7 @@ In this tutorial you will learn how to install RDI and set up a pipeline to inge
 The following diagram shows the structure of the pipeline we will create (see
 the [architecture overview]({{< relref "/integrate/redis-data-integration/architecture#overview" >}}) to learn how the pipeline works):
 
-{{< image filename="images/rdi/ingest/ingest-qsg.png" >}}
+{{< image filename="images/rdi/ingest/ingest-qsg.webp" >}}
 
 Here, the RDI *collector* tracks changes in PostgreSQL and writes them to streams in the 
 RDI database in Redis. The *stream processor* then reads data records from the RDI
