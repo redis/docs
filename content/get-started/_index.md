@@ -5,7 +5,7 @@ linkTitle: Community Edition
 title: Community Edition
 type: develop
 ---
-Redis is an [in-memory data store]({{< relref "/develop/get-started/data-store" >}}) used by millions of developers as a cache, [vector database]({{< relref "/develop/get-started/vector-database" >}}), [document database]({{< relref "/develop/get-started/document-database" >}}), [streaming engine]({{< relref "/develop/data-types/streams" >}}), and message broker. Redis has built-in replication and different levels of [on-disk persistence]({{< relref "/operate/oss_and_stack/management/persistence" >}}). It supports complex [data types]({{< relref "/develop/data-types/" >}}) (for example, strings, hashes, lists, sets, sorted sets, and JSON), with atomic operations defined on those data types.
+Redis is an [in-memory data store]({{< relref "/develop/get-started/data-store" >}}) used by millions of developers as a cache, [vector database]({{< relref "/develop/ai/vector-database" >}}), [document database]({{< relref "/develop/get-started/document-database" >}}), [streaming engine]({{< relref "/develop/data-types/streams" >}}), and message broker. Redis has built-in replication and different levels of [on-disk persistence]({{< relref "/operate/oss_and_stack/management/persistence" >}}). It supports complex [data types]({{< relref "/develop/data-types/" >}}) (for example, strings, hashes, lists, sets, sorted sets, and JSON), with atomic operations defined on those data types.
 
 You can install Redis from source or from an executable/distribution for your OS.
 
@@ -22,9 +22,9 @@ The following quick start guides will show you how to use Redis for the followin
 
 - [Data structure store]({{< relref "/develop/get-started/data-store" >}})
 - [Document database]({{< relref "/develop/get-started/document-database" >}})
-- [Vector database]({{< relref "/develop/get-started/vector-database" >}})
-- [AI agents and chatbots]({{< relref "/develop/get-started/redis-in-ai" >}})
-- [Retrieval Augmented Generation (RAG) with Redis]({{< relref "/develop/get-started/rag" >}})
+- [Vector database]({{< relref "/develop/ai/vector-database" >}})
+- [AI agents and chatbots]({{< relref "/develop/ai/genai-apps" >}})
+- [Retrieval Augmented Generation (RAG) with Redis]({{< relref "/develop/ai/rag" >}})
 
 ## Data integration tools, libraries, and frameworks
 - [Client API libraries]({{< relref "/develop/clients" >}})

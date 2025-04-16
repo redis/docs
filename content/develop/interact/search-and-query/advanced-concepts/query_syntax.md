@@ -281,7 +281,7 @@ The general syntax for hybrid query is `{some filter query}=>[ KNN {num|$num} @v
 
   `@vector_field:[VECTOR_RANGE 0.5 $query_vec]`
 
-As of v2.4, the KNN vector search can be used at most once in a query, while, as of v2.6, the vector range filter can be used multiple times in a query. For more information on vector similarity syntax, see [Querying vector fields]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}}), and [Vector search examples]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#vector-search-examples" >}}) sections.
+As of v2.4, the KNN vector search can be used at most once in a query, while, as of v2.6, the vector range filter can be used multiple times in a query. For more information on vector similarity syntax, see [Querying vector fields]({{< relref "/develop/ai/vector-fields" >}}), and [Vector search examples]({{< relref "develop/ai/vector-fields#vector-search-examples" >}}) sections.
 
 ## Prefix matching
 
@@ -388,7 +388,7 @@ The supported attributes are:
 As of v2.6.1, the query attributes syntax supports these additional attributes:
 
 * **$yield_distance_as**: specifies the distance field name, used for later sorting and/or returning, for clauses that yield some distance metric. It is currently supported for vector queries only (both KNN and range).   
-* **vector query params**: pass optional parameters for [vector queries]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#querying-vector-fields" >}}) in key-value format.
+* **vector query params**: pass optional parameters for [vector queries]({{< relref "develop/ai/vector-fields#querying-vector-fields" >}}) in key-value format.
 
 ## A few query examples
 

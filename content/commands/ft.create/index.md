@@ -228,7 +228,7 @@ after the SCHEMA keyword, declares which fields to index:
 
  - `GEO` - Allows radius range queries against the value (point) in this attribute. The value of the attribute must be a string containing a longitude (first) and latitude separated by a comma.
 
- - `VECTOR` - Allows vector queries against the value in this attribute. This requires [query dialect 2]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects#dialect-2" >}}) or above (introduced in [RediSearch v2.4](https://github.com/RediSearch/RediSearch/releases/tag/v2.4.3)). For more information, see [Vector Fields]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}}).
+ - `VECTOR` - Allows vector queries against the value in this attribute. This requires [query dialect 2]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects#dialect-2" >}}) or above (introduced in [RediSearch v2.4](https://github.com/RediSearch/RediSearch/releases/tag/v2.4.3)). For more information, see [Vector Fields]({{< relref "/develop/ai/vector-fields" >}}).
 
  - `GEOSHAPE`- Allows polygon queries against the value in this attribute. The value of the attribute must follow a [WKT notation](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) list of 2D points representing the polygon edges `POLYGON((x1 y1, x2 y2, ...)` separated by a comma. A `GEOSHAPE` field type can be followed by one of the following coordinate systems:
    - `SPHERICAL` for Geographic longitude and latitude coordinates
