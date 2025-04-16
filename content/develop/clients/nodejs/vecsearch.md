@@ -18,11 +18,11 @@ weight: 3
 [Redis Query Engine]({{< relref "/develop/interact/search-and-query" >}})
 lets you index vector fields in [hash]({{< relref "/develop/data-types/hashes" >}})
 or [JSON]({{< relref "/develop/data-types/json" >}}) objects (see the
-[Vectors]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}}) 
+[Vectors]({{< relref "/develop/ai/vector-fields" >}}) 
 reference page for more information).
 Among other things, vector fields can store *text embeddings*, which are AI-generated vector
 representations of the semantic information in pieces of text. The
-[vector distance]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors#distance-metrics" >}})
+[vector distance]({{< relref "/develop/ai/vector-fields#distance-metrics" >}})
 between two embeddings indicates how similar they are semantically. By comparing the
 similarity of an embedding generated from some query text with embeddings stored in hash
 or JSON fields, Redis can retrieve documents that closely match the query in terms
@@ -100,9 +100,9 @@ three fields: the text content to index, a
 [tag]({{< relref "/develop/interact/search-and-query/advanced-concepts/tags" >}})
 field to represent the "genre" of the text, and the embedding vector generated from
 the original text content. The `embedding` field specifies
-[HNSW]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors#hnsw-index" >}}) 
+[HNSW]({{< relref "/develop/ai/vector-fields#hnsw-index" >}}) 
 indexing, the
-[L2]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors#distance-metrics" >}})
+[L2]({{< relref "/develop/ai/vector-fields#distance-metrics" >}})
 vector distance metric, `Float32` values to represent the vector's components,
 and 768 dimensions, as required by the `all-distilroberta-v1` embedding model.
 
@@ -197,7 +197,7 @@ distance value.
 The code below creates the query embedding using `pipe()`, as with
 the indexing, and passes it as a parameter during execution
 (see
-[Vector search]({{< relref "/develop/interact/search-and-query/query/vector-search" >}})
+[Vector search]({{< relref "/develop/ai/vector-search" >}})
 for more information about using query parameters with embeddings).
 
 The query returns an array of objects representing the documents
@@ -250,6 +250,6 @@ is the result that is most similar in meaning to the query text
 ## Learn more
 
 See
-[Vector search]({{< relref "/develop/interact/search-and-query/query/vector-search" >}})
+[Vector search]({{< relref "/develop/ai/vector-search" >}})
 for more information about the indexing options, distance metrics, and query format
 for vectors.

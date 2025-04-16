@@ -30,8 +30,8 @@ weight: 10
   - [.NET]({{< relref "/develop/clients/dotnet/vecsearch.md" >}})
 - Updated AI integrations:
   - [AI overview]({{< relref "/develop/ai/index.md" >}})
-  - [RAG intro]({{< relref "/develop/get-started/rag.md" >}})
-  - [Redis in AI]({{< relref "/develop/get-started/redis-in-ai.md" >}})
+  - [RAG intro]({{< relref "/develop/ai/rag.md" >}})
+  - [GenAI tutorials and demos]({{< relref "/develop/ai/genai-apps.md" >}})
 
 ---
 
@@ -129,10 +129,10 @@ weight: 10
 
 ## Q3 2024 (July - September) Updates
 
-* Updated the [RAG with Redis quick start guide]({{< relref "/develop/get-started/rag" >}}).
+* Updated the [RAG with Redis quick start guide]({{< relref "/develop/ai/rag" >}}).
 * Updates for [Redis Community Edition version 7.4]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce" >}}).
 * Added new [Redis Insight debugging]({{< relref "/develop/tools/insight/debugging" >}}) page.
-* Completed a major re-write/restructuring of the [vector indexing page]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}}).
+* Completed a major re-write/restructuring of the [vector indexing page]({{< relref "/develop/ai/vector-fields" >}}).
 * Added new [client-side caching page]({{< relref "/develop/clients/client-side-caching" >}}).
 * Added new documentation for the [RDI in Redis Insight feature]({{< relref "/develop/tools/insight/rdi-connector" >}}).
 * Added new documentation for the [Redis for VS Code feature]({{< relref "/develop/tools/redis-for-vscode/" >}}).

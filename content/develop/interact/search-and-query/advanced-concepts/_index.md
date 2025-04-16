@@ -39,7 +39,7 @@ Redis Community Edition supports the following Redis Query Engine features. This
 * Exact phrase search and slop-based search
 * Numeric filters and ranges
 * Geo-filtering using Redis [geo commands]({{< relref "/commands/" >}}?group=geo)
-* [Vector search]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}})
+* [Vector search]({{< relref "/develop/ai/vector-fields" >}})
 
 
 ## Full-text search features
