@@ -68,7 +68,7 @@ Use the provided `scripts/rdi-secret.sh` shell script to set the specified secre
 scripts/rdi-secret.sh set <SECRET-KEY> <SECRET-VALUE>
 ```
 
-The script offers functionality to retrieve a specific secret, as well as the capability to list all available secrets within the system:
+The script lets you retrieve a specific secret or list all the secrets that have been set:
 ```bash
 # Set specific secret
 scripts/rdi-secret.sh set <SECRET-KEY>
