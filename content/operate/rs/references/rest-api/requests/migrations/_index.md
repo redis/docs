@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: REST API request to get the migration status of a database in the cluster.
+description: REST API request to get the migration status of a database in the cluster when using Replica Of.
 headerRange: '[1-2]'
 hideListLinks: true
 linkTitle: migrations
@@ -22,7 +22,7 @@ weight: $weight
 GET /v1/migrations/<uid>
 ```
 
-Gets the migration status of a database in the cluster.
+Gets the migration status of a database in the cluster when using Replica Of.
 
 #### Required permissions
 
