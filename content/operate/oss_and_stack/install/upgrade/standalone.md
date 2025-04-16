@@ -6,12 +6,11 @@ categories:
 - oss
 description: Upgrade a standalone instance of Redis Community Edition or Redis Stack to Redis 8
 linkTitle: Standalone (single node)
-title: Upgrade a Redis instance to Redis 8
+title: Upgrade a standalone Redis instance to Redis 8
 weight: 20
 ---
 {{< note >}}
 The supported upgrade paths are:
-
 - Redis Community Edition 7.x (with or without modules) to Redis Community Edition 8
 - Redis Stack 7.2 or 7.4 to Redis Community Edition 8
 {{< /note >}}
@@ -31,7 +30,7 @@ Before upgrading, create a snapshot of your current dataset using the following 
 redis-cli SAVE
 ```
 
-This creates or updates an `RDB` file, for example `dump.rdb`, in your Redis data directory. If you use AOF persistence, the files will be named `appendonly.aof.*` and they will be written in the `appendonlydir` directory inside the data directory. These directory and file names are the default. Use the names defined in your `redis.conf` file if different from the defaults.
+This creates or updates an `RDB` file, for example `dump.rdb`, in your Redis data directory. If you use AOF persistence, the files will be named `appendonly.aof.*` and they will be written in the `appendonlydir` directory inside the data directory. The AOF-related directory and file names are the defaults. Use the names defined in your `redis.conf` file if different from the defaults.
 
 Use the following command to identify where your data directory is located:
 
@@ -50,10 +49,10 @@ cp -r /path/to/redis-data-dir/ /path/to/backup/
 Follow these steps to upgrade Redis.
 
 1. Stop the current version of Redis CE or Redis Stack server.
-1. Install the new version of Redis CE. Follow the installation steps that correspond to your [installation method]({{< relref "/operate/oss_and_stack/install/install-stack" >}}). Only upgrade after you've saved and backed up your data.
-1. Start Redis if it didn't start automatically.
+1. Follow the installation steps that correspond to your [Redis distribution]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) to install Redis 8.
+1. Start Redis 8 if it didn't start automatically.
 
-### Restore from saved files (if needed)
+### Restore from saved files (if necessary)
 
 If Redis fails to start properly or if data is missing after the upgrade, restore from your backup.
 

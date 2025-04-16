@@ -12,7 +12,6 @@ weight: 30
 
 {{< note >}}
 The supported upgrade paths are:
-
 - Redis Community Edition 7.x (with or without modules) to Redis Community Edition 8
 - Redis Stack 7.2 or 7.4 to Redis Community Edition 8
 {{< /note >}}
@@ -34,7 +33,7 @@ redis-cli -p <port> SAVE
 
 Repeat for every node in your cluster, both masters and replicas.
 
-This creates or updates an `RDB` file, for example `dump.rdb`, in the node's Redis data directory. If you use AOF persistence, the files will be named `appendonly.aof.*` and they will be written in the `appendonlydir` directory inside the data directory. These directory and file names are the default. Use the names defined in your `redis.conf` file if different from the defaults.
+This creates or updates an `RDB` file, for example `dump.rdb`, in the node's Redis data directory. If you use AOF persistence, the files will be named `appendonly.aof.*` and they will be written in the `appendonlydir` directory inside the data directory. The AOF-related directory and file names are the defaults. Use the names defined in your `redis.conf` file if different from the defaults.
 
 Use the following command on each node to identify where your data directories are located:
 
@@ -46,12 +45,15 @@ Make a copy of the files contained in each of those directories before proceedin
 
 ### Upgrade Redis nodes
 
-Upgrade each node one at a time starting with the replicas.
-Follow the installation steps that correspond to your [installation method]({{< relref "/operate/oss_and_stack/install/install-stack" >}}). Only upgrade after you've saved and backed up your data.
+Upgrade each node one at a time, starting with the replicas, using these steps:
 
-### Restore from saved files (if needed)
+1. Stop the current version of Redis CE or Redis Stack server.
+1. Follow the installation steps that correspond to your [Redis distribution]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) to install Redis 8.
+1. Start Redis 8 if it didn't start automatically.
 
-If necessary, restore the saved files to their original location on each node. Then restart Redis on each node.
+### Restore from saved files (if necessary)
+
+If necessary, restore the saved files to their original locations on each node. Then restart Redis on each node.
 
 ### Verify the upgrade
 
