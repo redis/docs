@@ -15,7 +15,7 @@ Redis stores and indexes vector embeddings that semantically represent unstructu
 
 | Vector | RAG | RedisVL |
 | :-- | :-- | :-- |
-| {{<image filename="images/ai-cube.png" alt="AI Redis icon.">}}[Redis vector database quick start guide]({{< relref "/develop/get-started/vector-database" >}}) |{{<image filename="images/ai-brain.png" alt="AI Redis icon.">}} [Retrieval-Augmented Generation quick start guide]({{< relref "/develop/get-started/rag" >}}) | {{<image filename="images/ai-lib.png" alt="AI Redis icon.">}}[Redis vector Python client library documentation]({{< relref "/integrate/redisvl/" >}}) |
+| {{<image filename="images/ai-cube.png" alt="AI Redis icon.">}}[Redis vector database quick start guide]({{< relref "/develop/ai/vector-database" >}}) |{{<image filename="images/ai-brain.png" alt="AI Redis icon.">}} [Retrieval-Augmented Generation quick start guide]({{< relref "/develop/ai/rag" >}}) | {{<image filename="images/ai-lib.png" alt="AI Redis icon.">}}[Redis vector Python client library documentation]({{< relref "/integrate/redisvl/" >}}) |
 
 #### Overview
 
@@ -30,10 +30,7 @@ This page organized into a few sections depending on what you’re trying to do:
 
 ## How to's
 
-1. [**Create a vector index**]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#create-a-vector-index" >}}): Redis maintains a secondary index over your data with a defined schema (including vector fields and metadata). Redis supports [`FLAT`]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#flat-index" >}}) and [`HNSW`]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#hnsw-index" >}}) vector index types.
-1. [**Store and update vectors**]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#store-and-update-vectors" >}}): Redis stores vectors and metadata in hashes or JSON objects.
-1. [**Search with vectors**]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#search-with-vectors" >}}): Redis supports several advanced querying strategies with vector fields including k-nearest neighbor ([KNN]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#knn-vector-search" >}})), [vector range queries]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#vector-range-queries" >}}), and [metadata filters]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#filters" >}}).
-1. [**Configure vector queries at runtime**]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#runtime-query-parameters" >}}). Select the best filter mode to optimize query execution.
+1. [**Create a vector index**]({{< relref "develop/ai/vector-fields" >}}): Redis maintains a secondary index over your data with a defined schema (including vector fields and metadata). Redis supports [`FLAT`]({{< relref "develop/ai/vector-fields#flat-index" >}}) and [`HNSW`]({{< relref "develop/ai/vector-fields#hnsw-index" >}}) vector index types.
 
 #### Learn how to index and query vector embeddings
 * [redis-py (Python)]({{< relref "/develop/clients/redis-py/vecsearch" >}})
@@ -48,7 +45,7 @@ Learn to perform vector search and use gateways and semantic caching in your AI/
 
 | Search | LLM memory | Semantic caching | Semantic routing | AI Gateways |
 | :-- | :-- | :-- | :-- | :-- |
-| {{<image filename="images/ai-search.png" alt="AI Redis icon.">}}[Vector search guide]({{< relref "/develop/interact/search-and-query/query/vector-search" >}}) | {{<image filename="images/ai-LLM-memory.png" alt="LLM memory icon.">}}[Store memory for LLMs](https://redis.io/blog/level-up-rag-apps-with-redis-vector-library/) | {{<image filename="images/ai-brain-2.png" alt="AI Redis icon.">}}[Semantic caching for faster, smarter LLM apps](https://redis.io/blog/what-is-semantic-caching) | {{<image filename="images/ai-semantic-routing.png" alt="Semantic routing icon.">}}[Semantic routing chooses the best tool](https://redis.io/blog/level-up-rag-apps-with-redis-vector-library/) | {{<image filename="images/ai-model.png" alt="AI Redis icon.">}}[Deploy an enhanced gateway with Redis](https://redis.io/blog/ai-gateways-what-are-they-how-can-you-deploy-an-enhanced-gateway-with-redis/) | {{<image filename="images/ai-brain-2.png" alt="AI Redis icon.">}}[Semantic caching for faster, smarter LLM apps](https://redis.io/blog/what-is-semantic-caching) |
+| {{<image filename="images/ai-search.png" alt="AI Redis icon.">}}[Vector search guide]({{< relref "/develop/ai/vector-search" >}}) | {{<image filename="images/ai-LLM-memory.png" alt="LLM memory icon.">}}[Store memory for LLMs](https://redis.io/blog/level-up-rag-apps-with-redis-vector-library/) | {{<image filename="images/ai-brain-2.png" alt="AI Redis icon.">}}[Semantic caching for faster, smarter LLM apps](https://redis.io/blog/what-is-semantic-caching) | {{<image filename="images/ai-semantic-routing.png" alt="Semantic routing icon.">}}[Semantic routing chooses the best tool](https://redis.io/blog/level-up-rag-apps-with-redis-vector-library/) | {{<image filename="images/ai-model.png" alt="AI Redis icon.">}}[Deploy an enhanced gateway with Redis](https://redis.io/blog/ai-gateways-what-are-they-how-can-you-deploy-an-enhanced-gateway-with-redis/) | {{<image filename="images/ai-brain-2.png" alt="AI Redis icon.">}}[Semantic caching for faster, smarter LLM apps](https://redis.io/blog/what-is-semantic-caching) |
 
 ## Quickstarts
 

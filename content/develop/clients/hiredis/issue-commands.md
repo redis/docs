@@ -67,7 +67,7 @@ redisReply *reply = redisCommand(c, "SET key:%s %s", myKeyNumber, myValue);
 ```
 
 You may need to include binary data in the command (for example, to store
-[vector embeddings]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}})
+[vector embeddings]({{< relref "/develop/ai/vector-fields" >}})
 in fields of a [hash]({{< relref "/develop/data-types/hashes" >}})) object.
 To do this, use the `%b` format specifier and pass a pointer to the
 data buffer, followed by a `size_t` value indicating its length in bytes.

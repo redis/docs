@@ -513,7 +513,7 @@ search-upgrade-index idx PREFIX 1 tt LANGUAGE french LANGUAGE_FIELD MyLang SCORE
 Added in v2.4.8.
 
 The maximum memory resize (in bytes) for vector indexes.
-The maximum memory resize (in bytes) for vector indexes. This value will override default memory limits if you need to allow for a large [`BLOCK_SIZE`]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors/#creation-attributes-per-algorithm" >}}).
+The maximum memory resize (in bytes) for vector indexes. This value will override default memory limits if you need to allow for a large [`BLOCK_SIZE`]({{< relref "/develop/ai/vector-fields#creation-attributes-per-algorithm" >}}).
 
 Type: integer
 

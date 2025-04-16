@@ -17,7 +17,7 @@ weight: 4
 aliases: /develop/get-started/rag
 ---
 ### What is Retrieval Augmented Generation (RAG)?
-Large Language Models (LLMs) generate human-like text but are limited by the data they were trained on. RAG enhances LLMs by integrating them with external, domain-specific data stored in a Redis [vector database]({{< relref "/develop/get-started/vector-database" >}}).
+Large Language Models (LLMs) generate human-like text but are limited by the data they were trained on. RAG enhances LLMs by integrating them with external, domain-specific data stored in a Redis [vector database]({{< relref "/develop/ai/vector-database" >}}).
 
 RAG involves three main steps:
 

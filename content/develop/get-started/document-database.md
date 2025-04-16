@@ -175,7 +175,7 @@ Please see the [query documentation]({{< relref "/develop/interact/search-and-qu
 
 You can learn more about how to use Redis Community Edition as a vector database in the following quick start guide:
 
-* [Redis as a vector database]({{< relref "/develop/get-started/vector-database" >}})
+* [Redis as a vector database]({{< relref "/develop/ai/vector-database" >}})
 
 ## Continue learning with Redis University
 

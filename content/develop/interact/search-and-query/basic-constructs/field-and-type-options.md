@@ -170,7 +170,7 @@ Notice that `{count}` represents the total number of attribute pairs passed in t
 
 * `{attribute_name} {attribute_value}` are algorithm attributes for the creation of the vector index. Every algorithm has its own mandatory and optional attributes.
 
-For more information about vector fields, see [vector fields]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}}).
+For more information about vector fields, see [vector fields]({{< relref "/develop/ai/vector-fields" >}}).
 
 ## Tag fields
 

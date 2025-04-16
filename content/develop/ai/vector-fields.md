@@ -19,16 +19,16 @@ aliases: /develop/interact/search-and-query/advanced-concepts/vectors
 
 Redis includes a [high-performance vector database](https://redis.io/blog/benchmarking-results-for-vector-databases/) that lets you perform semantic searches over vector embeddings. You can augment these searches with filtering over text, numerical, geospatial, and tag metadata.
 
-To quickly get started, check out the [Redis vector quickstart guide]({{< relref "develop/get-started/vector-database" >}}) and the [Redis AI Resources](https://github.com/redis-developer/redis-ai-resources) Github repo.
+To quickly get started, check out the [Redis vector quickstart guide]({{< relref "develop/ai/vector-database" >}}) and the [Redis AI Resources](https://github.com/redis-developer/redis-ai-resources) Github repo.
 
 
 ## Overview
 
-1. [**Create a vector index**]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#create-a-vector-index" >}}): Redis maintains a secondary index over your data with a defined schema (including vector fields and metadata). Redis supports [`FLAT`]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#flat-index" >}}) and [`HNSW`]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#hnsw-index" >}}) vector index types.
-1. [**Store and update vectors**]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#store-and-update-vectors" >}}): Redis stores vectors and metadata in hashes or JSON objects.
-1. [**Search with vectors**]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#search-with-vectors" >}}): Redis supports several advanced querying strategies with vector fields including k-nearest neighbor ([KNN]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#knn-vector-search" >}})), [vector range queries]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#vector-range-queries" >}}), and [metadata filters]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#filters" >}}).
-1. [**Configure vector queries at runtime**]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#runtime-query-params" >}}).
-1. [**Vector search examples**]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#vector-search-examples" >}}): Explore several vector search examples that cover different use cases and techniques.
+1. [**Create a vector index**]({{< relref "develop/ai/vector-fields#create-a-vector-index" >}}): Redis maintains a secondary index over your data with a defined schema (including vector fields and metadata). Redis supports [`FLAT`]({{< relref "develop/ai/vector-fields#flat-index" >}}) and [`HNSW`]({{< relref "develop/ai/vector-fields#hnsw-index" >}}) vector index types.
+1. [**Store and update vectors**]({{< relref "develop/ai/vector-fields#store-and-update-vectors" >}}): Redis stores vectors and metadata in hashes or JSON objects.
+1. [**Search with vectors**]({{< relref "develop/ai/vector-fields#search-with-vectors" >}}): Redis supports several advanced querying strategies with vector fields including k-nearest neighbor ([KNN]({{< relref "develop/ai/vector-fields#knn-vector-search" >}})), [vector range queries]({{< relref "develop/ai/vector-fields#vector-range-queries" >}}), and [metadata filters]({{< relref "develop/ai/vector-fields#filters" >}}).
+1. [**Configure vector queries at runtime**]({{< relref "develop/ai/vector-fields#runtime-query-params" >}}).
+1. [**Vector search examples**]({{< relref "develop/ai/vector-fields#vector-search-examples" >}}): Explore several vector search examples that cover different use cases and techniques.
 
 ## Create a vector index
 
@@ -231,11 +231,11 @@ FT.SEARCH <index_name>
 | Parameter         | Description                                                                                       |
 |:------------------|:--------------------------------------------------------------------------------------------------|
 | `index_name`  | Name of the index.  |
-| `primary_filter_query`  | [Filter]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#filters" >}}) criteria. Use `*` when no filters are required.  |
+| `primary_filter_query`  | [Filter]({{< relref "develop/ai/vector-fields#filters" >}}) criteria. Use `*` when no filters are required.  |
 | `top_k` | Number of nearest neighbors to fetch from the index.  |
 | `vector_field`  | Name of the vector field to search against.  |
 | `vector_blob_param`  | The query vector, passed in as a blob of raw bytes. The blob's byte size must match the vector field's dimensions and type.  |
-| `vector_query_params` (optional) | An optional section for marking one or more vector query parameters passed through the `PARAMS` section. Valid parameters should be provided as key-value pairs. See which [runtime query params]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#runtime-query-params" >}}) are supported for each vector index type.  |
+| `vector_query_params` (optional) | An optional section for marking one or more vector query parameters passed through the `PARAMS` section. Valid parameters should be provided as key-value pairs. See which [runtime query params]({{< relref "develop/ai/vector-fields#runtime-query-params" >}}) are supported for each vector index type.  |
 | `distance_field` (optional) | The optional distance field name used in the response and/or for sorting. By default, the distance field name is `__<vector_field>_score` and it can be used for sorting without using `AS <distance_field>` in the query.  |
 | `vector_query_params_count` | The number of vector query parameters.  |
 | `vector_query_param_name` | The name of the vector query parameter.  |
@@ -282,7 +282,7 @@ FT.SEARCH <index_name>
 | `vector_field`  | Name of the vector field in the index. |
 | `radius` or `radius_param` | The maximum semantic distance allowed between the query vector and indexed vectors. You can provide the value directly in the query, passed to the `PARAMS` section, or as a query attribute.
 | `vector_blob_param`  | The query vector, passed in as a blob of raw bytes. The blob's byte size must match the vector field's dimensions and type. |
-| `vector_query_params` (optional) | An optional section for marking one or more vector query parameters passed through the `PARAMS` section. Valid parameters should be provided as key-value pairs. See which [runtime query params]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#runtime-query-params" >}}) are supported for each vector index type.  |
+| `vector_query_params` (optional) | An optional section for marking one or more vector query parameters passed through the `PARAMS` section. Valid parameters should be provided as key-value pairs. See which [runtime query params]({{< relref "develop/ai/vector-fields#runtime-query-params" >}}) are supported for each vector index type.  |
 | `vector_query_params_count` | The number of vector query parameters.  |
 | `vector_query_param_name` | The name of the vector query parameter.  |
 | `vector_query_param_value` | The value of the vector query parameter.  |
@@ -393,7 +393,7 @@ Optional runtime parameters for HNSW indexes are:
 
 ## Vector search examples
 
-Below are a number of examples to help you get started. For more comprehensive walkthroughs, see the [Redis vector quickstart guide]({{< relref "develop/get-started/vector-database" >}}) and the [Redis AI Resources](https://github.com/redis-developer/redis-ai-resources) Github repo.
+Below are a number of examples to help you get started. For more comprehensive walkthroughs, see the [Redis vector quickstart guide]({{< relref "develop/ai/vector-database" >}}) and the [Redis AI Resources](https://github.com/redis-developer/redis-ai-resources) Github repo.
 
 ### KNN vector search examples
 
