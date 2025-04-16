@@ -1,6 +1,6 @@
 ---
 title: Redis products
-description: Operate any Redis, from Redis Enterprise to Redis Cloud
+description: Products, services, and tools to operate a Redis database.
 linkTitle: Operate
 hideListLinks: true
 ---
