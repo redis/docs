@@ -102,6 +102,13 @@ Specify query options to return only the `city` field:
 {{< clients-example go_home_json query2 >}}
 {{< /clients-example >}}
 
+You can also use the same query with the `CountOnly` option
+enabled to get the number of documents found without
+returning the documents themselves.
+
+{{< clients-example go_home_json query2count_only >}}
+{{< /clients-example >}}
+
 Use an
 [aggregation query]({{< relref "/develop/interact/search-and-query/query/aggregation" >}})
 to count all users in each city.

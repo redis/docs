@@ -23,13 +23,13 @@ First, tap the Redis Homebrew cask:
 
 {{< highlight bash >}}
 brew tap redis/redis
-{{< / highlight >}}
+{{< /highlight >}}
 
 Next, run `brew install`:
 
 {{< highlight bash >}}
 brew install --cask redis
-{{< / highlight >}}
+{{< /highlight >}}
 
 ## Run Redis
 
@@ -39,7 +39,7 @@ To check this, run:
 
 {{< highlight bash >}}
 echo $PATH
-{{< / highlight >}}
+{{< /highlight >}}
 
 Next, confirm that the output contains `/opt/homebrew/bin` (Apple silicon Macs) or `/usr/local/bin` (Intel Mac). If neither `/opt/homebrew/bin` nor `/usr/local/bin` are in the output, add them.
 
@@ -47,13 +47,15 @@ Open the file `~/.bashrc` or `~/zshrc` (depending on your shell), and add the fo
 
 {{< highlight bash >}}
 export PATH=$(brew --prefix)/bin:$PATH
-{{< / highlight >}}
+{{< /highlight >}}
 
 You can now start the Redis server as follows:
 
 {{< highlight bash >}}
-redis-server
-{{< / highlight >}}
+redis-server /opt/homebrew/etc/redis.conf
+{{< /highlight >}}
+
+The server will run in the background.
 
 {{< note >}}
 Because Redis is installed using a Homebrew cask with the `brew tap` command, it will not be integrated with the `brew services` command.
@@ -65,14 +67,22 @@ Once Redis is running, you can test it by running `redis-cli`:
 
 {{< highlight bash  >}}
 redis-cli
-{{< / highlight >}}
+{{< /highlight >}}
 
 Test the connection with the `ping` command:
 
 {{< highlight bash  >}}
 127.0.0.1:6379> PING
 PONG
-{{< / highlight >}}
+{{< /highlight >}}
+
+## Stop Redis
+
+Run the following command:
+
+{{< highlight bash  >}}
+redis-cli SHUTDOWN
+{{< /highlight >}}
 
 ## Uninstall Redis Open Source
 
@@ -81,7 +91,7 @@ To uninstall Redis, run:
 {{< highlight bash >}}
 brew uninstall redis
 brew untap redis/redis
-{{< / highlight >}}
+{{< /highlight >}}
 
 ## Next steps
 

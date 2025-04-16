@@ -4,7 +4,7 @@ categories:
 - operate
 - stack
 - oss
-description: Build and run Redis Open Source on Linux and macOS
+description: Build and run Redis 8 in Redis Open Source on Linux and macOS
 linkTitle: Build and run Redis Open Source
 stack: true
 title: Build and run Redis Open Source

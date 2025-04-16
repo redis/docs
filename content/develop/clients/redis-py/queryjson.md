@@ -12,7 +12,7 @@ categories:
 description: Learn how to use the Redis query engine with JSON
 linkTitle: Index and query JSON
 title: Example - Index and query JSON documents
-weight: 3
+weight: 30
 ---
 
 This example shows how to create a

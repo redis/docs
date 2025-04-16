@@ -1,4 +1,6 @@
 ---
+aliases:
+- /operate/oss_and_stack/install/install-redis/
 categories:
 - docs
 - operate
