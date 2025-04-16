@@ -35,14 +35,14 @@ Below are some basic steps to ensure good performance of the Redis Query Engine 
 - Put only those fields used in your queries in the index.
 - Only make fields [`SORTABLE`]({{< relref "/develop/interact/search-and-query/advanced-concepts/sorting" >}}) if they are used in [`SORTBY`]({{< relref "/develop/interact/search-and-query/advanced-concepts/sorting#specifying-sortby" >}})
 queries.
-- Use [`DIALECT 2`]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects#dialect-4" >}}).
+- Use [`DIALECT 2`]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects#dialect-2" >}}).
 
 ### Threaded (query performance factor or QPF) search
 - Put both query fields and any projected fields (`RETURN` or `LOAD`) in the index.
 - Set all fields to `SORTABLE`.
 - Set TAG fields to [UNF]({{< relref "/develop/interact/search-and-query/advanced-concepts/sorting#normalization-unf-option" >}}).
 - Optional: Set `TEXT` fields to `NOSTEM` if the use case will support it.
-- Use [`DIALECT 2`]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects#dialect-4" >}}).
+- Use [`DIALECT 2`]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects#dialect-2" >}}).
 
 ## Query optimization
 
