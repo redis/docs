@@ -48,7 +48,7 @@ data in Redis as
 
 The diagram below shows the flow of data through the pipeline:
 
-{{< image filename="/images/rdi/RDIPipeDataflow.drawio.svg" >}}
+{{< image filename="/images/rdi/ingest/RDIPipeDataflow.webp" >}}
 
 ## Pipeline configuration
 
@@ -56,7 +56,7 @@ RDI uses a set of [YAML](https://en.wikipedia.org/wiki/YAML)
 files to configure each pipeline. The following diagram shows the folder
 structure of the configuration:
 
-{{< image filename="images/rdi/ingest/ingest-config-folders.svg" >}}
+{{< image filename="images/rdi/ingest/ingest-config-folders.webp" width="600px" >}}
 
 The main configuration for the pipeline is in the `config.yaml` file.
 This specifies the connection details for the source database (such
