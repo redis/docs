@@ -20,7 +20,7 @@ The available tabs depend on your subscription type and may include:
 
 - The **Account** tab displays basic information associated with your account, including general info, address details, time zone setting, security settings, and provider integration details.
 
-- The **Cloud Account** tab is displayed for Redis Cloud Pro subscriptions hosted on Amazon Web Services (AWS).  To learn more, see [Manage AWS cloud accounts]({{< relref "/operate/rc/cloud-integrations/aws-cloud-accounts/" >}}).
+- The **Cloud Account** tab is displayed if you have self-hosted Pro subscriptions on Amazon Web Services (AWS).  To learn more, see [Manage AWS cloud accounts]({{< relref "/operate/rc/cloud-integrations/aws-cloud-accounts/" >}}).
 
 - The **Integrations** tab lets you manage certain integrations. For more information on the Confluent Cloud integration, see [Use the Redis Sink Confluent Connector]({{< relref "/integrate/confluent-with-redis-cloud/" >}}).
     

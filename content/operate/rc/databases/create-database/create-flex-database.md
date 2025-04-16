@@ -94,7 +94,7 @@ This guide shows how to create a Redis Flex database on Redis Cloud Essentials.
     
 1. Select the desired memory limit. 
 
-    {{<image filename="images/rc/subscription-new-fixed-tiers.png" alt="Available Redis Flex plans." >}}
+    {{<image filename="images/rc/subscription-new-flex-tiers.png" alt="Available Redis Flex plans." >}}
 
     For a comparison of available plans, see [Redis Cloud Essentials plans]({{< relref "/operate/rc/subscriptions/view-essentials-subscription/essentials-plan-details" >}}).
 
