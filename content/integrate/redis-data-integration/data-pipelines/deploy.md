@@ -123,14 +123,14 @@ scripts/rdi-secret.sh get SOURCE_DB_KEY_PASSWORD
 The corresponding command lines for target secrets are:
 
 ```bash
-# Without source TLS
+# Without target TLS
 scripts/rdi-secret.sh set TARGET_DB_USERNAME yourUsername
 scripts/rdi-secret.sh set TARGET_DB_PASSWORD yourPassword
 # Verify that the secrets are created/updated
 scripts/rdi-secret.sh get TARGET_DB_USERNAME
 scripts/rdi-secret.sh get TARGET_DB_PASSWORD
 
-# With source TLS
+# With target TLS
 scripts/rdi-secret.sh set TARGET_DB_USERNAME yourUsername
 scripts/rdi-secret.sh set TARGET_DB_PASSWORD yourPassword
 scripts/rdi-secret.sh set TARGET_DB_CACERT /path/to/myca.crt
@@ -139,7 +139,7 @@ scripts/rdi-secret.sh get TARGET_DB_USERNAME
 scripts/rdi-secret.sh get TARGET_DB_PASSWORD
 scripts/rdi-secret.sh get TARGET_DB_CACERT
 
-# With source mTLS
+# With target mTLS
 scripts/rdi-secret.sh set TARGET_DB_USERNAME yourUsername
 scripts/rdi-secret.sh set TARGET_DB_PASSWORD yourPassword
 scripts/rdi-secret.sh set TARGET_DB_CACERT /path/to/myca.crt
