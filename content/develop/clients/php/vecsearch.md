@@ -68,7 +68,7 @@ use Predis\Command\Argument\Search\SchemaFields\VectorField;
 The code below shows how to use the
 [`all-mpnet-base-v2`](https://huggingface.co/sentence-transformers/all-mpnet-base-v2)
 tokenizer to generate the embeddings. The vectors that represent the
-embeddings have 384 components, regardless of the length of the input
+embeddings have 384 dimensions, regardless of the length of the input
 text. Here, the `pipeline()` call creates the `$extractor` function that
 generates embeddings from text:
 
@@ -204,7 +204,7 @@ search that sorts the results in order of vector distance from the query vector.
 
 The results are returned as an array with the number of results in the
 first element. The remaining elements are alternating pairs with the
-key of the returned document (eg, `doc:0`) first, followed by an array containing
+key of the returned document (for example, `doc:0`) first, followed by an array containing
 the fields you requested (again as alternating key-value pairs).
 
 ```php
