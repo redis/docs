@@ -29,7 +29,7 @@ or JSON fields, Redis can retrieve documents that closely match the query in ter
 of their meaning.
 
 The example below uses the [HuggingFace](https://huggingface.co/) model
-[`all-mpnet-base-v2`](https://huggingface.co/sentence-transformers/all-mpnet-base-v2)
+[`all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2)
 to generate the vector embeddings to store and index with Redis Query Engine.
 
 ## Initialize
@@ -66,7 +66,7 @@ use Predis\Command\Argument\Search\SchemaFields\VectorField;
 ## Create a tokenizer instance
 
 The code below shows how to use the
-[`all-mpnet-base-v2`](https://huggingface.co/sentence-transformers/all-mpnet-base-v2)
+[`all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2)
 tokenizer to generate the embeddings. The vectors that represent the
 embeddings have 384 dimensions, regardless of the length of the input
 text. Here, the `pipeline()` call creates the `$extractor` function that
@@ -104,7 +104,7 @@ the original text content. The `embedding` field specifies
 indexing, the
 [L2]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors#distance-metrics" >}})
 vector distance metric, `Float32` values to represent the vector's components,
-and 384 dimensions, as required by the `all-mpnet-base-v2` embedding model.
+and 384 dimensions, as required by the `all-MiniLM-L6-v2` embedding model.
 
 The `CreateArguments` parameter to [`ftcreate()`]({{< relref "/commands/ft.create" >}})
 specifies hash objects for storage and a prefix `doc:` that identifies the hash objects
@@ -144,7 +144,7 @@ embeddings from multiple strings parameters at once, so it returns an array of
 embedding vectors. Here, there is only one embedding in the returned array.
 The `normalize:` and `pooling:` named parameters relate to details
 of the embedding model (see the
-[`all-mpnet-base-v2`](https://huggingface.co/sentence-transformers/all-mpnet-base-v2)
+[`all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2)
 page for more information).
 
 To add an embedding as a field of a hash object, you must encode the
@@ -244,7 +244,7 @@ for ($i = 1; $i < ($numResults * 2 + 1); $i += 2) {
 Assuming you have added the code from the steps above to your source file,
 it is now ready to run, but note that it may take a while to complete when
 you run it for the first time (which happens because the tokenizer must download the
-`all-mpnet-base-v2` model data before it can
+`all-MiniLM-L6-v2` model data before it can
 generate the embeddings). When you run the code, it outputs the following result text:
 
 ```
