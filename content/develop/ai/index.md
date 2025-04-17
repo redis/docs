@@ -44,7 +44,7 @@ Learn to perform vector search and use gateways and semantic caching in your AI/
 
 ## Quickstarts
 
-Quickstarts or recipes are useful when you are trying to build specific functionality. For example, you might want to do RAG with LangChain or set up LLM memory for you AI agent. Get started with the following Redis Python notebooks.
+Quickstarts or recipes are useful when you are trying to build specific functionality. For example, you might want to do RAG with LangChain or set up LLM memory for your AI agent. Get started with the following Redis Python notebooks.
 
 * [The place to start if you are brand new to Redis](https://colab.research.google.com/github/redis-developer/redis-ai-resources/blob/main/python-recipes/redis-intro/00_redis_intro.ipynb)
 
