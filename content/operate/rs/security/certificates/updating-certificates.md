@@ -140,5 +140,4 @@ To update your syncer certificate on clusters running Active-Active databases, f
 {{<note>}}
 - Run step 2 as quickly as possible after step 1. Between the two steps, new syncer connections that use the ‘old’ certificate will get rejected by the cluster that has been updated with the new certificate (in step 1).<br/>
 - Do not run any other `crdb-cli crdb update` operations between the two steps.<br/>
-- **Known limitation**: Updating syncer certificate on versions prior to 6.0.20-81 will restart the proxy and syncer connections. In these cases, we recommend scheduling certificate replacement carefully to minimize customer impact.
 {{</note>}}

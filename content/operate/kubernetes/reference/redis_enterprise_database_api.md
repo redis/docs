@@ -7,6 +7,7 @@ categories:
 - kubernetes
 linkTitle: REDB API
 weight: 30
+aliases: [ /operate/kubernetes/reference/db-options, ]
 ---
 
 apiVersion:

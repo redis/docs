@@ -65,7 +65,7 @@ There are three sections on this tab:
 
 Select **Active-Active (Multi-region)** to turn on Active-Active. 
 
-{{<image filename="images/rc/create-flexible-sub-active-active-on.png" width="75%" alt="When you enable Active-Actve, you need to specify the regions for each database instance." >}}
+{{<image filename="images/rc/create-flexible-sub-active-active-on.png" width="75%" alt="The general settings of the setup tab with Active-Active selected." >}}
 
 When you enable Active-Active Redis, two regions are selected by default. Select the drop-down arrow to display a list of provider regions that support Active-Active databases.
 
@@ -81,7 +81,7 @@ You can use a region's Remove button to remove it from the list.
 
 {{<image filename="images/rc/subscription-new-flexible-version-section.png" width="75%" alt="Version selection between Redis 6.2 and 7.2" >}}
 
-The **Version** section lets you choose the Redis version of your databases. Choose **Redis 7.2** if you want to use the latest advanced features of Redis.
+The **Version** section lets you choose the Redis version of your databases. Choose **Redis 7.4** if you want to use the latest advanced features of Redis.
 
 #### Advanced options {#advanced-options}
 
@@ -95,7 +95,7 @@ In the **Advanced options** section, you can:
 
     When all **Deployment CIDR** regions display a green checkmark, you're ready to continue.  
 
-    {{<image filename="images/rc/icon-cidr-address-ok.png" width="30px" alt="Greem chackmarks indicate valid CIDR address values." >}}
+    {{<image filename="images/rc/icon-cidr-address-ok.png" width="30px" alt="Green checkmarks indicate valid CIDR address values." >}}
 
     Red exclamation marks indicate error conditions; the tooltip provides additional details.
 
@@ -117,14 +117,14 @@ When you first visit the **Sizing** tab, there are no databases defined.  Select
 
 {{<image filename="images/rc/icon-add-database.png" width="30px" alt="Use the Add button to define a new database for your subscription." >}}
 
-This opens the **New Database** dialog, which lets you define the requirements for your new database.
+This opens the **New Active-Active Redis Database** dialog, which lets you define the requirements for your new database.
 
 {{<image filename="images/rc/create-database-active-active.png" width="75%" alt="New database dialog for Active-Active database." >}}
 
 By default, you're shown basic settings, which include:
 
 - **Name**: A custom name for your database.
-- **Advanced Capabilities**: Advanced data types or capabilities used by the database. Active-Active databases support the [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}}) data type and [Search and query]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}) capabilities.
+- **Advanced Capabilities**: Advanced data types or features used by the database. Active-Active databases support the [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}}) data type and [Search and query]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}) features.
 
     {{<image filename="images/rc/active-active-json-detail.png" width="75%" alt="When you create an Active-Active database, you can select the JSON and Search and query advanced capabilities." >}}  
 
@@ -170,7 +170,7 @@ Hover over a database to see the **Edit** and **Delete** icons. You can use the 
 
 The **Review and Create** tab provides a cost estimate for your Redis Cloud Pro plan:
 
-{{<image filename="images/rc/create-pro-aa-review.png" width="75%" alt="The Review & Create tab of the New Flexible subscription screen." >}}
+{{<image filename="images/rc/create-pro-aa-review.png" width="75%" alt="The Review & Create tab of the New Active-Active subscription screen." >}}
 
 Redis breaks down your databases to Redis Billing Units (RBUs), each with their own size and throughput requirements. For more info, see [Billing unit types]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}#billing-unit-types).
 

@@ -73,6 +73,18 @@ rules:
       - list
       - watch
   - apiGroups:
+      - batch
+    resources:
+      - cronjobs
+    verbs:
+      - create
+      - delete
+      - get
+      - patch
+      - update
+      - list
+      - watch
+  - apiGroups:
       - policy
     resources:
       - poddisruptionbudgets
