@@ -22,7 +22,7 @@ RAM.
 Redis JSON stores JSON values as binary data after deserialization. This representation is often more
 expensive, size-wise, than the serialized form. All JSON values occupy at least 8 bytes (on 64-bit architectures) because each is represented as a thin wrapper around a pointer. The type information is stored in the lower bits of the pointer, which are guaranteed to be zero due to alignment restrictions. This allows those bits to be repurposed to store some auxiliary data.
 
-For some types of JSON values, 8 bytes is all that’s needed. Nulls and booleans don’t require any additional storage. Small integers are stored in static memory because they’re frequently used, so they also use only the initial 8 bytes. Similarly, empty strings, arrays, and objects don’t require any bookkeeping. Instead, they point to static instances of a _null_ string, array, or object. Here are some examples that use the [JSON.DEBUG MEMORY]({{< relref "/commands/json.debug-memory >}}) command to report on memory consumption:
+For some types of JSON values, 8 bytes is all that’s needed. Nulls and booleans don’t require any additional storage. Small integers are stored in static memory because they’re frequently used, so they also use only the initial 8 bytes. Similarly, empty strings, arrays, and objects don’t require any bookkeeping. Instead, they point to static instances of a _null_ string, array, or object. Here are some examples that use the [JSON.DEBUG MEMORY]({{< relref "/commands/json.debug-memory" >}}) command to report on memory consumption:
 
 ```
 127.0.0.1:6379> JSON.SET boolean . 'true'
