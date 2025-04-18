@@ -128,7 +128,7 @@ Need a deeper-dive through different use cases and topics?
 * [Deploy GenAI apps faster with Redis and NVIDIA NIM](https://redis.io/blog/use-redis-with-nvidia-nim-to-deploy-genai-apps-faster/)
 * [Building LLM Applications with Kernel Memory and Redis](https://redis.io/blog/building-llm-applications-with-kernel-memory-and-redis/)
 * [DocArray integration of Redis as a vector database by Jina AI](https://docs.docarray.org/user_guide/storing/index_redis/)
-* [Semantic Kernel: A popular lib by MSFT to integrate LLMs with plugins](https://learn.microsoft.com/en-us/semantic-kernel/concepts/vector-store-connectors/out-of-the-box-connectors/redis-connector?pivots=programming-language-csharp)
+* [Semantic Kernel: A popular library by Microsoft to integrate LLMs with plugins](https://learn.microsoft.com/en-us/semantic-kernel/concepts/vector-store-connectors/out-of-the-box-connectors/redis-connector?pivots=programming-language-csharp)
 * [LiteLLM integration](https://docs.litellm.ai/docs/caching/all_caches#initialize-cache---in-memory-redis-s3-bucket-redis-semantic-disk-cache-qdrant-semantic)
 
 ## Benchmarks
