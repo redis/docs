@@ -25,6 +25,7 @@ rladmin cluster join
         [ persistent_path <path> ]
         [ ccs_persistent_path <path> ]
         [ rack_id <node rack ID> ]
+        [ second_rack_id <node's second rack ID> ]
         [ override_rack_id ]
         [ replace_node <node UID> ]
         [ flash_enabled ]
@@ -55,6 +56,7 @@ rladmin cluster join
 | persistent_path | filepath (default:&nbsp;/var/opt/redislabs/persist) | Path to the persistent storage location (optional) |
 | rack_id | string | Moves the node to the specified rack (optional) |
 | replace_node | integer | Replaces the specified node with the new node (optional) |
+| second_rack_id | string | The unique identifier of the node's second rack ID for two-dimensional rack awareness (optional) |
 | username | email address | Admin user's email address |
 
 ### Returns

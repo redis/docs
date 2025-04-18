@@ -11,6 +11,10 @@ linkTitle: optimize_shards_placement
 weight: $weight
 ---
 
+{{<banner-article>}}
+This REST API path is deprecated as of Redis Enterprise Software version 7.22. Use [`PUT /v1/bdbs/<uid>/actions/revamp?dry_run=true`]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/revamp/#put-bdbs-actions-revamp">}}) instead.
+{{</banner-article>}}
+
 | Method | Path | Description |
 |--------|------|-------------|
 | [GET](#get-bdbs-actions-optimize-shards-placement) | `/v1/bdbs/{uid}/actions/optimize_shards_placement` | Get optimized shards placement for a database  |
