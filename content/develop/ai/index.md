@@ -73,7 +73,7 @@ Retrieval Augmented Generation (aka RAG) is a technique to enhance the ability o
 AI agents can act autonomously to plan and execute tasks for the user.
 * [Notebook to get started with LangGraph and agents](https://colab.research.google.com/github/redis-developer/redis-ai-resources/blob/main/python-recipes/agents/00_langgraph_redis_agentic_rag.ipynb) 
 * [Build a collaborative movie recommendation system using Redis for data storage, CrewAI for agent-based task execution, and LangGraph for workflow management.](https://colab.research.google.com/github/redis-developer/redis-ai-resources/blob/main/python-recipes/agents/01_crewai_langgraph_redis.ipynb)
-* [Full-Featured Agent Architecture]([https://colab.research.google.com/github/redis-developer/redis-ai-resources/blob/main/python-recipes/agents/01_crewai_langgraph_redis.ipynb](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/agents/02_full_featured_agent.ipynb))
+* [Full-Featured Agent Architecture](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/agents/02_full_featured_agent.ipynb)
 
 #### LLM memory
 LLMs are stateless. To maintain context within a conversation chat sessions must be stored and resent to the LLM. Redis manages the storage and retrieval of chat sessions to maintain context and conversational relevance.
