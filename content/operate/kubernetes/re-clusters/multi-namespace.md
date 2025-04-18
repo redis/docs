@@ -16,7 +16,9 @@ Multiple Redis Enterprise database resources (REDBs) can be associated with a si
 
 To learn more about designing a multi-namespace Redis Enterprise cluster, see [flexible deployment options]({{< relref "/operate/kubernetes/architecture/deployment-options.md" >}}).
 
-{{<warning>}} Multi-namespace installations don't support Active-Active databases (REAADB). Only databases created with the REDB resource are supported in multi-namespace deployments at this time.{{</warning>}}
+<note>
+Multi-namespace installations now support Active-Active databases (REAADB) with certain configuration requirements. For details, see [Multi-namespace Active-Active databases](#multi-namespace-active-active-databases).
+</note>
 
 ## Prerequisites
 
@@ -98,7 +100,6 @@ kubectl apply -f role_binding.yaml -n <managed-namespace>
 If the REC is configured to watch a namespace without setting the role and role binding permissions, or a namespace that is not yet created, the operator will fail and halt normal operations.
 {{</note>}}
 
-
 ## Update Redis Enterprise operator ConfigMap
 
 There are two methods of updating the operator ConfigMap (`operator-environment-config`) to specify which namespaces to manage.
@@ -108,6 +109,9 @@ There are two methods of updating the operator ConfigMap (`operator-environment-
 
 You can create this ConfigMap manually before deployment, or it will be created automatically after the operator was deployed.
 
+{{<warning>}}
+Only configure the operator to watch a namespace after the namespace is created and configured with the role/role_binding as explained above. If configured to watch a namespace without setting those permissions or a namespace that is not created yet, the operator will fail and not perform normal operations.
+{{</warning>}}
 
 ### Method 1: Namespace label (available in versions 6.4.2-4 or later)
 
@@ -185,6 +189,38 @@ kubectl patch ConfigMap/operator-environment-config \
 -p '{"data":{"REDB_NAMESPACES": "<comma,separated,list,of,namespaces,to,watch"}}'
 ```
 
+## Multi-namespace Active-Active databases
+
+You can also deploy `RedisEnterpriseActiveActiveDatabase` (REAADB) objects in consumer namespaces separate from the Redis Enterprise operator or cluster (REC) namespace.
+
+To do this:
+
+1. Configure each participating cluster’s operator to watch the relevant consumer namespace. See [multi-namespace operator setup](#update-redis-enterprise-operator-configmap).
+2. Ensure all Active-Active prerequisites are met as described in [Configure Active-Active]({{<relref "content/operate/kubernetes/active-active/create-reaadb/">}}).
+3. In your REAADB custom resource, specify the target consumer namespace using `metadata.namespace`. For each participating cluster, use the `namespace` field under `spec.participatingClusters` to indicate the namespace where the REAADB should be deployed.
+
+{{<note>}}
+Apply the REAADB object to only one Kubernetes cluster. Based on the specified participating clusters and namespaces, the operator automatically creates the necessary resources in the other clusters.
+{{</note>}}
+
+For example:
+
+```yaml
+apiVersion: app.redislabs.com/v1alpha1
+kind: RedisEnterpriseActiveActiveDatabase
+metadata:
+  name: consumer-reaadb
+  namespace: consumer-namespace-main
+spec:
+  participatingClusters:
+    - name: participating-cluster-main
+      namespace: consumer-namespace-main
+    - name: participating-cluster-peer
+      namespace: consumer-namespace-peer
+  globalConfigurations:
+    <your global configurations>
+```
+
 {{<warning>}}
-Only configure the operator to watch a namespace after the namespace is created and configured with the role/role_binding as explained above. If configured to watch a namespace without setting those permissions or a namespace that is not created yet, the operator will fail and not perform normal operations.
+Configure the operator to watch a namespace only after the namespace exists and the required `Role` and `RoleBinding` resources have been applied. If the operator is configured to watch a namespace that lacks these permissions or does not exist, it will fail and halt normal operations.
 {{</warning>}}
