@@ -72,7 +72,7 @@ Get the values' memory usage in bytes.
 
 {{< highlight bash >}}
 redis> JSON.DEBUG MEMORY item:2
-(integer) 253
+(integer) 573
 {{< / highlight >}}
 </details>
 
@@ -84,4 +84,3 @@ redis> JSON.DEBUG MEMORY item:2
 
 * [RedisJSON]({{< relref "/develop/data-types/json/" >}})
 * [Index and search JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}})
-

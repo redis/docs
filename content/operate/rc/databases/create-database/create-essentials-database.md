@@ -34,13 +34,6 @@ This guide shows how to create an Essentials database.
 
 1. Choose a **Cloud Provider** and a **Region**.
 
-    A preview of Redis 7.4 is available for databases in selected regions. Select the **Redis 7.4 preview** toggle to view the regions where you can try Redis 7.4.
-
-    {{<image filename="images/rc/essentials-74-preview.png" alt="Turn on the Redis 7.4 preview toggle.">}}
-    
-    Redis 7.4 offers hash field expiration and other feature set improvements. For more information on the changes in Redis 7.4, see the [Redis 7.4 release notes](https://redis.io/blog/announcing-redis-community-edition-and-redis-stack-74).
-
-
 1. The **Type** of database controls the protocol and advanced capabilities. Leave this as **Redis Stack** unless you have a legacy application that uses **Memcached**.
 
     A Redis Stack database gives access to a set of advanced capabilities. For more information, see [Advanced capabilities]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#essentials" >}}).
@@ -48,7 +41,6 @@ This guide shows how to create an Essentials database.
 1. In the **Durability settings** panel, choose your **High availability settings** and **Data persistence** settings from the list. 
 
     {{<image filename="images/rc/create-database-essentials-durability.png" alt="The durability settings allow you to choose High availability and Data persistence." width=75% >}}
-
 
     Redis Cloud supports the following high availability settings:
 

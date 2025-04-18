@@ -43,39 +43,11 @@ To see which version of Redis Enterprise for Kubernetes supports your OpenShift 
 
 {{<warning>}}DO NOT modify or delete the StatefulSet created during the deployment process. Doing so could destroy your Redis Enterprise cluster (REC).{{</warning>}}
 
-## Install security context constraint
+## Security context constraints
 
-The Redis Enterprise pods must run in OpenShift with privileges set in a [Security Context Constraint](https://docs.openshift.com/container-platform/4.4/authentication/managing-security-context-constraints.html#security-context-constraints-about_configuring-internal-oauth). This grants the pod various rights, such as the ability to change system limits or run as a particular user.
+Upgrades to versions 7.22.0-6 and later run in **unprivileged mode** without any additional permissions or capabilities. If you don't specifally require additional capabilities, we recommend you maintain the default unprivileged mode, as its more secure. After upgrading, remove the existing `redis-enterprise-scc-v2` SCC and unbind it from the REC service account.
 
-{{<warning>}}
- Before creating any clusters, install the security context constraint (SCC) for the operator in [scc.yaml](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/openshift/scc.yaml).
-{{</warning>}}
-
-You only need to install the SCC once, but you must not delete it.
-
-1. Select the project you'll be using or create a new project.
-
-1. Download [`scc.yaml`](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/openshift/scc.yaml).
-
-1. Apply the file to install the security context constraint.
-
-  ```sh
-  oc apply -f scc.yaml
-  ```
-
-After the install, the OperatorHub automatically uses the constraint for Redis Enterprise node pods.
-
-{{< note >}}
-If you are using the recommended RedisEnterpriseCluster name of `rec`, the SCC is automatically bound to the RedisEnterpriseCluster after install.
-
-If you choose a different name for the RedisEnterpriseCluster, or override the default service account name, you must manually bind the SCC to the RedisEnterpriseCluster’s service account:
-
-  ```sh
-  oc adm policy add-scc-to-user redis-enterprise-scc-v2 \
-  system:serviceaccount:<my-project>:<rec-service-account-name>
-  ```
-
-{{< /note >}}
+To enable privileged mode, see [Enable privileged mode > OpenShift upgrades]({{<relref "/operate/kubernetes/security/enable-privileged-mode#new-openshift-installations">}}).
 
 ## Create Redis Enterprise custom resources
 

@@ -33,7 +33,7 @@ parent object (the "one") as a JSON document with the children (the "many") nest
 attribute in the parent. The diagram belows shows a nesting with the child objects in a map
 called `InvoiceLineItems`:
 
-{{< image filename="/images/rdi/nest-flow.png" >}}
+{{< image filename="/images/rdi/ingest/nest-flow.webp" width="500px" >}}
 
 You configure normalization with a `nest` block in the child entities' RDI job, as shown in this example:
 
