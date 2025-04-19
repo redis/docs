@@ -50,7 +50,7 @@ This means:
 
   Rewrite your Redis configuration file (e.g., the `redis.conf` file) to reflect the configuration changes.
 
-You can also specify the value directly in your Redis configuration file (e.g., the `redis.conf` file) the same way you would do for Redis runtime configuration parameters.
+Starting with Redis 8.0, you can also specify time series configuration parameters directly in your Redis configuration file (e.g., the `redis.conf` file) the same way you would do for Redis configuration parameters.
 
 Once a value is set with `CONFIG SET`, or added manually to your configuration file, it will overwrite values set with `--loadmodule`, `loadmodule`, `MODULE LOAD`, or `MODULE LOADEX`.
 
