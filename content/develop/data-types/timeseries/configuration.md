@@ -55,7 +55,7 @@ Once a value is set with `CONFIG SET`, or added manually to your configuration f
 
 Note that on a cluster, `CONFIG SET` and `CONFIG REWRITE` have to be called on each node separately.
 
-We also introduced new configuration parameters, and aligned the naming scheme of the module configuration parameters with Redis configuration parameters. 
+In Redis 8.0, we also introduced new names for the time series configuration parameters, to align the naming scheme of the time series configuration parameters with Redis configuration parameters. 
 When using the `CONFIG` command, you must use the new names.
 
 ## Time series configuration parameters
