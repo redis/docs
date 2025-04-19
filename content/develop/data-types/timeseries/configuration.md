@@ -70,7 +70,7 @@ When using the `CONFIG` command, you must use the new names.
 | IGNORE_MAX_TIME_DIFF | [ts-ignore-max-time-diff](#ignore_max_time_diff--ts-ignore-max-time-diff-and-ignore_max_val_diff--ts-ignore-max-val-diff) | :white_check_mark:   |||
 | IGNORE_MAX_VAL_DIFF  | [ts-ignore-max-val-diff](#ignore_max_time_diff--ts-ignore-max-time-diff-and-ignore_max_val_diff--ts-ignore-max-val-diff)  | :white_check_mark:   |||
 | NUM_THREADS          | [ts-num-threads](#num_threads--ts-num-threads)                   | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Not Supported">&#x274c; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
-| OSS_GLOBAL_PASSWORD  | Deprecated in v8.0                                               | :white_check_mark:   |||
+| [OSS_GLOBAL_PASSWORD](#oss_global_password)  | Deprecated in v8.0                       | :white_check_mark:   |||
 
 ---
 
