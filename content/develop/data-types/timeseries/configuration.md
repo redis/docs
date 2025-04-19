@@ -33,8 +33,7 @@ In order to change the values of a load-time parameter, you have to use one of t
 - Using the `MODULE LOADEX path [CONFIG name value [CONFIG name value ...]] [ARGS args [args ....]]` command.
 
 With the introduction of Redis 8.0, most of the time series configuration parameters are now runtime parameters. This means that their values can be changed at runtime.
-You can still set runtime parameters at load-time, but it is less recommended.
-Instead, you should use the Redis `CONFIG` command with time series runtime configuration parameters, in exactly the same way you would do for Redis runtime configuration parameters. 
+You can set runtime configuration parameters at load-time, but instead, it is recommended to use the Redis `CONFIG` command with time series runtime configuration parameters, the same way you would do for Redis runtime configuration parameters.
 
 This means:
 
