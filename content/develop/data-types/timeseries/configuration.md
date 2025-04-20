@@ -18,7 +18,7 @@ weight: 3
 
 Previous to version 8.0, all time series configuration parameters were load-time parameters.
 
-In order to change the values of a load-time parameter, you have to use one of the following methods:
+In order to set the values of load-time parameters, you have to use one of the following methods:
 
 - Pass them as command-line arguments following the `loadmodule` argument when starting redis-server
 
@@ -32,8 +32,8 @@ In order to change the values of a load-time parameter, you have to use one of t
 
 - Using the `MODULE LOADEX path [CONFIG name value [CONFIG name value ...]] [ARGS args [args ....]]` command.
 
-With the introduction of Redis 8.0, most of the time series configuration parameters are now runtime parameters. This means that their values can be changed at runtime.
-You can set runtime configuration parameters at load-time, but instead, it is recommended to use the Redis `CONFIG` command with time series runtime configuration parameters, the same way you would do for Redis runtime configuration parameters.
+With the introduction of Redis 8.0, most of the time series configuration parameters are now runtime parameters. This means that you can change their values at runtime.
+You can also set runtime configuration parameters at load-time, but it is simpler to use the Redis `CONFIG` command with time series runtime configuration parameters, the same way you would do for Redis runtime configuration parameters.
 
 This means:
 
@@ -49,13 +49,13 @@ This means:
 
   Rewrite your Redis configuration file (e.g., the `redis.conf` file) to reflect the configuration changes.
 
-Starting with Redis 8.0, you can also specify time series configuration parameters directly in your Redis configuration file (e.g., the `redis.conf` file) the same way you would do for Redis configuration parameters.
+Starting with Redis 8.0, you can also specify time series configuration parameters directly in your Redis configuration file (e.g., your `redis.conf` file) the same way you would do for Redis configuration parameters.
 
-Once a value is set with `CONFIG SET`, or added manually to your configuration file, it will overwrite values set with `--loadmodule`, `loadmodule`, `MODULE LOAD`, or `MODULE LOADEX`.
+Once a value is set with `CONFIG SET` or added manually to your configuration file, it will overwrite values set with `--loadmodule`, `loadmodule`, `MODULE LOAD`, or `MODULE LOADEX`.
 
 Note that on a cluster, `CONFIG SET` and `CONFIG REWRITE` have to be called on each node separately.
 
-In Redis 8.0, we also introduced new names for the time series configuration parameters, to align the naming scheme of the time series configuration parameters with Redis configuration parameters. 
+In Redis 8.0, we also introduced new names for the time series configuration parameters, to align the naming with Redis configuration parameters.
 When using the `CONFIG` command, you must use the new names.
 
 ## Time series configuration parameters
@@ -85,6 +85,21 @@ Type: integer
 Valid range: `[48 .. 1048576]`; must be a multiple of 8
 
 Default: `4096`
+#### Example
+
+Setting the default chunk size to 1024 bytes
+
+Version < 8.0:
+
+```
+$ redis-server --loadmodule ./redistimeseries.so CHUNK_SIZE_BYTES 1024
+```
+
+Version >= 8.0:
+
+```
+redis> CONFIG SET ts-chunk-size-bytes 1024
+```
 
 ### COMPACTION_POLICY / ts-compaction-policy
 
@@ -197,6 +212,8 @@ Since the duplication policy can be provided at different levels, the actual pre
 
 #### Example
 
+Setting a compaction policy composed of 5 compaction rules
+
 Version < 8.0:
 
 ```
@@ -206,7 +223,7 @@ $ redis-server --loadmodule ./redistimeseries.so COMPACTION_POLICY max:1m:1h;min
 Version >= 8.0:
 
 ```
-$ CONFIG SET ts-compaction-policy max:1m:1h;min:10s:5d:10d;last:5M:10m;avg:2h:10d;avg:3d:100d
+redis> CONFIG SET ts-compaction-policy max:1m:1h;min:10s:5d:10d;last:5M:10m;avg:2h:10d;avg:3d:100d
 ```
 
 ### RETENTION_POLICY / ts-retention-policy
@@ -238,7 +255,7 @@ $ redis-server --loadmodule ./redistimeseries.so RETENTION_POLICY 25920000000
 Version >= 8.0:
 
 ```
-$ CONFIG SET ts-retention-policy 25920000000
+redis> CONFIG SET ts-retention-policy 25920000000
 ```
 
 ### ENCODING / ts-encoding
@@ -310,7 +327,7 @@ $ redis-server --loadmodule ./redistimeseries.so NUM_THREADS 3
 Version >= 8.0:
 
 ```
-$ redis-server --loadmodule ./redistimeseries.so ts-num-threads 3
+redis> redis-server --loadmodule ./redistimeseries.so ts-num-threads 3
 ```
 
 
