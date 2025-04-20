@@ -113,8 +113,6 @@ Default compaction rules for newly created keys with [`TS.ADD`]({{< relref "/com
 
 Type: string
 
-Default: No compaction rules.
-
 Note that this configuration parameter has no effect on keys created with [`TS.CREATE`]({{< relref "commands/ts.create/" >}}). To understand the motivation for this behavior, consider the following scenario: Suppose a default compaction policy is defined, but then one wants to manually create an additional compaction rule (using [`TS.CREATERULE`]({{< relref "commands/ts.createrule/" >}})) which requires first creating an empty destination key (using [`TS.CREATE`]({{< relref "commands/ts.create/" >}})). But now there is a problem: due to the default compaction policy, automatic compactions would be undesirably created for that destination key.
 
 Each rule is separated by a semicolon (`;`), the rule consists of multiple fields that are separated by a colon (`:`):
@@ -180,6 +178,11 @@ When a compaction policy is defined, compaction rules will be created automatica
 * If the time bucket alignment is not 0:
 
    _key_agg_dur_aln_ where _key_ is the key of the source time series, _agg_ is the aggregator (in uppercase), _dur_ is the bucket duration in milliseconds, and _aln_ is the time bucket alignment in milliseconds. Example: `key_SUM_60000_1000`.
+
+#### Precedence order
+
+1. The `ts-compaction-policy` configuration parameter.
+1. No compaction rules.
 
 #### Example rules
 
