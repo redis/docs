@@ -177,10 +177,26 @@ When a compaction policy is defined, compaction rules will be created automatica
 
    _key_agg_dur_aln_ where _key_ is the key of the source time series, _agg_ is the aggregator (in uppercase), _dur_ is the bucket duration in milliseconds, and _aln_ is the time bucket alignment in milliseconds. Example: `key_SUM_60000_1000`.
 
-**Examples**
+#### Example rules
 
 - `max:1M:1h` - Aggregate using `max` over one-minute windows and retain the last hour
 - `twa:1d:0m:360M` - Aggregate daily [06:00 .. 06:00) using `twa`; no expiration
+
+#### Example
+
+Setting a compaction policy composed of 5 compaction rules
+
+Version < 8.0:
+
+```
+$ redis-server --loadmodule ./redistimeseries.so COMPACTION_POLICY max:1m:1h;min:10s:5d:10d;last:5M:10m;avg:2h:10d;avg:3d:100d
+```
+
+Version >= 8.0:
+
+```
+redis> CONFIG SET ts-compaction-policy max:1m:1h;min:10s:5d:10d;last:5M:10m;avg:2h:10d;avg:3d:100d
+```
 
 ### DUPLICATE_POLICY / ts-duplicate-policy
 
@@ -199,8 +215,6 @@ The default value is applied to each new time series upon its creation.
 
 Type: string
 
-Default: `BLOCK`
-
 **Precedence order**
 
 Since the duplication policy can be provided at different levels, the actual precedence of the used policy will be:
@@ -208,23 +222,7 @@ Since the duplication policy can be provided at different levels, the actual pre
 1. [`TS.ADD`]({{< relref "/commands/ts.add/" >}})'s `ON_DUPLICATE_POLICY` optional argument.
 1. Key-level policy, as set with [`TS.CREATE`]({{< relref "/commands/ts.create/" >}})'s and [`TS.ALTER`]({{< relref "/commands/ts.alter/" >}})'s `DUPLICATE_POLICY` optional argument.
 1. The `ts-duplicate-policy` configuration parameter.
-1. The default policy.
-
-#### Example
-
-Setting a compaction policy composed of 5 compaction rules
-
-Version < 8.0:
-
-```
-$ redis-server --loadmodule ./redistimeseries.so COMPACTION_POLICY max:1m:1h;min:10s:5d:10d;last:5M:10m;avg:2h:10d;avg:3d:100d
-```
-
-Version >= 8.0:
-
-```
-redis> CONFIG SET ts-compaction-policy max:1m:1h;min:10s:5d:10d;last:5M:10m;avg:2h:10d;avg:3d:100d
-```
+1. The default hard-coded policy (`BLOCK`)
 
 ### RETENTION_POLICY / ts-retention-policy
 
