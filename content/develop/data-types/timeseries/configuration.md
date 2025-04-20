@@ -85,7 +85,7 @@ Valid range: `[48 .. 1048576]`; must be a multiple of 8
 
 #### Precedence order
 
-Since the chunk size can be provided at different levels, the actual precedence of the used chunk size will be:
+Since the chunk size can be provided at different levels, the actual precedence of the chunk size will be:
 
 1. Key-level policy, as set with [`TS.CREATE`]({{< relref "/commands/ts.create/" >}})'s and [`TS.ALTER`]({{< relref "/commands/ts.alter/" >}})'s `CHUNK_SIZE` optional argument.
 1. The `ts-chunk-size-bytes` configuration parameter.
@@ -224,7 +224,7 @@ Type: string
 
 #### Precedence order
 
-Since the duplication policy can be provided at different levels, the actual precedence of the used duplication policy will be:
+Since the duplication policy can be provided at different levels, the actual precedence of the duplication policy will be:
 
 1. [`TS.ADD`]({{< relref "/commands/ts.add/" >}})'s `ON_DUPLICATE_POLICY` optional argument.
 1. Key-level policy, as set with [`TS.CREATE`]({{< relref "/commands/ts.create/" >}})'s and [`TS.ALTER`]({{< relref "/commands/ts.alter/" >}})'s `DUPLICATE_POLICY` optional argument.
@@ -247,7 +247,7 @@ When both `COMPACTION_POLICY` / `ts-compaction-policy` and `RETENTION_POLICY` / 
 
 #### Precedence order
 
-Since the retention can be provided at different levels, the actual precedence of the used retention will be:
+Since the retention can be provided at different levels, the actual precedence of the retention will be:
 
 1. Key-level retention, as set with [`TS.CREATE`]({{< relref "/commands/ts.create/" >}})'s and [`TS.ALTER`]({{< relref "/commands/ts.alter/" >}})'s `RETENTION` optional argument.
 1. The `ts-retention-policy` configuration parameter.
@@ -286,7 +286,7 @@ Valid values: `COMPRESSED`, `UNCOMPRESSED`
 
 #### Example
 
-Setting the default encoding `UNCOMPRESSED`
+Setting the default encoding to `UNCOMPRESSED`
 
 Version < 8.0:
 
