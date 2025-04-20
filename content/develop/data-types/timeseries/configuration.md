@@ -315,8 +315,6 @@ Defaults:
 - `ts-ignore-max-time-diff`: 0
 - `ts-ignore-max-val-diff`: 0.0
 
-**Discussion**
-
 Many sensors report data periodically. Often, the difference between the measured value and the previous measured value is negligible and related to random noise or to measurement accuracy limitations. In such situations it may be preferable not to add the new measurement to the time series.
 
 A new sample is considered a duplicate and is ignored if the following conditions are met:
@@ -328,6 +326,20 @@ A new sample is considered a duplicate and is ignored if the following condition
 1. The absolute value difference of the current value from the value at the previous maximum timestamp (`abs(value - value_at_max_timestamp`) is less than or equal to `ts-ignore-max-val-diff`.
 
 where `max_timestamp` is the timestamp of the sample with the largest timestamp in the time series, and `value_at_max_timestamp` is the value at `max_timestamp`.
+
+#### Example
+
+Version < 8.0:
+
+```
+$ redis-server --loadmodule ./redistimeseries.so IGNORE_MAX_TIME_DIFF 10 IGNORE_MAX_VAL_DIFF 0.1
+```
+
+Version >= 8.0:
+
+```
+redis> CONFIG SET ts-ignore-max-time-diff 10 ts-ignore-max-val-diff 0.1
+```
 
 ### NUM_THREADS / ts-num-threads
 
