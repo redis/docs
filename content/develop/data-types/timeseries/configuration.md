@@ -85,7 +85,7 @@ Valid range: `[48 .. 1048576]`; must be a multiple of 8
 
 #### Precedence order
 
-Since the chunk size can be provided at different levels, the actual precedence of the chunk size will be:
+Since the chunk size can be provided at different levels, the actual precedence of the chunk size is:
 
 1. Key-level policy, as set with [`TS.CREATE`]({{< relref "/commands/ts.create/" >}})'s and [`TS.ALTER`]({{< relref "/commands/ts.alter/" >}})'s `CHUNK_SIZE` optional argument.
 1. The `ts-chunk-size-bytes` configuration parameter.
@@ -169,7 +169,7 @@ Each rule is separated by a semicolon (`;`), the rule consists of multiple field
 In a clustered environment, if you set this configuration parameter, you must use [hash tags]({{< relref "/operate/oss_and_stack/reference/cluster-spec" >}}#hash-tags) for all time series key names. This ensures that Redis will create each compaction in the same hash slot as its source key. If you don't, the system may fail to compact the data without displaying any error messages.
 {{% /warning %}}
 
-When a compaction policy is defined, compaction rules will be created automatically for newly created time series, and their key would be set to:
+When a compaction policy is defined, compaction rules are created automatically for newly created time series, and the compaction key name would be:
   
 * If the time bucket alignment is 0:
 
@@ -224,7 +224,7 @@ Type: string
 
 #### Precedence order
 
-Since the duplication policy can be provided at different levels, the actual precedence of the duplication policy will be:
+Since the duplication policy can be provided at different levels, the actual precedence of the duplication policy is:
 
 1. [`TS.ADD`]({{< relref "/commands/ts.add/" >}})'s `ON_DUPLICATE_POLICY` optional argument.
 1. Key-level policy, as set with [`TS.CREATE`]({{< relref "/commands/ts.create/" >}})'s and [`TS.ALTER`]({{< relref "/commands/ts.alter/" >}})'s `DUPLICATE_POLICY` optional argument.
@@ -247,7 +247,7 @@ When both `COMPACTION_POLICY` / `ts-compaction-policy` and `RETENTION_POLICY` / 
 
 #### Precedence order
 
-Since the retention can be provided at different levels, the actual precedence of the retention will be:
+Since the retention can be provided at different levels, the actual precedence of the retention is:
 
 1. Key-level retention, as set with [`TS.CREATE`]({{< relref "/commands/ts.create/" >}})'s and [`TS.ALTER`]({{< relref "/commands/ts.alter/" >}})'s `RETENTION` optional argument.
 1. The `ts-retention-policy` configuration parameter.
