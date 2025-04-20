@@ -89,7 +89,7 @@ Since the chunk size can be provided at different levels, the actual precedence 
 
 1. Key-level policy, as set with [`TS.CREATE`]({{< relref "/commands/ts.create/" >}})'s and [`TS.ALTER`]({{< relref "/commands/ts.alter/" >}})'s `CHUNK_SIZE` optional argument.
 1. The `ts-chunk-size-bytes` configuration parameter.
-1. The default hard-coded chunk size (`4096`)
+1. The hard-coded default: `4096`
 
 #### Example
 
@@ -221,12 +221,12 @@ Type: string
 
 #### Precedence order
 
-Since the duplication policy can be provided at different levels, the actual precedence of the used policy will be:
+Since the duplication policy can be provided at different levels, the actual precedence of the used duplication policy will be:
 
 1. [`TS.ADD`]({{< relref "/commands/ts.add/" >}})'s `ON_DUPLICATE_POLICY` optional argument.
 1. Key-level policy, as set with [`TS.CREATE`]({{< relref "/commands/ts.create/" >}})'s and [`TS.ALTER`]({{< relref "/commands/ts.alter/" >}})'s `DUPLICATE_POLICY` optional argument.
 1. The `ts-duplicate-policy` configuration parameter.
-1. The default hard-coded policy (`BLOCK`)
+1. The hard-coded default: `BLOCK`
 
 ### RETENTION_POLICY / ts-retention-policy
 
@@ -238,11 +238,17 @@ Type: integer
 
 Valid range: `[0 .. 9,223,372,036,854,775,807]`
 
-Default: `0`
-
 The value `0` means no expiration.
 
 When both `COMPACTION_POLICY` / `ts-compaction-policy` and `RETENTION_POLICY` / `ts-retention-policy` are specified, the retention of newly created compactions is according to the retention time specified in `COMPACTION_POLICY` / `ts-compaction-policy`.
+
+#### Precedence order
+
+Since the retention can be provided at different levels, the actual precedence of the used retention will be:
+
+1. Key-level retention, as set with [`TS.CREATE`]({{< relref "/commands/ts.create/" >}})'s and [`TS.ALTER`]({{< relref "/commands/ts.alter/" >}})'s `RETENTION` optional argument.
+1. The `ts-retention-policy` configuration parameter.
+1. No retention.
 
 #### Example
 
@@ -264,13 +270,34 @@ redis> CONFIG SET ts-retention-policy 25920000000
 
 Note: Before v1.6 this configuration parameter was named `CHUNK_TYPE`.
 
-Default chunk encoding for automatically created time series keys when [ts-compaction-policy](#ts-compaction-policy) is configured.
+Default chunk encoding for automatically created compactions when [ts-compaction-policy](#ts-compaction-policy) is configured.
 
 Type: string
 
 Valid values: `COMPRESSED`, `UNCOMPRESSED`
 
-Default: `COMPRESSED`
+#### Precedence order
+
+Since the encoding can be provided at different levels, the actual precedence of the used encoding will be:
+
+1. The `ts-encoding` configuration parameter.
+1. The hard-coded default: `COMPRESSED`
+
+#### Example
+
+Setting the default encoding `UNCOMPRESSED`
+
+Version < 8.0:
+
+```
+$ redis-server --loadmodule ./redistimeseries.so ENCODING UNCOMPRESSED
+```
+
+Version >= 8.0:
+
+```
+redis> CONFIG SET ts-encoding UNCOMPRESSED
+```
 
 ### IGNORE_MAX_TIME_DIFF / ts-ignore-max-time-diff and IGNORE_MAX_VAL_DIFF / ts-ignore-max-val-diff
 
