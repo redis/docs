@@ -278,8 +278,6 @@ Valid values: `COMPRESSED`, `UNCOMPRESSED`
 
 #### Precedence order
 
-Since the encoding can be provided at different levels, the actual precedence of the used encoding will be:
-
 1. The `ts-encoding` configuration parameter.
 1. The hard-coded default: `COMPRESSED`
 
@@ -311,10 +309,6 @@ Valid ranges:
 - `ts-ignore-max-time-diff`: `[0 .. 9,223,372,036,854,775,807]`
 - `ts-ignore-max-val-diff`: `[0 .. 1.7976931348623157e+308]`
 
-Defaults:
-- `ts-ignore-max-time-diff`: 0
-- `ts-ignore-max-val-diff`: 0.0
-
 Many sensors report data periodically. Often, the difference between the measured value and the previous measured value is negligible and related to random noise or to measurement accuracy limitations. In such situations it may be preferable not to add the new measurement to the time series.
 
 A new sample is considered a duplicate and is ignored if the following conditions are met:
@@ -326,6 +320,11 @@ A new sample is considered a duplicate and is ignored if the following condition
 1. The absolute value difference of the current value from the value at the previous maximum timestamp (`abs(value - value_at_max_timestamp`) is less than or equal to `ts-ignore-max-val-diff`.
 
 where `max_timestamp` is the timestamp of the sample with the largest timestamp in the time series, and `value_at_max_timestamp` is the value at `max_timestamp`.
+
+#### Precedence order
+
+1. The `ts-ignore-max-time-diff` and `ts-ignore-max-val-diff` configuration parameters.
+1. The hard-coded defaults: `0` and `0.0`.
 
 #### Example
 
