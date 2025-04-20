@@ -76,15 +76,21 @@ When using the `CONFIG` command, you must use the new names.
 
 ### CHUNK_SIZE_BYTES / ts-chunk-size-bytes
 
-Default initial allocation size, in bytes, for the data part of each new chunk.
-This default value is applied to each new time series upon its creation.
-Actual chunks may consume more memory.
+The initial allocation size, in bytes, for the data part of each new chunk. Actual chunks may consume more memory.
+Changing this value does not affect existing chunks.
 
 Type: integer
 
 Valid range: `[48 .. 1048576]`; must be a multiple of 8
 
-Default: `4096`
+#### Precedence order
+
+Since the chunk size can be provided at different levels, the actual precedence of the used chunk size will be:
+
+1. Key-level policy, as set with [`TS.CREATE`]({{< relref "/commands/ts.create/" >}})'s and [`TS.ALTER`]({{< relref "/commands/ts.alter/" >}})'s `CHUNK_SIZE` optional argument.
+1. The `ts-chunk-size-bytes` configuration parameter.
+1. The default hard-coded chunk size (`4096`)
+
 #### Example
 
 Setting the default chunk size to 1024 bytes
@@ -108,8 +114,6 @@ Default compaction rules for newly created keys with [`TS.ADD`]({{< relref "/com
 Type: string
 
 Default: No compaction rules.
-
-**Discussion**
 
 Note that this configuration parameter has no effect on keys created with [`TS.CREATE`]({{< relref "commands/ts.create/" >}}). To understand the motivation for this behavior, consider the following scenario: Suppose a default compaction policy is defined, but then one wants to manually create an additional compaction rule (using [`TS.CREATERULE`]({{< relref "commands/ts.createrule/" >}})) which requires first creating an empty destination key (using [`TS.CREATE`]({{< relref "commands/ts.create/" >}})). But now there is a problem: due to the default compaction policy, automatic compactions would be undesirably created for that destination key.
 
@@ -215,7 +219,7 @@ The default value is applied to each new time series upon its creation.
 
 Type: string
 
-**Precedence order**
+#### Precedence order
 
 Since the duplication policy can be provided at different levels, the actual precedence of the used policy will be:
 
