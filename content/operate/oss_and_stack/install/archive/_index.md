@@ -9,7 +9,7 @@ hideListLinks: true
 linkTitle: Archived instructions
 title: Install Redis Community Edition or Redis Stack
 weight: 30
-bannerText: These docs apply to versions of Redis Community Edition and Redis Stack earlier than 8.0.0.
+bannerText: These docs apply to Redis Community Edition and Redis Stack version 7.x.
 bannerChildren: true
 ---
 
