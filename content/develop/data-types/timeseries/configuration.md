@@ -14,26 +14,25 @@ linkTitle: Configuration
 title: Configuration Parameters
 weight: 3
 ---
-## Redis CE - Setting configuration parameters
+## Redis Community Edition - set configuration parameters
 
-Previous to version 8.0, all time series configuration parameters were load-time parameters.
+Before version 8.0, all time series configuration parameters are load-time parameters.
+Use one of the following methods to set the values of load-time configuration parameters:
 
-In order to set the values of load-time parameters, you have to use one of the following methods:
-
-- Pass them as command-line arguments following the `loadmodule` argument when starting redis-server
+- Pass them as command-line arguments following the `loadmodule` argument when starting `redis-server`:
 
   `redis-server --loadmodule ./{modulename}.so [OPT VAL]...`
 
-- Add them as arguments to the `loadmodule` directive in your configuration file (e.g., `redis.conf`):
+- Add them as arguments to the `loadmodule` directive in your configuration file (for example, `redis.conf`):
 
   `loadmodule ./{modulename}.so [OPT VAL]...`
 
-- Using the `MODULE LOAD path [arg [arg ...]]` command.
+- Use the `MODULE LOAD path [arg [arg ...]]` command.
 
-- Using the `MODULE LOADEX path [CONFIG name value [CONFIG name value ...]] [ARGS args [args ....]]` command.
+- Use the `MODULE LOADEX path [CONFIG name value [CONFIG name value ...]] [ARGS args [args ....]]` command.
 
-With the introduction of Redis 8.0, most of the time series configuration parameters are now runtime parameters. This means that you can change their values at runtime.
-You can also set runtime configuration parameters at load-time, but it is simpler to use the Redis `CONFIG` command with time series runtime configuration parameters, the same way you would do for Redis runtime configuration parameters.
+Starting with Redis 8.0, most time series configuration parameters are runtime parameters.
+While you can set runtime parameters at load time, using the Redis `CONFIG` command is easier and works the same way as with Redis runtime configuration parameters.
 
 This means:
 
@@ -47,16 +46,16 @@ This means:
 
 - `CONFIG REWRITE`
 
-  Rewrite your Redis configuration file (e.g., the `redis.conf` file) to reflect the configuration changes.
+  Rewrite your Redis configuration file (for example, the `redis.conf` file) to reflect the configuration changes.
 
-Starting with Redis 8.0, you can also specify time series configuration parameters directly in your Redis configuration file (e.g., your `redis.conf` file) the same way you would do for Redis configuration parameters.
+Starting with Redis 8.0, you can specify time series configuration parameters directly in your Redis configuration file the same way you would for Redis configuration parameters.
 
 Once a value is set with `CONFIG SET` or added manually to your configuration file, it will overwrite values set with `--loadmodule`, `loadmodule`, `MODULE LOAD`, or `MODULE LOADEX`.
 
-Note that on a cluster, `CONFIG SET` and `CONFIG REWRITE` have to be called on each node separately.
+In a cluster, you must run `CONFIG SET` and `CONFIG REWRITE` on each node separately.
 
-In Redis 8.0, we also introduced new names for the time series configuration parameters, to align the naming with Redis configuration parameters.
-When using the `CONFIG` command, you must use the new names.
+In Redis 8.0, new names for the time series configuration parameters were introduced to align the naming with the Redis configuration parameters.
+You must use the new names when using the `CONFIG` command.
 
 ## Time series configuration parameters
 
@@ -85,7 +84,7 @@ Valid range: `[48 .. 1048576]`; must be a multiple of 8
 
 #### Precedence order
 
-Since the chunk size can be provided at different levels, the actual precedence of the chunk size is:
+Because the chunk size can be provided at different levels, the actual precedence of the chunk size is:
 
 1. Key-level policy, as set with [`TS.CREATE`]({{< relref "/commands/ts.create/" >}})'s and [`TS.ALTER`]({{< relref "/commands/ts.alter/" >}})'s `CHUNK_SIZE` optional argument.
 1. The `ts-chunk-size-bytes` configuration parameter.
@@ -93,7 +92,7 @@ Since the chunk size can be provided at different levels, the actual precedence 
 
 #### Example
 
-Setting the default chunk size to 1024 bytes
+Set the default chunk size to 1024 bytes:
 
 Version < 8.0:
 
@@ -113,7 +112,7 @@ Default compaction rules for newly created keys with [`TS.ADD`]({{< relref "/com
 
 Type: string
 
-Note that this configuration parameter has no effect on keys created with [`TS.CREATE`]({{< relref "commands/ts.create/" >}}). To understand the motivation for this behavior, consider the following scenario: Suppose a default compaction policy is defined, but then one wants to manually create an additional compaction rule (using [`TS.CREATERULE`]({{< relref "commands/ts.createrule/" >}})) which requires first creating an empty destination key (using [`TS.CREATE`]({{< relref "commands/ts.create/" >}})). But now there is a problem: due to the default compaction policy, automatic compactions would be undesirably created for that destination key.
+Note that this configuration parameter does not affect keys you create with [`TS.CREATE`]({{< relref "commands/ts.create/" >}}). To understand why, consider the following scenario: Suppose you define a default compaction policy but then want to manually create an additional compaction rule (using [`TS.CREATERULE`]({{< relref "commands/ts.createrule/" >}})), which requires you to first create an empty destination key (using `TS.CREATE`). This approach creates a problem: the default compaction policy would cause Redis to automatically create undesired compactions for the destination key.
 
 Each rule is separated by a semicolon (`;`), the rule consists of multiple fields that are separated by a colon (`:`):
 
@@ -163,7 +162,7 @@ Each rule is separated by a semicolon (`;`), the rule consists of multiple field
     * h - hour
     * d - day
 
-  Assure that there is a bucket that starts at exactly _alignTimestamp_ after the epoch and align all other buckets accordingly. Default value: 0 (aligned with the epoch). Example: if _bucketDuration_ is 24 hours, setting _alignTimestamp_ to `6h` (6 hours after the Epoch) will ensure that each bucket’s timeframe is [06:00 .. 06:00).
+  Ensure that there is a bucket that starts at exactly _alignTimestamp_ after the Epoch and align all other buckets accordingly. Default value: 0 (aligned with the Epoch). Example: if _bucketDuration_ is 24 hours, setting _alignTimestamp_ to `6h` (6 hours after the Epoch) will ensure that each bucket’s timeframe is [06:00 .. 06:00).
 
 {{% warning %}}
 In a clustered environment, if you set this configuration parameter, you must use [hash tags]({{< relref "/operate/oss_and_stack/reference/cluster-spec" >}}#hash-tags) for all time series key names. This ensures that Redis will create each compaction in the same hash slot as its source key. If you don't, the system may fail to compact the data without displaying any error messages.
@@ -191,7 +190,7 @@ When a compaction policy is defined, compaction rules are created automatically 
 
 #### Example
 
-Setting a compaction policy composed of 5 compaction rules
+Set a compaction policy composed of 5 compaction rules:
 
 Version < 8.0:
 
@@ -224,7 +223,7 @@ Type: string
 
 #### Precedence order
 
-Since the duplication policy can be provided at different levels, the actual precedence of the duplication policy is:
+Because the duplication policy can be provided at different levels, the actual precedence of the duplication policy is:
 
 1. [`TS.ADD`]({{< relref "/commands/ts.add/" >}})'s `ON_DUPLICATE_POLICY` optional argument.
 1. Key-level policy, as set with [`TS.CREATE`]({{< relref "/commands/ts.create/" >}})'s and [`TS.ALTER`]({{< relref "/commands/ts.alter/" >}})'s `DUPLICATE_POLICY` optional argument.
@@ -233,9 +232,9 @@ Since the duplication policy can be provided at different levels, the actual pre
 
 ### RETENTION_POLICY / ts-retention-policy
 
-Default retention period, in milliseconds, for newly created keys.
+The default retention period, in milliseconds, for newly created keys.
 
-Retention period is the maximum age of samples compared to highest reported timestamp, per key. Samples are expired based solely on the difference between their timestamp and the timestamps passed to subsequent [`TS.ADD`]({{< relref "commands/ts.add/" >}}), [`TS.MADD`]({{< relref "commands/ts.madd/" >}}), [`TS.INCRBY`]({{< relref "commands/ts.incrby/" >}}), and [`TS.DECRBY`]({{< relref "commands/ts.decrby/" >}}) calls.
+The retention period is the maximum age of samples compared to the highest reported timestamp, per key. Samples are expired based solely on the difference between their timestamps and the timestamps passed to subsequent [`TS.ADD`]({{< relref "commands/ts.add/" >}}), [`TS.MADD`]({{< relref "commands/ts.madd/" >}}), [`TS.INCRBY`]({{< relref "commands/ts.incrby/" >}}), and [`TS.DECRBY`]({{< relref "commands/ts.decrby/" >}}) calls.
 
 Type: integer
 
@@ -247,7 +246,7 @@ When both `COMPACTION_POLICY` / `ts-compaction-policy` and `RETENTION_POLICY` / 
 
 #### Precedence order
 
-Since the retention can be provided at different levels, the actual precedence of the retention is:
+Because the retention can be provided at different levels, the actual precedence of the retention is:
 
 1. Key-level retention, as set with [`TS.CREATE`]({{< relref "/commands/ts.create/" >}})'s and [`TS.ALTER`]({{< relref "/commands/ts.alter/" >}})'s `RETENTION` optional argument.
 1. The `ts-retention-policy` configuration parameter.
@@ -255,7 +254,7 @@ Since the retention can be provided at different levels, the actual precedence o
 
 #### Example
 
-Setting the default retention to 300 days 
+Set the default retention to 300 days:
 
 Version < 8.0:
 
@@ -286,7 +285,7 @@ Valid values: `COMPRESSED`, `UNCOMPRESSED`
 
 #### Example
 
-Setting the default encoding to `UNCOMPRESSED`
+Set the default encoding to `UNCOMPRESSED`:
 
 Version < 8.0:
 
@@ -376,4 +375,4 @@ redis> redis-server --loadmodule ./redistimeseries.so ts-num-threads 3
 
 ### OSS_GLOBAL_PASSWORD
 
-Previous to version 8.0, when using a cluster with time series, you had to set the `OSS_GLOBAL_PASSWORD` configuration parameter on all the cluster nodes. Starting with version 8.0, this parameter is obsolete, and ignored if present. Redis now utilizes a new shared secret mechanism to allow sending internal commands between cluster nodes.
+Prior to version 8.0, when using time series in a cluster, you had to set the `OSS_GLOBAL_PASSWORD` configuration parameter on all cluster nodes. As of version 8.0, Redis no longer uses this parameter and ignores it if present. Redis now uses a new shared secret mechanism to send internal commands between cluster nodes.
