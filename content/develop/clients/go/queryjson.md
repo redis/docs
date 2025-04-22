@@ -116,5 +116,39 @@ to count all users in each city.
 {{< clients-example go_home_json query3 >}}
 {{< /clients-example >}}
 
+## Differences with hash documents
+
+Indexing for hash documents is very similar to JSON indexing but you
+need to specify some slightly different options.
+
+When you create the schema for a hash index, you don't need to
+add aliases for the fields, since you use the basic names to access
+the fields anyway. Also, you must use `HASH` for the `IndexType`
+when you create the index. The code below shows these changes with
+a new index called `hash-idx:users`, which is otherwise the same as
+the `idx:users` index used for JSON documents in the previous examples.
+
+{{< clients-example go_home_json make_hash_index >}}
+{{< /clients-example >}}
+
+You use [`HSet()`]({{< relref "/commands/hset" >}}) to add the hash
+documents instead of [`JSONSet()`]({{< relref "/commands/json.set" >}}),
+but the same flat `userX` maps work equally well with either
+hash or JSON:
+
+{{< clients-example go_home_json add_hash_data >}}
+{{< /clients-example >}}
+
+The query commands work the same here for hash as they do for JSON (but
+the name of the hash index is different). The format of the result is
+also almost the same except that the fields are returned directly in the
+result `Document` object map instead of in an enclosing `json` string
+under the key "$":
+
+{{< clients-example go_home_json query1_hash >}}
+{{< /clients-example >}}
+
+## More information
+
 See the [Redis query engine]({{< relref "/develop/interact/search-and-query" >}}) docs
 for a full description of all query features with examples.
