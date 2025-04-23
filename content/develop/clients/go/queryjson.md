@@ -24,7 +24,7 @@ documents.
 
 ## Initialize
 
-Make sure that you have [Redis Community Edition]({{< relref "/operate/rc" >}})
+Make sure that you have [Redis Community Edition]({{< relref "/operate/oss_and_stack/" >}})
 or another Redis server available. Also install the
 [`go-redis`]({{< relref "/develop/clients/go" >}}) client library if you
 haven't already done so.
@@ -160,7 +160,7 @@ hash or JSON:
 
 The query commands work the same here for hash as they do for JSON (but
 the name of the hash index is different). The format of the result is
-also almost the same except that the fields are returned directly in the
+almost the same except that the fields are returned directly in the
 `Document` object map of the result (for JSON, the fields are all enclosed
 in a string under the key "$"):
 
