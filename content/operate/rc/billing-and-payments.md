@@ -80,11 +80,9 @@ To add a new credit card:
 
 1. In the [Redis Cloud console](https://cloud.redis.io/), select **Billing & Payments > Payment Methods**.
 
-2.  Select **Add credit card** and add the credit card and billing address details.
+2.  Select **Add credit card** and add the credit card details.
 
-    {{<image filename="images/rc/billing-add-credit-card.png" width="80%" alt="The Add credit card screen." >}}
-
-    If the billing address is the same as the business address associated with your account, select **Same as business address** to fill the billing address with your business address details. See [Account settings]({{< relref "/operate/rc/accounts/account-settings" >}}) to learn how to update your business address.
+    {{< embed-md "rc-credit-card-add.md" >}} 
 
 3.  Select the **Add Credit Card** button to save your changes.
 

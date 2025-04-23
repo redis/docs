@@ -104,6 +104,8 @@ This guide shows how to create a Redis Flex database on Redis Cloud Essentials.
 
     {{<image filename="images/rc/icon-add-credit-card.png" alt="The Add credit card icon." >}}
 
+    {{< embed-md "rc-credit-card-add.md" >}}
+
 1. Select **Confirm & pay** to create your database.
 
 {{<image filename="images/rc/button-create-db-confirm-pay.png" width="140px" alt="Select Confirm & Pay to create your new database." >}}
