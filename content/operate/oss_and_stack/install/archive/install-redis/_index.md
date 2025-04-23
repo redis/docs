@@ -14,7 +14,7 @@ weight: 1
 
 This is a an installation guide. You'll learn how to install, run, and experiment with the Redis server process.
 
-While you can install Redis on any of the platforms listed below, you might also consider using Redis Cloud by creating a [free account](https://redis.com/try-free?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users). You can also download [Redis Insight]({{< relref "/operate/redisinsight/install/" >}}), a free developer tool that works with Redis Community Edition.
+While you can install Redis on any of the platforms listed below, you might also consider using Redis Cloud by creating a [free account](https://redis.com/try-free?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users). You can also download [Redis Insight]({{< relref "/operate/redisinsight/install/" >}}), a free developer tool that works with Redis.
 
 ## Install Redis Community Edition
 
