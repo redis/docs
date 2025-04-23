@@ -24,7 +24,7 @@ documents.
 
 ## Initialize
 
-Make sure that you have [Redis Community Edition]({{< relref "/operate/rc" >}})
+Make sure that you have [Redis Community Edition]({{< relref "/operate/oss_and_stack/" >}})
 or another Redis server available. Also install the
 [`redis-py`]({{< relref "/develop/clients/redis-py" >}}) client library if you
 haven't already done so.
@@ -119,7 +119,7 @@ hash or JSON:
 
 The query commands work the same here for hash as they do for JSON (but
 the name of the hash index is different). The format of the result is
-also almost the same except that the fields are returned directly in the
+almost the same except that the fields are returned directly in the
 result `Document` object instead of in an enclosing `json` dictionary:
 
 {{< clients-example py_home_json query1_hash >}}
