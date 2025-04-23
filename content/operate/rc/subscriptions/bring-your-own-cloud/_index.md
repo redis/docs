@@ -50,4 +50,15 @@ To set up Redis Cloud BYOC on Amazon Web Services (AWS):
 
 1. [Set your AWS Account as a BYOC Cloud account]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/cloud-account-settings" >}}) on Redis Cloud.
 
+## Avoid Redis Cloud BYOC service disruption {#avoid-service-disruption}
+
+{{< warning >}}
+Failing to follow the instructions in this section will cause your databases to become inaccessible, and Redis will not be able to ensure cluster and database stability. Please read them carefully.
+{{< /warning >}}
+
+To keep your Redis Cloud BYOC service and all databases running without issues:
+- Do not stop, delete, or modify Redis-managed resources through the cloud provider - including VPCs, subnets, virtual machines, and other infrastructure.
+- Do not change roles or access policies.
+
+If you make any infrastructure changes, whether or not they are listed above, it may violate our SLA commitments. See [Appendix 1 in our Terms of Service](https://redis.io/legal/cloud-tos/#Appendix-1) for more details.
 

@@ -10,6 +10,12 @@ weight: $weight
 ---
 Follow these steps to manually create IAM resources using the [AWS console](https://console.aws.amazon.com/).
 
+{{< warning >}}
+We use the provided credentials to configure your AWS environment and provision required resources.
+
+You **must not** change the configurations of provisioned resources or stop or terminate provisioned instances. If you do, your databases will be inaccessible and Redis will not be able to ensure database stability. See [Avoid service disruption]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/cloud-account-settings#avoid-service-disruption" >}}) for more details.
+{{< /warning >}}
+
 ## Step 1: Create the IAM instance policy
 
 First, create a policy to use for the new instance role:

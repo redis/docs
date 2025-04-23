@@ -21,11 +21,9 @@ To do this, you need:
 
 You need to create these resources before adding the cloud account to your subscription.  To learn more, see [Create IAM resources]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/iam-resources" >}}).
 
-{{<note>}}
-Once an AWS account has been configured as a cloud account, you must _not_:
-- Manually change the configuration of required resources, such as security groups<br/>
-- Manually suspend or stop (terminate) provisioned resources</br>
-{{</note>}}
+{{<warning>}}
+After an AWS account has been configured as a cloud account, you **must not** change the configurations of provisioned resources or stop or terminate provisioned instances. If you do, your databases will be inaccessible and Redis will not be able to ensure database stability. See [Avoid service disruption]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/cloud-account-settings#avoid-service-disruption" >}}) for more details.
+{{</warning>}}
 
 ## View cloud account settings
 

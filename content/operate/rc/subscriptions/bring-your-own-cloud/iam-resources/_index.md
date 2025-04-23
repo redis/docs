@@ -27,10 +27,7 @@ Save the access key in a secure location so that you can enter it when you [regi
 {{< warning >}}
 We use the provided credentials to configure your AWS environment and provision required resources.
 
-To make sure that we can manage your AWS resources, you must not:
-
-- Manually change the configurations of provisioned resources, such as security groups
-- Manually stop or terminate provisioned instances
+You **must not** change the configurations of provisioned resources or stop or terminate provisioned instances. If you do, your databases will be inaccessible and Redis will not be able to ensure database stability. See [Avoid service disruption]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/cloud-account-settings#avoid-service-disruption" >}}) for more details.
 {{< /warning >}}
 
 For help creating an AWS user, see the [AWS IAM documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html).
