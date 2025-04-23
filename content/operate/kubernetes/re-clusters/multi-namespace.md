@@ -198,12 +198,7 @@ To do this:
 1. Configure each participating cluster’s operator to watch the relevant consumer namespace. See [multi-namespace operator setup](#update-redis-enterprise-operator-configmap).
 2. Ensure all Active-Active prerequisites are met as described in [Configure Active-Active]({{<relref "content/operate/kubernetes/active-active/create-reaadb/">}}).
 3. In your REAADB custom resource, specify the target consumer namespace using `metadata.namespace`. For each participating cluster, use the `namespace` field under `spec.participatingClusters` to indicate the namespace where the REAADB should be deployed.
-4. Deploy the required Secrets in appropriate namespaces:
-
-- REC API Secret: This Secret is used by the RedisEnterpriseRemoteCluster (RERC) object to authenticate with the REC. It must be created in the REC namespace.
-- Database access Secret: This Secret stores the password for accessing the database. It must be created in each consumer namespace where the REAADB is deployed.
-
-Make sure both types of Secrets are present in the appropriate namespaces before applying the REAADB custom resource. Without them, the operator may fail to establish the necessary connections or deploy the REAADB correctly.
+4. If you are using a [global database secret]({{<relref "operate/kubernetes/active-active/global-db-secret/">}}), deploy the secret in each consumer namespace.
 
 {{<note>}}
 Apply the REAADB object to only one Kubernetes cluster. Based on the specified participating clusters and namespaces, the operator automatically creates the necessary resources in the other clusters.
@@ -220,7 +215,6 @@ metadata:
 spec:
   participatingClusters:
     - name: participating-cluster-main
-      namespace: consumer-namespace-main
     - name: participating-cluster-peer
       namespace: consumer-namespace-peer
   globalConfigurations:
