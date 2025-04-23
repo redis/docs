@@ -62,7 +62,7 @@ You can reduce network transfer costs and network latency by ensuring your Redis
 
 To specify the availability zone(s) for your cluster, [create your Pro database with custom settings]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}), and select *Manual Selection* under **Allowed Availability Zones** in **Advanced options**.
 
-For Google Cloud clusters and [self-managed AWS cloud accounts]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/" >}}), select an availability zone from the **Zone name** list.
+For Google Cloud clusters and [Redis Cloud BYOC]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/" >}}), select an availability zone from the **Zone name** list.
 
 {{<image filename="images/rc/availability-zones-no-multi-az.png" width="95%" alt="Select one availability zone when Multi-AZ is turned off." >}}
 
