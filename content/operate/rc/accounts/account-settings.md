@@ -51,7 +51,7 @@ You cannot change the email address associated with a Redis Cloud account.  Inst
 
 ## Contacts & Business information 
 
-The **Contacts & Business information** section shows the company name and business address associated with the current Redis Cloud account. 
+The **Contacts & Business information** section shows the company name and business address associated with the current Redis Cloud account. The company name and business address are used for invoicing and tax purposes.
 
 In addition, this section may include fields unique to your location.  For example, certain regions require tax IDs or other regulatory details.
 
