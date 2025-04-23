@@ -38,13 +38,13 @@ Runs the following checks on a cluster node:
 
 | Permission name |
 |-----------------|
-| [view_node_check]({{< relref "/operate/rs/references/rest-api/permissions#view_node_check" >}}) |
+| [view_node_check]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_node_check" >}}) |
 
 ### Request {#get-request} 
 
 #### Example HTTP request
 
-	GET /nodes/check/1
+	GET /v1/nodes/check/1
 
 
 #### Request headers

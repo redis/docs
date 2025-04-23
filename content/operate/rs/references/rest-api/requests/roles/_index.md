@@ -39,7 +39,7 @@ Get all roles' details.
 #### Example HTTP request
 
 ```sh
-GET /roles
+GET /v1/roles
 ```
 
 #### Headers
@@ -121,7 +121,7 @@ Get the details of a single role.
 #### Example HTTP request
 
 ```sh
-GET /roles/1
+GET /v1/roles/1
 ```
 
 
@@ -181,7 +181,7 @@ Update an existing role's details.
 #### Example HTTP request
 
 ```sh
-PUT /roles/17
+PUT /v1/roles/17
 ```
 
 #### Example JSON body
@@ -199,6 +199,17 @@ PUT /roles/17
 | Host | cnm.cluster.fqdn | Domain name |
 | Accept | application/json | Accepted media type |
 
+#### Query parameters
+
+| Field   | Type | Description |
+|---------|------|---------------|
+| dry_run |  | Validate the updated [role object]({{< relref "/operate/rs/references/rest-api/objects/role" >}}) but don't apply the update. |
+
+#### URL parameters
+
+| Field | Type | Description |
+|-------|------|-------------|
+| uid | integer | The role's unique ID. |
 
 #### Body
 
@@ -256,7 +267,7 @@ Create a new role.
 #### Example HTTP request
 
 ```sh
-POST /roles
+POST /v1/roles
 ```
 
 #### Example JSON body
@@ -275,6 +286,11 @@ POST /roles
 | Host | cnm.cluster.fqdn | Domain name |
 | Accept | application/json | Accepted media type |
 
+#### Query parameters
+
+| Field   | Type | Description |
+|---------|------|---------------|
+| dry_run |  | Validate the new [role object]({{< relref "/operate/rs/references/rest-api/objects/role" >}}) but don't apply the update. |
 
 #### Body
 
@@ -366,7 +382,7 @@ Delete a role object.
 #### Example HTTP request
 
 ```sh
-DELETE /roles/1
+DELETE /v1/roles/1
 ```
 
 #### Headers

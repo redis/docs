@@ -128,6 +128,20 @@ RedisEnterpriseActiveActiveDatabaseSpec defines the desired state of RedisEnterp
           The name of the remote cluster CR to link.<br/>
         </td>
         <td>true</td>
+      </tr><tr>
+        <td>externalReplicationPort</td>
+        <td>integer</td>
+        <td>
+          The desired replication endpoint's port number for users who utilize LoadBalancers for sync between AA replicas and need to provide the specific port number that the LoadBalancer listens to.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>namespace</td>
+        <td>string</td>
+        <td>
+          Namespace in which the REAADB object will be deployed to within the corresponding participating cluster. The user must ensure that the Redis Enterprise operator is configured to watch this namespace in the corresponding cluster, and the required RBAC configuration is properly set up. See https://redis.io/docs/latest/operate/kubernetes/re-clusters/multi-namespace/ for more information how to set up multiple namespaces. If no namespace is specified, then the REAADB is deployed to the REC's namespace in the corresponding cluster.<br/>
+        </td>
+        <td>false</td>
       </tr></tbody>
 </table>
 
@@ -227,7 +241,7 @@ The Active-Active database global configurations, contains the global properties
         <td><a href="#specglobalconfigurationsmoduleslist">modulesList</a></td>
         <td>[]object</td>
         <td>
-          List of modules associated with database. Note - For Active-Active databases this feature is currently in preview. For this feature to take effect for Active-Active databases, set a boolean environment variable with the name "ENABLE_ALPHA_FEATURES" to True. This variable can be set via the redis-enterprise-operator pod spec, or through the operator-environment-config Config Map.<br/>
+          List of modules associated with the database. The list of valid modules for the specific cluster can be retrieved from the status of the REC object. Use the "name" and "versions" fields for the specific module configuration. If specifying an explicit version for a module, automatic modules versions upgrade must be disabled by setting the '.upgradeSpec.upgradeModulesToLatest' field in the REC to 'false'. Note that the option to specify module versions is deprecated, and will be removed in future releases.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -712,7 +726,7 @@ MountPointStorage
 ### spec.globalConfigurations.modulesList[]
 <sup><sup>[↩ Parent](#specglobalconfigurations)</sup></sup>
 
-Redis Enterprise Module: https://redislabs.com/redis-enterprise/modules/
+Redis Enterprise module (see https://redis.io/docs/latest/develop/reference/modules/)
 
 <table>
     <thead>
@@ -727,28 +741,21 @@ Redis Enterprise Module: https://redislabs.com/redis-enterprise/modules/
         <td>name</td>
         <td>string</td>
         <td>
-          The module's name e.g "ft" for redissearch<br/>
+          The name of the module, e.g. "search" or "ReJSON". The complete list of modules available in the cluster can be retrieved from the '.status.modules' field in the REC.<br/>
         </td>
         <td>true</td>
       </tr><tr>
         <td>config</td>
         <td>string</td>
         <td>
-          Module command line arguments e.g. VKEY_MAX_ENTITY_COUNT 30<br/>
-        </td>
-        <td>false</td>
-      </tr><tr>
-        <td>uid</td>
-        <td>string</td>
-        <td>
-          Module's uid - do not set, for system use only nolint:staticcheck // custom json tag unknown to the linter<br/>
+          Module command line arguments e.g. VKEY_MAX_ENTITY_COUNT 30 30<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>version</td>
         <td>string</td>
         <td>
-          Module's semantic version e.g "1.6.12" - optional only in REDB, must be set in REAADB<br/>
+          The semantic version of the module, e.g. '1.6.12'. Optional for REDB, must be set for REAADB. Note that this field is deprecated, and will be removed in future releases.<br/>
         </td>
         <td>false</td>
       </tr></tbody>
@@ -897,7 +904,7 @@ Specifications for DB upgrade.
         <td>upgradeModulesToLatest</td>
         <td>boolean</td>
         <td>
-          Upgrades the modules to the latest version that supportes the DB version during a DB upgrade action, to upgrade the DB version view the 'redisVersion' field. Note - This field is currently not supported for Active-Active databases.<br/>
+          Upgrades the modules to the latest version that supports the DB version during a DB upgrade action, to upgrade the DB version view the 'redisVersion' field. Note - This field is currently not supported for Active-Active databases.<br/>
         </td>
         <td>true</td>
       </tr></tbody>

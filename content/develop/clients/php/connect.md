@@ -12,7 +12,7 @@ categories:
 description: Connect your PHP application to a Redis database
 linkTitle: Connect
 title: Connect to the server
-weight: 2
+weight: 10
 ---
 
 ## Basic connection

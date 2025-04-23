@@ -1,4 +1,8 @@
 ---
+acl_categories:
+- '@cuckoo'
+- '@read'
+- '@slow'
 arguments:
 - name: key
   type: key
@@ -29,7 +33,7 @@ title: CF.COUNT
 ---
 Returns an estimation of the number of times a given item was added to a cuckoo filter.
 
-If you just want to check that a given item was added to a cuckoo filter, use [`CF.EXISTS`]({{< baseurl >}}commands/cf.exists/).
+If you just want to check that a given item was added to a cuckoo filter, use [`CF.EXISTS`]({{< relref "commands/cf.exists/" >}}).
 
 ## Required arguments
 
@@ -48,7 +52,7 @@ is an item to check.
 
 Returns one of these replies:
 
-- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), where a positive value is an estimation of the number of times `item` was added to the filter. An overestimation is possible, but not an underestimation. `0` means that `key` does not exist or that `item` had not been added to the filter. See note in [`CF.DEL`]({{< baseurl >}}commands/cf.del/).
+- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), where a positive value is an estimation of the number of times `item` was added to the filter. An overestimation is possible, but not an underestimation. `0` means that `key` does not exist or that `item` had not been added to the filter. See note in [`CF.DEL`]({{< relref "commands/cf.del/" >}}).
 - [] on error (invalid arguments, wrong key type, etc.)
 
 ## Examples

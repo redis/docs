@@ -9,9 +9,6 @@ description: This article explains how to delete Redis Enterprise clusters and R
   Enterprise databases from your Kubernetes environment.
 linkTitle: Delete custom resources
 weight: 70
-aliases: [
-  /operate/kubernetes/delete-custom-resources/,
-]
 ---
 
 ## Multi-namespace management

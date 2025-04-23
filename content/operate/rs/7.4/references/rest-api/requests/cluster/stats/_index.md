@@ -29,14 +29,14 @@ Get cluster statistics.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_cluster_stats]({{< relref "/operate/rs/references/rest-api/permissions#view_cluster_stats" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
+| [view_cluster_stats]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_cluster_stats" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
 
 ### Request {#get-request}
 
 #### Example HTTP request
 
 ```sh
-GET /cluster/stats/1?interval=1hour&stime=2014-08-28T10:00:00Z
+GET /v1/cluster/stats/1?interval=1hour&stime=2014-08-28T10:00:00Z
 ```
 
 #### Headers
@@ -56,7 +56,7 @@ GET /cluster/stats/1?interval=1hour&stime=2014-08-28T10:00:00Z
 
 ### Response {#get-response}
 
-Returns [statistics]({{< relref "/operate/rs/references/rest-api/objects/statistics" >}}) for the cluster.
+Returns [statistics]({{< relref "/operate/rs/7.4/references/rest-api/objects/statistics" >}}) for the cluster.
 
 #### Example JSON body
 

@@ -72,7 +72,7 @@ known to work correctly with RDI.
 The supported OS versions for RDI are:
 
 - RHEL 8 & 9
-- Ubuntu 18.04 & 20.04
+- Ubuntu 20.04, 22.04, and 24.04
 
 You must run the RDI installer as a privileged user because it installs
 [containerd](https://containerd.io/) and registers services. However, you don't
@@ -161,9 +161,10 @@ ufw allow 9121/tcp  # rdi-metric-exporter
 
 Follow the steps below for each of your VMs:
 
-1.  Download the RDI installer from the [Redis download center](https://cloud.redis.io/#/rlec-downloads)
-    (under the *Modules, Tools & Integration* dropdown)
-    and extract it to your preferred installation folder.
+1.  Download the RDI installer from the
+    [Redis download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-installation-1.6.5.tar.gz)
+    (from the *Modules, Tools & Integration* category) and extract it to your preferred installation
+    folder.
 
 1. Go to the installation folder:
 

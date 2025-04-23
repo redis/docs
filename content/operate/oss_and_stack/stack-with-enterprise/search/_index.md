@@ -21,11 +21,11 @@ The search and query engine indexes documents, which are objects that represent 
 As the documents in your database change, the index automatically processes these changes to keep the search results up to date.
 
 With indexes, you can do:
-- Language-aware [fuzzy matching]({{< baseurl >}}develop/interact/search-and-query/advanced-concepts/query_syntax#fuzzy-matching)
-- Fast [auto-complete]({{< baseurl >}}develop/interact/search-and-query/administration/overview#auto-complete)
-- [Exact phrase matching]({{< baseurl >}}develop/interact/search-and-query/advanced-concepts/query_syntax)
-- [Numeric filtering]({{< baseurl >}}develop/interact/search-and-query/advanced-concepts/query_syntax#numeric-filters-in-query)
-- [Geo-radius queries]({{< baseurl >}}develop/interact/search-and-query/advanced-concepts/query_syntax#geo-filters)
+- Language-aware [fuzzy matching]({{< relref "develop/interact/search-and-query/advanced-concepts/query_syntax#fuzzy-matching" >}})
+- Fast [auto-complete]({{< relref "develop/interact/search-and-query/administration/overview#auto-complete" >}})
+- [Exact phrase matching]({{< relref "develop/interact/search-and-query/advanced-concepts/query_syntax" >}})
+- [Numeric filtering]({{< relref "develop/interact/search-and-query/advanced-concepts/query_syntax#numeric-filters-in-query" >}})
+- [Geo-radius queries]({{< relref "develop/interact/search-and-query/advanced-concepts/query_syntax#geo-filters" >}})
 
 ## Supported document types
 
@@ -49,7 +49,7 @@ For full-text searches, you can customize the field queries and ranking of the s
 When querying, you can use multiple predicates that query text, numeric, and geospatial fields in one query.
 You can also sort by a specific field and limit the results with an offset to produce customized results pages.
 
-Redis Stack supports [over 15 natural languages]({{< relref "/develop/interact/search-and-query/advanced-concepts/stemming" >}}) for stemming and includes auto-complete engines with specific commands that can provide real-time [interactive search suggestions]({{< baseurl >}}commands/ft.sugadd).
+Redis Community Edition supports [over 15 natural languages]({{< relref "/develop/interact/search-and-query/advanced-concepts/stemming" >}}) for stemming and includes auto-complete engines with specific commands that can provide real-time [interactive search suggestions]({{< relref "/commands/ft.sugadd" >}}).
 
 ## Search and query Active-Active databases
 

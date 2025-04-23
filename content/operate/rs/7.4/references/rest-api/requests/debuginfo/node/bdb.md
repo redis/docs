@@ -13,7 +13,7 @@ url: '/operate/rs/7.4/references/rest-api/requests/debuginfo/node/bdb/'
 ---
 
 {{<banner-article>}}
-This REST API path is deprecated as of Redis Enterprise Software version 7.4.2. Use the new path [`/v1/bdbs/debuginfo`]({{< relref "/operate/rs/references/rest-api/requests/bdbs/debuginfo" >}}) instead.
+This REST API path is deprecated as of Redis Enterprise Software version 7.4.2. Use the new path [`/v1/bdbs/debuginfo`]({{< relref "/operate/rs/7.4/references/rest-api/requests/bdbs/debuginfo" >}}) instead.
 {{</banner-article>}}
 
 | Method | Path | Description |
@@ -30,13 +30,13 @@ Downloads a tar file that contains debug info for the specified database (`bdb_u
 
 | Permission name |
 |-----------------|
-| [view_debugging_info]({{< relref "/operate/rs/references/rest-api/permissions#view_debugging_info" >}}) |
+| [view_debugging_info]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_debugging_info" >}}) |
 
 ### Request {#get-request} 
 
 #### Example HTTP request
 
-	GET /debuginfo/node/bdb/1 
+	GET /v1/debuginfo/node/bdb/1 
 
 ### Response {#get-response} 
 

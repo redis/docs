@@ -33,7 +33,7 @@ Gets the cluster's OCSP configuration.
 
 #### Example HTTP request
 
-	GET /ocsp 
+	GET /v1/ocsp 
 
 
 #### Request headers
@@ -91,7 +91,7 @@ Updates the cluster's OCSP configuration.
 
 #### Example HTTP request
 
-	PUT /ocsp 
+	PUT /v1/ocsp 
 
 #### Example JSON body
 

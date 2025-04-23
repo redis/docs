@@ -129,4 +129,4 @@ TLS adds a layer to the communication stack with overheads due to writing/readin
 
 ### Limitations
 
-I/O threading is currently not supported with TLS.
+Starting with version 8.0, Redis supports I/O threading with TLS.

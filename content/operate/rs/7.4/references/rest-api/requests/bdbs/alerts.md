@@ -29,13 +29,13 @@ Get all alert states for all databases.
 
 | Permission name |
 |-----------------|
-| [view_all_bdbs_alerts]({{< relref "/operate/rs/references/rest-api/permissions#view_all_bdbs_alerts" >}}) |
+| [view_all_bdbs_alerts]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_all_bdbs_alerts" >}}) |
 
 ### Request {#get-all-request} 
 
 #### Example HTTP request
 
-	GET /bdbs/alerts 
+	GET /v1/bdbs/alerts 
 
 #### Request headers
 
@@ -46,7 +46,7 @@ Get all alert states for all databases.
 
 ### Response {#get-all-response}
 
-Returns a hash of alert UIDs and the [alerts]({{< relref "/operate/rs/references/rest-api/objects/alert" >}}) states for each database.
+Returns a hash of alert UIDs and the [alerts]({{< relref "/operate/rs/7.4/references/rest-api/objects/alert" >}}) states for each database.
 
 #### Example JSON body
 
@@ -87,13 +87,13 @@ Get all alert states for a database.
 
 | Permission name |
 |-----------------|
-| [view_bdb_alerts]({{< relref "/operate/rs/references/rest-api/permissions#view_bdb_alerts" >}}) |
+| [view_bdb_alerts]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_bdb_alerts" >}}) |
 
 ### Request {#get-request-alerts} 
 
 #### Example HTTP request
 
-	GET /bdbs/alerts/1 
+	GET /v1/bdbs/alerts/1 
 
 #### Request headers
 
@@ -104,7 +104,7 @@ Get all alert states for a database.
 
 ### Response {#get-response-alerts} 
 
-Returns a hash of [alert objects]({{< relref "/operate/rs/references/rest-api/objects/alert" >}}) and their states.
+Returns a hash of [alert objects]({{< relref "/operate/rs/7.4/references/rest-api/objects/alert" >}}) and their states.
 
 #### Example JSON body
 
@@ -143,13 +143,13 @@ Get a database alert state.
 
 | Permission name |
 |-----------------|
-| [view_bdb_alerts]({{< relref "/operate/rs/references/rest-api/permissions#view_bdb_alerts" >}}) |
+| [view_bdb_alerts]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_bdb_alerts" >}}) |
 
 ### Request {#get-request} 
 
 #### Example HTTP request
 
-	GET /bdbs/alerts/1/bdb_size 
+	GET /v1/bdbs/alerts/1/bdb_size 
 
 
 #### Request headers
@@ -169,7 +169,7 @@ Get a database alert state.
 
 ### Response {#get-response} 
 
-Returns an [alert object]({{< relref "/operate/rs/references/rest-api/objects/alert" >}}).
+Returns an [alert object]({{< relref "/operate/rs/7.4/references/rest-api/objects/alert" >}}).
 
 #### Example JSON body
 
@@ -206,7 +206,7 @@ Updates a database's alerts configuration.
 
 | Permission name |
 |-----------------|
-| [update_bdb_alerts]({{< relref "/operate/rs/references/rest-api/permissions#update_bdb_alerts" >}}) |
+| [update_bdb_alerts]({{< relref "/operate/rs/7.4/references/rest-api/permissions#update_bdb_alerts" >}}) |
 
 ### Request {#post-request} 
 
@@ -214,7 +214,7 @@ If passed with the dry_run URL query string, the function will validate the aler
 
 #### Example HTTP request
 
-	POST /bdbs/alerts/1 
+	POST /v1/bdbs/alerts/1 
 
 #### Example JSON body
 
@@ -264,11 +264,11 @@ If passed with the dry_run URL query string, the function will validate the aler
 
 #### Request body
 
-The request must contain a single JSON object with one or many database [alert objects]({{< relref "/operate/rs/references/rest-api/objects/alert" >}}).
+The request must contain a single JSON object with one or many database [alert objects]({{< relref "/operate/rs/7.4/references/rest-api/objects/alert" >}}).
 
 ### Response {#post-response} 
 
-The response includes the updated database [alerts]({{< relref "/operate/rs/references/rest-api/objects/alert" >}}).
+The response includes the updated database [alerts]({{< relref "/operate/rs/7.4/references/rest-api/objects/alert" >}}).
 
 ### Status codes {#post-status-codes} 
 

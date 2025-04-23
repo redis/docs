@@ -15,7 +15,7 @@ title: Geospatial queries
 weight: 4
 ---
 
-Redis Stack's geospatial feature allows you to query for data associated with geographic locations. You can either query for locations within a specific radius or based on geometric shapes, such as polygons. A polygon shape could, for instance, represent a lake or the layout of a building.
+The geospatial feature in Redis Community Edition allows you to query for data associated with geographic locations. You can either query for locations within a specific radius or based on geometric shapes, such as polygons. A polygon shape could, for instance, represent a lake or the layout of a building.
 
 The examples in this article use the following schema:
 
@@ -26,12 +26,12 @@ The examples in this article use the following schema:
 
 
 {{% alert title="Note" color="warning" %}}
-Redis Stack version 7.2.0 or higher is required to use the `GEOSHAPE` field type.
+Redis version 7.2.0 or higher is required to use the `GEOSHAPE` field type.
 {{% /alert  %}}
 
 ## Radius
 
-You can construct a radius query by passing the center coordinates (longitude, latitude), the radius, and the distance unit to the [FT.SEARCH]({{< baseurl >}}commands/ft.search) command.
+You can construct a radius query by passing the center coordinates (longitude, latitude), the radius, and the distance unit to the [FT.SEARCH]({{< relref "commands/ft.search" >}}) command.
 
 ```
 FT.SEARCH index "@geo_field:[lon lat radius unit]"

@@ -117,9 +117,7 @@ This guide is for single region database deployment. If you want to create a mul
 
 {{<image filename="images/rc/subscription-new-flexible-version-section.png" width="75%" alt="Version selection between Redis 6.2, 7.2, and 7.4." >}}
 
-The **Version** section lets you choose the Redis version of your databases. Choose **Redis 7.2** if you want to use the latest stable version of Redis, or select **Redis 7.4** for the Redis 7.4 Preview. 
-
-Redis 7.4 offers hash field expiration and other feature set improvements. For more information on the changes in Redis 7.4, see the [Redis 7.4 release notes](https://redis.io/blog/announcing-redis-community-edition-and-redis-stack-74).
+The **Version** section lets you choose the Redis version of your databases. Choose **Redis 7.4** if you want to use the latest stable version of Redis. 
 
 #### Advanced options {#advanced-options}
 
@@ -160,11 +158,11 @@ By default, you're shown basic settings, which include:
 | Database&nbsp;setting | Description |
 |:---------|:-----------|
 | **Name** | A custom name for your database (_required_) |
-| **Advanced Capabilities** | [Advanced data types]({{< relref "/operate/rc/databases/configuration/advanced-capabilities" >}}) used by the database. Choose from [Search and query]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}), [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}}), [Time series]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries" >}}), or [Probabilistic]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom" >}}). <br/> Databases with Search and query have specific sizing requirements, see [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
-| **Query performance factor** | *(Search and query databases on Redis 7.2 or later only)* Adds additional compute power to process your query and vector search workloads and boost your queries per second. See [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
-| **Throughput** | Identifies maximum throughput for the database, which is specified in terms of operations per second (**Ops/sec**). See [Throughput]({{< relref "/operate/rc/databases/configuration/clustering#throughput" >}}) for more information. <br/> Databases with Search and query have specific throughput requirements, see [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
 | **Dataset size (GB)** | The amount of data for your dataset. Specify small sizes as decimals of 1.0&nbsp;GB; example: `0.1` GB (minimum). We calculate the total memory limit for you based on the other settings you choose for your database. <br/> Databases with Search and query have specific sizing requirements, see [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
 | **High Availability** | Indicates whether a replica copy of the database is maintained in case the primary database becomes unavailable.  (Warning: Doubles memory consumption). See [High Availability]({{< relref "/operate/rc/databases/configuration/high-availability" >}}).  |
+| **Throughput** | Identifies maximum throughput for the database, which is specified in terms of operations per second (**Ops/sec**). See [Throughput]({{< relref "/operate/rc/databases/configuration/sizing#throughput" >}}) for more information. <br/> Databases with Search and query have specific throughput requirements. See [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
+| **Hashing policy** | Determines how data is distributed across multiple Redis processes of a database. Available options depend on your account creation date. See [Clustering]({{< relref "/operate/rc/databases/configuration/clustering#manage-the-hashing-policy" >}}) for more information.  |
+| **Query performance factor** | *(Search and query databases on Redis 7.2 or later only)* Adds additional compute power to process your query and vector search workloads and boost your queries per second. See [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
 | **Data Persistence** | Defines the data persistence policy, if any. See [Data persistence]({{< relref "/operate/rc/databases/configuration/data-persistence.md" >}}). |
 
 Select **More options** to specify values for the following settings.
@@ -173,6 +171,7 @@ Select **More options** to specify values for the following settings.
 
 | Database&nbsp;option | Description                                                                                                                                                     |
 |:---------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Advanced Capabilities** | [Advanced features and data types]({{< relref "/operate/rc/databases/configuration/advanced-capabilities" >}}) used by the database. Choose from [Search and query]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}), [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}}), [Time series]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries" >}}), or [Probabilistic]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom" >}}). <br/> Databases with Search and query have specific sizing requirements, see [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
 | **OSS Cluster API** | Enable to use the [Redis Cluster API]({{< relref "/operate/rc/databases/configuration/clustering#oss-cluster-api" >}}).                                                                                                                |
 | **Type** | Set to **Redis**, otherwise **Memcached** database for legacy database support.                                                                                     |
 | **Supported Protocol(s)** | Choose between RESP2 and RESP3 _(Redis 7.2 only)_. See [Redis serialization protocol]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions) for details |

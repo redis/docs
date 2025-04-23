@@ -32,13 +32,13 @@ compatability.
 
 | Permission name |
 |-----------------|
-| [view_endpoint_stats]({{< relref "/operate/rs/references/rest-api/permissions#view_endpoint_stats" >}}) |
+| [view_endpoint_stats]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_endpoint_stats" >}}) |
 
 ### Request {#get-request} 
 
 #### Example HTTP request
 
-	GET /endpoints/stats?interval=1hour&stime=2014-08-28T10:00:00Z 
+	GET /v1/endpoints/stats?interval=1hour&stime=2014-08-28T10:00:00Z 
 
 
 #### Request headers

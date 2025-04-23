@@ -1,4 +1,8 @@
 ---
+acl_categories:
+- '@search'
+- '@read'
+- '@fast'
 arguments:
 - name: index
   type: string
@@ -205,7 +209,11 @@ syntax_str: "query [VERBATIM] [LOAD\_count field [field ...]] [TIMEOUT\_timeout]
 title: FT.AGGREGATE
 ---
 
-Run a search query on an index, and perform aggregate transformations on the results, extracting statistics etc from them
+Run a search query on an index and perform aggregate transformations on the results.
+
+{{< note >}}
+This command will only return keys to which the user has read access.
+{{< /note >}}
 
 [Examples](#examples)
 
@@ -214,7 +222,7 @@ Run a search query on an index, and perform aggregate transformations on the res
 <details open>
 <summary><code>index</code></summary>
 
-is index name against which the query is executed. You must first create the index using [`FT.CREATE`]({{< baseurl >}}commands/ft.create/).
+is index name against which the query is executed. You must first create the index using [`FT.CREATE`]({{< relref "commands/ft.create/" >}}).
 </details>
 
 <details open>
@@ -252,7 +260,7 @@ groups the results in the pipeline based on one or more properties. Each group s
 
 reduces the matching results in each group into a single record, using a reduction function. For example, `COUNT` counts the number of records in the group. The reducers can have their own property names using the `AS {name}` optional argument. If a name is not given, the resulting name will be the name of the reduce function and the group properties. For example, if a name is not given to `COUNT_DISTINCT` by property `@foo`, the resulting name will be `count_distinct(@foo)`.
   
-See [Supported GROUPBY reducers]({{< baseurl >}}develop/interact/search-and-query/advanced-concepts/aggregations#supported-groupby-reducers) for more details.   
+See [Supported GROUPBY reducers]({{< relref "develop/interact/search-and-query/advanced-concepts/aggregations#supported-groupby-reducers" >}}) for more details.   
 </details>
 
 <details open>
@@ -284,7 +292,7 @@ applies a 1-to-1 transformation on one or more properties and either stores the 
 `expr` is an expression that can be used to perform arithmetic operations on numeric properties, or functions that can be applied on properties depending on their types (see below), or any combination thereof. For example, `APPLY "sqrt(@foo)/log(@bar) + 5" AS baz` evaluates this expression dynamically for each record in the pipeline and store the result as a new property called `baz`, which can be referenced by further `APPLY`/`SORTBY`/`GROUPBY`/`REDUCE` operations down the
   pipeline.
 
-See [APPLY expressions]({{< baseurl >}}develop/interact/search-and-query/advanced-concepts/aggregations/#apply-expressions) for details.
+See [APPLY expressions]({{< relref "develop/interact/search-and-query/advanced-concepts/aggregations/#apply-expressions" >}}) for details.
 </details>
 
 <details open>
@@ -308,7 +316,7 @@ filters the results using predicate expressions relating to values in each resul
 <summary><code>WITHCURSOR {COUNT} {read_size} [MAXIDLE {idle_time}]</code></summary> 
 
 Scan part of the results with a quicker alternative than `LIMIT`.
-See [Cursor API]({{< baseurl >}}develop/interact/search-and-query/advanced-concepts/aggregations#cursor-api) for more details.
+See [Cursor API]({{< relref "develop/interact/search-and-query/advanced-concepts/aggregations#cursor-api" >}}) for more details.
 </details>
 
 <details open>
@@ -343,18 +351,18 @@ You can use `@__score` in a pipeline as shown in the following example:
 <details open>
 <summary><code>DIALECT {dialect_version}</code></summary> 
 
-selects the dialect version under which to execute the query. If not specified, the query will execute under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]({{< baseurl >}}commands/ft.config-set/) command.
+selects the dialect version under which to execute the query. If not specified, the query will execute under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) command.
 </details>
 
 ## Return
 
 FT.AGGREGATE returns an array reply where each row is an array reply and represents a single aggregate result.
-The [integer reply]({{< baseurl >}}develop/reference/protocol-spec#resp-integers) at position `1` does not represent a valid value.
+The [integer reply]({{< relref "develop/reference/protocol-spec#resp-integers" >}}) at position `1` does not represent a valid value.
 
 ### Return multiple values
 
-See [Return multiple values]({{< baseurl >}}commands/ft.search#return-multiple-values/) in [`FT.SEARCH`]({{< baseurl >}}commands/ft.search/)
-The `DIALECT` can be specified as a parameter in the FT.AGGREGATE command. If it is not specified, the `DEFAULT_DIALECT` is used, which can be set using [`FT.CONFIG SET`]({{< baseurl >}}commands/ft.config-set/) or by passing it as an argument to the `redisearch` module when it is loaded.
+See [Return multiple values]({{< relref "commands/ft.search#return-multiple-values/" >}}) in [`FT.SEARCH`]({{< relref "commands/ft.search/" >}})
+The `DIALECT` can be specified as a parameter in the FT.AGGREGATE command. If it is not specified, the `DEFAULT_DIALECT` is used, which can be set using [`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) or by passing it as an argument to the `redisearch` module when it is loaded.
 For example, with the following document and index:
 
 
@@ -483,7 +491,7 @@ Next, count GitHub events by user (actor), to produce the most active users.
 
 ## See also
 
-[`FT.CONFIG SET`]({{< baseurl >}}commands/ft.config-set/) | [`FT.SEARCH`]({{< baseurl >}}commands/ft.search/) 
+[`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) | [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) 
 
 ## Related topics
 

@@ -19,7 +19,7 @@ Use the following steps to add a participating cluster to an existing Redis Ente
 
 ### Prerequisites
 
-To prepare the Redis Enterprise cluster (REC) to participate in an Active-Active database, perform the following tasks from [Prepare participating clusters]({{< relref "/operate/kubernetes/active-active/prepare-clusters.md" >}}):
+To prepare the Redis Enterprise cluster (REC) to participate in an Active-Active database, perform the following tasks from [Prepare participating clusters]({{< relref "/operate/kubernetes/7.4.6/active-active/prepare-clusters.md" >}}):
 
 - Make sure the cluster meets the hardware and naming requirements.
 - Enable the Active-Active controllers.

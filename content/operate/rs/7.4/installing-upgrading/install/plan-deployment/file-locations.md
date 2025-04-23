@@ -21,7 +21,7 @@ The directories that Redis Enterprise Software installs into are:
 | **Path** | **Description** |
 |------------|-----------------|
 | /opt/redislabs | Main installation directory for all Redis Enterprise Software binaries |
-| /opt/redislabs/bin | Binaries for all the utilities for command-line access and management, such as [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}) or [`redis-cli`]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}}) |
+| /opt/redislabs/bin | Binaries for all the utilities for command-line access and management, such as [`rladmin`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin" >}}) or [`redis-cli`]({{< relref "/operate/rs/7.4/references/cli-utilities/redis-cli" >}}) |
 | /opt/redislabs/config | System configuration files |
 | /opt/redislabs/lib | System library files |
 | /opt/redislabs/sbin | System binaries for tweaking provisioning |
@@ -40,5 +40,5 @@ The default directories that Redis Enterprise Software uses for data and metadat
 
 You can change these file locations for:
 
-- [Ephemeral and persistence storage]({{< relref "/operate/rs/clusters/new-cluster-setup.md" >}}) during cluster setup
-- [Socket files]({{< relref "/operate/rs/installing-upgrading/configuring/change-location-socket-files.md" >}}) after cluster setup
+- [Ephemeral and persistence storage]({{< relref "/operate/rs/7.4/clusters/new-cluster-setup.md" >}}) during cluster setup
+- [Socket files]({{< relref "/operate/rs/7.4/installing-upgrading/configuring/change-location-socket-files.md" >}}) after cluster setup

@@ -12,12 +12,12 @@ categories:
 description: Learn how to use the Redis query engine with JSON
 linkTitle: Index and query JSON
 title: Example - Index and query JSON documents
-weight: 2
+weight: 20
 ---
 
 This example shows how to index and query Redis JSON data using `predis`.
 
-Make sure that you have Redis Stack and `predis` installed, as described
+Make sure that you have Redis Community Edition and `predis` installed, as described
 in the [Install](#install) section above.
 
 Start by importing dependencies:

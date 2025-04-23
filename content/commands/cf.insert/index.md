@@ -1,4 +1,8 @@
 ---
+acl_categories:
+- '@cuckoo'
+- '@write'
+- '@slow'
 arguments:
 - name: key
   type: key
@@ -44,7 +48,7 @@ title: CF.INSERT
 ---
 Adds one or more items to a cuckoo filter, allowing the filter to be created with a custom capacity if it does not exist yet.
 
-This command is similar to [`CF.ADD`]({{< baseurl >}}commands/cf.add/), except that more than one item can be added and capacity can be specified.
+This command is similar to [`CF.ADD`]({{< relref "commands/cf.add/" >}}), except that more than one item can be added and capacity can be specified.
 
 ## Required arguments
 
@@ -70,7 +74,7 @@ If the filter already exists, then this parameter is ignored.
     
 If the filter does not exist yet and this parameter is *not* specified, then the filter is created with the module-level default capacity which is 1024.
 
-See [`CF.RESERVE`]({{< baseurl >}}commands/cf.reserve/) for more information on cuckoo filter capacities.
+See [`CF.RESERVE`]({{< relref "commands/cf.reserve/" >}}) for more information on cuckoo filter capacities.
 </details>
     
 <details open><summary><code>NOCREATE</code></summary>

@@ -64,7 +64,7 @@ An API object that represents a managed database in the cluster.
 | created_time | string;  The date and time the database was created (read-only) |
 | data_internode_encryption | boolean;  Should the data plane internode communication for this database be encrypted |
 | data_persistence | Database on-disk persistence policy. For snapshot persistence, a [snapshot_policy]({{< relref "/operate/rs/references/rest-api/objects/bdb/snapshot_policy" >}}) must be provided<br />Values:<br />**'disabled'** <br />'snapshot'<br />'aof' |
-| dataset_import_sources | [complex object]({{< relref "/operate/rs/references/rest-api/objects/bdb/dataset_import_sources" >}});  Array of source file location description objects to import from when performing an import action. This is write-only and cannot be read after set. <br />Call GET /jsonschema to retrieve the object's structure. |
+| dataset_import_sources | [complex object]({{< relref "/operate/rs/references/rest-api/objects/bdb/dataset_import_sources" >}});  Array of source file location description objects to import from when performing an import action. This is write-only and cannot be read after set. <br />Call `GET /v1/jsonschema` to retrieve the object's structure. |
 | db_conns_auditing | boolean;  Enables/deactivates [database connection auditing]({{< relref "/operate/rs/security/audit-events" >}}) |
 | default_user | boolean (default:&nbsp;true); Allow/disallow a default user to connect |
 | disabled_commands | string (default: ); Redis commands which are disabled in db |

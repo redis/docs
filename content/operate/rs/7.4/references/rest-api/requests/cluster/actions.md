@@ -29,17 +29,17 @@ Get the status of all currently executing, queued, or completed cluster actions.
 
 | Permission name |
 |-----------------|
-| [view_status_of_cluster_action]({{< relref "/operate/rs/references/rest-api/permissions#view_status_of_cluster_action" >}}) |
+| [view_status_of_cluster_action]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_status_of_cluster_action" >}}) |
 
 ### Request {#get-all-request} 
 
 #### Example HTTP request
 
-    GET /cluster/actions
+    GET /v1/cluster/actions
 
 ### Response {#get-all-response} 
 
-Returns a JSON array of [action objects]({{< relref "/operate/rs/references/rest-api/objects/action" >}}). 
+Returns a JSON array of [action objects]({{< relref "/operate/rs/7.4/references/rest-api/objects/action" >}}). 
 
 #### Example JSON body
 
@@ -72,13 +72,13 @@ Get the status of a currently executing, queued, or completed cluster action.
 
 | Permission name |
 |-----------------|
-| [view_status_of_cluster_action]({{< relref "/operate/rs/references/rest-api/permissions#view_status_of_cluster_action" >}}) |
+| [view_status_of_cluster_action]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_status_of_cluster_action" >}}) |
 
 ### Request {#get-request} 
 
 #### Example HTTP request
 
-    GET /cluster/actions/action_name
+    GET /v1/cluster/actions/action_name
 
 #### URL parameters
 
@@ -88,7 +88,7 @@ Get the status of a currently executing, queued, or completed cluster action.
 
 ### Response {#get-response} 
 
-Returns an [action object]({{< relref "/operate/rs/references/rest-api/objects/action" >}}). 
+Returns an [action object]({{< relref "/operate/rs/7.4/references/rest-api/objects/action" >}}). 
 
 #### Example JSON body
 
@@ -125,13 +125,13 @@ removed as soon as the new one is submitted.
 
 | Permission name |
 |-----------------|
-| [start_cluster_action]({{< relref "/operate/rs/references/rest-api/permissions#start_cluster_action" >}}) |
+| [start_cluster_action]({{< relref "/operate/rs/7.4/references/rest-api/permissions#start_cluster_action" >}}) |
 
 ### Request {#post-request} 
 
 #### Example HTTP request
 
-    POST /cluster/actions/action_name
+    POST /v1/cluster/actions/action_name
 
 #### URL parameters
 
@@ -173,7 +173,7 @@ a previously executed and completed action.
 
 | Permission name |
 |-----------------|
-| [cancel_cluster_action]({{< relref "/operate/rs/references/rest-api/permissions#cancel_cluster_action" >}}) |
+| [cancel_cluster_action]({{< relref "/operate/rs/7.4/references/rest-api/permissions#cancel_cluster_action" >}}) |
 
 ### Request {#delete-request} 
 

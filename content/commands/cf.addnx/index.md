@@ -1,4 +1,8 @@
 ---
+acl_categories:
+- '@cuckoo'
+- '@write'
+- '@slow'
 arguments:
 - name: key
   type: key
@@ -29,12 +33,12 @@ title: CF.ADDNX
 ---
 Adds an item to a cuckoo filter if the item does not exist.
 
-This command is similar to the combination of [`CF.EXISTS`]({{< baseurl >}}commands/cf.exists/) and [`CF.ADD`]({{< baseurl >}}commands/cf.add/). It does not add an item into the filter if its fingerprint already exists.
+This command is similar to the combination of [`CF.EXISTS`]({{< relref "commands/cf.exists/" >}}) and [`CF.ADD`]({{< relref "commands/cf.add/" >}}). It does not add an item into the filter if its fingerprint already exists.
 
 <note><b>Notes:</b>
 
-- This command is slower than [`CF.ADD`]({{< baseurl >}}commands/cf.add/) because it first checks whether the item exists.
-- Since [`CF.EXISTS`]({{< baseurl >}}commands/cf.exists/) can result in false positive, `CF.ADDNX` may not add an item because it is supposedly already exist, which may be wrong.
+- This command is slower than [`CF.ADD`]({{< relref "commands/cf.add/" >}}) because it first checks whether the item exists.
+- Since [`CF.EXISTS`]({{< relref "commands/cf.exists/" >}}) can result in false positive, `CF.ADDNX` may not add an item because it is supposedly already exist, which may be wrong.
 
 </note>
 

@@ -36,7 +36,7 @@ configuration.
 
 ## Change failure detection sensitivity
 
-To change the cluster's `failure_detection_sensitivity`, run one of the following [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-cluster" >}}) commands.
+To change the cluster's `failure_detection_sensitivity`, run one of the following [`rladmin`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/tune#tune-cluster" >}}) commands.
 
 - For Redis Enterprise Software version 6.4.2-69 and later, run:
 
