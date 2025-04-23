@@ -16,9 +16,9 @@ Multiple Redis Enterprise database resources (REDBs) can be associated with a si
 
 To learn more about designing a multi-namespace Redis Enterprise cluster, see [flexible deployment options]({{< relref "/operate/kubernetes/architecture/deployment-options.md" >}}).
 
-<note>
+{{<note>}}
 Multi-namespace installations now support Active-Active databases (REAADB) with certain configuration requirements. For details, see [Multi-namespace Active-Active databases](#multi-namespace-active-active-databases).
-</note>
+{{</note>}}
 
 ## Prerequisites
 
