@@ -9,24 +9,45 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Learn how to use the Redis query engine with JSON
-linkTitle: Index and query JSON
-title: Example - Index and query JSON documents
+description: Learn how to use the Redis query engine with JSON and hash documents.
+linkTitle: Index and query documents
+title: Index and query documents
 weight: 2
 ---
+
 This example shows how to create a
 [search index]({{< relref "/develop/interact/search-and-query/indexing" >}})
-for [JSON]({{< relref "/develop/data-types/json" >}}) data and
-run queries against the index.
+for [JSON]({{< relref "/develop/data-types/json" >}}) documents and
+run queries against the index. It then goes on to show the slight differences
+in the equivalent code for [hash]({{< relref "/develop/data-types/hashes" >}})
+documents.
 
-Make sure that you have Redis Community Edition and `go-redis` installed. 
+## Initialize
 
-Start by importing dependencies:
+Make sure that you have [Redis Community Edition]({{< relref "/operate/rc" >}})
+or another Redis server available. Also install the
+[`go-redis`]({{< relref "/develop/clients/go" >}}) client library if you
+haven't already done so.
+
+Add the following dependencies:
 
 {{< clients-example go_home_json import >}}
 {{< /clients-example >}}
 
-Connect to the database:
+## Create data
+
+Create some test data to add to your database. The example data shown
+below is compatible with both JSON and hash objects.
+
+{{< clients-example go_home_json create_data >}}
+{{< /clients-example >}}
+
+## Add the index
+
+Connect to your Redis database. The code below shows the most
+basic connection but see
+[Connect to the server]({{< relref "/develop/clients/go/connect" >}})
+to learn more about the available connection options.
 
 {{< clients-example go_home_json connect >}}
 {{< /clients-example >}}
@@ -60,12 +81,6 @@ val1 := client.FTSearchWithArgs(
 ```
 {{< /note >}}
 
-
-Create some test data to add to the database:
-
-{{< clients-example go_home_json create_data >}}
-{{< /clients-example >}}
-
 Use the code below to create a search index. The `FTCreateOptions` parameter enables
 indexing only for JSON objects where the key has a `user:` prefix.
 The
@@ -81,6 +96,8 @@ expression, instead of typing it in full:
 {{< clients-example go_home_json make_index >}}
 {{< /clients-example >}}
 
+## Add the data
+
 Add the three sets of user data to the database as
 [JSON]({{< relref "/develop/data-types/json" >}}) objects.
 If you use keys with the `user:` prefix then Redis will index the
@@ -88,6 +105,8 @@ objects automatically as you add them:
 
 {{< clients-example go_home_json add_data >}}
 {{< /clients-example >}}
+
+## Query the data
 
 You can now use the index to search the JSON objects. The
 [query]({{< relref "/develop/interact/search-and-query/query" >}})
@@ -123,8 +142,8 @@ need to specify some slightly different options.
 
 When you create the schema for a hash index, you don't need to
 add aliases for the fields, since you use the basic names to access
-the fields anyway. Also, you must use `HASH` for the `IndexType`
-when you create the index. The code below shows these changes with
+the fields anyway. Also, you must set `OnHash` to `true` in the `FTCreateOptions`
+object when you create the index. The code below shows these changes with
 a new index called `hash-idx:users`, which is otherwise the same as
 the `idx:users` index used for JSON documents in the previous examples.
 
@@ -142,8 +161,8 @@ hash or JSON:
 The query commands work the same here for hash as they do for JSON (but
 the name of the hash index is different). The format of the result is
 also almost the same except that the fields are returned directly in the
-result `Document` object map instead of in an enclosing `json` string
-under the key "$":
+`Document` object map of the result (for JSON, the fields are all enclosed
+in a string under the key "$"):
 
 {{< clients-example go_home_json query1_hash >}}
 {{< /clients-example >}}
