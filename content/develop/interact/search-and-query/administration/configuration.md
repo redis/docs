@@ -10,9 +10,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Redis Query Engine can be tuned through multiple
-  configuration parameters. Some of these parameters can only be set at load-time,
-  while other parameters can be set either at load-time or at run-time.'
+description: Redis Query Engine can be tuned through multiple configuration parameters. Some of these parameters can only be set at load-time, while other parameters can be set either at load-time or at run-time.
 linkTitle: Configuration parameters
 title: Configuration parameters
 weight: 1
@@ -22,10 +20,10 @@ As of Redis 8 in Redis Open Source (Redis 8), configuration parameters for the t
 * At load time via your `redis.conf` file.
 * At run time (where applicable) using the [`CONFIG SET`]({{< relref "/commands/config-set" >}}) command.
 
-Also, Redis 8 persists probabilistic configuration parameters just like any other configuration parameters (e.g., using the [`CONFIG REWRITE`]({{< relref "/commands/config-rewrite/" >}}) command).
+Also, Redis 8 persists RQE configuration parameters just like any other configuration parameters (e.g., using the [`CONFIG REWRITE`]({{< relref "/commands/config-rewrite/" >}}) command).
 {{< /note >}}
 
-## Redis Query Engine configuration parameters
+## RQE configuration parameters
 
 The following table summarizes which configuration parameters can be set at run-time, and compatibility with Redis Software and Redis Cloud.
 
@@ -251,7 +249,7 @@ Redis Cloud defaults:
 
 Added in v2.10.8.
 
-The maximum number of cursors that can be opened, per shard, at any given time. Cursors can be opened by the user via [`FT.AGGREGATE WITHCURSOR`]({{< relref "/commands/ft.aggregate/" >}}). Cursors are also opened internally by the Redis Query Engine for long-running queries. Once `INDEX_CURSOR_LIMIT` is reached, any further attempts to open a cursor will result in an error.
+The maximum number of cursors that can be opened, per shard, at any given time. Cursors can be opened by the user via [`FT.AGGREGATE WITHCURSOR`]({{< relref "/commands/ft.aggregate/" >}}). Cursors are also opened internally by the RQE for long-running queries. Once `INDEX_CURSOR_LIMIT` is reached, any further attempts to open a cursor will result in an error.
 
 {{% alert title="Notes" color="info" %}}
 * Caution should be used in modifying this parameter.  Every open cursor results in additional memory usage.
@@ -344,7 +342,7 @@ Default: `3`
 
 ### search-min-prefix
 
-The minimum number of characters allowed for prefix queries (e.g., hel*). Setting it to `1` can reduce performance.
+The minimum number of characters allowed for prefix queries (for example, hel*). Setting it to `1` can reduce performance.
 
 Type: integer
 
@@ -377,7 +375,7 @@ Default: `100`
 
 ### search-no-mem-pools
 
-Set Redis Query Engine to run without memory pools.
+Set RQE to run without memory pools.
 
 Type: boolean
 
@@ -490,7 +488,7 @@ Default: `20`
 ### search-upgrade-index
 
 Relevant only when loading an v1.x RDB file. Specify the argument for upgrading the index.
-This configuration setting is a special configuration option introduced to upgrade indexes from v1.x Redis Query Engine versions, otherwise known as legacy indexes. This configuration option needs to be given for each legacy index, followed by the index name and all valid options for the index description (also referred to as the `ON` arguments for following hashes) as described on [FT.CREATE]({{< relref "/commands/ft.create/" >}}) command page. 
+This configuration setting is a special configuration option introduced to upgrade indexes from v1.x RQE versions, otherwise known as legacy indexes. This configuration option needs to be given for each legacy index, followed by the index name and all valid options for the index description (also referred to as the `ON` arguments for following hashes) as described on [FT.CREATE]({{< relref "/commands/ft.create/" >}}) command page. 
 
 Type: string
 
@@ -569,7 +567,7 @@ $ redis-server --loadmodule ./redisearch.so [OPT VAL]...
 
 These methods are deprecated beginning with Redis 8.
 
-Redis Query Engine exposes the `FT.CONFIG` endpoint to allow for the setting and retrieval of configuration parameters at run-time.
+RQE exposes the `FT.CONFIG` endpoint to allow for the setting and retrieval of configuration parameters at run-time.
 
 To set the value of a configuration parameter at run-time (for supported parameters), simply run:
 
