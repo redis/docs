@@ -1,14 +1,14 @@
 ---
-Title: Audit using Service Log
+Title: Audit using System Log
 alwaysopen: false
 categories:
 - docs
 - operate
 - rc
-description: Use the service log to track and audit actions performed in the account
+description: Use the system log to track and audit actions performed in the account.
 weight: 60
 ---
-Service logs collect and report actions performed on various entities in your Redis Cloud subscription.  These entities include the account itself, users, API Keys, subscriptions, databases, accounts, payment methods, and more. For each entity, various lifecycle events are logged in the system log.
+System logs collect and report actions performed on various entities in your Redis Cloud subscription.  These entities include the account itself, users, API Keys, subscriptions, databases, accounts, payment methods, and more. For each entity, various lifecycle events are logged in the system log.
 
 To view the log, sign in to the [Redis Cloud console](https://cloud.redis.io/) and then select **Logs** from the main menu.
 
@@ -18,7 +18,7 @@ To learn more, see [System logs]({{< relref "/operate/rc/logs-reports/system-log
 
 ## Get system logs via REST API
 
-The REST API operation for querying the system service log is [`GET /logs`]({{< relref "/operate/rc/api/api-reference#tag/Account/operation/getAccountSystemLogs" >}}).
+The REST API operation for querying the system log is [`GET /logs`]({{< relref "/operate/rc/api/api-reference#tag/Account/operation/getAccountSystemLogs" >}}).
 
 The `/logs` API operation accepts the following parameters:
 
