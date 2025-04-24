@@ -33,6 +33,7 @@ implements the following data types:
 - [List](#lists)
 - [Set](#sets)
 - [Sorted set](#sorted-sets)
+- [Vector set](#vector-sets)
 - [Stream](#streams)
 - [Bitmap](#bitmaps)
 - [Bitfield](#bitfields)
@@ -85,6 +86,14 @@ For more information, see:
 
 * [Overview of Redis sorted sets]({{< relref "/develop/data-types/sorted-sets" >}})
 * [Redis sorted set command reference]({{< relref "/commands/" >}}?group=sorted-set)
+
+### Vector sets
+
+[Redis vector sets]({{< relref "/develop/data-types/vector-sets" >}}) are a specialized data type designed for managing high-dimensional vector data, enabling fast and efficient vector similarity search within Redis. Vector sets are optimized for use cases involving machine learning, recommendation systems, and semantic search, where each vector represents a data point in multi-dimensional space. Vector sets supports the [HNSW](https://en.wikipedia.org/wiki/Hierarchical_navigable_small_world) (hierarchical navigable small world) algorithm, allowing you to store, index, and query vectors based on the cosine similarity metric. With vector sets, Redis provides native support for hybrid search, combining vector similarity with structured [filters]({{< relref "/develop/data-types/vector-sets/filtered-search" >}}).
+For more information, see:
+
+* [Overview of Redis vector sets]({{< relref "/develop/data-types/vector-sets" >}})
+* [Redis vector set command reference]({{< relref "/commands/" >}}?group=vector_set)
 
 ### Streams
 
