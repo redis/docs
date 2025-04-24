@@ -10,7 +10,7 @@ description: API requests follow specific lifecycle phases and states, based on 
 linkTitle: API request lifecycle
 weight: 60
 ---
-Redis Cloud owners and viewers can leverage a RESTful API that permits operations against a variety of resources, including subscriptions, databases, and related infrastructure.
+Redis Cloud owners and viewers can leverage a REST API that permits operations against a variety of resources, including subscriptions, databases, and related infrastructure.
 
 [Once it's enabled]({{< relref "/operate/rc/api/get-started/enable-the-api.md" >}}), you can use the REST API to create, update, and delete subscriptions, databases, and other entities.
 
@@ -28,11 +28,11 @@ During this phase, the request is received, evaluated, planned, and executed.
 
 ### Use tasks to track requests
 
-Many operations are asychronous, including CREATE, UPDATE, and DELETE operations.  The response objects for such operations provide a `taskId` identifier that lets you track the progress of the underlying operation.
+The response objects for all asynchronous operations provide a `taskId` identifier that lets you track the progress of the underlying operation.
 
 You can query the `taskId` to track the state of a specific task using [`GET /v1/tasks/{taskId}`]({{< relref "/operate/rc/api/api-reference#tag/Tasks/operation/getTaskById" >}}).
 
-You can also query the state of all active tasks or recently completed tasks in your account using [`GET /tasks`]({{< relref "/operate/rc/api/api-reference#tag/Tasks/operation/getAllTasks" >}})
+You can also query the state of all active tasks or recently completed tasks in your account using [`GET /tasks`]({{< relref "/operate/rc/api/api-reference#tag/Tasks/operation/getAllTasks" >}}).
 
 ### Task process states
 
