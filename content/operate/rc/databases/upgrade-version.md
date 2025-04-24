@@ -18,7 +18,7 @@ All new Redis Cloud Essentials databases are on the latest available version of 
 
 ## Redis Cloud Pro
 
-Redis Cloud Pro databases that are not on the latest available version of Redis can be upgraded to a later version at any time.
+You can upgrade Redis Cloud Pro databases that are not on the latest available version of Redis to a later version at any time.
 
 {{< note >}}
 Please keep in mind the following before upgrading your database version:
