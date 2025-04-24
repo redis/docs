@@ -9,9 +9,9 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Learn how to use the Redis query engine with JSON
-linkTitle: Index and query JSON
-title: Example - Index and query JSON documents
+description: Learn how to use the Redis query engine with JSON and hash documents.
+linkTitle: Index and query documents
+title: Index and query documents
 weight: 2
 ---
 
@@ -69,6 +69,36 @@ to count all users in each city.
 
 {{< clients-example java_home_json query3 >}}
 {{< /clients-example >}}
+
+## Differences with hash documents
+
+Indexing for hash documents is very similar to JSON indexing but you
+need to specify some slightly different options.
+
+When you create the schema for a hash index, you don't need to
+add aliases for the fields, since you use the basic names to access
+the fields anyway. Also, you must use `HASH` for the `IndexType`
+when you create the index. The code below shows these changes with
+a new index called `hash-idx:users`, which is otherwise the same as
+the `idx:users` index used for JSON documents in the previous examples.
+
+{{< clients-example java_home_json make_hash_index >}}
+{{< /clients-example >}}
+
+Use [`hset()`]({{< relref "/commands/hset" >}}) to add the hash
+documents instead of [`jsonSet()`]({{< relref "/commands/json.set" >}}).
+
+{{< clients-example java_home_json add_hash_data >}}
+{{< /clients-example >}}
+
+The query commands work the same here for hash as they do for JSON (but
+the name of the hash index is different). The results are returned in 
+a `List` of `Document` objects, as with JSON:
+
+{{< clients-example java_home_json query1_hash >}}
+{{< /clients-example >}}
+
+## More information
 
 See the [Redis query engine]({{< relref "/develop/interact/search-and-query" >}}) docs
 for a full description of all query features with examples.
