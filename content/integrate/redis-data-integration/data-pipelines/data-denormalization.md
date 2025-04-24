@@ -65,8 +65,8 @@ The job must include the following attributes in the `nest` block:
   need to supply the parent `table` name, unless you are nesting children under a parent that comes from
   a different source database. If you do this then you must also specify `server_name` and
   `schema` attributes.
-- `nesting-key`: The field of the child entity that stores the unique ID (primary key) of the child entity.
-- `parent-key`: The field in the parent entity that stores the unique ID (foreign key) of the parent entity.
+- `nesting_key`: The field of the child entity that stores the unique ID (primary key) of the child entity.
+- `parent_key`: The field in the parent entity that stores the unique ID (foreign key) of the parent entity.
 - `child_key`: The field in the child entity that stores the unique ID (foreign key) of the parent entity.
   You only need to add this attribute if the name of the child's foreign key field is different from the parent's.
 - `path`: The [JSONPath](https://goessner.net/articles/JsonPath/)
