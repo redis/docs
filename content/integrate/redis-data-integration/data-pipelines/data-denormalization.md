@@ -64,9 +64,11 @@ The job must include the following attributes in the `nest` block:
 - `parent`: This specifies the RDI data stream for the parent entities. Typically, you only
   need to supply the parent `table` name, unless you are nesting children under a parent that comes from
   a different source database. If you do this then you must also specify `server_name` and
-  `schema` attributes.
-- `nesting-key`: The field of the child entity that stores the unique ID (primary key) of the child entity.
-- `parent-key`: The field in the parent entity that stores the unique ID (foreign key) of the parent entity.
+  `schema` attributes. Note that this attribute refers to a Redis *key* that will be added to the target
+  database, not to a table you can access from the pipeline. See [Using nesting](#using-nesting) below
+  for the format of the key that is generated.
+- `nesting_key`: The field of the child entity that stores the unique ID (primary key) of the child entity.
+- `parent_key`: The field in the parent entity that stores the unique ID (foreign key) of the parent entity.
 - `child_key`: The field in the child entity that stores the unique ID (foreign key) of the parent entity.
   You only need to add this attribute if the name of the child's foreign key field is different from the parent's.
 - `path`: The [JSONPath](https://goessner.net/articles/JsonPath/)
@@ -74,6 +76,8 @@ The job must include the following attributes in the `nest` block:
   the document root.
 - `structure`: (Optional) The type of JSON nesting structure for the child entities. Currently, only a JSON map
   is supported so if you supply this attribute then the value must be `map`.
+
+## Using nesting
 
 There are several important things to note when you use nesting:
 
