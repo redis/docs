@@ -28,10 +28,12 @@ similarity of an embedding generated from some query text with embeddings stored
 or JSON fields, Redis can retrieve documents that closely match the query in terms
 of their meaning.
 
-In the example below, we use the
+The example below uses the
 [`sentence-transformers`](https://pypi.org/project/sentence-transformers/)
 library to generate vector embeddings to store and index with
-Redis Query Engine.
+Redis Query Engine. The code is first demonstrated for hash documents with a
+separate section to explain the
+[differences with JSON documents](#differences-with-json-documents).
 
 ## Initialize
 
@@ -50,6 +52,7 @@ from sentence_transformers import SentenceTransformer
 from redis.commands.search.query import Query
 from redis.commands.search.field import TextField, TagField, VectorField
 from redis.commands.search.indexDefinition import IndexDefinition, IndexType
+from redis.commands.json.path import Path
 
 import numpy as np
 import redis
@@ -86,7 +89,7 @@ except redis.exceptions.ResponseError:
     pass
 ```
 
-Next, we create the index.
+Next, create the index.
 The schema in the example below specifies hash objects for storage and includes
 three fields: the text content to index, a
 [tag]({{< relref "/develop/interact/search-and-query/advanced-concepts/tags" >}})
@@ -127,10 +130,10 @@ Use the `model.encode()` method of `SentenceTransformer`
 as shown below to create the embedding that represents the `content` field.
 The `astype()` option that follows the `model.encode()` call specifies that
 we want a vector of `float32` values. The `tobytes()` option encodes the
-vector components together as a single binary string rather than the
-default Python list of `float` values.
-Use the binary string representation when you are indexing hash objects
-(as we are here), but use the default list of `float` for JSON objects.
+vector components together as a single binary string.
+Use the binary string representation when you are indexing hashes
+or running a query (but use a list of `float` for
+[JSON documents](#differences-with-json-documents)).
 
 ```python
 content = "That is a very happy person"
@@ -225,6 +228,116 @@ field, with the lowest distance indicating the greatest similarity to the query.
 As you would expect, the result for `doc:0` with the content text *"That is a very happy person"*
 is the result that is most similar in meaning to the query text
 *"That is a happy person"*.
+
+## Differences with JSON documents
+
+Indexing JSON documents is similar to hash indexing, but there are some
+important differences. JSON allows much richer data modelling with nested fields, so
+you must supply a [path]({{< relref "/develop/data-types/json/path" >}}) in the schema
+to identify each field you want to index. However, you can declare a short alias for each
+of these paths (using the `as_name` keyword argument) to avoid typing it in full for
+every query. Also, you must specify `IndexType.JSON` when you create the index.
+
+The code below shows these differences, but the index is otherwise very similar to
+the one created previously for hashes:
+
+```py
+schema = (
+    TextField("$.content", as_name="content"),
+    TagField("$.genre", as_name="genre"),
+    VectorField(
+        "$.embedding", "HNSW", {
+            "TYPE": "FLOAT32",
+            "DIM": 384,
+            "DISTANCE_METRIC": "L2"
+        },
+        as_name="embedding"
+    )
+)
+
+r.ft("vector_json_idx").create_index(
+    schema,
+    definition=IndexDefinition(
+        prefix=["jdoc:"], index_type=IndexType.JSON
+    )
+)
+```
+
+Use [`json().set()`]({{< relref "/commands/json.set" >}}) to add the data
+instead of [`hset()`]({{< relref "/commands/hset" >}}). The dictionaries
+that specify the fields have the same structure as the ones used for `hset()`
+but `json().set()` receives them in a positional argument instead of 
+the `mapping` keyword argument.
+
+An important difference with JSON indexing is that the vectors are
+specified using lists instead of binary strings. Generate the list
+using the `tolist()` method instead of `tobytes()` as you would with a
+hash.
+
+```py
+content = "That is a very happy person"
+
+r.json().set("jdoc:0", Path.root_path(), {
+    "content": content,
+    "genre": "persons",
+    "embedding": model.encode(content).astype(np.float32).tolist(),
+})
+
+content = "That is a happy dog"
+
+r.json().set("jdoc:1", Path.root_path(), {
+    "content": content,
+    "genre": "pets",
+    "embedding": model.encode(content).astype(np.float32).tolist(),
+})
+
+content = "Today is a sunny day"
+
+r.json().set("jdoc:2", Path.root_path(), {
+    "content": content,
+    "genre": "weather",
+    "embedding": model.encode(content).astype(np.float32).tolist(),
+})
+```
+
+The query is almost identical to the one for the hash documents. This
+demonstrates how the right choice of aliases for the JSON paths can
+save you having to write complex queries. An important thing to notice
+is that the vector parameter for the query is still specified as a
+binary string (using the `tobytes()` method), even though the data for
+the `embedding` field of the JSON was specified as a list.
+
+```py
+q = Query(
+    "*=>[KNN 3 @embedding $vec AS vector_distance]"
+).return_field("vector_distance").return_field("content").dialect(2)
+
+query_text = "That is a happy person"
+
+res = r.ft("vector_json_idx").search(
+    q, query_params={
+        "vec": model.encode(query_text).astype(np.float32).tobytes()
+    }
+)
+```
+
+Apart from the `jdoc:` prefixes for the keys, the result from the JSON
+query is the same as for hash:
+
+```
+Result{
+    3 total,
+    docs: [
+        Document {
+            'id': 'jdoc:0',
+            'payload': None,
+            'vector_distance': '0.114169985056',
+            'content': 'That is a very happy person'
+        },
+            .
+            .
+            .
+```
 
 ## Learn more
 
