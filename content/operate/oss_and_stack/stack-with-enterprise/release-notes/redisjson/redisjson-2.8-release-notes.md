@@ -15,10 +15,24 @@ weight: 95
 
 ## Requirements
 
-RedisJSON v2.8.8 requires:
+RedisJSON v2.8.9 requires:
 
 - Minimum Redis compatibility version (database): 7.4
 - Minimum Redis Enterprise Software version (cluster): 7.6 (TBD)
+
+## v2.8.9 (April 2025)
+
+This is a maintenance release for RedisJSON 2.8.
+
+Update urgency: `LOW`: No need to upgrade unless there are new features you want to use.
+
+Details:
+
+Bug fixes
+- [#1329](https://github.com/redisjson/redisjson/pull/1329) Memory usage calculation: some allocations are counted twice (MOD-9169) 
+
+Improvements:
+- [#1335](https://github.com/redisjson/redisjson/pull/1335) Added support for Azure Linux 3 (MOD-9172)
 
 ## v2.8.8 (January 2025)
 

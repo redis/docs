@@ -14,10 +14,21 @@ weight: 96
 ---
 ## Requirements
 
-RedisBloom v2.4.14 requires:
+RedisBloom v2.4.15 requires:
 
 - Minimum Redis compatibility version (database): 6.0.16
 - Minimum Redis Enterprise Software version (cluster): 6.2.8
+
+## v2.4.15 (April 2025)
+
+This is a maintenance release for RedisBloom 2.4.
+
+Update urgency: `LOW`: No need to upgrade unless there are new features you want to use.
+
+Details:
+
+Improvements:
+- [#865](https://github.com/redisbloom/redisbloom/pull/865) Added support for Azure Linux 3 (MOD-9171)
 
 ## v2.4.14 (February 2025)
 
