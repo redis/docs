@@ -114,6 +114,11 @@ use client-side caching with a connection pool or a cluster connection in exactl
 {{< note >}}Client-side caching requires redis-py v5.1.0 or later.
 To maximize compatibility with all Redis products, client-side caching
 is supported by Redis v7.4 or later.
+
+The [Redis server products]({{< relref "/operate" >}}) support
+[opt-in/opt-out]({{< relref "/develop/reference/client-side-caching#opt-in-and-opt-out-caching" >}}) mode
+and [broadcasting mode]({{< relref "/develop/reference/client-side-caching#broadcasting-mode" >}})
+for CSC, but these modes are not currently implemented by `redis-py`.
 {{< /note >}}
 
 ```python

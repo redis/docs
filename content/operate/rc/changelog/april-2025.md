@@ -7,7 +7,7 @@ categories:
 - rc
 description: New features, enhancements, and other changes added to Redis Cloud during
   April 2025.
-highlights: New UI and dark mode, Map multiple Redis Cloud accounts to marketplace account, Upgrade database version for a single Pro database
+highlights: New UI and dark mode, Map multiple Redis Cloud accounts to marketplace account
 linktitle: April 2025
 weight: 32
 ---
