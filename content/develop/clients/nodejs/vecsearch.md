@@ -16,7 +16,7 @@ weight: 3
 ---
 
 [Redis Query Engine]({{< relref "/develop/interact/search-and-query" >}})
-enables you to index vector fields in [hash]({{< relref "/develop/data-types/hashes" >}})
+lets you index vector fields in [hash]({{< relref "/develop/data-types/hashes" >}})
 or [JSON]({{< relref "/develop/data-types/json" >}}) objects (see the
 [Vectors]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}}) 
 reference page for more information).
