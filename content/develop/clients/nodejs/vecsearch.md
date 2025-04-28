@@ -92,13 +92,17 @@ try {
 ```
 
 Next, create the index with the following schema:
-- `content`: Text field for the content to index
-- `genre`: Tag field representing the text's genre
-- `embedding`: Vector field with:
-  - HNSW indexing
-  - L2 distance metric
-  - Float32 values
-  - 768 dimensions (matching the embedding model)
+-   `content`: Text field for the content to index
+-   `genre`: [Tag]({{< relref "/develop/interact/search-and-query/advanced-concepts/tags" >}})
+    field representing the text's genre
+-   `embedding`: [Vector]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}})
+    field with:
+    -   [HNSW]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors#hnsw-index" >}})
+        indexing
+    -   [L2]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors#distance-metrics" >}})
+        distance metric
+    -   Float32 values
+    -   768 dimensions (matching the embedding model)
 
 ```js
 await client.ft.create('vector_idx', {
