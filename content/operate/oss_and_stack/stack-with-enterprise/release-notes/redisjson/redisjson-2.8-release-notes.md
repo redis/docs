@@ -8,7 +8,7 @@ categories:
 description: RedisJSON 2.8 introduces bug fixes.
 linkTitle: v2.8 (July 2024)
 min-version-db: '7.4'
-min-version-rs: 7.6 (TBD)
+min-version-rs: 7.8
 toc: 'true'
 weight: 95
 ---
@@ -18,7 +18,7 @@ weight: 95
 RedisJSON v2.8.9 requires:
 
 - Minimum Redis compatibility version (database): 7.4
-- Minimum Redis Enterprise Software version (cluster): 7.6 (TBD)
+- Minimum Redis Enterprise Software version (cluster): 7.8
 
 ## v2.8.9 (April 2025)
 

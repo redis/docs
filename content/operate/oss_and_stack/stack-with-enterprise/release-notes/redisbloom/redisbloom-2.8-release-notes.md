@@ -8,7 +8,7 @@ categories:
 description: RedisBloom 2.8 introduces improvements and bug fixes.
 linkTitle: v2.8 (July 2024)
 min-version-db: '7.4'
-min-version-rs: 7.6 (TBD)
+min-version-rs: 7.8
 toc: 'true'
 weight: 94
 ---
@@ -18,7 +18,7 @@ weight: 94
 RedisBloom v2.8.7 requires:
 
 - Minimum Redis compatibility version (database): 7.4
-- Minimum Redis Enterprise Software version (cluster): 7.6 (TBD)
+- Minimum Redis Enterprise Software version (cluster): 7.8
 
 ## v2.8.7 (April 2025)
 
