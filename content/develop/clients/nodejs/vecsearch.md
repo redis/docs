@@ -16,57 +16,54 @@ weight: 3
 ---
 
 [Redis Query Engine]({{< relref "/develop/interact/search-and-query" >}})
-lets you index vector fields in [hash]({{< relref "/develop/data-types/hashes" >}})
+enables you to index vector fields in [hash]({{< relref "/develop/data-types/hashes" >}})
 or [JSON]({{< relref "/develop/data-types/json" >}}) objects (see the
 [Vectors]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}}) 
 reference page for more information).
-Among other things, vector fields can store *text embeddings*, which are AI-generated vector
-representations of the semantic information in pieces of text. The
+
+Vector fields can store *text embeddings*, which are AI-generated vector
+representations of text content. The
 [vector distance]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors#distance-metrics" >}})
-between two embeddings indicates how similar they are semantically. By comparing the
-similarity of an embedding generated from some query text with embeddings stored in hash
-or JSON fields, Redis can retrieve documents that closely match the query in terms
-of their meaning.
+between two embeddings measures their semantic similarity. When you compare the
+similarity of a query embedding with stored embeddings, Redis can retrieve documents
+that closely match the query's meaning.
 
 In the example below, we use the
 [`@xenova/transformers`](https://www.npmjs.com/package/@xenova/transformers)
 library to generate vector embeddings to store and index with
-Redis Query Engine.
+Redis Query Engine. The code is first demonstrated for hash documents with a
+separate section to explain the
+[differences with JSON documents](#differences-with-json-documents).
 
 ## Initialize
 
-Install [`node-redis`]({{< relref "/develop/clients/nodejs" >}}) if you
-have not already done so. Also, install `@xenova/transformers` with the
-following command:
+Install the required dependencies:
+
+1. Install [`node-redis`]({{< relref "/develop/clients/nodejs" >}}) if you haven't already.
+2. Install `@xenova/transformers`:
 
 ```bash
 npm install @xenova/transformers
 ```
 
-In a new JavaScript source file, start by importing the required classes:
+In your JavaScript source file, import the required classes:
 
 ```js
 import * as transformers from '@xenova/transformers';
 import {VectorAlgorithms, createClient, SchemaFieldTypes} from 'redis';
 ```
 
-The first of these imports is the `@xenova/transformers` module, which handles
-the embedding models.
-Here, we use an instance of the
+The `@xenova/transformers` module handles embedding models. This example uses the
 [`all-distilroberta-v1`](https://huggingface.co/sentence-transformers/all-distilroberta-v1)
-model for the embeddings. This model generates vectors with 768 dimensions, regardless
-of the length of the input text, but note that the input is truncated to 128
-tokens (see
-[Word piece tokenization](https://huggingface.co/learn/nlp-course/en/chapter6/6)
-at the [Hugging Face](https://huggingface.co/) docs to learn more about the way tokens
-are related to the original text).
+model, which:
+- Generates 768-dimensional vectors
+- Truncates input to 128 tokens
+- Uses word piece tokenization (see [Word piece tokenization](https://huggingface.co/learn/nlp-course/en/chapter6/6)
+  at the [Hugging Face](https://huggingface.co/) docs for details)
 
-The `pipe` value obtained here is a function that we can call to generate the
-embeddings. We also need an object to pass some options for the `pipe()` function
-call. These specify the way the sentence embedding is generated from individual
-token embeddings (see the
+The `pipe` function generates embeddings. The `pipeOptions` object specifies how to generate sentence embeddings from token embeddings (see the
 [`all-distilroberta-v1`](https://huggingface.co/sentence-transformers/all-distilroberta-v1)
-docs for more information).
+documentation for details):
 
 ```js
 let pipe = await transformers.pipeline(
@@ -81,30 +78,27 @@ const pipeOptions = {
 
 ## Create the index
 
-Connect to Redis and delete any index previously created with the
-name `vector_idx`. (The `dropIndex()` call throws an exception if
-the index doesn't already exist, which is why you need the
-`try...catch` block.)
+First, connect to Redis and remove any existing index named `vector_idx`:
 
 ```js
 const client = createClient({url: 'redis://localhost:6379'});
-
 await client.connect();
 
-try { await client.ft.dropIndex('vector_idx'); } catch {}
+try { 
+    await client.ft.dropIndex('vector_idx'); 
+} catch (e) {
+    // Index doesn't exist, which is fine
+}
 ```
 
-Next, create the index.
-The schema in the example below specifies hash objects for storage and includes
-three fields: the text content to index, a
-[tag]({{< relref "/develop/interact/search-and-query/advanced-concepts/tags" >}})
-field to represent the "genre" of the text, and the embedding vector generated from
-the original text content. The `embedding` field specifies
-[HNSW]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors#hnsw-index" >}}) 
-indexing, the
-[L2]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors#distance-metrics" >}})
-vector distance metric, `Float32` values to represent the vector's components,
-and 768 dimensions, as required by the `all-distilroberta-v1` embedding model.
+Next, create the index with the following schema:
+- `content`: Text field for the content to index
+- `genre`: Tag field representing the text's genre
+- `embedding`: Vector field with:
+  - HNSW indexing
+  - L2 distance metric
+  - Float32 values
+  - 768 dimensions (matching the embedding model)
 
 ```js
 await client.ft.create('vector_idx', {
@@ -112,7 +106,7 @@ await client.ft.create('vector_idx', {
         type: SchemaFieldTypes.TEXT,
     },
     'genre': {
-        type:SchemaFieldTypes.TAG,
+        type: SchemaFieldTypes.TAG,
     },
     'embedding': {
         type: SchemaFieldTypes.VECTOR,
@@ -121,7 +115,7 @@ await client.ft.create('vector_idx', {
         DISTANCE_METRIC: 'L2',
         DIM: 768,
     }
-},{
+}, {
     ON: 'HASH',
     PREFIX: 'doc:'
 });
@@ -129,34 +123,21 @@ await client.ft.create('vector_idx', {
 
 ## Add data
 
-You can now supply the data objects, which will be indexed automatically
-when you add them with [`hSet()`]({{< relref "/commands/hset" >}}), as long as
-you use the `doc:` prefix specified in the index definition.
+Add data objects to the index using `hSet()`. The index automatically processes objects with the `doc:` prefix.
 
-Use the `pipe()` method and the `pipeOptions` object that we created earlier to
-generate the embedding that represents the `content` field.
-The object returned by `pipe()` includes a `data` attribute, which is a
-[`Float32Array`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array)
-that contains the embedding data. If you are indexing hash objects, as
-we are here, then you must also call
-[`Buffer.from()`](https://nodejs.org/api/buffer.html#static-method-bufferfromarraybuffer-byteoffset-length)
-on this array's `buffer` value to convert the `Float32Array`
-to a binary string. If you are indexing JSON objects, you can just
-use the `Float32Array` directly to represent the embedding.
+For each document:
+1. Generate an embedding using the `pipe()` function and `pipeOptions`
+2. Convert the embedding to a binary string using `Buffer.from()`
+3. Store the document with `hSet()`
 
-Make the `hSet()` calls within a
-[`Promise.all()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all)
-call to create a Redis [pipeline]({{< relref "/develop/use/pipelining" >}})
-(not to be confused with the `@xenova/transformers` pipeline).
-This combines the commands together into a batch to reduce network
-round trip time.
+Use `Promise.all()` to batch the commands and reduce network round trips:
 
 ```js
 const sentence1 = 'That is a very happy person';
 const doc1 = {
     'content': sentence1, 
-    'genre':'persons', 
-    'embedding':Buffer.from(
+    'genre': 'persons', 
+    'embedding': Buffer.from(
         (await pipe(sentence1, pipeOptions)).data.buffer
     ),
 };
@@ -164,7 +145,7 @@ const doc1 = {
 const sentence2 = 'That is a happy dog';
 const doc2 = {
     'content': sentence2, 
-    'genre':'pets', 
+    'genre': 'pets', 
     'embedding': Buffer.from(
         (await pipe(sentence2, pipeOptions)).data.buffer
     )
@@ -173,7 +154,7 @@ const doc2 = {
 const sentence3 = 'Today is a sunny day';
 const doc3 = {
     'content': sentence3, 
-    'genre':'weather', 
+    'genre': 'weather', 
     'embedding': Buffer.from(
         (await pipe(sentence3, pipeOptions)).data.buffer
     )
@@ -188,24 +169,14 @@ await Promise.all([
 
 ## Run a query
 
-After you have created the index and added the data, you are ready to run a query.
-To do this, you must create another embedding vector from your chosen query
-text. Redis calculates the vector distance between the query vector and each
-embedding vector in the index and then ranks the results in order of this
-distance value.
+To query the index:
+1. Generate an embedding for your query text
+2. Pass the embedding as a parameter to the search
+3. Redis calculates vector distances and ranks results
 
-The code below creates the query embedding using `pipe()`, as with
-the indexing, and passes it as a parameter during execution
-(see
-[Vector search]({{< relref "/develop/interact/search-and-query/query/vector-search" >}})
-for more information about using query parameters with embeddings).
-
-The query returns an array of objects representing the documents
-that were found (which are hash objects here). The `id` attribute
-contains the document's key. The `value` attribute contains an object
-with a key-value entry corresponding to each index field specified in the
-`RETURN` option of the query.
-
+The query returns an array of document objects. Each object contains:
+- `id`: The document's key
+- `value`: An object with fields specified in the `RETURN` option
 
 ```js
 const similar = await client.ft.search(
@@ -229,9 +200,7 @@ for (const doc of similar.documents) {
 await client.quit();
 ```
 
-The code is now ready to run, but note that it may take a while to download the
-`all-distilroberta-v1` model data the first time you run it. The
-code outputs the following results:
+The first run may take longer as it downloads the model data. The output shows results ordered by score (vector distance), with lower scores indicating greater similarity:
 
 ```
 doc:1: 'That is a very happy person', Score: 0.127055495977
@@ -239,17 +208,101 @@ doc:2: 'That is a happy dog', Score: 0.836842417717
 doc:3: 'Today is a sunny day', Score: 1.50889515877
 ```
 
-The results are ordered according to the value of the `score`
-field, which represents the vector distance here. The lowest distance indicates
-the greatest similarity to the query.
-As you would expect, the result for `doc:1` with the content text
-*"That is a very happy person"*
-is the result that is most similar in meaning to the query text
-*"That is a happy person"*.
+## Differences with JSON documents
+
+JSON documents support richer data modeling with nested fields. Key differences from hash documents:
+
+1. Use paths in the schema to identify fields
+2. Declare aliases for paths using the `AS` option
+3. Set `ON` to `JSON` when creating the index
+4. Use arrays instead of binary strings for vectors
+5. Use `json.set()` instead of `hSet()`
+
+Create the index with path aliases:
+
+```js
+await client.ft.create('vector_json_idx', {
+    '$.content': {
+        type: SchemaFieldTypes.TEXT,
+        AS: 'content',
+    },
+    '$.genre': {
+        type: SchemaFieldTypes.TAG,
+        AS: 'genre',
+    },
+    '$.embedding': {
+        type: SchemaFieldTypes.VECTOR,
+        TYPE: 'FLOAT32',
+        ALGORITHM: VectorAlgorithms.HNSW,
+        DISTANCE_METRIC: 'L2',
+        DIM: 768,
+        AS: 'embedding',
+    }
+}, {
+    ON: 'JSON',
+    PREFIX: 'jdoc:'
+});
+```
+
+Add data using `json.set()`. Convert the `Float32Array` to a standard JavaScript array using the spread operator:
+
+```js
+const jSentence1 = 'That is a very happy person';
+const jdoc1 = {
+    'content': jSentence1,
+    'genre': 'persons',
+    'embedding': [...(await pipe(jSentence1, pipeOptions)).data],
+};
+
+const jSentence2 = 'That is a happy dog';
+const jdoc2 = {
+    'content': jSentence2,
+    'genre': 'pets',
+    'embedding': [...(await pipe(jSentence2, pipeOptions)).data],
+};
+
+const jSentence3 = 'Today is a sunny day';
+const jdoc3 = {
+    'content': jSentence3,
+    'genre': 'weather',
+    'embedding': [...(await pipe(jSentence3, pipeOptions)).data],
+};
+
+await Promise.all([
+    client.json.set('jdoc:1', '$', jdoc1),
+    client.json.set('jdoc:2', '$', jdoc2),
+    client.json.set('jdoc:3', '$', jdoc3)
+]);
+```
+
+Query JSON documents using the same syntax, but note that the vector parameter must still be a binary string:
+
+```js
+const jsons = await client.ft.search(
+    'vector_json_idx',
+    '*=>[KNN 3 @embedding $B AS score]',
+    {
+        "PARAMS": {
+            B: Buffer.from(
+                (await pipe('That is a happy person', pipeOptions)).data.buffer
+            ),
+        },
+        'RETURN': ['score', 'content'],
+        'DIALECT': '2'
+    },
+);
+```
+
+The results are identical to the hash document query, except for the `jdoc:` prefix:
+
+```
+jdoc:1: 'That is a very happy person', Score: 0.127055495977
+jdoc:2: 'That is a happy dog', Score: 0.836842417717
+jdoc:3: 'Today is a sunny day', Score: 1.50889515877
+```
 
 ## Learn more
 
 See
 [Vector search]({{< relref "/develop/interact/search-and-query/query/vector-search" >}})
-for more information about the indexing options, distance metrics, and query format
-for vectors.
+for more information about indexing options, distance metrics, and query format.
