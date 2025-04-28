@@ -11,7 +11,9 @@ linkTitle: Call home client
 weight: 80
 ---
 
-The call home client sends daily usage statistics to Redis for operational insights. Reports include memory usage, shard information, enabled features, and other operational metrics.
+The call home client collects data hourly and sends daily usage statistics to Redis. Reports include memory usage, shard details, enabled features, and other operational metrics. To prevent increased load when multiple clusters are running, the daily report is sent at a random time.
+
+These reports provide insights into license consumption, which helps Redis to ensure performance metrics align with contractual agreements, optimize service delivery, and offer proactive customer support.
     
 We recommend contacting [Redis support](https://redis.io/support/) before making changes to call home behavior.
 
