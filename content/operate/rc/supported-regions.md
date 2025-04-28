@@ -28,6 +28,7 @@ Redis Cloud Pro databases on AWS support [VPC Peering]({{< relref "/operate/rc/s
 | Region ID      | Location                 | Redis Cloud Pro | Redis Cloud Essentials |
 |:---------------|:-------------------------|:----------------|:-----------------------|
 | `ca-central-1` | Montreal, Canada         | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| `mx-central-1` | Central Mexico | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `sa-east-1`    | Sao Paulo, Brazil        | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `us-east-1`    | Northern Virginia, USA   | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `us-east-2`    | Ohio, USA                | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
@@ -61,6 +62,8 @@ Redis Cloud Pro databases on AWS support [VPC Peering]({{< relref "/operate/rc/s
 | `ap-southeast-2` | Sydney, Australia    | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `ap-southeast-3` | Jakarta, Indonesia   | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `ap-southeast-4` | Melbourne, Australia | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
+| `ap-southeast-5` | Malaysia | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
+| `ap-southeast-7` | Thailand | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 
 #### Middle East and Africa
 
