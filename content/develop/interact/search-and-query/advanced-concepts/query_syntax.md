@@ -335,7 +335,7 @@ As of v2.6.0, you can use the dictionary for wildcard matching queries with thes
 
 * `?` - for any single character
 * `*` - for any character repeating zero or more times
-* ' and \ - for escaping; other special characters are ignored
+* `\` - for escaping; other special characters are ignored
 
 An example of the syntax is `"w'foo*bar?'"`.
 

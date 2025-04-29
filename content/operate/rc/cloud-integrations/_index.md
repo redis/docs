@@ -12,7 +12,7 @@ hideListLinks: true
 weight: 40
 ---
 
-By default, Redis Cloud subscriptions are hosted in cloud vendor accounts owned and managed by Redis, Inc.
+By default, Redis Cloud subscriptions are hosted in cloud vendor accounts owned and managed by Redis.
 
 To integrate Redis Cloud into an existing cloud vendor account, you can:
 
@@ -22,6 +22,8 @@ To integrate Redis Cloud into an existing cloud vendor account, you can:
 
 When you subscribe to Redis Cloud through a cloud vendor marketplace, billing is handled through the marketplace.
 
+Redis also offers monthly and annual commitments through cloud vendor marketplaces. [Contact sales](https://redis.io/meeting/) if you're interested in a monthly or annual offer.
+
 ## Marketplace billing considerations
 
 Cloud vendor marketplaces provide a convenient way to handle multiple subscription fees.  However, this also means that billing issues impact multiple subscriptions, including Redis Cloud.
@@ -30,23 +32,6 @@ When billing details change, you should verify that each service is operating no
 
 For best results, we recommend:
 
-- Backing up all data _before_ updating billing details.
+- [Backing up all data]({{< relref "/operate/rc/databases/back-up-data" >}}) _before_ updating billing details.
 
-- Verifying that all accounts operate normally after updating billing details, especially after updating payment methods.
-
-- Making sure that billing alerts are sent to actively monitored accounts.
-
-## Update marketplace billing details
-
-
-### AWS Marketplace
-To change billing details for an AWS marketplace subscription, we recommend creating a second subscription using the updated billing details and then migrating your existing data to the new subscription. 
-
-### Google Cloud
-You can migrate a Google Cloud project to a new billing account without creating a new subscription.  To do so:
-
-1. Create a second project and associate with it your new billing account.
-2. With your second project, purchase Redis Enterprise via the Google Cloud Marketplace.
-3. Activate the service by signing in to Redis Enterprise console using your original SSO credentials.
-4. Change the billing account for your original project to the new billing account.
-5. (Optional) Remove your second project.
+- Contacting [support](https://redis.io/support/) or your account team for assistance.
