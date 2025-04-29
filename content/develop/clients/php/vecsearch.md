@@ -31,6 +31,9 @@ of their meaning.
 The example below uses the [HuggingFace](https://huggingface.co/) model
 [`all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2)
 to generate the vector embeddings to store and index with Redis Query Engine.
+The code is first demonstrated for hash documents with a
+separate section to explain the
+[differences with JSON documents](#differences-with-json-documents).
 
 ## Initialize
 
@@ -155,7 +158,8 @@ array of `float` values. Note that if you are using
 [JSON]({{< relref "/develop/data-types/json" >}})
 objects to store your documents instead of hashes, then you should store
 the `float` array directly without first converting it to a binary
-string.
+string (see [Differences with JSON documents](#differences-with-json-documents)
+below).
 
 ```php
 $content = "That is a very happy person";
@@ -263,6 +267,134 @@ As you would expect, the text *"That is a very happy person"* (from the `doc:0`
 document)
 is the result judged to be most similar in meaning to the query text
 *"That is a happy person"*.
+
+## Differences with JSON documents
+
+Indexing JSON documents is similar to hash indexing, but there are some
+important differences. JSON allows much richer data modelling with nested fields, so
+you must supply a [path]({{< relref "/develop/data-types/json/path" >}}) in the schema
+to identify each field you want to index. However, you can declare a short alias for each
+of these paths to avoid typing it in full for
+every query. Also, you must specify `JSON` with the `on()` option when you create the index.
+
+The code below shows these differences, but the index is otherwise very similar to
+the one created previously for hashes:
+
+```php
+$jsonSchema = [
+    new TextField("$.content", "content"),
+    new TagField("$.genre", "genre"),
+    new VectorField(
+        "$.embedding",
+        "HNSW",
+        [
+            "TYPE", "FLOAT32",
+            "DIM", 384,
+            "DISTANCE_METRIC", "L2"
+        ],
+        "embedding",
+    )   
+];
+
+$client->ftcreate("vector_json_idx", $jsonSchema,
+    (new CreateArguments())
+        ->on('JSON')
+        ->prefix(["jdoc:"])
+);
+```
+
+Use [`jsonset()`]({{< relref "/commands/json.set" >}}) to add the data
+instead of [`hmset()`]({{< relref "/commands/hset" >}}). The arrays
+that specify the fields have roughly the same structure as the ones used for
+`hmset()` but you should use the standard library function
+[`json_encode()`](https://www.php.net/manual/en/function.json-encode.php)
+to generate a JSON string representation of the array.
+
+An important difference with JSON indexing is that the vectors are
+specified using arrays instead of binary strings. Simply add the
+embedding as an array field without using the `pack()` function as you
+would with a hash.
+
+```php
+$content = "That is a very happy person";
+$emb = $extractor($content, normalize: true, pooling: 'mean');
+
+$client->jsonset("jdoc:0", "$",
+    json_encode(
+        [
+            "content" => $content,
+            "genre" => "persons",
+            "embedding" => $emb[0]
+        ],
+        JSON_THROW_ON_ERROR
+    )
+);
+
+$content = "That is a happy dog";
+$emb = $extractor($content, normalize: true, pooling: 'mean');
+
+$client->jsonset("jdoc:1","$", 
+    json_encode(
+        [
+            "content" => $content,
+            "genre" => "pets",
+            "embedding" => $emb[0]
+        ],
+        JSON_THROW_ON_ERROR
+    )
+);
+
+$content = "Today is a sunny day";
+$emb = $extractor($content, normalize: true, pooling: 'mean');
+
+$client->jsonset("jdoc:2", "$",
+    json_encode(
+        [
+            "content" => $content,
+            "genre" => "weather",
+            "embedding" => $emb[0]
+        ],
+        JSON_THROW_ON_ERROR
+    )
+);
+```
+
+The query is almost identical to the one for the hash documents. This
+demonstrates how the right choice of aliases for the JSON paths can
+save you having to write complex queries. An important thing to notice
+is that the vector parameter for the query is still specified as a
+binary string (using the `pack()` function), even though the data for
+the `embedding` field of the JSON was specified as an array.
+
+```php
+$queryText = "That is a happy person";
+$queryEmb = $extractor($queryText, normalize: true, pooling: 'mean');
+
+$result = $client->ftsearch(
+    "vector_json_idx",
+    '*=>[KNN 3 @embedding $vec AS vector_distance]',
+    new SearchArguments()
+        ->addReturn(1, "vector_distance")
+        ->dialect("2")
+        ->params([
+            "vec", pack('g*', ...$queryEmb[0])
+        ])
+        ->sortBy("vector_distance")
+);
+```
+
+Apart from the `jdoc:` prefixes for the keys, the result from the JSON
+query is the same as for hash:
+
+```
+Number of results: 3
+Key: jdoc:0
+Field: vector_distance, Value: 3.76152896881
+Key: jdoc:1
+Field: vector_distance, Value: 18.6544265747
+Key: jdoc:2
+Field: vector_distance, Value: 44.6189727783
+```
 
 ## Learn more
 
