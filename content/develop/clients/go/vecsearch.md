@@ -32,7 +32,9 @@ In the example below, we use the
 [`huggingfaceembedder`](https://pkg.go.dev/github.com/henomis/lingoose@v0.3.0/embedder/huggingface)
 package from the [`LinGoose`](https://pkg.go.dev/github.com/henomis/lingoose@v0.3.0)
 framework to generate vector embeddings to store and index with
-Redis Query Engine.
+Redis Query Engine.  The code is first demonstrated for hash documents with a
+separate section to explain the
+[differences with JSON documents](#differences-with-json-documents).
 
 ## Initialize
 
@@ -80,10 +82,10 @@ the embeddings for this example are both available for free.
 
 The `huggingfaceembedder` model outputs the embeddings as a
 `[]float32` array. If you are storing your documents as
-[hash]({{< relref "/develop/data-types/hashes" >}}) objects
-(as we are in this example), then you must convert this array
-to a `byte` string before adding it as a hash field. In this example,
-we will use the function below to produce the `byte` string:
+[hash]({{< relref "/develop/data-types/hashes" >}}) objects, then you
+must convert this array to a `byte` string before adding it as a hash field.
+The function shown below uses Go's [`binary`](https://pkg.go.dev/encoding/binary)
+package to produce the `byte` string:
 
 ```go
 func floatsToBytes(fs []float32) []byte {
@@ -101,7 +103,8 @@ func floatsToBytes(fs []float32) []byte {
 Note that if you are using [JSON]({{< relref "/develop/data-types/json" >}})
 objects to store your documents instead of hashes, then you should store
 the `[]float32` array directly without first converting it to a `byte`
-string.
+string (see [Differences with JSON documents](#differences-with-json-documents)
+below).
 
 ## Create the index
 
@@ -187,7 +190,7 @@ hf := huggingfaceembedder.New().
 ## Add data
 
 You can now supply the data objects, which will be indexed automatically
-when you add them with [`hset()`]({{< relref "/commands/hset" >}}), as long as
+when you add them with [`HSet()`]({{< relref "/commands/hset" >}}), as long as
 you use the `doc:` prefix specified in the index definition.
 
 Use the `Embed()` method of `huggingfacetransformer`
@@ -309,6 +312,120 @@ field, with the lowest distance indicating the greatest similarity to the query.
 As you would expect, the result for `doc:0` with the content text *"That is a very happy person"*
 is the result that is most similar in meaning to the query text
 *"That is a happy person"*.
+
+## Differences with JSON documents
+
+Indexing JSON documents is similar to hash indexing, but there are some
+important differences. JSON allows much richer data modelling with nested fields, so
+you must supply a [path]({{< relref "/develop/data-types/json/path" >}}) in the schema
+to identify each field you want to index. However, you can declare a short alias for each
+of these paths (using the `As` option) to avoid typing it in full for
+every query. Also, you must set `OnJSON` to `true` when you create the index.
+
+The code below shows these differences, but the index is otherwise very similar to
+the one created previously for hashes:
+
+```go
+_, err = rdb.FTCreate(ctx,
+    "vector_json_idx",
+    &redis.FTCreateOptions{
+        OnJSON: true,
+        Prefix: []any{"jdoc:"},
+    },
+    &redis.FieldSchema{
+        FieldName: "$.content",
+        As:        "content",
+        FieldType: redis.SearchFieldTypeText,
+    },
+    &redis.FieldSchema{
+        FieldName: "$.genre",
+        As:        "genre",
+        FieldType: redis.SearchFieldTypeTag,
+    },
+    &redis.FieldSchema{
+        FieldName: "$.embedding",
+        As:        "embedding",
+        FieldType: redis.SearchFieldTypeVector,
+        VectorArgs: &redis.FTVectorArgs{
+            HNSWOptions: &redis.FTHNSWOptions{
+                Dim:            384,
+                DistanceMetric: "L2",
+                Type:           "FLOAT32",
+            },
+        },
+    },
+).Result()
+```
+
+Use [`JSONSet()`]({{< relref "/commands/json.set" >}}) to add the data
+instead of [`HSet()`]({{< relref "/commands/hset" >}}). The maps
+that specify the fields have the same structure as the ones used for `HSet()`.
+
+An important difference with JSON indexing is that the vectors are
+specified using lists instead of binary strings. The loop below is similar
+to the one used previously to add the hash data, but it doesn't use the
+`floatsToBytes()` function to encode the `float32` array.
+
+```go
+for i, emb := range embeddings {
+    _, err = rdb.JSONSet(ctx,
+        fmt.Sprintf("jdoc:%v", i),
+        "$",
+        map[string]any{
+            "content":   sentences[i],
+            "genre":     tags[i],
+            "embedding": emb.ToFloat32(),
+        },
+    ).Result()
+
+    if err != nil {
+        panic(err)
+    }
+}
+```
+
+The query is almost identical to the one for the hash documents. This
+demonstrates how the right choice of aliases for the JSON paths can
+save you having to write complex queries. An important thing to notice
+is that the vector parameter for the query is still specified as a
+binary string (using the `floatsToBytes()` method), even though the data for
+the `embedding` field of the JSON was specified as an array.
+
+```go
+jsonQueryEmbedding, err := hf.Embed(ctx, []string{
+    "That is a happy person",
+})
+
+if err != nil {
+    panic(err)
+}
+
+jsonBuffer := floatsToBytes(jsonQueryEmbedding[0].ToFloat32())
+
+jsonResults, err := rdb.FTSearchWithArgs(ctx,
+    "vector_json_idx",
+    "*=>[KNN 3 @embedding $vec AS vector_distance]",
+    &redis.FTSearchOptions{
+        Return: []redis.FTSearchReturn{
+            {FieldName: "vector_distance"},
+            {FieldName: "content"},
+        },
+        DialectVersion: 2,
+        Params: map[string]any{
+            "vec": jsonBuffer,
+        },
+    },
+).Result()
+```
+
+Apart from the `jdoc:` prefixes for the keys, the result from the JSON
+query is the same as for hash:
+
+```
+ID: jdoc:0, Distance:0.114169843495, Content:'That is a very happy person'
+ID: jdoc:1, Distance:0.610845327377, Content:'That is a happy dog'
+ID: jdoc:2, Distance:1.48624765873, Content:'Today is a sunny day'
+```
 
 ## Learn more
 
