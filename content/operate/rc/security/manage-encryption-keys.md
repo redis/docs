@@ -16,7 +16,13 @@ All data on Redis Cloud is [encrypted at rest]({{< relref "/operate/rc/security/
 
 Redis Cloud Pro users can choose to use self-managed encryption keys for persistent storage for all databases in a subscription. 
 
-## Benefits of self-managed encryption
+## Self-managed encryption use cases and benefits
+
+Self-managed persistent storage encryption allows you to:
+- **Shield sensitive data**: With Self-managed persistent storage encryption, you can stop sensitive data exposure by revoking key access at any time.
+- **Meet security and compliance requirements**: With self-managed persistent storage encryption, you may be able to easier meet compliance standards for data security and privacy protection.
+
+Consider using self-managed persistent storage encryption if you have specific organizational needs or requirements for data security.
 
 ## Prerequisites
 
@@ -78,6 +84,8 @@ To grant Redis access to a key on Google Cloud:
 
 1. From your subscription page on the Redis Cloud console, copy the provided Redis service account name.
 
+    {{<image filename="images/rc/cmek-access-roles-google.png" alt="The Grant Redis your customer-managed key section shows the service account needed to add as a principal." width=80% >}}
+
 1. Go to [Key management](https://console.cloud.google.com/security/kms) on the Google Cloud console and locate your key.
 
 1. Add the provided service account as a principal for your key, with one of the following Role options:
@@ -90,15 +98,15 @@ To grant Redis access to a key on Google Cloud:
 
 1. Return to the Redis Cloud console. In your subscription page, enter your key's resource name in the **Key resource name** field.
 
+    {{<image filename="images/rc/cmek-provide-resource-name-google.png" alt="The Provide the name of your customer-managed key section lets you provide your key to Redis." width=80% >}}
+
     At this point, Redis Cloud will check to see if it can access your key. If it can't access your key, make sure that you've added the correct permissions to your key, that the key is available in the database's cloud provider region, and that you have correctly entered your key's resource name.
 
 <!-- 1. Choose a **Deletion grace period** from the list. If Redis Cloud loses access to your key, Redis will notify you and delete your key after the selected grace period. During the grace period, you must provide a new key to prevent data loss. -->
 
-1. After you finish granting access to your key, you can save your changes.
+1. After you finish granting access to your key, you can save your changes. For a new subscription, select **Activate** to activate your subscription and start billing.
 
-    - For a new subscription, select **Activate** to activate your subscription and start billing.
-
-
+    {{<image filename="images/rc/cmek-new-subscription-activate.png" alt="The Activate button." width=500px >}}
 
 ## Revoke key access
 
