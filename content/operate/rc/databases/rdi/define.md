@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rc
-description: Define the source connction and data pipeline.
+description: Define the source connection and data pipeline.
 hideListLinks: true
 weight: 2
 ---
