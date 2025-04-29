@@ -16,10 +16,26 @@ weight: 96
 ---
 ## Requirements
 
-RedisTimeSeries v1.8.16 requires:
+RedisTimeSeries v1.8.17 requires:
 
 - Minimum Redis compatibility version (database): 6.0.16
 - Minimum Redis Enterprise Software version (cluster): 6.2.8
+
+## v1.8.17 (April 2025)
+
+This is a maintenance release for RedisTimeSeries 1.8.
+
+Update urgency: `MODERATE`: Plan an upgrade of the server, but it's not urgent.
+
+Details:
+
+*Bug fixes:
+- [#1725](https://github.com/redistimeseries/redistimeseries/pull/1725) `TS.DEL` crashes on keys with compactions if the deletion removes the last compaction bucket (MOD-8936)
+- [LibMR#58](https://github.com/RedisGears/LibMR/pull/58) Crash when a cluster contains both 1.8 and newer nodes (MOD-8976, MOD-9192)
+
+Improvements:
+- [#1712](https://github.com/redistimeseries/redistimeseries/pull/1712) Added support for Azure Linux 3 (MOD-9170)
+- [#1736](https://github.com/redistimeseries/redistimeseries/pull/1736) (Redis Enterprise only) Cross-key commands are handled by a random shard rather than the first shard (MOD-9262, MOD-9314)
 
 ## v1.8.16 (January 2025)
 
