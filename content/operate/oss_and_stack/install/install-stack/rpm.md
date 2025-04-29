@@ -8,6 +8,7 @@ description: How to install Redis Open Source using RPM
 linkTitle: RPM
 title: Install Redis Open Source on Linux
 weight: 3
+bannerText: These installation instructions are not yet complete for Redis 8 in Redis Open Source (Redis 8). For installation instructions prior to Redis 8, see [these pages]({{< relref "/operate/oss_and_stack/install/archive" >}}).
 ---
 
 ## Install Redis Open Source on Red Hat, CentOS, or Rocky Linux using RPM
