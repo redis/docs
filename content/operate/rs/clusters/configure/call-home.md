@@ -17,6 +17,32 @@ These reports provide insights into license consumption, which helps Redis to en
     
 We recommend contacting [Redis support](https://redis.io/support/) before making changes to call home behavior.
 
+## Collected data
+
+The following example shows the data collected hourly for each database:
+
+```sh
+"date": "2025-03-25T11:42:13.984Z",
+"cluster_UUID": "string",
+"cluster_name": "string",
+"api_version": "string",
+"software_version": "string",
+"bdb_uid": "string",
+"type": "string",
+"shard_type": "string",
+"dominant_shard_criteria": "string",
+"provisioned_memory": 0,
+"used_memory": 0,
+"master_shards_count": 0,
+"no_eviction": true,
+"persistence": true,
+"backup": true,
+"using_redis_search": true,
+"ops_sec": 0,
+"replication": true,
+"active_active": true
+```
+
 ## Change data collection schedule
 
 The cluster collects usage data hourly by default.
