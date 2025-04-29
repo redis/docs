@@ -271,7 +271,7 @@ is the result judged to be most similar in meaning to the query text
 ## Differences with JSON documents
 
 Indexing JSON documents is similar to hash indexing, but there are some
-important differences. JSON allows much richer data modelling with nested fields, so
+important differences. JSON allows much richer data modeling with nested fields, so
 you must supply a [path]({{< relref "/develop/data-types/json/path" >}}) in the schema
 to identify each field you want to index. However, you can declare a short alias for each
 of these paths to avoid typing it in full for
