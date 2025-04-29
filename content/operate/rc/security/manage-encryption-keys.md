@@ -1,6 +1,6 @@
 ---
 Title: Self-managed persistent storage encryption
-LinkTitle: Self-managed encryption
+LinkTitle: Self-managed encryption keys
 alwaysopen: false
 categories:
 - docs
@@ -25,7 +25,7 @@ Before you set up self-managed encryption, you must have a self-managed encrypti
 The encryption key must be hosted by the same cloud provider as your database and must be available in your database's cloud provider region.
 
 Refer to the provider's documentation to create a key:
-- [Amazon Web Services - Create a KMS key](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html)
+<!-- - [Amazon Web Services - Create a KMS key](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html) -->
 - [Google Cloud - Create a key](https://cloud.google.com/kms/docs/create-key)
 
 ## Set up self-managed encryption
@@ -37,9 +37,9 @@ To set up self-managed encryption:
 
 ### Activate self-managed encryption
 
-You can activate self-managed encryption on a [new](#new-subscription) or [existing](#existing-subscription) Redis Cloud Pro subscription.
+<!-- You can activate self-managed encryption on a [new](#new-subscription) or [existing](#existing-subscription) Redis Cloud Pro subscription.
 
-#### New subscription
+#### New subscription-->
 
 To activate self-managed encryption when you [create a new Pro subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}):
 
@@ -52,7 +52,7 @@ After you set up your subscription and database(s), your subscription will be **
 
 If you don't grant key permissions after 7 days, we'll remove your initial setup.
 
-#### Existing subscription
+<!-- #### Existing subscription
 
 To activate self-managed encryption on an existing Redis Cloud Pro subscription:
 
@@ -64,25 +64,47 @@ To activate self-managed encryption on an existing Redis Cloud Pro subscription:
 
 1. Select **Customer managed key**.
 
-1. Select **Save changes** to save your changes.
+1. Select **Save changes** to save your changes. -->
 
 ### Grant key permissions
 
 After you activate self-managed encryption, you must grant Redis access to your encryption key so we can use it for storage encryption. 
 
-#### Amazon Web Services
+<!-- #### Amazon Web Services 
 
+#### Google Cloud -->
 
+To grant Redis access to a key on Google Cloud:
 
-#### Google Cloud
+1. From your subscription page on the Redis Cloud console, copy the provided Redis service account name.
+
+1. Go to [Key management](https://console.cloud.google.com/security/kms) on the Google Cloud console and locate your key.
+
+1. Add the provided service account as a principal for your key, with one of the following Role options:
+
+    - Add the pre-defined IAM roles [Cloud KMS CryptoKey Encrypter/Decrypter](https://cloud.google.com/kms/docs/reference/permissions-and-roles#cloudkms.cryptoKeyEncrypterDecrypter) and [Cloud KMS Viewer](https://cloud.google.com/kms/docs/reference/permissions-and-roles#cloudkms.viewer), OR
+    - [Create a custom IAM role](https://cloud.google.com/iam/docs/creating-custom-roles#creating) with the following minimal permissions needed to use the key, and then assign that custom role to the principal:
+        - cloudkms.cryptoKeyVersions.useToDecrypt
+        - cloudkms.cryptoKeyVersions.useToEncrypt
+        - cloudkms.cryptoKeys.get
+
+1. Return to the Redis Cloud console. In your subscription page, enter your key's resource name in the **Key resource name** field.
+
+    At this point, Redis Cloud will check to see if it can access your key. If it can't access your key, make sure that you've added the correct permissions to your key, that the key is available in the database's cloud provider region, and that you have correctly entered your key's resource name.
+
+<!-- 1. Choose a **Deletion grace period** from the list. If Redis Cloud loses access to your key, Redis will notify you and delete your key after the selected grace period. During the grace period, you must provide a new key to prevent data loss. -->
+
+1. After you finish granting access to your key, you can save your changes.
+
+    - For a new subscription, select **Activate** to activate your subscription and start billing.
 
 
 
 ## Revoke key access
 
-When you have set up self-managed encryption, you can revoke Redis's access to your encryption key at any time through AWS or Google Cloud.
+When you have set up self-managed encryption, you can revoke Redis's access to your encryption key at any time through your cloud provider. Redis will delete your plan immediately if we can't access your key.
 
-Redis will delete your plan after the selected grace period if we can't access your key. During the grace period, you must provide a new key to prevent data loss.
+<!-- Redis will delete your plan after the selected grace period if we can't access your key. During the grace period, you must provide a new key to prevent data loss. -->
 
 
 
