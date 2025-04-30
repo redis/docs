@@ -32,13 +32,13 @@ Redis Enterprise Software's port usage falls into three general categories:
 | TCP | 8443 | <span title="Configurable">&#x2705; Yes</span> | Internal, External | Secure (HTTPS) access to the management web UI |
 | TCP | 9081 | <span title="Configurable">&#x2705; Yes</span> | Internal | CRDB coordinator for Active-Active management (internal) |
 | TCP | 9082 | <span title="Not configurable">&#x274c; No</span> | Internal | Cluster API internal port |
-| TCP | 9443, 8080 | <span title="Configurable">&#x2705; Yes</span> | Internal, External, Active-Active | REST API traffic, including cluster management and node bootstrap |
+| TCP | 9443, 8080, 3346 | <span title="Configurable">&#x2705; Yes</span> | Internal, External, Active-Active | REST API traffic, including cluster management and node bootstrap |
 | TCP | 10050 | <span title="Not configurable">&#x274c; No</span> | Internal | Zabbix monitoring |
 | TCP | 10000-10049, 10051-19999 | <span title="Configurable">&#x2705; Yes</span> | Internal, External, Active-Active | Database traffic |
 | UDP | 53, 5353 | <span title="Not configurable">&#x274c; No</span> | Internal, External | DNS/mDNS traffic |
 | TCP | 1968 | <span title="Not configurable">&#x274c; No</span> | Internal | Proxy traffic |
-| TCP | 3333-3346, 3350, 3351, 36379 | <span title="Not configurable">&#x274c; No</span> | Internal | Internode communication |
-| TCP | 3355 | <span title="Not configurable">&#x274c; No</span> | Internal | Authentication service internal port |
+| TCP | 3333-3345, 3350-3354, 36379 | <span title="Not configurable">&#x274c; No</span> | Internal | Internode communication |
+| TCP | 3355 | <span title="Configurable">&#x2705; Yes</span> | Internal | Authentication service internal port |
 | TCP | 20000-29999 | <span title="Not configurable">&#x274c; No</span> | Internal | Database shard traffic |
 | TCP | 8002, 8004, 8006 | <span title="Configurable">&#x2705; Yes</span> | Internal | Default system health monitoring (envoy admin, envoy management server, gossip envoy admin)|
 | TCP | 8444, 9080 | <span title="Not configurable">&#x274c; No</span> | Internal | Traffic between web proxy and cnm_http/cm |
