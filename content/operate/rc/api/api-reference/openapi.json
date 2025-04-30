@@ -33,12 +33,12 @@
     },
     {
       "name": "Subscriptions - Pro",
-      "description": "All operations for Pro subscriptions.",
+      "description": "All Pro subscription operations.",
       "x-order": "10"
     },
     {
       "name": "Subscriptions - Pro - Connectivity",
-      "description": "All operations related to Pro subscriptions connectivity",
+      "description": "All Pro subscription connectivity operations.",
       "x-order": "11"
     },
     {
@@ -48,12 +48,12 @@
     },
     {
       "name": "Subscriptions - Essentials",
-      "description": "All operations related to Essentials subscriptions lifecycle",
+      "description": "All Essentials subscription operations.",
       "x-order": "30"
     },
     {
       "name": "Databases - Essentials",
-      "description": "All operations related to Essentials databases lifecycle",
+      "description": "All Essentials database operations.",
       "x-order": "40"
     },
     {
@@ -2021,7 +2021,7 @@
         "tags": [
           "Databases - Pro"
         ],
-        "summary": "Get a single database",
+        "summary": "Get a single Pro database",
         "description": "Gets details and settings of a single database in a Pro subscription.",
         "operationId": "getSubscriptionDatabaseByID",
         "parameters": [
@@ -2089,8 +2089,8 @@
         "tags": [
           "Databases - Pro"
         ],
-        "summary": "Update database",
-        "description": "Updates an existing database in a Pro subscription.",
+        "summary": "Update Pro database",
+        "description": "Updates an existing Pro database.",
         "operationId": "updateDatabase",
         "parameters": [
           {
@@ -2188,7 +2188,7 @@
         "tags": [
           "Databases - Pro"
         ],
-        "summary": "Delete database",
+        "summary": "Delete Pro database",
         "description": "Deletes a database from a Pro subscription.",
         "operationId": "deleteDatabaseById",
         "parameters": [
@@ -2776,8 +2776,8 @@
         "tags": [
           "Databases - Pro"
         ],
-        "summary": "Flush database",
-        "description": "Deletes all data from the specified database.",
+        "summary": "Flush Pro database",
+        "description": "Deletes all data from the specified Pro database.",
         "operationId": "flushCrdb",
         "parameters": [
           {
@@ -3075,8 +3075,8 @@
         "tags": [
           "Subscriptions - Essentials"
         ],
-        "summary": "Get Essentials subscription by id",
-        "description": "Information on Essentials subscription identified by subscription Id",
+        "summary": "Get a single Essentials subscription",
+        "description": "Gets information on the specified Essentials subscription.",
         "operationId": "getSubscriptionById_1",
         "parameters": [
           {
@@ -3132,7 +3132,7 @@
           "Subscriptions - Essentials"
         ],
         "summary": "Update Essentials subscription",
-        "description": "Update an Essentials subscription",
+        "description": "Updates the specified Essentials subscription.",
         "operationId": "updateSubscription_1",
         "parameters": [
           {
@@ -3203,7 +3203,7 @@
           "Subscriptions - Essentials"
         ],
         "summary": "Delete Essentials subscription",
-        "description": "Delete a Essentials subscription identified by subscription Id (subscription must be empty, i.e. cannot contain databases)",
+        "description": "Deletes the specified Essentials subscription. All databases in the subscription must be deleted before deleting it.",
         "operationId": "deleteSubscriptionById_1",
         "parameters": [
           {
@@ -3266,8 +3266,8 @@
         "tags": [
           "Databases - Essentials"
         ],
-        "summary": "Get Essentials database by id",
-        "description": "Information on a specific database identified by Essentials subscription Id and database Id",
+        "summary": "Get a single Essentials database",
+        "description": "Gets details and settings of a single database in an Essentials subscription.",
         "operationId": "getSubscriptionDatabaseByID_1",
         "parameters": [
           {
@@ -3335,7 +3335,7 @@
           "Databases - Essentials"
         ],
         "summary": "Update Essentials database",
-        "description": "Update a specific database identified by an Essentials subscription Id and database Id",
+        "description": "Updates the specified Essentials database.",
         "operationId": "deleteFixedDatabaseByID",
         "parameters": [
           {
@@ -3430,7 +3430,7 @@
           "Databases - Essentials"
         ],
         "summary": "Delete Essentials database",
-        "description": "Delete a specific database identified by an Essentials subscription Id and database Id",
+        "description": "Deletes a database from an Essentials subscription.",
         "operationId": "deleteFixedDatabaseByID_1",
         "parameters": [
           {
@@ -5940,7 +5940,7 @@
         "tags": [
           "Databases - Pro"
         ],
-        "summary": "Get all databases in a subscription",
+        "summary": "Get all databases in a Pro subscription",
         "description": "Gets a list of all databases in the specified Pro subscription.",
         "operationId": "getSubscriptionDatabases",
         "parameters": [
@@ -5958,7 +5958,7 @@
           {
             "name": "offset",
             "in": "query",
-            "description": "Number of items to skip",
+            "description": "Number of items to skip.",
             "required": false,
             "schema": {
               "type": "integer",
@@ -5969,7 +5969,7 @@
           {
             "name": "limit",
             "in": "query",
-            "description": "Maximum number of items to return",
+            "description": "Maximum number of items to return.",
             "required": false,
             "schema": {
               "type": "integer",
@@ -6019,7 +6019,7 @@
         "tags": [
           "Databases - Pro"
         ],
-        "summary": "Create database in existing subscription",
+        "summary": "Create Pro database in existing subscription",
         "description": "Creates a new database in an existing Pro subscription.",
         "operationId": "createDatabase",
         "parameters": [
@@ -6114,8 +6114,8 @@
         "tags": [
           "Databases - Pro"
         ],
-        "summary": "Database Redis version upgrade status",
-        "description": "Information on the latest database Redis version upgrade status, identified by subscription Id and database Id",
+        "summary": "Get Pro database version upgrade status",
+        "description": "Gets information on the latest upgrade attempt for this Pro database.",
         "operationId": "getDatabaseRedisVersionUpgradeStatus",
         "parameters": [
           {
@@ -6180,8 +6180,8 @@
         "tags": [
           "Databases - Pro"
         ],
-        "summary": "Upgrade database Redis version",
-        "description": "Upgrade database Redis version",
+        "summary": "Upgrade Pro database version",
+        "description": "Upgrade Pro database version",
         "operationId": "upgradeDatabaseRedisVersion",
         "parameters": [
           {
@@ -6264,8 +6264,8 @@
         "tags": [
           "Databases - Pro"
         ],
-        "summary": "Get import status",
-        "description": "Gets information on the latest import attempt for this database.",
+        "summary": "Get Pro database import status",
+        "description": "Gets information on the latest import attempt for this Pro database.",
         "operationId": "getDatabaseImportStatus",
         "parameters": [
           {
@@ -6330,8 +6330,8 @@
         "tags": [
           "Databases - Pro"
         ],
-        "summary": "Import data",
-        "description": "Imports data from an RDB file or from a different Redis database into this database. \nWARNING: Importing data into a database removes all existing data from the database.",
+        "summary": "Import data to a Pro database",
+        "description": "Imports data from an RDB file or from a different Redis database into this Pro database. WARNING: Importing data into a database removes all existing data from the database.",
         "operationId": "importDatabase",
         "parameters": [
           {
@@ -6414,8 +6414,8 @@
         "tags": [
           "Databases - Pro"
         ],
-        "summary": "Get database backup status",
-        "description": "Gets information on the latest backup attempt for this database.",
+        "summary": "Get Pro database backup status",
+        "description": "Gets information on the latest backup attempt for this Pro database.",
         "operationId": "getDatabaseBackupStatus",
         "parameters": [
           {
@@ -6489,8 +6489,8 @@
         "tags": [
           "Databases - Pro"
         ],
-        "summary": "Back up database",
-        "description": "Manually back up a database to a backup path. By default, backups will be stored in the 'remoteBackup' location for this database.",
+        "summary": "Back up Pro database",
+        "description": "Manually back up the specified Pro database to a backup path. By default, backups will be stored in the 'remoteBackup' location for this database.",
         "operationId": "backupDatabase",
         "parameters": [
           {
@@ -6573,7 +6573,7 @@
           "Subscriptions - Essentials"
         ],
         "summary": "Get Essentials subscriptions",
-        "description": "Information on current account's Essentials subscriptions",
+        "description": "Gets a list of all Essentials subscriptions in the current account.",
         "operationId": "getAllSubscriptions_1",
         "responses": {
           "400": {
@@ -6617,7 +6617,7 @@
           "Subscriptions - Essentials"
         ],
         "summary": "Create Essentials subscription",
-        "description": "Create a new Essentials subscription",
+        "description": "Creates a new Essentials subscription.",
         "operationId": "createSubscription_1",
         "requestBody": {
           "content": {
@@ -6681,8 +6681,8 @@
         "tags": [
           "Databases - Essentials"
         ],
-        "summary": "Get Essentials databases",
-        "description": "Information on databases belonging to an Essentials subscription identified by subscription Id",
+        "summary": "Get all databases in an Essentials subscription",
+        "description": "Gets a list of all databases in the specified Essentials subscription.",
         "operationId": "getFixedSubscriptionDatabases",
         "parameters": [
           {
@@ -6699,7 +6699,7 @@
           {
             "name": "offset",
             "in": "query",
-            "description": "Number of items to skip",
+            "description": "Number of items to skip.",
             "required": false,
             "schema": {
               "type": "integer",
@@ -6710,7 +6710,7 @@
           {
             "name": "limit",
             "in": "query",
-            "description": "Maximum number of items to return",
+            "description": "Maximum number of items to return.",
             "required": false,
             "schema": {
               "type": "integer",
@@ -6761,7 +6761,7 @@
           "Databases - Essentials"
         ],
         "summary": "Create Essentials database",
-        "description": "Create a new Essentials database",
+        "description": "Creates a new database in the specified Essentials subscription.",
         "operationId": "createFixedDatabase",
         "parameters": [
           {
@@ -6850,8 +6850,8 @@
         "tags": [
           "Databases - Essentials"
         ],
-        "summary": "Import Essentials database status",
-        "description": "Information on the latest database import status identified by Essentials subscription Id and Essentials database Id",
+        "summary": "Get Essentials database import status",
+        "description": "Gets information on the latest import attempt for this Essentials database.",
         "operationId": "getDatabaseImportStatus_1",
         "parameters": [
           {
@@ -6916,8 +6916,8 @@
         "tags": [
           "Databases - Essentials"
         ],
-        "summary": "Import Essentials database",
-        "description": "Import data from an RDB file or a different Redis database",
+        "summary": "Import data to an Essentials database",
+        "description": "Imports data from an RDB file or from a different Redis database into this Essentials database. WARNING: Importing data into a database removes all existing data from the database.",
         "operationId": "importDatabase_1",
         "parameters": [
           {
@@ -7066,8 +7066,8 @@
         "tags": [
           "Databases - Essentials"
         ],
-        "summary": "Backup Essentials database",
-        "description": "Manually backup an Essentials database into the destination defined for it",
+        "summary": "Back up Essentials database",
+        "description": "Manually back up the specified Essentials database to a backup path. By default, backups will be stored in the 'periodicBackupPath' location for this database.",
         "operationId": "backupDatabase_1",
         "parameters": [
           {
@@ -8378,7 +8378,7 @@
         "tags": [
           "Databases - Pro"
         ],
-        "summary": "Get database TLS certificate",
+        "summary": "Get Pro database TLS certificate",
         "description": "Gets the X.509 PEM (base64) encoded server certificate for TLS connection to the database. Requires 'enableTLS' to be 'true' for the database.",
         "operationId": "getSubscriptionDatabaseCertificate",
         "parameters": [
@@ -8501,7 +8501,7 @@
           {
             "name": "offset",
             "in": "query",
-            "description": "Number of items to skip",
+            "description": "Number of items to skip.",
             "required": false,
             "schema": {
               "type": "integer",
@@ -8726,7 +8726,7 @@
           {
             "name": "offset",
             "in": "query",
-            "description": "Number of items to skip",
+            "description": "Number of items to skip.",
             "required": false,
             "schema": {
               "type": "integer",
@@ -8791,14 +8791,14 @@
         "tags": [
           "Subscriptions - Essentials"
         ],
-        "summary": "Get Plans",
-        "description": "Lookup list of plans",
+        "summary": "Get Essentials plans",
+        "description": "Gets a list of Essentials plans.",
         "operationId": "getAllFixedSubscriptionsPlans",
         "parameters": [
           {
             "name": "provider",
             "in": "query",
-            "description": "Cloud Provider Name",
+            "description": "Returns plans supported by the specified Cloud Provider.",
             "required": false,
             "schema": {
               "type": "string",
@@ -8812,7 +8812,7 @@
           {
             "name": "redisFlex",
             "in": "query",
-            "description": "Is RedisFlex Plan",
+            "description": "Returns Redis Flex plans.",
             "required": false,
             "schema": {
               "type": "boolean"
@@ -8862,14 +8862,14 @@
         "tags": [
           "Subscriptions - Essentials"
         ],
-        "summary": "Get Essentials subscription plan by id",
-        "description": "Information on a specific Essentials subscription plan identified by plan Id",
+        "summary": "Get a single Essentials plan",
+        "description": "Gets information on the specified Essentials plan.",
         "operationId": "getFixedSubscriptionsPlanById",
         "parameters": [
           {
             "name": "planId",
             "in": "path",
-            "description": "Essentials Subscription Plan ID",
+            "description": "Essentials plan ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -8920,8 +8920,8 @@
         "tags": [
           "Subscriptions - Essentials"
         ],
-        "summary": "Get Essentials subscription plans by subscription id",
-        "description": "Lookup list of Essentials plans that can be used by a specific subscription",
+        "summary": "Get Essentials plans for a subscription",
+        "description": "Gets a list of compatible Essentials plans for the specified Essentials subscription.",
         "operationId": "getFixedSubscriptionsPlansBySubscriptionId",
         "parameters": [
           {
@@ -9668,7 +9668,7 @@
             "minimum": 0.1,
             "exclusiveMinimum": false,
             "type": "number",
-            "description": "Deprecated - Optional. Total memory in GB, including replication and other overhead. You cannot set both datasetSizeInGb and totalMemoryInGb.",
+            "description": "Optional. Total memory in GB, including replication and other overhead. You cannot set both datasetSizeInGb and totalMemoryInGb.",
             "format": "double",
             "example": 1,
             "deprecated": true
@@ -9904,12 +9904,12 @@
           },
           "name": {
             "type": "string",
-            "description": "Required. Name of the database. \nDatabase name is limited to 40 characters or less and must include only letters, digits, and hyphens ('-'). It must start with a letter and end with a letter or digit.",
+            "description": "Name of the database. Database name is limited to 40 characters or less and must include only letters, digits, and hyphens ('-'). It must start with a letter and end with a letter or digit.",
             "example": "Redis-Essentials-database-example"
           },
           "protocol": {
             "type": "string",
-            "description": "Optional. Database protocol. 'stack' is a suite of all Redis’ data modules. Default: 'stack', for Redis Flex subscription Default: 'redis'. 'redis' is only used with Pay-As-You-Go subscriptions and with Redis Flex.",
+            "description": "Optional. Database protocol. Use 'stack' to get all of Redis' advanced capabilities. Only use 'redis' for Pay-as-you-go or Redis Flex subscriptions. Default: 'stack' for most subscriptions, 'redis' for Redis Flex subscriptions.",
             "enum": [
               "redis",
               "memcached",
@@ -9920,7 +9920,7 @@
             "minimum": 0.1,
             "exclusiveMinimum": false,
             "type": "number",
-            "description": "Deprecated - Optional. Total memory including replication and other overhead. Supported only for 'Pay-As-You-Go' subscriptions",
+            "description": "(Pay-as-you-go subscriptions only) Optional. Total memory in GB, including replication and other overhead. You cannot set both datasetSizeInGb and totalMemoryInGb.",
             "format": "double",
             "example": 1,
             "deprecated": true
@@ -9929,18 +9929,18 @@
             "minimum": 0.1,
             "exclusiveMinimum": false,
             "type": "number",
-            "description": "Optional. The maximum amount of data in the dataset for this specific database is in GB. You can not set both datasetSizeInGb and totalMemoryInGb. if 'replication' is true, the database’s total memory will be twice as large as the datasetSizeInGb.if 'replication' is false, the database’s total memory of the database will be the datasetSizeInGb value.",
+            "description": "(Pay-as-you-go subscriptions only) Optional. The maximum amount of data in the dataset for this database in GB. You cannot set both datasetSizeInGb and totalMemoryInGb. If ‘replication’ is 'true', the database’s total memory will be twice as large as the datasetSizeInGb. If ‘replication’ is false, the database’s total memory will be the datasetSizeInGb value.",
             "format": "double",
             "example": 1
           },
           "supportOSSClusterApi": {
             "type": "boolean",
-            "description": "Optional. Support Redis open-source (OSS) Cluster API. Supported only for 'Pay-As-You-Go' subscriptions",
+            "description": "(Pay-as-you-go subscriptions only) Optional. Support Redis [OSS Cluster API](https://redis.io/docs/latest/operate/rc/databases/configuration/clustering/#oss-cluster-api). Default: 'false'",
             "example": true
           },
           "respVersion": {
             "type": "string",
-            "description": "Optional. RESP version must be compatible with Redis version.",
+            "description": "Optional. Redis Serialization Protocol version. Must be compatible with Redis version.",
             "example": "resp3",
             "enum": [
               "resp2",
@@ -9949,23 +9949,23 @@
           },
           "useExternalEndpointForOSSClusterApi": {
             "type": "boolean",
-            "description": "Optional. Should use external endpoint for open-source (OSS) Cluster API. Can only be enabled if OSS Cluster API support is enabled. Supported only for 'Pay-As-You-Go' subscriptions",
+            "description": "(Pay-as-you-go subscriptions only) Optional. If set to 'true', the database will use the external endpoint for OSS Cluster API. This setting blocks the database's private endpoint. Can only be set if 'supportOSSClusterAPI' is 'true'. Default: 'false'",
             "example": true
           },
           "enableDatabaseClustering": {
             "type": "boolean",
-            "description": "Optional. Distributes database data to different cloud instances. Supported only for 'Pay-As-You-Go' subscriptions",
+            "description": "(Pay-as-you-go subscriptions only) Optional. Distributes database data to different cloud instances. Default: 'false'",
             "example": false
           },
           "numberOfShards": {
             "type": "integer",
-            "description": "Optional. Specifies the number of master shards. Supported only for 'Pay-As-You-Go' subscriptions",
+            "description": "(Pay-as-you-go subscriptions only) Optional. Specifies the number of master shards.",
             "format": "int32",
             "example": 2
           },
           "dataPersistence": {
             "type": "string",
-            "description": "Optional. Rate of database data persistence (in persistent storage). The default is according to the subscription plan.",
+            "description": "Optional. Type and rate of data persistence in persistent storage. Use GET /fixed/plans/{planId} to see if your plan supports data persistence.",
             "enum": [
               "none",
               "aof-every-1-second",
@@ -9977,7 +9977,7 @@
           },
           "dataEvictionPolicy": {
             "type": "string",
-            "description": "Optional. Data items eviction method",
+            "description": "Optional. Data eviction policy.",
             "enum": [
               "allkeys-lru",
               "allkeys-lfu",
@@ -9991,36 +9991,36 @@
           },
           "replication": {
             "type": "boolean",
-            "description": "Optional. Databases replication. The default is according to the subscription plan."
+            "description": "Optional. Sets database replication. Use GET /fixed/plans/{planId} to see if your plan supports database replication."
           },
           "periodicBackupPath": {
             "type": "string",
-            "description": "Optional. If specified, automatic backups will be every 24 hours or database will be able to perform immediate backups to this path. If empty string is received, backup path will be removed. Optional.",
+            "description": "Optional. The path to a backup storage location. If specified, the database will back up every 24 hours to this location, and you can manually back up the database to this location at any time. Use GET /fixed/plans/{planId} to see if your plan supports database backups.",
             "example": "s3://<backup-path>"
           },
           "sourceIps": {
             "type": "array",
-            "description": "Optional. List of source IP addresses or subnet masks. If specified, Redis clients will be able to connect to this database only from within the specified source IP addresses ranges. example value: '['192.168.10.0/32', '192.168.12.0/24']'",
+            "description": "Optional. List of source IP addresses or subnet masks to allow. If specified, Redis clients will be able to connect to this database only from within the specified source IP addresses ranges. Use GET /fixed/plans/{planId} to see how many CIDR allow rules your plan supports. Example: '['192.168.10.0/32', '192.168.12.0/24']'",
             "items": {
               "type": "string",
-              "description": "Optional. List of source IP addresses or subnet masks. If specified, Redis clients will be able to connect to this database only from within the specified source IP addresses ranges. example value: '['192.168.10.0/32', '192.168.12.0/24']'"
+              "description": "Optional. List of source IP addresses or subnet masks to allow. If specified, Redis clients will be able to connect to this database only from within the specified source IP addresses ranges. Use GET /fixed/plans/{planId} to see how many CIDR allow rules your plan supports. Example: '['192.168.10.0/32', '192.168.12.0/24']'"
             }
           },
           "regexRules": {
             "type": "array",
-            "description": "Optional. Shard regex rules. Relevant only for a sharded database. Supported only for 'Pay-As-You-Go' subscriptions",
+            "description": "(Pay-as-you-go subscriptions only) Optional. Hashing policy Regex rules. Used only if 'enableDatabaseClustering' is set to 'true' and .",
             "items": {
               "type": "string",
-              "description": "Optional. Shard regex rules. Relevant only for a sharded database. Supported only for 'Pay-As-You-Go' subscriptions"
+              "description": "(Pay-as-you-go subscriptions only) Optional. Hashing policy Regex rules. Used only if 'enableDatabaseClustering' is set to 'true' and ."
             }
           },
           "replicaOf": {
             "type": "array",
-            "description": "Deprecated - Optional. This database will be a replica of the specified Redis databases provided as one or more URI (sample format: 'redis://user:password@host:port)'. If the URI provided is Redis Cloud instance, only host and port should be provided (using the format: ['redis://endpoint1:6379', 'redis://endpoint2:6380'] ).",
+            "description": "Optional. This database will be a replica of the specified Redis databases provided as one or more URI(s). Example: 'redis://user:password@host:port'. If the URI provided is a Redis Cloud database, only host and port should be provided. Example: ['redis://endpoint1:6379', 'redis://endpoint2:6380'].",
             "deprecated": true,
             "items": {
               "type": "string",
-              "description": "Deprecated - Optional. This database will be a replica of the specified Redis databases provided as one or more URI (sample format: 'redis://user:password@host:port)'. If the URI provided is Redis Cloud instance, only host and port should be provided (using the format: ['redis://endpoint1:6379', 'redis://endpoint2:6380'] )."
+              "description": "Optional. This database will be a replica of the specified Redis databases provided as one or more URI(s). Example: 'redis://user:password@host:port'. If the URI provided is a Redis Cloud database, only host and port should be provided. Example: ['redis://endpoint1:6379', 'redis://endpoint2:6380']."
             }
           },
           "replica": {
@@ -10028,34 +10028,34 @@
           },
           "clientSslCertificate": {
             "type": "string",
-            "description": "Deprecated - Optional. A string containing TLS/SSL certificate (public key) with new line characters replaced by \\n. If specified, mTLS authentication (with enableTls not specified or set to true) will be required to authenticate user connections. If empty string is received, SSL certificate will be removed and mTLS will not be required (note that TLS connection may still apply, depending on the value of the enableTls property). Default: 'null'\"",
+            "description": "Optional. A public key client TLS/SSL certificate with new line characters replaced with '\\n'. If specified, mTLS authentication will be required to authenticate user connections. Default: 'null'",
             "deprecated": true
           },
           "clientTlsCertificates": {
             "type": "array",
-            "description": "Optional. A list of TLS/SSL certificates (public keys) with new line characters replaced by \\n. If specified, mTLS authentication (with enableTls not specified or set to true) will be required to authenticate user connections. If empty list is received, SSL certificates will be removed and mTLS will not be required (note that TLS connection may still apply, depending on the value of the enableTls property). Default: 'null'\"",
+            "description": "Optional. A list of client TLS/SSL certificates. If specified, mTLS authentication will be required to authenticate user connections.",
             "items": {
               "$ref": "#/components/schemas/DatabaseCertificateSpec"
             }
           },
           "enableTls": {
             "type": "boolean",
-            "description": "Optional. When 'true', requires TLS authentication for all connections (mTLS with valid clientSslCertificate, regular TLS when the clientSslCertificate is not provided)."
+            "description": "Optional. When 'true', requires TLS authentication for all connections - mTLS with valid clientTlsCertificates, regular TLS when clientTlsCertificates is not provided. Default: 'false'"
           },
           "password": {
             "type": "string",
-            "description": "Optional. Password to access the database. If omitted, a random 32 character long alphanumeric password will be automatically generated"
+            "description": "Optional. Password to access the database. If not set, a random 32-character alphanumeric password will be automatically generated."
           },
           "alerts": {
             "type": "array",
-            "description": "Optional. Redis database alerts",
+            "description": "Optional. Redis database alert details.",
             "items": {
               "$ref": "#/components/schemas/DatabaseAlertSpec"
             }
           },
           "modules": {
             "type": "array",
-            "description": "Optional. Redis modules to be provisioned in the database",
+            "description": "Optional. Redis advanced capabilities (also known as modules) to be provisioned in the database. Use GET /database-modules to view a list of available advanced capabilities. Can only be set if 'protocol' is 'redis'.",
             "items": {
               "$ref": "#/components/schemas/DatabaseModuleSpec"
             }
@@ -10151,19 +10151,19 @@
           },
           "regexRules": {
             "type": "array",
-            "description": "Optional. Hashing policy Regex rules. Used only if the hashing policy is 'custom'.",
+            "description": "Optional. Hashing policy Regex rules. Used only if 'shardingType' is 'custom-regex-rules'.",
             "items": {
               "type": "string",
-              "description": "Optional. Hashing policy Regex rules. Used only if the hashing policy is 'custom'."
+              "description": "Optional. Hashing policy Regex rules. Used only if 'shardingType' is 'custom-regex-rules'."
             }
           },
           "replicaOf": {
             "type": "array",
-            "description": "Deprecated - Optional. This database will be a replica of the specified Redis databases provided as one or more URI (sample format: 'redis://user:password@host:port)'. If the URI provided is Redis Cloud instance, only host and port should be provided (using the format: ['redis://endpoint1:6379', 'redis://endpoint2:6380'] ).",
+            "description": "Optional. This database will be a replica of the specified Redis databases provided as one or more URI(s). Example: 'redis://user:password@host:port'. If the URI provided is a Redis Cloud database, only host and port should be provided. Example: ['redis://endpoint1:6379', 'redis://endpoint2:6380'].",
             "deprecated": true,
             "items": {
               "type": "string",
-              "description": "Deprecated - Optional. This database will be a replica of the specified Redis databases provided as one or more URI (sample format: 'redis://user:password@host:port)'. If the URI provided is Redis Cloud instance, only host and port should be provided (using the format: ['redis://endpoint1:6379', 'redis://endpoint2:6380'] )."
+              "description": "Optional. This database will be a replica of the specified Redis databases provided as one or more URI(s). Example: 'redis://user:password@host:port'. If the URI provided is a Redis Cloud database, only host and port should be provided. Example: ['redis://endpoint1:6379', 'redis://endpoint2:6380']."
             }
           },
           "replica": {
@@ -10181,7 +10181,7 @@
           },
           "password": {
             "type": "string",
-            "description": "Optional. Changes the password used to access the database. Can only be set if 'protocol' is 'redis'.",
+            "description": "Optional. Changes the password used to access the database with the 'default' user. Can only be set if 'protocol' is 'redis'.",
             "example": "P@ssw0rd"
           },
           "saslUsername": {
@@ -10196,10 +10196,10 @@
           },
           "sourceIp": {
             "type": "array",
-            "description": "Optional. List of source IP addresses or subnet masks to whitelist. If specified, Redis clients will be able to connect to this database only from within the specified source IP addresses ranges. Example: '['192.168.10.0/32', '192.168.12.0/24']'",
+            "description": "Optional. List of source IP addresses or subnet masks to allow. If specified, Redis clients will be able to connect to this database only from within the specified source IP addresses ranges. Example: '['192.168.10.0/32', '192.168.12.0/24']'",
             "items": {
               "type": "string",
-              "description": "Optional. List of source IP addresses or subnet masks to whitelist. If specified, Redis clients will be able to connect to this database only from within the specified source IP addresses ranges. Example: '['192.168.10.0/32', '192.168.12.0/24']'"
+              "description": "Optional. List of source IP addresses or subnet masks to allow. If specified, Redis clients will be able to connect to this database only from within the specified source IP addresses ranges. Example: '['192.168.10.0/32', '192.168.12.0/24']'"
             }
           },
           "clientSslCertificate": {
@@ -10879,7 +10879,7 @@
         "properties": {
           "endpoint": {
             "type": "string",
-            "description": "Required. Redis URI of a source database. Example format: 'redis://user:password@host:port'. \nIf the URI provided is a Redis Cloud database, only host and port should be provided. Example: 'redis://endpoint1:6379'."
+            "description": "Redis URI of a source database. Example format: 'redis://user:password@host:port'. \nIf the URI provided is a Redis Cloud database, only host and port should be provided. Example: 'redis://endpoint1:6379'."
           },
           "encryption": {
             "type": "boolean",
@@ -11037,17 +11037,17 @@
           },
           "name": {
             "type": "string",
-            "description": "Optional. Essentials subscription name",
+            "description": "Optional. Updated subscription name.",
             "example": "My new subscription"
           },
           "planId": {
             "type": "integer",
-            "description": "Optional. A predefined Essentials plan Id (see lookup API '/fixed/plans'). The plan defines the billing, deployment and configuration for the created subscription based on specific plan details",
+            "description": "Optional. An Essentials plan ID. The plan describes the dataset size, cloud provider and region, and available database configuration options. Use GET /fixed/plans/subscriptions/{subscriptionId} to get a list of compatible options for the specified subscription.",
             "format": "int32"
           },
           "paymentMethod": {
             "type": "string",
-            "description": "Optional. The payment method for the requested subscription. If ‘credit-card’ is specified, ‘paymentMethodId’ must be defined. Default: 'credit-card'",
+            "description": "Optional. The payment method for the subscription. If set to ‘credit-card’ , ‘paymentMethodId’ must be defined.",
             "enum": [
               "credit-card",
               "marketplace"
@@ -11055,7 +11055,7 @@
           },
           "paymentMethodId": {
             "type": "integer",
-            "description": "Optional. A valid payment method (credit card, wire transfer etc) pre-defined in the current account. It will be billed for any charges related to the created subscription.",
+            "description": "Optional. The payment method ID you'd like to use for this subscription. Must be a valid payment method ID for this account. Use GET /payment-methods to view all payment methods for your account. This value is optional if ‘paymentMethod’ is ‘marketplace’, but required if 'paymentMethod' is 'credit-card'.",
             "format": "int32"
           },
           "commandType": {
@@ -12198,14 +12198,14 @@
           },
           "name": {
             "type": "string",
-            "description": "Optional. Database name (Database name must be up to 40 characters long, include only letters, digits, or hyphen ('-'), start with a letter, and end with a letter or digit)",
+            "description": "Optional. Updated database name.",
             "example": "Redis-Essentials-database-example"
           },
           "memoryLimitInGb": {
             "minimum": 0.1,
             "exclusiveMinimum": false,
             "type": "number",
-            "description": "Deprecated - Optional. Total memory including replication and other overhead. Supported only for 'Pay-As-You-Go' subscriptions",
+            "description": "(Pay-as-you-go subscriptions only) Optional. Total memory in GB, including replication and other overhead. You cannot set both datasetSizeInGb and totalMemoryInGb.",
             "format": "double",
             "example": 1,
             "deprecated": true
@@ -12214,18 +12214,18 @@
             "minimum": 0.1,
             "exclusiveMinimum": false,
             "type": "number",
-            "description": "Optional. The maximum amount of data in the dataset for this specific database is in GB. You can not set both datasetSizeInGb and totalMemoryInGb. if ‘replication’ is true, the database’s total memory will be twice as large as the datasetSizeInGb.if ‘replication’ is false, the database’s total memory of the database will be the datasetSizeInGb value.",
+            "description": "(Pay-as-you-go subscriptions only) Optional. The maximum amount of data in the dataset for this database in GB. You cannot set both datasetSizeInGb and totalMemoryInGb. If ‘replication’ is 'true', the database’s total memory will be twice as large as the datasetSizeInGb. If ‘replication’ is false, the database’s total memory will be the datasetSizeInGb value.",
             "format": "double",
             "example": 1
           },
           "supportOSSClusterApi": {
             "type": "boolean",
-            "description": "Optional. Support Redis open-source (OSS) Cluster API. Supported only for 'Pay-As-You-Go' subscriptions",
+            "description": "(Pay-as-you-go subscriptions only) Optional. Support Redis [OSS Cluster API](https://redis.io/docs/latest/operate/rc/databases/configuration/clustering/#oss-cluster-api).",
             "example": true
           },
           "respVersion": {
             "type": "string",
-            "description": "Optional. RESP version must be compatible with Redis version.",
+            "description": "Optional. Redis Serialization Protocol version. Must be compatible with Redis version.",
             "example": "resp3",
             "enum": [
               "resp2",
@@ -12234,23 +12234,23 @@
           },
           "useExternalEndpointForOSSClusterApi": {
             "type": "boolean",
-            "description": "Optional. Should use external endpoint for open-source (OSS) Cluster API. Can only be enabled if OSS Cluster API support is enabled. Supported only for 'Pay-As-You-Go' subscriptions",
+            "description": "(Pay-as-you-go subscriptions only) Optional. If set to 'true', the database will use the external endpoint for OSS Cluster API. This setting blocks the database's private endpoint. Can only be set if 'supportOSSClusterAPI' is 'true'. Default: 'false'",
             "example": true
           },
           "enableDatabaseClustering": {
             "type": "boolean",
-            "description": "Optional. Distributes database data to different cloud instances. Default: 'false'. Supported only for 'Pay-As-You-Go' subscriptions",
+            "description": "(Pay-as-you-go subscriptions only) Optional. Distributes database data to different cloud instances.",
             "example": false
           },
           "numberOfShards": {
             "type": "integer",
-            "description": "Optional. Specifies the number of master shards. Supported only for 'Pay-As-You-Go' subscriptions",
+            "description": "(Pay-as-you-go subscriptions only) Optional. Changes the number of master shards.",
             "format": "int32",
             "example": 2
           },
           "dataPersistence": {
             "type": "string",
-            "description": "Optional. Rate of database data persistence (in persistent storage)",
+            "description": "Optional. Type and rate of data persistence in persistent storage. Use GET /fixed/plans/{planId} to see if your plan supports data persistence.",
             "enum": [
               "none",
               "aof-every-1-second",
@@ -12262,7 +12262,7 @@
           },
           "dataEvictionPolicy": {
             "type": "string",
-            "description": "Optional. Data items eviction method",
+            "description": "Optional. Turns database replication on or off.",
             "enum": [
               "allkeys-lru",
               "allkeys-lfu",
@@ -12276,28 +12276,28 @@
           },
           "replication": {
             "type": "boolean",
-            "description": "Optional. Databases replication"
+            "description": "Optional. Sets database replication. Use GET /fixed/plans/{planId} to see if your plan supports database replication."
           },
           "periodicBackupPath": {
             "type": "string",
-            "description": "Optional. If specified, automatic backups will be every 24 hours or database will be able to perform immediate backups to this path. If empty string is received, backup path will be removed. Optional.",
+            "description": "Optional. Changes the backup location path. If specified, the database will back up every 24 hours to this location, and you can manually back up the database to this location at any time. Use GET /fixed/plans/{planId} to see if your plan supports database backups. If set to an empty string, the backup path will be removed.",
             "example": "s3://<backup-path>"
           },
           "sourceIps": {
             "type": "array",
-            "description": "Optional. List of source IP addresses or subnet masks. If specified, Redis clients will be able to connect to this database only from within the specified source IP addresses ranges. example value: '['192.168.10.0/32', '192.168.12.0/24']'",
+            "description": "Optional. List of source IP addresses or subnet masks to allow. If specified, Redis clients will be able to connect to this database only from within the specified source IP addresses ranges. Example: '['192.168.10.0/32', '192.168.12.0/24']'",
             "items": {
               "type": "string",
-              "description": "Optional. List of source IP addresses or subnet masks. If specified, Redis clients will be able to connect to this database only from within the specified source IP addresses ranges. example value: '['192.168.10.0/32', '192.168.12.0/24']'"
+              "description": "Optional. List of source IP addresses or subnet masks to allow. If specified, Redis clients will be able to connect to this database only from within the specified source IP addresses ranges. Example: '['192.168.10.0/32', '192.168.12.0/24']'"
             }
           },
           "replicaOf": {
             "type": "array",
-            "description": "Deprecated - Optional. This database will be a replica of the specified Redis databases provided as one or more URI (sample format: 'redis://user:password@host:port)'. If the URI provided is Redis Cloud instance, only host and port should be provided (using the format: ['redis://endpoint1:6379', 'redis://endpoint2:6380'] ).",
+            "description": "Optional. This database will be a replica of the specified Redis databases provided as one or more URI (sample format: 'redis://user:password@host:port)'. If the URI provided is Redis Cloud instance, only host and port should be provided (using the format: ['redis://endpoint1:6379', 'redis://endpoint2:6380'] ).",
             "deprecated": true,
             "items": {
               "type": "string",
-              "description": "Deprecated - Optional. This database will be a replica of the specified Redis databases provided as one or more URI (sample format: 'redis://user:password@host:port)'. If the URI provided is Redis Cloud instance, only host and port should be provided (using the format: ['redis://endpoint1:6379', 'redis://endpoint2:6380'] )."
+              "description": "Optional. This database will be a replica of the specified Redis databases provided as one or more URI (sample format: 'redis://user:password@host:port)'. If the URI provided is Redis Cloud instance, only host and port should be provided (using the format: ['redis://endpoint1:6379', 'redis://endpoint2:6380'] )."
             }
           },
           "replica": {
@@ -12305,39 +12305,39 @@
           },
           "regexRules": {
             "type": "array",
-            "description": "Optional. Shard regex rules. Relevant only for a sharded database. Supported only for 'Pay-As-You-Go' subscriptions",
+            "description": "(Pay-as-you-go subscriptions only) Optional. Hashing policy Regex rules. Used only if 'shardingType' is 'custom-regex-rules'.",
             "items": {
               "type": "string",
-              "description": "Optional. Shard regex rules. Relevant only for a sharded database. Supported only for 'Pay-As-You-Go' subscriptions"
+              "description": "(Pay-as-you-go subscriptions only) Optional. Hashing policy Regex rules. Used only if 'shardingType' is 'custom-regex-rules'."
             }
           },
           "clientSslCertificate": {
             "type": "string",
-            "description": "Deprecated - Optional. A string containing TLS/SSL certificate (public key) with new line characters replaced by \\n. If specified, mTLS authentication (with enableTls not specified or set to true) will be required to authenticate user connections. If empty string is received, SSL certificate will be removed and mTLS will not be required (note that TLS connection may still apply, depending on the value of the enableTls property). Default: 'null'\"",
+            "description": "Optional. A public key client TLS/SSL certificate with new line characters replaced with '\\n'. If specified, mTLS authentication will be required to authenticate user connections if it is not already required. If set to an empty string, TLS client certificates will be removed and mTLS will not be required. TLS connection may still apply, depending on the value of 'enableTls'.",
             "deprecated": true
           },
           "clientTlsCertificates": {
             "type": "array",
-            "description": "Optional. A list of TLS/SSL certificates (public keys) with new line characters replaced by \\n. If specified, mTLS authentication (with enableTls not specified or set to true) will be required to authenticate user connections. If empty list is received, SSL certificates will be removed and mTLS will not be required (note that TLS connection may still apply, depending on the value of the enableTls property). Default: 'null'\"",
+            "description": "Optional. A list of client TLS/SSL certificates. If specified, mTLS authentication will be required to authenticate user connections. If set to an empty list, TLS client certificates will be removed and mTLS will not be required. TLS connection may still apply, depending on the value of 'enableTls'.",
             "items": {
               "$ref": "#/components/schemas/DatabaseCertificateSpec"
             }
           },
           "enableTls": {
             "type": "boolean",
-            "description": "Optional. When 'true', requires TLS authentication for all connections (mTLS with valid clientSslCertificate, regular TLS when the clientSslCertificate is not provided)."
+            "description": "Optional. When 'true', requires TLS authentication for all connections - mTLS with valid clientTlsCertificates, regular TLS when clientTlsCertificates is not provided. If enableTls is set to 'false' while mTLS is required, it will remove the mTLS requirement and erase previously provided clientTlsCertificates."
           },
           "password": {
             "type": "string",
-            "description": "Optional. Password to access the database. If omitted, a random 32 character long alphanumeric password will be automatically generated"
+            "description": "Optional. Changes the password used to access the database with the 'default' user."
           },
           "enableDefaultUser": {
             "type": "boolean",
-            "description": "Optional. When 'true', enables connecting to the database with the 'default' user. Default: 'true'"
+            "description": "Optional. When 'true', allows connecting to the database with the 'default' user. When 'false', only defined access control users can connect to the database."
           },
           "alerts": {
             "type": "array",
-            "description": "Optional. Redis database alerts",
+            "description": "Optional. Changes Redis database alert details.",
             "items": {
               "$ref": "#/components/schemas/DatabaseAlertSpec"
             }
@@ -13234,13 +13234,13 @@
           },
           "regions": {
             "type": "array",
-            "description": "Required. The cloud provider region or list of regions (Active-Active only) and networking details.",
+            "description": "The cloud provider region or list of regions (Active-Active only) and networking details.",
             "items": {
               "$ref": "#/components/schemas/SubscriptionRegionSpec"
             }
           }
         },
-        "description": "Required. Cloud provider, region, and networking details."
+        "description": "Cloud provider, region, and networking details."
       },
       "FixedDatabaseBackupRequest": {
         "type": "object",
@@ -13257,7 +13257,7 @@
           },
           "adhocBackupPath": {
             "type": "string",
-            "description": "Optional. Path for ad-hoc backup.",
+            "description": "Optional. Manually backs up data to this location, instead of the set 'periodicBackupPath' location.",
             "example": "s3://<backup-path>"
           },
           "commandType": {
@@ -13275,7 +13275,7 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "Required. Redis advanced capability name. \nUse GET /database-modules for a list of available capabilities."
+            "description": "Redis advanced capability name. \nUse GET /database-modules for a list of available capabilities."
           },
           "parameters": {
             "type": "object",
@@ -13299,17 +13299,17 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "Essentials subscription name",
+            "description": "New Essentials subscription name.",
             "example": "My new subscription"
           },
           "planId": {
             "type": "integer",
-            "description": "A predefined Essentials plan Id (see lookup API '/fixed/plans'). The plan defines the billing, deployment and configuration for the created subscription based on specific plan details",
+            "description": "An Essentials plan ID. The plan describes the dataset size, cloud provider and region, and available database configuration options. Use GET /fixed/plans to get a list of available options.",
             "format": "int32"
           },
           "paymentMethod": {
             "type": "string",
-            "description": "Optional. The payment method for the requested subscription. If ‘credit-card’ is specified, ‘paymentMethodId’ must be defined. Default: 'credit-card'",
+            "description": "Optional. The payment method for the subscription. If set to ‘credit-card’, ‘paymentMethodId’ must be defined. Default: 'credit-card'",
             "enum": [
               "credit-card",
               "marketplace"
@@ -13317,7 +13317,7 @@
           },
           "paymentMethodId": {
             "type": "integer",
-            "description": "Optional. A valid payment method (credit card, wire transfer etc) pre-defined in the current account. It will be billed for any charges related to the created subscription.",
+            "description": "Optional. A valid payment method ID for this account. Use GET /payment-methods to view all payment methods for your account. This value is optional if ‘paymentMethod’ is ‘marketplace’, but required for all other account types.",
             "format": "int32"
           },
           "commandType": {
@@ -13573,7 +13573,7 @@
         "properties": {
           "region": {
             "type": "string",
-            "description": "Required. Deployment region as defined by the cloud provider.",
+            "description": "Deployment region as defined by the cloud provider.",
             "example": "us-east-1"
           },
           "multipleAvailabilityZones": {
@@ -13593,7 +13593,7 @@
             "$ref": "#/components/schemas/SubscriptionRegionNetworkingSpec"
           }
         },
-        "description": "Required. The cloud provider region or list of regions (Active-Active only) and networking details."
+        "description": "The cloud provider region or list of regions (Active-Active only) and networking details."
       },
       "VpcPeeringCreateGcpRequest": {
         "required": [
@@ -13670,7 +13670,7 @@
             "minimum": 0.1,
             "exclusiveMinimum": false,
             "type": "number",
-            "description": "Optional. The maximum amount of data in the dataset for this database in GB. You cannot set both datasetSizeInGb and totalMemoryInGb. \nIf ‘replication’ is 'true', the database’s total memory will be twice as large as the datasetSizeInGb.If ‘replication’ is false, the database’s total memory will be the datasetSizeInGb value.",
+            "description": "Optional. The maximum amount of data in the dataset for this database in GB. You cannot set both datasetSizeInGb and totalMemoryInGb. If ‘replication’ is 'true', the database’s total memory will be twice as large as the datasetSizeInGb. If ‘replication’ is false, the database’s total memory will be the datasetSizeInGb value.",
             "format": "double",
             "example": 1
           },
@@ -13690,7 +13690,7 @@
           },
           "supportOSSClusterApi": {
             "type": "boolean",
-            "description": "Optional. Support [OSS Cluster API](https://redis.io/docs/latest/operate/rc/databases/configuration/clustering/#oss-cluster-api). Default: 'false'. Default: 'false'",
+            "description": "Optional. Support [OSS Cluster API](https://redis.io/docs/latest/operate/rc/databases/configuration/clustering/#oss-cluster-api). Default: 'false'",
             "example": false
           },
           "useExternalEndpointForOSSClusterApi": {
@@ -13730,11 +13730,11 @@
           },
           "replicaOf": {
             "type": "array",
-            "description": "Optional. This database will be a replica of the specified Redis databases provided as one or more URI(s). Example: 'redis://user:password@host:port'. \nIf the URI provided is a Redis Cloud database, only host and port should be provided. Example: ['redis://endpoint1:6379', 'redis://endpoint2:6380'].",
+            "description": "Optional. This database will be a replica of the specified Redis databases provided as one or more URI(s). Example: 'redis://user:password@host:port'. If the URI provided is a Redis Cloud database, only host and port should be provided. Example: ['redis://endpoint1:6379', 'redis://endpoint2:6380'].",
             "deprecated": true,
             "items": {
               "type": "string",
-              "description": "Optional. This database will be a replica of the specified Redis databases provided as one or more URI(s). Example: 'redis://user:password@host:port'. \nIf the URI provided is a Redis Cloud database, only host and port should be provided. Example: ['redis://endpoint1:6379', 'redis://endpoint2:6380']."
+              "description": "Optional. This database will be a replica of the specified Redis databases provided as one or more URI(s). Example: 'redis://user:password@host:port'. If the URI provided is a Redis Cloud database, only host and port should be provided. Example: ['redis://endpoint1:6379', 'redis://endpoint2:6380']."
             }
           },
           "replica": {
@@ -13766,10 +13766,10 @@
           },
           "sourceIp": {
             "type": "array",
-            "description": "Optional. List of source IP addresses or subnet masks to whitelist. If specified, Redis clients will be able to connect to this database only from within the specified source IP addresses ranges. Example: '['192.168.10.0/32', '192.168.12.0/24']'",
+            "description": "Optional. List of source IP addresses or subnet masks to allow. If specified, Redis clients will be able to connect to this database only from within the specified source IP addresses ranges. Example: '['192.168.10.0/32', '192.168.12.0/24']'",
             "items": {
               "type": "string",
-              "description": "Optional. List of source IP addresses or subnet masks to whitelist. If specified, Redis clients will be able to connect to this database only from within the specified source IP addresses ranges. Example: '['192.168.10.0/32', '192.168.12.0/24']'"
+              "description": "Optional. List of source IP addresses or subnet masks to allow. If specified, Redis clients will be able to connect to this database only from within the specified source IP addresses ranges. Example: '['192.168.10.0/32', '192.168.12.0/24']'"
             }
           },
           "clientSslCertificate": {
@@ -13809,7 +13809,7 @@
           },
           "modules": {
             "type": "array",
-            "description": "Optional. Redis advanced capabilities (also known as modules) to be provisioned in the database. \nUse GET /database-modules to view a list of available advanced capabilities.",
+            "description": "Optional. Redis advanced capabilities (also known as modules) to be provisioned in the database. Use GET /database-modules to view a list of available advanced capabilities.",
             "items": {
               "$ref": "#/components/schemas/DatabaseModuleSpec"
             }
@@ -14829,7 +14829,7 @@
           },
           "cloudProviders": {
             "type": "array",
-            "description": "Required. Cloud provider, region, and networking details.",
+            "description": "Cloud provider, region, and networking details.",
             "items": {
               "$ref": "#/components/schemas/SubscriptionSpec"
             }
@@ -14843,7 +14843,7 @@
           },
           "redisVersion": {
             "type": "string",
-            "description": "Optional. Defines the Redis version of the databases in the subscription. If not set, the Redis version for your databases will be the default version. \nUse GET /subscriptions/redis-versions to view a list of available Redis versions.",
+            "description": "Optional. Defines the Redis version of the databases in the subscription. If not set, the Redis version for your databases will be the default version. Use GET /subscriptions/redis-versions to view a list of available Redis versions.",
             "example": "7.2"
           },
           "commandType": {
@@ -14971,7 +14971,7 @@
             }
           }
         },
-        "description": "Optional. Replica Of configuration"
+        "description": "Optional. Changes Replica Of (also known as Active-Passive) configuration details."
       },
       "DatabaseThroughputSpec": {
         "required": [
@@ -14982,7 +14982,7 @@
         "properties": {
           "by": {
             "type": "string",
-            "description": "Required. Throughput measurement method. Use 'operations-per-second' for all new databases.",
+            "description": "Throughput measurement method. Use 'operations-per-second' for all new databases.",
             "enum": [
               "operations-per-second",
               "number-of-shards"
@@ -14990,7 +14990,7 @@
           },
           "value": {
             "type": "integer",
-            "description": "Required. Throughput value in the selected measurement method.",
+            "description": "Throughput value in the selected measurement method.",
             "format": "int64",
             "example": 10000
           }
@@ -15234,7 +15234,7 @@
           },
           "sourceType": {
             "type": "string",
-            "description": "Required. Type of storage from which to import the database RDB file or Redis data.",
+            "description": "Type of storage from which to import the database RDB file or Redis data.",
             "example": "http",
             "enum": [
               "http",
@@ -15247,10 +15247,10 @@
           },
           "importFromUri": {
             "type": "array",
-            "description": "Required. One or more paths to source data files or Redis databases, as appropriate to specified source type.",
+            "description": "One or more paths to source data files or Redis databases, as appropriate to specified source type.",
             "items": {
               "type": "string",
-              "description": "Required. One or more paths to source data files or Redis databases, as appropriate to specified source type."
+              "description": "One or more paths to source data files or Redis databases, as appropriate to specified source type."
             }
           },
           "commandType": {
@@ -15278,7 +15278,7 @@
           },
           "targetRedisVersion": {
             "type": "string",
-            "description": "Required. The target Redis version the database will be upgraded to.",
+            "description": "The target Redis version the database will be upgraded to. Use GET /subscriptions/redis-versions to view a list of available Redis versions.",
             "example": "7.4"
           },
           "commandType": {
@@ -15286,7 +15286,7 @@
             "readOnly": true
           }
         },
-        "description": "Upgrade database Redis version request"
+        "description": "Upgrades the specified Pro database to a later Redis version."
       },
       "ActiveActiveRegionCreateRequest": {
         "required": [
@@ -15322,7 +15322,7 @@
           },
           "respVersion": {
             "type": "string",
-            "description": "Deprecated - Optional. RESP version must be compatible with Redis version.",
+            "description": "Optional. RESP version must be compatible with Redis version.",
             "example": "resp3",
             "deprecated": true,
             "enum": [
@@ -15356,7 +15356,7 @@
           },
           "sourceType": {
             "type": "string",
-            "description": "Required. Type of storage source from which to import the database file (RDB files) or data (Redis connection)",
+            "description": "Type of storage from which to import the database RDB file or Redis data.",
             "example": "http",
             "enum": [
               "http",
@@ -15369,10 +15369,10 @@
           },
           "importFromUri": {
             "type": "array",
-            "description": "Required. One or more URIs to source data files or Redis databases, as appropriate to specified source type (example: ['http://mydomain.com/redis-backup-file1', 'http://mydomain.com/redis-backup-file2'])",
+            "description": "One or more paths to source data files or Redis databases, as appropriate to specified source type.",
             "items": {
               "type": "string",
-              "description": "Required. One or more URIs to source data files or Redis databases, as appropriate to specified source type (example: ['http://mydomain.com/redis-backup-file1', 'http://mydomain.com/redis-backup-file2'])"
+              "description": "One or more paths to source data files or Redis databases, as appropriate to specified source type."
             }
           },
           "commandType": {
