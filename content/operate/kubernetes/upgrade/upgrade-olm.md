@@ -73,20 +73,13 @@ Use `kubectl get rec` and verify the `LICENSE STATE` is valid on your REC before
 
 You can monitor the upgrade from the **Installed Operators** page. A new Redis Enterprise Operator will appear in the list, with the status "Installing". OpenShift will delete the old operator, showing the "Cannot update" status during deletion.
 
-## Reapply the SCC
+## Security context constraints
 
+Upgrades to versions 7.22.0-6 and later run in **unprivileged mode** without any additional permissions or capabilities. If you don't specifally require additional capabilities, we recommend you maintain the default unprivileged mode, as its more secure. After upgrading, remove the existing `redis-enterprise-scc-v2` SCC and unbind it from the REC service account.
 
-If you are using OpenShift, you must manually reappply the [security context constraints (SCC)](https://docs.openshift.com/container-platform/4.8/authentication/managing-security-context-constraints.html) file ([`scc.yaml`]({{< relref "/operate/kubernetes/deployment/openshift/openshift-cli#deploy-the-operator" >}})) and bind it to your service account.
+To enable privileged mode, see [Enable privileged mode > OpenShift upgrades]({{<relref "/operate/kubernetes/security/enable-privileged-mode#openshift-upgrades">}}).
 
-```sh
-oc apply -f openshift/scc.yaml
-```
-
-```sh
-oc adm policy add-scc-to-user redis-enterprise-scc-v2 \
-  system:serviceaccount:<my-project>:<rec-name>
-```
-## Upgrade the Redis Enterprise Cluster 
+## Upgrade the Redis Enterprise cluster
 
 {{<warning>}}
 Verify your license is valid before upgrading. Invalid licenses will cause the upgrade to fail.
@@ -146,9 +139,12 @@ oc rollout status sts <REC_name>
 
 ## Upgrade databases
 
-After the cluster is upgraded, you can upgrade your databases. Specify your new database version in the `spec.redisVersion` field for your REDB and REAADB custom resources. Supported database versions for this operator version include `"7.2"` and `"7.4"` (note this value is a string).
+After the cluster is upgraded, you can upgrade your databases. To upgrade your REDB, specify your new database version in the `spec.redisVersion` field in the REDB custom resources. Supported database versions for operator versions include `"7.2"` and `"7.4"` (note this value is a string). 
+
+To upgrade your REAADB, see [Upgrade an Active-Active database]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-active-active/">}}) for details on the `rladmin` and `crdb-cli` commands required. Reach out to Redis support if you have additional questions.
 
 Note that if your cluster [`redisUpgradePolicy`]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api#redisupgradepolicy" >}}) or your database [`redisVersion`]({{< relref "/operate/kubernetes/reference/redis_enterprise_database_api#redisversion" >}}) are set to `major`, you won't be able to upgrade those databases to minor versions. See [Redis upgrade policy]({{< relref "/operate/rs/installing-upgrading/upgrading#redis-upgrade-policy" >}}) for more details.
+
 The Redis Enterprise cluster (REC) can be updated automatically or manually. To trigger automatic upgrade of the REC after the operator upgrade completes, specify `autoUpgradeRedisEnterprise: true` in your REC spec. If you don't have automatic upgrade enabled, follow the below steps for the manual upgrade.
 
 ## Troubleshooting

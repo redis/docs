@@ -61,10 +61,103 @@ following command line to set the source database username to `myUserName`:
 redis-di set-secret SOURCE_DB_USERNAME myUserName
 ```
 
-### Set secrets for K8s/Helm deployment
+### Set secrets for K8s/Helm deployment using provided rdi-secret.sh script
 
-Use
-[`kubectl create secret generic`](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_create/kubectl_create_secret_generic/)
+To use the `rdi-secret.sh` script, begin by extracting the archive that contains the Helm chart. Once extracted, navigate to the resulting directory and verify that a `scripts` folder is present. Ensure that the `rdi-secret.sh` script is located inside the scripts folder before proceeding. The general pattern to use it is:
+```bash
+scripts/rdi-secret.sh set <SECRET-KEY> <SECRET-VALUE>
+```
+
+The script lets you retrieve a specific secret or list all the secrets that have been set:
+```bash
+# Get specific secret
+scripts/rdi-secret.sh set <SECRET-KEY>
+
+# List all secrets
+scripts/rdi-secret.sh list
+```
+
+When you create secrets for TLS or mTLS, ensure that all certificates and keys are in `PEM` format. The only exception to this is that for PostgreSQL, the private key `SOURCE_DB_KEY` secret (the `client.key` file) must be in `DER` format. If you have a key in `PEM` format, you must convert it to `DER` before creating the `SOURCE_DB_KEY` secret using the command:
+
+```bash
+openssl pkcs8 -topk8 -inform PEM -outform DER -in /path/to/myclient.key -out /path/to/myclient.pk8 -nocrypt
+```
+
+This command assumes that the private key is not encrypted.  See the [`openssl` documentation](https://docs.openssl.org/master/) to learn how to convert an encrypted private key.
+  
+The specific command lines for source secrets are as follows:
+
+```bash
+# Without source TLS
+scripts/rdi-secret.sh set SOURCE_DB_USERNAME yourUsername
+scripts/rdi-secret.sh set SOURCE_DB_PASSWORD yourPassword
+# Verify that the secrets are created/updated
+scripts/rdi-secret.sh get SOURCE_DB_USERNAME
+scripts/rdi-secret.sh get SOURCE_DB_PASSWORD
+
+# With source TLS
+scripts/rdi-secret.sh set SOURCE_DB_USERNAME yourUsername
+scripts/rdi-secret.sh set SOURCE_DB_PASSWORD yourPassword
+scripts/rdi-secret.sh set SOURCE_DB_CACERT /path/to/myca.crt
+# Verify that the secrets are created/updated
+scripts/rdi-secret.sh get SOURCE_DB_USERNAME
+scripts/rdi-secret.sh get SOURCE_DB_PASSWORD
+scripts/rdi-secret.sh get SOURCE_DB_CACERT
+
+# With source mTLS
+scripts/rdi-secret.sh set SOURCE_DB_USERNAME yourUsername
+scripts/rdi-secret.sh set SOURCE_DB_PASSWORD yourPassword
+scripts/rdi-secret.sh set SOURCE_DB_CACERT /path/to/myca.crt
+scripts/rdi-secret.sh set SOURCE_DB_CERT /path/to/myclient.crt
+scripts/rdi-secret.sh set SOURCE_DB_KEY /path/to/myclient.key
+scripts/rdi-secret.sh set SOURCE_DB_KEY_PASSWORD yourKeyPassword # add this only if SOURCE_DB_KEY is password-protected
+# Verify that the secrets are created/updated
+scripts/rdi-secret.sh get SOURCE_DB_USERNAME
+scripts/rdi-secret.sh get SOURCE_DB_PASSWORD
+scripts/rdi-secret.sh get SOURCE_DB_CACERT
+scripts/rdi-secret.sh get SOURCE_DB_CERT
+scripts/rdi-secret.sh get SOURCE_DB_KEY
+scripts/rdi-secret.sh get SOURCE_DB_KEY_PASSWORD
+```
+
+The corresponding command lines for target secrets are:
+
+```bash
+# Without source TLS
+scripts/rdi-secret.sh set TARGET_DB_USERNAME yourUsername
+scripts/rdi-secret.sh set TARGET_DB_PASSWORD yourPassword
+# Verify that the secrets are created/updated
+scripts/rdi-secret.sh get TARGET_DB_USERNAME
+scripts/rdi-secret.sh get TARGET_DB_PASSWORD
+
+# With source TLS
+scripts/rdi-secret.sh set TARGET_DB_USERNAME yourUsername
+scripts/rdi-secret.sh set TARGET_DB_PASSWORD yourPassword
+scripts/rdi-secret.sh set TARGET_DB_CACERT /path/to/myca.crt
+# Verify that the secrets are created/updated
+scripts/rdi-secret.sh get TARGET_DB_USERNAME
+scripts/rdi-secret.sh get TARGET_DB_PASSWORD
+scripts/rdi-secret.sh get TARGET_DB_CACERT
+
+# With source mTLS
+scripts/rdi-secret.sh set TARGET_DB_USERNAME yourUsername
+scripts/rdi-secret.sh set TARGET_DB_PASSWORD yourPassword
+scripts/rdi-secret.sh set TARGET_DB_CACERT /path/to/myca.crt
+scripts/rdi-secret.sh set TARGET_DB_CERT /path/to/myclient.crt
+scripts/rdi-secret.sh set TARGET_DB_KEY /path/to/myclient.key
+scripts/rdi-secret.sh set TARGET_DB_KEY_PASSWORD yourKeyPassword # add this only if TARGET_DB_KEY is password-protected
+# Verify that the secrets are created/updated
+scripts/rdi-secret.sh get TARGET_DB_USERNAME
+scripts/rdi-secret.sh get TARGET_DB_PASSWORD
+scripts/rdi-secret.sh get TARGET_DB_CACERT
+scripts/rdi-secret.sh get TARGET_DB_CERT
+scripts/rdi-secret.sh get TARGET_DB_KEY
+scripts/rdi-secret.sh get TARGET_DB_KEY_PASSWORD
+```
+
+### Set secrets for K8s/Helm deployment using Kubectl command
+
+In some scenarios, you may prefer to use [`kubectl create secret generic`](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_create/kubectl_create_secret_generic/)
 to set secrets for a K8s/Helm deployment. The general pattern of the commands is:
 
 ```bash
@@ -186,5 +279,3 @@ command to deploy a pipeline:
 ```bash
 redis-di deploy --dir <path to pipeline folder>
 ```
-
-

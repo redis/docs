@@ -29,6 +29,31 @@ In some cases, the defaults are based on environment-specific settings (e.g., op
 For more details on setting specific timeouts, see the [Lettuce reference guide](https://redis.github.io/lettuce/).
 {{% /alert  %}}
 
+### Prerequisites
+
+To set TCP-level timeouts, you need to ensure you have one of [Netty Native Transports](https://netty.io/wiki/native-transports.html) installed. The most common one is `netty-transport-native-epoll`, which is used for Linux systems. You can add it to your project by including the following dependency in your `pom.xml` file:
+
+```xml
+<dependency>
+    <groupId>io.netty</groupId>
+    <artifactId>netty-transport-native-epoll</artifactId>
+    <version>${netty.version}</version> <!-- e.g., 4.1.118.Final -->
+    <classifier>linux-x86_64</classifier>
+</dependency>
+```
+
+Once you have the native transport dependency, you can verify that by using the following code:
+
+```java
+logger.info("Lettuce epool is available: {}", EpollProvider.isAvailable());
+```
+
+If the snippet above returns `false`, you need to enable debugging logging for `io.lettuce.core` and `io.netty` to see why the native transport is not available.
+
+For more information on using Netty Native Transport, see the [Lettuce reference guide](https://redis.github.io/lettuce/advanced-usage/#native-transports).
+
+### Setting timeouts
+
 Below is an example of setting socket-level timeouts. The `TCP_USER_TIMEOUT` setting is useful for scenarios where the server stops responding without acknowledging the last request, while the `KEEPALIVE` setting is good for detecting dead connections where there is no traffic between the client and the server.
 
 ```java

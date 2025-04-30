@@ -579,17 +579,7 @@
     "[Array reply](../../develop/reference/protocol-spec#arrays): a list of deleted fields and their values or `nil` for fields that do not exist."
   ],
   "HGETEX": [
-    "* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:",
-    "    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist, or if the field exists but has no associated expiration set.",
-    "    - [Integer reply](../../develop/reference/protocol-spec#integers): the expiration in seconds."
-  ],
-  "HGETDEL": [
-    "[Array reply](../../develop/reference/protocol-spec#arrays): a list of deleted fields and their values or `nil` for fields that do not exist."
-  ],
-  "HGETEX": [
-    "* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:",
-    "    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist, or if the field exists but has no associated expiration set.",
-    "    - [Integer reply](../../develop/reference/protocol-spec#integers): the expiration in seconds."
+    "* [Array reply](../../develop/reference/protocol-spec#arrays): a list of values associated with the given fields, in the same order as they are requested."
   ],
   "HINCRBY": [
     "[Integer reply](../../develop/reference/protocol-spec#integers): the value of the field after the increment operation."

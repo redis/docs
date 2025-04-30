@@ -35,14 +35,14 @@ Below are some basic steps to ensure good performance of the Redis Query Engine 
 - Put only those fields used in your queries in the index.
 - Only make fields [`SORTABLE`]({{< relref "/develop/interact/search-and-query/advanced-concepts/sorting" >}}) if they are used in [`SORTBY`]({{< relref "/develop/interact/search-and-query/advanced-concepts/sorting#specifying-sortby" >}})
 queries.
-- Use [`DIALECT 4`]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects#dialect-4" >}}).
+- Use [`DIALECT 2`]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects#dialect-2" >}}).
 
 ### Threaded (query performance factor or QPF) search
 - Put both query fields and any projected fields (`RETURN` or `LOAD`) in the index.
 - Set all fields to `SORTABLE`.
 - Set TAG fields to [UNF]({{< relref "/develop/interact/search-and-query/advanced-concepts/sorting#normalization-unf-option" >}}).
 - Optional: Set `TEXT` fields to `NOSTEM` if the use case will support it.
-- Use [`DIALECT 4`]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects#dialect-4" >}}).
+- Use [`DIALECT 2`]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects#dialect-2" >}}).
 
 ## Query optimization
 
@@ -140,11 +140,11 @@ The following query is better suited for vertical scaling:
 FT.AGGREGATE jsonidx:profiles '@t:[1299 1299]' 
                 LOAD 6 id t name lastname loc ver 
                 LIMIT 0 10
-                DIALECT 3
+                DIALECT 2
 ```
 
 Improvements:
 
 - Targeted projection: the `LOAD` clause specifies only essential fields (`id, t, name, lastname, loc, ver`), reducing memory and network overhead.
 - Limited results: the `LIMIT` clause ensures the query retrieves only the first 10 results, avoiding large result sets.
-- [`DIALECT 3`]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects#dialect-3" >}}): enables the latest RQE syntax and features, ensuring compatibility with modern capabilities.
+- [`DIALECT 2`]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects#dialect-2" >}}): enables the latest RQE syntax and features, ensuring compatibility with modern capabilities.
