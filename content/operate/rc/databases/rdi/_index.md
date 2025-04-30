@@ -42,7 +42,7 @@ RDI encrypts all network connections with TLS. The pipeline will process data fr
 Before you can create a data pipeline, you must have:
 
 - A [Redis Cloud Pro database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) hosted on Amazon Web Services (AWS). This will be the target database.
-- One supported source database, hosted on an AWS EC2 instance:
+- One supported source database, hosted on an AWS EC2 instance, AWS RDS, or AWS Aurora:
 
 {{< embed-md "rdi-supported-source-versions.md" >}}
 
@@ -54,6 +54,7 @@ Please be aware of the following limitations:
 - The target database can use TLS, but can not use mutual TLS.
 - The target database cannot be in the same subscription as another database that has a data pipeline.
 - Source databases must also be hosted on AWS.
+- You must use a [custom encryption key on AWS](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html) to create the instance hosting the database.
 - One source database can only be synced to one target database.
 - You must be able to set up AWS PrivateLink to connect your Source database to your target database. RDI only works with AWS PrivateLink and not VPC Peering or other private connectivity options.
 {{< /note >}} 

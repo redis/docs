@@ -54,7 +54,7 @@ To ensure that you can connect your Redis Cloud database to the source database 
 In the [AWS Management Console](https://console.aws.amazon.com/), use the **Services** menu to locate and select **Compute** > **EC2**. [Create a network load balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-network-load-balancer.html#configure-load-balancer) with the following settings:
 
 1. In **Basic configuration**: 
-    - **Scheme**: Select **Internet-facing**.
+    - **Scheme**: Select **Internal**.
     - **Load balancer IP address type**: Select **IPv4**.
 1. In **Network mapping**, select the VPC and availability zone associated with your source database.
 1. In **Security groups**, select the security group associated with your source database.
