@@ -22,5 +22,9 @@ generally, these mechanisms are not switched on by default.
 RDI's Debezium collector uses these mechanisms for change data capture (CDC),
 so you must prepare your source database before you can use it with RDI.
 
+RDI supports the following source databases:
+
+{{< embed-md "rdi-supported-source-versions.md" >}}
+
 The pages in this section give detailed instructions to get your source
 database ready for Debezium to use:
