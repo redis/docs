@@ -44,7 +44,7 @@ echo $PATH
 
 Next, confirm that the output contains `/opt/homebrew/bin` (Apple silicon Macs) or `/usr/local/bin` (Intel Mac). If neither `/opt/homebrew/bin` nor `/usr/local/bin` are in the output, add them.
 
-Open the file `~/.bashrc` or `~/zshrc` (depending on your shell), and add the following line.
+Open the file `~/.bashrc` or `~/.zshrc` (depending on your shell), and add the following line.
 
 {{< highlight bash >}}
 export PATH=$(brew --prefix)/bin:$PATH
