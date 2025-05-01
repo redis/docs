@@ -56,7 +56,7 @@ to split your data set into multiple Redis instances, please read the
 Redis Ltd., the company sponsoring Redis development, has developed a
 "Redis on Flash" solution that uses a mixed RAM/flash approach for
 larger data sets with a biased access pattern. You may check their offering
-for more information, however this feature is not part of the Redis Community Edition
+for more information, however this feature is not part of the Redis Open Source
 code base.
 
 ## Can you use Redis with a disk-based database?

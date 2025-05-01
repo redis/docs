@@ -19,9 +19,7 @@ weight: 7
 [`go-redis`](https://github.com/redis/go-redis) is the [Go](https://go.dev/) client for Redis.
 The sections below explain how to install `go-redis` and connect your application to a Redis database.
 
-`go-redis` requires a running [Redis Community Edition]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) server.
-See [Getting started]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis installation
-instructions.
+`go-redis` requires a running Redis server. See [here]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis Open Source installation instructions.
 
 ## Install
 

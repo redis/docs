@@ -10,7 +10,7 @@ hideListLinks: true
 linkTitle: Time series
 weight: 50
 ---
-You can manage time series data in Redis Enterprise with Redis Community Edition (CE).
+You can manage time series data in Redis Enterprise with Redis Open Source.
 
 ## Features
 
@@ -30,7 +30,7 @@ Each sample is a tuple of the time and the value of 128 bits,
 
 ## Time series capabilities
 
-Redis CE provides a new data type that uses chunks of memory of fixed size for time series samples, indexed by the same Radix Tree implementation as Redis streams. With streams, you can create [a capped stream]({{< relref "/develop/data-types/streams/#capped-streams" >}}), effectively limiting the number of messages by count. For time series, you can apply a retention policy in milliseconds. This is better for time series use cases, because they are typically interested in the data during a given time window, rather than a fixed number of samples.
+Redis Open Source provides a new data type that uses chunks of memory of fixed size for time series samples, indexed by the same Radix Tree implementation as Redis streams. With streams, you can create [a capped stream]({{< relref "/develop/data-types/streams/#capped-streams" >}}), effectively limiting the number of messages by count. For time series, you can apply a retention policy in milliseconds. This is better for time series use cases, because they are typically interested in the data during a given time window, rather than a fixed number of samples.
 
 ### Downsampling/compaction
 
@@ -78,7 +78,7 @@ Here's an example of [aggregation]({{< relref "develop/data-types/timeseries/qui
 
 ### Integrations
 
-Redis CE comes with several integrations into existing time series tools. One such integration is our [RedisTimeSeries adapter](https://github.com/RedisTimeSeries/prometheus-redistimeseries-adapter) for [Prometheus](https://prometheus.io/), which keeps all your monitoring metrics inside time series while leveraging the entire [Prometheus ecosystem](https://prometheus.io/docs/prometheus/latest/storage/#remote-storage-integrations).
+Redis Open Source comes with several integrations into existing time series tools. One such integration is our [RedisTimeSeries adapter](https://github.com/RedisTimeSeries/prometheus-redistimeseries-adapter) for [Prometheus](https://prometheus.io/), which keeps all your monitoring metrics inside time series while leveraging the entire [Prometheus ecosystem](https://prometheus.io/docs/prometheus/latest/storage/#remote-storage-integrations).
 
 {{< image filename="/images/rs/TimeSeries-integrations.png" >}}
 

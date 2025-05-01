@@ -145,7 +145,7 @@ Run the following from the project root dir:
 
 ```make build``` will build RediSearch.
 
-`make build COORD=1` will build Redis Community Edition RediSearch Coordinator.
+`make build COORD=1` will build Redis Open Source RediSearch Coordinator.
 
 `make build STATIC=1` will build as a static library.
 
