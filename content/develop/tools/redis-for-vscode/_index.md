@@ -136,7 +136,7 @@ For strings, hashes, lists, sets, and sorted sets, the extension supports numero
 
 {{< image filename="images/dev/connect/vscode/vscode-edit-value-formatters.png" >}}
 
-Also for Hash keys, you can set per-field TTLs (highlighted in yellow in the image above), a new feature added to Redis Community Edition 7.4.
+Also for Hash keys, you can set per-field TTLs (highlighted in yellow in the image above), a new feature added to Redis Open Source 7.4.
 
 ## CLI tool {#cli}
 

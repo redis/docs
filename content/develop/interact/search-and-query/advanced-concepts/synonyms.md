@@ -9,13 +9,13 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Details on synonym support with Redis Community Edition
+description: Details on synonym support with Redis Open Source
 linkTitle: Synonym
 title: Synonym support
 weight: 11
 ---
 
-Redis Community Edition supports synonyms. That is, searching for synonym words defined by the synonym data structure.
+Redis Open Source supports synonyms. That is, searching for synonym words defined by the synonym data structure.
 
 The synonym data structure is a set of groups, each of which contains synonym terms. For example, the following synonym data structure contains three groups, and each group contains three synonym terms:
 

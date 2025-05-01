@@ -4,16 +4,17 @@ categories:
 - operate
 - stack
 - oss
-description: How to install Redis Community Edition using RPM
+description: How to install Redis Open Source using RPM
 linkTitle: RPM
-title: Install Redis Community Edition on Linux
+title: Install Redis Open Source on Linux
 weight: 3
+bannerText: These installation instructions are not yet complete for Redis 8 in Redis Open Source (Redis 8). For installation instructions prior to Redis 8, see [these pages]({{< relref "/operate/oss_and_stack/install/archive" >}}).
 ---
 
-## Install Redis Community Edition (CE) on Red Hat, CentOS, or Rocky Linux using RPM
+## Install Redis Open Source on Red Hat, CentOS, or Rocky Linux using RPM
 
 See [this page](https://redis.io/downloads/#redis-downloads) for a complete list of supported Red Hat/Rocky platforms.
-Follow these steps to install Redis CE.
+Follow these steps to install Redis Open Source.
 
 1. Create the file `/etc/yum.repos.d/redis.repo` with the following contents.
 

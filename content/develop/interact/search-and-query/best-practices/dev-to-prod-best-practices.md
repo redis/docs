@@ -12,7 +12,7 @@ linkTitle: RQE DEV to PROD
 weight: 2
 ---
 
-Transitioning a Redis Community Edition with Redis Query Engine (RQE) environment from development to production requires thoughtful consideration of configuration, performance tuning, and resource allocation. This guide outlines key practices to ensure your Redis deployment operates optimally under production workloads.
+Transitioning a Redis Open Source with Redis Query Engine (RQE) environment from development to production requires thoughtful consideration of configuration, performance tuning, and resource allocation. This guide outlines key practices to ensure your Redis deployment operates optimally under production workloads.
 
 ## Configuration parameter considerations
 
@@ -102,4 +102,4 @@ Production environments must be sized for peak load scenarios to ensure performa
 2. Autoscaling:
    - Consider using autoscaling strategies in cloud environments to dynamically adjust resources based on load.
 
-By following these best practices, you can ensure a smooth and efficient transition from development to production with Redis Community Edition and RQE. Proper configuration, rigorous testing, and careful resource planning are critical to delivering a reliable and high-performance Redis deployment.
+By following these best practices, you can ensure a smooth and efficient transition from development to production with Redis Open Source and RQE. Proper configuration, rigorous testing, and careful resource planning are critical to delivering a reliable and high-performance Redis deployment.

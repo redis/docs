@@ -34,6 +34,13 @@ This page organized into a few sections depending on what you’re trying to do:
 1. [**Search with vectors**]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#search-with-vectors" >}}): Redis supports several advanced querying strategies with vector fields including k-nearest neighbor ([KNN]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#knn-vector-search" >}})), [vector range queries]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#vector-range-queries" >}}), and [metadata filters]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#filters" >}}).
 1. [**Configure vector queries at runtime**]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#runtime-query-parameters" >}}). Select the best filter mode to optimize query execution.
 
+#### Learn how to index and query vector embeddings
+* [redis-py (Python)]({{< relref "/develop/clients/redis-py/vecsearch" >}})
+* [NRedisStack (C#/.NET)]({{< relref "/develop/clients/dotnet/vecsearch" >}})
+* [node-redis (JavaScript)]({{< relref "/develop/clients/nodejs/vecsearch" >}}) 
+* [Jedis (Java)]({{< relref "/develop/clients/jedis/vecsearch" >}})
+* [go-redis (Go)]({{< relref "/develop/clients/go/vecsearch" >}}) 
+
 ## Concepts 
 
 Learn to perform vector search and use gateways and semantic caching in your AI/ML projects.
@@ -71,6 +78,7 @@ Retrieval Augmented Generation (aka RAG) is a technique to enhance the ability o
 
 #### Agents
 AI agents can act autonomously to plan and execute tasks for the user.
+* [Redis Notebooks for LangGraph](https://github.com/redis-developer/langgraph-redis/tree/main/examples)
 * [Notebook to get started with LangGraph and agents](https://colab.research.google.com/github/redis-developer/redis-ai-resources/blob/main/python-recipes/agents/00_langgraph_redis_agentic_rag.ipynb) 
 * [Build a collaborative movie recommendation system using Redis for data storage, CrewAI for agent-based task execution, and LangGraph for workflow management.](https://colab.research.google.com/github/redis-developer/redis-ai-resources/blob/main/python-recipes/agents/01_crewai_langgraph_redis.ipynb)
 * [Full-Featured Agent Architecture](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/agents/02_full_featured_agent.ipynb)
@@ -119,6 +127,7 @@ Need a deeper-dive through different use cases and topics?
 
 ## Ecosystem integrations
 
+* [LangGraph & Redis: Build smarter AI agents with memory & persistence](https://redis.io/blog/langgraph-redis-build-smarter-ai-agents-with-memory-persistence/)
 * [Amazon Bedrock setup guide]({{< relref "/integrate/amazon-bedrock/set-up-redis" >}})
 * [LangChain Redis Package: Smarter AI apps with advanced vector storage and faster caching](https://redis.io/blog/langchain-redis-partner-package/)
 * [LlamaIndex integration for Redis as a vector store](https://gpt-index.readthedocs.io/en/latest/examples/vector_stores/RedisIndexDemo.html)

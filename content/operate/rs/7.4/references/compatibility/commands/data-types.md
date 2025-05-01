@@ -14,7 +14,7 @@ weight: 10
 url: '/operate/rs/7.4/references/compatibility/commands/data-types/'
 ---
 
-The following tables show which Redis Community Edition data type commands are compatible with standard and Active-Active databases in Redis Enterprise Software and Redis Cloud.
+The following tables show which Redis Open source data type commands are compatible with standard and Active-Active databases in Redis Enterprise Software and Redis Cloud.
 
 ## Bitmap commands
 
