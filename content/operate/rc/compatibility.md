@@ -1,17 +1,17 @@
 ---
-Title: Redis Cloud compatibility with Redis Community Edition
+Title: Redis Cloud compatibility with Redis Open Source
 alwaysopen: false
 categories:
 - docs
 - operate
 - rc
-description: Redis Cloud compatibility with Redis Community Edition.
-linkTitle: Redis Community Edition compatibility
+description: Redis Cloud compatibility with Redis Open Source.
+linkTitle: Redis Open Source compatibility
 weight: 90
 tocEmbedHeaders: true
 ---
 
-Both [Redis Enterprise Software]({{< relref "/operate/rs" >}}) and Redis Cloud are compatible with Redis Community Edition.
+Both [Redis Enterprise Software]({{< relref "/operate/rs" >}}) and Redis Cloud are compatible with Redis Open Source.
 
 {{< embed-md "rc-rs-oss-compatibility.md"  >}}
 

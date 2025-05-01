@@ -17,7 +17,7 @@ aliases:
   - /develop/interact/programmability/triggers-and-functions/concepts/cluster_support/
 ---
 
-**Notice**: On a Redis Community Edition cluster, before executing any gears function, you must send a `REDISGEARS_2.REFRESHCLUSTER` command to all the shards so that they will be aware of the cluster topology. Without this step, each shard will act as a single Redis Community Edition instance.
+**Notice**: On a Redis Open Source cluster, before executing any gears function, you must send a `REDISGEARS_2.REFRESHCLUSTER` command to all the shards so that they will be aware of the cluster topology. Without this step, each shard will act as a single Redis Open Source instance.
 
 Triggers and functions support cross-shard operation on Redis clusters. This means that it is possible to call a function that will be invoked on another shard. We call such a function a remote function.
 

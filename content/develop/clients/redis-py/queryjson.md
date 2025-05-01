@@ -24,7 +24,7 @@ documents.
 
 ## Initialize
 
-Make sure that you have [Redis Community Edition]({{< relref "/operate/oss_and_stack/" >}})
+Make sure that you have [Redis Open Source]({{< relref "/operate/oss_and_stack/" >}})
 or another Redis server available. Also install the
 [`redis-py`]({{< relref "/develop/clients/redis-py" >}}) client library if you
 haven't already done so.

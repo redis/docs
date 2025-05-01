@@ -45,11 +45,11 @@
         <dl class="grid grid-cols-[auto,1fr] gap-2 mb-12">
           {{ if not $isModule }}
           <dt class="font-semibold text-redis-ink-900 m-0">Available since:</dt>
-          <dd class="m-0">Redis CE {{ .Params.since }}</dd>
+          <dd class="m-0">Redis Open Source {{ .Params.since }}</dd>
           {{ else }}
           <dt class="font-semibold text-redis-ink-900 m-0">Available in:</dt>
           <dd class="m-0">
-            Redis CE</a> / {{ .Params.module }} {{ .Params.since }}</a>
+            Redis Open Source</a> / {{ .Params.module }} {{ .Params.since }}</a>
           </dd>
           {{ end }}
           <dt class="font-semibold text-redis-ink-900 m-0">Time complexity:</dt>

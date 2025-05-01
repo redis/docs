@@ -1,9 +1,5 @@
 # Redis Docs
 
-OPEN SOURCE LICENSE VS. TRADEMARKS. The three-clause BSD license gives you the right to redistribute and use the software in source and binary forms, with or without modification, under certain conditions. However, open source licenses like the three-clause BSD license do not address trademarks. For further details please read the [Redis Trademark Policy](https://redis.io/legal/trademark-policy/)."
-
-## A note for Issue and PR submitters
-
 PRs are merged first to the `main` branch of this repo.
 Periodically, the docs team will merge `main` into `latest`, which will make the changes visible on the docs site.
 Please be patient, as there may be a lag of several days before `main` is merged into `latest`. If you want to see your changes before they're merged to `latest`, you can see them on https://redis.io/docs/staging/dev/. 

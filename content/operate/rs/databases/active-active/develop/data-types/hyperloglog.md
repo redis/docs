@@ -17,7 +17,7 @@ Because it estimates the cardinality by probability, the HyperLogLog algorithm c
 
 ## HyperLogLog in Redis
 
-Redis Community Edition implements [HyperLogLog](https://redislabs.com/redis-best-practices/counting/hyperloglog/) (HLL) as a native data structure.
+Redis Open source implements [HyperLogLog](https://redislabs.com/redis-best-practices/counting/hyperloglog/) (HLL) as a native data structure.
 It supports adding elements ([PFADD]({{< relref "/commands/pfadd" >}}) to an HLL, counting elements ([PFCOUNT]({{< relref "/commands/pfcount" >}}) of HLLs, and merging of ([PFMERGE]({{< relref "/commands/pfmerge" >}}) HLLs.
 
 Here is an example of a simple write case:
@@ -47,7 +47,7 @@ If a DEL request is received at the same time as any other request (ADD/MERGE/EX
 the replicas consistently converge to delete key.
 In the observed remove method used by other collections (sets, lists, sorted-sets and hashes),
 only the replica that received the DEL request removes the elements, but elements added concurrently in other replicas exist in the consistently converged collection.
-We chose to use the DEL-wins method for the CRDT-HLL to maintain the original time and space complexity of the HLL in Redis Community Edition.
+We chose to use the DEL-wins method for the CRDT-HLL to maintain the original time and space complexity of the HLL in Redis Open source.
 
 Here is an example of a DEL-wins case:
 
@@ -66,7 +66,7 @@ Here is an example of a DEL-wins case:
 | t8   | Exists h --> 0  | Exists h --> 0  | \|  | t8   | Exists s --> 1      | Exists s --> 1      |
 |      |                 |                 | \|  | t9   | SMEMBERS s --> {e2} | SMEMBERS s --> {e2} |
 
-## HLL in Active-Active databases versus HLL in Redis Community Edition
+## HLL in Active-Active databases versus HLL in Redis Open source
 
 In Active-Active databases, we implemented HLL within the CRDT on the basis of the Redis implementation with a few exceptions:
 
