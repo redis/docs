@@ -122,7 +122,7 @@ For versions older than Redis 7.0, pub/sub is permissive and allows access to al
 
 Redis 7.0 makes pub/sub restrictive and blocks access to all channels in Redis Software. However, Redis Cloud still defaults to permissive pub/sub even for Redis 7.0 subscriptions.
 
-| Redis<br />version | Redis Community Edition<br />pub/sub ACLs | Redis Cloud<br />pub/sub ACLs |
+| Redis<br />version | Redis Open Source<br />pub/sub ACLs | Redis Cloud<br />pub/sub ACLs |
 |:-------------:|-----------|-------------|
 | 6.0 | Not supported | Not supported |
 | 6.2 | Permissive | Permissive |

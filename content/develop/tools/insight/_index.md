@@ -35,7 +35,7 @@ Redis Insight is a powerful tool for visualizing and optimizing data in Redis, m
 
 * Automatically discover and add your local Redis databases (that use standalone connection type and do not require authentication).
 * Discover your databases in Redis Enterprise Cluster and databases with Flexible plans in Redis Cloud.
-* Use a form to enter your connection details and add any Redis database running anywhere (including Redis Community Edition Cluster or Sentinel).
+* Use a form to enter your connection details and add any Redis database running anywhere (including Redis Open Source cluster or sentinel).
 * Connect to a Redis Data Integration (RDI) management plane, create, test, and deploy RDI pipelines, and view RDI statistics.
 
 <img src="images/Databases.png">
@@ -94,8 +94,8 @@ The CLI is accessible at any time within the application.
 ### Workbench
 
 Workbench is an advanced command line interface with intelligent command auto-complete and complex data visualization support.
-* Built-in guides: you can conveniently discover Redis and Redis Community Edition features using the built-in guides.
-* Command auto-complete support for all features in Redis and Redis Community Edition.
+* Built-in guides: you can conveniently discover Redis and Redis Open Source features using the built-in guides.
+* Command auto-complete support for all features in Redis and Redis Open Source.
 * Advanced, schema-aware auto-complete for Redis Query Engine, which provides for faster query building with context-sensitive suggestions that recognize indexes, schemas, and fields based on your current query. Start typing any Redis Query Engine command in to try this feature. See below for an example of an in-progress `FT.SEARCH` command.
 
 <img src="images/Workbench_Search.png">
@@ -129,7 +129,7 @@ View and manage the list of consumer groups. See existing consumers in a given c
 
 ### Search features
 
-If you're using the indexing, querying, or full-text search features of Redis Community Edition, Redis Insight provides UI controls to quickly and conveniently run search queries against a preselected index. You can also create a secondary index of your data in a dedicated pane.
+If you're using the indexing, querying, or full-text search features of Redis Open Source, Redis Insight provides UI controls to quickly and conveniently run search queries against a preselected index. You can also create a secondary index of your data in a dedicated pane.
 
 <img src="images/search.png">
 

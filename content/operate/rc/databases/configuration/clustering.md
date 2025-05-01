@@ -106,9 +106,9 @@ For accounts created after March 31, 2025, Redis defaults to the [Redis hashing 
 This policy is available for selected accounts and will be rolled out gradually to other accounts in the future.
 {{< /note >}}
 
-The Redis hashing policy is identical to the [hashing policy used by Redis Community Edition]({{< relref "/operate/oss_and_stack/reference/cluster-spec#hash-tags" >}}). This policy is recommended for most users and you should select it if any of the following conditions apply:
+The Redis hashing policy is identical to the [hashing policy used by Redis Open Source]({{< relref "/operate/oss_and_stack/reference/cluster-spec#hash-tags" >}}). This policy is recommended for most users and you should select it if any of the following conditions apply:
 - This is your first Redis Cloud account, and you are starting fresh.
-- You are migrating data from Redis Community Edition or other Redis-managed platforms.
+- You are migrating data from Redis Open Source or other Redis-managed platforms.
 - Your application does not use hashtags in database key names.
 - Your application uses binary data as key names.
 

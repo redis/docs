@@ -18,8 +18,7 @@ In this tutorial you will learn how to install RDI and set up a pipeline to inge
 - [Redis Insight]({{< relref "/develop/tools/insight" >}})
   to edit your pipeline
 - A virtual machine (VM) with one of the following operating systems:  
-  - Ubuntu 20.04, 22.04, or 24.04
-  - RHEL 8 or 9
+  {{< embed-md "rdi-os-reqs.md" >}}
 
 ## Overview
 
@@ -56,44 +55,7 @@ run the pipeline.
 
 Use the Redis console to create the RDI database with the following requirements:
 
-- A single-shard database with 125MB RAM is enough for the quickstart but double this
-  to 250MB if you want to add a replica.
-- Provide the installation with the required RDI database details.
-- Set the database's
-  [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}) to `noeviction`. Note that you can't set this using
-  [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}),
-  so you must either do it using the admin UI or with the following
-  [REST API]({{< relref "/operate/rs/references/rest-api" >}})
-  command:
-
-  ```bash
-  curl -v -k -d '{"eviction_policy": "noeviction"}' \
-    -u '<USERNAME>:<PASSWORD>' \
-    -H "Content-Type: application/json" \
-    -X PUT https://<CLUSTER_FQDN>:9443/v1/bdbs/<BDB_UID>
-  ```
-
-- Set the database's
-  [data persistence]({{< relref "/operate/rs/databases/configure/database-persistence" >}})
-  to AOF - fsync every 1 sec. Note that you can't set this using
-  [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}),
-  so you must either do it using the admin UI or with the following
-  [REST API]({{< relref "/operate/rs/references/rest-api" >}})
-  commands:
-
-  ```bash
-  curl -v -k -d '{"data_persistence":"aof"}' \
-    -u '<USERNAME>:<PASSWORD>' \
-    -H "Content-Type: application/json" 
-    -X PUT https://<CLUSTER_FQDN>:9443/v1/bdbs/<BDB_UID>
-  curl -v -k -d '{"aof_policy":"appendfsync-every-sec"}' \
-    -u '<USERNAME>:<PASSWORD>' \
-    -H "Content-Type: application/json" \
-    -X PUT https://<CLUSTER_FQDN>:9443/v1/bdbs/<BDB_UID>
-  ```
-
-- **Ensure that the RDI database is not clustered.** RDI will not work correctly if the
-  RDI database is clustered, but it is OK for the target database to be clustered.
+{{< embed-md "rdi-db-reqs.md" >}}
 
 ### Prepare the pipeline
 

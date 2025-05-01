@@ -65,7 +65,7 @@ In the example below, we write to a stream concurrently from two regions. Notice
 Notice also that the synchronized streams contain no duplicate IDs. As long as you allow the database to generate your stream IDs, you'll never have more than one stream entry with the same ID.
 
 {{< note >}}
-Redis Community Edition uses one radix tree (referred to as `rax` in the code base) to implement each stream. However, Active-Active databases implement a single logical stream using one `rax` per region.
+Redis Open Source uses one radix tree (referred to as `rax` in the code base) to implement each stream. However, Active-Active databases implement a single logical stream using one `rax` per region.
 Each region adds entries only to its associated `rax` (but can remove entries from all `rax` trees).
 This means that XREAD and XREADGROUP iterate simultaneously over all `rax` trees and return the appropriate entry by comparing the entry IDs from each `rax`.
 {{< /note >}}
@@ -147,7 +147,7 @@ Because Active-Active databases replicate asynchronously, providing your own IDs
 In this scenario, two entries with the ID `100-1` are added at _t1_. After syncing, the stream `x` contains two entries with the same ID.
 
 {{< note >}}
-Stream IDs in Redis Community Edition consist of two integers separated by a dash ('-'). When the server generates the ID, the first integer is the current time in milliseconds, and the second integer is a sequence number. So, the format for stream IDs is MS-SEQ.
+Stream IDs in Redis Open Source consist of two integers separated by a dash ('-'). When the server generates the ID, the first integer is the current time in milliseconds, and the second integer is a sequence number. So, the format for stream IDs is MS-SEQ.
 {{< /note >}}
 
 To prevent duplicate IDs and to comply with the original Redis streams design, Active-Active databases provide three ID modes for XADD:
@@ -181,7 +181,7 @@ rladmin tune db crdb crdt_xadd_id_uniqueness_mode liberal
 
 ### Iterating a stream with XREAD
 
-In Redis Community Edition and in non-Active-Active databases, you can use XREAD to iterate over the entries in a Redis Stream. However, with an Active-Active database, XREAD may skip entries. This can happen when multiple regions write to the same stream.
+In Redis Open Source and in non-Active-Active databases, you can use XREAD to iterate over the entries in a Redis Stream. However, with an Active-Active database, XREAD may skip entries. This can happen when multiple regions write to the same stream.
 
 In the example below, XREAD skips entry `115-2`.
 
@@ -211,7 +211,7 @@ Active-Active databases fully support consumer groups with Redis Streams. Here i
 
 
 {{< note >}}
-Redis Community Edition uses one radix tree (`rax`) to hold the global pending entries list and another `rax` for each consumer's PEL.
+Redis Open Source uses one radix tree (`rax`) to hold the global pending entries list and another `rax` for each consumer's PEL.
 The global PEL is a unification of all consumer PELs, which are disjoint.
 
 An Active-Active database stream maintains a global PEL and a per-consumer PEL for each region.
@@ -302,7 +302,7 @@ In traffic redirection, XREADGROUP may return entries that have been read but no
 
 ## Summary
 
-With Active-Active streams, you can write to the same logical stream from multiple regions. As a result, the behavior of Active-Active streams differs somewhat from the behavior you get with Redis Community Edition. This is summarized below:
+With Active-Active streams, you can write to the same logical stream from multiple regions. As a result, the behavior of Active-Active streams differs somewhat from the behavior you get with Redis Open Source. This is summarized below:
 
 ### Stream commands
 
