@@ -13,7 +13,7 @@ linkTitle: Install on K8s
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: 2
+weight: 20
 ---
 
 This guide explains how to use the RDI [Helm chart](https://helm.sh/docs/topics/charts/)

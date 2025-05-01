@@ -13,7 +13,7 @@ linkTitle: Install on VMs
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: 1
+weight: 10
 ---
 
 This guide explains how to install Redis Data Integration (RDI) on one or more VMs and integrate it with

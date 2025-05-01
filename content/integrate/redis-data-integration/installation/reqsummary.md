@@ -13,7 +13,7 @@ linkTitle: Requirements summary
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: 60
+weight: 5
 ---
 
 The sections below summarize the software and hardware requirements for
