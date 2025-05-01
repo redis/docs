@@ -13,7 +13,7 @@ linkTitle: Upgrade
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: 3
+weight: 30
 ---
 
 ## Upgrading a VM installation
@@ -23,7 +23,7 @@ Follow the steps below to upgrade an existing
 of RDI:
 
 1.  Download the RDI installer from the
-    [Redis download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-installation-1.6.5.tar.gz)
+    [Redis download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-installation-1.6.6.tar.gz)
     (in the *Modules, Tools & Integration* category) and extract it to your
     preferred installation folder.
 
@@ -97,7 +97,7 @@ installation of RDI:
     ```
 
 1.  Download the RDI helm chart tar file from the 
-    [Redis download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-1.6.5.tgz).
+    [Redis download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-1.6.6.tgz).
 
 1.  Run the `helm upgrade` command:
     

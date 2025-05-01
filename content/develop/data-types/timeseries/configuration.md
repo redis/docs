@@ -14,9 +14,9 @@ linkTitle: Configuration
 title: Configuration Parameters
 weight: 3
 ---
-## Redis Community Edition - set configuration parameters
+## Redis Open Source - set configuration parameters
 
-Before version 8.0, all time series configuration parameters are load-time parameters.
+Before Redis 8 in Redis Open Source (version 8.0), all time series configuration parameters are load-time parameters.
 Use one of the following methods to set the values of load-time configuration parameters:
 
 - Pass them as command-line arguments following the `loadmodule` argument when starting `redis-server`:
@@ -350,7 +350,7 @@ Type: integer
 
 Valid range: `[1..16]`
 
-Redis CE default: `3`
+Redis Open Source default: `3`
 
 Redis Software default: Set by plan, and automatically updates when you change your plan.
 
@@ -371,7 +371,6 @@ Version >= 8.0:
 ```
 redis> redis-server --loadmodule ./redistimeseries.so ts-num-threads 3
 ```
-
 
 ### OSS_GLOBAL_PASSWORD
 

@@ -37,7 +37,7 @@ A bootstrap configuration object.
 | node | [node_identity]({{< relref "/operate/rs/references/rest-api/objects/bootstrap/node_identity" >}}) object | Node description |
 | policy | [policy]({{< relref "/operate/rs/references/rest-api/objects/bootstrap/policy" >}}) object | Policy object |
 | recovery_filename | string | Name of backup file to recover from |
-| required_version | string | This node can only join the cluster if all nodes in the cluster have a version greater than the required_version |
+| required_version | string | This node can only join the cluster if all nodes in the cluster have a version greater than the required_version (deprecated as of Redis Enterprise Software v7.8.6) |
 | retry_time | integer | Max waiting time between retries (in seconds) |
 
 

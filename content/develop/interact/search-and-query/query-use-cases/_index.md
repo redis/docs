@@ -17,7 +17,7 @@ weight: 5
 
 **Application search and external secondary index** 
 
-Redis Community Edition supports application search, whether the source of record is Redis or another database. In the latter case, you can use Redis as an external secondary index for numeric or full-text data.
+Redis Open Source supports application search, whether the source of record is Redis or another database. In the latter case, you can use Redis as an external secondary index for numeric or full-text data.
 
 **Secondary index for Redis data**
 

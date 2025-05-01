@@ -5,11 +5,11 @@ categories:
 - stack
 - oss
 linkTitle: Debian 12 (Bookworm)
-title: Build and run Redis Community Edition 8 on Debian 12 (Bookworm)
+title: Build and run Redis Open Source on Debian 12 (Bookworm)
 weight: 15
 ---
 
-Follow the steps below to build and run Redis Community Edition 8 from its source code on a system running Debian 12 (Bookworm).
+Follow the steps below to build and run Redis Open Source from its source code on a system running Debian 12 (Bookworm).
 
 {{< note >}}
 Docker images used to produce these build notes:

@@ -17,7 +17,7 @@ weight: 6
 
 {{< note >}}
 Because of ongoing feature additions, improvements, and optimizations, JSON memory consumption may vary depending on the Redis version.
-Redis Community Edition version 8 was used for the examples on this page.
+Redis 8 in Redis Open Source was used for the examples on this page.
 {{< /note >}}
 
 Every key in Redis takes memory and requires at least the amount of RAM to store the key name, as

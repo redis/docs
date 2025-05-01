@@ -1,13 +1,13 @@
 ---
-Title: Redis Community Edition release notes
+Title: Redis Open Source release notes
 alwaysopen: false
 categories:
 - docs
 - operate
 - stack
-description: Redis Community release notes for version 7.4 and later
+description: Redis Open Source release notes for version 7.4 and later
 hideListLinks: true
-linkTitle: Redis Community Edition
+linkTitle: Redis Open Source
 tags:
 - visible
 weight: 10

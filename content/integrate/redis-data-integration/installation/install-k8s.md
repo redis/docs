@@ -13,7 +13,7 @@ linkTitle: Install on K8s
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: 2
+weight: 20
 ---
 
 This guide explains how to use the RDI [Helm chart](https://helm.sh/docs/topics/charts/)
@@ -38,7 +38,7 @@ You can use this installation on [OpenShift](https://docs.openshift.com/) and ot
 including cloud providers' K8s managed clusters.
 
 You can pull the RDI images from the 
-[download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-1.6.5.tgz)
+[download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-1.6.6.tgz)
 or from your own [private image registry](#using-a-private-image-registry).
 
 ## Before you install
@@ -51,53 +51,17 @@ Complete the following steps before running Helm:
     [Access control]({{< relref "/operate/rs/security/access-control" >}}) for
     more information).
 -   Download the RDI helm chart tar file from the
-    [download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-1.6.5.tgz).
+    [download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-1.6.6.tgz).
 -   If you want to use a private image registry,
     [prepare it with the RDI images](#using-a-private-image-registry).
 
 ### Create the RDI database
 
 RDI uses a database on your Redis Enterprise cluster to store its state
-information. *This requires Redis Enterprise v6.4 or greater*.
+information. Use the Redis console to create the RDI database with the following
+requirements:
 
-- Use the Redis console to create a database with 250MB RAM with one primary and one replica.
-- If you are deploying RDI for a production environment then secure this database with a password
-  and [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security).
-- Set the database's
-  [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}) to `noeviction`. Note that you can't set this using
-  [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}),
-  so you must either do it using the admin UI or with the following
-  [REST API]({{< relref "/operate/rs/references/rest-api" >}})
-  command:
-
-  ```bash
-  curl -v -k -d '{"eviction_policy": "noeviction"}' \
-    -u '<USERNAME>:<PASSWORD>' \
-    -H "Content-Type: application/json" \
-    -X PUT https://<CLUSTER_FQDN>:9443/v1/bdbs/<BDB_UID>
-  ```
-
-- Set the database's
-  [data persistence]({{< relref "/operate/rs/databases/configure/database-persistence" >}})
-  to AOF - fsync every 1 sec. Note that you can't set this using
-  [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}),
-  so you must either do it using the admin UI or with the following
-  [REST API]({{< relref "/operate/rs/references/rest-api" >}})
-  commands:
-
-  ```bash
-  curl -v -k -d '{"data_persistence":"aof"}' \
-    -u '<USERNAME>:<PASSWORD>' \
-    -H "Content-Type: application/json" 
-    -X PUT https://<CLUSTER_FQDN>:9443/v1/bdbs/<BDB_UID>
-  curl -v -k -d '{"aof_policy":"appendfsync-every-sec"}' \
-    -u '<USERNAME>:<PASSWORD>' \
-    -H "Content-Type: application/json" \
-    -X PUT https://<CLUSTER_FQDN>:9443/v1/bdbs/<BDB_UID>
-  ```
-
-- **Ensure that the RDI database is not clustered.** RDI will not work correctly if the
-  RDI database is clustered, but it is OK for the target database to be clustered.
+{{< embed-md "rdi-db-reqs.md" >}}
 
 You should then provide the details of this database in the [`values.yaml`](#the-valuesyaml-file)
 file as described below.
@@ -105,7 +69,7 @@ file as described below.
 ### Using a private image registry
 
 Add the RDI images from the
-[download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-1.6.5.tgz)
+[download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-1.6.6.tgz)
 to your local registry.
 The example below shows how to specify the registry and image pull secret in the
 [`values.yaml`](#the-valuesyaml-file) file for the Helm chart:
@@ -127,6 +91,10 @@ To pull images from a local registry, you must provide the image pull secret and
 -   [Amazon Elastic Kubernetes Service (EKS)](https://docs.aws.amazon.com/AmazonECR/latest/userguide/ECR_on_EKS.html)
 -   [Google Kubernetes Engine (GKE)](https://cloud.google.com/artifact-registry/docs/pull-cached-dockerhub-images)
 -   [Azure Kubernetes Service (AKS)](https://learn.microsoft.com/en-us/azure/aks/cluster-container-registry-integration?tabs=azure-cli)
+
+## Supported versions of Kubernetes and OpenShift
+
+{{< embed-md "rdi-k8s-reqs.md" >}}
 
 ## Install the RDI Helm chart
 

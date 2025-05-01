@@ -12,7 +12,9 @@ weight: 20
 You can import an existing dataset into your Redis Cloud instance from an existing Redis server or an RDB file.
 
 {{< warning >}}
-Data imported into an existing database overwrites any existing data.
+Data imported into an existing database overwrites existing data. 
+- If you import a dataset into the target database of an [Active-Passive setup]({{< relref "/operate/rc/databases/migrate-databases#sync-using-active-passive" >}}), the dataset will be overwritten by any changes to the source database.
+- If you import a dataset into one region in an [Active-Active database]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}), the dataset will also be replicated across regions.
 {{< /warning >}}
 <br/>
 {{< note >}}
@@ -26,7 +28,7 @@ Make sure the Redis version of the source database is compatible with the databa
 
 ## Import from a Redis server {#redis-server}
 
-To import a dataset from any publicly available Redis Community Edition server:
+To import a dataset from any publicly available Redis Open Source server:
 
 1. Select **Databases** from the Redis Cloud console menu and then select the target database from the database list.
 1. Select **Import**.
@@ -68,6 +70,9 @@ If your FTP username or password contains special characters such as `@`, `\`, o
     {{< /note >}}
 
 1. For sharded databases with multiple RDB files, select **Add source** to add another RDB file.
+    {{< warning >}}
+For sharded databases with multiple RDB files, make sure to add every file before proceeding.
+    {{< /warning >}}
 
 1. Select **Import**.
 

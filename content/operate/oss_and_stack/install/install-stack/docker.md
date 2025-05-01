@@ -4,15 +4,15 @@ categories:
 - operate
 - stack
 - oss
-description: How to run Redis Community Edition using Docker
+description: How to run Redis Open Source using Docker
 linkTitle: Docker
-title: Run Redis Community Edition on Docker
+title: Run Redis Open Source on Docker
 weight: 1
 ---
 
-## Run Redis Community Edition (CE) on Docker
+## Run Redis Open Source on Docker
 
-To start Redis Community Edition server, using the `redis:<version>` image, run the following command in your terminal:
+To start the Redis Open Source server using the `redis:<version>` image, run the following command in your terminal:
 
 {{< highlight bash >}}
 docker run -d --name redis -p 6379:6379 redis:<version>
