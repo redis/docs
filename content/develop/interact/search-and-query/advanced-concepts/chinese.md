@@ -9,7 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Chinese support for searching and querying in Redis Community Edition
+description: Chinese support for searching and querying in Redis Open Source
 linkTitle: Chinese
 title: Chinese support
 weight: 15

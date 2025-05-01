@@ -28,7 +28,7 @@ Make sure the Redis version of the source database is compatible with the databa
 
 ## Import from a Redis server {#redis-server}
 
-To import a dataset from any publicly available Redis Community Edition server:
+To import a dataset from any publicly available Redis Open Source server:
 
 1. Select **Databases** from the Redis Cloud console menu and then select the target database from the database list.
 1. Select **Import**.

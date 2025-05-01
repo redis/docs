@@ -4,7 +4,7 @@ categories:
 - operate
 - stack
 - oss
-description: Upgrade a Redis Community Edition cluster to Redis 8
+description: Upgrade a Redis Open Source cluster to Redis 8
 linkTitle: Redis cluster
 title: Upgrade a Redis cluster to Redis 8
 weight: 30
@@ -12,8 +12,8 @@ weight: 30
 
 {{< note >}}
 The supported upgrade paths are:
-- Redis Community Edition 7.x (with or without modules) to Redis Community Edition 8
-- Redis Stack 7.2 or 7.4 to Redis Community Edition 8
+- Redis Open Source 7.x (with or without modules) to Redis 8 in Redis Open Source
+- Redis Stack 7.2 or 7.4 to Redis 8 in Redis Open Source
 {{< /note >}}
 
 {{< note >}}
@@ -47,7 +47,7 @@ Make a copy of the files contained in each of those directories before proceedin
 
 Upgrade each node one at a time, starting with the replicas, using these steps:
 
-1. Stop the current version of Redis CE or Redis Stack server.
+1. Stop the current version of Redis Open Source or Redis Stack server.
 1. Follow the installation steps that correspond to your [Redis distribution]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) to install Redis 8.
 1. Start Redis 8 if it didn't start automatically.
 

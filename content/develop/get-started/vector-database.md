@@ -46,7 +46,7 @@ Data is often unstructured, which means that it isn't described by a well-define
 
 
 ## Create a Redis vector database
-You can use [Redis Community Edition]({{< relref "/operate/oss_and_stack/" >}}) as a vector database. It allows you to:
+You can use [Redis Open Source]({{< relref "/operate/oss_and_stack/" >}}) as a vector database. It allows you to:
 
 * Store vectors and the associated metadata within hashes or [JSON]({{< relref "/develop/data-types/json" >}}) documents
 * Create and configure secondary indices for search
@@ -61,7 +61,7 @@ The easiest way to get started is to use Redis Cloud:
    <img src="../img/free-cloud-db.png" width="500px">
 2. Follow the instructions to create a free database.
 
-This free Redis Cloud database comes out of the box with all the Redis Community Edition features.
+This free Redis Cloud database comes out of the box with all the Redis Open Source features.
 
 You can alternatively use the [installation guides]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) to install Redis on your local machine.
 

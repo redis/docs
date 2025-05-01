@@ -15,7 +15,7 @@ title: Basic constructs
 weight: 2
 ---
 
-You can use Redis Community Edition as a powerful search and query engine. It allows you to create indexes and perform efficient queries on structured data, as well as text-based and vector searches on unstructured data.
+You can use Redis Open Source as a powerful search and query engine. It allows you to create indexes and perform efficient queries on structured data, as well as text-based and vector searches on unstructured data.
 
 This section introduces the basic constructs of querying and searching, and explains how to use them to build powerful search capabilities into your applications.
 
