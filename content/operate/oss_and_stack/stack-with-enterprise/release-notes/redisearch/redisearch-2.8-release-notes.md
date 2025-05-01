@@ -13,10 +13,27 @@ weight: 91
 ---
 ## Requirements
 
-RediSearch v2.8.25 requires:
+RediSearch v2.8.26 requires:
 
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
+
+## v2.8.26 (April 2025)
+
+This is a maintenance release for RediSearch 2.8.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#5864](https://github.com/redisearch/redisearch/pull/5864) Last query result using `FT.AGGREGATE` with `ON_TIMEOUT RETURN` and using multi-threading could be missing (MOD-9222)
+- [#5863](https://github.com/redisearch/redisearch/pull/5863) Collecting empty results from shards during `FT.AGGREGATE` with RESP3 could cause a crash (MOD-9174)
+
+Improvements:
+- [#5938](https://github.com/redisearch/redisearch/pull/5938) Improved performance (reduced CPU time) of collecting vector index statistics(MOD-9354)
+- [#5800](https://github.com/redisearch/redisearch/pull/5800) Improved accuracy of index memory reporting by correcting a bug that caused negative memory counts (MOD-5904)
+
+
+Created on: 2025-04-21T14:51:40Z
 
 ## v2.8.25 (March 2025)
 

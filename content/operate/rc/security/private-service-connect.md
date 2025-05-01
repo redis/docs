@@ -109,13 +109,12 @@ Since it can take some time for the DNS changes to become active, we recommend y
 To ensure the `gcloud` script configures the endpoints correctly, do not make any changes to it.
     {{</warning>}}
 
-The `gcloud` script creates 40 endpoints in the consumer application VPC. Each endpoint appears in Google Cloud as the configured endpoint name followed by the endpoint number.
+The `gcloud` script creates a PSC endpoint and a DNS response policy in the consumer application VPC.
 
-Redis Cloud displays this collection of endpoints as a single endpoint in the Redis Cloud console.
 
 ### Accept PSC connection {#accept-psc}
 
-After the `gcloud` script finishes creating the Private Service Connect endpoints, you need to accept the connection in Redis Cloud:
+After the `gcloud` script finishes creating the Private Service Connect endpoint, you need to accept the connection in Redis Cloud:
 
 1. In the Redis Cloud console, return to your subscription's **Connectivity > Private Service Connect** screen.
 
@@ -156,7 +155,7 @@ To deactivate Private Service Connect for your subscription:
 
     1. Copy the provided `gcloud` script from the **Remove endpoint** dialog.
 
-    1. Run the `gcloud` script with [`gcloud` CLI](https://cloud.google.com/sdk/gcloud) to delete the endpoint.
+    1. Run the `gcloud` script with [`gcloud` CLI](https://cloud.google.com/sdk/gcloud) to delete the endpoint and DNS response policy.
 
 1. After you remove all endpoints, select the **Actions** button to see a list of available actions:
 
@@ -173,8 +172,6 @@ Once you remove all of your Private Service Connect endpoints and deactivate it,
 Private Service Connect has the following limitations in Redis Cloud:
 
 - Although Redis Cloud supports using Private Service Connect with Enterprise clustering, you cannot use the [Cluster API]({{< relref "/operate/rc/databases/create-database#oss-cluster-api" >}}) with Private Service Connect enabled.
-
-- Private Service Connect is not available for clusters with Redis versions 6.2.12 and earlier. Contact [Redis support](https://redis.io/support) to upgrade the cluster to a compatible version or [create a new subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}).
 
 ## Continue learning with Redis University
 
