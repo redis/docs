@@ -24,7 +24,7 @@ Each item in the checklist below links to the section
 for a recommendation. Use the checklist icons to record your
 progress in implementing the recommendations.
 
-{{< checklist "prodlist" >}}
+{{< checklist "pyprodlist" >}}
     {{< checklist-item "#connection-pooling" >}}Connection pooling{{< /checklist-item >}}
     {{< checklist-item "#client-side-caching" >}}Client-side caching{{< /checklist-item >}}
     {{< checklist-item "#retries" >}}Retries{{< /checklist-item >}}
