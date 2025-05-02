@@ -24,7 +24,7 @@ Each item in the checklist below links to the section
 for a recommendation. Use the checklist icons to record your
 progress in implementing the recommendations.
 
-{{< checklist "prodlist" >}}
+{{< checklist "dotnetprodlist" >}}
     {{< checklist-item "#server-maintenance-event-handling" >}}Server maintenance event handling{{< /checklist-item >}}
     {{< checklist-item "#exception-handling" >}}Exception handling{{< /checklist-item >}}
 {{< /checklist >}}
