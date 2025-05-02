@@ -28,7 +28,6 @@ progress in implementing the recommendations.
     {{< checklist-item "#connection-pooling" >}}Connection pooling{{< /checklist-item >}}
     {{< checklist-item "#client-side-caching" >}}Client-side caching{{< /checklist-item >}}
     {{< checklist-item "#retries" >}}Retries{{< /checklist-item >}}
-    {{< checklist-item "#timeouts" >}}Timeouts{{< /checklist-item >}}
     {{< checklist-item "#health-checks" >}}Health checks{{< /checklist-item >}}
     {{< checklist-item "#exception-handling" >}}Exception handling{{< /checklist-item >}}
 {{< /checklist >}}
@@ -68,11 +67,11 @@ such as temporary network outages or timeouts. When this happens,
 the operation will generally succeed after a few attempts, despite
 failing the first time.
 
-You can configure `redis-py` to retry connections automatically after
-specified errors occur. Use an instance of the `Retry` class to
-specify the number of times to retry after a failure and a backoff
-strategy to determine the time between attempts. For example, the
-following code creates a `Retry` with
+You can configure `redis-py` to retry commands automatically when
+errors occur. Use an instance of the `Retry` class to
+specify the number of times to retry after a failure. You can also
+specify a backoff strategy to control the time gap between attempts.
+For example, the following code creates a `Retry` with
 [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff)
 that will make three repeated attempts after a failure:
 
@@ -87,7 +86,7 @@ retry = Retry(ExponentialBackoff(), 3)
 Pass the `Retry` instance in the `retry` parameter when you connect
 to Redis. When you are connecting to a standalone Redis server,
 you can also set the `retry_on_timeout` parameter to `True`
-to retry only after timeout errors, or pass a list of exception
+(to retry only after timeout errors), or pass a list of exception
 types in the `retry_on_error` parameter.
 
 ```py
@@ -120,38 +119,9 @@ If you specify either `retry_on_timeout` or `retry_on_error` without
 a `retry` parameter, the default is to retry once immediately with no
 backoff.
 
-For a connection to a Redis cluster, you can specify a `retry` instance.
-However, the list of exceptions is not configurable and is always set
-to `TimeoutError`, `ConnectionError`, and `ClusterDownError`. You can use
-the `cluster_error_retry_attempts` parameter to specify the number of
-attempts to make after encountering one of these errors:
-
-```py
-
-```
-
-### Timeouts
-
-If a network or server error occurs while your code is opening a
-connection or issuing a command, it can end up hanging indefinitely.
-You can prevent this from happening by setting timeouts for socket
-reads and writes and for opening connections.
-
-To set a timeout for a connection, use the `JedisPooled` or `JedisPool` constructor with the `timeout` parameter, or use `JedisClientConfig` with the `socketTimeout` and `connectionTimeout` parameters.
-(The socket timeout is the maximum time allowed for reading or writing data while executing a
-command. The connection timeout is the maximum time allowed for establishing a new connection.)
-
-```java
-HostAndPort hostAndPort = new HostAndPort("localhost", 6379);
-
-JedisPooled jedisWithTimeout = new JedisPooled(hostAndPort,
-    DefaultJedisClientConfig.builder()
-        .socketTimeoutMillis(5000)  // set timeout to 5 seconds
-        .connectionTimeoutMillis(5000) // set connection timeout to 5 seconds
-        .build(),
-    poolConfig
-);
-```
+For a connection to a Redis cluster, you can specify a `retry` instance,
+but the list of exceptions is not configurable and is always set
+to `TimeoutError`, `ConnectionError`, and `ClusterDownError`.
 
 ### Health checks
 
@@ -184,31 +154,26 @@ reporting failure.
 
 Redis handles many errors using return values from commands, but there
 are also situations where exceptions can be thrown. In production code,
-you should handle exceptions wherever they can occur. In particular,
-exceptions can occur when you
-[connect to the server]({{< relref "/develop/clients/redis-py/connect" >}}),
-create a [query index]({{< relref "/develop/interact/search-and-query/indexing" >}}),
-or execute a
-[watched transaction]({{< relref "/develop/clients/redis-py/transpipe#watch-keys-for-changes" >}}).
+you should handle exceptions wherever they can occur. 
 
-#### General exceptions
+Import the exceptions you need to check from the `redis.exceptions`
+module. The list below describes some of the most common exceptions.
 
-In general, Jedis can throw the following exceptions while executing commands:
-
-- `JedisConnectionException` - when the connection to Redis is lost or closed unexpectedly. Configure failover to handle this exception automatically with Resilience4J and the built-in Jedis failover mechanism.  
-- `JedisAccessControlException` - when the user does not have the permission to execute the command or the user ID and/or password are incorrect.
-- `JedisDataException` - when there is a problem with the data being sent to or received from the Redis server. Usually, the error message will contain more information about the failed command.
-- `JedisException` - this exception is a catch-all exception that can be thrown for any other unexpected errors.
-
-Conditions when `JedisException` can be thrown:
-- Bad return from a health check with the [`PING`]({{< relref "/commands/ping" >}}) command
-- Failure during SHUTDOWN
-- Pub/Sub failure when issuing commands (disconnect)
-- Any unknown server messages
-- Sentinel: can connect to sentinel but master is not monitored or all Sentinels are down.
-- MULTI or DISCARD command failed 
-- Shard commands key hash check failed or no Reachable Shards
-- Retry deadline exceeded/number of attempts (Retry Command Executor)
-- POOL - pool exhausted, error adding idle objects, returning broken resources to the pool
-
-All the Jedis exceptions are runtime exceptions and in most cases irrecoverable, so in general bubble up to the API capturing the error message.
+- `ConnectionError`: Thrown when a connection attempt fails
+  (for example, when connection parameters are invalid or the server
+  is unavailable) and sometimes when a [health check](#health-checks)
+  fails. There is also a subclass, `AuthenticationError`, specifically
+  for authentication failures.
+- `ResponseError`: Thrown when you attempt an operation that has no valid
+  response. Examples include executing a command on the wrong type of key
+  (as when you try an
+  ['LPUSH']({{< relref "/develop/data-types/lists#automatic-creation-and-removal-of-keys" >}})
+  command on a string key), creating an
+  [index]({{< relref "/develop/interact/search-and-query/indexing" >}})
+  with a name that already exists, and using an invalid ID for a
+  [stream entry]({{< relref "/develop/data-types/streams/#entry-ids" >}}).
+- `TimeoutError`: Thrown when a timeout persistently happens for a command,
+  despite any [retries](#retries).
+- `WatchError`: Thrown when a
+  [watched key]({{< relref "/develop/clients/redis-py/transpipe#watch-keys-for-changes" >}}) is
+  modified during a transaction.
