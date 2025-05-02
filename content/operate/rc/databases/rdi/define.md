@@ -57,12 +57,8 @@ After your pipeline is provisioned, you will be able to define your pipeline. Yo
 
 ### Configure a new pipeline
 
-1. In the [Redis Cloud console](https://cloud.redis.io/), go to your target database and select the **Data Pipeline** tab. If your pipeline is already provisioned, select **Complete setup** to go to the **Pipeline definition** section.
+1. In the [Redis Cloud console](https://cloud.redis.io/), go to your target database and select the **Data Pipeline** tab. If your pipeline is already provisioned, select **Complete setup** to go to the **Select data** section.
     {{<image filename="images/rc/rdi/rdi-complete-setup.png" alt="The complete setup button." width=200px >}}
-1. For the **Configure a new pipeline** option, select the Redis data type to write keys to the target. You can choose **Hash** or **JSON** if the target database supports JSON. 
-    {{<image filename="images/rc/rdi/rdi-configure-new-pipeline.png" alt="The Pipeline definition screen. Configure a new pipeline is selected." width=75% >}}
-    Select **Continue**.
-    {{<image filename="images/rc/rdi/rdi-continue-button.png" alt="The continue button." width=150px >}}
 1. Select the Schema and Tables you want to migrate to the target database from the **Source data selection** list. 
     {{<image filename="images/rc/rdi/rdi-select-source-data.png" alt="The select source data section. " width=75% >}}
 
@@ -87,6 +83,11 @@ After your pipeline is provisioned, you will be able to define your pipeline. Yo
     After you've selected the schemas and tables you want to sync, select **Continue**.
 
      {{<image filename="images/rc/rdi/rdi-continue-button.png" alt="The continue button." width=150px >}}
+    
+1. In the **Pipeline definition** section, select the Redis data type to write keys to the target. You can choose **Hash** or **JSON** if the target database supports JSON. 
+    {{<image filename="images/rc/rdi/rdi-configure-new-pipeline.png" alt="The pipeline definition screen." width=75% >}}
+    Select **Continue**.
+    {{<image filename="images/rc/rdi/rdi-continue-button.png" alt="The continue button." width=150px >}}
 
 1. Review the tables you selected in the **Summary**. If everything looks correct, select **Start ingest** to start ingesting data from your source database.
 

@@ -1,19 +1,21 @@
 ---
-Title: View data pipeline
+Title: View and edit data pipeline
 alwaysopen: false
 categories:
 - docs
 - operate
 - rc
-description: Observe and stop your data pipeline.
+description: Observe and change your data pipeline.
 hideListLinks: true
 weight: 3
 ---
 
-Use the **Data pipeline** tab in your database to view your data pipeline.
+Use the **Data pipeline** tab in your database to view and edit your data pipeline.
 
 The **Data pipeline** tab gives an overview of your data pipeline and lets you view your data stream metrics. 
 
+
+<--! TODO: REPLACE SCREENSHOT -->
 {{<image filename="images/rc/rdi/rdi-status-metrics-tables.png" alt="The select source database type list." width=80% >}}
 
 The **Status** table shows statistics for the whole data pipeline: 
@@ -41,7 +43,6 @@ The **Data stream metrics** table shows the following metrics for each data stre
 | **Filtered** | Number of records from the source table that were filtered from being inserted into the target database. |
 | **Rejected** | Number of records from the source table that could not be parsed or inserted into the target database. |
 
-<!-- DOUBLE CHECK THIS BEFORE PHASE 2
 ## Edit data pipeline
 
 To change the data you want to ingest from the data pipeline:
@@ -49,14 +50,6 @@ To change the data you want to ingest from the data pipeline:
 1. From the **Data pipeline** tab, select **Edit**.
 
     {{<image filename="images/rc/rdi/rdi-edit-button.png" alt="The edit pipeline button." width=100px >}}
-
-1. For the **Configure a new pipeline** option, select the Redis data type to write keys to the target. You can choose **Hash** or **JSON**. 
-
-    {{<image filename="images/rc/rdi/rdi-configure-new-pipeline.png" alt="The Pipeline definition screen. Configure a new pipeline is selected." width=75% >}}
-    
-    Select **Continue**.
-    
-    {{<image filename="images/rc/rdi/rdi-continue-button.png" alt="The continue button." width=150px >}}
 
 1. Select the schema and tables you want to migrate to the target database from the **Source data selection** list. 
 
@@ -84,13 +77,25 @@ To change the data you want to ingest from the data pipeline:
 
      {{<image filename="images/rc/rdi/rdi-continue-button.png" alt="The continue button." width=150px >}}
 
+1. In the **Pipeline definition** section, select the Redis data type to write keys to the target. You can choose **Hash** or **JSON** if the target database supports JSON. 
+
+    {{<image filename="images/rc/rdi/rdi-configure-new-pipeline.png" alt="The Pipeline definition screen. Configure a new pipeline is selected." width=75% >}}
+    
+    Select **Continue**.
+    
+    {{<image filename="images/rc/rdi/rdi-continue-button.png" alt="The continue button." width=150px >}}
+
 1. Review the tables you selected in the **Summary** and select how you want to update the data pipeline:
+
+    {{<image filename="images/rc/rdi/rdi-update-preferences.png" alt="The Select update preferences section." width=25% >}}
 
     - **Apply to new data changes only**: The data pipeline will only synchronize new updates to the schema and tables selected. The data pipeline will not ingest any data from new schemas or tables that are selected.
     - **Reset pipeline (re-process all data)**: The data pipeline will re-ingest all of the selected data.
     - **Flush cached data and reset pipeline**: The data pipeline will flush the target Redis database, and then re-ingest all of the selected data from the source database.
 
 1. Select **Apply changes**.
+
+    {{<image filename="images/rc/rdi/rdi-apply-changes.png" alt="The apply changes button." width=150px >}}
 
 At this point, the data pipeline will apply the changes. If you selected **Reset pipeline** or **Flush cached data and reset pipeline**, the data pipeline will ingest data from the source database to the target database. After this initial sync is complete, the data pipeline enters the *change streaming* phase, where changes are captured as they happen.
 
@@ -108,7 +113,7 @@ To reset the data pipeline and restart the ingest process:
 
 1. Select **Reset data pipeline**.
 
-At this point, the data pipeline will re-ingest data from the source database to your target Redis database. -->
+At this point, the data pipeline will re-ingest data from the source database to your target Redis database.
 
 ## Stop and restart data pipeline
 
