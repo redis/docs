@@ -18,15 +18,25 @@ Follow these steps to install Redis Open Source.
 
 1. Create the file `/etc/yum.repos.d/redis.repo` with the following contents.
 
-    {{< highlight bash >}}
+    - For Rocky Linux 9 / AlmaLinux 9 / etc...
+    {{< highlight ini >}}
     [Redis]
     name=Redis
-    baseurl=http://packages.redis.io/rpm/rhel9 # replace rhel9 with the appropriate value for your platform and remove this comment
+    baseurl=http://packages.redis.io/rpm/rockylinux9
     enabled=1
     gpgcheck=1
     {{< /highlight >}}
 
-1. Run the following commands:
+    - For Rocky Linux 8 / AlmaLinux 8 / etc...
+    {{< highlight ini >}}
+    [Redis]
+    name=Redis
+    baseurl=http://packages.redis.io/rpm/rockylinux8
+    enabled=1
+    gpgcheck=1
+    {{< /highlight >}}
+
+2. Run the following commands:
 
     {{< highlight bash >}}
     curl -fsSL https://packages.redis.io/gpg > /tmp/redis.key
