@@ -35,11 +35,11 @@ To create or edit a cloud account in Redis Cloud:
 
     This displays a list of cloud accounts associated with your Redis Cloud subscription.
 
-    {{<image filename="images/rc/account-settings-cloud-account-tab.png" alt="Use the Cloud Account tab of the Account Settings screen to define cloud accounts for your Redis Cloud subscription." width="75%">}}
+    {{<image filename="images/rc/account-settings-cloud-account-tab.png" alt="Use the Cloud Account tab of the Account Settings screen to define cloud accounts for your Redis Cloud subscription." width="80%">}}
 
 The **Cloud account** tab lets you manage cloud accounts associated with your Redis Cloud subscription.
 
-The **Cloud Account** tab is not available (or supported) for Redis Cloud Essentials subscriptions.  If you do not see a **Cloud Account** tab on the Account Settings page, verify that you have selected a Redis Cloud Essentials subscription. 
+The **Cloud Account** tab is only available for accounts with Redis Cloud Bring your own Cloud (BYOC) subscriptions.
 
 ## Add a new cloud account
 
@@ -47,9 +47,9 @@ To add a new cloud account to your Redis Cloud subscription, select the **Add** 
 
 {{<image filename="images/rc/icon-cloud-account-add.png" alt="Use the Add button to add new cloud accounts to your Redis Cloud subscription." width="36px">}}
 
-This displays the **Add cloud account** dialog
+This displays the **Add cloud account** dialog.
 
-{{<image filename="images/rc/account-settings-prompt-add-cloud-account.png" alt="Use the Add cloud account prompt to enter the details of the cloud account." width="50%">}}
+{{<image filename="images/rc/account-settings-prompt-add-cloud-account.png" alt="Use the Add cloud account prompt to enter the details of the cloud account." width="75%">}}
 
 Each of the following fields are required.
 
@@ -84,7 +84,7 @@ To update the details of a cloud account associated with your Redis Cloud subscr
 
 This displays the **Edit cloud account** dialog:
 
-{{<image filename="images/rc/account-settings-prompt-edit-cloud-account.png" alt="Use the Edit cloud account prompt to update the details of the cloud account." width="50%">}}
+{{<image filename="images/rc/account-settings-prompt-edit-cloud-account.png" alt="Use the Edit cloud account prompt to update the details of the cloud account." width="75%">}}
 
 |Setting|Description|
 |-------|-----------|

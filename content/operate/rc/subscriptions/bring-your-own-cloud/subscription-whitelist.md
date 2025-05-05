@@ -32,6 +32,8 @@ To add IP addresses or [AWS security groups](https://docs.aws.amazon.com/managed
 
 1. If the allow list is empty, select **Add allow list**.
 
+    {{<image filename="images/rc/button-subscription-allow-list-add.png" alt="Use the Add allow list button to create an allow list." width="140px">}}
+
 1. Select an entry **Type** from the list:
 
     {{<image filename="images/rc/subscription-connectivity-allow-list-type-dropdown.png" alt="Select the type of entry to add to the allow list from the Type list." >}}
@@ -42,14 +44,22 @@ To add IP addresses or [AWS security groups](https://docs.aws.amazon.com/managed
 
     - The AWS security group ID
 
-1. Select check to add the entry to the allow list.
+1. Select the check to add the entry to the allow list.
 
 1. To allow additional IP addresses or security groups:
 
-    1. Select **Add entry**.
+    1. Select **Add** to add a new entry.
 
-    1. Select the new entry's **Type**, enter the **Value**, and select check to add it to the allow list.
+    {{<image filename="images/rc/icon-cloud-account-add.png" alt="The Add button adds new entries to the allow list." width="36px">}}
+
+    1. Select the new entry's **Type**, enter the **Value**, and select the check to add it to the allow list.
 
         {{<image filename="images/rc/subscription-connectivity-allow-list-add-entry.png" alt="Define the new entry and select the Submit entry button to add it to the allow list." >}}
+    
+    You can also select the **Edit** button to change an entry or the **Delete** button to remove it.
 
+    {{<image filename="images/rc/icon-cloud-account-edit.png#no-click" alt="The Edit button updates an entry in the allow list." width="36px" class="inline" >}}&nbsp;{{<image filename="images/rc/icon-cloud-account-delete.png#no-click" alt="The Delete button removes an entry from the allow list." width="36px" class="inline" >}}
+    
 1. Select **Apply all changes** to apply the allow list updates.
+
+    {{<image filename="images/rc/button-subscription-allow-list-apply-all.png" alt="The Apply all changes button saves your allow list changes." width="140px">}}
