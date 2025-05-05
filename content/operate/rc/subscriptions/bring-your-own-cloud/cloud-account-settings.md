@@ -68,8 +68,6 @@ Be sure to create the resources before adding the cloud account to your subscrip
 
 When problems occur, an information icon appears and the field is highlighted in red.  When this happens, the icon includes a tooltip that explains the issue.
 
-{{<image filename="images/rc/account-settings-prompt-cloud-account-error.png" alt="When errors occur, the field is highlighted in red and a notification icon appears.  The icon tooltip describes the problem." width="50%">}}
-
 If the **Add account** button is inactive, verify that:
 
 - You've specified all field values correctly
@@ -93,8 +91,7 @@ This displays the **Edit cloud account** dialog:
 | _Account name_ | A descriptive name for your cloud account settings |
 | _AWS access key_ | The AWS access key for the programmatic user created to support your cloud account settings |
 | _AWS secret key_ | The AWS secret key for the programmatic user created to support your cloud account settings |
-| <nobr>_AWS console username_</nobr> | The username for the AWS console |
-| _AWS console password_ | The password for AWS console access |
+| _IAM role name_ | The name of the AWS console role with access to the AWS console |
 
 Use the **Update account** button to save your changes.
 
