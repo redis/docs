@@ -8,7 +8,6 @@ description: How to install Redis Open Source using RPM
 linkTitle: RPM
 title: Install Redis Open Source on Linux
 weight: 3
-bannerText: These installation instructions are not yet complete for Redis 8 in Redis Open Source (Redis 8). For installation instructions prior to Redis 8, see [these pages]({{< relref "/operate/oss_and_stack/install/archive" >}}).
 ---
 
 ## Install Redis Open Source on Red Hat, CentOS, or Rocky Linux using RPM
@@ -18,7 +17,7 @@ Follow these steps to install Redis Open Source.
 
 1. Create the file `/etc/yum.repos.d/redis.repo` with the following contents.
 
-    - For Rocky Linux 9 / AlmaLinux 9 / etc...
+    - For Rocky Linux 9 and AlmaLinux 9
     {{< highlight ini >}}
     [Redis]
     name=Redis
@@ -27,7 +26,7 @@ Follow these steps to install Redis Open Source.
     gpgcheck=1
     {{< /highlight >}}
 
-    - For Rocky Linux 8 / AlmaLinux 8 / etc...
+    - For Rocky Linux 8 and AlmaLinux 8
     {{< highlight ini >}}
     [Redis]
     name=Redis
@@ -42,12 +41,12 @@ Follow these steps to install Redis Open Source.
     curl -fsSL https://packages.redis.io/gpg > /tmp/redis.key
     sudo rpm --import /tmp/redis.key
     sudo yum install epel-release
-    sudo yum install redis-server
+    sudo yum install redis
     {{< / highlight >}}
 
 Redis will not start automatically, nor will it start at boot time. To do this, run the following commands.
 
 {{< highlight bash >}}
-sudo systemctl enable redis-server
-sudo systemctl start redis-server
+sudo systemctl enable redis
+sudo systemctl start redis
 {{< /highlight >}}
