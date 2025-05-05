@@ -13,7 +13,7 @@ categories:
 description: Server-assisted, client-side caching in Redis
 linkTitle: Client-side caching
 title: Client-side caching introduction
-weight: 20
+weight: 30
 ---
 
 *Client-side caching* reduces network traffic between
@@ -98,7 +98,7 @@ will use cached data, except for the following:
     and [`ZRANDMEMBER`]({{< relref "/commands/zrandmember" >}}). By design, these commands
     give different results each time they are called.
 -   Redis Query Engine commands (with the `FT.*` prefix), such as
-    [`FT.SEARCH`]({{< baseurl >}}commands/ft.search).
+    [`FT.SEARCH`]({{< relref "commands/ft.search" >}}).
 
 You can use the [`MONITOR`]({{< relref "/commands/monitor" >}}) command to
 check the server's behavior when you are using client-side caching. Because `MONITOR` only

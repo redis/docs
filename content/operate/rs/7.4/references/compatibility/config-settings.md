@@ -1,18 +1,18 @@
 ---
-Title: Compatibility with Redis Community Edition configuration settings
+Title: Compatibility with Redis Open Source configuration settings
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
 - rc
-description: Redis Community Edition configuration settings supported by Redis Enterprise.
+description: Redis Open Source configuration settings supported by Redis Enterprise.
 linkTitle: Configuration settings
 weight: 50
 url: '/operate/rs/7.4/references/compatibility/config-settings/'
 ---
 
-Redis Enterprise Software and [Redis Cloud]({{< relref "/operate/rc" >}}) only support a subset of [Redis Community Edition configuration settings]({{<relref "/operate/oss_and_stack/management/config">}}). Using [`CONFIG GET`]({{< relref "/commands/config-get" >}}) or [`CONFIG SET`]({{< relref "/commands/config-set" >}}) with unsupported configuration settings returns an error.
+Redis Enterprise Software and [Redis Cloud]({{< relref "/operate/rc" >}}) only support a subset of [Redis Open Source configuration settings]({{<relref "/operate/oss_and_stack/management/config">}}). Using [`CONFIG GET`]({{< relref "/commands/config-get" >}}) or [`CONFIG SET`]({{< relref "/commands/config-set" >}}) with unsupported configuration settings returns an error.
 
 | Setting | Redis<br />Enterprise | Redis<br />Cloud | Notes |
 |:--------|:----------------------|:-----------------|:------|

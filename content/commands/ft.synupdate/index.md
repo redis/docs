@@ -1,4 +1,6 @@
 ---
+acl_categories:
+- '@search'
 arguments:
 - name: index
   type: string
@@ -88,7 +90,7 @@ OK
 
 ## See also
 
-[`FT.SYNDUMP`]({{< baseurl >}}commands/ft.syndump/) 
+[`FT.SYNDUMP`]({{< relref "commands/ft.syndump/" >}}) 
 
 ## Related topics
 

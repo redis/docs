@@ -17,7 +17,7 @@ title: Count-min sketch
 weight: 60
 ---
 
-Count-Min Sketch is a probabilistic data structure in Redis Stack that can be used to estimate the frequency of events/elements in a stream of data.
+Count-Min Sketch is a probabilistic data structure in Redis Open Source that can be used to estimate the frequency of events/elements in a stream of data.
 
 It uses a sub-linear space at the expense of over-counting some events due to collisions. It consumes a stream of events/elements and keeps estimated counters of their frequency.
 
@@ -100,7 +100,7 @@ or
 error = threshold/total_count
 ```
 
-where `total_count` is the sum of the count of all elements that can be obtained from the `count` key of the result of the [`CMS.INFO`]({{< baseurl >}}commands/cms.info/) command and is of course dynamic - it changes with every new increment in the sketch. At creation time you can approximate the `total_count` ratio as a product of the average count you'll be expecting in the sketch and the average number of elements.
+where `total_count` is the sum of the count of all elements that can be obtained from the `count` key of the result of the [`CMS.INFO`]({{< relref "commands/cms.info/" >}}) command and is of course dynamic - it changes with every new increment in the sketch. At creation time you can approximate the `total_count` ratio as a product of the average count you'll be expecting in the sketch and the average number of elements.
 
 Since the threshold is a function of the total count in the filter it's very important to note that it will grow as  the count grows, but knowing the total count we can always dynamically calculate the threshold. If a result is below it - it can be discarded.
 

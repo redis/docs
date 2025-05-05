@@ -9,7 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Chinese support for searching and querying in Redis Stack
+description: Chinese support for searching and querying in Redis Open Source
 linkTitle: Chinese
 title: Chinese support
 weight: 15
@@ -29,7 +29,7 @@ Chinese tokenization is done by scanning the input text and checking every
 character or sequence of characters against a dictionary of predefined terms,
 and determining the most likely match based on the surrounding terms and characters.
 
-Redis Stack makes use of the [Friso](https://github.com/lionsoul2014/friso)
+Redis makes use of the [Friso](https://github.com/lionsoul2014/friso)
 Chinese tokenization library for this purpose. This is largely transparent to
 the user and often no additional configuration is required.
 

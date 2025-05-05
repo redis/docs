@@ -20,7 +20,7 @@ crdb-cli crdb purge-instance --crdb-guid <guid>
          [ --no-wait ]
 ```
 
-Once this command finishes, the other replicas must remove this instance with [`crdb-cli crdb remove-instance --force`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli/crdb/remove-instance" >}}).
+Once this command finishes, the other replicas must remove this instance with [`crdb-cli crdb remove-instance --force`]({{< relref "/operate/rs/7.4/references/cli-utilities/crdb-cli/crdb/remove-instance" >}}).
 
 ### Parameters
 

@@ -147,7 +147,7 @@ As of Redis Enterprise version 6.4.2, you can configure `acl_pubsub_default`, wh
 
 To make default pub/sub permissions restrictive:
 
-1. [Upgrade all databases]({{< relref "/operate/rs/installing-upgrading/upgrading/upgrade-database" >}}) in the cluster to Redis version 6.2 or later.
+1. [Upgrade all databases]({{< relref "/operate/rs/7.4/installing-upgrading/upgrading/upgrade-database" >}}) in the cluster to Redis version 6.2 or later.
 
 1. Set the default to restrictive (`resetchannels`) using one of the following methods:
 
@@ -157,13 +157,13 @@ To make default pub/sub permissions restrictive:
         
         1. For **Default permissions for Pub/Sub ACLs**, select **Restrictive**, then **Save**.
 
-    - [`rladmin tune cluster`]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-cluster" >}}):
+    - [`rladmin tune cluster`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/tune#tune-cluster" >}}):
 
         ```sh
         rladmin tune cluster acl_pubsub_default resetchannels
         ```
 
-    - [Update cluster policy]({{< relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) REST API request:
+    - [Update cluster policy]({{< relref "/operate/rs/7.4/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) REST API request:
 
         ```sh
         PUT /v1/cluster/policy
@@ -190,11 +190,11 @@ Redis ACLs also have the following differences in Redis Enterprise Software:
 
     To configure passwords in Redis Enterprise Software, use one of the following methods:
 
-    - [`rladmin cluster reset_password`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/reset_password" >}}):
+    - [`rladmin cluster reset_password`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/cluster/reset_password" >}}):
     
         ```sh
         rladmin cluster reset_password <user email>
         ```
 
-    - REST API [`PUT /v1/users`]({{< relref "/operate/rs/references/rest-api/requests/users#put-user" >}}) request and provide `password`
+    - REST API [`PUT /v1/users`]({{< relref "/operate/rs/7.4/references/rest-api/requests/users#put-user" >}}) request and provide `password`
 

@@ -16,7 +16,7 @@ title: Advanced concepts
 weight: 7
 ---
 
-Redis Stack supports the following Redis Query Engine features. This article provides you an overview.
+Redis Open Source supports the following Redis Query Engine features. This article provides you an overview.
 
 ## Indexing features
 
@@ -46,18 +46,18 @@ Redis Stack supports the following Redis Query Engine features. This article pro
 
 * [Prefix-based searches]({{< relref "/develop/interact/search-and-query/query/#prefix-matching" >}})
 * Field weights
-* [Auto-complete]({{< baseurl >}}develop/interact/search-and-query/administration/overview#auto-complete) and fuzzy prefix suggestions
-* [Stemming]({{< relref "/develop/interact/search-and-query/advanced-concepts/stemming" >}})-based query expansion for [many languages]({{< baseurl >}}develop/interact/search-and-query/advanced-concepts/stemming#supported-languages) using [Snowball](http://snowballstem.org/)
+* [Auto-complete]({{< relref "develop/interact/search-and-query/administration/overview#auto-complete" >}}) and fuzzy prefix suggestions
+* [Stemming]({{< relref "/develop/interact/search-and-query/advanced-concepts/stemming" >}})-based query expansion for [many languages]({{< relref "develop/interact/search-and-query/advanced-concepts/stemming#supported-languages" >}}) using [Snowball](http://snowballstem.org/)
 * Support for custom functions for query expansion and scoring (see [Extensions]({{< relref "/develop/interact/search-and-query/administration/extensions" >}}))
 * Unicode support (UTF-8 input required)
 * Document ranking
 
 ## Cluster support
 
-The Redis Query Engine features of Redis Stack are also available for distributed databases that can scale to billions of documents and hundreds of servers.
+The Redis Query Engine features of Redis Open Source are also available for distributed databases that can scale to billions of documents and hundreds of servers.
 
 ## Supported platforms
-Redis Stack is developed and tested on Linux and macOS on x86_64 CPUs.
+Redis Open Source is developed and tested on Linux and macOS on x86_64 CPUs.
 
 Atom CPUs are not supported.
 

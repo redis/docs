@@ -19,7 +19,7 @@ weight: 11
 [![Discord](https://img.shields.io/discord/697882427875393627?style=flat-square)](https://discord.gg/QUkjSsk)
 [![Github](https://img.shields.io/static/v1?label=&message=repository&color=5961FF&logo=github)](https://github.com/RedisJSON/RedisJSON/)
 
-The JSON capability of Redis Stack provides JavaScript Object Notation (JSON) support for Redis. It lets you store, update, and retrieve JSON values in a Redis database, similar to any other Redis data type. Redis JSON also works seamlessly with the [Redis Query Engine]({{< relref "/develop/interact/search-and-query/" >}}) to let you [index and query JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}}).
+The JSON capability of Redis Open Source provides JavaScript Object Notation (JSON) support for Redis. It lets you store, update, and retrieve JSON values in a Redis database, similar to any other Redis data type. Redis JSON also works seamlessly with the [Redis Query Engine]({{< relref "/develop/interact/search-and-query/" >}}) to let you [index and query JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}}).
 
 ## Primary features
 
@@ -30,7 +30,7 @@ The JSON capability of Redis Stack provides JavaScript Object Notation (JSON) su
 
 ## Use Redis with JSON
 
-The first JSON command to try is [`JSON.SET`]({{< baseurl >}}commands/json.set/), which sets a Redis key with a JSON value. [`JSON.SET`]({{< baseurl >}}commands/json.set/) accepts all JSON value types. This example creates a JSON string:
+The first JSON command to try is [`JSON.SET`]({{< relref "commands/json.set/" >}}), which sets a Redis key with a JSON value. [`JSON.SET`]({{< relref "commands/json.set/" >}}) accepts all JSON value types. This example creates a JSON string:
 
 {{< clients-example json_tutorial set_get >}}
 > JSON.SET bike $ '"Hyperion"'
@@ -43,7 +43,7 @@ OK
 
 Note how the commands include the dollar sign character `$`. This is the [path]({{< relref "/develop/data-types/json/path" >}}) to the value in the JSON document (in this case it just means the root).
 
-Here are a few more string operations. [`JSON.STRLEN`]({{< baseurl >}}commands/json.strlen/) tells you the length of the string, and you can append another string to it with [`JSON.STRAPPEND`]({{< baseurl >}}commands/json.strappend/).
+Here are a few more string operations. [`JSON.STRLEN`]({{< relref "commands/json.strlen/" >}}) tells you the length of the string, and you can append another string to it with [`JSON.STRAPPEND`]({{< relref "commands/json.strappend/" >}}).
 
 {{< clients-example json_tutorial str>}}
 > JSON.STRLEN bike $
@@ -54,7 +54,7 @@ Here are a few more string operations. [`JSON.STRLEN`]({{< baseurl >}}commands/j
 "[\"Hyperion (Enduro bikes)\"]"
 {{< /clients-example >}}
 
-Numbers can be [incremented]({{< baseurl >}}commands/json.numincrby/) and [multiplied]({{< baseurl >}}commands/json.nummultby/):
+Numbers can be [incremented]({{< relref "commands/json.numincrby/" >}}) and [multiplied]({{< relref "commands/json.nummultby/" >}}):
 
 {{< clients-example json_tutorial num >}}
 > JSON.SET crashes $ 0
@@ -84,7 +84,7 @@ OK
 "[[\"Deimos\",{\"crashes\":0}]]"
 {{< /clients-example >}}
 
-The [`JSON.DEL`]({{< baseurl >}}commands/json.del/) command deletes any JSON value you specify with the `path` parameter.
+The [`JSON.DEL`]({{< relref "commands/json.del/" >}}) command deletes any JSON value you specify with the `path` parameter.
 
 You can manipulate arrays with a dedicated subset of JSON commands:
 
@@ -125,10 +125,10 @@ OK
 ## Format CLI output
 
 The CLI has a raw output mode that lets you add formatting to the output from
-[`JSON.GET`]({{< baseurl >}}commands/json.get/) to make
+[`JSON.GET`]({{< relref "commands/json.get/" >}}) to make
 it more readable. To use this, run `redis-cli` with the `--raw` option
 and include formatting keywords such as `INDENT`, `NEWLINE`, and `SPACE`
-with [`JSON.GET`]({{< baseurl >}}commands/json.get/):
+with [`JSON.GET`]({{< relref "commands/json.get/" >}}):
 
 ```bash
 $ redis-cli --raw
@@ -144,11 +144,9 @@ $ redis-cli --raw
 
 ## Enable Redis JSON
 
-Redis JSON is not available by default in the basic Redis server, so you
-should install Redis Stack or Redis Enterprise,
-both of which include JSON and other useful modules.
+The Redis JSON data type is part of Redis Open Source and it is also available in Redis Software and Redis Cloud.
 See
-[Install Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) or
+[Install Redis Open Source]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) or
 [Install Redis Enterprise]({{< relref "/operate/rs/installing-upgrading/install" >}})
 for full installation instructions.
 

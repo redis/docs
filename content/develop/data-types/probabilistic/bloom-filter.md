@@ -17,7 +17,7 @@ title: Bloom filter
 weight: 10
 ---
 
-A Bloom filter is a probabilistic data structure in Redis Stack that enables you to check if an item is present in a set using a very small memory space of a fixed size.
+A Bloom filter is a probabilistic data structure in Redis Open Source that enables you to check if an element is present in a set using a very small memory space of a fixed size.
 
 Instead of storing all the items in a set, a Bloom Filter stores only the items' hashed representations, thus sacrificing some precision. The trade-off is that Bloom Filters are very space-efficient and fast.
 
@@ -31,7 +31,7 @@ This application answers the question, "Has the user paid from this location bef
  
 Use one Bloom filter per user, checked for every transaction. Provide an extremely fast response (local latency). Replicate in different regions in case the user moves. Prevent decreasing performance with scale.  
 
-Using Redis Stack's Bloom filter for this type of application provides these benefits: 
+Using the Redis Bloom filter for this type of application provides these benefits: 
 
 - Fast transaction completion 
 - Decreased possibility for transaction to break in case of network partitions (connection needs to be kept open for a shorter time) 
@@ -55,7 +55,7 @@ Use a Bloom filter for every user, storing all bought products. The recommendati
 - If no, the ad is shown to the user and is added to the Bloom filter. 
 - If yes, the process restarts and repeats until it finds a product that is not present in the filter. 
 
-Using Redis Stack's Bloom filter for this type of application provides these benefits: 
+Using the Redis Bloom filter for this type of application provides these benefits: 
 
 - Cost efficient way to a customized near real-time experience 
 - No need to invest in expensive infrastructure  
@@ -71,7 +71,7 @@ Use a Bloom filter for every username that has signed up. A new user types in th
 
 The query time stays the same at scale. 
 
-Using Redis Stack's Bloom filter for this type of application provides these benefits: 
+Using the Redis Bloom filter for this type of application provides these benefits: 
 
 - Very fast and efficient way to do a common operation 
 - No need to invest in expensive infrastructure  
@@ -101,7 +101,7 @@ OK
 Note: there is always a chance that even with just a few items, there could be a false positive, meaning an item could "exist" even though it has not been explicitly added to the Bloom filter. For a more in depth understanding of the probabilistic nature of a Bloom filter, check out the blog posts linked at the bottom of this page.
 
 ## Reserving Bloom filters
-With Redis Stack's Bloom filters most of the sizing work is done for you: 
+With the Redis Bloom filter, most of the sizing work is done for you: 
 
 ```
 BF.RESERVE {key} {error_rate} {capacity} [EXPANSION expansion] [NONSCALING]
@@ -168,7 +168,7 @@ Checking for an item is O(K) or O(K*n) for stacked filters, where n is the numbe
 
 ### Blog posts
 1. [RedisBloom Quick Start Tutorial](https://docs.redis.com/latest/modules/redisbloom/redisbloom-quickstart/)
-1. [Developing with Bloom Filters](https://docs.redis.com/latest/modules/redisbloom/)
+1. [Developing with Bloom Filters](https://redis.io/blog/bloom-filter/)
 1. [RedisBloom on Redis Enterprise](https://redis.com/redis-enterprise/redis-bloom/)
 1. [Probably and No: Redis, RedisBloom, and Bloom Filters](https://redis.com/blog/redis-redisbloom-bloom-filters/)
 1. [RedisBloom – Bloom Filter Datatype for Redis](https://redis.com/blog/rebloom-bloom-filter-datatype-redis/)

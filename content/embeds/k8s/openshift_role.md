@@ -22,18 +22,7 @@ rules:
   - apiGroups:
       - app.redislabs.com
     resources:
-      - redisenterpriseclusters
-      - redisenterpriseclusters/status
-      - redisenterpriseclusters/finalizers
-      - redisenterprisedatabases
-      - redisenterprisedatabases/status
-      - redisenterprisedatabases/finalizers
-      - redisenterpriseremoteclusters
-      - redisenterpriseremoteclusters/status
-      - redisenterpriseremoteclusters/finalizers
-      - redisenterpriseactiveactivedatabases
-      - redisenterpriseactiveactivedatabases/status
-      - redisenterpriseactiveactivedatabases/finalizers
+      - "*"
     verbs:
       - delete
       - get
@@ -84,6 +73,18 @@ rules:
       - list
       - watch
   - apiGroups:
+      - batch
+    resources:
+      - cronjobs
+    verbs:
+      - create
+      - delete
+      - get
+      - patch
+      - update
+      - list
+      - watch
+  - apiGroups:
       - policy
     resources:
       - poddisruptionbudgets
@@ -93,6 +94,7 @@ rules:
       - get
       - list
       - watch
+      - update
   - apiGroups:
       - ""
     resources:
@@ -139,14 +141,6 @@ rules:
       - delete
       - watch
   - apiGroups:
-      - policy
-    resourceNames:
-      - redis-enterprise-psp
-    resources:
-      - podsecuritypolicies
-    verbs:
-      - use
-  - apiGroups:
       - networking.k8s.io
     resources:
       - ingresses
@@ -187,7 +181,7 @@ rules:
   - apiGroups:
       - security.openshift.io
     resourceNames:
-      - nonroot
+      - nonroot-v2
     resources:
       - securitycontextconstraints
     verbs:

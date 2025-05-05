@@ -33,7 +33,7 @@ actions on all nodes.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_status_of_all_node_actions]({{< relref "/operate/rs/references/rest-api/permissions#view_status_of_all_node_actions" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
+| [view_status_of_all_node_actions]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_status_of_all_node_actions" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
 
 ### Request {#get-all-request}
 
@@ -52,7 +52,7 @@ GET /v1/nodes/actions
 
 ### Response {#get-all-response}
 
-Returns a list of [action objects]({{< relref "/operate/rs/references/rest-api/objects/action" >}}).
+Returns a list of [action objects]({{< relref "/operate/rs/7.4/references/rest-api/objects/action" >}}).
 
 ### Status codes {#get-all-status-codes}
 
@@ -72,7 +72,7 @@ Get the status of all actions on a specific node.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_status_of_node_action]({{< relref "/operate/rs/references/rest-api/permissions#view_status_of_node_action" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
+| [view_status_of_node_action]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_status_of_node_action" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
 
 ### Request {#get-request-all-actions}
 
@@ -97,7 +97,7 @@ GET /v1/nodes/1/actions
 
 ### Response {#get-response-all-actions}
 
-Returns a JSON object that includes a list of [action objects]({{< relref "/operate/rs/references/rest-api/objects/action" >}}) for the specified node.
+Returns a JSON object that includes a list of [action objects]({{< relref "/operate/rs/7.4/references/rest-api/objects/action" >}}) for the specified node.
 
 If no actions are available, the response will include an empty array.
 
@@ -155,7 +155,7 @@ GET /v1/nodes/1/actions/remove
 
 ### Response {#get-response}
 
-Returns an [action object]({{< relref "/operate/rs/references/rest-api/objects/action" >}}) for the specified node.
+Returns an [action object]({{< relref "/operate/rs/7.4/references/rest-api/objects/action" >}}) for the specified node.
 
 ### Error codes {#get-error-codes}
 
@@ -191,7 +191,7 @@ removed as soon as the new one is submitted.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [start_node_action]({{< relref "/operate/rs/references/rest-api/permissions#start_node_action" >}}) | admin |
+| [start_node_action]({{< relref "/operate/rs/7.4/references/rest-api/permissions#start_node_action" >}}) | admin |
 
 ### Request {#post-request}
 
@@ -220,7 +220,7 @@ Currently supported actions are:
 
     - By default, the remove node action completes after all resources migrate off the removed node. Node removal does not wait for migrated shards' persistence files to be created on the new nodes.
     
-        To change node removal to wait for the creation of new persistence files for all migrated shards, set `wait_for_persistence` to `true` in the request body or [update the cluster policy]({{<relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy">}}) `persistent_node_removal` to `true` to change the cluster's default behavior.
+        To change node removal to wait for the creation of new persistence files for all migrated shards, set `wait_for_persistence` to `true` in the request body or [update the cluster policy]({{<relref "/operate/rs/7.4/references/rest-api/requests/cluster/policy#put-cluster-policy">}}) `persistent_node_removal` to `true` to change the cluster's default behavior.
 
         ```sh
         POST /v1/nodes/<node_id>/actions/remove
@@ -229,7 +229,7 @@ Currently supported actions are:
         }
         ```
 
-- `maintenance_on`: Creates a snapshot of the node, migrates shards to other nodes, and prepares the node for maintenance. See [maintenance mode]({{< relref "/operate/rs/clusters/maintenance-mode" >}}) for more information.
+- `maintenance_on`: Creates a snapshot of the node, migrates shards to other nodes, and prepares the node for maintenance. See [maintenance mode]({{< relref "/operate/rs/7.4/clusters/maintenance-mode" >}}) for more information.
 
     - As of Redis Enterprise Software version 7.4.2, a new node snapshot is created only if no maintenance mode snapshots already exist or if you set `"overwrite_snapshot": true` in the request body.
 
@@ -261,7 +261,7 @@ Currently supported actions are:
         }
         ```
 
-- `maintenance_off`: Restores node to its previous state before maintenance started. See [maintenance mode]({{< relref "/operate/rs/clusters/maintenance-mode" >}}) for more information.
+- `maintenance_off`: Restores node to its previous state before maintenance started. See [maintenance mode]({{< relref "/operate/rs/7.4/clusters/maintenance-mode" >}}) for more information.
 
     - By default, it uses the latest node snapshot.
 
@@ -323,7 +323,7 @@ previously executed and completed action.
 
 | Permission name |
 |-----------------|
-| [cancel_node_action]({{< relref "/operate/rs/references/rest-api/permissions#cancel_node_action" >}}) |
+| [cancel_node_action]({{< relref "/operate/rs/7.4/references/rest-api/permissions#cancel_node_action" >}}) |
 
 ### Request {#delete-request}
 

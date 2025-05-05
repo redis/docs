@@ -96,7 +96,7 @@ example, the query below returns any shapes within the boundary
 of the green square but omits the green square itself:
 
 {{< clients-example geoindex gshape_query >}}
-> FT.SEARCH geomidx "(-@name:(Green Square) @geom:[WITHIN $qshape])" PARAMS 2 qshape "POLYGON ((1 1, 1 3, 3 3, 3 1, 1 1))" RETURN 1 name DIALECT 4
+> FT.SEARCH geomidx "(-@name:(Green Square) @geom:[WITHIN $qshape])" PARAMS 2 qshape "POLYGON ((1 1, 1 3, 3 3, 3 1, 1 1))" RETURN 1 name DIALECT 2
 
 1) (integer) 1
 2) "shape:4"

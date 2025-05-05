@@ -15,7 +15,7 @@ title: Stop words
 weight: 2
 ---
 
-Redis Stack has a default list of [stop words](https://en.wikipedia.org/wiki/Stop_words). These are words that are usually so common that they do not add much information to search, but take up a lot of space and CPU time in the index. 
+Redis Open Source has a default list of [stop words](https://en.wikipedia.org/wiki/Stop_words). These are words that are usually so common that they do not add much information to search, but take up a lot of space and CPU time in the index. 
 
 When indexing, stop words are discarded and not indexed. When searching, they are also ignored and treated as if they were not sent to the query processor. This is done when parsing the query. 
 
@@ -33,7 +33,7 @@ The following words are treated as stop words by default:
 
 ## Overriding the default stop word list
 
-Stop words for an index can be defined (or disabled completely) on index creation using the `STOPWORDS` argument with the [[`FT.CREATE`]({{< baseurl >}}commands/ft.create/) command.
+Stop words for an index can be defined (or disabled completely) on index creation using the `STOPWORDS` argument with the [[`FT.CREATE`]({{< relref "commands/ft.create/" >}}) command.
 
 The format is `STOPWORDS {number} {stopword} ...` where number is the number of stop words given. The `STOPWORDS` argument must come before the `SCHEMA` argument. For example:
 
@@ -43,7 +43,7 @@ FT.CREATE myIndex STOPWORDS 3 foo bar baz SCHEMA title TEXT body TEXT
 
 ## Disable the use of stop words
 
-Disabling stop words completely can be done by passing `STOPWORDS 0` to [`FT.CREATE`]({{< baseurl >}}commands/ft.create/).
+Disabling stop words completely can be done by passing `STOPWORDS 0` to [`FT.CREATE`]({{< relref "commands/ft.create/" >}}).
 
 
 ## Avoiding stop word detection in search queries

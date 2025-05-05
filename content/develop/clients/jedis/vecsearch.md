@@ -31,6 +31,9 @@ of their meaning.
 In the example below, we use the [HuggingFace](https://huggingface.co/) model
 [`all-mpnet-base-v2`](https://huggingface.co/sentence-transformers/all-mpnet-base-v2)
 to generate the vector embeddings to store and index with Redis Query Engine.
+The code is first demonstrated for hash documents with a
+separate section to explain the
+[differences with JSON documents](#differences-with-json-documents).
 
 ## Initialize
 
@@ -75,6 +78,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Map;
 import java.util.List;
+import org.json.JSONObject;
 
 // Tokenizer to generate the vector embeddings.
 import ai.djl.huggingface.tokenizers.HuggingFaceTokenizer;
@@ -185,8 +189,9 @@ as shown below to create the embedding that represents the `content` field.
 The `getIds()` method that follows `encode()` obtains the vector
 of `long` values which we then convert to a `float` array stored as a `byte`
 string using our helper method. Use the `byte` string representation when you are
-indexing hash objects (as we are here), but use the default list of `float` for
-JSON objects. Note that when we set the `embedding` field, we must use an overload
+indexing hash objects (as we are here), but use an array of `float` for
+JSON objects (see [Differences with JSON objects](#differences-with-json-documents)
+below). Note that when we set the `embedding` field, we must use an overload
 of `hset()` that requires `byte` arrays for each of the key, the field name, and
 the value, which is why we include the `getBytes()` calls on the strings.
 
@@ -280,6 +285,147 @@ field, with the lowest distance indicating the greatest similarity to the query.
 For this model, the text *"That is a happy dog"*
 is the result judged to be most similar in meaning to the query text
 *"That is a happy person"*.
+
+## Differences with JSON documents
+
+Indexing JSON documents is similar to hash indexing, but there are some
+important differences. JSON allows much richer data modeling with nested fields, so
+you must supply a [path]({{< relref "/develop/data-types/json/path" >}}) in the schema
+to identify each field you want to index. However, you can declare a short alias for each
+of these paths (using the `as()` option) to avoid typing it in full for
+every query. Also, you must specify `IndexDataType.JSON` when you create the index.
+
+The code below shows these differences, but the index is otherwise very similar to
+the one created previously for hashes:
+
+```java
+SchemaField[] jsonSchema = {
+    TextField.of("$.content").as("content"),
+    TagField.of("$.genre").as("genre"),
+    VectorField.builder()
+        .fieldName("$.embedding").as("embedding")
+        .algorithm(VectorAlgorithm.HNSW)
+        .attributes(
+            Map.of(
+                "TYPE", "FLOAT32",
+                "DIM", 768,
+                "DISTANCE_METRIC", "L2"
+            )
+        )
+        .build()
+};
+
+jedis.ftCreate("vector_json_idx",
+    FTCreateParams.createParams()
+        .addPrefix("jdoc:")
+        .on(IndexDataType.JSON),
+        jsonSchema
+);
+```
+
+An important difference with JSON indexing is that the vectors are
+specified using arrays of `float` instead of binary strings. This requires
+a modified version of the `longsToFloatsByteString()` method
+used previously:
+
+```java
+public static float[] longArrayToFloatArray(long[] input) {
+    float[] floats = new float[input.length];
+    for (int i = 0; i < input.length; i++) {
+        floats[i] = input[i];
+    }
+    return floats;
+}
+```
+
+Use [`jsonSet()`]({{< relref "/commands/json.set" >}}) to add the data
+instead of [`hset()`]({{< relref "/commands/hset" >}}). Use instances
+of `JSONObject` to supply the data instead of `Map`, as you would for
+hash objects.
+
+```java
+String jSentence1 = "That is a very happy person";
+
+JSONObject jdoc1 = new JSONObject()
+        .put("content", jSentence1)
+        .put("genre", "persons")
+        .put(
+            "embedding",
+            longArrayToFloatArray(
+                sentenceTokenizer.encode(jSentence1).getIds()
+            )
+        );
+
+jedis.jsonSet("jdoc:1", Path2.ROOT_PATH, jdoc1);
+
+String jSentence2 = "That is a happy dog";
+
+JSONObject jdoc2 = new JSONObject()
+        .put("content", jSentence2)
+        .put("genre", "pets")
+        .put(
+            "embedding",
+            longArrayToFloatArray(
+                sentenceTokenizer.encode(jSentence2).getIds()
+            )
+        );
+
+jedis.jsonSet("jdoc:2", Path2.ROOT_PATH, jdoc2);
+
+String jSentence3 = "Today is a sunny day";
+
+JSONObject jdoc3 = new JSONObject()
+        .put("content", jSentence3)
+        .put("genre", "weather")
+        .put(
+            "embedding",
+            longArrayToFloatArray(
+                sentenceTokenizer.encode(jSentence3).getIds()
+            )
+        );
+
+jedis.jsonSet("jdoc:3", Path2.ROOT_PATH, jdoc3);
+```
+
+The query is almost identical to the one for the hash documents. This
+demonstrates how the right choice of aliases for the JSON paths can
+save you having to write complex queries. An important thing to notice
+is that the vector parameter for the query is still specified as a
+binary string (using the `longsToFloatsByteString()` method), even though
+the data for the `embedding` field of the JSON was specified as an array.
+
+```java
+String jSentence = "That is a happy person";
+
+int jK = 3;
+Query jq = new Query("*=>[KNN $K @embedding $BLOB AS distance]").
+                    returnFields("content", "distance").
+                    addParam("K", jK).
+                    addParam(
+                        "BLOB",
+                        longsToFloatsByteString(
+                            sentenceTokenizer.encode(jSentence).getIds()
+                        )
+                    )
+                    .setSortBy("distance", true)
+                    .dialect(2);
+
+// Execute the query
+List<Document> jDocs = jedis
+        .ftSearch("vector_json_idx", jq)
+        .getDocuments();
+
+```
+
+Apart from the `jdoc:` prefixes for the keys, the result from the JSON
+query is the same as for hash:
+
+```
+Results:
+ID: jdoc:2, Distance: 1411344, Content: That is a happy dog
+ID: jdoc:1, Distance: 9301635, Content: That is a very happy person
+ID: jdoc:3, Distance: 67178800, Content: Today is a sunny day
+```
 
 ## Learn more
 

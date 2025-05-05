@@ -7,7 +7,7 @@ categories:
 - rc
 description: The fastest way to set up Redis - a fully managed Redis database on major public cloud services.
 hideListLinks: true
-weight: 10
+weight: 20
 ---
 [Redis Cloud](https://redis.io/cloud/) is a fully managed database-as-a-service that brings the speed and reliability of Redis to the cloud, offering seamless scalability and high availability for modern applications.
 

@@ -1,9 +1,5 @@
 # Redis Docs
 
-OPEN SOURCE LICENSE VS. TRADEMARKS. The three-clause BSD license gives you the right to redistribute and use the software in source and binary forms, with or without modification, under certain conditions. However, open source licenses like the three-clause BSD license do not address trademarks. For further details please read the [Redis Trademark Policy](https://redis.io/legal/trademark-policy/)."
-
-## A note for Issue and PR submitters
-
 PRs are merged first to the `main` branch of this repo.
 Periodically, the docs team will merge `main` into `latest`, which will make the changes visible on the docs site.
 Please be patient, as there may be a lag of several days before `main` is merged into `latest`. If you want to see your changes before they're merged to `latest`, you can see them on https://redis.io/docs/staging/dev/. 
@@ -92,13 +88,6 @@ It's strongly advised to use `relref` because it provides the following advantag
 
 
 The following needs to be taken into account when using `relref`: The reference `/develop/get-started/data-store` and `/develop/get-started/data-store/` aren't the same. You must use the trailing slash if the referenced article is an `_index.md` file within a folder (e.g., `.../data-store/` for `.../data-store/_index.md`). Otherwise, you should not use the trailing slash (e.g., `.../get-started/data-store.md`).
-
-RelRefs with dots (`.`) and hashtags (`#`) in the reference name, such as `/commands/ft.create` or `/develop/data-types/timeseries/configuration#compaction_policy`, don't seem to work. Please use the `{{< baseurl >}}` as a workaround in that case. Here are a couple of examples:
-
-```
-[compaction]({{< baseurl >}}/develop/data-types/timeseries/configuration#compaction_policy)
-[FT.CREATE]({{< baseurl >}}/commands/ft.create)
-```
 
 ### Images
 

@@ -11,8 +11,6 @@ linkTitle: Billing & payments
 weight: 39
 ---
 
-
-
 The **Billing & Payments** screen:
 
 - Shows recent transactions for your account
@@ -46,7 +44,7 @@ The following tabs are available:
 
     {{<image filename="images/rc/billing-payment-method-tab.png" alt="The Payments Methods tab helps you manage payments for your subscriptions." >}}
 
-    Select **Add Credit Card** to enter new credit card details.
+    Select **Add credit card** to enter new credit card details, or **Add marketplace account** to add a [Google Cloud Marketplace]({{< relref "/operate/rc/cloud-integrations/gcp-marketplace/" >}}) or [AWS Marketplace]({{< relref "/operate/rc/cloud-integrations/aws-marketplace/" >}}) account.
 
 - The **Credits** tab shows coupon credits that have been applied to your account, if any.
 
@@ -76,9 +74,9 @@ To download an invoice:
 
 The invoice is downloaded as an Acrobat PDF file.  Use your browser's download features to manage the file.
 
-## Add payment method
+## Add credit card
 
-To add a new payment method:
+To add a new credit card:
 
 1. In the [Redis Cloud console](https://cloud.redis.io/), select **Billing & Payments > Payment Methods**.
 
@@ -86,9 +84,9 @@ To add a new payment method:
 
     {{<image filename="images/rc/billing-add-credit-card.png" width="80%" alt="Select Add Credit Card to add a new payment method" >}}
 
-3.  If you need to change the account billing address for this card, activate the **Change Address** slider and enter the new billing address.
+3.  If you need to change the account billing address, activate the **Change address** slider and enter the new billing address.
 
-    {{<image filename="images/rc/billing-update-billing-address.png" width="80%" alt="Deactivate the Use account address slider to specify a different billing address." >}}
+    {{<image filename="images/rc/billing-update-billing-address.png" width="80%" alt="Activate the Change address slider to specify a different billing address." >}}
 
     {{< note >}}
 Changing the billing address for your account will remove any payment methods associated with the old billing address. 
@@ -97,6 +95,12 @@ Changing the billing address for your account will remove any payment methods as
 4.  Select the **Add Credit Card** button to save your changes.
 
     {{<image filename="images/rc/button-billing-save-card.png" width="150px" alt="Use the Save Card button to save new payment details." >}}
+
+## Add marketplace account
+
+If you have a [Google Cloud Marketplace]({{< relref "/operate/rc/cloud-integrations/gcp-marketplace/" >}}) or [AWS Marketplace]({{< relref "/operate/rc/cloud-integrations/aws-marketplace/" >}}) account already associated with another Redis Account that you own, you can add it to your current account. 
+
+{{< embed-md "rc-marketplace-account-add.md" >}}
 
 ## Edit billing address
 
@@ -112,11 +116,7 @@ To edit the Redis Cloud account billing address:
 
     {{<image filename="images/rc/account-settings-change-billing-address.png" alt="The Edit account billing address screen." width="80%">}}
 
-    Select the checkbox to confirm that your previous payment methods will be removed.
-
-    {{<image filename="images/rc/account-settings-confirm-billing-address.png" alt="The Edit account billing address screen." width="80%">}}
-
-    Select **Continue** to save your new address.
+    Select **Update** to save your new address.
 
     {{< note >}}
 Changing the billing address for your account will remove any payment methods associated with the old billing address. See [Add payment method](#add-payment-method) to learn how to add a payment method back to your account.
@@ -135,6 +135,8 @@ To edit the mailing address associated with a payment method:
 3. If the mailing address is different from the billing address, deactivate the **Use billing address** slider and enter the new mailing address. 
 
     {{<image filename="images/rc/billing-change-mailing-address.png" alt="The Edit mailing address screen." width="80%">}}
+
+    Select **Update** to save your changes.
 
 ## Apply coupon
 

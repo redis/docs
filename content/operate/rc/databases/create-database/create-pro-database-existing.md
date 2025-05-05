@@ -112,8 +112,8 @@ The **Security** section helps you control access to your database.
 
 | Setting name                       | Description                                                                                                                                                                           |
 |:-----------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Default user**                   | When enabled, permits access using a simple password                                                                                                                                  |
-| **Redis password**                 | Password assigned to the database when created                                                                                                                                        |  
+| **Default user**                   | When enabled, permits access using the `default` username and a simple password (see [Default User]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}})). Turn on [Role-based access control]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control" >}}) to turn off this setting.              |
+| **Default user password**                 | Password assigned to the database when created                                                                                                                                        |  
 | **CIDR allow list**                | [Allow list]({{< relref "/operate/rc/security/cidr-whitelist.md" >}}) of IP addresses/security groups permitted to access the database |
 | **Transport layer security (TLS)** | Enables [transport layer security]({{< relref "/operate/rc/security/database-security/tls-ssl.md" >}}) (TLS) encryption for database access          |
 
@@ -124,15 +124,6 @@ The **Alerts** section defines notification emails sent to your account and the 
 
 {{<image filename="images/rc/database-new-flexible-alerts.png" alt="The Alerts section defines the notification emails and their triggering conditions." >}}
 
-The available alerts vary according to the subscription type.
-
-|Setting name| Description                                                                                                                                              |
-|:-----------|:---------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Dataset size has reached** | When enabled, sends an an email when the database reaches the defined memory limit                                 |
-| **Latency is higher than** | When enabled, sends an an email when the latency exceeds the defined limit                                  |
-| **Replica Of - database unable to sync with source** | When enabled, sends email when the replica database cannot sync with the primary (source) database                      |
-| **Replica Of - sync lag is higher than** | When enabled, sends email when the sync lag exceeds the defined threshold                                              |
-| **Throughput is higher than** | When enabled, sends an email when the operations per second exceed the defined threshold                   |
-| **Throughput is lower than** | When enabled, sends an email when the operations per second falls below the defined threshold             |
+The available alerts vary according to the plan type. See [Configure alerts]({{< relref "/operate/rc/databases/monitor-performance#configure-metric-alerts" >}}) for more information.
 
 {{< embed-md "rc-pro-billing-units.md" >}}

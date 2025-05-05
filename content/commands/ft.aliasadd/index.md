@@ -1,4 +1,6 @@
 ---
+acl_categories:
+- '@search'
 arguments:
 - name: alias
   type: string
@@ -74,7 +76,7 @@ Attempting to add the same alias returns a message that the alias already exists
 
 ## See also
 
-[`FT.ALIASDEL`]({{< baseurl >}}commands/ft.aliasdel/) | [`FT.ALIASUPDATE`]({{< baseurl >}}commands/ft.aliasupdate/) 
+[`FT.ALIASDEL`]({{< relref "commands/ft.aliasdel/" >}}) | [`FT.ALIASUPDATE`]({{< relref "commands/ft.aliasupdate/" >}}) 
 
 ## Related topics
 

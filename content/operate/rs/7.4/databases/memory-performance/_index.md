@@ -21,7 +21,7 @@ Database memory limits define the maximum size your database can reach across al
 
 Besides your dataset, the memory limit must also account for replication, Active-Active overhead, and module overhead, and a number of other factors. These can significantly increase your database size, sometimes increasing it by four times or more.
 
-For more information on memory limits, see [Database memory limits]({{< relref "/operate/rs/databases/memory-performance/memory-limit.md" >}}).
+For more information on memory limits, see [Database memory limits]({{< relref "/operate/rs/7.4/databases/memory-performance/memory-limit.md" >}}).
 
 ## Eviction policies
 
@@ -29,7 +29,7 @@ When a database exceeds its memory limit, eviction policies determine which data
 
 The default eviction policy for databases is `volatile-lru` which evicts the least recently used keys out of all keys with the `expire` field set. The default for Active-Active databases is `noeviction`.
 
-For more information, see [eviction policies]({{< relref "/operate/rs/databases/memory-performance/eviction-policy.md" >}}).
+For more information, see [eviction policies]({{< relref "/operate/rs/7.4/databases/memory-performance/eviction-policy.md" >}}).
 
 ## Database persistence
 
@@ -41,13 +41,13 @@ Append-only files (AoF) keep a record of data changes and writes each change to 
 
 Snapshots capture all the data as it exists in one moment in time and writes it to disk, allowing you to recover the entire dataset as it existed at that moment in time.
 
-For more info on data persistence see [Database persistence with Redis Enterprise Software]({{< relref "/operate/rs/databases/configure/database-persistence.md" >}}) or [Durable Redis](https://redis.com/redis-enterprise/technology/durable-redis/).
+For more info on data persistence see [Database persistence with Redis Enterprise Software]({{< relref "/operate/rs/7.4/databases/configure/database-persistence.md" >}}) or [Durable Redis](https://redis.com/redis-enterprise/technology/durable-redis/).
 
 ## Auto Tiering 
 
-By default, Redis Enterprise Software stores your data entirely in [RAM](https://en.wikipedia.org/wiki/Random-access_memory) for improved performance. The [Auto Tiering]({{< relref "/operate/rs/databases/auto-tiering/" >}}) feature enables your data to span both RAM and [SSD](https://en.wikipedia.org/wiki/Solid-state_drive) storage ([flash memory](https://en.wikipedia.org/wiki/Flash_memory)). Keys are always stored in RAM, but Auto Tiering manages the location of their values. Frequently used (hot) values are stored on RAM, but infrequently used (warm) values are moved to flash memory. This saves on expensive RAM space, which give you comparable performance at a lower cost for large datasets.
+By default, Redis Enterprise Software stores your data entirely in [RAM](https://en.wikipedia.org/wiki/Random-access_memory) for improved performance. The [Auto Tiering]({{< relref "/operate/rs/7.4/databases/auto-tiering/" >}}) feature enables your data to span both RAM and [SSD](https://en.wikipedia.org/wiki/Solid-state_drive) storage ([flash memory](https://en.wikipedia.org/wiki/Flash_memory)). Keys are always stored in RAM, but Auto Tiering manages the location of their values. Frequently used (hot) values are stored on RAM, but infrequently used (warm) values are moved to flash memory. This saves on expensive RAM space, which give you comparable performance at a lower cost for large datasets.
 
-For more info, see [Auto Tiering]({{< relref "/operate/rs/databases/auto-tiering/" >}}).
+For more info, see [Auto Tiering]({{< relref "/operate/rs/7.4/databases/auto-tiering/" >}}).
 
 ## Shard placement
 
@@ -60,7 +60,7 @@ Redis Enterprise Software has two shard placement policies available:
 - **dense**: puts as many shards as possible on the smallest number of nodes
 - **sparse**: spread the shards across as many nodes as possible
 
-For more info about the shard placement policy, see [Shard placement policy]({{< relref "/operate/rs/databases/memory-performance/shard-placement-policy.md" >}})
+For more info about the shard placement policy, see [Shard placement policy]({{< relref "/operate/rs/7.4/databases/memory-performance/shard-placement-policy.md" >}})
 
 ## Metrics
 
@@ -68,7 +68,7 @@ From the Redis Enterprise Software Cluster Manager UI, you can monitor the perfo
 
 With the Redis Enterprise Software API, you can also integrate Redis Enterprise metrics into other monitoring environments, such as Prometheus.
 
-For more info about monitoring with Redis Enterprise Software, see [Monitoring with metrics and alerts]({{< relref "/operate/rs/clusters/monitoring/_index.md" >}}), and [Memory statistics]({{< relref "/operate/rs/databases/memory-performance/memory-limit#memory-metrics" >}}).
+For more info about monitoring with Redis Enterprise Software, see [Monitoring with metrics and alerts]({{< relref "/operate/rs/7.4/clusters/monitoring/_index.md" >}}), and [Memory statistics]({{< relref "/operate/rs/7.4/databases/memory-performance/memory-limit#memory-metrics" >}}).
 
 ## Scaling databases
 

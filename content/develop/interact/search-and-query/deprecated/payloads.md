@@ -19,7 +19,7 @@ weight: 12
 The payload feature is deprecated in 2.0
 {{% /alert %}}
     
-Usually, Redis Stack stores documents as hashes or JSON. But if you want to access some data for aggregation or scoring functions, Redis can store that data as an inline payload. This will allow us to evaluate the properties of a document for scoring purposes at a very low cost.
+Usually, Redis Open Source stores documents as hashes or JSON. But if you want to access some data for aggregation or scoring functions, Redis can store that data as an inline payload. This will allow us to evaluate the properties of a document for scoring purposes at a very low cost.
 
 Since the scoring functions already have access to the DocumentMetaData, which contains document flags and score, Redis can add custom payloads that can be evaluated in run-time.
 
@@ -52,7 +52,7 @@ If no payload was set to the document, it is simply NULL. If it is not, you can 
 
 When searching, it is possible to request the document payloads from the engine. 
 
-This is done by adding the keyword `WITHPAYLOADS` to [`FT.SEARCH`]({{< baseurl >}}commands/ft.search/). 
+This is done by adding the keyword `WITHPAYLOADS` to [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}). 
 
 If `WITHPAYLOADS` is set, the payloads follow the document id in the returned result. 
 If `WITHSCORES` is set as well, the payloads follow the scores.

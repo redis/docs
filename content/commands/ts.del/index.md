@@ -1,4 +1,8 @@
 ---
+acl_categories:
+- '@timeseries'
+- '@write'
+- '@slow'
 arguments:
 - name: key
   type: key
@@ -105,7 +109,7 @@ Delete the range of data points for temperature in Tel Aviv.
 
 ## See also
 
-[`TS.ADD`]({{< baseurl >}}commands/ts.add/) 
+[`TS.ADD`]({{< relref "commands/ts.add/" >}}) 
 
 ## Related topics
 

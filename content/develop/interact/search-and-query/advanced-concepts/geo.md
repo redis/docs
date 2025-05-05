@@ -58,7 +58,7 @@ for geospatial data:
 -   [`GEO`](#geo): This uses a simple format where individual geospatial
     points are specified as numeric longitude-latitude pairs.
     
--   [`GEOSHAPE`](#geoshape): [Redis Community Edition]({{< relref "/operate/oss_and_stack" >}}) also
+-   [`GEOSHAPE`](#geoshape): [Redis Open Source]({{< relref "/operate/oss_and_stack" >}}) also
     supports `GEOSHAPE` indexing in v7.2 and later.
     This uses a subset of the 
     [Well-Known Text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry)
@@ -166,7 +166,7 @@ example, the query below returns one primitive that lies within the boundary
 of the green square (from the example above) but omits the square itself:
 
 ```bash
-> FT.SEARCH geomidx "(-@name:(Green Square) @geom:[WITHIN $qshape])" PARAMS 2 qshape "POLYGON ((1 1, 1 3, 3 3, 3 1, 1 1))" RETURN 1 name DIALECT 4
+> FT.SEARCH geomidx "(-@name:(Green Square) @geom:[WITHIN $qshape])" PARAMS 2 qshape "POLYGON ((1 1, 1 3, 3 3, 3 1, 1 1))" RETURN 1 name DIALECT 2
 
 1) (integer) 1
 2) "shape:4"

@@ -9,9 +9,6 @@
       {{ partial "breadcrumbs" . }}
       <section class="prose w-full py-12 max-w-none">
         <h1>
-          {{ if and (isset .Params "stack") (eq .Params.stack true)}}
-          {{ partial "icons/logo-stack.html" (dict "context" . "class" "stack-logo-inline") }}
-          {{ end }}
           {{ .Title }}
         </h1>
 
@@ -23,7 +20,7 @@
       <tr>
         {{ $visibleCategories := slice }}
         {{ range .Params.categories }}
-        {{ if not (in (slice "docs" "operate" "integrate" "develop") .) }}
+        {{ if not (in (slice "docs" "operate" "integrate" "develop" "stack") .) }}
           {{ $visibleCategories = $visibleCategories | append (slice .) }} <!-- Corrected Append -->
         {{ end }}
         {{ end }}
@@ -40,11 +37,8 @@
             {{ $displayName = "Redis Enterprise for Kubernetes" }}
             {{ $color = "#8A99A0" }}
           {{ else if eq $element "oss" }}
-            {{ $displayName = "Redis Community Edition" }}
+            {{ $displayName = "Redis Open Source" }}
             {{ $color = "#C795E3" }}
-          {{ else if eq $element "stack" }}
-            {{ $displayName = "Redis Stack" }}
-            {{ $color = "#49859C" }}
           {{ else if eq $element "redisinsight" }}
             {{ $displayName = "Redis Insight" }}
             {{ $color = "#FD4439" }}

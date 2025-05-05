@@ -284,14 +284,6 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         </td>
         <td>false</td>
       </tr><tr>
-        <td>podSecurityPolicyName</td>
-        <td>string</td>
-        <td>
-          DEPRECATED PodSecurityPolicy support is removed in Kubernetes v1.25 and the use of this field is invalid for use when running on Kubernetes v1.25+. Future versions of the RedisEnterpriseCluster API will remove support for this field altogether. For migration instructions, see https://kubernetes.io/docs/tasks/configure-pod-container/migrate-from-psp/ 
- Name of pod security policy to use on pods<br/>
-        </td>
-        <td>false</td>
-      </tr><tr>
         <td><a href="#specpodstartingpolicy">podStartingPolicy</a></td>
         <td>object</td>
         <td>
@@ -427,7 +419,7 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         <td><a href="#specsecuritycontext">securityContext</a></td>
         <td>object</td>
         <td>
-          the security configuration that will be applied to RS pods.<br/>
+          The security configuration that will be applied to RS pods.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -486,6 +478,13 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         <td>object</td>
         <td>
           Specification for upgrades of Redis Enterprise<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specusagemeter">usageMeter</a></td>
+        <td>object</td>
+        <td>
+          The configuration of the usage meter.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -11747,7 +11746,7 @@ RS Cluster optional services settings
         <td>operatingMode</td>
         <td>enum</td>
         <td>
-          Whether to enable/disable the pdns server<br/>
+          Deprecated: The PDNS Server is now disabled by the operator. This field will be ignored.<br/>
           <br/>
             <i>Enum</i>: enabled, disabled<br/>
         </td>
@@ -12040,7 +12039,7 @@ Stores configurations specific to redis on flash. If provided, the cluster will 
 ### spec.securityContext
 <sup><sup>[↩ Parent](#spec)</sup></sup>
 
-the security configuration that will be applied to RS pods.
+The security configuration that will be applied to RS pods.
 
 <table>
     <thead>
@@ -12055,7 +12054,14 @@ the security configuration that will be applied to RS pods.
         <td><a href="#specsecuritycontextreadonlyrootfilesystempolicy">readOnlyRootFilesystemPolicy</a></td>
         <td>object</td>
         <td>
-          Whether RS containers has a read-only root filesystem and what is the policy. some mandatory paths are still writable so RS can work properly.<br/>
+          Policy controlling whether to enable read-only root filesystem for the Redis Enterprise software containers. Note that certain filesystem paths remain writable through mounted volumes to ensure proper functionality.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specsecuritycontextresourcelimits">resourceLimits</a></td>
+        <td>object</td>
+        <td>
+          Settings pertaining to resource limits management by the Redis Enterprise Node container.<br/>
         </td>
         <td>false</td>
       </tr></tbody>
@@ -12065,7 +12071,7 @@ the security configuration that will be applied to RS pods.
 ### spec.securityContext.readOnlyRootFilesystemPolicy
 <sup><sup>[↩ Parent](#specsecuritycontext)</sup></sup>
 
-Whether RS containers has a read-only root filesystem and what is the policy. some mandatory paths are still writable so RS can work properly.
+Policy controlling whether to enable read-only root filesystem for the Redis Enterprise software containers. Note that certain filesystem paths remain writable through mounted volumes to ensure proper functionality.
 
 <table>
     <thead>
@@ -12080,9 +12086,34 @@ Whether RS containers has a read-only root filesystem and what is the policy. so
         <td>enabled</td>
         <td>boolean</td>
         <td>
-          Whether RS containers has a read-only root filesystem. Default is false.<br/>
+          Whether to enable read-only root filesystem for the Redis Enterprise software containers. Default is false.<br/>
         </td>
         <td>true</td>
+      </tr></tbody>
+</table>
+
+
+### spec.securityContext.resourceLimits
+<sup><sup>[↩ Parent](#specsecuritycontext)</sup></sup>
+
+Settings pertaining to resource limits management by the Redis Enterprise Node container.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>allowAutoAdjustment</td>
+        <td>boolean</td>
+        <td>
+          Allow Redis Enterprise to adjust resource limits, like max open file descriptors, of its data plane processes. When this option is enabled, the SYS_RESOURCE capability is added to the Redis Enterprise pods, and their allowPrivilegeEscalation field is set. Turned off by default.<br/>
+        </td>
+        <td>false</td>
       </tr></tbody>
 </table>
 
@@ -12161,6 +12192,15 @@ Specification for service rigger
         </tr>
     </thead>
     <tbody><tr>
+        <td>databaseServicePortPolicy</td>
+        <td>enum</td>
+        <td>
+          databaseServicePortPolicy instructs how to determine the service ports for REDB services. Defaults to DatabasePortForward, if not specified otherwise. DatabasePortForward - The service port will be the same as the database port. RedisDefaultPort - The service port will be the default Redis port (6379).<br/>
+          <br/>
+            <i>Enum</i>: DatabasePortForward, RedisDefaultPort<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td>databaseServiceType</td>
         <td>string</td>
         <td>
@@ -24073,6 +24113,182 @@ Specification for upgrades of Redis Enterprise
 </table>
 
 
+### spec.usageMeter
+<sup><sup>[↩ Parent](#spec)</sup></sup>
+
+The configuration of the usage meter.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td><a href="#specusagemetercallhomeclient">callHomeClient</a></td>
+        <td>object</td>
+        <td>
+          <br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.usageMeter.callHomeClient
+<sup><sup>[↩ Parent](#specusagemeter)</sup></sup>
+
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>disabled</td>
+        <td>boolean</td>
+        <td>
+          Whether to disable the call home client. Enabled by default.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specusagemetercallhomeclientimagespec">imageSpec</a></td>
+        <td>object</td>
+        <td>
+          Image specification<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specusagemetercallhomeclientresources">resources</a></td>
+        <td>object</td>
+        <td>
+          Compute resource requirements for Call Home Client pod<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.usageMeter.callHomeClient.imageSpec
+<sup><sup>[↩ Parent](#specusagemetercallhomeclient)</sup></sup>
+
+Image specification
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>digestHash</td>
+        <td>string</td>
+        <td>
+          The digest hash of the container image to pull. When specified, the container image is pulled according to the digest hash instead of the image tag. The versionTag field must also be specified with the image tag matching this digest hash. Note: This field is only supported for OLM deployments.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>imagePullPolicy</td>
+        <td>string</td>
+        <td>
+          The image pull policy to be applied to the container image. One of Always, Never, IfNotPresent.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>repository</td>
+        <td>string</td>
+        <td>
+          The repository (name) of the container image to be deployed.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>versionTag</td>
+        <td>string</td>
+        <td>
+          The tag of the container image to be deployed.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.usageMeter.callHomeClient.resources
+<sup><sup>[↩ Parent](#specusagemetercallhomeclient)</sup></sup>
+
+Compute resource requirements for Call Home Client pod
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td><a href="#specusagemetercallhomeclientresourcesclaims">claims</a></td>
+        <td>[]object</td>
+        <td>
+          Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. 
+ This is an alpha field and requires enabling the DynamicResourceAllocation feature gate. 
+ This field is immutable. It can only be set for containers.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>limits</td>
+        <td>map[string]int or string</td>
+        <td>
+          Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>requests</td>
+        <td>map[string]int or string</td>
+        <td>
+          Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.usageMeter.callHomeClient.resources.claims[]
+<sup><sup>[↩ Parent](#specusagemetercallhomeclientresources)</sup></sup>
+
+ResourceClaim references one entry in PodSpec.ResourceClaims.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>name</td>
+        <td>string</td>
+        <td>
+          Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.<br/>
+        </td>
+        <td>true</td>
+      </tr></tbody>
+</table>
+
+
 ### spec.volumes[]
 <sup><sup>[↩ Parent](#spec)</sup></sup>
 
@@ -26643,6 +26859,31 @@ Stores information about cluster certificates and their update process. In Activ
         </td>
         <td>false</td>
       </tr><tr>
+        <td>features</td>
+        <td>[]string</td>
+        <td>
+          <br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>flashShards</td>
+        <td>integer</td>
+        <td>
+          <br/>
+          <br/>
+            <i>Format</i>: int32<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>flashShardsLimit</td>
+        <td>integer</td>
+        <td>
+          <br/>
+          <br/>
+            <i>Format</i>: int32<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td>licenseState</td>
         <td>string</td>
         <td>
@@ -26650,8 +26891,40 @@ Stores information about cluster certificates and their update process. In Activ
         </td>
         <td>false</td>
       </tr><tr>
+        <td>owner</td>
+        <td>string</td>
+        <td>
+          <br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>ramShards</td>
+        <td>integer</td>
+        <td>
+          <br/>
+          <br/>
+            <i>Format</i>: int32<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>ramShardsLimit</td>
+        <td>integer</td>
+        <td>
+          <br/>
+          <br/>
+            <i>Format</i>: int32<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td>shardsLimit</td>
         <td>integer</td>
+        <td>
+          <br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>shardsUsage</td>
+        <td>string</td>
         <td>
           <br/>
         </td>

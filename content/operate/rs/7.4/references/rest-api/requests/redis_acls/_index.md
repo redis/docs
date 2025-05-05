@@ -33,7 +33,7 @@ Get all Redis ACL objects.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_all_redis_acls_info]({{< relref "/operate/rs/references/rest-api/permissions#view_all_redis_acls_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
+| [view_all_redis_acls_info]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_all_redis_acls_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
 
 ### Request {#get-all-request}
 
@@ -52,7 +52,7 @@ GET /v1/redis_acls
 
 ### Response {#get-all-response}
 
-Returns a JSON array of [Redis ACL objects]({{< relref "/operate/rs/references/rest-api/objects/redis_acl" >}}).
+Returns a JSON array of [Redis ACL objects]({{< relref "/operate/rs/7.4/references/rest-api/objects/redis_acl" >}}).
 
 #### Example JSON body
 
@@ -100,7 +100,7 @@ Get a single Redis ACL object.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_redis_acl_info]({{< relref "/operate/rs/references/rest-api/permissions#view_redis_acl_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
+| [view_redis_acl_info]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_redis_acl_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
 
 ### Request {#get-request}
 
@@ -126,7 +126,7 @@ GET /v1/redis_acls/1
 
 ### Response {#get-response}
 
-Returns a [Redis ACL object]({{< relref "/operate/rs/references/rest-api/objects/redis_acl" >}}).
+Returns a [Redis ACL object]({{< relref "/operate/rs/7.4/references/rest-api/objects/redis_acl" >}}).
 
 #### Example JSON body
 
@@ -159,7 +159,7 @@ Update an existing Redis ACL object.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [update_redis_acl]({{< relref "/operate/rs/references/rest-api/permissions#update_redis_acl" >}}) | admin |
+| [update_redis_acl]({{< relref "/operate/rs/7.4/references/rest-api/permissions#update_redis_acl" >}}) | admin |
 
 ### Request {#put-request}
 
@@ -187,11 +187,11 @@ PUT /v1/redis_acls/17
 
 #### Request body
 
-Include a [Redis ACL object]({{< relref "/operate/rs/references/rest-api/objects/redis_acl" >}}) with updated fields in the request body.
+Include a [Redis ACL object]({{< relref "/operate/rs/7.4/references/rest-api/objects/redis_acl" >}}) with updated fields in the request body.
 
 ### Response {#put-response}
 
-Returns the updated [Redis ACL object]({{< relref "/operate/rs/references/rest-api/objects/redis_acl" >}}).
+Returns the updated [Redis ACL object]({{< relref "/operate/rs/7.4/references/rest-api/objects/redis_acl" >}}).
 
 #### Example JSON body
 
@@ -233,7 +233,7 @@ Create a new Redis ACL object.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [create_redis_acl]({{< relref "/operate/rs/references/rest-api/permissions#create_redis_acl" >}}) | admin |
+| [create_redis_acl]({{< relref "/operate/rs/7.4/references/rest-api/permissions#create_redis_acl" >}}) | admin |
 
 ### Request {#post-request}
 
@@ -262,11 +262,11 @@ POST /v1/redis_acls
 
 #### Request body
 
-Include a [Redis ACL object]({{< relref "/operate/rs/references/rest-api/objects/redis_acl" >}}) in the request body.
+Include a [Redis ACL object]({{< relref "/operate/rs/7.4/references/rest-api/objects/redis_acl" >}}) in the request body.
 
 ### Response {#post-response}
 
-Returns the newly created [Redis ACL object]({{< relref "/operate/rs/references/rest-api/objects/redis_acl" >}}).
+Returns the newly created [Redis ACL object]({{< relref "/operate/rs/7.4/references/rest-api/objects/redis_acl" >}}).
 
 #### Example JSON body
 
@@ -344,7 +344,7 @@ Delete a Redis ACL object.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [delete_redis_acl]({{< relref "/operate/rs/references/rest-api/permissions#delete_redis_acl" >}}) | admin |
+| [delete_redis_acl]({{< relref "/operate/rs/7.4/references/rest-api/permissions#delete_redis_acl" >}}) | admin |
 
 ### Request {#delete-request}
 

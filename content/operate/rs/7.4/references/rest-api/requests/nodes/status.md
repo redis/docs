@@ -32,7 +32,7 @@ Gets the status of all nodes. Includes each node's hostname and role in the clus
 
 | Permission name |
 |-----------------|
-| [view_node_info]({{< relref "/operate/rs/references/rest-api/permissions#view_node_info" >}}) |
+| [view_node_info]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_node_info" >}}) |
 
 ### Request {#get-all-request} 
 
@@ -51,7 +51,7 @@ Gets the status of all nodes. Includes each node's hostname and role in the clus
 
 For each node in the cluster, returns a JSON object that contains each node's hostname, role, and other status details.
 
-If a maintenance snapshot exists due to an in-progress or improperly stopped [node maintenance]({{<relref "/operate/rs/clusters/maintenance-mode">}}) process, the response includes a `maintenance_snapshot` field.
+If a maintenance snapshot exists due to an in-progress or improperly stopped [node maintenance]({{<relref "/operate/rs/7.4/clusters/maintenance-mode">}}) process, the response includes a `maintenance_snapshot` field.
 
 #### Example JSON body
 
@@ -111,7 +111,7 @@ Gets the status of a node. Includes the node's hostname and role in the cluster:
 
 | Permission name |
 |-----------------|
-| [view_node_info]({{< relref "/operate/rs/references/rest-api/permissions#view_node_info" >}}) |
+| [view_node_info]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_node_info" >}}) |
 
 ### Request {#get-request} 
 
@@ -139,7 +139,7 @@ Gets the status of a node. Includes the node's hostname and role in the cluster:
 
 Returns a JSON object that contains the node's hostname, role, and other status details.
 
-If a maintenance snapshot exists due to an in-progress or improperly stopped [node maintenance]({{<relref "/operate/rs/clusters/maintenance-mode">}}) process, the response includes a `maintenance_snapshot` field.
+If a maintenance snapshot exists due to an in-progress or improperly stopped [node maintenance]({{<relref "/operate/rs/7.4/clusters/maintenance-mode">}}) process, the response includes a `maintenance_snapshot` field.
 
 #### Example JSON body
 

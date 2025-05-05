@@ -14,7 +14,7 @@ url: '/operate/kubernetes/7.4.6/upgrade/upgrade-olm/'
 
 ## Before upgrading
 
-1. Check [Supported Kubernetes distributions]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions" >}}) to make sure your Kubernetes distribution is supported.
+1. Check [Supported Kubernetes distributions]({{< relref "/operate/kubernetes/7.4.6/reference/supported_k8s_distributions" >}}) to make sure your Kubernetes distribution is supported.
 
 2. Use `oc get rec` and verify the `LICENSE STATE` is valid on your REC before you start the upgrade process.
 
@@ -38,7 +38,7 @@ You can monitor the upgrade from the **Installed Operators** page. A new Redis E
 
 ## Reapply the SCC
 
-If you are using OpenShift, you will also need to manually reapply the [security context constraints](https://docs.openshift.com/container-platform/4.8/authentication/managing-security-context-constraints.html) file ([`scc.yaml`]({{< relref "/operate/kubernetes/deployment/openshift/openshift-cli#deploy-the-operator" >}})) and bind it to your service account.
+If you are using OpenShift, you will also need to manually reapply the [security context constraints](https://docs.openshift.com/container-platform/4.8/authentication/managing-security-context-constraints.html) file ([`scc.yaml`]({{< relref "/operate/kubernetes/7.4.6/deployment/openshift/openshift-cli#deploy-the-operator" >}})) and bind it to your service account.
 
 ```sh
 oc apply -f openshift/scc.yaml
@@ -49,4 +49,4 @@ oc adm policy add-scc-to-user redis-enterprise-scc-v2 \
   system:serviceaccount:<my-project>:<rec-name>
 ```
 
-If you are upgrading from operator version 6.4.2-6 or before, see the [after upgrading section in the OpenShift CLI upgrade]({{<relref "/operate/kubernetes/upgrade/openshift-cli#after-upgrading">}}) to delete the old SCC and role binding after all clusters are running 6.4.2-6 or later.
+If you are upgrading from operator version 6.4.2-6 or before, see the [after upgrading section in the OpenShift CLI upgrade]({{<relref "/operate/kubernetes/7.4.6/upgrade/openshift-cli#after-upgrading">}}) to delete the old SCC and role binding after all clusters are running 6.4.2-6 or later.
