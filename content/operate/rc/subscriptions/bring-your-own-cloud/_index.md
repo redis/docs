@@ -8,7 +8,7 @@ categories:
 - rc
 description: Describes how to provision your Redis Cloud subscription to use an existing
   cloud provider account.
-bannerText: This article is for Redis Cloud Bring your Own Cloud (BYOC). If you're interested in Redis Cloud BYOC, [contact sales](https://redis.io/meeting/).
+bannerText: This article covers Redis Cloud Bring your Own Cloud (BYOC) deployments. To learn more or get started with Redis Cloud BYOC, [contact sales](https://redis.io/meeting/).
 bannerChildren: true
 hideListLinks: true
 weight: 80
