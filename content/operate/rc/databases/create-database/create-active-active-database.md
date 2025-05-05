@@ -174,6 +174,14 @@ The **Review and Create** tab provides a cost estimate for your Redis Cloud Pro 
 
 Redis breaks down your databases to Redis Billing Units (RBUs), each with their own size and throughput requirements. For more info, see [Billing unit types]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}#billing-unit-types).
 
+The **Payment methods** section of this tab shows which payment method you're using for this database. Select the arrow on the top right of this section to view all available payment methods.
+
+{{<image filename="images/rc/subscription-new-flexible-cardlist.png" width="250px" alt="The payment method list." >}}
+
+If you have not added a payment method or want to add a new payment method, select **Add credit card** to add a new credit card.
+
+{{< embed-md "rc-credit-card-add.md" >}}
+
 Select **Back to Sizing** to make changes or **Confirm & Pay** to create your databases.
 
 {{<image filename="images/rc/button-create-db-confirm-pay.png" width="140px" alt="Select Confirm & pay to create your database." >}}
