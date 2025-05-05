@@ -4,13 +4,13 @@ categories:
 - operate
 - stack
 - oss
-description: How to install Redis Community Edition using Snap
+description: How to install Redis Open Source using Snap
 linkTitle: Snap
-title: Install Redis Community Edition on Linux
+title: Install Redis Open Source on Linux
 weight: 4
 ---
 
-## Install Redis Community Edition (CE) on Ubuntu Linux using Snap
+## Install Redis Open Source on Ubuntu Linux using Snap
 
 To install Redis via snap, run the following commands:
 
@@ -22,7 +22,7 @@ sudo snap install redis
 
 Redis will start automatically after installation and also at boot time.
 
-## Connect to Redis CE
+## Connect to Redis
 
 Once Redis is running, you can test it by running `redis-cli`:
 

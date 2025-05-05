@@ -27,9 +27,9 @@ Redis Time Series are available on all Redis Cloud managed services, including a
 
 
 ### Docker
-To quickly try out Redis Time Series, launch an instance of Redis Community Edition using docker:
+To quickly try out Redis Time Series, launch an instance of Redis Open Source using docker:
 ```sh
-docker run -p 6379:6379 -it --rm redis/redis-stack-server
+docker run -p 6379:6379 -it --rm redis/redis:latest
 ```
 
 ### Download and running binaries

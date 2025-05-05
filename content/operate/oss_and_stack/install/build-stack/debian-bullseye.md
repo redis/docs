@@ -5,11 +5,11 @@ categories:
 - stack
 - oss
 linkTitle: Debian 11 (Bullseye)
-title: Build and run Redis Community Edition 8 on Debian 11 (Bullseye)
+title: Build and run Redis Open Source on Debian 11 (Bullseye)
 weight: 20
 ---
 
-Follow the steps below to build and run Redis Community Edition 8 from its source code on a system running Debian 11 (Bullseye).
+Follow the steps below to build and run Redis Open Source from its source code on a system running Debian 11 (Bullseye).
 
 {{< note >}}
 Docker images used to produce these build notes:

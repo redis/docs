@@ -16,7 +16,7 @@ title: Advanced concepts
 weight: 7
 ---
 
-Redis Community Edition supports the following Redis Query Engine features. This article provides you an overview.
+Redis Open Source supports the following Redis Query Engine features. This article provides you an overview.
 
 ## Indexing features
 
@@ -54,10 +54,10 @@ Redis Community Edition supports the following Redis Query Engine features. This
 
 ## Cluster support
 
-The Redis Query Engine features of Redis Community Edition are also available for distributed databases that can scale to billions of documents and hundreds of servers.
+The Redis Query Engine features of Redis Open Source are also available for distributed databases that can scale to billions of documents and hundreds of servers.
 
 ## Supported platforms
-Redis Community Edition is developed and tested on Linux and macOS on x86_64 CPUs.
+Redis Open Source is developed and tested on Linux and macOS on x86_64 CPUs.
 
 Atom CPUs are not supported.
 

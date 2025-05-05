@@ -1,5 +1,5 @@
 ---
-Title: Deprecated Redis Community Edition features and modules
+Title: Deprecated Redis Open Source features and modules
 alwaysopen: false
 categories:
 - docs

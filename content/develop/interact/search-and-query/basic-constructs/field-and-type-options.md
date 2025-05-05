@@ -16,7 +16,7 @@ weight: 2
 ---
 
 
-Redis Community Edition provides various field types that allow you to store and search different kinds of data in your indexes. This page explains the available field types, their characteristics, and how they can be used effectively.
+Redis Open Source provides various field types that allow you to store and search different kinds of data in your indexes. This page explains the available field types, their characteristics, and how they can be used effectively.
 
 ## Numeric fields
 

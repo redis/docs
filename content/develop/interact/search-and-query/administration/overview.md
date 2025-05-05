@@ -9,7 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Technical overview of the search and query features of Redis Community Edition'
+description: 'Technical overview of the search and query features of Redis Open Source'
 linkTitle: Technical overview
 title: Technical overview
 weight: 1
@@ -17,7 +17,7 @@ weight: 1
 
 ## Abstract
 
-Redis Query Engine ("RQE") is a powerful text search and secondary indexing engine that is built on top of Redis Community Edition. 
+Redis Query Engine ("RQE") is a powerful text search and secondary indexing engine that is built on top of Redis Open Source. 
 
 Unlike other Redis search libraries, it does not use the internal data structures of Redis such as sorted sets. Using its own highly optimized data structures and algorithms, it allows for advanced search features, high performance, and a low memory footprint. It can perform simple text searches, as well as complex structured queries, filtering by numeric properties and geographical distances.
 
@@ -283,7 +283,7 @@ Highlighting will highlight the found term and its variants with a user-defined 
 
 ## Autocomplete
 
-Another important feature for Redis CE is its autocomplete engine. This allows users to create dictionaries of weighted terms, and then query them for completion suggestions to a given user prefix. Completions can have payloads, which are user-provided pieces of data that can be used for display. For example, completing the names of users, it is possible to add extra metadata about users to be displayed.
+Another important feature for Redis Open Source is its autocomplete engine. This allows users to create dictionaries of weighted terms, and then query them for completion suggestions to a given user prefix. Completions can have payloads, which are user-provided pieces of data that can be used for display. For example, completing the names of users, it is possible to add extra metadata about users to be displayed.
 
 For example, if a user starts to put the term “lcd tv” into a dictionary, sending the prefix “lc” will return the full term as a result. The dictionary is modeled as a compact trie (prefix tree) with weights, which is traversed to find the top suffixes of a prefix.
 

@@ -20,7 +20,7 @@ weight: 4
 The sections below explain how to install `node-redis` and connect your application
 to a Redis database.
 
-`node-redis` requires a running [Redis Community Edition]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) server. See [Getting started]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis installation instructions.
+`node-redis` requires a running Redis server. See [here]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis Open Source installation instructions.
 
 You can also access Redis with an object-mapping client interface. See
 [RedisOM for Node.js]({{< relref "/integrate/redisom-for-node-js" >}})
