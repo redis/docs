@@ -8,7 +8,6 @@ description: How to install Redis Open Source using APT
 linkTitle: APT
 title: Install Redis Open Source on Linux
 weight: 2
-bannerText: These installation instructions are not yet complete for Redis 8 in Redis Open Source (Redis 8). For installation instructions prior to Redis 8, see [these pages]({{< relref "/operate/oss_and_stack/install/archive" >}}).
 ---
 
 ## Install Redis Open Source on Ubuntu or Debian Linux using APT
@@ -52,8 +51,8 @@ To install an earlier version, say 7.4.2, run the following command:
 sudo apt-get install redis=6:7.4.2-1rl1~jammy1
 {{< /highlight >}}
 
-Redis should start automatically after the initial installation, but it won't start automatically at boot time.
-To start Redis (if not already started) and enable it to start at boot time, run the following commands.
+Redis should start automatically after the initial installation and also at boot time.
+Should that not be the case on your system, run the following commands:
 
 {{< highlight bash >}}
 sudo systemctl enable redis-server
