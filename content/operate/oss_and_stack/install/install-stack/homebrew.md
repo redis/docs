@@ -4,22 +4,22 @@ categories:
 - operate
 - stack
 - oss
-description: How to install Redis Community Edition on macOS using Homebrew
+description: How to install Redis Open Source on macOS using Homebrew
 linkTitle: Homebrew
-title: Install Redis Community Edition on macOS
+title: Install Redis Open Source on macOS
 weight: 6
 ---
 
-## Install Redis Community Edition (CE) on macOS using Homebrew
+## Install Redis Open Source on macOS using Homebrew
 
 {{< note >}}Installation using Homebrew is only supported on macOS.{{< /note >}}
 
-To install Redis CE on macOS, use [Homebrew](https://brew.sh/).
+To install Redis Open Source on macOS, use [Homebrew](https://brew.sh/).
 Make sure that you have [Homebrew installed](https://docs.brew.sh/Installation) before starting on the installation instructions below.
 
 ## Install using Homebrew
 
-First, tap the Redis CE Homebrew cask:
+First, tap the Redis Homebrew cask:
 
 {{< highlight bash >}}
 brew tap redis/redis
@@ -30,7 +30,6 @@ Next, run `brew install`:
 {{< highlight bash >}}
 brew install --cask redis
 {{< /highlight >}}
-
 
 ## Run Redis
 
@@ -50,7 +49,7 @@ Open the file `~/.bashrc` or `~/zshrc` (depending on your shell), and add the fo
 export PATH=$(brew --prefix)/bin:$PATH
 {{< /highlight >}}
 
-You can now start Redis server as follows:
+You can now start the Redis server as follows:
 
 {{< highlight bash >}}
 redis-server /opt/homebrew/etc/redis.conf
@@ -62,7 +61,7 @@ The server will run in the background.
 Because Redis is installed using a Homebrew cask with the `brew tap` command, it will not be integrated with the `brew services` command.
 {{< /note >}}
 
-## Connect to Redis CE
+## Connect to Redis
 
 Once Redis is running, you can test it by running `redis-cli`:
 
@@ -85,9 +84,9 @@ Run the following command:
 redis-cli SHUTDOWN
 {{< /highlight >}}
 
-## Uninstall Redis CE
+## Uninstall Redis Open Source
 
-To uninstall Redis CE, run:
+To uninstall Redis, run:
 
 {{< highlight bash >}}
 brew uninstall redis

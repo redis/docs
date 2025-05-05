@@ -1,5 +1,5 @@
 ---
 title: Reference
-description: Redis Community Edition reference documentation
+description: Redis Open Source reference documentation
 linkTitle: Reference
 ---

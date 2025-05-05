@@ -15,7 +15,7 @@ title: Indexing
 weight: 3
 ---
 
-In addition to indexing Redis hashes, Redis Community Edition can also index JSON documents.
+In addition to indexing Redis hashes, Redis Open Source can also index JSON documents.
 
 ## Create index with JSON schema
 

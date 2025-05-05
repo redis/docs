@@ -37,6 +37,6 @@ Connecting to a remote server can be challenging. Here’s a quick checklist for
 - If you've managed to open a connection, try sending the `INFO` command and act on its reply or error message.
 - Redis Enterprise Software Redis databases only support connecting to the default database (0) and block some administrative commands. To learn more, see:
     - Redis Enterprise Cluster: [REC compatibility](/redis-enterprise-documentation/rlec-compatibility)
-    - Redis Cloud FAQ: [Are you fully compatible with Redis Community Edition](/faqs#are-you-fully-compatible-with-open-source-redis)
+    - Redis Cloud FAQ: [Are you fully compatible with Redis Open Source](/faqs#are-you-fully-compatible-with-open-source-redis)
 
 If you encounter any difficulties or have questions please feel free to [contact our help desk](mailto:support@redislabs.com).

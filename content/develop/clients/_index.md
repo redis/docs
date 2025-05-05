@@ -57,8 +57,8 @@ Redis does not document directly:
 ## Requirements
 
 You will need access to a Redis server to use these libraries.
-You can experiment with a local installation of Redis Community Edition
-(see [Install Redis Community Edition]({{< relref "/operate/oss_and_stack/install/install-stack/" >}})) or with a free trial of [Redis Cloud]({{< relref "/operate/rc" >}}).
+You can experiment with a local installation of Redis Open Source
+(see [Install Redis Open Source]({{< relref "/operate/oss_and_stack/install/install-stack/" >}})) or with a free trial of [Redis Cloud]({{< relref "/operate/rc" >}}).
 To interact with a Redis server without writing code, use the
 [Redis CLI]({{< relref "/develop/tools/cli" >}}) and
 [Redis Insight]({{< relref "/develop/tools/insight" >}}) tools.

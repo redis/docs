@@ -13,7 +13,7 @@ For this tutorial, you need:
 
 - Either:
     - A Redis Enterprise cluster with the [RedisGears module and Python plugin installed]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1/installing-redisgears#install-redisgears" >}}) and [enabled on a database]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1/python/install" >}})
-    - An Redis Community Edition database with the RedisGears module
+    - A Redis Open Source database with the RedisGears module
 - `redis-cli` with connectivity to a Redis database
 
 ## RedisGears basics

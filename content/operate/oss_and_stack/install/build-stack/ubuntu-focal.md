@@ -5,11 +5,11 @@ categories:
 - stack
 - oss
 linkTitle: Ubuntu 20.04 (Focal)
-title: Build and run Redis Community Edition 8 on Ubuntu 20.04 (Focal)
+title: Build and run Redis Open Source on Ubuntu 20.04 (Focal)
 weight: 25
 ---
 
-Follow the steps below to build and run Redis Community Edition 8 from its source code on a system running Ubuntu 20.04 (Focal).
+Follow the steps below to build and run Redis Open Source from its source code on a system running Ubuntu 20.04 (Focal).
 
 {{< note >}}
 Docker images used to produce these build notes:
