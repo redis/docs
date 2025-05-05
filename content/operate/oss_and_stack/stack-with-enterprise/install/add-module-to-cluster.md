@@ -17,14 +17,14 @@ To use other modules or upgrade an existing module to a more recent version, you
 {{<warning>}}
 - Some module versions are not supported or recommended for use with Redis Enterprise.
 
-- We recommend consulting [Redis support](https://redis.com/company/support/) before you upgrade a module on the cluster, especially if the cluster is used in production.
+- We recommend consulting [Redis support](https://redis.io/support/) before you upgrade a module on the cluster, especially if the cluster is used in production.
 {{</warning>}}
 
 ## Get packaged modules
 
 To install or upgrade a module on a [Redis Enterprise Software]({{< relref "/operate/rs" >}}) cluster, you need a module package.
 
-- For versions of official Redis modules that are not available from the [Redis download center](https://redislabs.com/download-center/modules/), [contact support](https://redis.com/company/support/).
+- For versions of official Redis modules that are not available from the [Redis download center](https://redis.io/downloads/), [contact support](https://redis.io/support/).
 
 - For custom-packaged modules, download a [custom-packaged module](https://redislabs.com/community/redis-modules-hub/) from the developer.
 
