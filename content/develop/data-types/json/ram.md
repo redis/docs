@@ -21,7 +21,7 @@ Redis 8 in Redis Open Source was used for the examples on this page.
 {{< /note >}}
 <br />
 {{< warning >}}
-The actual total memory consumption could be much lower than the reported value because of an internal JSON references mechanism.
+The actual total memory consumption could be much lower than the reported value because of an internal JSON reference-counting mechanism.
 {{< /warning >}}
 
 Every key in Redis takes memory and requires at least the amount of RAM to store the key name, as
