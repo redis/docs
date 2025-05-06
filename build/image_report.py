@@ -76,12 +76,22 @@ if args.find_unused and num_found > 0:
     print(f"Checking for images not found in '{args.pathname}' that are in '{args.find_unused[0]}'")
 
     unused_images = []
+    total_images = 0
 
     for root, dirs, files in os.walk(args.find_unused[0]):
         for file in files:
-            if (file.endswith(".png") or file.endswith(".jpg") or file.endswith(".webp")) and not any(file in img for img in unique_images):
-                img_filepath = os.path.join(root, file)
-                print(f"    Image '{img_filepath}' not found in '{args.pathname}'")
-                unused_images.append(img_filepath)
+            if (file.endswith(".png") or file.endswith(".jpg") or file.endswith(".webp")):
+                total_images += 1
+                if not any(file in img for img in unique_images):
+                    img_filepath = os.path.join(root, file)
+                    print(f"    Image '{img_filepath}' not found in '{args.pathname}'")
+                    unused_images.append(img_filepath)
 
-    print(f"Found {len(unused_images)} unused images.")
+    print(f"Found {len(unused_images)} unused images out of {total_images} images in '{args.find_unused[0]}.'")
+
+    if len(unused_images) > 0:
+        print("Do you want to remove these images? (y/n) (DO NOT DO ON MAIN BRANCH!)")
+        if input().lower() == "y":
+            for img in unused_images:
+                os.remove(img)
+                print(f"Removed '{img}'")
