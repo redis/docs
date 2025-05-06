@@ -12,7 +12,7 @@ After you add your first tag, you can:
 
 - Select **Delete** next to a tag to delete it.
 
-    {{<image filename="images/rc/icon-delete-teal.png" alt="Delete button." >}}
+    {{<image filename="images/rc/icon-delete-teal.png" width="36px" alt="Delete button." >}}
 
 - Select **Add additional tag** to add another tag.
 
