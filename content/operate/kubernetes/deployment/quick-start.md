@@ -9,7 +9,6 @@ description: How to install Redis Enterprise Software for Kubernetes.
 linkTitle: Kubernetes
 weight: 10
 ---
-
 To deploy Redis Enterprise Software for Kubernetes and start your Redis Enterprise cluster (REC), you need to do the following:
 
 - Create a new namespace in your Kubernetes cluster.
@@ -27,7 +26,10 @@ To deploy Redis Enterprise for Kubernetes, you'll need:
 - minimum of three worker nodes
 - Kubernetes client (kubectl)
 - access to DockerHub, RedHat Container Catalog, or a private repository that can hold the required images.
-NOTE: If you are applying version 7.8.2-6 or above, check if the [OS](https://redis.io/docs/latest/operate/kubernetes/release-notes/7-8-2-releases/7-8-2-6-nov24/#breaking-changes) installed on the node is supported.
+
+If you suspect your file descriptor limits are below 100k, you must either manually increase limits or [Allow automatic resource adjustment]({{< relref "/operate/kubernetes/security/enable-privileged-mode.md" >}}). Most major cloud providers and standard container runtime configurations set default file descriptor limits well above the minimum required by Redis Enterprise. In these environments, you can safely run without enabling automatic resource adjustment.
+
+{{<note>}}If you are applying version 7.8.2-6 or above, check if the [OS](https://redis.io/docs/latest/operate/kubernetes/release-notes/7-8-2-releases/7-8-2-6-nov24/#breaking-changes) installed on the node is supported.{{</note>}}
 
 ### Create a new namespace
 
@@ -114,6 +116,10 @@ that contains cluster specifications.
 
 The following example creates a minimal Redis Enterprise cluster. See the [RedisEnterpriseCluster API reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api">}}) for more information on the various options available.
 
+{{<note>}}
+Redis Enterprise may require the ability to adjust system resource limits, such as file descriptors. If you're unsure whether your container runtime provides high enough defaults (at least 100,000), you can allow the operator to adjust them automatically. See [Allow automatic resource adjustment]({{< relref "/operate/kubernetes/security/enable-privileged-mode.md" >}}) for details.
+{{</note>}}
+
 1. Create a file that defines a Redis Enterprise cluster with three nodes.
 
     {{<note>}}
@@ -151,6 +157,10 @@ Each cluster must have at least 3 nodes. Single-node RECs are not supported.
 
     See the [Redis Enterprise hardware requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md" >}}) for more information on sizing Redis Enterprise node resource requests.
   
+    {{<note>}}
+    If you enabled automatic resource adjustment in your configuration, this step will trigger the operator to apply elevated capabilities. Ensure your security context allows it.
+    {{</note>}}
+
 1. Apply your custom resource file in the same namespace as `my-rec.yaml`.
 
     ```sh

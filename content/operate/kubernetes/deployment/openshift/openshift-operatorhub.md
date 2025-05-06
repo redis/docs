@@ -10,8 +10,9 @@ description: OpenShift provides the OperatorHub where you can install the Redis 
 linkTitle: OpenShift OperatorHub
 weight: 70
 ---
-
 You can deploy Redis Enterprise for Kubernetes from the Red Hat OpenShift CLI. You can also use a UI, [OperatorHub](https://docs.openshift.com/container-platform/4.11/operators/index.html) (Red Hat) to install operators and create custom resources.
+
+If you suspect your file descriptor limits are below 100k, you must either manually increase limits or [Allow automatic resource adjustment]({{< relref "/operate/kubernetes/security/enable-privileged-mode.md" >}}). Most major cloud providers and standard container runtime configurations set default file descriptor limits well above the minimum required by Redis Enterprise. In these environments, you can safely run without enabling automatic resource adjustment.
 
 To see which version of Redis Enterprise for Kubernetes supports your OpenShift version, see [Supported Kubernetes distributions]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions" >}}).
 
@@ -53,11 +54,13 @@ To enable privileged mode, see [Enable privileged mode > OpenShift upgrades]({{<
 
 The **Installed Operators**->**Operator details** page shows the provided APIs: **RedisEnterpriseCluster** and **RedisEnterpriseDatabase**. You can select **Create instance** to create custom resources using the OperatorHub interface.
 
+
 Use the YAML view to create a custom resource file or let OperatorHub generate the YAML file for you by specifying your configuration options in the form view.
 
-<note> The REC name cannot be changed after cluster creation.</note>
-
-{{<note>}} In versions 6.4.2-4 and 6.4.2-5, REC creation might fail when using the form view due to an error related to the cluster level LDAP. To avoid this, use the YAML view.
+{{<note>}}
+Redis Enterprise may require the ability to adjust system resource limits, such as file descriptors. If you're unsure whether your container runtime provides high enough defaults (at least 100,000), you can allow the operator to adjust them automatically. See [Allow automatic resource adjustment]({{< relref "/operate/kubernetes/security/enable-privileged-mode.md" >}}) for details.
 {{</note>}}
+
+<note> The REC name cannot be changed after cluster creation.</note>
 
 For more information on creating and maintaining Redis Enterprise custom resources, see [Redis Enterprise clusters (REC)]({{< relref "/operate/kubernetes/re-clusters/" >}}) and [Redis Enterprise databases (REDB)]({{< relref "/operate/kubernetes/re-databases/" >}}).
