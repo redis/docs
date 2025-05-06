@@ -107,7 +107,7 @@ performance of the module:
 
 ## Comparison vs. server-side Lua scripting
 
-We compare Redis Stack's JSON performance with Redis' embedded Lua engine. For this purpose, we use the Lua
+We compare the JSON performance of Redis Open Source with the Redis embedded Lua engine. For this purpose, we use the Lua
 scripts at [/benchmarks/lua](https://github.com/RedisLabsModules/redisjson/tree/master/benchmarks/lua).
 These scripts provide JSON's GET and SET functionality on values stored in JSON or MessagePack
 formats. Each of the different operations (set root, get root, set path and get path) is executed

@@ -29,6 +29,31 @@ In some cases, the defaults are based on environment-specific settings (e.g., op
 For more details on setting specific timeouts, see the [Lettuce reference guide](https://redis.github.io/lettuce/).
 {{% /alert  %}}
 
+### Prerequisites
+
+To set TCP-level timeouts, you need to ensure you have one of [Netty Native Transports](https://netty.io/wiki/native-transports.html) installed. The most common one is `netty-transport-native-epoll`, which is used for Linux systems. You can add it to your project by including the following dependency in your `pom.xml` file:
+
+```xml
+<dependency>
+    <groupId>io.netty</groupId>
+    <artifactId>netty-transport-native-epoll</artifactId>
+    <version>${netty.version}</version> <!-- e.g., 4.1.118.Final -->
+    <classifier>linux-x86_64</classifier>
+</dependency>
+```
+
+Once you have the native transport dependency, you can verify that by using the following code:
+
+```java
+logger.info("Lettuce epool is available: {}", EpollProvider.isAvailable());
+```
+
+If the snippet above returns `false`, you need to enable debugging logging for `io.lettuce.core` and `io.netty` to see why the native transport is not available.
+
+For more information on using Netty Native Transport, see the [Lettuce reference guide](https://redis.github.io/lettuce/advanced-usage/#native-transports).
+
+### Setting timeouts
+
 Below is an example of setting socket-level timeouts. The `TCP_USER_TIMEOUT` setting is useful for scenarios where the server stops responding without acknowledging the last request, while the `KEEPALIVE` setting is good for detecting dead connections where there is no traffic between the client and the server.
 
 ```java
@@ -67,6 +92,58 @@ try (RedisClient client = RedisClient.create(redisURI)) {
     System.out.println(connection.sync().ping());
 }
 ```
+
+## Cluster topology refresh
+The Redis Cluster configuration is dynamic and can change at runtime. 
+New nodes may be added, and the primary node for a specific slot can shift.
+Lettuce automatically handles [MOVED]({{< relref "/operate/oss_and_stack/reference/cluster-spec#moved-redirection" >}}) and [ASK]({{< relref "/operate/oss_and_stack/reference/cluster-spec#ask-redirection" >}}) redirects, but to enhance your application's resilience, you should enable adaptive topology refreshing:
+
+```java
+RedisURI redisURI = RedisURI.Builder
+        .redis("localhost")
+        // set the global default from the default 60 seconds to 30 seconds
+        .withTimeout(Duration.ofSeconds(30)) 
+        .build();
+        
+// Create a RedisClusterClient with adaptive topology refresh
+try (RedisClusterClient clusterClient = RedisClusterClient.create(redisURI)) {
+    // Enable TCP keep-alive and TCP user timeout just like in the standalone example
+    SocketOptions.TcpUserTimeoutOptions tcpUserTimeout = SocketOptions.TcpUserTimeoutOptions.builder()
+            .tcpUserTimeout(Duration.ofSeconds(20))
+            .enable()
+            .build();
+
+    SocketOptions.KeepAliveOptions keepAliveOptions = SocketOptions.KeepAliveOptions.builder()
+            .interval(Duration.ofSeconds(5))
+            .idle(Duration.ofSeconds(5))
+            .count(3)
+            .enable()
+            .build();
+
+    SocketOptions socketOptions = SocketOptions.builder()
+            .tcpUserTimeout(tcpUserTimeout)
+            .keepAlive(keepAliveOptions)
+            .build();
+
+    // Enable adaptive topology refresh
+    // Configure adaptive topology refresh options
+    ClusterTopologyRefreshOptions topologyRefreshOptions = ClusterTopologyRefreshOptions.builder()
+            .enableAllAdaptiveRefreshTriggers()
+            .adaptiveRefreshTriggersTimeout(Duration.ofSeconds(30))
+            .build();
+    
+    ClusterClientOptions options = ClusterClientOptions.builder()
+            .topologyRefreshOptions(topologyRefreshOptions)
+            .socketOptions(socketOptions).build();
+
+    clusterClient.setOptions(options);
+
+    StatefulRedisClusterConnection<String, String> connection = clusterClient.connect();
+    System.out.println(connection.sync().ping());
+    connection.close();
+}
+```
+Learn more about topology refresh configuration settings in [the reference guide](https://redis.github.io/lettuce/ha-sharding/#redis-cluster).
 
 
 ## DNS cache and Redis

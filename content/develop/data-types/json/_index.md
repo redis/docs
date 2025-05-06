@@ -19,7 +19,7 @@ weight: 11
 [![Discord](https://img.shields.io/discord/697882427875393627?style=flat-square)](https://discord.gg/QUkjSsk)
 [![Github](https://img.shields.io/static/v1?label=&message=repository&color=5961FF&logo=github)](https://github.com/RedisJSON/RedisJSON/)
 
-The JSON capability of Redis Stack provides JavaScript Object Notation (JSON) support for Redis. It lets you store, update, and retrieve JSON values in a Redis database, similar to any other Redis data type. Redis JSON also works seamlessly with the [Redis Query Engine]({{< relref "/develop/interact/search-and-query/" >}}) to let you [index and query JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}}).
+The JSON capability of Redis Open Source provides JavaScript Object Notation (JSON) support for Redis. It lets you store, update, and retrieve JSON values in a Redis database, similar to any other Redis data type. Redis JSON also works seamlessly with the [Redis Query Engine]({{< relref "/develop/interact/search-and-query/" >}}) to let you [index and query JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}}).
 
 ## Primary features
 
@@ -144,11 +144,9 @@ $ redis-cli --raw
 
 ## Enable Redis JSON
 
-Redis JSON is not available by default in the basic Redis server, so you
-should install Redis Stack or Redis Enterprise,
-both of which include JSON and other useful modules.
+The Redis JSON data type is part of Redis Open Source and it is also available in Redis Software and Redis Cloud.
 See
-[Install Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) or
+[Install Redis Open Source]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) or
 [Install Redis Enterprise]({{< relref "/operate/rs/installing-upgrading/install" >}})
 for full installation instructions.
 

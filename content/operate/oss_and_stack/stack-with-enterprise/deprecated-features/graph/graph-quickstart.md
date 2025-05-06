@@ -217,7 +217,7 @@ Alex's updated friend count: [[1]]
 
 You can use the [Redis Insight]({{< relref "/develop/tools/insight" >}}) workbench to visualize the relationships between the nodes of your graph.
 
-1. Connect to your database with Redis Insight. You can [connect manually]({{< relref "develop/connect/insight/#add-a-standalone-redis-database" >}}) or use the [auto-discovery]({{< relref "develop/connect/insight/#auto-discovery-for-redis-cloud-databases" >}}) feature.
+1. Connect to your database with Redis Insight. You can [connect manually]({{< relref "develop/tools/insight#add-a-standalone-redis-database" >}}) or use the [auto-discovery]({{< relref "develop/tools/insight#auto-discovery-for-redis-cloud-databases" >}}) feature.
 
 1. Select the **Workbench** button:
 

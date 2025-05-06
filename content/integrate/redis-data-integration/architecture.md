@@ -55,7 +55,7 @@ outside the Redis
 Enterprise cluster where the target database is kept. However, RDI keeps
 its state and configuration data and also the change data streams in a Redis database on the same cluster as the target. The following diagram shows the pipeline steps and the path the data takes on its way from the source to the target:
 
-{{< image filename="images/rdi/ingest/ingest-dataflow.png" >}}
+{{< image filename="images/rdi/ingest/ingest-dataflow.webp" >}}
 
 When you first start RDI, the target database is empty and so all
 of the data in the source database is essentially "change" data.
@@ -111,7 +111,7 @@ and to deploy and manage a pipeline. Use the pipeline editor
 diagram below shows the components of the control and management
 planes and the connections between them:
 
-{{< image filename="images/rdi/ingest/ingest-control-plane.png" >}}
+{{< image filename="images/rdi/ingest/ingest-control-plane.webp" >}}
 
 The following sections describe the VM configurations you can use to
 deploy RDI.
@@ -124,7 +124,7 @@ Both the active VM and the standby
 need access to the authentication secrets that RDI uses to encrypt network
 traffic. The diagram below shows this configuration:
 
-{{< image filename="images/rdi/ingest/ingest-active-passive-vms.png" >}}
+{{< image filename="images/rdi/ingest/ingest-active-passive-vms.webp" >}}
 
 See [Install on VMs]({{< relref "/integrate/redis-data-integration/installation/install-vm" >}})
 for more information.

@@ -31,4 +31,4 @@ JSON allows you to atomically run operations like incrementing a value, adding, 
 
 **Indexing and querying**
 
-When you store JSON objects as Redis strings, there's no good way to query those objects. On the other hand, storing these objects as JSON using Redis Stack lets you index and query them. This capability is provided by the Redis Query Engine.
+When you store JSON objects as Redis strings, there's no good way to query those objects. On the other hand, storing these objects as JSON using Redis Open Source lets you index and query them. This capability is provided by the Redis Query Engine.

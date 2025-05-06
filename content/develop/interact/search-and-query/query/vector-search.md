@@ -15,7 +15,7 @@ title: Vector search
 weight: 5
 ---
 
-This article gives you a good overview of how to perform vector search queries with Redis Stack. See the [Redis as a vector database quick start guide]({{< relref "/develop/get-started/vector-database" >}}) for more information about Redis as a vector database. You can also find more detailed information about all the parameters in the [vector reference documentation]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}}).
+This article gives you a good overview of how to perform vector search queries with the Redis Query Engine, which is part of Redis Open Source. See the [Redis as a vector database quick start guide]({{< relref "/develop/get-started/vector-database" >}}) for more information about Redis as a vector database. You can also find more detailed information about all the parameters in the [vector reference documentation]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}}).
 
 A vector search query on a vector field allows you to find all vectors in a vector space that are close to a given vector. You can query for the k-nearest neighbors or vectors within a given radius.
 

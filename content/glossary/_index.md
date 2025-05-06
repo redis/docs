@@ -309,7 +309,7 @@ The on-premises version of Redis Enterprise.
 {{%/definition%}}
 
 {{%definition "Redis instance"%}}
-Single-threaded Redis Community Edition database. Redis OSS was renamed Redis Community Edition (CE) with the v7.4 release.
+Single-threaded Redis Open Source database. Redis OSS was renamed Redis Open Source with the Redis 8 in Redis Open Source release.
 {{%/definition%}}
 
 {{%definition "Auto Tiering "%}}

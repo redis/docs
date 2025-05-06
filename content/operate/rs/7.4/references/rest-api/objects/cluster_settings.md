@@ -23,7 +23,7 @@ Cluster resources management policy
 | bigstore_provision_node_threshold | integer | Minimum free memory (excluding reserved memory) allowed on a node before new shards can no longer be added to it |
 | bigstore_provision_node_threshold_p | integer | Minimum free memory (excluding reserved memory) allowed on a node before new shards can no longer be added to it |
 | data_internode_encryption | boolean | Enable/deactivate encryption of the data plane internode communication |
-| db_conns_auditing | boolean | [Audit connections]({{< relref "/operate/rs/security/audit-events" >}}) for new databases by default if set to true. |
+| db_conns_auditing | boolean | [Audit connections]({{< relref "/operate/rs/7.4/security/audit-events" >}}) for new databases by default if set to true. |
 | default_concurrent_restore_actions | integer | Default number of restore actions allowed at the same time. Set to 0 to allow any number of simultaneous restore actions. |
 | default_fork_evict_ram | boolean | If true, the bdbs should evict data from RAM to ensure successful replication or persistence |
 | default_non_sharded_proxy_policy | `single`<br /><br />`all-master-shards`</nobr><br /><br />`all-nodes` | Default proxy_policy for newly created non-sharded databases' endpoints |
@@ -46,7 +46,7 @@ Cluster resources management policy
 | redis_migrate_node_threshold_p | integer | Minimum free memory (excluding reserved memory) allowed on a node before automatic migration of shards from it to free more memory |
 | redis_provision_node_threshold | integer | Minimum free memory (excluding reserved memory) allowed on a node before new shards can no longer be added to it |
 | redis_provision_node_threshold_p | integer | Minimum free memory (excluding reserved memory) allowed on a node before new shards can no longer be added to it |
-| redis_upgrade_policy | **`major`** <br />`latest` | Create/upgrade Redis Enterprise software on databases in the cluster by compatibility with major versions or latest versions of Redis Community Edition |
+| redis_upgrade_policy | **`major`** <br />`latest` | Create/upgrade Redis Enterprise software on databases in the cluster by compatibility with major versions or latest versions of Redis Open Source |
 | resp3_default | boolean (default:&nbsp;true) | Determines the default value of the `resp3` option upon upgrading a database to version 7.2 |
 | shards_overbooking | boolean | If true, all databases' memory_size is ignored during shards placement |
 | show_internals | boolean | Show internal databases (and their shards and endpoints) REST APIs |

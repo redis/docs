@@ -58,7 +58,7 @@ for geospatial data:
 -   [`GEO`](#geo): This uses a simple format where individual geospatial
     points are specified as numeric longitude-latitude pairs.
     
--   [`GEOSHAPE`](#geoshape): [Redis Community Edition]({{< relref "/operate/oss_and_stack" >}}) also
+-   [`GEOSHAPE`](#geoshape): [Redis Open Source]({{< relref "/operate/oss_and_stack" >}}) also
     supports `GEOSHAPE` indexing in v7.2 and later.
     This uses a subset of the 
     [Well-Known Text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry)

@@ -1,4 +1,7 @@
 ---
+acl_categories:
+- '@read'
+- '@search'
 arguments:
 - name: index
   type: string
@@ -312,7 +315,11 @@ syntax_str: "query [NOCONTENT] [VERBATIM] [NOSTOPWORDS] [WITHSCORES] [WITHPAYLOA
 title: FT.SEARCH
 ---
 
-Search the index with a textual query, returning either documents or just ids
+Search the index with a textual query, returning either documents or just ids.
+
+{{< note >}}
+This command will only return keys to which the user has read access.
+{{< /note >}}
 
 [Examples](#examples)
 

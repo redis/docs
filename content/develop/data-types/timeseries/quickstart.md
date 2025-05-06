@@ -9,9 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Quick Start Guide to Time Series
-
-  '
+description: Quick Start Guide to Time Series
 linkTitle: Quickstart
 title: Quickstart
 weight: 2
@@ -19,7 +17,7 @@ weight: 2
 
 ## Setup
 
-You can get RedisTimeSeries setup in the cloud, in a Docker container or on your own machine.
+You can get Redis Time Series setup in the cloud, in a Docker container, or on your own machine.
 
 ### Redis Cloud
 
@@ -29,9 +27,9 @@ Redis Time Series are available on all Redis Cloud managed services, including a
 
 
 ### Docker
-To quickly try out Redis Time Series, launch an instance of Redis Stack using docker:
+To quickly try out Redis Time Series, launch an instance of Redis Open Source using docker:
 ```sh
-docker run -p 6379:6379 -it --rm redis/redis-stack-server
+docker run -p 6379:6379 -it --rm redis/redis:latest
 ```
 
 ### Download and running binaries

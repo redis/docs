@@ -13,7 +13,7 @@ linkTitle: Install on VMs
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: 1
+weight: 10
 ---
 
 This guide explains how to install Redis Data Integration (RDI) on one or more VMs and integrate it with
@@ -28,14 +28,7 @@ your source database. You can also
 RDI is mainly CPU and network bound. 
 Each of the RDI VMs should have at least:
 
-- **CPU**: A minimum of 4 CPU cores. You should consider adding
-  2-6 extra cores on top of this if your dataset is big and you want to ingest the
-  baseline snapshot as fast as possible.
-- **RAM**: 2GB 
-- **Disk**: 25GB, which includes the OS footprint. In particular,
-  RDI requires  7GB in  `/var` and 1GB in `/opt` folder  (to
-  store the log files).
-- **Network interface**: 10GB or more.
+{{< embed-md "rdi-vm-reqs.md" >}}
 
 ## Install RDI on VMs
 
@@ -71,8 +64,7 @@ known to work correctly with RDI.
 
 The supported OS versions for RDI are:
 
-- RHEL 8 & 9
-- Ubuntu 20.04, 22.04, and 24.04
+{{< embed-md "rdi-os-reqs.md" >}}
 
 You must run the RDI installer as a privileged user because it installs
 [containerd](https://containerd.io/) and registers services. However, you don't
@@ -161,9 +153,10 @@ ufw allow 9121/tcp  # rdi-metric-exporter
 
 Follow the steps below for each of your VMs:
 
-1.  Download the RDI installer from the [Redis download center](https://cloud.redis.io/#/rlec-downloads)
-    (under the *Modules, Tools & Integration* dropdown)
-    and extract it to your preferred installation folder.
+1.  Download the RDI installer from the
+    [Redis download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-installation-1.6.6.tar.gz)
+    (from the *Modules, Tools & Integration* category) and extract it to your preferred installation
+    folder.
 
 1. Go to the installation folder:
 
@@ -191,52 +184,14 @@ Follow the steps below for each of your VMs:
     {{< /note >}}
 
 RDI uses a database on your Redis Enterprise cluster to store its state
-information. *This requires Redis Enterprise v6.4 or greater*.
+information.
 
 The installer gives you instructions to help you create secrets and create your pipeline.
 It will ask you for cluster admin credentials during installation.
 
 Use the Redis console to create the RDI database with the following requirements:
 
-- 250MB RAM with one primary and one replica.
-- If you are deploying RDI for a production environment then secure this database with a password
-  and TLS.
-- Provide the installation with the required RDI database details.
-- Set the database's
-  [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}) to `noeviction`. Note that you can't set this using
-  [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}),
-  so you must either do it using the admin UI or with the following
-  [REST API]({{< relref "/operate/rs/references/rest-api" >}})
-  command:
-
-  ```bash
-  curl -v -k -d '{"eviction_policy": "noeviction"}' \
-    -u '<USERNAME>:<PASSWORD>' \
-    -H "Content-Type: application/json" \
-    -X PUT https://<CLUSTER_FQDN>:9443/v1/bdbs/<BDB_UID>
-  ```
-
-- Set the database's
-  [data persistence]({{< relref "/operate/rs/databases/configure/database-persistence" >}})
-  to AOF - fsync every 1 sec. Note that you can't set this using
-  [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}),
-  so you must either do it using the admin UI or with the following
-  [REST API]({{< relref "/operate/rs/references/rest-api" >}})
-  commands:
-
-  ```bash
-  curl -v -k -d '{"data_persistence":"aof"}' \
-    -u '<USERNAME>:<PASSWORD>' \
-    -H "Content-Type: application/json" 
-    -X PUT https://<CLUSTER_FQDN>:9443/v1/bdbs/<BDB_UID>
-  curl -v -k -d '{"aof_policy":"appendfsync-every-sec"}' \
-    -u '<USERNAME>:<PASSWORD>' \
-    -H "Content-Type: application/json" \
-    -X PUT https://<CLUSTER_FQDN>:9443/v1/bdbs/<BDB_UID>
-  ```
-
-- **Ensure that the RDI database is not clustered.** RDI will not work correctly if the
-  RDI database is clustered, but it is OK for the target database to be clustered.
+{{< embed-md "rdi-db-reqs.md" >}}
 
 {{< note >}}If you specify `localhost` as the address of the RDI database server during
 installation then the connection will fail if the actual IP address changes for the local

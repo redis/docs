@@ -16,7 +16,7 @@ title: Query data
 weight: 5
 ---
 
-Redis Stack distinguishes between the [FT.SEARCH]({{< relref "commands/ft.search" >}}) and [FT.AGGREGATE]({{< relref "commands/ft.aggregate" >}}) query commands. You should use [FT.SEARCH]({{< relref "commands/ft.search" >}}) if you want to perform selections and projections only. If you also need to apply mapping functions, group, or aggregate data, use the [FT.AGGREGATE]({{< relref "commands/ft.aggregate" >}}) command. 
+Redis Open Source distinguishes between the [FT.SEARCH]({{< relref "/commands/ft.search" >}}) and [FT.AGGREGATE]({{< relref "/commands/ft.aggregate" >}}) query commands. You should use [FT.SEARCH]({{< relref "/commands/ft.search" >}}) if you want to perform selections and projections only. If you also need to apply mapping functions, group, or aggregate data, use the [FT.AGGREGATE]({{< relref "/commands/ft.aggregate" >}}) command. 
 
 * **Selection**: A selection allows you to return all documents that fulfill specific criteria.
 * **Projection**: Projections are used to return specific fields of the result set. You can also map/project to calculated field values.
@@ -24,7 +24,7 @@ Redis Stack distinguishes between the [FT.SEARCH]({{< relref "commands/ft.search
 
 Here is a short SQL comparison using the [bicycle dataset](./data/bicycles.txt):
 
-|Type| SQL | Redis Stack |
+|Type| SQL | Redis |
 |----------| --- | ----------- |
 | Selection | `SELECT * FROM bicycles WHERE price >= 1000` | `FT.SEARCH idx:bicycle "@price:[1000 +inf]"` |
 | Simple projection | `SELECT id, price FROM bicycles` | `FT.SEARCH idx:bicycle "*" RETURN 2 __key, price` |

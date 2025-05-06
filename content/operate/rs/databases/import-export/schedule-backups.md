@@ -25,7 +25,7 @@ You can schedule backups to a variety of locations, including:
 - Azure Blob Storage
 - Google Cloud Storage
 
-The backup process creates compressed (.gz) RDB files that you can [import into a database]({{< relref "/operate/rs/databases/import-export/import-data.md" >}}).
+The backup process creates compressed (.gz) RDB files that you can [import into a database]({{< relref "/operate/rs/databases/import-export/import-data.md" >}}). If the database name is longer than 30 characters, only the first 30 are used in backup file names.
 
 When you back up a database configured for database clustering,
 Redis Enterprise Software creates a backup file for each shard in the configuration.  All backup files are copied to the storage location.
@@ -209,13 +209,25 @@ To store backups in an Amazon Web Services (AWS) Simple Storage Service (S3) [bu
 
     - In the **Secret Access Key** field, enter the secret access key.
 
-You can also connect to a storage service that uses the S3 protocol but is not hosted by Amazon AWS. The storage service must have a valid SSL certificate. To connect to an S3-compatible storage location, run [`rladmin cluster config`]({{<relref "/operate/rs/references/cli-utilities/rladmin/cluster/config">}}): 
+You can also connect to a storage service that uses the S3 protocol but is not hosted by Amazon AWS. The storage service must have a valid SSL certificate.
 
-```sh
-rladmin cluster config s3_url <URL>
-```
+To connect to an S3-compatible storage location:
 
-Replace `<URL>` with the hostname or IP address of the S3-compatible storage location.
+1. Configure the S3 URL with [`rladmin cluster config`]({{<relref "/operate/rs/references/cli-utilities/rladmin/cluster/config">}}): 
+
+    ```sh
+    rladmin cluster config s3_url <URL>
+    ```
+
+    Replace `<URL>` with the hostname or IP address of the S3-compatible storage location.
+
+1. Configure the S3 CA certificate:
+
+    ```sh
+    rladmin cluster config s3_ca_cert <filepath>
+    ```
+
+    Replace `<filepath>` with the location of the S3 CA certificate `ca.pem`.
 
 ### Google Cloud Storage
 

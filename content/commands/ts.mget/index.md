@@ -1,4 +1,8 @@
 ---
+acl_categories:
+- '@timeseries'
+- '@read'
+- '@slow'
 arguments:
 - name: LATEST
   optional: true
@@ -70,7 +74,12 @@ syntax_str: "[WITHLABELS | <SELECTED_LABELS label1 [label1 ...]>] FILTER\_<l=v |
 title: TS.MGET
 ---
 
-Get the sample with the highest timestamp from each time series matching a specific filter
+Get the sample with the highest timestamp from each time series matching a specific filter.
+
+{{< note >}}
+This command will reply only if the current user has read access to all keys that match the filter.
+Otherwise, it will reply with "*(error): current user doesn't have read permission to one or more keys that match the specified filter*".
+{{< /note >}}
 
 [Examples](#examples)
 

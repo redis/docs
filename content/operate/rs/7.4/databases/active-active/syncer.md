@@ -21,7 +21,7 @@ The syncer process:
 1. Reads data from that database instance
 1. Writes the data to the local cluster's primary(master) shard
 
-Some replication capabilities are also included in [Redis Community Edition]({{< relref "/operate/oss_and_stack/management/replication" >}}).
+Some replication capabilities are also included in [Redis Open Source]({{< relref "/operate/oss_and_stack/management/replication" >}}).
 
 The primary (also known as master) shard at the top of the primary-replica tree creates a replication ID.
 This replication ID is identical for all replicas in that tree.
@@ -31,14 +31,14 @@ When a new primary is appointed, the replication ID changes, but a partial sync 
 In a partial sync, the backlog of operations since the offset are transferred as raw operations.
 In a full sync, the data from the primary is transferred to the replica as an RDB file which is followed by a partial sync. 
 
-Partial synchronization requires a backlog large enough to store the data operations until connection is restored. See [replication backlog]({{< relref "/operate/rs/databases/active-active/manage#replication-backlog" >}}) for more info on changing the replication backlog size.
+Partial synchronization requires a backlog large enough to store the data operations until connection is restored. See [replication backlog]({{< relref "/operate/rs/7.4/databases/active-active/manage#replication-backlog" >}}) for more info on changing the replication backlog size.
 
 ### Syncer in Active-Active replication
 
 In the case of an Active-Active database:
 
 - Multiple past replication IDs and offsets are stored to allow for multiple syncs 
-- The [Active-Active replication backlog]({{< relref "/operate/rs/databases/active-active/manage#replication-backlog" >}}) is also sent to the replica during a full sync. 
+- The [Active-Active replication backlog]({{< relref "/operate/rs/7.4/databases/active-active/manage#replication-backlog" >}}) is also sent to the replica during a full sync. 
 
 {{< warning >}}
 Full sync triggers heavy data transfers between geo-replicated instances of an Active-Active database. 

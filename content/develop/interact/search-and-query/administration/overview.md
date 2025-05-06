@@ -9,7 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Technical overview of the search and query features of Redis Stack'
+description: 'Technical overview of the search and query features of Redis Open Source'
 linkTitle: Technical overview
 title: Technical overview
 weight: 1
@@ -17,15 +17,15 @@ weight: 1
 
 ## Abstract
 
-RediSearch is a powerful text search and secondary indexing engine that is built on top of Redis as a Redis module. 
+Redis Query Engine ("RQE") is a powerful text search and secondary indexing engine that is built on top of Redis Open Source. 
 
 Unlike other Redis search libraries, it does not use the internal data structures of Redis such as sorted sets. Using its own highly optimized data structures and algorithms, it allows for advanced search features, high performance, and a low memory footprint. It can perform simple text searches, as well as complex structured queries, filtering by numeric properties and geographical distances.
 
-RediSearch supports continuous indexing with no performance degradation, maintaining concurrent loads of querying and indexing. This makes it ideal for searching frequently updated databases without the need for batch indexing and service interrupts. 
+RQE supports continuous indexing with no performance degradation, maintaining concurrent loads of querying and indexing. This makes it ideal for searching frequently updated databases without the need for batch indexing and service interrupts. 
 
-The Enterprise version of RediSearch supports scaling the search engine across many servers, allowing it to easily grow to billions of documents on hundreds of servers. 
+The Enterprise version of RQE supports scaling the search engine across many servers, allowing it to easily grow to billions of documents on hundreds of servers. 
 
-All of this is done while taking advantage of Redis's robust architecture and infrastructure. Using Redis's protocol, replication, persistence, and clustering, RediSearch delivers a powerful yet simple to manage and maintain search and indexing engine that can be used as a standalone database, or to augment existing Redis databases with advanced powerful indexing capabilities.
+All of this is done while taking advantage of Redis's robust architecture and infrastructure. Using Redis's protocol, replication, persistence, and clustering, RQE delivers a powerful yet simple to manage and maintain search and indexing engine that can be used as a standalone database, or to augment existing Redis databases with advanced powerful indexing capabilities.
 
 ---
 
@@ -57,7 +57,7 @@ All of this is done while taking advantage of Redis's robust architecture and in
 
 ## Indexing documents
 
-Redis Stack needs to know how to index documents in order to search effectively. A document may have several fields, each with its own weight. For example, a title is usually more important than the text itself. The engine can also use numeric or geographical fields for filtering. Hence, the first step is to create the index definition, which tells Redis Stack how to treat the documents that will be added. For example, to define an index of products, indexing their title, description, brand, and price fields, the index creation would look like:
+Redis needs to know how to index documents in order to search effectively. A document may have several fields, each with its own weight. For example, a title is usually more important than the text itself. The engine can also use numeric or geographical fields for filtering. Hence, the first step is to create the index definition, which tells Redis how to treat the documents that will be added. For example, to define an index of products, indexing their title, description, brand, and price fields, the index creation would look like:
 
 ```
 FT.CREATE idx PREFIX 1 doc: SCHEMA 
@@ -77,7 +77,7 @@ HSET doc:1
     price 300
 ```
 
-This tells Redis Stack to take the document, break each field into its terms (tokenization), and index it by marking the index for each of the terms in the index as contained in this document. Thus, the product is added immediately to the index and can now be found in future searches.
+This tells Redis to take the document, break each field into its terms (tokenization), and index it by marking the index for each of the terms in the index as contained in this document. Thus, the product is added immediately to the index and can now be found in future searches.
 
 
 ## Searching
@@ -88,23 +88,23 @@ Now that the products have been added to our index, searching is very simple:
 FT.SEARCH idx "full hd tv"
 ```
 
-This will tell Redis Stack to intersect the lists of documents for each term and return all documents containing the three terms. Of course, more complex queries can be performed, and the full syntax of the query language is detailed below. 
+This will tell Redis to intersect the lists of documents for each term and return all documents containing the three terms. Of course, more complex queries can be performed, and the full syntax of the query language is detailed below. 
 
 ## Data structures
 
-Redis Stack uses its own custom data structures and uses Redis' native structures only for storing the actual document content (using Hash objects).
+Redis uses its own custom data structures and uses Redis' native structures only for storing the actual document content (using Hash objects).
 
 Using specialized data structures allows faster searches and more memory effective storage of index records, utilizing compression techniques like delta encoding. 
 
-These are the data structures Redis Stack uses under the hood:
+These are the data structures Redis uses under the hood:
 
 ### Index and document metadata
 
 For each search _index_, there is a root data structure containing the schema, statistics, etc., but most importantly, compact metadata about each document indexed. 
 
-Internally, inside the index, Redis Stack uses delta encoded lists of numeric, incremental, 32-bit document ids. This means that the user given keys or ids for documents, need to be replaced with the internal ids on indexing, and back to the original ids on search. 
+Internally, inside the index, Redis uses delta encoded lists of numeric, incremental, 32-bit document ids. This means that the user given keys or ids for documents, need to be replaced with the internal ids on indexing, and back to the original ids on search. 
 
-For that, Redis Stack saves two tables, mapping the two kinds of ids in two ways (one table uses a compact trie, the other is simply an array where the internal document ID is the array index). On top of that, for each document, its user given presumptive score is stored, along with some status bits and any optional payload attached to the document by the user. 
+For that, Redis saves two tables, mapping the two kinds of ids in two ways (one table uses a compact trie, the other is simply an array where the internal document ID is the array index). On top of that, for each document, its user given presumptive score is stored, along with some status bits and any optional payload attached to the document by the user. 
 
 Accessing the document metadata table is an order of magnitude faster than accessing the hash object where the document is actually saved, so scoring functions that need to access metadata about the document can operate fast enough.
 
@@ -223,11 +223,11 @@ And negative clauses can also be added to filter out plasma and CRT TVs:
 
 ## Scoring model
 
-Redis Stack comes with a few very basic scoring functions to evaluate document relevance. They are all based on document scores and term frequency. This is regardless of the ability to use sortable fields (see below). Scoring functions are specified by adding the `SCORER {scorer_name}` argument to a search request.
+Redis comes with a few very basic scoring functions to evaluate document relevance. They are all based on document scores and term frequency. This is regardless of the ability to use sortable fields (see below). Scoring functions are specified by adding the `SCORER {scorer_name}` argument to a search request.
 
 If you prefer a custom scoring function, it is possible to add more functions using the [extension API]({{< relref "/develop/interact/search-and-query/administration/extensions" >}}).
 
-These are the pre-bundled scoring functions available in Redis Stack:
+These are the pre-bundled scoring functions available in Redis:
 
 * **TFIDF** (default)
 
@@ -268,7 +268,7 @@ FT.SEARCH users "john lennon" SORTBY age DESC
 
 ## Result highlighting and summarization
 
-Redis Stack uses advanced algorithms for highlighting and summarizing, which enable only the relevant portions of a document to appear in response to a search query. This feature allows users to immediately understand the relevance of a document to their search criteria, typically highlighting the matching terms in bold text. The syntax is as follows:
+Redis uses advanced algorithms for highlighting and summarizing, which enable only the relevant portions of a document to appear in response to a search query. This feature allows users to immediately understand the relevance of a document to their search criteria, typically highlighting the matching terms in bold text. The syntax is as follows:
 
 ```
 FT.SEARCH ...
@@ -283,15 +283,15 @@ Highlighting will highlight the found term and its variants with a user-defined 
 
 ## Autocomplete
 
-Another important feature for Redis Stack is its autocomplete engine. This allows users to create dictionaries of weighted terms, and then query them for completion suggestions to a given user prefix. Completions can have payloads, which are user-provided pieces of data that can be used for display. For example, completing the names of users, it is possible to add extra metadata about users to be displayed.
+Another important feature for Redis Open Source is its autocomplete engine. This allows users to create dictionaries of weighted terms, and then query them for completion suggestions to a given user prefix. Completions can have payloads, which are user-provided pieces of data that can be used for display. For example, completing the names of users, it is possible to add extra metadata about users to be displayed.
 
 For example, if a user starts to put the term “lcd tv” into a dictionary, sending the prefix “lc” will return the full term as a result. The dictionary is modeled as a compact trie (prefix tree) with weights, which is traversed to find the top suffixes of a prefix.
 
-Redis Stack also allows fuzzy suggestions, meaning you can get suggestions to prefixes even if the user makes a typo in their prefix. This is enabled using a Levenshtein automaton, allowing efficient searching of the dictionary for all terms within a maximal Levenshtein distance of a term or prefix. Suggestions are then weighted based on both their original score and their distance from the prefix typed by the user. 
+Redis also allows fuzzy suggestions, meaning you can get suggestions to prefixes even if the user makes a typo in their prefix. This is enabled using a Levenshtein automaton, allowing efficient searching of the dictionary for all terms within a maximal Levenshtein distance of a term or prefix. Suggestions are then weighted based on both their original score and their distance from the prefix typed by the user. 
 
 However, searching for fuzzy prefixes (especially very short ones) will traverse an enormous number of suggestions. In fact, fuzzy suggestions for any single letter will traverse the entire dictionary, so the recommendation is to use this feature carefully and in full consideration of the performance penalty it incurs. 
 
-Redis Stack's autocomplete engine supports Unicode, allowing for fuzzy matches in non-latin languages as well.
+The autocomplete engine supports Unicode, allowing for fuzzy matches in non-latin languages as well.
 
 See the [autocomplete page]({{< relref "/develop/interact/search-and-query/advanced-concepts/autocomplete" >}}) for more information and examples.
 
@@ -299,11 +299,11 @@ See the [autocomplete page]({{< relref "/develop/interact/search-and-query/advan
 
 ### The Redis module API
 
-RediSearch is implemented using the [Redis module API]({{< relref "/develop/reference/modules/" >}}) and is loaded into Redis as an extension module at start-up.
+RQE is implemented using the [Redis module API]({{< relref "/develop/reference/modules/" >}}) and is loaded into Redis as an extension module at start-up.
 
 Redis modules make it possible to extend Redis's core functionality, implementing new Redis commands, data structures, and capabilities with similar performance to native core Redis itself. Redis modules are dynamic libraries that can be loaded into Redis at start-up or loaded at run-time using the [`MODULE LOAD`]({{< relref "/commands/module-load" >}}) command. Redis exports a C API, in the form of a single C header file called `redismodule.h`. 
 
-While the logic of RediSearch and its algorithms are mostly independent, and it could be ported quite easily to run as a stand-alone server, it still takes advantage of Redis as a robust infrastructure for a database server. Building on top of Redis means that, by default, modules are afforded:
+While the logic of RQE and its algorithms are mostly independent, and it could be ported quite easily to run as a stand-alone server, it still takes advantage of Redis as a robust infrastructure for a database server. Building on top of Redis means that, by default, modules are afforded:
 
 * A high performance network protocol server
 * Robust replication
@@ -312,7 +312,7 @@ While the logic of RediSearch and its algorithms are mostly independent, and it 
 
 ### Query execution engine
 
-Redis Stack uses a high-performance flexible query processing engine that can evaluate very complex queries in real time. 
+Redis uses a high-performance flexible query processing engine that can evaluate very complex queries in real time. 
 
 The above query language is compiled into an execution plan that consists of a tree of index iterators or filters. These can be any of:
 
@@ -333,17 +333,17 @@ The resulting matching documents are then fed to a post-processing chain of resu
 
 ### Concurrent updates and searches
 
-While RediSearch is extremely fast and uses highly optimized data structures and algorithms, it was facing the same problem with regards to concurrency. Depending on the size of your data set and the cardinality of search queries, queries can take anywhere between a few microseconds to hundreds of milliseconds, or even seconds in extreme cases. When that happens, the entire Redis server process is blocked. 
+While RQE is extremely fast and uses highly optimized data structures and algorithms, it was facing the same problem with regards to concurrency. Depending on the size of your data set and the cardinality of search queries, queries can take anywhere between a few microseconds to hundreds of milliseconds, or even seconds in extreme cases. When that happens, the entire Redis server process is blocked. 
 
 Think, for example, of a full-text query intersecting the terms "hello" and "world", each with a million entries, and a half-million common intersection points. To perform that query in a millisecond, Redis would have to scan, intersect, and rank each result in one nanosecond, [which is impossible with current hardware](https://gist.github.com/jboner/2841832). The same goes for indexing a 1,000 word document. It blocks Redis entirely for the duration of the query.
 
-RediSearch uses the Redis Module API's concurrency features to avoid stalling the server for long periods of time. The idea is simple - while Redis itself is single-threaded, a module can run many threads, and any one of those threads can acquire the **Global Lock** when it needs to access Redis data, operate on it, and release it. 
+RQE uses the Redis Module API's concurrency features to avoid stalling the server for long periods of time. The idea is simple - while Redis itself is single-threaded, a module can run many threads, and any one of those threads can acquire the **Global Lock** when it needs to access Redis data, operate on it, and release it. 
 
 Redis cannot be queried in parallel, as only one thread can acquire the lock, including the Redis main thread, but care is taken to make sure that a long-running query will give other queries time to run by yielding this lock from time to time.
 
 The following design principles were adopted to allow concurrency:
 
-1. RediSearch has a thread pool for running concurrent search queries. 
+1. RQE has a thread pool for running concurrent search queries. 
 
 2. When a search request arrives, it is passed to the handler, parsed on the main thread, and then a request object is passed to the thread pool via a queue.
 
@@ -361,14 +361,14 @@ Thus the operating system's scheduler makes sure all query threads get CPU time 
 
 ### Index garbage collection
 
-RediSearch is optimized for high write, update, and delete throughput. One of the main design choices dictated by this goal is that deleting and updating documents do not actually delete anything from the index: 
+RQE is optimized for high write, update, and delete throughput. One of the main design choices dictated by this goal is that deleting and updating documents do not actually delete anything from the index: 
 
 1. Deletion simply marks the document deleted in a global document metadata table using a single bit. 
 2. Updating, on the other hand, marks a document as deleted, assigns it a new incremental document ID, and re-indexes the document under a new ID, without performing a comparison of the change. 
 
 What this means, is that index entries belonging to deleted documents are not removed from the index, and can be seen as garbage. Over time, an index with many deletes and updates will contain mostly garbage, both slowing things down and consuming unnecessary memory. 
 
-To overcome this, RediSearch employs a background garbage collection (GC) mechanism. During normal operation of the index, a special thread randomly samples indexes, traverses them, and looks for garbage. Index sections containing garbage are cleaned and memory is reclaimed. This is done in a non- intrusive way, operating on very small amounts of data per scan, and utilizing Redis's concurrency mechanism (see above) to avoid interrupting searches and indexing. The algorithm also tries to adapt to the state of the index, increasing the GC's frequency if the index contains a lot of garbage, and decreasing it if it doesn't, to the point of hardly scanning if the index does not contain garbage. 
+To overcome this, RQE employs a background garbage collection (GC) mechanism. During normal operation of the index, a special thread randomly samples indexes, traverses them, and looks for garbage. Index sections containing garbage are cleaned and memory is reclaimed. This is done in a non- intrusive way, operating on very small amounts of data per scan, and utilizing Redis's concurrency mechanism (see above) to avoid interrupting searches and indexing. The algorithm also tries to adapt to the state of the index, increasing the GC's frequency if the index contains a lot of garbage, and decreasing it if it doesn't, to the point of hardly scanning if the index does not contain garbage. 
 
 ### Extension model
 
@@ -379,13 +379,13 @@ There are two kinds of extension APIs at the moment:
 1. **Query expanders**, whose role is to expand query tokens (i.e., stemmers).
 2. **Scoring functions**, whose role is to rank search results at query time.
 
-Extensions are compiled into dynamic libraries and loaded into RediSearch on initialization of the module. The mechanism is based on the code of Redis's own module system, albeit far simpler.
+Extensions are compiled into dynamic libraries and loaded into RQE on initialization of the module. The mechanism is based on the code of Redis's own module system, albeit far simpler.
 
 ---
 
 ## Scalable distributed search
 
-While RediSearch is very fast and memory efficient, if an index is big enough, at some point it will be too slow or consume too much memory. It must then be scaled out and partitioned over several machines, each of which will hold a small part of the complete search index.
+While RQE is very fast and memory efficient, if an index is big enough, at some point it will be too slow or consume too much memory. It must then be scaled out and partitioned over several machines, each of which will hold a small part of the complete search index.
 
 Traditional clusters map different keys to different shards to achieve this. However, with search indexes this approach is not practical. If each word’s index was mapped to a different shard, it would be necessary to intersect records from different servers for multi-term queries. 
 

@@ -182,7 +182,7 @@ Finally, there's new [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) syntax 
 
 Here's an example using two stacked polygons that represent a box contained within a house.
 
-![two stacked polygons]({{< relref "develop/interact/search-and-query/img/polygons.png" >}})
+{{< image filename="develop/interact/search-and-query/img/polygons.png" >}}
 
 First, create an index using a `FLAT` `GEOSHAPE`, representing a 2D X Y coordinate system.
 
@@ -335,7 +335,7 @@ As of v2.6.0, you can use the dictionary for wildcard matching queries with thes
 
 * `?` - for any single character
 * `*` - for any character repeating zero or more times
-* ' and \ - for escaping; other special characters are ignored
+* `\` - for escaping; other special characters are ignored
 
 An example of the syntax is `"w'foo*bar?'"`.
 
@@ -478,4 +478,4 @@ As of v2.6.1, the query attributes syntax supports these additional attributes:
 
 The query parser is built using the Lemon Parser Generator and a Ragel based lexer. You can see the `DIALECT 2` grammar definition [at this git repo](https://github.com/RediSearch/RediSearch/blob/master/src/query_parser/v2/parser.y).
 
-You can also see the [DEFAULT_DIALECT]({{< relref "develop/interact/search-and-query/basic-constructs/configuration-parameters#default_dialect" >}}) configuration parameter.
+You can also see the [search-default-dialect]({{< relref "/develop/interact/search-and-query/administration/configuration#search-default-dialect" >}}) configuration parameter.

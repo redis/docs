@@ -17,7 +17,7 @@ title: t-digest
 weight: 40
 ---
 
-The t-digest is a sketch data structure in Redis Stack for estimating percentiles from a data stream or a large dataset using a compact sketch.
+The t-digest is a sketch data structure in Redis Open Source for estimating percentiles from a data stream or a large dataset using a compact sketch.
 
 It can answer questions like:
 - Which fraction of the values in the data stream are smaller than a given value?

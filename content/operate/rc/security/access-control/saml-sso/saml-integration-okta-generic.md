@@ -253,24 +253,14 @@ To activate SAML, you must have a local user (or social sign-on user) with the *
 
     {{<image filename="images/rc/saml/sm_saml_8.png" >}}
 
-    A popup appears, stating that to test the SAML connection, you need to log in with Okta credentials of the user defined in the Redis Cloud group. This user is part of the group to which you assigned the Redis Cloud application.
-
-    {{<image filename="images/rc/saml/sm_saml_9.png" >}}
+    A popup appears, stating that to test the SAML connection, you need to log in with Okta credentials of the user defined in the Redis Cloud group. This user is part of the group to which you assigned the Redis Cloud application. Select **Continue** to go to the Okta login screen.
 
 1. The Okta login screen appears. Enter the credentials and select **Sign In**.
 
     {{<image filename="images/rc/saml/okta_saml_app_int_14.png" >}}
 
-1. If the test succeeds, your local account is now considered a SAML account. To log in to Redis Cloud console going forward, select **Sign in with SSO**.
+If everything is configured correctly, you will see the the Redis Cloud console screen. Your local account is now considered a SAML account. 
 
-    {{<image filename="images/rc/saml/sm_saml_11.png" >}}
+To log in to the Redis Cloud console from now on, click on **Sign in with SSO**.
 
-1. Enter your SAML email and click **Login**.
-
-    {{<image filename="images/rc/saml/okta_saml_app_int_15.png" >}}
-
-1. If only one user is defined in Redis Cloud console, you get a popup window where you select **Confirm** to convert the local user to a SAML user. Consider setting up one more local user other than a SAML user.
-
-    {{<image filename="images/rc/saml/okta_saml_app_int_16.png" >}}
-
-1. You have successfully configured SAML as an identity provider.
+{{<image filename="images/rc/button-sign-in-sso.png" width="50px" alt="Sign in with SSO button">}}
