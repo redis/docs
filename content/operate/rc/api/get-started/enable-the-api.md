@@ -23,7 +23,7 @@ To enable the API:
 
 1. If a **Copy** button appears to the right of the API account key, the API is enabled.  This button copies the account key to the Clipboard.
 
-    {{<image filename="images/rc/button-access-management-api-key-copy.png" alt="Use the **Copy** button to copy the access key to the Clipboard." >}}
+    {{<image filename="images/rc/button-copy.png" alt="Use the **Copy** button to copy the access key to the Clipboard." >}}
 
     If you see an **Enable API** button, select it to enable the API and generate your API account key.
 

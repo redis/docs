@@ -63,7 +63,7 @@ If you choose to create your database with Easy create:
 
     If you haven't previously entered a payment method, use the **Add Credit Card** button to add one.
 
-    {{<image filename="images/rc/icon-add-credit-card.png" alt="The Add credit card icon." >}}
+    {{<image filename="images/rc/icon-add.png" alt="The Add credit card icon." >}}
 
  Select **Confirm & pay** to create your database.
 
@@ -147,7 +147,7 @@ The **Sizing** tab helps you specify the database, memory, and throughput requir
 
 When you first visit the **Sizing** tab, there are no databases defined.  Select the **Add** button to create one.
 
-{{<image filename="images/rc/icon-add-database.png" width="30px" alt="Use the Add button to define a new database for your subscription." >}}
+{{<image filename="images/rc/icon-add.png" width="30px" alt="Use the Add button to define a new database for your subscription." >}}
 
 This opens the **New Database** dialog, which lets you define the requirements for your new database.
 
@@ -185,7 +185,7 @@ Use the **Add database** button to define additional databases or select the **C
 
 Hover over a database to see the **Edit** and **Delete** icons. You can use the **Edit** icon to change a database or the **Delete** icon to remove a database from the list.
 
-{{<image filename="images/rc/icon-database-edit.png#no-click" width="30px" alt="Use the Edit button to change database settings." class="inline" >}}&nbsp;{{<image filename="images/rc/icon-database-delete.png#no-click" width="30px" alt="Use the Delete button to remove a database." class="inline">}}
+{{<image filename="images/rc/icon-edit.png#no-click" width="30px" alt="Use the Edit button to change database settings." class="inline" >}}&nbsp;{{<image filename="images/rc/icon-delete-teal.png#no-click" width="30px" alt="Use the Delete button to remove a database." class="inline">}}
 
 
 ### Review and Create tab

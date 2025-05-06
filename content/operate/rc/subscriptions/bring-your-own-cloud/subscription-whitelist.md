@@ -50,7 +50,7 @@ To add IP addresses or [AWS security groups](https://docs.aws.amazon.com/managed
 
     1. Select **Add** to add a new entry.
 
-    {{<image filename="images/rc/icon-cloud-account-add.png" alt="The Add button adds new entries to the allow list." width="36px">}}
+    {{<image filename="images/rc/icon-add.png" alt="The Add button adds new entries to the allow list." width="36px">}}
 
     1. Select the new entry's **Type**, enter the **Value**, and select the check to add it to the allow list.
 
@@ -58,7 +58,7 @@ To add IP addresses or [AWS security groups](https://docs.aws.amazon.com/managed
     
     You can also select the **Edit** button to change an entry or the **Delete** button to remove it.
 
-    {{<image filename="images/rc/icon-cloud-account-edit.png#no-click" alt="The Edit button updates an entry in the allow list." width="36px" class="inline" >}}&nbsp;{{<image filename="images/rc/icon-cloud-account-delete.png#no-click" alt="The Delete button removes an entry from the allow list." width="36px" class="inline" >}}
+    {{<image filename="images/rc/icon-edit.png#no-click" alt="The Edit button updates an entry in the allow list." width="36px" class="inline" >}}&nbsp;{{<image filename="images/rc/icon-delete-teal.png#no-click" alt="The Delete button removes an entry from the allow list." width="36px" class="inline" >}}
     
 1. Select **Apply all changes** to apply the allow list updates.
 
