@@ -129,7 +129,7 @@ Follow these detailed steps to migrate data using Active-Passive syncing:
 
     The sync process doesn't begin until the database becomes `Active`.  
 
-    {{<image filename="images/rc/icon-database-update-status-active.png" alt="When the status becomes 'Active', data begins to sync." >}}
+    {{<image filename="images/rc/icon-database-status-active.png" alt="When the status becomes 'Active', data begins to sync." >}}
 
     When data has fully migrated to the target database, database status reports `Synced`.  
 

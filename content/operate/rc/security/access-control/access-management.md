@@ -32,9 +32,9 @@ The list includes several buttons and icons to help you manage the list:
 
 | Icon | Description |
 |------|-------------|
-| {{<image filename="images/rc/button-access-management-add.png#no-click" width="30px" alt="Use the Add button to add members to your team." class="inline" >}} | The **Add** button lets you add members to your team |
-| {{<image filename="images/rc/icon-access-management-edit-user.png#no-click" width="30px" alt="Use the Edit button change details for a team member." class="inline">}} | The **Edit** button lets you edit the settings for the selected team member |
-| {{<image filename="images/rc/icon-access-management-delete-user.png#no-click" width="30px" alt="Use the Delete button to remove a member from your team." class="inline">}} | The **Delete** button lets you remove members from your team
+| {{<image filename="images/rc/icon-add.png#no-click" width="30px" alt="Use the Add button to add members to your team." class="inline" >}} | The **Add** button lets you add members to your team |
+| {{<image filename="images/rc/icon-edit.png#no-click" width="30px" alt="Use the Edit button change details for a team member." class="inline">}} | The **Edit** button lets you edit the settings for the selected team member |
+| {{<image filename="images/rc/icon-delete-teal.png#no-click" width="30px" alt="Use the Delete button to remove a member from your team." class="inline">}} | The **Delete** button lets you remove members from your team
 | <nobr>{{<image filename="images/rc/icon-list-sort-asc.png#no-click" width="10px" alt="The Sort ascending button displays members in ascending order according to the values of the selected field." class="inline">}}{{<image filename="images/rc/icon-list-sort-desc.png#no-click" width="10px" alt="The Sort descending button displays members in descending order according to the values of the selected field." class="inline">}}</nobr> | The **Sort ascending** and **Sort descending** icons display the list according to the selected order |
 
 You can also use the list search to find a specific user or filter by **Role**, **User Type**, or **Options**.
