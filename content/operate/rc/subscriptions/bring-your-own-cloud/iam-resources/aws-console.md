@@ -117,8 +117,8 @@ To create the role that uses the policy:
 1. In the AWS IAM console, go to **Roles** and click **Create Role**.
 1. Select **AWS Service** as the trusted entity, **EC2** as the service
     and use case, and click **Next: Permissions**.
-1. Enter `RedisLabsInstanceRolePolicy` in the search box to look up the policy we just created,
-    select it, and click **Next: Review**.
+1. Enter `RedisLabsInstanceRolePolicy` in the search box to look up the policy we just created.
+    Select it, and click **Next: Review**.
 1. Name the role `redislabs-cluster-node-role` and click **Create Role**.
 
 ## Step 3: Create the user policy

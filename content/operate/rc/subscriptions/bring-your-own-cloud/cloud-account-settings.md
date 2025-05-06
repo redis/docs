@@ -10,7 +10,7 @@ hideListLinks: true
 weight: 2
 ---
 
-Redis Cloud Bring your own Cloud (BYOC) allows organizations to use their own cloud infrastructure to deploy Redis Cloud.
+Redis Cloud Bring your own Cloud (BYOC) lets you use your own cloud infrastructure to deploy Redis Cloud.
 
 You can associate your existing AWS account as a _cloud account_ for your subscription.  This requires setting up and entering credentials that enable monitoring, maintenance, and technical support of your subscription.
 
