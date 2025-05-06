@@ -66,3 +66,9 @@ VersionStages:
 The JSON object is the value (less the single quotes) of the `SecretString` key. i.e. it is <nobr>`{"password":"S3cr3tP@$$w0rd"}`</nobr>.
 
 The password is the value associated with that key (less the double quotes): `S3cr3tP@$$w0rd`.
+
+{{< warning >}}
+We use the provided credentials to configure your AWS environment and provision required resources.
+
+You **must not** change the configurations of provisioned resources or stop or terminate provisioned instances. If you do, your databases will be inaccessible and Redis will not be able to ensure database stability. See [Avoid service disruption]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/cloud-account-settings#avoid-service-disruption" >}}) for more details.
+{{< /warning >}}

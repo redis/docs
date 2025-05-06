@@ -1,41 +1,29 @@
 ---
-LinkTitle: AWS cloud accounts
-Title: Manage AWS cloud accounts
-alwaysopen: false
-bannerChildren: true
-bannerText: Self-managed AWS accounts are deprecated, so this article has been archived.
+Title: Create and edit Cloud accounts
+LinkTitle: Create and edit Cloud accounts
 categories:
 - docs
 - operate
 - rc
-description: Describes how to provision your Redis Cloud subscription to use existing
-  cloud provider accounts.
-hidden: true
+description: null
 hideListLinks: true
-weight: 40
-aliases:
-  - /operate/rc/how-to/view-edit-cloud-account
-  - /operate/rc/cloud-accounts
+weight: 2
 ---
 
-Many customers use cloud provider accounts provisioned and maintained by Redis.  
+Redis Cloud Bring your own Cloud (BYOC) lets you use your own cloud infrastructure to deploy Redis Cloud.
 
-Customers with existing Amazon Web Services (AWS) accounts can provision their Redis Cloud Pro subscriptions to use their existing AWS accounts.  
-
-To do so, you associate your existing AWS account as a _cloud account_ for your subscription.  This requires setting up and entering credentials that enable monitoring, maintenance, and technical support of your subscription.
+You can associate your existing AWS account as a _cloud account_ for your subscription.  This requires setting up and entering credentials that enable monitoring, maintenance, and technical support of your subscription.
 
 To do this, you need:
 
 1. A programmatic user with an access key and a secret access key for that user.
 1. A console role that allows administrative access to the cloud account.
 
-These resources need to exist before adding the cloud account to your subscription.  To learn more, see [Create IAM resources]({{< relref "/operate/rc/cloud-integrations/aws-cloud-accounts/iam-resources" >}}).
+You need to create these resources before adding the cloud account to your subscription.  To learn more, see [Create IAM resources]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/iam-resources" >}}).
 
-{{<note>}}
-Once an AWS account has been configured as a cloud account, you must _not_:
-- Manually change the configuration of required resources, such as security groups<br/>
-- Manually suspend or stop (terminate) provisioned resources</br>
-{{</note>}}
+{{<warning>}}
+After an AWS account has been configured as a cloud account, you **must not** change the configurations of provisioned resources or stop or terminate provisioned instances. If you do, your databases will be inaccessible and Redis will not be able to ensure database stability. See [Avoid service disruption]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/cloud-account-settings#avoid-service-disruption" >}}) for more details.
+{{</warning>}}
 
 ## View cloud account settings
 
@@ -47,11 +35,11 @@ To create or edit a cloud account in Redis Cloud:
 
     This displays a list of cloud accounts associated with your Redis Cloud subscription.
 
-    {{<image filename="images/rc/account-settings-cloud-account-tab.png" alt="Use the Cloud Account tab of the Account Settings screen to define cloud accounts for your Redis Cloud subscription." width="75%">}}
+    {{<image filename="images/rc/account-settings-cloud-account-tab.png" alt="Use the Cloud Account tab of the Account Settings screen to define cloud accounts for your Redis Cloud subscription." width="80%">}}
 
 The **Cloud account** tab lets you manage cloud accounts associated with your Redis Cloud subscription.
 
-The **Cloud Account** tab is not available (or supported) for Redis Cloud Essentials subscriptions.  If you do not see a **Cloud Account** tab on the Account Settings page, verify that you have selected a Redis Cloud Essentials subscription. 
+The **Cloud Account** tab is only available for accounts with Redis Cloud Bring your own Cloud (BYOC) subscriptions.
 
 ## Add a new cloud account
 
@@ -59,9 +47,9 @@ To add a new cloud account to your Redis Cloud subscription, select the **Add** 
 
 {{<image filename="images/rc/icon-cloud-account-add.png" alt="Use the Add button to add new cloud accounts to your Redis Cloud subscription." width="36px">}}
 
-This displays the **Add cloud account** dialog
+This displays the **Add cloud account** dialog.
 
-{{<image filename="images/rc/account-settings-prompt-add-cloud-account.png" alt="Use the Add cloud account prompt to enter the details of the cloud account." width="50%">}}
+{{<image filename="images/rc/account-settings-prompt-add-cloud-account.png" alt="Use the Add cloud account prompt to enter the details of the cloud account." width="75%">}}
 
 Each of the following fields are required.
 
@@ -80,15 +68,13 @@ Be sure to create the resources before adding the cloud account to your subscrip
 
 When problems occur, an information icon appears and the field is highlighted in red.  When this happens, the icon includes a tooltip that explains the issue.
 
-{{<image filename="images/rc/account-settings-prompt-cloud-account-error.png" alt="When errors occur, the field is highlighted in red and a notification icon appears.  The icon tooltip describes the problem." width="50%">}}
-
 If the **Add account** button is inactive, verify that:
 
 - You've specified all field values correctly
 - The resources exist in your AWS account
 - Each resource provides the required level of access
 
-For help, see [Create IAM resources]({{< relref "/operate/rc/cloud-integrations/aws-cloud-accounts/iam-resources" >}}).
+For help, see [Create IAM resources]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/iam-resources" >}}).
 
 ## Edit cloud account details
 
@@ -98,21 +84,20 @@ To update the details of a cloud account associated with your Redis Cloud subscr
 
 This displays the **Edit cloud account** dialog:
 
-{{<image filename="images/rc/account-settings-prompt-edit-cloud-account.png" alt="Use the Edit cloud account prompt to update the details of the cloud account." width="50%">}}
+{{<image filename="images/rc/account-settings-prompt-edit-cloud-account.png" alt="Use the Edit cloud account prompt to update the details of the cloud account." width="75%">}}
 
 |Setting|Description|
 |-------|-----------|
 | _Account name_ | A descriptive name for your cloud account settings |
 | _AWS access key_ | The AWS access key for the programmatic user created to support your cloud account settings |
 | _AWS secret key_ | The AWS secret key for the programmatic user created to support your cloud account settings |
-| <nobr>_AWS console username_</nobr> | The username for the AWS console |
-| _AWS console password_ | The password for AWS console access |
+| _IAM role name_ | The name of the AWS console role with access to the AWS console |
 
 Use the **Update account** button to save your changes.
 
 {{<image filename="images/rc/button-cloud-account-update.png" alt="Use the Update account button to save the updated cloud account details." width="140px">}}
 
-## Delete cloud account details
+## Delete cloud account
 
 To remove a cloud account from your Redis cloud subscription, select the cloud account from the **Cloud account** tab and then select the **Delete** button.
 
@@ -122,4 +107,4 @@ To remove a cloud account from your Redis cloud subscription, select the cloud a
 
 We strongly recommend using dedicated identity and access management (IAM) resources to manage your AWS cloud accounts.  These resources should not be shared with any other task, account, or process.
 
-To learn more, see [Create IAM resources for AWS cloud accounts]({{< relref "/operate/rc/cloud-integrations/aws-cloud-accounts/iam-resources" >}}).
+To learn more, see [Create IAM resources for AWS cloud accounts]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/iam-resources" >}}).
