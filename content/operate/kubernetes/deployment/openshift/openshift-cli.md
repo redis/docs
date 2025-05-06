@@ -10,12 +10,15 @@ description: Redis Enterprise for Kubernetes and cluster can be installed via CL
 linkTitle: OpenShift CLI
 weight: 60
 ---
+
 Use these steps to set up a Redis Enterprise Software cluster with OpenShift.
 
 ## Prerequisites
 
 - [OpenShift cluster](https://docs.openshift.com/container-platform/4.8/installing/index.html) with at least 3 nodes (each meeting the [minimum requirements for a development installation]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements" >}}))
 - [OpenShift CLI](https://docs.openshift.com/container-platform/latest/cli_reference/openshift_cli/getting-started-cli.html)
+
+If you suspect your file descriptor limits are below 100k, you must either manually increase limits or [Allow automatic resource adjustment]({{< relref "/operate/kubernetes/security/enable-privileged-mode.md" >}}). Most major cloud providers and standard container runtime configurations set default file descriptor limits well above the minimum required by Redis Enterprise. In these environments, you can safely run without enabling automatic resource adjustment.
 
 To see which version of Redis Enterprise for Kubernetes supports your OpenShift version, see [Supported Kubernetes distributions]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions" >}}).
 
@@ -80,6 +83,10 @@ To enable privileged mode, see [Enable privileged mode > OpenShift upgrades]({{<
 
     You can rename the file to `<your_cluster_name>.yaml`, but it is not required. Examples below use `<rec_rhel>.yaml`. [Options for Redis Enterprise clusters]({{< relref "/operate/kubernetes/reference/redis_enterprise_cluster_api" >}}) has more info about the Redis Enterprise cluster (REC) custom resource, or see the [Redis Enterprise cluster API]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api">}}) for a full list of options.
 
+    {{<note>}}
+    Redis Enterprise may require the ability to adjust system resource limits, such as file descriptors. If you're unsure whether your container runtime provides high enough defaults (at least 100,000), you can allow the operator to adjust them automatically. See [Allow automatic resource adjustment]({{< relref "/operate/kubernetes/security/enable-privileged-mode.md" >}}) for details.
+    {{</note>}}
+
     The REC name cannot be changed after cluster creation.
 
     {{<note>}}
@@ -87,6 +94,10 @@ Each Redis Enterprise cluster requires at least 3 nodes. Single-node RECs are no
     {{</note>}}
 
 2. Apply the custom resource file to create your Redis Enterprise cluster.
+
+    {{<note>}}
+    If you enabled automatic resource adjustment in your configuration, this step will trigger the operator to apply elevated capabilities. Ensure your security context allows it.
+    {{</note>}}
 
     ```sh
     oc apply -f <rec_rhel>.yaml
