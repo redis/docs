@@ -63,7 +63,7 @@ If you choose to create your database with Easy create:
 
     If you haven't previously entered a payment method, use the **Add Credit Card** button to add one.
 
-    {{<image filename="images/rc/icon-add.png" alt="The Add credit card icon." >}}
+    {{<image filename="images/rc/icon-add.png" width="30px" alt="The Add credit card icon." >}}
 
  Select **Confirm & pay** to create your database.
 

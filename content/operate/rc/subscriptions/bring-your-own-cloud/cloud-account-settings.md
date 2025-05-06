@@ -45,7 +45,7 @@ The **Cloud Account** tab is only available for accounts with Redis Cloud Bring 
 
 To add a new cloud account to your Redis Cloud subscription, select the **Add** button from the Cloud Account tab of the Account Settings screen.
 
-{{<image filename="images/rc/icon-add.png" alt="Use the Add button to add new cloud accounts to your Redis Cloud subscription." width="36px">}}
+{{<image filename="images/rc/icon-add.png" width="30px" alt="Use the Add button to add new cloud accounts to your Redis Cloud subscription." width="36px">}}
 
 This displays the **Add cloud account** dialog.
 
