@@ -196,7 +196,7 @@ You can also deploy `RedisEnterpriseActiveActiveDatabase` (REAADB) objects in co
 To do this:
 
 1. Configure each participating cluster’s operator to watch the relevant consumer namespace. See [multi-namespace operator setup](#update-redis-enterprise-operator-configmap).
-2. Ensure all Active-Active prerequisites are met as described in [Configure Active-Active]({{<relref "content/operate/kubernetes/active-active/create-reaadb/">}}).
+2. Ensure all Active-Active prerequisites are met as described in [Configure Active-Active]({{<relref "/operate/kubernetes/active-active/create-reaadb">}}).
 3. In your REAADB custom resource, specify the target consumer namespace using `metadata.namespace`. For each participating cluster, use the `namespace` field under `spec.participatingClusters` to indicate the namespace where the REAADB should be deployed.
 4. If you are using a [global database secret]({{<relref "operate/kubernetes/active-active/global-db-secret/">}}), deploy the secret in each consumer namespace.
 
