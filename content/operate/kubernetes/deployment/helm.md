@@ -80,7 +80,7 @@ To monitor the installation add the `--debug` flag. The installation runs severa
 2. Install the Helm chart, overriding specific value defaults using `--set`.
 
 {{<note>}}
-To enable automatic resource adjustment during installation, include `--set allowAutoAdjustment=true`. This requires elevated container capabilities. For more information, see [Allow automatic resource adjustment]({{< relref "/operate/kubernetes/security/enable-privileged-mode.md" >}}).
+To enable automatic resource adjustment during installation, include `--set allowAutoAdjustment=true`. This requires elevated container capabilities. For more information, see [Allow automatic resource adjustment]({{< relref "/operate/kubernetes/security/enable-privileged-mode" >}}).
 {{</note>}}
 
 ```sh
