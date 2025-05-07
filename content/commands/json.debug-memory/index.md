@@ -36,7 +36,7 @@ title: JSON.DEBUG MEMORY
 Report a value's memory usage in bytes 
 
 {{< warning >}}
-The actual total memory consumption could be much lower than the reported value because of an internal JSON reference-counting mechanism.
+The actual total memory consumption by a key could be much lower than the value reported by this command because of an internal JSON string reuse mechanism. For more information, see the [JSON memory usage page]({{< relref "/develop/data-types/json/ram#json-string-reuse-mechanism" >}}).
 {{< /warning >}}
 
 [Examples](#examples)

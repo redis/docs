@@ -19,10 +19,6 @@ weight: 6
 Because of ongoing feature additions, improvements, and optimizations, JSON memory consumption may vary depending on the Redis version.
 Redis 8 in Redis Open Source was used for the examples on this page.
 {{< /note >}}
-<br />
-{{< warning >}}
-The actual total memory consumption could be much lower than the reported value because of an internal JSON reference-counting mechanism.
-{{< /warning >}}
 
 Every key in Redis takes memory and requires at least the amount of RAM to store the key name, as
 well as some per-key overhead that Redis uses. On top of that, the value in the key also requires
@@ -127,3 +123,14 @@ JSON. The _MessagePack_ column is for reference purposes and reflects the length
 
 > Note: In the current version, deleting values from containers **does not** free the container's
 allocated memory.
+
+## JSON string reuse mechanism
+
+Redis uses a global string reuse mechanism to reduce memory usage. When a string value appears multiple times, either within the same JSON document
+or across different documents on the same node, Redis stores only a single copy of that string and uses references to it.
+This approach is especially efficient when many documents share similar structures.
+
+However, the `JSON.DEBUG MEMORY` command reports memory usage as if each string instance is stored independently, even when it's actually reused.
+For example, the document `{"foo": ["foo", "foo"]}` reuses the string `"foo"` internally, but the reported memory usage counts the string three times: once for the key and once for each array element.
+
+Because the string cache is global and unaware of keys, documents, or shards, the reported per-key memory usage might overstate actual consumption, particularly when repeated strings are present.
