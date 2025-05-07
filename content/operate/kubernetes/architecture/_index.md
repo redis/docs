@@ -95,7 +95,7 @@ See [Manage REC credentials]({{<relref "/operate/kubernetes/security/manage-rec-
 
 By default, Redis Enterprise Software for Kubernetes generates TLS certificates for the cluster during creation. These self-signed certificates are generated on the first node of each Redis Enterprise cluster (REC) and are copied to all other nodes in the cluster.
 
-See [Manage REC certificates]({{<relref "/operate/kubernetes/security/manage-rec-certificates.md">}}) for more details.
+See [Manage REC certificates]({{<relref "/operate/kubernetes/security/manage-rec-certificates">}}) for more details.
 
 ### Client certificates
 
@@ -123,7 +123,7 @@ By default, Kubernetes doesn't allow you to access your Redis database from outs
 
 - Ingress controllers [HAProxy](https://haproxy-ingress.github.io/) and [NGINX](https://kubernetes.github.io/ingress-nginx/) require an `ingress` API resource.
 - [Istio](https://istio.io/latest/docs/setup/getting-started/) requires `Gateway` and `VirtualService` API resources.
-- OpenShift uses [routes]({{< relref "/operate/kubernetes/networking/routes.md" >}}) to route external traffic.
+- OpenShift uses [routes]({{< relref "/operate/kubernetes/networking/routes" >}}) to route external traffic.
 
 The [Active-Active databases](#active-active-databases) require one of above routing methods to be configured in the REC with the [ingressOrRouteSpec field]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api#specingressorroutespec">}}).
 
