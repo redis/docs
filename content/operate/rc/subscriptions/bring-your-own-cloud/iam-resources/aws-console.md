@@ -65,7 +65,7 @@ First, create a policy to use for the new instance role:
                     "Effect": "Allow",
                     "Action": [
                         "ec2:AuthorizeSecurityGroupIngress",
-                        "ec2:DeleteSecurityGroup",
+                        "ec2:DeleteSecurityGroup"
                     ],
                     "Resource": "*",
                     "Condition": {
