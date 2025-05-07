@@ -11,7 +11,7 @@ linkTitle: Call home client
 weight: 80
 ---
 
-The call home client collects data hourly and sends daily usage statistics to Redis. Reports include memory usage, shard details, enabled features, and other operational metrics. To prevent increased load when multiple clusters are running, the daily report is sent at a random time.
+The call home client collects data hourly and sends daily usage statistics to Redis with a POST request to `https://usage.redis.io/callHome`. Reports include memory usage, shard details, enabled features, and other operational metrics. To prevent increased load when multiple clusters are running, the daily report is sent at a random time.
 
 These reports provide insights into license consumption, which helps Redis to ensure performance metrics align with contractual agreements, optimize service delivery, and offer proactive customer support.
     
@@ -22,25 +22,34 @@ We recommend contacting [Redis support](https://redis.io/support/) before making
 The following example shows the data collected hourly for each database:
 
 ```sh
-"date": "2025-03-25T11:42:13.984Z",
-"cluster_UUID": "string",
-"cluster_name": "string",
-"api_version": "string",
-"software_version": "string",
-"bdb_uid": "string",
-"type": "string",
-"shard_type": "string",
-"dominant_shard_criteria": "string",
-"provisioned_memory": 0,
-"used_memory": 0,
-"master_shards_count": 0,
-"no_eviction": true,
-"persistence": true,
-"backup": true,
-"using_redis_search": true,
-"ops_sec": 0,
-"replication": true,
-"active_active": true
+{
+  "support_package": true,
+  "customer_name": "string",
+  "license_hash": "string",
+  "usage_data": [
+    {
+      "date": "2025-03-25T11:42:13.984Z",
+      "cluster_UUID": "string",
+      "cluster_name": "string",
+      "api_version": "string",
+      "software_version": "string",
+      "bdb_uid": "string",
+      "type": "string",
+      "shard_type": "string",
+      "dominant_shard_criteria": "string",
+      "provisioned_memory": 0,
+      "used_memory": 0,
+      "master_shards_count": 0,
+      "no_eviction": true,
+      "persistence": true,
+      "backup": true,
+      "using_redis_search": true,
+      "ops_sec": 0,
+      "replication": true,
+      "active_active": true
+    }
+  ]
+}
 ```
 
 ## Change data collection schedule
