@@ -99,7 +99,7 @@ curl -k --request DELETE \
 
 ### Change both the REC username and password
 
-1. [Connect to the admin console]({{< relref "/operate/kubernetes/re-clusters/connect-to-admin-console.md" >}})
+1. [Connect to the admin console]({{< relref "/operate/kubernetes/re-clusters/connect-to-admin-console" >}})
 
 2. [Add another admin user]({{< relref "/operate/rs/security/access-control/create-users" >}}) and choose a new password.
 
@@ -133,4 +133,4 @@ If you store your secrets with Hashicorp Vault, update the secret for the REC cr
 username:<desired_username>, password:<desired_password>
 ```
 
-For more information about Vault integration with the Redis Enterprise Cluster see [Integrating Redis Enterprise for Kubernetes with Hashicorp Vault](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/vault/README.md).
+For more information about Vault integration with the Redis Enterprise Cluster see [Integrating Redis Enterprise for Kubernetes with Hashicorp Vault](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/vault/README).

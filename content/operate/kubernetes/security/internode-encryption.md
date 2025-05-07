@@ -27,4 +27,4 @@ spec:
     dataInternodeEncryption: false
 ```
 
-To learn more about internode encryption, see [Internode encryption for Redis Enterprise Software]({{< relref "/operate/rs/security/encryption/internode-encryption.md" >}}).
+To learn more about internode encryption, see [Internode encryption for Redis Enterprise Software]({{< relref "/operate/rs/security/encryption/internode-encryption" >}}).

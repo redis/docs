@@ -104,10 +104,10 @@ deployment.apps/redis-enterprise-operator configured
 If you have the admission controller enabled, you need to manually reapply the `ValidatingWebhookConfiguration`.
 
 {{<note>}}
-{{< embed-md "k8s-642-redb-admission-webhook-name-change.md" >}}
+{{< embed-md "k8s-642-redb-admission-webhook-name-change" >}}
 {{</note>}}
 
-{{< embed-md "k8s-admission-webhook-cert.md"  >}}
+{{< embed-md "k8s-admission-webhook-cert"  >}}
 
 ### Verify the operator is running
 

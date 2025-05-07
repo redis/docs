@@ -114,7 +114,7 @@ Each Redis Enterprise cluster requires at least 3 nodes. Single-node RECs are no
 
 ## Configure the admission controller
 
-{{< embed-md "k8s-admission-webhook-cert.md"  >}}
+{{< embed-md "k8s-admission-webhook-cert"  >}}
 
 ### Limit the webhook to relevant namespaces
 
@@ -188,7 +188,7 @@ The operator uses the instructions in the Redis Enterprise database (REDB) custo
 
 1. Create a `RedisEnterpriseDatabase` custom resource.
 
-    This example creates a test database. For production databases, see [create a database]({{< relref "/operate/kubernetes/re-databases/db-controller.md#create-a-database" >}}) and [RedisEnterpriseDatabase API reference]({{< relref "/operate/kubernetes/reference/redis_enterprise_database_api" >}}).
+    This example creates a test database. For production databases, see [create a database]({{< relref "/operate/kubernetes/re-databases/db-controller#create-a-database" >}}) and [RedisEnterpriseDatabase API reference]({{< relref "/operate/kubernetes/reference/redis_enterprise_database_api" >}}).
 
     ```sh
     cat << EOF > /tmp/redis-enterprise-database.yml

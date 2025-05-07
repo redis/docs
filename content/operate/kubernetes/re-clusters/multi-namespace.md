@@ -14,7 +14,7 @@ weight: 17
 
 Multiple Redis Enterprise database resources (REDBs) can be associated with a single Redis Enterprise cluster resource (REC) even if they reside in different namespaces.
 
-To learn more about designing a multi-namespace Redis Enterprise cluster, see [flexible deployment options]({{< relref "/operate/kubernetes/architecture/deployment-options.md" >}}).
+To learn more about designing a multi-namespace Redis Enterprise cluster, see [flexible deployment options]({{< relref "/operate/kubernetes/architecture/deployment-options" >}}).
 
 {{<note>}}
 Multi-namespace installations now support Active-Active databases (REAADB) with certain configuration requirements. For details, see [Multi-namespace Active-Active databases](#multi-namespace-active-active-databases).
@@ -22,13 +22,13 @@ Multi-namespace installations now support Active-Active databases (REAADB) with 
 
 ## Prerequisites
 
-Before configuring a multi-namespace deployment, you must have a running [Redis Enterprise cluster (REC)]({{< relref "/operate/kubernetes/deployment/quick-start.md" >}}). See more information in the [deployment]({{< relref "/operate/kubernetes/deployment/" >}}) section.
+Before configuring a multi-namespace deployment, you must have a running [Redis Enterprise cluster (REC)]({{< relref "/operate/kubernetes/deployment/quick-start" >}}). See more information in the [deployment]({{< relref "/operate/kubernetes/deployment/" >}}) section.
 
 ## Create role and role binding for managed namespaces
 
 Both the operator and the RedisEnterpriseCluster (REC) resource need access to each namespace the REC will manage. For each **managed** namespace, create a `role.yaml` and `role_binding.yaml` file within the managed namespace, as shown in the examples below.
 
-{{<note>}}These will need to be reapplied each time you [upgrade]({{< relref "/operate/kubernetes/upgrade/upgrade-redis-cluster.md" >}}). {{</note>}}
+{{<note>}}These will need to be reapplied each time you [upgrade]({{< relref "/operate/kubernetes/upgrade/upgrade-redis-cluster" >}}). {{</note>}}
 
 Replace `<rec-namespace>` with the namespace the REC resides in.
 Replace `<service-account-name>` with your own value (defaults to the REC name).

@@ -11701,7 +11701,7 @@ RS Cluster optional services settings
 </table>
 
 
-### spec.redisEnterpriseServicesConfiguration.mdnsServer
+### spec.redisEnterpriseServicesConfigurationnsServer
 <sup><sup>[↩ Parent](#specredisenterpriseservicesconfiguration)</sup></sup>
 
 

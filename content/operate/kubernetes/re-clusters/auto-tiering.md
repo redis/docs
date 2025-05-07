@@ -24,7 +24,7 @@ Before creating your Redis clusters or databases, these SSDs must be:
 - formatted and mounted on the nodes that will run Redis Enterprise pods
 - dedicated to Auto Tiering and not shared with other parts of the database, (e.g. durability, binaries)
 - [provisioned as local persistent volumes](https://kubernetes.io/docs/concepts/storage/volumes/#local)
-  - You can use a [local volume provisioner](https://github.com/kubernetes-sigs/sig-storage-local-static-provisioner/blob/master/README.md) to do this [dynamically](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#dynamic)
+  - You can use a [local volume provisioner](https://github.com/kubernetes-sigs/sig-storage-local-static-provisioner/blob/master/README) to do this [dynamically](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#dynamic)
 - a [StorageClass](https://kubernetes.io/docs/concepts/storage/storage-classes/#local) resource with a unique name
 
 For more information on node storage, see [Node persistent and ephemeral storage]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}}).
