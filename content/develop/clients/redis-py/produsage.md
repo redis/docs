@@ -25,7 +25,6 @@ for a recommendation. Use the checklist icons to record your
 progress in implementing the recommendations.
 
 {{< checklist "pyprodlist" >}}
-    {{< checklist-item "#connection-pooling" >}}Connection pooling{{< /checklist-item >}}
     {{< checklist-item "#client-side-caching" >}}Client-side caching{{< /checklist-item >}}
     {{< checklist-item "#retries" >}}Retries{{< /checklist-item >}}
     {{< checklist-item "#health-checks" >}}Health checks{{< /checklist-item >}}
@@ -36,19 +35,6 @@ progress in implementing the recommendations.
 
 The sections below offer recommendations for your production environment. Some
 of them may not apply to your particular use case.
-
-### Connection pooling
-
-Example code often opens a connection at the start, demonstrates a feature,
-and then closes the connection at the end. However, production code
-typically uses connections many times intermittently. Repeatedly opening
-and closing connections has a performance overhead.
-
-Use [connection pooling]({{< relref "/develop/clients/pools-and-muxing" >}})
-to avoid the overhead of opening and closing connections without having to
-write your own code to cache and reuse open connections. See
-[Connect with a connection pool]({{< relref "/develop/clients/redis-py/connect#connect-with-a-connection-pool" >}})
-to learn how to use this technique with `redis-py`.
 
 ### Client-side caching
 
@@ -67,57 +53,64 @@ such as temporary network outages or timeouts. When this happens,
 the operation will generally succeed after a few attempts, despite
 failing the first time.
 
-You can configure `redis-py` to retry commands automatically when
-errors occur. Use an instance of the `Retry` class to
-specify the number of times to retry after a failure. You can also
-specify a backoff strategy to control the time gap between attempts.
-For example, the following code creates a `Retry` with
+`redis-py` can retry commands automatically when
+errors occur. From version 6.0.0 onwards, the default behavior is to
+attempt a failed command three times.
+The timing between successive attempts is calculated using
 [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff)
-that will make three repeated attempts after a failure:
+with some random "jitter" added to avoid two or more connections retrying
+commands in sync with each other.
+
+You can override the default behavior using an instance of the `Retry` class to
+specify the number of times to retry after a failure along with your
+own choice of backoff strategy.
+Pass the `Retry` object in the `retry` parameter when you connect.
+For example, the connection in the code below uses an exponential backoff strategy
+(without jitter) that will make eight repeated attempts after a failure:
 
 ```py
 from redis.backoff import ExponentialBackoff
 from redis.retry import Retry
 
-# Run 3 retries with exponential backoff strategy.
-retry = Retry(ExponentialBackoff(), 3)
+# Run 8 retries with exponential backoff strategy.
+retry = Retry(ExponentialBackoff(), 8)
+
+r = Redis(
+  retry=retry,
+    .
+    .
+)
 ```
 
-Pass the `Retry` instance in the `retry` parameter when you connect
-to Redis. When you are connecting to a standalone Redis server,
-you can also set the `retry_on_timeout` parameter to `True`
-(to retry only after timeout errors), or pass a list of exception
-types in the `retry_on_error` parameter.
+A retry is triggered when a command throws any exception
+listed in the `supported_errors` attribute of the `Retry` class.
+By default, the list only includes `ConnectionError` and `TimeoutError`,
+but you can set your own choice of exceptions when you create the
+instance:
 
 ```py
-# Retry only on timeout
-r = Redis(
-  retry=retry,
-  retry_on_timeout=True
-    .
-    .
-)
+# Only retry after a `TimeoutError`.
+retry = Retry(ExponentialBackoff(), 3, supported_errors=(TimeoutError,))
+```
 
-# Retry on any of a specified list of command exceptions.
+You can also add extra exceptions to the default list using the `retry_on_error`
+parameter when you connect:
+
+```py
+# Add `BusyLoadingError` to the default list of exceptions.
 from redis.exceptions import (
    BusyLoadingError,
-   ConnectionError,
-   TimeoutError
 )
     .
     .
 
 r = Redis(
   retry=retry,
-  retry_on_error=[BusyLoadingError, ConnectionError, TimeoutError],
+  retry_on_error=[BusyLoadingError],
     .
     .
 )
 ```
-
-If you specify either `retry_on_timeout` or `retry_on_error` without
-a `retry` parameter, the default is to retry once immediately with no
-backoff.
 
 For a connection to a Redis cluster, you can specify a `retry` instance,
 but the list of exceptions is not configurable and is always set
@@ -146,9 +139,9 @@ r = Redis(
 ```
 
 Health checks help to detect problems as soon as possible without
-waiting for a user to report them. If a `ConnectionError` or `TimeoutError`
-occurs for the health check itself, a second attempt will be made before
-reporting failure.
+waiting for a user to report them. Note that health checks, like
+other commands, will be [retried](#retries) using the strategy
+that you specified for the connection.
 
 ### Exception handling
 
