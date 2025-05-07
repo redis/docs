@@ -1246,11 +1246,11 @@
   "VSETATTR": [
     "One of the following:",
     "* [Integer reply](../../develop/reference/protocol-spec#integers): 0 if either the key or element does not exist; 1 if the attributes were successfully added to the element.",
-    "* [Simple error reply](develop/reference/protocol-spec/#simple-errors) for improperly specified attribute string."
+    "* [Simple error reply](../../develop/reference/protocol-spec/#simple-errors) for improperly specified attribute string."
   ],
   "VSIM": [
     "One of the following:",
-    "* [Simple error reply](develop/reference/protocol-spec/#simple-errors) for unknown element.",
+    "* [Simple error reply](../../develop/reference/protocol-spec/#simple-errors) for unknown element.",
     "* [Array reply](../../develop/reference/protocol-spec#arrays) (empty array) for unknown key.",
     "* [Array reply](../../develop/reference/protocol-spec#arrays) with matching elements; juxtaposed with scores when used with the WITHSCORES option."
   ],
