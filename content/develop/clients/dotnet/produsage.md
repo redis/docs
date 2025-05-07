@@ -25,7 +25,8 @@ for a recommendation. Use the checklist icons to record your
 progress in implementing the recommendations.
 
 {{< checklist "dotnetprodlist" >}}
-    {{< checklist-item "#server-maintenance-event-handling" >}}Server maintenance event handling{{< /checklist-item >}}
+    {{< checklist-item "#event-handling" >}}Event handling{{< /checklist-item >}}
+    {{< checklist-item "#timeouts" >}}Timeouts{{< /checklist-item >}}
     {{< checklist-item "#exception-handling" >}}Exception handling{{< /checklist-item >}}
 {{< /checklist >}}
 
@@ -34,7 +35,19 @@ progress in implementing the recommendations.
 The sections below offer recommendations for your production environment. Some
 of them may not apply to your particular use case.
 
-### Server maintenance event handling
+### Event handling
+
+The `ConnectionMultiplexer` class publishes several different types of
+[events](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/events/)
+for situations such as configuration changes and connection failures.
+Use these events to record server activity in a log, which you can then use
+to monitor performance and diagnose problems when they occur.
+See
+the StackExchange.Redis
+[Events](https://stackexchange.github.io/StackExchange.Redis/Events)
+page for the full list of events.
+
+#### Server notification events
 
 Some servers (such as Azure Cache for Redis) send notification events shortly
 before scheduled maintenance is due to happen. You can use code like the
@@ -55,6 +68,33 @@ muxer.ServerMaintenanceEvent += (object sender, ServerMaintenanceEvent e) => {
     Console.WriteLine($"Maintenance event: {e.RawMessage}");
 };
 ```
+
+### Timeouts
+
+If a network or server error occurs while your code is opening a
+connection or issuing a command, it can end up hanging indefinitely.
+To prevent this, `NRedisStack` sets timeouts for socket
+reads and writes and for opening connections.
+
+By default, the timeout is five seconds for all operations, but
+you can set the time (in milliseconds) separately for connections
+and commands using the `ConnectTimeout`, `SyncTimeout`, and
+`AsyncTimeout` configuration options:
+
+```cs
+var muxer = ConnectionMultiplexer.Connect(new ConfigurationOptions {
+    ConnectTimeout = 1000,  // 1 second timeout for connections.
+    SyncTimeout = 2000,     // 2 seconds for synchronous commands.
+    AsyncTimeout = 3000     // 3 seconds for asynchronous commands.
+        .
+        .
+});
+
+var db = muxer.GetDatabase();
+```
+
+The default timeouts are a good starting point, but you may be able
+to improve performance by adjusting the values to suit your use case.
 
 ### Exception handling
 
