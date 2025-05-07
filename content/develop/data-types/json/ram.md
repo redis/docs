@@ -132,5 +132,3 @@ This approach is especially efficient when many documents share similar structur
 
 However, the `JSON.DEBUG MEMORY` command reports memory usage as if each string instance is stored independently, even when it's actually reused.
 For example, the document `{"foo": ["foo", "foo"]}` reuses the string `"foo"` internally, but the reported memory usage counts the string three times: once for the key and once for each array element.
-
-Because the string cache is global and unaware of keys, documents, or shards, the reported per-key memory usage might overstate actual consumption, particularly when repeated strings are present.
