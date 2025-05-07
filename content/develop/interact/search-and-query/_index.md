@@ -53,7 +53,7 @@ for full installation instructions.
 
 ## License and source code
 
-The Redis Query Engine features of Redis are available under the Source Available License 2.0 (RSALv2) or the Server Side Public License v1 (SSPLv1). Please read the [license file](https://raw.githubusercontent.com/RediSearch/RediSearch/master/LICENSE.txt) for further details. The source code and the [detailed release notes](https://github.com/RediSearch/RediSearch/releases) are available on [GitHub](https://github.com/RediSearch/RediSearch).
+The Redis Query Engine features of Redis are available under the Source Available License 2.0 (RSALv2), the Server Side Public License v1 (SSPLv1), or the GNU Affero General Public License version 3 (AGPLv3). Please read the [license file](https://raw.githubusercontent.com/RediSearch/RediSearch/master/LICENSE.txt) for further details. The source code and the [detailed release notes](https://github.com/RediSearch/RediSearch/releases) are available on [GitHub](https://github.com/RediSearch/RediSearch).
 
 Do you have questions? Feel free to ask at the [RediSearch forum](https://forum.redis.com/c/modules/redisearch/).
 
