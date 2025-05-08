@@ -50,7 +50,11 @@ In your JavaScript source file, import the required classes:
 
 ```js
 import * as transformers from '@xenova/transformers';
-import {VectorAlgorithms, createClient, SchemaFieldTypes} from 'redis';
+import {
+    VectorAlgorithms,
+    createClient,
+    SCHEMA_FIELD_TYPE,
+} from 'redis';
 ```
 
 The `@xenova/transformers` module handles embedding models. This example uses the
