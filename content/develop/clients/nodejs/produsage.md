@@ -15,8 +15,22 @@ title: Production usage
 weight: 5
 ---
 
-The following sections explain how to handle situations that may occur
-in your production environment.
+This guide offers recommendations to get the best reliability and
+performance in your production environment.
+
+## Checklist
+
+Each item in the checklist below links to the section
+for a recommendation. Use the checklist icons to record your
+progress in implementing the recommendations.
+
+{{< checklist "nodeprodlist" >}}
+    {{< checklist-item "#handling-errors" >}}Handling errors{{< /checklist-item >}}
+    {{< checklist-item "#handling-reconnections" >}}Handling reconnections{{< /checklist-item >}}
+    {{< checklist-item "#timeouts" >}}Timeouts{{< /checklist-item >}}
+{{< /checklist >}}
+
+## Recommendations
 
 ### Handling errors
 
