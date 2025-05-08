@@ -483,7 +483,7 @@ This version contains security fixes for the **Redis** server to properly handle
   * [#4220](https://github.com/RediSearch/RediSearch/pull/4220) Server crash when attempting to run the ForkGC (Garbage Collection routine) after dropping the index (MOD-6276)
 
 * **Time series**:
-  * [LibMR[#51](https://github.com/RedisGears/libMR/pull/51)](https://github.com/RedisGears/LibMR/pull/51) Crash on SSL initialization failure (MOD-5647)
+  * [LibMR#51](https://github.com/RedisGears/LibMR/pull/51) Crash on SSL initialization failure (MOD-5647)
   * [#1538](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1538) Amazon Linux 2: crash on SSL initialization. We now use openssl11-devel instead of openssl-devel (MOD-6015)
 
 * **Probabilistic data structures**:
