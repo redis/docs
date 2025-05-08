@@ -20,7 +20,7 @@ Helm charts provide a simple way to install the Redis Enterprise for Kubernetes 
 - [Kubernetes client (kubectl)](https://kubernetes.io/docs/tasks/tools/).
 - [Helm 3.10 or later](https://helm.sh/docs/intro/install/).
 
-If you suspect your file descriptor limits are below 100k, you must either manually increase limits or [Allow automatic resource adjustment]({{< relref "/operate/kubernetes/security/enable-privileged-mode" >}}). Most major cloud providers and standard container runtime configurations set default file descriptor limits well above the minimum required by Redis Enterprise. In these environments, you can safely run without enabling automatic resource adjustment.
+If you suspect your file descriptor limits are below 100,000, you must either manually increase limits or [Allow automatic resource adjustment]({{< relref "/operate/kubernetes/security/allow-resource-adjustment" >}}). Most major cloud providers and standard container runtime configurations set default file descriptor limits well above the minimum required by Redis Enterprise. In these environments, you can safely run without enabling automatic resource adjustment.
 
 ### Example values
 
@@ -53,10 +53,6 @@ To install with Openshift, add `--set openshift.mode=true`.
 
 To monitor the installation add the `--debug` flag. The installation runs several jobs synchronously and may take a few minutes to complete.
 
-{{<note>}}
-If you want the operator to automatically manage file descriptor limits, make sure to set `allowAutoAdjustment=true` when installing the chart. This requires enabling privilege escalation for the Redis Enterprise container. See [Allow automatic resource adjustment]({{< relref "/operate/kubernetes/security/enable-privileged-mode.md" >}}) for more information.
-{{</note>}}
-
 ### Install from local directory
 
 1. Find the latest release on the [redis-enterprise-k8s-docs](https://github.com/RedisLabs/redis-enterprise-k8s-docs/releases) repo and download the `tar.gz` source code into a local directory.
@@ -78,10 +74,6 @@ To monitor the installation add the `--debug` flag. The installation runs severa
 1. View configurable values with `helm show values <repo-name>/<chart-name>`.
 
 2. Install the Helm chart, overriding specific value defaults using `--set`.
-
-{{<note>}}
-To enable automatic resource adjustment during installation, include `--set allowAutoAdjustment=true`. This requires elevated container capabilities. For more information, see [Allow automatic resource adjustment]({{< relref "/operate/kubernetes/security/enable-privileged-mode" >}}).
-{{</note>}}
 
 ```sh
 helm install <operator-name> redis/redis-enterprise-operator \
