@@ -12,7 +12,7 @@ weight: 70
 ---
 You can deploy Redis Enterprise for Kubernetes from the Red Hat OpenShift CLI. You can also use a UI, [OperatorHub](https://docs.openshift.com/container-platform/4.11/operators/index.html) (Red Hat) to install operators and create custom resources.
 
-If you suspect your file descriptor limits are below 100k, you must either manually increase limits or [Allow automatic resource adjustment]({{< relref "/operate/kubernetes/security/enable-privileged-mode.md" >}}). Most major cloud providers and standard container runtime configurations set default file descriptor limits well above the minimum required by Redis Enterprise. In these environments, you can safely run without enabling automatic resource adjustment.
+{{<note>}}If you suspect your file descriptor limits are below 100,000, you must either manually increase limits or [Allow automatic resource adjustment]({{< relref "/operate/kubernetes/security/enable-privileged-mode" >}}). Most major cloud providers and standard container runtime configurations set default file descriptor limits well above the minimum required by Redis Enterprise. In these environments, you can safely run without enabling automatic resource adjustment.{{</note>}}
 
 To see which version of Redis Enterprise for Kubernetes supports your OpenShift version, see [Supported Kubernetes distributions]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions" >}}).
 
@@ -46,9 +46,7 @@ To see which version of Redis Enterprise for Kubernetes supports your OpenShift 
 
 ## Security context constraints
 
-Upgrades to versions 7.22.0-6 and later run in **unprivileged mode** without any additional permissions or capabilities. If you don't specifally require additional capabilities, we recommend you maintain the default unprivileged mode, as its more secure. After upgrading, remove the existing `redis-enterprise-scc-v2` SCC and unbind it from the REC service account.
-
-To enable privileged mode, see [Enable privileged mode > OpenShift upgrades]({{<relref "/operate/kubernetes/security/enable-privileged-mode#new-openshift-installations">}}).
+Versions 7.22.0-6 and later run in without permissions to [allow automatic resource adjustment]({{<relref "content/operate/kubernetes/security/allow-resource-adjustment">}}). If you use the recommended default security constraints, remove the existing `redis-enterprise-scc-v2` SCC and unbind it from the REC service account after upgrading.
 
 ## Create Redis Enterprise custom resources
 
@@ -58,7 +56,7 @@ The **Installed Operators**->**Operator details** page shows the provided APIs: 
 Use the YAML view to create a custom resource file or let OperatorHub generate the YAML file for you by specifying your configuration options in the form view.
 
 {{<note>}}
-Redis Enterprise may require the ability to adjust system resource limits, such as file descriptors. If you're unsure whether your container runtime provides high enough defaults (at least 100,000), you can allow the operator to adjust them automatically. See [Allow automatic resource adjustment]({{< relref "/operate/kubernetes/security/enable-privileged-mode.md" >}}) for details.
+If you suspect your file descriptor limits are below 100,000, you must either manually increase limits or [Allow automatic resource adjustment]({{< relref "/operate/kubernetes/security/enable-privileged-mode" >}}). Most major cloud providers and standard container runtime configurations set default file descriptor limits well above the minimum required by Redis Enterprise. In these environments, you can safely run without enabling automatic resource adjustment.
 {{</note>}}
 
 <note> The REC name cannot be changed after cluster creation.</note>
