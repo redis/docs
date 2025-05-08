@@ -73,7 +73,7 @@ To receive maintenance notifications by email:
 
 1. Select the Edit button.
 
-    {{<image filename="images/rc/icon-access-management-edit-user.png" width="30px" alt="Use the Edit button change details for a team member." >}}
+    {{<image filename="images/rc/icon-edit.png" width="30px" alt="Use the Edit button change details for a team member." >}}
 
 1. Select **Operational emails** if it is not already turned on.
 
