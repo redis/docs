@@ -21,6 +21,7 @@ An API object that represents a node in the cluster.
 | architecture | string | Hardware architecture (read-only) |
 | bigredis_storage_path | string | Flash storage path (read-only) |
 | bigstore_driver | 'ibm-capi-ga1'<br />'ibm-capi-ga2'<br />'ibm-capi-ga4'<br />'speedb'<br />'rocksdb' | Bigstore driver name or none (deprecated as of Redis Enterprise v7.2, use the [cluster object]({{< relref "/operate/rs/7.8/references/rest-api/objects/cluster" >}})'s bigstore_driver instead) |
+| bigstore_enabled | boolean | If true, bigstore is enabled (read-only) |
 | bigstore_size | integer | Storage size of bigstore storage (read-only) |
 | cores | integer | Total number of CPU cores (read-only) |
 | ephemeral_storage_path | string | Ephemeral storage path (read-only) |
