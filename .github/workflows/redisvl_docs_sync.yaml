@@ -34,7 +34,7 @@ jobs:
 
           # Get latest release
           latest_release=$(gh release -R redis/redis-vl-python list --json name,isLatest --jq '.[] | select(.isLatest)|.name')
-          git checkout "tags/${latest_release}"
+          git checkout "tags/${latest_release}" || git checkout "tags/v${latest_release}"
           pip3 install -e .
 
           popd

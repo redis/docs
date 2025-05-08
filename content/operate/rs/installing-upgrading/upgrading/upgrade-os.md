@@ -72,6 +72,8 @@ To upgrade the cluster's operating system, use one of the following rolling upgr
 
 ### Extra node upgrade method {#extra-node-upgrade}
 
+1. Complete all [prerequisites](#prerequisites) before starting the rolling upgrade.
+
 1. Create a node with the OS upgrade version.
 
 1. [Install the cluster's current Redis Enterprise Software version]({{< relref "/operate/rs/installing-upgrading/install/install-on-linux" >}}) on the new node using the installation package for the OS upgrade version.
@@ -83,6 +85,8 @@ To upgrade the cluster's operating system, use one of the following rolling upgr
 1. Repeat the previous steps until all nodes with the earlier OS version are removed. If the final node to remove from the cluster is the primary node, [demote it]({{<relref "/operate/rs/clusters/change-node-role#demote-primary-node">}}) to a secondary node before you remove it.
 
 ### Replace node upgrade method {#replace-node-upgrade}
+
+1. Complete all [prerequisites](#prerequisites) before starting the rolling upgrade.
 
 1. [Remove a node]({{< relref "/operate/rs/clusters/remove-node#remove-a-node" >}}) with the earlier OS version from the cluster.
 
