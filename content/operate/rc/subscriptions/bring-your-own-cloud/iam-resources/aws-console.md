@@ -393,7 +393,7 @@ Follow the steps to [Create a role for an IAM user](https://docs.aws.amazon.com/
     - **Account ID**: Enter account number `168085023892` (Redis Cloud's AWS account).
     - **Options**: Select **Require MFA**.
     {{< warning >}}
-    Do not check the **Require external ID** checkbox.
+Do not check the **Require external ID** checkbox.
     {{< /warning >}}
 - In **Add permissions**, select the **RedisLabsInstanceRolePolicy** you created.
 - In **Name, review, and create**, enter `redislabs-role` in the **Role name** field.
