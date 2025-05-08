@@ -187,7 +187,7 @@ To do this, you need to:
 
 ### Create encryption key
 
-In the [AWS Management Console](https://console.aws.amazon.com/), use the **Services** menu to locate and select **Security, Identity, and Compliance** > **Key Management Service**. [Create an encryption key](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html) with the following settings:
+In the [AWS Management Console](https://console.aws.amazon.com/), use the **Services** menu to locate and select **Security, Identity, and Compliance** > **Key Management Service**. [Create an encryption key](https://docs.aws.amazon.com/kms/latest/developerguide/create-symmetric-cmk.html) with the following settings:
 
 1. In **Step 1 - Configure key**:
     - **Key type**: Select **Symmetric**.
@@ -198,6 +198,8 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
 1. In **Step 2 - Add labels**, add an alias and description for the key.
 1. In **Step 3 - Define key administrative permissions**, under **Key deletion**, select **Allow key administrators to delete this key**.
 1. In **Step 4 - Define key usage permissions**, under **Other AWS accounts**, select **Add another AWS account**. Enter the AWS account ID for the Redis Cloud cluster that you saved earlier.
+
+Review the key policy and key settings, and then select **Finish** to create the key.
 
 ### Create database credentials secret
 
