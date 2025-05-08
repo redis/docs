@@ -11,7 +11,7 @@ queries for different use cases. Each query class wraps the `redis-py` Query mod
 
 ## VectorQuery
 
-### `class VectorQuery(vector, vector_field_name, return_fields=None, filter_expression=None, dtype='float32', num_results=10, return_score=True, dialect=2, sort_by=None, in_order=False, hybrid_policy=None, batch_size=None, normalize_vector_distance=False)`
+### `class VectorQuery(vector, vector_field_name, return_fields=None, filter_expression=None, dtype='float32', num_results=10, return_score=True, dialect=2, sort_by=None, in_order=False, hybrid_policy=None, batch_size=None, ef_runtime=None, normalize_vector_distance=False)`
 
 Bases: `BaseVectorQuery`, `BaseQuery`
 
@@ -49,6 +49,9 @@ expression.
     of vectors to fetch in each batch. Larger values may improve performance
     at the cost of memory usage. Only applies when hybrid_policy=”BATCHES”.
     Defaults to None, which lets Redis auto-select an appropriate batch size.
+  * **ef_runtime** (*Optional* *[* *int* *]*) – Controls the size of the dynamic candidate list for HNSW
+    algorithm at query time. Higher values improve recall at the expense of
+    slower search performance. Defaults to None, which uses the index-defined value.
   * **normalize_vector_distance** (*bool*) – Redis supports 3 distance metrics: L2 (euclidean),
     IP (inner product), and COSINE. By default, L2 distance returns an unbounded value.
     COSINE distance returns a value between 0 and 2. IP returns a value determined by
@@ -186,6 +189,17 @@ Set the batch size for the query.
   * **TypeError** – If batch_size is not an integer
   * **ValueError** – If batch_size is not positive
 
+#### `set_ef_runtime(ef_runtime)`
+
+Set the EF_RUNTIME parameter for the query.
+
+* **Parameters:**
+  **ef_runtime** (*int*) – The EF_RUNTIME value to use for HNSW algorithm.
+  Higher values improve recall at the expense of slower search.
+* **Raises:**
+  * **TypeError** – If ef_runtime is not an integer
+  * **ValueError** – If ef_runtime is not positive
+
 #### `set_filter(filter_expression=None)`
 
 Set the filter expression for the query.
@@ -266,6 +280,15 @@ Return the batch size for the query.
 
 * **Returns:**
   The batch size for the query.
+* **Return type:**
+  Optional[int]
+
+#### `property ef_runtime: int | None`
+
+Return the EF_RUNTIME parameter for the query.
+
+* **Returns:**
+  The EF_RUNTIME value for the query.
 * **Return type:**
   Optional[int]
 

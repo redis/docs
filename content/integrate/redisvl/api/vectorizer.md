@@ -9,30 +9,53 @@ type: integration
 
 <a id="hftextvectorizer-api"></a>
 
-### `class HFTextVectorizer(model='sentence-transformers/all-mpnet-base-v2', dtype='float32', *, dims=None)`
+### `class HFTextVectorizer(model='sentence-transformers/all-mpnet-base-v2', dtype='float32', cache=None, *, dims=None)`
 
 Bases: `BaseVectorizer`
 
-The HFTextVectorizer class is designed to leverage the power of Hugging
-Face’s Sentence Transformers for generating text embeddings. This vectorizer
-is particularly useful in scenarios where advanced natural language
+The HFTextVectorizer class leverages Hugging Face’s Sentence Transformers
+for generating vector embeddings from text input.
+
+This vectorizer is particularly useful in scenarios where advanced natural language
 processing and understanding are required, and ideal for running on your own
-hardware (for free).
+hardware without usage fees.
+
+You can optionally enable caching to improve performance when generating
+embeddings for repeated text inputs.
 
 Utilizing this vectorizer involves specifying a pre-trained model from
 Hugging Face’s vast collection of Sentence Transformers. These models are
 trained on a variety of datasets and tasks, ensuring versatility and
-robust performance across different text embedding needs. Additionally,
-make sure the sentence-transformers library is installed with
-pip install sentence-transformers==2.2.2.
+robust performance across different embedding needs.
+
+Requirements:
+: - The sentence-transformers library must be installed with pip.
 
 ```python
-# Embedding a single text
+# Basic usage
 vectorizer = HFTextVectorizer(model="sentence-transformers/all-mpnet-base-v2")
 embedding = vectorizer.embed("Hello, world!")
 
-# Embedding a batch of texts
-embeddings = vectorizer.embed_many(["Hello, world!", "How are you?"], batch_size=2)
+# With caching enabled
+from redisvl.extensions.cache.embeddings import EmbeddingsCache
+cache = EmbeddingsCache(name="my_embeddings_cache")
+
+vectorizer = HFTextVectorizer(
+    model="sentence-transformers/all-mpnet-base-v2",
+    cache=cache
+)
+
+# First call will compute and cache the embedding
+embedding1 = vectorizer.embed("Hello, world!")
+
+# Second call will retrieve from cache
+embedding2 = vectorizer.embed("Hello, world!")
+
+# Batch processing
+embeddings = vectorizer.embed_many(
+    ["Hello, world!", "How are you?"],
+    batch_size=2
+)
 ```
 
 Initialize the Hugging Face text vectorizer.
@@ -44,50 +67,15 @@ Initialize the Hugging Face text vectorizer.
   * **dtype** (*str*) – the default datatype to use when embedding text as byte arrays.
     Used when setting as_buffer=True in calls to embed() and embed_many().
     Defaults to ‘float32’.
-  * **dims** (*int* *|* *None*)
+  * **cache** (*Optional* *[*[*EmbeddingsCache*]({{< relref "cache/#embeddingscache" >}}) *]*) – Optional EmbeddingsCache instance to cache embeddings for
+    better performance with repeated texts. Defaults to None.
+  * **\*\*kwargs** – Additional parameters to pass to the SentenceTransformer
+    constructor.
+  * **dims** (*Annotated* *[* *int* *|* *None* *,* *FieldInfo* *(* *annotation=NoneType* *,* *required=True* *,* *metadata=* *[* *Strict* *(* *strict=True* *)* *,* *Gt* *(* *gt=0* *)* *]* *)* *]*)
 * **Raises:**
   * **ImportError** – If the sentence-transformers library is not installed.
   * **ValueError** – If there is an error setting the embedding model dimensions.
   * **ValueError** – If an invalid dtype is provided.
-
-#### `embed(text, preprocess=None, as_buffer=False, **kwargs)`
-
-Embed a chunk of text using the Hugging Face sentence transformer.
-
-* **Parameters:**
-  * **text** (*str*) – Chunk of text to embed.
-  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing
-    callable to perform before vectorization. Defaults to None.
-  * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
-    to a byte string. Defaults to False.
-* **Returns:**
-  Embedding as a list of floats, or as a bytes
-  object if as_buffer=True
-* **Return type:**
-  Union[List[float], bytes]
-* **Raises:**
-  **TypeError** – If the wrong input type is passed in for the text.
-
-#### `embed_many(texts, preprocess=None, batch_size=10, as_buffer=False, **kwargs)`
-
-Asynchronously embed many chunks of texts using the Hugging Face
-sentence transformer.
-
-* **Parameters:**
-  * **texts** (*List* *[* *str* *]*) – List of text chunks to embed.
-  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing
-    callable to perform before vectorization. Defaults to None.
-  * **batch_size** (*int* *,* *optional*) – Batch size of texts to use when creating
-    embeddings. Defaults to 10.
-  * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
-    to a byte string. Defaults to False.
-* **Returns:**
-  List of embeddings as lists of floats,
-  or as bytes objects if as_buffer=True
-* **Return type:**
-  Union[List[List[float]], List[bytes]]
-* **Raises:**
-  **TypeError** – If the wrong input type is passed in for the test.
 
 #### `model_post_init(context, /)`
 
@@ -101,15 +89,19 @@ It takes context as an argument since that’s what pydantic-core passes when ca
 * **Return type:**
   None
 
-#### `model_config: ClassVar[ConfigDict] = {}`
+#### `model_config: ClassVar[ConfigDict] = {'arbitrary_types_allowed': True}`
 
 Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
+
+#### `property type: str`
+
+Return the type of vectorizer.
 
 ## OpenAITextVectorizer
 
 <a id="openaitextvectorizer-api"></a>
 
-### `class OpenAITextVectorizer(model='text-embedding-ada-002', api_config=None, dtype='float32', *, dims=None)`
+### `class OpenAITextVectorizer(model='text-embedding-ada-002', api_config=None, dtype='float32', cache=None, *, dims=None)`
 
 Bases: `BaseVectorizer`
 
@@ -127,13 +119,32 @@ The vectorizer supports both synchronous and asynchronous operations,
 allowing for batch processing of texts and flexibility in handling
 preprocessing tasks.
 
+You can optionally enable caching to improve performance when generating
+embeddings for repeated text inputs.
+
 ```python
-# Synchronous embedding of a single text
+# Basic usage with OpenAI embeddings
 vectorizer = OpenAITextVectorizer(
     model="text-embedding-ada-002",
     api_config={"api_key": "your_api_key"} # OR set OPENAI_API_KEY in your env
 )
 embedding = vectorizer.embed("Hello, world!")
+
+# With caching enabled
+from redisvl.extensions.cache.embeddings import EmbeddingsCache
+cache = EmbeddingsCache(name="openai_embeddings_cache")
+
+vectorizer = OpenAITextVectorizer(
+    model="text-embedding-ada-002",
+    api_config={"api_key": "your_api_key"},
+    cache=cache
+)
+
+# First call will compute and cache the embedding
+embedding1 = vectorizer.embed("Hello, world!")
+
+# Second call will retrieve from cache
+embedding2 = vectorizer.embed("Hello, world!")
 
 # Asynchronous batch embedding of multiple texts
 embeddings = await vectorizer.aembed_many(
@@ -152,109 +163,27 @@ Initialize the OpenAI vectorizer.
   * **dtype** (*str*) – the default datatype to use when embedding text as byte arrays.
     Used when setting as_buffer=True in calls to embed() and embed_many().
     Defaults to ‘float32’.
-  * **dims** (*int* *|* *None*)
+  * **cache** (*Optional* *[*[*EmbeddingsCache*]({{< relref "cache/#embeddingscache" >}}) *]*) – Optional EmbeddingsCache instance to cache embeddings for
+    better performance with repeated texts. Defaults to None.
+  * **dims** (*Annotated* *[* *int* *|* *None* *,* *FieldInfo* *(* *annotation=NoneType* *,* *required=True* *,* *metadata=* *[* *Strict* *(* *strict=True* *)* *,* *Gt* *(* *gt=0* *)* *]* *)* *]*)
 * **Raises:**
   * **ImportError** – If the openai library is not installed.
   * **ValueError** – If the OpenAI API key is not provided.
   * **ValueError** – If an invalid dtype is provided.
 
-#### `aembed(text, preprocess=None, as_buffer=False, **kwargs)`
-
-Asynchronously embed a chunk of text using the OpenAI API.
-
-* **Parameters:**
-  * **text** (*str*) – Chunk of text to embed.
-  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing callable to
-    perform before vectorization. Defaults to None.
-  * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
-    to a byte string. Defaults to False.
-* **Returns:**
-  Embedding as a list of floats, or as a bytes
-  object if as_buffer=True
-* **Return type:**
-  Union[List[float], bytes]
-* **Raises:**
-  **TypeError** – If the wrong input type is passed in for the text.
-
-#### `aembed_many(texts, preprocess=None, batch_size=10, as_buffer=False, **kwargs)`
-
-Asynchronously embed many chunks of texts using the OpenAI API.
-
-* **Parameters:**
-  * **texts** (*List* *[* *str* *]*) – List of text chunks to embed.
-  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing callable to
-    perform before vectorization. Defaults to None.
-  * **batch_size** (*int* *,* *optional*) – Batch size of texts to use when creating
-    embeddings. Defaults to 10.
-  * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
-    to a byte string. Defaults to False.
-* **Returns:**
-  List of embeddings as lists of floats,
-  or as bytes objects if as_buffer=True
-* **Return type:**
-  Union[List[List[float]], List[bytes]]
-* **Raises:**
-  **TypeError** – If the wrong input type is passed in for the text.
-
-#### `embed(text, preprocess=None, as_buffer=False, **kwargs)`
-
-Embed a chunk of text using the OpenAI API.
-
-* **Parameters:**
-  * **text** (*str*) – Chunk of text to embed.
-  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing callable to
-    perform before vectorization. Defaults to None.
-  * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
-    to a byte string. Defaults to False.
-* **Returns:**
-  Embedding as a list of floats, or as a bytes
-  object if as_buffer=True
-* **Return type:**
-  Union[List[float], bytes]
-* **Raises:**
-  **TypeError** – If the wrong input type is passed in for the text.
-
-#### `embed_many(texts, preprocess=None, batch_size=10, as_buffer=False, **kwargs)`
-
-Embed many chunks of texts using the OpenAI API.
-
-* **Parameters:**
-  * **texts** (*List* *[* *str* *]*) – List of text chunks to embed.
-  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing
-    callable to perform before vectorization. Defaults to None.
-  * **batch_size** (*int* *,* *optional*) – Batch size of texts to use when creating
-    embeddings. Defaults to 10.
-  * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
-    to a byte string. Defaults to False.
-* **Returns:**
-  List of embeddings as lists of floats,
-  or as bytes objects if as_buffer=True
-* **Return type:**
-  Union[List[List[float]], List[bytes]]
-* **Raises:**
-  **TypeError** – If the wrong input type is passed in for the text.
-
-#### `model_post_init(context, /)`
-
-This function is meant to behave like a BaseModel method to initialise private attributes.
-
-It takes context as an argument since that’s what pydantic-core passes when calling it.
-
-* **Parameters:**
-  * **self** (*BaseModel*) – The BaseModel instance.
-  * **context** (*Any*) – The context.
-* **Return type:**
-  None
-
-#### `model_config: ClassVar[ConfigDict] = {}`
+#### `model_config: ClassVar[ConfigDict] = {'arbitrary_types_allowed': True}`
 
 Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
+
+#### `property type: str`
+
+Return the type of vectorizer.
 
 ## AzureOpenAITextVectorizer
 
 <a id="azureopenaitextvectorizer-api"></a>
 
-### `class AzureOpenAITextVectorizer(model='text-embedding-ada-002', api_config=None, dtype='float32', *, dims=None)`
+### `class AzureOpenAITextVectorizer(model='text-embedding-ada-002', api_config=None, dtype='float32', cache=None, *, dims=None)`
 
 Bases: `BaseVectorizer`
 
@@ -273,8 +202,11 @@ The vectorizer supports both synchronous and asynchronous operations,
 allowing for batch processing of texts and flexibility in handling
 preprocessing tasks.
 
+You can optionally enable caching to improve performance when generating
+embeddings for repeated text inputs.
+
 ```python
-# Synchronous embedding of a single text
+# Basic usage
 vectorizer = AzureOpenAITextVectorizer(
     model="text-embedding-ada-002",
     api_config={
@@ -284,6 +216,26 @@ vectorizer = AzureOpenAITextVectorizer(
     }
 )
 embedding = vectorizer.embed("Hello, world!")
+
+# With caching enabled
+from redisvl.extensions.cache.embeddings import EmbeddingsCache
+cache = EmbeddingsCache(name="azureopenai_embeddings_cache")
+
+vectorizer = AzureOpenAITextVectorizer(
+    model="text-embedding-ada-002",
+    api_config={
+        "api_key": "your_api_key",
+        "api_version": "your_api_version",
+        "azure_endpoint": "your_azure_endpoint",
+    },
+    cache=cache
+)
+
+# First call will compute and cache the embedding
+embedding1 = vectorizer.embed("Hello, world!")
+
+# Second call will retrieve from cache
+embedding2 = vectorizer.embed("Hello, world!")
 
 # Asynchronous batch embedding of multiple texts
 embeddings = await vectorizer.aembed_many(
@@ -304,109 +256,27 @@ Initialize the AzureOpenAI vectorizer.
   * **dtype** (*str*) – the default datatype to use when embedding text as byte arrays.
     Used when setting as_buffer=True in calls to embed() and embed_many().
     Defaults to ‘float32’.
-  * **dims** (*int* *|* *None*)
+  * **cache** (*Optional* *[*[*EmbeddingsCache*]({{< relref "cache/#embeddingscache" >}}) *]*) – Optional EmbeddingsCache instance to cache embeddings for
+    better performance with repeated texts. Defaults to None.
+  * **dims** (*Annotated* *[* *int* *|* *None* *,* *FieldInfo* *(* *annotation=NoneType* *,* *required=True* *,* *metadata=* *[* *Strict* *(* *strict=True* *)* *,* *Gt* *(* *gt=0* *)* *]* *)* *]*)
 * **Raises:**
   * **ImportError** – If the openai library is not installed.
   * **ValueError** – If the AzureOpenAI API key, version, or endpoint are not provided.
   * **ValueError** – If an invalid dtype is provided.
 
-#### `aembed(text, preprocess=None, as_buffer=False, **kwargs)`
-
-Asynchronously embed a chunk of text using the OpenAI API.
-
-* **Parameters:**
-  * **text** (*str*) – Chunk of text to embed.
-  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing callable to
-    perform before vectorization. Defaults to None.
-  * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
-    to a byte string. Defaults to False.
-* **Returns:**
-  Embedding as a list of floats, or as a bytes
-  object if as_buffer=True
-* **Return type:**
-  Union[List[float], bytes]
-* **Raises:**
-  **TypeError** – If the wrong input type is passed in for the test.
-
-#### `aembed_many(texts, preprocess=None, batch_size=10, as_buffer=False, **kwargs)`
-
-Asynchronously embed many chunks of texts using the AzureOpenAI API.
-
-* **Parameters:**
-  * **texts** (*List* *[* *str* *]*) – List of text chunks to embed.
-  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing callable to
-    perform before vectorization. Defaults to None.
-  * **batch_size** (*int* *,* *optional*) – Batch size of texts to use when creating
-    embeddings. Defaults to 10.
-  * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
-    to a byte string. Defaults to False.
-* **Returns:**
-  List of embeddings as lists of floats,
-  or as bytes objects if as_buffer=True
-* **Return type:**
-  Union[List[List[float]], List[bytes]]
-* **Raises:**
-  **TypeError** – If the wrong input type is passed in for the test.
-
-#### `embed(text, preprocess=None, as_buffer=False, **kwargs)`
-
-Embed a chunk of text using the AzureOpenAI API.
-
-* **Parameters:**
-  * **text** (*str*) – Chunk of text to embed.
-  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing callable to
-    perform before vectorization. Defaults to None.
-  * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
-    to a byte string. Defaults to False.
-* **Returns:**
-  Embedding as a list of floats, or as a bytes
-  object if as_buffer=True
-* **Return type:**
-  Union[List[float], bytes]
-* **Raises:**
-  **TypeError** – If the wrong input type is passed in for the test.
-
-#### `embed_many(texts, preprocess=None, batch_size=10, as_buffer=False, **kwargs)`
-
-Embed many chunks of texts using the AzureOpenAI API.
-
-* **Parameters:**
-  * **texts** (*List* *[* *str* *]*) – List of text chunks to embed.
-  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing
-    callable to perform before vectorization. Defaults to None.
-  * **batch_size** (*int* *,* *optional*) – Batch size of texts to use when creating
-    embeddings. Defaults to 10.
-  * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
-    to a byte string. Defaults to False.
-* **Returns:**
-  List of embeddings as lists of floats,
-  or as bytes objects if as_buffer=True
-* **Return type:**
-  Union[List[List[float]], List[bytes]]
-* **Raises:**
-  **TypeError** – If the wrong input type is passed in for the test.
-
-#### `model_post_init(context, /)`
-
-This function is meant to behave like a BaseModel method to initialise private attributes.
-
-It takes context as an argument since that’s what pydantic-core passes when calling it.
-
-* **Parameters:**
-  * **self** (*BaseModel*) – The BaseModel instance.
-  * **context** (*Any*) – The context.
-* **Return type:**
-  None
-
-#### `model_config: ClassVar[ConfigDict] = {}`
+#### `model_config: ClassVar[ConfigDict] = {'arbitrary_types_allowed': True}`
 
 Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
+
+#### `property type: str`
+
+Return the type of vectorizer.
 
 ## VertexAITextVectorizer
 
 <a id="vertexaitextvectorizer-api"></a>
 
-### `class VertexAITextVectorizer(model='textembedding-gecko', api_config=None, dtype='float32', *, dims=None)`
+### `class VertexAITextVectorizer(model='textembedding-gecko', api_config=None, dtype='float32', cache=None, *, dims=None)`
 
 Bases: `BaseVectorizer`
 
@@ -423,8 +293,11 @@ provided through the api_config dictionary or set the GOOGLE_APPLICATION_CREDENT
 env var. Additionally, the vertexai python client must be
 installed with pip install google-cloud-aiplatform>=1.26.
 
+You can optionally enable caching to improve performance when generating
+embeddings for repeated text inputs.
+
 ```python
-# Synchronous embedding of a single text
+# Basic usage
 vectorizer = VertexAITextVectorizer(
     model="textembedding-gecko",
     api_config={
@@ -433,8 +306,27 @@ vectorizer = VertexAITextVectorizer(
     })
 embedding = vectorizer.embed("Hello, world!")
 
-# Asynchronous batch embedding of multiple texts
-embeddings = await vectorizer.embed_many(
+# With caching enabled
+from redisvl.extensions.cache.embeddings import EmbeddingsCache
+cache = EmbeddingsCache(name="vertexai_embeddings_cache")
+
+vectorizer = VertexAITextVectorizer(
+    model="textembedding-gecko",
+    api_config={
+        "project_id": "your_gcp_project_id",
+        "location": "your_gcp_location",
+    },
+    cache=cache
+)
+
+# First call will compute and cache the embedding
+embedding1 = vectorizer.embed("Hello, world!")
+
+# Second call will retrieve from cache
+embedding2 = vectorizer.embed("Hello, world!")
+
+# Batch embedding of multiple texts
+embeddings = vectorizer.embed_many(
     ["Hello, world!", "Goodbye, world!"],
     batch_size=2
 )
@@ -450,71 +342,27 @@ Initialize the VertexAI vectorizer.
   * **dtype** (*str*) – the default datatype to use when embedding text as byte arrays.
     Used when setting as_buffer=True in calls to embed() and embed_many().
     Defaults to ‘float32’.
-  * **dims** (*int* *|* *None*)
+  * **cache** (*Optional* *[*[*EmbeddingsCache*]({{< relref "cache/#embeddingscache" >}}) *]*) – Optional EmbeddingsCache instance to cache embeddings for
+    better performance with repeated texts. Defaults to None.
+  * **dims** (*Annotated* *[* *int* *|* *None* *,* *FieldInfo* *(* *annotation=NoneType* *,* *required=True* *,* *metadata=* *[* *Strict* *(* *strict=True* *)* *,* *Gt* *(* *gt=0* *)* *]* *)* *]*)
 * **Raises:**
   * **ImportError** – If the google-cloud-aiplatform library is not installed.
   * **ValueError** – If the API key is not provided.
   * **ValueError** – If an invalid dtype is provided.
 
-#### `embed(text, preprocess=None, as_buffer=False, **kwargs)`
-
-Embed a chunk of text using the VertexAI Embeddings API.
-
-* **Parameters:**
-  * **text** (*str*) – Chunk of text to embed.
-  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing callable to
-    perform before vectorization. Defaults to None.
-  * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
-    to a byte string. Defaults to False.
-* **Returns:**
-  Embedding as a list of floats, or as a bytes
-  object if as_buffer=True
-* **Return type:**
-  Union[List[float], bytes]
-* **Raises:**
-  **TypeError** – If the wrong input type is passed in for the test.
-
-#### `embed_many(texts, preprocess=None, batch_size=10, as_buffer=False, **kwargs)`
-
-Embed many chunks of text using the VertexAI Embeddings API.
-
-* **Parameters:**
-  * **texts** (*List* *[* *str* *]*) – List of text chunks to embed.
-  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing callable to
-    perform before vectorization. Defaults to None.
-  * **batch_size** (*int* *,* *optional*) – Batch size of texts to use when creating
-    embeddings. Defaults to 10.
-  * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
-    to a byte string. Defaults to False.
-* **Returns:**
-  List of embeddings as lists of floats,
-  or as bytes objects if as_buffer=True
-* **Return type:**
-  Union[List[List[float]], List[bytes]]
-* **Raises:**
-  **TypeError** – If the wrong input type is passed in for the test.
-
-#### `model_post_init(context, /)`
-
-This function is meant to behave like a BaseModel method to initialise private attributes.
-
-It takes context as an argument since that’s what pydantic-core passes when calling it.
-
-* **Parameters:**
-  * **self** (*BaseModel*) – The BaseModel instance.
-  * **context** (*Any*) – The context.
-* **Return type:**
-  None
-
-#### `model_config: ClassVar[ConfigDict] = {}`
+#### `model_config: ClassVar[ConfigDict] = {'arbitrary_types_allowed': True}`
 
 Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
+
+#### `property type: str`
+
+Return the type of vectorizer.
 
 ## CohereTextVectorizer
 
 <a id="coheretextvectorizer-api"></a>
 
-### `class CohereTextVectorizer(model='embed-english-v3.0', api_config=None, dtype='float32', *, dims=None)`
+### `class CohereTextVectorizer(model='embed-english-v3.0', api_config=None, dtype='float32', cache=None, *, dims=None)`
 
 Bases: `BaseVectorizer`
 
@@ -531,9 +379,13 @@ client must be installed with pip install cohere.
 The vectorizer supports only synchronous operations, allows for batch
 processing of texts and flexibility in handling preprocessing tasks.
 
+You can optionally enable caching to improve performance when generating
+embeddings for repeated text inputs.
+
 ```python
 from redisvl.utils.vectorize import CohereTextVectorizer
 
+# Basic usage
 vectorizer = CohereTextVectorizer(
     model="embed-english-v3.0",
     api_config={"api_key": "your-cohere-api-key"} # OR set COHERE_API_KEY in your env
@@ -542,9 +394,31 @@ query_embedding = vectorizer.embed(
     text="your input query text here",
     input_type="search_query"
 )
-doc_embeddings = cohere.embed_many(
+doc_embeddings = vectorizer.embed_many(
     texts=["your document text", "more document text"],
     input_type="search_document"
+)
+
+# With caching enabled
+from redisvl.extensions.cache.embeddings import EmbeddingsCache
+cache = EmbeddingsCache(name="cohere_embeddings_cache")
+
+vectorizer = CohereTextVectorizer(
+    model="embed-english-v3.0",
+    api_config={"api_key": "your-cohere-api-key"},
+    cache=cache
+)
+
+# First call will compute and cache the embedding
+embedding1 = vectorizer.embed(
+    text="your input query text here",
+    input_type="search_query"
+)
+
+# Second call will retrieve from cache
+embedding2 = vectorizer.embed(
+    text="your input query text here",
+    input_type="search_query"
 )
 ```
 
@@ -560,111 +434,27 @@ Visit [https://cohere.ai/embed](https://cohere.ai/embed) to learn about embeddin
     Used when setting as_buffer=True in calls to embed() and embed_many().
     ‘float32’ will use Cohere’s float embeddings, ‘int8’ and ‘uint8’ will map
     to Cohere’s corresponding embedding types. Defaults to ‘float32’.
-  * **dims** (*int* *|* *None*)
+  * **cache** (*Optional* *[*[*EmbeddingsCache*]({{< relref "cache/#embeddingscache" >}}) *]*) – Optional EmbeddingsCache instance to cache embeddings for
+    better performance with repeated texts. Defaults to None.
+  * **dims** (*Annotated* *[* *int* *|* *None* *,* *FieldInfo* *(* *annotation=NoneType* *,* *required=True* *,* *metadata=* *[* *Strict* *(* *strict=True* *)* *,* *Gt* *(* *gt=0* *)* *]* *)* *]*)
 * **Raises:**
   * **ImportError** – If the cohere library is not installed.
   * **ValueError** – If the API key is not provided.
   * **ValueError** – If an invalid dtype is provided.
 
-#### `embed(text, preprocess=None, as_buffer=False, **kwargs)`
-
-Embed a chunk of text using the Cohere Embeddings API.
-
-Must provide the embedding input_type as a kwarg to this method
-that specifies the type of input you’re giving to the model.
-
-Supported input types:
-: - `search_document`: Used for embeddings stored in a vector database for search use-cases.
-  - `search_query`: Used for embeddings of search queries run against a vector DB to find relevant documents.
-  - `classification`: Used for embeddings passed through a text classifier
-  - `clustering`: Used for the embeddings run through a clustering algorithm.
-
-When hydrating your Redis DB, the documents you want to search over
-should be embedded with input_type= “search_document” and when you are
-querying the database, you should set the input_type = “search query”.
-If you want to use the embeddings for a classification or clustering
-task downstream, you should set input_type= “classification” or
-“clustering”.
-
-* **Parameters:**
-  * **text** (*str*) – Chunk of text to embed.
-  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing callable to
-    perform before vectorization. Defaults to None.
-  * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
-    to a byte string. Defaults to False.
-  * **input_type** (*str*) – Specifies the type of input passed to the model.
-    Required for embedding models v3 and higher.
-* **Returns:**
-  - If as_buffer=True: Returns a bytes object
-  - If as_buffer=False:
-    - For dtype=”float32”: Returns a list of floats
-    - For dtype=”int8” or “uint8”: Returns a list of integers
-* **Return type:**
-  Union[List[float], List[int], bytes]
-* **Raises:**
-  **TypeError** – In an invalid input_type is provided.
-
-#### `embed_many(texts, preprocess=None, batch_size=10, as_buffer=False, **kwargs)`
-
-Embed many chunks of text using the Cohere Embeddings API.
-
-Must provide the embedding input_type as a kwarg to this method
-that specifies the type of input you’re giving to the model.
-
-Supported input types:
-: - `search_document`: Used for embeddings stored in a vector database for search use-cases.
-  - `search_query`: Used for embeddings of search queries run against a vector DB to find relevant documents.
-  - `classification`: Used for embeddings passed through a text classifier
-  - `clustering`: Used for the embeddings run through a clustering algorithm.
-
-When hydrating your Redis DB, the documents you want to search over
-should be embedded with input_type= “search_document” and when you are
-querying the database, you should set the input_type = “search query”.
-If you want to use the embeddings for a classification or clustering
-task downstream, you should set input_type= “classification” or
-“clustering”.
-
-* **Parameters:**
-  * **texts** (*List* *[* *str* *]*) – List of text chunks to embed.
-  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing callable to
-    perform before vectorization. Defaults to None.
-  * **batch_size** (*int* *,* *optional*) – Batch size of texts to use when creating
-    embeddings. Defaults to 10.
-  * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
-    to a byte string. Defaults to False.
-  * **input_type** (*str*) – Specifies the type of input passed to the model.
-    Required for embedding models v3 and higher.
-* **Returns:**
-  - If as_buffer=True: Returns a list of bytes objects
-  - If as_buffer=False:
-    - For dtype=”float32”: Returns a list of lists of floats
-    - For dtype=”int8” or “uint8”: Returns a list of lists of integers
-* **Return type:**
-  Union[List[List[float]], List[List[int]], List[bytes]]
-* **Raises:**
-  **TypeError** – In an invalid input_type is provided.
-
-#### `model_post_init(context, /)`
-
-This function is meant to behave like a BaseModel method to initialise private attributes.
-
-It takes context as an argument since that’s what pydantic-core passes when calling it.
-
-* **Parameters:**
-  * **self** (*BaseModel*) – The BaseModel instance.
-  * **context** (*Any*) – The context.
-* **Return type:**
-  None
-
-#### `model_config: ClassVar[ConfigDict] = {}`
+#### `model_config: ClassVar[ConfigDict] = {'arbitrary_types_allowed': True}`
 
 Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
+
+#### `property type: str`
+
+Return the type of vectorizer.
 
 ## BedrockTextVectorizer
 
 <a id="bedrocktextvectorizer-api"></a>
 
-### `class BedrockTextVectorizer(model='amazon.titan-embed-text-v2:0', api_config=None, dtype='float32', *, dims=None)`
+### `class BedrockTextVectorizer(model='amazon.titan-embed-text-v2:0', api_config=None, dtype='float32', cache=None, *, dims=None)`
 
 Bases: `BaseVectorizer`
 
@@ -681,8 +471,11 @@ directly in the api_config dictionary or through environment variables:
 The vectorizer supports synchronous operations with batch processing and
 preprocessing capabilities.
 
+You can optionally enable caching to improve performance when generating
+embeddings for repeated text inputs.
+
 ```python
-# Initialize with explicit credentials
+# Basic usage with explicit credentials
 vectorizer = AmazonBedrockTextVectorizer(
     model="amazon.titan-embed-text-v2:0",
     api_config={
@@ -692,11 +485,22 @@ vectorizer = AmazonBedrockTextVectorizer(
     }
 )
 
-# Initialize using environment variables
-vectorizer = AmazonBedrockTextVectorizer()
+# With environment variables and caching
+from redisvl.extensions.cache.embeddings import EmbeddingsCache
+cache = EmbeddingsCache(name="bedrock_embeddings_cache")
 
-# Generate embeddings
-embedding = vectorizer.embed("Hello, world!")
+vectorizer = AmazonBedrockTextVectorizer(
+    model="amazon.titan-embed-text-v2:0",
+    cache=cache
+)
+
+# First call will compute and cache the embedding
+embedding1 = vectorizer.embed("Hello, world!")
+
+# Second call will retrieve from cache
+embedding2 = vectorizer.embed("Hello, world!")
+
+# Generate batch embeddings
 embeddings = vectorizer.embed_many(["Hello", "World"], batch_size=2)
 ```
 
@@ -710,66 +514,27 @@ Initialize the AWS Bedrock Vectorizer.
   * **dtype** (*str*) – the default datatype to use when embedding text as byte arrays.
     Used when setting as_buffer=True in calls to embed() and embed_many().
     Defaults to ‘float32’.
-  * **dims** (*int* *|* *None*)
+  * **cache** (*Optional* *[*[*EmbeddingsCache*]({{< relref "cache/#embeddingscache" >}}) *]*) – Optional EmbeddingsCache instance to cache embeddings for
+    better performance with repeated texts. Defaults to None.
+  * **dims** (*Annotated* *[* *int* *|* *None* *,* *FieldInfo* *(* *annotation=NoneType* *,* *required=True* *,* *metadata=* *[* *Strict* *(* *strict=True* *)* *,* *Gt* *(* *gt=0* *)* *]* *)* *]*)
 * **Raises:**
   * **ValueError** – If credentials are not provided in config or environment.
   * **ImportError** – If boto3 is not installed.
   * **ValueError** – If an invalid dtype is provided.
 
-#### `embed(text, preprocess=None, as_buffer=False, **kwargs)`
-
-Embed a chunk of text using the AWS Bedrock Embeddings API.
-
-* **Parameters:**
-  * **text** (*str*) – Text to embed.
-  * **preprocess** (*Optional* *[* *Callable* *]*) – Optional preprocessing function.
-  * **as_buffer** (*bool*) – Whether to return as byte buffer.
-* **Returns:**
-  Embedding as a list of floats, or as a bytes
-  object if as_buffer=True
-* **Return type:**
-  Union[List[float], bytes]
-* **Raises:**
-  **TypeError** – If text is not a string.
-
-#### `embed_many(texts, preprocess=None, batch_size=10, as_buffer=False, **kwargs)`
-
-Embed many chunks of text using the AWS Bedrock Embeddings API.
-
-* **Parameters:**
-  * **texts** (*List* *[* *str* *]*) – List of texts to embed.
-  * **preprocess** (*Optional* *[* *Callable* *]*) – Optional preprocessing function.
-  * **batch_size** (*int*) – Size of batches for processing. Defaults to 10.
-  * **as_buffer** (*bool*) – Whether to return as byte buffers.
-* **Returns:**
-  List of embeddings as lists of floats,
-  or as bytes objects if as_buffer=True
-* **Return type:**
-  Union[List[List[float]], List[bytes]]
-* **Raises:**
-  **TypeError** – If texts is not a list of strings.
-
-#### `model_post_init(context, /)`
-
-This function is meant to behave like a BaseModel method to initialise private attributes.
-
-It takes context as an argument since that’s what pydantic-core passes when calling it.
-
-* **Parameters:**
-  * **self** (*BaseModel*) – The BaseModel instance.
-  * **context** (*Any*) – The context.
-* **Return type:**
-  None
-
-#### `model_config: ClassVar[ConfigDict] = {}`
+#### `model_config: ClassVar[ConfigDict] = {'arbitrary_types_allowed': True}`
 
 Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
+
+#### `property type: str`
+
+Return the type of vectorizer.
 
 ## CustomTextVectorizer
 
 <a id="customtextvectorizer-api"></a>
 
-### `class CustomTextVectorizer(embed, embed_many=None, aembed=None, aembed_many=None, dtype='float32')`
+### `class CustomTextVectorizer(embed, embed_many=None, aembed=None, aembed_many=None, dtype='float32', cache=None)`
 
 Bases: `BaseVectorizer`
 
@@ -782,12 +547,30 @@ The vectorizer may support both synchronous and asynchronous operations which
 allows for batch processing of texts, but at a minimum only syncronous embedding
 is required to satisfy the ‘embed()’ method.
 
+You can optionally enable caching to improve performance when generating
+embeddings for repeated text inputs.
+
 ```python
-# Synchronous embedding of a single text
+# Basic usage with a custom embedding function
 vectorizer = CustomTextVectorizer(
     embed = my_vectorizer.generate_embedding
 )
 embedding = vectorizer.embed("Hello, world!")
+
+# With caching enabled
+from redisvl.extensions.cache.embeddings import EmbeddingsCache
+cache = EmbeddingsCache(name="my_embeddings_cache")
+
+vectorizer = CustomTextVectorizer(
+    embed=my_vectorizer.generate_embedding,
+    cache=cache
+)
+
+# First call will compute and cache the embedding
+embedding1 = vectorizer.embed("Hello, world!")
+
+# Second call will retrieve from cache
+embedding2 = vectorizer.embed("Hello, world!")
 
 # Asynchronous batch embedding of multiple texts
 embeddings = await vectorizer.aembed_many(
@@ -800,97 +583,30 @@ Initialize the Custom vectorizer.
 
 * **Parameters:**
   * **embed** (*Callable*) – a Callable function that accepts a string object and returns a list of floats.
-  * **embed_many** (*Optional* *[* *Callable*) – a Callable function that accepts a list of string objects and returns a list containing lists of floats. Defaults to None.
+  * **embed_many** (*Optional* *[* *Callable* *]*) – a Callable function that accepts a list of string objects and returns a list containing lists of floats. Defaults to None.
   * **aembed** (*Optional* *[* *Callable* *]*) – an asyncronous Callable function that accepts a string object and returns a lists of floats. Defaults to None.
   * **aembed_many** (*Optional* *[* *Callable* *]*) – an asyncronous Callable function that accepts a list of string objects and returns a list containing lists of floats. Defaults to None.
   * **dtype** (*str*) – the default datatype to use when embedding text as byte arrays.
     Used when setting as_buffer=True in calls to embed() and embed_many().
     Defaults to ‘float32’.
+  * **cache** (*Optional* *[*[*EmbeddingsCache*]({{< relref "cache/#embeddingscache" >}}) *]*) – Optional EmbeddingsCache instance to cache embeddings for
+    better performance with repeated texts. Defaults to None.
 * **Raises:**
   **ValueError** – if embedding validation fails.
 
-#### `async aembed(*args, **kwargs)`
-
-Asynchronously embed a chunk of text.
-
-* **Parameters:**
-  * **text** – Text to embed
-  * **preprocess** – Optional function to preprocess text
-  * **as_buffer** – If True, returns a bytes object instead of a list
-* **Returns:**
-  Embedding as a list of floats, or as a bytes
-  object if as_buffer=True
-* **Return type:**
-  Union[List[float], bytes]
-
-#### `async aembed_many(*args, **kwargs)`
-
-Asynchronously embed multiple chunks of text.
-
-* **Parameters:**
-  * **texts** – List of texts to embed
-  * **preprocess** – Optional function to preprocess text
-  * **batch_size** – Number of texts to process in each batch
-  * **as_buffer** – If True, returns each embedding as a bytes object
-* **Returns:**
-  List of embeddings as lists of floats,
-  or as bytes objects if as_buffer=True
-* **Return type:**
-  Union[List[List[float]], List[bytes]]
-
-#### `embed(text, preprocess=None, as_buffer=False, **kwargs)`
-
-Generate an embedding for a single piece of text using your sync embed function.
-
-* **Parameters:**
-  * **text** (*str*) – The text to embed.
-  * **preprocess** (*Optional* *[* *Callable* *]*) – An optional callable to preprocess the text.
-  * **as_buffer** (*bool*) – If True, return the embedding as a byte buffer.
-* **Returns:**
-  The embedding of the input text.
-* **Return type:**
-  Union[List[float], bytes]
-* **Raises:**
-  **TypeError** – If the input is not a string.
-
-#### `embed_many(texts, preprocess=None, batch_size=10, as_buffer=False, **kwargs)`
-
-Generate embeddings for multiple pieces of text in batches using your sync embed_many function.
-
-* **Parameters:**
-  * **texts** (*List* *[* *str* *]*) – A list of texts to embed.
-  * **preprocess** (*Optional* *[* *Callable* *]*) – Optional preprocessing for each text.
-  * **batch_size** (*int*) – Number of texts per batch.
-  * **as_buffer** (*bool*) – If True, convert each embedding to a byte buffer.
-* **Returns:**
-  A list of embeddings, where each embedding is a list of floats or bytes.
-* **Return type:**
-  Union[List[List[float]], List[bytes]]
-* **Raises:**
-  * **TypeError** – If the input is not a list of strings.
-  * **NotImplementedError** – If no embed_many function was provided.
-
-#### `model_post_init(context, /)`
-
-This function is meant to behave like a BaseModel method to initialise private attributes.
-
-It takes context as an argument since that’s what pydantic-core passes when calling it.
-
-* **Parameters:**
-  * **self** (*BaseModel*) – The BaseModel instance.
-  * **context** (*Any*) – The context.
-* **Return type:**
-  None
-
-#### `model_config: ClassVar[ConfigDict] = {}`
+#### `model_config: ClassVar[ConfigDict] = {'arbitrary_types_allowed': True}`
 
 Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
+
+#### `property type: str`
+
+Return the type of vectorizer.
 
 ## VoyageAITextVectorizer
 
 <a id="voyageaitextvectorizer-api"></a>
 
-### `class VoyageAITextVectorizer(model='voyage-large-2', api_config=None, dtype='float32', *, dims=None)`
+### `class VoyageAITextVectorizer(model='voyage-large-2', api_config=None, dtype='float32', cache=None, *, dims=None)`
 
 Bases: `BaseVectorizer`
 
@@ -907,9 +623,13 @@ client must be installed with pip install voyageai.
 The vectorizer supports both synchronous and asynchronous operations, allows for batch
 processing of texts and flexibility in handling preprocessing tasks.
 
+You can optionally enable caching to improve performance when generating
+embeddings for repeated text inputs.
+
 ```python
 from redisvl.utils.vectorize import VoyageAITextVectorizer
 
+# Basic usage
 vectorizer = VoyageAITextVectorizer(
     model="voyage-large-2",
     api_config={"api_key": "your-voyageai-api-key"} # OR set VOYAGE_API_KEY in your env
@@ -921,6 +641,28 @@ query_embedding = vectorizer.embed(
 doc_embeddings = vectorizer.embed_many(
     texts=["your document text", "more document text"],
     input_type="document"
+)
+
+# With caching enabled
+from redisvl.extensions.cache.embeddings import EmbeddingsCache
+cache = EmbeddingsCache(name="voyageai_embeddings_cache")
+
+vectorizer = VoyageAITextVectorizer(
+    model="voyage-large-2",
+    api_config={"api_key": "your-voyageai-api-key"},
+    cache=cache
+)
+
+# First call will compute and cache the embedding
+embedding1 = vectorizer.embed(
+    text="your input query text here",
+    input_type="query"
+)
+
+# Second call will retrieve from cache
+embedding2 = vectorizer.embed(
+    text="your input query text here",
+    input_type="query"
 )
 ```
 
@@ -935,153 +677,17 @@ Visit [https://docs.voyageai.com/docs/embeddings](https://docs.voyageai.com/docs
   * **dtype** (*str*) – the default datatype to use when embedding text as byte arrays.
     Used when setting as_buffer=True in calls to embed() and embed_many().
     Defaults to ‘float32’.
-  * **dims** (*int* *|* *None*)
+  * **cache** (*Optional* *[*[*EmbeddingsCache*]({{< relref "cache/#embeddingscache" >}}) *]*) – Optional EmbeddingsCache instance to cache embeddings for
+    better performance with repeated texts. Defaults to None.
+  * **dims** (*Annotated* *[* *int* *|* *None* *,* *FieldInfo* *(* *annotation=NoneType* *,* *required=True* *,* *metadata=* *[* *Strict* *(* *strict=True* *)* *,* *Gt* *(* *gt=0* *)* *]* *)* *]*)
 * **Raises:**
   * **ImportError** – If the voyageai library is not installed.
   * **ValueError** – If the API key is not provided.
 
-#### `aembed(text, preprocess=None, as_buffer=False, **kwargs)`
-
-Embed a chunk of text using the VoyageAI Embeddings API.
-
-Can provide the embedding input_type as a kwarg to this method
-that specifies the type of input you’re giving to the model. For retrieval/search use cases,
-we recommend specifying this argument when encoding queries or documents to enhance retrieval quality.
-Embeddings generated with and without the input_type argument are compatible.
-
-Supported input types are `document` and `query`
-
-When hydrating your Redis DB, the documents you want to search over
-should be embedded with input_type=”document” and when you are
-querying the database, you should set the input_type=”query”.
-
-* **Parameters:**
-  * **text** (*str*) – Chunk of text to embed.
-  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing callable to
-    perform before vectorization. Defaults to None.
-  * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
-    to a byte string. Defaults to False.
-  * **input_type** (*str*) – Specifies the type of input passed to the model.
-  * **truncation** (*bool*) – Whether to truncate the input texts to fit within the context length.
-    Check [https://docs.voyageai.com/docs/embeddings](https://docs.voyageai.com/docs/embeddings)
-* **Returns:**
-  Embedding.
-* **Return type:**
-  List[float]
-* **Raises:**
-  **TypeError** – In an invalid input_type is provided.
-
-#### `aembed_many(texts, preprocess=None, batch_size=None, as_buffer=False, **kwargs)`
-
-Embed many chunks of text using the VoyageAI Embeddings API.
-
-Can provide the embedding input_type as a kwarg to this method
-that specifies the type of input you’re giving to the model. For retrieval/search use cases,
-we recommend specifying this argument when encoding queries or documents to enhance retrieval quality.
-Embeddings generated with and without the input_type argument are compatible.
-
-Supported input types are `document` and `query`
-
-When hydrating your Redis DB, the documents you want to search over
-should be embedded with input_type=”document” and when you are
-querying the database, you should set the input_type=”query”.
-
-* **Parameters:**
-  * **texts** (*List* *[* *str* *]*) – List of text chunks to embed.
-  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing callable to
-    perform before vectorization. Defaults to None.
-  * **batch_size** (*int* *,* *optional*) – Batch size of texts to use when creating
-    embeddings. .
-  * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
-    to a byte string. Defaults to False.
-  * **input_type** (*str*) – Specifies the type of input passed to the model.
-  * **truncation** (*bool*) – Whether to truncate the input texts to fit within the context length.
-    Check [https://docs.voyageai.com/docs/embeddings](https://docs.voyageai.com/docs/embeddings)
-* **Returns:**
-  List of embeddings.
-* **Return type:**
-  List[List[float]]
-* **Raises:**
-  **TypeError** – In an invalid input_type is provided.
-
-#### `embed(text, preprocess=None, as_buffer=False, **kwargs)`
-
-Embed a chunk of text using the VoyageAI Embeddings API.
-
-Can provide the embedding input_type as a kwarg to this method
-that specifies the type of input you’re giving to the model. For retrieval/search use cases,
-we recommend specifying this argument when encoding queries or documents to enhance retrieval quality.
-Embeddings generated with and without the input_type argument are compatible.
-
-Supported input types are `document` and `query`
-
-When hydrating your Redis DB, the documents you want to search over
-should be embedded with input_type=”document” and when you are
-querying the database, you should set the input_type=”query”.
-
-* **Parameters:**
-  * **text** (*str*) – Chunk of text to embed.
-  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing callable to
-    perform before vectorization. Defaults to None.
-  * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
-    to a byte string. Defaults to False.
-  * **input_type** (*str*) – Specifies the type of input passed to the model.
-  * **truncation** (*bool*) – Whether to truncate the input texts to fit within the context length.
-    Check [https://docs.voyageai.com/docs/embeddings](https://docs.voyageai.com/docs/embeddings)
-* **Returns:**
-  Embedding as a list of floats, or as a bytes
-  object if as_buffer=True
-* **Return type:**
-  Union[List[float], bytes]
-* **Raises:**
-  **TypeError** – If an invalid input_type is provided.
-
-#### `embed_many(texts, preprocess=None, batch_size=None, as_buffer=False, **kwargs)`
-
-Embed many chunks of text using the VoyageAI Embeddings API.
-
-Can provide the embedding input_type as a kwarg to this method
-that specifies the type of input you’re giving to the model. For retrieval/search use cases,
-we recommend specifying this argument when encoding queries or documents to enhance retrieval quality.
-Embeddings generated with and without the input_type argument are compatible.
-
-Supported input types are `document` and `query`
-
-When hydrating your Redis DB, the documents you want to search over
-should be embedded with input_type=”document” and when you are
-querying the database, you should set the input_type=”query”.
-
-* **Parameters:**
-  * **texts** (*List* *[* *str* *]*) – List of text chunks to embed.
-  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing callable to
-    perform before vectorization. Defaults to None.
-  * **batch_size** (*int* *,* *optional*) – Batch size of texts to use when creating
-    embeddings. .
-  * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
-    to a byte string. Defaults to False.
-  * **input_type** (*str*) – Specifies the type of input passed to the model.
-  * **truncation** (*bool*) – Whether to truncate the input texts to fit within the context length.
-    Check [https://docs.voyageai.com/docs/embeddings](https://docs.voyageai.com/docs/embeddings)
-* **Returns:**
-  List of embeddings as lists of floats,
-  or as bytes objects if as_buffer=True
-* **Return type:**
-  Union[List[List[float]], List[bytes]]
-* **Raises:**
-  **TypeError** – If an invalid input_type is provided.
-
-#### `model_post_init(context, /)`
-
-This function is meant to behave like a BaseModel method to initialise private attributes.
-
-It takes context as an argument since that’s what pydantic-core passes when calling it.
-
-* **Parameters:**
-  * **self** (*BaseModel*) – The BaseModel instance.
-  * **context** (*Any*) – The context.
-* **Return type:**
-  None
-
-#### `model_config: ClassVar[ConfigDict] = {}`
+#### `model_config: ClassVar[ConfigDict] = {'arbitrary_types_allowed': True}`
 
 Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
+
+#### `property type: str`
+
+Return the type of vectorizer.
