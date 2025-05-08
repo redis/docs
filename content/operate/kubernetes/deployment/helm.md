@@ -15,7 +15,7 @@ Helm charts provide a simple way to install the Redis Enterprise for Kubernetes 
 
 ## Prerequisites
 
-- A [supported distribution]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions.md" >}}) of Kubernetes.
+- A [supported distribution]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions" >}}) of Kubernetes.
 - At least three worker nodes.
 - [Kubernetes client (kubectl)](https://kubernetes.io/docs/tasks/tools/).
 - [Helm 3.10 or later](https://helm.sh/docs/intro/install/).

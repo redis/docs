@@ -16,13 +16,13 @@ To deploy Redis Enterprise Software for Kubernetes and start your Redis Enterpri
 - Apply the operator bundle and verify it's running.
 - Create a Redis Enterprise cluster (REC).
 
-This guide works with most supported Kubernetes distributions. If you're using OpenShift, see [Redis Enterprise on OpenShift]({{< relref "/operate/kubernetes/deployment/openshift" >}}). For details on what is currently supported, see [supported distributions]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions.md" >}}).
+This guide works with most supported Kubernetes distributions. If you're using OpenShift, see [Redis Enterprise on OpenShift]({{< relref "/operate/kubernetes/deployment/openshift" >}}). For details on what is currently supported, see [supported distributions]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions" >}}).
 
 ## Prerequisites
 
 To deploy Redis Enterprise for Kubernetes, you'll need:
 
-- Kubernetes cluster in a [supported distribution]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions.md" >}})
+- Kubernetes cluster in a [supported distribution]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions" >}})
 - minimum of three worker nodes
 - Kubernetes client (kubectl)
 - access to DockerHub, RedHat Container Catalog, or a private repository that can hold the required images.
@@ -53,7 +53,7 @@ You can use an existing namespace as long as it does not contain any existing Re
 
 ## Install the operator
 
-Redis Enterprise for Kubernetes bundle is published as a container image. A list of required images is available in the [release notes]({{< relref "/operate/kubernetes/release-notes/_index.md" >}}) for each version.
+Redis Enterprise for Kubernetes bundle is published as a container image. A list of required images is available in the [release notes]({{< relref "/operate/kubernetes/release-notes/_index" >}}) for each version.
 
 The operator [definition and reference materials](https://github.com/RedisLabs/redis-enterprise-k8s-docs) are available on GitHub. The operator definitions are [packaged as a single generic YAML file](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/bundle.yaml).
 
@@ -155,7 +155,7 @@ The REC name (`my-rec` in this example) cannot be changed after cluster creation
 Each cluster must have at least 3 nodes. Single-node RECs are not supported.
     {{</note>}}
 
-    See the [Redis Enterprise hardware requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md" >}}) for more information on sizing Redis Enterprise node resource requests.
+    See the [Redis Enterprise hardware requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements" >}}) for more information on sizing Redis Enterprise node resource requests.
   
     {{<note>}}
     If you enabled automatic resource adjustment in your configuration, this step will trigger the operator to apply elevated capabilities. Ensure your security context allows it.
@@ -206,7 +206,7 @@ The admission controller dynamically validates REDB resources configured by the 
 
 As part of the REC creation process, the operator stores the admission controller certificate in a Kubernetes secret called `admission-tls`. You may have to wait a few minutes after creating your REC to see the secret has been created.
 
-{{< embed-md "k8s-admission-webhook-cert.md"  >}}
+{{< embed-md "k8s-admission-webhook-cert"  >}}
 
 ### Limit the webhook to the relevant namespaces {#webhook}
 
@@ -267,4 +267,4 @@ The operator bundle includes a webhook file. The webhook will intercept requests
 
 You can create multiple databases within the same namespace as your REC or in other namespaces.
 
-See [manage Redis Enterprise databases for Kubernetes]({{< relref "/operate/kubernetes/re-databases/db-controller.md" >}}) to create a new REDB.
+See [manage Redis Enterprise databases for Kubernetes]({{< relref "/operate/kubernetes/re-databases/db-controller" >}}) to create a new REDB.
