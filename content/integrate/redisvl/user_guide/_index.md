@@ -84,7 +84,7 @@ User guides provide helpful resources for using RedisVL and its different compon
   * [Optimize](threshold_optimization/#optimize)
   * [Test it out](threshold_optimization/#test-it-out)
   * [Cleanup](threshold_optimization/#cleanup)
-* [Release Guides](release_guide/index/)
+* [Release Guides](release_guide/)
   * [0.5.1 Feature Overview](release_guide/0_5_0_release/)
   * [HybridQuery class](release_guide/0_5_0_release/#hybridquery-class)
   * [TextQueries](release_guide/0_5_0_release/#textqueries)
