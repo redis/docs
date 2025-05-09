@@ -32,7 +32,7 @@ If you do not have a cluster that supports Redis Query Engine, [install Redis En
 
     1. Calculate the RAM requirements using the [Index Size Calculator](https://redis.io/redisearch-sizing-calculator/). The total RAM required is the sum of the dataset and index sizes.
 
-1. [Determine the query performance factor](#calculate-performance-factor) you want and the required number of CPUs. Unused CPUs, above the 20% necessary for Redis, can be used for the scalable Redis Query Engine.
+1. [Determine the query performance factor](#calculate-query-performance-factor) you want and the required number of CPUs. Unused CPUs, above the 20% necessary for Redis, can be used for the scalable Redis Query Engine.
 
 1. Create a new Redis database with the number of CPUs configured for the query performance factor.
 
@@ -173,7 +173,7 @@ To create a database and configure the query performance factor, use the [create
 }
 ```
 
-See [Calculate performance factor](#calculate-performance-factor) to determine the value to use for `<NUMBER_OF_CPUS>`.
+See [Calculate performance factor](#calculate-query-performance-factor) to determine the value to use for `<NUMBER_OF_CPUS>`.
 
 #### Example REST API request for a new database
 
