@@ -318,7 +318,7 @@ The main sections of these files are:
   *transformation block* that will use the parameters supplied in the `with` section. See the 
   [data transformation reference]({{< relref "/integrate/redis-data-integration/reference/data-transformation" >}})
   for more details about the supported transformation blocks, and also the
-  [JMESPath custom functions]({{< relref "/integrate/redis-data-integration/reference/jmespath-custom-functions" >}}) reference.
+  [JMESPath custom functions]({{< relref "/integrate/redis-data-integration/reference/jmespath-custom-functions" >}}) reference. You can test your transformation logic using the [dry run]({{< relref "/integrate/redis-data-integration/reference/api-reference/#tag/secure/operation/job_dry_run_api_v1_pipelines_jobs_dry_run_post" >}}) feature in API. 
 
   {{< note >}}If you set `row_format` to `full` under the `source` settings, you can access extra data from the
   change record in the transformation:
