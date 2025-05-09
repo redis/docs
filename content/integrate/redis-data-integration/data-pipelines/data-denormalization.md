@@ -39,7 +39,7 @@ You configure normalization with a `nest` block in the child entities' RDI job, 
 
 ```yaml
 source:
-  server_name: chinook # Optional. Use the value of `debezium.source.topic.prefix` property in Debezium's `application.properties`
+  server_name: chinook
   schema: public
   table: InvoiceLine
 output:

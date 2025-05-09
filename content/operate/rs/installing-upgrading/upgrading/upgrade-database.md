@@ -80,6 +80,8 @@ Before upgrading a database:
 
 To upgrade a database:
 
+1. Complete all [prerequisites](#upgrade-prerequisites) before starting the upgrade.
+
 1.  _(Optional)_  Back up the database to minimize the risk of data loss.
 
 1.  Use [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin/upgrade" >}}) to upgrade the database. During the upgrade process, the database will restart without losing any data.
