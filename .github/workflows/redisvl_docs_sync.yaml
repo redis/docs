@@ -224,7 +224,7 @@ jobs:
               format "${index_markdown_page}"
 
               # Fix relrefs by removing .md extension and references to numbered pages
-              sed -E -i 's/\.md/\//g; s/\([0-9]{2}_/\(/g; s/index\///g' "${index_markdown_page}"
+              sed -E -i 's/\.md/\//g; s/\([0-9]{2}_/\(/g; s/\/index\//\//g' "${index_markdown_page}"
           done
 
           # Rename user guides to strip leading numbers from filename
