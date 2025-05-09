@@ -155,7 +155,7 @@ To pull images from a private image registry, you must provide the image pull se
 
 The [`values.yaml`](https://helm.sh/docs/topics/charts/#templates-and-values) file inside the
 Helm chart contains the values you can set for the RDI Helm installation.
-See the comments on each value for information on which values you may need to add or change 
+See the comments by each value for more information about the values you may need to add or change 
 depending on your use case.
 
 At a minimum, you must set the values of `connection.host`, `connection.port`, and `connection.password`
