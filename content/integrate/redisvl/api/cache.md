@@ -82,16 +82,64 @@ response = await cache.acheck(
 )
 ```
 
-#### `async adrop(ids=None, keys=None)`
+#### `async aclear()`
 
-Async expire specific entries from the cache by id or specific
-Redis key.
+Async clear the cache of all keys.
 
-* **Parameters:**
-  * **ids** (*Optional* *[* *str* *]*) – The document ID or IDs to remove from the cache.
-  * **keys** (*Optional* *[* *str* *]*) – The Redis keys to remove from the cache.
 * **Return type:**
   None
+
+#### `async adelete()`
+
+Async delete the cache and its index entirely.
+
+* **Return type:**
+  None
+
+#### `async adisconnect()`
+
+Asynchronously disconnect from Redis and search index.
+
+Closes all Redis connections and index connections.
+
+#### `async adrop(ids=None, keys=None)`
+
+Async drop specific entries from the cache by ID or Redis key.
+
+* **Parameters:**
+  * **ids** (*Optional* *[* *List* *[* *str* *]* *]*) – List of entry IDs to remove from the cache.
+    Entry IDs are the unique identifiers without the cache prefix.
+  * **keys** (*Optional* *[* *List* *[* *str* *]* *]*) – List of full Redis keys to remove from the cache.
+    Keys are the complete Redis keys including the cache prefix.
+* **Return type:**
+  None
+
+#### `NOTE`
+At least one of ids or keys must be provided.
+
+* **Raises:**
+  **ValueError** – If neither ids nor keys is provided.
+* **Parameters:**
+  * **ids** (*List* *[* *str* *]*  *|* *None*)
+  * **keys** (*List* *[* *str* *]*  *|* *None*)
+* **Return type:**
+  None
+
+#### `async aexpire(key, ttl=None)`
+
+Asynchronously set or refresh the expiration time for a key in the cache.
+
+* **Parameters:**
+  * **key** (*str*) – The Redis key to set the expiration on.
+  * **ttl** (*Optional* *[* *int* *]* *,* *optional*) – The time-to-live in seconds. If None,
+    uses the default TTL configured for this cache instance.
+    Defaults to None.
+* **Return type:**
+  None
+
+#### `NOTE`
+If neither the provided TTL nor the default TTL is set (both are None),
+this method will have no effect.
 
 #### `async astore(prompt, response, vector=None, metadata=None, filters=None, ttl=None)`
 
@@ -190,29 +238,62 @@ response = cache.check(
 
 #### `clear()`
 
-Clear the cache of all keys while preserving the index.
+Clear the cache of all keys.
 
 * **Return type:**
   None
 
 #### `delete()`
 
-Clear the semantic cache of all keys and remove the underlying search
-index.
+Delete the cache and its index entirely.
 
 * **Return type:**
   None
+
+#### `disconnect()`
+
+Disconnect from Redis and search index.
+
+Closes all Redis connections and index connections.
 
 #### `drop(ids=None, keys=None)`
 
-Manually expire specific entries from the cache by id or specific
-Redis key.
+Drop specific entries from the cache by ID or Redis key.
 
 * **Parameters:**
-  * **ids** (*Optional* *[* *str* *]*) – The document ID or IDs to remove from the cache.
-  * **keys** (*Optional* *[* *str* *]*) – The Redis keys to remove from the cache.
+  * **ids** (*Optional* *[* *List* *[* *str* *]* *]*) – List of entry IDs to remove from the cache.
+    Entry IDs are the unique identifiers without the cache prefix.
+  * **keys** (*Optional* *[* *List* *[* *str* *]* *]*) – List of full Redis keys to remove from the cache.
+    Keys are the complete Redis keys including the cache prefix.
 * **Return type:**
   None
+
+#### `NOTE`
+At least one of ids or keys must be provided.
+
+* **Raises:**
+  **ValueError** – If neither ids nor keys is provided.
+* **Parameters:**
+  * **ids** (*List* *[* *str* *]*  *|* *None*)
+  * **keys** (*List* *[* *str* *]*  *|* *None*)
+* **Return type:**
+  None
+
+#### `expire(key, ttl=None)`
+
+Set or refresh the expiration time for a key in the cache.
+
+* **Parameters:**
+  * **key** (*str*) – The Redis key to set the expiration on.
+  * **ttl** (*Optional* *[* *int* *]* *,* *optional*) – The time-to-live in seconds. If None,
+    uses the default TTL configured for this cache instance.
+    Defaults to None.
+* **Return type:**
+  None
+
+#### `NOTE`
+If neither the provided TTL nor the default TTL is set (both are None),
+this method will have no effect.
 
 #### `set_threshold(distance_threshold)`
 
@@ -235,6 +316,8 @@ Set the default TTL, in seconds, for entries in the cache.
   for the cache, in seconds.
 * **Raises:**
   **ValueError** – If the time-to-live value is not an integer.
+* **Return type:**
+  None
 
 #### `store(prompt, response, vector=None, metadata=None, filters=None, ttl=None)`
 
@@ -285,7 +368,6 @@ are passed, then only the document TTL is refreshed.
 ```python
 key = cache.store('this is a prompt', 'this is a response')
 cache.update(key, metadata={"hit_count": 1, "model_name": "Llama-2-7b"})
-)
 ```
 
 #### `property aindex: `[`AsyncSearchIndex`]({{< relref "searchindex/#asyncsearchindex" >}})`  | None`
@@ -314,6 +396,695 @@ The underlying SearchIndex for the cache.
   The search index.
 * **Return type:**
   [SearchIndex]({{< relref "searchindex/#searchindex" >}})
+
+#### `property ttl: int | None`
+
+The default TTL, in seconds, for entries in the cache.
+
+# Embeddings Cache
+
+## EmbeddingsCache
+
+<a id="embeddings-cache-api"></a>
+
+### `class EmbeddingsCache(name='embedcache', ttl=None, redis_client=None, redis_url='redis://localhost:6379', connection_kwargs={})`
+
+Bases: `BaseCache`
+
+Embeddings Cache for storing embedding vectors with exact key matching.
+
+Initialize an embeddings cache.
+
+* **Parameters:**
+  * **name** (*str*) – The name of the cache. Defaults to “embedcache”.
+  * **ttl** (*Optional* *[* *int* *]*) – The time-to-live for cached embeddings. Defaults to None.
+  * **redis_client** (*Optional* *[* *Redis* *]*) – Redis client instance. Defaults to None.
+  * **redis_url** (*str*) – Redis URL for connection. Defaults to “redis://localhost:6379”.
+  * **connection_kwargs** (*Dict* *[* *str* *,* *Any* *]*) – Redis connection arguments. Defaults to {}.
+* **Raises:**
+  **ValueError** – If vector dimensions are invalid
+
+```python
+cache = EmbeddingsCache(
+    name="my_embeddings_cache",
+    ttl=3600,  # 1 hour
+    redis_url="redis://localhost:6379"
+)
+```
+
+#### `async aclear()`
+
+Async clear the cache of all keys.
+
+* **Return type:**
+  None
+
+#### `async adisconnect()`
+
+Async disconnect from Redis.
+
+* **Return type:**
+  None
+
+#### `async adrop(text, model_name)`
+
+Async remove an embedding from the cache.
+
+Asynchronously removes an embedding from the cache.
+
+* **Parameters:**
+  * **text** (*str*) – The text input that was embedded.
+  * **model_name** (*str*) – The name of the embedding model.
+* **Return type:**
+  None
+
+```python
+await cache.adrop(
+    text="What is machine learning?",
+    model_name="text-embedding-ada-002"
+)
+```
+
+#### `async adrop_by_key(key)`
+
+Async remove an embedding from the cache by its Redis key.
+
+Asynchronously removes an embedding from the cache by its Redis key.
+
+* **Parameters:**
+  **key** (*str*) – The full Redis key for the embedding.
+* **Return type:**
+  None
+
+```python
+await cache.adrop_by_key("embedcache:1234567890abcdef")
+```
+
+#### `async aexists(text, model_name)`
+
+Async check if an embedding exists.
+
+Asynchronously checks if an embedding exists for the given text and model.
+
+* **Parameters:**
+  * **text** (*str*) – The text input that was embedded.
+  * **model_name** (*str*) – The name of the embedding model.
+* **Returns:**
+  True if the embedding exists in the cache, False otherwise.
+* **Return type:**
+  bool
+
+```python
+if await cache.aexists("What is machine learning?", "text-embedding-ada-002"):
+    print("Embedding is in cache")
+```
+
+#### `async aexists_by_key(key)`
+
+Async check if an embedding exists for the given Redis key.
+
+Asynchronously checks if an embedding exists for the given Redis key.
+
+* **Parameters:**
+  **key** (*str*) – The full Redis key for the embedding.
+* **Returns:**
+  True if the embedding exists in the cache, False otherwise.
+* **Return type:**
+  bool
+
+```python
+if await cache.aexists_by_key("embedcache:1234567890abcdef"):
+    print("Embedding is in cache")
+```
+
+#### `async aexpire(key, ttl=None)`
+
+Asynchronously set or refresh the expiration time for a key in the cache.
+
+* **Parameters:**
+  * **key** (*str*) – The Redis key to set the expiration on.
+  * **ttl** (*Optional* *[* *int* *]* *,* *optional*) – The time-to-live in seconds. If None,
+    uses the default TTL configured for this cache instance.
+    Defaults to None.
+* **Return type:**
+  None
+
+#### `NOTE`
+If neither the provided TTL nor the default TTL is set (both are None),
+this method will have no effect.
+
+#### `async aget(text, model_name)`
+
+Async get embedding by text and model name.
+
+Asynchronously retrieves a cached embedding for the given text and model name.
+If found, refreshes the TTL of the entry.
+
+* **Parameters:**
+  * **text** (*str*) – The text input that was embedded.
+  * **model_name** (*str*) – The name of the embedding model.
+* **Returns:**
+  Embedding cache entry or None if not found.
+* **Return type:**
+  Optional[Dict[str, Any]]
+
+```python
+embedding_data = await cache.aget(
+    text="What is machine learning?",
+    model_name="text-embedding-ada-002"
+)
+```
+
+#### `async aget_by_key(key)`
+
+Async get embedding by its full Redis key.
+
+Asynchronously retrieves a cached embedding for the given Redis key.
+If found, refreshes the TTL of the entry.
+
+* **Parameters:**
+  **key** (*str*) – The full Redis key for the embedding.
+* **Returns:**
+  Embedding cache entry or None if not found.
+* **Return type:**
+  Optional[Dict[str, Any]]
+
+```python
+embedding_data = await cache.aget_by_key("embedcache:1234567890abcdef")
+```
+
+#### `async amdrop(texts, model_name)`
+
+Async remove multiple embeddings from the cache by their texts and model name.
+
+Asynchronously removes multiple embeddings in a single operation.
+
+* **Parameters:**
+  * **texts** (*List* *[* *str* *]*) – List of text inputs that were embedded.
+  * **model_name** (*str*) – The name of the embedding model.
+* **Return type:**
+  None
+
+```python
+# Remove multiple embeddings asynchronously
+await cache.amdrop(
+    texts=["What is machine learning?", "What is deep learning?"],
+    model_name="text-embedding-ada-002"
+)
+```
+
+#### `async amdrop_by_keys(keys)`
+
+Async remove multiple embeddings from the cache by their Redis keys.
+
+Asynchronously removes multiple embeddings in a single operation.
+
+* **Parameters:**
+  **keys** (*List* *[* *str* *]*) – List of Redis keys to remove.
+* **Return type:**
+  None
+
+```python
+# Remove multiple embeddings asynchronously
+await cache.amdrop_by_keys(["embedcache:key1", "embedcache:key2"])
+```
+
+#### `async amexists(texts, model_name)`
+
+Async check if multiple embeddings exist by their texts and model name.
+
+Asynchronously checks existence of multiple embeddings in a single operation.
+
+* **Parameters:**
+  * **texts** (*List* *[* *str* *]*) – List of text inputs that were embedded.
+  * **model_name** (*str*) – The name of the embedding model.
+* **Returns:**
+  List of boolean values indicating whether each embedding exists.
+* **Return type:**
+  List[bool]
+
+```python
+# Check if multiple embeddings exist asynchronously
+exists_results = await cache.amexists(
+    texts=["What is machine learning?", "What is deep learning?"],
+    model_name="text-embedding-ada-002"
+)
+```
+
+#### `async amexists_by_keys(keys)`
+
+Async check if multiple embeddings exist by their Redis keys.
+
+Asynchronously checks existence of multiple keys in a single operation.
+
+* **Parameters:**
+  **keys** (*List* *[* *str* *]*) – List of Redis keys to check.
+* **Returns:**
+  List of boolean values indicating whether each key exists.
+  The order matches the input keys order.
+* **Return type:**
+  List[bool]
+
+```python
+# Check if multiple keys exist asynchronously
+exists_results = await cache.amexists_by_keys(["embedcache:key1", "embedcache:key2"])
+```
+
+#### `async amget(texts, model_name)`
+
+Async get multiple embeddings by their texts and model name.
+
+Asynchronously retrieves multiple cached embeddings in a single operation.
+If found, refreshes the TTL of each entry.
+
+* **Parameters:**
+  * **texts** (*List* *[* *str* *]*) – List of text inputs that were embedded.
+  * **model_name** (*str*) – The name of the embedding model.
+* **Returns:**
+  List of embedding cache entries or None for texts not found.
+* **Return type:**
+  List[Optional[Dict[str, Any]]]
+
+```python
+# Get multiple embeddings asynchronously
+embedding_data = await cache.amget(
+    texts=["What is machine learning?", "What is deep learning?"],
+    model_name="text-embedding-ada-002"
+)
+```
+
+#### `async amget_by_keys(keys)`
+
+Async get multiple embeddings by their Redis keys.
+
+Asynchronously retrieves multiple cached embeddings in a single network roundtrip.
+If found, refreshes the TTL of each entry.
+
+* **Parameters:**
+  **keys** (*List* *[* *str* *]*) – List of Redis keys to retrieve.
+* **Returns:**
+  List of embedding cache entries or None for keys not found.
+  The order matches the input keys order.
+* **Return type:**
+  List[Optional[Dict[str, Any]]]
+
+```python
+# Get multiple embeddings asynchronously
+embedding_data = await cache.amget_by_keys([
+    "embedcache:key1",
+    "embedcache:key2"
+])
+```
+
+#### `async amset(items, ttl=None)`
+
+Async store multiple embeddings in a batch operation.
+
+Each item in the input list should be a dictionary with the following fields:
+- ‘text’: The text input that was embedded
+- ‘model_name’: The name of the embedding model
+- ‘embedding’: The embedding vector
+- ‘metadata’: Optional metadata to store with the embedding
+
+* **Parameters:**
+  * **items** (*List* *[* *Dict* *[* *str* *,* *Any* *]* *]*) – List of dictionaries, each containing text, model_name, embedding, and optional metadata.
+  * **ttl** (*int* *|* *None*) – Optional TTL override for these entries.
+* **Returns:**
+  List of Redis keys where the embeddings were stored.
+* **Return type:**
+  List[str]
+
+```python
+# Store multiple embeddings asynchronously
+keys = await cache.amset([
+    {
+        "text": "What is ML?",
+        "model_name": "text-embedding-ada-002",
+        "embedding": [0.1, 0.2, 0.3],
+        "metadata": {"source": "user"}
+    },
+    {
+        "text": "What is AI?",
+        "model_name": "text-embedding-ada-002",
+        "embedding": [0.4, 0.5, 0.6],
+        "metadata": {"source": "docs"}
+    }
+])
+```
+
+#### `async aset(text, model_name, embedding, metadata=None, ttl=None)`
+
+Async store an embedding with its text and model name.
+
+Asynchronously stores an embedding with its text and model name.
+
+* **Parameters:**
+  * **text** (*str*) – The text input that was embedded.
+  * **model_name** (*str*) – The name of the embedding model.
+  * **embedding** (*List* *[* *float* *]*) – The embedding vector to store.
+  * **metadata** (*Optional* *[* *Dict* *[* *str* *,* *Any* *]* *]*) – Optional metadata to store with the embedding.
+  * **ttl** (*Optional* *[* *int* *]*) – Optional TTL override for this specific entry.
+* **Returns:**
+  The Redis key where the embedding was stored.
+* **Return type:**
+  str
+
+```python
+key = await cache.aset(
+    text="What is machine learning?",
+    model_name="text-embedding-ada-002",
+    embedding=[0.1, 0.2, 0.3, ...],
+    metadata={"source": "user_query"}
+)
+```
+
+#### `clear()`
+
+Clear the cache of all keys.
+
+* **Return type:**
+  None
+
+#### `disconnect()`
+
+Disconnect from Redis.
+
+* **Return type:**
+  None
+
+#### `drop(text, model_name)`
+
+Remove an embedding from the cache.
+
+* **Parameters:**
+  * **text** (*str*) – The text input that was embedded.
+  * **model_name** (*str*) – The name of the embedding model.
+* **Return type:**
+  None
+
+```python
+cache.drop(
+    text="What is machine learning?",
+    model_name="text-embedding-ada-002"
+)
+```
+
+#### `drop_by_key(key)`
+
+Remove an embedding from the cache by its Redis key.
+
+* **Parameters:**
+  **key** (*str*) – The full Redis key for the embedding.
+* **Return type:**
+  None
+
+```python
+cache.drop_by_key("embedcache:1234567890abcdef")
+```
+
+#### `exists(text, model_name)`
+
+Check if an embedding exists for the given text and model.
+
+* **Parameters:**
+  * **text** (*str*) – The text input that was embedded.
+  * **model_name** (*str*) – The name of the embedding model.
+* **Returns:**
+  True if the embedding exists in the cache, False otherwise.
+* **Return type:**
+  bool
+
+```python
+if cache.exists("What is machine learning?", "text-embedding-ada-002"):
+    print("Embedding is in cache")
+```
+
+#### `exists_by_key(key)`
+
+Check if an embedding exists for the given Redis key.
+
+* **Parameters:**
+  **key** (*str*) – The full Redis key for the embedding.
+* **Returns:**
+  True if the embedding exists in the cache, False otherwise.
+* **Return type:**
+  bool
+
+```python
+if cache.exists_by_key("embedcache:1234567890abcdef"):
+    print("Embedding is in cache")
+```
+
+#### `expire(key, ttl=None)`
+
+Set or refresh the expiration time for a key in the cache.
+
+* **Parameters:**
+  * **key** (*str*) – The Redis key to set the expiration on.
+  * **ttl** (*Optional* *[* *int* *]* *,* *optional*) – The time-to-live in seconds. If None,
+    uses the default TTL configured for this cache instance.
+    Defaults to None.
+* **Return type:**
+  None
+
+#### `NOTE`
+If neither the provided TTL nor the default TTL is set (both are None),
+this method will have no effect.
+
+#### `get(text, model_name)`
+
+Get embedding by text and model name.
+
+Retrieves a cached embedding for the given text and model name.
+If found, refreshes the TTL of the entry.
+
+* **Parameters:**
+  * **text** (*str*) – The text input that was embedded.
+  * **model_name** (*str*) – The name of the embedding model.
+* **Returns:**
+  Embedding cache entry or None if not found.
+* **Return type:**
+  Optional[Dict[str, Any]]
+
+```python
+embedding_data = cache.get(
+    text="What is machine learning?",
+    model_name="text-embedding-ada-002"
+)
+```
+
+#### `get_by_key(key)`
+
+Get embedding by its full Redis key.
+
+Retrieves a cached embedding for the given Redis key.
+If found, refreshes the TTL of the entry.
+
+* **Parameters:**
+  **key** (*str*) – The full Redis key for the embedding.
+* **Returns:**
+  Embedding cache entry or None if not found.
+* **Return type:**
+  Optional[Dict[str, Any]]
+
+```python
+embedding_data = cache.get_by_key("embedcache:1234567890abcdef")
+```
+
+#### `mdrop(texts, model_name)`
+
+Remove multiple embeddings from the cache by their texts and model name.
+
+Efficiently removes multiple embeddings in a single operation.
+
+* **Parameters:**
+  * **texts** (*List* *[* *str* *]*) – List of text inputs that were embedded.
+  * **model_name** (*str*) – The name of the embedding model.
+* **Return type:**
+  None
+
+```python
+# Remove multiple embeddings
+cache.mdrop(
+    texts=["What is machine learning?", "What is deep learning?"],
+    model_name="text-embedding-ada-002"
+)
+```
+
+#### `mdrop_by_keys(keys)`
+
+Remove multiple embeddings from the cache by their Redis keys.
+
+Efficiently removes multiple embeddings in a single operation.
+
+* **Parameters:**
+  **keys** (*List* *[* *str* *]*) – List of Redis keys to remove.
+* **Return type:**
+  None
+
+```python
+# Remove multiple embeddings
+cache.mdrop_by_keys(["embedcache:key1", "embedcache:key2"])
+```
+
+#### `mexists(texts, model_name)`
+
+Check if multiple embeddings exist by their texts and model name.
+
+Efficiently checks existence of multiple embeddings in a single operation.
+
+* **Parameters:**
+  * **texts** (*List* *[* *str* *]*) – List of text inputs that were embedded.
+  * **model_name** (*str*) – The name of the embedding model.
+* **Returns:**
+  List of boolean values indicating whether each embedding exists.
+* **Return type:**
+  List[bool]
+
+```python
+# Check if multiple embeddings exist
+exists_results = cache.mexists(
+    texts=["What is machine learning?", "What is deep learning?"],
+    model_name="text-embedding-ada-002"
+)
+```
+
+#### `mexists_by_keys(keys)`
+
+Check if multiple embeddings exist by their Redis keys.
+
+Efficiently checks existence of multiple keys in a single operation.
+
+* **Parameters:**
+  **keys** (*List* *[* *str* *]*) – List of Redis keys to check.
+* **Returns:**
+  List of boolean values indicating whether each key exists.
+  The order matches the input keys order.
+* **Return type:**
+  List[bool]
+
+```python
+# Check if multiple keys exist
+exists_results = cache.mexists_by_keys(["embedcache:key1", "embedcache:key2"])
+```
+
+#### `mget(texts, model_name)`
+
+Get multiple embeddings by their texts and model name.
+
+Efficiently retrieves multiple cached embeddings in a single operation.
+If found, refreshes the TTL of each entry.
+
+* **Parameters:**
+  * **texts** (*List* *[* *str* *]*) – List of text inputs that were embedded.
+  * **model_name** (*str*) – The name of the embedding model.
+* **Returns:**
+  List of embedding cache entries or None for texts not found.
+* **Return type:**
+  List[Optional[Dict[str, Any]]]
+
+```python
+# Get multiple embeddings
+embedding_data = cache.mget(
+    texts=["What is machine learning?", "What is deep learning?"],
+    model_name="text-embedding-ada-002"
+)
+```
+
+#### `mget_by_keys(keys)`
+
+Get multiple embeddings by their Redis keys.
+
+Efficiently retrieves multiple cached embeddings in a single network roundtrip.
+If found, refreshes the TTL of each entry.
+
+* **Parameters:**
+  **keys** (*List* *[* *str* *]*) – List of Redis keys to retrieve.
+* **Returns:**
+  List of embedding cache entries or None for keys not found.
+  The order matches the input keys order.
+* **Return type:**
+  List[Optional[Dict[str, Any]]]
+
+```python
+# Get multiple embeddings
+embedding_data = cache.mget_by_keys([
+    "embedcache:key1",
+    "embedcache:key2"
+])
+```
+
+#### `mset(items, ttl=None)`
+
+Store multiple embeddings in a batch operation.
+
+Each item in the input list should be a dictionary with the following fields:
+- ‘text’: The text input that was embedded
+- ‘model_name’: The name of the embedding model
+- ‘embedding’: The embedding vector
+- ‘metadata’: Optional metadata to store with the embedding
+
+* **Parameters:**
+  * **items** (*List* *[* *Dict* *[* *str* *,* *Any* *]* *]*) – List of dictionaries, each containing text, model_name, embedding, and optional metadata.
+  * **ttl** (*int* *|* *None*) – Optional TTL override for these entries.
+* **Returns:**
+  List of Redis keys where the embeddings were stored.
+* **Return type:**
+  List[str]
+
+```python
+# Store multiple embeddings
+keys = cache.mset([
+    {
+        "text": "What is ML?",
+        "model_name": "text-embedding-ada-002",
+        "embedding": [0.1, 0.2, 0.3],
+        "metadata": {"source": "user"}
+    },
+    {
+        "text": "What is AI?",
+        "model_name": "text-embedding-ada-002",
+        "embedding": [0.4, 0.5, 0.6],
+        "metadata": {"source": "docs"}
+    }
+])
+```
+
+#### `set(text, model_name, embedding, metadata=None, ttl=None)`
+
+Store an embedding with its text and model name.
+
+* **Parameters:**
+  * **text** (*str*) – The text input that was embedded.
+  * **model_name** (*str*) – The name of the embedding model.
+  * **embedding** (*List* *[* *float* *]*) – The embedding vector to store.
+  * **metadata** (*Optional* *[* *Dict* *[* *str* *,* *Any* *]* *]*) – Optional metadata to store with the embedding.
+  * **ttl** (*Optional* *[* *int* *]*) – Optional TTL override for this specific entry.
+* **Returns:**
+  The Redis key where the embedding was stored.
+* **Return type:**
+  str
+
+```python
+key = cache.set(
+    text="What is machine learning?",
+    model_name="text-embedding-ada-002",
+    embedding=[0.1, 0.2, 0.3, ...],
+    metadata={"source": "user_query"}
+)
+```
+
+#### `set_ttl(ttl=None)`
+
+Set the default TTL, in seconds, for entries in the cache.
+
+* **Parameters:**
+  **ttl** (*Optional* *[* *int* *]* *,* *optional*) – The optional time-to-live expiration
+  for the cache, in seconds.
+* **Raises:**
+  **ValueError** – If the time-to-live value is not an integer.
+* **Return type:**
+  None
 
 #### `property ttl: int | None`
 

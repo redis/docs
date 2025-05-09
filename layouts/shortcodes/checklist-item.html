@@ -1,11 +1,13 @@
 <li>
-    <select onchange="clChange('prodlist')">
+{{- with .Parent }}
+    <select onchange="clChange('{{ .Get 0 }}')">
+{{- end }}
     <option value="R">&#x274C;</option>
     <option value="G">&#9989;</option>
     <option value="A">&#x1F50D;</option>
     <option value="X">&#x2205;</option>
 </select>
-{{- if index .Params 0 -}}
+{{- if .Get 0 -}}
 <a href="{{ index .Params 0 }}">{{ .Inner }}</a>
 {{- else -}}
 {{ .Inner }}

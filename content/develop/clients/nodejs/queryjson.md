@@ -34,9 +34,9 @@ Add the following dependencies:
 ```js
 import {
     createClient,
-    SchemaFieldTypes,
-    AggregateGroupByReducers,
-    AggregateSteps,
+    SCHEMA_FIELD_TYPE,
+    FT_AGGREGATE_GROUP_BY_REDUCERS,
+    FT_AGGREGATE_STEPS,
 } from 'redis';
 ```
 

@@ -34,7 +34,7 @@ jobs:
 
           # Get latest release
           latest_release=$(gh release -R redis/redis-vl-python list --json name,isLatest --jq '.[] | select(.isLatest)|.name')
-          git checkout "tags/${latest_release}"
+          git checkout "tags/${latest_release}" || git checkout "tags/v${latest_release}"
           pip3 install -e .
 
           popd
@@ -107,6 +107,7 @@ jobs:
 
           # Convert jupyter notebooks to markdown
           jupyter nbconvert --to markdown build/jupyter_execute/user_guide/*.ipynb --output-dir redis_vl_hugo/user_guide/ 2>/dev/null
+          jupyter nbconvert --to markdown build/jupyter_execute/user_guide/release_guide/*.ipynb --output-dir redis_vl_hugo/user_guide/release_guide/ 2>/dev/null
           jupyter nbconvert --to markdown build/jupyter_execute/overview/cli.ipynb --output-dir redis_vl_hugo/overview/ 2>/dev/null
 
           # Prepare markdown files
@@ -114,6 +115,7 @@ jobs:
           cp ./build/markdown/overview/installation.md ./redis_vl_hugo/overview/installation.md
 
           # Format markdown files
+          shopt -s globstar
           markdown_pages=(./redis_vl_hugo/**/*.md)
 
           for markdown_page in "${markdown_pages[@]}"; do
@@ -208,11 +210,13 @@ jobs:
           # Format _index.md pages
           cp ./build/markdown/api/index.md ./redis_vl_hugo/api/_index.md
           cp ./build/markdown/user_guide/index.md ./redis_vl_hugo/user_guide/_index.md
+          cp ./build/markdown/user_guide/release_guide/index.md ./redis_vl_hugo/user_guide/release_guide/_index.md
           cp ./build/markdown/overview/index.md ./redis_vl_hugo/overview/_index.md
 
           index_markdown_pages=(
               ./redis_vl_hugo/api/_index.md
               ./redis_vl_hugo/user_guide/_index.md
+              ./redis_vl_hugo/user_guide/release_guide/_index.md
               ./redis_vl_hugo/overview/_index.md
           )
 
@@ -220,7 +224,7 @@ jobs:
               format "${index_markdown_page}"
 
               # Fix relrefs by removing .md extension and references to numbered pages
-              sed -E -i 's/\.md/\//g; s/\([0-9]+_/\(/g' "${index_markdown_page}"
+              sed -E -i 's/\.md/\//g; s/\([0-9]{2}_/\(/g; s/\/index\//\//g' "${index_markdown_page}"
           done
 
           # Rename user guides to strip leading numbers from filename

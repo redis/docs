@@ -51,7 +51,7 @@ Before you can set up Transit Gateway, you need to:
 1. [Create a transit gateway](https://docs.aws.amazon.com/vpc/latest/tgw/create-tgw.html) from the [AWS VPC console](https://console.aws.amazon.com/vpc/) in the same region as your database.
 
 {{< note >}}
-If you have a self-managed AWS account, you will need to set its IAM Instance Policy to include Transit Gateway. See [Create IAM resources using the AWS console]({{< relref "/operate/rc/cloud-integrations/aws-cloud-accounts/iam-resources/aws-console.md" >}}) (deprecated) for more information.
+If you use Redis Cloud Bring your own Cloud, you will need to set its IAM Instance Policy to include Transit Gateway. See [Create IAM resources using the AWS console]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/iam-resources/aws-console.md" >}}) for more information.
 {{< /note >}}
 
 ## AWS Transit Gateway

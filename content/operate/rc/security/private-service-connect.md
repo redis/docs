@@ -75,7 +75,7 @@ First, configure Private Service Connect in Redis Cloud:
 
 6. Continue to the **Add connections** step:
     
-    {{<image filename="images/rc/button-subscription-connectivity-psc-continue.png" width="100px" alt="Use the Continue button to proceed to the Add connections step." >}}
+    {{<image filename="images/rc/button-subscription-continue.png" width="100px" alt="Use the Continue button to proceed to the Add connections step." >}}
 
 7. Select either **Bash Shell** or **PowerShell** and then download or copy the provided `gcloud` script for later:
 
@@ -83,7 +83,7 @@ First, configure Private Service Connect in Redis Cloud:
 
 8. Select **Continue** to save this endpoint configuration:
 
-    {{<image filename="images/rc/button-subscription-connectivity-psc-continue.png" width="100px" alt="Use the Continue button to save the PSC endpoint configuration." >}}
+    {{<image filename="images/rc/button-subscription-continue.png" width="100px" alt="Use the Continue button to save the PSC endpoint configuration." >}}
 
 ### Create endpoints {#create-endpoints}
 
@@ -128,7 +128,7 @@ Once your Private Service Connect endpoint is active, you can connect your appli
 
 1. From your subscription's **Connectivity > Private Service Connect** tab, select the **Connect** button for the active endpoint:
 
-    {{<image filename="images/rc/button-subscription-connectivity-psc-connect.png" width="100px" alt="Use the Connect button to retrieve PSC connection details." >}}
+    {{<image filename="images/rc/button-connect.png" width="100px" alt="Use the Connect button to retrieve PSC connection details." >}}
 
 1. Select a database from the list.
 
@@ -151,7 +151,7 @@ To deactivate Private Service Connect for your subscription:
 
     1. Select the **Delete PSC endpoint** button:
 
-        {{<image filename="images/rc/icon-psc-delete-endpoint.png" width="40px" alt="Use the Delete PSC endpoint button to remove an endpoint." >}}
+        {{<image filename="images/rc/icon-delete-teal.png" width="40px" alt="Use the Delete PSC endpoint button to remove an endpoint." >}}
 
     1. Copy the provided `gcloud` script from the **Remove endpoint** dialog.
 

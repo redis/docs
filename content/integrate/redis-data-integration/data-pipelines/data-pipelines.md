@@ -301,8 +301,7 @@ The main sections of these files are:
 
 - `source`: This is a mandatory section that specifies the data items that you want to 
   use. You can add the following properties here:
-  - `server_name`: Logical server name (optional). This corresponds to the `debezium.source.topic.prefix`
-  property specified in the Debezium Server's `application.properties` config file.
+  - `server_name`: Logical server name (optional).
   - `db`: Database name (optional)
   - `schema`: Database schema (optional)
   - `table`: Database table name. This refers to a table name you supplied in `config.yaml`. The default
