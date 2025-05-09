@@ -55,36 +55,13 @@ client.on('error', error => {
 
 ### Handling reconnections
 
-If network issues or other problems unexpectedly close the socket, the client will reject all commands already sent, since the server might have already executed them.
-The rest of the pending commands will remain queued in memory until a new socket is established.
-This behaviour is controlled by the `enableOfflineQueue` option, which is enabled by default.
-
-The client uses `reconnectStrategy` to decide when to attempt to reconnect. 
-The default strategy is to calculate the delay before each attempt based on the attempt number `Math.min(retries * 50, 500)`. You can customize this strategy by passing a supported value to `reconnectStrategy` option:
-
-
-1. Define a callback `(retries: number, cause: Error) => false | number | Error` **(recommended)**
-```typescript
-const client = createClient({
-  socket: {
-    reconnectStrategy: function(retries) {
-        if (retries > 20) {
-            console.log("Too many attempts to reconnect. Redis connection was terminated");
-            return new Error("Too many retries.");
-        } else {
-            return retries * 500;
-        }
-    }
-  }
-});
-client.on('error', error => console.error('Redis client error:', error));
-```
-In the provided reconnection strategy callback, the client attempts to reconnect up to 20 times with a delay of `retries * 500` milliseconds between attempts. 
-After approximately two minutes, the client logs an error message and terminates the connection if the maximum retry limit is exceeded.
-
-
-2. Use a numerical value to set a fixed delay in milliseconds.
-3. Use `false` to disable reconnection attempts. This option should only be used for testing purposes.
+When the socket closes unexpectedly (without calling the `quit()` or `disconnect()` methods),
+the client can automatically restore the connection.  A simple
+[exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff) strategy
+for reconnection is enabled by default, but you can replace this with your
+own custom strategy. See
+[Reconnect after disconnection]({{< relref "/develop/clients/nodejs/connect#reconnect-after-disconnection" >}})
+for more information.
 
 ### Timeouts
 
