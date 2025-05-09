@@ -78,7 +78,7 @@ file as described below.
 ### Using a private image registry
 
 Add the RDI images from [dockerhub](https://hub.docker.com/u/redis) to your local registry.
-You need the following RDI images:
+You need the following RDI images with tags matching the RDI version you want to install:
 
 -   [redis/rdi-api](https://hub.docker.com/r/redis/rdi-api)
 -   [redis/rdi-operator](https://hub.docker.com/r/redis/rdi-operator)
@@ -89,12 +89,13 @@ You need the following RDI images:
 
 In addition, the RDI Helm chart uses the following 3rd party images:
 
--   [redislabs/debezium-server](https://hub.docker.com/r/redislabs/debezium-server), originally `quay.io/debezium/server/3.0.8.Final`: 
+-   [redislabs/debezium-server:3.0.8.Final-rdi.1](https://hub.docker.com/r/redislabs/debezium-server), 
+    based on `quay.io/debezium/server/3.0.8.Final` with minor modifications: 
     [Debezium](https://debezium.io/), an open source distributed platform for change data capture.
--   [redis/reloader](https://hub.docker.com/r/redis/reloader), originally `ghcr.io/stakater/reloader:v1.1.0`: 
+-   [redis/reloader:v1.1.0](https://hub.docker.com/r/redis/reloader), originally `ghcr.io/stakater/reloader:v1.1.0`: 
     [Reloader](https://github.com/stakater/Reloader), a K8s controller to watch changes to ConfigMaps 
     and Secrets and do rolling upgrades.
--   [redis/kube-webhook-certgen](https://hub.docker.com/r/redis/kube-webhook-certgen), 
+-   [redis/kube-webhook-certgen:v20221220-controller-v1.5.1-58-g787ea74b6](https://hub.docker.com/r/redis/kube-webhook-certgen), 
     originally `registry.k8s.io/ingress-nginx/kube-webhook-certgen/v20221220-controller-v1.5.1-58-g787ea74b6`: 
     [kube-webhook-certgen](https://github.com/jet/kube-webhook-certgen), K8s webhook certificate generator and patcher.
 
