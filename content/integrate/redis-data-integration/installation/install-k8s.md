@@ -89,7 +89,7 @@ You need the following RDI images:
 
 In addition, the RDI Helm chart uses the following 3rd party images:
 
--   [redis/debezium-server](https://hub.docker.com/r/redis/debezium-server), originally `quay.io/debezium/server/3.0.8.Final`: 
+-   [redislabs/debezium-server](https://hub.docker.com/r/redislabs/debezium-server), originally `quay.io/debezium/server/3.0.8.Final`: 
     [Debezium](https://debezium.io/), an open source distributed platform for change data capture.
 -   [redis/reloader](https://hub.docker.com/r/redis/reloader), originally `ghcr.io/stakater/reloader:v1.1.0`: 
     [Reloader](https://github.com/stakater/Reloader), a K8s controller to watch changes to ConfigMaps 
