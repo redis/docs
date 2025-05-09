@@ -43,8 +43,8 @@ The list of configuration directives, and their meaning and intended usage
 is available in the self-documented example `redis.conf` or `redis-full.conf` shipped into the
 Redis distribution.
 
-* The self-documented [redis-full.conf for Redis 8.0](https://github.com/redis/redis/blob/unstable/redis-full.conf).
-* The self-documented [redis.conf for Redis 7.4](https://raw.githubusercontent.com/redis/redis/unstable/redis.conf).
+* The self-documented [redis-full.conf for Redis 8.0](https://raw.githubusercontent.com/redis/redis/8.0/redis-full.conf).
+* The self-documented [redis.conf for Redis 7.4](https://raw.githubusercontent.com/redis/redis/7.4/redis.conf).
 * The self-documented [redis.conf for Redis 7.2](https://raw.githubusercontent.com/redis/redis/7.2/redis.conf).
 * The self-documented [redis.conf for Redis 7.0](https://raw.githubusercontent.com/redis/redis/7.0/redis.conf).
 * The self-documented [redis.conf for Redis 6.2](https://raw.githubusercontent.com/redis/redis/6.2/redis.conf).
