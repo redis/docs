@@ -15,7 +15,7 @@ Use the **Data pipeline** tab in your database to view and edit your data pipeli
 The **Data pipeline** tab gives an overview of your data pipeline and lets you view your data stream metrics. 
 
 
-<--! TODO: REPLACE SCREENSHOT -->
+<!-- TODO: REPLACE SCREENSHOT -->
 {{<image filename="images/rc/rdi/rdi-status-metrics-tables.png" alt="The select source database type list." width=80% >}}
 
 The **Status** table shows statistics for the whole data pipeline: 
