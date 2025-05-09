@@ -12,7 +12,7 @@ categories:
 description: Understand how `NRedisStack` uses conditional execution
 linkTitle: Conditional execution
 title: Conditional execution
-weight: 6
+weight: 60
 ---
 
 Most Redis client libraries use transactions with the
