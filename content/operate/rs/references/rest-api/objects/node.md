@@ -27,7 +27,9 @@ An API object that represents a node in the cluster.
 | ephemeral_storage_size | number | Ephemeral storage size (bytes) (read-only) |
 | external_addr | complex object | External IP addresses of node. `GET`&nbsp;`/jsonschema` to retrieve the object's structure. |
 | max_listeners | integer | Maximum number of listeners on the node |
+| max_redis_forks | integer (default: -1) | Maximum number of background processes forked from shards that can exist on the node at any given time. Set to 0 for unlimited. Set to -1 to use cluster settings. |
 | max_redis_servers | integer | Maximum number of shards on the node |
+| max_slave_full_syncs | integer (default: -1) | Maximum number of simultaneous replica full syncs that can run at any given time. Set to 0 for unlimited. Set to -1 to use cluster settings. |
 | os_family | 'rhel'<br />'ubuntu'<br />'amzn' | Operating system family (read-only) |
 | os_name | string | Operating system name (read-only) |
 | os_semantic_version | string | Full version number (read-only) |
@@ -37,6 +39,7 @@ An API object that represents a node in the cluster.
 | public_addr | string | Public IP address of node (deprecated as of Redis Enterprise v4.3.3, use external_addr instead) |
 | rack_id | string | Rack ID where node is installed |
 | recovery_path | string | Recovery files path |
+| second_rack_id | string | Second rack ID where node is installed |
 | shard_count | integer | Number of shards on the node (read-only) |
 | shard_list | array of integers | Cluster unique IDs of all node shards |
 | software_version | string | Installed Redis Enterprise cluster software version (read-only) |

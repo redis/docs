@@ -581,11 +581,12 @@ Include a JSON object that contains a [BDB object]({{< relref "/operate/rs/refer
         "shards_count": 1
     },
     "recovery_plan": {
-        "data_files": [
+        "original_bdb_shards": [
             {
-                "shard_slots": "0-16383",
-                "node_uid": "1",
-                "filename": "redis-4.rdb"
+                "assigned_slots": "0-16383",
+                "node_uid": "1", 
+                "role": "master", 
+                "uid": "1"
             }
         ]
     }
