@@ -95,6 +95,11 @@ installation of RDI:
 1.  Download the RDI Helm chart tar file from the [Redis download center](https://redis.io/downloads/)
     (in the *Modules, Tools & Integration* category).
 
+    ```bash
+    export RDI_VERSION=<version>
+    wget https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-$RDI_VERSION.tgz
+    ```
+
 1.  Adapt your `rdi-values.yaml` file to any changes in the new RDI version if needed.
     See also [Upgrading to RDI 1.8.0 or later from an earlier version](#upgrading-to-rdi-180-or-later-from-an-earlier-version). 
     Before making any changes, save your existing `rdi-values.yaml` if you need to revert 

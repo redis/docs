@@ -47,12 +47,20 @@ or from your own [private image registry](#using-a-private-image-registry).
 Complete the following steps before installing the RDI Helm chart:
 
 -   [Create the RDI database](#create-the-rdi-database) on your Redis Enterprise cluster.
+
 -   Create a [user]({{< relref "/operate/rs/security/access-control/create-users" >}})
     for the RDI database if you prefer not to use the default password (see
     [Access control]({{< relref "/operate/rs/security/access-control" >}}) for
     more information).
+
 -   Download the RDI Helm chart tar file from the
     [Redis download center](https://redis.io/downloads/) (in the *Modules, Tools & Integration* category) .
+
+    ```bash
+    export RDI_VERSION=<version>
+    wget https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-$RDI_VERSION.tgz
+    ```
+
 -   If you want to use a private image registry,
     [prepare it with the RDI images](#using-a-private-image-registry).
 
