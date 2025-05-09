@@ -3,7 +3,7 @@
   "info": {
     "title": "Redis Data Integration API",
     "description": "API for Redis Data Integration services",
-    "version": "1.6.1"
+    "version": "1.8.0"
   },
   "paths": {
     "/": {
@@ -2278,7 +2278,341 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error-Input"
+                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "secure",
+          "deploy"
+        ],
+        "summary": "Patch Pipelines",
+        "description": "This endpoint allows for partial updates to the pipeline configuration.It expects a JSON Object containing pipeline configuration keys to be updated.JSON Merge Patch is used to update the configuration, see RFC 7396. Arrays are replaced, not merged.",
+        "operationId": "patch_pipelines_api_v1_pipelines_patch",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "Body",
+                "examples": [
+                  {
+                    "sources": {
+                      "psql": {
+                        "type": "cdc",
+                        "logging": {
+                          "level": "debug"
+                        },
+                        "connection": {
+                          "type": "postgresql",
+                          "host": "host.docker.internal",
+                          "port": 5432,
+                          "database": "chinook",
+                          "user": "postgres",
+                          "password": "postgres"
+                        },
+                        "tables": {
+                          "public.invoice": {
+                            "columns": [
+                              "billingaddress",
+                              "billingcity",
+                              "billingcountry",
+                              "billingpostalcode",
+                              "total",
+                              "customerid",
+                              "billingstate",
+                              "invoiceid",
+                              "invoicedate"
+                            ],
+                            "keys": [
+                              "invoiceid"
+                            ]
+                          },
+                          "public.track": {
+                            "columns": [
+                              "genreid",
+                              "milliseconds",
+                              "mediatypeid",
+                              "trackid",
+                              "composer",
+                              "bytes",
+                              "name",
+                              "albumid",
+                              "unitprice"
+                            ],
+                            "keys": [
+                              "trackid"
+                            ]
+                          },
+                          "public.mediatype": {
+                            "columns": [
+                              "mediatypeid",
+                              "name"
+                            ],
+                            "keys": [
+                              "mediatypeid"
+                            ]
+                          },
+                          "public.customer": {
+                            "columns": [
+                              "country",
+                              "firstname",
+                              "address",
+                              "city",
+                              "lastname",
+                              "phone",
+                              "postalcode",
+                              "customerid",
+                              "company",
+                              "state",
+                              "fax",
+                              "email",
+                              "supportrepid"
+                            ],
+                            "keys": [
+                              "customerid"
+                            ]
+                          },
+                          "public.genre": {
+                            "columns": [
+                              "genreid",
+                              "name"
+                            ],
+                            "keys": [
+                              "genreid"
+                            ]
+                          },
+                          "public.invoiceline": {
+                            "columns": [
+                              "quantity",
+                              "trackid",
+                              "invoicelineid",
+                              "invoiceid",
+                              "unitprice"
+                            ],
+                            "keys": [
+                              "invoicelineid"
+                            ]
+                          },
+                          "public.playlist": {
+                            "columns": [
+                              "playlistid",
+                              "name"
+                            ],
+                            "keys": [
+                              "playlistid"
+                            ]
+                          },
+                          "public.employee": {
+                            "columns": [
+                              "country",
+                              "firstname",
+                              "birthdate",
+                              "address",
+                              "city",
+                              "reportsto",
+                              "title",
+                              "employeeid",
+                              "hiredate",
+                              "lastname",
+                              "phone",
+                              "postalcode",
+                              "state",
+                              "fax",
+                              "email"
+                            ],
+                            "keys": [
+                              "employeeid"
+                            ]
+                          },
+                          "public.album": {
+                            "columns": [
+                              "albumid",
+                              "artistid",
+                              "title"
+                            ],
+                            "keys": [
+                              "albumid"
+                            ]
+                          },
+                          "public.artist": {
+                            "columns": [
+                              "name",
+                              "artistid"
+                            ],
+                            "keys": [
+                              "artistid"
+                            ]
+                          },
+                          "public.playlisttrack": {
+                            "columns": [
+                              "playlistid",
+                              "trackid"
+                            ],
+                            "keys": [
+                              "playlistid",
+                              "trackid"
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    "targets": {
+                      "target": {
+                        "type": "redis",
+                        "host": "host.docker.internal",
+                        "port": 12002,
+                        "password": "test"
+                      }
+                    },
+                    "processors": {
+                      "target_data_type": "hash"
+                    },
+                    "jobs": [
+                      {
+                        "name": "chinook_customer",
+                        "source": {
+                          "server_name": "chinook",
+                          "schema": "public",
+                          "table": "Customer"
+                        },
+                        "output": [
+                          {
+                            "uses": "redis.write",
+                            "with": {
+                              "connection": "target",
+                              "key": {
+                                "expression": "concat(['CustomerId:', CustomerId])",
+                                "language": "jmespath"
+                              },
+                              "expire": 100
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "targets": {
+                      "target": {
+                        "type": "redis",
+                        "host": "host.docker.internal",
+                        "port": 12002,
+                        "password": "test"
+                      }
+                    },
+                    "processors": {
+                      "target_data_type": "hash"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionIdResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/pipelines/undeploy": {
+      "post": {
+        "tags": [
+          "secure",
+          "deploy"
+        ],
+        "summary": "Undeploy Pipelines",
+        "description": "Undeploys a pipeline.",
+        "operationId": "undeploy_pipelines_api_v1_pipelines_undeploy_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/ActionIdResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
+                    }
+                  ],
+                  "title": "Response Undeploy Pipelines Api V1 Pipelines Undeploy Post"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
                 }
               }
             }
@@ -2552,7 +2886,54 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error-Input"
+                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/pipelines/strategies": {
+      "get": {
+        "tags": [
+          "secure"
+        ],
+        "summary": "Pipelines Strategies",
+        "description": "Retrieves available strategies.",
+        "operationId": "pipelines_strategies_api_v1_pipelines_strategies_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PipelinesStrategiesResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
                 }
               }
             }
@@ -3356,7 +3737,7 @@
       },
       "CredentialsInfo": {
         "properties": {
-          "user": {
+          "username": {
             "anyOf": [
               {
                 "type": "string"
@@ -3365,7 +3746,7 @@
                 "type": "null"
               }
             ],
-            "title": "User",
+            "title": "Username",
             "description": "RDI database user",
             "examples": [
               "admin"
@@ -3780,32 +4161,6 @@
         ],
         "title": "Entity"
       },
-      "Error-Input": {
-        "properties": {
-          "status": {
-            "type": "string",
-            "const": "error",
-            "title": "The status of the run.",
-            "default": "error",
-            "examples": [
-              "error"
-            ]
-          },
-          "error": {
-            "type": "string",
-            "title": "The error message.",
-            "examples": [
-              "Job is malformed"
-            ]
-          }
-        },
-        "type": "object",
-        "required": [
-          "error"
-        ],
-        "title": "Error",
-        "description": "Model representing an error status."
-      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -4129,6 +4484,22 @@
         "type": "object",
         "title": "PipelinesFunctionsResponse"
       },
+      "PipelinesStrategiesResponse": {
+        "properties": {
+          "strategies": {
+            "items": {
+              "$ref": "#/components/schemas/StrategyModel"
+            },
+            "type": "array",
+            "title": "Strategies"
+          }
+        },
+        "type": "object",
+        "required": [
+          "strategies"
+        ],
+        "title": "PipelinesStrategiesResponse"
+      },
       "ProcessingPerformance": {
         "properties": {
           "total_batches": {
@@ -4220,7 +4591,6 @@
         "enum": [
           "on_failed_retry_interval",
           "read_batch_size",
-          "debezium_lob_encoded_placeholder",
           "dedup",
           "dedup_max_size",
           "dedup_strategy",
@@ -4676,6 +5046,43 @@
         ],
         "title": "StatusResponse"
       },
+      "Strategy": {
+        "type": "string",
+        "enum": [
+          "ingest"
+        ],
+        "title": "Strategy",
+        "description": "Defines available strategies."
+      },
+      "StrategyModel": {
+        "properties": {
+          "strategy": {
+            "$ref": "#/components/schemas/Strategy",
+            "examples": [
+              "ingest"
+            ]
+          },
+          "databases": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Databases",
+            "examples": [
+              "mongodb",
+              "mysql",
+              "oracle",
+              "sqlserver"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "strategy",
+          "databases"
+        ],
+        "title": "StrategyModel"
+      },
       "Table": {
         "properties": {
           "cdc_ready": {
@@ -4857,7 +5264,7 @@
             "type": "string",
             "title": "Uses",
             "examples": [
-              "filter"
+              "add_field"
             ]
           },
           "with": {
@@ -4993,7 +5400,8 @@
             "type": "string",
             "title": "Expression",
             "examples": [
-              "InvoiceLineId = 999"
+              "FNAME || ' ' || LAST_NAME",
+              "concat([fname, ' ' , last_name])"
             ]
           },
           "field": {
@@ -5006,15 +5414,17 @@
               }
             ],
             "title": "Field",
+            "description": "This field it available only for a subset of with expressions e.g. `add_field`, `remove_field`.",
             "examples": [
-              "InvoiceLineId"
+              "FullName"
             ]
           },
           "language": {
             "type": "string",
             "title": "Language",
             "examples": [
-              "sql"
+              "sql",
+              "jmespath"
             ]
           }
         },
