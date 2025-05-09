@@ -249,7 +249,7 @@ section to learn how to do this.
 ## Deploy a pipeline
 
 When the installation is complete, and you have prepared the source database for CDC,
-you are ready to start using RDI. See the guides how to
+you are ready to start using RDI. See the guides on how to
 [configure]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines" >}}) and
 [deploy]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})
 RDI pipelines for more information. You can also configure and deploy a pipeline
