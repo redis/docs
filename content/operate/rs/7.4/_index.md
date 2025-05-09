@@ -36,7 +36,7 @@ Build a small-scale cluster with the Redis Enterprise Software container image.
 [Install & set up]({{< relref "/operate/rs/7.4/installing-upgrading" >}}) a Redis Enterprise Software cluster.
 - [Networking]({{< relref "/operate/rs/7.4/networking" >}})
 - [Set up]({{< relref "/operate/rs/7.4/clusters/new-cluster-setup" >}}) & [configure]({{< relref "/operate/rs/7.4/clusters/configure" >}}) a [cluster]({{< relref "/operate/rs/7.4/clusters" >}})
-- [Release notes]({{< relref "/operate/rs/release-notes" >}})
+- [Release notes](https://redis.io/docs/latest/operate/rs/release-notes/)
 
 ## Databases
 Create and manage a [Redis database]({{< relref "/operate/rs/7.4/databases" >}}) on a cluster.
