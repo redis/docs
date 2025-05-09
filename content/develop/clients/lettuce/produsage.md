@@ -15,8 +15,26 @@ title: Production usage
 weight: 3
 ---
 
-The following sections explain how to handle situations that may occur
-in your production environment.
+This guide offers recommendations to get the best reliability and
+performance in your production environment.
+
+## Checklist
+
+Each item in the checklist below links to the section
+for a recommendation. Use the checklist icons to record your
+progress in implementing the recommendations.
+
+{{< checklist "lettuceprodlist" >}}
+    {{< checklist-item "#timeouts" >}}Timeouts{{< /checklist-item >}}
+    {{< checklist-item "#cluster-topology-refresh">}}Cluster topology refresh{{< /checklist-item >}}
+    {{< checklist-item "#dns-cache-and-redis" >}}DNS cache and Redis{{< /checklist-item >}}
+    {{< checklist-item "#exception-handling" >}}Exception handling{{< /checklist-item >}}
+{{< /checklist >}}
+
+## Recommendations
+
+The sections below offer recommendations for your production environment. Some
+of them may not apply to your particular use case.
 
 ## Timeouts
 
@@ -94,6 +112,7 @@ try (RedisClient client = RedisClient.create(redisURI)) {
 ```
 
 ## Cluster topology refresh
+
 The Redis Cluster configuration is dynamic and can change at runtime. 
 New nodes may be added, and the primary node for a specific slot can shift.
 Lettuce automatically handles [MOVED]({{< relref "/operate/oss_and_stack/reference/cluster-spec#moved-redirection" >}}) and [ASK]({{< relref "/operate/oss_and_stack/reference/cluster-spec#ask-redirection" >}}) redirects, but to enhance your application's resilience, you should enable adaptive topology refreshing:
@@ -159,3 +178,14 @@ Use the following code to disable the DNS cache:
 java.security.Security.setProperty("networkaddress.cache.ttl","0");
 java.security.Security.setProperty("networkaddress.cache.negative.ttl", "0");
 ```
+
+## Exception handling
+
+Redis handles many errors using return values from commands, but there
+are also situations where exceptions can be thrown. In production code,
+you should handle exceptions as they occur.
+
+See the Error handling sections of the
+[Lettuce async](https://redis.github.io/lettuce/user-guide/async-api/#error-handling) and
+[Lettuce reactive](https://redis.github.io/lettuce/user-guide/reactive-api/#error-handling)
+API guides to learn more about handling exceptions.
