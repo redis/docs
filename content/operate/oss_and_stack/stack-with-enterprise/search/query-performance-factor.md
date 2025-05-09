@@ -52,7 +52,7 @@ Vertical scaling of the Redis Query Engine is achieved by provisioning additiona
 
 The following table shows the number of CPUs required for each performance factor. This calculation is sensitive to how the search index and queries are defined. Certain scenarios might yield less throughput than the ratios in the following table.
 
-| Scale factor | Minimum CPUs required for Redis Query Engine |
+| Scale factor | Minimum CPUs required for Redis Query Engine <WORKERS> |
 |----------------|-----------------------------------------|
 | None (default) | 1 |
 | 2 | 3 |
@@ -71,7 +71,7 @@ The following table shows the number of CPUs required for each performance facto
 | CPUs per node | 8 |
 | Available CPUs | floor(0.8 * 8)=6 |
 | Scale factor | 4x |
-| Minimum CPUs required for scale factor | 6 |
+| Minimum CPUs required for scale factor - WORKERS | 6 |
 
 ## Configure query performance factor manually
 
@@ -168,7 +168,7 @@ To create a database and configure the query performance factor, use the [create
     "conns": 32,
     "module_list": [{
         "module_name": "search",
-        "module_args": "MT_MODE MT_MODE_FULL WORKER_THREADS <NUMBER_OF_CPUS>"
+        "module_args": "WORKERS <NUMBER_OF_THREADS>"
     }]
 }
 ```
@@ -196,7 +196,7 @@ The following JSON is an example request body used to create a new database with
     "replication": false,
     "module_list": [{
         "module_name": "search",
-        "module_args": "MT_MODE MT_MODE_FULL WORKER_THREADS 6"
+        "module_args": "WORKERS 6"
     }]
 }
 ```
@@ -239,7 +239,7 @@ curl -o /dev/null -s -k -u "<user>:<password>" https://<host>:9443/v1/bdbs/$DB_I
     "modules": [
       {
         "module_name": "search",
-        "new_module_args": "MT_MODE MT_MODE_FULL WORKER_THREADS '$CPU'",
+        "new_module_args": "WORKERS '$CPU'",
         "current_module": "'$MODULE_ID'",
         "new_module": "'$MODULE_ID'"
       }
