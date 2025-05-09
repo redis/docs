@@ -48,7 +48,7 @@ of RDI:
 ### Recovering from failure during a VM upgrade
 
 If the previous version is v1.4.4 or later, go to the `rdi_install/<PREVIOUS_VERSION>`
-directory and run `sudo ./upgrade.sh` to revert to the that version, as described in the section
+directory and run `sudo ./upgrade.sh` to revert to that version, as described in the section
 [Upgrading a VM installation](#upgrading-a-vm-installation) above.
 
 If the version you are replacing is earlier than v1.4.4, follow these steps:
