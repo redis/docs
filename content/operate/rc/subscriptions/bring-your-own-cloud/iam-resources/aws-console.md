@@ -26,7 +26,7 @@ Follow the steps to [create an IAM policy using the JSON editor](https://docs.aw
 
     {{< expand "View RedisLabsInstanceRolePolicy.json" >}}
 ```js
-{
+ {
     "Version": "2012-10-17",
     "Statement": [
         {
@@ -84,19 +84,19 @@ Follow the steps to [create an IAM policy using the JSON editor](https://docs.aw
             ]
         },
         {
-            "Sid": "TagResourcesDelete",
-            "Effect": "Allow",
-            "Action": [
+          "Sid": "TagResourcesDelete",
+          "Effect": "Allow",
+          "Action": [
                 "ec2:DeleteTags"
-            ],
-            "Resource": [
+          ],
+          "Resource": [
                 "*"
-            ],
-            "Condition": {
-                "StringEquals": {
-                    "ec2:ResourceTag/RedisLabsIdentifier": "Redislabs-VPC"
-                }
-            }
+          ],
+          "Condition": {
+              "StringEquals": {
+                  "ec2:ResourceTag/RedisLabsIdentifier": "Redislabs-VPC"
+              }
+          }
         }
     ]
 }
@@ -152,7 +152,11 @@ Follow the steps to [create an IAM policy using the JSON editor](https://docs.aw
                 "ec2:DescribeInternetGateways",
                 "ec2:DescribeImages",
                 "ec2:DescribeTransitGatewayVpcAttachments",
-                "ec2:DescribeVpcPeeringConnections"
+                "ec2:DescribeVpcPeeringConnections",
+                "ec2:DescribeKeyPairs",
+                "ec2:DescribeTransitGateways",
+                "ec2:DescribeInstanceStatus",
+                "ec2:DescribeNetworkAcls"
             ],
             "Resource": "*"
         },
@@ -164,12 +168,7 @@ Follow the steps to [create an IAM policy using the JSON editor](https://docs.aw
                 "cloudwatch:Get*",
                 "cloudwatch:List*"
             ],
-            "Resource": "*",
-            "Condition": {
-                "StringEquals": {
-                    "ec2:ResourceTag/RedisLabsIdentifier": "Redislabs-VPC"
-                }
-            }
+            "Resource": "*"
         },
         {
             "Sid": "IamUserOperations",
@@ -182,27 +181,26 @@ Follow the steps to [create an IAM policy using the JSON editor](https://docs.aw
             "Resource": "arn:aws:iam::*:user/${aws:username}"
         },
         {
-            "Sid": "PassRlClusterNodeRole",
-            "Effect": "Allow",
-            "Action": "iam:PassRole",
-            "Resource": "arn:aws:iam::*:role/redislabs-cluster-node-role"
-        },
-        {
-            "Sid": "IAMRoleReadAccess",
-            "Effect": "Allow",
+            "Sid": "RolePolicyUserReadActions",
             "Action": [
                 "iam:GetRole",
                 "iam:GetPolicy",
+                "iam:ListUsers",
+                "iam:ListPolicies",
                 "iam:ListRolePolicies",
                 "iam:ListAttachedRolePolicies",
                 "iam:ListInstanceProfiles",
                 "iam:ListInstanceProfilesForRole",
                 "iam:SimulatePrincipalPolicy"
             ],
-            "Resource": [
-                "arn:aws:iam::*:role/Redislabs-*",
-                "arn:aws:iam::*:policy/Redislabs-*"
-            ]
+            "Effect": "Allow",
+            "Resource": "*"
+        },
+        {
+            "Sid": "PassRlClusterNodeRole",
+            "Effect": "Allow",
+            "Action": "iam:PassRole",
+            "Resource": "arn:aws:iam::*:role/redislabs-cluster-node-role"
         },
         {
             "Sid": "CreateEc2ResourcesWithoutTag",
@@ -216,7 +214,13 @@ Follow the steps to [create an IAM policy using the JSON editor](https://docs.aw
                 "ec2:CreateSecurityGroup",
                 "ec2:CreateInternetGateway",
                 "ec2:CreateRouteTable",
-                "ec2:CreateSubnet"
+                "ec2:CreateSubnet",
+                "ec2:CreateSnapshot",
+                "ec2:CreateTransitGateway",
+                "ec2:AssociateVpcCidrBlock",
+                "ec2:CreateTransitGatewayVpcAttachment",
+                "ec2:AttachInternetGateway",
+                "ec2:ReplaceRoute"
             ],
             "Resource": "*"
         },
@@ -232,19 +236,6 @@ Follow the steps to [create an IAM policy using the JSON editor](https://docs.aw
                 "arn:aws:ec2:*:*:volume/*",
                 "arn:aws:ec2:*:*:keypair/*"
             ],
-            "Condition": {
-                "Null": {
-                    "aws:RequestTag/RedisLabsIdentifier": "true"
-                }
-            }
-        },
-        {
-            "Sid": "DenyCreateVpcWithoutRequiredTag",
-            "Effect": "Deny",
-            "Action": [
-                "ec2:CreateVpc"
-            ],
-            "Resource": "*",
             "Condition": {
                 "Null": {
                     "aws:RequestTag/RedisLabsIdentifier": "true"
@@ -278,9 +269,6 @@ Follow the steps to [create an IAM policy using the JSON editor](https://docs.aw
             "Effect": "Allow",
             "Action": [
                 "ec2:CreateVolume",
-                "ec2:CreateSnapshot",
-                "ec2:ImportKeyPair",
-                "ec2:AttachInternetGateway",
                 "ec2:CreateRoute",
                 "ec2:AuthorizeSecurityGroupIngress",
                 "ec2:AuthorizeSecurityGroupEgress"
@@ -325,7 +313,6 @@ Follow the steps to [create an IAM policy using the JSON editor](https://docs.aw
                 "ec2:DeleteSecurityGroup",
                 "ec2:DeleteRouteTable",
                 "ec2:DeleteRoute",
-                "ec2:DetachInternetGateway",
                 "ec2:DeleteInternetGateway",
                 "ec2:DeleteVpc"
             ],
@@ -335,6 +322,18 @@ Follow the steps to [create an IAM policy using the JSON editor](https://docs.aw
                     "ec2:ResourceTag/RedisLabsIdentifier": "Redislabs-VPC"
                 }
             }
+        },
+        {
+            "Sid": "DeleteEc2ResourcesWithoutTag",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:RevokeSecurityGroupIngress",
+                "ec2:RejectVpcPeeringConnection",
+                "ec2:DeleteTransitGatewayVpcAttachment",
+                "ec2:DeleteTransitGateway",
+                "ec2:DetachInternetGateway"
+            ],
+            "Resource": "*"
         },
         {
             "Sid": "CreateAndChangeServiceLinkedRoleForTransitGateway",
@@ -348,12 +347,37 @@ Follow the steps to [create an IAM policy using the JSON editor](https://docs.aw
             }
         },
         {
+            "Sid": "RolePolicyForTransitGateway",
             "Effect": "Allow",
             "Action": [
                 "iam:AttachRolePolicy",
                 "iam:PutRolePolicy"
             ],
             "Resource": "arn:aws:iam::*:role/aws-service-role/transitgateway.amazonaws.com/AWSServiceRoleForVPCTransitGateway*"
+        },
+        {
+            "Sid": "AllowEncryptedVolumeCreation",
+            "Effect": "Allow",
+            "Action": [
+                "kms:GenerateDataKeyWithoutPlaintext",
+                "kms:DescribeKey"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "AllowAttachDetachOfEncryptedVolumes",
+            "Effect": "Allow",
+            "Action": [
+                "kms:CreateGrant",
+                "kms:ListGrants",
+                "kms:RevokeGrant"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "Bool": {
+                    "kms:GrantIsForAWSResource": "true"
+                }
+            }
         }
     ]
 }
