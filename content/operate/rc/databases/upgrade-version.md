@@ -25,7 +25,7 @@ Please keep in mind the following before upgrading your database version:
 
 - We recommend that you [back up your data]({{< relref "/operate/rc/databases/back-up-data" >}}) before upgrading to make it easier to [manually revert the upgrade](#manually-revert-upgrade) if needed.
 
-- We recommend that you upgrade your database during off-peak hours or during application maintenance.
+- We recommend that you upgrade your database during off-peak hours or during application maintenance to minimize reconnections.
 
 - Review the breaking changes for the new database version before upgrading: 
     - [Redis 7.2]({{< relref "/operate/rc/changelog/2023/june-2023#redis-72-breaking-changes" >}}) 
