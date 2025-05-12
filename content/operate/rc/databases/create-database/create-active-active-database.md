@@ -55,10 +55,9 @@ The **Setup** tab specifies general settings for your Redis deployment.
 
 {{<image filename="images/rc/subscription-new-flexible-tabs-setup.png" width="75%" alt="The Setup tab of the new Pro Database process." >}}
 
-There are three sections on this tab:
+There are two sections on this tab:
 
 - [General settings](#general-settings) include the cloud provider details and specific configuration options.
-- [Version](#version) lets you choose the Redis version of your databases.
 - [Advanced options](#advanced-options) define settings for high availability and security. Configurable settings vary according to cloud provider.
 
 #### General settings {#general-settings}
@@ -76,12 +75,6 @@ Use the checkboxes in the list to select or remove regions.  The Search box lets
 You can use a region's Remove button to remove it from the list.
 
 {{<image filename="images/rc/icon-region-delete.png" width="30px" alt="Select the Delete button to remove a region from the list." >}}
-
-#### Version {#version}
-
-{{<image filename="images/rc/subscription-new-flexible-version-section.png" width="75%" alt="Version selection between Redis 6.2 and 7.2" >}}
-
-The **Version** section lets you choose the Redis version of your databases. Choose **Redis 7.4** if you want to use the latest advanced features of Redis.
 
 #### Advanced options {#advanced-options}
 
@@ -124,6 +117,7 @@ This opens the **New Active-Active Redis Database** dialog, which lets you defin
 By default, you're shown basic settings, which include:
 
 - **Name**: A custom name for your database.
+- **Version**: The Redis version for your database. We recommend you choose the latest available version. 
 - **Advanced Capabilities**: Advanced data types or features used by the database. Active-Active databases support the [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}}) data type and [Search and query]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}) features.
 
     {{<image filename="images/rc/active-active-json-detail.png" width="75%" alt="When you create an Active-Active database, you can select the JSON and Search and query advanced capabilities." >}}  
@@ -135,6 +129,8 @@ By default, you're shown basic settings, which include:
 - **Dataset size**: The amount of data needed for your dataset in GB. 
 
     For Search and query databases, use the [Sizing calculator](https://redis.io/redisearch-sizing-calculator/) to estimate your index size and throughput requirements. When you're entering the dataset size for your database, add the estimated index size from the Sizing calculator to your expected dataset size.
+
+- **Hashing policy**: Determines how data is distributed across multiple Redis processes of a database. Available options depend on your account creation date. See [Clustering]({{< relref "/operate/rc/databases/configuration/clustering#manage-the-hashing-policy" >}}) for more information.
 
 - **Throughput**: When you create an Active-Active database, you define the throughput for each instance. The total operations per second combines the total read ops/sec and applies the write ops/sec for each region across every region. 
 
