@@ -481,7 +481,7 @@ This enables the use of custom vectorizers with other RedisVL components
 
 
 ```python
-from redisvl.extensions.llmcache import SemanticCache
+from redisvl.extensions.cache.llm import SemanticCache
 
 cache = SemanticCache(name="custom_cache", vectorizer=custom_vectorizer)
 
