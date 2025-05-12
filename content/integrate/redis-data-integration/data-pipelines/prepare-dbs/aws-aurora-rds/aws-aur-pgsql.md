@@ -23,33 +23,60 @@ Follow the steps in the sections below to prepare an
 [AWS Aurora PostgreSQL](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_GettingStartedAurora.CreatingConnecting.AuroraPostgreSQL.html) or [AWS RDS PostgreSQL](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_GettingStarted.CreatingConnecting.PostgreSQL.html)
 database to work with RDI.
 
-## Step 1: Create a parameter group
+## Create and apply parameter group
 
-In the [Relational Database Service (RDS) console](https://console.aws.amazon.com/rds/),
-navigate to **Parameter groups > Create parameter group**. [Create a parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithParamGroups.CreatingCluster.html)
-with the following settings:
+RDI requires some changes to database parameters. On AWS RDS and AWS Aurora, you change these parameters via a parameter group.
 
-| Name | Value |
-| :-- | :-- |
-| **Parameter group name**  | Enter a suitable parameter group name, like `rdi-aurora-pg` or `rdi-rds-pg` |
-| **Description**  | (Optional) Enter a description for the parameter group |
-| **Engine Type**  | Choose **Aurora PostgreSQL** for Aurora PostgreSQL or **PostgreSQL** for AWS RDS PostgreSQL. |
-| **Parameter group family**  | Choose **aurora-postgresql15** for Aurora PostgreSQL or **postgresql13** for AWS RDS PostgreSQL. |
+1. In the [Relational Database Service (RDS) console](https://console.aws.amazon.com/rds/), navigate to **Parameter groups > Create parameter group**. [Create a parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithParamGroups.CreatingCluster.html) with the following settings:
 
-Select **Create** to create the parameter group.
+    | Name | Value |
+    | :-- | :-- |
+    | **Parameter group name**  | Enter a suitable parameter group name, like `rdi-aurora-pg` or `rdi-rds-pg` |
+    | **Description**  | (Optional) Enter a description for the parameter group |
+    | **Engine Type**  | Choose **Aurora PostgreSQL** for Aurora PostgreSQL or **PostgreSQL** for AWS RDS PostgreSQL. |
+    | **Parameter group family**  | Choose **aurora-postgresql15** for Aurora PostgreSQL or **postgresql13** for AWS RDS PostgreSQL. |
 
-## Step 2: Edit the parameter group
+    Select **Create** to create the parameter group.
 
-Navigate to **Parameter groups** in the console. Select the 
-group you have just created and then select **Edit**.
+1. Navigate to **Parameter groups** in the console. Select the group you have just created and then select **Edit**. Change the following parameters:
 
-Search for the `rds.logical_replication` parameter and set its value to 1. Then,
-select **Save Changes**.
+    | Name | Value |
+    | :-- | :-- |
+    | `rds.logical_replication`  | `1` |
 
-## Step 3: Select the new parameter group
+    Select **Save Changes** to apply the changes to the parameter group.
 
-Go back to your target database on the RDS console, select **Modify** and then
-scroll down to **Additional Configuration**. Set
-the **DB Cluster Parameter Group** to the group you just created. 
+1. Go back to your database on the RDS console, select **Modify** and then scroll down to **Additional Configuration**. Set the **DB Cluster Parameter Group** to the group you just created. 
 
-Select **Save changes** to apply the parameter group to the new database.
+    Select **Save changes** to apply the parameter group to your database.
+
+## Create Debezium user
+
+The Debezium connector needs a user account to connect to PostgreSQL. This
+user must have appropriate permissions on all databases where you want Debezium
+to capture changes.
+
+1. Connect to PostgreSQL as the `postgres` user and create a new user for the connector:
+
+    ```sql
+    CREATE ROLE <username> WITH LOGIN PASSWORD '<password>' VALID UNTIL 'infinity';
+    ```
+
+    Replace `<username>` and `<password>` with a username and password for the new user.
+
+1. Grant the user the necessary replication permissions:
+
+    ```sql
+    GRANT rds_replication TO <username>;
+    ```
+
+    Replace `<username>` with the username of the Debezium user.
+
+1. Connect to your database as the `postgres` user and grant the new user access to one or more schemas in the database:
+
+    ```sql
+    GRANT SELECT ON ALL TABLES IN SCHEMA <schema> TO <username>;
+    ```
+
+    Replace `<username>` with the username of the Debezium user and `<schema>` with the schema name.
+

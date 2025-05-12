@@ -19,33 +19,60 @@ weight: 2
 Follow the steps in the sections below to prepare an [AWS Aurora MySQL](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_GettingStartedAurora.CreatingConnecting.Aurora.html) or [AWS RDS MySQL](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_GettingStarted.CreatingConnecting.MySQL.html) database.
 database to work with RDI.
 
-## Step 1: Create a parameter group
+## Create and apply parameter group
 
-In the [Relational Database Service (RDS) console](https://console.aws.amazon.com/rds/),
-navigate to **Parameter groups > Create parameter group**. [Create a parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithParamGroups.CreatingCluster.html)
-with the following settings:
+RDI requires some changes to database parameters. On AWS RDS and AWS Aurora, you change these parameters via a parameter group.
 
-| Name | Value |
-| :-- | :-- |
-| **Parameter group name**  | Enter a suitable parameter group name, like `rdi-mysql` |
-| **Description**  | (Optional) Enter a description for the parameter group |
-| **Engine Type**  | Choose **Aurora MySQL** for Aurora MySQL or **MySQL Community** for AWS RDS MySQL.  |
-| **Parameter group family**  | Choose **aurora-mysql8.0** for Aurora MySQL or **mysql8.0** for AWS RDS MySQL. |
+1. In the [Relational Database Service (RDS) console](https://console.aws.amazon.com/rds/),navigate to **Parameter groups > Create parameter group**. [Create a parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithParamGroups.CreatingCluster.html) with the following settings:
 
-Select **Create** to create the parameter group.
+    | Name | Value |
+    | :-- | :-- |
+    | **Parameter group name**  | Enter a suitable parameter group name, like `rdi-mysql` |
+    | **Description**  | (Optional) Enter a description for the parameter group |
+    | **Engine Type**  | Choose **Aurora MySQL** for Aurora MySQL or **MySQL Community** for AWS RDS MySQL.  |
+    | **Parameter group family**  | Choose **aurora-mysql8.0** for Aurora MySQL or **mysql8.0** for AWS RDS MySQL. |
 
-## Step 2: Edit the parameter group
+    Select **Create** to create the parameter group.
 
-Navigate to **Parameter groups** in the console. Select the `rdi-aurora-pg`
-group you have just created and then select **Edit**. 
+1. Navigate to **Parameter groups** in the console. Select the parameter group you have just created and then select **Edit**. Change the following parameters:
 
-Search for the `binlog_format` parameter and set its value to `ROW`, and search for the the `binlog_row_image` parameter and set its value to `FULL`. Then,
-select **Save Changes**.
+    | Name | Value |
+    | :-- | :-- |
+    | `binlog_format`  | `ROW` |
+    | `binlog_row_image`  | `FULL` |
 
-## Step 3: Select the new parameter group
+    Select **Save Changes** to apply the changes to the parameter group.
 
-Go back to your target database on the RDS console, select **Modify** and then
-scroll down to **Additional Configuration**. Set
-the **DB Cluster Parameter Group** to the group you just created. 
+1. Go back to your target database on the RDS console, select **Modify** and then scroll down to **Additional Configuration**. Set the **DB Cluster Parameter Group** to the group you just created. 
 
-Select **Save changes** to apply the parameter group to the new database.
+    Select **Save changes** to apply the parameter group to the new database.
+
+## Create Debezium user
+
+The Debezium connector needs a user account to connect to MySQL. This
+user must have appropriate permissions on all databases where you want Debezium
+to capture changes.
+
+1. Connect to your database as an admin user and create a new user for the connector:
+
+    ```sql
+    CREATE USER '<username>'@'%' IDENTIFIED BY '<password>';
+    ```
+
+    Replace `<username>` and `<password>` with a username and password for the new user.
+
+    The `%` means that the user can connect from any client. If you want to restrict the user to connect only from the RDI host, replace `%` with the IP address of the RDI host.
+
+1. Grant the user the necessary permissions:
+
+    ```sql
+    GRANT SELECT, RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT, LOCK TABLES ON *.* TO '<username>'@'%';
+    ```
+
+    Replace `<username>` with the username of the Debezium user.
+
+1. Finalize the user's permissions:
+
+    ```sql
+    FLUSH PRIVILEGES;
+    ```
