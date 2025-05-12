@@ -94,7 +94,7 @@ await cluster.set('foo', 'bar');
 const value = await cluster.get('foo');
 console.log(value); // returns 'bar'
 
-await cluster.quit();
+await cluster.close();
 ```
 
 ## Connect to your production Redis with TLS
@@ -123,15 +123,21 @@ await client.set('foo', 'bar');
 const value = await client.get('foo');
 console.log(value) // returns 'bar'
 
-await client.disconnect();
+await client.destroy();
 ```
 
 You can also use discrete parameters and UNIX sockets. Details can be found in the [client configuration guide](https://github.com/redis/node-redis/blob/master/docs/client-configuration.md).
 
 ## Reconnect after disconnection
 
-By default, `node-redis` doesn't attempt to reconnect automatically when
-the connection to the server is lost. However, you can set the
+`node-redis` can attempt to reconnect automatically when
+the connection to the server is lost. By default, it will retry
+the connection using an
+[exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff)
+strategy with some random "jitter" added to avoid multiple
+clients retrying in sync with each other.
+
+You can also set the
 `socket.reconnectionStrategy` field in the configuration to decide
 whether to try to reconnect and how to approach it. Choose one of the following values for
 `socket.reconnectionStrategy`:
@@ -159,19 +165,18 @@ from the function can be any of the following:
     no attempt was made to reconnect.
 
 The example below shows a `reconnectionStrategy` function that implements a
-custom [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff)
-strategy:
+custom exponential backoff strategy:
 
 ```js
 createClient({
   socket: {
     reconnectStrategy: retries => {
-        // Generate a random jitter between 0 – 200 ms:
-        const jitter = Math.floor(Math.random() * 200);
+        // Generate a random jitter between 0 – 100 ms:
+        const jitter = Math.floor(Math.random() * 100);
 
-        // Delay is an exponential back off, (times^2) * 50 ms, with a
-        // maximum value of 2000 ms:
-        const delay = Math.min(Math.pow(2, retries) * 50, 2000);
+        // Delay is an exponential backoff, (2^retries) * 50 ms, with a
+        // maximum value of 3000 ms:
+        const delay = Math.min(Math.pow(2, retries) * 50, 3000);
 
         return delay + jitter;
     }
@@ -193,6 +198,12 @@ related to connection:
     parameter. This is usually a network issue such as "Socket closed unexpectedly".
 -   `reconnecting`: (No parameters) The client is about to try reconnecting after the
     connection was lost due to an error.
+-   `sharded-channel-moved`: The cluster slot of a subscribed
+    [sharded pub/sub channel]({{< relref "/develop/interact/pubsub#sharded-pubsub" >}})
+    has been moved to another shard. Note that when you use a
+    [`RedisCluster`](#connect-to-a-redis-cluster) connection, this event is automatically
+    handled for you. See
+    [`sharded-channel-moved` event](https://github.com/redis/node-redis/blob/master/docs/pub-sub.md#sharded-channel-moved-event) for more information.
 
 Use code like the following to respond to these events:
 

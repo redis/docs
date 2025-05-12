@@ -12,7 +12,7 @@ categories:
 description: Learn how to use the Redis query engine with JSON and hash documents.
 linkTitle: Index and query documents
 title: Index and query documents
-weight: 2
+weight: 30
 ---
 
 This example shows how to create a

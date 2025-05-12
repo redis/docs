@@ -4,9 +4,7 @@ categories:
 - operate
 - stack
 - oss
-description: 'Overview of redis.conf, the Redis configuration file
-
-  '
+description: Overview of redis.conf, the Redis configuration file
 linkTitle: Configuration
 title: Redis configuration
 weight: 2
@@ -19,7 +17,11 @@ development purposes.
 The proper way to configure Redis is by providing a Redis configuration file,
 usually called `redis.conf`.
 
-The `redis.conf` file contains a number of directives that have a very simple
+{{< note >}}
+For Redis 8 in Redis Open Source, the configuration file is called `redis-full.conf`.
+{{< /note >}}
+
+The configuration file contains a number of directives that have a very simple
 format:
 
     keyword argument1 argument2 ... argumentN
@@ -38,21 +40,22 @@ double-quoted strings can additionally include any ASCII symbols encoded using
 backslashed hexadecimal notation "\\xff".
 
 The list of configuration directives, and their meaning and intended usage
-is available in the self documented example redis.conf shipped into the
+is available in the self-documented example `redis.conf` or `redis-full.conf` shipped into the
 Redis distribution.
 
-* The self documented [redis.conf for Redis 7.4](https://raw.githubusercontent.com/redis/redis/unstable/redis.conf).
-* The self documented [redis.conf for Redis 7.2](https://raw.githubusercontent.com/redis/redis/7.2/redis.conf).
-* The self documented [redis.conf for Redis 7.0](https://raw.githubusercontent.com/redis/redis/7.0/redis.conf).
-* The self documented [redis.conf for Redis 6.2](https://raw.githubusercontent.com/redis/redis/6.2/redis.conf).
-* The self documented [redis.conf for Redis 6.0](https://raw.githubusercontent.com/redis/redis/6.0/redis.conf).
-* The self documented [redis.conf for Redis 5.0](https://raw.githubusercontent.com/redis/redis/5.0/redis.conf).
-* The self documented [redis.conf for Redis 4.0](https://raw.githubusercontent.com/redis/redis/4.0/redis.conf).
-* The self documented [redis.conf for Redis 3.2](https://raw.githubusercontent.com/redis/redis/3.2/redis.conf).
-* The self documented [redis.conf for Redis 3.0](https://raw.githubusercontent.com/redis/redis/3.0/redis.conf).
-* The self documented [redis.conf for Redis 2.8](https://raw.githubusercontent.com/redis/redis/2.8/redis.conf).
-* The self documented [redis.conf for Redis 2.6](https://raw.githubusercontent.com/redis/redis/2.6/redis.conf).
-* The self documented [redis.conf for Redis 2.4](https://raw.githubusercontent.com/redis/redis/2.4/redis.conf).
+* The self-documented [redis-full.conf for Redis 8.0](https://raw.githubusercontent.com/redis/redis/8.0/redis-full.conf).
+* The self-documented [redis.conf for Redis 7.4](https://raw.githubusercontent.com/redis/redis/7.4/redis.conf).
+* The self-documented [redis.conf for Redis 7.2](https://raw.githubusercontent.com/redis/redis/7.2/redis.conf).
+* The self-documented [redis.conf for Redis 7.0](https://raw.githubusercontent.com/redis/redis/7.0/redis.conf).
+* The self-documented [redis.conf for Redis 6.2](https://raw.githubusercontent.com/redis/redis/6.2/redis.conf).
+* The self-documented [redis.conf for Redis 6.0](https://raw.githubusercontent.com/redis/redis/6.0/redis.conf).
+* The self-documented [redis.conf for Redis 5.0](https://raw.githubusercontent.com/redis/redis/5.0/redis.conf).
+* The self-documented [redis.conf for Redis 4.0](https://raw.githubusercontent.com/redis/redis/4.0/redis.conf).
+* The self-documented [redis.conf for Redis 3.2](https://raw.githubusercontent.com/redis/redis/3.2/redis.conf).
+* The self-documented [redis.conf for Redis 3.0](https://raw.githubusercontent.com/redis/redis/3.0/redis.conf).
+* The self-documented [redis.conf for Redis 2.8](https://raw.githubusercontent.com/redis/redis/2.8/redis.conf).
+* The self-documented [redis.conf for Redis 2.6](https://raw.githubusercontent.com/redis/redis/2.6/redis.conf).
+* The self-documented [redis.conf for Redis 2.4](https://raw.githubusercontent.com/redis/redis/2.4/redis.conf).
 
 Passing arguments using the command line
 ---

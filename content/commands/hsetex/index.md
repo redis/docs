@@ -111,7 +111,7 @@ Set the value of one or more fields of a given hash key, and optionally set thei
 
 ## Options
 
-The `HGETEX` command supports a set of options:
+The `HSETEX` command supports a set of options:
 
 * `FNX` -- Only set the fields if none of them already exist.
 * `FXX` -- Only set the fields if all of them already exist.

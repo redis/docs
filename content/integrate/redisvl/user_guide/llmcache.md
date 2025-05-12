@@ -43,6 +43,7 @@ def ask_openai(question: str) -> str:
 print(ask_openai("What is the capital of France?"))
 ```
 
+    19:17:51 httpx INFO   HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
     The capital of France is Paris.
 
 
@@ -52,16 +53,22 @@ print(ask_openai("What is the capital of France?"))
 
 
 ```python
-from redisvl.extensions.llmcache import SemanticCache
+from redisvl.extensions.cache.llm import SemanticCache
+from redisvl.utils .vectorize import HFTextVectorizer
 
 llmcache = SemanticCache(
-    name="llmcache",                     # underlying search index name
-    redis_url="redis://localhost:6379",  # redis connection url string
-    distance_threshold=0.1               # semantic cache distance threshold
+    name="llmcache",                                          # underlying search index name
+    redis_url="redis://localhost:6379",                       # redis connection url string
+    distance_threshold=0.1,                                   # semantic cache distance threshold
+    vectorizer=HFTextVectorizer("redis/langcache-embed-v1"),  # embdding model
 )
 ```
 
-    22:11:38 redisvl.index.index INFO   Index already exists, not overwriting.
+    19:17:51 sentence_transformers.SentenceTransformer INFO   Use pytorch device_name: mps
+    19:17:51 sentence_transformers.SentenceTransformer INFO   Load pretrained SentenceTransformer: redis/langcache-embed-v1
+
+
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 17.57it/s]
 
 
 
@@ -73,21 +80,21 @@ llmcache = SemanticCache(
     
     
     Index Information:
-    ╭──────────────┬────────────────┬──────────────┬─────────────────┬────────────╮
-    │ Index Name   │ Storage Type   │ Prefixes     │ Index Options   │   Indexing │
-    ├──────────────┼────────────────┼──────────────┼─────────────────┼────────────┤
-    │ llmcache     │ HASH           │ ['llmcache'] │ []              │          0 │
-    ╰──────────────┴────────────────┴──────────────┴─────────────────┴────────────╯
+    ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
+    │ Index Name    │ Storage Type  │ Prefixes      │ Index Options │ Indexing      │
+    ├───────────────┼───────────────┼───────────────┼───────────────┼───────────────┤
+    | llmcache      | HASH          | ['llmcache']  | []            | 0             |
+    ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
     Index Fields:
-    ╭───────────────┬───────────────┬─────────┬────────────────┬────────────────┬────────────────┬────────────────┬────────────────┬────────────────┬─────────────────┬────────────────╮
-    │ Name          │ Attribute     │ Type    │ Field Option   │ Option Value   │ Field Option   │ Option Value   │ Field Option   │   Option Value │ Field Option    │ Option Value   │
-    ├───────────────┼───────────────┼─────────┼────────────────┼────────────────┼────────────────┼────────────────┼────────────────┼────────────────┼─────────────────┼────────────────┤
-    │ prompt        │ prompt        │ TEXT    │ WEIGHT         │ 1              │                │                │                │                │                 │                │
-    │ response      │ response      │ TEXT    │ WEIGHT         │ 1              │                │                │                │                │                 │                │
-    │ inserted_at   │ inserted_at   │ NUMERIC │                │                │                │                │                │                │                 │                │
-    │ updated_at    │ updated_at    │ NUMERIC │                │                │                │                │                │                │                 │                │
-    │ prompt_vector │ prompt_vector │ VECTOR  │ algorithm      │ FLAT           │ data_type      │ FLOAT32        │ dim            │            768 │ distance_metric │ COSINE         │
-    ╰───────────────┴───────────────┴─────────┴────────────────┴────────────────┴────────────────┴────────────────┴────────────────┴────────────────┴─────────────────┴────────────────╯
+    ╭─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────╮
+    │ Name            │ Attribute       │ Type            │ Field Option    │ Option Value    │ Field Option    │ Option Value    │ Field Option    │ Option Value    │ Field Option    │ Option Value    │
+    ├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
+    │ prompt          │ prompt          │ TEXT            │ WEIGHT          │ 1               │                 │                 │                 │                 │                 │                 │
+    │ response        │ response        │ TEXT            │ WEIGHT          │ 1               │                 │                 │                 │                 │                 │                 │
+    │ inserted_at     │ inserted_at     │ NUMERIC         │                 │                 │                 │                 │                 │                 │                 │                 │
+    │ updated_at      │ updated_at      │ NUMERIC         │                 │                 │                 │                 │                 │                 │                 │                 │
+    │ prompt_vector   │ prompt_vector   │ VECTOR          │ algorithm       │ FLAT            │ data_type       │ FLOAT32         │ dim             │ 768             │ distance_metric │ COSINE          │
+    ╰─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────╯
 
 
 ## Basic Cache Usage
@@ -106,7 +113,12 @@ else:
     print("Empty cache")
 ```
 
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 18.30it/s]
+
     Empty cache
+
+
+    
 
 
 Our initial cache check should be empty since we have not yet stored anything in the cache. Below, store the `question`,
@@ -121,6 +133,9 @@ llmcache.store(
     metadata={"city": "Paris", "country": "france"}
 )
 ```
+
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 26.10it/s]
+
 
 
 
@@ -140,6 +155,9 @@ else:
     print("Empty cache")
 ```
 
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 12.36it/s]
+
+
     [{'prompt': 'What is the capital of France?', 'response': 'Paris', 'metadata': {'city': 'Paris', 'country': 'france'}, 'key': 'llmcache:115049a298532be2f181edb03f766770c0db84c22aff39003fec340deaec7545'}]
 
 
@@ -149,6 +167,9 @@ else:
 question = "What actually is the capital of France?"
 llmcache.check(prompt=question)[0]['response']
 ```
+
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 12.22it/s]
+
 
 
 
@@ -167,7 +188,7 @@ Fortunately, you can seamlessly adjust the threshhold at any point like below:
 
 ```python
 # Widen the semantic distance threshold
-llmcache.set_threshold(0.3)
+llmcache.set_threshold(0.5)
 ```
 
 
@@ -177,6 +198,9 @@ llmcache.set_threshold(0.3)
 question = "What is the capital city of the country in Europe that also has a city named Nice?"
 llmcache.check(prompt=question)[0]['response']
 ```
+
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 19.20it/s]
+
 
 
 
@@ -193,6 +217,9 @@ llmcache.clear()
 # should be empty now
 llmcache.check(prompt=question)
 ```
+
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 26.71it/s]
+
 
 
 
@@ -220,6 +247,9 @@ llmcache.store("This is a TTL test", "This is a TTL test response")
 time.sleep(6)
 ```
 
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 20.45it/s]
+
+
 
 ```python
 # confirm that the cache has cleared by now on it's own
@@ -228,7 +258,12 @@ result = llmcache.check("This is a TTL test")
 print(result)
 ```
 
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 17.02it/s]
+
     []
+
+
+    
 
 
 
@@ -275,7 +310,14 @@ print(f"Without caching, a call to openAI to answer this simple question took {e
 llmcache.store(prompt=question, response="George Washington")
 ```
 
-    Without caching, a call to openAI to answer this simple question took 0.9034533500671387 seconds.
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 14.88it/s]
+
+
+    19:18:04 httpx INFO   HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+    Without caching, a call to openAI to answer this simple question took 0.8826751708984375 seconds.
+
+
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 18.38it/s]
 
 
 
@@ -301,8 +343,22 @@ print(f"Avg time taken with LLM cache enabled: {avg_time_with_cache}")
 print(f"Percentage of time saved: {round(((end - start) - avg_time_with_cache) / (end - start) * 100, 2)}%")
 ```
 
-    Avg time taken with LLM cache enabled: 0.09753389358520508
-    Percentage of time saved: 89.2%
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 13.65it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 27.94it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 27.19it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 27.53it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 28.12it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 27.38it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 25.39it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 26.34it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 28.07it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 27.35it/s]
+
+    Avg time taken with LLM cache enabled: 0.0463670015335083
+    Percentage of time saved: 94.75%
+
+
+    
 
 
 
@@ -313,29 +369,29 @@ print(f"Percentage of time saved: {round(((end - start) - avg_time_with_cache) /
 
     
     Statistics:
-    ╭─────────────────────────────┬─────────────╮
-    │ Stat Key                    │ Value       │
-    ├─────────────────────────────┼─────────────┤
-    │ num_docs                    │ 1           │
-    │ num_terms                   │ 19          │
-    │ max_doc_id                  │ 6           │
-    │ num_records                 │ 53          │
-    │ percent_indexed             │ 1           │
-    │ hash_indexing_failures      │ 0           │
-    │ number_of_uses              │ 45          │
-    │ bytes_per_record_avg        │ 45.0566     │
-    │ doc_table_size_mb           │ 0.000134468 │
-    │ inverted_sz_mb              │ 0.00227737  │
-    │ key_table_size_mb           │ 2.76566e-05 │
-    │ offset_bits_per_record_avg  │ 8           │
-    │ offset_vectors_sz_mb        │ 3.91006e-05 │
-    │ offsets_per_term_avg        │ 0.773585    │
-    │ records_per_doc_avg         │ 53          │
-    │ sortable_values_size_mb     │ 0           │
-    │ total_indexing_time         │ 19.454      │
-    │ total_inverted_index_blocks │ 21          │
-    │ vector_index_sz_mb          │ 3.0161      │
-    ╰─────────────────────────────┴─────────────╯
+    ╭─────────────────────────────┬────────────╮
+    │ Stat Key                    │ Value      │
+    ├─────────────────────────────┼────────────┤
+    │ num_docs                    │ 1          │
+    │ num_terms                   │ 19         │
+    │ max_doc_id                  │ 3          │
+    │ num_records                 │ 29         │
+    │ percent_indexed             │ 1          │
+    │ hash_indexing_failures      │ 0          │
+    │ number_of_uses              │ 19         │
+    │ bytes_per_record_avg        │ 75.9655151 │
+    │ doc_table_size_mb           │ 1.34468078 │
+    │ inverted_sz_mb              │ 0.00210094 │
+    │ key_table_size_mb           │ 2.76565551 │
+    │ offset_bits_per_record_avg  │ 8          │
+    │ offset_vectors_sz_mb        │ 2.09808349 │
+    │ offsets_per_term_avg        │ 0.75862067 │
+    │ records_per_doc_avg         │ 29         │
+    │ sortable_values_size_mb     │ 0          │
+    │ total_indexing_time         │ 3.875      │
+    │ total_inverted_index_blocks │ 21         │
+    │ vector_index_sz_mb          │ 3.01609802 │
+    ╰─────────────────────────────┴────────────╯
 
 
 
@@ -369,10 +425,20 @@ private_cache.store(
 )
 ```
 
+    19:18:07 [RedisVL] WARNING   The default vectorizer has changed from `sentence-transformers/all-mpnet-base-v2` to `redis/langcache-embed-v1` in version 0.6.0 of RedisVL. For more information about this model, please refer to https://arxiv.org/abs/2504.02268 or visit https://huggingface.co/redis/langcache-embed-v1. To continue using the old vectorizer, please specify it explicitly in the constructor as: vectorizer=HFTextVectorizer(model='sentence-transformers/all-mpnet-base-v2')
+    19:18:07 sentence_transformers.SentenceTransformer INFO   Use pytorch device_name: mps
+    19:18:07 sentence_transformers.SentenceTransformer INFO   Load pretrained SentenceTransformer: redis/langcache-embed-v1
+
+
+    Batches: 100%|██████████| 1/1 [00:00<00:00,  8.98it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 24.89it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 26.95it/s]
 
 
 
-    'private_cache:5de9d651f802d9cc3f62b034ced3466bf886a542ce43fe1c2b4181726665bf9c'
+
+
+    'private_cache:2831a0659fb888e203cd9fedb9f65681bfa55e4977c092ed1bf87d42d2655081'
 
 
 
@@ -392,8 +458,13 @@ response = private_cache.check(
 print(f"found {len(response)} entry \n{response[0]['response']}")
 ```
 
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 27.98it/s]
+
     found 1 entry 
     The number on file is 123-555-0000
+
+
+    
 
 
 
@@ -438,10 +509,22 @@ complex_cache.store(
 )
 ```
 
+    19:18:09 [RedisVL] WARNING   The default vectorizer has changed from `sentence-transformers/all-mpnet-base-v2` to `redis/langcache-embed-v1` in version 0.6.0 of RedisVL. For more information about this model, please refer to https://arxiv.org/abs/2504.02268 or visit https://huggingface.co/redis/langcache-embed-v1. To continue using the old vectorizer, please specify it explicitly in the constructor as: vectorizer=HFTextVectorizer(model='sentence-transformers/all-mpnet-base-v2')
+    19:18:09 sentence_transformers.SentenceTransformer INFO   Use pytorch device_name: mps
+    19:18:09 sentence_transformers.SentenceTransformer INFO   Load pretrained SentenceTransformer: redis/langcache-embed-v1
+
+
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 13.54it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 16.76it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 21.82it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 28.80it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 21.04it/s]
 
 
 
-    'account_data:d48ebb3a2efbdbc17930a8c7559c548a58b562b2572ef0be28f0bb4ece2382e1'
+
+
+    'account_data:944f89729b09ca46b99923d223db45e0bccf584cfd53fcaf87d2a58f072582d3'
 
 
 
@@ -464,8 +547,13 @@ print(f'found {len(response)} entry')
 print(response[0]["response"])
 ```
 
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 28.15it/s]
+
     found 1 entry
     Your most recent transaction was for $350
+
+
+    
 
 
 
