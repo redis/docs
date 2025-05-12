@@ -9,6 +9,10 @@ description: The CIDR allow list permits traffic between a range of IP addresses
   the Redis Cloud VPC.
 linkTitle: Subscription CIDR allow list
 weight: $weight
+aliases:
+  - /operate/rc/how-to/view-edit-cloud-account/subscription-whitelist
+  - /operate/rc/cloud-accounts/subscription-whitelist
+  - /operate/rc/cloud-integrations/aws-cloud-accounts/subscription-whitelist
 ---
 
 The [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) [allow list](https://en.wikipedia.org/wiki/Whitelist) lets you restrict traffic to your Redis Cloud database. When you configure an allow list, only the [IP addresses](https://en.wikipedia.org/wiki/IP_address) defined in the list can connect to the database. Traffic from all other IP addresses is blocked.

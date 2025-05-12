@@ -7,6 +7,10 @@ categories:
 - operate
 - rc
 weight: $weight
+aliases:
+  - /operate/rc/how-to/view-edit-cloud-account/iam-resources/aws-console
+  - /operate/rc/cloud-accounts/iam-resources/aws-console
+  - /operate/rc/cloud-integrations/aws-cloud-accounts/iam-resources/aws-console
 ---
 Follow these steps to manually create IAM resources using the [AWS console](https://console.aws.amazon.com/).
 
