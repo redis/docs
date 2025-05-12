@@ -75,7 +75,7 @@ to the redis-py ft().aggregate() method.
 Execute a batch of queries and process results.
 
 * **Parameters:**
-  * **queries** (*List* *[* *BaseQuery* *]*)
+  * **queries** (*Sequence* *[* *BaseQuery* *]*)
   * **batch_size** (*int*)
 * **Return type:**
   *List*[*List*[*Dict*[str, *Any*]]]
@@ -168,6 +168,20 @@ with the index.
 #### `disconnect()`
 
 Disconnect from the Redis database.
+
+#### `drop_documents(ids)`
+
+Remove documents from the index by their document IDs.
+
+This method converts document IDs to Redis keys automatically by applying
+the index’s key prefix and separator configuration.
+
+* **Parameters:**
+  **ids** (*Union* *[* *str* *,* *List* *[* *str* *]* *]*) – The document ID or IDs to remove from the index.
+* **Returns:**
+  Count of documents deleted from Redis.
+* **Return type:**
+  int
 
 #### `drop_keys(keys)`
 
@@ -595,6 +609,20 @@ Delete the search index.
 #### `async disconnect()`
 
 Disconnect from the Redis database.
+
+#### `async drop_documents(ids)`
+
+Remove documents from the index by their document IDs.
+
+This method converts document IDs to Redis keys automatically by applying
+the index’s key prefix and separator configuration.
+
+* **Parameters:**
+  **ids** (*Union* *[* *str* *,* *List* *[* *str* *]* *]*) – The document ID or IDs to remove from the index.
+* **Returns:**
+  Count of documents deleted from Redis.
+* **Return type:**
+  int
 
 #### `async drop_keys(keys)`
 
