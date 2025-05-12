@@ -25,4 +25,4 @@ The new user interface and dark mode are currently available for selected accoun
 
 ### Map multiple Redis Cloud accounts to marketplace account
 
-You can now map multiple Redis Cloud accounts to a single [Google Cloud Marketplace]({{< relref "/operate/rc/cloud-integrations/gcp-marketplace/" >}}) or [AWS Marketplace]({{< relref "/operate/rc/cloud-integrations/aws-marketplace/" >}}) account.
+You can now map multiple Redis Cloud accounts to a single [Google Cloud Marketplace]({{< relref "/operate/rc/cloud-integrations/gcp-marketplace/" >}}) or [AWS Marketplace]({{< relref "/operate/rc/cloud-integrations/aws-marketplace/" >}}) account. 

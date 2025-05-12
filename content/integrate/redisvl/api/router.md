@@ -26,6 +26,19 @@ Initialize the SemanticRouter.
   * **connection_kwargs** (*Dict* *[* *str* *,* *Any* *]*) – The connection arguments
     for the redis client. Defaults to empty {}.
 
+#### `add_route_references(route_name, references)`
+
+Add a reference(s) to an existing route.
+
+* **Parameters:**
+  * **router_name** (*str*) – The name of the router.
+  * **references** (*Union* *[* *str* *,* *List* *[* *str* *]* *]*) – The reference or list of references to add.
+  * **route_name** (*str*)
+* **Returns:**
+  The list of added references keys.
+* **Return type:**
+  List[str]
+
 #### `clear()`
 
 Flush all routes from the semantic router index.
@@ -39,6 +52,22 @@ Delete the semantic router index.
 
 * **Return type:**
   None
+
+#### `delete_route_references(route_name='', reference_ids=[], keys=[])`
+
+Get references for an existing semantic router route.
+
+* **Parameters:**
+  * **Optional** (*keys*) – The name of the router.
+  * **Optional** – The reference or list of references to delete.
+  * **Optional** – List of fully qualified keys (prefix:router:reference_id) to delete.
+  * **route_name** (*str*)
+  * **reference_ids** (*List* *[* *str* *]*)
+  * **keys** (*List* *[* *str* *]*)
+* **Returns:**
+  Number of objects deleted
+* **Return type:**
+  int
 
 #### `classmethod from_dict(data, **kwargs)`
 
@@ -62,6 +91,17 @@ router_data = {
 }
 router = SemanticRouter.from_dict(router_data)
 ```
+
+#### `classmethod from_existing(name, redis_client=None, redis_url='redis://localhost:6379', **kwargs)`
+
+Return SemanticRouter instance from existing index.
+
+* **Parameters:**
+  * **name** (*str*)
+  * **redis_client** (*Redis* *|* *None*)
+  * **redis_url** (*str*)
+* **Return type:**
+  [SemanticRouter](#semanticrouter)
 
 #### `classmethod from_yaml(file_path, **kwargs)`
 
@@ -92,6 +132,21 @@ Get a route by its name.
   The selected Route object or None if not found.
 * **Return type:**
   Optional[[Route](#route)]
+
+#### `get_route_references(route_name='', reference_ids=[], keys=[])`
+
+Get references for an existing route route.
+
+* **Parameters:**
+  * **router_name** (*str*) – The name of the router.
+  * **references** (*Union* *[* *str* *,* *List* *[* *str* *]* *]*) – The reference or list of references to add.
+  * **route_name** (*str*)
+  * **reference_ids** (*List* *[* *str* *]*)
+  * **keys** (*List* *[* *str* *]*)
+* **Returns:**
+  Reference objects stored
+* **Return type:**
+  List[Dict[str, Any]]]
 
 #### `model_post_init(context, /)`
 
@@ -232,10 +287,10 @@ validated to form a valid model.
 self is explicitly positional-only to allow self as a field name.
 
 * **Parameters:**
-  * **max_k** (*Annotated* *[* *int* *,* *FieldInfo* *(* *annotation=NoneType* *,* *required=False* *,* *default=1* *,* *metadata=* *[* *Strict* *(* *strict=True* *)* *,* *Gt* *(* *gt=0* *)* *]* *)* *]*)
+  * **max_k** (*Annotated* *[* *int* *,* *FieldInfo* *(* *annotation=NoneType* *,* *required=True* *,* *metadata=* *[* *Strict* *(* *strict=True* *)* *,* *Gt* *(* *gt=0* *)* *]* *)* *]*)
   * **aggregation_method** ([DistanceAggregationMethod](#distanceaggregationmethod))
 
-#### `max_k: Annotated[int, FieldInfo(annotation=NoneType, required=False, default=1, metadata=[Strict(strict=True), Gt(gt=0)])]`
+#### `max_k: Annotated[int, FieldInfo(annotation=NoneType, required=True, metadata=[Strict(strict=True), Gt(gt=0)])]`
 
 Aggregation method to use to classify queries.
 

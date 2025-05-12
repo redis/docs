@@ -1,4 +1,4 @@
-{{ $formId := index .Params 0 }}
+{{ $formId := .Get 0 }}
 <form id="{{ $formId }}">
     <ul style="list-style-type: none;padding-left: 0px;">
         {{ .Inner }}
@@ -17,7 +17,7 @@
     document.addEventListener('DOMContentLoaded', () => {
         let itemString = localStorage.getItem("{{ $formId }}");
 
-        if (itemString !== "") {
+        if (itemString) {
             setCLItemsFromString("{{ $formId }}", itemString);
         } else {
             clChange("{{ $formId }}");

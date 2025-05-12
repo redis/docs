@@ -156,27 +156,39 @@ console.log(updatedPath);
 ```
 
 In an environment where multiple concurrent requests are sharing a connection
-(such as a web server), you must wrap the above transaction logic in a call to
-`client.executeIsolated` to get an isolated connection, like so:
+(such as a web server), you must use a connection pool to get an isolated connection,
+as shown below:
 
 ```js
-await client.executeIsolated(async (client) => {
-   await client.watch('shellpath');
-   // ...
-})
+import { createClientPool } from 'redis';
+
+const pool = await createClientPool()
+  .on('error', err => console.error('Redis Client Pool Error', err));
+
+try {
+  await pool.execute(async client => {
+    await client.watch('key');
+
+    const multi = client.multi()
+      .ping()
+      .get('key');
+
+    if (Math.random() > 0.5) {
+      await client.watch('another-key');
+      multi.set('another-key', await client.get('another-key') / 2);
+    }
+
+    return multi.exec();
+  });
+} catch (err) {
+  if (err instanceof WatchError) {
+    // the transaction aborted
+  }
+}
 ```
 
 This is important because the server tracks the state of the WATCH on a
 per-connection basis, and concurrent WATCH and MULTI/EXEC calls on the same
-connection will interfere with one another.
-
-You can configure the size of the isolation pool when calling `createClient`:
-
-```js
-const client = createClient({
-    isolationPoolOptions: {
-        min: 1,
-        max: 100,
-    },
-})
-```
+connection will interfere with one another. See
+[`RedisClientPool`](https://github.com/redis/node-redis/blob/master/docs/pool.md)
+for more information.

@@ -7,6 +7,10 @@ categories:
 - operate
 - rc
 linkTitle: Terraform
+aliases:
+  - /operate/rc/how-to/view-edit-cloud-account/iam-resources/terraform
+  - /operate/rc/cloud-accounts/iam-resources/terraform
+  - /operate/rc/cloud-integrations/aws-cloud-accounts/iam-resources/terraform
 ---
 You can use [HashiCorp Terraform](https://www.terraform.io/intro/index.html) to create identity and access management (IAM) resources to support AWS cloud account access to Redis Cloud subscriptions.
 
