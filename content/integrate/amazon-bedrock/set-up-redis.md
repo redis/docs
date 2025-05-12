@@ -185,7 +185,7 @@ To create your vector index in Redis Insight:
 
 1. In the [Redis Cloud console](https://cloud.redis.io/), in your database's **Configuration** tab, select the **Connect** button next to your database to open the connection wizard.
 
-    {{< image filename="/images/rc/connection-wizard-button.png#no-click" alt="Connect button." >}}
+    {{< image filename="/images/rc/button-connect.png#no-click" alt="Connect button." >}}
 
 1. In the connection wizard, under **Redis Insight Desktop**, select **Public Endpoint**. Select **Open with Redis Insight** to connect to the database with Redis Insight.
 

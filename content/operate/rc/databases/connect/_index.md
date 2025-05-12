@@ -21,7 +21,7 @@ If you've turned on [Role-based access control]({{< relref "/operate/rc/security
 
 Once you have the username and password, select **Connect** to open the connection wizard.
 
-{{< image filename="/images/rc/connection-wizard-button.png#no-click" alt="Connect button." >}}
+{{< image filename="/images/rc/button-connect.png#no-click" alt="Connect button." >}}
 
 The connection wizard provides the following database connection methods:
 

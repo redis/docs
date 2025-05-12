@@ -37,7 +37,7 @@ By default, the **API account key** is masked; that is, it is obscured for secur
 
 The **Copy** button copies the account key to the Clipboard.
 
-{{<image filename="images/rc/button-access-management-api-key-copy.png" alt="The **Copy** button copies the account key to the Clipboard." >}}
+{{<image filename="images/rc/button-copy.png" alt="The **Copy** button copies the account key to the Clipboard." >}}
 
 ## API user keys
 
@@ -51,7 +51,7 @@ Users can have more than one user key; however, users should not share user keys
 
 Use the **Add** button to create a new user key.
 
-{{<image filename="images/rc/button-access-management-add.png" alt="Use the **Add** button to begin creating a new user key." >}}
+{{<image filename="images/rc/icon-add.png" width="30px" alt="Use the **Add** button to begin creating a new user key." >}}
 
 When you do this, you're prompted for the **Key name** and the associated **User name**.
 
@@ -89,7 +89,7 @@ To delete a user key:
 
 2.  Select the **Delete** button.
 
-    {{<image filename="images/rc/button-access-management-api-user-key-delete.png" alt="Select the **Delete** button to begin deleting the selected user key." >}}
+    {{<image filename="images/rc/icon-delete-teal.png" width="36px" alt="Select the **Delete** button to begin deleting the selected user key." >}}
 
 3.  This displays the **Delete API secret key** dialog box.  
 
@@ -113,7 +113,7 @@ To manage the CIDR allow list:
 
 3.  Enter each allowed IP address in [CIDR format](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing#CIDR_notation) (example: `127.1.0.0/24`) and then select the **Save** button.
 
-    {{<image filename="images/rc/button-access-management-cidr-rule-save.png" alt="Use the **Save** button to save a CIDR allow list rule." >}}
+    {{<image filename="images/rc/button-access-management-cidr-rule-save.png" width="36px" alt="Use the **Save** button to save a CIDR allow list rule." >}}
 
     Use the **Add CIDR rule** button to add additional addresses to the list.
 
@@ -121,4 +121,4 @@ To manage the CIDR allow list:
 
     Use the **Edit** button to change the address for a rule or the **Delete button** to remove a rule.
 
-    {{<image filename="images/rc/button-access-management-cidr-rule-edit.png#no-click" alt="Use the **Edit** button to change the address for a CIDR allow list rule." class="inline">}} &nbsp; {{<image filename="images/rc/button-access-management-cidr-rule-delete.png#no-click" alt="Use the **Delete** button to remove an address from the CIDR allow list." class="inline" >}} 
+    {{<image filename="images/rc/icon-edit.png#no-click" width="36px" alt="Use the **Edit** button to change the address for a CIDR allow list rule." class="inline">}} &nbsp; {{<image filename="images/rc/icon-delete-teal.png#no-click" width="36px" alt="Use the **Delete** button to remove an address from the CIDR allow list." class="inline" >}} 

@@ -12,7 +12,7 @@ weight: 30
 
 Each release of Redis Enterprise for Kubernetes is thoroughly tested against a set of Kubernetes distributions. The table below lists Redis Enterprise for Kubernetes versions and the Kubernetes distributions they support.
 
-{{<note>}}Each platform is tested with its default configuration, including storage, network, security, and container runtime components.”{{</note>}}
+{{<note>}}x86 is currently the only computer architecture supported by Redis Enterprise for Kubernetes. Support for ARM architecture is coming in future releases.{{</note>}}
 
 <span title="Check mark icon">&#x2705;</span> Supported – This distribution is supported for this version of Redis Enterprise Software for Kubernetes.
 
@@ -21,6 +21,8 @@ Each release of Redis Enterprise for Kubernetes is thoroughly tested against a s
 <span title="X icon">&#x274c;</span> End of life – Support for this distribution ended.
 
 Any distribution not listed below is not supported for production workloads.
+
+{{<note>}}Each platform is tested with its default configuration, including storage, network, security, and container runtime components.{{</note>}}
 
 ## Community Kubernetes
 

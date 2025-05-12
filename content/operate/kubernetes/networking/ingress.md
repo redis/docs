@@ -20,7 +20,7 @@ Before creating an Ingress, you'll need:
     - [Ingress-NGINX Controller](https://kubernetes.github.io/ingress-nginx/deploy/)
         - Be sure to use the `kubernetes/ingress-nginx` controller and NOT the `nginxinc/kubernetes-ingress` controller.
     - [HAProxy Ingress](https://haproxy-ingress.github.io/docs/getting-started/)
-    - To use Istio for your Ingress resources, see [Configure Istio for external routing]({{< relref "/operate/kubernetes/networking/istio-ingress.md" >}})
+    - To use Istio for your Ingress resources, see [Configure Istio for external routing]({{< relref "/operate/kubernetes/networking/istio-ingress" >}})
 
 {{<note>}}Make sure your Ingress controller has `ssl-passthrough`enabled. This is enabled by default for HAProxy, but disabled by default for NGINX. See the [NGINX User Guide](https://kubernetes.github.io/ingress-nginx/user-guide/tls/#ssl-passthrough) for details. {{</note>}}
 
