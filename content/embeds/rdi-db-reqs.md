@@ -3,7 +3,6 @@
   quickstart or for development, 125MB and a single shard is sufficient.
 * If you are deploying RDI for a production environment then secure this database with a password
   and TLS.
-* Provide the installation with the required RDI database details.
 * Set the database's
   [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}) to `noeviction`. Note that you can't set this using
   [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}),

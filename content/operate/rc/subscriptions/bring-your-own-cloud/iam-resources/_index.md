@@ -8,6 +8,10 @@ description: null
 hideListLinks: true
 linkTitle: Create IAM resources
 weight: 1
+aliases:
+  - /operate/rc/how-to/view-edit-cloud-account/iam-resources
+  - /operate/rc/cloud-accounts/iam-resources
+  - /operate/rc/cloud-integrations/aws-cloud-accounts/iam-resources
 ---
 For Redis Cloud Bring your Own Cloud (BYOC) on Amazon Web Services (AWS), we manage the supporting infrastructure for you in dedicated AWS accounts.
 

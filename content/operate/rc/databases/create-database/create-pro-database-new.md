@@ -93,10 +93,9 @@ The **Setup** tab specifies general settings for your Redis deployment.
 
 {{<image filename="images/rc/subscription-new-flexible-tabs-setup.png" width="75%" alt="The Setup tab of the new Pro Database process." >}}
 
-There are three sections on this tab:
+There are two sections on this tab:
 
 - [General settings](#general-settings) include the cloud provider details and specific configuration options.
-- [Version](#version) lets you choose the Redis version of your databases.
 - [Advanced options](#advanced-options) define settings for high availability and security. Configurable settings vary according to cloud provider.
 
 #### General settings {#general-settings}
@@ -112,12 +111,6 @@ In the **General settings** of the **Setup** tab, you need to:
     {{< note >}}
 This guide is for single region database deployment. If you want to create a multi-region Active-Active database, see [Create an Active-Active database]({{< relref "/operate/rc/databases/create-database/create-active-active-database" >}}) for specific steps and configuration options exclusive to Active-Active.
     {{< /note >}}
-
-#### Version {#version}
-
-{{<image filename="images/rc/subscription-new-flexible-version-section.png" width="75%" alt="Version selection between Redis 6.2, 7.2, and 7.4." >}}
-
-The **Version** section lets you choose the Redis version of your databases. Choose **Redis 7.4** if you want to use the latest stable version of Redis. 
 
 #### Advanced options {#advanced-options}
 
@@ -158,6 +151,7 @@ By default, you're shown basic settings, which include:
 | Database&nbsp;setting | Description |
 |:---------|:-----------|
 | **Name** | A custom name for your database (_required_) |
+| **Version** | The Redis version for your database. We recommend you choose the latest available version. |
 | **Dataset size (GB)** | The amount of data for your dataset. Specify small sizes as decimals of 1.0&nbsp;GB; example: `0.1` GB (minimum). We calculate the total memory limit for you based on the other settings you choose for your database. <br/> Databases with Search and query have specific sizing requirements, see [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
 | **High Availability** | Indicates whether a replica copy of the database is maintained in case the primary database becomes unavailable.  (Warning: Doubles memory consumption). See [High Availability]({{< relref "/operate/rc/databases/configuration/high-availability" >}}).  |
 | **Throughput** | Identifies maximum throughput for the database, which is specified in terms of operations per second (**Ops/sec**). See [Throughput]({{< relref "/operate/rc/databases/configuration/sizing#throughput" >}}) for more information. <br/> Databases with Search and query have specific throughput requirements. See [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
@@ -195,6 +189,14 @@ The **Review & Create** tab provides a cost estimate for your Redis Cloud Pro pl
 {{<image filename="images/rc/subscription-new-flexible-review.png" width="75%" alt="The Review & Create tab of the New Flexible subscription screen." >}}
 
 Redis breaks down your databases to Redis Billing Units (RBUs), each with their own size and throughput requirements. For more info, see [Billing unit types](#billing-unit-types).
+
+The **Payment methods** section of this tab shows which payment method you're using for this database. Select the arrow on the top right of this section to view all available payment methods.
+
+{{<image filename="images/rc/subscription-new-flexible-cardlist.png" width="250px" alt="The payment method list." >}}
+
+If you have not added a payment method or want to add a new payment method, select **Add credit card** to add a new credit card.
+
+{{< embed-md "rc-credit-card-add.md" >}}
 
 Select **Back to Sizing** to make changes or **Confirm & Pay** to create your databases.
 

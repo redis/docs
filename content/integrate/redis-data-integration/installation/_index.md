@@ -18,6 +18,6 @@ weight: 2
 ---
 
 The guides in this section explain the options you have for installing and upgrading RDI.
-Before you use RDI, you must also configure your source database to use the CDC connector. See the
+Before you use RDI, you must also configure your source database to enable CDC. See the
 [Prepare source databases]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs" >}})
 section to learn how to do this.

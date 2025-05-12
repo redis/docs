@@ -7,6 +7,10 @@ categories:
 - operate
 - rc
 linkTitle: CloudFormation
+aliases:
+  - /operate/rc/how-to/view-edit-cloud-account/iam-resources/cloudformation
+  - /operate/rc/cloud-accounts/iam-resources/cloudformation
+  - /operate/rc/cloud-integrations/aws-cloud-accounts/iam-resources/cloudformation
 ---
 You can use [AWS CloudFormation](https://aws.amazon.com/cloudformation/) to create the IAM resources for Redis Cloud Bring your Own Cloud (BYOC).
 
