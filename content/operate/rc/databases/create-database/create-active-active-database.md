@@ -55,7 +55,7 @@ The **Setup** tab specifies general settings for your Redis deployment.
 
 {{<image filename="images/rc/subscription-new-flexible-tabs-setup.png" width="75%" alt="The Setup tab of the new Pro Database process." >}}
 
-There are three sections on this tab:
+There are two sections on this tab:
 
 - [General settings](#general-settings) include the cloud provider details and specific configuration options.
 - [Advanced options](#advanced-options) define settings for high availability and security. Configurable settings vary according to cloud provider.
