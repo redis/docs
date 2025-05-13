@@ -34,6 +34,45 @@
           {{ end }}
         {{ end }}
         
+        <!-- CLI Display Block as Table -->
+        <table class="w-full border-collapse">
+          <thead>
+            <tr>
+              <th class="p-4 text-left">Try these Redis commands in the CLI to the right</th>
+              <th class="p-4 text-left">Redis CLI</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="align-top p-4">
+                <p>PING</p>
+                <p>HSET user:1 name antirez vocation artist</p>
+                <p>SET e 2.71</p>
+                <p>INCRBYFLOAT e 0.43</p>
+                <p>RENAME e pi</p>
+              </td>
+              <td class="align-top p-4">
+                <div class="bg-slate-900 rounded-xl shadow-lg shadow-slate-900/10">
+                  <div class="border-b border-slate-700 rounded-t-xl px-4 py-3 w-full flex">
+                    {{ partial "icons/cli-circle" (dict "class" "shrink-0 h-[1.0625rem] w-[1.0625rem] fill-slate-50") }}
+                    {{ partial "icons/cli-triangle" (dict "class" "shrink-0 h-[1.0625rem] w-[1.0625rem] fill-slate-50") }}
+                    {{ partial "icons/cli-star" (dict "class" "shrink-0 h-[1.0625rem] w-[1.0625rem] fill-slate-50") }}
+                  </div>            
+                  <form class="redis-cli" typewriter>
+                    <pre tabindex="0" class="whitespace-pre">
+PING
+HSET user:1 name antirez vocation artist
+SET e 2.71
+INCRBYFLOAT e 0.43
+RENAME e pi
+                    </pre>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        
         {{ .Content }}
         {{ if not .Params.hideListLinks }}
           <nav>

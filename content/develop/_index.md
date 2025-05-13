@@ -5,6 +5,11 @@ hideListLinks: true
 linkTitle: Develop
 ---
 
-| Try these commands                       |  Redis Console (redis-cli)           |
-|:-----                                    |-----                                 |
-|                                          | {{< redis-cli >}}LOLWUT VERSION 6{{< /redis-cli >}}  |
+The rest of the landing page.
+
+{{% redis-cli %}}
+SET mykey "Hello"
+GET mykey
+
+SET anotherkey "will expire in a minute" EX 60
+{{% /redis-cli %}}
