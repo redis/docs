@@ -7,4 +7,4 @@ linkTitle: Develop
 
 | Try these commands                       |  Redis Console (redis-cli)           |
 |:-----                                    |-----                                 |
-|                                          | {{% redis-cli %}}LOLWUT VERSION 6{{% /redis-cli %}}  |
+|                                          | {{< redis-cli >}}SET foo "Hello"{{< /redis-cli >}}  |
