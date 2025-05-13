@@ -67,7 +67,7 @@ Change Data Capture (CDC) must be enabled for the database and for each table yo
 
     Replace `<database>` with the name of your database.
 
-1. Enable CDC for each table you want to capture by running the following command:
+1. Enable CDC for each table you want to capture by running the following commands:
 
     ```sql
     USE <database>
