@@ -20,7 +20,7 @@ This guide explains how to install Redis Data Integration (RDI) on one or more V
 your source database. You can also
 [Install RDI on Kubernetes]({{< relref "/integrate/redis-data-integration/installation/install-k8s" >}}).
 
-{{< note >}}We recommend you always use the latest version, which is RDI {{< field "rdi_current_version" >}}.
+{{< note >}}We recommend you always use the latest version, which is RDI v{{< rdi-version >}}.
 {{< /note >}}
 
 ## Create the RDI database
@@ -137,12 +137,12 @@ sudo ufw reload
 Follow the steps below for each of your VMs:
 
 1.  Download the RDI installer from the
-    [Redis download center](https://redis.io/downloads/)
+    [Redis download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-installation-{{< rdi-version >}}.tar.gz)
     (from the *Modules, Tools & Integration* category) and extract it to your preferred installation
     folder.
 
     ```bash
-    export RDI_VERSION=<version>
+    export RDI_VERSION={{< rdi-version >}}
     wget https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-installation-$RDI_VERSION.tar.gz
     tar -xvf rdi-installation-$RDI_VERSION.tar.gz
     ```
