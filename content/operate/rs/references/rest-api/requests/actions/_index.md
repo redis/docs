@@ -137,7 +137,7 @@ The v2 action object includes the following fields:
 | creation_time | integer | The action's creation time. Unix timestamp in seconds. |
 | name | string | Name of the running or failed state machine |
 | progress | float (range: 0-100) | Percent of completed steps for the action |
-| status | string | The action's status |
+| status | "queued"<br />"running"<br />"completed"<br />"failed" | The action's status |
 | additional_info | JSON object | A dictionary that can include additional information about the action; only included in the response if it contains at least one key-value pair |
 
 The `additional_info` object can contain any of the following fields:
@@ -286,7 +286,7 @@ The v2 action object includes the following fields:
 | creation_time | integer | The action's creation time. Unix timestamp in seconds. |
 | name | string | Name of the running or failed state machine |
 | progress | float (range: 0-100) | Percent of completed steps for the action |
-| status | string | The action's status |
+| status | "queued"<br />"running"<br />"completed"<br />"failed" | The action's status |
 | additional_info | JSON object | A dictionary that can include additional information about the action; only included in the response if it contains at least one key-value pair |
 
 The `additional_info` object can contain any of the following fields:
