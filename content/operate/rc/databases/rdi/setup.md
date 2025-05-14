@@ -35,11 +35,15 @@ weight: 1
 Before using the pipeline, you must first prepare your source database to use the Debezium connector for change data capture (CDC). See [Prerequisites]({{<relref "/operate/rc/databases/rdi#prerequisites">}}) to find a list of supported source databases and database versions.
 
 See [Prepare source databases]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/">}}) to find steps for your database type:
-- [MySQL and mariaDB]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/my-sql-mariadb">}})
-- [Oracle]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/oracle">}})
-- [SQL Server]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/sql-server">}})
-- [AWS Aurora PostgreSQL]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/aws-aur-pgsql">}})
-- [AWS RDS PostgreSQL]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/postgresql">}})
+- Hosted on an AWS EC2 instance:
+    - [MySQL and mariaDB]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/my-sql-mariadb">}})
+    - [Oracle]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/oracle">}})
+    - [SQL Server]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/sql-server">}})
+    - [PostgreSQL]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/postgresql">}})
+- Hosted on AWS RDS or AWS Aurora:
+    - [AWS Aurora PostgreSQL and AWS RDS PostgreSQL]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/aws-aurora-rds/aws-aur-pgsql">}})
+    - [AWS Aurora MySQL and AWS RDS MySQL]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/aws-aurora-rds/aws-aur-mysql">}})
+    - [AWS RDS SQL Server]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/aws-aurora-rds/aws-rds-sqlserver">}})
 
 See the [RDI architecture overview]({{< relref "/integrate/redis-data-integration/architecture#overview" >}}) for more information about CDC.
 
