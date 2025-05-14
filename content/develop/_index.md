@@ -1,8 +1,7 @@
 ---
 title: Develop with Redis
 description: Learn how to develop with Redis
-hideListLinks: true
 linkTitle: Develop
 ---
 
-The rest of the landing page.
+Explore the pages below to learn more about developing with Redis Open Source.
