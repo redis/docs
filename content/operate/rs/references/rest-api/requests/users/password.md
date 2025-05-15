@@ -72,7 +72,7 @@ The following are possible `error_code` values:
 |------|-------------|
 | [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | Success, password changed. |
 | [400 Bad Request](https://www.rfc-editor.org/rfc/rfc9110.html#name-400-bad-request) | Bad or missing parameters. |
-| [401 Unauthorized](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.2) | The user is unauthorized. |
+| [401 Unauthorized](https://www.rfc-editor.org/rfc/rfc9110.html#name-401-unauthorized) | The user is unauthorized. |
 
 ## Add password {#add-password}
 
@@ -129,7 +129,7 @@ The following are possible `error_code` values:
 |------|-------------|
 | [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | Success, new password was added to the list of valid passwords. |
 | [400 Bad Request](https://www.rfc-editor.org/rfc/rfc9110.html#name-400-bad-request) | Bad or missing parameters. |
-| [401 Unauthorized](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.2) | The user is unauthorized. |
+| [401 Unauthorized](https://www.rfc-editor.org/rfc/rfc9110.html#name-401-unauthorized) | The user is unauthorized. |
 
 ## Delete password {#delete-password}
 
@@ -183,4 +183,4 @@ The following are possible `error_code` values:
 |------|-------------|
 | [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | Success, new password was deleted from the list of valid passwords. |
 | [400 Bad Request](https://www.rfc-editor.org/rfc/rfc9110.html#name-400-bad-request) | Bad or missing parameters. |
-| [401 Unauthorized](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.2) | The user is unauthorized. |
+| [401 Unauthorized](https://www.rfc-editor.org/rfc/rfc9110.html#name-401-unauthorized) | The user is unauthorized. |
