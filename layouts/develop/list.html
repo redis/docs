@@ -36,6 +36,7 @@
         {{ end }}
         
         <!-- Responsive CLI Display Block as Table -->
+        {{ if eq .RelPermalink "/develop/" }}
         <div class="overflow-x-auto">
           <table class="w-full border-collapse md:table">
             <thead>
@@ -73,6 +74,7 @@ PING
             </tbody>
           </table>
         </div>
+        {{ end }}
         
         {{ .Content }}
         {{ if not .Params.hideListLinks }}
