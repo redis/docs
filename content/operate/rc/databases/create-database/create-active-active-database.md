@@ -31,7 +31,7 @@ Redis Cloud maintains consistency among instances in the background; that is, ea
     {{<image filename="images/rc/create-database-subscription-pro-new.png" alt="The Subscription selection panel with Pro selected.">}}
 
     {{< note >}}
-This guide shows how to create an Active-Active database with a new Pro subscription. If you already have an Active-Active subscription and want to add a database to it, see [Create a Pro database in an existing subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-existing" >}}). 
+This guide shows how to create an Active-Active database with a new Pro subscription. If you already have an Active-Active subscription and want to add a database to it, see [Create a Pro database in an existing subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-existing" >}}). Active-Active subscriptions can host a maximum of 10 databases.
     {{< /note >}}
     
 
@@ -69,6 +69,10 @@ Select **Active-Active (Multi-region)** to turn on Active-Active.
 When you enable Active-Active Redis, two regions are selected by default. Select the drop-down arrow to display a list of provider regions that support Active-Active databases.
 
 {{<image filename="images/rc/create-sub-active-active-regions.png" width="50%" alt="Use the Region drop-down to select the regions for your Active-Active database." >}}
+
+    {{< note >}}
+Active-Active subscriptions on Redis Cloud are limited to a maximum of 10 regions.
+    {{< /note >}}
 
 Use the checkboxes in the list to select or remove regions.  The Search box lets you locate specific regions.
 
