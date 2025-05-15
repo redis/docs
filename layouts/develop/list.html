@@ -36,7 +36,7 @@
         {{ end }}
         
         <!-- Responsive CLI Display Block as Table -->
-        {{ if eq .RelPermalink "/develop/" }}
+        {{ if strings.HasSuffix .RelPermalink "/develop/" }}
         <div class="overflow-x-auto">
           <table class="w-full border-collapse md:table">
             <thead>
