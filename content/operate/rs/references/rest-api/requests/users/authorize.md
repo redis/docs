@@ -45,7 +45,7 @@ The request body is optional unless you want to specify the token's time to live
 
 #### Request body
 
-Optionally include a JSON object in the request body to specify the time to live (`ttl`), which determines the amount of time in seconds the token will be valid.
+Optionally include a JSON object in the request body to specify the time to live (`ttl`), which determines the amount of time in seconds the token will be valid. The default `ttl` is `300` seconds. The minimum `ttl` is `1` second and the maximum `ttl` is `86400` seconds.
 
 ### Response {#post-response}
 
