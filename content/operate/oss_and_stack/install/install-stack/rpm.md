@@ -40,7 +40,6 @@ Follow these steps to install Redis Open Source.
     {{< highlight bash >}}
     curl -fsSL https://packages.redis.io/gpg > /tmp/redis.key
     sudo rpm --import /tmp/redis.key
-    sudo yum install epel-release
     sudo yum install redis
     {{< / highlight >}}
 
