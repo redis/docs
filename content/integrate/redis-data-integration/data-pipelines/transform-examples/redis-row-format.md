@@ -1,6 +1,5 @@
 ---
 Title: Row Format
-aliases: /integrate/redis-data-integration/ingest/data-pipelines/transform-examples/redis-row-format/
 alwaysopen: false
 categories:
 - docs
