@@ -1,5 +1,5 @@
 ---
-Title: Set the key name in target database
+Title: Set the key name in the target database
 aliases: /integrate/redis-data-integration/ingest/data-pipelines/transform-examples/redis-set-key/
 alwaysopen: false
 categories:
