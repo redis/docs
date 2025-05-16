@@ -47,11 +47,11 @@ Manage Redis Cloud [accounts and settings]({{< relref "/operate/rc/accounts" >}}
 
 ## Security
 Manage [secure connections]({{< relref "/operate/rc/security" >}}) to cloud databases.
-- [Access management]({{< relref "/operate/rc/security/access-control/access-management" >}}) for Redis Cloud console security and account management
-- [Cloud database security]({{< relref "/operate/rc/security/database-security" >}})
-- [Multi-factor authentication]({{< relref "/operate/rc/security/access-control/multi-factor-authentication" >}})
-- [Single sign-on]({{< relref "/operate/rc/security/access-control/saml-sso" >}}) and [social login]({{< relref "/operate/rc/security/access-control/social-login" >}})
-- [Data access control]({{< relref "/operate/rc/security/access-control/data-access-control" >}})
+- [Access management]({{< relref "/operate/rc/security/console-access-control/access-management" >}}) for Redis Cloud console security and account management
+- [Cloud database security]({{< relref "/operate/rc/security/network-data-security" >}})
+- [Multi-factor authentication]({{< relref "/operate/rc/security/console-access-control/multi-factor-authentication" >}})
+- [Single sign-on]({{< relref "/operate/rc/security/console-access-control/saml-sso" >}}) and [social login]({{< relref "/operate/rc/security/console-access-control/social-login" >}})
+- [Data access control]({{< relref "/operate/rc/security/data-access-control" >}})
 
 ## REST API
 Use the [REST API]({{< relref "/operate/rc/api" >}}) to manage the database.

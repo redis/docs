@@ -64,7 +64,7 @@ At this point, you can create a new database using the [standard workflow]({{< r
 
 To confirm this, review the payment method associated with your subscription.
 
-Additional users can be added on the Redis Cloud console using the [Access Management]({{< relref "/operate/rc/security/access-control/access-management" >}}) page.
+Additional users can be added on the Redis Cloud console using the [Access Management]({{< relref "/operate/rc/security/console-access-control/access-management" >}}) page.
 
 If your Google Cloud Marketplace account is deactivated or otherwise unavailable, you can't use your subscription until you update the billing method.  For help, [contact support](https://redis.io/support/).
 

@@ -29,7 +29,7 @@ Redis Cloud Essentials databases have a set maintenance window based on the clou
 
 ## Maintenance activities
 
-During maintenance, Redis ensures the stability of your subscriptions and databases. 
+During maintenance, Redis ensures the stability of your subscriptions and databases.
 
 This includes, but is not limited to:
 
@@ -66,10 +66,8 @@ Redis will notify you by email when maintenance starts and ends. If Redis needs 
 If you want to receive advance notifications, you must [set manual maintenance windows]({{< relref "/operate/rc/subscriptions/maintenance/set-maintenance-windows#set-manual-maintenance-windows" >}}).
 
 To receive maintenance notifications by email:
- 
- 1. Go to [Access Management]({{< relref "/operate/rc/security/access-control/access-management" >}}) and select your account in the list.
 
-1. Go to [Access Management]({{< relref "/operate/rc/security/access-control/access-management" >}}) and select your account in the list.
+ 1. Go to [Access Management]({{< relref "/operate/rc/security/console-access-control/access-management" >}}) and select your account in the list.
 
 1. Select the Edit button.
 

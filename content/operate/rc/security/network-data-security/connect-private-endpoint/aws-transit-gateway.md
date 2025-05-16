@@ -28,7 +28,7 @@ Transit Gateway is available only with Redis Cloud Pro.  It is not supported for
 
 ## Considerations
 
-You can use Transit Gateway as an alternative to [VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}}), or you can enable both for your subscription.
+You can use Transit Gateway as an alternative to [VPC peering]({{< relref "/operate/rc/security/network-data-security/connect-private-endpoint/vpc-peering" >}}), or you can enable both for your subscription.
 
 Compared to VPC peering, Transit Gateway:
 
@@ -86,7 +86,7 @@ To use the AWS console to set up the resource share:
 
 1. If you don't have a resource share for your transit gateway, follow the guide to [create a resource share](https://docs.aws.amazon.com/ram/latest/userguide/working-with-sharing-create.html) in the [AWS resource access manager](https://console.aws.amazon.com/ram/home). If you do, follow the guide to [update](https://docs.aws.amazon.com/ram/latest/userguide/working-with-sharing-update.html) the resource share to include the provided AWS account as an Allowed Principal.
 
-    During the **Grant access to principals** step, select **AWS Account** in the **Select principal type** field. Enter the copied AWS account number in the **Enter an AWS Account ID** field. 
+    During the **Grant access to principals** step, select **AWS Account** in the **Select principal type** field. Enter the copied AWS account number in the **Enter an AWS Account ID** field.
 
     {{<image filename="images/rc/aws-tgw-add-principal.png" width="80%" alt="The AWS Add principal field." >}}
 
@@ -120,15 +120,15 @@ After you've associated the Redis AWS account with your resource share, you must
 
 1. Select **Close** to close the **Accept resource shares** section.
 
-1. You will now see your transit gateway in the **Transit Gateways** section. After the **TGW status** is **Available**, select **Create Attachment** under **Attachment status**. 
+1. You will now see your transit gateway in the **Transit Gateways** section. After the **TGW status** is **Available**, select **Create Attachment** under **Attachment status**.
 
     {{<image filename="images/rc/tgw-create-attachment-button.png" width="250px" alt="The Create attachment button." >}}
 
-    This will request a peering attachment representing Redis's AWS account to the Transit Gateway. 
+    This will request a peering attachment representing Redis's AWS account to the Transit Gateway.
 
-1. If your transit gateway does not automatically accept peering attachment requests, the attachment will be in **Pending acceptance** status. Follow the guide to [Accept a peering attachment request](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-peering.html#tgw-peering-accept-reject) from the [AWS VPC console](https://console.aws.amazon.com/vpc/). 
+1. If your transit gateway does not automatically accept peering attachment requests, the attachment will be in **Pending acceptance** status. Follow the guide to [Accept a peering attachment request](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-peering.html#tgw-peering-accept-reject) from the [AWS VPC console](https://console.aws.amazon.com/vpc/).
 
-### Add consumer CIDRs 
+### Add consumer CIDRs
 
 1. In your Redis Cloud subscription's Transit Gateway settings, in the **Transit Gateways** section, select **Add CIDRs** under **Consumer CIDRs**.
 
@@ -146,7 +146,7 @@ After you've associated the Redis AWS account with your resource share, you must
 
 To finish Transit gateway setup, [update your route tables for the peering connection](https://docs.aws.amazon.com/vpc/latest/peering/vpc-peering-routing.html) with the following details:
 
-1. In the **Destination** field, enter the producer deployment CIDRs. 
+1. In the **Destination** field, enter the producer deployment CIDRs.
 
     You can find the producer deployment CIDRs on the Redis Cloud console in the Transit Gateway settings by selecting **More actions > View Attachment** in the **Transit Gateway** section.
 
@@ -159,7 +159,7 @@ To finish Transit gateway setup, [update your route tables for the peering conne
 After Transit gateway is established, we recommend switching your application connection string to the private endpoint.
 
 {{< note >}}
-If you've enabled the database's [CIDR allow list]({{< relref "/operate/rc/security/cidr-whitelist" >}}), you must also [add the Transit Gateway's IP address to the CIDR allow list]({{< relref "/operate/rc/security/cidr-whitelist#define-cidr-allow-list" >}}) to connect to the database via the private endpoint.
+If you've enabled the database's [CIDR allow list]({{< relref "/operate/rc/security/network-data-security/cidr-whitelist" >}}), you must also [add the Transit Gateway's IP address to the CIDR allow list]({{< relref "/operate/rc/security/network-data-security/cidr-whitelist#define-cidr-allow-list" >}}) to connect to the database via the private endpoint.
 {{< /note >}}
 
 ## Continue learning with Redis University

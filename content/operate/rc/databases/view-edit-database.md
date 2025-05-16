@@ -17,7 +17,7 @@ To view the details of a database:
 1. Sign in to the [Redis Cloud console](https://cloud.redis.io/).  (Create an account if you don't already have one.)
 
 2. Select the **Databases** menu to display a [searchable list of all databases](#manage-the-database-list).
- 
+
 3. Locate the database in the list.
 
 4. Select the database name to open the **Database** page.
@@ -100,8 +100,8 @@ The **Security** section helps you control access to your database.
 |:-----------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Default user** | When enabled, permits access using a simple password                                                                                                                           |
 | **Default user password** | Password for default user. A default password is assigned to the database on creation and may be updated.                                                                      |
-| **CIDR allow list** | [Allow list]({{< relref "/operate/rc/security/cidr-whitelist.md" >}}) of IP addresses/security groups permitted to access the database. (_Paid plans only_)                    |
-| **Transport layer security (TLS)** | Enables [transport layer security]({{< relref "/operate/rc/security/database-security/tls-ssl.md" >}}) (TLS) encryption for database access. (_Pro plans only_)  |
+| **CIDR allow list** | [Allow list]({{< relref "/operate/rc/security/network-data-security/cidr-whitelist.md" >}}) of IP addresses/security groups permitted to access the database. (_Paid plans only_)                    |
+| **Transport layer security (TLS)** | Enables [transport layer security]({{< relref "/operate/rc/security/network-data-security/tls-ssl.md" >}}) (TLS) encryption for database access. (_Pro plans only_)  |
 
 ### Alerts section
 
@@ -127,7 +127,7 @@ For best results, we recommend [backing up data]({{< relref "/operate/rc/databas
 
 ## Manage the database list
 
-The **Databases** list summarizes the status of all databases associated with your account.  
+The **Databases** list summarizes the status of all databases associated with your account.
 
 You can:
 
@@ -139,7 +139,7 @@ You can:
 
     {{<image filename="images/rc/database-list-filter.png" alt="Use the filter toggle to display filter options." >}}
 
-    You can filter the list on **Status**, **Subscription**, **Subscription Type**, **Capabilities**, **Options**, and **Tags**.  String matches are _not_ case-sensitive.  You can specify more than one filter expression at a time.  
+    You can filter the list on **Status**, **Subscription**, **Subscription Type**, **Capabilities**, **Options**, and **Tags**.  String matches are _not_ case-sensitive.  You can specify more than one filter expression at a time.
 
     A list of selected filters appears below the filter types.
 

@@ -17,7 +17,7 @@ This guide shows how to create a Pro database in an existing subscription.
 - If you'd rather create an Essentials database, see [Create an Essentials database]({{< relref "/operate/rc/databases/create-database/create-essentials-database" >}}).
 {{< /note >}}
 
-To create a database in an already existing Pro subscription: 
+To create a database in an already existing Pro subscription:
 
 1. Sign in to the [Redis Cloud console](https://cloud.redis.io).
 
@@ -113,10 +113,10 @@ The **Security** section helps you control access to your database.
 
 | Setting name                       | Description                                                                                                                                                                           |
 |:-----------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Default user**                   | When enabled, permits access using the `default` username and a simple password (see [Default User]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}})). Turn on [Role-based access control]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control" >}}) to turn off this setting.              |
-| **Default user password**                 | Password assigned to the database when created                                                                                                                                        |  
-| **CIDR allow list**                | [Allow list]({{< relref "/operate/rc/security/cidr-whitelist.md" >}}) of IP addresses/security groups permitted to access the database |
-| **Transport layer security (TLS)** | Enables [transport layer security]({{< relref "/operate/rc/security/database-security/tls-ssl.md" >}}) (TLS) encryption for database access          |
+| **Default user**                   | When enabled, permits access using the `default` username and a simple password (see [Default User]({{< relref "/operate/rc/security/data-access-control/default-user" >}})). Turn on [Role-based access control]({{< relref "/operate/rc/security/data-access-control/role-based-access-control" >}}) to turn off this setting.              |
+| **Default user password**                 | Password assigned to the database when created                                                                                                                                        |
+| **CIDR allow list**                | [Allow list]({{< relref "/operate/rc/security/network-data-security/cidr-whitelist.md" >}}) of IP addresses/security groups permitted to access the database |
+| **Transport layer security (TLS)** | Enables [transport layer security]({{< relref "/operate/rc/security/network-data-security/tls-ssl.md" >}}) (TLS) encryption for database access          |
 
 
 ## Alerts section

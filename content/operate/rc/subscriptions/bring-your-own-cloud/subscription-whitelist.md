@@ -1,5 +1,5 @@
 ---
-Title: Configure subscription CIDR allow list 
+Title: Configure subscription CIDR allow list
 alwaysopen: false
 categories:
 - docs
@@ -23,7 +23,7 @@ to restrict traffic to all databases associated with the subscription.
 The subscription CIDR allow list defines a range of IP addresses and [AWS security groups](https://docs.aws.amazon.com/managedservices/latest/userguide/about-security-groups.html) that control inbound and outbound traffic to the Redis Cloud [VPC](https://en.wikipedia.org/wiki/Virtual_private_cloud). When you add security groups to the allow list, you can also use the same security groups to manage access to your application.
 
 {{< note >}}
-The subscription-level allow list is available for Redis Cloud Bring your Own Cloud. If you don't have Redis Cloud Bring your Own Cloud, you can configure a [CIDR allow list]({{< relref "/operate/rc/security/cidr-whitelist" >}}) for each database.
+The subscription-level allow list is available for Redis Cloud Bring your Own Cloud. If you don't have Redis Cloud Bring your Own Cloud, you can configure a [CIDR allow list]({{< relref "/operate/rc/security/network-data-security/cidr-whitelist" >}}) for each database.
 {{< /note >}}
 
 ## Allow IP address or security group
@@ -59,11 +59,11 @@ To add IP addresses or [AWS security groups](https://docs.aws.amazon.com/managed
     1. Select the new entry's **Type**, enter the **Value**, and select the check to add it to the allow list.
 
         {{<image filename="images/rc/subscription-connectivity-allow-list-add-entry.png" alt="Define the new entry and select the Submit entry button to add it to the allow list." >}}
-    
+
     You can also select the **Edit** button to change an entry or the **Delete** button to remove it.
 
     {{<image filename="images/rc/icon-edit.png#no-click" alt="The Edit button updates an entry in the allow list." width="36px" class="inline" >}}&nbsp;{{<image filename="images/rc/icon-delete-teal.png#no-click" alt="The Delete button removes an entry from the allow list." width="36px" class="inline" >}}
-    
+
 1. Select **Apply all changes** to apply the allow list updates.
 
     {{<image filename="images/rc/button-subscription-allow-list-apply-all.png" alt="The Apply all changes button saves your allow list changes." width="140px">}}

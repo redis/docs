@@ -13,11 +13,11 @@ weight: 12
 
 After you [create your database]({{< relref "/operate/rc/databases/create-database" >}}), you can connect to it.
 
-To connect to the database, you need your username and password. By default, your database is protected by a [**Default user**]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) called `default` and a masked **Default user password**. You can see the default user password in the **Security** section of the **Configuration** details for your database. Select the eye icon to show or hide the password.    
+To connect to the database, you need your username and password. By default, your database is protected by a [**Default user**]({{< relref "/operate/rc/security/data-access-control/default-user" >}}) called `default` and a masked **Default user password**. You can see the default user password in the **Security** section of the **Configuration** details for your database. Select the eye icon to show or hide the password.
 
 {{<image filename="images/rc/database-fixed-configuration-security.png" width="75%" alt="The Security section of the Configuration tab of the database details page." >}}
 
-If you've turned on [Role-based access control]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control" >}}) for your database and [turned off the default User]({{< relref "/operate/rc/security/access-control/data-access-control/default-user#turn-off-default-user" >}}), use the username and password for your data access role.
+If you've turned on [Role-based access control]({{< relref "/operate/rc/security/data-access-control/role-based-access-control" >}}) for your database and [turned off the default User]({{< relref "/operate/rc/security/data-access-control/default-user#turn-off-default-user" >}}), use the username and password for your data access role.
 
 Once you have the username and password, select **Connect** to open the connection wizard.
 
@@ -46,7 +46,7 @@ You can connect to your database with Redis Insight in two ways:
 ### Open in your browser {#ri-browser}
 
 {{< note >}}
-Opening your database with Redis Insight in your browser is currently available for some Essentials databases, and will be available to more Essentials databases over time. 
+Opening your database with Redis Insight in your browser is currently available for some Essentials databases, and will be available to more Essentials databases over time.
 {{< /note >}}
 
 If Redis Insight on Redis Cloud is available for your database, select **Launch Redis Insight web** from the connection wizard to open it.
@@ -57,13 +57,13 @@ You can also select **Launch** from the database page under **View and manage da
 
 {{<image filename="images/rc/rc-ri-open.png" alt="Launch Redis Insight web from the database page." width=500px >}}
 
-Redis Insight will open in a new tab. 
+Redis Insight will open in a new tab.
 
 This browser-based version of Redis Insight has a subset of the features of Redis Insight. For more information, see [Open with Redis Insight on Redis Cloud]({{< relref "/operate/rc/databases/connect/insight-cloud" >}}).
 
 ### Install and open on your computer {#ri-app}
 
-1. If you haven't downloaded Redis Insight, select **Download** under **Redis Insight** in the Connection wizard to download it. 
+1. If you haven't downloaded Redis Insight, select **Download** under **Redis Insight** in the Connection wizard to download it.
 
 1. [Install Redis Insight]({{< relref "/develop/tools/insight" >}}).
 
@@ -105,6 +105,6 @@ See [Redis CLI]({{< relref "/develop/tools/cli" >}}) to learn how to use `redis-
 ## More info
 
 - [Connect your application]({{< relref "/develop/clients" >}})
-- [Connect with TLS]({{< relref "/operate/rc/security/database-security/tls-ssl#connect-over-tls" >}})
-- [Default user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}})
-- [Role-based access control]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control" >}})
+- [Connect with TLS]({{< relref "/operate/rc/security/network-data-security/tls-ssl#connect-over-tls" >}})
+- [Default user]({{< relref "/operate/rc/security/data-access-control/default-user" >}})
+- [Role-based access control]({{< relref "/operate/rc/security/data-access-control/role-based-access-control" >}})

@@ -45,7 +45,7 @@ The following sections provide more info.
 
 ## **Databases** tab
 
-The **Databases** tab summarizes the databases in your subscription.  
+The **Databases** tab summarizes the databases in your subscription.
 
 {{<image filename="images/rc/subscription-flexible-databases-tab-pending.png" alt="The Databases tab of the subscription details page is the default view." >}}
 
@@ -109,16 +109,16 @@ The **Overview** summarizes the options used to create the subscription.
 
 ## **Connectivity** tab
 
-The **Connectivity** tabs helps secure your subscription.  
+The **Connectivity** tabs helps secure your subscription.
 
 {{<image filename="images/rc/subscription-details-connectivity-tab-flexible.png" alt="The Connectivity tab helps you secure your subscription." >}}
 
 Here, you can:
 
-- Set up a [VPC peering]({{< relref "/operate/rc/security/vpc-peering.md" >}}) relationship between the virtual PC (VPC) hosting your subscription and another virtual PC.
+- Set up a [VPC peering]({{< relref "/operate/rc/security/network-data-security/connect-private-endpoint/vpc-peering" >}}) relationship between the virtual PC (VPC) hosting your subscription and another virtual PC.
 
 - Set up a [CIDR allow list]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/subscription-whitelist" >}}) containing IP addresses or security groups permitted to access your subscription (_AWS Cloud accounts only_).
 
-- Set up [Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}}) (*Google Cloud only*) or [Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}) (*AWS only*).
+- Set up [Private Service Connect]({{< relref "/operate/rc/security/network-data-security/connect-private-endpoint/private-service-connect" >}}) (*Google Cloud only*) or [Transit Gateway]({{< relref "/operate/rc/security/network-data-security/connect-private-endpoint/aws-transit-gateway" >}}) (*AWS only*).
 
 See the individual links to learn more.

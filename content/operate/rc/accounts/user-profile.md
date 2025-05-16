@@ -10,7 +10,7 @@ description: Describes the how to manage your user account profile and how to sw
   between Redis Cloud accounts.
 weight: $weight
 ---
-When you sign in to the [Redis Cloud console](https://cloud.redis.io/), you use a profile associated with one or more Redis Cloud accounts.  
+When you sign in to the [Redis Cloud console](https://cloud.redis.io/), you use a profile associated with one or more Redis Cloud accounts.
 
 This account has a profile with settings that you can manage using the Profile control located near the top, right corner of the Redis Cloud console:
 
@@ -34,17 +34,17 @@ This screen contains up to three sections, including:
 
 - The *User details* section includes basic information about your account, including _First name_, _Last name_, _Job title_, _Email_, and the date the account was created.  The names and job title can be edited; other settings are read-only.
 
-- The *Password* section lets you change the password for accounts created and managed by Redis Cloud. 
+- The *Password* section lets you change the password for accounts created and managed by Redis Cloud.
 
     If you're using single sign-on authentication, you cannot change the password using the *User Profile* screen.  Such accounts are managed by an identity provider (IdP).  For help changing (or recovering) the passwords for these accounts, consult your identity provider docs.
 
-- The **Multi-factor authentication (MFA)** section lets you [manage MFA settings]({{< relref "/operate/rc/security/access-control/multi-factor-authentication" >}}) for the current user account.  
+- The **Multi-factor authentication (MFA)** section lets you [manage MFA settings]({{< relref "/operate/rc/security/console-access-control/multi-factor-authentication" >}}) for the current user account.
 
     When you activate a mobile device, you can use SMS MFA as a second authentication factor.
 
     To use an authentication app as the factor, you need to activate a mobile device and then use that device to enable the app.
 
-## Sign out 
+## Sign out
 
 To sign out from the Redis Cloud console, select **Logout** from the profile control.
 

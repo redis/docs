@@ -16,7 +16,7 @@ The dataset size of a database is a part of the full memory limit for the databa
 
 For Redis Cloud Essentials, the plan size refers to the full memory limit, not the dataset size. Both the total memory limit and dataset size are listed under **Database details** when you create an Essentials database.
 
-For Redis Cloud Pro, you define your dataset size when you create the database, and we calculate your total memory limit based on the features you choose. 
+For Redis Cloud Pro, you define your dataset size when you create the database, and we calculate your total memory limit based on the features you choose.
 
 Here are some general guidelines:
 
@@ -34,7 +34,7 @@ Memory limits in Redis Cloud are subject to the same considerations as Redis Ent
 
 Throughput is the number of operations a database can handle over a certain period of time. For Redis Cloud databases, throughput is defined in operations per second (ops/sec).
 
-For a Redis Cloud Pro subscription, you define throughput for a database when you create it. For a Redis Cloud Essentials subscription, your maximum throughput depends on your plan. 
+For a Redis Cloud Pro subscription, you define throughput for a database when you create it. For a Redis Cloud Essentials subscription, your maximum throughput depends on your plan.
 
 We use this setting to guide the allocation of compute power and network bandwidth, ensuring your database can handle the expected workload. However, the throughput specified is not guaranteed - actual throughput may be higher or lower depending on your workload and database configuration.
 
@@ -44,7 +44,7 @@ Some factors that can affect throughput include:
 - **Request size**: Smaller requests (under 3KB) consume less network bandwidth and may result in more operations per second than requested, while larger requests may result in fewer operations per second.
 - **Command complexity**: Simple commands, like `GET` and `SET`, are faster and require fewer resources, whereas more complex commands involve more processing time and can reduce throughput. See the [Command list]({{< relref "/commands" >}}) to see which commands are more complex than others.
 - **Replication**: Using [multi-zone replication]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) affects throughput as each write operation is executed asynchronously in each zone.
-- **Security**: Some security options, such as [transport layer security]({{< relref "/operate/rc/security/database-security/tls-ssl" >}}), may affect throughput.
+- **Security**: Some security options, such as [transport layer security]({{< relref "/operate/rc/security/network-data-security/tls-ssl" >}}), may affect throughput.
 - **Number of client connections**: The number of client connections affects throughput. Increasing or decreasing the number of client connections can result in higher or lower throughput.
 
 ### Optimize throughput
@@ -53,7 +53,7 @@ Here are some things to keep in mind for optimizing throughput:
 - Optimize capacity planning and sizing of your Redis Cloud databases to meet your app performance requirements.
 - Benchmark your app to understand what latency expectations are required, and adjust throughput accordingly.
 - Test and monitor your app's performance and adjust the set ops/sec based on how if performs in real-world conditions.
-- If your average request size is larger than 3KB, consider setting your throughput higher than expected. 
+- If your average request size is larger than 3KB, consider setting your throughput higher than expected.
 - Track the slow logs using the [`SLOWLOG` command]({{< relref "/commands/slowlog" >}}) or the **Slowlog** tab on the [database screen]({{< relref "/operate/rc/databases/view-edit-database" >}}).
 - Use [pipelining]({{< relref "/develop/use/pipelining" >}}) and [concurrent connections]({{< relref "/develop/reference/clients" >}}) effectively to optimize throughput and latency.
 - Search databases have their own throughput requirements. See [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more info.
@@ -66,7 +66,7 @@ Yes, many workloads perform better than expected, especially with optimized conf
 
 **Why is my application getting less throughput than what I set?**
 
-Factors like high connection counts, complex commands, large payloads, and network limitations can affect throughput. Test and adjust based on your application’s needs. 
+Factors like high connection counts, complex commands, large payloads, and network limitations can affect throughput. Test and adjust based on your application’s needs.
 
 **How do I know the optimal throughput for my application?**
 

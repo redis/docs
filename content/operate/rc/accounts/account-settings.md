@@ -27,17 +27,17 @@ The available tabs depend on your account, and may include:
 You can change some settings by selecting **Edit**. For help changing other settings, [contact Support](https://redis.io/support/).
 
 {{<image filename="images/rc/button-database-edit.png" alt="The Edit button changes account settings." width="100px">}}
-    
+
 ## Redis account info settings
 
 The **Redis Account Info** section provides basic details about your account, including:
 
 | Setting          | Description |
 |------------------|-------------|
-| _Redis account name_   | Name associated with the Redis Cloud account | 
+| _Redis account name_   | Name associated with the Redis Cloud account |
 | _Redis account number_ | Internal ID of the Redis account |
 | _Date created_   | Date the user's Redis Cloud account was created, which may differ from the organization account creation date |
-| _Last updated_   | Date of the last administrative change to the owner's account, typically reflects access changes or other administrative updates | 
+| _Last updated_   | Date of the last administrative change to the owner's account, typically reflects access changes or other administrative updates |
 
 Select **Edit** to change the Redis Account name.
 
@@ -45,11 +45,11 @@ Select **Edit** to change the Redis Account name.
 
 After changing the account name, use the **Save changes** button to save changes or **Discard changes** to revert them.
 
-{{<image filename="images/rc/account-settings-buttons-save-discard.png" alt="Use the Discard Changes and the Save Changes buttons to manage changes to account settings." width="300px">}} 
+{{<image filename="images/rc/account-settings-buttons-save-discard.png" alt="Use the Discard Changes and the Save Changes buttons to manage changes to account settings." width="300px">}}
 
 You cannot change the email address associated with a Redis Cloud account.  Instead, create a new account with the updated email address, assign it as an administrator to the organization account, and then use the new account to delete the account with the invalid email address.
 
-## Contacts & Business information 
+## Contacts & Business information
 
 The **Contacts & Business information** section shows the company name and business address associated with the current Redis Cloud account. Redis uses the company name and business address for invoice and tax purposes.
 
@@ -61,7 +61,7 @@ Select **Edit** to change the account's company name and business address.
 
    {{<image filename="images/rc/account-settings-change-business-info.png" alt="The Contacts & Business information section, with details changed." width="75%">}}
 
-When you change your business address, you must approve the use of the information in this section for communication and billing purposes before you can save. After approving, select **Save changes** to save your changes or **Discard changes** to revert them. 
+When you change your business address, you must approve the use of the information in this section for communication and billing purposes before you can save. After approving, select **Save changes** to save your changes or **Discard changes** to revert them.
 
 {{<image filename="images/rc/account-settings-buttons-save-discard.png" alt="Use the Discard Changes and the Save Changes buttons to manage changes to account settings." width="300px">}}
 
@@ -69,15 +69,15 @@ When you change your business address, you must approve the use of the informati
 
 The **Security** section lets you:
 
-- Manage [multi-factor authentication]({{< relref "/operate/rc/security/access-control/multi-factor-authentication" >}}) (MFA) for your Redis Cloud account.
+- Manage [multi-factor authentication]({{< relref "/operate/rc/security/console-access-control/multi-factor-authentication" >}}) (MFA) for your Redis Cloud account.
 
-- Download the [Redis Cloud certificate authority (CA) bundle]({{< relref "/operate/rc/security/database-security/tls-ssl#download-certificates" >}}) as a [PEM](https://en.wikipedia.org/wiki/Privacy-Enhanced_Mail) file, which contains the certificates associated with your Redis Cloud account.
+- Download the [Redis Cloud certificate authority (CA) bundle]({{< relref "/operate/rc/security/network-data-security/tls-ssl#download-certificates" >}}) as a [PEM](https://en.wikipedia.org/wiki/Privacy-Enhanced_Mail) file, which contains the certificates associated with your Redis Cloud account.
 
 ## Time zone settings
 
 To change the time zone settings, select **Edit** and then select the desired time zone from the **Time zone** drop-down.
 
-Select **Save changes** to save your changes or **Discard changes** to revert them. 
+Select **Save changes** to save your changes or **Discard changes** to revert them.
 
 {{<image filename="images/rc/account-settings-buttons-save-discard.png" alt="Use the Discard Changes and the Save Changes buttons to manage changes to account settings." width="300px">}}
 

@@ -33,7 +33,7 @@ To define the CIDR allow list for a database:
 1. Enter the first IP address (in CIDR format) you want to allow in the text box and then select the check mark to add it to the allow list:
 
     {{<image filename="images/rc/database-details-configuration-tab-security-cidr-allowlist-add-first-ip.png" width="80%" alt="Add the first IP address to the CIDR allow list." >}}
-   
+
 1. To allow additional IP addresses:
 
     1. Select **Add CIDR**.
@@ -45,7 +45,7 @@ To define the CIDR allow list for a database:
 1. Select **Save database** to apply your changes.
 
 {{< note >}}
-The database CIDR allow list applies to both the public endpoint and the private endpoint. If you use connectivity options such as [VPC Peering]({{< relref "/operate/rc/security/vpc-peering" >}}) and [Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}) to connect to your database via the private endpoint, you must also add those IPs to your database's CIDR allow list.
+The database CIDR allow list applies to both the public endpoint and the private endpoint. If you use connectivity options such as [VPC Peering]({{< relref "/operate/rc/security/network-data-security/connect-private-endpoint/vpc-peering" >}}) and [Transit Gateway]({{< relref "/operate/rc/security/network-data-security/connect-private-endpoint/aws-transit-gateway" >}}) to connect to your database via the private endpoint, you must also add those IPs to your database's CIDR allow list.
 {{< /note >}}
 
 ## Continue learning with Redis University

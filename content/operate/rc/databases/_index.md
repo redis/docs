@@ -11,7 +11,7 @@ linktitle: Databases
 weight: 20
 ---
 
-Databases are the heart of any Redis Cloud deployment.  
+Databases are the heart of any Redis Cloud deployment.
 
 Here's how to perform a variety of tasks:
 
@@ -32,13 +32,13 @@ If you're new to Redis Cloud, see the [Quick Start]({{< relref "/operate/rc/rc-q
 
 ## Additional tasks
 
-- [Monitor database performance]({{< relref "/operate/rc/databases/monitor-performance" >}}) 
+- [Monitor database performance]({{< relref "/operate/rc/databases/monitor-performance" >}})
 
-- [Import data into databases]({{< relref "/operate/rc/databases/import-data" >}}) 
+- [Import data into databases]({{< relref "/operate/rc/databases/import-data" >}})
 
 - [Back up databases]({{< relref "/operate/rc/databases/back-up-data" >}})
 
-- [Secure database access]({{< relref "/operate/rc/security/database-security/" >}})
+- [Secure database access]({{< relref "/operate/rc/security/network-data-security/" >}})
 
 - [Flush database data]({{< relref "/operate/rc/databases/flush-data" >}})
 

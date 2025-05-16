@@ -19,9 +19,9 @@ Redis Cloud supports databases on the following cloud providers:
 
 ## Amazon Web Services
 
-Redis Cloud supports databases in the following Amazon Web Services (AWS) regions. 
+Redis Cloud supports databases in the following Amazon Web Services (AWS) regions.
 
-Redis Cloud Pro databases on AWS support [VPC Peering]({{< relref "/operate/rc/security/vpc-peering#aws-vpc-peering" >}}) and [Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}).
+Redis Cloud Pro databases on AWS support [VPC Peering]({{< relref "/operate/rc/security/network-data-security/connect-private-endpoint/vpc-peering#aws-vpc-peering" >}}) and [Transit Gateway]({{< relref "/operate/rc/security/network-data-security/connect-private-endpoint/aws-transit-gateway" >}}).
 
 #### Americas
 
@@ -77,9 +77,9 @@ Redis Cloud Pro databases on AWS support [VPC Peering]({{< relref "/operate/rc/s
 
 ## Google Cloud
 
-Redis Cloud supports databases in the following Google Cloud regions. 
+Redis Cloud supports databases in the following Google Cloud regions.
 
-Redis Cloud Pro databases on Google Cloud support [VPC Peering]({{< relref "/operate/rc/security/vpc-peering#gcp-vpc-peering" >}}) and [Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}}).
+Redis Cloud Pro databases on Google Cloud support [VPC Peering]({{< relref "/operate/rc/security/network-data-security/connect-private-endpoint/vpc-peering#gcp-vpc-peering" >}}) and [Private Service Connect]({{< relref "/operate/rc/security/network-data-security/connect-private-endpoint/private-service-connect" >}}).
 
 #### Americas
 

@@ -14,20 +14,20 @@ aliases:
     - /operate/rc/security/private-service-connect/
 ---
 
-[Private Service Connect](https://cloud.google.com/vpc/docs/private-service-connect) (PSC) creates a private endpoint that allows secure connections to Redis Cloud databases without exposing your application's [virtual private cloud](https://en.wikipedia.org/wiki/Virtual_private_cloud) (VPC). 
+[Private Service Connect](https://cloud.google.com/vpc/docs/private-service-connect) (PSC) creates a private endpoint that allows secure connections to Redis Cloud databases without exposing your application's [virtual private cloud](https://en.wikipedia.org/wiki/Virtual_private_cloud) (VPC).
 
 This feature is only available for Redis Cloud Pro subscriptions hosted on Google Cloud.
 
 ## Considerations
 
-You can use Private Service Connect as an alternative to [VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}}), or you can enable both for your subscription.
+You can use Private Service Connect as an alternative to [VPC peering]({{< relref "/operate/rc/security/network-data-security/connect-private-endpoint/vpc-peering" >}}), or you can enable both for your subscription.
 
 Compared to VPC peering, Private Service Connect:
 
 - Only exposes the private endpoint instead of the entire application VPC network.
 
 - Allows producer (Redis Cloud VPC) and consumer (application VPC) CIDR ranges to overlap.
- 
+
 - Has slightly higher network latency than VPC peering due to load balancing requirements.
 
     {{<note>}}
@@ -76,7 +76,7 @@ First, configure Private Service Connect in Redis Cloud:
     | _Endpoint name_ | Prefix used to create PSC endpoints in the consumer application VPC, so endpoint names appear in Google Cloud as _endpoint name prefix + endpoint number_ |
 
 6. Continue to the **Add connections** step:
-    
+
     {{<image filename="images/rc/button-subscription-continue.png" width="100px" alt="Use the Continue button to proceed to the Add connections step." >}}
 
 7. Select either **Bash Shell** or **PowerShell** and then download or copy the provided `gcloud` script for later:
@@ -97,7 +97,7 @@ Now that you have a pending Private Service Connect entry, you need to create th
 Since it can take some time for the DNS changes to become active, we recommend you wait 10 minutes before running the `gcloud` script in the next steps.
     {{</note>}}
 
-1. If you already have a copy of the `gcloud` script shown earlier during the **Add connections** step, you can continue to the next step. 
+1. If you already have a copy of the `gcloud` script shown earlier during the **Add connections** step, you can continue to the next step.
 
     1. Otherwise, return to your Redis Cloud subscription's **Connectivity > Private Service Connect** screen and select **Complete setup** for the pending endpoint:
 

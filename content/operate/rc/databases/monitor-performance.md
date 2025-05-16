@@ -20,7 +20,7 @@ The **Metrics** tab of the **View Database** screen provides a series of graphs 
 
 Performance data provides insight into how your database is being used and how well it is performing.
 
-The interval scrollbar controls the time period displayed in the graphs.  
+The interval scrollbar controls the time period displayed in the graphs.
 
 {{<image filename="images/rc/database-metrics-interval-scrollbar.png" width="75%" alt="The Metrics tab of the View Database screen." >}}
 
@@ -67,7 +67,7 @@ For more detailed analysis, consider using [Redis Insight]({{< relref "/develop/
 
 Depending on your subscription plan, you can enable alerts for several metrics for a given database.
 
-To do so, go to the **Configuration** tab of the database and then locate the **Alerts** section. 
+To do so, go to the **Configuration** tab of the database and then locate the **Alerts** section.
 
 | Setting name | Description | Default Value | Accepted Range |
 |---|---|---|---|
@@ -86,7 +86,7 @@ Alert settings are specific to each database. Make sure you've configured alerts
 
 Any member of the account team can receive alert emails.
 
-To update alert settings for one or more team members, select **Access Management** from the Redis Cloud console menu and then select the **Team** tab. For details, see [Access management]({{< relref "/operate/rc/security/access-control/access-management" >}}).
+To update alert settings for one or more team members, select **Access Management** from the Redis Cloud console menu and then select the **Team** tab. For details, see [Access management]({{< relref "/operate/rc/security/console-access-control/access-management" >}}).
 
 If you subscribe to Redis Cloud through a Platform-as-a-Service (PaaS) provider (such as Heroku), you will need to review your provider's documentation for help managing your team.
 

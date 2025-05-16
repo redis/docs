@@ -12,7 +12,7 @@ weight: $weight
 ---
 
 {{<banner-article bannerColor="#fff8dc">}}
-This article applies to an earlier Google Cloud marketplace listing. For the current [Redis Cloud - Pay as You Go](https://console.cloud.google.com/marketplace/product/redis-marketplace-isaas/redis-enterprise-cloud-flexible-plan) listing, manage your team through the [Access Management]({{< relref "/operate/rc/security/access-control/access-management" >}}) screen. See [Sign up for Redis Cloud with Google Cloud Marketplace]({{< relref "/operate/rc/cloud-integrations/gcp-marketplace/" >}}) for more information.
+This article applies to an earlier Google Cloud marketplace listing. For the current [Redis Cloud - Pay as You Go](https://console.cloud.google.com/marketplace/product/redis-marketplace-isaas/redis-enterprise-cloud-flexible-plan) listing, manage your team through the [Access Management]({{< relref "/operate/rc/security/console-access-control/access-management" >}}) screen. See [Sign up for Redis Cloud with Google Cloud Marketplace]({{< relref "/operate/rc/cloud-integrations/gcp-marketplace/" >}}) for more information.
 {{</banner-article>}}
 
 If you subscribed to Redis Cloud through Google Cloud Marketplace using the **Redis Cloud** listing, use the IAM section of the Google Cloud console to manage your team.
