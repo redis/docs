@@ -68,7 +68,7 @@ With `row_format: full` the input value is a JSON object with the following stru
 - `table` - The table name.
 - `schema` - The schema name. 
  
-Note: The `db` and `schema` are database-specific and may not be available in all databases. For example with MySQL `schema` is not available and `db` is the database name.
+Note: The `db` and `schema` fields are database-specific and may not be available in all databases. For example, MySQL doesn't use `schema` and uses `db` as the database name.
 
 
 Usage example:
