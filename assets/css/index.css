@@ -1074,3 +1074,24 @@ a[href*="#no-click"], img[src*="#no-click"] {
 .dd-item .highlight:hover {
   color: #5961ff;
 }
+
+.copy-button {
+  background-color: #eee;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.copy-button svg {
+  width: 16px;
+  height: 16px;
+  fill: #333;
+}
+
+.copy-button:hover {
+  background-color: #ddd;
+}
