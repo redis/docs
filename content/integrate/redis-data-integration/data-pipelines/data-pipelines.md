@@ -327,7 +327,7 @@ The main sections of these files are:
   - Use `after.<FIELD_NAME>` to get the value of a field *after* it was updated in the source database
   - Use `after.<FIELD_NAME>` when adding new fields during transformations
   
-  A more detailed explanation about the full format can be found under [Row Format]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples/redis-row-format#full" >}})
+  See [Row Format]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples/redis-row-format#full" >}}) for a more detailed explanation of the full format.
   {{< /note >}}
  
 - `output`: This is a mandatory section to specify the data structure(s) that
