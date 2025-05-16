@@ -18,7 +18,7 @@ weight: 40
 ## Understanding Default Key Names
 
 When RDI synchronizes data from your primary database to Redis, it automatically generates key names based on a specific pattern.
-By default, Redis Data Integration creates keys using the following format:
+By default, RDI creates keys using the following format:
 
 * **Single primary key**: `tablename:primarykeyname:primarykeyvalue`
 * **Composite primary keys**: `tablename:key1name:key1value:key2name:key2value`
