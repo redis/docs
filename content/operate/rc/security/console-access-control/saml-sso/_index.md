@@ -26,15 +26,15 @@ When SAML SSO is enabled, the [identity provider (IdP)](https://en.wikipedia.org
 
 You can use any identity provider to integrate with Redis Cloud as long as it supports the SAML protocol. You can also refer to these integration guides for several popular identity providers:
 
-  - [Auth0 SAML integration]({{< relref "/operate/rc/security/access-control/saml-sso/saml-integration-auth0" >}})
-  - [AWS IAM Identity Center SAML integration]({{< relref "/operate/rc/security/access-control/saml-sso/saml-integration-aws-identity-center" >}})
-  - [Azure Active Directory SAML integration]({{< relref "/operate/rc/security/access-control/saml-sso/saml-integration-azure-ad" >}})
-  - [Google Workspace integration]({{< relref "/operate/rc/security/access-control/saml-sso/saml-integration-google" >}})
-  - [Okta SAML integration (Generic)]({{< relref "/operate/rc/security/access-control/saml-sso/saml-integration-okta-generic" >}})
-  - [Okta SAML integration (Org2Org)]({{< relref "/operate/rc/security/access-control/saml-sso/saml-integration-okta-org2org" >}})
-  - [PingIdentity SAML integration]({{< relref "/operate/rc/security/access-control/saml-sso/saml-integration-ping-identity" >}})
+  - [Auth0 SAML integration]({{< relref "/operate/rc/security/console-access-control/saml-sso/saml-integration-auth0" >}})
+  - [AWS IAM Identity Center SAML integration]({{< relref "/operate/rc/security/console-access-control/saml-sso/saml-integration-aws-identity-center" >}})
+  - [Azure Active Directory SAML integration]({{< relref "/operate/rc/security/console-access-control/saml-sso/saml-integration-azure-ad" >}})
+  - [Google Workspace integration]({{< relref "/operate/rc/security/console-access-control/saml-sso/saml-integration-google" >}})
+  - [Okta SAML integration (Generic)]({{< relref "/operate/rc/security/console-access-control/saml-sso/saml-integration-okta-generic" >}})
+  - [Okta SAML integration (Org2Org)]({{< relref "/operate/rc/security/console-access-control/saml-sso/saml-integration-okta-org2org" >}})
+  - [PingIdentity SAML integration]({{< relref "/operate/rc/security/console-access-control/saml-sso/saml-integration-ping-identity" >}})
 
-After you activate SAML SSO for a Redis Cloud account, all existing local users for the account, except for the user that set up SAML SSO, are converted to SAML users and are required to use SAML SSO to sign in. Before they can sign in to Redis Cloud, the identity provider admin needs to set up these users on the IdP side and configure the `redisAccountMapping` attribute to map them to the appropriate Redis Cloud accounts and [roles]({{< relref "/operate/rc/security/access-control/access-management#team-management-roles" >}}).
+After you activate SAML SSO for a Redis Cloud account, all existing local users for the account, except for the user that set up SAML SSO, are converted to SAML users and are required to use SAML SSO to sign in. Before they can sign in to Redis Cloud, the identity provider admin needs to set up these users on the IdP side and configure the `redisAccountMapping` attribute to map them to the appropriate Redis Cloud accounts and [roles]({{< relref "/operate/rc/security/console-access-control/access-management#team-management-roles" >}}).
 
 ### IdP-initiated SSO
 
@@ -58,7 +58,7 @@ You can also initiate single sign-on from the [Redis Cloud console](https://clou
 
 ### Multi-factor authentication
 
-The account owner remains a local user and should set up [multi-factor authentication (MFA)]({{< relref "/operate/rc/security/access-control/multi-factor-authentication" >}}) to help secure their account. After SAML activation, the account owner can set up additional local bypass users with MFA enabled.
+The account owner remains a local user and should set up [multi-factor authentication (MFA)]({{< relref "/operate/rc/security/console-access-control/multi-factor-authentication" >}}) to help secure their account. After SAML activation, the account owner can set up additional local bypass users with MFA enabled.
 
 If MFA enforcement is enabled, note that Redis Cloud does not enforce MFA for SAML users since the identity provider handles MFA management and enforcement.
 
@@ -139,7 +139,7 @@ Set up a SAML app to integrate Redis Cloud with your identity provider:
     | FirstName | User's first name |
     | LastName | User's last name |
     | Email | User's email address (used as the username in the Redis Cloud console) |
-    | redisAccountMapping | Key-value pair of a lowercase [role name]({{< relref "/operate/rc/security/access-control/access-management#team-management-roles" >}}) (owner, member, manager, billing_admin, or viewer) and the user's Redis Cloud **Account number** found in the [account settings]({{< relref "/operate/rc/accounts/account-settings" >}}) |
+    | redisAccountMapping | Key-value pair of a lowercase [role name]({{< relref "/operate/rc/security/console-access-control/access-management#team-management-roles" >}}) (owner, member, manager, billing_admin, or viewer) and the user's Redis Cloud **Account number** found in the [account settings]({{< relref "/operate/rc/accounts/account-settings" >}}) |
 
     For `redisAccountMapping`, you can add the same user to multiple SAML-enabled accounts using one of these options:
 
@@ -262,7 +262,7 @@ To activate SAML SSO:
 If you see a **SAML activation failed** notification when redirected to the Redis Cloud sign-in screen, sign in with your local user credentials and review the SAML configuration for issues.
     {{</note>}}
 
-After you activate SAML SSO, [add a few local bypass users]({{< relref "/operate/rc/security/access-control/access-management#manage-team-access" >}}) from the **Team** tab. Local bypass users should [set up MFA]({{< relref "/operate/rc/security/access-control/multi-factor-authentication" >}}) for additional security.
+After you activate SAML SSO, [add a few local bypass users]({{< relref "/operate/rc/security/console-access-control/access-management#manage-team-access" >}}) from the **Team** tab. Local bypass users should [set up MFA]({{< relref "/operate/rc/security/console-access-control/multi-factor-authentication" >}}) for additional security.
 
 ## Update configuration {#update-config}
 

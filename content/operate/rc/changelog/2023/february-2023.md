@@ -18,6 +18,6 @@ This changelog lists new features, enhancements, and other changes added to Redi
 
 ## New features and enhancements
 
-- [Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}})
+- [Private Service Connect]({{< relref "/operate/rc/security/network-data-security/connect-private-endpoint/private-service-connect" >}})
 
 - Additional enhancements

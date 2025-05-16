@@ -16,9 +16,9 @@ weight: 38
 
 ### Logs Viewer role
 
-You can now add a user with the **Logs Viewer** role in the [Access Management]({{< relref "/operate/rc/security/access-control/access-management" >}}) screen. Logs Viewers can only use the [Redis Cloud API]({{< relref "/operate/rc/api" >}}) [`GET logs/`](https://api.redislabs.com/v1/swagger-ui/index.html#/Account/getAccountSystemLogs) endpoint. 
+You can now add a user with the **Logs Viewer** role in the [Access Management]({{< relref "/operate/rc/security/console-access-control/access-management" >}}) screen. Logs Viewers can only use the [Redis Cloud API]({{< relref "/operate/rc/api" >}}) [`GET logs/`](https://api.redislabs.com/v1/swagger-ui/index.html#/Account/getAccountSystemLogs) endpoint. 
 
-See [Team Management roles]({{< relref "/operate/rc/security/access-control/access-management#team-management-roles" >}}) to see an overview of user roles and their permissions.
+See [Team Management roles]({{< relref "/operate/rc/security/console-access-control/access-management#team-management-roles" >}}) to see an overview of user roles and their permissions.
 
 ### Redis Flex preview on Redis Cloud Essentials
 

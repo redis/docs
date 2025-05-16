@@ -17,7 +17,7 @@ Redis Cloud provides a number of ways to secure subscriptions and databases.
 As a Redis Cloud user, consider these security domains:
 
 - The [Redis Cloud console](#admin-console-security)
-- [Your databases]({{< relref "/operate/rc/security/database-security/" >}})
+- [Your databases]({{< relref "/operate/rc/security/network-data-security/" >}})
 - The [Redis Cloud API]({{< relref "/operate/rc/api/get-started/enable-the-api" >}})
 
 First, you might want to review our [shared responsibility model]({{< relref "/operate/rc/security/shared-responsibility-model" >}}) for security.
@@ -28,11 +28,11 @@ The Redis Cloud console is the web application you use to manage your Redis Clou
 
 Secure access to the Redis Cloud console by:
 
-- Assigning appropriate roles to [team members with access]({{< relref "/operate/rc/security/access-control/access-management#team-management-roles" >}}).
+- Assigning appropriate roles to [team members with access]({{< relref "/operate/rc/security/console-access-control/access-management#team-management-roles" >}}).
 
-- Enabling [multi-factor authentication]({{< relref "/operate/rc/security/access-control/multi-factor-authentication" >}}).
+- Enabling [multi-factor authentication]({{< relref "/operate/rc/security/console-access-control/multi-factor-authentication" >}}).
 
-- Enabling [SAML SSO]({{< relref "/operate/rc/security/access-control/saml-sso" >}}).
+- Enabling [SAML SSO]({{< relref "/operate/rc/security/console-access-control/saml-sso" >}}).
 
 {{< note >}}
 A user session on Redis Cloud expires after 30 minutes. You'll be signed out of Redis Cloud after 30 minutes of inactivity.
@@ -40,13 +40,13 @@ A user session on Redis Cloud expires after 30 minutes. You'll be signed out of 
 
 ## Database security
 
-You have several options when it comes to securing your Redis Cloud databases. For more information, see [Cloud database security]({{< relref "/operate/rc/security/database-security/" >}}). Options include:
+You have several options when it comes to securing your Redis Cloud databases. For more information, see [Cloud database security]({{< relref "/operate/rc/security/network-data-security/" >}}). Options include:
 
-- [Encryption at rest]({{< relref "/operate/rc/security/encryption-at-rest" >}})
-- [Role-based access control]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control" >}})
-- [TLS]({{< relref "/operate/rc/security/database-security/tls-ssl" >}})
-- [Network security]({{< relref "/operate/rc/security/database-security/network-security" >}}) using
-[VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}}) and [CIDR whitelist]({{< relref "/operate/rc/security/cidr-whitelist" >}})
+- [Encryption at rest]({{< relref "/operate/rc/security/network-data-security/encryption-at-rest" >}})
+- [Role-based access control]({{< relref "/operate/rc/security/data-access-control/role-based-access-control" >}})
+- [TLS]({{< relref "/operate/rc/security/network-data-security/tls-ssl" >}})
+- [Network security]({{< relref "/operate/rc/security/network-data-security/connect-private-endpoint" >}}) using
+[VPC peering]({{< relref "/operate/rc/security/network-data-security/connect-private-endpoint/vpc-peering" >}}) and [CIDR whitelist]({{< relref "/operate/rc/security/network-data-security/cidr-whitelist" >}})
 
 ## API security
 

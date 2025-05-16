@@ -111,7 +111,7 @@ To set up a Redis Cloud instance for Bedrock, you need to:
 
 ## Enable TLS and get certificates {#get-certs}
 
-For your database to be fully secure, you must enable [Transport Layer Security (TLS)]({{< relref "/operate/rc/security/database-security/tls-ssl#enable-tls" >}}) for your database with client authentication.
+For your database to be fully secure, you must enable [Transport Layer Security (TLS)]({{< relref "/operate/rc/security/network-data-security/tls-ssl#enable-tls" >}}) for your database with client authentication.
 
 1. Select **Databases** from the [Redis Cloud console](https://cloud.redis.io/) menu and then select your database from the list.
 
@@ -165,7 +165,7 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
 
 - `username`: Database username
 - `password`: Database password
-- `serverCertificate`: Contents of the [server certificate]({{< relref "/operate/rc/security/database-security/tls-ssl#download-certificates" >}}) (`redis_ca.pem`)
+- `serverCertificate`: Contents of the [server certificate]({{< relref "/operate/rc/security/network-data-security/tls-ssl#download-certificates" >}}) (`redis_ca.pem`)
 - `clientCertificate`: Contents of the client certificate (`redis_user.crt`)
 - `clientPrivateKey`: Contents of the client private key (`redis_user_private.key`)
 

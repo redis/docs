@@ -10,9 +10,13 @@ description: null
 headerRange: '[1-3]'
 toc: 'true'
 weight: 2
+aliases:
+    - /operate/rc/security/access-control/data-access-control/create-roles/
+    - /operate/rc/security/access-control/database-access-control/create-roles/
+    - /operate/rc/security/database-access-control/create-roles/
 ---
 
-To assign [Redis ACLs]({{< relref "/operate/rc/security/access-control/data-access-control/configure-acls" >}}) to a data access role:
+To assign [Redis ACLs]({{< relref "/operate/rc/security/data-access-control/role-based-access-control/configure-acls" >}}) to a data access role:
 
 1. Go to **Data Access Control** from the [Redis Cloud console](https://cloud.redis.io/#/) menu.
 
@@ -42,9 +46,9 @@ To assign [Redis ACLs]({{< relref "/operate/rc/security/access-control/data-acce
 
 When you assign a user-defined ACL rule to a role and associate it with one or more databases, we'll verify that the ACL rule will work with the selected databases. 
 
-After you create a role, you can assign it to a user. Users with this role can access the databases according to the role's associated Redis ACLs. For more information, see [Assign roles to users]({{< relref "/operate/rc/security/access-control/data-access-control/create-assign-users#assign-roles-to-existing-users" >}}).
+After you create a role, you can assign it to a user. Users with this role can access the databases according to the role's associated Redis ACLs. For more information, see [Assign roles to users]({{< relref "/operate/rc/security/data-access-control/role-based-access-control/create-assign-users#assign-roles-to-existing-users" >}}).
 
-To assign Redis ACLs to a role for an [Active-Active database]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}), see [Active-Active access roles]({{< relref "/operate/rc/security/access-control/data-access-control/active-active-roles" >}}).
+To assign Redis ACLs to a role for an [Active-Active database]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}), see [Active-Active access roles]({{< relref "/operate/rc/security/data-access-control/role-based-access-control/active-active-roles" >}}).
 
 {{< note >}}
 {{< embed-md "rc-acls-note.md" >}}

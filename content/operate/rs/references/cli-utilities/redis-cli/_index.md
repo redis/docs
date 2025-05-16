@@ -56,7 +56,7 @@ To connect to a Redis Enterprise Software or Redis Cloud database over TLS:
 
 1. Download or copy the Redis Enterprise server (or proxy) certificates.
 
-    - For Redis Cloud, see [Download certificates]({{< relref "/operate/rc/security/database-security/tls-ssl#download-certificates" >}}) for detailed instructions on how to download the server certificates (`redis_ca.pem`) from the [Redis Cloud console](https://cloud.redis.io/).
+    - For Redis Cloud, see [Download certificates]({{< relref "/operate/rc/security/network-data-security/tls-ssl#download-certificates" >}}) for detailed instructions on how to download the server certificates (`redis_ca.pem`) from the [Redis Cloud console](https://cloud.redis.io/).
 
     - For Redis Enterprise Software, copy the proxy certificate from the Cluster Manager UI (**Cluster > Security > Certificates > Server authentication**) or from a cluster node (`/etc/opt/redislabs/proxy_cert.pem`).
 

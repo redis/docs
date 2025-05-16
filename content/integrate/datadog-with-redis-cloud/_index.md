@@ -42,7 +42,7 @@ Select 'Integrations' from the menu in the Datadog portal and then enter 'Redis'
 'Redis Cloud by Redis, Inc.'. Next click 'Install Integration' in the top-right corner of the overview page.
 
 If you have not already created a VPC between the Redis Cloud cluster and the network in which the machine hosting the 
-Datadog agent lives you should do so now. Please visit [VPC Peering](https://redis.io/docs/latest/operate/rc/security/vpc-peering/) 
+Datadog agent lives you should do so now. Please visit [VPC Peering](https://redis.io/docs/latest/operate/rc/security/network-data-security/connect-private-endpoint/vpc-peering/) 
 and follow the instructions for the cloud platform of your choice.
 
 Returning to the Datadog console, open the 'Configure' tab of the integration and follow the instructions for installing 

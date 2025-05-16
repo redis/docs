@@ -10,7 +10,7 @@ description: Redis Cloud supports multi-factor authentication to reduce the risk
 linkTitle: Multi-factor authentication
 weight: 3
 aliases:
-    - /operate/rc/security/access-control/multi-factor-authentication/
+    - /operate/rc/security/console-access-control/multi-factor-authentication/
 ---
 
 To reduce the chances of unauthorized access, Redis Cloud allows users to enable multi-factor authentication (MFA).
@@ -89,7 +89,7 @@ Account owner users can enable MFA enforcement for all users in their account.
 After MFA is enforced for the account, all users who do not have MFA enabled will be required to configure MFA the next time they sign in to the Redis Cloud console.
 
 {{< note >}}
-Redis Cloud does not enforce MFA for [SAML SSO]({{< relref "/operate/rc/security/access-control/saml-sso" >}}) users since the identity provider handles MFA management and enforcement.
+Redis Cloud does not enforce MFA for [SAML SSO]({{< relref "/operate/rc/security/console-access-control/saml-sso" >}}) users since the identity provider handles MFA management and enforcement.
 {{< /note >}}
 
 To enable MFA enforcement for all user accounts:

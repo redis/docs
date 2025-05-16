@@ -23,4 +23,4 @@ You can now download shard cost reports in CSV format from the [**Billing and Pa
 {{< embed-md "rc-cost-report-csv.md" >}}
 ### SAML account linking tokens
 
-The process for [linking new Redis accounts]({{< relref "/operate/rc/security/access-control/saml-sso#link-other-accounts" >}}) to your [SAML single sign-on]({{< relref "/operate/rc/security/access-control/saml-sso" >}}) configuration has changed to enhance security. Now, both accounts must use a token to ensure that the connection is legitimate.
+The process for [linking new Redis accounts]({{< relref "/operate/rc/security/console-access-control/saml-sso#link-other-accounts" >}}) to your [SAML single sign-on]({{< relref "/operate/rc/security/console-access-control/saml-sso" >}}) configuration has changed to enhance security. Now, both accounts must use a token to ensure that the connection is legitimate.

@@ -23,7 +23,7 @@ You can use Prometheus and Grafana to collect and visualize your Redis Cloud met
 
 Redis Cloud exposes its metrics through a Prometheus endpoint. You can configure your Prometheus server to scrape metrics from your Redis Cloud subscription on port 8070.
 
-The Redis Cloud Prometheus endpoint is exposed on Redis Cloud's internal network. To access this network, enable [VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}}) or [Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}}). Both options are only available with Redis Cloud Pro. You cannot use Prometheus and Grafana with Redis Cloud Essentials.
+The Redis Cloud Prometheus endpoint is exposed on Redis Cloud's internal network. To access this network, enable [VPC peering]({{< relref "/operate/rc/security/network-data-security/connect-private-endpoint/vpc-peering" >}}) or [Private Service Connect]({{< relref "/operate/rc/security/network-data-security/connect-private-endpoint/private-service-connect" >}}). Both options are only available with Redis Cloud Pro. You cannot use Prometheus and Grafana with Redis Cloud Essentials.
 
 For more information on how Prometheus communicates with Redis Enterprise clusters, see [Prometheus integration with Redis Enterprise Software]({{< relref "/integrate/prometheus-with-redis-enterprise/" >}}).
 
@@ -35,7 +35,7 @@ You can quickly set up Prometheus and Grafana for testing using the Prometheus a
 
 1. Create a [Redis Cloud Pro database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}). 
 
-1. Set up [VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}}).
+1. Set up [VPC peering]({{< relref "/operate/rc/security/network-data-security/connect-private-endpoint/vpc-peering" >}}).
 
 1. Extract the Prometheus endpoint from the private endpoint to your database. The private endpoint is in the [Redis Cloud console](https://cloud.redis.io/) under the [Configuration tab]({{< relref "/operate/rc/databases/view-edit-database#configuration-tab" >}}) of your database. The Prometheus endpoint is on port 8070 of the internal server.
 

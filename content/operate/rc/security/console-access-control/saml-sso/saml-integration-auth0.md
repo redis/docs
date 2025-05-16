@@ -15,9 +15,9 @@ aliases:
 
 This guide shows how to configure [Auth0](https://auth0.com/docs) as a SAML single sign-on identity provider (IdP) for your Redis Cloud account.
 
-To learn more about Redis Cloud support for SAML, see [SAML single sign-on]({{< relref "/operate/rc/security/access-control/saml-sso" >}}).
+To learn more about Redis Cloud support for SAML, see [SAML single sign-on]({{< relref "/operate/rc/security/console-access-control/saml-sso" >}}).
 
-Before completing this guide, you must [verify ownership of any domains]({{< relref "/operate/rc/security/access-control/saml-sso#verify-domain" >}}) you want to associate with your SAML setup.
+Before completing this guide, you must [verify ownership of any domains]({{< relref "/operate/rc/security/console-access-control/saml-sso#verify-domain" >}}) you want to associate with your SAML setup.
 
 ## Step 1: Set up your identity provider (IdP)
 

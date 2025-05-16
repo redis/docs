@@ -24,7 +24,7 @@ See [Create an Active-Active subscription]({{< relref "/operate/rc/databases/cre
 
 ### Mutual TLS enhancements
 
-Databases that support [Transport layer security (TLS)]({{< relref "/operate/rc/security/database-security/tls-ssl" >}}) now support multiple client certificates for use with mutual TLS. This makes it easier to rotate client certificates outside of a maintenance window. In addition, you can now provide a client Certificate Authority chain to trust any leaf certificate it signed for more flexibility.
+Databases that support [Transport layer security (TLS)]({{< relref "/operate/rc/security/network-data-security/tls-ssl" >}}) now support multiple client certificates for use with mutual TLS. This makes it easier to rotate client certificates outside of a maintenance window. In addition, you can now provide a client Certificate Authority chain to trust any leaf certificate it signed for more flexibility.
 
-See [Transport layer security (TLS)]({{< relref "/operate/rc/security/database-security/tls-ssl" >}}) to learn how to enable TLS. 
+See [Transport layer security (TLS)]({{< relref "/operate/rc/security/network-data-security/tls-ssl" >}}) to learn how to enable TLS. 
 
