@@ -9,7 +9,7 @@ categories:
 - rdi
 description: null
 group: di
-linkTitle: Set the key name in target database
+linkTitle: Set the key name in the target database
 summary: Learn how to customize Redis key names when synchronizing data from your primary database using Redis Data Integration.
 type: integration
 weight: 40
