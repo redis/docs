@@ -20,11 +20,11 @@ If you want to run Redis commands without `redis-cli`, you can [connect to a dat
 
 ## Install `redis-cli`
 
-When you install Redis Enterprise Software or Redis Community Edition, it also installs the `redis-cli` command-line utility.
+When you install Redis Enterprise Software or Redis Open Source, it also installs the `redis-cli` command-line utility.
 
 To learn how to install Redis and `redis-cli`, see the following installation guides:
 
-- [Redis Community Edition]({{< relref "/operate/oss_and_stack/install/install-redis/" >}})
+- [Redis Open Source]({{< relref "/operate/oss_and_stack/install/install-stack/" >}})
 
 - [Redis Enterprise Software]({{< relref "/operate/rs/7.8/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}})
 

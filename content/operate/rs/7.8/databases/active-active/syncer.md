@@ -21,7 +21,7 @@ The syncer process:
 1. Reads data from that database instance
 1. Writes the data to the local cluster's primary(master) shard
 
-Some replication capabilities are also included in [Redis Community Edition]({{< relref "/operate/oss_and_stack/management/replication" >}}).
+Some replication capabilities are also included in [Redis Open Source]({{< relref "/operate/oss_and_stack/management/replication" >}}).
 
 The primary (also known as master) shard at the top of the primary-replica tree creates a replication ID.
 This replication ID is identical for all replicas in that tree.

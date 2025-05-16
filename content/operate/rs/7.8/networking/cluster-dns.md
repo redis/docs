@@ -11,7 +11,7 @@ weight: $weight
 url: '/operate/rs/7.8/networking/cluster-dns/'
 ---
 
-By default, Redis Enterprise Software deployments use DNS to communicate between nodes.  You can also use the [Discovery Service]({{< relref "/operate/rs/7.8/databases/durability-ha/discovery-service.md" >}}), which uses IP addresses to connect and complies with the [Redis Sentinel API]({{< relref "/operate/oss_and_stack/management/sentinel" >}}) supported by Redis Community Edition.
+By default, Redis Enterprise Software deployments use DNS to communicate between nodes.  You can also use the [Discovery Service]({{< relref "/operate/rs/7.8/databases/durability-ha/discovery-service.md" >}}), which uses IP addresses to connect and complies with the [Redis Sentinel API]({{< relref "/operate/oss_and_stack/management/sentinel" >}}) supported by Redis Open Source.
 
 Each node in a Redis Enterprise cluster includes a small DNS server to manage internal functions, such as high availability, automatic failover, automatic migration, and so on.
 Nodes should only run the DNS server included with the software.  Running additional DNS servers can lead to unexpected behavior.

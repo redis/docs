@@ -12,7 +12,7 @@ weight: 10
 url: '/operate/rs/7.8/references/compatibility/commands/scripting/'
 ---
 
-The following table shows which Redis Community Edition [scripting and function commands]({{< relref "/commands" >}}?group=scripting) are compatible with standard and Active-Active databases in Redis Enterprise Software and Redis Cloud.
+The following table shows which Redis Open Source [scripting and function commands]({{< relref "/commands" >}}?group=scripting) are compatible with standard and Active-Active databases in Redis Enterprise Software and Redis Cloud.
 
 ## Function commands
 

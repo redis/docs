@@ -12,7 +12,7 @@ weight: 10
 url: '/operate/rs/7.8/references/compatibility/commands/connection/'
 ---
 
-The following tables show which Redis Community Edition [connection management commands]({{< relref "/commands" >}}?group=connection) are compatible with standard and Active-Active databases in Redis Enterprise Software and Redis Cloud.
+The following tables show which Redis Open Source [connection management commands]({{< relref "/commands" >}}?group=connection) are compatible with standard and Active-Active databases in Redis Enterprise Software and Redis Cloud.
 
 
 | Command | Redis<br />Enterprise | Redis<br />Cloud | Notes |
@@ -40,4 +40,4 @@ The following tables show which Redis Community Edition [connection management c
 | [PING]({{< relref "/commands/ping" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 | [QUIT]({{< relref "/commands/quit" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v7.2.0. |
 | [RESET]({{< relref "/commands/reset" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
-| [SELECT]({{< relref "/commands/select" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | Redis Enterprise does not support shared databases due to potential negative performance impacts and blocks any related commands. The `SELECT` command is supported solely for compatibility with Redis Community Edition but does not perform any operations in Redis Enterprise. |
+| [SELECT]({{< relref "/commands/select" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | Redis Enterprise does not support shared databases due to potential negative performance impacts and blocks any related commands. The `SELECT` command is supported solely for compatibility with Redis Open Source but does not perform any operations in Redis Enterprise. |
