@@ -17,7 +17,7 @@ You can renew these certificates by replacing them with new self-signed certific
 
 ## Renew self-signed certificates
 
-As of [v6.2.18-70]({{< relref "/operate/rs/release-notes/rs-6-2-18-releases/rs-6-2-18-70" >}}), Redis Enterprise Software includes a script to generate self-signed certificates.  
+As of v6.2.18-70, Redis Enterprise Software includes a script to generate self-signed certificates.  
 
 By default, the `generate_self_signed_certs.sh` script is located in `/opt/redislabs/utils/`.  
 

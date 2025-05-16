@@ -25,7 +25,7 @@ Before you upgrade a cluster's operating system:
 
 1. If the cluster contains databases that use modules:
 
-    1. Update all nodes in the cluster to [Redis Enterprise Software version 7.2.4-52]({{< relref "/operate/rs/release-notes/rs-7-2-4-releases" >}}) or later before you upgrade the OS.
+    1. Update all nodes in the cluster to [Redis Enterprise Software version 7.2.4-52](https://redis.io/docs/latest/operate/rs/release-notes/rs-7-2-4-releases) or later before you upgrade the OS.
 
     1. Check the status of modules using [`rladmin`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin" >}}):
 
@@ -79,6 +79,8 @@ To upgrade the cluster's operating system, use one of the following rolling upgr
 
 1. [Add the new node]({{< relref "/operate/rs/7.4/clusters/add-node" >}})  to the cluster.
 
+1. If the [cluster uses DNS]({{<relref "/operate/rs/7.4/networking/cluster-dns">}}), add the new node’s IP address to the DNS records.
+
 1. [Remove one node]({{< relref "/operate/rs/7.4/clusters/remove-node#remove-a-node" >}}) running the earlier OS version from the cluster.
 
 1. Repeat the previous steps until all nodes with the earlier OS version are removed.
@@ -104,6 +106,8 @@ To upgrade the cluster's operating system, use one of the following rolling upgr
     ```sh
     rladmin cluster join nodes <cluster_member_ip_address> username <username> password <password> replace_node <node_id>
     ```
+
+1. If the [cluster uses DNS]({{<relref "/operate/rs/7.4/networking/cluster-dns">}}), add the new node’s IP address to the DNS records.
 
 1. Verify node health:
 
