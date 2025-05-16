@@ -2,8 +2,8 @@
 title: Develop with Redis
 description: Learn how to develop with Redis
 linkTitle: Develop
-layout: list-landing
 hideListLinks: true
+hideTOC: true
 ---
 
 Get a Redis server running in minutes with a free trial of
