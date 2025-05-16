@@ -322,7 +322,7 @@ The main sections of these files are:
 
   {{< note >}}If you set `row_format` to `full` under the `source` settings, you can access extra data from the
   change record in the transformation:
-  - Use can access the attributes of the key using under the `key` object. For example, `key.id` will give you the value of it the `id` column as long as it is part of the primary key.
+  - Use the `key` object to access the attributes of the key. For example, `key.id` will give you the value of the `id` column as long as it is part of the primary key.
   - Use `before.<FIELD_NAME>` to get the value of a field *before* it was updated in the source database
   - Use `after.<FIELD_NAME>` to get the value of a field *after* it was updated in the source database
   - Use `after.<FIELD_NAME>` when adding new fields during transformations
