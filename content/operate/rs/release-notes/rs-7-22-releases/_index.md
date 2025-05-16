@@ -111,6 +111,8 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
     For down: 2-1000000
 
+- RS156391: The `job_scheduler`'s memory usage can increase significantly when the diagnostic logging service is enabled.
+
 ## Known limitations
 
 #### Upload modules before OS upgrade
