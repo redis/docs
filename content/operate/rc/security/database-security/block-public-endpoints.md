@@ -17,7 +17,7 @@ Users with Redis Cloud Pro databases can choose to block public endpoints for al
 
 ## Block public endpoints
 
-You can block public endpoints for a subscription for a [new subscription](#new-subscription) or an [existing subscription](#existing-subscription).
+You can block public endpoints for a [new subscription](#new-subscription) or an [existing subscription](#existing-subscription).
 
 ### New subscription
 
