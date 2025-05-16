@@ -22,12 +22,12 @@ Follow the steps below to upgrade an existing
 [VM installation]({{< relref "/integrate/redis-data-integration/installation/install-vm" >}})
 of RDI:
 
-1.  Download the RDI installer from the [Redis download center](https://redis.io/downloads/)
+1.  Download the RDI installer from the [Redis download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-installation-{{< rdi-version >}}.tar.gz)
     (in the *Modules, Tools & Integration* category) and extract it to your
     preferred installation folder.
 
     ```bash
-    export RDI_VERSION=<version>
+    export RDI_VERSION={{< rdi-version >}}
     wget https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-installation-$RDI_VERSION.tar.gz
     tar -xvf rdi-installation-$RDI_VERSION.tar.gz
     ```
@@ -92,11 +92,11 @@ installation of RDI:
     [Using a private image registry]({{< relref "/integrate/redis-data-integration/installation/install-k8s#using-a-private-image-registry" >}})
     and add them to your local registry.
 
-1.  Download the RDI Helm chart tar file from the [Redis download center](https://redis.io/downloads/)
+1.  Download the RDI Helm chart tar file from the [Redis download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-{{< rdi-version >}}.tgz)
     (in the *Modules, Tools & Integration* category).
 
     ```bash
-    export RDI_VERSION=<version>
+    export RDI_VERSION={{< rdi-version >}}
     wget https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-$RDI_VERSION.tgz
     ```
 
