@@ -11,7 +11,7 @@ weight: 70
 url: '/operate/rs/7.8/security/certificates/certificate-based-authentication/'
 ---
 
-You can set up certificate-based authentication for specific users to enable secure, passwordless access to the Redis Enterprise Software [REST API]({{<relref "/operate/rs/references/rest-api">}}) and databases.
+You can set up certificate-based authentication for specific users to enable secure, passwordless access to the Redis Enterprise Software [REST API]({{<relref "/operate/rs/7.8/references/rest-api">}}) and databases.
 
 ## Set up certificate-based authentication
 
@@ -27,7 +27,7 @@ To set up certificate-based authentication:
 
 ### Add mtls_trusted_ca certificate {#add-cert}
 
-Add a trusted CA certificate `mtls_trusted_ca` to the cluster using an [update cluster certificate]({{<relref "/operate/rs/references/rest-api/requests/cluster/certificates#put-cluster-update_cert">}}) request:
+Add a trusted CA certificate `mtls_trusted_ca` to the cluster using an [update cluster certificate]({{<relref "/operate/rs/7.8/references/rest-api/requests/cluster/certificates#put-cluster-update_cert">}}) request:
 
 ```sh
 PUT /v1/cluster/update_cert
@@ -39,7 +39,7 @@ PUT /v1/cluster/update_cert
 
 ### Configure cluster settings {#config-cluster}
 
-[Update cluster settings]({{<relref "/operate/rs/references/rest-api/requests/cluster#put-cluster">}}) with mutual TLS configuration.
+[Update cluster settings]({{<relref "/operate/rs/7.8/references/rest-api/requests/cluster#put-cluster">}}) with mutual TLS configuration.
 
 For certificate validation by Subject Alternative Name (SAN), use:
 
@@ -76,11 +76,11 @@ Replace the placeholder values `<>` with your client certificate's subject value
 
 ### Enable mutual TLS for databases {#enable-mtls-dbs}
 
-Before you can connect to a database using certificate-based authentication, you must enable mutual TLS (mTLS). See [Enable TLS]({{<relref "/operate/rs/security/encryption/tls/enable-tls">}}) for detailed instructions.
+Before you can connect to a database using certificate-based authentication, you must enable mutual TLS (mTLS). See [Enable TLS]({{<relref "/operate/rs/7.8/security/encryption/tls/enable-tls">}}) for detailed instructions.
 
 ### Create certificate auth_method users {#create-cert-users}
 
-When you [create new users]({{<relref "/operate/rs/references/rest-api/requests/users#post-user">}}), include `"auth_method": "certificate"` and `certificate_subject_line` in the request body :
+When you [create new users]({{<relref "/operate/rs/7.8/references/rest-api/requests/users#post-user">}}), include `"auth_method": "certificate"` and `certificate_subject_line` in the request body :
 
 ```sh
 POST /v1/users
@@ -96,7 +96,7 @@ Replace the placeholder values `<>` with your client certificate's subject value
 
 To use the REST API with certificate-based authentication, you must provide a client certificate, signed by the trusted CA `mtls_trusted_ca`, and a private key.
 
-The following example uses [cURL](https://curl.se/) to send a [REST API request]({{<relref "/operate/rs/references/rest-api/requests">}}):
+The following example uses [cURL](https://curl.se/) to send a [REST API request]({{<relref "/operate/rs/7.8/references/rest-api/requests">}}):
 
 ```sh
 curl --request <METHOD> --url https://<hostname-or-IP-address>:9443/<API-version>/<API-path> --cert client.pem --key client.key
@@ -106,7 +106,7 @@ curl --request <METHOD> --url https://<hostname-or-IP-address>:9443/<API-version
 
 To connect to a database with certificate-based authentication, you must provide a client certificate, signed by the trusted CA `mtls_trusted_ca`, and a private key.
 
-The following example shows how to connect to a Redis database with [`redis-cli`]({{<relref "/operate/rs/references/cli-utilities/redis-cli">}}):
+The following example shows how to connect to a Redis database with [`redis-cli`]({{<relref "/operate/rs/7.8/references/cli-utilities/redis-cli">}}):
 
 ```sh
 redis-cli -h <hostname-or-IP-address> -p <port> --tls --cacert <redis_cert>.pem --cert redis_user.crt --key redis_user_private.key

@@ -24,7 +24,7 @@ Redis Enterprise’s auto tiering is based on a high-performance storage engine 
 
 Just like all-RAM databases, databases with Auto Tiering enabled are compatible with existing Redis applications.
 
-Auto Tiering is also supported on [Redis Cloud]({{< relref "/operate/rc/" >}}) and [Redis Enterprise Software for Kubernetes]({{< relref "/operate/rs/" >}}).
+Auto Tiering is also supported on [Redis Cloud]({{< relref "/operate/rc/" >}}) and [Redis Enterprise Software for Kubernetes]({{< relref "/operate/kubernetes/" >}}).
 
 ## Use cases
 

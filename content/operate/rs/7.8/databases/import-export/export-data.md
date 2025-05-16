@@ -165,7 +165,7 @@ You can also connect to a storage service that uses the S3 protocol but is not h
 
 To connect to an S3-compatible storage location:
 
-1. Configure the S3 URL with [`rladmin cluster config`]({{<relref "/operate/rs/references/cli-utilities/rladmin/cluster/config">}}): 
+1. Configure the S3 URL with [`rladmin cluster config`]({{<relref "/operate/rs/7.8/references/cli-utilities/rladmin/cluster/config">}}): 
 
     ```sh
     rladmin cluster config s3_url <URL>
