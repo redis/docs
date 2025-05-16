@@ -79,6 +79,8 @@ To upgrade the cluster's operating system, use one of the following rolling upgr
 
 1. [Add the new node]({{< relref "/operate/rs/7.8/clusters/add-node" >}})  to the cluster.
 
+1. If the [cluster uses DNS]({{<relref "/operate/rs/7.8/networking/cluster-dns">}}), add the new node’s IP address to the DNS records.
+
 1. [Remove one node]({{< relref "/operate/rs/7.8/clusters/remove-node#remove-a-node" >}}) running the earlier OS version from the cluster.
 
 1. Repeat the previous steps until all nodes with the earlier OS version are removed. If the final node to remove from the cluster is the primary node, [demote it]({{<relref "/operate/rs/7.8/clusters/change-node-role#demote-primary-node">}}) to a secondary node before you remove it.
@@ -104,6 +106,8 @@ To upgrade the cluster's operating system, use one of the following rolling upgr
     ```sh
     rladmin cluster join nodes <cluster_member_ip_address> username <username> password <password> replace_node <node_id>
     ```
+
+1. If the [cluster uses DNS]({{<relref "/operate/rs/7.8/networking/cluster-dns">}}), add the new node’s IP address to the DNS records.
 
 1. Verify node health:
 
