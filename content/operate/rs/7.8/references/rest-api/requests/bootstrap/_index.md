@@ -174,7 +174,7 @@ POST /v1/bootstrap/create_cluster
           "ephemeral_path": "/path/to/ephemeral/storage",
           "bigstore_path": "/path/to/bigstore/storage"
        },
-       "bigstore_driver": "speedb",
+       "bigstore_enabled": true,
        "identity": {
           "addr":"1.2.3.4",
           "external_addr":["2001:0db8:85a3:0000:0000:8a2e:0370:7334", "3.4.5.6"]
@@ -205,7 +205,7 @@ POST /v1/bootstrap/create_cluster
           "addr":"1.2.3.4",
           "external_addr":["2001:0db8:85a3:0000:0000:8a2e:0370:7334", "3.4.5.6"]
        },
-       "bigstore_driver": "rocksdb"
+       "bigstore_enabled": true
     },
     "license": "----- LICENSE START -----\ndi+iK...KniI9\n----- LICENSE END -----\n",
     "credentials": {
