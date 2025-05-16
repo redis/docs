@@ -80,7 +80,7 @@ output:
 
 ## Summary
 
-Proper key naming is essential for effective data organization in Redis. Redis Data Integration provides:
+Proper key naming is essential for effective data organization in Redis. RDI provides:
 
 1. **Default key naming** that follows a consistent pattern based on table and primary key information
 2. **Custom key naming** through the `key` section with `expression` and `language` parameters
