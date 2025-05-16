@@ -20,8 +20,8 @@ The RDI pipelines support two separate row formats which you can specify in the 
 - `basic` - (Default) Contains the current value of the row only.
 - `full` - Contains all information available for the row, including the key, the before and after values, and the operation code.
 
-The `full` row format is useful when you want to access the metadata associated with the row, such as the operation code, the before and after values, etc.
-Based on the used row format, the structure of the data passed to the `transform` and `output` sections is different and the keys should be referenced accordingly to the chosen row format.
+The `full` row format is useful when you want to access the metadata associated with the row, such as the operation code, and the before and after values.
+The structure of the data passed to the `transform` and `output` sections is different depending on the row format you choose. Consider which row format you are using when you reference keys.
 The following two examples demonstrate the difference between the two row formats.
 
 ## Default row format
