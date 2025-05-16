@@ -7,7 +7,7 @@ categories:
 - rc
 description: null
 linkTitle: Shared responsibility model
-weight: 10
+weight: 1
 ---
 
 The security of all Redis Cloud deployments is a shared responsibility. Redis, the public cloud providers (Amazon Web Services [AWS], Google Cloud, and Microsoft Azure), and our customers all help ensure the security of these deployments.
