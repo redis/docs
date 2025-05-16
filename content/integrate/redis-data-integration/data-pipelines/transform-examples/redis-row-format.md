@@ -60,10 +60,10 @@ output:
 
 With `row_format: full` the input value is a JSON object with the following structure:
 
-- `key` - An object structure containing the attributes of the primary key. For example, `key.id` will give you the value of it the `id` column as long as it is part of the primary key.
-- `before` - An object structure containing the previous value of the row.
-- `after` - An object structure containing the current value of the row.
-- `opcode` - The operation code. Please note that some databases use different values for the operation code. Please refer to the [operation code values]({{< relref "#operation-codes" >}}) section for more information.
+- `key` - An object containing the attributes of the primary key. For example, `key.id` will give you the value of the `id` column as long as it is part of the primary key.
+- `before` - An object containing the previous value of the row.
+- `after` - An object containing the current value of the row.
+- `opcode` - The operation code. Different databases use different values for the operation code. See [operation code values]({{< relref "#operation-codes" >}}) below for more information.
 - `db` - The database name.
 - `table` - The table name.
 - `schema` - The schema name. 
