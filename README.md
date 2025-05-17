@@ -1,9 +1,5 @@
 # Redis Docs
 
-OPEN SOURCE LICENSE VS. TRADEMARKS. The three-clause BSD license gives you the right to redistribute and use the software in source and binary forms, with or without modification, under certain conditions. However, open source licenses like the three-clause BSD license do not address trademarks. For further details please read the [Redis Trademark Policy](https://redis.io/legal/trademark-policy/)."
-
-## A note for Issue and PR submitters
-
 PRs are merged first to the `main` branch of this repo.
 Periodically, the docs team will merge `main` into `latest`, which will make the changes visible on the docs site.
 Please be patient, as there may be a lag of several days before `main` is merged into `latest`. If you want to see your changes before they're merged to `latest`, you can see them on https://redis.io/docs/staging/dev/. 
@@ -35,7 +31,7 @@ You will need the following tools to build the site locally:
 
 - `python3`: Python >= 3.8.
 - `node` and `npm`: Node.js >= 19.7.0, and the Node.js package manager >= 9.5.0.
-- `hugo`: Hugo site generator, v0.111.2; the extended edition.
+- `hugo`: Hugo site generator, v0.143.0; the extended edition.
 - `make`: To run the makefile.
 - `git`: To manage the source code of this repo.
 
@@ -93,13 +89,6 @@ It's strongly advised to use `relref` because it provides the following advantag
 
 The following needs to be taken into account when using `relref`: The reference `/develop/get-started/data-store` and `/develop/get-started/data-store/` aren't the same. You must use the trailing slash if the referenced article is an `_index.md` file within a folder (e.g., `.../data-store/` for `.../data-store/_index.md`). Otherwise, you should not use the trailing slash (e.g., `.../get-started/data-store.md`).
 
-RelRefs with dots (`.`) and hashtags (`#`) in the reference name, such as `/commands/ft.create` or `/develop/data-types/timeseries/configuration#compaction_policy`, don't seem to work. Please use the `{{< baseurl >}}` as a workaround in that case. Here are a couple of examples:
-
-```
-[compaction]({{< baseurl >}}/develop/data-types/timeseries/configuration#compaction_policy)
-[FT.CREATE]({{< baseurl >}}/commands/ft.create)
-```
-
 ### Images
 
 The image shortcode doesn't need to be closed anymore. Here is an example;
@@ -113,7 +102,7 @@ The `filename` property value can be any file name path which is relative to the
 We added a new property `class` which allows you to override the CSS class of the image. Images have by default a `block` display in Tailwind. You can change this by setting the class property to `inline`. The following example shows two images that are in a single line:
 
 ```
-{{< image filename="/images/rc/icon-database-update-status-pending.png#no-click" alt="Pending database status" class="inline" >}} &nbsp; {{< image filename="/images/rc/icon-database-update-status-active.png#no-click" alt="Active database status" class="inline" >}}
+{{< image filename="/images/rc/icon-database-update-status-pending.png#no-click" alt="Pending database status" class="inline" >}} &nbsp; {{< image filename="/images/rc/icon-database-status-active.png#no-click" alt="Active database status" class="inline" >}}
 ```
 
 ### Templating

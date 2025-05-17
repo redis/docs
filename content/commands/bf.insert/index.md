@@ -1,4 +1,8 @@
 ---
+acl_categories:
+- '@bloom'
+- '@write'
+- '@slow'
 arguments:
 - name: key
   type: key
@@ -58,7 +62,7 @@ title: BF.INSERT
 ---
 Creates a new Bloom filter if the `key` does not exist using the specified error rate, capacity, and expansion, then adds all specified items to the Bloom Filter.
 
-This command is similar to [`BF.MADD`]({{< baseurl >}}/commands/bf.madd/), except that the error rate, capacity, and expansion can be specified. It is a sugarcoated combination of [`BF.RESERVE`]({{< baseurl >}}/commands/bf.reserve/) and [`BF.MADD`]({{< baseurl >}}/commands/bf.madd/).
+This command is similar to [`BF.MADD`]({{< relref "commands/bf.madd/" >}}), except that the error rate, capacity, and expansion can be specified. It is a sugarcoated combination of [`BF.RESERVE`]({{< relref "commands/bf.reserve/" >}}) and [`BF.MADD`]({{< relref "commands/bf.madd/" >}}).
 
 ## Required arguments
 
@@ -89,14 +93,14 @@ It is an error to specify `NOCREATE` together with either `CAPACITY` or `ERROR`.
 Specifies the desired `capacity` for the filter to be created.
 This parameter is ignored if the filter already exists.
 If the filter is automatically created and this parameter is absent, then the module-level `capacity` is used.
-See [`BF.RESERVE`]({{< baseurl >}}/commands/bf.reserve/) for more information about the impact of this value.
+See [`BF.RESERVE`]({{< relref "commands/bf.reserve/" >}}) for more information about the impact of this value.
 </details>
 
 <details open><summary><code>ERROR error</code></summary>
     
 Specifies the `error` ratio of the newly created filter if it does not yet exist.
 If the filter is automatically created and `error` is not specified then the module-level error rate is used.
-See [`BF.RESERVE`]({{< baseurl >}}/commands/bf.reserve/) for more information about the format of this value.
+See [`BF.RESERVE`]({{< relref "commands/bf.reserve/" >}}) for more information about the format of this value.
 </details>
 
 <details open><summary><code>NONSCALING</code></summary>

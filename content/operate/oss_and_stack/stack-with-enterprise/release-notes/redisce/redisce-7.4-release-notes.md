@@ -11,6 +11,30 @@ min-version-db: blah
 min-version-rs: blah
 weight: 100
 ---
+
+## Redis Community Edition 7.4.2 (Jan 2025)
+
+Upgrade urgency SECURITY: See security fixes below.
+
+### Security fixes
+
+- (CVE-2024-46981) Lua script commands may lead to remote code execution
+- (CVE-2024-51741) Denial-of-service due to malformed ACL selectors
+
+### Bug fixes
+
+- [#13627](https://github.com/redis/redis/pull/13627) Crash on module memory defragmentation
+- [#13338](https://github.com/redis/redis/pull/13338) Streams: `XINFO` lag field is wrong when tombstone is after the `last_id` of the consume group
+- [#13473](https://github.com/redis/redis/pull/13473) Streams: `XTRIM` does not update the maximal tombstone, leading to an incorrect lag
+- [#13470](https://github.com/redis/redis/pull/13470) `INFO` after `HDEL` show wrong number of hash keys with expiration
+- [#13476](https://github.com/redis/redis/pull/13476) Fix a race condition in the `cache_memory` of `functionsLibCtx`
+- [#13626](https://github.com/redis/redis/pull/13626) Memory leak on failed RDB loading
+- [#13539](https://github.com/redis/redis/pull/13539) Hash: fix key ref for a hash that no longer has fields with expiration on `RENAME`/`MOVE`/`SWAPDB`/`RESTORE`
+- [#13443](https://github.com/redis/redis/pull/13443) Cluster: crash when loading cluster config
+- [#13422](https://github.com/redis/redis/pull/13422) Cluster: `CLUSTER SHARDS` returns empty array
+- [#13465](https://github.com/redis/redis/pull/13465) Cluster: incompatibility with older node versions
+- [#13608](https://github.com/redis/redis/pull/13608) Cluster: `SORT ... GET #`: incorrect error message
+
 ## Redis Community Edition 7.4.1 (October 2024)
 
 Upgrade urgency SECURITY: See security fixes below.

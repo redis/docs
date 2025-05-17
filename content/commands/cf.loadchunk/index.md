@@ -1,4 +1,8 @@
 ---
+acl_categories:
+- '@cuckoo'
+- '@write'
+- '@slow'
 arguments:
 - name: key
   type: key
@@ -29,9 +33,9 @@ syntax_fmt: CF.LOADCHUNK key iterator data
 syntax_str: iterator data
 title: CF.LOADCHUNK
 ---
-Restores a cuckoo filter previously saved using [`CF.SCANDUMP`]({{< baseurl >}}/commands/cf.scandump/).
+Restores a cuckoo filter previously saved using [`CF.SCANDUMP`]({{< relref "commands/cf.scandump/" >}}).
 
-See the [`CF.SCANDUMP`]({{< baseurl >}}/commands/cf.scandump/) command for example usage.
+See the [`CF.SCANDUMP`]({{< relref "commands/cf.scandump/" >}}) command for example usage.
 
 <note><b>Notes</b>
 
@@ -49,12 +53,12 @@ is key name for a cuckoo filter to restore.
 
 <details open><summary><code>iterator</code></summary>
 
-Iterator value associated with `data` (returned by [`CF.SCANDUMP`]({{< baseurl >}}/commands/cf.scandump/))
+Iterator value associated with `data` (returned by [`CF.SCANDUMP`]({{< relref "commands/cf.scandump/" >}}))
 </details>
 
 <details open><summary><code>data</code></summary>
 
-Current data chunk (returned by [`CF.SCANDUMP`]({{< baseurl >}}/commands/cf.scandump/))
+Current data chunk (returned by [`CF.SCANDUMP`]({{< relref "commands/cf.scandump/" >}}))
 </details>
 
 ## Return value
@@ -66,4 +70,4 @@ Returns one of these replies:
 
 ## Examples
 
-See [`CF.SCANDUMP`]({{< baseurl >}}/commands/cf.scandump/) for an example.
+See [`CF.SCANDUMP`]({{< relref "commands/cf.scandump/" >}}) for an example.

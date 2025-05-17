@@ -1,4 +1,8 @@
 ---
+acl_categories:
+- '@bloom'
+- '@write'
+- '@slow'
 arguments:
 - name: key
   type: key
@@ -55,7 +59,7 @@ Returns one of these replies:
 
   The Iterator is passed as input to the next invocation of `BF.SCANDUMP`. If _Iterator_ is 0, then it means iteration has completed.
 
-  The iterator-data pair should also be passed to [`BF.LOADCHUNK`]({{< baseurl >}}/commands/bf.loadchunk/) when restoring the filter.
+  The iterator-data pair should also be passed to [`BF.LOADCHUNK`]({{< relref "commands/bf.loadchunk/" >}}) when restoring the filter.
 
 - [] on error (invalid arguments, key not found, wrong key type, etc.)
 

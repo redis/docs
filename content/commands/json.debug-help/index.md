@@ -22,7 +22,7 @@ syntax_fmt: JSON.DEBUG HELP
 syntax_str: ''
 title: JSON.DEBUG HELP
 ---
-Return helpful information about the [`JSON.DEBUG`]({{< baseurl >}}/commands/json.debug/) command
+Return helpful information about the [`JSON.DEBUG`]({{< relref "commands/json.debug/" >}}) command
 
 ## Return
 
@@ -30,7 +30,7 @@ JSON.DEBUG HELP returns an array with helpful messages.
 
 ## See also
 
-[`JSON.DEBUG`]({{< baseurl >}}/commands/json.debug/) 
+[`JSON.DEBUG`]({{< relref "commands/json.debug/" >}}) 
 
 ## Related topics
 

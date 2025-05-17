@@ -36,7 +36,7 @@ Get Cluster Manager UI settings.
 #### Example HTTP request
 
 ```sh
-GET /cm_settings
+GET /v1/cm_settings
 ```
 
 #### Headers
@@ -83,7 +83,7 @@ Update Cluster Manager UI settings.
 #### Example HTTP request
 
 ```sh
-PUT /cm_settings
+PUT /v1/cm_settings
 ```
 
 #### Example JSON body

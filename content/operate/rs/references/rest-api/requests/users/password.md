@@ -13,28 +13,26 @@ weight: $weight
 
 | Method                     | Path                 | Description                 |
 |----------------------------|----------------------|-----------------------------|
-| [PUT](#update-password)    | `/v1/users/password` | Change an existing password |
-| [POST](#add-password)      | `/v1/users/password` | Add a new password          |
-| [DELETE](#delete-password) | `/v1/users/password` | Delete a password           |
+| [PUT](#update-password)    | `/v1/users/password` | Replace the password of the authenticated user |
+| [POST](#add-password)      | `/v1/users/password` | Add a new password for the authenticated user |
+| [DELETE](#delete-password) | `/v1/users/password` | Delete a password for the authenticated user |
 
 ## Update password {#update-password}
     
     PUT /v1/users/password
     
-Reset the password list of an internal user to include a new password.
+Replaces the password list of the user making this request with a single new password.
 
 ### Request {#put-request}
 
 #### Example HTTP request
 
-    PUT /users/password
+    PUT /v1/users/password
 
 #### Example JSON body
 
   ```json
   {
-      "username": "johnsmith",
-      "old_password": "a password that exists in the current list",
       "new_password": "the new (single) password"
   }
   ```
@@ -47,12 +45,10 @@ Reset the password list of an internal user to include a new password.
 
 #### Request body
 
-The request must contain a single JSON object with the following fields:
+The request must contain a JSON object with the following fields:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| username     | string | Affected user (required) |
-| old_password | string | A password that exists in the current list (required) |
 | new_password | string | The new password (required) |
 
 ### Response {#put-response}
@@ -74,29 +70,26 @@ The following are possible `error_code` values:
 
 | Code | Description |
 |------|-------------|
-| [200 OK](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1) | Success, password changed |
-| [400 Bad Request](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.1) | Bad or missing parameters. |
-| [401 Unauthorized](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.2) | The user is unauthorized. |
-| [404 Not Found](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.5) | Attempting to reset password to a non-existing user. |
+| [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | Success, password changed. |
+| [400 Bad Request](https://www.rfc-editor.org/rfc/rfc9110.html#name-400-bad-request) | Bad or missing parameters. |
+| [401 Unauthorized](https://www.rfc-editor.org/rfc/rfc9110.html#name-401-unauthorized) | The user is unauthorized. |
 
 ## Add password {#add-password}
 
     POST /v1/users/password
 
-Add a new password to an internal user's passwords list.
+Adds a new password to the password list of the user making this request.
 
 ### Request {#post-request}
 
 #### Example HTTP request
 
-    POST /users/password
+    POST /v1/users/password
 
 #### Example JSON body
 
   ```json
   {
-      "username": "johnsmith",
-      "old_password": "an existing password",
       "new_password": "a password to add"
   }
   ```
@@ -109,13 +102,11 @@ Add a new password to an internal user's passwords list.
 
 #### Request body
 
-The request must contain a single JSON object with the following fields:
+The request must contain a JSON object with the following fields:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| username     | string | Affected user (required) |
-| old_password | string | A password that exists in the current list (required) |
-| new_password | string | The new (single) password (required) |
+| new_password | string | New password to add (required) |
 
 ### Response {#post-response}
 
@@ -136,27 +127,26 @@ The following are possible `error_code` values:
 
 | Code | Description |
 |------|-------------|
-| [200 OK](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1) | Success, new password was added to the list of valid passwords. |
-| [400 Bad Request](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.1) | Bad or missing parameters. |
-| [401 Unauthorized](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.2) | The user is unauthorized. |
-| [404 Not Found](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.5) | Attempting to add a password to a non-existing user. |
+| [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | Success, new password was added to the list of valid passwords. |
+| [400 Bad Request](https://www.rfc-editor.org/rfc/rfc9110.html#name-400-bad-request) | Bad or missing parameters. |
+| [401 Unauthorized](https://www.rfc-editor.org/rfc/rfc9110.html#name-401-unauthorized) | The user is unauthorized. |
 
 ## Delete password {#delete-password}
+
     DELETE /v1/users/password
 
-Delete a password from an internal user's passwords list.
+Deletes a password from the password list of the user making this request.
 
 ### Request {#delete-request}
 
 #### Example HTTP request
 
-    DELETE /users/password
+    DELETE /v1/users/password
 
 #### Example JSON body
 
   ```json
   {
-      "username": "johnsmith",
       "old_password": "an existing password"
   }
   ```
@@ -169,11 +159,10 @@ Delete a password from an internal user's passwords list.
 
 #### Request body
 
-The request must contain a single JSON with the following fields:
+The request must contain a JSON object with the following fields:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| username | string | Affected user (required) |
 | old_password | string | Existing password to be deleted (required) |
 
 ### Response {#delete-response}
@@ -192,7 +181,6 @@ The following are possible `error_code` values:
 
 | Code | Description |
 |------|-------------|
-| [200 OK](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1) | Success, new password was deleted from the list of valid passwords. |
-| [400 Bad Request](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.1) | Bad or missing parameters. |
-| [401 Unauthorized](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.2) | The user is unauthorized. |
-| [404 Not Found](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.5) | Attempting to delete a password to a non-existing user. |
+| [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | Success, new password was deleted from the list of valid passwords. |
+| [400 Bad Request](https://www.rfc-editor.org/rfc/rfc9110.html#name-400-bad-request) | Bad or missing parameters. |
+| [401 Unauthorized](https://www.rfc-editor.org/rfc/rfc9110.html#name-401-unauthorized) | The user is unauthorized. |

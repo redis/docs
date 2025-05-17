@@ -52,10 +52,6 @@ To set up VPC peering:
 
 1. You can provide up to five VPC CIDRs.
     
-    {{< note >}}
-The [Redis Cloud Terraform provider](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs) currently supports one VPC CIDR.  Additional CIDRs defined by the console will be removed by Terraform.
-    {{< /note >}}
-    
     To add multiple VPC CIDRs:
 
     1. Select **Add CIDR**.
@@ -66,7 +62,7 @@ The [Redis Cloud Terraform provider](https://registry.terraform.io/providers/Red
 1. Select **Initiate peering**.
 1. Note the **Peering ID** of the VPC peering request.
 
-    {{<image filename="images/rc/subscription-connectivity-vpc-peering-aws.png" width="350px" alt="View VPC peering list." >}}
+    {{<image filename="images/rc/subscription-connectivity-vpc-peering-aws.png" width="350px" alt="View VPC peering list." >}} 
 
 ### Approve VPC peering request {#approve-aws-vpc-peering}
 
@@ -82,7 +78,7 @@ After you set up and intitiate VPC peering, you need to approve the VPC peering 
 
 To finish VPC peering setup, [update your route tables for the peering connection](https://docs.aws.amazon.com/vpc/latest/peering/vpc-peering-routing.html). There may be many different route tables assigned to different VPCs. It is important to choose the route table assigned to the VPC you specified in the [Configure VPC Peering](#config-aws-vpc-peering) section with the following details:
 
-1. In the **Destination** field, enter the Requester VPC CIDRs shown when you accepted the peering request.
+1. In the **Destination** field, enter the Redis Cloud VPC CIDR shown when you accepted the peering request.
 
     This is the Redis Cloud VPC CIDR address, to which your application's VPC connects.
 
@@ -137,3 +133,7 @@ Once VPC peering is established, we recommend switching your application connect
 {{< note >}}
 {{< embed-md "rc-vpc-peering-cidr-list.md"  >}}
 {{< /note >}}
+
+## Continue learning with Redis University
+
+{{< university-links >}}

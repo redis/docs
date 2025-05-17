@@ -1,4 +1,8 @@
 ---
+acl_categories:
+- '@json'
+- '@write'
+- '@slow'
 arguments:
 - name: key
   type: key
@@ -147,7 +151,7 @@ redis> JSON.GET doc
 
 ## See also
 
-[`JSON.GET`]({{< baseurl >}}/commands/json.get/) | [`JSON.MGET`]({{< baseurl >}}/commands/json.mget/) | [`JSON.SET`]({{< baseurl >}}/commands/json.set/) | [`JSON.MSET`]({{< baseurl >}}/commands/json.mset/)
+[`JSON.GET`]({{< relref "commands/json.get/" >}}) | [`JSON.MGET`]({{< relref "commands/json.mget/" >}}) | [`JSON.SET`]({{< relref "commands/json.set/" >}}) | [`JSON.MSET`]({{< relref "commands/json.mset/" >}})
 
 ## Related topics
 

@@ -30,14 +30,14 @@ Get statistics for all nodes.
 
 | Permission name |
 |-----------------|
-| [view_all_nodes_stats]({{< relref "/operate/rs/references/rest-api/permissions#view_all_nodes_stats" >}}) |
+| [view_all_nodes_stats]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_all_nodes_stats" >}}) |
 
 ### Request {#get-all-request}
 
 #### Example HTTP request
 
 ```sh
-GET /nodes/stats?interval=1hour&stime=2014-08-28T10:00:00Z
+GET /v1/nodes/stats?interval=1hour&stime=2014-08-28T10:00:00Z
 ```
 
 #### Request headers
@@ -57,7 +57,7 @@ GET /nodes/stats?interval=1hour&stime=2014-08-28T10:00:00Z
 
 ### Response {#get-all-response}
 
-Returns a JSON array of [statistics]({{< relref "/operate/rs/references/rest-api/objects/statistics" >}}) for all nodes.
+Returns a JSON array of [statistics]({{< relref "/operate/rs/7.4/references/rest-api/objects/statistics" >}}) for all nodes.
 
 #### Example JSON body
 
@@ -143,14 +143,14 @@ Get statistics for a node.
 
 | Permission name |
 |-----------------|
-| [view_node_stats]({{< relref "/operate/rs/references/rest-api/permissions#view_node_stats" >}}) |
+| [view_node_stats]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_node_stats" >}}) |
 
 ### Request {#get-request}
 
 #### Example HTTP request
 
 ```sh
-GET /nodes/stats/1?interval=1hour&stime=2014-08-28T10:00:00Z
+GET /v1/nodes/stats/1?interval=1hour&stime=2014-08-28T10:00:00Z
 ```
 
 #### Request headers
@@ -176,7 +176,7 @@ GET /nodes/stats/1?interval=1hour&stime=2014-08-28T10:00:00Z
 
 ### Response {#get-response}
 
-Returns [statistics]({{< relref "/operate/rs/references/rest-api/objects/statistics" >}}) for the specified node.
+Returns [statistics]({{< relref "/operate/rs/7.4/references/rest-api/objects/statistics" >}}) for the specified node.
 
 #### Example JSON body
 

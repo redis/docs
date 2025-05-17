@@ -55,7 +55,7 @@ outside the Redis
 Enterprise cluster where the target database is kept. However, RDI keeps
 its state and configuration data and also the change data streams in a Redis database on the same cluster as the target. The following diagram shows the pipeline steps and the path the data takes on its way from the source to the target:
 
-{{< image filename="images/rdi/ingest/ingest-dataflow.png" >}}
+{{< image filename="images/rdi/ingest/ingest-dataflow.webp" >}}
 
 When you first start RDI, the target database is empty and so all
 of the data in the source database is essentially "change" data.
@@ -93,38 +93,44 @@ RDI supports the following database sources using [Debezium Server](https://debe
 
 ## How RDI is deployed
 
-RDI is designed with two *planes* that provide its services.
+RDI is designed with three *planes* that provide its services.
+
 The *control plane* contains the processes that keep RDI active.
 It includes:
 
-- An *operator* process that schedules the CDC collector and the
-stream processor to implement the two phases of the pipeline
-lifecycle (initial cache loading and change streaming)
-- A [Prometheus](https://prometheus.io/)
-endpoint to supply metrics about RDI
-- A REST API to control the VM.
+-   An *API server* process that exposes a REST API to observe and control RDI.
+-   An *operator* process that manages the *data plane* processes.
+-   A *metrics exporter* process that reads metrics from the RDI database
+    and exports them as [Prometheus](https://prometheus.io/) metrics.
+
+The *data plane* contains the processes that actually move the data.
+It includes the *CDC collector* and the *stream processor* that implement 
+the two phases of the pipeline lifecycle (initial cache loading and change streaming).
 
 The *management plane* provides tools that let you interact
-with the control plane. Use the CLI tool to install and administer RDI
-and to deploy and manage a pipeline. Use the pipeline editor
-(included in Redis Insight) to design or edit a pipeline. The
-diagram below shows the components of the control and management
-planes and the connections between them:
+with the control plane. 
 
-{{< image filename="images/rdi/ingest/ingest-control-plane.png" >}}
+-   Use the CLI tool to install and administer RDI and to deploy 
+    and manage a pipeline. 
+-   Use the pipeline editor included in Redis Insight to design 
+    or edit a pipeline.
+    
+The diagram below shows all RDI components and the interactions between them:
+
+{{< image filename="images/rdi/ingest/ingest-control-plane.webp" >}}
 
 The following sections describe the VM configurations you can use to
 deploy RDI.
 
 ### RDI on your own VMs
 
-For this deployment, you must provide two VMs. The
-collector and stream processor are active on one VM while the other is a standby to provide high availability. The operators run on both VMs and use an algorithm to decide which is the active one (the "leader").
-Both the active VM and the standby
-need access to the authentication secrets that RDI uses to encrypt network
-traffic. The diagram below shows this configuration:
+For this deployment, you must provide two VMs. The collector and stream processor 
+are active on one VM, while on the other they are in standby to provide high availability. 
+The two operators running on both VMs use a leader election algorithm to decide which 
+VM is the active one (the "leader").
+The diagram below shows this configuration:
 
-{{< image filename="images/rdi/ingest/ingest-active-passive-vms.png" >}}
+{{< image filename="images/rdi/ingest/ingest-active-passive-vms.webp" >}}
 
 See [Install on VMs]({{< relref "/integrate/redis-data-integration/installation/install-vm" >}})
 for more information.
@@ -136,27 +142,26 @@ on [Kubernetes (K8s)](https://kubernetes.io/), including Red Hat
 [OpenShift](https://docs.openshift.com/). This creates:
 
 -   A K8s [namespace](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/) named `rdi`.
--   [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) for the 
+    You can also use a different namespace name if you prefer.
+-   [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) and 
+    [services](https://kubernetes.io/docs/concepts/services-networking/service/) for the 
     [RDI operator]({{< relref "/integrate/redis-data-integration/architecture#how-rdi-is-deployed" >}}),
     [metrics exporter]({{< relref "/integrate/redis-data-integration/observability" >}}), and API server.
--   A [service account](https://kubernetes.io/docs/concepts/security/service-accounts/) along with a
-    [role](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#restrictions-on-role-creation-or-update)
-    and [role binding](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#rolebinding-and-clusterrolebinding) for the RDI operator.
--   A [Configmap](https://kubernetes.io/docs/concepts/configuration/configmap/)
-    for the different components with RDI Redis database details.
+-   A [service account](https://kubernetes.io/docs/concepts/security/service-accounts/) 
+    and [RBAC resources](https://kubernetes.io/docs/reference/access-authn-authz/rbac) for the RDI operator.
+-   A [ConfigMap](https://kubernetes.io/docs/concepts/configuration/configmap/) with RDI database details.
 -   [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/)
-    with the RDI Redis database credentials and TLS certificates.
+    with the RDI database credentials and TLS certificates.
+-   Other optional K8s resources such as [ingresses](https://kubernetes.io/docs/concepts/services-networking/ingress/) 
+    that can be enabled depending on your K8s environment and needs.
 
 See [Install on Kubernetes]({{< relref "/integrate/redis-data-integration/installation/install-k8s" >}})
 for more information.
 
 ### Secrets and security considerations
 
-RDI encrypts all network connections with
-[TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security) or
-[mTLS](https://en.wikipedia.org/wiki/Mutual_authentication#mTLS).
-The credentials for the connections are saved as secrets and you
-can choose how to provide these secrets to RDI. Note that RDI stores
-all state and configuration data inside the Redis Enterprise cluster
-and does not store any other data on your RDI VMs or anywhere else
-outside the cluster.
+The credentials for the database connections, as well as the certificates 
+for [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security) and
+[mTLS](https://en.wikipedia.org/wiki/Mutual_authentication#mTLS) are saved in K8s secrets. 
+RDI stores all state and configuration data inside the Redis Enterprise cluster
+and does not store any other data on your RDI VMs or anywhere else outside the cluster.

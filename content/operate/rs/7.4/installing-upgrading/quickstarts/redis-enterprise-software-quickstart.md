@@ -26,7 +26,7 @@ When finished, you'll have a simple cluster with a single node:
 
 {{< note >}}
 **This quickstart is designed for local testing only.**
-For production environments, see the [install and setup]({{< relref "/operate/rs/installing-upgrading#install-redis-enterprise-software" >}}) guide for deployment options and instructions.
+For production environments, see the [install and setup]({{< relref "/operate/rs/7.4/installing-upgrading#install-redis-enterprise-software" >}}) guide for deployment options and instructions.
 {{< /note >}}
 
 ## Ensure port availability
@@ -37,7 +37,7 @@ For production environments, see the [install and setup]({{< relref "/operate/rs
 
 {{<embed-md "port-collision-avoidance.md">}}
 
-### Ubuntu conflicts with port 53
+### OS conflicts with port 53
 
 {{<embed-md "port-53.md">}}
 
@@ -94,7 +94,7 @@ To set up your machine as a Redis Enterprise Software cluster:
 ## Connect to your database
 
 After you create the Redis database, you can connect to it and store data.
-See [Test client connection]({{< relref "/operate/rs/databases/connect/test-client-connectivity" >}}) for connection options and examples.
+See [Test client connection]({{< relref "/operate/rs/7.4/databases/connect/test-client-connectivity" >}}) for connection options and examples.
 
 ## Supported web browsers
 

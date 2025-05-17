@@ -35,7 +35,7 @@ Get cluster statistics.
 #### Example HTTP request
 
 ```sh
-GET /cluster/stats/1?interval=1hour&stime=2014-08-28T10:00:00Z
+GET /v1/cluster/stats/1?interval=1hour&stime=2014-08-28T10:00:00Z
 ```
 
 #### Headers

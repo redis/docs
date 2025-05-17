@@ -21,7 +21,7 @@ weight: 1
 [![Discord](https://img.shields.io/discord/697882427875393627?style=flat-square)](https://discord.gg/QUkjSsk)
 [![Github](https://img.shields.io/static/v1?label=&message=repository&color=5961FF&logo=github)](https://github.com/redisinsight/redisinsight/)
 
-Redis Insight is a powerful tool for visualizing and optimizing data in Redis or Redis Stack, making real-time application development easier and more fun than ever before. Redis Insight lets you do both GUI- and CLI-based interactions in a fully-featured desktop GUI client.
+Redis Insight is a powerful tool for visualizing and optimizing data in Redis, making real-time application development easier and more fun than ever before. Redis Insight lets you do both GUI- and CLI-based interactions in a fully-featured desktop GUI client.
 
 ### Installation and release notes
 
@@ -33,9 +33,9 @@ Redis Insight is a powerful tool for visualizing and optimizing data in Redis or
 
 ### Connection management
 
-* Automatically discover and add your local Redis or Redis Stack databases (that use standalone connection type and do not require authentication).
+* Automatically discover and add your local Redis databases (that use standalone connection type and do not require authentication).
 * Discover your databases in Redis Enterprise Cluster and databases with Flexible plans in Redis Cloud.
-* Use a form to enter your connection details and add any Redis database running anywhere (including Redis Community Edition Cluster or Sentinel).
+* Use a form to enter your connection details and add any Redis database running anywhere (including Redis Open Source cluster or sentinel).
 * Connect to a Redis Data Integration (RDI) management plane, create, test, and deploy RDI pipelines, and view RDI statistics.
 
 <img src="images/Databases.png">
@@ -94,8 +94,8 @@ The CLI is accessible at any time within the application.
 ### Workbench
 
 Workbench is an advanced command line interface with intelligent command auto-complete and complex data visualization support.
-* Built-in guides: you can conveniently discover Redis and Redis Stack features using the built-in guides.
-* Command auto-complete support for all features in Redis and Redis Stack.
+* Built-in guides: you can conveniently discover Redis and Redis Open Source features using the built-in guides.
+* Command auto-complete support for all features in Redis and Redis Open Source.
 * Advanced, schema-aware auto-complete for Redis Query Engine, which provides for faster query building with context-sensitive suggestions that recognize indexes, schemas, and fields based on your current query. Start typing any Redis Query Engine command in to try this feature. See below for an example of an in-progress `FT.SEARCH` command.
 
 <img src="images/Workbench_Search.png">
@@ -129,7 +129,7 @@ View and manage the list of consumer groups. See existing consumers in a given c
 
 ### Search features
 
-If you're using Redis Stack's indexing, querying, or full-text search features, Redis Insight provides UI controls to quickly and conveniently run search queries against a preselected index. You can also create a secondary index of your data in a dedicated pane.
+If you're using the indexing, querying, or full-text search features of Redis Open Source, Redis Insight provides UI controls to quickly and conveniently run search queries against a preselected index. You can also create a secondary index of your data in a dedicated pane.
 
 <img src="images/search.png">
 

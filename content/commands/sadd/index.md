@@ -64,10 +64,20 @@ An error is returned when the value stored at `key` is not a set.
 
 ## Examples
 
+{{< clients-example cmds_set sadd >}}
+redis> SADD myset "Hello" "World"
+(integer) 2
+redis> SADD myset "World"
+(integer) 0
+redis> SMEMBERS myset
+1) "Hello"
+2) "World"
+{{< /clients-example >}}
+
+Give these commands a try in the interactive console:
+
 {{% redis-cli %}}
-SADD myset "Hello"
-SADD myset "World"
+SADD myset "Hello" "World"
 SADD myset "World"
 SMEMBERS myset
 {{% /redis-cli %}}
-

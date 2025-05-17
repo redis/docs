@@ -15,27 +15,18 @@ title: Indexing
 weight: 3
 ---
 
-In addition to indexing Redis hashes, Redis Stack can also index JSON documents.
-
-## Prerequisites
-
-Before you can index and search JSON documents, you need a database with either:
-
-- [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}), which automatically includes JSON and searching and querying features
-- Redis v6.x or later with the following modules installed and enabled:
-   - RediSearch v2.2 or later
-   - RedisJSON v2.0 or later
+In addition to indexing Redis hashes, Redis Open Source can also index JSON documents.
 
 ## Create index with JSON schema
 
-When you create an index with the [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/) command, include the `ON JSON` keyword to index any existing and future JSON documents stored in the database.
+When you create an index with the [`FT.CREATE`]({{< relref "commands/ft.create/" >}}) command, include the `ON JSON` keyword to index any existing and future JSON documents stored in the database.
 
 To define the `SCHEMA`, you can provide [JSONPath]({{< relref "/develop/data-types/json/path" >}}) expressions.
 The result of each JSONPath expression is indexed and associated with a logical name called an `attribute` (previously known as a `field`).
 You can use these attributes in queries.
 
 {{% alert title="Note" color="info" %}}
-Note: `attribute` is optional for [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/).
+Note: `attribute` is optional for [`FT.CREATE`]({{< relref "commands/ft.create/" >}}).
 {{% /alert %}}
 
 Use the following syntax to create a JSON index:
@@ -54,9 +45,9 @@ See [Index limitations](#index-limitations) for more details about JSON index `S
 
 ## Add JSON documents
 
-After you create an index, Redis Stack automatically indexes any existing, modified, or newly created JSON documents stored in the database. For existing documents, indexing runs asynchronously in the background, so it can take some time before the document is available. Modified and newly created documents are indexed synchronously, so the document will be available by the time the add or modify command finishes.
+After you create an index, Redis automatically indexes any existing, modified, or newly created JSON documents stored in the database. For existing documents, indexing runs asynchronously in the background, so it can take some time before the document is available. Modified and newly created documents are indexed synchronously, so the document will be available by the time the add or modify command finishes.
 
-You can use any JSON write command, such as [`JSON.SET`]({{< baseurl >}}/commands/json.set/) and [`JSON.ARRAPPEND`]({{< baseurl >}}/commands/json.arrappend/), to create or modify JSON documents.
+You can use any JSON write command, such as [`JSON.SET`]({{< relref "commands/json.set/" >}}) and [`JSON.ARRAPPEND`]({{< relref "commands/json.arrappend/" >}}), to create or modify JSON documents.
 
 The following examples use these JSON documents to represent individual inventory items.
 
@@ -100,7 +91,7 @@ Item 2 JSON document:
 }
 ```
 
-Use [`JSON.SET`]({{< baseurl >}}/commands/json.set/) to store these documents in the database:
+Use [`JSON.SET`]({{< relref "commands/json.set/" >}}) to store these documents in the database:
 
 ```sql
 127.0.0.1:6379> JSON.SET item:1 $ '{"name":"Noise-cancelling Bluetooth headphones","description":"Wireless Bluetooth headphones with noise-cancelling technology","connection":{"wireless":true,"type":"Bluetooth"},"price":99.98,"stock":25,"colors":["black","silver"],"embedding":[0.87,-0.15,0.55,0.03]}'
@@ -109,12 +100,12 @@ Use [`JSON.SET`]({{< baseurl >}}/commands/json.set/) to store these documents in
 "OK"
 ```
 
-Because indexing is synchronous in this case, the documents will be available on the index as soon as the [`JSON.SET`]({{< baseurl >}}/commands/json.set/) command returns.
+Because indexing is synchronous in this case, the documents will be available on the index as soon as the [`JSON.SET`]({{< relref "commands/json.set/" >}}) command returns.
 Any subsequent queries that match the indexed content will return the document.
 
 ## Search the index
 
-To search the index for JSON documents, use the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) command.
+To search the index for JSON documents, use the [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) command.
 You can search any attribute defined in the `SCHEMA`.
 
 For example, use this query to search for items with the word "earbuds" in the name:
@@ -170,7 +161,7 @@ And lastly, search for the Bluetooth headphones that are most similar to an imag
 For more information about search queries, see [Search query syntax]({{< relref "/develop/interact/search-and-query/advanced-concepts/query_syntax" >}}).
 
 {{% alert title="Note" color="info" %}}
-[`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) queries require `attribute` modifiers. Don't use JSONPath expressions in queries because the query parser doesn't fully support them.
+[`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) queries require `attribute` modifiers. Don't use JSONPath expressions in queries because the query parser doesn't fully support them.
 {{% /alert %}}
 
 ## Index JSON arrays as TAG
@@ -223,7 +214,7 @@ Now you can do full text search for light colored headphones:
 ```
 
 ### Limitations
-- When a JSONPath may lead to multiple values and not only to a single array, e.g., when a JSONPath contains wildcards, etc., specifying `SLOP` or `INORDER` in [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) will return an error, since the order of the values matching the JSONPath is not well defined, leading to potentially inconsistent results.
+- When a JSONPath may lead to multiple values and not only to a single array, e.g., when a JSONPath contains wildcards, etc., specifying `SLOP` or `INORDER` in [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) will return an error, since the order of the values matching the JSONPath is not well defined, leading to potentially inconsistent results.
 
    For example, using a JSONPath such as `$..b[*]` on a JSON value such as
    ```json
@@ -252,7 +243,7 @@ Now you can do full text search for light colored headphones:
 
 ### Handling phrases in different array slots:
 
-When indexing, a predefined delta is used to increase positional offsets between array slots for multiple text values. This delta controls the level of separation between phrases in different array slots (related to the `SLOP` parameter of [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/)).
+When indexing, a predefined delta is used to increase positional offsets between array slots for multiple text values. This delta controls the level of separation between phrases in different array slots (related to the `SLOP` parameter of [`FT.SEARCH`]({{< relref "commands/ft.search/" >}})).
 This predefined value is set by the configuration parameter `MULTI_TEXT_SLOP` (at module load-time). The default value is 100.
 
 ## Index JSON arrays as NUMERIC
@@ -311,86 +302,14 @@ When JSONPath leads to multiple numerical values:
   - `null` values are skipped
   - Any other value type will cause an indexing failure
 
-## Index JSON arrays as GEO
+## Index JSON arrays as GEO and GEOSHAPE
 
-Starting with RediSearch v2.6.1, search can be done on an array of geo (geographical) values or on a JSONPath leading to multiple geo values.
-
-Prior to RediSearch v2.6.1, only a single geo value was supported per GEO attribute. The geo value was specified using a comma delimited string in the form "longitude,latitude". For example, "15.447083,78.238306".
-
-With RediSearch v2.6.1, a JSON array of such geo values is also supported.
-
-In order to index multiple geo values, user either a JSONPath leading to a single array of geo values, or a JSONPath leading to multiple geo values, using JSONPath operators such as wildcard, filter, union, array slice, and/or recursive descent.
-
-   - `null` values are skipped
-   - Other values will cause an indexing failure (bool, number, object, array, wrongly formatted GEO string, invalid coordinates)
-
-For example, add to the item's list the `vendor_id`, that is, where an item can be physically purchased:
-
-```sql
-127.0.0.1:6379> JSON.SET item:1 $ '{"name":"Noise-cancelling Bluetooth headphones","description":"Wireless Bluetooth headphones with noise-cancelling technology","connection":{"wireless":true,"type":"Bluetooth"},"price":99.98,"stock":25,"colors":["black","silver"], "max_level":[60, 70, 80, 90, 100], "vendor_id": [100,300]}'
-OK
-
-127.0.0.1:6379> JSON.SET item:2 $ '{"name":"Wireless earbuds","description":"Wireless Bluetooth in-ear headphones","connection":{"wireless":true,"type":"Bluetooth"},"price":64.99,"stock":17,"colors":["black","white"], "max_level":[80, 100, 120], "vendor_id": [100,200]}'
-OK
-
-127.0.0.1:6379> JSON.SET item:3 $ '{"name":"True Wireless earbuds","description":"True Wireless Bluetooth in-ear headphones","connection":{"wireless":true,"type":"Bluetooth"},"price":74.99,"stock":20,"colors":["red","light blue"], "max_level":[90, 100, 110, 120], "vendor_id": [100]}'
-OK
-```
-
-Now add some vendors with their geographic locations:
-
-```sql
-127.0.0.1:6379> JSON.SET vendor:1 $ '{"id":100, "name":"Kwik-E-Mart", "location":["35.213,31.785", "35.178,31.768", "35.827,31.984"]}'
-OK
-
-127.0.0.1:6379> JSON.SET vendor:2 $ '{"id":200, "name":"Cypress Creek", "location":["34.638,31.79", "34.639,31.793"]}'
-OK
-
-127.0.0.1:6379> JSON.SET vendor:3 $ '{"id":300, "name":"Barneys", "location":["34.648,31.817", "34.638,31.806", "34.65,31.785"]}'
-OK
-```
-
-To index the `vendor_id` numeric array, specify the JSONPath `$.vendor_id` in the `SCHEMA` definition during index creation:
-
-
-```sql
-127.0.0.1:6379> FT.CREATE itemIdx5 ON JSON PREFIX 1 item: SCHEMA $.vendor_id AS vid NUMERIC
-OK
-```
-
-To index the `location` geo array, specify the JSONPath `$.location` in the `SCHEMA` definition during index creation:
-
-
-```sql
-127.0.0.1:6379> FT.CREATE vendorIdx ON JSON PREFIX 1 vendor: SCHEMA $.location AS loc GEO
-OK
-```
-
-Now search for a vendor close to a specific location. For example, a customer is located at geo coordinates 34.5,31.5 and you want to get the vendors that are within the range of 40 km from our location:
-
-```sql
-127.0.0.1:6379> FT.SEARCH vendorIdx '@loc:[34.5 31.5 40 km]' return 1 $.id
-1) (integer) 2
-2) "vendor:2"
-3) 1) "$.id"
-   1) "200"
-4) "vendor:3"
-5) 1) "$.id"
-   1) "300"
-```
-
-Now look for products offered by these vendors:
-
-```
-127.0.0.1:6379> FT.SEARCH itemIdx5 '@vid:[200 300]'
-1) (integer) 2
-2) "item:2"
-3) 1) "$"
-   2) "{\"name\":\"Wireless earbuds\",\"description\":\"Wireless Bluetooth in-ear headphones\",\"connection\":{\"wireless\":true,\"type\":\"Bluetooth\"},\"price\":64.99,\"stock\":17,\"colors\":[\"black\",\"white\"],\"max_level\":[80,100,120],\"vendor_id\":[100,200]}"
-4) "item:1"
-5) 1) "$"
-   2) "{\"name\":\"Noise-cancelling Bluetooth headphones\",\"description\":\"Wireless Bluetooth headphones with noise-cancelling technology\",\"connection\":{\"wireless\":true,\"type\":\"Bluetooth\"},\"price\":99.98,\"stock\":25,\"colors\":[\"black\",\"silver\"],\"max_level\":[60,70,80,90,100],\"vendor_id\":[100,300]}"
-```
+You can use `GEO` and `GEOSHAPE` fields to store geospatial data,
+such as geographical locations and geometric shapes. See
+[Geospatial indexing]({{< relref "/develop/interact/search-and-query/indexing/geoindex" >}})
+to learn how to use these schema types and see the
+[Geospatial]({{< relref "/develop/interact/search-and-query/advanced-concepts/geo" >}})
+reference page for an introduction to their format and usage.
 
 ## Index JSON arrays as VECTOR
 
@@ -502,7 +421,7 @@ You can also search for items with a Bluetooth connection type:
 
 ## Field projection
 
-[`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) returns the entire JSON document by default. If you want to limit the returned search results to specific attributes, you can use field projection.
+[`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) returns the entire JSON document by default. If you want to limit the returned search results to specific attributes, you can use field projection.
 
 ### Return specific attributes
 
@@ -579,7 +498,7 @@ This query returns the field as the alias `"stock"` instead of the JSONPath expr
 
 You can [highlight]({{< relref "/develop/interact/search-and-query/advanced-concepts/highlight" >}}) relevant search terms in any indexed `TEXT` attribute.
 
-For [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/), you have to explicitly set which attributes you want highlighted after the `RETURN` and `HIGHLIGHT` parameters.
+For [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}), you have to explicitly set which attributes you want highlighted after the `RETURN` and `HIGHLIGHT` parameters.
 
 Use the optional `TAGS` keyword to specify the strings that will surround (or highlight) the matching search terms.
 
@@ -630,7 +549,7 @@ This example uses aggregation to calculate a 10% price discount for each item an
 ```
 
 {{% alert title="Note" color="info" %}}
-[`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/) queries require `attribute` modifiers. Don't use JSONPath expressions in queries, except with the `LOAD` option, because the query parser doesn't fully support them.
+[`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}) queries require `attribute` modifiers. Don't use JSONPath expressions in queries, except with the `LOAD` option, because the query parser doesn't fully support them.
 {{% /alert %}}
 
 ## Index missing or empty values

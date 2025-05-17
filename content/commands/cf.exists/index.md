@@ -1,4 +1,8 @@
 ---
+acl_categories:
+- '@cuckoo'
+- '@read'
+- '@slow'
 arguments:
 - name: key
   type: key
@@ -29,7 +33,7 @@ title: CF.EXISTS
 ---
 Determines whether a given item was added to a cuckoo filter.
 
-This command is similar to [`CF.MEXISTS`]({{< baseurl >}}/commands/cf.mexists/), except that only one item can be checked.
+This command is similar to [`CF.MEXISTS`]({{< relref "commands/cf.mexists/" >}}), except that only one item can be checked.
 
 ## Required arguments
 
@@ -48,7 +52,7 @@ is an item to check.
 
 Returns one of these replies:
 
-- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), where `1` means that, with high probability, `item` had already been added to the filter, and `0` means that `key` does not exist or that `item` had not been added to the filter. See note in [`CF.DEL`]({{< baseurl >}}/commands/cf.del/).
+- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), where `1` means that, with high probability, `item` had already been added to the filter, and `0` means that `key` does not exist or that `item` had not been added to the filter. See note in [`CF.DEL`]({{< relref "commands/cf.del/" >}}).
 - [] on error (invalid arguments, wrong key type, and so on)
 
 ## Examples

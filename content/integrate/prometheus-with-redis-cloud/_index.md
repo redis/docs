@@ -56,6 +56,13 @@ You can quickly set up Prometheus and Grafana for testing using the Prometheus a
     - Connect to the VPC subnet that is peered with your Redis Cloud subscription.
     - Allow outbound connections to port 8070, so that Prometheus can scrape the Redis Cloud server for data.
     - Allow inbound connections to port 9090 for Prometheus and port 3000 for Grafana.
+    - Be located in one of the CIDR ranges of the RFC-1918 internal IP standard, which is comprised of three CIDR ranges:
+
+        - 10.0.0.0/8
+        - 172.16.0.0/12
+        - 192.168.0.0/16
+        
+        The Prometheus endpoint is subject to a whitelist according to this standard.
 
 ### Set up Prometheus
 
@@ -92,7 +99,7 @@ To get started with custom monitoring with Prometheus on Docker:
         - job_name: redis-cloud
         scrape_interval: 30s
         scrape_timeout: 30s
-        metrics_path: /
+        metrics_path: /  # For v2, use /v2
         scheme: https
         static_configs:
           - targets: ["<prometheus_endpoint>:8070"]

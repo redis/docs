@@ -9,113 +9,123 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Learn how to use the Redis query engine with JSON
-linkTitle: JSON query example
-title: Example - Index and query JSON documents
-weight: 2
+description: Learn how to use the Redis query engine with JSON and hash documents.
+linkTitle: Index and query documents
+title: Index and query documents
+weight: 30
 ---
 
 This example shows how to create a
 [search index]({{< relref "/develop/interact/search-and-query/indexing" >}})
-for [JSON]({{< relref "/develop/data-types/json" >}}) data and
-run queries against the index.
+for [JSON]({{< relref "/develop/data-types/json" >}}) documents and
+run queries against the index. It then goes on to show the slight differences
+in the equivalent code for [hash]({{< relref "/develop/data-types/hashes" >}})
+documents.
 
-Make sure that you have Redis Stack and `redis-py` installed.
+## Initialize
 
-Import dependencies:
+Make sure that you have [Redis Open Source]({{< relref "/operate/oss_and_stack/" >}})
+or another Redis server available. Also install the
+[`redis-py`]({{< relref "/develop/clients/redis-py" >}}) client library if you
+haven't already done so.
 
-```python
-import redis
-from redis.commands.json.path import Path
-import redis.commands.search.aggregation as aggregations
-import redis.commands.search.reducers as reducers
-from redis.commands.search.field import TextField, NumericField, TagField
-from redis.commands.search.indexDefinition import IndexDefinition, IndexType
-from redis.commands.search.query import NumericFilter, Query
-```
+Add the following dependencies. All of them are applicable to both JSON and hash,
+except for the `Path` class, which is specific to JSON (see
+[Path]({{< relref "/develop/data-types/json/path" >}}) for a description of the
+JSON path syntax).
 
-Connect to your Redis database.
+{{< clients-example py_home_json import >}}
+{{< /clients-example >}}
 
-```python
-r = redis.Redis(host='localhost', port=6379)
-```
+## Create data
 
-Let's create some test data to add to your database.
+Create some test data to add to your database. The example data shown
+below is compatible with both JSON and hash objects.
 
-```python
-user1 = {
-    "name": "Paul John",
-    "email": "paul.john@example.com",
-    "age": 42,
-    "city": "London"
-}
-user2 = {
-    "name": "Eden Zamir",
-    "email": "eden.zamir@example.com",
-    "age": 29,
-    "city": "Tel Aviv"
-}
-user3 = {
-    "name": "Paul Zamir",
-    "email": "paul.zamir@example.com",
-    "age": 35,
-    "city": "Tel Aviv"
-}
-```
+{{< clients-example py_home_json create_data >}}
+{{< /clients-example >}}
 
-Define indexed fields and their data types using `schema`. Use JSON path expressions to map specific JSON elements to the schema fields.
+## Add the index
 
-```python
-schema = (
-    TextField("$.name", as_name="name"), 
-    TagField("$.city", as_name="city"), 
-    NumericField("$.age", as_name="age")
-)
-```
+Connect to your Redis database. The code below shows the most
+basic connection but see
+[Connect to the server]({{< relref "/develop/clients/redis-py/connect" >}})
+to learn more about the available connection options.
 
-Create an index. In this example, all JSON documents with the key prefix `user:` will be indexed. For more information, see [Query syntax]({{< relref "/develop/interact/search-and-query/query/" >}}). 
+{{< clients-example py_home_json connect >}}
+{{< /clients-example >}}
 
-```python
-rs = r.ft("idx:users")
-rs.create_index(
-    schema,
-    definition=IndexDefinition(
-        prefix=["user:"], index_type=IndexType.JSON
-    )
-)
-# b'OK'
-```
+Create an index for the JSON data. The code below specifies that only JSON documents with
+the key prefix `user:` are indexed. For more information, see
+[Query syntax]({{< relref "/develop/interact/search-and-query/query/" >}}).
 
-Use [`JSON.SET`]({{< baseurl >}}/commands/json.set/) to set each user value at the specified path.
+{{< clients-example py_home_json make_index >}}
+{{< /clients-example >}}
 
-```python
-r.json().set("user:1", Path.root_path(), user1)
-r.json().set("user:2", Path.root_path(), user2)
-r.json().set("user:3", Path.root_path(), user3)
-```
+## Add the data
 
-Let's find user `Paul` and filter the results by age.
+Add the three sets of user data to the database as
+[JSON]({{< relref "/develop/data-types/json" >}}) objects.
+If you use keys with the `user:` prefix then Redis will index the
+objects automatically as you add them:
 
-```python
-res = rs.search(
-    Query("Paul @age:[30 40]")
-)
-# Result{1 total, docs: [Document {'id': 'user:3', 'payload': None, 'json': '{"name":"Paul Zamir","email":"paul.zamir@example.com","age":35,"city":"Tel Aviv"}'}]}
-```
+{{< clients-example py_home_json add_data >}}
+{{< /clients-example >}}
 
-Query using JSON Path expressions.
+## Query the data
 
-```python
-rs.search(
-    Query("Paul").return_field("$.city", as_field="city")
-).docs
-# [Document {'id': 'user:1', 'payload': None, 'city': 'London'}, Document {'id': 'user:3', 'payload': None, 'city': 'Tel Aviv'}]
-```
+You can now use the index to search the JSON objects. The
+[query]({{< relref "/develop/interact/search-and-query/query" >}})
+below searches for objects that have the text "Paul" in any field
+and have an `age` value in the range 30 to 40:
 
-Aggregate your results using [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/).
+{{< clients-example py_home_json query1 >}}
+{{< /clients-example >}}
 
-```python
-req = aggregations.AggregateRequest("*").group_by('@city', reducers.count().alias('count'))
-print(rs.aggregate(req).rows)
-# [[b'city', b'Tel Aviv', b'count', b'2'], [b'city', b'London', b'count', b'1']]
-```
+Specify query options to return only the `city` field:
+
+{{< clients-example py_home_json query2 >}}
+{{< /clients-example >}}
+
+Use an
+[aggregation query]({{< relref "/develop/interact/search-and-query/query/aggregation" >}})
+to count all users in each city.
+
+{{< clients-example py_home_json query3 >}}
+{{< /clients-example >}}
+
+## Differences with hash documents
+
+Indexing for hash documents is very similar to JSON indexing but you
+need to specify some slightly different options.
+
+When you create the schema for a hash index, you don't need to
+add aliases for the fields, since you use the basic names to access
+the fields anyway. Also, you must use `HASH` for the `IndexType`
+when you create the index. The code below shows these changes with
+a new index called `hash-idx:users`, which is otherwise the same as
+the `idx:users` index used for JSON documents in the previous examples.
+
+{{< clients-example py_home_json make_hash_index >}}
+{{< /clients-example >}}
+
+You use [`hset()`]({{< relref "/commands/hset" >}}) to add the hash
+documents instead of [`json().set()`]({{< relref "/commands/json.set" >}}),
+but the same flat `userX` dictionaries work equally well with either
+hash or JSON:
+
+{{< clients-example py_home_json add_hash_data >}}
+{{< /clients-example >}}
+
+The query commands work the same here for hash as they do for JSON (but
+the name of the hash index is different). The format of the result is
+almost the same except that the fields are returned directly in the
+result `Document` object instead of in an enclosing `json` dictionary:
+
+{{< clients-example py_home_json query1_hash >}}
+{{< /clients-example >}}
+
+## More information
+
+See the [Redis query engine]({{< relref "/develop/interact/search-and-query" >}}) docs
+for a full description of all query features with examples.

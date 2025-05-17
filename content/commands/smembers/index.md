@@ -53,9 +53,20 @@ This has the same effect as running [`SINTER`]({{< relref "/commands/sinter" >}}
 
 ## Examples
 
+{{< clients-example cmds_set smembers >}}
+redis> SADD myset "Hello"
+(integer) 1
+redis> SADD myset "World"
+(integer) 1
+redis> SMEMBERS myset
+1) "Hello"
+2) "World"
+{{< /clients-example >}}
+
+Give these commands a try in the interactive console:
+
 {{% redis-cli %}}
 SADD myset "Hello"
 SADD myset "World"
 SMEMBERS myset
 {{% /redis-cli %}}
-

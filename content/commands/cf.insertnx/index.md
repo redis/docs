@@ -1,4 +1,8 @@
 ---
+acl_categories:
+- '@cuckoo'
+- '@write'
+- '@slow'
 arguments:
 - name: key
   type: key
@@ -44,12 +48,12 @@ title: CF.INSERTNX
 ---
 Adds one or more items to a cuckoo filter if they did not exist previously, allowing the filter to be created with a custom capacity if it does not exist yet.
 
-This command is similar to [`CF.ADDNX`]({{< baseurl >}}/commands/cf.addnx/), except that more than one item can be added and capacity can be specified.
+This command is similar to [`CF.ADDNX`]({{< relref "commands/cf.addnx/" >}}), except that more than one item can be added and capacity can be specified.
 
 <note><b>Notes:</b>
 
-- This command is slower than [`CF.INSERT`]({{< baseurl >}}/commands/cf.insert/) because it first checks whether each item exists.
-- Since [`CF.EXISTS`]({{< baseurl >}}/commands/cf.exists/) can result in false positive, `CF.INSERTNX` may not add an item because it is supposedly already exist, which may be wrong.
+- This command is slower than [`CF.INSERT`]({{< relref "commands/cf.insert/" >}}) because it first checks whether each item exists.
+- Since [`CF.EXISTS`]({{< relref "commands/cf.exists/" >}}) can result in false positive, `CF.INSERTNX` may not add an item because it is supposedly already exist, which may be wrong.
     
 </note>
 
@@ -77,7 +81,7 @@ If the filter already exists, then this parameter is ignored.
     
 If the filter does not exist yet and this parameter is *not* specified, then the filter is created with the module-level default capacity which is 1024.
 
-See [`CF.RESERVE`]({{< baseurl >}}/commands/cf.reserve/) for more information on cuckoo filter capacities.
+See [`CF.RESERVE`]({{< relref "commands/cf.reserve/" >}}) for more information on cuckoo filter capacities.
 </details>
     
 <details open><summary><code>NOCREATE</code></summary>

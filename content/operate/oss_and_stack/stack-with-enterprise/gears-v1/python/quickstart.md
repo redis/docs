@@ -13,7 +13,7 @@ For this tutorial, you need:
 
 - Either:
     - A Redis Enterprise cluster with the [RedisGears module and Python plugin installed]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1/installing-redisgears#install-redisgears" >}}) and [enabled on a database]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1/python/install" >}})
-    - An Redis Community Edition database with the RedisGears module
+    - A Redis Open Source database with the RedisGears module
 - `redis-cli` with connectivity to a Redis database
 
 ## RedisGears basics
@@ -108,7 +108,7 @@ def compare_and_swap(x):
 gb = GearsBuilder()
 gb.map(age) # Extract the 'age' field from each hash
 gb.foreach(compare_and_swap) # Compare the max age to the value stored at age:maximum
-gb.register('person:*') # Only process keys matching the pattern 'person:*'
+gb.register(prefix='person:*') # Only process keys matching the pattern 'person:*'
 ```
 
 You can see here that we define two methods: `age()` and `compare_and_swap()`. Even if you're not familiar with Python, you should be able to see what the methods do.

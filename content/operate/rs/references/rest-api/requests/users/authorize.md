@@ -13,28 +13,29 @@ weight: $weight
 
 | Method | Path | Description |
 |--------|------|-------------|
-| [POST](#post-authorize) | `/v1/users/authorize` | Authorize a user |
+| [POST](#post-authorize) | `/v1/users/authorize` | Generate a token to authorize an authenticated user |
 
 ## Authorize user {#post-authorize}
 
     POST /v1/users/authorize
 
-Generate a JSON Web Token (JWT) for a user to use as authorization to access the REST API.
+Generates a JSON Web Token (JWT) for a user to use as authorization to access the REST API. The request authentication header must include the relevant username and password.
 
 ### Request {#post-request}
 
 #### Example HTTP request
 
-    POST /users/authorize
+    POST /v1/users/authorize
 
 #### Example JSON body
 
-  ```json
-  {
-      "username": "user@redislabs.com",
-      "password": "my_password"
-  }
-  ```
+The request body is optional unless you want to specify the token's time to live:
+
+```json
+{
+  "ttl": <time_in_seconds>
+}
+```
 
 #### Request headers
 | Key    | Value            | Description         |
@@ -44,7 +45,7 @@ Generate a JSON Web Token (JWT) for a user to use as authorization to access the
 
 #### Request body
 
-Include a [JWT authorize object]({{< relref "/operate/rs/references/rest-api/objects/jwt_authorize" >}}) with a valid username and password in the request body.
+Optionally include a JSON object in the request body to specify the time to live (`ttl`), which determines the amount of time in seconds the token will be valid. The default `ttl` is `300` seconds. The minimum `ttl` is `1` second and the maximum `ttl` is `86400` seconds.
 
 ### Response {#post-response}
 
@@ -52,11 +53,11 @@ Returns a JSON object that contains the generated access token.
 
 #### Example JSON body
 
-  ```json
-  {
-      "access_token": "eyJ5bGciOiKIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXViOjE0NjU0NzU0ODYsInVpZFI1IjEiLCJleHAiOjE0NjU0Nz30OTZ9.2xYXumd1rDoE0edFzcLElMOHsshaqQk2HUNgdsUKxMU"
-  }
-  ```
+```json
+{
+  "access_token": "eyJ5bGciOiKIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXViOjE0NjU0..."
+}
+```
 
 ### Error codes {#post-error-codes}
 
@@ -72,6 +73,6 @@ The following are possible `error_code` values:
 
 | Code | Description |
 |------|-------------|
-| [200 OK](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1) | The user is authorized. |
-| [400 Bad Request](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.1) | The request could not be understood by the server due to malformed syntax. |
-| [401 Unauthorized](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.2) | The user is unauthorized. |
+| [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | The user is authorized. |
+| [400 Bad Request](https://www.rfc-editor.org/rfc/rfc9110.html#name-400-bad-request) | The request could not be understood by the server due to malformed syntax. |
+| [401 Unauthorized](https://www.rfc-editor.org/rfc/rfc9110.html#name-401-unauthorized) | The user is unauthorized. |

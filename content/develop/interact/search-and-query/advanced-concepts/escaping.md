@@ -33,7 +33,7 @@ to improve the search even further. See this article about
 [Tokenization](https://queryunderstanding.com/tokenization-c8cdd6aef7ff)
 for a general introduction to the concepts.
 
-Redis Stack uses a very simple tokenizer for documents and a slightly more sophisticated tokenizer for queries. Both allow a degree of control over string escaping and tokenization. 
+Redis uses a very simple tokenizer for documents and a slightly more sophisticated tokenizer for queries. Both allow a degree of control over string escaping and tokenization. 
 
 The sections below describe the rules for tokenizing text fields and queries.
 Note that
@@ -72,6 +72,8 @@ changes that the tokenizer makes to the tags are:
 
 This means that when you define a tag field, you don't need to escape any characters, except
 in the unusual case where you want leading or trailing spaces to be part of the tag text.
-However, you do need to escape certain characters in a *query* against a tag field. See
-[Query syntax]({{< relref "/develop/interact/search-and-query/advanced-concepts/query_syntax#tag-filters" >}})
-for more information about this.
+However, you do need to escape certain characters in a *query* against a tag field. See the
+[Query syntax]({{< relref "/develop/interact/search-and-query/advanced-concepts/query_syntax#tag-filters" >}}) and
+[Exact match]({{< relref "/develop/interact/search-and-query/query/exact-match" >}}) pages for more information about escaping
+and how to use [DIALECT 2]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects#dialect-2" >}}), which is required for
+exact match queries involving tags.

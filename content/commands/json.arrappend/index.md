@@ -1,4 +1,8 @@
 ---
+acl_categories:
+- '@json'
+- '@write'
+- '@slow'
 arguments:
 - name: key
   type: key
@@ -63,7 +67,7 @@ is JSONPath to specify. Default is root `$`.
 
 ## Return value 
 
-`JSON.ARRAPEND` returns an [array]({{< baseurl >}}/develop/reference/protocol-spec#resp-arrays) of integer replies for each path, the array's new size, or `nil`, if the matching JSON value is not an array. 
+`JSON.ARRAPPEND` returns an [array]({{< relref "develop/reference/protocol-spec#resp-arrays" >}}) of integer replies for each path, the array's new size, or `nil`, if the matching JSON value is not an array. 
 For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}). 
 
 ## Examples
@@ -78,7 +82,7 @@ redis> JSON.SET item:1 $ '{"name":"Noise-cancelling Bluetooth headphones","descr
 OK
 {{< / highlight >}}
 
-Add color `blue` to the end of the `colors` array. `JSON.ARRAPEND` returns the array's new size.
+Add color `blue` to the end of the `colors` array. `JSON.ARRAPPEND` returns the array's new size.
 
 {{< highlight bash >}}
 redis> JSON.ARRAPPEND item:1 $.colors '"blue"'
@@ -96,7 +100,7 @@ redis> JSON.GET item:1
 
 ## See also
 
-[`JSON.ARRINDEX`]({{< baseurl >}}/commands/json.arrindex/) | [`JSON.ARRINSERT`]({{< baseurl >}}/commands/json.arrinsert/) 
+[`JSON.ARRINDEX`]({{< relref "commands/json.arrindex/" >}}) | [`JSON.ARRINSERT`]({{< relref "commands/json.arrinsert/" >}}) 
 
 ## Related topics
 

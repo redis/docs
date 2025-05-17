@@ -26,13 +26,13 @@ Use the module runtime configuration command (if defined) to configure new argum
 
 | Permission name |
 |-----------------|
-| [edit_bdb_module]({{< relref "/operate/rs/references/rest-api/permissions#edit_bdb_module" >}}) |
+| [edit_bdb_module]({{< relref "/operate/rs/7.4/references/rest-api/permissions#edit_bdb_module" >}}) |
 
 ### Request {#post-request} 
 
 #### Example HTTP request
 
-	POST /bdbs/1/modules/config
+	POST /v1/bdbs/1/modules/config
 
 #### Example JSON body
 

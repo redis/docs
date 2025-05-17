@@ -75,7 +75,7 @@ To use RESP3 with a Redis Enterprise Software database:
  When RESP3 is deactivated, connected clients that use RESP3 are disconnected from the database.
 
 {{<note>}}
-You cannot use sharded pub/sub if you deactivate RESP3 support.
+You cannot use sharded pub/sub if you deactivate RESP3 support. When RESP3 is enabled, you can use sharded pub/sub with either RESP2 or RESP3.
 {{</note>}}
 
 ## Change default RESP3 option

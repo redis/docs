@@ -1,4 +1,8 @@
 ---
+acl_categories:
+- '@json'
+- '@read'
+- '@slow'
 arguments:
 - name: key
   type: key
@@ -137,7 +141,7 @@ redis> JSON.GET doc ..a $..b
 
 ## See also
 
-[`JSON.SET`]({{< baseurl >}}/commands/json.set/) | [`JSON.MGET`]({{< baseurl >}}/commands/json.mget/) 
+[`JSON.SET`]({{< relref "commands/json.set/" >}}) | [`JSON.MGET`]({{< relref "commands/json.mget/" >}}) 
 
 ## Related topics
 

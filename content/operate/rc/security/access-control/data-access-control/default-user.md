@@ -19,7 +19,7 @@ This password appears in the **Security** section of the **Configuration** tab o
 
 Use the copy button to copy the password to the clipboard:
 
-{{<image filename="images/rc/button-database-password-copy.png"  alt="Use the Copy button to copy the default user password." >}}
+{{<image filename="images/rc/button-copy.png"  alt="Use the Copy button to copy the default user password." >}}
 
 You'll need to use this password whenever you connect to your database using a Redis client. See [Connect to a database]({{< relref "/operate/rc/databases/connect" >}}) for more info.
 
@@ -29,9 +29,9 @@ See your [Redis client's documentation]({{< relref "/develop/clients" >}}) to le
 
 To change the default user password for your database:
 
-1. From the database **Configuration** tab, select **Edit database**.
+1. From the database **Configuration** tab, select **Edit**.
 
-    {{<image filename="images/rc/button-database-edit.png" width="150px" alt="The Edit database button lets you change the database's default user password." >}}
+    {{<image filename="images/rc/button-database-edit.png" width="100px" alt="The Edit button lets you change the database's default user password." >}}
 
 1. Under the **Security** section, enter the new password in the **Default user password** field. Database passwords must be less than 50 characters long.
 
@@ -45,9 +45,9 @@ After you set up [role-based access control]({{< relref "/operate/rc/security/ac
 
 To turn off the default user for a database:
 
-1. From the database **Configuration** tab, select **Edit database**.
+1. From the database **Configuration** tab, select **Edit**.
 
-    {{<image filename="images/rc/button-database-edit.png" width="150px" alt="The Edit database button lets you change the database's default user password." >}}
+    {{<image filename="images/rc/button-database-edit.png" width="100px" alt="The Edit database button lets you change the database's default user password." >}}
 
 1. Under the **Security** section, select the **Default User** switch to turn it off.
 

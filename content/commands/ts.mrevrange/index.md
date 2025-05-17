@@ -1,4 +1,8 @@
 ---
+acl_categories:
+- '@timeseries'
+- '@read'
+- '@slow'
 arguments:
 - name: fromTimestamp
   type: string
@@ -178,7 +182,12 @@ syntax_str: "toTimestamp [LATEST] [FILTER_BY_TS\_Timestamp [Timestamp ...]] [FIL
 title: TS.MREVRANGE
 ---
 
-Query a range across multiple time series by filters in the reverse direction
+Query a range across multiple time series by filters in the reverse direction.
+
+{{< note >}}
+This command will reply only if the current user has read access to all keys that match the filter.
+Otherwise, it will reply with "*(error): current user doesn't have read permission to one or more keys that match the specified filter*".
+{{< /note >}}
 
 [Examples](#examples)
 
@@ -588,7 +597,7 @@ Query all time series with the metric label equal to `cpu`, but only return the 
 
 ## See also
 
-[`TS.MRANGE`]({{< baseurl >}}/commands/ts.mrange/) | [`TS.RANGE`]({{< baseurl >}}/commands/ts.range/) | [`TS.REVRANGE`]({{< baseurl >}}/commands/ts.revrange/) 
+[`TS.MRANGE`]({{< relref "commands/ts.mrange/" >}}) | [`TS.RANGE`]({{< relref "commands/ts.range/" >}}) | [`TS.REVRANGE`]({{< relref "commands/ts.revrange/" >}}) 
 
 ## Related topics
 

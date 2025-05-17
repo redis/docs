@@ -24,7 +24,7 @@ rladmin cluster certificate
         [ key_file <key filepath> ]
 ```
 
-To set a certificate for a specific service, use the corresponding certificate name. See the [certificates table]({{< relref "/operate/rs/security/certificates" >}}) for the list of cluster certificates and their descriptions.
+To set a certificate for a specific service, use the corresponding certificate name. See the [certificates table]({{< relref "/operate/rs/7.4/security/certificates" >}}) for the list of cluster certificates and their descriptions.
 
 ### Parameters
 

@@ -1,4 +1,8 @@
 ---
+acl_categories:
+- '@json'
+- '@read'
+- '@slow'
 arguments:
 - name: key
   type: key
@@ -49,7 +53,7 @@ is JSONPath to specify. Default is root `$`, if not provided. Returns null if th
 
 ## Return
 
-`JSON.ARRLEN` returns an [array]({{< baseurl >}}/develop/reference/protocol-spec#resp-arrays) of integer replies, an integer for each matching value, each is the array's length, or `nil`, if the matching value is not an array.
+`JSON.ARRLEN` returns an [array]({{< relref "develop/reference/protocol-spec#resp-arrays" >}}) of integer replies, an integer for each matching value, each is the array's length, or `nil`, if the matching value is not an array.
 For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}). 
 
 ## Examples
@@ -95,7 +99,7 @@ redis> JSON.GET item:2 '$..max_level'
 
 ## See also
 
-[`JSON.ARRINDEX`]({{< baseurl >}}/commands/json.arrindex/) | [`JSON.ARRINSERT`]({{< baseurl >}}/commands/json.arrinsert/) 
+[`JSON.ARRINDEX`]({{< relref "commands/json.arrindex/" >}}) | [`JSON.ARRINSERT`]({{< relref "commands/json.arrinsert/" >}}) 
 
 ## Related topics
 

@@ -1,10 +1,9 @@
 ---
-description: The schema APIs
 linkTitle: Schema
 title: Schema
 type: integration
-weight: 2
 ---
+
 
 Schema in RedisVL provides a structured format to define index settings and
 field configurations using the following three components:
@@ -19,7 +18,7 @@ field configurations using the following three components:
 
 <a id="indexschema-api"></a>
 
-### *class* IndexSchema(\*, index, fields={}, version='0.1.0')
+### `class IndexSchema(*, index, fields={}, version='0.1.0')`
 
 A schema definition for a search index in Redis, used in RedisVL for
 configuring index settings and organizing vector and metadata fields.
@@ -90,21 +89,23 @@ schema = IndexSchema.from_dict({
 })
 ```
 
-{{< note >}}
+#### `NOTE`
 The fields attribute in the schema must contain unique field names to ensure
 correct and unambiguous field references.
-{{< /note >}}
 
 Create a new model by parsing and validating input data from keyword arguments.
 
-Raises ValidationError if the input data cannot be parsed to form a valid model.
+Raises [ValidationError][pydantic_core.ValidationError] if the input data cannot be
+validated to form a valid model.
+
+self is explicitly positional-only to allow self as a field name.
 
 * **Parameters:**
-  * **index** (*IndexInfo*) – 
-  * **fields** (*Dict* *[**str* *,* *BaseField* *]*) – 
-  * **version** (*str*) – 
+  * **index** (*IndexInfo*)
+  * **fields** (*Dict* *[* *str* *,* *BaseField* *]*)
+  * **version** (*Literal* *[* *'0.1.0'* *]*)
 
-### add_field(field_inputs)
+#### `add_field(field_inputs)`
 
 Adds a single field to the index schema based on the specified field
 type and attributes.
@@ -113,7 +114,7 @@ This method allows for the addition of individual fields to the schema,
 providing flexibility in defining the structure of the index.
 
 * **Parameters:**
-  **field_inputs** (*Dict* *[**str* *,* *Any* *]*) – A field to add.
+  **field_inputs** (*Dict* *[* *str* *,* *Any* *]*) – A field to add.
 * **Raises:**
   **ValueError** – If the field name or type are not provided or if the name
       already exists within the schema.
@@ -134,7 +135,7 @@ schema.add_field({
 })
 ```
 
-### add_fields(fields)
+#### `add_fields(fields)`
 
 Extends the schema with additional fields.
 
@@ -142,7 +143,7 @@ This method allows dynamically adding new fields to the index schema. It
 processes a list of field definitions.
 
 * **Parameters:**
-  **fields** (*List* *[**Dict* *[**str* *,* *Any* *]* *]*) – A list of fields to add.
+  **fields** (*List* *[* *Dict* *[* *str* *,* *Any* *]* *]*) – A list of fields to add.
 * **Raises:**
   **ValueError** – If a field with the same name already exists in the
       schema.
@@ -163,16 +164,16 @@ schema.add_fields([
 ])
 ```
 
-### *classmethod* from_dict(data)
+#### `classmethod from_dict(data)`
 
 Create an IndexSchema from a dictionary.
 
 * **Parameters:**
-  **data** (*Dict* *[**str* *,* *Any* *]*) – The index schema data.
+  **data** (*Dict* *[* *str* *,* *Any* *]*) – The index schema data.
 * **Returns:**
   The index schema.
 * **Return type:**
-  [IndexSchema](#redisvl.schema.IndexSchema)
+  [IndexSchema](#indexschema)
 
 ```python
 from redisvl.schema import IndexSchema
@@ -200,7 +201,7 @@ schema = IndexSchema.from_dict({
 })
 ```
 
-### *classmethod* from_yaml(file_path)
+#### `classmethod from_yaml(file_path)`
 
 Create an IndexSchema from a YAML file.
 
@@ -209,14 +210,14 @@ Create an IndexSchema from a YAML file.
 * **Returns:**
   The index schema.
 * **Return type:**
-  [IndexSchema](#redisvl.schema.IndexSchema)
+  [IndexSchema](#indexschema)
 
 ```python
 from redisvl.schema import IndexSchema
 schema = IndexSchema.from_yaml("schema.yaml")
 ```
 
-### remove_field(field_name)
+#### `remove_field(field_name)`
 
 Removes a field from the schema based on the specified name.
 
@@ -226,16 +227,17 @@ existing fields.
 * **Parameters:**
   **field_name** (*str*) – The name of the field to be removed.
 
-### to_dict()
+#### `to_dict()`
 
-Convert the index schema to a dictionary.
+Serialize the index schema model to a dictionary, handling Enums
+and other special cases properly.
 
 * **Returns:**
   The index schema as a dictionary.
 * **Return type:**
   Dict[str, Any]
 
-### to_yaml(file_path, overwrite=True)
+#### `to_yaml(file_path, overwrite=True)`
 
 Write the index schema to a YAML file.
 
@@ -247,7 +249,7 @@ Write the index schema to a YAML file.
 * **Return type:**
   None
 
-### *property* field_names *: List[str]*
+#### `property field_names: List[str]`
 
 A list of field names associated with the index schema.
 
@@ -256,15 +258,19 @@ A list of field names associated with the index schema.
 * **Return type:**
   List[str]
 
-### fields *: Dict[str, BaseField]*
+#### `fields: Dict[str, BaseField]`
 
 Fields associated with the search index and their properties
 
-### index *: IndexInfo*
+#### `index: IndexInfo`
 
 Details of the basic index configurations.
 
-### version *: str*
+#### `model_config: ClassVar[ConfigDict] = {}`
+
+Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
+
+#### `version: Literal['0.1.0']`
 
 Version of the underlying index schema.
 
@@ -323,7 +329,7 @@ Each field type supports specific attributes that customize its behavior. Below 
 
 - dims: Dimensionality of the vector.
 - algorithm: Indexing algorithm (flat or hnsw).
-- datatype: Float datatype of the vector (float32 or float64).
+- datatype: Float datatype of the vector (bfloat16, float16, float32, float64).
 - distance_metric: Metric for measuring query relevance (COSINE, L2, IP).
 
 **HNSW Vector Field Specific Attributes**:
@@ -334,4 +340,4 @@ Each field type supports specific attributes that customize its behavior. Below 
 - epsilon: Range search boundary factor.
 
 Note:
-: See fully documented Redis-supported fields and options here: [FT.CREATE]({{< baseurl >}}/commands/ft.create).
+: See fully documented Redis-supported fields and options here: [https://redis.io/commands/ft.create/](https://redis.io/commands/ft.create/)

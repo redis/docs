@@ -31,6 +31,8 @@ This process involves deleting and recreating the REC StatefulSet with a larger 
 - Your storage driver must support online expansion.
 - We highly recommend you backup your databases before beginning this PVC expansion process.
 
+{{<warning>}} OpenShift users should be aware that (`ClusterResourceQuota`) can limit the PVC expansion. Check your quota before resizing using `oc describe clusterresourcequota <quota-name>`.{{</warning>}}
+
 ## Expand REC PVC
 
 1. Enable the REC persistent volume resize flag.

@@ -26,7 +26,7 @@ In the [Relational Database Service (RDS) console](https://console.aws.amazon.co
 navigate to **Parameter groups > Create parameter group**. You will see the panel shown
 below:
 
-{{<image filename="images/rdi/ingest/prepsrc/aurora-pgsql/CreateParamGroup.jpg" alt="Create parameter group panel" >}}
+{{<image filename="images/rdi/ingest/prepsrc/aurora-pgsql/CreateParamGroup.webp" alt="Create parameter group panel" >}}
 
 Enter the following information:
 
@@ -45,14 +45,15 @@ Select **Create** to create the parameter group.
 Navigate to **Parameter groups** in the console. Select the `rdi-aurora-pg`
 group you have just created and then select **Edit** . You will see this panel:
 
-{{<image filename="images/rdi/ingest/prepsrc/aurora-pgsql/EditParamGroup.jpg" alt="Edit parameter group panel" >}}
+{{<image filename="images/rdi/ingest/prepsrc/aurora-pgsql/EditParamGroup.webp" alt="Edit parameter group panel" >}}
 
 Search for the `rds.logical_replication` parameter and set its value to 1. Then,
 select **Save Changes**.
 
 ## 3. Select the new parameter group
 
-Scroll down to **Additional Configuration**. Set the **DB Cluster Parameter Group**
-to the value `rdi-aurora-pg` that you have just added:
+Go back to your target database on the RDS console, select **Modify** and then
+scroll down to **Additional Configuration**. Set
+the **DB Cluster Parameter Group** to the value `rdi-aurora-pg` that you have just added:
 
-{{<image filename="images/rdi/ingest/prepsrc/aurora-pgsql/CreateDB6.jpg" alt="Additional Configuration panel" >}}
+{{<image filename="images/rdi/ingest/prepsrc/aurora-pgsql/CreateDB6.webp" alt="Additional Configuration panel" >}}

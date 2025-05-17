@@ -1,4 +1,6 @@
 ---
+acl_categories:
+- '@search'
 arguments:
 - name: alias
   type: string
@@ -60,7 +62,7 @@ OK
 
 ## See also
 
-[`FT.ALIASADD`]({{< baseurl >}}/commands/ft.aliasadd/) | [`FT.ALIASUPDATE`]({{< baseurl >}}/commands/ft.aliasupdate/) 
+[`FT.ALIASADD`]({{< relref "commands/ft.aliasadd/" >}}) | [`FT.ALIASUPDATE`]({{< relref "commands/ft.aliasupdate/" >}}) 
 
 ## Related topics
 

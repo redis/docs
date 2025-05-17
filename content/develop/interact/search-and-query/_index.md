@@ -45,20 +45,16 @@ Here are the next steps to get you started:
 
 ## Enable the Redis Query Engine
 
-The Redis Query Engine is not available by default in the basic Redis server, so you
-should install Redis Stack or Redis Enterprise,
-both of which include Redis search and other useful modules.
+The Redis Query Engine is available in Redis Open Source, Redis Software, and Redis Cloud.
 See
-[Install Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) or
+[Install Redis Open Source]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) or
 [Install Redis Enterprise]({{< relref "/operate/rs/installing-upgrading/install" >}})
 for full installation instructions.
 
 ## License and source code
 
-The Redis Query Engine features of Redis Stack are available under the Source Available License 2.0 (RSALv2) or the Server Side Public License v1 (SSPLv1). Please read the [license file](https://raw.githubusercontent.com/RediSearch/RediSearch/master/LICENSE.txt) for further details. The source code and the [detailed release notes](https://github.com/RediSearch/RediSearch/releases) are available on [GitHub](https://github.com/RediSearch/RediSearch).
+The Redis Query Engine features of Redis are available under the Source Available License 2.0 (RSALv2), the Server Side Public License v1 (SSPLv1), or the GNU Affero General Public License version 3 (AGPLv3). Please read the [license file](https://raw.githubusercontent.com/RediSearch/RediSearch/master/LICENSE.txt) for further details. The source code and the [detailed release notes](https://github.com/RediSearch/RediSearch/releases) are available on [GitHub](https://github.com/RediSearch/RediSearch).
 
 Do you have questions? Feel free to ask at the [RediSearch forum](https://forum.redis.com/c/modules/redisearch/).
-
-Redis Ltd. provides commercial support for Redis Stack. Please see the [Redis Ltd. website](https://redis.com/redis-enterprise/technology/redis-search/#sds) for more details and contact information.
 
 <br/>

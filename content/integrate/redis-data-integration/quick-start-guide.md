@@ -18,15 +18,14 @@ In this tutorial you will learn how to install RDI and set up a pipeline to inge
 - [Redis Insight]({{< relref "/develop/tools/insight" >}})
   to edit your pipeline
 - A virtual machine (VM) with one of the following operating systems:  
-  - Ubuntu 20.04 or 22.04
-  - RHEL 8 or 9
+  {{< embed-md "rdi-os-reqs.md" >}}
 
 ## Overview
 
 The following diagram shows the structure of the pipeline we will create (see
 the [architecture overview]({{< relref "/integrate/redis-data-integration/architecture#overview" >}}) to learn how the pipeline works):
 
-{{< image filename="images/rdi/ingest/ingest-qsg.png" >}}
+{{< image filename="images/rdi/ingest/ingest-qsg.webp" >}}
 
 Here, the RDI *collector* tracks changes in PostgreSQL and writes them to streams in the 
 RDI database in Redis. The *stream processor* then reads data records from the RDI
@@ -51,20 +50,12 @@ RDI will create the pipeline template for your chosen source database type at
 (see [Prepare the pipeline](#prepare-the-pipeline) below).
 
 At the end of the installation, RDI CLI will prompt you to set the access secrets
-for both the source PostgreSQL database and the Redis RDI database. RDI needs these to
+for both the source PostgreSQL database and the target Redis database. RDI needs these to
 run the pipeline.
 
-Use the Redis console to create the RDI database with the following requirements:
+Use the Redis Enterprise Cluster Manager UI to create the RDI database with the following requirements:
 
-- A single-shard database with 125MB RAM is enough for the quickstart but double this
-  to 250MB if you want to add a replica.
-- Provide the installation with the required RDI database details.
-- Set the database's
-  [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}) to `noeviction` and set
-  [data persistence]({{< relref "/operate/rs/databases/configure/database-persistence" >}})
-  to AOF - fsync every 1 sec.
-- **Ensure that the RDI database is not clustered.** RDI will not work correctly if the
-  RDI database is clustered, but it is OK for the target database to be clustered.
+{{< embed-md "rdi-db-reqs.md" >}}
 
 ### Prepare the pipeline
 
@@ -99,7 +90,7 @@ To create a context, use the
 command:
 
 ```bash
-redis-di add-context --rdi-host <host> --rdi-port <port> --cluster-host <Redis DB host> --cluster-api-port <Redis DB API port> --cluster-user <Redis DB username> <unique-context-name>
+redis-di add-context --rdi-host <host> --rdi-port <port> <unique-context-name>
 ```
 
 These options are required but there are also a few others you can save, such as TLS credentials, if
@@ -122,7 +113,7 @@ contexts.
 
 You can use [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}})
 to deploy the pipeline by adding a connection to the RDI API
-endpoint (which has the same IP address as your RDI VM and uses port 8083) and then clicking the **Deploy** button. You can also deploy it with the following command:
+endpoint (which has the same hostname or IP address as your RDI VM and uses the default HTTPS port 443) and then clicking the **Deploy** button. You can also deploy it with the following command:
 
 ```bash
 redis-di deploy --dir <path to pipeline folder>
@@ -157,4 +148,4 @@ To see the RDI pipeline working in CDC mode:
 - Run
   [`redis-di status --live`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-status" >}})
   to see the flow of records.
-- User [Redis Insight]({{< relref "/develop/tools/insight" >}}) to look at the data in the target database.
+- Use [Redis Insight]({{< relref "/develop/tools/insight" >}}) to look at the data in the target database.

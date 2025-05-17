@@ -65,10 +65,24 @@ to `count` elements, depending on the list's length.
 
 ## Examples
 
+{{< clients-example cmds_list rpop >}}
+redis> RPUSH mylist "one" "two" "three" "four" "five"
+(integer) 5
+redis> RPOP mylist
+"five"
+redis> RPOP mylist 2
+1) "four"
+2) "three"
+redis> LRANGE mylist 0 -1
+1) "one"
+2) "two"
+{{< /clients-example >}}
+
+Give these commands a try in the interactive console:
+
 {{% redis-cli %}}
 RPUSH mylist "one" "two" "three" "four" "five"
 RPOP mylist
 RPOP mylist 2
 LRANGE mylist 0 -1
 {{% /redis-cli %}}
-

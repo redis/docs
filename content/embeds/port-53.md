@@ -1,8 +1,6 @@
-If port 53 is in use, the installation fails. This can occur in
-default installations of Ubuntu 18.04 and 20.04 in which `systemd-resolved` (DNS server) is running.
+If port 53 is in use, the installation fails. This issue can occur in default installations of certain operating systems in which `systemd-resolved` (DNS server) is running.
 
-To prevent this issue, change the system configuration to make this port available
-before installation.
+To prevent this issue, change the system configuration to make this port available before installation.
 
 1. Edit `/etc/systemd/resolved.conf`: 
 

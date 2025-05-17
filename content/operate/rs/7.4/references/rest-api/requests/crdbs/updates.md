@@ -36,7 +36,7 @@ When you update db_config, it changes the configuration of the database that you
 
 #### Example HTTP request
 
-    POST /crdbs/1/updates
+    POST /v1/crdbs/1/updates
 
 #### Request headers
 
@@ -53,11 +53,11 @@ When you update db_config, it changes the configuration of the database that you
 
 #### Request body
 
-Include a [CRDB modify_request object]({{< relref "/operate/rs/references/rest-api/objects/crdb/modify_request" >}}) with updated fields in the request body.
+Include a [CRDB modify_request object]({{< relref "/operate/rs/7.4/references/rest-api/objects/crdb/modify_request" >}}) with updated fields in the request body.
 
 ### Response {#post-response} 
 
-Returns a [CRDB task object]({{< relref "/operate/rs/references/rest-api/objects/crdb_task" >}}).
+Returns a [CRDB task object]({{< relref "/operate/rs/7.4/references/rest-api/objects/crdb_task" >}}).
 
 ### Status codes {#post-status-codes} 
 

@@ -20,6 +20,12 @@ The following events are tracked:
 
 When tracked events are triggered, notifications are sent via TCP to an address and port defined when auditing is enabled.  Notifications appear in near real time and are intended to be consumed by an external listener, such as a TCP listener, third-party service, or related utility.
 
+Example external listeners include:
+
+- [`ncat`](https://nmap.org/ncat/): useful for debugging but not suitable for production environments.
+
+- Imperva Sonar: a third-party service available for purchase separately from Redis Enterprise Software. See [Redis Onboarding Steps](https://docs.imperva.com/bundle/onboarding-databases-to-sonar-reference-guide/page/Redis-Onboarding-Steps_48368215.html) for more information.
+
 For development and testing environments, notifications can be saved to a local file; however, this is neither supported nor intended for production environments.
 
 For performance reasons, auditing is not enabled by default.  In addition, auditing occurs in the background (asynchronously) and is non-blocking by design.  That is, the action that triggered the notification continues without regard to the status of the notification or the listening tool.  

@@ -13,10 +13,108 @@ weight: 90
 ---
 ## Requirements
 
-RediSearch v2.10.7 requires:
+RediSearch v2.10.17 requires:
 
 - Minimum Redis compatibility version (database): 7.4
 - Minimum Redis Enterprise Software version (cluster): 7.6 (TBD)
+
+## v2.10.17 (April 2025)
+
+This is a maintenance release for RediSearch 2.10.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#5859](https://github.com/redisearch/redisearch/pull/5859) Last query result using `FT.AGGREGATE` with `ON_TIMEOUT RETURN` and using multi-threading could be missing (MOD-9222)
+- [#5858](https://github.com/redisearch/redisearch/pull/5858) Collecting empty results from shards during `FT.AGGREGATE` with RESP3 could cause a crash (MOD-9174)
+
+Improvements:
+- [#5938](https://github.com/redisearch/redisearch/pull/5938) Improved performance (reduced CPU time) of collecting vector index statistics(MOD-9354)
+- [#5800](https://github.com/redisearch/redisearch/pull/5800) Improved accuracy of index memory reporting by correcting a bug that caused negative memory counts (MOD-5904)
+
+## v2.10.15 (March 2025)
+
+This is a maintenance release for RediSearch 2.10.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#5788](https://github.com/redisearch/redisearch/pull/5788) Cursor with `SORTBY` is never depleted, blocking queries if the cursor limit is reached (MOD-8483)
+- [#5788](https://github.com/redisearch/redisearch/pull/5788) Empty results with RESP3 due to the `TIMEOUT`, even if `ON_TIMEOUT` is set to `RETURN`(MOD-8482)
+- [#5788](https://github.com/redisearch/redisearch/pull/5788) Cursor with RESP3 on `FT.AGGREGATE` is never depleted, blocking queries if cursor the limit is achieved (MOD-8515)
+- [#5788](https://github.com/redisearch/redisearch/pull/5788) Using `FT.CURSOR READ` on queries that timed out led to fewer results than expected (MOD-8606)
+- [#5810](https://github.com/redisearch/redisearch/pull/5810) The `total_results` field of the `FT.AGGREGATE` command is not correct in RESP3 (MOD-9054)
+
+Improvements:
+- [#5788](https://github.com/redisearch/redisearch/pull/5788) Corrected a coordinator race condition that prevented premature release, avoiding errors and inconsistencies during query executions (MOD-8794)
+
+## v2.10.14 (March 2025)
+
+This is a maintenance release for RediSearch 2.10.
+
+Update urgency: `LOW` No need to upgrade unless there are new features you want to use.
+
+Bug fixes:
+- [#5704](https://github.com/redisearch/redisearch/pull/5704) Weights in the query string are ignored if using `SCORER BM25` (MOD-7896).
+
+## v2.10.13 (February 2025)
+
+This is a maintenance release for RediSearch 2.10.
+
+Update urgency: `LOW` No need to upgrade unless there are new features you want to use.
+
+Bug fixes:
+- [#5646](https://github.com/redisearch/redisearch/pull/5646) `FT.SEARCH` using Cyrillic characters and wildcards delivering no results (MOD-7944)
+
+## v2.10.12 (February 2025)
+
+This is a maintenance release for RediSearch 2.10.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#5596](https://github.com/redisearch/redisearch/pull/5596) Changes on the memory block reading logic could cause crash on `FT.SEARCH` with error "_Redis 7.4.2 crashed by signal: 11, si_code: 128"_
+
+Known limitations:
+- Only the first 128 characters of string fields are normalized to lowercase during ingestion (for example, on `HSET`).
+    Example:
+
+    ```
+    HSET doc __score 1.0 name "idx1S...S" mynum 1          # Assume "S...S" is a string of 252 capital S's
+    FT.CREATE "idx" SCHEMA "name" "TEXT" "mynum" "NUMERIC"
+    FT.SEARCH "idx" "@name:idx1S...S"                      # Assume "S...S" is a string of 252 capital S's
+    ```
+
+    The `FT.SEARCH` command will return no documents.
+
+## v2.10.11 (January 2025)
+
+This is a maintenance release for RediSearch 2.10.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#5536](https://github.com/redisearch/redisearch/pull/5536) Querying for the latest document added to the index may result in a crash if the last block is not read (MOD-8561).
+
+## v2.10.10 (January 2025)
+
+This is a maintenance release for RediSearch 2.10
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+**Security and privacy**:
+- [#5459](https://github.com/redisearch/redisearch/pull/5459) (CVE-2024-51737) Query: potential out-of-bounds write (MOD-8486)
+
+Bug fixes:
+- [#5392](https://github.com/redisearch/redisearch/pull/5392) `NOSTEM` option does not work on query, just on tokenisation (index creation) (MOD-7634)
+- [#5300](https://github.com/redisearch/redisearch/pull/5300) Prefix/Infix/Suffix queries longer than 1024 chars could cause a crash (MOD-7882)
+- [#5294](https://github.com/redisearch/redisearch/pull/5294) Expired keys while background indexing could cause cross slot error when using `replicaof` (MOD-7949)
+- [#5282](https://github.com/redisearch/redisearch/pull/5282) `FT.CURSOR READ` retrieving deleted `TAG` fields cause a crash (MOD-8011)
+- [#5424](https://github.com/redisearch/redisearch/pull/5424) `FT.AGGREGATE` on numeric fields lead to `failed_calls` count increase on clustered DBs (MOD-8058)
+- [#5241](https://github.com/redisearch/redisearch/pull/5241) Memory count on `bytes_collected` by the index sanitiser with missing values (MOD-8097, MOD-8114)
+
+Improvements:
+- [#5257](https://github.com/redisearch/redisearch/pull/5257) Optimizing index consumed memory with the creation only upon write operations (MOD-8125)
 
 ## v2.10.7 (Septermber 2024)
 
@@ -24,7 +122,7 @@ This is a maintenance release for RediSearch 2.10
 
 Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
 
-Bug Fixes
+Bug Fixes:
 - https://github.com/RediSearch/RediSearch/pull/4941 Adjusting the module configuration to avoid routing overload on the first shard in a clustered database (MOD-7505)
 - https://github.com/RediSearch/RediSearch/pull/4950 `FT.PROFILE` on `AGGREGATE` numeric queries could cause a crash due to reuse of an internal CURSOR in a large range of numeric values (MOD-7454)
 

@@ -80,6 +80,29 @@ the last element of the list.
 
 ## Examples
 
+{{< clients-example cmds_list lrange >}}
+redis> RPUSH mylist "one"
+(integer) 1
+redis> RPUSH mylist "two"
+(integer) 2
+redis> RPUSH mylist "three"
+(integer) 3
+redis> LRANGE mylist 0 0
+1) "one"
+redis> LRANGE mylist -3 2
+1) "one"
+2) "two"
+3) "three"
+redis> LRANGE mylist -100 100
+1) "one"
+2) "two"
+3) "three"
+redis> LRANGE mylist 5 10
+(empty array)
+{{< /clients-example >}}
+
+Give these commands a try in the interactive console:
+
 {{% redis-cli %}}
 RPUSH mylist "one"
 RPUSH mylist "two"
@@ -89,4 +112,3 @@ LRANGE mylist -3 2
 LRANGE mylist -100 100
 LRANGE mylist 5 10
 {{% /redis-cli %}}
-

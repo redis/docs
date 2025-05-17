@@ -1,5 +1,5 @@
 {{ define "head" }}
-  <script src='{{ relURL "" }}/js/codetabs.js' defer></script>
+  <script src='{{ relURL "js/codetabs.js" }}' defer></script>
 {{ end }}
 
 {{ define "main" }}
@@ -8,13 +8,56 @@
     <div class="py-12 md:pl-4 xl:px-16 overflow-hidden">
       {{ partial "breadcrumbs" . }}
       <section class="prose w-full py-12 max-w-none">
-        <h1>
-          {{ if and (isset .Params "stack") (eq .Params.stack true)}}
-          {{ partial "icons/logo-stack.html" (dict "context" . "class" "stack-logo-inline") }}
+        <h1>{{ .Title }}</h1>
+        {{ with .Params.description }}<p class="text-lg -mt-2 mb-2">{{ . | markdownify }}</p>{{ end }}
+  {{ if .Params.categories }}
+<div class="post-categories" style="display: table;">
+  <table style="border-collapse: separate; border-spacing: 0; background-color: #ffffff;">
+    <thead>
+      <tr>
+        {{ $visibleCategories := slice }}
+        {{ range .Params.categories }}
+        {{ if not (in (slice "docs" "operate" "integrate" "develop" "stack") .) }}
+          {{ $visibleCategories = $visibleCategories | append (slice .) }} <!-- Corrected Append -->
+        {{ end }}
+        {{ end }}
+        {{ range $index, $element := $visibleCategories }}
+          {{ $displayName := $element }}
+          {{ $color := "#ffffff" }} <!-- Default background color (white) -->
+          {{ if eq $element "rs" }}
+            {{ $displayName = "Redis Enterprise Software" }}
+            {{ $color = "#DCFF1E" }}
+          {{ else if eq $element "rc" }}
+            {{ $displayName = "Redis Cloud" }}
+            {{ $color = "#80DBFF" }}
+          {{ else if eq $element "kubernetes" }}
+            {{ $displayName = "Redis Enterprise for Kubernetes" }}
+            {{ $color = "#8A99A0" }}
+          {{ else if eq $element "oss" }}
+            {{ $displayName = "Redis Open Source" }}
+            {{ $color = "#C795E3" }}
+          {{ else if eq $element "redisinsight" }}
+            {{ $displayName = "Redis Insight" }}
+            {{ $color = "#FD4439" }}
           {{ end }}
-          {{ .Title }}</h1>
-        {{ with .Params.description }}<p class="text-lg -mt-5 mb-10">{{ . | markdownify }}</p>{{ end }}
-        
+          <th style="border: 1px solid #ccc; padding: 8px; text-align: left; font-weight: normal; background-color: {{ $color }}; {{ if eq $index 0 }}border-top-left-radius: 10px; border-bottom-left-radius: 10px;{{ end }}{{ if eq $index (sub (len $visibleCategories) 1) }}border-top-right-radius: 10px; border-bottom-right-radius: 10px;{{ end }}">
+            {{ $displayName }}
+          </th>
+        {{ end }}
+      </tr>
+    </thead>
+    <tbody>
+      <!-- The tbody is intentionally left empty as all content is in the header -->
+    </tbody>
+  </table>
+</div>
+{{ end }}
+
+
+
+
+
+
         <!-- In-page banner -->
         {{ if .Params.bannerText }}
           <!-- Banner params are in the current page's front matter -->
@@ -24,7 +67,7 @@
             section-wide banner is enabled by a parent page's front matter -->
           {{ $ancestorDirs := slice }}
           {{ with .File }}
-            {{ $ancestorDirs = split .File.Dir "/" }}
+            {{ $ancestorDirs = split .Dir "/" }}
           {{ end }}
           {{ $currPage := .Page }}
           {{ range $i, $page := $ancestorDirs }}

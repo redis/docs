@@ -14,10 +14,50 @@ weight: 96
 ---
 ## Requirements
 
-RedisBloom v2.4.9 requires:
+RedisBloom v2.4.15 requires:
 
 - Minimum Redis compatibility version (database): 6.0.16
 - Minimum Redis Enterprise Software version (cluster): 6.2.8
+
+## v2.4.15 (April 2025)
+
+This is a maintenance release for RedisBloom 2.4.
+
+Update urgency: `LOW`: No need to upgrade unless there are new features you want to use.
+
+Details:
+
+Improvements:
+- [#865](https://github.com/redisbloom/redisbloom/pull/865) Added support for Azure Linux 3 (MOD-9171)
+
+## v2.4.14 (February 2025)
+
+This is a maintenance release for RedisBloom 2.4.
+
+Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgent.
+
+Details:
+
+- Bug fixes:
+  - [#828](https://github.com/redisbloom/redisbloom/pull/828) `CMS.INCRBY` does not notify `WATCH`ers or client-side caching (MOD-8193)
+  - [#827](https://github.com/redisbloom/redisbloom/pull/827) Top-K - suboptimal results after RDB load due to missing initialization (MOD-8194)
+
+## v2.4.13 (January 2025)
+
+This is a maintenance release for RedisBloom 2.4.
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+Details:
+
+- **Security and privacy:**
+  - [#845](https://github.com/redisbloom/redisbloom/pull/845) (CVE-2024-53993) CMS: potential out-of-bounds write (MOD-6970)
+
+- Bug fixes:
+  - [#845](https://github.com/redisbloom/redisbloom/pull/845) `CMS.MERGE` crashes or hangs on negative number of keys (MOD-6964)
+
+- Improvements:
+  - [#831](https://github.com/redisbloom/redisbloom/pull/831) Added support for Ubuntu 22 and macOS 13 and 14
 
 ## v2.4.9 (March 2024)
 
@@ -94,11 +134,11 @@ Details:
 
 - Bug fixes:
 
-  - [#609](https://github.com/RedisBloom/RedisBloom/issues/609) [CF.INFO]({{< baseurl >}}/commands/cf.info) - incorrect information for large filters
+  - [#609](https://github.com/RedisBloom/RedisBloom/issues/609) [CF.INFO]({{< relref "commands/cf.info" >}}) - incorrect information for large filters
 
 - Improvements:
 
-  - [#389](https://github.com/RedisBloom/RedisBloom/issues/389) Introduce [BF.CARD]({{< baseurl >}}/commands/bf.card) to retrieve the cardinality of a Bloom filter or 0 when such key does not exist
+  - [#389](https://github.com/RedisBloom/RedisBloom/issues/389) Introduce [BF.CARD]({{< relref "commands/bf.card" >}}) to retrieve the cardinality of a Bloom filter or 0 when such key does not exist
 
 ## v2.4 GA (v2.4.3) (November 2022)
 
@@ -126,15 +166,15 @@ Using t-digest is simple and straightforward:
 
   `TDIGEST.CREATE key [COMPRESSION compression]` initializes a new t-digest sketch (and errors if the key already exists). The `COMPRESSION` argument is used to specify the tradeoff between accuracy and memory consumption. The default is 100. Higher values mean more accuracy.
 
-  `TDIGEST.ADD key value...` adds new observations (floating-point values) to the sketch. You can repeat calling [TDIGEST.ADD]({{< baseurl >}}/commands/tdigest.add) whenever new observations are available.
+  `TDIGEST.ADD key value...` adds new observations (floating-point values) to the sketch. You can repeat calling [TDIGEST.ADD]({{< relref "commands/tdigest.add" >}}) whenever new observations are available.
 
 * **Estimating fractions or ranks by values**
 
   Use `TDIGEST.CDF key value...` to retrieve, for each input **value**, an estimation of the **fraction** of (observations **smaller** than the given value + half the observations equal to the given value).
 
-  `TDIGEST.RANK key value...` is similar to [TDIGEST.CDF]({{< baseurl >}}/commands/tdigest.cdf), but used for estimating the number of observations instead of the fraction of observations. More accurately it returns, for each input **value**, an estimation of the **number** of (observations **smaller** than a given value + half the observations equal to the given value).
+  `TDIGEST.RANK key value...` is similar to [TDIGEST.CDF]({{< relref "commands/tdigest.cdf" >}}), but used for estimating the number of observations instead of the fraction of observations. More accurately it returns, for each input **value**, an estimation of the **number** of (observations **smaller** than a given value + half the observations equal to the given value).
 
-  And lastly, `TDIGEST.REVRANK key value...` is similar to [TDIGEST.RANK]({{< baseurl >}}/commands/tdigest.rank), but returns, for each input **value**, an estimation of the **number** of (observations **larger** than a given value + half the observations equal to the given value).
+  And lastly, `TDIGEST.REVRANK key value...` is similar to [TDIGEST.RANK]({{< relref "commands/tdigest.rank" >}}), but returns, for each input **value**, an estimation of the **number** of (observations **larger** than a given value + half the observations equal to the given value).
 
 * **Estimating values by fractions or ranks**
 

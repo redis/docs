@@ -48,7 +48,7 @@ section.prose {
 }
 
 .prose h1 {
-  @apply text-4xl;
+  @apply text-4xl break-words;
 }
 
 .prose h1[id],
@@ -100,6 +100,11 @@ select {
 
 #TableOfContents a {
   @apply relative block text-redis-pen-600 hover:text-redis-pen-300 -my-0.5 py-1 pl-6 transition-colors leading-6;
+}
+
+/* Increase indentation for deeper nested items */
+#TableOfContents ul ul a {
+  @apply pl-10; /* Second level */
 }
 
 #TableOfContents a:before {

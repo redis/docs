@@ -37,7 +37,7 @@ Get all cluster nodes.
 #### Example HTTP request
 
 ```sh
-GET /nodes
+GET /v1/nodes
 ```
 
 #### Headers
@@ -121,7 +121,7 @@ Get a single cluster node.
 #### Example HTTP request
 
 ```sh
-GET /nodes/1
+GET /v1/nodes/1
 ```
 
 #### Headers
@@ -191,7 +191,7 @@ You can only update the `addr` attribute for offline nodes. Otherwise, the reque
 #### Example HTTP request
 
 ```sh
-PUT /nodes/1
+PUT /v1/nodes/1
 ```
 
 #### Example JSON body

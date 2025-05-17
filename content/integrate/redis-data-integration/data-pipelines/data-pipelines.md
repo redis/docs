@@ -48,7 +48,7 @@ data in Redis as
 
 The diagram below shows the flow of data through the pipeline:
 
-{{< image filename="/images/rdi/RDIPipeDataflow.drawio.svg" >}}
+{{< image filename="/images/rdi/ingest/RDIPipeDataflow.webp" >}}
 
 ## Pipeline configuration
 
@@ -56,7 +56,7 @@ RDI uses a set of [YAML](https://en.wikipedia.org/wiki/YAML)
 files to configure each pipeline. The following diagram shows the folder
 structure of the configuration:
 
-{{< image filename="images/rdi/ingest/ingest-config-folders.svg" >}}
+{{< image filename="images/rdi/ingest/ingest-config-folders.webp" width="600px" >}}
 
 The main configuration for the pipeline is in the `config.yaml` file.
 This specifies the connection details for the source database (such
@@ -69,11 +69,10 @@ The sections below describe the two types of configuration file in more detail.
 ## The `config.yaml` file
 
 Here is an example of a `config.yaml` file. Note that the values of the
-form "`${name}`" refer to environment variables that you should set with the
-[`redis-di set-secret`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-set-secret" >}})
-command. In particular, you should normally use environment variables as shown to set the source
-and target username and password rather than storing them in plain text in this
-file (see [Set secrets](#set-secrets) below for more information).
+form "`${name}`" refer to secrets that you should set as described in 
+[Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}}). 
+In particular, you should normally use secrets as shown to set the source
+and target username and password rather than storing them in plain text in this file.
 
 ```yaml
 sources:
@@ -83,59 +82,123 @@ sources:
       level: info
     connection:
       type: mysql
-      host: ${RDI_REDIS_HOST}
-      port: 13000
-      database: redislabscdc
+      host: <DB_HOST> # e.g. localhost
+      port: 3306
+      # User and password are injected from the secrets.
       user: ${SOURCE_DB_USERNAME}
       password: ${SOURCE_DB_PASSWORD}
-# The names of the following properties should match the ones you used
-# when setting the TLS/mTLS secrets. Set only `cacert` if you are using
-# TLS, but set all of them if you are using mTLS:
-#     key: ${SOURCE_DB_KEY}
-#     cert: ${SOURCE_DB_CERT}
-#     cacert: ${SOURCE_DB_CACERT}
-#     key_password: ${SOURCE_DB_KEY_PASSWORD}
-    tables:
-          emp:
-            snapshot_sql: "SELECT * from redislabscdc.emp WHERE empno < 1000"
-            columns:
-              - empno
-              - fname
-              - lname
-            keys:
-              - empno
-  # Advanced collector properties (optional):
-  # advanced:
-  # Sink collector properties - see the full list at https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream
-  #   sink:
-  #     redis.memory.limit.mb: 100
-  #     redis.memory.threshold.percentage: 85
-  # Source specific properties - see the full list at https://debezium.io/documentation/reference/stable/connectors/
-  #   source:
-  #     snapshot.mode: initial
-  # Quarkus framework properties - see the full list at https://quarkus.io/guides/all-config
-  #   quarkus:
-  #     banner.enabled: "false"
+    # Additional properties for the source collector:
+    # List of databases to include (optional).
+    # databases:
+    #   - database1
+    #   - database2
+
+    # List of tables to be synced (optional).
+    # tables:
+    #   If only one database is specified in the databases property above,
+    #   then tables can be defined without the database prefix.
+    #   <DATABASE_NAME>.<TABLE_NAME>:
+    #     List of columns to be synced (optional).
+    #     columns:
+    #       - <COLUMN_NAME>
+    #       - <COLUMN_NAME>
+    #     List of columns to be used as keys (optional).
+    #     keys:
+    #       - <COLUMN_NAME>
+
+    # Example: Sync specific tables.
+    # tables:
+    #   Sync a specific table with all its columns:
+    #   redislabscdc.account: {}
+    #   Sync a specific table with selected columns:
+    #   redislabscdc.emp:
+    #     columns:
+    #       - empno
+    #       - fname
+    #       - lname
+
+    # Advanced collector properties (optional):
+    # advanced:
+    #   Sink collector properties - see the full list at
+    #     https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream
+    #   sink:
+    #     Optional hard limits on memory usage of RDI streams.
+    #     redis.memory.limit.mb: 300
+    #     redis.memory.threshold.percentage: 85
+
+    #     Uncomment for production so RDI Collector will wait on replica
+    #     when writing entries.
+    #     redis.wait.enabled: true
+    #     redis.wait.timeout.ms: 1000
+    #     redis.wait.retry.enabled: true
+    #     redis.wait.retry.delay.ms: 1000
+
+    #   Source specific properties - see the full list at
+    #     https://debezium.io/documentation/reference/stable/connectors/
+    #   source:
+    #     snapshot.mode: initial
+    #     Uncomment if you want a snapshot to include only a subset of the rows
+    #     in a table. This property affects snapshots only.
+    #     snapshot.select.statement.overrides: <DATABASE_NAME>.<TABLE_NAME>
+    #     The specified SELECT statement determines the subset of table rows to
+    #     include in the snapshot.
+    #     snapshot.select.statement.overrides.<DATABASE_NAME>.<TABLE_NAME>: <SELECT_STATEMENT>
+
+    #     Example: Snapshot filtering by order status.
+    #     To include only orders with non-pending status from customers.orders
+    #     table:
+    #     snapshot.select.statement.overrides: customer.orders
+    #     snapshot.select.statement.overrides.customer.orders: SELECT * FROM customers.orders WHERE status != 'pending' ORDER BY order_id DESC
+
+    #   Quarkus framework properties - see the full list at
+    #     https://quarkus.io/guides/all-config
+    #   quarkus:
+    #     banner.enabled: "false"
+
 targets:
-  my-redis:
+  # Redis target database connections.
+  # The default connection must be named 'target' and is used when no
+  # connection is specified in jobs or no jobs
+  # are deployed. However multiple connections can be defined here and used
+  # in the job definition output blocks:
+  # (e.g. target1, my-cloud-redis-db2, etc.)
+  target:
     connection:
       type: redis
-      host: localhost
-      port: 12000
-      user: ${TARGET_DB_USERNAME}
+      # Host of the Redis database to which RDI will
+      # write the processed data.
+      host: <REDIS_TARGET_DB_HOST> # e.g. localhost
+      # Port for the Redis database to which RDI will
+      # write the processed data.
+      port: <REDIS_TARGET_DB_PORT> # e.g. 12000
+      # User of the Redis database to which RDI will write the processed data.
+      # Uncomment if you are not using the default user.
+      # user: ${TARGET_DB_USERNAME}
+      # Password for Redis target database.
       password: ${TARGET_DB_PASSWORD}
-# The names of the following properties should match the ones you used
-# when setting the TLS/mTLS secrets. Set only `cacert` if you are using
-# TLS, but set all of them if you are using mTLS:
-#     key: ${TARGET_DB_KEY}
-#     cert: ${TARGET_DB_CERT}
-#     cacert: ${TARGET_DB_CACERT}
-#     key_password: ${TARGET_DB_KEY_PASSWORD}
+      # SSL/TLS configuration: Uncomment to enable secure connections.
+      # key: ${TARGET_DB_KEY}
+      # key_password: ${TARGET_DB_KEY_PASSWORD}
+      # cert: ${TARGET_DB_CERT}
+      # cacert: ${TARGET_DB_CACERT}
 processors:
-# Enable Debezium LOB placeholders for tables that contain large objects.
-# Uncomment this property (and the `processors:` section) if your tables include
-# Oracle large objects (BLOB, CLOB, NCLOB).
-#  debezium_lob_encoded_placeholder: X19kZWJleml1bV91bmF2YWlsYWJsZV92YWx1ZQ==
+  # Interval (in seconds) on which to perform retry on failure.
+  # on_failed_retry_interval: 5
+  # The batch size for reading data from the source database.
+  # read_batch_size: 2000
+  # Time (in ms) after which data will be read from stream even if
+  # read_batch_size was not reached.
+  # duration: 100
+  # The batch size for writing data to the target Redis database. Should be
+  # less than or equal to the read_batch_size.
+  # write_batch_size: 200
+  # Enable deduplication mechanism (default: false).
+  # dedup: <DEDUP_ENABLED>
+  # Max size of the deduplication set (default: 1024).
+  # dedup_max_size: <DEDUP_MAX_SIZE>
+  # Error handling strategy: ignore - skip, dlq - store rejected messages
+  # in a dead letter queue
+  # error_handling: dlq
 ```
 
 The main sections of the file configure [`sources`](#sources) and [`targets`](#targets).
@@ -148,32 +211,43 @@ to identify the source (in the example we have a source
 called `mysql` but you can choose any name you like). The example
 configuration contains the following data:
 
-- `type`: The type of collector to use for the pipeline. Currently, the only type we support is `cdc`.
-- `connection`: The connection details for the source database: hostname, port, schema/ db name, database credentials and
-[TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security)/
-[mTLS](https://en.wikipedia.org/wiki/Mutual_authentication#mTLS) secrets.
-- `tables`: The dataset you want to collect from the source. This subsection
-  specifies:
-  - `snapshot_sql`: A query that selects the tables to include in the dataset
-    (the default is to include all tables if you don't specify a query here).
+- `type`: The type of collector to use for the pipeline. 
+  Currently, the only types we support are `cdc` and `external`.
+  If the source type is set to `external`, no collector resources will be created by the operator, 
+  and all other source sections should be empty or not specified at all.
+- `connection`: The connection details for the source database: `type`, `host`, `port`, 
+  and credentials (`username` and `password`).
+  - `type` is the source database type, one of `mariadb`, `mysql`, `oracle`, `postgresql`, or `sqlserver`.
+  - If you use [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security)/
+    or [mTLS](https://en.wikipedia.org/wiki/Mutual_authentication#mTLS) to connect
+    to the source database, you may need to specify additional properties in the
+    `advanced` section with references to the corresponding certificates depending 
+    on the source database type. Note that these properties **must** be references to 
+    secrets that you should set as described in [Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}}).
+- `databases`: List of all databases to collect data from for source database types
+  that support multiple databases, such as `mysql` and `mariadb`.
+- `schemas`: List of all schemas to collect data from for source database types
+  that support multiple schemas, such as `oracle`, `postgresql`, and `sqlserver`.
+- `tables`: List of all tables to collect data from. Each table is identified by its
+  full name, including a database or schema prefix. If there is a single 
+  database or schema, this prefix can be omitted. 
+  For each table, you can specify:
   - `columns`: A list of the columns you are interested in (the default is to
-    include all columns if you don't supply a list)
-  - `keys`: A list of primary keys, one for each table. If the table doesn't
-    have a column with a
-    [`PRIMARY KEY`](https://www.w3schools.com/sql/sql_primarykey.asp) or
-    [`UNIQUE`](https://www.w3schools.com/sql/sql_unique.asp) constraint then you can
-    supply a unique composite key.
+    include all columns)
+  - `keys`: A list of columns to create a composite key if your table
+    doesn't already have a [`PRIMARY KEY`](https://www.w3schools.com/sql/sql_primarykey.asp) or
+    [`UNIQUE`](https://www.w3schools.com/sql/sql_unique.asp) constraint.
+  - `snapshot_sql`: A query to be used when performing the initial snapshot.
+    By default, a query that contains all listed columns of all listed tables will be used.
 - `advanced`: These optional properties configure other Debezium-specific features.
   The available sub-sections are:
-  - `sink`: All advanced properties for writing to RDI (TLS, memory threshold, etc).
+  - `source`: Properties for reading from the source database.
+    See the Debezium [Source connectors](https://debezium.io/documentation/reference/stable/connectors/)
+    pages for more information about the properties available for each database type.
+  - `sink`: Properties for writing to Redis streams in the RDI database.
     See the Debezium [Redis stream properties](https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream)
     page for the full set of available properties.
-  - `source`: All advanced connector properties (for example, RAC nodes).
-    See [Database-specific connection properties](#db-connect-props) below and also
-    see the
-    Debezium [Connectors](https://debezium.io/documentation/reference/stable/connectors/)
-    pages for more information about the properties available for each database type.
-  - `quarkus`: All advanced properties for Debezium server, such as the log level. See the
+  - `quarkus`: Properties for the Debezium server, such as the log level. See the
     Quarkus [Configuration options](https://quarkus.io/guides/all-config)
     docs for the full set of available properties.
 
@@ -182,10 +256,16 @@ configuration contains the following data:
 Use this section to provide the connection details for the target Redis
 database(s). As with the sources, you should start each target section
 with a unique name that you are free to choose (here, we have used
-`my-redis` as an example). In the `connection` section, you can supply the
-`type` of target database, which will generally be `redis` along with the
-`host` and `port` of the server. You can also supply connection credentials
-and TLS/mTLS secrets here if you use them.
+`target` as an example). In the `connection` section, you can specify the
+`type` of the target database, which must be `redis`, along with 
+connection details such as `host`, `port`, and credentials (`username` and `password`).
+If you use [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security)/
+or [mTLS](https://en.wikipedia.org/wiki/Mutual_authentication#mTLS) to connect 
+to the target database, you must specify the CA certificate (for TLS), 
+and the client certificate and private key (for mTLS) in `cacert`, `cert`, and `key`.
+Note that these certificates **must** be references to secrets
+that you should set as described in [Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}})
+(it is not possible to include these certificates as plain text in the file).
 
 {{< note >}}If you specify `localhost` as the address of either the source or target server during
 installation then the connection will fail if the actual IP address changes for the local
@@ -239,8 +319,7 @@ The main sections of these files are:
 
 - `source`: This is a mandatory section that specifies the data items that you want to 
   use. You can add the following properties here:
-  - `server_name`: Logical server name (optional). This corresponds to the `debezium.source.topic.prefix`
-  property specified in the Debezium Server's `application.properties` config file.
+  - `server_name`: Logical server name (optional).
   - `db`: Database name (optional)
   - `schema`: Database schema (optional)
   - `table`: Database table name. This refers to a table name you supplied in `config.yaml`. The default
@@ -257,7 +336,7 @@ The main sections of these files are:
   *transformation block* that will use the parameters supplied in the `with` section. See the 
   [data transformation reference]({{< relref "/integrate/redis-data-integration/reference/data-transformation" >}})
   for more details about the supported transformation blocks, and also the
-  [JMESPath custom functions]({{< relref "/integrate/redis-data-integration/reference/jmespath-custom-functions" >}}) reference.
+  [JMESPath custom functions]({{< relref "/integrate/redis-data-integration/reference/jmespath-custom-functions" >}}) reference. You can test your transformation logic using the [dry run]({{< relref "/integrate/redis-data-integration/reference/api-reference/#tag/secure/operation/job_dry_run_api_v1_pipelines_jobs_dry_run_post" >}}) feature in the API. 
 
   {{< note >}}If you set `row_format` to `full` under the `source` settings, you can access extra data from the
   change record in the transformation:
@@ -339,10 +418,9 @@ When your configuration is ready, you must deploy it to start using the pipeline
 [Deploy a pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})
 to learn how to do this.
 
-## Ingest pipeline lifecycle
+## Pipeline lifecycle
 
-Once you have created the configuration for a pipeline, it goes through the
-following phases:
+A pipeline goes through the following phases:
 
 1. *Deploy* - when you deploy the pipeline, RDI first validates it before use.
 Then, the [operator]({{< relref "/integrate/redis-data-integration/architecture#how-rdi-is-deployed">}}) creates and configures the collector and stream processor that will run the pipeline.
@@ -354,8 +432,8 @@ hours to complete if you have a lot of data.
 the source data. Whenever a change is committed to the source, the collector captures
 it and adds it to the target through the pipeline. This phase continues indefinitely
 unless you change the pipeline configuration. 
-1. *Update* - If you update the pipeline configuration, the operator starts applying it
-to the processor and the collector. Note that the changes only affect newly-captured
+1. *Update* - If you update the pipeline configuration, the operator applies it
+to the collector and the stream processor. Note that the changes only affect newly-captured
 data unless you reset the pipeline completely. Once RDI has accepted the updates, the
 pipeline returns to the CDC phase with the new configuration.
 1. *Reset* - There are circumstances where you might want to rebuild the dataset

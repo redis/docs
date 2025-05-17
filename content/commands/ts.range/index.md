@@ -1,4 +1,8 @@
 ---
+acl_categories:
+- '@timeseries'
+- '@read'
+- '@slow'
 arguments:
 - name: key
   type: key
@@ -388,7 +392,7 @@ Similarly, when the end timestamp for the range query is explicitly stated, you 
 
 ## See also
 
-[`TS.MRANGE`]({{< baseurl >}}/commands/ts.mrange/) | [`TS.REVRANGE`]({{< baseurl >}}/commands/ts.revrange/) | [`TS.MREVRANGE`]({{< baseurl >}}/commands/ts.mrevrange/)
+[`TS.MRANGE`]({{< relref "commands/ts.mrange/" >}}) | [`TS.REVRANGE`]({{< relref "commands/ts.revrange/" >}}) | [`TS.MREVRANGE`]({{< relref "commands/ts.mrevrange/" >}})
 
 ## Related topics
 

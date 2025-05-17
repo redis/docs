@@ -62,6 +62,10 @@ It is possible to use one of the following modifiers to dictate the flushing mod
 * `ASYNC`: flushes the databases asynchronously
 * `SYNC`: flushes the databases synchronously
 
+{{< clients-example cmds_servermgmt flushall >}}
+FLUSHALL SYNC
+{{< /clients-example >}}
+
 ## Notes
 
 * An asynchronous `FLUSHALL` command only deletes keys that were present at the time the command was invoked. Keys created during an asynchronous flush will be unaffected.

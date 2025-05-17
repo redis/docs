@@ -1,4 +1,8 @@
 ---
+acl_categories:
+- '@timeseries'
+- '@write'
+- '@slow'
 arguments:
 - name: key
   type: key
@@ -90,29 +94,29 @@ is key name for the time series.
 
 <details open><summary><code>RETENTION retentionPeriod</code></summary>
 
-is maximum retention period, compared to the maximum existing timestamp, in milliseconds. See `RETENTION` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/).
+is maximum retention period, compared to the maximum existing timestamp, in milliseconds. See `RETENTION` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}}).
 </details>
 
 <details open><summary><code>CHUNK_SIZE size</code></summary> 
 
-is the initial allocation size, in bytes, for the data part of each new chunk. Actual chunks may consume more memory. See `CHUNK_SIZE` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/). Changing this value does not affect existing chunks.
+is the initial allocation size, in bytes, for the data part of each new chunk. Actual chunks may consume more memory. See `CHUNK_SIZE` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}}). Changing this value does not affect existing chunks.
 </details>
 
 <details open><summary><code>DUPLICATE_POLICY policy</code></summary> 
 
-is policy for handling multiple samples with identical timestamps. See `DUPLICATE_POLICY` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/).
+is policy for handling multiple samples with identical timestamps. See `DUPLICATE_POLICY` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}}).
 </details>
 
 <details open><summary><code>IGNORE ignoreMaxTimediff ignoreMaxValDiff</code></summary> 
 
-is the policy for handling duplicate samples. See `IGNORE` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/).
+is the policy for handling duplicate samples. See `IGNORE` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}}).
 </details>
 
 <details open><summary><code>LABELS [{label value}...]</code></summary> 
 
 is set of label-value pairs that represent metadata labels of the key and serve as a secondary index.
 
-If `LABELS` is specified, the given label list is applied. Labels that are not present in the given list are removed implicitly. Specifying `LABELS` with no label-value pairs removes all existing labels. See `LABELS` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/).
+If `LABELS` is specified, the given label list is applied. Labels that are not present in the given list are removed implicitly. Specifying `LABELS` with no label-value pairs removes all existing labels. See `LABELS` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}}).
 </details>
 
 ## Return value
@@ -143,7 +147,7 @@ OK
 
 ## See also
 
-[`TS.CREATE`]({{< baseurl >}}/commands/ts.create/) 
+[`TS.CREATE`]({{< relref "commands/ts.create/" >}}) 
 
 ## Related topics
 

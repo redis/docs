@@ -36,7 +36,7 @@ To turn on database backups:
 
 1. Sign in to the [Redis Cloud console](https://cloud.redis.io/). 
 
-1.  Select the database to open the **Database** page and then select **Edit database**.
+1.  Select the database to open the **Database** page and then select **Edit**.
 
     {{<image filename="images/rc/database-details-configuration-tab-general-flexible.png" alt="The Configuration tab of the Database details screen." >}}
 

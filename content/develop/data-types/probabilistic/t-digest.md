@@ -17,7 +17,7 @@ title: t-digest
 weight: 40
 ---
 
-The t-digest is a sketch data structure in Redis Stack for estimating percentiles from a data stream or a large dataset using a compact sketch.
+The t-digest is a sketch data structure in Redis Open Source for estimating percentiles from a data stream or a large dataset using a compact sketch.
 
 It can answer questions like:
 - Which fraction of the values in the data stream are smaller than a given value?
@@ -72,7 +72,7 @@ You measure the IP packets transferred over your network each second and try to 
 
 ## Examples
 
-In the following example, you'll create a t-digest with a compression of 100 and add items to it. The `COMPRESSION` argument is used to specify the tradeoff between accuracy and memory consumption. The default value is 100. Higher values mean more accuracy. Note: unlike some of the other probabilistic data structures, the [`TDIGEST.ADD`]({{< baseurl >}}/commands/tdigest.add/) command will not create a new structure if the key does not exist.
+In the following example, you'll create a t-digest with a compression of 100 and add items to it. The `COMPRESSION` argument is used to specify the tradeoff between accuracy and memory consumption. The default value is 100. Higher values mean more accuracy. Note: unlike some of the other probabilistic data structures, the [`TDIGEST.ADD`]({{< relref "commands/tdigest.add/" >}}) command will not create a new structure if the key does not exist.
 
 {{< clients-example tdigest_tutorial tdig_start >}}
 > TDIGEST.CREATE bikes:sales COMPRESSION 100
@@ -84,13 +84,13 @@ OK
 {{< /clients-example >}}
 
 
-You can repeat calling [TDIGEST.ADD]({{< baseurl >}}/commands/tdigest.add) whenever new observations are available
+You can repeat calling [TDIGEST.ADD]({{< relref "commands/tdigest.add" >}}) whenever new observations are available
 
 #### Estimating fractions or ranks by values
 
 Another helpful feature in t-digest is CDF (definition of rank) which gives us the fraction of observations smaller or equal to a certain value. This command is very useful to answer questions like "*What's the percentage of observations with a value lower or equal to X*".
 
->More precisely, [`TDIGEST.CDF`]({{< baseurl >}}/commands/tdigest.cdf/) will return the estimated fraction of observations in the sketch that are smaller than X plus half the number of observations that are equal to X. We can also use the [`TDIGEST.RANK`]({{< baseurl >}}/commands/tdigest.rank/) command, which is very similar. Instead of returning a fraction, it returns the ----estimated---- rank of a value. The [`TDIGEST.RANK`]({{< baseurl >}}/commands/tdigest.rank/) command is also variadic, meaning you can use a single command to retrieve estimations for one or more values.
+>More precisely, [`TDIGEST.CDF`]({{< relref "commands/tdigest.cdf/" >}}) will return the estimated fraction of observations in the sketch that are smaller than X plus half the number of observations that are equal to X. We can also use the [`TDIGEST.RANK`]({{< relref "commands/tdigest.rank/" >}}) command, which is very similar. Instead of returning a fraction, it returns the ----estimated---- rank of a value. The [`TDIGEST.RANK`]({{< relref "commands/tdigest.rank/" >}}) command is also variadic, meaning you can use a single command to retrieve estimations for one or more values.
 
 Here's an example. Given a set of biker's ages, you can ask a question like "What's the percentage of bike racers that are younger than 50 years?"
 
@@ -109,7 +109,7 @@ OK
 {{< /clients-example >}}
 
 
-And lastly, `TDIGEST.REVRANK key value...` is similar to [TDIGEST.RANK]({{< baseurl >}}/commands/tdigest.rank), but returns, for each input value, an estimation of the number of (observations larger than a given value + half the observations equal to the given value).
+And lastly, `TDIGEST.REVRANK key value...` is similar to [TDIGEST.RANK]({{< relref "commands/tdigest.rank" >}}), but returns, for each input value, an estimation of the number of (observations larger than a given value + half the observations equal to the given value).
 
 
 #### Estimating values by fractions or ranks
@@ -143,7 +143,7 @@ If `destKey` is an existing sketch, its values are merged with the values of the
 
 #### Retrieving sketch information
 
-Use [`TDIGEST.MIN`]({{< baseurl >}}/commands/tdigest.min/) and [`TDIGEST.MAX`]({{< baseurl >}}/commands/tdigest.max/) to retrieve the minimal and maximal values in the sketch, respectively.
+Use [`TDIGEST.MIN`]({{< relref "commands/tdigest.min/" >}}) and [`TDIGEST.MAX`]({{< relref "commands/tdigest.max/" >}}) to retrieve the minimal and maximal values in the sketch, respectively.
 
 {{< clients-example tdigest_tutorial tdig_min >}}
 > TDIGEST.MIN racer_ages

@@ -26,6 +26,9 @@ complexity: O(1)
 description: Removes a node from the nodes table.
 group: cluster
 hidden: false
+history:
+- - 7.2.0
+  - Forgotten nodes are automatically propagated across the cluster via gossip.
 linkTitle: CLUSTER FORGET
 since: 3.0.0
 summary: Removes a node from the nodes table.
@@ -48,6 +51,10 @@ However the command cannot simply drop the node from the internal node
 table of the node receiving the command, it also implements a ban-list, not
 allowing the same node to be added again as a side effect of processing the
 *gossip section* of the heartbeat packets received from other nodes.
+
+Starting with Redis 7.2.0, the ban-list is included in cluster gossip ping/pong messages. 
+This means that `CLUSTER FORGET` doesn't need to be sent to all nodes in a cluster.
+You can run the command on one or more nodes, after which it will be propagated to the rest of the nodes in most cases.
 
 ## Details on why the ban-list is needed
 
@@ -86,3 +93,8 @@ The command does not succeed and returns an error in the following cases:
 1. The specified node ID is not found in the nodes table.
 2. The node receiving the command is a replica, and the specified node ID identifies its current master.
 3. The node ID identifies the same node we are sending the command to.
+
+## Behavior change history
+
+*   `>= 7.2.0`: Automatically propagate node deletion to other nodes in a cluster, allowing nodes to be deleted with a single call
+  in most cases.

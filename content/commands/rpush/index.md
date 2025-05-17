@@ -70,6 +70,18 @@ containing `a` as first element, `b` as second element and `c` as third element.
 
 ## Examples
 
+{{< clients-example cmds_list rpush >}}
+redis> RPUSH mylist "hello"
+(integer) 1
+redis> RPUSH mylist "world"
+(integer) 2
+redis> LRANGE mylist 0 -1
+1) "hello"
+2) "world"
+{{< /clients-example >}}
+
+Give these commands a try in the interactive console:
+
 {{% redis-cli %}}
 RPUSH mylist "hello"
 RPUSH mylist "world"

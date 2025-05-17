@@ -12,7 +12,7 @@ categories:
 description: Learn how to use Redis pipelines and transactions
 linkTitle: Pipelines/transactions
 title: Pipelines and transactions
-weight: 2
+weight: 5
 ---
 
 Redis lets you send a sequence of commands to the server together in a batch.
@@ -48,7 +48,7 @@ result using the `Response` object's `get()` method.
 ## Execute a transaction
 
 A transaction works in a similar way to a pipeline. Create a
-transaction object with the `multi()`, call command methods
+transaction object with the `multi()` command, call command methods
 on that object, and then call the transaction object's 
 `exec()` method to execute it. You can access the results
 from commands in the transaction using `Response` objects, as

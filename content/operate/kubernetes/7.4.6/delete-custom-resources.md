@@ -67,7 +67,7 @@ kubectl delete -f admission-service.yaml
 kubectl delete -f operator.yaml
 ```
 
-You will also need to remove [the `namespaceSelector` section from the validating webhook]({{< relref "/operate/kubernetes/deployment/quick-start#webhook" >}}).
+You will also need to remove [the `namespaceSelector` section from the validating webhook]({{< relref "/operate/kubernetes/7.4.6/deployment/quick-start#webhook" >}}).
 
 ## Delete an Active-Active database (REAADB)
 

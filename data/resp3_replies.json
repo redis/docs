@@ -573,7 +573,13 @@
     "* [Null reply](../../develop/reference/protocol-spec#nulls): If the field is not present in the hash or key does not exist."
   ],
   "HGETALL": [
-    "[Map reply](../../develop/reference/protocol-spec#maps): a map of fields and their values stored in the hash, or an empty list when key does not exist."
+    "[Map reply](../../develop/reference/protocol-spec#maps): a map of fields and their values, or an empty list when key does not exist."
+  ],
+  "HGETDEL": [
+    "[Array reply](../../develop/reference/protocol-spec#arrays): a list of deleted fields and their values or `nil` for fields that do not exist."
+  ],
+  "HGETEX": [
+    "* [Array reply](../../develop/reference/protocol-spec#arrays): a list of values associated with the given fields, in the same order as they are requested."
   ],
   "HINCRBY": [
     "[Integer reply](../../develop/reference/protocol-spec#integers): the value of the field after the increment operation."
@@ -647,6 +653,11 @@
   ],
   "HSET": [
     "[Integer reply](../../develop/reference/protocol-spec#integers): the number of fields that were added."
+  ],
+  "HSETEX": [
+    "One of the following:",
+    "* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if no fields were set.",
+    "* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if all the fields wereset."
   ],
   "HSETNX": [
     "One of the following:",
@@ -1247,6 +1258,68 @@
   ],
   "UNWATCH": [
     "[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`."
+  ],
+  "VADD": [
+    "One of the following:",
+    "* [Boolean reply](../../develop/reference/protocol-spec#booleans): true if key was added; false if key was not added.",
+    "* [Simple error reply](../../develop/reference/protocol-spec#simple-errors): if the command was malformed."
+  ],
+  "VCARD": [
+    "[Integer reply](../../develop/reference/protocol-spec#integers): 0 if the key doesn't exist or the number of elements contained in the vector set."
+  ],
+  "VDIM": [
+    "One of the following:",
+    "* [Integer reply](../../develop/reference/protocol-spec#integers): the number of vector set elements.",
+    "* [Simple error reply](../../develop/reference/protocol-spec#simple-errors): if the key does not exist."
+  ],
+  "VEMB": [
+    "One of the following:",
+    "* [Array reply](../../develop/reference/protocol-spec#arrays): of [doubles](../../develop/reference/protocol-spec#doubles), representing the vector.",
+    "* [Array reply](../../develop/reference/protocol-spec#arrays): consisting of the following elements:",
+    "    1. The quantization type as a [simple string](../../develop/reference/protocol-spec#simple-strings): `fp32`, `bin`, or `q8`.",
+    "    1. A [bulk string](../../develop/reference/protocol-spec#bulk-strings) blob with the following raw data:",
+    "        * 4-byte floats for fp32",
+    "        * A bitmap for binary quantization",
+    "        * A byte array for q8",
+    "    1. The [double](../../develop/reference/protocol-spec#doubles) L2 norm of the vector before normalization.",
+    "    1. (Only for q8): The quantization range as a [double](../../develop/reference/protocol-spec#doubles). Multiply this by integer components to recover normalized values."
+  ],
+  "VGETATTR": [
+    "One of the following:",
+    "* [Simple string reply](../../develop/reference/protocol-spec#simple-strings) containing the JSON attribute(s).",
+    "* [Null reply](../../develop/reference/protocol-spec#nulls) for unknown key or element, or when no attributes exist for the given key/element pair."
+  ],
+  "VINFO": [
+    "One of the following:",
+    "* [Array reply](../../develop/reference/protocol-spec#arrays) containing metadata and internal details about a vector set, including size, dimensions, quantization type, and graph structure.",
+    "* [Null reply](../../develop/reference/protocol-spec#nulls) for unknown key."
+  ],
+  "VLINKS": [
+    "One of the following:",
+    "* [Array reply](../../develop/reference/protocol-spec#arrays) containing the names of adjacent elements as [strings](../../develop/reference/protocol-spec#simple-strings) when used without the WITHSCORES option.",
+    "* [Map reply](../../develop/reference/protocol-spec#maps) containing the names of adjecent elements as [strings](../../develop/reference/protocol-spec#simple-strings), together with their scores as [doubles](../../develop/reference/protocol-spec#doubles) when used with the WITHSCORES option.",
+    "* [Null reply](../../develop/reference/protocol-spec#nulls) for unknown keys and/or elements."
+  ],
+  "VRANDMEMBER": [
+    "One of the following:",
+    "* [Array reply](../../develop/reference/protocol-spec#arrays) containing the names of *count* random elements as [strings](../../develop/reference/protocol-spec#simple-strings).",
+    "* [Null reply](../../develop/reference/protocol-spec#nulls) for unknown keys.",
+    "* [Array reply](../../develop/reference/protocol-spec#arrays) (empty array) for unknown keys when a count is specified."
+  ],
+  "VREM": [
+    "[Boolean reply](../../develop/reference/protocol-spec#booleans): false if either element or key do not exist; true if the element was removed."
+  ],
+  "VSETATTR": [
+    "One of the following:",
+    "* [Boolean reply](../../develop/reference/protocol-spec#booleans): false if either the key or element does not exist; true if the attributes were successfully added to the element.",
+    "* [Simple error reply](../../develop/reference/protocol-spec/#simple-errors) for improperly specified attribute string."
+  ],
+  "VSIM": [
+    "One of the following:",
+    "* [Simple error reply](../../develop/reference/protocol-spec/#simple-errors) for unknown element.",
+    "* [Array reply](../../develop/reference/protocol-spec#arrays) (empty array) for unknown key.",
+    "* [Array reply](../../develop/reference/protocol-spec#arrays) with matching elements.",
+    "* [Map reply](../../develop/reference/protocol-spec#maps) with matching elements and [double](../../develop/reference/protocol-spec#doubles) scores when used with the WITHSCORES option."
   ],
   "WAIT": [
     "[Integer reply](../../develop/reference/protocol-spec#integers): the number of replicas reached by all the writes performed in the context of the current connection."

@@ -27,13 +27,13 @@ Get cluster events log.
 
 | Permission name |
 |-----------------|
-| [view_logged_events]({{< relref "/operate/rs/references/rest-api/permissions#view_logged_events" >}}) |
+| [view_logged_events]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_logged_events" >}}) |
 
 ### Request {#get-request} 
 
 #### Example HTTP request
 
-	GET /logs?order=desc 
+	GET /v1/logs?order=desc 
 
 
 #### Request headers

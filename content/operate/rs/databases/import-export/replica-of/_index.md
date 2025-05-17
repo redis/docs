@@ -9,6 +9,7 @@ description: Replica Of provides read-only access to replicas of the dataset fro
 hideListLinks: true
 linkTitle: Replica Of
 weight: $weight
+aliases: /operate/rs/administering/active-passive/
 ---
 In Redis Enterprise, the Replica Of feature provides active-passive geo-distribution to applications  for read-only access
 to replicas of the dataset from different geographical locations.

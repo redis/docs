@@ -20,7 +20,7 @@ Before you can use RedisGears, you have to install the RedisGears module on your
 
 If your cluster uses Redis Enterprise v6.0.12 or later and has internet access, you only need to download the RedisGears package. It automatically fetches dependencies like the Python and JVM plugins during online installation.
 
-Offline installation requires you to manually upload dependencies to the master node.
+Offline installation requires you to manually upload dependencies to the primary node.
 
 ### Install RedisGears and dependencies
 
@@ -34,10 +34,23 @@ For RedisGears v1.0, you only need the Python dependency package.
 
 1. Upload the RedisGears package to a node in the cluster.
 
-1. For offline installation only, copy the dependencies to the following directory on the master node: `$modulesdatadir/rg/<version-integer>/deps/`
-    ```sh
-    $ cp redisgears-jvm.<OS>.<version>.tgz $modulesdatadir/rg/<version-integer>/deps/
-    ```
+1. For offline installation only, copy the dependencies to the primary node.
+
+    {{<note>}}
+Skip this step unless your cluster does not have internet access.
+    {{</note>}}
+
+    1. For versions 7.2.4 and later, copy the dependencies to `$modulesdatadir/rg/<version-integer>/<OS_name>/<architecture>/deps/`:
+
+        ```sh
+        cp redisgears-jvm.<OS>.<version>.tgz $modulesdatadir/rg/<version-integer>/<OS_name>/<architecture>/deps/
+        ```
+
+    1. For versions 6.4.2 and earlier, copy the dependencies to `$modulesdatadir/rg/<version-integer>/deps/`:
+    
+        ```sh
+        cp redisgears-jvm.<OS>.<version>.tgz $modulesdatadir/rg/<version-integer>/deps/
+        ```
 
     Replace these fields with your own values:
 
@@ -47,11 +60,10 @@ For RedisGears v1.0, you only need the Python dependency package.
 
         For example, the `<version-integer>` for RedisGears version 1.2.5 is 10205.
 
-    {{<note>}}
-Skip this step unless your cluster does not have internet access.
-    {{</note>}}
+    - `<OS_name>`: the operating system's name
+    - `<architecture>`: the node's architecture
 
-1. Add RedisGears to the cluster with a `POST` request to the master node's [`/v2/modules`]({{< relref "/operate/rs/references/rest-api/requests/modules#post-module-v2" >}}) REST API endpoint:
+1. Add RedisGears to the cluster with a `POST` request to the primary node's [`/v2/modules`]({{< relref "/operate/rs/references/rest-api/requests/modules#post-module-v2" >}}) REST API endpoint:
 
     ```sh
     POST https://[host][:port]/v2/modules

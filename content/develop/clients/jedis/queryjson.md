@@ -9,38 +9,57 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Learn how to use the Redis query engine with JSON
-linkTitle: JSON query example
-title: Example - Index and query JSON documents
+description: Learn how to use the Redis query engine with JSON and hash documents.
+linkTitle: Index and query documents
+title: Index and query documents
 weight: 2
 ---
 
 This example shows how to create a
 [search index]({{< relref "/develop/interact/search-and-query/indexing" >}})
-for [JSON]({{< relref "/develop/data-types/json" >}}) data and
-run queries against the index.
+for [JSON]({{< relref "/develop/data-types/json" >}}) documents and
+run queries against the index. It then goes on to show the slight differences
+in the equivalent code for [hash]({{< relref "/develop/data-types/hashes" >}})
+documents.
 
-Make sure that you have Redis Stack and `Jedis` installed. 
+## Initialize
 
-Start by importing dependencies:
+Make sure that you have [Redis Open Source]({{< relref "/operate/oss_and_stack/" >}})
+or another Redis server available. Also install the
+[Jedis]({{< relref "/develop/clients/jedis" >}}) client library if you
+haven't already done so.
+
+Add the following dependencies. All of them are applicable to both JSON and hash,
+except for the `Path` and `JSONObject` classes, which are specific to JSON (see
+[Path]({{< relref "/develop/data-types/json/path" >}}) for a description of the
+JSON path syntax).
 
 {{< clients-example java_home_json import >}}
 {{< /clients-example >}}
 
-Connect to the database:
-
-{{< clients-example java_home_json connect >}}
-{{< /clients-example >}}
+## Create data
 
 Create some test data to add to the database:
 
 {{< clients-example java_home_json create_data >}}
 {{< /clients-example >}}
 
+## Add the index
+
+Connect to your Redis database. The code below shows the most
+basic connection but see
+[Connect to the server]({{< relref "/develop/clients/jedis/connect" >}})
+to learn more about the available connection options.
+
+{{< clients-example java_home_json connect >}}
+{{< /clients-example >}}
+
 Create an index. In this example, only JSON documents with the key prefix `user:` are indexed. For more information, see [Query syntax]({{< relref "/develop/interact/search-and-query/query/" >}}).
 
 {{< clients-example java_home_json make_index >}}
 {{< /clients-example >}}
+
+## Add the data
 
 Add the three sets of user data to the database as
 [JSON]({{< relref "/develop/data-types/json" >}}) objects.
@@ -49,6 +68,8 @@ objects automatically as you add them:
 
 {{< clients-example java_home_json add_data >}}
 {{< /clients-example >}}
+
+## Query the data
 
 You can now use the index to search the JSON objects. The
 [query]({{< relref "/develop/interact/search-and-query/query" >}})
@@ -69,6 +90,36 @@ to count all users in each city.
 
 {{< clients-example java_home_json query3 >}}
 {{< /clients-example >}}
+
+## Differences with hash documents
+
+Indexing for hash documents is very similar to JSON indexing but you
+need to specify some slightly different options.
+
+When you create the schema for a hash index, you don't need to
+add aliases for the fields, since you use the basic names to access
+the fields anyway. Also, you must use `IndexDataType.HASH` for the `On()`
+option of `FTCreateParams` when you create the index. The code below shows these
+changes with a new index called `hash-idx:users`, which is otherwise the same as
+the `idx:users` index used for JSON documents in the previous examples.
+
+{{< clients-example java_home_json make_hash_index >}}
+{{< /clients-example >}}
+
+Use [`hset()`]({{< relref "/commands/hset" >}}) to add the hash
+documents instead of [`jsonSet()`]({{< relref "/commands/json.set" >}}).
+
+{{< clients-example java_home_json add_hash_data >}}
+{{< /clients-example >}}
+
+The query commands work the same here for hash as they do for JSON (but
+the name of the hash index is different). The results are returned in 
+a `List` of `Document` objects, as with JSON:
+
+{{< clients-example java_home_json query1_hash >}}
+{{< /clients-example >}}
+
+## More information
 
 See the [Redis query engine]({{< relref "/develop/interact/search-and-query" >}}) docs
 for a full description of all query features with examples.

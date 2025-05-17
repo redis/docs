@@ -1,4 +1,6 @@
 ---
+acl_categories:
+- '@search'
 arguments:
 - name: index
   type: string
@@ -328,7 +330,7 @@ is document attribute that you use as a binary safe payload string to the docume
 <a name="MAXTEXTFIELDS"></a><details open>
 <summary><code>MAXTEXTFIELDS</code></summary> 
 
-forces RediSearch to encode indexes as if there were more than 32 text attributes, which allows you to add additional attributes (beyond 32) using [`FT.ALTER`]({{< baseurl >}}/commands/ft.alter/). For efficiency, RediSearch encodes indexes differently if they are created with less than 32 text attributes.
+forces RediSearch to encode indexes as if there were more than 32 text attributes, which allows you to add additional attributes (beyond 32) using [`FT.ALTER`]({{< relref "commands/ft.alter/" >}}). For efficiency, RediSearch encodes indexes differently if they are created with less than 32 text attributes.
 </details>
 
 <a name="NOOFFSETS"></a><details open>
@@ -345,7 +347,7 @@ creates a lightweight temporary index that expires after a specified period of i
 {{% alert title="Warning" color="warning" %}}
  
 When temporary indexes expire, they drop all the records associated with them.
-[`FT.DROPINDEX`]({{< baseurl >}}/commands/ft.dropindex/) was introduced with a default of not deleting docs and a `DD` flag that enforced deletion.
+[`FT.DROPINDEX`]({{< relref "commands/ft.dropindex/" >}}) was introduced with a default of not deleting docs and a `DD` flag that enforced deletion.
 However, for temporary indexes, documents are deleted along with the index.
 Historically, RediSearch used an FT.ADD command, which made a connection between the document and the index. Then, FT.DROP, also a hystoric command, deleted documents by default.
 In version 2.x, RediSearch indexes hashes and JSONs, and the dependency between the index and documents no longer exists. 
@@ -463,7 +465,7 @@ The following example uses data similar to the hash examples above but uses JSON
 
 ## See also
 
-[`FT.ALTER`]({{< baseurl >}}/commands/ft.alter/) | [`FT.DROPINDEX`]({{< baseurl >}}/commands/ft.dropindex/) 
+[`FT.ALTER`]({{< relref "commands/ft.alter/" >}}) | [`FT.DROPINDEX`]({{< relref "commands/ft.dropindex/" >}}) 
 
 ## Related topics
 

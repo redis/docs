@@ -51,7 +51,7 @@ To export data from a database using the Cluster Manager UI:
 
 Data can be exported to a local mount point, transferred to [a URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier) using FTP/SFTP, or stored on cloud provider storage.
 
-When saved to a local mount point or a cloud provider, export locations need to be available to [the group and user]({{< relref "/operate/rs/installing-upgrading/install/customize-user-and-group.md" >}}) running Redis Enterprise Software, `redislabs:redislabs` by default.  
+When saved to a local mount point or a cloud provider, export locations need to be available to [the group and user]({{< relref "/operate/rs/7.4/installing-upgrading/install/customize-user-and-group.md" >}}) running Redis Enterprise Software, `redislabs:redislabs` by default.  
 
 Redis Enterprise Software needs the ability to view permissions and update objects in the storage location. Implementation details vary according to the provider and your configuration. To learn more, consult the provider's documentation.
 
@@ -161,7 +161,7 @@ To export data to an [Amazon Web Services](https://aws.amazon.com/) (AWS) Simple
 
     - In the **Secret access key** field, enter the secret access key.
 
-You can also connect to a storage service that uses the S3 protocol but is not hosted by Amazon AWS. The storage service must have a valid SSL certificate. To connect to an S3-compatible storage location, run [`rladmin cluster config`]({{<relref "/operate/rs/references/cli-utilities/rladmin/cluster/config">}}): 
+You can also connect to a storage service that uses the S3 protocol but is not hosted by Amazon AWS. The storage service must have a valid SSL certificate. To connect to an S3-compatible storage location, run [`rladmin cluster config`]({{<relref "/operate/rs/7.4/references/cli-utilities/rladmin/cluster/config">}}): 
 
 ```sh
 rladmin cluster config s3_url <URL>

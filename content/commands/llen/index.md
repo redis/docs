@@ -51,6 +51,17 @@ An error is returned when the value stored at `key` is not a list.
 
 ## Examples
 
+{{< clients-example cmds_list llen >}}
+redis> LPUSH mylist "World"
+(integer) 1
+redis> LPUSH mylist "Hello"
+(integer) 2
+redis> LLEN mylist
+(integer) 2
+{{< /clients-example >}}
+
+Give these commands a try in the interactive console:
+
 {{% redis-cli %}}
 LPUSH mylist "World"
 LPUSH mylist "Hello"

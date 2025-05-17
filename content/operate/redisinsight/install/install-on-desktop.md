@@ -8,14 +8,28 @@ linkTitle: Install on desktop
 title: Install on desktop
 weight: 1
 ---
-Install desktop Redis Insight to use it in development.
-
 ## Supported operating systems
 
 Redis Insight is supported on multiple operating systems:
-- Windows
-- Linux
-- macOS
+
+| Operating System | Supported Versions [^1] |
+|:---              |:---                     |
+| **Windows**      | Windows 11              |
+|                  | Windows 10              |
+| **macOS**        | macOS 15                |
+|                  | macOS 14                |
+|                  | macOS 13                |
+|                  | macOS 12                |
+|                  | macOS 11                |
+|                  | macOS 10.15             |
+| **Ubuntu Linux** | Ubuntu 24.04            |
+|                  | Ubuntu 23.10            |
+|                  | Ubuntu 22.04            |
+|                  | Ubuntu 20.04            |
+| **Debian Linux** | Debian 12               |
+|                  | Debian 11               |
+
+[^1]: Includes later versions of same major or major.minor release.
 
 ## Install
 

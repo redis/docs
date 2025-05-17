@@ -130,5 +130,5 @@ For more details, refer to the official [RHEL 8 and 9 documentation](https://acc
 
 For more details, refer to the official [Amazon Linux 2 documentation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/set-time.html).
 
-If you are using Active-Active databases, you must use [Network Time Service (ntpd)]({{< relref "/operate/rs/databases/active-active/_index.md#network-time-service-ntp-or-chrony" >}})
+If you are using Active-Active databases, you must use [Network Time Service (ntpd)]({{< relref "/operate/rs/7.4/databases/active-active/_index.md#network-time-service-ntp-or-chrony" >}})
 to synchronize OS clocks consistently across clusters to handle conflict resolution according to the OS time.

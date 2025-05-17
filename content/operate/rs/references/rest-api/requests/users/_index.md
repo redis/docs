@@ -39,7 +39,7 @@ Get a list of all users.
 #### Example HTTP request
 
 ```sh
-GET /users
+GET /v1/users
 ```
 
 #### Headers
@@ -106,7 +106,7 @@ Get a single user's details.
 #### Example HTTP request
 
 ```sh
-GET /users/1
+GET /v1/users/1
 ```
 
 #### Headers
@@ -171,7 +171,7 @@ Any user can change their own name, password, or alert preferences.
 #### Example HTTP request
 
 ```sh
-PUT /users/1
+PUT /v1/users/1
 ```
 
 #### Example JSON body
@@ -190,6 +190,11 @@ PUT /users/1
 | Host | cnm.cluster.fqdn | Domain name |
 | Accept | application/json | Accepted media type |
 
+#### Query parameters
+
+| Field   | Type | Description |
+|---------|------|---------------|
+| dry_run |  | Validate the updated [user object]({{< relref "/operate/rs/references/rest-api/objects/user" >}}) but don't apply the update. |
 
 #### URL parameters
 
@@ -264,7 +269,7 @@ Create a new user.
 #### Example HTTP request
 
 ```sh
-POST /users
+POST /v1/users
 ```
 
 #### Headers
@@ -273,6 +278,12 @@ POST /users
 |-----|-------|-------------|
 | Host | cnm.cluster.fqdn | Domain name |
 | Accept | application/json | Accepted media type |
+
+#### Query parameters
+
+| Field   | Type | Description |
+|---------|------|---------------|
+| dry_run |  | Validate the new [user object]({{< relref "/operate/rs/references/rest-api/objects/user" >}}) but don't apply the update. |
 
 #### Body
 
@@ -412,7 +423,7 @@ Delete a user.
 #### Example HTTP request
 
 ```sh
-DELETE /users/1
+DELETE /v1/users/1
 ```
 
 #### Headers

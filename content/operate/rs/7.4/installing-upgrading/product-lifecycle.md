@@ -52,4 +52,4 @@ This update to the EOL policy allows a lead time of at least 24 months to upgrad
 
 {{<embed-md "rs-upgrade-paths.md">}}
 
-For detailed upgrade instructions, see [Upgrade a Redis Enterprise Software cluster]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster">}}).
+For detailed upgrade instructions, see [Upgrade a Redis Enterprise Software cluster]({{<relref "/operate/rs/7.4/installing-upgrading/upgrading/upgrade-cluster">}}).

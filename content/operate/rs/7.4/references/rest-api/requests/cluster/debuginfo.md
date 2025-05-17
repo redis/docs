@@ -26,13 +26,13 @@ Downloads a tar file that contains debug info from all nodes and databases.
 
 | Permission name |
 |-----------------|
-| [view_debugging_info]({{< relref "/operate/rs/references/rest-api/permissions#view_debugging_info" >}}) |
+| [view_debugging_info]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_debugging_info" >}}) |
 
 ### Request {#get-request} 
 
 #### Example HTTP request
 
-	GET /cluster/debuginfo
+	GET /v1/cluster/debuginfo
 
 ### Response {#get-response} 
 

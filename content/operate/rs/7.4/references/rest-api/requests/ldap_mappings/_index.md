@@ -31,13 +31,13 @@ Get all LDAP mappings.
 
 | Permission name |
 |-----------------|
-| [view_all_ldap_mappings_info]({{< relref "/operate/rs/references/rest-api/permissions#view_all_ldap_mappings_info" >}}) |
+| [view_all_ldap_mappings_info]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_all_ldap_mappings_info" >}}) |
 
 ### Request {#get-all-request} 
 
 #### Example HTTP request
 
-	GET /ldap_mappings 
+	GET /v1/ldap_mappings 
 
 #### Request headers
 
@@ -48,7 +48,7 @@ Get all LDAP mappings.
 
 ### Response {#get-all-response} 
 
-Returns a JSON array of [LDAP mapping objects]({{< relref "/operate/rs/references/rest-api/objects/ldap_mapping" >}}).
+Returns a JSON array of [LDAP mapping objects]({{< relref "/operate/rs/7.4/references/rest-api/objects/ldap_mapping" >}}).
 
 #### Example JSON body
 
@@ -83,13 +83,13 @@ Get a specific LDAP mapping.
 
 | Permission name |
 |-----------------|
-| [view_ldap_mapping_info]({{< relref "/operate/rs/references/rest-api/permissions#view_ldap_mapping_info" >}}) |
+| [view_ldap_mapping_info]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_ldap_mapping_info" >}}) |
 
 ### Request {#get-request} 
 
 #### Example HTTP request
 
-	GET /ldap_mappings/1 
+	GET /v1/ldap_mappings/1 
 
 #### Request headers
 
@@ -106,7 +106,7 @@ Get a specific LDAP mapping.
 
 ### Response {#get-response} 
 
-Returns an [LDAP mapping object]({{< relref "/operate/rs/references/rest-api/objects/ldap_mapping" >}}).
+Returns an [LDAP mapping object]({{< relref "/operate/rs/7.4/references/rest-api/objects/ldap_mapping" >}}).
 
 #### Example JSON body
 
@@ -151,13 +151,13 @@ Update an existing ldap_mapping object.
 
 | Permission name |
 |-----------------|
-| [update_ldap_mapping]({{< relref "/operate/rs/references/rest-api/permissions#update_ldap_mapping" >}}) |
+| [update_ldap_mapping]({{< relref "/operate/rs/7.4/references/rest-api/permissions#update_ldap_mapping" >}}) |
 
 ### Request {#put-request} 
 
 #### Example HTTP request
 
-	PUT /ldap_mappings/17 
+	PUT /v1/ldap_mappings/17 
 
 #### Example JSON body
 
@@ -181,7 +181,7 @@ Update an existing ldap_mapping object.
 
 #### Request body
 
-Include an [LDAP mapping object]({{< relref "/operate/rs/references/rest-api/objects/ldap_mapping" >}}) with updated fields in the request body.
+Include an [LDAP mapping object]({{< relref "/operate/rs/7.4/references/rest-api/objects/ldap_mapping" >}}) with updated fields in the request body.
 
 ### Response {#put-response} 
 
@@ -233,13 +233,13 @@ Create a new LDAP mapping.
 
 | Permission name |
 |-----------------|
-| [create_ldap_mapping]({{< relref "/operate/rs/references/rest-api/permissions#create_ldap_mapping" >}}) |
+| [create_ldap_mapping]({{< relref "/operate/rs/7.4/references/rest-api/permissions#create_ldap_mapping" >}}) |
 
 ### Request {#post-request} 
 
 #### Example HTTP request
 
-	POST /ldap_mappings 
+	POST /v1/ldap_mappings 
 
 #### Example JSON body
 
@@ -262,7 +262,7 @@ Create a new LDAP mapping.
 
 #### Request body
 
-Include an [LDAP mapping object]({{< relref "/operate/rs/references/rest-api/objects/ldap_mapping" >}}) in the request body.
+Include an [LDAP mapping object]({{< relref "/operate/rs/7.4/references/rest-api/objects/ldap_mapping" >}}) in the request body.
 
 ### Response {#post-response} 
 
@@ -309,13 +309,13 @@ Delete an LDAP mapping object.
 
 | Permission name |
 |-----------------|
-| [delete_ldap_mapping]({{< relref "/operate/rs/references/rest-api/permissions#delete_ldap_mapping" >}}) |
+| [delete_ldap_mapping]({{< relref "/operate/rs/7.4/references/rest-api/permissions#delete_ldap_mapping" >}}) |
 
 ### Request {#delete-request} 
 
 #### Example HTTP request
 
-	DELETE /ldap_mappings/1 
+	DELETE /v1/ldap_mappings/1 
 
 #### Request headers
 

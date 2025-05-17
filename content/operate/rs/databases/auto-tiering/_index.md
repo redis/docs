@@ -69,7 +69,7 @@ The RAM limit cannot be smaller than 10% of the total memory. We recommend you k
 
 Implementing Auto Tiering requires pre planning around memory and sizing. Considerations and requirements for Auto Tiering include:
 
-- Flash memory must be locally attached (as opposed to network attached storage (NAS) and storage area networks (SAN)).
+- Flash memory must be locally attached. Using network-attached storage (NAS), storage area networks (SAN), or solutions such as AWS Elastic Block Storage (EBS) is not supported. 
 - Flash memory must be dedicated to Auto Tiering and not shared with other parts of the database, such as durability, binaries, or persistence.
 - For the best performance, the SSDs should be NVMe based, but SATA can also be used.
 - The available flash space must be greater than or equal to the total database size (RAM+Flash). The extra space accounts for write buffers and [write amplification](https://en.wikipedia.org/wiki/Write_amplification).

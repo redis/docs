@@ -1,4 +1,7 @@
 ---
+acl_categories:
+- '@read'
+- '@search'
 arguments:
 - name: index
   type: string
@@ -73,7 +76,7 @@ Check that the cursor is deleted.
 
 ## See also
 
-[`FT.CURSOR READ`]({{< baseurl >}}/commands/ft.cursor-read/) 
+[`FT.CURSOR READ`]({{< relref "commands/ft.cursor-read/" >}}) 
 
 ## Related topics
 

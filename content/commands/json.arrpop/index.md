@@ -1,4 +1,8 @@
 ---
+acl_categories:
+- '@json'
+- '@write'
+- '@slow'
 arguments:
 - name: key
   type: key
@@ -63,7 +67,7 @@ is JSONPath to specify. Default is root `$`.
 
 ## Return
 
-`JSON.ARRPOP` returns an [array]({{< baseurl >}}/develop/reference/protocol-spec#resp-arrays) of bulk string replies for each path, each reply is the popped JSON value, or `nil`, if the matching JSON value is not an array.
+`JSON.ARRPOP` returns an [array]({{< relref "develop/reference/protocol-spec#resp-arrays" >}}) of bulk string replies for each path, each reply is the popped JSON value, or `nil`, if the matching JSON value is not an array.
 For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}). 
 
 ## Examples
@@ -116,7 +120,7 @@ redis> JSON.GET key $.[1].max_level
 
 ## See also
 
-[`JSON.ARRAPPEND`]({{< baseurl >}}/commands/json.arrappend/) | [`JSON.ARRINDEX`]({{< baseurl >}}/commands/json.arrindex/) 
+[`JSON.ARRAPPEND`]({{< relref "commands/json.arrappend/" >}}) | [`JSON.ARRINDEX`]({{< relref "commands/json.arrindex/" >}}) 
 
 ## Related topics
 

@@ -1,4 +1,7 @@
 ---
+acl_categories:
+- '@admin'
+- '@search'
 arguments:
 - name: option
   type: string
@@ -15,17 +18,19 @@ categories:
 - kubernetes
 - clients
 complexity: O(1)
+deprecated_since: 8.0.0
 description: Sets runtime configuration options
+doc_flags:
+- deprecated
 group: search
 hidden: false
 linkTitle: FT.CONFIG SET
 module: Search
+replaced_by: '[`CONFIG SET`]({{< relref "/commands/config-set" >}})'
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Sets runtime configuration options
-syntax: 'FT.CONFIG SET option value
-
-  '
+syntax: FT.CONFIG SET option value
 syntax_fmt: FT.CONFIG SET option value
 syntax_str: value
 title: FT.CONFIG SET
@@ -35,7 +40,7 @@ Set the value of a RediSearch configuration parameter.
 
 Values set using `FT.CONFIG SET` are not persisted after server restart.
 
-RediSearch configuration parameters are detailed in [Configuration parameters]({{< relref "/develop/interact/search-and-query/basic-constructs/configuration-parameters" >}}).
+RediSearch configuration parameters are detailed in [Configuration parameters]({{< relref "/develop/interact/search-and-query/administration/configuration" >}}).
 
 {{% alert title="Note" color="warning" %}}
 As detailed in the link above, not all RediSearch configuration parameters can be set at runtime.
@@ -74,7 +79,7 @@ OK
 
 ## See also
 
-[`FT.CONFIG GET`]({{< baseurl >}}/commands/ft.config-get/) | [`FT.CONFIG HELP`]({{< baseurl >}}/commands/ft.config-help/) 
+[`FT.CONFIG GET`]({{< relref "commands/ft.config-get/" >}}) | [`FT.CONFIG HELP`]({{< relref "commands/ft.config-help/" >}}) 
 
 ## Related topics
 

@@ -1,4 +1,7 @@
 ---
+acl_categories:
+- '@json'
+- '@read'
 arguments:
 - name: key
   type: key
@@ -31,6 +34,10 @@ syntax_str: '[path]'
 title: JSON.DEBUG MEMORY
 ---
 Report a value's memory usage in bytes 
+
+{{< warning >}}
+The actual total memory consumption by a key could be much lower than the value reported by this command because of an internal JSON string reuse mechanism. For more information, see the [JSON memory usage page]({{< relref "/develop/data-types/json/ram#json-string-reuse-mechanism" >}}).
+{{< /warning >}}
 
 [Examples](#examples)
 
@@ -69,16 +76,15 @@ Get the values' memory usage in bytes.
 
 {{< highlight bash >}}
 redis> JSON.DEBUG MEMORY item:2
-(integer) 253
+(integer) 573
 {{< / highlight >}}
 </details>
 
 ## See also
 
-[`JSON.SET`]({{< baseurl >}}/commands/json.set/) | [`JSON.ARRLEN`]({{< baseurl >}}/commands/json.arrlen/) 
+[`JSON.SET`]({{< relref "commands/json.set/" >}}) | [`JSON.ARRLEN`]({{< relref "commands/json.arrlen/" >}}) 
 
 ## Related topics
 
 * [RedisJSON]({{< relref "/develop/data-types/json/" >}})
 * [Index and search JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}})
-

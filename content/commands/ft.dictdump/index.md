@@ -1,4 +1,6 @@
 ---
+acl_categories:
+- '@search'
 arguments:
 - name: dict
   type: string
@@ -62,7 +64,7 @@ FT.DICTDUMP returns an array, where each element is term (string).
 
 ## See also
 
-[`FT.DICTADD`]({{< baseurl >}}/commands/ft.dictadd/) | [`FT.DICTDEL`]({{< baseurl >}}/commands/ft.dictdel/)
+[`FT.DICTADD`]({{< relref "commands/ft.dictadd/" >}}) | [`FT.DICTDEL`]({{< relref "commands/ft.dictdel/" >}})
 
 ## Related topics
 

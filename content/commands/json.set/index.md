@@ -1,4 +1,8 @@
 ---
+acl_categories:
+- '@json'
+- '@write'
+- '@slow'
 arguments:
 - name: key
   type: key
@@ -79,7 +83,13 @@ sets the key only if it already exists.
 
 ## Return value 
 
-JSET.SET returns a simple string reply: `OK` if executed correctly or `nil` if the specified `NX` or `XX` conditions were not met.
+Returns one of these replies:
+- A simple string reply: `OK` if executed correctly
+- `nil`
+  - if `key` exists but `path` does not exist and cannot be created
+  - if an `NX` or `XX` condition is unmet
+- error if `key` does not exist and `path` is not root  (`.` or `$`)
+
 For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
 
 ## Examples
@@ -123,9 +133,41 @@ redis> JSON.GET doc
 {{< / highlight >}}
 </details>
 
+<details open>
+<summary><b>path does not exist and cannot be created</b></summary>
+
+{{< highlight bash >}}
+redis> JSON.SET doc $ 1
+OK
+redis> JSON.SET doc $.x.y 2
+(nil)
+{{< / highlight >}}
+</details>
+
+<details open>
+<summary><b>XX condition unmet</b></summary>
+
+{{< highlight bash >}}
+redis> JSON.SET nonexistentkey $ 5 XX
+(nil)
+redis> JSON.GET nonexistentkey
+(nil)
+{{< / highlight >}}
+</details>
+
+<details open>
+<summary><b>key does not exist and path is not root</b></summary>
+
+{{< highlight bash >}}
+redis> JSON.SET nonexistentkey $.x 5
+(error) ERR new objects must be created at the root
+{{< / highlight >}}
+</details>
+
+
 ## See also
 
-[`JSON.GET`]({{< baseurl >}}/commands/json.get/) | [`JSON.MGET`]({{< baseurl >}}/commands/json.mget/) 
+[`JSON.GET`]({{< relref "commands/json.get/" >}}) | [`JSON.MGET`]({{< relref "commands/json.mget/" >}}) 
 
 ## Related topics
 

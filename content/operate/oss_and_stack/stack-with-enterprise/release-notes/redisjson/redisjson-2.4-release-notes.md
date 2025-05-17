@@ -17,10 +17,35 @@ weight: 97
 ---
 ## Requirements
 
-RedisJSON v2.4.9 requires:
+RedisJSON v2.4.12 requires:
 
 - Minimum Redis compatibility version (database): 6.0.16
 - Minimum Redis Enterprise Software version (cluster): 6.2.18
+
+## v2.4.12 (April 2025)
+
+This is a maintenance release for RedisJSON 2.4.
+
+Update urgency: `LOW`: No need to upgrade unless there are new features you want to use.
+
+Details:
+
+Improvements:
+- [#1335](https://github.com/redisjson/redisjson/pull/1335) Added support for Azure Linux 3 (MOD-9172)
+
+## v2.4.11 (January 2025)
+
+This is a maintenance release for RedisJSON 2.4
+
+Update urgency: `LOW`: No need to upgrade unless there are new features you want to use.
+
+Details
+
+- Bug fixes:
+  - [#1313](https://github.com/redisjson/redisjson/pull/1313) (Redis Enterprise A-A only) Potential crash on `JSON.DEBUG MEMORY` (MOD-8412)
+
+- Improvements:
+  - [#1310](https://github.com/redisjson/redisjson/pull/1310) Added support for Ubuntu 22 and macOS 13 and 14
 
 ## v2.4.9 (April 2024)
 

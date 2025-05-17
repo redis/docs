@@ -1,58 +1,61 @@
-<div class="flex flex-col lg:hidden lg:group-hover:flex lg:absolute lg:left-11 lg:border lg:border-redis-pencil-300 bg-white lg:p-8 lg:flex-row lg:rounded-b-md gap-8 text-[15px]">
-  <div class="lg:w-60">
-    <div class="flex flex-col gap-4">
-      <h3 class="uppercase font-mono mb-2">Products</h3>
-      <a class="flex flex-col group/link" href="https://redis.io/docs/latest/get-started">
-        <span class="group-hover/link:text-redis-red-500 tracking-tight">Community Edition</span><span class="text-redis-pen-600 font-sans font-medium">In-memory database for caching and streaming</span>
-      </a>
-      <a class="flex flex-col group/link" href="https://redis.io/cloud">
-        <span class="group-hover/link:text-redis-red-500 tracking-tight">Redis Cloud</span><span class="text-redis-pen-600 font-sans font-medium">Fully managed service integrated with Google Cloud, Azure, and AWS for production-ready apps</span>
-      </a>
-      <a class="flex flex-col group/link" href="https://redis.io/enterprise">
-        <span class="group-hover/link:text-redis-red-500 tracking-tight">Redis Software</span><span class="text-redis-pen-600 font-sans font-medium">Self-managed software with additional compliance, reliability, and resiliency for enterprise scaling</span>
-      </a>
-      <div class="w-full h-px bg-redis-pen-300 my-4"></div>
-      <h3 class="uppercase font-mono mb-2">Tools</h3>
-      <a class="flex flex-col group/link" href="https://redis.io/insight">
-        <span class="group-hover/link:text-redis-red-500 tracking-tight">Redis Insight</span>
-      </a>
-      <a class="flex flex-col group/link" href="https://redis.io/clients">
-        <span class="group-hover/link:text-redis-red-500 tracking-tight">Clients and Connectors</span>
-      </a>
-    </div>
+<div
+  class="flex flex-col font-sans lg:hidden lg:group-hover:flex lg:absolute lg:left-20 lg:border lg:border-redis-pencil-300 bg-white lg:flex-row lg:rounded-b-md gap-8 text-[15px]">
+  <div class="p-10">
+    <h2 class="mb-6 border-b border-redis-pencil-250 pb-2 text-xs font-medium uppercase tracking-[2px] text-gray-400">
+      Products</h2>
+    <ul class="grid grid-cols-2 gap-x-7 gap-y-3.5">
+      <li class="w-[16rem]">
+        <a class="font-medium hover:text-redis-red-500" href="https://redis.io/cloud/">
+          Redis Cloud
+          <p class="mt-2 text-xs font-normal text-gray-600">Fully managed and integrated with Google Cloud, Azure, and
+            AWS.</p>
+        </a>
+      </li>
+      <li class="w-[16rem]">
+        <a class="font-medium hover:text-redis-red-500" href="https://redis.io/redis-for-ai/">
+          Redis for AI
+          <p class="mt-2 text-xs font-normal text-gray-600">Build the fastest, most reliable GenAI apps with our
+            advanced vector database.</p>
+        </a>
+      </li>
+      <li class="w-[16rem]">
+        <a class="font-medium hover:text-redis-red-500" href="https://redis.io/software/">
+          Redis Software
+          <p class="mt-2 text-xs font-normal text-gray-600">Self-managed software with enterprise-grade compliance and
+            reliability.</p>
+        </a>
+      </li>
+      <li class="w-[16rem]">
+        <a class="font-medium hover:text-redis-red-500" href="https://redis.io/data-integration/">
+          Redis Data Integration (RDI)
+          <p class="mt-2 text-xs font-normal text-gray-600">Synchronize data in near-real time to make data fast—without
+            writing code.</p>
+        </a>
+      </li>
+      <li class="w-[16rem]">
+        <a class="font-medium hover:text-redis-red-500" href="https://redis.io/docs/latest/get-started/">
+          Redis Open Source
+          <p class="mt-2 text-xs font-normal text-gray-600">In-memory database for caching &amp; streaming.</p>
+        </a>
+      </li>
+    </ul>
+
   </div>
-  <div class="border-t lg:border-l border-redis-pen-300"></div>
-  <div class="lg:w-60">
-    <div class="flex flex-col gap-4">
-      <h3 class="uppercase font-mono mb-2">Key Features</h3>
-      <a class="flex flex-col group/link" href="https://redis.io/search">
-        <span class="group-hover/link:text-redis-red-500 tracking-tight">Search and query</span>
-      </a>
-      <a class="flex flex-col group/link" href="https://redis.io/json">
-        <span class="group-hover/link:text-redis-red-500 tracking-tight">JSON</span>
-      </a>
-      <a class="flex flex-col group/link" href="https://redis.io/active-active">
-        <span class="group-hover/link:text-redis-red-500 tracking-tight">Active-Active</span>
-      </a>
-      <a class="flex flex-col group/link" href="https://redis.io/auto-tiering">
-        <span class="group-hover/link:text-redis-red-500 tracking-tight">Auto-Tiering</span>
-      </a>
-      <a class="flex flex-col group/link" href="https://redis.io/solutions/vector-search/">
-        <span class="group-hover/link:text-redis-red-500 tracking-tight">Vector Search</span>
-      </a>
-      <a class="flex flex-col group/link" href="https://redis.io/data-integration/">
-        <span class="group-hover/link:text-redis-red-500 tracking-tight">Data integration</span>
-      </a>
+  <div class="flex flex-col bg-redis-neutral-200 p-8">
+    <div class="mb-4">
+      <h2 class="mb-6 border-b border-redis-pencil-250 pb-2 text-xs font-medium uppercase tracking-[2px] text-gray-400">
+        Tools</h2>
+      <ul class="space-y-4">
+        <li><a class="font-medium hover:text-redis-red-500" href="https://redis.io/insight/">Redis
+            Insight</a></li>
+        <li><a class="font-medium hover:text-redis-red-500" href="https://redis.io/clients/">Clients
+            and connectors</a></li>
+      </ul>
     </div>
-  </div>
-  <div class="border-t lg:border-l border-redis-pen-300"></div>
-  <div class="lg:w-60">
-    <div class="flex flex-col gap-4">
-      <h3 class="uppercase font-mono mb-2">See how it works</h3>
-      {{ partial "components/button-link.html" (dict "Href" "https://redis.io/demo-center" "Text" "Visit Demo Center") }}
-      <div class="w-full h-px bg-redis-pen-300 my-4"></div>
-      <h3 class="uppercase font-mono mb-2">Get Redis</h3>
-      {{ partial "components/button-link.html" (dict "Href" "https://redis.io/downloads" "Text" "Downloads") }}
+    <div class="mt-auto">
+      <h2 class="mb-6 pb-2 text-xs font-medium uppercase tracking-[2px] text-gray-400">Get Redis</h2><a
+        class="w-9/12 rounded border-redis-pen-600 bg-redis-red-700 px-12 py-4 text-redis-white-200 font-sans font-bold text-[16px] weight-[400] hover:bg-redis-pen-900"
+        href="https://redis.io/downloads/">Downloads</a>
     </div>
   </div>
 </div>
