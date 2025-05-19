@@ -35,4 +35,6 @@ an LLM chat using instructions and questions like the following:
 - "How many keys does my database have?"
 - "What is user:1's email?"
 
-See the other pages in this section to learn how to set up and use Redis MCP:
+See the other pages in this section to learn how to set up and use Redis MCP.
+See also the [Github repository](https://github.com/redis/mcp-redis) for
+the latest changes.
