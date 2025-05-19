@@ -27,14 +27,14 @@ or analyze and manage your database with our
   <div class="flex items-start">
     {{< image filename="develop/tools/insight/images/Browser.png" class="w-[300px] mr-4" >}}
     <div>
-      <h3><a href="/develop/tools/insight">Redis Insight</a></h3>
+      <h3><a href='{{< relref "/develop/tools/insight">}}'>Redis Insight</a></h3>
       <p>Visual client tool for creating, managing, and analyzing Redis databases.</p>
     </div>
   </div>
   <div class="flex items-start">
     {{< image filename="images/dev/connect/vscode/vscode-cli.png" class="w-[300px] mr-4" >}}
     <div>
-      <h3><a href="/develop/tools/insight">Redis for VS Code</a></h3>
+      <h3><a href='{{< relref "/develop/tools/redis-for-vscode" >}}'>Redis for VS Code</a></h3>
       <p>Visual client tool for creating, managing, and analyzing Redis databases.</p>
     </div>
   </div>
