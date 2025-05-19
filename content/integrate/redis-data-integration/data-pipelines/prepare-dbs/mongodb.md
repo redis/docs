@@ -62,7 +62,9 @@ db.createUser({
 The RDI Collector requires a MongoDB connection string that includes all relevant hosts and authentication details.
 
 Example (Replica Set):
-```mongodb://${SOURCE_DB_USERNAME}:${SOURCE_DB_PASSWORD}@host1:27017,host2:27017,host3:27017/?replicaSet=rs0&authSource=admin```
+```
+mongodb://${SOURCE_DB_USERNAME}:${SOURCE_DB_PASSWORD}@host1:27017,host2:27017,host3:27017/?replicaSet=rs0&authSource=admin
+```
 - For standalone or Atlas, adjust the connection string accordingly.
 - Set replicaSet and authSource as appropriate for your deployment.
 
@@ -85,7 +87,9 @@ The root CA certificate for MongoDB Atlas must be added as a SOURCE_DB_CACERT se
 - Ensure your connection string includes ssl=true or tls=true and references the CA certificate if required by your deployment.
 
 Example connection string for Atlas:
-```mongodb+srv://rdi_user:rdi_password@cluster0.mongodb.net/?authSource=admin&tls=true```
+```
+mongodb+srv://rdi_user:rdi_password@cluster0.mongodb.net/?authSource=admin&tls=true
+```
 
 ## 6. Network and Security
 - Ensure the RDI Collector can connect to all MongoDB nodes on the required ports (default: 27017, or as provided by Atlas).
