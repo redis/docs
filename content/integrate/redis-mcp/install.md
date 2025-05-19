@@ -7,20 +7,23 @@ categories:
 - rs
 summary: Access a Redis server using any MCP client.
 group: service
-linkTitle: Install
+linkTitle: Install the server
 description: Install and configure the Redis MCP server.
 type: integration
 weight: 10
 ---
 
 The MCP server runs separately from Redis, so you will need a
-Redis server to access. See [Redis Cloud]({{< relref "/operate/rc" >}})
+Redis server for it to connect to. See [Redis Cloud]({{< relref "/operate/rc" >}})
 or [Redis Open Source]({{< relref "/operate/oss_and_stack" >}}) to learn
 how to get a test server active within minutes.
 
+When you have a Redis server available, use the instructions below to install and
+configure the Redis MCP server.
+
 ## Install the server from source
 
-When you have a Redis server, you can clone Redis MCP from the
+Clone Redis MCP from the
 [Github repository](https://github.com/redis/mcp-redis) using the following
 command:
 
@@ -33,7 +36,7 @@ tool to set up the server. See the `uv`
 [installation instructions](https://github.com/astral-sh/uv?tab=readme-ov-file#installation)
 for more information.
 
-When you have `uv`, go into the `mcp-redis` folder that you cloned and
+When you have installed `uv`, go to the `mcp-redis` folder that you cloned and
 enter the following commands to initialize the MCP server code:
 
 ```bash
@@ -47,9 +50,10 @@ uv sync
 ## Install using Docker
 
 You can use the [`mcp/redis`](https://hub.docker.com/r/mcp/redis)
-image (or build your own image from the source using the `Dockerfile`) to 
-run Redis MCP with [Docker](https://www.docker.com/). Use the following
-command to download `mcp/redis` from [DockerHub](https://hub.docker.com/):
+image to run Redis MCP with [Docker](https://www.docker.com/).
+Alternatively, use the following
+command to build the Docker image with the `Dockerfile` in the
+`mcp/redis` folder:
 
 ```
 docker build -t mcp-redis .
@@ -113,3 +117,10 @@ tool:
 curl -i http://127.0.0.1:8000/sse
 HTTP/1.1 200 OK
 ```
+
+## Next steps
+
+When you have installed the server, you will need a MCP client to
+connect to it and use its services. See
+[Configure client apps]({{< relref "/integrate/redis-mcp/client-conf" >}})
+for more information.

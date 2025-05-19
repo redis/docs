@@ -28,10 +28,11 @@ Redis MCP is a general-purpose implementation that lets agents read, write, and
 query data in Redis and also has some basic commands to manage the Redis
 server. With this enabled, you can use an LLM client as a very high-level
 interface to Redis. Add, query, and analyze any Redis data set directly from
-an LLM chat:
+an LLM chat using instructions and questions like the following:
 
 - "Store the entire conversation in the 'recent_chats' stream"
 - "Cache this item"
 - "How many keys does my database have?"
 - "What is user:1's email?"
 
+See the other pages in this section to learn how to set up and use Redis MCP:
