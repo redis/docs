@@ -16,7 +16,7 @@ aliases:
     - /operate/rc/security/database-access-control/create-assign-users/
 ---
 
-Before you create a database user, you must [create a data access role]({{< relref "/operate/rc/security/access-control/data-access-control/create-roles" >}}) to assign to that user.
+Before you create a database user, you must [create a data access role]({{< relref "/operate/rc/security/data-access-control/role-based-access-control/create-roles" >}}) to assign to that user.
 
 ## Create a user
 
@@ -42,7 +42,7 @@ To create a user:
 An error occurs if a user tries to connect to a memcached database with the username `admin`. Do not use `admin` for a username if the user will be connecting to a memcached database.
     {{</note>}}
 
-1. Select a [**Role**]({{< relref "/operate/rc/security/access-control/data-access-control/create-roles" >}}) from the list.
+1. Select a [**Role**]({{< relref "/operate/rc/security/data-access-control/role-based-access-control/create-roles" >}}) from the list.
 
     {{<image filename="images/rc/data-access-control-users-add-role.png" width="300px" alt="User select role." >}}
 
@@ -69,7 +69,7 @@ To assign a data access role to an existing user:
 
     {{<image filename="images/rc/data-access-control-users-add-or-edit.png" width="300px" alt="User add or edit." >}}
 
-1. Select a [**Role**]({{< relref "/operate/rc/security/access-control/data-access-control/create-roles" >}}) from the list.
+1. Select a [**Role**]({{< relref "/operate/rc/security/data-access-control/role-based-access-control/create-roles" >}}) from the list.
 
     {{<image filename="images/rc/data-access-control-users-add-role.png" width="300px" alt="User select role." >}}
 

@@ -100,7 +100,7 @@ The **Security** section helps you control access to your database.
 |:-----------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Default user** | When enabled, permits access using a simple password                                                                                                                           |
 | **Default user password** | Password for default user. A default password is assigned to the database on creation and may be updated.                                                                      |
-| **CIDR allow list** | [Allow list]({{< relref "/operate/rc/security/cidr-whitelist.md" >}}) of IP addresses/security groups permitted to access the database. (_Paid plans only_)                    |
+| **CIDR allow list** | [Allow list]({{< relref "/operate/rc/security/network-security/cidr-whitelist.md" >}}) of IP addresses/security groups permitted to access the database. (_Paid plans only_)                    |
 | **Transport layer security (TLS)** | Enables [transport layer security]({{< relref "/operate/rc/security/database-security/tls-ssl.md" >}}) (TLS) encryption for database access. (_Pro plans only_)  |
 
 ### Alerts section

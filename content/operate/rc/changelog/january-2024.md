@@ -16,7 +16,7 @@ weight: 70
 
 ### Transit Gateway 
 
-You can now connect your Flexible subscriptions hosted on Amazon Web Services (AWS) to [AWS Transit Gateway](https://docs.aws.amazon.com/vpc/latest/tgw/how-transit-gateways-work.html). See [Connect to Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}) to learn how to connect your Flexible subscription to Transit Gateway.
+You can now connect your Flexible subscriptions hosted on Amazon Web Services (AWS) to [AWS Transit Gateway](https://docs.aws.amazon.com/vpc/latest/tgw/how-transit-gateways-work.html). See [Connect to Transit Gateway]({{< relref "/operate/rc/security/network-security/connect-private-endpoint/aws-transit-gateway" >}}) to learn how to connect your Flexible subscription to Transit Gateway.
 
 ### Billing Admin role
 

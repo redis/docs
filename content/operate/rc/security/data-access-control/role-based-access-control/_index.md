@@ -29,15 +29,15 @@ To set up RBAC, first navigate to the **Data Access Control** screen.
 
 There are three tabs on this screen: **Users**, **Roles**, and **Redis ACLs**.
 
-In the **Redis ACLs** tab, you [define named *permissions*]({{< relref "/operate/rc/security/access-control/data-access-control/configure-acls" >}}) for specific Redis commands, keys, and pub/sub channels.
+In the **Redis ACLs** tab, you [define named *permissions*]({{< relref "/operate/rc/security/data-access-control/role-based-access-control/configure-acls" >}}) for specific Redis commands, keys, and pub/sub channels.
 
 {{<image filename="images/rc/data-access-control-acls.png" alt="Data access control screen." >}}
 
-In the **Roles** tab, you [create roles]({{< relref "/operate/rc/security/access-control/data-access-control/create-roles" >}}). Each role consists of a set of permissions for one or more Redis Cloud databases.
+In the **Roles** tab, you [create roles]({{< relref "/operate/rc/security/data-access-control/role-based-access-control/create-roles" >}}). Each role consists of a set of permissions for one or more Redis Cloud databases.
 
 {{<image filename="images/rc/data-access-control-roles.png" alt="Data access control screen." >}}
 
-Finally, in the **Users** tab, you [create users]({{< relref "/operate/rc/security/access-control/data-access-control/create-assign-users" >}}) and [assign each user a role]({{< relref "/operate/rc/security/access-control/data-access-control/create-assign-users#assign-roles-to-existing-users" >}}).
+Finally, in the **Users** tab, you [create users]({{< relref "/operate/rc/security/data-access-control/role-based-access-control/create-assign-users" >}}) and [assign each user a role]({{< relref "/operate/rc/security/data-access-control/role-based-access-control/create-assign-users#assign-roles-to-existing-users" >}}).
 
 {{<image filename="images/rc/data-access-control-users.png" alt="Data access control screen." >}}
 

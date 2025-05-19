@@ -12,18 +12,18 @@ weight: 4
 ---
 
 Redis Cloud provides several features to help you secure your databases. These include
-[password-based authentication]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) and [role-based access control]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control.md" >}}),
-[network security]({{< relref "/operate/rc/security/database-security/network-security.md" >}}), [TLS]({{< relref "/operate/rc/security/database-security/tls-ssl.md" >}}), and [encryption-at-rest]({{< relref "/operate/rc/security/encryption-at-rest.md" >}}).
+[password-based authentication]({{< relref "/operate/rc/security/data-access-control/default-user" >}}) and [role-based access control]({{< relref "/operate/rc/security/data-access-control/role-based-access-control.md" >}}),
+[network security]({{< relref "/operate/rc/security/network-security.md" >}}), [TLS]({{< relref "/operate/rc/security/database-security/tls-ssl.md" >}}), and [encryption-at-rest]({{< relref "/operate/rc/security/database-security/encryption-at-rest" >}}).
 
 ## Passwords, users, and roles
 
-All Redis Cloud databases [require a password]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) to connect. However, we recommend enabling [role-based access control]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control.md" >}}) (RBAC) for additional security. With RBAC, you can define
+All Redis Cloud databases [require a password]({{< relref "/operate/rc/security/data-access-control/default-user" >}}) to connect. However, we recommend enabling [role-based access control]({{< relref "/operate/rc/security/data-access-control/role-based-access-control.md" >}}) (RBAC) for additional security. With RBAC, you can define
 all the roles you need, with the appropriate permissions, and assign those roles
 to your users.
 
 ## Network security
 
-Redis Cloud supports two types of network security: [IP Restrictions]({{< relref "/operate/rc/security/database-security/network-security.md" >}}#ip) and [VPCs]({{< relref "/operate/rc/security/database-security/network-security.md" >}}#virtual-private-clouds). We recommend that you employ at least one of these network security options to constrain access to your databases.
+Redis Cloud supports two types of network security: [IP Restrictions]({{< relref "/operate/rc/security/network-security.md" >}}#ip) and [VPCs]({{< relref "/operate/rc/security/network-security.md" >}}#virtual-private-clouds). We recommend that you employ at least one of these network security options to constrain access to your databases.
 
 ## Transport Layer Security (TLS)
 
@@ -34,7 +34,7 @@ We strongly recommend enabling TLS for any application transmitting sensitive da
 
 ## Disk encryption
 
-Redis Cloud provides encryption for all data stored on disk in Redis databases. See our [encryption at rest documentation]({{< relref "/operate/rc/security/encryption-at-rest.md" >}}) for specific details.
+Redis Cloud provides encryption for all data stored on disk in Redis databases. See our [encryption at rest documentation]({{< relref "/operate/rc/security/database-security/encryption-at-rest" >}}) for specific details.
 
 ## Continue learning with Redis University
 

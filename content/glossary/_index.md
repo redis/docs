@@ -18,7 +18,7 @@ aliases: /glossary/
 {{%definition "access control list (ACL)"%}}
 Allows you to manage permissions based on key patterns.
 
-More info: [redis.io/operate/oss_and_stack/management/security/acl]({{< relref "/operate/oss_and_stack/management/security/acl" >}}); [ACL wikipedia](https://en.wikipedia.org/wiki/Access-control_list); [Database access control]({{<relref "/operate/rs/security/access-control">}}); [Update database ACLs]({{<relref "/operate/rs/security/access-control/ldap/update-database-acls">}}); [Role-based access control]({{<relref "/operate/rc/security/access-control/data-access-control/role-based-access-control">}})
+More info: [redis.io/operate/oss_and_stack/management/security/acl]({{< relref "/operate/oss_and_stack/management/security/acl" >}}); [ACL wikipedia](https://en.wikipedia.org/wiki/Access-control_list); [Database access control]({{<relref "/operate/rs/security/access-control">}}); [Update database ACLs]({{<relref "/operate/rs/security/access-control/ldap/update-database-acls">}}); [Role-based access control]({{<relref "/operate/rc/security/data-access-control/role-based-access-control">}})
 {{%/definition%}}
 
 <a name="active-active"></a>
@@ -64,7 +64,7 @@ More info: [Causal consistency wikipedia](https://en.wikipedia.org/wiki/Causal_c
 {{%definition "CIDR allowlist"%}}
 Classless Inter-Domain Routing (CIDR) is a method to allocate and route IP addresses. A CIDR allowlist defines a range of IP addresses and permits connections to them.
 
-More info: [CIDR wikipedia](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing), [Configure CIDR allowlist]({{<relref "/operate/rc/security/cidr-whitelist">}})
+More info: [CIDR wikipedia](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing), [Configure CIDR allowlist]({{<relref "/operate/rc/security/network-security/cidr-whitelist">}})
 {{%/definition%}}
 
 {{%definition "concurrent writes"%}}
@@ -349,7 +349,7 @@ More info: [Database replication]({{<relref "/operate/rs/databases/durability-ha
 {{%definition "role-based access control (RBAC)"%}}
 A security approach that restricts system access to authorized users.
 
-More info: [RBAC wikipedia](https://en.wikipedia.org/wiki/Role-based_access_control); [Database access control]({{<relref "/operate/rs/security/access-control">}}); [Role-based access control]({{<relref "/operate/rc/security/access-control/data-access-control/role-based-access-control">}})
+More info: [RBAC wikipedia](https://en.wikipedia.org/wiki/Role-based_access_control); [Database access control]({{<relref "/operate/rs/security/access-control">}}); [Role-based access control]({{<relref "/operate/rc/security/data-access-control/role-based-access-control">}})
 {{%/definition%}}
 
 ## S {#letter-s}
@@ -401,7 +401,7 @@ More info: [TLS wikipedia](https://en.wikipedia.org/wiki/Transport_Layer_Securit
 {{%definition "VPC peering"%}}
 Networking connection between two VPCs that enables you to route traffic between them using private IP addresses. Instances in either VPC can communicate with each other as if they are within the same network.
 
-More info: [VPC wikipedia](https://en.wikipedia.org/wiki/Virtual_private_cloud), [Enable VPC peering]({{<relref "/operate/rc/security/vpc-peering">}})
+More info: [VPC wikipedia](https://en.wikipedia.org/wiki/Virtual_private_cloud), [Enable VPC peering]({{<relref "/operate/rc/security/network-security/connect-private-endpoint/vpc-peering">}})
 {{%/definition%}}
 
 

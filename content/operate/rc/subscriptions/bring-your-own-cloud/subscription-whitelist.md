@@ -23,7 +23,7 @@ to restrict traffic to all databases associated with the subscription.
 The subscription CIDR allow list defines a range of IP addresses and [AWS security groups](https://docs.aws.amazon.com/managedservices/latest/userguide/about-security-groups.html) that control inbound and outbound traffic to the Redis Cloud [VPC](https://en.wikipedia.org/wiki/Virtual_private_cloud). When you add security groups to the allow list, you can also use the same security groups to manage access to your application.
 
 {{< note >}}
-The subscription-level allow list is available for Redis Cloud Bring your Own Cloud. If you don't have Redis Cloud Bring your Own Cloud, you can configure a [CIDR allow list]({{< relref "/operate/rc/security/cidr-whitelist" >}}) for each database.
+The subscription-level allow list is available for Redis Cloud Bring your Own Cloud. If you don't have Redis Cloud Bring your Own Cloud, you can configure a [CIDR allow list]({{< relref "/operate/rc/security/network-security/cidr-whitelist" >}}) for each database.
 {{< /note >}}
 
 ## Allow IP address or security group

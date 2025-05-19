@@ -42,11 +42,11 @@ A user session on Redis Cloud expires after 30 minutes. You'll be signed out of 
 
 You have several options when it comes to securing your Redis Cloud databases. For more information, see [Cloud database security]({{< relref "/operate/rc/security/database-security/" >}}). Options include:
 
-- [Encryption at rest]({{< relref "/operate/rc/security/encryption-at-rest" >}})
-- [Role-based access control]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control" >}})
+- [Encryption at rest]({{< relref "/operate/rc/security/database-security/encryption-at-rest" >}})
+- [Role-based access control]({{< relref "/operate/rc/security/data-access-control/role-based-access-control" >}})
 - [TLS]({{< relref "/operate/rc/security/database-security/tls-ssl" >}})
-- [Network security]({{< relref "/operate/rc/security/database-security/network-security" >}}) using
-[VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}}) and [CIDR whitelist]({{< relref "/operate/rc/security/cidr-whitelist" >}})
+- [Network security]({{< relref "/operate/rc/security/network-security" >}}) using
+[VPC peering]({{< relref "/operate/rc/security/network-security/connect-private-endpoint/vpc-peering" >}}) and [CIDR whitelist]({{< relref "/operate/rc/security/network-security/cidr-whitelist" >}})
 
 ## API security
 

@@ -39,7 +39,7 @@ another destination using remote writes. This will require a Prometheus installa
 Redis Cloud deployment.
 
 If you have not already created a VPC between the Redis Cloud cluster and the network in which the machine hosting 
-Prometheus lives you should do so now. Please visit [VPC Peering](https://redis.io/docs/latest/operate/rc/security/vpc-peering/) 
+Prometheus lives you should do so now. Please visit [VPC Peering](https://redis.io/docs/latest/operate/rc/security/network-security/connect-private-endpoint/vpc-peering/) 
 and follow the instructions for the cloud platform of your choice.
 
 

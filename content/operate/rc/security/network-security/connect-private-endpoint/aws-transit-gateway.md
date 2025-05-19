@@ -28,7 +28,7 @@ Transit Gateway is available only with Redis Cloud Pro.  It is not supported for
 
 ## Considerations
 
-You can use Transit Gateway as an alternative to [VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}}), or you can enable both for your subscription.
+You can use Transit Gateway as an alternative to [VPC peering]({{< relref "/operate/rc/security/network-security/connect-private-endpoint/vpc-peering" >}}), or you can enable both for your subscription.
 
 Compared to VPC peering, Transit Gateway:
 
@@ -159,7 +159,7 @@ To finish Transit gateway setup, [update your route tables for the peering conne
 After Transit gateway is established, we recommend switching your application connection string to the private endpoint.
 
 {{< note >}}
-If you've enabled the database's [CIDR allow list]({{< relref "/operate/rc/security/cidr-whitelist" >}}), you must also [add the Transit Gateway's IP address to the CIDR allow list]({{< relref "/operate/rc/security/cidr-whitelist#define-cidr-allow-list" >}}) to connect to the database via the private endpoint.
+If you've enabled the database's [CIDR allow list]({{< relref "/operate/rc/security/network-security/cidr-whitelist" >}}), you must also [add the Transit Gateway's IP address to the CIDR allow list]({{< relref "/operate/rc/security/network-security/cidr-whitelist#define-cidr-allow-list" >}}) to connect to the database via the private endpoint.
 {{< /note >}}
 
 ## Continue learning with Redis University

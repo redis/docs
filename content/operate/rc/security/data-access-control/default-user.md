@@ -45,7 +45,7 @@ To change the default user password for your database:
 
 ## Turn off default user
 
-After you set up [role-based access control]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control" >}}) to limit who can access your database, we recommend that you turn off default user access.
+After you set up [role-based access control]({{< relref "/operate/rc/security/data-access-control/role-based-access-control" >}}) to limit who can access your database, we recommend that you turn off default user access.
 
 To turn off the default user for a database:
 

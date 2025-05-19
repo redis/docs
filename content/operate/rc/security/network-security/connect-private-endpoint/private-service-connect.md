@@ -20,7 +20,7 @@ This feature is only available for Redis Cloud Pro subscriptions hosted on Googl
 
 ## Considerations
 
-You can use Private Service Connect as an alternative to [VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}}), or you can enable both for your subscription.
+You can use Private Service Connect as an alternative to [VPC peering]({{< relref "/operate/rc/security/network-security/connect-private-endpoint/vpc-peering" >}}), or you can enable both for your subscription.
 
 Compared to VPC peering, Private Service Connect:
 
