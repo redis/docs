@@ -71,11 +71,14 @@ POST /v1/bdbs
 }
 ```
 
-To change an existing database's proxy policy, you can use an [update database configuration]({{<relref "/operate/rs/7.8/references/rest-api/requests/bdbs#put-bdbs">}}) REST API request:
+To change the proxy policy of an existing database and endpoint, you can use an [update database configuration]({{<relref "/operate/rs/7.8/references/rest-api/requests/bdbs#put-bdbs">}}) REST API request:
 
 ```sh
 PUT /v1/bdbs/<database-id>
-{ "proxy_policy": "single | all-master-shards | all-nodes" }
+{ 
+  "proxy_policy": "single | all-master-shards | all-nodes",
+  "endpoint": <endpoint_uid>
+}
 ```
 
 ### Command-line method
