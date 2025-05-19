@@ -9,7 +9,7 @@ categories:
 description: null
 headerRange: '[1-3]'
 toc: 'true'
-weight: 20
+weight: 2
 ---
 
 To assign [Redis ACLs]({{< relref "/operate/rc/security/access-control/data-access-control/configure-acls" >}}) to a data access role:

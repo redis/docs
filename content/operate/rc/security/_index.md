@@ -8,6 +8,8 @@ categories:
 description: null
 hideListLinks: true
 weight: 51
+bannerText: This section is a work in progress. Page content is not final.
+bannerChildren: true
 ---
 
 Redis Cloud provides a number of ways to secure subscriptions and databases.

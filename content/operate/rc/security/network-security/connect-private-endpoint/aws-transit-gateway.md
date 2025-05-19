@@ -8,6 +8,8 @@ categories:
 description: null
 linkTitle: Transit Gateway
 weight: 80
+aliases:
+    - /operate/rc/security/aws-transit-gateway/
 ---
 
 [Amazon Web Services (AWS) Transit Gateway](https://docs.aws.amazon.com/vpc/latest/tgw/how-transit-gateways-work.html) acts as a Regional virtual router for traffic flowing between your virtual private cloud(s) (VPCs) and on-premises networks. You can attach different resources to your Transit Gateway which include:

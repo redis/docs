@@ -9,7 +9,11 @@ categories:
 description: Create a database user and assign it a role.
 headerRange: '[1-3]'
 toc: 'true'
-weight: 25
+weight: 4
+aliases:
+    - /operate/rc/security/access-control/data-access-control/create-assign-users/
+    - /operate/rc/security/access-control/database-access-control/create-assign-users/
+    - /operate/rc/security/database-access-control/create-assign-users/
 ---
 
 Before you create a database user, you must [create a data access role]({{< relref "/operate/rc/security/access-control/data-access-control/create-roles" >}}) to assign to that user.

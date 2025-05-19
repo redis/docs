@@ -8,7 +8,11 @@ categories:
 description: Learn how to change your default user password or turn off access using
   the default user password.
 linkTitle: Default user
-weight: 5
+weight: 1
+aliases:
+    - /operate/rc/security/access-control/data-access-control/default-user/
+    - /operate/rc/security/access-control/database-access-control/default-user/
+    - /operate/rc/security/database-access-control/default-user/
 ---
 
 Password-based authentication is a basic but essential Redis security feature. When you create a Redis Cloud database, your database is given a randomly generated password called the **Default user password**.

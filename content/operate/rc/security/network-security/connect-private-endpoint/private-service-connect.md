@@ -10,6 +10,8 @@ description: Private Service Connect creates a private endpoint that allows secu
 linkTitle: Private Service Connect
 toc: 'true'
 weight: 50
+aliases:
+    - /operate/rc/security/private-service-connect/
 ---
 
 [Private Service Connect](https://cloud.google.com/vpc/docs/private-service-connect) (PSC) creates a private endpoint that allows secure connections to Redis Cloud databases without exposing your application's [virtual private cloud](https://en.wikipedia.org/wiki/Virtual_private_cloud) (VPC). 

@@ -9,7 +9,11 @@ categories:
 description: null
 headerRange: '[1-3]'
 toc: 'true'
-weight: $weight
+weight: 3
+aliases:
+    - /operate/rc/security/access-control/data-access-control/active-active-roles/
+    - /operate/rc/security/access-control/database-access-control/active-active-roles/
+    - /operate/rc/security/database-access-control/active-active-roles/
 ---
 
 For [Active-Active databases]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}), you can define roles with different levels of access for different regions. For example, you can define a user role with full database access in one region and read-only access in another. Or, you can prevent a user from running any commands in a specified region.

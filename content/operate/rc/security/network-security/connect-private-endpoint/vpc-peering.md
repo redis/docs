@@ -9,6 +9,8 @@ description: VPC peering uses private IP addresses to route traffic between a Re
   Cloud VPC and an application VPC.
 linkTitle: VPC peering
 weight: 80
+aliases:
+    - /operate/rc/security/vpc-peering/
 ---
 
 VPC peering uses private IP addresses to allow network connections between two [virtual private clouds](https://en.wikipedia.org/wiki/Virtual_private_cloud) (VPCs).

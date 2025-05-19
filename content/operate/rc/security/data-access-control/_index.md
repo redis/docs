@@ -1,6 +1,6 @@
 ---
-LinkTitle: Data access control
-Title: Data access control
+LinkTitle: Database access control (Default user, RBAC)
+Title: Database access control
 alwaysopen: false
 categories:
 - docs
@@ -11,7 +11,11 @@ description: Control who can access your databases using the default user databa
 headerRange: '[1-3]'
 hideListLinks: true
 toc: 'true'
-weight: 25
+weight: 3
+aliases:
+    - /operate/rc/security/access-control/data-access-control/
+    - /operate/rc/security/access-control/database-access-control/
+    - /operate/rc/security/database-access-control/
 ---
 
 ## Default user

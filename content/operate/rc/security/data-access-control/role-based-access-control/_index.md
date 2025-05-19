@@ -9,7 +9,11 @@ categories:
 description: Lets you define multiple users with fine-grained data authorization features.
 headerRange: '[1-3]'
 toc: 'true'
-weight: 10
+weight: 2
+aliases:
+    - /operate/rc/security/access-control/data-access-control/role-based-access-control/
+    - /operate/rc/security/access-control/database-access-control/role-based-access-control/
+    - /operate/rc/security/database-access-control/role-based-access-control/
 ---
 
 Role-based access control (RBAC) lets you define *roles* with specific sets of *permissions*. You can then assign *users* to these roles

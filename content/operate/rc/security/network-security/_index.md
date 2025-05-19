@@ -1,13 +1,15 @@
 ---
-Title: Network security
+Title: Network security and connectivity
 alwaysopen: false
 categories:
 - docs
 - operate
 - rc
 description: null
-linkTitle: Network security
-weight: 30
+linkTitle: Network security and connectivity (CIDR allow list, private endpoints)
+weight: 5
+aliases:
+    - /operate/rc/security/database-security/network-security/
 ---
 
 Redis Cloud supports two types of network security: database-level CIDR allow lists and [VPC](#virtual-private-clouds)-wide CIDR allow lists.

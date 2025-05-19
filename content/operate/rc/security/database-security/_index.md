@@ -1,5 +1,6 @@
 ---
-Title: Cloud database security
+Title: Data security
+linkTitle: Data security (TLS, encryption at rest)
 alwaysopen: false
 categories:
 - docs
@@ -7,7 +8,7 @@ categories:
 - rc
 description: null
 hideListLinks: true
-weight: 20
+weight: 4
 ---
 
 Redis Cloud provides several features to help you secure your databases. These include

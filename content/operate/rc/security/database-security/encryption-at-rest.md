@@ -7,6 +7,8 @@ categories:
 - rc
 description: Describes when data is encrypted at rest.
 weight: 40
+aliases:
+    - /operate/rc/security/encryption-at-rest/
 ---
 Redis Cloud databases write their data to disk whenever [persistence]({{< relref "/operate/rc/databases/configuration/data-persistence.md" >}}) is enabled. 
 

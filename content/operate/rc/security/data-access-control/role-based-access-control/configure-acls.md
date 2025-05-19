@@ -9,7 +9,11 @@ categories:
 description: null
 headerRange: '[1-3]'
 toc: 'true'
-weight: 15
+weight: 1
+aliases:
+    - /operate/rc/security/access-control/data-access-control/configure-acls/
+    - /operate/rc/security/access-control/database-access-control/configure-acls/
+    - /operate/rc/security/database-access-control/configure-acls/
 ---
 
 You can define custom Redis ACL rules to assign to a data access role or use predefined Redis ACLs.
