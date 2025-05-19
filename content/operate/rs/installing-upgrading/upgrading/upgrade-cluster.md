@@ -114,6 +114,8 @@ To perform a rolling upgrade of the cluster, use one of the following methods:
 
 1. [Add the new node]({{< relref "/operate/rs/clusters/add-node" >}}) to the cluster.
 
+1. If the [cluster uses DNS]({{<relref "/operate/rs/networking/cluster-dns">}}), add the new node’s IP address to the DNS records.
+
 1. [Promote the first new node]({{<relref "/operate/rs/clusters/change-node-role/#promote-secondary-node">}}) to become the primary node.
 
 1. [Remove one node]({{< relref "/operate/rs/clusters/remove-node#remove-a-node" >}}) running the earlier Redis Software version from the cluster.
@@ -141,6 +143,8 @@ To perform a rolling upgrade of the cluster, use one of the following methods:
     ```sh
     rladmin cluster join nodes <cluster_member_ip_address> username <username> password <password> replace_node <node_id>
     ```
+
+1. If the [cluster uses DNS]({{<relref "/operate/rs/networking/cluster-dns">}}), add the new node’s IP address to the DNS records.
 
 1. [Promote the first new node]({{<relref "/operate/rs/clusters/change-node-role/#promote-secondary-node">}}) to become the primary node.
 

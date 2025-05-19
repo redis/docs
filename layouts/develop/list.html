@@ -93,8 +93,10 @@ PING
         {{ partial "feedback.html" . }}
       </section>
     </div>
+
     {{ if not .Params.hideTOC }}
       {{ partial "docs-toc.html" . }}
     {{ end }}
+    {{ partial "scripts.html" . }}
   </main>
 {{ end }}
