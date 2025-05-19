@@ -304,7 +304,7 @@ The following is a list of command categories and their meanings:
 * **json** - Data type: all JSON related commands.
 * **keyspace** - Writing or reading from keys, databases, or their metadata 
   in a type agnostic way. Includes [`DEL`](/commands/del), [`RESTORE`](/commands/restore), [`DUMP`](/commands/dump), [`RENAME`](/commands/rename), [`EXISTS`](/commands/exists), [`DBSIZE`](/commands/dbsize),
-  [`KEYS`](/commands/keys), [`EXPIRE`](/commands/expire), [`TTL`](/commands/ttl), [`FLUSHALL`](/commands/flushall), etc. Commands that may modify the keyspace,
+  [`KEYS`](/commands/keys), [`SCAN`](/commands/scan), [`EXPIRE`](/commands/expire), [`TTL`](/commands/ttl), [`FLUSHALL`](/commands/flushall), etc. Commands that may modify the keyspace,
   key, or metadata will also have the `write` category. Commands that only read
   the keyspace, key, or metadata will have the `read` category.
 * **list** - Data type: all list related commands.
@@ -323,7 +323,8 @@ The following is a list of command categories and their meanings:
 * **transaction** - [`WATCH`](/commands/watch) / [`MULTI`](/commands/multi) / [`EXEC`](/commands/exec) related commands.
 * **write** - Writing to keys (values or metadata). Note that commands that don't interact with keys, will not have either `read` or `write`.
 
-Redis can also show you a list of all categories and the exact commands each category includes using the Redis [`ACL CAT`](/commands/acl-cat) command. It can be used in two forms:
+NOTE: Redis can also show you a list of all categories and the exact commands each category includes using the Redis [`ACL CAT`](/commands/acl-cat) command. 
+It can be used in two forms:
 
     ACL CAT -- Will just list all the categories available
     ACL CAT <category-name> -- Will list all the commands inside the category
