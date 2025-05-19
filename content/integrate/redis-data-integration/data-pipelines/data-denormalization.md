@@ -35,9 +35,32 @@ called `InvoiceLineItems`:
 
 {{< image filename="/images/rdi/ingest/nest-flow.webp" width="500px" >}}
 
-You configure normalization with a `nest` block in the child entities' RDI job, as shown in this example:
+
+When configuring normalization first you need to configure the parent entity to use JSON as the target data type. Add `data_type: json` to the parent job. Example:
 
 ```yaml
+# jobs/invoice.yaml
+source:
+  server_name: chinook
+  schema: public
+  table: Invoice
+
+output:
+  - uses: redis.write
+    with:
+      # Setting the data type to json ensures that the parent object will be created in a way that supports nesting.
+      data_type: json
+      # Important: do not set a custom key for the parent entity.
+      # When nesting the child object under the parent, the parent key is automatically calculated based on
+      # the parent table name and the parent key field and if a custom key is set, it will cause a mismatch
+      # between the key used to write the parent and the key used to write the child.
+      
+```
+
+After that parent model is configured, it is time to configure the child entities. To do that use the `nest` block, as shown in this example:
+
+```yaml
+# jobs/invoice_line.yaml
 source:
   server_name: chinook
   schema: public
@@ -52,6 +75,7 @@ output:
           table: Invoice
         nesting_key: InvoiceLineId # cannot be composite
         parent_key: InvoiceId # cannot be composite
+        child_key: InvoiceId # optional, if different from parent_key
         path: $.InvoiceLineItems # path must start from document root ($)
         structure: map # only map supported for now
       on_update: merge # only merge supported for now
@@ -111,3 +135,4 @@ There are several important things to note when you use nesting:
   See the
   [Debezium PostgreSQL Connector Documentation](https://debezium.io/documentation/reference/connectors/postgresql.html#postgresql-replica-identity)
   for more information about this.
+- Changing the foreign key value of a child object results in the child object being added to the new parent, but the old parent is not updated.
