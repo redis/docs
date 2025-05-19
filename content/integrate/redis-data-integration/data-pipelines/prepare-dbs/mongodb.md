@@ -1,6 +1,6 @@
 ---
 Title: Prepare MongoDB for RDI
-aliases: /integrate/redis-data-integration/ingest/data-pipelines/prepare-dbs/sql-server/
+aliases: /integrate/redis-data-integration/ingest/data-pipelines/prepare-dbs/mongodb/
 alwaysopen: false
 categories:
 - docs
@@ -32,7 +32,7 @@ db.printReplicationInfo();
 ```
 - Resize the oplog (run on the PRIMARY):
 ```bash
-$ mongod --replSet <replSetName> --oplogSize <sizeInMB>
+mongod --replSet <replSetName> --oplogSize <sizeInMB>
 ```
 
 ## 2. Create a MongoDB User for RDI
@@ -94,7 +94,7 @@ Example connection string for Atlas:
 ## 7. Test the Connection
 You can test the connection using the RDI CLI or API:
 ```bash
-$ redis-di pipelines validate-source --db-type mongodb \
+redis-di pipelines validate-source --db-type mongodb \
   --connection-string "mongodb+srv://rdi_user:rdi_password@cluster0.mongodb.net/?authSource=admin&tls=true"
 ```
 Or via the API `/collector/connection/validate` endpoint.
