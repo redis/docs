@@ -46,4 +46,4 @@ or analyze and manage your database with our
 | [Document store]({{< relref "/develop/get-started/document-database" >}}) | [JSON]({{< relref "/develop/data-types/json" >}}) | [Schema field types]({{< relref "/develop/interact/search-and-query/basic-constructs/field-and-type-options" >}}) |
 | [Data structure store]({{< relref "/develop/get-started/data-store" >}}) | [Hash]({{< relref "/develop/data-types/hashes" >}}) | [Indexing]({{< relref "/develop/interact/search-and-query/indexing" >}}) |
 | [RAG with Redis]({{< relref "/develop/get-started/rag" >}}) | [Vector set]({{< relref "/develop/data-types/vector-sets" >}}) | [Querying]({{< relref "/develop/interact/search-and-query/query" >}}) |
-| [GenAI]({{< relref "/develop/get-started/redis-in-ai" >}}) | [Probabilistic]({{< relref "/develop/data-types/probabilistic" >}}) | [Use cases]({{< relref "/develop/interact/search-and-query/query-use-cases" >}}) |
+| [GenAI]({{< relref "/develop/get-started/redis-in-ai" >}}) | [Probabilistic types]({{< relref "/develop/data-types/probabilistic" >}}) | [Use cases]({{< relref "/develop/interact/search-and-query/query-use-cases" >}}) |
