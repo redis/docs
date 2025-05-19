@@ -105,6 +105,7 @@ Or via the API `/collector/connection/validate` endpoint.
 
 ## Additional Resources
 - [MongoDB Replica Set Documentation](https://www.mongodb.com/docs/manual/replication/)
+- [MongoDB Sharded Cluster Documentation](https://www.mongodb.com/docs/manual/sharding/)
 - [MongoDB Change Streams](https://www.mongodb.com/docs/manual/changeStreams/)
 - [MongoDB User Management](https://www.mongodb.com/docs/manual/core/security-users/)
 - [Debezium MongoDB Connector Documentation](https://debezium.io/documentation/reference/stable/connectors/mongodb.html)
