@@ -18,7 +18,7 @@ The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/introduction)
 is a standard that lets AI agents access data and perform actions. Using MCP,
 your server can publish a set of commands that are usable by any MCP-compatible
 client app (such as [Claude Desktop](https://claude.ai/download) or
-[VSCode](https://code.visualstudio.com/)). These commands can retrieve
+[VS Code](https://code.visualstudio.com/)). These commands can retrieve
 whatever data you wish to provide and you can also let the agent make
 changes to the data. For example, you could publish a feed of news items that
 an agent can use in its responses, and also let the agent add the user's
@@ -36,5 +36,5 @@ an LLM chat using instructions and questions like the following:
 - "What is user:1's email?"
 
 See the other pages in this section to learn how to set up and use Redis MCP.
-See also the [Github repository](https://github.com/redis/mcp-redis) for
+See also the [GitHub repository](https://github.com/redis/mcp-redis) for
 the latest changes.

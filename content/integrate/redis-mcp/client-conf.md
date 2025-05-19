@@ -46,7 +46,7 @@ basic approach is similar in each case. The pages listed below
 give the general configuration details for some common MCP client tools:
 
 -   [Claude Desktop](https://modelcontextprotocol.io/quickstart/user)
--   [Github Copilot for VSCode](https://code.visualstudio.com/docs/copilot/chat/mcp-servers)
+-   [GitHub Copilot for VS Code](https://code.visualstudio.com/docs/copilot/chat/mcp-servers)
 -   [OpenAI](https://openai.github.io/openai-agents-python/mcp/)
 
 ### Local servers
@@ -131,7 +131,7 @@ If you set up an
 MCP server, you may be able to configure it directly from the app (but
 if you can't, then see [Using a gateway](#using-a-gateway) for an alternative approach). For
 example, the following `JSON` element configures
-[Github Copilot for VSCode](https://code.visualstudio.com/docs/copilot/overview)
+[GitHub Copilot for VS Code](https://code.visualstudio.com/docs/copilot/overview)
 to use an `sse` type server running at `127.0.0.1`:
 
 ```json
