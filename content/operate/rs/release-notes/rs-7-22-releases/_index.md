@@ -19,6 +19,8 @@ weight: 68
 
 This version offers:
 
+- Performance improvements
+
 - Diagnostic logging service
 
 - Call home client to send daily usage statistics to Redis
