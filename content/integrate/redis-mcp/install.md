@@ -78,8 +78,9 @@ to connect with.
 |----------------------|-----------------------------------------------------------|---------------|
 | `REDIS_HOST`         | Redis IP or hostname                                      | `"127.0.0.1"` |
 | `REDIS_PORT`         | Redis port                                                | `6379`        |
-| `REDIS_USERNAME`     | Default database username                                 | `"default"`   |
-| `REDIS_PWD`          | Default database password                                 | ""            |
+| `REDIS_DB`           | Database | 0 |
+| `REDIS_USERNAME`     | Database username                                 | `"default"`   |
+| `REDIS_PWD`          | Database password                                 | ""            |
 | `REDIS_SSL`          | Enables or disables SSL/TLS                               | `False`       |
 | `REDIS_CA_PATH`      | CA certificate for verifying server                       | None          |
 | `REDIS_SSL_KEYFILE`  | Client's private key file for client authentication       | None          |
