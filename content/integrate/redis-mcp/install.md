@@ -119,6 +119,42 @@ curl -i http://127.0.0.1:8000/sse
 HTTP/1.1 200 OK
 ```
 
+## Redis Cloud MCP
+
+A separate version of the MCP server is available for
+[Redis Cloud]({{< relref "/operate/rc" >}}). This has the same main
+functionality as the basic MCP server but also has some features
+specific to Redis Cloud, including subscription management and
+billing details. For example, you can use questions and instructions
+like the following:
+
+-   "Create a new Redis database in AWS"
+-   "What are my current subscriptions?"
+-   "Help me choose the right Redis database for my e-commerce application"
+
+You will need [Node.js](https://nodejs.org/en) installed to run Redis Cloud MCP.
+Clone the GitHub repository using the following command:
+
+```bash
+git clone https://github.com/redis/mcp-redis-cloud.git
+```
+
+Go into the `mcp-redis-cloud` folder and install the dependencies:
+
+```bash
+npm run build
+```
+
+The server is now ready for use.
+
+You can also deploy Redis Cloud MCP using Docker. Build the image
+using the `Dockerfile` in the repository folder with the following
+command:
+
+```bash
+docker build -t mcp/redis-cloud .
+```
+
 ## Next steps
 
 When you have installed the server, you will need a MCP client to

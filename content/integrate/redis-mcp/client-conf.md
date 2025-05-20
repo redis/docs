@@ -155,3 +155,53 @@ Apps that don't currently support external MCP servers directly, such as Claude
 Desktop, can still access them using a *gateway*. See
 [MCP server gateway](https://github.com/lightconetech/mcp-gateway)
 for more information.
+
+## Redis Cloud MCP
+
+If you are using
+[Redis Cloud MCP]({{< relref "/integrate/redis-mcp/install#redis-cloud-mcp" >}}),
+the configuration is similar to [basic MCP](#manual-configuration), but with a
+few differences. Set the client to run the server using the `node` command, as shown 
+in the example for Claude Desktop below:
+
+```json
+{
+  "mcpServers": {
+    "mcp-redis-cloud": {
+      "command": "node",
+      "args": ["--experimental-fetch", "<absolute_path_to_project_root>/dist/index.js"],
+      "env": {
+        "API_KEY": "<redis_cloud_api_key>",
+        "SECRET_KEY": "<redis_cloud_api_secret_key>"
+      }
+    }
+  }
+}
+```
+
+Here, the environment includes the Redis Cloud API key and API secret key
+(see [Redis Cloud REST API]({{< relref "/operate/rc/api" >}}) for more
+information).
+
+If you are deploying Redis Cloud MCP with Docker, use a configuration like
+the following to launch the server with the `docker` command:
+
+```json
+{
+  "mcpServers": {
+    "redis-cloud": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e",
+        "API_KEY=<your_redis_cloud_api_key>",
+        "-e",
+        "SECRET_KEY=<your_redis_cloud_api_secret_key>",
+        "mcp/redis-cloud"
+      ]
+    }
+  }
+}
+```
