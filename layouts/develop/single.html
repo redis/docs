@@ -5,9 +5,9 @@
 {{ define "main" }}
   <main class="docs w-full max-w-[1920px] mx-auto px-5 flex flex-col md:flex-row overflow-hidden">
     {{ partial "docs-nav.html" . }}
-    <div class="py-12 md:pl-4 xl:px-16 overflow-hidden">
+    <div class="w-full py-12 md:pl-4 xl:px-16 overflow-hidden">
       {{ partial "breadcrumbs" . }}
-      <section class="prose w-full py-12">
+      <section class="prose w-full py-12 max-w-none">
         <h1>
           {{ .Title }}</h1>
         {{ with .Params.description }}<p class="text-lg -mt-5 mb-10">{{ . | markdownify }}</p>{{ end }}
@@ -37,5 +37,6 @@
       </section>
     </div>
     {{ partial "docs-toc.html" . }}
+    {{ partial "scripts.html" . }}
   </main>
 {{ end }}

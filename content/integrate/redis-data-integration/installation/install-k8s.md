@@ -54,10 +54,10 @@ Complete the following steps before installing the RDI Helm chart:
     more information).
 
 -   Download the RDI Helm chart tar file from the
-    [Redis download center](https://redis.io/downloads/) (in the *Modules, Tools & Integration* category) .
+    [Redis download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-{{< rdi-version >}}.tgz) (in the *Modules, Tools & Integration* category) .
 
     ```bash
-    export RDI_VERSION=<version>
+    export RDI_VERSION={{< rdi-version >}}
     wget https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-$RDI_VERSION.tgz
     ```
 
