@@ -52,6 +52,8 @@ Before upgrading a cluster:
 
 Starting with the primary node, follow these steps for every node in the cluster. To ensure cluster availability, upgrade each node separately.
 
+1. Complete all [prerequisites](#upgrade-prerequisites) before starting the upgrade.
+
 1.  Verify node operation with the following commands:
 
     ``` shell
@@ -106,9 +108,13 @@ To perform a rolling upgrade of the cluster, use one of the following methods:
 
 ### Extra node upgrade method {#extra-node-upgrade}
 
+1. Complete all [prerequisites](#upgrade-prerequisites) before starting the rolling upgrade.
+
 1. [Install a later version of Redis Software]({{< relref "/operate/rs/installing-upgrading/install/install-on-linux" >}}) on a new node.
 
 1. [Add the new node]({{< relref "/operate/rs/clusters/add-node" >}}) to the cluster.
+
+1. If the [cluster uses DNS]({{<relref "/operate/rs/networking/cluster-dns">}}), add the new node’s IP address to the DNS records.
 
 1. [Promote the first new node]({{<relref "/operate/rs/clusters/change-node-role/#promote-secondary-node">}}) to become the primary node.
 
@@ -117,6 +123,8 @@ To perform a rolling upgrade of the cluster, use one of the following methods:
 1. Repeat the previous steps until all nodes with the earlier Redis Software version are removed. If the final node to remove from the cluster is the primary node, [demote it]({{<relref "/operate/rs/clusters/change-node-role#demote-primary-node">}}) to a secondary node before you remove it.
 
 ### Replace node upgrade method {#replace-node-upgrade}
+
+1. Complete all [prerequisites](#upgrade-prerequisites) before starting the rolling upgrade.
 
 1. [Remove a node]({{< relref "/operate/rs/clusters/remove-node#remove-a-node" >}}) with the earlier Redis Software version from the cluster.
 
@@ -135,6 +143,8 @@ To perform a rolling upgrade of the cluster, use one of the following methods:
     ```sh
     rladmin cluster join nodes <cluster_member_ip_address> username <username> password <password> replace_node <node_id>
     ```
+
+1. If the [cluster uses DNS]({{<relref "/operate/rs/networking/cluster-dns">}}), add the new node’s IP address to the DNS records.
 
 1. [Promote the first new node]({{<relref "/operate/rs/clusters/change-node-role/#promote-secondary-node">}}) to become the primary node.
 

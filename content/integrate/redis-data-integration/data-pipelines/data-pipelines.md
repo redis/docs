@@ -69,11 +69,10 @@ The sections below describe the two types of configuration file in more detail.
 ## The `config.yaml` file
 
 Here is an example of a `config.yaml` file. Note that the values of the
-form "`${name}`" refer to environment variables that you should set with the
-[`redis-di set-secret`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-set-secret" >}})
-command. In particular, you should normally use environment variables as shown to set the source
-and target username and password rather than storing them in plain text in this
-file (see [Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}}) for more information).
+form "`${name}`" refer to secrets that you should set as described in 
+[Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}}). 
+In particular, you should normally use secrets as shown to set the source
+and target username and password rather than storing them in plain text in this file.
 
 ```yaml
 sources:
@@ -212,30 +211,43 @@ to identify the source (in the example we have a source
 called `mysql` but you can choose any name you like). The example
 configuration contains the following data:
 
-- `type`: The type of collector to use for the pipeline. Currently, the only type we support is `cdc`.
-- `connection`: The connection details for the source database: hostname, port, schema/ db name, database credentials and
-[TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security)/
-[mTLS](https://en.wikipedia.org/wiki/Mutual_authentication#mTLS) secrets.
-- `tables`: The dataset you want to collect from the source. This subsection
-  specifies:
-  - `snapshot_sql`: A query that selects the tables to include in the dataset
-    (the default is to include all tables if you don't specify a query here).
+- `type`: The type of collector to use for the pipeline. 
+  Currently, the only types we support are `cdc` and `external`.
+  If the source type is set to `external`, no collector resources will be created by the operator, 
+  and all other source sections should be empty or not specified at all.
+- `connection`: The connection details for the source database: `type`, `host`, `port`, 
+  and credentials (`username` and `password`).
+  - `type` is the source database type, one of `mariadb`, `mysql`, `oracle`, `postgresql`, or `sqlserver`.
+  - If you use [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security)/
+    or [mTLS](https://en.wikipedia.org/wiki/Mutual_authentication#mTLS) to connect
+    to the source database, you may need to specify additional properties in the
+    `advanced` section with references to the corresponding certificates depending 
+    on the source database type. Note that these properties **must** be references to 
+    secrets that you should set as described in [Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}}).
+- `databases`: List of all databases to collect data from for source database types
+  that support multiple databases, such as `mysql` and `mariadb`.
+- `schemas`: List of all schemas to collect data from for source database types
+  that support multiple schemas, such as `oracle`, `postgresql`, and `sqlserver`.
+- `tables`: List of all tables to collect data from. Each table is identified by its
+  full name, including a database or schema prefix. If there is a single 
+  database or schema, this prefix can be omitted. 
+  For each table, you can specify:
   - `columns`: A list of the columns you are interested in (the default is to
-    include all columns if you don't supply a list)
+    include all columns)
   - `keys`: A list of columns to create a composite key if your table
     doesn't already have a [`PRIMARY KEY`](https://www.w3schools.com/sql/sql_primarykey.asp) or
     [`UNIQUE`](https://www.w3schools.com/sql/sql_unique.asp) constraint.
+  - `snapshot_sql`: A query to be used when performing the initial snapshot.
+    By default, a query that contains all listed columns of all listed tables will be used.
 - `advanced`: These optional properties configure other Debezium-specific features.
   The available sub-sections are:
-  - `sink`: All advanced properties for writing to RDI (TLS, memory threshold, etc).
+  - `source`: Properties for reading from the source database.
+    See the Debezium [Source connectors](https://debezium.io/documentation/reference/stable/connectors/)
+    pages for more information about the properties available for each database type.
+  - `sink`: Properties for writing to Redis streams in the RDI database.
     See the Debezium [Redis stream properties](https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream)
     page for the full set of available properties.
-  - `source`: All advanced connector properties (for example, RAC nodes).
-    See [Database-specific connection properties](#db-connect-props) below and also
-    see the
-    Debezium [Connectors](https://debezium.io/documentation/reference/stable/connectors/)
-    pages for more information about the properties available for each database type.
-  - `quarkus`: All advanced properties for Debezium server, such as the log level. See the
+  - `quarkus`: Properties for the Debezium server, such as the log level. See the
     Quarkus [Configuration options](https://quarkus.io/guides/all-config)
     docs for the full set of available properties.
 
@@ -244,10 +256,16 @@ configuration contains the following data:
 Use this section to provide the connection details for the target Redis
 database(s). As with the sources, you should start each target section
 with a unique name that you are free to choose (here, we have used
-`my-redis` as an example). In the `connection` section, you can supply the
-`type` of target database, which will generally be `redis` along with the
-`host` and `port` of the server. You can also supply connection credentials
-and TLS/mTLS secrets here if you use them.
+`target` as an example). In the `connection` section, you can specify the
+`type` of the target database, which must be `redis`, along with 
+connection details such as `host`, `port`, and credentials (`username` and `password`).
+If you use [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security)/
+or [mTLS](https://en.wikipedia.org/wiki/Mutual_authentication#mTLS) to connect 
+to the target database, you must specify the CA certificate (for TLS), 
+and the client certificate and private key (for mTLS) in `cacert`, `cert`, and `key`.
+Note that these certificates **must** be references to secrets
+that you should set as described in [Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}})
+(it is not possible to include these certificates as plain text in the file).
 
 {{< note >}}If you specify `localhost` as the address of either the source or target server during
 installation then the connection will fail if the actual IP address changes for the local
@@ -301,8 +319,7 @@ The main sections of these files are:
 
 - `source`: This is a mandatory section that specifies the data items that you want to 
   use. You can add the following properties here:
-  - `server_name`: Logical server name (optional). This corresponds to the `debezium.source.topic.prefix`
-  property specified in the Debezium Server's `application.properties` config file.
+  - `server_name`: Logical server name (optional).
   - `db`: Database name (optional)
   - `schema`: Database schema (optional)
   - `table`: Database table name. This refers to a table name you supplied in `config.yaml`. The default
@@ -319,7 +336,7 @@ The main sections of these files are:
   *transformation block* that will use the parameters supplied in the `with` section. See the 
   [data transformation reference]({{< relref "/integrate/redis-data-integration/reference/data-transformation" >}})
   for more details about the supported transformation blocks, and also the
-  [JMESPath custom functions]({{< relref "/integrate/redis-data-integration/reference/jmespath-custom-functions" >}}) reference.
+  [JMESPath custom functions]({{< relref "/integrate/redis-data-integration/reference/jmespath-custom-functions" >}}) reference. You can test your transformation logic using the [dry run]({{< relref "/integrate/redis-data-integration/reference/api-reference/#tag/secure/operation/job_dry_run_api_v1_pipelines_jobs_dry_run_post" >}}) feature in the API. 
 
   {{< note >}}If you set `row_format` to `full` under the `source` settings, you can access extra data from the
   change record in the transformation:
@@ -401,10 +418,9 @@ When your configuration is ready, you must deploy it to start using the pipeline
 [Deploy a pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})
 to learn how to do this.
 
-## Ingest pipeline lifecycle
+## Pipeline lifecycle
 
-Once you have created the configuration for a pipeline, it goes through the
-following phases:
+A pipeline goes through the following phases:
 
 1. *Deploy* - when you deploy the pipeline, RDI first validates it before use.
 Then, the [operator]({{< relref "/integrate/redis-data-integration/architecture#how-rdi-is-deployed">}}) creates and configures the collector and stream processor that will run the pipeline.
@@ -416,8 +432,8 @@ hours to complete if you have a lot of data.
 the source data. Whenever a change is committed to the source, the collector captures
 it and adds it to the target through the pipeline. This phase continues indefinitely
 unless you change the pipeline configuration. 
-1. *Update* - If you update the pipeline configuration, the operator starts applying it
-to the processor and the collector. Note that the changes only affect newly-captured
+1. *Update* - If you update the pipeline configuration, the operator applies it
+to the collector and the stream processor. Note that the changes only affect newly-captured
 data unless you reset the pipeline completely. Once RDI has accepted the updates, the
 pipeline returns to the CDC phase with the new configuration.
 1. *Reset* - There are circumstances where you might want to rebuild the dataset

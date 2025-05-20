@@ -123,3 +123,12 @@ JSON. The _MessagePack_ column is for reference purposes and reflects the length
 
 > Note: In the current version, deleting values from containers **does not** free the container's
 allocated memory.
+
+## JSON string reuse mechanism
+
+Redis uses a global string reuse mechanism to reduce memory usage. When a string value appears multiple times, either within the same JSON document
+or across different documents on the same node, Redis stores only a single copy of that string and uses references to it.
+This approach is especially efficient when many documents share similar structures.
+
+However, the `JSON.DEBUG MEMORY` command reports memory usage as if each string instance is stored independently, even when it's actually reused.
+For example, the document `{"foo": ["foo", "foo"]}` reuses the string `"foo"` internally, but the reported memory usage counts the string three times: once for the key and once for each array element.

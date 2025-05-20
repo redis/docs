@@ -23,7 +23,7 @@ If you prefer a custom scoring function, it is possible to add more functions us
 
 The following is a list of the pre-bundled scoring functions available in Redis and a short explanation about how they work. Each function is mentioned by registered name, which can be passed as a `SCORER` argument in [`FT.SEARCH`]({{< relref "/commands/ft.search/" >}}).
 
-## TFIDF (default)
+## TFIDF
 
 Basic [TF-IDF scoring](https://en.wikipedia.org/wiki/Tf%E2%80%93idf) with a few extra features:
 
@@ -76,7 +76,7 @@ Term frequencies are normalized by the length of the document, expressed as the 
 FT.SEARCH myIndex "foo" SCORER TFIDF.DOCNORM
 ```
 
-## BM25
+## BM25 (default)
 
 A variation on the basic `TFIDF` scorer, see [this Wikipedia article for more info](https://en.wikipedia.org/wiki/Okapi_BM25).
 

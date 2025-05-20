@@ -58,3 +58,17 @@ The following table shows the relationship between a database's status and avail
 | import-pending  | <span title="Available">&#x2705;</span> Available |
 | pending         | <span title="Available">&#x2705;</span> Available |
 | recovery        | <span title="Not available">:x:</span> Not available |
+
+## Known issues
+
+- RS155734: Endpoint availability metrics do not work as expected due to a calculation error. As a workaround, use this query to measure availability:
+
+    ```sh
+    endpoint_server_became_unavailable{cluster="$cluster", db="$db"} 
+    - 
+    endpoint_server_available_again{cluster="$cluster", db="$db"}
+    ```
+
+    For up: 0-2
+
+    For down: 2-1000000
