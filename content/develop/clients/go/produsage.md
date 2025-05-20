@@ -43,9 +43,9 @@ every few seconds). You can do this using a simple
 [`PING`]({{< relref "/commands/ping" >}}) command:
 
 ```go
-res, err := rdb.Ping(ctx).Result()
+err := rdb.Ping(ctx).Err()
 
-if (err != nil) || (res != "PONG") {
+if err != nil {
   // Report failed health check.
 }
 ```
