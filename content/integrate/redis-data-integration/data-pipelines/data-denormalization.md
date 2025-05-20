@@ -36,7 +36,7 @@ called `InvoiceLineItems`:
 {{< image filename="/images/rdi/ingest/nest-flow.webp" width="500px" >}}
 
 
-When configuring normalization first you need to configure the parent entity to use JSON as the target data type. Add `data_type: json` to the parent job. Example:
+To configure normalization, you must first configure the parent entity to use JSON as the target data type. Add `data_type: json` to the parent job as shown in the example below:
 
 ```yaml
 # jobs/invoice.yaml
