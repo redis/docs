@@ -57,7 +57,7 @@ output:
       
 ```
 
-After that parent model is configured, it is time to configure the child entities. To do that use the `nest` block, as shown in this example:
+When you have configured the parent model, you must also configure the child entities. To do this, use the `nest` block, as shown in this example:
 
 ```yaml
 # jobs/invoice_line.yaml
