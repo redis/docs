@@ -135,7 +135,7 @@ the client and server, resulting in better performance. See
 [Client-side caching introduction]({{< relref "/develop/clients/client-side-caching" >}})
 for more information about how client-side caching works and how to use it effectively.
 
-{{< note >}}Client-side caching requires `node-redis` v5.?.? or later.
+{{< note >}}Client-side caching requires `node-redis` v5.1.0 or later.
 To maximize compatibility with all Redis products, client-side caching
 is supported by Redis v7.4 or later.
 
