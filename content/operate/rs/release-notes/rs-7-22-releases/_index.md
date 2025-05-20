@@ -115,6 +115,8 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 - RS156391: The `job_scheduler`'s memory usage can increase significantly when the diagnostic logging service is enabled.
 
+- RS153589: The metrics stream engine preview reports incorrect latency metrics.
+
 ## Known limitations
 
 #### Upload modules before OS upgrade
