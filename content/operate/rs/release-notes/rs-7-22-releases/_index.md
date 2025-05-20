@@ -101,6 +101,8 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 - RS131972: Creating an ACL that contains a line break in the Cluster Manager UI can cause shard migration to fail due to ACL errors.
 
+- RS155734: Endpoint availability metrics do not work as expected due to a calculation error.
+
 - RS156391: The `job_scheduler`'s memory usage can increase significantly when the diagnostic logging service is enabled.
 
 - RS153589: The metrics stream engine preview reports incorrect latency metrics.
