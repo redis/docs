@@ -382,11 +382,11 @@ Example of rule 2:
 > EXISTS bikes:repairs
 (integer) 1
 > LPOP bikes:repairs
-"bike:3"
+"bike:1"
 > LPOP bikes:repairs
 "bike:2"
 > LPOP bikes:repairs
-"bike:1"
+"bike:3"
 > EXISTS bikes:repairs
 (integer) 0
 {{< /clients-example >}}
