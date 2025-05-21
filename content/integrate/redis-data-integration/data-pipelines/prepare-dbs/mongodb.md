@@ -19,8 +19,8 @@ weight: 2
 This guide describes the steps required to prepare a MongoDB database as a source for Redis Data Integration (RDI) pipelines.
 
 ## Prerequisites
-- **MongoDB version:** 4.0 or later (replica set, sharded cluster, or MongoDB Atlas).
-- **User privileges:** You must have a MongoDB user with sufficient privileges to read the oplog and collections, and to use change streams (if required).
+- **MongoDB version:** 6.0 or later (replica set, sharded cluster, or MongoDB Atlas).
+- **User privileges:** You must have a MongoDB user with sufficient privileges to read the oplog and collections, and to use change streams.
 - **Network access:** The RDI Collector must be able to connect to all MongoDB nodes in your deployment.
 
 ## 1. Configure Oplog Size
