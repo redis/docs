@@ -252,6 +252,25 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 - RS131972: Creating an ACL that contains a line break in the Cluster Manager UI can cause shard migration to fail due to ACL errors.
 
+- RS151990: For RHEL 8 and RHEL 9 clusters, importing an RDB file can fail with the exception: `Failed to import rdb file: general-error`.
+
+    As a workaround:
+
+    1. On each cluster node, run:
+
+        ```sh
+        sudo dnf install boost-program-options
+        ```
+
+    1. Verify that `libboost_program_options.so.1.75.0` points to a path to confirm the installation succeeded:
+
+        ```sh
+        ldd /opt/redislabs/bin/rl_rdbloader
+        ```
+
+    This issue was fixed in [Redis Enterprise Software version 7.8.6-36]({{<relref "/operate/rs/release-notes/rs-7-8-releases/rs-7-8-6-36">}}).
+
+
 ## Known limitations
 
 #### Upload modules before OS upgrade
