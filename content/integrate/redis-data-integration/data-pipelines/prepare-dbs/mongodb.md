@@ -19,7 +19,7 @@ weight: 2
 This guide describes the steps required to prepare a MongoDB database as a source for Redis Data Integration (RDI) pipelines.
 
 ## Prerequisites
-- **MongoDB version:** 4.0 or later (standalone, replica set, sharded cluster, or MongoDB Atlas).
+- **MongoDB version:** 4.0 or later (replica set, sharded cluster, or MongoDB Atlas).
 - **User privileges:** You must have a MongoDB user with sufficient privileges to read the oplog and collections, and to use change streams (if required).
 - **Network access:** The RDI Collector must be able to connect to all MongoDB nodes in your deployment.
 
@@ -65,11 +65,11 @@ Example (Replica Set):
 ```
 mongodb://${SOURCE_DB_USERNAME}:${SOURCE_DB_PASSWORD}@host1:27017,host2:27017,host3:27017/?replicaSet=rs0&authSource=admin
 ```
-- For standalone or Atlas, adjust the connection string accordingly.
+- For Atlas, adjust the connection string accordingly.
 - Set replicaSet and authSource as appropriate for your deployment.
 
 ## 4. Enable Change Streams and Pre/Post Images (Only if Using a Custom Key)
-Change Streams: Required only if you are using a custom key in your RDI pipeline. Change streams are available by default on replica sets, sharded clusters, and MongoDB Atlas. For standalone deployments, ensure your MongoDB version supports change streams.
+Change Streams: Required only if you are using a custom key in your RDI pipeline. Change streams are available by default on replica sets, sharded clusters, and MongoDB Atlas.
 Pre/Post Images: If you use a custom key and want to capture full document changes on updates and deletes, enable pre- and post-images on collections as needed:
 ```javascript
 db.runCommand({
@@ -114,7 +114,7 @@ Or via the API `/collector/connection/validate` endpoint.
 ## Summary Table
 | Requirement         | Description                                                                 |
 |---------------------|-----------------------------------------------------------------------------|
-| MongoDB Topology    | Standalone, Replica Set, Sharded Cluster, or MongoDB Atlas                  |
+| MongoDB Topology    | Replica Set, Sharded Cluster, or MongoDB Atlas                              |
 | User Roles          | read, readAnyDatabase, clusterMonitor, changeStream                         |
 | Oplog               | Sufficient size for snapshot and streaming                                  |
 | Pre/Post Images     | Enable on collections **only if using a custom key**                        |
