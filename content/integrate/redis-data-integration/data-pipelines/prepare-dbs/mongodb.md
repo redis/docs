@@ -24,24 +24,13 @@ This guide describes the steps required to prepare a MongoDB database as a sourc
 - **Network access:** The RDI Collector must be able to connect to all MongoDB nodes in your deployment.
 
 ## 1. Configure Oplog Size
-Ensure the oplog is large enough to retain changes for the duration of your RDI pipeline's snapshot and streaming operations.
-
-- Check oplog size:
-```javascript
-db.printReplicationInfo();
-```
-- Resize the oplog (run on the PRIMARY):
-```bash
-mongod --replSet <replSetName> --oplogSize <sizeInMB>
-```
+Ensure the oplog is large enough to retain changes for the duration of your RDI pipeline's snapshot and streaming operations. 
+Follow the MongoDB [documentation](https://www.mongodb.com/docs/manual/tutorial/change-oplog-size/) to check and resize (if necessary) the oplog size.
 
 ## 2. Create a MongoDB User for RDI
 Create a user with the following roles on the source database:
-- read
 - readAnyDatabase
 - clusterMonitor
-- changeStream
-- readWrite (if you want to test writes)
 
 Example:
 ```javascript
@@ -50,10 +39,8 @@ db.createUser({
   user: "rdi_user",
   pwd: "rdi_password",
   roles: [
-    { role: "read", db: "your_db" },
     { role: "readAnyDatabase", db: "admin" },
-    { role: "clusterMonitor", db: "admin" },
-    { role: "changeStream", db: "admin" }
+    { role: "clusterMonitor", db: "admin" }
   ]
 });
 ```
@@ -65,12 +52,16 @@ Example (Replica Set):
 ```
 mongodb://${SOURCE_DB_USERNAME}:${SOURCE_DB_PASSWORD}@host1:27017,host2:27017,host3:27017/?replicaSet=rs0&authSource=admin
 ```
+Example (Sharded Cluster):
+```
+mongodb://${SOURCE_DB_USERNAME}:${SOURCE_DB_PASSWORD}@host:30000
+```
 - For Atlas, adjust the connection string accordingly.
 - Set replicaSet and authSource as appropriate for your deployment.
 
 ## 4. Enable Change Streams and Pre/Post Images (Only if Using a Custom Key)
 Change Streams: Required only if you are using a custom key in your RDI pipeline. Change streams are available by default on replica sets, sharded clusters, and MongoDB Atlas.
-Pre/Post Images: If you use a custom key and want to capture full document changes on updates and deletes, enable pre- and post-images on collections as needed:
+Pre/Post Images: If your RDI pipeline uses a custom key, you must enable pre- and post-images on the relevant collections to capture the document state before and after updates or deletes. This allows RDI to access both the previous and updated versions of documents during change events, ensuring accurate synchronization.
 ```javascript
 db.runCommand({
   collMod: "your_collection",
@@ -88,20 +79,15 @@ The root CA certificate for MongoDB Atlas must be added as a SOURCE_DB_CACERT se
 
 Example connection string for Atlas:
 ```
-mongodb+srv://rdi_user:rdi_password@cluster0.mongodb.net/?authSource=admin&tls=true
+mongodb+srv://${SOURCE_DB_USERNAME}:${SOURCE_DB_PASSWORD}@cluster0.mongodb.net/?authSource=admin&tls=true
 ```
 
 ## 6. Network and Security
 - Ensure the RDI Collector can connect to all MongoDB nodes on the required ports (default: 27017, or as provided by Atlas).
 - If using TLS/SSL, provide the necessary certificates and connection options in the connection string.
 
-## 7. Test the Connection
-You can test the connection using the RDI CLI or API:
-```bash
-redis-di pipelines validate-source --db-type mongodb \
-  --connection-string "mongodb+srv://rdi_user:rdi_password@cluster0.mongodb.net/?authSource=admin&tls=true"
-```
-Or via the API `/collector/connection/validate` endpoint.
+## 7. Configuration is complete
+Once you have followed the steps above, your MongoDB database is ready for Debezium to use.
 
 ## Additional Resources
 - [MongoDB Replica Set Documentation](https://www.mongodb.com/docs/manual/replication/)
@@ -115,7 +101,7 @@ Or via the API `/collector/connection/validate` endpoint.
 | Requirement         | Description                                                                 |
 |---------------------|-----------------------------------------------------------------------------|
 | MongoDB Topology    | Replica Set, Sharded Cluster, or MongoDB Atlas                              |
-| User Roles          | read, readAnyDatabase, clusterMonitor, changeStream                         |
+| User Roles          | readAnyDatabase, clusterMonitor                                             |
 | Oplog               | Sufficient size for snapshot and streaming                                  |
 | Pre/Post Images     | Enable on collections **only if using a custom key**                        |
 | Connection String   | Must include all hosts, replicaSet (if applicable), authSource, credentials |
