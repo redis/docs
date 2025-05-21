@@ -19,7 +19,7 @@ weight: 2
 
 [`FT.AGGREGATE`]({{< relref "/commands/ft.aggregate" >}}) is a powerful Redis Query Engine (RQE) command for performing advanced data aggregation, filtering, sorting, and transformations on indexed hash or JSON documents. This reference page provides a structured breakdown of syntax, ordering rules, and best practices.
 
-The [main aggregations page]({{< relref "/develop/interact/search-and-query/advanced-concepts/aggregations" >}}) has a simple diagram showing how `FT.AGGREGATE` pipelines are constructed, but it doesn't tell the whole story. For example, it's possible to create more complex aggregation pipelines by applying multiple `REDUCE` functions under a single `GROUPBY` clause, or you can chain groupings and mix in additional mapping steps:
+The [main aggregations page]({{< relref "/develop/interact/search-and-query/advanced-concepts/aggregations" >}}) has a simple diagram showing how `FT.AGGREGATE` pipelines are constructed, but it doesn't tell the whole story. For example, you can create more complex aggregation pipelines by applying multiple `REDUCE` functions under a single `GROUPBY` clause, or you can chain groupings and mix in additional mapping steps:
 
 `GROUPBY` ... `REDUCE` ... `APPLY` ... `GROUPBY` ... `REDUCE`
 
@@ -46,9 +46,9 @@ Other keywords will be discussed toward the end of this page.
 
 ## When to use `@`
 
-Fields must be preceded by `@` in the following circumstances:
+You must add `@` at the start of a field name in the following circumstances:
 
-- When referencing fields loaded from documents. In the following example, `price` is a document field and must be prefixed wit `@`.
+- When referencing fields loaded from documents. In the following example, `price` is a document field and must be prefixed with `@`.
 
 ```sh
 FT.AGGREGATE products "*"
@@ -124,7 +124,7 @@ FT.AGGREGATE products "*"
 
 ## Multiple APPLY operations followed by GROUPBY and REDUCE
 
-`APPLY` can be used in various ways before and after `GROUPBY` and `REDUCE`.
+You can use `APPLY` in various ways before and after `GROUPBY` and `REDUCE`.
 
 ```sh
 FT.AGGREGATE products "*"
@@ -139,7 +139,7 @@ FT.AGGREGATE products "*"
 
 ## FILTER and PARAMS
 
-`FILTER` is used to remove unwanted records, while `PARAMS` allows parameterized queries.
+Use `FILTER` to remove unwanted records, and `PARAMS` to pass values to parameterized queries.
 
 ```sh
 FT.AGGREGATE products "*"
