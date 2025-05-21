@@ -75,11 +75,11 @@ The root CA certificate for MongoDB Atlas must be added as a SOURCE_DB_CACERT se
 
 - Download the MongoDB Atlas root CA certificate.
 - In RDI, add this certificate as a secret named SOURCE_DB_CACERT.
-- Ensure your connection string includes ssl=true or tls=true and references the CA certificate if required by your deployment.
+- Ensure that the `mongodb.ssl.enabled: true` setting is present in your RDI configuration.
 
 Example connection string for Atlas:
 ```
-mongodb+srv://${SOURCE_DB_USERNAME}:${SOURCE_DB_PASSWORD}@cluster0.mongodb.net/?authSource=admin&tls=true
+mongodb+srv://${SOURCE_DB_USERNAME}:${SOURCE_DB_PASSWORD}@cluster0.mongodb.net/?authSource=admin
 ```
 
 ## 6. Network and Security
