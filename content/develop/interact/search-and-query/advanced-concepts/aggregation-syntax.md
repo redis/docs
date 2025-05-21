@@ -176,7 +176,7 @@ This is not allowed and you'll get a syntax error.
 
 ## LIMIT and WITHCURSOR used together
 
-In practical terms, `LIMIT` and `WITHCURSOR` are mutually exclusive. However, they can be used together.
+While you wouldn't ordinarily use `LIMIT` and `WITHCURSOR` together in the same query, you can use them advantageously if doing so fits your workflow.
 `LIMIT` returns immediate results, while `WITHCURSOR` retrieves results incrementally using the [cursor API]({{< relref "/develop/interact/search-and-query/advanced-concepts/aggregations/#cursor-api" >}}).
 
 ```sh
