@@ -38,7 +38,7 @@ Redis Enterprise Software supports various database configurations:
 
 - **Standard Redis database** - A single Redis shard with no
     replication or clustering.
-- **[Highly available Redis database]({{< relref "/operate/rs/databases/durability-ha/replication" >}})** - Every database master shard
+- [**Highly available Redis database**]({{< relref "/operate/rs/databases/durability-ha/replication" >}}) - Every database master shard
     has a replica shard, so that if the master shard fails the
     cluster can automatically fail over to the replica with minimal impact. Master and replica shards are always placed on separate
     nodes to ensure high availability.
