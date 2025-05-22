@@ -42,7 +42,7 @@ Redis Enterprise Software supports various database configurations:
     has a replica shard, so that if the master shard fails the
     cluster can automatically fail over to the replica with minimal impact. Master and replica shards are always placed on separate
     nodes to ensure high availability.
-- **[Clustered Redis database]({{< relref "/operate/rs/databases/durability-ha/clustering" >}})** - The data stored in the database is
+- [**Clustered Redis database**]({{< relref "/operate/rs/databases/durability-ha/clustering" >}}) - The data stored in the database is
     split across several shards. The number of shards can be defined by
     the user. Various performance optimization algorithms define where
     shards are placed within the cluster. During the lifetime of the
