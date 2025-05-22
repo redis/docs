@@ -120,7 +120,7 @@ Some of the primary functionalities of the cluster manager include:
 - Monitoring databases and endpoints across all nodes
 - Running the database resharding process
 - Running the database provisioning and de-provisioning processes
-- Gathering [operational statistics]({{< relref "/operate/rs/clusters/monitoring" >}})
+- Gathering [operational statistics]({{< relref "/operate/rs/monitoring" >}})
 - Enforcing [license and subscription limitations]({{< relref "/operate/rs/clusters/configure/license-keys" >}})
 
 You can manage your Redis Enterprise Software clusters using the [Cluster Manager UI]({{< relref "/operate/rs/clusters/configure" >}}), [command-line tools]({{< relref "/operate/rs/references/cli-utilities" >}}), or the [REST API]({{< relref "/operate/rs/references/rest-api" >}}).
