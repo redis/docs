@@ -70,9 +70,14 @@ mongodb://${SOURCE_DB_USERNAME}:${SOURCE_DB_PASSWORD}@host:30000
 - For Atlas, adjust the connection string accordingly (see example below).
 - Set `replicaSet` and `authSource` as appropriate for your deployment.
 
-## 4. Enable Change Streams and Pre/Post Images (Only if Using a Custom Key)
-Change Streams: Required only if you are using a custom key in your RDI pipeline. Change streams are available by default on replica sets, sharded clusters, and MongoDB Atlas.
-Pre/Post Images: If your RDI pipeline uses a custom key, you must enable pre- and post-images on the relevant collections to capture the document state before and after updates or deletes. This allows RDI to access both the previous and updated versions of documents during change events, ensuring accurate synchronization.
+## 4. Enable change streams and pre/post images (only if using a custom key)
+
+Change Streams are required only if you are using a custom key in your RDI pipeline. Change streams are available by default on replica sets, sharded clusters, and MongoDB Atlas.
+
+If your RDI pipeline uses a custom key, you must enable pre- and post-images on the relevant collections to capture the document state before and after updates or deletes. This allows RDI to access both the previous and updated versions of documents during change events, ensuring accurate synchronization.
+
+Use the command below to enable change streams and pre/post images:
+
 ```javascript
 db.runCommand({
   collMod: "your_collection",
