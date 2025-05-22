@@ -1,6 +1,5 @@
 ---
 Title: Prepare MongoDB for RDI
-aliases: /integrate/redis-data-integration/ingest/data-pipelines/prepare-dbs/mongodb/
 alwaysopen: false
 categories:
 - docs
