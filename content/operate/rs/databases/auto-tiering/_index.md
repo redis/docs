@@ -86,7 +86,7 @@ we recommend working closely with the Redis technical team for sizing and perfor
 
 When running in a cloud environment:
 
-- Flash memory is on the ephemeral SSDs of the cloud instance (for example the local NVMe of AWS i4i instnaces and Azure Lsv2 and Lsv3 series).
+- Flash memory is on the ephemeral SSDs of the cloud instance (for example the local NVMe of AWS i4i instances and Azure Lsv2 and Lsv3 series).
 - Persistent database storage needs to be network attached (for example, AWS EBS for AWS).
 
 {{<note>}}
