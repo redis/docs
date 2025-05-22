@@ -101,7 +101,8 @@ db.runCommand({
 });
 ```
 
-## 5. MongoDB Atlas Specific Requirements
+## 5. MongoDB Atlas specific requirements
+
 MongoDB Atlas only supports secure connections via SSL.
 The root CA certificate for MongoDB Atlas must be added as a SOURCE_DB_CACERT secret in RDI.
 
