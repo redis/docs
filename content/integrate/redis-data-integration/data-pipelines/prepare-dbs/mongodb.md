@@ -67,8 +67,8 @@ Example (Sharded Cluster):
 ```
 mongodb://${SOURCE_DB_USERNAME}:${SOURCE_DB_PASSWORD}@host:30000
 ```
-- For Atlas, adjust the connection string accordingly (see example bellow).
-- Set replicaSet and authSource as appropriate for your deployment.
+- For Atlas, adjust the connection string accordingly (see example below).
+- Set `replicaSet` and `authSource` as appropriate for your deployment.
 
 ## 4. Enable Change Streams and Pre/Post Images (Only if Using a Custom Key)
 Change Streams: Required only if you are using a custom key in your RDI pipeline. Change streams are available by default on replica sets, sharded clusters, and MongoDB Atlas.
