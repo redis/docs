@@ -35,7 +35,8 @@ To prevent this, ensure the oplog retains enough history for Debezium to resume 
 
 For detailed guidance, see the Debezium [oplog configuration documentation](https://debezium.io/documentation/reference/stable/connectors/mongodb.html#mongodb-optimal-oplog-config).
 
-## 2. Create a MongoDB User for RDI
+## 2. Create a MongoDB user for RDI
+
 Create a user with the following roles on the source database:
 - `readAnyDatabase` (optional) OR grant `read` for the specific database(s) you will use with RDI
 - `clusterMonitor`
