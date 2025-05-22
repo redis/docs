@@ -23,13 +23,22 @@ This guide describes the steps required to prepare a MongoDB database as a sourc
 - **User privileges:** You must have a MongoDB user with sufficient privileges to read the oplog and collections, and to use change streams.
 - **Network access:** The RDI Collector must be able to connect to all MongoDB nodes in your deployment.
 
+{{< note >}}The MongoDB connector is not capable of monitoring the changes of a standalone MongoDB server, since standalone servers do not have an oplog. The connector will work if the standalone server is converted to a replica set with one member.{{< /note >}}
+
 ## 1. Configure Oplog Size
-Ensure the oplog is large enough to retain changes for the duration of your RDI pipeline's snapshot and streaming operations. 
-Follow the MongoDB [documentation](https://www.mongodb.com/docs/manual/tutorial/change-oplog-size/) to check and resize (if necessary) the oplog size.
+The Debezium MongoDB connector relies on the oplog to capture changes from a replica set. The oplog is a fixed-size, capped collection when it reaches its maximum size, it overwrites the oldest entries. If the connector is stopped and restarted, it attempts to resume from its last recorded position in the oplog. If that position has been overwritten, the connector may fail to start and report an invalid resume token error.
+
+To prevent this, ensure the oplog retains enough history for Debezium to resume streaming after interruptions. You can do this by:
+
+- **Increasing the oplog size:** Set the oplog size based on your workload, ensuring it can store more than the peak number of oplog entries generated per hour.
+- **Setting a minimum oplog retention period (MongoDB 4.4+):** Configure MongoDB to retain oplog entries for a minimum number of hours, guaranteeing availability even if the oplog reaches its maximum size. This is generally preferred, but for high-throughput clusters nearing capacity, you may need to increase the oplog size instead.
+
+For detailed guidance, see the Debezium [oplog configuration documentation](https://debezium.io/documentation/reference/stable/connectors/mongodb.html#mongodb-optimal-oplog-config).
 
 ## 2. Create a MongoDB User for RDI
 Create a user with the following roles on the source database:
-- readAnyDatabase
+- read
+- readAnyDatabase (optional if you don't want to give `read` role for each database)
 - clusterMonitor
 
 Example:
@@ -39,7 +48,8 @@ db.createUser({
   user: "rdi_user",
   pwd: "rdi_password",
   roles: [
-    { role: "readAnyDatabase", db: "admin" },
+    { role: "read", db: "your_database" }, // You can have multiple read roles. One per database.
+    // { role: "readAnyDatabase", db: "admin" }, // Use this role if you don't want to give `read` role for each database.
     { role: "clusterMonitor", db: "admin" }
   ]
 });
@@ -56,7 +66,7 @@ Example (Sharded Cluster):
 ```
 mongodb://${SOURCE_DB_USERNAME}:${SOURCE_DB_PASSWORD}@host:30000
 ```
-- For Atlas, adjust the connection string accordingly.
+- For Atlas, adjust the connection string accordingly (see example bellow).
 - Set replicaSet and authSource as appropriate for your deployment.
 
 ## 4. Enable Change Streams and Pre/Post Images (Only if Using a Custom Key)
