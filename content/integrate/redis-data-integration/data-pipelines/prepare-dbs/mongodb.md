@@ -115,7 +115,8 @@ Example connection string for Atlas:
 mongodb+srv://${SOURCE_DB_USERNAME}:${SOURCE_DB_PASSWORD}@cluster0.mongodb.net/?authSource=admin
 ```
 
-## 6. Network and Security
+## 6. Network and security
+
 - Ensure the RDI Collector can connect to all MongoDB nodes on the required ports (default: 27017, or as provided by Atlas).
 - If using TLS/SSL, provide the necessary certificates and connection options in the connection string.
 
