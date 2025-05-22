@@ -26,7 +26,7 @@ This guide describes the steps required to prepare a MongoDB database as a sourc
 {{< note >}}The MongoDB connector is not capable of monitoring the changes of a standalone MongoDB server, since standalone servers do not have an oplog. The connector will work if the standalone server is converted to a replica set with one member.{{< /note >}}
 
 ## 1. Configure Oplog Size
-The Debezium MongoDB connector relies on the oplog to capture changes from a replica set. The oplog is a fixed-size, capped collection when it reaches its maximum size, it overwrites the oldest entries. If the connector is stopped and restarted, it attempts to resume from its last recorded position in the oplog. If that position has been overwritten, the connector may fail to start and report an invalid resume token error.
+The Debezium MongoDB connector relies on the [oplog](https://www.mongodb.com/docs/manual/core/replica-set-oplog/) to capture changes from a replica set. The oplog is a fixed-size, capped collection. When it reaches its maximum size, it overwrites the oldest entries. If the connector is stopped and restarted, it attempts to resume from its last recorded position in the oplog. If that position has been overwritten, the connector may fail to start and report an invalid resume token error.
 
 To prevent this, ensure the oplog retains enough history for Debezium to resume streaming after interruptions. You can do this by:
 
