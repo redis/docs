@@ -24,6 +24,19 @@ This guide describes the steps required to prepare a MongoDB database as a sourc
 - **Network access:** The RDI Collector must be able to connect to all MongoDB nodes in your deployment.
 
 {{< note >}}The MongoDB connector is not capable of monitoring the changes of a standalone MongoDB server, since standalone servers do not have an oplog. The connector will work if the standalone server is converted to a replica set with one member.{{< /note >}}
+## Summary
+
+The following table summarizes the steps to prepare a MongoDB database for RDI. The sections below explain the steps in more detail.
+
+| Requirement         | Description                                                                 |
+|---------------------|-----------------------------------------------------------------------------|
+| MongoDB Topology    | Replica Set, Sharded Cluster, or MongoDB Atlas                              |
+| User Roles          | readAnyDatabase, clusterMonitor                                             |
+| Oplog               | Sufficient size for snapshot and streaming                                  |
+| Pre/Post Images     | Enable on collections **only if using a custom key**                        |
+| Connection String   | Must include all hosts, replicaSet (if applicable), authSource, credentials |
+| MongoDB Atlas       | **[SSL required](https://debezium.io/documentation/reference/stable/connectors/mongodb.html#mongodb-property-mongodb-ssl-enabled)**, provide root CA as `SOURCE_DB_CACERT` secret in RDI       |
+| Network             | RDI Collector must reach all MongoDB nodes on required ports                |
 
 ## 1. Configure Oplog Size
 The Debezium MongoDB connector relies on the [oplog](https://www.mongodb.com/docs/manual/core/replica-set-oplog/) to capture changes from a replica set. The oplog is a fixed-size, capped collection. When it reaches its maximum size, it overwrites the oldest entries. If the connector is stopped and restarted, it attempts to resume from its last recorded position in the oplog. If that position has been overwritten, the connector may fail to start and report an invalid resume token error.
