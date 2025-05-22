@@ -15,7 +15,7 @@ Here are explanations of some of the terms used in Redis Enterprise Software.
 
 A _node_ is a physical machine, virtual machine, container or cloud
 instance on which the RS installation package was installed and the
-setup process was run in order to make the machine part of the cluster.
+[setup process]({{< relref "/operate/rs/clusters/new-cluster-setup" >}}) was run in order to make the machine part of the cluster.
 
 Each node is a container for running multiple Redis
 instances, referred to as "shards".
@@ -27,7 +27,7 @@ if a cluster has only one node you cannot enable database replication,
 which helps to achieve high availability.
 
 A node is made up of several components, as detailed below, and works
-together with the other cluster nodes.
+together with the other cluster nodes. You can [add nodes]({{< relref "/operate/rs/clusters/add-node" >}}), [remove nodes]({{< relref "/operate/rs/clusters/remove-node" >}}), or [replace nodes]({{< relref "/operate/rs/clusters/replace-node" >}}) as needed.
 
 ## Redis instance (shard)
 
@@ -38,18 +38,20 @@ Redis Enterprise Software supports various database configurations:
 
 - **Standard Redis database** - A single Redis shard with no
     replication or clustering.
-- **Highly available Redis database** - Every database master shard
+- **[Highly available Redis database]({{< relref "/operate/rs/databases/durability-ha/replication" >}})** - Every database master shard
     has a replica shard, so that if the master shard fails the
     cluster can automatically fail over to the replica with minimal impact. Master and replica shards are always placed on separate
     nodes to ensure high availability.
-- **Clustered Redis database** - The data stored in the database is
+- **[Clustered Redis database]({{< relref "/operate/rs/databases/durability-ha/clustering" >}})** - The data stored in the database is
     split across several shards. The number of shards can be defined by
     the user. Various performance optimization algorithms define where
     shards are placed within the cluster. During the lifetime of the
-    cluster, these algorithms might migrate a shard between nodes.
+    cluster, these algorithms might [migrate a shard]({{< relref "/operate/rs/databases/migrate-shards" >}}) between nodes.
 - **Clustered and highly available Redis database** - Each master shard
     in the clustered database has a replica shard, enabling failover if
     the master shard fails.
+
+You can configure [shard placement]({{< relref "/operate/rs/databases/configure/shard-placement" >}}) to optimize performance and availability.
 
 ## Proxy
 
@@ -65,9 +67,11 @@ and employs various optimization methods. For example, to help ensure
 high-throughput and low-latency performance, the proxy might use
 instruction pipelining even if not instructed to do so by the client.
 
+You can configure [proxy policies]({{< relref "/operate/rs/databases/configure/proxy-policy" >}}) to determine which nodes' proxies are active and bound to databases.
+
 ## Database endpoint
 
-Each database is served by a database endpoint that is part of and
+Each database is served by a [database endpoint]({{< relref "/operate/rs/databases/connect/test-client-connectivity" >}}) that is part of and
 managed by the proxies. The endpoint oversees forwarding Redis
 operations to specific database shards.
 
@@ -87,6 +91,8 @@ have to reside within the same node in the cluster.
 In the case of a clustered database with multiple database shards, only
 one master endpoint acts as the master endpoint for all master shards,
 forwarding Redis operations to all shards as needed.
+
+For high availability, you can configure [private and public endpoints]({{< relref "/operate/rs/networking/private-public-endpoints" >}}) for your databases.
 
 ## Cluster manager
 
@@ -114,6 +120,8 @@ Some of the primary functionalities of the cluster manager include:
 - Monitoring databases and endpoints across all nodes
 - Running the database resharding process
 - Running the database provisioning and de-provisioning processes
-- Gathering operational statistics
-- Enforcing license and subscription limitations
+- Gathering [operational statistics]({{< relref "/operate/rs/clusters/monitoring" >}})
+- Enforcing [license and subscription limitations]({{< relref "/operate/rs/clusters/configure/license-keys" >}})
+
+You can manage your Redis Enterprise Software clusters using the [Cluster Manager UI]({{< relref "/operate/rs/clusters/configure" >}}), [command-line tools]({{< relref "/operate/rs/references/cli-utilities" >}}), or the [REST API]({{< relref "/operate/rs/references/rest-api" >}}).
 
