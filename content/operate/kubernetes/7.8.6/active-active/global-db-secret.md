@@ -11,7 +11,7 @@ linkTitle: Global database secret
 weight: 50
 url: '/operate/kubernetes/7.8.6/active-active/global-db-secret/'
 ---
-{{<note>}}This feature is supported for general availability in releases 6.4.2-6 and later. Some of these features were available as a preview in 6.4.2-4 and 6.4.2-5. Please upgrade to 6.4.2-6 for the full set of general availability features and bug fixes.{{</note>}}
+
 
 ## Set global database secret
 
