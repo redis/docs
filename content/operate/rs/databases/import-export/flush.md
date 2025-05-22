@@ -7,8 +7,8 @@ categories:
 - rs
 description: To delete the data in a database without deleting the database, you can
   use Redis CLI to flush it from the database. Learn how to flush data from standard databases,
-  OSS Cluster API databases, and Active-Active databases using Redis CLI, the admin
-  console, and the Redis Software REST API.
+  OSS Cluster API databases, and Active-Active databases using Redis CLI, the Cluster Manager UI, 
+  and the Redis Software REST API.
 linkTitle: Flush database
 weight: 40
 ---
