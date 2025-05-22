@@ -71,7 +71,8 @@ db.createUser({
 });
 ```
 
-## 3. Connection String Format
+## 3. Connection string format
+
 The RDI Collector requires a MongoDB connection string that includes all relevant hosts and authentication details.
 
 Example (Replica Set):
