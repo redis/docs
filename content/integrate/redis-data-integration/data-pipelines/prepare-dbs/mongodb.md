@@ -47,8 +47,10 @@ db.createUser({
   user: "rdi_user",
   pwd: "rdi_password",
   roles: [
-    { role: "read", db: "your_database" }, // You can have multiple read roles. One per database.
-    // { role: "readAnyDatabase", db: "admin" }, // Use this role if you don't want to give `read` role for each database.
+     // You can have multiple read roles, one per database.
+    { role: "read", db: "your_database" },
+    // Use the role below if you don't want to grant the `read` role for each database.
+    // { role: "readAnyDatabase", db: "admin" },
     { role: "clusterMonitor", db: "admin" }
   ]
 });
