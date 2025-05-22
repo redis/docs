@@ -54,7 +54,7 @@ Follow these steps to flush all data from an OSS Cluster API database:
    dig +noall +answer <database-endpoint>
    ```
 
-2. Connect to each IP address using redis-cli and execute the `FLUSHDB` command:
+2. Connect to each IP address using [`redis-cli`]({{<relref "/operate/rs/references/cli-utilities/redis-cli">}}) and run the [`FLUSHDB`]({{<relref "/commands/flushdb">}}) command:
 
    ```sh
    redis-cli -h <ip-address> -p <port> flushdb
