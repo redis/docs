@@ -73,9 +73,9 @@ Follow these steps to flush all data from an OSS Cluster API database:
 2. Connect to each IP address and flush the data:
 
    ```sh
-   $ redis-cli -h 52.200.243.146 -p 19674 flushdb
+   $ redis-cli -h 192.0.2.0 -p 19674 flushdb
    OK
-   $ redis-cli -h 54.235.52.171 -p 19674 flushdb
+   $ redis-cli -h 198.51.100.0 -p 19674 flushdb
    OK
    ```
 
