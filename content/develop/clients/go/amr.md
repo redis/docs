@@ -26,6 +26,9 @@ letting `go-redis-entraid` fetch and renew the authentication tokens for you aut
 
 ## Install
 
+Install [`go-redis`]({{< relref "/develop/clients/go" >}}) if you
+have not already done so.
+
 From a Go module folder, install `go-redis-entraid` with the
 following command:
 
@@ -43,10 +46,10 @@ to create the `StreamingCredentialsProvider` instances for AMR
 using the factory functions that `go-redis-entraid` provides.
 
 
-### `CredentialProvider` for a service principal
+### `StreamingCredentialsProvider` for a service principal
 
-Use the `create_from_service_principal()` factory function to create a
-`CredentialProvider` that authenticates to AMR using a
+Use the `NewConfidentialCredentialsProvider()` factory function to create a
+`StreamingCredentialsProvider` that authenticates to AMR using a
 service principal (see the
 [Microsoft documentation](https://learn.microsoft.com/en-us/entra/identity-platform/app-objects-and-service-principals) to learn more about service principals).
 
@@ -56,17 +59,41 @@ You will need the following details of your service principal to make the connec
 - Client secret
 - Tenant ID
 
+Use an `AuthorityConfiguration` instance to pass the tenant ID.
+This type has the following fields:
+
+-   `AuthorityType`: This should have one of the values
+    - `identity.AuthorityTypeDefault` ("default")
+    - `identity.AuthorityTypeMultiTenant` ("multi-tenant")
+    - `identity.AuthorityTypeCustom` ("custom")
+-   `TenantID`: Pass your tenant ID string here, or use "common" for
+    a multi-tentant application.
+-   `Authority`: Custom authority URL. This is only required if you
+    specified `AuthorityTypeCustom` in the `AuthorityType` field.
+
 The example below shows how to import the required modules and call
-`create_from_service_principal()`:
+`NewConfidentialCredentialsProvider()`:
 
-```python
-from redis import Redis
-from redis_entraid.cred_provider import *
-
-credential_provider = create_from_service_principal(
-    <CLIENT_ID>,
-    <CLIENT_SECRET>,
-    <TENANT_ID>
+```go
+import (
+    "github.com/redis-developer/go-redis-entraid/entraid"
+    "github.com/redis-developer/go-redis-entraid/identity"
+        ...
+)
+    .
+    .
+provider, err := entraid.NewConfidentialCredentialsProvider(
+    entraid.ConfidentialIdentityProviderOptions{
+        CredentialsProviderOptions: entraid.CredentialsProviderOptions{
+            ClientID: "<your-azure-client-id>",
+        },
+        CredentialsType: identity.ClientSecretCredentialType,
+        ClientSecret: "<your-azure-client-secret>",
+        Authority: identity.AuthorityConfiguration{
+            AuthorityType: identity.AuthorityTypeDefault,
+            TenantID: "<your-azure-tenant-id>",
+        },
+    }
 )
 ```
 
@@ -213,3 +240,8 @@ func main() {
     log.Println("Connected to Redis!")
 }
 ```
+
+## More information
+
+See the [`go-redis-entraid`](https://github.com/redis/go-redis-entraid)
+GitHub repository for full source code and more examples and details.
