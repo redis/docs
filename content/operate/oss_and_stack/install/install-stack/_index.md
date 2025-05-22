@@ -24,4 +24,6 @@ Follow the links below for installation instructions for your OS and distributio
 While you can install Redis Open Source on any of the platforms listed below, you might also consider using Redis Cloud by creating a [free account](https://redis.com/try-free/?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users).
 Redis 8 is not yet available on Redis Cloud.
 
+You can also download [Redis Insight]({{< relref "/operate/redisinsight/install/" >}}), a free developer companion tool with an intuitive GUI and advanced CLI, which you can use alongside Redis Open Source.
+
 <hr/>
