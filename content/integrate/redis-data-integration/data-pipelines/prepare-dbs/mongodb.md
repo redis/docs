@@ -105,7 +105,8 @@ mongodb+srv://${SOURCE_DB_USERNAME}:${SOURCE_DB_PASSWORD}@cluster0.mongodb.net/?
 ## 7. Configuration is complete
 Once you have followed the steps above, your MongoDB database is ready for Debezium to use.
 
-## Additional Resources
+## See also
+
 - [MongoDB Replica Set Documentation](https://www.mongodb.com/docs/manual/replication/)
 - [MongoDB Sharded Cluster Documentation](https://www.mongodb.com/docs/manual/sharding/)
 - [MongoDB Change Streams](https://www.mongodb.com/docs/manual/changeStreams/)
