@@ -44,7 +44,7 @@ Port 9443 is the default [port configuration]({{< relref "/operate/rs/networking
 
 ## Flush data from an OSS Cluster API database
 
-When using the OSS Cluster API, the `FLUSHDB` command only flushes the keys of the shard you're connected to, not all keys in the database. To flush all data from an OSS Cluster API database, you need to connect to each endpoint IP address and execute the flush command.
+When using the OSS Cluster API, the `FLUSHDB` command only flushes the keys of the shard you're connected to, not all keys in the database. To flush all data from an OSS Cluster API database, you need to connect to each endpoint IP address and run the flush command.
 
 Follow these steps to flush all data from an OSS Cluster API database:
 
