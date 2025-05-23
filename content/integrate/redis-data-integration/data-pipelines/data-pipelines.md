@@ -336,13 +336,17 @@ The main sections of these files are:
   *transformation block* that will use the parameters supplied in the `with` section. See the 
   [data transformation reference]({{< relref "/integrate/redis-data-integration/reference/data-transformation" >}})
   for more details about the supported transformation blocks, and also the
-  [JMESPath custom functions]({{< relref "/integrate/redis-data-integration/reference/jmespath-custom-functions" >}}) reference. You can test your transformation logic using the [dry run]({{< relref "/integrate/redis-data-integration/reference/api-reference/#tag/secure/operation/job_dry_run_api_v1_pipelines_jobs_dry_run_post" >}}) feature in the API. 
+  [JMESPath custom functions]({{< relref "/integrate/redis-data-integration/reference/jmespath-custom-functions" >}}) reference. You can test your transformation logic using the [dry run]({{< relref "/integrate/redis-data-integration/reference/api-reference/#tag/secure/operation/job_dry_run_api_v1_pipelines_jobs_dry_run_post" >}}) feature in the API.
 
   {{< note >}}If you set `row_format` to `full` under the `source` settings, you can access extra data from the
   change record in the transformation:
-  - Use the expression `key.key` to get the generated Redis key as a string.
+  - Use the `key` object to access the attributes of the key. For example, `key.id` will give you the value of the `id` column as long as it is part of the primary key.
   - Use `before.<FIELD_NAME>` to get the value of a field *before* it was updated in the source database
-    (the field name by itself gives you the value *after* the update).{{< /note >}}
+  - Use `after.<FIELD_NAME>` to get the value of a field *after* it was updated in the source database
+  - Use `after.<FIELD_NAME>` when adding new fields during transformations
+  
+  See [Row Format]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples/redis-row-format#full" >}}) for a more detailed explanation of the full format.
+  {{< /note >}}
  
 - `output`: This is a mandatory section to specify the data structure(s) that
   RDI will write to
