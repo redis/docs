@@ -106,7 +106,7 @@ On-premises environments support more deployment options than other environments
 
 For more information about application failover with Active-Active databases, see [Application failover with Active-Active databases]({{< relref "/operate/rs/databases/active-active/develop/app-failover-active-active.md" >}}).
 
-{{<note>}} Enabling Auto Tiering for Active-Active distributed databases requires validating and getting the Redis technical team's approval first . {{</note>}}
+{{<note>}} Enabling Auto Tiering for [Active-Active distributed databases]({{<relref "/operate/rs/databases/active-active">}}) requires validating and getting the Redis technical team's approval first . {{</note>}}
 
 {{<warning>}} Auto Tiering is not supported running on network attached storage (NAS), storage area network (SAN), or with local HDD drives. {{</warning>}}
 
