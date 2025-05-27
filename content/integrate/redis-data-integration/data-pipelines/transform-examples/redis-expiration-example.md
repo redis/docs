@@ -49,10 +49,12 @@ output:
         language: jmespath
 ```
 
-Settings the expiration according to a field that contains a date, datetime, or timestamp value is also possible, but it depends on the source database and the data types it supports.
+## Dynamic expiration time based on a date, datetime, or timestamp field
 
+Settings the expiration according to a field that contains a date, datetime, or timestamp value is also possible, but it depends on the source database and the data types it supports. Please refer to the examples below for your specific source database and data type.
 
-### Oracle examples
+{{< expand "Oracle examples" >}}
+
 The transformation depends on the data type of the field in the source database:
 
 - `DATE` - represented by debezium as 64-bit integer representing the milliseconds since epoch
@@ -100,3 +102,62 @@ The transformation depends on the data type of the field in the source database:
               expression: CASE WHEN expire_seconds < 0 THEN -expire_seconds ELSE -1 END
               language: sql
     ```
+{{< /expand >}}
+
+
+{{< expand "SQL Server examples" >}}
+SQL Server supports the following date and time data types:
+
+- `date` - represented in Debezium as number of days since epoch (1970-01-01). Please note that due to the lack of time information, this method is not very accurate.
+  ```yaml
+    output:
+    - uses: redis.write
+      with:
+        data_type: hash
+        expire:
+          # We calculate the number of seconds for the amount of days and subtract the current time in seconds since epoch.
+          expression: (event_date * 86400) - strftime('%s', 'now')
+          language: sql
+  ```
+
+- `datetime`, `smalldatetime` - represented in Debezium as number of milliseconds since epoch.
+  ```yaml
+    output:
+    - uses: redis.write
+      with:
+        data_type: hash
+        expire:
+          # Due to event_datetime being in milisecond we need to divide it by 1000 to convert it to seconds.
+          expression: event_datetime / 1000 - strftime('%s', 'now')
+          language: sql
+  ```
+- `datetime2` - similar to `datetime` but with higher precision. For `datetime2(0-3)` the representation is the same as for `datetime`. For `datetime2(4-6)` it is the number of microseconds since epoch. and for `datetime2(7)` it is the number of nanoseconds since epoch. You can use the same approach as for `datetime` but you need to divide by 1000, 1000000 or 1000000000 depending on the precision.
+
+- `time` - the time of milliseconds since midnight.
+  ```yaml
+    output:
+    - uses: redis.write
+      with:
+        data_type: hash
+        expire:
+          # We convert the time to seconds and subtract the current time in seconds since midnight.
+          expression: (event_time / 1000.0) -
+            (
+              CAST(strftime('%H', 'now') AS INTEGER) * 3600 +
+              CAST(strftime('%M', 'now') AS INTEGER) * 60 +
+              CAST(strftime('%S', 'now') AS INTEGER)
+            )
+          language: sql
+  ```
+- `datetimeoffset` - represented as a timestamp with timezone information, where the timezone is GMT
+  ```yaml
+  output:
+    - uses: redis.write
+      with:
+        data_type: hash
+        expire:
+          # We convert the time to seconds and subtract the current time in seconds since epoch.
+          expression: strftime('%s', event_datetimeoffset) - strftime('%s', 'now')
+          language: sql
+  ```
+{{< /expand >}}
