@@ -28,7 +28,7 @@ When a new primary is appointed, the replication ID changes, but a partial sync 
 
 
 In a partial sync, the backlog of operations since the offset are transferred as raw operations.
-In a full sync, the data from the primary is transferred to the replica as an RDB file which is followed by a partial sync. 
+In a full sync, the data from the primary is transferred to the replica as an RDB file which is followed by a partial sync.
 
 Partial synchronization requires a backlog large enough to store the data operations until connection is restored. See [replication backlog]({{< relref "/operate/rs/databases/active-active/manage#replication-backlog" >}}) for more info on changing the replication backlog size.
 
@@ -36,11 +36,11 @@ Partial synchronization requires a backlog large enough to store the data operat
 
 In the case of an Active-Active database:
 
-- Multiple past replication IDs and offsets are stored to allow for multiple syncs 
-- The [Active-Active replication backlog]({{< relref "/operate/rs/databases/active-active/manage#replication-backlog" >}}) is also sent to the replica during a full sync. 
+- Multiple past replication IDs and offsets are stored to allow for multiple syncs
+- The [Active-Active replication backlog]({{< relref "/operate/rs/databases/active-active/manage#replication-backlog" >}}) is also sent to the replica during a full sync.
 
 {{< warning >}}
-Full sync triggers heavy data transfers between geo-replicated instances of an Active-Active database. 
+Full sync triggers heavy data transfers between geo-replicated instances of an Active-Active database.
 {{< /warning >}}
 
 An Active-Active database uses partial synchronization in the following situations:
@@ -53,4 +53,48 @@ An Active-Active database uses partial synchronization in the following situatio
 
 {{< note >}}
 Synchronization of data from the primary shard to the replica shard is always a full synchronization.
+{{< /note >}}
+
+## Troubleshooting syncer errors
+
+### Unrecoverable syncer errors
+
+Some syncer errors are unrecoverable and cause the syncer to exit with exit code 4. When this occurs, the Database Management Component (DMC) automatically sets the `crdt_sync` or `replica_sync` value to `stopped`.
+
+### Recovery procedures
+
+To re-enable the syncer after an unrecoverable error:
+
+#### For regular databases
+
+Use the cluster REST API to enable sync:
+
+```sh
+curl -v -k -u <username>:<password> -X PUT \
+  -H "Content-Type: application/json" \
+  -d '{"sync":"enabled"}' \
+  http://<cluster-endpoint>:8080/v1/bdbs/<bdb_id>
+```
+
+#### For Active-Active databases (CRDB)
+
+For Active-Active databases, you have two options:
+
+1. **Call the API on all participating clusters:**
+
+   ```sh
+   curl -v -k -u <username>:<password> -X PUT \
+     -H "Content-Type: application/json" \
+     -d '{"sync":"enabled"}' \
+     http://<cluster-endpoint>:8080/v1/bdbs/<bdb_id>
+   ```
+
+2. **Use crdb-cli (recommended):**
+
+   ```sh
+   crdb-cli crdb update --crdb-guid <crdb-guid> --force
+   ```
+
+{{< note >}}
+Replace `<username>`, `<password>`, `<cluster-endpoint>`, `<bdb_id>`, and `<crdb-guid>` with your actual values.
 {{< /note >}}
