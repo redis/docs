@@ -73,8 +73,8 @@ output:
           # server_name: chinook
           # schema: public
           table: Invoice
-        nesting_key: InvoiceLineId # cannot be composite
-        parent_key: InvoiceId # cannot be composite
+        nesting_key: InvoiceLineId # the unique key in the composite structure under which the child data will be stored
+        parent_key: InvoiceId
         child_key: InvoiceId # optional, if different from parent_key
         path: $.InvoiceLineItems # path must start from document root ($)
         structure: map # only map supported for now
@@ -91,10 +91,9 @@ The job must include the following attributes in the `nest` block:
   `schema` attributes. Note that this attribute refers to a Redis *key* that will be added to the target
   database, not to a table you can access from the pipeline. See [Using nesting](#using-nesting) below
   for the format of the key that is generated.
-- `nesting_key`: The field of the child entity that stores the unique ID (primary key) of the child entity.
-- `parent_key`: The field in the parent entity that stores the unique ID (foreign key) of the parent entity.
-- `child_key`: The field in the child entity that stores the unique ID (foreign key) of the parent entity.
-  You only need to add this attribute if the name of the child's foreign key field is different from the parent's.
+- `nesting_key`: The unique key of each child entry in the json map that will be created under the path.
+- `parent_key`: The field in the parent entity that stores the unique ID (foreign key) of the parent entity. Can not be composite key.
+- `child_key`: The field in the child entity that stores the unique ID (foreign key) to the parent entity. You only need to add this attribute if the name of the child's foreign key field is different from the parent's. Can not be composite key.
 - `path`: The [JSONPath](https://goessner.net/articles/JsonPath/)
   for the map where you want to store the child entities. The path must start with the `$` character, which denotes
   the document root.
@@ -135,4 +134,4 @@ There are several important things to note when you use nesting:
   See the
   [Debezium PostgreSQL Connector Documentation](https://debezium.io/documentation/reference/connectors/postgresql.html#postgresql-replica-identity)
   for more information about this.
-- Changing the foreign key value of a child object results in the child object being added to the new parent, but the old parent is not updated.
+- Changing the foreign key value of a child object results in the child object being added to the new parent, but the old parent is not updated. This is a known limitation of the current implementation and is a subject to change in future versions.
