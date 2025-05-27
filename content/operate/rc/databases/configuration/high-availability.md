@@ -82,5 +82,5 @@ For more information on availability zones, see the [Google Cloud docs](https://
 ## More info
 
 To learn more about high availability and replication, see:
-- [Highly Available Redis](https://redislabs.com/redis-enterprise/technology/highly-available-redis/)
+- [Highly Available Redis]({{< relref "/operate/rs/databases/durability-ha/" >}})
 - [Database replication]({{< relref "/operate/rs/databases/durability-ha/replication.md" >}})
