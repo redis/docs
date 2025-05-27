@@ -21,7 +21,7 @@ If your PR is urgent, let the docs team know in the PR comments, and we will do 
 * **/package.json**: Node.js dependencies. Tailwind, for example, is installed via the Node package manager (`npm`).
 * **/config.toml**: Hugo's site configuration, like the root path and menu items. Hugo can access configuration elements when rendering the site. So you can define custom configuration settings here.
 * **/syntax.css**: Hugo supports syntax highlighting via shortcodes. The highlighter is configured via this CSS file.
-* **/Makefile**: We use make to wrap some Hugo commands and to add addtional build steps.
+* **/Makefile**: We use make to wrap some Hugo commands and to add additional build steps.
 * **/tailwind.config.js**: This is the Tailwind CSS framwork's configuration file.
 * **/postcss.config.js**: Needed to make Tailwind statically accessible to the site.
 

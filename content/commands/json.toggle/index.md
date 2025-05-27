@@ -59,7 +59,7 @@ For more information about replies, see [Redis serialization protocol specificat
 ## Examples
 
 <details open>
-<summary><b>Toogle a Boolean value stored at <code>path</code></b></summary>
+<summary><b>Toggle a Boolean value stored at <code>path</code></b></summary>
 
 Create a JSON document.
 
