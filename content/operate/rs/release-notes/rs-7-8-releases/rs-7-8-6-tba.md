@@ -51,6 +51,10 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS160539: Fixed an issue that could cause slowness and intermittent failures in the Cluster Manager UI, `rladmin`, and `rlcheck` after upgrading large clusters to Redis Enterprise Software version 7.8.4.
 
+- RS153478: Fixed an issue that could cause inconsistent memory settings across shards and out-of-memory errors.
+
+- RS160378: Fixed an issue where certain processes might not terminate as expected during cluster upgrades due to timeouts.
+
 ## Version changes
 
 ### Supported platforms
