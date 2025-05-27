@@ -23,7 +23,7 @@ The types fall into two basic categories:
 -   [Set operations](#set-operations): These types let you calculate (approximately)
     the number of items in a set of distinct values, and whether or not a given value is
     a member of a set.
--   [Numeric data calculations](#numeric-data): These types give you an approximation of
+-   [Statistics](#statistics): These types give you an approximation of
     statistics such as the percentile, rank, and frequency of numeric data points in a list.
 
 To see why these approximate calculations would be useful, consider the task of
@@ -97,6 +97,7 @@ add. The following example adds some names to a Bloom filter representing
 a list of users and checks for the presence or absence of users in the list.
 Note that you must use the `bf()` method to access the Bloom filter commands.
 
+<!--
 ```py
 res1 = r.bf().madd("recorded_users", "andy", "cameron", "david", "michelle")
 print(res1)  # >>> [1, 1, 1, 1]
@@ -107,12 +108,16 @@ print(res2)  # >>> 1
 res3 = r.bf().exists("recorded_users", "kaitlyn")
 print(res3)  # >>> 0
 ```
+-->
+{{< clients-example home_prob_dts bloom Python >}}
+{{< /clients-example >}}
 
 A Cuckoo filter has similar features to a Bloom filter, but also supports
 a deletion operation to remove hashes from a set, as shown in the example
 below. Note that you must use the `cf()` method to access the Cuckoo filter
 commands.
 
+<!--
 ```py
 res4 = r.cf().add("other_users", "paolo")
 print(res4)  # >>> 1
@@ -132,6 +137,9 @@ print(res8)
 res9 = r.cf().exists("other_users", "paolo")
 print(res9)  # >>> 0
 ```
+-->
+{{< clients-example home_prob_dts cuckoo Python >}}
+{{< /clients-example >}}
 
 Which of these two data types you choose depends on your use case.
 Bloom filters are generally faster than Cuckoo filters when adding new items,
@@ -143,11 +151,14 @@ reference pages for more information and comparison between the two types.
 
 ### Set cardinality
 
-A HyperLogLog object doesn't support the set membership operation but
-instead is specialized to calculate the cardinality of the set. You can
-also merge two or more HyperLogLogs to find the cardinality of the
+A [HyperLogLog]({{< relref "/develop/data-types/probabilistic/hyperloglogs" >}})
+object calculates the cardinality of a set. As you add
+items, the HyperLogLog tracks the number of distinct set members but
+doesn't let you retrieve them or query which items have been added.
+You can also merge two or more HyperLogLogs to find the cardinality of the
 union of the sets they represent.
 
+<!--
 ```py
 res10 = r.pfadd("group:1", "andy", "cameron", "david")
 print(res10)  # >>> 1
@@ -167,19 +178,50 @@ print(res14)  # >>> True
 res15 = r.pfcount("both_groups")
 print(res15)  # >>> 7
 ```
+-->
+{{< clients-example home_prob_dts hyperloglog Python >}}
+{{< /clients-example >}}
 
 The main benefit that HyperLogLogs offer is their very low
 memory usage. They can count up to 2^64 items with less than
-1% standard error using a maximum 12KB of memory.
+1% standard error using a maximum 12KB of memory. This makes
+them very useful for counting things like the total of distinct
+IP addresses that access a website or the total of distinct
+bank card numbers that make purchases within a day.
 
-## Numeric data
+## Statistics
 
 Redis supports several approximate statistical calculations
 on numeric data sets:
 
--   Frequency: The Count-min sketch data type lets you find the
-    approximate frequency of a labeled item in a data stream.
+-   [Frequency](#frequency): The Count-min sketch data type lets you
+    find the approximate frequency of a labeled item in a data stream.
 -   Percentiles: The t-digest data type estimates the percentile
     of a supplied value in a data stream.
 -   Ranking: The Top-K data type estimates the ranking of items
     by frequency in a data stream.
+
+### Frequency
+
+A [Count-min sketch]({{< relref "/develop/data-types/probabilistic/count-min-sketch" >}})
+(CMS) object keeps count of a set of related items represented by
+string labels. The count is approximate, but you can specify
+how close you want to keep the count to the true value (as a fraction)
+and the acceptable probability of failing to keep it in this
+desired range. For example, you can request that the count should
+stay within 0.1% of the true value and have a 0.05% probability
+of going outside this limit.
+
+{{< clients-example home_prob_dts cms Python >}}
+{{< /clients-example >}}
+
+The advantage of using a CMS over keeping an exact count with a
+[sorted set]({{< relref "/develop/data-types/sorted-sets" >}})
+is that that a CMS has very low and fixed memory usage, even for
+large numbers of items. Use CMS objects to keep daily counts of
+items sold, accesses to individual web pages on your site, and
+other similar statistics.
+
+### Percentiles
+
+
