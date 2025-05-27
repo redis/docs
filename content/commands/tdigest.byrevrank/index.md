@@ -35,7 +35,7 @@ title: TDIGEST.BYREVRANK
 ---
 Returns, for each input reverse rank, an estimation of the value (floating-point) with that reverse rank.
 
-Multiple estimations can be retrieved in a signle call.
+Multiple estimations can be retrieved in a single call.
 
 ## Required arguments
 

@@ -57,7 +57,7 @@ The available settings vary according to your plan, cloud provider, and design c
 | **Creation time**         | Date and time the database was created                                                                                                                      |
 | **Last changed**          | Date and time of last update                                                                                                                                |
 | **Supported Protocol(s)** | Shows which version of RESP the database uses. See [Redis serialization protocol]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions) for details |
-| **Advanced Capabilites**  | This setting appears when an [advanced capability]({{< relref "/operate/rc/databases/configuration/advanced-capabilities" >}}) is enabled for a database                                                  |
+| **Advanced Capabilities**  | This setting appears when an [advanced capability]({{< relref "/operate/rc/databases/configuration/advanced-capabilities" >}}) is enabled for a database                                                  |
 
 ### Performance section
 

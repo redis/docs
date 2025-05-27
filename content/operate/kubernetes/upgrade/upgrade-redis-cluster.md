@@ -37,7 +37,7 @@ Your Redis databases must be running version 7.2 or later before upgrading your 
 
 ### RHEL9-compatible modules
 
-Upgrading to Redis operator version 7.8.2-6 involves migrating your Redis Enterprise nodes to RHEL9 from either Ubuntu 18 or RHEL8. If your databases use modules, you need to manually install modules compatibile with RHEL9.
+Upgrading to Redis operator version 7.8.2-6 involves migrating your Redis Enterprise nodes to RHEL9 from either Ubuntu 18 or RHEL8. If your databases use modules, you need to manually install modules compatible with RHEL9.
 
 To see which modules you have installed, run:
 

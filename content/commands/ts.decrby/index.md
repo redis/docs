@@ -115,7 +115,7 @@ If the time series is empty, the value is set to `subtrahend`.
 When not specified, the timestamp is set to the Unix time of the server's clock.
 </details>
 
-<details open><summary><code>RETENTION retentionPeriod</code></summmary> 
+<details open><summary><code>RETENTION retentionPeriod</code></summary> 
 
 is maximum retention period, compared to the maximum existing timestamp, in milliseconds.
 

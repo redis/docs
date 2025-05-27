@@ -84,7 +84,7 @@ redis> FT.SUGGET autocomplete hell FUZZY
 
 ### Optional arguments
 
-There are three additional arguments you can use wit `FT.SUGGET`:
+There are three additional arguments you can use with `FT.SUGGET`:
 
 * `MAX num`: limits the results to a maximum of `num`. The default for `MAX` is 5.
 * `WITHSCORES`: returns the score of each suggestion.
