@@ -19,9 +19,9 @@ Active-Active databases allow read and write operations in each copy.  Each copy
 
 When developing for Active-Active databases, you need to consider some important differences. See [Develop applications with Active-Active databases]({{< relref "/operate/rs/databases/active-active/develop/_index.md" >}}) for related information.
 
-    {{< note >}}
+{{< note >}}
 Active-Active subscriptions on Redis Cloud are limited to a maximum of 10 regions and 10 databases.
-    {{< /note >}}
+{{< /note >}}
 
 ## Active-Active geo-distributed replication highlights
 
