@@ -50,8 +50,9 @@ Your application should monitor local replica failures and replication failures.
 - Network connectivity issues
 - Configuration errors
 - Database endpoint unavailable
+- Unexpected protocol level errors
 
-**Detection method**: Monitor connection attempts to the database endpoint. If connections consistently fail (timeout, refused, protocol errors), consider the local replica failed.
+**Detection method**: Monitor connection attempts to the database endpoint. If connections consistently fail, consider the local replica failed.
 
 ### Replication failures
 
