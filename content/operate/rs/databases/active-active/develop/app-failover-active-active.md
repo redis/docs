@@ -39,7 +39,7 @@ Before implementing failover logic, ensure you understand:
 
 ## Failure detection strategies
 
-Your application should monitor for two types of failures:
+Your application should monitor local replica failures and replication failures.
 
 ### Local replica failures
 
