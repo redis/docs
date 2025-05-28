@@ -183,7 +183,7 @@ def failover_to_replica(target_replica_name):
     update_app_config('active_replica', target_replica_name)
 ```
 
-### 2. Handle data consistency
+2. Handle data consistency
 
 **Important considerations**:
 - The remote replica may not have your most recent writes
