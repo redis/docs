@@ -79,7 +79,7 @@ The most reliable way to detect replication failures is using Redis pub/sub.
 
 ### Implementation steps
 
-1. **Connect to all replicas**:
+1. Connect to all replicas:
    ```python
    # Example implementation - adapt for your environment
    replicas = {
