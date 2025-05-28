@@ -8,7 +8,7 @@
 {{ $showFooter := (.showFooter) }}
 
 <!-- spellchecker-disable -->
-<div class="codetabs cli group flex justify-start items-center flex-wrap box-border rounded-lg mt-0 mb-0 mx-auto bg-slate-900" id="{{ $id }}">
+<div class="codetabs cli group flex justify-start items-center flex-wrap box-border rounded-lg mt-0 mb-0 mx-auto bg-stone-50" id="{{ $id }}">
     {{ range $i, $tab := $tabs }}
         {{ $tid := printf "%s_%s" (replace (replace (index $tab "title") "#" "sharp") "." "") $id }}
         {{ $pid := printf "panel_%s" $tid }}
@@ -17,8 +17,8 @@
         <input tabindex="1" type="radio" name="{{ $id }}" id="{{ $tid }}" data-lang="{{ $dataLang }}" class="radiotab w-0 h-0"
                {{ if eq $i 0 }}checked{{ end }}
         />
-        <label class="justify-left label ml-1.5 pt-3.5 px-1 pb-1 cursor-pointer text-sm text-center bg-redis-ink-900
-        hover:text-redis-red-600  rounded rounded-mx transition duration-150 ease-in-out"
+        <label class="justify-left label ml-1.5 pt-3.5 px-1 pb-1 cursor-pointer text-sm text-center bg-slate-300 text-slate-900 font-medium
+        hover:text-redis-red-600 hover:bg-slate-400 rounded rounded-mx transition duration-150 ease-in-out"
                title="Open example" for="{{ $tid }}">
             {{ if eq (index $tab "title") "redis-cli" }}
                 {{ $cliName }}
@@ -29,7 +29,7 @@
 
         <div class="panel order-last hidden w-full mt-0 {{ if not $showFooter}}pb-8{{end}} relative" id="{{ $pid }}" role="tabpanel" tabindex="0" aria-labelledby="tab-{{ $id }}">
             {{ index $tab "content" }}
-            <button tabindex="1" class="clipboard-button text-neutral-400 hover:text-slate-100 bg-slate-600 absolute -top-8 right-10 h-7 w-7 mr-2 mt-2 p-1 rounded rounded-mx"
+            <button tabindex="1" class="clipboard-button text-slate-600 hover:text-slate-800 bg-slate-200 absolute -top-8 right-10 h-7 w-7 mr-2 mt-2 p-1 rounded rounded-mx"
                     title="Copy to clipboard" onclick="copyCodeToClipboard('#{{ $pid }}')">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor">
                     <path d="M9 43.95q-1.2 0-2.1-.9-.9-.9-.9-2.1V10.8h3v30.15h23.7v3Zm6-6q-1.2 0-2.1-.9-.9-.9-.9-2.1v-28q0-1.2.9-2.1.9-.9 2.1-.9h22q1.2 0 2.1.9.9.9.9 2.1v28q0 1.2-.9 2.1-.9.9-2.1.9Zm0-3h22v-28H15v28Zm0 0v-28 28Z"/>
@@ -39,7 +39,7 @@
                 </div>
             </button>
             {{ if or (ne (index $tab "title") "redis-cli") (lt (index $tab "limit") 100) }}
-            <button tabindex="1" class="visibility-button text-neutral-400 hover:text-slate-100 bg-slate-600 absolute -top-8 right-2 h-7 w-7 mr-2 mt-2 p-1 rounded rounded-mx"
+            <button tabindex="1" class="visibility-button text-slate-600 hover:text-slate-800 bg-slate-200 absolute -top-8 right-2 h-7 w-7 mr-2 mt-2 p-1 rounded rounded-mx"
                     title="Toggle visibility" aria-controls="{{ $pid }}" onclick="toggleVisibleLines(this)">
                 <svg id="visibility-off" class="hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor">
                     <path d="m31.45 27.05-2.2-2.2q1.3-3.55-1.35-5.9-2.65-2.35-5.75-1.2l-2.2-2.2q.85-.55 1.9-.8 1.05-.25 2.15-.25 3.55 0 6.025 2.475Q32.5 19.45 32.5 23q0 1.1-.275 2.175-.275 1.075-.775 1.875Zm6.45 6.45-2-2q2.45-1.8 4.275-4.025Q42 25.25 42.85 23q-2.5-5.55-7.5-8.775Q30.35 11 24.5 11q-2.1 0-4.3.4-2.2.4-3.45.95L14.45 10q1.75-.8 4.475-1.4Q21.65 8 24.25 8q7.15 0 13.075 4.075Q43.25 16.15 46 23q-1.3 3.2-3.35 5.85-2.05 2.65-4.75 4.65Zm2.9 11.3-8.4-8.25q-1.75.7-3.95 1.075T24 38q-7.3 0-13.25-4.075T2 23q1-2.6 2.775-5.075T9.1 13.2L2.8 6.9l2.1-2.15L42.75 42.6ZM11.15 15.3q-1.85 1.35-3.575 3.55Q5.85 21.05 5.1 23q2.55 5.55 7.675 8.775Q17.9 35 24.4 35q1.65 0 3.25-.2t2.4-.6l-3.2-3.2q-.55.25-1.35.375T24 31.5q-3.5 0-6-2.45T15.5 23q0-.75.125-1.5T16 20.15Zm15.25 7.1Zm-5.8 2.9Z"/>
@@ -51,14 +51,14 @@
             {{ end }}
 
             {{ if $showFooter }}
-            <div class="cli-footer flex items-center justify-between rounded-b-md bg-slate-900 mt-0 px-4 pt-0 mb-0 transition-opacity ease-in-out duration-300 opacity-0 invisible
+            <div class="cli-footer flex items-center justify-between rounded-b-md bg-stone-50 mt-0 px-4 pt-0 mb-0 transition-opacity ease-in-out duration-300 opacity-0 invisible
 group-hover:opacity-100 group-hover:visible">
             {{ if eq (index $tab "title") "redis-cli" }}
-                <div class="flex-1 text-xs text-white overflow-ellipsis">{{ $footerText }}</div>
+                <div class="flex-1 text-xs text-slate-800 overflow-ellipsis">{{ $footerText }}</div>
                 <div class="text-right">
-                    <a href="{{ $btnRIUrl }}" tabindex="1" class="rounded rounded-mx px-2 py-1 flex items-center text-white text-xs
-                    hover:text-white hover:bg-slate-600 hover:border-transparent focus:outline-none
-                    focus:ring-2 focus:white focus:border-slate-500" title="{{$btnRIText}}">
+                    <a href="{{ $btnRIUrl }}" tabindex="1" class="rounded rounded-mx px-2 py-1 flex items-center text-slate-800 text-xs
+                    hover:text-slate-800 hover:bg-slate-200 hover:border-transparent focus:outline-none
+                    focus:ring-2 focus:slate-800 focus:border-slate-500" title="{{$btnRIText}}">
                         <svg class="w-4 h-4 mr-1" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M2.26236 5.66895L1.21732 6.07172L7.00018 8.65693V7.79842L2.26236 5.66895Z" fill="#fca5a5"/>
                             <path d="M2.26236 8.02271L1.21732 8.42548L7.00018 11.0119V10.1516L2.26236 8.02271Z" fill="#fca5a5"/>
@@ -74,16 +74,16 @@ group-hover:opacity-100 group-hover:visible">
                 </div>
             {{ else }}
               <!--<a href='/docs/latest/develop/clients/{{ index $tab "quickstartSlug" }}/' tabindex="1" class="rounded rounded-mx px-3 py-1 text-white text-xs-->
-              <a href='{{ absURL (print "develop/clients/" (index $tab "quickstartSlug")) }}/' tabindex="1" class="rounded rounded-mx px-3 py-1 text-white text-xs
-                                hover:text-white hover:bg-slate-600 hover:border-transparent focus:outline-none
-                                focus:ring-2 focus:white focus:border-slate-500" title="{{$btnQuickStartText}}">
+              <a href='{{ absURL (print "develop/clients/" (index $tab "quickstartSlug")) }}/' tabindex="1" class="rounded rounded-mx px-3 py-1 text-slate-800 text-xs
+                                hover:text-slate-800 hover:bg-slate-200 hover:border-transparent focus:outline-none
+                                focus:ring-2 focus:slate-800 focus:border-slate-500" title="{{$btnQuickStartText}}">
                 {{ index $tab "title" }} {{ $btnQuickStartText }}
               </a>
               <div class="w-1/2"></div>
               <div class="flex-1 text-right">
-                <a href='{{ index $tab "sourceUrl" }}' tabindex="1" class="button text-neutral-400 hover:text-slate-100 h-6 w-6 p-1" title="Improve this code example">
+                <a href='{{ index $tab "sourceUrl" }}' tabindex="1" class="button text-slate-600 hover:text-slate-800 h-6 w-6 p-1" title="Improve this code example">
                   <svg width="18" height="16" viewBox="0 0 18 16" fill="github" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M8.99953 1.43397e-06C7.09918 -0.000897921 5.26058 0.674713 3.81295 1.90585C2.36533 3.13699 1.40324 4.84324 1.09896 6.71907C0.794684 8.5949 1.1681 10.5178 2.15233 12.1434C3.13657 13.769 4.66734 14.9912 6.47053 15.591C6.87053 15.664 7.01653 15.417 7.01653 15.205C7.01653 15.015 7.00953 14.512 7.00553 13.845C4.78053 14.328 4.31053 12.772 4.31053 12.772C4.16325 12.2887 3.84837 11.8739 3.42253 11.602C2.69653 11.102 3.47753 11.116 3.47753 11.116C3.73043 11.1515 3.97191 11.2442 4.18365 11.3869C4.39539 11.5297 4.57182 11.7189 4.69953 11.94C4.80755 12.1377 4.95378 12.3119 5.12972 12.4526C5.30567 12.5933 5.50782 12.6976 5.72442 12.7595C5.94103 12.8214 6.16778 12.8396 6.39148 12.813C6.61519 12.7865 6.83139 12.7158 7.02753 12.605C7.06381 12.1992 7.24399 11.8197 7.53553 11.535C5.75953 11.335 3.89153 10.647 3.89153 7.581C3.88005 6.78603 4.17513 6.01716 4.71553 5.434C4.47318 4.74369 4.50322 3.98693 4.79953 3.318C4.79953 3.318 5.47053 3.103 6.99953 4.138C8.31074 3.77905 9.69432 3.77905 11.0055 4.138C12.5325 3.103 13.2055 3.318 13.2055 3.318C13.5012 3.9877 13.5294 4.74513 13.2845 5.435C13.8221 6.01928 14.114 6.78817 14.0995 7.582C14.0995 10.655 12.2285 11.332 10.4465 11.53C10.6375 11.724 10.7847 11.9566 10.8784 12.2123C10.972 12.4679 11.0099 12.7405 10.9895 13.012C10.9895 14.081 10.9795 14.944 10.9795 15.206C10.9795 15.42 11.1235 15.669 11.5295 15.591C13.3328 14.9911 14.8636 13.7689 15.8479 12.1432C16.8321 10.5175 17.2054 8.59447 16.901 6.71858C16.5966 4.84268 15.6343 3.13642 14.1865 1.90536C12.7387 0.674306 10.9 -0.0011359 8.99953 1.43397e-06Z" fill="white"/>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M8.99953 1.43397e-06C7.09918 -0.000897921 5.26058 0.674713 3.81295 1.90585C2.36533 3.13699 1.40324 4.84324 1.09896 6.71907C0.794684 8.5949 1.1681 10.5178 2.15233 12.1434C3.13657 13.769 4.66734 14.9912 6.47053 15.591C6.87053 15.664 7.01653 15.417 7.01653 15.205C7.01653 15.015 7.00953 14.512 7.00553 13.845C4.78053 14.328 4.31053 12.772 4.31053 12.772C4.16325 12.2887 3.84837 11.8739 3.42253 11.602C2.69653 11.102 3.47753 11.116 3.47753 11.116C3.73043 11.1515 3.97191 11.2442 4.18365 11.3869C4.39539 11.5297 4.57182 11.7189 4.69953 11.94C4.80755 12.1377 4.95378 12.3119 5.12972 12.4526C5.30567 12.5933 5.50782 12.6976 5.72442 12.7595C5.94103 12.8214 6.16778 12.8396 6.39148 12.813C6.61519 12.7865 6.83139 12.7158 7.02753 12.605C7.06381 12.1992 7.24399 11.8197 7.53553 11.535C5.75953 11.335 3.89153 10.647 3.89153 7.581C3.88005 6.78603 4.17513 6.01716 4.71553 5.434C4.47318 4.74369 4.50322 3.98693 4.79953 3.318C4.79953 3.318 5.47053 3.103 6.99953 4.138C8.31074 3.77905 9.69432 3.77905 11.0055 4.138C12.5325 3.103 13.2055 3.318 13.2055 3.318C13.5012 3.9877 13.5294 4.74513 13.2845 5.435C13.8221 6.01928 14.114 6.78817 14.0995 7.582C14.0995 10.655 12.2285 11.332 10.4465 11.53C10.6375 11.724 10.7847 11.9566 10.8784 12.2123C10.972 12.4679 11.0099 12.7405 10.9895 13.012C10.9895 14.081 10.9795 14.944 10.9795 15.206C10.9795 15.42 11.1235 15.669 11.5295 15.591C13.3328 14.9911 14.8636 13.7689 15.8479 12.1432C16.8321 10.5175 17.2054 8.59447 16.901 6.71858C16.5966 4.84268 15.6343 3.13642 14.1865 1.90536C12.7387 0.674306 10.9 -0.0011359 8.99953 1.43397e-06Z" fill="currentColor"/>
                   </svg>
                 </a>
               </div>

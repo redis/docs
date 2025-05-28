@@ -40,11 +40,18 @@ section.prose {
 }
 
 .prose pre {
-  @apply bg-slate-900 rounded-lg;
+  @apply bg-stone-50 rounded-lg;
 }
 
 .prose pre > code {
   @apply bg-none font-monogeist;
+}
+
+/* Fix for plain code blocks (like the Lua script issue) without affecting syntax highlighting */
+.prose pre:not(.chroma),
+.prose pre:not(.chroma) code,
+.prose pre:not(.chroma) * {
+  color: #1e293b !important;
 }
 
 .prose h1 {
@@ -76,7 +83,7 @@ section.prose {
 
 .prose :where(li):not(:where([class~="not-prose"],[class~="not-prose"] *)),
 .prose :where(.prose > ol > li > p:last-child):not(:where([class~="not-prose"],[class~="not-prose"] *)),
-.prose :where(.prose > ol > li > p:first-child):not(:where([class~="not-prose"],[class~="not-prose"] *)) 
+.prose :where(.prose > ol > li > p:first-child):not(:where([class~="not-prose"],[class~="not-prose"] *))
 {
   @apply my-0;
 }
@@ -264,11 +271,16 @@ select {
 }
 
 .redis-cli {
-  @apply font-mono bg-slate-900 h-80 overflow-y-scroll text-neutral-50 px-4 py-2 rounded-b-xl;
+  @apply font-mono bg-stone-50 h-80 overflow-y-scroll text-slate-800 px-4 py-2 rounded-b-xl;
 }
 
 .redis-cli > pre {
   white-space: pre-wrap;
+  color: #1e293b !important;
+}
+
+.redis-cli * {
+  color: #1e293b !important;
 }
 
 .prose .redis-cli {
@@ -276,7 +288,12 @@ select {
 }
 
 .prose .redis-cli > pre {
-  @apply text-neutral-50 bg-transparent m-0 p-0;
+  @apply text-slate-800 bg-transparent m-0 p-0;
+  color: #1e293b !important;
+}
+
+.prose .redis-cli * {
+  color: #1e293b !important;
 }
 
 .prose .redis-cli > .prompt {
@@ -302,7 +319,7 @@ select {
 }
 
 .star-rating {
-  @apply flex flex-row-reverse justify-around text-center text-xl items-center; 
+  @apply flex flex-row-reverse justify-around text-center text-xl items-center;
 }
 
 .star-rating input {
@@ -311,18 +328,18 @@ select {
 
 .star-rating label {
   @apply cursor-pointer text-white;
-  /* 
-    From  https://owumaro.github.io/text-stroke-generator/ 
+  /*
+    From  https://owumaro.github.io/text-stroke-generator/
     Currently, there is not great way to text-stroke that works across browsers
     Alternative is to replace star character with SVG
   */
-  text-shadow: 
-    rgb(92, 112, 122) 1px 0px 0px, 
-    rgb(92, 112, 122) 0.540302px 0.841471px 0px, 
-    rgb(92, 112, 122) -0.416147px 0.909297px 0px, 
-    rgb(92, 112, 122) -0.989993px 0.14112px 0px, 
-    rgb(92, 112, 122) -0.653644px -0.756803px 0px, 
-    rgb(92, 112, 122) 0.283662px -0.958924px 0px, 
+  text-shadow:
+    rgb(92, 112, 122) 1px 0px 0px,
+    rgb(92, 112, 122) 0.540302px 0.841471px 0px,
+    rgb(92, 112, 122) -0.416147px 0.909297px 0px,
+    rgb(92, 112, 122) -0.989993px 0.14112px 0px,
+    rgb(92, 112, 122) -0.653644px -0.756803px 0px,
+    rgb(92, 112, 122) 0.283662px -0.958924px 0px,
     rgb(92, 112, 122) 0.96017px -0.279416px 0px;
 }
 
@@ -333,7 +350,7 @@ select {
 .star-rating label:hover,
 .star-rating label:hover ~ label {
   @apply text-redis-red-500;
-}      
+}
 
 .codetabs .label {
   min-width: 2rem;
@@ -352,7 +369,7 @@ select {
 
 .codetabs .radiotab:checked + .label {
   @apply border-slate-900 not-italic;
-  @apply bg-slate-600 text-white pt-1 mt-2.5;
+  @apply bg-slate-900 text-white font-semibold pt-1 mt-2.5;
 
 }
 
@@ -372,7 +389,7 @@ select {
 }
 
 .cli-footer {
-  background-color: #282F43;
+  background-color: #f1f5f9;
   min-height: 32px;
 }
 
@@ -506,20 +523,22 @@ html {
 /* Chroma syntax highlighting
 /* Background */
 .bg {
-  @apply text-slate-50 bg-slate-900;
+  @apply text-slate-800 bg-stone-50;
 }
 
 /* PreWrapper */
 .chroma {
-  @apply p-4 overflow-x-auto text-slate-50 bg-slate-900 rounded-md;
+  @apply p-4 overflow-x-auto text-slate-800 bg-stone-50 rounded-md;
 }
+
+
 
 /* Other */
 .chroma .x {}
 
 /* Error */
 .chroma .err {
-  @apply text-red-600;
+  @apply text-red-700;
 }
 
 /* CodeLine */
@@ -546,19 +565,19 @@ html {
 
 /* LineHighlight */
 .chroma .hl {
-  @apply flex bg-indigo-900/80;
+  @apply flex bg-yellow-100/60;
 }
 
 code
 
 /* LineNumbersTable */
 .chroma .lnt {
-  @apply text-slate-400 whitespace-pre pl-2 pr-4;
+  @apply text-slate-500 whitespace-pre pl-2 pr-4;
 }
 
 /* LineNumbers */
 .chroma .ln {
-  @apply text-slate-400 whitespace-pre px-4;
+  @apply text-slate-500 whitespace-pre px-4;
 }
 
 .chroma .lntable tr {
@@ -572,37 +591,37 @@ code
 
 /* Keyword */
 .chroma .k {
-  @apply text-red-400;
+  @apply text-purple-700 font-medium;
 }
 
 /* KeywordConstant */
 .chroma .kc {
-  @apply text-blue-400;
+  @apply text-purple-600;
 }
 
 /* KeywordDeclaration */
 .chroma .kd {
-  @apply text-red-400;
+  @apply text-purple-700 font-medium;
 }
 
 /* KeywordNamespace */
 .chroma .kn {
-  @apply text-red-400;
+  @apply text-purple-700 font-medium;
 }
 
 /* KeywordPseudo */
 .chroma .kp {
-  @apply text-blue-400;
+  @apply text-purple-600;
 }
 
 /* KeywordReserved */
 .chroma .kr {
-  @apply text-red-400;
+  @apply text-purple-700 font-medium;
 }
 
 /* KeywordType */
 .chroma .kt {
-  @apply text-red-400;
+  @apply text-purple-700 font-medium;
 }
 
 /* Name */
@@ -619,32 +638,32 @@ code
 
 /* NameClass */
 .chroma .nc {
-  @apply text-orange-400 font-bold;
+  @apply text-amber-600 font-bold;
 }
 
 /* NameConstant */
 .chroma .no {
-  @apply text-blue-400 font-bold;
+  @apply text-purple-600 font-bold;
 }
 
 /* NameDecorator */
 .chroma .nd {
-  @apply text-purple-300 font-bold;
+  @apply text-green-600 font-bold;
 }
 
 /* NameEntity */
 .chroma .ni {
-  @apply text-orange-400;
+  @apply text-amber-600;
 }
 
 /* NameException */
 .chroma .ne {
-  @apply text-orange-400 font-bold;
+  @apply text-red-600 font-bold;
 }
 
 /* NameFunction */
 .chroma .nf {
-  @apply text-purple-300 font-bold;
+  @apply text-green-600 font-bold;
 }
 
 /* NameFunctionMagic */
@@ -652,12 +671,12 @@ code
 
 /* NameLabel */
 .chroma .nl {
-  @apply text-blue-400 font-bold;
+  @apply text-blue-600 font-bold;
 }
 
 /* NameNamespace */
 .chroma .nn {
-  @apply text-red-400;
+  @apply text-red-600;
 }
 
 /* NameOther */
@@ -665,17 +684,17 @@ code
 
 /* NameProperty */
 .chroma .py {
-  @apply text-blue-400;
+  @apply text-blue-600;
 }
 
 /* NameTag */
 .chroma .nt {
-  @apply text-green-400;
+  @apply text-green-700;
 }
 
 /* NameVariable */
 .chroma .nv {
-  @apply text-blue-400
+  @apply text-blue-600
 }
 
 /* NameVariableClass */
@@ -692,127 +711,127 @@ code
 
 /* Literal */
 .chroma .l {
-  @apply text-blue-400;
+  @apply text-orange-600;
 }
 
 /* LiteralDate */
 .chroma .ld {
-  @apply text-blue-400;
+  @apply text-orange-600;
 }
 
 /* LiteralString */
 .chroma .s {
-  @apply text-blue-400;
+  @apply text-orange-600;
 }
 
 /* LiteralStringAffix */
 .chroma .sa {
-  @apply text-blue-400
+  @apply text-orange-600
 }
 
 /* LiteralStringBacktick */
 .chroma .sb {
-  @apply text-blue-400;
+  @apply text-orange-600;
 }
 
 /* LiteralStringChar */
 .chroma .sc {
-  @apply text-blue-400;
+  @apply text-orange-600;
 }
 
 /* LiteralStringDelimiter */
 .chroma .dl {
-  @apply text-blue-400
+  @apply text-orange-600
 }
 
 /* LiteralStringDoc */
 .chroma .sd {
-  @apply text-blue-400;
+  @apply text-orange-600;
 }
 
 /* LiteralStringDouble */
 .chroma .s2 {
-  @apply text-blue-400;
+  @apply text-orange-600;
 }
 
 /* LiteralStringEscape */
 .chroma .se {
-  @apply text-blue-400
+  @apply text-orange-600
 }
 
 /* LiteralStringHeredoc */
 .chroma .sh {
-  @apply text-blue-400
+  @apply text-orange-600
 }
 
 /* LiteralStringInterpol */
 .chroma .si {
-  @apply text-blue-400;
+  @apply text-orange-600;
 }
 
 /* LiteralStringOther */
 .chroma .sx {
-  @apply text-blue-400;
+  @apply text-orange-600;
 }
 
 /* LiteralStringRegex */
 .chroma .sr {
-  @apply text-blue-400
+  @apply text-orange-600
 }
 
 /* LiteralStringSingle */
 .chroma .s1 {
-  @apply text-blue-400;
+  @apply text-orange-600;
 }
 
 /* LiteralStringSymbol */
 .chroma .ss {
-  @apply text-blue-400;
+  @apply text-orange-600;
 }
 
 /* LiteralNumber */
 .chroma .m {
-  @apply text-blue-400;
+  @apply text-purple-600;
 }
 
 /* LiteralNumberBin */
 .chroma .mb {
-  @apply text-blue-400;
+  @apply text-purple-600;
 }
 
 /* LiteralNumberFloat */
 .chroma .mf {
-  @apply text-blue-400;
+  @apply text-purple-600;
 }
 
 /* LiteralNumberHex */
 .chroma .mh {
-  @apply text-blue-400;
+  @apply text-purple-600;
 }
 
 /* LiteralNumberInteger */
 .chroma .mi {
-  @apply text-blue-400;
+  @apply text-purple-600;
 }
 
 /* LiteralNumberIntegerLong */
 .chroma .il {
-  @apply text-blue-400;
+  @apply text-purple-600;
 }
 
 /* LiteralNumberOct */
 .chroma .mo {
-  @apply text-blue-400;
+  @apply text-purple-600;
 }
 
 /* Operator */
 .chroma .o {
-  @apply text-red-400 font-bold;
+  @apply text-red-600 font-bold;
 }
 
 /* OperatorWord */
 .chroma .ow {
-  @apply text-red-400 font-bold;
+  @apply text-red-600 font-bold;
 }
 
 /* Punctuation */
@@ -820,39 +839,39 @@ code
 
 /* Comment */
 .chroma .c {
-  @apply text-slate-500;
+  @apply text-slate-600;
   font-style: italic
 }
 
 /* CommentHashbang */
 .chroma .ch {
-  @apply text-slate-500;
+  @apply text-slate-600;
   font-style: italic
 }
 
 /* CommentMultiline */
 .chroma .cm {
-  @apply text-slate-500 italic;
+  @apply text-slate-600 italic;
 }
 
 /* CommentSingle */
 .chroma .c1 {
-  @apply text-slate-500 italic;
+  @apply text-slate-600 italic;
 }
 
 /* CommentSpecial */
 .chroma .cs {
-  @apply text-slate-500 font-bold italic;
+  @apply text-slate-600 font-bold italic;
 }
 
 /* CommentPreproc */
 .chroma .cp {
-  @apply text-slate-500 font-bold italic;
+  @apply text-slate-600 font-bold italic;
 }
 
 /* CommentPreprocFile */
 .chroma .cpf {
-  @apply text-slate-500 font-bold italic;
+  @apply text-slate-600 font-bold italic;
 }
 
 /* Generic */
@@ -860,7 +879,7 @@ code
 
 /* GenericDeleted */
 .chroma .gd {
-  @apply text-red-300 bg-red-900;
+  @apply text-red-700 bg-red-100;
 }
 
 /* GenericEmph */
@@ -870,27 +889,27 @@ code
 
 /* GenericError */
 .chroma .gr {
-  @apply text-red-300;
+  @apply text-red-700;
 }
 
 /* GenericHeading */
 .chroma .gh {
-  @apply text-blue-400 font-bold;
+  @apply text-blue-600 font-bold;
 }
 
 /* GenericInserted */
 .chroma .gi {
-  @apply text-green-400 bg-green-900;
+  @apply text-green-700 bg-green-100;
 }
 
 /* GenericOutput */
 .chroma .go {
-  @apply text-slate-400;
+  @apply text-slate-600;
 }
 
 /* GenericPrompt */
 .chroma .gp {
-  @apply text-slate-400;
+  @apply text-slate-600;
 }
 
 /* GenericStrong */
@@ -900,12 +919,12 @@ code
 
 /* GenericSubheading */
 .chroma .gu {
-  @apply text-blue-400;
+  @apply text-blue-600;
 }
 
 /* GenericTraceback */
 .chroma .gt {
-  @apply text-red-400;
+  @apply text-red-600;
 }
 
 /* GenericUnderline */
@@ -915,7 +934,7 @@ code
 
 /* TextWhitespace */
 .chroma .w {
-  @apply text-slate-500;
+  @apply text-slate-600;
 }
 /* Safari input[type = radio] fix for tabs */
 input[type="radio"] {
@@ -969,6 +988,12 @@ input[type="radio"] {
 
 code {
   @apply font-monogeist;
+}
+
+
+
+.command-syntax {
+  @apply bg-slate-100 text-slate-900 font-mono font-semibold px-4 py-3 rounded-lg border border-slate-200;
 }
 
 /* no-click turns off border and click event on small icons */
