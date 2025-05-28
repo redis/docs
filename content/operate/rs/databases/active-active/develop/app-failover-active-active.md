@@ -89,7 +89,7 @@ The most reliable way to detect replication failures is using Redis pub/sub.
    }
    ```
 
-2. **Subscribe to health channels**:
+2. Subscribe to health channels:
    ```python
    # Example implementation - adapt for your environment
    for name, client in replicas.items():
