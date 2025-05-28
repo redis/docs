@@ -237,7 +237,7 @@ A replica is ready for failback when it's:
            return False
    ```
 
-2. **Gradual failback** (recommended):
+2. Gradual failback:
    ```python
    # Example implementation - adapt for your environment
    def gradual_failback(primary_replica):
