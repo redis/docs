@@ -113,7 +113,7 @@ The most reliable way to detect replication failures is using Redis pub/sub.
            client.publish(f'health-check-{name}', json.dumps(message))
    ```
 
-4. **Monitor message delivery**:
+4. Monitor message delivery:
    ```python
    # Example implementation - adapt for your environment
    def check_replication_health():
