@@ -201,9 +201,9 @@ def failover_to_replica(target_replica_name):
 
 Continue monitoring all replicas, including the failed one, to detect when it recovers.
 
-## Implementing failback
+## Implement failback
 
-Monitor the failed replica to determine when it's safe to failback:
+Monitor the failed replica to determine when it's safe to failback.
 
 ### Failback criteria
 
