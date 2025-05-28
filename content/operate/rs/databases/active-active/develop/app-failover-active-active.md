@@ -34,7 +34,7 @@ Before implementing failover logic, ensure you understand:
 
 - [Active-Active database concepts]({{< relref "/operate/rs/databases/active-active" >}})
 - Your application's data consistency requirements
-- Network topology between replicas
+- [Network topology]({{<relref "/operate/rs/databases/active-active/planning#networking">}}) between replicas
 - Redis [pub/sub mechanism]({{< relref "/develop/interact/pubsub" >}})
 
 ## Failure detection strategies
