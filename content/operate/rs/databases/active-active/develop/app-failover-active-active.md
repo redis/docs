@@ -214,7 +214,7 @@ A replica is ready for failback when it's:
 
 ### Failback process
 
-1. **Verify replica health**:
+1. Verify replica health:
    ```python
    # Example implementation - adapt for your environment
    def is_replica_ready_for_failback(replica_name):
