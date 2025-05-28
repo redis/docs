@@ -25,7 +25,7 @@ Active-Active databases don't include built-in application failover mechanisms. 
 4. **Failback** to the local replica when it recovers
 
 {{< warning >}}
-**Data consistency considerations**: Active-Active replication is asynchronous. Applications that failover to another replica may miss recent write operations, which can impact data consistency.
+**Data consistency considerations**: Active-Active replication is asynchronous. Applications that failover to another replica may miss recent write operations, which can impact data consistency. If the failed replica saved the write operations in persistent storage, then the write operations are processed when the failed replica recovers.
 {{< /warning >}}
 
 ## Prerequisites
