@@ -165,9 +165,7 @@ Asymmetric configurations require monitoring every hash slot intersection, which
 
 When you detect a local replica failure:
 
-### 1. Stop writing to the failed replica
-
-Immediately redirect all database operations to a healthy remote replica.
+1. Stop writing to the failed replica and immediately redirect all database operations to a healthy remote replica.
 
 ```python
 # Example implementation - adapt for your environment
