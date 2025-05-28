@@ -66,16 +66,16 @@ Your application should monitor local replica failures and replication failures.
 
 **Detection method**: Use Redis pub/sub to monitor replication health across all replicas.
 
-## Implementing pub/sub health monitoring
+## Set up pub/sub health monitoring
 
-The most reliable way to detect replication failures is using Redis pub/sub:
+The most reliable way to detect replication failures is using Redis pub/sub.
 
 ### How it works
 
-1. **Subscribe** to a dedicated health-check channel on each replica
-2. **Publish** periodic heartbeat messages with unique identifiers
-3. **Monitor** that your own messages are received within a time window
-4. **Detect failure** when messages aren't received from specific replicas
+1. Subscribe to a dedicated health-check channel on each replica.
+2. Publish periodic heartbeat messages with unique identifiers.
+3. Monitor that your own messages are received within a time window.
+4. Detect failure when messages aren't received from specific replicas.
 
 ### Implementation steps
 
