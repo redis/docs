@@ -195,9 +195,7 @@ def failover_to_replica(target_replica_name):
 - Use timestamps or version numbers to detect stale data
 - Implement retry logic for critical operations
 
-### 3. Update monitoring
-
-Continue monitoring all replicas, including the failed one, to detect when it recovers.
+3. Continue monitoring all replicas, including the failed one, to detect when it recovers.
 
 ## Implement failback
 
