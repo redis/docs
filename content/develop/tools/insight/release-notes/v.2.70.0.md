@@ -1,7 +1,7 @@
 ---
 Title: Redis Insight v2.70.0, May 2025
 linkTitle: v2.70.0 (May 2025)
-date: 2025-05-21 00:00:00 +0000
+date: 2025-05-28 00:00:00 +0000
 description: Redis Insight v2.70
 weight: 1
 
