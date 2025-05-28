@@ -27,8 +27,9 @@ This is the General Availability (GA) release of Redis Insight 2.70.
 **SHA-256 Checksums**
 | Package | SHA-256 |
 |--|--|
-| Windows |  |
-| Linux AppImage |  |
-| Linux Debian|  |
-| MacOS Intel |  |
-| MacOS Apple silicon |  |
+| Windows | AMAdQy5TsKc/76OAH4NdJ+abe/ogRdBGTPmVmAMgCG3O74hGZ0Q5h53HMaGzaOpTM+bEiRqTfi/i/iHgTNRmDA== |
+| Linux AppImage | 6E1d++C6C4M8P/onVHrdsC1CwsdQ1dYysLedbIhsgmsxR9t37LA+mdxIWFOCi0Z/XZqox/kGb/EjPxRIyF2apw== |
+| Linux Debian| 3opZq01Di5DCBEX1tYaO59dHbHmeG2928RrIZAcJKiZnGNLNbOeg3AuXalkYuzb3i/kIBLeEKQIwwzW7GFw0VA== |
+| Linux RPM | bC7FpokqgG7/gMqHQRy4pB6U1leu5pWXAcS0jPfUveQHfrbth2zcNlCCIiZ7QW4eUbxeObmDK8dfiL3GojSBLg== |
+| MacOS Intel | gLlxX8kt26QpO0Wa0xjA5+dvW+ZbayJPh/BJ6r4PsRO/l7t7plNNI7RtJKPO4kc39x6FqJ1ipT5poQQQn5lPhQ== |
+| MacOS Apple silicon | V/yQCCf0sndGYgXNkjkKo7FrJwknnCDwKqBg+uUdKjpSwDaDa8zobSbREJ7rDdSMjj6F6eCedYPmhalfe0VZbw== |
