@@ -132,7 +132,7 @@ res7 = r.cf().mexists("other_users", "paolo", "rachel", "andy")
 print(res7)  # >>> [1, 1, 0]
 
 res8 = r.cf().delete("other_users", "paolo")
-print(res8)
+print(res8)  # >>> 1
 
 res9 = r.cf().exists("other_users", "paolo")
 print(res9)  # >>> 0
