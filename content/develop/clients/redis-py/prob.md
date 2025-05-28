@@ -24,7 +24,8 @@ The types fall into two basic categories:
     the number of items in a set of distinct values, and whether or not a given value is
     a member of a set.
 -   [Statistics](#statistics): These types give you an approximation of
-    statistics such as the percentile, rank, and frequency of numeric data points in a list.
+    statistics such as the quantiles, ranks, and frequencies of numeric data points in
+    a list.
 
 To see why these approximate calculations would be useful, consider the task of
 counting the number of distinct IP addresses that access a website in one day.
@@ -50,8 +51,8 @@ This approach is simple, effective, and precise but if your website
 is very busy, the `ip_tracker` set could become very large and consume
 a lot of memory.
 
-The count of distinct IP addresses would probably be rounded to the
-nearest thousand or more when the usage statistics are delivered, so
+You would probably round the count of distinct IP addresses to the
+nearest thousand or more when you deliver the usage statistics, so
 getting it exactly right is not important. It would be useful
 if you could trade off some precision in exchange for lower memory
 consumption. The probabilistic data types provide exactly this kind of
@@ -194,12 +195,15 @@ bank card numbers that make purchases within a day.
 Redis supports several approximate statistical calculations
 on numeric data sets:
 
--   [Frequency](#frequency): The Count-min sketch data type lets you
-    find the approximate frequency of a labeled item in a data stream.
--   Percentiles: The t-digest data type estimates the percentile
-    of a supplied value in a data stream.
--   Ranking: The Top-K data type estimates the ranking of items
-    by frequency in a data stream.
+-   [Frequency](#frequency): The
+    [Count-min sketch]({{< relref "/develop/data-types/probabilistic/count-min-sketch" >}})
+    data type lets you find the approximate frequency of a labeled item in a data stream.
+-   [Quantiles](#quantiles): The
+    [t-digest]({{< relref "/develop/data-types/probabilistic/t-digest" >}})
+    data type estimates the quantile of a query value in a data stream.
+-   [Ranking](#ranking): The
+    [Top-K]({{< relref "/develop/data-types/probabilistic/top-k" >}}) data type
+    estimates the ranking of labeled items by frequency in a data stream.
 
 ### Frequency
 
@@ -222,6 +226,49 @@ large numbers of items. Use CMS objects to keep daily counts of
 items sold, accesses to individual web pages on your site, and
 other similar statistics.
 
-### Percentiles
+### Quantiles
 
+A [quantile](https://en.wikipedia.org/wiki/Quantile) is the value
+below which a certain fraction of samples lie. For example, with
+a set of measurements of people's heights, the quantile of 0.75 is
+the value of height below which 75% of people's heights lie.
+[Percentiles](https://en.wikipedia.org/wiki/Percentile) are equivalent
+to quantiles, except that the fraction is expressed as a percentage.
 
+A [t-digest]({{< relref "/develop/data-types/probabilistic/t-digest" >}})
+object can estimate quantiles from a set of values added to it
+without having to store each value in the set explicitly. This can
+save a lot of memory when you have a large number of samples.
+
+The example below shows how to add data samples to a t-digest
+object and obtain some basic statistics, such as the minimum and
+maximum values, the quantile of 0.75, and the 
+[cumulative distribution function](https://en.wikipedia.org/wiki/Cumulative_distribution_function)
+(CDF), which is effectively the inverse of the quantile function. It also
+shows how to merge two or more t-digest objects to query the combined
+data set.
+
+{{< clients-example home_prob_dts tdigest Python >}}
+{{< /clients-example >}}
+
+A t-digest object also supports several other related commands, such
+as querying by rank. See the
+[t-digest]({{< relref "/develop/data-types/probabilistic/t-digest" >}})
+reference for more information.
+
+### Ranking
+
+A [Top-K]({{< relref "/develop/data-types/probabilistic/top-k" >}})
+object estimates the rankings of different labeled items in a data
+stream according to frequency. For example, you could use this to
+track the top ten most frequently-accessed pages on a website, or the
+top five most popular items sold.
+
+The example below adds several different items to a Top-K object
+that tracks the top three items (this is the second parameter to
+the `topk().reserve()` method). It also shows how to list the
+top *k* items and query whether or not a given item is in the
+list.
+
+{{< clients-example home_prob_dts topk Python >}}
+{{< /clients-example >}}
