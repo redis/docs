@@ -53,7 +53,7 @@ output:
 
 Settings the expiration according to a field that contains a date, datetime, or timestamp value is also possible, but it depends on the source database and the data types it supports. Please refer to the examples below for your specific source database and data type.
 
-{{< expand "Oracle examples" >}}
+### Oracle examples
 
 The transformation depends on the data type of the field in the source database:
 
@@ -102,10 +102,10 @@ The transformation depends on the data type of the field in the source database:
               expression: CASE WHEN expire_seconds < 0 THEN -expire_seconds ELSE -1 END
               language: sql
     ```
-{{< /expand >}}
 
+----
 
-{{< expand "SQL Server examples" >}}
+### SQL Server examples
 SQL Server supports the following date and time data types:
 
 - `date` - represented in Debezium as number of days since epoch (1970-01-01). Please note that due to the lack of time information, this method is not very accurate.
@@ -160,4 +160,5 @@ SQL Server supports the following date and time data types:
           expression: strftime('%s', event_datetimeoffset) - strftime('%s', 'now')
           language: sql
   ```
-{{< /expand >}}
+
+<!-- TODO [ilianiliev-redis]: Test and document the dynamic expressions for the rest of the supported databases - MySQL, PostgresSQL, MongoDB -->
