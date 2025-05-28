@@ -129,7 +129,7 @@ The most reliable way to detect replication failures is using Redis pub/sub.
 **Why pub/sub works**: Pub/sub messages are delivered as replicated effects, making them a reliable indicator of active replication links. Unlike dataset changes, pub/sub doesn't make assumptions about your data structure.
 {{< /tip >}}
 
-## Handling sharded databases
+## Handle sharded databases
 
 If your Active-Active database uses sharding, you need to monitor each shard individually:
 
