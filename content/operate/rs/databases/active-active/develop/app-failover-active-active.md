@@ -208,9 +208,9 @@ Monitor the failed replica to determine when it's safe to failback.
 ### Failback criteria
 
 A replica is ready for failback when it's:
-1. **Available**: Accepting connections and responding to commands
-2. **Synchronized**: Caught up with changes from other replicas
-3. **Not stale**: Actively participating in replication
+1. **Available**: Accepting connections and responding to commands.
+2. **Synchronized**: Caught up with changes from other replicas.
+3. **Not stale**: You can read and write to the replica.
 
 ### Failback process
 
