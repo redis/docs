@@ -386,5 +386,4 @@ class FailoverRedisClient:
 ## Related topics
 
 - [Redis pub/sub]({{< relref "/develop/interact/pubsub" >}})
-- [Redis Cluster API]({{< relref "/operate/rs/clusters/cluster-api" >}})
-- [High availability best practices]({{< relref "/operate/rs/databases/durability-ha" >}})
+- [OSS Cluster API]({{< relref "/operate/rs/clusters/optimize/oss-cluster-api/" >}})
