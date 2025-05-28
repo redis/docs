@@ -96,7 +96,7 @@ The most reliable way to detect replication failures is using Redis pub/sub.
        client.subscribe(f'health-check-{name}')
    ```
 
-3. **Publish heartbeat messages**:
+3. Publish heartbeat messages:
    ```python
    # Example implementation - adapt for your environment
    import time
