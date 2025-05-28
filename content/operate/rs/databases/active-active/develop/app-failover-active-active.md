@@ -161,7 +161,7 @@ def get_channels_per_shard(redis_client):
 
 Asymmetric configurations require monitoring every hash slot intersection, which is complex and error-prone.
 
-## Implementing failover
+## Implement failover
 
 When you detect a local replica failure:
 
