@@ -52,28 +52,29 @@ is very busy, the `ip_tracker` set could become very large and consume
 a lot of memory.
 
 You would probably round the count of distinct IP addresses to the
-nearest thousand or more when you deliver the usage statistics, so
+nearest thousand or more to deliver the usage statistics, so
 getting it exactly right is not important. It would be useful
-if you could trade off some precision in exchange for lower memory
+if you could trade off some accuracy in exchange for lower memory
 consumption. The probabilistic data types provide exactly this kind of
 trade-off. Specifically, you can count the approximate number of items in a
-set using the
-[HyperLogLog]({{< relref "/develop/data-types/probabilistic/hyperloglogs" >}})
-data type, as described below.
+set using the [HyperLogLog](#set-cardinality) data type, as described below.
 
 In general, the probabilistic data types let you perform approximations with a
-bounded degree of error that have much lower memory or execution time than
-the equivalent precise calculations.
+bounded degree of error that have much lower memory consumption or execution
+time than the equivalent precise calculations.
 
 ## Set operations
 
 Redis supports the following approximate set operations:
 
--   [Membership](#set-membership): The Bloom filter and Cuckoo filter data types
-    let you track whether or not a given item is a member of a set.
--   [Cardinality](#set-cardinality): The HyperLogLog data type gives you an approximate
-    value for the number of items in a set, also known as the *cardinality* of
-    the set.
+-   [Membership](#set-membership): The
+    [Bloom filter]({{< relref "/develop/data-types/probabilistic/bloom-filter" >}}) and
+    [Cuckoo filter]({{< relref "/develop/data-types/probabilistic/cuckoo-filter" >}})
+    data types let you track whether or not a given item is a member of a set.
+-   [Cardinality](#set-cardinality): The
+    [HyperLogLog]({{< relref "/develop/data-types/probabilistic/hyperloglogs" >}})
+    data type gives you an approximate value for the number of items in a set, also
+    known as the *cardinality* of the set.
 
 The sections below describe these operations in more detail.
 
@@ -98,7 +99,6 @@ add. The following example adds some names to a Bloom filter representing
 a list of users and checks for the presence or absence of users in the list.
 Note that you must use the `bf()` method to access the Bloom filter commands.
 
-<!--
 ```py
 res1 = r.bf().madd("recorded_users", "andy", "cameron", "david", "michelle")
 print(res1)  # >>> [1, 1, 1, 1]
@@ -109,16 +109,15 @@ print(res2)  # >>> 1
 res3 = r.bf().exists("recorded_users", "kaitlyn")
 print(res3)  # >>> 0
 ```
--->
-{{< clients-example home_prob_dts bloom Python >}}
-{{< /clients-example >}}
+
+<!-- < clients-example home_prob_dts bloom Python >}}
+< /clients-example >}} -->
 
 A Cuckoo filter has similar features to a Bloom filter, but also supports
 a deletion operation to remove hashes from a set, as shown in the example
 below. Note that you must use the `cf()` method to access the Cuckoo filter
 commands.
 
-<!--
 ```py
 res4 = r.cf().add("other_users", "paolo")
 print(res4)  # >>> 1
@@ -138,9 +137,9 @@ print(res8)
 res9 = r.cf().exists("other_users", "paolo")
 print(res9)  # >>> 0
 ```
--->
-{{< clients-example home_prob_dts cuckoo Python >}}
-{{< /clients-example >}}
+
+<!-- < clients-example home_prob_dts cuckoo Python >}}
+< /clients-example >}} -->
 
 Which of these two data types you choose depends on your use case.
 Bloom filters are generally faster than Cuckoo filters when adding new items,
@@ -157,9 +156,9 @@ object calculates the cardinality of a set. As you add
 items, the HyperLogLog tracks the number of distinct set members but
 doesn't let you retrieve them or query which items have been added.
 You can also merge two or more HyperLogLogs to find the cardinality of the
-union of the sets they represent.
+[union](https://en.wikipedia.org/wiki/Union_(set_theory)) of the sets they
+represent.
 
-<!--
 ```py
 res10 = r.pfadd("group:1", "andy", "cameron", "david")
 print(res10)  # >>> 1
@@ -179,9 +178,9 @@ print(res14)  # >>> True
 res15 = r.pfcount("both_groups")
 print(res15)  # >>> 7
 ```
--->
-{{< clients-example home_prob_dts hyperloglog Python >}}
-{{< /clients-example >}}
+
+<!-- < clients-example home_prob_dts hyperloglog Python >}}
+< /clients-example >}} -->
 
 The main benefit that HyperLogLogs offer is their very low
 memory usage. They can count up to 2^64 items with less than
@@ -205,6 +204,8 @@ on numeric data sets:
     [Top-K]({{< relref "/develop/data-types/probabilistic/top-k" >}}) data type
     estimates the ranking of labeled items by frequency in a data stream.
 
+The sections below describe these operations in more detail.
+
 ### Frequency
 
 A [Count-min sketch]({{< relref "/develop/data-types/probabilistic/count-min-sketch" >}})
@@ -214,10 +215,41 @@ how close you want to keep the count to the true value (as a fraction)
 and the acceptable probability of failing to keep it in this
 desired range. For example, you can request that the count should
 stay within 0.1% of the true value and have a 0.05% probability
-of going outside this limit.
+of going outside this limit. The example below shows how to create
+a Count-min sketch object, add data to it, and then query it.
+Note that you must use the `cms()` method to access the Count-min
+sketch commands.
 
-{{< clients-example home_prob_dts cms Python >}}
-{{< /clients-example >}}
+```py
+# Specify that you want to keep the counts within 0.01
+# (0.1%) of the true value with a 0.005 (0.05%) chance
+# of going outside this limit.
+res16 = r.cms().initbyprob("items_sold", 0.01, 0.005)
+print(res16)  # >>> True
+
+# The parameters for `incrby()` are two lists. The count
+# for each item in the first list is incremented by the
+# value at the same index in the second list.
+res17 = r.cms().incrby(
+    "items_sold",
+    ["bread", "tea", "coffee", "beer"],  # Items sold
+    [300, 200, 200, 100]
+)
+print(res17)  # >>> [300, 200, 200, 100]
+
+res18 = r.cms().incrby(
+    "items_sold",
+    ["bread", "coffee"],
+    [100, 150]
+)
+print(res18)  # >>> [400, 350]
+
+res19 = r.cms().query("items_sold", "bread", "tea", "coffee", "beer")
+print(res19)  # >>> [400, 200, 350, 100]
+```
+
+<!-- < clients-example home_prob_dts cms Python >}}
+< /clients-example >}} -->
 
 The advantage of using a CMS over keeping an exact count with a
 [sorted set]({{< relref "/develop/data-types/sorted-sets" >}})
@@ -231,7 +263,7 @@ other similar statistics.
 A [quantile](https://en.wikipedia.org/wiki/Quantile) is the value
 below which a certain fraction of samples lie. For example, with
 a set of measurements of people's heights, the quantile of 0.75 is
-the value of height below which 75% of people's heights lie.
+the value of height below which 75% of all people's heights lie.
 [Percentiles](https://en.wikipedia.org/wiki/Percentile) are equivalent
 to quantiles, except that the fraction is expressed as a percentage.
 
@@ -246,10 +278,56 @@ maximum values, the quantile of 0.75, and the
 [cumulative distribution function](https://en.wikipedia.org/wiki/Cumulative_distribution_function)
 (CDF), which is effectively the inverse of the quantile function. It also
 shows how to merge two or more t-digest objects to query the combined
-data set.
+data set. Note that you must use the `tdigest()` method to access the
+t-digest commands.
 
-{{< clients-example home_prob_dts tdigest Python >}}
-{{< /clients-example >}}
+```py
+res20 = r.tdigest().create("male_heights")
+print(res20)  # >>> True
+
+res21 = r.tdigest().add(
+    "male_heights",
+    [175.5, 181, 160.8, 152, 177, 196, 164]
+)
+print(res21)  # >>> OK
+
+res22 = r.tdigest().min("male_heights")
+print(res22)  # >>> 152.0
+
+res23 = r.tdigest().max("male_heights")
+print(res23)  # >>> 196.0
+
+res24 = r.tdigest().quantile("male_heights", 0.75)
+print(res24)  # >>> 181
+
+# Note that the CDF value for 181 is not exactly
+# 0.75. Both values are estimates.
+res25 = r.tdigest().cdf("male_heights", 181)
+print(res25)  # >>> [0.7857142857142857]
+
+res26 = r.tdigest().create("female_heights")
+print(res26)  # >>> True
+
+res27 = r.tdigest().add(
+    "female_heights",
+    [155.5, 161, 168.5, 170, 157.5, 163, 171]
+)
+print(res27)  # >>> OK
+
+res28 = r.tdigest().quantile("female_heights", 0.75)
+print(res28)  # >>> [170]
+
+res29 = r.tdigest().merge(
+    "all_heights", 2, "male_heights", "female_heights"
+)
+print(res29)  # >>> OK
+
+res30 = r.tdigest().quantile("all_heights", 0.75)
+print(res30)  # >>> [175.5]
+```
+
+<!-- < clients-example home_prob_dts tdigest Python >}}
+< /clients-example >}} -->
 
 A t-digest object also supports several other related commands, such
 as querying by rank. See the
@@ -268,7 +346,51 @@ The example below adds several different items to a Top-K object
 that tracks the top three items (this is the second parameter to
 the `topk().reserve()` method). It also shows how to list the
 top *k* items and query whether or not a given item is in the
-list.
+list. Note that you must use the `topk()` method to access the
+Top-K commands.
 
-{{< clients-example home_prob_dts topk Python >}}
-{{< /clients-example >}}
+```py
+# The `reserve()` method creates the Top-K object with
+# the given key. The parameters are the number of items
+# in the ranking and values for `width`, `depth`, and
+# `decay`, described in the Top-K reference page.
+res31 = r.topk().reserve("top_3_songs", 3, 7, 8, 0.9)
+print(res31)  # >>> True
+
+# The parameters for `incrby()` are two lists. The count
+# for each item in the first list is incremented by the
+# value at the same index in the second list.
+res32 = r.topk().incrby(
+    "top_3_songs",
+    [
+        "Starfish Trooper",
+        "Only one more time",
+        "Rock me, Handel",
+        "How will anyone know?",
+        "Average lover",
+        "Road to everywhere"
+    ],
+    [
+        3000,
+        1850,
+        1325,
+        3890,
+        4098,
+        770
+    ]
+)
+print(res32)
+# >>> [None, None, None, 'Rock me, Handel', 'Only one more time', None]
+
+res33 = r.topk().list("top_3_songs")
+print(res33)
+# >>> ['Average lover', 'How will anyone know?', 'Starfish Trooper']
+
+res34 = r.topk().query(
+    "top_3_songs", "Starfish Trooper", "Road to everywhere"
+)
+print(res34)  # >>> [1, 0]
+```
+
+<!-- < clients-example home_prob_dts topk Python >}}
+< /clients-example >}} -->
