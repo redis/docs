@@ -86,7 +86,7 @@ To restart an Active-Active database's syncer after an unrecoverable error, use 
      http://<cluster-endpoint>:8080/v1/bdbs/<bdb_id>
    ```
 
-2. **Use crdb-cli (recommended):**
+- Run [`crdb-cli crdb update`]({{<relref "/operate/rs/references/cli-utilities/crdb-cli/crdb/update">}}):
 
    ```sh
    crdb-cli crdb update --crdb-guid <crdb-guid> --force
