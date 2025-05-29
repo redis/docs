@@ -57,7 +57,7 @@ In some cases, you can also set the expiration time based a field that contains 
 
 The transformation depends on the data type of the field in the source database:
 
-- `DATE` - represented by debezium as 64-bit integer representing the milliseconds since epoch
+- `DATE` - represented by debezium as a 64-bit integer representing the milliseconds since epoch
   ```yaml
   output:
     - uses: redis.write
