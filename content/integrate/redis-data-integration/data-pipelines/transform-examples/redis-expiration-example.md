@@ -9,7 +9,7 @@ categories:
 description: null
 group: di
 linkTitle: Set expiration times / TTL
-summary: How to set expiration times / TTL to keys
+summary: How to set expiration times / TTL for keys
 type: integration
 weight: 40
 ---
