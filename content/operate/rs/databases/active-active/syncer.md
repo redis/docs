@@ -73,7 +73,7 @@ curl -v -k -u <username>:<password> -X PUT \
   http://<cluster-endpoint>:8080/v1/bdbs/<bdb_id>
 ```
 
-#### For Active-Active databases (CRDB)
+#### Restart syncer for Active-Active databases
 
 For Active-Active databases, you have two options:
 
