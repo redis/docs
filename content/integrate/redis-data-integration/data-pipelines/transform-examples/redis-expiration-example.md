@@ -98,7 +98,7 @@ The transformation depends on the data type of the field in the source database:
             expire:
               # `time_delta_seconds` Returns the number of seconds between a given dt and now. 
               # A negative value means that the given dt is in the future, so we need to invert it.
-              # A positive value means that the given dt is in the past, so we set the expiration to -1 (expire immediately).
+              # A positive value means that the given dt is in the past, so set the expiration to -1 (expire immediately).
               expression: CASE WHEN expire_seconds < 0 THEN -expire_seconds ELSE -1 END
               language: sql
     ```
