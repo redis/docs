@@ -140,7 +140,7 @@ SQL Server supports the following date and time data types:
       with:
         data_type: hash
         expire:
-          # We convert the time to seconds and subtract the current time in seconds since midnight.
+          # Convert the time to seconds and subtract the current time in seconds since midnight.
           expression: (event_time / 1000.0) -
             (
               CAST(strftime('%H', 'now') AS INTEGER) * 3600 +
