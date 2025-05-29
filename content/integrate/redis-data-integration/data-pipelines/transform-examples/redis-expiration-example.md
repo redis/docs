@@ -127,7 +127,7 @@ SQL Server supports the following date and time data types:
       with:
         data_type: hash
         expire:
-          # Due to event_datetime being in milisecond we need to divide it by 1000 to convert it to seconds.
+          # Since event_datetime is in miliseconds, you must divide it by 1000 to convert it to seconds.
           expression: event_datetime / 1000 - strftime('%s', 'now')
           language: sql
   ```
