@@ -8,7 +8,7 @@ aliases: /glossary/
 ---
 <dl class="glossary">
 
-<!--- 
+<!---
 {{%definition ""%}}
 {{%/definition%}}
 --->
@@ -106,8 +106,20 @@ Techniques used by Redis data types in Active-Active databases that handle confl
 More info: [CRDT info]({{<relref "/operate/rs/databases/active-active/develop/#info" >}}), [Active-Active geo-distributed Redis]({{< relref "/operate/rs/databases/active-active" >}}), [CRDT wikipedia](https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type)
 {{%/definition%}}
 
+{{%definition "controllers"%}}
+Control loops that watch the state of your Kubernetes cluster and make or request changes where needed to move the current cluster state closer to the desired state.
+
+More info: [Controllers](https://kubernetes.io/docs/concepts/architecture/controller/)
+{{%/definition%}}
+
+{{%definition "custom resources (CRs)"%}}
+Extensions of the Kubernetes API that allow you to store and retrieve structured data. Custom resources let you extend Kubernetes capabilities without modifying the core Kubernetes code.
+
+More info: [Custom Resources](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
+{{%/definition%}}
+
 {{%definition "CustomResourceDefinition (CRD)"%}}
-Custom code that defines a resource to add to your Kubernetes API server without building a complete custom server. 
+A cluster-wide resource that specifies which settings can be configured via custom resource files. CRDs define the structure and validation rules for custom resources.
 
 More info: [CustomResourceDefinition](https://kubernetes.io/docs/reference/glossary/?fundamental=true#term-CustomResourceDefinition), [Custom Resources](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
 {{%/definition%}}
@@ -118,6 +130,12 @@ More info: [CustomResourceDefinition](https://kubernetes.io/docs/reference/gloss
 Defines how excess data is handled when the database exceeds the memory limit.
 
 More info: [Data Eviction Policy]({{<relref "/operate/rc/databases/configuration/data-eviction-policies">}})
+{{%/definition%}}
+
+{{%definition "declarative configuration"%}}
+A configuration approach where you specify the desired state of your system, and the system automatically makes the necessary changes to achieve that state.
+
+More info: [Managing Kubernetes Objects Using Declarative Configuration](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/declarative-config/)
 {{%/definition%}}
 
 {{%definition "deprecated"%}}
@@ -229,13 +247,13 @@ More info: [Namespaces](https://kubernetes.io/docs/concepts/overview/working-wit
 {{%/definition%}}
 
 {{%definition "obsolete"%}}
-When features are removed from our products, they're generally replaced by new features that provide a better experience, more functionality, improved security, and other benefits.  
+When features are removed from our products, they're generally replaced by new features that provide a better experience, more functionality, improved security, and other benefits.
 
 To provide a transition period, we mark older features as _deprecated_ when introducing replacement features.  This gives you time to adjust your deployments, apps, and processes to support the new features.  During this transition, the older features continue to work as a courtesy.
 
-Eventually, older features are removed from the product.  When this happens, they're considered _obsolete_, partly because they can no longer be used.  
+Eventually, older features are removed from the product.  When this happens, they're considered _obsolete_, partly because they can no longer be used.
 
-For best results, we advise against relying on deprecated features for any length of time.  
+For best results, we advise against relying on deprecated features for any length of time.
 {{%/definition%}}
 
 {{%definition "operator"%}}
@@ -252,6 +270,24 @@ If a member Active-Active database is in an out of memory situation, that member
 
 {{%definition "participating clusters"%}}
 Clusters participating in the multi-primary replication of an Active-Active database.
+{{%/definition%}}
+
+{{%definition "PersistentVolume (PV)"%}}
+A piece of storage in the cluster that has been provisioned by an administrator or dynamically provisioned using storage classes.
+
+More info: [Persistent Volumes](https://kubernetes.io/docs/concepts/storage/persistent-volumes/)
+{{%/definition%}}
+
+{{%definition "PersistentVolumeClaims (PVC)"%}}
+A request for storage by a user that serves as an abstract representation of PersistentVolume (PV) resources. PVCs consume PV resources and can request specific size and access modes.
+
+More info: [Persistent Volumes](https://kubernetes.io/docs/concepts/storage/persistent-volumes/)
+{{%/definition%}}
+
+{{%definition "pods"%}}
+The smallest deployable units of computing that you can create and manage in Kubernetes. A pod represents a single instance of a running process in your cluster.
+
+More info: [Pods](https://kubernetes.io/docs/concepts/workloads/pods/)
 {{%/definition%}}
 
 {{%definition "provisioning"%}}
@@ -340,10 +376,16 @@ More info: [ReplicaSet](https://kubernetes.io/docs/concepts/workloads/controller
 {{%definition "replication"%}}
 
 Database replication provides a mechanism to ensure high availability. When replication is enabled, your dataset is replicated to a replica shard,
-which is constantly synchronized with the primary shard. If the primary 
+which is constantly synchronized with the primary shard. If the primary
 shard fails, an automatic failover happens and the replica shard is promoted.
 
 More info: [Database replication]({{<relref "/operate/rs/databases/durability-ha/replication">}})
+{{%/definition%}}
+
+{{%definition "role bindings"%}}
+Kubernetes objects that grant the permissions defined in a role to a user or set of users, including service accounts.
+
+More info: [RoleBinding and ClusterRoleBinding](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#rolebinding-and-clusterrolebinding)
 {{%/definition%}}
 
 {{%definition "role-based access control (RBAC)"%}}
@@ -352,10 +394,30 @@ A security approach that restricts system access to authorized users.
 More info: [RBAC wikipedia](https://en.wikipedia.org/wiki/Role-based_access_control); [Database access control]({{<relref "/operate/rs/security/access-control">}}); [Role-based access control]({{<relref "/operate/rc/security/access-control/data-access-control/role-based-access-control">}})
 {{%/definition%}}
 
+{{%definition "roles"%}}
+Kubernetes objects that contain rules representing a set of permissions. Roles define what actions can be performed on which resources.
+
+More info: [Role and ClusterRole](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#role-and-clusterrole)
+{{%/definition%}}
+
 ## S {#letter-s}
 
 {{%definition "secret"%}}
 Kubernetes term for object that stores sensitive information, such as passwords, OAuth tokens, and ssh keys.
+
+More info: [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/)
+{{%/definition%}}
+
+{{%definition "service account"%}}
+Provides an identity for processes that run in a pod, allowing them to access the Kubernetes API and other resources.
+
+More info: [Service Accounts](https://kubernetes.io/docs/concepts/security/service-accounts/)
+{{%/definition%}}
+
+{{%definition "services"%}}
+An abstract way to expose an application running on a set of pods as a network service in Kubernetes.
+
+More info: [Services](https://kubernetes.io/docs/concepts/services-networking/service/)
 {{%/definition%}}
 
 {{%definition "shard"%}}
@@ -376,6 +438,12 @@ More info: [SASL wikipedia](https://en.wikipedia.org/wiki/Simple_Authentication_
 
 {{%definition "snapshot (RDB)"%}}
 Data persistence file that performs a data dump every one, six, or twelve hours.
+{{%/definition%}}
+
+{{%definition "storage class"%}}
+A way for administrators to describe the classes of storage they offer in Kubernetes, including different quality-of-service levels, backup policies, or arbitrary policies.
+
+More info: [Storage Classes](https://kubernetes.io/docs/concepts/storage/storage-classes/)
 {{%/definition%}}
 
 {{%definition "syncer"%}}
@@ -403,6 +471,5 @@ Networking connection between two VPCs that enables you to route traffic between
 
 More info: [VPC wikipedia](https://en.wikipedia.org/wiki/Virtual_private_cloud), [Enable VPC peering]({{<relref "/operate/rc/security/vpc-peering">}})
 {{%/definition%}}
-
 
 </dl>
