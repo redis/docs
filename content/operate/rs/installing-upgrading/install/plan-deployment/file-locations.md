@@ -35,7 +35,7 @@ The default directories that Redis Enterprise Software uses for data and metadat
 | /var/opt/redislabs/log | System logs for Redis Enterprise Software |
 | /var/opt/redislabs/run | Socket files for Redis Enterprise Software |
 | /etc/opt/redislabs | Default location for cluster manager configuration and certificates |
-| /tmp | Temporary files (The /tmp filesystem size should be sized according to this formula: <number-of-cluster-nodes> * <size-of-/var/opt/redislabs/log-filesystem> |
+| /tmp | The /tmp filesystem is for temporary files and should be sized according to this formula: <number-of-cluster-nodes> * <size-of-/var/opt/redislabs/log-filesystem> |
 
 You can change these file locations for:
 
