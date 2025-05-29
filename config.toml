@@ -83,6 +83,15 @@ rdi_current_version = "1.8.0"
 
 # Everything below this are Site Params
 
+# Add markdown output
+[outputFormats]
+  [outputFormats.markdown]
+    name = "markdown"
+    baseName = "index"
+    mediaType = "text/markdown"
+    isPlainText = true
+
 # Comment out if you don't want the "print entire section" link enabled.
 [outputs]
-section = ["HTML", "RSS"] # print
+section = ["HTML", "RSS", "Markdown"] # print
+page = ["HTML", "Markdown"]
