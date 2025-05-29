@@ -115,7 +115,7 @@ SQL Server supports the following date and time data types:
       with:
         data_type: hash
         expire:
-          # We calculate the number of seconds for the amount of days and subtract the current time in seconds since epoch.
+          # Calculate the number of seconds equivalent to the number of days and subtract the current time in seconds since epoch.
           expression: (event_date * 86400) - strftime('%s', 'now')
           language: sql
   ```
