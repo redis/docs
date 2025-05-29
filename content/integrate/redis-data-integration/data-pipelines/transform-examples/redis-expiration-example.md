@@ -156,7 +156,7 @@ SQL Server supports the following date and time data types:
       with:
         data_type: hash
         expire:
-          # We convert the time to seconds and subtract the current time in seconds since epoch.
+          # Convert the time to seconds and subtract the current time in seconds since epoch.
           expression: strftime('%s', event_datetimeoffset) - strftime('%s', 'now')
           language: sql
   ```
