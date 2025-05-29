@@ -330,7 +330,7 @@ that includes the required Oracle XML libraries.
    docker image save quay.io/debezium/server:3.0.8.Final -o dbz3.0.8-xml-linux-amd.tar
    ```
 
-4. Add the image to your k3s image repository:
+4. Add the image to your K3s image repository:
 
    ```bash
    sudo k3s ctr images import dbz3.0.8-xml-linux-amd.tar all
