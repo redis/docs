@@ -37,7 +37,7 @@ output:
 
 ## Dynamic expiration time
 
-Settings the expiration time dynamically using a JMESPath or SQL expression is useful when the expiration time is based on a field in the source data. For example, you can set the expiration time to the value of a `ttl` field in the source data:
+You can use a JMESPath or SQL expression to set the expiration time dynamically when it is based on a field in the source data. For example, you can set the expiration time to the value of a `ttl` field in the source data:
 
 ```yaml
 output:
