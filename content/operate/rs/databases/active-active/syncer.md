@@ -93,5 +93,5 @@ To restart an Active-Active database's syncer after an unrecoverable error, use 
    ```
 
 {{< note >}}
-Replace `<username>`, `<password>`, `<cluster-endpoint>`, `<bdb_id>`, and `<crdb-guid>` with your actual values.
+Replace `<username>`, `<password>`, `<host>`, `<port>`, `<database-id>`, and `<crdb-guid>` with your actual values.
 {{< /note >}}
