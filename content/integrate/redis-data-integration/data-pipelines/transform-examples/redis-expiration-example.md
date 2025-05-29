@@ -68,7 +68,7 @@ The transformation depends on the data type of the field in the source database:
           expression: EXPIRES_DATE / 1000 - STRFTIME('%s', 'now')
           language: sql
   ```
-- `TIMESTAMP` - the value is represented by debezium as 64-bit integer and depends on the fractional second precision of the column. For example, if the column is defined as `TIMESTAMP(6)`, the value is represented as microseconds since epoch.
+- `TIMESTAMP` - the value is represented by Debezium as a 64-bit integer and depends on the number of decimal places of precision of the column, representing fractions of a second. For example, if the column is defined as `TIMESTAMP(6)`, there are six decimal places and so the value is represented as microseconds since epoch (since there are 10^6 microseconds in each second).
   ```yaml
     output:
       - uses: redis.write
