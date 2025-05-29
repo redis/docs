@@ -61,13 +61,10 @@ Synchronization of data from the primary shard to the replica shard is always a 
 
 Some syncer errors are unrecoverable and cause the syncer to exit with exit code 4. When this occurs, the Data Management Controller (DMC) automatically sets the `crdt_sync` or `replica_sync` value to `stopped`.
 
-### Recovery procedures
+#### Restart syncer for regular databases
 
-To re-enable the syncer after an unrecoverable error:
+To restart a regular database's syncer after an unrecoverable error, [update the database configuration]({{<relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs">}}) with the REST API to enable `sync`:
 
-#### For regular databases
-
-Use the cluster REST API to enable sync:
 
 ```sh
 curl -v -k -u <username>:<password> -X PUT \
