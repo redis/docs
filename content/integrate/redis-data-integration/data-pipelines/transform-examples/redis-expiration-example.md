@@ -51,7 +51,7 @@ output:
 
 ## Dynamic expiration time based on a date, datetime, or timestamp field
 
-Settings the expiration according to a field that contains a date, datetime, or timestamp value is also possible, but it depends on the source database and the data types it supports. Please refer to the examples below for your specific source database and data type.
+In some cases, you can also set the expiration time based a field that contains a date, datetime, or timestamp value, but it depends on the source database and the data types it supports. See the examples below for your specific source database and data type.
 
 ### Oracle examples
 
