@@ -59,7 +59,7 @@ Synchronization of data from the primary shard to the replica shard is always a 
 
 ### Unrecoverable syncer errors
 
-Some syncer errors are unrecoverable and cause the syncer to exit with exit code 4. When this occurs, the Database Management Component (DMC) automatically sets the `crdt_sync` or `replica_sync` value to `stopped`.
+Some syncer errors are unrecoverable and cause the syncer to exit with exit code 4. When this occurs, the Data Management Controller (DMC) automatically sets the `crdt_sync` or `replica_sync` value to `stopped`.
 
 ### Recovery procedures
 
