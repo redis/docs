@@ -75,9 +75,9 @@ curl -v -k -u <username>:<password> -X PUT \
 
 #### Restart syncer for Active-Active databases
 
-For Active-Active databases, you have two options:
+To restart an Active-Active database's syncer after an unrecoverable error, use one of the following methods.
 
-1. **Call the API on all participating clusters:**
+-  For each participating cluster, [update the database configuration]({{<relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs">}}) with the REST API to enable `sync`:
 
    ```sh
    curl -v -k -u <username>:<password> -X PUT \
