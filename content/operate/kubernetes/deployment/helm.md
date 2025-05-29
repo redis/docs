@@ -99,6 +99,39 @@ helm install <operator-name> redis/redis-enterprise-operator \
     --values <path-to-values-file>
 ```
 
+## Upgrade the chart
+
+To upgrade an existing Helm chart installation:
+
+```sh
+helm upgrade <release-name> <path-to-chart>
+```
+
+For example, to upgrade a chart with the release name `my-redis-enterprise` from the chart's root directory:
+
+```sh
+helm upgrade my-redis-enterprise .
+```
+
+You can also upgrade using the Redis Helm repository:
+
+```sh
+helm upgrade <release-name> redis/redis-enterprise-operator --version <chart-version>
+```
+
+To upgrade the chart on **OpenShift**, include the `openshift.mode=true` parameter:
+
+```sh
+helm upgrade <release-name> <path-to-chart> \
+     --set openshift.mode=true
+```
+
+The upgrade process automatically updates the operator and its components, including the Custom Resource Definitions (CRDs). The CRDs are versioned and update only if the new version is higher than the existing version.
+
+After you upgrade the operator, you might need to upgrade your Redis Enterprise clusters, depending on the Redis software version bundled with the operator. For detailed information about the upgrade process, see [Redis Enterprise for Kubernetes upgrade documentation](https://redis.io/docs/latest/operate/kubernetes/upgrade/).
+
+For more information and options when upgrading charts, see [helm upgrade](https://helm.sh/docs/helm/helm_upgrade/).
+
 ## Uninstall
 
 1. Delete any custom resources managed by the operator. See [Delete custom resources]({{<relref "operate/kubernetes/re-clusters/delete-custom-resources">}}) for detailed steps. You must delete custom resources in the correct order to avoid errors.
@@ -115,7 +148,7 @@ This removes all Kubernetes resources associated with the chart and deletes the 
 
 ## Known limitations
 
-- Only new installations of the Redis operator are supported at this time. The steps for [creating the RedisEnterpriseCluster (REC)]({{<relref "operate/kubernetes/deployment/quick-start#create-a-redis-enterprise-cluster-rec">}}) and other custom resources remain the same.
-- Upgrades and migrations are not supported.
+- The steps for [creating the RedisEnterpriseCluster (REC)]({{<relref "operate/kubernetes/deployment/quick-start#create-a-redis-enterprise-cluster-rec">}}) and other custom resources remain the same.
+- Migrations are not supported.
 - The chart doesn't include configuration options for multiple namespaces, rack-awareness, and Vault integration. The steps for configuring these options remain the same.
 - The chart has had limited testing in advanced setups, including Active-Active configurations, air-gapped deployments, and IPv6/dual-stack environments.
