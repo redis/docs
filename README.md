@@ -2,16 +2,16 @@
 
 PRs are merged first to the `main` branch of this repo.
 Periodically, the docs team will merge `main` into `latest`, which will make the changes visible on the docs site.
-Please be patient, as there may be a lag of several days before `main` is merged into `latest`. If you want to see your changes before they're merged to `latest`, you can see them on https://redis.io/docs/staging/dev/. 
+Please be patient, as there may be a lag of several days before `main` is merged into `latest`. If you want to see your changes before they're merged to `latest`, you can see them on https://redis.io/docs/staging/dev/.
 If your PR is urgent, let the docs team know in the PR comments, and we will do our best to accommodate.
 
 ## Site template files and folders
 
-* **/archetypes**: A Markdown file needs to have some front matter. An archetype defines which front matter is used when using `hugo new content`. Right now, the only supported archetype is the default one. **Note:** We might want to add additional archetypes in the future because most of our pages contain additional meta data properties like `linkTitle`. 
+* **/archetypes**: A Markdown file needs to have some front matter. An archetype defines which front matter is used when using `hugo new content`. Right now, the only supported archetype is the default one. **Note:** We might want to add additional archetypes in the future because most of our pages contain additional meta data properties like `linkTitle`.
 * **/content**: This folder contains the markdown files. We will have the subfolders like `/develop`, `/integrate`, and `/operate`
 * **/assets**: CSS files, site-wide icons, and images.
 * **/data**: Data files that are accessed by Hugo and rendered with the help of short codes or partials.
-* **/layouts/partials**: HTML templates that are used across sites. Examples are TOCs, breadcrumbs, or headers. 
+* **/layouts/partials**: HTML templates that are used across sites. Examples are TOCs, breadcrumbs, or headers.
 * **/layouts/$type**: Each page type has at least the following templates to implement `single.html` and `list.html`. The `single` template is used to render a discrete page. The `list` template is used to render a collection of related pages (e.g., all sub-pages).
 * **/layouts/home.html**: The home page of the site, that is, the page that is displayed when you open the root path.
 * **/layouts/404.html**: The default 404 page.
@@ -20,7 +20,6 @@ If your PR is urgent, let the docs team know in the PR comments, and we will do 
 * **/static**: Any static files that need to be accessed by the site, e.g., CSS or JavaScript.
 * **/package.json**: Node.js dependencies. Tailwind, for example, is installed via the Node package manager (`npm`).
 * **/config.toml**: Hugo's site configuration, like the root path and menu items. Hugo can access configuration elements when rendering the site. So you can define custom configuration settings here.
-* **/syntax.css**: Hugo supports syntax highlighting via shortcodes. The highlighter is configured via this CSS file.
 * **/Makefile**: We use make to wrap some Hugo commands and to add additional build steps.
 * **/tailwind.config.js**: This is the Tailwind CSS framwork's configuration file.
 * **/postcss.config.js**: Needed to make Tailwind statically accessible to the site.
