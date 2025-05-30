@@ -29,11 +29,11 @@ letting `go-redis-entraid` fetch and renew the authentication tokens for you aut
 Install [`go-redis`]({{< relref "/develop/clients/go" >}}) if you
 have not already done so.
 
-From a Go module folder, install `go-redis-entraid` with the
+Install `go-redis-entraid` with the
 following command:
 
 ```bash
-go get github.com/redis-developer/go-redis-entraid
+go get github.com/redis/go-redis-entraid
 ```
 
 ## Create a `StreamingCredentialsProvider` instance
@@ -84,16 +84,16 @@ import (
     .
 provider, err := entraid.NewConfidentialCredentialsProvider(
     entraid.ConfidentialIdentityProviderOptions{
-        CredentialsProviderOptions: entraid.CredentialsProviderOptions{
-            ClientID: "<your-azure-client-id>",
-        },
-        CredentialsType: identity.ClientSecretCredentialType,
-        ClientSecret: "<your-azure-client-secret>",
-        Authority: identity.AuthorityConfiguration{
-            AuthorityType: identity.AuthorityTypeDefault,
-            TenantID: "<your-azure-tenant-id>",
-        },
-    }
+	    ConfidentialIdentityProviderOptions: identity.ConfidentialIdentityProviderOptions{
+		    ClientID:        "<your-azure-client-id>",
+		    ClientSecret:    "<your-azure-client-secret>",
+		    CredentialsType: identity.ClientSecretCredentialType,
+		    Authority: identity.AuthorityConfiguration{
+			    AuthorityType: identity.AuthorityTypeDefault,
+			    TenantID:      "<your-azure-tenant-id>",
+		    },
+	    },
+    },
 )
 ```
 
@@ -118,13 +118,12 @@ import (
     .
     .
 provider, err := entraid.NewManagedIdentityCredentialsProvider(
-    entraid.ManagedIdentityCredentialsProviderOptions{
-        CredentialsProviderOptions: entraid.CredentialsProviderOptions{
-            ClientID: "<your-azure-client-id>",
-        },
-        ManagedIdentityType: identity.UserAssignedIdentity,
-        UserAssignedClientID: "<your-user-assigned-client-id>",
-    },
+	entraid.ManagedIdentityCredentialsProviderOptions{
+		ManagedIdentityProviderOptions: identity.ManagedIdentityProviderOptions{
+			ManagedIdentityType:  identity.UserAssignedObjectID,
+			UserAssignedObjectID: "<your-user-assigned-client-id>",
+		},
+	},
 )
 ```
 
@@ -135,7 +134,6 @@ configuration using the `TokenManagerOptions` field of `CredentialsProviderOptio
 
 ```go
 options := entraid.CredentialsProviderOptions{
-    ClientID: os.Getenv("AZURE_CLIENT_ID"),
     TokenManagerOptions: manager.TokenManagerOptions{
         ExpirationRefreshRatio: 0.7,
         LowerRefreshBounds: 10000,
@@ -213,12 +211,12 @@ func main() {
         )
     }
 
-    // Create credentials provider
+    // Create credentials provider for system assigned identity
     provider, err := entraid.NewManagedIdentityCredentialsProvider(
         entraid.ManagedIdentityCredentialsProviderOptions{
-            CredentialsProviderOptions: entraid.CredentialsProviderOptions{
-                ClientID: clientID,
-            },
+		    ManagedIdentityProviderOptions: identity.ManagedIdentityProviderOptions{
+			    ManagedIdentityType: identity.SystemAssignedIdentity,
+		    },
         }
     )
     if err != nil {
