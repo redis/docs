@@ -14,10 +14,6 @@ When you install Redis Enterprise Software on Red Hat Enterprise Linux, you can 
 
 The files are installed in the `redislabs` directory located in the path that you specify.
 
-{{< note >}}
-Custom installation is required if you plan to specify custom storage paths for persistent or ephemeral storage during cluster setup. If you install Redis Enterprise Software to default directories, you cannot specify custom storage paths during cluster creation.
-{{< /note >}}
-
 ## Considerations
 
 - When you install with custom directories, the installation does not run as an RPM file.
@@ -80,41 +76,32 @@ To configure different mount points for data and log directories, use symbolic l
     ln -s /var/opt/redislabs/log </path/to/log/mount/point>
     ```
 
-## Custom storage paths
+## Customize storage paths
 
 When you install Redis Enterprise Software to custom directories, you can specify custom storage paths for persistent and ephemeral storage during [cluster setup]({{< relref "/operate/rs/clusters/new-cluster-setup" >}}) or when [adding nodes]({{< relref "/operate/rs/clusters/add-node" >}}).
 
-### Prerequisites for custom storage paths
 
-Before specifying custom storage paths during cluster setup:
+1. Specify the custom file location with the `--var-dir` option when you install Redis Enterprise Software:
 
-1. Install Redis Enterprise Software to custom directories using the `--install-dir`, `--config-dir`, and `--var-dir` flags.
+    ```sh
+    sudo ./install.sh --var-dir <path>
+    ```
 
-2. Ensure proper permissions: The custom storage directories must have full permissions for the `redislabs` user and group (`redislabs:redislabs`).
-
-3. Verify mount points: Custom storage paths must be properly mounted and accessible.
-
-### Troubleshooting custom storage paths
-
-If you encounter the error "path entered is not mounted. Please correct" when specifying custom storage paths:
-
-1. Verify the installation method: Ensure Redis Enterprise Software was installed using custom directories. If you used the default installation (`sudo ./install.sh` without custom directory flags), you cannot specify custom storage paths.
-
-2. Check directory permissions: Ensure the `redislabs` user has full access to the specified directories:
+2. Grant the `redislabs` user access to the custom directories:
    ```sh
-   sudo chown -R redislabs:redislabs /path/to/custom/storage
-   sudo chmod -R 755 /path/to/custom/storage
+   $ sudo chown -R redislabs:redislabs /path/to/custom/storage
+   $ sudo chmod -R 755 /path/to/custom/storage
    ```
 
-3. Verify mount points: Confirm the storage path is properly mounted:
+3. Confirm the storage path is properly mounted:
    ```sh
-   df -h /path/to/custom/storage
-   mount | grep /path/to/custom/storage
+   $ df -h /path/to/custom/storage
+   $ mount | grep /path/to/custom/storage
    ```
 
-4. Check directory existence: Ensure the directory exists and is accessible:
+4. Verify the directory exists and is accessible:
    ```sh
-   ls -la /path/to/custom/storage
+   ls -l /path/to/custom/storage
    ```
 
 For more information about storage requirements, see [Persistent and ephemeral node storage]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}}).

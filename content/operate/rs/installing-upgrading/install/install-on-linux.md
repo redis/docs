@@ -48,16 +48,16 @@ To install Redis Enterprise Software, use the command line:
          rpm --checksig </path-to/package.rpm>
          ```
 
-1. To start the installation process, run the installation script:
+1. To start the installation process, run the installation script. See [installation script options]({{< relref "/operate/rs/installing-upgrading/install/install-script" >}}) for a complete list of command-line options.
 
-    **For standard installation:**
+    **For default installation:**
     ```sh
     sudo ./install.sh
     ```
 
     **For custom installation directories:**
 
-    If you need to specify custom storage paths for persistent or ephemeral storage during cluster setup, you must install Redis Enterprise Software to custom directories. See [installation script options]({{< relref "/operate/rs/installing-upgrading/install/install-script" >}}) for a complete list of command-line options.
+    If you need to specify custom storage paths for persistent or ephemeral storage during cluster setup, you must install Redis Enterprise Software to custom directories.
 
     ```sh
     sudo ./install.sh --install-dir <path> --config-dir <path> --var-dir <path>
@@ -70,15 +70,6 @@ To install Redis Enterprise Software, use the command line:
 - By default, Redis Enterprise Software runs on the OS as the `redislabs` user and `redislabs` group. If needed, you can [specify a different user and group]({{< relref "/operate/rs/installing-upgrading/install/customize-user-and-group.md" >}}) during the installation.
 - You must either be the root user or use `sudo` to run the installation script.
     {{< /note >}}
-
-    ### When to use custom installation directories
-
-    You should use custom installation directories if you need to:
-
-    - Specify custom storage paths for persistent or ephemeral storage during cluster setup
-    - Install Redis Enterprise Software in non-default locations for organizational or security requirements
-    - Avoid using root directories for the installation
-    - Meet specific compliance or infrastructure requirements
 
 1. Answer the [installation questions]({{< relref "/operate/rs/installing-upgrading/install/manage-installation-questions.md" >}}) when shown to complete the installation process.
 
