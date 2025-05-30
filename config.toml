@@ -87,7 +87,7 @@ rdi_current_version = "1.8.0"
 [outputFormats]
   [outputFormats.markdown]
     name = "markdown"
-    baseName = "index"
+    baseName = "index.html"
     mediaType = "text/markdown"
     isPlainText = true
 
