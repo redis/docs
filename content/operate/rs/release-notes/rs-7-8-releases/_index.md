@@ -194,7 +194,15 @@ Redis database version 6.0 was deprecated in Redis Software version 7.4.2 and is
 
 To prepare for the removal of Redis database version 6.0 before you upgrade to Redis Software version 7.8.2:
 
-- For Redis Software 6.2.* clusters, upgrade Redis 6.0 databases to Redis 6.2. See the [Redis 6.2 release notes](https://raw.githubusercontent.com/redis/redis/6.2/00-RELEASENOTES) for the list of changes.
+- For Redis Software 6.2.* clusters:
+
+    1. Set the Redis upgrade policy to `latest`:
+
+        ```sh
+        rladmin tune cluster redis_upgrade_policy latest
+        ```
+
+    1. [Upgrade Redis 6.0 databases]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-database">}}) to Redis 6.2. See the [Redis 6.2 release notes](https://raw.githubusercontent.com/redis/redis/6.2/00-RELEASENOTES) for the list of changes.
 
 - For Redis Software 7.2.4 and 7.4.2 clusters, upgrade Redis 6.0 databases to Redis 7.2. Before you upgrade your databases, see the list of [Redis 7.2 breaking changes]({{< relref "/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52#redis-72-breaking-changes" >}}) and update any applications that connect to your database to handle these changes.
 
