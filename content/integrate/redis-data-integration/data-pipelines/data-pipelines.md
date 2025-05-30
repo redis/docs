@@ -416,11 +416,32 @@ find the preparation guides for the databases that RDI supports in the
 [Prepare source databases]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs" >}})
 section.
 
+## Provide authentication secrets
+
+You must provide authentication secrets for your source and target databases
+before deploying a pipeline. You can supply the secrets to RDI directly
+or for K8s deployments, you can also use an external secret provider, such as
+[Vault](https://developer.hashicorp.com/vault) or
+[AWS Secrets Manager](https://aws.amazon.com/secrets-manager/).
+
+See [Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/set-secrets" >}}) and
+[Using an external secret provider]({{< relref "/integrate/redis-data-integration/data-pipelines/secret-providers" >}})
+for more information.
+
+
 ## Deploy a pipeline
 
-When your configuration is ready, you must deploy it to start using the pipeline. See
-[Deploy a pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})
-to learn how to do this.
+When you have created your configuration, including the [jobs]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines#job-files" >}}), you are
+ready to deploy. Use [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}})
+to configure and deploy pipelines for both VM and K8s installations.
+
+For VM installations, you can also use the
+[`redis-di deploy`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-deploy" >}})
+command to deploy a pipeline:
+
+```bash
+redis-di deploy --dir <path to pipeline folder>
+```
 
 ## Pipeline lifecycle
 
