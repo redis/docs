@@ -109,6 +109,16 @@ On-premises environments support more deployment options than other environments
 
 {{<warning>}} Auto Tiering is not supported running on network attached storage (NAS), storage area network (SAN), or with local HDD drives. {{</warning>}}
 
+## Size limits for keys and values
+
+Auto Tiering databases cannot store keys or values larger than 4GB in flash storage.
+
+Keys or values larger than 4GB will be stored in RAM only, and warnings will appear in the Redis logs similar to:
+
+```sh
+# WARNING: key too big for disk driver, size: 4703717276, key: subactinfo:htable
+```
+
 ## Next steps
 
 - [Auto Tiering metrics]({{< relref "/operate/rs/references/metrics/auto-tiering" >}})
