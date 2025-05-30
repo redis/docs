@@ -16,9 +16,11 @@ Use maintenance mode to prevent data loss during hardware patching or operating 
 
 When you activate maintenance mode, Redis Enterprise does the following:
 
-1. Checks whether a shut down of the node will cause quorum loss. If so, maintenance mode will not turn on.
+1. Checks whether shutting down this node would cause quorum loss. If so, maintenance mode will not activate.
 
-    Maintenance mode does not protect against quorum loss. If you activate maintenance mode for the majority of nodes in a cluster and restart them simultaneously, quorum is lost, which can lead to  data loss.
+    {{<warning>}}
+This check does not verify that the majority of nodes in the cluster are not in maintenance mode. Do not activate maintenance mode on the majority of nodes and restart them simultaneously, as this can cause quorum loss and data loss.
+    {{</warning>}}
 
 1. If no maintenance mode snapshots already exist or if you use `overwrite_snapshot` when you activate maintenance mode, Redis Enterprise creates a new node snapshot that records the node's shard and endpoint configuration.
 
