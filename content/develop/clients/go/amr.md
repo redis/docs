@@ -27,10 +27,11 @@ letting `go-redis-entraid` fetch and renew the authentication tokens for you aut
 ## Install
 
 Install [`go-redis`]({{< relref "/develop/clients/go" >}}) if you
-have not already done so.
+have not already done so. Note that `go-redis-entraid`
+requires `go-redis` v9.9.0 or above, so you should upgrade if you
+are using an earlier version.
 
-Install `go-redis-entraid` with the
-following command:
+Install `go-redis-entraid` with the following command:
 
 ```bash
 go get github.com/redis/go-redis-entraid
@@ -203,11 +204,10 @@ import (
 
 func main() {
     // Get required environment variables
-    clientID := os.Getenv("AZURE_CLIENT_ID")
     redisEndpoint := os.Getenv("REDIS_ENDPOINT")
-    if clientID == "" || redisEndpoint == "" {
+    if redisEndpoint == "" {
         log.Fatal(
-            "AZURE_CLIENT_ID and REDIS_ENDPOINT env variables are required"
+            "REDIS_ENDPOINT environment variable is required"
         )
     }
 
