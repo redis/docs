@@ -76,6 +76,36 @@ To configure different mount points for data and log directories, use symbolic l
     ln -s /var/opt/redislabs/log </path/to/log/mount/point>
     ```
 
+## Customize storage paths
+
+When you install Redis Enterprise Software to custom directories, you can specify custom storage paths for persistent and ephemeral storage during [cluster setup]({{< relref "/operate/rs/clusters/new-cluster-setup" >}}) or when [adding nodes]({{< relref "/operate/rs/clusters/add-node" >}}).
+
+
+1. Specify the custom file location with the `--var-dir` option when you install Redis Enterprise Software:
+
+    ```sh
+    sudo ./install.sh --var-dir <path>
+    ```
+
+2. Grant the `redislabs` user access to the custom directories:
+   ```sh
+   $ sudo chown -R redislabs:redislabs /path/to/custom/storage
+   $ sudo chmod -R 755 /path/to/custom/storage
+   ```
+
+3. Confirm the storage path is properly mounted:
+   ```sh
+   $ df -h /path/to/custom/storage
+   $ mount | grep /path/to/custom/storage
+   ```
+
+4. Verify the directory exists and is accessible:
+   ```sh
+   ls -l /path/to/custom/storage
+   ```
+
+For more information about storage requirements, see [Persistent and ephemeral node storage]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}}).
+
 ## Limitations
 
 Several Redis Enterprise Software installation reference files are installed to the directory `/etc/opt/redislabs/` even if you use custom installation directories.
