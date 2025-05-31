@@ -173,6 +173,8 @@ Add fields to return fields.
 Use a different scoring function to evaluate document relevance.
 Default is TFIDF.
 
+Since Redis 8.0 default was changed to BM25STD.
+
 * **Parameters:**
   **scorer** (*str*) – The scoring function to use
   (e.g. TFIDF.DOCNORM or BM25)
@@ -486,6 +488,8 @@ Add fields to return fields.
 
 Use a different scoring function to evaluate document relevance.
 Default is TFIDF.
+
+Since Redis 8.0 default was changed to BM25STD.
 
 * **Parameters:**
   **scorer** (*str*) – The scoring function to use
@@ -1069,6 +1073,8 @@ Add fields to return fields.
 Use a different scoring function to evaluate document relevance.
 Default is TFIDF.
 
+Since Redis 8.0 default was changed to BM25STD.
+
 * **Parameters:**
   **scorer** (*str*) – The scoring function to use
   (e.g. TFIDF.DOCNORM or BM25)
@@ -1280,6 +1286,8 @@ Add fields to return fields.
 
 Use a different scoring function to evaluate document relevance.
 Default is TFIDF.
+
+Since Redis 8.0 default was changed to BM25STD.
 
 * **Parameters:**
   **scorer** (*str*) – The scoring function to use
@@ -1497,6 +1505,8 @@ Add fields to return fields.
 
 Use a different scoring function to evaluate document relevance.
 Default is TFIDF.
+
+Since Redis 8.0 default was changed to BM25STD.
 
 * **Parameters:**
   **scorer** (*str*) – The scoring function to use
