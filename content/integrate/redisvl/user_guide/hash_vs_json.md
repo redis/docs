@@ -44,7 +44,7 @@ table_print(data)
 ```
 
 
-<table><tr><th>user</th><th>age</th><th>job</th><th>credit_score</th><th>office_location</th><th>user_embedding</th></tr><tr><td>john</td><td>18</td><td>engineer</td><td>high</td><td>-122.4194,37.7749</td><td>b'\xcd\xcc\xcc=\xcd\xcc\xcc=\x00\x00\x00?'</td></tr><tr><td>derrick</td><td>14</td><td>doctor</td><td>low</td><td>-122.4194,37.7749</td><td>b'\xcd\xcc\xcc=\xcd\xcc\xcc=\x00\x00\x00?'</td></tr><tr><td>nancy</td><td>94</td><td>doctor</td><td>high</td><td>-122.4194,37.7749</td><td>b'333?\xcd\xcc\xcc=\x00\x00\x00?'</td></tr><tr><td>tyler</td><td>100</td><td>engineer</td><td>high</td><td>-122.0839,37.3861</td><td>b'\xcd\xcc\xcc=\xcd\xcc\xcc>\x00\x00\x00?'</td></tr><tr><td>tim</td><td>12</td><td>dermatologist</td><td>high</td><td>-122.0839,37.3861</td><td>b'\xcd\xcc\xcc>\xcd\xcc\xcc>\x00\x00\x00?'</td></tr><tr><td>taimur</td><td>15</td><td>CEO</td><td>low</td><td>-122.0839,37.3861</td><td>b'\x9a\x99\x19?\xcd\xcc\xcc=\x00\x00\x00?'</td></tr><tr><td>joe</td><td>35</td><td>dentist</td><td>medium</td><td>-122.0839,37.3861</td><td>b'fff?fff?\xcd\xcc\xcc='</td></tr></table>
+<table><tr><th>user</th><th>age</th><th>job</th><th>credit_score</th><th>office_location</th><th>user_embedding</th><th>last_updated</th></tr><tr><td>john</td><td>18</td><td>engineer</td><td>high</td><td>-122.4194,37.7749</td><td>b'\xcd\xcc\xcc=\xcd\xcc\xcc=\x00\x00\x00?'</td><td>1741627789</td></tr><tr><td>derrick</td><td>14</td><td>doctor</td><td>low</td><td>-122.4194,37.7749</td><td>b'\xcd\xcc\xcc=\xcd\xcc\xcc=\x00\x00\x00?'</td><td>1741627789</td></tr><tr><td>nancy</td><td>94</td><td>doctor</td><td>high</td><td>-122.4194,37.7749</td><td>b'333?\xcd\xcc\xcc=\x00\x00\x00?'</td><td>1710696589</td></tr><tr><td>tyler</td><td>100</td><td>engineer</td><td>high</td><td>-122.0839,37.3861</td><td>b'\xcd\xcc\xcc=\xcd\xcc\xcc>\x00\x00\x00?'</td><td>1742232589</td></tr><tr><td>tim</td><td>12</td><td>dermatologist</td><td>high</td><td>-122.0839,37.3861</td><td>b'\xcd\xcc\xcc>\xcd\xcc\xcc>\x00\x00\x00?'</td><td>1739644189</td></tr><tr><td>taimur</td><td>15</td><td>CEO</td><td>low</td><td>-122.0839,37.3861</td><td>b'\x9a\x99\x19?\xcd\xcc\xcc=\x00\x00\x00?'</td><td>1742232589</td></tr><tr><td>joe</td><td>35</td><td>dentist</td><td>medium</td><td>-122.0839,37.3861</td><td>b'fff?fff?\xcd\xcc\xcc='</td><td>1742232589</td></tr></table>
 
 
 ## Hash or JSON -- how to choose?
@@ -138,7 +138,8 @@ data[0]
      'job': 'engineer',
      'credit_score': 'high',
      'office_location': '-122.4194,37.7749',
-     'user_embedding': b'\xcd\xcc\xcc=\xcd\xcc\xcc=\x00\x00\x00?'}
+     'user_embedding': b'\xcd\xcc\xcc=\xcd\xcc\xcc=\x00\x00\x00?',
+     'last_updated': 1741627789}
 
 
 
@@ -155,29 +156,29 @@ keys = hindex.load(data)
 
     
     Statistics:
-    ╭─────────────────────────────┬─────────────╮
-    │ Stat Key                    │ Value       │
-    ├─────────────────────────────┼─────────────┤
-    │ num_docs                    │ 7           │
-    │ num_terms                   │ 6           │
-    │ max_doc_id                  │ 7           │
-    │ num_records                 │ 44          │
-    │ percent_indexed             │ 1           │
-    │ hash_indexing_failures      │ 0           │
-    │ number_of_uses              │ 1           │
-    │ bytes_per_record_avg        │ 3.40909     │
-    │ doc_table_size_mb           │ 0.000767708 │
-    │ inverted_sz_mb              │ 0.000143051 │
-    │ key_table_size_mb           │ 0.000248909 │
-    │ offset_bits_per_record_avg  │ 8           │
-    │ offset_vectors_sz_mb        │ 8.58307e-06 │
-    │ offsets_per_term_avg        │ 0.204545    │
-    │ records_per_doc_avg         │ 6.28571     │
-    │ sortable_values_size_mb     │ 0           │
-    │ total_indexing_time         │ 1.053       │
-    │ total_inverted_index_blocks │ 18          │
-    │ vector_index_sz_mb          │ 0.0202332   │
-    ╰─────────────────────────────┴─────────────╯
+    ╭─────────────────────────────┬────────────╮
+    │ Stat Key                    │ Value      │
+    ├─────────────────────────────┼────────────┤
+    │ num_docs                    │ 7          │
+    │ num_terms                   │ 6          │
+    │ max_doc_id                  │ 7          │
+    │ num_records                 │ 44         │
+    │ percent_indexed             │ 1          │
+    │ hash_indexing_failures      │ 0          │
+    │ number_of_uses              │ 1          │
+    │ bytes_per_record_avg        │ 40.2954559 │
+    │ doc_table_size_mb           │ 7.27653503 │
+    │ inverted_sz_mb              │ 0.00169086 │
+    │ key_table_size_mb           │ 2.21252441 │
+    │ offset_bits_per_record_avg  │ 8          │
+    │ offset_vectors_sz_mb        │ 8.58306884 │
+    │ offsets_per_term_avg        │ 0.20454545 │
+    │ records_per_doc_avg         │ 6.28571414 │
+    │ sortable_values_size_mb     │ 0          │
+    │ total_indexing_time         │ 0.25699999 │
+    │ total_inverted_index_blocks │ 18         │
+    │ vector_index_sz_mb          │ 0.02023315 │
+    ╰─────────────────────────────┴────────────╯
 
 
 #### Performing Queries
@@ -266,8 +267,8 @@ jindex.create(overwrite=True)
 !rvl index listall
 ```
 
-    11:54:18 [RedisVL] INFO   Indices:
-    11:54:18 [RedisVL] INFO   1. user-json
+    16:51:53 [RedisVL] INFO   Indices:
+    16:51:53 [RedisVL] INFO   1. user-json
 
 
 #### Vectors as float arrays
@@ -295,7 +296,8 @@ json_data[0]
      'job': 'engineer',
      'credit_score': 'high',
      'office_location': '-122.4194,37.7749',
-     'user_embedding': [0.10000000149011612, 0.10000000149011612, 0.5]}
+     'user_embedding': [0.10000000149011612, 0.10000000149011612, 0.5],
+     'last_updated': 1741627789}
 
 
 
@@ -412,8 +414,17 @@ bike_schema = {
 }
 ```
 
-    /Users/robert.shelton/.pyenv/versions/3.11.9/lib/python3.11/site-packages/huggingface_hub/file_download.py:1142: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
-      warnings.warn(
+    /Users/tyler.hutcherson/Library/Caches/pypoetry/virtualenvs/redisvl-VnTEShF2-py3.13/lib/python3.13/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
+      from .autonotebook import tqdm as notebook_tqdm
+
+
+    16:51:55 sentence_transformers.SentenceTransformer INFO   Use pytorch device_name: mps
+    16:51:55 sentence_transformers.SentenceTransformer INFO   Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v2
+
+
+    Batches: 100%|██████████| 1/1 [00:00<00:00,  7.52it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00,  1.03it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 13.12it/s]
 
 
 
@@ -433,8 +444,8 @@ bike_index.load(bike_data)
 
 
 
-    ['bike-json:de92cb9955434575b20f4e87a30b03d5',
-     'bike-json:054ab3718b984532b924946fa5ce00c6']
+    ['bike-json:01JWEX1RA1AX32Q5K4DN7DMH5Z',
+     'bike-json:01JWEX1RA1JCFKZJ5A03GGA9C2']
 
 
 
@@ -458,6 +469,9 @@ v = VectorQuery(
 results = bike_index.query(v)
 ```
 
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 12.64it/s]
+
+
 **Note:** As shown in the example if you want to retrieve a field from json object that was not indexed you will also need to supply the full path as with `$.metadata.type`.
 
 
@@ -468,12 +482,12 @@ results
 
 
 
-    [{'id': 'bike-json:054ab3718b984532b924946fa5ce00c6',
-      'vector_distance': '0.519989073277',
+    [{'id': 'bike-json:01JWEX1RA1JCFKZJ5A03GGA9C2',
+      'vector_distance': '0.519989132881',
       'brand': 'Trek',
       '$.metadata.type': 'Enduro bikes'},
-     {'id': 'bike-json:de92cb9955434575b20f4e87a30b03d5',
-      'vector_distance': '0.657624483109',
+     {'id': 'bike-json:01JWEX1RA1AX32Q5K4DN7DMH5Z',
+      'vector_distance': '0.657624304295',
       'brand': 'Specialized',
       '$.metadata.type': 'Enduro bikes'}]
 

@@ -407,7 +407,7 @@ The default TTL, in seconds, for entries in the cache.
 
 <a id="embeddings-cache-api"></a>
 
-### `class EmbeddingsCache(name='embedcache', ttl=None, redis_client=None, redis_url='redis://localhost:6379', connection_kwargs={})`
+### `class EmbeddingsCache(name='embedcache', ttl=None, redis_client=None, async_redis_client=None, redis_url='redis://localhost:6379', connection_kwargs={})`
 
 Bases: `BaseCache`
 
@@ -418,9 +418,10 @@ Initialize an embeddings cache.
 * **Parameters:**
   * **name** (*str*) – The name of the cache. Defaults to “embedcache”.
   * **ttl** (*Optional* *[* *int* *]*) – The time-to-live for cached embeddings. Defaults to None.
-  * **redis_client** (*Optional* *[* *Redis* *]*) – Redis client instance. Defaults to None.
+  * **redis_client** (*Optional* *[* *SyncRedisClient* *]*) – Redis client instance. Defaults to None.
   * **redis_url** (*str*) – Redis URL for connection. Defaults to “redis://localhost:6379”.
   * **connection_kwargs** (*Dict* *[* *str* *,* *Any* *]*) – Redis connection arguments. Defaults to {}.
+  * **async_redis_client** (*Redis* *|* *RedisCluster* *|* *None*)
 * **Raises:**
   **ValueError** – If vector dimensions are invalid
 

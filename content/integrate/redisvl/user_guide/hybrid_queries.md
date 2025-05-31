@@ -67,14 +67,15 @@ index = SearchIndex.from_dict(schema, redis_url="redis://localhost:6379")
 index.create(overwrite=True)
 ```
 
-    11:40:25 redisvl.index.index INFO   Index already exists, overwriting.
-
-
 
 ```python
 # use the CLI to see the created index
 !rvl index listall
 ```
+
+    16:46:23 [RedisVL] INFO   Indices:
+    16:46:23 [RedisVL] INFO   1. user_queries
+
 
 
 ```python
@@ -147,7 +148,7 @@ result_print(index.query(v))
 ```
 
 
-<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr><tr><td>0.158808946609</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td><td>-122.0839,37.3861</td></tr><tr><td>0.158808946609</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td><td>-122.0839,37.3861</td></tr><tr><td>0.266666650772</td><td>nancy</td><td>high</td><td>94</td><td>doctor</td><td>-122.4194,37.7749</td></tr><tr><td>0.266666650772</td><td>nancy</td><td>high</td><td>94</td><td>doctor</td><td>-122.4194,37.7749</td></tr><tr><td>0.653301358223</td><td>joe</td><td>medium</td><td>35</td><td>dentist</td><td>-122.0839,37.3861</td></tr><tr><td>0.653301358223</td><td>joe</td><td>medium</td><td>35</td><td>dentist</td><td>-122.0839,37.3861</td></tr></table>
+<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th><th>last_updated</th></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td><td>1741627789</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td><td>1742232589</td></tr><tr><td>0.158808946609</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td><td>-122.0839,37.3861</td><td>1739644189</td></tr><tr><td>0.266666650772</td><td>nancy</td><td>high</td><td>94</td><td>doctor</td><td>-122.4194,37.7749</td><td>1710696589</td></tr><tr><td>0.653301358223</td><td>joe</td><td>medium</td><td>35</td><td>dentist</td><td>-122.0839,37.3861</td><td>1742232589</td></tr></table>
 
 
 
@@ -160,7 +161,7 @@ result_print(index.query(v))
 ```
 
 
-<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr><tr><td>0.158808946609</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td><td>-122.0839,37.3861</td></tr><tr><td>0.158808946609</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td><td>-122.0839,37.3861</td></tr><tr><td>0.266666650772</td><td>nancy</td><td>high</td><td>94</td><td>doctor</td><td>-122.4194,37.7749</td></tr><tr><td>0.266666650772</td><td>nancy</td><td>high</td><td>94</td><td>doctor</td><td>-122.4194,37.7749</td></tr><tr><td>0.653301358223</td><td>joe</td><td>medium</td><td>35</td><td>dentist</td><td>-122.0839,37.3861</td></tr><tr><td>0.653301358223</td><td>joe</td><td>medium</td><td>35</td><td>dentist</td><td>-122.0839,37.3861</td></tr></table>
+<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th><th>last_updated</th></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td><td>1741627789</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td><td>1742232589</td></tr><tr><td>0.158808946609</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td><td>-122.0839,37.3861</td><td>1739644189</td></tr><tr><td>0.266666650772</td><td>nancy</td><td>high</td><td>94</td><td>doctor</td><td>-122.4194,37.7749</td><td>1710696589</td></tr><tr><td>0.653301358223</td><td>joe</td><td>medium</td><td>35</td><td>dentist</td><td>-122.0839,37.3861</td><td>1742232589</td></tr></table>
 
 
 What about scenarios where you might want to dynamically generate a list of tags? Have no fear. RedisVL allows you to do this gracefully without having to check for the **empty case**. The **empty case** is when you attempt to run a Tag filter on a field with no defined values to match:
@@ -179,7 +180,7 @@ result_print(index.query(v))
 ```
 
 
-<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td></tr><tr><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td><td>-122.4194,37.7749</td></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td></tr><tr><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td><td>-122.4194,37.7749</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr><tr><td>0.158808946609</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td><td>-122.0839,37.3861</td></tr><tr><td>0.158808946609</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td><td>-122.0839,37.3861</td></tr><tr><td>0.217882037163</td><td>taimur</td><td>low</td><td>15</td><td>CEO</td><td>-122.0839,37.3861</td></tr><tr><td>0.217882037163</td><td>taimur</td><td>low</td><td>15</td><td>CEO</td><td>-122.0839,37.3861</td></tr></table>
+<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th><th>last_updated</th></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td><td>1741627789</td></tr><tr><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td><td>-122.4194,37.7749</td><td>1741627789</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td><td>1742232589</td></tr><tr><td>0.158808946609</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td><td>-122.0839,37.3861</td><td>1739644189</td></tr><tr><td>0.217882037163</td><td>taimur</td><td>low</td><td>15</td><td>CEO</td><td>-122.0839,37.3861</td><td>1742232589</td></tr><tr><td>0.266666650772</td><td>nancy</td><td>high</td><td>94</td><td>doctor</td><td>-122.4194,37.7749</td><td>1710696589</td></tr><tr><td>0.653301358223</td><td>joe</td><td>medium</td><td>35</td><td>dentist</td><td>-122.0839,37.3861</td><td>1742232589</td></tr></table>
 
 
 ### Numeric Filters
@@ -210,7 +211,7 @@ result_print(index.query(v))
 ```
 
 
-<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th></tr><tr><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td><td>-122.4194,37.7749</td></tr><tr><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td><td>-122.4194,37.7749</td></tr></table>
+<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th><th>last_updated</th></tr><tr><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td><td>-122.4194,37.7749</td><td>1741627789</td></tr></table>
 
 
 
@@ -223,7 +224,7 @@ result_print(index.query(v))
 ```
 
 
-<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr><tr><td>0.158808946609</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td><td>-122.0839,37.3861</td></tr><tr><td>0.158808946609</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td><td>-122.0839,37.3861</td></tr><tr><td>0.217882037163</td><td>taimur</td><td>low</td><td>15</td><td>CEO</td><td>-122.0839,37.3861</td></tr><tr><td>0.217882037163</td><td>taimur</td><td>low</td><td>15</td><td>CEO</td><td>-122.0839,37.3861</td></tr><tr><td>0.266666650772</td><td>nancy</td><td>high</td><td>94</td><td>doctor</td><td>-122.4194,37.7749</td></tr><tr><td>0.266666650772</td><td>nancy</td><td>high</td><td>94</td><td>doctor</td><td>-122.4194,37.7749</td></tr></table>
+<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th><th>last_updated</th></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td><td>1741627789</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td><td>1742232589</td></tr><tr><td>0.158808946609</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td><td>-122.0839,37.3861</td><td>1739644189</td></tr><tr><td>0.217882037163</td><td>taimur</td><td>low</td><td>15</td><td>CEO</td><td>-122.0839,37.3861</td><td>1742232589</td></tr><tr><td>0.266666650772</td><td>nancy</td><td>high</td><td>94</td><td>doctor</td><td>-122.4194,37.7749</td><td>1710696589</td></tr><tr><td>0.653301358223</td><td>joe</td><td>medium</td><td>35</td><td>dentist</td><td>-122.0839,37.3861</td><td>1742232589</td></tr></table>
 
 
 ### Timestamp Filters
@@ -270,7 +271,7 @@ result_print(index.query(v))
 
 
 
-<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th><th>last_updated</th></tr><tr><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td><td>-122.4194,37.7749</td><td>1741627789</td></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td><td>1741627789</td></tr><tr><td>0.158808946609</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td><td>-122.0839,37.3861</td><td>1739644189</td></tr><tr><td>0.266666650772</td><td>nancy</td><td>high</td><td>94</td><td>doctor</td><td>-122.4194,37.7749</td><td>1710696589</td></tr></table>
+<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th><th>last_updated</th></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td><td>1741627789</td></tr><tr><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td><td>-122.4194,37.7749</td><td>1741627789</td></tr><tr><td>0.158808946609</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td><td>-122.0839,37.3861</td><td>1739644189</td></tr><tr><td>0.266666650772</td><td>nancy</td><td>high</td><td>94</td><td>doctor</td><td>-122.4194,37.7749</td><td>1710696589</td></tr></table>
 
 
 
@@ -293,7 +294,7 @@ result_print(index.query(v))
 
 
 
-<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th><th>last_updated</th></tr><tr><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td><td>-122.4194,37.7749</td><td>1741627789</td></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td><td>1741627789</td></tr><tr><td>0.158808946609</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td><td>-122.0839,37.3861</td><td>1739644189</td></tr></table>
+<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th><th>last_updated</th></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td><td>1741627789</td></tr><tr><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td><td>-122.4194,37.7749</td><td>1741627789</td></tr><tr><td>0.158808946609</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td><td>-122.0839,37.3861</td><td>1739644189</td></tr></table>
 
 
 ### Text Filters
@@ -325,7 +326,7 @@ result_print(index.query(v))
 ```
 
 
-<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr><tr><td>0.158808946609</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td><td>-122.0839,37.3861</td></tr><tr><td>0.158808946609</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td><td>-122.0839,37.3861</td></tr><tr><td>0.217882037163</td><td>taimur</td><td>low</td><td>15</td><td>CEO</td><td>-122.0839,37.3861</td></tr><tr><td>0.217882037163</td><td>taimur</td><td>low</td><td>15</td><td>CEO</td><td>-122.0839,37.3861</td></tr><tr><td>0.653301358223</td><td>joe</td><td>medium</td><td>35</td><td>dentist</td><td>-122.0839,37.3861</td></tr><tr><td>0.653301358223</td><td>joe</td><td>medium</td><td>35</td><td>dentist</td><td>-122.0839,37.3861</td></tr></table>
+<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th><th>last_updated</th></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td><td>1741627789</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td><td>1742232589</td></tr><tr><td>0.158808946609</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td><td>-122.0839,37.3861</td><td>1739644189</td></tr><tr><td>0.217882037163</td><td>taimur</td><td>low</td><td>15</td><td>CEO</td><td>-122.0839,37.3861</td><td>1742232589</td></tr><tr><td>0.653301358223</td><td>joe</td><td>medium</td><td>35</td><td>dentist</td><td>-122.0839,37.3861</td><td>1742232589</td></tr></table>
 
 
 
@@ -338,7 +339,7 @@ result_print(index.query(v))
 ```
 
 
-<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th></tr><tr><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td><td>-122.4194,37.7749</td></tr><tr><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td><td>-122.4194,37.7749</td></tr><tr><td>0.266666650772</td><td>nancy</td><td>high</td><td>94</td><td>doctor</td><td>-122.4194,37.7749</td></tr><tr><td>0.266666650772</td><td>nancy</td><td>high</td><td>94</td><td>doctor</td><td>-122.4194,37.7749</td></tr></table>
+<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th><th>last_updated</th></tr><tr><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td><td>-122.4194,37.7749</td><td>1741627789</td></tr><tr><td>0.266666650772</td><td>nancy</td><td>high</td><td>94</td><td>doctor</td><td>-122.4194,37.7749</td><td>1710696589</td></tr></table>
 
 
 
@@ -351,7 +352,7 @@ result_print(index.query(v))
 ```
 
 
-<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr></table>
+<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th><th>last_updated</th></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td><td>1741627789</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td><td>1742232589</td></tr></table>
 
 
 
@@ -364,7 +365,7 @@ result_print(index.query(v))
 ```
 
 
-<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td></tr><tr><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td><td>-122.4194,37.7749</td></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td></tr><tr><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td><td>-122.4194,37.7749</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr><tr><td>0.266666650772</td><td>nancy</td><td>high</td><td>94</td><td>doctor</td><td>-122.4194,37.7749</td></tr><tr><td>0.266666650772</td><td>nancy</td><td>high</td><td>94</td><td>doctor</td><td>-122.4194,37.7749</td></tr></table>
+<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th><th>last_updated</th></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td><td>1741627789</td></tr><tr><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td><td>-122.4194,37.7749</td><td>1741627789</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td><td>1742232589</td></tr><tr><td>0.266666650772</td><td>nancy</td><td>high</td><td>94</td><td>doctor</td><td>-122.4194,37.7749</td><td>1710696589</td></tr></table>
 
 
 
@@ -377,7 +378,7 @@ result_print(index.query(v))
 ```
 
 
-<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td></tr><tr><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td><td>-122.4194,37.7749</td></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td></tr><tr><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td><td>-122.4194,37.7749</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr><tr><td>0.158808946609</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td><td>-122.0839,37.3861</td></tr><tr><td>0.158808946609</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td><td>-122.0839,37.3861</td></tr><tr><td>0.217882037163</td><td>taimur</td><td>low</td><td>15</td><td>CEO</td><td>-122.0839,37.3861</td></tr><tr><td>0.217882037163</td><td>taimur</td><td>low</td><td>15</td><td>CEO</td><td>-122.0839,37.3861</td></tr></table>
+<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th><th>last_updated</th></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td><td>1741627789</td></tr><tr><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td><td>-122.4194,37.7749</td><td>1741627789</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td><td>1742232589</td></tr><tr><td>0.158808946609</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td><td>-122.0839,37.3861</td><td>1739644189</td></tr><tr><td>0.217882037163</td><td>taimur</td><td>low</td><td>15</td><td>CEO</td><td>-122.0839,37.3861</td><td>1742232589</td></tr><tr><td>0.266666650772</td><td>nancy</td><td>high</td><td>94</td><td>doctor</td><td>-122.4194,37.7749</td><td>1710696589</td></tr><tr><td>0.653301358223</td><td>joe</td><td>medium</td><td>35</td><td>dentist</td><td>-122.0839,37.3861</td><td>1742232589</td></tr></table>
 
 
 Use raw query strings as input. Below we use the `~` flag to indicate that the full text query is optional. We also choose the BM25 scorer and return document scores along with the result.
@@ -393,86 +394,69 @@ index.query(v)
 
 
 
-    [{'id': 'user_queries_docs:01JMJJHE28ZW4F33ZNRKXRHYCS',
-      'score': 1.8181817787737895,
+    [{'id': 'user_queries_docs:01JWEWQHJX670FQM0GKCV403XE',
+      'score': 0.9090908893868948,
       'vector_distance': '0',
       'user': 'john',
       'credit_score': 'high',
       'age': '18',
       'job': 'engineer',
-      'office_location': '-122.4194,37.7749'},
-     {'id': 'user_queries_docs:01JMJJHE2899024DYPXT6424N9',
+      'office_location': '-122.4194,37.7749',
+      'last_updated': '1741627789'},
+     {'id': 'user_queries_docs:01JWEWQHJY8AS66TA21M8BRE09',
       'score': 0.0,
       'vector_distance': '0',
       'user': 'derrick',
       'credit_score': 'low',
       'age': '14',
       'job': 'doctor',
-      'office_location': '-122.4194,37.7749'},
-     {'id': 'user_queries_docs:01JMJJPEYCQ89ZQW6QR27J72WT',
-      'score': 1.8181817787737895,
-      'vector_distance': '0',
-      'user': 'john',
+      'office_location': '-122.4194,37.7749',
+      'last_updated': '1741627789'},
+     {'id': 'user_queries_docs:01JWEWQHJYR2WTWMWZJ7PQ62N1',
+      'score': 0.9090908893868948,
+      'vector_distance': '0.109129190445',
+      'user': 'tyler',
       'credit_score': 'high',
-      'age': '18',
+      'age': '100',
       'job': 'engineer',
-      'office_location': '-122.4194,37.7749'},
-     {'id': 'user_queries_docs:01JMJJPEYD544WB1TKDBJ3Z3J9',
+      'office_location': '-122.0839,37.3861',
+      'last_updated': '1742232589'},
+     {'id': 'user_queries_docs:01JWEWQHJY30EW4B8X2EE6PPZS',
       'score': 0.0,
-      'vector_distance': '0',
-      'user': 'derrick',
+      'vector_distance': '0.158808946609',
+      'user': 'tim',
+      'credit_score': 'high',
+      'age': '12',
+      'job': 'dermatologist',
+      'office_location': '-122.0839,37.3861',
+      'last_updated': '1739644189'},
+     {'id': 'user_queries_docs:01JWEWQHJYF2EG7YHEK8QBHJ11',
+      'score': 0.0,
+      'vector_distance': '0.217882037163',
+      'user': 'taimur',
       'credit_score': 'low',
-      'age': '14',
+      'age': '15',
+      'job': 'CEO',
+      'office_location': '-122.0839,37.3861',
+      'last_updated': '1742232589'},
+     {'id': 'user_queries_docs:01JWEWQHJYVBNG97WEWDRQEKCD',
+      'score': 0.0,
+      'vector_distance': '0.266666650772',
+      'user': 'nancy',
+      'credit_score': 'high',
+      'age': '94',
       'job': 'doctor',
-      'office_location': '-122.4194,37.7749'},
-     {'id': 'user_queries_docs:01JMJJHE28B5R6T00DH37A7KSJ',
-      'score': 1.8181817787737895,
-      'vector_distance': '0.109129190445',
-      'user': 'tyler',
-      'credit_score': 'high',
-      'age': '100',
-      'job': 'engineer',
-      'office_location': '-122.0839,37.3861'},
-     {'id': 'user_queries_docs:01JMJJPEYDPF9S5328WHCQN0ND',
-      'score': 1.8181817787737895,
-      'vector_distance': '0.109129190445',
-      'user': 'tyler',
-      'credit_score': 'high',
-      'age': '100',
-      'job': 'engineer',
-      'office_location': '-122.0839,37.3861'},
-     {'id': 'user_queries_docs:01JMJJHE28G5F943YGWMB1ZX1V',
+      'office_location': '-122.4194,37.7749',
+      'last_updated': '1710696589'},
+     {'id': 'user_queries_docs:01JWEWQHJY9VYQTFS165HBYYJ2',
       'score': 0.0,
-      'vector_distance': '0.158808946609',
-      'user': 'tim',
-      'credit_score': 'high',
-      'age': '12',
-      'job': 'dermatologist',
-      'office_location': '-122.0839,37.3861'},
-     {'id': 'user_queries_docs:01JMJJPEYDKA9ARKHRK1D7KPXQ',
-      'score': 0.0,
-      'vector_distance': '0.158808946609',
-      'user': 'tim',
-      'credit_score': 'high',
-      'age': '12',
-      'job': 'dermatologist',
-      'office_location': '-122.0839,37.3861'},
-     {'id': 'user_queries_docs:01JMJJHE28NR7KF0EZEA433T2J',
-      'score': 0.0,
-      'vector_distance': '0.217882037163',
-      'user': 'taimur',
-      'credit_score': 'low',
-      'age': '15',
-      'job': 'CEO',
-      'office_location': '-122.0839,37.3861'},
-     {'id': 'user_queries_docs:01JMJJPEYD9EAVGJ2AZ8K9VX7Q',
-      'score': 0.0,
-      'vector_distance': '0.217882037163',
-      'user': 'taimur',
-      'credit_score': 'low',
-      'age': '15',
-      'job': 'CEO',
-      'office_location': '-122.0839,37.3861'}]
+      'vector_distance': '0.653301358223',
+      'user': 'joe',
+      'credit_score': 'medium',
+      'age': '35',
+      'job': 'dentist',
+      'office_location': '-122.0839,37.3861',
+      'last_updated': '1742232589'}]
 
 
 
@@ -492,7 +476,7 @@ result_print(index.query(v))
 ```
 
 
-<table><tr><th>score</th><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th></tr><tr><td>0.4545454446934474</td><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td></tr><tr><td>0.4545454446934474</td><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td><td>-122.4194,37.7749</td></tr><tr><td>0.4545454446934474</td><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td></tr><tr><td>0.4545454446934474</td><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td><td>-122.4194,37.7749</td></tr><tr><td>0.4545454446934474</td><td>0.266666650772</td><td>nancy</td><td>high</td><td>94</td><td>doctor</td><td>-122.4194,37.7749</td></tr><tr><td>0.4545454446934474</td><td>0.266666650772</td><td>nancy</td><td>high</td><td>94</td><td>doctor</td><td>-122.4194,37.7749</td></tr></table>
+<table><tr><th>score</th><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th><th>last_updated</th></tr><tr><td>0.4545454446934474</td><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td><td>1741627789</td></tr><tr><td>0.4545454446934474</td><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td><td>-122.4194,37.7749</td><td>1741627789</td></tr><tr><td>0.4545454446934474</td><td>0.266666650772</td><td>nancy</td><td>high</td><td>94</td><td>doctor</td><td>-122.4194,37.7749</td><td>1710696589</td></tr></table>
 
 
 
@@ -505,7 +489,7 @@ result_print(index.query(v))
 ```
 
 
-<table><tr><th>score</th><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th></tr><tr><td>0.4545454446934474</td><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td></tr><tr><td>0.4545454446934474</td><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td><td>-122.4194,37.7749</td></tr><tr><td>0.4545454446934474</td><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td></tr><tr><td>0.4545454446934474</td><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td><td>-122.4194,37.7749</td></tr><tr><td>0.4545454446934474</td><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr><tr><td>0.4545454446934474</td><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr><tr><td>0.4545454446934474</td><td>0.158808946609</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td><td>-122.0839,37.3861</td></tr><tr><td>0.4545454446934474</td><td>0.158808946609</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td><td>-122.0839,37.3861</td></tr><tr><td>0.4545454446934474</td><td>0.217882037163</td><td>taimur</td><td>low</td><td>15</td><td>CEO</td><td>-122.0839,37.3861</td></tr><tr><td>0.4545454446934474</td><td>0.217882037163</td><td>taimur</td><td>low</td><td>15</td><td>CEO</td><td>-122.0839,37.3861</td></tr></table>
+<table><tr><th>score</th><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th><th>last_updated</th></tr><tr><td>0.4545454446934474</td><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td><td>1741627789</td></tr><tr><td>0.4545454446934474</td><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td><td>-122.4194,37.7749</td><td>1741627789</td></tr><tr><td>0.4545454446934474</td><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td><td>1742232589</td></tr><tr><td>0.4545454446934474</td><td>0.158808946609</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td><td>-122.0839,37.3861</td><td>1739644189</td></tr><tr><td>0.4545454446934474</td><td>0.217882037163</td><td>taimur</td><td>low</td><td>15</td><td>CEO</td><td>-122.0839,37.3861</td><td>1742232589</td></tr><tr><td>0.4545454446934474</td><td>0.266666650772</td><td>nancy</td><td>high</td><td>94</td><td>doctor</td><td>-122.4194,37.7749</td><td>1710696589</td></tr><tr><td>0.4545454446934474</td><td>0.653301358223</td><td>joe</td><td>medium</td><td>35</td><td>dentist</td><td>-122.0839,37.3861</td><td>1742232589</td></tr></table>
 
 
 
@@ -518,7 +502,7 @@ result_print(index.query(v))
 ```
 
 
-<table><tr><th>score</th><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th></tr><tr><td>0.0</td><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr><tr><td>0.0</td><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr><tr><td>0.0</td><td>0.158808946609</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td><td>-122.0839,37.3861</td></tr><tr><td>0.0</td><td>0.158808946609</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td><td>-122.0839,37.3861</td></tr><tr><td>0.0</td><td>0.217882037163</td><td>taimur</td><td>low</td><td>15</td><td>CEO</td><td>-122.0839,37.3861</td></tr><tr><td>0.0</td><td>0.217882037163</td><td>taimur</td><td>low</td><td>15</td><td>CEO</td><td>-122.0839,37.3861</td></tr><tr><td>0.0</td><td>0.653301358223</td><td>joe</td><td>medium</td><td>35</td><td>dentist</td><td>-122.0839,37.3861</td></tr><tr><td>0.0</td><td>0.653301358223</td><td>joe</td><td>medium</td><td>35</td><td>dentist</td><td>-122.0839,37.3861</td></tr></table>
+<table><tr><th>score</th><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th><th>last_updated</th></tr><tr><td>0.0</td><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td><td>1742232589</td></tr><tr><td>0.0</td><td>0.158808946609</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td><td>-122.0839,37.3861</td><td>1739644189</td></tr><tr><td>0.0</td><td>0.217882037163</td><td>taimur</td><td>low</td><td>15</td><td>CEO</td><td>-122.0839,37.3861</td><td>1742232589</td></tr><tr><td>0.0</td><td>0.653301358223</td><td>joe</td><td>medium</td><td>35</td><td>dentist</td><td>-122.0839,37.3861</td><td>1742232589</td></tr></table>
 
 
 ## Combining Filters
@@ -601,7 +585,7 @@ result_print(index.query(v))
 ```
 
 
-<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr></table>
+<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr></table>
 
 
 
@@ -613,7 +597,7 @@ result_print(index.query(v))
 ```
 
 
-<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr><tr><td>0.266666650772</td><td>nancy</td><td>high</td><td>94</td><td>doctor</td><td>-122.4194,37.7749</td></tr><tr><td>0.266666650772</td><td>nancy</td><td>high</td><td>94</td><td>doctor</td><td>-122.4194,37.7749</td></tr></table>
+<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr><tr><td>0.266666650772</td><td>nancy</td><td>high</td><td>94</td><td>doctor</td><td>-122.4194,37.7749</td></tr></table>
 
 
 
@@ -625,7 +609,7 @@ result_print(index.query(v))
 ```
 
 
-<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr><tr><td>0.266666650772</td><td>nancy</td><td>high</td><td>94</td><td>doctor</td><td>-122.4194,37.7749</td></tr><tr><td>0.266666650772</td><td>nancy</td><td>high</td><td>94</td><td>doctor</td><td>-122.4194,37.7749</td></tr><tr><td>0.653301358223</td><td>joe</td><td>medium</td><td>35</td><td>dentist</td><td>-122.0839,37.3861</td></tr><tr><td>0.653301358223</td><td>joe</td><td>medium</td><td>35</td><td>dentist</td><td>-122.0839,37.3861</td></tr></table>
+<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr><tr><td>0.266666650772</td><td>nancy</td><td>high</td><td>94</td><td>doctor</td><td>-122.4194,37.7749</td></tr><tr><td>0.653301358223</td><td>joe</td><td>medium</td><td>35</td><td>dentist</td><td>-122.0839,37.3861</td></tr></table>
 
 
 
@@ -637,7 +621,7 @@ result_print(index.query(v))
 ```
 
 
-<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td></tr><tr><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td><td>-122.4194,37.7749</td></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td></tr><tr><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td><td>-122.4194,37.7749</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr><tr><td>0.158808946609</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td><td>-122.0839,37.3861</td></tr><tr><td>0.158808946609</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td><td>-122.0839,37.3861</td></tr><tr><td>0.217882037163</td><td>taimur</td><td>low</td><td>15</td><td>CEO</td><td>-122.0839,37.3861</td></tr><tr><td>0.217882037163</td><td>taimur</td><td>low</td><td>15</td><td>CEO</td><td>-122.0839,37.3861</td></tr></table>
+<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td></tr><tr><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td><td>-122.4194,37.7749</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr><tr><td>0.158808946609</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td><td>-122.0839,37.3861</td></tr><tr><td>0.217882037163</td><td>taimur</td><td>low</td><td>15</td><td>CEO</td><td>-122.0839,37.3861</td></tr><tr><td>0.266666650772</td><td>nancy</td><td>high</td><td>94</td><td>doctor</td><td>-122.4194,37.7749</td></tr><tr><td>0.653301358223</td><td>joe</td><td>medium</td><td>35</td><td>dentist</td><td>-122.0839,37.3861</td></tr></table>
 
 
 ## Non-vector Queries
@@ -661,7 +645,7 @@ result_print(results)
 ```
 
 
-<table><tr><th>user</th><th>credit_score</th><th>age</th><th>job</th></tr><tr><td>derrick</td><td>low</td><td>14</td><td>doctor</td></tr><tr><td>taimur</td><td>low</td><td>15</td><td>CEO</td></tr><tr><td>derrick</td><td>low</td><td>14</td><td>doctor</td></tr><tr><td>taimur</td><td>low</td><td>15</td><td>CEO</td></tr></table>
+<table><tr><th>user</th><th>credit_score</th><th>age</th><th>job</th></tr><tr><td>derrick</td><td>low</td><td>14</td><td>doctor</td></tr><tr><td>taimur</td><td>low</td><td>15</td><td>CEO</td></tr></table>
 
 
 ## Count Queries
@@ -681,7 +665,7 @@ count = index.query(filter_query)
 print(f"{count} records match the filter expression {str(has_low_credit)} for the given index.")
 ```
 
-    4 records match the filter expression @credit_score:{low} for the given index.
+    2 records match the filter expression @credit_score:{low} for the given index.
 
 
 ## Range Queries
@@ -706,7 +690,7 @@ result_print(results)
 ```
 
 
-<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td></tr><tr><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td></tr><tr><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td></tr><tr><td>0.158808946609</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td></tr><tr><td>0.158808946609</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td></tr></table>
+<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td></tr><tr><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td></tr><tr><td>0.158808946609</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td></tr></table>
 
 
 We can also change the distance threshold of the query object between uses if we like. Here we will set ``distance_threshold==0.1``. This means that the query object will return all matches that are within 0.1 of the query object. This is a small distance, so we expect to get fewer matches than before.
@@ -719,7 +703,7 @@ result_print(index.query(range_query))
 ```
 
 
-<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td></tr><tr><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td></tr><tr><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td></tr></table>
+<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td></tr><tr><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td></tr></table>
 
 
 Range queries can also be used with filters like any other query type. The following limits the results to only include records with a ``job`` of ``engineer`` while also being within the vector range (aka distance).
@@ -734,7 +718,7 @@ result_print(index.query(range_query))
 ```
 
 
-<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td></tr></table>
+<table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td></tr></table>
 
 
 ## Advanced Query Modifiers
@@ -757,7 +741,7 @@ result_print(result)
 ```
 
 
-<table><tr><th>vector_distance</th><th>age</th><th>user</th><th>credit_score</th><th>job</th><th>office_location</th></tr><tr><td>0.109129190445</td><td>100</td><td>tyler</td><td>high</td><td>engineer</td><td>-122.0839,37.3861</td></tr><tr><td>0.109129190445</td><td>100</td><td>tyler</td><td>high</td><td>engineer</td><td>-122.0839,37.3861</td></tr><tr><td>0</td><td>18</td><td>john</td><td>high</td><td>engineer</td><td>-122.4194,37.7749</td></tr><tr><td>0</td><td>18</td><td>john</td><td>high</td><td>engineer</td><td>-122.4194,37.7749</td></tr></table>
+<table><tr><th>vector_distance</th><th>age</th><th>user</th><th>credit_score</th><th>job</th><th>office_location</th></tr><tr><td>0.109129190445</td><td>100</td><td>tyler</td><td>high</td><td>engineer</td><td>-122.0839,37.3861</td></tr><tr><td>0</td><td>18</td><td>john</td><td>high</td><td>engineer</td><td>-122.4194,37.7749</td></tr></table>
 
 
 ### Raw Redis Query String
@@ -819,14 +803,10 @@ for r in results.docs:
     print(r.__dict__)
 ```
 
-    {'id': 'user_queries_docs:01JMJJHE28G5F943YGWMB1ZX1V', 'payload': None, 'user': 'tim', 'age': '12', 'job': 'dermatologist', 'credit_score': 'high', 'office_location': '-122.0839,37.3861', 'user_embedding': '>>\x00\x00\x00?'}
-    {'id': 'user_queries_docs:01JMJJHE28ZW4F33ZNRKXRHYCS', 'payload': None, 'user': 'john', 'age': '18', 'job': 'engineer', 'credit_score': 'high', 'office_location': '-122.4194,37.7749', 'user_embedding': '==\x00\x00\x00?'}
-    {'id': 'user_queries_docs:01JMJJHE28B5R6T00DH37A7KSJ', 'payload': None, 'user': 'tyler', 'age': '100', 'job': 'engineer', 'credit_score': 'high', 'office_location': '-122.0839,37.3861', 'user_embedding': '=>\x00\x00\x00?'}
-    {'id': 'user_queries_docs:01JMJJHE28EX13NEE7BGBM8FH3', 'payload': None, 'user': 'nancy', 'age': '94', 'job': 'doctor', 'credit_score': 'high', 'office_location': '-122.4194,37.7749', 'user_embedding': '333?=\x00\x00\x00?'}
-    {'id': 'user_queries_docs:01JMJJPEYCQ89ZQW6QR27J72WT', 'payload': None, 'user': 'john', 'age': '18', 'job': 'engineer', 'credit_score': 'high', 'office_location': '-122.4194,37.7749', 'user_embedding': '==\x00\x00\x00?'}
-    {'id': 'user_queries_docs:01JMJJPEYDAN0M3V7EQEVPS6HX', 'payload': None, 'user': 'nancy', 'age': '94', 'job': 'doctor', 'credit_score': 'high', 'office_location': '-122.4194,37.7749', 'user_embedding': '333?=\x00\x00\x00?'}
-    {'id': 'user_queries_docs:01JMJJPEYDPF9S5328WHCQN0ND', 'payload': None, 'user': 'tyler', 'age': '100', 'job': 'engineer', 'credit_score': 'high', 'office_location': '-122.0839,37.3861', 'user_embedding': '=>\x00\x00\x00?'}
-    {'id': 'user_queries_docs:01JMJJPEYDKA9ARKHRK1D7KPXQ', 'payload': None, 'user': 'tim', 'age': '12', 'job': 'dermatologist', 'credit_score': 'high', 'office_location': '-122.0839,37.3861', 'user_embedding': '>>\x00\x00\x00?'}
+    {'id': 'user_queries_docs:01JWEWQHJX670FQM0GKCV403XE', 'payload': None, 'user': 'john', 'age': '18', 'job': 'engineer', 'credit_score': 'high', 'office_location': '-122.4194,37.7749', 'user_embedding': '==\x00\x00\x00?', 'last_updated': '1741627789'}
+    {'id': 'user_queries_docs:01JWEWQHJYVBNG97WEWDRQEKCD', 'payload': None, 'user': 'nancy', 'age': '94', 'job': 'doctor', 'credit_score': 'high', 'office_location': '-122.4194,37.7749', 'user_embedding': '333?=\x00\x00\x00?', 'last_updated': '1710696589'}
+    {'id': 'user_queries_docs:01JWEWQHJYR2WTWMWZJ7PQ62N1', 'payload': None, 'user': 'tyler', 'age': '100', 'job': 'engineer', 'credit_score': 'high', 'office_location': '-122.0839,37.3861', 'user_embedding': '=>\x00\x00\x00?', 'last_updated': '1742232589'}
+    {'id': 'user_queries_docs:01JWEWQHJY30EW4B8X2EE6PPZS', 'payload': None, 'user': 'tim', 'age': '12', 'job': 'dermatologist', 'credit_score': 'high', 'office_location': '-122.0839,37.3861', 'user_embedding': '>>\x00\x00\x00?', 'last_updated': '1739644189'}
 
 
 
