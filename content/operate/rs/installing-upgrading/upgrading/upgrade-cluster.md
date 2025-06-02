@@ -36,6 +36,16 @@ Before upgrading a cluster:
 
 - Verify that you meet the upgrade path requirements for the target cluster version and review the relevant [release notes]({{< relref "/operate/rs/release-notes" >}}) for any preparation instructions.
 
+- Before you upgrade a cluster from Redis Enterprise Software version 6.2.x to 7.8.x, you must follow these steps if the cluster has any databases with Redis version 6.0:
+
+    1. Set the Redis upgrade policy to `latest`:
+
+        ```sh
+        rladmin tune cluster redis_upgrade_policy latest
+        ```
+
+    1. [Upgrade Redis 6.0 databases]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-database">}}) to Redis 6.2.
+
 - [Upgrade your databases]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-database">}}) to a version that is supported by the target Redis Enterprise Software version before upgrading the cluster. We recommend you upgrade the databases to the latest supported version if possible. Make sure to test the upgrade in a non-production environment to determine any impact.
 
 - Avoid changing the database configuration or performing other cluster management operations during the cluster upgrade process, as this might cause unexpected results.
