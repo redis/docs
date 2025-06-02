@@ -33,7 +33,7 @@ Redis Insight is available for multiple platforms:
 
 - [Install on Desktop]({{< relref "/operate/redisinsight/install/install-on-desktop" >}}) - Windows, macOS, Linux
 - [Install on Docker]({{< relref "/operate/redisinsight/install/install-on-docker" >}}) - Container deployment
-- [Install on Kubernetes]({{< relref "/operate/redisinsight/install/install-on-kubernetes" >}}) - K8s clusters
+- [Install on Kubernetes]({{< relref "/operate/redisinsight/install/install-on-k8s" >}}) - K8s clusters
 - [Install on AWS]({{< relref "/operate/redisinsight/install/install-on-aws" >}}) - Amazon Web Services
 
 ## Getting Started
