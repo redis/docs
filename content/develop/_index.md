@@ -27,7 +27,7 @@ or analyze and manage your database with our
     {{< image filename="images/dev/icons/icon-redis-insight-64-duotone.png" class="mr-4" >}}
     <div>
       <h3><a href='{{< relref "/develop/tools/insight">}}'>Redis Insight</a></h3>
-      <p>Visual client tool for creating, managing, and analyzing Redis databases.</p>
+      <p>Visual client tool for creating, managing, and analyzing Redis databases. <a href="https://redis.io/downloads/#:~:text=Redis-,Insight,-Download%20a%20powerful">Download Redis Insight</a></p>
     </div>
   </div>
   <div class="flex items-center">

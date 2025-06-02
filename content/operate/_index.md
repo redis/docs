@@ -11,7 +11,7 @@ hideListLinks: true
 | {{<color-bubble color="bg-purple-bubble">}} **Redis Open Source** | {{<color-bubble color="bg-gray-bubble">}} **Redis for Kubernetes** |
 | <ul><li> [Install Redis 8 in Redis Open Source]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) </li><li> [Install Redis Stack]({{< relref "/operate/oss_and_stack/install/archive/install-stack/" >}}) (&#8804; 7.4) </li><li> [Manage Redis]({{< relref "/operate/oss_and_stack/management" >}}) </li></ul> | <ul><li> [Deploy Redis for Kubernetes]({{< relref "/operate/kubernetes/deployment" >}}) </li><li> [Architecture]({{< relref "/operate/kubernetes/architecture" >}}) </li><li> [API Reference]({{< relref "/operate/kubernetes/reference" >}}) </li></ul> |
 | {{<color-bubble color="bg-red-bubble">}} **Redis Insight** | |
-| <ul><li> [Install Redis Insight]({{< relref "/operate/redisinsight/install" >}}) </li><li> [Use Redis Insight]({{< relref "/develop/tools/insight" >}}) </li></ul> | |
+| <ul><li> [Install Redis Insight]({{< relref "/operate/redisinsight/install" >}}) </li><li> [Use Redis Insight]({{< relref "/develop/tools/insight" >}}) </li><li> [Download Redis Insight](https://redis.io/downloads/#:~:text=Redis-,Insight,-Download%20a%20powerful) </li></ul> | |
 
 ## Product features
 

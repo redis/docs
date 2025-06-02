@@ -25,9 +25,9 @@ Redis Insight is a powerful tool for visualizing and optimizing data in Redis, m
 
 ### Installation and release notes
 
-* See [these pages]({{< relref "/operate/redisinsight/install" >}}) for installation information.
-
-* [Redis Insight Release Notes](https://github.com/Redis-Insight/Redis-Insight/releases)
+| | | |
+|---|---|---|
+| [![Install](/images/redisinsight-desktop.svg)Installation guides]({{< relref "/operate/redisinsight/install" >}})<br/>See installation guides for all platforms | [![Download](/images/redisinsight-download.svg)Download Redis Insight](https://redis.io/downloads/#:~:text=Redis-,Insight,-Download%20a%20powerful)<br/>Download Redis Insight directly from redis.io | [![Release Notes](/images/redisinsight-aws.svg)Release Notes](https://github.com/Redis-Insight/Redis-Insight/releases)<br/>View Redis Insight release notes and changelog |
 
 ## Overview
 
@@ -67,7 +67,7 @@ Redis Insight includes Redis Data Integration (RDI) connectivity, which allows y
 ### Browser
 
 Browse, filter and visualize your key-value Redis data structures.
-* [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) support for lists, hashes, strings, sets, sorted sets, and streams 
+* [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) support for lists, hashes, strings, sets, sorted sets, and streams
 * CRUD support for [JSON]({{< relref "/develop/data-types/json/" >}})
 * Group keys according to their namespaces
 
@@ -85,7 +85,7 @@ Analyze every command sent to Redis in real time.
 
 ### CLI
 
-The CLI is accessible at any time within the application. 
+The CLI is accessible at any time within the application.
 * Employs integrated help to deliver intuitive assistance
 * Use together with a convenient command helper that lets you search and read on Redis commands.
 
@@ -179,6 +179,6 @@ you can access the API from `http://localhost:5540/api/docs`.
 
 To provide your feedback, [open a ticket in our Redis Insight repository](https://github.com/Redis-Insight/Redis-Insight/issues/new).
 
-## License 
+## License
 
 Redis Insight is licensed under [SSPL](https://github.com/Redis-Insight/Redis-Insight/blob/main/LICENSE) license.
