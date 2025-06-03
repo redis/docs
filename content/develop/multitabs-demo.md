@@ -13,7 +13,7 @@ This page tests a simpler approach to multi-tab syntax that works reliably with 
 {{< multitabs id="example-tabs" tab1="Getting Started" tab2="Features" tab3="Usage Guide" >}}
 Welcome to the **Getting Started** tab! This demonstrates the simpler multi-tab syntax.
 
-### Quick Setup
+**Quick Setup**
 1. Include the tab component files
 2. Use the `multitabs` shortcode with tab parameters
 3. Separate content with a divider: `- tab - sep -
@@ -22,7 +22,7 @@ This approach avoids Hugo's nested shortcode parsing issues while still providin
 
 -tab-sep-
 
-## Key Features
+**Key Features**
 
 The tab control includes:
 
@@ -32,7 +32,7 @@ The tab control includes:
 - **Markdown support**: Full markdown rendering within tabs
 - **Simple syntax**: Uses parameter-based tab titles and content separators
 
-### Code Example
+**Code Example**
 ```javascript
 // Example of tab initialization
 document.addEventListener('DOMContentLoaded', () => {
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 -tab-sep-
 
-## How to Use
+**How to Use**
 
 The multi-tab syntax uses parameters for tab titles and separates content with triple dashes.
 
@@ -52,7 +52,7 @@ The multi-tab syntax uses parameters for tab titles and separates content with t
 2. Separate content sections with `---` on its own line
 3. Each section becomes the content for the corresponding tab
 
-### Benefits
+**Benefits**
 - **Reliable parsing**: No nested shortcode issues
 - **Clean syntax**: Easy to read and write
 - **Flexible content**: Any markdown content works

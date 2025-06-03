@@ -774,7 +774,7 @@ input[type="radio"] {
 }
 
 .generic-tabs .tab-content {
-  @apply hidden p-6 bg-white border border-t-0 border-redis-pen-300 rounded-b-md shadow-sm;
+  @apply hidden px-6 pb-6 pt-3 bg-white border border-t-0 border-redis-pen-300 rounded-b-md shadow-sm;
 }
 
 .generic-tabs .tab-content.active {
