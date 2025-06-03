@@ -16,11 +16,11 @@ Welcome to the **Getting Started** tab! This demonstrates the simpler multi-tab 
 ### Quick Setup
 1. Include the tab component files
 2. Use the `multitabs` shortcode with tab parameters
-3. Separate content with `---` dividers
+3. Separate content with a divider: `- tab - sep -
 
 This approach avoids Hugo's nested shortcode parsing issues while still providing clean multi-tab functionality.
 
-- - -
+-tab-sep-
 
 ## Key Features
 
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 ```
 
-- - -
+-tab-sep-
 
 ## How to Use
 

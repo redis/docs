@@ -9,11 +9,11 @@
 
   Content for tab 1
 
-  - - -
+  -tab-sep-
 
   Content for tab 2
 
-  - - -
+  -tab-sep-
 
   Content for tab 3
   {{< /multitabs >}}
@@ -22,8 +22,8 @@
 {{ $id := .Get "id" | default (printf "tabs-%s" (substr (.Inner | md5) 0 8)) }}
 {{ $tabs := slice }}
 
-{{/* Split content by --- separator */}}
-{{ $sections := split .Inner "- - -" }}
+{{/* Split content by -tab-sep- separator */}}
+{{ $sections := split .Inner "-tab-sep-" }}
 
 {{/* Get tab titles from parameters */}}
 {{ $tabTitles := slice }}
