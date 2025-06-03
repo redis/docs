@@ -770,7 +770,7 @@ input[type="radio"] {
 }
 
 .generic-tabs .tab-radio:focus + .tab-label {
-  @apply ring-2 ring-redis-red-500 ring-inset;
+  @apply border-b-2 border-b-redis-red-500 -mb-px;
 }
 
 .generic-tabs .tab-content {
