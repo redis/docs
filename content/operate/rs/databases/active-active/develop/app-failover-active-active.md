@@ -70,6 +70,10 @@ Your application should monitor local replica failures and replication failures.
 
 The most reliable way to detect replication failures is using Redis pub/sub.
 
+{{< tip >}}
+**Why pub/sub works**: Pub/sub messages are delivered as replicated effects and are a more reliable indicator of a live replication link. In certain cases, dataset keys may appear to be modified even if the replication link fails. This happens because keys may receive updates through full-state replication (re-sync) or through online replication of effects. Unlike dataset changes, pub/sub doesn't make assumptions about your data structure.
+{{< /tip >}}
+
 ### How it works
 
 1. Subscribe to a dedicated health-check channel on each replica.
@@ -125,17 +129,37 @@ The most reliable way to detect replication failures is using Redis pub/sub.
                mark_replica_unhealthy(replica_name)
    ```
 
-{{< tip >}}
-**Why pub/sub works**: Pub/sub messages are delivered as replicated effects, making them a reliable indicator of active replication links. Unlike dataset changes, pub/sub doesn't make assumptions about your data structure.
-{{< /tip >}}
-
 ## Handle sharded databases
 
-If your Active-Active database uses sharding, you need to monitor each shard individually:
+If your Active-Active database uses sharding, you have several monitoring approaches:
 
-### Symmetric sharding (recommended)
+### Database-level monitoring (simpler approach)
+
+For many use cases, you can monitor the entire database using a single pub/sub channel per replica. This approach:
+
+- **Works well when**: All shards typically fail together (node failures, network partitions)
+- **Simpler to implement**: Uses the same monitoring logic as non-sharded databases
+- **May miss**: Individual shard failures that don't affect the entire database
+
+```python
+# Example implementation - adapt for your environment
+# Use the same approach as non-sharded databases
+for name, client in replicas.items():
+    client.subscribe(f'health-check-{name}')
+```
+
+### Per-shard monitoring (comprehensive approach)
+
+Monitor each shard individually when you need to detect partial database failures:
+
+#### Symmetric sharding (recommended)
 
 With symmetric sharding, all replicas have the same number of shards and hash slots.
+
+**When to use per-shard monitoring**:
+- You need to detect individual shard failures
+- Your application can handle partial database availability
+- You want maximum visibility into database health
 
 **Monitoring approach**:
 1. Use the Cluster API to get the sharding configuration
@@ -157,9 +181,9 @@ def get_channels_per_shard(redis_client):
     return channels
 ```
 
-### Asymmetric sharding (not recommended)
-
-Asymmetric configurations require monitoring every hash slot intersection, which is complex and error-prone.
+{{< note >}}
+**Asymmetric sharding**: Asymmetric configurations require monitoring every hash slot intersection, which is complex and error-prone. For asymmetric sharding, database-level monitoring is often more practical than per-shard monitoring.
+{{< /note >}}
 
 ## Implement failover
 
@@ -208,6 +232,10 @@ A replica is ready for failback when it's:
 2. **Synchronized**: Caught up with changes from other replicas.
 3. **Not stale**: You can read and write to the replica.
 
+{{< warning >}}
+**Avoid dataset-based monitoring**: Don't rely solely on reading/writing test keys to determine replica health. Replicas can appear healthy while still in stale mode or missing recent updates.
+{{< /warning >}}
+
 ### Failback process
 
 1. Verify replica health:
@@ -247,10 +275,6 @@ A replica is ready for failback when it's:
        if is_replica_stable(primary_replica):
            redirect_writes_to(primary_replica)
    ```
-
-{{< warning >}}
-**Avoid dataset-based monitoring**: Don't rely solely on reading/writing test keys to determine replica health. Replicas can appear healthy while still in stale mode or missing recent updates.
-{{< /warning >}}
 
 ## Configuration best practices
 
@@ -344,42 +368,10 @@ class FailoverRedisClient:
         pass
 ```
 
-## Next steps
-
-- [Configure Active-Active databases]({{< relref "/operate/rs/databases/active-active/create" >}})
-- [Monitor Active-Active replication]({{< relref "/operate/rs/databases/active-active/monitor" >}})
-- [Develop applications with Active-Active databases]({{< relref "/operate/rs/databases/active-active/develop" >}})
-
-## Troubleshooting common issues
-
-### False positive failure detection
-
-**Problem**: Application detects failures when replicas are actually healthy.
-
-**Solutions**:
-- Increase heartbeat timeout windows
-- Use multiple consecutive failures before triggering failover
-- Monitor network latency between replicas
-
-### Split-brain scenarios
-
-**Problem**: Network partition causes multiple replicas to appear as "primary" to different application instances.
-
-**Solutions**:
-- Implement consensus mechanisms in your application
-- Use external coordination services (like Consul or etcd)
-- Design for eventual consistency
-
-### Slow failback
-
-**Problem**: Replica appears healthy but failback causes performance issues.
-
-**Solutions**:
-- Implement gradual failback (reads first, then writes)
-- Monitor replica performance metrics during failback
-- Use canary deployments for failback testing
-
 ## Related topics
 
+- [Manage Active-Active databases]({{< relref "/operate/rs/databases/active-active/manage" >}})
+- [Active-Active database synchronization]({{< relref "/operate/rs/databases/active-active/syncer" >}})
+- [Monitor Redis Enterprise Software]({{< relref "/operate/rs/monitoring" >}})
 - [Redis pub/sub]({{< relref "/develop/interact/pubsub" >}})
 - [OSS Cluster API]({{< relref "/operate/rs/clusters/optimize/oss-cluster-api/" >}})
