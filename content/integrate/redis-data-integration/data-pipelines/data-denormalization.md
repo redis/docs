@@ -169,7 +169,7 @@ The job must include the following attributes in the `nest` block:
   for the format of the key that is generated.
 - `nesting_key`: The unique key of each child entry in the JSON map that will be created under the path.
 - `parent_key`: The field in the parent entity that stores the unique ID (foreign key) of the parent entity. This can't be a composite key.
-- `child_key`: The field in the child entity that stores the unique ID (foreign key) to the parent entity. You only need to add this attribute if the name of the child's foreign key field is different from the parent's. Can not be composite key.
+- `child_key`: The field in the child entity that stores the unique ID (foreign key) to the parent entity. You only need to add this attribute if the name of the child's foreign key field is different from the parent's. This can't be a composite key.
 - `path`: The [JSONPath](https://goessner.net/articles/JsonPath/)
   for the map where you want to store the child entities. The path must start with the `$` character, which denotes
   the document root.
