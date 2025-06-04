@@ -107,7 +107,7 @@ You can also use custom keys for the parent entity, as long as you use the same 
 ## Joining one-to-many relationships
 
 To join one-to-many relationships, you can use the *Nesting* strategy.
-With it, the parent object (the "one") is represented as a JSON document with the children (the "many") nested inside a JSON map attribute in the parent. The diagram below shows a nesting with the child objects in a map called `InvoiceLineItems`:
+With this, the parent object (the "one") is represented as a JSON document with the children (the "many") nested inside it as a JSON map attribute. The diagram below shows a nesting with the child objects in a map called `InvoiceLineItems`:
 
 {{< image filename="/images/rdi/ingest/nest-flow.webp" width="500px" >}}
 
