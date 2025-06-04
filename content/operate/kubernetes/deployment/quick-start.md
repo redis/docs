@@ -158,7 +158,7 @@ Each cluster must have at least 3 nodes. Single-node RECs are not supported.
     See the [Redis Enterprise hardware requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements" >}}) for more information on sizing Redis Enterprise node resource requests.
   
     {{<note>}}
-    If you enabled automatic resource adjustment in your configuration, this step will trigger the operator to apply elevated capabilities. Ensure your security context allows it.
+If you enabled automatic resource adjustment in your configuration, this step will trigger the operator to apply elevated capabilities. Ensure your security context allows it.
     {{</note>}}
 
 1. Apply your custom resource file in the same namespace as `my-rec.yaml`.
