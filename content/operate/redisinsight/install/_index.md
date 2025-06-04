@@ -10,7 +10,7 @@ weight: 3
 hideListLinks: true
 ---
 
-[Download Redis Insight](https://redis.io/downloads/#:~:text=Redis-,Insight,-Download%20a%20powerful)
+[Download Redis Insight](https://redis.io/downloads/#insight)
 
 ## Installation options
 Learn how to install Redis Insight on your desktop, Amazon Web Services (AWS), Docker, and Kubernetes.
