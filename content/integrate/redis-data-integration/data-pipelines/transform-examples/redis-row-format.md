@@ -63,7 +63,7 @@ With `row_format: full` the input value is a JSON object with the following stru
 - `key` - An object containing the attributes of the primary key. For example, `key.id` will give you the value of the `id` column as long as it is part of the primary key.
 - `before` - An object containing the previous value of the row.
 - `after` - An object containing the current value of the row.
-- `opcode` - The operation code. See the [using the operation code]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples/redis-opcode-example" >}}) page for more information of the possible values and usage examples.
+- `opcode` - The operation code. See [Using the operation code]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples/redis-opcode-example" >}}) for more information about the possible opcode values and how to use them.
 - `db` - The database name.
 - `table` - The table name.
 - `schema` - The schema name. 
