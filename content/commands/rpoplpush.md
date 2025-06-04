@@ -142,3 +142,21 @@ reachable, with the smallest delay possible, using a number of parallel workers.
 Note that this implementation of workers is trivially scalable and reliable,
 because even if a message is lost the item is still in the queue and will be
 processed at the next iteration.
+
+## Return information
+
+{{< multitabs id="rpoplpush-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the element being popped and pushed.
+* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the source list is empty.
+
+-tab-sep-
+
+One of the following:
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the element being popped and pushed.
+* [Null reply](../../develop/reference/protocol-spec#nulls): if the source list is empty.
+
+{{< /multitabs >}}

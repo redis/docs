@@ -113,3 +113,21 @@ Please see the pattern description in the [`LMOVE`]({{< relref "/commands/lmove"
 ## Pattern: Circular list
 
 Please see the pattern description in the [`LMOVE`]({{< relref "/commands/lmove" >}}) documentation.
+
+## Return information
+
+{{< multitabs id="blmove-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the element being popped from the _source_ and pushed to the _destination_.
+* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): the operation timed-out
+
+-tab-sep-
+
+One of the following:
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the element being popped from the _source_ and pushed to the _destination_.
+* [Null reply](../../develop/reference/protocol-spec#nulls): the operation timed-out
+
+{{< /multitabs >}}

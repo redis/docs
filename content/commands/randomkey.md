@@ -32,3 +32,21 @@ syntax_str: ''
 title: RANDOMKEY
 ---
 Return a random key from the currently selected database.
+
+## Return information
+
+{{< multitabs id="randomkey-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): when the database is empty.
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): a random key in database.
+
+-tab-sep-
+
+One of the following:
+* [Null reply](../../develop/reference/protocol-spec#nulls): when the database is empty.
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): a random key in the database.
+
+{{< /multitabs >}}

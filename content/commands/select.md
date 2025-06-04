@@ -42,3 +42,17 @@ In practical terms, Redis databases should be used to separate different keys be
 When using Redis Cluster, the `SELECT` command cannot be used, since Redis Cluster only supports database zero. In the case of a Redis Cluster, having multiple databases would be useless and an unnecessary source of complexity. Commands operating atomically on a single database would not be possible with the Redis Cluster design and goals.
 
 Since the currently selected database is a property of the connection, clients should track the currently selected database and re-select it on reconnection. While there is no command in order to query the selected database in the current connection, the [`CLIENT LIST`]({{< relref "/commands/client-list" >}}) output shows, for each client, the currently selected database.
+
+## Return information
+
+{{< multitabs id="select-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+{{< /multitabs >}}

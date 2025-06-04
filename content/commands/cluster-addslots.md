@@ -81,3 +81,17 @@ This means that this command should be used with care only by applications
 orchestrating Redis Cluster, like `redis-cli`, and the command if used
 out of the right context can leave the cluster in a wrong state or cause
 data loss.
+
+## Return information
+
+{{< multitabs id="cluster-addslots-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.
+
+{{< /multitabs >}}

@@ -102,3 +102,16 @@ SETRANGE key2 6 "Redis"
 GET key2
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="setrange-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the length of the string after it was modified by the command.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the length of the string after it was modified by the command.
+
+{{< /multitabs >}}

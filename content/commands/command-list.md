@@ -55,3 +55,17 @@ You can use the optional _FILTERBY_ modifier to apply one of the following filte
  - **MODULE module-name**: get the commands that belong to the module specified by _module-name_.
  - **ACLCAT category**: get the commands in the [ACL category]({{< relref "operate/oss_and_stack/management/security/acl#command-categories" >}}) specified by _category_.
  - **PATTERN pattern**: get the commands that match the given glob-like _pattern_.
+
+## Return information
+
+{{< multitabs id="command-list-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of command names.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of command names.
+
+{{< /multitabs >}}

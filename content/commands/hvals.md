@@ -69,3 +69,16 @@ HSET myhash field2 "World"
 HVALS myhash
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="hvals-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of values in the hash, or an empty list when the key does not exist
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of values in the hash, or an empty list when the key does not exist.
+
+{{< /multitabs >}}

@@ -46,3 +46,17 @@ For more information, see [Pub/sub]({{< relref "/develop/interact/pubsub" >}}).
 ## Behavior change history
 
 *   `>= 6.2.0`: [`RESET`]({{< relref "/commands/reset" >}}) can be called to exit subscribed state.
+
+## Return information
+
+{{< multitabs id="subscribe-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+When successful, this command doesn't return anything. Instead, for each channel, one message with the first element being the string `subscribe` is pushed as a confirmation that the command succeeded.
+
+-tab-sep-
+
+When successful, this command doesn't return anything. Instead, for each channel, one message with the first element being the string `subscribe` is pushed as a confirmation that the command succeeded.
+
+{{< /multitabs >}}

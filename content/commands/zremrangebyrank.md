@@ -73,3 +73,16 @@ ZREMRANGEBYRANK myzset 0 1
 ZRANGE myzset 0 -1 WITHSCORES
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="zremrangebyrank-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of members removed.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): Number of members removed.
+
+{{< /multitabs >}}

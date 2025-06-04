@@ -135,3 +135,16 @@ GEORADIUS Sicily 15 37 100 km
 GEORADIUS Sicily 15 37 200 km
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="geoadd-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): When used without optional arguments, the number of elements added to the sorted set (excluding score updates).  If the CH option is specified, the number of elements that were changed (added or updated).
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): When used without optional arguments, the number of elements added to the sorted set (excluding score updates).  If the CH option is specified, the number of elements that were changed (added or updated).
+
+{{< /multitabs >}}

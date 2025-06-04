@@ -89,3 +89,20 @@ SMEMBERS myset
 SMEMBERS myotherset
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="smove-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the element is moved.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the element is not a member of _source_ and no operation was performed.
+
+-tab-sep-
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the element is moved.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the element is not a member of _source_ and no operation was performed.
+
+{{< /multitabs >}}

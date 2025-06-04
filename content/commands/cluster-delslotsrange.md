@@ -68,3 +68,17 @@ This command only works in cluster mode and may be useful for
 debugging and in order to manually orchestrate a cluster configuration
 when a new cluster is created. It is currently not used by `redis-cli`,
 and mainly exists for API completeness.
+
+## Return information
+
+{{< multitabs id="cluster-delslotsrange-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.
+
+{{< /multitabs >}}

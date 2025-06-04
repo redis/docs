@@ -57,3 +57,17 @@ LOLWUT version should have the following properties:
 3. LOLWUT output should be fast to generate so that the command can be called in production instances without issues. It should remain fast even when the user experiments with odd parameters.
 4. LOLWUT implementations should be safe and carefully checked for security, and resist to untrusted inputs if they take arguments.
 5. LOLWUT must always display the Redis version at the end.
+
+## Return information
+
+{{< multitabs id="lolwut-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): a string containing generative computer art and the Redis version.
+
+-tab-sep-
+
+[Verbatim string reply](../../develop/reference/protocol-spec#verbatim-strings): a string containing generative computer art and the Redis version.
+
+{{< /multitabs >}}

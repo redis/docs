@@ -181,3 +181,17 @@ Clients may treat the empty string in the same way as NULL, that is the same end
          13) "health"
          14) "online"
 ```
+
+## Return information
+
+{{< multitabs id="cluster-shards-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a nested list of a map of hash ranges and shard nodes describing individual shards.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a nested list of [Map reply](../../develop/reference/protocol-spec#maps) of hash ranges and shard nodes describing individual shards.
+
+{{< /multitabs >}}

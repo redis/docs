@@ -50,3 +50,17 @@ The connection name can be inspected using [`CLIENT GETNAME`]({{< relref "/comma
 Every new connection starts without an assigned name.
 
 Tip: setting names to connections is a good way to debug connection leaks due to bugs in the application using Redis.
+
+## Return information
+
+{{< multitabs id="client-setname-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the connection name was successfully set.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the connection name was successfully set.
+
+{{< /multitabs >}}

@@ -173,3 +173,25 @@ An example of unlock script would be similar to the following:
     end
 
 The script should be called with `EVAL ...script... 1 resource-name token-value`
+
+## Return information
+
+{{< multitabs id="set-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+Any of the following:
+* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): `GET` not given: Operation was aborted (conflict with one of the `XX`/`NX` options).
+* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`. `GET` not given: The key was set.
+* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): `GET` given: The key didn't exist before the `SET`.
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): `GET` given: The previous value of the key.
+
+-tab-sep-
+
+Any of the following:
+* [Null reply](../../develop/reference/protocol-spec#nulls): `GET` not given: Operation was aborted (conflict with one of the `XX`/`NX` options).
+* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`. `GET` not given: The key was set.
+* [Null reply](../../develop/reference/protocol-spec#nulls): `GET` given: The key didn't exist before the `SET`.
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): `GET` given: The previous value of the key.
+
+{{< /multitabs >}}

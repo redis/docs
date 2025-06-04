@@ -78,3 +78,16 @@ ZINTERCARD 2 zset1 zset2
 ZINTERCARD 2 zset1 zset2 LIMIT 1
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="zintercard-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of members in the resulting intersection.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of members in the resulting intersection.
+
+{{< /multitabs >}}

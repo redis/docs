@@ -77,3 +77,16 @@ GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
 GEOHASH Sicily Palermo Catania
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="geohash-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): an array where each element is the Geohash corresponding to each member name passed as an argument to the command.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): An array where each element is the Geohash corresponding to each member name passed as an argument to the command.
+
+{{< /multitabs >}}

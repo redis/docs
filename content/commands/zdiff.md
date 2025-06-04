@@ -72,3 +72,16 @@ ZDIFF 2 zset1 zset2
 ZDIFF 2 zset1 zset2 WITHSCORES
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="zdiff-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+* [Array reply](../../develop/reference/protocol-spec#arrays): the result of the difference including, optionally, scores when the _WITHSCORES_ option is used.
+
+-tab-sep-
+
+* [Array reply](../../develop/reference/protocol-spec#arrays): the result of the difference including, optionally, scores when the _WITHSCORES_ option is used.
+
+{{< /multitabs >}}

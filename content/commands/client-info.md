@@ -40,3 +40,16 @@ The reply format is identical to that of [`CLIENT LIST`]({{< relref "/commands/c
 CLIENT INFO
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="client-info-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): a unique string for the current client, as described at the `CLIENT LIST` page.
+
+-tab-sep-
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): a unique string for the current client, as described at the `CLIENT LIST` page.
+
+{{< /multitabs >}}

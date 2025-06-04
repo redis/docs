@@ -120,3 +120,24 @@ executes the search in the main thread instead of a background thread. Useful fo
 ## Related topics
 
 - [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
+
+## Return information
+
+{{< multitabs id="vsim-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Simple error reply](../../develop/reference/protocol-spec/#simple-errors) for unknown element.
+* [Array reply](../../develop/reference/protocol-spec#arrays) (empty array) for unknown key.
+* [Array reply](../../develop/reference/protocol-spec#arrays) with matching elements; juxtaposed with scores when used with the WITHSCORES option.
+
+-tab-sep-
+
+One of the following:
+* [Simple error reply](../../develop/reference/protocol-spec/#simple-errors) for unknown element.
+* [Array reply](../../develop/reference/protocol-spec#arrays) (empty array) for unknown key.
+* [Array reply](../../develop/reference/protocol-spec#arrays) with matching elements.
+* [Map reply](../../develop/reference/protocol-spec#maps) with matching elements and [double](../../develop/reference/protocol-spec#doubles) scores when used with the WITHSCORES option.
+
+{{< /multitabs >}}

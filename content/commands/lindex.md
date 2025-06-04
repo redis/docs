@@ -68,3 +68,20 @@ LINDEX mylist -1
 LINDEX mylist 3
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="lindex-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): when _index_ is out of range.
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the requested element.
+
+-tab-sep-
+
+One of the following:
+* [Null reply](../../develop/reference/protocol-spec#nulls): when _index_ is out of range.
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the requested element.
+
+{{< /multitabs >}}

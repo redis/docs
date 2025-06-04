@@ -67,3 +67,16 @@ SET mykey "234293482390480948029348230948"
 DECR mykey
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="decr-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the value of the key after decrementing it.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the value of the key after decrementing it.
+
+{{< /multitabs >}}

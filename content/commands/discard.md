@@ -36,3 +36,17 @@ connection state to normal.
 [tt]: /develop/interact/transactions
 
 If [`WATCH`]({{< relref "/commands/watch" >}}) was used, `DISCARD` unwatches all keys watched by the connection.
+
+## Return information
+
+{{< multitabs id="discard-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+{{< /multitabs >}}

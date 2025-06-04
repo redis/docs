@@ -239,3 +239,17 @@ ZRANGE myzset 0 -1
 ZRANGE myzset 2 3
 ZRANGE myzset -2 -1
 {{% /redis-cli %}}
+
+## Return information
+
+{{< multitabs id="zrange-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of members in the specified range with, optionally, their scores when the _WITHSCORES_ option is given.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of members in the specified range with, optionally, their scores when the _WITHSCORES_ option is given.
+
+{{< /multitabs >}}

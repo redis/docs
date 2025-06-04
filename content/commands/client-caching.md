@@ -58,3 +58,17 @@ tracked using `CLIENT CACHING no`.
 Basically the command sets a state in the connection, that is valid only
 for the next command execution, that will modify the behavior of client
 tracking.
+
+## Return information
+
+{{< multitabs id="client-caching-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` or an error if the argument is not "yes" or "no".
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` or an error if the argument is not "yes" or "no".
+
+{{< /multitabs >}}

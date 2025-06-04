@@ -77,3 +77,17 @@ So, if the old master stops working, it is possible to turn the replica into a
 master and set the application to use this new master in read/write.
 Later when the other Redis server is fixed, it can be reconfigured to work as a
 replica.
+
+## Return information
+
+{{< multitabs id="slaveof-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+{{< /multitabs >}}

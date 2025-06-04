@@ -141,3 +141,23 @@ Finally to also have the match len:
 3) "len"
 4) (integer) 6
 ```
+
+## Return information
+
+{{< multitabs id="lcs-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the longest common subsequence.
+* [Integer reply](../../develop/reference/protocol-spec#integers): the length of the longest common subsequence when _LEN_ is given.
+* [Array reply](../../develop/reference/protocol-spec#arrays): an array with the LCS length and all the ranges in both the strings when _IDX_ is given.
+
+-tab-sep-
+
+One of the following:
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the longest common subsequence.
+* [Integer reply](../../develop/reference/protocol-spec#integers): the length of the longest common subsequence when _LEN_ is given.
+* [Map reply](../../develop/reference/protocol-spec#maps): a map with the LCS length and all the ranges in both the strings when _IDX_ is given.
+
+{{< /multitabs >}}

@@ -61,3 +61,20 @@ ZADD myzset 1 "one"
 ZSCORE myzset "one"
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="zscore-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the score of the member (a double-precision floating point number), represented as a string.
+* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if _member_ does not exist in the sorted set, or the key does not exist.
+
+-tab-sep-
+
+One of the following:
+* [Double reply](../../develop/reference/protocol-spec#doubles): the score of the member (a double-precision floating point number).
+* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if _member_ does not exist in the sorted set, or the key does not exist.
+
+{{< /multitabs >}}

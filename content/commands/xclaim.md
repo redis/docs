@@ -143,3 +143,21 @@ useful to normal users:
 ```
 
 In the above example we claim the message with ID `1526569498055-0`, only if the message is idle for at least one hour without the original consumer or some other consumer making progresses (acknowledging or claiming it), and assigns the ownership to the consumer `Alice`.
+
+## Return information
+
+{{< multitabs id="xclaim-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+Any of the following:
+* [Array reply](../../develop/reference/protocol-spec#arrays): when the _JUSTID_ option is specified, an array of IDs of messages successfully claimed.
+* [Array reply](../../develop/reference/protocol-spec#arrays): an array of stream entries, each of which contains an array of two elements, the entry ID and the entry data itself.
+
+-tab-sep-
+
+Any of the following:
+* [Array reply](../../develop/reference/protocol-spec#arrays): when the _JUSTID_ option is specified, an array of IDs of messages successfully claimed.
+* [Array reply](../../develop/reference/protocol-spec#arrays): an array of stream entries, each of which contains an array of two elements, the entry ID and the entry data itself.
+
+{{< /multitabs >}}

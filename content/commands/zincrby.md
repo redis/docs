@@ -76,3 +76,16 @@ ZINCRBY myzset 2 "one"
 ZRANGE myzset 0 -1 WITHSCORES
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="zincrby-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the new score of _member_ as a double precision floating point number.
+
+-tab-sep-
+
+[Double reply](../../develop/reference/protocol-spec#doubles): the new score of _member_.
+
+{{< /multitabs >}}

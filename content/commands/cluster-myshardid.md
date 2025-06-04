@@ -30,3 +30,17 @@ title: CLUSTER MYSHARDID
 Returns the node's shard id.
 
 The `CLUSTER MYSHARDID` command returns the unique, auto-generated identifier that is associated with the shard to which the connected cluster node belongs.
+
+## Return information
+
+{{< multitabs id="cluster-myshardid-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the node's shard ID.
+
+-tab-sep-
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the node's shard ID.
+
+{{< /multitabs >}}

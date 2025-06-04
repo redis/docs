@@ -92,3 +92,25 @@ When the `count` is a negative value, the behavior changes as follows:
 * Repeating fields are possible.
 * Exactly `count` fields, or an empty array if the hash is empty (non-existing key), are always returned.
 * The order of fields in the reply is truly random.
+
+## Return information
+
+{{< multitabs id="hrandfield-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+Any of the following:
+* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the key doesn't exist
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): a single, randomly selected field when the `count` option is not used
+* [Array reply](../../develop/reference/protocol-spec#arrays): a list containing `count` fields when the `count` option is used, or an empty array if the key does not exists.
+* [Array reply](../../develop/reference/protocol-spec#arrays): a list of fields and their values when `count` and `WITHVALUES` were both used.
+
+-tab-sep-
+
+Any of the following:
+* [Null reply](../../develop/reference/protocol-spec#nulls): if the key doesn't exist
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): a single, randomly selected field when the `count` option is not used
+* [Array reply](../../develop/reference/protocol-spec#arrays): a list containing `count` fields when the `count` option is used, or an empty array if the key does not exists.
+* [Array reply](../../develop/reference/protocol-spec#arrays): a list of fields and their values when `count` and `WITHVALUES` were both used.
+
+{{< /multitabs >}}

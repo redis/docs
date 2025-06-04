@@ -80,3 +80,21 @@ Here's an example configuration for a user
        9) "channels"
        10) "&*"
 ```
+
+## Return information
+
+{{< multitabs id="acl-getuser-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Array reply](../../develop/reference/protocol-spec#arrays): a list of ACL rule definitions for the user.
+* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if user does not exist.
+
+-tab-sep-
+
+One of the following:
+* [Map reply](../../develop/reference/protocol-spec#maps): a set of ACL rule definitions for the user
+* [Null reply](../../develop/reference/protocol-spec#nulls): if user does not exist.
+
+{{< /multitabs >}}

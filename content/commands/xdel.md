@@ -98,3 +98,17 @@ not a good idea to add such complexity.
    2) 1) "c"
       2) "3"
 ```
+
+## Return information
+
+{{< multitabs id="xdel-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of entries that were deleted.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of entries that were deleted.
+
+{{< /multitabs >}}

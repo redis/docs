@@ -96,3 +96,20 @@ GEODIST Sicily Palermo Catania mi
 GEODIST Sicily Foo Bar
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="geodist-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): one or both of the elements are missing.
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): distance as a double (represented as a string) in the specified units.
+
+-tab-sep-
+
+One of the following:
+* [Null reply](../../develop/reference/protocol-spec#nulls): one or both of the elements are missing.
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): distance as a double (represented as a string) in the specified units.
+
+{{< /multitabs >}}

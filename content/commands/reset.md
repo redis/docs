@@ -52,3 +52,17 @@ following:
   authentication is enabled.
 * Turns off `NO-EVICT` mode.
 * Turns off `NO-TOUCH` mode.
+
+## Return information
+
+{{< multitabs id="reset-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `RESET`.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `RESET`.
+
+{{< /multitabs >}}

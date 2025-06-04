@@ -75,3 +75,20 @@ MSETNX key2 "new" key3 "world"
 MGET key1 key2 key3
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="msetnx-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if no key was set (at least one key already existed).
+* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if all the keys were set.
+
+-tab-sep-
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if no key was set (at least one key already existed).
+* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if all the keys were set.
+
+{{< /multitabs >}}

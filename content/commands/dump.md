@@ -81,3 +81,21 @@ OK
 > DUMP mykey
 "\x00\xc0\n\n\x00n\x9fWE\x0e\xaec\xbb"
 ```
+
+## Return information
+
+{{< multitabs id="dump-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The serialized value of the key.
+* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): the key does not exist.
+
+-tab-sep-
+
+One of the following:
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the serialized value of the key.
+* [Null reply](../../develop/reference/protocol-spec#nulls): the key does not exist.
+
+{{< /multitabs >}}

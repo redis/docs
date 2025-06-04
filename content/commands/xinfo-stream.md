@@ -215,3 +215,21 @@ OK
                      2) (integer) 1638125133432
                      3) (integer) 1
 ```
+
+## Return information
+
+{{< multitabs id="xinfo-stream-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Array reply](../../develop/reference/protocol-spec#arrays): when the _FULL_ argument is used, a list of information about a stream in summary form.
+* [Array reply](../../develop/reference/protocol-spec#arrays): when the _FULL_ argument is used, a list of information about a stream in extended form.
+
+-tab-sep-
+
+One of the following:
+* [Map reply](../../develop/reference/protocol-spec#maps): when the _FULL_ argument was not given, a list of information about a stream in summary form.
+* [Map reply](../../develop/reference/protocol-spec#maps): when the _FULL_ argument was given, a list of information about a stream in extended form.
+
+{{< /multitabs >}}

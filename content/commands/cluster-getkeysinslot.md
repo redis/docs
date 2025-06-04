@@ -50,3 +50,17 @@ of the [`CLUSTER SETSLOT`]({{< relref "/commands/cluster-setslot" >}}) command d
 2) "key_89793"
 3) "key_92937"
 ```
+
+## Return information
+
+{{< multitabs id="cluster-getkeysinslot-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): an array with up to count elements.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): an array with up to count elements.
+
+{{< /multitabs >}}

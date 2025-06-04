@@ -50,3 +50,17 @@ The information returned about the active shard channels are at the shard level 
 > PUBSUB SHARDCHANNELS o*
 1) "orders"
 ```
+
+## Return information
+
+{{< multitabs id="pubsub-shardchannels-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of active channels, optionally matching the specified pattern.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of active channels, optionally matching the specified pattern.
+
+{{< /multitabs >}}

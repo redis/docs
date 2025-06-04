@@ -88,3 +88,21 @@ Redis objects can be encoded in different ways:
   - `stream`, encoded as a radix tree of listpacks.
 
 All the specially encoded types are automatically converted to the general type once you perform an operation that makes it impossible for Redis to retain the space saving encoding.
+
+## Return information
+
+{{< multitabs id="object-encoding-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the key doesn't exist.
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the encoding of the object.
+
+-tab-sep-
+
+One of the following:
+* [Null reply](../../develop/reference/protocol-spec#nulls): if the key doesn't exist.
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the encoding of the object.
+
+{{< /multitabs >}}

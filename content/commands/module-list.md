@@ -31,3 +31,21 @@ syntax_str: ''
 title: MODULE LIST
 ---
 Returns information about the modules loaded to the server.
+
+## Return information
+
+{{< multitabs id="module-list-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): list of loaded modules. Each element in the list represents a represents a module, and is in itself a list of property names and their values. The following properties is reported for each loaded module:
+* name: the name of the module.
+* ver: the version of the module.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): list of loaded modules. Each element in the list represents a represents a module, and is a [Map reply](../../develop/reference/protocol-spec#maps) of property names and their values. The following properties is reported for each loaded module:
+* name: the name of the module.
+* ver: the version of the module.
+
+{{< /multitabs >}}

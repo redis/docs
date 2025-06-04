@@ -98,3 +98,21 @@ NULL
 > BRPOP key1 key2 key3 key4 0
 (client is blocked again)
 ```
+
+## Return information
+
+{{< multitabs id="client-unblock-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the client was unblocked successfully.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the client wasn't unblocked.
+
+-tab-sep-
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the client was unblocked successfully.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the client wasn't unblocked.
+
+{{< /multitabs >}}

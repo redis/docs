@@ -86,3 +86,17 @@ In 7.2.0, **inactive** was added and **idle** was changed to denote the time pas
    7) inactive
    8) (integer) 993841998
 ```
+
+## Return information
+
+{{< multitabs id="xinfo-consumers-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of consumers and their attributes.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of consumers and their attributes.
+
+{{< /multitabs >}}

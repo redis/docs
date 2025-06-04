@@ -69,3 +69,20 @@ PFADD hll a b c d e f g
 PFCOUNT hll
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="pfadd-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if at least one HyperLogLog internal register was altered.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if no HyperLogLog internal registers were altered.
+
+-tab-sep-
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if at least one HyperLogLog internal register was altered.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if no HyperLogLog internal registers were altered.
+
+{{< /multitabs >}}

@@ -43,3 +43,17 @@ The following is a non-exhaustive list of values that are reset:
 * Connections received, rejected and evicted
 * Persistence statistics
 * Active defragmentation statistics
+
+## Return information
+
+{{< multitabs id="config-resetstat-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+{{< /multitabs >}}

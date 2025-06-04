@@ -52,3 +52,17 @@ title: XGROUP DESTROY
 The `XGROUP DESTROY` command completely destroys a consumer group.
 
 The consumer group will be destroyed even if there are active consumers, and pending messages, so make sure to call this command only when really needed.
+
+## Return information
+
+{{< multitabs id="xgroup-destroy-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of destroyed consumer groups, either 0 or 1.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of destroyed consumer groups, either 0 or 1.
+
+{{< /multitabs >}}

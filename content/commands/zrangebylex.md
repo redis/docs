@@ -126,3 +126,16 @@ ZRANGEBYLEX myzset - (c
 ZRANGEBYLEX myzset [aaa (g
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="zrangebylex-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of elements in the specified score range.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of elements in the specified score range.
+
+{{< /multitabs >}}

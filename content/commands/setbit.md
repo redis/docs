@@ -213,3 +213,17 @@ end
 
 **Note:** the implementation for getting a range of bit offsets from a bitmap is
 left as an exercise to the reader.
+
+## Return information
+
+{{< multitabs id="setbit-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the original bit value stored at _offset_.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the original bit value stored at _offset_.
+
+{{< /multitabs >}}

@@ -45,3 +45,17 @@ the Redis process in a hard way and preventing it from persisting with half-writ
 information.
 
 For more information about [`EVAL`]({{< relref "/commands/eval" >}}) scripts please refer to [Introduction to Eval Scripts]({{< relref "/develop/interact/programmability/eval-intro" >}}).
+
+## Return information
+
+{{< multitabs id="script-kill-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+{{< /multitabs >}}

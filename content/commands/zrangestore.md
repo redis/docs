@@ -108,3 +108,16 @@ ZRANGESTORE dstzset srczset 2 -1
 ZRANGE dstzset 0 -1
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="zrangestore-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of elements in the resulting sorted set.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of elements in the resulting sorted set.
+
+{{< /multitabs >}}

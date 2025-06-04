@@ -54,3 +54,16 @@ COMMAND GETKEYS EVAL "not consulted" 3 key1 key2 key3 arg1 arg2 arg3 argN
 COMMAND GETKEYSANDFLAGS LMOVE mylist1 mylist2 left left
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="command-getkeysandflags-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of keys from the given command and their usage flags.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of keys from the given command and their usage flags.
+
+{{< /multitabs >}}

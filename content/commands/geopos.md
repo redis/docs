@@ -63,3 +63,16 @@ GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
 GEOPOS Sicily Palermo Catania NonExisting
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="geopos-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): An array where each element is a two elements array representing longitude and latitude (x,y) of each member name passed as argument to the command. Non-existing elements are reported as [Nil reply](../../develop/reference/protocol-spec#bulk-strings) elements of the array.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): An array where each element is a two elements array representing longitude and latitude (x,y) of each member name passed as argument to the command. Non-existing elements are reported as [Null reply](../../develop/reference/protocol-spec#nulls) elements of the array.
+
+{{< /multitabs >}}

@@ -98,3 +98,16 @@ ZUNION 2 zset1 zset2
 ZUNION 2 zset1 zset2 WITHSCORES
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="zunion-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): the result of the union with, optionally, their scores when _WITHSCORES_ is used.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): the result of the union with, optionally, their scores when _WITHSCORES_ is used.
+
+{{< /multitabs >}}

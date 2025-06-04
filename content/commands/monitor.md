@@ -116,3 +116,17 @@ Running more `MONITOR` clients will reduce throughput even more.
 *   `>= 6.0.0`: [`AUTH`]({{< relref "/commands/auth" >}}) excluded from the command's output.
 *   `>= 6.2.0`: "[`RESET`]({{< relref "/commands/reset" >}}) can be called to exit monitor mode.
 *   `>= 6.2.4`: "[`AUTH`]({{< relref "/commands/auth" >}}), [`HELLO`]({{< relref "/commands/hello" >}}), [`EVAL`]({{< relref "/commands/eval" >}}), [`EVAL_RO`]({{< relref "/commands/eval_ro" >}}), [`EVALSHA`]({{< relref "/commands/evalsha" >}}) and [`EVALSHA_RO`]({{< relref "/commands/evalsha_ro" >}}) included in the command's output.
+
+## Return information
+
+{{< multitabs id="monitor-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+**Non-standard return value**. Dumps the received commands in an infinite flow.
+
+-tab-sep-
+
+**Non-standard return value**. Dumps the received commands in an infinite flow.
+
+{{< /multitabs >}}

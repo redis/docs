@@ -81,3 +81,16 @@ SUNIONSTORE key key1 key2
 SMEMBERS key
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="sunionstore-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of elements in the resulting set.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): Number of the elements in the resulting set.
+
+{{< /multitabs >}}

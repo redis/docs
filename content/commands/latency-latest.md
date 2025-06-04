@@ -64,3 +64,17 @@ OK
 For more information refer to the [Latency Monitoring Framework page][lm].
 
 [lm]: /operate/oss_and_stack/management/optimization/latency-monitor.md
+
+## Return information
+
+{{< multitabs id="latency-latest-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): an array where each element is a four elements array representing the event's name, timestamp, latest and all-time latency measurements.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): an array where each element is a four elements array representing the event's name, timestamp, latest and all-time latency measurements.
+
+{{< /multitabs >}}

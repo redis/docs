@@ -68,3 +68,21 @@ syntax_str: "cursor [MATCH\_pattern] [COUNT\_count] [NOVALUES]"
 title: HSCAN
 ---
 See [`SCAN`]({{< relref "/commands/scan" >}}) for `HSCAN` documentation.
+
+## Return information
+
+{{< multitabs id="hscan-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a two-element array.
+* The first element is a [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) that represents an unsigned 64-bit number, the cursor.
+* The second element is an [Array reply](../../develop/reference/protocol-spec#arrays) of field/value pairs that were scanned. When the `NOVALUES` flag (since Redis 7.4) is used, only the field names are returned.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a two-element array.
+* The first element is a [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) that represents an unsigned 64-bit number, the cursor.
+* The second element is an [Array reply](../../develop/reference/protocol-spec#arrays) of field/value pairs that were scanned. When the `NOVALUES` flag (since Redis 7.4) is used, only the field names are returned.
+
+{{< /multitabs >}}

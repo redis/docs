@@ -67,3 +67,17 @@ This is a read-only variant of the [`EVALSHA`]({{< relref "/commands/evalsha" >}
 For more information about when to use this command vs [`EVALSHA`]({{< relref "/commands/evalsha" >}}), please refer to [Read-only scripts]({{< relref "develop/interact/programmability#read-only-scripts" >}}).
 
 For more information about [`EVALSHA`]({{< relref "/commands/evalsha" >}}) scripts please refer to [Introduction to Eval Scripts]({{< relref "/develop/interact/programmability/eval-intro" >}}).
+
+## Return information
+
+{{< multitabs id="evalsha-ro-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+The return value depends on the script that was executed.
+
+-tab-sep-
+
+The return value depends on the script that was executed.
+
+{{< /multitabs >}}

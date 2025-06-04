@@ -39,3 +39,17 @@ Returns the number of subscribers (exclusive of clients subscribed to patterns) 
 Note that it is valid to call this command without channels. In this case it will just return an empty list.
 
 Cluster note: in a Redis Cluster clients can subscribe to every node, and can also publish to every other node. The cluster will make sure that published messages are forwarded as needed. That said, [`PUBSUB`]({{< relref "/commands/pubsub" >}})'s replies in a cluster only report information from the node's Pub/Sub context, rather than the entire cluster.
+
+## Return information
+
+{{< multitabs id="pubsub-numsub-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): the number of subscribers per channel, each even element (including the 0th) is channel name, each odd element is the number of subscribers
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): the number of subscribers per channel, each even element (including the 0th) is channel name, each odd element is the number of subscribers
+
+{{< /multitabs >}}

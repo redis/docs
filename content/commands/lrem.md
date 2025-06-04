@@ -78,3 +78,16 @@ LREM mylist -2 "hello"
 LRANGE mylist 0 -1
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="lrem-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of removed elements.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of removed elements.
+
+{{< /multitabs >}}

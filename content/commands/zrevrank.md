@@ -79,3 +79,22 @@ ZREVRANK myzset "three" WITHSCORE
 ZREVRANK myzset "four" WITHSCORE
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="zrevrank-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the key does not exist or the member does not exist in the sorted set.
+* [Integer reply](../../develop/reference/protocol-spec#integers): The rank of the member when _WITHSCORE_ is not used.
+* [Array reply](../../develop/reference/protocol-spec#arrays): The rank and score of the member when _WITHSCORE_ is used.
+
+-tab-sep-
+
+One of the following:
+* [Null reply](../../develop/reference/protocol-spec#nulls): if the key does not exist or the member does not exist in the sorted set.
+* [Integer reply](../../develop/reference/protocol-spec#integers): The rank of the member when _WITHSCORE_ is not used.
+* [Array reply](../../develop/reference/protocol-spec#arrays): The rank and score of the member when _WITHSCORE_ is used.
+
+{{< /multitabs >}}

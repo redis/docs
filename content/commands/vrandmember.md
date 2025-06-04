@@ -111,3 +111,23 @@ specifies the number of elements to return. Positive values return distinct elem
 ## Related topics
 
 - [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
+
+## Return information
+
+{{< multitabs id="vrandmember-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Array reply](../../develop/reference/protocol-spec#arrays) containing the names of count random elements as [strings](../../develop/reference/protocol-spec#simple-strings).
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) (null bulk string) for unknown keys.
+* [Array reply](../../develop/reference/protocol-spec#arrays) (empty array) for unknown keys when a count is specified.
+
+-tab-sep-
+
+One of the following:
+* [Array reply](../../develop/reference/protocol-spec#arrays) containing the names of *count* random elements as [strings](../../develop/reference/protocol-spec#simple-strings).
+* [Null reply](../../develop/reference/protocol-spec#nulls) for unknown keys.
+* [Array reply](../../develop/reference/protocol-spec#arrays) (empty array) for unknown keys when a count is specified.
+
+{{< /multitabs >}}

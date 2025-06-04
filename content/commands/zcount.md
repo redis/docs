@@ -71,3 +71,16 @@ ZCOUNT myzset -inf +inf
 ZCOUNT myzset (1 3
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="zcount-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of members in the specified score range.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of members in the specified score range.
+
+{{< /multitabs >}}

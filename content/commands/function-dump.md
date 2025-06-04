@@ -58,3 +58,17 @@ redis> FUNCTION LIST
          5) "flags"
          6) (empty array)
 ```
+
+## Return information
+
+{{< multitabs id="function-dump-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the serialized payload
+
+-tab-sep-
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the serialized payload
+
+{{< /multitabs >}}

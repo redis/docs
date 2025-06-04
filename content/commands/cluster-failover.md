@@ -105,3 +105,17 @@ Because of this the **TAKEOVER** option should be used with care.
   To check that the masters are aware of a new replica, you can send [`CLUSTER NODES`]({{< relref "/commands/cluster-nodes" >}}) or [`CLUSTER REPLICAS`]({{< relref "/commands/cluster-replicas" >}}) to each of the master nodes and check that it appears as a replica, before sending `CLUSTER FAILOVER` to the replica.
 * To check that the failover has actually happened you can use [`ROLE`]({{< relref "/commands/role" >}}), `INFO REPLICATION` (which indicates "role:master" after successful failover), or [`CLUSTER NODES`]({{< relref "/commands/cluster-nodes" >}}) to verify that the state of the cluster has changed sometime after the command was sent.
 * To check if the failover has failed, check the replica's log for "Manual failover timed out", which is logged if the replica has given up after a few seconds.
+
+## Return information
+
+{{< multitabs id="cluster-failover-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was accepted and a manual failover is going to be attempted. An error if the operation cannot be executed, for example if the client is connected to a node that is already a master.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was accepted and a manual failover is going to be attempted. An error if the operation cannot be executed, for example if the client is connected to a node that is already a master.
+
+{{< /multitabs >}}

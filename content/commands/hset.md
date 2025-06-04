@@ -98,3 +98,17 @@ HGET myhash field2
 HGET myhash field3
 HGETALL myhash
 {{% /redis-cli %}}
+
+## Return information
+
+{{< multitabs id="hset-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of fields that were added.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of fields that were added.
+
+{{< /multitabs >}}

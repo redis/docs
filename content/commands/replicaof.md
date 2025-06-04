@@ -71,3 +71,17 @@ The form `REPLICAOF` NO ONE will stop replication, turning the server into a MAS
 > REPLICAOF 127.0.0.1 6799
 "OK"
 ```
+
+## Return information
+
+{{< multitabs id="replicaof-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+{{< /multitabs >}}

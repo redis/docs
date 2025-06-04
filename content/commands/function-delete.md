@@ -54,3 +54,17 @@ OK
 redis> FCALL myfunc 0
 (error) ERR Function not found
 ```
+
+## Return information
+
+{{< multitabs id="function-delete-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+{{< /multitabs >}}

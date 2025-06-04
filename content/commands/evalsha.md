@@ -68,3 +68,17 @@ The server caches scripts by using the [`SCRIPT LOAD`]({{< relref "/commands/scr
 The command is otherwise identical to [`EVAL`]({{< relref "/commands/eval" >}}).
 
 Please refer to the [Redis Programmability]({{< relref "/develop/interact/programmability/" >}}) and [Introduction to Eval Scripts]({{< relref "/develop/interact/programmability/eval-intro" >}}) for more information about Lua scripts.
+
+## Return information
+
+{{< multitabs id="evalsha-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+The return value depends on the script that was executed.
+
+-tab-sep-
+
+The return value depends on the script that was executed.
+
+{{< /multitabs >}}

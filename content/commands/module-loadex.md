@@ -64,3 +64,17 @@ Any additional arguments that follow the `ARGS` keyword are passed unmodified to
 
 **Note**: modules can also be loaded at server startup with `loadmodule`
 configuration directive in `redis.conf`.
+
+## Return information
+
+{{< multitabs id="module-loadex-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the module was loaded.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the module was loaded.
+
+{{< /multitabs >}}

@@ -55,3 +55,17 @@ only if the following additional conditions are met:
 2. The node is empty, no keys are stored at all in the key space.
 
 If the command succeeds the new replica will immediately try to contact its master in order to replicate from it.
+
+## Return information
+
+{{< multitabs id="cluster-replicate-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.
+
+{{< /multitabs >}}

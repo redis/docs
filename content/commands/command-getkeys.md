@@ -53,3 +53,16 @@ COMMAND GETKEYS EVAL "not consulted" 3 key1 key2 key3 arg1 arg2 arg3 argN
 COMMAND GETKEYS SORT mylist ALPHA STORE outlist
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="command-getkeys-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): list of keys from the given command.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of keys from the given command.
+
+{{< /multitabs >}}

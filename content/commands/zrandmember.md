@@ -92,3 +92,19 @@ When the `count` is a negative value, the behavior changes as follows:
 * Repeating elements are possible.
 * Exactly `count` elements, or an empty array if the sorted set is empty (non-existing key), are always returned.
 * The order of elements in the reply is truly random.
+
+## Return information
+
+{{< multitabs id="zrandmember-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): without the additional _count_ argument, the command returns a randomly selected member, or [Nil reply](../../develop/reference/protocol-spec#bulk-strings) when _key_ doesn't exist.
+[Array reply](../../develop/reference/protocol-spec#arrays): when the additional _count_ argument is passed, the command returns an array of members, or an empty array when _key_ doesn't exist. If the _WITHSCORES_ modifier is used, the reply is a list of members and their scores from the sorted set.
+
+-tab-sep-
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): without the additional _count_ argument, the command returns a randomly selected member, or [Null reply](../../develop/reference/protocol-spec#nulls) when _key_ doesn't exist.
+[Array reply](../../develop/reference/protocol-spec#arrays): when the additional _count_ argument is passed, the command returns an array of members, or an empty array when _key_ doesn't exist. If the _WITHSCORES_ modifier is used, the reply is a list of members and their scores from the sorted set.
+
+{{< /multitabs >}}

@@ -40,3 +40,17 @@ configuration via the [`CLUSTER`]({{< relref "/commands/cluster" >}}) command in
 is persisted on disk, however all the commands should normally be able to
 auto schedule to persist the configuration on disk when it is important
 to do so for the correctness of the system in the event of a restart.
+
+## Return information
+
+{{< multitabs id="cluster-saveconfig-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.
+
+{{< /multitabs >}}

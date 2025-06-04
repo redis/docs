@@ -58,3 +58,20 @@ SISMEMBER myset "one"
 SISMEMBER myset "two"
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="sismember-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the element is not a member of the set, or when the key does not exist.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the element is a member of the set.
+
+-tab-sep-
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the element is not a member of the set, or when the key does not exist.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the element is a member of the set.
+
+{{< /multitabs >}}

@@ -63,3 +63,21 @@ syntax_str: "cursor [MATCH\_pattern] [COUNT\_count]"
 title: SSCAN
 ---
 See [`SCAN`]({{< relref "/commands/scan" >}}) for `SSCAN` documentation.
+
+## Return information
+
+{{< multitabs id="sscan-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): specifically, an array with two elements:
+* The first element is a [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) that represents an unsigned 64-bit number, the cursor.
+* The second element is an [Array reply](../../develop/reference/protocol-spec#arrays) with the names of scanned members.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): specifically, an array with two elements:
+* The first element is a [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) that represents an unsigned 64-bit number, the cursor.
+* The second element is an [Array reply](../../develop/reference/protocol-spec#arrays) with the names of scanned members.
+
+{{< /multitabs >}}

@@ -68,3 +68,16 @@ ZREMRANGEBYLEX myzset [alpha [omega
 ZRANGE myzset 0 -1
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="zremrangebylex-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of members removed.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): Number of members removed.
+
+{{< /multitabs >}}

@@ -94,3 +94,17 @@ INCRBYFLOAT mykey 2.0e2
 The command is always propagated in the replication link and the Append Only
 File as a [`SET`]({{< relref "/commands/set" >}}) operation, so that differences in the underlying floating point
 math implementation will not be sources of inconsistency.
+
+## Return information
+
+{{< multitabs id="incrbyfloat-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the value of the key after the increment.
+
+-tab-sep-
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the value of the key after the increment.
+
+{{< /multitabs >}}

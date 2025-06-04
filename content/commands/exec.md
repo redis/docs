@@ -38,3 +38,21 @@ When using [`WATCH`]({{< relref "/commands/watch" >}}), `EXEC` will execute comm
 not modified, allowing for a [check-and-set mechanism][ttc].
 
 [ttc]: /develop/interact/transactions#cas
+
+## Return information
+
+{{< multitabs id="exec-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Array reply](../../develop/reference/protocol-spec#arrays): each element being the reply to each of the commands in the atomic transaction.
+* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): the transaction was aborted because a `WATCH`ed key was touched.
+
+-tab-sep-
+
+One of the following:
+* [Array reply](../../develop/reference/protocol-spec#arrays): each element being the reply to each of the commands in the atomic transaction.
+* [Null reply](../../develop/reference/protocol-spec#nulls): the transaction was aborted because a `WATCH`ed key was touched.
+
+{{< /multitabs >}}

@@ -40,3 +40,16 @@ Returns `message`.
 ECHO "Hello World!"
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="echo-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the given string.
+
+-tab-sep-
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the given string.
+
+{{< /multitabs >}}

@@ -144,3 +144,19 @@ This is a list of all the supported Redis ACL rules:
 > ACL SETUSER antirez heeyyyy
 (error) ERR Error in ACL SETUSER modifier 'heeyyyy': Syntax error
 ```
+
+## Return information
+
+{{< multitabs id="acl-setuser-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+If the rules contain errors, the error is returned.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+If the rules contain errors, the error is returned.
+
+{{< /multitabs >}}

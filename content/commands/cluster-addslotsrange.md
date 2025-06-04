@@ -64,3 +64,17 @@ This command only works in cluster mode and is useful in the following Redis Clu
 
 1. To create a new cluster, `CLUSTER ADDSLOTSRANGE` is used to initially set up master nodes splitting the available hash slots among them.
 2. In order to fix a broken cluster where certain slots are unassigned.
+
+## Return information
+
+{{< multitabs id="cluster-addslotsrange-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.
+
+{{< /multitabs >}}

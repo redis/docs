@@ -97,3 +97,20 @@ TTL mykey
 PTTL mykey
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="pexpireat-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the timeout was set.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the timeout was not set. For example, if the key doesn't exist, or the operation was skipped due to the provided arguments.
+
+-tab-sep-
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the timeout was set.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the timeout was not set. For example, if the key doesn't exist, or the operation was skipped due to the provided arguments.
+
+{{< /multitabs >}}

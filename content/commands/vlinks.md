@@ -58,3 +58,22 @@ includes similarity scores for each neighbor.
 ## Related topics
 
 - [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
+
+## Return information
+
+{{< multitabs id="vlinks-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Array reply](../../develop/reference/protocol-spec#arrays) containing the names of adjacent elements as [strings](../../develop/reference/protocol-spec#simple-strings); interleved with scores when using the WITHSCORES option.
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) (null bulk string) for unknown keys and/or elements.
+
+-tab-sep-
+
+One of the following:
+* [Array reply](../../develop/reference/protocol-spec#arrays) containing the names of adjacent elements as [strings](../../develop/reference/protocol-spec#simple-strings) when used without the WITHSCORES option.
+* [Map reply](../../develop/reference/protocol-spec#maps) containing the names of adjecent elements as [strings](../../develop/reference/protocol-spec#simple-strings), together with their scores as [doubles](../../develop/reference/protocol-spec#doubles) when used with the WITHSCORES option.
+* [Null reply](../../develop/reference/protocol-spec#nulls) for unknown keys and/or elements.
+
+{{< /multitabs >}}

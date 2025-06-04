@@ -135,3 +135,17 @@ To minimize the risk of data loss in such setups, it's advised to trigger a manu
 ## Behavior change history
 
 *   `>= 7.0.0`: Introduced waiting for lagging replicas before exiting.
+
+## Return information
+
+{{< multitabs id="shutdown-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if _ABORT_ was specified and shutdown was aborted. On successful shutdown, nothing is returned because the server quits and the connection is closed. On failure, an error is returned.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if _ABORT_ was specified and shutdown was aborted. On successful shutdown, nothing is returned because the server quits and the connection is closed. On failure, an error is returned.
+
+{{< /multitabs >}}

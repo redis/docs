@@ -43,3 +43,17 @@ configuration file if you wish (but make sure to check [`ACL SAVE`]({{< relref "
 1) "user antirez on #9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08 ~objects:* &* +@all -@admin -@dangerous"
 2) "user default on nopass ~* &* +@all"
 ```
+
+## Return information
+
+{{< multitabs id="acl-list-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): an array of [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) elements.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): an array of [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) elements.
+
+{{< /multitabs >}}

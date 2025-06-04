@@ -197,3 +197,16 @@ GEOSEARCHSTORE key2 Sicily FROMLONLAT 15 37 BYBOX 400 400 km ASC COUNT 3 STOREDI
 ZRANGE key2 0 -1 WITHSCORES
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="geosearchstore-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of elements in the resulting set
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of elements in the resulting set
+
+{{< /multitabs >}}

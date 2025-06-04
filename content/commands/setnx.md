@@ -147,3 +147,21 @@ unlocking the key with [`DEL`]({{< relref "/commands/del" >}}) because client fa
 crashing but also blocking a lot of time against some operations and trying
 to issue [`DEL`]({{< relref "/commands/del" >}}) after a lot of time (when the LOCK is already held by another
 client).
+
+## Return information
+
+{{< multitabs id="setnx-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the key was not set.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the key was set.
+
+-tab-sep-
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the key was not set.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the key was set.
+
+{{< /multitabs >}}

@@ -41,3 +41,17 @@ users in the Redis ACL system.
 2) "antirez"
 3) "default"
 ```
+
+## Return information
+
+{{< multitabs id="acl-users-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): list of existing ACL users.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): list of existing ACL users.
+
+{{< /multitabs >}}

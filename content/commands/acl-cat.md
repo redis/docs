@@ -118,3 +118,21 @@ Then we may want to know what commands are part of a given category:
 30) "psync"
 31) "sort"
 ```
+
+## Return information
+
+{{< multitabs id="acl-cat-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Array reply](../../develop/reference/protocol-spec#arrays): an array of [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) elements representing ACL categories or commands in a given category.
+* [Simple error reply](../../develop/reference/protocol-spec#simple-errors): the command returns an error if an invalid category name is given.
+
+-tab-sep-
+
+One of the following:
+* [Array reply](../../develop/reference/protocol-spec#arrays): an array of [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) elements representing ACL categories or commands in a given category.
+* [Simple error reply](../../develop/reference/protocol-spec#simple-errors): the command returns an error if an invalid category name is given.
+
+{{< /multitabs >}}

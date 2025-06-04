@@ -68,3 +68,17 @@ This is a read-only variant of the [`FCALL`]({{< relref "/commands/fcall" >}}) c
 For more information about when to use this command vs [`FCALL`]({{< relref "/commands/fcall" >}}), please refer to [Read-only scripts]({{< relref "develop/interact/programmability/#read-only_scripts" >}}).
 
 For more information please refer to [Introduction to Redis Functions]({{< relref "/develop/interact/programmability/functions-intro" >}}).
+
+## Return information
+
+{{< multitabs id="fcall-ro-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+The return value depends on the function that was executed.
+
+-tab-sep-
+
+The return value depends on the function that was executed.
+
+{{< /multitabs >}}

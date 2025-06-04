@@ -76,3 +76,22 @@ redis> HPTTL mykey FIELDS 3 field1 field2 field3
 3) (integer) -2
 ```
 
+## Return information
+
+{{< multitabs id="hpttl-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:
+    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist.
+    - [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the field exists but has no associated expiration set.
+    - [Integer reply](../../develop/reference/protocol-spec#integers): the TTL in milliseconds.
+
+-tab-sep-
+
+* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:
+    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist.
+    - [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the field exists but has no associated expiration set.
+    - [Integer reply](../../develop/reference/protocol-spec#integers): the TTL in milliseconds.
+
+{{< /multitabs >}}

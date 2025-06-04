@@ -38,3 +38,17 @@ zero being returned.
 > CLUSTER COUNTKEYSINSLOT 7000
 (integer) 50341
 ```
+
+## Return information
+
+{{< multitabs id="cluster-countkeysinslot-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): The number of keys in the specified hash slot, or an error if the hash slot is invalid.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): The number of keys in the specified hash slot, or an error if the hash slot is invalid.
+
+{{< /multitabs >}}

@@ -54,3 +54,20 @@ PING
 PING "hello world"
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="ping-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+Any of the following:
+* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `PONG` when no argument is provided.
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the provided argument.
+
+-tab-sep-
+
+Any of the following:
+* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `PONG` when no argument is provided.
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the provided argument.
+
+{{< /multitabs >}}

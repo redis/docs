@@ -71,3 +71,16 @@ ZREM myzset "two"
 ZRANGE myzset 0 -1 WITHSCORES
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="zrem-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of members removed from the sorted set, not including non-existing members.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of members removed from the sorted set, not including non-existing members.
+
+{{< /multitabs >}}

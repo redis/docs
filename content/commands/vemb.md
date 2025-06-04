@@ -70,3 +70,35 @@ returns the raw vector data, its quantization type, and metadata such as norm an
 ## Related topics
 
 - [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
+
+## Return information
+
+{{< multitabs id="vemb-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Array reply](../../develop/reference/protocol-spec#arrays): of real numbers as [bulk strings](../../develop/reference/protocol-spec#bulk-strings), representing the vector.
+* [Array reply](../../develop/reference/protocol-spec#arrays): consisting of the following elements:
+    1. The quantization type as a [simple string](../../develop/reference/protocol-spec#simple-strings): `fp32`, `bin`, or `q8`.
+    1. A [bulk string](../../develop/reference/protocol-spec#bulk-strings) blob with the following raw data:
+        * 4-byte floats for fp32
+        * A bitmap for binary quantization
+        * A byte array for q8
+    1. The L2 norm, as a [simple string](../../develop/reference/protocol-spec#simple-strings), of the vector before normalization.
+    1. (Only for q8): The quantization range as a [simple string](../../develop/reference/protocol-spec#simple-strings). Multiply this by integer components to recover normalized values.
+
+-tab-sep-
+
+One of the following:
+* [Array reply](../../develop/reference/protocol-spec#arrays): of [doubles](../../develop/reference/protocol-spec#doubles), representing the vector.
+* [Array reply](../../develop/reference/protocol-spec#arrays): consisting of the following elements:
+    1. The quantization type as a [simple string](../../develop/reference/protocol-spec#simple-strings): `fp32`, `bin`, or `q8`.
+    1. A [bulk string](../../develop/reference/protocol-spec#bulk-strings) blob with the following raw data:
+        * 4-byte floats for fp32
+        * A bitmap for binary quantization
+        * A byte array for q8
+    1. The [double](../../develop/reference/protocol-spec#doubles) L2 norm of the vector before normalization.
+    1. (Only for q8): The quantization range as a [double](../../develop/reference/protocol-spec#doubles). Multiply this by integer components to recover normalized values.
+
+{{< /multitabs >}}

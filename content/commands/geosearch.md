@@ -208,3 +208,26 @@ GEOSEARCH Sicily FROMLONLAT 15 37 BYRADIUS 200 km ASC
 GEOSEARCH Sicily FROMLONLAT 15 37 BYBOX 400 400 km ASC WITHCOORD WITHDIST
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="geosearch-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* If no `WITH*` option is specified, an [Array reply](../../develop/reference/protocol-spec#arrays) of matched member names
+* If `WITHCOORD`, `WITHDIST`, or `WITHHASH` options are specified, the command returns an [Array reply](../../develop/reference/protocol-spec#arrays) of arrays, where each sub-array represents a single item:
+    * The distance from the center as a floating point number, in the same unit specified in the radius.
+    * The Geohash integer.
+    * The coordinates as a two items x,y array (longitude,latitude).
+
+-tab-sep-
+
+One of the following:
+* If no `WITH*` option is specified, an [Array reply](../../develop/reference/protocol-spec#arrays) of matched member names
+* If `WITHCOORD`, `WITHDIST`, or `WITHHASH` options are specified, the command returns an [Array reply](../../develop/reference/protocol-spec#arrays) of arrays, where each sub-array represents a single item:
+    * The distance from the center as a floating point number, in the same unit specified in the radius.
+    * The Geohash integer.
+    * The coordinates as a two items x,y array (longitude,latitude).
+
+{{< /multitabs >}}

@@ -165,3 +165,17 @@ reachable, with the smallest delay possible, using a number of parallel workers.
 Note that this implementation of workers is trivially scalable and reliable,
 because even if a message is lost the item is still in the queue and will be
 processed at the next iteration.
+
+## Return information
+
+{{< multitabs id="lmove-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the element being popped and pushed.
+
+-tab-sep-
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the element being popped and pushed.
+
+{{< /multitabs >}}

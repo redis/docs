@@ -229,3 +229,21 @@ bitmap previously set to all zeroes, will produce the following representation:
 When offsets and integer sizes are aligned to bytes boundaries, this is the
 same as big endian, however when such alignment does not exist, its important
 to also understand how the bits inside a byte are ordered.
+
+## Return information
+
+{{< multitabs id="bitfield-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Array reply](../../develop/reference/protocol-spec#arrays): each entry being the corresponding result of the sub-command given at the same position.
+* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if OVERFLOW FAIL was given and overflows or underflows are detected.
+
+-tab-sep-
+
+One of the following:
+* [Array reply](../../develop/reference/protocol-spec#arrays): each entry being the corresponding result of the sub-command given at the same position.
+* [Null reply](../../develop/reference/protocol-spec#nulls): if OVERFLOW FAIL was given and overflows or underflows are detected.
+
+{{< /multitabs >}}

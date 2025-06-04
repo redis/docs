@@ -70,3 +70,22 @@ EXPIRE mykey 1
 PTTL mykey
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="pttl-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): TTL in milliseconds.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the key exists but has no associated expiration.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if the key does not exist.
+
+-tab-sep-
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): TTL in milliseconds.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the key exists but has no associated expiration.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if the key does not exist.
+
+{{< /multitabs >}}

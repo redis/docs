@@ -82,3 +82,17 @@ the node to force the receiver to accept it as a trusted node, it sends a
 `MEET` packet instead of a [`PING`]({{< relref "/commands/ping" >}}) packet. The two packets have exactly the
 same format, but the former forces the receiver to acknowledge the node as
 trusted.
+
+## Return information
+
+{{< multitabs id="cluster-meet-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. If the address or port specified are invalid an error is returned.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. If the address or port specified are invalid an error is returned.
+
+{{< /multitabs >}}

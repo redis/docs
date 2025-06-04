@@ -51,3 +51,17 @@ The `CLIENT REPLY` command controls whether the server will reply the client's c
 * `ON`. This is the default mode in which the server returns a reply to every command.
 * `OFF`. In this mode the server will not reply to client commands.
 * `SKIP`. This mode skips the reply of command immediately after it.
+
+## Return information
+
+{{< multitabs id="client-reply-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` when called with `ON`. When called with either `OFF` or `SKIP` sub-commands, no reply is made.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` when called with `ON`. When called with either `OFF` or `SKIP` sub-commands, no reply is made.
+
+{{< /multitabs >}}

@@ -66,3 +66,17 @@ See [`INCR`]({{< relref "/commands/incr" >}}) for extra information on increment
 SET mykey "10"
 DECRBY mykey 3
 {{% /redis-cli %}}
+
+## Return information
+
+{{< multitabs id="decrby-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the value of the key after decrementing it.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the value of the key after decrementing it.
+
+{{< /multitabs >}}

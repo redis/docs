@@ -618,3 +618,19 @@ Suppose you have ten JSON keys, and each key has 5KB of unique content and 5KB o
 For non-active-active databases, `INFO` (used_memory) would report (10 keys * 5KB) + 5KB ~= 55KB. The last term, "+ 5KB", is the size of the shared content.
 
 For active-active databases, `INFO` (used_memory) would report 10 keys * 20KB ~= 200KB. This number includes some amount of CRDB overhead per JSON key.
+
+## Return information
+
+{{< multitabs id="info-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): a map of info fields, one field per line in the form of `<field>:<value>` where the value can be a comma separated map like `<key>=<val>`. Also contains section header lines starting with `#` and blank lines.
+Lines can contain a section name (starting with a `#` character) or a property. All the properties are in the form of `field:value` terminated by `\r\n`.
+
+-tab-sep-
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): a map of info fields, one field per line in the form of `<field>:<value>` where the value can be a comma separated map like `<key>=<val>`. Also contains section header lines starting with `#` and blank lines.
+Lines can contain a section name (starting with a `#` character) or a property. All the properties are in the form of `field:value` terminated by `\r\n`.
+
+{{< /multitabs >}}

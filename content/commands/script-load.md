@@ -46,3 +46,17 @@ The command works in the same way even if the script was already present in the
 script cache.
 
 For more information about [`EVAL`]({{< relref "/commands/eval" >}}) scripts please refer to [Introduction to Eval Scripts]({{< relref "/develop/interact/programmability/eval-intro" >}}).
+
+## Return information
+
+{{< multitabs id="script-load-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the SHA1 digest of the script added into the script cache.
+
+-tab-sep-
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the SHA1 digest of the script added into the script cache.
+
+{{< /multitabs >}}

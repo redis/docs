@@ -85,3 +85,23 @@ SMEMBERS myset
 ## Distribution of returned elements
 
 Note that this command is not suitable when you need a guaranteed uniform distribution of the returned elements. For more information about the algorithms used for `SPOP`, look up both the Knuth sampling and Floyd sampling algorithms.
+
+## Return information
+
+{{< multitabs id="spop-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the key does not exist.
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): when called without the _count_ argument, the removed member.
+* [Array reply](../../develop/reference/protocol-spec#arrays): when called with the _count_ argument, a list of the removed members.
+
+-tab-sep-
+
+One of the following:
+* [Null reply](../../develop/reference/protocol-spec#nulls): if the key does not exist.
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): when called without the _count_ argument, the removed member.
+* [Array reply](../../develop/reference/protocol-spec#arrays): when called with the _count_ argument, a list of the removed members.
+
+{{< /multitabs >}}

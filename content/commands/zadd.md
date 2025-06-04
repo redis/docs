@@ -194,3 +194,25 @@ ZADD myzset 1 "uno"
 ZADD myzset 2 "two" 3 "three"
 ZRANGE myzset 0 -1 WITHSCORES
 {{% /redis-cli %}}
+
+## Return information
+
+{{< multitabs id="zadd-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+Any of the following:
+* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the operation was aborted because of a conflict with one of the _XX/NX/LT/GT_ options.
+* [Integer reply](../../develop/reference/protocol-spec#integers): the number of new members when the _CH_ option is not used.
+* [Integer reply](../../develop/reference/protocol-spec#integers): the number of new or updated members when the _CH_ option is used.
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the updated score of the member when the _INCR_ option is used.
+
+-tab-sep-
+
+Any of the following:
+* [Null reply](../../develop/reference/protocol-spec#nulls): if the operation was aborted because of a conflict with one of the _XX/NX/LT/GT_ options.
+* [Integer reply](../../develop/reference/protocol-spec#integers): the number of new members when the _CH_ option is not used.
+* [Integer reply](../../develop/reference/protocol-spec#integers): the number of new or updated members when the _CH_ option is used.
+* [Double reply](../../develop/reference/protocol-spec#doubles): the updated score of the member when the _INCR_ option is used.
+
+{{< /multitabs >}}

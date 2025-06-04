@@ -66,3 +66,20 @@ HSETNX myhash field "World"
 HGET myhash field
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="hsetnx-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the field already exists in the hash and no operation was performed.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the field is a new field in the hash and the value was set.
+
+-tab-sep-
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the field already exists in the hash and no operation was performed.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the field is a new field in the hash and the value was set.
+
+{{< /multitabs >}}

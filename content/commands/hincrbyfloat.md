@@ -86,3 +86,17 @@ HINCRBYFLOAT mykey field 2.0e2
 The command is always propagated in the replication link and the Append Only
 File as a [`HSET`]({{< relref "/commands/hset" >}}) operation, so that differences in the underlying floating point
 math implementation will not be sources of inconsistency.
+
+## Return information
+
+{{< multitabs id="hincrbyfloat-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the value of the field after the increment operation.
+
+-tab-sep-
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The value of the field after the increment operation.
+
+{{< /multitabs >}}

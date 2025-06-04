@@ -127,3 +127,17 @@ Similarly a client library should try if possible to cope with the fact that old
 ## Behavior change history
 
 *   `>= 7.0.0`: Added support for hostnames and unknown endpoints in first field of node response.
+
+## Return information
+
+{{< multitabs id="cluster-slots-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): nested list of slot ranges with networking information.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): nested list of slot ranges with networking information.
+
+{{< /multitabs >}}

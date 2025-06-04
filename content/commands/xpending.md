@@ -211,3 +211,17 @@ The `XPENDING` command allows iterating over the pending entries just like
 prefixing the ID of the last-read pending entry with the `(` character that
 denotes an open (exclusive) range, and proving it to the subsequent call to the
 command.
+
+## Return information
+
+{{< multitabs id="xpending-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+* [Array reply](../../develop/reference/protocol-spec#arrays): different data depending on the way XPENDING is called, as explained on this page.
+
+-tab-sep-
+
+* [Array reply](../../develop/reference/protocol-spec#arrays): different data depending on the way XPENDING is called, as explained on this page.
+
+{{< /multitabs >}}

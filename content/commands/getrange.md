@@ -72,3 +72,16 @@ GETRANGE mykey 0 -1
 GETRANGE mykey 10 100
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="getrange-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The substring of the string value stored at key, determined by the offsets start and end (both are inclusive).
+
+-tab-sep-
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The substring of the string value stored at key, determined by the offsets start and end (both are inclusive).
+
+{{< /multitabs >}}

@@ -91,3 +91,17 @@ redis> FUNCTION LOAD "#!lua name=mylib \n redis.register_function('myfunc', func
 redis> FCALL myfunc 0 hello
 "hello"
 ```
+
+## Return information
+
+{{< multitabs id="fcall-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+The return value depends on the function that was executed.
+
+-tab-sep-
+
+The return value depends on the function that was executed.
+
+{{< /multitabs >}}

@@ -67,3 +67,17 @@ Reading messages... (press Ctrl-C to quit)
 2) "orders"
 3) "hello"
 ```
+
+## Return information
+
+{{< multitabs id="ssubscribe-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+When successful, this command doesn't return anything. Instead, for each shard channel, one message with the first element being the string `ssubscribe` is pushed as a confirmation that the command succeeded. Note that this command can also return a -MOVED redirect.
+
+-tab-sep-
+
+When successful, this command doesn't return anything. Instead, for each shard channel, one message with the first element being the string 'ssubscribe' is pushed as a confirmation that the command succeeded. Note that this command can also return a -MOVED redirect.
+
+{{< /multitabs >}}

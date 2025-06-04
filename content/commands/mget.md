@@ -62,3 +62,16 @@ SET key2 "World"
 MGET key1 key2 nonexisting
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="mget-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of values at the specified keys.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of values at the specified keys.
+
+{{< /multitabs >}}

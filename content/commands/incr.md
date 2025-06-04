@@ -220,3 +220,17 @@ false but the key may be created by another client before we create it inside
 the [`MULTI`]({{< relref "/commands/multi" >}}) / [`EXEC`]({{< relref "/commands/exec" >}}) block.
 However this race will just miss an API call under rare conditions, so the rate
 limiting will still work correctly.
+
+## Return information
+
+{{< multitabs id="incr-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the value of the key after the increment.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the value of the key after the increment.
+
+{{< /multitabs >}}

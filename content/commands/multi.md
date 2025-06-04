@@ -34,3 +34,17 @@ Marks the start of a [transaction][tt] block.
 Subsequent commands will be queued for atomic execution using [`EXEC`]({{< relref "/commands/exec" >}}).
 
 [tt]: /develop/interact/transactions
+
+## Return information
+
+{{< multitabs id="multi-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+{{< /multitabs >}}

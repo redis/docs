@@ -59,3 +59,16 @@ HSTRLEN myhash f2
 HSTRLEN myhash f3
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="hstrlen-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the string length of the value associated with the _field_, or zero when the _field_ isn't present in the hash or the _key_ doesn't exist at all.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the string length of the value associated with the _field_, or zero when the _field_ isn't present in the hash or the _key_ doesn't exist at all.
+
+{{< /multitabs >}}

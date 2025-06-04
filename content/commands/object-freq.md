@@ -49,3 +49,21 @@ title: OBJECT FREQ
 This command returns the logarithmic access frequency counter of a Redis object stored at `<key>`.
 
 The command is only available when the `maxmemory-policy` configuration directive is set to one of the LFU policies.
+
+## Return information
+
+{{< multitabs id="object-freq-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+[Integer reply](../../develop/reference/protocol-spec#integers): the counter's value.
+[Nil reply](../../develop/reference/protocol-spec#bulk-strings): if _key_ doesn't exist.
+
+-tab-sep-
+
+One of the following:
+[Integer reply](../../develop/reference/protocol-spec#integers): the counter's value.
+[Null reply](../../develop/reference/protocol-spec#nulls): if _key_ doesn't exist.
+
+{{< /multitabs >}}

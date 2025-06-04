@@ -67,3 +67,16 @@ SET key2 "World"
 UNLINK key1 key2 key3
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="unlink-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of keys that were unlinked.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of keys that were unlinked.
+
+{{< /multitabs >}}

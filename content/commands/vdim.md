@@ -41,3 +41,21 @@ is the name of the key that holds the vector set.
 ## Related topics
 
 - [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
+
+## Return information
+
+{{< multitabs id="vdim-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): the number of vector set elements.
+* [Simple error reply](../../develop/reference/protocol-spec#simple-errors): if the key does not exist.
+
+-tab-sep-
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): the number of vector set elements.
+* [Simple error reply](../../develop/reference/protocol-spec#simple-errors): if the key does not exist.
+
+{{< /multitabs >}}

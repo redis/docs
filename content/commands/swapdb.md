@@ -50,3 +50,17 @@ This will swap database 0 with database 1. All the clients connected with databa
 ```
 SWAPDB 0 1
 ```
+
+## Return information
+
+{{< multitabs id="swapdb-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+{{< /multitabs >}}
