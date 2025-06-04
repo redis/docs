@@ -352,9 +352,9 @@ command with an explicit method:
 client.setnx('bike:1', 'bike');
 ```
 
-`node-redis` doesn't provide a `SETNX` method but implements the same
-functionality with the `NX` option to the [`SET`]({{< relref "/commands/set" >}})
-command:
+`node-redis` provides a `SETNX` method but due to the command being deprecated the same
+functionality can be achieved with the `NX` option to the [`SET`]({{< relref "/commands/set" >}})
+command instead:
 
 ```js
 await client.set('bike:1', 'bike', {'NX': true});
