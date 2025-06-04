@@ -54,7 +54,7 @@ transform:
 
 ### Filtering operation by output code.
 
-In some cases you want to ignore certain operations, for example, you may want to ignore delete operations. You can use the `filter` transformation to filter out those operations.
+In some cases you may want to ignore certain operations (for example, you may not be interested in deletions). Use the `filter` transformation to filter out any operations you don't need to process.
 
 ```yaml
 source:
