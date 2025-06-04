@@ -25,8 +25,8 @@ It has one of the following values:
 - c - Create
 - u - Update
 - d - Delete
-- t = truncate (PostgreSQL specific)
-- m = message (PostgreSQL specific)
+- t = Truncate (PostgreSQL specific)
+- m = Message (PostgreSQL specific)
 
 
 You can both add the value of the operation code to the output, and use it as a conditional expression to modify the behaviour of the job. The following set of examples will demonstrate different use-cases.
