@@ -152,7 +152,23 @@ options := entraid.CredentialsProviderOptions{
 }
 ```
 
-These options are explained below:
+You can then pass this configuration when you create the
+`StreamingCredentialsProvider`. The example below shows how to do this
+with the `NewManagedIdentityCredentialsProvider()` method:
+
+```go
+provider, err := entraid.NewManagedIdentityCredentialsProvider(
+	entraid.ManagedIdentityCredentialsProviderOptions{
+	    CredentialsProviderOptions: options,
+		ManagedIdentityProviderOptions: identity.ManagedIdentityProviderOptions{
+			ManagedIdentityType:  identity.UserAssignedObjectID,
+			UserAssignedObjectID: "<your-user-assigned-client-id>",
+		},
+	},
+)
+```
+
+The fields of `TokenManagerOptions` are explained below:
 
 -   `ExpirationRefreshRatio`: A `float` value representing the fraction
     of a token's lifetime that should elapse before attempting to
