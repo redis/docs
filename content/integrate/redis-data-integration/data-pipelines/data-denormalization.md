@@ -29,7 +29,7 @@ A Redis cache, on the other hand, is focused on making *read* queries fast, so R
 
 You can join one-to-one relationships by making more than one job to write to the same Redis key.
 
-First, you must configure the parent entity to use `merge` as the `on_update`.
+First, you must configure the parent entity to use `merge` as the `on_update` strategy.
 
 ```yaml
 # jobs/customers.yaml
