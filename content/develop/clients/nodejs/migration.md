@@ -85,7 +85,7 @@ to make the connection:
 ```js
 import { createClient } from 'redis';
 
-const client = await createClient();
+const client = createClient();
 await client.connect(); // Requires explicit connection.
 ```
 
