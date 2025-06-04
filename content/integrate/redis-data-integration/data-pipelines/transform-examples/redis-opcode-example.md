@@ -73,7 +73,7 @@ transform:
 
 The previous example filters out specific operations, but you can also modify the output based on the operation code. For example, you can add a new field that tracks the status of the record based on the operation code.
 
-Please note that in the case of deletion of the source record, you also need to modify the value of the `opcode` field, to prevent the automatic removal of the record from the target database.
+Note that when a source record is deleted, you must modify the value of the `opcode` field if you want to prevent the corresponding record in the target database from being removed automatically.
 
 ```yaml
 source:
