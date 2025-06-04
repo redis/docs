@@ -137,15 +137,13 @@ objects are flattened into sequential key-value pairs:
 
 ```js
 // These commands are all equivalent.
-client.hset('user' {
+await client.hSet('user' {
     name: 'Bob',
     age: 20,
     description: 'I am a programmer',
 });
 
-client.hset('user', ['name', 'Bob', 'age', 20, 'description', 'I am a programmer']);
-
-client.hset('user', 'name', 'Bob', 'age', 20, 'description', 'I am a programmer');
+await client.hSet('user', ['name', 'Bob', 'age', 20, 'description', 'I am a programmer']);
 ```
 
 `node-redis` uses predefined formats for command arguments. These include specific
