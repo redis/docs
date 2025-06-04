@@ -205,12 +205,12 @@ class Component(dict):
         self._checkout(branch, repo, misc)
         Component._dump_payload(repo, self._root._content, payload, misc.get('git_uri'), branch)
         return
-    
+
     def _repo_env_dir(self) -> str:
         if os.getenv(f'REPO_DIR'):
             return os.getenv(f'REPO_DIR')
         return ''
-    
+
     def _repo_uri(self) -> str:
         if(os.getenv('REPOSITORY_URL')):
             return os.getenv('REPOSITORY_URL')
@@ -225,7 +225,7 @@ class Component(dict):
         if obj.get('git_uri') == self._repo_uri() and self._preview_mode():
             return True
         return False
-    
+
     def _checkout(self, ref, dest, obj):
         if not self._skip_checkout(obj):
             run(f'git checkout {ref}', cwd=dest)
@@ -303,15 +303,10 @@ class All(Component):
     def _process_commands(self) -> None:
         logging.info(f'Processing {self._id} commands')
         for name in self._commands:
-            path = f'{self._content}/commands/{command_filename(name)}'
-            mkdir_p(path)
-            run(f'mv {path}.md {path}/index.md')
-            md = Markdown(f'{path}/index.md')
+            path = f'{self._content}/commands/{command_filename(name)}.md'
+            md = Markdown(path)
             md.process_command(name, self._commands)
-            c = Command(name, self._commands.get(name))
-            d = c.diagram()
-            with open(f'{path}/syntax.svg', 'w+') as f:
-                f.write(d)
+            # Note: SVG generation removed as part of directory structure simplification
 
     def _process_docs(self) -> None:
         logging.info(f'Processing {self._id} docs')
@@ -500,7 +495,7 @@ class Client(Component):
 
     def _copy_examples(self):
         if ex := self.get('examples'):
-            repo = self._git_clone(ex) 
+            repo = self._git_clone(ex)
             dev_branch = ex.get('dev_branch')
             self._checkout(dev_branch, repo, ex)
             path = ex.get('path', '')
