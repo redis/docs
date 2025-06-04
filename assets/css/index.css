@@ -745,7 +745,7 @@ input[type="radio"] {
 }
 
 .generic-tabs .tab-nav {
-  @apply flex border-b border-redis-pen-300 bg-redis-neutral-200 rounded-t-md;
+  @apply flex bg-redis-neutral-200 rounded-t-md border-x border-t border-b-0 border-redis-pen-300;
 }
 
 .generic-tabs .tab-radio {
@@ -757,24 +757,33 @@ input[type="radio"] {
          bg-redis-neutral-200 border-r border-redis-pen-300
          hover:bg-white hover:text-redis-ink-900
          transition-colors duration-150 ease-in-out
-         focus:outline-none focus:ring-2 focus:ring-redis-red-500 focus:ring-inset
-         first:rounded-tl-md select-none;
+         focus:outline-none focus:ring-0
+         select-none;
 }
 
-.generic-tabs .tab-label:last-child {
-  @apply border-r-0 rounded-tr-md;
+.generic-tabs .tab-label:first-child {
+  @apply rounded-tl-md;
 }
 
 .generic-tabs .tab-radio:checked + .tab-label {
-  @apply bg-white text-redis-ink-900 border-b-2 border-b-redis-red-500 -mb-px relative z-10;
+  @apply bg-white text-redis-ink-900 border-x border-t border-redis-pen-300 border-b-white z-10;
+}
+
+.generic-tabs .tab-radio:checked:first-of-type + .tab-label {
+  @apply rounded-tl-md;
+}
+
+.generic-tabs .tab-radio:focus {
+  @apply ring-0 outline-none;
 }
 
 .generic-tabs .tab-radio:focus + .tab-label {
-  @apply border-b-2 border-b-redis-red-500 -mb-px;
+  @apply border-x border-t border-redis-pen-300 border-b-white focus:outline-none focus:ring-2 focus:ring-redis-pen-300 focus:ring-inset;
 }
 
 .generic-tabs .tab-content {
-  @apply hidden px-6 pb-6 pt-3 bg-white border border-t-0 border-redis-pen-300 rounded-b-md shadow-sm;
+  @apply hidden px-6 pb-6 pt-3 bg-white border border-redis-pen-300 rounded-b-md shadow-sm;
+  /* Unified border (including top) to align with tab borders */
 }
 
 .generic-tabs .tab-content.active {
