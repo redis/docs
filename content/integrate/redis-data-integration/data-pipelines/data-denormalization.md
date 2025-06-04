@@ -210,4 +210,4 @@ There are several important things to note when you use nesting:
   See the
   [Debezium PostgreSQL Connector Documentation](https://debezium.io/documentation/reference/connectors/postgresql.html#postgresql-replica-identity)
   for more information about this.
-- Changing the foreign key value of a child object results in the child object being added to the new parent, but the old parent is not updated. This is a known limitation of the current implementation and is subject to change in future versions.
+- If you change the foreign key of a child object, the child object will be added to the new parent, but the old parent will not be updated. This is a known limitation of the current implementation and is subject to change in future versions.
