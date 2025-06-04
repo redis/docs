@@ -116,7 +116,9 @@
 | <span class="break-all">node_provisional_flash_no_overbooking</span> | <span class="break-all">`node_provisional_flash_no_overbooking_bytes`</span> | Amount of flash available for new shards on this node, without taking into account overbooking, max Redis servers, reserved flash, and provision and migration thresholds (bytes) |
 | <span class="break-all">node_provisional_memory</span> | <span class="break-all">`node_provisional_memory_bytes`</span> | Amount of RAM that is available for provisioning to databases out of the total RAM allocated for databases |
 | <span class="break-all">node_provisional_memory_no_overbooking</span> | <span class="break-all">`node_provisional_memory_no_overbooking_bytes`</span> | Amount of RAM that is available for provisioning to databases out of the total RAM allocated for databases, without taking into account overbooking |
-| <span class="break-all">node_total_req</span> | <span class="break-all">`sum by (cluster, node) (irate(endpoint_total_req[1m]))`</span> | Request rate handled by endpoints on node (ops/sec) |
+| <span class="break-all">node_total_req</span> | <span class="break-all">`sum by (cluster, node) (irate(endpoint_read_requests[1m]) +  irate(endpoint_write_requests[1m]) +
+  irate(endpoint_other_requests[1m]) 
+)`</span> | Request rate handled by endpoints on node (ops/sec) |
 | <span class="break-all">node_up</span> | <span class="break-all">`node_metrics_up`</span> | Node is part of the cluster and is connected |
 
 ## Cluster metrics
