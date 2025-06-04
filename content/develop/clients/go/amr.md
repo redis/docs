@@ -84,7 +84,7 @@ import (
     .
     .
 provider, err := entraid.NewConfidentialCredentialsProvider(
-    entraid.ConfidentialIdentityProviderOptions{
+    entraid.ConfidentialCredentialsProviderOptions{
 	    ConfidentialIdentityProviderOptions: identity.ConfidentialIdentityProviderOptions{
 		    ClientID:        "<your-azure-client-id>",
 		    ClientSecret:    "<your-azure-client-secret>",
