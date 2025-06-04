@@ -133,9 +133,7 @@ output:
       
 ```
 
-Once you have configured the parent entity, you can then configure the child entities to be nested under the parent entity based on their relation type.
-
-After you have configured the parent model, you must also configure the child entities. To do this, use the `nest` block, as shown in this example:
+After you have configured the parent entity, you can then configure the child entities to be nested under it, based on their relation type. To do this, use the `nest` block, as shown in this example:
 
 ```yaml
 # jobs/invoice_line.yaml
