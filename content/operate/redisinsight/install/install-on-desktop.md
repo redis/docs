@@ -9,7 +9,7 @@ title: Install on desktop
 weight: 1
 ---
 
-[Download Redis Insight](https://redis.io/downloads/#:~:text=Redis-,Insight,-Download%20a%20powerful)
+[Download Redis Insight](https://redis.io/downloads/#insight)
 
 ## Supported operating systems
 
