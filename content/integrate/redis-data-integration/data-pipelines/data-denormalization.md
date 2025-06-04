@@ -100,7 +100,7 @@ If you don't set `merge` as the `on_update` strategy for all jobs targeting the 
 
 When using this approach, you must ensure that the `key` expression in the child job matches the key expression in the parent job. If you use a different key expression, the child data will not be written to the same Redis key as the parent data.
 
-In the example above, the `addresses` jobs uses the default key pattern to write to the same Redis key as the `customers` job. You can find more information about the default key pattern [here]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples/redis-set-key-name" >}}).
+In the example above, the `addresses` job uses the default key pattern to write to the same Redis key as the `customers` job. You can find more information about the default key pattern [here]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples/redis-set-key-name" >}}).
 
 You can also use custom keys for the parent entity, as long as you use the same key for all jobs that write to the same Redis key.
 
