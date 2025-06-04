@@ -43,7 +43,7 @@ each feature.
 | :-- | :-- | :-- |
 | [Command case](#command-case) | Lowercase only (eg, `hset`) | Uppercase or camel case (eg, `HSET` or `hSet`) |
 | [Command argument handling](#command-argument-handling) | Argument objects flattened and items passed directly | Argument objects parsed to generate correct argument list |
-| [Asynchronous command result handling](#async-result) | Callbacks and Promises | Promises only |
+| [Asynchronous command result handling](#async-result) | Callbacks and Promises | Promises and Callbacks (via Legacy Mode) |
 | [Arbitrary command execution](#arbitrary-command-execution) | Uses the `call()` method | Uses the `sendCommand()` method |
 
 ### Techniques
@@ -189,7 +189,22 @@ client.get('mykey').then(
 `node-redis` supports only `Promise` objects for results, so
 you must always use a `then()` handler or the
 [`await`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await)
-operator to receive them.
+operator to receive them, however callbacks are still supported via the legacy mode:
+
+```js
+// Promise
+await client.set('mykey', 'myvalue');
+
+// Callback
+const legacyClient = client.legacy();
+legacyClient.set("mykey", "myvalue", (err, result) => {
+  if (err) {
+    console.error(err);
+  } else {
+    console.log(result);
+  }
+});
+```
 
 ### Arbitrary command execution
 
