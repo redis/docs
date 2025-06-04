@@ -29,7 +29,7 @@ It has one of the following values:
 - m = Message (PostgreSQL specific)
 
 
-You can both add the value of the operation code to the output, and use it as a conditional expression to modify the behaviour of the job. The following set of examples will demonstrate different use-cases.
+You can add the value of the operation code to the output, and also use it in a conditional expression to modify the behavior of the job. The following examples demonstrate the different use-cases.
 
 ### Adding the operation code to the output
 
