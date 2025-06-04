@@ -35,7 +35,7 @@ The [Redis command line interface]({{< relref "/develop/tools/cli" >}}) (also kn
 
 [Redis Insight]({{< relref "/develop/tools/insight" >}}) combines a graphical user interface with Redis CLI to let you work with any Redis deployment. You can visually browse and interact with data, take advantage of diagnostic tools, learn by example, and much more. Best of all, Redis Insight is free.
 
-[Download Redis Insight](https://redis.io/downloads/#:~:text=Redis-,Insight,-Download%20a%20powerful).
+[Download Redis Insight](https://redis.io/downloads/#insight).
 
 ## Redis VSCode extension
 
