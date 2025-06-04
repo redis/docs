@@ -25,13 +25,89 @@ at the expense of speed.
 A Redis cache, on the other hand, is focused on making *read* queries fast, so RDI provides data
 *denormalization* to help with this.
 
-## Nest strategy
+## Joining one-to-one relationships
 
-*Nesting* is the strategy RDI uses to denormalize many-to-one relationships in the source database.
-It does this by representing the
-parent object (the "one") as a JSON document with the children (the "many") nested inside a JSON map
-attribute in the parent. The diagram belows shows a nesting with the child objects in a map
-called `InvoiceLineItems`:
+You can join one-to-one relationships by making more than one job to write to the same Redis key.
+
+First, you must configure the parent entity to use `merge` as the `on_update`.
+
+```yaml
+# jobs/customers.yaml
+source:
+  table: customers
+
+output:
+  - uses: redis.write
+    with:
+      data_type: json
+      on_update: merge
+```
+
+Then, you can configure the child entity to write to the same Redis key as the parent entity. You can do this by using the `key` attribute in the `with` block of the job, as shown in this example:
+
+```yaml
+# jobs/addresses.yaml
+source:
+  table: addresses
+
+transform:
+  - uses: add_field
+    with:
+      field: customer_address
+      language: jmespath
+      # You can use the following JMESPath expression to create a JSON object and combine the address fields into a single object.
+      expression: |
+        {
+          "street": street,
+          "city": city,
+          "state": state,
+          "zip": zip
+        }
+
+output:
+  - uses: redis.write
+    with:
+      data_type: json
+      # We specify the key to write to the same key as the parent entity.
+      key:
+        expression: concat(['customers:id:', customer_id])
+        language: jmespath
+      on_update: merge
+      mapping:
+        # You can specify one or more fields to write to the parent entity.
+        - customer_address: customer_address
+```
+
+The joined data will look like this in Redis:
+
+```json
+{
+  "id": "1",
+  "first_name": "John",
+  "last_name": "Doe",
+  "customer_address": {
+    "street": "123 Main St",
+    "city": "Anytown",
+    "state": "CA",
+    "zip": "12345"
+  }
+}
+```
+
+{{< note >}}
+Not setting `merge` as the `on_update` strategy for all jobs targeting the same key, will cause the entire parent record in Redis to be overwritten whenever any related record in the source database is updated, resulting in the loss of values written by other jobs.
+{{< /note >}}
+
+When using this approach, you must ensure that the `key` expression in the child job matches the key expression in the parent job. If you use a different key expression, the child data will not be written to the same Redis key as the parent data.
+
+In the example above, the `addresses` jobs uses the default key pattern to write to the same Redis key as the `customers` job. You can find more information about the default key pattern [here]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples/redis-set-key-name" >}}).
+
+You can also use custom keys for the parent entity, as long as you use the same key for all jobs that write to the same Redis key.
+
+## Joining one-to-many relationships
+
+To join one-to-many relationships you can use the *Nesting* strategy.
+With it, the parent object (the "one") is represented as a JSON document with the children (the "many") nested inside a JSON map attribute in the parent. The diagram below shows a nesting with the child objects in a map called `InvoiceLineItems`:
 
 {{< image filename="/images/rdi/ingest/nest-flow.webp" width="500px" >}}
 
@@ -57,7 +133,9 @@ output:
       
 ```
 
-When you have configured the parent model, you must also configure the child entities. To do this, use the `nest` block, as shown in this example:
+Once you have configured the parent entity, you can then configure the child entities to be nested under the parent entity based on their relation type.
+
+After you have configured the parent model, you must also configure the child entities. To do this, use the `nest` block, as shown in this example:
 
 ```yaml
 # jobs/invoice_line.yaml
@@ -91,7 +169,7 @@ The job must include the following attributes in the `nest` block:
   `schema` attributes. Note that this attribute refers to a Redis *key* that will be added to the target
   database, not to a table you can access from the pipeline. See [Using nesting](#using-nesting) below
   for the format of the key that is generated.
-- `nesting_key`: The unique key of each child entry in the json map that will be created under the path.
+- `nesting_key`: The unique key of each child entry in the JSON map that will be created under the path.
 - `parent_key`: The field in the parent entity that stores the unique ID (foreign key) of the parent entity. Can not be composite key.
 - `child_key`: The field in the child entity that stores the unique ID (foreign key) to the parent entity. You only need to add this attribute if the name of the child's foreign key field is different from the parent's. Can not be composite key.
 - `path`: The [JSONPath](https://goessner.net/articles/JsonPath/)
@@ -100,7 +178,7 @@ The job must include the following attributes in the `nest` block:
 - `structure`: (Optional) The type of JSON nesting structure for the child entities. Currently, only a JSON map
   is supported so if you supply this attribute then the value must be `map`.
 
-## Using nesting
+### Using nesting
 
 There are several important things to note when you use nesting:
 
