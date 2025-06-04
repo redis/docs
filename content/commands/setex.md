@@ -79,3 +79,17 @@ GET mykey
 ## See also
 
 [`TTL`]({{< relref "/commands/ttl" >}})
+
+## Return information
+
+{{< multitabs id="setex-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+{{< /multitabs >}}

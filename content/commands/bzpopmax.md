@@ -88,3 +88,21 @@ redis> BZPOPMAX zset1 zset2 0
 2) "c"
 3) "2"
 ```
+
+## Return information
+
+{{< multitabs id="bzpopmax-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): when no element could be popped and the _timeout_ expired.
+* [Array reply](../../develop/reference/protocol-spec#arrays): the keyname, popped member, and its score.
+
+-tab-sep-
+
+One of the following:
+* [Null reply](../../develop/reference/protocol-spec#nulls): when no element could be popped and the _timeout_ expired.
+* [Array reply](../../develop/reference/protocol-spec#arrays): the keyname, popped member, and its score.
+
+{{< /multitabs >}}

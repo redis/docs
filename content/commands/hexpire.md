@@ -128,3 +128,32 @@ redis> HGETALL mykey
 (empty array)
 ```
 
+## Return information
+
+{{< multitabs id="hexpire-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:
+    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist.
+    - [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the specified NX | XX | GT | LT condition has not been met.
+    - [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the expiration time was set/updated.
+    - [Integer reply](../../develop/reference/protocol-spec#integers): `2` when `HEXPIRE`/`HPEXPIRE` is called with 0 seconds/milliseconds or when `HEXPIREAT`/`HPEXPIREAT` is called with a past Unix time in seconds/milliseconds.
+* [Simple error reply](../../develop/reference/protocol-spec#simple-errors):
+    - if parsing failed, mandatory arguments are missing, unknown arguments are specified, or argument values are of the wrong type or out of range.
+    - if the provided key exists but is not a hash.
+
+-tab-sep-
+
+One of the following:
+* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:
+    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist.
+    - [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the specified NX | XX | GT | LT condition has not been met.
+    - [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the expiration time was set/updated.
+    - [Integer reply](../../develop/reference/protocol-spec#integers): `2` when `HEXPIRE`/`HPEXPIRE` is called with 0 seconds/milliseconds or when `HEXPIREAT`/`HPEXPIREAT` is called with a past Unix time in seconds/milliseconds.
+* [Simple error reply](../../develop/reference/protocol-spec#simple-errors):
+    - if parsing failed, mandatory arguments are missing, unknown arguments are specified, or argument values are of the wrong type or out of range.
+    - if the provided key exists but is not a hash.
+
+{{< /multitabs >}}

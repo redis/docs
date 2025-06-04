@@ -67,3 +67,17 @@ title: XSETID
 ---
 The `XSETID` command is an internal command.
 It is used by a Redis master to replicate the last delivered ID of streams.
+
+## Return information
+
+{{< multitabs id="xsetid-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+{{< /multitabs >}}

@@ -43,3 +43,17 @@ stream from the master.
 
 For more information about replication in Redis please check the
 [replication page]({{< relref "/operate/oss_and_stack/management/replication" >}}).
+
+## Return information
+
+{{< multitabs id="psync-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+**Non-standard return value**, a bulk transfer of the data followed by `PING` and write requests from the master.
+
+-tab-sep-
+
+**Non-standard return value**, a bulk transfer of the data followed by `PING` and write requests from the master.
+
+{{< /multitabs >}}

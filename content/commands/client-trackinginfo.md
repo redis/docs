@@ -45,3 +45,17 @@ Here's the list of tracking information sections and their respective values:
   * `broken_redirect`: The client ID used for redirection isn't valid anymore.
 * **redirect**: The client ID used for notifications redirection, 0 for self-redirection, or -1 when none.
 * **prefixes**: A list of key prefixes for which notifications are sent to the client.
+
+## Return information
+
+{{< multitabs id="client-trackinginfo-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of tracking information sections and their respective values.
+
+-tab-sep-
+
+[Map reply](../../develop/reference/protocol-spec#maps): a list of tracking information sections and their respective values.
+
+{{< /multitabs >}}

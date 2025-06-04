@@ -95,3 +95,23 @@ Each log entry is composed of the following fields:
 8. `entry-id`: The sequence number of the entry (starting at 0) since the server process started. Can also be used to check if items were “lost”, if they fell between periods.
 9. `timestamp-created`: A UNIX timestamp in `milliseconds` at the time the entry was first created.
 10. `timestamp-last-updated`: A UNIX timestamp in `milliseconds` at the time the entry was last updated.
+
+## Return information
+
+{{< multitabs id="acl-log-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+When called to show security events:
+* [Array reply](../../develop/reference/protocol-spec#arrays): an array of [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) elements representing ACL security events.
+When called with `RESET`:
+* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the security log was cleared.
+
+-tab-sep-
+
+When called to show security events:
+* [Array reply](../../develop/reference/protocol-spec#arrays): an array of [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) elements representing ACL security events.
+When called with `RESET`:
+* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the security log was cleared.
+
+{{< /multitabs >}}

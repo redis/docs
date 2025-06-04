@@ -49,3 +49,19 @@ Since Redis 2.4 the AOF rewrite is automatically triggered by Redis, however the
 `BGREWRITEAOF` command can be used to trigger a rewrite at any time.
 
 See the [persistence documentation]({{< relref "/operate/oss_and_stack/management/persistence" >}}) for detailed information.
+
+## Return information
+
+{{< multitabs id="bgrewriteaof-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): a simple string reply indicating that the rewriting started or is about to start ASAP when the call is executed with success.
+The command may reply with an error in certain cases, as documented above.
+
+-tab-sep-
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): a simple string reply indicating that the rewriting started or is about to start ASAP when the call is executed with success.
+The command may reply with an error in certain cases, as documented above.
+
+{{< /multitabs >}}

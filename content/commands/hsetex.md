@@ -141,3 +141,21 @@ redis> HTTL mykey FIELDS 2 field1 field2
 1) (integer) 55481
 2) (integer) 55481
 ```
+
+## Return information
+
+{{< multitabs id="hsetex-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if no fields were set.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if all the fields wereset.
+
+-tab-sep-
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if no fields were set.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if all the fields wereset.
+
+{{< /multitabs >}}

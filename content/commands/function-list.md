@@ -56,3 +56,17 @@ The following information is provided for each of the libraries in the response:
 * **library_code:** the library's source code (when given the `WITHCODE` modifier).
 
 For more information please refer to [Introduction to Redis Functions]({{< relref "/develop/interact/programmability/functions-intro" >}}).
+
+## Return information
+
+{{< multitabs id="function-list-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): information about functions and libraries.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): information about functions and libraries.
+
+{{< /multitabs >}}

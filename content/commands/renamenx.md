@@ -81,3 +81,20 @@ RENAMENX mykey myotherkey
 GET myotherkey
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="renamenx-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if _key_ was renamed to _newkey_.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if _newkey_ already exists.
+
+-tab-sep-
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if _key_ was renamed to _newkey_.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if _newkey_ already exists.
+
+{{< /multitabs >}}

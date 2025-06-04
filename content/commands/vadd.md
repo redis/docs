@@ -117,3 +117,21 @@ If you don't have a recall quality problem, the default is acceptable, and uses 
 ## Related topics
 
 - [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
+
+## Return information
+
+{{< multitabs id="vadd-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): 1 if key was added; 0 if key was not added.
+* [Simple error reply](../../develop/reference/protocol-spec#simple-errors): if the command was malformed.
+
+-tab-sep-
+
+One of the following:
+* [Boolean reply](../../develop/reference/protocol-spec#booleans): true if key was added; false if key was not added.
+* [Simple error reply](../../develop/reference/protocol-spec#simple-errors): if the command was malformed.
+
+{{< /multitabs >}}

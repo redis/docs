@@ -112,3 +112,17 @@ LRANGE mylist -3 2
 LRANGE mylist -100 100
 LRANGE mylist 5 10
 {{% /redis-cli %}}
+
+## Return information
+
+{{< multitabs id="lrange-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of elements in the specified range, or an empty array if the key doesn't exist.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of elements in the specified range, or an empty array if the key doesn't exist.
+
+{{< /multitabs >}}

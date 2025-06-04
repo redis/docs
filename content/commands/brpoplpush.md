@@ -96,3 +96,21 @@ Please see the pattern description in the [`RPOPLPUSH`]({{< relref "/commands/rp
 ## Pattern: Circular list
 
 Please see the pattern description in the [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}) documentation.
+
+## Return information
+
+{{< multitabs id="brpoplpush-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the element being popped from _source_ and pushed to _destination_.
+* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): the timeout is reached.
+
+-tab-sep-
+
+One of the following:
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the element being popped from _source_ and pushed to _destination_.
+* [Null reply](../../develop/reference/protocol-spec#nulls): the timeout is reached.
+
+{{< /multitabs >}}

@@ -69,3 +69,16 @@ ZLEXCOUNT myzset - +
 ZLEXCOUNT myzset [b [f
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="zlexcount-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of members in the specified score range.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of members in the specified score range.
+
+{{< /multitabs >}}

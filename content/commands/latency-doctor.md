@@ -75,3 +75,17 @@ I have a few advices for you:
 For more information refer to the [Latency Monitoring Framework page][lm].
 
 [lm]: /operate/oss_and_stack/management/optimization/latency-monitor.md
+
+## Return information
+
+{{< multitabs id="latency-doctor-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): a human readable latency analysis report.
+
+-tab-sep-
+
+[Verbatim string reply](../../develop/reference/protocol-spec#verbatim-strings): a human readable latency analysis report.
+
+{{< /multitabs >}}

@@ -48,3 +48,17 @@ Cluster note: in a Redis Cluster, [`PUBSUB`]({{< relref "/commands/pubsub" >}})'
 1) "orders"
 2) (integer) 1
 ```
+
+## Return information
+
+{{< multitabs id="pubsub-shardnumsub-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): the number of subscribers per shard channel, each even element (including the 0th) is channel name, each odd element is the number of subscribers.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): the number of subscribers per shard channel, each even element (including the 0th) is channel name, each odd element is the number of subscribers.
+
+{{< /multitabs >}}

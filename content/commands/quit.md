@@ -42,3 +42,17 @@ client.
 **Note:** Clients should not use this command.
 Instead, clients should simply close the connection when they're not used anymore.
 Terminating a connection on the client side is preferable, as it eliminates `TIME_WAIT` lingering sockets on the server side.
+
+## Return information
+
+{{< multitabs id="quit-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): OK.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+{{< /multitabs >}}

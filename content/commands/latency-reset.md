@@ -69,3 +69,17 @@ Valid values for `event` are:
 For more information refer to the [Latency Monitoring Framework page][lm].
 
 [lm]: /operate/oss_and_stack/management/optimization/latency-monitor.md
+
+## Return information
+
+{{< multitabs id="latency-reset-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of event time series that were reset.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of event time series that were reset.
+
+{{< /multitabs >}}

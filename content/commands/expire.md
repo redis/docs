@@ -265,3 +265,21 @@ independently (but will wait for the [`DEL`]({{< relref "/commands/del" >}}) com
 still take the full state of the expires existing in the dataset, so when a
 replica is elected to master it will be able to expire the keys independently,
 fully acting as a master.
+
+## Return information
+
+{{< multitabs id="expire-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the timeout was not set; for example, the key doesn't exist, or the operation was skipped because of the provided arguments.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the timeout was set.
+
+-tab-sep-
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the timeout was not set; for example, the key doesn't exist, or the operation was skipped because of the provided arguments.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the timeout was set.
+
+{{< /multitabs >}}

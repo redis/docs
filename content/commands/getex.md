@@ -97,3 +97,18 @@ GETEX mykey EX 60
 TTL mykey
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="getex-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the value of `key`
+[Nil reply](../../develop/reference/protocol-spec#bulk-strings): if `key` does not exist.
+
+-tab-sep-
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the value of `key`
+[Null reply](../../develop/reference/protocol-spec#nulls): if `key` does not exist.
+
+{{< /multitabs >}}

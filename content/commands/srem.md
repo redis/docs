@@ -73,3 +73,16 @@ SREM myset "four"
 SMEMBERS myset
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="srem-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of members that were removed from the set, not including non existing members.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): Number of members that were removed from the set, not including non existing members.
+
+{{< /multitabs >}}

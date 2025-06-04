@@ -134,3 +134,17 @@ Notes:
   If the source node is informed before the destination node and the destination node crashes before it is set as new slot owner, the slot is left with no owner, even after a successful failover.
 * Step 6, sending `SETSLOT` to the nodes not involved in the resharding, is not technically necessary since the configuration will eventually propagate itself.
   However, it is a good idea to do so in order to stop nodes from pointing to the wrong node for the hash slot moved as soon as possible, resulting in less redirections to find the right node.
+
+## Return information
+
+{{< multitabs id="cluster-setslot-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): all the sub-commands return `OK` if the command was successful. Otherwise an error is returned.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): all the sub-commands return `OK` if the command was successful. Otherwise an error is returned.
+
+{{< /multitabs >}}

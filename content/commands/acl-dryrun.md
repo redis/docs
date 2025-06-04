@@ -56,3 +56,21 @@ This command can be used to test the permissions of a given user without having 
 > ACL DRYRUN VIRGINIA GET foo
 "User VIRGINIA has no permissions to run the 'get' command"
 ```
+
+## Return information
+
+{{< multitabs id="acl-dryrun-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+Any of the following:
+* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` on success.
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): an error describing why the user can't execute the command.
+
+-tab-sep-
+
+Any of the following:
+* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` on success.
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): an error describing why the user can't execute the command.
+
+{{< /multitabs >}}

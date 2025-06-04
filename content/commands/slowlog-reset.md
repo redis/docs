@@ -35,3 +35,17 @@ title: SLOWLOG RESET
 This command resets the slow log, clearing all entries in it.
 
 Once deleted the information is lost forever.
+
+## Return information
+
+{{< multitabs id="slowlog-reset-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+{{< /multitabs >}}

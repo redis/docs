@@ -79,3 +79,22 @@ redis> HTTL mykey FIELDS 2 field1 field2
 2) (integer) -1
 ```
 
+## Return information
+
+{{< multitabs id="hpersist-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:
+    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist.
+    - [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the field exists but has no associated expiration set.
+    - [Integer reply](../../develop/reference/protocol-spec#integers): `1` the expiration was removed.
+
+-tab-sep-
+
+* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:
+    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist.
+    - [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the field exists but has no associated expiration set.
+    - [Integer reply](../../develop/reference/protocol-spec#integers): `1` the expiration was removed.
+
+{{< /multitabs >}}

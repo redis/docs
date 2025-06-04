@@ -108,3 +108,17 @@ The HyperLogLog, being a Redis string, can be retrieved with [`GET`]({{< relref 
 The representation is neutral from the point of view of the processor word size and endianness, so the same representation is used by 32 bit and 64 bit processor, big endian or little endian.
 
 More details about the Redis HyperLogLog implementation can be found in [this blog post](http://antirez.com/news/75). The source code of the implementation in the `hyperloglog.c` file is also easy to read and understand, and includes a full specification for the exact encoding used for the sparse and dense representations.
+
+## Return information
+
+{{< multitabs id="pfcount-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the approximated number of unique elements observed via `PFADD`.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the approximated number of unique elements observed via `PFADD`
+
+{{< /multitabs >}}

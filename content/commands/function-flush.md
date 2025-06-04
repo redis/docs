@@ -52,3 +52,17 @@ Unless called with the optional mode argument, the `lazyfree-lazy-user-flush` co
 * `SYNC`: Synchronously flush the libraries.
 
 For more information please refer to [Introduction to Redis Functions]({{< relref "/develop/interact/programmability/functions-intro" >}}).
+
+## Return information
+
+{{< multitabs id="function-flush-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+{{< /multitabs >}}

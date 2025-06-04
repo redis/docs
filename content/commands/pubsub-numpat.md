@@ -33,3 +33,17 @@ Returns the number of unique patterns that are subscribed to by clients (that ar
 Note that this isn't the count of clients subscribed to patterns, but the total number of unique patterns all the clients are subscribed to.
 
 Cluster note: in a Redis Cluster clients can subscribe to every node, and can also publish to every other node. The cluster will make sure that published messages are forwarded as needed. That said, [`PUBSUB`]({{< relref "/commands/pubsub" >}})'s replies in a cluster only report information from the node's Pub/Sub context, rather than the entire cluster.
+
+## Return information
+
+{{< multitabs id="pubsub-numpat-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of patterns all the clients are subscribed to.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of patterns all the clients are subscribed to.
+
+{{< /multitabs >}}

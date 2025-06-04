@@ -57,3 +57,17 @@ is the name of the element to remove from the vector set.
 ## Related topics
 
 - [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
+
+## Return information
+
+{{< multitabs id="vrem-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): 0 if either element or key do not exist; 1 if the element was removed.
+
+-tab-sep-
+
+[Boolean reply](../../develop/reference/protocol-spec#booleans): false if either element or key do not exist; true if the element was removed.
+
+{{< /multitabs >}}

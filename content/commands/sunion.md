@@ -73,3 +73,16 @@ SADD key2 "e"
 SUNION key1 key2
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="sunion-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list with members of the resulting set.
+
+-tab-sep-
+
+[Set reply](../../develop/reference/protocol-spec#sets): a set with the members of the resulting set.
+
+{{< /multitabs >}}

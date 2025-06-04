@@ -64,3 +64,17 @@ is also extensively used by the Redis Cluster testing framework in order to
 reset the state of the cluster every time a new test unit is executed.
 
 If no reset type is specified, the default is **soft**.
+
+## Return information
+
+{{< multitabs id="cluster-reset-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.
+
+{{< /multitabs >}}

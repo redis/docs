@@ -63,3 +63,21 @@ GET mykey
 ### Code examples
 
 {{< clients-example set_and_get />}}
+
+## Return information
+
+{{< multitabs id="get-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the value of the key.
+* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the key does not exist.
+
+-tab-sep-
+
+One of the following:
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the value of the key.
+* [Null reply](../../develop/reference/protocol-spec#nulls): key does not exist.
+
+{{< /multitabs >}}

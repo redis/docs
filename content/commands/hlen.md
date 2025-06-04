@@ -55,3 +55,16 @@ HSET myhash field2 "World"
 HLEN myhash
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="hlen-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of fields in the hash, or 0 when the key does not exist.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of the fields in the hash, or 0 when the key does not exist.
+
+{{< /multitabs >}}

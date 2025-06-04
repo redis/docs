@@ -66,3 +66,20 @@ GETBIT mykey 7
 GETBIT mykey 100
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="getbit-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+The bit value stored at _offset_, one of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0`.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `1`.
+
+-tab-sep-
+
+The bit value stored at _offset_, one of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0`.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `1`.
+
+{{< /multitabs >}}

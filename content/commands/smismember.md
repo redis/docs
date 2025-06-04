@@ -62,3 +62,16 @@ SADD myset "one"
 SMISMEMBER myset "one" "notamember"
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="smismember-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list representing the membership of the given elements, in the same order as they are requested.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list representing the membership of the given elements, in the same order as they are requested.
+
+{{< /multitabs >}}

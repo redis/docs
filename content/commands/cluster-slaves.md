@@ -51,3 +51,17 @@ and we ask `CLUSTER SLAVES` to a node that has not yet received the
 configuration update, it may show stale information. However eventually
 (in a matter of seconds if there are no network partitions) all the nodes
 will agree about the set of nodes associated with a given master.
+
+## Return information
+
+{{< multitabs id="cluster-slaves-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of replica nodes replicating from the specified master node provided in the same format used by `CLUSTER NODES`.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of replica nodes replicating from the specified master node provided in the same format used by `CLUSTER NODES`.
+
+{{< /multitabs >}}

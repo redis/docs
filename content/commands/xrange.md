@@ -274,3 +274,16 @@ XLEN writers
 XRANGE writers - + COUNT 2
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="xrange-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of stream entries with IDs matching the specified range.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of stream entries with IDs matching the specified range.
+
+{{< /multitabs >}}

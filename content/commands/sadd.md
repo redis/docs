@@ -81,3 +81,17 @@ SADD myset "Hello" "World"
 SADD myset "World"
 SMEMBERS myset
 {{% /redis-cli %}}
+
+## Return information
+
+{{< multitabs id="sadd-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of elements that were added to the set, not including all the elements already present in the set.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of elements that were added to the set, not including all the elements already present in the set.
+
+{{< /multitabs >}}

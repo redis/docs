@@ -82,3 +82,22 @@ LINSERT mylist BEFORE "World" "There"
 LRANGE mylist 0 -1
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="linsert-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): the list length after a successful insert operation.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` when the key doesn't exist.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` when the pivot wasn't found.
+
+-tab-sep-
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): the list length after a successful insert operation.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` when the key doesn't exist.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` when the pivot wasn't found.
+
+{{< /multitabs >}}

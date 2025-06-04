@@ -111,3 +111,20 @@ EXPIREAT mykey 1293840000
 EXISTS mykey
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="expireat-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the timeout was not set; for example, the key doesn't exist, or the operation was skipped because of the provided arguments.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the timeout was set.
+
+-tab-sep-
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the timeout was not set; for example, the key doesn't exist, or the operation was skipped because of the provided arguments.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the timeout was set.
+
+{{< /multitabs >}}

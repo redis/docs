@@ -87,3 +87,16 @@ The following keys may be included in the mapped reply:
 COMMAND DOCS SET
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="command-docs-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a map, as a flattened array, where each key is a command name, and each value is the documentary information.
+
+-tab-sep-
+
+[Map reply](../../develop/reference/protocol-spec#maps): a map where each key is a command name, and each value is the documentary information.
+
+{{< /multitabs >}}

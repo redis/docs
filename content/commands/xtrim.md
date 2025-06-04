@@ -142,3 +142,16 @@ XTRIM mystream MAXLEN 2
 XRANGE mystream - +
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="xtrim-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): The number of entries deleted from the stream.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): The number of entries deleted from the stream.
+
+{{< /multitabs >}}

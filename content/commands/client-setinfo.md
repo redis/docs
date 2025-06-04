@@ -61,3 +61,17 @@ Brace characters are used to delimit the custom suffix and should be avoided in 
 We recommend using the following format for the custom suffixes for third-party libraries `(?<custom-name>[ -~]+)[ -~]v(?<custom-version>[\d\.]+)` and use `;` to delimit multiple suffixes.
 
 Note that these attributes are **not** cleared by the RESET command.
+
+## Return information
+
+{{< multitabs id="client-setinfo-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the attribute name was successfully set.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the attribute name was successfully set.
+
+{{< /multitabs >}}

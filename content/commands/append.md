@@ -107,3 +107,16 @@ GETRANGE ts 0 3
 GETRANGE ts 4 7
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="append-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the length of the string after the append operation.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the length of the string after the append operation.
+
+{{< /multitabs >}}

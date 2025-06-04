@@ -78,3 +78,17 @@ The optional `entries_read` argument can be specified to enable consumer group l
 An arbitrary ID is any ID that isn't the ID of the stream's first entry, its last entry or the zero ("0-0") ID.
 This can be useful you know exactly how many entries are between the arbitrary ID (excluding it) and the stream's last entry.
 In such cases, the `entries_read` can be set to the stream's `entries_added` subtracted with the number of entries.
+
+## Return information
+
+{{< multitabs id="xgroup-setid-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+{{< /multitabs >}}

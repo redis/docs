@@ -92,3 +92,17 @@ OK
 ```
 
 In the following example the first call to `WAIT` does not use a timeout and asks for the write to reach 1 replica. It returns with success. In the second attempt instead we put a timeout, and ask for the replication of the write to two replicas. Since there is a single replica available, after one second `WAIT` unblocks and returns 1, the number of replicas reached.
+
+## Return information
+
+{{< multitabs id="wait-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the command returns the number of replicas reached by all the writes performed in the context of the current connection.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of replicas reached by all the writes performed in the context of the current connection.
+
+{{< /multitabs >}}

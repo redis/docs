@@ -77,3 +77,17 @@ To delete the latency histograms' data use the [`CONFIG RESETSTAT`]({{< relref "
       5# (integer) 16 => (integer) 99968
       6# (integer) 33 => (integer) 100000
 ```
+
+## Return information
+
+{{< multitabs id="latency-histogram-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a map where each key is a command name, and each value is a map with the total calls, and an inner map of the histogram time buckets.
+
+-tab-sep-
+
+[Map reply](../../develop/reference/protocol-spec#maps): a map where each key is a command name, and each value is a map with the total calls, and an inner map of the histogram time buckets.
+
+{{< /multitabs >}}

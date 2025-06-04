@@ -74,3 +74,17 @@ See original [`BITFIELD`]({{< relref "/commands/bitfield" >}}) for more details.
 ```
 BITFIELD_RO hello GET i8 16
 ```
+
+## Return information
+
+{{< multitabs id="bitfield-ro-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): each entry being the corresponding result of the sub-command given at the same position.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): each entry being the corresponding result of the sub-command given at the same position.
+
+{{< /multitabs >}}

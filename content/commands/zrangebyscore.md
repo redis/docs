@@ -175,3 +175,17 @@ just compute a random number between 0 and 1 (which is like calling
 `rand()` in most languages), so you can just do:
 
     RANDOM_ELE = ZRANGEBYSCORE key RAND() +inf LIMIT 0 1
+
+## Return information
+
+{{< multitabs id="zrangebyscore-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+* [Array reply](../../develop/reference/protocol-spec#arrays): a list of the members with, optionally, their scores in the specified score range.
+
+-tab-sep-
+
+* [Array reply](../../develop/reference/protocol-spec#arrays): a list of the members with, optionally, their scores in the specified score range.
+
+{{< /multitabs >}}

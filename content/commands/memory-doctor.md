@@ -29,3 +29,17 @@ title: MEMORY DOCTOR
 ---
 The `MEMORY DOCTOR` command reports about different memory-related issues that
 the Redis server experiences, and advises about possible remedies.
+
+## Return information
+
+{{< multitabs id="memory-doctor-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): a memory problems report.
+
+-tab-sep-
+
+[Verbatim string reply](../../develop/reference/protocol-spec#verbatim-strings): a memory problems report.
+
+{{< /multitabs >}}

@@ -45,3 +45,19 @@ option), this command will save the currently defined ACLs from the server memor
 > ACL SAVE
 -ERR There was an error trying to save the ACLs. Please check the server logs for more information
 ```
+
+## Return information
+
+{{< multitabs id="acl-save-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+The command may fail with an error for several reasons: if the file cannot be written or if the server is not configured to use an external ACL file.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+The command may fail with an error for several reasons: if the file cannot be written or if the server is not configured to use an external ACL file.
+
+{{< /multitabs >}}

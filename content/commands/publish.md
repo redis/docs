@@ -42,3 +42,17 @@ Posts a message to the given channel.
 In a Redis Cluster clients can publish to every node. The cluster makes sure
 that published messages are forwarded as needed, so clients can subscribe to any
 channel by connecting to any one of the nodes.
+
+## Return information
+
+{{< multitabs id="publish-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of clients that the message was sent to. Note that in a Redis Cluster, only clients that are connected to the same node as the publishing client are included in the count.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of clients that the message was sent to. Note that in a Redis Cluster, only clients that are connected to the same node as the publishing client are included in the count.
+
+{{< /multitabs >}}

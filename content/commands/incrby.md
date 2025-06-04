@@ -68,3 +68,16 @@ SET mykey "10"
 INCRBY mykey 5
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="incrby-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the value of the key after the increment.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the value of the key after the increment.
+
+{{< /multitabs >}}

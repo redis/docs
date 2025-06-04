@@ -118,3 +118,17 @@ Once the consumer group delivers the last message in the stream to its members, 
    11) "lag"
    12) (integer) 1
 ```
+
+## Return information
+
+{{< multitabs id="xinfo-groups-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of consumer groups.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of consumer groups.
+
+{{< /multitabs >}}

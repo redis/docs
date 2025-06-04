@@ -63,3 +63,17 @@ syntax_str: "cursor [MATCH\_pattern] [COUNT\_count]"
 title: ZSCAN
 ---
 See [`SCAN`]({{< relref "/commands/scan" >}}) for `ZSCAN` documentation.
+
+## Return information
+
+{{< multitabs id="zscan-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): cursor and scan response in array form.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): cursor and scan response in array form.
+
+{{< /multitabs >}}

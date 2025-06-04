@@ -57,3 +57,21 @@ A client may be able to check if the operation succeeded using the [`LASTSAVE`](
 command.
 
 See the [persistence documentation]({{< relref "/operate/oss_and_stack/management/persistence" >}}) for detailed information.
+
+## Return information
+
+{{< multitabs id="bgsave-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `Background saving started`.
+* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `Background saving scheduled`.
+
+-tab-sep-
+
+One of the following:
+* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `Background saving started`.
+* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `Background saving scheduled`.
+
+{{< /multitabs >}}

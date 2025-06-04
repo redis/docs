@@ -49,3 +49,21 @@ title: OBJECT IDLETIME
 This command returns the time in seconds since the last access to the value stored at `<key>`.
 
 The command is only available when the `maxmemory-policy` configuration directive is not set to one of the LFU policies.
+
+## Return information
+
+{{< multitabs id="object-idletime-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+[Integer reply](../../develop/reference/protocol-spec#integers): the idle time in seconds.
+[Nil reply](../../develop/reference/protocol-spec#bulk-strings): if _key_ doesn't exist.
+
+-tab-sep-
+
+One of the following:
+[Integer reply](../../develop/reference/protocol-spec#integers): the idle time in seconds.
+[Null reply](../../develop/reference/protocol-spec#nulls): if _key_ doesn't exist.
+
+{{< /multitabs >}}

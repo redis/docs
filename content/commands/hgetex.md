@@ -126,3 +126,17 @@ redis> HTTL mykey FIELDS 3 field1 field2
 redis> HGETALL mykey
 (empty array)
 ```
+
+## Return information
+
+{{< multitabs id="hgetex-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+* [Array reply](../../develop/reference/protocol-spec#arrays): a list of values associated with the given fields, in the same order as they are requested.
+
+-tab-sep-
+
+* [Array reply](../../develop/reference/protocol-spec#arrays): a list of values associated with the given fields, in the same order as they are requested.
+
+{{< /multitabs >}}

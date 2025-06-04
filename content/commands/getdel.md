@@ -58,3 +58,20 @@ GETDEL mykey
 GET mykey
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="getdel-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the value of the key.
+* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the key does not exist or if the key's value type is not a string.
+
+-tab-sep-
+
+One of the following:
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the value of the key.
+* [Null reply](../../develop/reference/protocol-spec#nulls): if the key does not exist or if the key's value type is not a string.
+
+{{< /multitabs >}}

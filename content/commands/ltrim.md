@@ -96,3 +96,16 @@ LTRIM mylist 1 -1
 LRANGE mylist 0 -1
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="ltrim-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+{{< /multitabs >}}

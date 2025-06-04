@@ -29,3 +29,21 @@ syntax_str: ''
 title: CLIENT GETNAME
 ---
 The `CLIENT GETNAME` returns the name of the current connection as set by [`CLIENT SETNAME`]({{< relref "/commands/client-setname" >}}). Since every new connection starts without an associated name, if no name was assigned a null bulk reply is returned.
+
+## Return information
+
+{{< multitabs id="client-getname-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the connection name of the current connection.
+* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): the connection name was not set.
+
+-tab-sep-
+
+One of the following:
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the connection name of the current connection.
+* [Null reply](../../develop/reference/protocol-spec#nulls): the connection name was not set.
+
+{{< /multitabs >}}

@@ -47,3 +47,21 @@ syntax_str: ''
 title: OBJECT REFCOUNT
 ---
 This command returns the reference count of the stored at `<key>`.
+
+## Return information
+
+{{< multitabs id="object-refcount-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of references.
+[Nil reply](../../develop/reference/protocol-spec#bulk-strings): if _key_ doesn't exist.
+
+-tab-sep-
+
+One of the following:
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of references.
+[Null reply](../../develop/reference/protocol-spec#nulls): if _key_ doesn't exist.
+
+{{< /multitabs >}}

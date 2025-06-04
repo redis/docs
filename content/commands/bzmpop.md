@@ -85,3 +85,21 @@ When all sorted sets are empty, Redis will block the connection until another cl
 A `timeout` of zero can be used to block indefinitely.
 
 See [`ZMPOP`]({{< relref "/commands/zmpop" >}}) for more information.
+
+## Return information
+
+{{< multitabs id="bzmpop-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): when no element could be popped.
+* [Array reply](../../develop/reference/protocol-spec#arrays): a two-element array with the first element being the name of the key from which elements were popped, and the second element is an array of the popped elements. Every entry in the elements array is also an array that contains the member and its score.
+
+-tab-sep-
+
+One of the following:
+* [Null reply](../../develop/reference/protocol-spec#nulls): when no element could be popped.
+* [Array reply](../../develop/reference/protocol-spec#arrays): a two-element array with the first element being the name of the key from which elements were popped, and the second element is an array of the popped elements. Every entry in the elements array is also an array that contains the member and its score.
+
+{{< /multitabs >}}

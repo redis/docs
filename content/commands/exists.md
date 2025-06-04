@@ -66,3 +66,16 @@ SET key2 "World"
 EXISTS key1 key2 nosuchkey
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="exists-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of keys that exist from those specified as arguments.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of keys that exist from those specified as arguments.
+
+{{< /multitabs >}}

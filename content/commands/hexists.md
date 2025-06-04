@@ -58,3 +58,20 @@ HEXISTS myhash field1
 HEXISTS myhash field2
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="hexists-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the hash does not contain the field, or the key does not exist.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the hash contains the field.
+
+-tab-sep-
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the hash does not contain the field, or the key does not exist.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the hash contains the field.
+
+{{< /multitabs >}}

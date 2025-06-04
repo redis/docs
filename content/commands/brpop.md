@@ -80,3 +80,21 @@ redis> BRPOP list1 list2 0
 1) "list1"
 2) "c"
 ```
+
+## Return information
+
+{{< multitabs id="brpop-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): no element could be popped and the timeout expired.
+* [Array reply](../../develop/reference/protocol-spec#arrays): the key from which the element was popped and the value of the popped element
+
+-tab-sep-
+
+One of the following:
+* [Null reply](../../develop/reference/protocol-spec#nulls): no element could be popped and the timeout expired.
+* [Array reply](../../develop/reference/protocol-spec#arrays): the key from which the element was popped and the value of the popped element
+
+{{< /multitabs >}}

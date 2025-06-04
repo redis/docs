@@ -41,3 +41,16 @@ TIME
 TIME
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="time-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): specifically, a two-element array consisting of the Unix timestamp in seconds and the microseconds' count.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): specifically, a two-element array consisting of the Unix timestamp in seconds and the microseconds' count.
+
+{{< /multitabs >}}

@@ -128,3 +128,16 @@ ZUNIONSTORE out 2 zset1 zset2 WEIGHTS 2 3
 ZRANGE out 0 -1 WITHSCORES
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="zunionstore-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of elements in the resulting sorted set.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of elements in the resulting sorted set.
+
+{{< /multitabs >}}

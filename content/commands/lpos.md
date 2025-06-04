@@ -132,3 +132,22 @@ LPOS mylist 3
 LPOS mylist 3 COUNT 0 RANK 2
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="lpos-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+Any of the following:
+* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if there is no matching element.
+* [Integer reply](../../develop/reference/protocol-spec#integers): an integer representing the matching element.
+* [Array reply](../../develop/reference/protocol-spec#arrays): If the COUNT option is given, an array of integers representing the matching elements (or an empty array if there are no matches).
+
+-tab-sep-
+
+Any of the following:
+* [Null reply](../../develop/reference/protocol-spec#nulls): if there is no matching element.
+* [Integer reply](../../develop/reference/protocol-spec#integers): an integer representing the matching element.
+* [Array reply](../../develop/reference/protocol-spec#arrays): If the COUNT option is given, an array of integers representing the matching elements (or an empty array if there are no matches).
+
+{{< /multitabs >}}

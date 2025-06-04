@@ -32,3 +32,17 @@ subcommands.
 For more information refer to the [Latency Monitoring Framework page][lm].
 
 [lm]: /operate/oss_and_stack/management/optimization/latency-monitor.md
+
+## Return information
+
+{{< multitabs id="latency-help-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of sub-commands and their descriptions.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of sub-commands and their descriptions.
+
+{{< /multitabs >}}

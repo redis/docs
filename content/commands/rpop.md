@@ -86,3 +86,23 @@ RPOP mylist
 RPOP mylist 2
 LRANGE mylist 0 -1
 {{% /redis-cli %}}
+
+## Return information
+
+{{< multitabs id="rpop-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the key does not exist.
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): when called without the _count_ argument, the value of the last element.
+* [Array reply](../../develop/reference/protocol-spec#arrays): when called with the _count_ argument, a list of popped elements.
+
+-tab-sep-
+
+One of the following:
+* [Null reply](../../develop/reference/protocol-spec#nulls): if the key does not exist.
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): when called without the _count_ argument, the value of the last element.
+* [Array reply](../../develop/reference/protocol-spec#arrays): when called with the _count_ argument, a list of popped elements.
+
+{{< /multitabs >}}

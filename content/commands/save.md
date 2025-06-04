@@ -42,3 +42,17 @@ However in case of issues preventing Redis to create the background saving child
 good last resort to perform the dump of the latest dataset.
 
 See the [persistence documentation]({{< relref "/operate/oss_and_stack/management/persistence" >}}) for detailed information.
+
+## Return information
+
+{{< multitabs id="save-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+{{< /multitabs >}}

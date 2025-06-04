@@ -129,3 +129,27 @@ title: GEORADIUSBYMEMBER_RO
 Read-only variant of the [`GEORADIUSBYMEMBER`]({{< relref "/commands/georadiusbymember" >}}) command.
 
 This command is identical to the [`GEORADIUSBYMEMBER`]({{< relref "/commands/georadiusbymember" >}}) command, except that it doesn't support the optional `STORE` and `STOREDIST` parameters.
+
+## Return information
+
+{{< multitabs id="georadiusbymember-ro-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* If no `WITH*` option is specified, an [Array reply](../../develop/reference/protocol-spec#arrays) of matched member names
+* If `WITHCOORD`, `WITHDIST`, or `WITHHASH` options are specified, the command returns an [Array reply](../../develop/reference/protocol-spec#arrays) of arrays, where each sub-array represents a single item:
+    * The distance from the center as a floating point number, in the same unit specified in the radius.
+    * The Geohash integer.
+    * The coordinates as a two items x,y array (longitude,latitude).
+
+-tab-sep-
+
+One of the following:
+* If no `WITH*` option is specified, an [Array reply](../../develop/reference/protocol-spec#arrays) of matched member names
+* If `WITHCOORD`, `WITHDIST`, or `WITHHASH` options are specified, the command returns an [Array reply](../../develop/reference/protocol-spec#arrays) of arrays, where each sub-array represents a single item:
+    * The distance from the center as a floating point number, in the same unit specified in the radius.
+    * The Geohash integer.
+    * The coordinates as a two items x,y array (longitude,latitude).
+
+{{< /multitabs >}}

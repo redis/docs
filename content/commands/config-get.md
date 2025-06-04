@@ -78,3 +78,17 @@ configuration parameter used in the [redis.conf][hgcarr22rc] file:
 Note that you should look at the redis.conf file relevant to the version you're
 working with as configuration options might change between versions. The link
 above is to the latest development version.
+
+## Return information
+
+{{< multitabs id="config-get-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of configuration parameters matching the provided arguments.
+
+-tab-sep-
+
+[Map reply](../../develop/reference/protocol-spec#maps): a list of configuration parameters matching the provided arguments.
+
+{{< /multitabs >}}

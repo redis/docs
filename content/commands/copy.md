@@ -90,3 +90,21 @@ SET dolly "sheep"
 COPY dolly clone
 GET clone
 ```
+
+## Return information
+
+{{< multitabs id="copy-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if _source_ was copied.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if _source_ was not copied.
+
+-tab-sep-
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if _source_ was copied.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if _source_ was not copied.
+
+{{< /multitabs >}}

@@ -46,3 +46,17 @@ operation can be performed solely using [`EVALSHA`]({{< relref "/commands/evalsh
 bandwidth.
 
 For more information about [`EVAL`]({{< relref "/commands/eval" >}}) scripts please refer to [Introduction to Eval Scripts]({{< relref "/develop/interact/programmability/eval-intro" >}}).
+
+## Return information
+
+{{< multitabs id="script-exists-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): an array of integers that correspond to the specified SHA1 digest arguments.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): an array of integers that correspond to the specified SHA1 digest arguments.
+
+{{< /multitabs >}}

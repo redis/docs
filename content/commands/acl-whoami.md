@@ -37,3 +37,17 @@ can change user using [`AUTH`]({{< relref "/commands/auth" >}}).
 > ACL WHOAMI
 "default"
 ```
+
+## Return information
+
+{{< multitabs id="acl-whoami-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the username of the current connection.
+
+-tab-sep-
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the username of the current connection.
+
+{{< /multitabs >}}

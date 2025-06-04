@@ -81,3 +81,16 @@ SINTERCARD 2 key1 key2
 SINTERCARD 2 key1 key2 LIMIT 1
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="sintercard-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of elements in the resulting intersection.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of elements in the resulting intersection.
+
+{{< /multitabs >}}

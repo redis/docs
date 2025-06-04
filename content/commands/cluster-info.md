@@ -75,3 +75,17 @@ Here are the explanation of these fields:
 * `cluster_stats_messages_publishshard_sent` and `cluster_stats_messages_publishshard_received`: Pub/Sub Publish shard propagation, see [Sharded Pubsub]({{< relref "/develop/interact/pubsub#sharded-pubsub" >}}).
 
 More information about the Current Epoch and Config Epoch variables are available in the [Redis Cluster specification document]({{< relref "/operate/oss_and_stack/reference/cluster-spec#cluster-current-epoch" >}}).
+
+## Return information
+
+{{< multitabs id="cluster-info-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): A map between named fields and values in the form of `<field>:<value>` lines separated by newlines composed by the two bytes `CRLF`.
+
+-tab-sep-
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): A map between named fields and values in the form of <field>:<value> lines separated by newlines composed by the two bytes CRLF
+
+{{< /multitabs >}}

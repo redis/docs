@@ -86,3 +86,17 @@ redis> HGETDEL mykey FIELDS 2 field1 field2
 redis> KEYS *
 (empty array)
 ```
+
+## Return information
+
+{{< multitabs id="hgetdel-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of deleted fields and their values or `nil` for fields that do not exist.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of deleted fields and their values or `nil` for fields that do not exist.
+
+{{< /multitabs >}}

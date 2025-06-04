@@ -69,3 +69,16 @@ HDEL myhash field1
 HDEL myhash field2
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="hdel-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of fields that were removed from the hash, excluding any specified but non-existing fields.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): The number of fields that were removed from the hash, excluding any specified but non-existing fields.
+
+{{< /multitabs >}}

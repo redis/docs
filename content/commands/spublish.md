@@ -65,3 +65,17 @@ For example the following command publishes to the `orders` channel with a subsc
 > spublish orders hello
 (integer) 1
 ```
+
+## Return information
+
+{{< multitabs id="spublish-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of clients that the message was sent to. Note that in a Redis Cluster, only clients that are connected to the same node as the publishing client are included in the count
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of clients that the message was sent to. Note that in a Redis Cluster, only clients that are connected to the same node as the publishing client are included in the count
+
+{{< /multitabs >}}

@@ -141,3 +141,17 @@ When the bitmap is big, there are two alternatives:
 * Running the bitmap incrementally using the `BITCOUNT` _start_ and _end_
   optional parameters, accumulating the results client-side, and optionally
   caching the result into a key.
+
+## Return information
+
+{{< multitabs id="bitcount-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of bits set to 1.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of bits set to 1.
+
+{{< /multitabs >}}

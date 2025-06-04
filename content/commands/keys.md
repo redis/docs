@@ -78,3 +78,16 @@ KEYS a??
 KEYS *
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="keys-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of keys matching _pattern_.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of keys matching _pattern_.
+
+{{< /multitabs >}}

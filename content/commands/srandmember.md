@@ -97,3 +97,21 @@ The distribution of the returned elements is far from perfect when the number of
 The algorithm used, that is implemented inside dict.c, samples the hash table buckets to find a non-empty one. Once a non empty bucket is found, since we use chaining in our hash table implementation, the number of elements inside the bucket is checked and a random element is selected.
 
 This means that if you have two non-empty buckets in the entire hash table, and one has three elements while one has just one, the element that is alone in its bucket will be returned with much higher probability.
+
+## Return information
+
+{{< multitabs id="srandmember-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): without the additional _count_ argument, the command returns a randomly selected member, or a [Nil reply](../../develop/reference/protocol-spec#bulk-strings) when _key_ doesn't exist.
+* [Array reply](../../develop/reference/protocol-spec#arrays): when the optional _count_ argument is passed, the command returns an array of members, or an empty array when _key_ doesn't exist.
+
+-tab-sep-
+
+One of the following:
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): without the additional _count_ argument, the command returns a randomly selected member, or a [Null reply](../../develop/reference/protocol-spec#nulls) when _key_ doesn't exist.
+* [Array reply](../../develop/reference/protocol-spec#arrays): when the optional _count_ argument is passed, the command returns an array of members, or an empty array when _key_ doesn't exist.
+
+{{< /multitabs >}}

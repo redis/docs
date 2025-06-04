@@ -68,3 +68,16 @@ LPUSH mylist "Hello"
 LLEN mylist
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="llen-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the length of the list.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the length of the list.
+
+{{< /multitabs >}}

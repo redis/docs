@@ -60,3 +60,20 @@ PERSIST mykey
 TTL mykey
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="persist-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if _key_ does not exist or does not have an associated timeout.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the timeout has been removed.
+
+-tab-sep-
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if _key_ does not exist or does not have an associated timeout.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the timeout has been removed.
+
+{{< /multitabs >}}

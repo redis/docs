@@ -88,3 +88,16 @@ XLEN writers
 XREVRANGE writers + - COUNT 1
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="xrevrange-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): The command returns the entries with IDs matching the specified range. The returned entries are complete, which means that the ID and all the fields they are composed of are returned. Moreover, the entries are returned with their fields and values in the same order as `XADD` added them.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): The command returns the entries with IDs matching the specified range. The returned entries are complete, which means that the ID and all the fields they are composed of are returned. Moreover, the entries are returned with their fields and values in the same order as `XADD` added them.
+
+{{< /multitabs >}}

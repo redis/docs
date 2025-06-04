@@ -50,3 +50,21 @@ is the name of the key that holds the vector set.
 ## Related topics
 
 - [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
+
+## Return information
+
+{{< multitabs id="vinfo-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Array reply](../../develop/reference/protocol-spec#arrays) containing metadata and internal details about a vector set, including size, dimensions, quantization type, and graph structure.
+* [Array reply](../../develop/reference/protocol-spec#arrays) (null array reply) for unknown key.
+
+-tab-sep-
+
+One of the following:
+* [Array reply](../../develop/reference/protocol-spec#arrays) containing metadata and internal details about a vector set, including size, dimensions, quantization type, and graph structure.
+* [Null reply](../../develop/reference/protocol-spec#nulls) for unknown key.
+
+{{< /multitabs >}}

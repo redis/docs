@@ -80,3 +80,17 @@ Redis server that started with AOF turned on since the start.
 
 You can have both the AOF enabled with RDB snapshotting if you want, the two
 options are not mutually exclusive.
+
+## Return information
+
+{{< multitabs id="config-set-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` when the configuration was set properly. Otherwise an error is returned.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` when the configuration was set properly. Otherwise an error is returned.
+
+{{< /multitabs >}}

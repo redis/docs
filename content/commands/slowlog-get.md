@@ -62,3 +62,17 @@ Each entry from the slow log is comprised of the following six values:
 The entry's unique ID can be used in order to avoid processing slow log entries multiple times (for instance you may have a script sending you an email alert for every new slow log entry).
 The ID is never reset in the course of the Redis server execution, only a server
 restart will reset it.
+
+## Return information
+
+{{< multitabs id="slowlog-get-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of slow log entries per the above format.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of slow log entries per the above format.
+
+{{< /multitabs >}}

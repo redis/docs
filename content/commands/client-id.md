@@ -43,3 +43,16 @@ introduced also in Redis 5 together with `CLIENT ID`. Check the [`CLIENT UNBLOCK
 CLIENT ID
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="client-id-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the ID of the client.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the ID of the client.
+
+{{< /multitabs >}}

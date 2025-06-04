@@ -138,3 +138,17 @@ Care should be taken when running it against long input strings.
 For real-time metrics and statistics involving large inputs a good approach is
 to use a replica (with replica-read-only option enabled) where the bit-wise
 operations are performed to avoid blocking the master instance.
+
+## Return information
+
+{{< multitabs id="bitop-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the size of the string stored in the destination key is equal to the size of the longest input string.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the size of the string stored in the destination key is equal to the size of the longest input string.
+
+{{< /multitabs >}}

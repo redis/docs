@@ -173,3 +173,21 @@ the client point of view, the connection can never be closed
 in the middle of the execution of a command. However, the client
 will notice the connection has been closed only when the
 next command is sent (and results in network error).
+
+## Return information
+
+{{< multitabs id="client-kill-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` when called in 3 argument format and the connection has been closed.
+* [Integer reply](../../develop/reference/protocol-spec#integers): when called in filter/value format, the number of clients killed.
+
+-tab-sep-
+
+One of the following:
+* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` when called in 3 argument format and the connection has been closed.
+* [Integer reply](../../develop/reference/protocol-spec#integers): when called in filter/value format, the number of clients killed.
+
+{{< /multitabs >}}

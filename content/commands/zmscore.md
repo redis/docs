@@ -62,3 +62,20 @@ ZADD myzset 2 "two"
 ZMSCORE myzset "one" "two" "nofield"
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="zmscore-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the member does not exist in the sorted set.
+* [Array reply](../../develop/reference/protocol-spec#arrays): a list of [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) _member_ scores as double-precision floating point numbers.
+
+-tab-sep-
+
+One of the following:
+* [Null reply](../../develop/reference/protocol-spec#nulls): if the member does not exist in the sorted set.
+* [Array reply](../../develop/reference/protocol-spec#arrays): a list of [Double reply](../../develop/reference/protocol-spec#doubles) _member_ scores as double-precision floating point numbers.
+
+{{< /multitabs >}}

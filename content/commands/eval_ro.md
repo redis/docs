@@ -81,3 +81,17 @@ OK
 > EVAL_RO "return redis.call('DEL', KEYS[1])" 1 mykey
 (error) ERR Error running script (call to b0d697da25b13e49157b2c214a4033546aba2104): @user_script:1: @user_script: 1: Write commands are not allowed from read-only scripts.
 ```
+
+## Return information
+
+{{< multitabs id="eval-ro-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+The return value depends on the script that was executed.
+
+-tab-sep-
+
+The return value depends on the script that was executed.
+
+{{< /multitabs >}}

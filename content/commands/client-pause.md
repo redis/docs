@@ -91,3 +91,17 @@ to be static not just from the point of view of clients not being able to write,
 ## Behavior change history
 
 *   `>= 3.2.0`: Client pause prevents client pause and key eviction as well.
+
+## Return information
+
+{{< multitabs id="client-pause-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` or an error if the timeout is invalid.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` or an error if the timeout is invalid.
+
+{{< /multitabs >}}

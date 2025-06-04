@@ -118,3 +118,23 @@ In the above example, we attempt to claim up to 25 entries that are pending and 
 The consumer "Alice" from the "mygroup" group acquires ownership of these messages.
 Note that the stream ID returned in the example is `0-0`, indicating that the entire stream was scanned.
 We can also see that `XAUTOCLAIM` did not stumble upon any deleted messages (the third reply element is an empty array).
+
+## Return information
+
+{{< multitabs id="xautoclaim-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays), specifically, an array with three elements:
+1. A stream ID to be used as the _start_ argument for the next call to XAUTOCLAIM.
+2. An [Array reply](../../develop/reference/protocol-spec#arrays) containing all the successfully claimed messages in the same format as `XRANGE`.
+3. An [Array reply](../../develop/reference/protocol-spec#arrays) containing message IDs that no longer exist in the stream, and were deleted from the PEL in which they were found.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays), specifically, an array with three elements:
+1. A stream ID to be used as the _start_ argument for the next call to XAUTOCLAIM.
+2. An [Array reply](../../develop/reference/protocol-spec#arrays) containing all the successfully claimed messages in the same format as `XRANGE`.
+3. An [Array reply](../../develop/reference/protocol-spec#arrays) containing message IDs that no longer exist in the stream, and were deleted from the PEL in which they were found.
+
+{{< /multitabs >}}

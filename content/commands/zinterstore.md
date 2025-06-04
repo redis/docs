@@ -121,3 +121,16 @@ ZINTERSTORE out 2 zset1 zset2 WEIGHTS 2 3
 ZRANGE out 0 -1 WITHSCORES
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="zinterstore-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of members in the resulting sorted set at the _destination_.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of members in the resulting sorted set at the _destination_.
+
+{{< /multitabs >}}

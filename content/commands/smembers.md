@@ -70,3 +70,17 @@ SADD myset "Hello"
 SADD myset "World"
 SMEMBERS myset
 {{% /redis-cli %}}
+
+## Return information
+
+{{< multitabs id="smembers-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): an array with all the members of the set.
+
+-tab-sep-
+
+[Set reply](../../develop/reference/protocol-spec#sets): a set with all the members of the set.
+
+{{< /multitabs >}}

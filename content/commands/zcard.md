@@ -56,3 +56,16 @@ ZADD myzset 2 "two"
 ZCARD myzset
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="zcard-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the cardinality (number of members) of the sorted set, or 0 if the key doesn't exist.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the cardinality (number of members) of the sorted set, or 0 if the key doesn't exist.
+
+{{< /multitabs >}}

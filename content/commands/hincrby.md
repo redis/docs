@@ -76,3 +76,16 @@ HINCRBY myhash field -1
 HINCRBY myhash field -10
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="hincrby-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the value of the field after the increment operation.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the value of the field after the increment operation.
+
+{{< /multitabs >}}

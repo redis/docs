@@ -53,3 +53,16 @@ COMMAND INFO get set eval
 COMMAND INFO foo evalsha config bar
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="command-info-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a nested list of command details.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a nested list of command details.
+
+{{< /multitabs >}}

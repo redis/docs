@@ -95,3 +95,21 @@ OK
 |<span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts]({{<relref "/develop/interact/programmability">}}) in Redis versions earlier than 7. |
 
 Note: key memory usage is different on Redis Software or Redis Cloud active-active databases than on non-active-active databases. This is because memory usage includes some amount of CRDB overhead.
+
+## Return information
+
+{{< multitabs id="memory-usage-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): the memory usage in bytes.
+* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the key does not exist.
+
+-tab-sep-
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): the memory usage in bytes.
+* [Null reply](../../develop/reference/protocol-spec#nulls): if the key does not exist.
+
+{{< /multitabs >}}

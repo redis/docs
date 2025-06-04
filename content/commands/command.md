@@ -264,3 +264,17 @@ The following is `COMMAND`'s output for the [`GET`]({{< relref "/commands/get" >
    10) (empty array)
 ...
 ```
+
+## Return information
+
+{{< multitabs id="command-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a nested list of command details. The order of the commands in the array is random.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a nested list of command details. The order of the commands in the array is random.
+
+{{< /multitabs >}}

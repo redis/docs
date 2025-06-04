@@ -44,3 +44,17 @@ master node. This may happen because:
 
 1. The client sent a command about hash slots never served by the master of this replica.
 2. The cluster was reconfigured (for example resharded) and the replica is no longer able to serve commands for a given hash slot.
+
+## Return information
+
+{{< multitabs id="readonly-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+{{< /multitabs >}}

@@ -56,3 +56,16 @@ STRLEN mykey
 STRLEN nonexisting
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="strlen-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the length of the string stored at key, or 0 when the key does not exist.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the length of the string stored at key, or 0 when the key does not exist.
+
+{{< /multitabs >}}

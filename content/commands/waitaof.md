@@ -101,3 +101,21 @@ In the above example, the first call to `WAITAOF` does not use a timeout and ask
 
 In the second attempt we instead specify a timeout, and ask for the write to be confirmed as fsynced by a single replica.
 Since there are no connected replicas, the `WAITAOF` command unblocks after one second and again returns [1, 0], indicating the write has been fsynced on the local Redis but no replicas.
+
+## Return information
+
+{{< multitabs id="waitaof-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): The command returns an array of two integers:
+1. The first is the number of local Redises (0 or 1) that have fsynced to AOF  all writes performed in the context of the current connection
+2. The second is the number of replicas that have acknowledged doing the same.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): The command returns an array of two integers:
+1. The first is the number of local Redises (0 or 1) that have fsynced to AOF  all writes performed in the context of the current connection
+2. The second is the number of replicas that have acknowledged doing the same.
+
+{{< /multitabs >}}

@@ -64,3 +64,16 @@ XADD mystream * item 3
 XLEN mystream
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="xlen-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of entries of the stream at _key_.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of entries of the stream at _key_.
+
+{{< /multitabs >}}

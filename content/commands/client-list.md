@@ -158,3 +158,17 @@ New fields are regularly added for debugging purpose. Some could be removed
 in the future. A version safe Redis client using this command should parse
 the output accordingly (i.e. handling gracefully missing fields, skipping
 unknown fields).
+
+## Return information
+
+{{< multitabs id="client-list-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): information and statistics about client connections.
+
+-tab-sep-
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): information and statistics about client connections.
+
+{{< /multitabs >}}

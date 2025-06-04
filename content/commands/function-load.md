@@ -73,3 +73,17 @@ mylib
 redis> FCALL myfunc 0 hello
 "hello"
 ```
+
+## Return information
+
+{{< multitabs id="function-load-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the library name that was loaded.
+
+-tab-sep-
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the library name that was loaded.
+
+{{< /multitabs >}}

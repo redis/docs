@@ -86,3 +86,17 @@ LPUSH mylist "world"
 LPUSH mylist "hello"
 LRANGE mylist 0 -1
 {{% /redis-cli %}}
+
+## Return information
+
+{{< multitabs id="lpush-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the length of the list after the push operation.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the length of the list after the push operation.
+
+{{< /multitabs >}}

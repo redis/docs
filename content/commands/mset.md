@@ -72,3 +72,16 @@ GET key1
 GET key2
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="mset-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): always `OK` because `MSET` can't fail.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): always `OK` because `MSET` can't fail.
+
+{{< /multitabs >}}

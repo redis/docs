@@ -42,3 +42,17 @@ library's filename.
 Known limitations:
 
 *   Modules that register custom data types can not be unloaded.
+
+## Return information
+
+{{< multitabs id="module-unload-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the module was unloaded.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the module was unloaded.
+
+{{< /multitabs >}}

@@ -100,3 +100,20 @@ ZRANGE myzset2 0 -1 WITHSCORES
 EXISTS myzset myzset2
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="zmpop-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): when no element could be popped.
+* [Array reply](../../develop/reference/protocol-spec#arrays): A two-element array with the first element being the name of the key from which elements were popped, and the second element is an array of the popped elements. Every entry in the elements array is also an array that contains the member and its score.
+
+-tab-sep-
+
+One of the following:
+* [Null reply](../../develop/reference/protocol-spec#nulls): when no element could be popped.
+* [Array reply](../../develop/reference/protocol-spec#arrays): A two-element array with the first element being the name of the key from which elements were popped, and the second element is an array of the popped elements. Every entry in the elements array is also an array that contains the member and its score.
+
+{{< /multitabs >}}

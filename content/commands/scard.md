@@ -55,3 +55,16 @@ SADD myset "World"
 SCARD myset
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="scard-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the cardinality (number of elements) of the set, or `0` if the key does not exist.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): The cardinality (number of elements) of the set, or 0 if the key does not exist.
+
+{{< /multitabs >}}

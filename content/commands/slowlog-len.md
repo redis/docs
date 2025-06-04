@@ -39,3 +39,17 @@ A new entry is added to the slow log whenever a command exceeds the execution ti
 The maximum number of entries in the slow log is governed by the `slowlog-max-len` configuration directive.
 Once the slog log reaches its maximal size, the oldest entry is removed whenever a new entry is created.
 The slow log can be cleared with the [`SLOWLOG RESET`]({{< relref "/commands/slowlog-reset" >}}) command.
+
+## Return information
+
+{{< multitabs id="slowlog-len-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of entries in the slow log.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of entries in the slow log.
+
+{{< /multitabs >}}

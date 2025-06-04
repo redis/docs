@@ -51,3 +51,17 @@ configuration directive in `redis.conf`.
 {{< note >}}
 As of Redis 8 in Redis Open Source, loading a module using the Redis CLI with configuration parameters is deprecated.
 {{< /note >}}
+
+## Return information
+
+{{< multitabs id="module-load-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the module was loaded.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the module was loaded.
+
+{{< /multitabs >}}

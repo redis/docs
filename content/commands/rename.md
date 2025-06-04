@@ -80,3 +80,17 @@ GET myotherkey
 ## Behavior change history
 
 *   `>= 3.2.0`: The command no longer returns an error when source and destination names are the same.
+
+## Return information
+
+{{< multitabs id="rename-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+{{< /multitabs >}}

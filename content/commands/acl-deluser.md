@@ -50,3 +50,17 @@ exist, in such case no operation is performed for the non existing users.
 > ACL DELUSER antirez
 1
 ```
+
+## Return information
+
+{{< multitabs id="acl-deluser-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of users that were deleted. This number will not always match the number of arguments since certain users may not exist.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of users that were deleted. This number will not always match the number of arguments since certain users may not exist.
+
+{{< /multitabs >}}

@@ -32,3 +32,17 @@ syntax_str: ''
 title: DBSIZE
 ---
 Return the number of keys in the currently-selected database.
+
+## Return information
+
+{{< multitabs id="dbsize-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of keys in the currently-selected database.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of keys in the currently-selected database.
+
+{{< /multitabs >}}

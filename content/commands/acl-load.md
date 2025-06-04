@@ -47,3 +47,21 @@ sure to have an *all or nothing* behavior, that is:
 > ACL LOAD
 -ERR /tmp/foo:1: Unknown command or category name in ACL...
 ```
+
+## Return information
+
+{{< multitabs id="acl-load-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` on success.
+The command may fail with an error for several reasons: if the file is not readable, if there is an error inside the file, and in such cases, the error will be reported to the user in the error.
+Finally, the command will fail if the server is not configured to use an external ACL file.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` on success.
+The command may fail with an error for several reasons: if the file is not readable, if there is an error inside the file, and in such cases, the error will be reported to the user in the error.
+Finally, the command will fail if the server is not configured to use an external ACL file.
+
+{{< /multitabs >}}

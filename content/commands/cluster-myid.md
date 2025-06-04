@@ -28,3 +28,17 @@ title: CLUSTER MYID
 Returns the node's id.
 
 The `CLUSTER MYID` command returns the unique, auto-generated identifier that is associated with the connected cluster node.
+
+## Return information
+
+{{< multitabs id="cluster-myid-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the node ID.
+
+-tab-sep-
+
+[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the node ID.
+
+{{< /multitabs >}}

@@ -99,3 +99,20 @@ LMPOP 2 mylist mylist2 right count 10
 EXISTS mylist mylist2
 {{% /redis-cli %}}
 
+## Return information
+
+{{< multitabs id="lmpop-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if no element could be popped.
+* [Array reply](../../develop/reference/protocol-spec#arrays): a two-element array with the first element being the name of the key from which elements were popped and the second element being an array of elements.
+
+-tab-sep-
+
+One of the following:
+* [Null reply](../../develop/reference/protocol-spec#nulls): if no element could be popped.
+* [Array reply](../../develop/reference/protocol-spec#arrays): a two-element array with the first element being the name of the key from which elements were popped and the second element being an array of elements.
+
+{{< /multitabs >}}

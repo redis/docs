@@ -84,3 +84,17 @@ values. The following metrics are reported:
 *   `fragmentation.bytes`: See [`INFO`]({{< relref "/commands/info" >}})'s `mem_fragmentation_bytes`
 
 **A note about the word slave used in this man page**: Starting with Redis 5, if not for backward compatibility, the Redis project no longer uses the word slave. Unfortunately in this command the word slave is part of the protocol, so we'll be able to remove such occurrences only when this API will be naturally deprecated.
+
+## Return information
+
+{{< multitabs id="memory-stats-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a nested list of memory usage metrics and their values.
+
+-tab-sep-
+
+[Map reply](../../develop/reference/protocol-spec#maps): memory usage metrics and their values.
+
+{{< /multitabs >}}

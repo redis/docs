@@ -290,3 +290,21 @@ data to the stream.
 Reading the [Redis Streams introduction]({{< relref "/develop/data-types/streams" >}}) is highly
 suggested in order to understand more about the streams overall behavior
 and semantics.
+
+## Return information
+
+{{< multitabs id="xread-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Array reply](../../develop/reference/protocol-spec#arrays): an array where each element is an array composed of a two elements containing the key name and the entries reported for that key. The entries reported are full stream entries, having IDs and the list of all the fields and values. Field and values are guaranteed to be reported in the same order they were added by `XADD`.
+* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the _BLOCK_ option is given and a timeout occurs, or if there is no stream that can be served.
+
+-tab-sep-
+
+One of the following:
+* [Map reply](../../develop/reference/protocol-spec#maps): A map of key-value elements where each element is composed of the key name and the entries reported for that key. The entries reported are full stream entries, having IDs and the list of all the fields and values. Field and values are guaranteed to be reported in the same order they were added by `XADD`.
+* [Null reply](../../develop/reference/protocol-spec#nulls): if the _BLOCK_ option is given and a timeout occurs, or if there is no stream that can be served.
+
+{{< /multitabs >}}

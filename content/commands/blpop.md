@@ -188,3 +188,21 @@ SADD key element
 LPUSH helper_key x
 EXEC
 ```
+
+## Return information
+
+{{< multitabs id="blpop-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): no element could be popped and the timeout expired
+* [Array reply](../../develop/reference/protocol-spec#arrays): the key from which the element was popped and the value of the popped element.
+
+-tab-sep-
+
+One of the following:
+* [Null reply](../../develop/reference/protocol-spec#nulls): no element could be popped and the timeout expired
+* [Array reply](../../develop/reference/protocol-spec#arrays): the key from which the element was popped and the value of the popped element.
+
+{{< /multitabs >}}

@@ -93,3 +93,17 @@ The following example will run a script that returns the first argument that it 
 > EVAL "return ARGV[1]" 0 hello
 "hello"
 ```
+
+## Return information
+
+{{< multitabs id="eval-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+The return value depends on the script that was executed.
+
+-tab-sep-
+
+The return value depends on the script that was executed.
+
+{{< /multitabs >}}

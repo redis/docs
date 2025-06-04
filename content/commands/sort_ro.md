@@ -118,3 +118,17 @@ See original [`SORT`]({{< relref "/commands/sort" >}}) for more details.
 ```
 SORT_RO mylist BY weight_*->fieldname GET object_*->fieldname
 ```
+
+## Return information
+
+{{< multitabs id="sort-ro-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of sorted elements.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays): a list of sorted elements.
+
+{{< /multitabs >}}

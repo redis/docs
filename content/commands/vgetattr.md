@@ -44,3 +44,21 @@ is the name of the element whose attributes you want to retrieve.
 ## Related topics
 
 - [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
+
+## Return information
+
+{{< multitabs id="vgetattr-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Simple string reply](../../develop/reference/protocol-spec#simple-strings) containing the JSON attribute(s).
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) (null bulk string) for unknown key or element, or when no attributes exist for the given key/element pair.
+
+-tab-sep-
+
+One of the following:
+* [Simple string reply](../../develop/reference/protocol-spec#simple-strings) containing the JSON attribute(s).
+* [Null reply](../../develop/reference/protocol-spec#nulls) for unknown key or element, or when no attributes exist for the given key/element pair.
+
+{{< /multitabs >}}

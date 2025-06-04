@@ -79,3 +79,17 @@ Because of the high performance nature of Redis, it is possible to try
 a lot of passwords in parallel in very short time, so make sure to generate a
 strong and very long password so that this attack is infeasible.
 A good way to generate strong passwords is via the [`ACL GENPASS`]({{< relref "/commands/acl-genpass" >}}) command.
+
+## Return information
+
+{{< multitabs id="auth-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`, or an error if the password, or username/password pair, is invalid.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`, or an error if the password, or username/password pair, is invalid.
+
+{{< /multitabs >}}

@@ -98,3 +98,17 @@ The command does not succeed and returns an error in the following cases:
 
 *   `>= 7.2.0`: Automatically propagate node deletion to other nodes in a cluster, allowing nodes to be deleted with a single call
   in most cases.
+
+## Return information
+
+{{< multitabs id="cluster-forget-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was executed successfully. Otherwise an error is returned.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was executed successfully. Otherwise an error is returned.
+
+{{< /multitabs >}}
