@@ -33,8 +33,7 @@ You can add the value of the operation code to the output, and also use it in a 
 
 ### Adding the operation code to the output
 
- 
-Use the `add_field` transformation to add a new field called that contains the value of the `opcode` field from the source data. Note, that the fields must be prefixed with `after.` to be included in the output.
+Use the `add_field` transformation to add a new field that contains the value of the `opcode` field from the source data. Note that the fields must be prefixed with `after` to be included in the output.
 
 
 ```yaml
