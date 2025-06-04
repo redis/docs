@@ -95,7 +95,7 @@ The joined data will look like this in Redis:
 ```
 
 {{< note >}}
-Not setting `merge` as the `on_update` strategy for all jobs targeting the same key, will cause the entire parent record in Redis to be overwritten whenever any related record in the source database is updated, resulting in the loss of values written by other jobs.
+If you don't set `merge` as the `on_update` strategy for all jobs targeting the same key, the entire parent record in Redis will be overwritten whenever any related record in the source database is updated. This will result in the loss of values written by other jobs.
 {{< /note >}}
 
 When using this approach, you must ensure that the `key` expression in the child job matches the key expression in the parent job. If you use a different key expression, the child data will not be written to the same Redis key as the parent data.
