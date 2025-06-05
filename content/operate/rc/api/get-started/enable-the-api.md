@@ -9,9 +9,9 @@ description: Use the Redis Cloud dashboard to enable the REST API.
 weight: 10
 ---
 
-If you have a Redis Cloud subscription, you can use a REST API to manage your subscription programmatically.
+If you have a Redis Cloud account, you can use a REST API to manage your subscriptions and databases programmatically.
 
-For security reasons, the Redis Cloud API is disabled by default.
+For security reasons, the Redis Cloud API is inactive by default.
 
 To enable the API:
 
@@ -23,13 +23,13 @@ To enable the API:
 
 1. If a **Copy** button appears to the right of the API account key, the API is enabled.  This button copies the account key to the Clipboard.
 
-    {{<image filename="images/rc/button-access-management-api-key-copy.png" alt="Use the **Copy** button to copy the access key to the Clipboard." >}}
+    {{<image filename="images/rc/button-copy.png" alt="Use the **Copy** button to copy the access key to the Clipboard." >}}
 
     If you see an **Enable API** button, select it to enable the API and generate your API account key.
 
     {{<image filename="images/rc/button-access-management-enable-api.png" alt="Use the **Enable API** button to enable the REST API for your account." >}}
 
-To authenticate REST API calls, you need to combine the API account key with an [API user key]({{< relref "/operate/rc/api/get-started/manage-api-keys#api-user-keys" >}}) to make API calls.
+To authenticate REST API calls, you need to use both the API account key and an [API user key]({{< relref "/operate/rc/api/get-started/manage-api-keys#api-user-keys" >}}) to make API calls.
 
 Only account owners can see the access key in the account settings and give API access to other users.
 

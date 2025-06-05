@@ -11,6 +11,10 @@ linkTitle: optimize_shards_placement
 weight: $weight
 ---
 
+{{<banner-article>}}
+This REST API path is deprecated as of Redis Enterprise Software version 7.22. Use [`PUT /v1/bdbs/<uid>/actions/revamp?dry_run=true`]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/revamp/#put-bdbs-actions-revamp">}}) instead.
+{{</banner-article>}}
+
 | Method | Path | Description |
 |--------|------|-------------|
 | [GET](#get-bdbs-actions-optimize-shards-placement) | `/v1/bdbs/{uid}/actions/optimize_shards_placement` | Get optimized shards placement for a database  |
@@ -35,7 +39,7 @@ Get optimized shards placement for the given database.
 #### Example HTTP request
 
 ```sh
-GET /bdbs/1/actions/optimize_shards_placement
+GET /v1/bdbs/1/actions/optimize_shards_placement
 ```
 
 #### Query parameters
@@ -54,12 +58,12 @@ Include query parameters in a `GET` request to generate an optimized shard place
 The following example request includes `shards_count` and `memory_size` as query parameters:
 
 ```sh
-GET /bdbs/1/actions/optimize_shards_placement?shards_count=10&memory_size=10000
+GET /v1/bdbs/1/actions/optimize_shards_placement?shards_count=10&memory_size=10000
 ```
 
 ### Response {#get-response}
 
-To rearrange the database shards, you can submit the blueprint returned in this response body as the `shards_blueprint` field in the [`PUT`&nbsp;`/bdbs/{uid}`](#put-bdbs-rearrange-shards) request.
+To rearrange the database shards, you can submit the blueprint returned in this response body as the `shards_blueprint` field in the [`PUT`&nbsp;`/v1/bdbs/{uid}`](#put-bdbs-rearrange-shards) request.
 
 #### Example JSON body
 
@@ -124,9 +128,9 @@ To rearrange the database shards, you can submit the blueprint returned in this 
 
 ## Rearrange database shards {#put-bdbs-rearrange-shards}
 
-Use the blueprint returned by the [`GET`&nbsp;`/bdbs/{uid}/actions/optimize_shards_placement`]({{< relref "/operate/rs/references/rest-api/requests/bdbs/actions/optimize_shards_placement#get-bdbs-actions-optimize-shards-placement" >}}) request as the value of the `shards_blueprint` field to rearrange the database shards.
+Use the blueprint returned by the [`GET`&nbsp;`/v1/bdbs/{uid}/actions/optimize_shards_placement`]({{< relref "/operate/rs/references/rest-api/requests/bdbs/actions/optimize_shards_placement#get-bdbs-actions-optimize-shards-placement" >}}) request as the value of the `shards_blueprint` field to rearrange the database shards.
 
-To ensure that the optimized shard placement is relevant for the current cluster state, pass the `cluster-state-id`, taken from the response header of the `GET` request, in the [`PUT`&nbsp;`/bdbs/{uid}`]({{< relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs" >}}) request headers.
+To ensure that the optimized shard placement is relevant for the current cluster state, pass the `cluster-state-id`, taken from the response header of the `GET` request, in the [`PUT`&nbsp;`/v1/bdbs/{uid}`]({{< relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs" >}}) request headers.
 
 The cluster will reject the update if its state was changed since the optimal shards placement was obtained.
 
@@ -135,7 +139,7 @@ The cluster will reject the update if its state was changed since the optimal sh
 #### Example HTTP request
 
 ```sh
-PUT /bdbs/1
+PUT /v1/bdbs/1
 ```
 
 #### Headers

@@ -44,7 +44,7 @@ Follow these best practices for [indexing]({{<relref "/develop/interact/search-a
 
 Follow these best practices for [queries]({{<relref "/develop/interact/search-and-query/query">}}):
 
-- Specify the result set fields in the `RETURN` or `LOAD` clauses and include them in the index definition. Don’t just return the default result set from [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/)  or `LOAD *` from [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/).
+- Specify the result set fields in the `RETURN` or `LOAD` clauses and include them in the index definition. Don’t just return the default result set from [`FT.SEARCH`]({{< relref "commands/ft.search/" >}})  or `LOAD *` from [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}).
 
 - Use `LIMIT` to reduce the result set size.
 
@@ -93,7 +93,7 @@ Here's an improved query that follows best practices for vertical scaling:
 
 ```sh
 FT.AGGREGATE jsonidx:profiles '@t:[1299 1299]' 
-                LOAD 6 id t nam" lastname loc ver 
+                LOAD 6 id t name lastname loc ver
                 LIMIT 0 10
                 DIALECT 3
 ```

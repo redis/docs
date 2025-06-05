@@ -40,7 +40,7 @@ List available modules, i.e. modules stored within the CCS.
 #### Example HTTP request
 
 ```sh
-GET /modules
+GET /v1/modules
 ```
 
 #### Headers
@@ -79,7 +79,7 @@ Get specific available modules, i.e. modules stored within the CCS.
 #### Example HTTP request
 
 ```sh
-GET /modules/1
+GET /v1/modules/1
 ```
 
 #### Headers
@@ -213,7 +213,7 @@ Asynchronously uploads a new module to the cluster.
 
 The request must contain a Redis module bundled using [RedisModule Packer](https://github.com/RedisLabs/RAMP).
 
-For modules in Redis Stack, download the module from the [download center](https://redis.com/redis-enterprise-software/download-center/software/). See [Install a module on a cluster]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster#rest-api-method" >}}) for more information.
+For modules in Redis Stack, download the module from the [download center](https://redis.io/downloads/). See [Install a module on a cluster]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster#rest-api-method" >}}) for more information.
 
 #### Permissions
 

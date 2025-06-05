@@ -1,0 +1,290 @@
+name: redisvl_docs_sync
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # run every day at midnight UTC time
+  workflow_dispatch: # or run on manual trigger
+
+jobs:
+  redisvl_docs_sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: write
+    steps:
+      - name: 'Checkout'
+        uses: 'actions/checkout@v3'
+
+      - name: 'Install deps'
+        run: |
+          pip3 install -U sphinx
+          pip3 install sphinx_design sphinx_copybutton nbsphinx sphinx_favicon myst_nb sphinx_markdown_builder==0.6.8 jupyter
+
+      - name: 'Fetch redisvl repo'
+        run: |
+          git clone https://github.com/redis/redis-vl-python
+
+      - name: 'Run sphinx-build'
+        id: 'sphinx'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          pushd redis-vl-python
+
+          # Get latest release
+          latest_release=$(gh release -R redis/redis-vl-python list --json name,isLatest --jq '.[] | select(.isLatest)|.name')
+          git checkout "tags/${latest_release}" || git checkout "tags/v${latest_release}"
+          pip3 install -e .
+
+          popd
+          sphinx-build -M markdown ./redis-vl-python/docs ./build
+          
+          echo "release=${latest_release}" >> "$GITHUB_OUTPUT"
+
+      - name: 'Format markdown files for hugo compatibility'
+        run: |
+          #!/bin/bash
+          mkdir -p redis_vl_hugo/user_guide/
+          mkdir redis_vl_hugo/overview/
+          mkdir redis_vl_hugo/api/
+
+          function format() {
+              src=$1
+
+              # Extract title from source file
+              title=$(head -n 1 ${src} | sed 's/# //')
+              linkTitle="${title}"
+
+              # All words except first should be lowercased in linkTitle, except for RedisVL, API, CLI, LLMs, JSON
+              if [[ "$linkTitle" =~ \  ]]; then
+                  linkTitle=$(awk '{ $1=$1; for (i=2; i<=NF; i++) if ($i != "RedisVL" && $i != "API" && $i != "CLI" && $i != "LLMs" && $i != "JSON") $i=tolower($i); print }' <<< "${linkTitle}")
+              fi
+
+              # Inject frontmatter in destination file
+              cat >_tmp <<EOL
+          ---
+          linkTitle: ${linkTitle}
+          title: ${title}
+          type: integration
+          EOL
+
+              # Inject weight property for index pages to preserve order
+              case "${title}" in
+                  "Overview")
+                      echo "weight: 3" >> _tmp ;;
+                  "User Guides")
+                      echo "weight: 4" >> _tmp ;;
+                  "RedisVL API")
+                      echo "weight: 5" >> _tmp ;;
+              esac
+
+              # For user guides, strip the leading numbers from filename and use them for weight
+              f=$(basename "${src}")
+              if [[ "$f" =~ ^([0-9][0-9])_(.+) ]]; then
+                  echo "weight: ${BASH_REMATCH[1]}" >> _tmp
+              fi
+
+              # For _index.md files, add hideListLinks property
+              if [[ ${src} =~ _index.md$ ]]; then
+                  echo "hideListLinks: true" >> _tmp
+              fi
+
+              # Close frontmatter
+              echo "---" >> _tmp
+              echo "" >> _tmp
+
+              # Write all of source file, except first line, in destination file
+              tail -n+2 ${src} >> _tmp
+
+              # _index.md files need title removed
+              if [[ ${src} =~ _index.md$ ]]; then
+                  sed -i "s/# ${title}//" _tmp
+              fi
+
+              mv _tmp ${src}
+          }
+
+          # Convert jupyter notebooks to markdown
+          jupyter nbconvert --to markdown build/jupyter_execute/user_guide/*.ipynb --output-dir redis_vl_hugo/user_guide/ 2>/dev/null
+          jupyter nbconvert --to markdown build/jupyter_execute/user_guide/release_guide/*.ipynb --output-dir redis_vl_hugo/user_guide/release_guide/ 2>/dev/null
+          jupyter nbconvert --to markdown build/jupyter_execute/overview/cli.ipynb --output-dir redis_vl_hugo/overview/ 2>/dev/null
+
+          # Prepare markdown files
+          rsync -a ./build/markdown/api/ ./redis_vl_hugo/api/ --exclude=index.md
+          cp ./build/markdown/overview/installation.md ./redis_vl_hugo/overview/installation.md
+
+          # Format markdown files
+          shopt -s globstar
+          markdown_pages=(./redis_vl_hugo/**/*.md)
+
+          for markdown_page in "${markdown_pages[@]}"; do
+              format "${markdown_page}"
+
+              # Remove blockquotes and ansi stuff
+              sed -E -i 's/^> *//g; s/\x1b\[[0-9;]*m//g' "${markdown_page}"
+
+              # Replace https://docs.redisvl.com links
+              sed -E -i 's#https://docs.redisvl.com/en/latest/.+/([^_]+).+\.html(\#[^)]+)#{{< relref "\1\2" >}}#g; s#https://docs.redisvl.com/en/latest/(.+)\.html#https://redis.io/docs/latest/integrate/redisvl/\1#g' "${markdown_page}"
+          done
+
+          # Fix links in api pages
+          api_markdown_pages=(./redis_vl_hugo/api/*.md)
+
+          for api_markdown_page in "${api_markdown_pages[@]}"; do
+              gawk '
+                  # handle relrefs to other pages
+                  /\([A-Za-z]+\.md#redisvl\.[a-zA-Z0-9_.]+\)/ {
+                      while (match($0, /\([A-Za-z]+\.md#redisvl\.[a-zA-Z0-9_.]+\)/)) {
+                          
+                          m = substr($0, RSTART+1, RLENGTH-2)
+                          split(m, parts, /[.#]/)
+                          ref = "({{< relref \"" parts[1] "/#" tolower(parts[length(parts)]) "\" >}})"
+                          $0 = substr($0, 1, RSTART-1) ref substr($0, RSTART+RLENGTH)
+
+                      }
+                  }
+                  # handle relref same page
+                  /\(#redisvl\.[^)]+\)/ {
+                      while (match($0, /\[[^][]+\]\(#redisvl\.[^)]+\)/)) {
+                          
+                          m = substr($0, RSTART+1, RLENGTH-2)
+                          split(m, parts, /[.#]/)
+                          ref = "[" parts[length(parts)] "]" "(" "#" tolower(parts[length(parts)]) ")"
+                          $0 = substr($0, 1, RSTART-1) ref substr($0, RSTART+RLENGTH)
+                      }
+                  }
+                  # format class/function signatures
+                  /^####?/ {
+                      # remove * from class, async, etc.
+                      if ($2 ~ "^*") {
+                          gsub(/\*/, "", $2)
+                      }
+                      
+                      # insert opening backtick
+                      gsub(/^/,"`", $2)
+
+                      if ($0 ~ /#### `.+: .*\[.+\]\(#.+\)/) {
+                          # fix relrefs
+                          gsub(/^/, "`", $4)
+                          gsub(/`$/, "", $4)
+                          gsub(/\*$/,"");
+                      } else {
+                          # insert closing backtick
+                          $0 = $0 "`";
+                      }
+                      # unescape double asterisks, e.g. **kwargs
+                      gsub(/\\\*\\\*/,"**");
+
+                      # unespace underscores
+                      gsub(/\\_/,"_");
+
+                      # remove asterisks
+                      gsub(/ ?\*:/,":");
+                      gsub(/\*`$/,"`");
+
+                      # handle ClassVar[ConfigDict]
+                      gsub(/\* \*= \{/," = \{")
+                      
+                      # handle *= in router.md
+                      gsub(/ \*\= /, " = ");
+
+                      # format rel links
+                      if ($0 ~ /\[.+\]\(.+relref.+\)/) {
+                          gsub(/\[/,"`[`")
+                          gsub(/\]/,"`]")
+                          gsub(/\)/,")` ")
+                      }
+                      # unescape single asterisks, e.g. *args
+                      gsub(/\\\*/,"*");
+                  }
+                  {
+                      # fix parameters
+                      gsub(/\*\[\*\*/,"\*\[\* \*");
+                      gsub(/\*\(\*\*/,"\*\(\* \*");
+                      print $0
+                  }
+              ' "${api_markdown_page}" > _tmp && mv _tmp "${api_markdown_page}"
+          done
+
+          # Format _index.md pages
+          cp ./build/markdown/api/index.md ./redis_vl_hugo/api/_index.md
+          cp ./build/markdown/user_guide/index.md ./redis_vl_hugo/user_guide/_index.md
+          cp ./build/markdown/user_guide/release_guide/index.md ./redis_vl_hugo/user_guide/release_guide/_index.md
+          cp ./build/markdown/overview/index.md ./redis_vl_hugo/overview/_index.md
+
+          index_markdown_pages=(
+              ./redis_vl_hugo/api/_index.md
+              ./redis_vl_hugo/user_guide/_index.md
+              ./redis_vl_hugo/user_guide/release_guide/_index.md
+              ./redis_vl_hugo/overview/_index.md
+          )
+
+          for index_markdown_page in "${index_markdown_pages[@]}"; do
+              format "${index_markdown_page}"
+
+              # Fix relrefs by removing .md extension and references to numbered pages
+              sed -E -i 's/\.md/\//g; s/\([0-9]{2}_/\(/g; s/\/index\//\//g' "${index_markdown_page}"
+          done
+
+          # Rename user guides to strip leading numbers from filename
+          user_guides=(./redis_vl_hugo/user_guide/*.md)
+          for user_guide in "${user_guides[@]}"; do
+              if [[ ! "$user_guide" =~ _index.md$ ]]; then
+                  renamed_user_guide=$(sed 's|[0-9]\+_||' <<<${user_guide})
+                  mv ${user_guide} ${renamed_user_guide}
+              fi
+          done
+
+          cp -r redis_vl_hugo/* content/integrate/redisvl/
+
+      - name: 'Create pull request if necessary'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          release="${{ steps.sphinx.outputs.release }}"
+          branch="redisvl_docs_sync_${release}"
+          redisvl_change=false
+
+          # check if remote branch already exists
+          git fetch --all
+          set +e
+          git ls-remote --exit-code --heads origin "refs/heads/${branch}"
+          if [ "$?" -eq 0 ]; then
+            set -e
+            # if it does, create local branch off existing remote branch
+            git checkout -b "${branch}" "origin/${branch}"
+            git branch --set-upstream-to="origin/${branch}" "${branch}"
+            git pull
+          else
+            set -e
+            # otherwise, create local branch from main
+            git checkout -b "${branch}"
+          fi
+
+          redisvl_is_different=$(git diff content/integrate/redisvl/)
+
+          if [[ ! -z $redisvl_is_different ]]; then
+            redisvl_change=true
+
+            git add "content/integrate/redisvl/"
+            git config user.email "177626021+redisdocsapp[bot]@users.noreply.github.com"
+            git config user.name "redisdocsapp[bot]"
+            git commit -m "Update for redisvl ${release}"
+          fi
+
+          if [ "$redisvl_change" = true ] ; then
+            git push origin "${branch}"
+
+            # If a pr is not already open, create one
+            set +e
+            gh search prs -R redis/docs --state open --match title "update for redisvl ${release}" | grep -q "update for redisvl ${release}"
+            if [ "$?" -eq 1 ]; then
+              set -e
+              gh pr create \
+                --body "update for redisvl ${release}" \
+                --title "update for redisvl ${release}" \
+                --head "$branch" \
+                --base "main"
+            fi
+          fi

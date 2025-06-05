@@ -27,13 +27,13 @@ Downloads a tar file that contains debug info from all databases.
 
 | Permission name |
 |-----------------|
-| [view_debugging_info]({{< relref "/operate/rs/references/rest-api/permissions#view_debugging_info" >}}) |
+| [view_debugging_info]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_debugging_info" >}}) |
 
 ### Request {#get-all-request} 
 
 #### Example HTTP request
 
-	GET /bdbs/debuginfo
+	GET /v1/bdbs/debuginfo
 
 ### Response {#get-all-response} 
 
@@ -65,13 +65,13 @@ Downloads a tar file that contains debug info from the database specified by `bd
 
 | Permission name |
 |-----------------|
-| [view_debugging_info]({{< relref "/operate/rs/references/rest-api/permissions#view_debugging_info" >}}) |
+| [view_debugging_info]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_debugging_info" >}}) |
 
 ### Request {#get-request} 
 
 #### Example HTTP request
 
-	GET /bdbs/1/debuginfo
+	GET /v1/bdbs/1/debuginfo
 
 ### Response {#get-response} 
 

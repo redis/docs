@@ -29,14 +29,14 @@ Get latest statistics for all nodes.
 
 | Permission name |
 |-----------------|
-| [view_all_nodes_stats]({{< relref "/operate/rs/references/rest-api/permissions#view_all_nodes_stats" >}}) |
+| [view_all_nodes_stats]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_all_nodes_stats" >}}) |
 
 ### Request {#get-all-request}
 
 #### Example HTTP request
 
 ```sh
-GET /nodes/stats/last?interval=1sec&stime=2015-10-14T06:29:43Z
+GET /v1/nodes/stats/last?interval=1sec&stime=2015-10-14T06:29:43Z
 ```
 
 
@@ -58,7 +58,7 @@ GET /nodes/stats/last?interval=1sec&stime=2015-10-14T06:29:43Z
 
 ### Response {#get-all-response}
 
-Returns most recent [statistics]({{< relref "/operate/rs/references/rest-api/objects/statistics" >}}) for all nodes.
+Returns most recent [statistics]({{< relref "/operate/rs/7.4/references/rest-api/objects/statistics" >}}) for all nodes.
 
 #### Example JSON body
 
@@ -109,14 +109,14 @@ Get the latest statistics of a node.
 
 | Permission name |
 |-----------------|
-| [view_node_stats]({{< relref "/operate/rs/references/rest-api/permissions#view_node_stats" >}}) |
+| [view_node_stats]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_node_stats" >}}) |
 
 ### Request {#get-request}
 
 #### Example HTTP request
 
 ```sh
-GET /nodes/stats/last/1?interval=1sec&stime=2015-10-13T09:01:54Z
+GET /v1/nodes/stats/last/1?interval=1sec&stime=2015-10-13T09:01:54Z
 ```
 
 
@@ -145,7 +145,7 @@ GET /nodes/stats/last/1?interval=1sec&stime=2015-10-13T09:01:54Z
 
 ### Response {#get-response}
 
-Returns the most recent [statistics]({{< relref "/operate/rs/references/rest-api/objects/statistics" >}}) for the specified node.
+Returns the most recent [statistics]({{< relref "/operate/rs/7.4/references/rest-api/objects/statistics" >}}) for the specified node.
 
 #### Example JSON body
 

@@ -26,11 +26,15 @@ Redis Cloud supports two types of network security: [IP Restrictions]({{< relref
 
 ## Transport Layer Security (TLS)
 
-Redis Cloud supports [Transport Layer Security]({{< relref "/operate/rc/security/database-security/tls-ssl.md" >}}) (TLS) for database connections. TLS, often called "SSL", ensures the privacy of the TCP connection between your application and database. When client
-authentication is enabled, TLS also ensures that those clients with an authorized key can connect to your Redis databases.
+Redis Cloud supports [Transport Layer Security]({{< relref "/operate/rc/security/database-security/tls-ssl.md" >}}) (TLS) for database access. TLS, often called "SSL", ensures the privacy of the TCP connection between your application and database. When client
+authentication is activated, TLS ensures that only clients with an authorized key can access to your Redis databases.
 
 We strongly recommend enabling TLS for any application transmitting sensitive data across the wire.
 
 ## Disk encryption
 
 Redis Cloud provides encryption for all data stored on disk in Redis databases. See our [encryption at rest documentation]({{< relref "/operate/rc/security/encryption-at-rest.md" >}}) for specific details.
+
+## Continue learning with Redis University
+
+{{< university-links >}}

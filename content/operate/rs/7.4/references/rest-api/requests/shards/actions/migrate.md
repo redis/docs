@@ -23,19 +23,19 @@ url: '/operate/rs/7.4/references/rest-api/requests/shards/actions/migrate/'
 
 Migrates the list of given shard UIDs to the node specified by `target_node_uid`. The shards can be from multiple databases. This request is asynchronous.
 
-For more information about shard migration use cases and considerations, see [Migrate database shards]({{<relref "/operate/rs/databases/migrate-shards">}}).
+For more information about shard migration use cases and considerations, see [Migrate database shards]({{<relref "/operate/rs/7.4/databases/migrate-shards">}}).
 
 #### Required permissions
 
 | Permission name | Roles |
 |-----------------|-------|
-| [migrate_shard]({{< relref "/operate/rs/references/rest-api/permissions#migrate_shard" >}}) | admin<br />cluster_member<br />db_member |
+| [migrate_shard]({{< relref "/operate/rs/7.4/references/rest-api/permissions#migrate_shard" >}}) | admin<br />cluster_member<br />db_member |
 
 ### Request {#post-multi-request} 
 
 #### Example HTTP request
 
-	POST /shards/actions/migrate
+	POST /v1/shards/actions/migrate
 
 #### Example JSON body
 
@@ -71,7 +71,7 @@ The request body is a JSON object that can contain the following fields:
 
 ### Response {#post-multi-response} 
 
-Returns a JSON object with an `action_uid`. You can track the action's progress with a [`GET /v1/actions/<action_uid>`]({{<relref "/operate/rs/references/rest-api/requests/actions#get-action">}}) request.
+Returns a JSON object with an `action_uid`. You can track the action's progress with a [`GET /v1/actions/<action_uid>`]({{<relref "/operate/rs/7.4/references/rest-api/requests/actions#get-action">}}) request.
 
 #### Example JSON body
 
@@ -98,19 +98,19 @@ Returns a JSON object with an `action_uid`. You can track the action's progress 
 
 Migrates the shard with the given `shard_uid` to the node specified by `target_node_uid`. If the shard is already on the target node, nothing happens. This request is asynchronous.
 
-For more information about shard migration use cases and considerations, see [Migrate database shards]({{<relref "/operate/rs/databases/migrate-shards">}}).
+For more information about shard migration use cases and considerations, see [Migrate database shards]({{<relref "/operate/rs/7.4/databases/migrate-shards">}}).
 
 #### Required permissions
 
 | Permission name | Roles |
 |-----------------|-------|
-| [migrate_shard]({{< relref "/operate/rs/references/rest-api/permissions#migrate_shard" >}}) | admin<br />cluster_member<br />db_member |
+| [migrate_shard]({{< relref "/operate/rs/7.4/references/rest-api/permissions#migrate_shard" >}}) | admin<br />cluster_member<br />db_member |
 
 ### Request {#post-request} 
 
 #### Example HTTP request
 
-	POST /shards/1/actions/migrate
+	POST /v1/shards/1/actions/migrate
 
 #### Example JSON body
 
@@ -150,7 +150,7 @@ The request body is a JSON object that can contain the following fields:
 
 ### Response {#post-response} 
 
-Returns a JSON object with an `action_uid`. You can track the action's progress with a [`GET /v1/actions/<action_uid>`]({{<relref "/operate/rs/references/rest-api/requests/actions#get-action">}}) request.
+Returns a JSON object with an `action_uid`. You can track the action's progress with a [`GET /v1/actions/<action_uid>`]({{<relref "/operate/rs/7.4/references/rest-api/requests/actions#get-action">}}) request.
 
 #### Example JSON body
 

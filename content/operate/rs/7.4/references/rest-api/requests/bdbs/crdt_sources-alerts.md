@@ -29,13 +29,13 @@ Get all alert states for all CRDT sources of all CRDBs.
 
 | Permission name |
 |-----------------|
-| [view_all_bdbs_alerts]({{< relref "/operate/rs/references/rest-api/permissions#view_all_bdbs_alerts" >}}) |
+| [view_all_bdbs_alerts]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_all_bdbs_alerts" >}}) |
 
 ### Request {#get-all-request} 
 
 #### Example HTTP request
 
-	GET /bdbs/crdt_sources/alerts 
+	GET /v1/bdbs/crdt_sources/alerts 
 
 #### Request headers
 
@@ -46,7 +46,7 @@ Get all alert states for all CRDT sources of all CRDBs.
 
 ### Response {#get-all-response} 
 
-Returns a hash of alert UIDs and the [alerts states]({{< relref "/operate/rs/references/rest-api/objects/alert" >}}) for each local BDB of CRDB.
+Returns a hash of alert UIDs and the [alerts states]({{< relref "/operate/rs/7.4/references/rest-api/objects/alert" >}}) for each local BDB of CRDB.
 
 #### Example JSON body
 
@@ -87,13 +87,13 @@ Get all alert states for all crdt sources for a specific local bdb of a CRDB.
 
 | Permission name |
 |-----------------|
-| [view_bdb_alerts]({{< relref "/operate/rs/references/rest-api/permissions#view_bdb_alerts" >}}) |
+| [view_bdb_alerts]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_bdb_alerts" >}}) |
 
 ### Request {#get-request-all-crdt-alerts} 
 
 #### Example HTTP request
 
-	GET /bdbs/crdt_sources/alerts/1 
+	GET /v1/bdbs/crdt_sources/alerts/1 
 
 #### Request headers
 
@@ -110,7 +110,7 @@ Get all alert states for all crdt sources for a specific local bdb of a CRDB.
 
 ### Response {#get-response-all-crdt-alerts} 
 
-Returns a hash of [alert objects]({{< relref "/operate/rs/references/rest-api/objects/alert" >}}) and their states.
+Returns a hash of [alert objects]({{< relref "/operate/rs/7.4/references/rest-api/objects/alert" >}}) and their states.
 
 #### Example JSON body
 
@@ -150,13 +150,13 @@ of a CRDB.
 
 | Permission name |
 |-----------------|
-| [view_bdb_alerts]({{< relref "/operate/rs/references/rest-api/permissions#view_bdb_alerts" >}}) |
+| [view_bdb_alerts]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_bdb_alerts" >}}) |
 
 ### Request {#get-request-crdt-alerts} 
 
 #### Example HTTP request
 
-	GET /bdbs/crdt_sources/alerts/1/2 
+	GET /v1/bdbs/crdt_sources/alerts/1/2 
 
 #### Request headers
 
@@ -174,7 +174,7 @@ of a CRDB.
 
 ### Response {#get-response-crdt-alerts} 
 
-Returns a hash of [alert objects]({{< relref "/operate/rs/references/rest-api/objects/alert" >}}) and their states. 
+Returns a hash of [alert objects]({{< relref "/operate/rs/7.4/references/rest-api/objects/alert" >}}) and their states. 
 
 #### Example JSON body
 
@@ -213,13 +213,13 @@ Get a BDB alert state.
 
 | Permission name |
 |-----------------|
-| [view_bdb_alerts]({{< relref "/operate/rs/references/rest-api/permissions#view_bdb_alerts" >}}) |
+| [view_bdb_alerts]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_bdb_alerts" >}}) |
 
 ### Request {#get-request-alert} 
 
 #### Example HTTP request
 
-	GET /bdbs/crdt_sources/alerts/1/2/crdt_src_syncer_connection_error 
+	GET /v1/bdbs/crdt_sources/alerts/1/2/crdt_src_syncer_connection_error 
 
 #### Request headers
 
@@ -239,7 +239,7 @@ Get a BDB alert state.
 
 ### Response {#get-response-alert} 
 
-Returns an [alert object]({{< relref "/operate/rs/references/rest-api/objects/alert" >}}).
+Returns an [alert object]({{< relref "/operate/rs/7.4/references/rest-api/objects/alert" >}}).
 
 #### Example JSON body
 

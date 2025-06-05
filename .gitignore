@@ -6,6 +6,7 @@
 /data/repos.json
 /data/tool_types.json
 /data/versions.json
+/data/components_local/
 /examples
 build/components/__pycache__/
 venv/**
@@ -14,3 +15,4 @@ package-lock.json
 .hugo_build.lock
 .vscode/
 .DS_Store
+.idea

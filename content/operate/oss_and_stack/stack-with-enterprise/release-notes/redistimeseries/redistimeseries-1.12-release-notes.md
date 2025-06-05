@@ -8,16 +8,46 @@ categories:
 description: RedisTimeSeries 1.12 adds a highly requested feature - insertion-filter for close samples.
 linkTitle: v1.12 (July 2024)
 min-version-db: '7.4'
-min-version-rs: 7.6 (TBD)
+min-version-rs: 7.8
 toc: 'true'
 weight: 94
 ---
 ## Requirements
 
-RedisTimeSeries v1.12.2 requires:
+RedisTimeSeries v1.12.6 requires:
 
 - Minimum Redis compatibility version (database): 7.4
-- Minimum Redis Enterprise Software version (cluster): 7.6 (TBD)
+- Minimum Redis Enterprise Software version (cluster): 7.8
+
+## v1.12.6 (April 2025)
+
+This is a maintenance release for RedisTimeSeries 1.12.
+
+Update urgency: `MODERATE`: Plan an upgrade of the server, but it's not urgent.
+
+Details:
+
+Bug fixes:
+- [#1725](https://github.com/redistimeseries/redistimeseries/pull/1725) `TS.DEL` crashes on keys with compactions if the deletion removes the last compaction bucket (MOD-8936)
+- [LibMR#58](https://github.com/RedisGears/LibMR/pull/58) Crash when a cluster contains both 1.8 and newer nodes (MOD-8976, MOD-9192)
+
+Improvements:
+- [#1712](https://github.com/redistimeseries/redistimeseries/pull/1712) Added support for Azure Linux 3 (MOD-9170)
+- [#1736](https://github.com/redistimeseries/redistimeseries/pull/1736) (Redis Enterprise only) Cross-key commands are handled by a random shard rather than the first shard (MOD-9262, MOD-9314)
+
+## v1.12.5 (January 2025)
+
+This is a maintenance release for RedisTimeSeries 1.12.
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+Details:
+
+- **Security and privacy:**
+  - [#1674](https://github.com/redistimeseries/redistimeseries/pull/1674) (CVE-2024-51480) `TS.QUERYINDEX`, `TS.MGET`, `TS.MRANGE`, `TS.MREVRANGE` - potential integer overflow leading to an out-of-bounds write (MOD-7548)
+
+- Improvements:
+  - [#1662](https://github.com/redistimeseries/redistimeseries/pull/1662) Added support for Ubuntu 22 and macOS 13 and 14
 
 ## v1.12 GA (v1.12.2) (July 2024)
 

@@ -22,7 +22,7 @@ Several questions appear during installation:
 
 - **Linux swap file** - `Swap is enabled. Do you want to proceed? [Y/N]?`
 
-    We recommend that you [disable Linux swap]({{< relref "/operate/rs/installing-upgrading/configuring/linux-swap.md" >}}) in the operating system configuration
+    We recommend that you [disable Linux swap]({{< relref "/operate/rs/7.4/installing-upgrading/configuring/linux-swap.md" >}}) in the operating system configuration
     to give Redis Enterprise Software control of the memory allocation.
 
 - **Automatic OS tuning** - `Do you want to automatically tune the system for best performance [Y/N]?`
@@ -36,15 +36,15 @@ Several questions appear during installation:
 
     Redis Enterprise Software requires that all cluster nodes have synchronized time.
     You can either let the installation process configure NTP
-    or you can [configure NTP manually]({{< relref "/operate/rs/clusters/configure/sync-clocks.md" >}}).
+    or you can [configure NTP manually]({{< relref "/operate/rs/7.4/clusters/configure/sync-clocks.md" >}}).
 
 - **Firewall ports** - `Would you like to open RedisLabs cluster ports on the default firewall zone [Y/N]?`
 
-    Redis Enterprise Software requires that all nodes have [specific network ports]({{< relref "/operate/rs/networking/port-configurations.md" >}}) open.
+    Redis Enterprise Software requires that all nodes have [specific network ports]({{< relref "/operate/rs/7.4/networking/port-configurations.md" >}}) open.
     To open the ports, you can:
 
     - Answer `Y` to let the installation process open these ports.
-    - Answer `N` and configure the firewall manually for [RHEL/CentOS firewall]({{< relref "/operate/rs/installing-upgrading/configuring/centos-rhel-firewall" >}}).
+    - Answer `N` and configure the firewall manually for [RHEL/CentOS firewall]({{< relref "/operate/rs/7.4/installing-upgrading/configuring/centos-rhel-firewall" >}}).
     - Answer `N` and configure the firewall on the node manually for your OS.
 
 - **Installation verification (rlcheck)** - `Would you like to run rlcheck to verify proper configuration? [Y/N]?`
@@ -62,11 +62,11 @@ Several questions appear during installation:
  
 ## Answer install questions automatically
 
-To perform a silent (or automated) install, answer the questions when you start the [install]({{< relref "/operate/rs/installing-upgrading/install/install-on-linux" >}}).  
+To perform a silent (or automated) install, answer the questions when you start the [install]({{< relref "/operate/rs/7.4/installing-upgrading/install/install-on-linux" >}}).  
 
 ### Answer yes to all questions
 
-To automatically answer `yes` to all questions (which accepts the default values), run the [installation script]({{< relref "/operate/rs/installing-upgrading/install/install-script" >}}) with the `-y` parameter:
+To automatically answer `yes` to all questions (which accepts the default values), run the [installation script]({{< relref "/operate/rs/7.4/installing-upgrading/install/install-script" >}}) with the `-y` parameter:
 
 ```bash
 ./install.sh -y
@@ -93,7 +93,7 @@ Use an answer file to manage your response:
 
     If you use `systune=yes`, the installation answers `yes` to all of the system tuning questions.
 
-1. Run the [installation script]({{< relref "/operate/rs/installing-upgrading/install/install-script" >}}) with the `-c` command-line option and add the path to the answer file.
+1. Run the [installation script]({{< relref "/operate/rs/7.4/installing-upgrading/install/install-script" >}}) with the `-c` command-line option and add the path to the answer file.
 
     For example:
 

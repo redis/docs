@@ -32,7 +32,7 @@ Get cluster events log.
 
 #### Example HTTP request
 
-	GET /logs?order=desc 
+	GET /v1/logs?order=desc 
 
 
 #### Request headers

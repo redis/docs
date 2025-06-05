@@ -33,7 +33,7 @@ Get the LDAP configuration.
 
 #### Example HTTP request
 
-	GET /cluster/ldap 
+	GET /v1/cluster/ldap 
 
 #### Request headers
 
@@ -56,10 +56,18 @@ Returns an [LDAP object]({{< relref "/operate/rs/references/rest-api/objects/lda
    "control_plane": false,
    "data_plane": false,
    "dn_group_attr": "MemberOf",
-   "dn_group_query": {},
+   "dn_group_query": {
+      "base": "DC=windowsAD,DC=qa,DC=redislabs,DC=com",
+      "filter": "member=%D",
+      "scope": "subtree"
+   },
    "starttls": false,
    "uris": ["ldap://ldap.example.org:636"],
-   "user_dn_query": {},
+   "user_dn_query": {
+      "base": "DC=windowsAD,DC=qa,DC=redislabs,DC=com",
+      "filter": "(&(objectClass=Person)(cn=%u))",
+      "scope": "subtree"
+   },
    "user_dn_template": "cn=%u, ou=users,dc=example,dc=org"
 }
 ```
@@ -86,7 +94,7 @@ Set or update the cluster LDAP configuration.
 
 #### Example HTTP request
 
-	POST /cluster/ldap 
+	POST /v1/cluster/ldap 
 
 #### Example JSON body
 
@@ -150,7 +158,7 @@ Clear the LDAP configuration.
 
 #### Example HTTP request
 
-	DELETE /cluster/ldap 
+	DELETE /v1/cluster/ldap 
 
 #### Request headers
 

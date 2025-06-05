@@ -40,6 +40,7 @@ To set manual maintenance windows for a single Redis Cloud Pro subscription:
     - Select the time that Redis can start performing maintenance on those days in the **From** drop-down.
     - Select the amount of time that Redis can perform maintenance in the **Duration** drop-down.
     - Select **+ Time Frame** to add another time frame for maintenance.
+    - Select **Advance notification** if you want to be notified of maintenance in advance.
 
     Redis recommends allowing maintenance on at least two different days for 8 hours on each day.
 
@@ -53,11 +54,11 @@ To skip maintenance temporarily for a subscription:
 
 1. Select the **Overview** tab.
 
-1. In the **Maintenance Windows** panel, select **Skip the next 7 days**.
+1. In the **Maintenance Windows** panel, select **Skip the next 14 days**.
 
 1. Click **Continue** to confirm your selection.
 
-You will only be allowed to skip maintenance twice in one month. 
+You will only be allowed to skip maintenance once per month. 
 
 During the skipped maintenance period, Redis will not perform any minor or major upgrades. Redis may perform [urgent maintenance]({{< relref "/operate/rc/subscriptions/maintenance#urgent-maintenance" >}}) on your subscription, but only if it is absolutely necessary.
 

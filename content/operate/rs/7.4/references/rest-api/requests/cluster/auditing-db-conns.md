@@ -22,19 +22,19 @@ url: '/operate/rs/7.4/references/rest-api/requests/cluster/auditing-db-conns/'
 
 	GET /v1/cluster/auditing/db_conns
 
-Gets the configuration settings for [auditing database connections]({{< relref "/operate/rs/security/audit-events" >}}).
+Gets the configuration settings for [auditing database connections]({{< relref "/operate/rs/7.4/security/audit-events" >}}).
 
 #### Required permissions
 
 | Permission name |
 |-----------------|
-| [view_cluster_info]({{< relref "/operate/rs/references/rest-api/permissions#view_cluster_info" >}}) |
+| [view_cluster_info]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_cluster_info" >}}) |
 
 ### Request {#get-request} 
 
 #### Example HTTP request
 
-	GET /cluster/auditing/db_conns 
+	GET /v1/cluster/auditing/db_conns 
 
 
 #### Request headers
@@ -46,7 +46,7 @@ Gets the configuration settings for [auditing database connections]({{< relref "
 
 ### Response {#get-response} 
 
-Returns a [database connection auditing configuration object]({{< relref "/operate/rs/references/rest-api/objects/db-conns-auditing-config" >}}).
+Returns a [database connection auditing configuration object]({{< relref "/operate/rs/7.4/references/rest-api/objects/db-conns-auditing-config" >}}).
 
 #### Example JSON body
 
@@ -79,19 +79,19 @@ When errors are reported, the server may return a JSON object with `error_code` 
 
 	PUT /v1/cluster/auditing/db_conns
 
-Updates the configuration settings for [auditing database connections]({{< relref "/operate/rs/security/audit-events" >}}).
+Updates the configuration settings for [auditing database connections]({{< relref "/operate/rs/7.4/security/audit-events" >}}).
 
 #### Required permissions
 
 | Permission name |
 |-----------------|
-| [update_cluster]({{< relref "/operate/rs/references/rest-api/permissions#update_cluster" >}}) |
+| [update_cluster]({{< relref "/operate/rs/7.4/references/rest-api/permissions#update_cluster" >}}) |
 
 ### Request {#put-request} 
 
 #### Example HTTP request
 
-	PUT /cluster/auditing/db_conns
+	PUT /v1/cluster/auditing/db_conns
 
 #### Example JSON body
 
@@ -114,11 +114,11 @@ Updates the configuration settings for [auditing database connections]({{< relre
 
 #### Request body
 
-Include a [database connection auditing configuration object]({{< relref "/operate/rs/references/rest-api/objects/db-conns-auditing-config" >}}) with updated fields in the request body.
+Include a [database connection auditing configuration object]({{< relref "/operate/rs/7.4/references/rest-api/objects/db-conns-auditing-config" >}}) with updated fields in the request body.
 
 ### Response {#put-response} 
 
-Returns the updated [database connection auditing configuration object]({{< relref "/operate/rs/references/rest-api/objects/db-conns-auditing-config" >}}).
+Returns the updated [database connection auditing configuration object]({{< relref "/operate/rs/7.4/references/rest-api/objects/db-conns-auditing-config" >}}).
 
 #### Example JSON body
 
@@ -151,19 +151,19 @@ When errors are reported, the server may return a JSON object with `error_code` 
 
 	DELETE /v1/cluster/auditing/db_conns
 
-Resets the configuration settings for [auditing database connections]({{< relref "/operate/rs/security/audit-events" >}}).
+Resets the configuration settings for [auditing database connections]({{< relref "/operate/rs/7.4/security/audit-events" >}}).
 
 #### Required permissions
 
 | Permission name |
 |-----------------|
-| [update_cluster]({{< relref "/operate/rs/references/rest-api/permissions#update_cluster" >}}) |
+| [update_cluster]({{< relref "/operate/rs/7.4/references/rest-api/permissions#update_cluster" >}}) |
 
 ### Request {#delete-request} 
 
 #### Example HTTP request
 
-	DELETE /cluster/auditing/db_conns 
+	DELETE /v1/cluster/auditing/db_conns 
 
 
 #### Request headers

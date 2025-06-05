@@ -24,7 +24,7 @@ If you only need synchronous connections then you may find the other Java client
 The sections below explain how to install `Lettuce` and connect your application
 to a Redis database.
 
-`Lettuce` requires a running Redis or [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) server. See [Getting started]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis installation instructions.
+`Lettuce` requires a running Redis server. See [here]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis Open Source installation instructions.
 
 ## Install
 
@@ -36,7 +36,7 @@ If you use Maven, add the following dependency to your `pom.xml`:
 <dependency>
     <groupId>io.lettuce</groupId>
     <artifactId>lettuce-core</artifactId>
-    <version>6.3.2.RELEASE</version> <!-- Check for the latest version on Maven Central -->
+    <version>6.7.1.RELEASE</version> <!-- Check for the latest version on Maven Central -->
 </dependency>
 ```
 
@@ -44,7 +44,7 @@ If you use Gradle, include this line in your `build.gradle` file:
 
 ```
 dependencies {
-    compileOnly 'io.lettuce:lettuce-core:6.3.2.RELEASE'
+    compileOnly 'io.lettuce:lettuce-core:6.7.1.RELEASE'
 }
 ```
 

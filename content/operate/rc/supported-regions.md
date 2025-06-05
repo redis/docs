@@ -27,7 +27,8 @@ Redis Cloud Pro databases on AWS support [VPC Peering]({{< relref "/operate/rc/s
 
 | Region ID      | Location                 | Redis Cloud Pro | Redis Cloud Essentials |
 |:---------------|:-------------------------|:----------------|:-----------------------|
-| `ca-central-1` | Montreal, Canada         | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
+| `ca-central-1` | Montreal, Canada         | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| `mx-central-1` | Central Mexico | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `sa-east-1`    | Sao Paulo, Brazil        | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `us-east-1`    | Northern Virginia, USA   | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `us-east-2`    | Ohio, USA                | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
@@ -41,7 +42,7 @@ Redis Cloud Pro databases on AWS support [VPC Peering]({{< relref "/operate/rc/s
 |---|---|---|---|
 | `eu-central-1` | Frankfurt, Germany | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `eu-central-2` | Zurich, Switzerland | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
-| `eu-north-1` | Stockholm, Sweden | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
+| `eu-north-1` | Stockholm, Sweden | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `eu-south-1` | Milan, Italy | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `eu-south-2` | Spain | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `eu-west-1` | Ireland | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
@@ -52,15 +53,18 @@ Redis Cloud Pro databases on AWS support [VPC Peering]({{< relref "/operate/rc/s
 
 | Region ID        | Location             | Redis Cloud Pro | Redis Cloud Essentials |
 |:-----------------|:---------------------|:----------------|:-----------------------|
-| `ap-east-1`      | Hong Kong, China     | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
+| `ap-east-1`      | Hong Kong, China     | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `ap-northeast-1` | Tokyo, Japan         | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `ap-northeast-2` | Seoul, South Korea   | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| `ap-northeast-3` | Osaka, Japan         | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `ap-south-1`     | Mumbai, India        | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `ap-south-2`     | Hyderabad, India     | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `ap-southeast-1` | Singapore            | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `ap-southeast-2` | Sydney, Australia    | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `ap-southeast-3` | Jakarta, Indonesia   | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `ap-southeast-4` | Melbourne, Australia | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
+| `ap-southeast-5` | Malaysia | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
+| `ap-southeast-7` | Thailand | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 
 #### Middle East and Africa
 
@@ -68,8 +72,8 @@ Redis Cloud Pro databases on AWS support [VPC Peering]({{< relref "/operate/rc/s
 |:---------------|:------------------------|:----------------|:-----------------------|
 | `af-south-1`   | Cape Town, South Africa | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `il-central-1` | Tel Aviv, Israel        | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
-| `me-central-1` | UAE                     | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
-| `me-south-1`   | Bahrain                 | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
+| `me-central-1` | UAE                     | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| `me-south-1`   | Bahrain                 | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 
 ## Google Cloud
 

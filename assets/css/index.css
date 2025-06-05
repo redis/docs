@@ -48,7 +48,7 @@ section.prose {
 }
 
 .prose h1 {
-  @apply text-4xl;
+  @apply text-4xl break-words;
 }
 
 .prose h1[id],
@@ -76,7 +76,7 @@ section.prose {
 
 .prose :where(li):not(:where([class~="not-prose"],[class~="not-prose"] *)),
 .prose :where(.prose > ol > li > p:last-child):not(:where([class~="not-prose"],[class~="not-prose"] *)),
-.prose :where(.prose > ol > li > p:first-child):not(:where([class~="not-prose"],[class~="not-prose"] *)) 
+.prose :where(.prose > ol > li > p:first-child):not(:where([class~="not-prose"],[class~="not-prose"] *))
 {
   @apply my-0;
 }
@@ -100,6 +100,11 @@ select {
 
 #TableOfContents a {
   @apply relative block text-redis-pen-600 hover:text-redis-pen-300 -my-0.5 py-1 pl-6 transition-colors leading-6;
+}
+
+/* Increase indentation for deeper nested items */
+#TableOfContents ul ul a {
+  @apply pl-10; /* Second level */
 }
 
 #TableOfContents a:before {
@@ -297,7 +302,7 @@ select {
 }
 
 .star-rating {
-  @apply flex flex-row-reverse justify-around text-center text-xl items-center; 
+  @apply flex flex-row-reverse justify-around text-center text-xl items-center;
 }
 
 .star-rating input {
@@ -306,18 +311,18 @@ select {
 
 .star-rating label {
   @apply cursor-pointer text-white;
-  /* 
-    From  https://owumaro.github.io/text-stroke-generator/ 
+  /*
+    From  https://owumaro.github.io/text-stroke-generator/
     Currently, there is not great way to text-stroke that works across browsers
     Alternative is to replace star character with SVG
   */
-  text-shadow: 
-    rgb(92, 112, 122) 1px 0px 0px, 
-    rgb(92, 112, 122) 0.540302px 0.841471px 0px, 
-    rgb(92, 112, 122) -0.416147px 0.909297px 0px, 
-    rgb(92, 112, 122) -0.989993px 0.14112px 0px, 
-    rgb(92, 112, 122) -0.653644px -0.756803px 0px, 
-    rgb(92, 112, 122) 0.283662px -0.958924px 0px, 
+  text-shadow:
+    rgb(92, 112, 122) 1px 0px 0px,
+    rgb(92, 112, 122) 0.540302px 0.841471px 0px,
+    rgb(92, 112, 122) -0.416147px 0.909297px 0px,
+    rgb(92, 112, 122) -0.989993px 0.14112px 0px,
+    rgb(92, 112, 122) -0.653644px -0.756803px 0px,
+    rgb(92, 112, 122) 0.283662px -0.958924px 0px,
     rgb(92, 112, 122) 0.96017px -0.279416px 0px;
 }
 
@@ -328,7 +333,7 @@ select {
 .star-rating label:hover,
 .star-rating label:hover ~ label {
   @apply text-redis-red-500;
-}      
+}
 
 .codetabs .label {
   min-width: 2rem;
@@ -498,7 +503,8 @@ html {
   scrollbar-gutter: stable;
 }
 
-/* Chroma syntax highlighting
+/* Chroma syntax highlighting */
+
 /* Background */
 .bg {
   @apply text-slate-50 bg-slate-900;
@@ -509,16 +515,10 @@ html {
   @apply p-4 overflow-x-auto text-slate-50 bg-slate-900 rounded-md;
 }
 
-/* Other */
-.chroma .x {}
-
 /* Error */
 .chroma .err {
   @apply text-red-600;
 }
-
-/* CodeLine */
-.chroma .cl {}
 
 /* LineLink */
 .chroma .lnlinks {
@@ -544,8 +544,6 @@ html {
   @apply flex bg-indigo-900/80;
 }
 
-code
-
 /* LineNumbersTable */
 .chroma .lnt {
   @apply text-slate-400 whitespace-pre pl-2 pr-4;
@@ -565,345 +563,167 @@ code
   @apply flex;
 }
 
-/* Keyword */
-.chroma .k {
-  @apply text-red-400;
-}
+/* Empty styles - Other, CodeLine, Name, NameAttribute, NameBuiltin, NameBuiltinPseudo, NameFunctionMagic, NameOther, NameVariableClass, NameVariableGlobal, NameVariableInstance, NameVariableMagic, Punctuation, Generic */
+.chroma .x,
+.chroma .cl,
+.chroma .n,
+.chroma .na,
+.chroma .nb,
+.chroma .bp,
+.chroma .fm,
+.chroma .nx,
+.chroma .vc,
+.chroma .vg,
+.chroma .vi,
+.chroma .vm,
+.chroma .p,
+.chroma .g {}
 
-/* KeywordConstant */
-.chroma .kc {
-  @apply text-blue-400;
-}
-
-/* KeywordDeclaration */
-.chroma .kd {
-  @apply text-red-400;
-}
-
-/* KeywordNamespace */
-.chroma .kn {
-  @apply text-red-400;
-}
-
-/* KeywordPseudo */
-.chroma .kp {
-  @apply text-blue-400;
-}
-
-/* KeywordReserved */
-.chroma .kr {
-  @apply text-red-400;
-}
-
-/* KeywordType */
+/* Keywords - Red (Keyword, KeywordDeclaration, KeywordNamespace, KeywordReserved, KeywordType) */
+.chroma .k,
+.chroma .kd,
+.chroma .kn,
+.chroma .kr,
 .chroma .kt {
   @apply text-red-400;
 }
 
-/* Name */
-.chroma .n {}
-
-/* NameAttribute */
-.chroma .na {}
-
-/* NameBuiltin */
-.chroma .nb {}
-
-/* NameBuiltinPseudo */
-.chroma .bp {}
-
-/* NameClass */
-.chroma .nc {
-  @apply text-orange-400 font-bold;
+/* Keywords - Blue (KeywordConstant, KeywordPseudo) */
+.chroma .kc,
+.chroma .kp {
+  @apply text-blue-400;
 }
 
-/* NameConstant */
-.chroma .no {
-  @apply text-blue-400 font-bold;
-}
-
-/* NameDecorator */
-.chroma .nd {
-  @apply text-purple-300 font-bold;
-}
-
-/* NameEntity */
+/* Names - Orange (NameEntity) */
 .chroma .ni {
   @apply text-orange-400;
 }
 
-/* NameException */
+/* Names - Orange Bold (NameClass, NameException) */
+.chroma .nc,
 .chroma .ne {
   @apply text-orange-400 font-bold;
 }
 
-/* NameFunction */
+/* Names - Purple Bold (NameDecorator, NameFunction) */
+.chroma .nd,
 .chroma .nf {
   @apply text-purple-300 font-bold;
 }
 
-/* NameFunctionMagic */
-.chroma .fm {}
+/* Names - Blue (NameProperty, NameVariable) */
+.chroma .py,
+.chroma .nv {
+  @apply text-blue-400;
+}
 
-/* NameLabel */
+/* Names - Blue Bold (NameConstant, NameLabel) */
+.chroma .no,
 .chroma .nl {
   @apply text-blue-400 font-bold;
 }
 
-/* NameNamespace */
+/* Names - Red (NameNamespace) */
 .chroma .nn {
   @apply text-red-400;
 }
 
-/* NameOther */
-.chroma .nx {}
-
-/* NameProperty */
-.chroma .py {
-  @apply text-blue-400;
-}
-
-/* NameTag */
+/* Names - Green (NameTag) */
 .chroma .nt {
   @apply text-green-400;
 }
 
-/* NameVariable */
-.chroma .nv {
-  @apply text-blue-400
-}
-
-/* NameVariableClass */
-.chroma .vc {}
-
-/* NameVariableGlobal */
-.chroma .vg {}
-
-/* NameVariableInstance */
-.chroma .vi {}
-
-/* NameVariableMagic */
-.chroma .vm {}
-
-/* Literal */
-.chroma .l {
-  @apply text-blue-400;
-}
-
-/* LiteralDate */
-.chroma .ld {
-  @apply text-blue-400;
-}
-
-/* LiteralString */
-.chroma .s {
-  @apply text-blue-400;
-}
-
-/* LiteralStringAffix */
-.chroma .sa {
-  @apply text-blue-400
-}
-
-/* LiteralStringBacktick */
-.chroma .sb {
-  @apply text-blue-400;
-}
-
-/* LiteralStringChar */
-.chroma .sc {
-  @apply text-blue-400;
-}
-
-/* LiteralStringDelimiter */
-.chroma .dl {
-  @apply text-blue-400
-}
-
-/* LiteralStringDoc */
-.chroma .sd {
-  @apply text-blue-400;
-}
-
-/* LiteralStringDouble */
-.chroma .s2 {
-  @apply text-blue-400;
-}
-
-/* LiteralStringEscape */
-.chroma .se {
-  @apply text-blue-400
-}
-
-/* LiteralStringHeredoc */
-.chroma .sh {
-  @apply text-blue-400
-}
-
-/* LiteralStringInterpol */
-.chroma .si {
-  @apply text-blue-400;
-}
-
-/* LiteralStringOther */
-.chroma .sx {
-  @apply text-blue-400;
-}
-
-/* LiteralStringRegex */
-.chroma .sr {
-  @apply text-blue-400
-}
-
-/* LiteralStringSingle */
-.chroma .s1 {
-  @apply text-blue-400;
-}
-
-/* LiteralStringSymbol */
-.chroma .ss {
-  @apply text-blue-400;
-}
-
-/* LiteralNumber */
-.chroma .m {
-  @apply text-blue-400;
-}
-
-/* LiteralNumberBin */
-.chroma .mb {
-  @apply text-blue-400;
-}
-
-/* LiteralNumberFloat */
-.chroma .mf {
-  @apply text-blue-400;
-}
-
-/* LiteralNumberHex */
-.chroma .mh {
-  @apply text-blue-400;
-}
-
-/* LiteralNumberInteger */
-.chroma .mi {
-  @apply text-blue-400;
-}
-
-/* LiteralNumberIntegerLong */
-.chroma .il {
-  @apply text-blue-400;
-}
-
-/* LiteralNumberOct */
+/* Literals - Blue (All literal types: Literal, LiteralDate, LiteralString*, LiteralNumber*) */
+.chroma .l,
+.chroma .ld,
+.chroma .s,
+.chroma .sa,
+.chroma .sb,
+.chroma .sc,
+.chroma .dl,
+.chroma .sd,
+.chroma .s2,
+.chroma .se,
+.chroma .sh,
+.chroma .si,
+.chroma .sx,
+.chroma .sr,
+.chroma .s1,
+.chroma .ss,
+.chroma .m,
+.chroma .mb,
+.chroma .mf,
+.chroma .mh,
+.chroma .mi,
+.chroma .il,
 .chroma .mo {
   @apply text-blue-400;
 }
 
-/* Operator */
-.chroma .o {
-  @apply text-red-400 font-bold;
-}
-
-/* OperatorWord */
+/* Operators - Red Bold (Operator, OperatorWord) */
+.chroma .o,
 .chroma .ow {
   @apply text-red-400 font-bold;
 }
 
-/* Punctuation */
-.chroma .p {}
-
-/* Comment */
-.chroma .c {
-  @apply text-slate-500;
-  font-style: italic
-}
-
-/* CommentHashbang */
-.chroma .ch {
-  @apply text-slate-500;
-  font-style: italic
-}
-
-/* CommentMultiline */
-.chroma .cm {
-  @apply text-slate-500 italic;
-}
-
-/* CommentSingle */
+/* Comments - Slate Italic (Comment, CommentHashbang, CommentMultiline, CommentSingle) */
+.chroma .c,
+.chroma .ch,
+.chroma .cm,
 .chroma .c1 {
   @apply text-slate-500 italic;
 }
 
-/* CommentSpecial */
-.chroma .cs {
-  @apply text-slate-500 font-bold italic;
-}
-
-/* CommentPreproc */
-.chroma .cp {
-  @apply text-slate-500 font-bold italic;
-}
-
-/* CommentPreprocFile */
+/* Comments - Slate Bold Italic (CommentSpecial, CommentPreproc, CommentPreprocFile) */
+.chroma .cs,
+.chroma .cp,
 .chroma .cpf {
   @apply text-slate-500 font-bold italic;
 }
 
-/* Generic */
-.chroma .g {}
-
-/* GenericDeleted */
+/* Generic - Red (GenericDeleted with background, GenericError) */
 .chroma .gd {
   @apply text-red-300 bg-red-900;
 }
 
-/* GenericEmph */
-.chroma .ge {
-  @apply italic;
-}
-
-/* GenericError */
 .chroma .gr {
   @apply text-red-300;
 }
 
-/* GenericHeading */
-.chroma .gh {
-  @apply text-blue-400 font-bold;
-}
-
-/* GenericInserted */
-.chroma .gi {
-  @apply text-green-400 bg-green-900;
-}
-
-/* GenericOutput */
-.chroma .go {
-  @apply text-slate-400;
-}
-
-/* GenericPrompt */
-.chroma .gp {
-  @apply text-slate-400;
-}
-
-/* GenericStrong */
-.chroma .gs {
-  @apply font-bold;
-}
-
-/* GenericSubheading */
-.chroma .gu {
-  @apply text-blue-400;
-}
-
-/* GenericTraceback */
+/* Generic - Red 400 (GenericTraceback) */
 .chroma .gt {
   @apply text-red-400;
 }
 
-/* GenericUnderline */
+/* Generic - Blue (GenericHeading with bold, GenericSubheading) */
+.chroma .gh {
+  @apply text-blue-400 font-bold;
+}
+
+.chroma .gu {
+  @apply text-blue-400;
+}
+
+/* Generic - Green (GenericInserted) */
+.chroma .gi {
+  @apply text-green-400 bg-green-900;
+}
+
+/* Generic - Slate (GenericOutput, GenericPrompt) */
+.chroma .go,
+.chroma .gp {
+  @apply text-slate-400;
+}
+
+/* Generic - Formatting (GenericEmph, GenericStrong, GenericUnderline) */
+.chroma .ge {
+  @apply italic;
+}
+
+.chroma .gs {
+  @apply font-bold;
+}
+
 .chroma .gl {
   @apply underline;
 }
@@ -917,6 +737,58 @@ input[type="radio"] {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+}
+
+/* Generic GitHub-style tabs */
+.generic-tabs {
+  @apply w-full mb-6;
+}
+
+.generic-tabs .tab-nav {
+  @apply flex border-b border-redis-pen-300 bg-redis-neutral-200 rounded-t-md;
+}
+
+.generic-tabs .tab-radio {
+  @apply sr-only;
+}
+
+.generic-tabs .tab-label {
+  @apply px-4 py-3 cursor-pointer text-sm font-medium text-redis-pen-600
+         bg-redis-neutral-200 border-r border-redis-pen-300
+         hover:bg-white hover:text-redis-ink-900
+         transition-colors duration-150 ease-in-out
+         focus:outline-none focus:ring-2 focus:ring-redis-red-500 focus:ring-inset
+         first:rounded-tl-md select-none;
+}
+
+.generic-tabs .tab-label:last-child {
+  @apply border-r-0 rounded-tr-md;
+}
+
+.generic-tabs .tab-radio:checked + .tab-label {
+  @apply bg-white text-redis-ink-900 border-b-2 border-b-redis-red-500 -mb-px relative z-10;
+}
+
+.generic-tabs .tab-radio:focus + .tab-label {
+  @apply border-b-2 border-b-redis-red-500 -mb-px;
+}
+
+.generic-tabs .tab-content {
+  @apply hidden px-6 pb-6 pt-3 bg-white border border-t-0 border-redis-pen-300 rounded-b-md shadow-sm;
+}
+
+.generic-tabs .tab-content.active {
+  @apply block;
+}
+
+/* Ensure proper stacking and borders */
+.generic-tabs .tab-content-container {
+  @apply relative -mt-px;
+}
+
+/* Single content box styling (when no explicit tabs are provided) */
+.generic-tabs-single .tab-content-single {
+  @apply prose prose-lg max-w-none;
 }
 
 .stack-logo-inline {
@@ -1068,4 +940,25 @@ a[href*="#no-click"], img[src*="#no-click"] {
 
 .dd-item .highlight:hover {
   color: #5961ff;
+}
+
+.copy-button {
+  background-color: #eee;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.copy-button svg {
+  width: 16px;
+  height: 16px;
+  fill: #333;
+}
+
+.copy-button:hover {
+  background-color: #ddd;
 }

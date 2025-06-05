@@ -1,0 +1,4 @@
+{{ $raw := resources.GetRemote (.Get 0) }}
+{{ $data := transform.Unmarshal $raw.Content }}
+{{ $prettyJson := $data | jsonify (dict "prefix" " " "indent" "  ") }}
+{{ highlight $prettyJson "json" "" }}

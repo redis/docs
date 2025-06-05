@@ -14,21 +14,33 @@
       {{ partial "meta-links.html" $this }}
       <!-- Combines current file's headers with embed headers since .TableOfContents doesn't include embed headers. Front matter must include "tocEmbedHeaders: true". -->
       {{ if and $showEmbedHeaders $has_headers }}
-        <h1 class="font-medium my-3">On this page</h1>
+        <h2 class="font-medium my-3">On this page</h2>
         <nav class="text-slate-700">
           <nav id="TableOfContents">
-            <ul>
+            {{ $prevLevel := 1 }}
               {{ range $i, $header := $headers }}
                 {{ $genAnchor := index (split (index (split $header "id=\"") 1) "\"") 0 }}
                 {{ $anchorID := $genAnchor }}
-                <li><a href="#{{ $anchorID }}">{{ $header | plainify | safeHTML }}</a></li>
-              {{end}}
-            </ul>
+                {{ $level := index (findRE "<h([1-6])" $header 1) 0 | replaceRE "<h([1-6])" "$1" | int }}
+                {{ if gt $level $prevLevel }}
+                  <ul>
+                {{ else if lt $level $prevLevel }}
+                  <!-- Close the previous list(s) if this header is shallower -->
+                  {{ range seq (sub $prevLevel $level) }}</ul></li>{{ end }}
+                {{ else if gt $i 0 }}
+                  <!-- Close previous list item -->
+                  </li>
+                {{ end }}
+                <li><a href="#{{ $anchorID }}">{{ $header | plainify | safeHTML }}</a>
+                {{ $prevLevel = $level }}
+              {{ end }}
+              <!-- Close remaining open lists -->
+              {{ range seq (sub $prevLevel 1) }}</ul></li>{{ end }}
           </nav>
         </nav>
       <!-- Use Hugo's .TableOfContents by default -->
       {{ else if gt (len .) 32 }}
-        <h1 class="font-medium my-3">On this page</h1>
+        <h2 class="font-medium my-3">On this page</h2>
         <nav class="text-slate-700">
           {{ . }}
         </nav>

@@ -131,7 +131,7 @@ Get a single database.
 #### Example HTTP request
 
 ```sh
-GET /bdbs/1
+GET /v1/bdbs/1
 ```
 
 #### Headers
@@ -200,7 +200,7 @@ To track this request's progress, poll the [`/actions/<action_uid>` endpoint]({{
 #### Example HTTP request
 
 ```sh
-PUT /bdbs/1
+PUT /v1/bdbs/1
 ```
 
 #### Headers
@@ -308,7 +308,7 @@ If called with the `dry_run` URL query string, the function will validate the [B
 #### Example HTTP request
 
 ```sh
-PUT /bdbs/1/reset_admin_pass
+PUT /v1/bdbs/1/reset_admin_pass
 ```
 The above request resets the admin password after updating the database.
 
@@ -425,7 +425,7 @@ The cluster will use default configuration for any missing database field. The c
 #### Example HTTP request
 
 ```sh
-POST /bdbs
+POST /v1/bdbs
 ```
 
 #### Headers
@@ -581,11 +581,12 @@ Include a JSON object that contains a [BDB object]({{< relref "/operate/rs/refer
         "shards_count": 1
     },
     "recovery_plan": {
-        "data_files": [
+        "original_bdb_shards": [
             {
-                "shard_slots": "0-16383",
-                "node_uid": "1",
-                "filename": "redis-4.rdb"
+                "assigned_slots": "0-16383",
+                "node_uid": "1", 
+                "role": "master", 
+                "uid": "1"
             }
         ]
     }
@@ -627,7 +628,7 @@ Delete an active database.
 #### Example HTTP request
 
 ```sh
-DELETE /bdbs/1
+DELETE /v1/bdbs/1
 ```
 #### Headers
 

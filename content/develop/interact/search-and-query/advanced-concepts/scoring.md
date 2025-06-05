@@ -17,13 +17,13 @@ weight: 8
 
 When searching, documents are scored based on their relevance to the query. The score is a floating point number between 0.0 and 1.0, where 1.0 is the highest score. The score is returned as part of the search results and can be used to sort the results.
 
-Redis Stack comes with a few very basic scoring functions to evaluate document relevance. They are all based on document scores and term frequency. This is regardless of the ability to use [sortable fields]({{< relref "/develop/interact/search-and-query/advanced-concepts/sorting" >}}). Scoring functions are specified by adding the `SCORER {scorer_name}` argument to a search query.
+Redis Open Source comes with a few very basic scoring functions to evaluate document relevance. They are all based on document scores and term frequency. This is regardless of the ability to use [sortable fields]({{< relref "/develop/interact/search-and-query/advanced-concepts/sorting" >}}). Scoring functions are specified by adding the `SCORER {scorer_name}` argument to a search query.
 
 If you prefer a custom scoring function, it is possible to add more functions using the [extension API]({{< relref "/develop/interact/search-and-query/administration/extensions" >}}).
 
-The following is a list of the pre-bundled scoring functions available in Redis Stack and a short explanation about how they work. Each function is mentioned by registered name, which can be passed as a `SCORER` argument in [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/).
+The following is a list of the pre-bundled scoring functions available in Redis and a short explanation about how they work. Each function is mentioned by registered name, which can be passed as a `SCORER` argument in [`FT.SEARCH`]({{< relref "/commands/ft.search/" >}}).
 
-## TFIDF (default)
+## TFIDF
 
 Basic [TF-IDF scoring](https://en.wikipedia.org/wiki/Tf%E2%80%93idf) with a few extra features:
 
@@ -76,7 +76,7 @@ Term frequencies are normalized by the length of the document, expressed as the 
 FT.SEARCH myIndex "foo" SCORER TFIDF.DOCNORM
 ```
 
-## BM25
+## BM25 (default)
 
 A variation on the basic `TFIDF` scorer, see [this Wikipedia article for more info](https://en.wikipedia.org/wiki/Okapi_BM25).
 

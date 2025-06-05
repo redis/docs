@@ -100,7 +100,7 @@ make pytest        # run flow tests using RLTest
   GEN=1              # run general tests on a standalone Redis topology
   AOF=1              # run AOF persistency tests on a standalone Redis topology
   SLAVES=1           # run replication tests on standalone Redis topology
-  CLUSTER=1          # run general tests on a Redis Community Edition Cluster topology
+  CLUSTER=1          # run general tests on a Redis Open Source Cluster topology
   VALGRIND|VG=1      # run specified tests with Valgrind
   VERBOSE=1          # display more RLTest-related information
 

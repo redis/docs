@@ -28,13 +28,13 @@ Get all alert states for all nodes.
 
 | Permission name |
 |-----------------|
-| [view_all_nodes_alerts]({{< relref "/operate/rs/references/rest-api/permissions#view_all_nodes_alerts" >}}) |
+| [view_all_nodes_alerts]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_all_nodes_alerts" >}}) |
 
 ### Request {#get-all-request} 
 
 #### Example HTTP request
 
-	GET /nodes/alerts 
+	GET /v1/nodes/alerts 
 
 #### Request headers
 
@@ -51,7 +51,7 @@ Get all alert states for all nodes.
 
 ### Response {#get-all-response} 
 
-Returns a hash of node UIDs and the [alert states]({{< relref "/operate/rs/references/rest-api/objects/alert" >}}) for each node.
+Returns a hash of node UIDs and the [alert states]({{< relref "/operate/rs/7.4/references/rest-api/objects/alert" >}}) for each node.
 
 #### Example JSON body
 
@@ -91,13 +91,13 @@ Get all alert states for a node.
 
 | Permission name |
 |-----------------|
-| [view_node_alerts]({{< relref "/operate/rs/references/rest-api/permissions#view_node_alerts" >}}) |
+| [view_node_alerts]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_node_alerts" >}}) |
 
 ### Request {#get-request-all-alerts} 
 
 #### Example HTTP request
 
-	GET /nodes/alerts/1 
+	GET /v1/nodes/alerts/1 
 
 
 #### Request headers
@@ -116,7 +116,7 @@ Get all alert states for a node.
 
 ### Response {#get-response-all-alerts} 
 
-Returns a hash of [alert objects]({{< relref "/operate/rs/references/rest-api/objects/alert" >}}) and their states for a specific node.
+Returns a hash of [alert objects]({{< relref "/operate/rs/7.4/references/rest-api/objects/alert" >}}) and their states for a specific node.
 
 #### Example JSON body
 
@@ -154,13 +154,13 @@ Get a node alert state.
 
 | Permission name |
 |-----------------|
-| [view_node_alerts]({{< relref "/operate/rs/references/rest-api/permissions#view_node_alerts" >}}) |
+| [view_node_alerts]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_node_alerts" >}}) |
 
 ### Request {#get-request} 
 
 #### Example HTTP request
 
-	GET /nodes/alerts/1/node_cpu_utilization 
+	GET /v1/nodes/alerts/1/node_cpu_utilization 
 
 
 #### Request headers
@@ -179,7 +179,7 @@ Get a node alert state.
 
 ### Response {#get-response} 
 
-Returns an [alert object]({{< relref "/operate/rs/references/rest-api/objects/alert" >}}).
+Returns an [alert object]({{< relref "/operate/rs/7.4/references/rest-api/objects/alert" >}}).
 
 #### Example JSON body
 

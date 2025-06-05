@@ -28,13 +28,13 @@ Gets the cluster's OCSP configuration.
 
 | Permission name |
 |-----------------|
-| [view_ocsp_config]({{< relref "/operate/rs/references/rest-api/permissions#view_ocsp_config" >}}) |
+| [view_ocsp_config]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_ocsp_config" >}}) |
 
 ### Request {#get-request} 
 
 #### Example HTTP request
 
-	GET /ocsp 
+	GET /v1/ocsp 
 
 
 #### Request headers
@@ -46,7 +46,7 @@ Gets the cluster's OCSP configuration.
 
 ### Response {#get-response} 
 
-Returns an [OCSP configuration object]({{< relref "/operate/rs/references/rest-api/objects/ocsp" >}}).
+Returns an [OCSP configuration object]({{< relref "/operate/rs/7.4/references/rest-api/objects/ocsp" >}}).
 
 #### Example JSON body
 
@@ -86,13 +86,13 @@ Updates the cluster's OCSP configuration.
 
 | Permission name |
 |-----------------|
-| [config_ocsp]({{< relref "/operate/rs/references/rest-api/permissions#config_ocsp" >}}) |
+| [config_ocsp]({{< relref "/operate/rs/7.4/references/rest-api/permissions#config_ocsp" >}}) |
 
 ### Request {#put-request} 
 
 #### Example HTTP request
 
-	PUT /ocsp 
+	PUT /v1/ocsp 
 
 #### Example JSON body
 
@@ -115,11 +115,11 @@ Updates the cluster's OCSP configuration.
 
 #### Request body
 
-Include an [OCSP configuration object]({{< relref "/operate/rs/references/rest-api/objects/ocsp" >}}) with updated fields in the request body.
+Include an [OCSP configuration object]({{< relref "/operate/rs/7.4/references/rest-api/objects/ocsp" >}}) with updated fields in the request body.
 
 ### Response {#put-response} 
 
-Returns the updated [OCSP configuration object]({{< relref "/operate/rs/references/rest-api/objects/ocsp" >}}).
+Returns the updated [OCSP configuration object]({{< relref "/operate/rs/7.4/references/rest-api/objects/ocsp" >}}).
 
 ### Error codes {#put-error-codes} 
 

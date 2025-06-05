@@ -29,7 +29,7 @@ The status of a completed task is kept for 500 seconds by default.
 
 #### Example HTTP request
 
-    GET /crdb_tasks/1
+    GET /v1/crdb_tasks/1
 
 #### Request headers
 
@@ -45,7 +45,7 @@ The status of a completed task is kept for 500 seconds by default.
 
 ### Response {#get-response} 
 
-Returns a [CRDB task object]({{< relref "/operate/rs/references/rest-api/objects/crdb_task" >}}).
+Returns a [CRDB task object]({{< relref "/operate/rs/7.4/references/rest-api/objects/crdb_task" >}}).
 
 ### Status codes {#get-status-codes} 
 

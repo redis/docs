@@ -11,11 +11,11 @@ linkTitle: Global configuration
 weight: 50
 url: '/operate/kubernetes/7.4.6/active-active/global-config/'
 ---
-{{<note>}}This feature is supported for general availability in releases 6.4.2-6 and later. Some of these features were available as a preview in 6.4.2-4 and 6.4.2-5. Please upgrade to 6.4.2-6 for the full set of general availability features and bug fixes.{{</note>}}
+
 
 The Redis Enterprise Active-Active database (REAADB) custom resource contains the field `.spec.globalConfigurations`. This field sets configurations for the Active-Active database across all participating clusters, such as memory size, shard count, and the global database secrets.
 
-The [REAADB API reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_active_active_database_api">}}) contains a full list of available fields.
+The [REAADB API reference]({{<relref "/operate/kubernetes/7.4.6/reference/redis_enterprise_active_active_database_api">}}) contains a full list of available fields.
 
 ## Edit global configurations
 
@@ -47,7 +47,7 @@ The [REAADB API reference]({{<relref "/operate/kubernetes/reference/redis_enterp
 
 ## Edit global configuration secrets
 
-This section edits the secrets under the REAADB `.spec.globalConfigurations` section. For more information and all available fields, see the [REAADB API reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_active_active_database_api">}}).
+This section edits the secrets under the REAADB `.spec.globalConfigurations` section. For more information and all available fields, see the [REAADB API reference]({{<relref "/operate/kubernetes/7.4.6/reference/redis_enterprise_active_active_database_api">}}).
 
 
 1. On an existing participating cluster, generate a YAML file containing the database secret with the relevant data.

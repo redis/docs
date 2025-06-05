@@ -491,31 +491,39 @@ dataset for big keys, but also provides information about the data types
 that the data set consists of. This mode is enabled with the `--bigkeys` option,
 and produces verbose output:
 
-    $ redis-cli --bigkeys
+```
+$ redis-cli --bigkeys
 
-    # Scanning the entire keyspace to find biggest keys as well as
-    # average sizes per key type.  You can use -i 0.01 to sleep 0.01 sec
-    # per SCAN command (not usually needed).
+# Scanning the entire keyspace to find biggest keys as well as
+# average sizes per key type.  You can use -i 0.1 to sleep 0.1 sec
+# per 100 SCAN commands (not usually needed).
 
-    [00.00%] Biggest string found so far 'key-419' with 3 bytes
-    [05.14%] Biggest list   found so far 'mylist' with 100004 items
-    [35.77%] Biggest string found so far 'counter:__rand_int__' with 6 bytes
-    [73.91%] Biggest hash   found so far 'myobject' with 3 fields
+100.00% ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+Keys sampled: 55
 
-    -------- summary -------
+-------- summary -------
 
-    Sampled 506 keys in the keyspace!
-    Total key length in bytes is 3452 (avg len 6.82)
+Total key length in bytes is 495 (avg len 9.00)
 
-    Biggest string found 'counter:__rand_int__' has 6 bytes
-    Biggest   list found 'mylist' has 100004 items
-    Biggest   hash found 'myobject' has 3 fields
+Biggest   list found "bikes:finished" has 1 items
+Biggest string found "all_bikes" has 36 bytes
+Biggest   hash found "bike:1:stats" has 3 fields
+Biggest stream found "race:france" has 4 entries
+Biggest    set found "bikes:racing:france" has 3 members
+Biggest   zset found "racer_scores" has 8 members
 
-    504 strings with 1403 bytes (99.60% of keys, avg size 2.78)
-    1 lists with 100004 items (00.20% of keys, avg size 100004.00)
-    0 sets with 0 members (00.00% of keys, avg size 0.00)
-    1 hashs with 3 fields (00.20% of keys, avg size 3.00)
-    0 zsets with 0 members (00.00% of keys, avg size 0.00)
+1 lists with 1 items (01.82% of keys, avg size 1.00)
+16 strings with 149 bytes (29.09% of keys, avg size 9.31)
+1 MBbloomCFs with 0 ? (01.82% of keys, avg size 0.00)
+1 hashs with 3 fields (01.82% of keys, avg size 3.00)
+3 streams with 8 entries (05.45% of keys, avg size 2.67)
+2 TDIS-TYPEs with 0 ? (03.64% of keys, avg size 0.00)
+1 TopK-TYPEs with 0 ? (01.82% of keys, avg size 0.00)
+2 sets with 5 members (03.64% of keys, avg size 2.50)
+1 CMSk-TYPEs with 0 ? (01.82% of keys, avg size 0.00)
+2 zsets with 11 members (03.64% of keys, avg size 5.50)
+25 ReJSON-RLs with 0 ? (45.45% of keys, avg size 0.00)
+```
 
 In the first part of the output, each new key larger than the previous larger
 key (of the same type) encountered is reported. The summary section
@@ -540,11 +548,127 @@ The `--bigkeys` option now works on cluster replicas.
 Similar to the `--bigkeys` option, `--memkeys` allows you to scan the entire keyspace to find biggest keys as well as
 the average sizes per key type.
 
+```
+$ redis-cli --memkeys
+
+# Scanning the entire keyspace to find biggest keys as well as
+# average sizes per key type.  You can use -i 0.1 to sleep 0.1 sec
+# per 100 SCAN commands (not usually needed).
+
+100.00% ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+Keys sampled: 55
+
+-------- summary -------
+
+Total key length in bytes is 495 (avg len 9.00)
+
+Biggest   list found "bikes:finished" has 104 bytes
+Biggest string found "all_bikes" has 120 bytes
+Biggest MBbloomCF found "bikes:models" has 1048680 bytes
+Biggest   hash found "bike:1:stats" has 104 bytes
+Biggest stream found "race:italy" has 7172 bytes
+Biggest TDIS-TYPE found "bikes:sales" has 9832 bytes
+Biggest TopK-TYPE found "bikes:keywords" has 114256 bytes
+Biggest    set found "bikes:racing:france" has 120 bytes
+Biggest CMSk-TYPE found "bikes:profit" has 144056 bytes
+Biggest   zset found "racer_scores" has 168 bytes
+Biggest ReJSON-RL found "bikes:inventory" has 4865 bytes
+
+1 lists with 104 bytes (01.82% of keys, avg size 104.00)
+16 strings with 1360 bytes (29.09% of keys, avg size 85.00)
+1 MBbloomCFs with 1048680 bytes (01.82% of keys, avg size 1048680.00)
+1 hashs with 104 bytes (01.82% of keys, avg size 104.00)
+3 streams with 16960 bytes (05.45% of keys, avg size 5653.33)
+2 TDIS-TYPEs with 19648 bytes (03.64% of keys, avg size 9824.00)
+1 TopK-TYPEs with 114256 bytes (01.82% of keys, avg size 114256.00)
+2 sets with 208 bytes (03.64% of keys, avg size 104.00)
+1 CMSk-TYPEs with 144056 bytes (01.82% of keys, avg size 144056.00)
+2 zsets with 304 bytes (03.64% of keys, avg size 152.00)
+25 ReJSON-RLs with 15748 bytes (45.45% of keys, avg size 629.92)
+```
+
 The `--memkeys` option now works on cluster replicas.
 
 ### Combine `--bigkeys` and `--memkeys`
 
 You can use the `--keystats` and `--keystats-samples` options to combine `--memkeys` and `--bigkeys` with additional distribution data.
+
+```
+$ redis-cli --keystats
+
+# Scanning the entire keyspace to find the biggest keys and distribution information.
+# Use -i 0.1 to sleep 0.1 sec per 100 SCAN commands (not usually needed).
+# Use --cursor <n> to start the scan at the cursor <n> (usually after a Ctrl-C).
+# Use --top <n> to display <n> top key sizes (default is 10).
+# Ctrl-C to stop the scan.
+
+100.00% ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+Keys sampled: 55
+Keys size:    1.30M
+
+--- Top 10 key sizes ---
+  1    1.00M MBbloomCF  "bikes:models"
+  2  140.68K CMSk-TYPE  "bikes:profit"
+  3  111.58K TopK-TYPE  "bikes:keywords"
+  4    9.60K TDIS-TYPE  "bikes:sales"
+  5    9.59K TDIS-TYPE  "racer_ages"
+  6    7.00K stream     "race:italy"
+  7    4.92K stream     "race:france"
+  8    4.75K ReJSON-RL  "bikes:inventory"
+  9    4.64K stream     "race:usa"
+ 10    1.26K ReJSON-RL  "bicycle:7"
+
+--- Top size per type ---
+list       bikes:finished is 104B
+string     all_bikes is 120B
+MBbloomCF  bikes:models is 1.00M
+hash       bike:1:stats is 104B
+stream     race:italy is 7.00K
+TDIS-TYPE  bikes:sales is 9.60K
+TopK-TYPE  bikes:keywords is 111.58K
+set        bikes:racing:france is 120B
+CMSk-TYPE  bikes:profit is 140.68K
+zset       racer_scores is 168B
+ReJSON-RL  bikes:inventory is 4.75K
+
+--- Top length and cardinality per type ---
+list       bikes:finished has 1 items
+string     all_bikes has 36B
+hash       bike:1:stats has 3 fields
+stream     race:france has 4 entries
+set        bikes:racing:france has 3 members
+zset       racer_scores has 8 members
+
+Key size Percentile Total keys
+-------- ---------- -----------
+     64B    0.0000%           3
+    239B   50.0000%          28
+    763B   75.0000%          42
+   4.92K   87.5000%          49
+   9.60K   93.7500%          52
+ 140.69K   96.8750%          54
+   1.00M  100.0000%          55
+Note: 0.01% size precision, Mean: 24.17K, StdDeviation: 138.12K
+
+Key name length Percentile Total keys
+--------------- ---------- -----------
+            19B  100.0000%          55
+Total key length is 495B (9B avg)
+
+Type        Total keys  Keys % Tot size Avg size  Total length/card Avg ln/card
+--------- ------------ ------- -------- -------- ------------------ -----------
+list                 1   1.82%     104B     104B            1 items        1.00
+string              16  29.09%    1.33K      85B               149B          9B
+MBbloomCF            1   1.82%    1.00M    1.00M                 -           - 
+hash                 1   1.82%     104B     104B           3 fields        3.00
+stream               3   5.45%   16.56K    5.52K          8 entries        2.67
+TDIS-TYPE            2   3.64%   19.19K    9.59K                 -           - 
+TopK-TYPE            1   1.82%  111.58K  111.58K                 -           - 
+set                  2   3.64%     208B     104B          5 members        2.50
+CMSk-TYPE            1   1.82%  140.68K  140.68K                 -           - 
+zset                 2   3.64%     304B     152B         11 members        5.50
+ReJSON-RL           25  45.45%   15.38K     629B                 -           - 
+```
 
 ## Get a list of keys
 

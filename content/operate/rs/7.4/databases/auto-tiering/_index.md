@@ -24,7 +24,7 @@ Redis Enterprise’s auto tiering is based on a high-performance storage engine 
 
 Just like all-RAM databases, databases with Auto Tiering enabled are compatible with existing Redis applications.
 
-Auto Tiering is also supported on [Redis Cloud]({{< relref "/operate/rc/" >}}) and [Redis Enterprise Software for Kubernetes]({{< relref "/operate/rs/" >}}).
+Auto Tiering is also supported on [Redis Cloud]({{< relref "/operate/rc/" >}}) and [Redis Enterprise Software for Kubernetes]({{< relref "/operate/kubernetes/" >}}).
 
 ## Use cases
 
@@ -87,7 +87,7 @@ we recommend working closely with the Redis technical team for sizing and perfor
 
 When running in a cloud environment:
 
-- Flash memory is on the ephemeral SSDs of the cloud instance (for example the local NVMe of AWS i4i instnaces and Azure Lsv2 and Lsv3 series).
+- Flash memory is on the ephemeral SSDs of the cloud instance (for example the local NVMe of AWS i4i instances and Azure Lsv2 and Lsv3 series).
 - Persistent database storage needs to be network attached (for example, AWS EBS for AWS).
 
 {{<note>}}
@@ -111,8 +111,8 @@ On-premises environments support more deployment options than other environments
 
 ## Next steps
 
-- [Auto Tiering metrics]({{< relref "/operate/rs/references/metrics/auto-tiering" >}})
-- [Auto Tiering quick start]({{< relref "/operate/rs/databases/auto-tiering/quickstart.md" >}})
+- [Auto Tiering metrics]({{< relref "/operate/rs/7.4/references/metrics/auto-tiering" >}})
+- [Auto Tiering quick start]({{< relref "/operate/rs/7.4/databases/auto-tiering/quickstart.md" >}})
 
-- [Ephemeral and persistent storage]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}})
-- [Hardware requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md" >}})
+- [Ephemeral and persistent storage]({{< relref "/operate/rs/7.4/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}})
+- [Hardware requirements]({{< relref "/operate/rs/7.4/installing-upgrading/install/plan-deployment/hardware-requirements.md" >}})

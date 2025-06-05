@@ -28,7 +28,7 @@ Get information about all shards in the cluster.
 
 #### Example HTTP request
 
-	GET /shards?extra_info_keys=used_memory_rss&extra_info_keys=connected_clients
+	GET /v1/shards?extra_info_keys=used_memory_rss&extra_info_keys=connected_clients
 
 #### Request headers
 
@@ -45,7 +45,7 @@ Get information about all shards in the cluster.
 
 ### Response {#get-all-response} 
 
-Returns a JSON array of [shard objects]({{<relref "/operate/rs/references/rest-api/objects/shard">}}).
+Returns a JSON array of [shard objects]({{<relref "/operate/rs/7.4/references/rest-api/objects/shard">}}).
 
 #### Example JSON body
 
@@ -92,7 +92,7 @@ Gets information about a single shard.
 
 #### Example HTTP request
 
-	GET /shards/1?extra_info_keys=used_memory_rss&extra_info_keys=connected_clients
+	GET /v1/shards/1?extra_info_keys=used_memory_rss&extra_info_keys=connected_clients
 
 #### Request headers
 
@@ -115,7 +115,7 @@ Gets information about a single shard.
 
 ### Response {#get-response} 
 
-Returns a [shard object]({{<relref "/operate/rs/references/rest-api/objects/shard">}}).
+Returns a [shard object]({{<relref "/operate/rs/7.4/references/rest-api/objects/shard">}}).
 
 #### Example JSON body
 

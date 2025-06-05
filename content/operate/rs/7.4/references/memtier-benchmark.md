@@ -57,8 +57,8 @@ You can run all of these tests on Amazon AWS with these hosts:
 
 To learn how to install Redis Enterprise Software and set up a cluster, see:
 
-- [Redis Enterprise Software quickstart]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}}) for a test installation
-- [Install and upgrade]({{< relref "/operate/rs/installing-upgrading" >}}) for a production installation
+- [Redis Enterprise Software quickstart]({{< relref "/operate/rs/7.4/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}}) for a test installation
+- [Install and upgrade]({{< relref "/operate/rs/7.4/installing-upgrading" >}}) for a production installation
 
 These tests use a quorum node to reduce AWS EC2 instance use while maintaining the three nodes required to support a quorum node in case of node failure.  Quorum nodes can be on less powerful instances because they do not have shards or support traffic.
 

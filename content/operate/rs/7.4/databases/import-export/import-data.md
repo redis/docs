@@ -12,8 +12,8 @@ linktitle: Import data
 weight: 10
 url: '/operate/rs/7.4/databases/import-export/import-data/'
 ---
-You can import, [export]({{< relref "/operate/rs/databases/import-export/export-data" >}}),
-or [backup]({{< relref "/operate/rs/databases/import-export/schedule-backups" >}})
+You can import, [export]({{< relref "/operate/rs/7.4/databases/import-export/export-data" >}}),
+or [backup]({{< relref "/operate/rs/7.4/databases/import-export/schedule-backups" >}})
 files of a specific Redis Enterprise Software database to restore data.
 You can either import from a single file or from multiple files,
 such as when you want to import from a backup of a clustered database.
@@ -38,7 +38,7 @@ To import data into a database using the Cluster Manager UI:
 
 Data can be imported from a local mount point, transferred to [a URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier) using FTP/SFTP, or stored on cloud provider storage.
 
-When importing from a local mount point or a cloud provider, import locations need to be available to [the group and user]({{< relref "/operate/rs/installing-upgrading/install/customize-user-and-group.md" >}}) running Redis Enterprise Software, `redislabs:redislabs` by default.  
+When importing from a local mount point or a cloud provider, import locations need to be available to [the group and user]({{< relref "/operate/rs/7.4/installing-upgrading/install/customize-user-and-group.md" >}}) running Redis Enterprise Software, `redislabs:redislabs` by default.  
 
 Redis Enterprise Software needs the ability to view objects in the storage location. Implementation details vary according to the provider and your configuration. To learn more, consult the provider's documentation.
 
@@ -156,13 +156,25 @@ In the Redis Enterprise Software Cluster Manager UI, when you enter the export l
 
 - In the **Secret access key** field, enter the secret access key.
 
-You can also connect to a storage service that uses the S3 protocol but is not hosted by Amazon AWS. The storage service must have a valid SSL certificate. To connect to an S3-compatible storage location, run [`rladmin cluster config`]({{<relref "/operate/rs/references/cli-utilities/rladmin/cluster/config">}}): 
+You can also connect to a storage service that uses the S3 protocol but is not hosted by Amazon AWS. The storage service must have a valid SSL certificate.
 
-```sh
-rladmin cluster config s3_url <URL>
-```
+To connect to an S3-compatible storage location:
 
-Replace `<URL>` with the hostname or IP address of the S3-compatible storage location.
+1. Configure the S3 URL with [`rladmin cluster config`]({{<relref "/operate/rs/7.4/references/cli-utilities/rladmin/cluster/config">}}): 
+
+    ```sh
+    rladmin cluster config s3_url <URL>
+    ```
+
+    Replace `<URL>` with the hostname or IP address of the S3-compatible storage location.
+
+1. Configure the S3 CA certificate:
+
+    ```sh
+    rladmin cluster config s3_ca_cert <filepath>
+    ```
+
+    Replace `<filepath>` with the location of the S3 CA certificate `ca.pem`.
 
 ### Google Cloud Storage
 
@@ -213,7 +225,7 @@ In the Redis Enterprise Software Cluster Manager UI, when you enter the import l
 
 When importing data into an Active-Active database, there are two options:
 
-- [Flush all data]({{< relref "/operate/rs/databases/import-export/flush#flush-data-from-an-active-active-database" >}}) from the Active-Active database, then import the data into the database.
+- [Flush all data]({{< relref "/operate/rs/7.4/databases/import-export/flush#flush-data-from-an-active-active-database" >}}) from the Active-Active database, then import the data into the database.
 - Import data but merge it into the existing database.
 
 Because Active-Active databases have a numeric counter data type,

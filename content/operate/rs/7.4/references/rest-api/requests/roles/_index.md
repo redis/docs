@@ -33,14 +33,14 @@ Get all roles' details.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_all_roles_info]({{< relref "/operate/rs/references/rest-api/permissions#view_all_roles_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
+| [view_all_roles_info]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_all_roles_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
 
 ### Request {#get-all-request}
 
 #### Example HTTP request
 
 ```sh
-GET /roles
+GET /v1/roles
 ```
 
 #### Headers
@@ -52,7 +52,7 @@ GET /roles
 
 ### Response {#get-all-response}
 
-Returns a JSON array of [role objects]({{< relref "/operate/rs/references/rest-api/objects/role" >}}).
+Returns a JSON array of [role objects]({{< relref "/operate/rs/7.4/references/rest-api/objects/role" >}}).
 
 #### Example JSON body
 
@@ -115,14 +115,14 @@ Get the details of a single role.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_role_info]({{< relref "/operate/rs/references/rest-api/permissions#view_role_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
+| [view_role_info]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_role_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
 
 ### Request {#get-request}
 
 #### Example HTTP request
 
 ```sh
-GET /roles/1
+GET /v1/roles/1
 ```
 
 
@@ -142,7 +142,7 @@ GET /roles/1
 
 ### Response {#get-response}
 
-Returns a [role object]({{< relref "/operate/rs/references/rest-api/objects/role" >}}).
+Returns a [role object]({{< relref "/operate/rs/7.4/references/rest-api/objects/role" >}}).
 
 #### Example JSON body
 
@@ -175,14 +175,14 @@ Update an existing role's details.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [update_role]({{< relref "/operate/rs/references/rest-api/permissions#update_role" >}}) | admin |
+| [update_role]({{< relref "/operate/rs/7.4/references/rest-api/permissions#update_role" >}}) | admin |
 
 ### Request {#put-request}
 
 #### Example HTTP request
 
 ```sh
-PUT /roles/17
+PUT /v1/roles/17
 ```
 
 #### Example JSON body
@@ -203,11 +203,11 @@ PUT /roles/17
 
 #### Body
 
-Include a [role object]({{< relref "/operate/rs/references/rest-api/objects/role" >}}) with updated fields in the request body.
+Include a [role object]({{< relref "/operate/rs/7.4/references/rest-api/objects/role" >}}) with updated fields in the request body.
 
 ### Response {#put-response}
 
-Returns a [role object]({{< relref "/operate/rs/references/rest-api/objects/role" >}}) with the updated fields.
+Returns a [role object]({{< relref "/operate/rs/7.4/references/rest-api/objects/role" >}}) with the updated fields.
 
 #### Example JSON body
 
@@ -250,14 +250,14 @@ Create a new role.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [create_role]({{< relref "/operate/rs/references/rest-api/permissions#create_role" >}}) | admin |
+| [create_role]({{< relref "/operate/rs/7.4/references/rest-api/permissions#create_role" >}}) | admin |
 
 ### Request {#post-request}
 
 #### Example HTTP request
 
 ```sh
-POST /roles
+POST /v1/roles
 ```
 
 #### Example JSON body
@@ -279,11 +279,11 @@ POST /roles
 
 #### Body
 
-Include a [role object]({{< relref "/operate/rs/references/rest-api/objects/role" >}}) in the request body.
+Include a [role object]({{< relref "/operate/rs/7.4/references/rest-api/objects/role" >}}) in the request body.
 
 ### Response {#post-response}
 
-Returns the newly created [role object]({{< relref "/operate/rs/references/rest-api/objects/role" >}}).
+Returns the newly created [role object]({{< relref "/operate/rs/7.4/references/rest-api/objects/role" >}}).
 
 #### Example JSON body
 
@@ -360,14 +360,14 @@ Delete a role object.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [delete_role]({{< relref "/operate/rs/references/rest-api/permissions#delete_role" >}}) | admin |
+| [delete_role]({{< relref "/operate/rs/7.4/references/rest-api/permissions#delete_role" >}}) | admin |
 
 ### Request {#delete-request}
 
 #### Example HTTP request
 
 ```sh
-DELETE /roles/1
+DELETE /v1/roles/1
 ```
 
 #### Headers

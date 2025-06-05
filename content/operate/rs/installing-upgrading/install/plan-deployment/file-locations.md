@@ -35,9 +35,13 @@ The default directories that Redis Enterprise Software uses for data and metadat
 | /var/opt/redislabs/log | System logs for Redis Enterprise Software |
 | /var/opt/redislabs/run | Socket files for Redis Enterprise Software |
 | /etc/opt/redislabs | Default location for cluster manager configuration and certificates |
-| /tmp | Temporary files |
+| /tmp | The /tmp filesystem is for temporary files and should be sized according to this formula: `<number-of-cluster-nodes> * <size-of-/var/opt/redislabs/log-filesystem>`  |
 
 You can change these file locations for:
 
 - [Ephemeral and persistence storage]({{< relref "/operate/rs/clusters/new-cluster-setup.md" >}}) during cluster setup
 - [Socket files]({{< relref "/operate/rs/installing-upgrading/configuring/change-location-socket-files.md" >}}) after cluster setup
+
+{{< note >}}
+To specify custom paths for ephemeral and persistent storage during cluster setup, you must install Redis Enterprise Software using [custom installation directories]({{< relref "/operate/rs/installing-upgrading/install/customize-install-directories" >}}). If you use the default installation, you cannot specify custom storage paths and will receive a "path not mounted" error.
+{{< /note >}}

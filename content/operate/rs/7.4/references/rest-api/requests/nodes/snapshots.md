@@ -29,14 +29,14 @@ Get all cluster node snapshots of the specified node.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_node_info]({{< relref "/operate/rs/references/rest-api/permissions#view_node_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
+| [view_node_info]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_node_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
 
 ### Request {#get-request}
 
 #### Example HTTP request
 
 ```sh
-GET /nodes/1/snapshots
+GET /v1/nodes/1/snapshots
 ```
 
 #### Headers
@@ -92,14 +92,14 @@ Delete a cluster node snapshot. Snapshots created by maintenance mode are not de
 
 | Permission name | Roles |
 |-----------------|-------|
-| [update_node]({{< relref "/operate/rs/references/rest-api/permissions#update_node" >}}) | admin |
+| [update_node]({{< relref "/operate/rs/7.4/references/rest-api/permissions#update_node" >}}) | admin |
 
 ### Request {#delete-request}
 
 #### Example HTTP request
 
 ```sh
-DELETE /nodes/1/snapshots/nightly_snapshot_19
+DELETE /v1/nodes/1/snapshots/nightly_snapshot_19
 ```
 
 #### Request headers

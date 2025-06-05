@@ -27,7 +27,7 @@ provide smart and automatic conflict resolution based on the data type's
 intent.
 
 For more information, go here. For information, go to [Developing with
-Active-Active databases]({{< relref "/operate/rs/developing/crdbs" >}}).
+Active-Active databases]({{< relref "/operate/rs/7.4/developing/crdbs" >}}).
 
 ## Redis modules
 
@@ -70,7 +70,7 @@ easily and quickly test several containers to build the scalable
 and highly available cluster Redis Enterprise Software is famous for.
 
 For more information go to [quick start with Redis Enterprise Software
-on Docker.]({{< relref "/operate/rs/installing-upgrading/get-started-docker.md" >}})
+on Docker.]({{< relref "/operate/rs/7.4/installing-upgrading/get-started-docker.md" >}})
 
 ## LDAP integration
 
@@ -81,4 +81,4 @@ accounts can be used for administering resources on the cluster via
 command line, Rest API, or admin console.
 
 For more information see [LDAP
-Integration]({{< relref "/operate/rs/security/passwords-users-roles.md#setting-up-ldap" >}}).
+Integration]({{< relref "/operate/rs/7.4/security/passwords-users-roles.md#setting-up-ldap" >}}).

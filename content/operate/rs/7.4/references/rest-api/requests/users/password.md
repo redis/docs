@@ -28,7 +28,7 @@ Reset the password list of an internal user to include a new password.
 
 #### Example HTTP request
 
-    PUT /users/password
+    PUT /v1/users/password
 
 #### Example JSON body
 
@@ -90,7 +90,7 @@ Add a new password to an internal user's passwords list.
 
 #### Example HTTP request
 
-    POST /users/password
+    POST /v1/users/password
 
 #### Example JSON body
 
@@ -151,7 +151,7 @@ Delete a password from an internal user's passwords list.
 
 #### Example HTTP request
 
-    DELETE /users/password
+    DELETE /v1/users/password
 
 #### Example JSON body
 
