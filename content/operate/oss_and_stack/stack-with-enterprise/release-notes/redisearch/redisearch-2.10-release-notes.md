@@ -27,7 +27,7 @@ Update urgency: `HIGH` : There is a critical bug that may affect a subset of use
 Bug fixes:
 - [#6184](https://github.com/redisearch/redisearch/pull/6184) Reindexing from RDB with multiple vector indices could lead to a crash due to cluster health check - NodeWD (MOD-9220,MOD-8809)
 - [#6028](https://github.com/redisearch/redisearch/pull/6028) `FT.CURSOR...DEL` while another thread is reading it could lead to a crash (MOD-9408,MOD-9432,MOD-9433,MOD-9434,MOD-9435)
-- [#5967](https://github.com/redisearch/redisearch/pull/5967) When indexing documents using `TEXT` and without the text in the documents leads to an `inf` or `nan` score (MOD-9423)
+- [#5967](https://github.com/redisearch/redisearch/pull/5967) Indexing documents using `TEXT` without the text in the documents leads to an `inf` or `nan` score (MOD-9423)
 - [#6056](https://github.com/redisearch/redisearch/pull/6056) Avoid lazy expiration in background indexing for Active-Active setup preventing keys from expiring incorrectly (MOD-9486)
 - [#6108](https://github.com/redisearch/redisearch/pull/6108) A timeout failure is returned when the `ON_TIMEOUT RETURN` policy is set to stop the collection of partial results - best effort (MOD-9612)
 

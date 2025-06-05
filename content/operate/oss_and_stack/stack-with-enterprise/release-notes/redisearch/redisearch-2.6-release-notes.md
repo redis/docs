@@ -28,7 +28,7 @@ Update urgency: `HIGH` : There is a critical bug that may affect a subset of use
 
 Bug fixes:
 - [#6032](https://github.com/redisearch/redisearch/pull/6032) `FT.CURSOR...DEL` while another thread is reading it could lead to a crash (MOD-9408,MOD-9432,MOD-9433,MOD-9434,MOD-9435)
-- [#5965](https://github.com/redisearch/redisearch/pull/5965) When indexing documents using `TEXT` without the text in the documents leads to an `inf` or `nan` score (MOD-9423)
+- [#5965](https://github.com/redisearch/redisearch/pull/5965) Indexing documents using `TEXT` without the text in the documents leads to an `inf` or `nan` score (MOD-9423)
 - [#6058](https://github.com/redisearch/redisearch/pull/6058) Avoid lazy expiration in background indexing for Active-Active setup, preventing keys from expiring incorrectly (MOD-9486)
 - [#5962](https://github.com/redisearch/redisearch/pull/5962) Empty results with RESP3 due to the `TIMEOUT` even if setting to deliver partial results using the `ON_TIMEOUT` policy (MOD-8482)
 - [#5962](https://github.com/redisearch/redisearch/pull/5962) Cursor with RESP3 on `FT.AGGREGATE` is never depleted, blocking queries if the cursor limit is achieved (MOD-8515)
