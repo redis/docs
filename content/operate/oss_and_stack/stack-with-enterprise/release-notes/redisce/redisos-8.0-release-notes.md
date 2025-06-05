@@ -72,9 +72,9 @@ Stand alone RediSearch, RedisJSON, RedisTimeSeries, and RedisBloom modules are n
   - See the [build instructions]({{< relref "/operate/oss_and_stack/install/build-stack" >}}) for information about building from source code.
   - New configuration file: `redis-full.conf`, loads Redis with all components, 
     and contains new configuration parameters for Redis Query Engine and the new data structures .
-  - New ACL categories: `@search`, `@json`, `@timeseries`, `@bloom`, `@cuckoo`, `@cms`, `@topk`, and `@tdigest`.
-  - Commands are also included in the existing ACL categories such as `@read` and `@write`.
+  - Before Redis 8, the existing ACL categories @read, @write, @dangerous, @admin, @slow, and @fast did not include commands for the Redis Query Engine, JSON, time series, and probabilistic data structures.
 
+      Starting with Redis 8, Redis includes all Query Engine, JSON, time series, Bloom filter, cuckoo filter, top-k, count-min sketch, and t-digest commands in these existing ACL categories.
 - More than 30 performance and resource utilization improvements.
 - A new I/O threading implementation, which enables throughput increase on multi-core environments
   (set with the `io-threads` configuration parameter).
