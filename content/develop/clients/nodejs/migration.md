@@ -137,7 +137,7 @@ objects are flattened into sequential key-value pairs:
 
 ```js
 // These commands are all equivalent.
-client.hset('user' {
+client.hset('user', {
     name: 'Bob',
     age: 20,
     description: 'I am a programmer',
