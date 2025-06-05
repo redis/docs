@@ -43,7 +43,7 @@ each feature.
 | :-- | :-- | :-- |
 | [Command case](#command-case) | Lowercase only (eg, `hset`) | Uppercase or camel case (eg, `HSET` or `hSet`) |
 | [Command argument handling](#command-argument-handling) | Argument objects flattened and items passed directly | Argument objects parsed to generate correct argument list |
-| [Asynchronous command result handling](#async-result) | Callbacks and Promises | Promises and Callbacks (via Legacy Mode) |
+| [Asynchronous command result handling](#async-result) | Callbacks and Promises | Promises (but supports callbacks via Legacy Mode) |
 | [Arbitrary command execution](#arbitrary-command-execution) | Uses the `call()` method | Uses the `sendCommand()` method |
 
 ### Techniques
@@ -189,7 +189,7 @@ client.get('mykey').then(
 `node-redis` supports only `Promise` objects for results, so
 you must always use a `then()` handler or the
 [`await`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await)
-operator to receive them, however callbacks are still supported via the legacy mode:
+operator to receive them. However, you can still use callbacks with the legacy mode if you need them:
 
 ```js
 // Promise
@@ -354,9 +354,8 @@ command with an explicit method:
 client.setnx('bike:1', 'bike');
 ```
 
-`node-redis` provides a `SETNX` method but due to the command being deprecated the same
-functionality can be achieved with the `NX` option to the [`SET`]({{< relref "/commands/set" >}})
-command instead:
+`node-redis` provides a `SETNX` method but this command is deprecated. Use the `NX` option to the [`SET`]({{< relref "/commands/set" >}})
+command to get the same functionality as `SETNX`:
 
 ```js
 await client.set('bike:1', 'bike', {'NX': true});
