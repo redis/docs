@@ -48,7 +48,7 @@ Learn to perform vector search and use gateways and semantic caching in your AI/
 
 | Search | LLM memory | Semantic caching | Semantic routing | AI Gateways |
 | :-- | :-- | :-- | :-- | :-- |
-| {{<image filename="images/ai-search.svg" alt="AI Redis icon.">}}[Vector search guide]({{< relref "/develop/interact/search-and-query/query/vector-search" >}}) | {{<image filename="images/ai-LLM-memory.svg" alt="LLM memory icon.">}}[Store memory for LLMs](https://redis.io/blog/level-up-rag-apps-with-redis-vector-library/) | {{<image filename="images/ai-brain-2.svg" alt="AI Redis icon.">}}[Semantic caching for faster, smarter LLM apps](https://redis.io/blog/what-is-semantic-caching) | {{<image filename="images/ai-semantic-routing.svg" alt="Semantic routing icon.">}}[Semantic routing chooses the best tool](https://redis.io/blog/level-up-rag-apps-with-redis-vector-library/) | {{<image filename="images/ai-model.svg" alt="AI Redis icon.">}}[Deploy an enhanced gateway with Redis](https://redis.io/blog/ai-gateways-what-are-they-how-can-you-deploy-an-enhanced-gateway-with-redis/) | {{<image filename="images/ai-brain-2.svg" alt="AI Redis icon.">}}[Semantic caching for faster, smarter LLM apps](https://redis.io/blog/what-is-semantic-caching) |
+| {{<image filename="images/ai-search.svg" alt="AI Redis icon.">}}[Vector search guide]({{< relref "/develop/interact/search-and-query/query/vector-search" >}}) | {{<image filename="images/ai-LLM-memory.svg" alt="LLM memory icon.">}}[Store memory for LLMs](https://redis.io/blog/level-up-rag-apps-with-redis-vector-library/) | {{<image filename="images/ai-brain-2.svg" alt="AI Redis icon.">}}[Semantic caching for faster, smarter LLM apps](https://redis.io/blog/what-is-semantic-caching) | {{<image filename="images/ai-semantic-routing.svg" alt="Semantic routing icon.">}}[Semantic routing chooses the best tool](https://redis.io/blog/level-up-rag-apps-with-redis-vector-library/) | {{<image filename="images/ai-model.svg" alt="AI Redis icon.">}}[Deploy an enhanced gateway with Redis](https://redis.io/blog/ai-gateways-what-are-they-how-can-you-deploy-an-enhanced-gateway-with-redis/) |
 
 ## Quickstarts
 
@@ -94,6 +94,16 @@ Explore our comprehensive [ecosystem integrations page]({{< relref "/develop/ai/
 * Amazon Bedrock and NVIDIA NIM for enhanced AI infrastructure
 * Microsoft Semantic Kernel and Kernel Memory for LLM applications
 * And many more integrations to power your AI solutions
+
+## Video tutorials
+
+Watch our [AI video collection]({{< relref "/develop/ai/ai-videos" >}}) featuring practical tutorials and demonstrations on:
+
+* Building RAG applications and implementing vector search
+* Working with LangGraph for AI agents with memory
+* Semantic caching and search techniques
+* Redis integrations with popular AI frameworks
+* Real-world AI application examples and best practices
 
 ## Benchmarks
 See how we stack up against the competition.
