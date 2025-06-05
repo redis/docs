@@ -323,9 +323,7 @@ The following is a list of command categories and their meanings:
 * **transaction** - [`WATCH`](/commands/watch) / [`MULTI`](/commands/multi) / [`EXEC`](/commands/exec) related commands.
 * **write** - Writing to keys (values or metadata). Note that commands that don't interact with keys, will not have either `read` or `write`.
 
-1. <a name="cmd-note-1"></a>Before Redis 8, the existing ACL categories @read, @write, @dangerous, @admin, @slow, and @fast did not include commands for the Redis Query Engine, JSON, time series, and probabilistic data structures.
-
-    Starting with Redis 8, Redis includes all Query Engine, JSON, time series, Bloom filter, cuckoo filter, top-k, count-min sketch, and t-digest commands in these existing ACL categories.
+1. <a name="cmd-note-1"></a> See the [Redis 8 release notes]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisos-8.0-release-notes/#potentially-breaking-changes-to-acls" >}}) for more information about these command categories, which may introduce breaking changes to your Redis deployments.
 
 NOTE: Redis can also show you a list of all categories and the exact commands each category includes using the Redis [`ACL CAT`](/commands/acl-cat) command. 
 It can be used in two forms:
