@@ -13,7 +13,7 @@ linkTitle: Deploy
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: 2
+weight: 10
 ---
 
 The sections below explain how to deploy a pipeline after you have created the required
