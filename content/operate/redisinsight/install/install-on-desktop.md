@@ -8,6 +8,9 @@ linkTitle: Install on desktop
 title: Install on desktop
 weight: 1
 ---
+
+[Download Redis Insight](https://redis.io/downloads/#insight)
+
 ## Supported operating systems
 
 Redis Insight is supported on multiple operating systems:
@@ -33,7 +36,7 @@ Redis Insight is supported on multiple operating systems:
 
 ## Install
 
-Redis Insight is available for download for free from this [web site](https://redis.io/insight/?utm_source=redisinsight&utm_medium=website&utm_campaign=install_redisinsight#insight-form).
+Check out the features of the AI-powered assistant, advanced CLI, and intuitive GUI [here](https://redis.io/insight/?utm_source=redisinsight&utm_medium=website&utm_campaign=install_redisinsight#insight-form).
 
 It is also available on:
 - Microsoft Store
