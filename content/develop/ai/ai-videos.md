@@ -32,7 +32,7 @@ Explore our collection of video tutorials and demonstrations showcasing how Redi
 | [**Redis + Amazon Bedrock in two minutes**](https://www.youtube.com/watch?v=1e2tM5kIJ5Y) | | |
 | AWS has announced Redis Cloud as one of the few supported vector databases supported for Amazon Bedrock. Learn how to integrate Redis with Amazon Bedrock for your generative AI applications. | | |
 
-## Getting Started
+### Getting Started
 
 Ready to start building AI applications with Redis? Check out our:
 
