@@ -1,0 +1,41 @@
+---
+Title: Writhing to multiple keys
+alwaysopen: false
+categories:
+  - docs
+  - integrate
+  - rs
+  - rdi
+description: null
+group: di
+linkTitle: Writhing to multiple keys
+summary: Redis Data Integration keeps Redis in sync with the primary database in near
+  real time.
+type: integration
+weight: 100
+---
+
+If you want to write the results to multiple keys, you can do that by defining multiple `redis.write` items `output` section of the job file. Each section can specify a different key, data format, and other parameters. For example, you can create two different keys for the same data, one with a default key format and another with a custom key format and mapping.
+
+```yaml
+output:
+  - uses: redis.write
+    with:
+      # Setting data_type to JSON and using the default key format
+      data_type: json
+
+  - uses: redis.write
+    with:
+      data_type: json
+
+      # Defining a custom key format
+      key:
+        language: jmespath
+        expression: concat(['events-simplified:id:', id])
+
+      # And defining a custom mapping
+      mapping:
+        - id: id
+        - name: name
+        - location: location
+```
