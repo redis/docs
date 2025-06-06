@@ -120,3 +120,70 @@ SQL Server supports the following date and time data types:
 
 
 <!-- TODO [ilianiliev-redis]: Test and document the dynamic expressions for the rest of the supported databases - MySQL, PostgresSQL, MongoDB -->
+
+
+
+----
+
+## PostgreSQL
+
+PostgreSQL supports the following date and time data types:
+
+- `date` - represented by Debezium as number of days since epoch (1970-01-01). You can multiply the value by 86400 (the number of seconds in a day) to convert it to seconds since epoch and then use the `STRFTIME` or `DATE` functions to format it.
+  ```yaml
+    transform:
+        - uses: add_field
+          with:
+            fields:
+              - field: with_default_date_format
+                language: sql
+                # Uses the default DATE format
+                expression: DATE(event_date * 86400, 'unixepoch')
+  ```
+
+- `time` - the time of microseconds since midnight.
+  ```yaml
+  transform:
+    - uses: add_field
+      with:
+        fields:
+          - field: formatted_time
+            language: sql
+            # Divide by 1000000 to convert microseconds to seconds
+            expression: TIME(event_time / 1000000, 'unixepoch', 'utc')
+  ```
+
+- `time with time zone` - a string representation of the time with timezone information, where the timezone is GMT, example `07:15:00Z`.
+  ```yaml
+  transform:
+    - uses: add_field
+      with:
+        fields:
+          - field: formatted_time_with_tz
+            language: sql
+            expression: STRFTIME('%H:%M:%S', event_time_with_time_zone)
+  ```
+
+- `timestamp` - represented by Debezium as a 64-bit integer representing the microseconds since epoch. You can use the `STRFTIME` function to format it.
+  ```yaml
+  transform:
+    - uses: add_field
+      with:
+        fields:
+          - field: formatted_timestamp
+            language: sql
+            # Divide by 1000000 to convert microseconds to seconds
+            expression: STRFTIME('%Y-%m-%d %H:%M:%S', event_timestamp / 1000000, 'unixepoch')
+  ```
+
+- `timestamp with time zone` - represented by Debezium as a string representation of the timestamp with time zone information, where the timezone is GMT, e.g. `2025-06-07T10:15:00.000000Z`
+  ```yaml
+  transform:
+    - uses: add_field
+      with:
+        fields:
+          - field: formatted_timestamp_with_tz
+            language: sql
+            # Divide by 1000000 to convert microseconds to seconds
+            expression: STRFTIME('%Y-%m-%d %H:%M:%S', event_timestamp_with_time_zone)
+  ```
