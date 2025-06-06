@@ -18,7 +18,7 @@ Diagnostic logs are collected at scheduled intervals and saved in the `/var/opt/
 
 ## View log collector settings
 
-To view the current log collection schedule and parameters for each log collector, use the REST API to [get the diagnostic logging service configuration](/operate/rs/references/rest-api/requests/diagnostics/#put-diagnostics).
+To view the current log collection schedule and parameters for each log collector, use the REST API to [get the diagnostic logging service configuration]({{<relref "/operate/rs/references/rest-api/requests/diagnostics#put-diagnostics">}}).
 
 ```sh
 GET /v1/diagnostics
