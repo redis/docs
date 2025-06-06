@@ -40,3 +40,4 @@ Ready to start building AI applications with Redis? Check out our:
 - [Vector search documentation]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}})
 - [AI ecosystem integrations]({{< relref "/develop/ai/ecosystem-integrations" >}})
 - [Notebook collection]({{< relref "/develop/ai/notebook-collection" >}})
+- [Vector set data type]({{< relref "/develop/data-types/vector-sets" >}})
