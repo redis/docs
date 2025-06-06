@@ -23,6 +23,7 @@ The database recovery process includes:
 
 1. If the cluster failed, [recover the cluster]({{< relref "/operate/rs/clusters/cluster-recovery.md" >}}).
 1. Identify recoverable databases.
+1. Verify the module versions used by any databases are installed on the cluster.
 1. Restore the database data.
 1. Verify that the databases are active.
 
@@ -69,6 +70,72 @@ of the configuration and persistence files on each of the nodes.
     - Files are corrupted - Locate copies of the files that are not corrupted.
 
     If you cannot resolve the issues, contact [Redis support](https://redis.com/company/support/).
+
+1. Verify the module versions used by any recoverable databases are installed on the cluster:
+
+    1. Check which module versions are currently installed on the cluster using one of the following methods:
+
+        {{< multitabs id="get-module-versions" 
+        tab1="Cluster Manager UI"
+        tab2="rladmin"
+        tab3="REST API" >}}
+
+In the Cluster Manager UI, go to **Cluster > Modules**.
+    
+-tab-sep-
+
+Run [`rladmin status modules`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-modules" >}}):
+
+```sh
+rladmin status modules
+```
+
+-tab-sep-
+
+Send a [`GET /v1/modules`]({{< relref "/operate/rs/references/rest-api/requests/modules#list-modules" >}}) request:
+
+```sh
+GET https://<host>:<port>/v1/modules
+```
+
+        {{< /multitabs >}}
+
+    1. Identify the module versions required by your databases from the cluster configuration store (CCS) files.
+
+    1. Download any missing modules versions from the [Redis download center](https://redis.io/downloads/#tools).
+
+    1. [Install the downloaded modules on the cluster]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster" >}}) using one of the following methods:
+
+        {{< multitabs id="install-modules" 
+        tab1="Cluster Manager UI"
+        tab2="REST API" >}}
+
+To add a module to the cluster using the Cluster Manager UI:
+
+1. Go to **Cluster > Modules**.
+
+1. Select **Upload module**.
+
+1. Use the file browser to add the packaged module.
+
+-tab-sep-
+
+To add a module to the cluster using the REST API:
+
+1. Copy the module package to a node in the cluster.
+
+1. Add the module to the cluster with a [`POST` request to the `/v2/modules`]({{< relref "/operate/rs/references/rest-api/requests/modules#post-module-v2" >}}) endpoint:
+
+    ```sh
+    POST https://[host][:port]/v2/modules
+    "module=@/tmp/redisearch.Linux-ubuntu16.04-x86_64.2.2.6.zip"
+    ```
+
+    Here, the *module* parameter specifies the full path of the module package and must be submitted as form-data. In addition, the package must be available and accessible to the server processing the request.
+
+1. If the module installation succeeds, the `POST` request returns a [JSON object]({{< relref "/operate/rs/references/rest-api/objects/module" >}}) that represents the new module. If it fails, it may return a JSON object with an `error_code` and `description` with more details.
+
+        {{< /multitabs >}}
 
 1. Recover the database using one of the following [`rladmin recover`]({{< relref "/operate/rs/references/cli-utilities/rladmin/recover" >}}) commands:
 
