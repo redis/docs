@@ -111,7 +111,7 @@ client connections, replication links, and the Redis Cluster bus protocol.
 ## Disallowing specific commands
 
 {{< warning >}}
-The method is no longer recommended and may be deprecated in future versions.
+The method is deprecated and may be removed in future versions.
 Instead, use [ACL rules](/operate/oss_and_stack/management/security/acl/) to disallow specific commands.
 {{< /warning >}}
 
