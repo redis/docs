@@ -112,7 +112,7 @@ client connections, replication links, and the Redis Cluster bus protocol.
 
 {{< warning >}}
 The method is no longer recommended and may be deprecated in future versions.
-Instead, you should use ACL rules to disallow specific commands.
+Instead, use [ACL rules](/operate/oss_and_stack/management/security/acl/) to disallow specific commands.
 {{< /warning >}}
 
 It is possible to disallow commands in Redis or to rename them as an unguessable
