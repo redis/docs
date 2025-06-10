@@ -7,12 +7,18 @@ categories:
 - rc
 description: Lists new features, enhancements, and other changes in Redis Cloud.
 hideListLinks: true
-linktitle: Changelog
+linktitle: Changelog and release notes
 weight: 95
 ---
+
+## Redis version release notes and breaking changes
+
+When new versions of Redis Open Source change existing commands, upgrading your Redis Cloud database to a new version can potentially break some functionality. Before you upgrade, read the provided list of breaking changes that affect Redis Cloud and update any applications that connect to your database to handle these changes.
+
+## Redis Cloud changelogs
 
 Changelogs list new features, enhancements, and other changes in Redis Cloud.
 
 Select a month from the following table to see a more detailed changelog for that month:
 
-{{<table-children columnNames="Month,Major changes" columnSources="LinkTitle,highlights" enableLinks="LinkTitle">}}
+{{<table-children columnNames="Month,Major changes" columnSources="LinkTitle,highlights" enableLinks="LinkTitle" limitTags="changelog">}}
