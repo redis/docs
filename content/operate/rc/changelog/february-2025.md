@@ -9,6 +9,8 @@ description: New features, enhancements, and other changes added to Redis Cloud 
   February 2025.
 highlights: Pico billing unit, Redis hashing policy
 linktitle: February 2025
+tags:
+- changelog
 weight: 36
 ---
 
