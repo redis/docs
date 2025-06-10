@@ -19,11 +19,12 @@ type: integration
 weight: 30
 ---
 
-RDI implements
-[change data capture](https://en.wikipedia.org/wiki/Change_data_capture) (CDC)
-with *pipelines*. (See the
+RDI uses *pipelines* to implement
+[change data capture](https://en.wikipedia.org/wiki/Change_data_capture) (CDC). (See the
 [architecture overview]({{< relref "/integrate/redis-data-integration/architecture#overview" >}})
 for an introduction to pipelines.)
+The sections below explain how pipelines work and give an overview of how to configure and
+deploy them.
 
 ## How a pipeline works
 
@@ -39,18 +40,18 @@ However, you can also provide your own custom transformation [jobs](#job-files)
 for each source table, using your own data mapping and key pattern. You specify these
 jobs declaratively with YAML configuration files that require no coding.
 
-The data tranformation involves two separate stages:
+Data transformation involves two stages:
 
 1.  The data ingested during CDC is automatically transformed to an intermediate JSON
     change event format.
-1.  This JSON change event data gets passed on to your custom transformation for further
+1.  RDI passes this JSON change event data to your custom transformation for further
     processing.
 
 The diagram below shows the flow of data through the pipeline:
 
 {{< image filename="/images/rdi/ingest/RDIPipeDataflow.webp" >}}
 
-You can provide a job file for each source table for which you want to specify a custom
+You can provide a job file for each source table that needs a custom
 transformation. You can also add a *default job file* for any tables that don't have their own.
 You must specify the full name of the source table in the job file (or the special
 name "*" in the default job) and you
@@ -58,7 +59,7 @@ can also include filtering logic to skip data that matches a particular conditio
 As part of the transformation, you can specify any of the following data types
 to store the data in Redis:
 
-- [JSON objects]({{< relref "/develop/data-types/json" >}})
+- [JSON]({{< relref "/develop/data-types/json" >}})
 - [Hashes]({{< relref "/develop/data-types/hashes" >}})
 - [Sets]({{< relref "/develop/data-types/sets" >}})
 - [Streams]({{< relref "/develop/data-types/streams" >}})
@@ -73,8 +74,8 @@ After you deploy a pipeline, it goes through the following phases:
 Then, the [operator]({{< relref "/integrate/redis-data-integration/architecture#how-rdi-is-deployed">}}) creates and configures the collector and stream processor that will run the pipeline.
 1. *Snapshot* - The collector starts the pipeline by creating a snapshot of the full
 dataset. This involves reading all the relevant source data, transforming it and then
-writing it into the Redis target. You should expect this phase to take minutes or
-hours to complete if you have a lot of data.
+writing it into the Redis target. This phase typically takes minutes to
+hours if you have a lot of data.
 1. *CDC* - Once the snapshot is complete, the collector starts listening for updates to
 the source data. Whenever a change is committed to the source, the collector captures
 it and adds it to the target through the pipeline. This phase continues indefinitely
@@ -115,7 +116,7 @@ structure of the configuration:
 The main configuration for the pipeline is in the `config.yaml` file.
 This specifies the connection details for the source database (such
 as host, username, and password) and also the queries that RDI will use
-to extract the required data. You should place job configurations in the `Jobs`
+to extract the required data. You should place job files in the `Jobs`
 folder if you want to specify your own data transformations.
 
 See
