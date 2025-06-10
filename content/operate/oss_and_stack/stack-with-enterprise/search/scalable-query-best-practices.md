@@ -10,7 +10,7 @@ linkTitle: Best practices for scalable Redis Query Engine
 weight: 25
 ---
 
-[Vertical scaling of Redis Query Engine]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search/query-performance-factor">}}) requires configuring query performance factors. With careful crafting of search indices and queries, query performance factors allow throughput scaling up to 16X. The following recommendations can help optimize your indices and queries to maximize the performance benefits from additional CPUs allocated by query performance factors.
+[Vertical scaling of Redis Query Engine]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search/query-performance-factor">}}) requires configuring query performance factors. With careful crafting of search indexes and queries, query performance factors allow throughput scaling up to 16X. The following recommendations can help optimize your indexes and queries to maximize the performance benefits from additional CPUs allocated by query performance factors.
 
 ## Best candidates for query performance factor improvements
 
