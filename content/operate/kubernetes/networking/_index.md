@@ -38,7 +38,7 @@ This feature only supports automatic Ingress creation for Active-Active database
 
 ## OSS Cluster API limitations
 
-When using [OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}) with Redis Enterprise for Kubernetes, clients must specify the IP addresses of Redis instances to perform operations. Since Pod IP addresses are internal to the Kubernetes cluster and not publicly accessible, **OSS Cluster API can only be used by clients running on pods within the same Kubernetes cluster as the Redis Enterprise pods.** Using OSS Cluster API from outside the Kubernetes cluster is not tested and currently not supported.
+When using [OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}), clients must specify the IP addresses of Redis instances to perform operations. Since Pod IP addresses are internal to the Kubernetes cluster and not publicly accessible, **OSS Cluster API can only be used by clients running on pods within the same Kubernetes cluster as the Redis Enterprise pods.** Using OSS Cluster API from outside the Kubernetes cluster is not tested and currently not supported.
 
 For applications that need to access Redis databases from outside the Kubernetes cluster, use standard Redis Enterprise connectivity methods with the external routing options described above (Ingress controllers, load balancers, or OpenShift routes). These methods do not support OSS Cluster API but provide reliable external access to your Redis databases.
 
