@@ -17,7 +17,7 @@ weight: 10
 ---
 
 The sections below explain how to deploy a pipeline after you have created the required
-[configuration]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines" >}}).
+[configuration]({{< relref "/integrate/redis-data-integration/data-pipelines" >}}).
 
 ## Set secrets
 
@@ -26,7 +26,9 @@ source and target databases. Each secret has a name that you can pass to the
 [`redis-di set-secret`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-set-secret" >}})
 command (VM deployment) or the `rdi-secret.sh` script (K8s deployment) to set the secret value. 
 You can then refer to these secrets in the `config.yaml` file using the syntax "`${SECRET_NAME}`"
-(the sample [config.yaml file]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines#the-configyaml-file" >}}) shows these secrets in use).
+(the sample
+[config.yaml file]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#example" >}})
+shows these secrets in use).
 
 The table below lists all valid secret names. Note that the
 username and password are required for the source and target, but the other
@@ -252,7 +254,7 @@ Note that the certificate paths contained in the secrets `SOURCE_DB_CACERT`, `SO
 
 ## Deploy a pipeline
 
-When you have created your configuration, including the [jobs]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines#job-files" >}}), you are
+When you have created your configuration, including the [jobs]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}}), you are
 ready to deploy. Use [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}})
 to configure and deploy pipelines for both VM and K8s installations.
 
