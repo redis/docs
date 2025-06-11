@@ -15,7 +15,7 @@ type: integration
 weight: 40
 ---
 
-How to format date and time values depends on the source database and the data type of the field, and how they are represented in the incoming record. Below are examples for different databases and data types.
+The way you format date and time values depends on the source database, the data type of the field, and how it is represented in the incoming record. Below are some examples for different databases and data types.
 
 ## Oracle
 
