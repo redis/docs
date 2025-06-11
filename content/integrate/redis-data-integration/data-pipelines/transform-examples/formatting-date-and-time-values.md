@@ -41,7 +41,7 @@ You can format it similarly to `DATE`, but you need to divide the value by the a
 
 - `TIMESTAMP WITH LOCAL TIME ZONE` - the value is represented as a string containing the timestamp and local time zone.
 
-  Both `TIMESTAMP WITH TIME ZONE` and `TIMESTAMP WITH LOCAL TIME ZONE` are supported by SQLite and can be formatted using the `STRFTIME` function.
+  SQLite supports both `TIMESTAMP WITH TIME ZONE` and `TIMESTAMP WITH LOCAL TIME ZONE`. You can format them using the `STRFTIME` function.
 
   ```yaml
   transform:
