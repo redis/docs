@@ -176,7 +176,7 @@ PostgreSQL supports the following date and time data types:
             expression: STRFTIME('%Y-%m-%d %H:%M:%S', event_timestamp / 1000000, 'unixepoch')
   ```
 
-- `timestamp with time zone` - represented by Debezium as a string representation of the timestamp with time zone information, where the timezone is GMT, e.g. `2025-06-07T10:15:00.000000Z`
+- `timestamp with time zone` - represented by Debezium as a string containing the timestamp with time zone information, where the timezone is GMT (for example, `2025-06-07T10:15:00.000000Z`).
   ```yaml
   transform:
     - uses: add_field
