@@ -72,7 +72,7 @@ The example above creates a new JSON object with the following structure:
  - An `address` subobject that contains the `address`, `city`, `state`, `postalcode`, and `country` fields.
  - A `contact` subobject that contains the `phone` field and a modified version of the `email` field, where the '@' sign and dots are replaced with '_at_' and '_dot_' respectively.
 
-In the `output` section of the job file, we specify that we want to write
+The `output` section of the file configures the job to write
 to a JSON object with a custom key. Note that in the `output` section, you must refer to
 fields defined in the `map` transformation, so we use the new name `id`
 for the key instead of `employeeid`.
