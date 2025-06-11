@@ -21,7 +21,7 @@ The way you format date and time values depends on the source database, the data
 
 Oracle supports the following date and time data types:
 
-- `DATE` - represented by debezium as a 64-bit integer representing the milliseconds since epoch
+- `DATE` - represented by Debezium as a 64-bit integer representing the milliseconds since epoch
   ```yaml
   transform:
   - uses: add_field
