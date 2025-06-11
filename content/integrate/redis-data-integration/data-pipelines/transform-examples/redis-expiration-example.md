@@ -55,7 +55,7 @@ In some cases, you can also set the expiration time based on a field that contai
 
 There are two main approaches you can use to set the expiration time based on a date, datetime, or timestamp field:
 
-- For values representing a passed amount of time e.g. milliseconds since epoch start, you have to convert the value to seconds since epoch and subtracting the current time in seconds since epoch from it.
+- For values representing an elapsed time since epoch start (in milliseconds, for example), you have to convert the value to seconds since epoch and then subtract the current time (also in seconds since epoch). The difference between the two is the time until expiration.
 
     ```yaml
     output:
