@@ -92,7 +92,7 @@ SQL Server supports the following date and time data types:
             expression: STRFTIME('%Y-%m-%d %H:%M:%S', event_datetime / 1000, 'unixepoch')
   ```
 
-- `datetime2` - similar to `datetime` but with higher precision. For `datetime2(0-3)` the representation is the same as for `datetime`. For `datetime2(4-6)` it is the number of microseconds since epoch. and for `datetime2(7)` it is the number of nanoseconds since epoch. You can use the same approach as for `datetime` but you need to divide by 1000, 1000000 or 1000000000 depending on the precision.
+- `datetime2` - similar to `datetime` but with higher precision. For `datetime2(0-3)`, the representation is the same as for `datetime`. For `datetime2(4-6)`, it is the number of microseconds since epoch. For `datetime2(7)`, it is the number of nanoseconds since epoch. To convert to another time unit, you can use the same approach as for `datetime` but you need to divide by 1000, 1000000 or 1000000000 depending on the precision.
 
 - `time` - the time of milliseconds since midnight.
   ```yaml
