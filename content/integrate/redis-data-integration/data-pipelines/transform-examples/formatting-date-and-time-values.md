@@ -164,7 +164,7 @@ PostgreSQL supports the following date and time data types:
             expression: STRFTIME('%H:%M:%S', event_time_with_time_zone)
   ```
 
-- `timestamp` - represented by Debezium as a 64-bit integer representing the microseconds since epoch. You can use the `STRFTIME` function to format it.
+- `timestamp` - represented by Debezium as a 64-bit integer containing the microseconds since epoch. You can use the `STRFTIME` function to format it.
   ```yaml
   transform:
     - uses: add_field
