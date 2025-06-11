@@ -81,7 +81,7 @@ SQL Server supports the following date and time data types:
             expression: STRFTIME('%Y/%m/%d', event_date * 86400, 'unixepoch')
   ```
 
-- `datetime`, `smalldatetime` - represented by Debezium as number of milliseconds since epoch. You have to divide the value by 1000 to convert it to seconds since epoch and then use the `STRFTIME` function to format it.
+- `datetime`, `smalldatetime` - represented by Debezium as number of milliseconds since epoch. Divide the value by 1000 to convert it to seconds since epoch and then use the `STRFTIME` function to format it.
   ```yaml
   transform:
     - uses: add_field
