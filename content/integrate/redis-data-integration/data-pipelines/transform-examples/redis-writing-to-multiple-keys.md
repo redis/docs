@@ -1,5 +1,5 @@
 ---
-Title: Writhing to multiple keys
+Title: Writing to multiple keys
 alwaysopen: false
 categories:
   - docs
