@@ -8,7 +8,7 @@ categories:
   - rdi
 description: null
 group: di
-linkTitle: Writhing to multiple keys
+linkTitle: Writing to multiple keys
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
