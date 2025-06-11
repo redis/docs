@@ -70,7 +70,7 @@ There are two main approaches you can use to set the expiration time based on a 
               language: sql
     ```
 
-- For values matching the subset of ISO 8601 supported by SQLite e.g. `2023-10-01T12:00:00`, `2023-10-01T12:00:00Z` or `2025-06-05T13:40:14.784000+02:00` you can use the `STRFTIME` function to convert the value to seconds since epoch and subtract the current time in seconds since epoch from it.
+- For values matching the subset of ISO 8601 supported by SQLite (for example, `2023-10-01T12:00:00`, `2023-10-01T12:00:00Z`, or `2025-06-05T13:40:14.784000+02:00`), you can use the `STRFTIME` function to convert the value to seconds since epoch and subtract the current time in seconds since epoch from it.
 
   ```yaml
   output:
