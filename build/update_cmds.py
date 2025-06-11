@@ -1,9 +1,32 @@
 #!/usr/bin/env python3
+import argparse
+import json
+import logging
+import sys
+
 from components.syntax import Command
 from components.markdown import Markdown
-import json
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description='Builds a stack website')
+    parser.add_argument('--loglevel', type=str,
+                        default='INFO',
+                        help='Python logging level (overwrites LOGLEVEL env var)')
+    return parser.parse_args()
+
 
 if __name__ == '__main__':
+    ARGS = parse_args()
+
+    # Configure logging BEFORE creating objects
+    log_level = getattr(logging, ARGS.loglevel.upper())
+    logging.basicConfig(
+        level=log_level,
+        format=f'{sys.argv[0]}: %(message)s',
+        force=True  # Force reconfiguration in case logging was already configured
+    )
+
     with open('data/commands_core.json', 'r') as f:
         j = json.load(f)
 

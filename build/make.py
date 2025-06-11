@@ -31,12 +31,18 @@ if __name__ == '__main__':
     ARGS = parse_args()
     mkdir_p(ARGS.tempdir)
 
+    # Configure logging BEFORE creating objects
+    log_level = getattr(logging, ARGS.loglevel.upper())
+    logging.basicConfig(
+        level=log_level,
+        format=f'{sys.argv[0]}: %(message)s',
+        force=True  # Force reconfiguration in case logging was already configured
+    )
+
     # Load settings
     ALL = All(ARGS.stack, None, ARGS.__dict__)
 
     # Make the stack
-    logging.basicConfig(
-        level=ARGS.loglevel, format=f'{sys.argv[0]}: %(levelname)s %(asctime)s %(message)s')
     print(f'Applying all configured components"{ALL._name}"')
     start = datetime.now()
     ALL.apply()
