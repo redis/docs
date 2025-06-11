@@ -24,7 +24,7 @@ If you just want to limit the set fields in the output and/or rename some of the
 
 For situations where you want to create a new object structure with multiple levels or use calculations for the field values, you can use the
 [`map`]({{< relref "/integrate/redis-data-integration/reference/data-transformation/map" >}})
-transformation. Take a look at the following examples to see how to use the `map` transformation:
+transformation, as described in the following sections.
 
 ## Creating multilevel JSON objects
 
