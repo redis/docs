@@ -37,9 +37,9 @@ Oracle supports the following date and time data types:
 - `TIMESTAMP` - the value is represented by Debezium as a 64-bit integer and depends on the number of decimal places of precision of the column, representing fractions of a second. For example, if the column is defined as `TIMESTAMP(6)`, there are six decimal places and so the value is represented as microseconds since epoch (since there are 10^6 microseconds in each second).
 You can format it similarly to `DATE`, but you need to divide the value by the appropriate factor based on the precision.
 
-- `TIMESTAMP WITH TIME ZONE` - the value is represented as string representation of the timestamp with time zone information.
+- `TIMESTAMP WITH TIME ZONE` - the value is represented as a string containing the timestamp and time zone.
 
-- `TIMESTAMP WITH LOCAL TIME ZONE` - the value is represented as string representation of the timestamp with local time zone information.
+- `TIMESTAMP WITH LOCAL TIME ZONE` - the value is represented as a string containing the timestamp and local time zone.
 
   Both `TIMESTAMP WITH TIME ZONE` and `TIMESTAMP WITH LOCAL TIME ZONE` are supported by SQLite and can be formatted using the `STRFTIME` function.
 
