@@ -153,7 +153,7 @@ PostgreSQL supports the following date and time data types:
             expression: TIME(event_time / 1000000, 'unixepoch', 'utc')
   ```
 
-- `time with time zone` - a string representation of the time with timezone information, where the timezone is GMT, example `07:15:00Z`.
+- `time with time zone` - a string representation of the time with timezone information, where the timezone is GMT (for example, `07:15:00Z`).
   ```yaml
   transform:
     - uses: add_field
