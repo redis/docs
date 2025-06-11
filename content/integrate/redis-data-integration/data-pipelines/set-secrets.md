@@ -1,32 +1,34 @@
 ---
-Title: Deploy a pipeline
-aliases: /integrate/redis-data-integration/ingest/data-pipelines/data-type-handling/
+Title: Set secrets
+aliases:
+- /integrate/redis-data-integration/ingest/data-pipelines/data-type-handling/
+- /integrate/redis-data-integration/data-pipelines/deploy/
 alwaysopen: false
 categories:
 - docs
 - integrate
 - rs
 - rdi
-description: Learn how to deploy an RDI pipeline
+description: Set authentication secrets for your source and target databases.
 group: di
-linkTitle: Deploy
+linkTitle: Set secrets
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
 weight: 2
 ---
 
-The sections below explain how to deploy a pipeline after you have created the required
-[configuration]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines" >}}).
-
-## Set secrets
-
-Before you deploy your pipeline, you must set the authentication secrets for the
+Before you
+[deploy]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines#deploy-a-pipeline" >}})
+your pipeline, you must set the authentication secrets for the
 source and target databases. Each secret has a name that you can pass to the
 [`redis-di set-secret`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-set-secret" >}})
-command (VM deployment) or the `rdi-secret.sh` script (K8s deployment) to set the secret value. 
-You can then refer to these secrets in the `config.yaml` file using the syntax "`${SECRET_NAME}`"
-(the sample [config.yaml file]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines#the-configyaml-file" >}}) shows these secrets in use).
+command (VM deployment) or the `rdi-secret.sh` script (K8s deployment) to set the secret value.
+For K8s, you can also configure RDI to obtain the secrets from an
+[external provider]({{< relref "/integrate/redis-data-integration/data-pipelines/secret-providers" >}}).
+
+The `config.yaml` file accesses these secrets with the syntax "`${SECRET_NAME}`"
+(the sample [config.yaml file]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines#the-configyaml-file" >}}) shows the secrets in use).
 
 The table below lists all valid secret names. Note that the
 username and password are required for the source and target, but the other
@@ -249,17 +251,3 @@ kubectl create secret generic target-db-ssl --namespace=rdi \
 ```
 
 Note that the certificate paths contained in the secrets `SOURCE_DB_CACERT`, `SOURCE_DB_CERT`, and `SOURCE_DB_KEY` (for the source database) and `TARGET_DB_CACERT`, `TARGET_DB_CERT`, and `TARGET_DB_KEY` (for the target database) are internal to RDI, so you *must* use the values shown in the example above. You should only change the certificate paths when you create the `source-db-ssl` and `target-db-ssl` secrets.
-
-## Deploy a pipeline
-
-When you have created your configuration, including the [jobs]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines#job-files" >}}), you are
-ready to deploy. Use [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}})
-to configure and deploy pipelines for both VM and K8s installations.
-
-For VM installations, you can also use the
-[`redis-di deploy`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-deploy" >}})
-command to deploy a pipeline:
-
-```bash
-redis-di deploy --dir <path to pipeline folder>
-```
