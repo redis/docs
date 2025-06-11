@@ -128,6 +128,151 @@ await client.destroy();
 
 You can also use discrete parameters and UNIX sockets. Details can be found in the [client configuration guide](https://github.com/redis/node-redis/blob/master/docs/client-configuration.md).
 
+## Connect using client-side caching
+
+Client-side caching is a technique to reduce network traffic between
+the client and server, resulting in better performance. See
+[Client-side caching introduction]({{< relref "/develop/clients/client-side-caching" >}})
+for more information about how client-side caching works and how to use it effectively.
+
+{{< note >}}Client-side caching requires `node-redis` v5.1.0 or later.
+To maximize compatibility with all Redis products, client-side caching
+is supported by Redis v7.4 or later.
+
+The [Redis server products]({{< relref "/operate" >}}) support
+[opt-in/opt-out]({{< relref "/develop/reference/client-side-caching#opt-in-and-opt-out-caching" >}}) mode
+and [broadcasting mode]({{< relref "/develop/reference/client-side-caching#broadcasting-mode" >}})
+for CSC, but these modes are not currently implemented by `node-redis`.
+{{< /note >}}
+
+To enable client-side caching, specify the
+[RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
+protocol and configure the cache with the `clientSideCache` parameter
+when you connect. If you want `node-redis` to create the cache for you,
+then you can pass a simple configuration object in `clientSideCache`, as
+shown below:
+
+```js
+const client = createClient({
+  RESP: 3,
+  clientSideCache: {
+    ttl: 0,             // Time-to-live in milliseconds (0 = no expiration)
+    maxEntries: 0,      // Maximum entries to store (0 = unlimited)
+    evictPolicy: "LRU"  // Eviction policy: "LRU" or "FIFO"
+  }
+});
+```
+
+However, you can get more control over the cache very easily by creating
+your own cache object and passing that as `clientSideCache` instead:
+
+```js
+import { BasicClientSideCache } from 'redis';
+
+const cache = new BasicClientSideCache({
+  ttl: 0,
+  maxEntries: 0,
+  evictPolicy: "LRU"
+});
+
+const client = createClient({
+  RESP: 3,
+  clientSideCache: cache
+});
+```
+
+The main advantage of using your own cache instance is that you can
+use its methods to clear all entries, invalidate individual keys,
+and gather useful performance statistics:
+
+```js
+// Manually invalidate keys
+cache.invalidate(key);
+
+// Clear the entire cache
+cache.clear();
+
+// Get cache metrics
+// `cache.stats()` returns a `CacheStats` object with comprehensive statistics.
+const statistics = cache.stats();
+
+// Key metrics:
+const hits = statistics.hitCount;        // Number of cache hits
+const misses = statistics.missCount;      // Number of cache misses
+const hitRate = statistics.hitRate();     // Cache hit rate (0.0 to 1.0)
+
+// Many other metrics are available on the `statistics` object, e.g.:
+// statistics.missRate(), statistics.loadSuccessCount,
+// statistics.averageLoadPenalty(), statistics.requestCount()
+```
+
+When you have connected, the usual Redis commands will work transparently
+with the cache:
+
+```java
+client.set("city", "New York");
+client.get("city");     // Retrieved from Redis server and cached
+client.get("city");     // Retrieved from cache
+```
+
+You can see the cache working if you connect to the same Redis database
+with [`redis-cli`]({{< relref "/develop/tools/cli" >}}) and run the
+[`MONITOR`]({{< relref "/commands/monitor" >}}) command. If you run the
+code above but without passing `clientSideCache` during the connection,
+you should see the following in the CLI among the output from `MONITOR`:
+
+```
+1723109720.268903 [...] "SET" "city" "New York"
+1723109720.269681 [...] "GET" "city"
+1723109720.270205 [...] "GET" "city"
+```
+
+The server responds to both `get("city")` calls.
+If you run the code with `clientSideCache` added in again, you will see
+
+```
+1723110248.712663 [...] "SET" "city" "New York"
+1723110248.713607 [...] "GET" "city"
+```
+
+The first `get("city")` call contacted the server, but the second
+call was satisfied by the cache.
+
+### Pooled caching
+
+You can also use client-side caching with client pools. Note that the same
+cache is shared among all the clients in the same pool. As with the
+non-pooled connection, you can let `node-redis` create the cache for you:
+
+```js
+const client = createClientPool({RESP: 3}, {
+  clientSideCache: {
+    ttl: 0,
+    maxEntries: 0,
+    evictPolicy: "LRU"
+  },
+  minimum: 5
+});
+```
+
+If you want to access the cache, provide an instance of
+`BasicPooledClientSideCache` instead of `BasicClientSideCache`:
+
+```js
+import { BasicPooledClientSideCache } from 'redis';
+
+const cache = new BasicPooledClientSideCache({
+  ttl: 0,
+  maxEntries: 0,
+  evictPolicy: "LRU"
+});
+
+const client = createClientPool({RESP: 3}, {
+  clientSideCache: cache,
+  minimum: 5
+});
+```
+
 ## Reconnect after disconnection
 
 `node-redis` can attempt to reconnect automatically when

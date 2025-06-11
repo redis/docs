@@ -37,7 +37,7 @@ rladmin status
 | extra backups | Shows periodic backup status |
 | extra frag | Shows fragmented memory available after the restart |
 | extra nodestats | Shows shards per node |
-| extra rack_id | Shows `rack_id` if customer is not `rack_aware` |
+| extra rack_id | Shows `rack_id` and `second_rack_id` even if the cluster is not `rack_aware` |
 | extra redis_version | Shows Redis version of all databases in the cluster |
 | extra state_machine | Shows execution of state machine information  |
 | extra watchdog | Shows watchdog status  |
@@ -109,7 +109,7 @@ rladmin status databases
 | extra backups | Shows periodic backup status |
 | extra frag | Shows fragmented memory available after the restart |
 | extra nodestats | Shows shards per node |
-| extra rack_id | Shows `rack_id` if customer is not `rack_aware` |
+| extra rack_id | Shows `rack_id` and `second_rack_id` even if the cluster is not `rack_aware` |
 | extra redis_version | Shows Redis version of all databases in the cluster |
 | extra state_machine | Shows execution of state machine information  |
 | extra watchdog | Shows watchdog status  |
@@ -182,7 +182,7 @@ rladmin status endpoints
 | extra backups | Shows periodic backup status |
 | extra frag | Shows fragmented memory available after the restart |
 | extra nodestats | Shows shards per node |
-| extra rack_id | Shows `rack_id` if customer is not `rack_aware` |
+| extra rack_id | Shows `rack_id` and `second_rack_id` even if the cluster is not `rack_aware` |
 | extra redis_version | Shows Redis version of all endpoints in the cluster |
 | extra state_machine | Shows execution of state machine information  |
 | extra watchdog | Shows watchdog status  |
@@ -292,7 +292,7 @@ rladmin status nodes
 | extra backups | Shows periodic backup status |
 | extra frag | Shows fragmented memory available after the restart |
 | extra nodestats | Shows shards per node |
-| extra rack_id | Shows `rack_id` if customer is not `rack_aware` |
+| extra rack_id | Shows `rack_id` and `second_rack_id` even if the cluster is not `rack_aware` |
 | extra redis_version | Shows Redis version of all nodes in the cluster |
 | extra state_machine | Shows execution of state machine information  |
 | extra watchdog | Shows watchdog status  |
@@ -372,7 +372,7 @@ rladmin status shards
 | extra backups | Shows periodic backup status |
 | extra frag | Shows fragmented memory available after the restart |
 | extra shardstats | Shows shards per node |
-| extra rack_id | Shows `rack_id` if customer is not `rack_aware` |
+| extra rack_id | Shows `rack_id` and `second_rack_id` even if the cluster is not `rack_aware` |
 | extra redis_version | Shows Redis version of all shards in the cluster |
 | extra state_machine | Shows execution of state machine information  |
 | extra watchdog | Shows watchdog status  |

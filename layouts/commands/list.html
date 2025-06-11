@@ -100,14 +100,8 @@
         </div>
       </form>
       
-      {{ $parent := .Page }}
       {{ $pages := (where .Site.Pages "Section" .Section).ByWeight }}
-      {{ $pages = (where $pages "Type" "!=" "search") }}
-      {{ $pages = (where $pages ".Params.hide_summary" "!=" true) }}
-      {{ $pages = (where $pages ".Parent" "!=" nil) }}
-      {{/* $pages = (where $pages "Parent.File.UniqueID" "==" $parent.File.UniqueID) */}}
       {{ $pages = (where $pages ".Params.hidden" "!=" true) }}
-      {{ $pages = (where $pages "Kind" "!=" "section") }}
       <div id="commands-grid" class="flex flex-col md:grid grid-cols-[repeat(auto-fit,minmax(18rem,1fr))] gap-4 text-redis-ink-900 mx-auto">
         {{ range $index, $page := $pages }}
           <article 
@@ -132,7 +126,7 @@
         {{ end }}
       </div>
     </div>
-
     {{ partial "commands-nav.html" . }}
+    {{ partial "scripts.html" . }}
   </main>
 {{ end }}

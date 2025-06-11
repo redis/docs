@@ -12,8 +12,8 @@ if __name__ == '__main__':
         v = j.get(k)
         c = Command(k, v)
         sf = c.syntax()
-        path = f'content/commands/{k.lower().replace(" ", "-")}/'
-        md = Markdown(f'{path}index.md')
+        path = f'content/commands/{k.lower().replace(" ", "-")}.md'
+        md = Markdown(path)
         md.fm_data |= v
         md.fm_data.update({
             'syntax_str': str(c),

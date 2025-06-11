@@ -36,6 +36,9 @@
         {{ partial "feedback.html" . }}
       </section>
     </div>
-    {{ partial "docs-toc.html" . }}
+    {{ if not .Params.hideTOC }}
+      {{ partial "docs-toc.html" . }}
+    {{ end }}
+    {{ partial "scripts.html" . }}
   </main>
 {{ end }}

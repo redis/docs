@@ -50,6 +50,7 @@ Redis Insight allows you to preconfigure database connections using environment 
 | RI_REDIS_TLS_CERT_PATH* | Path to the Client certificate file. | N/A |  |
 | RI_REDIS_TLS_KEY_BASE64* | Private key for the client certificate in base64 format. | N/A | Indicate a private key in this environment variable or use another variable to get it from a file. |
 | RI_REDIS_TLS_KEY_PATH* | Path to private key file. | N/A |  |
+| RI_REDIS_DB | Database index to connect to. | N/A | |
 
 ### Preconfigure database connections using a JSON file
 Redis Insight also allows you to preconfigure database connections using a JSON file.

@@ -377,7 +377,7 @@ string
 Example of rule 2:
 
 {{< clients-example list_tutorial rule_2 >}}
-> RPUSH bikes:repairs bike:1 bike:2 bike:3
+> LPUSH bikes:repairs bike:1 bike:2 bike:3
 (integer) 3
 > EXISTS bikes:repairs
 (integer) 1

@@ -149,7 +149,7 @@ the elements sorted in a descending way.
 > ZRANK racer_scores "Norem"
 (integer) 0
 > ZREVRANK racer_scores "Norem"
-(integer) 3
+(integer) 2
 {{< /clients-example >}}
 
 ### Lexicographical scores

@@ -60,7 +60,7 @@ llmcache = SemanticCache(
     name="llmcache",                                          # underlying search index name
     redis_url="redis://localhost:6379",                       # redis connection url string
     distance_threshold=0.1,                                   # semantic cache distance threshold
-    vectorizer=HFTextVectorizer("redis/langcache-embed-v1"),  # embdding model
+    vectorizer=HFTextVectorizer("redis/langcache-embed-v1"),  # embedding model
 )
 ```
 

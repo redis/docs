@@ -1,6 +1,6 @@
-<div class="alert p-3 relative flex flex-row items-center text-base bg-redis-pencil-200 rounded-md">
+<div class="alert p-3 relative flex flex-row flex-wrap items-center text-base bg-redis-pencil-200 rounded-md">
   <div class="p-2 pr-5">{{ partial "icons/alert-circle.html" }}</div>
-  <div class="p-1 pl-6 border-l border-l-redis-ink-900 border-opacity-50">
+  <div class="p-1 pl-4 sm:pl-6 border-l border-l-redis-ink-900 border-opacity-50 flex-1">
   {{ with .Title }}
   <div class="font-medium">{{ . | safeHTML }}:</div>
   {{ end }}

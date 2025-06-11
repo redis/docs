@@ -23,6 +23,8 @@ Importing data erases all existing content in the database.
 
 ## Import data into a database
 
+### Cluster Manager UI method
+
 To import data into a database using the Cluster Manager UI:
 
 1. On the **Databases** screen, select the database from the list, then select **Configuration**.
@@ -32,6 +34,41 @@ To import data into a database using the Cluster Manager UI:
 
     See [Supported storage locations](#supported-storage-locations) for more information about each storage location type.
 1. Select **Import**.
+
+### REST API method
+
+To import data into a database using the REST API, send an [import database request]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/import">}}):
+
+```sh
+POST /v1/bdbs/<database-id>/actions/import
+{
+  "dataset_import_sources": [
+    {
+      "type": "<location-type>",
+      // additional fields, depending on location_type
+    },
+    {
+      "type": "<location-type>",
+      // additional fields, depending on location_type
+    }
+  ]
+}
+```
+
+- Replace `<database-id>` with the destination database's ID.
+
+- Replace the data source's `<location-type>` with the relevant value from the following options:
+
+    | Location type | "type" value |
+    |---------------|--------------|
+    | FTPS | "url" |
+    | SFTP | "sftp" |
+    | Amazon S3 | "s3" |
+    | Google Cloud Storage | "gs" |
+    | Microsoft Azure Storage | "abs" |
+    | NAS/Local Storage | "mount_point" |
+
+See the following storage location sections for REST API request examples for each location type.
 
 ## Supported storage locations {#supported-storage-services}
 
@@ -70,6 +107,20 @@ Example: `ftp://username:password@10.1.1.1/home/backups/<filename>.rdb`
 
 Select **Add path** to add another import file path.
 
+Example [import database REST API request]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/import">}}):
+
+```sh
+POST /v1/bdbs/<database-id>/actions/import
+{
+  "dataset_import_sources": [
+    {
+      "type": "url",
+      "url": "ftp://<ftp_user>:<ftp_password>@example.com/<path>/<filename>.rdb.gz"
+    }
+  ]
+}
+```
+
 ### Local mount point
 
 Before importing data from a local mount point, make sure that:
@@ -99,6 +150,20 @@ To import from a local mount point:
 As of version 6.2.12, Redis Enterprise reads files directly from the mount point using a [symbolic link](https://en.wikipedia.org/wiki/Symbolic_link) (symlink) instead of copying them to a temporary directory on the node.
 
 Select **Add path** to add another import file path.
+
+Example [import database REST API request]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/import">}}):
+
+```sh
+POST /v1/bdbs/<database-id>/actions/import
+{
+  "dataset_import_sources": [
+    {
+      "type": "mount_point",
+      "path": "/<path>/<filename>.rdb.gz"
+    }
+  ]
+}
+```
 
 ### SFTP server
 
@@ -138,6 +203,20 @@ Example: `sftp://username:password@10.1.1.1/home/backups/[filename].rdb`
 
 Select **Add path** to add another import file path.
 
+Example [import database REST API request]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/import">}}):
+
+```sh
+POST /v1/bdbs/<database-id>/actions/import
+{
+  "dataset_import_sources": [
+    {
+      "type": "sftp",
+      "sftp_url": "sftp://<sftp_user>@example.com/<path>/<filename>.rdb"
+    }
+  ]
+}
+```
+
 ### AWS Simple Storage Service {#aws-s3}
 
 Before you choose to import data from an [Amazon Web Services](https://aws.amazon.com/) (AWS) Simple Storage Service (S3) bucket, make sure you have:
@@ -175,6 +254,24 @@ To connect to an S3-compatible storage location:
 
     Replace `<filepath>` with the location of the S3 CA certificate `ca.pem`.
 
+Example [import database REST API request]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/import">}}):
+
+```sh
+POST /v1/bdbs/<database-id>/actions/import
+{
+  "dataset_import_sources": [
+    {
+      "type": "s3",
+      "bucket_name": "backups",
+      "subdir": "test-db",
+      "filename": "<filename>.rdb",
+      "access_key_id": "XXXXXXXXXXXXX",
+      "secret_access_key": "XXXXXXXXXXXXXXXX"
+    }
+  ]
+}
+```
+
 ### Google Cloud Storage
 
 Before you import data from a [Google Cloud](https://developers.google.com/console/) storage bucket, make sure you have:
@@ -198,6 +295,26 @@ In the Redis Enterprise Software Cluster Manager UI, when you enter the import l
 - In the **Private key** field, enter the `private_key` from the service account key.
     Replace `\n` with new lines.
 
+Example [import database REST API request]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/import">}}):
+
+```sh
+POST /v1/bdbs/<database-id>/actions/import
+{
+  "dataset_import_sources": [
+    {
+      "type": "gs",
+      "bucket_name": "backups",
+      "client_id": "XXXXXXXX",
+      "client_email": "cloud-storage-client@my-project-id.iam.gserviceaccount.com",
+      "subdir": "test-db",
+      "filename": "<filename>.rdb",
+      "private_key_id": "XXXXXXXXXXXXX",
+      "private_key": "XXXXXXXXXXXXXXXX"
+    }
+  ]
+}
+```
+
 ### Azure Blob Storage
 
 Before you choose to import from Azure Blob Storage, make sure that you have:
@@ -219,6 +336,24 @@ In the Redis Enterprise Software Cluster Manager UI, when you enter the import l
 - In the **Azure Account Name** field, enter your storage account name.
 
 - In the **Azure Account Key** field, enter the storage account key.
+
+Example [import database REST API request]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/import">}}):
+
+```sh
+POST /v1/bdbs/<database-id>/actions/import
+{
+  "dataset_import_sources": [
+    {
+      "type": "abs",
+      "container": "backups",
+      "subdir": "test-db",
+      "filename": "<filename>.rdb",
+      "account_name": "name",
+      "account_key": "XXXXXXXXXXXXXXXX" // Or you can use "sas_token": "XXXXXXXXXXXXXXXXXX" instead
+    }
+  ]
+}
+```
 
 ## Importing into an Active-Active database
 
