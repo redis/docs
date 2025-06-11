@@ -105,7 +105,7 @@ SQL Server supports the following date and time data types:
             expression: TIME(event_time, 'unixepoch', 'utc')
   ```
 
-- `datetimeoffset` - represented as a timestamp with timezone information e.g. `2025-05-27T15:21:42.864Z` and `2025-01-02T14:45:30.123+05:00`. 
+- `datetimeoffset` - represented as a timestamp with timezone information (for example, `2025-05-27T15:21:42.864Z` or `2025-01-02T14:45:30.123+05:00`). 
   ```yaml
   transform:
   - uses: add_field
