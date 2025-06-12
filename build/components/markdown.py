@@ -77,9 +77,8 @@ class Markdown:
         self.fm_data['github_path'] = github_path
 
     def report_links(self) -> None:
-        links = re.findall(r'(\[.+\])(\(.+\))', self.payload)
         exc = ['./', '#', '/commands', '/community', '/docs', '/topics']
-        for link in links:
+        for link in re.finditer(r'(\[.+])(\(.+\))', self.payload):
             ex = False
             for e in exc:
                 if link[1].startswith(f'({e}'):
@@ -247,4 +246,4 @@ class Markdown:
                 return r
             else:
                 return x.group(0)
-        self.payload = re.sub(f'(\[.+?\])(\(.+?\))', rep, self.payload)
+        self.payload = re.sub(r'(\[.+])(\(.+\))', rep, self.payload)

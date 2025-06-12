@@ -14,7 +14,7 @@ TEST_MARKER = {
     'java-sync': '@Test',
     'java-async': '@Test',
     'java-reactive': '@Test',
-    'c#': '\[Fact\]|\[SkipIfRedis\(.*\)\]'
+    'c#': r'\[Fact]|\[SkipIfRedis\(.*\)]'
 }
 PREFIXES = {
     'python': '#',

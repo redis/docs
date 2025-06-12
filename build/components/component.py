@@ -461,7 +461,7 @@ class Module(Component):
                 md.persist()
 
             files = run(
-                f'find {self._content} -regex ".*\.md"').strip().split('\n')
+                fr'find {self._content} -regex ".*\.md"').strip().split('\n')
             for f in files:
                 md = Markdown(f)
                 t = md.fm_data.pop('type', None)
