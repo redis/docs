@@ -19,48 +19,22 @@ By default, RDI adds fields to
 [hash]({{< relref "/develop/data-types/hashes" >}}) or
 [JSON]({{< relref "/develop/data-types/json" >}}) objects in the target
 database that closely match the columns of the source table.
-The examples below show how you can create a completely new object structure
-from existing fields using the
+If you just want to limit the set fields in the output and/or rename some of them, you can use the
+[`output mapping`]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples/remapping-the-output" >}}) configuration option.
+
+For situations where you want to create a new object structure with multiple levels or use calculations for the field values, you can use the
 [`map`]({{< relref "/integrate/redis-data-integration/reference/data-transformation/map" >}})
-transformation.
+transformation, as described in the following sections.
 
-## Map to a new JSON structure
+## Creating multilevel JSON objects
 
-The first
-[job file]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines#job-files" >}})
-example creates a new [JSON]({{< relref "/develop/data-types/json" >}})
-object structure to write to the target.
-The `source` section selects the `employee` table of the
-[`chinook`](https://github.com/Redislabs-Solution-Architects/rdi-quickstart-postgres)
-database (the optional `db` value here corresponds to the
-`sources.<source-name>.connection.database` value defined in
-[`config.yaml`]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines#the-configyaml-file" >}})).
-
-In the `transform` section, the `map` transformation uses a [JMESPath](https://jmespath.org/)
-expression to specify the new JSON format. (Note that the vertical bar "|" in the `expression`
-line indicates that the following indented lines should be interpreted as a single string.)
-The expression resembles JSON notation but with data values supplied from
-table fields and
-[JMESPath functions]({{< relref "/integrate/redis-data-integration/reference/jmespath-custom-functions" >}}).
-
-Here, we rename the
-`employeeid` field to `id` and create two nested objects for the `address`
-and `contact` information. The `name` field is the concatenation of the existing
-`firstname` and `lastname` fields, with `lastname` converted to uppercase.
-In the `contact` subobject, the `email` address is obfuscated slightly, using the
-`replace()` function to hide the '@' sign and dots.
-
-In the `output` section of the job file, we specify that we want to write
-to a JSON object with a custom key. Note that in the `output` section, you must refer to
-fields defined in the `map` transformation, so we use the new name `id`
-for the key instead of `employeeid`.
-
-The full example is shown below:
+You can use the `map` transformation to create a new structure for the output data, which can include nested objects and calculated fields. The `map` transformation allows you to define a new structure using an expression language, such as SQL or JavaScript.
 
 ```yaml
 source:
   db: chinook
   table: employee
+
 transform:
   - uses: map
     with:
@@ -81,15 +55,29 @@ transform:
           }
         }
       language: jmespath
+
 output:
   - uses: redis.write
     with:
-      connection: target
       data_type: json
       key:
         expression: concat(['emp:', id])
         language: jmespath
 ```
+
+
+The example above creates a new JSON object with the following structure:
+ - A top-level `id` field that is the same as the `employeeid` field in the source table.
+ - A `name` field that is a concatenation of the `firstname` and `lastname` fields, with the `lastname` converted to uppercase.
+ - An `address` subobject that contains the `address`, `city`, `state`, `postalcode`, and `country` fields.
+ - A `contact` subobject that contains the `phone` field and a modified version of the `email` field, where the '@' sign and dots are replaced with '_at_' and '_dot_' respectively.
+
+The `output` section of the file configures the job to write
+to a JSON object with a custom key. Note that in the `output` section, you must refer to
+fields defined in the `map` transformation, so we use the new name `id`
+for the key instead of `employeeid`.
+
+
 
 If you query one of the new JSON objects, you see output like the following:
 
@@ -118,7 +106,7 @@ Formatted in the usual JSON style, the output looks like the sample below:
 }
 ```
 
-## Map to a hash structure
+## Creating hash structure
 
 This example creates a new [hash]({{< relref "/develop/data-types/hashes" >}})
 object structure for items from the `track` table. Here, the `map` transformation uses
