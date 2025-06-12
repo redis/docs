@@ -74,7 +74,6 @@ class Markdown:
 
     def persist(self) -> None:
         logging.debug("ENTERING: markdown.py:Markdown.persist:101")
-        # self.report_links()
         payload = self.payload
         if self.fm_type:
             fm = StructuredData.dumps(self.fm_ext, self.fm_data)
