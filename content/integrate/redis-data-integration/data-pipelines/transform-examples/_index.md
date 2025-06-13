@@ -56,11 +56,11 @@ The main sections of these files are:
 - `source`: This is a mandatory section that specifies the data items that you want to 
   use. You can add the following properties here:
   - `server_name`: Logical server name (optional).
-  - `db`: Database name (optional)
-  - `schema`: Database schema (optional)
+  - `db`: Database name (optional). This refers to a db name you supplied in config.yaml
+  - `schema`: Database schema (optional). This refers to a schema name you supplied in config.yaml
   - `table`: Database table name. This refers to a table name you supplied in `config.yaml`. The default
   job doesn't apply to a specific table, so use "*" in place of the table name for this job only.
-  - `row_format`: Format of the data to be transformed. This can take the values `data_only` (default) to
+  - `row_format`: Format of the data to be transformed. This can take the values `partial` (default) to
   use only the payload data, or `full` to use the complete change record. See the `transform` section below
   for details of the extra data you can access when you use the `full` option.
   - `case_insensitive`: This applies to the `server_name`, `db`, `schema`, and `table` properties
