@@ -158,7 +158,8 @@ processors:
 
 ## Sections
 
-The main sections of the file configure [`sources`](#sources) and [`targets`](#targets).
+The main sections of the file configure [`sources`](#sources), [`targets`](#targets),
+and [`processors`](#processors).
 
 ### Sources
 
@@ -235,3 +236,29 @@ sudo k3s kubectl delete nodes --all
 sudo service k3s restart
 ```
 {{< /note >}}
+
+### Processors
+
+The `processors` section configures the behavior of the pipeline. The [example](#example)
+configuration above contains the following properties:
+
+- `on_failed_retry_interval`: Number of seconds to wait before retrying a failed operation.
+  The default is 5 seconds.
+- `read_batch_size`: Maximum number of records to read from the source database. RDI will
+  wait for the batch to fill up to `read_batch_size` or for `duration` to elapse,
+  whichever happens first. The default is 2000.
+- `duration`: Time (in ms) after which data will be read from the stream even if
+  `read_batch_size` was not reached. The default is 100 ms.
+- `write_batch_size`: The batch size for writing data to the target Redis database. This should be
+  less than or equal to the `read_batch_size`. The default is 200.
+- `dedup`: Boolean value to enable the deduplication mechanism. The default is `false`.
+- `dedup_max_size`: Maximum size of the deduplication set. The default is 1024.
+- `error_handling`: The strategy to use when an invalid record is encountered. The available
+  strategies are `ignore` and  `dlq` (store rejected messages in a dead letter queue). 
+  The default is `dlq`. See
+  [What does RDI do if the data is corrupted or invalid?]({{< relref "/integrate/redis-data-integration/faq#what-does-rdi-do-if-the-data-is-corrupted-or-invalid" >}})
+  for more information about the dead letter queue.
+
+See also the
+[RDI configuration file reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors" >}})
+for full details of the other available properties.
