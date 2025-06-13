@@ -2,7 +2,6 @@
 import argparse
 import json
 import logging
-import sys
 
 from components.syntax import Command
 from components.markdown import Markdown
@@ -23,7 +22,7 @@ if __name__ == '__main__':
     log_level = getattr(logging, ARGS.loglevel.upper())
     logging.basicConfig(
         level=log_level,
-        format=f'{sys.argv[0]}: %(message)s',
+        format='%(message)s %(filename)s:%(lineno)d - %(funcName)s',
         force=True  # Force reconfiguration in case logging was already configured
     )
 

@@ -21,7 +21,7 @@ class Markdown:
     }
 
     def __init__(self, filepath: str, warnings: bool = False):
-        logging.debug("ENTERING: markdown.py:Markdown.__init__:25")
+        logging.debug("ENTERING: ")
         self.filepath = filepath
         self.warnings = warnings
         self.fm_data = dict()
@@ -29,14 +29,14 @@ class Markdown:
         self.fm_ext = self.fm_type.get('ext')
         self.payload = ''
         if not self.filepath or not os.path.exists(self.filepath):
-            logging.debug("EXITING: markdown.py:Markdown.__init__:33")
+            logging.debug("EXITING: ")
             return
         with open(self.filepath, 'r') as f:
             payload = f.readlines()
         if len(payload) == 0:
             self.fm_type = self.FM_TYPES.get('---\n')
             self.fm_ext = self.fm_type.get('ext')
-            logging.debug("EXITING: markdown.py:Markdown.__init__:39")
+            logging.debug("EXITING: ")
             return
         i = 0
         while i < len(payload):
@@ -52,7 +52,7 @@ class Markdown:
             self.payload = ''.join(payload)
             self.fm_type = self.FM_TYPES.get('---\n')
             self.fm_ext = self.fm_type.get('ext')
-            logging.debug("EXITING: markdown.py:Markdown.__init__:53")
+            logging.debug("EXITING: ")
             return
         eof, self.fm_ext = self.fm_type.get('eof'), self.fm_type.get('ext')
         found = False
@@ -70,10 +70,10 @@ class Markdown:
             self.fm_data.update(StructuredData.loads(
                 self.fm_ext, ''.join(payload[i+1:j])))
             self.payload = ''.join(payload[j+1:])
-        logging.debug("EXITING: markdown.py:Markdown.__init__:70")
+        logging.debug("EXITING: ")
 
     def persist(self) -> None:
-        logging.debug("ENTERING: markdown.py:Markdown.persist:101")
+        logging.debug("ENTERING: ")
         payload = self.payload
         if self.fm_type:
             fm = StructuredData.dumps(self.fm_ext, self.fm_data)
@@ -89,4 +89,4 @@ class Markdown:
 
         with open(self.filepath, 'w') as f:
             f.write(payload)
-        logging.debug("EXITING: markdown.py:Markdown.persist:117")
+        logging.debug("EXITING: ")

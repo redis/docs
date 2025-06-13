@@ -30,68 +30,68 @@ class StructuredData:
     }
 
     def __init__(self):
-        logging.debug("ENTERING: structured_data.py:StructuredData.__init__:31")
+        logging.debug("ENTERING: ")
         pass
-        logging.debug("EXITING: structured_data.py:StructuredData.__init__:33")
+        logging.debug("EXITING: ")
 
     @staticmethod
     def dump(ext: str, d: dict, f: Any) -> None:
-        logging.debug("ENTERING: structured_data.py:StructuredData.dump:37")
+        logging.debug("ENTERING: ")
         if ext in StructuredData.PARSERS:
             result = StructuredData.PARSERS.get(ext).get('dump')(d, f)
-            logging.debug("EXITING: structured_data.py:StructuredData.dump:40")
+            logging.debug("EXITING: ")
             return result
         else:
-            logging.debug("EXITING: structured_data.py:StructuredData.dump:43")
+            logging.debug("EXITING: ")
             raise RuntimeError(f'unknown extension {ext}')
 
     @staticmethod
     def dumps(ext: str, d: dict) -> None:
-        logging.debug("ENTERING: structured_data.py:StructuredData.dumps:47")
+        logging.debug("ENTERING: ")
         if ext in StructuredData.PARSERS:
             result = StructuredData.PARSERS.get(ext).get('dumps')(d)
-            logging.debug("EXITING: structured_data.py:StructuredData.dumps:50")
+            logging.debug("EXITING: ")
             return result
         else:
-            logging.debug("EXITING: structured_data.py:StructuredData.dumps:53")
+            logging.debug("EXITING: ")
             raise RuntimeError(f'unknown extension {ext}')
 
     @staticmethod
     def load(ext: str, f: Any) -> dict:
-        logging.debug("ENTERING: structured_data.py:StructuredData.load:57")
+        logging.debug("ENTERING: ")
         if ext in StructuredData.PARSERS:
             result = StructuredData.PARSERS.get(ext).get('load')(f)
-            logging.debug("EXITING: structured_data.py:StructuredData.load:60")
+            logging.debug("EXITING: ")
             return result
         else:
-            logging.debug("EXITING: structured_data.py:StructuredData.load:63")
+            logging.debug("EXITING: ")
             raise RuntimeError(f'unknown extension {ext}')
 
     @staticmethod
     def loads(ext: str, s: str) -> dict:
-        logging.debug("ENTERING: structured_data.py:StructuredData.loads:67")
+        logging.debug("ENTERING: ")
         if ext in StructuredData.PARSERS:
             result = StructuredData.PARSERS.get(ext).get('loads')(s)
-            logging.debug("EXITING: structured_data.py:StructuredData.loads:70")
+            logging.debug("EXITING: ")
             return result
         else:
-            logging.debug("EXITING: structured_data.py:StructuredData.loads:73")
+            logging.debug("EXITING: ")
             raise RuntimeError(f'unknown extension {ext}')
 
 
 def load_dict(filepath: str) -> dict:
-    logging.debug("ENTERING: structured_data.py:load_dict:82")
+    logging.debug("ENTERING: ")
     # _, name = os.path.split(filepath)
     _, ext = os.path.splitext(filepath)
     with open(filepath, 'r') as f:
         o = StructuredData.load(ext, f)
-    logging.debug("EXITING: structured_data.py:load_dict:87")
+    logging.debug("EXITING: ")
     return o
 
 
 def dump_dict(filepath: str, d: dict) -> None:
-    logging.debug("ENTERING: structured_data.py:dump_dict:91")
+    logging.debug("ENTERING: ")
     _, ext = os.path.splitext(filepath)
     with open(filepath, 'w') as f:
         StructuredData.dump(ext, d, f)
-    logging.debug("EXITING: structured_data.py:dump_dict:95")
+    logging.debug("EXITING: ")

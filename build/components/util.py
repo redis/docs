@@ -9,38 +9,38 @@ from textwrap import TextWrapper
 
 
 def mkdir_p(dir):
-    logging.debug("ENTERING: util.py:mkdir_p:29")
+    logging.debug("ENTERING: ")
     if dir == '':
-        logging.debug("EXITING: util.py:mkdir_p:31")
+        logging.debug("EXITING: ")
         return
     try:
         result = os.makedirs(dir, exist_ok=True)
-        logging.debug("EXITING: util.py:mkdir_p:35")
+        logging.debug("EXITING: ")
         return result
     except TypeError:
         pass
     try:
         result = os.makedirs(dir)
-        logging.debug("EXITING: util.py:mkdir_p:40")
+        logging.debug("EXITING: ")
         return result
     except OSError as e:
         if e.errno != errno.EEXIST or os.path.isfile(dir):
-            logging.debug("EXITING: util.py:mkdir_p:44")
+            logging.debug("EXITING: ")
             raise
-        logging.debug("EXITING: util.py:mkdir_p:46")
+        logging.debug("EXITING: ")
 
 
 def rm_rf(path):
-    logging.debug("ENTERING: util.py:rm_rf:55")
+    logging.debug("ENTERING: ")
     if os.path.isdir(path) and not os.path.islink(path):
         shutil.rmtree(path)
     elif os.path.exists(path):
         os.remove(path)
-    logging.debug("EXITING: util.py:rm_rf:60")
+    logging.debug("EXITING: ")
 
 
 def run(cmd, cwd=None, nop=None, _try=False):
-    logging.debug("ENTERING: util.py:run:98")
+    logging.debug("ENTERING: ")
     if cmd.find('\n') > -1:
         cmds1 = str.lstrip(TextWrapper.dedent(cmd))
         cmds = filter(lambda s: str.lstrip(s) != '', cmds1.split("\n"))
@@ -51,7 +51,7 @@ def run(cmd, cwd=None, nop=None, _try=False):
     logging.debug(f'run: {cmd}')
     sys.stdout.flush()
     if nop:
-        logging.debug("EXITING: util.py:run:109")
+        logging.debug("EXITING: ")
         return
     sp = subprocess.Popen(["bash", "-e", "-c", cmd],
                           cwd=cwd,
@@ -64,36 +64,36 @@ def run(cmd, cwd=None, nop=None, _try=False):
         if not _try:
             die()
     result = out.decode('utf-8')
-    logging.debug("EXITING: util.py:run:121")
+    logging.debug("EXITING: ")
     return result
 
 
 def die(msg: str = 'aborting - have a nice day!') -> None:
-    logging.debug("ENTERING: util.py:die:127")
+    logging.debug("ENTERING: ")
     logging.error(msg)
     exit(1)
 
 
 def rsync(src: str, dst: str, exclude: list = ['.*'], include: list = ['*']):
-    logging.debug("ENTERING: util.py:rsync:133")
+    logging.debug("ENTERING: ")
     ex = [f'"{x}"' for x in exclude]
     ix = [f'"{x}"' for x in include]
     cmd = f'rsync -av --no-owner --no-group --include={{{",".join(ix)}}} --exclude={{{",".join(ex)}}} {src} {dst}'
     ret = run(cmd)
     result = ret.split('\n')
-    logging.debug("EXITING: util.py:rsync:139")
+    logging.debug("EXITING: ")
     return result
 
 
 def log_func(args: list) -> None:
-    logging.debug("ENTERING: util.py:log_func:143")
+    logging.debug("ENTERING: ")
     caller = sys._getframe(1).f_code.co_name
     logging.debug('called %s(%s)', caller, args)
-    logging.debug("EXITING: util.py:log_func:146")
+    logging.debug("EXITING: ")
 
 
 def log_dict(msg, obj, *props):
-    logging.debug("ENTERING: util.py:log_dict:149")
+    logging.debug("ENTERING: ")
     d = {prop: obj.get(prop, None) for prop in props}
     logging.info(f'{msg} {d}')
-    logging.debug("EXITING: util.py:log_dict:152")
+    logging.debug("EXITING: ")

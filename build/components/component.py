@@ -11,18 +11,18 @@ from .util import die, mkdir_p, rsync, run, rm_rf
 from .example import Example
 
 def parseUri(uri: str) -> Tuple[ParseResult, str, str]:
-    logging.debug("ENTERING: component.py:parseUri:17")
+    logging.debug("ENTERING: ")
     _uri = urlparse(uri)
     dirname = os.path.dirname(uri)
     _, name = os.path.split(_uri.path)
     _, ext = os.path.splitext(name)
-    logging.debug("EXITING: component.py:parseUri:22")
+    logging.debug("EXITING: ")
     return _uri, dirname, name, ext
 
 
 class Component(dict):
     def __init__(self, filepath: str = None, root: dict = None, args: dict = None):
-        logging.debug("ENTERING: component.py:Component.__init__:27")
+        logging.debug("ENTERING: ")
         super().__init__()
         self._root = root
         self._args = args
@@ -36,10 +36,10 @@ class Component(dict):
         self._desc = self.get('description', '')
         self._stack_path = self.get('stack_path', '')
         self._repository = self.get('repository', None)
-        logging.debug("EXITING: component.py:Component.__init__:41")
+        logging.debug("EXITING: ")
 
     def _git_clone(self, repo) -> str:
-        logging.debug("ENTERING: component.py:Component._git_clone:104")
+        logging.debug("ENTERING: ")  
         git_uri = repo.get('git_uri')
         private = repo.get('private', False)
         uri, _, name, ext = parseUri(git_uri)
@@ -60,50 +60,50 @@ class Component(dict):
                 run(f'git fetch --all --tags', cwd=to)
             else:
                 logging.debug(f'Skipping clone {git_uri}')
-            logging.debug("EXITING: component.py:Component._git_clone:122")
+            logging.debug("EXITING: ")
             return to
         elif self._repo_uri() == git_uri:
-            logging.debug("EXITING: component.py:Component._git_clone:125")
+            logging.debug("EXITING: ")
             return self._repo_env_dir()
         elif (uri.scheme == 'file' or uri.scheme == '') and ext == '':
-            logging.debug("EXITING: component.py:Component._git_clone:128")
+            logging.debug("EXITING: ")
             return uri.path
         else:
             die('Cannot determine git repo - aborting.')
 
     def _repo_env_dir(self) -> str:
-        logging.debug("ENTERING: component.py:Component._repo_env_dir:233")
+        logging.debug("ENTERING: ")
         if os.getenv(f'REPO_DIR'):
-            logging.debug("EXITING: component.py:Component._repo_env_dir:235")
+            logging.debug("EXITING: ")
             return os.getenv(f'REPO_DIR')
-        logging.debug("EXITING: component.py:Component._repo_env_dir:237")
+        logging.debug("EXITING: ")
         return ''
 
     def _repo_uri(self) -> str:
-        logging.debug("ENTERING: component.py:Component._repo_uri:240")
+        logging.debug("ENTERING: ")
         if(os.getenv('REPOSITORY_URL')):
-            logging.debug("EXITING: component.py:Component._repo_uri:242")
+            logging.debug("EXITING: ")
             return os.getenv('REPOSITORY_URL')
-        logging.debug("EXITING: component.py:Component._repo_uri:244")
+        logging.debug("EXITING: ")
         return ''
 
     def _skip_checkout(self, obj) -> bool:
-        logging.debug("ENTERING: component.py:Component._skip_checkout:254")
+        logging.debug("ENTERING: ")
         if obj.get('git_uri') == self._repo_uri() and self._preview_mode():
-            logging.debug("EXITING: component.py:Component._skip_checkout:256")
+            logging.debug("EXITING: ")
             return True
-        logging.debug("EXITING: component.py:Component._skip_checkout:258")
+        logging.debug("EXITING: ")
         return False
 
     def _checkout(self, ref, dest, obj):
-        logging.debug("ENTERING: component.py:Component._checkout:261")
+        logging.debug("ENTERING: ")
         if not self._skip_checkout(obj):
             run(f'git checkout {ref}', cwd=dest)
-        logging.debug("EXITING: component.py:Component._checkout:264")
+        logging.debug("EXITING: ")
 
 class All(Component):
     def __init__(self, filepath: str, root: dict = None, args: dict = None):
-        logging.debug("ENTERING: component.py:All.__init__:271")
+        logging.debug("ENTERING: ")
         super().__init__(filepath, root, args)
         self._groups = {}
         self._commands = {}
@@ -116,17 +116,17 @@ class All(Component):
         self._content = f'{self._website.get("path")}/{self._website.get("content")}'
         self._examples = {}
         mkdir_p(self._content)
-        logging.debug("EXITING: component.py:All.__init__:284")
+        logging.debug("EXITING: ")
 
     def _persist_examples(self) -> None:
-        logging.debug("ENTERING: component.py:All._persist_examples:302")
+        logging.debug("ENTERING: ")
         filepath = f'{self._website.get("path")}/{self._website.get("examples")}'
         logging.info(f'Persisting {self._id} examples: {filepath}')
         dump_dict(filepath, self._examples)
-        logging.debug("EXITING: component.py:All._persist_examples:306")
+        logging.debug("EXITING: ")
 
     def apply(self) -> None:
-        logging.debug("ENTERING: component.py:All.apply:373")
+        logging.debug("ENTERING: ")
         for kind in ['clients','core', 'docs', 'modules',  'assets']:
             for component in self.get(kind):
                 if type(component) == str:
@@ -151,50 +151,30 @@ class All(Component):
                     die(f'Unknown component definition for {component}')
                 c.apply()
         self._persist_examples()
-        logging.debug("EXITING: component.py:All.apply:402")
-
-
-class Core(Component):
-    def __init__(self, filepath: str, root: dict = None):
-        logging.debug("ENTERING: component.py:Core.__init__:408")
-        super().__init__(filepath, root)
-        self._content = f'{self._root._content}/{self._stack_path}'
-        logging.debug("EXITING: component.py:Core.__init__:411")
-
-    def apply(self) -> None:
-        logging.debug("ENTERING: component.py:Core.apply:477")
-        logging.info(f'Applying core {self._id}')
-        files = self._get_docs()
-        files += self._get_commands()
-        self._get_misc()
-        self._get_groups()
-        self._get_data()
-        self._get_conf_file()
-        logging.debug("EXITING: component.py:Core.apply:485")
-        return files
+        logging.debug("EXITING: ")
 
 
 class Client(Component):
     def __init__(self, filepath: str, root: dict = None):
-        logging.debug("ENTERING: component.py:Client.__init__:558")
+        logging.debug("ENTERING: ")
         print(str("file_path = {}".format(filepath)))
         super().__init__(filepath, root)
-        logging.debug("EXITING: component.py:Client.__init__:561")
+        logging.debug("EXITING: ")
 
     def _get_example_id_from_file(self, path):
-        logging.debug("ENTERING: component.py:Client._get_example_id_from_file:564")
+        logging.debug("ENTERING: ")
         with open(path) as cf:
             fline = cf.readline()
 
         if 'EXAMPLE:' in fline:
-            logging.debug("EXITING: component.py:Client._get_example_id_from_file:569")
+            logging.debug("EXITING: ")
             return fline.split(':')[1].strip()
 
-        logging.debug("EXITING: component.py:Client._get_example_id_from_file:572")
+        logging.debug("EXITING: ")
         return None
 
     def _copy_examples(self):
-        logging.debug("ENTERING: component.py:Client._copy_examples:577")
+        logging.debug("ENTERING: ")
         if ex := self.get('examples'):
             repo = self._git_clone(ex)
             dev_branch = ex.get('dev_branch')
@@ -238,10 +218,10 @@ class Client(Component):
 
                 logging.info(f'Example {example_id} processed successfully.')
                 examples[example_id][self.get('label')] = example_metadata
-        logging.debug("EXITING: component.py:Client._copy_examples:615")
+        logging.debug("EXITING: ")
 
     def apply(self) -> None:
-        logging.debug("ENTERING: component.py:Client.apply:618")
+        logging.debug("ENTERING: ")
         logging.info(f'Applying client {self._id}')
         self._copy_examples()
-        logging.debug("EXITING: component.py:Client.apply:621")
+        logging.debug("EXITING: ")

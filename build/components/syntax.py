@@ -24,7 +24,7 @@ class ArgumentType(Enum):
 
 class Argument:
     def __init__(self, data: dict = {}, level: int = 0, max_width: int = 640) -> None:
-        logging.debug("ENTERING: syntax.py:Argument.__init__:28")
+        logging.debug("ENTERING: ")
         self._stack = []
         self._level: int = level
         self._max_width: int = max_width
@@ -39,10 +39,10 @@ class Argument:
             self._token = '""'
         self._arguments: List[Argument] = [
             Argument(arg, self._level+1) for arg in data.get('arguments', [])]
-        logging.debug("EXITING: syntax.py:Argument.__init__:42")
+        logging.debug("EXITING: ")
 
     def syntax(self, **kwargs) -> str:
-        logging.debug("ENTERING: syntax.py:Argument.syntax:47")
+        logging.debug("ENTERING: ")
         show_types = kwargs.get('show_types')
         args = ''
         if self._type == ArgumentType.BLOCK:
@@ -79,13 +79,13 @@ class Argument:
         if self._optional:
             syntax = f'{syntax.rstrip()}]'
 
-        logging.debug("EXITING: syntax.py:Argument.syntax:81")
+        logging.debug("EXITING: ")
         return f'{syntax}'
 
 
 class Command(Argument):
     def __init__(self, cname: str, data: dict, max_width: int = 640) -> None:
-        logging.debug("ENTERING: syntax.py:Command.__init__:155")
+        logging.debug("ENTERING: ")
         self._cname = cname
         self._cdata = data
         carg = {
@@ -94,16 +94,16 @@ class Command(Argument):
             'arguments': data.get('arguments', [])
         }
         super().__init__(carg, 0, max_width)
-        logging.debug("EXITING: syntax.py:Command.__init__:164")
+        logging.debug("EXITING: ")
 
     def __str__(self):
-        logging.debug("ENTERING: syntax.py:Command.__str__:166")
+        logging.debug("ENTERING: ")
         s = ' '.join([arg.syntax() for arg in self._arguments[1:]])
-        logging.debug("EXITING: syntax.py:Command.__str__:168")
+        logging.debug("EXITING: ")
         return s
 
     def syntax(self, **kwargs):
-        logging.debug("ENTERING: syntax.py:Command.syntax:181")
+        logging.debug("ENTERING: ")
         opts = {
             'width': kwargs.get('width', 68),
             'subsequent_indent': ' ' * 2,
@@ -112,5 +112,5 @@ class Command(Argument):
         }
         args = [self._name] + [arg.syntax() for arg in self._arguments]
         result = fill(' '.join(args), **opts)
-        logging.debug("EXITING: syntax.py:Command.syntax:189")
+        logging.debug("EXITING: ")
         return result

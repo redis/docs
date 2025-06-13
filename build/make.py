@@ -1,7 +1,6 @@
 import argparse
 from datetime import datetime
 import logging
-import sys
 import tempfile
 
 from components.component import All
@@ -35,7 +34,7 @@ if __name__ == '__main__':
     log_level = getattr(logging, ARGS.loglevel.upper())
     logging.basicConfig(
         level=log_level,
-        format=f'{sys.argv[0]}: %(message)s',
+        format='%(message)s %(filename)s:%(lineno)d - %(funcName)s',
         force=True  # Force reconfiguration in case logging was already configured
     )
 
