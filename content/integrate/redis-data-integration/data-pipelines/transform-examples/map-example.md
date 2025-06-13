@@ -27,14 +27,14 @@ transformation.
 ## Map to a new JSON structure
 
 The first
-[job file]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines#job-files" >}})
+[job file]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}})
 example creates a new [JSON]({{< relref "/develop/data-types/json" >}})
 object structure to write to the target.
 The `source` section selects the `employee` table of the
 [`chinook`](https://github.com/Redislabs-Solution-Architects/rdi-quickstart-postgres)
 database (the optional `db` value here corresponds to the
 `sources.<source-name>.connection.database` value defined in
-[`config.yaml`]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines#the-configyaml-file" >}})).
+[`config.yaml`]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config" >}})).
 
 In the `transform` section, the `map` transformation uses a [JMESPath](https://jmespath.org/)
 expression to specify the new JSON format. (Note that the vertical bar "|" in the `expression`

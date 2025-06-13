@@ -29,7 +29,7 @@ The `source` section selects the `employee` table of the
 [`chinook`](https://github.com/Redislabs-Solution-Architects/rdi-quickstart-postgres)
 database (the optional `db` field here corresponds to the
 `sources.<source-name>.connection.database` field defined in
-[`config.yaml`]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines#the-configyaml-file" >}})).
+[`config.yaml`]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config" >}})).
 
 In the `transform` section, the `remove_field` transformation removes the
 `hiredate` field.

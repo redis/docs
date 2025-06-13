@@ -29,7 +29,7 @@ The `source` section selects the `customer` table of the
 [`chinook`](https://github.com/Redislabs-Solution-Architects/rdi-quickstart-postgres)
 database (the optional `db` value here corresponds to the
 `sources.<source-name>.connection.database` value defined in
-[`config.yaml`]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines#the-configyaml-file" >}})).
+[`config.yaml`]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config" >}})).
 
 In the `transform` section, the `add_field` transformation adds an extra field called `localphone`
 to the object, which is created by removing the country and area code from the `phone`
