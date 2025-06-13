@@ -56,8 +56,10 @@ The main sections of these files are:
 - `source`: This is a mandatory section that specifies the data items that you want to 
   use. You can add the following properties here:
   - `server_name`: Logical server name (optional).
-  - `db`: Database name (optional). This refers to a db name you supplied in config.yaml
-  - `schema`: Database schema (optional). This refers to a schema name you supplied in config.yaml
+  - `db`: Database name (optional). This refers to a database name you supplied in
+    [config.yaml]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config" >}}).
+  - `schema`: Database schema (optional). This refers to a schema name you supplied in
+    [config.yaml]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config" >}}).
   - `table`: Database table name. This refers to a table name you supplied in `config.yaml`. The default
   job doesn't apply to a specific table, so use "*" in place of the table name for this job only.
   - `row_format`: Format of the data to be transformed. This can take the values `partial` (default) to
@@ -100,8 +102,9 @@ The main sections of these files are:
     - `key`: This lets you override the default key for the data structure with custom logic:
       - `expression`: Expression to generate the key.
       - `language`: Expression language, which must be `jmespath` or `sql`.
-    - `expire`: Positive integer value indicating a number of seconds for the key to expire.
-    If you don't specify this property, the key will never expire.
+    - `expire`: Positive integer value or SQL/JMESPath expression indicating a number of seconds
+      for the key to expire. If you don't specify this property, the key will never expire.
+      See [Set custom expiration times / TTL]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples/redis-expiration-example" >}}) for more information and examples.
 
 {{< note >}}In a job file, the `transform` section is optional, but if you don't specify
 a `transform`, you must specify custom key logic in `output.with.key`. You can include
