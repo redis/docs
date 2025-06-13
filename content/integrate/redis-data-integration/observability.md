@@ -52,38 +52,38 @@ The following table lists all collector metrics and their descriptions:
 | Metric | Type | Description | Alerting Recommendations |
 |:--|:--|:--|:--|
 | **Schema History Metrics** | | | |
-| ChangesApplied | Counter | Total number of schema changes applied during recovery and runtime | Monitor for unexpected spikes (rate > 10/hour) |
-| ChangesRecovered | Counter | Number of changes that were read during the recovery phase | Alert if recovery fails (value stops increasing during recovery) |
-| MilliSecondsSinceLastAppliedChange | Gauge | Number of milliseconds since the last change was applied | Alert if > 300,000ms (5 minutes) during active schema changes |
-| MilliSecondsSinceLastRecoveredChange | Gauge | Number of milliseconds since the last change was recovered from the history store | Alert if > 600,000ms (10 minutes) during recovery |
-| RecoveryStartTime | Gauge | Time in epoch milliseconds when recovery started (-1 if not applicable) | Monitor for prolonged recovery (> 30 minutes) |
+| ChangesApplied | Counter | Total number of schema changes applied during recovery and runtime | Informational - monitor for trends |
+| ChangesRecovered | Counter | Number of changes that were read during the recovery phase | Informational - monitor for trends |
+| MilliSecondsSinceLastAppliedChange | Gauge | Number of milliseconds since the last change was applied | Informational - monitor for trends |
+| MilliSecondsSinceLastRecoveredChange | Gauge | Number of milliseconds since the last change was recovered from the history store | Informational - monitor for trends |
+| RecoveryStartTime | Gauge | Time in epoch milliseconds when recovery started (-1 if not applicable) | Informational - monitor for trends |
 | **Connection and State Metrics** | | | |
 | Connected | Gauge | Whether the connector is currently connected to the database (1=connected, 0=disconnected) | **Critical Alert**: Alert if value = 0 (disconnected) |
 | **Queue Metrics** | | | |
-| CurrentQueueSizeInBytes | Gauge | Current size of the connector's internal queue in bytes | Alert if > 80% of MaxQueueSizeInBytes |
+| CurrentQueueSizeInBytes | Gauge | Current size of the connector's internal queue in bytes | Informational - monitor for trends |
 | MaxQueueSizeInBytes | Gauge | Maximum configured size of the connector's internal queue in bytes | Informational - use for capacity planning |
-| QueueRemainingCapacity | Gauge | Remaining capacity of the connector's internal queue | **High Priority**: Alert if < 20% of total capacity |
+| QueueRemainingCapacity | Gauge | Remaining capacity of the connector's internal queue | Informational - monitor for trends |
 | QueueTotalCapacity | Gauge | Total capacity of the connector's internal queue | Informational - use for capacity planning |
 | **Streaming Performance Metrics** | | | |
-| MilliSecondsBehindSource | Gauge | Number of milliseconds the connector is behind the source database (-1 if not applicable) | **High Priority**: Alert if > 60,000ms (1 minute) behind source |
-| MilliSecondsSinceLastEvent | Gauge | Number of milliseconds since the connector processed the most recent event (-1 if not applicable) | **Critical Alert**: Alert if > 300,000ms (5 minutes) in active systems |
-| NumberOfCommittedTransactions | Counter | Number of committed transactions processed by the connector | Monitor rate - alert if drops to 0 for > 10 minutes in active systems |
-| NumberOfEventsFiltered | Counter | Number of events filtered by include/exclude list rules | Monitor rate for unexpected increases (> 50% of total events) |
+| MilliSecondsBehindSource | Gauge | Number of milliseconds the connector is behind the source database (-1 if not applicable) | Informational - monitor for trends and business SLA requirements |
+| MilliSecondsSinceLastEvent | Gauge | Number of milliseconds since the connector processed the most recent event (-1 if not applicable) | Informational - monitor for trends in active systems |
+| NumberOfCommittedTransactions | Counter | Number of committed transactions processed by the connector | Informational - monitor for trends |
+| NumberOfEventsFiltered | Counter | Number of events filtered by include/exclude list rules | Informational - monitor for trends |
 | **Event Counters** | | | |
-| TotalNumberOfCreateEventsSeen | Counter | Total number of CREATE (INSERT) events seen by the connector | Monitor rate for business logic validation |
-| TotalNumberOfDeleteEventsSeen | Counter | Total number of DELETE events seen by the connector | Monitor rate for business logic validation |
-| TotalNumberOfEventsSeen | Counter | Total number of events seen by the connector | **High Priority**: Alert if rate drops to 0 for > 10 minutes in active systems |
-| TotalNumberOfUpdateEventsSeen | Counter | Total number of UPDATE events seen by the connector | Monitor rate for business logic validation |
-| NumberOfErroneousEvents | Counter | Number of events that caused errors during processing | **Critical Alert**: Alert if > 0 (any errors) |
+| TotalNumberOfCreateEventsSeen | Counter | Total number of CREATE (INSERT) events seen by the connector | Informational - monitor for trends |
+| TotalNumberOfDeleteEventsSeen | Counter | Total number of DELETE events seen by the connector | Informational - monitor for trends |
+| TotalNumberOfEventsSeen | Counter | Total number of events seen by the connector | Informational - monitor for trends |
+| TotalNumberOfUpdateEventsSeen | Counter | Total number of UPDATE events seen by the connector | Informational - monitor for trends |
+| NumberOfErroneousEvents | Counter | Number of events that caused errors during processing | **Critical Alert**: Alert if > 0 (indicates processing failures) |
 | **Snapshot Metrics** | | | |
-| RemainingTableCount | Gauge | Number of tables remaining to be processed during snapshot | Monitor for stuck snapshots (no change for > 30 minutes) |
-| RowsScanned | Counter | Number of rows scanned per table during snapshot (reported per table) | Monitor rate for progress tracking |
-| SnapshotAborted | Gauge | Whether the snapshot was aborted (1=aborted, 0=not aborted) | **Critical Alert**: Alert if value = 1 (aborted) |
-| SnapshotCompleted | Gauge | Whether the snapshot completed successfully (1=completed, 0=not completed) | Monitor for successful completion |
-| SnapshotDurationInSeconds | Gauge | Total duration of the snapshot process in seconds | Alert if exceeds expected duration (> 4 hours for large datasets) |
-| SnapshotPaused | Gauge | Whether the snapshot is currently paused (1=paused, 0=not paused) | Alert if paused unexpectedly (value = 1) |
-| SnapshotPausedDurationInSeconds | Gauge | Total time the snapshot was paused in seconds | Alert if paused > 1800 seconds (30 minutes) |
-| SnapshotRunning | Gauge | Whether a snapshot is currently running (1=running, 0=not running) | Monitor for unexpected state changes |
+| RemainingTableCount | Gauge | Number of tables remaining to be processed during snapshot | Informational - monitor snapshot progress |
+| RowsScanned | Counter | Number of rows scanned per table during snapshot (reported per table) | Informational - monitor snapshot progress |
+| SnapshotAborted | Gauge | Whether the snapshot was aborted (1=aborted, 0=not aborted) | **Critical Alert**: Alert if value = 1 (snapshot failed) |
+| SnapshotCompleted | Gauge | Whether the snapshot completed successfully (1=completed, 0=not completed) | Informational - monitor snapshot completion |
+| SnapshotDurationInSeconds | Gauge | Total duration of the snapshot process in seconds | Informational - monitor for performance trends |
+| SnapshotPaused | Gauge | Whether the snapshot is currently paused (1=paused, 0=not paused) | Informational - monitor snapshot state |
+| SnapshotPausedDurationInSeconds | Gauge | Total time the snapshot was paused in seconds | Informational - monitor snapshot state |
+| SnapshotRunning | Gauge | Whether a snapshot is currently running (1=running, 0=not running) | Informational - monitor snapshot state |
 | TotalTableCount | Gauge | Total number of tables included in the snapshot | Informational - use for progress calculation |
 
 {{< note >}}
@@ -102,17 +102,17 @@ RDI reports with their descriptions.
 
 | Metric Name | Metric Type | Metric Description | Alerting Recommendations |
 |-------------|-------------|--------------------|-----------------------|
-| `incoming_records_total` | Counter | Total number of incoming records processed by the system | **High Priority**: Alert if rate drops to 0 for > 10 minutes in active systems |
+| `incoming_records_total` | Counter | Total number of incoming records processed by the system | Informational - monitor for trends |
 | `incoming_records_created` | Gauge | Timestamp when the incoming records counter was created | Informational - no alerting needed |
-| `processed_records_total` | Counter | Total number of records that have been successfully processed | Monitor processing rate - alert if significantly slower than incoming rate |
-| `rejected_records_total` | Counter | Total number of records that were rejected during processing | **Critical Alert**: Alert if > 0 (any rejections indicate data quality issues) |
-| `filtered_records_total` | Counter | Total number of records that were filtered out during processing | Monitor rate - alert if > 50% of incoming records are filtered |
-| `rdi_engine_state` | Gauge | Current state of the RDI engine with labels for `state` (e.g., STARTED, RUNNING) and `sync_mode` (e.g., SNAPSHOT, STREAMING) | **Critical Alert**: Alert if state != "RUNNING" for > 5 minutes |
+| `processed_records_total` | Counter | Total number of records that have been successfully processed | Informational - monitor for trends |
+| `rejected_records_total` | Counter | Total number of records that were rejected during processing | **Critical Alert**: Alert if > 0 (indicates processing failures) |
+| `filtered_records_total` | Counter | Total number of records that were filtered out during processing | Informational - monitor for trends |
+| `rdi_engine_state` | Gauge | Current state of the RDI engine with labels for `state` (e.g., STARTED, RUNNING) and `sync_mode` (e.g., SNAPSHOT, STREAMING) | **Critical Alert**: Alert if state indicates failure or error condition |
 | `rdi_version_info` | Gauge | Version information for RDI components with labels for `cli` and `engine` versions | Informational - use for version tracking |
 | `monitor_time_elapsed_total` | Counter | Total time elapsed (in seconds) since monitoring started | Informational - use for uptime tracking |
 | `monitor_time_elapsed_created` | Gauge | Timestamp when the monitor time elapsed counter was created | Informational - no alerting needed |
-| `rdi_incoming_entries` | Gauge | Count of incoming events by `data_source` and `operation` type (pending, inserted, updated, deleted, filtered, rejected) | **High Priority**: Alert if "rejected" > 0 or "pending" accumulates without processing |
-| `rdi_stream_event_latency_ms` | Gauge | Latency in milliseconds of the oldest event in each data stream, labeled by `data_source` | **High Priority**: Alert if > 60,000ms (1 minute) for real-time use cases |
+| `rdi_incoming_entries` | Gauge | Count of incoming events by `data_source` and `operation` type (pending, inserted, updated, deleted, filtered, rejected) | Informational - monitor for trends, alert only on "rejected" > 0 |
+| `rdi_stream_event_latency_ms` | Gauge | Latency in milliseconds of the oldest event in each data stream, labeled by `data_source` | Informational - monitor based on business SLA requirements |
 
 {{< note >}}
 **Additional information about stream processor metrics:**
@@ -125,32 +125,42 @@ RDI reports with their descriptions.
 
 ## Recommended alerting strategy
 
-Based on operational experience, the following metrics require immediate attention:
+The following alerting strategy focuses on system failures and data integrity issues that require immediate attention. Most metrics are informational and should be monitored for trends rather than triggering alerts.
 
 ### Critical alerts (immediate response required)
-- **`Connected = 0`**: Database connectivity lost
-- **`NumberOfErroneousEvents > 0`**: Data processing errors occurring
-- **`rejected_records_total > 0`**: Records being rejected (data quality issues)
-- **`SnapshotAborted = 1`**: Snapshot process failed
-- **`rdi_engine_state != "RUNNING"`**: RDI engine not in expected state
 
-### High priority alerts (response within 15 minutes)
-- **`MilliSecondsBehindSource > 60000`**: Replication lag exceeding 1 minute
-- **`MilliSecondsSinceLastEvent > 300000`**: No events processed for 5+ minutes
-- **`QueueRemainingCapacity < 20%`**: Queue capacity critically low
-- **`rdi_stream_event_latency_ms > 60000`**: Event processing latency too high
-- **`TotalNumberOfEventsSeen` rate = 0**: No events flowing for 10+ minutes
+These are the only alerts that should wake someone up or require immediate action:
 
-### Medium priority alerts (response within 1 hour)
-- **Queue utilization > 80%**: Approaching capacity limits
-- **Snapshot duration > expected baseline**: Performance degradation
-- **High filtering rate (> 50%)**: Potential configuration issues
+- **`Connected = 0`**: Database connectivity lost - RDI cannot function without database connection
+- **`NumberOfErroneousEvents > 0`**: Data processing errors occurring - indicates data corruption or processing failures  
+- **`rejected_records_total > 0`**: Records being rejected - indicates data quality issues or processing failures
+- **`SnapshotAborted = 1`**: Snapshot process failed - initial sync is incomplete
+- **`rdi_engine_state`**: Alert only if the state indicates a clear failure condition (not just "not running")
+
+### Important monitoring (but not alerts)
+
+These metrics should be monitored on dashboards and reviewed regularly, but do not require automated alerts:
+
+- **Queue metrics**: Queue utilization can vary widely and hitting 0% or 100% capacity may be normal during certain operations
+- **Latency metrics**: Lag and processing times depend heavily on business requirements and normal operational patterns
+- **Event counters**: Event rates naturally vary based on application usage patterns
+- **Snapshot progress**: Snapshot duration and progress depend on data size and are typically monitored manually
+- **Schema changes**: Schema change frequency is highly application-dependent
+
+### Key principles for RDI alerting
+
+1. **Alert on failures, not performance**: Focus alerts on system failures rather than performance degradation
+2. **Business context matters**: Latency and throughput requirements vary significantly between organizations
+3. **Establish baselines first**: Monitor metrics for weeks before setting any threshold-based alerts
+4. **Avoid alert fatigue**: Too many alerts reduce response to truly critical issues
+5. **Use dashboards for trends**: Most metrics are better suited for dashboard monitoring than alerting
 
 ### Monitoring best practices
-- Set up alerting rules in your monitoring system (Prometheus Alertmanager, Grafana, etc.)
-- Use rate() functions for counter metrics to detect changes in processing patterns
-- Establish baseline values for your specific workload before setting thresholds
-- Consider business hours and maintenance windows when configuring alert schedules
+
+- **Dashboard-first approach**: Use Grafana dashboards to visualize trends and patterns
+- **Baseline establishment**: Monitor your specific workload for 2-4 weeks before considering additional alerts
+- **Business SLA alignment**: Only create alerts for metrics that directly impact your business SLA requirements
+- **Manual review**: Regularly review metric trends during business reviews rather than automated alerting
 
 ## RDI logs
 
