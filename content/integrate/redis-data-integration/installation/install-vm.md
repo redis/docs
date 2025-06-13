@@ -136,7 +136,7 @@ sudo ufw reload
 
 Follow the steps below for each of your VMs.
 
-{{< note >}}RDI installs executable code in the `/var` partition, so you must
+{{< note >}}RDI installs executables by default in the `/var` partition, so you must
 ensure it is mounted without the `noexec` option. Use the following command to
 find any partitions mounted with the `noexec` option:
 
