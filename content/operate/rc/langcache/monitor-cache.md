@@ -13,7 +13,7 @@ weight: 20
 
 You can monitor a LangCache service's performance from the **Metrics** tab of the service's page.
 
-{{<image filename="images/rc/langcache-monitor-tab.png" width="75%" alt="The metrics tab of the LangCache service's page." >}}
+{{<image filename="images/rc/langcache-metrics.png"  alt="The metrics tab of the LangCache service's page." >}}
 
 The **Metrics** tab provides a series of graphs showing performance data for your LangCache service.
 
@@ -25,7 +25,7 @@ You can switch between daily and weekly stats using the **Day** and **Week** but
 
 The percentage of requests that were successfully served from the cache without needing to call the LLM API. A healthy cache will generally show an increasing hit ratio over time as it becomes more populated by cached responses.
 
-Here are some tips to optimize your cache hit ratio:
+To optimize your cache hit ratio:
 
 - Tune similarity thresholds to capture more semantically related queries.
 - Analyze recurring query patterns to fine-tune your embedding strategies.

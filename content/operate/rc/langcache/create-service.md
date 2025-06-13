@@ -32,11 +32,11 @@ LangCache does not support the following databases during public preview:
 
 1. When you access the LangCache AI page for the first time, you will see a page with an introduction to LangCache. Select **Let's create a service** to create your first service.
 
-    {{<image filename="images/rc/langcache-create-first-service.png" alt="The Let's create a service button." >}}
+    {{<image filename="images/rc/langcache-create-first-service.png" alt="The Let's create a service button." width="200px" >}}
 
     If you have already created a LangCache service, select **New service** to create another one.
 
-    {{<image filename="images/rc/langcache-new-service.png" alt="The New service button." >}}
+    {{<image filename="images/rc/langcache-new-service.png" alt="The New service button." width="150px" >}}
 
 This takes you to the **Create LangCache service** page. The page is divided into the following sections:
 
@@ -76,9 +76,9 @@ Attributes provide powerful scoping capabilities for your LangCache operations. 
 
 The **Attributes settings** section allows you to define attributes for your service. It is collapsed by default.
 
-{{<image filename="images/rc/langcache-attributes-settings.png" alt="The Attributes settings section, expanded." >}}
+{{<image filename="images/rc/langcache-attribute-settings.png" alt="The Attributes settings section, expanded." >}}
 
-By default, LangCache includes three fixed attributes:
+By default, LangCache includes three fixed attributes, which are called the "scope" in the API:
 - User ID: Scope operations to a specific user
 - Application ID: Manage cache entries related to a particular application
 - Session ID: Control cache for a specific user session
@@ -92,7 +92,7 @@ Beyond these fixed attributes, LangCache allows you to define up to 5 custom att
 
 1. Select **Add attribute**.
 
-    {{<image filename="images/rc/langcache-add-attribute.png" alt="The Add attribute button." >}}
+    {{<image filename="images/rc/langcache-add-attribute.png" alt="The Add attribute button." width="150px" >}}
 
 1. Give your custom attribute a descriptive name and select the check mark button to save it.
 
@@ -104,7 +104,7 @@ After you save your custom attribute, it will appear in the list of custom attri
 
 You can also select **Add attribute** again to add an additional attribute.
 
-{{<image filename="images/rc/langcache-add-attribute.png" alt="The Add attribute button." >}}
+{{<image filename="images/rc/langcache-add-attribute.png" alt="The Add attribute button." width="150px" >}}
 
 ### Create service
 
