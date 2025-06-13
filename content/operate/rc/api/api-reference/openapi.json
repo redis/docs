@@ -350,7 +350,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SubscriptionUpdateRequest"
+                "$ref": "#/components/schemas/BaseSubscriptionUpdateRequest"
               }
             }
           },
@@ -4633,7 +4633,6 @@
                 "paymentMethod": "credit-card",
                 "paymentMethodId": 12345,
                 "memoryStorage": "ram",
-                "persistentStorageEncryption": true,
                 "cloudProviders": [
                   {
                     "provider": "AWS",
@@ -8528,6 +8527,18 @@
         "summary": "Get available Redis database versions",
         "description": "Gets a list of all available Redis database versions for Pro subscriptions.",
         "operationId": "getRedisVersions",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "query",
+            "description": "Subscription ID (required for an existing subscription)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
         "responses": {
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
@@ -8906,6 +8917,64 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/DatabaseSlowLogEntries"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/fixed/redis-versions": {
+      "get": {
+        "tags": [
+          "Subscriptions - Essentials"
+        ],
+        "summary": "Get available Redis database versions for specific Essentials subscription",
+        "description": "Gets a list of all available Redis database versions for a specific Essentials subscription.",
+        "operationId": "getRedisVersions_1",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "query",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RedisVersions"
                 }
               }
             }
@@ -9564,7 +9633,7 @@
             "readOnly": true
           }
         },
-        "description": "Subscription update request"
+        "description": "Subscription update request message"
       },
       "DatabaseTagUpdateRequest": {
         "required": [
@@ -10542,6 +10611,29 @@
           }
         ]
       },
+      "BaseSubscriptionUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "subscriptionId": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "commandType": {
+            "type": "string",
+            "readOnly": true
+          }
+        },
+        "description": "Subscription update request message",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/SubscriptionUpdateRequest"
+          },
+          {
+            "$ref": "#/components/schemas/SubscriptionUpdateCMKRequest"
+          }
+        ]
+      },
       "Regions": {
         "type": "object",
         "properties": {
@@ -11238,6 +11330,40 @@
             }
           }
         }
+      },
+      "SubscriptionUpdateCMKRequest": {
+        "required": [
+          "customerManagedKeys"
+        ],
+        "type": "object",
+        "properties": {
+          "subscriptionId": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "commandType": {
+            "type": "string",
+            "readOnly": true
+          },
+          "deletionGracePeriod": {
+            "type": "string",
+            "description": "Optional. The grace period for deleting the subscription. If not set, will default to immediate deletion grace period.",
+            "example": "alerts-only",
+            "enum": [
+              "alerts-only",
+              "immediate"
+            ]
+          },
+          "customerManagedKeys": {
+            "type": "array",
+            "description": "The customer managed keys (CMK) to use for this subscription. If is active-active subscription, must set a key for each region.",
+            "items": {
+              "$ref": "#/components/schemas/CustomerManagedKey"
+            }
+          }
+        },
+        "description": "Subscription update request message"
       },
       "AccountSubscriptionDatabases": {
         "type": "object",
@@ -14154,7 +14280,24 @@
               "ACTIVE_ACTIVE_SUBSCRIPTION_PREVIEW_REDIS_VERSION_IS_NOT_SUPPORTED",
               "SUBSCRIPTION_GCP_ALLOW_ONLY_INTERNAL",
               "CLUSTER_UNDER_MAINTENANCE",
-              "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_TYPE_IS_NOT_SUPPORTED",
+              "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_IS_NOT_SUPPORTED",
+              "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_MISSING_USAGE_PERMISSIONS",
+              "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_MISSING_GET_KEY_PERMISSIONS",
+              "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_MISSING_GET_IAM_POLICY_PERMISSIONS",
+              "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_DISABLED_KEY",
+              "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_INVALID_KEY_NAME",
+              "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_WRONG_REGION",
+              "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_NOT_PENDING",
+              "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_INVALID_NUMBER_OF_KEYS",
+              "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_REGION_NOT_REQUIRED",
+              "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_REGION_REQUIRED",
+              "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_MISSING_KEYS",
+              "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_INVALID_REGION",
+              "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_DUPLICATE_REGIONS",
+              "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_INVALID_FORMAT",
+              "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_CREATE_FAILED",
+              "ACTIVE_ACTIVE_CREATE_A_REGION_CUSTOMER_MANAGED_KEY_RESOURCE_NAME_SUBSCRIPTION_IS_NOT_CUSTOMER_MANAGED",
+              "ACTIVE_ACTIVE_CREATE_A_REGION_CUSTOMER_MANAGED_KEY_RESOURCE_NAME_IS_NOT_SET",
               "PLANNED_SUBSCRIPTION_INVALID_PLAN_ID",
               "PLANNER_TIMEOUT",
               "PLANNER_FAILURE",
@@ -14620,7 +14763,10 @@
               "DATABASE_REPLICA_OF_INCOMPATIBLE_VERSION",
               "DATABASE_UPGRADE_FAILED",
               "DATABASE_INVALID_PLAN_TYPE",
-              "DATABASE_UPGRADE_IS_NOT_SUPPORTED"
+              "DATABASE_UPGRADE_IS_NOT_SUPPORTED",
+              "ACTIVE_ACTIVE_EXTERNAL_ACCOUNTS_NOT_SUPPORTED",
+              "ACTIVE_ACTIVE_MULTIPLE_CLOUD_ACCOUNTS_NOT_SUPPORTED",
+              "ACTIVE_ACTIVE_GCP_EXTERNAL_CLOUD_ACCOUNT_NOT_SUPPORTED"
             ]
           },
           "additionalInfo": {
@@ -14902,6 +15048,17 @@
           }
         },
         "description": "Optional. Changes Remote backup configuration details."
+      },
+      "DynamicEndpoints": {
+        "type": "object",
+        "properties": {
+          "public": {
+            "type": "string"
+          },
+          "private": {
+            "type": "string"
+          }
+        }
       },
       "CrdbFlushRequest": {
         "type": "object",
@@ -15348,6 +15505,9 @@
           "privateEndpoint": {
             "type": "string"
           },
+          "dynamicEndpoints": {
+            "$ref": "#/components/schemas/DynamicEndpoints"
+          },
           "links": {
             "type": "array",
             "items": {
@@ -15514,6 +15674,24 @@
         },
         "description": "Upgrades the specified Pro database to a later Redis version."
       },
+      "CustomerManagedKey": {
+        "required": [
+          "resourceName"
+        ],
+        "type": "object",
+        "properties": {
+          "resourceName": {
+            "type": "string",
+            "description": "Required. Resource name of the customer managed key as defined by the cloud provider.",
+            "example": "projects/PROJECT_ID/locations/LOCATION/keyRings/KEY_RING/cryptoKeys/KEY_NAME"
+          },
+          "region": {
+            "type": "string",
+            "description": "Name of region to for the customer managed key as defined by the cloud provider. Required for active-active subscriptions."
+          }
+        },
+        "description": "Object representing a customer managed key (CMK), along with the region it is associated to."
+      },
       "ActiveActiveRegionCreateRequest": {
         "required": [
           "deploymentCIDR"
@@ -15555,6 +15733,11 @@
               "resp2",
               "resp3"
             ]
+          },
+          "customerManagedKeyResourceName": {
+            "type": "string",
+            "description": "Optional. Resource name of the customer managed key as defined by the cloud provider for customer managed subscriptions.",
+            "example": "projects/PROJECT_ID/locations/LOCATION/keyRings/KEY_RING/cryptoKeys/KEY_NAME"
           },
           "commandType": {
             "type": "string",
