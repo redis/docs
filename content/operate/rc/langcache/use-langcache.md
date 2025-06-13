@@ -13,8 +13,6 @@ weight: 10
 
 You can use the LangCache API from your client app to store and retrieve LLM responses.
 
-## Call the REST API
-
 To access the LangCache API, you need:
 
 - LangCache API base URL
@@ -53,7 +51,7 @@ GET https://[host]/v1/caches/{cacheId}/health
 
 ## Search LangCache for similar responses
 
-Use `POST /v1/caches/{cacheId}/search` to search the cache for matching responses.
+Use `POST /v1/caches/{cacheId}/search` to search the cache for matching responses to a user prompt.
 
 ```sh
 POST https://[host]/v1/caches/{cacheId}/search
@@ -65,6 +63,23 @@ POST https://[host]/v1/caches/{cacheId}/search
 Place this call in your client app right before you call your LLM's REST API. If LangCache returns a response, you can send that response back to the user instead of calling the LLM.
 
 If LangCache does not return a response, you should call your LLM's REST API to generate a new response. After you get a response from the LLM, you can [store it in LangCache](#store-a-new-response-in-langcache) for future use.
+
+You can also limit the responses returned from LangCache by adding an `attributes` object or `scope` object to the request. LangCache will only return responses that match the attributes you specify. 
+
+```sh
+POST https://[host]/v1/caches/{cacheId}/search
+{
+    "prompt": "User prompt text",
+    "attributes": {
+        "customAttributeName": "customAttributeValue"
+    },
+    "scope": {
+        "applicationId": "applicationId",
+        "userId": "userId",
+        "sessionId": "sessionId"
+    }
+}
+```
 
 ## Store a new response in LangCache
 
@@ -80,4 +95,40 @@ POST https://[host]/v1/caches/{cacheId}/entries
 
 Place this call in your client app after you get a response from the LLM. This will store the response in the cache for future use.
 
+You can also store the responses with custom attributes by adding an `attributes` object to the request. To store a response with one or more of the default attributes, use the `scope` object instead.
+
+```sh
+POST https://[host]/v1/caches/{cacheId}/entries
+{
+    "prompt": "User prompt text",
+    "response": "LLM response text",
+    "attributes": {
+        "customAttributeName": "customAttributeValue"
+    },
+    "scope": {
+        "applicationId": "applicationId",
+        "userId": "userId",
+        "sessionId": "sessionId"
+    }
+}
+```
+
 ## Delete cached responses
+
+Use `DELETE /v1/caches/{cacheId}/entries/{entryId}` to delete a cached response from the cache.
+
+You can also use `DELETE /v1/caches/{cacheId}/entries` to delete multiple cached responses at once. If you provide an `attributes` object or `scope` object, LangCache will delete all responses that match the attributes you specify. 
+
+```sh
+DELETE https://[host]/v1/caches/{cacheId}/entries
+{
+    "attributes": {
+        "customAttributeName": "customAttributeValue"
+    },
+    "scope": {
+        "applicationId": "applicationId",
+        "userId": "userId",
+        "sessionId": "sessionId"
+    }
+}
+```
