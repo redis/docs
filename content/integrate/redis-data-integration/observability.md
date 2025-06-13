@@ -46,6 +46,49 @@ These metrics are divided into three groups:
 - **Pipeline state**: metrics about the pipeline mode and connectivity
 - **Data flow counters**: counters for data breakdown per source table
 - **Processing performance**: processing speed of RDI micro batches
+
+The following table lists all collector metrics and their descriptions:
+
+| Metric | Type | Description | Alerting Recommendations |
+|:--|:--|:--|:--|
+| **Schema History Metrics** | | | |
+| ChangesApplied | Counter | Total number of schema changes applied during recovery and runtime | Informational - monitor for trends |
+| ChangesRecovered | Counter | Number of changes that were read during the recovery phase | Informational - monitor for trends |
+| MilliSecondsSinceLastAppliedChange | Gauge | Number of milliseconds since the last change was applied | Informational - monitor for trends |
+| MilliSecondsSinceLastRecoveredChange | Gauge | Number of milliseconds since the last change was recovered from the history store | Informational - monitor for trends |
+| RecoveryStartTime | Gauge | Time in epoch milliseconds when recovery started (-1 if not applicable) | Informational - monitor for trends |
+| **Connection and State Metrics** | | | |
+| Connected | Gauge | Whether the connector is currently connected to the database (1=connected, 0=disconnected) | **Critical Alert**: Alert if value = 0 (disconnected) |
+| **Queue Metrics** | | | |
+| CurrentQueueSizeInBytes | Gauge | Current size of the connector's internal queue in bytes | Informational - monitor for trends |
+| MaxQueueSizeInBytes | Gauge | Maximum configured size of the connector's internal queue in bytes | Informational - use for capacity planning |
+| QueueRemainingCapacity | Gauge | Remaining capacity of the connector's internal queue | Informational - monitor for trends |
+| QueueTotalCapacity | Gauge | Total capacity of the connector's internal queue | Informational - use for capacity planning |
+| **Streaming Performance Metrics** | | | |
+| MilliSecondsBehindSource | Gauge | Number of milliseconds the connector is behind the source database (-1 if not applicable) | Informational - monitor for trends and business SLA requirements |
+| MilliSecondsSinceLastEvent | Gauge | Number of milliseconds since the connector processed the most recent event (-1 if not applicable) | Informational - monitor for trends in active systems |
+| NumberOfCommittedTransactions | Counter | Number of committed transactions processed by the connector | Informational - monitor for trends |
+| NumberOfEventsFiltered | Counter | Number of events filtered by include/exclude list rules | Informational - monitor for trends |
+| **Event Counters** | | | |
+| TotalNumberOfCreateEventsSeen | Counter | Total number of CREATE (INSERT) events seen by the connector | Informational - monitor for trends |
+| TotalNumberOfDeleteEventsSeen | Counter | Total number of DELETE events seen by the connector | Informational - monitor for trends |
+| TotalNumberOfEventsSeen | Counter | Total number of events seen by the connector | Informational - monitor for trends |
+| TotalNumberOfUpdateEventsSeen | Counter | Total number of UPDATE events seen by the connector | Informational - monitor for trends |
+| NumberOfErroneousEvents | Counter | Number of events that caused errors during processing | **Critical Alert**: Alert if > 0 (indicates processing failures) |
+| **Snapshot Metrics** | | | |
+| RemainingTableCount | Gauge | Number of tables remaining to be processed during snapshot | Informational - monitor snapshot progress |
+| RowsScanned | Counter | Number of rows scanned per table during snapshot (reported per table) | Informational - monitor snapshot progress |
+| SnapshotAborted | Gauge | Whether the snapshot was aborted (1=aborted, 0=not aborted) | **Critical Alert**: Alert if value = 1 (snapshot failed) |
+| SnapshotCompleted | Gauge | Whether the snapshot completed successfully (1=completed, 0=not completed) | Informational - monitor snapshot completion |
+| SnapshotDurationInSeconds | Gauge | Total duration of the snapshot process in seconds | Informational - monitor for performance trends |
+| SnapshotPaused | Gauge | Whether the snapshot is currently paused (1=paused, 0=not paused) | Informational - monitor snapshot state |
+| SnapshotPausedDurationInSeconds | Gauge | Total time the snapshot was paused in seconds | Informational - monitor snapshot state |
+| SnapshotRunning | Gauge | Whether a snapshot is currently running (1=running, 0=not running) | Informational - monitor snapshot state |
+| TotalTableCount | Gauge | Total number of tables included in the snapshot | Informational - use for progress calculation |
+
+{{< note >}}
+Many metrics include context labels that specify the phase (`snapshot` or `streaming`), database name, and other contextual information. Metrics with a value of `-1` typically indicate that the measurement is not applicable in the current state.
+{{< /note >}}
   
 ## Stream processor metrics
 
@@ -55,34 +98,69 @@ RDI reports metrics during the two main phases of the ingest pipeline, the *snap
 phase and the *change data capture (CDC)* phase. (See the
 [pipeline lifecycle]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines" >}})
 docs for more information). The table below shows the full set of metrics that
-RDI reports. 
+RDI reports with their descriptions. 
 
-| Metric | Phase |
-|:-- |:-- |
-| CapturedTables | Both |
-| Connected | CDC |
-| LastEvent | Both |
-| LastTransactionId | CDC |
-| MilliSecondsBehindSource | CDC |
-| MilliSecondsSinceLastEvent | Both |
-| NumberOfCommittedTransactions | CDC |
-| NumberOfEventsFiltered | Both |
-| QueueRemainingCapacity | Both |
-| QueueTotalCapacity | Both |
-| RemainingTableCount | Snapshot |
-| RowsScanned | Snapshot |
-| SnapshotAborted | Snapshot |
-| SnapshotCompleted | Snapshot |
-| SnapshotDurationInSeconds | Snapshot |
-| SnapshotPaused | Snapshot |
-| SnapshotPausedDurationInSeconds | Snapshot |
-| SnapshotRunning | Snapshot |
-| SourceEventPosition | CDC |
-| TotalNumberOfCreateEventsSeen | CDC |
-| TotalNumberOfDeleteEventsSeen | CDC |
-| TotalNumberOfEventsSeen | Both |
-| TotalNumberOfUpdateEventsSeen | CDC |
-| TotalTableCount | Snapshot |
+| Metric Name | Metric Type | Metric Description | Alerting Recommendations |
+|-------------|-------------|--------------------|-----------------------|
+| `incoming_records_total` | Counter | Total number of incoming records processed by the system | Informational - monitor for trends |
+| `incoming_records_created` | Gauge | Timestamp when the incoming records counter was created | Informational - no alerting needed |
+| `processed_records_total` | Counter | Total number of records that have been successfully processed | Informational - monitor for trends |
+| `rejected_records_total` | Counter | Total number of records that were rejected during processing | **Critical Alert**: Alert if > 0 (indicates processing failures) |
+| `filtered_records_total` | Counter | Total number of records that were filtered out during processing | Informational - monitor for trends |
+| `rdi_engine_state` | Gauge | Current state of the RDI engine with labels for `state` (e.g., STARTED, RUNNING) and `sync_mode` (e.g., SNAPSHOT, STREAMING) | **Critical Alert**: Alert if state indicates failure or error condition |
+| `rdi_version_info` | Gauge | Version information for RDI components with labels for `cli` and `engine` versions | Informational - use for version tracking |
+| `monitor_time_elapsed_total` | Counter | Total time elapsed (in seconds) since monitoring started | Informational - use for uptime tracking |
+| `monitor_time_elapsed_created` | Gauge | Timestamp when the monitor time elapsed counter was created | Informational - no alerting needed |
+| `rdi_incoming_entries` | Gauge | Count of incoming events by `data_source` and `operation` type (pending, inserted, updated, deleted, filtered, rejected) | Informational - monitor for trends, alert only on "rejected" > 0 |
+| `rdi_stream_event_latency_ms` | Gauge | Latency in milliseconds of the oldest event in each data stream, labeled by `data_source` | Informational - monitor based on business SLA requirements |
+
+{{< note >}}
+**Additional information about stream processor metrics:**
+
+- The `rdi_` prefix comes from the Kubernetes namespace where RDI is installed. For VM install it is always this value.
+- Metrics with `_created` suffix are automatically generated by Prometheus for counters and gauges to track when they were first created.
+- The `rdi_incoming_entries` metric provides detailed breakdown by operation type for each data source.
+- The `rdi_stream_event_latency_ms` metric helps monitor data freshness and processing delays.
+{{< /note >}}
+
+## Recommended alerting strategy
+
+The following alerting strategy focuses on system failures and data integrity issues that require immediate attention. Most metrics are informational and should be monitored for trends rather than triggering alerts.
+
+### Critical alerts (immediate response required)
+
+These are the only alerts that should wake someone up or require immediate action:
+
+- **`Connected = 0`**: Database connectivity lost - RDI cannot function without database connection
+- **`NumberOfErroneousEvents > 0`**: Data processing errors occurring - indicates data corruption or processing failures  
+- **`rejected_records_total > 0`**: Records being rejected - indicates data quality issues or processing failures
+- **`SnapshotAborted = 1`**: Snapshot process failed - initial sync is incomplete
+- **`rdi_engine_state`**: Alert only if the state indicates a clear failure condition (not just "not running")
+
+### Important monitoring (but not alerts)
+
+These metrics should be monitored on dashboards and reviewed regularly, but do not require automated alerts:
+
+- **Queue metrics**: Queue utilization can vary widely and hitting 0% or 100% capacity may be normal during certain operations
+- **Latency metrics**: Lag and processing times depend heavily on business requirements and normal operational patterns
+- **Event counters**: Event rates naturally vary based on application usage patterns
+- **Snapshot progress**: Snapshot duration and progress depend on data size and are typically monitored manually
+- **Schema changes**: Schema change frequency is highly application-dependent
+
+### Key principles for RDI alerting
+
+1. **Alert on failures, not performance**: Focus alerts on system failures rather than performance degradation
+2. **Business context matters**: Latency and throughput requirements vary significantly between organizations
+3. **Establish baselines first**: Monitor metrics for weeks before setting any threshold-based alerts
+4. **Avoid alert fatigue**: Too many alerts reduce response to truly critical issues
+5. **Use dashboards for trends**: Most metrics are better suited for dashboard monitoring than alerting
+
+### Monitoring best practices
+
+- **Dashboard-first approach**: Use Grafana dashboards to visualize trends and patterns
+- **Baseline establishment**: Monitor your specific workload for 2-4 weeks before considering additional alerts
+- **Business SLA alignment**: Only create alerts for metrics that directly impact your business SLA requirements
+- **Manual review**: Regularly review metric trends during business reviews rather than automated alerting
 
 ## RDI logs
 
