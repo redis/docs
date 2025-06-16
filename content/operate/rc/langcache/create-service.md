@@ -28,9 +28,9 @@ LangCache does not support the following databases during public preview:
 
 ## Create a LangCache service
 
-1. From the [Redis Cloud console](https://cloud.redis.io/), select **LangCache AI** from the left-hand menu.
+1. From the [Redis Cloud console](https://cloud.redis.io/), select **LangCache** from the left-hand menu.
 
-1. When you access the LangCache AI page for the first time, you will see a page with an introduction to LangCache. Select **Let's create a service** to create your first service.
+1. When you access the LangCache page for the first time, you will see a page with an introduction to LangCache. Select **Let's create a service** to create your first service.
 
     {{<image filename="images/rc/langcache-create-first-service.png" alt="The Let's create a service button." width="200px" >}}
 
@@ -78,17 +78,7 @@ The **Attributes settings** section allows you to define attributes for your ser
 
 {{<image filename="images/rc/langcache-attribute-settings.png" alt="The Attributes settings section, expanded." >}}
 
-By default, LangCache includes three fixed attributes, which are called the "scope" in the API:
-- User ID: Scope operations to a specific user
-- Application ID: Manage cache entries related to a particular application
-- Session ID: Control cache for a specific user session
-
-These fixed attributes enable targeted cache operations. For example, you'll be able to:
-- Delete all cached entries for a specific user who updated their preferences
-- Scope search results to only return entries relevant to the current user
-- Clear all cached data related to a particular application version
-
-Beyond these fixed attributes, LangCache allows you to define up to 5 custom attributes that align with your specific use case. To add a new attribute:
+LangCache allows you to define up to 5 custom attributes that align with your specific use case. To add a new attribute:
 
 1. Select **Add attribute**.
 
