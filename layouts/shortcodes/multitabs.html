@@ -1,0 +1,63 @@
+{{/*
+  Multi-tabs shortcode with simpler syntax
+
+  Usage:
+  {{< multitabs id="my-tabs"
+      tab1="Tab Title 1"
+      tab2="Tab Title 2"
+      tab3="Tab Title 3" >}}
+
+  Content for tab 1
+
+  -tab-sep-
+
+  Content for tab 2
+
+  -tab-sep-
+
+  Content for tab 3
+  {{< /multitabs >}}
+*/}}
+
+{{ $id := .Get "id" | default (printf "tabs-%s" (substr (.Inner | md5) 0 8)) }}
+{{ $tabs := slice }}
+
+{{/* Split content by -tab-sep- separator */}}
+{{ $sections := split .Inner "-tab-sep-" }}
+
+{{/* Get tab titles from parameters */}}
+{{ $tabTitles := slice }}
+{{ range $i := seq 1 10 }}
+  {{ $tabParam := printf "tab%d" $i }}
+  {{ $title := $.Get $tabParam }}
+  {{ if $title }}
+    {{ $tabTitles = $tabTitles | append $title }}
+  {{ end }}
+{{ end }}
+
+{{/* Create tabs from sections and titles */}}
+{{ range $index, $section := $sections }}
+  {{ $title := "Tab" }}
+  {{ if lt $index (len $tabTitles) }}
+    {{ $title = index $tabTitles $index }}
+  {{ else }}
+    {{ $title = printf "Tab %d" (add $index 1) }}
+  {{ end }}
+
+  {{ $content := $section | strings.TrimSpace | markdownify }}
+  {{ if ne $content "" }}
+    {{ $tabs = $tabs | append (dict "title" $title "content" $content) }}
+  {{ end }}
+{{ end }}
+
+{{/* Render tabs if we have any */}}
+{{ if gt (len $tabs) 0 }}
+  {{ partial "components/generic-tabs.html" (dict "id" $id "tabs" $tabs) }}
+{{ else }}
+  {{/* Fallback to single content box */}}
+  <div class="generic-tabs-single mb-6">
+    <div class="tab-content-single p-6 bg-white border border-redis-pen-300 rounded-md shadow-sm">
+      {{ .Inner | markdownify }}
+    </div>
+  </div>
+{{ end }}

@@ -66,38 +66,6 @@
 
         {{ .Content }}
 
-        {{ $resp2 := index .Site.Data.resp2_replies .Params.title }}
-        {{ $resp3 := index .Site.Data.resp3_replies .Params.title }}
-        {{ if and $resp2 $resp3 }}
-          {{ $same := false }}
-          {{ $responses := slice }}
-          {{ $complement := complement $resp2 $resp3 }}
-          {{ if eq (len $complement) 0 }}
-            {{ $same = true }}
-            {{ $responses = $responses | append (dict "response" $resp2) }}
-            {{ printf "## RESP2/RESP3 Reply" | markdownify }}
-          {{ else }}
-            {{ $responses = $responses | append (dict "response" $resp2) }}
-            {{ $responses = $responses | append (dict "response" $resp3) }}
-          {{ end }}
-
-          {{ $respver := 2 }}
-          {{ range $response := $responses }}
-            {{ with $response.response }}
-              {{ if eq $same false }}
-                {{ printf "## RESP%d Reply" $respver | markdownify }}
-                {{ $respver = add $respver 1 }}
-              {{ end }}
-              {{ $mergedString := "" }}
-              {{ range . }}
-                {{ $mergedString = print $mergedString . "\n" }}
-              {{ end }}
-              {{ $processedContent := $mergedString | markdownify }}
-              {{ $processedContent }}
-            {{ end }}
-          {{ end }}
-        {{ end }}
-        <br />
 
         {{ if isset .Params "history" }}
           <h2>History</h2>

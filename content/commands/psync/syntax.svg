@@ -1,9 +1,0 @@
-<svg class="railroad-diagram" viewBox="0 0 424.0 62" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g transform="translate(.5 .5)">
-<g>
-<path d="M20 21v20m10 -20v20m-10 -10h20"></path></g><path d="M40 31h10"></path><g>
-<path d="M50 31h0.0"></path><g>
-<path d="M50.0 31h10.0"></path><path d="M364.0 31h10.0"></path><g class="terminal ">
-<path d="M60.0 31h0.0"></path><path d="M122.5 31h0.0"></path><rect height="22" rx="10" ry="10" width="62.5" x="60.0" y="20"></rect><text x="91.25" y="35">PSYNC</text></g><path d="M122.5 31h10"></path><path d="M132.5 31h10"></path><g class="non-terminal ">
-<path d="M142.5 31h0.0"></path><path d="M273.0 31h0.0"></path><rect height="22" width="130.5" x="142.5" y="20"></rect><text x="207.75" y="35">replicationid</text><title>string</title></g><path d="M273.0 31h10"></path><path d="M283.0 31h10"></path><g class="non-terminal ">
-<path d="M293.0 31h0.0"></path><path d="M364.0 31h0.0"></path><rect height="22" width="71.0" x="293.0" y="20"></rect><text x="328.5" y="35">offset</text><title>integer</title></g></g><path d="M374.0 31h0.0"></path></g><path d="M374.0 31h10"></path><path d="M 384.0 31 h 20 m -10 -10 v 20 m 10 -20 v 20"></path></g></svg>

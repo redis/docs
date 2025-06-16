@@ -311,7 +311,7 @@ The following is a list of command categories and their meanings:
 * **pubsub** - all pubsub related commands.
 * **read** - Reading from keys (values or metadata). Note that commands that don't interact with keys, will not have either `read` or `write`.
 * **scripting** - Scripting related.
-* **search** - All search related commands. Note that indexes can only be created/modified if their key prefixes are a superset of the keys to which a user has access. For example, a user with the key ACL pattern `h:*` can create an index with keys prefixed by `h:*` or `h:p*`, but not keys prefixed by `h*`, `k:*`, or `k*`, because these prefixes may involve keys to which the user has access.
+* **search** - All search related commands. Only ACL users with access to a superset of the key prefixes defined during index creation can create, modify, or read the index. For example, a user with the key ACL pattern `h:*` can create an index with keys prefixed by `h:*` or `h:p*`, but not keys prefixed by `h*`, `k:*`, or `k*`, because these prefixes may involve keys to which the user does not have access.
 * **set** - Data type: all set related commands.
 * **sortedset** - Data type: all sorted set related commands.
 * **slow** - All commands that are not `fast`.

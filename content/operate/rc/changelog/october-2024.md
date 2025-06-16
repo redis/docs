@@ -9,6 +9,8 @@ description: New features, enhancements, and other changes added to Redis Cloud 
   October 2024.
 highlights: Redis 7.4 Preview on Redis Cloud Pro, Security fixes
 linktitle: October 2024
+tags:
+- changelog
 weight: 42
 ---
 

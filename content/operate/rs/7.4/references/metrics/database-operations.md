@@ -120,7 +120,7 @@ Maximum number of write operations queued per [Active-Active]({{< relref "/opera
 
 Number of operations per second that are not [read operations](#readssec) or [write operations](#writessec).
 
-Examples of other operations include [PING]({{< relref "/commands/ping" >}}), [AUTH]({{< relref "/commands/auth" >}}, and [INFO]({{< relref "/commands/info" >}}
+Examples of other operations include [PING]({{< relref "/commands/ping" >}}), [AUTH]({{< relref "/commands/auth" >}}), and [INFO]({{< relref "/commands/info" >}}).
 
 **Components measured**: Database
 
