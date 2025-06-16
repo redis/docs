@@ -90,7 +90,7 @@ POST https://[host]/v1/caches/{cacheId}/entries
 
 Place this call in your client app after you get a response from the LLM. This will store the response in the cache for future use.
 
-You can also store the responses with custom attributes by adding an `attributes` object to the request. To store a response with one or more of the default attributes, use the `scope` object instead.
+You can also store the responses with custom attributes by adding an `attributes` object to the request.
 
 ```sh
 POST https://[host]/v1/caches/{cacheId}/entries
@@ -107,7 +107,7 @@ POST https://[host]/v1/caches/{cacheId}/entries
 
 Use `DELETE /v1/caches/{cacheId}/entries/{entryId}` to delete a cached response from the cache.
 
-You can also use `DELETE /v1/caches/{cacheId}/entries` to delete multiple cached responses at once. If you provide an `attributes` object or `scope` object, LangCache will delete all responses that match the attributes you specify. 
+You can also use `DELETE /v1/caches/{cacheId}/entries` to delete multiple cached responses at once. If you provide an `attributes` object, LangCache will delete all responses that match the attributes you specify. 
 
 ```sh
 DELETE https://[host]/v1/caches/{cacheId}/entries
