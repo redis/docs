@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M60 15L20 35V85L60 105L100 85V35L60 15Z" stroke="#DC382C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M20 35L60 55L100 35" stroke="#DC382C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M60 55V105" stroke="#DC382C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M40 25L80 45" stroke="#DC382C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M40 75L60 85L80 75" stroke="#DC382C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -3,7 +3,6 @@ title: Develop with Redis
 description: Learn how to develop with Redis
 linkTitle: Develop
 hideListLinks: true
-hideTOC: true
 ---
 
 Get a Redis server running in minutes with a free trial of
@@ -24,15 +23,15 @@ or analyze and manage your database with our
 | [PHP]({{< relref "/develop/clients/php" >}}) | [See PHP examples]({{< relref "/develop/clients/php/connect" >}}) | [See PHP examples]({{< relref "/develop/clients/php/queryjson" >}}) | [See PHP examples]({{< relref "/develop/clients/php/vecsearch" >}}) |
 
 <div class="flex flex-col gap-5">
-  <div class="flex items-start">
-    {{< image filename="develop/tools/insight/images/Browser.png" class="w-[300px] mr-4" >}}
+  <div class="flex items-center">
+    {{< image filename="images/dev/icons/icon-redis-insight-64-duotone.png" class="mr-4" >}}
     <div>
       <h3><a href='{{< relref "/develop/tools/insight">}}'>Redis Insight</a></h3>
-      <p>Visual client tool for creating, managing, and analyzing Redis databases.</p>
+      <p>Visual client tool for creating, managing, and analyzing Redis databases. <a href="https://redis.io/downloads/#insight">Download Redis Insight</a>.</p>
     </div>
   </div>
-  <div class="flex items-start">
-    {{< image filename="images/dev/connect/vscode/vscode-cli.png" class="w-[300px] mr-4" >}}
+  <div class="flex items-center">
+    {{< image filename="images/dev/icons/icon-redis-code-64-duotone.png" class="mr-4" >}}
     <div>
       <h3><a href='{{< relref "/develop/tools/redis-for-vscode" >}}'>Redis for VS Code</a></h3>
       <p>Visual client tool for creating, managing, and analyzing Redis databases.</p>

@@ -9,6 +9,8 @@ description: New features, enhancements, and other changes added to Redis Cloud 
   November 2024.
 highlights: Pro subscription version upgrade
 linktitle: November 2024
+tags:
+- changelog
 weight: 40
 ---
 

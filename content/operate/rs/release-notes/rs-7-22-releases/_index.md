@@ -19,6 +19,8 @@ weight: 68
 
 This version offers:
 
+- Performance improvements
+
 - Diagnostic logging service
 
 - Call home client to send daily usage statistics to Redis
@@ -99,19 +101,11 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 - RS131972: Creating an ACL that contains a line break in the Cluster Manager UI can cause shard migration to fail due to ACL errors.
 
-- RS155734: Endpoint availability metrics do not work as expected due to a calculation error. As a workaround, use this query to measure availability:
-
-    ```sh
-    endpoint_server_became_unavailable{cluster="$cluster", db="$db"} 
-    - 
-    endpoint_server_available_again{cluster="$cluster", db="$db"}
-    ```
-
-    For up: 0-2
-
-    For down: 2-1000000
+- RS155734: Endpoint availability metrics do not work as expected due to a calculation error.
 
 - RS156391: The `job_scheduler`'s memory usage can increase significantly when the diagnostic logging service is enabled.
+
+- RS153589: The metrics stream engine preview reports incorrect latency metrics.
 
 ## Known limitations
 

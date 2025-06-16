@@ -21,7 +21,7 @@ weight: $weight
     
     PUT /v1/users/password
     
-Replaces the password list of the user making this request with a single new password.
+Replaces the password list of the user making this request with a single new password. The request authentication header must include the relevant username and password.
 
 ### Request {#put-request}
 
@@ -78,7 +78,7 @@ The following are possible `error_code` values:
 
     POST /v1/users/password
 
-Adds a new password to the password list of the user making this request.
+Adds a new password to the password list of the user making this request. The request authentication header must include the relevant username and password.
 
 ### Request {#post-request}
 
@@ -135,7 +135,7 @@ The following are possible `error_code` values:
 
     DELETE /v1/users/password
 
-Deletes a password from the password list of the user making this request.
+Deletes a password from the password list of the user making this request. The request authentication header must include the relevant username and password.
 
 ### Request {#delete-request}
 

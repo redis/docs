@@ -48,6 +48,8 @@ The internal monitoring system, while functional, has several limitations that a
 
 - **Stale data:** Stored metrics can lag behind real-time system states, reducing the effectiveness of alerting.
 
+- **Visibility gaps during management operations:** Metrics and statistics may not be available or updated during management tasks, resulting in incomplete monitoring during critical activities.
+
 - **Scalability constraints:** Internal storage and processing introduce performance overhead and are not optimized for large-scale observability pipelines.
 
 - **Limited extensibility:** The system is tightly coupled with internal components, making it difficult to integrate with modern monitoring ecosystems.
