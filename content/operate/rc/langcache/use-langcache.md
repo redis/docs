@@ -11,7 +11,7 @@ title: Use the LangCache API with your GenAI app
 weight: 10
 ---
 
-You can use the LangCache API from your client app to store and retrieve LLM responses.
+You can use the LangCache API from your client app to store and retrieve LLM, RAG or agent responses.
 
 To access the LangCache API, you need:
 
@@ -64,7 +64,7 @@ Place this call in your client app right before you call your LLM's REST API. If
 
 If LangCache does not return a response, you should call your LLM's REST API to generate a new response. After you get a response from the LLM, you can [store it in LangCache](#store-a-new-response-in-langcache) for future use.
 
-You can also limit the responses returned from LangCache by adding an `attributes` object or `scope` object to the request. LangCache will only return responses that match the attributes you specify. 
+You can also scope the responses returned from LangCache by adding an `attributes` object or `scope` object to the request. LangCache will only return responses that match the attributes you specify. 
 
 ```sh
 POST https://[host]/v1/caches/{cacheId}/search
@@ -72,11 +72,6 @@ POST https://[host]/v1/caches/{cacheId}/search
     "prompt": "User prompt text",
     "attributes": {
         "customAttributeName": "customAttributeValue"
-    },
-    "scope": {
-        "applicationId": "applicationId",
-        "userId": "userId",
-        "sessionId": "sessionId"
     }
 }
 ```
@@ -104,11 +99,6 @@ POST https://[host]/v1/caches/{cacheId}/entries
     "response": "LLM response text",
     "attributes": {
         "customAttributeName": "customAttributeValue"
-    },
-    "scope": {
-        "applicationId": "applicationId",
-        "userId": "userId",
-        "sessionId": "sessionId"
     }
 }
 ```
@@ -124,11 +114,6 @@ DELETE https://[host]/v1/caches/{cacheId}/entries
 {
     "attributes": {
         "customAttributeName": "customAttributeValue"
-    },
-    "scope": {
-        "applicationId": "applicationId",
-        "userId": "userId",
-        "sessionId": "sessionId"
     }
 }
 ```
