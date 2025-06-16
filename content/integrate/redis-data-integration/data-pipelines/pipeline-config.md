@@ -144,6 +144,9 @@ processors:
   # Time (in ms) after which data will be read from stream even if
   # read_batch_size was not reached.
   # duration: 100
+  # Data type to use in Redis target database: `hash` for Redis Hash,
+  # `json` for JSON (which requires the RedisJSON module).
+  # target_data_type: hash
   # The batch size for writing data to the target Redis database. Should be
   # less than or equal to the read_batch_size.
   # write_batch_size: 200
@@ -247,6 +250,13 @@ configuration above contains the following properties:
 - `read_batch_size`: Maximum number of records to read from the source database. RDI will
   wait for the batch to fill up to `read_batch_size` or for `duration` to elapse,
   whichever happens first. The default is 2000.
+- `target_data_type`: Data type to use in the target Redis database. The options are `hash`
+  for Redis Hash (the default), or `json` for RedisJSON, which is available only if you have added the
+  RedisJSON module to the target database. Note that this setting is mainly useful when you
+  don't provide any custom jobs. When you do provide jobs, you can specify the
+  target data type in each job individually and choose from a wider range of data types.
+  See [Job files]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}})
+  (which requires the RedisJSON module) for more information. 
 - `duration`: Time (in ms) after which data will be read from the stream even if
   `read_batch_size` was not reached. The default is 100 ms.
 - `write_batch_size`: The batch size for writing data to the target Redis database. This should be
