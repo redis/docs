@@ -19,10 +19,10 @@ To create a LangCache service, you will need:
 
 - A Redis Cloud database. If you don't have one, see [Create a database]({{< relref "/operate/rc/databases/create-database" >}}).
     {{< note >}}
-LangCache does not support the following databases during public preview:
-- Databases with a [CIDR allow list]({{< relref "/operate/rc/security/cidr-whitelist" >}})
-- [Active-Active]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}) databases
-- Databases with the [default user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) turned off
+    - LangCache does not support the following databases during public preview:
+         - Databases with a [CIDR allow list]({{< relref "/operate/rc/security/cidr-whitelist" >}})
+         - [Active-Active]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}) databases
+         - Databases with the [default user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) turned off
     {{< /note >}}
 - An [OpenAI API key](https://platform.openai.com/api-keys). LangCache uses OpenAI to generate embeddings for prompts and responses.
 
