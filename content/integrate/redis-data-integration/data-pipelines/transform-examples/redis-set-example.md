@@ -23,7 +23,6 @@ When writing to a set, you must supply an extra argument, `member`, which specif
 
 ```yaml
 source:
-  server_name: chinook
   schema: public
   table: invoice
 output:

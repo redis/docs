@@ -34,7 +34,6 @@ Remove multiple fields
 
 ```yaml
 source:
-  server_name: redislabs
   schema: dbo
   table: emp
 transform:
@@ -59,7 +58,6 @@ Remove one field
 
 ```yaml
 source:
-  server_name: redislabs
   schema: dbo
   table: emp
 transform:
