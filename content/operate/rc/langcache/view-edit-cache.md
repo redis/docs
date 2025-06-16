@@ -24,7 +24,7 @@ Select your LangCache service from the list to view the service's details.
 The **Configuration** tab lets you view the details of your LangCache service. It contains the following sections:
 
 - The **Connectivity** section provides the connection details for your LangCache service.
-- The **Configuration** section provides the cache settings for your LangCache service.
+- The **General** section provides the cache settings for your LangCache service.
 - The **Actions** section lets you flush or delete your LangCache service.
 
 ### Connectivity
@@ -41,9 +41,9 @@ The **Connectivity** section provides the connection details for your LangCache 
 
 Select the **Copy** button next to each value to copy them to the clipboard. See [use the LangCache API]({{< relref "/operate/rc/langcache/use-langcache" >}}) for more information on how to use these values. 
 
-### Configuration
+### General
 
-The **Configuration** section provides configuration details for your LangCache service.
+The **General** section provides configuration details for your LangCache service.
 
 | Setting name          |Description|
 |:----------------------|:----------|
@@ -82,7 +82,7 @@ Flushing the cache is permanent and cannot be undone, and will result in cache m
 
 ### Delete service
 
-Deleting your LangCache service permanently deletes all associated cached data, the service configuration, and the LangCache search index. It also immediately terminates all API keys associated with the service. However, your database and other database data will not be deleted.
+Deleting your LangCache service permanently deletes all associated cached data, the service configuration, and the LangCache search index. It also immediately terminates all API keys associated with the service. Data stored in other indexes within the same database will remain unaffected.
 
 To delete your LangCache service:
 
