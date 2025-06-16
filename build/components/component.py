@@ -6,6 +6,8 @@ import shutil
 from typing import Tuple
 from urllib.parse import urlparse, ParseResult
 
+import requests
+
 from .structured_data import load_dict, dump_dict
 from .util import die, mkdir_p, rsync, run, rm_rf
 from .example import Example
@@ -39,25 +41,54 @@ class Component(dict):
         logging.debug("EXITING: ")
 
     def _git_clone(self, repo) -> str:
-        logging.debug("ENTERING: ")  
+        logging.debug("ENTERING: ")
+    
         git_uri = repo.get('git_uri')
         private = repo.get('private', False)
         uri, _, name, ext = parseUri(git_uri)
         to = f'{self._root._tempdir}/{name}'
+        
         if uri.scheme == 'https' and ext in ['', '.git'] and self._repo_uri() != git_uri:
             if not self._root._skip_clone and git_uri not in self._root._clones:
                 rm_rf(to)
                 mkdir_p(to)
-                logging.debug(
-                    f'Cloning {private and "private" or "public"} {git_uri} to {to}')
+                
+                # Extract owner and repo name from git_uri
+                path_parts = uri.path.strip('/').split('/')
+                if len(path_parts) >= 2:
+                    owner, repo_name = path_parts[0], path_parts[1].replace('.git', '')
+                    
+                    # Get latest release tag from GitHub API
+                    api_url = f"https://api.github.com/repos/{owner}/{repo_name}/releases/latest"
+                    github_token = os.environ.get('PRIVATE_ACCESS_TOKEN')
+                    headers = {"Authorization": f"Bearer {github_token}"} if github_token else {}
+                    
+                    try:
+                        response = requests.get(api_url, headers=headers)
+                        response.raise_for_status()
+                        latest_tag = response.json()["tag_name"]
+                        logging.debug(f'Found latest release tag: {latest_tag}')
+                        use_latest_tag = True
+                    except Exception as e:
+                        logging.warning(f'Failed to get latest release tag: {str(e)}')
+                        use_latest_tag = False
+                else:
+                    use_latest_tag = False
+                    
+                logging.debug(f'Cloning {private and "private" or "public"} {git_uri} to {to}')
                 self._root._clones[git_uri] = True
+                
                 if private:
                     pat = os.environ.get('PRIVATE_ACCESS_TOKEN')
                     if pat is None:
                         die('Private repos without a PRIVATE_ACCESS_TOKEN - aborting.')
                     git_uri = f'{uri.scheme}://{pat}@{uri.netloc}{uri.path}'
-                run(f'git clone {git_uri} {to}')
-                run(f'git fetch --all --tags', cwd=to)
+                
+                if use_latest_tag:
+                    run(f'git clone --depth 1 --branch {latest_tag} {git_uri} {to}')
+                else:
+                    run(f'git clone {git_uri} {to}')
+                    run(f'git fetch --all --tags', cwd=to)
             else:
                 logging.debug(f'Skipping clone {git_uri}')
             logging.debug("EXITING: ")
@@ -173,13 +204,43 @@ class Client(Component):
         logging.debug("EXITING: ")
         return None
 
+    def _get_default_branch(self, git_uri):
+        """Get the default branch name for a GitHub repository."""
+        logging.debug("ENTERING: ")
+        try:
+            # Extract owner and repo name from git_uri
+            from urllib.parse import urlparse
+            uri = urlparse(git_uri)
+            path_parts = uri.path.strip('/').split('/')
+            if len(path_parts) >= 2:
+                owner, repo_name = path_parts[0], path_parts[1].replace('.git', '')
+
+                # Get repository info from GitHub API
+                api_url = f"https://api.github.com/repos/{owner}/{repo_name}"
+                github_token = os.environ.get('PRIVATE_ACCESS_TOKEN')
+                headers = {"Authorization": f"Bearer {github_token}"} if github_token else {}
+
+                response = requests.get(api_url, headers=headers)
+                response.raise_for_status()
+                default_branch = response.json()["default_branch"]
+                logging.debug(f'Found default branch: {default_branch} for {git_uri}')
+                logging.debug("EXITING: ")
+                return default_branch
+        except Exception as e:
+            logging.warning(f'Failed to get default branch for {git_uri}: {str(e)}')
+
+        # Fallback to 'main' if API call fails
+        logging.debug("EXITING: ")
+        return 'main'
+
     def _copy_examples(self):
         logging.debug("ENTERING: ")
         if ex := self.get('examples'):
             repo = self._git_clone(ex)
-            dev_branch = ex.get('dev_branch')
-            self._checkout(dev_branch, repo, ex)
             path = ex.get('path', '')
+
+            # Get the default branch for sourceUrl generation
+            default_branch = self._get_default_branch(ex.get('git_uri'))
 
             src = f'{repo}/{path}/'
             dst = f'{self._root._website.get("path")}/{self._root._website.get("examples_path")}'
@@ -210,7 +271,7 @@ class Client(Component):
                 example_metadata['hidden'] = e.hidden
                 example_metadata['named_steps'] = e.named_steps
                 example_metadata['sourceUrl'] = (
-                    f'{ex["git_uri"]}/tree/{ex["dev_branch"]}/{ex["path"]}/{os.path.basename(f)}'
+                    f'{ex["git_uri"]}/tree/{default_branch}/{ex["path"]}/{os.path.basename(f)}'
                 )
                 examples = self._root._examples
                 if example_id not in examples:

@@ -9,7 +9,6 @@
     },
     "examples": {
         "git_uri": "https://github.com/redis/redis-py",
-        "dev_branch": "master",
         "path": "doctests",
         "pattern": "*.py"
     }
