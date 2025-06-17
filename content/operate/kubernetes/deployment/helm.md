@@ -75,7 +75,7 @@ To monitor the installation add the `--debug` flag. The installation runs severa
 
 ```sh
 helm install <operator-name> <repo-name>/redis-enterprise-operator \
-    --version <release-name> \
+    --version <chart-version> \
     --namespace <namespace-name> \
     --create-namespace
     --set <key1>=<value1> \
@@ -92,7 +92,7 @@ helm install <operator-name> <repo-name>/redis-enterprise-operator \
 
 ```sh
 helm install <operator-name> <repo-name>/redis-enterprise-operator \
-    --version <release-name> \
+    --version <chart-version> \
     --namespace <namespace-name> \
     --create-namespace \
     --values <path-to-values-file>
@@ -107,7 +107,7 @@ To migrate an existing non-Helm installation of the Redis Enterprise operator to
 2. [Install](#install) the Helm chart adding the `--take-ownership` flag:
 
    ```sh
-   helm install <release-name> <path-to-chart> --take-ownership
+   helm install <release-name> <repo-name>/redis-enterprise-operator --take-ownership
    ```
 
    - The `--take-ownership` flag is available with Helm versions 3.18 or later.
@@ -120,11 +120,17 @@ To migrate an existing non-Helm installation of the Redis Enterprise operator to
    kubectl delete validatingwebhookconfiguration redis-enterprise-admission
    ```
 
-   This step is only needed when the `admission.limitToNamespace` chart value is set to `true` (the default). In this case, the webhook object installed by the chart is named `redis-enterprise-admission-<namespace>`. If `admission.limitToNamespace` is set to `false`, the webhook installed by the chart is named `redis-enterprise-admission`, and the existing webhook object is reused.
+   This step is only needed when the `admission.limitToNamespace` chart value is set to `true` (the default). In this case, the webhook object installed by the chart is named `redis-enterprise-admission-<namespace>`, and the original webhook object, named `redis-enterprise-admission`, becomes redundant. If `admission.limitToNamespace` is set to `false`, the webhook installed by the chart is named `redis-enterprise-admission`, and the existing webhook object is reused.
 
 ## Upgrade the chart
 
 To upgrade an existing Helm chart installation:
+
+```sh
+helm upgrade <release-name> <repo-name>/redis-enterprise-operator --version <chart-version>
+```
+
+You can also upgrade from a local directory:
 
 ```sh
 helm upgrade <release-name> <path-to-chart>
@@ -136,18 +142,7 @@ For example, to upgrade a chart with the release name `my-redis-enterprise` from
 helm upgrade my-redis-enterprise .
 ```
 
-You can also upgrade using the Redis Helm repository:
-
-```sh
-helm upgrade <release-name> <repo-name>/redis-enterprise-operator --version <chart-version>
-```
-
-To upgrade the chart on **OpenShift**, include the `openshift.mode=true` parameter:
-
-```sh
-helm upgrade <release-name> <path-to-chart> \
-     --set openshift.mode=true
-```
+To upgrade with OpenShift, add `--set openshift.mode=true`.
 
 The upgrade process automatically updates the operator and its components, including the Custom Resource Definitions (CRDs). The CRDs are versioned and update only if the new version is higher than the existing version.
 

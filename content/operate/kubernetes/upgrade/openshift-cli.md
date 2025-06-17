@@ -64,14 +64,14 @@ If you installed the Redis Enterprise operator using Helm charts on OpenShift, y
 To upgrade using Helm on OpenShift:
 
 ```sh
-helm upgrade <release-name> redis/redis-enterprise-operator --version <chart-version> \
+helm upgrade <release-name> <repo-name>/redis-enterprise-operator --version <chart-version> \
     --set openshift.mode=true
 ```
 
 For example:
 
 ```sh
-helm upgrade my-redis-enterprise redis/redis-enterprise-operator --version 7.8.2-2 \
+helm upgrade my-redis-enterprise <repo-name>/redis-enterprise-operator --version 7.8.2-2 \
     --set openshift.mode=true
 ```
 
