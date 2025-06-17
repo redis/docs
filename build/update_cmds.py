@@ -8,7 +8,7 @@ from components.markdown import Markdown
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description='Builds a stack website')
+    parser = argparse.ArgumentParser(description='Updates command metadata')
     parser.add_argument('--loglevel', type=str,
                         default='INFO',
                         help='Python logging level (overwrites LOGLEVEL env var)')
