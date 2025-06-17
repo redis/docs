@@ -79,14 +79,14 @@ Use an answer file to manage your response:
 
 1. Create a text file to serve as an answer file.
 
-    The answer file can contain any of the following installation question parameters:
+    The answer file can contain any of the following installation question parameters. If a parameter is not included in the file, the installation script will ask for your answer.
 
     | Parameter | Values | Description |
     |-----------|--------|-------------|
     | `firewall` | `yes`<br />`no` | Configure firewall and open required Redis ports. |
     | `ignore_existing_osuser_osgroup` | `yes`<br />`no` | Proceed if redislabs user/group already exists. |
-    | `ignore_master_version` | `yes`<br />`no` | Continue the upgrade even if the primary node isn't upgraded. |
-    | `ignore_swap` | `yes`<br />`no` | Continue even if swap is enabled. |
+    | `ignore_master_version` | `yes`<br />`no` | Continue the upgrade even if the primary node isn't upgraded. If `no`, stops installation if the primary node hasn't been upgraded. |
+    | `ignore_swap` | `yes`<br />`no` | Continue even if swap is enabled. If `no`, stops installation if swap is enabled. |
     | `ntp` | `yes`<br />`no` | Configure NTP for time synchronization. |
     | `rlcheck` | `yes`<br />`no` | Run `rlcheck` after installation to validate the system. |
     | `skip_updating_env_path` | `yes`<br />`no` | Skip adding Redis Enterprise Software paths to the PATH environment variable. |
