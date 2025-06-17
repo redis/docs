@@ -12,7 +12,7 @@ categories:
 description: Connect your Go application to a Redis database
 linkTitle: Connect
 title: Connect to the server
-weight: 1
+weight: 10
 ---
 
 ## Basic connection

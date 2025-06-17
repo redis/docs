@@ -31,4 +31,8 @@ Redis integrates with a wide range of AI frameworks, platforms, and tools to enh
 
 ## Getting started
 
-To learn more about using Redis with AI frameworks and tools, check out our [AI notebooks collection]({{< relref "/develop/ai/notebook-collection" >}}) and [RAG quickstart guide]({{< relref "/develop/get-started/rag" >}}).
+To learn more about using Redis with AI frameworks and tools, check out our:
+
+* [AI notebooks collection]({{< relref "/develop/ai/notebook-collection" >}}) - Interactive code examples and tutorials
+* [AI video collection]({{< relref "/develop/ai/ai-videos" >}}) - Video tutorials and demonstrations
+* [RAG quickstart guide]({{< relref "/develop/get-started/rag" >}}) - Get started with Retrieval-Augmented Generation

@@ -1,8 +1,0 @@
-<svg class="railroad-diagram" viewBox="0 0 384.0 62" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g transform="translate(.5 .5)">
-<g>
-<path d="M20 21v20m10 -20v20m-10 -10h20"></path></g><path d="M40 31h10"></path><g>
-<path d="M50 31h0.0"></path><g>
-<path d="M50.0 31h10.0"></path><path d="M324.0 31h10.0"></path><g class="terminal ">
-<path d="M60.0 31h0.0"></path><path d="M224.5 31h0.0"></path><rect height="22" rx="10" ry="10" width="164.5" x="60.0" y="20"></rect><text x="142.25" y="35">CLUSTER REPLICATE</text></g><path d="M224.5 31h10"></path><path d="M234.5 31h10"></path><g class="non-terminal ">
-<path d="M244.5 31h0.0"></path><path d="M324.0 31h0.0"></path><rect height="22" width="79.5" x="244.5" y="20"></rect><text x="284.25" y="35">node-id</text><title>string</title></g></g><path d="M334.0 31h0.0"></path></g><path d="M334.0 31h10"></path><path d="M 344.0 31 h 20 m -10 -10 v 20 m 10 -20 v 20"></path></g></svg>

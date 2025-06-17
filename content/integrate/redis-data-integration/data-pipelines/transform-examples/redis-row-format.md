@@ -17,7 +17,7 @@ weight: 30
 
 The RDI pipelines support two separate row formats which you can specify in the `source` section of the job file:
 
-- `basic` - (Default) Contains the current value of the row only.
+- `partial` - (Default) Contains the current value of the row only.
 - `full` - Contains all information available for the row, including the key, the before and after values, and the operation code.
 
 The `full` row format is useful when you want to access the metadata associated with the row, such as the operation code, and the before and after values.
@@ -63,7 +63,7 @@ With `row_format: full` the input value is a JSON object with the following stru
 - `key` - An object containing the attributes of the primary key. For example, `key.id` will give you the value of the `id` column as long as it is part of the primary key.
 - `before` - An object containing the previous value of the row.
 - `after` - An object containing the current value of the row.
-- `opcode` - The operation code. Different databases use different values for the operation code. See [operation code values]({{< relref "#operation-codes" >}}) below for more information.
+- `opcode` - The operation code. See [Using the operation code]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples/redis-opcode-example" >}}) for more information about the possible opcode values and how to use them.
 - `db` - The database name.
 - `table` - The table name.
 - `schema` - The schema name. 
@@ -102,12 +102,3 @@ output:
         expression: concat(['addresses-full', '#', values(key)[0]])
         language: jmespath
 ```
-
-## Operation code values {#operation-codes}
-
-- r - Read (applies to only snapshots)
-- c - Create
-- u - Update
-- d - Delete
-- t = truncate (PostgreSQL specific)
-- m = message (PostgreSQL specific)

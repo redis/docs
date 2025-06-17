@@ -739,6 +739,67 @@ input[type="radio"] {
   appearance: none;
 }
 
+/* Generic GitHub-style tabs */
+.generic-tabs {
+  @apply w-full mb-6;
+}
+
+.generic-tabs .tab-nav {
+  @apply flex bg-redis-neutral-200 rounded-t-md border-x border-t border-b-0 border-redis-pen-300;
+}
+
+.generic-tabs .tab-radio {
+  @apply sr-only;
+}
+
+.generic-tabs .tab-label {
+  @apply px-4 py-3 cursor-pointer text-sm font-medium text-redis-pen-600
+         bg-redis-neutral-200 border-r border-redis-pen-300
+         hover:bg-white hover:text-redis-ink-900
+         transition-colors duration-150 ease-in-out
+         focus:outline-none focus:ring-0
+         select-none;
+}
+
+.generic-tabs .tab-label:first-child {
+  @apply rounded-tl-md;
+}
+
+.generic-tabs .tab-radio:checked + .tab-label {
+  @apply bg-white text-redis-ink-900 border-x border-t border-redis-pen-300 border-b-white z-10;
+}
+
+.generic-tabs .tab-radio:checked:first-of-type + .tab-label {
+  @apply rounded-tl-md;
+}
+
+.generic-tabs .tab-radio:focus {
+  @apply ring-0 outline-none;
+}
+
+.generic-tabs .tab-radio:focus + .tab-label {
+  @apply border-x border-t border-redis-pen-300 border-b-white focus:outline-none focus:ring-2 focus:ring-redis-pen-300 focus:ring-inset;
+}
+
+.generic-tabs .tab-content {
+  @apply hidden px-6 pb-6 pt-3 bg-white border border-redis-pen-300 rounded-b-md shadow-sm;
+  /* Unified border (including top) to align with tab borders */
+}
+
+.generic-tabs .tab-content.active {
+  @apply block;
+}
+
+/* Ensure proper stacking and borders */
+.generic-tabs .tab-content-container {
+  @apply relative -mt-px;
+}
+
+/* Single content box styling (when no explicit tabs are provided) */
+.generic-tabs-single .tab-content-single {
+  @apply prose prose-lg max-w-none;
+}
+
 .stack-logo-inline {
     display: inline;
     max-height: 1em;

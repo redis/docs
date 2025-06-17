@@ -41,3 +41,7 @@ You can change these file locations for:
 
 - [Ephemeral and persistence storage]({{< relref "/operate/rs/clusters/new-cluster-setup.md" >}}) during cluster setup
 - [Socket files]({{< relref "/operate/rs/installing-upgrading/configuring/change-location-socket-files.md" >}}) after cluster setup
+
+{{< note >}}
+To specify custom paths for ephemeral and persistent storage during cluster setup, you must install Redis Enterprise Software using [custom installation directories]({{< relref "/operate/rs/installing-upgrading/install/customize-install-directories" >}}). If you use the default installation, you cannot specify custom storage paths and will receive a "path not mounted" error.
+{{< /note >}}
