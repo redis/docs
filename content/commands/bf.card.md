@@ -41,15 +41,6 @@ is key name for a Bloom filter.
 
 </details>
 
-## Return value
- 
-Returns one of these replies:
-
-- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - the number of items that were added to this Bloom filter and detected as unique (items that caused at least one bit to be set in at least one sub-filter), or 0 when `key` does not exist.
-- [] on error (invalid arguments, wrong key type, etc.)
-
-Note: when `key` exists - return the same value as `BF.INFO key ITEMS`.
-
 ## Examples
 
 {{< highlight bash >}}
@@ -60,3 +51,24 @@ redis> BF.CARD bf1
 redis> BF.CARD bf_new
 (integer) 0
 {{< / highlight >}}
+
+## Return information
+
+{{< multitabs id="bf-card-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of items detected as unique that were added to the Bloom filter (items that caused at least one bit to be set in at least one sub-filter), or `0` when the given `key` does not exist.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, or when the filter is full.
+
+Note: when `key` exists, `BF.CARD` returns the same value as `BF.INFO key ITEMS`.
+
+-tab-sep-
+
+One of the following:
+* [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of items detected as unique that were added to the Bloom filter (items that caused at least one bit to be set in at least one sub-filter), or `0` when the given `key` does not exist.
+* [Simple error reply](../../develop/reference/protocol-spec#simple-errors) in these cases: invalid arguments, wrong key type, or when the filter is full.
+
+Note: when `key` exists, `BF.CARD` returns the same value as `BF.INFO key ITEMS`.
+{{< /multitabs >}}

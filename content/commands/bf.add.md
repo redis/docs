@@ -49,13 +49,6 @@ If `key` does not exist - a new Bloom filter is created with default error rate,
 is an item to add.
 </details>
 
-## Return value
-
-Returns one of these replies:
-
-- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - where "1" means that the item has been added successfully, and "0" means that such item was already added to the filter (which could be wrong)
-- [] on error (invalid arguments, wrong key type, etc.) and also when the filter is full
-
 ## Examples
 
 {{< highlight bash >}}
@@ -64,3 +57,21 @@ redis> BF.ADD bf item1
 redis> BF.ADD bf item1
 (integer) 0
 {{< / highlight >}}
+
+## Return information
+
+{{< multitabs id="bf-add-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Integer reply](../../develop/reference/protocol-spec#integers): `1` for successfully adding an item, or `0` if there's a probability that the item was already added to the filter.
+* [Simple error reply](../../develop/reference/protocol-spec#simple-errors) in these cases: invalid arguments, wrong key type, or when the filter is full.
+
+-tab-sep-
+
+One of the following:
+* [Boolean reply](../../develop/reference/protocol-spec#booleans): `true` for successfully adding an item, or `false` if there's a probability that the item was already added to the filter.
+* [Simple error reply](../../develop/reference/protocol-spec#simple-errors) in these cases: invalid arguments, wrong key type, or when the filter is full.
+
+{{< /multitabs >}}
