@@ -55,7 +55,7 @@ of the configuration and persistence files on each of the nodes.
 
     If you use local persistent storage, place all of the recovery files on each of the cluster nodes.
 
-1. To see which databases are recoverable, run:
+1. To see which databases are recoverable, run [`rladmin recover list`]({{<relref "/operate/rs/references/cli-utilities/rladmin/recover#recover-list">}}):
 
     ```sh
     rladmin recover list
@@ -100,7 +100,11 @@ GET https://<host>:<port>/v1/modules
 
         {{< /multitabs >}}
 
-    1. Identify the module versions required by your databases from the cluster configuration store (CCS) files.
+    1. Identify the module versions required by the recoverable databases. To do so, run [`rladmin status modules`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-modules" >}}) and check the `DATABASE MODULES` section for the module versions listed for the recoverable databases:
+
+        ```sh
+        rladmin status modules extra all
+        ```
 
     1. Download any missing modules versions from the [Redis download center](https://redis.io/downloads/#tools).
 
