@@ -70,12 +70,12 @@ redis> BF.MEXISTS bf item1 item2 item3
 
 One of the following:
 * [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integer replies]({{< relref "/develop/reference/protocol-spec#integers" >}}), where `1` means that, with high probability, `item` was already added to the filter, and `0` means that `key` does not exist or that `item` was definitely not added to the filter.
-* [Simple error] in these cases: in these cases: invalid arguments, wrong key type, or when the key was not found.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: in these cases: invalid arguments, wrong key type, or when the key was not found.
 
 -tab-sep-
 
 One of the following:
 * [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [boolean replies]({{< relref "/develop/reference/protocol-spec#booleans" >}}), where `true` means that, with high probability, `item` was already added to the filter, and `false` means that `key` does not exist or that `item` was definitely not added to the filter.
-* [Simple error]: in these cases: in these cases: invalid arguments, wrong key type, or when the key was not found.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: in these cases: invalid arguments, wrong key type, or when the key was not found.
 
 {{< /multitabs >}}

@@ -68,7 +68,7 @@ Note: when `key` exists, `BF.CARD` returns the same value as `BF.INFO key ITEMS`
 
 One of the following:
 * [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of items detected as unique that were added to the Bloom filter (items that caused at least one bit to be set in at least one sub-filter), or `0` when the given `key` does not exist.
-* [Simple error reply](../../develop/reference/protocol-spec#simple-errors) in these cases: invalid arguments, wrong key type, or when the filter is full.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, or when the filter is full.
 
 Note: when `key` exists, `BF.CARD` returns the same value as `BF.INFO key ITEMS`.
 {{< /multitabs >}}

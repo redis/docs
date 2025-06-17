@@ -148,7 +148,7 @@ One of the following: where each element is one of these options:
 * [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}), where each element is one of the following options:
   * [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) `1` for successfully adding an item, or `0` if there's a probability that the item was already added to the filter.
   * [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings">}}) when the item cannot be added because the filter is full.
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings">}}) when the number of arguments or key type is wrong, and also when `NOCREATE` is specified and `key` does not exist.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors">}}) when the number of arguments or key type is wrong, and also when `NOCREATE` is specified and `key` does not exist.
 
 -tab-sep-
 
@@ -156,6 +156,6 @@ One of the following: where each element is one of these options:
 * [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}), where each element is one of the following options:
   * [Boolean reply]({{< relref "/develop/reference/protocol-spec#booleans" >}}) `true` for successfully adding an item, or `false` if there's a probability that the item was already added to the filter.
   * [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings">}}) when the item cannot be added because the filter is full.
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings">}}) when the number of arguments or key type is wrong, and also when `NOCREATE` is specified and `key` does not exist.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors">}}) when the number of arguments or key type is wrong, and also when `NOCREATE` is specified and `key` does not exist.
 
 {{< /multitabs >}}

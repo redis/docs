@@ -67,12 +67,12 @@ redis> BF.EXISTS bf item2
 
 One of the following:
 * [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): `1` means that, with high probability, `item` was already added to the filter, and `0` means that either the `key` does not exist or that the `item` had not been added to the filter.
-* [Simple error reply](../../develop/reference/protocol-spec#simple-errors) if invalid arguments are passed.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if invalid arguments are passed.
 
 -tab-sep-
 
 One of the following:
 * [Boolean reply]({{< relref "/develop/reference/protocol-spec#booleans" >}}): `true` means that, with high probability, `item` was already added to the filter, and `false` means that either `key` does not exist or that `item` had not been added to the filter.
-* [Simple error reply](../../develop/reference/protocol-spec#simple-errors) if invalid arguments are passed or `key` is not of the correct type.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if invalid arguments are passed or `key` is not of the correct type.
 
 {{< /multitabs >}}

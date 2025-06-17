@@ -73,12 +73,12 @@ See [`BF.SCANDUMP`]({{< relref "commands/bf.scandump/" >}}) for an example.
 
 One of the following:
 * [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
-* [Simple error]({{< relref "/develop/reference/protocol-spec#simple-errors">}}) in these cases: invalid arguments, wrong key type, or when invalid data was passed.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, or when invalid data was passed.
 
 -tab-sep-
 
 One of the following:
 * [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
-* [Simple error]({{< relref "/develop/reference/protocol-spec#simple-errors">}}) in these cases: invalid arguments, wrong key type, or when invalid data was passed.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, or when invalid data was passed.
 
 {{< /multitabs >}}

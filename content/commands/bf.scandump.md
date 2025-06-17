@@ -103,8 +103,8 @@ for chunk in chunks:
     tab2="RESP3" >}}
 
 One of the following:
-* [Array reply](../../develop/reference/protocol-spec#arrays): a two-element array of an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers">}}) (_Iterator_) and a [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) (_Data_).
-* [Simple error reply](../../develop/reference/protocol-spec#simple-errors) in these cases: invalid arguments, the key was not found, or the key is of the wrong type.
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a two-element array of an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) (_Iterator_) and a [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) (_Data_).
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, the key was not found, or the key is of the wrong type.
 
 The Iterator is passed as input to the next invocation of `BF.SCANDUMP`. If _Iterator_ is 0, then it means iteration has completed.
 
@@ -113,8 +113,8 @@ The iterator-data pair should also be passed to [`BF.LOADCHUNK`]({{< relref "com
 -tab-sep-
 
 One of the following:
-* [Array reply](../../develop/reference/protocol-spec#arrays): a two-element array of an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers">}}) (_Iterator_) and a [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) (_Data_).
-* [Simple error reply](../../develop/reference/protocol-spec#simple-errors) in these cases: invalid arguments, the key was not found, or the key is of the wrong type.
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a two-element array of an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) (_Iterator_) and a [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) (_Data_).
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, the key was not found, or the key is of the wrong type.
 
 The Iterator is passed as input to the next invocation of `BF.SCANDUMP`. If _Iterator_ is 0, then it means iteration has completed.
 
