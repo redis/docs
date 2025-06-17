@@ -59,7 +59,7 @@ Several questions appear during installation:
 
 - **Group already exists** - `The group 'redislabs' already exists, which may lead to problems if it wasn't configured correctly. Would you like to proceed with the installation? (Y/N)?`
 
-- **Update PATH - `Add Redis-Enterprise paths to $PATH variable (recommended) [Y/N]?`
+- **Update PATH** - `Add Redis-Enterprise paths to $PATH variable (recommended) [Y/N]?`
 
 ## Answer install questions automatically
 
