@@ -39,7 +39,10 @@ To create a new account with a free database:
     {{<image filename="images/rc/create-database-subscription-free.png" alt="The Subscription selection panel with Free selected.">}}
 
     {{< note >}}
-If you'd rather select a different plan, see [create a database]({{< relref "/operate/rc/databases/create-database" >}}) and follow the guide for the plan you need.
+If you want to create a different type of database, see the following guides:
+- [Create a Redis Flex database]({{< relref "/operate/rc/databases/create-database/create-flex-database" >}})
+- [Create an Essentials database]({{< relref "/operate/rc/databases/create-database/create-essentials-database" >}})
+- [Create a Pro database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}})
     {{</note>}}
 
 1. Redis will generate a database name for you. If you want to change it, you can do so in the **Database name** field. 
