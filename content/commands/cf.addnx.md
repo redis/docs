@@ -56,13 +56,6 @@ If `key` does not exist - a new cuckoo filter is created.
 is an item to add.
 </details>
 
-## Return value
-
-Returns one of these replies:
-
-- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), where `0` means that the item's fingerprint already exist in the filter, and `1` means that the item has been successfully added to the filter.
-- [] on error (invalid arguments, wrong key type, etc.) and also when the filter is full.
-
 ## Examples
 
 {{< highlight bash >}}
@@ -71,3 +64,21 @@ redis> CF.ADDNX cf item
 redis> CF.ADDNX cf item
 (integer) 0
 {{< / highlight >}}
+
+## Return information
+
+{{< multitabs id="cf-addnx-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): `1` for successfully adding an item to the filter or `0` if the item's fingerprint already exists in the filter.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, or when the filter is full.
+
+-tab-sep-
+
+One of the following:
+* [Boolean reply]({{< relref "/develop/reference/protocol-spec#booleans" >}}): `true` for successfully adding an item to the filter or `false` if the item's fingerprint already exists in the filter.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, or when the filter is full.
+
+{{< /multitabs >}}

@@ -48,13 +48,6 @@ is key name for a cuckoo filter.
 is an item to check.
 </details>
 
-## Return value
-
-Returns one of these replies:
-
-- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), where `1` means that, with high probability, `item` had already been added to the filter, and `0` means that `key` does not exist or that `item` had not been added to the filter. See note in [`CF.DEL`]({{< relref "commands/cf.del/" >}}).
-- [] on error (invalid arguments, wrong key type, and so on)
-
 ## Examples
 
 {{< highlight bash >}}
@@ -65,3 +58,19 @@ redis> CF.EXISTS cf item1
 redis> CF.EXISTS cf item2
 (integer) 0
 {{< / highlight >}}
+
+{{< multitabs id="cf-exists-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): `1` means that, with high probability, `item` was already added to the filter, and `0` means that either the `key` does not exist or that the `item` had not been added to the filter.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if invalid arguments are passed.
+
+-tab-sep-
+
+One of the following:
+* [Boolean reply]({{< relref "/develop/reference/protocol-spec#booleans" >}}): `true` means that, with high probability, `item` was already added to the filter, and `false` means that either `key` does not exist or that `item` had not been added to the filter.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if invalid arguments are passed or `key` is not of the correct type.
+
+{{< /multitabs >}}
