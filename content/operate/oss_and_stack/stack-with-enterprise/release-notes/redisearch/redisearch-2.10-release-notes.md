@@ -13,10 +13,22 @@ weight: 90
 ---
 ## Requirements
 
-RediSearch v2.10.17 requires:
+RediSearch v2.10.19 requires:
 
 - Minimum Redis compatibility version (database): 7.4
 - Minimum Redis Enterprise Software version (cluster): 7.6 (TBD)
+
+## v2.10.19 (June 2025)
+
+This is a maintenance release for RediSearch 2.10.
+
+Update urgency: `LOW` No need to upgrade unless there are new features you want to use.
+
+Bug fixes:
+- [#6211](https://github.com/redisearch/redisearch/pull/6211) Some languages (like Russian) could have multiple lower and upper case matches, causing index misbehaviour (MOD-9835).
+
+Improvements:
+- [#5637](https://github.com/redisearch/redisearch/pull/5637) Memory allocation when converting special UTF-8 symbols requires more memory (MOD-8799).
 
 ## v2.10.18 (May 2025)
 
