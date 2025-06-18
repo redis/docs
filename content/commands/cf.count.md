@@ -48,13 +48,6 @@ is key name for a cuckoo filter.
 is an item to check.
 </details>
 
-## Return value
-
-Returns one of these replies:
-
-- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), where a positive value is an estimation of the number of times `item` was added to the filter. An overestimation is possible, but not an underestimation. `0` means that `key` does not exist or that `item` had not been added to the filter. See note in [`CF.DEL`]({{< relref "commands/cf.del/" >}}).
-- [] on error (invalid arguments, wrong key type, etc.)
-
 ## Examples
 
 {{< highlight bash >}}
@@ -67,3 +60,21 @@ redis> CF.COUNT cf item1
 redis> CF.COUNT cf item2
 (integer) 2
 {{< / highlight >}}
+
+## Return information
+
+{{< multitabs id=“cf-count-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), where a positive value is an estimation of the number of times `item` was added to the filter. An overestimation is possible, but not an underestimation. `0` means that `key` does not exist or that `item` had not been added to the filter. See the note in [`CF.DEL`]({{< relref "commands/cf.del/" >}}).
+* [Simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments or wrong key type.
+
+-tab-sep-
+
+One of the following:
+* [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), where a positive value is an estimation of the number of times `item` was added to the filter. An overestimation is possible, but not an underestimation. `0` means that `key` does not exist or that `item` had not been added to the filter. See the note in [`CF.DEL`]({{< relref "commands/cf.del/" >}}).
+* [Simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments or wrong key type.
+
+{{< /multitabs >}}

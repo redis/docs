@@ -95,13 +95,6 @@ If the number of items to be stored in the filter is unknown, you use an `expans
 Otherwise, you use an `expansion` of `1` to reduce memory consumption. The default value is `2`.
 </details>
 
-## Return value
-
-Returns one of these replies:
-
-- [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - `OK` if filter created successfully
-- [] on error (invalid arguments, key already exists, etc.)
-
 ## Examples
 
 {{< highlight bash >}}
@@ -123,3 +116,21 @@ OK
 redis> BF.RESERVE bf_non 0.01 1000 NONSCALING
 OK
 {{< / highlight >}}
+
+## Return information
+
+{{< multitabs id="bf-reserve-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if the filter was created successfully.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments or the key already exists.
+
+-tab-sep-
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if the filter was created successfully.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments or the key already exists.
+
+{{< /multitabs >}}

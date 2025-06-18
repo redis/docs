@@ -61,13 +61,24 @@ Iterator value associated with `data` (returned by [`BF.SCANDUMP`]({{< relref "c
 Current data chunk (returned by [`BF.SCANDUMP`]({{< relref "commands/bf.scandump/" >}}))
 </details>
 
-## Return value
-
-Returns one of these replies:
-
-- [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - `OK` if executed correctly
-- [] on error (invalid arguments, wrong key type, wrong data, etc.)
-
 ## Examples
 
 See [`BF.SCANDUMP`]({{< relref "commands/bf.scandump/" >}}) for an example.
+
+## Return information
+
+{{< multitabs id="bf-loadchunk-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, or when invalid data was passed.
+
+-tab-sep-
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, or when invalid data was passed.
+
+{{< /multitabs >}}
