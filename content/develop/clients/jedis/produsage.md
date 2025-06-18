@@ -26,6 +26,7 @@ progress in implementing the recommendations.
 
 {{< checklist "prodlist" >}}
     {{< checklist-item "#connection-pooling" >}}Connection pooling{{< /checklist-item >}}
+    {{< checklist-item "#connection-retries" >}}Connection retries{{< /checklist-item >}}
     {{< checklist-item "#client-side-caching" >}}Client-side caching{{< /checklist-item >}}
     {{< checklist-item "#timeouts" >}}Timeouts{{< /checklist-item >}}
     {{< checklist-item "#health-checks" >}}Health checks{{< /checklist-item >}}
@@ -50,6 +51,13 @@ to avoid the overhead of opening and closing connections without having to
 write your own code to cache and reuse open connections. See
 [Connect with a connection pool]({{< relref "/develop/clients/jedis/connect#connect-with-a-connection-pool" >}})
 to learn how to use this technique with Jedis.
+
+### Connection retries
+
+If a connection is lost before a command is completed, the command will fail with a `JedisConnectionException`. However, a connection error is often transient, in which case the
+command will succeed after one or more reconnection attempts. See
+[Retrying a command after a connection failure]({{< relref "/develop/clients/jedis/connect#retrying-a-command-after-a-connection-failure" >}})
+for an example of a simple retry loop that can recover from a transient connection error.
 
 ### Client-side caching
 
