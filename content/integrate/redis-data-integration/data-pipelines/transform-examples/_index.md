@@ -24,6 +24,37 @@ configuration that controls the transformation for a particular table from the s
 database. You can also add a `default-job.yaml` file to provide
 a default transformation for tables that don't have a specific job file of their own.
 
+## Change events
+
+RDI captures changes to rows in the source database as *change events*. A change event
+is a JSON object with fields that describe which row was changed and how. A
+transformation job receives the change event as input and specifies how to transform
+it into the target data structure in Redis.
+
+The job file can access the change event in either a `full` or a `partial` format. The
+fields of the `full` format are:
+
+- `key`: An object containing the attributes of the primary key as fields. For example,
+  you could access the value of a primary key column called `id` using `key.id`.
+- `before`: An object containing the value of the row before the change occurred.
+- `after`: An object containing the current value of the row, after the change.
+- `opcode`: A single character string that indicates the type of operation that generated the change,
+  such as creation, update, or deletion. See
+  [Using the operation code]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples/redis-opcode-example" >}})
+  for more information about the possible opcode values and how to use them.
+- `db`: The name of the source database.
+- `table`: The name of the table that contains the changed row.
+- `schema`: The name of the database schema.
+ 
+{{< note >}} The `db` and `schema` fields are database-specific and may not be available in all databases. For example, MySQL doesn't use `schema` and uses `db` as the database name.
+{{< /note >}}
+
+The `partial` format contains just the current value of the row, after the change. It
+is equivalent to the `after` field of the `full` format, but lets you omit the `after`
+prefix when you access a field.
+
+## Job file format
+
 The job files have a structure like the following example. This configures a default
 job that:
 
