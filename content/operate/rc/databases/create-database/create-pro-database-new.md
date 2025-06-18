@@ -11,6 +11,8 @@ weight: 10
 tocEmbedHeaders: true
 ---
 
+Redis Cloud Pro supports more databases, larger databases, greater throughput, and unlimited connections compared to Redis Cloud Essentials. Redis Cloud Pro databases are perfect for teams building mission-critical systems in the cloud.
+
 {{< embed-md "rc-create-db-first-steps.md" >}}
 
 3. Select the type of [subscription]({{< relref "/operate/rc/subscriptions" >}}) you need. For this guide, select **Pro**. 
