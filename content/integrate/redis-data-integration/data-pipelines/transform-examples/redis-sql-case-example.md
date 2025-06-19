@@ -16,7 +16,7 @@ type: integration
 weight: 30
 ---
 
-The `CASE` statement allows you to specify conditions and return different values based on those conditions. You can use it both to create new fields or filter existing data.
+The [`CASE`](https://www.w3schools.com/sql/sql_case.asp) statement allows you to specify conditions and return different values based on those conditions. You can use it both to create new fields or filter existing data.
 
 ## Using SQL CASE to create a new field
 The example below demonstrates how to use the `CASE` statement to create a new field called `Market` based on the value of the `BillingCountry` field in the `Invoice` table. The new field categorizes countries into regions such as "North America" and "Europe".
