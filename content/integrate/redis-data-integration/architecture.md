@@ -42,7 +42,8 @@ in sequence:
     currently uses an open source collector called
     [Debezium](https://debezium.io/) for this step.
 
-1.  The collector records the captured changes using Redis streams
+1.  The collector records the captured changes using
+[Redis streams]({{< relref "/develop/data-types/streams" >}})
     in the RDI database.
 
 1.  A *stream processor* reads data from the streams and applies
@@ -67,6 +68,28 @@ change when new data gets captured from the source. At this point,
 RDI automatically enters a second phase called *change streaming*, where
 changes in the data are captured as they happen. Changes are usually
 added to the target within a few seconds after capture.
+
+## At-least-once delivery guarantee
+
+RDI guarantees *at-least-once delivery* to the target. This means that
+a given change will never be lost, but it might be added to the target
+more than once. Apart from a slight performance overhead, adding a
+change multiple times is harmless because the multiple writes
+are [*idempotent*](https://en.wikipedia.org/wiki/Idempotence) (that is
+to say that all writes after the first one make no change to the
+overall state).
+
+## Checkpointing
+
+RDI uses Redis streams to store the sequence of change events
+captured from the source. The events are then retrieved in order
+from the streams, processed, and written to the target. The stream
+processor uses a *checkpoint* mechanism to keep track of the last
+event in the sequence that it has successfully processed and stored. If the processor fails
+for any reason, it can restart from the last checkpoint and
+re-process any events that might not have been written to the target.
+This ensures that all changes are eventually recorded, even in the
+face of failures.
 
 ## Backpressure mechanism
 
