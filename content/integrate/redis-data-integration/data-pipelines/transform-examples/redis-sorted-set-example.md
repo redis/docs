@@ -23,7 +23,6 @@ When writing to sorted sets, you must provide two additional arguments, `member`
 
 ```yaml
 source:
-  server_name: chinook
   schema: public
   table: invoice
 output:

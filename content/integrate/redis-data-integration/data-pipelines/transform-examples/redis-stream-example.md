@@ -29,7 +29,6 @@ In the example, only three original fields are passed in the message payload: `I
 
 ```yaml
 source:
-  server_name: chinook
   schema: public
   table: invoice
 output:

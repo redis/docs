@@ -34,7 +34,6 @@ Add multiple fields
 
 ```yaml
 source:
-  server_name: redislabs
   schema: dbo
   table: emp
 transform:
@@ -66,7 +65,6 @@ Add one field
 
 ```yaml
 source:
-  server_name: redislabs
   schema: dbo
   table: emp
 transform:

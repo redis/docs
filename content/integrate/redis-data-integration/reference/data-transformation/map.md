@@ -32,7 +32,6 @@ Map a record into a new output based on expressions
 
 ```yaml
 source:
-  server_name: redislabs
   schema: dbo
   table: emp
 transform:

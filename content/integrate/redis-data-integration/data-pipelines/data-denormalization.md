@@ -117,7 +117,6 @@ To configure normalization, you must first configure the parent entity to use JS
 ```yaml
 # jobs/invoice.yaml
 source:
-  server_name: chinook
   schema: public
   table: Invoice
 
@@ -138,7 +137,6 @@ After you have configured the parent entity, you can then configure the child en
 ```yaml
 # jobs/invoice_line.yaml
 source:
-  server_name: chinook
   schema: public
   table: InvoiceLine
 output:
@@ -146,7 +144,6 @@ output:
     with:
       nest: # cannot co-exist with other parameters such as 'key'
         parent:
-          # server_name: chinook
           # schema: public
           table: Invoice
         nesting_key: InvoiceLineId # the unique key in the composite structure under which the child data will be stored
@@ -161,10 +158,8 @@ output:
 The job has a `with` section under `output` that includes the `nest` block.
 The job must include the following attributes in the `nest` block:
 
-- `parent`: This specifies the RDI data stream for the parent entities. Typically, you only
-  need to supply the parent `table` name, unless you are nesting children under a parent that comes from
-  a different source database. If you do this then you must also specify `server_name` and
-  `schema` attributes. Note that this attribute refers to a Redis *key* that will be added to the target
+- `parent`: This specifies the config of the parent entities. You only
+  need to supply the parent `table` name. Note that this attribute refers to a Redis *key* that will be added to the target
   database, not to a table you can access from the pipeline. See [Using nesting](#using-nesting) below
   for the format of the key that is generated.
 - `nesting_key`: The unique key of each child entry in the JSON map that will be created under the path.
