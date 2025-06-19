@@ -195,5 +195,5 @@ r = Redis(
 Take care to set the timeouts to appropriate values for your use case.
 If you use timeouts that are too short, then `redis-py` might retry
 commands that would have succeeded if given more time. However, if the
-timeouts are too long, your app might spend too long waiting for a
+timeouts are too long, your app might hang unnecessarily while waiting for a
 response that will never arrive.

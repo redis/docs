@@ -75,3 +75,6 @@ const client = createClient({
 });
 client.on('error', error => console.error('Redis client error:', error));
 ```
+
+### Retries
+
