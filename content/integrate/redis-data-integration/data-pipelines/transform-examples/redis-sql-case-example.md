@@ -42,7 +42,7 @@ transform:
 
 ## Using SQL CASE to filter data
 
-You can also use the `CASE` statement to filter data based on specific conditions. The example below demonstrates how to filter the `Invoice` table to include only invoices from the USA and Canada, with total above country specific thresholds.
+You can also use the `CASE` statement to filter data based on specific conditions. The example below demonstrates how to filter the `Invoice` table to include only invoices from the USA and Canada that have a `Total` value above their country-specific threshold.
 
 Due to the `Total` field being a Decimal in the source table, it represented as string in Debezium and needs to be cast to `REAL` type for comparison in the `CASE` statement.
 Not casting it will result in an incorrect comparison results and incorrect filtering.
