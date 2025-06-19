@@ -108,7 +108,7 @@ an error, just an informative message to note that RDI has applied
 the backpressure mechanism.
 {{</note>}}
 
-### Supported sources
+## Supported sources
 
 RDI supports the following database sources using [Debezium Server](https://debezium.io/documentation/reference/stable/operations/debezium-server.html) connectors:
 
