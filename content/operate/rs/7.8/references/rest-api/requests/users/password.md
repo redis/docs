@@ -14,15 +14,15 @@ url: '/operate/rs/7.8/references/rest-api/requests/users/password/'
 
 | Method                     | Path                 | Description                 |
 |----------------------------|----------------------|-----------------------------|
-| [PUT](#update-password)    | `/v1/users/password` | Replace the password of the authenticated user |
-| [POST](#add-password)      | `/v1/users/password` | Add a new password for the authenticated user |
-| [DELETE](#delete-password) | `/v1/users/password` | Delete a password for the authenticated user |
+| [PUT](#update-password)    | `/v1/users/password` | Replace passwords |
+| [POST](#add-password)      | `/v1/users/password` | Add a new password |
+| [DELETE](#delete-password) | `/v1/users/password` | Delete a password |
 
 ## Update password {#update-password}
     
     PUT /v1/users/password
     
-Replaces the password list of the user making this request with a single new password. The request authentication header must include the relevant username and password.
+Replaces the password list of the specified user with a single new password. If a `username` is not provided in the JSON request body, it replaces the password list of the authenticated user making this request instead.
 
 ### Request {#put-request}
 
@@ -34,6 +34,7 @@ Replaces the password list of the user making this request with a single new pas
 
   ```json
   {
+      "username": "The username of the affected user. If missing, default to the authenticated user.",
       "new_password": "the new (single) password"
   }
   ```
@@ -50,6 +51,7 @@ The request must contain a JSON object with the following fields:
 
 | Field | Type | Description |
 |-------|------|-------------|
+| username | string | (Optional) The username of the affected user. If missing, defaults to the authenticated user. |
 | new_password | string | The new password (required) |
 
 ### Response {#put-response}
@@ -66,6 +68,8 @@ The following are possible `error_code` values:
 |------|-------------|
 | password_not_complex | The given password is not complex enough (Only work when the password_complexity feature is enabled). |
 | new_password_same_as_current | The given new password is identical to one of the already existing passwords. |
+| user_not_exist | User does not exist. |
+| unauthorized_action | Updating another user's password is acceptable by an admin user only. |
 
 ### Status codes {#put-status-codes}
 
@@ -74,12 +78,14 @@ The following are possible `error_code` values:
 | [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | Success, password changed. |
 | [400 Bad Request](https://www.rfc-editor.org/rfc/rfc9110.html#name-400-bad-request) | Bad or missing parameters. |
 | [401 Unauthorized](https://www.rfc-editor.org/rfc/rfc9110.html#name-401-unauthorized) | The user is unauthorized. |
+| [403 Forbidden](https://www.rfc-editor.org/rfc/rfc9110.html#name-403-forbidden) | Insufficient privileges. |
+| [404 Not Found](https://www.rfc-editor.org/rfc/rfc9110.html#name-404-not-found) | User not found. |
 
 ## Add password {#add-password}
 
     POST /v1/users/password
 
-Adds a new password to the password list of the user making this request. The request authentication header must include the relevant username and password.
+Adds a new password to the specified user's password list. If a `username` is not provided in the JSON request body, it adds the password to the password list of the authenticated user making this request instead.
 
 ### Request {#post-request}
 
@@ -91,6 +97,7 @@ Adds a new password to the password list of the user making this request. The re
 
   ```json
   {
+      "username": "The username of the affected user. If missing, default to the authenticated user.",
       "new_password": "a password to add"
   }
   ```
@@ -107,6 +114,7 @@ The request must contain a JSON object with the following fields:
 
 | Field | Type | Description |
 |-------|------|-------------|
+| username | string | (Optional) The username of the affected user. If missing, defaults to the authenticated user. |
 | new_password | string | New password to add (required) |
 
 ### Response {#post-response}
@@ -123,6 +131,8 @@ The following are possible `error_code` values:
 |------|-------------|
 | password_not_complex | The given password is not complex enough (Only work when the password_complexity feature is enabled). |
 | new_password_same_as_current | The given new password is identical to one of the already existing passwords. |
+| user_not_exist | User does not exist. |
+| unauthorized_action | Updating another user's password is acceptable by an admin user only. |
 
 ### Status codes {#post-status-codes}
 
@@ -131,12 +141,14 @@ The following are possible `error_code` values:
 | [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | Success, new password was added to the list of valid passwords. |
 | [400 Bad Request](https://www.rfc-editor.org/rfc/rfc9110.html#name-400-bad-request) | Bad or missing parameters. |
 | [401 Unauthorized](https://www.rfc-editor.org/rfc/rfc9110.html#name-401-unauthorized) | The user is unauthorized. |
+| [403 Forbidden](https://www.rfc-editor.org/rfc/rfc9110.html#name-403-forbidden) | Insufficient privileges. |
+| [404 Not Found](https://www.rfc-editor.org/rfc/rfc9110.html#name-404-not-found) | User not found. |
 
 ## Delete password {#delete-password}
 
     DELETE /v1/users/password
 
-Deletes a password from the password list of the user making this request. The request authentication header must include the relevant username and password.
+Deletes a password from the specified user's password list. If a `username` is not provided in the JSON request body, it deletes the password from the password list of the authenticated user making this request instead.
 
 ### Request {#delete-request}
 
@@ -148,7 +160,8 @@ Deletes a password from the password list of the user making this request. The r
 
   ```json
   {
-      "old_password": "an existing password"
+      "username": "The username of the affected user. If missing, default to the authenticated user.",
+      "old_password": "an existing password to delete"
   }
   ```
 
@@ -164,6 +177,7 @@ The request must contain a JSON object with the following fields:
 
 | Field | Type | Description |
 |-------|------|-------------|
+| username | string | (Optional) The username of the affected user. If missing, defaults to the authenticated user. |
 | old_password | string | Existing password to be deleted (required) |
 
 ### Response {#delete-response}
@@ -176,7 +190,9 @@ The following are possible `error_code` values:
 
 | Code | Description |
 |------|-------------|
-| cannot_delete_last_password | Cannot delete the last password of a user |
+| cannot_delete_last_password | Cannot delete the last password of a user. |
+| user_not_exist | User does not exist. |
+| unauthorized_action | Updating another user's password is acceptable by an admin user only. |
 
 ### Status codes {#delete-status-codes}
 
@@ -185,3 +201,5 @@ The following are possible `error_code` values:
 | [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | Success, new password was deleted from the list of valid passwords. |
 | [400 Bad Request](https://www.rfc-editor.org/rfc/rfc9110.html#name-400-bad-request) | Bad or missing parameters. |
 | [401 Unauthorized](https://www.rfc-editor.org/rfc/rfc9110.html#name-401-unauthorized) | The user is unauthorized. |
+| [403 Forbidden](https://www.rfc-editor.org/rfc/rfc9110.html#name-403-forbidden) | Insufficient privileges. |
+| [404 Not Found](https://www.rfc-editor.org/rfc/rfc9110.html#name-404-not-found) | User not found. |

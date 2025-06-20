@@ -42,37 +42,46 @@ The new password cannot already exist as a password for the user and must meet t
 
 ## Rotate password
 
-To rotate your password:
+To rotate passwords:
 
-1. Add an additional password to your password list with [`POST /v1/users/password`]({{< relref "/operate/rs/7.8/references/rest-api/requests/users/password#add-password" >}}). You must provide the relevant username and current password for [basic authentication]({{<relref "/operate/rs/7.8/references/rest-api#authentication">}}) credentials when you send the request.
+1. Add an additional password to a user's password list with [`POST /v1/users/password`]({{< relref "/operate/rs/7.8/references/rest-api/requests/users/password#add-password" >}}).
 
     ```sh
     POST https://<host>:<port>/v1/users/password
-    { "new_password": "<a_new_password>" }
+    {
+        "username": "<target_username>",
+        "new_password": "<a_new_password>"
+    }
     ```
 
-    After you send this request, you can authenticate with both the old and the new password.
+    After you send this request, the user can authenticate with both the old and the new password.
 
 1. Update the password in all database connections that connect with the user account.
-1. Delete the original password with [`DELETE /v1/users/password`]({{< relref "/operate/rs/7.8/references/rest-api/requests/users/password#update-password" >}}):
+1. Delete the original password with [`DELETE /v1/users/password`]({{< relref "/operate/rs/7.8/references/rest-api/requests/users/password#delete-password" >}}):
 
     ```sh
     DELETE https://<host>:<port>/v1/users/password
-    { "old_password": "<an_existing_password>" }
+    {
+        "username": "<target_username>",
+        "old_password": "<existing_password_to_delete>"
+    }
     ```
 
     If there is only one valid password for a user account, you cannot delete that password.
 
 ## Replace all passwords
 
-You can also replace all existing passwords for your user account with a single password that does not match any existing passwords.
+You can also replace all existing passwords for a user account with a single password that does not match any existing passwords.
 This can be helpful if you suspect that your passwords are compromised and you want to quickly resecure the account.
 
-To replace your passwords, use [`PUT /v1/users/password`]({{< relref "/operate/rs/7.8/references/rest-api/requests/users/password#delete-password" >}}). You must provide the relevant username and current password for [basic authentication]({{<relref "/operate/rs/7.8/references/rest-api#authentication">}}) credentials when you send the request.
+To replace a user's passwords, use [`PUT /v1/users/password`]({{< relref "/operate/rs/7.8/references/rest-api/requests/users/password#update-password" >}}).
 
 ```sh
 PUT https://<host>:<port>/v1/users/password
-{ "new_password": "<a_new_password>" }
+{
+    "username": "<target_username>",
+    "new_password": "<a_new_password>"
+}
 ```
 
-After this request, all of your existing passwords are deleted and only the new password is valid.
+After this request, all of the user's existing passwords are deleted and only the new password is valid.
