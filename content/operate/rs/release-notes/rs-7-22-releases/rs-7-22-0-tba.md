@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: license_expiration_days metric for monitoring. Bug fixes for user password management REST API requests, cluster creation and joining nodes in the Cluster Manager UI, cluster upgrades, maintenance mode snapshot cleanup, database availability API performance, and more.
+description: license_expiration_days metric for monitoring. Bug fixes for user password management REST API requests, cluster setup in the Cluster Manager UI, cluster upgrades, maintenance mode snapshot cleanup, database availability API performance, Active-Active syncing, and more.
 linkTitle: 7.22.0-tba (June 2025)
 weight: 89
 ---
@@ -19,7 +19,7 @@ This version offers:
 
 - `license_expiration_days` metric for monitoring
 
-- Bug fixes for user password management REST API requests, cluster creation and joining nodes in the Cluster Manager UI, cluster upgrades, maintenance mode snapshot cleanup, database availability API performance, and more
+- Bug fixes for user password management REST API requests, cluster setup in the Cluster Manager UI, cluster upgrades, maintenance mode snapshot cleanup, database availability API performance, Active-Active syncing, and more
 
 ## New in this release
 
@@ -62,6 +62,10 @@ The following table shows which Redis modules are compatible with each Redis dat
 - RS157762: Fixed an issue where certain operations could fail with `No such state: error`.
 
 - RS160914: Fixed slow response times for database availability API requests.
+
+- RS140077: Fixed a syncer issue where the number of keys did not match across the instances of Active-Active databases reconfigured with `only_configuration` after cluster recovery.
+
+- RS161419: Fixed an issue in the Cluster Manager UI where database configuration updates failed with "Unable to access backup server" errors after configuring Google Cloud Storage backups.
 
 ## Version changes
 
