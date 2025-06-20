@@ -53,7 +53,7 @@ The endpoint for the stream processor metrics is `https://<RDI_HOST>/metrics/rdi
 
 RDI reports metrics during the two main phases of the ingest pipeline, the *snapshot*
 phase and the *change data capture (CDC)* phase. (See the
-[pipeline lifecycle]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines" >}})
+[pipeline lifecycle]({{< relref "/integrate/redis-data-integration/data-pipelines" >}})
 docs for more information). The table below shows the full set of metrics that
 RDI reports. 
 
