@@ -80,7 +80,7 @@ To flush the cache:
 
 Flushing the cache is permanent and cannot be undone, and will result in cache misses until the cache is repopulated.
 
-### Delete service
+#### Delete service
 
 Deleting your LangCache service permanently deletes all associated cached data, the service configuration, and the LangCache search index. It also immediately terminates all API keys associated with the service. Data stored in other indexes within the same database will remain unaffected.
 
