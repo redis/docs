@@ -28,6 +28,7 @@ progress in implementing the recommendations.
     {{< checklist-item "#event-handling" >}}Event handling{{< /checklist-item >}}
     {{< checklist-item "#timeouts" >}}Timeouts{{< /checklist-item >}}
     {{< checklist-item "#exception-handling" >}}Exception handling{{< /checklist-item >}}
+    {{< checklist-item "#retries" >}}Retries{{< /checklist-item >}}
 {{< /checklist >}}
 
 ## Recommendations
@@ -110,3 +111,68 @@ the most common Redis exceptions:
   (for example, trying to access a
   [stream entry]({{< relref "/develop/data-types/streams#entry-ids" >}})
   using an invalid ID).
+
+### Retries
+
+During the initial `ConnectionMultiplexer.Connect()` call, `NRedisStack` will
+keep trying to connect if the first attempt fails. By default, it will make
+three attempts, but you can configure the number of retries using the
+`ConnectRetry` configuration option:
+
+```cs
+var muxer = ConnectionMultiplexer.Connect(new ConfigurationOptions {
+    ConnectRetry = 5,  // Retry up to five times.
+        .
+        .
+});
+```
+
+After the initial `Connect()` call is successful, `NRedisStack` will
+automatically attempt to reconnect if the connection is lost. You can
+specify a reconnection strategy with the `ReconnectRetryPolicy` configuration
+option. `NRedisStack` provides two built-in classes that implement
+reconnection strategies:
+
+- `ExponentialRetry`: (Default) Uses an
+    [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff)
+    strategy, where you specify an increment to the delay between successive
+    attempts and, optionally, a maximum delay, both in milliseconds.
+-   `LinearRetry`: Uses a linear backoff strategy with a fixed delay between
+    attempts, in milliseconds.
+
+The example below shows how to use the `ExponentialRetry` class:
+
+```cs
+var muxer = ConnectionMultiplexer.Connect(new ConfigurationOptions {
+    // 500ms increment per attempt, max 2000ms.
+    ReconnectRetryPolicy = new ExponentialRetry(500, 2000),  
+        .
+        .
+});
+```
+
+You can also implement your own custom retry policy by creating a class
+that implements the `IReconnectRetryPolicy` interface.
+
+`NRedisStack` doesn't provide an automated retry mechanism for commands, but
+you can implement your own retry logic in your application code. Use
+a loop with a `try`/`catch` block to catch `RedisConnectionException` and
+`RedisTimeoutException` exceptions and then retry the command after a
+suitable delay, as shown in the example below:
+
+```cs
+const int MAX_RETRIES = 3;
+
+for (int i = 0; i < MAX_RETRIES; i++) {
+    try {
+        string value = db.StringGet("foo");
+        break;
+    } catch (RedisConnectionException) {
+        // Wait before retrying.
+        Thread.Sleep(500 * (i + 1));
+    } catch (RedisTimeoutException) {
+        // Wait before retrying.
+        Thread.Sleep(500 * (i + 1));
+    }
+}
+```
