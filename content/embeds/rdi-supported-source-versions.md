@@ -8,3 +8,4 @@
 | SQL Server | 2017, 2019, 2022 | 2016, 2017, 2019, 2022 | 2019 |
 | AlloyDB for PostgreSQL | 14.2, 15.7 | - | 14.2, 15.7 |
 | AWS Aurora/PostgreSQL | 15 | 15 | - |
+| AWS Aurora/MySQL | - | - | - |
