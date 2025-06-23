@@ -57,13 +57,6 @@ is an item to delete.
 O(n), where n is the number of `sub-filters`. Both alternative locations are
 checked on all `sub-filters`.
 
-## Return value
-
-Returns one of these replies:
-
-- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - where "1" means that the item has been deleted, and "0" means that such item was not found in the filter
-- [] on error (invalid arguments, wrong key type, etc.)
-
 ## Examples
 
 {{< highlight bash >}}
@@ -82,3 +75,21 @@ redis> CF.DEL cf item2
 redis> CF.DEL cf item2
 (integer) 0
 {{< / highlight >}}
+
+## Return information
+
+{{< multitabs id=“cf-del-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) `1` for successfully deleting an item, or `0` if no such item was found in the filter.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments or wrong key type.
+
+-tab-sep-
+
+One of the following:
+* [Boolean reply]({{< relref "/develop/reference/protocol-spec#booleans" >}}) `true` for successfully deleting an item, or `false` if no such item was found in the filter.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments or wrong key type.
+
+{{< /multitabs >}}

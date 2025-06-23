@@ -42,13 +42,29 @@ Initializes a Count-Min Sketch to dimensions specified by user.
 * **depth**: Number of counter-arrays. Reduces the probability for an
     error of a certain size (percentage of total count).
 
-## Return
-
-[Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - `OK` if executed correctly, or [] otherwise.
-
 ## Examples
 
 ```
 redis> CMS.INITBYDIM test 2000 5
 OK
 ```
+
+## Return information
+
+{{< multitabs id=“cms-initbydim-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if the given key already exists.
+
+-tab-sep-
+
+One of the following:
+
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if the given key already exists.
+
+{{< /multitabs >}}

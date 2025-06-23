@@ -118,15 +118,6 @@ If the number of elements to be stored in the filter is unknown, use an `expansi
 Otherwise, use an `expansion` of `1` to reduce memory consumption. The default value is `2`.
 </details>
 
-## Return value
-
-Returns one of these replies:
-
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each element is one of these options:
-  - [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), where `1` denotes that the item has been added successfully, and `0` means that such item had already added to the filter (which could be wrong)
-  - [] when the item cannot be added because the filter is full
-- [], for example, when the number of arguments or key type is wrong, and also when `NOCREATE` is specified and `key` does not exist.
-
 ## Examples
 
 Add three items to a filter, then create the filter with default parameters if it does not already exist.
@@ -146,3 +137,25 @@ Add two items to a filter, then return error if the filter does not already exis
 {{< highlight bash >}}
 BF.INSERT filter NOCREATE ITEMS foo bar
 {{< / highlight >}}
+
+## Return information
+
+{{< multitabs id="bf-insert-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following: where each element is one of these options:
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}), where each element is one of the following options:
+  * [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) `1` for successfully adding an item, or `0` if there's a probability that the item was already added to the filter.
+  * [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings">}}) when the item cannot be added because the filter is full.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors">}}) when the number of arguments or key type is wrong, and also when `NOCREATE` is specified and `key` does not exist.
+
+-tab-sep-
+
+One of the following: where each element is one of these options:
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}), where each element is one of the following options:
+  * [Boolean reply]({{< relref "/develop/reference/protocol-spec#booleans" >}}) `true` for successfully adding an item, or `false` if there's a probability that the item was already added to the filter.
+  * [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings">}}) when the item cannot be added because the filter is full.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors">}}) when the number of arguments or key type is wrong, and also when `NOCREATE` is specified and `key` does not exist.
+
+{{< /multitabs >}}
