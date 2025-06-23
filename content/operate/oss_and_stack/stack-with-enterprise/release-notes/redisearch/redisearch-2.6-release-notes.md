@@ -15,10 +15,21 @@ weight: 92
 ---
 ## Requirements
 
-RediSearch v2.6.30 requires:
+RediSearch v2.6.31 requires:
 
 - Minimum Redis compatibility version (database): 6.0.16
 - Minimum Redis Enterprise Software version (cluster): 6.2.8
+
+## v2.6.31 (June 2025)
+
+This is a maintenance release for RediSearch 2.6.
+
+Update urgency: `HIGH`: There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#6349](https://github.com/redisearch/redisearch/pull/6349) Search on terms larger than 128 characters could lead to missing matches (MOD-6786).
+- [#6305](https://github.com/redisearch/redisearch/pull/6305) While iterating over a large index, frequent document updates could hit the `TIMEOUT`, causing a crash (MOD-9856).
+- [#6191](https://github.com/redisearch/redisearch/pull/6191) Reindexing from an RDB with multiple vector indexes could lead to a crash because of the cluster health check - NodeWD (MOD-9220).
 
 ## v2.6.30 (May 2025)
 
