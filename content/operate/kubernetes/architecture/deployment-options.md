@@ -39,7 +39,7 @@ You have the flexibility to create databases in separate namespaces, or in the s
 See [Manage databases in multiple namespaces]({{< relref "/operate/kubernetes/re-clusters/multi-namespace" >}}) for more information.
 
 
-{{< image filename="/images/k8s/k8s-deploy-many-to-many.png" >}}
+{{< image filename="/images/k8s/k8s-deploy-many-to-many-new.png" >}}
 
 ## Unsupported deployment patterns
 
