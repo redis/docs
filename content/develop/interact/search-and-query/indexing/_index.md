@@ -382,7 +382,7 @@ For more information on vector similarity syntax, see [Vector fields]({{< relref
 
 ## Index JSON objects
 
-You cannot index JSON objects. If the JSONPath expression returns an object, it will be ignored.
+You cannot index JSON objects. If the JSONPath expression returns an object, an indexing error will be returned.
 
 To index the contents of a JSON object, you need to index the individual elements within the object in separate attributes.
 
