@@ -45,13 +45,6 @@ Increases the count of item by increment. Multiple items can be increased with o
 * **item**: The item which counter is to be increased.
 * **increment**: Amount by which the item counter is to be increased.
 
-## Return
-
-
-[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) with an updated min-count of each of the items in the sketch.
-
-Count of each item after increment.
-
 ## Examples
 
 ```
@@ -59,3 +52,23 @@ redis> CMS.INCRBY test foo 10 bar 42
 1) (integer) 10
 2) (integer) 42
 ```
+
+## Return information
+
+{{< multitabs id=“cms-incrby-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+
+* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integer replies]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing updated min-counts of each of the provided items in the sketch.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, missing key, overflow, or wrong key type.
+
+-tab-sep-
+
+One of the following:
+
+* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integer replies]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing updated min-counts of each of the provided items in the sketch.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, missing key, overflow, or wrong key type.
+
+{{< /multitabs >}}
