@@ -13,10 +13,39 @@ weight: 90
 ---
 ## Requirements
 
-RediSearch v2.10.17 requires:
+RediSearch v2.10.19 requires:
 
 - Minimum Redis compatibility version (database): 7.4
 - Minimum Redis Enterprise Software version (cluster): 7.6 (TBD)
+
+## v2.10.19 (June 2025)
+
+This is a maintenance release for RediSearch 2.10.
+
+Update urgency: `LOW` No need to upgrade unless there are new features you want to use.
+
+Bug fixes:
+- [#6211](https://github.com/redisearch/redisearch/pull/6211) Some languages (like Russian) could have multiple lower and upper case matches, causing index misbehaviour (MOD-9835).
+
+Improvements:
+- [#5637](https://github.com/redisearch/redisearch/pull/5637) Memory allocation when converting special UTF-8 symbols requires more memory (MOD-8799).
+
+## v2.10.18 (May 2025)
+
+This is a maintenance release for RediSearch 2.10.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#6184](https://github.com/redisearch/redisearch/pull/6184) Reindexing from RDB with multiple vector indices could lead to a crash due to cluster health check - NodeWD (MOD-9220,MOD-8809)
+- [#6028](https://github.com/redisearch/redisearch/pull/6028) `FT.CURSOR...DEL` while another thread is reading it could lead to a crash (MOD-9408,MOD-9432,MOD-9433,MOD-9434,MOD-9435)
+- [#5967](https://github.com/redisearch/redisearch/pull/5967) Indexing documents using `TEXT` without the text in the documents leads to an `inf` or `nan` score (MOD-9423)
+- [#6056](https://github.com/redisearch/redisearch/pull/6056) Avoid lazy expiration in background indexing for Active-Active setup preventing keys from expiring incorrectly (MOD-9486)
+- [#6108](https://github.com/redisearch/redisearch/pull/6108) A timeout failure is returned when the `ON_TIMEOUT RETURN` policy is set to stop the collection of partial results - best effort (MOD-9612)
+
+Improvements:
+- [#6007](https://github.com/redisearch/redisearch/pull/6007) Parser for intersections on parentheses and sub-queries order won't affect full-text scores (MOD-9278)
+- [#6020](https://github.com/redisearch/redisearch/pull/6020) Prevent access to the Redis key space when `LOAD...@__key` is used (MOD-9419)
 
 ## v2.10.17 (April 2025)
 

@@ -19,6 +19,9 @@ An **Essentials** plan is a fixed monthly price for a single database. It is cos
 - [Create an Essentials database]({{< relref "/operate/rc/databases/create-database/create-essentials-database" >}})
 - [Create a Redis Flex database]({{< relref "/operate/rc/databases/create-database/create-flex-database" >}})
 
+A **Free** plan is a type of Essentials plan designed for learning and building test projects. It gives you enough space to learn Redis concepts and develop application prototypes. You can upgrade to a paid Essentials plan at any time.
+- [Create a free database]({{< relref "/operate/rc/databases/create-database/create-free-database" >}})
+
 A **Pro** plan is an hourly price based on capacity. It supports more databases, larger databases, greater throughput, and unlimited connections. 
 - [Create a Pro database with a new subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}})
 - [Create a Pro database in an existing subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-existing" >}})
