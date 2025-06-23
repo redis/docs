@@ -48,6 +48,12 @@ pip install redis[hiredis]
 
 Connect to localhost on port 6379, set a value in Redis, and retrieve it. All responses are returned as bytes in Python. To receive decoded strings, set `decode_responses=True`. For more connection options, see [these examples](https://redis.readthedocs.io/en/stable/examples.html).
 
+{{< note >}}
+
+You can try this code out in a [Jupyter notebook on Binder](https://redis.io/binder/v2/gh/redis/binder-launchers/python-client?urlpath=%2Fdoc%2Ftree%2Fdemo.ipynb).
+
+{{< /note >}}
+
 ```python
 r = redis.Redis(host='localhost', port=6379, decode_responses=True)
 ```
@@ -75,13 +81,6 @@ r.hset('user-session:123', mapping={
 r.hgetall('user-session:123')
 # {'surname': 'Smith', 'name': 'John', 'company': 'Redis', 'age': '29'}
 ```
-
-## Try this out
-
-You can try this code out in a Jupyter notebook on Binder.
-
-[![Binder](https://mybinder.org/badge_logo.svg)](https://redis.io/binder/v2/gh/redis/binder-launchers/python-client?urlpath=%2Fdoc%2Ftree%2Fdemo.ipynb)
-
 
 ## More information
 
