@@ -76,6 +76,11 @@ r.hgetall('user-session:123')
 # {'surname': 'Smith', 'name': 'John', 'company': 'Redis', 'age': '29'}
 ```
 
+## Try this out
+
+You can try this code out in a Jupyter notebook on Binder.
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://redis.io/binder/v2/gh/redis/binder-launchers/python-client?urlpath=%2Fdoc%2Ftree%2Fdemo.ipynb)
 
 
 ## More information
