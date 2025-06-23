@@ -519,7 +519,7 @@ vectors to represent products in ecommerce catalogs or content in advertising pi
 With the emergence of Large Language Models (LLMs) and the proliferation of applications that require advanced information
 retrieval techniques, Redis is well positioned to serve as your high performance query engine for semantic search and more.
 
-Here are some additonal resources that apply vector search for different use cases:
+Here are some additional resources that apply vector search for different use cases:
 
 - [Retrieval augmented generation from scratch](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/RAG/01_redisvl.ipynb)
 - [Semantic caching](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/semantic-cache/semantic_caching_gemini.ipynb)

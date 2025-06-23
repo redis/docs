@@ -74,7 +74,7 @@ $ redis-cli rg.pyexecute "`cat wordcount.py`"
 2) (empty array)
 ```
 
-The results here show the number of occurences of each word in all of our strings. So, we've effectively processed the data in our Redis database all at once, in a batch.
+The results here show the number of occurrences of each word in all of our strings. So, we've effectively processed the data in our Redis database all at once, in a batch.
 
 ## Event processing
 

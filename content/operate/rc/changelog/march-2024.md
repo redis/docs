@@ -9,6 +9,8 @@ description: New features, enhancements, and other changes added to Redis Cloud 
   March 2024.
 highlights: Fixed plans through Google Cloud Marketplace
 linktitle: March 2024
+tags:
+- changelog
 weight: 60
 ---
 

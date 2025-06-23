@@ -10,22 +10,26 @@ linkTitle: Customize user and group
 weight: 40
 ---
 
-By default, Redis Enterprise Software is installed with the user:group `redislabs:redislabs`. See [Access control]({{< relref "/operate/rs/security/access-control" >}}) for user and group security information.
+By default, Redis Enterprise Software is installed with the user:group `redislabs:redislabs`.
 
 During installation, you can specify the user and group that own all Redis Enterprise Software processes.
 
-If you specify the user only, then installation is run with the primary group that the user belongs to.
+## Considerations
 
-{{< note >}}
 - Custom installation user is supported on Red Hat Enterprise Linux.
-- When you install with custom directories, the installation does not run as an RPM file.
-- You must create the user and group before attempting to install Redis Software.
-- You can specify an LDAP user as the installation user.
-{{< /note >}}
 
-To customize the user or group during [installation]({{< relref "/operate/rs/installing-upgrading/install/install-on-linux" >}}), include the `--os-user` or `--os-group` [command-line options]({{< relref "/operate/rs/installing-upgrading/install/install-script" >}}) when you run the `install.sh` script. For example:
+- You must create the user and group before installing Redis Enterprise Software.
+
+- You must install Redis Enterprise Software on all nodes in the cluster with the same user and group.
+
+- You can specify an LDAP user as the installation user.
+
+- If you specify the user only, then installation is run with the primary group that the user belongs to.
+
+## Install with custom user or group
+
+To customize the user or group during [installation]({{< relref "/operate/rs/installing-upgrading/install/install-on-linux" >}}), include the `--os-user` or `--os-group` [command-line options]({{< relref "/operate/rs/installing-upgrading/install/install-script" >}}) when you run the `install.sh` script.
 
 ```sh
 sudo ./install.sh --os-user <user> --os-group <group>
 ```
-

@@ -32,7 +32,7 @@ If the database [custom resource is deleted]({{< relref "/operate/kubernetes/re-
 
 Databases in multiple namespaces can be managed by the same operator. To learn more, see [Manage databases in multiple namespaces]({{<relref "/operate/kubernetes/re-clusters/multi-namespace">}}).
 
-To learn more about designing a multi-namespace Redis Enterprise cluster, see [flexible deployment options]({{< relref "/operate/kubernetes/architecture/deployment-options.md" >}}).
+To learn more about designing a multi-namespace Redis Enterprise cluster, see [flexible deployment options]({{< relref "/operate/kubernetes/architecture/deployment-options" >}}).
 
 ## Create a database
 
@@ -118,7 +118,7 @@ Connection information for the database is stored in a Kubernetes [secret](https
 The name of that secret is stored in the database custom resource.
 
 {{<note>}}
-Use these steps to connect to your database from within your K8s cluster. To access your database from outside the K8s cluster, set up the [Ingress]({{< relref "/operate/kubernetes/networking/ingress.md" >}}) controller or use OpenShift routes.
+Use these steps to connect to your database from within your K8s cluster. To access your database from outside the K8s cluster, set up the [Ingress]({{< relref "/operate/kubernetes/networking/ingress" >}}) controller or use OpenShift routes.
 {{</note>}}
 
 1. Retrieve the secret name.

@@ -19,7 +19,7 @@ Before running this notebook, be sure to
 !rvl version
 ```
 
-    09:58:03 [RedisVL] INFO   RedisVL version 0.5.2
+    19:16:18 [RedisVL] INFO   RedisVL version 0.5.2
 
 
 ## Commands
@@ -74,8 +74,7 @@ fields:
 !rvl index create -s schema.yaml
 ```
 
-    18:12:32 [RedisVL] INFO   Using Redis address from environment variable, REDIS_URL
-    18:12:32 [RedisVL] INFO   Index created successfully
+    19:16:21 [RedisVL] INFO   Index created successfully
 
 
 
@@ -84,9 +83,8 @@ fields:
 !rvl index listall
 ```
 
-    18:12:35 [RedisVL] INFO   Using Redis address from environment variable, REDIS_URL
-    18:12:35 [RedisVL] INFO   Indices:
-    18:12:35 [RedisVL] INFO   1. vectorizers
+    19:16:24 [RedisVL] INFO   Indices:
+    19:16:24 [RedisVL] INFO   1. vectorizers
 
 
 
@@ -95,22 +93,21 @@ fields:
 !rvl index info -i vectorizers
 ```
 
-    18:12:37 [RedisVL] INFO   Using Redis address from environment variable, REDIS_URL
     
     
     Index Information:
-    ╭──────────────┬────────────────┬────────────┬─────────────────┬────────────╮
-    │ Index Name   │ Storage Type   │ Prefixes   │ Index Options   │   Indexing │
-    ├──────────────┼────────────────┼────────────┼─────────────────┼────────────┤
-    │ vectorizers  │ HASH           │ ['doc']    │ []              │          0 │
-    ╰──────────────┴────────────────┴────────────┴─────────────────┴────────────╯
+    ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
+    │ Index Name    │ Storage Type  │ Prefixes      │ Index Options │ Indexing      │
+    ├───────────────┼───────────────┼───────────────┼───────────────┼───────────────┤
+    | vectorizers   | HASH          | ['doc']       | []            | 0             |
+    ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
     Index Fields:
-    ╭───────────┬─────────────┬────────┬────────────────┬────────────────┬────────────────┬────────────────┬────────────────┬────────────────┬─────────────────┬────────────────╮
-    │ Name      │ Attribute   │ Type   │ Field Option   │ Option Value   │ Field Option   │ Option Value   │ Field Option   │   Option Value │ Field Option    │ Option Value   │
-    ├───────────┼─────────────┼────────┼────────────────┼────────────────┼────────────────┼────────────────┼────────────────┼────────────────┼─────────────────┼────────────────┤
-    │ sentence  │ sentence    │ TEXT   │ WEIGHT         │ 1              │                │                │                │                │                 │                │
-    │ embedding │ embedding   │ VECTOR │ algorithm      │ FLAT           │ data_type      │ FLOAT32        │ dim            │            768 │ distance_metric │ COSINE         │
-    ╰───────────┴─────────────┴────────┴────────────────┴────────────────┴────────────────┴────────────────┴────────────────┴────────────────┴─────────────────┴────────────────╯
+    ╭─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────╮
+    │ Name            │ Attribute       │ Type            │ Field Option    │ Option Value    │ Field Option    │ Option Value    │ Field Option    │ Option Value    │ Field Option    │ Option Value    │
+    ├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
+    │ sentence        │ sentence        │ TEXT            │ WEIGHT          │ 1               │                 │                 │                 │                 │                 │                 │
+    │ embedding       │ embedding       │ VECTOR          │ algorithm       │ FLAT            │ data_type       │ FLOAT32         │ dim             │ 768             │ distance_metric │ COSINE          │
+    ╰─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────╯
 
 
 
@@ -119,8 +116,7 @@ fields:
 !rvl index delete -i vectorizers
 ```
 
-    18:12:40 [RedisVL] INFO   Using Redis address from environment variable, REDIS_URL
-    18:12:40 [RedisVL] INFO   Index deleted successfully
+    19:16:29 [RedisVL] INFO   Index deleted successfully
 
 
 
@@ -129,8 +125,7 @@ fields:
 !rvl index listall
 ```
 
-    18:12:43 [RedisVL] INFO   Using Redis address from environment variable, REDIS_URL
-    18:12:43 [RedisVL] INFO   Indices:
+    19:16:32 [RedisVL] INFO   Indices:
 
 
 ## Stats
@@ -144,9 +139,7 @@ The ``rvl stats`` command will return some basic information about the index. Th
 !rvl index create -s schema.yaml
 ```
 
-    18:13:21 [RedisVL] INFO   Using Redis address from environment variable, REDIS_URL
-    18:13:21 redisvl.index.index INFO   Index already exists, not overwriting.
-    18:13:21 [RedisVL] INFO   Index created successfully
+    19:16:35 [RedisVL] INFO   Index created successfully
 
 
 
@@ -155,9 +148,8 @@ The ``rvl stats`` command will return some basic information about the index. Th
 !rvl index listall
 ```
 
-    18:13:25 [RedisVL] INFO   Using Redis address from environment variable, REDIS_URL
-    18:13:25 [RedisVL] INFO   Indices:
-    18:13:25 [RedisVL] INFO   1. vectorizers
+    19:16:38 [RedisVL] INFO   Indices:
+    19:16:38 [RedisVL] INFO   1. vectorizers
 
 
 
@@ -166,32 +158,31 @@ The ``rvl stats`` command will return some basic information about the index. Th
 !rvl stats -i vectorizers
 ```
 
-    18:13:31 [RedisVL] INFO   Using Redis address from environment variable, REDIS_URL
     
     Statistics:
-    ╭─────────────────────────────┬─────────╮
-    │ Stat Key                    │ Value   │
-    ├─────────────────────────────┼─────────┤
-    │ num_docs                    │ 0       │
-    │ num_terms                   │ 0       │
-    │ max_doc_id                  │ 0       │
-    │ num_records                 │ 0       │
-    │ percent_indexed             │ 1       │
-    │ hash_indexing_failures      │ 3       │
-    │ number_of_uses              │ 2       │
-    │ bytes_per_record_avg        │ nan     │
-    │ doc_table_size_mb           │ 0       │
-    │ inverted_sz_mb              │ 0       │
-    │ key_table_size_mb           │ 0       │
-    │ offset_bits_per_record_avg  │ nan     │
-    │ offset_vectors_sz_mb        │ 0       │
-    │ offsets_per_term_avg        │ nan     │
-    │ records_per_doc_avg         │ nan     │
-    │ sortable_values_size_mb     │ 0       │
-    │ total_indexing_time         │ 0.02    │
-    │ total_inverted_index_blocks │ 0       │
-    │ vector_index_sz_mb          │ 0       │
-    ╰─────────────────────────────┴─────────╯
+    ╭─────────────────────────────┬────────────╮
+    │ Stat Key                    │ Value      │
+    ├─────────────────────────────┼────────────┤
+    │ num_docs                    │ 0          │
+    │ num_terms                   │ 0          │
+    │ max_doc_id                  │ 0          │
+    │ num_records                 │ 0          │
+    │ percent_indexed             │ 1          │
+    │ hash_indexing_failures      │ 0          │
+    │ number_of_uses              │ 1          │
+    │ bytes_per_record_avg        │ nan        │
+    │ doc_table_size_mb           │ 0          │
+    │ inverted_sz_mb              │ 0          │
+    │ key_table_size_mb           │ 0          │
+    │ offset_bits_per_record_avg  │ nan        │
+    │ offset_vectors_sz_mb        │ 0          │
+    │ offsets_per_term_avg        │ nan        │
+    │ records_per_doc_avg         │ nan        │
+    │ sortable_values_size_mb     │ 0          │
+    │ total_indexing_time         │ 0          │
+    │ total_inverted_index_blocks │ 0          │
+    │ vector_index_sz_mb          │ 0.00818634 │
+    ╰─────────────────────────────┴────────────╯
 
 
 ## Optional arguments
@@ -215,9 +206,8 @@ By default rvl first checks if you have `REDIS_URL` environment variable defined
 !rvl index listall --host localhost --port 6379
 ```
 
-    18:13:36 [RedisVL] INFO   Using Redis address from environment variable, REDIS_URL
-    18:13:36 [RedisVL] INFO   Indices:
-    18:13:36 [RedisVL] INFO   1. vectorizers
+    19:16:43 [RedisVL] INFO   Indices:
+    19:16:43 [RedisVL] INFO   1. vectorizers
 
 
 ### Using SSL encription
@@ -230,7 +220,13 @@ You can similarly specify the username and password to construct the full Redis 
 !rvl index listall --user jane_doe -a password123 --ssl
 ```
 
+    19:16:46 [RedisVL] ERROR   Error 8 connecting to rediss:6379. nodename nor servname provided, or not known.
+
+
 
 ```python
 !rvl index destroy -i vectorizers
 ```
+
+    19:16:49 [RedisVL] INFO   Index deleted successfully
+

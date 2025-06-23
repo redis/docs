@@ -9,6 +9,8 @@ description: New features, enhancements, and other changes added to Redis Cloud 
   December 2024.
 highlights: Logs Viewer API role
 linktitle: December 2024
+tags:
+- changelog
 weight: 38
 ---
 

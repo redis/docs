@@ -13,10 +13,26 @@ weight: 91
 ---
 ## Requirements
 
-RediSearch v2.8.26 requires:
+RediSearch v2.8.27 requires:
 
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
+
+## v2.8.27 (May 2025)
+
+This is a maintenance release for RediSearch 2.8.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#6191](https://github.com/redisearch/redisearch/pull/6191) Reindexing from RDB with multiple vector indices could lead to a crash due to cluster health check - NodeWD (MOD-9220,MOD-8809)
+- [#6031](https://github.com/redisearch/redisearch/pull/6031) `FT.CURSOR...DEL` while another thread is reading it could lead to a crash (MOD-9408,MOD-9432,MOD-9433,MOD-9434,MOD-9435)
+- [#5966](https://github.com/redisearch/redisearch/pull/5966) Indexing documents using `TEXT` without the text in the documents leads to an `inf` or `nan` score (MOD-9423)
+- [#6057](https://github.com/redisearch/redisearch/pull/6057) Avoid lazy expiration in background indexing for Active-Active setup, preventing keys from expiring incorrectly (MOD-9486)
+- [#6113](https://github.com/redisearch/redisearch/pull/6113) A timeout failure is returned when the `ON_TIMEOUT RETURN` policy is set to stop the collection of partial results - best effort (MOD-9612)
+
+Improvements:
+- [#6008](https://github.com/redisearch/redisearch/pull/6008) Parser for intersections on parentheses and sub-queries order won't affect full-text scores (MOD-9278)
 
 ## v2.8.26 (April 2025)
 

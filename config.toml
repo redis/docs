@@ -55,7 +55,7 @@ rdi_redis_gears_version = "1.2.6"
 rdi_debezium_server_version = "2.3.0.Final"
 rdi_db_types = "cassandra|mysql|oracle|postgresql|sqlserver"
 rdi_cli_latest = "latest"
-rdi_current_version = "v1.6.6"
+rdi_current_version = "1.10.0"
 
 [params.clientsConfig]
 "Python"={quickstartSlug="redis-py"}
@@ -83,6 +83,15 @@ rdi_current_version = "v1.6.6"
 
 # Everything below this are Site Params
 
+# Add markdown output
+[outputFormats]
+  [outputFormats.markdown]
+    name = "markdown"
+    baseName = "index.html"
+    mediaType = "text/markdown"
+    isPlainText = true
+
 # Comment out if you don't want the "print entire section" link enabled.
 [outputs]
-section = ["HTML", "RSS"] # print
+section = ["HTML", "RSS", "Markdown"] # print
+page = ["HTML", "Markdown"]

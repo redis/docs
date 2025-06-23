@@ -28,6 +28,7 @@ The default Redis database version differs between Redis Enterprise releases as 
 <a name="db-versions-table"></a>
 | Redis<br />Software | Bundled Redis<br />DB versions | Default DB version<br />(upgraded/new databases) |
 |-------|----------|-----|
+| 7.22.x | 6.2, 7.2, 7.4 | 7.4 |
 | 7.8.x | 6.2, 7.2, 7.4 | 7.4 |
 | 7.4.x | 6.0, 6.2, 7.2 | 7.2 |
 | 7.2.4 | 6.0, 6.2, 7.2 | 7.2 |
@@ -78,6 +79,8 @@ Before upgrading a database:
 ## Upgrade database
 
 To upgrade a database:
+
+1. Complete all [prerequisites](#upgrade-prerequisites) before starting the upgrade.
 
 1.  _(Optional)_  Back up the database to minimize the risk of data loss.
 

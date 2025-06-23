@@ -9,17 +9,18 @@ description: Install Redis Enterprise for Kubernetes version 7.8.6 using Helm ch
 linkTitle: Helm
 weight: 11
 ---
-
 Helm charts provide a simple way to install the Redis Enterprise for Kubernetes operator in just a few steps. For more information about Helm, go to [https://helm.sh/docs/](https://helm.sh/docs/).
 
 {{<note>}} This feature is currently in public preview and is not supported on production workloads. Only new installations of the Redis operator are supported at this time. The steps for [creating the RedisEnterpriseCluster (REC)]({{<relref "operate/kubernetes/deployment/quick-start#create-a-redis-enterprise-cluster-rec">}}) and other custom resources remain the same.{{</note>}}
 
 ## Prerequisites
 
-- A [supported distribution]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions.md" >}}) of Kubernetes.
+- A [supported distribution]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions" >}}) of Kubernetes.
 - At least three worker nodes.
 - [Kubernetes client (kubectl)](https://kubernetes.io/docs/tasks/tools/).
 - [Helm 3.10 or later](https://helm.sh/docs/intro/install/).
+
+If you suspect your file descriptor limits are below 100,000, you must either manually increase limits or [Allow automatic resource adjustment]({{< relref "/operate/kubernetes/security/allow-resource-adjustment" >}}). Most major cloud providers and standard container runtime configurations set default file descriptor limits well above the minimum required by Redis Enterprise. In these environments, you can safely run without enabling automatic resource adjustment.
 
 ### Example values
 

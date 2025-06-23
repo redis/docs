@@ -162,13 +162,6 @@ index = SearchIndex.from_dict(schema, redis_url="redis://localhost:6379", valida
 # connect to Redis at the default address "redis://localhost:6379".
 ```
 
-
-
-
-    <redisvl.index.index.SearchIndex at 0x10faca900>
-
-
-
 ### Create the index
 
 Now that we are connected to Redis, we need to run the create command.
@@ -188,8 +181,8 @@ Use the `rvl` CLI to inspect the created index and its fields:
 !rvl index listall
 ```
 
-    10:59:25 [RedisVL] INFO   Indices:
-    10:59:25 [RedisVL] INFO   1. user_simple
+    19:17:09 [RedisVL] INFO   Indices:
+    19:17:09 [RedisVL] INFO   1. user_simple
 
 
 
@@ -200,21 +193,21 @@ Use the `rvl` CLI to inspect the created index and its fields:
     
     
     Index Information:
-    ╭──────────────┬────────────────┬──────────────────────┬─────────────────┬────────────╮
-    │ Index Name   │ Storage Type   │ Prefixes             │ Index Options   │   Indexing │
-    ├──────────────┼────────────────┼──────────────────────┼─────────────────┼────────────┤
-    │ user_simple  │ HASH           │ ['user_simple_docs'] │ []              │          0 │
-    ╰──────────────┴────────────────┴──────────────────────┴─────────────────┴────────────╯
+    ╭──────────────────────┬──────────────────────┬──────────────────────┬──────────────────────┬──────────────────────╮
+    │ Index Name           │ Storage Type         │ Prefixes             │ Index Options        │ Indexing             │
+    ├──────────────────────┼──────────────────────┼──────────────────────┼──────────────────────┼──────────────────────┤
+    | user_simple          | HASH                 | ['user_simple_docs'] | []                   | 0                    |
+    ╰──────────────────────┴──────────────────────┴──────────────────────┴──────────────────────┴──────────────────────╯
     Index Fields:
-    ╭────────────────┬────────────────┬─────────┬────────────────┬────────────────┬────────────────┬────────────────┬────────────────┬────────────────┬─────────────────┬────────────────╮
-    │ Name           │ Attribute      │ Type    │ Field Option   │ Option Value   │ Field Option   │ Option Value   │ Field Option   │   Option Value │ Field Option    │ Option Value   │
-    ├────────────────┼────────────────┼─────────┼────────────────┼────────────────┼────────────────┼────────────────┼────────────────┼────────────────┼─────────────────┼────────────────┤
-    │ user           │ user           │ TAG     │ SEPARATOR      │ ,              │                │                │                │                │                 │                │
-    │ credit_score   │ credit_score   │ TAG     │ SEPARATOR      │ ,              │                │                │                │                │                 │                │
-    │ job            │ job            │ TEXT    │ WEIGHT         │ 1              │                │                │                │                │                 │                │
-    │ age            │ age            │ NUMERIC │                │                │                │                │                │                │                 │                │
-    │ user_embedding │ user_embedding │ VECTOR  │ algorithm      │ FLAT           │ data_type      │ FLOAT32        │ dim            │              3 │ distance_metric │ COSINE         │
-    ╰────────────────┴────────────────┴─────────┴────────────────┴────────────────┴────────────────┴────────────────┴────────────────┴────────────────┴─────────────────┴────────────────╯
+    ╭─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────╮
+    │ Name            │ Attribute       │ Type            │ Field Option    │ Option Value    │ Field Option    │ Option Value    │ Field Option    │ Option Value    │ Field Option    │ Option Value    │
+    ├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
+    │ user            │ user            │ TAG             │ SEPARATOR       │ ,               │                 │                 │                 │                 │                 │                 │
+    │ credit_score    │ credit_score    │ TAG             │ SEPARATOR       │ ,               │                 │                 │                 │                 │                 │                 │
+    │ job             │ job             │ TEXT            │ WEIGHT          │ 1               │                 │                 │                 │                 │                 │                 │
+    │ age             │ age             │ NUMERIC         │                 │                 │                 │                 │                 │                 │                 │                 │
+    │ user_embedding  │ user_embedding  │ VECTOR          │ algorithm       │ FLAT            │ data_type       │ FLOAT32         │ dim             │ 3               │ distance_metric │ COSINE          │
+    ╰─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────╯
 
 
 ## Load Data to `SearchIndex`
@@ -231,7 +224,7 @@ keys = index.load(data)
 print(keys)
 ```
 
-    ['user_simple_docs:01JQ9FEZ4GAAYT9W7BWAF7CV18', 'user_simple_docs:01JQ9FEZ4JCE5FD1D5QY6BAJ0J', 'user_simple_docs:01JQ9FEZ4KF9AZYBKMYNMYBZ5A']
+    ['user_simple_docs:01JT4PPPNJZMSK2395RKD208T9', 'user_simple_docs:01JT4PPPNM63J55ZESZ4TV1VR8', 'user_simple_docs:01JT4PPPNM59RCKS2YQ58B1HQW']
 
 
 By default, `load` will create a unique Redis key as a combination of the index key `prefix` and a random ULID. You can also customize the key by providing direct keys or pointing to a specified `id_field` on load.
@@ -246,15 +239,15 @@ This will raise a `SchemaValidationError` if `validate_on_load` is set to true i
 keys = index.load([{"user_embedding": True}])
 ```
 
-    11:00:03 redisvl.index.index ERROR   Schema validation error while loading data
+    19:17:21 redisvl.index.index ERROR   Schema validation error while loading data
     Traceback (most recent call last):
-      File "/Users/tyler.hutcherson/Documents/AppliedAI/redis-vl-python/redisvl/index/storage.py", line 204, in _preprocess_and_validate_objects
+      File "/Users/justin.cechmanek/Documents/redisvl/redisvl/index/storage.py", line 204, in _preprocess_and_validate_objects
         processed_obj = self._validate(processed_obj)
-      File "/Users/tyler.hutcherson/Documents/AppliedAI/redis-vl-python/redisvl/index/storage.py", line 160, in _validate
+      File "/Users/justin.cechmanek/Documents/redisvl/redisvl/index/storage.py", line 160, in _validate
         return validate_object(self.index_schema, obj)
-      File "/Users/tyler.hutcherson/Documents/AppliedAI/redis-vl-python/redisvl/schema/validation.py", line 274, in validate_object
+      File "/Users/justin.cechmanek/Documents/redisvl/redisvl/schema/validation.py", line 276, in validate_object
         validated = model_class.model_validate(flat_obj)
-      File "/Users/tyler.hutcherson/Library/Caches/pypoetry/virtualenvs/redisvl-VnTEShF2-py3.13/lib/python3.13/site-packages/pydantic/main.py", line 627, in model_validate
+      File "/Users/justin.cechmanek/.pyenv/versions/3.13/envs/redisvl-dev/lib/python3.13/site-packages/pydantic/main.py", line 627, in model_validate
         return cls.__pydantic_validator__.validate_python(
                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
             obj, strict=strict, from_attributes=from_attributes, context=context
@@ -269,7 +262,7 @@ keys = index.load([{"user_embedding": True}])
     The above exception was the direct cause of the following exception:
     
     Traceback (most recent call last):
-      File "/Users/tyler.hutcherson/Documents/AppliedAI/redis-vl-python/redisvl/index/index.py", line 586, in load
+      File "/Users/justin.cechmanek/Documents/redisvl/redisvl/index/index.py", line 686, in load
         return self._storage.write(
                ~~~~~~~~~~~~~~~~~~~^
             self._redis_client,  # type: ignore
@@ -279,13 +272,13 @@ keys = index.load([{"user_embedding": True}])
             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         )
         ^
-      File "/Users/tyler.hutcherson/Documents/AppliedAI/redis-vl-python/redisvl/index/storage.py", line 265, in write
+      File "/Users/justin.cechmanek/Documents/redisvl/redisvl/index/storage.py", line 265, in write
         prepared_objects = self._preprocess_and_validate_objects(
             list(objects),  # Convert Iterable to List
         ...<3 lines>...
             validate=validate,
         )
-      File "/Users/tyler.hutcherson/Documents/AppliedAI/redis-vl-python/redisvl/index/storage.py", line 211, in _preprocess_and_validate_objects
+      File "/Users/justin.cechmanek/Documents/redisvl/redisvl/index/storage.py", line 211, in _preprocess_and_validate_objects
         raise SchemaValidationError(str(e), index=i) from e
     redisvl.exceptions.SchemaValidationError: Validation failed for object at index 0: 1 validation error for user_simple__PydanticModel
     user_embedding
@@ -298,24 +291,24 @@ keys = index.load([{"user_embedding": True}])
 
     ValidationError                           Traceback (most recent call last)
 
-    File ~/Documents/AppliedAI/redis-vl-python/redisvl/index/storage.py:204, in BaseStorage._preprocess_and_validate_objects(self, objects, id_field, keys, preprocess, validate)
+    File ~/Documents/redisvl/redisvl/index/storage.py:204, in BaseStorage._preprocess_and_validate_objects(self, objects, id_field, keys, preprocess, validate)
         203 if validate:
     --> 204     processed_obj = self._validate(processed_obj)
         206 # Store valid object with its key for writing
 
 
-    File ~/Documents/AppliedAI/redis-vl-python/redisvl/index/storage.py:160, in BaseStorage._validate(self, obj)
+    File ~/Documents/redisvl/redisvl/index/storage.py:160, in BaseStorage._validate(self, obj)
         159 # Pass directly to validation function and let any errors propagate
     --> 160 return validate_object(self.index_schema, obj)
 
 
-    File ~/Documents/AppliedAI/redis-vl-python/redisvl/schema/validation.py:274, in validate_object(schema, obj)
-        273 # Validate against model
-    --> 274 validated = model_class.model_validate(flat_obj)
-        275 return validated.model_dump(exclude_none=True)
+    File ~/Documents/redisvl/redisvl/schema/validation.py:276, in validate_object(schema, obj)
+        275 # Validate against model
+    --> 276 validated = model_class.model_validate(flat_obj)
+        277 return validated.model_dump(exclude_none=True)
 
 
-    File ~/Library/Caches/pypoetry/virtualenvs/redisvl-VnTEShF2-py3.13/lib/python3.13/site-packages/pydantic/main.py:627, in BaseModel.model_validate(cls, obj, strict, from_attributes, context)
+    File ~/.pyenv/versions/3.13/envs/redisvl-dev/lib/python3.13/site-packages/pydantic/main.py:627, in BaseModel.model_validate(cls, obj, strict, from_attributes, context)
         626 __tracebackhide__ = True
     --> 627 return cls.__pydantic_validator__.validate_python(
         628     obj, strict=strict, from_attributes=from_attributes, context=context
@@ -333,34 +326,35 @@ keys = index.load([{"user_embedding": True}])
 
     SchemaValidationError                     Traceback (most recent call last)
 
-    Cell In[16], line 1
-    ----> 1 keys = index.load([{"user_embedding": True}])
+    Cell In[31], line 3
+          1 # NBVAL_SKIP
+    ----> 3 keys = index.load([{"user_embedding": True}])
 
 
-    File ~/Documents/AppliedAI/redis-vl-python/redisvl/index/index.py:586, in SearchIndex.load(self, data, id_field, keys, ttl, preprocess, batch_size)
-        556 """Load objects to the Redis database. Returns the list of keys loaded
-        557 to Redis.
-        558 
+    File ~/Documents/redisvl/redisvl/index/index.py:686, in SearchIndex.load(self, data, id_field, keys, ttl, preprocess, batch_size)
+        656 """Load objects to the Redis database. Returns the list of keys loaded
+        657 to Redis.
+        658 
        (...)
-        583     RedisVLError: If there's an error loading data to Redis.
-        584 """
-        585 try:
-    --> 586     return self._storage.write(
-        587         self._redis_client,  # type: ignore
-        588         objects=data,
-        589         id_field=id_field,
-        590         keys=keys,
-        591         ttl=ttl,
-        592         preprocess=preprocess,
-        593         batch_size=batch_size,
-        594         validate=self._validate_on_load,
-        595     )
-        596 except SchemaValidationError:
-        597     # Pass through validation errors directly
-        598     logger.exception("Schema validation error while loading data")
+        683     RedisVLError: If there's an error loading data to Redis.
+        684 """
+        685 try:
+    --> 686     return self._storage.write(
+        687         self._redis_client,  # type: ignore
+        688         objects=data,
+        689         id_field=id_field,
+        690         keys=keys,
+        691         ttl=ttl,
+        692         preprocess=preprocess,
+        693         batch_size=batch_size,
+        694         validate=self._validate_on_load,
+        695     )
+        696 except SchemaValidationError:
+        697     # Pass through validation errors directly
+        698     logger.exception("Schema validation error while loading data")
 
 
-    File ~/Documents/AppliedAI/redis-vl-python/redisvl/index/storage.py:265, in BaseStorage.write(self, redis_client, objects, id_field, keys, ttl, preprocess, batch_size, validate)
+    File ~/Documents/redisvl/redisvl/index/storage.py:265, in BaseStorage.write(self, redis_client, objects, id_field, keys, ttl, preprocess, batch_size, validate)
         262     return []
         264 # Pass 1: Preprocess and validate all objects
     --> 265 prepared_objects = self._preprocess_and_validate_objects(
@@ -374,7 +368,7 @@ keys = index.load([{"user_embedding": True}])
         274 added_keys = []
 
 
-    File ~/Documents/AppliedAI/redis-vl-python/redisvl/index/storage.py:211, in BaseStorage._preprocess_and_validate_objects(self, objects, id_field, keys, preprocess, validate)
+    File ~/Documents/redisvl/redisvl/index/storage.py:211, in BaseStorage._preprocess_and_validate_objects(self, objects, id_field, keys, preprocess, validate)
         207     prepared_objects.append((key, processed_obj))
         209 except ValidationError as e:
         210     # Convert Pydantic ValidationError to SchemaValidationError with index context
@@ -408,7 +402,7 @@ keys = index.load(new_data)
 print(keys)
 ```
 
-    ['user_simple_docs:01JQ9FHCB1B64GXF6WPK127VZ6']
+    ['user_simple_docs:01JT4PPX63CH5YRN2BGEYB5TS2']
 
 
 ## Creating `VectorQuery` Objects
@@ -522,7 +516,7 @@ index.schema.add_fields([
 await index.create(overwrite=True, drop=False)
 ```
 
-    11:01:30 redisvl.index.index INFO   Index already exists, overwriting.
+    19:17:29 redisvl.index.index INFO   Index already exists, overwriting.
 
 
 
@@ -546,29 +540,29 @@ Use the `rvl` CLI to check the stats for the index:
 
     
     Statistics:
-    ╭─────────────────────────────┬─────────────╮
-    │ Stat Key                    │ Value       │
-    ├─────────────────────────────┼─────────────┤
-    │ num_docs                    │ 4           │
-    │ num_terms                   │ 0           │
-    │ max_doc_id                  │ 4           │
-    │ num_records                 │ 20          │
-    │ percent_indexed             │ 1           │
-    │ hash_indexing_failures      │ 0           │
-    │ number_of_uses              │ 2           │
-    │ bytes_per_record_avg        │ 47.8        │
-    │ doc_table_size_mb           │ 0.000423431 │
-    │ inverted_sz_mb              │ 0.000911713 │
-    │ key_table_size_mb           │ 0.000165939 │
-    │ offset_bits_per_record_avg  │ nan         │
-    │ offset_vectors_sz_mb        │ 0           │
-    │ offsets_per_term_avg        │ 0           │
-    │ records_per_doc_avg         │ 5           │
-    │ sortable_values_size_mb     │ 0           │
-    │ total_indexing_time         │ 6.529       │
-    │ total_inverted_index_blocks │ 11          │
-    │ vector_index_sz_mb          │ 0.235947    │
-    ╰─────────────────────────────┴─────────────╯
+    ╭─────────────────────────────┬────────────╮
+    │ Stat Key                    │ Value      │
+    ├─────────────────────────────┼────────────┤
+    │ num_docs                    │ 4          │
+    │ num_terms                   │ 0          │
+    │ max_doc_id                  │ 4          │
+    │ num_records                 │ 20         │
+    │ percent_indexed             │ 1          │
+    │ hash_indexing_failures      │ 0          │
+    │ number_of_uses              │ 2          │
+    │ bytes_per_record_avg        │ 48.2000007 │
+    │ doc_table_size_mb           │ 4.23431396 │
+    │ inverted_sz_mb              │ 9.19342041 │
+    │ key_table_size_mb           │ 1.93595886 │
+    │ offset_bits_per_record_avg  │ nan        │
+    │ offset_vectors_sz_mb        │ 0          │
+    │ offsets_per_term_avg        │ 0          │
+    │ records_per_doc_avg         │ 5          │
+    │ sortable_values_size_mb     │ 0          │
+    │ total_indexing_time         │ 0.74400001 │
+    │ total_inverted_index_blocks │ 11         │
+    │ vector_index_sz_mb          │ 0.23560333 │
+    ╰─────────────────────────────┴────────────╯
 
 
 ## Cleanup

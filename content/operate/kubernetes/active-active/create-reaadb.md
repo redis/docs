@@ -10,24 +10,24 @@ linkTitle: Create database
 weight: 30
 ---
 
-{{<note>}}This feature is supported for general availability in releases 6.4.2-6 and later. Some of these features were available as a preview in 6.4.2-4 and 6.4.2-5. Please upgrade to 6.4.2-6 for the full set of general availability features and bug fixes.{{</note>}}
+
 
 ## Prerequisites
 
 To create an Active-Active database, make sure you've completed all the following steps and have gathered the information listed below each step.
 
-1. Configure the [admission controller and ValidatingWebhook]({{< relref "/operate/kubernetes/deployment/quick-start.md#enable-the-admission-controller/" >}}).
+1. Configure the [admission controller and ValidatingWebhook]({{< relref "/operate/kubernetes/deployment/quick-start#enable-the-admission-controller/" >}}).
    {{<note>}}These are installed and enabled by default on clusters created via the OpenShift OperatorHub. {{</note>}}
 
-2. Create two or more [RedisEnterpriseCluster (REC) custom resources]({{< relref "/operate/kubernetes/deployment/quick-start#create-a-redis-enterprise-cluster-rec" >}}) with enough [memory resources]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md" >}}).
+2. Create two or more [RedisEnterpriseCluster (REC) custom resources]({{< relref "/operate/kubernetes/deployment/quick-start#create-a-redis-enterprise-cluster-rec" >}}) with enough [memory resources]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements" >}}).
    * Name of each REC (`<rec-name>`)
    * Namespace for each REC (`<rec-namespace>`)
 
-3. Configure the REC [`ingressOrRoutes` field]({{< relref "/operate/kubernetes/networking/ingressorroutespec.md" >}}) and [create DNS records]({{< relref "/operate/kubernetes/networking/ingressorroutespec#configure-dns/" >}}).
+3. Configure the REC [`ingressOrRoutes` field]({{< relref "/operate/kubernetes/networking/ingressorroutespec" >}}) and [create DNS records]({{< relref "/operate/kubernetes/networking/ingressorroutespec#configure-dns/" >}}).
    * REC API hostname (`api-<rec-name>-<rec-namespace>.<subdomain>`)
    * Database hostname suffix (`-db-<rec-name>-<rec-namespace>.<subdomain>`)
 
-4. [Prepare participating clusters]({{< relref "/operate/kubernetes/active-active/prepare-clusters.md" >}})
+4. [Prepare participating clusters]({{< relref "/operate/kubernetes/active-active/prepare-clusters" >}})
    * RERC name (`<rerc-name`>)
    * RERC secret name (`redis-enterprise-<rerc-name>`)
 
