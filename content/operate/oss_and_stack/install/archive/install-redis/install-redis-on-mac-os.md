@@ -33,7 +33,8 @@ If this command fails, you'll need to [follow the Homebrew installation instruct
 From the terminal, run:
 
 {{< highlight bash  >}}
-brew install redis
+brew tap redis/redis
+brew install --cask redis
 {{< / highlight >}}
 
 This will install Redis on your system.
@@ -43,41 +44,27 @@ This will install Redis on your system.
 To test your Redis installation, you can run the `redis-server` executable from the command line:
 
 {{< highlight bash  >}}
-redis-server
+redis-server $(brew --prefix)/etc/redis.conf
 {{< / highlight >}}
 
 If successful, you'll see the startup logs for Redis, and Redis will be running in the foreground.
 
 To stop Redis, enter `Ctrl-C`.
 
-### Starting and stopping Redis using launchd
+### Starting and stopping Redis in the background
 
-As an alternative to running Redis in the foreground, you can also use `launchd` to start the process in the background:
-
-{{< highlight bash  >}}
-brew services start redis
-{{< / highlight >}}
-
-This launches Redis and restarts it at login. You can check the status of a `launchd` managed Redis by running the following:
+As an alternative to running Redis in the foreground, you can also run Redis as a daemon:
 
 {{< highlight bash  >}}
-brew services info redis
+redis-server $(brew --prefix)/etc/redis.conf --daemonize yes
 {{< / highlight >}}
 
-If the service is running, you'll see output like the following:
-
-{{< highlight bash  >}}
-redis (homebrew.mxcl.redis)
-Running: ✔
-Loaded: ✔
-User: miranda
-PID: 67975
-{{< / highlight >}}
+This launches Redis as a daemon service.
 
 To stop the service, run:
 
 {{< highlight bash  >}}
-brew services stop redis
+redis-cli shutdown
 {{< / highlight >}}
 
 ## Connect to Redis
