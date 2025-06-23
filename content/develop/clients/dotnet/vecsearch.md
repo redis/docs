@@ -12,7 +12,7 @@ categories:
 description: Learn how to index and query vector embeddings with Redis
 linkTitle: Index and query vectors
 title: Index and query vectors
-weight: 3
+weight: 40
 ---
 
 [Redis Query Engine]({{< relref "/develop/interact/search-and-query" >}})

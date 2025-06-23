@@ -276,7 +276,7 @@ After you set up SAML SSO for one account, you can link other accounts you own t
 
 To link other accounts to an existing SAML SSO configuration:
 
-1. Sign in to the [Redis Cloud console](cloud.redis.io) with the account that has an existing SAML configuration.
+1. Sign in to the [Redis Cloud console](https://cloud.redis.io/) with the account that has an existing SAML configuration.
 
 1. Go to **Access Management > Single Sign-On**. 
 

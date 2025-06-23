@@ -9,6 +9,8 @@ description: New features, enhancements, and other changes added to Redis Cloud 
   January 2024.
 highlights: Transit Gateway, Database tags
 linktitle: January 2024
+tags:
+- changelog
 weight: 70
 ---
 

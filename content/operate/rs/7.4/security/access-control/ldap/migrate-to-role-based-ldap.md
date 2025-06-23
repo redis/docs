@@ -11,7 +11,7 @@ weight: 55
 url: '/operate/rs/7.4/security/access-control/ldap/migrate-to-role-based-ldap/'
 ---
 
-Redis Enterprise Software supports LDAP through a [role-based mechanism]({{< relref "/operate/rs/7.4/security/access-control/ldap/" >}}), first introduced [in v6.0.20]({{< relref "/operate/rs/release-notes/rs-6-0-20-april-2021" >}}).
+Redis Enterprise Software supports LDAP through a [role-based mechanism]({{< relref "/operate/rs/7.4/security/access-control/ldap/" >}}), first introduced in v6.0.20.
 
 Earlier versions of Redis Enterprise Software supported a cluster-based mechanism; however, that mechanism was removed in v6.2.12.
 

@@ -22,10 +22,15 @@ Follow the steps below to upgrade an existing
 [VM installation]({{< relref "/integrate/redis-data-integration/installation/install-vm" >}})
 of RDI:
 
-1.  Download the RDI installer from the
-    [Redis download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-installation-1.6.7.tar.gz)
+1.  Download the RDI installer from the [Redis download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-installation-{{< rdi-version >}}.tar.gz)
     (in the *Modules, Tools & Integration* category) and extract it to your
     preferred installation folder.
+
+    ```bash
+    export RDI_VERSION={{< rdi-version >}}
+    wget https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-installation-$RDI_VERSION.tar.gz
+    tar -xvf rdi-installation-$RDI_VERSION.tar.gz
+    ```
 
 1.  Go to the installation folder:
 
@@ -33,7 +38,7 @@ of RDI:
     cd rdi_install/$RDI_VERSION
     ```
 
-1.  Run the `upgrade` script as a privileged user. Note that you must pass
+1.  Run the `upgrade.sh` script as a privileged user. Note that you must pass
     your RDI password to the script unless the password is empty.
 
     ```bash
@@ -43,7 +48,7 @@ of RDI:
 ### Recovering from failure during a VM upgrade
 
 If the previous version is v1.4.4 or later, go to the `rdi_install/<PREVIOUS_VERSION>`
-directory and run `sudo ./upgrade.sh`, as described in the section
+directory and run `sudo ./upgrade.sh` to revert to that version, as described in the section
 [Upgrading a VM installation](#upgrading-a-vm-installation) above.
 
 If the version you are replacing is earlier than v1.4.4, follow these steps:
@@ -66,18 +71,16 @@ If the version you are replacing is earlier than v1.4.4, follow these steps:
     sudo redis-di upgrade --rdi-host <RDI_REDIS_HOST> --rdi-port <RDI_REDIS_PORT>
     ```
 
-{{< note >}}If the `collector-source` or the `processor` are not in the `Running` state during
+{{< note >}}If the `collector-source` or the `processor` pods are not in the `Running` state after
 the upgrade, you must run `redis-di deploy` and check again that they are both in the
 `Running` state.
 {{< /note >}}
 
-### Upgrading a VM installation with High availability
+### Upgrading a VM installation with High Availability
 
-If there is an active pipeline, the upgrade process will involve upgrading RDI on the active
-VM first which will cause downtime for the collector-source (see
-[Upgrade a VM installation](#upgrade-a-vm-installation) above). Afterwards, the passive
-VM will be upgraded. Switching over won't eliminate the downtime because switching between
-VMs also requires a about a minute of downtime.
+If there is an active pipeline, upgrade RDI on the active VM first. 
+This will cause a short pipeline downtime of up to two minutes. 
+Afterwards, upgrade RDI on the passive VM. This will not cause any downtime.
 
 ## Upgrading a Kubernetes installation
 
@@ -85,74 +88,77 @@ Follow the steps below to upgrade an existing
 [Kubernetes]({{< relref "/integrate/redis-data-integration/installation/install-k8s" >}})
 installation of RDI:
 
-1. Download the new versions of the images, if you are using a private registry:
+1.  If you are using a private registry, pull the new versions of all images listed in 
+    [Using a private image registry]({{< relref "/integrate/redis-data-integration/installation/install-k8s#using-a-private-image-registry" >}})
+    and add them to your local registry.
+
+1.  Download the RDI Helm chart tar file from the [Redis download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-{{< rdi-version >}}.tgz)
+    (in the *Modules, Tools & Integration* category).
 
     ```bash
-    docker pull redis/rdi-processor:tagname
-    docker pull redis/rdi-operator:tagname
-    docker pull redis/rdi-api:tagname
-    docker pull redis/rdi-monitor:tagname
-    docker pull redis/rdi-collector-initializer
-    docker pull redis/rdi-collector-api
+    export RDI_VERSION={{< rdi-version >}}
+    wget https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-$RDI_VERSION.tgz
     ```
 
-1.  Download the RDI helm chart tar file from the 
-    [Redis download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-1.6.7.tgz).
+1.  Adapt your `rdi-values.yaml` file to any changes in the new RDI version if needed.
+    See also [Upgrading to RDI 1.8.0 or later from an earlier version](#upgrading-to-rdi-180-or-later-from-an-earlier-version). 
+    Before making any changes, save your existing `rdi-values.yaml` if you need to revert 
+    to the old RDI version for any reason.
 
 1.  Run the `helm upgrade` command:
     
     ```bash
-    helm upgrade [RELEASE_NAME] [CHART]
+    helm upgrade --install rdi rdi-<tag>.tar.gz -f rdi-values.yaml -n rdi
     ```
 
-    Note that you don't need to
-    [deploy]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})
-    again after this step.
+Note that you don't need to
+[deploy]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})
+the RDI configuration again after this step.
+
+### Upgrading to RDI 1.8.0 or later from an earlier version
+
+When upgrading to RDI 1.8.0 or later from an earlier version 
+you must adapt your `rdi-values.yaml` file to the following changes:
+
+-   All collector and processor values that were previously under `collector`, 
+    `collectorSourceMetricsExporter`, and `processor` have been moved to 
+    `operator.dataPlane.collector` and `operator.dataPlane.processor`.
+-   `global.collectorApiEnabled` has been moved to `operator.dataPlane.collectorApi.enabled`, 
+    and is now a boolean value, not `"0"` or `"1"`.
+-   `api.authEnabled` is also now a boolean value, not `"0"` or `"1"`.
+-   The following values have been deprecated: `rdiMetricsExporter.service.protocol`, 
+    `rdiMetricsExporter.service.port`, `rdiMetricsExporter.serviceMonitor.path`, 
+    `api.service.name`.
 
 ### Verifying the upgrade
 
-Check the upgrade with the following command:
+Check that all pods have `Running` status:
 
 ```bash
- sudo k3s kubectl get all -n <namespace>
+kubectl get all -n rdi
 ```
 
-You should find that all the pods are running (they will have `1/1` in the `READY` column of the
-command's output).
-Check for any pods that don't have `1/1` in the `READY` column (which is the second
-column). For example, the pod below has `0/1` in the second column, which indicates the
-deployment hasn't worked:
-
-```bash
-<pod_name>        0/1     CrashLoopBackOff   1881 (91s ago)   6d17h
-```
-
-You can also check that the latest version is running using the following command on one of
-the pods:
-
-```bash
-sudo k3s kubectl describe <pod_name> -n <namespace>
-```
-
-Search for the image tag `Image: docker.io/redis/<pod_name>:<version/image_tag>`
-in the command's output to verify the version.
-
-If you find that the upgrade hasn't worked for any reason, then run the `helm upgrade`
-command again (as described in the section
+If you find that the upgrade did not work as expected for any reason, 
+then run the `helm upgrade` command again (as described in the section
 [Upgrading a Kubernetes installation](#upgrading-a-kubernetes-installation) above),
-but this time with the previous version you were upgrading from. This will restore your
-previous working state.
+but this time with the previous version you were upgrading from, and using
+your saved `rdi-values.yaml` for that version. This will restore your previous working state.
+
+{{< note >}}Downgrading from RDI 1.8.0 or later to an earlier version using `helm upgrade`
+will not work. If you need to perform such an upgrade, uninstall RDI completely first as
+described in [Uninstall RDI]({{< relref "/integrate/redis-data-integration/installation/install-k8s#uninstall-rdi" >}}),
+and then install the old version.
+{{< /note >}}
 
 ## What happens during the upgrade?
 
-The upgrade process replaces the current RDI components with the new versions:
+The upgrade process replaces the current RDI components with their new versions:
 
 -   Firstly, the control plane components are replaced. At this point, the pipeline
     is still active but monitoring will be disconnected.
-
--   Secondly, the pipeline data path components are replaced with the new versions.
-    If a pipeline is active while upgrading, the `collector-source` will be restarted
-    as a result of restarting the `collector-initializer`. The pipeline will pause for
-    about two minutes but it will catch up very quickly after restarting. 
-    The pipeline data and state are both stored in Redis, so data will never normally
-    be lost during the downtime while upgrading.
+-   Secondly, the pipeline data plane components are replaced.
+    If a pipeline is active while upgrading, the `collector-source` and `processor`
+    pods will be restarted. The pipeline will pause for up to two minutes but it 
+    will catch up very quickly after restarting. 
+    The pipeline data and state are both stored in Redis, so data will not
+    be lost during the upgrade.

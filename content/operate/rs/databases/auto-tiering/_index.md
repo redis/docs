@@ -86,7 +86,7 @@ we recommend working closely with the Redis technical team for sizing and perfor
 
 When running in a cloud environment:
 
-- Flash memory is on the ephemeral SSDs of the cloud instance (for example the local NVMe of AWS i4i instnaces and Azure Lsv2 and Lsv3 series).
+- Flash memory is on the ephemeral SSDs of the cloud instance (for example the local NVMe of AWS i4i instances and Azure Lsv2 and Lsv3 series).
 - Persistent database storage needs to be network attached (for example, AWS EBS for AWS).
 
 {{<note>}}
@@ -104,9 +104,20 @@ On-premises environments support more deployment options than other environments
   - [Time series]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries" >}})
   - [Probabilistic data structures]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom" >}})
 
-{{<note>}} Enabling Auto Tiering for Active-Active distributed databases requires validating and getting the Redis technical team's approval first . {{</note>}}
+
+{{<note>}} Enabling Auto Tiering for [Active-Active distributed databases]({{<relref "/operate/rs/databases/active-active">}}) requires validating and getting the Redis technical team's approval first . {{</note>}}
 
 {{<warning>}} Auto Tiering is not supported running on network attached storage (NAS), storage area network (SAN), or with local HDD drives. {{</warning>}}
+
+## Size limits for keys and values
+
+Auto Tiering databases cannot store keys or values larger than 4GB in flash storage.
+
+Keys or values larger than 4GB will be stored in RAM only, and warnings will appear in the Redis logs similar to:
+
+```sh
+# WARNING: key too big for disk driver, size: 4703717276, key: subactinfo:htable
+```
 
 ## Next steps
 

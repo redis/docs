@@ -50,10 +50,10 @@ RDI will create the pipeline template for your chosen source database type at
 (see [Prepare the pipeline](#prepare-the-pipeline) below).
 
 At the end of the installation, RDI CLI will prompt you to set the access secrets
-for both the source PostgreSQL database and the Redis RDI database. RDI needs these to
+for both the source PostgreSQL database and the target Redis database. RDI needs these to
 run the pipeline.
 
-Use the Redis console to create the RDI database with the following requirements:
+Use the Redis Enterprise Cluster Manager UI to create the RDI database with the following requirements:
 
 {{< embed-md "rdi-db-reqs.md" >}}
 
@@ -62,7 +62,7 @@ Use the Redis console to create the RDI database with the following requirements
 During the installation, RDI placed the pipeline templates at `/opt/rdi/config`.
 If you go to that folder and run the `ll` command, you will see the pipeline
 configuration file, `config.yaml`, and the `jobs` folder (see the page about
-[Pipelines]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines" >}}) for more information). Use Redis Insight to open
+[Pipelines]({{< relref "/integrate/redis-data-integration/data-pipelines" >}}) for more information). Use Redis Insight to open
 the `config.yaml` file and then edit the following settings:
 
 - Set the `host` to `localhost` and the `port` to 5432.
@@ -90,7 +90,7 @@ To create a context, use the
 command:
 
 ```bash
-redis-di add-context --rdi-host <host> --rdi-port <port> --cluster-host <Redis DB host> --cluster-api-port <Redis DB API port> --cluster-user <Redis DB username> <unique-context-name>
+redis-di add-context --rdi-host <host> --rdi-port <port> <unique-context-name>
 ```
 
 These options are required but there are also a few others you can save, such as TLS credentials, if
@@ -113,7 +113,7 @@ contexts.
 
 You can use [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}})
 to deploy the pipeline by adding a connection to the RDI API
-endpoint (which has the same IP address as your RDI VM and uses port 8083) and then clicking the **Deploy** button. You can also deploy it with the following command:
+endpoint (which has the same hostname or IP address as your RDI VM and uses the default HTTPS port 443) and then clicking the **Deploy** button. You can also deploy it with the following command:
 
 ```bash
 redis-di deploy --dir <path to pipeline folder>
@@ -136,7 +136,7 @@ Once the pipeline has loaded a *snapshot* of all the existing data from the sour
 it enters *change data capture (CDC)* mode (see the
 [architecture overview]({{< relref "/integrate/redis-data-integration/architecture#overview" >}})
 and the
-[ingest pipeline lifecycle]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines#ingest-pipeline-lifecycle" >}})
+[ingest pipeline lifecycle]({{< relref "/integrate/redis-data-integration/data-pipelines#pipeline-lifecycle" >}})
 for more information
 ).
 
@@ -148,4 +148,4 @@ To see the RDI pipeline working in CDC mode:
 - Run
   [`redis-di status --live`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-status" >}})
   to see the flow of records.
-- User [Redis Insight]({{< relref "/develop/tools/insight" >}}) to look at the data in the target database.
+- Use [Redis Insight]({{< relref "/develop/tools/insight" >}}) to look at the data in the target database.

@@ -13,6 +13,8 @@ aliases:
 tocEmbedHeaders: true
 ---
 
+Redis Cloud Essentials is cost-efficient and designed for low-throughput scenarios. You can quickly scale up your Essentials database as your application grows.
+
 {{< embed-md "rc-create-db-first-steps.md" >}} 
 
 3. Select the type of [subscription]({{< relref "/operate/rc/subscriptions" >}}) you need. For this guide, select **Essentials**.
@@ -20,7 +22,8 @@ tocEmbedHeaders: true
     {{<image filename="images/rc/create-database-subscription-essentials.png" alt="The Subscription selection panel with Essentials selected.">}}
 
     {{< note >}}
-This guide shows how to create an Essentials database.
+This guide shows how to create a paid Essentials database.
+- If you want to create a free Essentials database, see [Create a free database]({{< relref "/operate/rc/rc-quickstart" >}}). You can only have one free database per account.
 - If you'd rather create a Redis Flex database on Redis Cloud Essentials, see [Create a Redis Flex database]({{< relref "/operate/rc/databases/create-database/create-flex-database" >}})
 - If you'd rather create a Pro database, see [Create a Pro database with a new subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}).
 - If you already have a Pro subscription and want to add a database to it, see [Create a Pro database in an existing subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-existing" >}}).
@@ -58,7 +61,7 @@ This guide shows how to create an Essentials database.
     
     See [Data persistence]({{< relref "/operate/rc/databases/configuration/data-persistence" >}}) for more information about these settings.
     
-1. Select the desired memory limit. To create a free database, select the 30 MB memory limit. You can only have one free database at a time.
+1. Select the desired memory limit.
 
     {{<image filename="images/rc/subscription-new-fixed-tiers.png" alt="Available Essentials plans." >}}
 
@@ -70,10 +73,12 @@ This guide shows how to create an Essentials database.
 
     {{<image filename="images/rc/icon-add.png" width="30px" alt="The Add credit card icon." >}}
 
-1. Select **Create database** or **Confirm & pay** to create your database.
+    {{< embed-md "rc-credit-card-add.md" >}}
+
+1. Select **Confirm & pay** to create your database.
 
 {{<image filename="images/rc/button-create-db-confirm-pay.png" width="140px" alt="Select Confirm & Pay to create your new database." >}}
 
 When you create your database, there's a brief pause while your request is processed and then the **Database details** page appears.
 
-
+You can now [connect to your database]({{< relref "/operate/rc/databases/connect" >}}) and start working with Redis.

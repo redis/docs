@@ -9,6 +9,8 @@ description: New features, enhancements, and other changes added to Redis Cloud 
   February 2024.
 highlights: CIDR overlap detection
 linktitle: February 2024
+tags:
+- changelog
 weight: 65
 ---
 

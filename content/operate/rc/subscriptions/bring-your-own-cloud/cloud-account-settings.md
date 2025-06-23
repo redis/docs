@@ -8,6 +8,10 @@ categories:
 description: null
 hideListLinks: true
 weight: 2
+aliases:
+  - /operate/rc/how-to/view-edit-cloud-account/cloud-account-settings
+  - /operate/rc/cloud-accounts/cloud-account-settings
+  - /operate/rc/cloud-integrations/aws-cloud-accounts/cloud-account-settings
 ---
 
 Redis Cloud Bring your own Cloud (BYOC) lets you use your own cloud infrastructure to deploy Redis Cloud.

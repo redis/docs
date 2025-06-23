@@ -15,10 +15,39 @@ weight: 92
 ---
 ## Requirements
 
-RediSearch v2.6.29 requires:
+RediSearch v2.6.31 requires:
 
 - Minimum Redis compatibility version (database): 6.0.16
 - Minimum Redis Enterprise Software version (cluster): 6.2.8
+
+## v2.6.31 (June 2025)
+
+This is a maintenance release for RediSearch 2.6.
+
+Update urgency: `HIGH`: There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#6349](https://github.com/redisearch/redisearch/pull/6349) Search on terms larger than 128 characters could lead to missing matches (MOD-6786).
+- [#6305](https://github.com/redisearch/redisearch/pull/6305) While iterating over a large index, frequent document updates could hit the `TIMEOUT`, causing a crash (MOD-9856).
+- [#6191](https://github.com/redisearch/redisearch/pull/6191) Reindexing from an RDB with multiple vector indexes could lead to a crash because of the cluster health check - NodeWD (MOD-9220).
+
+## v2.6.30 (May 2025)
+
+This is a maintenance release for RediSearch 2.6.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#6032](https://github.com/redisearch/redisearch/pull/6032) `FT.CURSOR...DEL` while another thread is reading it could lead to a crash (MOD-9408,MOD-9432,MOD-9433,MOD-9434,MOD-9435)
+- [#5965](https://github.com/redisearch/redisearch/pull/5965) Indexing documents using `TEXT` without the text in the documents leads to an `inf` or `nan` score (MOD-9423)
+- [#6058](https://github.com/redisearch/redisearch/pull/6058) Avoid lazy expiration in background indexing for Active-Active setup, preventing keys from expiring incorrectly (MOD-9486)
+- [#5962](https://github.com/redisearch/redisearch/pull/5962) Empty results with RESP3 due to the `TIMEOUT` even if setting to deliver partial results using the `ON_TIMEOUT` policy (MOD-8482)
+- [#5962](https://github.com/redisearch/redisearch/pull/5962) Cursor with RESP3 on `FT.AGGREGATE` is never depleted, blocking queries if the cursor limit is achieved (MOD-8515)
+- [#5962](https://github.com/redisearch/redisearch/pull/5962) Using `FT.CURSOR READ` on queries that timed out led to fewer results than expected (MOD-8606)
+
+Improvements:
+- [#6009](https://github.com/redisearch/redisearch/pull/6009) Parser for intersections on parentheses and sub-queries order won't affect full-text scores (MOD-9278)
+- [#5962](https://github.com/redisearch/redisearch/pull/5962) Fixed a coordinator race condition preventing the premature release and avoiding errors and inconsistencies during query executions (MOD-8794)
 
 ## v2.6.29 (April 2025)
 

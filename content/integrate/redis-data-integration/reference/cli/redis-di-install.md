@@ -32,30 +32,6 @@ Usage: redis-di install [OPTIONS]
 
   Path to a YAML configuration file for silent installation
 
-- `online`:
-
-  - Type: BOOL
-  - Default: `false`
-  - Usage: `--online`
-
-  Run installer in online mode
-
-- `k3s_only`:
-
-  - Type: BOOL
-  - Default: `false`
-  - Usage: `--k3s-only`
-
-  Install only k3s components
-
-- `https_port`:
-
-  - Type: INT
-  - Default: `443`
-  - Usage: `--https-port`
-
-  HTTPS port for Traefik
-
 - `installation_dir`:
 
   - Type: <click.types.Path object>
