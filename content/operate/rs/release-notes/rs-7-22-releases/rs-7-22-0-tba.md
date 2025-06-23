@@ -47,7 +47,7 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 ### Resolved issues
 
-- RS161290: Fixed an issue where `/v1/users/password ` REST API requests changed the password of the authenticated admin user sending the request instead of the target `username` provided in the JSON request body.
+- RS161290: Fixed an issue where the `/v1/users/password` REST API updated the password of the authenticated admin user instead of the intended target user specified in the JSON request body.
 
 - RS161222: Fixed an issue in the Cluster Manager UI that caused joining new nodes to a cluster using private IP addresses to fail.
 
