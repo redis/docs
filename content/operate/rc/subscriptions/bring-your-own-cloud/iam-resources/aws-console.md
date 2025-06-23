@@ -30,7 +30,7 @@ Follow the steps to [create an IAM policy using the JSON editor](https://docs.aw
 
     {{< expand "View RedisLabsInstanceRolePolicy.json" >}}
 ```js
- {
+{
     "Version": "2012-10-17",
     "Statement": [
         {
