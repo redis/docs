@@ -12,7 +12,7 @@ categories:
 description: Learn how to use approximate calculations with Redis.
 linkTitle: Probabilistic data types
 title: Probabilistic data types
-weight: 45
+weight: 5
 ---
 
 Redis supports several
@@ -34,17 +34,17 @@ Assuming that you already have code that supplies you with each IP
 address as a string, you could record the addresses in Redis using
 a [set]({{< relref "/develop/data-types/sets" >}}):
 
-```cs
-db.SetAdd("ip_tracker", new_ip_address);
+```js
+await client.sAdd("ip_tracker", new_ip_address);
 ```
 
 The set can only contain each key once, so if the same address
 appears again during the day, the new instance will not change
 the set. At the end of the day, you could get the exact number of
-distinct addresses using the `SetLength()` function:
+distinct addresses using the `sCard()` function:
 
-```cs
-var num_distinct_ips = db.SetLength("ip_tracker");
+```js
+const num_distinct_ips = await client.sCard("ip_tracker");
 ```
 
 This approach is simple, effective, and precise but if your website
@@ -97,50 +97,48 @@ This gives a very compact representation of the
 set's membership with a fixed memory size, regardless of how many items you
 add. The following example adds some names to a Bloom filter representing
 a list of users and checks for the presence or absence of users in the list.
-Note that you must use the `BF()` method to access the Bloom filter commands.
+Note that you must use the `bf` property to access the Bloom filter commands.
 
-<!--< clients-example home_prob_dts bloom "C#" >}}
-< /clients-example >}}-->
-```cs
-bool[] res1 = db.BF().MAdd(
-    "recorded_users", "andy", "cameron", "david", "michelle"
+```js
+const res1 = await client.bf.mAdd(
+    "recorded_users",
+    ["andy", "cameron", "david", "michelle"]
 );
-Console.WriteLine(string.Join(", ", res1));
-// >>> true, true, true, true
+console.log(res1);  // >>> [true, true, true, true]
 
-bool res2 = db.BF().Exists("recorded_users", "cameron");
-Console.WriteLine(res2); // >>> true
+const res2 = await client.bf.exists("recorded_users", "cameron");
+console.log(res2);  // >>> true
 
-bool res3 = db.BF().Exists("recorded_users", "kaitlyn");
-Console.WriteLine(res3); // >>> false
+const res3 = await client.bf.exists("recorded_users", "kaitlyn");
+console.log(res3);  // >>> false
 ```
 
 A Cuckoo filter has similar features to a Bloom filter, but also supports
 a deletion operation to remove hashes from a set, as shown in the example
-below. Note that you must use the `CF()` method to access the Cuckoo filter
+below. Note that you must use the `cf` property to access the Cuckoo filter
 commands.
 
-<!--< clients-example home_prob_dts cuckoo "C#" >}}
-< /clients-example >}}-->
-```cs
-bool res4 = db.CF().Add("other_users", "paolo");
-Console.WriteLine(res4); // >>> true
+```js
+const res4 = await client.cf.add("other_users", "paolo");
+console.log(res4);  // >>> true
 
-bool res5 = db.CF().Add("other_users", "kaitlyn");
-Console.WriteLine(res5); // >>> true
+const res5 = await client.cf.add("other_users", "kaitlyn");
+console.log(res5);  // >>> true
 
-bool res6 = db.CF().Add("other_users", "rachel");
-Console.WriteLine(res6); // >>> true
+const res6 = await client.cf.add("other_users", "rachel");
+console.log(res6);  // >>> true
 
-bool[] res7 = db.CF().MExists("other_users", "paolo", "rachel", "andy");
-Console.WriteLine(string.Join(", ", res7));
-// >>> true, true, false
+const res7 = await client.cf.exists("other_users", "paolo");
+const res7a = await client.cf.exists("other_users", "kaitlyn");
+const res7b = await client.cf.exists("other_users", "rachel");
+const res7c = await client.cf.exists("other_users", "andy");
+console.log([res7, res7a, res7b, res7c]);  // >>> [true, true, true, false]
 
-bool res8 = db.CF().Del("other_users", "paolo");
-Console.WriteLine(res8); // >>> true
+const res8 = await client.cf.del("other_users", "paolo");
+console.log(res8);  // >>> true
 
-bool res9 = db.CF().Exists("other_users", "paolo");
-Console.WriteLine(res9); // >>> false
+const res9 = await client.cf.exists("other_users", "paolo");
+console.log(res9);  // >>> false
 ```
 
 Which of these two data types you choose depends on your use case.
@@ -161,34 +159,24 @@ You can also merge two or more HyperLogLogs to find the cardinality of the
 [union](https://en.wikipedia.org/wiki/Union_(set_theory)) of the sets they
 represent.
 
-<!--< clients-example home_prob_dts hyperloglog "C#" >}}
-< /clients-example >}}-->
-```cs
-bool res10 = db.HyperLogLogAdd(
-    "group:1",
-    new RedisValue[] { "andy", "cameron", "david" }
-);
-Console.WriteLine(res10); // >>> true
+```js
+const res10 = await client.pfAdd("group:1", ["andy", "cameron", "david"]);
+console.log(res10);  // >>> true
 
-long res11 = db.HyperLogLogLength("group:1");
-Console.WriteLine(res11); // >>> 3
+const res11 = await client.pfCount("group:1");
+console.log(res11);  // >>> 3
 
-bool res12 = db.HyperLogLogAdd(
-    "group:2",
-    new RedisValue[] { "kaitlyn", "michelle", "paolo", "rachel" }
-);
-Console.WriteLine(res12); // >>> true
+const res12 = await client.pfAdd("group:2", ["kaitlyn", "michelle", "paolo", "rachel"]);
+console.log(res12);  // >>> true
 
-long res13 = db.HyperLogLogLength("group:2");
-Console.WriteLine(res13); // >>> 4
+const res13 = await client.pfCount("group:2");
+console.log(res13);  // >>> 4
 
-db.HyperLogLogMerge(
-    "both_groups",
-    "group:1", "group:2"
-);
+const res14 = await client.pfMerge("both_groups", ["group:1", "group:2"]);
+console.log(res14);  // >>> OK
 
-long res14 = db.HyperLogLogLength("both_groups");
-Console.WriteLine(res14); // >>> 7
+const res15 = await client.pfCount("both_groups");
+console.log(res15);  // >>> 7
 ```
 
 The main benefit that HyperLogLogs offer is their very low
@@ -226,46 +214,43 @@ desired range. For example, you can request that the count should
 stay within 0.1% of the true value and have a 0.05% probability
 of going outside this limit. The example below shows how to create
 a Count-min sketch object, add data to it, and then query it.
-Note that you must use the `CMS()` method to access the Count-min
+Note that you must use the `cms` property to access the Count-min
 sketch commands.
 
-<!--< clients-example home_prob_dts cms "C#" >}}
-< /clients-example >}}-->
-```cs
+```js
 // Specify that you want to keep the counts within 0.01
 // (1%) of the true value with a 0.005 (0.5%) chance
 // of going outside this limit.
-bool res15 = db.CMS().InitByProb("items_sold", 0.01, 0.005);
-Console.WriteLine(res15); // >>> true
+const res16 = await client.cms.initByProb("items_sold", 0.01, 0.005);
+console.log(res16);  // >>> OK
 
-long[] res16 = db.CMS().IncrBy(
+// The parameters for `incrBy()` are passed as an array of objects
+// each containing an `item` and `incrementBy` property.
+const res17 = await client.cms.incrBy(
     "items_sold",
-    new Tuple<RedisValue, long>[]{
-        new("bread", 300),
-        new("tea", 200),
-        new("coffee", 200),
-        new("beer", 100)
-    }
+    [
+        { item: "bread", incrementBy: 300},
+        { item: "tea", incrementBy: 200},
+        { item: "coffee", incrementBy: 200},
+        { item: "beer", incrementBy: 100}
+    ]
 );
-Console.WriteLine(string.Join(", ", res16));
-// >>> 300, 200, 200, 100
+console.log(res17);  // >>> [300, 200, 200, 100]
 
-long[] res17 = db.CMS().IncrBy(
-    "items_sold",
-    new Tuple<RedisValue, long>[]{
-        new("bread", 100),
-        new("coffee", 150),
-    }
+const res18 = await client.cms.incrBy(
+    "items_sold",    
+    [
+        { item: "bread", incrementBy: 100},
+        { item: "coffee", incrementBy: 150}
+    ]
 );
-Console.WriteLine(string.Join(", ", res17));
-// >>> 400, 350
+console.log(res18);  // >>> [400, 350]
 
-long[] res18 = db.CMS().Query(
+const res19 = await client.cms.query(
     "items_sold",
-    "bread", "tea", "coffee", "beer"
+    ["bread", "tea", "coffee", "beer"]
 );
-Console.WriteLine(string.Join(", ", res18));
-// >>> 400, 200, 350, 100
+console.log(res19);  // >>> [400, 200, 350, 100]
 ```
 
 The advantage of using a CMS over keeping an exact count with a
@@ -295,55 +280,52 @@ maximum values, the quantile of 0.75, and the
 [cumulative distribution function](https://en.wikipedia.org/wiki/Cumulative_distribution_function)
 (CDF), which is effectively the inverse of the quantile function. It also
 shows how to merge two or more t-digest objects to query the combined
-data set. Note that you must use the `TDIGEST()` method to access the
+data set. Note that you must use the `tDigest` property to access the
 t-digest commands.
 
-<!--< clients-example home_prob_dts tdigest "C#" >}}
-< /clients-example >}}-->
-```cs
-bool res19 = db.TDIGEST().Create("male_heights");
-Console.WriteLine(res19); // >>> true
+```js
+const res20 = await client.tDigest.create("male_heights");
+console.log(res20);  // >>> OK
 
-bool res20 = db.TDIGEST().Add(
+const res21 = await client.tDigest.add(
     "male_heights",
-    175.5, 181, 160.8, 152, 177, 196, 164
+    [175.5, 181, 160.8, 152, 177, 196, 164]
 );
-Console.WriteLine(res20); // >>> true
+console.log(res21);  // >>> OK
 
-double res21 = db.TDIGEST().Min("male_heights");
-Console.WriteLine(res21); // >>> 152.0
+const res22 = await client.tDigest.min("male_heights");
+console.log(res22);  // >>> 152
 
-double res22 = db.TDIGEST().Max("male_heights");
-Console.WriteLine(res22); // >>> 196.0
+const res23 = await client.tDigest.max("male_heights");
+console.log(res23);  // >>> 196
 
-double[] res23 = db.TDIGEST().Quantile("male_heights", 0.75);
-Console.WriteLine(string.Join(", ", res23)); // >>> 181.0
+const res24 = await client.tDigest.quantile("male_heights", [0.75]);
+console.log(res24);  // >>> [181]
 
-// Note that the CDF value for 181.0 is not exactly
+// Note that the CDF value for 181 is not exactly
 // 0.75. Both values are estimates.
-double[] res24 = db.TDIGEST().CDF("male_heights", 181.0);
-Console.WriteLine(string.Join(", ", res24)); // >>> 0.7857142857142857
+const res25 = await client.tDigest.cdf("male_heights", [181]);
+console.log(res25);  // >>> [0.7857142857142857]
 
-bool res25 = db.TDIGEST().Create("female_heights");
-Console.WriteLine(res25); // >>> true
+const res26 = await client.tDigest.create("female_heights");
+console.log(res26);  // >>> OK
 
-bool res26 = db.TDIGEST().Add(
+const res27 = await client.tDigest.add(
     "female_heights",
-    155.5, 161, 168.5, 170, 157.5, 163, 171
+    [155.5, 161, 168.5, 170, 157.5, 163, 171]
 );
-Console.WriteLine(res26); // >>> true
+console.log(res27);  // >>> OK
 
-double[] res27 = db.TDIGEST().Quantile("female_heights", 0.75);
-Console.WriteLine(string.Join(", ", res27)); // >>> 170.0
+const res28 = await client.tDigest.quantile("female_heights", [0.75]);
+console.log(res28);  // >>> [170]
 
-// Specify 0 for `compression` and false for `override`.
-bool res28 = db.TDIGEST().Merge(
-    "all_heights", 0, false, "male_heights", "female_heights"
+const res29 = await client.tDigest.merge(
+    "all_heights", ["male_heights", "female_heights"]
 );
-Console.WriteLine(res28); // >>> true
+console.log(res29);  // >>> OK
 
-double[] res29 = db.TDIGEST().Quantile("all_heights", 0.75);
-Console.WriteLine(string.Join(", ", res29)); // >>> 175.5
+const res30 = await client.tDigest.quantile("all_heights", [0.75]);
+console.log(res30);  // >>> [175.5]
 ```
 
 A t-digest object also supports several other related commands, such
@@ -361,59 +343,44 @@ top five most popular items sold.
 
 The example below adds several different items to a Top-K object
 that tracks the top three items (this is the second parameter to
-the `TOPK().Reserve()` method). It also shows how to list the
+the `topK.reserve()` method). It also shows how to list the
 top *k* items and query whether or not a given item is in the
-list. Note that you must use the `TOPK()` method to access the
+list. Note that you must use the `topK` property to access the
 Top-K commands.
 
-<!--< clients-example home_prob_dts topk "C#" >}}
-< /clients-example >}}-->
-```cs
-bool res30 = db.TOPK().Reserve("top_3_songs", 3, 7, 8, 0.9);
-Console.WriteLine(res30); // >>> true
+```js
+// The `reserve()` method creates the Top-K object with
+// the given key. The parameters are the number of items
+// in the ranking and values for `width`, `depth`, and
+// `decay`, described in the Top-K reference page.
+const res31 = await client.topK.reserve(
+    "top_3_songs", 3,
+    { width: 7, depth: 8, decay: 0.9 }
+);
+console.log(res31);  // >>> OK
 
-RedisResult[] res31 = db.TOPK().IncrBy(
+// The parameters for `incrBy()` are passed as an array of objects
+// each containing an `item` and `incrementBy` property.
+const res32 = await client.topK.incrBy(
     "top_3_songs",
-    new Tuple<RedisValue, long>[] {
-        new("Starfish Trooper", 3000),
-        new("Only one more time", 1850),
-        new("Rock me, Handel", 1325),
-        new("How will anyone know?", 3890),
-        new("Average lover", 4098),
-        new("Road to everywhere", 770)
-    }
+    [
+        { item: "Starfish Trooper", incrementBy: 3000},
+        { item: "Only one more time", incrementBy: 1850},
+        { item: "Rock me, Handel", incrementBy: 1325},
+        { item: "How will anyone know?", incrementBy: 3890},
+        { item: "Average lover", incrementBy: 4098},
+        { item: "Road to everywhere", incrementBy: 770}
+    ]
 );
-Console.WriteLine(
-    string.Join(
-        ", ",
-        string.Join(
-            ", ",
-            res31.Select(
-                r => $"{(r.IsNull ? "Null" : r)}"
-            )
-        )
-    )
-);
-// >>> Null, Null, Null, Rock me, Handel, Only one more time, Null
+console.log(res32);
+// >>> [null, null, null, 'Rock me, Handel', 'Only one more time', null]
 
-RedisResult[] res32 = db.TOPK().List("top_3_songs");
-Console.WriteLine(
-    string.Join(
-        ", ",
-        string.Join(
-            ", ",
-            res32.Select(
-                r => $"{(r.IsNull ? "Null" : r)}"
-            )
-        )
-    )
-);
-// >>> Average lover, How will anyone know?, Starfish Trooper
+const res33 = await client.topK.list("top_3_songs");
+console.log(res33);
+// >>> ['Average lover', 'How will anyone know?', 'Starfish Trooper']
 
-bool[] res33 = db.TOPK().Query(
-    "top_3_songs",
-    "Starfish Trooper", "Road to everywhere"
+const res34 = await client.topK.query(
+    "top_3_songs", ["Starfish Trooper", "Road to everywhere"]
 );
-Console.WriteLine(string.Join(", ", res33));
-// >>> true, false
+console.log(res34);  // >>> [true, false]
 ```
