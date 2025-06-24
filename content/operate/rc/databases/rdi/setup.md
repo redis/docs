@@ -81,7 +81,7 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
             - **Target type**: Select **Instances**.
             - **Protocol : Port**: Select **TCP**, and then enter the port number where your database is exposed.
             - The **IP address type** and **VPC** should be selected already and match the VPC you selected earlier.
-        1. In **Register targets**, select the EC2 instance that runs your source database, enter the port, and select **Include as pending below**. Then, select **Create target group** to create your target group. Return **Listeners and routing** in the Network Load Balancer setup.
+        1. In **Register targets**, select the EC2 instance that runs your source database, enter the port, and select **Include as pending below**. Then, select **Create target group** to create your target group. Return to **Listeners and routing** in the Network Load Balancer setup.
     1. Set the following **Listener** properties:
         - **Protocol**: Select **TCP**.
         - **Port**: Enter your source database's port.
@@ -129,6 +129,13 @@ To do this:
 
 In the [AWS Management Console](https://console.aws.amazon.com/), use the **Services** menu to locate and select **Database** > **Aurora and RDS**. [Create an RDS proxy](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-proxy-creating.html) that can access your database.
 
+The Proxy's IAM role must have the following permissions to access the database using the credentials secret and encryption key:
+- `secretsmanager:GetSecretValue`
+- `secretsmanager:DescribeSecret`
+- `kms:Decrypt`
+
+You can set the proxy's IAM role during creation in the **Authentication** section.
+
 #### Create network load balancer {#create-network-load-balancer-rds}
 
 In the [AWS Management Console](https://console.aws.amazon.com/), use the **Services** menu to locate and select **Compute** > **EC2**. [Create a network load balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-network-load-balancer.html#configure-load-balancer) with the following settings:
@@ -144,7 +151,7 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
             - **Target type**: Select **IP Addresses**.
             - **Protocol : Port**: Select **TCP**, and then enter the port number where your database is exposed.
             - The **IP address type** and **VPC** should be selected already and match the VPC you selected earlier.
-        1. In **Register targets**, enter the static IP address of your RDS proxy, enter the port, and select **Include as pending below**. Then, select **Create target group** to create your target group. Return **Listeners and routing** in the Network Load Balancer setup.
+        1. In **Register targets**, enter the static IP address of your RDS proxy, enter the port, and select **Include as pending below**. Then, select **Create target group** to create your target group. Return to **Listeners and routing** in the Network Load Balancer setup.
             To get the static IP address of your RDS Proxy, run the following command on an EC2 instance in the same VPC as the Proxy:
             ```sh
             $ nslookup <proxy-endpoint>
