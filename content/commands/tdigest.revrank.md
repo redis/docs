@@ -19,7 +19,7 @@ categories:
 - kubernetes
 - clients
 complexity: O(N) where N is the number of values specified.
-description: Returns, for each input value (floating-point), the estimated reverse
+description: Returns, for each floating-point input value, the estimated reverse
   rank of the value (the number of observations in the sketch that are larger than
   the value + half the number of observations that are equal to the value)
 group: tdigest
@@ -28,24 +28,27 @@ linkTitle: TDIGEST.REVRANK
 module: Bloom
 since: 2.4.0
 stack_path: docs/data-types/probabilistic
-summary: Returns, for each input value (floating-point), the estimated reverse rank
+summary: Returns, for each floating-point input value, the estimated reverse rank
   of the value (the number of observations in the sketch that are larger than the
   value + half the number of observations that are equal to the value)
 syntax_fmt: TDIGEST.REVRANK key value [value ...]
 syntax_str: value [value ...]
 title: TDIGEST.REVRANK
 ---
-Returns, for each input value (floating-point), the estimated reverse rank of the value (the number of observations in the sketch that are larger than the value + half the number of observations that are equal to the value).
-
+Returns, for each floating-point input value, the estimated reverse rank of the value (_the number of observations in the sketch that are larger than the value_ + _half the number of observations that are equal to the value_).
 Multiple reverse ranks can be retrieved in a single call.
 
 ## Required arguments
+
 <details open><summary><code>key</code></summary>
-is key name for an existing t-digest sketch.
+
+is the key name for an existing t-digest sketch.
 </details>
 
 <details open><summary><code>value</code></summary>
-is input value for which the reverse rank should be estimated.
+
+is the input value for which the reverse rank should be estimated.
+</details>
 
 ## Return value
 
@@ -100,3 +103,41 @@ redis> TDIGEST.REVRANK s 10 20
 1) (integer) 4
 2) (integer) 1
 {{< / highlight >}}
+
+## Return information
+
+{{< multitabs id=“tdigest-revrank-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+
+* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integers]({{< relref "/develop/reference/protocol-spec#integers" >}}) populated with revrank_1, revrank_2, ..., revrank_V:
+    * `-1` when `value` is larger than the value of the largest observation.
+    * The number of observations when `value` is smaller than the value of the smallest observation.
+    * Otherwise, an estimation of the number of (_observations larger than `value`_ + _half the observations equal to `value`_).
+
+    `0` is the reverse rank of the value of the largest observation.
+
+    _n_-1 is the rank of the value of the smallest observation, where _n_ denotes the number of observations added to the sketch.
+
+    All values are `-2` if the sketch is empty.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: the given key does not exist or is of an incorrect type, quantile parsing errors, or incorrect number of arguments.
+
+-tab-sep-
+
+One of the following:
+
+* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integers]({{< relref "/develop/reference/protocol-spec#integers" >}}) populated with revrank_1, revrank_2, ..., revrank_V:
+    * `-1` when `value` is larger than the value of the largest observation.
+    * The number of observations when `value` is smaller than the value of the smallest observation.
+    * Otherwise, an estimation of the number of (_observations larger than `value`_ + _half the observations equal to `value`_).
+
+    `0` is the reverse rank of the value of the largest observation.
+
+    _n_-1 is the rank of the value of the smallest observation, where _n_ denotes the number of observations added to the sketch.
+
+    All values are `-2` if the sketch is empty.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: the given key does not exist or is of an incorrect type, quantile parsing errors, or incorrect number of arguments.
+
+{{< /multitabs >}}

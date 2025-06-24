@@ -19,7 +19,7 @@ categories:
 - kubernetes
 - clients
 complexity: O(N) where N is the number of values specified.
-description: Returns, for each input value, an estimation of the fraction (floating-point)
+description: Returns, for each input value, an estimation of the floating-point fraction
   of (observations smaller than the given value + half the observations equal to the
   given value)
 group: tdigest
@@ -28,32 +28,27 @@ linkTitle: TDIGEST.CDF
 module: Bloom
 since: 2.4.0
 stack_path: docs/data-types/probabilistic
-summary: Returns, for each input value, an estimation of the fraction (floating-point)
+summary: Returns, for each input value, an estimation of the floating-point fraction
   of (observations smaller than the given value + half the observations equal to the
   given value)
 syntax_fmt: TDIGEST.CDF key value [value ...]
 syntax_str: value [value ...]
 title: TDIGEST.CDF
 ---
-Returns, for each input value, an estimation of the fraction (floating-point) of (observations smaller than the given value + half the observations equal to the given value).
-
+Returns, for each input value, an estimation of the floating-point fraction of (_observations smaller than the given value_ + _half the observations equal to the given value_).
 Multiple fractions can be retrieved in a single call.
 
 ## Required arguments
 
 <details open><summary><code>key</code></summary>
-is key name for an existing t-digest sketch.
+
+is the key name for an existing t-digest sketch.
 </details>
 
 <details open><summary><code>value</code></summary>
-is value for which the CDF (Cumulative Distribution Function) should be retrieved.
+
+are the values for which the CDF (Cumulative Distribution Function) should be retrieved.
 </details>
-
-## Return value
-
-[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) - the command returns an array of floating-points populated with fraction_1, fraction_2, ..., fraction_N. 
-
-All values are 'nan' if the sketch is empty.
 
 ## Examples
 
@@ -71,3 +66,25 @@ redis> TDIGEST.CDF t 0 1 2 3 4 5 6
 6) "0.83333333333333337"
 7) "1"
 {{< / highlight >}}
+
+## Return information
+
+{{< multitabs id=“tdigest-cdf-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+
+* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) as floating-points, populated with fraction_1, fraction_2, ..., fraction_N.
+All values are `nan` if the given sketch is empty.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: the given key does not exist or is of an incorrect type, value parsing errors, or an incorrect number of arguments.
+
+-tab-sep-
+
+One of the following:
+
+* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [doubles]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})populated with fraction_1, fraction_2, ..., fraction_N.
+All values are `nan` if the given sketch is empty.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: the given key does not exist or is of an incorrect type, value parsing errors, or an incorrect number of arguments.
+
+{{< /multitabs >}}
