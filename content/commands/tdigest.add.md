@@ -40,16 +40,14 @@ Adds one or more observations to a t-digest sketch.
 ## Required arguments
 
 <details open><summary><code>key</code></summary> 
-is key name for an existing t-digest sketch.
+
+is the key name for an existing t-digest sketch.
 </details>
 
 <details open><summary><code>value</code></summary> 
-is value of an observation (floating-point).
+
+is the floating-point value of an observation.
 </details>
-
-## Return value
-
-[Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - `OK` if executed correctly, or [] otherwise.
 
 ## Examples
 
@@ -62,3 +60,23 @@ OK
 redis> TDIGEST.ADD t string
 (error) ERR T-Digest: error parsing val parameter
 {{< / highlight >}}
+
+## Return information
+
+{{< multitabs id=“tdigest-add-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: the given key does not exist or the value parameter is of the incorrect type.
+
+-tab-sep-
+
+One of the following:
+
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: the given key does not exist or the value parameter is of the incorrect type.
+
+{{< /multitabs >}}
