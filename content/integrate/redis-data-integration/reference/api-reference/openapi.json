@@ -3,7 +3,7 @@
   "info": {
     "title": "Redis Data Integration API",
     "description": "API for Redis Data Integration services",
-    "version": "1.8.0"
+    "version": "1.12.0"
   },
   "paths": {
     "/": {
@@ -1814,7 +1814,7 @@
           "secure"
         ],
         "summary": "Get Metadata Per Schema",
-        "description": "Fetches metadata for specified schema from a source.\n\nArgs:\n    source_name (str): Source name.\n    schema (Optional[str]): Schema name. Defaults to None.\n\nReturns:\n    MetadataResponse: Detailed metadata information for the specified schema, or all schemas if none specified.",
+        "description": "Fetches metadata for specified schema from a source.\n\nArgs:\n    source_name (str): Source name.\n    schema (Optional[str]): Schema name. Defaults to None.\n    tables (Optional[str]): Comma-separated list of table names to filter by. Defaults to None.\n\nReturns:\n    MetadataResponse: Detailed metadata information for the specified schema and tables, or all schemas/tables if none specified.",
         "operationId": "get_metadata_per_schema_api_v1_pipelines_sources__source_name__metadata_get",
         "security": [
           {
@@ -1846,6 +1846,24 @@
               ],
               "title": "Schema"
             }
+          },
+          {
+            "name": "tables",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Comma-separated list of table names to filter by",
+              "title": "Tables"
+            },
+            "description": "Comma-separated list of table names to filter by"
           }
         ],
         "responses": {
@@ -1978,6 +1996,11 @@
         "summary": "Retrieve Pipelines",
         "description": "Retrieves a pipeline.",
         "operationId": "retrieve_pipelines_api_v1_pipelines_get",
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -2010,12 +2033,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWTBearer": []
-          }
-        ]
+        }
       },
       "post": {
         "tags": [
@@ -2023,287 +2041,38 @@
           "deploy"
         ],
         "summary": "Pipelines",
-        "description": "Deploys a pipeline.",
+        "description": "Deploys a pipeline.\n\nArgs:\n    body: Pipeline configuration\n    dry_run: If True, only validates the pipeline without deploying it.",
         "operationId": "pipelines_api_v1_pipelines_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "title": "Body",
-                "examples": [
-                  {
-                    "sources": {
-                      "psql": {
-                        "type": "cdc",
-                        "logging": {
-                          "level": "debug"
-                        },
-                        "connection": {
-                          "type": "postgresql",
-                          "host": "host.docker.internal",
-                          "port": 5432,
-                          "database": "chinook",
-                          "user": "postgres",
-                          "password": "postgres"
-                        },
-                        "tables": {
-                          "public.invoice": {
-                            "columns": [
-                              "billingaddress",
-                              "billingcity",
-                              "billingcountry",
-                              "billingpostalcode",
-                              "total",
-                              "customerid",
-                              "billingstate",
-                              "invoiceid",
-                              "invoicedate"
-                            ],
-                            "keys": [
-                              "invoiceid"
-                            ]
-                          },
-                          "public.track": {
-                            "columns": [
-                              "genreid",
-                              "milliseconds",
-                              "mediatypeid",
-                              "trackid",
-                              "composer",
-                              "bytes",
-                              "name",
-                              "albumid",
-                              "unitprice"
-                            ],
-                            "keys": [
-                              "trackid"
-                            ]
-                          },
-                          "public.mediatype": {
-                            "columns": [
-                              "mediatypeid",
-                              "name"
-                            ],
-                            "keys": [
-                              "mediatypeid"
-                            ]
-                          },
-                          "public.customer": {
-                            "columns": [
-                              "country",
-                              "firstname",
-                              "address",
-                              "city",
-                              "lastname",
-                              "phone",
-                              "postalcode",
-                              "customerid",
-                              "company",
-                              "state",
-                              "fax",
-                              "email",
-                              "supportrepid"
-                            ],
-                            "keys": [
-                              "customerid"
-                            ]
-                          },
-                          "public.genre": {
-                            "columns": [
-                              "genreid",
-                              "name"
-                            ],
-                            "keys": [
-                              "genreid"
-                            ]
-                          },
-                          "public.invoiceline": {
-                            "columns": [
-                              "quantity",
-                              "trackid",
-                              "invoicelineid",
-                              "invoiceid",
-                              "unitprice"
-                            ],
-                            "keys": [
-                              "invoicelineid"
-                            ]
-                          },
-                          "public.playlist": {
-                            "columns": [
-                              "playlistid",
-                              "name"
-                            ],
-                            "keys": [
-                              "playlistid"
-                            ]
-                          },
-                          "public.employee": {
-                            "columns": [
-                              "country",
-                              "firstname",
-                              "birthdate",
-                              "address",
-                              "city",
-                              "reportsto",
-                              "title",
-                              "employeeid",
-                              "hiredate",
-                              "lastname",
-                              "phone",
-                              "postalcode",
-                              "state",
-                              "fax",
-                              "email"
-                            ],
-                            "keys": [
-                              "employeeid"
-                            ]
-                          },
-                          "public.album": {
-                            "columns": [
-                              "albumid",
-                              "artistid",
-                              "title"
-                            ],
-                            "keys": [
-                              "albumid"
-                            ]
-                          },
-                          "public.artist": {
-                            "columns": [
-                              "name",
-                              "artistid"
-                            ],
-                            "keys": [
-                              "artistid"
-                            ]
-                          },
-                          "public.playlisttrack": {
-                            "columns": [
-                              "playlistid",
-                              "trackid"
-                            ],
-                            "keys": [
-                              "playlistid",
-                              "trackid"
-                            ]
-                          }
-                        }
-                      }
-                    },
-                    "targets": {
-                      "target": {
-                        "type": "redis",
-                        "host": "host.docker.internal",
-                        "port": 12002,
-                        "password": "test"
-                      }
-                    },
-                    "processors": {
-                      "target_data_type": "hash"
-                    },
-                    "jobs": [
-                      {
-                        "name": "chinook_customer",
-                        "source": {
-                          "server_name": "chinook",
-                          "schema": "public",
-                          "table": "Customer"
-                        },
-                        "output": [
-                          {
-                            "uses": "redis.write",
-                            "with": {
-                              "connection": "target",
-                              "key": {
-                                "expression": "concat(['CustomerId:', CustomerId])",
-                                "language": "jmespath"
-                              },
-                              "expire": 100
-                            }
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/ActionIdResponse"
-                    },
-                    {
-                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
-                    }
-                  ],
-                  "title": "Response Pipelines Api V1 Pipelines Post"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorDetail"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorDetail"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Unprocessable Entity",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
-                }
-              }
-            }
-          }
-        },
         "security": [
           {
             "JWTBearer": []
           }
-        ]
-      },
-      "patch": {
-        "tags": [
-          "secure",
-          "deploy"
         ],
-        "summary": "Patch Pipelines",
-        "description": "This endpoint allows for partial updates to the pipeline configuration.It expects a JSON Object containing pipeline configuration keys to be updated.JSON Merge Patch is used to update the configuration, see RFC 7396. Arrays are replaced, not merged.",
-        "operationId": "patch_pipelines_api_v1_pipelines_patch",
+        "parameters": [
+          {
+            "name": "dry_run",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": false,
+              "title": "Dry Run"
+            }
+          }
+        ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
-                "title": "Body",
                 "examples": [
                   {
                     "sources": {
@@ -2481,7 +2250,6 @@
                       {
                         "name": "chinook_customer",
                         "source": {
-                          "server_name": "chinook",
                           "schema": "public",
                           "table": "Customer"
                         },
@@ -2500,25 +2268,12 @@
                         ]
                       }
                     ]
-                  },
-                  {
-                    "targets": {
-                      "target": {
-                        "type": "redis",
-                        "host": "host.docker.internal",
-                        "port": 12002,
-                        "password": "test"
-                      }
-                    },
-                    "processors": {
-                      "target_data_type": "hash"
-                    }
                   }
-                ]
+                ],
+                "title": "Body"
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
@@ -2552,21 +2307,312 @@
             }
           },
           "422": {
-            "description": "Unprocessable Entity",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
+                  "$ref": "#/components/schemas/ApiErrorDetail"
                 }
               }
-            }
+            },
+            "description": "Unprocessable Entity"
           }
-        },
+        }
+      },
+      "patch": {
+        "tags": [
+          "secure",
+          "deploy"
+        ],
+        "summary": "Patch Pipelines",
+        "description": "This endpoint allows for partial updates to the pipeline configuration. It expects a JSON Object containing pipeline configuration keys to be updated. JSON Merge Patch is used to update the configuration, see RFC 7396. Arrays are replaced, not merged.",
+        "operationId": "patch_pipelines_api_v1_pipelines_patch",
         "security": [
           {
             "JWTBearer": []
           }
-        ]
+        ],
+        "parameters": [
+          {
+            "name": "dry_run",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": false,
+              "title": "Dry Run"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "examples": [
+                  {
+                    "sources": {
+                      "psql": {
+                        "type": "cdc",
+                        "logging": {
+                          "level": "debug"
+                        },
+                        "connection": {
+                          "type": "postgresql",
+                          "host": "host.docker.internal",
+                          "port": 5432,
+                          "database": "chinook",
+                          "user": "postgres",
+                          "password": "postgres"
+                        },
+                        "tables": {
+                          "public.invoice": {
+                            "columns": [
+                              "billingaddress",
+                              "billingcity",
+                              "billingcountry",
+                              "billingpostalcode",
+                              "total",
+                              "customerid",
+                              "billingstate",
+                              "invoiceid",
+                              "invoicedate"
+                            ],
+                            "keys": [
+                              "invoiceid"
+                            ]
+                          },
+                          "public.track": {
+                            "columns": [
+                              "genreid",
+                              "milliseconds",
+                              "mediatypeid",
+                              "trackid",
+                              "composer",
+                              "bytes",
+                              "name",
+                              "albumid",
+                              "unitprice"
+                            ],
+                            "keys": [
+                              "trackid"
+                            ]
+                          },
+                          "public.mediatype": {
+                            "columns": [
+                              "mediatypeid",
+                              "name"
+                            ],
+                            "keys": [
+                              "mediatypeid"
+                            ]
+                          },
+                          "public.customer": {
+                            "columns": [
+                              "country",
+                              "firstname",
+                              "address",
+                              "city",
+                              "lastname",
+                              "phone",
+                              "postalcode",
+                              "customerid",
+                              "company",
+                              "state",
+                              "fax",
+                              "email",
+                              "supportrepid"
+                            ],
+                            "keys": [
+                              "customerid"
+                            ]
+                          },
+                          "public.genre": {
+                            "columns": [
+                              "genreid",
+                              "name"
+                            ],
+                            "keys": [
+                              "genreid"
+                            ]
+                          },
+                          "public.invoiceline": {
+                            "columns": [
+                              "quantity",
+                              "trackid",
+                              "invoicelineid",
+                              "invoiceid",
+                              "unitprice"
+                            ],
+                            "keys": [
+                              "invoicelineid"
+                            ]
+                          },
+                          "public.playlist": {
+                            "columns": [
+                              "playlistid",
+                              "name"
+                            ],
+                            "keys": [
+                              "playlistid"
+                            ]
+                          },
+                          "public.employee": {
+                            "columns": [
+                              "country",
+                              "firstname",
+                              "birthdate",
+                              "address",
+                              "city",
+                              "reportsto",
+                              "title",
+                              "employeeid",
+                              "hiredate",
+                              "lastname",
+                              "phone",
+                              "postalcode",
+                              "state",
+                              "fax",
+                              "email"
+                            ],
+                            "keys": [
+                              "employeeid"
+                            ]
+                          },
+                          "public.album": {
+                            "columns": [
+                              "albumid",
+                              "artistid",
+                              "title"
+                            ],
+                            "keys": [
+                              "albumid"
+                            ]
+                          },
+                          "public.artist": {
+                            "columns": [
+                              "name",
+                              "artistid"
+                            ],
+                            "keys": [
+                              "artistid"
+                            ]
+                          },
+                          "public.playlisttrack": {
+                            "columns": [
+                              "playlistid",
+                              "trackid"
+                            ],
+                            "keys": [
+                              "playlistid",
+                              "trackid"
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    "targets": {
+                      "target": {
+                        "type": "redis",
+                        "host": "host.docker.internal",
+                        "port": 12002,
+                        "password": "test"
+                      }
+                    },
+                    "processors": {
+                      "target_data_type": "hash"
+                    },
+                    "jobs": [
+                      {
+                        "name": "chinook_customer",
+                        "source": {
+                          "schema": "public",
+                          "table": "Customer"
+                        },
+                        "output": [
+                          {
+                            "uses": "redis.write",
+                            "with": {
+                              "connection": "target",
+                              "key": {
+                                "expression": "concat(['CustomerId:', CustomerId])",
+                                "language": "jmespath"
+                              },
+                              "expire": 100
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "targets": {
+                      "target": {
+                        "type": "redis",
+                        "host": "host.docker.internal",
+                        "port": 12002,
+                        "password": "test"
+                      }
+                    },
+                    "processors": {
+                      "target_data_type": "hash"
+                    }
+                  }
+                ],
+                "title": "Body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionIdResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          }
+        }
       }
     },
     "/api/v1/pipelines/undeploy": {
@@ -2678,7 +2724,7 @@
           "secure"
         ],
         "summary": "Pipelines Config Templates",
-        "description": "Returns the YAML template describing the config for the specifieddb type.",
+        "description": "Returns the YAML template describing the config for the specified db type.",
         "operationId": "pipelines_config_templates_api_v1_pipelines_config_templates_ingest__db_type__get",
         "security": [
           {
@@ -2693,6 +2739,24 @@
             "schema": {
               "$ref": "#/components/schemas/DbType"
             }
+          },
+          {
+            "name": "db_flavor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/DbFlavor"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional database flavor",
+              "title": "Db Flavor"
+            },
+            "description": "Optional database flavor"
           }
         ],
         "responses": {
@@ -3542,7 +3606,14 @@
       "ActionIdResponse": {
         "properties": {
           "action_id": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Action Id",
             "examples": [
               "1234567890"
@@ -3550,9 +3621,6 @@
           }
         },
         "type": "object",
-        "required": [
-          "action_id"
-        ],
         "title": "ActionIdResponse",
         "description": "Response model containing an action ID."
       },
@@ -3614,8 +3682,22 @@
             "type": "string",
             "title": "Detail",
             "examples": [
-              "Incorrect username or password"
+              "Detailed error message"
             ]
+          },
+          "errors": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__Error"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Errors"
           }
         },
         "type": "object",
@@ -4088,6 +4170,16 @@
         "title": "DatabaseResponse",
         "description": "Database response class."
       },
+      "DbFlavor": {
+        "type": "string",
+        "enum": [
+          "mongodb-atlas",
+          "mongodb-replica-set",
+          "mongodb-sharded-cluster"
+        ],
+        "title": "DbFlavor",
+        "description": "Defines supported database flavors."
+      },
       "DbType": {
         "type": "string",
         "enum": [
@@ -4160,6 +4252,15 @@
           "status"
         ],
         "title": "Entity"
+      },
+      "ErrorCode": {
+        "type": "string",
+        "enum": [
+          "validation_error",
+          "job_validation_error"
+        ],
+        "title": "ErrorCode",
+        "description": "Error codes"
       },
       "HTTPValidationError": {
         "properties": {
@@ -4765,20 +4866,6 @@
       },
       "Source": {
         "properties": {
-          "server_name": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Server Name",
-            "examples": [
-              "localhost"
-            ]
-          },
           "schema": {
             "anyOf": [
               {
@@ -5434,6 +5521,29 @@
           "language"
         ],
         "title": "WithInput"
+      },
+      "redis_di_api__models__errors__Error": {
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/ErrorCode"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "details": {
+            "type": "object",
+            "title": "Details",
+            "default": {}
+          }
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "title": "Error",
+        "description": "Generic error model"
       },
       "redis_di_api__v1__modules__shared__response__Error": {
         "properties": {
