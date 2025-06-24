@@ -50,7 +50,7 @@ Connect to localhost on port 6379, set a value in Redis, and retrieve it. All re
 
 {{< note >}}
 
-You can try this code out in a [Jupyter notebook on Binder](https://redis.io/binder/v2/gh/redis/binder-launchers/python-client?urlpath=%2Fdoc%2Ftree%2Fdemo.ipynb).
+You can try this code out in a [Jupyter notebook on Binder](https://redis.io/binder/v2/gh/redis/binder-launchers/6bbed3da294e8de5a8c2ad99abf883731a50d4dd?urlpath=%2Fdoc%2Ftree%2Fdemo.ipynb).
 
 {{< /note >}}
 
