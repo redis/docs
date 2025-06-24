@@ -97,7 +97,6 @@ This gives a very compact representation of the
 set's membership with a fixed memory size, regardless of how many items you
 add. The following example adds some names to a Bloom filter representing
 a list of users and checks for the presence or absence of users in the list.
-Note that you must use the `bf()` method to access the Bloom filter commands.
 
 ```go
 res1, err := rdb.BFMAdd(
@@ -134,9 +133,7 @@ fmt.Println(res3) // >>> false
 < /clients-example >}}-->
 
 A Cuckoo filter has similar features to a Bloom filter, but also supports
-a deletion operation to remove hashes from a set, as shown in the example
-below. Note that you must use the `cf()` method to access the Cuckoo filter
-commands.
+a deletion operation to remove hashes from a set, as shown in the example below.
 
 ```go
 res4, err := rdb.CFAdd(ctx, "other_users", "paolo").Result()
@@ -310,10 +307,11 @@ desired range. For example, you can request that the count should
 stay within 0.1% of the true value and have a 0.05% probability
 of going outside this limit. The example below shows how to create
 a Count-min sketch object, add data to it, and then query it.
-Note that you must use the `cms()` method to access the Count-min
-sketch commands.
 
 ```go
+// Specify that you want to keep the counts within 0.01
+// (1%) of the true value with a 0.005 (0.5%) chance
+// of going outside this limit.
 res16, err := rdb.CMSInitByProb(ctx, "items_sold", 0.01, 0.005).Result()
 
 if err != nil {
@@ -391,8 +389,7 @@ maximum values, the quantile of 0.75, and the
 [cumulative distribution function](https://en.wikipedia.org/wiki/Cumulative_distribution_function)
 (CDF), which is effectively the inverse of the quantile function. It also
 shows how to merge two or more t-digest objects to query the combined
-data set. Note that you must use the `tdigest()` method to access the
-t-digest commands.
+data set.
 
 ```go
 res20, err := rdb.TDigestCreate(ctx, "male_heights").Result()
@@ -511,8 +508,7 @@ The example below adds several different items to a Top-K object
 that tracks the top three items (this is the second parameter to
 the `topk().reserve()` method). It also shows how to list the
 top *k* items and query whether or not a given item is in the
-list. Note that you must use the `topk()` method to access the
-Top-K commands.
+list.
 
 ```go
 // Create a TopK filter that keeps track of the top 3 items

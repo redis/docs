@@ -233,7 +233,7 @@ sketch commands.
 < /clients-example >}}-->
 ```cs
 // Specify that you want to keep the counts within 0.01
-// (0.1%) of the true value with a 0.005 (0.05%) chance
+// (1%) of the true value with a 0.005 (0.5%) chance
 // of going outside this limit.
 bool res15 = db.CMS().InitByProb("items_sold", 0.01, 0.005);
 Console.WriteLine(res15); // >>> true
