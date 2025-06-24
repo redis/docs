@@ -185,15 +185,28 @@ during partitions or other rack (or region) related failures.
 
 {{%note%}}When creating your rack-zone ID, there are some constraints to consider; see [rack-zone awareness]({{< relref "/operate/rs/clusters/configure/rack-zone-awareness#rack-zone-id-rules" >}}) for more info. {{%/note%}}
 
-
 Rack-zone awareness is a single property in the Redis Enterprise cluster CRD named `rackAwarenessNodeLabel`.
-This value for this label is commonly `topology.kubernetes.io/zone` as documented in
-['Running in multiple zones'](https://kubernetes.io/docs/setup/best-practices/multiple-zones/#nodes-are-labeled).
+
+### Choosing a node label
+
+The most commonly used label for rack-zone awareness is `topology.kubernetes.io/zone`, which is a well-known Kubernetes label that specifies the zone where a node runs. This label is readily available on all nodes in many Kubernetes platforms, as documented in ['Running in multiple zones'](https://kubernetes.io/docs/setup/best-practices/multiple-zones/#nodes-are-labeled).
+
+However, not all Kubernetes platforms configure this label by default. You can use any custom label that indicates the topology information (rack, zone, region, etc.) for your nodes.
+
+### Node labeling requirements
+
+{{< warning >}}
+**All eligible nodes must be labeled** with the chosen label for rack-awareness to work properly. The operator expects that all nodes where Redis Enterprise pods can be scheduled will have the specified label, and will fail and stop reconciliation if any eligible nodes are missing the label.
+{{< /warning >}}
+
+Eligible nodes are all nodes where Redis Enterprise pods can be scheduled. By default, these are all worker nodes in the cluster, but this can be restricted by specifying `.spec.nodeSelector` in the Redis Enterprise cluster (REC) configuration.
+
+The value for the chosen label must indicate the topology information (rack, zone, region, etc.) for each node.
 
 You can check the value for this label in your nodes with the command:
 
 ```sh
-$kubectl get nodes -o custom-columns="name:metadata.name","rack\\zone:metadata.labels.failure-domain\.beta\.kubernetes\.io/zone"
+$ kubectl get nodes -o custom-columns="name:metadata.name","rack\\zone:metadata.labels.topology\.kubernetes\.io/zone"
 
 name                                            rack\zone
 ip-10-0-x-a.eu-central-1.compute.internal    eu-central-1a
