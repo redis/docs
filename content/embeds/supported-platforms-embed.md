@@ -76,7 +76,13 @@ The RHEL-compatible distributions CentOS, CentOS Stream, Alma Linux, Rocky Linux
 
 ### TLS 1.0 and TLS 1.1
 
-Redis Enterprise Software version 6.2.8 removed support for TLS 1.0 and TLS 1.1 on Red Hat Enterprise Linux 8 (RHEL 8) because that operating system [does not enable support](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/security_hardening/using-the-system-wide-cryptographic-policies_security-hardening) for these versions by default.  
+Redis Enterprise Software version 6.2.8 removed support for TLS 1.0 and TLS 1.1 on Red Hat Enterprise Linux 8 (RHEL 8) because that operating system [does not enable support](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/security_hardening/using-the-system-wide-cryptographic-policies_security-hardening) for these versions by default.
+
+### RHEL 8 crypto policy and certificate key size
+
+In RHEL 8, if the crypto policy is set to `FUTURE`, the system will not accept certificates with private key sizes smaller than 3072 bits. This affects users who use custom certificates with smaller keys (such as 2048-bit keys).
+
+If you want to continue using certificates with smaller key sizes, you need to change the crypto policy from `FUTURE` to `DEFAULT`. For more information about crypto policies, see the [Red Hat documentation on system-wide cryptographic policies](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/security_hardening/using-the-system-wide-cryptographic-policies_security-hardening).
 
 ### Ubuntu 20 rejects SHA1 certificates
 
