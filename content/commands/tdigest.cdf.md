@@ -83,7 +83,7 @@ All values are `nan` if the given sketch is empty.
 
 One of the following:
 
-* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [doubles]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})populated with fraction_1, fraction_2, ..., fraction_N.
+* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [doubles]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) populated with fraction_1, fraction_2, ..., fraction_N.
 All values are `nan` if the given sketch is empty.
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: the given key does not exist or is of an incorrect type, value parsing errors, or an incorrect number of arguments.
 
