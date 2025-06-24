@@ -1,4 +1,3 @@
---
 ## Allow public access
 
 For [RDI on Redis Cloud]({{< relref "/operate/rc/databases/rdi" >}}), you must allow public access to your source database to allow the proxy to connect to it. 
