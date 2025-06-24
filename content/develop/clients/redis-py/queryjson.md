@@ -24,7 +24,7 @@ documents.
 
 {{< note >}}From [v6.0.0](https://github.com/redis/redis-py/releases/tag/v6.0.0) onwards,
 `redis-py` uses query dialect 2 by default.
-Redis query engine methods such as [`ft.search()`]({{< relref "/commands/ft.search" >}})
+Redis query engine methods such as [`ft().search()`]({{< relref "/commands/ft.search" >}})
 will explicitly request this dialect, overriding the default set for the server.
 See
 [Query dialects]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}})
