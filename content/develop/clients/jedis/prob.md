@@ -12,7 +12,7 @@ categories:
 description: Learn how to use approximate calculations with Redis.
 linkTitle: Probabilistic data types
 title: Probabilistic data types
-weight: 45
+weight: 5
 ---
 
 Redis supports several
@@ -34,8 +34,8 @@ Assuming that you already have code that supplies you with each IP
 address as a string, you could record the addresses in Redis using
 a [set]({{< relref "/develop/data-types/sets" >}}):
 
-```py
-r.sadd("ip_tracker", new_ip_address)
+```java
+jedis.sadd("ip_tracker", new_ip_address)
 ```
 
 The set can only contain each key once, so if the same address
@@ -43,8 +43,8 @@ appears again during the day, the new instance will not change
 the set. At the end of the day, you could get the exact number of
 distinct addresses using the `scard()` function:
 
-```py
-num_distinct_ips = r.scard("ip_tracker")
+```java
+long num_distinct_ips = jedis.scard("ip_tracker")
 ```
 
 This approach is simple, effective, and precise but if your website
@@ -97,49 +97,51 @@ This gives a very compact representation of the
 set's membership with a fixed memory size, regardless of how many items you
 add. The following example adds some names to a Bloom filter representing
 a list of users and checks for the presence or absence of users in the list.
-Note that you must use the `bf()` method to access the Bloom filter commands.
 
-```py
-res1 = r.bf().madd("recorded_users", "andy", "cameron", "david", "michelle")
-print(res1)  # >>> [1, 1, 1, 1]
+```java
+List<Boolean> res1 = jedis.bfMAdd(
+    "recorded_users",
+    "andy", "cameron", "david", "michelle"
+);
+System.out.println(res1);  // >>> [true, true, true, true]
 
-res2 = r.bf().exists("recorded_users", "cameron")
-print(res2)  # >>> 1
+boolean res2 = jedis.bfExists("recorded_users", "cameron");
+System.out.println(res2);  // >>> true
 
-res3 = r.bf().exists("recorded_users", "kaitlyn")
-print(res3)  # >>> 0
+boolean res3 = jedis.bfExists("recorded_users", "kaitlyn");
+System.out.println(res3);  // >>> false
 ```
-
-<!-- < clients-example home_prob_dts bloom Python >}}
-< /clients-example >}} -->
+<!--< clients-example home_prob_dts bloom Java-Sync >}}
+< /clients-example >}}-->
 
 A Cuckoo filter has similar features to a Bloom filter, but also supports
 a deletion operation to remove hashes from a set, as shown in the example
-below. Note that you must use the `cf()` method to access the Cuckoo filter
-commands.
+below.
 
-```py
-res4 = r.cf().add("other_users", "paolo")
-print(res4)  # >>> 1
+<!--< clients-example home_prob_dts cuckoo Java-Sync >}}
+< /clients-example >}}-->
+```java
+boolean res4 = jedis.cfAdd("other_users", "paolo");
+System.out.println(res4);  // >>> true
 
-res5 = r.cf().add("other_users", "kaitlyn")
-print(res5)  # >>> 1
+boolean res5 = jedis.cfAdd("other_users", "kaitlyn");
+System.out.println(res5);  // >>> true
 
-res6 = r.cf().add("other_users", "rachel")
-print(res6)  # >>> 1
+boolean res6 = jedis.cfAdd("other_users", "rachel");
+System.out.println(res6);  // >>> true
 
-res7 = r.cf().mexists("other_users", "paolo", "rachel", "andy")
-print(res7)  # >>> [1, 1, 0]
+boolean[] res7 = jedis.cfMExists(
+    "other_users",
+     "paolo", "rachel", "andy"
+);
+System.out.println(res7);  // >>> [true, true, false]
 
-res8 = r.cf().delete("other_users", "paolo")
-print(res8)  # >>> 1
+boolean res8 = jedis.cfDel("other_users", "paolo");
+System.out.println(res8);  // >>> true
 
-res9 = r.cf().exists("other_users", "paolo")
-print(res9)  # >>> 0
+boolean res9 = jedis.cfExists("other_users", "paolo");
+System.out.println(res9);  // >>> false
 ```
-
-<!-- < clients-example home_prob_dts cuckoo Python >}}
-< /clients-example >}} -->
 
 Which of these two data types you choose depends on your use case.
 Bloom filters are generally faster than Cuckoo filters when adding new items,
@@ -159,28 +161,30 @@ You can also merge two or more HyperLogLogs to find the cardinality of the
 [union](https://en.wikipedia.org/wiki/Union_(set_theory)) of the sets they
 represent.
 
-```py
-res10 = r.pfadd("group:1", "andy", "cameron", "david")
-print(res10)  # >>> 1
+<!--< clients-example home_prob_dts hyperloglog Java-Sync >}}
+< /clients-example >}}-->
+```java
+long res10 = jedis.pfadd("group:1", "andy", "cameron", "david");
+System.out.println(res10);  // >>> 1
 
-res11 = r.pfcount("group:1")
-print(res11)  # >>> 3
+long res11 = jedis.pfcount("group:1");
+System.out.println(res11);  // >>> 3
 
-res12 = r.pfadd("group:2", "kaitlyn", "michelle", "paolo", "rachel")
-print(res12)  # >>> 1
+long res12 = jedis.pfadd(
+    "group:2",
+    "kaitlyn", "michelle", "paolo", "rachel"
+);
+System.out.println(res12);  // >>> 1
 
-res13 = r.pfcount("group:2")
-print(res13)  # >>> 4
+long res13 = jedis.pfcount("group:2");
+System.out.println(res13);  // >>> 4
 
-res14 = r.pfmerge("both_groups", "group:1", "group:2")
-print(res14)  # >>> True
+String res14 = jedis.pfmerge("both_groups", "group:1", "group:2");
+System.out.println(res14);  // >>> OK
 
-res15 = r.pfcount("both_groups")
-print(res15)  # >>> 7
+long res15 = jedis.pfcount("both_groups");
+System.out.println(res15);  // >>> 7
 ```
-
-<!-- < clients-example home_prob_dts hyperloglog Python >}}
-< /clients-example >}} -->
 
 The main benefit that HyperLogLogs offer is their very low
 memory usage. They can count up to 2^64 items with less than
@@ -217,39 +221,45 @@ desired range. For example, you can request that the count should
 stay within 0.1% of the true value and have a 0.05% probability
 of going outside this limit. The example below shows how to create
 a Count-min sketch object, add data to it, and then query it.
-Note that you must use the `cms()` method to access the Count-min
-sketch commands.
 
-```py
-# Specify that you want to keep the counts within 0.01
-# (1%) of the true value with a 0.005 (0.5%) chance
-# of going outside this limit.
-res16 = r.cms().initbyprob("items_sold", 0.01, 0.005)
-print(res16)  # >>> True
+<!--< clients-example home_prob_dts cms Java-Sync >}}
+< /clients-example >}}-->
+```java
+// Specify that you want to keep the counts within 0.01
+// (1%) of the true value with a 0.005 (0.5%) chance
+// of going outside this limit.
+String res16 = jedis.cmsInitByProb("items_sold", 0.01, 0.005);
+System.out.println(res16);  // >>> OK
 
-# The parameters for `incrby()` are two lists. The count
-# for each item in the first list is incremented by the
-# value at the same index in the second list.
-res17 = r.cms().incrby(
+Map<String, Long> firstItemIncrements = new HashMap<>();
+firstItemIncrements.put("bread", 300L);
+firstItemIncrements.put("tea", 200L);
+firstItemIncrements.put("coffee", 200L);
+firstItemIncrements.put("beer", 100L);
+
+List<Long> res17 = jedis.cmsIncrBy("items_sold",
+    firstItemIncrements
+);
+res17.sort(null);
+System.out.println();  // >>> [100, 200, 200, 300]
+
+Map<String, Long> secondItemIncrements = new HashMap<>();
+secondItemIncrements.put("bread", 100L);
+secondItemIncrements.put("coffee", 150L);
+
+List<Long> res18 = jedis.cmsIncrBy("items_sold",
+    secondItemIncrements
+);
+res18.sort(null);
+System.out.println(res18);  // >>> [350, 400]
+
+List<Long> res19 = jedis.cmsQuery(
     "items_sold",
-    ["bread", "tea", "coffee", "beer"],  # Items sold
-    [300, 200, 200, 100]
-)
-print(res17)  # >>> [300, 200, 200, 100]
-
-res18 = r.cms().incrby(
-    "items_sold",
-    ["bread", "coffee"],
-    [100, 150]
-)
-print(res18)  # >>> [400, 350]
-
-res19 = r.cms().query("items_sold", "bread", "tea", "coffee", "beer")
-print(res19)  # >>> [400, 200, 350, 100]
+    "bread", "tea", "coffee", "beer"
+);
+res19.sort(null);
+System.out.println(res19);  // >>> [100, 200, 350, 400]
 ```
-
-<!-- < clients-example home_prob_dts cms Python >}}
-< /clients-example >}} -->
 
 The advantage of using a CMS over keeping an exact count with a
 [sorted set]({{< relref "/develop/data-types/sorted-sets" >}})
@@ -278,56 +288,50 @@ maximum values, the quantile of 0.75, and the
 [cumulative distribution function](https://en.wikipedia.org/wiki/Cumulative_distribution_function)
 (CDF), which is effectively the inverse of the quantile function. It also
 shows how to merge two or more t-digest objects to query the combined
-data set. Note that you must use the `tdigest()` method to access the
-t-digest commands.
+data set.
 
-```py
-res20 = r.tdigest().create("male_heights")
-print(res20)  # >>> True
+<!--< clients-example home_prob_dts tdigest Java-Sync >}}
+< /clients-example >}}-->
+```java
+String res20 = jedis.tdigestCreate("male_heights");
+System.out.println(res20);  // >>> OK
 
-res21 = r.tdigest().add(
-    "male_heights",
-    [175.5, 181, 160.8, 152, 177, 196, 164]
-)
-print(res21)  # >>> OK
+String res21 = jedis.tdigestAdd("male_heights", 
+    175.5, 181, 160.8, 152, 177, 196, 164);
+System.out.println(res21);  // >>> OK
 
-res22 = r.tdigest().min("male_heights")
-print(res22)  # >>> 152.0
+double res22 = jedis.tdigestMin("male_heights");
+System.out.println(res22);  // >>> 152.0
 
-res23 = r.tdigest().max("male_heights")
-print(res23)  # >>> 196.0
+double res23 = jedis.tdigestMax("male_heights");
+System.out.println(res23);  // >>> 196.0
 
-res24 = r.tdigest().quantile("male_heights", 0.75)
-print(res24)  # >>> 181
+List<Double> res24 = jedis.tdigestQuantile("male_heights", 0.75);
+System.out.println(res24);  // >>> [181.0]
 
-# Note that the CDF value for 181 is not exactly
-# 0.75. Both values are estimates.
-res25 = r.tdigest().cdf("male_heights", 181)
-print(res25)  # >>> [0.7857142857142857]
+// Note that the CDF value for 181 is not exactly 0.75.
+// Both values are estimates.
+List<Double> res25 = jedis.tdigestCDF("male_heights", 181);
+System.out.println(res25);  // >>> [0.7857142857142857]
 
-res26 = r.tdigest().create("female_heights")
-print(res26)  # >>> True
+String res26 = jedis.tdigestCreate("female_heights");
+System.out.println(res26);  // >>> OK
 
-res27 = r.tdigest().add(
-    "female_heights",
-    [155.5, 161, 168.5, 170, 157.5, 163, 171]
-)
-print(res27)  # >>> OK
+String res27 = jedis.tdigestAdd("female_heights",
+    155.5, 161, 168.5, 170, 157.5, 163, 171);
+System.out.println(res27);  // >>> OK
 
-res28 = r.tdigest().quantile("female_heights", 0.75)
-print(res28)  # >>> [170]
+List<Double> res28 = jedis.tdigestQuantile("female_heights", 0.75);
+System.out.println(res28);  // >>> [170.0]
 
-res29 = r.tdigest().merge(
-    "all_heights", 2, "male_heights", "female_heights"
-)
-print(res29)  # >>> OK
-
-res30 = r.tdigest().quantile("all_heights", 0.75)
-print(res30)  # >>> [175.5]
+String res29 = jedis.tdigestMerge(
+    "all_heights",
+    "male_heights", "female_heights"
+);
+System.out.println(res29);  // >>> OK
+List<Double> res30 = jedis.tdigestQuantile("all_heights", 0.75);
+System.out.println(res30);  // >>> [175.5]
 ```
-
-<!-- < clients-example home_prob_dts tdigest Python >}}
-< /clients-example >}} -->
 
 A t-digest object also supports several other related commands, such
 as querying by rank. See the
@@ -344,53 +348,37 @@ top five most popular items sold.
 
 The example below adds several different items to a Top-K object
 that tracks the top three items (this is the second parameter to
-the `topk().reserve()` method). It also shows how to list the
+the `topkReserve()` method). It also shows how to list the
 top *k* items and query whether or not a given item is in the
-list. Note that you must use the `topk()` method to access the
-Top-K commands.
+list.
 
-```py
-# The `reserve()` method creates the Top-K object with
-# the given key. The parameters are the number of items
-# in the ranking and values for `width`, `depth`, and
-# `decay`, described in the Top-K reference page.
-res31 = r.topk().reserve("top_3_songs", 3, 7, 8, 0.9)
-print(res31)  # >>> True
+<!--< clients-example home_prob_dts topk Java-Sync >}}
+< /clients-example >}}-->
+```java
+String res31 = jedis.topkReserve("top_3_songs", 3L, 2000L, 7L, 0.925D);
+System.out.println(res31);  // >>> OK
 
-# The parameters for `incrby()` are two lists. The count
-# for each item in the first list is incremented by the
-# value at the same index in the second list.
-res32 = r.topk().incrby(
-    "top_3_songs",
-    [
-        "Starfish Trooper",
-        "Only one more time",
-        "Rock me, Handel",
-        "How will anyone know?",
-        "Average lover",
-        "Road to everywhere"
-    ],
-    [
-        3000,
-        1850,
-        1325,
-        3890,
-        4098,
-        770
-    ]
-)
-print(res32)
-# >>> [None, None, None, 'Rock me, Handel', 'Only one more time', None]
+Map<String, Long> songIncrements = new HashMap<>();
+songIncrements.put("Starfish Trooper", 3000L);
+songIncrements.put("Only one more time", 1850L);
+songIncrements.put("Rock me, Handel", 1325L);
+songIncrements.put("How will anyone know?", 3890L);
+songIncrements.put("Average lover", 4098L);
+songIncrements.put("Road to everywhere", 770L);
 
-res33 = r.topk().list("top_3_songs")
-print(res33)
-# >>> ['Average lover', 'How will anyone know?', 'Starfish Trooper']
+List<String> res32 = jedis.topkIncrBy("top_3_songs",
+    songIncrements
+);
+System.out.println(res32);
+// >>> [null, null, null, null, null, Rock me, Handel]
 
-res34 = r.topk().query(
-    "top_3_songs", "Starfish Trooper", "Road to everywhere"
-)
-print(res34)  # >>> [1, 0]
+List<String> res33 = jedis.topkList("top_3_songs");
+System.out.println(res33);
+// >>> [Average lover, How will anyone know?, Starfish Trooper]
+
+List<Boolean> res34 = jedis.topkQuery("top_3_songs",
+    "Starfish Trooper", "Road to everywhere"
+);
+System.out.println(res34);
+// >>> [true, false]
 ```
-
-<!-- < clients-example home_prob_dts topk Python >}}
-< /clients-example >}} -->
