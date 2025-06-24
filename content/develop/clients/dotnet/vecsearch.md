@@ -36,7 +36,8 @@ for the embeddings. The code is first demonstrated for hash documents with a
 separate section to explain the
 [differences with JSON documents](#differences-with-json-documents).
 
-{{< note >}}From v1.0.0 onwards, `NRedisStack` uses query dialect 2 by default.
+{{< note >}}From [v1.0.0](https://github.com/redis/NRedisStack/releases/tag/v1.0.0)
+onwards, `NRedisStack` uses query dialect 2 by default.
 Redis query engine methods such as [`FT().Search()`]({{< relref "/commands/ft.search" >}})
 will explicitly request this dialect, overriding the default set for the server.
 See

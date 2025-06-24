@@ -22,7 +22,8 @@ run queries against the index. It then goes on to show the slight differences
 in the equivalent code for [hash]({{< relref "/develop/data-types/hashes" >}})
 documents.
 
-{{< note >}}From v1.0.0 onwards, `NRedisStack` uses query dialect 2 by default.
+{{< note >}}From [v1.0.0](https://github.com/redis/NRedisStack/releases/tag/v1.0.0)
+onwards, `NRedisStack` uses query dialect 2 by default.
 Redis query engine methods such as [`FT().Search()`]({{< relref "/commands/ft.search" >}})
 will explicitly request this dialect, overriding the default set for the server.
 See
