@@ -23,16 +23,28 @@ section.prose {
   @apply font-geist
 }
 
-.prose h1,
-.prose h3,
-.prose h4,
-.prose h5,
-.prose h6 {
-  @apply font-normal;
+.prose h1 {
+  @apply text-4xl font-normal break-words;
 }
 
 .prose h2 {
   @apply text-lg font-medium pb-3 border-b border-b-redis-pen-700 border-opacity-50;
+}
+
+.prose h3 {
+  @apply text-xl font-semibold;
+}
+
+.prose h4 {
+  @apply text-lg font-medium;
+}
+
+.prose h5 {
+  @apply text-base font-medium;
+}
+
+.prose h6 {
+  @apply text-sm font-medium;
 }
 
 .prose p, .prose ol, .prose ul {
@@ -45,10 +57,6 @@ section.prose {
 
 .prose pre > code {
   @apply bg-none font-monogeist;
-}
-
-.prose h1 {
-  @apply text-4xl break-words;
 }
 
 .prose h1[id],
