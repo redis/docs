@@ -226,7 +226,7 @@ a Count-min sketch object, add data to it, and then query it.
 < /clients-example >}}-->
 ```java
 // Specify that you want to keep the counts within 0.01
-// (0.1%) of the true value with a 0.005 (0.05%) chance
+// (1%) of the true value with a 0.005 (0.5%) chance
 // of going outside this limit.
 String res16 = jedis.cmsInitByProb("items_sold", 0.01, 0.005);
 System.out.println(res16);  // >>> OK
