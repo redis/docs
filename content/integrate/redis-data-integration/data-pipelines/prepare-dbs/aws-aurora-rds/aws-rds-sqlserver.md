@@ -22,8 +22,6 @@ Follow the steps in the sections below to prepare a [Microsoft SQL Server on AWS
 Change Data Capture (CDC) is not supported on SQL Server Express Edition. Only the Standard, Enterprise, and Developer editions support CDC and are supported by RDI.
 {{< /note >}}
 
-{{< embed-md "rdi-aur-rds-pub-access.md" >}} 
-
 ## Create the Debezium user
 
 The Debezium connector needs a user account to connect to SQL Server. This

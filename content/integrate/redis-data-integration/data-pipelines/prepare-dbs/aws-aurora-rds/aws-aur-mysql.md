@@ -18,8 +18,6 @@ weight: 2
 
 Follow the steps in the sections below to prepare an [AWS Aurora MySQL](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_GettingStartedAurora.CreatingConnecting.Aurora.html) or [AWS RDS MySQL](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_GettingStarted.CreatingConnecting.MySQL.html) database to work with RDI.
 
-{{< embed-md "rdi-aur-rds-pub-access.md" >}} 
-
 ## Create and apply parameter group
 
 RDI requires some changes to database parameters. On AWS RDS and AWS Aurora, you change these parameters via a parameter group.
