@@ -28,7 +28,7 @@ section.prose {
 }
 
 .prose h2 {
-  @apply text-lg font-medium pb-3 border-b border-b-redis-pen-700 border-opacity-50;
+  @apply text-2xl font-medium pb-3 border-b border-b-redis-pen-700 border-opacity-50;
 }
 
 .prose h3 {
