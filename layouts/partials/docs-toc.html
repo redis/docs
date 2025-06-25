@@ -31,7 +31,9 @@
                   <!-- Close previous list item -->
                   </li>
                 {{ end }}
-                <li><a href="#{{ $anchorID }}">{{ $header | plainify | safeHTML }}</a>
+                <!-- Extract text content, excluding the header link icon -->
+                {{ $headerText := $header | replaceRE `<a[^>]*class="header-link"[^>]*>.*?</a>` "" | plainify | safeHTML }}
+                <li><a href="#{{ $anchorID }}">{{ $headerText }}</a>
                 {{ $prevLevel = $level }}
               {{ end }}
               <!-- Close remaining open lists -->
