@@ -98,7 +98,68 @@ const mobileMenu = (() => {
       toggleMenu('products-mobile-menu', 'productsMobileMenuState')
     } else if (event.target.closest('[data-resources-mobile-menu-toggle]')) {
       toggleMenu('resources-mobile-menu', 'resourcesMobileMenuState')
+    } else if (event.target.closest('.header-link')) {
+      // Handle header link clicks
+      event.preventDefault()
+      copyHeaderLinkToClipboard(event.target.closest('.header-link'))
     }
+  }
+
+  // Copy header link URL to clipboard
+  function copyHeaderLinkToClipboard(linkElement) {
+    const href = linkElement.getAttribute('href')
+    const fullUrl = window.location.origin + window.location.pathname + href
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(fullUrl).then(() => {
+        showCopyFeedback(linkElement)
+      }).catch(err => {
+        console.error('Failed to copy link: ', err)
+        fallbackCopyToClipboard(fullUrl, linkElement)
+      })
+    } else {
+      // Fallback for older browsers
+      fallbackCopyToClipboard(fullUrl, linkElement)
+    }
+  }
+
+  // Show visual feedback when link is copied
+  function showCopyFeedback(linkElement) {
+    const originalTitle = linkElement.getAttribute('title')
+
+    linkElement.setAttribute('title', 'Copied!')
+    linkElement.classList.add('copied')
+
+    setTimeout(() => {
+      linkElement.setAttribute('title', originalTitle)
+      linkElement.classList.remove('copied')
+    }, 1500)
+  }
+
+  // Fallback copy method for older browsers
+  function fallbackCopyToClipboard(text, linkElement) {
+    const textArea = document.createElement('textarea')
+    textArea.value = text
+    textArea.style.position = 'fixed'
+    textArea.style.left = '-999999px'
+    textArea.style.top = '-999999px'
+    document.body.appendChild(textArea)
+    textArea.focus()
+    textArea.select()
+
+    try {
+      const successful = document.execCommand('copy')
+      if (successful) {
+        showCopyFeedback(linkElement)
+        console.log('Link copied to clipboard (fallback)')
+      } else {
+        console.error('Fallback copy failed')
+      }
+    } catch (err) {
+      console.error('Fallback copy failed: ', err)
+    }
+
+    document.body.removeChild(textArea)
   }
 
   function allowFocus(selector, state) {

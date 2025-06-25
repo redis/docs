@@ -35,6 +35,37 @@ section.prose {
   @apply text-lg font-medium pb-3 border-b border-b-redis-pen-700 border-opacity-50;
 }
 
+/* Header link styles */
+.header-link {
+  @apply text-slate-400 hover:text-slate-600 transition-all duration-200 no-underline cursor-pointer;
+  text-decoration: none !important;
+}
+
+.header-link:hover {
+  @apply text-slate-600;
+  text-decoration: none !important;
+}
+
+.header-link svg {
+  @apply w-4 h-4 inline-block;
+}
+
+/* Ensure header links don't interfere with prose styling */
+.prose h1 .header-link,
+.prose h2 .header-link,
+.prose h3 .header-link,
+.prose h4 .header-link,
+.prose h5 .header-link,
+.prose h6 .header-link {
+  @apply text-slate-400 hover:text-slate-600;
+  text-decoration: none !important;
+}
+
+/* Feedback state for copied links */
+.header-link.copied {
+  @apply text-green-500;
+}
+
 .prose p, .prose ol, .prose ul {
   @apply text-base;
 }
