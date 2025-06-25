@@ -187,7 +187,7 @@ during partitions or other rack (or region) related failures.
 
 Rack-zone awareness is a single property in the Redis Enterprise cluster CRD named `rackAwarenessNodeLabel`.
 
-### Choosing a node label
+### Choose a node label
 
 The most commonly used label for rack-zone awareness is `topology.kubernetes.io/zone`, which is a well-known Kubernetes label that specifies the zone where a node runs. This label is readily available on all nodes in many Kubernetes platforms, as documented in ['Running in multiple zones'](https://kubernetes.io/docs/setup/best-practices/multiple-zones/#nodes-are-labeled).
 
