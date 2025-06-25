@@ -16,12 +16,14 @@ You can use the LangCache API from your client app to store and retrieve LLM, RA
 To access the LangCache API, you need:
 
 - LangCache API base URL
-- LangCache API token
+- LangCache service API key
 - Cache ID
 
-All of these values are available in the LangCache service's **Configuration** page.
+The base URL and cache ID are available in the LangCache service's **Configuration** page in the [**Connectivity** section]({{< relref "/operate/rc/langcache/view-edit-cache#connectivity" >}}).
 
-When you call the API, you need to pass the LangCache API token in the `Authorization` header as a Bearer token and the Cache ID as the `cacheId` path parameter. 
+The LangCache API key is only available immediately after you create the LangCache service. If you lost this value, you will need to [replace the service API key]({{< relref "/operate/rc/langcache/view-edit-cache#replace-service-api-key" >}}) to be able to use the LangCache API.
+
+When you call the API, you need to pass the LangCache API key in the `Authorization` header as a Bearer token and the Cache ID as the `cacheId` path parameter. 
 
 For example, to check the health of the cache using `cURL`:
 

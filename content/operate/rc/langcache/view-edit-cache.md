@@ -39,20 +39,47 @@ The **Connectivity** section provides the connection details for your LangCache 
 | **Cache ID** | The unique ID of your LangCache service. |
 | **API Base URL** | The base URL for LangCache API requests. |
 
-Select the **Copy** button next to each value to copy them to the clipboard. See [use the LangCache API]({{< relref "/operate/rc/langcache/use-langcache" >}}) for more information on how to use these values. 
+Select the **Copy** button next to the Cache ID and API Base URL to copy them to the clipboard. If you lost the API key value or need to rotate the key, you can [replace the service API key](#replace-service-api-key) at any time.
+
+See [use the LangCache API]({{< relref "/operate/rc/langcache/use-langcache" >}}) for more information on how to use these values. 
+
+#### Replace service API key
+
+The API key is only available immediately after you create the LangCache service. If you lost this value, or need to rotate the key, you can replace the service key at any time.
+
+To replace the service key:
+
+1. Select **Replace key**.
+
+    {{<image filename="images/rc/langcache-replace-key.png" alt="The Replace Key button." >}}
+
+1. A confirmation dialog will appear. Select **Confirm** to confirm.
+
+1. The new key will appear in a dialog box. Select **Copy** to copy the key to the clipboard.
+
+    {{<image filename="images/rc/langcache-service-key.png" alt="The LangCache service key window. Use the Copy button to save the service key to the clipboard." >}}
+
+    {{<warning>}}
+This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box. <br/><br/>
+
+If you lose the service key value, you will need to replace the key again.
+    {{</warning>}}
 
 ### General
 
 The **General** section provides configuration details for your LangCache service.
 
+{{<image filename="images/rc/langcache-view-general.png" alt="The general settings for the LangCache service." >}}
+
 | Setting name          |Description|
 |:----------------------|:----------|
-| **Service name** | The name of the LangCache service. _(Editable)_ |
+| **Service name** | The name of the LangCache service. |
 | **Database** | The database that stores your cache data. |
-| **Distance threshold** | The minimum similarity score required to consider a cached response a match. _(Editable)_ |
+| **Similarity threshold** | The minimum similarity score required to consider a cached response a match. _(Editable)_ |
+| **TTL** | The number of seconds to cache entries before they expire. _(Editable)_ |
 | **Embedding Provider** | The embedding provider to use for your service. |
 
-Some of the configuration settings can be changed after cache creation. To do so, select the **Edit** button.
+Some of these settings can be changed after cache creation. To do so, select the **Edit** button.
 
 ### Attributes
 
@@ -93,3 +120,7 @@ To delete your LangCache service:
 1. Select **Delete** again to confirm.
 
 Deleting the LangCache service is permanent and cannot be undone.
+
+## Metrics tab
+
+The **Metrics** tab provides a series of graphs showing performance data for your LangCache service. See [Monitor a LangCache service]({{< relref "/operate/rc/langcache/monitor-cache" >}}) for more information.

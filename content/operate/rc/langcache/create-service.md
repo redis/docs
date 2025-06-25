@@ -18,25 +18,27 @@ Redis LangCache provides vector search capabilities and efficient caching for AI
 To create a LangCache service, you will need:
 
 - A Redis Cloud database. If you don't have one, see [Create a database]({{< relref "/operate/rc/databases/create-database" >}}).
+
     {{< note >}}
 LangCache does not support the following databases during public preview:
 - Databases with a [CIDR allow list]({{< relref "/operate/rc/security/cidr-whitelist" >}})
 - [Active-Active]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}) databases
 - Databases with the [default user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) turned off
     {{< /note >}}
+
 - An [OpenAI API key](https://platform.openai.com/api-keys). LangCache uses OpenAI to generate embeddings for prompts and responses.
 
 ## Create a LangCache service
 
-1. From the [Redis Cloud console](https://cloud.redis.io/), select **LangCache** from the left-hand menu.
+From the [Redis Cloud console](https://cloud.redis.io/), select **LangCache** from the left-hand menu. 
 
-1. When you access the LangCache page for the first time, you will see a page with an introduction to LangCache. Select **Let's create a service** to create your first service.
+When you access the LangCache page for the first time, you will see a page with an introduction to LangCache. Select **Let's create a service** to create your first service.
 
-    {{<image filename="images/rc/langcache-create-first-service.png" alt="The Let's create a service button." width="200px" >}}
+{{<image filename="images/rc/langcache-create-first-service.png" alt="The Let's create a service button." width="200px" >}}
 
-    If you have already created a LangCache service, select **New service** to create another one.
+If you have already created a LangCache service, select **New service** to create another one.
 
-    {{<image filename="images/rc/langcache-new-service.png" alt="The New service button." width="150px" >}}
+{{<image filename="images/rc/langcache-new-service.png" alt="The New service button." width="150px" >}}
 
 This takes you to the **Create LangCache service** page. The page is divided into the following sections:
 
@@ -68,7 +70,7 @@ The **Embedding settings** section defines the embedding model used by your serv
 | **Supported Embedding Provider** | The embedding provider to use for your service. LangCache only supports OpenAI during public preview. |
 | **Embedding provider API key** | Enter your embedding provider's API key. |
 | **Model** | Select the embedding model to use for your service. |
-| **Similarity threshold** | Set the minimum similarity score required to consider a cached response a match. Range: `0.0` to `1.0`. Default: `0.9`<br/>A higher value means more precise matches, but if it's too high, you will compromise on the number of matches and may lose relevant matches. A lower value means more matches, but may include less relevant matches. We recommend starting between `0.8` and `0.9` and then fine-tuning based on your results. |
+| **Similarity threshold** | Set the minimum similarity score required to consider a cached response a match. Range: `0.0` to `1.0`. Default: `0.9`<br/><br/>A higher value means more precise matches, but if it's too high, you will compromise on the number of matches and may lose relevant matches. A lower value means more matches, but may include less relevant matches. We recommend starting between `0.8` and `0.9` and then fine-tuning based on your results. |
 
 ### Attributes settings
 
@@ -101,6 +103,16 @@ You can also select **Add attribute** again to add an additional attribute.
 When you are done setting the details of your LangCache service, select **Create** to create it.
 
 {{<image filename="images/rc/button-access-management-user-key-create.png" alt="Use the Create button to create a LangCache service." >}}
+
+A window containing your LangCache service key will appear. Select **Copy** to copy the key to your clipboard. 
+
+{{<image filename="images/rc/langcache-service-key.png" alt="The LangCache service key window. Use the Copy button to save the service key to the clipboard." >}}
+
+{{<warning>}}
+This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box.<br/><br/>
+
+If you lose the service key value, you will need to [replace the service key]({{< relref "/operate/rc/langcache/view-edit-cache#replace-service-api-key" >}}) to be able to use the LangCache API.
+{{</warning>}}
 
 You'll be taken to your LangCache service's **Configuration** page. You'll also be able to see your LangCache service in the LangCache service list.
 
