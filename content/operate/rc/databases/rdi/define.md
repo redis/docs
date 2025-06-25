@@ -82,6 +82,11 @@ After your pipeline is provisioned, you will be able to define your pipeline. Yo
     
 1. In the **Pipeline definition** section, select the Redis data type to write keys to the target. You can choose **Hash** or **JSON** if the target database supports JSON. 
     {{<image filename="images/rc/rdi/rdi-configure-new-pipeline.png" alt="The pipeline definition screen." width=75% >}}
+
+    You can also supply one or more [transformation job files]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}}) that specify how you want to transform the captured data before writing it to the target. Select **Upload jobs** to upload your job files.
+
+    {{<image filename="images/rc/rdi/rdi-transformation-jobs.png" alt="The transformation jobs section. Select Upload jobs to upload transformation jobs." >}}
+
     Select **Continue**.
     {{<image filename="images/rc/rdi/rdi-continue-button.png" alt="The continue button." width=150px >}}
 
