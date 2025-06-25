@@ -51,13 +51,15 @@ See the [RDI architecture overview]({{< relref "/integrate/redis-data-integratio
 
 To ensure that you can connect your Redis Cloud database to the source database, you need to set up an endpoint service through AWS PrivateLink. 
 
-The following diagram shows the network setup for a database hosted on an AWS EC2 instance.
+The following diagrams show the network setup for the different database setups:
 
-{{<image filename="images/rc/rdi/rdi-setup-diagram-ec2.png" alt="The network setup for a database hosted on an AWS EC2 instance." width=75% >}}
+- Database hosted on an AWS EC2 instance:
 
-The following diagram shows the network setup for a database hosted on AWS RDS or AWS Aurora.
+    {{<image filename="images/rc/rdi/rdi-setup-diagram-ec2.png" alt="The network setup for a database hosted on an AWS EC2 instance." width=80% >}}
 
-{{<image filename="images/rc/rdi/rdi-setup-diagram-aurora.png" alt="The network setup for a database hosted on AWS RDS or AWS Aurora." width=75% >}}
+- Database hosted on AWS RDS or AWS Aurora:
+
+    {{<image filename="images/rc/rdi/rdi-setup-diagram-aurora.png" alt="The network setup for a database hosted on AWS RDS or AWS Aurora." width=80% >}}
 
 Select the steps for your database setup.
 
