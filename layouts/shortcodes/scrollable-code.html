@@ -1,13 +1,13 @@
 {{/* 
-  Line-limit shortcode
+  Scrollable code shortcode
   Limits the number of visible lines and adds scrolling for the rest
   
   Usage:
-  {{< line-limit lines="10" >}}
+  {{< scrollable-code lines="10" >}}
   Content with many lines here...
-  {{< /line-limit >}}
+  {{< /scrollable-code >}}
 
-  Ideally used for just code blocks, but could be used for any content in theory.
+  Ideally used for just code blocks.
 */}}
 
 {{ $lines := .Get "lines" | default "25" }}

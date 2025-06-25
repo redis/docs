@@ -25,9 +25,9 @@ The following example uses the `terraform-aws-Redislabs-Cloud-Account-IAM-Resour
 
 1. Copy the following code into a file called `main.tf`.
 
-    {{< line-limit >}}
+    {{< scrollable-code >}}
 {{% code-include file="rv/terraformIAMTemplate.json" language="js" %}}
-    {{< /line-limit >}}
+    {{< /scrollable-code >}}
 
     Replace the following values in the `main.tf` file:
 
