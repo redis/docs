@@ -196,7 +196,7 @@ If your platform doesn’t set this label automatically, you can use any custom 
 ### Node labeling requirements
 
 {{< warning >}}
-**All eligible nodes must be labeled** with the chosen label for rack-awareness to work properly. The operator expects that all nodes where Redis Enterprise pods can be scheduled will have the specified label, and will fail and stop reconciliation if any eligible nodes are missing the label.
+**All eligible nodes must have the label for rack-awareness to work. The operator requires every node that might run Redis Enterprise pods to be labeled. If any are missing the label, reconciliation will fail.
 {{< /warning >}}
 
 Eligible nodes are all nodes where Redis Enterprise pods can be scheduled. By default, these are all worker nodes in the cluster, but this can be restricted by specifying `.spec.nodeSelector` in the Redis Enterprise cluster (REC) configuration.
