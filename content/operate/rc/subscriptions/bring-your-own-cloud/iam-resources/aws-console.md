@@ -28,7 +28,7 @@ Follow the steps to [create an IAM policy using the JSON editor](https://docs.aw
 
 - In **Specify permissions**, select **JSON**, and then enter the contents of the RedisLabsInstanceRolePolicy.json policy file:
 
-    {{< expand "View RedisLabsInstanceRolePolicy.json" >}}
+
 ```js
 {
     "Version": "2012-10-17",
@@ -105,7 +105,7 @@ Follow the steps to [create an IAM policy using the JSON editor](https://docs.aw
     ]
 }
 ```
-    {{< /expand >}}
+
 
 - In **Review and Create**, enter `RedisLabsInstanceRolePolicy` in the **Policy name** field.
 
@@ -134,7 +134,6 @@ Follow the steps to [create an IAM policy using the JSON editor](https://docs.aw
 
 - In **Specify permissions**, select **JSON**, and then enter the contents of the RedisLabsIAMUserRestrictedPolicy.json policy file:
 
-    {{< expand "View RedislabsIAMUserRestrictedPolicy.json" >}}
 ```json
 {
     "Version": "2012-10-17",
@@ -386,7 +385,7 @@ Follow the steps to [create an IAM policy using the JSON editor](https://docs.aw
     ]
 }
 ```
-    {{< /expand >}}
+
 
 - In **Review and Create**, enter `RedislabsIAMUserRestrictedPolicy` in the **Policy name** field.
 
