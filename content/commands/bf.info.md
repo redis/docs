@@ -84,20 +84,6 @@ Return the number of items that were added to this Bloom filter and detected as 
 Return the expansion rate.
 </details>
 
-When no optional argument is specified: return all information fields.
-
-## Return value
-
-When no optional argument is specified, returns one of these replies:
-
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with argument name ([Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) and value ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})) pairs
-- [] on error (invalid arguments, key does not exist, wrong key type, and so on)
-
-When an optional argument is specified, returns one of these replies:
-
-- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - argument value
-- [] on error (invalid arguments, key does not exist, wrong key type, and so on)
-
 ## Examples
 
 {{< highlight bash >}}
@@ -117,3 +103,21 @@ redis> BF.INFO bf1
 redis> BF.INFO bf1 CAPACITY
 1) (integer) 100
 {{< / highlight >}}
+
+## Return information
+
+{{< multitabs id="bf-info-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with argument name ([Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) and value ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})) pairs.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, or when the key does not exist.
+
+-tab-sep-
+
+One of the following:
+* [Map reply]({{< relref "/develop/reference/protocol-spec#maps" >}}) with argument name ([Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) and value ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})) pairs.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, or when the key does not exist.
+
+{{< /multitabs >}}

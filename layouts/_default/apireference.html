@@ -1,11 +1,52 @@
 <!DOCTYPE html>
 <html>
+<!-- 
+This layout can be used to generate API docs from an OpenAPI specification. 
+
+When creating a new API reference page, you can specify these optional params in the front matter:
+- sourcefile: The path to the OpenAPI specification file (YAML or JSON) relative to the page. Default: ./openapi.json
+- backLink: The path to the page to link to in the top left corner. Default: Parent page
+
+Here's what the file structure should look like to use this template:
+<containing-folder>/
+├---------api-reference/
+|                  └------<spec-file-name> (default openapi.json)
+|
+├---------api-reference.md
+|
+└---------<other files>
+
+Here's what the api-reference.md front matter should look like:
+---
+Title: <API Name>
+linkTitle: API reference
+layout: apireference
+type: page
+params:
+  sourcefile: ./<spec-file-name> (optional - only specify if not using ./openapi.json)
+  backLink: <path-to-page> (optional - only specify if not using the parent page)
+---
+
+Example usage for the Redis Cloud API with all params set:
+---
+Title: Redis Cloud API
+linkTitle: API reference
+layout: apireference
+type: page
+params:
+  sourcefile: ./openapi.json
+  backLink: operate/rc/api
+---
+-->
 
 <head>
-    <title>Redis Cloud API</title>
+    <title>{{ .Title }}</title>
     {{ partial "scss.html" (dict "path" "scss/style.scss") }}
     {{ partial "css.html" (dict "path" "css/index.css") }}
-    {{ $relref :=  printf "%s%s" .Site.BaseURL "operate/rc/api/" }}
+    {{ $relref := .Parent.Permalink }}
+    {{ if .Params.backLink}}
+        {{ $relref = printf "%s%s" .Site.BaseURL .Params.backLink }}
+    {{ end }}
     <!-- needed for adaptive design -->
     <!-- <link rel="preload" href="/public/scss/style.min.65324e4de191c292ee8b6f4f0ebf01320e8c4bc8623b04e9dfad322ebb490b31.css" as="style">
     <link href="/public/scss/style.min.65324e4de191c292ee8b6f4f0ebf01320e8c4bc8623b04e9dfad322ebb490b31.css" rel="stylesheet" integrity="">
@@ -62,7 +103,7 @@
 <body>
     <div>
         <redoc 
-            spec-url='./openapi.json' 
+            spec-url='{{ .Params.sourcefile | default "./openapi.json" }}'
             scroll-y-offset='#apiReferenceHeader'
             json-sample-expand-level=all
             sort-operations-alphabetically="true"

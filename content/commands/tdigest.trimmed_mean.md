@@ -39,30 +39,27 @@ Returns an estimation of the mean value from the sketch, excluding observation v
 ## Required arguments
 
 <details open><summary><code>key</code></summary> 
-is key name for an existing t-digest sketch.
+
+is the key name for an existing t-digest sketch.
 </details>
 
 <details open><summary><code>low_cut_quantile</code></summary> 
   
-Foating-point value in the range [0..1], should be lower than `high_cut_quantile`
+a floating-point value in the range [0..1]. It must be lower than `high_cut_quantile`.
   
-When equal to 0: No low cut.
+When equal to 0, no low cut.
   
-When higher than 0: Exclude observation values lower than this quantile.
+When greater than 0, exclude observation values lower than this quantile.
 </details>
 
 <details open><summary><code>high_cut_quantile</code></summary> 
   
-Floating-point value in the range [0..1], should be higher than `low_cut_quantile`  
+a floating-point value in the range [0..1]. It must be higher than `low_cut_quantile`.
   
-When lower than 1: Exclude observation values higher than or equal to this quantile.
+When less than 1, exclude observation values greater than or equal to this quantile.
 
-When equal to 1: No high cut.
+When equal to 1, no high cut.
 </details>
-
-## Return value
-
-[Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) estimation of the mean value. 'nan' if the sketch is empty.
 
 ## Examples
 
@@ -77,5 +74,26 @@ redis> TDIGEST.TRIMMED_MEAN t 0.3 0.9
 "6.5"
 redis> TDIGEST.TRIMMED_MEAN t 0 1
 "5.5"
-
 {{< / highlight >}}
+
+## Return information
+
+{{< multitabs id=“tdigest-trimmedmean-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+
+* [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) as a floating-point estimation of the mean value.
+* `nan` if the sketch is empty.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: the given key does not exist or is of an incorrect type, quantiles out of range [0..1], or incorrect number of arguments.
+
+-tab-sep-
+
+One of the following:
+
+* [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}}) as an estimation of the mean value.
+* `nan` if the sketch is empty.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: the given key does not exist or is of an incorrect type, quantiles out of range [0..1], or incorrect number of arguments.
+
+{{< /multitabs >}}

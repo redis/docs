@@ -44,11 +44,7 @@ Initializes a Count-Min Sketch to accommodate requested tolerances.
     be a decimal value between 0 and 1. This effects the depth of the sketch.
     For example, for a desired false positive rate of 0.1% (1 in 1000),
     error_rate should be set to 0.001. The closer this number is to zero, the
-    greater the memory consumption per item and the more CPU usage per operation. 
-    
-## Return
-
-[Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - `OK` if executed correctly, or [] otherwise.
+    greater the memory consumption per item and the more CPU usage per operation.
 
 ## Examples
 
@@ -56,3 +52,23 @@ Initializes a Count-Min Sketch to accommodate requested tolerances.
 redis> CMS.INITBYPROB test 0.001 0.01
 OK
 ```
+
+## Return information
+
+{{< multitabs id=“cms-initbyprob-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if the given key already exists.
+
+-tab-sep-
+
+One of the following:
+
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if the given key already exists.
+
+{{< /multitabs >}}

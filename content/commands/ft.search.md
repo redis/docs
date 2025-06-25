@@ -352,9 +352,9 @@ does not try to use stemming for query expansion but searches the query terms ve
 </details>
 
 <details open>
-<summary><code>NOSTOPWORDS</code></summary>
+<summary><code>NOSTOPWORDS (deprecated)</code></summary>
 
-ignores any defined stop words in full text searches.
+ignores any defined stop words in full text searches. Note: this option is deprecated as of Redis 8.0.
 </details>
 
 

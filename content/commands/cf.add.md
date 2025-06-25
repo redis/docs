@@ -50,13 +50,6 @@ If `key` does not exist - a new cuckoo filter is created.
 is an item to add.
 </details>
 
-## Return value
-
-Returns one of these replies:
-
-- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - where "1" means that the item has been added successfully
-- [] on error (invalid arguments, wrong key type, etc.) and also when the filter is full
-
 ## Complexity
 
 O(n + i), where n is the number of `sub-filters` and i is `maxIterations`.
@@ -72,3 +65,21 @@ redis> CF.ADD cf item1
 redis> CF.ADD cf item1
 (integer) 1
 {{< / highlight >}}
+
+## Return information
+
+{{< multitabs id="cf-add-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): `1` for successfully adding an item to the filter.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, or when the filter is full.
+
+-tab-sep-
+
+One of the following:
+* [Boolean reply]({{< relref "/develop/reference/protocol-spec#booleans" >}}): `true` for successfully adding an item to the filter.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, or when the filter is full.
+
+{{< /multitabs >}}
