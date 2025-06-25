@@ -51,17 +51,21 @@ See the [RDI architecture overview]({{< relref "/integrate/redis-data-integratio
 
 To ensure that you can connect your Redis Cloud database to the source database, you need to set up an endpoint service through AWS PrivateLink. 
 
+The following diagram shows the network setup for a database hosted on an AWS EC2 instance.
+
+{{<image filename="images/rc/rdi/rdi-setup-diagram-ec2.png" alt="The network setup for a database hosted on an AWS EC2 instance." width=75% >}}
+
+The following diagram shows the network setup for a database hosted on AWS RDS or AWS Aurora.
+
+{{<image filename="images/rc/rdi/rdi-setup-diagram-aurora.png" alt="The network setup for a database hosted on AWS RDS or AWS Aurora." width=75% >}}
+
 Select the steps for your database setup.
 
 {{< multitabs id="rdi-cloud-connectivity"
       tab1="EC2 instance"
       tab2="AWS RDS or Aurora" >}}
 
-The following diagram shows the network setup for a database hosted on an AWS EC2 instance.
-
-{{<image filename="images/rc/rdi/rdi-setup-diagram-ec2.png" alt="The network setup for a database hosted on an AWS EC2 instance." width=75% >}}
-
-To do this:
+To set up PrivateLink for a database hosted on an EC2 instance:
 
 1. [Create a network load balancer](#create-network-load-balancer-ec2) that will route incoming HTTP requests to your database.
 1. [Create an endpoint service](#create-endpoint-service-ec2) through AWS PrivateLink.
@@ -115,11 +119,7 @@ For more details on AWS PrivateLink, see [Share your services through AWS Privat
 
 --tab-sep--
 
-The following diagram shows the network setup for a database hosted on AWS RDS or AWS Aurora.
-
-{{<image filename="images/rc/rdi/rdi-setup-diagram-aurora.png" alt="The network setup for a database hosted on AWS RDS or AWS Aurora." width=75% >}}
-
-To do this:
+To set up PrivateLink for a database hosted on AWS RDS or AWS Aurora:
 
 1. [Create an RDS Proxy](#create-rds-proxy) that will route requests to your database.
 1. [Create a network load balancer](#create-network-load-balancer-rds) that will route incoming HTTP requests to the RDS proxy.
