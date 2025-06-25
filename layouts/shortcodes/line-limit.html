@@ -1,0 +1,18 @@
+{{/* 
+  Line-limit shortcode
+  Limits the number of visible lines and adds scrolling for the rest
+  
+  Usage:
+  {{< line-limit lines="10" >}}
+  Content with many lines here...
+  {{< /line-limit >}}
+
+  Ideally used for just code blocks, but could be used for any content in theory.
+*/}}
+
+{{ $lines := .Get "lines" | default "25" }}
+{{ $lineHeight := add (float $lines) 1.5 }}
+
+<div class="expand-content overflow-auto my-4" style="height: {{ $lineHeight }}lh;">
+  {{ .Inner | markdownify }}
+</div>
