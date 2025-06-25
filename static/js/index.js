@@ -110,6 +110,10 @@ const mobileMenu = (() => {
     const href = linkElement.getAttribute('href')
     const fullUrl = window.location.origin + window.location.pathname + href
 
+    // Update the URL hash to provide immediate visual feedback
+    window.location.hash = href
+
+    // Copy to clipboard
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(fullUrl).then(() => {
         showCopyFeedback(linkElement)
@@ -133,7 +137,7 @@ const mobileMenu = (() => {
     setTimeout(() => {
       linkElement.setAttribute('title', originalTitle)
       linkElement.classList.remove('copied')
-    }, 1500)
+    }, 2000)
   }
 
   // Fallback copy method for older browsers

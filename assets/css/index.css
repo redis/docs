@@ -39,6 +39,7 @@ section.prose {
 .header-link {
   @apply text-slate-400 hover:text-slate-600 transition-all duration-200 no-underline cursor-pointer;
   text-decoration: none !important;
+  vertical-align: baseline;
 }
 
 .header-link:hover {
@@ -48,6 +49,7 @@ section.prose {
 
 .header-link svg {
   @apply w-4 h-4 inline-block;
+  vertical-align: baseline;
 }
 
 /* Ensure header links don't interfere with prose styling */
