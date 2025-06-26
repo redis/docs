@@ -32,6 +32,29 @@ Using LangCache as a semantic caching service in Redis Cloud has the following b
 - **Simpler Deployments**: Access our managed service via a REST API with automated embedding generation, configurable controls.
 - **Advanced cache management**: Manage data access and privacy, eviction protocols, and monitor usage and cache hit rates.
 
+### LLM Cost reduction with LangCache
+
+LangCache reduces your LLM costs by caching responses and avoiding repeated API calls. When a response is served from cache, you don’t pay for output tokens. Input token costs are typically offset by embedding and storage costs.
+
+For every cached response, you'll save the output token cost. To calculate your monthly savings with LangCache, you can use the following formula:
+
+```bash
+Estimated monthly savings with LangCache = (Monthly output token costs) × (Cache hit rate)
+```
+
+The more requests you serve from LangCache, the more you save, because you’re not paying to regenerate the output.
+
+Here’s an example:
+- Monthly LLM spend: $200
+- Percentage of output tokens in your spend: 60%
+- Cost of output tokens: $200 × 60% = $120
+- Cache hit rate: 50%
+- Estimated savings: $120 × 50% = $60/month
+
+{{<note>}}
+The forumla and numbers above will provide a rough estimate of your monthly savings. Actual savings will vary depending on your usage.
+{{</note>}}
+
 ## LangCache architecture
 
 The following diagram displays how you can integrate LangCache into your GenAI app:
