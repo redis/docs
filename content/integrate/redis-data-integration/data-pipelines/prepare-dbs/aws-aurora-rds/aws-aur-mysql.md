@@ -71,6 +71,13 @@ to capture changes.
 
     Replace `<username>` with the username of the Debezium user.
 
+    You can also grant SELECT permissions for specific tables only. The other permissions are global and cannot be restricted to specific tables.
+
+    ```sql
+    GRANT RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT, LOCK TABLES ON *.* TO '<username>'@'%';
+    GRANT SELECT ON <database>.<table> TO '<username>'@'%';
+    ```
+
 1. Finalize the user's permissions:
 
     ```sql
