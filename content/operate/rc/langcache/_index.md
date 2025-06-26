@@ -32,7 +32,7 @@ Using LangCache as a semantic caching service in Redis Cloud has the following b
 - **Simpler Deployments**: Access our managed service via a REST API with automated embedding generation, configurable controls.
 - **Advanced cache management**: Manage data access and privacy, eviction protocols, and monitor usage and cache hit rates.
 
-### LLM Cost reduction with LangCache
+### LLM cost reduction with LangCache
 
 LangCache reduces your LLM costs by caching responses and avoiding repeated API calls. When a response is served from cache, you don’t pay for output tokens. Input token costs are typically offset by embedding and storage costs.
 
