@@ -148,10 +148,10 @@ zero bytes up to the length of the longest string.
 1. Basic usage example using the `AND` operator:
 
 {{% redis-cli %}}
-SET key1 "foobar"
-SET key2 "abcdef"
+BITFIELD key1 SET i8 #0 255
+BITFIELD key2 SET i8 #0 85
 BITOP AND dest key1 key2
-GET dest
+BITFIELD dest GET i8 #0
 {{% /redis-cli %}}
 
 2. Suppose you want to expose people to a book-related ad. The target audience is people who love to read books and are interested in fantasy, adventure, or science fiction. Assume you have the following bitmaps:
@@ -164,7 +164,7 @@ GET dest
 To create a bitmap representing the target audience, use the following command:
 
 ```
-BITOP ANDOR newkey LRB B:F B:A B:SF
+BITOP ANDOR TA LRB B:F B:A B:SF
 ```
 
 ## Pattern: real time metrics using bitmaps
