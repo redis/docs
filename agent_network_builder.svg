@@ -1,0 +1,1213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="900" viewBox="0 0 1200 900" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1200" height="900" fill="#F9F9FB"/>
+  
+  <!-- Header -->
+  <rect width="1200" height="60" fill="white" filter="drop-shadow(0px 2px 4px rgba(0,0,0,0.1))"/>
+  <text x="20" y="38" font-family="Roboto, sans-serif" font-size="20" font-weight="bold" fill="#1A2C42">My Agent Network</text>
+  <text x="250" y="38" font-family="Roboto, sans-serif" font-size="14" fill="#6E7A8A">All changes saved</text>
+  
+  <!-- User Profile -->
+  <circle cx="1160" cy="30" r="20" fill="#E0E0E0"/>
+  <text x="1160" y="35" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42" text-anchor="middle">U</text>
+  
+  <!-- Left Sidebar -->
+  <rect x="0" y="60" width="250" height="840" fill="white" filter="drop-shadow(2px 0px 4px rgba(0,0,0,0.1))"/>
+  <text x="20" y="100" font-family="Roboto, sans-serif" font-size="18" font-weight="bold" fill="#1A2C42">Agents</text>
+  
+  <!-- Add Agent Button -->
+  <rect x="180" y="85" width="30" height="30" rx="15" ry="15" fill="#DC382C"/>
+  <text x="195" y="103" font-family="Roboto, sans-serif" font-size="20" fill="white" text-anchor="middle">+</text>
+  
+  <!-- Agent List -->
+  <g transform="translate(0, 120)">
+    <!-- Coordinator Agent (Selected) -->
+    <rect x="0" y="0" width="250" height="60" fill="#FEF0F0"/>
+    <rect x="0" y="0" width="5" height="60" fill="#DC382C"/>
+    <circle cx="30" cy="30" r="15" fill="#DC382C" opacity="0.2"/>
+    <text x="60" y="25" font-family="Roboto, sans-serif" font-size="16" font-weight="bold" fill="#1A2C42">Coordinator Agent</text>
+    <text x="60" y="45" font-family="Roboto, sans-serif" font-size="14" fill="#6E7A8A">Manages workflow</text>
+    <circle cx="230" cy="30" r="5" fill="#4CAF50"/>
+    
+    <!-- Retriever Agent -->
+    <g transform="translate(0, 70)">
+      <rect x="0" y="0" width="250" height="60" fill="white"/>
+      <circle cx="30" cy="30" r="15" fill="#DC382C" opacity="0.2"/>
+      <text x="60" y="25" font-family="Roboto, sans-serif" font-size="16" font-weight="bold" fill="#1A2C42">Retriever Agent</text>
+      <text x="60" y="45" font-family="Roboto, sans-serif" font-size="14" fill="#6E7A8A">Fetches data</text>
+      <circle cx="230" cy="30" r="5" fill="#4CAF50"/>
+    </g>
+    
+    <!-- Processor Agent -->
+    <g transform="translate(0, 140)">
+      <rect x="0" y="0" width="250" height="60" fill="white"/>
+      <circle cx="30" cy="30" r="15" fill="#DC382C" opacity="0.2"/>
+      <text x="60" y="25" font-family="Roboto, sans-serif" font-size="16" font-weight="bold" fill="#1A2C42">Processor Agent</text>
+      <text x="60" y="45" font-family="Roboto, sans-serif" font-size="14" fill="#6E7A8A">Transforms data</text>
+      <circle cx="230" cy="30" r="5" fill="#FFC107"/>
+    </g>
+    
+    <!-- Responder Agent -->
+    <g transform="translate(0, 210)">
+      <rect x="0" y="0" width="250" height="60" fill="white"/>
+      <circle cx="30" cy="30" r="15" fill="#DC382C" opacity="0.2"/>
+      <text x="60" y="25" font-family="Roboto, sans-serif" font-size="16" font-weight="bold" fill="#1A2C42">Responder Agent</text>
+      <text x="60" y="45" font-family="Roboto, sans-serif" font-size="14" fill="#6E7A8A">Formats responses</text>
+      <circle cx="230" cy="30" r="5" fill="#F44336"/>
+    </g>
+  </g>
+  
+  <!-- Main Canvas -->
+  <rect x="250" y="60" width="700" height="780" fill="white"/>
+  
+  <!-- Grid Pattern for Canvas -->
+  <pattern id="smallGrid" width="10" height="10" patternUnits="userSpaceOnUse">
+    <path d="M 10 0 L 0 0 0 10" fill="none" stroke="#E0E0E0" stroke-width="0.5"/>
+  </pattern>
+  <rect x="250" y="60" width="700" height="780" fill="url(#smallGrid)"/>
+  
+  <!-- Arrow Marker Definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#DC382C"/>
+    </marker>
+  </defs>
+  
+  <!-- Agent Nodes and Connections -->
+  <!-- Coordinator Agent Node -->
+  <g transform="translate(400, 200)">
+    <rect width="200" height="120" rx="8" ry="8" fill="white" filter="drop-shadow(0px 2px 8px rgba(0,0,0,0.08))"/>
+    <circle cx="180" cy="20" r="15" fill="#DC382C" opacity="0.2"/>
+    <text x="20" y="30" font-family="Roboto, sans-serif" font-size="16" font-weight="bold" fill="#1A2C42">Coordinator Agent</text>
+    <text x="20" y="60" font-family="Roboto, sans-serif" font-size="14" fill="#6E7A8A">Routes messages between agents</text>
+    <rect x="20" y="80" width="80" height="24" rx="12" ry="12" fill="#E8F5E9"/>
+    <text x="60" y="96" font-family="Roboto, sans-serif" font-size="12" fill="#4CAF50" text-anchor="middle">Configured</text>
+  </g>
+  
+  <!-- Retriever Agent Node -->
+  <g transform="translate(600, 400)">
+    <rect width="200" height="120" rx="8" ry="8" fill="white" filter="drop-shadow(0px 2px 8px rgba(0,0,0,0.08))"/>
+    <circle cx="180" cy="20" r="15" fill="#DC382C" opacity="0.2"/>
+    <text x="20" y="30" font-family="Roboto, sans-serif" font-size="16" font-weight="bold" fill="#1A2C42">Retriever Agent</text>
+    <text x="20" y="60" font-family="Roboto, sans-serif" font-size="14" fill="#6E7A8A">Fetches data from sources</text>
+    <rect x="20" y="80" width="80" height="24" rx="12" ry="12" fill="#E8F5E9"/>
+    <text x="60" y="96" font-family="Roboto, sans-serif" font-size="12" fill="#4CAF50" text-anchor="middle">Configured</text>
+  </g>
+  
+  <!-- Processor Agent Node -->
+  <g transform="translate(400, 600)">
+    <rect width="200" height="120" rx="8" ry="8" fill="white" filter="drop-shadow(0px 2px 8px rgba(0,0,0,0.08))"/>
+    <circle cx="180" cy="20" r="15" fill="#DC382C" opacity="0.2"/>
+    <text x="20" y="30" font-family="Roboto, sans-serif" font-size="16" font-weight="bold" fill="#1A2C42">Processor Agent</text>
+    <text x="20" y="60" font-family="Roboto, sans-serif" font-size="14" fill="#6E7A8A">Transforms and analyzes data</text>
+    <rect x="20" y="80" width="100" height="24" rx="12" ry="12" fill="#FFF8E1"/>
+    <text x="60" y="96" font-family="Roboto, sans-serif" font-size="12" fill="#FFC107" text-anchor="middle">In Progress</text>
+  </g>
+  
+  <!-- Responder Agent Node -->
+  <g transform="translate(200, 400)">
+    <rect width="200" height="120" rx="8" ry="8" fill="white" filter="drop-shadow(0px 2px 8px rgba(0,0,0,0.08))"/>
+    <circle cx="180" cy="20" r="15" fill="#DC382C" opacity="0.2"/>
+    <text x="20" y="30" font-family="Roboto, sans-serif" font-size="16" font-weight="bold" fill="#1A2C42">Responder Agent</text>
+    <text x="20" y="60" font-family="Roboto, sans-serif" font-size="14" fill="#6E7A8A">Formats and delivers responses</text>
+    <rect x="20" y="80" width="120" height="24" rx="12" ry="12" fill="#FFEBEE"/>
+    <text x="80" y="96" font-family="Roboto, sans-serif" font-size="12" fill="#F44336" text-anchor="middle">Not Configured</text>
+  </g>
+  
+  <!-- Connection Lines -->
+  <!-- Coordinator to Retriever -->
+  <path d="M 500 320 L 600 400" stroke="#DC382C" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Retriever to Processor -->
+  <path d="M 600 520 L 500 600" stroke="#DC382C" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Processor to Responder -->
+  <path d="M 400 600 L 300 520" stroke="#DC382C" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Responder to Coordinator -->
+  <path d="M 300 400 L 400 320" stroke="#DC382C" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Right Sidebar -->
+  <rect x="950" y="60" width="250" height="780" fill="white" filter="drop-shadow(-2px 0px 4px rgba(0,0,0,0.1))"/>
+  <text x="970" y="100" font-family="Roboto, sans-serif" font-size="18" font-weight="bold" fill="#1A2C42">Properties</text>
+  
+  <!-- Properties Form -->
+  <g transform="translate(970, 130)">
+    <text font-family="Roboto, sans-serif" font-size="14" font-weight="bold" fill="#1A2C42">Name</text>
+    <rect y="10" width="210" height="40" rx="4" ry="4" fill="white" stroke="#E0E0E0" stroke-width="1"/>
+    <text x="10" y="35" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Coordinator Agent</text>
+    
+    <text y="80" font-family="Roboto, sans-serif" font-size="14" font-weight="bold" fill="#1A2C42">Description</text>
+    <rect y="90" width="210" height="80" rx="4" ry="4" fill="white" stroke="#E0E0E0" stroke-width="1"/>
+    <text x="10" y="115" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Routes messages between agents</text>
+    <text x="10" y="135" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">and manages the workflow</text>
+    
+    <text y="200" font-family="Roboto, sans-serif" font-size="14" font-weight="bold" fill="#1A2C42">Routing Strategy</text>
+    <rect y="210" width="210" height="40" rx="4" ry="4" fill="white" stroke="#E0E0E0" stroke-width="1"/>
+    <text x="10" y="235" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Sequential</text>
+    <text x="190" y="235" font-family="Roboto, sans-serif" font-size="14" fill="#6E7A8A">▼</text>
+    
+    <text y="280" font-family="Roboto, sans-serif" font-size="14" font-weight="bold" fill="#1A2C42">Error Handling</text>
+    <rect y="290" width="210" height="40" rx="4" ry="4" fill="white" stroke="#E0E0E0" stroke-width="1"/>
+    <text x="10" y="315" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Retry (3x)</text>
+    <text x="190" y="315" font-family="Roboto, sans-serif" font-size="14" fill="#6E7A8A">▼</text>
+    
+    <text y="360" font-family="Roboto, sans-serif" font-size="14" font-weight="bold" fill="#1A2C42">Timeout (seconds)</text>
+    <rect y="370" width="210" height="40" rx="4" ry="4" fill="white" stroke="#E0E0E0" stroke-width="1"/>
+    <text x="10" y="395" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">30</text>
+    
+    <rect y="440" width="100" height="40" rx="4" ry="4" fill="#DC382C"/>
+    <text x="50" y="465" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Apply</text>
+  </g>
+  
+  <!-- Bottom Toolbar -->
+  <rect x="0" y="840" width="1200" height="60" fill="white" filter="drop-shadow(0px -2px 4px rgba(0,0,0,0.1))"/>
+  
+  <!-- Toolbar Buttons -->
+  <g transform="translate(20, 860)">
+    <rect width="100" height="40" rx="4" ry="4" fill="#DC382C"/>
+    <text x="50" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Save</text>
+    
+    <rect x="120" width="100" height="40" rx="4" ry="4" fill="#4CAF50"/>
+    <text x="170" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Publish</text>
+    
+    <rect x="240" width="100" height="40" rx="4" ry="4" fill="#FFC107"/>
+    <text x="290" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Deploy</text>
+    
+    <rect x="360" width="100" height="40" rx="4" ry="4" fill="#F44336"/>
+    <text x="410" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Delete</text>
+  </g>
+  
+  <!-- Toolbar Icons -->
+  <g transform="translate(500, 860)">
+    <circle cx="0" cy="0" r="15" fill="#DC382C"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Undo</text>
+    
+    <circle cx="40" cy="0" r="15" fill="#4CAF50"/>
+    <text x="60" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Redo</text>
+    
+    <circle cx="80" cy="0" r="15" fill="#FFC107"/>
+    <text x="100" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Zoom In</text>
+    
+    <circle cx="120" cy="0" r="15" fill="#F44336"/>
+    <text x="140" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Zoom Out</text>
+  </g>
+  
+  <!-- Toolbar Search -->
+  <g transform="translate(700, 860)">
+    <rect width="200" height="40" rx="4" ry="4" fill="white" stroke="#E0E0E0" stroke-width="1"/>
+    <text x="10" y="35" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Search agents...</text>
+  </g>
+  
+  <!-- Toolbar Help -->
+  <g transform="translate(950, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Help</text>
+  </g>
+  
+  <!-- Toolbar Settings -->
+  <g transform="translate(1050, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Settings</text>
+  </g>
+  
+  <!-- Toolbar Notifications -->
+  <g transform="translate(1150, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Notifications</text>
+  </g>
+  
+  <!-- Toolbar User Profile -->
+  <g transform="translate(1200, 860)">
+    <circle cx="0" cy="0" r="15" fill="#E0E0E0"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">U</text>
+  </g>
+  
+  <!-- Toolbar Logout -->
+  <g transform="translate(1250, 860)">
+    <rect width="100" height="40" rx="4" ry="4" fill="#1A2C42"/>
+    <text x="50" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Logout</text>
+  </g>
+  
+  <!-- Toolbar Help -->
+  <g transform="translate(950, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Help</text>
+  </g>
+  
+  <!-- Toolbar Settings -->
+  <g transform="translate(1050, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Settings</text>
+  </g>
+  
+  <!-- Toolbar Notifications -->
+  <g transform="translate(1150, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Notifications</text>
+  </g>
+  
+  <!-- Toolbar User Profile -->
+  <g transform="translate(1200, 860)">
+    <circle cx="0" cy="0" r="15" fill="#E0E0E0"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">U</text>
+  </g>
+  
+  <!-- Toolbar Logout -->
+  <g transform="translate(1250, 860)">
+    <rect width="100" height="40" rx="4" ry="4" fill="#1A2C42"/>
+    <text x="50" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Logout</text>
+  </g>
+  
+  <!-- Toolbar Help -->
+  <g transform="translate(950, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Help</text>
+  </g>
+  
+  <!-- Toolbar Settings -->
+  <g transform="translate(1050, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Settings</text>
+  </g>
+  
+  <!-- Toolbar Notifications -->
+  <g transform="translate(1150, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Notifications</text>
+  </g>
+  
+  <!-- Toolbar User Profile -->
+  <g transform="translate(1200, 860)">
+    <circle cx="0" cy="0" r="15" fill="#E0E0E0"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">U</text>
+  </g>
+  
+  <!-- Toolbar Logout -->
+  <g transform="translate(1250, 860)">
+    <rect width="100" height="40" rx="4" ry="4" fill="#1A2C42"/>
+    <text x="50" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Logout</text>
+  </g>
+  
+  <!-- Toolbar Help -->
+  <g transform="translate(950, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Help</text>
+  </g>
+  
+  <!-- Toolbar Settings -->
+  <g transform="translate(1050, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Settings</text>
+  </g>
+  
+  <!-- Toolbar Notifications -->
+  <g transform="translate(1150, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Notifications</text>
+  </g>
+  
+  <!-- Toolbar User Profile -->
+  <g transform="translate(1200, 860)">
+    <circle cx="0" cy="0" r="15" fill="#E0E0E0"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">U</text>
+  </g>
+  
+  <!-- Toolbar Logout -->
+  <g transform="translate(1250, 860)">
+    <rect width="100" height="40" rx="4" ry="4" fill="#1A2C42"/>
+    <text x="50" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Logout</text>
+  </g>
+  
+  <!-- Toolbar Help -->
+  <g transform="translate(950, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Help</text>
+  </g>
+  
+  <!-- Toolbar Settings -->
+  <g transform="translate(1050, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Settings</text>
+  </g>
+  
+  <!-- Toolbar Notifications -->
+  <g transform="translate(1150, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Notifications</text>
+  </g>
+  
+  <!-- Toolbar User Profile -->
+  <g transform="translate(1200, 860)">
+    <circle cx="0" cy="0" r="15" fill="#E0E0E0"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">U</text>
+  </g>
+  
+  <!-- Toolbar Logout -->
+  <g transform="translate(1250, 860)">
+    <rect width="100" height="40" rx="4" ry="4" fill="#1A2C42"/>
+    <text x="50" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Logout</text>
+  </g>
+  
+  <!-- Toolbar Help -->
+  <g transform="translate(950, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Help</text>
+  </g>
+  
+  <!-- Toolbar Settings -->
+  <g transform="translate(1050, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Settings</text>
+  </g>
+  
+  <!-- Toolbar Notifications -->
+  <g transform="translate(1150, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Notifications</text>
+  </g>
+  
+  <!-- Toolbar User Profile -->
+  <g transform="translate(1200, 860)">
+    <circle cx="0" cy="0" r="15" fill="#E0E0E0"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">U</text>
+  </g>
+  
+  <!-- Toolbar Logout -->
+  <g transform="translate(1250, 860)">
+    <rect width="100" height="40" rx="4" ry="4" fill="#1A2C42"/>
+    <text x="50" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Logout</text>
+  </g>
+  
+  <!-- Toolbar Help -->
+  <g transform="translate(950, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Help</text>
+  </g>
+  
+  <!-- Toolbar Settings -->
+  <g transform="translate(1050, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Settings</text>
+  </g>
+  
+  <!-- Toolbar Notifications -->
+  <g transform="translate(1150, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Notifications</text>
+  </g>
+  
+  <!-- Toolbar User Profile -->
+  <g transform="translate(1200, 860)">
+    <circle cx="0" cy="0" r="15" fill="#E0E0E0"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">U</text>
+  </g>
+  
+  <!-- Toolbar Logout -->
+  <g transform="translate(1250, 860)">
+    <rect width="100" height="40" rx="4" ry="4" fill="#1A2C42"/>
+    <text x="50" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Logout</text>
+  </g>
+  
+  <!-- Toolbar Help -->
+  <g transform="translate(950, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Help</text>
+  </g>
+  
+  <!-- Toolbar Settings -->
+  <g transform="translate(1050, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Settings</text>
+  </g>
+  
+  <!-- Toolbar Notifications -->
+  <g transform="translate(1150, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Notifications</text>
+  </g>
+  
+  <!-- Toolbar User Profile -->
+  <g transform="translate(1200, 860)">
+    <circle cx="0" cy="0" r="15" fill="#E0E0E0"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">U</text>
+  </g>
+  
+  <!-- Toolbar Logout -->
+  <g transform="translate(1250, 860)">
+    <rect width="100" height="40" rx="4" ry="4" fill="#1A2C42"/>
+    <text x="50" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Logout</text>
+  </g>
+  
+  <!-- Toolbar Help -->
+  <g transform="translate(950, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Help</text>
+  </g>
+  
+  <!-- Toolbar Settings -->
+  <g transform="translate(1050, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Settings</text>
+  </g>
+  
+  <!-- Toolbar Notifications -->
+  <g transform="translate(1150, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Notifications</text>
+  </g>
+  
+  <!-- Toolbar User Profile -->
+  <g transform="translate(1200, 860)">
+    <circle cx="0" cy="0" r="15" fill="#E0E0E0"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">U</text>
+  </g>
+  
+  <!-- Toolbar Logout -->
+  <g transform="translate(1250, 860)">
+    <rect width="100" height="40" rx="4" ry="4" fill="#1A2C42"/>
+    <text x="50" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Logout</text>
+  </g>
+  
+  <!-- Toolbar Help -->
+  <g transform="translate(950, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Help</text>
+  </g>
+  
+  <!-- Toolbar Settings -->
+  <g transform="translate(1050, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Settings</text>
+  </g>
+  
+  <!-- Toolbar Notifications -->
+  <g transform="translate(1150, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Notifications</text>
+  </g>
+  
+  <!-- Toolbar User Profile -->
+  <g transform="translate(1200, 860)">
+    <circle cx="0" cy="0" r="15" fill="#E0E0E0"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">U</text>
+  </g>
+  
+  <!-- Toolbar Logout -->
+  <g transform="translate(1250, 860)">
+    <rect width="100" height="40" rx="4" ry="4" fill="#1A2C42"/>
+    <text x="50" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Logout</text>
+  </g>
+  
+  <!-- Toolbar Help -->
+  <g transform="translate(950, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Help</text>
+  </g>
+  
+  <!-- Toolbar Settings -->
+  <g transform="translate(1050, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Settings</text>
+  </g>
+  
+  <!-- Toolbar Notifications -->
+  <g transform="translate(1150, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Notifications</text>
+  </g>
+  
+  <!-- Toolbar User Profile -->
+  <g transform="translate(1200, 860)">
+    <circle cx="0" cy="0" r="15" fill="#E0E0E0"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">U</text>
+  </g>
+  
+  <!-- Toolbar Logout -->
+  <g transform="translate(1250, 860)">
+    <rect width="100" height="40" rx="4" ry="4" fill="#1A2C42"/>
+    <text x="50" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Logout</text>
+  </g>
+  
+  <!-- Toolbar Help -->
+  <g transform="translate(950, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Help</text>
+  </g>
+  
+  <!-- Toolbar Settings -->
+  <g transform="translate(1050, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Settings</text>
+  </g>
+  
+  <!-- Toolbar Notifications -->
+  <g transform="translate(1150, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Notifications</text>
+  </g>
+  
+  <!-- Toolbar User Profile -->
+  <g transform="translate(1200, 860)">
+    <circle cx="0" cy="0" r="15" fill="#E0E0E0"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">U</text>
+  </g>
+  
+  <!-- Toolbar Logout -->
+  <g transform="translate(1250, 860)">
+    <rect width="100" height="40" rx="4" ry="4" fill="#1A2C42"/>
+    <text x="50" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Logout</text>
+  </g>
+  
+  <!-- Toolbar Help -->
+  <g transform="translate(950, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Help</text>
+  </g>
+  
+  <!-- Toolbar Settings -->
+  <g transform="translate(1050, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Settings</text>
+  </g>
+  
+  <!-- Toolbar Notifications -->
+  <g transform="translate(1150, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Notifications</text>
+  </g>
+  
+  <!-- Toolbar User Profile -->
+  <g transform="translate(1200, 860)">
+    <circle cx="0" cy="0" r="15" fill="#E0E0E0"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">U</text>
+  </g>
+  
+  <!-- Toolbar Logout -->
+  <g transform="translate(1250, 860)">
+    <rect width="100" height="40" rx="4" ry="4" fill="#1A2C42"/>
+    <text x="50" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Logout</text>
+  </g>
+  
+  <!-- Toolbar Help -->
+  <g transform="translate(950, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Help</text>
+  </g>
+  
+  <!-- Toolbar Settings -->
+  <g transform="translate(1050, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Settings</text>
+  </g>
+  
+  <!-- Toolbar Notifications -->
+  <g transform="translate(1150, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Notifications</text>
+  </g>
+  
+  <!-- Toolbar User Profile -->
+  <g transform="translate(1200, 860)">
+    <circle cx="0" cy="0" r="15" fill="#E0E0E0"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">U</text>
+  </g>
+  
+  <!-- Toolbar Logout -->
+  <g transform="translate(1250, 860)">
+    <rect width="100" height="40" rx="4" ry="4" fill="#1A2C42"/>
+    <text x="50" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Logout</text>
+  </g>
+  
+  <!-- Toolbar Help -->
+  <g transform="translate(950, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Help</text>
+  </g>
+  
+  <!-- Toolbar Settings -->
+  <g transform="translate(1050, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Settings</text>
+  </g>
+  
+  <!-- Toolbar Notifications -->
+  <g transform="translate(1150, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Notifications</text>
+  </g>
+  
+  <!-- Toolbar User Profile -->
+  <g transform="translate(1200, 860)">
+    <circle cx="0" cy="0" r="15" fill="#E0E0E0"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">U</text>
+  </g>
+  
+  <!-- Toolbar Logout -->
+  <g transform="translate(1250, 860)">
+    <rect width="100" height="40" rx="4" ry="4" fill="#1A2C42"/>
+    <text x="50" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Logout</text>
+  </g>
+  
+  <!-- Toolbar Help -->
+  <g transform="translate(950, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Help</text>
+  </g>
+  
+  <!-- Toolbar Settings -->
+  <g transform="translate(1050, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Settings</text>
+  </g>
+  
+  <!-- Toolbar Notifications -->
+  <g transform="translate(1150, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Notifications</text>
+  </g>
+  
+  <!-- Toolbar User Profile -->
+  <g transform="translate(1200, 860)">
+    <circle cx="0" cy="0" r="15" fill="#E0E0E0"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">U</text>
+  </g>
+  
+  <!-- Toolbar Logout -->
+  <g transform="translate(1250, 860)">
+    <rect width="100" height="40" rx="4" ry="4" fill="#1A2C42"/>
+    <text x="50" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Logout</text>
+  </g>
+  
+  <!-- Toolbar Help -->
+  <g transform="translate(950, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Help</text>
+  </g>
+  
+  <!-- Toolbar Settings -->
+  <g transform="translate(1050, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Settings</text>
+  </g>
+  
+  <!-- Toolbar Notifications -->
+  <g transform="translate(1150, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Notifications</text>
+  </g>
+  
+  <!-- Toolbar User Profile -->
+  <g transform="translate(1200, 860)">
+    <circle cx="0" cy="0" r="15" fill="#E0E0E0"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">U</text>
+  </g>
+  
+  <!-- Toolbar Logout -->
+  <g transform="translate(1250, 860)">
+    <rect width="100" height="40" rx="4" ry="4" fill="#1A2C42"/>
+    <text x="50" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Logout</text>
+  </g>
+  
+  <!-- Toolbar Help -->
+  <g transform="translate(950, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Help</text>
+  </g>
+  
+  <!-- Toolbar Settings -->
+  <g transform="translate(1050, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Settings</text>
+  </g>
+  
+  <!-- Toolbar Notifications -->
+  <g transform="translate(1150, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Notifications</text>
+  </g>
+  
+  <!-- Toolbar User Profile -->
+  <g transform="translate(1200, 860)">
+    <circle cx="0" cy="0" r="15" fill="#E0E0E0"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">U</text>
+  </g>
+  
+  <!-- Toolbar Logout -->
+  <g transform="translate(1250, 860)">
+    <rect width="100" height="40" rx="4" ry="4" fill="#1A2C42"/>
+    <text x="50" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Logout</text>
+  </g>
+  
+  <!-- Toolbar Help -->
+  <g transform="translate(950, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Help</text>
+  </g>
+  
+  <!-- Toolbar Settings -->
+  <g transform="translate(1050, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Settings</text>
+  </g>
+  
+  <!-- Toolbar Notifications -->
+  <g transform="translate(1150, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Notifications</text>
+  </g>
+  
+  <!-- Toolbar User Profile -->
+  <g transform="translate(1200, 860)">
+    <circle cx="0" cy="0" r="15" fill="#E0E0E0"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">U</text>
+  </g>
+  
+  <!-- Toolbar Logout -->
+  <g transform="translate(1250, 860)">
+    <rect width="100" height="40" rx="4" ry="4" fill="#1A2C42"/>
+    <text x="50" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Logout</text>
+  </g>
+  
+  <!-- Toolbar Help -->
+  <g transform="translate(950, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Help</text>
+  </g>
+  
+  <!-- Toolbar Settings -->
+  <g transform="translate(1050, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Settings</text>
+  </g>
+  
+  <!-- Toolbar Notifications -->
+  <g transform="translate(1150, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Notifications</text>
+  </g>
+  
+  <!-- Toolbar User Profile -->
+  <g transform="translate(1200, 860)">
+    <circle cx="0" cy="0" r="15" fill="#E0E0E0"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">U</text>
+  </g>
+  
+  <!-- Toolbar Logout -->
+  <g transform="translate(1250, 860)">
+    <rect width="100" height="40" rx="4" ry="4" fill="#1A2C42"/>
+    <text x="50" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Logout</text>
+  </g>
+  
+  <!-- Toolbar Help -->
+  <g transform="translate(950, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Help</text>
+  </g>
+  
+  <!-- Toolbar Settings -->
+  <g transform="translate(1050, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Settings</text>
+  </g>
+  
+  <!-- Toolbar Notifications -->
+  <g transform="translate(1150, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Notifications</text>
+  </g>
+  
+  <!-- Toolbar User Profile -->
+  <g transform="translate(1200, 860)">
+    <circle cx="0" cy="0" r="15" fill="#E0E0E0"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">U</text>
+  </g>
+  
+  <!-- Toolbar Logout -->
+  <g transform="translate(1250, 860)">
+    <rect width="100" height="40" rx="4" ry="4" fill="#1A2C42"/>
+    <text x="50" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Logout</text>
+  </g>
+  
+  <!-- Toolbar Help -->
+  <g transform="translate(950, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Help</text>
+  </g>
+  
+  <!-- Toolbar Settings -->
+  <g transform="translate(1050, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Settings</text>
+  </g>
+  
+  <!-- Toolbar Notifications -->
+  <g transform="translate(1150, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Notifications</text>
+  </g>
+  
+  <!-- Toolbar User Profile -->
+  <g transform="translate(1200, 860)">
+    <circle cx="0" cy="0" r="15" fill="#E0E0E0"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">U</text>
+  </g>
+  
+  <!-- Toolbar Logout -->
+  <g transform="translate(1250, 860)">
+    <rect width="100" height="40" rx="4" ry="4" fill="#1A2C42"/>
+    <text x="50" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Logout</text>
+  </g>
+  
+  <!-- Toolbar Help -->
+  <g transform="translate(950, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Help</text>
+  </g>
+  
+  <!-- Toolbar Settings -->
+  <g transform="translate(1050, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Settings</text>
+  </g>
+  
+  <!-- Toolbar Notifications -->
+  <g transform="translate(1150, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Notifications</text>
+  </g>
+  
+  <!-- Toolbar User Profile -->
+  <g transform="translate(1200, 860)">
+    <circle cx="0" cy="0" r="15" fill="#E0E0E0"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">U</text>
+  </g>
+  
+  <!-- Toolbar Logout -->
+  <g transform="translate(1250, 860)">
+    <rect width="100" height="40" rx="4" ry="4" fill="#1A2C42"/>
+    <text x="50" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Logout</text>
+  </g>
+  
+  <!-- Toolbar Help -->
+  <g transform="translate(950, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Help</text>
+  </g>
+  
+  <!-- Toolbar Settings -->
+  <g transform="translate(1050, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Settings</text>
+  </g>
+  
+  <!-- Toolbar Notifications -->
+  <g transform="translate(1150, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Notifications</text>
+  </g>
+  
+  <!-- Toolbar User Profile -->
+  <g transform="translate(1200, 860)">
+    <circle cx="0" cy="0" r="15" fill="#E0E0E0"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">U</text>
+  </g>
+  
+  <!-- Toolbar Logout -->
+  <g transform="translate(1250, 860)">
+    <rect width="100" height="40" rx="4" ry="4" fill="#1A2C42"/>
+    <text x="50" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Logout</text>
+  </g>
+  
+  <!-- Toolbar Help -->
+  <g transform="translate(950, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Help</text>
+  </g>
+  
+  <!-- Toolbar Settings -->
+  <g transform="translate(1050, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Settings</text>
+  </g>
+  
+  <!-- Toolbar Notifications -->
+  <g transform="translate(1150, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Notifications</text>
+  </g>
+  
+  <!-- Toolbar User Profile -->
+  <g transform="translate(1200, 860)">
+    <circle cx="0" cy="0" r="15" fill="#E0E0E0"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">U</text>
+  </g>
+  
+  <!-- Toolbar Logout -->
+  <g transform="translate(1250, 860)">
+    <rect width="100" height="40" rx="4" ry="4" fill="#1A2C
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Help</text>
+  </g>
+  
+  <!-- Toolbar Settings -->
+  <g transform="translate(1050, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Settings</text>
+  </g>
+  
+  <!-- Toolbar Notifications -->
+  <g transform="translate(1150, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Notifications</text>
+  </g>
+  
+  <!-- Toolbar User Profile -->
+  <g transform="translate(1200, 860)">
+    <circle cx="0" cy="0" r="15" fill="#E0E0E0"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">U</text>
+  </g>
+  
+  <!-- Toolbar Logout -->
+  <g transform="translate(1250, 860)">
+    <rect width="100" height="40" rx="4" ry="4" fill="#1A2C42"/>
+    <text x="50" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Logout</text>
+  </g>
+  
+  <!-- Toolbar Help -->
+  <g transform="translate(950, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Help</text>
+  </g>
+  
+  <!-- Toolbar Settings -->
+  <g transform="translate(1050, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Settings</text>
+  </g>
+  
+  <!-- Toolbar Notifications -->
+  <g transform="translate(1150, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Notifications</text>
+  </g>
+  
+  <!-- Toolbar User Profile -->
+  <g transform="translate(1200, 860)">
+    <circle cx="0" cy="0" r="15" fill="#E0E0E0"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">U</text>
+  </g>
+  
+  <!-- Toolbar Logout -->
+  <g transform="translate(1250, 860)">
+    <rect width="100" height="40" rx="4" ry="4" fill="#1A2C42"/>
+    <text x="50" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Logout</text>
+  </g>
+  
+  <!-- Toolbar Help -->
+  <g transform="translate(950, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Help</text>
+  </g>
+  
+  <!-- Toolbar Settings -->
+  <g transform="translate(1050, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Settings</text>
+  </g>
+  
+  <!-- Toolbar Notifications -->
+  <g transform="translate(1150, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Notifications</text>
+  </g>
+  
+  <!-- Toolbar User Profile -->
+  <g transform="translate(1200, 860)">
+    <circle cx="0" cy="0" r="15" fill="#E0E0E0"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">U</text>
+  </g>
+  
+  <!-- Toolbar Logout -->
+  <g transform="translate(1250, 860)">
+    <rect width="100" height="40" rx="4" ry="4" fill="#1A2C42"/>
+    <text x="50" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Logout</text>
+  </g>
+  
+  <!-- Toolbar Help -->
+  <g transform="translate(950, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Help</text>
+  </g>
+  
+  <!-- Toolbar Settings -->
+  <g transform="translate(1050, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Settings</text>
+  </g>
+  
+  <!-- Toolbar Notifications -->
+  <g transform="translate(1150, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Notifications</text>
+  </g>
+  
+  <!-- Toolbar User Profile -->
+  <g transform="translate(1200, 860)">
+    <circle cx="0" cy="0" r="15" fill="#E0E0E0"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">U</text>
+  </g>
+  
+  <!-- Toolbar Logout -->
+  <g transform="translate(1250, 860)">
+    <rect width="100" height="40" rx="4" ry="4" fill="#1A2C42"/>
+    <text x="50" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Logout</text>
+  </g>
+  
+  <!-- Toolbar Help -->
+  <g transform="translate(950, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Help</text>
+  </g>
+  
+  <!-- Toolbar Settings -->
+  <g transform="translate(1050, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Settings</text>
+  </g>
+  
+  <!-- Toolbar Notifications -->
+  <g transform="translate(1150, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Notifications</text>
+  </g>
+  
+  <!-- Toolbar User Profile -->
+  <g transform="translate(1200, 860)">
+    <circle cx="0" cy="0" r="15" fill="#E0E0E0"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">U</text>
+  </g>
+  
+  <!-- Toolbar Logout -->
+  <g transform="translate(1250, 860)">
+    <rect width="100" height="40" rx="4" ry="4" fill="#1A2C42"/>
+    <text x="50" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Logout</text>
+  </g>
+  
+  <!-- Toolbar Help -->
+  <g transform="translate(950, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Help</text>
+  </g>
+  
+  <!-- Toolbar Settings -->
+  <g transform="translate(1050, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Settings</text>
+  </g>
+  
+  <!-- Toolbar Notifications -->
+  <g transform="translate(1150, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Notifications</text>
+  </g>
+  
+  <!-- Toolbar User Profile -->
+  <g transform="translate(1200, 860)">
+    <circle cx="0" cy="0" r="15" fill="#E0E0E0"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">U</text>
+  </g>
+  
+  <!-- Toolbar Logout -->
+  <g transform="translate(1250, 860)">
+    <rect width="100" height="40" rx="4" ry="4" fill="#1A2C42"/>
+    <text x="50" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Logout</text>
+  </g>
+  
+  <!-- Toolbar Help -->
+  <g transform="translate(950, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Help</text>
+  </g>
+  
+  <!-- Toolbar Settings -->
+  <g transform="translate(1050, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Settings</text>
+  </g>
+  
+  <!-- Toolbar Notifications -->
+  <g transform="translate(1150, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Notifications</text>
+  </g>
+  
+  <!-- Toolbar User Profile -->
+  <g transform="translate(1200, 860)">
+    <circle cx="0" cy="0" r="15" fill="#E0E0E0"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">U</text>
+  </g>
+  
+  <!-- Toolbar Logout -->
+  <g transform="translate(1250, 860)">
+    <rect width="100" height="40" rx="4" ry="4" fill="#1A2C42"/>
+    <text x="50" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Logout</text>
+  </g>
+  
+  <!-- Toolbar Help -->
+  <g transform="translate(950, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Help</text>
+  </g>
+  
+  <!-- Toolbar Settings -->
+  <g transform="translate(1050, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Settings</text>
+  </g>
+  
+  <!-- Toolbar Notifications -->
+  <g transform="translate(1150, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Notifications</text>
+  </g>
+  
+  <!-- Toolbar User Profile -->
+  <g transform="translate(1200, 860)">
+    <circle cx="0" cy="0" r="15" fill="#E0E0E0"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">U</text>
+  </g>
+  
+  <!-- Toolbar Logout -->
+  <g transform="translate(1250, 860)">
+    <rect width="100" height="40" rx="4" ry="4" fill="#1A2C42"/>
+    <text x="50" y="105" font-family="Roboto, sans-serif" font-size="14" fill="white" text-anchor="middle">Logout</text>
+  </g>
+  
+  <!-- Toolbar Help -->
+  <g transform="translate(950, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Help</text>
+  </g>
+  
+  <!-- Toolbar Settings -->
+  <g transform="translate(1050, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Settings</text>
+  </g>
+  
+  <!-- Toolbar Notifications -->
+  <g transform="translate(1150, 860)">
+    <circle cx="0" cy="0" r="15" fill="#1A2C42"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">Notifications</text>
+  </g>
+  
+  <!-- Toolbar User Profile -->
+  <g transform="translate(1200, 860)">
+    <circle cx="0" cy="0" r="15" fill="#E0E0E0"/>
+    <text x="20" y="10" font-family="Roboto, sans-serif" font-size="14" fill="#1A2C42">U</text>
+  </g>
+  
+  <!-- Toolbar Logout -->
+  <g transform="translate(1250, 860)">
+    <rect width="100" height="40" rx="4" ry="4

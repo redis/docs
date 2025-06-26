@@ -75,4 +75,4 @@ FT.SUGDEL returns an integer reply, 1 if the string was found and deleted, 0 oth
 
 ## Related topics
 
-[RediSearch]({{< relref "/develop/interact/search-and-query/" >}})
+[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})

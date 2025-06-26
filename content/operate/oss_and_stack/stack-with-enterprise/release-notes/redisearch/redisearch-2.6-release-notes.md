@@ -132,7 +132,7 @@ Update urgency: `HIGH` : There is a critical bug that may affect a subset of use
 - Bug fixes:
   - [#4944](https://github.com/redisearch/redisearch/pull/4944) Adjusting the module configuration to avoid routing overload on the first shard in a clustered database (MOD-7505)
   - [#4897](https://github.com/redisearch/redisearch/pull/4897) - `FT.AGGREGATE` with `VERBATIM` option is not handled by the shards in cluster mode (MOD-7463)
-  - [#4918](https://github.com/redisearch/redisearch/pull/4918) - Union query, similar to `"is|the"`, starting with 2 [stopwords](https://redis.io/docs/latest/develop/interact/search-and-query/advanced-concepts/stopwords/) could cause a crash (MOD-7495)
+  - [#4918](https://github.com/redisearch/redisearch/pull/4918) - Union query, similar to `"is|the"`, starting with 2 [stopwords](https://redis.io/docs/latest/develop/ai/search-and-query/advanced-concepts/stopwords/) could cause a crash (MOD-7495)
   - [#4919](https://github.com/redisearch/redisearch/pull/4919) - Counting twice the field statistics at the `#search` section of an `INFO` response (MOD-7339)
   - [#4923](https://github.com/redisearch/redisearch/pull/4923) - Loop when using the wildcard `w'term'` and prefix/infix/suffix pattern `'ter*'`, causing the shard to restart (MOD-7453)
   - [#4954](https://github.com/redisearch/redisearch/pull/4954) `FT.PROFILE` on `AGGREGATE` numeric queries could cause a crash due to reusing the internal `CURSOR` in a large range of numeric values (MOD-7454)
@@ -366,7 +366,7 @@ This is the General Availability release of RediSearch 2.6.
 ### Highlights
 
 This new major version introduces the ability to search using **wildcard queries** for TEXT and TAG fields. This enables the frequently requested feature **suffix search** (`*vatore` and `ant?rez` are now supported).
-In addition, the 2.6 release is all about **multi-value indexing and querying of attributes** for any attribute type ( [Text]({{< relref "/develop/interact/search-and-query/indexing/" >}}#index-json-arrays-as-text), [Tag]({{< relref "/develop/interact/search-and-query/indexing/" >}}#index-json-arrays-as-tag), [Numeric]({{< relref "/develop/interact/search-and-query/indexing/" >}}#index-json-arrays-as-numeric), [Geo]({{< relref "/develop/interact/search-and-query/indexing/" >}}#index-json-arrays-as-geo) and [Vector]({{< relref "/develop/interact/search-and-query/indexing/" >}}#index-json-arrays-as-vector)) defined by a [JSONPath]({{< relref "/develop/data-types/json/path" >}}) leading to an array or to multiple scalar values.
+In addition, the 2.6 release is all about **multi-value indexing and querying of attributes** for any attribute type ( [Text]({{< relref "/develop/ai/search-and-query/indexing/" >}}#index-json-arrays-as-text), [Tag]({{< relref "/develop/ai/search-and-query/indexing/" >}}#index-json-arrays-as-tag), [Numeric]({{< relref "/develop/ai/search-and-query/indexing/" >}}#index-json-arrays-as-numeric), [Geo]({{< relref "/develop/ai/search-and-query/indexing/" >}}#index-json-arrays-as-geo) and [Vector]({{< relref "/develop/ai/search-and-query/indexing/" >}}#index-json-arrays-as-vector)) defined by a [JSONPath]({{< relref "/develop/data-types/json/path" >}}) leading to an array or to multiple scalar values.
 Lastly, this version adds support for indexing double-precision floating-point vectors and range queries from a given vector.
 
 ### What's new in 2.6
@@ -375,13 +375,13 @@ Lastly, this version adds support for indexing double-precision floating-point v
 
 - Improvements:
 
-  - [#2886](https://github.com/RediSearch/RediSearch/pull/2886) Support for [wildcard queries]({{< relref "/develop/interact/search-and-query/advanced-concepts/query_syntax" >}}#wildcard-matching) for TEXT and TAG fields, where
+  - [#2886](https://github.com/RediSearch/RediSearch/pull/2886) Support for [wildcard queries]({{< relref "/develop/ai/search-and-query/advanced-concepts/query_syntax" >}}#wildcard-matching) for TEXT and TAG fields, where
     - `?` matches any single character
     - `*` matches zero or more characters
     - use `'` and `\` for escaping, other special characters are ignored
     - [#2932](https://github.com/RediSearch/RediSearch/pull/2932) Optimized wildcard query support (i.e., suffix trie)
   - Multi-value indexing and querying
-    - [#2819](https://github.com/RediSearch/RediSearch/pull/2819), [#2947](https://github.com/RediSearch/RediSearch/pull/2947) Multi-value text search - perform full-text search on an [array of strings or on a JSONPath]({{< relref "/develop/interact/search-and-query/indexing/" >}}#index-json-arrays-as-tag) leading to multiple strings
+    - [#2819](https://github.com/RediSearch/RediSearch/pull/2819), [#2947](https://github.com/RediSearch/RediSearch/pull/2947) Multi-value text search - perform full-text search on an [array of strings or on a JSONPath]({{< relref "/develop/ai/search-and-query/indexing/" >}}#index-json-arrays-as-tag) leading to multiple strings
     - [#3131](https://github.com/RediSearch/RediSearch/pull/3131) Geo [#3118](https://github.com/RediSearch/RediSearch/pull/3118) Vector [#2985](https://github.com/RediSearch/RediSearch/pull/2985) Numeric [#3180](https://github.com/RediSearch/RediSearch/pull/3180) Tag
     - [#3060](https://github.com/RediSearch/RediSearch/pull/3060) Return JSON rather than scalars from multi-value attributes.  This is enabled via Dialect 3 in order not to break existing applications.
     - Support indexing and querying of multi-value JSONPath attributes and/or arrays (requires JSON >2.4.1)
