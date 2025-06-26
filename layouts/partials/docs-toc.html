@@ -4,7 +4,7 @@
 {{ $showEmbedHeaders := .Params.tocEmbedHeaders }}
 {{ $headerRange := .Params.headerRange | default "[1-3]" }}
 <!-- Ignore empty links with + -->
-{{ $headers := findRE ( print "<h" $headerRange ".*?>(.|\n])+?</h" $headerRange ">") .Content }}
+{{ $headers := findRE ( print "<h" $headerRange ".*?>(.|\n)+?</h" $headerRange ">") .Content }}
 <!-- Must have at least one header to link to -->
 {{ $has_headers := ge (len $headers) 1 }}
 
