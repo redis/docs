@@ -34,12 +34,9 @@ Returns the maximum observation value from a t-digest sketch.
 ## Required arguments
 
 <details open><summary><code>key</code></summary>
-is key name for an existing t-digest sketch.
+
+is the key name for an existing t-digest sketch.
 </details>
-
-## Return value
-
-[Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) of maximum observation value from a sketch. The result is always accurate. 'nan' if the sketch is empty.
 
 ## Examples
 
@@ -53,3 +50,23 @@ OK
 redis>TDIGEST.MAX t
 "5"
 {{< / highlight >}}
+
+## Return information
+
+{{< multitabs id=“tdigest-max-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+
+* [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) as floating-point representing the maximum observation value from the given sketch. The result is always accurate. `nan` is returned if the sketch is empty.
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) in these cases: incorrect number of arguments or incorrect key type.
+
+-tab-sep-
+
+One of the following:
+
+* [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}}) representing the maximum observation value from the given sketch. The result is always accurate. `nan` is returned if the sketch is empty.
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) in these cases: incorrect number of arguments or incorrect key type.
+
+{{< /multitabs >}}

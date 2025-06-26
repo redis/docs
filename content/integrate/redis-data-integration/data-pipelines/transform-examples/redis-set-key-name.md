@@ -47,7 +47,6 @@ To customize key names, use the `key` section within the `redis.write` output co
 
 ```yaml
 source:
-  server_name: rdi
   db: inventory
   table: customers
 output:
@@ -64,7 +63,6 @@ When working with the full row format, you need to handle key generation differe
 
 ```yaml
 source:
-  server_name: rdi
   db: inventory
   table: customers
   row_format: full

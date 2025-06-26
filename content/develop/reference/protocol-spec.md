@@ -132,7 +132,7 @@ The following table summarizes the RESP data types that Redis supports:
 | [Bulk errors](#bulk-errors) | RESP3 | Aggregate | `!` |
 | [Verbatim strings](#verbatim-strings) | RESP3 | Aggregate | `=` |
 | [Maps](#maps) | RESP3 | Aggregate | `%` |
-| [Attributes](#attributes) | RESP3 | Aggregate | `|` |
+| [Attributes](#attributes) | RESP3 | Aggregate | <code>&#124;</code> |
 | [Sets](#sets) | RESP3 | Aggregate | `~` |
 | [Pushes](#pushes) | RESP3 | Aggregate | `>` |
 
