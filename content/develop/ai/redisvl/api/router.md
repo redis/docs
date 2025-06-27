@@ -1,7 +1,6 @@
 ---
 linkTitle: Semantic router
 title: Semantic Router
-type: integration
 ---
 
 

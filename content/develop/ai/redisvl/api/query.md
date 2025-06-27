@@ -1,7 +1,6 @@
 ---
 linkTitle: Query
 title: Query
-type: integration
 ---
 
 

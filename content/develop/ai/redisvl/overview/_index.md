@@ -1,7 +1,6 @@
 ---
 linkTitle: Overview
 title: Overview
-type: integration
 weight: 3
 hideListLinks: true
 ---

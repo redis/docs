@@ -1,7 +1,6 @@
 ---
 linkTitle: Install RedisVL
 title: Install RedisVL
-type: integration
 ---
 
 
