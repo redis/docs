@@ -39,7 +39,8 @@ LangCache reduces your LLM costs by caching responses and avoiding repeated API 
 For every cached response, you'll save the output token cost. To calculate your monthly savings with LangCache, you can use the following formula:
 
 ```bash
-Estimated monthly savings with LangCache = (Monthly output token costs) × (Cache hit rate)
+Est. monthly savings with LangCache = 
+    (Monthly output token costs) × (Cache hit rate)
 ```
 
 The more requests you serve from LangCache, the more you save, because you’re not paying to regenerate the output.
@@ -52,7 +53,7 @@ Here’s an example:
 - Estimated savings: $120 × 50% = $60/month
 
 {{<note>}}
-The forumla and numbers above will provide a rough estimate of your monthly savings. Actual savings will vary depending on your usage.
+The formula and numbers above provide a rough estimate of your monthly savings. Actual savings will vary depending on your usage.
 {{</note>}}
 
 ## LangCache architecture
