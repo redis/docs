@@ -1,7 +1,6 @@
 ---
 linkTitle: Threshold optimization
 title: Threshold Optimization
-type: integration
 weight: 09
 ---
 

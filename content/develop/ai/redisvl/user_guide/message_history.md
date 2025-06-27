@@ -1,7 +1,6 @@
 ---
 linkTitle: LLM message history
 title: LLM Message History
-type: integration
 weight: 07
 ---
 

@@ -4,7 +4,6 @@ aliases:
 description: Install RedisVL
 linkTitle: Install
 title: Install
-type: integration
 weight: 2
 ---
 ## Installation

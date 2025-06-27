@@ -1,7 +1,6 @@
 ---
 linkTitle: Semantic routing
 title: Semantic Routing
-type: integration
 weight: 08
 ---
 

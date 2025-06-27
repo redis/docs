@@ -1,7 +1,6 @@
 ---
 linkTitle: Release guides
 title: Release Guides
-type: integration
 hideListLinks: true
 ---
 

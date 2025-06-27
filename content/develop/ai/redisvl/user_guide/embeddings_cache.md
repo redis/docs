@@ -1,7 +1,6 @@
 ---
 linkTitle: Caching embeddings
 title: Caching Embeddings
-type: integration
 weight: 10
 ---
 

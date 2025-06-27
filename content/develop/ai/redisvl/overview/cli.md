@@ -1,7 +1,6 @@
 ---
 linkTitle: The RedisVL CLI
 title: The RedisVL CLI
-type: integration
 ---
 
 

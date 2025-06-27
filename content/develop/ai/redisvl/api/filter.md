@@ -1,7 +1,6 @@
 ---
 linkTitle: Filter
 title: Filter
-type: integration
 ---
 
 

@@ -1,7 +1,6 @@
 ---
 linkTitle: Threshold optimizers
 title: Threshold Optimizers
-type: integration
 ---
 
 

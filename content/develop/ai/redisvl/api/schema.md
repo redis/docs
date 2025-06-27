@@ -1,7 +1,6 @@
 ---
 linkTitle: Schema
 title: Schema
-type: integration
 ---
 
 

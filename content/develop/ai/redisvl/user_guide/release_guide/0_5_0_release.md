@@ -1,7 +1,6 @@
 ---
 linkTitle: 0.5.1 feature overview
 title: 0.5.1 Feature Overview
-type: integration
 ---
 
 

@@ -1,7 +1,6 @@
 ---
 linkTitle: Hash vs JSON storage
 title: Hash vs JSON Storage
-type: integration
 weight: 05
 ---
 

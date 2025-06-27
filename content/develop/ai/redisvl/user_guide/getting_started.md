@@ -1,7 +1,6 @@
 ---
 linkTitle: Getting started with RedisVL
 title: Getting Started with RedisVL
-type: integration
 weight: 01
 ---
 

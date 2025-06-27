@@ -1,7 +1,6 @@
 ---
 linkTitle: LLM cache
 title: LLM Cache
-type: integration
 ---
 
 

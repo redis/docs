@@ -1,7 +1,6 @@
 ---
 linkTitle: Rerankers
 title: Rerankers
-type: integration
 ---
 
 
