@@ -35,6 +35,15 @@ Redis Query Engine. The code is first demonstrated for hash documents with a
 separate section to explain the
 [differences with JSON documents](#differences-with-json-documents).
 
+{{< note >}}From [v5.0.0](https://github.com/redis/node-redis/releases/tag/redis%405.0.0)
+onwards, `node-redis` uses query dialect 2 by default.
+Redis query engine methods such as [`ft.search()`]({{< relref "/commands/ft.search" >}})
+will explicitly request this dialect, overriding the default set for the server.
+See
+[Query dialects]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}})
+for more information.
+{{< /note >}}
+
 ## Initialize
 
 Install the required dependencies:

@@ -51,17 +51,7 @@ is key name for a Bloom filter to save.
 Iterator value; either 0 or the iterator from a previous invocation of this command
 </details>
 
-## Return value
 
-Returns one of these replies:
-
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) (_Iterator_) and [] (_Data_). 
-
-  The Iterator is passed as input to the next invocation of `BF.SCANDUMP`. If _Iterator_ is 0, then it means iteration has completed.
-
-  The iterator-data pair should also be passed to [`BF.LOADCHUNK`]({{< relref "commands/bf.loadchunk/" >}}) when restoring the filter.
-
-- [] on error (invalid arguments, key not found, wrong key type, etc.)
 
 ## Examples
 
@@ -105,3 +95,29 @@ for chunk in chunks:
     iter, data = chunk
     BF.LOADCHUNK(key, iter, data)
 {{< / highlight >}}
+
+## Return information
+
+{{< multitabs id="bf-scandump-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a two-element array of an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) (_Iterator_) and a [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) (_Data_).
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, the key was not found, or the key is of the wrong type.
+
+The Iterator is passed as input to the next invocation of `BF.SCANDUMP`. If _Iterator_ is 0, then it means iteration has completed.
+
+The iterator-data pair should also be passed to [`BF.LOADCHUNK`]({{< relref "commands/bf.loadchunk/" >}}) when restoring the filter.
+
+-tab-sep-
+
+One of the following:
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a two-element array of an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) (_Iterator_) and a [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) (_Data_).
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, the key was not found, or the key is of the wrong type.
+
+The Iterator is passed as input to the next invocation of `BF.SCANDUMP`. If _Iterator_ is 0, then it means iteration has completed.
+
+The iterator-data pair should also be passed to [`BF.LOADCHUNK`]({{< relref "commands/bf.loadchunk/" >}}) when restoring the filter.
+
+{{< /multitabs >}}

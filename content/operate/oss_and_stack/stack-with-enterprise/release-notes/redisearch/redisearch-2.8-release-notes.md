@@ -13,10 +13,24 @@ weight: 91
 ---
 ## Requirements
 
-RediSearch v2.8.27 requires:
+RediSearch v2.8.28 requires:
 
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
+
+## v2.8.28 (June 2025)
+
+This is a maintenance release for RediSearch 2.8.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#6207](https://github.com/redisearch/redisearch/pull/6207) Continuous increasing of index error counts on `FT.INFO` could lead to an overflow and memory leak (MOD-9396).
+- [#6349](https://github.com/redisearch/redisearch/pull/6349) Search on terms larger than 128 characters could lead to missing matches (MOD-6786).
+- [#6305](https://github.com/redisearch/redisearch/pull/6305) While iterating over a large index, frequent document updates could hit the `TIMEOUT`, causing a crash (MOD-9856).
+
+Improvements:
+- [#6340](https://github.com/redisearch/redisearch/pull/6340) Added a locking mechanism for collecting `FT.INFO` statistics when concurrently running the index sanitiser (MOD-10007, MOD-9761).
 
 ## v2.8.27 (May 2025)
 

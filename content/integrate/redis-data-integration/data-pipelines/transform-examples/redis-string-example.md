@@ -35,7 +35,6 @@ If you don't supply an `expire` parameter, the keys will never expire.
 
 ```yaml
 source:
-  server_name: chinook
   table: album
   row_format: full
 output:

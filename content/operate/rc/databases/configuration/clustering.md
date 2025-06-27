@@ -112,6 +112,8 @@ The Redis hashing policy is identical to the [hashing policy used by Redis Open 
 - Your application does not use hashtags in database key names.
 - Your application uses binary data as key names.
 
+The Redis hashing policy allows for faster scaling where available.
+
 ### Standard hashing policy
 
 The Standard hashing policy is mostly consistent with the Redis hashing policy, and will generate the same hash-slot calculation in the following cases:

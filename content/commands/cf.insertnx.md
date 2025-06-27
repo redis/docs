@@ -91,13 +91,6 @@ If specified, prevents automatic filter creation if the filter does not exist (I
 This option is mutually exclusive with `CAPACITY`.
 </details>
 
-## Return value
-
-Returns one of these replies:
-
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), where `0` means that the item's fingerprint already exists in the filter, `1` means that the item has been successfully added to the filter, and `-1` means that the item was not added because the filter is full.
-- [] on error (invalid arguments, wrong key type, etc.) and also when `NOCREATE` is specified and `key` does not exist.
-
 ### Complexity
 
 O(n + i), where n is the number of `sub-filters` and i is `maxIterations`.
@@ -123,3 +116,21 @@ redis> CF.INSERTNX cf CAPACITY 1000 ITEMS item1 item2 item3
 redis> CF.INSERTNX cf_new CAPACITY 1000 NOCREATE ITEMS item1 item2 
 (error) ERR not found
 {{< / highlight >}}
+
+## Return information
+
+{{< multitabs id=“cf-insert-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}), where each element is an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) of `0` means that the item's fingerprint already exists in the filter, `1` for successfully adding an item, or `-1` when the item cannot be added because the filter is full.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors">}}) when the number of arguments or key type is incorrect, and also when `NOCREATE` is specified and `key` does not exist.
+
+-tab-sep-
+
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}), where each element is a [boolean reply]({{< relref "/develop/reference/protocol-spec#booleans" >}}) of `1` for successfully adding an item, or `-1` when the item cannot be added because the filter is full.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors">}}) when the number of arguments or key type is incorrect, and also when `NOCREATE` is specified and `key` does not exist.
+
+{{< /multitabs >}}

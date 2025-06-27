@@ -36,6 +36,15 @@ Redis Query Engine.  The code is first demonstrated for hash documents with a
 separate section to explain the
 [differences with JSON documents](#differences-with-json-documents).
 
+{{< note >}}From [v9.8.0](https://github.com/redis/go-redis/releases/tag/v9.8.0) onwards,
+`go-redis` uses query dialect 2 by default.
+Redis query engine methods such as [`FTSearch()`]({{< relref "/commands/ft.search" >}})
+will explicitly request this dialect, overriding the default set for the server.
+See
+[Query dialects]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}})
+for more information.
+{{< /note >}}
+
 ## Initialize
 
 Start a new Go module with the following command:

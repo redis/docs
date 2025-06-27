@@ -28,9 +28,9 @@ Follow the steps to [create an IAM policy using the JSON editor](https://docs.aw
 
 - In **Specify permissions**, select **JSON**, and then enter the contents of the RedisLabsInstanceRolePolicy.json policy file:
 
-    {{< expand "View RedisLabsInstanceRolePolicy.json" >}}
+    {{< scrollable-code >}}
 ```js
- {
+{
     "Version": "2012-10-17",
     "Statement": [
         {
@@ -88,24 +88,24 @@ Follow the steps to [create an IAM policy using the JSON editor](https://docs.aw
             ]
         },
         {
-          "Sid": "TagResourcesDelete",
-          "Effect": "Allow",
-          "Action": [
+        "Sid": "TagResourcesDelete",
+        "Effect": "Allow",
+        "Action": [
                 "ec2:DeleteTags"
-          ],
-          "Resource": [
+        ],
+        "Resource": [
                 "*"
-          ],
-          "Condition": {
-              "StringEquals": {
-                  "ec2:ResourceTag/RedisLabsIdentifier": "Redislabs-VPC"
-              }
-          }
+        ],
+        "Condition": {
+            "StringEquals": {
+                "ec2:ResourceTag/RedisLabsIdentifier": "Redislabs-VPC"
+            }
+        }
         }
     ]
 }
 ```
-    {{< /expand >}}
+    {{< /scrollable-code >}}
 
 - In **Review and Create**, enter `RedisLabsInstanceRolePolicy` in the **Policy name** field.
 
@@ -134,7 +134,7 @@ Follow the steps to [create an IAM policy using the JSON editor](https://docs.aw
 
 - In **Specify permissions**, select **JSON**, and then enter the contents of the RedisLabsIAMUserRestrictedPolicy.json policy file:
 
-    {{< expand "View RedislabsIAMUserRestrictedPolicy.json" >}}
+    {{< scrollable-code >}}
 ```json
 {
     "Version": "2012-10-17",
@@ -386,7 +386,7 @@ Follow the steps to [create an IAM policy using the JSON editor](https://docs.aw
     ]
 }
 ```
-    {{< /expand >}}
+    {{< /scrollable-code >}}
 
 - In **Review and Create**, enter `RedislabsIAMUserRestrictedPolicy` in the **Policy name** field.
 
