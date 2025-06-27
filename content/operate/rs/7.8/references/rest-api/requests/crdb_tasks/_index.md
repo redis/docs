@@ -98,7 +98,7 @@ POST /v1/crdb_tasks/{task_id}/actions/cancel
 
 Gracefully cancels a running or queued task.
 
-A task that already reached the commit phase cannot be canceled either.
+A task that already reached the commit phase cannot be canceled.
 
 ### Request {#post-cancel-request}
 
