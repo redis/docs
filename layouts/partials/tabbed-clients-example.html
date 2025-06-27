@@ -22,7 +22,7 @@
     {{ $language := index $example "language" }}
     {{ $quickstartSlug := index $clientConfig "quickstartSlug" }}
     
-    {{ if and ($example) (or (eq $lang "") (eq $lang $client)) }}
+    {{ if and ($example) (or (eq $lang "") (strings.Contains $lang $client)) }}
         {{ $examplePath := index $example "target" }}
         {{ $options := printf "linenos=false" }}
         
