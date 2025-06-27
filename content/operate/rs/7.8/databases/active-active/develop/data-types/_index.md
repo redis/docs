@@ -8,7 +8,7 @@ categories:
 - rc
 description: Introduction to differences in data types between standalone and Active-Active
   Redis databases.
-hideListLinks: true
+hideListLinks: false
 linktitle: Data types
 weight: 90
 url: '/operate/rs/7.8/databases/active-active/develop/data-types/'
@@ -22,5 +22,5 @@ conflicting concurrent writes for each data type.
 
 As conflict handling rules differ between data types, some commands have slightly different requirements in Active-Active databases versus standard Redis databases.
 
-See the following articles for more information 
+See the following articles for more information.
 
