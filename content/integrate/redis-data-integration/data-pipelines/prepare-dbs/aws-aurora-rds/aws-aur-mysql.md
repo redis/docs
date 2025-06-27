@@ -49,6 +49,21 @@ RDI requires some changes to database parameters. On AWS Aurora, you change thes
 
     Select **Create** to create the parameter group.
 
+1. Navigate to **Parameter groups** in the console. Select the parameter group you have just created and then select **Edit**. Change the following parameters:
+
+    | Name | Value |
+    | :-- | :-- |
+    | `binlog_format`  | `ROW` |
+    | `binlog_row_image`  | `FULL` |
+    | `gtid_mode`  | `ON` |
+    | `enforce_gtid_consistency`  | `ON` |
+
+    Select **Save Changes** to apply the changes to the parameter group.
+
+1. Go back to your target database on the RDS console, select **Modify** and then scroll down to **Additional Configuration**. Set the **DB Cluster Parameter Group** to the group you just created. 
+
+    Select **Save changes** to apply the parameter group to the new database.
+
 {{< embed-md "aur-rds-mysql-create-debezium-user.md" >}}
 
 -tab-sep-
