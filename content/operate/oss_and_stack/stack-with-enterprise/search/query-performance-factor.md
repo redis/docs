@@ -12,7 +12,7 @@ aliases: /operate/oss_and_stack/stack-with-enterprise/search/scalable-search/
          /operate/oss_and_stack/stack-with-enterprise/search/query-performance-factor/
 ---
 
-Query performance factors are intended to increase the performance of queries, including [vector search]({{<relref "/develop/interact/search-and-query/query/vector-search">}}). When enabled, it allows you to increase a database's compute capacity and query throughput by allocating more virtual CPUs per shard. This is in addition to horizontal scaling with more shards which enables a higher throughput of key value operations. This document describes how to configure the query performance factor.
+Query performance factors are intended to increase the performance of queries, including [vector search]({{<relref "/develop/ai/search-and-query/query/vector-search">}}). When enabled, it allows you to increase a database's compute capacity and query throughput by allocating more virtual CPUs per shard. This is in addition to horizontal scaling with more shards which enables a higher throughput of key value operations. This document describes how to configure the query performance factor.
 
 {{<note>}}
 Some use cases might not scale effectively. Redis experts can help determine if vertical scaling with the Redis Query Engine will boost performance for your use case and guide you on whether to use vertical scaling, horizontal scaling, or both.

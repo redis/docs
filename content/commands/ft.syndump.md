@@ -72,4 +72,4 @@ FT.SYNDUMP returns an array reply, with a pair of `term` and an array of synonym
 
 ## Related topics
 
-[RediSearch]({{< relref "/develop/interact/search-and-query/" >}})
+[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})

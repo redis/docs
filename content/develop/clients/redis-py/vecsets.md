@@ -158,7 +158,7 @@ transmission time. If you later use
 [`vemb()`]({{< relref "/commands/vemb" >}}) to retrieve the embedding,
 it will return the vector as an array rather than the original byte
 string (note that this is different from the behavior of byte strings in
-[hash vector indexing]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}})).
+[hash vector indexing]({{< relref "/develop/ai/search-and-query/vectors" >}})).
 
 The call to `vadd()` also adds the `born` and `died` values from the
 original dictionary as attribute data. You can access this during a query
@@ -301,7 +301,7 @@ about text embeddings and other AI techniques you can use with Redis.
 You may also be interested in
 [vector search]({{< relref "/develop/clients/redis-py/vecsearch" >}}).
 This is a feature of the
-[Redis query engine]({{< relref "/develop/interact/search-and-query" >}})
+[Redis query engine]({{< relref "/develop/ai/search-and-query" >}})
 that lets you retrieve
 [JSON]({{< relref "/develop/data-types/json" >}}) and
 [hash]({{< relref "/develop/data-types/hashes" >}}) documents based on

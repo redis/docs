@@ -405,5 +405,5 @@ Here's an example of running the `FT.PROFILE` command for a vector query.
 
 ## Related topics
 
-[RediSearch]({{< relref "/develop/interact/search-and-query/" >}})
+[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
 

@@ -146,4 +146,4 @@ FT.CONFIG GET returns an array reply of the configuration name and value.
 
 ## Related topics
 
-[RediSearch]({{< relref "/develop/interact/search-and-query/" >}})
+[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})

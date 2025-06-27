@@ -106,4 +106,4 @@ FT.SUGADD returns an integer reply, which is the current size of the suggestion 
 
 ## Related topics
 
-[RediSearch]({{< relref "/develop/interact/search-and-query/" >}})
+[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})

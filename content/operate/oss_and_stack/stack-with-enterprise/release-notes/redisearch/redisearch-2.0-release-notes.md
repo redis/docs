@@ -148,9 +148,9 @@ Details:
 
 - Minor additions:
     - #[1696](https://github.com/redisearch/redisearch/issues/1696) The maximum number of results produced by `FT.AGGREGATE` is now configurable: `MAXAGGREGATERESULTS`.
-    - #[1708](https://github.com/redisearch/redisearch/issues/1708) [Stemming]({{<relref "/develop/interact/search-and-query/advanced-concepts/stemming">}}) updated with support of new languages: Basque, Catalan, Greek, Indonesian, Irish, Lithuanian, Nepali.
+    - #[1708](https://github.com/redisearch/redisearch/issues/1708) [Stemming]({{<relref "/develop/ai/search-and-query/advanced-concepts/stemming">}}) updated with support of new languages: Basque, Catalan, Greek, Indonesian, Irish, Lithuanian, Nepali.
 - Minor bugfixes:
-    - #[1668](https://github.com/redisearch/redisearch/issues/1668) Fixes support of stop words in [tag fields]({{<relref "/develop/interact/search-and-query/advanced-concepts/tags">}}). Solves also the following related issues: #[166](https://github.com/redisearch/redisearch/issues/166),  #[984](https://github.com/redisearch/redisearch/issues/984), #[1237](https://github.com/redisearch/redisearch/issues/1237), #[1294](https://github.com/redisearch/redisearch/issues/1294).
+    - #[1668](https://github.com/redisearch/redisearch/issues/1668) Fixes support of stop words in [tag fields]({{<relref "/develop/ai/search-and-query/advanced-concepts/tags">}}). Solves also the following related issues: #[166](https://github.com/redisearch/redisearch/issues/166),  #[984](https://github.com/redisearch/redisearch/issues/984), #[1237](https://github.com/redisearch/redisearch/issues/1237), #[1294](https://github.com/redisearch/redisearch/issues/1294).
     - #[1689](https://github.com/redisearch/redisearch/issues/1689) Consistency fix and performance improvement when using `FT.SUGGET` with [RSCoordinator](https://github.com/RediSearch/RSCoordinator).
     - #[1774](https://github.com/redisearch/redisearch/issues/1774) `MINPREFIX` and `MAXFILTEREXPANSION` configuration options can be changed at runtime.
     - #[1745](https://github.com/redisearch/redisearch/issues/1745) Enforce 0 value for `REDUCER COUNT`.
@@ -268,7 +268,7 @@ and index name and a synonym group ID. This ID can be any ASCII string.
 - RediSearch will not index hashes whose fields do not match an existing index schema. You can see the number of hashes not indexed using `FT.INFO` - `hash_indexing_failures `.  The requirement for adding support for partially indexing and blocking is captured here: [#1455](https://github.com/RediSearch/RediSearch/pull/1455).
 - Removed support for `NOSAVE`.
 - RDB loading will take longer due to the index not being persisted.
-- Field names in the [query syntax]({{<relref "/develop/interact/search-and-query/advanced-concepts/query_syntax">}}) are now case-sensitive.
+- Field names in the [query syntax]({{<relref "/develop/ai/search-and-query/advanced-concepts/query_syntax">}}) are now case-sensitive.
 - Deprecated commands:
     - `FT.DROP` (replaced by `FT.DROPINDEX`, which by default keeps the documents)
     - `FT.ADD` (mapped to `HSET` for backward compatibility)

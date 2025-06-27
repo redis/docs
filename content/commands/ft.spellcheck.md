@@ -85,7 +85,7 @@ is index with the indexed terms.
 is search query.
 </details>
 
-See [Spellchecking]({{< relref "/develop/interact/search-and-query/advanced-concepts/spellcheck" >}}) for more details.
+See [Spellchecking]({{< relref "/develop/ai/search-and-query/advanced-concepts/spellcheck" >}}) for more details.
 
 ## Optional arguments
 
@@ -138,5 +138,5 @@ The score is calculated by dividing the number of documents in which the suggest
 
 ## Related topics
 
-- [Spellchecking]({{< relref "/develop/interact/search-and-query/advanced-concepts/spellcheck" >}})
-- [RediSearch]({{< relref "/develop/interact/search-and-query/" >}})
+- [Spellchecking]({{< relref "/develop/ai/search-and-query/advanced-concepts/spellcheck" >}})
+- [RediSearch]({{< relref "/develop/ai/search-and-query/" >}})

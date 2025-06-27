@@ -114,7 +114,7 @@ RedisJSON is a [high-performance JSON document store](https://redis.com/blog/red
 
 #### Indexing JSON documents
 
-Using [RediSearch](https://redisearch.io), it is now possible to [index, query, and search JSON documents]({{<relref "/develop/interact/search-and-query/indexing">}}), gaining full-text search capabilities and document retrieving based on their content.
+Using [RediSearch](https://redisearch.io), it is now possible to [index, query, and search JSON documents]({{<relref "/develop/ai/search-and-query/indexing">}}), gaining full-text search capabilities and document retrieving based on their content.
 
 To do so, you must install both modules, `RedisJSON` and `RediSearch`, on the same database.
 

@@ -68,6 +68,6 @@ FT.DICTDUMP returns an array, where each element is term (string).
 
 ## Related topics
 
-[RediSearch]({{< relref "/develop/interact/search-and-query/" >}})
+[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
 
 

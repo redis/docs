@@ -46,8 +46,8 @@ Once hash or JSON keys have been indexed using the [`FT.CREATE`]({{< relref "com
 
 For more information on creating hash and JSON indexes, see the following pages.
 
-* [Hash indexes]({{< relref "/develop/interact/search-and-query/basic-constructs/schema-definition" >}})
-* [JSON indexes]({{< relref "/develop/interact/search-and-query/indexing" >}})
+* [Hash indexes]({{< relref "/develop/ai/search-and-query/indexing/schema-definition" >}})
+* [JSON indexes]({{< relref "/develop/ai/search-and-query/indexing" >}})
 
 ## Simple numerical indexes with sorted sets
 

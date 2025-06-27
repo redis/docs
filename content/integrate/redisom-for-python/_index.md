@@ -58,7 +58,7 @@ To run this application you'll need:
 
 * [git](https://git-scm.com/download) - to clone the repo to your machine. 
 * [Python 3.9 or higher](https://www.python.org/downloads/).
-* A [Redis Stack](https://redis.io) database, or Redis with the [Search and Query]({{< relref "/develop/interact/search-and-query/" >}}) and [JSON]({{< relref "/develop/data-types/json/" >}}) features installed. We've provided a `docker-compose.yml` for this. You can also [sign up for a free 30Mb database with Redis Cloud](https://redis.com/try-free/?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users) - be sure to check the Redis Stack option when creating your cloud database.
+* A [Redis Stack](https://redis.io) database, or Redis with the [Search and Query]({{< relref "/develop/ai/search-and-query/" >}}) and [JSON]({{< relref "/develop/data-types/json/" >}}) features installed. We've provided a `docker-compose.yml` for this. You can also [sign up for a free 30Mb database with Redis Cloud](https://redis.com/try-free/?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users) - be sure to check the Redis Stack option when creating your cloud database.
 * [curl](https://curl.se/), or [Postman](https://www.postman.com/) - to send HTTP requests to the application.  We'll provide examples using curl in this document.
 * Optional: [Redis Insight](https://redis.com/redis-enterprise/redis-insight/), a free data visualization and database management tool for Redis.  When downloading Redis Insight, be sure to select version 2.x or use the version that comes with Redis Stack.
 

@@ -42,7 +42,7 @@ Read next results from an existing cursor
 
 [Examples](#examples)
 
-See [Cursor API]({{< relref "develop/interact/search-and-query/advanced-concepts/aggregations#cursor-api" >}}) for more details.
+See [Cursor API]({{< relref "develop/ai/search-and-query/advanced-concepts/aggregations#cursor-api" >}}) for more details.
 
 ## Required arguments
 
@@ -84,4 +84,4 @@ FT.CURSOR READ returns an array reply where each row is an array reply and repre
 
 ## Related topics
 
-[RediSearch]({{< relref "/develop/interact/search-and-query/" >}})
+[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})

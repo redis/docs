@@ -260,7 +260,7 @@ groups the results in the pipeline based on one or more properties. Each group s
 
 reduces the matching results in each group into a single record, using a reduction function. For example, `COUNT` counts the number of records in the group. The reducers can have their own property names using the `AS {name}` optional argument. If a name is not given, the resulting name will be the name of the reduce function and the group properties. For example, if a name is not given to `COUNT_DISTINCT` by property `@foo`, the resulting name will be `count_distinct(@foo)`.
   
-See [Supported GROUPBY reducers]({{< relref "develop/interact/search-and-query/advanced-concepts/aggregations#supported-groupby-reducers" >}}) for more details.   
+See [Supported GROUPBY reducers]({{< relref "develop/ai/search-and-query/advanced-concepts/aggregations#supported-groupby-reducers" >}}) for more details.   
 </details>
 
 <details open>
@@ -292,7 +292,7 @@ applies a 1-to-1 transformation on one or more properties and either stores the 
 `expr` is an expression that can be used to perform arithmetic operations on numeric properties, or functions that can be applied on properties depending on their types (see below), or any combination thereof. For example, `APPLY "sqrt(@foo)/log(@bar) + 5" AS baz` evaluates this expression dynamically for each record in the pipeline and store the result as a new property called `baz`, which can be referenced by further `APPLY`/`SORTBY`/`GROUPBY`/`REDUCE` operations down the
   pipeline.
 
-See [APPLY expressions]({{< relref "develop/interact/search-and-query/advanced-concepts/aggregations/#apply-expressions" >}}) for details.
+See [APPLY expressions]({{< relref "develop/ai/search-and-query/advanced-concepts/aggregations/#apply-expressions" >}}) for details.
 </details>
 
 <details open>
@@ -316,7 +316,7 @@ filters the results using predicate expressions relating to values in each resul
 <summary><code>WITHCURSOR {COUNT} {read_size} [MAXIDLE {idle_time}]</code></summary> 
 
 Scan part of the results with a quicker alternative than `LIMIT`.
-See [Cursor API]({{< relref "develop/interact/search-and-query/advanced-concepts/aggregations#cursor-api" >}}) for more details.
+See [Cursor API]({{< relref "develop/ai/search-and-query/advanced-concepts/aggregations#cursor-api" >}}) for more details.
 </details>
 
 <details open>
@@ -336,7 +336,7 @@ You can reference parameters in the `query` by a `$`, followed by the parameter 
 <details open>
 <summary><code>SCORER {scorer}</code></summary>
 
-uses a [built-in]({{< relref "/develop/interact/search-and-query/advanced-concepts/scoring" >}}) or a [user-provided]({{< relref "/develop/interact/search-and-query/administration/extensions" >}}) scoring function.
+uses a [built-in]({{< relref "/develop/ai/search-and-query/advanced-concepts/scoring" >}}) or a [user-provided]({{< relref "/develop/ai/search-and-query/administration/extensions" >}}) scoring function.
 </details>
 
 <details open>
@@ -495,6 +495,6 @@ Next, count GitHub events by user (actor), to produce the most active users.
 
 ## Related topics
 
-- [Aggregations]({{< relref "/develop/interact/search-and-query/advanced-concepts/aggregations" >}})
-- [RediSearch]({{< relref "/develop/interact/search-and-query" >}})
+- [Aggregations]({{< relref "/develop/ai/search-and-query/advanced-concepts/aggregations" >}})
+- [RediSearch]({{< relref "/develop/ai/search-and-query" >}})
 
