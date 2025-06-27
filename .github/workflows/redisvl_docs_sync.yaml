@@ -125,7 +125,7 @@ jobs:
               sed -E -i 's/^> *//g; s/\x1b\[[0-9;]*m//g' "${markdown_page}"
 
               # Replace https://docs.redisvl.com links
-              sed -E -i 's#https://docs.redisvl.com/en/latest/.+/([^_]+).+\.html(\#[^)]+)#{{< relref "\1\2" >}}#g; s#https://docs.redisvl.com/en/latest/(.+)\.html#https://redis.io/docs/latest/integrate/redisvl/\1#g' "${markdown_page}"
+              sed -E -i 's#https://docs.redisvl.com/en/latest/.+/([^_]+).+\.html(\#[^)]+)#{{< relref "\1\2" >}}#g; s#https://docs.redisvl.com/en/latest/(.+)\.html#https://redis.io/docs/latest/develop/ai/redisvl/\1#g' "${markdown_page}"
           done
 
           # Fix links in api pages
@@ -236,7 +236,7 @@ jobs:
               fi
           done
 
-          cp -r redis_vl_hugo/* content/integrate/redisvl/
+          cp -r redis_vl_hugo/* content/develop/ai/redisvl/
 
       - name: 'Create pull request if necessary'
         env:
@@ -262,12 +262,12 @@ jobs:
             git checkout -b "${branch}"
           fi
 
-          redisvl_is_different=$(git diff content/integrate/redisvl/)
+          redisvl_is_different=$(git diff content/develop/ai/redisvl/)
 
           if [[ ! -z $redisvl_is_different ]]; then
             redisvl_change=true
 
-            git add "content/integrate/redisvl/"
+            git add "content/develop/ai/redisvl/"
             git config user.email "177626021+redisdocsapp[bot]@users.noreply.github.com"
             git config user.name "redisdocsapp[bot]"
             git commit -m "Update for redisvl ${release}"
