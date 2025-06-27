@@ -12,7 +12,7 @@ categories:
 description: Learn how to use the autocomplete feature of Redis for efficient prefix-based suggestion retrieval.
 linkTitle: Autocomplete
 title: Autocomplete with Redis
-weight: 1
+weight: 2
 ---
 
 ## Overview
