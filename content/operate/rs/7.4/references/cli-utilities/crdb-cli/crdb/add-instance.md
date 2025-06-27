@@ -15,9 +15,9 @@ Adds a peer replica to an existing Active-Active database in order to host the d
 
 ```sh
 crdb-cli crdb add-instance --crdb-guid <guid>
-         --instance fqdn=<cluster_fqdn>,username=<username>,password=<password>[,url=<url>,replication_endpoint=<endpoint>]
-         [ --compression <0-6> ]
-         [ --no-wait ]
+         --instance fqdn=<cluster_fqdn>,username=<username>,password=<password>[,url=https://<hostname-or-IP>:9443,replication_endpoint=<hostname-or-IP>:<port>,replication_tls_sni=<hostname>]
+         [--compression <0-6>]
+         [--wait | --no-wait]
 ```
 
 ### Parameters
@@ -25,9 +25,10 @@ crdb-cli crdb add-instance --crdb-guid <guid>
 | Parameter | Value   | Description |
 |-----------|---------|-------------|
 | crdb-guid | string  | The GUID of the database (required) |
-| instance | strings | The connection information for the new participating cluster (required) |
-| compression | 0-6     | The level of data compression: 0=Compression disabled <br> <br> 6=High compression and resource load (Default: 3) |
-| no-wait | | Does not wait for the task to complete |
+| instance fqdn=\<cluster_fqdn\>,username=\<username\>,password=\<password\>,url=https://\<hostname-or-IP\>:9443,replication_endpoint=\<hostname-or-IP\>:\<port\>,replication_tls_sni=\<hostname\> | strings | The connection information for the new participating cluster (required)<br/><br/>**Required:**<br/>• `fqdn` - Cluster fully qualified domain name<br/>• `username` - Cluster username<br/>• `password` - Cluster password<br/><br/>**Optional:**<br/>• `url` - URL to access the cluster's REST API<br/>• `replication_endpoint` - Address to access the database instance for peer replication<br/>• `replication_tls_sni` - Cluster [Server Name Indication (SNI)](https://en.wikipedia.org/wiki/Server_Name_Indication) hostname for TLS connections |
+| compression | 0-6 | The level of data compression: <br /><br > 0 = No compression <br /><br > 6 = High compression and resource load (Default: 3) |
+| wait | | Prevents `crdb-cli` from running another command before this command finishes |
+| no-wait | | `crdb-cli` can run another command before this command finishes |
 
 ### Returns
 

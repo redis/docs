@@ -44,6 +44,12 @@ PUT /v1/crdbs/552bbccb-99f3-4142-bd17-93d245f0bc79/flush
 |-------|------|-------------|
 | crdb_guid | string | Globally unique Active-Active database ID (GUID) |
 
+#### Query parameters
+
+| Field | Type | Description |
+|-------|------|-------------|
+| async_flush | boolean | Perform asynchronous flush operation (optional) |
+
 ### Response {#put-response}
 
 Returns a [CRDB task object]({{< relref "/operate/rs/references/rest-api/objects/crdb_task" >}}).
