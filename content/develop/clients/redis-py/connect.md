@@ -242,3 +242,13 @@ r3.close()
 
 pool.close()
 ```
+
+## Retrying connections
+
+A connection will sometimes fail because of a transient problem, such as a
+network outage or a server that is temporarily unavailable. In these cases,
+retrying the connection after a short delay will usually succeed. `redis-py` uses
+a simple retry strategy by default, but there are various ways you can customize
+this behavior to suit your use case. See
+[Retries]({{< relref "/develop/clients/redis-py/produsage#retries" >}})
+for more information about custom retry strategies, with example code.

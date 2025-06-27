@@ -27,7 +27,8 @@ progress in implementing the recommendations.
 {{< checklist "nodeprodlist" >}}
     {{< checklist-item "#handling-errors" >}}Handling errors{{< /checklist-item >}}
     {{< checklist-item "#handling-reconnections" >}}Handling reconnections{{< /checklist-item >}}
-    {{< checklist-item "#timeouts" >}}Timeouts{{< /checklist-item >}}
+    {{< checklist-item "#connection-timeouts" >}}Connection timeouts{{< /checklist-item >}}
+    {{< checklist-item "#command-execution-reliability" >}}Command execution reliability{{< /checklist-item >}}
 {{< /checklist >}}
 
 ## Recommendations
@@ -63,10 +64,12 @@ own custom strategy. See
 [Reconnect after disconnection]({{< relref "/develop/clients/nodejs/connect#reconnect-after-disconnection" >}})
 for more information.
 
-### Timeouts
+### Connection timeouts
 
-To set a timeout for a connection, use the `connectTimeout` option:
-```typescript
+To set a timeout for a connection, use the `connectTimeout` option
+(the default timeout is 5 seconds):
+
+```js
 const client = createClient({
   socket: {
     // setting a 10-second timeout  
@@ -75,3 +78,30 @@ const client = createClient({
 });
 client.on('error', error => console.error('Redis client error:', error));
 ```
+
+### Command execution reliability
+
+By default, `node-redis` reconnects automatically when the connection is lost
+(but see [Handling reconnections](#handling-reconnections), if you want to
+customize this behavior). While the connection is down, any commands that you
+execute will be queued and sent to the server when the connection is restored.
+This might occasionally cause problems if the connection fails while a
+[non-idempotent](https://en.wikipedia.org/wiki/Idempotence) command
+is being executed. In this case, the command could change the data on the server
+without the client removing it from the queue. When the connection is restored,
+the command will be sent again, resulting in incorrect data.
+
+If you need to avoid this situation, set the `disableOfflineQueue` option
+to `true` when you create the client. This will cause the client to discard
+unexecuted commands rather than queuing them:
+
+```js
+const client = createClient({
+  disableOfflineQueue: true,
+      .
+      .
+});
+```
+
+Use a separate connection with the queue disabled if you want to avoid queuing
+only for specific commands.

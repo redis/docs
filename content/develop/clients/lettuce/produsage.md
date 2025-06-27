@@ -29,6 +29,7 @@ progress in implementing the recommendations.
     {{< checklist-item "#cluster-topology-refresh">}}Cluster topology refresh{{< /checklist-item >}}
     {{< checklist-item "#dns-cache-and-redis" >}}DNS cache and Redis{{< /checklist-item >}}
     {{< checklist-item "#exception-handling" >}}Exception handling{{< /checklist-item >}}
+    {{< checklist-item "#connection-and-execution-reliability" >}}Connection and execution reliability{{< /checklist-item >}}
 {{< /checklist >}}
 
 ## Recommendations
@@ -189,3 +190,51 @@ See the Error handling sections of the
 [Lettuce async](https://redis.github.io/lettuce/user-guide/async-api/#error-handling) and
 [Lettuce reactive](https://redis.github.io/lettuce/user-guide/reactive-api/#error-handling)
 API guides to learn more about handling exceptions.
+
+
+## Connection and execution reliability
+
+By default, Lettuce uses an *at-least-once* strategy for command execution.
+It will automatically reconnect after a disconnection and resume executing
+any commands that were queued when the connection was lost. If you
+switch to *at-most-once* execution, Lettuce will
+not reconnect after a disconnection and will discard commands
+instead of queuing them. You can enable at-most-once execution by setting
+`autoReconnect(false)` in the
+`ClientOptions` when you create the client, as shown in the example below:
+
+```java
+RedisURI uri = RedisURI.Builder
+                .redis("localhost", 6379)
+                .withAuthentication("default", "yourPassword")
+                .build();
+
+RedisClient client = RedisClient.create(uri);
+
+client.setOptions(ClientOptions.builder()
+    .autoReconnect(false)
+        .
+        .
+    .build());
+```
+
+If you need finer control over which commands you want to execute in which mode, you can
+configure a *replay filter* to choose the commands that should retry after a disconnection.
+The example below shows a filter that retries all commands except for
+[`DECR`]({{< relref "/commands/decr" >}})
+(this command is not [idempotent](https://en.wikipedia.org/wiki/Idempotence) and
+so you might need to avoid executing it more than once). Note that
+replay filters are only available in in Lettuce v6.6 and above.
+
+```java
+Predicate<RedisCommand<?, ?, ?> > filter =
+        cmd -> cmd.getType().toString().equalsIgnoreCase("DECR");
+
+client.setOptions(ClientOptions.builder()
+    .replayFilter(filter)
+    .build());
+```
+
+See
+[Command execution reliability](https://redis.github.io/lettuce/advanced-usage/#command-execution-reliability)
+in the Lettuce reference guide for more information.
