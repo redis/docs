@@ -24,7 +24,7 @@ categories:
 - clients
 complexity: O(1) when path is evaluated to a single value, O(N) when path is evaluated
   to multiple values, where N is the size of the key
-description: Append one or more json values into the array at path after the last
+description: Append one or more JSON values into the array at path after the last
   element in it.
 group: json
 hidden: false
@@ -32,9 +32,9 @@ linkTitle: JSON.ARRAPPEND
 module: JSON
 since: 1.0.0
 stack_path: docs/data-types/json
-summary: Append one or more json values into the array at path after the last element
+summary: Append one or more JSON values into the array at path after the last element
   in it.
-syntax_fmt: JSON.ARRAPPEND key [path] value [value ...]
+syntax_fmt: JSON.ARRAPPEND key path value [value ...]
 syntax_str: '[path] value [value ...]'
 title: JSON.ARRAPPEND
 ---
@@ -49,6 +49,11 @@ Append the `json` values into the array at `path` after the last element in it
 is key to modify.
 </details>
 
+<details open><summary><code>path</code></summary>
+
+is JSONPath to specify.
+</details>
+
 <details open><summary><code>value</code></summary> 
 
 is one or more values to append to one or more arrays. 
@@ -58,16 +63,9 @@ To specify a string as an array value to append, wrap the quoted string with an 
 {{% /alert %}}
 </details>
 
-## Optional arguments
-
-<details open><summary><code>path</code></summary> 
-
-is JSONPath to specify. Default is root `$`.
-</details>
-
 ## Return value 
 
-`JSON.ARRAPPEND` returns an [array]({{< relref "develop/reference/protocol-spec#resp-arrays" >}}) of integer replies for each path, the array's new size, or `nil`, if the matching JSON value is not an array. 
+`JSON.ARRAPPEND` returns an [array]({{< relref "develop/reference/protocol-spec#resp-arrays" >}}) of integer replies for each `path` match, the array's new length, or `nil`, if the matching JSON value is not an array. 
 For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}). 
 
 ## Examples
@@ -82,18 +80,18 @@ redis> JSON.SET item:1 $ '{"name":"Noise-cancelling Bluetooth headphones","descr
 OK
 {{< / highlight >}}
 
-Add color `blue` to the end of the `colors` array. `JSON.ARRAPPEND` returns the array's new size.
+Add color `blue` to the end of the `colors` array. `JSON.ARRAPPEND`; Return the new length of the `colors` array.
 
 {{< highlight bash >}}
 redis> JSON.ARRAPPEND item:1 $.colors '"blue"'
 1) (integer) 3
 {{< / highlight >}}
 
-Return the new length of the `colors` array.
+Get the updated value of the `colors` array.
 
 {{< highlight bash >}}
-redis> JSON.GET item:1
-"{\"name\":\"Noise-cancelling Bluetooth headphones\",\"description\":\"Wireless Bluetooth headphones with noise-cancelling technology\",\"connection\":{\"wireless\":true,\"type\":\"Bluetooth\"},\"price\":99.98,\"stock\":25,\"colors\":[\"black\",\"silver\",\"blue\"]}"
+redis> JSON.GET item:1 $.colors
+"[[\"black\",\"silver\",\"blue\"]]"
 {{< / highlight >}}
 
 </details>
