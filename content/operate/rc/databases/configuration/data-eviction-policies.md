@@ -42,19 +42,10 @@ Auto Tiering can extend your database across RAM and Flash Memory and intelligen
 
 ## Active-Passive replication considerations
 
-When using Active-Passive replication with [Replica Of]({{< relref "/operate/rs/databases/import-export/replica-of/" >}}), data eviction and expiration policies have important implications for data consistency.
+When using [Active-Passive replication]({{< relref "/operate/rc/databases/migrate-databases#sync-using-active-passive" >}}), eviction and expiration only operate on the source (active) database. The target database does not evict or expire data while Active-Passive is enabled. 
 
-{{< warning >}}
-**Do not write to the destination (passive) replica database.** Writing to the destination replica can cause data consistency issues and replication failures.
-{{< /warning >}}
+Do not write to the target database while Active-Passive is enabled. Doing so can cause the following issues:
 
-### Problems caused by writing to passive replicas
-
-In Active-Passive setups, eviction and expiration only operate on the active (source) database. When you write to the passive replica:
-
-- **Memory management conflicts**: The passive replica cannot rely on eviction or expiration to manage local writes, requiring sufficient memory to handle both replicated data and local writes.
-- **Data inconsistency**: Local writes create differences between the source and destination databases, causing replicated commands to behave differently on each database.
-- **Replication failures**: Inconsistent data can cause replicated commands to fail with errors, which will cause the synchronization process to exit and break replication.
-
-
-
+- The target database cannot rely on eviction or expiration to manage local writes, requiring sufficient memory to handle both replicated data and local writes.
+- Local writes create differences between the source and target databases, causing replicated commands to behave differently on each database.
+- Inconsistent data can cause replicated commands to fail with errors, which will cause the synchronization process to exit and break replication.
