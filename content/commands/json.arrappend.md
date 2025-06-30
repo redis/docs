@@ -35,10 +35,10 @@ stack_path: docs/data-types/json
 summary: Append one or more JSON values into the array at path after the last element
   in it.
 syntax_fmt: JSON.ARRAPPEND key path value [value ...]
-syntax_str: '[path] value [value ...]'
+syntax_str: 'path value [value ...]'
 title: JSON.ARRAPPEND
 ---
-Append the `json` values into the array at `path` after the last element in it
+Append the JSON values into the array at `path` after the last element in it.
 
 [Examples](#examples)
 
@@ -46,12 +46,12 @@ Append the `json` values into the array at `path` after the last element in it
 
 <details open><summary><code>key</code></summary> 
 
-is key to modify.
+is the key to modify.
 </details>
 
 <details open><summary><code>path</code></summary>
 
-is JSONPath to specify.
+is the JSONPath to specify.
 </details>
 
 <details open><summary><code>value</code></summary> 
@@ -80,7 +80,7 @@ redis> JSON.SET item:1 $ '{"name":"Noise-cancelling Bluetooth headphones","descr
 OK
 {{< / highlight >}}
 
-Add color `blue` to the end of the `colors` array. `JSON.ARRAPPEND`; Return the new length of the `colors` array.
+Add `blue` to the end of the `colors` array. `JSON.ARRAPPEND` returns the new length of the `colors` array.
 
 {{< highlight bash >}}
 redis> JSON.ARRAPPEND item:1 $.colors '"blue"'
