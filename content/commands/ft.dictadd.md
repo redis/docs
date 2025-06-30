@@ -73,4 +73,4 @@ FT.DICTADD returns an integer reply, the number of new terms that were added.
 
 ## Related topics
 
-[RediSearch]({{< relref "/develop/interact/search-and-query/" >}})
+[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})

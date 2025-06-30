@@ -156,5 +156,5 @@ redis> JSON.ARRINDEX item:1 $..colors '"silver"'
 ## Related topics
 
 * [RedisJSON]({{< relref "/develop/data-types/json/" >}})
-* [Index and search JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}})
+* [Index and search JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}})
 

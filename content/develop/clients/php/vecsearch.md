@@ -15,14 +15,14 @@ title: Index and query vectors
 weight: 30
 ---
 
-[Redis Query Engine]({{< relref "/develop/interact/search-and-query" >}})
+[Redis Query Engine]({{< relref "/develop/ai/search-and-query" >}})
 lets you index vector fields in [hash]({{< relref "/develop/data-types/hashes" >}})
 or [JSON]({{< relref "/develop/data-types/json" >}}) objects (see the
-[Vectors]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}}) 
+[Vectors]({{< relref "/develop/ai/search-and-query/vectors" >}}) 
 reference page for more information).
 Among other things, vector fields can store *text embeddings*, which are AI-generated vector
 representations of the semantic information in pieces of text. The
-[vector distance]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors#distance-metrics" >}})
+[vector distance]({{< relref "/develop/ai/search-and-query/vectors#distance-metrics" >}})
 between two embeddings indicates how similar they are semantically. By comparing the
 similarity of an embedding generated from some query text with embeddings stored in hash
 or JSON fields, Redis can retrieve documents that closely match the query in terms
@@ -40,7 +40,7 @@ separate section to explain the
 Redis query engine methods such as [`ftSearch()`]({{< relref "/commands/ft.search" >}})
 will explicitly request this dialect, overriding the default set for the server.
 See
-[Query dialects]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}})
+[Query dialects]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}})
 for more information.
 {{< /note >}}
 
@@ -109,12 +109,12 @@ try {
 
 Next, create the index.
 The schema in the example below includes three fields: the text content to index, a
-[tag]({{< relref "/develop/interact/search-and-query/advanced-concepts/tags" >}})
+[tag]({{< relref "/develop/ai/search-and-query/advanced-concepts/tags" >}})
 field to represent the "genre" of the text, and the embedding vector generated from
 the original text content. The `embedding` field specifies
-[HNSW]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors#hnsw-index" >}}) 
+[HNSW]({{< relref "/develop/ai/search-and-query/vectors#hnsw-index" >}}) 
 indexing, the
-[L2]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors#distance-metrics" >}})
+[L2]({{< relref "/develop/ai/search-and-query/vectors#distance-metrics" >}})
 vector distance metric, `Float32` values to represent the vector's components,
 and 384 dimensions, as required by the `all-MiniLM-L6-v2` embedding model.
 
@@ -209,10 +209,10 @@ sorted to rank them in order of ascending distance.
 
 The code below creates the query embedding using the `$extractor()` function, as with
 the indexing, and passes it as a parameter when the query executes (see
-[Vector search]({{< relref "/develop/interact/search-and-query/query/vector-search" >}})
+[Vector search]({{< relref "/develop/ai/search-and-query/query/vector-search" >}})
 for more information about using query parameters with embeddings).
 The query is a
-[K nearest neighbors (KNN)]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors#knn-vector-search" >}})
+[K nearest neighbors (KNN)]({{< relref "/develop/ai/search-and-query/vectors#knn-vector-search" >}})
 search that sorts the results in order of vector distance from the query vector.
 
 The results are returned as an array with the number of results in the
@@ -408,6 +408,6 @@ Field: vector_distance, Value: 44.6189727783
 ## Learn more
 
 See
-[Vector search]({{< relref "/develop/interact/search-and-query/query/vector-search" >}})
+[Vector search]({{< relref "/develop/ai/search-and-query/query/vector-search" >}})
 for more information about the indexing options, distance metrics, and query format
 for vectors.

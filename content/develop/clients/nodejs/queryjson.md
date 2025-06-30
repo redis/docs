@@ -16,7 +16,7 @@ weight: 2
 ---
 
 This example shows how to create a
-[search index]({{< relref "/develop/interact/search-and-query/indexing" >}})
+[search index]({{< relref "/develop/ai/search-and-query/indexing" >}})
 for [JSON]({{< relref "/develop/data-types/json" >}}) documents and
 run queries against the index. It then goes on to show the slight differences
 in the equivalent code for [hash]({{< relref "/develop/data-types/hashes" >}})
@@ -27,7 +27,7 @@ onwards, `node-redis` uses query dialect 2 by default.
 Redis query engine methods such as [`ft.search()`]({{< relref "/commands/ft.search" >}})
 will explicitly request this dialect, overriding the default set for the server.
 See
-[Query dialects]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}})
+[Query dialects]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}})
 for more information.
 {{< /note >}}
 
@@ -89,7 +89,7 @@ const client = await createClient();
 await client.connect();
 ```
 
-Create an index. In this example, only JSON documents with the key prefix `user:` are indexed. For more information, see [Query syntax]({{< relref "/develop/interact/search-and-query/query/" >}}).
+Create an index. In this example, only JSON documents with the key prefix `user:` are indexed. For more information, see [Query syntax]({{< relref "/develop/ai/search-and-query/query/" >}}).
 
 ```js
 await client.ft.create('idx:users', {
@@ -132,7 +132,7 @@ const [user1Reply, user2Reply, user3Reply] = await Promise.all([
 ## Query the data
 
 You can now use the index to search the JSON objects. The
-[query]({{< relref "/develop/interact/search-and-query/query" >}})
+[query]({{< relref "/develop/ai/search-and-query/query" >}})
 below searches for objects that have the text "Paul" in any field
 and have an `age` value in the range 30 to 40:
 
@@ -161,7 +161,7 @@ citiesResult.documents.forEach(cityDoc => {
 ```
 
 Use an
-[aggregation query]({{< relref "/develop/interact/search-and-query/query/aggregation" >}})
+[aggregation query]({{< relref "/develop/ai/search-and-query/query/aggregation" >}})
 to count all users in each city.
 
 ```js
@@ -250,5 +250,5 @@ findPaulHashResult.documents.forEach(doc => {
 
 ## More information
 
-See the [Redis Query Engine]({{< relref "/develop/interact/search-and-query" >}}) docs
+See the [Redis Query Engine]({{< relref "/develop/ai/search-and-query" >}}) docs
 for a full description of all query features with examples.
