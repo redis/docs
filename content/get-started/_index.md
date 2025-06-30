@@ -29,7 +29,7 @@ The following quick start guides will show you how to use Redis for the followin
 ## Data integration tools, libraries, and frameworks
 - [Client API libraries]({{< relref "/develop/clients" >}})
 - [Redis Data Integration]({{< relref "/integrate/redis-data-integration/" >}})
-- [Redis vector library for Python]({{< relref "/integrate/redisvl/" >}})
+- [Redis vector library for Python]({{< relref "/develop/ai/redisvl/" >}})
 - [Redis Cloud with Amazon Bedrock]({{< relref "/integrate/amazon-bedrock/" >}})
 - [Object-mapping for .NET]({{< relref "/integrate/redisom-for-net/" >}})
 - [Spring Data Redis for Java]({{< relref "/integrate/spring-framework-cache/" >}})

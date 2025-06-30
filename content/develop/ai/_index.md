@@ -15,7 +15,7 @@ Redis stores and indexes vector embeddings that semantically represent unstructu
 
 | Vector | RAG | RedisVL |
 | :-- | :-- | :-- |
-| {{<image filename="images/ai-cube.svg" alt="AI Redis icon.">}}[Redis vector database quick start guide]({{< relref "/develop/get-started/vector-database" >}}) |{{<image filename="images/ai-brain.svg" alt="AI Redis icon.">}} [Retrieval-Augmented Generation quick start guide]({{< relref "/develop/get-started/rag" >}}) | {{<image filename="images/ai-lib.svg" alt="AI Redis icon.">}}[Redis vector Python client library documentation]({{< relref "/integrate/redisvl/" >}}) |
+| {{<image filename="images/ai-cube.svg" alt="AI Redis icon.">}}[Redis vector database quick start guide]({{< relref "/develop/get-started/vector-database" >}}) |{{<image filename="images/ai-brain.svg" alt="AI Redis icon.">}} [Retrieval-Augmented Generation quick start guide]({{< relref "/develop/get-started/rag" >}}) | {{<image filename="images/ai-lib.svg" alt="AI Redis icon.">}}[Redis vector Python client library documentation]({{< relref "/develop/ai/redisvl/" >}}) |
 
 #### Overview
 
