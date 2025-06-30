@@ -13,10 +13,13 @@ complexity: O(log(N)) where N is the number of elements in the vector set.
 description: Return elements by vector similarity.
 group: vector_set
 hidden: false
+history:
+- - 8.2.0
+  - added the WITHATTRIBS option.
 linkTitle: VSIM
 since: 8.0.0
 summary: Return elements by vector similarity.
-syntax_fmt: "VSIM key (ELE | FP32 | VALUES num) (vector | element) [WITHSCORES] [COUNT num] [EF search-exploration-factor]\n  [FILTER expression] [FILTER-EF max-filtering-effort] [TRUTH] [NOTHREAD]"
+syntax_fmt: "VSIM key (ELE | FP32 | VALUES num) (vector | element) [WITHSCORES] [WITHATTRIBS] [COUNT num]\n  [EF search-exploration-factor] [FILTER expression] [FILTER-EF max-filtering-effort] [TRUTH] [NOTHREAD]"
 title: VSIM
 bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
 ---
@@ -39,16 +42,19 @@ VSIM word_embeddings ELE apple
 10) "grape"
 ```
 
-You can include similarity scores and limit the number of results:
+You can include similarity scores, attributes (if any), and limit the number of results:
 
 ```shell
-VSIM word_embeddings ELE apple WITHSCORES COUNT 3
+VSIM word_embeddings ELE apple WITHSCORES WITHATTRIBS COUNT 3
 1) "apple"
 2) "0.9998867657923256"
-3) "apples"
-4) "0.8598527610301971"
-5) "pear"
-6) "0.8226882219314575"
+3) "{\"len\": 5}"
+4) "apples"
+5) "0.859852746129036"
+6) "{\"len\": 6}"
+7) "pear"
+8) "0.8226882070302963"
+9) "{\"len\": 4}"
 ```
 
 Set the `EF` (exploration factor) to improve recall at the cost of performance. Use the `TRUTH` option to perform an exact linear scan, useful for benchmarking. The `NOTHREAD` option runs the search in the main thread and may increase server latency.
@@ -79,6 +85,12 @@ is either the vector data (for `FP32` or `VALUES`) or the name of the element (f
 <summary><code>WITHSCORES</code></summary>
 
 returns the similarity score (from 1 to 0) alongside each result. A score of 1 is identical; 0 is the opposite.
+</details>
+
+<details open>
+<summary><code>WITHATTRIBS</code></summary>
+
+returns, for each element, the JSON attribute associated with the element or NULL when no attributes are present.
 </details>
 
 <details open>
@@ -128,9 +140,11 @@ executes the search in the main thread instead of a background thread. Useful fo
     tab2="RESP3" >}}
 
 One of the following:
-* [Simple error reply](../../develop/reference/protocol-spec/#simple-errors) for unknown element.
-* [Array reply](../../develop/reference/protocol-spec#arrays) (empty array) for unknown key.
-* [Array reply](../../develop/reference/protocol-spec#arrays) with matching elements; juxtaposed with scores when used with the WITHSCORES option.
+* [Simple error reply](../../develop/reference/protocol-spec/#simple-errors) for an unknown element.
+* [Array reply](../../develop/reference/protocol-spec#arrays) (empty array) for an unknown key.
+* [Array reply](../../develop/reference/protocol-spec#arrays) with matching elements.
+* With the `WITHSCORES` option, an [array reply](../../develop/reference/protocol-spec#arrays) with matching [bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) elements juxtaposed with [bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) as floating-point scores.
+* With the `WITHSCORES` and `WITHATTRIBS` options, an [array reply](../../develop/reference/protocol-spec#arrays) with matching [bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) elements, and two additional elements: (1) a [bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) as floating-point score and (2) a [bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) representing the JSON attribute associated with the element or [nil (null bulk string)]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) for the elements missing an attribute.
 
 -tab-sep-
 
@@ -138,6 +152,7 @@ One of the following:
 * [Simple error reply](../../develop/reference/protocol-spec/#simple-errors) for unknown element.
 * [Array reply](../../develop/reference/protocol-spec#arrays) (empty array) for unknown key.
 * [Array reply](../../develop/reference/protocol-spec#arrays) with matching elements.
-* [Map reply](../../develop/reference/protocol-spec#maps) with matching elements and [double](../../develop/reference/protocol-spec#doubles) scores when used with the WITHSCORES option.
+* With the `WITHSCORES` option, a [map reply](../../develop/reference/protocol-spec#maps) with matching [bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) elements (keys) and  [double](../../develop/reference/protocol-spec#doubles) scores (values).
+* With the `WITHSCORES` and `WITHATTRIBS` options, a [Map reply](../../develop/reference/protocol-spec#maps) with matching [bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) elements (keys), and an additional array (values) with the following elements: (1) a [double reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})  for the score and (2) a [bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) representing the JSON attribute associated with the element or [null]({{< relref "/develop/reference/protocol-spec#nulls" >}}) for the elements missing an attribute.
 
 {{< /multitabs >}}

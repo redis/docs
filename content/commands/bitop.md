@@ -21,6 +21,22 @@ arguments:
     name: not
     token: NOT
     type: pure-token
+  - display_text: diff
+    name: diff
+    token: DIFF
+    type: pure-token
+  - display_text: diff1
+    name: diff1
+    token: DIFF1
+    type: pure-token
+  - display_text: andor
+    name: andor
+    token: ANDOR
+    type: pure-token
+  - display_text: one
+    name: one
+    token: ONE
+    type: pure-token
   name: operation
   type: oneof
 - display_text: destkey
@@ -78,26 +94,45 @@ key_specs:
 linkTitle: BITOP
 since: 2.6.0
 summary: Performs bitwise operations on multiple strings, and stores the result.
-syntax_fmt: BITOP <AND | OR | XOR | NOT> destkey key [key ...]
+syntax_fmt: "BITOP <AND | OR | XOR | NOT | DIFF | DIFF1 | ANDOR | ONE> destkey key [key ...]"
 syntax_str: destkey key [key ...]
 title: BITOP
 ---
 Perform a bitwise operation between multiple keys (containing string values) and
 store the result in the destination key.
 
-The `BITOP` command supports four bitwise operations: **AND**, **OR**, **XOR**
-and **NOT**, thus the valid forms to call the command are:
+The `BITOP` command supports eight bitwise operations: `AND`, `OR`, `XOR`,
+`NOT`, `DIFF`, `DIFF1`, `ANDOR`, and `ONE`. The valid forms to call the command are:
 
 
 * `BITOP AND destkey srckey1 srckey2 srckey3 ... srckeyN`
+
+    A bit in `destkey` is set only if it is set in all source bitmaps.
 * `BITOP OR  destkey srckey1 srckey2 srckey3 ... srckeyN`
+
+    A bit in `destkey` is set only if it is set in at least one source bitmap.
 * `BITOP XOR destkey srckey1 srckey2 srckey3 ... srckeyN`
+
+    Mostly used with two source bitmaps, a bit in `destkey` is set only if its value differs between the two source bitmaps.
 * `BITOP NOT destkey srckey`
 
-As you can see **NOT** is special as it only takes an input key, because it
-performs inversion of bits so it only makes sense as a unary operator.
+    `NOT` is a unary operator and only supports a single source bitmap; set the bit to the inverse of its value in the source bitmap.
+* `BITOP DIFF destkey X [Y1 Y2 ...]` <sup>[1](#list-note-1)</sup>
 
-The result of the operation is always stored at `destkey`.
+    A bit in `destkey` is set if it is set in `X`, but not in any of `Y1, Y2, ...` .
+* `BITOP DIFF1 destkey X [Y1 Y2 ...]` <sup>[1](#list-note-1)</sup>
+
+    A bit in `destkey` is set if it is set in one or more of `Y1, Y2, ...`, but not in `X`.
+* `BITOP ANDOR destkey X [Y1 Y2 ...]` <sup>[1](#list-note-1)</sup>
+
+    A bit in `destkey` is set if it is set in `X` and also in one or more of `Y1, Y2, ...`.
+* `BITOP ONE destkey X1 [X2 X3 ...]` <sup>[1](#list-note-1)</sup>
+
+    A bit in `destkey` is set if it is set in exactly one of `X1, X2, ...`.
+
+The result of each operation is always stored at `destkey`.
+
+1. <a name="list-note-1"></a> Added in Redis 8.2.
 
 ## Handling of strings with different lengths
 
@@ -110,13 +145,27 @@ zero bytes up to the length of the longest string.
 
 ## Examples
 
+1. Basic usage example using the `AND` operator:
+
 {{% redis-cli %}}
-SET key1 "foobar"
-SET key2 "abcdef"
+BITFIELD key1 SET i8 #0 255
+BITFIELD key2 SET i8 #0 85
 BITOP AND dest key1 key2
-GET dest
+BITFIELD dest GET i8 #0
 {{% /redis-cli %}}
 
+2. Suppose you want to expose people to a book-related ad. The target audience is people who love to read books and are interested in fantasy, adventure, or science fiction. Assume you have the following bitmaps:
+
+* `LRB` - people who love to read books.
+* `B:F` - people interested in fantasy.
+* `B:A` - people interested in adventure.
+* `B:SF` - people interested in science fiction.
+
+To create a bitmap representing the target audience, use the following command:
+
+```
+BITOP ANDOR TA LRB B:F B:A B:SF
+```
 
 ## Pattern: real time metrics using bitmaps
 
