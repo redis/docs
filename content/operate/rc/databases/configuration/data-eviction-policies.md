@@ -45,7 +45,7 @@ Auto Tiering can extend your database across RAM and Flash Memory and intelligen
 When using Active-Passive replication with [Replica Of]({{< relref "/operate/rs/databases/import-export/replica-of/" >}}), data eviction and expiration policies have important implications for data consistency.
 
 {{< warning >}}
-**Do not write to the destination (passive) replica database.** Writing to the destination replica can cause serious data consistency issues and replication failures.
+**Do not write to the destination (passive) replica database.** Writing to the destination replica can cause data consistency issues and replication failures.
 {{< /warning >}}
 
 ### Problems caused by writing to passive replicas
@@ -56,13 +56,5 @@ In Active-Passive setups, eviction and expiration only operate on the active (so
 - **Data inconsistency**: Local writes create differences between the source and destination databases, causing replicated commands to behave differently on each database.
 - **Replication failures**: Inconsistent data can cause replicated commands to fail with errors, which will cause the synchronization process to exit and break replication.
 
-### Transitioning from passive to active
-
-To properly transition a passive replica to become an active, writable database:
-
-1. **Stop replication** using the Redis Cloud console interface
-2. **Remove the replicaOf source** by running the `REPLICAOF NO ONE` command on the database
-
-Both steps are required to ensure the database can safely accept writes and manage its own eviction and expiration policies.
 
 
