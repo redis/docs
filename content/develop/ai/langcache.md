@@ -16,9 +16,9 @@ Redis LangCache is a fully-managed semantic caching service that reduces large l
 
 LangCache uses semantic caching to store and reuse previous LLM responses for similar queries. Instead of calling the LLM for every request, LangCache:
 
-1. **Checks for similar cached responses** when a new query arrives
-2. **Returns cached results instantly** if a semantically similar response exists
-3. **Stores new responses** for future reuse when no cache match is found
+- **Checks for similar cached responses** when a new query arrives
+- **Returns cached results instantly** if a semantically similar response exists
+- **Stores new responses** for future reuse when no cache match is found
 
 ## Key benefits
 
