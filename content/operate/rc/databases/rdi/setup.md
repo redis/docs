@@ -51,22 +51,28 @@ See the [RDI architecture overview]({{< relref "/integrate/redis-data-integratio
 
 To ensure that you can connect your Redis Cloud database to the source database, you need to set up an endpoint service through AWS PrivateLink. 
 
-Choose the steps for your database setup:
-- [Database hosted on an AWS EC2 instance](#database-hosted-on-an-aws-ec2-instance)
-- [Database hosted on AWS RDS or AWS Aurora](#database-hosted-on-aws-rds-or-aws-aurora)
+The following diagrams show the network setup for the different database setups:
 
-### Database hosted on an AWS EC2 instance
+- Database hosted on an AWS EC2 instance:
 
-The following diagram shows the network setup for a database hosted on an AWS EC2 instance.
+    {{<image filename="images/rc/rdi/rdi-setup-diagram-ec2.png" alt="The network setup for a database hosted on an AWS EC2 instance." width=80% >}}
 
-{{<image filename="images/rc/rdi/rdi-setup-diagram-ec2.png" alt="The network setup for a database hosted on an AWS EC2 instance." width=75% >}}
+- Database hosted on AWS RDS or AWS Aurora:
 
-To do this:
+    {{<image filename="images/rc/rdi/rdi-setup-diagram-aurora.png" alt="The network setup for a database hosted on AWS RDS or AWS Aurora." width=80% >}}
+
+Select the steps for your database setup.
+
+{{< multitabs id="rdi-cloud-connectivity"
+      tab1="EC2 instance"
+      tab2="AWS RDS or Aurora" >}}
+
+To set up PrivateLink for a database hosted on an EC2 instance:
 
 1. [Create a network load balancer](#create-network-load-balancer-ec2) that will route incoming HTTP requests to your database.
 1. [Create an endpoint service](#create-endpoint-service-ec2) through AWS PrivateLink.
 
-#### Create network load balancer {#create-network-load-balancer-ec2}
+### Create network load balancer {#create-network-load-balancer-ec2}
 
 In the [AWS Management Console](https://console.aws.amazon.com/), use the **Services** menu to locate and select **Compute** > **EC2**. [Create a network load balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-network-load-balancer.html#configure-load-balancer) with the following settings:
 
@@ -81,7 +87,7 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
             - **Target type**: Select **Instances**.
             - **Protocol : Port**: Select **TCP**, and then enter the port number where your database is exposed.
             - The **IP address type** and **VPC** should be selected already and match the VPC you selected earlier.
-        1. In **Register targets**, select the EC2 instance that runs your source database, enter the port, and select **Include as pending below**. Then, select **Create target group** to create your target group. Return **Listeners and routing** in the Network Load Balancer setup.
+        1. In **Register targets**, select the EC2 instance that runs your source database, enter the port, and select **Include as pending below**. Then, select **Create target group** to create your target group. Return to **Listeners and routing** in the Network Load Balancer setup.
     1. Set the following **Listener** properties:
         - **Protocol**: Select **TCP**.
         - **Port**: Enter your source database's port.
@@ -93,7 +99,7 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
     - **Source**: Select **Anywhere - IPv4**.
     Select **Save rules** to save your changes.
 
-#### Create endpoint service {#create-endpoint-service-ec2}
+### Create endpoint service {#create-endpoint-service-ec2}
 
 In the [AWS Management Console](https://console.aws.amazon.com/), use the **Services** menu to locate and select **Networking & Content Delivery** > **VPC**. There, select **PrivateLink and Lattice** > **Endpoint services**. [Create an endpoint service](https://docs.aws.amazon.com/vpc/latest/privatelink/create-endpoint-service.html) with the following settings:
 
@@ -113,23 +119,26 @@ After you create the endpoint service, you need to add Redis Cloud as an Allowed
 
 For more details on AWS PrivateLink, see [Share your services through AWS PrivateLink](https://docs.aws.amazon.com/vpc/latest/privatelink/privatelink-share-your-services.html).
 
-### Database hosted on AWS RDS or AWS Aurora
+--tab-sep--
 
-The following diagram shows the network setup for a database hosted on AWS RDS or AWS Aurora.
-
-{{<image filename="images/rc/rdi/rdi-setup-diagram-aurora.png" alt="The network setup for a database hosted on AWS RDS or AWS Aurora." width=75% >}}
-
-To do this:
+To set up PrivateLink for a database hosted on AWS RDS or AWS Aurora:
 
 1. [Create an RDS Proxy](#create-rds-proxy) that will route requests to your database.
 1. [Create a network load balancer](#create-network-load-balancer-rds) that will route incoming HTTP requests to the RDS proxy.
 1. [Create an endpoint service](#create-endpoint-service-rds) through AWS PrivateLink.
 
-#### Create RDS proxy {#create-rds-proxy}
+### Create RDS proxy {#create-rds-proxy}
 
 In the [AWS Management Console](https://console.aws.amazon.com/), use the **Services** menu to locate and select **Database** > **Aurora and RDS**. [Create an RDS proxy](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-proxy-creating.html) that can access your database.
 
-#### Create network load balancer {#create-network-load-balancer-rds}
+The Proxy's IAM role must have the following permissions to access the database using the credentials secret and encryption key:
+- `secretsmanager:GetSecretValue`
+- `secretsmanager:DescribeSecret`
+- `kms:Decrypt`
+
+You can set the proxy's IAM role during creation in the **Authentication** section.
+
+### Create network load balancer {#create-network-load-balancer-rds}
 
 In the [AWS Management Console](https://console.aws.amazon.com/), use the **Services** menu to locate and select **Compute** > **EC2**. [Create a network load balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-network-load-balancer.html#configure-load-balancer) with the following settings:
 
@@ -144,7 +153,7 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
             - **Target type**: Select **IP Addresses**.
             - **Protocol : Port**: Select **TCP**, and then enter the port number where your database is exposed.
             - The **IP address type** and **VPC** should be selected already and match the VPC you selected earlier.
-        1. In **Register targets**, enter the static IP address of your RDS proxy, enter the port, and select **Include as pending below**. Then, select **Create target group** to create your target group. Return **Listeners and routing** in the Network Load Balancer setup.
+        1. In **Register targets**, enter the static IP address of your RDS proxy, enter the port, and select **Include as pending below**. Then, select **Create target group** to create your target group. Return to **Listeners and routing** in the Network Load Balancer setup.
             To get the static IP address of your RDS Proxy, run the following command on an EC2 instance in the same VPC as the Proxy:
             ```sh
             $ nslookup <proxy-endpoint>
@@ -161,7 +170,7 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
     - **Source**: Select **Anywhere - IPv4**.
     Select **Save rules** to save your changes.
 
-#### Create endpoint service {#create-endpoint-service-rds}
+### Create endpoint service {#create-endpoint-service-rds}
 
 In the [AWS Management Console](https://console.aws.amazon.com/), use the **Services** menu to locate and select **Networking & Content Delivery** > **VPC**. There, select **PrivateLink and Lattice** > **Endpoint services**. [Create an endpoint service](https://docs.aws.amazon.com/vpc/latest/privatelink/create-endpoint-service.html) with the following settings:
 
@@ -180,6 +189,8 @@ After you create the endpoint service, you need to add Redis Cloud as an Allowed
 1. Save the service name for later. 
 
 For more details on AWS PrivateLink, see [Share your services through AWS PrivateLink](https://docs.aws.amazon.com/vpc/latest/privatelink/privatelink-share-your-services.html).
+
+{{< /multitabs >}}
 
 ## Share source database credentials
 
