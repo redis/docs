@@ -40,7 +40,7 @@ The `FT.AGGREGATE` command processes multiple expressions in a pipeline. Below i
 1. `REDUCE` – performs aggregations. For example, `SUM`, `COUNT`, and `AVG`.
 1. `SORTBY` – orders the results based on specified fields.
 1. `LIMIT` – restricts the number of results returned.
-1. `DIALECT 2` - provides for more comprehensive syntax, for example using parameters in `FILTER` expressions.
+1. `DIALECT 2` - provides for more comprehensive query syntax, for example using parameters in `FILTER` expressions.
 
 Other keywords will be discussed toward the end of this page.
 
@@ -56,6 +56,19 @@ FT.AGGREGATE products "*"
   APPLY "@price * 1.1" AS adjusted_price
   SORTBY 2 @adjusted_price DESC
   LIMIT 0 10
+
+ 1) (integer) 200
+ 2) 1) "price"
+    2) "623"
+    3) "adjusted_price"
+    4) "685.3"
+ 3) 1) "price"
+    2) "619.75"
+    3) "adjusted_price"
+    4) "681.725"
+  .
+  .
+  .
 ```
 
 - When referencing fields inside a `FILTER` clause that were loaded from documents.
@@ -65,6 +78,17 @@ FT.AGGREGATE products "*"
   LOAD 1 @rating
   FILTER "@rating >= 4.5"
   LIMIT 0 10
+
+ 1) (integer) 5
+ 2) 1) "rating"
+    2) "4.5"
+ 3) 1) "rating"
+    2) "4.8"
+ 4) 1) "rating"
+    2) "4.5"
+  .
+  .
+  .
 ```
 
 - When referencing fields inside `GROUPBY` or `REDUCE` clauses.
@@ -74,6 +98,23 @@ FT.AGGREGATE products "*"
   GROUPBY 1 @category
   REDUCE SUM 1 @price AS total_price
   LIMIT 0 10
+
+1) (integer) 6
+2) 1) "category"
+   2) "Toys"
+   3) "total_price"
+   4) "9799.25"
+3) 1) "category"
+   2) "Electronics"
+   3) "total_price"
+   4) "10683.5"
+4) 1) "category"
+   2) "Apparel"
+   3) "total_price"
+   4) "10273.5"
+  .
+  .
+  .
 ```
 
 - When referencing fields created by `REDUCE` in an `APPLY` or `FILTER` clauses.
@@ -85,6 +126,23 @@ FT.AGGREGATE products "*"
   APPLY "@total_price * 1.2" AS boosted_price
   FILTER "@total_price > 1000"
   LIMIT 0 10
+
+1) (integer) 6
+2) 1) "category"
+   2) "Toys"
+   3) "total_price"
+   4) "9799.25"
+   5) "boosted_price"
+   6) "11759.1"
+3) 1) "category"
+   2) "Electronics"
+   3) "total_price"
+   4) "10683.5"
+   5) "boosted_price"
+   6) "12820.2"
+  .
+  .
+  .
 ```
 
 - When referencing fields created by `APPLY` in another `APPLY` or `FILTER` clause.
@@ -96,6 +154,27 @@ FT.AGGREGATE products "*"
   APPLY "@net_price * 1.1" AS marked_up
   FILTER "@net_price > 200"
   LIMIT 0 10
+
+1) (integer) 60
+2) 1) "price"
+   2) "220"
+   3) "discount"
+   4) "0"
+   5) "net_price"
+   6) "220"
+   7) "marked_up"
+   8) "242"
+3) 1) "price"
+   2) "223.25"
+   3) "discount"
+   4) "1.5"
+   5) "net_price"
+   6) "221.75"
+   7) "marked_up"
+   8) "243.925"
+  .
+  .
+  .
 ```
 
 - When referencing fields created by `APPLY` in a `SORTBY` clause.
@@ -106,6 +185,23 @@ FT.AGGREGATE products "*"
   APPLY "@price - @discount" AS net_price
   SORTBY 2 @net_price DESC
   LIMIT 0 10
+
+ 1) (integer) 200
+ 2) 1) "price"
+    2) "623"
+    3) "discount"
+    4) "6"
+    5) "net_price"
+    6) "617"
+ 3) 1) "price"
+    2) "619.75"
+    3) "discount"
+    4) "4.5"
+    5) "net_price"
+    6) "615.25"
+  .
+  .
+  .
 ```
 
 ## GROUPBY with multiple REDUCE operations
@@ -120,6 +216,27 @@ FT.AGGREGATE products "*"
   REDUCE AVG 1 @rating AS avg_rating
   SORTBY 2 @total_price DESC
   LIMIT 0 10
+
+1) (integer) 6
+2) 1) "category"
+   2) "Groceries"
+   3) "product_count"
+   4) "44"
+   5) "total_price"
+   6) "13495.25"
+   7) "avg_rating"
+   8) "3.94090909091"
+3) 1) "category"
+   2) "Home"
+   3) "product_count"
+   4) "40"
+   5) "total_price"
+   6) "11026.75"
+   7) "avg_rating"
+   8) "3.78"
+  .
+  .
+  .
 ```
 
 ## Multiple APPLY operations followed by GROUPBY and REDUCE
@@ -135,6 +252,19 @@ FT.AGGREGATE products "*"
   REDUCE SUM 1 @total_revenue AS total_category_revenue
   SORTBY 2 @total_category_revenue DESC
   LIMIT 0 10
+
+1) (integer) 6
+2) 1) "category"
+   2) "Groceries"
+   3) "total_category_revenue"
+   4) "81373"
+3) 1) "category"
+   2) "Home"
+   3) "total_category_revenue"
+   4) "55797.5"
+  .
+  .
+  .
 ```
 
 ## FILTER and PARAMS
@@ -150,14 +280,33 @@ FT.AGGREGATE products "*"
   SORTBY 2 @total_value DESC
   LIMIT 0 10
   DIALECT 2
+
+1) (integer) 200
+ 2) 1) "price"
+    2) "606.75"
+    3) "rating"
+    4) "4.2"
+    5) "quantity"
+    6) "10"
+    7) "total_value"
+    8) "6067.5"
+ 3) 1) "price"
+    2) "541.75"
+    3) "rating"
+    4) "4.5"
+    5) "quantity"
+    6) "10"
+    7) "total_value"
+    8) "5417.5"
+  .
+  .
+  .
 ```
 
 ## Placement of FILTER before and after GROUPBY/APPLY
 
 - **Before GROUPBY:** Removes records before aggregation.
 - **After GROUPBY:** Filters based on aggregated results.
-- **Before APPLY:** Ensures calculations are applied only to certain records.
-- **After APPLY:** Filters computed values.
 
 ## LOAD after GROUPBY/REDUCE
 
@@ -165,19 +314,19 @@ This is not allowed and you'll get a syntax error.
 
 ## Placement rules for specific parameters
 
-| Parameter    | Placement                             |
-|-----         |-----                                  |
-| `TIMEOUT`    | Can be placed anywhere.               |
-| `LIMIT`      | Must be at the end, before `DIALECT`. |
-| `WITHCURSOR` | Must be at the end, before `DIALECT`. |
-| `SCORER`     | Can be placed anywhere.               |
-| `ADDSCORES`  | Must be before sorting.               |
-| `DIALECT`    | Must be at the end.                   |
+| Parameter    | Placement                                                 |
+|-----         |-----                                                      |
+| `TIMEOUT`    | Can be placed anywhere.                                   |
+| `LIMIT`      | Must be at the end, before `DIALECT`.                     |
+| `WITHCURSOR` | Must be at the end, before `DIALECT`.                     |
+| `SCORER`     | Must be placed between the query and pipeline operations. |
+| `ADDSCORES`  | Must be placed between the query and pipeline operations. |
+| `DIALECT`    | Must be at the end.                                       |
 
 ## LIMIT and WITHCURSOR used together
 
 While you wouldn't ordinarily use `LIMIT` and `WITHCURSOR` together in the same query, you can use them advantageously if doing so fits your workflow.
-`LIMIT` returns immediate results, while `WITHCURSOR` retrieves results incrementally using the [cursor API]({{< relref "/develop/interact/search-and-query/advanced-concepts/aggregations/#cursor-api" >}}).
+`LIMIT`, as the name suggests, will limit the total number of results returned for the given query. `WITHCURSOR` will paginate the results in chunks of size `COUNT`. You can use the [cursor API]({{< relref "/develop/interact/search-and-query/advanced-concepts/aggregations/#cursor-api" >}}) to retrieve more results, as shown below.
 
 ```sh
 FT.AGGREGATE products "*"
@@ -185,6 +334,39 @@ FT.AGGREGATE products "*"
   REDUCE COUNT 0 AS product_count
   LIMIT 0 100
   WITHCURSOR COUNT 3
+
+1) 1) (integer) 6
+   2) 1) "category"
+      2) "Toys"
+      3) "product_count"
+      4) "28"
+   3) 1) "category"
+      2) "Electronics"
+      3) "product_count"
+      4) "31"
+   4) 1) "category"
+      2) "Apparel"
+      3) "product_count"
+      4) "36"
+2) (integer) 89400486
+127.0.0.1:6379> FT.CURSOR READ products 89400486 COUNT 3
+1) 1) (integer) 0
+   2) 1) "category"
+      2) "Home"
+      3) "product_count"
+      4) "40"
+   3) 1) "category"
+      2) "Groceries"
+      3) "product_count"
+      4) "44"
+   4) 1) "category"
+      2) "Books"
+      3) "product_count"
+      4) "21"
+2) (integer) 89400486
+  .
+  .
+  .
 ```
 
 See the following resources for more information:
