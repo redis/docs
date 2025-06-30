@@ -371,5 +371,6 @@ FT.AGGREGATE products "*"
 
 See the following resources for more information:
 
+- [Aggregations]({{< relref "/develop/interact/search-and-query/advanced-concepts/aggregations" >}}) discussion page.
 - [`FT.AGGREGATE` command page](https://redis.io/docs/latest/commands/ft.aggregate/)
 - [RQE source code](https://github.com/RediSearch/RediSearch/tree/master/src/aggregate)
