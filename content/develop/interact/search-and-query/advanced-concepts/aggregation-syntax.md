@@ -117,7 +117,7 @@ FT.AGGREGATE products "*"
   .
 ```
 
-- When referencing fields created by `REDUCE` in an `APPLY` or `FILTER` clauses.
+- When referencing fields created by `REDUCE` in `APPLY` or `FILTER` clauses.
 
 ```sh
 FT.AGGREGATE products "*"
@@ -206,7 +206,7 @@ FT.AGGREGATE products "*"
 
 ## GROUPBY with multiple REDUCE operations
 
-`GROUPBY` can be followed by multiple `REDUCE` operations for different aggregations.
+You can use multiple `REDUCE` operations after `GROUPBY` for different aggregations.
 
 ```sh
 FT.AGGREGATE products "*"
@@ -325,7 +325,7 @@ This is not allowed and you'll get a syntax error.
 
 ## LIMIT and WITHCURSOR used together
 
-While you wouldn't ordinarily use `LIMIT` and `WITHCURSOR` together in the same query, you can use them advantageously if doing so fits your workflow.
+While you wouldn't ordinarily use `LIMIT` and `WITHCURSOR` together in the same query, you can do so if necessary.
 `LIMIT`, as the name suggests, will limit the total number of results returned for the given query. `WITHCURSOR` will paginate the results in chunks of size `COUNT`. You can use the [cursor API]({{< relref "/develop/interact/search-and-query/advanced-concepts/aggregations/#cursor-api" >}}) to retrieve more results, as shown below.
 
 ```sh
