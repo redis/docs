@@ -34,7 +34,7 @@ The `FT.AGGREGATE` command processes multiple expressions in a pipeline. Below i
 1. `index` – the name of your index, which must be the first argument.
 1. `query` – your query, which must be the second argument.
 1. `FILTER` – filters raw documents before transformations or aggregation.
-1. `LOAD` – loads additional document attributes.
+1. `LOAD` – loads document fields.
 1. `APPLY` – applies transformations on fields.
 1. `GROUPBY` – groups results by specific fields.
 1. `REDUCE` – performs aggregations. For example, `SUM`, `COUNT`, and `AVG`.
