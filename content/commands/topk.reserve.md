@@ -29,37 +29,53 @@ categories:
 - kubernetes
 - clients
 complexity: O(1)
-description: Initializes a TopK with specified parameters
+description: Initializes a Top-K sketch with specified parameters
 group: topk
 hidden: false
 linkTitle: TOPK.RESERVE
 module: Bloom
 since: 2.0.0
 stack_path: docs/data-types/probabilistic
-summary: Initializes a TopK with specified parameters
+summary: Initializes a Top-K sketch with specified parameters
 syntax_fmt: TOPK.RESERVE key topk [width depth decay]
 syntax_str: topk [width depth decay]
 title: TOPK.RESERVE
 ---
-Initializes a TopK with specified parameters.
+Initializes a Top-K sketch with specified parameters.
 
-### Parameters
+## Parameters
 
-* **key**: Key under which the sketch is to be found.
-* **topk**: Number of top occurring items to keep.
+* **key**: the name of the Top-k sketch.
+* **topk**: the number of top (k) occurring items to keep.
 
 Optional parameters
 * **width**: Number of counters kept in each array. (Default 8)
 * **depth**: Number of arrays. (Default 7)
-* **decay**: The probability of reducing a counter in an occupied bucket. It is raised to power of it's counter (decay ^ bucket[i].counter). Therefore, as the counter gets higher, the chance of a reduction is being reduced. (Default 0.9)
+* **decay**: The probability of reducing a counter in an occupied bucket (decay ^ bucket[i].counter). As the counter gets higher, the likelihood of a reduction is lower. (Default 0.9)
 
-## Return
-
-[Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - `OK` if executed correctly, or [] otherwise.
-
-## Examples
+## Example
 
 ```
 redis> TOPK.RESERVE topk 50 2000 7 0.925
 OK
 ```
+
+## Return information
+
+{{< multitabs id=“topk-reserve-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: incorrect number of arguments, invalid decay value, or key already exists.
+
+-tab-sep-
+
+One of the following:
+
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: incorrect number of arguments, invalid decay value, or key already exists.
+
+{{< /multitabs >}}

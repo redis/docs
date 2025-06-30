@@ -38,12 +38,6 @@ Returns the count for one or more items in a sketch.
 * **key**: The name of the sketch.
 * **item**: One or more items for which to return the count.
 
-## Return
-
-Count of one or more items
-
-[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) with a min-count of each of the items in the sketch.
-
 ## Examples
 
 ```
@@ -51,3 +45,21 @@ redis> CMS.QUERY test foo bar
 1) (integer) 10
 2) (integer) 42
 ```
+
+{{< multitabs id=“cms-merge-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+
+* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integer replies]({{< relref "/develop/reference/protocol-spec#integers" >}})  representing the min-counts of each of the provided items in the sketch.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, missing key, or wrong key type.
+
+-tab-sep-
+
+One of the following:
+
+* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integer replies]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing the min-counts of each of the provided items in the sketch.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, missing key, or wrong key type.
+
+{{< /multitabs >}}

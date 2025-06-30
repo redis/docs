@@ -29,7 +29,7 @@ This page describes a more canonical algorithm to implement
 distributed locks with Redis. We propose an algorithm, called **Redlock**,
 which implements a DLM which we believe to be safer than the vanilla single
 instance approach. We hope that the community will analyze it, provide
-feedback, and use it as a starting point for the implementations or more
+feedback, and use it as a starting point for the implementations of more
 complex or alternative designs.
 
 ## Implementations
@@ -53,7 +53,6 @@ already available that can be used for reference.
 * [Redis-plus-plus](https://github.com/sewenew/redis-plus-plus/#redlock) (C++ implementation).
 * [Redlock-cs](https://github.com/kidfashion/redlock-cs) (C#/.NET implementation).
 * [RedLock.net](https://github.com/samcook/RedLock.net) (C#/.NET implementation). Includes async and lock extension support.
-* [ScarletLock](https://github.com/psibernetic/scarletlock) (C# .NET implementation with configurable datastore).
 * [Redlock4Net](https://github.com/LiZhenNet/Redlock4Net) (C# .NET implementation).
 * [node-redlock](https://github.com/mike-marcacci/node-redlock) (NodeJS implementation). Includes support for lock extension.
 * [Deno DLM](https://github.com/oslabs-beta/Deno-Redlock) (Deno implementation)

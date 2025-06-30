@@ -16,11 +16,20 @@ weight: 30
 ---
 
 This example shows how to create a
-[search index]({{< relref "/develop/interact/search-and-query/indexing" >}})
+[search index]({{< relref "/develop/ai/search-and-query/indexing" >}})
 for [JSON]({{< relref "/develop/data-types/json" >}}) documents and
 run queries against the index. It then goes on to show the slight differences
 in the equivalent code for [hash]({{< relref "/develop/data-types/hashes" >}})
 documents.
+
+{{< note >}}From [v6.0.0](https://github.com/redis/redis-py/releases/tag/v6.0.0) onwards,
+`redis-py` uses query dialect 2 by default.
+Redis query engine methods such as [`ft().search()`]({{< relref "/commands/ft.search" >}})
+will explicitly request this dialect, overriding the default set for the server.
+See
+[Query dialects]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}})
+for more information.
+{{< /note >}}
 
 ## Initialize
 
@@ -57,7 +66,7 @@ to learn more about the available connection options.
 
 Create an index for the JSON data. The code below specifies that only JSON documents with
 the key prefix `user:` are indexed. For more information, see
-[Query syntax]({{< relref "/develop/interact/search-and-query/query/" >}}).
+[Query syntax]({{< relref "/develop/ai/search-and-query/query/" >}}).
 
 {{< clients-example py_home_json make_index >}}
 {{< /clients-example >}}
@@ -75,7 +84,7 @@ objects automatically as you add them:
 ## Query the data
 
 You can now use the index to search the JSON objects. The
-[query]({{< relref "/develop/interact/search-and-query/query" >}})
+[query]({{< relref "/develop/ai/search-and-query/query" >}})
 below searches for objects that have the text "Paul" in any field
 and have an `age` value in the range 30 to 40:
 
@@ -88,7 +97,7 @@ Specify query options to return only the `city` field:
 {{< /clients-example >}}
 
 Use an
-[aggregation query]({{< relref "/develop/interact/search-and-query/query/aggregation" >}})
+[aggregation query]({{< relref "/develop/ai/search-and-query/query/aggregation" >}})
 to count all users in each city.
 
 {{< clients-example py_home_json query3 >}}
@@ -127,5 +136,5 @@ result `Document` object instead of in an enclosing `json` dictionary:
 
 ## More information
 
-See the [Redis query engine]({{< relref "/develop/interact/search-and-query" >}}) docs
+See the [Redis query engine]({{< relref "/develop/ai/search-and-query" >}}) docs
 for a full description of all query features with examples.

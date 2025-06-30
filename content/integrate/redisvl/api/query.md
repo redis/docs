@@ -933,7 +933,7 @@ A query for running a full text search, along with an optional filter expression
   * **text_field_name** (*str*) – The name of the document field to perform text search on.
   * **text_scorer** (*str* *,* *optional*) – The text scoring algorithm to use.
     Defaults to BM25STD. Options are {TFIDF, BM25STD, BM25, TFIDF.DOCNORM, DISMAX, DOCSCORE}.
-    See [https://redis.io/docs/latest/develop/interact/search-and-query/advanced-concepts/scoring/](https://redis.io/docs/latest/develop/interact/search-and-query/advanced-concepts/scoring/)
+    See [https://redis.io/docs/latest/develop/ai/search-and-query/advanced-concepts/scoring/](https://redis.io/docs/latest/develop/ai/search-and-query/advanced-concepts/scoring/)
   * **filter_expression** (*Union* *[* *str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]* *,* *optional*) – A filter to apply
     along with the text search. Defaults to None.
   * **return_fields** (*List* *[* *str* *]*) – The declared fields to return with search
