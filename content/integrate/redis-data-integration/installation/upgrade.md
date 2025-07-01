@@ -93,7 +93,7 @@ When upgrading from RDI < 1.8.0 to RDI >= 1.8.0 in a VM HA setup, both RDI insta
 
 **Workaround:**
 
-After upgrading, manually set a unique cluster ID for one of the installations (preferred is the passive instance):
+After upgrading, manually set a unique cluster ID for one of the installations (preferably on the passive instance):
 
 1. Locate the RDI configuration file on the VM host. The file is typically located at `/etc/rdi/rdi-sys-config.yaml`.
 2. Open the configuration file in a text editor. For example:
