@@ -16,9 +16,11 @@ weight: 92
 Redis Enterprise Software, its Kubernetes operator, and the Service Rigger
 are all distributed as separate container images.
 Your Kubernetes deployment will pull these images as needed.
- You can control where these images are
+You can control where these images are
 pulled from within the operator deployment and also via the
 Redis Enterprise custom resources.
+
+The operator image also includes the admission controller, which runs as part of the operator container and provides validation for Redis Enterprise database resources.
 
 In general, images for deployments that do not have a registry domain
 name (e.g., `gcr.io` or `localhost:5000`) are pulled from the default registry associated
@@ -84,7 +86,7 @@ Important images for a Redis Enterprise Software deployment include:
 * Redis Enterprise Software
 * Bootstrapping a Redis Enterprise cluster node (in the operator image)
 * The Service Rigger
-* The Redis Enterprise Software operator
+* The Redis Enterprise Software operator (which also includes the admission controller)
 
 You will need to push all these images to your private container registry. In general,
 to push the images you must:
@@ -123,7 +125,7 @@ require authentication. If you do need authentication, add a [pull secret](https
 
 ### Specify the operator image source
 
-The operator bundle contains the operator deployment and the reference to the operator image (`redislabs/operator`). To use a private container registry, you must
+The operator bundle contains the operator deployment and the reference to the operator image (`redislabs/operator`). This image includes both the operator functionality and the admission controller. To use a private container registry, you must
 change this image reference in your operator deployment file **before** you deploy the operator. If you apply this change to modify an existing operator deployment, the operator's pod will restart.
 
 In the operator deployment file, 'containers:image' should point to the same repository and tag you used when [pushing]({{< relref "/operate/kubernetes/deployment/container-images#push-images-to-a-private-container-registry" >}}) to the private container registry:
@@ -237,6 +239,14 @@ spec:
     repository: gcr.io/yourproject/redislabs/k8s-controller
     versionTag: 7.22.0-7
 ```
+
+## Admission controller
+
+The admission controller is included as part of the operator container image and does not require a separate container image. When you configure a private container registry for the operator image, the admission controller functionality is automatically included.
+
+The admission controller runs within the operator pod and provides validation for Redis Enterprise database resources. It exposes an HTTPS endpoint on port 8443 that Kubernetes uses to validate resource configurations before they are applied to the cluster.
+
+For more information about configuring the admission controller, see [Enable the admission controller]({{< relref "/operate/kubernetes/deployment/quick-start#enable-the-admission-controller" >}}).
 
 ## Rate limiting with DockerHub
 
