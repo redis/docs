@@ -496,5 +496,6 @@ Next, count GitHub events by user (actor), to produce the most active users.
 ## Related topics
 
 - [Aggregations]({{< relref "/develop/ai/search-and-query/advanced-concepts/aggregations" >}})
+- [Key and field expiration behavior]({{< relref "/develop/ai/search-and-query/advanced-concepts/expiration" >}})
 - [RediSearch]({{< relref "/develop/ai/search-and-query" >}})
 
