@@ -35,7 +35,7 @@ removed instance).
 
 #### Example HTTP request
 
-    PUT /crdbs/1/purge
+    PUT /v1/crdbs/1/purge
 
 #### URL parameters
 
@@ -51,7 +51,7 @@ removed instance).
 
 ### Response {#put-response} 
 
-Returns a [CRDB task object]({{< relref "/operate/rs/references/rest-api/objects/crdb_task" >}}).
+Returns a [CRDB task object]({{< relref "/operate/rs/7.4/references/rest-api/objects/crdb_task" >}}).
 
 ### Status codes {#put-status-codes} 
 

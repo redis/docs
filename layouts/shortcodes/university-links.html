@@ -1,0 +1,12 @@
+{{ $filename := .Page.Path }}
+{{ $data := dict }}
+{{ with readFile "/static/resources/redisuniversity.yaml" }}
+  {{ with . | transform.Unmarshal }}
+    {{ $links := .links }}
+    {{ range $links }}
+        {{ if eq .page $filename }}
+        <p>{{ .text | transform.Markdownify }}</p>
+        {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}

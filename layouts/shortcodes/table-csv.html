@@ -1,6 +1,12 @@
 {{ $filename := .Get 0 }}
-{{ $file := print "static/tables/" $filename}}
-{{ $data := getCSV "," $file }}
+{{ $file := print "/static/tables/" $filename }}
+{{ $data := dict }}
+{{ with readFile $file }}
+  {{ with . | transform.Unmarshal }}
+    {{ $data = . }}
+  {{ end }}
+{{ end }}
+
 {{ $columnCount := .Get 1 }}
 
 <table>

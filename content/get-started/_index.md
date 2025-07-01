@@ -1,20 +1,20 @@
 ---
-description: Get started with Redis Community Edition
+description: Get started with Redis Open Source
 hideListLinks: true
-linkTitle: Community Edition
-title: Community Edition
+linkTitle: Open Source
+title: Open Source
 type: develop
 ---
 Redis is an [in-memory data store]({{< relref "/develop/get-started/data-store" >}}) used by millions of developers as a cache, [vector database]({{< relref "/develop/get-started/vector-database" >}}), [document database]({{< relref "/develop/get-started/document-database" >}}), [streaming engine]({{< relref "/develop/data-types/streams" >}}), and message broker. Redis has built-in replication and different levels of [on-disk persistence]({{< relref "/operate/oss_and_stack/management/persistence" >}}). It supports complex [data types]({{< relref "/develop/data-types/" >}}) (for example, strings, hashes, lists, sets, sorted sets, and JSON), with atomic operations defined on those data types.
 
-You can install Redis from source, from an executable for your OS, or bundled with Redis Stack and Redis Insight which include popular features and monitoring.
+You can install Redis from source or from an executable/distribution for your OS.
 
-* [Install Redis on Linux]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-linux" >}})
-* [Install Redis on macOS]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-mac-os" >}})
-* [Install Redis on Windows]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-windows" >}})
-* [Install Redis with Redis Stack and Redis Insight]({{< relref "/operate/oss_and_stack/install/install-stack" >}})
-* [Run Redis Stack on Docker]({{< relref "/operate/oss_and_stack/install/install-stack/docker" >}})
-* [Install Redis from Source]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-from-source" >}})
+* Install Redis on Linux using [APT]({{< relref "/operate/oss_and_stack/install/install-stack/apt" >}}), [RPM]({{< relref "/operate/oss_and_stack/install/install-stack/rpm" >}}), or [Snap]({{< relref "/operate/oss_and_stack/install/install-stack/snap" >}})
+* [Install Redis on macOS]({{< relref "/operate/oss_and_stack/install/install-stack/homebrew" >}})
+* [Run Redis on Windows using Docker]({{< relref "/operate/oss_and_stack/install/install-stack/windows" >}})
+* [Run Redis on Docker]({{< relref "/operate/oss_and_stack/install/install-stack/docker" >}})
+* [Install Redis from Source]({{< relref "/operate/oss_and_stack/install/build-stack" >}})
+* [Install Redis with Redis Stack and Redis Insight]({{< relref "/operate/oss_and_stack/install/archive/install-stack" >}})
 
 ## Use cases
 
@@ -29,7 +29,7 @@ The following quick start guides will show you how to use Redis for the followin
 ## Data integration tools, libraries, and frameworks
 - [Client API libraries]({{< relref "/develop/clients" >}})
 - [Redis Data Integration]({{< relref "/integrate/redis-data-integration/" >}})
-- [Redis vector library for Python]({{< relref "/integrate/redisvl/" >}})
+- [Redis vector library for Python]({{< relref "/develop/ai/redisvl/" >}})
 - [Redis Cloud with Amazon Bedrock]({{< relref "/integrate/amazon-bedrock/" >}})
 - [Object-mapping for .NET]({{< relref "/integrate/redisom-for-net/" >}})
 - [Spring Data Redis for Java]({{< relref "/integrate/spring-framework-cache/" >}})

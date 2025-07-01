@@ -18,6 +18,13 @@ An API object that represents a managed database in the cluster.
 | uid | integer; Cluster unique ID of database. Can be set during creation but cannot be updated. |
 | account_id | integer; SM account ID |
 | action_uid | string; Currently running action's UID (read-only) |
+| active_defrag_cycle_max | integer, (range: 1-99); Maximum CPU percentage used for defragmentation when the upper threshold is reached |
+| active_defrag_cycle_min | integer, (range: 1-99) (default: 1); Minimal CPU percentage used for defragmentation when the lower threshold is reached |
+| active_defrag_ignore_bytes | string (default: 100mb); Minimum amount of fragmentation waste to start active defragmentation |
+| active_defrag_max_scan_fields | integer (default: 1000); Maximum number of set/hash/zset/list fields that will be processed from the main dictionary scan |
+| active_defrag_threshold_lower | integer, (range: 0-1000) (default: 10); Minimum percentage of fragmentation to start active defragmentation |
+| active_defrag_threshold_upper | integer, (range: 0-1000) (default: 100); Maximum percentage of fragmentation at which maximum effort is used |
+| activedefrag | Enable or turn off active defragmentation functionality.<br />Values:<br />'yes'<br />**'no'** |
 | aof_policy | Policy for Append-Only File data persistence<br />Values:<br />**'appendfsync-every-sec'** <br />'appendfsync-always' |
 | authentication_admin_pass | string; Password for administrative access to the BDB (used for SYNC from the BDB) |
 | authentication_redis_pass | string; Redis AUTH password authentication.  <br/>Use for Redis databases only.  Ignored for memcached databases. (deprecated as of Redis Enterprise v7.2, replaced with multiple passwords feature in version 6.0.X) |
@@ -41,6 +48,7 @@ An API object that represents a managed database in the cluster.
 | bigstore | boolean (default:&nbsp;false);  Database bigstore option |
 | bigstore_ram_size | integer (default:&nbsp;0);  Memory size of bigstore RAM part. |
 | bigstore_ram_weights | {{<code>}}[{<br />  "shard_uid": integer,<br />  "weight": number<br />}, ...]{{</code>}} List of shard UIDs and their bigstore RAM weights;<br /> **shard_uid**: Shard UID;<br /> **weight**: Relative weight of RAM distribution |
+| bigstore_version | The database's `bigstore_version`:<br />• `1` for Auto Tiering (Redis on Flash version 1). Default version.<br/>• `2` for Redis Flex (Redis on Flash version 2) on databases that support it. Can only be used with the `speedb` driver. |
 | client_cert_subject_validation_type | Enables additional certificate validations that further limit connections to clients with valid certificates during TLS client authentication.<br />Values:<br />**disabled**: Authenticates clients with valid certificates. No additional validations are enforced.<br />**san_cn**: A client certificate is valid only if its Common Name (CN) matches an entry in the list of valid subjects. Ignores other Subject attributes.<br />**full_subject**: A client certificate is valid only if its Subject attributes match an entry in the list of valid subjects. |
 | conns | integer (default&nbsp;5);  Number of internal proxy connections |
 | conns_type | Connections limit type<br />Values:<br />**‘per-thread’**<br />‘per-shard’ |
@@ -64,7 +72,7 @@ An API object that represents a managed database in the cluster.
 | created_time | string;  The date and time the database was created (read-only) |
 | data_internode_encryption | boolean;  Should the data plane internode communication for this database be encrypted |
 | data_persistence | Database on-disk persistence policy. For snapshot persistence, a [snapshot_policy]({{< relref "/operate/rs/references/rest-api/objects/bdb/snapshot_policy" >}}) must be provided<br />Values:<br />**'disabled'** <br />'snapshot'<br />'aof' |
-| dataset_import_sources | [complex object]({{< relref "/operate/rs/references/rest-api/objects/bdb/dataset_import_sources" >}});  Array of source file location description objects to import from when performing an import action. This is write-only and cannot be read after set. <br />Call GET /jsonschema to retrieve the object's structure. |
+| dataset_import_sources | [complex object]({{< relref "/operate/rs/references/rest-api/objects/bdb/dataset_import_sources" >}});  Array of source file location description objects to import from when performing an import action. This is write-only and cannot be read after set. <br />Call `GET /v1/jsonschema` to retrieve the object's structure. |
 | db_conns_auditing | boolean;  Enables/deactivates [database connection auditing]({{< relref "/operate/rs/security/audit-events" >}}) |
 | default_user | boolean (default:&nbsp;true); Allow/disallow a default user to connect |
 | disabled_commands | string (default: ); Redis commands which are disabled in db |
@@ -98,6 +106,7 @@ An API object that represents a managed database in the cluster.
 | max_client_pipeline | integer (default:&nbsp;200); Maximum number of pipelined commands per connection. Maximum value is 2047. |
 | max_connections | integer (default:&nbsp;0); Maximum number of client connections allowed (0 unlimited) |
 | max_pipelined | integer (default:&nbsp;2000); Determines the maximum number of commands in the proxy’s pipeline per shard connection. |
+| maxclients | integer (default: 10000); The maximum number of connected clients at the same time. By default the limit is 10000 clients. |
 | master_persistence | boolean (default:&nbsp;false); If true, persists the primary shard in addition to replica shards in a replicated and persistent database. |
 | memory_size | integer (default:&nbsp;0); Database memory limit (0 is unlimited), expressed in bytes. |
 | metrics_export_all | boolean; Enable/disable exposing all shard metrics through the metrics exporter |
@@ -105,6 +114,7 @@ An API object that represents a managed database in the cluster.
 | module_list | {{<code>}}[{<br />  "module_id": string,<br />  "module_args": [<br />    u'string',<br />    u'null'],<br />  "module_name": string,<br />  "semantic_version": string<br />}, ...]{{</code>}} List of modules associated with the database<br /><br />**module_id**: Module UID (deprecated; use `module_name` instead)<br />**module_args**: Module command-line arguments (pattern does not allow special characters &,\<,>,")<br />**module_name**: Module's name<br />**semantic_version**: Module's semantic version (deprecated; use `module_args` instead)<br /><br />**module_id** and **semantic_version** are optional as of Redis Enterprise Software v7.4.2 and deprecated as of v7.8.2. |
 | mtls_allow_outdated_certs | boolean; An optional mTLS relaxation flag for certs verification |
 | mtls_allow_weak_hashing | boolean; An optional mTLS relaxation flag for certs verification |
+| multi_commands_opt | If set to `batch`, it reduces the overhead of transaction management by batching multiple commands into a single transaction.<br />Values:<br />**disabled**: Turns off the optimization.<br />**batch**: Enables the optimization.<br />**auto**: Uses the [cluster's `multi_commands_opt` setting]({{<relref "/operate/rs/references/rest-api/objects/cluster">}}). |
 | name | string; Database name. Only letters, numbers, or hyphens are valid characters. The name must start and end with a letter or number. |
 | oss_cluster | boolean (default:&nbsp;false); OSS Cluster mode option. Cannot be enabled with `'hash_slots_policy': 'legacy'` |
 | <span class="break-all">oss_cluster_api_preferred_endpoint_type</span> | Endpoint type in the OSS cluster API<br />Values:<br />**‘ip’**<br />‘hostname’ |
@@ -116,6 +126,7 @@ An API object that represents a managed database in the cluster.
 | recovery_wait_time | integer (default:&nbsp;-1); Defines how many seconds to wait for the persistence file to become available during auto recovery. After the wait time expires, auto recovery completes with potential data loss. The default `-1` means to wait forever. |
 | redis_version | string; Version of the redis-server processes: e.g. 6.0, 5.0-big |
 | repl_backlog_size | string; Redis replication backlog size ('auto' or size in bytes) |
+| replica_read_only | boolean (default: false); If `true`, enables an Active-Passive setup where Replica Of databases only allow read operations. Only configurable during database creation and cannot be changed later. |
 | replica_sources | array of [syncer_sources]({{< relref "/operate/rs/references/rest-api/objects/bdb/syncer_sources" >}}) objects; Remote endpoints of database to sync from. See the 'bdb -\> replica_sources' section |
 | [replica_sync]({{< relref "/operate/rs/references/rest-api/objects/bdb/replica_sync" >}}) | Enable, disable, or pause syncing from specified replica_sources<br />Values:<br />'enabled'<br /> **'disabled'** <br />'paused'<br />'stopped' |
 | <span class="break-all">replica_sync_connection_alarm_timeout_seconds</span> | integer (default: 0); If the syncer takes longer than the specified number of seconds to connect to a replica, raise a connection alarm |

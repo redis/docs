@@ -37,21 +37,21 @@ The examples in this article refer to a simple bicycle inventory that contains J
 
 ## Setup
 
-The easiest way to get started with [Redis Stack]({{< relref "/operate/oss_and_stack/" >}}) is to use Redis Cloud:
+The easiest way to get started with [Redis]({{< relref "/operate/oss_and_stack/" >}}) is to use Redis Cloud:
 
 1. Create a [free account](https://redis.com/try-free?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users).
 
    <img src="../img/free-cloud-db.png" width="500px">
 2. Follow the instructions to create a free database.
 
-This free Redis Cloud database comes out of the box with all the Redis Stack features.
+This free Redis Cloud database comes out of the box with all the Redis Open Source features.
 
-You can alternatively use the [installation guides]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) to install Redis Stack on your local machine.
+You can alternatively use the [installation guides]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) to install Redis Open Source on your local machine.
 
 
 ## Connect
 
-The first step is to connect to your Redis Stack database. You can find further details about the connection options in this documentation site's [Tools section]({{< relref "/develop/tools" >}}). The following example shows how to connect to a Redis Stack server that runs on localhost (`-h 127.0.0.1`) and listens on the default port (`-p 6379`): 
+The first step is to connect to your Redis Open Source database. You can find further details about the connection options in this documentation site's [Tools section]({{< relref "/develop/tools" >}}). The following example shows how to connect to a Redis Open Source server that runs on localhost (`-h 127.0.0.1`) and listens on the default port (`-p 6379`): 
 
 {{< clients-example search_quickstart connect >}}
 > redis-cli -h 127.0.0.1 -p 6379
@@ -65,9 +65,9 @@ You can copy and paste the connection details from the Redis Cloud database conf
 
 ## Create an index
 
-As explained in the [in-memory data store]({{< relref "/develop/get-started/data-store" >}}) quick start guide, Redis allows you to access an item directly via its key. You also learned how to scan the keyspace. Whereby you can use other data structures (e.g., hashes and sorted sets) as secondary indexes, your application would need to maintain those indexes manually. Redis Stack turns Redis into a document database by allowing you to declare which fields are auto-indexed. Redis Stack currently supports secondary index creation on the [hashes]({{< relref "/develop/data-types/hashes" >}}) and [JSON]({{< relref "/develop/data-types/json" >}}) documents.
+As explained in the [in-memory data store]({{< relref "/develop/get-started/data-store" >}}) quick start guide, Redis allows you to access an item directly via its key. You also learned how to scan the keyspace. Whereby you can use other data structures (e.g., hashes and sorted sets) as secondary indexes, your application would need to maintain those indexes manually. Redis is a document database that allows you to declare which fields are auto-indexed. Redis currently supports secondary index creation on the [hashes]({{< relref "/develop/data-types/hashes" >}}) and [JSON]({{< relref "/develop/data-types/json" >}}) documents.
 
-The following example shows an [FT.CREATE]({{< baseurl >}}/commands/ft.create) command that creates an index with some text fields, a numeric field (price), and a tag field (condition). The text fields have a weight of 1.0, meaning they have the same relevancy in the context of full-text searches. The field names follow the [JSONPath]({{< relref "/develop/data-types/json/path" >}}) notion. Each such index field maps to a property within the JSON document.
+The following example shows an [FT.CREATE]({{< relref "commands/ft.create" >}}) command that creates an index with some text fields, a numeric field (price), and a tag field (condition). The text fields have a weight of 1.0, meaning they have the same relevancy in the context of full-text searches. The field names follow the [JSONPath]({{< relref "/develop/data-types/json/path" >}}) notion. Each such index field maps to a property within the JSON document.
 
 
 {{< clients-example search_quickstart create_index >}}
@@ -79,7 +79,7 @@ Any pre-existing JSON documents with a key prefix `bicycle:` are automatically a
 
 ## Add JSON documents
 
-The example below shows you how to use the [JSON.SET]({{< baseurl >}}/commands/json.set) command to create new JSON documents:
+The example below shows you how to use the [JSON.SET]({{< relref "commands/json.set" >}}) command to create new JSON documents:
 
 {{< clients-example search_quickstart add_documents "" 2 >}}
 > JSON.SET "bicycle:0" "." "{\"brand\": \"Velorim\", \"model\": \"Jigger\", \"price\": 270, \"description\": \"Small and powerful, the Jigger is the best ride for the smallest of tikes! This is the tiniest kids\\u2019 pedal bike on the market available without a coaster brake, the Jigger is the vehicle of choice for the rare tenacious little rider raring to go.\", \"condition\": \"new\"}"
@@ -108,7 +108,7 @@ OK
 
 ### Wildcard query
 
-You can retrieve all indexed documents using the [FT.SEARCH]({{< baseurl >}}/commands/ft.search) command. Note the `LIMIT` clause below, which allows result pagination.
+You can retrieve all indexed documents using the [FT.SEARCH]({{< relref "commands/ft.search" >}}) command. Note the `LIMIT` clause below, which allows result pagination.
 
 {{< clients-example search_quickstart wildcard_query "" 10 >}}
 > FT.SEARCH "idx:bicycle" "*" LIMIT 0 10
@@ -169,14 +169,14 @@ Below is a command to perform an exact match query that finds all bicycles with 
    2) "{\"brand\":\"Noka Bikes\",\"model\":\"Kahuna\",\"price\":3200,\"description\":\"Whether you want to try your hand at XC racing or are looking for a lively trail bike that's just as inspiring on the climbs as it is over rougher ground, the Wilder is one heck of a bike built specifically for short women. Both the frames and components have been tweaked to include a women\xe2\x80\x99s saddle, different bars and unique colourway.\",\"condition\":\"used\"}"
 {{< / clients-example >}}
 
-Please see the [query documentation]({{< relref "/develop/interact/search-and-query/query/" >}}) to learn how to make more advanced queries.
+Please see the [query documentation]({{< relref "/develop/ai/search-and-query/query/" >}}) to learn how to make more advanced queries.
 
 ## Next steps
 
-You can learn more about how to use Redis Stack as a vector database in the following quick start guide:
+You can learn more about how to use Redis Open Source as a vector database in the following quick start guide:
 
 * [Redis as a vector database]({{< relref "/develop/get-started/vector-database" >}})
 
 ## Continue learning with Redis University
 
-See the [Get Started with Redis learning path](https://university.redis.io/learningpath/14q8m6gilfwltm) for courses.
+{{< university-links >}}

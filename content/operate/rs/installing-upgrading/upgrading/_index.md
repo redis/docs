@@ -17,7 +17,7 @@ To upgrade Redis Software:
 
 1. Verify appropriate [network ports]({{< relref "/operate/rs/networking/port-configurations.md" >}}) are either open or used by Redis Software.
 
-1. Review the [prerequisites]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster#upgrade-prerequisites">}}).
+1. Complete all [prerequisites]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster#upgrade-prerequisites">}}) before starting the upgrade.
 
 1. Upgrade the software on all nodes of the cluster using one of the following methods:
     
@@ -33,7 +33,7 @@ To upgrade Redis Software:
 
 To upgrade the cluster's operating system:
 
-1. Review the [prerequisites]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-os#prerequisites">}}).
+1. Complete all [prerequisites]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-os#prerequisites">}})  before starting the upgrade.
 
 2. Use one of the following rolling upgrade methods:
 

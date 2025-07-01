@@ -35,7 +35,7 @@ Downloads a tar file that contains debug info for the specified database (`bdb_u
 
 #### Example HTTP request
 
-	GET /debuginfo/node/bdb/1 
+	GET /v1/debuginfo/node/bdb/1 
 
 ### Response {#get-response} 
 

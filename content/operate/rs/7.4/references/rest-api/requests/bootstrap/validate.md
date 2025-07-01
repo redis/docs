@@ -29,11 +29,11 @@ returns with a response.
 
 #### Example HTTP request
 
-    POST /bootstrap/validate/join_cluster
+    POST /v1/bootstrap/validate/join_cluster
 
 #### Request body
 
-The request must contain a [bootstrap configuration object]({{< relref "/operate/rs/references/rest-api/objects/bootstrap" >}}), similar to the one used for actual bootstrapping.
+The request must contain a [bootstrap configuration object]({{< relref "/operate/rs/7.4/references/rest-api/objects/bootstrap" >}}), similar to the one used for actual bootstrapping.
 
 ### Response {#post-response} 
 

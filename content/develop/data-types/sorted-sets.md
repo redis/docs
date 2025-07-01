@@ -58,7 +58,7 @@ As you can see [`ZADD`]({{< relref "/commands/zadd" >}}) is similar to [`SADD`](
 pairs, as shown in the example above.
 
 With sorted sets it is trivial to return a list of racers sorted by their
-birth year because actually *they are already sorted*.
+score because actually *they are already sorted*.
 
 Implementation note: Sorted sets are implemented via a
 dual-ported data structure containing both a skip list and a hash table, so
@@ -149,7 +149,7 @@ the elements sorted in a descending way.
 > ZRANK racer_scores "Norem"
 (integer) 0
 > ZREVRANK racer_scores "Norem"
-(integer) 3
+(integer) 2
 {{< /clients-example >}}
 
 ### Lexicographical scores
@@ -246,7 +246,7 @@ This command's time complexity is O(log(n) + m), where _m_ is the number of resu
 ## Alternatives
 
 Redis sorted sets are sometimes used for indexing other Redis data structures.
-If you need to index and query your data, consider the [JSON]({{< relref "/develop/data-types/json/" >}}) data type and the [Redis Query Engine]({{< relref "/develop/interact/search-and-query/" >}}) features.
+If you need to index and query your data, consider the [JSON]({{< relref "/develop/data-types/json/" >}}) data type and the [Redis Query Engine]({{< relref "/develop/ai/search-and-query/" >}}) features.
 
 ## Learn more
 

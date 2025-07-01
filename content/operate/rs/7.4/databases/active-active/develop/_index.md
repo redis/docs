@@ -19,9 +19,9 @@ of events under geo-failovers and cross-region write conflicts. In Redis Enterpr
 simplify developing such applications by directly using built-in smarts
 for handling conflicting writes based on the data type in use. Instead
 of depending on just simplistic "last-writer-wins" type conflict
-resolution, geo-distributed Active-Active databases (formerly known as CRDBs) combines techniques defined in CRDT
+resolution, geo-distributed Active-Active databases (formerly known as CRDBs) combine techniques defined in CRDT
 (conflict-free replicated data types) research with Redis types to
-provide smart and automatic conflict resolution based on the data types
+provide smart and automatic conflict resolution based on the data type's
 intent.
 
 An Active-Active database is a globally distributed database that spans multiple Redis
@@ -32,8 +32,8 @@ using the proven
 approach.
 [CRDT](https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type)
 research describes a set of techniques for creating systems that can
-handle conflicting writes. CRDBs are powered by Multi-Master Replication
-(MMR) provides a straightforward and effective way to replicate your
+handle conflicting writes. CRDBs powered by Multi-Master Replication
+(MMR) provide a straightforward and effective way to replicate your
 data between regions and simplify development of complex applications
 that can maintain correctness under geo-failovers and concurrent
 cross-region writes to the same data.
@@ -43,14 +43,14 @@ cross-region writes to the same data.
 Active-Active databases replicate data between multiple Redis Enterprise Software
 clusters. Common uses for Active-Active databases include disaster recovery,
 geographically redundant applications, and keeping data closer to your
-user's locations. MMR is always multi-directional amongst the clusters
+users' locations. MMR is always multi-directional amongst the clusters
 configured in the Active-Active database. For unidirectional replication, please see the
 Replica Of capabilities in Redis Enterprise Software.
 
 ## Example of synchronization
 
-In the example below, database writes are concurrent at the point in
-times t1 and t2 and happen before a sync can communicate the changes.
+In the example below, database writes are concurrent at the points in
+time t1 and t2 and happen before a sync can communicate the changes.
 However, writes at times t4 and t6 are not concurrent as a sync happened
 in between.
 
@@ -64,5 +64,5 @@ in between.
 |  t6 |  | SET key1 “d” |
 
 [Learn more about
-synchronization]({{< relref "/operate/rs/databases/active-active" >}}) for
-each supported data type and [how to develop]({{< relref "/operate/rs/databases/active-active/develop/develop-for-aa.md" >}}) with them on Redis Enterprise Software.
+synchronization for
+each supported data type]({{< relref "/operate/rs/7.4/databases/active-active/develop/data-types/" >}}) and [how to develop applications]({{< relref "/operate/rs/7.4/databases/active-active/develop/develop-for-aa.md" >}}) with them on Redis Enterprise Software.

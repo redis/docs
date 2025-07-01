@@ -12,7 +12,7 @@ toc: 'true'
 weight: 10
 ---
 
-The following tables show which Redis Community Edition [server management commands]({{< relref "/commands" >}}?group=server) are compatible with standard and Active-Active databases in Redis Enterprise Software and Redis Cloud.
+The following tables show which Redis Open Source [server management commands]({{< relref "/commands" >}}?group=server) are compatible with standard and Active-Active databases in Redis Enterprise Software and Redis Cloud.
 
 ## Access control commands
 
@@ -83,12 +83,12 @@ Redis Cloud manages modules for you and lets you [enable modules]({{< relref "/o
 
 ## Monitoring commands
 
-Although Redis Enterprise does not support certain monitoring commands, you can use the Cluster Manager UI to view Redis Enterprise Software [metrics]({{< relref "/operate/rs/clusters/monitoring" >}}) and [logs]({{< relref "/operate/rs/clusters/logging" >}}) or the Redis Cloud console to view Redis Cloud [metrics]({{< relref "/operate/rc/databases/monitor-performance" >}}) and [logs]({{< relref "/operate/rc/logs-reports/system-logs" >}}).
+Although Redis Enterprise does not support certain monitoring commands, you can use the Cluster Manager UI to view Redis Enterprise Software [metrics]({{< relref "/operate/rs/monitoring" >}}) and [logs]({{< relref "/operate/rs/clusters/logging" >}}) or the Redis Cloud console to view Redis Cloud [metrics]({{< relref "/operate/rc/databases/monitor-performance" >}}) and [logs]({{< relref "/operate/rc/logs-reports/system-logs" >}}).
 
 | <span style="min-width: 9em; display: table-cell">Command</span> | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:--------|:----------------------|:-----------------|:------|
 | [DBSIZE]({{< relref "/commands/dbsize" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
-| [INFO]({{< relref "/commands/info" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | In Redis Enterprise, `INFO` returns a different set of fields than Redis Community Edition.<br />Not supported for [scripts]({{<relref "/develop/interact/programmability">}}). |
+| [INFO]({{< relref "/commands/info" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | In Redis Enterprise, `INFO` returns a different set of fields than Redis Open Source.<br />Not supported for [scripts]({{<relref "/develop/interact/programmability">}}). |
 | [LATENCY DOCTOR]({{< relref "/commands/latency-doctor" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 | [LATENCY GRAPH]({{< relref "/commands/latency-graph" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 | [LATENCY HELP]({{< relref "/commands/latency-help" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |

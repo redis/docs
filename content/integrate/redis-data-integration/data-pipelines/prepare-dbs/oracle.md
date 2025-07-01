@@ -142,7 +142,7 @@ use the following setting:
 }
 ```
 
-## 5. Create a user for the connector
+## 5. Create a user for the connector {#create-dbz-user}
 
 The Debezium Oracle connector must run as an Oracle LogMiner user with
 specific permissions. The following example shows some SQL that creates
@@ -166,40 +166,246 @@ CREATE USER c##dbzuser IDENTIFIED BY dbz
     QUOTA UNLIMITED ON logminer_tbs
     CONTAINER=ALL;
 
-GRANT CREATE SESSION TO c##dbzuser CONTAINER=ALL; 
-GRANT SET CONTAINER TO c##dbzuser CONTAINER=ALL; 
-GRANT SELECT ON V_$DATABASE to c##dbzuser CONTAINER=ALL; 
-GRANT FLASHBACK ANY TABLE TO c##dbzuser CONTAINER=ALL; 
-GRANT SELECT ANY TABLE TO c##dbzuser CONTAINER=ALL; 
-GRANT SELECT_CATALOG_ROLE TO c##dbzuser CONTAINER=ALL; 
-GRANT EXECUTE_CATALOG_ROLE TO c##dbzuser CONTAINER=ALL; 
-GRANT SELECT ANY TRANSACTION TO c##dbzuser CONTAINER=ALL; 
-GRANT LOGMINING TO c##dbzuser CONTAINER=ALL; 
+GRANT CREATE SESSION TO c##dbzuser CONTAINER=ALL;
+GRANT SET CONTAINER TO c##dbzuser CONTAINER=ALL;
+GRANT SELECT ON V_$DATABASE to c##dbzuser CONTAINER=ALL;
 
-GRANT CREATE TABLE TO c##dbzuser CONTAINER=ALL; 
-GRANT LOCK ANY TABLE TO c##dbzuser CONTAINER=ALL; 
-GRANT CREATE SEQUENCE TO c##dbzuser CONTAINER=ALL; 
+-- See `Limiting privileges` below if the privileges
+-- granted by these two commands raise security concerns.
+GRANT FLASHBACK ANY TABLE TO c##dbzuser CONTAINER=ALL;
+GRANT SELECT ANY TABLE TO c##dbzuser CONTAINER=ALL;
+-- 
 
-GRANT EXECUTE ON DBMS_LOGMNR TO c##dbzuser CONTAINER=ALL; 
-GRANT EXECUTE ON DBMS_LOGMNR_D TO c##dbzuser CONTAINER=ALL; 
+GRANT SELECT_CATALOG_ROLE TO c##dbzuser CONTAINER=ALL;
+GRANT EXECUTE_CATALOG_ROLE TO c##dbzuser CONTAINER=ALL;
+GRANT SELECT ANY TRANSACTION TO c##dbzuser CONTAINER=ALL;
+GRANT LOGMINING TO c##dbzuser CONTAINER=ALL;
 
-GRANT SELECT ON V_$LOG TO c##dbzuser CONTAINER=ALL; 
-GRANT SELECT ON V_$LOG_HISTORY TO c##dbzuser CONTAINER=ALL; 
-GRANT SELECT ON V_$LOGMNR_LOGS TO c##dbzuser CONTAINER=ALL; 
-GRANT SELECT ON V_$LOGMNR_CONTENTS TO c##dbzuser CONTAINER=ALL; 
-GRANT SELECT ON V_$LOGMNR_PARAMETERS TO c##dbzuser CONTAINER=ALL; 
-GRANT SELECT ON V_$LOGFILE TO c##dbzuser CONTAINER=ALL; 
-GRANT SELECT ON V_$ARCHIVED_LOG TO c##dbzuser CONTAINER=ALL; 
-GRANT SELECT ON V_$ARCHIVE_DEST_STATUS TO c##dbzuser CONTAINER=ALL; 
-GRANT SELECT ON V_$TRANSACTION TO c##dbzuser CONTAINER=ALL; 
+-- See `Limiting privileges` below if the privileges
+-- granted by these two commands raise security concerns.
+GRANT CREATE TABLE TO c##dbzuser CONTAINER=ALL;
+GRANT LOCK ANY TABLE TO c##dbzuser CONTAINER=ALL;
+-- 
 
-GRANT SELECT ON V_$MYSTAT TO c##dbzuser CONTAINER=ALL; 
-GRANT SELECT ON V_$STATNAME TO c##dbzuser CONTAINER=ALL; 
+GRANT CREATE SEQUENCE TO c##dbzuser CONTAINER=ALL;
+
+GRANT EXECUTE ON DBMS_LOGMNR TO c##dbzuser CONTAINER=ALL;
+GRANT EXECUTE ON DBMS_LOGMNR_D TO c##dbzuser CONTAINER=ALL;
+
+GRANT SELECT ON V_$LOG TO c##dbzuser CONTAINER=ALL;
+GRANT SELECT ON V_$LOG_HISTORY TO c##dbzuser CONTAINER=ALL;
+GRANT SELECT ON V_$LOGMNR_LOGS TO c##dbzuser CONTAINER=ALL;
+GRANT SELECT ON V_$LOGMNR_CONTENTS TO c##dbzuser CONTAINER=ALL;
+GRANT SELECT ON V_$LOGMNR_PARAMETERS TO c##dbzuser CONTAINER=ALL;
+GRANT SELECT ON V_$LOGFILE TO c##dbzuser CONTAINER=ALL;
+GRANT SELECT ON V_$ARCHIVED_LOG TO c##dbzuser CONTAINER=ALL;
+GRANT SELECT ON V_$ARCHIVE_DEST_STATUS TO c##dbzuser CONTAINER=ALL;
+GRANT SELECT ON V_$TRANSACTION TO c##dbzuser CONTAINER=ALL;
+
+GRANT SELECT ON V_$MYSTAT TO c##dbzuser CONTAINER=ALL;
+GRANT SELECT ON V_$STATNAME TO c##dbzuser CONTAINER=ALL;
 
 exit;
 ```
 
-## 6. Configuration is complete
+### Limiting privileges
+
+The privileges granted in the example above are convenient,
+but you may prefer to restrict them further to improve security. In particular,
+you might want to prevent the Debezium user from creating tables, or
+selecting or locking any table.
+
+The Debezium user needs the `CREATE TABLE` privilege to create the
+`LOG_MINING_FLUSH` table when it connects for the first
+time. After this point, it doesn't need to create any more tables,
+so you can safely revoke this privilege with the following command:
+
+```sql
+REVOKE CREATE TABLE FROM c##dbzuser container=all;
+```
+
+[The example above](#create-dbz-user) grants the `SELECT ANY TABLE` and
+`FLASHBACK ANY TABLE` privileges for convenience, but only the tables synced to RDI
+and the `V_$XXX` tables strictly need these privileges.
+You can replace the `GRANT SELECT ANY TABLE` command with explicit
+commands for each table. For example, you would use commands like the
+following for the tables in our sample
+[`chinook`](https://github.com/Redislabs-Solution-Architects/rdi-quickstart-postgres)
+database. (Note that Oracle 19c requires you to run a separate `GRANT`
+command for each table individually.)
+
+```sql
+GRANT SELECT ON chinook.album TO c##dbzuser;
+GRANT SELECT ON chinook.artist TO c##dbzuser;
+GRANT SELECT ON chinook.customer TO c##dbzuser;
+...
+```
+
+Similarly, instead of `GRANT FLASHBACK ANY TABLE`, you would use the following
+commands:
+
+```sql
+GRANT FLASHBACK ON chinook.album TO c##dbzuser;
+GRANT FLASHBACK ON chinook.artist TO c##dbzuser;
+GRANT FLASHBACK ON chinook.customer TO c##dbzuser;
+...
+```
+
+The `LOCK` privilege is automatically granted by the `SELECT`
+privilege, so you can omit this command if you have granted `SELECT`
+on specific tables.
+
+### Revoking existing privileges
+
+If you initially set the Debezium user's privileges on all tables,
+but you now want to restrict them, you can revoke the existing
+privileges before resetting them as described in the
+[Limiting privileges](#limiting-privileges) section.
+
+Use the following commands to revoke and reset the `SELECT` privileges:
+
+```sql
+REVOKE SELECT ANY TABLE FROM c##dbzuser container=all;
+ALTER SESSION SET container=orclpdb1;
+
+GRANT SELECT ON chinook.album TO c##dbzuser;
+-- ...etc
+```
+
+The equivalent commands for `FLASHBACK` are:
+
+```sql
+REVOKE FLASHBACK ANY TABLE FROM c##dbzuser container=all;
+ALTER SESSION SET container=orclpdb1;
+GRANT FLASHBACK ON chinook.album TO c##dbzuser;
+```
+
+The `SELECT` privilege automatically includes the `LOCK`
+privilege, so when you grant `SELECT` for specific tables
+you should also revoke `LOCK` on all tables:
+
+```sql
+REVOKE LOCK ANY TABLE FROM c##dbzuser container=all;
+```
+
+## 6. Support for Oracle XMLTYPE columns (optional)
+
+If your Oracle database contains tables with columns of type
+[`XMLTYPE`](https://docs.oracle.com/en/database/oracle/oracle-database/21/arpls/XMLTYPE.html),
+you must configure additional libraries for Debezium Server to process these columns correctly.
+
+### Create a custom Debezium Server image
+
+To support `XMLTYPE` columns, you must create a custom [Docker](https://www.docker.com/) image
+that includes the required Oracle XML libraries.
+
+1. Download the required libraries from Maven Central:
+
+   ```bash
+   mkdir xml
+   cd xml
+   wget https://repo.maven.apache.org/maven2/com/oracle/database/xml/xdb/19.27.0.0/xdb-19.27.0.0.jar
+   wget https://repo.maven.apache.org/maven2/com/oracle/database/xml/xmlparserv2/19.27.0.0/xmlparserv2-19.27.0.0.jar
+   mv xdb-19.27.0.0.jar xdb.jar
+   mv xmlparserv2-19.27.0.0.jar xmlparserv2.jar
+   ```
+
+2. Create a `Dockerfile` in the same directory:
+
+   ```dockerfile
+   FROM quay.io/debezium/server:3.0.8.Final
+
+   USER root
+
+   COPY xdb.jar /debezium/lib
+   COPY xmlparserv2.jar /debezium/lib
+   ```
+
+3. Build the custom image:
+
+   ```bash
+   cd ..
+   docker build -t dbz-xml xml
+   docker tag dbz-xml quay.io/debezium/server:3.0.8.Final
+   docker image save quay.io/debezium/server:3.0.8.Final -o dbz3.0.8-xml-linux-amd.tar
+   ```
+
+4. Add the image to your K3s image repository:
+
+   ```bash
+   sudo k3s ctr images import dbz3.0.8-xml-linux-amd.tar all
+   ```
+
+### Configure RDI for XMLTYPE support
+
+In your RDI configuration file, set the `lob.enabled` property to `true` in the
+`advanced.source` section:
+
+```yaml
+sources:
+  oracle:
+    type: cdc
+    logging:
+      level: info
+    connection:
+      type: oracle
+      host: oracle
+      port: 1521
+      user: ${SOURCE_DB_USERNAME}
+      password: ${SOURCE_DB_PASSWORD}
+      database: ORCLCDB
+    advanced:
+      source:
+        database.pdb.name: ORCLPDB1
+        lob.enabled: true
+```
+
+### Test XMLTYPE support
+
+You can create a test table to verify that `XMLTYPE` columns work correctly
+(using the
+[`CHINOOK`](https://github.com/Redislabs-Solution-Architects/rdi-quickstart-postgres/tree/main)
+schema as an example):
+
+```sql
+CREATE TABLE tab1 (
+  xmlid INT NOT NULL,
+  col1  SYS.XMLTYPE,
+  CONSTRAINT PK_tab1 PRIMARY KEY (xmlid)
+);
+
+DECLARE
+  v_xml   SYS.XMLTYPE;
+  v_doc   CLOB;
+BEGIN
+  -- XMLTYPE created from a CLOB
+  v_doc := '<?xml version="1.0"?>' || Chr(10) || ' <TABLE_NAME>MY_TABLE</TABLE_NAME>';
+  v_xml := SYS.XMLTYPE.createXML(v_doc);
+
+  INSERT INTO tab1 (xmlid, col1) VALUES (1, v_xml);
+
+  -- XMLTYPE created from a query
+  SELECT SYS_XMLGEN(table_name)
+  INTO   v_xml
+  FROM   user_tables
+  WHERE  rownum = 1;
+
+  INSERT INTO tab1 (xmlid, col1) VALUES (2, v_xml);
+
+  COMMIT;
+END;
+/
+
+ALTER TABLE CHINOOK.TAB1 ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
+```
+
+After you run an initial
+[snapshot]({{< relref "/integrate/redis-data-integration/data-pipelines/#pipeline-lifecycle" >}}),
+the XML data appears in your Redis target database:
+
+{{< image filename="/images/rdi/ingest/xmltype-example.webp" >}}
+
+## 7. Configuration is complete
 
 Once you have followed the steps above, your Oracle database is ready
 for Debezium to use.

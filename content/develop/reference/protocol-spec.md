@@ -50,8 +50,9 @@ In Redis 2.0, the protocol's next version, a.k.a RESP2, became the standard comm
 Redis 6.0 introduced experimental opt-in support of RESP3's features (excluding streaming strings and streaming aggregates).
 In addition, the introduction of the [`HELLO`]({{< relref "/commands/hello" >}}) command allows clients to handshake and upgrade the connection's protocol version (see [Client handshake](#client-handshake)).
 
-Up to and including Redis 7, both RESP2 and RESP3 clients can invoke all core commands.
+From Redis version 7 and forward, both RESP2 and RESP3 clients can invoke all core commands.
 However, commands may return differently typed replies for different protocol versions.
+Each command has descriptions of RESP2 and RESP3 return values that you can reference.
 
 Future versions of Redis may change the default protocol version, but it is unlikely that RESP2 will become entirely deprecated.
 It is possible, however, that new features in upcoming versions will require the use of RESP3.
@@ -74,7 +75,7 @@ This is the simplest model possible; however, there are some exceptions:
 * The [`MONITOR`]({{< relref "/commands/monitor" >}}) command.
   Invoking the [`MONITOR`]({{< relref "/commands/monitor" >}}) command switches the connection to an ad-hoc push mode.
   The protocol of this mode is not specified but is obvious to parse.
-* [Protected mode]({{< baseurl >}}/operate/oss_and_stack/management/security/#protected-mode).
+* [Protected mode]({{< relref "operate/oss_and_stack/management/security/#protected-mode" >}}).
   Connections opened from a non-loopback address to a Redis while in protected mode are denied and terminated by the server.
   Before terminating the connection, Redis unconditionally sends a `-DENIED` reply, regardless of whether the client writes to the socket.
 * The [RESP3 Push type](#resp3-pushes).
@@ -131,7 +132,7 @@ The following table summarizes the RESP data types that Redis supports:
 | [Bulk errors](#bulk-errors) | RESP3 | Aggregate | `!` |
 | [Verbatim strings](#verbatim-strings) | RESP3 | Aggregate | `=` |
 | [Maps](#maps) | RESP3 | Aggregate | `%` |
-| [Attributes](#attributes) | RESP3 | Aggregate | `|` |
+| [Attributes](#attributes) | RESP3 | Aggregate | <code>&#124;</code> |
 | [Sets](#sets) | RESP3 | Aggregate | `~` |
 | [Pushes](#pushes) | RESP3 | Aggregate | `>` |
 
@@ -754,7 +755,7 @@ While comparable in performance to a binary protocol, the Redis protocol is sign
 
 ## Tips for Redis client authors
 
-* For testing purposes, use [Lua's type conversions]({{< baseurl >}}/develop/interact/programmability/lua-api#lua-to-resp3-type-conversion) to have Redis reply with any RESP2/RESP3 needed.
+* For testing purposes, use [Lua's type conversions]({{< relref "develop/interact/programmability/lua-api#lua-to-resp3-type-conversion" >}}) to have Redis reply with any RESP2/RESP3 needed.
   As an example, a RESP3 double can be generated like so:
   ```
   EVAL "return { double = tonumber(ARGV[1]) }" 0 1e0

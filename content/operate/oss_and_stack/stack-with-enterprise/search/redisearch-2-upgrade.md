@@ -26,7 +26,7 @@ In addition, RediSearch 2.x indexes data that already existed in the database at
 To upgrade a Redis Enterprise Software database with RediSearch 1.x to RediSearch 2.x, you have to set up a new database with RediSearch 2.x and use the `RediSearch_Syncer.py` script to replicate the data from the old database into the new database.
 
 {{< note >}}
-After you create the database or after you replicate the data, [create an index]({{< baseurl >}}/commands/ft.create) with a prefix or filter that defines the keys that you want to index.
+After you create the database or after you replicate the data, [create an index]({{< relref "commands/ft.create" >}}) with a prefix or filter that defines the keys that you want to index.
 {{< /note >}}
 
 ## Prerequisites

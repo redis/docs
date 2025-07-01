@@ -20,7 +20,7 @@ weight: 1
 The sections below explain how to install `redis-py` and connect your application
 to a Redis database.
 
-`redis-py` requires a running Redis or [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) server. See [Getting started]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis installation instructions.
+`redis-py` requires a running Redis server. See [here]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis Open Source installation instructions.
 
 You can also access Redis with an object-mapping client interface. See
 [RedisOM for Python]({{< relref "/integrate/redisom-for-python" >}})
@@ -47,6 +47,12 @@ pip install redis[hiredis]
 ## Connect and test
 
 Connect to localhost on port 6379, set a value in Redis, and retrieve it. All responses are returned as bytes in Python. To receive decoded strings, set `decode_responses=True`. For more connection options, see [these examples](https://redis.readthedocs.io/en/stable/examples.html).
+
+{{< note >}}
+
+You can try this code out in a [Jupyter notebook on Binder](https://redis.io/binder/v2/gh/redis/binder-launchers/6bbed3da294e8de5a8c2ad99abf883731a50d4dd?urlpath=%2Fdoc%2Ftree%2Fdemo.ipynb).
+
+{{< /note >}}
 
 ```python
 r = redis.Redis(host='localhost', port=6379, decode_responses=True)
@@ -76,12 +82,10 @@ r.hgetall('user-session:123')
 # {'surname': 'Smith', 'name': 'John', 'company': 'Redis', 'age': '29'}
 ```
 
-
-
 ## More information
 
-The [`redis-py`](https://redis-py.readthedocs.io/en/stable/index.html) website
-has a [command reference](https://redis-py.readthedocs.io/en/stable/commands.html)
+The [`redis-py`](https://redis.readthedocs.io/en/stable/index.html) website
+has a [command reference](https://redis.readthedocs.io/en/stable/commands.html)
 and some [tutorials](https://redis.readthedocs.io/en/stable/examples.html) for
 various tasks. There are also some examples in the
 [GitHub repository](https://github.com/redis/redis-py) for `redis-py`.

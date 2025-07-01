@@ -27,13 +27,13 @@ workloads can use:
 
 ## For OpenShift via the OperatorHub
 
-To [create a database on an OpenShift 4.x cluster via the OperatorHub]({{< relref "/operate/kubernetes/deployment/openshift/openshift-operatorhub" >}}) you only need to have the [OpenShift 4.x cluster installed](https://docs.openshift.com/container-platform/4.3/welcome/index.html) with at least three nodes that each meet the [minimum requirements for a development installation]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md" >}}).
+To [create a database on an OpenShift 4.x cluster via the OperatorHub]({{< relref "/operate/kubernetes/deployment/openshift/openshift-operatorhub" >}}) you only need to have the [OpenShift 4.x cluster installed](https://docs.openshift.com/container-platform/4.3/welcome/index.html) with at least three nodes that each meet the [minimum requirements for a development installation]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements" >}}).
 
 ## For OpenShift via the CLI
 
-To [create a database on an OpenShift cluster via the CLI]({{< relref "/operate/kubernetes/deployment/openshift/openshift-cli.md" >}}), you need:
+To [create a database on an OpenShift cluster via the CLI]({{< relref "/operate/kubernetes/deployment/openshift/openshift-cli" >}}), you need:
 
-1. An [OpenShift cluster installed](https://docs.openshift.com/container-platform/4.3/welcome/index.html) with at least three nodes that each meet the [minimum requirements for a development installation]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md" >}}).
+1. An [OpenShift cluster installed](https://docs.openshift.com/container-platform/4.3/welcome/index.html) with at least three nodes that each meet the [minimum requirements for a development installation]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements" >}}).
 1. The [kubectl package installed](https://kubernetes.io/docs/tasks/tools/install-kubectl/) at version 1.9 or higher
 1. The [OpenShift cli installed](https://docs.openshift.com/container-platform/4.2/cli_reference/openshift_cli/getting-started-cli.html)
 

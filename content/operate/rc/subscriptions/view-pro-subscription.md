@@ -15,7 +15,7 @@ To view the details of a Redis Cloud Pro subscription:
 
 1.  If you have more than one subscription, select the target subscription from the subscription list.
 
-    {{<image filename="images/rc/subscription-list-select.png" alt="The Subscription list shows your current subscriptions." >}}
+    {{<image filename="images/rc/subscription-list-select.png" alt="The Subscription list shows your current subscriptions." width=50% >}}
 
 1.  Your subscription details appear, along with a summary of your database details.
 
@@ -23,17 +23,15 @@ To view the details of a Redis Cloud Pro subscription:
 
 From here, you can:
 
-- Select the **New database** button to add a database to your subscription.
+- Select **Create database in this subscription** to [add a database to your subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-existing" >}}).
 
-    {{<image filename="images/rc/button-database-new.png" alt="Use the **New database** button to create a new database for your subscription." >}}
+    {{<image filename="images/rc/button-add-new-to-pro.png" alt="The Create database in this subscription button." width=400px >}}
 
-- View the Status icon to learn the status of your subscription.  Active subscriptions display a green circle with a check mark. Pending subscriptions display an animated, grey circle.
+- View the Status icon to learn the status of your subscription.  Active subscriptions display a green circle with a check mark. Pending subscriptions display an animated yellow circle.
 
     {{<image filename="images/rc/icon-database-status-active.png#no-click" alt="When a subscription is active, the status icon displays a green circle with a checkmark." class="inline" >}} &nbsp; {{<image filename="images/rc/icon-subscription-status-pending.png#no-click" alt="When a subscription is pending, the status icon displays a gre, animated circle." class="inline">}}
 
-- {{< embed-md "rc-version-upgrade.md" >}}
-
-Because subscriptions represent active deployments, there aren't many details you can change.  If your needs change, create a new subscription and then migrate the existing data to the new databases.
+Because subscriptions represent active deployments, there aren't many details you can change.  If your needs change, [create a new subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) and then [migrate the existing data]({{< relref "/operate/rc/databases/migrate-databases" >}}) to the new databases.
 
 In addition, three tabs are available:
 
@@ -41,7 +39,9 @@ In addition, three tabs are available:
 
 2.  The **Overview** tab displays subscription settings for your Redis Cloud Pro subscription.
 
-3.  The **Connectivity** tab lets you limit access to the subscription by defining a VPC peering relationship or by setting up an allow list.
+3.  The **Connectivity** tab lets you limit access to the subscription by defining a VPC peering or other connectivity options.
+
+4.  The **Security** tab lets you set security settings for the databases in your subscription.
 
 The following sections provide more info.
 
@@ -67,7 +67,7 @@ To view full details of a database, click its name in the list.
 
 ## **Overview** tab
 
-The **Overview** summarizes the options use to created the subscription.
+The **Overview** summarizes the options used to create the subscription.
 
 {{<image filename="images/rc/subscription-details-overview-flexible.png" alt="The Overview tab displays the settings used to create your Redis Cloud Pro subscription." >}}
 
@@ -95,7 +95,7 @@ The **Overview** summarizes the options use to created the subscription.
 
     Select the **Edit payment method** button to change the credit card associated with this subscription.
 
-    {{< image filename="/images/rc/icon-subscription-detail-change-payment-flexible.png" alt="The edit payment method button, selected and showing two credit cards." width=400px >}}
+    {{< image filename="/images/rc/icon-subscription-detail-change-payment-flexible.png" alt="The edit payment method button, selected and showing a credit card." width=400px >}}
 
     Select **Add credit card** to add a new credit card.
 
@@ -119,8 +119,14 @@ Here, you can:
 
 - Set up a [VPC peering]({{< relref "/operate/rc/security/vpc-peering.md" >}}) relationship between the virtual PC (VPC) hosting your subscription and another virtual PC.
 
-- Set up a [CIDR allow list]({{< relref "/operate/rc/security/cidr-whitelist.md" >}}) containing IP addresses or security groups (_AWS only_) permitted to access your subscription.
+- Set up a [CIDR allow list]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/subscription-whitelist" >}}) containing IP addresses or security groups permitted to access your subscription (_AWS Cloud accounts only_).
 
 - Set up [Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}}) (*Google Cloud only*) or [Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}) (*AWS only*).
 
 See the individual links to learn more.
+
+## **Security** tab
+
+The **Security** tab lets you set security settings for the databases in your subscription.
+
+Here, you can [block public endpoints]({{< relref "/operate/rc/security/database-security/block-public-endpoints" >}}) for all databases in the subscription.

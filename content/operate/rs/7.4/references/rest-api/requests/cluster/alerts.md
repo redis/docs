@@ -27,13 +27,13 @@ Get all alert states for the cluster object.
 
 | Permission name |
 |-----------------|
-| [view_cluster_alerts]({{< relref "/operate/rs/references/rest-api/permissions#view_cluster_alerts" >}}) |
+| [view_cluster_alerts]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_cluster_alerts" >}}) |
 
 ### Request {#get-all-request} 
 
 #### Example HTTP request
 
-	GET /cluster/alerts 
+	GET /v1/cluster/alerts 
 
 #### Request headers
 
@@ -50,7 +50,7 @@ Get all alert states for the cluster object.
 
 ### Response {#get-all-response} 
 
-Returns a hash of [alert objects]({{< relref "/operate/rs/references/rest-api/objects/alert" >}}) and their states.
+Returns a hash of [alert objects]({{< relref "/operate/rs/7.4/references/rest-api/objects/alert" >}}) and their states.
 
 #### Example JSON body
 
@@ -85,13 +85,13 @@ Get a cluster alert state.
 
 | Permission name |
 |-----------------|
-| [view_cluster_alerts]({{< relref "/operate/rs/references/rest-api/permissions#view_cluster_alerts" >}}) |
+| [view_cluster_alerts]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_cluster_alerts" >}}) |
 
 ### Request {#get-request} 
 
 #### Example HTTP request
 
-	GET /cluster/alerts/cluster_too_few_nodes_for_replication 
+	GET /v1/cluster/alerts/cluster_too_few_nodes_for_replication 
 
 #### Request headers
 
@@ -108,7 +108,7 @@ Get a cluster alert state.
 
 ### Response {#get-response} 
 
-Returns an [alert object]({{< relref "/operate/rs/references/rest-api/objects/alert" >}}).
+Returns an [alert object]({{< relref "/operate/rs/7.4/references/rest-api/objects/alert" >}}).
 
 #### Example JSON body
 

@@ -1,5 +1,8 @@
 The Redis Website and Documentation by Redis Ltd. is licensed under the 
-Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License, or,
+certain portions that were previously available at <https://github.com/redis/redis-doc?tab=readme-ov-file#readme>,
+are available under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+at <https://github.com/redis/redis-doc?tab=License-1-ov-file#readme>.
 
 You should have received a copy of the license along with this
 work. If not, see <http://creativecommons.org/licenses/by-nc-sa/4.0/>.

@@ -1,19 +1,9 @@
 {{ define "head" }}
-  {{ $base := .Site.BaseURL }}
-  {{ $parsed := urls.Parse $base }}
-  {{ $path := $parsed.Path }}
-  {{ if (eq $path "/") }}
-	  {{ .Scratch.Set "path" ""}}
-  {{ else }}
-    {{ .Scratch.Set "path" $path}}
-  {{ end }}
-  {{ $basePath := .Scratch.Get "path" }}
-  <script src='{{ $basePath }}/js/integrations-filters.js' defer></script>
+  <script src='{{ relURL "js/integrations-filters.js" }}' defer></script>
 {{ end }}
 
 {{ define "main" }}
   {{ partial "path-scratch.html" }}
-  {{ $basePath := .Scratch.Get "path" }}
   <main class="docs w-full max-w-[1920px] mx-auto px-5 flex flex-col md:flex-row overflow-hidden">
     {{ partial "docs-nav-collapsed.html" . }}
     <div class="py-12 md:px-4 xl:px-16 overflow-hidden">
@@ -82,7 +72,7 @@
         {{ end }}
       </div>
     </div>
-    
     {{ partial "commands-nav.html" . }}
+    {{ partial "scripts.html" . }}
   </main>
 {{ end }}

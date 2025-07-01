@@ -28,7 +28,7 @@ Flush an Active-Active database.
 #### Example HTTP request
 
 ```sh
-PUT /crdbs/552bbccb-99f3-4142-bd17-93d245f0bc79/flush
+PUT /v1/crdbs/552bbccb-99f3-4142-bd17-93d245f0bc79/flush
 ```
 
 #### Headers
@@ -43,6 +43,12 @@ PUT /crdbs/552bbccb-99f3-4142-bd17-93d245f0bc79/flush
 | Field | Type | Description |
 |-------|------|-------------|
 | crdb_guid | string | Globally unique Active-Active database ID (GUID) |
+
+#### Query parameters
+
+| Field | Type | Description |
+|-------|------|-------------|
+| async_flush | boolean | Perform asynchronous flush operation (optional) |
 
 ### Response {#put-response}
 

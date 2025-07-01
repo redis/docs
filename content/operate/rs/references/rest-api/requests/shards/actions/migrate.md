@@ -34,7 +34,7 @@ For more information about shard migration use cases and considerations, see [Mi
 
 #### Example HTTP request
 
-	POST /shards/actions/migrate
+	POST /v1/shards/actions/migrate
 
 #### Example JSON body
 
@@ -109,7 +109,7 @@ For more information about shard migration use cases and considerations, see [Mi
 
 #### Example HTTP request
 
-	POST /shards/1/actions/migrate
+	POST /v1/shards/1/actions/migrate
 
 #### Example JSON body
 

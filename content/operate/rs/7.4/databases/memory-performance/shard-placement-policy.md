@@ -52,4 +52,4 @@ For Redis on RAM databases with OSS cluster API enabled and for databases with A
 
 ## Related articles
 
-You can [configure the shard placement policy]({{< relref "/operate/rs/databases/configure/shard-placement.md" >}}) for each database.
+You can [configure the shard placement policy]({{< relref "/operate/rs/7.4/databases/configure/shard-placement.md" >}}) for each database.

@@ -13,11 +13,11 @@ weight: 10
 url: '/operate/rs/7.4/references/compatibility/commands/server/'
 ---
 
-The following tables show which Redis Community Edition [server management commands]({{< relref "/commands" >}}?group=server) are compatible with standard and Active-Active databases in Redis Enterprise Software and Redis Cloud.
+The following tables show which Redis Open Source [server management commands]({{< relref "/commands" >}}?group=server) are compatible with standard and Active-Active databases in Redis Enterprise Software and Redis Cloud.
 
 ## Access control commands
 
-Several access control list (ACL) commands are not available in Redis Enterprise. Instead, you can manage access controls from the [Redis Enterprise Software Cluster Manager UI]({{< relref "/operate/rs/security/access-control" >}}) and the [Redis Cloud console]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control.md" >}}).
+Several access control list (ACL) commands are not available in Redis Enterprise. Instead, you can manage access controls from the [Redis Enterprise Software Cluster Manager UI]({{< relref "/operate/rs/7.4/security/access-control" >}}) and the [Redis Cloud console]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control.md" >}}).
 
 | <span style="min-width: 9em; display: table-cell">Command</span> | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:--------|:----------------------|:-----------------|:------|
@@ -40,10 +40,10 @@ Several access control list (ACL) commands are not available in Redis Enterprise
 
 | <span style="min-width: 9em; display: table-cell">Command</span> | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:--------|:----------------------|:-----------------|:------|
-| [CONFIG GET]({{< relref "/commands/config-get" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | [Only supports a subset of configuration settings.]({{< relref "/operate/rs/references/compatibility/config-settings" >}}) |
+| [CONFIG GET]({{< relref "/commands/config-get" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | [Only supports a subset of configuration settings.]({{< relref "/operate/rs/7.4/references/compatibility/config-settings" >}}) |
 | [CONFIG RESETSTAT]({{< relref "/commands/config-resetstat" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 | [CONFIG REWRITE]({{< relref "/commands/config-rewrite" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
-| [CONFIG SET]({{< relref "/commands/config-set" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | [Only supports a subset of configuration settings.]({{< relref "/operate/rs/references/compatibility/config-settings" >}}) |
+| [CONFIG SET]({{< relref "/commands/config-set" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | [Only supports a subset of configuration settings.]({{< relref "/operate/rs/7.4/references/compatibility/config-settings" >}}) |
 
 
 ## General server commands
@@ -59,8 +59,8 @@ Several access control list (ACL) commands are not available in Redis Enterprise
 | [COMMAND INFO]({{< relref "/commands/command-info" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 | [COMMAND LIST]({{< relref "/commands/command-list" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 | [DEBUG]({{< relref "/commands/debug" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
-| [FLUSHALL]({{< relref "/commands/flushall" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active\*</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | \*Can use the [Active-Active flush API request]({{< relref "/operate/rs/references/rest-api/requests/crdbs/flush" >}}). |
-| [FLUSHDB]({{< relref "/commands/flushdb" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active\*</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | \*Can use the [Active-Active flush API request]({{< relref "/operate/rs/references/rest-api/requests/crdbs/flush" >}}). |
+| [FLUSHALL]({{< relref "/commands/flushall" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active\*</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | \*Can use the [Active-Active flush API request]({{< relref "/operate/rs/7.4/references/rest-api/requests/crdbs/flush" >}}). |
+| [FLUSHDB]({{< relref "/commands/flushdb" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active\*</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | \*Can use the [Active-Active flush API request]({{< relref "/operate/rs/7.4/references/rest-api/requests/crdbs/flush" >}}). |
 | [LOLWUT]({{< relref "/commands/lolwut" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 | [SHUTDOWN]({{< relref "/commands/shutdown" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 | [SWAPDB]({{< relref "/commands/swapdb" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
@@ -69,7 +69,7 @@ Several access control list (ACL) commands are not available in Redis Enterprise
 
 ## Module commands
 
-For Redis Enterprise Software, you can [manage Redis modules]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/" >}}) from the Cluster Manager UI or with [REST API requests]({{< relref "/operate/rs/references/rest-api/requests/modules" >}}).
+For Redis Enterprise Software, you can [manage Redis modules]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/" >}}) from the Cluster Manager UI or with [REST API requests]({{< relref "/operate/rs/7.4/references/rest-api/requests/modules" >}}).
 
 Redis Cloud manages modules for you and lets you [enable modules]({{< relref "/operate/rc/databases/create-database#modules" >}}) when you create a database.
 
@@ -84,12 +84,12 @@ Redis Cloud manages modules for you and lets you [enable modules]({{< relref "/o
 
 ## Monitoring commands
 
-Although Redis Enterprise does not support certain monitoring commands, you can use the Cluster Manager UI to view Redis Enterprise Software [metrics]({{< relref "/operate/rs/clusters/monitoring" >}}) and [logs]({{< relref "/operate/rs/clusters/logging" >}}) or the Redis Cloud console to view Redis Cloud [metrics]({{< relref "/operate/rc/databases/monitor-performance" >}}) and [logs]({{< relref "/operate/rc/logs-reports/system-logs" >}}).
+Although Redis Enterprise does not support certain monitoring commands, you can use the Cluster Manager UI to view Redis Enterprise Software [metrics]({{< relref "/operate/rs/7.4/clusters/monitoring" >}}) and [logs]({{< relref "/operate/rs/7.4/clusters/logging" >}}) or the Redis Cloud console to view Redis Cloud [metrics]({{< relref "/operate/rc/databases/monitor-performance" >}}) and [logs]({{< relref "/operate/rc/logs-reports/system-logs" >}}).
 
 | <span style="min-width: 9em; display: table-cell">Command</span> | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:--------|:----------------------|:-----------------|:------|
 | [DBSIZE]({{< relref "/commands/dbsize" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
-| [INFO]({{< relref "/commands/info" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | In Redis Enterprise, `INFO` returns a different set of fields than Redis Community Edition.<br />Not supported for [scripts]({{<relref "/develop/interact/programmability">}}). |
+| [INFO]({{< relref "/commands/info" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | In Redis Enterprise, `INFO` returns a different set of fields than Redis Open Source.<br />Not supported for [scripts]({{<relref "/develop/interact/programmability">}}). |
 | [LATENCY DOCTOR]({{< relref "/commands/latency-doctor" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 | [LATENCY GRAPH]({{< relref "/commands/latency-graph" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 | [LATENCY HELP]({{< relref "/commands/latency-help" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
@@ -111,7 +111,7 @@ Although Redis Enterprise does not support certain monitoring commands, you can 
 
 ## Persistence commands
 
-Data persistence and backup commands are not available in Redis Enterprise. Instead, you can [manage data persistence]({{< relref "/operate/rs/databases/configure/database-persistence" >}}) and [backups]({{< relref "/operate/rs/databases/import-export/schedule-backups" >}}) from the Redis Enterprise Software Cluster Manager UI and the [Redis Cloud console]({{< relref "/operate/rc/databases/view-edit-database#durability-section" >}}).
+Data persistence and backup commands are not available in Redis Enterprise. Instead, you can [manage data persistence]({{< relref "/operate/rs/7.4/databases/configure/database-persistence" >}}) and [backups]({{< relref "/operate/rs/7.4/databases/import-export/schedule-backups" >}}) from the Redis Enterprise Software Cluster Manager UI and the [Redis Cloud console]({{< relref "/operate/rc/databases/view-edit-database#durability-section" >}}).
 
 | <span style="min-width: 9em; display: table-cell">Command</span> | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:--------|:----------------------|:-----------------|:------|
@@ -123,7 +123,7 @@ Data persistence and backup commands are not available in Redis Enterprise. Inst
 
 ## Replication commands
 
-Redis Enterprise automatically manages [replication]({{< relref "/operate/rs/databases/durability-ha/replication" >}}).
+Redis Enterprise automatically manages [replication]({{< relref "/operate/rs/7.4/databases/durability-ha/replication" >}}).
 
 | <span style="min-width: 9em; display: table-cell">Command</span> | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:--------|:----------------------|:-----------------|:------|

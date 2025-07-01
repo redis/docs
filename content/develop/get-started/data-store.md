@@ -92,11 +92,12 @@ SCAN 0 MATCH "bike:*" COUNT 100
 
 ## Next steps
 
-You can address more use cases with Redis by learning about Redis Stack. Here are two additional quick start guides:
+You can address more use cases with Redis by reading these additional quick start guides:
 
 * [Redis as a document database]({{< relref "/develop/get-started/document-database" >}})
 * [Redis as a vector database]({{< relref "/develop/get-started/vector-database" >}})
 
 ## Continue learning with Redis University
 
-See the [Get Started with Redis learning path](https://university.redis.io/learningpath/14q8m6gilfwltm) for courses.
+{{< university-links >}}
+

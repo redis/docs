@@ -1,20 +1,11 @@
 {{ define "head" }}
-{{ $base := .Site.BaseURL }}
-{{ $parsed := urls.Parse $base }}
-{{ $path := $parsed.Path }}
-{{ if (eq $path "/") }}
-	{{ .Scratch.Set "path" ""}}
-{{ else }}
-    {{ .Scratch.Set "path" $path}}
-{{ end }}
-{{ $basePath := .Scratch.Get "path" }}
-  <script src='{{ $basePath }}/js/codetabs.js' defer></script>
+  <script src='{{ relURL "js/codetabs.js" }}' defer></script>
 {{ end }}
 
 {{ define "main" }}
   <main class="docs w-full max-w-[1920px] mx-auto px-5 flex flex-col md:flex-row overflow-hidden">
     {{ partial "docs-nav.html" . }}
-    <div class="py-12 md:pl-4 xl:px-16 overflow-hidden">
+    <div class="w-full py-12 md:pl-4 xl:px-16 overflow-hidden">
       {{ partial "breadcrumbs" . }}
       <section class="prose w-full py-12 max-w-none">
         <h1>{{ .Title }}</h1>
@@ -29,7 +20,7 @@
             section-wide banner is enabled by a parent page's front matter -->
           {{ $ancestorDirs := slice }}
           {{ with .File }}
-            {{ $ancestorDirs = split .File.Dir "/" }}
+            {{ $ancestorDirs = split .Dir "/" }}
           {{ end }}
           {{ $currPage := .Page }}
           {{ range $i, $page := $ancestorDirs }}
@@ -57,5 +48,6 @@
       </section>
     </div>
     {{ partial "docs-toc.html" . }}
+    {{ partial "scripts.html" . }}
   </main>
 {{ end }}

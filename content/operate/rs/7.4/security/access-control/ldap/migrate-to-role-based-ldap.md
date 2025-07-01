@@ -11,7 +11,7 @@ weight: 55
 url: '/operate/rs/7.4/security/access-control/ldap/migrate-to-role-based-ldap/'
 ---
 
-Redis Enterprise Software supports LDAP through a [role-based mechanism]({{< relref "/operate/rs/security/access-control/ldap/" >}}), first introduced [in v6.0.20]({{< relref "/operate/rs/release-notes/rs-6-0-20-april-2021" >}}).
+Redis Enterprise Software supports LDAP through a [role-based mechanism]({{< relref "/operate/rs/7.4/security/access-control/ldap/" >}}), first introduced in v6.0.20.
 
 Earlier versions of Redis Enterprise Software supported a cluster-based mechanism; however, that mechanism was removed in v6.2.12.
 
@@ -65,11 +65,11 @@ To test your LDAP integration, you can:
 
 - Use [Redis Insight]({{< relref "/develop/tools/insight/" >}}) to access a database using authorized LDAP credentials.
 
-- Use the [REST API]({{< relref "/operate/rs/references/rest-api" >}}) to connect using authorized LDAP credentials.
+- Use the [REST API]({{< relref "/operate/rs/7.4/references/rest-api" >}}) to connect using authorized LDAP credentials.
 
 ## More info
 
-- Enable and configure [role-based LDAP]({{< relref "/operate/rs/security/access-control/ldap/enable-role-based-ldap" >}})
-- Map LDAP groups to [access control roles]({{< relref "/operate/rs/security/access-control/ldap/map-ldap-groups-to-roles" >}})
-- Update database ACLs to [authorize LDAP access]({{< relref "/operate/rs/security/access-control/ldap/update-database-acls" >}})
-- Learn more about Redis Enterprise Software [security and practices]({{< relref "/operate/rs/security/" >}})
+- Enable and configure [role-based LDAP]({{< relref "/operate/rs/7.4/security/access-control/ldap/enable-role-based-ldap" >}})
+- Map LDAP groups to [access control roles]({{< relref "/operate/rs/7.4/security/access-control/ldap/map-ldap-groups-to-roles" >}})
+- Update database ACLs to [authorize LDAP access]({{< relref "/operate/rs/7.4/security/access-control/ldap/update-database-acls" >}})
+- Learn more about Redis Enterprise Software [security and practices]({{< relref "/operate/rs/7.4/security/" >}})

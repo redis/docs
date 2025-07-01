@@ -52,23 +52,7 @@ Inactive or infrequently accessed data is referred to as “warm data” and sto
 
 {{< embed-md "rc-create-db-first-steps.md" >}} 
 
-3. Select your Redis use case. There are three pre-defined use cases supported with Redis Flex:
-
-    {{<image filename="images/rc/create-database-redis-use-cases.png" alt="The Redis Use case panel">}}
-
-    - **Cache**: Stores short-term or volatile data. Can be used for session management, semantic cache, session store, and other uses where data is short-lived.
-    - **Database**: Stores durable and consistent data. Can be used for document databases, feature storage, gaming leaderboards, durable caches, and other uses where your data needs to be highly available and persistent.
-    - **Custom**: If your Redis use case doesn't match any of the other use cases, you can choose this option to customize all of your settings.
-
-    Select the use case that best matches your Redis use case. You can always change the settings later. 
-
-    The **Vector search** use case is not supported with Redis Flex.
-
-    {{< note >}}
-See [Use case settings](#use-case-settings) to view the default settings for each use case.
-    {{< /note >}}
-
-4. Select the type of [subscription]({{< relref "/operate/rc/subscriptions" >}}) you need. For this guide, select **Redis Flex**.
+3. Select the type of [subscription]({{< relref "/operate/rc/subscriptions" >}}) you need. For this guide, select **Redis Flex**.
 
     {{<image filename="images/rc/create-database-subscription-flex.png" alt="The Subscription selection panel with Redis Flex selected.">}}
 
@@ -89,7 +73,7 @@ This guide shows how to create a Redis Flex database on Redis Cloud Essentials.
 
 1. In the **Durability settings** panel, choose your **High availability settings** and **Data persistence** settings from the list. 
 
-    {{<image filename="images/rc/create-database-essentials-durability.png" alt="The durability settings allow you to choose High availability and Data persistence.">}}
+    {{<image filename="images/rc/create-database-essentials-durability.png" alt="The durability settings allow you to choose High availability and Data persistence." width=75% >}}
 
 
     Redis Cloud supports the following high availability settings:
@@ -107,12 +91,10 @@ This guide shows how to create a Redis Flex database on Redis Cloud Essentials.
     - A **Snapshot** is a copy of the in-memory database, taken at periodic intervals (one, six, or twelve hours). You can restore data to the snapshot's point in time. 
     
     See [Data persistence]({{< relref "/operate/rc/databases/configuration/data-persistence" >}}) for more information about these settings.
-
-    These settings may already be set based on the use case you selected. You can change them now if you like.
     
 1. Select the desired memory limit. 
 
-    {{<image filename="images/rc/subscription-new-fixed-tiers.png" alt="Available Redis Flex plans." >}}
+    {{<image filename="images/rc/subscription-new-flex-tiers.png" alt="Available Redis Flex plans." >}}
 
     For a comparison of available plans, see [Redis Cloud Essentials plans]({{< relref "/operate/rc/subscriptions/view-essentials-subscription/essentials-plan-details" >}}).
 
@@ -120,21 +102,12 @@ This guide shows how to create a Redis Flex database on Redis Cloud Essentials.
 
     If you haven't previously entered a payment method, use the **Add Credit Card** button to add one.
 
-    {{<image filename="images/rc/icon-add-credit-card.png" alt="The Add credit card icon." >}}
+    {{<image filename="images/rc/icon-add.png" width="30px" alt="The Add credit card icon." >}}
+
+    {{< embed-md "rc-credit-card-add.md" >}}
 
 1. Select **Confirm & pay** to create your database.
 
 {{<image filename="images/rc/button-create-db-confirm-pay.png" width="140px" alt="Select Confirm & Pay to create your new database." >}}
 
 When you create your database, there's a brief pause while your request is processed and then the **Database details** page appears.
-
-
-### Use case settings
-
-The following table shows the default use case settings for an Essentials database.
-
-| **Type** | High Availability | Data Persistence | Size | Eviction Policy |
-|---|---|---|---|---|
-| **Cache** | None | None | 30 MB - 12 GB | `volatile-lru` |
-| **Database** | Multi-zone | Append-only file every 1 sec | 250 MB - 12 GB | None |
-| **Custom** | Single-zone | Append-only file every 1 sec | 250 MB - 12 GB | None |

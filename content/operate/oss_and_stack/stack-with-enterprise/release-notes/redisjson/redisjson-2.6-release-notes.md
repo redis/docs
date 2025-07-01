@@ -14,10 +14,24 @@ weight: 96
 ---
 ## Requirements
 
-RedisJSON v2.6.14 requires:
+RedisJSON v2.6.15 requires:
 
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
+
+## v2.6.15 (April 2025)
+
+This is a maintenance release for RedisJSON 2.6.
+
+Update urgency: `LOW`: No need to upgrade unless there are new features you want to use.
+
+Details:
+
+Bug fixes
+- [#1329](https://github.com/redisjson/redisjson/pull/1329) Memory usage calculation: some allocations are counted twice (MOD-9169) 
+
+Improvements:
+- [#1335](https://github.com/redisjson/redisjson/pull/1335) Added support for Azure Linux 3 (MOD-9172)
 
 ## v2.6.14 (January 2025)
 
@@ -123,7 +137,7 @@ RedisJSON 2.6 introduces support for RESP3 and new commands.
 
 ### What's new in 2.6
 
-- Introduce [`JSON.MERGE`]({{< baseurl >}}/commands/json.merge) in compliance with [RFC 7396](https://datatracker.ietf.org/doc/html/rfc7396), supporting:
+- Introduce [`JSON.MERGE`]({{< relref "commands/json.merge" >}}) in compliance with [RFC 7396](https://datatracker.ietf.org/doc/html/rfc7396), supporting:
 
   - Creating new attributes on an existing JSON document
 
@@ -133,7 +147,7 @@ RedisJSON 2.6 introduces support for RESP3 and new commands.
 
   - Array update - replacing an entire array with the new value
 
-- Introduce [`JSON.MSET`]({{< baseurl >}}/commands/json.mset), supporting atomic multiple sets for keys in the same hash slot
+- Introduce [`JSON.MSET`]({{< relref "commands/json.mset" >}}), supporting atomic multiple sets for keys in the same hash slot
 
 - New `FORMAT` argument in `JSON.ARRPOP` and `JSON.GET` to retrieve the results as JSON strings or RESP3 hierarchical structures (RESP3 only)
 

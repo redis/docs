@@ -109,7 +109,6 @@ Examples:
 * The [`MSET`]({{< relref "/commands/mset" >}}) command has a _range_ of _-1_, _2_ and _0_.
 * The [`XREAD`]({{< relref "/commands/xread" >}}) command has a _range_ of _-1_, _1_ and _2_.
 * The [`ZUNION`]({{< relref "/commands/zunion" >}}) command has a _start_search_ type _index_ with the value _1_, and `find_keys` of type _keynum_ with values of _0_, _1_ and _1_.
-* The [`AI.DAGRUN`](https://oss.redislabs.com/redisai/master/commands/#aidagrun) command has a _start_search_ of type _keyword_ with values of _"LOAD"_ and _1_, and `find_keys` of type _keynum_ with values of _0_, _1_ and _1_.
 
 **Note:**
 this isn't a perfect solution as the module writers can come up with anything.
@@ -205,7 +204,7 @@ When this flag is present, it means that the key specification flags cover all p
 
 ## Examples
 
-### [`SET`]({{< relref "/commands/set" >}})'s key specifications
+### SET key specifications
 
 ```
   1) 1) "flags"
@@ -230,7 +229,7 @@ When this flag is present, it means that the key specification flags cover all p
            6) (integer) 0
 ```
 
-### [`ZUNION`]({{< relref "/commands/zunion" >}})'s key specifications
+### ZUNION key specifications
 
 ```
   1) 1) "flags"

@@ -25,21 +25,118 @@ at the expense of speed.
 A Redis cache, on the other hand, is focused on making *read* queries fast, so RDI provides data
 *denormalization* to help with this.
 
-## Nest strategy
+## Joining one-to-one relationships
 
-*Nesting* is the strategy RDI uses to denormalize many-to-one relationships in the source database.
-It does this by representing the
-parent object (the "one") as a JSON document with the children (the "many") nested inside a JSON map
-attribute in the parent. The diagram belows shows a nesting with the child objects in a map
-called `InvoiceLineItems`:
+You can join one-to-one relationships by making more than one job to write to the same Redis key.
 
-{{< image filename="/images/rdi/nest-flow.png" >}}
-
-You configure normalization with a `nest` block in the child entities' RDI job, as shown in this example:
+First, you must configure the parent entity to use `merge` as the `on_update` strategy.
 
 ```yaml
+# jobs/customers.yaml
 source:
-  server_name: chinook # Optional. Use the value of `debezium.source.topic.prefix` property in Debezium's `application.properties`
+  table: customers
+
+output:
+  - uses: redis.write
+    with:
+      data_type: json
+      on_update: merge
+```
+
+Then, you can configure the child entity to write to the same Redis key as the parent entity. You can do this by using the `key` attribute in the `with` block of the job, as shown in this example:
+
+```yaml
+# jobs/addresses.yaml
+source:
+  table: addresses
+
+transform:
+  - uses: add_field
+    with:
+      field: customer_address
+      language: jmespath
+      # You can use the following JMESPath expression to create a JSON object and combine the address fields into a single object.
+      expression: |
+        {
+          "street": street,
+          "city": city,
+          "state": state,
+          "zip": zip
+        }
+
+output:
+  - uses: redis.write
+    with:
+      data_type: json
+      # We specify the key to write to the same key as the parent entity.
+      key:
+        expression: concat(['customers:id:', customer_id])
+        language: jmespath
+      on_update: merge
+      mapping:
+        # You can specify one or more fields to write to the parent entity.
+        - customer_address: customer_address
+```
+
+The joined data will look like this in Redis:
+
+```json
+{
+  "id": "1",
+  "first_name": "John",
+  "last_name": "Doe",
+  "customer_address": {
+    "street": "123 Main St",
+    "city": "Anytown",
+    "state": "CA",
+    "zip": "12345"
+  }
+}
+```
+
+{{< note >}}
+If you don't set `merge` as the `on_update` strategy for all jobs targeting the same key, the entire parent record in Redis will be overwritten whenever any related record in the source database is updated. This will result in the loss of values written by other jobs.
+{{< /note >}}
+
+When using this approach, you must ensure that the `key` expression in the child job matches the key expression in the parent job. If you use a different key expression, the child data will not be written to the same Redis key as the parent data.
+
+In the example above, the `addresses` job uses the default key pattern to write to the same Redis key as the `customers` job. You can find more information about the default key pattern [here]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples/redis-set-key-name" >}}).
+
+You can also use custom keys for the parent entity, as long as you use the same key for all jobs that write to the same Redis key.
+
+## Joining one-to-many relationships
+
+To join one-to-many relationships, you can use the *Nesting* strategy.
+With this, the parent object (the "one") is represented as a JSON document with the children (the "many") nested inside it as a JSON map attribute. The diagram below shows a nesting with the child objects in a map called `InvoiceLineItems`:
+
+{{< image filename="/images/rdi/ingest/nest-flow.webp" width="500px" >}}
+
+
+To configure normalization, you must first configure the parent entity to use JSON as the target data type. Add `data_type: json` to the parent job as shown in the example below:
+
+```yaml
+# jobs/invoice.yaml
+source:
+  schema: public
+  table: Invoice
+
+output:
+  - uses: redis.write
+    with:
+      # Setting the data type to json ensures that the parent object will be created in a way that supports nesting.
+      data_type: json
+      # Important: do not set a custom key for the parent entity.
+      # When nesting the child object under the parent, the parent key is automatically calculated based on
+      # the parent table name and the parent key field and if a custom key is set, it will cause a mismatch
+      # between the key used to write the parent and the key used to write the child.
+      
+```
+
+After you have configured the parent entity, you can then configure the child entities to be nested under it, based on their relation type. To do this, use the `nest` block, as shown in this example:
+
+```yaml
+# jobs/invoice_line.yaml
+source:
   schema: public
   table: InvoiceLine
 output:
@@ -47,11 +144,11 @@ output:
     with:
       nest: # cannot co-exist with other parameters such as 'key'
         parent:
-          # server_name: chinook
           # schema: public
           table: Invoice
-        nesting_key: InvoiceLineId # cannot be composite
-        parent_key: InvoiceId # cannot be composite
+        nesting_key: InvoiceLineId # the unique key in the composite structure under which the child data will be stored
+        parent_key: InvoiceId
+        child_key: InvoiceId # optional, if different from parent_key
         path: $.InvoiceLineItems # path must start from document root ($)
         structure: map # only map supported for now
       on_update: merge # only merge supported for now
@@ -61,19 +158,20 @@ output:
 The job has a `with` section under `output` that includes the `nest` block.
 The job must include the following attributes in the `nest` block:
 
-- `parent`: This specifies the RDI data stream for the parent entities. Typically, you only
-  need to supply the parent `table` name, unless you are nesting children under a parent that comes from
-  a different source database. If you do this then you must also specify `server_name` and
-  `schema` attributes.
-- `nesting-key`: The field of the child entity that stores the unique ID (primary key) of the child entity.
-- `parent-key`: The field in the parent entity that stores the unique ID (foreign key) of the parent entity.
-- `child_key`: The field in the child entity that stores the unique ID (foreign key) of the parent entity.
-  You only need to add this attribute if the name of the child's foreign key field is different from the parent's.
+- `parent`: This specifies the config of the parent entities. You only
+  need to supply the parent `table` name. Note that this attribute refers to a Redis *key* that will be added to the target
+  database, not to a table you can access from the pipeline. See [Using nesting](#using-nesting) below
+  for the format of the key that is generated.
+- `nesting_key`: The unique key of each child entry in the JSON map that will be created under the path.
+- `parent_key`: The field in the parent entity that stores the unique ID (foreign key) of the parent entity. This can't be a composite key.
+- `child_key`: The field in the child entity that stores the unique ID (foreign key) to the parent entity. You only need to add this attribute if the name of the child's foreign key field is different from the parent's. This can't be a composite key.
 - `path`: The [JSONPath](https://goessner.net/articles/JsonPath/)
   for the map where you want to store the child entities. The path must start with the `$` character, which denotes
   the document root.
 - `structure`: (Optional) The type of JSON nesting structure for the child entities. Currently, only a JSON map
   is supported so if you supply this attribute then the value must be `map`.
+
+### Using nesting
 
 There are several important things to note when you use nesting:
 
@@ -107,3 +205,4 @@ There are several important things to note when you use nesting:
   See the
   [Debezium PostgreSQL Connector Documentation](https://debezium.io/documentation/reference/connectors/postgresql.html#postgresql-replica-identity)
   for more information about this.
+- If you change the foreign key of a child object, the child object will be added to the new parent, but the old parent will not be updated. This is a known limitation of the current implementation and is subject to change in future versions.

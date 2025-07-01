@@ -23,6 +23,7 @@ rladmin cluster recover
         [ persistent_path <path> ]
         [ ccs_persistent_path <path> ]
         [ rack_id <ID> ]
+        [ second_rack_id <ID> ]
         [ override_rack_id ]
         [ node_uid <number> ]
         [ flash_enabled ]
@@ -46,6 +47,7 @@ rladmin cluster recover
 | override_rack_id | | Changes to a new rack, specified by `rack_id` (optional) |
 | persistent_path | filepath | Path to the persistent storage location (optional) |
 | rack_id | string | Switches to the specified rack (optional) |
+| second_rack_id | string | The unique identifier of a second rack ID for two-dimensional rack awareness (optional) |
 
 ### Returns
 

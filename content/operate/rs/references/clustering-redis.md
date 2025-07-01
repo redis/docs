@@ -23,7 +23,7 @@ Joining multiple Redis servers into a Redis cluster is a challenging task, espec
 - Maintaining a reliable and consistent infrastructure in a cluster
    configuration
 
-There are several solutions to clustering Redis, most notable of which is the [Redis Community Edition cluster](http://redis.io/topics/cluster-spec).
+There are several solutions to clustering Redis, most notable of which is the [Redis Open Source cluster](http://redis.io/topics/cluster-spec).
 
 Redis Enterprise Software and Redis Cloud were built from the ground up to provide a Redis cluster of any size while supporting all Redis commands. Your dataset is distributed across multiple shards in multiple nodes of the Redis cluster and is constantly monitored to ensure optimal performance. When needed, more shards and nodes can be added to your dataset so it can scale continuously and limitlessly.
 

@@ -34,4 +34,5 @@ To learn more, see the [Azure Data Encryption at rest](https://docs.microsoft.co
 
 ## Continue learning with Redis University
 
-See the [Redis Cloud security overview course](https://university.redis.io/course/0b1hkhejlitg3x) to learn more.
+{{< university-links >}}
+

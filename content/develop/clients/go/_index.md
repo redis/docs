@@ -19,10 +19,7 @@ weight: 7
 [`go-redis`](https://github.com/redis/go-redis) is the [Go](https://go.dev/) client for Redis.
 The sections below explain how to install `go-redis` and connect your application to a Redis database.
 
-`go-redis` requires a running Redis or
-[Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) server.
-See [Getting started]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis installation
-instructions.
+`go-redis` requires a running Redis server. See [here]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis Open Source installation instructions.
 
 ## Install
 
@@ -100,7 +97,7 @@ hashFields := []string{
     "price", "4972",
 }
 
-res1, err := rdb.HSet(ctx, "bike:1", hashFields).Result()
+res1, err := client.HSet(ctx, "bike:1", hashFields).Result()
 
 if err != nil {
     panic(err)
@@ -108,7 +105,7 @@ if err != nil {
 
 fmt.Println(res1) // >>> 4
 
-res2, err := rdb.HGet(ctx, "bike:1", "model").Result()
+res2, err := client.HGet(ctx, "bike:1", "model").Result()
 
 if err != nil {
     panic(err)
@@ -116,7 +113,7 @@ if err != nil {
 
 fmt.Println(res2) // >>> Deimos
 
-res3, err := rdb.HGet(ctx, "bike:1", "price").Result()
+res3, err := client.HGet(ctx, "bike:1", "price").Result()
 
 if err != nil {
     panic(err)
@@ -124,7 +121,7 @@ if err != nil {
 
 fmt.Println(res3) // >>> 4972
 
-res4, err := rdb.HGetAll(ctx, "bike:1").Result()
+res4, err := client.HGetAll(ctx, "bike:1").Result()
 
 if err != nil {
     panic(err)
@@ -148,7 +145,7 @@ type BikeInfo struct {
 }
 
 var res4a BikeInfo
-err = rdb.HGetAll(ctx, "bike:1").Scan(&res4a)
+err = client.HGetAll(ctx, "bike:1").Scan(&res4a)
 
 if err != nil {
     panic(err)
@@ -171,15 +168,15 @@ import (
     "github.com/redis/go-redis/extra/redisotel/v9"
 )
 
-rdb := redis.NewClient(&redis.Options{...})
+client := redis.NewClient(&redis.Options{...})
 
 // Enable tracing instrumentation.
-if err := redisotel.InstrumentTracing(rdb); err != nil {
+if err := redisotel.InstrumentTracing(client); err != nil {
 	panic(err)
 }
 
 // Enable metrics instrumentation.
-if err := redisotel.InstrumentMetrics(rdb); err != nil {
+if err := redisotel.InstrumentMetrics(client); err != nil {
 	panic(err)
 }
 ```

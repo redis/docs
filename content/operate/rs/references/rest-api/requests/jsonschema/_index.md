@@ -26,7 +26,7 @@ Get the JSON schema of various [Redis Enterprise REST API objects]({{< relref "/
 
 #### Example HTTP request
 
-	GET /jsonschema?object=bdb 
+	GET /v1/jsonschema?object=bdb 
 
 #### Request headers
 

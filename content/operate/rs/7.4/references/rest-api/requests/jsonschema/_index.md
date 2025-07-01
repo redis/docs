@@ -21,13 +21,13 @@ url: '/operate/rs/7.4/references/rest-api/requests/jsonschema/'
 
 	GET /v1/jsonschema
 
-Get the JSON schema of various [Redis Enterprise REST API objects]({{< relref "/operate/rs/references/rest-api/objects" >}}).
+Get the JSON schema of various [Redis Enterprise REST API objects]({{< relref "/operate/rs/7.4/references/rest-api/objects" >}}).
 
 ### Request {#get-request} 
 
 #### Example HTTP request
 
-	GET /jsonschema?object=bdb 
+	GET /v1/jsonschema?object=bdb 
 
 #### Request headers
 

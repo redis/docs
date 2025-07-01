@@ -72,4 +72,4 @@ In summary, Redis offers a powerful and efficient platform for implementing RAG.
 
 ## Continue learning with Redis University
 
-See the [Vector Advanced Topics course](https://university.redis.io/course/i3fv2hbhqnpni8) to learn more.
+{{< university-links >}}

@@ -13,7 +13,7 @@ For this tutorial, you need:
 
 - Either:
     - A Redis Enterprise cluster with the [RedisGears module and Python plugin installed]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1/installing-redisgears#install-redisgears" >}}) and [enabled on a database]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1/python/install" >}})
-    - An Redis Community Edition database with the RedisGears module
+    - A Redis Open Source database with the RedisGears module
 - `redis-cli` with connectivity to a Redis database
 
 ## RedisGears basics
@@ -74,7 +74,7 @@ $ redis-cli rg.pyexecute "`cat wordcount.py`"
 2) (empty array)
 ```
 
-The results here show the number of occurences of each word in all of our strings. So, we've effectively processed the data in our Redis database all at once, in a batch.
+The results here show the number of occurrences of each word in all of our strings. So, we've effectively processed the data in our Redis database all at once, in a batch.
 
 ## Event processing
 

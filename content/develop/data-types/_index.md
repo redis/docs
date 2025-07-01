@@ -23,9 +23,9 @@ At its core, Redis provides a collection of native data types that help you solv
 Below is a short description of each data type, with links to broader overviews and command references.
 Each overview includes a comprehensive tutorial with code samples.
 
-## Core data types
+## Data types
 
-[Redis Community Edition]({{< relref "/operate/oss_and_stack" >}})
+[Redis Open Source]({{< relref "/operate/oss_and_stack" >}})
 implements the following data types:
 
 - [String](#strings)
@@ -33,16 +33,14 @@ implements the following data types:
 - [List](#lists)
 - [Set](#sets)
 - [Sorted set](#sorted-sets)
+- [Vector set](#vector-sets)
 - [Stream](#streams)
 - [Bitmap](#bitmaps)
 - [Bitfield](#bitfields)
 - [Geospatial](#geospatial-indexes)
-
-[Redis Stack]({{< relref "/operate/oss_and_stack" >}}) and
-[Redis Enterprise]({{< relref "/operate/rs" >}})
-also include some [extension modules](#adding-extensions) that implement other
-useful types, such as JSON. See [Extension data types](#extension-data-types)
-for the full list.
+- [JSON](#json)
+- [Probabilistic data types](#probabilistic-data-types)
+- [Time series](#time-series)
 
 ### Strings 
 
@@ -86,6 +84,14 @@ For more information, see:
 * [Overview of Redis sorted sets]({{< relref "/develop/data-types/sorted-sets" >}})
 * [Redis sorted set command reference]({{< relref "/commands/" >}}?group=sorted-set)
 
+### Vector sets
+
+[Redis vector sets]({{< relref "/develop/data-types/vector-sets" >}}) are a specialized data type designed for managing high-dimensional vector data, enabling fast and efficient vector similarity search within Redis. Vector sets are optimized for use cases involving machine learning, recommendation systems, and semantic search, where each vector represents a data point in multi-dimensional space. Vector sets supports the [HNSW](https://en.wikipedia.org/wiki/Hierarchical_navigable_small_world) (hierarchical navigable small world) algorithm, allowing you to store, index, and query vectors based on the cosine similarity metric. With vector sets, Redis provides native support for hybrid search, combining vector similarity with structured [filters]({{< relref "/develop/data-types/vector-sets/filtered-search" >}}).
+For more information, see:
+
+* [Overview of Redis vector sets]({{< relref "/develop/data-types/vector-sets" >}})
+* [Redis vector set command reference]({{< relref "/commands/" >}}?group=vector_set)
+
 ### Streams
 
 A [Redis stream]({{< relref "/develop/data-types/streams" >}}) is a data structure that acts like an append-only log.
@@ -119,22 +125,6 @@ For more information, see:
 
 * [Overview of Redis bitfields]({{< relref "/develop/data-types/bitfields" >}})
 * The [`BITFIELD`]({{< relref "/commands/bitfield" >}}) command.
-
-## Extension data types
-
-[Redis Stack]({{< relref "/operate/oss_and_stack" >}}) and
-[Redis Enterprise]({{< relref "/operate/rs" >}})
-include some [extension modules](#adding-extensions) that implement
-the following data types:
-
-- [JSON](#json)
-- [Probabilistic data types](#probabilistic-data-types)
-- [Time series](#time-series)
-
-These are not included by default with
-[Redis Community Edition]({{< relref "/operate/oss_and_stack" >}}).
-See [Core data types](#core-data-types) for the list of types that
-Redis Community Edition supports natively.
 
 ### JSON
 
@@ -229,4 +219,3 @@ To extend the features provided by the included data types, use one of these opt
 
 1. Write your own custom [server-side functions in Lua]({{< relref "/develop/interact/programmability/" >}}).
 1. Write your own Redis module using the [modules API]({{< relref "/develop/reference/modules/" >}}) or check out the [community-supported modules]({{< relref "/operate/oss_and_stack/stack-with-enterprise/" >}}).
-1. Use [JSON]({{< relref "/develop/data-types/json/" >}}), [search]({{< relref "/develop/interact/search-and-query/" >}}), [time series]({{< relref "/develop/data-types/timeseries/" >}}), and other capabilities provided by [Redis Stack]({{< relref "/operate/oss_and_stack/" >}}).

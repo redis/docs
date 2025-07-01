@@ -1,15 +1,6 @@
 {{ define "head" }}
 
-{{ $base := .Site.BaseURL }}
-{{ $parsed := urls.Parse $base }}
-{{ $path := $parsed.Path }}
-{{ if (eq $path "/") }}
-	{{ .Scratch.Set "path" ""}}
-{{ else }}
-  {{ .Scratch.Set "path" $path}}
-{{ end }}
-
-<script src='{{ .Scratch.Get "path" }}/js/cli.js' defer></script>
+<script src='{{ relURL "js/cli.js" }}' defer></script>
 {{ end }}
 
 {{ define "main" }}
@@ -48,11 +39,11 @@
           </button>
           <div id="dropdown" class="hidden lg:block border-t border-opacity-50 border-redis-ink-900 text-redis-pen-800">
             <ul class="p-6">
-              <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/develop'>Develop with Redis</a></li>
-              <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/integrate'>Libraries and tools</a></li>
-              <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/operate'>Redis products</a></li>
-              <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/commands'>Commands</a></li>
-              <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/apis'>APIs</a></li>
+              <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ relURL "develop" }}'>Develop with Redis</a></li>
+              <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ relURL "integrate" }}'>Libraries and tools</a></li>
+              <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ relURL "operate" }}'>Redis products</a></li>
+              <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ relURL "commands" }}'>Commands</a></li>
+              <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ relURL "apis" }}'>APIs</a></li>
             </ul>
           </div>
         </div>
@@ -60,13 +51,13 @@
       <nav class="hidden lg:block w-full lg:w-64 z-40 h-full leading-7">
         <div class="flex flex-col gap-4">
           <div class="flex flex-col border border-redis-ink-900 border-opacity-50 rounded-md">
-            <a class="px-6 py-4 rounded-t-md hover:bg-redis-pen-200" href='{{ .Scratch.Get "path" }}/develop'>Develop with Redis</a>
-            <a class="px-6 py-4 hover:bg-redis-pen-200 border-y border-redis-ink-900 border-opacity-50" href='{{ .Scratch.Get "path" }}/integrate'>Libraries and tools</a>
-            <a class="px-6 py-4 rounded-b-md hover:bg-redis-pen-200" href='{{ .Scratch.Get "path" }}/operate'>Redis products</a>
+            <a class="px-6 py-4 rounded-t-md hover:bg-redis-pen-200" href='{{ relURL "develop" }}'>Develop with Redis</a>
+            <a class="px-6 py-4 hover:bg-redis-pen-200 border-y border-redis-ink-900 border-opacity-50" href='{{ relURL "integrate" }}'>Libraries and tools</a>
+            <a class="px-6 py-4 rounded-b-md hover:bg-redis-pen-200" href='{{ relURL "operate" }}'>Redis products</a>
           </div>
           <div class="flex flex-col border border-redis-ink-900 border-opacity-50 rounded-md">
-            <a class="px-6 py-4 rounded-t-md hover:bg-redis-pen-200 text-redis-red-600" href='{{ .Scratch.Get "path" }}/commands'>Commands</a>
-            <a class="px-6 py-4 rounded-b-md hover:bg-redis-pen-200 border-t border-redis-ink-900 border-opacity-50" href='{{ .Scratch.Get "path" }}/apis'>APIs</a>
+            <a class="px-6 py-4 rounded-t-md hover:bg-redis-pen-200 text-redis-red-600" href='{{ relURL "commands" }}'>Commands</a>
+            <a class="px-6 py-4 rounded-b-md hover:bg-redis-pen-200 border-t border-redis-ink-900 border-opacity-50" href='{{ relURL "apis" }}'>APIs</a>
           </div>
         </div>
       </nav>
@@ -79,7 +70,7 @@
 	  "ButtonLink" "./operate/rc/rc-quickstart/"
           "ButtonLabel" "Redis Cloud quick start" 
           "LinksLeft" (slice
-            (dict "Text" "Get started with Redis Community Edition" "URL" "./get-started/")
+            (dict "Text" "Get started with Redis Open Source" "URL" "./get-started/")
           )
         ) }}
         {{ partial "docs-section.html" (dict

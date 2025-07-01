@@ -61,13 +61,11 @@ To assign a data access role to an existing user:
 
     {{<image filename="images/rc/data-access-control-users.png" alt="User configuration area." >}}
 
-1. Point to the user and select the pencil icon when it appears.
-
-1. Select a [**Role**]({{< relref "/operate/rc/security/access-control/data-access-control/create-roles" >}}) from the list.
+1. Point to the user and select the **Edit*** icon when it appears.
 
     {{<image filename="images/rc/data-access-control-users-add-or-edit.png" width="300px" alt="User add or edit." >}}
 
-1. Select the check mark to assign the role to the user.
+1. Select a [**Role**]({{< relref "/operate/rc/security/access-control/data-access-control/create-roles" >}}) from the list.
 
     {{<image filename="images/rc/data-access-control-users-add-role.png" width="300px" alt="User select role." >}}
 

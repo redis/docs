@@ -27,13 +27,13 @@ Get cluster services settings.
 
 | Permission name |
 |-----------------|
-| [view_cluster_info]({{< relref "/operate/rs/references/rest-api/permissions#view_cluster_info" >}}) |
+| [view_cluster_info]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_cluster_info" >}}) |
 
 ### Request {#get-request} 
 
 #### Example HTTP request
 
-	GET /cluster/services_configuration 
+	GET /v1/cluster/services_configuration 
 
 #### Request headers
 
@@ -44,7 +44,7 @@ Get cluster services settings.
 
 ### Response {#get-response} 
 
-Returns a [services configuration object]({{< relref "/operate/rs/references/rest-api/objects/services_configuration" >}}).
+Returns a [services configuration object]({{< relref "/operate/rs/7.4/references/rest-api/objects/services_configuration" >}}).
 
 #### Example JSON body
 
@@ -76,13 +76,13 @@ Update the cluster services settings.
 
 | Permission name |
 |-----------------|
-| [update_cluster]({{< relref "/operate/rs/references/rest-api/permissions#update_cluster" >}}) |
+| [update_cluster]({{< relref "/operate/rs/7.4/references/rest-api/permissions#update_cluster" >}}) |
 
 ### Request {#put-request} 
 
 #### Example HTTP request
 
-	PUT /cluster/services_configuration 
+	PUT /v1/cluster/services_configuration 
 
 #### Example JSON body
 
@@ -104,11 +104,11 @@ Update the cluster services settings.
 
 #### Request body
 
-Include a [services configuration object]({{< relref "/operate/rs/references/rest-api/objects/services_configuration" >}}) with updated fields in the request body.
+Include a [services configuration object]({{< relref "/operate/rs/7.4/references/rest-api/objects/services_configuration" >}}) with updated fields in the request body.
 
 ### Response {#put-response} 
 
-Returns the updated [services configuration object]({{< relref "/operate/rs/references/rest-api/objects/services_configuration" >}}).
+Returns the updated [services configuration object]({{< relref "/operate/rs/7.4/references/rest-api/objects/services_configuration" >}}).
 
 #### Example JSON body
 

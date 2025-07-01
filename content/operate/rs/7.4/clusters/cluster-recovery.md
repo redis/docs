@@ -26,7 +26,7 @@ Cluster failure can be caused by:
 To recover a cluster and re-create it as it was before the failure,
 you must restore the cluster configuration `ccs-redis.rdb` to the cluster nodes.
 To recover databases in the new cluster, you must restore the databases from persistence files such as backup files, append-only files (AOF), or RDB snapshots.
-These files are stored in the [persistent storage location]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}}).
+These files are stored in the [persistent storage location]({{< relref "/operate/rs/7.4/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}}).
 
 The cluster recovery process includes:
 
@@ -34,7 +34,7 @@ The cluster recovery process includes:
 1. Mount the persistent storage with the recovery files from the original cluster to the nodes of the new cluster.
 1. Recover the cluster configuration on the first node in the new cluster.
 1. Join the remaining nodes to the new cluster.
-1. [Recover the databases]({{< relref "/operate/rs/databases/recover.md" >}}).
+1. [Recover the databases]({{< relref "/operate/rs/7.4/databases/recover.md" >}}).
 
 ## Prerequisites
 
@@ -45,13 +45,13 @@ The cluster recovery process includes:
     If you use the original storage drives,
     make sure you back up the files on the original storage drives to a safe location.
 - Identify the cluster configuration file that you want to use as the configuration for the recovered cluster.
-    The cluster configuration file is `/css/ccs-redis.rdb` on the persistent storage for each node.
+    The cluster configuration file is `/ccs/ccs-redis.rdb` on the persistent storage for each node.
 
 ## Recover the cluster
 
 1. (Optional) If you want to recover the cluster to the original cluster nodes, uninstall Redis Enterprise Software from the nodes.
 
-1. [Install Redis Enterprise Software]({{< relref "/operate/rs/installing-upgrading/install/install-on-linux" >}}) on the new cluster nodes.
+1. [Install Redis Enterprise Software]({{< relref "/operate/rs/7.4/installing-upgrading/install/install-on-linux" >}}) on the new cluster nodes.
 
     The new servers must have the same basic hardware and software configuration as the original servers, including:
 
@@ -74,7 +74,7 @@ of the configuration and persistence files on each of the nodes.
 
     If you use local persistent storage, place all of the recovery files on each of the cluster nodes.
 
-1. To recover the original cluster configuration, run [`rladmin cluster recover`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/recover" >}}) on the first node in the new cluster:
+1. To recover the original cluster configuration, run [`rladmin cluster recover`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/cluster/recover" >}}) on the first node in the new cluster:
 
     ```sh
     rladmin cluster recover filename [ <persistent_path> | <ephemeral_path> ]<filename> node_uid <node_uid> rack_id <rack_id>
@@ -89,7 +89,7 @@ of the configuration and persistence files on each of the nodes.
     When the recovery command succeeds,
     this node is configured as the node from the old cluster that has ID 1.
 
-1. To join the remaining servers to the new cluster, run [`rladmin cluster join`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/join" >}}) from each new node:
+1. To join the remaining servers to the new cluster, run [`rladmin cluster join`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/cluster/join" >}}) from each new node:
 
     ```sh
     rladmin cluster join nodes <cluster_member_ip_address> username <username> password <password> replace_node <node_id>
@@ -101,15 +101,15 @@ of the configuration and persistence files on each of the nodes.
     rladmin cluster join nodes 10.142.0.4 username admin@example.com password mysecret replace_node 2
     ```
 
-1. Run [`rladmin status`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status" >}}) to verify the recovered nodes are now active and the databases are pending recovery:
+1. Run [`rladmin status`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/status" >}}) to verify the recovered nodes are now active and the databases are pending recovery:
 
     ```sh
     rladmin status
     ```
 
     {{< note >}}
-Make sure that you update your [DNS records]({{< relref "/operate/rs/networking/cluster-dns" >}})
+Make sure that you update your [DNS records]({{< relref "/operate/rs/7.4/networking/cluster-dns" >}})
 with the IP addresses of the new nodes.
     {{< /note >}}
 
-After the cluster is recovered, you must [recover the databases]({{< relref "/operate/rs/databases/recover.md" >}}).
+After the cluster is recovered, you must [recover the databases]({{< relref "/operate/rs/7.4/databases/recover.md" >}}).

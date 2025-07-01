@@ -37,7 +37,7 @@ Get all cluster nodes.
 #### Example HTTP request
 
 ```sh
-GET /nodes
+GET /v1/nodes
 ```
 
 #### Headers
@@ -121,7 +121,7 @@ Get a single cluster node.
 #### Example HTTP request
 
 ```sh
-GET /nodes/1
+GET /v1/nodes/1
 ```
 
 #### Headers
@@ -168,13 +168,18 @@ Update a [node object]({{< relref "/operate/rs/references/rest-api/objects/node"
 
 Currently, you can edit the following attributes:
 
-- `addr`
-
-- `external_addr`
-
-- `recovery_path`
-
-- `accept_servers`
+| Field | Type/Value | Description |
+|-------|------------|-------------|
+| accept_servers | boolean (default:&nbsp;true) | The node only accepts new shards if `accept_servers` is `true` |
+| addr | string | Internal IP address of node |
+| external_addr | complex object | External IP addresses of node. `GET /v1/jsonschema` to retrieve the object's structure. |
+| max_listeners | integer | Maximum number of listeners on the node |
+| max_redis_forks | integer (default: -1) | Maximum number of background processes forked from shards that can exist on the node at any given time. Set to 0 for unlimited. Set to -1 to use cluster settings. |
+| max_redis_servers | integer | Maximum number of shards on the node |
+| max_slave_full_syncs | integer (default: -1) | Maximum number of simultaneous replica full syncs that can run at any given time. Set to 0 for unlimited. Set to -1 to use cluster settings. |
+| rack_id | string | Rack ID where node is installed |
+| recovery_path | string | Recovery files path |
+| second_rack_id | string | Second rack ID where node is installed |
 
 {{<note>}}
 You can only update the `addr` attribute for offline nodes. Otherwise, the request returns an error.
@@ -191,7 +196,7 @@ You can only update the `addr` attribute for offline nodes. Otherwise, the reque
 #### Example HTTP request
 
 ```sh
-PUT /nodes/1
+PUT /v1/nodes/1
 ```
 
 #### Example JSON body

@@ -36,7 +36,7 @@ Use this action to stop read and write traffic on a database. To resume traffic 
 #### Example HTTP request
 
 ```sh
-POST /bdbs/1/actions/stop_traffic
+POST /v1/bdbs/1/actions/stop_traffic
 ```
 
 #### URL parameters

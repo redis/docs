@@ -22,7 +22,7 @@ You can manage your Redis Enterprise Software databases with several tools:
 
     - [`crdb-cli`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli" >}}) for Active-Active database configuration
 
-    - [`redis-cli`]({{< relref "/develop/tools/cli" >}}) for Redis Community Edition configuration
+    - [`redis-cli`]({{< relref "/develop/tools/cli" >}}) for Redis Open Source configuration
 
 - [REST API]({{< relref "/operate/rs/references/rest-api/_index.md" >}})
 
@@ -141,7 +141,7 @@ To change capabilities' parameters for an existing database using the Cluster Ma
 You must use a client that supports the cluster API to connect to a database that has the cluster API enabled.
     {{</note>}}
 
-- **Hashing policy** - You can accept the [standard hashing policy]({{<relref "/operate/rs/databases/durability-ha/clustering#standard-hashing-policy">}}), which is compatible with Redis Community Edition, or define a [custom hashing policy]({{<relref "/operate/rs/databases/durability-ha/clustering#custom-hashing-policy">}}) to define where keys are located in the clustered database.
+- **Hashing policy** - You can accept the [standard hashing policy]({{<relref "/operate/rs/databases/durability-ha/clustering#standard-hashing-policy">}}), which is compatible with Redis Open Source, or define a [custom hashing policy]({{<relref "/operate/rs/databases/durability-ha/clustering#custom-hashing-policy">}}) to define where keys are located in the clustered database.
 
 - [**Database proxy**]({{< relref "/operate/rs/databases/configure/proxy-policy" >}}) - Determines the number and location of active proxies, which manage incoming database operation requests.
 
@@ -179,9 +179,9 @@ You can require [**TLS**]({{< relref "/operate/rs/security/encryption/tls/" >}})
 
 ### Alerts
 
-Select [alerts]({{<relref "/operate/rs/clusters/monitoring#database-alerts">}}) to show in the database status and configure their thresholds.
+Select [alerts]({{<relref "/operate/rs/monitoring/v1_monitoring#database-alerts">}}) to show in the database status and configure their thresholds.
 
-You can also choose to [send alerts by email]({{<relref "/operate/rs/clusters/monitoring#send-alerts-by-email">}}) to relevant users.
+You can also choose to [send alerts by email]({{<relref "/operate/rs/monitoring/v1_monitoring#send-alerts-by-email">}}) to relevant users.
 
 ### Replica Of
 

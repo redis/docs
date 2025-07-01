@@ -13,10 +13,104 @@ weight: 91
 ---
 ## Requirements
 
-RediSearch v2.8.22 requires:
+RediSearch v2.8.28 requires:
 
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
+
+## v2.8.28 (June 2025)
+
+This is a maintenance release for RediSearch 2.8.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#6207](https://github.com/redisearch/redisearch/pull/6207) Continuous increasing of index error counts on `FT.INFO` could lead to an overflow and memory leak (MOD-9396).
+- [#6349](https://github.com/redisearch/redisearch/pull/6349) Search on terms larger than 128 characters could lead to missing matches (MOD-6786).
+- [#6305](https://github.com/redisearch/redisearch/pull/6305) While iterating over a large index, frequent document updates could hit the `TIMEOUT`, causing a crash (MOD-9856).
+
+Improvements:
+- [#6340](https://github.com/redisearch/redisearch/pull/6340) Added a locking mechanism for collecting `FT.INFO` statistics when concurrently running the index sanitiser (MOD-10007, MOD-9761).
+
+## v2.8.27 (May 2025)
+
+This is a maintenance release for RediSearch 2.8.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#6191](https://github.com/redisearch/redisearch/pull/6191) Reindexing from RDB with multiple vector indices could lead to a crash due to cluster health check - NodeWD (MOD-9220,MOD-8809)
+- [#6031](https://github.com/redisearch/redisearch/pull/6031) `FT.CURSOR...DEL` while another thread is reading it could lead to a crash (MOD-9408,MOD-9432,MOD-9433,MOD-9434,MOD-9435)
+- [#5966](https://github.com/redisearch/redisearch/pull/5966) Indexing documents using `TEXT` without the text in the documents leads to an `inf` or `nan` score (MOD-9423)
+- [#6057](https://github.com/redisearch/redisearch/pull/6057) Avoid lazy expiration in background indexing for Active-Active setup, preventing keys from expiring incorrectly (MOD-9486)
+- [#6113](https://github.com/redisearch/redisearch/pull/6113) A timeout failure is returned when the `ON_TIMEOUT RETURN` policy is set to stop the collection of partial results - best effort (MOD-9612)
+
+Improvements:
+- [#6008](https://github.com/redisearch/redisearch/pull/6008) Parser for intersections on parentheses and sub-queries order won't affect full-text scores (MOD-9278)
+
+## v2.8.26 (April 2025)
+
+This is a maintenance release for RediSearch 2.8.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#5864](https://github.com/redisearch/redisearch/pull/5864) Last query result using `FT.AGGREGATE` with `ON_TIMEOUT RETURN` and using multi-threading could be missing (MOD-9222)
+- [#5863](https://github.com/redisearch/redisearch/pull/5863) Collecting empty results from shards during `FT.AGGREGATE` with RESP3 could cause a crash (MOD-9174)
+
+Improvements:
+- [#5938](https://github.com/redisearch/redisearch/pull/5938) Improved performance (reduced CPU time) of collecting vector index statistics(MOD-9354)
+- [#5800](https://github.com/redisearch/redisearch/pull/5800) Improved accuracy of index memory reporting by correcting a bug that caused negative memory counts (MOD-5904)
+
+
+Created on: 2025-04-21T14:51:40Z
+
+## v2.8.25 (March 2025)
+
+This is a maintenance release for RediSearch 2.8.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#5709](https://github.com/redisearch/redisearch/pull/5709) Weights in the query string are ignored if using `SCORER BM25` (MOD-7896)
+- [#5788](https://github.com/redisearch/redisearch/pull/5788) Cursor with `SORTBY` is never depleted, blocking queries if the cursor limit is reached (MOD-8483)
+- [#5788](https://github.com/redisearch/redisearch/pull/5788) Empty results with RESP3 due to the `TIMEOUT`, even if `ON_TIMEOUT` is set to `RETURN`(MOD-8482)
+- [#5788](https://github.com/redisearch/redisearch/pull/5788) Cursor with RESP3 on `FT.AGGREGATE` is never depleted, blocking queries if cursor the limit is achieved (MOD-8515)
+- [#5788](https://github.com/redisearch/redisearch/pull/5788) Using `FT.CURSOR READ` on queries that timed out led to fewer results than expected (MOD-8606)
+- [#5810](https://github.com/redisearch/redisearch/pull/5810) The `total_results` field of the `FT.AGGREGATE` command is not correct in RESP3 (MOD-9054)
+
+Improvements:
+- [#5788](https://github.com/redisearch/redisearch/pull/5788) Corrected a coordinator race condition that prevented premature release, avoiding errors and inconsistencies during query executions (MOD-8794)
+
+## v2.8.24 (February 2025)
+
+This is a maintenance release for RediSearch 2.8.
+
+Update urgency: `LOW` No need to upgrade unless there are new features you want to use.
+
+Bug fixes:
+- [#5647](https://github.com/redisearch/redisearch/pull/5647) `FT.SEARCH` using Cyrillic characters and wildcards delivering no results (MOD-7944)
+
+## v2.8.23 (February 2025)
+
+This is a maintenance release for RediSearch 2.8.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#5605](https://github.com/redisearch/redisearch/pull/5605) Changes on the memory block reading logic could cause crash on `FT.SEARCH` with error "_Redis 7.4.2 crashed by signal: 11, si_code: 128_"
+
+Known limitations:
+- Only the first 128 characters of string fields are normalized to lowercase during ingestion (for example, on `HSET`).
+    Example:
+
+    ```
+    HSET doc __score 1.0 name "idx1S...S" mynum 1          # Assume "S...S" is a string of 252 capital S's
+    FT.CREATE "idx" SCHEMA "name" "TEXT" "mynum" "NUMERIC"
+    FT.SEARCH "idx" "@name:idx1S...S"                      # Assume "S...S" is a string of 252 capital S's
+    ```
+
+    The `FT.SEARCH` command will return no documents.
 
 ## v2.8.22 (January 2025)
 
@@ -68,7 +162,7 @@ Update urgency: `HIGH` : There is a critical bug that may affect a subset of use
 - Bug fixes:
 
   - [#4896](https://github.com/redisearch/redisearch/pull/4896) - `FT.AGGREGATE` with `VERBATIM` option is not handled by the shards in cluster mode (MOD-7463)
-  - [#4917](https://github.com/redisearch/redisearch/pull/4917) - Union query, similar to `"is|the"`, starting with 2 [stopwords](https://redis.io/docs/latest/develop/interact/search-and-query/advanced-concepts/stopwords/) could cause a crash (MOD-7495)
+  - [#4917](https://github.com/redisearch/redisearch/pull/4917) - Union query, similar to `"is|the"`, starting with 2 [stopwords](https://redis.io/docs/latest/develop/ai/search-and-query/advanced-concepts/stopwords/) could cause a crash (MOD-7495)
   - [#4921](https://github.com/redisearch/redisearch/pull/4921) - Counting twice the field statistics at the `#search` section of an `INFO` response (MOD-7339)
   - [#4939](https://github.com/redisearch/redisearch/pull/4939) - Query warning when using RESP3 response for reaching `MAXPREFIXEXPANSION` (MOD-7588)
   - [#4930](https://github.com/redisearch/redisearch/pull/4930) - Loop when using the wildcard `w'term'` and prefix/infix/suffix pattern `'ter*'` leading shard to restart (MOD-7453)
@@ -268,11 +362,11 @@ Features:
 
 - Introduce support for geo polygon shapes and queries:
 
-  - Adding `GEOSHAPE` [field type]({{< baseurl >}}/commands/ft.create) to map polygons in the `SCHEMA` on `FT.CREATE` (MOD-4798)
+  - Adding `GEOSHAPE` [field type]({{< relref "commands/ft.create" >}}) to map polygons in the `SCHEMA` on `FT.CREATE` (MOD-4798)
 
   - Support for polygons `POLYGON` and `POINT` using [WKT notation](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry), for example `POLYGON((lon1 lat1, lon2 lat2, ...))`
 
-  - Adjust the [query syntax]({{< baseurl >}}/commands/ft.search#examples) on `FT.SEARCH` for polygons using the predicate `@geom:[OPERATOR $poly]` and defining polygon in WKT format as `PARAMS 2 poly "POLYGON((10 20, ...))"` using `DIALECT 3`
+  - Adjust the [query syntax]({{< relref "commands/ft.search#examples" >}}) on `FT.SEARCH` for polygons using the predicate `@geom:[OPERATOR $poly]` and defining polygon in WKT format as `PARAMS 2 poly "POLYGON((10 20, ...))"` using `DIALECT 3`
 
   - Initially `WITHIN` and `CONTAINS` operators with `GEOSHAPES` for now
 

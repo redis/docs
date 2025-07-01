@@ -44,7 +44,7 @@ The REC deployment files in the [Kubernetes documentation](https://github.com/Re
 omitted, operator allocates five times (5x) the amount of memory (RAM)
 defined for nodes (see example below), which is the recommended
 persistent storage size as described in the [Hardware
-requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md" >}}) article.
+requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements" >}}) article.
 
 To explicitly specify the persistent storage size, use the *volumeSize*
 property as described in the example above.

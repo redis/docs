@@ -103,4 +103,5 @@ The Cluster Manager UI is officially supported for the latest version of [Google
 
 ## Continue learning with Redis University
 
-See the [Get started with Redis Software learning path](https://university.redis.io/learningpath/an0mgw5bjpjfbe) for courses.
+{{< university-links >}}
+

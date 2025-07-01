@@ -1,11 +1,11 @@
 provider "aws" {
-    profile = "tobyhf-admin"
-    region = "us-east-1"
+    profile = "<profile>"
+    region = "<region>"
 }
 
 module "Redislabs-Cloud-Account-Resources" {
     source = "https://iam-resource-automation-do-not-delete.s3.amazonaws.com/terraform-aws-Redislabs-Cloud-Account-IAM-Resources.zip"
-    pgp_key = "keybase:toby_h_ferguson"
+    pgp_key = "<pgp_key>"
 }
 
 output "accessKeyId" {

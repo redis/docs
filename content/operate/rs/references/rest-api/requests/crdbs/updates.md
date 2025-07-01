@@ -35,7 +35,7 @@ When you update db_config, it changes the configuration of the database that you
 
 #### Example HTTP request
 
-    POST /crdbs/1/updates
+    POST /v1/crdbs/1/updates
 
 #### Request headers
 
@@ -49,6 +49,12 @@ When you update db_config, it changes the configuration of the database that you
 | Field | Type | Description |
 |-------|------|-------------|
 | crdb_guid | string | Globally unique Active-Active database ID (GUID) |
+
+#### Query parameters
+
+| Field | Type | Description |
+|-------|------|-------------|
+| dry_run | boolean | Validate the request without applying changes (optional) |
 
 #### Request body
 

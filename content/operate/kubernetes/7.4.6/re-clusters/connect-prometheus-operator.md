@@ -18,9 +18,9 @@ To collect  metrics data from your databases and Redis Enterprise cluster (REC),
 
 Before connecting Redis Enterprise to Prometheus on your Kubernetes cluster, make sure you've done the following:
 
-- [Deploy Redis Enterprise for Kubernetes]({{< relref "/operate/kubernetes/deployment/quick-start.md" >}}) (version 6.2.10-4 or newer)
+- [Deploy Redis Enterprise for Kubernetes]({{< relref "/operate/kubernetes/7.4.6/deployment/quick-start.md" >}}) (version 6.2.10-4 or newer)
 - [Deploy the Prometheus operator](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/getting-started.md) (version 0.19.0 or newer)
-- [Create a Redis Enterprise cluster]({{< relref "/operate/kubernetes/deployment/quick-start#create-a-redis-enterprise-cluster-rec" >}})
+- [Create a Redis Enterprise cluster]({{< relref "/operate/kubernetes/7.4.6/deployment/quick-start#create-a-redis-enterprise-cluster-rec" >}})
 
 ## Create a `ServiceMonitor` custom resource
 
@@ -58,7 +58,7 @@ spec:
       redis.io/service: prom-metrics
 ```
 
-For more info about configuring the `ServiceMonitor` resource, see the [`ServiceMonitorSpec` API documentation](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#servicemonitorspec).
+For more info about configuring the `ServiceMonitor` resource, see the [`ServiceMonitorSpec` API documentation](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#monitoring.coreos.com/v1.ServiceMonitorSpec).
 
 ## More info
 
@@ -69,4 +69,4 @@ For more info about configuring the `ServiceMonitor` resource, see the [`Service
   - [Troubleshooting ServiceMonitor changes](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/troubleshooting.md)
 - redis.io/docs
   - [Metrics in Prometheus]({{< relref "/integrate/prometheus-with-redis-enterprise/prometheus-metrics-definitions" >}})
-  - [Monitoring and metrics]({{< relref "/operate/rs/clusters/monitoring/" >}})
+  - [Monitoring and metrics]({{< relref "/operate/rs/monitoring/" >}})

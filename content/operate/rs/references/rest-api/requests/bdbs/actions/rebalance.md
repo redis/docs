@@ -34,13 +34,13 @@ Distributes the database's shards across nodes based on the database's shard pla
 #### Example HTTP request
 
 ```sh
-PUT /bdbs/1/actions/rebalance
+PUT /v1/bdbs/1/actions/rebalance
 ```
 
 Dry-run example:
 
 ```sh
-PUT /bdbs/1/actions/rebalance?only_failovers=true&dry_run=true
+PUT /v1/bdbs/1/actions/rebalance?only_failovers=true&dry_run=true
 ```
 
 #### URL parameters

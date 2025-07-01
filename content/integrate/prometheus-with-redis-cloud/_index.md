@@ -99,7 +99,7 @@ To get started with custom monitoring with Prometheus on Docker:
         - job_name: redis-cloud
         scrape_interval: 30s
         scrape_timeout: 30s
-        metrics_path: /
+        metrics_path: /  # For v2, use /v2
         scheme: https
         static_configs:
           - targets: ["<prometheus_endpoint>:8070"]

@@ -13,7 +13,7 @@ categories:
 description: Server-assisted, client-side caching in Redis
 linkTitle: Client-side caching
 title: Client-side caching introduction
-weight: 20
+weight: 30
 ---
 
 *Client-side caching* reduces network traffic between
@@ -81,6 +81,7 @@ The following client libraries support CSC from the stated version onwards:
 | :-- | :-- |
 | [`redis-py`]({{< relref "/develop/clients/redis-py/connect#connect-using-client-side-caching" >}}) | v5.1.0 |
 | [`Jedis`]({{< relref "/develop/clients/jedis/connect#connect-using-client-side-caching" >}}) | v5.2.0 |
+| [`node-redis`]({{< relref "/develop/clients/nodejs/connect#connect-using-client-side-caching" >}}) | v5.1.0 |
 
 ## Which commands can cache data?
 
@@ -98,7 +99,7 @@ will use cached data, except for the following:
     and [`ZRANDMEMBER`]({{< relref "/commands/zrandmember" >}}). By design, these commands
     give different results each time they are called.
 -   Redis Query Engine commands (with the `FT.*` prefix), such as
-    [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search).
+    [`FT.SEARCH`]({{< relref "commands/ft.search" >}}).
 
 You can use the [`MONITOR`]({{< relref "/commands/monitor" >}}) command to
 check the server's behavior when you are using client-side caching. Because `MONITOR` only

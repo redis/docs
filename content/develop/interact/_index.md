@@ -27,21 +27,21 @@ to interact with your data:
 
 ## Search and query with the Redis Query Engine
 
-The [Redis query engine]({{< relref "/develop/interact/search-and-query" >}})
+The [Redis query engine]({{< relref "/develop/ai/search-and-query" >}})
 lets you retrieve data by content rather than by key. You
-can [index]({{< relref "/develop/interact/search-and-query/indexing" >}})
+can [index]({{< relref "/develop/ai/search-and-query/indexing" >}})
 the fields of [hash]({{< relref "/develop/data-types/hashes" >}})
 and [JSON]({{< relref "/develop/data-types/json" >}}) objects
 according to their type and then perform sophisticated
-[queries]({{< relref "/develop/interact/search-and-query/query" >}})
+[queries]({{< relref "/develop/ai/search-and-query/query" >}})
 on those fields. For example, you can use queries to find:
   - matches in
-    [text fields]({{< relref "/develop/interact/search-and-query/query/full-text" >}})
+    [text fields]({{< relref "/develop/ai/search-and-query/query/full-text" >}})
   - numeric values that fall within a specified
-    [range]({{< relref "/develop/interact/search-and-query/query/range" >}})
-  - [Geospatial]({{< relref "/develop/interact/search-and-query/query/geo-spatial" >}})
+    [range]({{< relref "/develop/ai/search-and-query/query/range" >}})
+  - [Geospatial]({{< relref "/develop/ai/search-and-query/query/geo-spatial" >}})
     coordinates that fall within a specified area
-  - [Vector matches]({{< relref "/develop/interact/search-and-query/query/vector-search" >}})
+  - [Vector matches]({{< relref "/develop/ai/search-and-query/query/vector-search" >}})
     against [word embeddings](https://en.wikipedia.org/wiki/Word_embedding) calculated from
     your text data
 

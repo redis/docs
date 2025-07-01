@@ -16,21 +16,21 @@ weight: 25
 
 - Query types:
 
-    - [Full-text]({{<relref "/develop/interact/search-and-query/query/full-text">}})
+    - [Full-text]({{<relref "/develop/ai/search-and-query/query/full-text">}})
 
-    - [Tag]({{<relref "/develop/interact/search-and-query/advanced-concepts/tags">}})
+    - [Tag]({{<relref "/develop/ai/search-and-query/advanced-concepts/tags">}})
 
-    - [Vector]({{<relref "/develop/interact/search-and-query/query/vector-search">}})
+    - [Vector]({{<relref "/develop/ai/search-and-query/query/vector-search">}})
 
 - Result set types: 
 
     - Small result sets
 
-    - Document subsets that are indexed in their [non-normalized]({{<relref "/develop/interact/search-and-query/advanced-concepts/sorting#normalization-unf-option">}}) form
+    - Document subsets that are indexed in their [non-normalized]({{<relref "/develop/ai/search-and-query/advanced-concepts/sorting#normalization-unf-option">}}) form
 
 ## Indexing best practices
 
-Follow these best practices for [indexing]({{<relref "/develop/interact/search-and-query/indexing">}}):
+Follow these best practices for [indexing]({{<relref "/develop/ai/search-and-query/indexing">}}):
 
 - Include fields in the index definition that are used in the query or the required result sets (projections).
 
@@ -42,13 +42,13 @@ Follow these best practices for [indexing]({{<relref "/develop/interact/search-a
 
 ## Query best practices
 
-Follow these best practices for [queries]({{<relref "/develop/interact/search-and-query/query">}}):
+Follow these best practices for [queries]({{<relref "/develop/ai/search-and-query/query">}}):
 
-- Specify the result set fields in the `RETURN` or `LOAD` clauses and include them in the index definition. Don’t just return the default result set from [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/)  or `LOAD *` from [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/).
+- Specify the result set fields in the `RETURN` or `LOAD` clauses and include them in the index definition. Don’t just return the default result set from [`FT.SEARCH`]({{< relref "commands/ft.search/" >}})  or `LOAD *` from [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}).
 
 - Use `LIMIT` to reduce the result set size.
 
-- Use [`DIALECT 3`]({{<relref "/develop/interact/search-and-query/advanced-concepts/dialects#dialect-3">}}) or higher for any queries against JSON.
+- Use [`DIALECT 3`]({{<relref "/develop/ai/search-and-query/advanced-concepts/dialects#dialect-3">}}) or higher for any queries against JSON.
 
 ## Index and query examples
 

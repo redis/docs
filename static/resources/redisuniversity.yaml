@@ -1,0 +1,68 @@
+links:
+  # Get started links
+  - page: /develop/get-started/data-store
+    text: See the [Get Started with Redis learning path](https://university.redis.io/learningpath/14q8m6gilfwltm) for courses.
+  
+  - page: /develop/get-started/document-database
+    text: See the [Get Started with Redis learning path](https://university.redis.io/learningpath/14q8m6gilfwltm) for courses.
+  
+  - page: /develop/get-started/rag
+    text: See the [Vector Advanced Topics course](https://university.redis.io/course/i3fv2hbhqnpni8) to learn more.
+  
+  - page: /develop/get-started/redis-in-ai
+    text: See the [Vector Advanced Topics course](https://university.redis.io/course/i3fv2hbhqnpni8) to learn more.
+  
+  - page: /develop/get-started/vector-database
+    text: See the [Redis vector database course](https://university.redis.io/course/7e2qbbeg963twz) for learning modules.
+  
+  # Redis Cloud links
+  - page: /operate/rc/databases/monitor-performance
+    text: See the [Redis Cloud monitoring overview course](https://university.redis.io/course/sdm9uvjmd0iedp) to learn more.
+  
+  - page: /operate/rc/rc-quickstart
+    text: See the [Get started with Redis Cloud learning path](https://university.redis.io/learningpath/lwkfbjbbqetoqc) for courses.
+  
+  - page: /operate/rc/security
+    text: See the [Redis Cloud security overview course](https://university.redis.io/course/0b1hkhejlitg3x) to learn more.
+  
+  - page: /operate/rc/security/aws-transit-gateway
+    text: See the [Redis Cloud security overview course](https://university.redis.io/course/0b1hkhejlitg3x) to learn more.
+  
+  - page: /operate/rc/security/cidr-whitelist
+    text: See the [Redis Cloud security overview course](https://university.redis.io/course/0b1hkhejlitg3x) to learn more.
+  
+  - page: /operate/rc/security/database-security
+    text: See the [Redis Cloud security overview course](https://university.redis.io/course/0b1hkhejlitg3x) to learn more.
+  
+  - page: /operate/rc/security/encryption-at-rest
+    text: See the [Redis Cloud security overview course](https://university.redis.io/course/0b1hkhejlitg3x) to learn more.
+  
+  - page: /operate/rc/security/private-service-connect
+    text: See the [Redis Cloud security overview course](https://university.redis.io/course/0b1hkhejlitg3x) to learn more.
+  
+  - page: /operate/rc/security/shared-responsibility-model
+    text: See the [Redis Cloud security overview course](https://university.redis.io/course/0b1hkhejlitg3x) to learn more.
+  
+  - page: /operate/rc/security/vpc-peering
+    text: See the [Redis Cloud networking course](https://university.redis.io/course/xkz1coqj9tsqjr) to learn more.
+  
+  # Redis Software links
+  - page: /operate/rs/
+    text: See the [Get started with Redis Software learning path](https://university.redis.io/learningpath/an0mgw5bjpjfbe) to learn more.
+  
+  - page: /operate/rs/databases/connect/
+    text: See the [Connect to a database on Redis Software course](https://university.redis.io/course/zyxx6fdkcm5ahd) to learn more.
+  
+  - page: /operate/rs/databases/create
+    text: See the [Create a database on Redis Software course](https://university.redis.io/course/cvj3ntarrg8roa) to learn more.
+  
+  - page: /operate/rs/databases/import-export/import-data
+    text: See the [Import data into a database on Redis Software course](https://university.redis.io/course/jbl8tjp8niwskv) to learn more.
+  
+  - page: /operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart
+    text: See the [Get started with Redis Software learning path](https://university.redis.io/learningpath/an0mgw5bjpjfbe) for courses.
+
+  # Redis Develop links
+  - page: /develop/interact/search-and-query/advanced-concepts/vectors
+    text: See the [Introduction to vector search course](https://university.redis.io/course/yz1lretjfpdlew?tab=details) to learn more.
+    

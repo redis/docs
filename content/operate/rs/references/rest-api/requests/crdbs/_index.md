@@ -33,7 +33,7 @@ Get a list of all Active-Active databases on the cluster.
 #### Example HTTP request
 
 ```sh
-GET /crdbs
+GET /v1/crdbs
 ```
 
 #### Headers
@@ -67,7 +67,7 @@ Get a specific Active-Active database.
 #### Example HTTP request
 
 ```sh
- GET /crdbs/552bbccb-99f3-4142-bd17-93d245f0bc79
+ GET /v1/crdbs/552bbccb-99f3-4142-bd17-93d245f0bc79
 ```
 
 #### Headers
@@ -116,7 +116,7 @@ In order to add or remove instances, use [<nobr>`POST crdbs/{crdb_guid}/updates`
 #### Example HTTP request
 
 ```sh
- PATCH /crdbs/552bbccb-99f3-4142-bd17-93d245f0bc79
+ PATCH /v1/crdbs/552bbccb-99f3-4142-bd17-93d245f0bc79
 ```
 
 #### Headers
@@ -163,7 +163,7 @@ Create a new Active-Active database.
 #### Example HTTP request
 
 ```sh
- POST /crdbs
+ POST /v1/crdbs
 ```
 
 #### Headers
@@ -172,6 +172,12 @@ Create a new Active-Active database.
 |-----|-------|-------------|
 | X-Task-ID | string | Specified task ID |
 | X-Result-TTL | integer | Time (in seconds) to keep task result |
+
+#### Query parameters
+
+| Field | Type | Description |
+|-------|------|-------------|
+| dry_run | boolean | Validate the request without creating the database (optional) |
 
 #### Request body
 
@@ -247,7 +253,7 @@ Delete an Active-Active database.
 #### Example HTTP request
 
 ```sh
- DELETE /crdbs/552bbccb-99f3-4142-bd17-93d245f0bc79
+ DELETE /v1/crdbs/552bbccb-99f3-4142-bd17-93d245f0bc79
 ```
 
 #### Headers
