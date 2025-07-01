@@ -10,8 +10,8 @@ categories:
 - kubernetes
 - clients
 description: Overview of data types supported by Redis
-linkTitle: Understand data types
-title: Understand Redis data types
+linkTitle: Data types
+title: Redis data types
 hideListLinks: true
 weight: 35
 ---
