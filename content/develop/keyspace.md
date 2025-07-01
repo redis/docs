@@ -13,18 +13,37 @@ description: 'Managing keys in Redis: Key expiration, scanning, altering and que
   the key space
 
   '
-linkTitle: Keyspace
-title: Keyspace
-weight: 1
+linkTitle: Keys and values
+title: Keys and values
+weight: 33
+aliases: /develop/use/keyspace
 ---
 
-Redis keys are binary safe; this means that you can use any binary sequence as a
-key, from a string like "foo" to the content of a JPEG file.
-The empty string is also a valid key.
+Every data object that you store in a Redis database has its own unique
+*key*. The key is a string that you pass to Redis commands to
+retrieve the corresponding object or modify its data. The data object associated with a
+particular key is known as the *value* and the two together are known as
+as *key-value pair*.
 
-A few other rules about keys: 
+## Content of keys
 
-* Very long keys are not a good idea. For instance a key of 1024 bytes is a bad
+A key is typically a textual name that has some meaning within your
+data model. Unlike variable names in a programming language, Redis keys have few
+restrictions on their format, so keys with whitespace or punctuation characters
+are mostly fine (for example, "1st Attempt", or "% of price in $"). Redis doesn't
+support namespaces or other categories for keys, so you must take care to avoid
+name collisions. However, there is a convention for using the colon ":"
+character to split keys into sections (for example, "person:1", "person:2",
+"office:London", "office:NewYork:1"). You can use this as a simple way to collect
+keys together into categories.
+
+Although keys are usually textual, Redis actually implements *binary-safe* keys,
+so you can use any sequence of bytes as a valid key, such as a JPEG file or
+a struct value from your app. The empty string is also a valid key in Redis.
+
+There are also a few other things to bear in mind about keys: 
+
+* Very long keys are not a good idea. For instance, a key of 1024 bytes is a bad
   idea not only memory-wise, but also because the lookup of the key in the
   dataset may require several costly key-comparisons. Even when the task at hand
   is to match the existence of a large value, hashing it (for example
@@ -39,6 +58,49 @@ A few other rules about keys:
   idea, as in "user:1000". Dots or dashes are often used for multi-word
   fields, as in "comment:4321:reply.to" or "comment:4321:reply-to".
 * The maximum allowed key size is 512 MB.
+
+### Hashtags
+
+Redis uses [hashing](https://en.wikipedia.org/wiki/Hash_table) to retrieve the
+value associated with a key in a highly efficient way. Hashing involves combining the
+raw byte values from the key to produce an integer *index* number. The index is then
+used to locate the *hash slot* where the value for the key is stored.
+
+Normally, the whole key is used to calculate the hash index, but there are some
+situations where you need to hash only a part of the key. You can select the
+section of the key you want to hash using a pair of curly braces `{...}` to create
+a *hashtag*. For example, the keys `person:1` and `person:2` produce different
+hash indices but `{person}:1` and `{person}:2` produce the same index because
+only the `person` hashtag section in the braces is used for the hash calculation.
+
+A common use of hashtags is to allow
+[multi-key operations]({{< relref "/operate/rs/databases/durability-ha/clustering" >}})
+with a *clustered* database (see
+[Database clustering]({{< relref "/operate/rs/databases/durability-ha/clustering#multikey-operations" >}})
+for more information). Redis doesn't allow most multi-key operations in a clustered database
+unless all the keys produce the same hash index. For example, the
+[SINTER]({{< relref "/commands/sinter" >}})
+command finds the [intersection](https://en.wikipedia.org/wiki/Intersection_(set_theory))
+of two different [set]({{< relref "/develop/data-types/sets" >}}) values.
+This means that the command
+
+```bash
+SINTER group:1 group:2
+```
+
+won't work with a clustered database but
+
+```bash
+SINTER {group}:1 {group}:2
+```
+
+will work because the hashtag ensures the two keys produce the same hash index.
+
+Note that although hashtags are useful in certain cases, you shouldn't make
+a habit of using them generally. If you have too many keys mapped to the same
+hash slot then this will eventually harm the performance of your database.
+See [Database clustering]({{< relref "/operate/rs/databases/durability-ha/clustering" >}})
+for more information about how to use hashtags.
 
 ## Altering and querying the key space
 
@@ -120,6 +182,7 @@ the [`PTTL`]({{< relref "/commands/pttl" >}}) commands, and the full list of [`S
 ## Navigating the keyspace
 
 ### Scan
+
 To incrementally  iterate over the keys in a Redis database in an efficient manner, you can use the [`SCAN`]({{< relref "/commands/scan" >}}) command.
 
 Since [`SCAN`]({{< relref "/commands/scan" >}}) allows for incremental iteration, returning only a small number of elements per call, it can be used in production without the downside of commands like [`KEYS`]({{< relref "/commands/keys" >}}) or [`SMEMBERS`]({{< relref "/commands/smembers" >}}) that may block the server for a long time (even several seconds) when called against big collections of keys or elements.
@@ -139,7 +202,7 @@ This command is intended for debugging and special operations, such as changing
 your keyspace layout.
 Don't use [`KEYS`]({{< relref "/commands/keys" >}}) in your regular application code.
 If you're looking for a way to find keys in a subset of your keyspace, consider
-using [`SCAN`]({{< relref "/commands/scan" >}}) or [sets][tdts].
+using [`SCAN`]({{< relref "/commands/scan" >}}) or [sets][{{< relref "/develop/data-types/sets" >}}].
 
 [tdts]: /develop/data-types#sets
 
