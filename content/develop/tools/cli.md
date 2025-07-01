@@ -239,7 +239,7 @@ Note that the `--csv` flag will only work on a single command, not the entirety 
 ## Run Lua scripts
 
 The `redis-cli` has extensive support for using the debugging facility
-of Lua scripting, available with Redis 3.2 onwards. For this feature, refer to the [Redis Lua debugger documentation]({{< relref "/develop/interact/programmability/lua-debugging" >}}).
+of Lua scripting, available with Redis 3.2 onwards. For this feature, refer to the [Redis Lua debugger documentation]({{< relref "/develop/programmability/lua-debugging" >}}).
 
 Even without using the debugger, `redis-cli` can be used to
 run scripts from a file as an argument:

@@ -755,7 +755,7 @@ While comparable in performance to a binary protocol, the Redis protocol is sign
 
 ## Tips for Redis client authors
 
-* For testing purposes, use [Lua's type conversions]({{< relref "develop/interact/programmability/lua-api#lua-to-resp3-type-conversion" >}}) to have Redis reply with any RESP2/RESP3 needed.
+* For testing purposes, use [Lua's type conversions]({{< relref "develop/programmability/lua-api#lua-to-resp3-type-conversion" >}}) to have Redis reply with any RESP2/RESP3 needed.
   As an example, a RESP3 double can be generated like so:
   ```
   EVAL "return { double = tonumber(ARGV[1]) }" 0 1e0

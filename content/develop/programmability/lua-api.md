@@ -18,7 +18,7 @@ weight: 3
 ---
 
 Redis includes an embedded [Lua 5.1](https://www.lua.org/) interpreter.
-The interpreter runs user-defined [ephemeral scripts]({{< relref "/develop/interact/programmability/eval-intro" >}}) and [functions]({{< relref "/develop/interact/programmability/functions-intro" >}}). Scripts run in a sandboxed context and can only access specific Lua packages. This page describes the packages and APIs available inside the execution's context.
+The interpreter runs user-defined [ephemeral scripts]({{< relref "/develop/programmability/eval-intro" >}}) and [functions]({{< relref "/develop/programmability/functions-intro" >}}). Scripts run in a sandboxed context and can only access specific Lua packages. This page describes the packages and APIs available inside the execution's context.
 
 ## Sandbox context
 
@@ -104,7 +104,7 @@ to ensure the correct execution of scripts, both in standalone and clustered dep
 The script **should only** access keys whose names are given as input arguments.
 Scripts **should never** access keys with programmatically-generated names or based on the contents of data structures stored in the database.
 
-The _KEYS_ global variable is available only for [ephemeral scripts]({{< relref "/develop/interact/programmability/eval-intro" >}}).
+The _KEYS_ global variable is available only for [ephemeral scripts]({{< relref "/develop/programmability/eval-intro" >}}).
 It is pre-populated with all key name input arguments.
 
 ### The _ARGV_ global variable {#the-argv-global-variable}
@@ -113,7 +113,7 @@ It is pre-populated with all key name input arguments.
 * Available in scripts: yes
 * Available in functions: no
 
-The _ARGV_ global variable is available only in [ephemeral scripts]({{< relref "/develop/interact/programmability/eval-intro" >}}).
+The _ARGV_ global variable is available only in [ephemeral scripts]({{< relref "/develop/programmability/eval-intro" >}}).
 It is pre-populated with all regular input arguments.
 
 ## _redis_ object {#redis_object}
@@ -149,7 +149,7 @@ redis> EVAL "return redis.call('ECHO', 'Echo,', 'echo... ', 'eco... ', 'o...')" 
 (error) ERR Wrong number of args calling Redis command from script script: b0345693f4b77517a711221050e76d24ae60b7f7, on @user_script:1.
 ```
 
-Note that the call can fail due to various reasons, see [Execution under low memory conditions]({{< relref "/develop/interact/programmability/eval-intro#execution-under-low-memory-conditions" >}}) and [Script flags](#script_flags)
+Note that the call can fail due to various reasons, see [Execution under low memory conditions]({{< relref "/develop/programmability/eval-intro#execution-under-low-memory-conditions" >}}) and [Script flags](#script_flags)
 
 To handle Redis runtime errors use `redis.pcall()` instead.
 
@@ -380,7 +380,7 @@ You can use it to override the default verbatim script replication mode used by 
 **Note:**
 as of Redis v7.0, verbatim script replication is no longer supported.
 The default, and only script replication mode supported, is script effects' replication.
-For more information, please refer to [`Replicating commands instead of scripts`]({{< relref "/develop/interact/programmability/eval-intro#replicating-commands-instead-of-scripts" >}})
+For more information, please refer to [`Replicating commands instead of scripts`]({{< relref "/develop/programmability/eval-intro#replicating-commands-instead-of-scripts" >}})
 
 ### `redis.breakpoint()` {#redis.breakpoint}
 
@@ -388,7 +388,7 @@ For more information, please refer to [`Replicating commands instead of scripts`
 * Available in scripts: yes
 * Available in functions: no
 
-This function triggers a breakpoint when using the [Redis Lua debugger]({{< relref "/develop/interact/programmability/lua-debugging" >}}).
+This function triggers a breakpoint when using the [Redis Lua debugger]({{< relref "/develop/programmability/lua-debugging" >}}).
 
 ### `redis.debug(x)` {#redis.debug}
 
@@ -396,7 +396,7 @@ This function triggers a breakpoint when using the [Redis Lua debugger]({{< relr
 * Available in scripts: yes
 * Available in functions: no
 
-This function prints its argument in the [Redis Lua debugger]({{< relref "/develop/interact/programmability/lua-debugging" >}}) console.
+This function prints its argument in the [Redis Lua debugger]({{< relref "/develop/programmability/lua-debugging" >}}) console.
 
 ### `redis.acl_check_cmd(command [,arg...])` {#redis.acl_check_cmd}
 
@@ -451,7 +451,7 @@ redis> FUNCTION LOAD "#!lua name=mylib\n redis.register_function{function_name='
 
 **Important:**
 Use script flags with care, which may negatively impact if misused.
-Note that the default for Eval scripts are different than the default for functions that are mentioned below, see [Eval Flags]({{< relref "develop/interact/programmability/eval-intro#eval-flags" >}})
+Note that the default for Eval scripts are different than the default for functions that are mentioned below, see [Eval Flags]({{< relref "/develop/programmability/eval-intro#eval-flags" >}})
 
 When you register a function or load an Eval script, the server does not know how it accesses the database.
 By default, Redis assumes that all scripts read and write data.
@@ -466,7 +466,7 @@ You can use the following flags and instruct the server to treat the scripts' ex
 
 * `no-writes`: this flag indicates that the script only reads data but never writes.
 
-    By default, Redis will deny the execution of flagged scripts (Functions and Eval scripts with [shebang]({{< relref "/develop/interact/programmability/eval-intro#eval-flags" >}})) against read-only replicas, as they may attempt to perform writes.
+    By default, Redis will deny the execution of flagged scripts (Functions and Eval scripts with [shebang]({{< relref "/develop/programmability/eval-intro#eval-flags" >}})) against read-only replicas, as they may attempt to perform writes.
     Similarly, the server will not allow calling scripts with [`FCALL_RO`]({{< relref "/commands/fcall_ro" >}}) / [`EVAL_RO`]({{< relref "/commands/eval_ro" >}}).
     Lastly, when data persistence is at risk due to a disk error, execution is blocked as well.
 
@@ -479,15 +479,15 @@ You can use the following flags and instruct the server to treat the scripts' ex
     However, note that the server will return an error if the script attempts to call a write command.
     Also note that currently [`PUBLISH`]({{< relref "/commands/publish" >}}), [`SPUBLISH`]({{< relref "/commands/spublish" >}}) and [`PFCOUNT`]({{< relref "/commands/pfcount" >}}) are also considered write commands in scripts, because they could attempt to propagate commands to replicas and AOF file.
 
-    For more information please refer to [Read-only scripts]({{< relref "develop/interact/programmability/#read-only_scripts" >}})
+    For more information please refer to [Read-only scripts]({{< relref "/develop/programmability/#read-only_scripts" >}})
 
 * `allow-oom`: use this flag to allow a script to execute when the server is out of memory (OOM).
 
-    Unless used, Redis will deny the execution of flagged scripts (Functions and Eval scripts with [shebang]({{< relref "/develop/interact/programmability/eval-intro#eval-flags" >}})) when in an OOM state.
+    Unless used, Redis will deny the execution of flagged scripts (Functions and Eval scripts with [shebang]({{< relref "/develop/programmability/eval-intro#eval-flags" >}})) when in an OOM state.
     Furthermore, when you use this flag, the script can call any Redis command, including commands that aren't usually allowed in this state.
     Specifying `no-writes` or using [`FCALL_RO`]({{< relref "/commands/fcall_ro" >}}) / [`EVAL_RO`]({{< relref "/commands/eval_ro" >}}) also implies the script can run in OOM state (without specifying `allow-oom`)
 
-* `allow-stale`: a flag that enables running the flagged scripts (Functions and Eval scripts with [shebang]({{< relref "/develop/interact/programmability/eval-intro#eval-flags" >}})) against a stale replica when the `replica-serve-stale-data` config is set to `no` .
+* `allow-stale`: a flag that enables running the flagged scripts (Functions and Eval scripts with [shebang]({{< relref "/develop/programmability/eval-intro#eval-flags" >}})) against a stale replica when the `replica-serve-stale-data` config is set to `no` .
 
     Redis can be set to prevent data consistency problems from using old data by having stale replicas return a runtime error.
     For scripts that do not access the data, this flag can be set to allow stale Redis replicas to run the script.
@@ -507,7 +507,7 @@ You can use the following flags and instruct the server to treat the scripts' ex
     
     This flag has no effect when cluster mode is disabled.
 
-Please refer to [Function Flags]({{< relref "develop/interact/programmability/functions-intro#function-flags" >}}) and [Eval Flags]({{< relref "develop/interact/programmability/eval-intro#eval-flags" >}}) for a detailed example.
+Please refer to [Function Flags]({{< relref "/develop/programmability/functions-intro#function-flags" >}}) and [Eval Flags]({{< relref "/develop/programmability/eval-intro#eval-flags" >}}) for a detailed example.
 
 ### `redis.REDIS_VERSION` {#redis.redis_version}
 

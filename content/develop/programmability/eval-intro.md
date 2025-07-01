@@ -37,11 +37,11 @@ Such scripts can perform conditional updates across multiple keys, possibly comb
 
 Scripts are executed in Redis by an embedded execution engine.
 Presently, Redis supports a single scripting engine, the [Lua 5.1](https://www.lua.org/) interpreter.
-Please refer to the [Redis Lua API Reference]({{< relref "develop/interact/programmability/lua-api" >}}) page for complete documentation.
+Please refer to the [Redis Lua API Reference]({{< relref "/develop/programmability/lua-api" >}}) page for complete documentation.
 
 Although the server executes them, Eval scripts are regarded as a part of the client-side application, which is why they're not named, versioned, or persisted.
 So all scripts may need to be reloaded by the application at any time if missing (after a server restart, fail-over to a replica, etc.).
-As of version 7.0, [Redis Functions]({{< relref "/develop/interact/programmability/functions-intro" >}}) offer an alternative approach to programmability which allow the server itself to be extended with additional programmed logic.
+As of version 7.0, [Redis Functions]({{< relref "/develop/programmability/functions-intro" >}}) offer an alternative approach to programmability which allow the server itself to be extended with additional programmed logic.
 
 ## Getting started
 
@@ -100,7 +100,7 @@ Any input to the function that isn't the name of a key is a regular input argume
 
 In the example above, both _Hello_ and _Parameterization!_ regular input arguments for the script.
 Because the script doesn't touch any keys, we use the numerical argument _0_ to specify there are no key name arguments.
-The execution context makes arguments available to the script through [_KEYS_]({{< relref "develop/interact/programmability/lua-api#the-keys-global-variable" >}}) and [_ARGV_]({{< relref "develop/interact/programmability/lua-api#the-argv-global-variable" >}}) global runtime variables.
+The execution context makes arguments available to the script through [_KEYS_]({{< relref "/develop/programmability/lua-api#the-keys-global-variable" >}}) and [_ARGV_]({{< relref "/develop/programmability/lua-api#the-argv-global-variable" >}}) global runtime variables.
 The _KEYS_ table is pre-populated with all key name arguments provided to the script before its execution, whereas the _ARGV_ table serves a similar purpose but for regular arguments.
 
 The following attempts to demonstrate the distribution of input arguments between the scripts _KEYS_ and _ARGV_ runtime global variables:
@@ -117,11 +117,11 @@ redis> EVAL "return { KEYS[1], KEYS[2], ARGV[1], ARGV[2], ARGV[3] }" 2 key1 key2
 
 **Note:**
 as can been seen above, Lua's table arrays are returned as [RESP2 array replies]({{< relref "/develop/reference/protocol-spec#resp-arrays" >}}), so it is likely that your client's library will convert it to the native array data type in your programming language.
-Please refer to the rules that govern [data type conversion]({{< relref "develop/interact/programmability/lua-api#data-type-conversion" >}}) for more pertinent information.
+Please refer to the rules that govern [data type conversion]({{< relref "/develop/programmability/lua-api#data-type-conversion" >}}) for more pertinent information.
 
 ## Interacting with Redis from a script
 
-It is possible to call Redis commands from a Lua script either via [`redis.call()`]({{< relref "develop/interact/programmability/lua-api#redis.call" >}}) or [`redis.pcall()`]({{< relref "develop/interact/programmability/lua-api#redis.pcall" >}}).
+It is possible to call Redis commands from a Lua script either via [`redis.call()`]({{< relref "/develop/programmability/lua-api#redis.call" >}}) or [`redis.pcall()`]({{< relref "/develop/programmability/lua-api#redis.pcall" >}}).
 
 The two are nearly identical.
 Both execute a Redis command along with its provided arguments, if these represent a well-formed command.
@@ -231,10 +231,10 @@ These are:
   It is a useful command in all the contexts where we want to ensure that [`EVALSHA`]({{< relref "/commands/evalsha" >}}) doesn't not fail (for instance, in a pipeline or when called from a [`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) [transaction]({{< relref "/develop/reference/transactions" >}}), without the need to execute the script.
 
 * [`SCRIPT KILL`]({{< relref "/commands/script-kill" >}}): this command is the only way to interrupt a long-running script (a.k.a slow script), short of shutting down the server.
-  A script is deemed as slow once its execution's duration exceeds the configured [maximum execution time]({{< relref "/develop/interact/programmability/#maximum-execution-time" >}}) threshold.
+  A script is deemed as slow once its execution's duration exceeds the configured [maximum execution time]({{< relref "/develop/programmability/#maximum-execution-time" >}}) threshold.
   The [`SCRIPT KILL`]({{< relref "/commands/script-kill" >}}) command can be used only with scripts that did not modify the dataset during their execution (since stopping a read-only script does not violate the scripting engine's guaranteed atomicity).
 
-* [`SCRIPT DEBUG`]({{< relref "/commands/script-debug" >}}): controls use of the built-in [Redis Lua scripts debugger]({{< relref "/develop/interact/programmability/lua-debugging" >}}).
+* [`SCRIPT DEBUG`]({{< relref "/commands/script-debug" >}}): controls use of the built-in [Redis Lua scripts debugger]({{< relref "/develop/programmability/lua-debugging" >}}).
 
 ## Script replication
 
@@ -255,7 +255,7 @@ There are two conceptual approaches when it comes to script replication:
    While potentially lengthier in terms of network traffic, this replication mode is deterministic by definition and therefore doesn't require special consideration.
 
 Verbatim script replication was the only mode supported until Redis 3.2, in which effects replication was added.
-The _lua-replicate-commands_ configuration directive and [`redis.replicate_commands()`]({{< relref "develop/interact/programmability/lua-api#redis.replicate_commands" >}}) Lua API can be used to enable it.
+The _lua-replicate-commands_ configuration directive and [`redis.replicate_commands()`]({{< relref "/develop/programmability/lua-api#redis.replicate_commands" >}}) Lua API can be used to enable it.
 
 In Redis 5.0, effects replication became the default mode.
 As of Redis 7.0, verbatim replication is no longer supported.
@@ -286,7 +286,7 @@ Unless already enabled by the server's configuration or defaults (before Redis 7
 redis.replicate_commands()
 ```
 
-The [`redis.replicate_commands()`]({{< relref "develop/interact/programmability/lua-api#redis.replicate_commands" >}}) function returns _true) if script effects replication was enabled;
+The [`redis.replicate_commands()`]({{< relref "/develop/programmability/lua-api#redis.replicate_commands" >}}) function returns _true) if script effects replication was enabled;
 otherwise, if the function was called after the script already called a write command,
 it returns _false_, and normal whole script replication is used.
 
@@ -331,7 +331,7 @@ and undergo a silent lexicographical sorting filter before returning data to Lua
   However, starting with Redis 5.0, this ordering is no longer performed because replicating effects circumvents this type of non-determinism.
   In general, even when developing for Redis 4.0, never assume that certain commands in Lua will be ordered, but instead rely on the documentation of the original command you call to see the properties it provides.
 * Lua's pseudo-random number generation function `math.random` is modified and always uses the same seed for every execution.
-  This means that calling [`math.random`]({{< relref "develop/interact/programmability/lua-api#runtime-libraries" >}}) will always generate the same sequence of numbers every time a script is executed (unless `math.randomseed` is used).
+  This means that calling [`math.random`]({{< relref "/develop/programmability/lua-api#runtime-libraries" >}}) will always generate the same sequence of numbers every time a script is executed (unless `math.randomseed` is used).
 
 All that said, you can still use commands that write and random behavior with a simple trick.
 Imagine that you want to write a Redis script that will populate a list with N random integers.
@@ -409,11 +409,11 @@ Note: an important part of this behavior is that the PRNG that Redis implements 
 Starting with Redis 3.2, Redis has support for native Lua debugging.
 The Redis Lua debugger is a remote debugger consisting of a server, which is Redis itself, and a client, which is by default [`redis-cli`]({{< relref "/develop/tools/cli" >}}).
 
-The Lua debugger is described in the [Lua scripts debugging]({{< relref "/develop/interact/programmability/lua-debugging" >}}) section of the Redis documentation.
+The Lua debugger is described in the [Lua scripts debugging]({{< relref "/develop/programmability/lua-debugging" >}}) section of the Redis documentation.
 
 ## Execution under low memory conditions
 
-When memory usage in Redis exceeds the `maxmemory` limit, the first write command encountered in the script that uses additional memory will cause the script to abort (unless [`redis.pcall`]({{< relref "develop/interact/programmability/lua-api#redis.pcall" >}}) was used).
+When memory usage in Redis exceeds the `maxmemory` limit, the first write command encountered in the script that uses additional memory will cause the script to abort (unless [`redis.pcall`]({{< relref "/develop/programmability/lua-api#redis.pcall" >}}) was used).
 
 However, an exception to the above is when the script's first write command does not use additional memory, as is the case with  (for example, [`DEL`]({{< relref "/commands/del" >}}) and [`LREM`]({{< relref "/commands/lrem" >}})).
 In this case, Redis will allow all commands in the script to run to ensure atomicity.
@@ -446,4 +446,4 @@ it still has a different set of defaults compared to a script without a `#!` lin
 
 Another difference is that scripts without `#!` can run commands that access keys belonging to different cluster hash slots, but ones with `#!` inherit the default flags, so they cannot.
 
-Please refer to [Script flags]({{< relref "develop/interact/programmability/lua-api#script_flags" >}}) to learn about the various scripts and the defaults.
+Please refer to [Script flags]({{< relref "/develop/programmability/lua-api#script_flags" >}}) to learn about the various scripts and the defaults.
