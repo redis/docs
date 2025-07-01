@@ -5042,8 +5042,6 @@ is interested in. This can be an ORed mask of any of the following flags:
                                this notification is wrong and discourage. It will
                                cause the read command that trigger the event to be
                                replicated to the AOF/Replica.
- - REDISMODULE_NOTIFY_OVERWRITTEN: Overwritten events
- - REDISMODULE_NOTIFY_TYPE_CHANGED: Type-changed events
  - `REDISMODULE_NOTIFY_ALL`: All events (Excluding `REDISMODULE_NOTIFY_KEYMISS`)
  - `REDISMODULE_NOTIFY_LOADED`: A special notification available only for modules,
                               indicates that the key was loaded from persistence.
