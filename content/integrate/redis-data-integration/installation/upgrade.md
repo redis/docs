@@ -95,11 +95,11 @@ When upgrading from RDI < 1.8.0 to RDI >= 1.8.0 in a VM HA setup, both RDI insta
 
 After upgrading, manually set a unique cluster ID for one of the installations (preferred is the passive instance):
 
-```bash
-kubectl edit cm -n rdi rdi-sys-config
-```
+1. Locate the RDI configuration file on the VM host. The file is typically located at `/etc/rdi/rdi-sys-config.yaml`.
+2. Open the configuration file in a text editor. For example:
 
-Then add the line `RDI_CLUSTER_ID: cluster-2` to distinguish between the clusters.
+   ```bash
+   sudo nano /etc/rdi/rdi-sys-config.yaml
 {{< /warning >}}
 
 ## Upgrading a Kubernetes installation
