@@ -98,97 +98,14 @@ set's membership with a fixed memory size, regardless of how many items you
 add. The following example adds some names to a Bloom filter representing
 a list of users and checks for the presence or absence of users in the list.
 
-```go
-res1, err := rdb.BFMAdd(
-    ctx,
-    "recorded_users",
-    "andy", "cameron", "david", "michelle",
-).Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res1) // >>> [true true true true]
-
-res2, err := rdb.BFExists(ctx,
-    "recorded_users", "cameron",
-).Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res2) // >>> true
-
-res3, err := rdb.BFExists(ctx, "recorded_users", "kaitlyn").Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res3) // >>> false
-```
-<!--< clients-example home_prob_dts bloom Go >}}
-< /clients-example >}}-->
+{{< clients-example home_prob_dts bloom Go >}}
+{{< /clients-example >}}
 
 A Cuckoo filter has similar features to a Bloom filter, but also supports
 a deletion operation to remove hashes from a set, as shown in the example below.
 
-```go
-res4, err := rdb.CFAdd(ctx, "other_users", "paolo").Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res4) // >>> true
-
-res5, err := rdb.CFAdd(ctx, "other_users", "kaitlyn").Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res5) // >>> true
-
-res6, err := rdb.CFAdd(ctx, "other_users", "rachel").Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res6) // >>> true
-
-res7, err := rdb.CFMExists(ctx,
-    "other_users", "paolo", "rachel", "andy",
-).Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res7) // >>> [true true false]
-
-res8, err := rdb.CFDel(ctx, "other_users", "paolo").Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res8) // >>> true
-
-res9, err := rdb.CFExists(ctx, "other_users", "paolo").Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res9) // >>> false
-```
-
-<!--< clients-example home_prob_dts cuckoo Go >}}
-< /clients-example >}}-->
+{{< clients-example home_prob_dts cuckoo Go >}}
+{{< /clients-example >}}
 
 Which of these two data types you choose depends on your use case.
 Bloom filters are generally faster than Cuckoo filters when adding new items,
@@ -208,69 +125,8 @@ You can also merge two or more HyperLogLogs to find the cardinality of the
 [union](https://en.wikipedia.org/wiki/Union_(set_theory)) of the sets they
 represent.
 
-```go
-res10, err := rdb.PFAdd(
-    ctx,
-    "group:1",
-    "andy", "cameron", "david",
-).Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res10) // >>> 1
-
-res11, err := rdb.PFCount(ctx, "group:1").Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res11) // >>> 3
-
-res12, err := rdb.PFAdd(ctx,
-    "group:2",
-    "kaitlyn", "michelle", "paolo", "rachel",
-).Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res12) // >>> 1
-
-res13, err := rdb.PFCount(ctx, "group:2").Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res13) // >>> 4
-
-res14, err := rdb.PFMerge(
-    ctx,
-    "both_groups",
-    "group:1", "group:2",
-).Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res14) // >>> OK
-
-res15, err := rdb.PFCount(ctx, "both_groups").Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res15) // >>> 7
-```
-
-<!--< clients-example home_prob_dts hyperloglog Go >}}
-< /clients-example >}}-->
+{{< clients-example home_prob_dts hyperloglog Go >}}
+{{< /clients-example >}}
 
 The main benefit that HyperLogLogs offer is their very low
 memory usage. They can count up to 2^64 items with less than
@@ -308,59 +164,8 @@ stay within 0.1% of the true value and have a 0.05% probability
 of going outside this limit. The example below shows how to create
 a Count-min sketch object, add data to it, and then query it.
 
-```go
-// Specify that you want to keep the counts within 0.01
-// (1%) of the true value with a 0.005 (0.5%) chance
-// of going outside this limit.
-res16, err := rdb.CMSInitByProb(ctx, "items_sold", 0.01, 0.005).Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res16) // >>> OK
-
-// The parameters for `CMSIncrBy()` are two lists. The count
-// for each item in the first list is incremented by the
-// value at the same index in the second list.
-res17, err := rdb.CMSIncrBy(ctx, "items_sold",
-    "bread", 300,
-    "tea", 200,
-    "coffee", 200,
-    "beer", 100,
-).Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res17) // >>> [300 200 200 100]
-
-res18, err := rdb.CMSIncrBy(ctx, "items_sold",
-    "bread", 100,
-    "coffee", 150,
-).Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res18) // >>> [400 350]
-
-res19, err := rdb.CMSQuery(ctx,
-    "items_sold",
-    "bread", "tea", "coffee", "beer",
-).Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res19) // >>> [400 200 350 100]
-```
-
-<!--< clients-example home_prob_dts cms Go >}}
-< /clients-example >}}-->
+{{< clients-example home_prob_dts cms Go >}}
+{{< /clients-example >}}
 
 The advantage of using a CMS over keeping an exact count with a
 [sorted set]({{< relref "/develop/data-types/sorted-sets" >}})
@@ -391,105 +196,8 @@ maximum values, the quantile of 0.75, and the
 shows how to merge two or more t-digest objects to query the combined
 data set.
 
-```go
-res20, err := rdb.TDigestCreate(ctx, "male_heights").Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res20) // >>> OK
-
-res21, err := rdb.TDigestAdd(ctx, "male_heights",
-    175.5, 181, 160.8, 152, 177, 196, 164,
-).Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res21) // >>> OK
-
-res22, err := rdb.TDigestMin(ctx, "male_heights").Result()
-if err != nil {
-    panic(err)
-}
-fmt.Println(res22) // >>> 152
-
-res23, err := rdb.TDigestMax(ctx, "male_heights").Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res23) // >>> 196
-
-res24, err := rdb.TDigestQuantile(ctx, "male_heights", 0.75).Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res24) // >>> [181]
-
-// Note that the CDF value for 181 is not exactly
-// 0.75. Both values are estimates.
-res25, err := rdb.TDigestCDF(ctx, "male_heights", 181).Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Printf("%.4f\n", res25[0]) // >>> 0.7857
-
-res26, err := rdb.TDigestCreate(ctx, "female_heights").Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res26) // >>> OK
-
-res27, err := rdb.TDigestAdd(ctx, "female_heights",
-    155.5, 161, 168.5, 170, 157.5, 163, 171,
-).Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res27) // >>> OK
-
-res28, err := rdb.TDigestQuantile(ctx, "female_heights", 0.75).Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res28) // >>> [170]
-
-res29, err := rdb.TDigestMerge(ctx, "all_heights",
-    nil,
-    "male_heights", "female_heights",
-).Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res29) // >>> OK
-
-res30, err := rdb.TDigestQuantile(ctx, "all_heights", 0.75).Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res30) // >>> [175.5]
-```
-
-<!--< clients-example home_prob_dts tdigest Go >}}
-< /clients-example >}}-->
+{{< clients-example home_prob_dts tdigest Go >}}
+{{< /clients-example >}}
 
 A t-digest object also supports several other related commands, such
 as querying by rank. See the
@@ -510,56 +218,5 @@ the `topk().reserve()` method). It also shows how to list the
 top *k* items and query whether or not a given item is in the
 list.
 
-```go
-// Create a TopK filter that keeps track of the top 3 items
-res31, err := rdb.TopKReserve(ctx, "top_3_songs", 3).Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res31) // >>> OK
-
-// Add some items to the filter
-res32, err := rdb.TopKIncrBy(ctx,
-    "top_3_songs",
-    "Starfish Trooper", 3000,
-    "Only one more time", 1850,
-    "Rock me, Handel", 1325,
-    "How will anyone know?", 3890,
-    "Average lover", 4098,
-    "Road to everywhere", 770,
-).Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res32)
-// >>> [   Rock me, Handel Only one more time ]
-
-res33, err := rdb.TopKList(ctx, "top_3_songs").Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res33)
-// >>> [Average lover How will anyone know? Starfish Trooper]
-
-// Query the count for specific items
-res34, err := rdb.TopKQuery(
-    ctx,
-    "top_3_songs",
-    "Starfish Trooper", "Road to everywhere",
-).Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res34) // >>> [true false]
-```
-
-<!--< clients-example home_prob_dts topk Go >}}
-< /clients-example >}}-->
+{{< clients-example home_prob_dts topk Go >}}
+{{< /clients-example >}}

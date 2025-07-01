@@ -196,6 +196,7 @@ If your platform doesn’t set this label automatically, you can use any custom 
 ### Node labeling requirements
 
 {{< warning >}}
+
 **All eligible nodes must have the label for rack-awareness to work. The operator requires every node that might run Redis Enterprise pods to be labeled. If any are missing the label, reconciliation will fail.
 {{< /warning >}}
 
