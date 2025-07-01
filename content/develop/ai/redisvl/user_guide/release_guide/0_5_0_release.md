@@ -1,6 +1,8 @@
 ---
 linkTitle: 0.5.1 feature overview
 title: 0.5.1 Feature Overview
+aliases:
+- /integrate/redisvl/user_guide/release_guide/0_5_0_release
 ---
 
 

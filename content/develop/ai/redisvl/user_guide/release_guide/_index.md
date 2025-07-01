@@ -2,6 +2,8 @@
 linkTitle: Release guides
 title: Release Guides
 hideListLinks: true
+aliases:
+- /integrate/redisvl/user_guide/release_guide
 ---
 
 
