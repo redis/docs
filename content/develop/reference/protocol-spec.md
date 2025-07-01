@@ -696,7 +696,7 @@ Pipelining is supported, so multiple commands can be sent with a single write op
 The client can skip reading replies and continue to send the commands one after the other.
 All the replies can be read at the end.
 
-For more information, see [Pipelining]({{< relref "/develop/use/pipelining" >}}).
+For more information, see [Pipelining]({{< relref "/develop/reference/pipelining" >}}).
 
 ## Inline commands
 Sometimes you may need to send a command to the Redis server but only have `telnet` available.
