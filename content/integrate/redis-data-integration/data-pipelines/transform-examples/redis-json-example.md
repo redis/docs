@@ -29,7 +29,6 @@ In this case, the result will be Redis JSON documents with key names based on th
 
 ```yaml
 source:
-  server_name: chinook
   schema: public
   table: invoice
 output:

@@ -109,5 +109,5 @@ INTERSECT {
 
 ## Related topics
 
-[RediSearch]({{< relref "/develop/interact/search-and-query/" >}})
+[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
 

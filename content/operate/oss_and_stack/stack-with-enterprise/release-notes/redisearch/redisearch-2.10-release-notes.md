@@ -171,7 +171,7 @@ This is a maintenance release for RediSearch 2.10.
 Update urgency: `HIGH` - There is a critical bug that may affect a subset of users. Upgrade!
 
 Bug fixes:
-- [#4916](https://github.com/redisearch/redisearch/pull/4916) - Union query, similar to `"is|the"`, starting with 2 [storwords](https://redis.io/docs/latest/develop/interact/search-and-query/advanced-concepts/stopwords/) could cause a crash (MOD-7495)
+- [#4916](https://github.com/redisearch/redisearch/pull/4916) - Union query, similar to `"is|the"`, starting with 2 [storwords](https://redis.io/docs/latest/develop/ai/search-and-query/advanced-concepts/stopwords/) could cause a crash (MOD-7495)
 - [#4895](https://github.com/redisearch/redisearch/pull/4895) - `FT.AGGREGATE` with `VERBATIM` option is not handled by the shards in cluster mode (MOD-7463) 
 - [#4922](https://github.com/redisearch/redisearch/pull/4922) - Counting twice the field statistics at `#search` section of `INFO` response (MOD-7339)
 
@@ -189,7 +189,7 @@ This new major version introduces new `BFLOAT16` and `FLOAT16` vector data types
 
 Features:
 
-- Enhancing exact matching queries with `TAG` avoiding escaping special meaning characters using the [simpler syntax](https://redis.io/docs/latest/develop/interact/search-and-query/query/exact-match/#tag-field) `'@tag:{"my-query%term"}'` and `NUMERIC` queries:
+- Enhancing exact matching queries with `TAG` avoiding escaping special meaning characters using the [simpler syntax](https://redis.io/docs/latest/develop/ai/search-and-query/query/exact-match/#tag-field) `'@tag:{"my-query%term"}'` and `NUMERIC` queries:
   - [#4802](https://github.com/RediSearch/RediSearch/pull/4802) - Using double quotes to wrap exact matching query terms such as `@email:{"test@redis.com"}` in `DIALECT 2` ( MOD-7299)
   - [#4676](https://github.com/RediSearch/RediSearch/pull/4676), [#4433](https://github.com/RediSearch/RediSearch/pull/4433) - Enhancing query parser to avoid unnecessary escaping (MOD-5756)
   - [#4527](https://github.com/RediSearch/RediSearch/pull/4527) - Enhancing exact matching queries for `NUMERIC` using single value `FT.SEARCH idx @numeric:[3456]` (MOD-6623)
@@ -202,12 +202,12 @@ Features:
 
 
 - Enabling new vector data types reducing memory consumed by vectors with the new `BFLOAT16` and `FLOAT16`
-  - [#4674](https://github.com/RediSearch/RediSearch/pull/4674) - Adding support `BFLOAT16` and `FLOAT16` in the [vector index definition](https://redis.io/docs/latest/develop/interact/search-and-query/advanced-concepts/vectors/#creation-attributes-per-algorithm) (MOD-6765, MOD-6776)
+  - [#4674](https://github.com/RediSearch/RediSearch/pull/4674) - Adding support `BFLOAT16` and `FLOAT16` in the [vector index definition](https://redis.io/docs/latest/develop/ai/search-and-query/vectors/#creation-attributes-per-algorithm) (MOD-6765, MOD-6776)
 
 - Exposing the full-text score values during the aggregation pipeline using `ADDSCORE`. When calling the scores you can use `@__score` in the pipeline as in `FT.AGGREGATE idx 'hello' ADDSCORES SORTBY 2 @__score DESC`
   - [#4859](https://github.com/RediSearch/RediSearch/pull/4859) - Expose scores to `FT.AGGREGATE` pipeline (MOD-7190)
 
-- [#4227](https://github.com/RediSearch/RediSearch/pull/4227) - Adding support for new operators `INTERSECT` and `DISJOINT` when querying for `GEOSHAPE` [polygons](https://redis.io/docs/latest/develop/interact/search-and-query/query/geo-spatial/) (MOD-6178)
+- [#4227](https://github.com/RediSearch/RediSearch/pull/4227) - Adding support for new operators `INTERSECT` and `DISJOINT` when querying for `GEOSHAPE` [polygons](https://redis.io/docs/latest/develop/ai/search-and-query/query/geo-spatial/) (MOD-6178)
 
 
 Bug fixes (since 2.10.4):
