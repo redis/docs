@@ -148,7 +148,7 @@ SET anotherkey "will expire in a minute" EX 60
 
 ## Patterns
 
-**Note:** The following pattern is discouraged in favor of [the Redlock algorithm]({{< relref "/develop/use/patterns/distributed-locks" >}}) which is only a bit more complex to implement, but offers better guarantees and is fault tolerant.
+**Note:** The following pattern is discouraged in favor of [the Redlock algorithm]({{< relref "/develop/clients/patterns/distributed-locks" >}}) which is only a bit more complex to implement, but offers better guarantees and is fault tolerant.
 
 The command `SET resource-name anystring NX EX max-lock-time` is a simple way to implement a locking system with Redis.
 

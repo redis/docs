@@ -223,7 +223,7 @@ To monitor over time the RSS memory size it's possible to use the following comm
 ## Mass insertion of data using `redis-cli`
 
 Mass insertion using `redis-cli` is covered in a separate page as it is a
-worthwhile topic itself. Please refer to our [mass insertion guide]({{< relref "/develop/use/patterns/bulk-loading" >}}).
+worthwhile topic itself. Please refer to our [mass insertion guide]({{< relref "/develop/clients/patterns/bulk-loading" >}}).
 
 ## CSV output
 
