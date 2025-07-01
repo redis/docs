@@ -2,6 +2,8 @@
 linkTitle: Caching embeddings
 title: Caching Embeddings
 weight: 10
+aliases:
+- /integrate/redisvl/user_guide/embeddings_cache
 ---
 
 

@@ -3,6 +3,8 @@ linkTitle: User guides
 title: User Guides
 weight: 4
 hideListLinks: true
+aliases:
+- /integrate/redisvl/user_guide
 ---
 
 

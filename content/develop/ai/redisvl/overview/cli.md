@@ -1,6 +1,8 @@
 ---
 linkTitle: The RedisVL CLI
 title: The RedisVL CLI
+aliases:
+- /integrate/redisvl/overview/cli
 ---
 
 

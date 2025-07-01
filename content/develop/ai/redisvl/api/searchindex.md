@@ -1,6 +1,8 @@
 ---
 linkTitle: Search index classes
 title: Search Index Classes
+aliases:
+- /integrate/redisvl/api/searchindex
 ---
 
 

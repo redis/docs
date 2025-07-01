@@ -2,6 +2,8 @@
 linkTitle: Semantic caching for LLMs
 title: Semantic Caching for LLMs
 weight: 03
+aliases:
+- /integrate/redisvl/user_guide/llmcache
 ---
 
 

@@ -2,6 +2,8 @@
 linkTitle: Vectorizers
 title: Vectorizers
 weight: 04
+aliases:
+- /integrate/redisvl/user_guide/vectorizers
 ---
 
 

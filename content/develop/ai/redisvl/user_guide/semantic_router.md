@@ -2,6 +2,8 @@
 linkTitle: Semantic routing
 title: Semantic Routing
 weight: 08
+aliases:
+- /integrate/redisvl/user_guide/semantic_router
 ---
 
 

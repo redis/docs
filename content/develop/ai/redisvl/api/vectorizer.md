@@ -1,6 +1,8 @@
 ---
 linkTitle: Vectorizers
 title: Vectorizers
+aliases:
+- /integrate/redisvl/api/vectorizer
 ---
 
 

@@ -2,6 +2,8 @@
 linkTitle: LLM session memory
 title: LLM Session Memory
 weight: 07
+aliases:
+- /integrate/redisvl/user_guide/session_manager
 ---
 
 

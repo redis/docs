@@ -2,6 +2,8 @@
 linkTitle: Threshold optimization
 title: Threshold Optimization
 weight: 09
+aliases:
+- /integrate/redisvl/user_guide/threshold_optimization
 ---
 
 

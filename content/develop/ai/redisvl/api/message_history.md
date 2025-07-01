@@ -1,6 +1,8 @@
 ---
 linkTitle: LLM message history
 title: LLM Message History
+aliases:
+- /integrate/redisvl/api/message_history
 ---
 
 

@@ -1,6 +1,8 @@
 ---
 linkTitle: Semantic router
 title: Semantic Router
+aliases:
+- /integrate/redisvl/api/router
 ---
 
 

@@ -2,6 +2,8 @@
 linkTitle: LLM message history
 title: LLM Message History
 weight: 07
+aliases:
+- /integrate/redisvl/user_guide/message_history
 ---
 
 

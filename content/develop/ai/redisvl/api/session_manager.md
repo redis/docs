@@ -1,6 +1,8 @@
 ---
 linkTitle: LLM session manager
 title: LLM Session Manager
+aliases:
+- /integrate/redisvl/api/session_manager
 ---
 
 

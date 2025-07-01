@@ -2,6 +2,8 @@
 linkTitle: Getting started with RedisVL
 title: Getting Started with RedisVL
 weight: 01
+aliases:
+- /integrate/redisvl/user_guide/getting_started
 ---
 
 `redisvl` is a versatile Python library with an integrated CLI, designed to enhance AI applications using Redis. This guide will walk you through the following steps:

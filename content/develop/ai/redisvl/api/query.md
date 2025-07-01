@@ -1,6 +1,8 @@
 ---
 linkTitle: Query
 title: Query
+aliases:
+- /integrate/redisvl/api/query
 ---
 
 

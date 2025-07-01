@@ -1,6 +1,8 @@
 ---
 linkTitle: Schema
 title: Schema
+aliases:
+- /integrate/redisvl/api/schema
 ---
 
 
