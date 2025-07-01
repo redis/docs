@@ -382,7 +382,7 @@ select {
 
 .codetabs.cli > .panel .highlight > .chroma {
     margin: 1rem 1rem 0.1rem 0.1rem;
-    overflow-x: hidden;
+    overflow-x: auto;
     padding-bottom: 0;
 }
 
