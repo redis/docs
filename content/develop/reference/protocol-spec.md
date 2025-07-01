@@ -70,7 +70,7 @@ This is the simplest model possible; however, there are some exceptions:
 
 * Redis requests can be [pipelined](#multiple-commands-and-pipelining).
   Pipelining enables clients to send multiple commands at once and wait for replies later.
-* When a RESP2 connection subscribes to a [Pub/Sub]({{< relref "/develop/interact/pubsub" >}}) channel, the protocol changes semantics and becomes a *push* protocol.
+* When a RESP2 connection subscribes to a [Pub/Sub]({{< relref "/develop/pubsub" >}}) channel, the protocol changes semantics and becomes a *push* protocol.
   The client no longer requires sending commands because the server will automatically send new messages to the client (for the channels the client is subscribed to) as soon as they are received.
 * The [`MONITOR`]({{< relref "/commands/monitor" >}}) command.
   Invoking the [`MONITOR`]({{< relref "/commands/monitor" >}}) command switches the connection to an ad-hoc push mode.

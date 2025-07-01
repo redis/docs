@@ -450,7 +450,7 @@ are explained in the next sections:
 * Monitoring tool to show continuous stats about a Redis server.
 * Scanning a Redis database for very large keys.
 * Key space scanner with pattern matching.
-* Acting as a [Pub/Sub]({{< relref "/develop/interact/pubsub" >}}) client to subscribe to channels.
+* Acting as a [Pub/Sub]({{< relref "/develop/pubsub" >}}) client to subscribe to channels.
 * Monitoring the commands executed into a Redis instance.
 * Checking the [latency]({{< relref "/operate/oss_and_stack/management/optimization/latency" >}}) of a Redis server in different ways.
 * Checking the scheduler latency of the local computer.
