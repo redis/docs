@@ -82,6 +82,26 @@ If there is an active pipeline, upgrade RDI on the active VM first.
 This will cause a short pipeline downtime of up to two minutes. 
 Afterwards, upgrade RDI on the passive VM. This will not cause any downtime.
 
+{{< warning >}}
+When upgrading from RDI < 1.8.0 to RDI >= 1.8.0 in a VM HA setup, both RDI instances may incorrectly consider themselves active after the upgrade. This occurs because the upgrade process doesn't change the cluster id value from its default `cluster-1`, causing both clusters to assume they are the active cluster.
+
+**Symptoms:**
+
+- The upgraded passive node will start collector and processor components
+- Collector may enter a crash loop as it fails to connect to the source
+- Both clusters will restart in a loop
+
+**Workaround:**
+
+After upgrading, manually set a unique cluster ID for one of the installations (preferably on the passive instance):
+
+1. Locate the RDI configuration file on the VM host. The file is typically located at `/etc/rdi/rdi-sys-config.yaml`.
+2. Open the configuration file in a text editor. For example:
+
+   ```bash
+   sudo nano /etc/rdi/rdi-sys-config.yaml
+{{< /warning >}}
+
 ## Upgrading a Kubernetes installation
 
 Follow the steps below to upgrade an existing
