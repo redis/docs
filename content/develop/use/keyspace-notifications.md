@@ -152,8 +152,8 @@ Different commands generate different kind of events according to the following 
 * Every time a key with a time to live associated is removed from the data set because it expired, an `expired` event is generated.
 * Every time a key is evicted from the data set in order to free memory as a result of the `maxmemory` policy, an `evicted` event is generated.
 * Every time a new key is added to the data set, a `new` event is generated.
-* Every time a key is being overwritten an `overwritten` event is generated.
-* Every time a key's type changes a `type_changed` event is generated.
+* Every time a key is being overwritten, an `overwritten` event is generated.
+* Every time a key's type changes, a `type_changed` event is generated.
 
 **IMPORTANT** all the commands generate events only if the target key is really modified. For instance an [`SREM`]({{< relref "/commands/srem" >}}) deleting a non-existing element from a Set will not actually change the value of the key, so no event will be generated.
 
