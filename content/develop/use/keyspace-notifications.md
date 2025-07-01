@@ -83,6 +83,8 @@ following table:
     e     Evicted events (events generated when a key is evicted for maxmemory)
     m     Key miss events (events generated when a key that doesn't exist is accessed)
     n     New key events (Note: not included in the 'A' class)
+    o     Overwritten events (events generated every time a key is overwritten)
+    c     Type-changed events (events generated every time a key's type changes)
     A     Alias for "g$lshztxed", so that the "AKE" string means all the events except "m" and "n".
 
 At least `K` or `E` should be present in the string, otherwise no event
@@ -150,6 +152,8 @@ Different commands generate different kind of events according to the following 
 * Every time a key with a time to live associated is removed from the data set because it expired, an `expired` event is generated.
 * Every time a key is evicted from the data set in order to free memory as a result of the `maxmemory` policy, an `evicted` event is generated.
 * Every time a new key is added to the data set, a `new` event is generated.
+* Every time a key is being overwritten, an `overwritten` event is generated.
+* Every time a key's type changes, a `type_changed` event is generated.
 
 **IMPORTANT** all the commands generate events only if the target key is really modified. For instance an [`SREM`]({{< relref "/commands/srem" >}}) deleting a non-existing element from a Set will not actually change the value of the key, so no event will be generated.
 
