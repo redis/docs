@@ -12,6 +12,7 @@ categories:
 description: How to optimize round-trip times by batching Redis commands
 linkTitle: Pipelining
 title: Redis pipelining
+aliases: /develop/use/pipelining
 weight: 2
 ---
 

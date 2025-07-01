@@ -14,6 +14,7 @@ description: 'Writing data in bulk using the Redis protocol
   '
 linkTitle: Bulk loading
 title: Bulk loading
+aliases: /develop/use/patterns/bulk-loading
 weight: 1
 ---
 
