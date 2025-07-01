@@ -89,6 +89,15 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
 ```
 
+{{<note>}}
+**Alternative approach**: Instead of creating individual `Role` objects for each namespace, you can create a single `ClusterRole` and bind it with multiple `RoleBinding` objects. This reduces the number of objects and simplifies role management.
+
+To use this approach:
+1. Change `kind: Role` to `kind: ClusterRole` in the role definition above
+2. Change `roleRef.kind: Role` to `roleRef.kind: ClusterRole` in the role binding definition above
+3. Apply the ClusterRole once globally, then apply a RoleBinding in each managed namespace
+{{</note>}}
+
 Apply the files, replacing `<managed-namespace>` with your own values:
 
 ```sh
