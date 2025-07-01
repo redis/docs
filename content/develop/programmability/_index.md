@@ -14,7 +14,7 @@ description: 'Extending Redis with Lua and Redis Functions
   '
 linkTitle: Programmability
 title: Redis programmability
-weight: 20
+weight: 50
 ---
 
 Redis provides a programming interface that lets you execute custom scripts on the server itself. In Redis 7 and beyond, you can use [Redis Functions]({{< relref "/develop/interact/programmability/functions-intro" >}}) to manage and run your scripts. In Redis 6.2 and below, you use [Lua scripting with the EVAL command]({{< relref "/develop/interact/programmability/eval-intro" >}}) to program the server.
