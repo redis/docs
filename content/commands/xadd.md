@@ -15,6 +15,22 @@ arguments:
   token: NOMKSTREAM
   type: pure-token
 - arguments:
+  - display_text: keepref
+    name: keepref
+    token: KEEPREF
+    type: pure-token
+  - display_text: delref
+    name: delref
+    token: DELREF
+    type: pure-token
+  - display_text: acked
+    name: acked
+    token: ACKED
+    type: pure-token
+  name: condition
+  optional: true
+  type: oneof
+- arguments:
   - arguments:
     - display_text: maxlen
       name: maxlen
@@ -98,6 +114,8 @@ history:
   - Added the `NOMKSTREAM` option, `MINID` trimming strategy and the `LIMIT` option.
 - - 7.0.0
   - Added support for the `<ms>-*` explicit ID form.
+- - 8.2.0
+  - Added the `KEEPREF`, `DELREF` and `ACKED` options.
 key_specs:
 - RW: true
   begin_search:
@@ -115,44 +133,93 @@ key_specs:
 linkTitle: XADD
 since: 5.0.0
 summary: Appends a new message to a stream. Creates the key if it doesn't exist.
-syntax_fmt: "XADD key [NOMKSTREAM] [<MAXLEN | MINID> [= | ~] threshold\n  [LIMIT\_\
-  count]] <* | id> field value [field value ...]"
-syntax_str: "[NOMKSTREAM] [<MAXLEN | MINID> [= | ~] threshold [LIMIT\_count]] <* |\
-  \ id> field value [field value ...]"
+syntax_fmt: "XADD key [NOMKSTREAM] [KEEPREF | DELREF | ACKED] [<MAXLEN | MINID>\n\
+  \  [= | ~] threshold [LIMIT\_count]] <* | id> field value [field value\n  ...]"
+syntax_str: "[NOMKSTREAM] [KEEPREF | DELREF | ACKED] [<MAXLEN | MINID> [= | ~] threshold\
+  \ [LIMIT\_count]] <* | id> field value [field value ...]"
 title: XADD
 ---
-Appends the specified stream entry to the stream at the specified key.
-If the key does not exist, as a side effect of running this command the
-key is created with a stream value. The creation of stream's key can be
-disabled with the `NOMKSTREAM` option.
 
-An entry is composed of a list of field-value pairs.
-The field-value pairs are stored in the same order they are given by the user.
-Commands that read the stream, such as [`XRANGE`]({{< relref "/commands/xrange" >}}) or [`XREAD`]({{< relref "/commands/xread" >}}), are guaranteed to return the fields and values exactly in the same order they were added by `XADD`.
+Appends the specified stream entry to the stream at the specified `key`.
+If the key does not exist, `XADD` will create a new key with the given stream value as a side effect of running this command.
+You can turn off key creation with the `NOMKSTREAM` option.
 
-`XADD` is the *only Redis command* that can add data to a stream, but 
-there are other commands, such as [`XDEL`]({{< relref "/commands/xdel" >}}) and [`XTRIM`]({{< relref "/commands/xtrim" >}}), that are able to
+## Required arguments
+
+<details open>
+<summary><code>key</code></summary>
+
+The name of the stream key.
+</details>
+
+<details open>
+<summary><code>id</code></summary>
+
+The stream entry ID. Use `*` to auto-generate a unique ID, or specify a well-formed ID in the format `<ms>-<seq>` (for example, `1526919030474-55`).
+</details>
+
+<details open>
+<summary><code>field value [field value ...]</code></summary>
+
+One or more field-value pairs that make up the stream entry. You must provide at least one field-value pair.
+</details>
+
+## Optional arguments
+
+<details open>
+<summary><code>NOMKSTREAM</code></summary>
+
+Prevents the creation of a new stream if the key does not exist. Available since Redis 6.2.0.
+</details>
+
+<details open>
+<summary><code>KEEPREF | DELREF | ACKED</code></summary>
+
+Specifies how to handle consumer group references when trimming. Available since Redis 8.2.0. If no option is specified, `KEEPREF` is used by default. Unlike the `XDELEX` and `XACKDEL` commands where one of these options is required, here they are optional to maintain backward compatibility:
+
+- `KEEPREF` (default): When trimming, removes entries from the stream according to the specified strategy (`MAXLEN` or `MINID`), regardless of whether they are referenced by any consumer groups, but preserves existing references to these entries in all consumer groups' PEL (Pending Entries List).
+- `DELREF`: When trimming, removes entries from the stream according to the specified strategy and also removes all references to these entries from all consumer groups' PEL.
+- `ACKED`: When trimming, only removes entries that were read and acknowledged by all consumer groups. Note that if the number of referenced entries is larger than `MAXLEN`, trimming will still stop at the limit.
+</details>
+
+<details open>
+<summary><code>MAXLEN | MINID [= | ~] threshold [LIMIT count]</code></summary>
+
+Trims the stream to maintain a specific size or remove old entries:
+- `MAXLEN`: Limits the stream to a maximum number of entries
+- `MINID`: Removes entries with IDs lower than the specified threshold (available since Redis 6.2.0)
+- `=`: Exact trimming (default)
+- `~`: Approximate trimming (more efficient)
+- `threshold`: The maximum number of entries (for MAXLEN) or minimum ID (for MINID)
+- `LIMIT count`: Limits the number of entries to examine during trimming (available since Redis 6.2.0)
+</details>
+
+Each entry consists of a list of field-value pairs.
+Redis stores the field-value pairs in the same order you provide them.
+Commands that read the stream, such as [`XRANGE`]({{< relref "/commands/xrange" >}}) or [`XREAD`]({{< relref "/commands/xread" >}}), return the fields and values in exactly the same order you added them with `XADD`.
+
+{{< note >}}
+`XADD` is the only Redis command that can add data to a stream. However,
+other commands, such as [`XDEL`]({{< relref "/commands/xdel" >}}) and [`XTRIM`]({{< relref "/commands/xtrim" >}}), can
 remove data from a stream.
+{{< /note >}}
 
 ## Specifying a Stream ID as an argument
 
-A stream entry ID identifies a given entry inside a stream.
+A stream entry ID identifies a specific entry inside a stream.
 
-The `XADD` command will auto-generate a unique ID for you if the ID argument
-specified is the `*` character (asterisk ASCII character). However, while
-useful only in very rare cases, it is possible to specify a well-formed ID, so
-that the new entry will be added exactly with the specified ID.
+`XADD` auto-generates a unique ID for you if you specify the `*` character (asterisk) as the ID argument. However, you can also specify a well-formed ID to add the new entry with that exact ID, though this is useful only in rare cases.
 
-IDs are specified by two numbers separated by a `-` character:
+Specify IDs using two numbers separated by a `-` character:
 
     1526919030474-55
 
-Both quantities are 64-bit numbers. When an ID is auto-generated, the
+Both numbers are 64-bit integers. When Redis auto-generates an ID, the
 first part is the Unix time in milliseconds of the Redis instance generating
-the ID. The second part is just a sequence number and is used in order to
+the ID. The second part is a sequence number used to
 distinguish IDs generated in the same millisecond.
 
-You can also specify an incomplete ID, that consists only of the milliseconds part, which is interpreted as a zero value for sequence part.
+You can also specify an incomplete ID that consists only of the milliseconds part, which Redis interprets as a zero value for the sequence part.
 To have only the sequence part automatically generated, specify the milliseconds part followed by the `-` separator and the `*` character:
 
 ```
@@ -162,37 +229,25 @@ To have only the sequence part automatically generated, specify the milliseconds
 "1526919030474-56"
 ```
 
-IDs are guaranteed to be always incremental: If you compare the ID of the
-entry just inserted it will be greater than any other past ID, so entries
-are totally ordered inside a stream. In order to guarantee this property,
-if the current top ID in the stream has a time greater than the current
-local time of the instance, the top entry time will be used instead, and
-the sequence part of the ID incremented. This may happen when, for instance,
-the local clock jumps backward, or if after a failover the new master has
-a different absolute time.
+Redis guarantees that IDs are always incremental: the ID of any entry you insert will be greater than any previous ID, so entries are totally ordered inside a stream. To guarantee this property, if the current top ID in the stream has a time greater than the current local time of the instance, Redis uses the top entry time instead and increments the sequence part of the ID. This may happen when, for instance, the local clock jumps backward, or after a failover when the new master has a different absolute time.
 
-When a user specified an explicit ID to `XADD`, the minimum valid ID is
-`0-1`, and the user *must* specify an ID which is greater than any other
-ID currently inside the stream, otherwise the command will fail and return an error. Usually
-resorting to specific IDs is useful only if you have another system generating
-unique IDs (for instance an SQL table) and you really want the Redis stream
-IDs to match the one of this other system.
+When you specify an explicit ID to `XADD`, the minimum valid ID is `0-1`, and you *must* specify an ID that is greater than any other ID currently inside the stream, otherwise the command fails and returns an error. Specifying explicit IDs is usually useful only if you have another system generating unique IDs (for instance an SQL table) and you want the Redis stream IDs to match those from your other system.
 
 ## Capped streams
 
 `XADD` incorporates the same semantics as the [`XTRIM`]({{< relref "/commands/xtrim" >}}) command - refer to its documentation page for more information.
-This allows adding new entries and keeping the stream's size in check with a single call to `XADD`, effectively capping the stream with an arbitrary threshold.
-Although exact trimming is possible and is the default, due to the internal representation of streams it is more efficient to add an entry and trim stream with `XADD` using **almost exact** trimming (the `~` argument).
+This allows you to add new entries and keep the stream's size in check with a single call to `XADD`, effectively capping the stream with an arbitrary threshold.
+Although exact trimming is possible and is the default, due to the internal representation of streams, it is more efficient to add an entry and trim the stream with `XADD` using **almost exact** trimming (the `~` argument).
 
 For example, calling `XADD` in the following form:
 
     XADD mystream MAXLEN ~ 1000 * ... entry fields here ...
- 
-Will add a new entry but will also evict old entries so that the stream will contain only 1000 entries, or at most a few tens more.
+
+This adds a new entry but also evicts old entries so that the stream contains only 1000 entries, or at most a few tens more.
 
 ## Additional information about streams
 
-For further information about Redis streams please check our
+For more information about Redis streams, see the
 [introduction to Redis Streams document]({{< relref "/develop/data-types/streams" >}}).
 
 ## Examples
