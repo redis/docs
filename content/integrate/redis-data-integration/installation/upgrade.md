@@ -83,7 +83,7 @@ This will cause a short pipeline downtime of up to two minutes.
 Afterwards, upgrade RDI on the passive VM. This will not cause any downtime.
 
 {{< warning >}}
-When upgrading from RDI < 1.8.0 to RDI >= 1.8.0 in a VM HA setup, both RDI instances may incorrectly consider themselves active after the upgrade. This occurs because the upgrade process doesn't update the `rdi:ha:lock` value from the legacy `cluster-1` hardcoded identifier, causing both clusters to assume they are the active cluster.
+When upgrading from RDI < 1.8.0 to RDI >= 1.8.0 in a VM HA setup, both RDI instances may incorrectly consider themselves active after the upgrade. This occurs because the upgrade process doesn't change the cluster id value from its default `cluster-1`, causing both clusters to assume they are the active cluster.
 
 **Symptoms:**
 
