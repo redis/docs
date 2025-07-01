@@ -334,7 +334,7 @@ is index name. You must first create the index using [`FT.CREATE`]({{< relref "c
 <details open>
 <summary><code>query</code></summary> 
 
-is text query to search. If it's more than a single word, put it in quotes. Refer to [Query syntax]({{< relref "/develop/interact/search-and-query/query/" >}}) for more details.
+is text query to search. If it's more than a single word, put it in quotes. Refer to [Query syntax]({{< relref "/develop/ai/search-and-query/query/" >}}) for more details.
 </details>
 
 ## Optional arguments
@@ -381,14 +381,14 @@ returns the value of the sorting key, right after the id and score and/or payloa
 
 limits results to those having numeric values ranging between `min` and `max`, if numeric_attribute is defined as a numeric attribute in [`FT.CREATE`]({{< relref "commands/ft.create/" >}}). 
   `min` and `max` follow [`ZRANGE`]({{< relref "/commands/zrange" >}}) syntax, and can be `-inf`, `+inf`, and use `(` for exclusive ranges. Multiple numeric filters for different attributes are supported in one query.
-**Deprecated since v2.10**: [Query dialect 2]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects#dialect-2" >}}) explains the query syntax for numeric fields that replaces this argument.
+**Deprecated since v2.10**: [Query dialect 2]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects#dialect-2" >}}) explains the query syntax for numeric fields that replaces this argument.
 </details>
 
 <details open>
 <summary><code>GEOFILTER {geo_attribute} {lon} {lat} {radius} m|km|mi|ft</code></summary>
 
 filter the results to a given `radius` from `lon` and `lat`. Radius is given as a number and units. See [`GEORADIUS`]({{< relref "/commands/georadius" >}}) for more details.
-**Deprecated since v2.6**: [Query dialect 3]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects#dialect-3" >}}) explains the query syntax for geospatial fields that replaces this argument.
+**Deprecated since v2.6**: [Query dialect 3]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects#dialect-3" >}}) explains the query syntax for geospatial fields that replaces this argument.
 </details>
 
 <details open>
@@ -414,13 +414,13 @@ limits the attributes returned from the document. `num` is the number of attribu
 <details open>
 <summary><code>SUMMARIZE ...</code></summary>
 
-returns only the sections of the attribute that contain the matched text. See [Highlighting]({{< relref "/develop/interact/search-and-query/advanced-concepts/highlight" >}}) for more information.
+returns only the sections of the attribute that contain the matched text. See [Highlighting]({{< relref "/develop/ai/search-and-query/advanced-concepts/highlight" >}}) for more information.
 </details>
 
 <details open>
 <summary><code>HIGHLIGHT ...</code></summary>
 
-formats occurrences of matched text. See [Highlighting]({{< relref "/develop/interact/search-and-query/advanced-concepts/highlight" >}}) for more information.
+formats occurrences of matched text. See [Highlighting]({{< relref "/develop/ai/search-and-query/advanced-concepts/highlight" >}}) for more information.
 </details>
 
 <details open>
@@ -451,13 +451,13 @@ use a stemmer for the supplied language during search for query expansion. If qu
 <details open>
 <summary><code>EXPANDER {expander}</code></summary>
 
-uses a custom query expander instead of the stemmer. See [Extensions]({{< relref "/develop/interact/search-and-query/administration/extensions" >}}).
+uses a custom query expander instead of the stemmer. See [Extensions]({{< relref "/develop/ai/search-and-query/administration/extensions" >}}).
 </details>
 
 <details open>
 <summary><code>SCORER {scorer}</code></summary>
 
-uses a [built-in]({{< relref "/develop/interact/search-and-query/advanced-concepts/scoring" >}}) or a [user-provided]({{< relref "/develop/interact/search-and-query/administration/extensions" >}}) scoring function.
+uses a [built-in]({{< relref "/develop/ai/search-and-query/advanced-concepts/scoring" >}}) or a [user-provided]({{< relref "/develop/ai/search-and-query/administration/extensions" >}}) scoring function.
 </details>
 
 <details open>
@@ -469,7 +469,7 @@ returns a textual description of how the scores were calculated. Using this opti
 <details open>
 <summary><code>PAYLOAD {payload}</code></summary>
 
-adds an arbitrary, binary safe payload that is exposed to custom scoring functions. See [Extensions]({{< relref "/develop/interact/search-and-query/administration/extensions" >}}).
+adds an arbitrary, binary safe payload that is exposed to custom scoring functions. See [Extensions]({{< relref "/develop/ai/search-and-query/administration/extensions" >}}).
 </details>
 
 <details open>
@@ -508,14 +508,14 @@ overrides the timeout parameter of the module.
 defines one or more value parameters. Each parameter has a name and a value. 
 
 You can reference parameters in the `query` by a `$`, followed by the parameter name, for example, `$user`. Each such reference in the search query to a parameter name is substituted by the corresponding parameter value. For example, with parameter definition `PARAMS 4 lon 29.69465 lat 34.95126`, the expression `@loc:[$lon $lat 10 km]` is evaluated to `@loc:[29.69465 34.95126 10 km]`. You cannot reference parameters in the query string where concrete values are not allowed, such as in field names, for example, `@loc`. To use `PARAMS`, set
-[`DIALECT`]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects#dialect-2" >}})
+[`DIALECT`]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects#dialect-2" >}})
 to `2` or greater than `2` (this requires [RediSearch v2.4](https://github.com/RediSearch/RediSearch/releases/tag/v2.4.3) or above).
 </details>
 
 <details open>
 <summary><code>DIALECT {dialect_version}</code></summary>
 
-selects the dialect version under which to execute the query. If not specified, the query will execute under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) command. See [Query dialects]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}}) for more information.
+selects the dialect version under which to execute the query. If not specified, the query will execute under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) command. See [Query dialects]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}}) for more information.
 </details>
 
 ## Return
@@ -858,7 +858,7 @@ Query with `CONTAINS` operator:
 
 ## Related topics
 
-- [Extensions]({{< relref "/develop/interact/search-and-query/administration/extensions" >}})
-- [Highlighting]({{< relref "/develop/interact/search-and-query/advanced-concepts/highlight" >}})
-- [Query syntax]({{< relref "/develop/interact/search-and-query/query/" >}})
-- [RediSearch]({{< relref "/develop/interact/search-and-query/" >}})
+- [Extensions]({{< relref "/develop/ai/search-and-query/administration/extensions" >}})
+- [Highlighting]({{< relref "/develop/ai/search-and-query/advanced-concepts/highlight" >}})
+- [Query syntax]({{< relref "/develop/ai/search-and-query/query/" >}})
+- [RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
