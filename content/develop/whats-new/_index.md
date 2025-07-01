@@ -66,14 +66,14 @@ weight: 10
 ### Search & Query
 
 - Best practices:
-  - [Dev-to-prod guide]({{< relref "/develop/interact/search-and-query/best-practices/dev-to-prod-best-practices.md" >}})
-  - [Scalable queries]({{< relref "/develop/interact/search-and-query/best-practices/scalable-query-best-practices.md" >}})
-  - [Index lifecycle]({{< relref "/develop/interact/search-and-query/best-practices/index-mgmt-best-practices.md" >}})
+  - [Dev-to-prod guide]({{< relref "/develop/ai/search-and-query/best-practices/dev-to-prod-best-practices.md" >}})
+  - [Scalable queries]({{< relref "/develop/ai/search-and-query/best-practices/scalable-query-best-practices.md" >}})
+  - [Index lifecycle]({{< relref "/develop/ai/search-and-query/best-practices/index-mgmt-best-practices.md" >}})
 - New/updated topics:
-  - [Autocomplete]({{< relref "/develop/interact/search-and-query/advanced-concepts/autocomplete.md" >}})
-  - [Escaping & tokenization]({{< relref "/develop/interact/search-and-query/advanced-concepts/escaping.md" >}})
-  - [Geo indexing]({{< relref "/develop/interact/search-and-query/indexing/geoindex.md" >}})
-  - [Sorting, scoring, stemming]({{< relref "/develop/interact/search-and-query/advanced-concepts/sorting.md" >}})
+  - [Autocomplete]({{< relref "/develop/ai/search-and-query/advanced-concepts/autocomplete.md" >}})
+  - [Escaping & tokenization]({{< relref "/develop/ai/search-and-query/advanced-concepts/escaping.md" >}})
+  - [Geo indexing]({{< relref "/develop/ai/search-and-query/indexing/geoindex.md" >}})
+  - [Sorting, scoring, stemming]({{< relref "/develop/ai/search-and-query/advanced-concepts/sorting.md" >}})
 
 ---
 
@@ -132,10 +132,10 @@ weight: 10
 * Updated the [RAG with Redis quick start guide]({{< relref "/develop/get-started/rag" >}}).
 * Updates for [Redis Open Source version 7.4]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce" >}}).
 * Added new [Redis Insight debugging]({{< relref "/develop/tools/insight/debugging" >}}) page.
-* Completed a major re-write/restructuring of the [vector indexing page]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}}).
+* Completed a major re-write/restructuring of the [vector indexing page]({{< relref "/develop/ai/search-and-query/vectors" >}}).
 * Added new [client-side caching page]({{< relref "/develop/clients/client-side-caching" >}}).
 * Added new documentation for the [RDI in Redis Insight feature]({{< relref "/develop/tools/insight/rdi-connector" >}}).
 * Added new documentation for the [Redis for VS Code feature]({{< relref "/develop/tools/redis-for-vscode/" >}}).
-* Added multi-language code examples to the Redis Query Engine [query]({{< relref "/develop/interact/search-and-query/query">}}) pages.
+* Added multi-language code examples to the Redis Query Engine [query]({{< relref "/develop/ai/search-and-query/query">}}) pages.
 * Added client-side caching information to the [supported clients]({{< relref "/develop/clients/client-side-caching#which-client-libraries-support-client-side-caching" >}}) pages.
 * Numerous changes to the [Redis client content]({{< relref "/develop/clients" >}}).
