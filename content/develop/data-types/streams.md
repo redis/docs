@@ -9,9 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Introduction to Redis streams
-
-  '
+description: Introduction to Redis streams
 linkTitle: Streams
 title: Redis Streams
 weight: 60
@@ -28,19 +26,18 @@ Examples of Redis stream use cases include:
 Redis generates a unique ID for each stream entry.
 You can use these IDs to retrieve their associated entries later or to read and process all subsequent entries in the stream. Note that because these IDs are related to time, the ones shown here may vary and will be different from the IDs you see in your own Redis instance.
 
-Redis streams support several trimming strategies (to prevent streams from growing unbounded) and more than one consumption strategy (see [`XREAD`]({{< relref "/commands/xread" >}}), [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}), and [`XRANGE`]({{< relref "/commands/xrange" >}})). Starting with Redis 8.2, enhanced commands provide fine-grained control over how stream operations interact with multiple consumer groups, simplifying the coordination of message processing across different applications.
+Redis streams support several trimming strategies (to prevent streams from growing unbounded) and more than one consumption strategy (see [`XREAD`]({{< relref "/commands/xread" >}}), [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}), and [`XRANGE`]({{< relref "/commands/xrange" >}})). Starting with Redis 8.2, the `XACKDEL`, `XDELEX`, `XADD`, and `XTRIM` commands provide fine-grained control over how stream operations interact with multiple consumer groups, simplifying the coordination of message processing across different applications.
 
 ## Basic commands
+
 * [`XADD`]({{< relref "/commands/xadd" >}}) adds a new entry to a stream.
 * [`XREAD`]({{< relref "/commands/xread" >}}) reads one or more entries, starting at a given position and moving forward in time.
 * [`XRANGE`]({{< relref "/commands/xrange" >}}) returns a range of entries between two supplied entry IDs.
 * [`XLEN`]({{< relref "/commands/xlen" >}}) returns the length of a stream.
 * [`XDEL`]({{< relref "/commands/xdel" >}}) removes entries from a stream.
-* [`XDELEX`]({{< relref "/commands/xdelex" >}}) removes entries from a stream with enhanced control over consumer group references.
 * [`XTRIM`]({{< relref "/commands/xtrim" >}}) trims a stream by removing older entries.
 
 See the [complete list of stream commands]({{< relref "/commands/" >}}?group=stream).
-
 
 ## Examples
 

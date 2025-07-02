@@ -102,10 +102,10 @@ Note: The IDS block can be at any position in the command, same as other command
 <details open>
 <summary><code>KEEPREF | DELREF | ACKED</code></summary>
 
-Specifies how to handle consumer group references when deleting entries. Available since Redis 8.2.0. If no option is specified, `KEEPREF` is used by default:
+Specifies how to handle consumer group references when deleting entries. Available since Redis 8.2. If no option is specified, `KEEPREF` is used by default:
 
 - `KEEPREF` (default): Deletes the specified entries from the stream, but preserves existing references to these entries in all consumer groups' PEL (Pending Entries List). This behavior is similar to [`XDEL`]({{< relref "/commands/xdel" >}}).
-- `DELREF`: Deletes the specified entries from the stream and also removes all references to these entries from all consumer groups' pending entry lists, effectively cleaning up all traces of the messages.
+- `DELREF`: Deletes the specified entries from the stream and also removes all references to these entries from all consumer groups' pending entry lists, effectively cleaning up all traces of the messages. If an entry ID is not in the stream, but there are dangling references, `XDELEX` with `DELREF` would still remove all those references.
 - `ACKED`: Only deletes entries that were read and acknowledged by all consumer groups.
 </details>
 
@@ -128,16 +128,22 @@ XRANGE mystream - +
     tab1="RESP2"
     tab2="RESP3" >}}
 
-[Array reply](../../develop/reference/protocol-spec#arrays): For each ID:
-* [Integer reply](../../develop/reference/protocol-spec#integers): -1 if no such ID exists in the provided stream key.
-* [Integer reply](../../develop/reference/protocol-spec#integers): 1 if the entry was deleted from the stream.
-* [Integer reply](../../develop/reference/protocol-spec#integers): 2 if the entry was not deleted, but there are still dangling references (ACKED option).
+One of the following:
+
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): -1 for each requested ID when the given key does not exist.
+* [Array reply](../../develop/reference/protocol-spec#arrays): For each ID:
+    * [Integer reply](../../develop/reference/protocol-spec#integers): -1 if no such ID exists in the provided stream key.
+    * [Integer reply](../../develop/reference/protocol-spec#integers): 1 if the entry was deleted from the stream.
+    * [Integer reply](../../develop/reference/protocol-spec#integers): 2 if the entry was not deleted, but there are still dangling references (ACKED option).
 
 -tab-sep-
 
-[Array reply](../../develop/reference/protocol-spec#arrays): For each ID:
-* [Integer reply](../../develop/reference/protocol-spec#integers): -1 if no such ID exists in the provided stream key.
-* [Integer reply](../../develop/reference/protocol-spec#integers): 1 if the entry was deleted from the stream.
-* [Integer reply](../../develop/reference/protocol-spec#integers): 2 if the entry was not deleted, but there are still dangling references (ACKED option).
+One of the following:
+
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): -1 for each requested ID when the given key does not exist.
+* [Array reply](../../develop/reference/protocol-spec#arrays): For each ID:
+    * [Integer reply](../../develop/reference/protocol-spec#integers): -1 if no such ID exists in the provided stream key.
+    * [Integer reply](../../develop/reference/protocol-spec#integers): 1 if the entry was deleted from the stream.
+    * [Integer reply](../../develop/reference/protocol-spec#integers): 2 if the entry was not deleted, but there are still dangling references (ACKED option).
 
 {{< /multitabs >}}

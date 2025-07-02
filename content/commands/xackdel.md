@@ -52,8 +52,8 @@ categories:
 command_flags:
 - write
 - fast
-complexity: O(1) for each message ID processed.
-description: Acknowledges and deletes one or multiple messages for a stream consumer
+complexity: O(1) for each entry ID processed.
+description: Acknowledges and conditionally deletes one or multiple entries for a stream consumer
   group.
 group: stream
 hidden: false
@@ -73,15 +73,15 @@ key_specs:
   update: true
 linkTitle: XACKDEL
 since: 8.2.0
-summary: Acknowledges and deletes one or multiple messages for a stream consumer group.
+summary: Acknowledges and conditionally deletes one or multiple entries for a stream consumer group.
 syntax_fmt: "XACKDEL key group [KEEPREF | DELREF | ACKED] IDS\_numids id [id ...]"
 syntax_str: "group [KEEPREF | DELREF | ACKED] IDS\_numids id [id ...]"
 title: XACKDEL
 ---
 
-Acknowledges and deletes one or multiple messages for a stream consumer group at the specified `key`.
+Acknowledges and conditionally deletes one or multiple entries (messages) for a stream consumer group at the specified `key`.
 
-`XACKDEL` combines the functionality of [`XACK`]({{< relref "/commands/xack" >}}) and [`XDEL`]({{< relref "/commands/xdel" >}}) in Redis Streams. It acknowledges the specified message IDs in the given consumer group and simultaneously attempts to delete the corresponding entries from the stream.
+`XACKDEL` combines the functionality of [`XACK`]({{< relref "/commands/xack" >}}) and [`XDEL`]({{< relref "/commands/xdel" >}}) in Redis Streams. It acknowledges the specified entry IDs in the given consumer group and simultaneously attempts to delete the corresponding entries from the stream.
 
 ## Required arguments
 
@@ -110,14 +110,18 @@ The IDS block specifying which entries to acknowledge and delete:
 <details open>
 <summary><code>KEEPREF | DELREF | ACKED</code></summary>
 
-Specifies how to handle consumer group references when acknowledging and deleting entries. Available since Redis 8.2.0. If no option is specified, `KEEPREF` is used by default:
+Specifies how to handle consumer group references when acknowledging and deleting entries. Available since Redis 8.2. If no option is specified, `KEEPREF` is used by default:
 
-- `KEEPREF` (default): Acknowledges the messages in the specified consumer group and deletes the entries from the stream, but preserves existing references to these entries in all consumer groups' PEL (Pending Entries List).
-- `DELREF`: Acknowledges the messages in the specified consumer group, deletes the entries from the stream, and also removes all references to these entries from all consumer groups' pending entry lists, effectively cleaning up all traces of the messages.
-- `ACKED`: Acknowledges the messages in the specified consumer group and only deletes entries that were read and acknowledged by all consumer groups.
+- `KEEPREF` (default): Acknowledges the entries in the specified consumer group and deletes the entries from the stream, but preserves existing references to these entries in all consumer groups' PEL (Pending Entries List).
+- `DELREF`: Acknowledges the entries in the specified consumer group, deletes the entries from the stream, and also removes all references to these entries from all consumer groups' pending entry lists, effectively cleaning up all traces of the entries. If an entry ID is not in the stream, but there are dangling references, `XACKDEL` with `DELREF` would still remove all those references.
+- `ACKED`: Acknowledges the entries in the specified consumer group and only deletes entries that were read and acknowledged by all consumer groups.
 </details>
 
-This command is particularly useful when you want to both acknowledge message processing and clean up the stream in a single atomic operation, providing fine-grained control over how consumer group references are handled.
+This command is particularly useful when you want to both acknowledge entry processing and clean up the stream in a single atomic operation, providing fine-grained control over how entry references are handled.
+
+{{< note >}}
+When using multiple consumer groups, users are encouraged to use `XACKDEL` with the `ACKED` option instead of `XACK` and `XDEL`, simplifying the application logic.
+{{< /note >}}
 
 ## Examples
 
@@ -138,16 +142,22 @@ XRANGE mystream - +
     tab1="RESP2"
     tab2="RESP3" >}}
 
-[Array reply](../../develop/reference/protocol-spec#arrays): For each ID:
-* [Integer reply](../../develop/reference/protocol-spec#integers): -1 if no such ID exists in the provided stream key.
-* [Integer reply](../../develop/reference/protocol-spec#integers): 1 if the entry was acknowledged and deleted from the stream.
-* [Integer reply](../../develop/reference/protocol-spec#integers): 2 if the entry was acknowledged but not deleted, as there are still dangling references (ACKED option).
+One of the following:
+
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): -1 for each requested ID when the given key does not exist.
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): For each ID:
+    * [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): 1 if the entry was acknowledged and deleted from the stream.
+    * [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): -1 if no such ID exists in the provided stream key.
+    * [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): 2 if the entry was acknowledged but not deleted, as there are still dangling references (ACKED option).
 
 -tab-sep-
 
-[Array reply](../../develop/reference/protocol-spec#arrays): For each ID:
-* [Integer reply](../../develop/reference/protocol-spec#integers): -1 if no such ID exists in the provided stream key.
-* [Integer reply](../../develop/reference/protocol-spec#integers): 1 if the entry was acknowledged and deleted from the stream.
-* [Integer reply](../../develop/reference/protocol-spec#integers): 2 if the entry was acknowledged but not deleted, as there are still dangling references (ACKED option).
+One of the following:
+
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): -1 for each requested ID when the given key does not exist.
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): For each ID:
+    * [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): 1 if the entry was acknowledged and deleted from the stream.
+    * [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): -1 if no such ID exists in the provided stream key.
+    * [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): 2 if the entry was acknowledged but not deleted, as there are still dangling references (ACKED option).
 
 {{< /multitabs >}}
