@@ -1,5 +1,7 @@
 ---
 Title: Index management best practices for Redis Query Engine
+aliases:
+- /develop/interact/search-and-query/best-practices/index-mgmt-best-practices
 alwaysopen: false
 categories:
 - docs
