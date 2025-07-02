@@ -23,7 +23,7 @@ The Redis Query Engine behavior with expiring keys and hash fields has been enha
 
 **Before Redis 8**: Expiration times were not taken into account when computing the result set.
 
-**Redis 8 and later**: The query engine prefers to return documents that are valid (not expired) at the time when the query or cursor read started.
+**Redis 8 and later**: The query engine returns only documents that are valid (not expired) at the time when the query or cursor read started.
 
 ### Active expiration
 
@@ -45,7 +45,7 @@ Field expiration was introduced in Redis 7.4 and provides fine-grained control o
 
 **Before Redis 8**: Field expiration times were not taken into account when computing the result set.
 
-**Redis 8 and later**: The query engine prefers to return documents that are valid (fields not expired) at the time when the query or cursor read started.
+**Redis 8 and later**: The query engine returns only documents that are valid (fields not expired) at the time when the query or cursor read started.
 
 ### Active expiration
 
@@ -59,6 +59,16 @@ Similar to key expiration, active field expiration can affect the number of resu
 
 **Redis 8 and later**: Documents will return with all fields that existed when the query or cursor read started. Passively expired fields are handled consistently.
 
+## Best practices
+
+* **Consistent timing**: Be aware that query results are based on the state at query start time, not when individual documents are processed.
+
+* **Result count expectations**: Be aware that when you use expiring keys or fields, the actual number of results may be less than you expected due to active expiration during the execution of the query.
+
+* **Field-level expiration**: Use hash field expiration (available since Redis 7.4) for fine-grained control over document field lifecycles without affecting the entire document.
+
+* **Query planning**: Consider expiration patterns when designing queries, especially for time-sensitive applications where expired data should not appear in results.
+
 ## Related commands
 
 The following commands are directly related to key and field expiration:
@@ -67,13 +77,3 @@ The following commands are directly related to key and field expiration:
 - [`HEXPIRE`]({{< relref "/commands/hexpire" >}}) - Set expiration time for hash fields
 - [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) - Search queries affected by expiration behavior
 - [`FT.AGGREGATE`]({{< relref "/commands/ft.aggregate" >}}) - Aggregation queries affected by expiration behavior
-
-## Best practices
-
-1. **Consistent timing**: Be aware that query results are based on the state at query start time, not when individual documents are processed.
-
-2. **Result count expectations**: Be aware that when you use expiring keys or fields, the actual number of results may be less than you expected due to active expiration during the execution of the query.
-
-3. **Field-level expiration**: Use hash field expiration (available since Redis 7.4) for fine-grained control over document field lifecycles without affecting the entire document.
-
-4. **Query planning**: Consider expiration patterns when designing queries, especially for time-sensitive applications where expired data should not appear in results.
