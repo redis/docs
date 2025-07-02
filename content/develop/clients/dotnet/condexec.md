@@ -17,7 +17,7 @@ weight: 60
 
 Most Redis client libraries use transactions with the
 [`WATCH`]({{< relref "/commands/watch" >}}) command as the main way to prevent
-two clients writing to the same key at once (see [Transactions]({{< relref "/develop/reference/transactions" >}}) for more information). Unfortunately, this approach is
+two clients writing to the same key at once (see [Transactions]({{< relref "develop/using-commands/transactions" >}}) for more information). Unfortunately, this approach is
 difficult to use explicitly in `NRedisStack`. Its
 [multiplexing]({{< relref "/develop/clients/pools-and-muxing" >}}) system
 is highly efficient and convenient but can also cause bad interactions

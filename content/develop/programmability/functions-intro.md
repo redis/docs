@@ -37,7 +37,7 @@ The underlying assumption is that scripts are a part of the application and not 
 This approach suits many light-weight scripting use cases, but introduces several difficulties once an application becomes complex and relies more heavily on scripting, namely:
 
 1. All client application instances must maintain a copy of all scripts. That means having some mechanism that applies script updates to all of the application's instances.
-1. Calling cached scripts within the context of a [transaction]({{< relref "/develop/reference/transactions" >}}) increases the probability of the transaction failing because of a missing script. Being more likely to fail makes using cached scripts as building blocks of workflows less attractive.
+1. Calling cached scripts within the context of a [transaction]({{< relref "develop/using-commands/transactions" >}}) increases the probability of the transaction failing because of a missing script. Being more likely to fail makes using cached scripts as building blocks of workflows less attractive.
 1. SHA1 digests are meaningless, making debugging the system extremely hard (e.g., in a [`MONITOR`]({{< relref "/commands/monitor" >}}) session).
 1. When used naively, [`EVAL`]({{< relref "/commands/eval" >}}) promotes an anti-pattern in which scripts the client application renders verbatim scripts instead of responsibly using the [`KEYS` and `ARGV` Lua APIs]({{< relref "/develop/programmability/lua-api#runtime-globals" >}}).
 1. Because they are ephemeral, a script can't call another script. This makes sharing and reusing code between scripts nearly impossible, short of client-side preprocessing (see the first point).
@@ -82,7 +82,7 @@ Functions are also persisted to the AOF file and replicated from master to repli
 When Redis is used as an ephemeral cache, additional mechanisms (described below) are required to make functions more durable.
 
 Like all other operations in Redis, the execution of a function is atomic.
-A function's execution blocks all server activities during its entire time, similarly to the semantics of [transactions]({{< relref "/develop/reference/transactions" >}}).
+A function's execution blocks all server activities during its entire time, similarly to the semantics of [transactions]({{< relref "develop/using-commands/transactions" >}}).
 These semantics mean that all of the script's effects either have yet to happen or had already happened.
 The blocking semantics of an executed function apply to all connected clients at all times.
 Because running a function blocks the Redis server, functions are meant to finish executing quickly, so you should avoid using long-running functions.

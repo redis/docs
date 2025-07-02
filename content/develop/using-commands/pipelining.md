@@ -13,7 +13,7 @@ description: How to optimize round-trip times by batching Redis commands
 linkTitle: Pipelining
 title: Redis pipelining
 aliases: /develop/use/pipelining
-weight: 2
+weight: 20
 ---
 
 Redis pipelining is a technique for improving performance by issuing multiple commands at once without waiting for the response to each individual command. Pipelining is supported by most Redis clients. This document describes the problem that pipelining is designed to solve and how pipelining works in Redis.
