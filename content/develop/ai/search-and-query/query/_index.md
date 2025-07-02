@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/interact/search-and-query/query/_index.md
 categories:
 - docs
 - develop
