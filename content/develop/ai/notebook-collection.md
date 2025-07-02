@@ -1,5 +1,5 @@
 ---
-Title: Redis AI notebooks collection
+Title: Notebooks collection
 alwaysopen: false
 categories:
 - docs
@@ -9,7 +9,7 @@ categories:
 - rc
 - rs
 description: This collection showcases how Redis can be integrated into AI workflows to enhance performance, reduce latency, and enable real-time AI applications. Each notebook comes with complete code examples, explanations, and integration guides.
-linkTitle: AI notebooks collection
+linkTitle: Notebooks collection
 weight: 40
 ---
 
@@ -32,3 +32,10 @@ weight: 40
 | Content filtering with RedisVL | Recommendation Systems | Introduction to content-based filtering. | [Open in Colab](https://colab.research.google.com/github/redis-developer/redis-ai-resources/blob/main/python-recipes/recommendation-systems/00_content_filtering.ipynb) |
 | Collaborative filtering with RedisVL | Recommendation Systems | Intro to collaborative filtering with RedisVL. | [Open in Colab](https://colab.research.google.com/github/redis-developer/redis-ai-resources/blob/main/python-recipes/recommendation-systems/01_collaborative_filtering.ipynb) |
 | Advanced RAG example | Best Practices | Demonstrates mature RAG implementation patterns. | [Open in Colab](https://colab.research.google.com/github/redis-developer/redis-ai-resources/blob/main/python-recipes/RAG/04_advanced_redisvl.ipynb) |
+
+## Additional resources
+
+Looking for more ways to learn about Redis for AI? Check out our:
+
+* [AI video collection]({{< relref "/develop/ai/ai-videos" >}}) - Video tutorials and demonstrations covering Redis AI concepts
+* [Ecosystem integrations]({{< relref "/develop/ai/ecosystem-integrations" >}}) - Learn how Redis works with popular AI frameworks and tools

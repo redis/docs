@@ -43,7 +43,7 @@ each feature.
 | :-- | :-- | :-- |
 | [Command case](#command-case) | Lowercase only (eg, `hset`) | Uppercase or camel case (eg, `HSET` or `hSet`) |
 | [Command argument handling](#command-argument-handling) | Argument objects flattened and items passed directly | Argument objects parsed to generate correct argument list |
-| [Asynchronous command result handling](#async-result) | Callbacks and Promises | Promises only |
+| [Asynchronous command result handling](#async-result) | Callbacks and Promises | Promises (but supports callbacks via Legacy Mode) |
 | [Arbitrary command execution](#arbitrary-command-execution) | Uses the `call()` method | Uses the `sendCommand()` method |
 
 ### Techniques
@@ -85,7 +85,7 @@ to make the connection:
 ```js
 import { createClient } from 'redis';
 
-const client = await createClient();
+const client = createClient();
 await client.connect(); // Requires explicit connection.
 ```
 
@@ -137,7 +137,7 @@ objects are flattened into sequential key-value pairs:
 
 ```js
 // These commands are all equivalent.
-client.hset('user' {
+client.hset('user', {
     name: 'Bob',
     age: 20,
     description: 'I am a programmer',
@@ -189,7 +189,22 @@ client.get('mykey').then(
 `node-redis` supports only `Promise` objects for results, so
 you must always use a `then()` handler or the
 [`await`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await)
-operator to receive them.
+operator to receive them. However, you can still use callbacks with the legacy mode if you need them:
+
+```js
+// Promise
+await client.set('mykey', 'myvalue');
+
+// Callback
+const legacyClient = client.legacy();
+legacyClient.set("mykey", "myvalue", (err, result) => {
+  if (err) {
+    console.error(err);
+  } else {
+    console.log(result);
+  }
+});
+```
 
 ### Arbitrary command execution
 
@@ -306,7 +321,7 @@ for await (const keys of client.scanIterator()) {
 
 `ioredis` reports incoming pub/sub messages with a `message`
 event on the client object (see
-[Publish/subscribe]({{< relref "/develop/interact/pubsub" >}}) for more
+[Publish/subscribe]({{< relref "/develop/pubsub" >}}) for more
 information about messages):
 
 ```js
@@ -339,9 +354,8 @@ command with an explicit method:
 client.setnx('bike:1', 'bike');
 ```
 
-`node-redis` doesn't provide a `SETNX` method but implements the same
-functionality with the `NX` option to the [`SET`]({{< relref "/commands/set" >}})
-command:
+`node-redis` provides a `SETNX` method but this command is deprecated. Use the `NX` option to the [`SET`]({{< relref "/commands/set" >}})
+command to get the same functionality as `SETNX`:
 
 ```js
 await client.set('bike:1', 'bike', {'NX': true});

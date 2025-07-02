@@ -162,7 +162,7 @@ module. The list below describes some of the most common exceptions.
   (as when you try an
   ['LPUSH']({{< relref "/develop/data-types/lists#automatic-creation-and-removal-of-keys" >}})
   command on a string key), creating an
-  [index]({{< relref "/develop/interact/search-and-query/indexing" >}})
+  [index]({{< relref "/develop/ai/search-and-query/indexing" >}})
   with a name that already exists, and using an invalid ID for a
   [stream entry]({{< relref "/develop/data-types/streams/#entry-ids" >}}).
 - `TimeoutError`: Thrown when a timeout persistently happens for a command,

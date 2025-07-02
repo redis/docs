@@ -23,16 +23,61 @@ section.prose {
   @apply font-geist
 }
 
-.prose h1,
-.prose h3,
-.prose h4,
-.prose h5,
-.prose h6 {
-  @apply font-normal;
+.prose h1 {
+  @apply text-4xl font-normal break-words;
 }
 
 .prose h2 {
-  @apply text-lg font-medium pb-3 border-b border-b-redis-pen-700 border-opacity-50;
+  @apply text-2xl font-medium pb-3 border-b border-b-redis-pen-700 border-opacity-50;
+}
+
+.prose h3 {
+  @apply text-xl font-semibold;
+}
+
+.prose h4 {
+  @apply text-lg font-medium;
+}
+
+.prose h5 {
+  @apply text-base font-medium;
+}
+
+.prose h6 {
+  @apply text-sm font-medium;
+}
+
+/* Header link styles */
+.header-link {
+  @apply text-slate-400 hover:text-slate-600 transition-all duration-200 no-underline cursor-pointer;
+  text-decoration: none !important;
+  vertical-align: baseline;
+}
+
+.header-link:hover {
+  @apply text-slate-600;
+  text-decoration: none !important;
+}
+
+.header-link svg {
+  @apply w-4 h-4 inline-block;
+  vertical-align: baseline;
+}
+
+/* Ensure header links don't interfere with prose styling */
+.prose h1 .header-link,
+.prose h2 .header-link,
+.prose h3 .header-link,
+.prose h4 .header-link,
+.prose h5 .header-link,
+.prose h6 .header-link {
+  @apply text-slate-400 hover:text-slate-600;
+  text-decoration: none !important;
+}
+
+/* Feedback state for copied links */
+.header-link.copied {
+  @apply text-green-500;
 }
 
 .prose p, .prose ol, .prose ul {
@@ -45,10 +90,6 @@ section.prose {
 
 .prose pre > code {
   @apply bg-none font-monogeist;
-}
-
-.prose h1 {
-  @apply text-4xl break-words;
 }
 
 .prose h1[id],
@@ -382,7 +423,7 @@ select {
 
 .codetabs.cli > .panel .highlight > .chroma {
     margin: 1rem 1rem 0.1rem 0.1rem;
-    overflow-x: hidden;
+    overflow-x: auto;
     padding-bottom: 0;
 }
 
@@ -737,6 +778,67 @@ input[type="radio"] {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+}
+
+/* Generic GitHub-style tabs */
+.generic-tabs {
+  @apply w-full mb-6;
+}
+
+.generic-tabs .tab-nav {
+  @apply flex bg-redis-neutral-200 rounded-t-md border-x border-t border-b-0 border-redis-pen-300;
+}
+
+.generic-tabs .tab-radio {
+  @apply sr-only;
+}
+
+.generic-tabs .tab-label {
+  @apply px-4 py-3 cursor-pointer text-sm font-medium text-redis-pen-600
+         bg-redis-neutral-200 border-r border-redis-pen-300
+         hover:bg-white hover:text-redis-ink-900
+         transition-colors duration-150 ease-in-out
+         focus:outline-none focus:ring-0
+         select-none;
+}
+
+.generic-tabs .tab-label:first-child {
+  @apply rounded-tl-md;
+}
+
+.generic-tabs .tab-radio:checked + .tab-label {
+  @apply bg-white text-redis-ink-900 border-x border-t border-redis-pen-300 border-b-white z-10;
+}
+
+.generic-tabs .tab-radio:checked:first-of-type + .tab-label {
+  @apply rounded-tl-md;
+}
+
+.generic-tabs .tab-radio:focus {
+  @apply ring-0 outline-none;
+}
+
+.generic-tabs .tab-radio:focus + .tab-label {
+  @apply border-x border-t border-redis-pen-300 border-b-white focus:outline-none focus:ring-2 focus:ring-redis-pen-300 focus:ring-inset;
+}
+
+.generic-tabs .tab-content {
+  @apply hidden px-6 pb-6 pt-3 bg-white border border-redis-pen-300 rounded-b-md shadow-sm;
+  /* Unified border (including top) to align with tab borders */
+}
+
+.generic-tabs .tab-content.active {
+  @apply block;
+}
+
+/* Ensure proper stacking and borders */
+.generic-tabs .tab-content-container {
+  @apply relative -mt-px;
+}
+
+/* Single content box styling (when no explicit tabs are provided) */
+.generic-tabs-single .tab-content-single {
+  @apply prose prose-lg max-w-none;
 }
 
 .stack-logo-inline {

@@ -133,7 +133,7 @@ To pull images from a private image registry, you must provide the image pull se
     `rdi-values.yaml` file:
 
     ```bash
-    helm show values rdi-<tag>.tar.gz > rdi-values.yaml
+    helm show values rdi-<tag>.tgz > rdi-values.yaml
     ```
 
 1.  Open the `rdi-values.yaml` file you just created, change or add the appropriate
@@ -144,7 +144,7 @@ To pull images from a private image registry, you must provide the image pull se
 1.  Run the `helm upgrade --install` command:
 
     ```bash
-    helm upgrade --install rdi rdi-<tag>.tar.gz -f rdi-values.yaml -n rdi --create-namespace
+    helm upgrade --install rdi rdi-<tag>.tgz -f rdi-values.yaml -n rdi --create-namespace
     ```
 
     {{< note >}}The above command will install RDI in a namespace called
@@ -276,7 +276,7 @@ section to learn how to do this.
 When the Helm installation is complete and you have prepared the source database for CDC,
 you are ready to start using RDI.
 Use [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}}) to
-[configure]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines" >}}) and
+[configure]({{< relref "/integrate/redis-data-integration/data-pipelines" >}}) and
 [deploy]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})
 your pipeline.
 

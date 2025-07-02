@@ -12,7 +12,7 @@ categories:
 description: Get your `go-redis` app ready for production
 linkTitle: Production usage
 title: Production usage
-weight: 6
+weight: 60
 ---
 
 This guide offers recommendations to get the best reliability and

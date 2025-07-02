@@ -11,7 +11,7 @@ hideListLinks: true
 | {{<color-bubble color="bg-purple-bubble">}} **Redis Open Source** | {{<color-bubble color="bg-gray-bubble">}} **Redis for Kubernetes** |
 | <ul><li> [Install Redis 8 in Redis Open Source]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) </li><li> [Install Redis Stack]({{< relref "/operate/oss_and_stack/install/archive/install-stack/" >}}) (&#8804; 7.4) </li><li> [Manage Redis]({{< relref "/operate/oss_and_stack/management" >}}) </li></ul> | <ul><li> [Deploy Redis for Kubernetes]({{< relref "/operate/kubernetes/deployment" >}}) </li><li> [Architecture]({{< relref "/operate/kubernetes/architecture" >}}) </li><li> [API Reference]({{< relref "/operate/kubernetes/reference" >}}) </li></ul> |
 | {{<color-bubble color="bg-red-bubble">}} **Redis Insight** | |
-| <ul><li> [Install Redis Insight]({{< relref "/operate/redisinsight/install" >}}) </li><li> [Use Redis Insight]({{< relref "/develop/tools/insight" >}}) </li></ul> | |
+| <ul><li> [Install Redis Insight]({{< relref "/operate/redisinsight/install" >}}) </li><li> [Use Redis Insight]({{< relref "/develop/tools/insight" >}}) </li><li> [Download Redis Insight](https://redis.io/downloads/#insight) </li></ul> | |
 
 ## Product features
 
@@ -35,7 +35,7 @@ hideListLinks: true
 | | <nobr>{{<color-bubble color="bg-blue-bubble">}} Redis</nobr> Cloud | <nobr>{{<color-bubble color="bg-yellow-bubble">}} Redis</nobr> Software | <nobr>{{<color-bubble color="bg-purple-bubble">}} Redis</nobr> Open Source | <nobr>{{<color-bubble color="bg-gray-bubble">}} Redis for</nobr> Kubernetes |
 |:-----------|:--------------|:-----------|:--------------|:--------------|
 | Monitoring | [Monitor performance]({{< relref "/operate/rc/databases/monitor-performance" >}}) | [Monitoring]({{<relref "/operate/rs/monitoring">}}) | [INFO]({{< relref "/commands/info" >}}), [MONITOR]({{< relref "/commands/monitor" >}}), and [LATENCY DOCTOR]({{< relref "/commands/latency-doctor" >}})<br/>[Analysis with Redis Insight]({{< relref "/develop/tools/insight#database-analysis" >}}) | [Export metrics to Prometheus]({{<relref "/operate/kubernetes/re-clusters/connect-prometheus-operator/">}}) |
-| Logging | [System logs]({{< relref "/operate/rc/logs-reports/system-logs" >}}) | [Logging]({{<relref "/operate/rs/clusters/logging">}}) | `/var/log/redis/redis.log`<br/>[SLOWLOG]({{< relref "/commands/slowlog" >}})<br/>[Keyspace notifications]({{< relref "/develop/use/keyspace-notifications" >}}) | [Logs]({{<relref "/operate/kubernetes/logs/">}}) |
+| Logging | [System logs]({{< relref "/operate/rc/logs-reports/system-logs" >}}) | [Logging]({{<relref "/operate/rs/clusters/logging">}}) | `/var/log/redis/redis.log`<br/>[SLOWLOG]({{< relref "/commands/slowlog" >}})<br/>[Keyspace notifications]({{< relref "/develop/pubsub/keyspace-notifications" >}}) | [Logs]({{<relref "/operate/kubernetes/logs/">}}) |
 | Alerts | [Alerts]({{< relref "/operate/rc/databases/view-edit-database#alerts-section" >}}) | [Alerts and events]({{<relref "/operate/rs/clusters/logging/alerts-events">}}) | [Pub/sub with Redis Sentinel]({{< relref "/operate/oss_and_stack/management/sentinel#pubsub-messages" >}}) | [REDB alertSettings]({{<relref "/operate/kubernetes/reference/redis_enterprise_database_api/#specalertsettings">}}) |
 | Support | [Contact support](https://redis.io/support/) | [Create support package]({{<relref "/operate/rs/installing-upgrading/creating-support-package">}}) |  | [Contact support](https://redis.io/support/) |
 
@@ -50,5 +50,5 @@ hideListLinks: true
 | Single sign-on (SSO) | [SAML SSO]({{< relref "/operate/rc/security/access-control/saml-sso" >}}) |  |  |  |
 | Self-signed certificates |  | [Certificates]({{<relref "/operate/rs/security/certificates">}}) | [Certificate configuration]({{< relref "/operate/oss_and_stack/management/security/encryption#certificate-configuration" >}}) | [REC certificates]({{<relref "operate/kubernetes/security/manage-rec-certificates/">}}) |
 | Internode encryption | [Encryption at rest]({{< relref "/operate/rc/security/encryption-at-rest" >}}) | [Internode encryption]({{<relref "/operate/rs/security/encryption/internode-encryption">}}) |  | [Enable internode encryption]({{<relref "operate/kubernetes/security/internode-encryption/">}}) |
-| Auditing |  | [Audit events]({{<relref "/operate/rs/security/audit-events">}}) | [Keyspace notifications]({{< relref "/develop/use/keyspace-notifications" >}}) |  |
+| Auditing |  | [Audit events]({{<relref "/operate/rs/security/audit-events">}}) | [Keyspace notifications]({{< relref "/develop/pubsub/keyspace-notifications" >}}) |  |
 
