@@ -9,6 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
+- aliases: /develop/interact/programmability/lua-debugging
 description: How to use the built-in Lua debugger
 linkTitle: Debugging Lua
 title: Debugging Lua scripts in Redis

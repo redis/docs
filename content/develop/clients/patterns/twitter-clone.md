@@ -12,6 +12,7 @@ categories:
 description: Learn several Redis patterns by building a Twitter clone
 linkTitle: Patterns example
 title: Redis patterns example
+aliases: /develop/use/patterns/twitter-clone
 weight: 20
 ---
 

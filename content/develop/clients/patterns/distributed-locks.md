@@ -14,6 +14,7 @@ description: 'A distributed lock pattern with Redis
   '
 linkTitle: Distributed locks
 title: Distributed Locks with Redis
+aliases: /develop/use/patterns/distributed-locks
 weight: 1
 ---
 Distributed locks are a very useful primitive in many environments where

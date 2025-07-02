@@ -10,9 +10,10 @@ categories:
 - kubernetes
 - clients
 description: Novel patterns for working with Redis data structures
-linkTitle: Patterns
-title: Redis programming patterns
-weight: 6
+linkTitle: Coding patterns
+title: Coding patterns
+aliases: /develop/use/patterns
+weight: 50
 ---
 
 The following documents describe some novel development patterns you can use with Redis.

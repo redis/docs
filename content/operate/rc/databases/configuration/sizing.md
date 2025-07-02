@@ -55,7 +55,7 @@ Here are some things to keep in mind for optimizing throughput:
 - Test and monitor your app's performance and adjust the set ops/sec based on how if performs in real-world conditions.
 - If your average request size is larger than 3KB, consider setting your throughput higher than expected. 
 - Track the slow logs using the [`SLOWLOG` command]({{< relref "/commands/slowlog" >}}) or the **Slowlog** tab on the [database screen]({{< relref "/operate/rc/databases/view-edit-database" >}}).
-- Use [pipelining]({{< relref "/develop/use/pipelining" >}}) and [concurrent connections]({{< relref "/develop/reference/clients" >}}) effectively to optimize throughput and latency.
+- Use [pipelining]({{< relref "/develop/reference/pipelining" >}}) and [concurrent connections]({{< relref "/develop/reference/clients" >}}) effectively to optimize throughput and latency.
 - Search databases have their own throughput requirements. See [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more info.
 
 ### Frequently asked questions

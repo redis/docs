@@ -9,6 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
+- aliases: /develop/interact/transactions
 description: How transactions work in Redis
 linkTitle: Transactions
 title: Transactions

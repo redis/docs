@@ -14,6 +14,7 @@ description: 'Monitor changes to Redis keys and values in real time
   '
 linkTitle: Keyspace notifications
 title: Redis keyspace notifications
+aliases: /develop/use/keyspace-notifications
 weight: 4
 ---
 
