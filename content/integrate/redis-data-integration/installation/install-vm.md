@@ -134,7 +134,20 @@ sudo ufw reload
 
 ## Installation steps
 
-Follow the steps below for each of your VMs:
+Follow the steps below for each of your VMs.
+
+{{< note >}}RDI installs executables by default in the `/var` partition, so you must
+ensure it is mounted without the `noexec` option. Use the following command to
+find any partitions mounted with the `noexec` option:
+
+```bash
+mount | grep noexec
+```
+
+If your `/var` partition is listed in the output from this command, you must remount
+it without the `noexec` option. See
+[Using the mount command](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/5/html/deployment_guide/chap-using_the_mount_command) in the Red Hat documentation to learn how to remount a partition.
+{{< /note >}}
 
 1.  Download the RDI installer from the
     [Redis download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-installation-{{< rdi-version >}}.tar.gz)
@@ -250,7 +263,7 @@ section to learn how to do this.
 
 When the installation is complete, and you have prepared the source database for CDC,
 you are ready to start using RDI. See the guides on how to
-[configure]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines" >}}) and
+[configure]({{< relref "/integrate/redis-data-integration/data-pipelines" >}}) and
 [deploy]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})
 RDI pipelines for more information. You can also configure and deploy a pipeline
 using [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}}).

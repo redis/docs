@@ -66,13 +66,13 @@ Here are the explanation of these fields:
 * `cluster_stats_messages_pong_sent` and `cluster_stats_messages_pong_received`: PONG (reply to PING).
 * `cluster_stats_messages_meet_sent` and `cluster_stats_messages_meet_received`: Handshake message sent to a new node, either through gossip or [`CLUSTER MEET`]({{< relref "/commands/cluster-meet" >}}).
 * `cluster_stats_messages_fail_sent` and `cluster_stats_messages_fail_received`: Mark node xxx as failing.
-* `cluster_stats_messages_publish_sent` and `cluster_stats_messages_publish_received`: Pub/Sub Publish propagation, see [Pubsub]({{< relref "/develop/interact/pubsub#pubsub" >}}).
+* `cluster_stats_messages_publish_sent` and `cluster_stats_messages_publish_received`: Pub/Sub Publish propagation, see [Pubsub]({{< relref "/develop/pubsub#pubsub" >}}).
 * `cluster_stats_messages_auth-req_sent` and `cluster_stats_messages_auth-req_received`: Replica initiated leader election to replace its master.
 * `cluster_stats_messages_auth-ack_sent` and `cluster_stats_messages_auth-ack_received`: Message indicating a vote during leader election.
 * `cluster_stats_messages_update_sent` and `cluster_stats_messages_update_received`: Another node slots configuration.
 * `cluster_stats_messages_mfstart_sent` and `cluster_stats_messages_mfstart_received`: Pause clients for manual failover.
 * `cluster_stats_messages_module_sent` and `cluster_stats_messages_module_received`: Module cluster API message.
-* `cluster_stats_messages_publishshard_sent` and `cluster_stats_messages_publishshard_received`: Pub/Sub Publish shard propagation, see [Sharded Pubsub]({{< relref "/develop/interact/pubsub#sharded-pubsub" >}}).
+* `cluster_stats_messages_publishshard_sent` and `cluster_stats_messages_publishshard_received`: Pub/Sub Publish shard propagation, see [Sharded Pubsub]({{< relref "/develop/pubsub#sharded-pubsub" >}}).
 
 More information about the Current Epoch and Config Epoch variables are available in the [Redis Cluster specification document]({{< relref "/operate/oss_and_stack/reference/cluster-spec#cluster-current-epoch" >}}).
 

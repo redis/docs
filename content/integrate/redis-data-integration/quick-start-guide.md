@@ -62,7 +62,7 @@ Use the Redis Enterprise Cluster Manager UI to create the RDI database with the 
 During the installation, RDI placed the pipeline templates at `/opt/rdi/config`.
 If you go to that folder and run the `ll` command, you will see the pipeline
 configuration file, `config.yaml`, and the `jobs` folder (see the page about
-[Pipelines]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines" >}}) for more information). Use Redis Insight to open
+[Pipelines]({{< relref "/integrate/redis-data-integration/data-pipelines" >}}) for more information). Use Redis Insight to open
 the `config.yaml` file and then edit the following settings:
 
 - Set the `host` to `localhost` and the `port` to 5432.
@@ -136,7 +136,7 @@ Once the pipeline has loaded a *snapshot* of all the existing data from the sour
 it enters *change data capture (CDC)* mode (see the
 [architecture overview]({{< relref "/integrate/redis-data-integration/architecture#overview" >}})
 and the
-[ingest pipeline lifecycle]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines#ingest-pipeline-lifecycle" >}})
+[ingest pipeline lifecycle]({{< relref "/integrate/redis-data-integration/data-pipelines#pipeline-lifecycle" >}})
 for more information
 ).
 

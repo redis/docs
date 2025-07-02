@@ -15,15 +15,15 @@ title: Index and query vectors
 weight: 3
 ---
 
-[Redis Query Engine]({{< relref "/develop/interact/search-and-query" >}})
+[Redis Query Engine]({{< relref "/develop/ai/search-and-query" >}})
 lets you index vector fields in [hash]({{< relref "/develop/data-types/hashes" >}})
 or [JSON]({{< relref "/develop/data-types/json" >}}) objects (see the
-[Vectors]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}}) 
+[Vectors]({{< relref "/develop/ai/search-and-query/vectors" >}}) 
 reference page for more information).
 
 Vector fields can store *text embeddings*, which are AI-generated vector
 representations of text content. The
-[vector distance]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors#distance-metrics" >}})
+[vector distance]({{< relref "/develop/ai/search-and-query/vectors#distance-metrics" >}})
 between two embeddings measures their semantic similarity. When you compare the
 similarity of a query embedding with stored embeddings, Redis can retrieve documents
 that closely match the query's meaning.
@@ -34,6 +34,15 @@ library to generate vector embeddings to store and index with
 Redis Query Engine. The code is first demonstrated for hash documents with a
 separate section to explain the
 [differences with JSON documents](#differences-with-json-documents).
+
+{{< note >}}From [v5.0.0](https://github.com/redis/node-redis/releases/tag/redis%405.0.0)
+onwards, `node-redis` uses query dialect 2 by default.
+Redis query engine methods such as [`ft.search()`]({{< relref "/commands/ft.search" >}})
+will explicitly request this dialect, overriding the default set for the server.
+See
+[Query dialects]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}})
+for more information.
+{{< /note >}}
 
 ## Initialize
 
@@ -97,13 +106,13 @@ try {
 
 Next, create the index with the following schema:
 -   `content`: Text field for the content to index
--   `genre`: [Tag]({{< relref "/develop/interact/search-and-query/advanced-concepts/tags" >}})
+-   `genre`: [Tag]({{< relref "/develop/ai/search-and-query/advanced-concepts/tags" >}})
     field representing the text's genre
--   `embedding`: [Vector]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}})
+-   `embedding`: [Vector]({{< relref "/develop/ai/search-and-query/vectors" >}})
     field with:
-    -   [HNSW]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors#hnsw-index" >}})
+    -   [HNSW]({{< relref "/develop/ai/search-and-query/vectors#hnsw-index" >}})
         indexing
-    -   [L2]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors#distance-metrics" >}})
+    -   [L2]({{< relref "/develop/ai/search-and-query/vectors#distance-metrics" >}})
         distance metric
     -   Float32 values
     -   768 dimensions (matching the embedding model)
@@ -312,5 +321,5 @@ jdoc:3: 'Today is a sunny day', Score: 1.50889515877
 ## Learn more
 
 See
-[Vector search]({{< relref "/develop/interact/search-and-query/query/vector-search" >}})
+[Vector search]({{< relref "/develop/ai/search-and-query/query/vector-search" >}})
 for more information about indexing options, distance metrics, and query format.

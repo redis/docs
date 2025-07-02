@@ -340,7 +340,7 @@ console.log(`Database size is ${size}`);
 If you are using the
 [RESP2]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
 protocol, you should
-be aware that [pub/sub]({{< relref "/develop/interact/pubsub" >}}) can
+be aware that [pub/sub]({{< relref "/develop/pubsub" >}}) can
 cause complications with reauthentication.
 
 After a connection enters PUB/SUB mode, the socket is blocked and can't process

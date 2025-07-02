@@ -183,7 +183,7 @@ Sets membership checks on large datasets (or on streaming data) can use a lot of
 If you're concerned about memory usage and don't need perfect precision, consider a [Bloom filter or Cuckoo filter]({{< relref "/develop/data-types/probabilistic/bloom-filter" >}}) as an alternative to a set.
 
 Redis sets are frequently used as a kind of index.
-If you need to index and query your data, consider the [JSON]({{< relref "/develop/data-types/json/" >}}) data type and the [Redis Query Engine]({{< relref "/develop/interact/search-and-query/" >}}) features.
+If you need to index and query your data, consider the [JSON]({{< relref "/develop/data-types/json/" >}}) data type and the [Redis Query Engine]({{< relref "/develop/ai/search-and-query/" >}}) features.
 
 ## Learn more
 

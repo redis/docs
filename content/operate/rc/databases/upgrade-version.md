@@ -28,8 +28,8 @@ Please keep in mind the following before upgrading your database version:
 - We recommend that you upgrade your database during off-peak hours or during application maintenance to minimize reconnections.
 
 - Review the breaking changes for the new database version before upgrading: 
-    - [Redis 7.2]({{< relref "/operate/rc/changelog/2023/june-2023#redis-72-breaking-changes" >}}) 
-    - [Redis 7.4]({{< relref "/operate/rc/changelog/july-2024#redis-74-breaking-changes" >}}) 
+    - [Redis 7.2]({{< relref "/operate/rc/changelog/version-release-notes/7-2" >}}) 
+    - [Redis 7.4]({{< relref "/operate/rc/changelog/version-release-notes/7-4" >}}) 
 
 - You must upgrade the target database in an [Active-Passive]({{< relref "/operate/rc/databases/migrate-databases#sync-using-active-passive" >}}) setup before you upgrade the source database to prevent compatibility issues.
 {{< /note >}}

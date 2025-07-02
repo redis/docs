@@ -80,4 +80,4 @@ Check that the cursor is deleted.
 
 ## Related topics
 
-[RediSearch]({{< relref "/develop/interact/search-and-query/" >}})
+[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})

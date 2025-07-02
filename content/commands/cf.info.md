@@ -38,13 +38,6 @@ Returns information about a cuckoo filter.
 is key name for a cuckoo filter.
 </details>
 
-## Return value
-
-Returns one of these replies:
-
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with argument name ([Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) and value ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})) pairs
-- [] on error (invalid arguments, key does not exist, wrong key type, and so on)
-
 ## Examples
 
 {{< highlight bash >}}
@@ -66,3 +59,21 @@ redis> CF.INFO cf
 15) Max iteration
 16) (integer) 20
 {{< / highlight >}}
+
+## Return information
+
+One of the following:
+
+{{< multitabs id=“cf-info-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with argument name ([Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) and value ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})) pairs.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if invalid arguments are passed, `key` does not exist, or `key` is not of the correct type.
+
+-tab-sep-
+
+* [Map reply]({{< relref "/develop/reference/protocol-spec#maps" >}}) with argument name ([Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) and value ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})) pairs.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if invalid arguments are passed, `key` does not exist, or `key` is not of the correct type.
+
+{{< /multitabs >}}

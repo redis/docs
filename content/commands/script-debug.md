@@ -47,7 +47,7 @@ complete Lua debugger, codename LDB, that can be used to make the task of
 writing complex scripts much simpler. In debug mode Redis acts as a remote
 debugging server and a client, such as `redis-cli`, can execute scripts step by
 step, set breakpoints, inspect variables and more - for additional information
-about LDB refer to the [Redis Lua debugger]({{< relref "/develop/interact/programmability/lua-debugging" >}}) page.
+about LDB refer to the [Redis Lua debugger]({{< relref "/develop/programmability/lua-debugging" >}}) page.
 
 **Important note:** avoid debugging Lua scripts using your Redis production
 server. Use a development server instead.
@@ -63,7 +63,7 @@ is active and retains all changes to the data set once it ends.
 * `SYNC`. Enable blocking synchronous debugging of Lua scripts (saves changes to data).
 * `NO`. Disables scripts debug mode.
 
-For more information about [`EVAL`]({{< relref "/commands/eval" >}}) scripts please refer to [Introduction to Eval Scripts]({{< relref "/develop/interact/programmability/eval-intro" >}}).
+For more information about [`EVAL`]({{< relref "/commands/eval" >}}) scripts please refer to [Introduction to Eval Scripts]({{< relref "/develop/programmability/eval-intro" >}}).
 
 ## Return information
 

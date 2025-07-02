@@ -19,7 +19,7 @@ categories:
 - kubernetes
 - clients
 complexity: O(N) where N is the number of values specified.
-description: Returns, for each input value (floating-point), the estimated rank of
+description: Returns, for each floating-point input value, the estimated rank of
   the value (the number of observations in the sketch that are smaller than the value
   + half the number of observations that are equal to the value)
 group: tdigest
@@ -28,38 +28,27 @@ linkTitle: TDIGEST.RANK
 module: Bloom
 since: 2.4.0
 stack_path: docs/data-types/probabilistic
-summary: Returns, for each input value (floating-point), the estimated rank of the
+summary: Returns, for each floating-point input value, the estimated rank of the
   value (the number of observations in the sketch that are smaller than the value
   + half the number of observations that are equal to the value)
 syntax_fmt: TDIGEST.RANK key value [value ...]
 syntax_str: value [value ...]
 title: TDIGEST.RANK
 ---
-Returns, for each input value (floating-point), the estimated rank of the value (the number of observations in the sketch that are smaller than the value + half the number of observations that are equal to the value).
-
+Returns, for each floating-point input value, the estimated rank of the value (_the number of observations in the sketch that are smaller than the value_ + _half the number of observations that are equal to the value_).
 Multiple ranks can be retrieved in a single call.
 
 ## Required arguments
+
 <details open><summary><code>key</code></summary>
-is key name for an existing t-digest sketch.
+
+is the key name for an existing t-digest sketch.
 </details>
 
 <details open><summary><code>value</code></summary>
-is input value for which the rank should be estimated.
 
-## Return value
-
-[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) - an array of integers populated with rank_1, rank_2, ..., rank_V:
-  
-- -1 - when `value` is smaller than the value of the smallest observation.
-- The number of observations - when `value` is larger than the value of the largest observation.
-- Otherwise: an estimation of the number of (observations smaller than `value` + half the observations equal to `value`).
-
-0 is the rank of the value of the smallest observation.
-
-_n_-1 is the rank of the value of the largest observation; _n_ denotes the number of observations added to the sketch.
-
-All values are -2 if the sketch is empty.
+is the input value for which the rank should be estimated.
+</details>
 
 ## Examples
 
@@ -100,3 +89,41 @@ redis> TDIGEST.REVRANK s 10 20
 1) (integer) 4
 2) (integer) 1
 {{< / highlight >}}
+
+## Return information
+
+{{< multitabs id=“tdigest-rank-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+
+* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integers]({{< relref "/develop/reference/protocol-spec#integers" >}}) populated with rank_1, rank_2, ..., rank_V:
+    * `-1` when `value` is smaller than the value of the smallest observation.
+    * The number of observations when `value` is larger than the value of the largest observation.
+    * Otherwise, an estimation of the number of (_observations smaller than `value`_ + _half the observations equal to `value`_).
+
+    `0` is the rank of the value of the smallest observation.
+
+    _n_-1 is the rank of the value of the largest observation, where _n_ denotes the number of observations added to the sketch.
+
+    All values are `-2` if the sketch is empty.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: the given key does not exist or is of an incorrect type, quantile parsing errors, or incorrect number of arguments.
+
+-tab-sep-
+
+One of the following:
+
+* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integers]({{< relref "/develop/reference/protocol-spec#integers" >}}) populated with rank_1, rank_2, ..., rank_V:
+    * `-1` when `value` is smaller than the value of the smallest observation.
+    * The number of observations when `value` is larger than the value of the largest observation.
+    * Otherwise, an estimation of the number of (_observations smaller than `value`_ + _half the observations equal to `value`_).
+
+    `0` is the rank of the value of the smallest observation.
+
+    _n_-1 is the rank of the value of the largest observation, where _n_ denotes the number of observations added to the sketch.
+
+    All values are `-2` if the sketch is empty.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: the given key does not exist or is of an incorrect type, quantile parsing errors, or incorrect number of arguments.
+
+{{< /multitabs >}}

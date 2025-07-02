@@ -55,7 +55,7 @@ If `key` does not exist - a new Bloom filter is created with default error rate,
 One or more items to add.
 </details>
 
-## Return value
+## Return information
 
 Returns one of these replies:
 
@@ -72,3 +72,25 @@ redis> BF.MADD bf item1 item2 item2
 2) (integer) 1
 3) (integer) 0
 {{< / highlight >}}
+
+## Return information
+
+{{< multitabs id="bf-madd-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each element is either
+  * an [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), where `1` means that the item has been added successfully, and `0` means there's a probability that the item was already added to the filter.
+  * a [simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) when the item cannot be added because the filter is full.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, key not found, wrong key type, or when the filter is full.
+
+-tab-sep-
+
+One of the following:
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each element is either
+  * a [boolean reply]({{< relref "/develop/reference/protocol-spec#booleans" >}}), where `true` means that the item has been added successfully, and `false` means there's a probability that the item was already added to the filter.
+  * a [simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) when the item cannot be added because the filter is full.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, key not found, wrong key type, or when the filter is full.
+
+{{< /multitabs >}}

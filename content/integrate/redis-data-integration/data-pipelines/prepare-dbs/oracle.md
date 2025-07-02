@@ -400,7 +400,7 @@ ALTER TABLE CHINOOK.TAB1 ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
 ```
 
 After you run an initial
-[snapshot]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines#pipeline-lifecycle" >}}),
+[snapshot]({{< relref "/integrate/redis-data-integration/data-pipelines/#pipeline-lifecycle" >}}),
 the XML data appears in your Redis target database:
 
 {{< image filename="/images/rdi/ingest/xmltype-example.webp" >}}

@@ -55,7 +55,7 @@ In Redis Cluster, shard channels are assigned to slots by the same algorithm use
 A shard message must be sent to a node that owns the slot the shard channel is hashed to. 
 The cluster makes sure that published shard messages are forwarded to all the nodes in the shard, so clients can subscribe to a shard channel by connecting to any one of the nodes in the shard.
 
-For more information about sharded pubsub, see [Sharded Pubsub]({{< relref "/develop/interact/pubsub#sharded-pubsub" >}}).
+For more information about sharded pubsub, see [Sharded Pubsub]({{< relref "/develop/pubsub#sharded-pubsub" >}}).
 
 ## Examples
 
