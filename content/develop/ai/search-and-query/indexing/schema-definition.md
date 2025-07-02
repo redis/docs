@@ -1,6 +1,6 @@
 ---
 aliases:
-- /develop/ai/search-and-query/basic-constructs/schema-definition
+- /develop/interact/search-and-query/basic-constructs/schema-definition
 categories:
 - docs
 - develop
