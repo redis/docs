@@ -75,7 +75,7 @@ To configure a Replica Of database in a different Redis Enterprise cluster from 
 1. Ensure the source database's port is allowed through firewalls between the clusters and can be accessed by the destination cluster's nodes.
 
     {{<note>}}
-Ports 10000-19999 are reserved for database traffic. See [Network port configurations]({{<relref "/operate/rs/networking/port-configurations">}}) for more information about ports.
+Ports 10000-19999 are reserved for database traffic. See [Network port configurations]({{<relref "/operate/rs/7.8/networking/port-configurations">}}) for more information about ports.
     {{</note>}}
 
 1. Sign in to the Cluster Manager UI of the cluster hosting the source database.
