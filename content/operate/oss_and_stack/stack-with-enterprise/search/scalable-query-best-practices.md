@@ -22,9 +22,9 @@ weight: 25
 
     - [Vector]({{<relref "/develop/ai/search-and-query/query/vector-search">}})
 
-    - [Numeric]({{<relref "/develop/interact/search-and-query/query/range">}})
+    - [Numeric]({{<relref "/develop/ai/search-and-query/query/range">}})
 
-    - [Geo]({{<relref "/develop/interact/search-and-query/query/geo-spatial">}})
+    - [Geo]({{<relref "/develop/ai/search-and-query/query/geo-spatial">}})
 
 - Result set types:
 
@@ -38,7 +38,7 @@ If query performance factors have not boosted the performance of your queries as
 
 1. Verify your index includes all queried and returned fields.
 
-1. Identify and avoid query [anti-patterns]({{<relref "/develop/interact/search-and-query/best-practices/scalable-query-best-practices#anti-patterns">}}) that limit scalability.
+1. Identify and avoid query [anti-patterns]({{<relref "/develop/ai/search-and-query/best-practices/scalable-query-best-practices#anti-patterns">}}) that limit scalability.
 
 1. Follow best practices to [improve indexing](#improve-indexing).
 
