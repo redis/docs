@@ -1,12 +1,12 @@
 ---
-Title: Redis AI video collection
+Title: Redis video tutorial collection
 alwaysopen: false
 categories:
 - docs
 - develop
 - ai
 description: Watch video tutorials and demos showcasing Redis in AI applications, from vector search to RAG implementations.
-linkTitle: AI videos
+linkTitle: Video tutorials
 weight: 60
 ---
 
@@ -37,7 +37,7 @@ Explore our collection of video tutorials and demonstrations showcasing how Redi
 Ready to start building AI applications with Redis? Check out our:
 
 - [Quickstart guides]({{< relref "/develop/get-started" >}})
-- [Vector search documentation]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}})
+- [Vector search documentation]({{< relref "/develop/ai/search-and-query/vectors" >}})
 - [AI ecosystem integrations]({{< relref "/develop/ai/ecosystem-integrations" >}})
 - [Notebook collection]({{< relref "/develop/ai/notebook-collection" >}})
 - [Vector set data type]({{< relref "/develop/data-types/vector-sets" >}})

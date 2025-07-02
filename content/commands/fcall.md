@@ -79,7 +79,7 @@ Functions **should never** access keys with programmatically-generated names or 
 Any additional input argument **should not** represent names of keys.
 These are regular arguments and are passed in a Lua table as the callback's second argument.
 
-For more information please refer to the [Redis Programmability]({{< relref "/develop/interact/programmability/" >}}) and [Introduction to Redis Functions]({{< relref "/develop/interact/programmability/functions-intro" >}}) pages.
+For more information please refer to the [Redis Programmability]({{< relref "/develop/programmability/" >}}) and [Introduction to Redis Functions]({{< relref "/develop/programmability/functions-intro" >}}) pages.
 
 ## Examples
 

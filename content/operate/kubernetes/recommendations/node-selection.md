@@ -185,15 +185,29 @@ during partitions or other rack (or region) related failures.
 
 {{%note%}}When creating your rack-zone ID, there are some constraints to consider; see [rack-zone awareness]({{< relref "/operate/rs/clusters/configure/rack-zone-awareness#rack-zone-id-rules" >}}) for more info. {{%/note%}}
 
-
 Rack-zone awareness is a single property in the Redis Enterprise cluster CRD named `rackAwarenessNodeLabel`.
-This value for this label is commonly `topology.kubernetes.io/zone` as documented in
-['Running in multiple zones'](https://kubernetes.io/docs/setup/best-practices/multiple-zones/#nodes-are-labeled).
+
+### Choose a node label
+
+The most common label used for rack-zone awareness is topology.kubernetes.io/zone, a standard Kubernetes label that shows the zone a node runs in. Many Kubernetes platforms add this label to nodes by default, as noted in the [Kubernetes documentation](https://kubernetes.io/docs/setup/best-practices/multiple-zones/#nodes-are-labeled).
+
+If your platform doesn’t set this label automatically, you can use any custom label that describes the node’s topology (such as rack, zone, or region).
+
+### Node labeling requirements
+
+{{< warning >}}
+
+**All eligible nodes must have the label for rack-awareness to work. The operator requires every node that might run Redis Enterprise pods to be labeled. If any are missing the label, reconciliation will fail.
+{{< /warning >}}
+
+Eligible nodes are all nodes where Redis Enterprise pods can be scheduled. By default, these are all worker nodes in the cluster, but you can limit them using `spec.nodeSelector` in the Redis Enterprise cluster (REC) configuration.
+
+The value for the chosen label must indicate the topology information (rack, zone, region, etc.) for each node.
 
 You can check the value for this label in your nodes with the command:
 
 ```sh
-$kubectl get nodes -o custom-columns="name:metadata.name","rack\\zone:metadata.labels.failure-domain\.beta\.kubernetes\.io/zone"
+$ kubectl get nodes -o custom-columns="name:metadata.name","rack\\zone:metadata.labels.topology\.kubernetes\.io/zone"
 
 name                                            rack\zone
 ip-10-0-x-a.eu-central-1.compute.internal    eu-central-1a

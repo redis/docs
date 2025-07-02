@@ -6571,71 +6571,6 @@
         }
       }
     },
-    "/subscriptions/dedicated": {
-      "post": {
-        "tags": [
-          "Subscriptions - Dedicated"
-        ],
-        "summary": "Create Dedicated subscription",
-        "description": "Creates a new Redis Cloud Dedicated subscription.",
-        "operationId": "createSubscription_1",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SubscriptionCreateRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
-          "202": {
-            "description": "Accepted",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TaskStateUpdate"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized - Authentication failed for requested resource"
-          },
-          "403": {
-            "description": "Forbidden - Not allowed to create requested resource (primarily due to not active resource)"
-          },
-          "404": {
-            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
-          },
-          "408": {
-            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
-          },
-          "409": {
-            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with the new name"
-          },
-          "422": {
-            "description": "Unprocessable Entity - The server understands the request, and the syntax of the request is correct, but it was unable to process the contained instructions"
-          },
-          "429": {
-            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
-          },
-          "500": {
-            "description": "Internal system error - If this error persists, please contact customer support"
-          },
-          "503": {
-            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
-          }
-        }
-      }
-    },
     "/fixed/subscriptions": {
       "get": {
         "tags": [
@@ -6687,7 +6622,7 @@
         ],
         "summary": "Create Essentials subscription",
         "description": "Creates a new Essentials subscription.",
-        "operationId": "createSubscription_2",
+        "operationId": "createSubscription_1",
         "requestBody": {
           "content": {
             "application/json": {
@@ -12391,6 +12326,18 @@
             "items": {
               "type": "string"
             }
+          },
+          "redisIamRole": {
+            "type": "string"
+          },
+          "requiredKeyPolicyStatements": {
+            "type": "object"
+          },
+          "deletionGracePeriodOptions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         },
         "description": "Configuration regarding customer managed persistent storage encryption"
@@ -14727,7 +14674,6 @@
               "ACTIVE_ACTIVE_CREATE_A_REGION_MUST_BE_DEFINED_ONCE_PER_DATABASE",
               "ACTIVE_ACTIVE_CREATE_A_REGION_DATABASE_RESP_VERSION_IS_NOT_SUPPORTED",
               "TOO_MANY_LOCAL_THROUGHPUT_MEASUREMENTS_DEFINED_FOR_SPECIFIED_ACTIVE_ACTIVE_SUBSCRIPTION",
-              "ACTIVE_ACTIVE_EXTERNAL_CA_NOT_SUPPORTED",
               "ACTIVE_ACTIVE_RAM_AND_FLASH_MEMORY_STORAGE_NOT_SUPPORTED",
               "ACTIVE_ACTIVE_DATABASE_MODULE_IS_NOT_SUPPORTED",
               "ACTIVE_ACTIVE_DATABASE_MODULES_IS_NOT_SUPPORTED",
@@ -15422,7 +15368,7 @@
             "readOnly": true
           }
         },
-        "description": "Dedicated Subscription create request"
+        "description": "Subscription create request"
       },
       "RedisVersions": {
         "type": "object",

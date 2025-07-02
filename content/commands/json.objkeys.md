@@ -76,4 +76,4 @@ redis> JSON.OBJKEYS doc $..a
 ## Related topics
 
 * [RedisJSON]({{< relref "/develop/data-types/json/" >}})
-* [Index and search JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}})
+* [Index and search JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}})
