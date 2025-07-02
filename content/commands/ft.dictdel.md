@@ -73,4 +73,4 @@ FT.DICTDEL returns an integer reply, the number of new terms that were deleted.
 
 ## Related topics
 
-[RediSearch]({{< relref "/develop/interact/search-and-query/" >}})
+[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})

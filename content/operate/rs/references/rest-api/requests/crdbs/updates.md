@@ -50,6 +50,12 @@ When you update db_config, it changes the configuration of the database that you
 |-------|------|-------------|
 | crdb_guid | string | Globally unique Active-Active database ID (GUID) |
 
+#### Query parameters
+
+| Field | Type | Description |
+|-------|------|-------------|
+| dry_run | boolean | Validate the request without applying changes (optional) |
+
 #### Request body
 
 Include a [CRDB modify_request object]({{< relref "/operate/rs/references/rest-api/objects/crdb/modify_request" >}}) with updated fields in the request body.

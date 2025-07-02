@@ -19,7 +19,7 @@ categories:
 - kubernetes
 - clients
 complexity: O(N) where N is the number of reverse ranks specified.
-description: Returns, for each input reverse rank, an estimation of the value (floating-point)
+description: Returns, for each input reverse rank, an estimation of the floating-point value
   with that reverse rank
 group: tdigest
 hidden: false
@@ -27,40 +27,30 @@ linkTitle: TDIGEST.BYREVRANK
 module: Bloom
 since: 2.4.0
 stack_path: docs/data-types/probabilistic
-summary: Returns, for each input reverse rank, an estimation of the value (floating-point)
+summary: Returns, for each input reverse rank, an estimation of the floating-point value
   with that reverse rank
 syntax_fmt: TDIGEST.BYREVRANK key reverse_rank [reverse_rank ...]
 syntax_str: reverse_rank [reverse_rank ...]
 title: TDIGEST.BYREVRANK
 ---
-Returns, for each input reverse rank, an estimation of the value (floating-point) with that reverse rank.
-
+Returns, for each input reverse rank (`revrank`), an estimation of the floating-point value with that reverse rank.
 Multiple estimations can be retrieved in a single call.
 
 ## Required arguments
 
 <details open><summary><code>key</code></summary>
-is key name for an existing t-digest sketch.
+
+is the key name of an existing t-digest sketch.
 </details>
 
 <details open><summary><code>revrank</code></summary>
 
-Reverse rank, for which the value should be retrieved.
+Reverse ranks for which the values should be retrieved.
 
 0 is the reverse rank of the value of the largest observation.
   
-_n_-1 is the reverse rank of the value of the smallest observation; _n_ denotes the number of observations added to the sketch.
+_n_-1 is the reverse rank of the value of the smallest observation, where _n_ denotes the number of observations added to the sketch.
 </details>
-
-## Return value
-
-[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) - an array of floating-points populated with value_1, value_2, ..., value_R:
-
-- Return an accurate result when `revrank` is 0 (the value of the largest observation)
-- Return an accurate result when `revrank` is _n_-1 (the value of the smallest observation), where _n_ denotes the number of observations added to the sketch.
-- Return '-inf' when `revrank` is equal to _n_ or larger than _n_
-
-All values are 'nan' if the sketch is empty.
 
 ## Examples
 
@@ -87,3 +77,31 @@ redis> TDIGEST.BYREVRANK t 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
 15) "1"
 16) "-inf"
 {{< / highlight >}}
+
+## Return information
+
+{{< multitabs id=“tdigest-byrevrank-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+
+* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk strings]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) as floating-points, populated with value_1, value_2, ..., value_R:
+    * an accurate result when `rank` is `0`, the value of the largest observation.
+    * an accurate result when `rank` is _n_-1, the value of the smallest observation, where _n_ denotes the number of observations added to the sketch.
+    * `inf` when `rank` is equal to _n_ or larger than _n_.
+    * `nan` for all ranks when the given sketch is empty.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: the given key does not exist or is of an incorrect type, rank parsing errors, or an incorrect number of arguments.
+
+-tab-sep-
+
+One of the following:
+
+* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [doubles]({{< relref "/develop/reference/protocol-spec#doubles" >}}) as floating-points, populated with value_1, value_2, ..., value_R:
+    * an accurate result when `rank` is `0`, the value of the largest observation.
+    * an accurate result when `rank` is _n_-1, the value of the smallest observation, where _n_ denotes the number of observations added to the sketch.
+    * `inf` when `rank` is equal to _n_ or larger than _n_.
+    * `nan` for all ranks when the given sketch is empty.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: the given key does not exist or is of an incorrect type, rank parsing errors, or an incorrect number of arguments.
+
+{{< /multitabs >}}

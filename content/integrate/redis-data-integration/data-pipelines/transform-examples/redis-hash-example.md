@@ -24,7 +24,6 @@ If you don't supply an `expire` parameter, the keys will never expire.
 
 ```yaml
 source:
-  server_name: chinook
   schema: public
   table: invoice
 output:

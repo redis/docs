@@ -1,5 +1,5 @@
 ---
-Title: Redis AI notebooks collection
+Title: Notebooks collection
 alwaysopen: false
 categories:
 - docs
@@ -9,7 +9,7 @@ categories:
 - rc
 - rs
 description: This collection showcases how Redis can be integrated into AI workflows to enhance performance, reduce latency, and enable real-time AI applications. Each notebook comes with complete code examples, explanations, and integration guides.
-linkTitle: AI notebooks collection
+linkTitle: Notebooks collection
 weight: 40
 ---
 

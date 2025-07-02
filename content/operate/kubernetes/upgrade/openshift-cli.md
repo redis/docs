@@ -132,7 +132,7 @@ redis-enterprise-operator   1/1     1            1           0m36s
 
 Upgrades to versions 7.22.0-6 and later run in **unprivileged mode** without any additional permissions or capabilities. If you don't specifally require additional capabilities, we recommend you maintain the default unprivileged mode, as its more secure. After upgrading, remove the existing `redis-enterprise-scc-v2` SCC and unbind it from the REC service account.
 
-To enable privileged mode, see [Enable privileged mode > OpenShift upgrades]({{<relref "/operate/kubernetes/security/enable-privileged-mode#openshift-upgrades">}}).
+To enable automatic resource adjustment, see [Allow automatic resource adjustment > OpenShift upgrades]({{< relref "/operate/kubernetes/security/allow-resource-adjustment#openshift-upgrades" >}}).
 
 ## Upgrade the Redis Enterprise cluster
 

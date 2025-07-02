@@ -29,7 +29,7 @@ title: FUNCTION DUMP
 Return the serialized payload of loaded libraries.
 You can restore the serialized payload later with the [`FUNCTION RESTORE`]({{< relref "/commands/function-restore" >}}) command.
 
-For more information please refer to [Introduction to Redis Functions]({{< relref "/develop/interact/programmability/functions-intro" >}}).
+For more information please refer to [Introduction to Redis Functions]({{< relref "/develop/programmability/functions-intro" >}}).
 
 ## Examples
 

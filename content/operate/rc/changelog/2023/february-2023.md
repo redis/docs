@@ -9,6 +9,8 @@ description: New features, enhancements, and other changes added to Redis Cloud 
   February 2023.
 highlights: Private Service Connect
 linktitle: February 2023
+tags:
+- changelog
 weight: 89
 aliases:
   - /operate/rc/changelog/february-2023

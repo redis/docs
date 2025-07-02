@@ -20,7 +20,7 @@ weight: 4
 Redis Data Integration (RDI) and its [ingest pipeline capability]({{< relref "/integrate/redis-data-integration" >}}) is an end-to-end solution for mirroring your application's primary database in Redis. RDI employs a capture data change mechanism and a stream processor to map and transform source data such as relational tables into fast Redis data structures that match your use cases.
 You can read more about RDI's ingest architecture [on these pages]({{< relref "/integrate/redis-data-integration/architecture" >}}).
 
-As of version `2.54.0`, Redis Insight includes RDI connectivity, which allows you to connect to [RDI management planes]({{< relref "/integrate/redis-data-integration/architecture" >}}#how-rdi-is-deployed), create, test, and deploy [RDI pipelines]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines" >}}), and view RDI statistics.
+As of version `2.54.0`, Redis Insight includes RDI connectivity, which allows you to connect to [RDI management planes]({{< relref "/integrate/redis-data-integration/architecture" >}}#how-rdi-is-deployed), create, test, and deploy [RDI pipelines]({{< relref "/integrate/redis-data-integration/data-pipelines" >}}), and view RDI statistics.
 
 ## Connect
 
@@ -117,7 +117,7 @@ This will take you to the job editor with the template selection menu open. Make
 The options listed in the above menu depend on the capabilities of your RDI configuration.
 {{< /note >}}
 
-The [RDI documentation]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}}) has several examples of transformation jobs that can help get you started. Note: RDI uses a very specific YAML format for job files. See [here]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines" >}}#job-files) for more information.
+The [RDI documentation]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}}) has several examples of transformation jobs that can help get you started. Note: RDI uses a very specific YAML format for job files. See [here]({{< relref "/integrate/redis-data-integration/data-pipelines" >}}#job-files) for more information.
 
 <img src="../images/ri-rdi-job-editor-template.png">
 
