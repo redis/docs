@@ -33,7 +33,7 @@ Active expiration can affect the number of results returned. For example, if a u
 
 ### Passive expiration
 
-**Before Redis 8**: `nil` could have been returned as a document name in the result set for a query when a key was passively expired.
+**Before Redis 8**: A query could return `nil` as a document name in the result set for a key that was passively expired.
 
 **Redis 8 and later**: Only valid document names will be returned. Passively expired keys are filtered out from the result set.
 
@@ -55,7 +55,7 @@ Similar to key expiration, active field expiration can affect the number of resu
 
 ### Passive expiration
 
-**Before Redis 8**: The query engine would possibly return documents without fields that were passively expired, even if the expired field caused the document to match the query. This behavior depended to some degree on the `SORTABLE` keyword usage.
+**Before Redis 8**: The query engine could return documents without fields that were passively expired, even if the expired field caused the document to match the query. This behavior depended to some degree on the `SORTABLE` keyword usage.
 
 **Redis 8 and later**: Documents will return with all fields that existed when the query or cursor read started. Passively expired fields are handled consistently.
 
@@ -72,7 +72,7 @@ The following commands are directly related to key and field expiration:
 
 1. **Consistent timing**: Be aware that query results are based on the state at query start time, not when individual documents are processed.
 
-2. **Result count expectations**: When using expiring keys or fields, the actual number of results may be less than requested due to active expiration during query execution.
+2. **Result count expectations**: Be aware that when you use expiring keys or fields, the actual number of results may be less than you expected due to active expiration during the execution of the query.
 
 3. **Field-level expiration**: Use hash field expiration (available since Redis 7.4) for fine-grained control over document field lifecycles without affecting the entire document.
 
