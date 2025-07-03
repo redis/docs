@@ -1,6 +1,6 @@
 ---
 aliases:
-- /develop/ai/search-and-query/advanced-concepts/vectors
+- /develop/interact/search-and-query/advanced-concepts/vectors
 categories:
 - docs
 - develop

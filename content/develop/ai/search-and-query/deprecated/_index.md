@@ -1,6 +1,7 @@
 ---
 aliases:
-- /develop/interact/search-and-query/deprecated/_index
+- /develop/interact/search-and-query/deprecated
+- /develop/interact/search-and-query/deprecated/
 categories:
 - docs
 - develop

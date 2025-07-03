@@ -1,6 +1,7 @@
 ---
 aliases:
-- /develop/interact/search-and-query/advanced-concepts/_index
+- /develop/interact/search-and-query/advanced-concepts
+- /develop/interact/search-and-query/advanced-concepts/
 categories:
 - docs
 - develop

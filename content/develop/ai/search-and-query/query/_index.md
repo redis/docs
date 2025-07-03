@@ -1,4 +1,7 @@
 ---
+aliases:
+- /develop/interact/search-and-query/query
+- /develop/interact/search-and-query/query/
 categories:
 - docs
 - develop
