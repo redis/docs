@@ -21,11 +21,11 @@ There are two types of batch that you can use:
 -   **Pipelines** avoid network and processing overhead by sending several commands
     to the server together in a single communication. The server then sends back
     a single communication with all the responses. See the
-    [Pipelining]({{< relref "/develop/reference/pipelining" >}}) page for more
+    [Pipelining]({{< relref "/develop/using-commands/pipelining" >}}) page for more
     information.
 -   **Transactions** guarantee that all the included commands will execute
     to completion without being interrupted by commands from other clients.
-    See the [Transactions]({{< relref "/develop/reference/transactions" >}})
+    See the [Transactions]({{< relref "develop/using-commands/transactions" >}})
     page for more information.
 
 ## Execute a pipeline
@@ -109,5 +109,5 @@ when you have finished processing it, as in the example above.
 you can implement them yourself using the [`MULTI`]({{< relref "/commands/multi" >}}),
 [`EXEC`]({{< relref "/commands/exec" >}}), and [`WATCH`]({{< relref "/commands/watch" >}})
 commands as you would from [`redis-cli`]({{< relref "/develop/tools/cli" >}}).
-See [Transactions]({{< relref "/develop/reference/transactions" >}})
+See [Transactions]({{< relref "develop/using-commands/transactions" >}})
 for more information.

@@ -61,7 +61,7 @@ Please refer to the following pages for more information:
 * [Redis Functions]({{< relref "/develop/programmability/functions-intro" >}})
 
 When running a script or a function, Redis guarantees its atomic execution.
-The script's execution blocks all server activities during its entire time, similarly to the semantics of [transactions]({{< relref "/develop/reference/transactions" >}}).
+The script's execution blocks all server activities during its entire time, similarly to the semantics of [transactions]({{< relref "develop/using-commands/transactions" >}}).
 These semantics mean that all of the script's effects either have yet to happen or had already happened.
 The blocking semantics of an executed script apply to all connected clients at all times.
 
