@@ -62,7 +62,7 @@ The following policies are allowed:
 * **FLUSH:** deletes all existing libraries before restoring the payload.
 * **REPLACE:** appends the restored libraries to the existing libraries, replacing any existing ones in case of name collisions. Note that this policy doesn't prevent function name collisions, only libraries.
 
-For more information please refer to [Introduction to Redis Functions]({{< relref "/develop/interact/programmability/functions-intro" >}}).
+For more information please refer to [Introduction to Redis Functions]({{< relref "/develop/programmability/functions-intro" >}}).
 
 ## Return information
 

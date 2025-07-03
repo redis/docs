@@ -1,6 +1,7 @@
 ---
 aliases:
-- /develop/interact/search-and-query/advanced-concepts/_index
+- /develop/interact/search-and-query/advanced-concepts
+- /develop/interact/search-and-query/advanced-concepts/
 categories:
 - docs
 - develop
@@ -42,6 +43,7 @@ Redis Open Source supports the following Redis Query Engine features. This artic
 * Numeric filters and ranges
 * Geo-filtering using Redis [geo commands]({{< relref "/commands/" >}}?group=geo)
 * [Vector search]({{< relref "/develop/ai/search-and-query/vectors" >}})
+* [Key and field expiration behavior]({{< relref "/develop/ai/search-and-query/advanced-concepts/expiration" >}})
 
 
 ## Full-text search features

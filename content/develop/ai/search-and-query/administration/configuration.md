@@ -1,5 +1,7 @@
 ---
-aliases: /develop/ai/search-and-query/basic-constructs/configuration-parameters
+aliases:
+- /develop/interact/search-and-query/administration/configuration
+- /develop/interact/search-and-query/basic-constructs/configuration-parameters
 categories:
 - docs
 - develop

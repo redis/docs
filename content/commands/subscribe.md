@@ -41,7 +41,7 @@ other commands, except for additional `SUBSCRIBE`, [`SSUBSCRIBE`]({{< relref "/c
 [`PUNSUBSCRIBE`]({{< relref "/commands/punsubscribe" >}}), [`PING`]({{< relref "/commands/ping" >}}), [`RESET`]({{< relref "/commands/reset" >}}) and [`QUIT`]({{< relref "/commands/quit" >}}) commands.
 However, if RESP3 is used (see [`HELLO`]({{< relref "/commands/hello" >}})) it is possible for a client to issue any commands while in subscribed state.
 
-For more information, see [Pub/sub]({{< relref "/develop/interact/pubsub" >}}).
+For more information, see [Pub/sub]({{< relref "/develop/pubsub" >}}).
 
 ## Behavior change history
 
