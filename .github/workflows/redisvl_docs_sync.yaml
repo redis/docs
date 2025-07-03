@@ -106,7 +106,6 @@ jobs:
 
           # Convert jupyter notebooks to markdown
           jupyter nbconvert --to markdown build/jupyter_execute/user_guide/*.ipynb --output-dir redis_vl_hugo/user_guide/ 2>/dev/null
-          jupyter nbconvert --to markdown build/jupyter_execute/user_guide/release_guide/*.ipynb --output-dir redis_vl_hugo/user_guide/release_guide/ 2>/dev/null
           jupyter nbconvert --to markdown build/jupyter_execute/overview/cli.ipynb --output-dir redis_vl_hugo/overview/ 2>/dev/null
 
           # Prepare markdown files
@@ -209,13 +208,11 @@ jobs:
           # Format _index.md pages
           cp ./build/markdown/api/index.md ./redis_vl_hugo/api/_index.md
           cp ./build/markdown/user_guide/index.md ./redis_vl_hugo/user_guide/_index.md
-          cp ./build/markdown/user_guide/release_guide/index.md ./redis_vl_hugo/user_guide/release_guide/_index.md
           cp ./build/markdown/overview/index.md ./redis_vl_hugo/overview/_index.md
 
           index_markdown_pages=(
               ./redis_vl_hugo/api/_index.md
               ./redis_vl_hugo/user_guide/_index.md
-              ./redis_vl_hugo/user_guide/release_guide/_index.md
               ./redis_vl_hugo/overview/_index.md
           )
 
