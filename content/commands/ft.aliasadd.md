@@ -80,4 +80,4 @@ Attempting to add the same alias returns a message that the alias already exists
 
 ## Related topics
 
-[RediSearch]({{< relref "/develop/interact/search-and-query/" >}})
+[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})

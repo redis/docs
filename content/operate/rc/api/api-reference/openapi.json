@@ -42,11 +42,6 @@
       "x-order": "11"
     },
     {
-      "name": "Subscriptions - Dedicated",
-      "description": "All Dedicated subscription operations.",
-      "x-order": "11"
-    },
-    {
       "name": "Databases - Pro",
       "description": "All Pro database operations.",
       "x-order": "20"
@@ -3082,7 +3077,7 @@
         ],
         "summary": "Get a single Essentials subscription",
         "description": "Gets information on the specified Essentials subscription.",
-        "operationId": "getSubscriptionById_2",
+        "operationId": "getSubscriptionById_1",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -6571,71 +6566,6 @@
         }
       }
     },
-    "/subscriptions/dedicated": {
-      "post": {
-        "tags": [
-          "Subscriptions - Dedicated"
-        ],
-        "summary": "Create Dedicated subscription",
-        "description": "Creates a new Redis Cloud Dedicated subscription.",
-        "operationId": "createSubscription_1",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SubscriptionCreateRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
-          "202": {
-            "description": "Accepted",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TaskStateUpdate"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized - Authentication failed for requested resource"
-          },
-          "403": {
-            "description": "Forbidden - Not allowed to create requested resource (primarily due to not active resource)"
-          },
-          "404": {
-            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
-          },
-          "408": {
-            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
-          },
-          "409": {
-            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with the new name"
-          },
-          "422": {
-            "description": "Unprocessable Entity - The server understands the request, and the syntax of the request is correct, but it was unable to process the contained instructions"
-          },
-          "429": {
-            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
-          },
-          "500": {
-            "description": "Internal system error - If this error persists, please contact customer support"
-          },
-          "503": {
-            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
-          }
-        }
-      }
-    },
     "/fixed/subscriptions": {
       "get": {
         "tags": [
@@ -6687,7 +6617,7 @@
         ],
         "summary": "Create Essentials subscription",
         "description": "Creates a new Essentials subscription.",
-        "operationId": "createSubscription_2",
+        "operationId": "createSubscription_1",
         "requestBody": {
           "content": {
             "application/json": {
@@ -8622,64 +8552,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/RedisVersions"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized - Authentication failed for requested resource"
-          },
-          "403": {
-            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
-          },
-          "404": {
-            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
-          },
-          "429": {
-            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
-          },
-          "500": {
-            "description": "Internal system error - If this error persists, please contact customer support"
-          },
-          "503": {
-            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
-          }
-        }
-      }
-    },
-    "/subscriptions/dedicated/{subscriptionId}": {
-      "get": {
-        "tags": [
-          "Subscriptions - Dedicated"
-        ],
-        "summary": "Get a single dedicated subscription",
-        "description": "Gets information on the specified dedicated subscription.",
-        "operationId": "getSubscriptionById_1",
-        "parameters": [
-          {
-            "name": "subscriptionId",
-            "in": "path",
-            "description": "Subscription ID.",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DedicatedSubscription"
                 }
               }
             }
@@ -12391,6 +12263,18 @@
             "items": {
               "type": "string"
             }
+          },
+          "redisIamRole": {
+            "type": "string"
+          },
+          "requiredKeyPolicyStatements": {
+            "type": "object"
+          },
+          "deletionGracePeriodOptions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         },
         "description": "Configuration regarding customer managed persistent storage encryption"
@@ -13686,60 +13570,6 @@
         },
         "description": "Database tag"
       },
-      "DedicatedSubscription": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique identifier for the subscription",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string",
-            "description": "Name of the subscription"
-          },
-          "paymentMethodId": {
-            "type": "integer",
-            "description": "Payment method identifier",
-            "format": "int32"
-          },
-          "status": {
-            "type": "string",
-            "description": "Current status of the subscription"
-          },
-          "memoryStorage": {
-            "type": "string",
-            "description": "Memory storage configuration for the subscription",
-            "enum": [
-              "ram",
-              "ram-and-flash"
-            ]
-          },
-          "numberOfDatabases": {
-            "type": "integer",
-            "description": "Number of databases in the subscription",
-            "format": "int32"
-          },
-          "paymentMethodType": {
-            "type": "string",
-            "description": "Type of payment method used",
-            "enum": [
-              "credit-card",
-              "marketplace"
-            ]
-          },
-          "links": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "additionalProperties": {
-                "type": "object"
-              }
-            }
-          }
-        },
-        "description": "Redis Dedicated Subscription information"
-      },
       "SubscriptionSpec": {
         "required": [
           "regions"
@@ -14727,7 +14557,6 @@
               "ACTIVE_ACTIVE_CREATE_A_REGION_MUST_BE_DEFINED_ONCE_PER_DATABASE",
               "ACTIVE_ACTIVE_CREATE_A_REGION_DATABASE_RESP_VERSION_IS_NOT_SUPPORTED",
               "TOO_MANY_LOCAL_THROUGHPUT_MEASUREMENTS_DEFINED_FOR_SPECIFIED_ACTIVE_ACTIVE_SUBSCRIPTION",
-              "ACTIVE_ACTIVE_EXTERNAL_CA_NOT_SUPPORTED",
               "ACTIVE_ACTIVE_RAM_AND_FLASH_MEMORY_STORAGE_NOT_SUPPORTED",
               "ACTIVE_ACTIVE_DATABASE_MODULE_IS_NOT_SUPPORTED",
               "ACTIVE_ACTIVE_DATABASE_MODULES_IS_NOT_SUPPORTED",
@@ -15422,7 +15251,7 @@
             "readOnly": true
           }
         },
-        "description": "Dedicated Subscription create request"
+        "description": "Subscription create request"
       },
       "RedisVersions": {
         "type": "object",

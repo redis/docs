@@ -66,10 +66,10 @@ title: EVAL
 Invoke the execution of a server-side Lua script.
 
 The first argument is the script's source code.
-Scripts are written in [Lua](https://lua.org) and executed by the embedded [Lua 5.1]({{< relref "develop/interact/programmability/lua-api" >}}) interpreter in Redis.
+Scripts are written in [Lua](https://lua.org) and executed by the embedded [Lua 5.1]({{< relref "develop/programmability/lua-api" >}}) interpreter in Redis.
 
 The second argument is the number of input key name arguments, followed by all the keys accessed by the script.
-These names of input keys are available to the script as the [_KEYS_ global runtime variable]({{< relref "develop/interact/programmability/lua-api#the-keys-global-variable" >}})
+These names of input keys are available to the script as the [_KEYS_ global runtime variable]({{< relref "develop/programmability/lua-api#the-keys-global-variable" >}})
 Any additional input arguments **should not** represent names of keys.
 
 **Important:**
@@ -83,7 +83,7 @@ These are added to the Lua interpreter and cached to redis-server, consuming a l
 Starting from Redis 7.4, scripts loaded with `EVAL` or [`EVAL_RO`]({{< relref "/commands/eval_ro" >}}) will be deleted from redis after a certain number (least recently used order).
 The number of evicted scripts can be viewed through [`INFO`]({{< relref "/commands/info" >}})'s `evicted_scripts`.
 
-Please refer to the [Redis Programmability]({{< relref "/develop/interact/programmability/" >}}) and [Introduction to Eval Scripts]({{< relref "/develop/interact/programmability/eval-intro" >}}) for more information about Lua scripts.
+Please refer to the [Redis Programmability]({{< relref "/develop/programmability/" >}}) and [Introduction to Eval Scripts]({{< relref "/develop/programmability/eval-intro" >}}) for more information about Lua scripts.
 
 ## Examples
 

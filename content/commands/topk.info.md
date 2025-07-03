@@ -29,15 +29,11 @@ syntax_fmt: TOPK.INFO key
 syntax_str: ''
 title: TOPK.INFO
 ---
-Returns number of required items (k), width, depth and decay values.
+Returns number of required items (k), width, depth, and decay values of a given sketch.
 
-### Parameters
+## Parameters
 
-* **key**: Name of sketch.
-
-## Return
-
-[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with information of the filter.
+* **key**: the name of the sketch.
 
 ## Examples
 
@@ -52,3 +48,23 @@ TOPK.INFO topk
 7) decay
 8) "0.92500000000000004"
 ```
+
+## Return information
+
+{{< multitabs id=“topk-info-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) and [integer]({{< relref "/develop/reference/protocol-spec#integers" >}}) pairs. For decay, a [simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) is used to represent the floating point value.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: incorrect number of arguments, non-existant key, or key of the incorrect type.
+
+-tab-sep-
+
+One of the following:
+
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) and [integer]({{< relref "/develop/reference/protocol-spec#integers" >}}) pairs. For decay, a [double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}}) is used to represent the floating point value.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: incorrect number of arguments, non-existant key, or key of the incorrect type.
+
+{{< /multitabs >}}

@@ -102,7 +102,7 @@ The `NX`, `XX`, `GT`, and `LT` options are mutually exclusive.
 
 ```
 redis> HSET mykey field1 "hello" field2 "world"
-(integer 2)
+(integer) 2
 redis> HPEXPIREAT mykey 1715704971000 FIELDS 2 field1 field2
 1) (integer) 1
 2) (integer) 1

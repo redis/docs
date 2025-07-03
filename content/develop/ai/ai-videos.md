@@ -1,12 +1,12 @@
 ---
-Title: Redis AI video collection
+Title: Redis video tutorial collection
 alwaysopen: false
 categories:
 - docs
 - develop
 - ai
 description: Watch video tutorials and demos showcasing Redis in AI applications, from vector search to RAG implementations.
-linkTitle: AI videos
+linkTitle: Video tutorials
 weight: 60
 ---
 
@@ -20,6 +20,8 @@ Explore our collection of video tutorials and demonstrations showcasing how Redi
 | What if you could skip redundant LLM calls and make your AI app faster, cheaper, and smarter? This video breaks down semantic caching and shows how it can transform your AI applications. | Unlock the Power of Retrieval-Augmented Generation (RAG) with RedisVL. This tutorial will show you how to build a complete RAG pipeline from scratch using Redis as your vector database. | Vector databases have been trending recently as they power modern search, recommendations, and AI-driven applications. Learn what vector databases are and how they work. |
 | [**Building the future Architecting AI Agents with AWS, LlamaIndex and Redis**](https://www.youtube.com/watch?v=SFWroqAbBM4) | [**Building AI Apps using LangChain**](https://www.youtube.com/watch?v=YhxksXfgsp0) | [**Resources to Learn AI with Redis**](https://www.youtube.com/watch?v=M_WU_fN_lrs) |
 | The ins and outs of AI agents: understand their role in breaking down tasks into manageable components for better performance. Learn how to architect AI agents using AWS, LlamaIndex, and Redis. | This series of videos dives into the integration between LangChain and Redis to power AI applications that need runtime speed, scalability, and intelligent data management. | This video shows which resources you can use to learn AI with Redis and build powerful AI applications. |
+| [**What Is RAG? Retrieval-Augmented Generation Explained Simply**](https://www.youtube.com/watch?v=xPMQ2cVbUTI) | [**Chunking Strategies Explained**](https://www.youtube.com/watch?v=ZTOtxiWb2bE) | [**What is an embedding model?**](https://www.youtube.com/watch?v=0U1S0WSsPuE) |
+| Retrieval-Augmented Generation (RAG) is one of the most powerful architectural patterns in GenAI today—combining the strengths of large language models (LLMs) with real-time, external context from your own data. In this session, learn why it matters and how each component—from query rewriting to dense retrieval to semantic chunking—works behind the scenes to power more accurate, grounded, and up-to-date responses. | Are you interested in building LLM applications that actually work? Your chunking strategy makes all the difference. In this video, get a  break down of the science of text chunking so your embeddings can start answering the right questions to your users. | Everyone’s talking about embedding models lately—but what do they actually do, and why does it matter? This video breaks it down in simple terms and shows how embeddings power search, recommendations, and AI features behind the scenes. |
 
 ### Additional Resources
 
@@ -37,7 +39,7 @@ Explore our collection of video tutorials and demonstrations showcasing how Redi
 Ready to start building AI applications with Redis? Check out our:
 
 - [Quickstart guides]({{< relref "/develop/get-started" >}})
-- [Vector search documentation]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}})
+- [Vector search documentation]({{< relref "/develop/ai/search-and-query/vectors" >}})
 - [AI ecosystem integrations]({{< relref "/develop/ai/ecosystem-integrations" >}})
 - [Notebook collection]({{< relref "/develop/ai/notebook-collection" >}})
 - [Vector set data type]({{< relref "/develop/data-types/vector-sets" >}})

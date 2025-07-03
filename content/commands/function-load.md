@@ -47,7 +47,7 @@ The command's gets a single mandatory parameter which is the source code that im
 The library payload must start with Shebang statement that provides a metadata about the library (like the engine to use and the library name).
 Shebang format: `#!<engine name> name=<library name>`. Currently engine name must be `lua`.
 
-For the Lua engine, the implementation should declare one or more entry points to the library with the [`redis.register_function()` API]({{< relref "develop/interact/programmability/lua-api#redis.register_function" >}}).
+For the Lua engine, the implementation should declare one or more entry points to the library with the [`redis.register_function()` API]({{< relref "develop/programmability/lua-api#redis.register_function" >}}).
 Once loaded, you can call the functions in the library with the [`FCALL`]({{< relref "/commands/fcall" >}}) (or [`FCALL_RO`]({{< relref "/commands/fcall_ro" >}}) when applicable) command.
 
 When attempting to load a library with a name that already exists, the Redis server returns an error.
@@ -61,7 +61,7 @@ The command will return an error in the following circumstances:
 * The engine failed in creating the library's functions (due to a compilation error, for example).
 * No functions were declared by the library.
 
-For more information please refer to [Introduction to Redis Functions]({{< relref "/develop/interact/programmability/functions-intro" >}}).
+For more information please refer to [Introduction to Redis Functions]({{< relref "/develop/programmability/functions-intro" >}}).
 
 ## Examples
 

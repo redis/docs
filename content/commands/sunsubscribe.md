@@ -54,7 +54,7 @@ In this case a message for every unsubscribed shard channel will be sent to the 
 
 Note: The global channels and shard channels needs to be unsubscribed from separately.
 
-For more information about sharded Pub/Sub, see [Sharded Pub/Sub]({{< relref "/develop/interact/pubsub#sharded-pubsub" >}}).
+For more information about sharded Pub/Sub, see [Sharded Pub/Sub]({{< relref "/develop/pubsub#sharded-pubsub" >}}).
 
 ## Return information
 
