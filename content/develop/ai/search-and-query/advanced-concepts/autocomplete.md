@@ -111,7 +111,7 @@ To remove a specific suggestion from the dictionary, use the `FT.SUGDEL` command
 
 ```
 redis> FT.SUGDEL autocomplete "help me"
-(integer 1)
+(integer) 1
 ```
 
 After deletion, running `FT.SUGGET autocomplete hell FUZZY` will no longer return "help me".

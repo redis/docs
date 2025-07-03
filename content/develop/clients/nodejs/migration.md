@@ -321,7 +321,7 @@ for await (const keys of client.scanIterator()) {
 
 `ioredis` reports incoming pub/sub messages with a `message`
 event on the client object (see
-[Publish/subscribe]({{< relref "/develop/interact/pubsub" >}}) for more
+[Publish/subscribe]({{< relref "/develop/pubsub" >}}) for more
 information about messages):
 
 ```js
