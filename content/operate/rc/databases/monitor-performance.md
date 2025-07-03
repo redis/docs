@@ -90,6 +90,14 @@ To update alert settings for one or more team members, select **Access Managemen
 
 If you subscribe to Redis Cloud through a Platform-as-a-Service (PaaS) provider (such as Heroku), you will need to review your provider's documentation for help managing your team.
 
+## Connect to Prometheus
+
+Redis Cloud exposes a Prometheus endpoint for Redis Cloud Pro databases. You can use this endpoint to connect Prometheus to your database.
+
+{{< embed-md "rc-get-prometheus-endpoint.md" >}}
+
+For more information on how to connect Prometheus to Redis Cloud, see [Prometheus and Grafana with Redis Cloud]({{< relref "/integrate/prometheus-with-redis-cloud/" >}}).
+
 ## Continue learning with Redis University
 
 {{< university-links >}}
