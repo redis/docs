@@ -5,7 +5,7 @@ categories:
 - docs
 - develop
 - ai
-description: Redis LangCache provides semantic caching-as-a-service to reduce LLM costs and improve response times for AI applications.
+description: Store LLM responses for AI apps in a semantic cache.
 linkTitle: LangCache
 hideListLinks: true
 weight: 30
@@ -29,13 +29,13 @@ Using LangCache as a semantic caching service has the following benefits:
 
 - **Lower LLM costs**:  Reduce costly LLM calls by easily storing the most frequently-requested responses.
 - **Faster AI app responses**: Get faster AI responses by retrieving previously-stored requests from memory.
-- **Simpler Deployments**: Access our managed service via a REST API with automated embedding generation, configurable controls, and no database management required.
+- **Simpler Deployments**: Access our managed service using a REST API with automated embedding generation, configurable controls, and no database management required.
 - **Advanced cache management**: Manage data access and privacy, eviction protocols, and monitor usage and cache hit rates.
 
 LangCache works well for the following use cases:
 
 - **AI assistants and chatbots**: Optimize conversational AI applications by caching common responses and reducing latency for frequently asked questions.
-- **RAG applications**: Enhance retrieval-augmented generation performance by caching responses to similar queries, reducing both cost and response time..
+- **RAG applications**: Enhance retrieval-augmented generation performance by caching responses to similar queries, reducing both cost and response time.
 - **AI agents**: Improve multi-step reasoning chains and agent workflows by caching intermediate results and common reasoning patterns.
 - **AI gateways**: Integrate LangCache into centralized AI gateway services to manage and control LLM costs across multiple applications..
 
@@ -62,7 +62,7 @@ See the [LangCache API reference]({{< relref "/develop/ai/langcache/api-referenc
 
 ## Get started
 
-LangCache is currently in preview through two different ways:
+LangCache is currently in preview:
 
 - Public preview on [Redis Cloud]({{< relref "/operate/rc/langcache" >}})
 - Fully-managed [private preview](https://redis.io/langcache/)

@@ -13,7 +13,7 @@ bannerText: LangCache on Redis Cloud is currently available as a public preview.
 bannerChildren: true
 ---
 
-LangCache is a semantic caching service available as a REST API that stores LLM responses for fast and cheaper retrieval, built on the Redis vector database. By using semantic caching, customers can significantly reduce API costs and lower the average latency of their generative AI applications.
+LangCache is a semantic caching service available as a REST API that stores LLM responses for fast and cheaper retrieval, built on the Redis vector database. By using semantic caching, you can significantly reduce API costs and lower the average latency of your generative AI applications.
 
 For more information about how LangCache works, see the [LangCache overview]({{< relref "/develop/ai/langcache" >}}).
 
