@@ -86,7 +86,7 @@ following table:
     n     New key events (Note: not included in the 'A' class)
     o     Overwritten events (events generated every time a key is overwritten)
     c     Type-changed events (events generated every time a key's type changes)
-    A     Alias for "g$lshztxed", so that the "AKE" string means all the events except "m" and "n".
+    A     Alias for "g$lshztxedoc", so that the "AKE" string means all the events except "m" and "n".
 
 At least `K` or `E` should be present in the string, otherwise no event
 will be delivered regardless of the rest of the string.
