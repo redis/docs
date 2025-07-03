@@ -37,19 +37,9 @@ You can quickly set up Prometheus and Grafana for testing using the Prometheus a
 
 1. Set up [VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}}).
 
-1. Extract the Prometheus endpoint from the private endpoint to your database. The private endpoint is in the [Redis Cloud console](https://cloud.redis.io/) under the [Configuration tab]({{< relref "/operate/rc/databases/view-edit-database#configuration-tab" >}}) of your database. The Prometheus endpoint is on port 8070 of the internal server.
+1. Get the prometheus endpoint for your database. 
 
-    For example, if your private endpoint is:
-
-    ```sh
-    redis-12345.internal.<cluster_address>:12345
-    ```
-
-    The Prometheus endpoint is:
-
-    ```sh
-    internal.<cluster_address>:8070
-    ``` 
+    {{< embed-md "content/embeds/rc-get-prometheus-endpoint.md" >}}
 
 1. Create an instance to run Prometheus and Grafana on the same cloud provider as your Redis Cloud subscription (for example, Amazon Web Services or Google Cloud). This instance must:
     - Exist in the same region as your Redis Cloud subscription.
