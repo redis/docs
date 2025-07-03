@@ -6,8 +6,8 @@ categories:
 - ai
 description: Learn to use the Redis LangCache API for semantic caching.
 hideListLinks: true
-linktitle: API reference
-title: LangCache API reference
+linktitle: API and SDK reference
+title: LangCache API and SDK reference
 weight: 10
 ---
 
