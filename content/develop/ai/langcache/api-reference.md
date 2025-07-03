@@ -39,7 +39,11 @@ curl -s -X GET "https://$HOST/v1/caches/$CACHE_ID/health" \
 This example uses `cURL` and Linux shell scripts to demonstrate the API; you can use any standard REST client or library.
 {{% /info %}}
 
-## Check cache health
+You can also use the [LangCache SDKs](#langcache-sdk) for Javascript and Python to access the API.
+
+## API examples
+
+### Check cache health
 
 Use `GET /v1/caches/{cacheId}/health` to check the health of the cache.
 
@@ -47,7 +51,7 @@ Use `GET /v1/caches/{cacheId}/health` to check the health of the cache.
 GET https://[host]/v1/caches/{cacheId}/health
 ```
 
-## Search LangCache for similar responses
+### Search LangCache for similar responses
 
 Use `POST /v1/caches/{cacheId}/search` to search the cache for matching responses to a user prompt.
 
@@ -74,7 +78,7 @@ POST https://[host]/v1/caches/{cacheId}/search
 }
 ```
 
-## Store a new response in LangCache
+### Store a new response in LangCache
 
 Use `POST /v1/caches/{cacheId}/entries` to store a new response in the cache.
 
@@ -101,7 +105,7 @@ POST https://[host]/v1/caches/{cacheId}/entries
 }
 ```
 
-## Delete cached responses
+### Delete cached responses
 
 Use `DELETE /v1/caches/{cacheId}/entries/{entryId}` to delete a cached response from the cache.
 
@@ -115,3 +119,11 @@ DELETE https://[host]/v1/caches/{cacheId}/entries
     }
 }
 ```
+## LangCache SDK
+
+If your app is written in Javascript or Python, you can also use the LangCache Software Development Kits (SDKs) to access the API. 
+
+To learn how to use the LangCache SDKs:
+
+- [LangCache SDK for Javascript](https://www.npmjs.com/package/@redis-ai/langcache)
+- [LangCache SDK for Python](https://pypi.org/project/langcache/)
