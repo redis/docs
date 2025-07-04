@@ -62,6 +62,10 @@ Get metrics from Redis Cloud:
       - targets: ["REDIS_CLOUD_HOST:8070"]
 ```
 
+Replace `REDIS_CLOUD_HOST` with the Prometheus endpoint for your database. 
+
+{{< embed-md "content/embeds/rc-get-prometheus-endpoint.md" >}}
+
 Write them to New Relic:
 
 ```yaml

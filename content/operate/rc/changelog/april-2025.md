@@ -11,7 +11,7 @@ highlights: New UI and dark mode, Map multiple Redis Cloud accounts to marketpla
 linktitle: April 2025
 tags:
 - changelog
-weight: 32
+weight: 76
 ---
 
 ## New features
