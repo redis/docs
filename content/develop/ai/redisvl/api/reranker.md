@@ -1,8 +1,6 @@
 ---
 linkTitle: Rerankers
 title: Rerankers
-aliases:
-- /integrate/redisvl/api/reranker
 ---
 
 

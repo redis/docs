@@ -1,8 +1,6 @@
 ---
 linkTitle: Install RedisVL
 title: Install RedisVL
-aliases:
-- /integrate/redisvl/overview/installation
 ---
 
 

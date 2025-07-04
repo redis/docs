@@ -3,8 +3,6 @@ linkTitle: RedisVL API
 title: RedisVL API
 weight: 5
 hideListLinks: true
-aliases:
-- /integrate/redisvl/api
 ---
 
 
@@ -59,6 +57,3 @@ Reference documentation for the RedisVL API.
   * [Route](router/#route)
   * [Route Match](router/#route-match)
   * [Distance Aggregation Method](router/#distance-aggregation-method)
-* [Threshold Optimizers](threshold_optimizer/)
-  * [CacheThresholdOptimizer](threshold_optimizer/#cachethresholdoptimizer)
-  * [RouterThresholdOptimizer](threshold_optimizer/#routerthresholdoptimizer)
