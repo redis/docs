@@ -1,8 +1,6 @@
 ---
 linkTitle: Filter
 title: Filter
-aliases:
-- /integrate/redisvl/api/filter
 ---
 
 

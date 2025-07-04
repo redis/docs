@@ -2,8 +2,6 @@
 linkTitle: Vectorizers
 title: Vectorizers
 weight: 04
-aliases:
-- /integrate/redisvl/user_guide/vectorizers
 ---
 
 
@@ -126,7 +124,7 @@ embeddings[0][:10]
 
 
 ```python
-# openai also supports asyncronous requests, which we can use to speed up the vectorization process.
+# openai also supports asynchronous requests, which we can use to speed up the vectorization process.
 embeddings = await oai.aembed_many(sentences)
 print("Number of Embeddings:", len(embeddings))
 
@@ -409,7 +407,7 @@ from redisvl.utils.vectorize import MistralAITextVectorizer
 
 mistral = MistralAITextVectorizer()
 
-# embed a sentence using their asyncronous method
+# embed a sentence using their asynchronous method
 test = await mistral.aembed("This is a test sentence.")
 print("Vector dimensions: ", len(test))
 print(test[:10])

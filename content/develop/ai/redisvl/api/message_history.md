@@ -1,8 +1,6 @@
 ---
 linkTitle: LLM message history
 title: LLM Message History
-aliases:
-- /integrate/redisvl/api/message_history
 ---
 
 
@@ -93,7 +91,7 @@ Remove a specific exchange from the message history.
 
 #### `get_recent(top_k=5, as_text=False, raw=False, session_tag=None)`
 
-Retreive the recent message history in sequential order.
+Retrieve the recent message history in sequential order.
 
 * **Parameters:**
   * **top_k** (*int*) – The number of previous exchanges to return. Default is 5.

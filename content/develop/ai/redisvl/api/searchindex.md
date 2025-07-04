@@ -1,8 +1,6 @@
 ---
 linkTitle: Search index classes
 title: Search Index Classes
-aliases:
-- /integrate/redisvl/api/searchindex
 ---
 
 
@@ -49,7 +47,7 @@ kwargs.
 
 * **Parameters:**
   * **schema** ([*IndexSchema*]({{< relref "schema/#indexschema" >}})) – Index schema object.
-  * **redis_client** (*Optional* *[* *redis.Redis* *]*) – An
+  * **redis_client** (*Optional* *[* *Redis* *]*) – An
     instantiated redis client.
   * **redis_url** (*Optional* *[* *str* *]*) – The URL of the Redis server to
     connect to.
@@ -89,13 +87,13 @@ This method takes a list of queries and optionally query params and
 returns a list of Result objects for each query. Results are
 returned in the same order as the queries.
 
+NOTE: Cluster users may need to incorporate hash tags into their query
+to avoid cross-slot operations.
+
 * **Parameters:**
-  * **queries** (*List* *[* *SearchParams* *]*) – The queries to search for. batch_size
-  * **(* ***int** – The number of queries to search for at a time.
+  * **queries** (*List* *[* *SearchParams* *]*) – The queries to search for.
+  * **batch_size** (*int* *,* *optional*) – The number of queries to search for at a time.
     Defaults to 10.
-  * **optional****)** – The number of queries to search for at a time.
-    Defaults to 10.
-  * **batch_size** (*int*)
 * **Returns:**
   The search results for each query.
 * **Return type:**
@@ -105,6 +103,10 @@ returned in the same order as the queries.
 
 Clear all keys in Redis associated with the index, leaving the index
 available and in-place for future insertions or updates.
+
+NOTE: This method requires custom behavior for Redis Cluster because
+here, we can’t easily give control of the keys we’re clearing to the
+user so they can separate them based on hash tag.
 
 * **Returns:**
   Count of records deleted from Redis.
@@ -176,6 +178,10 @@ Remove documents from the index by their document IDs.
 
 This method converts document IDs to Redis keys automatically by applying
 the index’s key prefix and separator configuration.
+
+NOTE: Cluster users will need to incorporate hash tags into their
+document IDs and only call this method with documents from a single hash
+tag at a time.
 
 * **Parameters:**
   **ids** (*Union* *[* *str* *,* *List* *[* *str* *]* *]*) – The document ID or IDs to remove from the index.
@@ -262,7 +268,7 @@ Initialize from an existing search index in Redis by index name.
 
 * **Parameters:**
   * **name** (*str*) – Name of the search index in Redis.
-  * **redis_client** (*Optional* *[* *redis.Redis* *]*) – An
+  * **redis_client** (*Optional* *[* *Redis* *]*) – An
     instantiated redis client.
   * **redis_url** (*Optional* *[* *str* *]*) – The URL of the Redis server to
     connect to.
@@ -437,12 +443,12 @@ Async Redis client. It is useful for cases where an external,
 custom-configured client is preferred instead of creating a new one.
 
 * **Parameters:**
-  **redis_client** (*redis.Redis*) – A Redis or Async Redis
+  **redis_client** (*Redis*) – A Redis or Async Redis
   client instance to be used for the connection.
 * **Raises:**
   **TypeError** – If the provided client is not valid.
 
-#### `property client: Redis | None`
+#### `property client: Redis | RedisCluster | None`
 
 The underlying redis-py client object.
 
@@ -504,7 +510,7 @@ Initialize the RedisVL async search index with a schema.
   * **schema** ([*IndexSchema*]({{< relref "schema/#indexschema" >}})) – Index schema object.
   * **redis_url** (*Optional* *[* *str* *]* *,* *optional*) – The URL of the Redis server to
     connect to.
-  * **redis_client** (*Optional* *[* *aredis.Redis* *]*) – An
+  * **redis_client** (*Optional* *[* *AsyncRedis* *]*) – An
     instantiated redis client.
   * **connection_kwargs** (*Optional* *[* *Dict* *[* *str* *,* *Any* *]* *]*) – Redis client connection
     args.
@@ -536,27 +542,41 @@ Asynchronously execute a batch of queries and process results.
 
 #### `async batch_search(queries, batch_size=10)`
 
-Perform a search against the index for multiple queries.
+Asynchronously execute a batch of search queries.
 
-This method takes a list of queries and returns a list of Result objects
-for each query. Results are returned in the same order as the queries.
+This method takes a list of search queries and executes them in batches
+to improve performance when dealing with multiple queries.
+
+NOTE: Cluster users may need to incorporate hash tags into their query
+to avoid cross-slot operations.
 
 * **Parameters:**
-  * **queries** (*List* *[* *SearchParams* *]*) – The queries to search for. batch_size
-  * **(* ***int** – The number of queries to search for at a time.
-    Defaults to 10.
-  * **optional****)** – The number of queries to search for at a time.
-    Defaults to 10.
-  * **batch_size** (*int*)
+  * **queries** (*List* *[* *SearchParams* *]*) – A list of search queries to execute.
+    Each query can be either a string or a tuple of (query, params).
+  * **batch_size** (*int* *,* *optional*) – The number of queries to execute in each
+    batch. Defaults to 10.
 * **Returns:**
-  The search results for each query.
+  A list of search results corresponding to each query.
 * **Return type:**
   List[Result]
+
+```python
+queries = [
+    "hello world",
+    ("goodbye world", {"num_results": 5}),
+]
+
+results = await index.batch_search(queries)
+```
 
 #### `async clear()`
 
 Clear all keys in Redis associated with the index, leaving the index
 available and in-place for future insertions or updates.
+
+NOTE: This method requires custom behavior for Redis Cluster because here,
+we can’t easily give control of the keys we’re clearing to the user so they
+can separate them based on hash tag.
 
 * **Returns:**
   Count of records deleted from Redis.
@@ -617,6 +637,10 @@ Remove documents from the index by their document IDs.
 
 This method converts document IDs to Redis keys automatically by applying
 the index’s key prefix and separator configuration.
+
+NOTE: Cluster users will need to incorporate hash tags into their
+document IDs and only call this method with documents from a single hash
+tag at a time.
 
 * **Parameters:**
   **ids** (*Union* *[* *str* *,* *List* *[* *str* *]* *]*) – The document ID or IDs to remove from the index.
@@ -701,7 +725,7 @@ Initialize from an existing search index in Redis by index name.
 
 * **Parameters:**
   * **name** (*str*) – Name of the search index in Redis.
-  * **redis_client** (*Optional* *[* *redis.Redis* *]*) – An
+  * **redis_client** (*Optional* *[* *Redis* *]*) – An
     instantiated redis client.
   * **redis_url** (*Optional* *[* *str* *]*) – The URL of the Redis server to
     connect to.
@@ -873,11 +897,11 @@ results = await index.query(query)
 
 #### `async search(*args, **kwargs)`
 
-Perform a search on this index.
+Perform an async search against the index.
 
-Wrapper around redis.search.Search that adds the index name
-to the search query and passes along the rest of the arguments
-to the redis-py ft.search() method.
+Wrapper around the search API that adds the index name
+to the query and passes along the rest of the arguments
+to the redis-py ft().search() method.
 
 * **Returns:**
   Raw Redis search results.
@@ -890,9 +914,9 @@ to the redis-py ft.search() method.
 This method is deprecated; please provide connection parameters in \_\_init_\_.
 
 * **Parameters:**
-  **redis_client** (*Redis* *|* *Redis*)
+  **redis_client** (*Redis* *|* *RedisCluster* *|* *Redis* *|* *RedisCluster*)
 
-#### `property client: Redis | None`
+#### `property client: Redis | RedisCluster | None`
 
 The underlying redis-py client object.
 
