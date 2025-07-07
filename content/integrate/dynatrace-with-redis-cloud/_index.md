@@ -42,7 +42,7 @@ If you have not already created a VPC between the Redis Cloud cluster and the ne
 Prometheus lives you should do so now. Please visit [VPC Peering](https://redis.io/docs/latest/operate/rc/security/vpc-peering/) 
 and follow the instructions for the cloud platform of your choice.
 
-You'll also need the Prometheus endpoint for your database.
+You'll also need the [Prometheus endpoint for your database]({{< relref "/operate/rc/databases/monitor-performance#connect-to-prometheus" >}}) from the [Redis Cloud console](https://cloud.redis.io/).
 
 {{< embed-md "content/embeds/rc-get-prometheus-endpoint.md" >}}
 
