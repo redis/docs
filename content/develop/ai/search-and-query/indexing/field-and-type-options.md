@@ -1,6 +1,7 @@
 ---
 aliases:
-- /develop/ai/search-and-query/basic-constructs/field-and-type-options
+- /develop/interact/search-and-query/indexing/field-and-type-options
+- /develop/interact/search-and-query/basic-constructs/field-and-type-options
 categories:
 - docs
 - develop

@@ -9,7 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-- aliases: /develop/interact/programmability/eval-intro
+aliases: /develop/interact/programmability/eval-intro
 description: 'Executing Lua in Redis
 
   '
@@ -191,7 +191,7 @@ Please consult your client's documentation regarding the specific details.
 
 ### `EVALSHA` in the context of pipelining
 
-Special care should be given executing [`EVALSHA`]({{< relref "/commands/evalsha" >}}) in the context of a [pipelined request]({{< relref "/develop/reference/pipelining" >}}).
+Special care should be given executing [`EVALSHA`]({{< relref "/commands/evalsha" >}}) in the context of a [pipelined request]({{< relref "/develop/using-commands/pipelining" >}}).
 The commands in a pipelined request run in the order they are sent, but other clients' commands may be interleaved for execution between these.
 Because of that, the `NOSCRIPT` error can return from a pipelined request but can't be handled.
 
@@ -229,7 +229,7 @@ These are:
   _1_ means the specific SHA1 is recognized as a script already present in the scripting cache. _0_'s meaning is that a script with this SHA1 wasn't loaded before (or at least never since the latest call to [`SCRIPT FLUSH`]({{< relref "/commands/script-flush" >}})).
 
 * `SCRIPT LOAD script`: this command registers the specified script in the Redis script cache. 
-  It is a useful command in all the contexts where we want to ensure that [`EVALSHA`]({{< relref "/commands/evalsha" >}}) doesn't not fail (for instance, in a pipeline or when called from a [`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) [transaction]({{< relref "/develop/reference/transactions" >}}), without the need to execute the script.
+  It is a useful command in all the contexts where we want to ensure that [`EVALSHA`]({{< relref "/commands/evalsha" >}}) doesn't not fail (for instance, in a pipeline or when called from a [`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) [transaction]({{< relref "develop/using-commands/transactions" >}}), without the need to execute the script.
 
 * [`SCRIPT KILL`]({{< relref "/commands/script-kill" >}}): this command is the only way to interrupt a long-running script (a.k.a slow script), short of shutting down the server.
   A script is deemed as slow once its execution's duration exceeds the configured [maximum execution time]({{< relref "/develop/programmability/#maximum-execution-time" >}}) threshold.
@@ -271,7 +271,7 @@ We call this **script effects replication**.
 starting with Redis 5.0, script effects replication is the default mode and does not need to be explicitly enabled.
 
 In this replication mode, while Lua scripts are executed, Redis collects all the commands executed by the Lua scripting engine that actually modify the dataset.
-When the script execution finishes, the sequence of commands that the script generated are wrapped into a [`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) [transaction]({{< relref "/develop/reference/transactions" >}}) and are sent to the replicas and AOF.
+When the script execution finishes, the sequence of commands that the script generated are wrapped into a [`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) [transaction]({{< relref "develop/using-commands/transactions" >}}) and are sent to the replicas and AOF.
 
 This is useful in several ways depending on the use case:
 

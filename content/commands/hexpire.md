@@ -113,6 +113,10 @@ You can call `HEXPIRE` using as argument a field that already has an
 existing TTL set.
 In this case, the time to live is _updated_ to the new value.
 
+## Redis Query Engine and field expiration
+
+Starting with Redis 8, the Redis Query Engine has enhanced behavior when handling expiring hash fields. For detailed information about how [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) and [`FT.AGGREGATE`]({{< relref "/commands/ft.aggregate" >}}) commands interact with expiring hash fields, see [Key and field expiration behavior]({{< relref "/develop/ai/search-and-query/advanced-concepts/expiration" >}}).
+
 ## Example
 
 ```

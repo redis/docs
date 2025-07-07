@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/interact/search-and-query/best-practices/index-mgmt-best-practices
 Title: Index management best practices for Redis Query Engine
 alwaysopen: false
 categories:
@@ -150,7 +152,7 @@ Monitoring and troubleshooting aliases:
 ## Index maintenance
 
 - If schema changes are required, create a new index with the updated schema and reassign the alias once the index is ready.
-- Use [Redis key expiration]({{< relref "/develop/keyspace#key-expiration" >}}) to automatically remove outdated records and keep indexes lean.
+- Use [Redis key expiration]({{< relref "/develop/using-commands/keyspace#key-expiration" >}}) to automatically remove outdated records and keep indexes lean.
 
 ### FT.ALTER vs. aliasing
 

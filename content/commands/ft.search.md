@@ -860,5 +860,6 @@ Query with `CONTAINS` operator:
 
 - [Extensions]({{< relref "/develop/ai/search-and-query/administration/extensions" >}})
 - [Highlighting]({{< relref "/develop/ai/search-and-query/advanced-concepts/highlight" >}})
+- [Key and field expiration behavior]({{< relref "/develop/ai/search-and-query/advanced-concepts/expiration" >}})
 - [Query syntax]({{< relref "/develop/ai/search-and-query/query/" >}})
 - [RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
