@@ -349,106 +349,6 @@ OK
          2) 18
 ```
 
-## Deleting data points
-
-Use [`TS.DEL`]({{< relref "commands/ts.del/" >}}) to delete data points
-that fall within a given timestamp range. The range is inclusive, meaning that
-samples whose timestamp equals the start or end of the range are deleted.
-If you want to delete a single timestamp, use it as both the start and end of the range.
-
-```bash
-> TS.INFO thermometer:1
- 1) totalSamples
- 2) (integer) 2
- 3) memoryUsage
- 4) (integer) 4856
- 5) firstTimestamp
- 6) (integer) 1
- 7) lastTimestamp
- 8) (integer) 2
-    .
-    .
-> TS.ADD thermometer:1 3 9.7
-(integer) 3
-127.0.0.1:6379> TS.INFO thermometer:1
- 1) totalSamples
- 2) (integer) 3
- 3) memoryUsage
- 4) (integer) 4856
- 5) firstTimestamp
- 6) (integer) 1
- 7) lastTimestamp
- 8) (integer) 3
-    .
-    .
-> TS.DEL thermometer:1 1 2
-(integer) 2
-> TS.INFO thermometer:1
- 1) totalSamples
- 2) (integer) 1
- 3) memoryUsage
- 4) (integer) 4856
- 5) firstTimestamp
- 6) (integer) 3
- 7) lastTimestamp
- 8) (integer) 3
-    .
-    .
-> TS.DEL thermometer:1 3 3
-(integer) 1
-> TS.INFO thermometer:1
- 1) totalSamples
- 2) (integer) 0
-    .
-    .
-```
-
-## Filtering
-You can filter your time series by value, timestamp and labels:
-
-### Filtering by label
-You can retrieve datapoints from multiple timeseries in the same query, and the way to do this is by using label filters. For example:
-
-```
-TS.MRANGE - + FILTER area_id=32
-```
-
-This query will show data from all sensors (timeseries) that have a label of `area_id` with a value of `32`. The results will be grouped by timeseries.
-
-Or we can also use the [`TS.MGET`]({{< relref "commands/ts.mget/" >}}) command to get the last sample that matches the specific filter:
-
-```
-TS.MGET FILTER area_id=32
-```
-
-### Filtering by value
-We can filter by value across a single or multiple timeseries:
-
-```
-TS.RANGE sensor1 - + FILTER_BY_VALUE 25 30
-```
-This command will return all data points whose value sits between 25 and 30, inclusive.
-
-To achieve the same filtering on multiple series we have to combine the filtering by value with filtering by label:
-
-```
-TS.MRANGE - +  FILTER_BY_VALUE 20 30 FILTER region=east
-```
-
-### Filtering by timestamp
-To retrieve the datapoints for specific timestamps on one or multiple timeseries we can use the `FILTER_BY_TS` argument:
-
-Filter on one timeseries:
-```
-TS.RANGE sensor1 - + FILTER_BY_TS 1626435230501 1626443276598
-```
-
-Filter on multiple timeseries:
-```
-TS.MRANGE - +  FILTER_BY_TS 1626435230501 1626443276598 FILTER region=east
-```
-
-
 ## Aggregation
 It's possible to combine values of one or more timeseries by leveraging aggregation functions:
 ```
@@ -558,6 +458,59 @@ TS.CREATERULE sensor1 sensor1_compacted AGGREGATION avg 60000   # Create the rul
 
 With this creation rule, datapoints added to the `sensor1` timeseries will be grouped into buckets of 60 seconds (60000ms), averaged, and saved in the `sensor1_compacted` timeseries.
 
+## Deleting data points
+
+Use [`TS.DEL`]({{< relref "commands/ts.del/" >}}) to delete data points
+that fall within a given timestamp range. The range is inclusive, meaning that
+samples whose timestamp equals the start or end of the range are deleted.
+If you want to delete a single timestamp, use it as both the start and end of the range.
+
+```bash
+> TS.INFO thermometer:1
+ 1) totalSamples
+ 2) (integer) 2
+ 3) memoryUsage
+ 4) (integer) 4856
+ 5) firstTimestamp
+ 6) (integer) 1
+ 7) lastTimestamp
+ 8) (integer) 2
+    .
+    .
+> TS.ADD thermometer:1 3 9.7
+(integer) 3
+127.0.0.1:6379> TS.INFO thermometer:1
+ 1) totalSamples
+ 2) (integer) 3
+ 3) memoryUsage
+ 4) (integer) 4856
+ 5) firstTimestamp
+ 6) (integer) 1
+ 7) lastTimestamp
+ 8) (integer) 3
+    .
+    .
+> TS.DEL thermometer:1 1 2
+(integer) 2
+> TS.INFO thermometer:1
+ 1) totalSamples
+ 2) (integer) 1
+ 3) memoryUsage
+ 4) (integer) 4856
+ 5) firstTimestamp
+ 6) (integer) 3
+ 7) lastTimestamp
+ 8) (integer) 3
+    .
+    .
+> TS.DEL thermometer:1 3 3
+(integer) 1
+> TS.INFO thermometer:1
+ 1) totalSamples
+ 2) (integer) 0
+    .
+    .
+```
 
 ## Using with other metrics tools
 
