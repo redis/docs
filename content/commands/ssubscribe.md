@@ -53,7 +53,7 @@ Client(s) can subscribe to a node covering a slot (primary/replica) to receive t
 All the specified shard channels needs to belong to a single slot to subscribe in a given `SSUBSCRIBE` call,
 A client can subscribe to channels across different slots over separate `SSUBSCRIBE` call.
 
-For more information about sharded Pub/Sub, see [Sharded Pub/Sub]({{< relref "/develop/interact/pubsub#sharded-pubsub" >}}).
+For more information about sharded Pub/Sub, see [Sharded Pub/Sub]({{< relref "/develop/pubsub#sharded-pubsub" >}}).
 
 ## Examples
 

@@ -286,7 +286,7 @@ Also note that this behavior is specific of [`SSCAN`]({{< relref "/commands/ssca
 
 ## Further reading
 
-For more information about managing keys, please refer to the [The Redis Keyspace]({{< relref "/develop/use/keyspace" >}}) tutorial.
+For more information about managing keys, please refer to the [The Redis Keyspace]({{< relref "/develop/using-commands/keyspace" >}}) tutorial.
 
 ## Additional examples
 

@@ -223,7 +223,7 @@ To monitor over time the RSS memory size it's possible to use the following comm
 ## Mass insertion of data using `redis-cli`
 
 Mass insertion using `redis-cli` is covered in a separate page as it is a
-worthwhile topic itself. Please refer to our [mass insertion guide]({{< relref "/develop/use/patterns/bulk-loading" >}}).
+worthwhile topic itself. Please refer to our [mass insertion guide]({{< relref "/develop/clients/patterns/bulk-loading" >}}).
 
 ## CSV output
 
@@ -239,7 +239,7 @@ Note that the `--csv` flag will only work on a single command, not the entirety 
 ## Run Lua scripts
 
 The `redis-cli` has extensive support for using the debugging facility
-of Lua scripting, available with Redis 3.2 onwards. For this feature, refer to the [Redis Lua debugger documentation]({{< relref "/develop/interact/programmability/lua-debugging" >}}).
+of Lua scripting, available with Redis 3.2 onwards. For this feature, refer to the [Redis Lua debugger documentation]({{< relref "/develop/programmability/lua-debugging" >}}).
 
 Even without using the debugger, `redis-cli` can be used to
 run scripts from a file as an argument:
@@ -450,7 +450,7 @@ are explained in the next sections:
 * Monitoring tool to show continuous stats about a Redis server.
 * Scanning a Redis database for very large keys.
 * Key space scanner with pattern matching.
-* Acting as a [Pub/Sub]({{< relref "/develop/interact/pubsub" >}}) client to subscribe to channels.
+* Acting as a [Pub/Sub]({{< relref "/develop/pubsub" >}}) client to subscribe to channels.
 * Monitoring the commands executed into a Redis instance.
 * Checking the [latency]({{< relref "/operate/oss_and_stack/management/optimization/latency" >}}) of a Redis server in different ways.
 * Checking the scheduler latency of the local computer.
