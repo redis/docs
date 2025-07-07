@@ -9,7 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-- aliases:
+aliases:
 - /develop/interact/programmability
 - /develop/interact/programmability/
 description: 'Extending Redis with Lua and Redis Functions
