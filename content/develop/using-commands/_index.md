@@ -15,6 +15,10 @@ title: Using Redis commands
 aliases:
 - /develop/interact/
 - /develop/interact
+- /develop/use/
+- /develop/use
+- /develop/use/pipelining/
+- /develop/use/pipelining
 weight: 33
 ---
 
