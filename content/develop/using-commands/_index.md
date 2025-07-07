@@ -12,6 +12,9 @@ categories:
 description: Learn how to interact with Redis using commands.
 linkTitle: Using commands
 title: Using Redis commands
+aliases:
+- /develop/interact/
+- /develop/interact
 weight: 33
 ---
 
