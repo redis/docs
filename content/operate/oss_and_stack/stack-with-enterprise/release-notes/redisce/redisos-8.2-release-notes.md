@@ -12,7 +12,7 @@ min-version-rs: blah
 weight: 20
 ---
 
-## Redis Open Source 8.2.0 (July 2025)
+## Redis Open Source 8.2-RC1 (July 2025)
 
 This is the first Release Candidate of Redis Open Source 8.2.
 
