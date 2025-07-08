@@ -144,7 +144,7 @@ Choose the `SYS-VAMANA` index type when you need vector search
 | Attribute          | Description                              |
 |:-------------------|:-----------------------------------------|
 | `TYPE`             | Vector type (`FLOAT16` or `FLOAT32`). Note: `COMPRESSION` is supported with both types. |
-| `DIM`              | The width, or number of dimensions, of the vector embeddings stored in this field. In other words, the number of floating point elements comprising the vector. `DIM` must be a positive integer. The vector used to query this field must have the exact dimensions as the field itself.  |
+| `DIM`              | The width, or number of dimensions, of the vector embeddings stored in this field. In other words, the number of floating point elements comprising the vector. `DIM` must be a positive integer. The vector used to query this field must have the exact same dimensions as the field itself.  |
 | `DISTANCE_METRIC`  | Distance metric (`L2`, `IP`, `COSINE`).  |
 
 **Optional attributes**
@@ -156,7 +156,7 @@ Choose the `SYS-VAMANA` index type when you need vector search
 | `COMPRESSION`              | Compression algorithm (`LVQ8`, `LVQ8`, `LVQ4`, `LVQ4x4`, `LVQ4x8`, `LeanVec4x8`, or `LeanVec8x8`). Vectors will be compressed during indexing. Note: On non-Intel platforms, `SVS-VAMANA` with `COMPRESSION` will fall back to Intel’s basic quantization implementation. |
 | `CONSTRUCTION_WINDOW_SIZE` | The search window size (the default is 200) to use during graph construction. A higher search window size will yield a higher quality graph since more overall vertexes are considered, but will increase construction time. |
 | `GRAPH_MAX_DEGREE`         | The maximum node degree in the graph (the default is 32). A higher max degree may yield a higher quality graph in terms of recall for performance, but the memory footprint of the graph is directly proportional to the maximum degree. |
-| `SEARCH_WINDOW_SIZE`       | The size of the search window size (the default is 10). Increasing the search window size and capacity generally yields more accurate but slower search results. |
+| `SEARCH_WINDOW_SIZE`       | The size of the search window (the default is 10). Increasing the search window size and capacity generally yields more accurate but slower search results. |
 | `EPSILON`                  | The range search approximation factor (default is 0.01). |
 | `TRAINING_THRESHOLD`       | The number of vectors after which training is triggered. Applicable only when used with `COMPRESSION`. The default value is `10 * DEFAULT_BLOCK_SIZE` or, if provided, the value is limited to `100 * DEFAULT_BLOCK_SIZE`, where `DEFAULT_BLOCK_SIZE` is 1024. |
 | `LEANVEC_DIM`              | The dimension used when using `LeanVec4x8` or `LeanVec8x8` compression for dimensionality reduction. The default value is `DIM / 2`. If provided, the value should be less than `DIM`. |
@@ -433,9 +433,9 @@ Optional runtime parameters for SYS-VAMANA indexes are:
 
 | Parameter | Description | Default value |
 |:----------|:------------|:--------------|
-| `SEARCH_WINDOW_SIZE` | The size of the search window size (applies only to KNN searches). | 10 or the value that was passed upon index creation. |
+| `SEARCH_WINDOW_SIZE` | The size of the search window (applies only to KNN searches). | 10 or the value that was passed upon index creation. |
 | `GRAPH_MAX_DEGREE` | The maximum node degree in the graph. | 32 or the value that was passed upon index creation. |
-| `SEARCH_WINDOW_SIZE` | The size of the search window size. | 10 or the value that was passed upon index creation. |
+| `SEARCH_WINDOW_SIZE` | The size of the search window. | 10 or the value that was passed upon index creation. |
 | `EPSILON` | The range search approximation factor. | 0.01 or the value that was passed upon index creation. |
 
 
