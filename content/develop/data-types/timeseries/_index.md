@@ -350,81 +350,16 @@ OK
 ```
 
 ## Aggregation
-It's possible to combine values of one or more timeseries by leveraging aggregation functions:
-```
-TS.RANGE ... AGGREGATION aggType bucketDuration...
-```
-
-For example, to find the average temperature per hour in our `sensor1` series we could run:
-```
-TS.RANGE sensor1 - + + AGGREGATION avg 3600000
-```
-
-To achieve the same across multiple sensors from the area with id of 32 we would run:
-```
-TS.MRANGE - + AGGREGATION avg 3600000 FILTER area_id=32
-```
-
-### Aggregation bucket alignment
-When doing aggregations, the aggregation buckets will be aligned to 0 as so:
-```
-TS.RANGE sensor3 10 70 + AGGREGATION min 25
-```
-
-```
-Value:        |      (1000)     (2000)     (3000)     (4000)     (5000)     (6000)     (7000)
-Timestamp:    |-------|10|-------|20|-------|30|-------|40|-------|50|-------|60|-------|70|--->
-
-Bucket(25ms): |_________________________||_________________________||___________________________|
-                           V                          V                           V
-                  min(1000, 2000)=1000      min(3000, 4000)=3000     min(5000, 6000, 7000)=5000
-```
-
-And we will get the following datapoints: 1000, 3000, 5000.
-
-You can choose to align the buckets to the start or end of the queried interval as so:
-```
-TS.RANGE sensor3 10 70 + AGGREGATION min 25 ALIGN start
-```
-
-```
-Value:        |      (1000)     (2000)     (3000)     (4000)     (5000)     (6000)     (7000)
-Timestamp:    |-------|10|-------|20|-------|30|-------|40|-------|50|-------|60|-------|70|--->
-
-Bucket(25ms):          |__________________________||_________________________||___________________________|
-                                    V                          V                           V
-                        min(1000, 2000, 3000)=1000      min(4000, 5000)=4000     min(6000, 7000)=6000
-```
-The result array will contain the following datapoints: 1000, 4000 and 6000
-
-
-### Aggregation across timeseries
-
-By default, results of multiple timeseries will be grouped by timeseries, but (since v1.6) you can use the `GROUPBY` and `REDUCE` options to group them by label and apply an additional aggregation.
-
-To find minimum temperature per region, for example, we can run:
-
-```
-TS.MRANGE - + FILTER region=(east,west) GROUPBY region REDUCE min
-```
-
-**Note:** When a sample is deleted, the data in all downsampled timeseries will be recalculated for the specific bucket. If part of the bucket has already been removed though, because it's outside of the retention period, we won't be able to recalculate the full bucket, so in those cases we will refuse the delete operation.
-
-## Compaction
 
 A time series can become large if samples are added very frequently. Instead
 of dealing with individual samples, it is sometimes useful to split the full
 time range of the series into equal-sized "buckets" and represent each
 bucket by an aggregate value, such as the average or maximum value.
-Reducing the number of data points in this way is known as *compaction*.
 
-For example, if you expect to collect more than one billion data points in a day, you could aggregate the data using buckets of one minute. Since each bucket is represented by a single value, this compacts the dataset size to 1,440 data points (24 hours x 60 minutes = 1,440 minutes).
+For example, if you expect to collect more than one billion data points in a day, you could aggregate the data using buckets of one minute. Since each bucket is represented by a single value, this reduces 
+the dataset size to 1,440 data points (24 hours x 60 minutes = 1,440 minutes).
 
-Use [`TS.CREATERULE`]({{< relref "commands/ts.createrule/" >}}) to create a
-
-new
-compacted time series from an existing one, leaving the original series unchanged.
-Specify a duration for each bucket and an aggregation function to apply to each bucket.
+The range query commands let you specify an aggregation function and bucket size.
 The available aggregation functions are:
 
 - `avg`: Arithmetic mean of all values
@@ -441,22 +376,231 @@ The available aggregation functions are:
 - `var.s`: Sample variance of the values
 - `twa`: Time-weighted average over the bucket's timeframe (since RedisTimeSeries v1.8)
 
-It's important to point out that there is no data rewriting on the original timeseries; the compaction happens in a new series, while the original one stays the same. In order to prevent the original timeseries from growing indefinitely, you can use the retention option, which will trim it down to a certain period of time.
+For example, the example below shows an aggregation with the `avg` function over all
+five data points in the `rg:2` time series. The bucket size is two days, so there are three
+aggregated values with only one value used to calculate the average for the last bucket.
 
-**NOTE:** You need to create the destination (the compacted) timeseries before creating the rule.
+```bash
+> TS.RANGE rg:2 - + AGGREGATION avg 2
+1) 1) (integer) 0
+   2) 1.9500000000000002
+2) 1) (integer) 2
+   2) 2.0999999999999996
+3) 1) (integer) 4
+   2) 1.78
+```
+
+### Bucket alignment
+
+The sequence of buckets has a reference timestamp, which is the timestamp where
+the first bucket in the sequence starts. By default, the reference timestamp is zero.
+For example, the following commands create a time series and apply a `min` aggregation
+with a bucket size of 25 milliseconds at the default zero alignment.
+
+```bash
+> TS.MADD sensor3 10 1000 sensor3 20 2000 sensor3 30 3000 sensor3 40 4000 sensor3 50 5000 sensor3 60 6000 sensor3 70 7000
+1) (integer) 10
+2) (integer) 20
+3) (integer) 30
+4) (integer) 40
+5) (integer) 50
+6) (integer) 60
+7) (integer) 70
+> TS.RANGE sensor3 10 70 + AGGREGATION min 25
+1) 1) (integer) 0
+   2) 1000
+2) 1) (integer) 25
+   2) 3000
+3) 1) (integer) 50
+   2) 5000
+```
+
+The diagram below shows the aggregation buckets and their alignment to the reference timestamp
+at time zero.
 
 ```
-TS.CREATERULE sourceKey destKey AGGREGATION aggregationType bucketDuration
+Value:        |      (1000)     (2000)     (3000)     (4000)     (5000)     (6000)     (7000)
+Timestamp:    |-------|10|-------|20|-------|30|-------|40|-------|50|-------|60|-------|70|--->
+
+Bucket(25ms): |_________________________||_________________________||___________________________|
+                           V                          V                           V
+                  min(1000, 2000)=1000      min(3000, 4000)=3000     min(5000, 6000, 7000)=5000
 ```
 
-Example:
+You can also align the buckets to the start or end of the query range. For example, the following command aligns the buckets to the start of the query range at time 10.
+
+```bash
+> TS.RANGE sensor3 10 70 + AGGREGATION min 25 ALIGN start
+1) 1) (integer) 10
+   2) 1000
+2) 1) (integer) 35
+   2) 4000
+3) 1) (integer) 60
+   2) 6000
+```
+
+The diagram below shows this arrangement of buckets.
 
 ```
-TS.CREATE sensor1_compacted  # Create the destination timeseries first
-TS.CREATERULE sensor1 sensor1_compacted AGGREGATION avg 60000   # Create the rule
+Value:        |      (1000)     (2000)     (3000)     (4000)     (5000)     (6000)     (7000)
+Timestamp:    |-------|10|-------|20|-------|30|-------|40|-------|50|-------|60|-------|70|--->
+
+Bucket(25ms):          |__________________________||_________________________||___________________________|
+                                    V                          V                           V
+                        min(1000, 2000, 3000)=1000      min(4000, 5000)=4000     min(6000, 7000)=6000
 ```
 
-With this creation rule, datapoints added to the `sensor1` timeseries will be grouped into buckets of 60 seconds (60000ms), averaged, and saved in the `sensor1_compacted` timeseries.
+### Aggregation across timeseries
+
+By default, the results from
+[`TS.MRANGE`]({{< relref "commands/ts.mrange/" >}}) and
+[`TS.MREVRANGE`]({{< relref "commands/ts.mrevrange/" >}}) are grouped by time series. However, you can use the `GROUPBY` and `REDUCE` options to group them by label and apply an aggregation over elements
+that have the same timestamp and the same label value (this feature is available from RedisTimeSeries v1.6 onwards).
+
+For example, the following commands create four time series, two for the UK and two for the US, and add some data points. The first `TS.MRANGE` command groups the results by country and applies a `max` aggregation to find the maximum wind speed in each country at each timestamp. The second `TS.MRANGE` command uses the same grouping, but applies an `avg` aggregation.
+
+```bash
+> TS.CREATE wind:1 LABELS country uk
+OK
+> TS.CREATE wind:2 LABELS country uk
+OK
+> TS.CREATE wind:3 LABELS country us
+OK
+> TS.CREATE wind:4 LABELS country us
+OK
+> TS.MADD wind:1 1 12 wind:2 1 18 wind:3 1 5 wind:4 1 20
+1) (integer) 1
+2) (integer) 1
+3) (integer) 1
+4) (integer) 1
+> TS.MADD wind:1 2 14 wind:2 2 21 wind:3 2 4 wind:4 2 25
+1) (integer) 2
+2) (integer) 2
+3) (integer) 2
+4) (integer) 2
+> TS.MADD wind:1 3 10 wind:2 3 24 wind:3 3 8 wind:4 3 18
+1) (integer) 3
+2) (integer) 3
+3) (integer) 3
+4) (integer) 3
+
+# The result pairs contain the timestamp and the maximum wind speed
+# for the country at that timestamp. 
+> TS.MRANGE - + FILTER country=(us,uk) GROUPBY country REDUCE max
+1) 1) "country=uk"
+   2) (empty array)
+   3) 1) 1) (integer) 1
+         2) 18
+      2) 1) (integer) 2
+         2) 21
+      3) 1) (integer) 3
+         2) 24
+2) 1) "country=us"
+   2) (empty array)
+   3) 1) 1) (integer) 1
+         2) 20
+      2) 1) (integer) 2
+         2) 25
+      3) 1) (integer) 3
+         2) 18
+
+# The result pairs contain the timestamp and the average wind speed
+# for the country at that timestamp.
+> TS.MRANGE - + FILTER country=(us,uk) GROUPBY country REDUCE avg
+1) 1) "country=uk"
+   2) (empty array)
+   3) 1) 1) (integer) 1
+         2) 15
+      2) 1) (integer) 2
+         2) 17.5
+      3) 1) (integer) 3
+         2) 17
+2) 1) "country=us"
+   2) (empty array)
+   3) 1) 1) (integer) 1
+         2) 12.5
+      2) 1) (integer) 2
+         2) 14.5
+      3) 1) (integer) 3
+         2) 13
+```
+
+## Compaction
+
+Aggregation queries let you extract the important information from a large data set
+into a smaller, more manageable set. If you are continually adding new data to a
+time series as it is generated, you may need to run the same aggregation
+regularly on the latest data. Instead of running the query manually
+each time, you can add a *compaction rule* to a time series to compute an
+aggregation incrementally on data as it arrives. The values from the
+aggregation buckets are then added to a separate time series, leaving the original
+series unchanged.
+
+Use [`TS.CREATERULE`]({{< relref "commands/ts.createrule/" >}}) to create a
+compaction rule, specifying the source and destination time series keys, the
+aggregation function, and the bucket duration. Note that the destination time
+series must already exist when you create the rule and also that the compaction will
+only process data that is added to the source series after you create the rule.
+
+For example, you could use the commands below to create a time series for
+[hygrometer](https://en.wikipedia.org/wiki/Hygrometer) readings along with a compaction
+rule to find the minimum reading in each three day period.
+
+```bash
+# The source time series.
+> TS.CREATE hyg:1
+OK
+# The destination time series for the compacted data.
+> TS.CREATE hyg:compacted
+OK
+# The compaction rule.
+> TS.CREATERULE hyg:1 hyg:compacted AGGREGATION min 3
+OK
+> TS.INFO hyg:1
+    .
+    .
+23) rules
+24) 1) 1) "hyg:compacted"
+       2) (integer) 3
+       3) MIN
+       4) (integer) 0
+    .
+    .
+> TS.INFO hyg:compacted
+    .
+    .
+21) sourceKey
+22) "hyg:1"
+    .
+    .
+```
+
+Adding data points within the first three days (the first bucket) doesn't
+produce any data in the compacted series. However, when you add data for
+day 4 (in the second bucket), the compaction rule computes the minimum
+value for the first bucket and adds it to the compacted series.
+
+```bash
+> TS.MADD hyg:1 0 75 hyg:1 1 77 hyg:1 2 78
+1) (integer) 0
+2) (integer) 1
+3) (integer) 2
+> ts.range hyg:compacted - +
+(empty array)
+> TS.ADD hyg:1 3 79
+(integer) 3
+127.0.0.1:6379> ts.range hyg:compacted - +
+1) 1) (integer) 0
+   2) 75
+```
+
+The general strategy is that the rule does not add data to the
+compaction for the latest bucket in the source series, but will add and
+update the compacted data for any previous buckets. This reflects the
+typical usage pattern of adding data samples sequentially in real time.
+Note that earlier buckets are not "closed" when you add data to a later
+bucket. If you add or [delete](#deleting-data-points) data in a bucket before
+the latest one, thecompaction rule will update the compacted data for that bucket.
 
 ## Deleting data points
 
@@ -514,10 +658,14 @@ If you want to delete a single timestamp, use it as both the start and end of th
 
 ## Using with other metrics tools
 
-In the [RedisTimeSeries](https://github.com/RedisTimeSeries) GitHub organization you can
+In the [RedisTimeSeries](https://github.com/RedisTimeSeries) GitHub organization, you can
 find projects that help you integrate RedisTimeSeries with other tools, including:
 
-1. [Prometheus](https://github.com/RedisTimeSeries/prometheus-redistimeseries-adapter), read/write adapter to use RedisTimeSeries as backend db.
+1. [Prometheus](https://github.com/RedisTimeSeries/prometheus-redistimeseries-adapter), a read/write adapter to use RedisTimeSeries as the backend database.
 2. [Grafana 7.1+](https://github.com/RedisTimeSeries/grafana-redis-datasource), using the [Redis Data Source](https://redislabs.com/blog/introducing-the-redis-data-source-plug-in-for-grafana/).
 3. [Telegraf](https://github.com/influxdata/telegraf). Download the plugin from [InfluxData](https://portal.influxdata.com/downloads/). 
 4. StatsD, Graphite exports using graphite protocol.
+
+## More information
+
+The other pages in this section describe RedisTimeSeries concepts in more detail:
