@@ -61,11 +61,16 @@ jobs:
                   linkTitle=$(awk '{ $1=$1; for (i=2; i<=NF; i++) if ($i != "RedisVL" && $i != "API" && $i != "CLI" && $i != "LLMs" && $i != "JSON") $i=tolower($i); print }' <<< "${linkTitle}")
               fi
 
+              # Get alias
+              alias=$(echo ${src} | sed -E 's|./redis_vl_hugo/|/integrate/redisvl/| ; s|\.md$|| ; s|\/_index$||')
+
               # Inject frontmatter in destination file
               cat >_tmp <<EOL
           ---
           linkTitle: ${linkTitle}
           title: ${title}
+          aliases:
+          - ${alias}
           EOL
 
               # Inject weight property for index pages to preserve order

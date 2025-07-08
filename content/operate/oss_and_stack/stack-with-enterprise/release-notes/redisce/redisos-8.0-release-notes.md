@@ -9,8 +9,26 @@ description: Redis Open Source 8.0 release notes.
 linkTitle: v8.0.0 (May 2025)
 min-version-db: blah
 min-version-rs: blah
-weight: 10
+weight: 40
 ---
+
+## 8.0.3 (July 2025)
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+### Security fixes
+
+* (CVE-2025-32023) Fix out-of-bounds write in `HyperLogLog` commands
+* (CVE-2025-48367) Retry accepting other connections even if the accepted connection reports an error
+
+### New Features
+
+- [#14065](https://github.com/redis/redis/pull/14065) `VSIM`: Add new `WITHATTRIBS` option to return the JSON attribute associated with an element
+
+### Bug fixes
+
+- [#14085](https://github.com/redis/redis/pull/14085) A short read may lead to an `exit()` on a replica
+- [#14092](https://github.com/redis/redis/pull/14092) `db->expires` is not defragmented
 
 ## Redis Open Source 8.0.2 (May 2025)
 
