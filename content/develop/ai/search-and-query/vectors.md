@@ -133,7 +133,7 @@ In the example above, an index named `documents` is created over hashes with the
 
 Scalable Vector Search (SVS) is an Intel project in which a new vector search library, VAMANA graph index, was created. SVS-VAMANA supports highly accurate compressed vector indexes. You can read more about the project [here](https://intel.github.io/ScalableVectorSearch/intro.html). Support for `SVS-VAMANA` indexing was added in Redis 8.2.
 
-Choose the `SYS-VAMANA` index type when you need vector search
+Choose the `SVS-VAMANA` index type when you need vector search
 
 - on billions of high-dimensional vectors,
 - at high accuracy and state-of-the-art speed,
@@ -429,7 +429,7 @@ Optional runtime parameters for HNSW indexes are:
 
 **SVS-VAMANA**
 
-Optional runtime parameters for SYS-VAMANA indexes are:
+Optional runtime parameters for SVS-VAMANA indexes are:
 
 | Parameter | Description | Default value |
 |:----------|:------------|:--------------|
