@@ -108,7 +108,7 @@ This section edits the secrets under the REAADB `.spec.globalConfigurations` sec
 
 You can configure role-based access control (RBAC) permissions for Active-Active databases using the `rolesPermissions` field in the REAADB `.spec.globalConfigurations` section. The role permissions configuration is propagated across all participating clusters, but the underlying roles and Redis ACLs must be manually created on each cluster.
 
-{{<note>}}You must manually create the specified roles and Redis ACLs on all participating clusters before configuring role permissions. The operator only propagates the role permissions configuration—it does not create the underlying roles and ACLs. If roles or ACLs are missing on any cluster, the operator will log errors until they are manually created.{{</note>}}
+{{<note>}}You must manually create the specified roles and Redis ACLs on all participating clusters before configuring role permissions. The operator only propagates the role permissions configuration—it does not create the underlying roles and ACLs. If roles or ACLs are missing on any cluster, the operator will log errors and dispatch an Event associated with the REAADB object until they are manually created.{{</note>}}
 
 ### Prerequisites
 
@@ -139,7 +139,7 @@ Before configuring role permissions:
         rolesPermissions:
           - role: <role-name>
             acl: <acl-name>
-            type: redis-acl
+            type: redis-enterprise
       participatingClusters:
         - name: rerc-ohare
         - name: rerc-reagan
@@ -157,7 +157,7 @@ Before configuring role permissions:
 
     ```sh
     kubectl patch reaadb <reaadb-name> --type merge --patch \
-    '{"spec": {"globalConfigurations": {"rolesPermissions": [{"role": "<role-name>", "acl": "<acl-name>", "type": "redis-acl"}]}}}'
+    '{"spec": {"globalConfigurations": {"rolesPermissions": [{"role": "<role-name>", "acl": "<acl-name>", "type": "redis-enterprise"}]}}}'
     ```
 
 3. Verify the REAADB status shows `active` and `Valid`:
@@ -175,7 +175,6 @@ Before configuring role permissions:
     kubectl logs -l name=redis-enterprise-operator
     ```
 
-    Look for log messages indicating "patching local BDB roles permissions" on each participating cluster.
 
 ### Troubleshooting role permissions
 
