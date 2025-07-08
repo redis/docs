@@ -142,7 +142,7 @@ To update your syncer certificate on clusters running Active-Active databases, f
 - Do not run any other `crdb-cli crdb update` operations between the two steps.<br/>
 {{</note>}}
 
-### Troubleshoot RHEL 8 crypto policy and certificate key size
+## Troubleshoot RHEL 8 crypto policy and certificate key size
 
 In RHEL 8, if the crypto policy is set to `FUTURE`, the system will not accept certificates with private key sizes smaller than 3072 bits. This affects the use of custom certificates with smaller keys (such as 2048-bit keys).
 
