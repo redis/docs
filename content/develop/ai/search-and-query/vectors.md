@@ -586,6 +586,6 @@ Here are some additional resources that apply vector search for different use ca
 - [Retrieval augmented generation from scratch](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/RAG/01_redisvl.ipynb)
 - [Semantic caching](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/semantic-cache/semantic_caching_gemini.ipynb)
 
-<!-- ## Continue learning with Redis University
+## Continue learning with Redis University
 
-{{< university-links >}}-->
+{{< university-links >}}
