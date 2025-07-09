@@ -44,16 +44,23 @@ To import a dataset from any publicly available Redis Open Source server:
 
 If you have an RDB or a compressed RDB file from a previous backup, you can restore data from that file into your Redis Cloud database.
 
-### Via FTP or HTTP
+Select the tab for your storage location type.
 
-To import an RDB file stored on an FTP or HTTP server:
+{{< multitabs id="rdb-import-locations" 
+    tab1="FTP or HTTP server" 
+    tab2="AWS S3"
+    tab3="Google Cloud Storage"
+    tab4="Azure Blob Storage" >}}
 
 1. Select **Databases** from the Redis Cloud console menu and then select your database from the list.
-1. Select **Import**.
-    {{<image filename="images/rc/database-configuration-import.png" alt="The Import dataset section and Import button." >}}
-1. Enter the details for the RDB file:
+2. Select **Import**.
+3. Enter the details for the RDB file:
     - Source type - Select **FTP** or **HTTP**.
-    - Source path - Enter the URL for the RDB file: `<protocol>://[username][:password]@hostname[:port]/[path/]filename.rdb[.gz]`
+    - Source path - Enter the URL for the RDB file: 
+    
+    ```
+    <protocol>://[username][:password]@hostname[:port]/[path/]filename.rdb[.gz]
+    ```
 
     Where:
 
@@ -69,14 +76,14 @@ To import an RDB file stored on an FTP or HTTP server:
 If your FTP username or password contains special characters such as `@`, `\`, or `:`, you must URL encode (also known as Percent encode) these special characters. If you don't, your database may become stuck.
     {{< /note >}}
 
-1. For sharded databases with multiple RDB files, select **Add source** to add another RDB file.
+4. For sharded databases with multiple RDB files, select **Add source** to add another RDB file.
     {{< warning >}}
 For sharded databases with multiple RDB files, make sure to add every file before proceeding.
     {{< /warning >}}
 
-1. Select **Import**.
+5. Select **Import**.
 
-### Via AWS S3
+-tab-sep-
 
 To use the Redis Cloud console to import your data, you must first share the file from the Amazon Web Services (AWS) management console.
 
@@ -158,22 +165,25 @@ To share and import an RDB file that is stored in an AWS Simple Storage Service 
 
 1. In the [Redis Cloud console](https://cloud.redis.io/), select the target database from the database list.
 1. Select **Import**.
-    {{<image filename="images/rc/database-configuration-import.png" alt="The Import dataset section and Import button." >}}
 1. Enter the details for the RDB file:
     - Source type - Select **AWS S3**.
-    - Source path - Enter the URL for the RDB file: `s3://bucketname/[path/]filename.rdb[.gz]`
+    - Source path - Enter the URL for the RDB file: 
+    
+    ```text
+    s3://bucketname/[path/]filename.rdb[.gz]
+    ```
 
-        Where:
+    Where:
 
-        - `bucketname` - Name of the S3 bucket
-        - `path` - Path to the file, if necessary
-        - `filename` - Filename of the RDB file, including the .gz suffix if the file is compressed
+    - `bucketname` - Name of the S3 bucket
+    - `path` - Path to the file, if necessary
+    - `filename` - Filename of the RDB file, including the .gz suffix if the file is compressed
 
 1. For sharded databases with multiple RDB files, select **Add source** to add another RDB file.
 
 1. Select **Import**.
 
-### Via Google Cloud Storage
+-tab-sep-
 
 To use the Redis Cloud console to import your data, you must first share the file from the Google Cloud console.
 
@@ -192,7 +202,6 @@ To share and import an RDB file that is stored in a Google Cloud Storage bucket:
 
 1. In the [Redis Cloud console](https://cloud.redis.io/), select the target database from the database list.
 1. Select **Import**.
-    {{<image filename="images/rc/database-configuration-import.png" alt="The Import dataset section and Import button." >}}
 1. Enter the details for the RDB file:
     - Source type - Select **Google Cloud Storage**.
     - Source path - Enter the URL for the RDB file: `gs://bucketname/[path/]filename.rdb[.gz]`
@@ -206,17 +215,16 @@ To share and import an RDB file that is stored in a Google Cloud Storage bucket:
 
 1. Select **Import**.
 
-### Via Azure Blob Storage container
+-tab-sep-
 
 To import an RDB file stored in a Microsoft Azure Blog storage container:
 
 1. In the Redis Cloud console, select the target database from the database list.
 1. Select **Import**.
-    {{<image filename="images/rc/database-configuration-import.png" alt="The Import dataset section and Import button." >}}
 1. Enter the details for the RDB file:
     - Source type - Select **Azure Blob Storage**.
     - Source path - Enter the URL for the RDB file:
-        ```text
+        ```
         abs://:storage_account_access_key@storage_account_name/[container/]filename.rdb[.gz]     
         ```
 
@@ -230,3 +238,5 @@ To import an RDB file stored in a Microsoft Azure Blog storage container:
 1. For sharded databases with multiple RDB files, select **Add source** to add another RDB file.
 
 1. Select **Import**.
+
+{{< /multitabs >}}
