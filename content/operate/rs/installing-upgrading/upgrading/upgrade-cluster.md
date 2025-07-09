@@ -75,9 +75,9 @@ Starting with the primary node, follow these steps for every node in the cluster
 Do not proceed if any shard, node, or endpoint is not `OK`.
     {{</warning>}}
 
-2.  Download the Redis Enterprise Software installation package to the machine running the node from the Download Center on [https://cloud.redis.io](https://cloud.redis.io).  
+1.  Download the Redis Enterprise Software installation package to the machine running the node from the Download Center on [https://cloud.redis.io](https://cloud.redis.io).  
 
-3.  Extract the installation package:
+1.  Extract the installation package:
 
     ```sh
     tar vxf <tarfile name>
@@ -96,15 +96,15 @@ You cannot change the installation path or the user during the upgrade.
     The installation script automatically recognizes the upgrade and responds accordingly.
 
     The upgrade replaces all node processes, which might briefly interrupt any active connections.
-    
-3.  Verify the node was upgraded to the new version and is still operational:
+
+1.  Verify the node was upgraded to the new version and is still operational:
 
     ``` shell
     $ rlcheck
     $ rladmin status extra all
     ```
 
-4.  Visit the Cluster Manager UI.
+1.  Visit the Cluster Manager UI.
 
     If the Cluster Manager UI was open in a web browser during the upgrade, refresh the browser to reload the console.
 
