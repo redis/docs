@@ -87,7 +87,7 @@ Do not proceed if any shard, node, or endpoint is not `OK`.
 You cannot change the installation path or the user during the upgrade.
     {{</note>}}
 
-1.  Run the install command. See [installation script options]({{< relref "/operate/rs/installing-upgrading/install/install-script" >}}) for a list of command-line options you can add to the following command:
+1.  Run the install command. See [installation script options]({{< relref "/operate/rs/installing-upgrading/install/install-script" >}}) for a list of command-line options you can add to the following command. You cannot use options marked as "new installs only" during an in-place upgrade.
 
     ``` shell
     sudo ./install.sh
@@ -96,20 +96,15 @@ You cannot change the installation path or the user during the upgrade.
     The installation script automatically recognizes the upgrade and responds accordingly.
 
     The upgrade replaces all node processes, which might briefly interrupt any active connections.
-
-    {{<note>}}
-You should only run the ./install.sh command while upgrade. 
-During the upgrade, --*-dir <dir> cannot be set, and an error will occur. Please note.
-    {{<note>}}
     
-2.  Verify the node was upgraded to the new version and is still operational:
+3.  Verify the node was upgraded to the new version and is still operational:
 
     ``` shell
     $ rlcheck
     $ rladmin status extra all
     ```
 
-3.  Visit the Cluster Manager UI.
+4.  Visit the Cluster Manager UI.
 
     If the Cluster Manager UI was open in a web browser during the upgrade, refresh the browser to reload the console.
 
