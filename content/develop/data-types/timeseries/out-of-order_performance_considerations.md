@@ -13,6 +13,9 @@ description: 'Out-of-order / backfilled ingestion performance considerations
 
   '
 linkTitle: Out-of-order/backfill performance
+aliases:
+- /develop/data-types/timeseries/reference/out-of-order_performance_considerations
+- /develop/data-types/timeseries/reference/out-of-order_performance_considerations/
 title: Out-of-order / backfilled ingestion performance considerations
 weight: 5
 ---
