@@ -82,6 +82,24 @@ After installation, create a new database and enable RedisGears:
 
 - [With the JVM]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1/jvm/install" >}})
 
+## Upgrade RedisGears for existing databases
+
+To upgrade RedisGears for an existing database after installing a new version, use [`rladmin upgrade db`]({{<relref "/operate/rs/references/cli-utilities/rladmin/upgrade#upgrade-db">}}):
+
+```sh
+rladmin upgrade db <database-name-or-ID> and module module_name rg version <new_version_integer> module_args "<module arguments>"
+```
+
+The following example shows how to upgrade a database named `shopping-cart` to RedisGears version 1.2.9 without changing its configuration:
+
+```sh
+rladmin upgrade db shopping-cart and module module_name rg version 10209 module_args keep_args
+```
+
+{{<note>}}
+These command examples also upgrade the database to the latest Redis version on the cluster. For more module upgrade information and examples, see [Upgrade modules]({{<relref "/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module">}}).
+{{</note>}}
+
 ## Uninstall RedisGears
 
 To uninstall RedisGears, make a [`DELETE` request to the `/v2/modules` REST API endpoint]({{< relref "/operate/rs/references/rest-api/requests/modules#delete-module-v2" >}}).
