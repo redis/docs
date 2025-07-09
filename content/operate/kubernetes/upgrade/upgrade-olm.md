@@ -139,7 +139,7 @@ oc rollout status sts <REC_name>
 
 ## Upgrade databases
 
-After the cluster is upgraded, you can upgrade your databases. To upgrade your REDB, specify your new database version in the `spec.redisVersion` field in the REDB custom resources. Supported database versions for operator versions include `"7.2"` and `"7.4"` (note this value is a string). 
+After the cluster is upgraded, you can upgrade your databases. To upgrade your REDB, specify your new database version in the `spec.redisVersion` field in the REDB custom resources. Supported database versions for operator versions include `"7.2"` and `"7.4"` (note this value is a string).
 
 To upgrade your REAADB, see [Upgrade an Active-Active database]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-active-active/">}}) for details on the `rladmin` and `crdb-cli` commands required. Reach out to Redis support if you have additional questions.
 
