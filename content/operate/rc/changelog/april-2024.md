@@ -9,6 +9,8 @@ description: New features, enhancements, and other changes added to Redis Cloud 
   April 2024.
 highlights: Nano billing unit, Essentials subscriptions through AWS Marketplace
 linktitle: April 2024
+tags:
+- changelog
 weight: 55
 ---
 

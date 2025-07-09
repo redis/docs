@@ -101,7 +101,7 @@ See the [complete list of hash commands]({{< relref "/commands/" >}}?group=hash)
 ## Field expiration
 
 New in Redis Open Source 7.4 is the ability to specify an expiration time or a time-to-live (TTL) value for individual hash fields.
-This capability is comparable to [key expiration]({{< relref "/develop/use/keyspace#key-expiration" >}}) and includes a number of similar commands.
+This capability is comparable to [key expiration]({{< relref "/develop/using-commands/keyspace#key-expiration" >}}) and includes a number of similar commands.
 
 Use the following commands to set either an exact expiration time or a TTL value for specific fields:
 

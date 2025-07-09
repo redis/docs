@@ -61,12 +61,16 @@ jobs:
                   linkTitle=$(awk '{ $1=$1; for (i=2; i<=NF; i++) if ($i != "RedisVL" && $i != "API" && $i != "CLI" && $i != "LLMs" && $i != "JSON") $i=tolower($i); print }' <<< "${linkTitle}")
               fi
 
+              # Get alias
+              alias=$(echo ${src} | sed -E 's|./redis_vl_hugo/|/integrate/redisvl/| ; s|\.md$|| ; s|\/_index$||')
+
               # Inject frontmatter in destination file
               cat >_tmp <<EOL
           ---
           linkTitle: ${linkTitle}
           title: ${title}
-          type: integration
+          aliases:
+          - ${alias}
           EOL
 
               # Inject weight property for index pages to preserve order
@@ -107,7 +111,6 @@ jobs:
 
           # Convert jupyter notebooks to markdown
           jupyter nbconvert --to markdown build/jupyter_execute/user_guide/*.ipynb --output-dir redis_vl_hugo/user_guide/ 2>/dev/null
-          jupyter nbconvert --to markdown build/jupyter_execute/user_guide/release_guide/*.ipynb --output-dir redis_vl_hugo/user_guide/release_guide/ 2>/dev/null
           jupyter nbconvert --to markdown build/jupyter_execute/overview/cli.ipynb --output-dir redis_vl_hugo/overview/ 2>/dev/null
 
           # Prepare markdown files
@@ -125,7 +128,7 @@ jobs:
               sed -E -i 's/^> *//g; s/\x1b\[[0-9;]*m//g' "${markdown_page}"
 
               # Replace https://docs.redisvl.com links
-              sed -E -i 's#https://docs.redisvl.com/en/latest/.+/([^_]+).+\.html(\#[^)]+)#{{< relref "\1\2" >}}#g; s#https://docs.redisvl.com/en/latest/(.+)\.html#https://redis.io/docs/latest/integrate/redisvl/\1#g' "${markdown_page}"
+              sed -E -i 's#https://docs.redisvl.com/en/latest/.+/([^_]+).+\.html(\#[^)]+)#{{< relref "\1\2" >}}#g; s#https://docs.redisvl.com/en/latest/(.+)\.html#https://redis.io/docs/latest/develop/ai/redisvl/\1#g' "${markdown_page}"
           done
 
           # Fix links in api pages
@@ -210,13 +213,11 @@ jobs:
           # Format _index.md pages
           cp ./build/markdown/api/index.md ./redis_vl_hugo/api/_index.md
           cp ./build/markdown/user_guide/index.md ./redis_vl_hugo/user_guide/_index.md
-          cp ./build/markdown/user_guide/release_guide/index.md ./redis_vl_hugo/user_guide/release_guide/_index.md
           cp ./build/markdown/overview/index.md ./redis_vl_hugo/overview/_index.md
 
           index_markdown_pages=(
               ./redis_vl_hugo/api/_index.md
               ./redis_vl_hugo/user_guide/_index.md
-              ./redis_vl_hugo/user_guide/release_guide/_index.md
               ./redis_vl_hugo/overview/_index.md
           )
 
@@ -236,7 +237,7 @@ jobs:
               fi
           done
 
-          cp -r redis_vl_hugo/* content/integrate/redisvl/
+          cp -r redis_vl_hugo/* content/develop/ai/redisvl/
 
       - name: 'Create pull request if necessary'
         env:
@@ -262,12 +263,12 @@ jobs:
             git checkout -b "${branch}"
           fi
 
-          redisvl_is_different=$(git diff content/integrate/redisvl/)
+          redisvl_is_different=$(git diff content/develop/ai/redisvl/)
 
           if [[ ! -z $redisvl_is_different ]]; then
             redisvl_change=true
 
-            git add "content/integrate/redisvl/"
+            git add "content/develop/ai/redisvl/"
             git config user.email "177626021+redisdocsapp[bot]@users.noreply.github.com"
             git config user.name "redisdocsapp[bot]"
             git commit -m "Update for redisvl ${release}"

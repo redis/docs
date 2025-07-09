@@ -12,6 +12,48 @@ min-version-rs: blah
 weight: 100
 ---
 
+## Redis Community Edition 7.4.5 (July 2025)
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+### Security fixes
+
+* (CVE-2025-27151) redis-check-aof may lead to stack overflow and potential RCE
+
+### Bug fixes
+
+- [#13966](https://github.com/redis/redis/pull/13966), [#13932](https://github.com/redis/redis/pull/13932) `CLUSTER SLOTS` - TLS port update not reflected in CLUSTER SLOTS
+- [#13958](https://github.com/redis/redis/pull/13958) `XTRIM`, `XADD` - incorrect lag due to trimming stream
+
+## Redis Community Edition 7.4.4 (May 2025):
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+### Security fixes
+
+* (CVE-2025-27151) redis-check-aof may lead to stack overflow and potential RCE.
+
+### Bug fixes
+
+- [#13966](https://github.com/redis/redis/pull/13966), [#13932](https://github.com/redis/redis/pull/13932) `CLUSTER SLOTS` - TLS port update not reflected in CLUSTER SLOTS.
+- [#13958](https://github.com/redis/redis/pull/13958) `XTRIM`, `XADD` - incorrect lag due to trimming stream.
+
+## Redis Community Edition 7.4.3 (April 2025)
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+### Security fixes
+
+* (CVE-2025-21605) An unauthenticated client can cause an unlimited growth of output buffers.
+
+### Bug fixes
+
+* [#13661](https://github.com/redis/redis/pull/13661) `FUNCTION FLUSH` - memory leak when using jemalloc.
+* [#13793](https://github.com/redis/redis/pull/13793) `WAITAOF` returns prematurely.
+* [#13853](https://github.com/redis/redis/pull/13853) `SLAVEOF` - crash when clients are blocked on lazy free.
+* [#13863](https://github.com/redis/redis/pull/13863) `RANDOMKEY` - infinite loop during client pause.
+* [#13877](https://github.com/redis/redis/pull/13877) ShardID inconsistency when both primary and replica support it.
+
 ## Redis Community Edition 7.4.2 (Jan 2025)
 
 Upgrade urgency SECURITY: See security fixes below.

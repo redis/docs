@@ -70,9 +70,9 @@ When you enable Active-Active Redis, two regions are selected by default. Select
 
 {{<image filename="images/rc/create-sub-active-active-regions.png" width="50%" alt="Use the Region drop-down to select the regions for your Active-Active database." >}}
 
-    {{< note >}}
+{{< note >}}
 Active-Active subscriptions on Redis Cloud are limited to a maximum of 10 regions.
-    {{< /note >}}
+{{< /note >}}
 
 Use the checkboxes in the list to select or remove regions.  The Search box lets you locate specific regions.
 

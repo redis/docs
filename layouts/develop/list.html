@@ -38,7 +38,7 @@
         <!-- Responsive CLI Display Block as Table -->
         {{ if strings.HasSuffix .RelPermalink "/develop/" }}
         <div class="overflow-x-auto">
-          <table class="w-full border-collapse md:table">
+          <table class="w-full border-collapse md:table bg-neutral-150">
             <thead>
               <tr>
                 <th class="p-4 text-left">Try these Redis commands</th>
@@ -54,7 +54,8 @@
                   <code><a href="/commands/set">SET</a> e 2.71</code></br>
                   <code><a href="/commands/incrbyfloat">INCRBYFLOAT</a> e 0.43</code></br>
                   <code><a href="/commands/rename">RENAME</a> e pi</code></br>
-                  <code><a href="/commands/get">GET</a> pi</code>
+                  <code><a href="/commands/get">GET</a> pi</code><br/><br/>
+                  # <a href="/commands/">See all commands</a>
                 </td>
                 <td class="align-top p-4 w-full md:w-[60%]">
                   <div class="bg-slate-900 rounded-xl shadow-lg shadow-slate-900/10 h-60 overflow-y-auto">
@@ -92,7 +93,10 @@ PING
         {{ partial "feedback.html" . }}
       </section>
     </div>
-    {{ partial "docs-toc.html" . }}
+
+    {{ if not .Params.hideTOC }}
+      {{ partial "docs-toc.html" . }}
+    {{ end }}
     {{ partial "scripts.html" . }}
   </main>
 {{ end }}

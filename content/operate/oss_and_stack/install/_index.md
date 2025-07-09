@@ -13,6 +13,8 @@ weight: 30
 
 You can install [Redis Open Source]({{< relref "/operate/oss_and_stack/" >}}) locally on your machine. Redis Open Source is available on Docker, Linux, macOS, and Windows (using Docker only).
 
+You can also download [Redis Insight]({{< relref "/operate/redisinsight/install/" >}}), a free dev companion tool with an intuitive GUI and advanced CLI, which you can use alongside Redis Open Source.
+
 Here are the installation and upgrade instructions:
 
 * [Install Redis Open Source]({{< relref "/operate/oss_and_stack/install/install-stack" >}})

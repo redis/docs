@@ -41,6 +41,8 @@ In addition, three tabs are available:
 
 3.  The **Connectivity** tab lets you limit access to the subscription by defining a VPC peering or other connectivity options.
 
+4.  The **Security** tab lets you set security settings for the databases in your subscription.
+
 The following sections provide more info.
 
 ## **Databases** tab
@@ -122,3 +124,9 @@ Here, you can:
 - Set up [Private Service Connect]({{< relref "/operate/rc/security/network-security/connect-private-endpoint/private-service-connect" >}}) (*Google Cloud only*) or [Transit Gateway]({{< relref "/operate/rc/security/network-security/connect-private-endpoint/aws-transit-gateway" >}}) (*AWS only*).
 
 See the individual links to learn more.
+
+## **Security** tab
+
+The **Security** tab lets you set security settings for the databases in your subscription.
+
+Here, you can [block public endpoints]({{< relref "/operate/rc/security/database-security/block-public-endpoints" >}}) for all databases in the subscription.

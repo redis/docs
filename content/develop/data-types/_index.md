@@ -10,8 +10,8 @@ categories:
 - kubernetes
 - clients
 description: Overview of data types supported by Redis
-linkTitle: Understand data types
-title: Understand Redis data types
+linkTitle: Data types
+title: Redis data types
 hideListLinks: true
 weight: 35
 ---
@@ -217,5 +217,5 @@ For more information, see:
 
 To extend the features provided by the included data types, use one of these options:
 
-1. Write your own custom [server-side functions in Lua]({{< relref "/develop/interact/programmability/" >}}).
+1. Write your own custom [server-side functions in Lua]({{< relref "/develop/programmability/" >}}).
 1. Write your own Redis module using the [modules API]({{< relref "/develop/reference/modules/" >}}) or check out the [community-supported modules]({{< relref "/operate/oss_and_stack/stack-with-enterprise/" >}}).

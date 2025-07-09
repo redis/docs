@@ -60,7 +60,7 @@ You can define these permissions using the [Redis ACL syntax]({{< relref "/opera
 - `-` *excludes* commands or command categories
 - `@` indicates a command category
 - `~` defines a permitted key pattern
-- `&` allows access to a [pub/sub channel]({{< relref "/develop/interact/pubsub" >}})
+- `&` allows access to a [pub/sub channel]({{< relref "/develop/pubsub" >}})
 
 The Redis Cloud console will validate your ACL syntax while you are typing.
 
@@ -120,7 +120,7 @@ For more information on how this works, see the [key permissions syntax]({{< rel
 
 ### Pub/sub ACL rules
 
-Pub/sub ACL rules determine which pub/sub channels a user can access. For more information see, [Redis pub/sub]({{< relref "/develop/interact/pubsub" >}})
+Pub/sub ACL rules determine which pub/sub channels a user can access. For more information see, [Redis pub/sub]({{< relref "/develop/pubsub" >}})
 
 For versions older than Redis 7.0, pub/sub is permissive and allows access to all channels by default.
 

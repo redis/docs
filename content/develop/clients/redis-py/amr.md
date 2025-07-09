@@ -12,7 +12,7 @@ categories:
 description: Learn how to authenticate to an Azure Managed Redis (AMR) database
 linkTitle: Connect to AMR
 title: Connect to Azure Managed Redis
-weight: 2
+weight: 25
 ---
 
 The [`redis-entra-id`](https://github.com/redis/redis-py-entraid) package
@@ -31,7 +31,7 @@ if you have not already done so. Then, install `redis-entra-id` with the
 following command:
 
 ```bash
-pip install redis-entra-id
+pip install redis-entraid
 ```
 
 ## Create a `CredentialProvider` instance

@@ -41,7 +41,7 @@ To check database availability when using a load balancer and the recommended `a
 GET /v1/local/bdbs/<database_id>/endpoint/availability
 ```
 
-Returns the status code 200 OK if the local database endpoint is available.
+Returns HTTP status code 200 OK if all primary (master) shards are reachable from the local database endpoint.
 
 If the local database endpoint is unavailable, returns an error status code and a JSON object that contains [`error_code` and `description` fields]({{<relref "/operate/rs/references/rest-api/requests/bdbs/availability#get-endpoint-error-codes">}}).
 
@@ -58,3 +58,7 @@ The following table shows the relationship between a database's status and avail
 | import-pending  | <span title="Available">&#x2705;</span> Available |
 | pending         | <span title="Available">&#x2705;</span> Available |
 | recovery        | <span title="Not available">:x:</span> Not available |
+
+## Known issues
+
+- RS155734: Endpoint availability metrics do not work as expected due to a calculation error.
