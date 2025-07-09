@@ -12,7 +12,7 @@ categories:
 description: 'Out-of-order / backfilled ingestion performance considerations
 
   '
-linkTitle: Out-of-order / backfilled ingestion performance considerations
+linkTitle: Out-of-order/backfill performance
 title: Out-of-order / backfilled ingestion performance considerations
 weight: 5
 ---
@@ -46,11 +46,11 @@ The graphs and tables below make these key points:
 
 - We've observed a maximum 95% drop in the achievable ops/sec even at 99% out-of-order ingestion. (Again, reducing the chunk size can cut the impact in half.)
 
-<img src="images/compressed-overall-ops-sec-vs-out-of-order-percentage.png" alt="compressed-overall-ops-sec-vs-out-of-order-percentage"/>
+{{< image filename="/images/timeseries/compressed-overall-ops-sec-vs-out-of-order-percentage.webp" alt="compressed-overall-ops-sec-vs-out-of-order-percentage" >}}
 
-<img src="images/compressed-overall-p50-lat-vs-out-of-order-percentage.png" alt="compressed-overall-p50-lat-vs-out-of-order-percentage"/>
+{{< image filename="/images/timeseries/compressed-overall-p50-lat-vs-out-of-order-percentage.webp" alt="compressed-overall-p50-lat-vs-out-of-order-percentage" >}}
 
-<img src="images/compressed-out-of-order-overhead-table.png" alt="compressed-out-of-order-overhead-table"/>
+{{< image filename="/images/timeseries/compressed-out-of-order-overhead-table.webp" alt="compressed-out-of-order-overhead-table" >}}
 
 ## Uncompressed chunks out-of-order/backfilled impact analysis
 
@@ -63,8 +63,8 @@ Apart from that, we can observe the following key take-aways:
 
 - We've observed a maximum 45% drop in the achievable ops/sec, even at 99% out-of-order ingestion.
 
-<img src="images/uncompressed-overall-ops-sec-vs-out-of-order-percentage.png" alt="uncompressed-overall-ops-sec-vs-out-of-order-percentage"/>
+{{< image filename="/images/timeseries/uncompressed-overall-ops-sec-vs-out-of-order-percentage.webp" alt="uncompressed-overall-ops-sec-vs-out-of-order-percentage" >}}
 
-<img src="images/uncompressed-overall-p50-lat-vs-out-of-order-percentage.png" alt="uncompressed-overall-p50-lat-vs-out-of-order-percentage"/>
+{{< image filename="/images/timeseries/uncompressed-overall-p50-lat-vs-out-of-order-percentage.webp" alt="uncompressed-overall-p50-lat-vs-out-of-order-percentage" >}}
 
-<img src="images/uncompressed-out-of-order-overhead-table.png" alt="uncompressed-out-of-order-overhead-table"/>
+{{< image filename="/images/timeseries/uncompressed-out-of-order-overhead-table.webp" alt="uncompressed-out-of-order-overhead-table" >}}

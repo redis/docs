@@ -45,7 +45,10 @@ for full installation instructions.
 
 ## Creating a time series
 
-You can create a new empty time series with the [`TS.CREATE`]({{< relref "commands/ts.create/" >}}) command, specifying a key name. If you use [`TS.ADD`]({{< relref "commands/ts.add/" >}}) to add data to a time series key that does not exist, it is automatically created.
+You can create a new empty time series with the [`TS.CREATE`]({{< relref "commands/ts.create/" >}})
+command, specifying a key name. Alternatively, if you use [`TS.ADD`]({{< relref "commands/ts.add/" >}})
+to add data to a time series key that does not exist, it is automatically created (see
+[Adding data points](#adding-data-points) below for more information about `TS.ADD`).
 
 ```bash
 > TS.CREATE thermometer:1
@@ -64,7 +67,7 @@ to support Unix timestamps, measured in milliseconds since the
 [Unix epoch](https://en.wikipedia.org/wiki/Unix_time). However, you can interpret
 the timestamps in any way you like (for example, as the number of days since a given start date).
 When you create a time series, you can specify a maximum retention period for the
-data, relative to the last reported timestamp. A retention period of `0` means
+data, relative to the last reported timestamp. A retention period of zero means
 the data does not expire.
 
 ```bash
@@ -242,7 +245,7 @@ return data points from a range of timestamps in each time series.
 The parameters are mostly the same except that the multiple time series
 commands don't take a key name as the first parameter. Instead, you
 specify a filter expression to include only time series with
-specific labels. (See [Adding data points](#adding-data-points)
+specific labels. (See [Creating a time series](#creating-a-time-series)
 above to learn how to add labels to a time series.) The filter expressions
 use a simple syntax that lets you include or exclude time series based on
 the presence or value of a label. See the description in the
@@ -527,13 +530,13 @@ OK
 
 ## Compaction
 
-Aggregation queries let you extract the important information from a large data set
+[Aggregation](#aggregation) queries let you extract the important information from a large data set
 into a smaller, more manageable set. If you are continually adding new data to a
 time series as it is generated, you may need to run the same aggregation
 regularly on the latest data. Instead of running the query manually
 each time, you can add a *compaction rule* to a time series to compute an
 aggregation incrementally on data as it arrives. The values from the
-aggregation buckets are then added to a separate time series, leaving the original
+aggregation buckets are stored in a separate time series, leaving the original
 series unchanged.
 
 Use [`TS.CREATERULE`]({{< relref "commands/ts.createrule/" >}}) to create a
@@ -597,10 +600,12 @@ value for the first bucket and adds it to the compacted series.
 The general strategy is that the rule does not add data to the
 compaction for the latest bucket in the source series, but will add and
 update the compacted data for any previous buckets. This reflects the
-typical usage pattern of adding data samples sequentially in real time.
-Note that earlier buckets are not "closed" when you add data to a later
+typical usage pattern of adding data samples sequentially in real time
+(an aggregate value typically isn't correct until its bucket period is over).
+But note that earlier buckets are not "closed" when you add data to a later
 bucket. If you add or [delete](#deleting-data-points) data in a bucket before
-the latest one, thecompaction rule will update the compacted data for that bucket.
+the latest one, the compaction rule will still update the compacted data for
+that bucket.
 
 ## Deleting data points
 
@@ -668,4 +673,5 @@ find projects that help you integrate RedisTimeSeries with other tools, includin
 
 ## More information
 
-The other pages in this section describe RedisTimeSeries concepts in more detail:
+The other pages in this section describe RedisTimeSeries concepts in more detail.
+See also the [time series command reference]({{< relref "/commands/" >}}?group=timeseries).
