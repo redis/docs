@@ -96,6 +96,10 @@ The following example shows how to upgrade a database named `shopping-cart` to R
 rladmin upgrade db shopping-cart and module module_name rg version 10209 module_args keep_args
 ```
 
+{{<note>}}
+These command examples also upgrade the database to the latest Redis version on the cluster. For more module upgrade information and examples, see [Upgrade modules]({{<relref "/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module">}}).
+{{</note>}}
+
 ## Uninstall RedisGears
 
 To uninstall RedisGears, make a [`DELETE` request to the `/v2/modules` REST API endpoint]({{< relref "/operate/rs/references/rest-api/requests/modules#delete-module-v2" >}}).
