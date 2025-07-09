@@ -97,14 +97,19 @@ You cannot change the installation path or the user during the upgrade.
 
     The upgrade replaces all node processes, which might briefly interrupt any active connections.
 
-2.  Verify the node was upgraded to the new version and is still operational:
+    {{<note>}}
+You should only run the ./install.sh command while upgrade. 
+During the upgrade, --*-dir <dir> cannot be set, and an error will occur. Please note.
+    {{<note>}}
+    
+3.  Verify the node was upgraded to the new version and is still operational:
 
     ``` shell
     $ rlcheck
     $ rladmin status extra all
     ```
 
-3.  Visit the Cluster Manager UI.
+4.  Visit the Cluster Manager UI.
 
     If the Cluster Manager UI was open in a web browser during the upgrade, refresh the browser to reload the console.
 
