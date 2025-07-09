@@ -64,16 +64,16 @@ shown below:
     "mcpServers": {
         .
         .
-      "redis": {
-            "command": "<path-to-uv-command>",
+        "redis-mcp-server": {
+            "type": "stdio",
+            "command": "uvx",
             "args": [
-                "--directory",
-                "<your-folder-path>/mcp-redis",
-                "run",
-                "src/main.py"
+                "--from", "git+https://github.com/redis/mcp-redis.git",
+                "redis-mcp-server",
+                "--url", "redis://localhost:6379/0"
             ]
         }
-    },
+    }
         .
         .
   }
@@ -85,12 +85,12 @@ the command shell here in the `env` section:
 
 ```json
 "redis": {
-    "command": "<path-to-uv-command>>",
+    "type": "stdio",
+    "command": "uvx",
     "args": [
-        "--directory",
-        "<your-folder-path>/mcp-redis",
-        "run",
-        "src/main.py"
+        "--from", "git+https://github.com/redis/mcp-redis.git",
+        "redis-mcp-server",
+        "--url", "redis://localhost:6379/0"
     ],
     "env": {
         "REDIS_HOST": "<your_redis_database_hostname>",
@@ -123,38 +123,6 @@ configuration as shown below:
             "mcp-redis"]
 }
 ```
-
-### Remote servers
-
-If you set up an
-[externally visible]({{< relref "/integrate/redis-mcp/install#making-mcp-visible-externally" >}})
-MCP server, you may be able to configure it directly from the app (but
-if you can't, then see [Using a gateway](#using-a-gateway) for an alternative approach). For
-example, the following `JSON` element configures
-[GitHub Copilot for VS Code](https://code.visualstudio.com/docs/copilot/overview)
-to use an `sse` type server running at `127.0.0.1`:
-
-```json
-    .
-    .
-"mcp": {
-    "servers": {
-        "redis-mcp": {
-            "type": "sse",
-            "url": "http://127.0.0.1:8000/sse"
-        },
-    }
-},
-    .
-    .
-```
-
-### Using a gateway
-
-Apps that don't currently support external MCP servers directly, such as Claude
-Desktop, can still access them using a *gateway*. See
-[MCP server gateway](https://github.com/lightconetech/mcp-gateway)
-for more information.
 
 ## Redis Cloud MCP
 

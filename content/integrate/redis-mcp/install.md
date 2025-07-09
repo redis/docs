@@ -21,7 +21,31 @@ how to get a test server active within minutes.
 When you have a Redis server available, use the instructions below to install and
 configure the Redis MCP server.
 
+## Quick Start with uvx
+
+The easiest way to use the Redis MCP Server is with [`uvx`](https://docs.astral.sh/uv/guides/tools/),
+which lets you run it directly from a GitHub branch or a tagged release (see the `uv`
+[installation instructions](https://github.com/astral-sh/uv?tab=readme-ov-file#installation)
+for more information.)
+
+```bash
+# Run with Redis URI
+uvx --from git+https://github.com/redis/mcp-redis.git redis-mcp-server --url redis://localhost:6379/0
+
+# Run with Redis URI and SSL 
+uvx --from git+https://github.com/redis/mcp-redis.git redis-mcp-server --url "rediss://<USERNAME>:<PASSWORD>@<HOST>:<PORT>?ssl_cert_reqs=required&ssl_ca_certs=<PATH_TO_CERT>"
+
+# Run with individual parameters
+uvx --from git+https://github.com/redis/mcp-redis.git redis-mcp-server --host localhost --port 6379 --password mypassword
+
+# See all options
+uvx --from git+https://github.com/redis/mcp-redis.git redis-mcp-server --help
+```
+
 ## Install the server from source
+
+You can also run Redis MCP from source, which may be useful if you want to
+contribute to the project.
 
 Clone Redis MCP from the
 [Github repository](https://github.com/redis/mcp-redis) using the following
@@ -45,6 +69,12 @@ cd mcp-redis
 uv venv
 source .venv/bin/activate
 uv sync
+
+# Run with CLI interface
+uv run redis-mcp-server --help
+
+# Or run the main file directly (uses environment variables)
+uv run src/main.py
 ```
 
 ## Install using Docker
@@ -63,8 +93,9 @@ docker build -t mcp-redis .
 
 The default settings for MCP assume a Redis server is running on the
 local machine, with the default port and no security arrangements.
-To change these settings, use the environment variables shown in the
-table below. For example, for a `bash` shell, use
+You can use environment variables to change these settings
+(see [Environment variables](#environment-variables) below for the full list).
+For example, for a `bash` shell, use
 
 ```bash
 export REDIS_USERNAME="my_username"
@@ -73,6 +104,44 @@ export REDIS_USERNAME="my_username"
 from the command line or the `.bashrc` file to set the username you want
 to connect with.
 
+Alternatively, you can use a `.env` file in your project folder to set the
+environment variables as key-value pairs, one per line:
+
+```
+REDIS_HOST=your_redis_host
+REDIS_PORT=6379
+    .
+    .
+```
+
+See the [`.env.example` file](https://github.com/redis/mcp-redis/blob/main/.env.example)
+in the repository for the full list of variables and their default values.
+
+You can also set the configuration using command-line arguments, which
+may be useful if you only want to change a few settings from the defaults:
+
+```bash
+# Basic Redis connection
+uvx --from git+https://github.com/redis/mcp-redis.git redis-mcp-server \
+  --host localhost \
+  --port 6379 \
+  --password mypassword
+
+# Using Redis URI (simpler)
+uvx --from git+https://github.com/redis/mcp-redis.git redis-mcp-server \
+  --url redis://user:pass@localhost:6379/0
+
+# SSL connection
+uvx --from git+https://github.com/redis/mcp-redis.git redis-mcp-server \
+  --url rediss://user:pass@redis.example.com:6379/0
+
+# See all available options
+uvx --from git+https://github.com/redis/mcp-redis.git redis-mcp-server --help
+```
+
+### Environment variables
+
+The full set of environment variables is shown in the table below:
 
 | Name                 | Description                                               | Default Value |
 |----------------------|-----------------------------------------------------------|---------------|
@@ -89,35 +158,6 @@ to connect with.
 | `REDIS_CA_CERTS`     | Path to the trusted CA certificates file                  | None          |
 | `REDIS_CLUSTER_MODE` | Enable Redis Cluster mode                                 | `False`       |
 | `MCP_TRANSPORT`      | Use the `stdio` or `sse` transport                        | `stdio`       |
-
-### Making MCP visible externally
-
-{{< note >}}The configuration for an MCP client includes the commands
-to start a local server, so you can ignore this section if you don't
-want your Redis MCP to be externally accessible.
-{{< /note >}}
-
-The default configuration assumes you only want to use the MCP server
-locally, but you can make it externally available by setting
-`MCP_TRANSPORT` to `sse`:
-
-```bash
-export MCP_TRANSPORT="sse"
-```
-
-Then, start the server with the following command:
-
-```bash
-uv run src/main.py
-```
-
-You can test the server is responding with the [`curl`](https://curl.se/)
-tool:
-
-```bash
-curl -i http://127.0.0.1:8000/sse
-HTTP/1.1 200 OK
-```
 
 ## Redis Cloud MCP
 
