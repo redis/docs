@@ -187,19 +187,20 @@ during partitions or other rack (or region) related failures.
 
 Rack-zone awareness is a single property in the Redis Enterprise cluster CRD named `rackAwarenessNodeLabel`.
 
-### Choosing a node label
+### Choose a node label
 
-The most commonly used label for rack-zone awareness is `topology.kubernetes.io/zone`, which is a well-known Kubernetes label that specifies the zone where a node runs. This label is readily available on all nodes in many Kubernetes platforms, as documented in ['Running in multiple zones'](https://kubernetes.io/docs/setup/best-practices/multiple-zones/#nodes-are-labeled).
+The most common label used for rack-zone awareness is topology.kubernetes.io/zone, a standard Kubernetes label that shows the zone a node runs in. Many Kubernetes platforms add this label to nodes by default, as noted in the [Kubernetes documentation](https://kubernetes.io/docs/setup/best-practices/multiple-zones/#nodes-are-labeled).
 
-However, not all Kubernetes platforms configure this label by default. You can use any custom label that indicates the topology information (rack, zone, region, etc.) for your nodes.
+If your platform doesn’t set this label automatically, you can use any custom label that describes the node’s topology (such as rack, zone, or region).
 
 ### Node labeling requirements
 
 {{< warning >}}
-**All eligible nodes must be labeled** with the chosen label for rack-awareness to work properly. The operator expects that all nodes where Redis Enterprise pods can be scheduled will have the specified label, and will fail and stop reconciliation if any eligible nodes are missing the label.
+
+**All eligible nodes must have the label for rack-awareness to work. The operator requires every node that might run Redis Enterprise pods to be labeled. If any are missing the label, reconciliation will fail.
 {{< /warning >}}
 
-Eligible nodes are all nodes where Redis Enterprise pods can be scheduled. By default, these are all worker nodes in the cluster, but this can be restricted by specifying `.spec.nodeSelector` in the Redis Enterprise cluster (REC) configuration.
+Eligible nodes are all nodes where Redis Enterprise pods can be scheduled. By default, these are all worker nodes in the cluster, but you can limit them using `spec.nodeSelector` in the Redis Enterprise cluster (REC) configuration.
 
 The value for the chosen label must indicate the topology information (rack, zone, region, etc.) for each node.
 

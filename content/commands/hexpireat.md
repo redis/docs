@@ -106,7 +106,7 @@ The `NS`, `XX`, `GT`, and `LT` options are mutually exclusive.
 
 ```
 redis> HSET mykey field1 "hello" field2 "world"
-(integer 2)
+(integer) 2
 redis> HEXPIREAT mykey 1715704971 FIELDS 2 field1 field2
 1) (integer) 1
 2) (integer) 1

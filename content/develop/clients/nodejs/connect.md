@@ -344,7 +344,7 @@ related to connection:
 -   `reconnecting`: (No parameters) The client is about to try reconnecting after the
     connection was lost due to an error.
 -   `sharded-channel-moved`: The cluster slot of a subscribed
-    [sharded pub/sub channel]({{< relref "/develop/interact/pubsub#sharded-pubsub" >}})
+    [sharded pub/sub channel]({{< relref "/develop/pubsub#sharded-pubsub" >}})
     has been moved to another shard. Note that when you use a
     [`RedisCluster`](#connect-to-a-redis-cluster) connection, this event is automatically
     handled for you. See

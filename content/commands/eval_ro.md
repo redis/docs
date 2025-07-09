@@ -65,9 +65,9 @@ title: EVAL_RO
 ---
 This is a read-only variant of the [`EVAL`]({{< relref "/commands/eval" >}}) command that cannot execute commands that modify data.
 
-For more information about when to use this command vs [`EVAL`]({{< relref "/commands/eval" >}}), please refer to [Read-only scripts]({{< relref "develop/interact/programmability#read-only-scripts" >}}).
+For more information about when to use this command vs [`EVAL`]({{< relref "/commands/eval" >}}), please refer to [Read-only scripts]({{< relref "develop/programmability#read-only-scripts" >}}).
 
-For more information about [`EVAL`]({{< relref "/commands/eval" >}}) scripts please refer to [Introduction to Eval Scripts]({{< relref "/develop/interact/programmability/eval-intro" >}}).
+For more information about [`EVAL`]({{< relref "/commands/eval" >}}) scripts please refer to [Introduction to Eval Scripts]({{< relref "/develop/programmability/eval-intro" >}}).
 
 ## Examples
 

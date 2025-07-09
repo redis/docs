@@ -101,9 +101,9 @@ Command flags are an array. It can contain the following simple strings (status 
 * **no_auth:** executing the command doesn't require authentication.
 * **no_async_loading:** the command is denied during asynchronous loading (that is when a replica uses disk-less `SWAPDB SYNC`, and allows access to the old dataset).
 * **no_mandatory_keys:** the command may accept key name arguments, but these aren't mandatory.
-* **no_multi:** the command isn't allowed inside the context of a [transaction]({{< relref "/develop/interact/transactions" >}}).
-* **noscript:** the command can't be called from [scripts]({{< relref "/develop/interact/programmability/eval-intro" >}}) or [functions]({{< relref "/develop/interact/programmability/functions-intro" >}}).
-* **pubsub:** the command is related to [Redis Pub/Sub]({{< relref "/develop/interact/pubsub" >}}).
+* **no_multi:** the command isn't allowed inside the context of a [transaction]({{< relref "develop/using-commands/transactions" >}}).
+* **noscript:** the command can't be called from [scripts]({{< relref "/develop/programmability/eval-intro" >}}) or [functions]({{< relref "/develop/programmability/functions-intro" >}}).
+* **pubsub:** the command is related to [Redis Pub/Sub]({{< relref "/develop/pubsub" >}}).
 * **random**: the command returns random results, which is a concern with verbatim script replication.
   As of Redis 7.0, this flag is a [command tip][tb].
 * **readonly:** the command doesn't modify data.

@@ -1,6 +1,7 @@
 ---
 aliases:
 - /develop/interact/search-and-query
+- /develop/interact/search-and-query/
 categories:
 - docs
 - develop

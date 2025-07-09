@@ -120,7 +120,7 @@ Inspect the structure of one of the bike JSON documents:
 {{< clients-example search_vss dump_data />}}
 
 ### 2. Store the demo data in Redis
-Now iterate over the `bikes`  array to store the data as [JSON]({{< relref "/develop/data-types/json/" >}}) documents in Redis by using the [JSON.SET]({{< relref "commands/json.set/" >}}) command. The below code uses a [pipeline]({{< relref "/develop/use/pipelining" >}}) to minimize the network round-trip times:
+Now iterate over the `bikes`  array to store the data as [JSON]({{< relref "/develop/data-types/json/" >}}) documents in Redis by using the [JSON.SET]({{< relref "commands/json.set/" >}}) command. The below code uses a [pipeline]({{< relref "/develop/using-commands/pipelining" >}}) to minimize the network round-trip times:
 
 {{< clients-example search_vss load_data />}}
 
