@@ -1,6 +1,6 @@
 ---
-Title: Data security
-linkTitle: Data security (TLS, encryption at rest)
+Title: Encryption
+linkTitle: Encryption (TLS, encryption at rest)
 alwaysopen: false
 categories:
 - docs

@@ -7,6 +7,9 @@ categories:
 - rc
 description: Learn how to block the public endpoints of your databases.
 weight: 40
+aliases:
+- /operate/rc/security/database-security/block-public-endpoints/
+- /operate/rc/security/block-public-endpoints/
 ---
 
 By default, you can connect to Redis Cloud databases through the database's public endpoint, or through the database's private endpoint with a private connectivity method. 
