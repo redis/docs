@@ -157,7 +157,7 @@ Where:
 
     - `FLAT`: brute force algorithm.
     - `HNSW`: hierarchical, navigable, small world algorithm.
-    - `SVS-VAMANA`: a graph-based nearest neighbor search algorithm.
+    - `SVS-VAMANA`: a graph-based nearest neighbor search algorithm, which is optimized for use with compression methods to reduce its memory footprint.
 
     The `{algorithm}` attribute specifies the algorithm to use when searching `k` most similar vectors in the index or filtering vectors by range.
 

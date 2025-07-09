@@ -106,12 +106,12 @@ Choose the `HNSW` index type when you have larger datasets (> 1M documents) or w
 [`HNSW`](https://arxiv.org/ftp/arxiv/papers/1603/1603.09320.pdf) supports a number of additional parameters to tune
 the accuracy of the queries, while trading off performance.
 
-| Attribute          | Description                                                                                 |
-|:-------------------|:--------------------------------------------------------------------------------------------|
-| `M`                | Max number of outgoing edges (connections) for each node in a graph layer. On layer zero, the max number of connections will be `2 * M`. Higher values increase accuracy, but also increase memory usage and index build time. The default is 16. |
-| `EF_CONSTRUCTION`  | Max number of connected neighbors to consider during graph building. Higher values increase accuracy, but also increase index build time. The default is 200. |
-| `EF_RUNTIME`       | Max top candidates during KNN search. Higher values increase accuracy, but also increase search latency. The default is 10. |
-| `EPSILON`          | Relative factor that sets the boundaries in which a range query may search for candidates. That is, vector candidates whose distance from the query vector is `radius * (1 + EPSILON)` are potentially scanned, allowing more extensive search and more accurate results, at the expense of run time. The default is 0.01. |
+| Attribute          | Description                                                        | Default value |
+|:-------------------|:-------------------------------------------------------------------|:-------------:|
+| `M`                | Max number of outgoing edges (connections) for each node in a graph layer. On layer zero, the max number of connections will be `2 * M`. Higher values increase accuracy, but also increase memory usage and index build time. | 16 |
+| `EF_CONSTRUCTION`  | Max number of connected neighbors to consider during graph building. Higher values increase accuracy, but also increase index build time. | 200 |
+| `EF_RUNTIME`       | Max top candidates during KNN search. Higher values increase accuracy, but also increase search latency. | 10 |
+| `EPSILON`          | Relative factor that sets the boundaries in which a range query may search for candidates. That is, vector candidates whose distance from the query vector is `radius * (1 + EPSILON)` are potentially scanned, allowing more extensive search and more accurate results, at the expense of run time. | 0.01 |
 
 **Example**
 
@@ -131,13 +131,12 @@ In the example above, an index named `documents` is created over hashes with the
 
 ### SVS-VAMANA index
 
-Scalable Vector Search (SVS) is an Intel project in which a new vector search library, VAMANA graph index, was created. SVS-VAMANA supports highly accurate compressed vector indexes. You can read more about the project [here](https://intel.github.io/ScalableVectorSearch/intro.html). Support for `SVS-VAMANA` indexing was added in Redis 8.2.
+Scalable Vector Search (SVS) is an Intel project featuring a graph-based vector search algorithm that is optimized to work with compression methods to reduce memory usage. You can read more about the project [here](https://intel.github.io/ScalableVectorSearch/intro.html). Support for SVS-VAMANA indexing was added in Redis 8.2.
 
-Choose the `SVS-VAMANA` index type when you need vector search
-
-- on billions of high-dimensional vectors,
-- at high accuracy and state-of-the-art speed,
-- using less memory than alternatives.
+Choose the `SVS-VAMANA` index type when all of the following requirements apply:
+- High search performance and scalability are more important than exact search accuracy (similar to HNSW)
+- Reduced memory usage
+- Performance optimizations for Intel hardware
 
 **Required attributes**
 
@@ -151,15 +150,19 @@ Choose the `SVS-VAMANA` index type when you need vector search
 
 `SVS-VAMANA` supports a number of additional parameters to tune the accuracy of the queries.
 
-| Attribute                  | Description                              |
-|:---------------------------|:-----------------------------------------|
-| `COMPRESSION`              | Compression algorithm (`LVQ8`, `LVQ8`, `LVQ4`, `LVQ4x4`, `LVQ4x8`, `LeanVec4x8`, or `LeanVec8x8`). Vectors will be compressed during indexing. Note: On non-Intel platforms, `SVS-VAMANA` with `COMPRESSION` will fall back to Intel’s basic quantization implementation. |
-| `CONSTRUCTION_WINDOW_SIZE` | The search window size (the default is 200) to use during graph construction. A higher search window size will yield a higher quality graph since more overall vertexes are considered, but will increase construction time. |
-| `GRAPH_MAX_DEGREE`         | The maximum node degree in the graph (the default is 32). A higher max degree may yield a higher quality graph in terms of recall for performance, but the memory footprint of the graph is directly proportional to the maximum degree. |
-| `SEARCH_WINDOW_SIZE`       | The size of the search window (the default is 10). Increasing the search window size and capacity generally yields more accurate but slower search results. |
-| `EPSILON`                  | The range search approximation factor (default is 0.01). |
-| `TRAINING_THRESHOLD`       | The number of vectors after which training is triggered. Applicable only when used with `COMPRESSION`. The default value is `10 * DEFAULT_BLOCK_SIZE` or, if provided, the value is limited to `100 * DEFAULT_BLOCK_SIZE`, where `DEFAULT_BLOCK_SIZE` is 1024. |
-| `LEANVEC_DIM`              | The dimension used when using `LeanVec4x8` or `LeanVec8x8` compression for dimensionality reduction. The default value is `DIM / 2`. If provided, the value should be less than `DIM`. |
+| Attribute                  | Description                              | Default value |
+|:---------------------------|:-----------------------------------------|:-------------:|
+| `COMPRESSION`              | Compression algorithm (`LVQ8`, `LVQ4`, `LVQ4x4`, `LVQ4x8`, `LeanVec4x8`, or `LeanVec8x8`). Vectors will be compressed during indexing. See these Intel pages for best practices on using these algorithms: [`COMPRESSION` settings](https://intel.github.io/ScalableVectorSearch/howtos.html#compression-setting) and [`LeanVec`](https://intel.github.io/ScalableVectorSearch/python/experimental/leanvec.html). | None |
+| `CONSTRUCTION_WINDOW_SIZE` | The search window size to use during graph construction. A higher search window size will yield a higher quality graph since more overall vertexes are considered, but will increase construction time. | 200 |
+| `GRAPH_MAX_DEGREE`         | The maximum node degree in the graph. A higher max degree may yield a higher quality graph in terms of recall for performance, but the memory footprint of the graph is directly proportional to the maximum degree. | 32 |
+| `SEARCH_WINDOW_SIZE`       | The size of the search window. Increasing the search window size and capacity generally yields more accurate but slower search results. | 10 |
+| `EPSILON`                  | The range search approximation factor. | 0.01 |
+| `TRAINING_THRESHOLD`       | The number of vectors after which training is triggered. Applicable only when used with `COMPRESSION`. If a value is provided, it be less than `100 * DEFAULT_BLOCK_SIZE`, where `DEFAULT_BLOCK_SIZE` is 1024. | `10 * DEFAULT_BLOCK_SIZE` |
+| `LEANVEC_DIM`              | The dimension used when using `LeanVec4x8` or `LeanVec8x8` compression for dimensionality reduction. If a value is provided, it should be less than `DIM`. | `DIM / 2` |
+
+{{< warning >}}
+On non-Intel platforms, `SVS-VAMANA` with `COMPRESSION` will fall back to Intel’s basic scalar quantization implementation.
+{{< /warning >}}
 
 **Example**
 
@@ -434,9 +437,9 @@ Optional runtime parameters for SVS-VAMANA indexes are:
 | Parameter | Description | Default value |
 |:----------|:------------|:--------------|
 | `SEARCH_WINDOW_SIZE` | The size of the search window (applies only to KNN searches). | 10 or the value that was passed upon index creation. |
-| `GRAPH_MAX_DEGREE` | The maximum node degree in the graph. | 32 or the value that was passed upon index creation. |
-| `SEARCH_WINDOW_SIZE` | The size of the search window. | 10 or the value that was passed upon index creation. |
 | `EPSILON` | The range search approximation factor. | 0.01 or the value that was passed upon index creation. |
+| `USE_SEARCH_HISTORY` | When building an index, either the contents of the search buffer is used or the entire search history is used. The latter case may yield a slightly better graph at the cost of more search time. Boolean options are `OFF`, `ON`, and `AUTO`. `AUTO` is always evaluated internally as `ON`. | `AUTO` |
+| `SEARCH_BUFFER_CAPACITY` | A tuning parameter used in compressed `SVS-VAMANA` indexes, which are using a two-level compression type (`LVQ<X>x<Y>` or one of the `LeanVec` types), that determines the number of vector candidates to collect in the first level of the search, before the re-ranking level (which is the second level). | `SEARCH_WINDOW_SIZE` |
 
 
 ### Important notes
