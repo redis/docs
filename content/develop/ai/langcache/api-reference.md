@@ -53,10 +53,10 @@ GET https://[host]/v1/caches/{cacheId}/health
 
 ### Search LangCache for similar responses
 
-Use `POST /v1/caches/{cacheId}/search` to search the cache for matching responses to a user prompt.
+Use `POST /v1/caches/{cacheId}/entries/search` to search the cache for matching responses to a user prompt.
 
 ```sh
-POST https://[host]/v1/caches/{cacheId}/search
+POST https://[host]/v1/caches/{cacheId}/entries/search
 {
     "prompt": "User prompt text"
 }
@@ -69,7 +69,7 @@ If LangCache does not return a response, you should call your LLM's REST API to 
 You can also scope the responses returned from LangCache by adding an `attributes` object to the request. LangCache will only return responses that match the attributes you specify. 
 
 ```sh
-POST https://[host]/v1/caches/{cacheId}/search
+POST https://[host]/v1/caches/{cacheId}/entries/search
 {
     "prompt": "User prompt text",
     "attributes": {
