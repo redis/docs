@@ -401,6 +401,8 @@ For example, the following commands create a time series and apply a `min` aggre
 with a bucket size of 25 milliseconds at the default zero alignment.
 
 ```bash
+> TS.CREATE sensor3
+OK
 > TS.MADD sensor3 10 1000 sensor3 20 2000 sensor3 30 3000 sensor3 40 4000 sensor3 50 5000 sensor3 60 6000 sensor3 70 7000
 1) (integer) 10
 2) (integer) 20
