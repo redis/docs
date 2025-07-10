@@ -237,8 +237,8 @@ corresponding
 [`TS.MGET`]({{< relref "commands/ts.mget/" >}}),
 [`TS.MRANGE`]({{< relref "commands/ts.mrange/" >}}), and
 [`TS.MREVRANGE`]({{< relref "commands/ts.mrevrange/" >}}) versions that
-operate on multiple time series. `TS.MGET` returns the last data point added
-to each time series, while `TS.MRANGE` and `TS.MREVRANGE`
+operate on multiple time series. `TS.MGET` returns the data point with the highest
+timestamp from each time series, while `TS.MRANGE` and `TS.MREVRANGE`
 return data points from a range of timestamps in each time series.
 
 The parameters are mostly the same except that the multiple time series
@@ -253,8 +253,8 @@ for details of the filter syntax. You can also request that
 data points be returned with all their labels or with a selected subset of them.
 
 ```bash
-# Create three new "rg: time series, two in the US
-# and one in the UK, with different units and add some
+# Create three new "rg: time series (two in the US
+# and one in the UK, with different units) and add some
 # data points.
 > TS.CREATE rg:2 LABELS location us unit cm
 OK
@@ -379,7 +379,7 @@ The available aggregation functions are:
 - `twa`: Time-weighted average over the bucket's timeframe (since RedisTimeSeries v1.8)
 
 For example, the example below shows an aggregation with the `avg` function over all
-five data points in the `rg:2` time series. The bucket size is two days, so there are three
+five data points in the `rg:2` time series. The bucket size is 2ms, so there are three
 aggregated values with only one value used to calculate the average for the last bucket.
 
 ```bash
@@ -461,7 +461,7 @@ By default, the results from
 [`TS.MREVRANGE`]({{< relref "commands/ts.mrevrange/" >}}) are grouped by time series. However, you can use the `GROUPBY` and `REDUCE` options to group them by label and apply an aggregation over elements
 that have the same timestamp and the same label value (this feature is available from RedisTimeSeries v1.6 onwards).
 
-For example, the following commands create four time series, two for the UK and two for the US, and add some data points. The first `TS.MRANGE` command groups the results by country and applies a `max` aggregation to find the maximum wind speed in each country at each timestamp. The second `TS.MRANGE` command uses the same grouping, but applies an `avg` aggregation.
+For example, the following commands create four time series, two for the UK and two for the US, and add some data points. The first `TS.MRANGE` command groups the results by country and applies a `max` aggregation to find the maximum sample value in each country at each timestamp. The second `TS.MRANGE` command uses the same grouping, but applies an `avg` aggregation.
 
 ```bash
 > TS.CREATE wind:1 LABELS country uk
@@ -578,9 +578,9 @@ OK
     .
 ```
 
-Adding data points within the first three days (the first bucket) doesn't
+Adding data points within the first 3ms (the first bucket) doesn't
 produce any data in the compacted series. However, when you add data for
-day 4 (in the second bucket), the compaction rule computes the minimum
+time 4 (in the second bucket), the compaction rule computes the minimum
 value for the first bucket and adds it to the compacted series.
 
 ```bash
