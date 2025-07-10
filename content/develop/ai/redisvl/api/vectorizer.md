@@ -1,8 +1,6 @@
 ---
 linkTitle: Vectorizers
 title: Vectorizers
-aliases:
-- /integrate/redisvl/api/vectorizer
 ---
 
 
@@ -545,7 +543,7 @@ embeddings for text data.
 This vectorizer is designed to accept a provided callable text vectorizer and
 provides a class definition to allow for compatibility with RedisVL.
 The vectorizer may support both synchronous and asynchronous operations which
-allows for batch processing of texts, but at a minimum only syncronous embedding
+allows for batch processing of texts, but at a minimum only synchronous embedding
 is required to satisfy the ‘embed()’ method.
 
 You can optionally enable caching to improve performance when generating
@@ -585,8 +583,8 @@ Initialize the Custom vectorizer.
 * **Parameters:**
   * **embed** (*Callable*) – a Callable function that accepts a string object and returns a list of floats.
   * **embed_many** (*Optional* *[* *Callable* *]*) – a Callable function that accepts a list of string objects and returns a list containing lists of floats. Defaults to None.
-  * **aembed** (*Optional* *[* *Callable* *]*) – an asyncronous Callable function that accepts a string object and returns a lists of floats. Defaults to None.
-  * **aembed_many** (*Optional* *[* *Callable* *]*) – an asyncronous Callable function that accepts a list of string objects and returns a list containing lists of floats. Defaults to None.
+  * **aembed** (*Optional* *[* *Callable* *]*) – an asynchronous Callable function that accepts a string object and returns a lists of floats. Defaults to None.
+  * **aembed_many** (*Optional* *[* *Callable* *]*) – an asynchronous Callable function that accepts a list of string objects and returns a list containing lists of floats. Defaults to None.
   * **dtype** (*str*) – the default datatype to use when embedding text as byte arrays.
     Used when setting as_buffer=True in calls to embed() and embed_many().
     Defaults to ‘float32’.
