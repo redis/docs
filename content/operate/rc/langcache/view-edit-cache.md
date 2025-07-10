@@ -11,7 +11,7 @@ title: View and edit LangCache service
 weight: 15
 ---
 
-After you have [created your first LangCache service]({{< relref "/operate/rc/langcache/create-service" >}}), selecting **LangCache AI** from the Redis Cloud Console menu will take you to the **LangCache Services** page. 
+After you have [created your first LangCache service]({{< relref "/operate/rc/langcache/create-service" >}}), selecting **LangCache** from the Redis Cloud Console menu will take you to the **LangCache Services** page. 
 
 This page displays a list of all LangCache services associated with your account.
 
