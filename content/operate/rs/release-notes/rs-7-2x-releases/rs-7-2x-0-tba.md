@@ -49,7 +49,15 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 ### Resolved issues
 
-- TBA
+- RS156391: Fixed an issue where the `job_scheduler`'s memory usage could increase significantly when the diagnostic logging service was enabled.
+
+- RS132033: Fixed an issue where out-of-memory errors in the Lua interpreter prevented scripts from running Redis commands until the shard was restarted. This fix is included in Redis database version 7.2 and requires a database upgrade from earlier versions.
+
+- RS153192: Updated the installer's minimum RAM requirement to 8 GB.
+
+- RS159685: Fixed an issue with high DMC CPU usage after changing the primary node of a cluster that has Active-Active databases.
+
+- RS160546: Fixed an issue where `rladmin status extra all` did not show available RAM.
 
 ## Version changes
 
