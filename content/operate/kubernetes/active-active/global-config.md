@@ -160,21 +160,7 @@ Before configuring role permissions:
     '{"spec": {"globalConfigurations": {"rolesPermissions": [{"role": "<role-name>", "acl": "<acl-name>", "type": "redis-enterprise"}]}}}'
     ```
 
-3. Verify the REAADB status shows `active` and `Valid`:
-
-    ```sh
-    kubectl get reaadb <reaadb-name>
-
-    NAME             STATUS   SPEC STATUS   GLOBAL CONFIGURATIONS REDB   LINKED REDBS
-    reaadb-boeing   active   Valid
-    ```
-
-4. Check the operator logs to confirm role permissions are applied:
-
-    ```sh
-    kubectl logs -l name=redis-enterprise-operator
-    ```
-
+3. After the REAADB is active and its replication status is "Up", verify role permissions are applied to the local database using the Redis Enterprise REST API. See [Database requests]({{<relref "/operate/rs/references/rest-api/requests/bdbs#get-bdbs">}}) for details.
 
 ### Troubleshooting role permissions
 
