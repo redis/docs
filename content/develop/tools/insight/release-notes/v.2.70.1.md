@@ -12,9 +12,9 @@ This is a maintenance release for Redis Insight 2.70.
 Update urgency: LOW No need to upgrade unless there are new features you want to use.
 
 **Bug fixes**
-- [#4569](https://github.com/redis/RedisInsight/pull/4569) Standalone mode can now be [manually enforced](https://github.com/redis/RedisInsight/issues/3416) for clustered database connections, rather than defaulting to automatic clustered mode.
 - [#4635](https://github.com/redis/RedisInsight/pull/4635) Redis Data Integration metrics are now shown even when the pipeline status is not running.
 - [#4644](https://github.com/redis/RedisInsight/pull/4644) Resolved [layout issues](https://github.com/redis/RedisInsight/issues/4637) in the bulk import summary view.
+  [#4569](https://github.com/redis/RedisInsight/pull/4569) Fixed an [issue](https://github.com/redis/RedisInsight/issues/3416) with a setting to manually enforce standalone mode for clustered database connections instead of automatic clustered mode.
 - Various security enhancements, including vulnerability fixes and dependency updates.
 
 **SHA-256 Checksums**
