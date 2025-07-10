@@ -1,7 +1,5 @@
 ---
 Title: Redis Cloud changelog (April 2024)
-aliases:
-- /operate/rc/changelog/april-2024/
 alwaysopen: false
 categories:
 - docs
