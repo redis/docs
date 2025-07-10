@@ -63,6 +63,16 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS160546: Fixed an issue where `rladmin status extra all` did not show available RAM.
 
+- RS150592: Fixed an issue where connection errors were not automatically retried.
+
+- RS161945: Fixed an issue where state machine logs showed a generic state machine ID instead of the descriptive state machine name when creating a database from persistence.
+
+- RS160196: Fixed an issue where a node could be set as primary before completing the bootstrap process.
+
+- RS153736: Fixed an issue where the `PUBSUB SHARDNUMSUB` command would not respond when called without arguments if the OSS Cluster API was enabled.
+
+- RS163254: Fixed an issue where the policy update logs displayed inconsistent boolean value formats, mixing `enabled/disabled` and `True/False`.
+
 ## Version changes
 
 ### Deprecations
