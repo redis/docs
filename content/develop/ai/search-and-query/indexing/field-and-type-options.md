@@ -15,7 +15,7 @@ categories:
 description: Available field types and options.
 linkTitle: Field and type options
 title: Field and type options
-weight: 2
+weight: 5
 ---
 
 
@@ -71,7 +71,7 @@ Geo fields are used to store geographical coordinates such as longitude and lati
 
 Redis Query Engine also supports [geoshape fields](#geoshape-fields) for more advanced
 geospatial queries. See the
-[Geospatial]({{< relref "/develop/ai/search-and-query/advanced-concepts/geo" >}})
+[Geospatial indexing]({{< relref "/develop/ai/search-and-query/indexing/geospatial" >}})
 reference page for an introduction to the format and usage of both schema types.
 
 You can add geo fields to the schema in [`FT.CREATE`]({{< relref "commands/ft.create/" >}}) using this syntax:
@@ -106,7 +106,7 @@ such as finding all office locations in a specified region or finding
 all rooms in a building that fall within range of a wi-fi router.
 
 See the
-[Geospatial]({{< relref "/develop/ai/search-and-query/advanced-concepts/geo" >}})
+[Geospatial indexing]({{< relref "/develop/ai/search-and-query/indexing/geospatial" >}})
 reference page for an introduction to the format and usage of both the
 geoshape and geo schema types.
 
@@ -197,7 +197,7 @@ You can search for documents with specific tags using the `@<field_name>:{<tag>}
 FT.SEARCH idx "@tags:{blue}"
 ```
 
-For more information about tag fields, see [Tag Fields]({{< relref "/develop/ai/search-and-query/advanced-concepts/tags" >}}).
+For more information about tag fields, see [Tag Fields]({{< relref "/develop/ai/search-and-query/indexing/tags" >}}).
 
 ## Text fields
 

@@ -150,7 +150,7 @@ try {jedis.ftDropIndex("vector_idx");} catch (JedisDataException j){}
 
 Next, we create the index.
 The schema in the example below includes three fields: the text content to index, a
-[tag]({{< relref "/develop/ai/search-and-query/advanced-concepts/tags" >}})
+[tag]({{< relref "/develop/ai/search-and-query/indexing/tags" >}})
 field to represent the "genre" of the text, and the embedding vector generated from
 the original text content. The `embedding` field specifies
 [HNSW]({{< relref "/develop/ai/search-and-query/vectors#hnsw-index" >}}) 

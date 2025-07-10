@@ -106,7 +106,7 @@ try {
 
 Next, create the index with the following schema:
 -   `content`: Text field for the content to index
--   `genre`: [Tag]({{< relref "/develop/ai/search-and-query/advanced-concepts/tags" >}})
+-   `genre`: [Tag]({{< relref "/develop/ai/search-and-query/indexing/tags" >}})
     field representing the text's genre
 -   `embedding`: [Vector]({{< relref "/develop/ai/search-and-query/vectors" >}})
     field with:

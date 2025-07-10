@@ -46,7 +46,7 @@ Once hash or JSON keys have been indexed using the [`FT.CREATE`]({{< relref "com
 
 For more information on creating hash and JSON indexes, see the following pages.
 
-* [Hash indexes]({{< relref "/develop/ai/search-and-query/indexing/schema-definition" >}})
+* [Hash indexes]({{< relref "/develop/ai/search-and-query/indexing/hash-indexing" >}})
 * [JSON indexes]({{< relref "/develop/ai/search-and-query/indexing" >}})
 
 ## Simple numerical indexes with sorted sets
@@ -182,7 +182,7 @@ index.
 
 When you create a new time series using the [`TS.CREATE`]({{< relref "commands/ts.create" >}}) command, you can associate one or more `LABELS` with it. Each label is a name-value pair, where the both name and value are text. Labels serve as a secondary index that allows you to execute queries on groups of time series keys using various time series commands.
 
-See the [time series quickstart guide]({{< relref "/develop/data-types/timeseries/quickstart#labels" >}}) for an example of creating a time series with a label.
+See the [time series documentation]({{< relref "/develop/data-types/timeseries" >}}) for examples of creating time series with labels.
 
 The [`TS.MGET`]({{< relref "commands/ts.mget" >}}), [`TS.MRANGE`]({{< relref "commands/ts.mrange" >}}), and [`TS.MREVRANGE`]({{< relref "commands/ts.mrevrange" >}}) commands operate on multiple time series based on specified labels or using a label-related filter expression. The [`TS.QUERYINDEX`]({{< relref "commands/ts.queryindex" >}}) command returns all time series keys matching a given label-related filter expression.
 

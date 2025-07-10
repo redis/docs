@@ -222,7 +222,7 @@ after the SCHEMA keyword, declares which fields to index:
 
  - `TEXT` - Allows full-text search queries against the value in this attribute.
 
- - `TAG` - Allows exact-match queries, such as categories or primary keys, against the value in this attribute. For more information, see [Tag Fields]({{< relref "/develop/ai/search-and-query/advanced-concepts/tags" >}}).
+ - `TAG` - Allows exact-match queries, such as categories or primary keys, against the value in this attribute. For more information, see [Tag Fields]({{< relref "/develop/ai/search-and-query/indexing/tags" >}}).
 
  - `NUMERIC` - Allows numeric range queries against the value in this attribute. See [query syntax docs]({{< relref "/develop/ai/search-and-query/query/" >}}) for details on how to use numeric ranges.
 

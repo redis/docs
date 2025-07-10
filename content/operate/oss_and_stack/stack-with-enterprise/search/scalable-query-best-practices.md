@@ -18,7 +18,7 @@ weight: 25
 
     - [Full-text]({{<relref "/develop/ai/search-and-query/query/full-text">}})
 
-    - [Tag]({{<relref "/develop/ai/search-and-query/advanced-concepts/tags">}})
+    - [Tag]({{<relref "/develop/ai/search-and-query/indexing/tags">}})
 
     - [Vector]({{<relref "/develop/ai/search-and-query/query/vector-search">}})
 

@@ -2,6 +2,7 @@
 aliases:
 - /develop/interact/search-and-query/indexing/schema-definition
 - /develop/interact/search-and-query/basic-constructs/schema-definition
+- /develop/interact/search-and-query/indexing/hash-indexing
 categories:
 - docs
 - develop
@@ -12,15 +13,15 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'How to define the schema of an index.
-
-  '
-linkTitle: Schema definition
-title: Schema definition
-weight: 1
+description: 'How to create and configure indexes for Redis Hash documents.'
+linkTitle: Hash indexing
+title: Hash indexing
+weight: 20
 ---
 
-An index structure is defined by a schema. The schema specifies the fields, their types, whether they should be indexed or stored, and other additional configuration options. By properly configuring the schema, you can optimize search performance and control the storage requirements of your index.
+You can create search indexes for Redis Hash documents to enable fast, flexible queries across your data. Hash indexing provides a straightforward approach where field names in your schema map directly to hash field names, making it ideal for structured data with consistent field patterns.
+
+An index structure is defined by a schema that specifies the fields, their types, whether they should be indexed or stored, and other configuration options. By properly configuring your schema, you can optimize search performance and control the storage requirements of your index.
 
 ```
 FT.CREATE idx 
@@ -41,7 +42,7 @@ You can learn more about the available field types and options on the [`FT.CREAT
 
 ## More schema definition examples
 
-##### Index tags with a separator
+### Index tags with a separator
 
 Index books that have a `categories` attribute, where each category is separated by a `;` character.
 
@@ -54,7 +55,7 @@ SCHEMA
     categories TAG SEPARATOR ";"
 ```
 
-##### Index a single field in multiple ways
+### Index a single field in multiple ways
 
 Index the `sku` attribute from a hash as both a `TAG` and as `TEXT`:
 
@@ -67,7 +68,7 @@ SCHEMA
     sku AS sku_tag TAG SORTABLE
 ```
 
-##### Index documents with multiple prefixes
+### Index documents with multiple prefixes
 
 Index two different hashes, one containing author data and one containing book data:
 ```
@@ -82,7 +83,7 @@ SCHEMA
 
 In this example, keys for author data use the key pattern `author:details:<id>`, while keys for book data use the pattern `book:details:<id>`.
 
-##### Only index documents if a field specifies a certain value using `FILTER`
+### Only index documents if a field specifies a certain value using `FILTER`
 
 Index authors whose names start with G:
 
@@ -106,17 +107,8 @@ SCHEMA
     title TEXT
 ```
 
-##### Index a JSON document using a JSONPath expression
+## Next steps
 
-Index a JSON document that has `title` and `categories` fields. The `title` field is indexed as `TEXT` and the `categories` field is indexed as `TAG`.
+You can learn more about the available field types and options on the [Field and type options]({{< relref "/develop/ai/search-and-query/indexing/field-and-type-options" >}}) page.
 
-```
-FT.CREATE idx 
-    ON JSON 
-SCHEMA 
-    $.title AS title TEXT 
-    $.categories AS categories TAG
-```
-
-
-You can learn more about the available field types and options on the [`FT.CREATE`]({{< relref "commands/ft.create/" >}}) page.
+For JSON document indexing, see [JSON indexing]({{< relref "/develop/ai/search-and-query/indexing/json-indexing" >}}).

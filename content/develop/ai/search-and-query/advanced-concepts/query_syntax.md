@@ -64,7 +64,7 @@ You can use simple syntax for complex queries using these rules:
 * Georadius matches on geo fields with the syntax `@field:[{lon} {lat} {radius} {m|km|mi|ft}]`.
 * As of 2.6, range queries on vector fields with the syntax `@field:[VECTOR_RANGE {radius} $query_vec]`, where `query_vec` is given as a query parameter.
 * As of v2.4, k-nearest neighbors (KNN) queries on vector fields with or without pre-filtering with the syntax `{filter_query}=>[KNN {num} @field $query_vec]`.
-* Tag field filters with the syntax `@field:{tag | tag | ...}`. See the full documentation on [tags]({{< relref "/develop/ai/search-and-query/advanced-concepts/tags" >}}).
+* Tag field filters with the syntax `@field:{tag | tag | ...}`. See the full documentation on [tags]({{< relref "/develop/ai/search-and-query/indexing/tags" >}}).
 * Optional terms or clauses: `foo ~bar` means bar is optional but documents containing `bar` will rank higher.
 * Fuzzy matching on terms: `%hello%` means all terms with Levenshtein distance of 1 from it. Use multiple pairs of '%' brackets, up to three deep, to increase the Levenshtein distance.
 * An expression in a query can be wrapped in parentheses to disambiguate, for example, `(hello|hella) (world|werld)`.
@@ -128,8 +128,8 @@ If a field in the schema is defined as NUMERIC, it is possible to use the FILTER
 ## Tag filters
 
 As of v0.91, you can use a special field type called a
-[_tag field_]({{< relref "/develop/ai/search-and-query/advanced-concepts/tags" >}}), with simpler
-[tokenization]({{< relref "/develop/ai/search-and-query/advanced-concepts/escaping#tokenization-rules-for-tag-fields" >}})
+[_tag field_]({{< relref "/develop/ai/search-and-query/indexing/tags" >}}), with simpler
+[tokenization]({{< relref "/develop/ai/search-and-query/indexing/tokenization#tag-field-tokenization" >}})
 and encoding in the index. You can't access the values in these fields using a general fieldless search. Instead, you use special syntax:
 
 ```

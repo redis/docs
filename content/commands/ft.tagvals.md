@@ -62,7 +62,7 @@ Use FT.TAGVALS if your tag indexes things like cities, categories, and so on.
 
 ## Limitations
 
-FT.TAGVALS provides no paging or sorting, and the tags are not alphabetically sorted. FT.TAGVALS only operates on [tag fields]({{< relref "/develop/ai/search-and-query/advanced-concepts/tags" >}}).
+FT.TAGVALS provides no paging or sorting, and the tags are not alphabetically sorted. FT.TAGVALS only operates on [tag fields]({{< relref "/develop/ai/search-and-query/indexing/tags" >}}).
 The returned strings are lowercase with whitespaces removed, but otherwise unchanged.
 
 ## Return
@@ -87,5 +87,5 @@ FT.TAGVALS returns an array reply of all distinct tags in the tag index.
 
 ## Related topics
 
-- [Tag fields]({{< relref "/develop/ai/search-and-query/advanced-concepts/tags" >}})
+- [Tag fields]({{< relref "/develop/ai/search-and-query/indexing/tags" >}})
 - [RediSearch]({{< relref "/develop/ai/search-and-query/" >}})

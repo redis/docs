@@ -71,8 +71,8 @@ weight: 10
   - [Index lifecycle]({{< relref "/develop/ai/search-and-query/best-practices/index-mgmt-best-practices.md" >}})
 - New/updated topics:
   - [Autocomplete]({{< relref "/develop/ai/search-and-query/advanced-concepts/autocomplete.md" >}})
-  - [Escaping & tokenization]({{< relref "/develop/ai/search-and-query/advanced-concepts/escaping.md" >}})
-  - [Geo indexing]({{< relref "/develop/ai/search-and-query/indexing/geoindex.md" >}})
+  - [Tokenization]({{< relref "/develop/ai/search-and-query/indexing/tokenization.md" >}})
+  - [Geospatial indexing]({{< relref "/develop/ai/search-and-query/indexing/geospatial.md" >}})
   - [Sorting, scoring, stemming]({{< relref "/develop/ai/search-and-query/advanced-concepts/sorting.md" >}})
 
 ---

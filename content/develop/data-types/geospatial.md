@@ -21,7 +21,7 @@ Redis geospatial indexes let you store coordinates and search for them.
 This data structure is useful for finding nearby points within a given radius or bounding box.
 
 {{< note >}}Take care not to confuse the Geospatial data type with the
-[Geospatial]({{< relref "/develop/ai/search-and-query/advanced-concepts/geo" >}})
+[Geospatial indexing]({{< relref "/develop/ai/search-and-query/indexing/geospatial" >}})
 features in [Redis Query Engine]({{< relref "/develop/ai/search-and-query" >}}).
 Although there are some similarities between these two features, the data type is intended
 for simpler use cases and doesn't have the range of format options and queries
