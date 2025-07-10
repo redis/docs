@@ -21,6 +21,7 @@ weight: 5
 | RI_STDOUT_LOGGER | Logs to STDOUT. | `true` | |
 | RI_PROXY_PATH | Configures a subpath for a proxy. | n/a | Available only for Docker. |
 | RI_DATABASE_MANAGEMENT | When set to `false`, this disables the ability to manage database connections (adding, editing, or deleting). | `true` | | 
+| RI_ACCEPT_TERMS_AND_CONDITIONS | Automatically accepts the End User License Agreement. By setting this environment variable, you acknowledge that your use of Redis Insight is governed by your signed agreement with Redis, or, if none, by the [Redis Enterprise Software Subscription Agreement](https://redis.io/software-subscription-agreement/). If no agreement applies, use is subject to the Server Side Public License.| `true` | | 
 
 ## Preconfigure database connections
 Redis Insight allows you to preconfigure database connections using environment variables or a JSON file, enabling centralized and efficient configuration.
