@@ -27,7 +27,11 @@ This version offers:
 
 ### Enhancements
 
-- TBA
+- Added `--update-db-config-modules` option to the [`crdb-cli crdb update`]({{<relref "/operate/rs/references/cli-utilities/crdb-cli/update">}}) command to streamline updating module information in the CRDB configuration after uprading modules used by Active-Active databases. Use this option only after all CRDB database instances have upgraded their modules.
+
+    ```sh
+    crdb-cli crdb update --crdb-guid <guid> --update-db-config-modules true
+    ```
 
 ### Redis database versions
 
