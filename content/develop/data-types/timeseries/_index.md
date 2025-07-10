@@ -43,7 +43,7 @@ See
 [Install Redis Enterprise]({{< relref "/operate/rs/installing-upgrading/install" >}})
 for full installation instructions.
 
-## Creating a time series
+## Create a time series
 
 You can create a new empty time series with the [`TS.CREATE`]({{< relref "commands/ts.create/" >}})
 command, specifying a key name. Alternatively, if you use [`TS.ADD`]({{< relref "commands/ts.add/" >}})
@@ -108,7 +108,7 @@ for queries and aggregations.
     .
 ```
 
-## Adding data points
+## Add data points
 
 You can add individual data points with [`TS.ADD`]({{< relref "commands/ts.add/" >}}),
 but you can also use [`TS.MADD`]({{< relref "commands/ts.madd/" >}}) to add multiple data
@@ -125,7 +125,7 @@ Unix time, as reported by the server's clock.
 3) (integer) 2
 ```
 
-## Querying data points
+## Query data points
 
 Use [`TS.GET`]({{< relref "commands/ts.get/" >}}) to retrieve the last data point
 added to a time series. This returns both the timestamp and the value.
@@ -231,7 +231,7 @@ use the same value for the minimum and maximum to filter for a single value.
    2) 22
 ```
 
-### Querying multiple time series
+### Query multiple time series
 
 The `TS.GET`, `TS.RANGE`, and `TS.REVRANGE` commands also have
 corresponding
@@ -607,7 +607,7 @@ bucket. If you add or [delete](#deleting-data-points) data in a bucket before
 the latest one, the compaction rule will still update the compacted data for
 that bucket.
 
-## Deleting data points
+## Delete data points
 
 Use [`TS.DEL`]({{< relref "commands/ts.del/" >}}) to delete data points
 that fall within a given timestamp range. The range is inclusive, meaning that
@@ -661,7 +661,7 @@ If you want to delete a single timestamp, use it as both the start and end of th
     .
 ```
 
-## Using with other metrics tools
+## Use time series with other metrics tools
 
 In the [RedisTimeSeries](https://github.com/RedisTimeSeries) GitHub organization, you can
 find projects that help you integrate RedisTimeSeries with other tools, including:
