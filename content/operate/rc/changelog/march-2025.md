@@ -11,7 +11,7 @@ highlights: Redis Insight on Redis Cloud, Redis Hashing policy
 linktitle: March 2025
 tags:
 - changelog
-weight: 78
+weight: 34
 ---
 
 ## New features
