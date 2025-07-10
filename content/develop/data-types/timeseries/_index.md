@@ -62,17 +62,16 @@ TSDB-TYPE
     .
 ```
 
-The timestamp for each data point is a 64-bit integer value. This is designed
-to support Unix timestamps, measured in milliseconds since the
-[Unix epoch](https://en.wikipedia.org/wiki/Unix_time). However, you can interpret
-the timestamps in any way you like (for example, as the number of days since a given start date).
+The timestamp for each data point is a 64-bit integer value. The value
+represents a Unix timestamp, measured in milliseconds since the
+[Unix epoch](https://en.wikipedia.org/wiki/Unix_time).
 When you create a time series, you can specify a maximum retention period for the
 data, relative to the last reported timestamp. A retention period of zero means
 the data does not expire.
 
 ```bash
 # Create a new time series with a first value of 10.8 (Celsius),
-# recorded on day 1, with a retention period of 100 days.
+# recorded at time 1, with a retention period of 100ms.
 > TS.ADD thermometer:2 1 10.8 RETENTION 100
 (integer) 1
 > TS.INFO thermometer:2
@@ -85,8 +84,8 @@ the data does not expire.
 ```
 
 You can also add one or more *labels* to a time series when you create it. Labels
-are key-value pairs where the value can be a string or a number. You can use
-both the keys and values to select subsets of all the available time series
+are name-value pairs where both the name and value are strings. You can use
+the names and values to select subsets of all the available time series
 for queries and aggregations.
 
 ```bash
@@ -127,12 +126,12 @@ Unix time, as reported by the server's clock.
 
 ## Query data points
 
-Use [`TS.GET`]({{< relref "commands/ts.get/" >}}) to retrieve the last data point
-added to a time series. This returns both the timestamp and the value.
+Use [`TS.GET`]({{< relref "commands/ts.get/" >}}) to retrieve the data point
+with the highest timestamp in a time series. This returns both the timestamp and the value.
 
 ```bash
 # The last recorded temperature for thermometer:2
-# was 10.3 on day 2.
+# was 10.3 at time 2ms.
 > TS.GET thermometer:2
 1) (integer) 2
 2) 10.3
@@ -147,7 +146,7 @@ an array of timestamp-value pairs returned in ascending order by timestamp.
 If you want the results in descending order, use [`TS.REVRANGE`]({{< relref "commands/ts.revrange/" >}}) with the same parameters.
 
 ```bash
-# Add 5 data points to a rain gauge time series.
+# Add 5 data points to a time series named "rg:1".
 > TS.CREATE rg:1
 OK
 > TS.MADD rg:1 0 18 rg:1 1 14 rg:1 2 22 rg:1 3 18 rg:1 4 24
@@ -170,14 +169,14 @@ OK
 5) 1) (integer) 4
    2) 24
 
-# Retrieve data points up to day 1 (inclusive).
+# Retrieve data points up to time 1 (inclusive).
 > TS.RANGE rg:1 - 1
 1) 1) (integer) 0
    2) 18
 2) 1) (integer) 1
    2) 14
 
-# Retrieve data points from day 3 onwards.
+# Retrieve data points from time 3 onwards.
 > TS.RANGE rg:1 3 +
 1) 1) (integer) 3
    2) 18
@@ -197,7 +196,7 @@ OK
 5) 1) (integer) 0
    2) 18
 
-# Retrieve data points up to day 1 (inclusive), but
+# Retrieve data points up to time 1 (inclusive), but
 # return them in descending order.
 > TS.REVRANGE rg:1 - 1
 1) 1) (integer) 1
@@ -254,7 +253,7 @@ for details of the filter syntax. You can also request that
 data points be returned with all their labels or with a selected subset of them.
 
 ```bash
-# Create three new rain gauge time series, two in the US
+# Create three new "rg: time series, two in the US
 # and one in the UK, with different units and add some
 # data points.
 > TS.CREATE rg:2 LABELS location us unit cm
@@ -284,7 +283,7 @@ OK
 2) (integer) 4
 3) (integer) 4
 
-# Retrieve the last data point from each US rain gauge. If
+# Retrieve the last data point from each US time series. If
 # you don't specify any labels, an empty array is returned
 # for the labels.
 > TS.MGET FILTER location=us
@@ -311,8 +310,8 @@ OK
    3) 1) (integer) 4
       2) 7.4E-1
 
-# Retrieve data points up to day 2 (inclusive) from all
-# rain gauges that report in millimeters. Include all
+# Retrieve data points up to time 2 (inclusive) from all
+# time series that use millimeters as the unit. Include all
 # labels in the results.
 > TS.MRANGE - 2 WITHLABELS FILTER unit=mm
 1) 1) "rg:4"
@@ -327,8 +326,8 @@ OK
       3) 1) (integer) 2
          2) 21
 
-# Retrieve data points from day 1 to day 3 (inclusive) from
-# all rain gauges that report in centimeters or millimeters,
+# Retrieve data points from time 1 to time 3 (inclusive) from
+# all time series that use centimeters or millimeters as the unit,
 # but only return the `location` label. Return the results
 # in descending order of timestamp.
 > TS.MREVRANGE 1 3 SELECTED_LABELS location FILTER unit=(cm,mm)
@@ -489,7 +488,7 @@ OK
 3) (integer) 3
 4) (integer) 3
 
-# The result pairs contain the timestamp and the maximum wind speed
+# The result pairs contain the timestamp and the maximum sample value
 # for the country at that timestamp. 
 > TS.MRANGE - + FILTER country=(us,uk) GROUPBY country REDUCE max
 1) 1) "country=uk"
@@ -509,7 +508,7 @@ OK
       3) 1) (integer) 3
          2) 18
 
-# The result pairs contain the timestamp and the average wind speed
+# The result pairs contain the timestamp and the average sample value
 # for the country at that timestamp.
 > TS.MRANGE - + FILTER country=(us,uk) GROUPBY country REDUCE avg
 1) 1) "country=uk"
@@ -547,9 +546,8 @@ aggregation function, and the bucket duration. Note that the destination time
 series must already exist when you create the rule and also that the compaction will
 only process data that is added to the source series after you create the rule.
 
-For example, you could use the commands below to create a time series for
-[hygrometer](https://en.wikipedia.org/wiki/Hygrometer) readings along with a compaction
-rule to find the minimum reading in each three day period.
+For example, you could use the commands below to create a time series along with a
+compaction rule to find the minimum reading in each period of 3ms.
 
 ```bash
 # The source time series.
