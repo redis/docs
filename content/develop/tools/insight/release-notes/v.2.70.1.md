@@ -9,7 +9,7 @@ weight: 1
 ## 2.70.1 (July 2025)
 This is a maintenance release for Redis Insight 2.70.
 
-Update urgency: LOW No need to upgrade unless there are new features you want to use.
+Update urgency: `LOW` No need to upgrade unless there are new features you want to use.
 
 **Bug fixes**
 - [#4635](https://github.com/redis/RedisInsight/pull/4635) Redis Data Integration metrics are now shown even when the pipeline status is not running.
