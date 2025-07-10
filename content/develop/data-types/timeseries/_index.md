@@ -409,7 +409,7 @@ with a bucket size of 25 milliseconds at the default zero alignment.
 5) (integer) 50
 6) (integer) 60
 7) (integer) 70
-> TS.RANGE sensor3 10 70 + AGGREGATION min 25
+> TS.RANGE sensor3 10 70 AGGREGATION min 25
 1) 1) (integer) 0
    2) 1000
 2) 1) (integer) 25
@@ -433,7 +433,7 @@ Bucket(25ms): |_________________________||_________________________||___________
 You can also align the buckets to the start or end of the query range. For example, the following command aligns the buckets to the start of the query range at time 10.
 
 ```bash
-> TS.RANGE sensor3 10 70 + AGGREGATION min 25 ALIGN start
+> TS.RANGE sensor3 10 70 AGGREGATION min 25 ALIGN start
 1) 1) (integer) 10
    2) 1000
 2) 1) (integer) 35
