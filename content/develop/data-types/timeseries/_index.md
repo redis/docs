@@ -271,15 +271,15 @@ OK
 1) (integer) 1
 2) (integer) 1
 3) (integer) 1
-127.0.0.1:6379> TS.MADD rg:2 2 2.3 rg:3 2 1.1 rg:4 2 21
+> TS.MADD rg:2 2 2.3 rg:3 2 1.1 rg:4 2 21
 1) (integer) 2
 2) (integer) 2
 3) (integer) 2
-127.0.0.1:6379> TS.MADD rg:2 3 1.9 rg:3 3 0.81 rg:4 3 19
+> TS.MADD rg:2 3 1.9 rg:3 3 0.81 rg:4 3 19
 1) (integer) 3
 2) (integer) 3
 3) (integer) 3
-127.0.0.1:6379> TS.MADD rg:2 4 1.78 rg:3 4 0.74 rg:4 4 23
+> TS.MADD rg:2 4 1.78 rg:3 4 0.74 rg:4 4 23
 1) (integer) 4
 2) (integer) 4
 3) (integer) 4
@@ -592,7 +592,7 @@ value for the first bucket and adds it to the compacted series.
 (empty array)
 > TS.ADD hyg:1 3 79
 (integer) 3
-127.0.0.1:6379> ts.range hyg:compacted - +
+> ts.range hyg:compacted - +
 1) 1) (integer) 0
    2) 75
 ```
@@ -628,7 +628,7 @@ If you want to delete a single timestamp, use it as both the start and end of th
     .
 > TS.ADD thermometer:1 3 9.7
 (integer) 3
-127.0.0.1:6379> TS.INFO thermometer:1
+> TS.INFO thermometer:1
  1) totalSamples
  2) (integer) 3
  3) memoryUsage
