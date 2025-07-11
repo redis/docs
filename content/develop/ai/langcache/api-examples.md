@@ -21,12 +21,13 @@ To access the LangCache API, you need:
 
 When you call the API, you need to pass the LangCache API key in the `Authorization` header as a Bearer token and the Cache ID as the `cacheId` path parameter. 
 
-For example, to check the health of the cache using `cURL`:
+For example, to search the cache using `cURL`:
 
 ```bash
-curl -s -X GET "https://$HOST/v1/caches/$CACHE_ID/health" \
+curl -s -X POST "https://$HOST/v1/caches/$CACHE_ID/entires/search" \
     -H "accept: application/json" \
-    -H "Authorization: Bearer $API_KEY"
+    -H "Authorization: Bearer $API_KEY" \
+    -d "{ 'prompt': 'What is semantic caching' }"
 ```
 
 - The example expects several variables to be set in the shell:
