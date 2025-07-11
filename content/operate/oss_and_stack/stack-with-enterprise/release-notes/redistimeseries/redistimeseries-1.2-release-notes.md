@@ -78,7 +78,7 @@ Headlines:
 - Compression added which can reduce memory up to 98% and improve read performance up to 50%.
 - Stable ingestion time independent of the number of the data points on a time-series.
 - Reviewed API with performance improvements and removed ambiguity.
-- Extended [client support]({{<relref "/develop/data-types/timeseries/clients">}})
+- Extended [client support]({{<relref "/develop/data-types/timeseries/">}})
 
 (we will blog about this release soon including performance improvements results and the link here)
 
