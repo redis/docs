@@ -343,11 +343,13 @@ Next, aggregate without using `ALIGN`, defaulting to alignment 0.
    2) 100
 2) 1) (integer) 1020
    2) 120
-3) 1) (integer) 1040
-   2) 210
-4) 1) (integer) 1060
+3) 1) (integer) 2000
+   2) 200
+4) 1) (integer) 2020
+   2) 220
+5) 1) (integer) 3000
    2) 300
-5) 1) (integer) 1080
+6) 1) (integer) 3020
    2) 320
 {{< / highlight >}}
 
