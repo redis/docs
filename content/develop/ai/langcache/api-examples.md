@@ -11,7 +11,7 @@ title: Use the LangCache API and SDK
 weight: 10
 ---
 
-You can use the LangCache API from your client app to store and retrieve LLM, RAG, or agent responses.
+Use the LangCache API from your client app to store and retrieve LLM, RAG, or agent responses.
 
 To access the LangCache API, you need:
 
