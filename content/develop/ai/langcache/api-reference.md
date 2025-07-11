@@ -5,4 +5,5 @@ layout: apireference
 type: page
 params:
   sourcefile: ./api.yaml
+  sortOperationsAlphabetically: false
 ---
