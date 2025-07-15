@@ -1,0 +1,513 @@
+openapi: 3.0.1
+info:
+  title: Redis LangCache Service
+  description: API for managing a [Redis LangCache](https://redis.io/docs/latest/develop/ai/langcache/) service.
+  contact:
+    name: Redis
+    email: support@redis.com
+  version: '1.0'
+tags:
+  - name: Cache Entries
+    description: Operations for creating, searching, and deleting cache entries.
+servers:
+  - url: http://localhost:8080
+    description: Generated server URL
+paths:
+  /v1/caches/{cacheId}/entries/search:
+    post:
+      tags:
+        - Cache Entries
+      summary: Search the cache
+      description: Searches the cache for entries that match the prompt and attributes. If no entries are found, this endpoint returns an empty array.
+      operationId: search
+      parameters:
+        - $ref: '#/components/parameters/cacheId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchEntriesRequest'
+        required: true
+      responses:
+        '200':
+          description: Cache search completed successfully
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/SearchEntriesResponse'
+        '400':
+          description: Bad Request
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/BadRequestErrorResponseContent'
+        '401':
+          description: Unauthorized
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/AuthenticationErrorResponseContent'
+        '403':
+          description: Forbidden
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ForbiddenErrorResponseContent'
+        '500':
+          description: An unexpected error occurred
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponseContent'
+        '503':
+          description: An internal error occurred
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ServiceUnavailableErrorResponseContent'
+  /v1/caches/{cacheId}/entries:
+    post:
+      tags:
+        - Cache Entries
+      summary: Add a new entry to the cache
+      description: Adds an entry to the cache with a prompt and response.
+      operationId: set
+      parameters:
+        - $ref: '#/components/parameters/cacheId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetEntryRequest'
+        required: true
+      responses:
+        '201':
+          description: Cache entry added to the cache successfully
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/SetEntryResponse'
+        '400':
+          description: Bad Request
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/BadRequestErrorResponseContent'
+        '401':
+          description: Unauthorized
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/AuthenticationErrorResponseContent'
+        '403':
+          description: Forbidden
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ForbiddenErrorResponseContent'
+        '500':
+          description: An unexpected error occurred
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponseContent'
+        '503':
+          description: An internal error occurred
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ServiceUnavailableErrorResponseContent'
+    delete:
+      tags:
+        - Cache Entries
+      summary: Delete multiple cache entries
+      description: Deletes multiple cache entries based on specified attributes. If no attributes are provided, all entries in the cache are deleted.
+      operationId: deleteQuery
+      parameters:
+        - $ref: '#/components/parameters/cacheId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteEntriesRequest'
+        required: true
+      responses:
+        '200':
+          description: Cache entries successfully deleted
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/DeleteEntriesResponse'
+        '400':
+          description: Bad Request
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/BadRequestErrorResponseContent'
+        '401':
+          description: Unauthorized
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/AuthenticationErrorResponseContent'
+        '403':
+          description: Forbidden
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ForbiddenErrorResponseContent'
+        '500':
+          description: An unexpected error occurred
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponseContent'
+        '503':
+          description: An internal error occurred
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ServiceUnavailableErrorResponseContent'
+  /v1/caches/{cacheId}/entries/{entryId}:
+    delete:
+      tags:
+        - Cache Entries
+      summary: Delete a single cache entry
+      description: Deletes a single cache entry by the entry ID.
+      operationId: delete
+      parameters:
+        - $ref: '#/components/parameters/cacheId'
+        - $ref: '#/components/parameters/entryId'
+      responses:
+        '204':
+          description: Cache entry successfully deleted
+        '400':
+          description: Bad Request
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/BadRequestErrorResponseContent'
+        '401':
+          description: Unauthorized
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/AuthenticationErrorResponseContent'
+        '403':
+          description: Forbidden
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ForbiddenErrorResponseContent'
+        '404':
+          description: Cache entry not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFoundErrorResponseContent'
+        '500':
+          description: An unexpected error occurred
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponseContent'
+        '503':
+          description: An internal error occurred
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ServiceUnavailableErrorResponseContent'
+components:
+  parameters:
+    cacheId:
+      name: cacheId
+      in: path
+      description: The cache ID.
+      required: true
+      schema:
+        type: string
+    entryId:
+      name: entryId
+      in: path
+      description: The ID of the cache entry to delete.
+      required: true
+      schema:
+        type: string
+  schemas:
+    SearchEntriesRequest:
+      required:
+        - prompt
+      type: object
+      properties:
+        prompt:
+          type: string
+          description: The prompt to search for in the cache.
+          example: How does semantic caching work?
+        similarityThreshold:
+          minimum: 0
+          maximum: 1
+          type: number
+          description: The minimum similarity threshold for the cache entry (normalized cosine similarity).
+          format: float
+          example: 0.9
+        attributes:
+          type: object
+          additionalProperties:
+            type: string
+          description: Key-value pairs of attributes that filter the cache entries. If provided, this endpoint only returns entries that contain all given attributes.
+          example:
+            language: en
+            topic: ai
+      description: Request for searching a cache entry
+    SearchEntriesResponse:
+      required:
+        - data
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CacheEntry'
+          description: Array of cache entries matching the search criteria. This array is empty if no entries match the search criteria.
+      description: Response representing the result of a successful cache entries search operation
+    CacheEntry:
+      required:
+        - attributes
+        - similarity
+        - id
+        - prompt
+        - response
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the cache entry.
+          example: myIndex:5b84acef3ce360988d1b35adbaaaccb164569b6d79fab04fd888b5fea03fb8f2
+        prompt:
+          type: string
+          description: The prompt associated with the cache entry.
+          example: Tell me how semantic caching works
+        response:
+          type: string
+          description: The response associated with the cache entry.
+          example: Semantic caching stores and retrieves data based on meaning, not exact matches.
+        attributes:
+          type: object
+          additionalProperties:
+            type: string
+          description: The key-value pairs of attributes that are associated with the cache entry.
+          example:
+            language: en
+            topic: ai
+        similarity:
+          type: number
+          description: The similarity metric used for similarity comparison.
+          format: float
+          example: 0.95
+      description: A cache entry
+    SetEntryRequest:
+      required:
+        - prompt
+        - response
+      type: object
+      properties:
+        prompt:
+          example: How does semantic caching work?
+          type: string
+          description: The prompt for the entry.
+        response:
+          example: Semantic caching stores and retrieves data based on meaning, not exact matches.
+          type: string
+          description: The response to the prompt for the entry.
+        attributes:
+          type: object
+          additionalProperties:
+            type: string
+          description: Key-value pairs of attributes to be associated with the entry. These can be used for filtering when searching for entries. All attribute names that can be associated with an entry must be defined during cache creation.
+          example:
+            language: en
+            topic: ai
+        ttlMillis:
+          type: integer
+          description: The entry's time-to-live, in milliseconds.
+          format: int64
+      description: Request to add a cache entry to the cache
+    SetEntryResponse:
+      required:
+        - entryId
+      type: object
+      properties:
+        entryId:
+          type: string
+          description: The ID of the entry that was added to the cache.
+      description: Response representing a successful cache entry addition 
+    DeleteEntriesRequest:
+      required:
+        - attributes
+      type: object
+      properties:
+        attributes:
+          type: object
+          additionalProperties:
+            type: string
+          description: Key-value pairs of attributes associated with the cache entries to delete. If provided, this endpoint only deletes entries that contain all given attributes. If not provided, this endpoint deletes all entries in the cache.
+          example:
+            language: en
+            topic: ai
+      description: Request to delete cache entries based on specified attributes
+    DeleteEntriesResponse:
+      required:
+        - deletedEntriesCount
+      type: object
+      properties:
+        deletedEntriesCount:
+          type: integer
+          description: The number of cache entries successfully deleted.
+          format: int64
+          example: 42
+      description: Response indicating the result of a cache entries deletion operation
+    BadRequestErrorResponseContent:
+      type: object
+      properties:
+        title:
+          type: string
+          description: A short summary of the problem type.
+          example: Invalid Request
+        status:
+          type: integer
+          default: 400
+          description: The HTTP status code generated by the origin server.
+        detail:
+          type: string
+          description: An explanation specific to this problem.
+        type:
+          $ref: '#/components/schemas/BadRequestErrorUri'
+      required:
+        - status
+        - title
+        - type
+    BadRequestErrorUri:
+      type: string
+      enum:
+        - /errors/invalid-request
+    AuthenticationErrorResponseContent:
+      type: object
+      properties:
+        title:
+          type: string
+          description: A short summary of the problem type.
+        status:
+          type: integer
+          default: 401
+          description: The HTTP status code generated by the origin server.
+        detail:
+          type: string
+          description: An explanation specific to this problem.
+        type:
+          $ref: '#/components/schemas/AuthenticationErrorUri'
+      required:
+        - status
+        - title
+        - type
+    AuthenticationErrorUri:
+      type: string
+      enum:
+        - /errors/unauthenticated
+    ForbiddenErrorResponseContent:
+      type: object
+      properties:
+        title:
+          type: string
+          description: A short summary of the problem type.
+          example: Unauthorized
+        status:
+          type: integer
+          default: 403
+          description: The HTTP status code generated by the origin server.
+        detail:
+          type: string
+          description: An explanation specific to this problem.
+        type:
+          $ref: '#/components/schemas/ForbiddenErrorUri'
+      required:
+        - status
+        - title
+        - type
+    ForbiddenErrorUri:
+      type: string
+      enum:
+        - /errors/unauthorized
+    ServiceUnavailableErrorResponseContent:
+      type: object
+      properties:
+        title:
+          type: string
+          description: A short summary of the problem type.
+          example: Service Unavailable
+        status:
+          type: integer
+          default: 503
+          description: The HTTP status code generated by the origin server.
+        detail:
+          type: string
+          description: An explanation specific to this problem.
+        type:
+          $ref: '#/components/schemas/ServiceUnavailableErrorUri'
+      required:
+        - status
+        - title
+        - type
+    ServiceUnavailableErrorUri:
+      type: string
+      enum:
+        - /errors/cache/unexpected-error
+        - /errors/cache/authentication
+        - /errors/embeddings/unauthorized
+        - /errors/embeddings/too-many-requests
+        - /errors/embeddings/unexpected-error
+    NotFoundErrorResponseContent:
+      type: object
+      properties:
+        title:
+          type: string
+          description: A short summary of the problem type.
+        status:
+          type: integer
+          default: 404
+          description: The HTTP status code generated by the origin server.
+        detail:
+          type: string
+          description: An explanation specific to this problem.
+        type:
+          $ref: '#/components/schemas/NotFoundErrorUri'
+      required:
+        - status
+        - title
+        - type
+    NotFoundErrorUri:
+      type: string
+      enum:
+        - /errors/not-found
+    InternalServerErrorResponseContent:
+      type: object
+      properties:
+        title:
+          type: string
+          description: A short summary of the problem type.
+        status:
+          type: integer
+          default: 500
+          description: The HTTP status code generated by the origin server.
+        detail:
+          type: string
+          description: An explanation specific to this problem.
+        type:
+          $ref: '#/components/schemas/InternalServerErrorUri'
+      required:
+        - status
+        - title
+        - type
+    InternalServerErrorUri:
+      type: string
+      enum:
+        - /errors/unexpected-error
