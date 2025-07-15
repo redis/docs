@@ -1,10 +1,10 @@
 ---
 linkTitle: Overview
 title: Overview
-weight: 3
-hideListLinks: true
 aliases:
 - /integrate/redisvl/overview
+weight: 3
+hideListLinks: true
 ---
 
 
