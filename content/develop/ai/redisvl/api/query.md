@@ -174,6 +174,8 @@ Add fields to return fields.
 Use a different scoring function to evaluate document relevance.
 Default is TFIDF.
 
+Since Redis 8.0 default was changed to BM25STD.
+
 * **Parameters:**
   **scorer** (*str*) – The scoring function to use
   (e.g. TFIDF.DOCNORM or BM25)
@@ -487,6 +489,8 @@ Add fields to return fields.
 
 Use a different scoring function to evaluate document relevance.
 Default is TFIDF.
+
+Since Redis 8.0 default was changed to BM25STD.
 
 * **Parameters:**
   **scorer** (*str*) – The scoring function to use
@@ -934,7 +938,7 @@ A query for running a full text search, along with an optional filter expression
   * **text_field_name** (*str*) – The name of the document field to perform text search on.
   * **text_scorer** (*str* *,* *optional*) – The text scoring algorithm to use.
     Defaults to BM25STD. Options are {TFIDF, BM25STD, BM25, TFIDF.DOCNORM, DISMAX, DOCSCORE}.
-    See [https://redis.io/docs/latest/develop/ai/search-and-query/advanced-concepts/scoring/](https://redis.io/docs/latest/develop/ai/search-and-query/advanced-concepts/scoring/)
+    See [https://redis.io/docs/latest/develop/interact/search-and-query/advanced-concepts/scoring/](https://redis.io/docs/latest/develop/interact/search-and-query/advanced-concepts/scoring/)
   * **filter_expression** (*Union* *[* *str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]* *,* *optional*) – A filter to apply
     along with the text search. Defaults to None.
   * **return_fields** (*List* *[* *str* *]*) – The declared fields to return with search
@@ -1069,6 +1073,8 @@ Add fields to return fields.
 
 Use a different scoring function to evaluate document relevance.
 Default is TFIDF.
+
+Since Redis 8.0 default was changed to BM25STD.
 
 * **Parameters:**
   **scorer** (*str*) – The scoring function to use
@@ -1281,6 +1287,8 @@ Add fields to return fields.
 
 Use a different scoring function to evaluate document relevance.
 Default is TFIDF.
+
+Since Redis 8.0 default was changed to BM25STD.
 
 * **Parameters:**
   **scorer** (*str*) – The scoring function to use
@@ -1498,6 +1506,8 @@ Add fields to return fields.
 
 Use a different scoring function to evaluate document relevance.
 Default is TFIDF.
+
+Since Redis 8.0 default was changed to BM25STD.
 
 * **Parameters:**
   **scorer** (*str*) – The scoring function to use

@@ -12,7 +12,7 @@ min-version-rs: blah
 weight: 40
 ---
 
-## 8.0.3 (July 2025)
+## Redis Open Source 8.0.3 (July 2025)
 
 Update urgency: `SECURITY`: There are security fixes in the release.
 
