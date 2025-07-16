@@ -21,7 +21,7 @@ Initialize the SemanticRouter.
   * **routes** (*List* *[*[Route](#route) *]*) – List of Route objects.
   * **vectorizer** (*BaseVectorizer* *,* *optional*) – The vectorizer used to embed route references. Defaults to default HFTextVectorizer.
   * **routing_config** ([RoutingConfig](#routingconfig) *,* *optional*) – Configuration for routing behavior. Defaults to the default RoutingConfig.
-  * **redis_client** (*Optional* *[* *Redis* *]* *,* *optional*) – Redis client for connection. Defaults to None.
+  * **redis_client** (*Optional* *[* *SyncRedisClient* *]* *,* *optional*) – Redis client for connection. Defaults to None.
   * **redis_url** (*str* *,* *optional*) – The redis url. Defaults to redis://localhost:6379.
   * **overwrite** (*bool* *,* *optional*) – Whether to overwrite existing index. Defaults to False.
   * **connection_kwargs** (*Dict* *[* *str* *,* *Any* *]*) – The connection arguments
@@ -99,7 +99,7 @@ Return SemanticRouter instance from existing index.
 
 * **Parameters:**
   * **name** (*str*)
-  * **redis_client** (*Redis* *|* *None*)
+  * **redis_client** (*Redis* *|* *RedisCluster* *|* *None*)
   * **redis_url** (*str*)
 * **Return type:**
   [SemanticRouter](#semanticrouter)
