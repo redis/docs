@@ -102,13 +102,13 @@ More info: [Database clustering]({{<relref "/operate/rc/databases/configuration/
 {{%definition "Cluster Configuration Store (CCS)"%}}
 An internally managed [Redis database]({{<relref "#redis-enterprise-database">}}) that acts as a single repository for all [cluster]({{<relref "#cluster">}}) metadata.
 
-More info: [Redis Enterprise cluster architecture]({{<relref "/operate/rs/clusters/cluster-architecture">}})
+More info: [Redis Enterprise cluster architecture]({{<relref "/operate/rs/clusters">}})
 {{%/definition%}}
 
 {{%definition "Cluster Node Manager (CNM)"%}}
 A collection of Redis Enterprise services responsible for [provisioning]({{<relref "#provisioning">}}), [migration]({{<relref "#migration">}}), monitoring, [re-sharding]({{<relref "#re-sharding">}}), [rebalancing]({{<relref "#rebalancing">}}), de-provisioning, auto-scaling.
 
-More info: [Redis Enterprise cluster architecture]({{<relref "/operate/rs/clusters/cluster-architecture">}}), [Database operations]({{<relref "/operate/rs/databases">}})
+More info: [Redis Enterprise cluster architecture]({{<relref "/operate/rs/clusters">}}), [Database operations]({{<relref "/operate/rs/databases">}})
 {{%/definition%}}
 
 {{%definition "conflict-free replicated databases (CRDB)"%}}
@@ -262,7 +262,7 @@ More info: [Latency monitoring]({{<relref "/operate/oss_and_stack/management/opt
 {{%definition "master node"%}}
 [Node]({{<relref "#redis-enterprise-nodes">}}) that operates as the leader of a [cluster]({{<relref "#cluster">}}). Also known as the primary node.
 
-More info: [Redis Enterprise cluster architecture]({{<relref "/operate/rs/clusters/cluster-architecture">}}), [High availability]({{<relref "#high-availability">}})
+More info: [Redis Enterprise cluster architecture]({{<relref "/operate/rs/clusters">}}), [High availability]({{<relref "#high-availability">}})
 {{%/definition%}}
 
 {{%definition "migration"%}}
@@ -327,7 +327,7 @@ More info: [operator pattern](https://kubernetes.io/docs/concepts/extend-kuberne
 {{%definition "Out-of-Memory (OOM)"%}}
 If a member [Active-Active database]({{<relref "#active-active">}}) is in an out of memory situation, that member is marked “inconsistent” by Redis Enterprise Software, the member stops responding to user traffic, and the [syncer]({{<relref "#syncer">}}) initiates full reconciliation with other peers in the Active-Active database.
 
-More info: [Active-Active database troubleshooting]({{<relref "/operate/rs/databases/active-active/troubleshoot">}}), [Memory management]({{<relref "/operate/rs/databases/memory-performance">}})
+More info: [Active-Active database troubleshooting]({{<relref "/operate/rs/databases/active-active/syncer">}}), [Memory management]({{<relref "/operate/rs/databases/memory-performance">}})
 {{%/definition%}}
 
 ## P - Q {#letter-p}
@@ -377,7 +377,7 @@ For more info, see [Proxy policy]({{<relref "/operate/rs/databases/configure/pro
 {{%definition "quorum node"%}}
 [Node]({{<relref "#redis-enterprise-nodes">}}) provisioned only for [cluster]({{<relref "#cluster">}}) operations that can be elected as a [master node]({{<relref "#master-node">}}). The quorum node participates in the cluster quorum and must be explicitly assigned this role via the `rladmin` command.
 
-More info: [Redis Enterprise cluster architecture]({{<relref "/operate/rs/clusters/cluster-architecture">}}), [rladmin command reference]({{<relref "/operate/rs/references/cli-utilities/rladmin">}})
+More info: [Redis Enterprise cluster architecture]({{<relref "/operate/rs/clusters">}}), [rladmin command reference]({{<relref "/operate/rs/references/cli-utilities/rladmin">}})
 {{%/definition%}}
 
 ## R {#letter-r}
@@ -421,7 +421,7 @@ More info: [Redis Cloud]({{<relref "/operate/rc">}}), [Redis Cloud quick start](
 {{%definition "Redis Enterprise cluster"%}}
 Collection of [Redis Enterprise nodes]({{<relref "#redis-enterprise-nodes">}}). A [cluster]({{<relref "#cluster">}}) pools system resources across nodes in the cluster and supports multi-tenant [database]({{<relref "#redis-enterprise-database">}}) instances.
 
-More info: [Redis Enterprise cluster architecture]({{<relref "/operate/rs/clusters/cluster-architecture">}}), [Cluster management]({{<relref "/operate/rs/clusters">}})
+More info: [Redis Enterprise cluster architecture]({{<relref "/operate/rs/clusters">}}), [Cluster management]({{<relref "/operate/rs/clusters">}})
 {{%/definition%}}
 
 {{%definition "Redis Enterprise database"%}}
@@ -433,7 +433,7 @@ More info: [Database operations]({{<relref "/operate/rs/databases">}}), [Create 
 {{%definition "Redis Enterprise nodes"%}}
 Physical or virtual machines or containers that runs a collection of Redis Enterprise services within a [cluster]({{<relref "#cluster">}}).
 
-More info: [Redis Enterprise cluster architecture]({{<relref "/operate/rs/clusters/cluster-architecture">}}), [Install and setup]({{<relref "/operate/rs/installing-upgrading">}})
+More info: [Redis Enterprise cluster architecture]({{<relref "/operate/rs/clusters">}}), [Install and setup]({{<relref "/operate/rs/installing-upgrading">}})
 {{%/definition%}}
 
 {{%definition "Redis Enterprise Software"%}}

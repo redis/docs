@@ -65,7 +65,7 @@ is associated).
 
 ```
 redis> HSET mykey field1 "hello" field2 "world"
-(integer 2)
+(integer) 2
 redis> HEXPIRE mykey 300 FIELDS 2 field1 field2
 1) (integer) 1
 2) (integer) 1

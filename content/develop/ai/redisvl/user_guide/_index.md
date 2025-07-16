@@ -1,10 +1,10 @@
 ---
 linkTitle: User guides
 title: User Guides
-weight: 4
-hideListLinks: true
 aliases:
 - /integrate/redisvl/user_guide
+weight: 4
+hideListLinks: true
 ---
 
 
@@ -30,13 +30,12 @@ User guides provide helpful resources for using RedisVL and its different compon
   * [Count Queries](hybrid_queries/#count-queries)
   * [Range Queries](hybrid_queries/#range-queries)
   * [Advanced Query Modifiers](hybrid_queries/#advanced-query-modifiers)
-* [Semantic Caching for LLMs](llmcache/)
-  * [Initializing `SemanticCache`](llmcache/#initializing-semanticcache)
-  * [Basic Cache Usage](llmcache/#basic-cache-usage)
-  * [Customize the Distance Threshhold](llmcache/#customize-the-distance-threshhold)
-  * [Utilize TTL](llmcache/#utilize-ttl)
-  * [Simple Performance Testing](llmcache/#simple-performance-testing)
-  * [Cache Access Controls, Tags & Filters](llmcache/#cache-access-controls-tags-filters)
+* [Initializing `SemanticCache`](llmcache/)
+* [Basic Cache Usage](llmcache/#basic-cache-usage)
+* [Customize the Distance Threshold](llmcache/#customize-the-distance-threshold)
+* [Utilize TTL](llmcache/#utilize-ttl)
+* [Simple Performance Testing](llmcache/#simple-performance-testing)
+* [Cache Access Controls, Tags & Filters](llmcache/#cache-access-controls-tags-filters)
 * [Caching Embeddings](embeddings_cache/)
   * [Setup](embeddings_cache/#setup)
   * [Initializing the EmbeddingsCache](embeddings_cache/#initializing-the-embeddingscache)
@@ -71,27 +70,7 @@ User guides provide helpful resources for using RedisVL and its different compon
   * [Simple routing](semantic_router/#simple-routing)
   * [Update the routing config](semantic_router/#update-the-routing-config)
   * [Router serialization](semantic_router/#router-serialization)
-* [Add route references](semantic_router/#add-route-references)
-* [Get route references](semantic_router/#get-route-references)
-* [Delete route references](semantic_router/#delete-route-references)
+  * [Add route references](semantic_router/#add-route-references)
+  * [Get route references](semantic_router/#get-route-references)
+  * [Delete route references](semantic_router/#delete-route-references)
   * [Clean up the router](semantic_router/#clean-up-the-router)
-* [Threshold Optimization](threshold_optimization/)
-* [CacheThresholdOptimizer](threshold_optimization/#cachethresholdoptimizer)
-  * [Define test_data and optimize](threshold_optimization/#define-test-data-and-optimize)
-* [RouterThresholdOptimizer](threshold_optimization/#routerthresholdoptimizer)
-  * [Define the routes](threshold_optimization/#define-the-routes)
-  * [Initialize the SemanticRouter](threshold_optimization/#initialize-the-semanticrouter)
-  * [Provide test_data](threshold_optimization/#provide-test-data)
-  * [Optimize](threshold_optimization/#optimize)
-  * [Test it out](threshold_optimization/#test-it-out)
-  * [Cleanup](threshold_optimization/#cleanup)
-* [Release Guides](release_guide/)
-  * [0.5.1 Feature Overview](release_guide/0_5_0_release/)
-  * [HybridQuery class](release_guide/0_5_0_release/#hybridquery-class)
-  * [TextQueries](release_guide/0_5_0_release/#textqueries)
-  * [Threshold optimization](release_guide/0_5_0_release/#threshold-optimization)
-  * [Schema validation](release_guide/0_5_0_release/#schema-validation)
-  * [Timestamp filters](release_guide/0_5_0_release/#timestamp-filters)
-  * [Batch search](release_guide/0_5_0_release/#batch-search)
-  * [Vector normalization](release_guide/0_5_0_release/#vector-normalization)
-  * [Hybrid policy on knn with filters](release_guide/0_5_0_release/#hybrid-policy-on-knn-with-filters)
