@@ -20,7 +20,7 @@ Before running this notebook, be sure to
 !rvl version
 ```
 
-    19:16:18 [RedisVL] INFO   RedisVL version 0.5.2
+    12:42:18 [RedisVL] INFO   RedisVL version 0.8.0
 
 
 ## Commands
@@ -75,7 +75,7 @@ fields:
 !rvl index create -s schema.yaml
 ```
 
-    19:16:21 [RedisVL] INFO   Index created successfully
+    12:42:45 [RedisVL] INFO   Index created successfully
 
 
 
@@ -84,8 +84,8 @@ fields:
 !rvl index listall
 ```
 
-    19:16:24 [RedisVL] INFO   Indices:
-    19:16:24 [RedisVL] INFO   1. vectorizers
+    12:42:47 [RedisVL] INFO   Indices:
+    12:42:47 [RedisVL] INFO   1. vectorizers
 
 
 
@@ -117,7 +117,7 @@ fields:
 !rvl index delete -i vectorizers
 ```
 
-    19:16:29 [RedisVL] INFO   Index deleted successfully
+    12:42:54 [RedisVL] INFO   Index deleted successfully
 
 
 
@@ -126,7 +126,7 @@ fields:
 !rvl index listall
 ```
 
-    19:16:32 [RedisVL] INFO   Indices:
+    12:42:56 [RedisVL] INFO   Indices:
 
 
 ## Stats
@@ -140,7 +140,7 @@ The ``rvl stats`` command will return some basic information about the index. Th
 !rvl index create -s schema.yaml
 ```
 
-    19:16:35 [RedisVL] INFO   Index created successfully
+    12:42:59 [RedisVL] INFO   Index created successfully
 
 
 
@@ -149,8 +149,8 @@ The ``rvl stats`` command will return some basic information about the index. Th
 !rvl index listall
 ```
 
-    19:16:38 [RedisVL] INFO   Indices:
-    19:16:38 [RedisVL] INFO   1. vectorizers
+    12:43:01 [RedisVL] INFO   Indices:
+    12:43:01 [RedisVL] INFO   1. vectorizers
 
 
 
@@ -207,8 +207,8 @@ By default rvl first checks if you have `REDIS_URL` environment variable defined
 !rvl index listall --host localhost --port 6379
 ```
 
-    19:16:43 [RedisVL] INFO   Indices:
-    19:16:43 [RedisVL] INFO   1. vectorizers
+    12:43:06 [RedisVL] INFO   Indices:
+    12:43:06 [RedisVL] INFO   1. vectorizers
 
 
 ### Using SSL encription
@@ -221,13 +221,10 @@ You can similarly specify the username and password to construct the full Redis 
 !rvl index listall --user jane_doe -a password123 --ssl
 ```
 
-    19:16:46 [RedisVL] ERROR   Error 8 connecting to rediss:6379. nodename nor servname provided, or not known.
-
-
 
 ```python
 !rvl index destroy -i vectorizers
 ```
 
-    19:16:49 [RedisVL] INFO   Index deleted successfully
+    12:43:09 [RedisVL] INFO   Index deleted successfully
 

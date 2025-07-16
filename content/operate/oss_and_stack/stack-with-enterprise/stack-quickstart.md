@@ -83,5 +83,5 @@ To try out Redis Open Source features, follow the examples provided by the corre
 
 - [Redis Query Engine quick start]({{< relref "/develop/get-started/document-database" >}})
 - [JSON quick start]({{< relref "/develop/data-types/json/" >}}#use-redisjson)
-- [Time series quick start]({{< relref "/develop/data-types/timeseries/quickstart" >}})
+- [Time series quick start]({{< relref "/develop/data-types/timeseries" >}})
 - [Probabilistic data structures quick start]({{< relref "/develop/data-types/probabilistic/" >}})
