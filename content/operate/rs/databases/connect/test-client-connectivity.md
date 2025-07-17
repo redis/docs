@@ -149,4 +149,4 @@ print(r.set('foo', 'bar'))
 print(r.get('foo'))
 ```
 
-For more `redis-py` connection examples, see the [`redis-py` developer documentation](https://redis-py.readthedocs.io/en/stable/examples/connection_examples.html).
+For more `redis-py` connection examples, see the [`redis-py` developer documentation](https://redis.readthedocs.io/en/stable/examples/connection_examples.html).
