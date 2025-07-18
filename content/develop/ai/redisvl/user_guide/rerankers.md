@@ -1,9 +1,9 @@
 ---
 linkTitle: Rerankers
 title: Rerankers
-weight: 06
 aliases:
-- /integrate/redisvl/user_guide/rerankers
+- /integrate/redisvl/user_guide/06_rerankers
+weight: 06
 ---
 
 
