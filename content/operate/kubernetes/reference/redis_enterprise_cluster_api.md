@@ -7,7 +7,6 @@ categories:
 - kubernetes
 linkTitle: REC API
 weight: 30
-aliases: [ /operate/kubernetes/reference/cluster-options, ]
 ---
 
 apiVersion:
@@ -12195,7 +12194,7 @@ Specification for service rigger
         <td>databaseServicePortPolicy</td>
         <td>enum</td>
         <td>
-          databaseServicePortPolicy instructs how to determine the service ports for REDB services. Defaults to DatabasePortForward, if not specified otherwise. DatabasePortForward - The service port will be the same as the database port. RedisDefaultPort - The service port will be the default Redis port (6379).<br/>
+          databaseServicePortPolicy instructs how to determine the service ports for REDB services. Defaults to DatabasePortForward, if not specified otherwise. Note - Regardless whether this flag is set or not, if an REDB/REAADB configured with databaseServicePort that would be the port exposed by the Service. DatabasePortForward - The service port will be the same as the database port. RedisDefaultPort - The service port will be the default Redis port (6379).<br/>
           <br/>
             <i>Enum</i>: DatabasePortForward, RedisDefaultPort<br/>
         </td>
@@ -24164,6 +24163,13 @@ The configuration of the usage meter.
         <td>object</td>
         <td>
           Image specification<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>proxySecretName</td>
+        <td>string</td>
+        <td>
+          if needed, add proxy details in secret. the name of the proxy secret in the secret, can send the following keys: proxy-url, proxy-username, proxy-password (the url includes the proxy port).<br/>
         </td>
         <td>false</td>
       </tr><tr>
