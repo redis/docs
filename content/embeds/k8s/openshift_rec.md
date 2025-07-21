@@ -26,7 +26,7 @@ spec:
       memory: 4Gi
   redisEnterpriseImageSpec:
     repository: registry.connect.redhat.com/redislabs/redis-enterprise
-    versionTag: 7.22.0-28
+    versionTag: 7.22.0-216
   redisEnterpriseServicesRiggerImageSpec:
     repository: registry.connect.redhat.com/redislabs/services-manager
   bootstrapperImageSpec:
