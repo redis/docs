@@ -7,7 +7,6 @@ categories:
 - kubernetes
 linkTitle: REC API
 weight: 30
-aliases: [ /operate/kubernetes/reference/cluster-options, ]
 ---
 
 apiVersion:
