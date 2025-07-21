@@ -22,6 +22,7 @@ index 970ba528..6afe4c50 100644
 -linkTitle: RedisEnterpriseCluster API Reference
 +linkTitle: REC API
  weight: 30
++aliases: [ /operate/kubernetes/reference/cluster-options, ]
  ---
  
  apiVersion:
@@ -36,8 +37,9 @@ index f925ce44..ea21766e 100644
 -linkTitle: RedisEnterpriseDatabase API Reference
 +linkTitle: REDB API
  weight: 30
++aliases: [ /operate/kubernetes/reference/db-options, ]
  ---
- 
+
  apiVersion:
 diff --git a/content/operate/kubernetes/reference/redis_enterprise_remote_cluster_api.md b/content/operate/kubernetes/reference/redis_enterprise_remote_cluster_api.md
 index 7d37a6dc..a9a313cf 100644
