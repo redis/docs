@@ -9,7 +9,7 @@ hideListLinks: true
 linktitle: LangCache
 title: Semantic caching with LangCache on Redis Cloud
 weight: 36
-bannerText: LangCache on Redis Cloud is currently available as a public preview.
+bannerText: LangCache on Redis Cloud is currently available as a public preview. Features and behavior are subject to change.
 bannerChildren: true
 ---
 

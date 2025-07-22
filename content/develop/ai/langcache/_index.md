@@ -9,6 +9,8 @@ description: Store LLM responses for AI apps in a semantic cache.
 linkTitle: LangCache
 hideListLinks: true
 weight: 30
+bannerText: LangCache is currently available in preview. Features and behavior are subject to change.
+bannerChildren: true
 ---
 
 Redis LangCache is a fully-managed semantic caching service that reduces large language model (LLM) costs and improves response times for AI applications.
