@@ -20,9 +20,11 @@ weight: 6
 
 Tag fields provide exact match search capabilities with high performance and memory efficiency. Use tag fields when you need to filter documents by specific values without the complexity of full-text search tokenization.
 
-## When to use tag fields
+Tag fields interpret text as a simple list of *tags* delimited by a [separator](#separator-options) character (comma "`,`" by default). This approach enables simpler [tokenization]({{< relref "/develop/ai/search-and-query/advanced-concepts/escaping/#tokenization-rules-for-tag-fields" >}}) and encoding, making tag indexes much more efficient than full-text indexes. Note: even though tag and text fields both use text, they are two separate field types and so you don't query them the same way.
 
-Tag fields excel in scenarios requiring exact matching:
+## Tag fields vs text fields
+
+Tag fields excel in scenarios requiring exact matching rather than full-text search. Choose tag fields when you need to index categorical data such as:
 
 - **Product categories**: Electronics, Clothing, Books
 - **User roles**: Admin, Editor, Viewer
@@ -30,30 +32,18 @@ Tag fields excel in scenarios requiring exact matching:
 - **Geographic regions**: US, EU, APAC
 - **Content types**: Video, Image, Document
 
-## Key advantages
+### Key differences
 
-Tag fields offer several benefits over TEXT fields:
-
-1. **Exact match semantics** - Find documents with precise values
-2. **High performance** - Compressed indexes with minimal memory usage
-3. **Simple tokenization** - No stemming or complex text processing
-4. **Multiple values** - Support comma-separated lists in a single field
-5. **Case control** - Optional case-sensitive matching
-
-## Tag fields vs TEXT fields
-
-| Feature | Tag Fields | TEXT Fields |
+| Feature | Tag fields | Text fields |
 |---------|------------|-------------|
 | **Search type** | Exact match | Full-text search |
 | **Tokenization** | Simple delimiter splitting | Complex word tokenization |
 | **Stemming** | None | Language-specific stemming |
 | **Memory usage** | Very low (1-2 bytes per entry) | Higher (frequencies, positions) |
 | **Performance** | Fastest | Slower for exact matches |
+| **Multiple values** | Support comma-separated lists | Single text content |
+| **Case control** | Optional case-sensitive matching | Typically case-insensitive |
 | **Use case** | Categories, filters, IDs | Content search, descriptions |
-
-Tag fields interpret text as a simple list of *tags* delimited by a [separator](#separator-options) character (comma "`,`" by default). This approach enables simpler [tokenization]({{< relref "/develop/ai/search-and-query/advanced-concepts/escaping/#tokenization-rules-for-tag-fields" >}}) and encoding, making tag indexes much more efficient than full-text indexes.
-
-**Important**: You can only access tag field values using special tag query syntax - they don't appear in general field-less searches.
 
 ## Technical details
 
@@ -274,16 +264,15 @@ FT.SEARCH products "@tags:{ Top\\ Rated\\ Product }"
 
 ### Best practices
 
-1. **Use simple separators**: Stick to comma (`,`) or semicolon (`;`)
-2. **Avoid complex punctuation**: Keep tag values simple when possible
-3. **Test your queries**: Verify escaping works with your specific characters
-4. **Use consistent casing**: Decide on case sensitivity early in your design
+- **Use simple separators**: Stick to comma (`,`) or semicolon (`;`)
+- **Avoid complex punctuation**: Keep tag values simple when possible
+- **Test your queries**: Verify escaping works with your specific characters
+- **Use consistent casing**: Decide on case sensitivity early in your design
 
 See [Query syntax]({{< relref "/develop/ai/search-and-query/advanced-concepts/query_syntax#tag-filters" >}}) for complete escaping rules.
 
-## Common use cases
+## An e-commerce use case
 
-### E-commerce filtering
 ```sql
 # Product categories and attributes
 FT.CREATE products ON HASH PREFIX 1 product: SCHEMA
@@ -296,34 +285,6 @@ HSET product:1 name "Gaming Laptop" category "Electronics" brand "ASUS" features
 
 # Find gaming products with specific features
 FT.SEARCH products "@category:{Electronics} @features:{RGB} @features:{SSD}"
-```
-
-### User management
-```sql
-# User roles and permissions
-FT.CREATE users ON HASH PREFIX 1 user: SCHEMA
-    name TEXT
-    roles TAG SEPARATOR ","
-    departments TAG SEPARATOR ","
-
-HSET user:1 name "John Admin" roles "admin,editor" departments "IT,Security"
-
-# Find users with admin access in IT
-FT.SEARCH users "@roles:{admin} @departments:{IT}"
-```
-
-### Content classification
-```sql
-# Document tagging system
-FT.CREATE docs ON JSON PREFIX 1 doc: SCHEMA
-    $.title AS title TEXT
-    $.tags AS tags TAG SEPARATOR ","
-    $.status AS status TAG
-
-JSON.SET doc:1 $ '{"title":"API Guide","tags":"technical,guide,api","status":"published"}'
-
-# Find published technical documents
-FT.SEARCH docs "@status:{published} @tags:{technical}"
 ```
 
 ## Next steps
