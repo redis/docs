@@ -1,6 +1,7 @@
 ---
 aliases:
 - /develop/interact/search-and-query/advanced-concepts/tags
+- /develop/ai/search-and-query/advanced-concepts/tags
 categories:
 - docs
 - develop
@@ -11,52 +12,88 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Details about tag fields
-linkTitle: Tags
-title: Tags
+description: How to use tag fields for exact match searches and high-performance filtering
+linkTitle: Tag fields
+title: Tag fields
 weight: 6
 ---
 
-Tag fields are similar to full-text fields but they interpret the text as a simple
-list of *tags* delimited by a
-[separator](#creating-a-tag-field) character (which is a comma "," by default).
-This limitation means that tag fields can use simpler
-[tokenization]({{< relref "/develop/ai/search-and-query/advanced-concepts/escaping" >}})
-and encoding in the index, which is more efficient than full-text indexing.
+Tag fields provide exact match search capabilities with high performance and memory efficiency. Use tag fields when you need to filter documents by specific values without the complexity of full-text search tokenization.
 
-The values in tag fields cannot be accessed by general field-less search and can be used only with a special syntax.
+## When to use tag fields
 
-The main differences between tag and full-text fields are:
+Tag fields excel in scenarios requiring exact matching:
 
-1.  [Tokenization]({{< relref "/develop/ai/search-and-query/advanced-concepts/escaping#tokenization-rules-for-tag-fields" >}})
-    is very simple for tags.
+- **Product categories**: Electronics, Clothing, Books
+- **User roles**: Admin, Editor, Viewer
+- **Status values**: Active, Pending, Completed
+- **Geographic regions**: US, EU, APAC
+- **Content types**: Video, Image, Document
 
-1.  Stemming is not performed on tag indexes.
+## Key advantages
 
-1.  Tags cannot be found from a general full-text search. If a document has a field called "tags"
-    with the values "foo" and "bar", searching for foo or bar without a special tag modifier (see below) will not return this document.
+Tag fields offer several benefits over TEXT fields:
 
-1.  The index is much simpler and more compressed: frequencies or offset vectors of field flags
-    are not stored. The index contains only document IDs encoded as deltas. This means that an entry in
-    a tag index is usually one or two bytes long. This makes them very memory-efficient and fast.
+1. **Exact match semantics** - Find documents with precise values
+2. **High performance** - Compressed indexes with minimal memory usage
+3. **Simple tokenization** - No stemming or complex text processing
+4. **Multiple values** - Support comma-separated lists in a single field
+5. **Case control** - Optional case-sensitive matching
 
-1.  You can create up to 1024 tag fields per index.
+## Tag fields vs TEXT fields
 
-## Creating a tag field
+| Feature | Tag Fields | TEXT Fields |
+|---------|------------|-------------|
+| **Search type** | Exact match | Full-text search |
+| **Tokenization** | Simple delimiter splitting | Complex word tokenization |
+| **Stemming** | None | Language-specific stemming |
+| **Memory usage** | Very low (1-2 bytes per entry) | Higher (frequencies, positions) |
+| **Performance** | Fastest | Slower for exact matches |
+| **Use case** | Categories, filters, IDs | Content search, descriptions |
 
-Tag fields can be added to the schema with the following syntax:
+Tag fields interpret text as a simple list of *tags* delimited by a [separator](#separator-options) character (comma "`,`" by default). This approach enables simpler [tokenization]({{< relref "/develop/ai/search-and-query/advanced-concepts/escaping/#tokenization-rules-for-tag-fields" >}}) and encoding, making tag indexes much more efficient than full-text indexes.
+
+**Important**: You can only access tag field values using special tag query syntax - they don't appear in general field-less searches.
+
+## Technical details
+
+### Index structure
+- **Compressed storage**: Only document IDs encoded as deltas (1-2 bytes per entry)
+- **No frequencies**: Unlike TEXT fields, tag indexes don't store term frequencies
+- **No positions**: No offset vectors or field flags stored
+- **Limit**: You can create up to 1024 tag fields per index
+
+### Tokenization differences
+- **Simple splitting**: Text is split only at separator characters
+- **No stemming**: Words are indexed exactly as written
+- **Case handling**: Optional case-sensitive or case-insensitive matching
+- **No stop words**: All tag values are indexed regardless of content
+
+## Create a tag field
+
+Add tag fields to your schema using this syntax:
 
 ```
 FT.CREATE ... SCHEMA ... {field_name} TAG [SEPARATOR {sep}] [CASESENSITIVE]
 ```
 
-For hashes, SEPARATOR can be any printable ASCII character; the default is a comma (`,`). For JSON, there is no default separator; you must declare one explicitly if needed.
+### Separator options
 
-For example:
+- **Hash documents**: Default separator is comma (`,`). You can use any printable ASCII character
+- **JSON documents**: No default separator - you must specify one explicitly if needed
+- **Custom separators**: Use semicolon (`;`), pipe (`|`), or other characters as needed
 
-```
-JSON.SET key:1 $ '{"colors": "red, orange, yellow"}' 
-FT.CREATE idx on JSON PREFIX 1 key: SCHEMA $.colors AS colors TAG SEPARATOR ","
+### Case sensitivity
+
+- **Default**: Case-insensitive matching (`red` matches `Red`, `RED`)
+- **CASESENSITIVE**: Preserves original case for exact matching
+
+### Examples
+
+**Basic tag field with JSON:**
+```sql
+JSON.SET key:1 $ '{"colors": "red, orange, yellow"}'
+FT.CREATE idx ON JSON PREFIX 1 key: SCHEMA $.colors AS colors TAG SEPARATOR ","
 
 > FT.SEARCH idx '@colors:{orange}'
 1) "1"
@@ -65,105 +102,232 @@ FT.CREATE idx on JSON PREFIX 1 key: SCHEMA $.colors AS colors TAG SEPARATOR ","
    2) "{\"colors\":\"red, orange, yellow\"}"
 ```
 
-CASESENSITIVE can be specified to keep the original case.
+**Case-sensitive tags with Hash:**
+```sql
+HSET product:1 categories "Electronics,Gaming,PC"
+FT.CREATE products ON HASH PREFIX 1 product: SCHEMA categories TAG CASESENSITIVE
 
-## Querying tag fields
-
-As mentioned above, just searching for a tag without any modifiers will not retrieve documents
-containing it.
-
-The syntax for matching tags in a query is as follows (the curly braces are part of the syntax):
-
- ```
-    @<field_name>:{ <tag> | <tag> | ...}
- ```
-
-For example, this query finds documents with either the tag `hello world` or `foo bar`:
-
-```
-    FT.SEARCH idx "@tags:{ hello world | foo bar }"
+> FT.SEARCH products '@categories:{PC}'
+1) "1"
+2) "product:1"
 ```
 
-Tag clauses can be combined into any sub-clause, used as negative expressions, optional expressions, etc. For example, given the following index:
-
-```
-FT.CREATE idx ON HASH PREFIX 1 test: SCHEMA title TEXT price NUMERIC tags TAG SEPARATOR ";"
-```
-
-You can combine a full-text search on the title field, a numerical range on price, and match either the `foo bar` or `hello world` tag like this:
-
-```
-FT.SEARCH idx "@title:hello @price:[0 100] @tags:{ foo bar | hello world }
+**Custom separator:**
+```sql
+HSET book:1 genres "Fiction;Mystery;Thriller"
+FT.CREATE books ON HASH PREFIX 1 book: SCHEMA genres TAG SEPARATOR ";"
 ```
 
-Tags support prefix matching with the regular `*` character:
+## Query tag fields
+
+**Important**: Tag fields require special query syntax - you cannot find tag values with general field-less searches.
+
+### Basic tag query syntax
+
+Use curly braces to specify tag values (the braces are part of the syntax):
 
 ```
-FT.SEARCH idx "@tags:{ hell* }"
-FT.SEARCH idx "@tags:{ hello\\ w* }"
-
+@<field_name>:{ <tag> | <tag> | ...}
 ```
 
-## Multiple tags in a single filter
+### Single tag match
 
-Notice that including multiple tags in the same clause creates a union of all documents that contain any of the included tags. To create an intersection of documents containing all of the given tags, you should repeat the tag filter several times.
+Find documents with a specific tag:
 
-For example, imagine an index of travelers, with a tag field for the cities each traveler has visited:
-
+```sql
+FT.SEARCH idx "@category:{Electronics}"
+FT.SEARCH idx "@status:{Active}"
 ```
-FT.CREATE myIndex ON HASH PREFIX 1 traveler: SCHEMA name TEXT cities TAG
+
+### Multiple tag match (OR)
+
+Find documents with any of the specified tags:
+
+```sql
+FT.SEARCH idx "@tags:{ hello world | foo bar }"
+FT.SEARCH idx "@category:{ Electronics | Gaming | Software }"
+```
+
+### Combining with other queries
+
+Tag queries work seamlessly with other field types:
+
+```sql
+FT.CREATE idx ON HASH PREFIX 1 product: SCHEMA
+    title TEXT
+    price NUMERIC
+    category TAG SEPARATOR ";"
+
+# Combine text search, numeric range, and tag filter
+FT.SEARCH idx "@title:laptop @price:[500 1500] @category:{ Electronics | Gaming }"
+```
+
+### Prefix matching
+
+Use the `*` wildcard for prefix matching:
+
+```sql
+FT.SEARCH idx "@tags:{ tech* }"        # Matches: technology, technical, tech
+FT.SEARCH idx "@tags:{ hello\\ w* }"   # Matches: "hello world", "hello web"
+```
+
+### Negative matching
+
+Exclude documents with specific tags:
+
+```sql
+FT.SEARCH idx "-@category:{Discontinued}"
+FT.SEARCH idx "@title:phone -@category:{Refurbished}"
+```
+
+## Advanced tag queries
+
+### OR vs AND logic
+
+**Single clause (OR logic)**: Find documents with ANY of the specified tags
+```sql
+@cities:{ New York | Los Angeles | Barcelona }
+# Returns: Documents with New York OR Los Angeles OR Barcelona
+```
+
+**Multiple clauses (AND logic)**: Find documents with ALL of the specified tags
+```sql
+@cities:{ New York } @cities:{ Los Angeles } @cities:{ Barcelona }
+# Returns: Documents with New York AND Los Angeles AND Barcelona
+```
+
+### Practical example
+
+Consider a travel database:
+
+```sql
+FT.CREATE travelers ON HASH PREFIX 1 traveler: SCHEMA
+    name TEXT
+    cities TAG
 
 HSET traveler:1 name "John Doe" cities "New York, Barcelona, San Francisco"
+HSET traveler:2 name "Jane Smith" cities "New York, Los Angeles, Tokyo"
 ```
 
-For this index, the following query will return all the people who visited at least one of the following cities:
-
-```
-FT.SEARCH myIndex "@cities:{ New York | Los Angeles | Barcelona }"
-```
-
-But the next query will return all people who have visited all three cities:
-
-```
-FT.SEARCH myIndex "@cities:{ New York } @cities:{Los Angeles} @cities:{ Barcelona }"
+**Find travelers who visited any of these cities:**
+```sql
+FT.SEARCH travelers "@cities:{ New York | Los Angeles | Barcelona }"
+# Returns: Both John and Jane
 ```
 
-## Including punctuation and spaces in tags
-
-A tag field can contain any punctuation characters except for the field separator.
-You can use punctuation without escaping when you *define* a tag field,
-but you typically need to escape certain characters when you *query* the field
-because the query syntax itself uses the same characters.
-(See [Query syntax]({{< relref "/develop/ai/search-and-query/advanced-concepts/query_syntax#tag-filters" >}})
-for the full set of characters that require escaping.)
-
-For example, given the following index:
-
-```
-FT.CREATE punctuation ON HASH PREFIX 1 test: SCHEMA tags TAG
+**Find travelers who visited all of these cities:**
+```sql
+FT.SEARCH travelers "@cities:{ New York } @cities:{ Barcelona }"
+# Returns: Only John (has both New York and Barcelona)
 ```
 
-You can add tags that contain punctuation like this:
+## Handle special characters
 
+Tag fields can contain any punctuation except the field separator, but you need to escape certain characters in queries.
+
+### Defining tags with special characters
+
+You can store tags with punctuation without escaping:
+
+```sql
+FT.CREATE products ON HASH PREFIX 1 test: SCHEMA tags TAG
+
+HSET test:1 tags "Andrew's Top 5,Justin's Top 5,5-Star Rating"
+HSET test:2 tags "Best Buy,Top-Rated,Editor's Choice"
 ```
-HSET test:1 tags "Andrew's Top 5,Justin's Top 5"
+
+### Querying tags with special characters
+
+**Escape punctuation in queries** using backslash (`\`):
+
+```sql
+# Query for "Andrew's Top 5"
+FT.SEARCH products "@tags:{ Andrew\\'s Top 5 }"
+
+# Query for "5-Star Rating"
+FT.SEARCH products "@tags:{ 5\\-Star Rating }"
+
+# Query for "Editor's Choice"
+FT.SEARCH products "@tags:{ Editor\\'s Choice }"
 ```
 
-However, when you query for those tags, you must escape the punctuation characters
-with a backslash (`\`). So, querying for the tag `Andrew's Top 5` in
-[`redis-cli`]({{< relref "/develop/tools/cli" >}}) looks like this:
+### Characters that need escaping
 
+In tag queries, escape these characters:
+- Single quotes: `'` → `\\'`
+- Hyphens: `-` → `\\-`
+- Parentheses: `()` → `\\(\\)`
+- Brackets: `[]{}` → `\\[\\]\\{\\}`
+- Pipes: `|` → `\\|`
+
+### Spaces in tags
+
+**Modern Redis** (v2.4+): Spaces don't need escaping in tag queries
+```sql
+FT.SEARCH products "@tags:{ Top Rated Product }"
 ```
-FT.SEARCH punctuation "@tags:{ Andrew\\'s Top 5 }"
+
+**Older versions** or **dialect 1**: Escape spaces
+```sql
+FT.SEARCH products "@tags:{ Top\\ Rated\\ Product }"
 ```
 
-(Note that you need the double backslash here because the terminal app itself
-uses the backslash as an escape character.
-Programming languages commonly use this convention also.)
+### Best practices
 
-You can include spaces in a tag filter without escaping *unless* you are
-using a version of RediSearch earlier than v2.4 or you are using
-[query dialect 1]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects#dialect-1" >}}).
-See
-[Query syntax]({{< relref "/develop/ai/search-and-query/advanced-concepts/query_syntax#tag-filters" >}})
-for a full explanation.
+1. **Use simple separators**: Stick to comma (`,`) or semicolon (`;`)
+2. **Avoid complex punctuation**: Keep tag values simple when possible
+3. **Test your queries**: Verify escaping works with your specific characters
+4. **Use consistent casing**: Decide on case sensitivity early in your design
+
+See [Query syntax]({{< relref "/develop/ai/search-and-query/advanced-concepts/query_syntax#tag-filters" >}}) for complete escaping rules.
+
+## Common use cases
+
+### E-commerce filtering
+```sql
+# Product categories and attributes
+FT.CREATE products ON HASH PREFIX 1 product: SCHEMA
+    name TEXT
+    category TAG
+    brand TAG
+    features TAG SEPARATOR ";"
+
+HSET product:1 name "Gaming Laptop" category "Electronics" brand "ASUS" features "RGB;16GB RAM;SSD"
+
+# Find gaming products with specific features
+FT.SEARCH products "@category:{Electronics} @features:{RGB} @features:{SSD}"
+```
+
+### User management
+```sql
+# User roles and permissions
+FT.CREATE users ON HASH PREFIX 1 user: SCHEMA
+    name TEXT
+    roles TAG SEPARATOR ","
+    departments TAG SEPARATOR ","
+
+HSET user:1 name "John Admin" roles "admin,editor" departments "IT,Security"
+
+# Find users with admin access in IT
+FT.SEARCH users "@roles:{admin} @departments:{IT}"
+```
+
+### Content classification
+```sql
+# Document tagging system
+FT.CREATE docs ON JSON PREFIX 1 doc: SCHEMA
+    $.title AS title TEXT
+    $.tags AS tags TAG SEPARATOR ","
+    $.status AS status TAG
+
+JSON.SET doc:1 $ '{"title":"API Guide","tags":"technical,guide,api","status":"published"}'
+
+# Find published technical documents
+FT.SEARCH docs "@status:{published} @tags:{technical}"
+```
+
+## Next steps
+
+- Learn about [tokenization rules]({{< relref "/develop/ai/search-and-query/advanced-concepts/escaping#tokenization-rules-for-tag-fields" >}}) for tag fields
+- Explore [field and type options]({{< relref "/develop/ai/search-and-query/indexing/field-and-type-options" >}}) for other field types
+- See [query syntax]({{< relref "/develop/ai/search-and-query/advanced-concepts/query_syntax" >}}) for advanced query patterns
