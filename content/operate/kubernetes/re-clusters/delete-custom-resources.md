@@ -11,6 +11,17 @@ linkTitle: Delete custom resources
 weight: 70
 ---
 
+{{< warning >}}
+Use graceful deletion methods
+
+When deleting Redis Enterprise resources or pods, try to avoid use `kubectl delete --force` or similar force deletion commands, as these can lead to:
+- Data loss or corruption
+- Incomplete cleanup of resources
+- Cluster instability
+
+If resources appear stuck during deletion, investigate the underlying cause rather than forcing deletion. See [Troubleshoot Redis Enterprise pods]({{< relref "/operate/kubernetes/recommendations/troubleshoot-pods" >}}) for guidance.
+{{< /warning >}}
+
 ## Multi-namespace management
 
 Before you can delete a namespace, you must remove the Redis custom resources ([REDB](#delete-a-database-redb), [REC](#delete-a-redis-enterprise-cluster-rec), and [operator](#delete-operator-from-one-namespace)) residing within a namespace before you can delete that namespace. Deleting namespace containing an REDB may cause errors or data loss.
