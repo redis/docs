@@ -11,19 +11,19 @@ linkTitle: Networking
 weight: 40
 ---
 
-🆕 Configure networking and external access for your Redis Enterprise deployment on Kubernetes. By default, Kubernetes doesn't allow external access to your Redis databases. Redis Enterprise for Kubernetes provides several methods to route external traffic to your clusters and databases.
+Configure networking and external access for your Redis Enterprise deployment on Kubernetes. By default, Kubernetes doesn't allow external access to your Redis databases. Redis Enterprise for Kubernetes provides several methods to route external traffic to your clusters and databases.
 
-## 🆕 External routing methods
+## External routing methods
 
-🆕 Choose the appropriate method for your environment to enable external access:
+Choose the appropriate method for your environment to enable external access:
 
 - [Ingress routing]({{< relref "/operate/kubernetes/networking/ingress" >}}) - Use NGINX or HAProxy ingress controllers with `ingress` API resources
 - [Istio ingress routing]({{< relref "/operate/kubernetes/networking/istio-ingress" >}}) - Use Istio service mesh with `Gateway` and `VirtualService` API resources
 - [OpenShift routes]({{< relref "/operate/kubernetes/networking/routes" >}}) - Use OpenShift-specific route resources for external traffic
 
-## 🆕 Automatic ingress configuration
+## Automatic ingress configuration
 
-🆕 For Active-Active databases, configure automatic ingress creation:
+For Active-Active databases, configure automatic ingress creation:
 
 - [REC external routing]({{< relref "/operate/kubernetes/networking/ingressorroutespec" >}}) - Use `ingressOrRouteSpec` field in RedisEnterpriseCluster (REC) for automatic ingress creation
 

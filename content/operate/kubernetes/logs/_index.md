@@ -11,17 +11,17 @@ linkTitle: Logs
 weight: 60
 ---
 
-🆕 Access and manage Redis Enterprise logs on Kubernetes for monitoring, troubleshooting, and debugging your Redis Enterprise deployment. Logs provide valuable insights into cluster operations, database performance, and system health.
+Access and manage Redis Enterprise logs on Kubernetes for monitoring, troubleshooting, and debugging your Redis Enterprise deployment. Logs provide valuable insights into cluster operations, database performance, and system health.
 
-## 🆕 Log collection and access
+## Log collection and access
 
-🆕 Learn how to collect and access logs from your Redis Enterprise deployment:
+Learn how to collect and access logs from your Redis Enterprise deployment:
 
 - [Collect logs]({{< relref "/operate/kubernetes/logs/collect-logs" >}}) - Methods for collecting logs from Redis Enterprise pods and containers
 
-## 🆕 Log storage and access
+## Log storage and access
 
-🆕 Each Redis Enterprise container stores its logs under `/var/opt/redislabs/log`. When using persistent storage, this path is automatically mounted to the `redis-enterprise-storage` volume, making logs accessible through sidecar containers or external log collection tools.
+Each Redis Enterprise container stores its logs under `/var/opt/redislabs/log`. When using persistent storage, this path is automatically mounted to the `redis-enterprise-storage` volume, making logs accessible through sidecar containers or external log collection tools.
 
 For example, in the REC (Redis Enterprise Cluster) spec you can add a sidecar container, such as a busybox, and mount the logs to there:
 
