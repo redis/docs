@@ -56,7 +56,7 @@ The **General settings** section defines basic properties of your service.
 |:----------------------|:----------|
 | **Service name** | Enter a name for your LangCache service. We recommend you use a name that describes your service's purpose. |
 | **Select database** | Select the Redis Cloud database to use for this service from the list. |
-| **TTL** | The number of seconds to cache entries before they expire. Default: `No expiration` - items in the cache will remain until manually removed. |
+| **TTL** | The time to live (TTL) for cache entries, in milliseconds. Default: `No expiration` - items in the cache will remain until manually removed. |
 | **User** | The [database access user]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control" >}}) to use for this service. LangCache only supports the [`default` user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) during public preview. |
 
 ### Embedding settings
@@ -70,7 +70,7 @@ The **Embedding settings** section defines the embedding model used by your serv
 | **Supported Embedding Provider** | The embedding provider to use for your service. LangCache only supports OpenAI during public preview. |
 | **Embedding provider API key** | Enter your embedding provider's API key. |
 | **Model** | Select the embedding model to use for your service. |
-| **Similarity threshold** | Set the minimum similarity score required to consider a cached response a match. Range: `0.0` to `1.0`. Default: `0.9`<br/><br/>A higher value means more precise matches, but if it's too high, you will compromise on the number of matches and may lose relevant matches. A lower value means more matches, but may include less relevant matches. We recommend starting between `0.8` and `0.9` and then fine-tuning based on your results. |
+| **Similarity threshold** | Set the minimum similarity score required to consider a cached response a match. Range: `0.5` to `1.0`. Default: `0.9`<br/><br/>A higher value means more precise matches, but if it's too high, you will compromise on the number of matches and may lose relevant matches. A lower value means more matches, but may include less relevant matches. We recommend starting between `0.8` and `0.9` and then fine-tuning based on your results. |
 
 ### Attributes settings
 
