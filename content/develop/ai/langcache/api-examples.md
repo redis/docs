@@ -40,9 +40,12 @@ curl -s -X POST "https://$HOST/v1/caches/$CACHE_ID/entires/search" \
 This example uses `cURL` and Linux shell scripts to demonstrate the API; you can use any standard REST client or library.
 {{% /info %}}
 
-You can also use the [LangCache SDKs](#langcache-sdk) for Javascript and Python to access the API.
+If your app is written in Javascript or Python, you can also use the LangCache Software Development Kits (SDKs) to access the API:
 
-## API examples
+- [LangCache SDK for Javascript](https://www.npmjs.com/package/@redis-ai/langcache)
+- [LangCache SDK for Python](https://pypi.org/project/langcache/)
+
+## Examples
 
 ### Search LangCache for similar responses
 
@@ -112,11 +115,4 @@ DELETE https://[host]/v1/caches/{cacheId}/entries
     }
 }
 ```
-## LangCache SDK
 
-If your app is written in Javascript or Python, you can also use the LangCache Software Development Kits (SDKs) to access the API. 
-
-To learn how to use the LangCache SDKs:
-
-- [LangCache SDK for Javascript](https://www.npmjs.com/package/@redis-ai/langcache)
-- [LangCache SDK for Python](https://pypi.org/project/langcache/)
