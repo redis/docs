@@ -21,7 +21,7 @@ Redis excels in storing and indexing vector embeddings that semantically represe
 - **Session Management**: in-memory data structures simplify managing session states in conversational AI scenarios.
 - **Flexibility**: Redis supports diverse data structures (for example, strings, hashes, lists, sets), allowing tailored solutions for GenAI apps.
 
-[RedisVL]({{< relref "/integrate/redisvl" >}}) is a Python library with an integrated CLI, offering seamless integration with Redis to enhance GenAI applications.
+[RedisVL]({{< relref "/develop/ai/redisvl" >}}) is a Python library with an integrated CLI, offering seamless integration with Redis to enhance GenAI applications.
 
 ---
 

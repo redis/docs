@@ -37,7 +37,7 @@ You can also create one during database creation by selecting **Create an Aurora
 
 RDI requires some changes to database parameters. On AWS Aurora, you change these parameters via a parameter group.
 
-1. In the [Relational Database Service (RDS) console](https://console.aws.amazon.com/rds/),navigate to **Parameter groups > Create parameter group**. [Create a parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithParamGroups.CreatingCluster.html) with the following settings:
+1. In the [Relational Database Service (RDS) console](https://console.aws.amazon.com/rds/),navigate to **Parameter groups > Create parameter group**. [Create a parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithParamGroups.Creating.html) with the following settings:
 
     | Name | Value |
     | :-- | :-- |
@@ -64,6 +64,9 @@ RDI requires some changes to database parameters. On AWS Aurora, you change thes
 
     Select **Save changes** to apply the parameter group to the new database.
 
+1. Reboot your database instance. See [Rebooting a DB instance within an Aurora cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-reboot-db-instance.html) for more information.
+
+
 {{< embed-md "aur-rds-mysql-create-debezium-user.md" >}}
 
 -tab-sep-
@@ -72,7 +75,7 @@ RDI requires some changes to database parameters. On AWS Aurora, you change thes
 
 RDI requires some changes to database parameters. On AWS RDS, you change these parameters via a parameter group.
 
-1. In the [Relational Database Service (RDS) console](https://console.aws.amazon.com/rds/),navigate to **Parameter groups > Create parameter group**. [Create a parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithParamGroups.CreatingCluster.html) with the following settings:
+1. In the [Relational Database Service (RDS) console](https://console.aws.amazon.com/rds/),navigate to **Parameter groups > Create parameter group**. [Create a parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithParamGroups.Creating.html) with the following settings:
 
     | Name | Value |
     | :-- | :-- |
@@ -95,6 +98,8 @@ RDI requires some changes to database parameters. On AWS RDS, you change these p
 1. Go back to your target database on the RDS console, select **Modify** and then scroll down to **Additional Configuration**. Set the **DB Cluster Parameter Group** to the group you just created. 
 
     Select **Save changes** to apply the parameter group to the new database.
+
+1. Reboot your database instance. See [Rebooting a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_RebootInstance.html) for more information. 
 
 {{< embed-md "aur-rds-mysql-create-debezium-user.md" >}}
 

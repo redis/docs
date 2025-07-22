@@ -1,6 +1,7 @@
 ---
 aliases:
-- /develop/interact/search-and-query/best-practices/_index
+- /develop/interact/search-and-query/best-practices
+- /develop/interact/search-and-query/best-practices/
 categories:
 - docs
 - develop

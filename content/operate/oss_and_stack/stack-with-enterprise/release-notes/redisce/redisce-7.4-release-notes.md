@@ -12,6 +12,19 @@ min-version-rs: blah
 weight: 100
 ---
 
+## Redis Community Edition 7.4.5 (July 2025)
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+### Security fixes
+
+* (CVE-2025-27151) redis-check-aof may lead to stack overflow and potential RCE
+
+### Bug fixes
+
+- [#13966](https://github.com/redis/redis/pull/13966), [#13932](https://github.com/redis/redis/pull/13932) `CLUSTER SLOTS` - TLS port update not reflected in CLUSTER SLOTS
+- [#13958](https://github.com/redis/redis/pull/13958) `XTRIM`, `XADD` - incorrect lag due to trimming stream
+
 ## Redis Community Edition 7.4.4 (May 2025):
 
 Update urgency: `SECURITY`: There are security fixes in the release.
