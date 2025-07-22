@@ -1,5 +1,5 @@
 diff --git a/content/operate/kubernetes/reference/redis_enterprise_active_active_database_api.md b/content/operate/kubernetes/reference/redis_enterprise_active_active_database_api.md
-index 01e82b1b..cacaa46c 100644
+index 1b40d678a..ee57f8d38 100644
 --- a/content/operate/kubernetes/reference/redis_enterprise_active_active_database_api.md
 +++ b/content/operate/kubernetes/reference/redis_enterprise_active_active_database_api.md
 @@ -5,7 +5,7 @@ categories:
@@ -12,10 +12,10 @@ index 01e82b1b..cacaa46c 100644
  ---
  
 diff --git a/content/operate/kubernetes/reference/redis_enterprise_cluster_api.md b/content/operate/kubernetes/reference/redis_enterprise_cluster_api.md
-index 970ba528..6afe4c50 100644
+index af2658e10..d2bf15901 100644
 --- a/content/operate/kubernetes/reference/redis_enterprise_cluster_api.md
 +++ b/content/operate/kubernetes/reference/redis_enterprise_cluster_api.md
-@@ -5,8 +5,9 @@ categories:
+@@ -5,7 +5,7 @@ categories:
  - docs
  - operate
  - kubernetes
@@ -24,12 +24,11 @@ index 970ba528..6afe4c50 100644
  weight: 30
  ---
  
- apiVersion:
 diff --git a/content/operate/kubernetes/reference/redis_enterprise_database_api.md b/content/operate/kubernetes/reference/redis_enterprise_database_api.md
-index f925ce44..ea21766e 100644
+index 4d5746cef..1ac12734b 100644
 --- a/content/operate/kubernetes/reference/redis_enterprise_database_api.md
 +++ b/content/operate/kubernetes/reference/redis_enterprise_database_api.md
-@@ -5,8 +5,9 @@ categories:
+@@ -5,7 +5,7 @@ categories:
  - docs
  - operate
  - kubernetes
@@ -38,9 +37,8 @@ index f925ce44..ea21766e 100644
  weight: 30
  ---
  
- apiVersion:
 diff --git a/content/operate/kubernetes/reference/redis_enterprise_remote_cluster_api.md b/content/operate/kubernetes/reference/redis_enterprise_remote_cluster_api.md
-index 7d37a6dc..a9a313cf 100644
+index 62a1fa92b..7a1272535 100644
 --- a/content/operate/kubernetes/reference/redis_enterprise_remote_cluster_api.md
 +++ b/content/operate/kubernetes/reference/redis_enterprise_remote_cluster_api.md
 @@ -5,7 +5,7 @@ categories:
