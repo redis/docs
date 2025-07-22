@@ -40,30 +40,76 @@ curl -s -X POST "https://$HOST/v1/caches/$CACHE_ID/entires/search" \
 This example uses `cURL` and Linux shell scripts to demonstrate the API; you can use any standard REST client or library.
 {{% /info %}}
 
-If your app is written in Javascript or Python, you can also use the LangCache Software Development Kits (SDKs) to access the API:
+If your app is written in Python or Javascript, you can also use the LangCache Software Development Kits (SDKs) to access the API:
 
-- [LangCache SDK for Javascript](https://www.npmjs.com/package/@redis-ai/langcache)
 - [LangCache SDK for Python](https://pypi.org/project/langcache/)
+- [LangCache SDK for Javascript](https://www.npmjs.com/package/@redis-ai/langcache)
 
 ## Examples
 
 ### Search LangCache for similar responses
 
-Use `POST /v1/caches/{cacheId}/entries/search` to search the cache for matching responses to a user prompt.
+Use [`POST /v1/caches/{cacheId}/entries/search`]({{< relref "/develop/ai/langcache/api-reference#tag/Cache-Entries/operation/search" >}}}) to search the cache for matching responses to a user prompt.
 
+{{< multitabs id="search-basic"
+    tab1="REST API"
+    tab2="Python"
+    tab3="Javascript" >}}
 ```sh
 POST https://[host]/v1/caches/{cacheId}/entries/search
 {
     "prompt": "User prompt text"
 }
 ```
+-tab-sep-
+```python
+from langcache import LangCache
+import os
+
+
+with LangCache(
+    server_url="https://<host>",
+    cache_id="<cacheId>",
+    service_key=os.getenv("LANGCACHE_SERVICE_KEY", ""),
+) as lang_cache:
+
+    res = lang_cache.search(prompt="User prompt text", similarity_threshold=0.9)
+
+    print(res)
+```
+-tab-sep-
+```js
+import { LangCache } from "@redis-ai/langcache";
+
+const langCache = new LangCache({
+  serverURL: "https://<host>",
+  cacheId: "<cacheId>",
+  serviceKey: "<LANGCACHE_SERVICE_KEY>",
+});
+
+async function run() {
+  const result = await langCache.search({
+    prompt: "User prompt text",
+    similarityThreshold: 0.9
+  });
+
+  console.log(result);
+}
+
+run();
+```
+{{< /multitabs >}}
 
 Place this call in your client app right before you call your LLM's REST API. If LangCache returns a response, you can send that response back to the user instead of calling the LLM.
 
 If LangCache does not return a response, you should call your LLM's REST API to generate a new response. After you get a response from the LLM, you can [store it in LangCache](#store-a-new-response-in-langcache) for future use.
 
-You can also scope the responses returned from LangCache by adding an `attributes` object to the request. LangCache will only return responses that match the attributes you specify. 
+You can also scope the responses returned from LangCache by adding an `attributes` object to the request. LangCache will only return responses that match the attributes you specify.
 
+{{< multitabs id="search-attributes"
+    tab1="REST API"
+    tab2="Python"
+    tab3="Javascript" >}}
 ```sh
 POST https://[host]/v1/caches/{cacheId}/entries/search
 {
@@ -73,11 +119,60 @@ POST https://[host]/v1/caches/{cacheId}/entries/search
     }
 }
 ```
+-tab-sep-
+```python
+from langcache import LangCache
+import os
+
+
+with LangCache(
+    server_url="https://<host>",
+    cache_id="<cacheId>",
+    service_key=os.getenv("LANGCACHE_SERVICE_KEY", ""),
+) as lang_cache:
+
+    res = lang_cache.search(
+        prompt="User prompt text",
+        attributes={"customAttributeName": "customAttributeValue"},
+        similarity_threshold=0.9,
+    )
+
+    print(res)
+```
+-tab-sep-
+```js
+import { LangCache } from "@redis-ai/langcache";
+
+const langCache = new LangCache({
+  serverURL: "https://<host>",
+  cacheId: "<cacheId>",
+  serviceKey: "<LANGCACHE_SERVICE_KEY>",
+});
+
+async function run() {
+  const result = await langCache.search({
+    prompt: "User prompt text",
+    similarityThreshold: 0.9,
+    attributes: {
+      "customAttributeName": "customAttributeValue",
+    },
+  });
+
+  console.log(result);
+}
+
+run();
+```
+{{< /multitabs >}}
 
 ### Store a new response in LangCache
 
-Use `POST /v1/caches/{cacheId}/entries` to store a new response in the cache.
+Use [`POST /v1/caches/{cacheId}/entries`]({{< relref "/develop/ai/langcache/api-reference#tag/Cache-Entries/operation/set" >}}) to store a new response in the cache.
 
+{{< multitabs id="store-basic"
+    tab1="REST API"
+    tab2="Python"
+    tab3="Javascript" >}}
 ```sh
 POST https://[host]/v1/caches/{cacheId}/entries
 {
@@ -85,10 +180,56 @@ POST https://[host]/v1/caches/{cacheId}/entries
     "response": "LLM response text"
 }
 ```
+-tab-sep-
+```python
+from langcache import LangCache
+import os
+
+
+with LangCache(
+    server_url="https://[host]",
+    cache_id="{cacheId}",
+    service_key=os.getenv("LANGCACHE_SERVICE_KEY", ""),
+) as lang_cache:
+
+    res = lang_cache.set(
+        prompt="User prompt text",
+        response="LLM response text",
+    )
+
+    print(res)
+```
+-tab-sep-
+```js
+import { LangCache } from "@redis-ai/langcache";
+
+const langCache = new LangCache({
+  serverURL: "https://<host>",
+  cacheId: "<cacheId>",
+  serviceKey: "<LANGCACHE_SERVICE_KEY>",
+});
+
+async function run() {
+  const result = await langCache.set({
+    prompt: "User prompt text",
+    response: "LLM response text",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+{{< /multitabs >}}
 
 Place this call in your client app after you get a response from the LLM. This will store the response in the cache for future use.
 
 You can also store the responses with custom attributes by adding an `attributes` object to the request.
+
+{{< multitabs id="store-attributes"
+    tab1="REST API"
+    tab2="Python"
+    tab3="Javascript" >}}
 
 ```sh
 POST https://[host]/v1/caches/{cacheId}/entries
@@ -100,12 +241,90 @@ POST https://[host]/v1/caches/{cacheId}/entries
     }
 }
 ```
+-tab-sep-
+```python
+from langcache import LangCache
+import os
+
+
+with LangCache(
+    server_url="https://[host]",
+    cache_id="{cacheId}",
+    service_key=os.getenv("LANGCACHE_SERVICE_KEY", ""),
+) as lang_cache:
+
+    res = lang_cache.set(
+        prompt="User prompt text",
+        response="LLM response text",
+        attributes={"customAttributeName": "customAttributeValue"},
+    )
+
+    print(res)
+```
+-tab-sep-
+
+{{< /multitabs >}}
 
 ### Delete cached responses
 
-Use `DELETE /v1/caches/{cacheId}/entries/{entryId}` to delete a cached response from the cache.
+Use [`DELETE /v1/caches/{cacheId}/entries/{entryId}`]({{< relref "/develop/ai/langcache/api-reference#tag/Cache-Entries/operation/delete" >}}) to delete a cached response from the cache.
 
-You can also use `DELETE /v1/caches/{cacheId}/entries` to delete multiple cached responses at once. If you provide an `attributes` object, LangCache will delete all responses that match the attributes you specify. 
+{{< multitabs id="delete-entry"
+    tab1="REST API"
+    tab2="Python"
+    tab3="Javascript" >}}
+
+```sh
+DELETE https://[host]/v1/caches/{cacheId}/entries/{entryId}
+```
+-tab-sep-
+```python
+from langcache import LangCache
+import os
+
+
+with LangCache(
+    server_url="https://[host]",
+    cache_id="{cacheId}",
+    service_key=os.getenv("LANGCACHE_SERVICE_KEY", ""),
+) as lang_cache:
+
+    res = lang_cache.delete_by_id(entry_id="{entryId}")
+
+    print(res)
+```
+-tab-sep-
+```js
+import { LangCache } from "@redis-ai/langcache";
+
+const langCache = new LangCache({
+  serverURL: "https://<host>",
+  cacheId: "<cacheId>",
+  serviceKey: "<LANGCACHE_SERVICE_KEY>",
+});
+
+async function run() {
+  const result = await langCache.deleteById({
+    entryId: "<entryId>",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+{{< /multitabs >}}
+
+You can also use [`DELETE /v1/caches/{cacheId}/entries`]({{< relref "/develop/ai/langcache/api-reference#tag/Cache-Entries/operation/deleteQuery" >}}) to delete multiple cached responses based on the `attributes` you specify. If you specify multiple `attributes`, LangCache will delete entries that contain all given attributes. 
+
+{{< warning >}}
+If you do not specify any `attributes`, all responses in the cache will be deleted. This cannot be undone.
+{{< /warning >}}
+
+{{< multitabs id="delete-attributes"
+    tab1="REST API"
+    tab2="Python"
+    tab3="Javascript" >}}
 
 ```sh
 DELETE https://[host]/v1/caches/{cacheId}/entries
@@ -115,4 +334,45 @@ DELETE https://[host]/v1/caches/{cacheId}/entries
     }
 }
 ```
+-tab-sep-
+```python
+from langcache import LangCache
+import os
+
+
+with LangCache(
+    server_url="https://[host]",
+    cache_id="{cacheId}",
+    service_key=os.getenv("LANGCACHE_SERVICE_KEY", ""),
+) as lang_cache:
+
+    res = lang_cache.delete_query(
+        attributes={"customAttributeName": "customAttributeValue"},
+    )
+
+    print(res)
+```
+-tab-sep-
+```js
+import { LangCache } from "@redis-ai/langcache";
+
+const langCache = new LangCache({
+  serverURL: "https://<host>",
+  cacheId: "<cacheId>",
+  serviceKey: "<LANGCACHE_SERVICE_KEY>",
+});
+
+async function run() {
+  const result = await langCache.deleteQuery({
+    attributes: {
+      "customAttributeName": "customAttributeValue",
+    },
+  });
+
+  console.log(result);
+}
+
+run();
+```
+{{< /multitabs >}}
 
