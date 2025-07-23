@@ -35,7 +35,17 @@ For each database, you can choose from these data eviction policies:
 
 ## Prevent data eviction
 
-Redis Cloud supports [Auto Tiering]({{< relref "/operate/rs/databases/auto-tiering/" >}}) 
+Redis Cloud supports [Auto Tiering]({{< relref "/operate/rs/databases/auto-tiering/" >}})
 to prevent data eviction but maintain high performance.
 
 Auto Tiering can extend your database across RAM and Flash Memory and intelligently manage "hot" (active) data in RAM and "cold" (less active) data in Flash memory (SSD).
+
+## Active-Passive replication considerations
+
+When using [Active-Passive replication]({{< relref "/operate/rc/databases/migrate-databases#sync-using-active-passive" >}}), eviction and expiration only operate on the source (active) database. The target database does not evict or expire data while Active-Passive is enabled. 
+
+Do not write to the target database while Active-Passive is enabled. Doing so can cause the following issues:
+
+- The target database cannot rely on eviction or expiration to manage local writes, requiring sufficient memory to handle both replicated data and local writes.
+- Local writes create differences between the source and target databases, causing replicated commands to behave differently on each database.
+- Inconsistent data can cause replicated commands to fail with errors, which will cause the synchronization process to exit and break replication.

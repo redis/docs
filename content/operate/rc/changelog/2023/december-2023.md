@@ -9,6 +9,8 @@ description: New features, enhancements, and other changes added to Redis Cloud 
   December 2023.
 highlights: Active-Active JSON support, mTLS enhancements
 linktitle: December 2023
+tags:
+- changelog
 weight: 72
 aliases:
   - /operate/rc/changelog/december-2023

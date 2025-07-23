@@ -53,13 +53,29 @@ Merges several sketches into one sketch. All sketches must have identical width 
 * **src**: Names of source sketches to be merged.
 * **weight**: Multiple of each sketch. Default =1.
 
-## Return
-
-[Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - `OK` if executed correctly, or [] otherwise.
-
 ## Examples
 
 ```
 redis> CMS.MERGE dest 2 test1 test2 WEIGHTS 1 3
 OK
 ```
+
+## Return information
+
+{{< multitabs id=“cms-merge-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: non-existent key or destination key is not of the same width and/or depth.
+
+-tab-sep-
+
+One of the following:
+
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: non-existent key or destination key is not of the same width and/or depth.
+
+{{< /multitabs >}}

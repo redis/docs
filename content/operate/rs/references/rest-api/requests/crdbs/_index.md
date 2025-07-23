@@ -173,6 +173,12 @@ Create a new Active-Active database.
 | X-Task-ID | string | Specified task ID |
 | X-Result-TTL | integer | Time (in seconds) to keep task result |
 
+#### Query parameters
+
+| Field | Type | Description |
+|-------|------|-------------|
+| dry_run | boolean | Validate the request without creating the database (optional) |
+
 #### Request body
 
 Include a [CRDB object]({{< relref "/operate/rs/references/rest-api/objects/crdb" >}}), which defines the Active-Active database, in the request body.

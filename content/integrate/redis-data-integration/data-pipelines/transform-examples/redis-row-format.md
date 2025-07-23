@@ -17,7 +17,7 @@ weight: 30
 
 The RDI pipelines support two separate row formats which you can specify in the `source` section of the job file:
 
-- `basic` - (Default) Contains the current value of the row only.
+- `partial` - (Default) Contains the current value of the row only.
 - `full` - Contains all information available for the row, including the key, the before and after values, and the operation code.
 
 The `full` row format is useful when you want to access the metadata associated with the row, such as the operation code, and the before and after values.

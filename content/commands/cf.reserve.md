@@ -107,13 +107,6 @@ When a new filter is created, its size is the size of the current filter multipl
 Expansion is rounded to the next `2^n` number. 
 </details>
 
-## Return value
-
-Returns one of these replies:
-
-- [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - `OK` if filter created successfully
-- [] on error (invalid arguments, key already exists, etc.)
-
 ## Examples
 
 {{< highlight bash >}}
@@ -126,3 +119,21 @@ redis> CF.RESERVE cf 1000
 redis> CF.RESERVE cf_params 1000 BUCKETSIZE 8 MAXITERATIONS 20 EXPANSION 2
 OK
 {{< / highlight >}}
+
+## Return information
+
+{{< multitabs id="cf-reserve-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if the filter was created successfully.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments or the key already exists.
+
+-tab-sep-
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if the filter was created successfully.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments or the key already exists.
+
+{{< /multitabs >}}

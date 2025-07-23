@@ -360,4 +360,4 @@ The next two GC-related fields are relevant in scenarios where simultaneous chan
 
 ## Related topics
 
-[RediSearch]({{< relref "/develop/interact/search-and-query/" >}})
+[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})

@@ -203,6 +203,13 @@ The Active-Active database global configurations, contains the global properties
         </td>
         <td>false</td>
       </tr><tr>
+        <td>databaseServicePort</td>
+        <td>integer</td>
+        <td>
+          A custom port to be exposed by the database services. Can be be modified/added/removed after REDB creation. If set, it'll replace the default service port (namely, databasePort or defaultRedisPort).<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td>defaultUser</td>
         <td>boolean</td>
         <td>
@@ -403,6 +410,8 @@ Connection/ association to the Active-Active database.
         <td>true</td>
       </tr></tbody>
 </table>
+
+
 
 ### spec.globalConfigurations.backup
 <sup><sup>[↩ Parent](#specglobalconfigurations)</sup></sup>

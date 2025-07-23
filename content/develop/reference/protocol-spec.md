@@ -70,7 +70,7 @@ This is the simplest model possible; however, there are some exceptions:
 
 * Redis requests can be [pipelined](#multiple-commands-and-pipelining).
   Pipelining enables clients to send multiple commands at once and wait for replies later.
-* When a RESP2 connection subscribes to a [Pub/Sub]({{< relref "/develop/interact/pubsub" >}}) channel, the protocol changes semantics and becomes a *push* protocol.
+* When a RESP2 connection subscribes to a [Pub/Sub]({{< relref "/develop/pubsub" >}}) channel, the protocol changes semantics and becomes a *push* protocol.
   The client no longer requires sending commands because the server will automatically send new messages to the client (for the channels the client is subscribed to) as soon as they are received.
 * The [`MONITOR`]({{< relref "/commands/monitor" >}}) command.
   Invoking the [`MONITOR`]({{< relref "/commands/monitor" >}}) command switches the connection to an ad-hoc push mode.
@@ -132,7 +132,7 @@ The following table summarizes the RESP data types that Redis supports:
 | [Bulk errors](#bulk-errors) | RESP3 | Aggregate | `!` |
 | [Verbatim strings](#verbatim-strings) | RESP3 | Aggregate | `=` |
 | [Maps](#maps) | RESP3 | Aggregate | `%` |
-| [Attributes](#attributes) | RESP3 | Aggregate | `|` |
+| [Attributes](#attributes) | RESP3 | Aggregate | <code>&#124;</code> |
 | [Sets](#sets) | RESP3 | Aggregate | `~` |
 | [Pushes](#pushes) | RESP3 | Aggregate | `>` |
 
@@ -696,7 +696,7 @@ Pipelining is supported, so multiple commands can be sent with a single write op
 The client can skip reading replies and continue to send the commands one after the other.
 All the replies can be read at the end.
 
-For more information, see [Pipelining]({{< relref "/develop/use/pipelining" >}}).
+For more information, see [Pipelining]({{< relref "/develop/using-commands/pipelining" >}}).
 
 ## Inline commands
 Sometimes you may need to send a command to the Redis server but only have `telnet` available.
@@ -755,7 +755,7 @@ While comparable in performance to a binary protocol, the Redis protocol is sign
 
 ## Tips for Redis client authors
 
-* For testing purposes, use [Lua's type conversions]({{< relref "develop/interact/programmability/lua-api#lua-to-resp3-type-conversion" >}}) to have Redis reply with any RESP2/RESP3 needed.
+* For testing purposes, use [Lua's type conversions]({{< relref "develop/programmability/lua-api#lua-to-resp3-type-conversion" >}}) to have Redis reply with any RESP2/RESP3 needed.
   As an example, a RESP3 double can be generated like so:
   ```
   EVAL "return { double = tonumber(ARGV[1]) }" 0 1e0

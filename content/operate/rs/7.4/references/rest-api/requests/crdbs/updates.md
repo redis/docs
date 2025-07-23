@@ -32,7 +32,7 @@ Updating default_db_config affects both existing and new instances that may be a
 
 When you update db_config, it changes the configuration of the database that you specify. This field overrides corresponding fields (if any) in default_db_config.
 
-### Request {#post-request} 
+### Request {#post-request}
 
 #### Example HTTP request
 
@@ -51,15 +51,21 @@ When you update db_config, it changes the configuration of the database that you
 |-------|------|-------------|
 | crdb_guid | string | Globally unique Active-Active database ID (GUID) |
 
+#### Query parameters
+
+| Field | Type | Description |
+|-------|------|-------------|
+| dry_run | boolean | Validate the request without applying changes (optional) |
+
 #### Request body
 
 Include a [CRDB modify_request object]({{< relref "/operate/rs/7.4/references/rest-api/objects/crdb/modify_request" >}}) with updated fields in the request body.
 
-### Response {#post-response} 
+### Response {#post-response}
 
 Returns a [CRDB task object]({{< relref "/operate/rs/7.4/references/rest-api/objects/crdb_task" >}}).
 
-### Status codes {#post-status-codes} 
+### Status codes {#post-status-codes}
 
 | Code | Description |
 |------|-------------|

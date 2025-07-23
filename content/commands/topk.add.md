@@ -33,21 +33,17 @@ syntax_str: items [items ...]
 title: TOPK.ADD
 ---
 
-Adds an item to the data structure. 
-Multiple items can be added at once.
-If an item enters the Top-K list, the item which is expelled is returned.
-This allows dynamic heavy-hitter detection of items being entered or expelled from Top-K list. 
+Adds an item to a Top-k sketch. 
+Multiple items can be added at the same time.
+If an item enters the Top-K sketch, the item that is expelled (if any) is returned.
+This allows dynamic heavy-hitter detection of items being entered or expelled from Top-K sketch. 
 
-### Parameters
+## Parameters
 
-* **key**: Name of sketch where item is added.
-* **item**: Item/s to be added.
+* **key**: the name of the sketch where items are added.
+* **item**: the items to be added.
 
-### Return
-
-[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - if an element was dropped from the TopK list, [Nil reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) otherwise..
-
-#### Example
+## Example
 
 ```
 redis> TOPK.ADD topk foo bar 42
@@ -55,3 +51,23 @@ redis> TOPK.ADD topk foo bar 42
 2) baz
 3) (nil)
 ```
+
+## Return information
+
+{{< multitabs id=“topk-add-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+
+* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing either dropped elements or [nil (null bulk string)]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}).
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: incorrect number of arguments or non-existant key.
+
+-tab-sep-
+
+One of the following:
+
+* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing either dropped elements or [null]({{< relref "/develop/reference/protocol-spec#nulls" >}}).
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: incorrect number of arguments, non-existant key, or key of the incorrect type.
+
+{{< /multitabs >}}

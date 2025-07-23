@@ -31,7 +31,7 @@ if you have not already done so. Then, install `redis-entra-id` with the
 following command:
 
 ```bash
-pip install redis-entra-id
+pip install redis-entraid
 ```
 
 ## Create a `CredentialProvider` instance
