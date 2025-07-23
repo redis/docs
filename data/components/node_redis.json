@@ -9,7 +9,7 @@
     },
     "examples": {
         "git_uri": "https://github.com/redis/node-redis",
-        "dev_branch": "emb-examples",
+        "dev_branch": "master",
         "path": "doctests",
         "pattern": "*.js"
     }
