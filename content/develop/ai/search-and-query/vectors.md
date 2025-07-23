@@ -1,6 +1,6 @@
 ---
 aliases:
-- /develop/ai/search-and-query/advanced-concepts/vectors
+- /develop/interact/search-and-query/advanced-concepts/vectors
 categories:
 - docs
 - develop
@@ -159,7 +159,7 @@ HSET docs:01 doc_embedding <vector_bytes> category sports
 Hash values are stored as binary-safe strings. The value `<vector_bytes>` represents the vector's underlying memory buffer.
 {{% /alert  %}}
 
-A common method for converting vectors to bytes uses the [redis-py](https://redis-py.readthedocs.io/en/stable/examples/search_vector_similarity_examples.html) client library and the Python [NumPy](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.tobytes.html) library.
+A common method for converting vectors to bytes uses the [redis-py](https://redis.readthedocs.io/en/stable/examples/search_vector_similarity_examples.html) client library and the Python [NumPy](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.tobytes.html) library.
 
 **Example**
 

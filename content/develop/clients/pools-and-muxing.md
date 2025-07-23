@@ -71,7 +71,7 @@ used to identify where to send the response data from your commands.
 
 Note that it is not a problem if the multiplexer receives several commands close
 together in time. When this happens, the multiplexer can often combine the commands into a
-[pipeline]({{< relref "/develop/use/pipelining" >}}), which
+[pipeline]({{< relref "/develop/using-commands/pipelining" >}}), which
 improves efficiency.
 
 Multiplexing offers high efficiency but works transparently without requiring

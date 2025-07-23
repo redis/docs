@@ -50,6 +50,8 @@ RDI requires some changes to database parameters. On AWS RDS and AWS Aurora, you
 
     Select **Save changes** to apply the parameter group to your database.
 
+1. Reboot your database instance. See [Rebooting a DB instance within an Aurora cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-reboot-db-instance.html) or [Rebooting a DB instance (RDS)](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_RebootInstance.html) for more information.
+
 ## Create Debezium user
 
 The Debezium connector needs a user account to connect to PostgreSQL. This

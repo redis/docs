@@ -12,15 +12,19 @@ title: Install Redis on Windows
 weight: 1
 ---
 
-Redis is not officially supported on Windows. However, you can install Redis on Windows for development by following the instructions below.
+## Run Redis on Windows using Memurai
 
-To install Redis on Windows, you'll first need to enable [WSL2](https://docs.microsoft.com/en-us/windows/wsl/install) (Windows Subsystem for Linux). WSL2 lets you run Linux binaries natively on Windows. For this method to work, you'll need to be running Windows 10 version 2004 and higher or Windows 11.
+Redis is now natively supported on Windows through [Memurai](https://www.memurai.com/), the official Redis partner for Windows compatibility.
 
-## Install or enable WSL2
+## Run Redis on Windows using WSL (Windows Subsystem for Linux)
+
+To install Redis on Windows using WSL, you'll first need to enable [WSL2](https://docs.microsoft.com/en-us/windows/wsl/install) (Windows Subsystem for Linux). WSL2 lets you run Linux binaries natively on Windows. For this method to work, you'll need to be running Windows 10 version 2004 and higher or Windows 11.
+
+### Install or enable WSL2
 
 Microsoft provides [detailed instructions for installing WSL](https://docs.microsoft.com/en-us/windows/wsl/install). Follow these instructions, and take note of the default Linux distribution it installs. This guide assumes Ubuntu.
 
-## Install Redis
+### Install Redis
 
 Once you're running Ubuntu on Windows, you can follow the steps detailed at [Install on Ubuntu/Debian]({{< relref "/operate/oss_and_stack/install/archive/install-redis/install-redis-on-linux#install-on-ubuntu-debian" >}}) to install recent stable versions of Redis from the official `packages.redis.io` APT repository.
 Add the repository to the <code>apt</code> index, update it, and then install:
@@ -40,7 +44,7 @@ Lastly, start the Redis server like so:
 sudo service redis-server start
 {{< / highlight  >}}
 
-## Connect to Redis
+### Connect to Redis
 
 Once Redis is running, you can test it by running `redis-cli`:
 

@@ -57,6 +57,33 @@ See [Upgrade modules]({{<relref "/operate/oss_and_stack/stack-with-enterprise/in
 
 Use `kubectl get rec` and verify the `LICENSE STATE` is valid on your REC before you start the upgrade process.
 
+## Upgrade with Helm charts
+
+If you installed the Redis Enterprise operator using Helm charts, you can upgrade using Helm commands. This method automatically handles the operator upgrade and Custom Resource Definition (CRD) updates.
+
+To upgrade using Helm:
+
+```sh
+helm upgrade <release-name> redis/redis-enterprise-operator --version <chart-version>
+```
+
+For example:
+
+```sh
+helm upgrade my-redis-enterprise redis/redis-enterprise-operator --version 7.8.2-2
+```
+
+For OpenShift installations, include the `openshift.mode=true` parameter:
+
+```sh
+helm upgrade <release-name> redis/redis-enterprise-operator --version <chart-version> \
+    --set openshift.mode=true
+```
+
+After the Helm upgrade completes, continue with [upgrading the Redis Enterprise cluster (REC)](#upgrade-the-redis-enterprise-cluster-rec) and [upgrading databases](#upgrade-databases).
+
+For detailed Helm upgrade instructions, see [Upgrade the chart]({{<relref "/operate/kubernetes/deployment/helm#upgrade-the-chart">}}).
+
 ## Upgrade the operator
 
 ### Download the bundle
@@ -189,7 +216,7 @@ kubectl rollout status sts <REC_name>
 
 ### Upgrade databases
 
-After the cluster is upgraded, you can upgrade your databases. To upgrade your REDB, specify your new database version in the `spec.redisVersion` field in the REDB custom resources. Supported database versions for operator versions include `"7.2"` and `"7.4"` (note this value is a string). 
+After the cluster is upgraded, you can upgrade your databases. To upgrade your REDB, specify your new database version in the `spec.redisVersion` field in the REDB custom resources. Supported database versions for operator versions include `"7.2"` and `"7.4"` (note this value is a string).
 
 To upgrade your REAADB, see [Upgrade an Active-Active database]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-active-active/">}}) for details on the `rladmin` and `crdb-cli` commands required. Reach out to Redis support if you have additional questions.
 
