@@ -52,7 +52,7 @@ The following diagram displays how you can integrate LangCache into your GenAI a
 {{< image filename="images/rc/langcache-process.png" alt="The LangCache process diagram." >}}
 
 1. A user sends a prompt to your AI app.
-1. Your app sends the prompt to LangCache through the `POST /v1/caches/{cacheId}/search` endpoint.
+1. Your app sends the prompt to LangCache through the `POST /v1/caches/{cacheId}/entries/search` endpoint.
 1. LangCache calls an embedding model service to generate an embedding for the prompt.
 1. LangCache searches the cache to see if a similar response already exists by matching the embeddings of the new query with the stored embeddings. 
 1. If a semantically similar entry is found (also known as a cache hit), LangCache gets the cached response and returns it to your app. Your app can then send the cached response back to the user.
@@ -60,7 +60,7 @@ The following diagram displays how you can integrate LangCache into your GenAI a
 1. Your app sends the prompt and the new response to LangCache through the `POST /v1/caches/{cacheId}/entries` endpoint. 
 1. LangCache stores the embedding with the new response in the cache for future use.
 
-See the [LangCache API reference]({{< relref "/develop/ai/langcache/api-reference" >}}) for more information on how to use the LangCache API.
+See the [LangCache API and SDK examples]({{< relref "/develop/ai/langcache/api-examples" >}}) for more information on how to use the LangCache API.
 
 ## Get started
 
