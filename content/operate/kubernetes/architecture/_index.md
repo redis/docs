@@ -9,7 +9,7 @@ description: Overview of the architecture and components of Redis Enterprise for
 hideListLinks: true
 linkTitle: Architecture
 weight: 1
-aliases: [/operate/kubernetes/architecture/operator/]
+aliases: [/operate/kubernetes/architecture/operator/, /operate/kubernetes/7.4.6/architecture/operator/, /operate/kubernetes/7.8.4/architecture/operator/, /operate/kubernetes/7.8.6/architecture/operator/, /operate/kubernetes/faqs/, /operate/kubernetes/7.4.6/faqs/, /operate/kubernetes/7.8.4/faqs/]
 ---
 
 Redis Enterprise for Kubernetes gives you the speed and durability of [Redis Enterprise](https://redis.io/redis-enterprise/advantages/), with the flexibility and ease of [Kubernetes (K8s)](https://kubernetes.io/). Redis Enterprise for Kubernetes uses the Kubernetes operator pattern and custom controllers to bring the best of Redis Enterprise to the Kubernetes platform.
