@@ -74,6 +74,20 @@ Attempting to add the same alias returns a message that the alias already exists
 {{< / highlight >}}
 </details>
 
+## Return information
+
+{{< multitabs id="ft-aliasadd-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) reply.
+
+-tab-sep-
+
+[Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) reply.
+
+{{< /multitabs >}}
+
 ## See also
 
 [`FT.ALIASDEL`]({{< relref "commands/ft.aliasdel/" >}}) | [`FT.ALIASUPDATE`]({{< relref "commands/ft.aliasupdate/" >}}) 

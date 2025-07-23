@@ -852,9 +852,28 @@ Query with `CONTAINS` operator:
 
 </details>
 
+## Return information
+
+{{< multitabs id="ft-search-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+[Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with the first element being the total number of results, followed by document IDs and their field-value pairs as [arrays]({{< relref "/develop/reference/protocol-spec#arrays" >}}).
+
+-tab-sep-
+
+[Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) with the following fields:
+- `total_results`: [Integer]({{< relref "/develop/reference/protocol-spec#integers" >}}) - total number of results
+- `results`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [maps]({{< relref "/develop/reference/protocol-spec#maps" >}}) containing document information
+- `attributes`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of attribute names
+- `format`: [Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - result format
+- `warning`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of warning messages
+
+{{< /multitabs >}}
+
 ## See also
 
-[`FT.CREATE`]({{< relref "commands/ft.create/" >}}) | [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}) 
+[`FT.CREATE`]({{< relref "commands/ft.create/" >}}) | [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}})
 
 ## Related topics
 

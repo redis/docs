@@ -100,6 +100,20 @@ FT.SUGADD returns an integer reply, which is the current size of the suggestion 
 {{< / highlight >}}
 </details>
 
+## Return information
+
+{{< multitabs id="ft-sugadd-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) reply.
+
+-tab-sep-
+
+[Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) reply.
+
+{{< /multitabs >}}
+
 ## See also
 
 [`FT.SUGGET`]({{< relref "commands/ft.sugget/" >}}) | [`FT.SUGDEL`]({{< relref "commands/ft.sugdel/" >}}) | [`FT.SUGLEN`]({{< relref "commands/ft.suglen/" >}}) 

@@ -62,6 +62,20 @@ Update the alias of an index.
 OK
 {{< / highlight >}}
 
+## Return information
+
+{{< multitabs id="ft-aliasupdate-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) reply.
+
+-tab-sep-
+
+[Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) reply.
+
+{{< /multitabs >}}
+
 ## See also
 
 [`FT.ALIASADD`]({{< relref "commands/ft.aliasadd/" >}}) | [`FT.ALIASDEL`]({{< relref "commands/ft.aliasdel/" >}}) 

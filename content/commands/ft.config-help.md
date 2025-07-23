@@ -65,6 +65,20 @@ FT.CONFIG HELP returns an array reply of the configuration name and value.
 {{< / highlight >}}
 </details>
 
+## Return information
+
+{{< multitabs id="ft-config-help-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) reply.
+
+-tab-sep-
+
+[Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) reply.
+
+{{< /multitabs >}}
+
 ## See also
 
 [`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) | [`FT.CONFIG GET`]({{< relref "commands/ft.config-get/" >}}) 

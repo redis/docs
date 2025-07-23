@@ -132,6 +132,20 @@ The score is calculated by dividing the number of documents in which the suggest
 {{< / highlight >}}
 </details>
 
+## Return information
+
+{{< multitabs id="ft-spellcheck-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of spell check results for each term.
+
+-tab-sep-
+
+[Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) with a `results` key containing spell check results for each term.
+
+{{< /multitabs >}}
+
 ## See also
 
 [`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) | [`FT.DICTADD`]({{< relref "commands/ft.dictadd/" >}}) | [`FT.DICTDEL`]({{< relref "commands/ft.dictdel/" >}}) | [`FT.DICTDUMP`]({{< relref "commands/ft.dictdump/" >}})

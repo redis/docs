@@ -81,9 +81,23 @@ FT.TAGVALS returns an array reply of all distinct tags in the tag index.
 {{< / highlight >}}
 </details>
 
+## Return information
+
+{{< multitabs id="ft-tagvals-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+[Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of distinct tag values as [bulk strings]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}).
+
+-tab-sep-
+
+[Set]({{< relref "/develop/reference/protocol-spec#sets" >}}) of distinct tag values as [bulk strings]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}).
+
+{{< /multitabs >}}
+
 ## See also
 
-[`FT.CREATE`]({{< relref "commands/ft.create/" >}}) 
+[`FT.CREATE`]({{< relref "commands/ft.create/" >}})
 
 ## Related topics
 

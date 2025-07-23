@@ -46,6 +46,8 @@ redis> CMS.QUERY test foo bar
 2) (integer) 42
 ```
 
+## Return information
+
 {{< multitabs id=“cms-merge-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}

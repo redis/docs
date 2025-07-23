@@ -489,9 +489,28 @@ Next, count GitHub events by user (actor), to produce the most active users.
 
 </details>
 
+## Return information
+
+{{< multitabs id="ft-aggregate-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+[Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with the first element being the total number of results, followed by result rows as [arrays]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of field-value pairs.
+
+-tab-sep-
+
+[Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) with the following fields:
+- `total_results`: [Integer]({{< relref "/develop/reference/protocol-spec#integers" >}}) - total number of results
+- `results`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [maps]({{< relref "/develop/reference/protocol-spec#maps" >}}) containing aggregated data
+- `attributes`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of attribute names
+- `format`: [Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - result format
+- `warning`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of warning messages
+
+{{< /multitabs >}}
+
 ## See also
 
-[`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) | [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) 
+[`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) | [`FT.SEARCH`]({{< relref "commands/ft.search/" >}})
 
 ## Related topics
 

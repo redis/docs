@@ -354,6 +354,20 @@ The next two GC-related fields are relevant in scenarios where simultaneous chan
 {{< / highlight >}}
 </details>
 
+## Return information
+
+{{< multitabs id="ft-info-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+[Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of key-value pairs containing index information and statistics.
+
+-tab-sep-
+
+[Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) containing index information and statistics as key-value pairs.
+
+{{< /multitabs >}}
+
 ## See also
 
 [`FT.CREATE`]({{< relref "commands/ft.create/" >}}) | [`FT.SEARCH`]({{< relref "commands/ft.search/" >}})

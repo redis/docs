@@ -463,6 +463,20 @@ The following example uses data similar to the hash examples above but uses JSON
 {{< / highlight >}}
 </details>
 
+## Return information
+
+{{< multitabs id="ft-create-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) reply.
+
+-tab-sep-
+
+[Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) reply.
+
+{{< /multitabs >}}
+
 ## See also
 
 [`FT.ALTER`]({{< relref "commands/ft.alter/" >}}) | [`FT.DROPINDEX`]({{< relref "commands/ft.dropindex/" >}}) 

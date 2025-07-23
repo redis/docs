@@ -140,9 +140,23 @@ FT.CONFIG GET returns an array reply of the configuration name and value.
 {{< / highlight >}}
 </details>
 
+## Return information
+
+{{< multitabs id="ft-config-get-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+[Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [arrays]({{< relref "/develop/reference/protocol-spec#arrays" >}}), where each sub-array contains a configuration option name and its value.
+
+-tab-sep-
+
+[Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) where keys are configuration option names and values are their corresponding values.
+
+{{< /multitabs >}}
+
 ## See also
 
-[`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) | [`FT.CONFIG HELP`]({{< relref "commands/ft.config-help/" >}}) 
+[`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) | [`FT.CONFIG HELP`]({{< relref "commands/ft.config-help/" >}})
 
 ## Related topics
 

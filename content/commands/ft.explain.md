@@ -103,6 +103,20 @@ INTERSECT {
 {{< / highlight >}}
 </details>
 
+## Return information
+
+{{< multitabs id="ft-explain-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+[Bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the query execution plan.
+
+-tab-sep-
+
+[Bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the query execution plan.
+
+{{< /multitabs >}}
+
 ## See also
 
 [`FT.CREATE`]({{< relref "commands/ft.create/" >}}) | [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) | [`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}})

@@ -399,6 +399,20 @@ Here's an example of running the `FT.PROFILE` command for a vector query.
 {{< /highlight >}}
 </details>
 
+## Return information
+
+{{< multitabs id="ft-profile-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with two elements: search results and profiling information.
+
+-tab-sep-
+
+[Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) with two keys: `Results` containing search results and `Profile` containing profiling information.
+
+{{< /multitabs >}}
+
 ## See also
 
 [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) | [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}) 

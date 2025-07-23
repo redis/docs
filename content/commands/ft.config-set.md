@@ -77,6 +77,20 @@ OK
 {{< / highlight >}}
 </details>
 
+## Return information
+
+{{< multitabs id="ft-config-set-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) reply.
+
+-tab-sep-
+
+[Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) reply.
+
+{{< /multitabs >}}
+
 ## See also
 
 [`FT.CONFIG GET`]({{< relref "commands/ft.config-get/" >}}) | [`FT.CONFIG HELP`]({{< relref "commands/ft.config-help/" >}}) 

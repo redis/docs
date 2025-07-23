@@ -62,6 +62,20 @@ FT.DICTDUMP returns an array, where each element is term (string).
 {{< / highlight >}}
 </details>
 
+## Return information
+
+{{< multitabs id="ft-dictdump-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of results.
+
+-tab-sep-
+
+[Set]({{< relref "/develop/reference/protocol-spec#sets" >}}) of results.
+
+{{< /multitabs >}}
+
 ## See also
 
 [`FT.DICTADD`]({{< relref "commands/ft.dictadd/" >}}) | [`FT.DICTDEL`]({{< relref "commands/ft.dictdel/" >}})

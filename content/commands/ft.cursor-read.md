@@ -78,6 +78,20 @@ FT.CURSOR READ returns an array reply where each row is an array reply and repre
 {{< / highlight >}}
 </details>
 
+## Return information
+
+{{< multitabs id="ft-cursor-read-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with search results and metadata.
+
+-tab-sep-
+
+[Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) with structured search results and metadata.
+
+{{< /multitabs >}}
+
 ## See also
 
 [`FT.CURSOR DEL`]({{< relref "commands/ft.cursor-del/" >}}) | [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}})

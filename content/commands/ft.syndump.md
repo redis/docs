@@ -66,6 +66,20 @@ FT.SYNDUMP returns an array reply, with a pair of `term` and an array of synonym
 {{< / highlight >}}
 </details>
 
+## Return information
+
+{{< multitabs id="ft-syndump-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of synonym terms and their associated synonym groups.
+
+-tab-sep-
+
+[Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) where keys are synonym terms and values are arrays of their associated synonym groups.
+
+{{< /multitabs >}}
+
 ## See also
 
 [`FT.SYNUPDATE`]({{< relref "commands/ft.synupdate/" >}}) 

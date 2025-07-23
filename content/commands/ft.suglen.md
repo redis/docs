@@ -58,6 +58,20 @@ FT.SUGLEN returns an integer reply, which is the current size of the suggestion 
 {{< / highlight >}}
 </details>
 
+## Return information
+
+{{< multitabs id="ft-suglen-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer]({{< relref "/develop/reference/protocol-spec#integers" >}}) reply.
+
+-tab-sep-
+
+[Integer]({{< relref "/develop/reference/protocol-spec#integers" >}}) reply.
+
+{{< /multitabs >}}
+
 ## See also
 
 [`FT.SUGADD`]({{< relref "commands/ft.sugadd/" >}}) | [`FT.SUGDEL`]({{< relref "commands/ft.sugdel/" >}}) | [`FT.SUGGET`]({{< relref "commands/ft.sugget/" >}}) 
