@@ -12,7 +12,7 @@ min-version-rs: blah
 weight: 20
 ---
 
-## Redis Open Source 8.2.0 (July 2025)
+## Redis Open Source 8.2-RC1 (July 2025)
 
 This is the first Release Candidate of Redis Open Source 8.2.
 
@@ -22,7 +22,7 @@ Release Candidates are feature-complete pre-releases. Pre-releases are not suita
 
 Redis 8.2 introduces major performance and memory footprint improvements, new commands, and command extensions.
 
-8.2-RC1 is available as a Docker image and can be downloaded from [Docker Hub](https://hub.docker.com/_/redis). Additional distributions will be introduced in upcoming pre-releases.
+Redis 8.2-RC1 is available as a Docker image and can be downloaded from [Docker Hub](https://hub.docker.com/_/redis). Additional distributions will be introduced in upcoming pre-releases.
 
 ### Security fixes (compared to 8.2-M01)
 

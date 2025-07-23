@@ -65,7 +65,7 @@ rc.set('foo', 'bar')
 rc.get('foo')
 # b'bar'
 ```
-For more information, see [redis-py Clustering](https://redis-py.readthedocs.io/en/stable/clustering.html).
+For more information, see [redis-py Clustering](https://redis.readthedocs.io/en/stable/clustering.html).
 
 ## Connect to your production Redis with TLS
 
@@ -89,7 +89,7 @@ r.set('foo', 'bar')
 r.get('foo')
 # b'bar'
 ```
-For more information, see [redis-py TLS examples](https://redis-py.readthedocs.io/en/stable/examples/ssl_connection_examples.html).
+For more information, see [redis-py TLS examples](https://redis.readthedocs.io/en/stable/examples/ssl_connection_examples.html).
 
 ## Connect using client-side caching
 
@@ -242,3 +242,13 @@ r3.close()
 
 pool.close()
 ```
+
+## Retrying connections
+
+A connection will sometimes fail because of a transient problem, such as a
+network outage or a server that is temporarily unavailable. In these cases,
+retrying the connection after a short delay will usually succeed. `redis-py` uses
+a simple retry strategy by default, but there are various ways you can customize
+this behavior to suit your use case. See
+[Retries]({{< relref "/develop/clients/redis-py/produsage#retries" >}})
+for more information about custom retry strategies, with example code.
