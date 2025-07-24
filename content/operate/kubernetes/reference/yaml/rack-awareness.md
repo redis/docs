@@ -33,13 +33,13 @@ Apply the YAML files in this order:
 
 The service account for rack-aware deployments is the same as [basic deployments]({{< relref "/operate/kubernetes/reference/yaml-examples/basic-deployment#service-account" >}}).
 
-{{<embed-yaml "k8s/service_account.md">}}
+{{<embed-yaml "k8s/service_account.md" "service-account.yaml">}}
 
 ## Cluster role
 
 Rack awareness requires additional permissions to read [node labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) across the cluster.
 
-{{<embed-yaml "k8s/rack_aware_cluster_role.md">}}
+{{<embed-yaml "k8s/rack_aware_cluster_role.md" "rack-aware-cluster-role.yaml">}}
 
 ### Cluster role configuration
 
@@ -56,7 +56,7 @@ Rack awareness requires additional permissions to read [node labels](https://kub
 
 The [ClusterRoleBinding](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#rolebinding-and-clusterrolebinding) grants cluster-wide permissions to the service account.
 
-{{<embed-yaml "k8s/rack_aware_cluster_role_binding.md">}}
+{{<embed-yaml "k8s/rack_aware_cluster_role_binding.md" "rack-aware-cluster-role-binding.yaml">}}
 
 ### Cluster role binding configuration
 
@@ -68,7 +68,7 @@ The [ClusterRoleBinding](https://kubernetes.io/docs/reference/access-authn-authz
 
 The rack-aware [REC configuration]({{< relref "/operate/kubernetes/reference/redis_enterprise_cluster_api" >}}) includes the `rackAwarenessNodeLabel` field.
 
-{{<embed-yaml "k8s/rack_aware_rec.md">}}
+{{<embed-yaml "k8s/rack_aware_rec.md" "rack-aware-cluster.yaml">}}
 
 ### Rack-aware cluster configuration
 
@@ -121,7 +121,7 @@ kubectl get nodes -o custom-columns=NAME:.metadata.name,ZONE:.metadata.labels.'t
 
 Database configuration for rack-aware clusters is the same as [basic deployments]({{< relref "/operate/kubernetes/reference/yaml-examples/basic-deployment#redis-enterprise-database" >}}).
 
-{{<embed-yaml "k8s/redb.md">}}
+{{<embed-yaml "k8s/redb.md" "redis-enterprise-database.yaml">}}
 
 ### Rack awareness benefits
 

@@ -43,17 +43,17 @@ Apply the YAML files in this order:
 
 These resources are deployed in the namespace where the Redis Enterprise operator runs.
 
-{{<embed-yaml "k8s/service_account.md">}}
+{{<embed-yaml "k8s/service_account.md" "operator-service-account.yaml">}}
 
 ## Operator cluster role
 
 The operator needs cluster-wide permissions to manage resources across namespaces.
 
-{{<embed-yaml "k8s/multi-ns_operator_cluster_role.md">}}
+{{<embed-yaml "k8s/multi-ns_operator_cluster_role.md" "operator-cluster-role.yaml">}}
 
 ## Operator cluster role binding
 
-{{<embed-yaml "k8s/multi-ns_operator_cluster_role_binding.md">}}
+{{<embed-yaml "k8s/multi-ns_operator_cluster_role_binding.md" "operator-cluster-role-binding.yaml">}}
 
 ## Consumer service account
 
@@ -70,11 +70,11 @@ metadata:
 
 ## Consumer role
 
-{{<embed-yaml "k8s/multi-ns_role.md">}}
+{{<embed-yaml "k8s/multi-ns_role.md" "consumer-role.yaml">}}
 
 ## Consumer role binding
 
-{{<embed-yaml "k8s/multi-ns_role_binding.md">}}
+{{<embed-yaml "k8s/multi-ns_role_binding.md" "consumer-role-binding.yaml">}}
 
 ### Consumer namespace configuration
 

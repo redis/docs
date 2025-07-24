@@ -26,7 +26,7 @@ Apply the YAML files in this order:
 
 The service account provides an identity for the Redis Enterprise operator.
 
-{{<embed-yaml "k8s/service_account.md">}}
+{{<embed-yaml "k8s/service_account.md" "service-account.yaml">}}
 
 ### Service account configuration
 
@@ -37,7 +37,7 @@ The service account provides an identity for the Redis Enterprise operator.
 
 The Role defines the permissions needed by the Redis Enterprise operator within the namespace.
 
-{{<embed-yaml "k8s/role.md">}}
+{{<embed-yaml "k8s/role.md" "role.yaml">}}
 
 ### Role configuration
 
@@ -57,7 +57,7 @@ The Role defines the permissions needed by the Redis Enterprise operator within 
 
 The RoleBinding connects the service account to the role, granting the necessary permissions.
 
-{{<embed-yaml "k8s/role_binding.md">}}
+{{<embed-yaml "k8s/role_binding.md" "role-binding.yaml">}}
 
 ### Role binding configuration
 
@@ -69,7 +69,7 @@ The RoleBinding connects the service account to the role, granting the necessary
 
 The RedisEnterpriseCluster (REC) custom resource defines the cluster specification.
 
-{{<embed-yaml "k8s/rec.md">}}
+{{<embed-yaml "k8s/rec.md" "redis-enterprise-cluster.yaml">}}
 
 ### Cluster configuration
 
@@ -105,7 +105,7 @@ spec:
 
 The RedisEnterpriseDatabase (REDB) custom resource defines the database specification.
 
-{{<embed-yaml "k8s/redb.md">}}
+{{<embed-yaml "k8s/redb.md" "redis-enterprise-database.yaml">}}
 
 ### Database configuration
 
