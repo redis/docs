@@ -10,7 +10,7 @@ linkTitle: Multi-namespace
 weight: 40
 ---
 
-Multi-namespace deployment allows a single Redis Enterprise operator to manage clusters and databases in different namespaces, providing better resource isolation and organization.
+Multi-namespace deployment lets a single Redis Enterprise operator manage clusters and databases in different namespaces, providing better resource isolation and organization.
 
 Multi-namespace deployment enables:
 - Namespace isolation: Separate Redis Enterprise resources by team, environment, or application
@@ -26,13 +26,13 @@ For complete deployment instructions, see [Manage databases in multiple namespac
 
 ## Operator service account
 
-These resources are deployed in the namespace where the Redis Enterprise operator runs.
+Deploy these resources in the namespace where the Redis Enterprise operator runs.
 
 {{<embed-yaml "k8s/service_account.md" "operator-service-account.yaml">}}
 
 ## Operator cluster role
 
-The operator needs cluster-wide permissions to manage resources across namespaces.
+Grant the operator cluster-wide permissions to manage resources across namespaces.
 
 {{<embed-yaml "k8s/multi-ns_operator_cluster_role.md" "operator-cluster-role.yaml">}}
 

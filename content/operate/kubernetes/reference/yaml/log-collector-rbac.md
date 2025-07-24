@@ -12,11 +12,11 @@ weight: 50
 
 This page provides YAML examples for configuring RBAC permissions for the Redis Enterprise log collector tool. The log collector requires different permission levels depending on the collection mode you choose.
 
-For complete log collection instructions, see [Collect logs guide]({{< relref "/operate/kubernetes/logs/collect-logs" >}}).
+For complete log collection instructions, see [Collect logs]({{< relref "/operate/kubernetes/logs/collect-logs" >}}).
 
 ## Prerequisites
 
-- [Redis Enterprise operator]({{< relref "/operate/kubernetes/deployment" >}}) must be installed
+- Install the [Redis Enterprise operator]({{< relref "/operate/kubernetes/deployment" >}})
 - Appropriate permissions to create RBAC resources in target namespaces
 - Understanding of your deployment model (single namespace, multi-namespace, etc.)
 

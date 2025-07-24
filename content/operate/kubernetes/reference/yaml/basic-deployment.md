@@ -10,7 +10,7 @@ linkTitle: Basic deployment
 weight: 10
 ---
 
-This page provides complete YAML examples for a basic Redis Enterprise deployment on Kubernetes. These examples include all the essential components needed to deploy a Redis Enterprise cluster and create a database.
+This page provides complete YAML examples for a basic Redis Enterprise deployment on Kubernetes. These examples include all the essential components you need to deploy a Redis Enterprise cluster and create a database.
 
 For complete deployment instructions, see [Deploy on Kubernetes]({{< relref "/operate/kubernetes/deployment/quick-start" >}}).
 

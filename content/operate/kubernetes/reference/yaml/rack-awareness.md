@@ -14,10 +14,10 @@ This page provides YAML examples for deploying Redis Enterprise with [rack aware
 
 ## Prerequisites
 
-- [Kubernetes nodes](https://kubernetes.io/docs/concepts/architecture/nodes/) must be labeled with zone information
+- Label [Kubernetes nodes](https://kubernetes.io/docs/concepts/architecture/nodes/) with zone information
 - Typically uses the standard label `topology.kubernetes.io/zone`
 - Verify node labels: `kubectl get nodes --show-labels`
-- [Redis Enterprise operator]({{< relref "/operate/kubernetes/deployment" >}}) must be installed
+- Install the [Redis Enterprise operator]({{< relref "/operate/kubernetes/deployment" >}})
 
 For complete deployment instructions, see [Deploy on Kubernetes]({{< relref "/operate/kubernetes/deployment" >}}).
 

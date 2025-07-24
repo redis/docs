@@ -12,7 +12,7 @@ hideListLinks: true
 aliases:
 ---
 
-The Redis Enterprise operator provides Kubernetes custom resource definitions (CRDs) that allow you to manage Redis Enterprise clusters and databases declaratively. This section contains the complete API reference for all operator resources.
+The Redis Enterprise operator provides Kubernetes custom resource definitions (CRDs) that let you manage Redis Enterprise clusters and databases declaratively. This section contains the complete API reference for all operator resources.
 
 ## API versions and stability
 
@@ -34,7 +34,7 @@ The operator uses different API versions to indicate stability and feature matur
 
 ### Using kubectl
 
-All resources can be managed using standard `kubectl` commands:
+Manage all resources using standard `kubectl` commands:
 
 ```bash
 # List all Redis Enterprise clusters
@@ -49,8 +49,8 @@ kubectl apply -f my-redis-config.yaml
 
 ### Resource relationships
 
-- A `RedisEnterpriseCluster` (REC) must be created first to provide the Redis Enterprise infrastructure
-- `RedisEnterpriseDatabase` (REDB) resources are created within a cluster to provision individual databases
-- `RedisEnterpriseActiveActiveDatabase` (REAADB) requires `RedisEnterpriseRemoteCluster (RERC)` resources to define participating clusters
+- Create a `RedisEnterpriseCluster` (REC) first to provide the Redis Enterprise infrastructure
+- Create `RedisEnterpriseDatabase` (REDB) resources within a cluster to provision individual databases
+- Use `RedisEnterpriseActiveActiveDatabase` (REAADB) with `RedisEnterpriseRemoteCluster (RERC)` resources to define participating clusters
 
 For complete YAML configuration examples, see the [YAML examples](../yaml/) section.

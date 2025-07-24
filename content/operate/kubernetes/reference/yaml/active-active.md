@@ -24,7 +24,7 @@ For complete deployment instructions, see [Active-Active databases]({{< relref "
 
 ## RERC for Chicago cluster
 
-Each participating cluster needs a RedisEnterpriseRemoteCluster (RERC) resource pointing to the other clusters.
+Create a RedisEnterpriseRemoteCluster (RERC) resource on each participating cluster that points to the other clusters.
 
 {{<embed-yaml "k8s/rerc.md" "redis-enterprise-remote-cluster.yaml">}}
 
