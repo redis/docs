@@ -10,20 +10,14 @@ linkTitle: Rack awareness
 weight: 20
 ---
 
-This page provides YAML examples for deploying Redis Enterprise with rack awareness. Rack awareness distributes Redis Enterprise nodes across different availability zones or failure domains to improve high availability and fault tolerance.
-
-## Overview
-
-Rack awareness ensures that:
-- Redis Enterprise nodes are distributed across different zones
-- Database shards and replicas are placed on nodes in different zones
-- The cluster remains available even if an entire zone fails
+This page provides YAML examples for deploying Redis Enterprise with [rack awareness]({{< relref "/operate/kubernetes/architecture/operator-architecture#rack-awareness" >}}). Rack awareness distributes Redis Enterprise nodes across different availability zones or failure domains to improve high availability and fault tolerance.
 
 ## Prerequisites
 
-- Kubernetes nodes must be labeled with zone information
+- [Kubernetes nodes](https://kubernetes.io/docs/concepts/architecture/nodes/) must be labeled with zone information
 - Typically uses the standard label `topology.kubernetes.io/zone`
 - Verify node labels: `kubectl get nodes --show-labels`
+- [Redis Enterprise operator]({{< relref "/operate/kubernetes/deployment" >}}) must be installed
 
 ## Deployment order
 
@@ -37,50 +31,50 @@ Apply the YAML files in this order:
 
 ## Service account
 
-The service account for rack-aware deployments is the same as basic deployments.
+The service account for rack-aware deployments is the same as [basic deployments]({{< relref "/operate/kubernetes/reference/yaml-examples/basic-deployment#service-account" >}}).
 
-{{<embed-md "k8s/service_account.md">}}
+{{<embed-yaml "k8s/service_account.md">}}
 
 ## Cluster role
 
-Rack awareness requires additional permissions to read node labels across the cluster.
+Rack awareness requires additional permissions to read [node labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) across the cluster.
 
-{{<embed-md "k8s/rack_aware_cluster_role.md">}}
+{{<embed-yaml "k8s/rack_aware_cluster_role.md">}}
 
 ### Cluster role configuration
 
-- **name**: ClusterRole name for rack awareness permissions
-- **rules**: Permissions to read nodes and their labels cluster-wide
-- **resources**: Access to `nodes` resource for zone label discovery
+- `name`: ClusterRole name for rack awareness permissions
+- `rules`: Permissions to read nodes and their labels cluster-wide
+- `resources`: Access to `nodes` resource for zone label discovery
 
 ### Key permissions
 
-- **nodes**: Read access to discover node zone labels
-- **get, list, watch**: Monitor node changes and zone assignments
+- `nodes`: Read access to discover node zone labels
+- `get, list, watch`: Monitor node changes and zone assignments
 
 ## Cluster role binding
 
-The ClusterRoleBinding grants cluster-wide permissions to the service account.
+The [ClusterRoleBinding](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#rolebinding-and-clusterrolebinding) grants cluster-wide permissions to the service account.
 
-{{<embed-md "k8s/rack_aware_cluster_role_binding.md">}}
+{{<embed-yaml "k8s/rack_aware_cluster_role_binding.md">}}
 
 ### Cluster role binding configuration
 
-- **subjects.name**: Must match the service account name
-- **subjects.namespace**: Namespace where the operator is deployed
-- **roleRef.name**: Must match the cluster role name
+- `subjects.name`: Must match the service account name
+- `subjects.namespace`: Namespace where the operator is deployed
+- `roleRef.name`: Must match the cluster role name
 
 ## Rack-aware Redis Enterprise cluster
 
-The rack-aware REC configuration includes the `rackAwarenessNodeLabel` field.
+The rack-aware [REC configuration]({{< relref "/operate/kubernetes/reference/redis_enterprise_cluster_api" >}}) includes the `rackAwarenessNodeLabel` field.
 
-{{<embed-md "k8s/rack_aware_rec.md">}}
+{{<embed-yaml "k8s/rack_aware_rec.md">}}
 
 ### Rack-aware cluster configuration
 
-- **metadata.name**: Cluster name (cannot be changed after creation)
-- **spec.rackAwarenessNodeLabel**: Node label used for zone identification
-- **spec.nodes**: Minimum 3 nodes, ideally distributed across zones
+- `metadata.name`: Cluster name (cannot be changed after creation)
+- `spec.rackAwarenessNodeLabel`: Node label used for zone identification
+- `spec.nodes`: Minimum 3 nodes, ideally distributed across zones
 
 ### Customization options
 
@@ -113,9 +107,9 @@ spec:
 
 Different Kubernetes distributions use different zone labels:
 
-- **Standard**: `topology.kubernetes.io/zone`
-- **Legacy**: `failure-domain.beta.kubernetes.io/zone`
-- **Custom**: Your organization's specific labeling scheme
+- `Standard`: `topology.kubernetes.io/zone`
+- `Legacy`: `failure-domain.beta.kubernetes.io/zone`
+- `Custom`: Your organization's specific labeling scheme
 
 Verify the correct label on your nodes:
 
@@ -125,9 +119,9 @@ kubectl get nodes -o custom-columns=NAME:.metadata.name,ZONE:.metadata.labels.'t
 
 ## Redis Enterprise database
 
-Database configuration for rack-aware clusters is the same as basic deployments.
+Database configuration for rack-aware clusters is the same as [basic deployments]({{< relref "/operate/kubernetes/reference/yaml-examples/basic-deployment#redis-enterprise-database" >}}).
 
-{{<embed-md "k8s/redb.md">}}
+{{<embed-yaml "k8s/redb.md">}}
 
 ### Rack awareness benefits
 
@@ -141,7 +135,7 @@ When deployed on a rack-aware cluster, databases automatically benefit from:
 
 ### Step 1: Verify node labels
 
-Check that your nodes have zone labels:
+Check that your nodes have [zone labels](https://kubernetes.io/docs/reference/labels-annotations-taints/#topologykubernetesiozone):
 
 ```bash
 kubectl get nodes --show-labels | grep topology.kubernetes.io/zone
@@ -159,6 +153,8 @@ kubectl label node <node-name> topology.kubernetes.io/zone=<zone-name>
 kubectl create namespace redis-enterprise
 kubectl config set-context --current --namespace=redis-enterprise
 ```
+
+For more details, see [namespace management]({{< relref "/operate/kubernetes/deployment/quick-start#create-a-new-namespace" >}}).
 
 ### Step 3: Apply RBAC resources
 
@@ -204,7 +200,7 @@ kubectl get pods -l app=redis-enterprise -o custom-columns=NAME:.metadata.name,N
 
 ### Verify database placement
 
-Access the Redis Enterprise admin console to verify:
+Access the [Redis Enterprise admin console]({{< relref "/operate/kubernetes/re-clusters/connect-to-cluster#access-the-cluster-manager-ui" >}}) to verify:
 
 1. Database shards are distributed across zones
 2. Replicas are in different zones than their masters
@@ -214,7 +210,7 @@ Access the Redis Enterprise admin console to verify:
 
 To test rack awareness:
 
-1. Simulate zone failure by cordoning nodes in one zone
+1. Simulate zone failure by [cordoning nodes](https://kubernetes.io/docs/concepts/architecture/nodes/#manual-node-administration) in one zone
 2. Verify that the cluster remains operational
 3. Check that databases continue to serve requests
 
@@ -231,15 +227,18 @@ kubectl get rec,redb
 ### Common issues
 
 **Nodes not distributed across zones**
+
 - Verify node labels are correct
 - Check that sufficient nodes exist in each zone
 - Ensure the `rackAwarenessNodeLabel` matches actual node labels
 
 **Cluster role permissions denied**
+
 - Verify the ClusterRole and ClusterRoleBinding are applied
 - Check that the service account name matches in all resources
 
 **Database shards not distributed**
+
 - Confirm the cluster has rack awareness enabled
 - Check that the database has multiple shards
 - Verify sufficient nodes exist across zones
@@ -257,6 +256,8 @@ kubectl describe clusterrole redis-enterprise-operator-consumer
 kubectl logs deployment/redis-enterprise-operator
 ```
 
+For more troubleshooting guidance, see [troubleshooting Redis Enterprise on Kubernetes]({{< relref "/operate/kubernetes/troubleshooting" >}}).
+
 ## Next steps
 
 - [Configure Active-Active databases]({{< relref "/operate/kubernetes/reference/yaml-examples/active-active" >}})
@@ -267,4 +268,6 @@ kubectl logs deployment/redis-enterprise-operator
 
 - [Node selection recommendations]({{< relref "/operate/kubernetes/recommendations/node-selection" >}})
 - [REC API reference]({{< relref "/operate/kubernetes/reference/redis_enterprise_cluster_api" >}})
+- [REDB API reference]({{< relref "/operate/kubernetes/reference/redis_enterprise_database_api" >}})
 - [Kubernetes node affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/)
+- [Redis Enterprise cluster architecture]({{< relref "/operate/kubernetes/architecture" >}})

@@ -26,57 +26,57 @@ Apply the YAML files in this order:
 
 The service account provides an identity for the Redis Enterprise operator.
 
-{{<embed-md "k8s/service_account.md">}}
+{{<embed-yaml "k8s/service_account.md">}}
 
 ### Service account configuration
 
-- **name**: The service account name used by the operator
-- **labels**: Standard labels for Redis Enterprise resources
+- `name`: The service account name used by the operator
+- `labels`: Standard labels for Redis Enterprise resources
 
 ## Role
 
 The Role defines the permissions needed by the Redis Enterprise operator within the namespace.
 
-{{<embed-md "k8s/role.md">}}
+{{<embed-yaml "k8s/role.md">}}
 
 ### Role configuration
 
-- **name**: Must match the role name referenced in the role binding
-- **rules**: Comprehensive permissions for managing Redis Enterprise resources
-- **apiGroups**: Includes core Kubernetes APIs and Redis Enterprise custom resources
+- `name`: Must match the role name referenced in the role binding
+- `rules`: Comprehensive permissions for managing Redis Enterprise resources
+- `apiGroups`: Includes core Kubernetes APIs and Redis Enterprise custom resources
 
 ### Key permissions
 
-- **app.redislabs.com**: Full access to Redis Enterprise custom resources
-- **secrets**: Manage TLS certificates and database credentials
-- **services**: Create and manage service endpoints
-- **pods**: Monitor and manage Redis Enterprise pods
-- **persistentvolumeclaims**: Manage persistent storage
+- `app.redislabs.com`: Full access to Redis Enterprise custom resources
+- `secrets`: Manage TLS certificates and database credentials
+- `services`: Create and manage service endpoints
+- `pods`: Monitor and manage Redis Enterprise pods
+- `persistentvolumeclaims`: Manage persistent storage
 
 ## Role binding
 
 The RoleBinding connects the service account to the role, granting the necessary permissions.
 
-{{<embed-md "k8s/role_binding.md">}}
+{{<embed-yaml "k8s/role_binding.md">}}
 
 ### Role binding configuration
 
-- **subjects.name**: Must match the service account name
-- **roleRef.name**: Must match the role name
-- **namespace**: Apply in the same namespace as other resources
+- `subjects.name`: Must match the service account name
+- `roleRef.name`: Must match the role name
+- `namespace`: Apply in the same namespace as other resources
 
 ## Redis Enterprise cluster
 
 The RedisEnterpriseCluster (REC) custom resource defines the cluster specification.
 
-{{<embed-md "k8s/rec.md">}}
+{{<embed-yaml "k8s/rec.md">}}
 
 ### Cluster configuration
 
-- **metadata.name**: Cluster name (cannot be changed after creation)
-- **spec.nodes**: Number of Redis Enterprise nodes (minimum 3)
-- **persistentSpec.volumeSize**: Storage size per node
-- **redisEnterpriseNodeResources**: CPU and memory allocation per node
+- `metadata.name`: Cluster name (cannot be changed after creation)
+- `spec.nodes`: Number of Redis Enterprise nodes (minimum 3)
+- `persistentSpec.volumeSize`: Storage size per node
+- `redisEnterpriseNodeResources`: CPU and memory allocation per node
 
 ### Cluster customization options
 
@@ -105,14 +105,14 @@ spec:
 
 The RedisEnterpriseDatabase (REDB) custom resource defines the database specification.
 
-{{<embed-md "k8s/redb.md">}}
+{{<embed-yaml "k8s/redb.md">}}
 
 ### Database configuration
 
-- **metadata.name**: Database name
-- **spec.memorySize**: Memory allocation for the database
-- **spec.shardCount**: Number of shards (affects performance and scalability)
-- **spec.replication**: Enable/disable database replication
+- `metadata.name`: Database name
+- `spec.memorySize`: Memory allocation for the database
+- `spec.shardCount`: Number of shards (affects performance and scalability)
+- `spec.replication`: Enable/disable database replication
 
 ### Database customization options
 
@@ -139,87 +139,20 @@ spec:
 
 ## Applying the configuration
 
-### Step 1: Create namespace
+For detailed deployment steps, see the [Quick start deployment guide]({{< relref "/operate/kubernetes/deployment/quick-start" >}}). The process includes:
 
-```bash
-kubectl create namespace redis-enterprise
-kubectl config set-context --current --namespace=redis-enterprise
-```
-
-### Step 2: Apply RBAC resources
-
-```bash
-kubectl apply -f service-account.yaml
-kubectl apply -f role.yaml  
-kubectl apply -f role-binding.yaml
-```
-
-### Step 3: Deploy the cluster
-
-```bash
-kubectl apply -f redis-cluster.yaml
-```
-
-Wait for the cluster to be ready:
-
-```bash
-kubectl get rec
-kubectl describe rec rec
-```
-
-### Step 4: Create the database
-
-```bash
-kubectl apply -f redis-database.yaml
-```
-
-Verify the database is created:
-
-```bash
-kubectl get redb
-kubectl describe redb redb
-```
+1. [Create namespace]({{< relref "/operate/kubernetes/deployment/quick-start#create-a-new-namespace" >}})
+2. [Deploy the operator]({{< relref "/operate/kubernetes/deployment/quick-start#deploy-the-operator" >}})
+3. [Create Redis Enterprise cluster]({{< relref "/operate/kubernetes/deployment/quick-start#create-a-redis-enterprise-cluster-rec" >}})
+4. [Create Redis Enterprise database]({{< relref "/operate/kubernetes/deployment/quick-start#create-a-database" >}})
 
 ## Verification
 
-### Check cluster status
+For verification steps and accessing the admin console, see:
 
-```bash
-# View cluster details
-kubectl get rec -o wide
-
-# Check cluster events
-kubectl describe rec rec
-
-# View cluster pods
-kubectl get pods -l app=redis-enterprise
-```
-
-### Check database status
-
-```bash
-# View database details  
-kubectl get redb -o wide
-
-# Check database events
-kubectl describe redb redb
-
-# Get database connection details
-kubectl get secret redb -o yaml
-```
-
-### Access the admin console
-
-Get the admin console URL and credentials:
-
-```bash
-# Get admin console service
-kubectl get svc rec-ui
-
-# Get admin credentials
-kubectl get secret rec -o jsonpath='{.data.username}' | base64 -d
-kubectl get secret rec -o jsonpath='{.data.password}' | base64 -d
-```
+- [Verify cluster deployment]({{< relref "/operate/kubernetes/deployment/quick-start#verify-the-deployment" >}})
+- [Connect to the cluster]({{< relref "/operate/kubernetes/re-clusters/connect-to-cluster" >}})
+- [Access the admin console]({{< relref "/operate/kubernetes/re-clusters/connect-to-cluster#access-the-cluster-manager-ui" >}})
 
 ## Next steps
 

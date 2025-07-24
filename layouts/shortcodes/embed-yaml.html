@@ -1,0 +1,2 @@
+{{$file := .Get 0}}
+{{printf "./content/embeds/%s" $file | readFile | markdownify}}

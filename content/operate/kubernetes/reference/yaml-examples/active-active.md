@@ -22,12 +22,11 @@ Active-Active databases span multiple Redis Enterprise clusters and provide:
 
 ## Prerequisites
 
-Before creating Active-Active databases:
+Before creating Active-Active databases, see the [Active-Active prerequisites]({{< relref "/operate/kubernetes/active-active/create-reaadb#prerequisites" >}}) for detailed requirements including:
 
-1. **Multiple REC clusters**: Deploy Redis Enterprise clusters in different regions/zones
-2. **Network connectivity**: Clusters must be able to communicate with each other
-3. **DNS configuration**: Set up ingress/routes with proper DNS records
-4. **Admission controller**: Enable the ValidatingWebhook for Active-Active support
+- Multiple REC clusters deployed in different regions/zones
+- Network connectivity and DNS configuration
+- Admission controller setup
 
 ## Architecture
 
@@ -39,16 +38,16 @@ This example shows a two-cluster Active-Active setup:
 
 Each participating cluster needs a RedisEnterpriseRemoteCluster (RERC) resource pointing to the other clusters.
 
-{{<embed-md "k8s/rerc.md">}}
+{{<embed-yaml "k8s/rerc.md">}}
 
 ### RERC configuration
 
-- **metadata.name**: Unique name for this remote cluster reference
-- **spec.recName**: Name of the remote REC
-- **spec.recNamespace**: Namespace of the remote REC
-- **spec.apiFqdnUrl**: API endpoint URL for the remote cluster
-- **spec.dbFqdnSuffix**: Database hostname suffix for the remote cluster
-- **spec.secretName**: Secret containing authentication credentials
+- `metadata.name`: Unique name for this remote cluster reference
+- `spec.recName`: Name of the remote REC
+- `spec.recNamespace`: Namespace of the remote REC
+- `spec.apiFqdnUrl`: API endpoint URL for the remote cluster
+- `spec.dbFqdnSuffix`: Database hostname suffix for the remote cluster
+- `spec.secretName`: Secret containing authentication credentials
 
 ### Customization for your environment
 
@@ -91,13 +90,13 @@ spec:
 
 The RedisEnterpriseActiveActiveDatabase (REAADB) resource defines the Active-Active database.
 
-{{<embed-md "k8s/reaadb.md">}}
+{{<embed-yaml "k8s/reaadb.md">}}
 
 ### REAADB configuration
 
-- **metadata.name**: Active-Active database name
-- **spec.participatingClusters**: List of RERC names that participate in this database
-- **spec.globalConfigurations**: Database settings applied to all participating clusters
+- `metadata.name`: Active-Active database name
+- `spec.participatingClusters`: List of RERC names that participate in this database
+- `spec.globalConfigurations`: Database settings applied to all participating clusters
 
 ### Advanced configuration
 
@@ -144,169 +143,24 @@ spec:
 
 ## Applying the configuration
 
-### Step 1: Prepare clusters
+For detailed deployment steps, see [Create Active-Active database (REAADB)]({{< relref "/operate/kubernetes/active-active/create-reaadb" >}}). The process includes:
 
-Ensure both clusters are deployed and accessible:
-
-```bash
-# Check cluster status on both clusters
-kubectl get rec --all-namespaces
-
-# Verify ingress/routes are configured
-kubectl get ingress,routes --all-namespaces
-```
-
-### Step 2: Create RERC resources
-
-Apply RERC resources on each cluster pointing to the other clusters:
-
-**On Chicago cluster:**
-```bash
-kubectl apply -f rerc-boston.yaml
-```
-
-**On Boston cluster:**
-```bash
-kubectl apply -f rerc-chicago.yaml
-```
-
-### Step 3: Verify RERC status
-
-Check that remote clusters are connected:
-
-```bash
-# Check RERC status
-kubectl get rerc
-kubectl describe rerc rerc-boston
-
-# Verify connectivity
-kubectl logs deployment/redis-enterprise-operator
-```
-
-### Step 4: Create Active-Active database
-
-Apply the REAADB resource on one of the participating clusters:
-
-```bash
-kubectl apply -f active-active-database.yaml
-```
-
-### Step 5: Verify database creation
-
-Check that the database is created on all participating clusters:
-
-```bash
-# Check REAADB status
-kubectl get reaadb
-kubectl describe reaadb reaadb
-
-# Verify local databases are created
-kubectl get redb
-```
+1. [Prepare participating clusters]({{< relref "/operate/kubernetes/active-active/prepare-clusters" >}})
+2. [Create RERC resources]({{< relref "/operate/kubernetes/active-active/create-reaadb#create-rerc" >}})
+3. [Create REAADB resource]({{< relref "/operate/kubernetes/active-active/create-reaadb#create-reaadb" >}})
+4. [Verify database creation]({{< relref "/operate/kubernetes/active-active/create-reaadb#verify-creation" >}})
 
 ## Verification
 
-### Check database status
-
-```bash
-# View Active-Active database details
-kubectl get reaadb reaadb -o yaml
-
-# Check local database instances
-kubectl get redb --all-namespaces
-
-# Verify database connectivity
-kubectl get svc | grep reaadb
-```
-
-### Test replication
-
-Connect to the database on different clusters and verify data replication:
-
-```bash
-# Get database connection details
-kubectl get secret reaadb -o yaml
-
-# Connect from Chicago cluster
-redis-cli -h <chicago-db-endpoint> -p <port> -a <password>
-SET test-key "chicago-value"
-
-# Connect from Boston cluster  
-redis-cli -h <boston-db-endpoint> -p <port> -a <password>
-GET test-key  # Should return "chicago-value"
-```
-
-### Monitor replication lag
-
-Use the Redis Enterprise admin console to monitor:
-- Replication status between clusters
-- Sync lag metrics
-- Conflict resolution statistics
+For verification steps and testing procedures, see [Verify Active-Active database creation]({{< relref "/operate/kubernetes/active-active/create-reaadb#verify-creation" >}}) and [Active-Active database management]({{< relref "/operate/kubernetes/active-active" >}}).
 
 ## Troubleshooting
 
-### Common issues
-
-**RERC connection failures**
-- Verify DNS resolution for API and database endpoints
-- Check network connectivity between clusters
-- Validate ingress/route configurations
-
-**Database creation fails**
-- Ensure admission controller is enabled
-- Check that all RERC resources are in "Active" state
-- Verify sufficient resources on all participating clusters
-
-**Replication not working**
-- Check database endpoints are accessible
-- Verify TLS certificates if using encrypted connections
-- Monitor operator logs for replication errors
-
-### Debug commands
-
-```bash
-# Check RERC connectivity
-kubectl describe rerc <rerc-name>
-
-# View operator logs
-kubectl logs deployment/redis-enterprise-operator
-
-# Check database events
-kubectl describe reaadb <reaadb-name>
-
-# Verify network policies
-kubectl get networkpolicies
-```
+For troubleshooting Active-Active databases, see [Active-Active troubleshooting]({{< relref "/operate/kubernetes/troubleshooting" >}}) and [general Kubernetes troubleshooting]({{< relref "/operate/kubernetes/troubleshooting" >}}).
 
 ## Security considerations
 
-### TLS encryption
-
-Enable TLS for inter-cluster communication:
-
-```yaml
-spec:
-  globalConfigurations:
-    # Enable TLS for replication
-    tlsMode: enabled
-    
-    # Specify TLS certificate secret
-    tlsSecretName: my-tls-secret
-```
-
-### Authentication
-
-Secure database access with authentication:
-
-```yaml
-spec:
-  globalConfigurations:
-    # Enable database authentication
-    requireAuth: true
-    
-    # Secret containing database password
-    databaseSecretName: my-auth-secret
-```
+For security configuration including TLS encryption and authentication, see [Active-Active security]({{< relref "/operate/kubernetes/security" >}}) and [database security]({{< relref "/operate/kubernetes/re-databases" >}}).
 
 ## Next steps
 
