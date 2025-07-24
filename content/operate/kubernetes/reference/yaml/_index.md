@@ -26,10 +26,10 @@ This section provides complete YAML examples for common Redis Enterprise for Kub
 
 Redis Enterprise for Kubernetes stores configuration in several places:
 
-- **Custom resources**: Cluster and database specifications are stored as Kubernetes custom resources (REC, REDB, REAADB, RERC)
-- **Secrets**: Sensitive data like passwords and certificates are stored in Kubernetes secrets
-- **ConfigMaps**: Non-sensitive configuration data is stored in ConfigMaps
-- **RBAC resources**: Permissions are defined through Roles, ClusterRoles, and their bindings
+- Custom resources: Cluster and database specifications are stored as Kubernetes custom resources (REC, REDB, REAADB, RERC)
+- Secrets: Sensitive data like passwords and certificates are stored in Kubernetes secrets
+- ConfigMaps: Non-sensitive configuration data is stored in ConfigMaps
+- RBAC resources: Permissions are defined through Roles, ClusterRoles, and their bindings
 
 ### Applying YAML files
 

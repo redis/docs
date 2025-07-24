@@ -20,8 +20,7 @@ The service account provides an identity for the Redis Enterprise operator.
 
 {{<embed-yaml "k8s/service_account.md" "service-account.yaml">}}
 
-### Service account configuration
-
+Service account configuration:
 - `name`: The service account name used by the operator
 - `labels`: Standard labels for Redis Enterprise resources
 
@@ -31,14 +30,12 @@ The Role defines the permissions needed by the Redis Enterprise operator within 
 
 {{<embed-yaml "k8s/role.md" "role.yaml">}}
 
-### Role configuration
-
+Role configuration:
 - `name`: Must match the role name referenced in the role binding
 - `rules`: Comprehensive permissions for managing Redis Enterprise resources
 - `apiGroups`: Includes core Kubernetes APIs and Redis Enterprise custom resources
 
-### Key permissions
-
+Key permissions:
 - `app.redislabs.com`: Full access to Redis Enterprise custom resources
 - `secrets`: Manage TLS certificates and database credentials
 - `services`: Create and manage service endpoints
@@ -51,8 +48,7 @@ The RoleBinding connects the service account to the role, granting the necessary
 
 {{<embed-yaml "k8s/role_binding.md" "role-binding.yaml">}}
 
-### Role binding configuration
-
+Role binding configuration:
 - `subjects.name`: Must match the service account name
 - `roleRef.name`: Must match the role name
 - `namespace`: Apply in the same namespace as other resources
@@ -63,35 +59,13 @@ The RedisEnterpriseCluster (REC) custom resource defines the cluster specificati
 
 {{<embed-yaml "k8s/rec.md" "redis-enterprise-cluster.yaml">}}
 
-### Cluster configuration
-
+Cluster configuration:
 - `metadata.name`: Cluster name (cannot be changed after creation)
 - `spec.nodes`: Number of Redis Enterprise nodes (minimum 3)
 - `persistentSpec.volumeSize`: Storage size per node
 - `redisEnterpriseNodeResources`: CPU and memory allocation per node
 
-### Cluster customization options
-
-Edit these values based on your requirements:
-
-```yaml
-spec:
-  # Increase nodes for larger clusters
-  nodes: 5
-
-  # Adjust storage size
-  persistentSpec:
-    volumeSize: 50Gi
-
-  # Modify resource allocation
-  redisEnterpriseNodeResources:
-    requests:
-      cpu: 4
-      memory: 8Gi
-    limits:
-      cpu: 4
-      memory: 8Gi
-```
+Edit the values in the downloaded YAML file based on your requirements, such as increasing the number of nodes, adjusting storage size, or modifying resource allocation.
 
 ## Redis Enterprise database
 
@@ -99,57 +73,20 @@ The RedisEnterpriseDatabase (REDB) custom resource defines the database specific
 
 {{<embed-yaml "k8s/redb.md" "redis-enterprise-database.yaml">}}
 
-### Database configuration
-
+Database configuration:
 - `metadata.name`: Database name
 - `spec.memorySize`: Memory allocation for the database
 - `spec.shardCount`: Number of shards (affects performance and scalability)
 - `spec.replication`: Enable/disable database replication
 
-### Database customization options
+Edit the values in the downloaded YAML file based on your requirements, such as increasing memory for larger datasets, adding more shards for better performance, enabling replication for high availability, or adding Redis modules.
 
-Edit these values based on your requirements:
+## Apply the configuration
 
-```yaml
-spec:
-  # Increase memory for larger datasets
-  memorySize: 1GB
-
-  # Add more shards for better performance
-  shardCount: 3
-
-  # Enable replication for high availability
-  replication: true
-
-  # Add database-specific configuration
-  redisEnterpriseConfiguration:
-    # Enable specific Redis modules
-    modules:
-      - name: RedisJSON
-      - name: RedisSearch
-```
-
-## Applying the configuration
-
-To deploy these YAML files, follow the [Quick start deployment guide]({{< relref "/operate/kubernetes/deployment/quick-start" >}}), which provides step-by-step instructions for creating namespaces, deploying the operator, and applying these configuration files.
-
-## Verification
-
-For verification steps and accessing the admin console, see:
-
-- [Verify cluster deployment]({{< relref "/operate/kubernetes/deployment/quick-start#verify-the-deployment" >}})
-- [Connect to the cluster]({{< relref "/operate/kubernetes/re-clusters/connect-to-cluster" >}})
-- [Access the admin console]({{< relref "/operate/kubernetes/re-clusters/connect-to-cluster#access-the-cluster-manager-ui" >}})
-
-## Next steps
-
-- [Create additional databases]({{< relref "/operate/kubernetes/re-databases" >}})
-- [Configure networking]({{< relref "/operate/kubernetes/networking" >}})
-- [Set up monitoring]({{< relref "/operate/kubernetes/re-clusters/connect-prometheus-operator" >}})
-- [Explore rack awareness]({{< relref "/operate/kubernetes/reference/yaml-examples/rack-awareness" >}})
+To deploy these YAML files, follow the [deployment guide]({{< relref "/operate/kubernetes/deployment/quick-start" >}}), which provides step-by-step instructions for creating namespaces, deploying the operator, and applying these configuration files.
 
 ## Related documentation
 
-- [Quick start deployment]({{< relref "/operate/kubernetes/deployment/quick-start" >}})
+- [Deploy on Kubernetes]({{< relref "/operate/kubernetes/deployment/quick-start" >}})
 - [REC API reference]({{< relref "/operate/kubernetes/reference/redis_enterprise_cluster_api" >}})
 - [REDB API reference]({{< relref "/operate/kubernetes/reference/redis_enterprise_database_api" >}})
