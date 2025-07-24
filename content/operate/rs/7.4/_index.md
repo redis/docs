@@ -12,6 +12,7 @@ url: '/operate/rs/7.4/'
 linkTitle: 7.4
 bannerText: This documentation applies to Redis Software versions 7.4.x.
 bannerChildren: true
+
 ---
 
 [Redis Enterprise](https://redis.io/enterprise/) is a self-managed, enterprise-grade version of Redis.

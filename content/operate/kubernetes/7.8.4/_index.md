@@ -12,7 +12,7 @@ linkTitle: 7.8.4
 weight: 50
 bannerText: This documentation applies to version 7.8.4. For documentation on the latest version, see [redis.io/docs/latest/operate/kubernetes/](https://redis.io/docs/latest/operate/kubernetes/).
 bannerChildren: true
-aliases: [/operate/kubernetes/7.8.4/deployment/helm/, /operate/kubernetes/7.8.4/security/allow-resource-adjustment/, /operate/kubernetes/7.8.4/reference/supported_k8s_distributions/]
+
 url: '/operate/kubernetes/7.8.4/'
 ---
 
