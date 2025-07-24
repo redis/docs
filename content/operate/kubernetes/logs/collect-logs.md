@@ -39,7 +39,7 @@ You can run `log_collector.py` with the following options:
 | `-n`, `--namespace` | Sets the namespace(s) to collect from. Can be set to a single namespace, or multiple namespaces (comma-separated). When left empty, will use the current context's namespace from kubeconfig. |
 | `-o`, `--output_dir` | Sets the output directory. Defaults to current working directory. |
 | `-a`, `--logs_from_all_pods` | Collect logs from all pods in the selected namespace(s), and otherwise collect only from the operator and pods run by the operator. |
-| `-t`, `--timeout` | Time to wait for external commands to finish execution (Linux only). Default to 180s. Specify 0 to disable timeout. |
+| `-t`, `--timeout` | Time to wait for external commands to finish execution (Linux only). Defaults to 180s. Specify 0 to disable timeout. |
 | `--k8s_cli` | The K8s cli client to use (kubectl/oc/auto-detect). Defaults to auto-detect (chooses between 'kubectl' and 'oc'). Full paths can also be used. |
 | `-m`, `--mode` | Controls which resources are collected. In 'restricted' mode, only resources associated with the operator and have the label 'app=redis-enterprise' are collected. In 'all' mode, all resources are collected. Defaults to 'restricted' mode. |
 | `--collect_istio` | Collect data from istio-system namespace to debug potential problems related to istio ingress method. |
