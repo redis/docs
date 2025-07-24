@@ -55,6 +55,4 @@ You can run `log_collector.py` with the following options:
 
 1. Upload the resulting `tar.gz` file containing all the logs to [Redis Support](https://support.redislabs.com/).
 
-## RBAC requirements
 
-The log collector requires specific RBAC permissions depending on the collection mode. Contact your Kubernetes administrator to ensure the appropriate permissions are configured for your chosen collection mode.
