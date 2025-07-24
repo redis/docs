@@ -5,23 +5,30 @@ categories:
 - docs
 - operate
 - kubernetes
-description: Information about upgrading your Redis Enterprise cluster on Kubernetes.
-hideListLinks: true
+description: Upgrade Redis Enterprise operator, clusters, and databases on Kubernetes.
+hideListLinks: false
 linkTitle: Upgrade
 weight: 15
 ---
 
-The upgrade process includes updating three components:
+Keep your Redis Enterprise deployment up to date with the latest features, security patches, and bug fixes. The upgrade process involves updating three main components in sequence: the Redis Enterprise operator, Redis Enterprise clusters (REC), and Redis Enterprise databases (REDB).
 
-  1. Upgrade the Redis Enterprise operator
-  2. Upgrade the Redis Enterprise cluster (REC)
-  3. Upgrade Redis Enterprise databases (REDB)
+## Upgrade methods
 
-If you installed using Helm charts, see [Upgrade the chart]({{<relref "/operate/kubernetes/deployment/helm#upgrade-the-chart">}}) for Helm-specific upgrade instructions.
+Choose the appropriate upgrade method for your deployment:
 
-If you are using OpenShift, see [Upgrade Redis Enterprise with OpenShift CLI]({{<relref "/operate/kubernetes/upgrade/openshift-cli">}}) or [Upgrade Redis Enterprise with OpenShift OperatorHub]({{<relref "/operate/kubernetes/upgrade/upgrade-olm">}}).
+- [Upgrade Redis Enterprise for Kubernetes]({{<relref "/operate/kubernetes/upgrade/upgrade-redis-cluster" >}}) - Standard upgrade process for most Kubernetes distributions
+- [Upgrade with OpenShift CLI]({{<relref "/operate/kubernetes/upgrade/openshift-cli">}}) - OpenShift-specific upgrade using CLI tools
+- [Upgrade with OpenShift OperatorHub]({{<relref "/operate/kubernetes/upgrade/upgrade-olm">}}) - Upgrade using OpenShift OperatorHub and OLM
+- [Upgrade with Helm]({{<relref "/operate/kubernetes/deployment/helm#upgrade-the-chart">}}) - Helm-specific upgrade instructions for chart-based deployments
 
-For all other Kubernetes distributions, see [Upgrade Redis Enterprise for Kubernetes]({{<relref "/operate/kubernetes/upgrade/upgrade-redis-cluster" >}}).
+## Upgrade process
+
+The upgrade process includes updating three components in order:
+
+1. **Upgrade the Redis Enterprise operator** - Update the operator to the latest version
+2. **Upgrade the Redis Enterprise cluster (REC)** - Update cluster nodes and infrastructure
+3. **Upgrade Redis Enterprise databases (REDB)** - Update database versions and configurations
 
 ## Upgrade compatibility
 
