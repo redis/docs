@@ -10,7 +10,7 @@ description: Use the metrics that measure the performance of your Redis Enterpri
 hideListLinks: true
 linkTitle: Monitoring
 weight: 70
-aliases: /operate/rs/clusters/monitoring/
+aliases: [/operate/rs/clusters/monitoring/, /operate/rs/7.4/clusters/monitoring/]
 ---
 
 You can use the metrics that measure the performance of your Redis Enterprise Software clusters, nodes, databases, and shards
