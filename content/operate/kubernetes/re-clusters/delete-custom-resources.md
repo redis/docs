@@ -14,7 +14,7 @@ weight: 70
 {{< warning >}}
 Use graceful deletion methods
 
-When deleting Redis Enterprise resources or pods, try to avoid use `kubectl delete --force` or similar force deletion commands, as these can lead to:
+When deleting Redis Enterprise resources or pods, try to avoid using `kubectl delete --force` or similar force deletion commands, as these can lead to:
 - Data loss or corruption
 - Incomplete cleanup of resources
 - Cluster instability
