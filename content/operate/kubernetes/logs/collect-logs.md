@@ -13,12 +13,10 @@ weight: 89
 
 The Redis Enterprise cluster (REC) log collector script ([`log_collector.py`](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/log_collector/log_collector.py)) creates and fills a directory with the relevant logs for your environment. These logs will help the support team with troubleshooting.
 
-As of version 6.2.18-3, the log collector tool has two modes:
+The log collector tool has two modes:
 
 - **restricted** collects only resources and logs created by the operator and Redis Enterprise deployments
-  - This is the default for versions 6.2.18-3 and later
 - **all** collects everything from your environment
-  - This is the default mode for versions 6.2.12-1 and earlier
 
 {{<note>}} This script requires Python 3.6 or later. {{</note>}}
 
