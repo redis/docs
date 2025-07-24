@@ -68,40 +68,16 @@ kubectl get events --sort-by=.metadata.creationTimestamp
 
 ## Example categories
 
-### Basic deployment
-
-Essential YAML files for a simple Redis Enterprise deployment:
-
 - [Basic deployment examples]({{< relref "/operate/kubernetes/reference/yaml-examples/basic-deployment" >}}) - Service account, RBAC, cluster, and database configurations
-
-### Rack awareness
-
-YAML examples for rack-aware deployments that distribute Redis Enterprise nodes across availability zones:
-
 - [Rack awareness examples]({{< relref "/operate/kubernetes/reference/yaml-examples/rack-awareness" >}}) - Rack-aware cluster configuration and required RBAC
-
-### Active-Active
-
-YAML examples for Active-Active database deployments across multiple clusters:
-
 - [Active-Active examples]({{< relref "/operate/kubernetes/reference/yaml-examples/active-active" >}}) - Multi-cluster Active-Active database setup
-
-### Multi-namespace
-
-YAML examples for deploying Redis Enterprise across multiple namespaces:
-
 - [Multi-namespace examples]({{< relref "/operate/kubernetes/reference/yaml-examples/multi-namespace" >}}) - Cross-namespace operator and cluster configurations
 
 ## Best practices
 
-When working with these YAML examples:
-
-- **Start simple**: Begin with basic deployment examples before moving to advanced configurations
-- **Validate syntax**: Use `kubectl apply --dry-run=client` to check YAML syntax before applying
-- **Version control**: Store your customized YAML files in version control
-- **Environment-specific values**: Use separate YAML files or tools like Kustomize for environment-specific configurations
-- **Resource naming**: Use consistent, descriptive names for all resources
-- **Documentation**: Add annotations to describe the purpose of each resource
+- Validate syntax: Use `kubectl apply --dry-run=client` to check YAML syntax before applying
+- Version control: Store your customized YAML files in version control
+- Resource naming: Use consistent, descriptive names for all resources
 
 ## Related documentation
 
