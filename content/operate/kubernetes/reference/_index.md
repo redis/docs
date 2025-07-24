@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - kubernetes
-description: API reference and guides for managing Redis Enterprise custom resources on Kubernetes.
+description: Resources to help you manage Redis Enterprise custom resources on Kubernetes.
 hideListLinks: true
 linkTitle: Reference
 weight: 89
@@ -13,11 +13,11 @@ weight: 89
 
 Reference documentation for Redis Enterprise custom resources, including API specifications and practical guides for creating, configuring, and managing Redis Enterprise deployments on Kubernetes.
 
-## Working with custom resources
+## Work with custom resources
 
 Redis Enterprise for Kubernetes uses custom resources to manage clusters and databases. You can create, modify, and delete these resources using standard Kubernetes tools.
 
-### Creating custom resources
+### Create custom resources
 
 Create custom resources using `kubectl apply` with YAML manifests:
 
@@ -26,7 +26,7 @@ kubectl apply -f my-redis-cluster.yaml
 kubectl apply -f my-redis-database.yaml
 ```
 
-### Viewing custom resources
+### View custom resources
 
 List and inspect existing custom resources:
 
@@ -48,7 +48,7 @@ kubectl describe rec my-cluster
 kubectl describe redb my-database
 ```
 
-### Modifying custom resources
+### Modify custom resources
 
 Update custom resources by editing the YAML manifest and reapplying:
 
@@ -60,17 +60,6 @@ kubectl apply -f updated-redis-cluster.yaml
 kubectl edit rec my-cluster
 kubectl edit redb my-database
 ```
-
-### Deleting custom resources
-
-Remove custom resources when no longer needed:
-
-```bash
-kubectl delete redb my-database
-kubectl delete rec my-cluster
-```
-
-**Important:** Always delete databases (REDB) before deleting the cluster (REC) to ensure proper cleanup.
 
 ## YAML examples
 
@@ -89,12 +78,12 @@ Complete YAML examples for common deployment scenarios:
 
 Complete API specifications for all Redis Enterprise custom resources:
 
-### Core resources
+Core resources:
 
 - [Redis Enterprise cluster API (REC)]({{< relref "/operate/kubernetes/reference/redis_enterprise_cluster_api" >}}) - Manage Redis Enterprise clusters
 - [Redis Enterprise database API (REDB)]({{< relref "/operate/kubernetes/reference/redis_enterprise_database_api" >}}) - Manage Redis databases
 
-### Active-Active resources
+Active-Active resources:
 
 - [Active-Active database API (REAADB)]({{< relref "/operate/kubernetes/reference/redis_enterprise_active_active_database_api" >}}) - Manage Active-Active databases
 - [Remote cluster API (RERC)]({{< relref "/operate/kubernetes/reference/redis_enterprise_remote_cluster_api" >}}) - Configure remote cluster connections

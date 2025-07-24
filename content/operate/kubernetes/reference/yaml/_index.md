@@ -72,6 +72,7 @@ kubectl get events --sort-by=.metadata.creationTimestamp
 - [Rack awareness examples]({{< relref "/operate/kubernetes/reference/yaml-examples/rack-awareness" >}}) - Rack-aware cluster configuration and required RBAC
 - [Active-Active examples]({{< relref "/operate/kubernetes/reference/yaml-examples/active-active" >}}) - Multi-cluster Active-Active database setup
 - [Multi-namespace examples]({{< relref "/operate/kubernetes/reference/yaml-examples/multi-namespace" >}}) - Cross-namespace operator and cluster configurations
+- [Log collector RBAC examples]({{< relref "/operate/kubernetes/reference/yaml-examples/log-collector-rbac" >}}) - RBAC permissions for log collection in restricted and all modes
 
 ## Best practices
 
@@ -81,7 +82,7 @@ kubectl get events --sort-by=.metadata.creationTimestamp
 
 ## Related documentation
 
-- [API reference]({{< relref "/operate/kubernetes/reference" >}}) - Complete API specifications for all custom resources
-- [Deploy on Kubernetes]({{< relref "/operate/kubernetes/deployment/quick-start" >}}) - Step-by-step deployment guide
-- [Multi-namespace deployment]({{< relref "/operate/kubernetes/re-clusters/multi-namespace" >}}) - Detailed multi-namespace setup guide
+- [Reference]({{< relref "/operate/kubernetes/reference" >}}) - Complete API specifications for all custom resources
+- [Deploy Redis Enterprise Software for Kubernetes]({{< relref "/operate/kubernetes/deployment/quick-start" >}}) - Step-by-step deployment instructions
+- [Manage databases in multiple namespaces]({{< relref "/operate/kubernetes/re-clusters/multi-namespace" >}}) - Detailed multi-namespace setup instructions
 - [Active-Active databases]({{< relref "/operate/kubernetes/active-active" >}}) - Active-Active configuration and management

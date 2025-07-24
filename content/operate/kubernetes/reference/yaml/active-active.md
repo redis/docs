@@ -20,7 +20,7 @@ This example shows a two-cluster Active-Active setup:
 - Cluster 1: `rec-chicago` in namespace `ns-chicago`
 - Cluster 2: `rec-boston` in namespace `ns-boston`
 
-For complete deployment instructions, see the [Active-Active database guide]({{< relref "/operate/kubernetes/active-active" >}}).
+For complete deployment instructions, see [Active-Active databases]({{< relref "/operate/kubernetes/active-active" >}}).
 
 ## RERC for Chicago cluster
 
@@ -53,11 +53,11 @@ Edit the downloaded YAML file to add global database settings such as memory all
 
 ## Applying the configuration
 
-To deploy Active-Active databases using these YAML files, follow the [Create Active-Active database (REAADB)]({{< relref "/operate/kubernetes/active-active/create-reaadb" >}}) guide, which provides detailed instructions for preparing clusters, creating RERC resources, and deploying REAADB configurations.
+To deploy Active-Active databases using these YAML files, follow [Create Active-Active database (REAADB)]({{< relref "/operate/kubernetes/active-active/create-reaadb" >}}), which provides detailed instructions for preparing clusters, creating RERC resources, and deploying REAADB configurations.
 
 ## Related documentation
 
-- [Active-Active database guide]({{< relref "/operate/kubernetes/active-active/create-reaadb" >}})
+- [Create Active-Active database (REAADB)]({{< relref "/operate/kubernetes/active-active/create-reaadb" >}})
 - [REAADB API reference]({{< relref "/operate/kubernetes/reference/redis_enterprise_active_active_database_api" >}})
 - [RERC API reference]({{< relref "/operate/kubernetes/reference/redis_enterprise_remote_cluster_api" >}})
 - [Networking configuration]({{< relref "/operate/kubernetes/networking" >}})

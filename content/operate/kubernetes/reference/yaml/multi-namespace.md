@@ -22,7 +22,7 @@ This example shows:
 - Operator namespace: `redis-enterprise-operator` (where the operator runs)
 - Consumer namespaces: `app-production`, `app-staging` (where REC/REDB resources are created)
 
-For complete deployment instructions, see the [Multi-namespace deployment guide]({{< relref "/operate/kubernetes/re-clusters/multi-namespace" >}}).
+For complete deployment instructions, see [Manage databases in multiple namespaces]({{< relref "/operate/kubernetes/re-clusters/multi-namespace" >}}).
 
 ## Operator service account
 
@@ -62,6 +62,6 @@ Consumer namespace configuration:
 
 ## Related documentation
 
-- [Multi-namespace deployment guide]({{< relref "/operate/kubernetes/re-clusters/multi-namespace" >}})
+- [Manage databases in multiple namespaces]({{< relref "/operate/kubernetes/re-clusters/multi-namespace" >}})
 - [RBAC configuration]({{< relref "/operate/kubernetes/security" >}})
 - [Kubernetes namespaces](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/)
