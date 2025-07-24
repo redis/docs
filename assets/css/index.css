@@ -534,6 +534,28 @@ select {
   @apply w-4 h-4;
 }
 
+/* Make long code blocks scrollable */
+.yaml-embed-container .highlight {
+  max-height: 800px;
+  overflow-y: auto;
+}
+
+.yaml-embed-container .highlight::-webkit-scrollbar {
+  width: 8px;
+}
+
+.yaml-embed-container .highlight::-webkit-scrollbar-track {
+  @apply bg-slate-700 rounded;
+}
+
+.yaml-embed-container .highlight::-webkit-scrollbar-thumb {
+  @apply bg-slate-500 rounded;
+}
+
+.yaml-embed-container .highlight::-webkit-scrollbar-thumb:hover {
+  @apply bg-slate-400;
+}
+
 #download-redis > h3,
 #download-redis-stack > h3 {
   @apply mt-2;

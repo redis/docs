@@ -82,6 +82,6 @@ kubectl get events --sort-by=.metadata.creationTimestamp
 ## Related documentation
 
 - [API reference]({{< relref "/operate/kubernetes/reference" >}}) - Complete API specifications for all custom resources
-- [Quick start deployment]({{< relref "/operate/kubernetes/deployment/quick-start" >}}) - Step-by-step deployment guide
+- [Deploy on Kubernetes]({{< relref "/operate/kubernetes/deployment/quick-start" >}}) - Step-by-step deployment guide
 - [Multi-namespace deployment]({{< relref "/operate/kubernetes/re-clusters/multi-namespace" >}}) - Detailed multi-namespace setup guide
 - [Active-Active databases]({{< relref "/operate/kubernetes/active-active" >}}) - Active-Active configuration and management

@@ -19,7 +19,7 @@ This page provides YAML examples for deploying Redis Enterprise with [rack aware
 - Verify node labels: `kubectl get nodes --show-labels`
 - [Redis Enterprise operator]({{< relref "/operate/kubernetes/deployment" >}}) must be installed
 
-For complete deployment instructions, see the [Redis Enterprise operator deployment guide]({{< relref "/operate/kubernetes/deployment" >}}).
+For complete deployment instructions, see [Deploy on Kubernetes]({{< relref "/operate/kubernetes/deployment" >}}).
 
 ## Service account
 
@@ -87,7 +87,7 @@ Database configuration for rack-aware clusters is the same as [basic deployments
 
 ## Apply the configuration
 
-To deploy rack-aware Redis Enterprise clusters, follow the [Redis Enterprise operator deployment guide]({{< relref "/operate/kubernetes/deployment" >}}) and ensure your Kubernetes nodes have proper zone labels. For detailed rack awareness configuration, see the [node selection recommendations]({{< relref "/operate/kubernetes/recommendations/node-selection" >}}).
+To deploy rack-aware Redis Enterprise clusters, follow [Deploy on Kubernetes]({{< relref "/operate/kubernetes/deployment" >}}) and ensure your Kubernetes nodes have proper zone labels. For detailed rack awareness configuration, see the [node selection recommendations]({{< relref "/operate/kubernetes/recommendations/node-selection" >}}).
 
 ## Troubleshooting
 

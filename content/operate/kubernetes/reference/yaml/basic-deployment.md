@@ -12,7 +12,7 @@ weight: 10
 
 This page provides complete YAML examples for a basic Redis Enterprise deployment on Kubernetes. These examples include all the essential components needed to deploy a Redis Enterprise cluster and create a database.
 
-For complete deployment instructions, see the [Quick start deployment guide]({{< relref "/operate/kubernetes/deployment/quick-start" >}}).
+For complete deployment instructions, see [Deploy on Kubernetes]({{< relref "/operate/kubernetes/deployment/quick-start" >}}).
 
 ## Service account
 
@@ -83,7 +83,7 @@ Edit the values in the downloaded YAML file based on your requirements, such as 
 
 ## Apply the configuration
 
-To deploy these YAML files, follow the [deployment guide]({{< relref "/operate/kubernetes/deployment/quick-start" >}}), which provides step-by-step instructions for creating namespaces, deploying the operator, and applying these configuration files.
+To deploy these YAML files, follow [Deploy on Kubernetes]({{< relref "/operate/kubernetes/deployment/quick-start" >}}), which provides step-by-step instructions for creating namespaces, deploying the operator, and applying these configuration files.
 
 ## Related documentation
 

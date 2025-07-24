@@ -9,9 +9,9 @@
                 const wrapper = document.createElement('div');
 
                 if (block.parentElement.classList.contains("expand-content")) {
-                    wrapper.style = 'position:absolute;top:10px;right:20px;z-index:1;display:flex;align-items:center;gap:6px;';
+                    wrapper.style = 'position:absolute;top:24px;right:20px;z-index:1;display:flex;align-items:center;gap:6px;';
                 } else {
-                    wrapper.style = 'position:absolute;top:10px;right:10px;z-index:1;display:flex;align-items:center;gap:6px;';
+                    wrapper.style = 'position:absolute;top:24px;right:10px;z-index:1;display:flex;align-items:center;gap:6px;';
                 }
 
                 // Check if this is a YAML embed with download functionality
@@ -20,12 +20,13 @@
 
                 // Create the copy button
                 const button = document.createElement('button');
+                button.className = 'clipboard-button text-neutral-400 hover:text-slate-100 bg-slate-600 relative h-8 w-8 p-1 rounded rounded-mx';
+                button.title = 'Copy to clipboard';
                 button.innerHTML = `
-                <button class="clipboard-button text-neutral-400 hover:text-slate-100 bg-slate-600 relative h-7 w-7 p-1 rounded rounded-mx" title="Copy to clipboard">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor">
-                    <path d="M9 43.95q-1.2 0-2.1-.9-.9-.9-.9-2.1V10.8h3v30.15h23.7v3Zm6-6q-1.2 0-2.1-.9-.9-.9-.9-2.1v-28q0-1.2.9-2.1.9-.9 2.1-.9h22q1.2 0 2.1.9.9.9.9 2.1v28q0 1.2-.9 2.1-.9.9-2.1.9Zm0-3h22v-28H15v28Zm0 0v-28 28Z"></path>
-                </svg>
-            `;
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor">
+                        <path d="M9 43.95q-1.2 0-2.1-.9-.9-.9-.9-2.1V10.8h3v30.15h23.7v3Zm6-6q-1.2 0-2.1-.9-.9-.9-.9-2.1v-28q0-1.2.9-2.1.9-.9 2.1-.9h22q1.2 0 2.1.9.9.9.9 2.1v28q0 1.2-.9 2.1-.9.9-2.1.9Zm0-3h22v-28H15v28Zm0 0v-28 28Z"></path>
+                    </svg>
+                `;
 
                 // Create the tooltip container
                 const tooltipContainer = document.createElement('div');
@@ -58,15 +59,14 @@
 
                 // Append copy button
                 wrapper.appendChild(button);
-                wrapper.appendChild(tooltipContainer);
 
                 // Add download button if this is a YAML embed
                 if (downloadFilename) {
                     const downloadButton = document.createElement('button');
-                    downloadButton.className = 'download-yaml-btn text-neutral-400 hover:text-slate-100 bg-slate-600 h-7 w-7 p-1 rounded rounded-mx';
+                    downloadButton.className = 'download-yaml-btn text-neutral-400 hover:text-slate-100 bg-slate-600 h-8 w-8 p-1 rounded rounded-mx';
                     downloadButton.title = 'Download YAML file';
                     downloadButton.innerHTML = `
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 16l-6-6h4V4h4v6h4l-6 6zm-6 2h12v2H6v-2z"/>
                         </svg>
                     `;
