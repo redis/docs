@@ -31,7 +31,7 @@ Before you set up self-managed encryption, you must have a self-managed encrypti
 The encryption key must be hosted by the same cloud provider as your database and must be available in your database's cloud provider region.
 
 Refer to the provider's documentation to create a key:
-<!-- - [Amazon Web Services - Create a KMS key](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html) -->
+- [Amazon Web Services - Create a KMS key](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html)
 - [Google Cloud - Create a key](https://cloud.google.com/kms/docs/create-key)
 
 ## Set up self-managed encryption
@@ -74,11 +74,33 @@ To activate self-managed encryption on an existing Redis Cloud Pro subscription:
 
 ### Grant key permissions
 
-After you activate self-managed encryption, you must grant Redis access to your encryption key so we can use it for storage encryption. 
+After you activate self-managed encryption, you must grant Redis access to your encryption key on your cloud provider so we can use it for storage encryption. 
 
-<!-- #### Amazon Web Services 
+Follow the steps for your cloud provider:
+- [Amazon Web Services](#amazon-web-services)
+- [Google Cloud](#google-cloud)
 
-#### Google Cloud -->
+#### Amazon Web Services 
+
+To grant Redis access to a key on AWS:
+
+1. From your subscription page on the Redis Cloud console, copy the provided objects to add to the key policy.
+
+    {{<image filename="images/rc/cmek-access-roles-aws.png" alt="The Grant Redis your customer-managed key section shows the IAM role that needs access to your key and objects to add to your key policy." width=80% >}}
+
+2. Go to the [Key management service](https://console.aws.amazon.com/kms) on the AWS console and locate your key.
+
+3. [Modify the key policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying.html) using the policy view. Add the provided objects in the **Statement** section and then save your changes.
+
+4. Return to the Redis Cloud console. In your subscription page, enter your key's ARN in the **Key resource name** field.
+
+    {{<image filename="images/rc/cmek-provide-resource-name-aws.png" alt="The Provide the name of your customer-managed key section lets you provide your key to Redis." width=80% >}}
+
+    At this point, Redis Cloud will check to see if it can access your key. If it can't access your key, make sure that you've added the correct permissions to your key, that the key is available in the database's cloud provider region, and that you have correctly entered your key's resource name.
+
+{{< embed-md "rc-cmek-final-steps.md" >}}
+
+#### Google Cloud
 
 To grant Redis access to a key on Google Cloud:
 
@@ -86,9 +108,9 @@ To grant Redis access to a key on Google Cloud:
 
     {{<image filename="images/rc/cmek-access-roles-google.png" alt="The Grant Redis your customer-managed key section shows the service account needed to add as a principal." width=80% >}}
 
-1. Go to [Key management](https://console.cloud.google.com/security/kms) on the Google Cloud console and locate your key.
+2. Go to [Key management](https://console.cloud.google.com/security/kms) on the Google Cloud console and locate your key.
 
-1. Add the provided service account as a principal for your key, with one of the following Role options:
+3. Add the provided service account as a principal for your key, with one of the following Role options:
 
     - Add the pre-defined IAM roles [Cloud KMS CryptoKey Encrypter/Decrypter](https://cloud.google.com/kms/docs/reference/permissions-and-roles#cloudkms.cryptoKeyEncrypterDecrypter) and [Cloud KMS Viewer](https://cloud.google.com/kms/docs/reference/permissions-and-roles#cloudkms.viewer), OR
     - [Create a custom IAM role](https://cloud.google.com/iam/docs/creating-custom-roles#creating) with the following minimal permissions needed to use the key, and then assign that custom role to the principal:
@@ -96,23 +118,25 @@ To grant Redis access to a key on Google Cloud:
         - cloudkms.cryptoKeyVersions.useToEncrypt
         - cloudkms.cryptoKeys.get
 
-1. Return to the Redis Cloud console. In your subscription page, enter your key's resource name in the **Key resource name** field.
+4. Return to the Redis Cloud console. In your subscription page, enter your key's resource name in the **Key resource name** field.
 
     {{<image filename="images/rc/cmek-provide-resource-name-google.png" alt="The Provide the name of your customer-managed key section lets you provide your key to Redis." width=80% >}}
 
-    At this point, Redis Cloud will check to see if it can access your key. If it can't access your key, make sure that you've added the correct permissions to your key, that the key is available in the database's cloud provider region, and that you have correctly entered your key's resource name.
+At this point, Redis Cloud will check to see if it can access your key. If it can't access your key, make sure that you've added the correct permissions to your key, that the key is available in the database's cloud provider region, and that you have correctly entered your key's resource name.
 
-<!-- 1. Choose a **Deletion grace period** from the list. If Redis Cloud loses access to your key, Redis will notify you and delete your key after the selected grace period. During the grace period, you must provide a new key to prevent data loss. -->
-
-1. After you finish granting access to your key, you can save your changes. For a new subscription, select **Activate** to activate your subscription and start billing.
-
-    {{<image filename="images/rc/cmek-new-subscription-activate.png" alt="The Activate button." width=500px >}}
+{{< embed-md "rc-cmek-final-steps.md" >}}
 
 ## Revoke key access
 
-When you have set up self-managed encryption, you can revoke Redis's access to your encryption key at any time through your cloud provider. Redis will delete your plan immediately if we can't access your key.
+When you have set up self-managed encryption, you can revoke Redis's access to your encryption key at any time through your cloud provider. 
 
-<!-- Redis will delete your plan after the selected grace period if we can't access your key. During the grace period, you must provide a new key to prevent data loss. -->
+If you selected **Immediate** as the deletion grace period, Redis will immediately delete your database if we lose access to your key. If you selected **Alert only (No deletion, limited SLA)**, Redis will notify you but will not delete your database.
+
+{{<warning>}}
+If you selected **Alert only (No deletion, limited SLA)**, Redis will not be able to make changes to your database if we lose access to your key. This includes database upgrades, failovers to persistent storage, and other operations that require access to your key. Because of this, Redis will not be able to meet its [Service Level Agreement (SLA)](https://redis.io/legal/redis-cloud-service-level-agreement/) if we lose access to your key.
+
+Provide a new key as soon as possible to avoid service disruption.
+{{</warning>}}
 
 
 
