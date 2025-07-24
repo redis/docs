@@ -14297,6 +14297,7 @@
               "ACTIVE_ACTIVE_SUBSCRIPTION_PREVIEW_REDIS_VERSION_IS_NOT_SUPPORTED",
               "SUBSCRIPTION_GCP_ALLOW_ONLY_INTERNAL",
               "CLUSTER_UNDER_MAINTENANCE",
+              "ACTIVE_ACTIVE_SUBSCRIPTION_IS_NOT_SUPPORTED",
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_IS_NOT_SUPPORTED",
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_MISSING_USAGE_PERMISSIONS",
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_MISSING_GET_KEY_PERMISSIONS",
@@ -14610,6 +14611,7 @@
               "UPDATING_A_SINGLE_REGION_VPC_PEERING_IS_NOT_ALLOWED_WITH_ACTIVE_ACTIVE_SUBSCRIPTION",
               "DELETING_SINGLE_REGION_VPC_PEERING_IS_NOT_ALLOWED_WITH_ACTIVE_ACTIVE_SUBSCRIPTION",
               "GETTING_SINGLE_REGION_VPC_PEERINGS_IS_NOT_ALLOWED_WITH_ACTIVE_ACTIVE_SUBSCRIPTION",
+              "ACTIVE_ACTIVE_DATABASE_LIMIT_EXCEEDED",
               "FIXED_DATABASE_NAME_IS_MISSING",
               "CREATING_FIXED_DATABASE_NOT_ALLOWED_WITH_A_FLEXIBLE_SUBSCRIPTION",
               "UPDATING_FIXED_DATABASE_NOT_ALLOWED_WITH_A_FLEXIBLE_SUBSCRIPTION",
@@ -14783,7 +14785,10 @@
               "DATABASE_UPGRADE_IS_NOT_SUPPORTED",
               "ACTIVE_ACTIVE_EXTERNAL_ACCOUNTS_NOT_SUPPORTED",
               "ACTIVE_ACTIVE_MULTIPLE_CLOUD_ACCOUNTS_NOT_SUPPORTED",
-              "ACTIVE_ACTIVE_GCP_EXTERNAL_CLOUD_ACCOUNT_NOT_SUPPORTED"
+              "ACTIVE_ACTIVE_GCP_EXTERNAL_CLOUD_ACCOUNT_NOT_SUPPORTED",
+              "DEDICATED_SUBSCRIPTION_PREFERRED_AZ_INVALID_VALUE",
+              "DEDICATED_SUBSCRIPTION_INVALID_INSTANCE_NAME",
+              "DEDICATED_SUBSCRIPTION_INVALID_REPLICATION"
             ]
           },
           "additionalInfo": {
@@ -15723,6 +15728,11 @@
           "region": {
             "type": "string",
             "description": "Name of region to add as defined by the cloud provider."
+          },
+          "vpcId": {
+            "type": "string",
+            "description": "Optional. Enter a VPC identifier that exists in the hosted AWS account. Creates a new VPC if not set. VPC Identifier must be in a valid format and must exist within the hosting account.",
+            "example": "vpc-0125be68a4625884ad"
           },
           "deploymentCIDR": {
             "type": "string",
