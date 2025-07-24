@@ -12,15 +12,7 @@ weight: 10
 
 This page provides complete YAML examples for a basic Redis Enterprise deployment on Kubernetes. These examples include all the essential components needed to deploy a Redis Enterprise cluster and create a database.
 
-## Deployment order
-
-Apply the YAML files in this order:
-
-1. [Service account](#service-account)
-2. [Role](#role)
-3. [Role binding](#role-binding)
-4. [Redis Enterprise cluster](#redis-enterprise-cluster)
-5. [Redis Enterprise database](#redis-enterprise-database)
+For complete deployment instructions, see the [Quick start deployment guide]({{< relref "/operate/kubernetes/deployment/quick-start" >}}).
 
 ## Service account
 
@@ -139,12 +131,7 @@ spec:
 
 ## Applying the configuration
 
-For detailed deployment steps, see the [Quick start deployment guide]({{< relref "/operate/kubernetes/deployment/quick-start" >}}). The process includes:
-
-1. [Create namespace]({{< relref "/operate/kubernetes/deployment/quick-start#create-a-new-namespace" >}})
-2. [Deploy the operator]({{< relref "/operate/kubernetes/deployment/quick-start#deploy-the-operator" >}})
-3. [Create Redis Enterprise cluster]({{< relref "/operate/kubernetes/deployment/quick-start#create-a-redis-enterprise-cluster-rec" >}})
-4. [Create Redis Enterprise database]({{< relref "/operate/kubernetes/deployment/quick-start#create-a-database" >}})
+To deploy these YAML files, follow the [Quick start deployment guide]({{< relref "/operate/kubernetes/deployment/quick-start" >}}), which provides step-by-step instructions for creating namespaces, deploying the operator, and applying these configuration files.
 
 ## Verification
 

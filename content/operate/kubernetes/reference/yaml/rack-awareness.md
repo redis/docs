@@ -19,15 +19,7 @@ This page provides YAML examples for deploying Redis Enterprise with [rack aware
 - Verify node labels: `kubectl get nodes --show-labels`
 - [Redis Enterprise operator]({{< relref "/operate/kubernetes/deployment" >}}) must be installed
 
-## Deployment order
-
-Apply the YAML files in this order:
-
-1. [Service account](#service-account)
-2. [Cluster role](#cluster-role)
-3. [Cluster role binding](#cluster-role-binding)
-4. [Rack-aware Redis Enterprise cluster](#rack-aware-redis-enterprise-cluster)
-5. [Redis Enterprise database](#redis-enterprise-database)
+For complete deployment instructions, see the [Redis Enterprise operator deployment guide]({{< relref "/operate/kubernetes/deployment" >}}).
 
 ## Service account
 
@@ -133,55 +125,7 @@ When deployed on a rack-aware cluster, databases automatically benefit from:
 
 ## Applying the configuration
 
-### Step 1: Verify node labels
-
-Check that your nodes have [zone labels](https://kubernetes.io/docs/reference/labels-annotations-taints/#topologykubernetesiozone):
-
-```bash
-kubectl get nodes --show-labels | grep topology.kubernetes.io/zone
-```
-
-If nodes don't have zone labels, add them:
-
-```bash
-kubectl label node <node-name> topology.kubernetes.io/zone=<zone-name>
-```
-
-### Step 2: Create namespace
-
-```bash
-kubectl create namespace redis-enterprise
-kubectl config set-context --current --namespace=redis-enterprise
-```
-
-For more details, see [namespace management]({{< relref "/operate/kubernetes/deployment/quick-start#create-a-new-namespace" >}}).
-
-### Step 3: Apply RBAC resources
-
-```bash
-kubectl apply -f service-account.yaml
-kubectl apply -f cluster-role.yaml
-kubectl apply -f cluster-role-binding.yaml
-```
-
-### Step 4: Deploy the rack-aware cluster
-
-```bash
-kubectl apply -f rack-aware-cluster.yaml
-```
-
-Wait for the cluster to be ready:
-
-```bash
-kubectl get rec rack-aware-cluster
-kubectl describe rec rack-aware-cluster
-```
-
-### Step 5: Create the database
-
-```bash
-kubectl apply -f redis-database.yaml
-```
+To deploy rack-aware Redis Enterprise clusters, follow the [Redis Enterprise operator deployment guide]({{< relref "/operate/kubernetes/deployment" >}}) and ensure your Kubernetes nodes have proper zone labels. For detailed rack awareness configuration, see the [node selection recommendations]({{< relref "/operate/kubernetes/recommendations/node-selection" >}}).
 
 ## Verification
 

@@ -34,6 +34,8 @@ This example shows a two-cluster Active-Active setup:
 - **Cluster 1**: `rec-chicago` in namespace `ns-chicago`
 - **Cluster 2**: `rec-boston` in namespace `ns-boston`
 
+For complete deployment instructions, see the [Active-Active database guide]({{< relref "/operate/kubernetes/active-active" >}}).
+
 ## RERC for Chicago cluster
 
 Each participating cluster needs a RedisEnterpriseRemoteCluster (RERC) resource pointing to the other clusters.
@@ -143,12 +145,7 @@ spec:
 
 ## Applying the configuration
 
-For detailed deployment steps, see [Create Active-Active database (REAADB)]({{< relref "/operate/kubernetes/active-active/create-reaadb" >}}). The process includes:
-
-1. [Prepare participating clusters]({{< relref "/operate/kubernetes/active-active/prepare-clusters" >}})
-2. [Create RERC resources]({{< relref "/operate/kubernetes/active-active/create-reaadb#create-rerc" >}})
-3. [Create REAADB resource]({{< relref "/operate/kubernetes/active-active/create-reaadb#create-reaadb" >}})
-4. [Verify database creation]({{< relref "/operate/kubernetes/active-active/create-reaadb#verify-creation" >}})
+To deploy Active-Active databases using these YAML files, follow the [Create Active-Active database (REAADB)]({{< relref "/operate/kubernetes/active-active/create-reaadb" >}}) guide, which provides detailed instructions for preparing clusters, creating RERC resources, and deploying REAADB configurations.
 
 ## Verification
 

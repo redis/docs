@@ -26,18 +26,7 @@ This example shows:
 - **Operator namespace**: `redis-enterprise-operator` (where the operator runs)
 - **Consumer namespaces**: `app-production`, `app-staging` (where REC/REDB resources are created)
 
-## Deployment order
-
-Apply the YAML files in this order:
-
-1. [Operator service account](#operator-service-account)
-2. [Operator cluster role](#operator-cluster-role)
-3. [Operator cluster role binding](#operator-cluster-role-binding)
-4. [Consumer service account](#consumer-service-account)
-5. [Consumer role](#consumer-role)
-6. [Consumer role binding](#consumer-role-binding)
-7. [Redis Enterprise clusters](#redis-enterprise-clusters)
-8. [Redis Enterprise databases](#redis-enterprise-databases)
+For complete deployment instructions, see the [Multi-namespace deployment guide]({{< relref "/operate/kubernetes/re-clusters/multi-namespace" >}}).
 
 ## Operator service account
 
@@ -218,12 +207,7 @@ spec:
 
 ## Applying the configuration
 
-For detailed multi-namespace deployment steps, see [Multi-namespace deployment]({{< relref "/operate/kubernetes/deployment/multi-namespace" >}}). The process includes:
-
-1. Create operator and consumer namespaces
-2. Deploy operator with cluster-wide permissions
-3. Configure RBAC for consumer namespaces
-4. Deploy clusters and databases in consumer namespaces
+To deploy Redis Enterprise across multiple namespaces using these YAML files, follow the [Multi-namespace deployment guide]({{< relref "/operate/kubernetes/re-clusters/multi-namespace" >}}), which provides step-by-step instructions for setting up operator and consumer namespaces, configuring RBAC, and deploying clusters and databases.
 
 ## Verification
 
