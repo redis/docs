@@ -15,9 +15,9 @@ The Redis Enterprise cluster (REC) log collector script ([`log_collector.py`](ht
 
 As of version 6.2.18-3, the log collector tool has two modes:
 
-- **[restricted]({{< relref "/operate/kubernetes/logs/log-collector-rbac#restricted-mode-rbac" >}})** collects only resources and logs created by the operator and Redis Enterprise deployments
+- **restricted** collects only resources and logs created by the operator and Redis Enterprise deployments
   - This is the default for versions 6.2.18-3 and later
-- **[all]({{< relref "/operate/kubernetes/logs/log-collector-rbac#all-mode-rbac" >}})** collects everything from your environment
+- **all** collects everything from your environment
   - This is the default mode for versions 6.2.12-1 and earlier
 
 {{<note>}} This script requires Python 3.6 or later. {{</note>}}
@@ -36,10 +36,8 @@ As of version 6.2.18-3, the log collector tool has two modes:
    {{< note >}} If you get an error because the yaml module is not found, install the pyYAML module with `pip install pyyaml`.
   {{< /note >}}
 
-
-
 1. Upload the resulting `tar.gz` file containing all the logs to [Redis Support](https://support.redislabs.com/).
 
 ## RBAC requirements
 
-The log collector requires specific RBAC permissions depending on the collection mode. See [Log collector RBAC]({{< relref "/operate/kubernetes/logs/log-collector-rbac" >}}) for complete YAML configurations for both restricted and all modes.
+The log collector requires specific RBAC permissions depending on the collection mode. Contact your Kubernetes administrator to ensure the appropriate permissions are configured for your chosen collection mode.
