@@ -14,7 +14,7 @@ TEST_MARKER = {
     'java-sync': '@Test',
     'java-async': '@Test',
     'java-reactive': '@Test',
-    'c#': '\[Fact\]|\[SkipIfRedis\(.*\)\]'
+    'c#': r'\[Fact]|\[SkipIfRedis\(.*\)]'
 }
 PREFIXES = {
     'python': '#',
@@ -39,8 +39,10 @@ class Example(object):
     named_steps = None
 
     def __init__(self, language: str, path: str) -> None:
+        logging.debug("ENTERING: ")
         if not PREFIXES.get(language.lower()):
             logging.error(f'Unknown language "{language}" for example {path}')
+            logging.debug("EXITING: ")
             return
         self.language = language.lower()
         self.path = path
@@ -51,14 +53,18 @@ class Example(object):
         self.named_steps = {}
         self.make_ranges()
         self.persist(self.path)
+        logging.debug("EXITING: ")
 
     def persist(self, path: str = None) -> None:
+        logging.debug("ENTERING: ")
         if not path:
             path = self.path
         with open(path,'w') as f:
             f.writelines(self.content)
+        logging.debug("EXITING: ")
 
     def make_ranges(self) -> None:
+        logging.debug("ENTERING: ")
         curr = 0
         highlight = 1
         hidden = None
@@ -154,8 +160,10 @@ class Example(object):
 
         if hidden is not None:
             logging.error(f'Unclosed hidden anchor in {self.path}:L{hidden+1} - aborting.')
+            logging.debug("EXITING: ")
             return
         if highlight < len(content):
             self.highlight.append(f'{highlight}-{len(content)}')
 
         self.content = content
+        logging.debug("EXITING: ")
