@@ -19,7 +19,11 @@ history:
 linkTitle: VSIM
 since: 8.0.0
 summary: Return elements by vector similarity.
+<<<<<<< Updated upstream
 syntax_fmt: "VSIM key (ELE | FP32 | VALUES num) (vector | element) [WITHSCORES] [WITHATTRIBS] [COUNT num]\n  [EF search-exploration-factor] [FILTER expression] [FILTER-EF max-filtering-effort] [TRUTH] [NOTHREAD]"
+=======
+syntax_fmt: "VSIM key (ELE | FP32 | VALUES num) (vector | element) [WITHSCORES] [COUNT num] [EF search-exploration-factor]\n  [FILTER expression] [FILTER-EF max-filtering-effort] [TRUTH] [NOTHREAD] [EPSILON]"
+>>>>>>> Stashed changes
 title: VSIM
 bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
 ---
