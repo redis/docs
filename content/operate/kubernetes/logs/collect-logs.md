@@ -25,17 +25,31 @@ As of version 6.2.18-3, the log collector tool has two modes:
 1. Download the latest [`log_collector.py`](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/log_collector/log_collector.py) file.
 
 1. Have a K8s administrator run the script on the system that runs your `kubectl` or `oc` commands.
-    - Pass `-n` parameter to run on a different namespace than the one you are currently on
-    - Pass `-m` parameter to change the log collector mode (`all` or `restricted`)
-    - Run with `-h` to see more options
 
     ```bash
-    python log_collector.py 
+    python log_collector.py
     ```
 
-   {{< note >}} If you get an error because the yaml module is not found, install the pyYAML module with `pip install pyyaml`.
-  {{< /note >}}
+## Options
 
+You can run `log_collector.py` with the following options:
 
+| Option | Description |
+|--------|-------------|
+| `-n`, `--namespace` | Sets the namespace(s) to collect from. Can be set to a single namespace, or multiple namespaces (comma-separated). When left empty, will use the current context's namespace from kubeconfig. |
+| `-o`, `--output_dir` | Sets the output directory. Defaults to current working directory. |
+| `-a`, `--logs_from_all_pods` | Collect logs from all pods in the selected namespace(s), and otherwise collect only from the operator and pods run by the operator. |
+| `-t`, `--timeout` | Time to wait for external commands to finish execution (Linux only). Default to 180s. Specify 0 to disable timeout. |
+| `--k8s_cli` | The K8s cli client to use (kubectl/oc/auto-detect). Defaults to auto-detect (chooses between 'kubectl' and 'oc'). Full paths can also be used. |
+| `-m`, `--mode` | Controls which resources are collected. In 'restricted' mode, only resources associated with the operator and have the label 'app=redis-enterprise' are collected. In 'all' mode, all resources are collected. Defaults to 'restricted' mode. |
+| `--collect_istio` | Collect data from istio-system namespace to debug potential problems related to istio ingress method. |
+| `--skip_support_package` | Disable collection of RS support package from Redis Enterprise nodes. |
+| `--collect_empty_files` | Collect empty log files for missing resources. |
+| `--helm_release_name` | Collect resources related to the given Helm release name. |
+| `--collect_rbac_resources` | Temporary development flag. Collect all role based access control related custom resources. |
+| `-h`, `--help` | Show help message and exit. |
+
+{{< note >}} If you get an error because the yaml module is not found, install the pyYAML module with `pip install pyyaml`.
+{{< /note >}}
 
 1. Upload the resulting `tar.gz` file containing all the logs to [Redis Support](https://support.redislabs.com/).
