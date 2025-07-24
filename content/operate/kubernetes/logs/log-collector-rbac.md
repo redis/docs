@@ -19,124 +19,67 @@ The Redis Enterprise log collector script helps gather diagnostic information fo
 - **Restricted mode**: Collects only Redis Enterprise-related resources and logs (default for versions 6.2.18-3+)
 - **All mode**: Collects comprehensive cluster information including non-Redis resources (default for versions 6.2.12-1 and earlier)
 
-## When to use each mode
+## Collection modes
 
-### Restricted mode (recommended)
+- **Restricted mode** (recommended): Collects only Redis Enterprise resources with minimal security exposure. Default for versions 6.2.18-3+.
+- **All mode**: Collects comprehensive cluster information including nodes, storage classes, and operator resources. Use when specifically requested by Redis Support.
 
-Use restricted mode when:
-- You want to minimize security exposure
-- Your organization has strict RBAC policies
-- You only need Redis Enterprise-specific troubleshooting data
-- You're running version 6.2.18-3 or later (default mode)
+## RBAC configurations
 
-### All mode
-
-Use all mode when:
-- You need comprehensive cluster diagnostics
-- Redis Support specifically requests additional cluster information
-- You're troubleshooting complex issues that may involve non-Redis resources
-- You're running version 6.2.12-1 or earlier (default mode)
-
-## Permission differences
-
-The key differences between the two modes:
-
-| Resource Category | Restricted Mode | All Mode |
-|------------------|----------------|----------|
-| **Cluster-level resources** | Limited | Full access |
-| **Node information** | ❌ No access | ✅ Full access |
-| **Storage classes** | ❌ No access | ✅ Full access |
-| **Volume attachments** | ❌ No access | ✅ Full access |
-| **Certificate signing requests** | ❌ No access | ✅ Full access |
-| **Operator resources** | ❌ No access | ✅ Full access |
-| **Istio resources** | ❌ No access | ✅ Full access |
-
-## Restricted mode RBAC
-
-Use restricted mode for minimal security exposure while still collecting essential Redis Enterprise diagnostics.
+### Restricted mode
 
 {{<embed-md "k8s/log_collector_role_restricted_mode.md">}}
 
-### Restricted mode permissions
-
-The restricted mode provides access to:
-
-**Role permissions (namespace-scoped):**
-- **Pods and logs**: Read pod information and access container logs
-- **Pod exec**: Execute commands inside containers for diagnostics
-- **Core resources**: Access to services, endpoints, ConfigMaps, secrets, and storage resources
-- **Workload resources**: Read deployments, StatefulSets, DaemonSets, and jobs
-- **Redis Enterprise resources**: Full read access to all Redis Enterprise custom resources
-- **Networking**: Read ingress and network policy configurations
-- **OpenShift routes**: Read route configurations (for OpenShift environments)
-
-**ClusterRole permissions (cluster-scoped):**
-- **Persistent volumes**: Read cluster-wide storage information
-- **Namespaces**: Read namespace information
-- **RBAC**: Read cluster roles and bindings
-- **Custom resource definitions**: Read Redis Enterprise CRDs
-- **Admission controllers**: Read ValidatingWebhook configurations
-
-## All mode RBAC
-
-Use all mode when you need comprehensive cluster diagnostics or when specifically requested by Redis Support.
+### All mode
 
 {{<embed-md "k8s/log_collector_role_all_mode.md">}}
 
-### All mode additional permissions
+{{< note >}}
+For the complete list of resources and permissions required by each mode, refer to the role definitions in the YAML files above.
+{{< /note >}}
 
-In addition to all restricted mode permissions, all mode provides:
+## Applying RBAC configurations
 
-**Additional ClusterRole permissions:**
-- **Nodes**: Read cluster node information and status
-- **Storage classes**: Read storage class configurations
-- **Volume attachments**: Read volume attachment status
-- **Certificate signing requests**: Read certificate management information
-- **Operator resources**: Read OLM (Operator Lifecycle Manager) resources
-- **Istio resources**: Read Istio service mesh configurations
+### Quick deployment
 
-## Role binding
+Apply the RBAC configuration directly from the GitHub repository:
 
-Bind the Role to your service account in each namespace where you want to collect logs.
+```bash
+# For restricted mode (recommended)
+kubectl apply -f https://github.com/RedisLabs/redis-enterprise-k8s-docs/raw/master/log_collector/log_collector_restricted_mode_role.yaml \
+  --namespace <namespace>
 
-```yaml
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  name: redis-enterprise-log-collector
-  namespace: <target-namespace>
-subjects:
-- kind: ServiceAccount
-  name: redis-enterprise-log-collector
-  namespace: <service-account-namespace>
-roleRef:
-  kind: Role
-  name: redis-enterprise-log-collector
-  apiGroup: rbac.authorization.k8s.io
+# For all mode
+kubectl apply -f https://github.com/RedisLabs/redis-enterprise-k8s-docs/raw/master/log_collector/log_collector_role_all_mode.yaml \
+  --namespace <namespace>
 ```
 
-## Cluster role binding
+### Namespace requirements
 
-Bind the ClusterRole to your service account for cluster-wide permissions.
+The Role and RoleBinding must be created in every namespace where you need to collect logs. This varies based on your deployment model:
 
-```yaml
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: redis-enterprise-log-collector
-subjects:
-- kind: ServiceAccount
-  name: redis-enterprise-log-collector
-  namespace: <service-account-namespace>
-roleRef:
-  kind: ClusterRole
-  name: redis-enterprise-log-collector
-  apiGroup: rbac.authorization.k8s.io
+- **Single namespace**: Apply to the namespace where Redis Enterprise runs
+- **Multi-namespace with single REC**: Apply to the REC namespace plus each REDB namespace
+- **Multi-namespace with multiple RECs**: Apply to each REC namespace
+
+The ClusterRole and ClusterRoleBinding need to be created only once per cluster.
+
+{{< note >}}
+Each YAML file contains both Role and ClusterRole objects. Running `kubectl apply` installs both components. You can safely run the command multiple times with different namespaces.
+{{< /note >}}
+
+### Manual deployment
+
+If you prefer to apply the configurations manually, save the YAML content to local files and apply them:
+
+```bash
+# Save the YAML content to a file
+kubectl apply -f log-collector-rbac.yaml --namespace <namespace>
 ```
 
 ## Usage
 
-Apply the appropriate RBAC configuration and role bindings, then run the log collector with the desired mode:
+After applying the RBAC configuration, run the log collector:
 
 ```bash
 # Restricted mode (default for 6.2.18-3+)
@@ -148,48 +91,26 @@ python log_collector.py -m all -n <namespace>
 
 ## Security considerations
 
-### Principle of least privilege
+- **Use restricted mode** unless you specifically need additional cluster information
+- **Limit namespace access** to only where log collection is needed
+- **Handle collected data** according to your organization's security policies (logs may contain sensitive information)
 
-- **Start with restricted mode**: Use restricted mode unless you specifically need additional cluster information
-- **Limit namespace access**: Only grant permissions in namespaces where log collection is needed
-- **Time-bound access**: Consider creating temporary RBAC resources for log collection activities
+### Secrets permission explanation
 
-### Sensitive data handling
+The RBAC configurations request read access to secrets in the collected namespaces. **Secrets are not collected or included in the log package sent to Redis Support.** This permission is required because:
 
-Both modes collect:
-- **Secrets metadata**: Names and types of secrets (not the actual secret values)
-- **ConfigMap data**: Configuration information that may contain sensitive settings
-- **Pod logs**: Application logs that may contain sensitive information
+- The log collector uses Helm commands (`helm list`, `helm get all`) to gather information about Redis Enterprise Helm chart deployments
+- Helm stores its deployment metadata in Kubernetes secrets
+- For Redis Enterprise charts, this metadata contains only deployment configuration (not sensitive data), but follows Helm's standard storage pattern
 
-Ensure collected logs are handled according to your organization's data security policies.
+If your security policies prohibit secrets access, you can remove the secrets permission from the Role, but this will limit the log collector's ability to gather Helm deployment information.
 
 ## Troubleshooting
 
-### Permission denied errors
-
-If you encounter permission errors:
-
-1. **Verify RBAC resources**: Ensure roles and bindings are applied correctly
-2. **Check service account**: Confirm the service account has the necessary bindings
-3. **Validate namespace access**: Ensure role bindings exist in target namespaces
-4. **Review mode requirements**: Verify you're using the correct mode for your needs
-
-### Missing resources
-
-If the log collector reports missing resources:
-
-1. **Check cluster role permissions**: Ensure ClusterRole is applied and bound
-2. **Verify CRD access**: Confirm access to Redis Enterprise custom resource definitions
-3. **Review mode selection**: Consider switching to all mode if additional resources are needed
-
-## Next steps
-
-- [Learn about log collection]({{< relref "/operate/kubernetes/logs/collect-logs" >}})
-- [Explore YAML deployment examples]({{< relref "/operate/kubernetes/reference/yaml-examples" >}})
-- [Configure monitoring]({{< relref "/operate/kubernetes/re-clusters/connect-prometheus-operator" >}})
+If you encounter permission errors, verify that roles and bindings are applied correctly in the target namespaces. For missing resources, ensure the ClusterRole is applied and consider switching to all mode if additional resources are needed.
 
 ## Related documentation
 
 - [Collect logs guide]({{< relref "/operate/kubernetes/logs/collect-logs" >}})
-- [Kubernetes RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)
+- [Kubernetes RBAC documentation](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)
 - [Redis Enterprise troubleshooting]({{< relref "/operate/kubernetes/logs" >}})
