@@ -2,25 +2,89 @@
 {{$filename := .Get 1}}
 {{$content := printf "./content/embeds/%s" $file | readFile}}
 
-<!-- Container for YAML content and download button -->
-<div class="yaml-embed-container relative">
-  <!-- Download button positioned in top-right -->
-  {{ if $filename }}
-  <div class="absolute top-2 right-2 z-10">
-    <button onclick="downloadYaml('{{ $filename }}', this)" class="download-yaml-btn bg-redis-yellow-500 hover:bg-redis-ink-900 hover:text-white text-redis-ink-900 text-xs font-mono px-3 py-1 rounded border border-redis-pen-600 transition-colors flex items-center gap-1" title="Download YAML file">
-      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 16l-6-6h4V4h4v6h4l-6 6zm-6 2h12v2H6v-2z"/>
-      </svg>
-      Download
-    </button>
-  </div>
-  {{ end }}
-
+<!-- Container for YAML content -->
+<div class="yaml-embed-container"{{ if $filename }} data-download-filename="{{ $filename }}"{{ end }}>
   <!-- YAML content -->
   <div class="yaml-content">
     {{ $content | markdownify }}
   </div>
 </div>
+
+{{ if $filename }}
+<script>
+function downloadYaml(filename, button) {
+  try {
+    // Get the YAML content from the code block
+    const container = button.closest('.yaml-embed-container') || button.closest('div.highlight').parentElement;
+    const codeElement = container.querySelector('code');
+
+    if (!codeElement) {
+      console.error('Could not find YAML content to download');
+      return;
+    }
+
+    // Extract the YAML content (remove any syntax highlighting spans)
+    let yamlContent = '';
+
+    // Try different methods to get clean text content
+    if (codeElement.textContent) {
+      yamlContent = codeElement.textContent.trim();
+    } else if (codeElement.innerText) {
+      yamlContent = codeElement.innerText.trim();
+    } else {
+      // Fallback for complex highlighting - look for line elements
+      const lines = codeElement.querySelectorAll('.cl, .line');
+      if (lines.length > 0) {
+        yamlContent = Array.from(lines).map(line => line.textContent || line.innerText || '').join('\n');
+      } else {
+        // Last resort - get all text content
+        yamlContent = codeElement.textContent || codeElement.innerText || '';
+      }
+    }
+
+    if (!yamlContent.trim()) {
+      console.error('No YAML content found to download');
+      return;
+    }
+
+    // Create and trigger download
+    const blob = new Blob([yamlContent], { type: 'text/yaml;charset=utf-8' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+
+    // Visual feedback
+    const originalText = button.innerHTML;
+    button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>';
+    button.disabled = true;
+
+    setTimeout(() => {
+      button.innerHTML = originalText;
+      button.disabled = false;
+    }, 2000);
+
+  } catch (error) {
+    console.error('Error downloading YAML file:', error);
+
+    // Show error feedback
+    const originalText = button.innerHTML;
+    button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>';
+    button.disabled = true;
+
+    setTimeout(() => {
+      button.innerHTML = originalText;
+      button.disabled = false;
+    }, 3000);
+  }
+}
+</script>
+{{ end }}
 
 {{ if $filename }}
 <script>

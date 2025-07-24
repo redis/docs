@@ -521,25 +521,17 @@ select {
   @apply w-10 h-10;
 }
 
-/* YAML embed container styles */
-.yaml-embed-container {
-  @apply relative;
+/* YAML embed download button styles */
+.download-yaml-btn {
+  @apply transition-colors;
 }
 
-.yaml-embed-container .download-yaml-btn {
-  @apply absolute top-2 right-2 z-10;
-  @apply bg-redis-yellow-500 hover:bg-redis-ink-900 hover:text-white;
-  @apply text-redis-ink-900 text-xs font-mono px-3 py-1 rounded;
-  @apply border border-redis-pen-600 transition-colors;
-  @apply flex items-center gap-1;
-}
-
-.yaml-embed-container .download-yaml-btn:disabled {
+.download-yaml-btn:disabled {
   @apply opacity-75 cursor-not-allowed;
 }
 
-.yaml-embed-container .download-yaml-btn svg {
-  @apply w-3 h-3;
+.download-yaml-btn svg {
+  @apply w-4 h-4;
 }
 
 #download-redis > h3,
