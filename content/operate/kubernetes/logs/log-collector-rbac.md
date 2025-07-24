@@ -55,8 +55,6 @@ The key differences between the two modes:
 
 Use restricted mode for minimal security exposure while still collecting essential Redis Enterprise diagnostics.
 
-**File: `log-collector-restricted-rbac.yaml`**
-
 {{<embed-md "k8s/log_collector_role_restricted_mode.md">}}
 
 ### Restricted mode permissions
@@ -83,8 +81,6 @@ The restricted mode provides access to:
 
 Use all mode when you need comprehensive cluster diagnostics or when specifically requested by Redis Support.
 
-**File: `log-collector-all-rbac.yaml`**
-
 {{<embed-md "k8s/log_collector_role_all_mode.md">}}
 
 ### All mode additional permissions
@@ -102,8 +98,6 @@ In addition to all restricted mode permissions, all mode provides:
 ## Role binding
 
 Bind the Role to your service account in each namespace where you want to collect logs.
-
-**File: `log-collector-role-binding.yaml`**
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -124,8 +118,6 @@ roleRef:
 ## Cluster role binding
 
 Bind the ClusterRole to your service account for cluster-wide permissions.
-
-**File: `log-collector-cluster-role-binding.yaml`**
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1

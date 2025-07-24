@@ -26,8 +26,6 @@ Apply the YAML files in this order:
 
 The service account provides an identity for the Redis Enterprise operator.
 
-**File: `service-account.yaml`**
-
 {{<embed-md "k8s/service_account.md">}}
 
 ### Service account configuration
@@ -38,8 +36,6 @@ The service account provides an identity for the Redis Enterprise operator.
 ## Role
 
 The Role defines the permissions needed by the Redis Enterprise operator within the namespace.
-
-**File: `role.yaml`**
 
 {{<embed-md "k8s/role.md">}}
 
@@ -61,8 +57,6 @@ The Role defines the permissions needed by the Redis Enterprise operator within 
 
 The RoleBinding connects the service account to the role, granting the necessary permissions.
 
-**File: `role-binding.yaml`**
-
 {{<embed-md "k8s/role_binding.md">}}
 
 ### Role binding configuration
@@ -75,8 +69,6 @@ The RoleBinding connects the service account to the role, granting the necessary
 
 The RedisEnterpriseCluster (REC) custom resource defines the cluster specification.
 
-**File: `redis-cluster.yaml`**
-
 {{<embed-md "k8s/rec.md">}}
 
 ### Cluster configuration
@@ -86,7 +78,7 @@ The RedisEnterpriseCluster (REC) custom resource defines the cluster specificati
 - **persistentSpec.volumeSize**: Storage size per node
 - **redisEnterpriseNodeResources**: CPU and memory allocation per node
 
-### Customization options
+### Cluster customization options
 
 Edit these values based on your requirements:
 
@@ -94,11 +86,11 @@ Edit these values based on your requirements:
 spec:
   # Increase nodes for larger clusters
   nodes: 5
-  
+
   # Adjust storage size
   persistentSpec:
     volumeSize: 50Gi
-  
+
   # Modify resource allocation
   redisEnterpriseNodeResources:
     requests:
@@ -113,8 +105,6 @@ spec:
 
 The RedisEnterpriseDatabase (REDB) custom resource defines the database specification.
 
-**File: `redis-database.yaml`**
-
 {{<embed-md "k8s/redb.md">}}
 
 ### Database configuration
@@ -124,7 +114,7 @@ The RedisEnterpriseDatabase (REDB) custom resource defines the database specific
 - **spec.shardCount**: Number of shards (affects performance and scalability)
 - **spec.replication**: Enable/disable database replication
 
-### Customization options
+### Database customization options
 
 Edit these values based on your requirements:
 
@@ -132,13 +122,13 @@ Edit these values based on your requirements:
 spec:
   # Increase memory for larger datasets
   memorySize: 1GB
-  
+
   # Add more shards for better performance
   shardCount: 3
-  
+
   # Enable replication for high availability
   replication: true
-  
+
   # Add database-specific configuration
   redisEnterpriseConfiguration:
     # Enable specific Redis modules

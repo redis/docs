@@ -39,8 +39,6 @@ This example shows a two-cluster Active-Active setup:
 
 Each participating cluster needs a RedisEnterpriseRemoteCluster (RERC) resource pointing to the other clusters.
 
-**File: `rerc-chicago.yaml`** (applied on Boston cluster)
-
 {{<embed-md "k8s/rerc.md">}}
 
 ### RERC configuration
@@ -76,8 +74,6 @@ spec:
 
 ## RERC for Boston cluster
 
-**File: `rerc-boston.yaml`** (applied on Chicago cluster)
-
 ```yaml
 apiVersion: app.redislabs.com/v1alpha1
 kind: RedisEnterpriseRemoteCluster
@@ -94,8 +90,6 @@ spec:
 ## Active-Active database
 
 The RedisEnterpriseActiveActiveDatabase (REAADB) resource defines the Active-Active database.
-
-**File: `active-active-database.yaml`**
 
 {{<embed-md "k8s/reaadb.md">}}
 
