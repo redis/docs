@@ -8,6 +8,7 @@ categories:
 - rc
 description: Learn how to use your own keys for persistent storage encryption on Redis Cloud.
 weight: $weight
+bannerText: Self-managed encryption keys are available in Private Preview.
 ---
 
 Redis Cloud databases write their data to disk whenever [persistence]({{< relref "/operate/rc/databases/configuration/data-persistence.md" >}}) is enabled. 
