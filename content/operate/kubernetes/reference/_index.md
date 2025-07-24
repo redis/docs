@@ -72,6 +72,19 @@ kubectl delete rec my-cluster
 
 **Important:** Always delete databases (REDB) before deleting the cluster (REC) to ensure proper cleanup.
 
+## YAML examples
+
+Complete YAML examples for common deployment scenarios:
+
+- [YAML examples]({{< relref "/operate/kubernetes/reference/yaml-examples" >}}) - Ready-to-use YAML configurations for different deployment types
+
+### Example categories
+
+- [Basic deployment]({{< relref "/operate/kubernetes/reference/yaml-examples/basic-deployment" >}}) - Essential YAML files for simple Redis Enterprise deployment
+- [Rack awareness]({{< relref "/operate/kubernetes/reference/yaml-examples/rack-awareness" >}}) - YAML examples for rack-aware deployments across availability zones
+- [Active-Active]({{< relref "/operate/kubernetes/reference/yaml-examples/active-active" >}}) - YAML examples for Active-Active databases across multiple clusters
+- [Multi-namespace]({{< relref "/operate/kubernetes/reference/yaml-examples/multi-namespace" >}}) - YAML examples for deploying across multiple namespaces
+
 ## API reference
 
 Complete API specifications for all Redis Enterprise custom resources:

@@ -18,6 +18,7 @@ Access and manage Redis Enterprise logs on Kubernetes for monitoring, troublesho
 Learn how to collect and access logs from your Redis Enterprise deployment:
 
 - [Collect logs]({{< relref "/operate/kubernetes/logs/collect-logs" >}}) - Methods for collecting logs from Redis Enterprise pods and containers
+- [Log collector RBAC]({{< relref "/operate/kubernetes/logs/log-collector-rbac" >}}) - RBAC configurations for log collection in restricted and all modes
 
 ## Log storage and access
 
