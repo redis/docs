@@ -489,6 +489,28 @@ Next, count GitHub events by user (actor), to produce the most active users.
 
 </details>
 
+<details open>
+<summary><b>Use the case function for conditional logic</b></summary>
+{{< highlight bash >}}
+//Simple mapping
+FT.AGGREGATE products "*"
+APPLY case(@price > 100, "premium", "standard") AS category
+
+//Nested conditions where an error should be returned
+FT.AGGREGATE orders "*"
+APPLY case(@status == "pending", 
+           case(@priority == "high", 1, 2), 
+           case(@status == "completed", 3, 4)) AS status_code
+
+//Mapped approach
+FT.AGGREGATE orders "*"
+APPLY case(@status == "pending", 1, 0) AS is_pending
+APPLY case(@is_pending == 1 && @priority == "high", 1,2) AS status_high
+APPLY case(@is_pending == 0 && @priority == "high", 3,4) AS status_completed
+{{< / highlight >}}
+
+</details>
+
 ## See also
 
 [`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) | [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) 
