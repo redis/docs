@@ -24,6 +24,8 @@ As of version 6.2.18-3, the log collector tool has two modes:
 
 1. Download the latest [`log_collector.py`](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/log_collector/log_collector.py) file.
 
+1. Ensure your `kubectl` or `oc` CLI is configured to access the Kubernetes cluster you want to collect logs from.
+
 1. Have a K8s administrator run the script on the system that runs your `kubectl` or `oc` commands.
 
     ```bash
