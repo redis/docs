@@ -102,14 +102,17 @@ OK
     tab1="RESP2" 
     tab2="RESP3" >}}
 
-[Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) reply.
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, invalid schema syntax.
 
 -tab-sep-
 
-[Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) reply.
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, invalid schema syntax.
 
 {{< /multitabs >}}
-
 ## See also
 
 [`FT.CREATE`]({{< relref "commands/ft.create/" >}}) 

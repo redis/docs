@@ -356,18 +356,21 @@ The next two GC-related fields are relevant in scenarios where simultaneous chan
 
 ## Return information
 
-{{< multitabs id="ft-info-return-info"
-    tab1="RESP2"
+{{< multitabs id="ft-info-return-info" 
+    tab1="RESP2" 
     tab2="RESP3" >}}
 
-[Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of key-value pairs containing index information and statistics.
+One of the following:
+* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of key-value pairs containing index information and statistics.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index.
 
 -tab-sep-
 
-[Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) containing index information and statistics as key-value pairs.
+One of the following:
+* [Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) containing index information and statistics as key-value pairs.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index.
 
 {{< /multitabs >}}
-
 ## See also
 
 [`FT.CREATE`]({{< relref "commands/ft.create/" >}}) | [`FT.SEARCH`]({{< relref "commands/ft.search/" >}})

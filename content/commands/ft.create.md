@@ -469,14 +469,17 @@ The following example uses data similar to the hash examples above but uses JSON
     tab1="RESP2" 
     tab2="RESP3" >}}
 
-[Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) reply.
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: index already exists, invalid schema syntax.
 
 -tab-sep-
 
-[Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) reply.
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: index already exists, invalid schema syntax.
 
 {{< /multitabs >}}
-
 ## See also
 
 [`FT.ALTER`]({{< relref "commands/ft.alter/" >}}) | [`FT.DROPINDEX`]({{< relref "commands/ft.dropindex/" >}}) 

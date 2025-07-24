@@ -64,14 +64,13 @@ FT.SUGLEN returns an integer reply, which is the current size of the suggestion 
     tab1="RESP2" 
     tab2="RESP3" >}}
 
-[Integer]({{< relref "/develop/reference/protocol-spec#integers" >}}) reply.
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): number of suggestions in the dictionary.
 
 -tab-sep-
 
-[Integer]({{< relref "/develop/reference/protocol-spec#integers" >}}) reply.
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): number of suggestions in the dictionary.
 
 {{< /multitabs >}}
-
 ## See also
 
 [`FT.SUGADD`]({{< relref "commands/ft.sugadd/" >}}) | [`FT.SUGDEL`]({{< relref "commands/ft.sugdel/" >}}) | [`FT.SUGGET`]({{< relref "commands/ft.sugget/" >}}) 

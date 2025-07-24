@@ -84,14 +84,17 @@ FT.CURSOR READ returns an array reply where each row is an array reply and repre
     tab1="RESP2" 
     tab2="RESP3" >}}
 
-[Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with search results and metadata.
+One of the following:
+* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with search results and metadata.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: cursor not found.
 
 -tab-sep-
 
-[Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) with structured search results and metadata.
+One of the following:
+* [Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) with structured search results and metadata.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: cursor not found.
 
 {{< /multitabs >}}
-
 ## See also
 
 [`FT.CURSOR DEL`]({{< relref "commands/ft.cursor-del/" >}}) | [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}})

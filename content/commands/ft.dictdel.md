@@ -73,14 +73,13 @@ FT.DICTDEL returns an integer reply, the number of new terms that were deleted.
     tab1="RESP2" 
     tab2="RESP3" >}}
 
-[Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) reply.
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): number of terms deleted from the dictionary.
 
 -tab-sep-
 
-[Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) reply.
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): number of terms deleted from the dictionary.
 
 {{< /multitabs >}}
-
 ## See also
 
 [`FT.DICTADD`]({{< relref "commands/ft.dictadd/" >}}) | [`FT.DICTDUMP`]({{< relref "commands/ft.dictdump/" >}})

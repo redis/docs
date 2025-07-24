@@ -72,14 +72,17 @@ FT.SYNDUMP returns an array reply, with a pair of `term` and an array of synonym
     tab1="RESP2" 
     tab2="RESP3" >}}
 
-[Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of synonym terms and their associated synonym groups.
+One of the following:
+* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of synonym terms and their associated synonym groups.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index.
 
 -tab-sep-
 
-[Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) where keys are synonym terms and values are arrays of their associated synonym groups.
+One of the following:
+* [Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) where keys are synonym terms and values are arrays of their associated synonym groups.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index.
 
 {{< /multitabs >}}
-
 ## See also
 
 [`FT.SYNUPDATE`]({{< relref "commands/ft.synupdate/" >}}) 

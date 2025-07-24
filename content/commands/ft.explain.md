@@ -105,18 +105,21 @@ INTERSECT {
 
 ## Return information
 
-{{< multitabs id="ft-explain-return-info"
-    tab1="RESP2"
+{{< multitabs id="ft-explain-return-info" 
+    tab1="RESP2" 
     tab2="RESP3" >}}
 
-[Bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the query execution plan.
+One of the following:
+* [Bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the query execution plan.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, syntax error in query.
 
 -tab-sep-
 
-[Bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the query execution plan.
+One of the following:
+* [Bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the query execution plan.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, syntax error in query.
 
 {{< /multitabs >}}
-
 ## See also
 
 [`FT.CREATE`]({{< relref "commands/ft.create/" >}}) | [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) | [`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}})

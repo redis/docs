@@ -71,14 +71,13 @@ FT.CONFIG HELP returns an array reply of the configuration name and value.
     tab1="RESP2" 
     tab2="RESP3" >}}
 
-[Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) reply.
+[Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of help information.
 
 -tab-sep-
 
-[Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) reply.
+[Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of help information.
 
 {{< /multitabs >}}
-
 ## See also
 
 [`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) | [`FT.CONFIG GET`]({{< relref "commands/ft.config-get/" >}}) 

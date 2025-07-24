@@ -49,7 +49,7 @@ FT._LIST
 
 ## Return information
 
-{{< multitabs id=“ft-list-name-return-info" 
+{{< multitabs id="ft-_list-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}
 

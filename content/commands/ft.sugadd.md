@@ -106,14 +106,13 @@ FT.SUGADD returns an integer reply, which is the current size of the suggestion 
     tab1="RESP2" 
     tab2="RESP3" >}}
 
-[Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) reply.
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): number of elements added to the suggestion dictionary.
 
 -tab-sep-
 
-[Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) reply.
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): number of elements added to the suggestion dictionary.
 
 {{< /multitabs >}}
-
 ## See also
 
 [`FT.SUGGET`]({{< relref "commands/ft.sugget/" >}}) | [`FT.SUGDEL`]({{< relref "commands/ft.sugdel/" >}}) | [`FT.SUGLEN`]({{< relref "commands/ft.suglen/" >}}) 

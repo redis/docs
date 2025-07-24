@@ -138,14 +138,17 @@ The score is calculated by dividing the number of documents in which the suggest
     tab1="RESP2" 
     tab2="RESP3" >}}
 
-[Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of spell check results for each term.
+One of the following:
+* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of spell check results for each term.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index.
 
 -tab-sep-
 
-[Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) with a `results` key containing spell check results for each term.
+One of the following:
+* [Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) with a `results` key containing spell check results for each term.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index.
 
 {{< /multitabs >}}
-
 ## See also
 
 [`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) | [`FT.DICTADD`]({{< relref "commands/ft.dictadd/" >}}) | [`FT.DICTDEL`]({{< relref "commands/ft.dictdel/" >}}) | [`FT.DICTDUMP`]({{< relref "commands/ft.dictdump/" >}})

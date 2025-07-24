@@ -68,14 +68,13 @@ FT.DICTDUMP returns an array, where each element is term (string).
     tab1="RESP2" 
     tab2="RESP3" >}}
 
-[Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of results.
+[Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of dictionary terms.
 
 -tab-sep-
 
-[Set]({{< relref "/develop/reference/protocol-spec#sets" >}}) of results.
+[Set]({{< relref "/develop/reference/protocol-spec#sets" >}}) of dictionary terms.
 
 {{< /multitabs >}}
-
 ## See also
 
 [`FT.DICTADD`]({{< relref "commands/ft.dictadd/" >}}) | [`FT.DICTDEL`]({{< relref "commands/ft.dictdel/" >}})

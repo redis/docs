@@ -122,14 +122,17 @@ $ redis-cli
     tab1="RESP2" 
     tab2="RESP3" >}}
 
-[Bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) reply.
+One of the following:
+* [Bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the query execution plan in CLI format.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, syntax error in query.
 
 -tab-sep-
 
-[Bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) reply.
+One of the following:
+* [Bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the query execution plan in CLI format.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, syntax error in query.
 
 {{< /multitabs >}}
-
 ## See also
 
 [`FT.CREATE`]({{< relref "commands/ft.create/" >}}) | [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) | [`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}})

@@ -73,14 +73,13 @@ FT.DICTADD returns an integer reply, the number of new terms that were added.
     tab1="RESP2" 
     tab2="RESP3" >}}
 
-[Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) reply.
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): number of new terms added to the dictionary.
 
 -tab-sep-
 
-[Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) reply.
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): number of new terms added to the dictionary.
 
 {{< /multitabs >}}
-
 ## See also
 
 [`FT.DICTDEL`]({{< relref "commands/ft.dictdel/" >}}) | [`FT.DICTDUMP`]({{< relref "commands/ft.dictdump/" >}})

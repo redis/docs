@@ -405,14 +405,17 @@ Here's an example of running the `FT.PROFILE` command for a vector query.
     tab1="RESP2" 
     tab2="RESP3" >}}
 
-[Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with two elements: search results and profiling information.
+One of the following:
+* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with two elements: search results and profiling information.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, syntax error in query.
 
 -tab-sep-
 
-[Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) with two keys: `Results` containing search results and `Profile` containing profiling information.
+One of the following:
+* [Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) with two keys: `Results` containing search results and `Profile` containing profiling information.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, syntax error in query.
 
 {{< /multitabs >}}
-
 ## See also
 
 [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) | [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}) 
