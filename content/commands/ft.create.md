@@ -403,10 +403,6 @@ if set, does not scan and index.
 
 </note>
 
-## Return
-
-FT.CREATE returns a simple string reply `OK` if executed correctly, or an error reply otherwise.
-
 ## Examples
 
 <details open>
@@ -480,6 +476,7 @@ One of the following:
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: index already exists, invalid schema syntax.
 
 {{< /multitabs >}}
+
 ## See also
 
 [`FT.ALTER`]({{< relref "commands/ft.alter/" >}}) | [`FT.DROPINDEX`]({{< relref "commands/ft.dropindex/" >}}) 

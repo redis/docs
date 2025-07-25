@@ -874,6 +874,7 @@ One of the following:
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, syntax error in query.
 
 {{< /multitabs >}}
+
 ## See also
 
 [`FT.CREATE`]({{< relref "commands/ft.create/" >}}) | [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}})

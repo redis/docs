@@ -90,10 +90,6 @@ is the query string, sent to `FT.SEARCH` or `FT.AGGREGATE`.
 The second element contains information about query creation, iterator profiles, and result processor profiles.
 Details of the second element follow in the sections below.
 
-### Results
-
-This section contains the search results.
-
 ### Per-shard profiles
 
 This section contains query execution details for each shard.
@@ -416,6 +412,7 @@ One of the following:
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, syntax error in query.
 
 {{< /multitabs >}}
+
 ## See also
 
 [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) | [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}) 

@@ -71,10 +71,6 @@ is dialect version under which to execute the query. If not specified, the query
 
 {{% /alert %}}
 
-## Return
-
-FT.EXPLAIN returns a string representing the execution plan.
-
 ## Examples
 
 <details open>
@@ -120,6 +116,7 @@ One of the following:
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, syntax error in query.
 
 {{< /multitabs >}}
+
 ## See also
 
 [`FT.CREATE`]({{< relref "commands/ft.create/" >}}) | [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) | [`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}})

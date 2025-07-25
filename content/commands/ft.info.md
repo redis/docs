@@ -39,10 +39,6 @@ Returns information and statistics about a given index.
 <br />
 is the name of the given index. You must first create the index using [`FT.CREATE`]({{< relref "commands/ft.create/" >}}).
 
-## RESP reply
-
-`FT.INFO` returns an array reply with pairs of keys and values.
-
 ## Returned values
 
 ### General
@@ -371,6 +367,7 @@ One of the following:
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index.
 
 {{< /multitabs >}}
+
 ## See also
 
 [`FT.CREATE`]({{< relref "commands/ft.create/" >}}) | [`FT.SEARCH`]({{< relref "commands/ft.search/" >}})

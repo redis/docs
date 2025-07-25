@@ -65,10 +65,6 @@ Use FT.TAGVALS if your tag indexes things like cities, categories, and so on.
 FT.TAGVALS provides no paging or sorting, and the tags are not alphabetically sorted. FT.TAGVALS only operates on [tag fields]({{< relref "/develop/ai/search-and-query/advanced-concepts/tags" >}}).
 The returned strings are lowercase with whitespaces removed, but otherwise unchanged.
 
-## Return
-
-FT.TAGVALS returns an array reply of all distinct tags in the tag index.
-
 ## Examples
 
 <details open>
@@ -98,6 +94,7 @@ One of the following:
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, not a tag field.
 
 {{< /multitabs >}}
+
 ## See also
 
 [`FT.CREATE`]({{< relref "commands/ft.create/" >}})

@@ -46,10 +46,6 @@ index, FT.ALIASUPDATE removes the alias association with the previous index.
 is alias to be added to an index.
 </details>
 
-## Return
-
-FT.ALIASUPDATE returns a simple string reply `OK` if executed correctly, or an error reply otherwise.
-
 ## Examples
 
 <details open>
@@ -79,6 +75,7 @@ One of the following:
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: index does not exist.
 
 {{< /multitabs >}}
+
 ## See also
 
 [`FT.ALIASADD`]({{< relref "commands/ft.aliasadd/" >}}) | [`FT.ALIASDEL`]({{< relref "commands/ft.aliasdel/" >}}) 

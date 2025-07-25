@@ -85,10 +85,6 @@ increments the existing entry of the suggestion by the given score, instead of r
 saves an extra payload with the suggestion, that can be fetched by adding the `WITHPAYLOADS` argument to [`FT.SUGGET`]({{< relref "commands/ft.sugget/" >}}).
 </details>
 
-## Return
-
-FT.SUGADD returns an integer reply, which is the current size of the suggestion dictionary.
-
 ## Examples
 
 <details open>
@@ -113,6 +109,7 @@ FT.SUGADD returns an integer reply, which is the current size of the suggestion 
 [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): number of elements added to the suggestion dictionary.
 
 {{< /multitabs >}}
+
 ## See also
 
 [`FT.SUGGET`]({{< relref "commands/ft.sugget/" >}}) | [`FT.SUGDEL`]({{< relref "commands/ft.sugdel/" >}}) | [`FT.SUGLEN`]({{< relref "commands/ft.suglen/" >}}) 

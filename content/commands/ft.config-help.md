@@ -46,10 +46,6 @@ Describe configuration options
 is name of the configuration option, or '*' for all. 
 </details>
 
-## Return
-
-FT.CONFIG HELP returns an array reply of the configuration name and value.
-
 ## Examples
 
 <details open>
@@ -78,6 +74,7 @@ FT.CONFIG HELP returns an array reply of the configuration name and value.
 [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of help information.
 
 {{< /multitabs >}}
+
 ## See also
 
 [`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) | [`FT.CONFIG GET`]({{< relref "commands/ft.config-get/" >}}) 

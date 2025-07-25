@@ -45,10 +45,6 @@ Dump all terms in the given dictionary
 is dictionary name.
 </details>
 
-## Return
-
-FT.DICTDUMP returns an array, where each element is term (string).
-
 ## Examples
 
 <details open>
@@ -75,6 +71,7 @@ FT.DICTDUMP returns an array, where each element is term (string).
 [Set]({{< relref "/develop/reference/protocol-spec#sets" >}}) of dictionary terms.
 
 {{< /multitabs >}}
+
 ## See also
 
 [`FT.DICTADD`]({{< relref "commands/ft.dictadd/" >}}) | [`FT.DICTDEL`]({{< relref "commands/ft.dictdel/" >}})

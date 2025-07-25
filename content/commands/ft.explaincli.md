@@ -71,10 +71,6 @@ In the returned response, a `+` on a term is an indication of stemming.
 
 </details>
 
-## Return
-
-FT.EXPLAINCLI returns an array reply with a string representing the execution plan.
-
 ## Examples
 
 <details open>
@@ -123,16 +119,17 @@ $ redis-cli
     tab2="RESP3" >}}
 
 One of the following:
-* [Bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the query execution plan in CLI format.
+* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the query execution plan in CLI format.
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, syntax error in query.
 
 -tab-sep-
 
 One of the following:
-* [Bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the query execution plan in CLI format.
+* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the query execution plan in CLI format.
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, syntax error in query.
 
 {{< /multitabs >}}
+
 ## See also
 
 [`FT.CREATE`]({{< relref "commands/ft.create/" >}}) | [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) | [`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}})

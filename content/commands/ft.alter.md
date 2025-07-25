@@ -81,10 +81,6 @@ contain more than 32 attributes, create it with the `MAXTEXTFIELDS` option.
 </note>
 </details>
 
-## Return
-
-FT.ALTER returns a simple string reply `OK` if executed correctly, or an error reply otherwise.
-
 ## Examples
 
 <details open>
@@ -113,6 +109,7 @@ One of the following:
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, invalid schema syntax.
 
 {{< /multitabs >}}
+
 ## See also
 
 [`FT.CREATE`]({{< relref "commands/ft.create/" >}}) 

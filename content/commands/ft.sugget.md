@@ -116,13 +116,14 @@ FT.SUGGET returns an array reply, which is a list of the top suggestions matchin
     tab1="RESP2" 
     tab2="RESP3" >}}
 
-[Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of suggestion strings.
+[Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of the top suggestions matching the prefix, optionally with a score after each entry.
 
 -tab-sep-
 
-[Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of suggestion strings.
+[Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of the top suggestions matching the prefix, optionally with a score after each entry.
 
 {{< /multitabs >}}
+
 ## See also
 
 [`FT.SUGADD`]({{< relref "commands/ft.sugadd/" >}}) | [`FT.SUGDEL`]({{< relref "commands/ft.sugdel/" >}}) | [`FT.SUGLEN`]({{< relref "commands/ft.suglen/" >}}) 

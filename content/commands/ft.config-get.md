@@ -48,10 +48,6 @@ Retrieve configuration options
 is name of the configuration option, or '*' for all. 
 </details>
 
-## Return
-
-FT.CONFIG GET returns an array reply of the configuration name and value.
-
 ## Examples
 
 <details open>
@@ -153,6 +149,7 @@ FT.CONFIG GET returns an array reply of the configuration name and value.
 [Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) where keys are configuration option names and values are their corresponding values.
 
 {{< /multitabs >}}
+
 ## See also
 
 [`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) | [`FT.CONFIG HELP`]({{< relref "commands/ft.config-help/" >}})

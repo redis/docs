@@ -62,10 +62,6 @@ is name of the configuration option, or '*' for all.
 is value of the configuration option. 
 </details>
 
-## Return
-
-FT.CONFIG SET returns a simple string reply `OK` if executed correctly, or an error reply otherwise.
-
 ## Examples
 
 <details open>
@@ -94,6 +90,7 @@ One of the following:
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid option, invalid value.
 
 {{< /multitabs >}}
+
 ## See also
 
 [`FT.CONFIG GET`]({{< relref "commands/ft.config-get/" >}}) | [`FT.CONFIG HELP`]({{< relref "commands/ft.config-help/" >}}) 

@@ -66,10 +66,6 @@ To check the completion of the indexing, use [`FT.INFO`]({{< relref "commands/ft
 
 </details>
 
-## Return
-
-FT.DROPINDEX returns a simple string reply `OK` if executed correctly, or an error reply otherwise.
-
 ## Examples
 
 <details open>
@@ -98,6 +94,7 @@ One of the following:
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index.
 
 {{< /multitabs >}}
+
 ## See also
 
 [`FT.CREATE`]({{< relref "commands/ft.create/" >}}) | [`FT.INFO`]({{< relref "commands/ft.info/" >}})
