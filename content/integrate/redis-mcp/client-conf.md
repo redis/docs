@@ -48,6 +48,7 @@ give the general configuration details for some common MCP client tools:
 -   [Claude Desktop](https://modelcontextprotocol.io/quickstart/user)
 -   [GitHub Copilot for VS Code](https://code.visualstudio.com/docs/copilot/chat/mcp-servers)
 -   [OpenAI](https://openai.github.io/openai-agents-python/mcp/)
+-   [Augment](https://docs.augmentcode.com/setup-augment/mcp)
 
 ### Local servers
 
@@ -123,6 +124,16 @@ configuration as shown below:
             "mcp-redis"]
 }
 ```
+
+For Augment in VS Code or JetBrains IDEs, you can also add the configuration
+from the Settings panel. Open the **Settings** panel using the menu
+in the top right corner of the main Augment panel. In the **Tools**
+settings, scroll down to the **MCP** section and select **Add MCP**.
+Enter `Redis` in the name field and paste appropriate command line in the
+command field (see
+[Configuration]({{< relref "/integrate/redis-mcp/install#configuration" >}})
+for more information about the command line options). You can also add any
+[environment variables]({{< relref "/integrate/redis-mcp/install#environment-variables" >}}) that you need.
 
 ## Redis Cloud MCP
 

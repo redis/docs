@@ -118,7 +118,9 @@ See the [`.env.example` file](https://github.com/redis/mcp-redis/blob/main/.env.
 in the repository for the full list of variables and their default values.
 
 You can also set the configuration using command-line arguments, which
-may be useful if you only want to change a few settings from the defaults:
+may be useful if you only want to change a few settings from the defaults
+(see [Command line options](#command-line-options) below for the full list
+of options).
 
 ```bash
 # Basic Redis connection
@@ -139,25 +141,47 @@ uvx --from git+https://github.com/redis/mcp-redis.git redis-mcp-server \
 uvx --from git+https://github.com/redis/mcp-redis.git redis-mcp-server --help
 ```
 
+{{< note >}}The command-line options take precedence over the environment variables.
+{{< /note >}}
+
 ### Environment variables
 
 The full set of environment variables is shown in the table below:
 
-| Name                 | Description                                               | Default Value |
-|----------------------|-----------------------------------------------------------|---------------|
-| `REDIS_HOST`         | Redis IP or hostname                                      | `"127.0.0.1"` |
-| `REDIS_PORT`         | Redis port                                                | `6379`        |
+| Name                 | Description                 | Default Value |
+|----------------------|-----------------------------|---------------|
+| `REDIS_HOST`         | Redis IP or hostname   | `"127.0.0.1"` |
+| `REDIS_PORT`         | Redis port         | `6379`        |
 | `REDIS_DB`           | Database | 0 |
-| `REDIS_USERNAME`     | Database username                                 | `"default"`   |
-| `REDIS_PWD`          | Database password                                 | ""            |
-| `REDIS_SSL`          | Enables or disables SSL/TLS                               | `False`       |
-| `REDIS_CA_PATH`      | CA certificate for verifying server                       | None          |
+| `REDIS_USERNAME`     | Database username   | `"default"`   |
+| `REDIS_PWD`          | Database password       | ""            |
+| `REDIS_SSL`          | Enables or disables SSL/TLS    | `False`       |
+| `REDIS_CA_PATH`      | CA certificate for verifying server   | None  |
 | `REDIS_SSL_KEYFILE`  | Client's private key file for client authentication       | None          |
 | `REDIS_SSL_CERTFILE` | Client's certificate file for client authentication       | None          |
 | `REDIS_CERT_REQS`    | Whether the client should verify the server's certificate | `"required"`  |
 | `REDIS_CA_CERTS`     | Path to the trusted CA certificates file                  | None          |
 | `REDIS_CLUSTER_MODE` | Enable Redis Cluster mode                                 | `False`       |
-| `MCP_TRANSPORT`      | Use the `stdio` or `sse` transport                        | `stdio`       |
+
+### Command line options
+
+The full set of command line options is shown in the table below:
+
+| Name                 | Description     | Default Value |
+|----------------------|-----------------|---------------|
+| `--url`              | Redis URL (`redis://user:pass@host:port/db`)   |  |
+| `--host`             | Redis IP or hostname   | `"127.0.0.1"` |
+| `--port`             | Redis port         | `6379`        |
+| `--db`               | Database | 0 |
+| `--username`         | Database username   | `"default"`   |
+| `--password`         | Database password       | |
+| `--ssl`              | Enables or disables SSL/TLS    | `False`       |
+| `--ssl-ca-path`          | CA certificate for verifying server   | None  |
+| `--ssl-keyfile`      | Client's private key file for client authentication   |    |
+| `--ssl-certfile`     | Client's certificate file for client authentication   |   |
+| `--ssl-cert-reqs`        | Whether the client should verify the server's certificate   | `"required"`  |
+| `--ssl-ca-certs`         | Path to the trusted CA certificates file   |   |
+| `--cluster-mode`     | Enable Redis Cluster mode    | `False`       |
 
 ## Redis Cloud MCP
 
