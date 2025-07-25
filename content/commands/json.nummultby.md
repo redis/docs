@@ -58,11 +58,6 @@ is number value to multiply.
 is JSONPath to specify. Default is root `$`.
 </details>
 
-## Return
-
-JSON.NUMMULTBY returns a bulk string reply specified as a stringified new values for each path, or `nil` element if the matching JSON value is not a number.
-For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
-
 ## Examples
 
 {{< highlight bash >}}
@@ -73,6 +68,24 @@ redis> JSON.NUMMULTBY doc $.a 2
 redis> JSON.NUMMULTBY doc $..a 2
 "[null,4,10,null]"
 {{< / highlight >}}
+
+## Return information
+
+{{< multitabs id="json-nummultby-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+With `$`-based path argument: [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing a JSON-encoded string with the new value(s), or [null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the matching value is not a number.
+
+With `.`-based path argument: [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) representing the stringified new value, [null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the matching value is not a number, or [simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) on error.
+
+-tab-sep-
+
+With `$`-based path argument (default): [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integer replies]({{< relref "/develop/reference/protocol-spec#integers" >}}) or [null replies]({{< relref "/develop/reference/protocol-spec#nulls" >}}), where each element is the new value, or `null` if the matching value is not a number, or [simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) on error.
+
+With `.`-based path argument: [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) representing the stringified new value, [null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the matching value is not a number, or [simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) on error.
+
+{{< /multitabs >}}
 
 ## See also
 

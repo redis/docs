@@ -51,11 +51,6 @@ is JSONPath to specify. Default is root `$`.
 
 </details>
 
-## Return
-
-JSON.TOGGLE returns an array of integer replies for each path, the new value (`0` if `false` or `1` if `true`), or `nil` for JSON values matching the path that are not Boolean.
-For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
-
 ## Examples
 
 <details open>
@@ -96,6 +91,24 @@ redis> JSON.GET doc $
 "[{\"bool\":true}]"
 {{< / highlight >}}
 </details>
+
+## Return information
+
+{{< multitabs id="json-toggle-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+With `$`-based path argument: [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integer replies]({{< relref "/develop/reference/protocol-spec#integers" >}}) or [null replies]({{< relref "/develop/reference/protocol-spec#nulls" >}}), where each element is the new value (`0` if `false` or `1` if `true`), or `null` if the matching value is not Boolean.
+
+With `.`-based path argument: [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing the new value (`0` if `false` or `1` if `true`), or [null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the matching value is not Boolean.
+
+-tab-sep-
+
+With `$`-based path argument (default): [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integer replies]({{< relref "/develop/reference/protocol-spec#integers" >}}) or [null replies]({{< relref "/develop/reference/protocol-spec#nulls" >}}), where each element is the new value (`0` if `false` or `1` if `true`), or `null` if the matching value is not Boolean.
+
+With `.`-based path argument: [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing the new value (`0` if `false` or `1` if `true`), or [null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the matching value is not Boolean.
+
+{{< /multitabs >}}
 
 ## See also
 

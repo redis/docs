@@ -65,11 +65,6 @@ is position in the array to start popping from. Default is `-1`, meaning the las
 is JSONPath to specify. Default is root `$`.
 </details>
 
-## Return
-
-`JSON.ARRPOP` returns an [array]({{< relref "develop/reference/protocol-spec#resp-arrays" >}}) of bulk string replies for each path, each reply is the popped JSON value, or `nil`, if the matching JSON value is not an array.
-For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}). 
-
 ## Examples
 
 <details open>
@@ -117,6 +112,20 @@ redis> JSON.GET key $.[1].max_level
 "[[85,90,100,120]]"
 {{< / highlight >}}
 </details>
+
+## Return information
+
+{{< multitabs id="json-arrpop-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) or [null replies]({{< relref "/develop/reference/protocol-spec#nulls" >}}), where each element is the popped JSON value as a string, or `null` if the matching value is not an array.
+
+-tab-sep-
+
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) or [null replies]({{< relref "/develop/reference/protocol-spec#nulls" >}}), where each element is the popped JSON value as a string, or `null` if the matching value is not an array.
+
+{{< /multitabs >}}
 
 ## See also
 

@@ -24,9 +24,19 @@ title: JSON.DEBUG HELP
 ---
 Return helpful information about the [`JSON.DEBUG`]({{< relref "commands/json.debug/" >}}) command
 
-## Return
+## Return information
 
-JSON.DEBUG HELP returns an array with helpful messages.
+{{< multitabs id="json-debug-help-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing helpful messages about the JSON.DEBUG command.
+
+-tab-sep-
+
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing helpful messages about the JSON.DEBUG command.
+
+{{< /multitabs >}}
 
 ## See also
 

@@ -66,12 +66,6 @@ is the JSON value to merge with at the specified path. Merging is done according
 *   merging an existing array with any merged value, replaces the entire array with the value
 </details>
 
-## Return value
-
-JSON.MERGE returns a simple string reply: `OK` if executed correctly or `error` if fails to set the new values
-
-For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
-
 ## Examples
 
 JSON.MERGE provides four different behaviors to merge changes on a given key: create a non-existent path, update an existing path with a new value, delete an existing path, or replace an array with a new array
@@ -148,6 +142,24 @@ redis> JSON.GET doc
 {{< / highlight >}}
 
 </details>
+
+## Return information
+
+{{< multitabs id="json-merge-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): if the operation fails to set the new values.
+
+-tab-sep-
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): if the operation fails to set the new values.
+
+{{< /multitabs >}}
 
 ## See also
 

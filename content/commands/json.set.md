@@ -81,17 +81,6 @@ sets the key only if it does not already exist.
 sets the key only if it already exists.
 </details>
 
-## Return value 
-
-Returns one of these replies:
-- A simple string reply: `OK` if executed correctly
-- `nil`
-  - if `key` exists but `path` does not exist and cannot be created
-  - if an `NX` or `XX` condition is unmet
-- error if `key` does not exist and `path` is not root  (`.` or `$`)
-
-For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
-
 ## Examples
 
 <details open>
@@ -164,6 +153,25 @@ redis> JSON.SET nonexistentkey $.x 5
 {{< / highlight >}}
 </details>
 
+## Return information
+
+{{< multitabs id="json-set-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
+* [Null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}): if `key` exists but `path` does not exist and cannot be created, or if an `NX` or `XX` condition is unmet.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): if `key` does not exist and `path` is not root (`.` or `$`).
+
+-tab-sep-
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
+* [Null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}): if `key` exists but `path` does not exist and cannot be created, or if an `NX` or `XX` condition is unmet.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): if `key` does not exist and `path` is not root (`.` or `$`).
+
+{{< /multitabs >}}
 
 ## See also
 
