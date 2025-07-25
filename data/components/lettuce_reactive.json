@@ -9,7 +9,6 @@
   },
   "examples": {
       "git_uri": "https://github.com/redis/lettuce",
-      "dev_branch": "main",
       "path": "src/test/java/io/redis/examples/reactive",
       "pattern": "*.java"
   }

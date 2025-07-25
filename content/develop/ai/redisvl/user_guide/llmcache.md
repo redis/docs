@@ -1,17 +1,11 @@
 ---
-linkTitle: Semantic caching for LLMs
-title: Semantic Caching for LLMs
-weight: 03
+linkTitle: First, we will import [openai](https://platform.openai.com) to use their API for responding to user prompts. we will also create a simple `ask_openai` helper method to assist.
+title: First, we will import [OpenAI](https://platform.openai.com) to use their API for responding to user prompts. We will also create a simple `ask_openai` helper method to assist.
 aliases:
-- /integrate/redisvl/user_guide/llmcache
+- /integrate/redisvl/user_guide/03_llmcache
+weight: 03
 ---
 
-
-RedisVL provides a ``SemanticCache`` interface to utilize Redis' built-in caching capabilities AND vector search in order to store responses from previously-answered questions. This reduces the number of requests and tokens sent to the Large Language Models (LLM) service, decreasing costs and enhancing application throughput (by reducing the time taken to generate responses).
-
-This notebook will go over how to use Redis as a Semantic Cache for your applications
-
-First, we will import [OpenAI](https://platform.openai.com) to use their API for responding to user prompts. We will also create a simple `ask_openai` helper method to assist.
 
 
 ```python
@@ -44,7 +38,6 @@ def ask_openai(question: str) -> str:
 print(ask_openai("What is the capital of France?"))
 ```
 
-    19:17:51 httpx INFO   HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
     The capital of France is Paris.
 
 
@@ -54,8 +47,11 @@ print(ask_openai("What is the capital of France?"))
 
 
 ```python
+import warnings
+warnings.filterwarnings('ignore')
+
 from redisvl.extensions.cache.llm import SemanticCache
-from redisvl.utils .vectorize import HFTextVectorizer
+from redisvl.utils.vectorize import HFTextVectorizer
 
 llmcache = SemanticCache(
     name="llmcache",                                          # underlying search index name
@@ -65,11 +61,15 @@ llmcache = SemanticCache(
 )
 ```
 
-    19:17:51 sentence_transformers.SentenceTransformer INFO   Use pytorch device_name: mps
-    19:17:51 sentence_transformers.SentenceTransformer INFO   Load pretrained SentenceTransformer: redis/langcache-embed-v1
+    13:02:02 sentence_transformers.SentenceTransformer INFO   Use pytorch device_name: mps
+    13:02:02 sentence_transformers.SentenceTransformer INFO   Load pretrained SentenceTransformer: redis/langcache-embed-v1
+    13:02:02 sentence_transformers.SentenceTransformer WARNING   You try to use a model that was created with version 4.1.0, however, your version is 3.4.1. This might cause unexpected behavior or errors. In that case, try to update to the latest version.
+    
+    
+    
 
 
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 17.57it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00,  3.79it/s]
 
 
 
@@ -114,7 +114,7 @@ else:
     print("Empty cache")
 ```
 
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 18.30it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00,  7.79it/s]
 
     Empty cache
 
@@ -135,7 +135,7 @@ llmcache.store(
 )
 ```
 
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 26.10it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 19.62it/s]
 
 
 
@@ -156,10 +156,12 @@ else:
     print("Empty cache")
 ```
 
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 12.36it/s]
-
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 18.65it/s]
 
     [{'prompt': 'What is the capital of France?', 'response': 'Paris', 'metadata': {'city': 'Paris', 'country': 'france'}, 'key': 'llmcache:115049a298532be2f181edb03f766770c0db84c22aff39003fec340deaec7545'}]
+
+
+    
 
 
 
@@ -169,7 +171,7 @@ question = "What actually is the capital of France?"
 llmcache.check(prompt=question)[0]['response']
 ```
 
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 12.22it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00,  7.81it/s]
 
 
 
@@ -179,12 +181,12 @@ llmcache.check(prompt=question)[0]['response']
 
 
 
-## Customize the Distance Threshhold
+## Customize the Distance Threshold
 
-For most use cases, the right semantic similarity threshhold is not a fixed quantity. Depending on the choice of embedding model,
-the properties of the input query, and even business use case -- the threshhold might need to change. 
+For most use cases, the right semantic similarity threshold is not a fixed quantity. Depending on the choice of embedding model,
+the properties of the input query, and even business use case -- the threshold might need to change. 
 
-Fortunately, you can seamlessly adjust the threshhold at any point like below:
+Fortunately, you can seamlessly adjust the threshold at any point like below:
 
 
 ```python
@@ -200,7 +202,7 @@ question = "What is the capital city of the country in Europe that also has a ci
 llmcache.check(prompt=question)[0]['response']
 ```
 
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 19.20it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00,  8.37it/s]
 
 
 
@@ -215,11 +217,11 @@ llmcache.check(prompt=question)[0]['response']
 # Invalidate the cache completely by clearing it out
 llmcache.clear()
 
-# should be empty now
+# Should be empty now
 llmcache.check(prompt=question)
 ```
 
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 26.71it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 21.23it/s]
 
 
 
@@ -248,7 +250,7 @@ llmcache.store("This is a TTL test", "This is a TTL test response")
 time.sleep(6)
 ```
 
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 20.45it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00,  8.53it/s]
 
 
 
@@ -259,7 +261,7 @@ result = llmcache.check("This is a TTL test")
 print(result)
 ```
 
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 17.02it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 12.54it/s]
 
     []
 
@@ -311,14 +313,14 @@ print(f"Without caching, a call to openAI to answer this simple question took {e
 llmcache.store(prompt=question, response="George Washington")
 ```
 
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 14.88it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00,  8.09it/s]
 
 
-    19:18:04 httpx INFO   HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
-    Without caching, a call to openAI to answer this simple question took 0.8826751708984375 seconds.
+    13:02:17 httpx INFO   HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+    Without caching, a call to openAI to answer this simple question took 1.7948627471923828 seconds.
 
 
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 18.38it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 12.93it/s]
 
 
 
@@ -344,22 +346,20 @@ print(f"Avg time taken with LLM cache enabled: {avg_time_with_cache}")
 print(f"Percentage of time saved: {round(((end - start) - avg_time_with_cache) / (end - start) * 100, 2)}%")
 ```
 
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 13.65it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 27.94it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 27.19it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 27.53it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 28.12it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 27.38it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 25.39it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 26.34it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 28.07it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 27.35it/s]
-
-    Avg time taken with LLM cache enabled: 0.0463670015335083
-    Percentage of time saved: 94.75%
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 20.90it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 23.24it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 22.85it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 21.98it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 22.65it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 22.65it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 21.84it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 20.67it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 22.08it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 21.14it/s]
 
 
-    
+    Avg time taken with LLM cache enabled: 0.049193501472473145
+    Percentage of time saved: 97.26%
 
 
 
@@ -389,7 +389,7 @@ print(f"Percentage of time saved: {round(((end - start) - avg_time_with_cache) /
     │ offsets_per_term_avg        │ 0.75862067 │
     │ records_per_doc_avg         │ 29         │
     │ sortable_values_size_mb     │ 0          │
-    │ total_indexing_time         │ 3.875      │
+    │ total_indexing_time         │ 14.3260002 │
     │ total_inverted_index_blocks │ 21         │
     │ vector_index_sz_mb          │ 3.01609802 │
     ╰─────────────────────────────┴────────────╯
@@ -426,14 +426,17 @@ private_cache.store(
 )
 ```
 
-    19:18:07 [RedisVL] WARNING   The default vectorizer has changed from `sentence-transformers/all-mpnet-base-v2` to `redis/langcache-embed-v1` in version 0.6.0 of RedisVL. For more information about this model, please refer to https://arxiv.org/abs/2504.02268 or visit https://huggingface.co/redis/langcache-embed-v1. To continue using the old vectorizer, please specify it explicitly in the constructor as: vectorizer=HFTextVectorizer(model='sentence-transformers/all-mpnet-base-v2')
-    19:18:07 sentence_transformers.SentenceTransformer INFO   Use pytorch device_name: mps
-    19:18:07 sentence_transformers.SentenceTransformer INFO   Load pretrained SentenceTransformer: redis/langcache-embed-v1
+    13:02:20 sentence_transformers.SentenceTransformer INFO   Use pytorch device_name: mps
+    13:02:20 sentence_transformers.SentenceTransformer INFO   Load pretrained SentenceTransformer: redis/langcache-embed-v1
+    13:02:20 sentence_transformers.SentenceTransformer WARNING   You try to use a model that was created with version 4.1.0, however, your version is 3.4.1. This might cause unexpected behavior or errors. In that case, try to update to the latest version.
+    
+    
+    
 
 
-    Batches: 100%|██████████| 1/1 [00:00<00:00,  8.98it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 24.89it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 26.95it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 17.15it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 21.23it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 21.71it/s]
 
 
 
@@ -459,7 +462,7 @@ response = private_cache.check(
 print(f"found {len(response)} entry \n{response[0]['response']}")
 ```
 
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 27.98it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 22.36it/s]
 
     found 1 entry 
     The number on file is 123-555-0000
@@ -510,16 +513,19 @@ complex_cache.store(
 )
 ```
 
-    19:18:09 [RedisVL] WARNING   The default vectorizer has changed from `sentence-transformers/all-mpnet-base-v2` to `redis/langcache-embed-v1` in version 0.6.0 of RedisVL. For more information about this model, please refer to https://arxiv.org/abs/2504.02268 or visit https://huggingface.co/redis/langcache-embed-v1. To continue using the old vectorizer, please specify it explicitly in the constructor as: vectorizer=HFTextVectorizer(model='sentence-transformers/all-mpnet-base-v2')
-    19:18:09 sentence_transformers.SentenceTransformer INFO   Use pytorch device_name: mps
-    19:18:09 sentence_transformers.SentenceTransformer INFO   Load pretrained SentenceTransformer: redis/langcache-embed-v1
+    13:02:21 sentence_transformers.SentenceTransformer INFO   Use pytorch device_name: mps
+    13:02:21 sentence_transformers.SentenceTransformer INFO   Load pretrained SentenceTransformer: redis/langcache-embed-v1
+    13:02:21 sentence_transformers.SentenceTransformer WARNING   You try to use a model that was created with version 4.1.0, however, your version is 3.4.1. This might cause unexpected behavior or errors. In that case, try to update to the latest version.
+    
+    
+    
 
 
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 13.54it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 16.76it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 21.82it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 28.80it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 21.04it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 21.08it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00,  8.74it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00,  8.01it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 21.70it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 16.74it/s]
 
 
 
@@ -548,7 +554,7 @@ print(f'found {len(response)} entry')
 print(response[0]["response"])
 ```
 
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 28.15it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 19.91it/s]
 
     found 1 entry
     Your most recent transaction was for $350

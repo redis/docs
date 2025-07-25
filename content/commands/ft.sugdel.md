@@ -52,10 +52,6 @@ is suggestion dictionary key.
 is suggestion string to index.
 </details>
 
-## Return
-
-FT.SUGDEL returns an integer reply, 1 if the string was found and deleted, 0 otherwise.
-
 ## Examples
 
 <details open>
@@ -68,6 +64,20 @@ FT.SUGDEL returns an integer reply, 1 if the string was found and deleted, 0 oth
 (integer) 0
 {{< / highlight >}}
 </details>
+
+## Return information
+
+{{< multitabs id="ft-sugdel-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): 1 if the suggestion was deleted, 0 if it was not found.
+
+-tab-sep-
+
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): 1 if the suggestion was deleted, 0 if it was not found.
+
+{{< /multitabs >}}
 
 ## See also
 
