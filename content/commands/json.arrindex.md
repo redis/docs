@@ -89,11 +89,6 @@ is exclusive stop value to specify in a slice of the array to search, including 
 Out-of-range indexes round to the array's start and end. An inverse index range (such as the range from 1 to 0) returns unfound or `-1`.
 {{% /alert %}}
 
-## Return value 
-
-`JSON.ARRINDEX` returns an [array]({{< relref "develop/reference/protocol-spec#resp-arrays" >}}) of integer replies for each path, the first position in the array of each JSON value that matches the path, `-1` if unfound in the array, or `nil`, if the matching JSON value is not an array.
-For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}). 
-
 ## Examples
 
 <details open>
@@ -148,6 +143,24 @@ redis> JSON.ARRINDEX item:1 $..colors '"silver"'
 1) (integer) 1
 {{< / highlight >}}
 </details>
+
+## Return information
+
+{{< multitabs id="json-arrindex-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+With `$`-based path argument: [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integer replies]({{< relref "/develop/reference/protocol-spec#integers" >}}) or [null replies]({{< relref "/develop/reference/protocol-spec#nulls" >}}), where each element is the first position in the array, `-1` if unfound, or `null` if the matching value is not an array.
+
+With `.`-based path argument: [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing the first position in the array, `-1` if unfound, or [null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the matching value is not an array.
+
+-tab-sep-
+
+With `$`-based path argument (default): [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integer replies]({{< relref "/develop/reference/protocol-spec#integers" >}}) or [null replies]({{< relref "/develop/reference/protocol-spec#nulls" >}}), where each element is the first position in the array, `-1` if unfound, or `null` if the matching value is not an array.
+
+With `.`-based path argument: [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing the first position in the array, `-1` if unfound, or [null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the matching value is not an array.
+
+{{< /multitabs >}}
 
 ## See also
 

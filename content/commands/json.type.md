@@ -52,11 +52,6 @@ is JSONPath to specify. Default is root `$`. Returns null if the `key` or `path`
 
 </details>
 
-## Return
-
-JSON.TYPE returns an array of string replies for each path, specified as the value's type.
-For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
-
 ## Examples
 
 {{< highlight bash >}}
@@ -70,6 +65,24 @@ redis> JSON.TYPE doc $..a
 redis> JSON.TYPE doc $..dummy
 (empty array)
 {{< / highlight >}}
+
+## Return information
+
+{{< multitabs id="json-type-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+With `$`-based path argument: [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), where each element is the type of the matching value.
+
+With `.`-based path argument: [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) representing the type of the matching value.
+
+-tab-sep-
+
+With `$`-based path argument (default): [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [array replies]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), where each nested array contains the type of the matching value.
+
+With `.`-based path argument: [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) representing the type of the matching value.
+
+{{< /multitabs >}}
 
 ## See also
 

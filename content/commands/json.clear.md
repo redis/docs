@@ -53,11 +53,6 @@ is key to parse.
 is JSONPath to specify. Default is root `$`. Nonexisting paths are ignored.
 </details>
 
-## Return
-
-JSON.CLEAR returns an integer reply specifying the number of matching JSON arrays and objects cleared + number of matching JSON numerical values zeroed.
-For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
-
 {{% alert title="Note" color="warning" %}}
  
 Already cleared values are ignored for empty containers and zero numbers.
@@ -90,6 +85,20 @@ redis> JSON.GET doc $
 "[{\"obj\":{},\"arr\":[],\"str\":\"foo\",\"bool\":true,\"int\":0,\"float\":0}]"
 {{< / highlight >}}
 </details>
+
+## Return information
+
+{{< multitabs id="json-clear-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of matching JSON arrays and objects cleared plus the number of matching JSON numerical values zeroed.
+
+-tab-sep-
+
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of matching JSON arrays and objects cleared plus the number of matching JSON numerical values zeroed.
+
+{{< /multitabs >}}
 
 ## See also
 
