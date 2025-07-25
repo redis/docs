@@ -118,7 +118,9 @@ See the [`.env.example` file](https://github.com/redis/mcp-redis/blob/main/.env.
 in the repository for the full list of variables and their default values.
 
 You can also set the configuration using command-line arguments, which
-may be useful if you only want to change a few settings from the defaults:
+may be useful if you only want to change a few settings from the defaults
+(see [Command line options](#command-line-options) below for the full list
+of options).
 
 ```bash
 # Basic Redis connection
@@ -160,7 +162,6 @@ The full set of environment variables is shown in the table below:
 | `REDIS_CERT_REQS`    | Whether the client should verify the server's certificate | `"required"`  |
 | `REDIS_CA_CERTS`     | Path to the trusted CA certificates file                  | None          |
 | `REDIS_CLUSTER_MODE` | Enable Redis Cluster mode                                 | `False`       |
-| `MCP_TRANSPORT`      | Use the `stdio` or `sse` transport                        | `stdio`       |
 
 ### Command line options
 
