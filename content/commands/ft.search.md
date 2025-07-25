@@ -866,11 +866,11 @@ One of the following:
 
 One of the following:
 * [Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) with the following fields:
-- `total_results`: [Integer]({{< relref "/develop/reference/protocol-spec#integers" >}}) - total number of results
-- `results`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [maps]({{< relref "/develop/reference/protocol-spec#maps" >}}) containing document information
-- `attributes`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of attribute names
-- `format`: [Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - result format
-- `warning`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of warning messages
+    - `total_results`: [Integer]({{< relref "/develop/reference/protocol-spec#integers" >}}) - total number of results
+    - `results`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [maps]({{< relref "/develop/reference/protocol-spec#maps" >}}) containing document information
+    - `attributes`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of attribute names
+    - `format`: [Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - result format
+    - `warning`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of warning messages
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, syntax error in query.
 
 {{< /multitabs >}}
