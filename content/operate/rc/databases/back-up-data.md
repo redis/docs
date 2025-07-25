@@ -184,18 +184,6 @@ To store backups in a Google Cloud Storage [bucket](https://cloud.google.com/sto
 
 1. Save your changes.
 
-1. Verify that your bucket does _not_ have a set retention policy.  
-
-    To do so:
-
-    1. View the details of your bucket.
-
-    1. Select the **Configuration** tab.
-
-    1. Verify **Protection** -> **Bucket retention policy** is set to **none**.  
-
-    If a policy is defined and you cannot delete it, you need to use a different bucket.
-
 Use the bucket details **Configuration** tab to locate the **gsutil URI**.  This is the value you'll assign to your resource's backup path.
 
 To learn more, see [Use IAM permissions](https://cloud.google.com/storage/docs/access-control/using-iam-permissions#bucket-iam).
