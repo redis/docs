@@ -7,7 +7,6 @@ categories:
 - kubernetes
 linkTitle: REDB API
 weight: 30
-aliases: [ /operate/kubernetes/reference/db-options, ]
 ---
 
 apiVersion:
@@ -122,49 +121,56 @@ RedisEnterpriseDatabaseSpec defines the desired state of RedisEnterpriseDatabase
         <td>databasePort</td>
         <td>integer</td>
         <td>
-          Database port number. TCP port on which the database is available. Will be generated automatically if omitted. can not be changed after creation<br/>
+          TCP port assigned to the database within the Redis Enterprise cluster. Must be unique across all databases in the Redis Enterprise cluster. Will be generated automatically if omitted. can not be changed after creation<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>databaseSecretName</td>
         <td>string</td>
         <td>
-          The name of the secret that holds the password to the database (redis databases only). If secret does not exist, it will be created. To define the password, create an opaque secret and set the name in the spec. The password will be taken from the value of the 'password' key. Use an empty string as value within the secret to disable authentication for the database. Notes - For Active-Active databases this secret will not be automatically created, and also, memcached databases must not be set with a value, and a secret/password will not be automatically created for them. Use the memcachedSaslSecretName field to set authentication parameters for memcached databases.<br/>
+          Name of the secret containing the database password (Redis databases only). The secret is created automatically if it does not exist. The password is stored under the "password" key in the secret. If creating the secret manually, create an opaque secret with the password under the "password" key. To disable authentication, set the value of the "password" key in the secret to an empty string. Note: For Active-Active databases, this secret is not created automatically. For memcached databases, use memcachedSaslSecretName instead.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>databaseServicePort</td>
+        <td>integer</td>
+        <td>
+          A custom port to be exposed by the database Services. Can be modified/added/removed after REDB creation. If set, it'll replace the default service port (namely, databasePort or defaultRedisPort).<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>defaultUser</td>
         <td>boolean</td>
         <td>
-          Is connecting with a default user allowed?<br/>
+          Allows connections with the default user. When disabled, the DatabaseSecret is not created or updated.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>evictionPolicy</td>
         <td>string</td>
         <td>
-          Database eviction policy. see more https://docs.redislabs.com/latest/rs/administering/database-operations/eviction-policy/<br/>
+          Database eviction policy. See https://redis.io/docs/latest/operate/rs/databases/memory-performance/eviction-policy/<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>isRof</td>
         <td>boolean</td>
         <td>
-          Whether it is an RoF database or not. Applicable only for databases of type "REDIS". Assumed to be false if left blank.<br/>
+          Enables Auto Tiering (formerly Redis on Flash) for Redis databases only. Defaults to false.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>memcachedSaslSecretName</td>
         <td>string</td>
         <td>
-          Credentials used for binary authentication in memcached databases. The credentials should be saved as an opaque secret and the name of that secret should be configured using this field. For username, use 'username' as the key and the actual username as the value. For password, use 'password' as the key and the actual password as the value. Note that connections are not encrypted.<br/>
+          Name of the secret containing credentials for memcached database authentication. Store credentials in an opaque secret with "username" and "password" keys. Note: Connections are not encrypted.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>memorySize</td>
         <td>string</td>
         <td>
-          memory size of database. use formats like 100MB, 0.1GB. minimum value in 100MB. When redis on flash (RoF) is enabled, this value refers to RAM+Flash memory, and it must not be below 1GB.<br/>
+          Memory size for the database using formats like 100MB or 0.1GB. Minimum value is 100MB. For Auto Tiering (formerly Redis on Flash), this value represents RAM+Flash memory and must be at least 1GB.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -178,14 +184,14 @@ RedisEnterpriseDatabaseSpec defines the desired state of RedisEnterpriseDatabase
         <td>ossCluster</td>
         <td>boolean</td>
         <td>
-          OSS Cluster mode option. Note that not all client libraries support OSS cluster mode.<br/>
+          Enables OSS Cluster mode. Note: Not all client libraries support OSS cluster mode.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>persistence</td>
         <td>enum</td>
         <td>
-          Database on-disk persistence policy<br/>
+          Database persistence policy for on-disk storage.<br/>
           <br/>
             <i>Enum</i>: disabled, aofEverySecond, aofAlways, snapshotEvery1Hour, snapshotEvery6Hour, snapshotEvery12Hour<br/>
         </td>
@@ -194,21 +200,21 @@ RedisEnterpriseDatabaseSpec defines the desired state of RedisEnterpriseDatabase
         <td>proxyPolicy</td>
         <td>string</td>
         <td>
-          The policy used for proxy binding to the endpoint. Supported proxy policies are: single/all-master-shards/all-nodes When left blank, the default value will be chosen according to the value of ossCluster - single if disabled, all-master-shards when enabled<br/>
+          Proxy policy for the database. Supported proxy policies are: single/all-master-shards/all-nodes When left blank, the default value will be chosen according to the value of ossCluster - single if disabled, all-master-shards when enabled<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>rackAware</td>
         <td>boolean</td>
         <td>
-          Whether database should be rack aware. This improves availability - more information: https://docs.redislabs.com/latest/rs/concepts/high-availability/rack-zone-awareness/<br/>
+          Enables rack awareness for improved availability. See https://redis.io/docs/latest/operate/rs/clusters/configure/rack-zone-awareness/<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td><a href="#specredisenterprisecluster">redisEnterpriseCluster</a></td>
         <td>object</td>
         <td>
-          Connection to Redis Enterprise Cluster<br/>
+          Connection to the Redis Enterprise Cluster.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -229,7 +235,7 @@ RedisEnterpriseDatabaseSpec defines the desired state of RedisEnterpriseDatabase
         <td>replication</td>
         <td>boolean</td>
         <td>
-          In-memory database replication. When enabled, database will have replica shard for every master - leading to higher availability. Defaults to false.<br/>
+          Enables in-memory database replication for higher availability. Creates a replica shard for every master shard. Defaults to false.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -243,7 +249,7 @@ RedisEnterpriseDatabaseSpec defines the desired state of RedisEnterpriseDatabase
         <td>rofRamSize</td>
         <td>string</td>
         <td>
-          The size of the RAM portion of an RoF database. Similarly to "memorySize" use formats like 100MB, 0.1GB. It must be at least 10% of combined memory size (RAM and Flash), as specified by "memorySize".<br/>
+          The size of the RAM portion of an Auto Tiering (formerly Redis on Flash) database. Similarly to "memorySize" use formats like 100MB, 0.1GB. It must be at least 10% of combined memory size (RAM and Flash), as specified by "memorySize".<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -257,7 +263,7 @@ RedisEnterpriseDatabaseSpec defines the desired state of RedisEnterpriseDatabase
         <td>shardCount</td>
         <td>integer</td>
         <td>
-          Number of database server-side shards<br/>
+          Number of database server-side shards.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -271,7 +277,7 @@ RedisEnterpriseDatabaseSpec defines the desired state of RedisEnterpriseDatabase
         <td>shardsPlacement</td>
         <td>enum</td>
         <td>
-          Control the density of shards - should they reside on as few or as many nodes as possible. Available options are "dense" or "sparse". If left unset, defaults to "dense".<br/>
+          Shard placement strategy: "dense" or "sparse". dense: Shards reside on as few nodes as possible. sparse: Shards are distributed across as many nodes as possible.<br/>
           <br/>
             <i>Enum</i>: dense, sparse<br/>
         </td>
@@ -280,7 +286,7 @@ RedisEnterpriseDatabaseSpec defines the desired state of RedisEnterpriseDatabase
         <td>tlsMode</td>
         <td>enum</td>
         <td>
-          Require SSL authenticated and encrypted connections to the database. enabled - all incoming connections to the Database must use SSL. disabled - no incoming connection to the Database should use SSL. replica_ssl - databases that replicate from this one need to use SSL.<br/>
+          Require TLS authenticated and encrypted connections to the database. enabled - all client and replication connections to the Database must use TLS. disabled - no incoming connection to the Database should use TLS. replica_ssl - databases that replicate from this one need to use TLS.<br/>
           <br/>
             <i>Enum</i>: disabled, enabled, replica_ssl<br/>
         </td>
@@ -289,7 +295,7 @@ RedisEnterpriseDatabaseSpec defines the desired state of RedisEnterpriseDatabase
         <td>type</td>
         <td>enum</td>
         <td>
-          The type of the database (redis or memcached). Defaults to "redis".<br/>
+          Database type: redis or memcached.<br/>
           <br/>
             <i>Enum</i>: redis, memcached<br/>
         </td>
@@ -1164,7 +1170,7 @@ Redis Enterprise module (see https://redis.io/docs/latest/develop/reference/modu
 ### spec.redisEnterpriseCluster
 <sup><sup>[↩ Parent](#spec)</sup></sup>
 
-Connection to Redis Enterprise Cluster
+Connection to the Redis Enterprise Cluster.
 
 <table>
     <thead>

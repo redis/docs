@@ -38,10 +38,6 @@ In the future, a [`SCAN`]({{< relref "/commands/scan" >}}) type of command will 
 contains a large number of indices.
 {{% /alert %}}
 
-## Return
-
-[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with index names.
-
 ## Examples
 
 ```sql
@@ -50,3 +46,17 @@ FT._LIST
 2) "movies"
 3) "imdb"
 ```
+
+## Return information
+
+{{< multitabs id="ft-_list-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of index names as [simple strings]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}).
+
+-tab-sep-
+
+[Set]({{< relref "/develop/reference/protocol-spec#sets" >}}) of index names as [simple strings]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}).
+
+{{< /multitabs >}}

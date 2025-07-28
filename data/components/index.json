@@ -17,21 +17,11 @@
         "redis_vl"
     ],
     "assets": [],
-    "_assets": [
-        "stack_theme",
-        "redis_cli"
-    ],
     "website": {
         "path": "./",
         "content": "content/",
         "examples": "data/examples.json",
         "examples_path": "examples",
-        "commands": "data/commands.json",
-        "groups": "data/groups.json",
-        "versions": "data/versions.json",
-        "repos": "data/repos.json",
-        "meta": "data/meta.json",
-        "languages": "data/languages.json",
-        "tool_types": "data/tool_types.json"
+        "commands": "data/commands.json"
     }
 }

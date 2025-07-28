@@ -99,8 +99,6 @@ add. The following example adds some names to a Bloom filter representing
 a list of users and checks for the presence or absence of users in the list.
 Note that you must use the `BF()` method to access the Bloom filter commands.
 
-<!--< clients-example home_prob_dts bloom "C#" >}}
-< /clients-example >}}-->
 ```cs
 bool[] res1 = db.BF().MAdd(
     "recorded_users", "andy", "cameron", "david", "michelle"
@@ -114,14 +112,14 @@ Console.WriteLine(res2); // >>> true
 bool res3 = db.BF().Exists("recorded_users", "kaitlyn");
 Console.WriteLine(res3); // >>> false
 ```
+<!--< clients-example home_prob_dts bloom "C#" >}}
+< /clients-example >}} -->
 
 A Cuckoo filter has similar features to a Bloom filter, but also supports
 a deletion operation to remove hashes from a set, as shown in the example
 below. Note that you must use the `CF()` method to access the Cuckoo filter
 commands.
 
-<!--< clients-example home_prob_dts cuckoo "C#" >}}
-< /clients-example >}}-->
 ```cs
 bool res4 = db.CF().Add("other_users", "paolo");
 Console.WriteLine(res4); // >>> true
@@ -142,6 +140,8 @@ Console.WriteLine(res8); // >>> true
 bool res9 = db.CF().Exists("other_users", "paolo");
 Console.WriteLine(res9); // >>> false
 ```
+<!--< clients-example home_prob_dts cuckoo "C#" >}}
+< /clients-example >}} -->
 
 Which of these two data types you choose depends on your use case.
 Bloom filters are generally faster than Cuckoo filters when adding new items,
@@ -161,8 +161,6 @@ You can also merge two or more HyperLogLogs to find the cardinality of the
 [union](https://en.wikipedia.org/wiki/Union_(set_theory)) of the sets they
 represent.
 
-<!--< clients-example home_prob_dts hyperloglog "C#" >}}
-< /clients-example >}}-->
 ```cs
 bool res10 = db.HyperLogLogAdd(
     "group:1",
@@ -190,6 +188,8 @@ db.HyperLogLogMerge(
 long res14 = db.HyperLogLogLength("both_groups");
 Console.WriteLine(res14); // >>> 7
 ```
+<!--< clients-example home_prob_dts hyperloglog "C#" >}}
+< /clients-example >}} -->
 
 The main benefit that HyperLogLogs offer is their very low
 memory usage. They can count up to 2^64 items with less than
@@ -228,9 +228,6 @@ of going outside this limit. The example below shows how to create
 a Count-min sketch object, add data to it, and then query it.
 Note that you must use the `CMS()` method to access the Count-min
 sketch commands.
-
-<!--< clients-example home_prob_dts cms "C#" >}}
-< /clients-example >}}-->
 ```cs
 // Specify that you want to keep the counts within 0.01
 // (1%) of the true value with a 0.005 (0.5%) chance
@@ -267,6 +264,8 @@ long[] res18 = db.CMS().Query(
 Console.WriteLine(string.Join(", ", res18));
 // >>> 400, 200, 350, 100
 ```
+<!--< clients-example home_prob_dts cms "C#" >}}
+< /clients-example >}} -->
 
 The advantage of using a CMS over keeping an exact count with a
 [sorted set]({{< relref "/develop/data-types/sorted-sets" >}})
@@ -298,8 +297,6 @@ shows how to merge two or more t-digest objects to query the combined
 data set. Note that you must use the `TDIGEST()` method to access the
 t-digest commands.
 
-<!--< clients-example home_prob_dts tdigest "C#" >}}
-< /clients-example >}}-->
 ```cs
 bool res19 = db.TDIGEST().Create("male_heights");
 Console.WriteLine(res19); // >>> true
@@ -345,6 +342,8 @@ Console.WriteLine(res28); // >>> true
 double[] res29 = db.TDIGEST().Quantile("all_heights", 0.75);
 Console.WriteLine(string.Join(", ", res29)); // >>> 175.5
 ```
+<!--< clients-example home_prob_dts tdigest "C#" >}}
+< /clients-example >}} -->
 
 A t-digest object also supports several other related commands, such
 as querying by rank. See the
@@ -366,8 +365,6 @@ top *k* items and query whether or not a given item is in the
 list. Note that you must use the `TOPK()` method to access the
 Top-K commands.
 
-<!--< clients-example home_prob_dts topk "C#" >}}
-< /clients-example >}}-->
 ```cs
 bool res30 = db.TOPK().Reserve("top_3_songs", 3, 7, 8, 0.9);
 Console.WriteLine(res30); // >>> true
@@ -417,3 +414,5 @@ bool[] res33 = db.TOPK().Query(
 Console.WriteLine(string.Join(", ", res33));
 // >>> true, false
 ```
+<!--< clients-example home_prob_dts topk "C#" >}}
+< /clients-example >}} -->

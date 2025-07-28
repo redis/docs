@@ -65,7 +65,7 @@ rc.set('foo', 'bar')
 rc.get('foo')
 # b'bar'
 ```
-For more information, see [redis-py Clustering](https://redis-py.readthedocs.io/en/stable/clustering.html).
+For more information, see [redis-py Clustering](https://redis.readthedocs.io/en/stable/clustering.html).
 
 ## Connect to your production Redis with TLS
 
@@ -89,7 +89,7 @@ r.set('foo', 'bar')
 r.get('foo')
 # b'bar'
 ```
-For more information, see [redis-py TLS examples](https://redis-py.readthedocs.io/en/stable/examples/ssl_connection_examples.html).
+For more information, see [redis-py TLS examples](https://redis.readthedocs.io/en/stable/examples/ssl_connection_examples.html).
 
 ## Connect using client-side caching
 
