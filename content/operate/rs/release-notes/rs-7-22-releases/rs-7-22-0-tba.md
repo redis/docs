@@ -65,6 +65,8 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS161524: Fixed an issue where the Cluster Manager UI could not modify Active-Active database configurations when instance URLs were created without explicit port numbers.
 
+- RS163674: Fixed an issue where clusters could become non-operational when nodes had multiple network interfaces and the Redis interface was not first in the interface enumeration order.
+
 ## Version changes
 
 ### Supported platforms
