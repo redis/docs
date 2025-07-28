@@ -58,11 +58,6 @@ Deleting an object's root is equivalent to deleting the key from Redis.
 {{% /alert %}}
 </details>
 
-## Return
-
-JSON.DEL returns an integer reply specified as the number of paths deleted (0 or more).
-For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
-
 ## Examples
 
 <details open>
@@ -89,6 +84,20 @@ redis> JSON.GET doc $
 "[{\"nested\":{\"b\":3}}]"
 {{< / highlight >}}
 </details>
+
+## Return information
+
+{{< multitabs id="json-del-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of paths deleted (0 or more).
+
+-tab-sep-
+
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of paths deleted (0 or more).
+
+{{< /multitabs >}}
 
 ## See also
 

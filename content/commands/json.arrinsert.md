@@ -71,11 +71,6 @@ is position in the array where you want to insert a value. The index must be in 
 is JSONPath to specify. Default is root `$`.
 </details>
 
-## Return value 
-
-`JSON.ARRINSERT` returns an [array]({{< relref "develop/reference/protocol-spec#resp-arrays" >}}) of integer replies for each path, the array's new size, or `nil`, if the matching JSON value is not an array. 
-For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}). 
-
 ## Examples
 
 <details open>
@@ -123,6 +118,24 @@ redis> JSON.GET item:1 $.colors
 "[[\"black\",\"silver\",\"yellow\",\"gold\",\"blue\"]]"
 {{< / highlight >}}
 </details>
+
+## Return information
+
+{{< multitabs id="json-arrinsert-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+With `$`-based path argument: [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integer replies]({{< relref "/develop/reference/protocol-spec#integers" >}}) or [null replies]({{< relref "/develop/reference/protocol-spec#nulls" >}}), where each element is the array's new size, or `null` if the matching value is not an array.
+
+With `.`-based path argument: [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing the array's new size, or [null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the matching value is not an array.
+
+-tab-sep-
+
+With `$`-based path argument (default): [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integer replies]({{< relref "/develop/reference/protocol-spec#integers" >}}) or [null replies]({{< relref "/develop/reference/protocol-spec#nulls" >}}), where each element is the array's new size, or `null` if the matching value is not an array.
+
+With `.`-based path argument: [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing the array's new size, or [null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the matching value is not an array.
+
+{{< /multitabs >}}
 
 ## See also
 
