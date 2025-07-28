@@ -126,7 +126,9 @@ configuration as shown below:
 ```
 
 For Augment in VS Code or JetBrains IDEs, you can also add the configuration
-from the Settings panel. Open the **Settings** panel using the menu
+from the Settings panel. 
+
+Open the **Settings** panel using the menu
 in the top right corner of the main Augment panel. In the **Tools**
 settings, scroll down to the **MCP** section and select **Add MCP**.
 Enter `Redis` in the name field and paste appropriate command line in the
