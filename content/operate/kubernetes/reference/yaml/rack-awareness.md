@@ -23,7 +23,7 @@ For complete deployment instructions, see [Deploy on Kubernetes]({{< relref "/op
 
 ## Service account
 
-The service account for rack-aware deployments is the same as [basic deployments]({{< relref "/operate/kubernetes/reference/yaml-examples/basic-deployment#service-account" >}}).
+The service account for rack-aware deployments is the same as [basic deployments]({{< relref "/operate/kubernetes/reference/yaml/basic-deployment#service-account" >}}).
 
 {{<embed-yaml "k8s/service_account.md" "service-account.yaml">}}
 
@@ -81,7 +81,7 @@ kubectl get nodes -o custom-columns=NAME:.metadata.name,ZONE:.metadata.labels.'t
 
 ## Redis Enterprise database
 
-Database configuration for rack-aware clusters is the same as [basic deployments]({{< relref "/operate/kubernetes/reference/yaml-examples/basic-deployment#redis-enterprise-database" >}}).
+Database configuration for rack-aware clusters is the same as [basic deployments]({{< relref "/operate/kubernetes/reference/yaml/basic-deployment#redis-enterprise-database" >}}).
 
 {{<embed-yaml "k8s/redb.md" "redis-enterprise-database.yaml">}}
 
@@ -107,8 +107,8 @@ To deploy rack-aware Redis Enterprise clusters, follow [Deploy on Kubernetes]({{
 
 ## Next steps
 
-- [Configure Active-Active databases]({{< relref "/operate/kubernetes/reference/yaml-examples/active-active" >}})
-- [Set up multi-namespace deployment]({{< relref "/operate/kubernetes/reference/yaml-examples/multi-namespace" >}})
+- [Configure Active-Active databases]({{< relref "/operate/kubernetes/reference/yaml/active-active" >}})
+- [Set up multi-namespace deployment]({{< relref "/operate/kubernetes/reference/yaml/multi-namespace" >}})
 - [Learn about database replication]({{< relref "/operate/kubernetes/re-databases/replica-redb" >}})
 
 ## Related documentation

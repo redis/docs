@@ -137,8 +137,8 @@ If your security policies prohibit secrets access, you can remove the secrets pe
 ## Next steps
 
 - [Collect logs guide]({{< relref "/operate/kubernetes/logs/collect-logs" >}})
-- [Basic deployment examples]({{< relref "/operate/kubernetes/reference/yaml-examples/basic-deployment" >}})
-- [Multi-namespace deployment]({{< relref "/operate/kubernetes/reference/yaml-examples/multi-namespace" >}})
+- [Basic deployment examples]({{< relref "/operate/kubernetes/reference/yaml/basic-deployment" >}})
+- [Multi-namespace deployment]({{< relref "/operate/kubernetes/reference/yaml/multi-namespace" >}})
 
 ## Related documentation
 

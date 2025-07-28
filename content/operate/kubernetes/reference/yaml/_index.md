@@ -68,11 +68,11 @@ kubectl get events --sort-by=.metadata.creationTimestamp
 
 ## Example categories
 
-- [Basic deployment examples]({{< relref "/operate/kubernetes/reference/yaml-examples/basic-deployment" >}}) - Service account, RBAC, cluster, and database configurations
-- [Rack awareness examples]({{< relref "/operate/kubernetes/reference/yaml-examples/rack-awareness" >}}) - Rack-aware cluster configuration and required RBAC
-- [Active-Active examples]({{< relref "/operate/kubernetes/reference/yaml-examples/active-active" >}}) - Multi-cluster Active-Active database setup
-- [Multi-namespace examples]({{< relref "/operate/kubernetes/reference/yaml-examples/multi-namespace" >}}) - Cross-namespace operator and cluster configurations
-- [Log collector RBAC examples]({{< relref "/operate/kubernetes/reference/yaml-examples/log-collector-rbac" >}}) - RBAC permissions for log collection in restricted and all modes
+- [Basic deployment examples]({{< relref "/operate/kubernetes/reference/yaml/basic-deployment" >}}) - Service account, RBAC, cluster, and database configurations
+- [Rack awareness examples]({{< relref "/operate/kubernetes/reference/yaml/rack-awareness" >}}) - Rack-aware cluster configuration and required RBAC
+- [Active-Active examples]({{< relref "/operate/kubernetes/reference/yaml/active-active" >}}) - Multi-cluster Active-Active database setup
+- [Multi-namespace examples]({{< relref "/operate/kubernetes/reference/yaml/multi-namespace" >}}) - Cross-namespace operator and cluster configurations
+- [Log collector RBAC examples]({{< relref "/operate/kubernetes/reference/yaml/log-collector-rbac" >}}) - RBAC permissions for log collection in restricted and all modes
 
 ## Best practices
 
