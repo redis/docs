@@ -26,14 +26,10 @@ Remove an element from a vector set.
 ```shell
 VADD vset VALUES 3 1 0 1 bar
 (integer) 1
-```
 
-```shell
 VREM vset bar
 (integer) 1
-```
 
-```shell
 VREM vset bar
 (integer) 0
 ```

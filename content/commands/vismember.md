@@ -47,6 +47,10 @@ is the name of the key that holds the vector set.
 is the name of the element you want to check for membership.
 </details>
 
+## Related topics
+
+- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
+
 ## Return information
 
 {{< multitabs id="vismember-return-info" 
@@ -60,7 +64,3 @@ is the name of the element you want to check for membership.
 [Boolean reply](../../develop/reference/protocol-spec#booleans): `false` if the element does not exist in the vector set, or the key does not exist. `true` if the element exists in the vector set.
 
 {{< /multitabs >}}
-
-## Related topics
-
-- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
