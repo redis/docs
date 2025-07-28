@@ -81,10 +81,6 @@ contain more than 32 attributes, create it with the `MAXTEXTFIELDS` option.
 </note>
 </details>
 
-## Return
-
-FT.ALTER returns a simple string reply `OK` if executed correctly, or an error reply otherwise.
-
 ## Examples
 
 <details open>
@@ -95,6 +91,24 @@ FT.ALTER returns a simple string reply `OK` if executed correctly, or an error r
 OK
 {{< / highlight >}}
 </details>
+
+## Return information
+
+{{< multitabs id="ft-alter-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, invalid schema syntax.
+
+-tab-sep-
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, invalid schema syntax.
+
+{{< /multitabs >}}
 
 ## See also
 

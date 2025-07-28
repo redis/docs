@@ -37,8 +37,26 @@ versions of the standard command methods
 buffered in the pipeline and only execute when you call the `Execute()`
 method on the pipeline object.
 
-{{< clients-example pipe_trans_tutorial basic_pipe "C#" >}}
-{{< /clients-example >}}
+```cs
+var pipeline = new Pipeline(db);
+
+for (int i = 0; i < 5; i++)
+{
+    pipeline.Db.StringSetAsync($"seat:{i}", $"#{i}");
+}
+pipeline.Execute();
+
+var resp1 = db.StringGet("seat:0");
+Console.WriteLine(resp1); // >>> #0
+
+var resp2 = db.StringGet("seat:3");
+Console.WriteLine(resp2); // >>> #3
+
+var resp3 = db.StringGet("seat:4");
+Console.WriteLine(resp2); // >>> #4
+```
+<!--< clients-example pipe_trans_tutorial basic_pipe "C#" >}}
+< /clients-example >}} -->
 
 ## Execute a transaction
 
@@ -47,8 +65,26 @@ instance of the `Transaction` class, call async command methods
 on that object, and then call the transaction object's 
 `Execute()` method to execute it.
 
-{{< clients-example pipe_trans_tutorial basic_trans "C#" >}}
-{{< /clients-example >}}
+```cs
+var trans = new Transaction(db);
+
+trans.Db.StringIncrementAsync("counter:1", 1);
+trans.Db.StringIncrementAsync("counter:2", 2);
+trans.Db.StringIncrementAsync("counter:3", 3);
+
+trans.Execute();
+
+var resp4 = db.StringGet("counter:1");
+Console.WriteLine(resp4); // >>> 1
+
+var resp5 = db.StringGet("counter:2");
+Console.WriteLine(resp5); // >>> 2
+
+var resp6 = db.StringGet("counter:3");
+Console.WriteLine(resp6);  // >>> 3
+```
+<!--< clients-example pipe_trans_tutorial basic_trans "C#" >}}
+< /clients-example >}} -->
 
 ## Watch keys for changes
 
@@ -77,8 +113,24 @@ For example, the `KeyNotExists` condition aborts the transaction
 if a specified key exists or is added by another client while the
 transaction executes:
 
-{{< clients-example pipe_trans_tutorial trans_watch "C#" >}}
-{{< /clients-example >}}
+```cs
+var watchedTrans = new Transaction(db);
+
+watchedTrans.AddCondition(Condition.KeyNotExists("customer:39182"));
+
+watchedTrans.Db.HashSetAsync(
+    "customer:39182",
+    new HashEntry[]{
+        new HashEntry("name", "David"),
+        new HashEntry("age", "27")
+    }
+);
+
+bool succeeded = watchedTrans.Execute();
+Console.WriteLine(succeeded); // >>> true
+```
+<!--< clients-example pipe_trans_tutorial trans_watch "C#" >}}
+< /clients-example >}} -->
 
 You can also use a `When` condition on certain individual commands to
 specify that they only execute when a certain condition holds

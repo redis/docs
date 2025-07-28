@@ -45,10 +45,6 @@ is index name.
 
 Use FT.SYNDUMP to dump the synonyms data structure. This command returns a list of synonym terms and their synonym group ids.
 
-## Return
-
-FT.SYNDUMP returns an array reply, with a pair of `term` and an array of synonym groups.
-
 ## Examples
 
 <details open>
@@ -65,6 +61,24 @@ FT.SYNDUMP returns an array reply, with a pair of `term` and an array of synonym
 6) 1) "synonym1"
 {{< / highlight >}}
 </details>
+
+## Return information
+
+{{< multitabs id="ft-syndump-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of synonym terms and their associated synonym groups.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index.
+
+-tab-sep-
+
+One of the following:
+* [Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) where keys are synonym terms and values are arrays of their associated synonym groups.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index.
+
+{{< /multitabs >}}
 
 ## See also
 

@@ -51,11 +51,6 @@ is key to parse.
 is JSONPath to specify. Default is root `$`, if not provided. Returns null if the `key` or `path` do not exist.
 </details>
 
-## Return
-
-`JSON.ARRLEN` returns an [array]({{< relref "develop/reference/protocol-spec#resp-arrays" >}}) of integer replies, an integer for each matching value, each is the array's length, or `nil`, if the matching value is not an array.
-For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}). 
-
 ## Examples
 
 <details open>
@@ -96,6 +91,24 @@ redis> JSON.GET item:2 '$..max_level'
 {{< / highlight >}}
 
 </details>
+
+## Return information
+
+{{< multitabs id="json-arrlen-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+With `$`-based path argument: [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integer replies]({{< relref "/develop/reference/protocol-spec#integers" >}}) or [null replies]({{< relref "/develop/reference/protocol-spec#nulls" >}}), where each element is the array length, or `null` if the matching value is not an array.
+
+With `.`-based path argument: [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing the array length, or [null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the matching value is not an array.
+
+-tab-sep-
+
+With `$`-based path argument (default): [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integer replies]({{< relref "/develop/reference/protocol-spec#integers" >}}) or [null replies]({{< relref "/develop/reference/protocol-spec#nulls" >}}), where each element is the array length, or `null` if the matching value is not an array.
+
+With `.`-based path argument: [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing the array length, or [null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the matching value is not an array.
+
+{{< /multitabs >}}
 
 ## See also
 

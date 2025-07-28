@@ -64,10 +64,6 @@ is id of the cursor.
 is number of results to read. This parameter overrides `COUNT` specified in [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}).
 </details>
 
-## Return
-
-FT.CURSOR READ returns an array reply where each row is an array reply and represents a single aggregate result.
-
 ## Examples
 
 <details open>
@@ -77,6 +73,24 @@ FT.CURSOR READ returns an array reply where each row is an array reply and repre
 127.0.0.1:6379> FT.CURSOR READ idx 342459320 COUNT 50
 {{< / highlight >}}
 </details>
+
+## Return information
+
+{{< multitabs id="ft-cursor-read-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with search results and metadata.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: cursor not found.
+
+-tab-sep-
+
+One of the following:
+* [Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) with structured search results and metadata.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: cursor not found.
+
+{{< /multitabs >}}
 
 ## See also
 
