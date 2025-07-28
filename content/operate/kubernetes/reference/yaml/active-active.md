@@ -12,7 +12,7 @@ weight: 30
 
 This page provides YAML examples for deploying Active-Active Redis Enterprise databases across multiple Kubernetes clusters. Active-Active databases provide multi-master replication with conflict resolution, enabling global distribution and local read/write access.
 
-To learn more, see the [Active-Active databases]({{< relref "/operate/kubernetes/active-active" >}}).
+To learn more, see [Active-Active databases]({{< relref "/operate/kubernetes/active-active" >}}).
 
 ## Architecture
 
