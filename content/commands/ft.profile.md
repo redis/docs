@@ -90,10 +90,6 @@ is the query string, sent to `FT.SEARCH` or `FT.AGGREGATE`.
 The second element contains information about query creation, iterator profiles, and result processor profiles.
 Details of the second element follow in the sections below.
 
-### Results
-
-This section contains the search results.
-
 ### Per-shard profiles
 
 This section contains query execution details for each shard.
@@ -398,6 +394,24 @@ Here's an example of running the `FT.PROFILE` command for a vector query.
          6) (integer) 3
 {{< /highlight >}}
 </details>
+
+## Return information
+
+{{< multitabs id="ft-profile-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with two elements: search results and profiling information.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, syntax error in query.
+
+-tab-sep-
+
+One of the following:
+* [Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) with two keys: `Results` containing search results and `Profile` containing profiling information.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, syntax error in query.
+
+{{< /multitabs >}}
 
 ## See also
 

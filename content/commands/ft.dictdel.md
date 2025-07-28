@@ -52,10 +52,6 @@ is dictionary name.
 term to delete from the dictionary.
 </details>
 
-## Return
-
-FT.DICTDEL returns an integer reply, the number of new terms that were deleted.
-
 ## Examples
 
 <details open>
@@ -66,6 +62,20 @@ FT.DICTDEL returns an integer reply, the number of new terms that were deleted.
 (integer) 3
 {{< / highlight >}}
 </details>
+
+## Return information
+
+{{< multitabs id="ft-dictdel-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of terms deleted from the dictionary.
+
+-tab-sep-
+
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of terms deleted from the dictionary.
+
+{{< /multitabs >}}
 
 ## See also
 

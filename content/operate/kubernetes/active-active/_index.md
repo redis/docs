@@ -5,13 +5,15 @@ categories:
 - docs
 - operate
 - kubernetes
-description: Content related to Active-Active Redis Enterprise databases for Kubernetes.
+description: Create and manage Active-Active Redis Enterprise databases across multiple Kubernetes clusters.
 hideListLinks: true
 linkTitle: Active-Active databases
 weight: 40
 ---
 
-On Kubernetes, Redis Enterprise [Active-Active]({{< relref "/operate/rs/databases/active-active/" >}}) databases provide read and write access to the same dataset from different Kubernetes clusters.
+Redis Enterprise [Active-Active]({{< relref "/operate/rs/databases/active-active/" >}}) databases on Kubernetes provide read and write access to the same dataset from different Kubernetes clusters. This enables globally distributed applications with local read and write access, automatic conflict resolution, and seamless failover capabilities.
+
+Active-Active databases use multi-master replication to keep data synchronized across participating clusters, allowing applications to read and write data locally while maintaining global consistency.
 
 ## Active-Active setup methods
 
