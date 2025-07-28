@@ -19,7 +19,7 @@ history:
 linkTitle: VSIM
 since: 8.0.0
 summary: Return elements by vector similarity.
-syntax_fmt: "VSIM key (ELE | FP32 | VALUES num) (vector | element) [WITHSCORES] [WITHATTRIBS] [COUNT num]\n  [EF search-exploration-factor] [FILTER expression] [FILTER-EF max-filtering-effort] [TRUTH] [NOTHREAD] [EPSILON]"
+syntax_fmt: "VSIM key (ELE | FP32 | VALUES num) (vector | element) [WITHSCORES] [WITHATTRIBS] [COUNT num]\n  [EPSILON delta] [EF search-exploration-factor] [FILTER expression] [FILTER-EF max-filtering-effort]\n  [TRUTH] [NOTHREAD]"
 title: VSIM
 bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
 ---
@@ -97,6 +97,12 @@ returns, for each element, the JSON attribute associated with the element or NUL
 <summary><code>COUNT num</code></summary>
 
 limits the number of returned results to `num`.
+</details>
+
+<details open>
+<summary><code>EPSILON delta</code></summary>
+
+is a floating point number between 0 and 1. It is used to retrieve elements that have a distance that is no further than the specified `delta`. In vector sets, returned elements have a similarity score (when compared to the query vector) that is between 1 and 0, where 1 means identical and 0 means opposite vectors. For example, if the `EPSILON` option is specified with an argument of `0.2`, it means only elements that have a similarity of 0.8 or better (a distance < 0.2) are returned. This is useful when a large `COUNT` is specified, but you don't want elements that are too far away the query vector.
 </details>
 
 <details open>
