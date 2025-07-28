@@ -11,7 +11,7 @@ linkTitle: YAML examples
 weight: 85
 ---
 
-This section provides complete YAML examples for common Redis Enterprise for Kubernetes deployment scenarios. Each example includes the necessary configuration files and step-by-step instructions for editing and applying them.
+This section provides complete YAML examples that cover common Redis Enterprise for Kubernetes deployment scenarios. Each example includes the necessary configuration files and step-by-step instructions for editing and applying them.
 
 ## How to use these examples
 
