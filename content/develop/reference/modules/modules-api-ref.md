@@ -5088,6 +5088,31 @@ write actions, please refer to [`RedisModule_AddPostNotificationJob`](#RedisModu
 
 See [https://redis.io/docs/latest/develop/use/keyspace-notifications/](https://redis.io/docs/latest/develop/use/keyspace-notifications/) for more information.
 
+<span id="RedisModule_UnsubscribeFromKeyspaceEvents"></span>
+
+### `RedisModule_UnsubscribeFromKeyspaceEvents`
+
+    int RedisModule_UnsubscribeFromKeyspaceEvents(RedisModuleCtx *ctx,
+                                                  int types,
+                                                  RedisModuleNotificationFunc callback);
+
+**Available since:** unreleased
+
+
+[`RedisModule_UnsubscribeFromKeyspaceEvents`](#RedisModule_UnsubscribeFromKeyspaceEvents) - Unregister a module's callback from keyspace notifications for specific event types.
+
+This function removes a previously registered subscription identified by both the event mask and the callback function.
+It is useful to reduce performance overhead when the module no longer requires notifications for certain events.
+
+Parameters:
+ - ctx: The `RedisModuleCtx` associated with the calling module.
+ - types: The event mask representing the keyspace notification types to unsubscribe from.
+ - callback: The callback function pointer that was originally registered for these events.
+
+Returns:
+ - `REDISMODULE_OK` on successful removal of the subscription.
+ - `REDISMODULE_ERR` if no matching subscription was found or if invalid parameters were provided.
+
 <span id="RedisModule_AddPostNotificationJob"></span>
 
 ### `RedisModule_AddPostNotificationJob`
@@ -8636,6 +8661,7 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_UnblockClient`](#RedisModule_UnblockClient)
 * [`RedisModule_UnlinkKey`](#RedisModule_UnlinkKey)
 * [`RedisModule_UnregisterCommandFilter`](#RedisModule_UnregisterCommandFilter)
+* [`RedisModule_UnsubscribeFromKeyspaceEvents`](#RedisModule_UnsubscribeFromKeyspaceEvents)
 * [`RedisModule_ValueLength`](#RedisModule_ValueLength)
 * [`RedisModule_WrongArity`](#RedisModule_WrongArity)
 * [`RedisModule_Yield`](#RedisModule_Yield)
