@@ -69,7 +69,7 @@ Find complete YAML examples for common deployment scenarios:
 
 ### Example categories
 
-- [Basic deployment]({{< relref "/operate/kubernetes/reference/yaml-examples/basic-deployment" >}}) - Essential YAML files for simple Redis Enterprise deployment
+- [Basic deployment]({{< relref "/operate/kubernetes/reference/yaml/basic-deployment" >}}) - Essential YAML files for simple Redis Enterprise deployment
 - [Rack awareness]({{< relref "/operate/kubernetes/reference/yaml-examples/rack-awareness" >}}) - YAML examples for rack-aware deployments across availability zones
 - [Active-Active]({{< relref "/operate/kubernetes/reference/yaml-examples/active-active" >}}) - YAML examples for Active-Active databases across multiple clusters
 - [Multi-namespace]({{< relref "/operate/kubernetes/reference/yaml-examples/multi-namespace" >}}) - YAML examples for deploying across multiple namespaces
