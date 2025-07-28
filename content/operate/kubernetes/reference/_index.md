@@ -80,13 +80,13 @@ Review complete API specifications for all Redis Enterprise custom resources:
 
 ### Core resources
 
-- [Redis Enterprise cluster API (REC)]({{< relref "/operate/kubernetes/reference/redis_enterprise_cluster_api" >}}) - Manage Redis Enterprise clusters
-- [Redis Enterprise database API (REDB)]({{< relref "/operate/kubernetes/reference/redis_enterprise_database_api" >}}) - Manage Redis databases
+- [Redis Enterprise cluster API (REC)]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api" >}}) - Manage Redis Enterprise clusters
+- [Redis Enterprise database API (REDB)]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_database_api" >}}) - Manage Redis databases
 
 ### Active-Active resources
 
-- [Active-Active database API (REAADB)]({{< relref "/operate/kubernetes/reference/redis_enterprise_active_active_database_api" >}}) - Manage Active-Active databases
-- [Remote cluster API (RERC)]({{< relref "/operate/kubernetes/reference/redis_enterprise_remote_cluster_api" >}}) - Configure remote cluster connections
+- [Active-Active database API (REAADB)]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_active_active_database_api" >}}) - Manage Active-Active databases
+- [Remote cluster API (RERC)]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api" >}}) - Configure remote cluster connections
 
 ## Compatibility
 

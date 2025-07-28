@@ -50,6 +50,6 @@ Monitor database performance and troubleshoot issues:
 ## Related topics
 
 - [Redis Enterprise clusters (REC)]({{< relref "/operate/kubernetes/re-clusters" >}}) - Manage the underlying cluster infrastructure
-- [REDB API reference]({{< relref "/operate/kubernetes/reference/redis_enterprise_database_api" >}}) - Complete API specification for REDB resources
-- [Active-Active database API]({{< relref "/operate/kubernetes/reference/redis_enterprise_active_active_database_api" >}}) - API reference for Active-Active databases
-- [Remote cluster API]({{< relref "/operate/kubernetes/reference/redis_enterprise_remote_cluster_api" >}}) - API reference for remote cluster configurations
+- [REDB API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_database_api" >}}) - Complete API specification for REDB resources
+- [Active-Active database API]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_active_active_database_api" >}}) - API reference for Active-Active databases
+- [Remote cluster API]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api" >}}) - API reference for remote cluster configurations

@@ -58,6 +58,6 @@ To deploy Active-Active databases using these YAML files, follow [Create Active-
 ## Related documentation
 
 - [Create Active-Active database (REAADB)]({{< relref "/operate/kubernetes/active-active/create-reaadb" >}})
-- [REAADB API reference]({{< relref "/operate/kubernetes/reference/redis_enterprise_active_active_database_api" >}})
-- [RERC API reference]({{< relref "/operate/kubernetes/reference/redis_enterprise_remote_cluster_api" >}})
+- [REAADB API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_active_active_database_api" >}})
+- [RERC API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api" >}})
 - [Networking configuration]({{< relref "/operate/kubernetes/networking" >}})

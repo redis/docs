@@ -55,7 +55,7 @@ Cluster role binding configuration:
 
 ## Rack-aware Redis Enterprise cluster
 
-The rack-aware [REC configuration]({{< relref "/operate/kubernetes/reference/redis_enterprise_cluster_api" >}}) includes the `rackAwarenessNodeLabel` field.
+The rack-aware [REC configuration]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api" >}}) includes the `rackAwarenessNodeLabel` field.
 
 {{<embed-yaml "k8s/rack_aware_rec.md" "rack-aware-cluster.yaml">}}
 
@@ -114,7 +114,7 @@ To deploy rack-aware Redis Enterprise clusters, follow [Deploy on Kubernetes]({{
 ## Related documentation
 
 - [Node selection recommendations]({{< relref "/operate/kubernetes/recommendations/node-selection" >}})
-- [REC API reference]({{< relref "/operate/kubernetes/reference/redis_enterprise_cluster_api" >}})
-- [REDB API reference]({{< relref "/operate/kubernetes/reference/redis_enterprise_database_api" >}})
+- [REC API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api" >}})
+- [REDB API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_database_api" >}})
 - [Kubernetes node affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/)
 - [Redis Enterprise cluster architecture]({{< relref "/operate/kubernetes/architecture" >}})

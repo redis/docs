@@ -88,5 +88,5 @@ To deploy these YAML files, follow [Deploy on Kubernetes]({{< relref "/operate/k
 ## Related documentation
 
 - [Deploy on Kubernetes]({{< relref "/operate/kubernetes/deployment/quick-start" >}})
-- [REC API reference]({{< relref "/operate/kubernetes/reference/redis_enterprise_cluster_api" >}})
-- [REDB API reference]({{< relref "/operate/kubernetes/reference/redis_enterprise_database_api" >}})
+- [REC API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api" >}})
+- [REDB API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_database_api" >}})
