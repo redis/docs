@@ -53,6 +53,8 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS149040: Fixed a Gunicorn memory leak when using Active-Active databases in Kubernetes (REAADB).
 
+- RS110383: Fixed LDAP socket file permissions to allow users in the `redislabs` group to run commands.
+
 ## Version changes
 
 ### Behavior changes
