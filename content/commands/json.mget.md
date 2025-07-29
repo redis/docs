@@ -61,11 +61,6 @@ is JSONPath to specify. Returns `null` for nonexistent paths.
 
 </details>
 
-## Return
-
-JSON.MGET returns an array of bulk string replies specified as the JSON serialization of the value at each key's path.
-For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
-
 ## Examples
 
 <details open>
@@ -88,6 +83,20 @@ redis> JSON.MGET doc1 doc2 $..a
 2) "[4,6]"
 {{< / highlight >}}
 </details>
+
+## Return information
+
+{{< multitabs id="json-mget-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) or [null replies]({{< relref "/develop/reference/protocol-spec#nulls" >}}), where each element is the JSON serialization of the value at the corresponding key's path, or `null` if the key or path doesn't exist.
+
+-tab-sep-
+
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) or [null replies]({{< relref "/develop/reference/protocol-spec#nulls" >}}), where each element is the JSON serialization of the value at the corresponding key's path, or `null` if the key or path doesn't exist.
+
+{{< /multitabs >}}
 
 ## See also
 
