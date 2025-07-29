@@ -21,7 +21,7 @@
         hover:text-redis-red-600  rounded rounded-mx transition duration-150 ease-in-out"
                title="Open example" for="{{ $tid }}">
             {{ if eq (index $tab "title") "redis-cli" }}
-                {{ $cliName }}
+                {{ or (index $tab "displayName") $cliName }}
             {{ else }}
                 {{ index $tab "title" }}
             {{ end }}

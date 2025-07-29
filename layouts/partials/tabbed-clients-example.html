@@ -3,6 +3,7 @@
 {{ $lang := .Scratch.Get "lang" }}
 {{ $redisCommands := .Scratch.Get "redisCommands" }}
 {{ $redisCommandsLineLimit := (or (.Scratch.Get "maxLines") 100) }}
+{{ $cliTabName := (or (.Scratch.Get "cli_tab_name") ">_ Redis CLI") }}
 
 {{ if not (isset $.Site.Data.examples $id) }}
     {{ warnf "[tabbed-clients-example] Example not found %q for %q" $id $.Page }}
@@ -12,7 +13,7 @@
 {{/* Render redis-cli example from inner content if any */}}
 {{ if (ne (trim $redisCommands "\n") "") }}
     {{ $redisCliContent := highlight (trim $redisCommands "\n") "plaintext" (printf "linenos=false,hl_lines=1-%d" $redisCommandsLineLimit ) }}
-    {{ $tabs = $tabs | append (dict "title" "redis-cli" "content" $redisCliContent "limit" $redisCommandsLineLimit) }}
+    {{ $tabs = $tabs | append (dict "title" "redis-cli" "displayName" $cliTabName "content" $redisCliContent "limit" $redisCommandsLineLimit) }}
 {{ end }}
 
 {{ $clientExamples := index $.Site.Data.examples $id }}
