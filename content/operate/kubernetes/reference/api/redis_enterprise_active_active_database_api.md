@@ -7,6 +7,8 @@ categories:
 - kubernetes
 linkTitle: REAADB API
 weight: 30
+aliases:
+- /operate/kubernetes/reference/api/redis_enterprise_active_active_database_api/
 ---
 
 apiVersion:

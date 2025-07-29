@@ -41,7 +41,7 @@ Create and manage [Redis Enterprise clusters]({{< relref "/operate/kubernetes/re
 - [Auto Tiering]({{< relref "/operate/kubernetes/re-clusters/auto-tiering" >}})
 - [Multi-namespace deployment]({{< relref "/operate/kubernetes/re-clusters/multi-namespace" >}})
 - [Cluster recovery]({{< relref "/operate/kubernetes/re-clusters/cluster-recovery" >}})
-- [REC API reference]({{< relref "/operate/kubernetes/reference/redis_enterprise_cluster_api" >}})
+- [REC API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api" >}})
 
 ## Redis Enterprise databases (REDB)
 
@@ -49,7 +49,7 @@ Create and manage [Redis Enterprise databases]({{< relref "/operate/kubernetes/r
 
 - [Database controller]({{< relref "/operate/kubernetes/re-databases/db-controller" >}})
 - [Create replica databases]({{< relref "/operate/kubernetes/re-databases/replica-redb" >}})
-- [REDB API reference]({{< relref "/operate/kubernetes/reference/redis_enterprise_database_api" >}})
+- [REDB API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_database_api" >}})
 
 ## Active-Active databases
 
@@ -58,8 +58,8 @@ Set up globally distributed [Active-Active databases]({{< relref "/operate/kuber
 - [Prepare participating clusters]({{< relref "/operate/kubernetes/active-active/prepare-clusters" >}})
 - [Create Active-Active database]({{< relref "/operate/kubernetes/active-active/create-reaadb" >}})
 - [Global configuration]({{< relref "/operate/kubernetes/active-active/global-config" >}})
-- [REAADB API reference]({{< relref "/operate/kubernetes/reference/redis_enterprise_active_active_database_api" >}})
-- [Remote cluster API reference]({{< relref "/operate/kubernetes/reference/redis_enterprise_remote_cluster_api" >}})
+- [REAADB API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_active_active_database_api" >}})
+- [Remote cluster API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api" >}})
 
 ## Security
 
@@ -74,10 +74,10 @@ Manage [secure connections]({{< relref "/operate/kubernetes/security" >}}) and a
 
 Use the Kubernetes API and command-line tools to manage your Redis Enterprise deployment.
 
-- [Redis Enterprise cluster API (REC)]({{< relref "/operate/kubernetes/reference/redis_enterprise_cluster_api" >}})
-- [Redis Enterprise database API (REDB)]({{< relref "/operate/kubernetes/reference/redis_enterprise_database_api" >}})
-- [Active-Active database API (REAADB)]({{< relref "/operate/kubernetes/reference/redis_enterprise_active_active_database_api" >}})
-- [Remote cluster API (RERC)]({{< relref "/operate/kubernetes/reference/redis_enterprise_remote_cluster_api" >}})
+- [Redis Enterprise cluster API (REC)]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api" >}})
+- [Redis Enterprise database API (REDB)]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_database_api" >}})
+- [Active-Active database API (REAADB)]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_active_active_database_api" >}})
+- [Remote cluster API (RERC)]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api" >}})
 
 ## Logs & monitoring
 

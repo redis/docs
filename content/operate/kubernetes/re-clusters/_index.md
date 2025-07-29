@@ -47,4 +47,4 @@ Handle cluster recovery and troubleshooting scenarios:
 - [Redis Enterprise databases (REDB)]({{< relref "/operate/kubernetes/re-databases" >}}) - Create and manage databases on your cluster
 - [Security]({{< relref "/operate/kubernetes/security" >}}) - Configure security settings for your cluster
 - [Networking]({{< relref "/operate/kubernetes/networking" >}}) - Set up networking and ingress for cluster access
-- [REC API reference]({{< relref "/operate/kubernetes/reference/redis_enterprise_cluster_api" >}}) - Complete API specification for REC resources
+- [REC API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api" >}}) - Complete API specification for REC resources

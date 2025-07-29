@@ -7,6 +7,8 @@ categories:
 - kubernetes
 linkTitle: REDB API
 weight: 30
+aliases:
+- /operate/kubernetes/reference/api/redis_enterprise_database_api/
 ---
 
 apiVersion:
