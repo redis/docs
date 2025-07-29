@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - kubernetes
-description: YAML examples for configuring RBAC permissions for the Redis Enterprise log collector tool in restricted and all modes.
+description: YAML examples for configuring RBAC permissions for the Redis Enterprise log collector tool in `restricted` and `all` modes.
 linkTitle: Log collector RBAC
 weight: 50
 ---
@@ -24,16 +24,16 @@ For complete log collection instructions, see [Collect logs]({{< relref "/operat
 
 The log collector has two collection modes that require different RBAC permissions:
 
-- **Restricted mode** (recommended): Collects only Redis Enterprise resources with minimal security exposure. Default for versions 6.2.18-3+.
-- **All mode**: Collects comprehensive cluster information including nodes, storage classes, and operator resources. Use when specifically requested by Redis Support.
+- **`restricted` mode** (recommended): Collects only Redis Enterprise resources with minimal security exposure. Default for versions 6.2.18-3+.
+- **`all` mode**: Collects comprehensive cluster information including nodes, storage classes, and operator resources. Use when specifically requested by Redis Support.
 
-## Restricted mode RBAC
+## `restricted` mode RBAC
 
-The restricted mode configuration provides minimal permissions for collecting Redis Enterprise resources only.
+The `restricted` mode configuration provides minimal permissions for collecting Redis Enterprise resources only.
 
 {{<embed-yaml "k8s/log_collector_role_restricted_mode.md" "log-collector-restricted-rbac.yaml">}}
 
-Restricted mode configuration:
+`restricted` mode configuration:
 
 - `Role`: Namespace-scoped permissions for Redis Enterprise resources
 - `ClusterRole`: Cluster-wide permissions for CRDs and basic cluster resources
@@ -45,19 +45,19 @@ Key permissions:
 - `app.redislabs.com/*`: All Redis Enterprise custom resources
 - `persistentvolumes`: Storage information for troubleshooting
 
-## All mode RBAC
+## `all` mode RBAC
 
-The all mode configuration provides comprehensive permissions for collecting detailed cluster information.
+The `all` mode configuration provides comprehensive permissions for collecting detailed cluster information.
 
 {{<embed-yaml "k8s/log_collector_role_all_mode.md" "log-collector-all-rbac.yaml">}}
 
-All mode configuration:
+`all` mode configuration:
 
 - `Role`: Extended namespace permissions including operator resources
 - `ClusterRole`: Additional cluster-wide permissions for nodes and storage
 - `rules`: Comprehensive permissions for full cluster diagnostics
 
-Additional permissions in all mode:
+Additional permissions in `all` mode:
 
 - `nodes`: Node information and status
 - `storageclasses, volumeattachments`: Storage system details
@@ -86,7 +86,7 @@ To apply the RBAC configurations manually:
 # Apply restricted mode RBAC
 kubectl apply -f log-collector-restricted-rbac.yaml --namespace <namespace>
 
-# Apply all mode RBAC  
+# Apply all mode RBAC
 kubectl apply -f log-collector-all-rbac.yaml --namespace <namespace>
 ```
 
@@ -106,7 +106,7 @@ python log_collector.py -m all -n <namespace>
 
 ### Best practices
 
-- Use restricted mode unless you specifically need additional cluster information
+- Use `restricted` mode unless you specifically need additional cluster information
 - Limit namespace access to only where log collection is needed
 - Handle collected data according to your organization's security policies
 
@@ -130,7 +130,7 @@ If your security policies prohibit secrets access, you can remove the secrets pe
 
 ### Missing resources
 
-- Consider switching to all mode if additional cluster resources are needed
+- Consider switching to `all` mode if additional cluster resources are needed
 - Verify that custom resource definitions are installed
 - Check that the operator has proper permissions
 
