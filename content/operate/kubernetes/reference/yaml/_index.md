@@ -42,7 +42,7 @@ kubectl apply -f my-config.yaml
 # Apply multiple files
 kubectl apply -f rbac/ -f cluster/ -f database/
 
-# Apply with validation
+# Validate files without applying
 kubectl apply --dry-run=client -f my-config.yaml
 ```
 
@@ -76,7 +76,7 @@ kubectl get events --sort-by=.metadata.creationTimestamp
 
 ## Best practices
 
-- Validate syntax: Use `kubectl apply --dry-run=client` to check YAML syntax before applying
+- Validate configuration: Use `kubectl apply --dry-run=client` to validate YAML syntax and object schemas before applying
 - Version control: Store your customized YAML files in version control
 - Resource naming: Use consistent, descriptive names for all resources
 
