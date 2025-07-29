@@ -22,6 +22,12 @@ As of version 6.2.18-3, the log collector tool has two modes:
 
 {{<note>}} This script requires Python 3.6 or later. {{</note>}}
 
+## Prerequisites
+
+Before running the log collector, ensure you have the appropriate RBAC permissions configured. See [Log collector RBAC examples]({{< relref "/operate/kubernetes/reference/yaml/log-collector-rbac" >}}) for detailed RBAC configuration instructions.
+
+## Collect logs
+
 1. Download the latest [`log_collector.py`](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/log_collector/log_collector.py) file.
 
 1. Have a K8s administrator run the script on the system that runs your `kubectl` or `oc` commands.
@@ -35,7 +41,5 @@ As of version 6.2.18-3, the log collector tool has two modes:
 
    {{< note >}} If you get an error because the yaml module is not found, install the pyYAML module with `pip install pyyaml`.
   {{< /note >}}
-
-
 
 1. Upload the resulting `tar.gz` file containing all the logs to [Redis Support](https://support.redislabs.com/).
