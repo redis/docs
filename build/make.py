@@ -1,10 +1,12 @@
 import argparse
 from datetime import datetime
 import logging
+import sys
 import tempfile
 
 from components.component import All
 from components.util import mkdir_p
+from local_examples import process_local_examples
 
 
 def parse_args() -> argparse.Namespace:
@@ -30,20 +32,19 @@ if __name__ == '__main__':
     ARGS = parse_args()
     mkdir_p(ARGS.tempdir)
 
-    # Configure logging BEFORE creating objects
-    log_level = getattr(logging, ARGS.loglevel.upper())
-    logging.basicConfig(
-        level=log_level,
-        format='%(message)s %(filename)s:%(lineno)d - %(funcName)s',
-        force=True  # Force reconfiguration in case logging was already configured
-    )
-
     # Load settings
     ALL = All(ARGS.stack, None, ARGS.__dict__)
 
     # Make the stack
+    logging.basicConfig(
+        level=ARGS.loglevel, format=f'{sys.argv[0]}: %(levelname)s %(asctime)s %(message)s')
     print(f'Applying all configured components"{ALL._name}"')
     start = datetime.now()
     ALL.apply()
+
+    # Process local examples
+    print('Processing local examples')
+    process_local_examples()
+
     total = datetime.now() - start
     print(f'+OK ({total.microseconds / 1000} ms)')
