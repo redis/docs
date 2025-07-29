@@ -3,6 +3,9 @@
 {{ $lang := .Scratch.Get "lang" }}
 {{ $redisCommands := .Scratch.Get "redisCommands" }}
 {{ $redisCommandsLineLimit := (or (.Scratch.Get "maxLines") 100) }}
+{{ $cliTabName := (or (.Scratch.Get "cli_tab_name") ">_ Redis CLI") }}
+{{ $cliFooterLinkText := .Scratch.Get "cli_footer_link_text" }}
+{{ $cliFooterLinkUrl := .Scratch.Get "cli_footer_link_url" }}
 
 {{ if not (isset $.Site.Data.examples $id) }}
     {{ warnf "[tabbed-clients-example] Example not found %q for %q" $id $.Page }}
@@ -12,7 +15,7 @@
 {{/* Render redis-cli example from inner content if any */}}
 {{ if (ne (trim $redisCommands "\n") "") }}
     {{ $redisCliContent := highlight (trim $redisCommands "\n") "plaintext" (printf "linenos=false,hl_lines=1-%d" $redisCommandsLineLimit ) }}
-    {{ $tabs = $tabs | append (dict "title" "redis-cli" "content" $redisCliContent "limit" $redisCommandsLineLimit) }}
+    {{ $tabs = $tabs | append (dict "title" "redis-cli" "displayName" $cliTabName "content" $redisCliContent "limit" $redisCommandsLineLimit "customFooterLinkText" $cliFooterLinkText "customFooterLinkUrl" $cliFooterLinkUrl) }}
 {{ end }}
 
 {{ $clientExamples := index $.Site.Data.examples $id }}
@@ -21,15 +24,15 @@
     {{ $clientConfig := index $.Site.Params.clientsconfig $client }}
     {{ $language := index $example "language" }}
     {{ $quickstartSlug := index $clientConfig "quickstartSlug" }}
-    
+
     {{ if and ($example) (or (eq $lang "") (strings.Contains $lang $client)) }}
         {{ $examplePath := index $example "target" }}
         {{ $options := printf "linenos=false" }}
-        
+
         {{ if and (ne $step "") (isset $example "named_steps") (isset $example.named_steps $step) }}
             {{ $options = printf "%s,hl_lines=%s" $options (index $example.named_steps $step) }}
         {{ else }}
-            {{ if isset $example "highlight" }}
+            {{ if and (isset $example "highlight") (index $example "highlight") }}
                 {{ $options = printf "%s,hl_lines=%s" $options (delimit (index $example "highlight") " ") }}
             {{ end }}
         {{ end }}
@@ -40,5 +43,5 @@
     {{ end }}
 {{ end }}
 
-{{ $params := dict "id" (printf "%s-step%s" $id $step) "tabs" $tabs "showFooter" (eq $lang "") }}
+{{ $params := dict "id" (printf "%s-step%s" $id $step) "tabs" $tabs "showFooter" true }}
 {{ partial "tabs/wrapper.html" $params }}
