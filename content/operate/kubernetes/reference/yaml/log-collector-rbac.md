@@ -68,11 +68,11 @@ Additional permissions in `all` mode:
 
 ### Namespace requirements
 
-The Role and RoleBinding must be created in every namespace where you need to collect logs:
+Create the Role and RoleBinding in every namespace where you need to collect logs:
 
-- **Single namespace**: Apply to the namespace where Redis Enterprise runs
-- **Multi-namespace with single REC**: Apply to the REC namespace plus each REDB namespace  
-- **Multi-namespace with multiple RECs**: Apply to each REC namespace
+- Single namespace: Apply to the namespace where Redis Enterprise runs
+- Multi-namespace with single REC: Apply to the REC namespace plus each REDB namespace  
+- Multi-namespace with multiple RECs: Apply to each REC namespace
 
 The ClusterRole and ClusterRoleBinding need to be created only once per cluster.
 
