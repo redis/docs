@@ -19,8 +19,8 @@ Multi-namespace deployment enables:
 - Flexible RBAC: Fine-grained permissions per namespace
 
 This example shows:
-- Operator namespace: `redis-enterprise-operator` (where the operator runs)
-- Consumer namespaces: `app-production`, `app-staging` (where REC/REDB resources are created)
+- Operator namespace: `redis-enterprise-operator` (where the operator and REC run)
+- Consumer namespaces: `app-production`, `app-staging` (where REDB resources are created)
 
 For complete deployment instructions, see [Manage databases in multiple namespaces]({{< relref "/operate/kubernetes/re-clusters/multi-namespace" >}}).
 

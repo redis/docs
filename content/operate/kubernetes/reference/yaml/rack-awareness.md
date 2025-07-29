@@ -83,6 +83,8 @@ kubectl get nodes -o custom-columns=NAME:.metadata.name,ZONE:.metadata.labels.'t
 
 Database configuration for rack-aware clusters is the same as [basic deployments]({{< relref "/operate/kubernetes/reference/yaml/basic-deployment#redis-enterprise-database" >}}).
 
+**Important**: For rack awareness to be effective, ensure your database has replication enabled. Rack awareness distributes primary and replica shards across zones, so databases without replication will not benefit from zone distribution.
+
 {{<embed-yaml "k8s/redb.md" "redis-enterprise-database.yaml">}}
 
 ## Apply the configuration
@@ -92,18 +94,22 @@ To deploy rack-aware Redis Enterprise clusters, follow [Deploy on Kubernetes]({{
 ## Troubleshooting
 
 ### Nodes not distributed across zones
+
 - Verify node labels are correct
 - Check that sufficient nodes exist in each zone
 - Ensure the `rackAwarenessNodeLabel` matches actual node labels
 
 ### Cluster role permissions denied
+
 - Verify the ClusterRole and ClusterRoleBinding are applied
 - Check that the service account name matches in all resources
 
 ### Database shards not distributed
+
 - Confirm the cluster has rack awareness enabled
-- Check that the database has multiple shards
-- Verify sufficient nodes exist across zones
+- **Check that the database has replication enabled** - rack awareness distributes primary/replica pairs across zones
+- Verify the database has multiple shards
+- Ensure sufficient nodes exist across zones
 
 ## Next steps
 
