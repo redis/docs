@@ -78,6 +78,13 @@ The ClusterRole and ClusterRoleBinding need to be created only once per cluster.
 
 Edit the values in the downloaded YAML file for your specific setup, updating the namespace references and role binding subjects to match your environment.
 
+### Role binding configuration
+
+The RBAC configurations include both roles and role bindings. The role bindings must reference the user or service account that will execute the log collector:
+
+- User subject: If running the log collector as a specific user, update the `subjects` section in the RoleBinding and ClusterRoleBinding to reference your username
+- Service account: If using a service account, create or reference the appropriate service account in the role bindings
+
 ### Manual deployment
 
 To apply the RBAC configurations manually:
