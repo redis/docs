@@ -74,13 +74,6 @@ is numeric data value of the sample (double). The double number should follow <a
 - `ignoreMaxTimeDiff` and `ignoreMaxValDiff` cannot be specified as is the case with `TS.ADD`. However, the same logic still applies based on the values of the per-key configuration parameters. See the [`TS.ADD`]({{< relref "commands/ts.add/" >}}) command page for more information.
 </note>
 
-## Return value
-
-Returns one of these replies:
-
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}), where each element is an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing the timestamp of a upserted sample or an [] (when duplication policy is `BLOCK`, or when `timestamp` is older than the retention period compared to the maximum existing timestamp). For each element that is ignored (see `IGNORE` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}})), the reply element value will be the largest timestamp in the time series.
-- [] (invalid arguments, wrong key type, etc.)
-
 ## Complexity
 
 If a compaction rule exits on a time series, TS.MADD performance might be reduced.
@@ -107,6 +100,24 @@ OK
 6) (integer) 1020
 {{< / highlight >}}
 </details>
+
+## Return information
+
+{{< multitabs id="ts-madd-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+One of the following:
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}), where each element is an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing the timestamp of a upserted sample. For each element that is ignored (see `IGNORE` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}})), the reply element value will be the largest timestamp in the time series.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, duplication policy is `BLOCK`, or when `timestamp` is older than the retention period compared to the maximum existing timestamp.
+
+-tab-sep-
+
+One of the following:
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}), where each element is an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing the timestamp of a upserted sample. For each element that is ignored (see `IGNORE` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}})), the reply element value will be the largest timestamp in the time series.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, duplication policy is `BLOCK`, or when `timestamp` is older than the retention period compared to the maximum existing timestamp.
+
+{{< /multitabs >}}
 
 ## See also
 

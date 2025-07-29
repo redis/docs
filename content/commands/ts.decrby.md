@@ -173,12 +173,23 @@ Use it only if you are creating a new time series. It is ignored if you are addi
 - Setting `RETENTION` and `LABELS` introduces additional time complexity.
 </note>
 
-## Return value
+## Return information
 
-Returns one of these replies:
+{{< multitabs id="ts-decrby-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
 
-- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - the timestamp of the upserted sample. If the sample is ignored (See `IGNORE` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}})), the reply will be the largest timestamp in the time series.
-- [] on error (invalid arguments, wrong key type, etc.), or when `timestamp` is not equal to or higher than the maximum existing timestamp
+One of the following:
+* [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the timestamp of the upserted sample. If the sample is ignored (See `IGNORE` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}})), the reply will be the largest timestamp in the time series.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, or when `timestamp` is not equal to or higher than the maximum existing timestamp.
+
+-tab-sep-
+
+One of the following:
+* [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the timestamp of the upserted sample. If the sample is ignored (See `IGNORE` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}})), the reply will be the largest timestamp in the time series.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, or when `timestamp` is not equal to or higher than the maximum existing timestamp.
+
+{{< /multitabs >}}
 
 ## See also
 
