@@ -37,7 +37,7 @@ weight: 40
 | Facial recognition | Computer Vision | Face matching using Facenet and RedisVL. | [Open in Colab](https://colab.research.google.com/github/redis-developer/redis-ai-resources/blob/main/python-recipes/computer-vision/00_facial_recognition_facenet.ipynb) |
 | Content filtering with RedisVL | Recommendation Systems | Introduction to content-based filtering. | [Open in Colab](https://colab.research.google.com/github/redis-developer/redis-ai-resources/blob/main/python-recipes/recommendation-systems/00_content_filtering.ipynb) |
 | Collaborative filtering with RedisVL | Recommendation Systems | Intro to collaborative filtering with RedisVL. | [Open in Colab](https://colab.research.google.com/github/redis-developer/redis-ai-resources/blob/main/python-recipes/recommendation-systems/01_collaborative_filtering.ipynb) |
-| Intro deep learning two tower example with redisvl | Recommendation Systems | Deep learning approach to recommendation systems. | [Open in Colab](https://colab.research.google.com/github/redis-developer/redis-ai-resources/blob/main/python-recipes/recommendation-systems/02_two_towers.ipynb) |
+| Intro deep learning two tower example with RedisVL | Recommendation Systems | Deep learning approach to recommendation systems. | [Open in Colab](https://colab.research.google.com/github/redis-developer/redis-ai-resources/blob/main/python-recipes/recommendation-systems/02_two_towers.ipynb) |
 | Credit scoring system using Feast with Redis as the online store | Feature Store | Feature store implementation for ML model serving. | [Open in Colab](https://colab.research.google.com/github/redis-developer/redis-ai-resources/blob/main/python-recipes/feature-store/00_feast_credit_score.ipynb) |
 
 
