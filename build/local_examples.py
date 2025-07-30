@@ -10,10 +10,8 @@ and can be any supported language.
 """
 
 import os
-import glob
 import shutil
 import logging
-from typing import Dict, Any
 
 from components.example import Example
 from components.util import mkdir_p
@@ -89,61 +87,71 @@ def process_local_examples(local_examples_dir: str = 'local_examples',
     if os.path.exists(examples_json):
         examples_data = load_dict(examples_json)
 
-    # Process each file in local_examples directory
-    for filename in os.listdir(local_examples_dir):
-        source_file = os.path.join(local_examples_dir, filename)
+    # Process each file in local_examples directory and subdirectories
+    for root, _, files in os.walk(local_examples_dir):
+        for filename in files:
+            source_file = os.path.join(root, filename)
 
-        if not os.path.isfile(source_file):
-            continue
+            # Get language from file extension
+            language = get_language_from_extension(filename)
+            if not language:
+                logging.warning(f"Unknown file extension for: {filename}")
+                continue
 
-        # Get language from file extension
-        language = get_language_from_extension(filename)
-        if not language:
-            logging.warning(f"Unknown file extension for: {filename}")
-            continue
+            # Get example ID from file content
+            example_id = get_example_id_from_file(source_file)
+            if not example_id:
+                logging.warning(f"No EXAMPLE: header found in {filename}")
+                continue
 
-        # Get example ID from file content
-        example_id = get_example_id_from_file(source_file)
-        if not example_id:
-            logging.warning(f"No EXAMPLE: header found in {filename}")
-            continue
+            logging.info(f"Processing local example: {example_id} ({language}) "
+                         f"from {source_file}")
 
-        logging.info(f"Processing local example: {example_id} ({language})")
+            # Create target directory
+            target_dir = os.path.join(examples_dir, example_id)
+            mkdir_p(target_dir)
 
-        # Create target directory
-        target_dir = os.path.join(examples_dir, example_id)
-        mkdir_p(target_dir)
+            # Initialize example data
+            if example_id not in examples_data:
+                examples_data[example_id] = {}
 
-        # Initialize example data
-        if example_id not in examples_data:
-            examples_data[example_id] = {}
+            # Copy file to target directory with local_ prefix
+            # Include subdirectory structure in the filename to avoid conflicts
+            relative_path = os.path.relpath(source_file, local_examples_dir)
+            relative_dir = os.path.dirname(relative_path)
+            base_name = os.path.splitext(filename)[0]
+            ext = os.path.splitext(filename)[1]
 
-        # Copy file to target directory with local_ prefix
-        base_name = os.path.splitext(filename)[0]
-        ext = os.path.splitext(filename)[1]
-        target_filename = f"local_{base_name}{ext}"
-        target_file = os.path.join(target_dir, target_filename)
-        shutil.copy2(source_file, target_file)
+            # Create a unique filename that includes subdirectory info
+            if relative_dir and relative_dir != '.':
+                # Replace path separators with underscores for flat filename
+                subdir_prefix = relative_dir.replace(os.sep, '_')
+                target_filename = f"local_{subdir_prefix}_{base_name}{ext}"
+            else:
+                target_filename = f"local_{base_name}{ext}"
 
-        # Process with Example class
-        example = Example(language, target_file)
+            target_file = os.path.join(target_dir, target_filename)
+            shutil.copy2(source_file, target_file)
 
-        # Get client name
-        client_name = get_client_name_from_language(language)
+            # Process with Example class
+            example = Example(language, target_file)
 
-        # Create metadata
-        example_metadata = {
-            'source': source_file,
-            'language': language,
-            'target': target_file,
-            'highlight': example.highlight,
-            'hidden': example.hidden,
-            'named_steps': example.named_steps,
-            'sourceUrl': None  # Local examples don't have source URLs
-        }
+            # Get client name
+            client_name = get_client_name_from_language(language)
 
-        examples_data[example_id][client_name] = example_metadata
-        logging.info(f"Processed {client_name} example for {example_id}")
+            # Create metadata
+            example_metadata = {
+                'source': source_file,
+                'language': language,
+                'target': target_file,
+                'highlight': example.highlight,
+                'hidden': example.hidden,
+                'named_steps': example.named_steps,
+                'sourceUrl': None  # Local examples don't have source URLs
+            }
+
+            examples_data[example_id][client_name] = example_metadata
+            logging.info(f"Processed {client_name} example for {example_id}")
 
     # Save updated examples data
     dump_dict(examples_json, examples_data)
@@ -151,8 +159,8 @@ def process_local_examples(local_examples_dir: str = 'local_examples',
 
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO, 
-                       format='%(levelname)s: %(message)s')
-    
+    logging.basicConfig(level=logging.INFO,
+                        format='%(levelname)s: %(message)s')
+
     process_local_examples()
     print("Local examples processing complete")
