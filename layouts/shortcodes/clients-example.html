@@ -1,9 +1,51 @@
-{{ .Scratch.Set "example" (.Get 0) }}
-{{ .Scratch.Set "step" (.Get 1) }}
-{{ .Scratch.Set "lang" (.Get 2) }}
-{{ .Scratch.Set "maxLines" (.Get 3) }}
-{{ .Scratch.Set "cli_tab_name" (.Get 4) }}
-{{ .Scratch.Set "cli_footer_link_text" (.Get 5) }}
-{{ .Scratch.Set "cli_footer_link_url" (.Get 6) }}
+{{/*
+  clients-example shortcode - supports both positional and named parameters
+
+  Named parameters:
+  - set: Name of the example set (required)
+  - step: Example step name (required)
+  - lang_filter: Language filter (optional, default: "")
+  - max_lines: Maximum number of lines shown by default (optional, default: 100)
+  - dft_tab_name: Custom first tab name (optional, default: ">_ Redis CLI")
+  - dft_tab_link_title: Custom first tab footer link title (optional)
+  - dft_tab_url: Custom first tab footer link URL (optional)
+
+  Positional parameters (for backward compatibility):
+  - 0: example set name
+  - 1: step name
+  - 2: language filter
+  - 3: max lines
+  - 4: custom first tab name
+  - 5: custom first tab footer link title
+  - 6: custom first tab footer link URL
+*/}}
+
+{{/* Determine if we're using named or positional parameters */}}
+{{ $usingNamedParams := false }}
+{{ if .Get "set" }}
+  {{ $usingNamedParams = true }}
+{{ end }}
+
+{{/* Set parameters based on whether we're using named or positional */}}
+{{ if $usingNamedParams }}
+  {{/* Named parameters */}}
+  {{ .Scratch.Set "example" (.Get "set") }}
+  {{ .Scratch.Set "step" (.Get "step") }}
+  {{ .Scratch.Set "lang" (or (.Get "lang_filter") (.Get "language") "") }}
+  {{ .Scratch.Set "maxLines" (.Get "max_lines") }}
+  {{ .Scratch.Set "cli_tab_name" (.Get "dft_tab_name") }}
+  {{ .Scratch.Set "cli_footer_link_text" (.Get "dft_tab_link_title") }}
+  {{ .Scratch.Set "cli_footer_link_url" (.Get "dft_tab_url") }}
+{{ else }}
+  {{/* Positional parameters (backward compatibility) */}}
+  {{ .Scratch.Set "example" (.Get 0) }}
+  {{ .Scratch.Set "step" (.Get 1) }}
+  {{ .Scratch.Set "lang" (.Get 2) }}
+  {{ .Scratch.Set "maxLines" (.Get 3) }}
+  {{ .Scratch.Set "cli_tab_name" (.Get 4) }}
+  {{ .Scratch.Set "cli_footer_link_text" (.Get 5) }}
+  {{ .Scratch.Set "cli_footer_link_url" (.Get 6) }}
+{{ end }}
+
 {{ .Scratch.Set "redisCommands" .Inner }}
 {{ partial "tabbed-clients-example.html" . }}
