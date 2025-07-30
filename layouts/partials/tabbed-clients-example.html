@@ -14,7 +14,15 @@
 {{ $tabs := slice }}
 {{/* Render redis-cli example from inner content if any */}}
 {{ if (ne (trim $redisCommands "\n") "") }}
-    {{ $redisCliContent := highlight (trim $redisCommands "\n") "plaintext" (printf "linenos=false,hl_lines=1-%d" $redisCommandsLineLimit ) }}
+    {{ $highlightOptions := "linenos=false" }}
+    {{ $redisCommandsLineLimitInt := 0 }}
+    {{ if $redisCommandsLineLimit }}
+        {{ $redisCommandsLineLimitInt = int $redisCommandsLineLimit }}
+    {{ end }}
+    {{ if gt $redisCommandsLineLimitInt 0 }}
+        {{ $highlightOptions = printf "linenos=false,hl_lines=1-%d" $redisCommandsLineLimitInt }}
+    {{ end }}
+    {{ $redisCliContent := highlight (trim $redisCommands "\n") "plaintext" $highlightOptions }}
     {{ $tabs = $tabs | append (dict "title" "redis-cli" "displayName" $cliTabName "content" $redisCliContent "limit" $redisCommandsLineLimit "customFooterLinkText" $cliFooterLinkText "customFooterLinkUrl" $cliFooterLinkUrl) }}
 {{ end }}
 
