@@ -62,10 +62,6 @@ is JSONPath to specify. Default is root `$`. This command uses the following map
 For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
 </details>
 
-## Return
-
-JSON.RESP returns an array reply specified as the JSON's RESP form detailed in [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
-
 ## Examples
 
 <details open>
@@ -108,6 +104,20 @@ redis> JSON.RESP item:2
     4) (integer) 120
 {{< / highlight >}}
 </details>
+
+## Return information
+
+{{< multitabs id="json-resp-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) representing the JSON value in RESP form, as detailed in the [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}). The mapping from JSON to RESP follows the rules described in the command arguments.
+
+-tab-sep-
+
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) representing the JSON value in RESP form, as detailed in the [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}). The mapping from JSON to RESP follows the rules described in the command arguments.
+
+{{< /multitabs >}}
 
 ## See also
 

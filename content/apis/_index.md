@@ -60,5 +60,5 @@ If you have installed Redis Enterprise Software, you can automate operations wit
 
 If you need to install Redis Enterprise on Kubernetes, then you can use the [Redis Enterprise for Kubernetes Operators]({{< relref "/operate/Kubernetes/" >}}). You can find the resource definitions here:
 
-- [Redis Enterprise Cluster API]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api">}})
-- [Redis Enterprise Database API]({{<relref "/operate/kubernetes/reference/redis_enterprise_database_api">}})
+- [Redis Enterprise Cluster API]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api">}})
+- [Redis Enterprise Database API]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_database_api">}})

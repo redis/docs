@@ -43,10 +43,6 @@ Remove an alias from an index
 is index alias to be removed.
 </details>
 
-## Return
-
-FT.ALIASDEL returns a simple string reply `OK` if executed correctly, or an error reply otherwise.
-
 ## Examples
 
 <details open>
@@ -60,10 +56,24 @@ OK
 {{< / highlight >}}
 </details>
 
+## Return information
+
+{{< multitabs id="ft-aliasdel-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: alias does not exist.
+
+-tab-sep-
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: alias does not exist.
+
+{{< /multitabs >}}
+
 ## See also
 
-[`FT.ALIASADD`]({{< relref "commands/ft.aliasadd/" >}}) | [`FT.ALIASUPDATE`]({{< relref "commands/ft.aliasupdate/" >}}) 
-
-## Related topics
-
-[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
+[`FT.ALIASADD`]({{< relref "commands/ft.aliasadd/" >}}) | [`FT.ALIASUPDATE`]({{< relref "commands/ft.aliasupdate/" >}})

@@ -50,10 +50,6 @@ alias.
 
 FT.ALIASADD allows administrators to transparently redirect application queries to alternative indexes.
 
-## Return
-
-FT.ALIASADD returns a simple string reply `OK` if executed correctly, or an error reply otherwise.
-
 ## Examples
 
 <details open>
@@ -74,10 +70,24 @@ Attempting to add the same alias returns a message that the alias already exists
 {{< / highlight >}}
 </details>
 
+## Return information
+
+{{< multitabs id="ft-aliasadd-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: alias already exists, index does not exist.
+
+-tab-sep-
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: alias already exists, index does not exist.
+
+{{< /multitabs >}}
+
 ## See also
 
-[`FT.ALIASDEL`]({{< relref "commands/ft.aliasdel/" >}}) | [`FT.ALIASUPDATE`]({{< relref "commands/ft.aliasupdate/" >}}) 
-
-## Related topics
-
-[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
+[`FT.ALIASDEL`]({{< relref "commands/ft.aliasdel/" >}}) | [`FT.ALIASUPDATE`]({{< relref "commands/ft.aliasupdate/" >}})

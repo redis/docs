@@ -71,10 +71,6 @@ is dialect version under which to execute the query. If not specified, the query
 
 {{% /alert %}}
 
-## Return
-
-FT.EXPLAIN returns a string representing the execution plan.
-
 ## Examples
 
 <details open>
@@ -102,6 +98,24 @@ INTERSECT {
 }
 {{< / highlight >}}
 </details>
+
+## Return information
+
+{{< multitabs id="ft-explain-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the query execution plan.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, syntax error in query.
+
+-tab-sep-
+
+One of the following:
+* [Bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the query execution plan.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, syntax error in query.
+
+{{< /multitabs >}}
 
 ## See also
 
