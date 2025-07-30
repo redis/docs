@@ -13,10 +13,22 @@ weight: 90
 ---
 ## Requirements
 
-RediSearch v2.10.20 requires:
+RediSearch v2.10.21 requires:
 
 - Minimum Redis compatibility version (database): 7.4
 - Minimum Redis Enterprise Software version (cluster): 7.8
+
+## v2.10.21 (July 2025)
+
+This is a maintenance release for RediSearch 2.10.
+
+Update urgency: `LOW`: No need to upgrade unless there are new features you want to use.
+
+**Bug fixes:**
+- [#6405](https://github.com/redisearch/redisearch/pull/6405) Validate compatibility against RedisJSON version upon open key.
+
+**Improvements:**
+- [#6340](https://github.com/redisearch/redisearch/pull/6340) Handle excessive logging when processing JSON.DEL errors.
 
 ## v2.10.20 (June 2025)
 
