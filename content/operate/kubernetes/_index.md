@@ -11,7 +11,7 @@ linkTitle: Redis for Kubernetes
 weight: 30
 ---
 
-[Redis Enterprise for Kubernetes](https://redis.io/kubernetes/) brings Redis Enterprise to Kubernetes environments through the Redis Enterprise operator. You can deploy, scale, and manage Redis Enterprise clusters and databases by using native Kubernetes resources and workflows.
+Redis Enterprise for Kubernetes brings Redis Enterprise to Kubernetes environments through the Redis Enterprise operator. You can deploy, scale, and manage Redis Enterprise clusters and databases by using native Kubernetes resources and workflows.
 
 Redis Enterprise for Kubernetes provides all the enterprise features of Redis Software:
 
