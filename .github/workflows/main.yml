@@ -212,6 +212,14 @@ jobs:
                 gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/operate/${product}/${version}" "gs://${BUCKET}/docs/$bucket_path/operate/${product}/${version}"
               fi
             done
+
+            # Prepare custom 404 page for Cloud Connector
+            hugo_root_path="docs/latest"
+            sed -i "s#baseURL = \"https://redis.io\"#baseURL = \"https://redis.io/$hugo_root_path\"#g" config.toml
+            make hugo
+            sed -i "s#/docs/latest/scss/#https://storage.googleapis.com/$BUCKET/docs/latest/scss/#g" public/404.html
+            sed -i "s#/docs/latest/css/#https://storage.googleapis.com/$BUCKET/docs/latest/css/#g" public/404.html
+            gsutil cp public/404.html gs://$BUCKET/docs/
           fi
 
           if [[ "$bucket_path" == staging/* ]]
