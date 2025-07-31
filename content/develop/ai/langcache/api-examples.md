@@ -18,6 +18,8 @@ You can use any standard REST client or library to access the API. If your app i
 - [LangCache SDK for Python](https://pypi.org/project/langcache/)
 - [LangCache SDK for Javascript](https://www.npmjs.com/package/@redis-ai/langcache)
 
+## Authentication
+
 To access the LangCache API, you need:
 
 - LangCache API base URL
@@ -37,9 +39,9 @@ curl -s -X POST "https://$HOST/v1/caches/$CACHE_ID/entries/search" \
 
 This example expects several variables to be set in the shell:
 
-    - **$HOST** - the LangCache API base URL
-    - **$CACHE_ID** - the Cache ID of your cache
-    - **$API_KEY** - The LangCache API token
+- **$HOST** - the LangCache API base URL
+- **$CACHE_ID** - the Cache ID of your cache
+- **$API_KEY** - The LangCache API token
 
 ## Examples
 
