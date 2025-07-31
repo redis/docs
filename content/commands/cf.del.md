@@ -36,8 +36,7 @@ Deletes an item once from the filter.
 If the item exists only once, it will be removed from the filter. If the item was added multiple times, it will still be present.
 
 {{< note >}}
-You should never use this command to delete from the filter an item that was not added to the filter. Deleting an item that is not in the filter may corrupt the filter. This could result in false negatives.
-Practically, it means that using this command is safe only if you are absolutely sure (not just "probabilistically sure") that the item you are deleting was previously added to the filter.
+Never use this command to delete an item unless you are certain you've added the item to the filter. Deleting an item you didn't previously add may corrupt the filter and cause false negatives.
 {{< /note >}}
 
 ## Required arguments
