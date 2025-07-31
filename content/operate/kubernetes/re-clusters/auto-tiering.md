@@ -43,6 +43,8 @@ To deploy a Redis Enterprise cluster (REC) with Auto Tiering, you'll need to spe
 
 {{<warning>}}Switching between storage engines (`speedb` and `rocksdb`) requires guidance by Redis Support or your Account Manager.{{</warning>}}
 
+{{<warning>}}PVC expansion is not supported when using Auto Tiering. Do not enable `enablePersistentVolumeResize` in the REC `persistentSpec` if you are using `redisOnFlashSpec` as this will result in conflicts. {{</warning>}}
+
 Here is an example of an REC custom resource with these attributes:
 
 ```YAML
