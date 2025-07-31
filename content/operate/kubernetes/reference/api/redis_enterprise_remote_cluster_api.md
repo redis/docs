@@ -8,7 +8,7 @@ categories:
 linkTitle: RERC API
 weight: 30
 aliases:
-- /operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api/
+- /operate/kubernetes/reference/redis_enterprise_remote_cluster_api/
 ---
 
 apiVersion:
