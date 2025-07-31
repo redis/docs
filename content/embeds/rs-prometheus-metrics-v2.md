@@ -102,72 +102,72 @@
 
 | Metric | Description |
 | :-------- | :---------- |
-| <span class="break-all">redis_server_active_defrag_running</span> | Automatic memory defragmentation current aggressiveness (% cpu) |
-| <span class="break-all">redis_server_allocator_active</span> | Total used memory, including external fragmentation |
-| <span class="break-all">redis_server_allocator_allocated</span> | Total allocated memory |
-| <span class="break-all">redis_server_allocator_resident</span> | Total resident memory (RSS) |
-| <span class="break-all">redis_server_aof_last_cow_size</span> | Last AOFR, CopyOnWrite memory |
-| <span class="break-all">redis_server_aof_rewrite_in_progress</span> | The number of simultaneous AOF rewrites that are in progress |
-| <span class="break-all">redis_server_aof_rewrites</span> | Number of AOF rewrites this process executed |
-| <span class="break-all">redis_server_aof_delayed_fsync</span> | Number of times an AOF fsync caused delays in the main Redis thread (inducing latency); this can indicate that the disk is slow or overloaded |
-| <span class="break-all">redis_server_blocked_clients</span> | Count the clients waiting on a blocking call |
-| <span class="break-all">redis_server_connected_clients</span> | Number of client connections to the specific shard |
-| <span class="break-all">redis_server_connected_slaves</span> | Number of connected replicas |
-| <span class="break-all">redis_server_db_avg_ttl</span> | Average TTL of all volatile keys |
-| <span class="break-all">redis_server_db0_avg_ttl</span> | Average TTL of all volatile keys. Deprecated. |
-| <span class="break-all">redis_server_db_keys</span> | Total key count. |
-| <span class="break-all">redis_server_db0_keys</span> | Total key count. Deprecated. |
-| <span class="break-all">redis_server_evicted_keys</span> | Keys evicted so far (since restart) |
-| <span class="break-all">redis_server_expire_cycle_cpu_milliseconds</span> | The cumulative amount of time spent on active expiry cycles |
-| <span class="break-all">redis_server_expired_keys</span> | Keys expired so far since restart |
-| <span class="break-all">redis_server_forwarding_state</span> | Shard forwarding state (on or off) |
-| <span class="break-all">redis_server_hashes_items_under_1M</span> | Number of hash keys with under 1 million elements |
-| <span class="break-all">redis_server_hashes_items_1M_to_8M</span> | Number of hash keys with an element count between 1 million and 8 million |
-| <span class="break-all">redis_server_hashes_items_over_8M</span> | Number of hash keys with over 8 million elements |
-| <span class="break-all">redis_server_keys_trimmed</span> | The number of keys that were trimmed in the current or last resharding process |
-| <span class="break-all">redis_server_keyspace_read_hits</span> | Number of read operations accessing an existing keyspace |
-| <span class="break-all">redis_server_keyspace_read_misses</span> | Number of read operations accessing a non-existing keyspace |
-| <span class="break-all">redis_server_keyspace_write_hits</span> | Number of write operations accessing an existing keyspace |
-| <span class="break-all">redis_server_keyspace_write_misses</span> | Number of write operations accessing a non-existing keyspace |
-| <span class="break-all">redis_server_lists_items_under_1M</span> | Number of list keys with under 1 million elements |
-| <span class="break-all">redis_server_lists_items_1M_to_8M</span> | Number of list keys with an element count between 1 million and 8 million |
-| <span class="break-all">redis_server_lists_items_over_8M</span> | Number of list keys with over 8 million elements |
-| <span class="break-all">redis_server_master_link_status</span> | Indicates if the replica is connected to its master |
-| <span class="break-all">redis_server_master_repl_offset</span> | Number of bytes sent to replicas by the shard; calculate the throughput for a time period by comparing the value at different times |
-| <span class="break-all">redis_server_master_sync_in_progress</span> | The primary shard is synchronizing (1 true; 0 false) |
-| <span class="break-all">redis_server_max_process_mem</span> | Current memory limit configured by redis_mgr according to node free memory |
-| <span class="break-all">redis_server_maxmemory</span> | Current memory limit configured by redis_mgr according to database memory limits |
-| <span class="break-all">redis_server_mem_aof_buffer</span> | Current size of AOF buffer |
-| <span class="break-all">redis_server_mem_clients_normal</span> | Current memory used for input and output buffers of non-replica clients |
-| <span class="break-all">redis_server_mem_clients_slaves</span> | Current memory used for input and output buffers of replica clients |
-| <span class="break-all">redis_server_mem_fragmentation_ratio</span> | Memory fragmentation ratio (1.3 means 30% overhead) |
-| <span class="break-all">redis_server_mem_not_counted_for_evict</span> | Portion of used_memory (in bytes) that's not counted for eviction and OOM error |
-| <span class="break-all">redis_server_mem_replication_backlog</span> | Size of replication backlog |
-| <span class="break-all">redis_server_module_fork_in_progress</span> | A binary value that indicates if there is an active fork spawned by a module (1) or not (0) |
-| <span class="break-all">namedprocess_namegroup_cpu_seconds_total</span> | Shard process CPU usage in seconds |
-| <span class="break-all">namedprocess_namegroup_thread_cpu_seconds_total</span> | Shard main thread CPU time spent in seconds |
-| <span class="break-all">namedprocess_namegroup_open_filedesc</span> | Shard number of open file descriptors |
-| <span class="break-all">namedprocess_namegroup_memory_bytes</span> | Shard memory size in bytes |
-| <span class="break-all">namedprocess_namegroup_oldest_start_time_seconds</span> | Shard start time of the process since unix epoch in seconds |
-| <span class="break-all">redis_server_rdb_bgsave_in_progress</span> | Indication if bgsave is currently in progress |
-| <span class="break-all">redis_server_rdb_last_cow_size</span> | Last bgsave (or SYNC fork) used CopyOnWrite memory |
-| <span class="break-all">redis_server_rdb_saves</span> | Total count of bgsaves since the process was restarted (including replica fullsync and persistence) |
-| <span class="break-all">redis_server_sets_items_under_1M</span> | Number of set keys with under 1 million elements |
-| <span class="break-all">redis_server_sets_items_1M_to_8M</span> | Number of set keys with an element count between 1 million and 8 million |
-| <span class="break-all">redis_server_sets_items_over_8M</span> | Number of set keys with over 8 million elements |
-| <span class="break-all">redis_server_repl_touch_bytes</span> | Number of bytes sent to replicas as TOUCH commands by the shard as a result of a READ command that was processed; calculate the throughput for a time period by comparing the value at different times |
-| <span class="break-all">redis_server_total_commands_processed</span> | Number of commands processed by the shard; calculate the number of commands for a time period by comparing the value at different times |
-| <span class="break-all">redis_server_total_connections_received</span> | Number of connections received by the shard; calculate the number of connections for a time period by comparing the value at different times |
-| <span class="break-all">redis_server_total_net_input_bytes</span> | Number of bytes received by the shard; calculate the throughput for a time period by comparing the value at different times |
-| <span class="break-all">redis_server_total_net_output_bytes</span> | Number of bytes sent by the shard; calculate the throughput for a time period by comparing the value at different times |
-| <span class="break-all">redis_server_up</span> | Shard is up and running |
-| <span class="break-all">redis_server_strings_sizes_under_128M</span> | Number of string keys with a memory size under 128 megabytes |
-| <span class="break-all">redis_server_strings_sizes_128M_to_512M</span> | Number of string keys with a memory size between 128 and 512 megabytes |
-| <span class="break-all">redis_server_strings_sizes_over_512M</span> | Number of string keys with a memory size over 512 megabytes |
-| <span class="break-all">redis_server_used_memory</span> | Memory used by shard (in BigRedis this includes flash) (bytes) |
-| <span class="break-all">redis_server_zsets_items_under_1M</span> | Number of sorted set keys with under 1 million elements |
-| <span class="break-all">redis_server_zsets_items_1M_to_8M</span> | Number of sorted set keys with an element count between 1 million and 8 million |
-| <span class="break-all">redis_server_zsets_items_over_8M</span> | Number of sorted set keys with over 8 million elements |
+| redis_server_active_defrag_running | Automatic memory defragmentation current aggressiveness (% cpu) |
+| redis_server_allocator_active | Total used memory, including external fragmentation |
+| redis_server_allocator_allocated | Total allocated memory |
+| redis_server_allocator_resident | Total resident memory (RSS) |
+| redis_server_aof_last_cow_size | Last AOFR, CopyOnWrite memory |
+| redis_server_aof_rewrite_in_progress | The number of simultaneous AOF rewrites that are in progress |
+| redis_server_aof_rewrites | Number of AOF rewrites this process executed |
+| redis_server_aof_delayed_fsync | Number of times an AOF fsync caused delays in the main Redis thread (inducing latency); this can indicate that the disk is slow or overloaded |
+| redis_server_blocked_clients | Count the clients waiting on a blocking call |
+| redis_server_connected_clients | Number of client connections to the specific shard |
+| redis_server_connected_slaves | Number of connected replicas |
+| redis_server_db_avg_ttl | Average TTL of all volatile keys |
+| redis_server_db0_avg_ttl | Average TTL of all volatile keys. Deprecated. |
+| redis_server_db_keys | Total key count. |
+| redis_server_db0_keys | Total key count. Deprecated. |
+| redis_server_evicted_keys | Keys evicted so far (since restart) |
+| redis_server_expire_cycle_cpu_milliseconds | The cumulative amount of time spent on active expiry cycles |
+| redis_server_expired_keys | Keys expired so far since restart |
+| redis_server_forwarding_state | Shard forwarding state (on or off) |
+| redis_server_hashes_items_under_1M | Number of hash keys with under 1 million elements |
+| redis_server_hashes_items_1M_to_8M | Number of hash keys with an element count between 1 million and 8 million |
+| redis_server_hashes_items_over_8M | Number of hash keys with over 8 million elements |
+| redis_server_keys_trimmed | The number of keys that were trimmed in the current or last resharding process |
+| redis_server_keyspace_read_hits | Number of read operations accessing an existing keyspace |
+| redis_server_keyspace_read_misses | Number of read operations accessing a non-existing keyspace |
+| redis_server_keyspace_write_hits | Number of write operations accessing an existing keyspace |
+| redis_server_keyspace_write_misses | Number of write operations accessing a non-existing keyspace |
+| redis_server_lists_items_under_1M | Number of list keys with under 1 million elements |
+| redis_server_lists_items_1M_to_8M | Number of list keys with an element count between 1 million and 8 million |
+| redis_server_lists_items_over_8M | Number of list keys with over 8 million elements |
+| redis_server_master_link_status | Indicates if the replica is connected to its master |
+| redis_server_master_repl_offset | Number of bytes sent to replicas by the shard; calculate the throughput for a time period by comparing the value at different times |
+| redis_server_master_sync_in_progress | The primary shard is synchronizing (1 true; 0 false) |
+| redis_server_max_process_mem | Current memory limit configured by redis_mgr according to node free memory |
+| redis_server_maxmemory | Current memory limit configured by redis_mgr according to database memory limits |
+| redis_server_mem_aof_buffer | Current size of AOF buffer |
+| redis_server_mem_clients_normal | Current memory used for input and output buffers of non-replica clients |
+| redis_server_mem_clients_slaves | Current memory used for input and output buffers of replica clients |
+| redis_server_mem_fragmentation_ratio | Memory fragmentation ratio (1.3 means 30% overhead) |
+| redis_server_mem_not_counted_for_evict | Portion of used_memory (in bytes) that's not counted for eviction and OOM error |
+| redis_server_mem_replication_backlog | Size of replication backlog |
+| redis_server_module_fork_in_progress | A binary value that indicates if there is an active fork spawned by a module (1) or not (0) |
+| namedprocess_namegroup_cpu_seconds_total | Shard process CPU usage in seconds |
+| namedprocess_namegroup_thread_cpu_seconds_total | Shard main thread CPU time spent in seconds |
+| namedprocess_namegroup_open_filedesc | Shard number of open file descriptors |
+| namedprocess_namegroup_memory_bytes | Shard memory size in bytes |
+| namedprocess_namegroup_oldest_start_time_seconds | Shard start time of the process since unix epoch in seconds |
+| redis_server_rdb_bgsave_in_progress | Indication if bgsave is currently in progress |
+| redis_server_rdb_last_cow_size | Last bgsave (or SYNC fork) used CopyOnWrite memory |
+| redis_server_rdb_saves | Total count of bgsaves since the process was restarted (including replica fullsync and persistence) |
+| redis_server_sets_items_under_1M | Number of set keys with under 1 million elements |
+| redis_server_sets_items_1M_to_8M | Number of set keys with an element count between 1 million and 8 million |
+| redis_server_sets_items_over_8M | Number of set keys with over 8 million elements |
+| redis_server_repl_touch_bytes | Number of bytes sent to replicas as TOUCH commands by the shard as a result of a READ command that was processed; calculate the throughput for a time period by comparing the value at different times |
+| redis_server_total_commands_processed | Number of commands processed by the shard; calculate the number of commands for a time period by comparing the value at different times |
+| redis_server_total_connections_received | Number of connections received by the shard; calculate the number of connections for a time period by comparing the value at different times |
+| redis_server_total_net_input_bytes | Number of bytes received by the shard; calculate the throughput for a time period by comparing the value at different times |
+| redis_server_total_net_output_bytes | Number of bytes sent by the shard; calculate the throughput for a time period by comparing the value at different times |
+| redis_server_up | Shard is up and running |
+| redis_server_strings_sizes_under_128M | Number of string keys with a memory size under 128 megabytes |
+| redis_server_strings_sizes_128M_to_512M | Number of string keys with a memory size between 128 and 512 megabytes |
+| redis_server_strings_sizes_over_512M | Number of string keys with a memory size over 512 megabytes |
+| redis_server_used_memory | Memory used by shard (in BigRedis this includes flash) (bytes) |
+| redis_server_zsets_items_under_1M | Number of sorted set keys with under 1 million elements |
+| redis_server_zsets_items_1M_to_8M | Number of sorted set keys with an element count between 1 million and 8 million |
+| redis_server_zsets_items_over_8M | Number of sorted set keys with over 8 million elements |
 | <span class="break-all">redis_server_search_gc_bytes_collected</span> | The total amount of memory freed by the garbage collectors from indexes in the shard's memory in bytes. <sup>[3](#tnote-3)</sup> |
 | <span class="break-all">redis_server_search_bytes_collected</span> | The total amount of memory freed by the garbage collectors from indexes in the shard's memory in bytes. Deprecated in 8.0 (renamed redis_server_search_gc_bytes_collected), but still available in older versions. <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_gc_marked_deleted_vectors</span> | The number of vectors marked as deleted in the vector indexes that have not yet been cleaned. <sup>[3](#tnote-3)</sup> |

@@ -579,6 +579,34 @@ html {
   scrollbar-gutter: stable;
 }
 
+/* Make tables responsive to avoid TOC overlap */
+@media (min-width: 1280px) {
+  /* On XL screens where TOC is visible, make tables horizontally scrollable */
+  .docs .prose table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    max-width: calc(100vw - 400px); /* Account for TOC + nav + margins */
+  }
+
+  .docs .prose table thead,
+  .docs .prose table tbody,
+  .docs .prose table tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  .docs .prose table td,
+  .docs .prose table th {
+    white-space: normal;
+    word-wrap: break-word;
+    padding: 0.5rem;
+  }
+}
+
+
+
 /* Chroma syntax highlighting */
 
 /* Background */
