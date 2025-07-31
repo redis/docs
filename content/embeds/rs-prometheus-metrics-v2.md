@@ -115,12 +115,11 @@
 | <span class="break-all">redis_server_connected_slaves</span> | Number of connected replicas |
 | <span class="break-all">redis_server_db_avg_ttl</span> | Average TTL of all volatile keys |
 | <span class="break-all">redis_server_db0_avg_ttl</span> | Average TTL of all volatile keys. Deprecated. |
-| <span class="break-all">redis_server_expired_keys</span> | Total count of volatile keys |
 | <span class="break-all">redis_server_db_keys</span> | Total key count. |
 | <span class="break-all">redis_server_db0_keys</span> | Total key count. Deprecated. |
 | <span class="break-all">redis_server_evicted_keys</span> | Keys evicted so far (since restart) |
 | <span class="break-all">redis_server_expire_cycle_cpu_milliseconds</span> | The cumulative amount of time spent on active expiry cycles |
-| <span class="break-all">redis_server_expired_keys</span> | Keys expired so far (since restart) |
+| <span class="break-all">redis_server_expired_keys</span> | Keys expired so far since restart |
 | <span class="break-all">redis_server_forwarding_state</span> | Shard forwarding state (on or off) |
 | <span class="break-all">redis_server_hashes_items_under_1M</span> | Number of hash keys with under 1 million elements |
 | <span class="break-all">redis_server_hashes_items_1M_to_8M</span> | Number of hash keys with an element count between 1 million and 8 million |
