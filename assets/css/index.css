@@ -593,8 +593,13 @@ html {
     @apply table w-full table-fixed;
   }
 
-  .docs .prose table td,
+  /* Table headers should break naturally at word boundaries */
   .docs .prose table th {
+    @apply whitespace-normal break-normal p-2;
+  }
+
+  /* Table data cells can break more aggressively for long content */
+  .docs .prose table td {
     @apply whitespace-normal break-words p-2;
   }
 }
