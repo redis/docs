@@ -581,27 +581,21 @@ html {
 
 /* Make tables responsive to avoid TOC overlap */
 @media (min-width: 1280px) {
-  /* On XL screens where TOC is visible, make tables horizontally scrollable */
+  /* On XL screens where TOC is visible, make tables horizontally scrollable when needed*/
   .docs .prose table {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
+    @apply block overflow-x-auto whitespace-nowrap;
     max-width: calc(100vw - 400px); /* Account for TOC + nav + margins */
   }
 
   .docs .prose table thead,
   .docs .prose table tbody,
   .docs .prose table tr {
-    display: table;
-    width: 100%;
-    table-layout: fixed;
+    @apply table w-full table-fixed;
   }
 
   .docs .prose table td,
   .docs .prose table th {
-    white-space: normal;
-    word-wrap: break-word;
-    padding: 0.5rem;
+    @apply whitespace-normal break-words p-2;
   }
 }
 
