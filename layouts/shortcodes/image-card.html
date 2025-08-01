@@ -18,7 +18,7 @@
 {{ $url := .Get "url" }}
 {{ $class := .Get "class" | default "" }}
 
-<a href="{{ $url }}" class="image-card-link block no-underline hover:no-underline text-inherit hover:text-inherit h-full">
+<a href="{{ relURL $url }}" class="image-card-link block no-underline hover:no-underline text-inherit hover:text-inherit h-full">
   <div class="image-card flex flex-col items-center text-center p-4 border border-redis-pen-300 rounded-lg hover:border-redis-red-500 hover:shadow-md transition-all duration-200 h-full {{ $class }}">
     <div class="image-card-img-container mb-4 flex-shrink-0">
       <img src="{{ relURL $image }}" alt="{{ $alt }}" class="image-card-img w-28 h-28 object-contain">
