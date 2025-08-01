@@ -6,6 +6,7 @@
 {{ $cliTabName := (or (.Scratch.Get "cli_tab_name") ">_ Redis CLI") }}
 {{ $cliFooterLinkText := .Scratch.Get "cli_footer_link_text" }}
 {{ $cliFooterLinkUrl := .Scratch.Get "cli_footer_link_url" }}
+{{ $showFooter := .Scratch.Get "show_footer" | default true }}
 
 {{ if not (isset $.Site.Data.examples $id) }}
     {{ warnf "[tabbed-clients-example] Example not found %q for %q" $id $.Page }}
@@ -51,5 +52,5 @@
     {{ end }}
 {{ end }}
 
-{{ $params := dict "id" (printf "%s-step%s" $id $step) "tabs" $tabs "showFooter" true }}
+{{ $params := dict "id" (printf "%s-step%s" $id $step) "tabs" $tabs "showFooter" $showFooter }}
 {{ partial "tabs/wrapper.html" $params }}
