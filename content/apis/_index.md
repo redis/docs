@@ -6,6 +6,8 @@ title: APIs
 type: develop
 ---
 
+test
+
 Redis provides a number of APIs for developers and operators. The following sections provide you easy access to the client API, the several programmability APIs, the RESTFul management APIs and the Kubernetes resource definitions.
 
 ## APIs for Developers
