@@ -53,9 +53,13 @@ is key name of the time series.
 is an optional flag to get a more detailed information about the chunks.
 </details>
 
-## Return value
+## Return information
 
-[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with information about the time series (name-value pairs):
+{{< multitabs id="ts-info-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with information about the time series as flattened name-value pairs:
 
 | Name<br>[Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) | Description
 | ---------------------------- | -
@@ -78,6 +82,14 @@ When [`DEBUG`]({{< relref "/commands/debug" >}}) is specified, the response also
 | ---------------------------- | -
 | `keySelfName`     | [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})<br> Name of the key
 | `Chunks`          | [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with information about the chunks<br>Each element is an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of information about a single chunk in a name([Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}))-value pairs:<br>- `startTimestamp` - [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - First timestamp present in the chunk<br>- `endTimestamp` - [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - Last timestamp present in the chunk<br>- `samples` - [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - Total number of samples in the chunk<br>- `size` - [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - the chunk's internal data size (without overheads) in bytes<br>- `bytesPerSample` - [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) (double) - Ratio of `size` and `samples`
+
+-tab-sep-
+
+[Map reply]({{< relref "/develop/reference/protocol-spec#maps" >}}) with information about the time series. The map contains the same fields as described in the RESP2 response, but organized as key-value pairs in a map structure rather than a flattened array.
+
+When [`DEBUG`]({{< relref "/commands/debug" >}}) is specified, the response also contains the additional `keySelfName` and `Chunks` fields as described above.
+
+{{< /multitabs >}}
 
 ## Examples
 
