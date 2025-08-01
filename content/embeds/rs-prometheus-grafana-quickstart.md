@@ -21,7 +21,35 @@ Redis Enterprise version 7.8.2 introduces a preview of the new metrics stream en
 
 ## Quick start
 
+### Hardware requirements
+
+The minimum hardware requirements to set up Redis Enterprise Software monitoring in production using Prometheus, Grafana, and the metrics stream engine are:
+
+- **CPU**: 4 vCPUs
+- **Memory**: 8-12 GB RAM
+- **Storage**: 100 GB SSD
+
+You should also consider the following to determine your deployment's hardware requirements:
+
+- The number of Redis instances being scraped.
+
+- Lower scrape intervals, such as 15 seconds versus 1 minute, increase resource usage. The Redis scraping interval is 30 seconds.
+
+- Longer retention increases storage requirements. Basic retention is 90 days.
+
+- For high availability, run Prometheus in a replicated or federated mode for redundancy, and use Grafana’s load balancing for multiple users.
+
+- Factor in overhead if Prometheus is writing metrics to remote storage such as Thanos or Cortex.
+
+- Ensure high disk IOPS for Prometheus TSDB for better write and read performance.
+
+For more details about Grafana hardware requirements, see the [offical Grafana documentation](https://grafana.com/docs/enterprise-traces/latest/setup/hardware-requirements/).
+
+### Setup steps
+
 To get started with Prometheus and Grafana:
+
+1. Install Docker on your system. For installation instructions, see the [official Docker documentation](https://docs.docker.com/get-started/get-docker/).
 
 1. Create a directory called 'prometheus' on your local machine.
 
