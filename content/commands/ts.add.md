@@ -246,13 +246,13 @@ Add a sample to the time series, setting the sample's timestamp to the current U
     tab2="RESP3" >}}
 
 One of the following:
-* [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the timestamp of the upserted sample. If the sample is ignored (See `IGNORE` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}})), the reply will be the largest timestamp in the time series.
+* [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the timestamp of the upserted sample. If the sample is ignored (see `IGNORE` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}})), the reply will be the largest timestamp in the time series.
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, duplication policy is `BLOCK`, or when `timestamp` is older than the retention period compared to the maximum existing timestamp.
 
 -tab-sep-
 
 One of the following:
-* [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the timestamp of the upserted sample. If the sample is ignored (See `IGNORE` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}})), the reply will be the largest timestamp in the time series.
+* [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the timestamp of the upserted sample. If the sample is ignored (see `IGNORE` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}})), the reply will be the largest timestamp in the time series.
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, duplication policy is `BLOCK`, or when `timestamp` is older than the retention period compared to the maximum existing timestamp.
 
 {{< /multitabs >}}
