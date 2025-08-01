@@ -1,4 +1,4 @@
-name: Auto Comment on PR
+name: autocomment_staging_links
 
 on:
   pull_request:
