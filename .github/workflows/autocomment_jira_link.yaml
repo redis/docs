@@ -30,7 +30,7 @@ jobs:
           
           JIRA_TICKET=$(grep -Eo '^DOC-[0-9]+' <<< "$BRANCH_NAME")
           JIRA_LINK="https://redislabs.atlassian.net/browse/${JIRA_TICKET}"
-          COMMENT="[${BRANCH_NAME}](${JIRA_LINK})"
+          COMMENT="[${JIRA_TICKET}](${JIRA_LINK})"
           
           generate_post_data()
           {
