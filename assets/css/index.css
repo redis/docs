@@ -579,36 +579,7 @@ html {
   scrollbar-gutter: stable;
 }
 
-/* Make tables responsive to avoid TOC overlap */
-@media (min-width: 1280px) {
-  /* On XL screens where TOC is visible, make tables horizontally scrollable when needed*/
-  /* Exclude the post-categories table at the top of pages */
-  .docs .prose table:not(.post-categories table) {
-    @apply block overflow-x-auto whitespace-nowrap;
-    max-width: calc(100vw - 400px); /* Account for TOC + nav + margins */
-  }
 
-  .docs .prose table:not(.post-categories table) thead,
-  .docs .prose table:not(.post-categories table) tbody,
-  .docs .prose table:not(.post-categories table) tr {
-    @apply table w-full table-fixed;
-  }
-
-  /* Table headers should break naturally at word boundaries */
-  .docs .prose table:not(.post-categories table) th {
-    @apply whitespace-normal break-normal p-2;
-  }
-
-  /* Table data cells can break more aggressively for long content */
-  .docs .prose table:not(.post-categories table) td {
-    @apply whitespace-normal break-normal p-2;
-  }
-
-  /* Prevent content from extending under the fixed "On this page" TOC */
-  .docs .prose {
-    @apply mr-64; /* 256px margin = 240px TOC width + 16px buffer */
-  }
-}
 
 
 
