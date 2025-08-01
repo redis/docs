@@ -212,19 +212,28 @@ jobs:
                 gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/operate/${product}/${version}" "gs://${BUCKET}/docs/$bucket_path/operate/${product}/${version}"
               fi
             done
+
+            # Prepare custom 404 page for Cloud Connector
+            hugo_root_path="docs/latest"
+            sed -i "s#baseURL = \"https://redis.io\"#baseURL = \"https://redis.io/$hugo_root_path\"#g" config.toml
+            make hugo
+            sed -i "s#/docs/latest/scss/#https://storage.googleapis.com/$BUCKET/docs/latest/scss/#g" public/404.html
+            sed -i "s#/docs/latest/css/#https://storage.googleapis.com/$BUCKET/docs/latest/css/#g" public/404.html
+            gsutil cp public/404.html gs://$BUCKET/docs/
           fi
 
           if [[ "$bucket_path" == staging/* ]]
           then
             versioned_builds=($(find . -type d -regex ".*[0-9-]" -maxdepth 1 | sed -E 's/^.\///'))
             for versioned_build in "${versioned_builds[@]}"; do
-              product=$(awk 'BEGIN{FS=OFS="-"}{NF--; print}' <<< $versioned_build)
+              read product version <<< "$(awk -F- '{print $1 " " $2}' <<<"$versioned_build")"
+
               if [[ "${product}" == "redis-data-integration" ]]; then
                 gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/integrate/${product}" "gs://${BUCKET}/${bucket_path}/${versioned_build}/integrate/${product}"
-                gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/integrate/${product}" "gs://${BUCKET}/docs/${bucket_path}/${versioned_build}/integrate/${product}"
+                gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/integrate/${product}/${version}" "gs://${BUCKET}/docs/${bucket_path}/integrate/${product}/${version}"
               else
                 gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/operate/${product}" "gs://${BUCKET}/${bucket_path}/${versioned_build}/operate/${product}"
-                gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/operate/${product}" "gs://${BUCKET}/docs/${bucket_path}/${versioned_build}/operate/${product}"
+                gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/operate/${product}/${version}" "gs://${BUCKET}/docs/${bucket_path}/operate/${product}/${version}"
               fi
             done
           fi

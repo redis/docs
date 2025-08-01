@@ -75,13 +75,6 @@ filters time series based on their labels and label values. Each filter expressi
 
 <note><b>Note:</b> The `QUERYINDEX` command cannot be part of a transaction when running on a Redis cluster.</note>
 
-## Return value
-
-Returns one of these replies:
-
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each element is a [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}): a time series key. The array is empty if no time series matches the filter.
-- [] (e.g., on invalid filter expression)
-
 ## Examples
 
 <details open>
@@ -116,6 +109,24 @@ To retrieve the keys of all time series representing sensors that measure temper
 2) "telemetry:study:temperature"
 {{< / highlight >}}
 </details>
+
+## Return information
+
+{{< multitabs id="ts-queryindex-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+One of the following:
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each element is a [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}): a time series key. The array is empty if no time series matches the filter.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid filter expression.
+
+-tab-sep-
+
+One of the following:
+* [Set reply]({{< relref "/develop/reference/protocol-spec#sets" >}}) where each element is a [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}): a time series key. The set is empty if no time series matches the filter.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid filter expression.
+
+{{< /multitabs >}}
 
 ## See also
 

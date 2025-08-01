@@ -24,6 +24,8 @@ Redis Enterprise for Kubernetes 7.22.0 includes bug fixes, enhancements, and sup
 
 - **When changing the REDB field `spec.modulesList`, version might be upgraded to latest, even if a different version is specified.** To prevent the upgrade to latest, set  `spec.upgradeSpec.setModuleToLatest` to `false` before upgrading to 7.8.2-6.
 
+- **PVC expansion is not supported when using Redis on Flash (Auto Tiering) (RED-165770)** Do not enable `enablePersistentVolumeResize` if your REC uses `redisOnFlashSpec` as this will result in conflicts.
+
 - **Missing endpoint for admission endpoint (rare) (RED-119469)** Restart the operator pod.
 
 - **The REDB “redisVersion” field can’t be used for memcached databases(RED-119152)**

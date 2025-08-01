@@ -37,6 +37,9 @@
 | <span class="break-all">endpoint_write_requests_latency_histogram</span> | histogram | Latency (in µs) histogram of write commands |
 | <span class="break-all">endpoint_write_requests_latency_histogram_bucket</span> | histogram | Latency histograms for write commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_write_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
 | <span class="break-all">endpoint_write_responses</span> | counter | Number of write responses |
+| <span class="break-all">proxy_connections_rate</span> | gauge | The rate of incoming connections. Computed as `n_accepted / N` for the last interval where `n_accepted` is the number of accepted connections in this interval, and `N` is the interval in seconds. |
+| <span class="break-all">proxy_rate_limit_ok</span> | gauge | Rate limit status based on the last 2 intervals.<br />0 = rate limit was recently exceeded<br />1 = rate limit was not recently exceeded |
+| <span class="break-all">proxy_rate_limit_overflows</span> | counter | Total number of rate limit overflows |
 
 ## Node metrics
 
@@ -115,12 +118,11 @@
 | <span class="break-all">redis_server_connected_slaves</span> | Number of connected replicas |
 | <span class="break-all">redis_server_db_avg_ttl</span> | Average TTL of all volatile keys |
 | <span class="break-all">redis_server_db0_avg_ttl</span> | Average TTL of all volatile keys. Deprecated. |
-| <span class="break-all">redis_server_expired_keys</span> | Total count of volatile keys |
 | <span class="break-all">redis_server_db_keys</span> | Total key count. |
 | <span class="break-all">redis_server_db0_keys</span> | Total key count. Deprecated. |
 | <span class="break-all">redis_server_evicted_keys</span> | Keys evicted so far (since restart) |
 | <span class="break-all">redis_server_expire_cycle_cpu_milliseconds</span> | The cumulative amount of time spent on active expiry cycles |
-| <span class="break-all">redis_server_expired_keys</span> | Keys expired so far (since restart) |
+| <span class="break-all">redis_server_expired_keys</span> | Keys expired so far since restart |
 | <span class="break-all">redis_server_forwarding_state</span> | Shard forwarding state (on or off) |
 | <span class="break-all">redis_server_hashes_items_under_1M</span> | Number of hash keys with under 1 million elements |
 | <span class="break-all">redis_server_hashes_items_1M_to_8M</span> | Number of hash keys with an element count between 1 million and 8 million |
