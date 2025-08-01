@@ -28,7 +28,8 @@ jobs:
 
           CREATE_COMMENT_URL="https://api.github.com/repos/${REPO}/issues/${PR_NUMBER}/comments"
           
-          JIRA_LINK="https://redislabs.atlassian.net/browse/${BRANCH_NAME}"
+          JIRA_TICKET=$(grep -Eo '^DOC-[0-9]+' <<< "$BRANCH_NAME")
+          JIRA_LINK="https://redislabs.atlassian.net/browse/${JIRA_TICKET}"
           COMMENT="[${BRANCH_NAME}](${JIRA_LINK})"
           
           generate_post_data()
