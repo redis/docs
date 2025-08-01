@@ -9,6 +9,7 @@
   - dft_tab_name: Custom first tab name (optional, default: ">_ Redis CLI")
   - dft_tab_link_title: Custom first tab footer link title (optional)
   - dft_tab_url: Custom first tab footer link URL (optional)
+  - show_footer: Show footer (optional, default: true)
 
   Positional parameters (for backward compatibility):
   - 0: example set name
@@ -25,6 +26,7 @@
 {{ if .Get "set" }}
   {{ $usingNamedParams = true }}
 {{ end }}
+{{ .Scratch.Set "show_footer" true }}
 
 {{/* Set parameters based on whether we're using named or positional */}}
 {{ if $usingNamedParams }}
@@ -36,6 +38,9 @@
   {{ .Scratch.Set "cli_tab_name" (.Get "dft_tab_name") }}
   {{ .Scratch.Set "cli_footer_link_text" (.Get "dft_tab_link_title") }}
   {{ .Scratch.Set "cli_footer_link_url" (.Get "dft_tab_url") }}
+  {{ if eq (.Get "footer") "hide" }}
+    {{ .Scratch.Set "show_footer" false }}
+  {{ end }}
 {{ else }}
   {{/* Positional parameters (backward compatibility) */}}
   {{ .Scratch.Set "example" (.Get 0) }}

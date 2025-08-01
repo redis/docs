@@ -51,12 +51,23 @@ is key name for destination (compacted) time series.
 
 <note><b>Note:</b> This command does not delete the compacted series.</note>
 
-## Return value
+## Return information
 
-Returns one of these replies:
+{{< multitabs id="ts-deleterule-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
 
-- [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - `OK` if executed correctly
-- [] on error (invalid arguments, etc.), or when such rule does not exist
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` when the compaction rule is deleted successfully.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, or when such rule does not exist.
+
+-tab-sep-
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` when the compaction rule is deleted successfully.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, or when such rule does not exist.
+
+{{< /multitabs >}}
 
 ## See also
 
