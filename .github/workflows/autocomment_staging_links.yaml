@@ -38,7 +38,7 @@ jobs:
                               -H "X-GitHub-Api-Version: 2022-11-28" \
                               -H "Authorization: Bearer ${GITHUB_TOKEN}" \
                               $CREATE_COMMENT_URL \
-                              | jq -r '.[] | select(.user.login == "github-actions[bot]")'
+                              | jq -r '.[] | select(.user.login == "github-actions[bot]" and ((.body // "") | contains("Staging links:")))'
                             )
           EXISTING_COMMENT_ID=$(jq -r '.id' <<<"$EXISTING_COMMENT_JSON")
           EXISTING_COMMENT=$(jq -r '.body' <<<"$EXISTING_COMMENT_JSON")
