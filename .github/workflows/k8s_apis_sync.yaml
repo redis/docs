@@ -50,7 +50,7 @@ jobs:
         run: |-
           mkdir artifacts
           mkdir templates
-          cp content/operate/kubernetes/reference/kubernetes-api-reference-template.tmpl templates/template.tmpl
+          cp content/operate/kubernetes/reference/api/kubernetes-api-reference-template.tmpl templates/template.tmpl
 
           crdoc --resources crds/reaadb_crd.yaml --output artifacts/redis_enterprise_active_active_database_api.md --template templates/template.tmpl
           sed -E -i 's/^### RedisEnterpriseActiveActiveDatabase\./### /g' artifacts/redis_enterprise_active_active_database_api.md
@@ -79,6 +79,69 @@ jobs:
           sed -E -i 's/<td><a href="#redisenterpriseremotecluster/<td><a href="#/' artifacts/redis_enterprise_remote_cluster_api.md
           sed -E -i 's/\[index\]/\[\]/g' artifacts/redis_enterprise_remote_cluster_api.md
           awk '/(#[^")]+)index/ {gsub(/index/,"")}; {print}' artifacts/redis_enterprise_remote_cluster_api.md > _tmp.md && mv _tmp.md artifacts/redis_enterprise_remote_cluster_api.md
+
+      - name: 'Remove fields without description'
+        run: |-
+          file="artifacts/redis_enterprise_cluster_api.md"
+          empty_fields_file="content/operate/kubernetes/reference/api/redis_enterprise_cluster_empty_fields"
+
+          # Read empty fields and process them
+          while IFS= read -r field; do
+              # Skip empty lines and comments
+              [[ -z "$field" || "$field" =~ ^# ]] && continue
+
+              # Convert field path to section header pattern
+              section_pattern="RedisEnterpriseCluster.${field}"
+
+              # Remove subsections that go deeper than [index] level
+              # Keep: RedisEnterpriseCluster.spec.extraEnvVars
+              # Keep: RedisEnterpriseCluster.spec.extraEnvVars[index]
+              # Remove: RedisEnterpriseCluster.spec.extraEnvVars[index].valueFrom
+              # Remove: RedisEnterpriseCluster.spec.extraEnvVars[index].valueFrom.fieldRef
+              awk -v base_pattern="${section_pattern}" '
+              BEGIN { skip = 0 }
+              /^### / {
+                  # Check if this line matches a pattern we want to remove
+                  section = $0
+                  gsub(/^### /, "", section)
+
+                  # If it starts with our base pattern
+                  if (index(section, base_pattern) == 1) {
+                      remainder = substr(section, length(base_pattern) + 1)
+
+                      # If remainder is empty, keep it (main section)
+                      if (remainder == "") {
+                          skip = 0
+                      }
+                      # If remainder is just [index], keep it
+                      else if (remainder == "[index]") {
+                          skip = 0
+                      }
+                      # If remainder starts with [index]. (has more after [index]), remove it
+                      else if (index(remainder, "[index].") == 1) {
+                          skip = 1
+                          next
+                      }
+                      # If remainder starts with . (direct subsection), remove it
+                      else if (index(remainder, ".") == 1) {
+                          skip = 1
+                          next
+                      }
+                      # Otherwise keep it
+                      else {
+                          skip = 0
+                      }
+                  } else {
+                      # Different section, stop skipping
+                      skip = 0
+                  }
+              }
+
+              skip == 0 { print }
+              ' "$file" > "${file}.tmp" && mv "${file}.tmp" "$file"
+
+          done < "$empty_fields_file"
+
 
       - name: 'Generate YAML snippets'
         run: |-
@@ -128,14 +191,14 @@ jobs:
 
           git checkout -b "${BRANCH}"
 
-          cp artifacts/redis_enterprise_active_active_database_api.md content/operate/kubernetes/reference/
-          cp artifacts/redis_enterprise_cluster_api.md content/operate/kubernetes/reference/
-          cp artifacts/redis_enterprise_database_api.md content/operate/kubernetes/reference/
-          cp artifacts/redis_enterprise_remote_cluster_api.md content/operate/kubernetes/reference/
+          cp artifacts/redis_enterprise_active_active_database_api.md content/operate/kubernetes/reference/api/
+          cp artifacts/redis_enterprise_cluster_api.md content/operate/kubernetes/reference/api/
+          cp artifacts/redis_enterprise_database_api.md content/operate/kubernetes/reference/api/
+          cp artifacts/redis_enterprise_remote_cluster_api.md content/operate/kubernetes/reference/api/
 
-          git apply content/operate/kubernetes/reference/kubernetes-api-reference-frontmatter.patch
+          git apply content/operate/kubernetes/reference/api/kubernetes-api-reference-frontmatter.patch
 
-          git add content/operate/kubernetes/reference/
+          git add content/operate/kubernetes/reference/api/
           git add content/embeds/k8s/
 
           git commit -m "k8s api docs ${RELEASE}"
