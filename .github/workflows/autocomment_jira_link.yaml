@@ -2,8 +2,6 @@ name: autocomment_jira_link
 
 on:
   pull_request:
-    paths:
-    - 'content/**'
     types:
       - opened
 permissions:
