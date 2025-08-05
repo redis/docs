@@ -24,8 +24,6 @@ jobs:
           REPO: ${{ github.repository }}
           BRANCH_NAME: ${{ github.event.pull_request.head.ref }}
         run: |
-          set -e
-
           CREATE_COMMENT_URL="https://api.github.com/repos/${REPO}/issues/${PR_NUMBER}/comments"
           
           JIRA_TICKET=$(grep -Eo '^DOC-[0-9]+' <<< "$BRANCH_NAME")
