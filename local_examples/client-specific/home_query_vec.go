@@ -73,7 +73,6 @@ func main() {
 			},
 		},
 	).Result()
-
 	if err != nil {
 		panic(err)
 	}
@@ -97,14 +96,12 @@ func main() {
 	}
 
 	embeddings, err := hf.Embed(ctx, sentences)
-
 	if err != nil {
 		panic(err)
 	}
 
 	for i, emb := range embeddings {
 		buffer := floatsToBytes(emb.ToFloat32())
-
 		if err != nil {
 			panic(err)
 		}
@@ -117,7 +114,6 @@ func main() {
 				"embedding": buffer,
 			},
 		).Result()
-
 		if err != nil {
 			panic(err)
 		}
@@ -128,13 +124,11 @@ func main() {
 	queryEmbedding, err := hf.Embed(ctx, []string{
 		"That is a happy person",
 	})
-
 	if err != nil {
 		panic(err)
 	}
 
 	buffer := floatsToBytes(queryEmbedding[0].ToFloat32())
-
 	if err != nil {
 		panic(err)
 	}
@@ -153,7 +147,6 @@ func main() {
 			},
 		},
 	).Result()
-
 	if err != nil {
 		panic(err)
 	}
@@ -196,7 +189,6 @@ func main() {
 			},
 		},
 	).Result()
-
 	if err != nil {
 		panic(err)
 	}
@@ -213,7 +205,6 @@ func main() {
 				"embedding": emb.ToFloat32(),
 			},
 		).Result()
-
 		if err != nil {
 			panic(err)
 		}
@@ -224,7 +215,6 @@ func main() {
 	jsonQueryEmbedding, err := hf.Embed(ctx, []string{
 		"That is a happy person",
 	})
-
 	if err != nil {
 		panic(err)
 	}
@@ -245,14 +235,13 @@ func main() {
 			},
 		},
 	).Result()
-
 	if err != nil {
 		panic(err)
 	}
 
 	for _, doc := range jsonResults.Docs {
 		fmt.Printf(
-			"JSON ID: %v, Distance:%v, Content:'%v'\n",
+			"ID: %v, Distance:%v, Content:'%v'\n",
 			doc.ID, doc.Fields["vector_distance"], doc.Fields["content"],
 		)
 	}
