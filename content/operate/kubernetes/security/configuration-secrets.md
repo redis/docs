@@ -9,7 +9,7 @@ title: Store configuration in Kubernetes Secrets
 weight: 96
 ---
 
-When using Redis Enterprise for Kubernetes, you can store certain configuration items in Kubernetes Secrets. This approach has the advantage that updates to these Secrets, once configured, are read immediately by the Operator and propagated to the Redis Enterprise Cluster (REC).
+When using Redis Enterprise for Kubernetes, you can store certain configuration items in Kubernetes Secrets. This approach has the advantage that updates to these Secrets, once configured, are read immediately by the operator and propagated to the Redis Enterprise Cluster (REC).
 
 ## License configuration
 
