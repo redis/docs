@@ -14,9 +14,9 @@ hideListLinks: true
 Redis stores and indexes vector embeddings that semantically represent unstructured data including text passages, images, videos, or audio. Store vectors and the associated metadata within [hashes]({{< relref "/develop/data-types/hashes" >}}) or [JSON]({{< relref "/develop/data-types/json" >}}) documents for [indexing]({{< relref "/develop/ai/search-and-query/indexing" >}}) and [querying]({{< relref "/develop/ai/search-and-query/query" >}}).
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
-  {{< image-card image="images/ai-cube.svg" alt="AI Redis icon" title="Redis vector database quick start guide" url="/develop/get-started/vector-database" >}}
-  {{< image-card image="images/ai-brain.svg" alt="AI Redis icon" title="Retrieval-Augmented Generation quick start guide" url="/develop/get-started/rag" >}}
   {{< image-card image="images/ai-lib.svg" alt="AI Redis icon" title="Redis vector Python client library documentation" url="/develop/ai/redisvl/" >}}
+  {{< image-card image="images/ai-cube.svg" alt="AI Redis icon" title="Use Redis Query Engine to search data" url="/develop/ai/search-and-query/" >}}
+  {{< image-card image="images/ai-brain.svg" alt="AI Redis icon" title="Use LangCache to store LLM responses" url="/develop/ai/langcache/" >}}
 </div>
 
 #### Overview
@@ -27,6 +27,7 @@ This page is organized into a few sections depending on what you're trying to do
 * **Quickstarts** - Short, focused guides to get you started with key features or workflows in minutes.
 * **Tutorials** - In-depth walkthroughs that dive deeper into specific use cases or processes. These step-by-step guides help you master essential tasks and workflows.
 * **Integrations** - Guides and resources to help you connect and use the product with popular tools, frameworks, or platforms.
+* **Video tutorials** - Watch our AI video collection featuring practical tutorials and demonstrations.
 * **Benchmarks** - Performance comparisons and metrics to demonstrate how the product performs under various scenarios. This helps you understand its efficiency and capabilities.
 * **Best practices** - Recommendations and guidelines for maximizing effectiveness and avoiding common pitfalls. This section equips you to use the product effectively and efficiently.
 
@@ -59,6 +60,11 @@ Learn to perform vector search and use gateways and semantic caching in your AI/
 ## Quickstarts
 
 Quickstarts or recipes are useful when you are trying to build specific functionality. For example, you might want to do RAG with LangChain or set up LLM memory for your AI agent.
+
+Get started with these foundational guides:
+
+* [Redis vector database quick start guide]({{< relref "/develop/get-started/vector-database" >}})
+* [Retrieval-Augmented Generation quick start guide]({{< relref "/develop/get-started/rag" >}})
 
 #### RAG
 Retrieval Augmented Generation (aka RAG) is a technique to enhance the ability of an LLM to respond to user queries. The retrieval part of RAG is supported by a vector database, which can return semantically relevant results to a user's query, serving as contextual information to augment the generative capabilities of an LLM.
