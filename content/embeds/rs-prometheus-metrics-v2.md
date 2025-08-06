@@ -37,6 +37,9 @@
 | <span class="break-all">endpoint_write_requests_latency_histogram</span> | histogram | Latency (in µs) histogram of write commands |
 | <span class="break-all">endpoint_write_requests_latency_histogram_bucket</span> | histogram | Latency histograms for write commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_write_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
 | endpoint_write_responses | counter | Number of write responses |
+| <span class="break-all">proxy_connections_rate</span> | gauge | The rate of incoming connections. Computed as `n_accepted / N` for the last interval where `n_accepted` is the number of accepted connections in this interval, and `N` is the interval in seconds. |
+| <span class="break-all">proxy_rate_limit_ok</span> | gauge | Rate limit status based on the last 2 intervals.<br />0 = rate limit was recently exceeded<br />1 = rate limit was not recently exceeded |
+| <span class="break-all">proxy_rate_limit_overflows</span> | counter | Total number of rate limit overflows |
 
 ## Node metrics
 

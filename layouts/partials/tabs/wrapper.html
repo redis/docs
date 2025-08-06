@@ -17,7 +17,7 @@
         <input tabindex="1" type="radio" name="{{ $id }}" id="{{ $tid }}" data-lang="{{ $dataLang }}" class="radiotab w-0 h-0"
                {{ if eq $i 0 }}checked{{ end }}
         />
-        <label class="justify-left label ml-1.5 pt-3.5 px-1 pb-1 cursor-pointer text-sm text-center bg-redis-ink-900
+        <label class="justify-left label ml-0.5 pt-3.5 px-1 pb-1 cursor-pointer text-sm text-center bg-redis-ink-900
         hover:text-redis-red-600  rounded rounded-mx transition duration-150 ease-in-out"
                title="Open example" for="{{ $tid }}">
             {{ if eq (index $tab "title") "redis-cli" }}

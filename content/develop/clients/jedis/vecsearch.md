@@ -74,24 +74,8 @@ implementation 'ai.djl.huggingface:tokenizers:0.24.0'
 
 Import the following classes in your source file:
 
-```java
-// Jedis client and query engine classes.
-import redis.clients.jedis.UnifiedJedis;
-import redis.clients.jedis.search.*;
-import redis.clients.jedis.search.schemafields.*;
-import redis.clients.jedis.search.schemafields.VectorField.VectorAlgorithm;
-import redis.clients.jedis.exceptions.JedisDataException;
-
-// Data manipulation.
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.Map;
-import java.util.List;
-import org.json.JSONObject;
-
-// Tokenizer to generate the vector embeddings.
-import ai.djl.huggingface.tokenizers.HuggingFaceTokenizer;
-```
+{{< clients-example set="HomeQueryVec" step="import" lang_filter="Java-Sync" >}}
+{{< /clients-example >}}
 
 ## Define a helper method
 
@@ -103,22 +87,8 @@ method `longsToFloatsByteString()` that takes the `long` array that the
 embedding model returns, converts it to an array of `float` values, and
 then encodes the `float` array as a `byte` string:
 
-```java
-public static byte[] longsToFloatsByteString(long[] input) {
-    float[] floats = new float[input.length];
-    for (int i = 0; i < input.length; i++) {
-        floats[i] = input[i];
-    }
-
-    byte[] bytes = new byte[Float.BYTES * floats.length];
-    ByteBuffer
-        .wrap(bytes)
-        .order(ByteOrder.LITTLE_ENDIAN)
-        .asFloatBuffer()
-        .put(floats);
-    return bytes;
-}
-```
+{{< clients-example set="HomeQueryVec" step="helper_method" lang_filter="Java-Sync" >}}
+{{< /clients-example >}}
 
 ## Create a tokenizer instance
 
@@ -128,12 +98,8 @@ tokenizer to generate the embeddings. The vectors that represent the
 embeddings have 768 components, regardless of the length of the input
 text.
 
-```java
-HuggingFaceTokenizer sentenceTokenizer = HuggingFaceTokenizer.newInstance(
-    "sentence-transformers/all-mpnet-base-v2",
-    Map.of("maxLength", "768",  "modelMaxLength", "768")
-);
-```
+{{< clients-example set="HomeQueryVec" step="tokenizer" lang_filter="Java-Sync" >}}
+{{< /clients-example >}}
 
 ## Create the index
 
@@ -142,11 +108,8 @@ name `vector_idx`. (The `ftDropIndex()` call throws an exception if
 the index doesn't already exist, which is why you need the
 `try...catch` block.)
 
-```java
-UnifiedJedis jedis = new UnifiedJedis("redis://localhost:6379");
-
-try {jedis.ftDropIndex("vector_idx");} catch (JedisDataException j){}
-```
+{{< clients-example set="HomeQueryVec" step="connect" lang_filter="Java-Sync" >}}
+{{< /clients-example >}}
 
 Next, we create the index.
 The schema in the example below includes three fields: the text content to index, a
@@ -162,30 +125,8 @@ and 768 dimensions, as required by the `all-mpnet-base-v2` embedding model.
 The `FTCreateParams` object specifies hash objects for storage and a
 prefix `doc:` that identifies the hash objects we want to index.
 
-```java
-SchemaField[] schema = {
-    TextField.of("content"),
-    TagField.of("genre"),
-    VectorField.builder()
-        .fieldName("embedding")
-        .algorithm(VectorAlgorithm.HNSW)
-        .attributes(
-            Map.of(
-                "TYPE", "FLOAT32",
-                "DIM", 768,
-                "DISTANCE_METRIC", "L2"
-            )
-        )
-        .build()
-};
-
-jedis.ftCreate("vector_idx",
-    FTCreateParams.createParams()
-        .addPrefix("doc:")
-        .on(IndexDataType.HASH),
-        schema
-);
-```
+{{< clients-example set="HomeQueryVec" step="create_index" lang_filter="Java-Sync" >}}
+{{< /clients-example >}}
 
 ## Add data
 
@@ -204,31 +145,8 @@ below). Note that when we set the `embedding` field, we must use an overload
 of `hset()` that requires `byte` arrays for each of the key, the field name, and
 the value, which is why we include the `getBytes()` calls on the strings.
 
-```java
-String sentence1 = "That is a very happy person";
-jedis.hset("doc:1", Map.of("content", sentence1, "genre", "persons"));
-jedis.hset(
-    "doc:1".getBytes(),
-    "embedding".getBytes(),
-    longsToFloatsByteString(sentenceTokenizer.encode(sentence1).getIds())
-);
-
-String sentence2 = "That is a happy dog";
-jedis.hset("doc:2", Map.of("content", sentence2, "genre", "pets"));
-jedis.hset(
-    "doc:2".getBytes(),
-    "embedding".getBytes(),
-    longsToFloatsByteString(sentenceTokenizer.encode(sentence2).getIds())
-);
-
-String sentence3 = "Today is a sunny day";
-jedis.hset("doc:3", Map.of("content", sentence3, "genre", "weather"));
-jedis.hset(
-    "doc:3".getBytes(),
-    "embedding".getBytes(),
-    longsToFloatsByteString(sentenceTokenizer.encode(sentence3).getIds())
-);
-```
+{{< clients-example set="HomeQueryVec" step="add_data" lang_filter="Java-Sync" >}}
+{{< /clients-example >}}
 
 ## Run a query
 
@@ -246,35 +164,8 @@ The query is a
 [K nearest neighbors (KNN)]({{< relref "/develop/ai/search-and-query/vectors#knn-vector-search" >}})
 search that sorts the results in order of vector distance from the query vector.
 
-```java
-String sentence = "That is a happy person";
-
-int K = 3;
-Query q = new Query("*=>[KNN $K @embedding $BLOB AS distance]")
-                .returnFields("content", "distance")
-                .addParam("K", K)
-                .addParam(
-                    "BLOB",
-                    longsToFloatsByteString(
-                        sentenceTokenizer.encode(sentence)..getIds()
-                    )
-                )
-                .setSortBy("distance", true)
-                .dialect(2);
-
-List<Document> docs = jedis.ftSearch("vector_idx", q).getDocuments();
-
-for (Document doc: docs) {
-    System.out.println(
-        String.format(
-            "ID: %s, Distance: %s, Content: %s",
-            doc.getId(),
-            doc.get("distance"),
-            doc.get("content")
-        )
-    );
-}
-```
+{{< clients-example set="HomeQueryVec" step="query" lang_filter="Java-Sync" >}}
+{{< /clients-example >}}
 
 Assuming you have added the code from the steps above to your source file,
 it is now ready to run, but note that it may take a while to complete when
@@ -307,94 +198,24 @@ every query. Also, you must specify `IndexDataType.JSON` when you create the ind
 The code below shows these differences, but the index is otherwise very similar to
 the one created previously for hashes:
 
-```java
-SchemaField[] jsonSchema = {
-    TextField.of("$.content").as("content"),
-    TagField.of("$.genre").as("genre"),
-    VectorField.builder()
-        .fieldName("$.embedding").as("embedding")
-        .algorithm(VectorAlgorithm.HNSW)
-        .attributes(
-            Map.of(
-                "TYPE", "FLOAT32",
-                "DIM", 768,
-                "DISTANCE_METRIC", "L2"
-            )
-        )
-        .build()
-};
-
-jedis.ftCreate("vector_json_idx",
-    FTCreateParams.createParams()
-        .addPrefix("jdoc:")
-        .on(IndexDataType.JSON),
-        jsonSchema
-);
-```
+{{< clients-example set="HomeQueryVec" step="json_schema" lang_filter="Java-Sync" >}}
+{{< /clients-example >}}
 
 An important difference with JSON indexing is that the vectors are
 specified using arrays of `float` instead of binary strings. This requires
 a modified version of the `longsToFloatsByteString()` method
 used previously:
 
-```java
-public static float[] longArrayToFloatArray(long[] input) {
-    float[] floats = new float[input.length];
-    for (int i = 0; i < input.length; i++) {
-        floats[i] = input[i];
-    }
-    return floats;
-}
-```
+{{< clients-example set="HomeQueryVec" step="json_helper_method" lang_filter="Java-Sync" >}}
+{{< /clients-example >}}
 
 Use [`jsonSet()`]({{< relref "/commands/json.set" >}}) to add the data
 instead of [`hset()`]({{< relref "/commands/hset" >}}). Use instances
 of `JSONObject` to supply the data instead of `Map`, as you would for
 hash objects.
 
-```java
-String jSentence1 = "That is a very happy person";
-
-JSONObject jdoc1 = new JSONObject()
-        .put("content", jSentence1)
-        .put("genre", "persons")
-        .put(
-            "embedding",
-            longArrayToFloatArray(
-                sentenceTokenizer.encode(jSentence1).getIds()
-            )
-        );
-
-jedis.jsonSet("jdoc:1", Path2.ROOT_PATH, jdoc1);
-
-String jSentence2 = "That is a happy dog";
-
-JSONObject jdoc2 = new JSONObject()
-        .put("content", jSentence2)
-        .put("genre", "pets")
-        .put(
-            "embedding",
-            longArrayToFloatArray(
-                sentenceTokenizer.encode(jSentence2).getIds()
-            )
-        );
-
-jedis.jsonSet("jdoc:2", Path2.ROOT_PATH, jdoc2);
-
-String jSentence3 = "Today is a sunny day";
-
-JSONObject jdoc3 = new JSONObject()
-        .put("content", jSentence3)
-        .put("genre", "weather")
-        .put(
-            "embedding",
-            longArrayToFloatArray(
-                sentenceTokenizer.encode(jSentence3).getIds()
-            )
-        );
-
-jedis.jsonSet("jdoc:3", Path2.ROOT_PATH, jdoc3);
-```
+{{< clients-example set="HomeQueryVec" step="json_data" lang_filter="Java-Sync" >}}
+{{< /clients-example >}}
 
 The query is almost identical to the one for the hash documents. This
 demonstrates how the right choice of aliases for the JSON paths can
@@ -403,28 +224,8 @@ is that the vector parameter for the query is still specified as a
 binary string (using the `longsToFloatsByteString()` method), even though
 the data for the `embedding` field of the JSON was specified as an array.
 
-```java
-String jSentence = "That is a happy person";
-
-int jK = 3;
-Query jq = new Query("*=>[KNN $K @embedding $BLOB AS distance]").
-                    returnFields("content", "distance").
-                    addParam("K", jK).
-                    addParam(
-                        "BLOB",
-                        longsToFloatsByteString(
-                            sentenceTokenizer.encode(jSentence).getIds()
-                        )
-                    )
-                    .setSortBy("distance", true)
-                    .dialect(2);
-
-// Execute the query
-List<Document> jDocs = jedis
-        .ftSearch("vector_json_idx", jq)
-        .getDocuments();
-
-```
+{{< clients-example set="HomeQueryVec" step="json_query" lang_filter="Java-Sync" >}}
+{{< /clients-example >}}
 
 Apart from the `jdoc:` prefixes for the keys, the result from the JSON
 query is the same as for hash:

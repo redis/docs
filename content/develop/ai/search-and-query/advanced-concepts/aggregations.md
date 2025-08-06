@@ -379,6 +379,7 @@ Note that these operators apply only to numeric values and numeric sub-expressio
 | Function | Description                                                  | Example            |
 | -------- | ------------------------------------------------------------ | ------------------ |
 | exists(s)| Checks whether a field exists in a document.                 | `exists(@field)`   |
+| case(condition, if_true, if_false) | If condition is non-zero, return if_true, otherwise return if_false. | `case(exists(@foo), @foo, "no foo")` |
 
 ### List of numeric APPLY functions
 
