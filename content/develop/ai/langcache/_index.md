@@ -13,7 +13,9 @@ bannerText: LangCache is currently available in preview. Features and behavior a
 bannerChildren: true
 ---
 
-Redis LangCache is a fully-managed semantic caching service that reduces large language model (LLM) costs and improves response times for AI applications.
+Redis LangCache is a fully-managed semantic caching service that reduces large language model (LLM) costs and improves response times for AI applications. 
+
+[Get started](#get-started) with LangCache on [Redis Cloud]({{< relref "/operate/rc/langcache" >}}) or join the [private preview](https://redis.io/langcache/).
 
 ## LangCache overview
 

@@ -20,6 +20,12 @@ The log collector tool has two modes:
 
 {{<note>}} This script requires Python 3.6 or later. {{</note>}}
 
+## Prerequisites
+
+Before running the log collector, ensure you have the appropriate RBAC permissions configured. See [Log collector RBAC examples]({{< relref "/operate/kubernetes/reference/yaml/log-collector-rbac" >}}) for detailed RBAC configuration instructions.
+
+## Collect logs
+
 1. Download the latest [`log_collector.py`](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/log_collector/log_collector.py) file.
 
 1. Ensure your `kubectl` or `oc` CLI is configured to access the Kubernetes cluster you want to collect logs from.

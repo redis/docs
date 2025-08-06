@@ -98,50 +98,15 @@ set's membership with a fixed memory size, regardless of how many items you
 add. The following example adds some names to a Bloom filter representing
 a list of users and checks for the presence or absence of users in the list.
 
-```java
-List<Boolean> res1 = jedis.bfMAdd(
-    "recorded_users",
-    "andy", "cameron", "david", "michelle"
-);
-System.out.println(res1);  // >>> [true, true, true, true]
-
-boolean res2 = jedis.bfExists("recorded_users", "cameron");
-System.out.println(res2);  // >>> true
-
-boolean res3 = jedis.bfExists("recorded_users", "kaitlyn");
-System.out.println(res3);  // >>> false
-```
-<!--< clients-example home_prob_dts bloom Java-Sync >}}
-< /clients-example >}} -->
+{{< clients-example home_prob_dts bloom Java-Sync >}}
+{{< /clients-example >}}
 
 A Cuckoo filter has similar features to a Bloom filter, but also supports
 a deletion operation to remove hashes from a set, as shown in the example
 below.
 
-```java
-boolean res4 = jedis.cfAdd("other_users", "paolo");
-System.out.println(res4);  // >>> true
-
-boolean res5 = jedis.cfAdd("other_users", "kaitlyn");
-System.out.println(res5);  // >>> true
-
-boolean res6 = jedis.cfAdd("other_users", "rachel");
-System.out.println(res6);  // >>> true
-
-List<Boolean> res7 = jedis.cfMExists(
-    "other_users",
-    "paolo", "rachel", "andy"
-);
-System.out.println(res7);  // >>> [true, true, false]
-
-boolean res8 = jedis.cfDel("other_users", "paolo");
-System.out.println(res8);  // >>> true
-
-boolean res9 = jedis.cfExists("other_users", "paolo");
-System.out.println(res9);  // >>> false
-```
-<!--< clients-example home_prob_dts cuckoo Java-Sync >}}
-< /clients-example >}} -->
+{{< clients-example home_prob_dts cuckoo Java-Sync >}}
+{{< /clients-example >}}
 
 Which of these two data types you choose depends on your use case.
 Bloom filters are generally faster than Cuckoo filters when adding new items,
@@ -161,30 +126,8 @@ You can also merge two or more HyperLogLogs to find the cardinality of the
 [union](https://en.wikipedia.org/wiki/Union_(set_theory)) of the sets they
 represent.
 
-```java
-long res10 = jedis.pfadd("group:1", "andy", "cameron", "david");
-System.out.println(res10);  // >>> 1
-
-long res11 = jedis.pfcount("group:1");
-System.out.println(res11);  // >>> 3
-
-long res12 = jedis.pfadd(
-    "group:2",
-    "kaitlyn", "michelle", "paolo", "rachel"
-);
-System.out.println(res12);  // >>> 1
-
-long res13 = jedis.pfcount("group:2");
-System.out.println(res13);  // >>> 4
-
-String res14 = jedis.pfmerge("both_groups", "group:1", "group:2");
-System.out.println(res14);  // >>> OK
-
-long res15 = jedis.pfcount("both_groups");
-System.out.println(res15);  // >>> 7
-```
-<!--< clients-example home_prob_dts hyperloglog Java-Sync >}}
-< /clients-example >}} -->
+{{< clients-example home_prob_dts hyperloglog Java-Sync >}}
+{{< /clients-example >}}
 
 The main benefit that HyperLogLogs offer is their very low
 memory usage. They can count up to 2^64 items with less than
@@ -222,44 +165,8 @@ stay within 0.1% of the true value and have a 0.05% probability
 of going outside this limit. The example below shows how to create
 a Count-min sketch object, add data to it, and then query it.
 
-```java
-// Specify that you want to keep the counts within 0.01
-// (1%) of the true value with a 0.005 (0.5%) chance
-// of going outside this limit.
-String res16 = jedis.cmsInitByProb("items_sold", 0.01, 0.005);
-System.out.println(res16);  // >>> OK
-
-Map<String, Long> firstItemIncrements = new HashMap<>();
-firstItemIncrements.put("bread", 300L);
-firstItemIncrements.put("tea", 200L);
-firstItemIncrements.put("coffee", 200L);
-firstItemIncrements.put("beer", 100L);
-
-List<Long> res17 = jedis.cmsIncrBy("items_sold",
-    firstItemIncrements
-);
-res17.sort(null);
-System.out.println();  // >>> [100, 200, 200, 300]
-
-Map<String, Long> secondItemIncrements = new HashMap<>();
-secondItemIncrements.put("bread", 100L);
-secondItemIncrements.put("coffee", 150L);
-
-List<Long> res18 = jedis.cmsIncrBy("items_sold",
-    secondItemIncrements
-);
-res18.sort(null);
-System.out.println(res18);  // >>> [350, 400]
-
-List<Long> res19 = jedis.cmsQuery(
-    "items_sold",
-    "bread", "tea", "coffee", "beer"
-);
-res19.sort(null);
-System.out.println(res19);  // >>> [100, 200, 350, 400]
-```
-<!--< clients-example home_prob_dts cms Java-Sync >}}
-< /clients-example >}} -->
+{{< clients-example home_prob_dts cms Java-Sync >}}
+{{< /clients-example >}}
 
 The advantage of using a CMS over keeping an exact count with a
 [sorted set]({{< relref "/develop/data-types/sorted-sets" >}})
@@ -290,48 +197,8 @@ maximum values, the quantile of 0.75, and the
 shows how to merge two or more t-digest objects to query the combined
 data set.
 
-```java
-String res20 = jedis.tdigestCreate("male_heights");
-System.out.println(res20);  // >>> OK
-
-String res21 = jedis.tdigestAdd("male_heights", 
-    175.5, 181, 160.8, 152, 177, 196, 164);
-System.out.println(res21);  // >>> OK
-
-double res22 = jedis.tdigestMin("male_heights");
-System.out.println(res22);  // >>> 152.0
-
-double res23 = jedis.tdigestMax("male_heights");
-System.out.println(res23);  // >>> 196.0
-
-List<Double> res24 = jedis.tdigestQuantile("male_heights", 0.75);
-System.out.println(res24);  // >>> [181.0]
-
-// Note that the CDF value for 181 is not exactly 0.75.
-// Both values are estimates.
-List<Double> res25 = jedis.tdigestCDF("male_heights", 181);
-System.out.println(res25);  // >>> [0.7857142857142857]
-
-String res26 = jedis.tdigestCreate("female_heights");
-System.out.println(res26);  // >>> OK
-
-String res27 = jedis.tdigestAdd("female_heights",
-    155.5, 161, 168.5, 170, 157.5, 163, 171);
-System.out.println(res27);  // >>> OK
-
-List<Double> res28 = jedis.tdigestQuantile("female_heights", 0.75);
-System.out.println(res28);  // >>> [170.0]
-
-String res29 = jedis.tdigestMerge(
-    "all_heights",
-    "male_heights", "female_heights"
-);
-System.out.println(res29);  // >>> OK
-List<Double> res30 = jedis.tdigestQuantile("all_heights", 0.75);
-System.out.println(res30);  // >>> [175.5]
-```
-<!--< clients-example home_prob_dts tdigest Java-Sync >}}
-< /clients-example >}} -->
+{{< clients-example home_prob_dts tdigest Java-Sync >}}
+{{< /clients-example >}}
 
 A t-digest object also supports several other related commands, such
 as querying by rank. See the
@@ -352,33 +219,5 @@ the `topkReserve()` method). It also shows how to list the
 top *k* items and query whether or not a given item is in the
 list.
 
-```java
-String res31 = jedis.topkReserve("top_3_songs", 3L, 2000L, 7L, 0.925D);
-System.out.println(res31);  // >>> OK
-
-Map<String, Long> songIncrements = new HashMap<>();
-songIncrements.put("Starfish Trooper", 3000L);
-songIncrements.put("Only one more time", 1850L);
-songIncrements.put("Rock me, Handel", 1325L);
-songIncrements.put("How will anyone know?", 3890L);
-songIncrements.put("Average lover", 4098L);
-songIncrements.put("Road to everywhere", 770L);
-
-List<String> res32 = jedis.topkIncrBy("top_3_songs",
-    songIncrements
-);
-System.out.println(res32);
-// >>> [null, null, null, null, null, Rock me, Handel]
-
-List<String> res33 = jedis.topkList("top_3_songs");
-System.out.println(res33);
-// >>> [Average lover, How will anyone know?, Starfish Trooper]
-
-List<Boolean> res34 = jedis.topkQuery("top_3_songs",
-    "Starfish Trooper", "Road to everywhere"
-);
-System.out.println(res34);
-// >>> [true, false]
-```
-<!--< clients-example home_prob_dts topk Java-Sync >}}
-< /clients-example >}} -->
+{{< clients-example home_prob_dts topk Java-Sync >}}
+{{< /clients-example >}}

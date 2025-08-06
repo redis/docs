@@ -10,6 +10,7 @@
         "nredisstack",
         "go_redis",
         "node_redis",
+        "php",
         "redis_py",
         "jedis",
         "lettuce_async",

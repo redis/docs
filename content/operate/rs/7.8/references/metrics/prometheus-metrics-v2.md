@@ -140,11 +140,10 @@ The v2 scraping endpoint also exposes metrics for `node_exporter` version 1.8.1.
 | <span class="break-all">redis_server_connected_clients</span> | Number of client connections to the specific shard |
 | <span class="break-all">redis_server_connected_slaves</span> | Number of connected replicas |
 | <span class="break-all">redis_server_db0_avg_ttl</span> | Average TTL of all volatile keys |
-| <span class="break-all">redis_server_expired_keys</span> | Total count of volatile keys |
 | <span class="break-all">redis_server_db0_keys</span> | Total key count |
 | <span class="break-all">redis_server_evicted_keys</span> | Keys evicted so far (since restart) |
 | <span class="break-all">redis_server_expire_cycle_cpu_milliseconds</span> | The cumulative amount of time spent on active expiry cycles |
-| <span class="break-all">redis_server_expired_keys</span> | Keys expired so far (since restart) |
+| <span class="break-all">redis_server_expired_keys</span> | Keys expired so far since restart |
 | <span class="break-all">redis_server_forwarding_state</span> | Shard forwarding state (on or off) |
 | <span class="break-all">redis_server_keys_trimmed</span> | The number of keys that were trimmed in the current or last resharding process |
 | <span class="break-all">redis_server_keyspace_read_hits</span> | Number of read operations accessing an existing keyspace |

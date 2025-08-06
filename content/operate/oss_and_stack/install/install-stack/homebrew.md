@@ -52,7 +52,7 @@ export PATH=$(brew --prefix)/bin:$PATH
 You can now start the Redis server as follows:
 
 {{< highlight bash >}}
-redis-server /opt/homebrew/etc/redis.conf
+redis-server $(brew --prefix)/etc/redis.conf
 {{< /highlight >}}
 
 The server will run in the background.

@@ -37,6 +37,9 @@
 | <span class="break-all">endpoint_write_requests_latency_histogram</span> | histogram | Latency (in µs) histogram of write commands |
 | <span class="break-all">endpoint_write_requests_latency_histogram_bucket</span> | histogram | Latency histograms for write commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_write_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
 | <span class="break-all">endpoint_write_responses</span> | counter | Number of write responses |
+| <span class="break-all">proxy_connections_rate</span> | gauge | The rate of incoming connections. Computed as `n_accepted / N` for the last interval where `n_accepted` is the number of accepted connections in this interval, and `N` is the interval in seconds. |
+| <span class="break-all">proxy_rate_limit_ok</span> | gauge | Rate limit status based on the last 2 intervals.<br />0 = rate limit was recently exceeded<br />1 = rate limit was not recently exceeded |
+| <span class="break-all">proxy_rate_limit_overflows</span> | counter | Total number of rate limit overflows |
 
 ## Node metrics
 
@@ -113,18 +116,25 @@
 | <span class="break-all">redis_server_blocked_clients</span> | Count the clients waiting on a blocking call |
 | <span class="break-all">redis_server_connected_clients</span> | Number of client connections to the specific shard |
 | <span class="break-all">redis_server_connected_slaves</span> | Number of connected replicas |
-| <span class="break-all">redis_server_db0_avg_ttl</span> | Average TTL of all volatile keys |
-| <span class="break-all">redis_server_expired_keys</span> | Total count of volatile keys |
-| <span class="break-all">redis_server_db0_keys</span> | Total key count |
+| <span class="break-all">redis_server_db_avg_ttl</span> | Average TTL of all volatile keys |
+| <span class="break-all">redis_server_db0_avg_ttl</span> | Average TTL of all volatile keys. Deprecated. |
+| <span class="break-all">redis_server_db_keys</span> | Total key count. |
+| <span class="break-all">redis_server_db0_keys</span> | Total key count. Deprecated. |
 | <span class="break-all">redis_server_evicted_keys</span> | Keys evicted so far (since restart) |
 | <span class="break-all">redis_server_expire_cycle_cpu_milliseconds</span> | The cumulative amount of time spent on active expiry cycles |
-| <span class="break-all">redis_server_expired_keys</span> | Keys expired so far (since restart) |
+| <span class="break-all">redis_server_expired_keys</span> | Keys expired so far since restart |
 | <span class="break-all">redis_server_forwarding_state</span> | Shard forwarding state (on or off) |
+| <span class="break-all">redis_server_hashes_items_under_1M</span> | Number of hash keys with under 1 million elements |
+| <span class="break-all">redis_server_hashes_items_1M_to_8M</span> | Number of hash keys with an element count between 1 million and 8 million |
+| <span class="break-all">redis_server_hashes_items_over_8M</span> | Number of hash keys with over 8 million elements |
 | <span class="break-all">redis_server_keys_trimmed</span> | The number of keys that were trimmed in the current or last resharding process |
 | <span class="break-all">redis_server_keyspace_read_hits</span> | Number of read operations accessing an existing keyspace |
 | <span class="break-all">redis_server_keyspace_read_misses</span> | Number of read operations accessing a non-existing keyspace |
 | <span class="break-all">redis_server_keyspace_write_hits</span> | Number of write operations accessing an existing keyspace |
 | <span class="break-all">redis_server_keyspace_write_misses</span> | Number of write operations accessing a non-existing keyspace |
+| <span class="break-all">redis_server_lists_items_under_1M</span> | Number of list keys with under 1 million elements |
+| <span class="break-all">redis_server_lists_items_1M_to_8M</span> | Number of list keys with an element count between 1 million and 8 million |
+| <span class="break-all">redis_server_lists_items_over_8M</span> | Number of list keys with over 8 million elements |
 | <span class="break-all">redis_server_master_link_status</span> | Indicates if the replica is connected to its master |
 | <span class="break-all">redis_server_master_repl_offset</span> | Number of bytes sent to replicas by the shard; calculate the throughput for a time period by comparing the value at different times |
 | <span class="break-all">redis_server_master_sync_in_progress</span> | The primary shard is synchronizing (1 true; 0 false) |
@@ -145,13 +155,22 @@
 | <span class="break-all">redis_server_rdb_bgsave_in_progress</span> | Indication if bgsave is currently in progress |
 | <span class="break-all">redis_server_rdb_last_cow_size</span> | Last bgsave (or SYNC fork) used CopyOnWrite memory |
 | <span class="break-all">redis_server_rdb_saves</span> | Total count of bgsaves since the process was restarted (including replica fullsync and persistence) |
+| <span class="break-all">redis_server_sets_items_under_1M</span> | Number of set keys with under 1 million elements |
+| <span class="break-all">redis_server_sets_items_1M_to_8M</span> | Number of set keys with an element count between 1 million and 8 million |
+| <span class="break-all">redis_server_sets_items_over_8M</span> | Number of set keys with over 8 million elements |
 | <span class="break-all">redis_server_repl_touch_bytes</span> | Number of bytes sent to replicas as TOUCH commands by the shard as a result of a READ command that was processed; calculate the throughput for a time period by comparing the value at different times |
 | <span class="break-all">redis_server_total_commands_processed</span> | Number of commands processed by the shard; calculate the number of commands for a time period by comparing the value at different times |
 | <span class="break-all">redis_server_total_connections_received</span> | Number of connections received by the shard; calculate the number of connections for a time period by comparing the value at different times |
 | <span class="break-all">redis_server_total_net_input_bytes</span> | Number of bytes received by the shard; calculate the throughput for a time period by comparing the value at different times |
 | <span class="break-all">redis_server_total_net_output_bytes</span> | Number of bytes sent by the shard; calculate the throughput for a time period by comparing the value at different times |
 | <span class="break-all">redis_server_up</span> | Shard is up and running |
+| <span class="break-all">redis_server_strings_sizes_under_128M</span> | Number of string keys with a memory size under 128 megabytes |
+| <span class="break-all">redis_server_strings_sizes_128M_to_512M</span> | Number of string keys with a memory size between 128 and 512 megabytes |
+| <span class="break-all">redis_server_strings_sizes_over_512M</span> | Number of string keys with a memory size over 512 megabytes |
 | <span class="break-all">redis_server_used_memory</span> | Memory used by shard (in BigRedis this includes flash) (bytes) |
+| <span class="break-all">redis_server_zsets_items_under_1M</span> | Number of sorted set keys with under 1 million elements |
+| <span class="break-all">redis_server_zsets_items_1M_to_8M</span> | Number of sorted set keys with an element count between 1 million and 8 million |
+| <span class="break-all">redis_server_zsets_items_over_8M</span> | Number of sorted set keys with over 8 million elements |
 | <span class="break-all">redis_server_search_gc_bytes_collected</span> | The total amount of memory freed by the garbage collectors from indexes in the shard's memory in bytes. <sup>[3](#tnote-3)</sup> |
 | <span class="break-all">redis_server_search_bytes_collected</span> | The total amount of memory freed by the garbage collectors from indexes in the shard's memory in bytes. Deprecated in 8.0 (renamed redis_server_search_gc_bytes_collected), but still available in older versions. <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_gc_marked_deleted_vectors</span> | The number of vectors marked as deleted in the vector indexes that have not yet been cleaned. <sup>[3](#tnote-3)</sup> |

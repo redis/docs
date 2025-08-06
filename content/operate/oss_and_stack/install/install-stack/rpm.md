@@ -12,7 +12,6 @@ weight: 3
 
 ## Install Redis Open Source on Red Hat, CentOS, or Rocky Linux using RPM
 
-See [this page](https://redis.io/downloads/#redis-downloads) for a complete list of supported Red Hat/Rocky platforms.
 Follow these steps to install Redis Open Source.
 
 1. Create the file `/etc/yum.repos.d/redis.repo` with the following contents.
