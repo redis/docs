@@ -142,6 +142,12 @@ jobs:
 
           done < "$empty_fields_file"
 
+      - name: 'Fix link titles'
+        run: |-
+          sed -E -i 's/linkTitle: RedisEnterpriseActiveActiveDatabase API Reference/linkTitle: REAADB API/g' artifacts/redis_enterprise_active_active_database_api.md
+          sed -E -i 's/linkTitle: RedisEnterpriseCluster API Reference/linkTitle: REC API/g' artifacts/redis_enterprise_cluster_api.md
+          sed -E -i 's/linkTitle: RedisEnterpriseDatabase API Reference/linkTitle: REDB API/g' artifacts/redis_enterprise_database_api.md
+          sed -E -i 's/linkTitle: RedisEnterpriseRemoteCluster API Reference/linkTitle: RERC API/g' artifacts/redis_enterprise_remote_cluster_api.md
 
       - name: 'Generate YAML snippets'
         run: |-
@@ -195,8 +201,6 @@ jobs:
           cp artifacts/redis_enterprise_cluster_api.md content/operate/kubernetes/reference/api/
           cp artifacts/redis_enterprise_database_api.md content/operate/kubernetes/reference/api/
           cp artifacts/redis_enterprise_remote_cluster_api.md content/operate/kubernetes/reference/api/
-
-          git apply content/operate/kubernetes/reference/api/kubernetes-api-reference-frontmatter.patch
 
           git add content/operate/kubernetes/reference/api/
           git add content/embeds/k8s/
