@@ -91,13 +91,13 @@ jobs:
               [[ -z "$field" || "$field" =~ ^# ]] && continue
 
               # Convert field path to section header pattern
-              section_pattern="RedisEnterpriseCluster.${field}"
+              section_pattern="${field}"
 
               # Remove subsections that go deeper than [index] level
-              # Keep: RedisEnterpriseCluster.spec.extraEnvVars
-              # Keep: RedisEnterpriseCluster.spec.extraEnvVars[index]
-              # Remove: RedisEnterpriseCluster.spec.extraEnvVars[index].valueFrom
-              # Remove: RedisEnterpriseCluster.spec.extraEnvVars[index].valueFrom.fieldRef
+              # Keep: spec.extraEnvVars
+              # Keep: spec.extraEnvVars[index]
+              # Remove: spec.extraEnvVars[index].valueFrom
+              # Remove: spec.extraEnvVars[index].valueFrom.fieldRef
               awk -v base_pattern="${section_pattern}" '
               BEGIN { skip = 0 }
               /^### / {
@@ -124,6 +124,11 @@ jobs:
                       }
                       # If remainder starts with . (direct subsection), remove it
                       else if (index(remainder, ".") == 1) {
+                          skip = 1
+                          next
+                      }
+                      # If remainder starts with []. (direct subsection), remove it
+                      else if (index(remainder, "[].") == 1) {
                           skip = 1
                           next
                       }
