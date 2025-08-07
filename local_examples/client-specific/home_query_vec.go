@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"math"
 
-	huggingfaceembedder "github.com/henomis/lingoose/embedder/huggingface"
+	"github.com/knights-analytics/hugot"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -79,9 +79,37 @@ func main() {
 	// STEP_END
 
 	// STEP_START embedder
-	hf := huggingfaceembedder.New().
-		WithToken("<your-access-token>").
-		WithModel("sentence-transformers/all-MiniLM-L6-v2")
+	// Create a Hugot session
+	session, err := hugot.NewGoSession()
+	if err != nil {
+		panic(err)
+	}
+	defer func() {
+		err := session.Destroy()
+		if err != nil {
+			panic(err)
+		}
+	}()
+
+	// Download the model
+	downloadOptions := hugot.NewDownloadOptions()
+	downloadOptions.OnnxFilePath = "onnx/model.onnx" // Specify which ONNX file to use
+	modelPath, err := hugot.DownloadModel("sentence-transformers/all-MiniLM-L6-v2", "./models/", downloadOptions)
+	if err != nil {
+		panic(err)
+	}
+
+	// Create feature extraction pipeline configuration
+	config := hugot.FeatureExtractionConfig{
+		ModelPath: modelPath,
+		Name:      "embeddingPipeline",
+	}
+
+	// Create the feature extraction pipeline
+	embeddingPipeline, err := hugot.NewPipeline(session, config)
+	if err != nil {
+		panic(err)
+	}
 	// STEP_END
 
 	// STEP_START add_data
@@ -95,16 +123,17 @@ func main() {
 		"persons", "pets", "weather",
 	}
 
-	embeddings, err := hf.Embed(ctx, sentences)
+	// Generate embeddings using Hugot
+	embeddingResult, err := embeddingPipeline.RunPipeline(sentences)
 	if err != nil {
 		panic(err)
 	}
 
+	// Extract the embeddings from the result
+	embeddings := embeddingResult.Embeddings
+
 	for i, emb := range embeddings {
-		buffer := floatsToBytes(emb.ToFloat32())
-		if err != nil {
-			panic(err)
-		}
+		buffer := floatsToBytes(emb)
 
 		_, err = rdb.HSet(ctx,
 			fmt.Sprintf("doc:%v", i),
@@ -114,6 +143,7 @@ func main() {
 				"embedding": buffer,
 			},
 		).Result()
+
 		if err != nil {
 			panic(err)
 		}
@@ -121,17 +151,16 @@ func main() {
 	// STEP_END
 
 	// STEP_START query
-	queryEmbedding, err := hf.Embed(ctx, []string{
+	// Generate query embedding using Hugot
+	queryResult, err := embeddingPipeline.RunPipeline([]string{
 		"That is a happy person",
 	})
+
 	if err != nil {
 		panic(err)
 	}
 
-	buffer := floatsToBytes(queryEmbedding[0].ToFloat32())
-	if err != nil {
-		panic(err)
-	}
+	buffer := floatsToBytes(queryResult.Embeddings[0])
 
 	results, err := rdb.FTSearchWithArgs(ctx,
 		"vector_idx",
@@ -147,6 +176,7 @@ func main() {
 			},
 		},
 	).Result()
+
 	if err != nil {
 		panic(err)
 	}
@@ -160,6 +190,13 @@ func main() {
 	// STEP_END
 
 	// STEP_START json_index
+	rdb.FTDropIndexWithArgs(ctx,
+		"vector_json_idx",
+		&redis.FTDropIndexOptions{
+			DeleteDocs: true,
+		},
+	)
+
 	_, err = rdb.FTCreate(ctx,
 		"vector_json_idx",
 		&redis.FTCreateOptions{
@@ -202,9 +239,10 @@ func main() {
 			map[string]any{
 				"content":   sentences[i],
 				"genre":     tags[i],
-				"embedding": emb.ToFloat32(),
+				"embedding": emb,
 			},
 		).Result()
+
 		if err != nil {
 			panic(err)
 		}
@@ -212,14 +250,16 @@ func main() {
 	// STEP_END
 
 	// STEP_START json_query
-	jsonQueryEmbedding, err := hf.Embed(ctx, []string{
+	// Generate query embedding for JSON search using Hugot
+	jsonQueryResult, err := embeddingPipeline.RunPipeline([]string{
 		"That is a happy person",
 	})
+
 	if err != nil {
 		panic(err)
 	}
 
-	jsonBuffer := floatsToBytes(jsonQueryEmbedding[0].ToFloat32())
+	jsonBuffer := floatsToBytes(jsonQueryResult.Embeddings[0])
 
 	jsonResults, err := rdb.FTSearchWithArgs(ctx,
 		"vector_json_idx",
@@ -235,6 +275,7 @@ func main() {
 			},
 		},
 	).Result()
+
 	if err != nil {
 		panic(err)
 	}
