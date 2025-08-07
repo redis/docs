@@ -118,22 +118,26 @@ Replace `<guid>` with your Active-Active database's globally unique identifier.
 
 -tab-sep-
 
-To enable TLS for Active-Active cluster communication only:
+You can use an [update database configuration]({{<relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs">}}) request to enable TLS.
+
+To enable TLS for Active-Active database communications only:
 
 ```sh
-curl -v -k -u <username>:<password> \
-  -H "Content-type: application/json" \
-  -d '{ "enforce_client_authentication": "disabled", "tls_mode": "replica_ssl" }' \
-  -X PUT https://<cluster-fqdn>:9443/v1/bdbs/<bdb-id>
+PUT https://<host>:9443/v1/bdbs/<database-id>
+{
+  "enforce_client_authentication": "disabled",
+  "tls_mode": "replica_ssl"
+}
 ```
 
-To enable TLS for all communications (cluster and client):
+To enable TLS for all communications:
 
 ```sh
-curl -v -k -u <username>:<password> \
-  -H "Content-type: application/json" \
-  -d '{ "enforce_client_authentication": "disabled", "tls_mode": "enabled" }' \
-  -X PUT https://<cluster-fqdn>:9443/v1/bdbs/<bdb-id>
+PUT https://<host>:9443/v1/bdbs/<database-id>
+{
+  "enforce_client_authentication": "disabled",
+  "tls_mode": "enabled"
+}
 ```
 
 {{< /multitabs >}}
