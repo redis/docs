@@ -8,3 +8,7 @@ and then they connect directly to the Redis proxy on each node that hosts a mast
 You must use a client that supports the cluster API to connect to a database
 that has the cluster API enabled.
 {{< /note >}}
+
+{{< warning >}}
+Kubernetes limitation: OSS Cluster API can only be used by clients running within the same Kubernetes cluster as the Redis Enterprise pods. External clients cannot use OSS Cluster API due to pod IP address accessibility limitations.
+{{< /warning >}}
