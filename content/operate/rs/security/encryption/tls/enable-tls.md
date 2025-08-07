@@ -81,7 +81,6 @@ rladmin tune db < db:id | name > mtls_allow_outdated_certs enabled
 
 ## Enable TLS for Active-Active cluster connections
 
-
 You can enable TLS for Active-Active cluster connections when you create a database using the Cluster Manager UI, [`crdb-cli`]({{<relref "/operate/rs/references/cli-utilities/crdb-cli">}}), or the [REST API]({{<relref "/operate/rs/references/rest-api">}}).
 
 If you need to enable or turn off TLS after the Active-Active database is created, you must use [`crdb-cli`]({{<relref "/operate/rs/references/cli-utilities/crdb-cli">}}) or the [REST API]({{<relref "/operate/rs/references/rest-api">}}).

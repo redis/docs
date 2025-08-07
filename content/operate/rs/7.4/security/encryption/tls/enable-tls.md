@@ -85,48 +85,65 @@ rladmin tune db < db:id | name > mtls_allow_outdated_certs enabled
 
 ## Enable TLS for Active-Active cluster connections
 
-To enable TLS for Active-Active cluster connections:
+You can enable TLS for Active-Active cluster connections when you create a database using the Cluster Manager UI, [`crdb-cli`]({{<relref "/operate/rs/7.4/references/cli-utilities/crdb-cli">}}), or the [REST API]({{<relref "/operate/rs/7.4/references/rest-api">}}).
 
-1. If you are using the new Cluster Manager UI, switch to the legacy admin console.
+If you need to enable or turn off TLS after the Active-Active database is created, you must use [`crdb-cli`]({{<relref "/operate/rs/7.4/references/cli-utilities/crdb-cli">}}) or the [REST API]({{<relref "/operate/rs/7.4/references/rest-api">}}).
 
-    {{<image filename="images/rs/screenshots/switch-to-legacy-ui.png"  width="300px" alt="Select switch to legacy admin console from the dropdown.">}}
+### Enable TLS during database creation
 
-1. [Retrieve syncer certificates.](#retrieve-syncer-certificates)
+To enable TLS for Active-Active cluster connections using the Cluster Manager UI:
 
-1. [Configure TLS certificates for Active-Active.](#configure-tls-certificates-for-active-active)
+1. During [database creation]({{<relref "/operate/rs/7.4/databases/active-active/create">}}), expand the **TLS** configuration section.
 
-1. [Configure TLS on all participating clusters.](#configure-tls-on-all-participating-clusters)
+1. Select **On** to enable TLS.
 
-{{< note >}}
-You cannot enable or turn off TLS after the Active-Active database is created, but you can change the TLS configuration.
-{{< /note >}}
+    {{<image filename="images/rs/screenshots/databases/active-active-databases/enable-tls-for-active-active-db.png" alt="TLS is enabled on the Cluster Manager UI screen.">}}
 
-### Retrieve syncer certificates
+1. Click **Create**.
 
-For each participating cluster, copy the syncer certificate from the **general** settings tab.
+If you also want to require TLS for client connections, you must edit the Active-Active database configuration after creation. See [Enable TLS for client connections](#client) for instructions.
 
-{{< image filename="/images/rs/general-settings-syncer-cert.png" alt="general-settings-syncer-cert" >}}
+### Enable TLS after database creation
 
-### Configure TLS certificates for Active-Active
+You can enable TLS for an existing Active-Active database using either `crdb-cli` or the REST API.
 
-1. During database creation (see [Create an Active-Active Geo-Replicated Database]({{< relref "/operate/rs/7.4/databases/active-active/create.md" >}}), select **Edit** from the **configuration** tab.
-1. Enable **TLS**.
-    - **Enforce client authentication** is selected by default. If you clear this option, you will still enforce encryption, but TLS client authentication will be deactivated.
-1. Select **Require TLS for CRDB communication only** from the dropdown menu.
-    {{< image filename="/images/rs/crdb-tls-all.png" alt="crdb-tls-all" >}}
-1. Select **Add** {{< image filename="/images/rs/icon_add.png#no-click" alt="Add" >}}
-1. Paste a syncer certificate into the text box.
-    {{< image filename="/images/rs/database-tls-replica-certs.png" alt="Database TLS Configuration" >}}
-1. Save the syncer certificate. {{< image filename="/images/rs/icon_save.png#no-click" alt="Save" >}}
-1. Repeat this process, adding the syncer certificate for each participating cluster.
-1. Optional: If also you want to require TLS for client connections, select **Require TLS for All Communications** from the dropdown and add client certificates as well.
-1. Select **Update** at the bottom of the screen to save your configuration.
+{{< multitabs id="enable-tls-post-creation"
+tab1="CLI"
+tab2="REST API" >}}
 
-### Configure TLS on all participating clusters
+Run the following [`crdb-cli crdb update`]({{<relref "/operate/rs/7.4/references/cli-utilities/crdb-cli/crdb/update">}}) command:
 
-Repeat this process on all participating clusters.
+```sh
+crdb-cli crdb update --crdb-guid <guid> --encryption true
+```
 
-To enforce TLS authentication, Active-Active databases require syncer certificates for each cluster connection. If every participating cluster doesn't have a syncer certificate for every other participating cluster, synchronization will fail.
+Replace `<guid>` with your Active-Active database's globally unique identifier.
+
+-tab-sep-
+
+You can use an [update database configuration]({{<relref "/operate/rs/7.4/references/rest-api/requests/bdbs#put-bdbs">}}) request to enable TLS.
+
+To enable TLS for Active-Active database communications only:
+
+```sh
+PUT https://<host>:9443/v1/bdbs/<database-id>
+{
+  "enforce_client_authentication": "disabled",
+  "tls_mode": "replica_ssl"
+}
+```
+
+To enable TLS for all communications:
+
+```sh
+PUT https://<host>:9443/v1/bdbs/<database-id>
+{
+  "enforce_client_authentication": "disabled",
+  "tls_mode": "enabled"
+}
+```
+
+{{< /multitabs >}}
 
 ## Enable TLS for Replica Of cluster connections
 
