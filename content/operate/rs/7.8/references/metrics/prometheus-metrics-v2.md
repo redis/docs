@@ -91,7 +91,7 @@ The v2 scraping endpoint also exposes metrics for `node_exporter` version 1.8.1.
 | Metric | Type | Description |
 | :-------- | :--- | :---------- |
 | <span class="break-all">generation{cluster_wd=<node_uid>}</span> | gauge| Generation number of the specific cluster_wd|
-| <span class="break-all">has_qourum{cluster_wd=<node_uid>, has_witness_disk=BOOL}</span> | gauge| Has_qourum = 1<br />No quorum = 0 |
+| <span class="break-all">has_quorum{cluster_wd=<node_uid>, has_witness_disk=BOOL}</span> | gauge| Has_quorum = 1<br />No quorum = 0 |
 | <span class="break-all">is_primary{cluster_wd=<node_uid>}</span> | gauge| primary = 1<br />secondary = 0 |
 | <span class="break-all">license_shards_limit</span> | gauge | Total shard limit by the license by shard type (ram / flash) |
 | <span class="break-all">total_live_nodes_count{cluster_wd=<node_uid>}</span> | gauge| Number of live nodes|
