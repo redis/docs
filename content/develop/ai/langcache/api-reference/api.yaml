@@ -53,6 +53,18 @@ paths:
             'application/json':
               schema:
                 $ref: '#/components/schemas/ForbiddenErrorResponseContent'
+        '404':
+          description: Cache not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFoundErrorResponseContent'
+        '424':
+          description: Failed dependency
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/FailedDependencyErrorResponseContent'
         '500':
           description: An unexpected error occurred
           content:
@@ -105,6 +117,18 @@ paths:
             'application/json':
               schema:
                 $ref: '#/components/schemas/ForbiddenErrorResponseContent'
+        '404':
+          description: Cache not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFoundErrorResponseContent'
+        '424':
+          description: Failed dependency
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/FailedDependencyErrorResponseContent'
         '500':
           description: An unexpected error occurred
           content:
@@ -156,6 +180,18 @@ paths:
             'application/json':
               schema:
                 $ref: '#/components/schemas/ForbiddenErrorResponseContent'
+        '404':
+          description: Cache not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFoundErrorResponseContent'
+        '424':
+          description: Failed dependency
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/FailedDependencyErrorResponseContent'
         '500':
           description: An unexpected error occurred
           content:
@@ -200,11 +236,17 @@ paths:
               schema:
                 $ref: '#/components/schemas/ForbiddenErrorResponseContent'
         '404':
-          description: Cache entry not found
+          description: Cache or cache entry not found
           content:
             'application/json':
               schema:
                 $ref: '#/components/schemas/NotFoundErrorResponseContent'
+        '424':
+          description: Failed dependency
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/FailedDependencyErrorResponseContent'
         '500':
           description: An unexpected error occurred
           content:
@@ -226,6 +268,7 @@ components:
       required: true
       schema:
         type: string
+        pattern: '^[a-zA-Z0-9]+$'
     entryId:
       name: entryId
       in: path
@@ -233,6 +276,7 @@ components:
       required: true
       schema:
         type: string
+        pattern: '^[a-f0-9]{32}$'
   schemas:
     SearchEntriesRequest:
       required:
@@ -242,6 +286,8 @@ components:
         prompt:
           type: string
           description: The prompt to search for in the cache.
+          minLength: 1
+          maxLength: 1024
           example: How does semantic caching work?
         similarityThreshold:
           minimum: 0
@@ -252,8 +298,14 @@ components:
           example: 0.9
         attributes:
           type: object
+          maxProperties: 5
+          propertyNames:
+            pattern: '^[a-zA-Z0-9_-]{1,32}$'
           additionalProperties:
             type: string
+            minLength: 1
+            maxLength: 500
+            pattern: '^[^,]*$'
           description: Key-value pairs of attributes that filter the cache entries. If provided, this endpoint only returns entries that contain all given attributes.
           example:
             language: en
@@ -282,7 +334,8 @@ components:
         id:
           type: string
           description: Unique identifier for the cache entry.
-          example: myIndex:5b84acef3ce360988d1b35adbaaaccb164569b6d79fab04fd888b5fea03fb8f2
+          pattern: '^[a-f0-9]{32}$'
+          example: 5b84acef3ce360988d1b35adbaaaccb1
         prompt:
           type: string
           description: The prompt associated with the cache entry.
@@ -293,8 +346,14 @@ components:
           example: Semantic caching stores and retrieves data based on meaning, not exact matches.
         attributes:
           type: object
+          maxProperties: 5
+          propertyNames:
+            pattern: '^[a-zA-Z0-9_-]{1,32}$'
           additionalProperties:
             type: string
+            minLength: 1
+            maxLength: 500
+            pattern: '^[^,]*$'
           description: The key-value pairs of attributes that are associated with the cache entry.
           example:
             language: en
@@ -303,6 +362,8 @@ components:
           type: number
           description: The similarity metric used for similarity comparison.
           format: float
+          minimum: 0
+          maximum: 1
           example: 0.95
       description: A cache entry
     SetEntryRequest:
@@ -315,22 +376,33 @@ components:
           example: How does semantic caching work?
           type: string
           description: The prompt for the entry.
+          minLength: 1
+          maxLength: 1024
         response:
           example: Semantic caching stores and retrieves data based on meaning, not exact matches.
           type: string
           description: The response to the prompt for the entry.
         attributes:
           type: object
+          maxProperties: 5
+          propertyNames:
+            pattern: '^[a-zA-Z0-9_-]{1,32}$'
           additionalProperties:
             type: string
+            minLength: 1
+            maxLength: 500
+            pattern: '^[^,]*$'
           description: Key-value pairs of attributes to be associated with the entry. These can be used for filtering when searching for entries. All attribute names that can be associated with an entry must be defined during cache creation.
           example:
             language: en
             topic: ai
         ttlMillis:
           type: integer
-          description: The entry's time-to-live, in milliseconds.
+          description: The entry's time-to-live, in milliseconds. If not set, the cache's default TTL is used.
           format: int64
+          minimum: 1
+          maximum: 31556952000
+          example: 60000
       description: Request to add a cache entry to the cache
     SetEntryResponse:
       required:
@@ -340,6 +412,7 @@ components:
         entryId:
           type: string
           description: The ID of the entry that was added to the cache.
+          pattern: '^[a-f0-9]{32}$'
       description: Response representing a successful cache entry addition 
     DeleteEntriesRequest:
       required:
@@ -348,8 +421,14 @@ components:
       properties:
         attributes:
           type: object
+          maxProperties: 5
+          propertyNames:
+            pattern: '^[a-zA-Z0-9_-]{1,32}$'
           additionalProperties:
             type: string
+            minLength: 1
+            maxLength: 500
+            pattern: '^[^,]*$'
           description: Key-value pairs of attributes associated with the cache entries to delete. If provided, this endpoint only deletes entries that contain all given attributes. If not provided, this endpoint deletes all entries in the cache.
           example:
             language: en
@@ -437,6 +516,31 @@ components:
       type: string
       enum:
         - /errors/unauthorized
+    FailedDependencyErrorResponseContent:
+      type: object
+      properties:
+        title:
+          type: string
+          description: A short summary of the problem type.
+          example: Failed Dependency
+        status:
+          type: integer
+          default: 424
+          description: The HTTP status code generated by the origin server.
+        detail:
+          type: string
+          description: An explanation specific to this problem.
+        type:
+          $ref: '#/components/schemas/FailedDependencyErrorUri'
+      required:
+        - status
+        - title
+        - type
+    FailedDependencyErrorUri:
+      type: string
+      enum:
+        - /errors/embeddings/unauthorized
+        - /errors/embeddings/too-many-requests
     ServiceUnavailableErrorResponseContent:
       type: object
       properties:
@@ -462,8 +566,6 @@ components:
       enum:
         - /errors/cache/unexpected-error
         - /errors/cache/authentication
-        - /errors/embeddings/unauthorized
-        - /errors/embeddings/too-many-requests
         - /errors/embeddings/unexpected-error
     NotFoundErrorResponseContent:
       type: object

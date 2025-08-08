@@ -57,14 +57,8 @@ npm install @xenova/transformers
 
 In your JavaScript source file, import the required classes:
 
-```js
-import * as transformers from '@xenova/transformers';
-import {
-    VectorAlgorithms,
-    createClient,
-    SCHEMA_FIELD_TYPE,
-} from 'redis';
-```
+{{< clients-example set="home_query_vec" step="import" lang_filter="Node.js" >}}
+{{< /clients-example >}}
 
 The `@xenova/transformers` module handles embedding models. This example uses the
 [`all-distilroberta-v1`](https://huggingface.co/sentence-transformers/all-distilroberta-v1)
@@ -78,31 +72,15 @@ The `pipe` function generates embeddings. The `pipeOptions` object specifies how
 [`all-distilroberta-v1`](https://huggingface.co/sentence-transformers/all-distilroberta-v1)
 documentation for details):
 
-```js
-let pipe = await transformers.pipeline(
-    'feature-extraction', 'Xenova/all-distilroberta-v1'
-);
-
-const pipeOptions = {
-    pooling: 'mean',
-    normalize: true,
-};
-```
+{{< clients-example set="home_query_vec" step="pipeline" lang_filter="Node.js" >}}
+{{< /clients-example >}}
 
 ## Create the index
 
 First, connect to Redis and remove any existing index named `vector_idx`:
 
-```js
-const client = createClient({url: 'redis://localhost:6379'});
-await client.connect();
-
-try { 
-    await client.ft.dropIndex('vector_idx'); 
-} catch (e) {
-    // Index doesn't exist, which is fine
-}
-```
+{{< clients-example set="home_query_vec" step="connect" lang_filter="Node.js" >}}
+{{< /clients-example >}}
 
 Next, create the index with the following schema:
 -   `content`: Text field for the content to index
@@ -117,26 +95,8 @@ Next, create the index with the following schema:
     -   Float32 values
     -   768 dimensions (matching the embedding model)
 
-```js
-await client.ft.create('vector_idx', {
-    'content': {
-        type: SchemaFieldTypes.TEXT,
-    },
-    'genre': {
-        type: SchemaFieldTypes.TAG,
-    },
-    'embedding': {
-        type: SchemaFieldTypes.VECTOR,
-        TYPE: 'FLOAT32',
-        ALGORITHM: VectorAlgorithms.HNSW,
-        DISTANCE_METRIC: 'L2',
-        DIM: 768,
-    }
-}, {
-    ON: 'HASH',
-    PREFIX: 'doc:'
-});
-```
+{{< clients-example set="home_query_vec" step="create_index" lang_filter="Node.js" >}}
+{{< /clients-example >}}
 
 ## Add data
 
@@ -149,40 +109,8 @@ For each document:
 
 Use `Promise.all()` to batch the commands and reduce network round trips:
 
-```js
-const sentence1 = 'That is a very happy person';
-const doc1 = {
-    'content': sentence1, 
-    'genre': 'persons', 
-    'embedding': Buffer.from(
-        (await pipe(sentence1, pipeOptions)).data.buffer
-    ),
-};
-
-const sentence2 = 'That is a happy dog';
-const doc2 = {
-    'content': sentence2, 
-    'genre': 'pets', 
-    'embedding': Buffer.from(
-        (await pipe(sentence2, pipeOptions)).data.buffer
-    )
-};
-
-const sentence3 = 'Today is a sunny day';
-const doc3 = {
-    'content': sentence3, 
-    'genre': 'weather', 
-    'embedding': Buffer.from(
-        (await pipe(sentence3, pipeOptions)).data.buffer
-    )
-};
-
-await Promise.all([
-    client.hSet('doc:1', doc1),
-    client.hSet('doc:2', doc2),
-    client.hSet('doc:3', doc3)
-]);
-```
+{{< clients-example set="home_query_vec" step="add_data" lang_filter="Node.js" >}}
+{{< /clients-example >}}
 
 ## Run a query
 
@@ -195,27 +123,8 @@ The query returns an array of document objects. Each object contains:
 - `id`: The document's key
 - `value`: An object with fields specified in the `RETURN` option
 
-```js
-const similar = await client.ft.search(
-    'vector_idx',
-    '*=>[KNN 3 @embedding $B AS score]',
-    {
-        'PARAMS': {
-            B: Buffer.from(
-                (await pipe('That is a happy person', pipeOptions)).data.buffer
-            ),
-        },
-        'RETURN': ['score', 'content'],
-        'DIALECT': '2'
-    },
-);
-
-for (const doc of similar.documents) {
-    console.log(`${doc.id}: '${doc.value.content}', Score: ${doc.value.score}`);
-}
-
-await client.quit();
-```
+{{< clients-example set="home_query_vec" step="query" lang_filter="Node.js" >}}
+{{< /clients-example >}}
 
 The first run may take longer as it downloads the model data. The output shows results ordered by score (vector distance), with lower scores indicating greater similarity:
 
@@ -237,78 +146,18 @@ JSON documents support richer data modeling with nested fields. Key differences 
 
 Create the index with path aliases:
 
-```js
-await client.ft.create('vector_json_idx', {
-    '$.content': {
-        type: SchemaFieldTypes.TEXT,
-        AS: 'content',
-    },
-    '$.genre': {
-        type: SchemaFieldTypes.TAG,
-        AS: 'genre',
-    },
-    '$.embedding': {
-        type: SchemaFieldTypes.VECTOR,
-        TYPE: 'FLOAT32',
-        ALGORITHM: VectorAlgorithms.HNSW,
-        DISTANCE_METRIC: 'L2',
-        DIM: 768,
-        AS: 'embedding',
-    }
-}, {
-    ON: 'JSON',
-    PREFIX: 'jdoc:'
-});
-```
+{{< clients-example set="home_query_vec" step="json_index" lang_filter="Node.js" >}}
+{{< /clients-example >}}
 
 Add data using `json.set()`. Convert the `Float32Array` to a standard JavaScript array using the spread operator:
 
-```js
-const jSentence1 = 'That is a very happy person';
-const jdoc1 = {
-    'content': jSentence1,
-    'genre': 'persons',
-    'embedding': [...(await pipe(jSentence1, pipeOptions)).data],
-};
-
-const jSentence2 = 'That is a happy dog';
-const jdoc2 = {
-    'content': jSentence2,
-    'genre': 'pets',
-    'embedding': [...(await pipe(jSentence2, pipeOptions)).data],
-};
-
-const jSentence3 = 'Today is a sunny day';
-const jdoc3 = {
-    'content': jSentence3,
-    'genre': 'weather',
-    'embedding': [...(await pipe(jSentence3, pipeOptions)).data],
-};
-
-await Promise.all([
-    client.json.set('jdoc:1', '$', jdoc1),
-    client.json.set('jdoc:2', '$', jdoc2),
-    client.json.set('jdoc:3', '$', jdoc3)
-]);
-```
+{{< clients-example set="home_query_vec" step="json_data" lang_filter="Node.js" >}}
+{{< /clients-example >}}
 
 Query JSON documents using the same syntax, but note that the vector parameter must still be a binary string:
 
-```js
-const jsons = await client.ft.search(
-    'vector_json_idx',
-    '*=>[KNN 3 @embedding $B AS score]',
-    {
-        "PARAMS": {
-            B: Buffer.from(
-                (await pipe('That is a happy person', pipeOptions)).data.buffer
-            ),
-        },
-        'RETURN': ['score', 'content'],
-        'DIALECT': '2'
-    },
-);
-```
+{{< clients-example set="home_query_vec" step="json_query" lang_filter="Node.js" >}}
+{{< /clients-example >}}
 
 The results are identical to the hash document query, except for the `jdoc:` prefix:
 

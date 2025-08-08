@@ -129,4 +129,4 @@ See the individual links to learn more.
 
 The **Security** tab lets you set security settings for the databases in your subscription.
 
-Here, you can [block public endpoints]({{< relref "/operate/rc/security/database-security/block-public-endpoints" >}}) for all databases in the subscription.
+Here, you can [block public endpoints]({{< relref "/operate/rc/security/network-security/block-public-endpoints" >}}) for all databases in the subscription.

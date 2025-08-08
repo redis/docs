@@ -10,12 +10,12 @@ categories:
 - kubernetes
 - clients
 complexity: O(log(N)) for each element removed, where N is the number of elements in the vector set.
-description: Remove one or more elements from a vector set.
+description: Remove an element from a vector set.
 group: vector_set
 hidden: false
 linkTitle: VREM
 since: 8.0.0
-summary: Remove one or more elements from a vector set.
+summary: Remove an element from a vector set.
 syntax_fmt: "VREM key element"
 title: VREM
 bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
@@ -26,14 +26,10 @@ Remove an element from a vector set.
 ```shell
 VADD vset VALUES 3 1 0 1 bar
 (integer) 1
-```
 
-```shell
 VREM vset bar
 (integer) 1
-```
 
-```shell
 VREM vset bar
 (integer) 0
 ```

@@ -33,6 +33,7 @@ The following commands are available for vector sets:
 - [VEMB]({{< relref "/commands/vemb" >}}) - retrieve the approximate vector associated with a vector set element.
 - [VGETATTR]({{< relref "/commands/vgetattr" >}}) - retrieve the attributes of a vector set element.
 - [VINFO]({{< relref "/commands/vinfo" >}}) - retrieve metadata and internal details about a vector set, including size, dimensions, quantization type, and graph structure.
+- [VISMEMBER]({{< relref "/commands/vismember" >}}) - check if an element exists in a vector set.
 - [VLINKS]({{< relref "/commands/vlinks" >}}) - retrieve the neighbors of a specified element in a vector set; the connections for each layer of the HNSW graph.
 - [VRANDMEMBER]({{< relref "/commands/vrandmember" >}}) - retrieve random elements of a vector set.
 - [VREM]({{< relref "/commands/vrem" >}}) - remove an element from a vector set.

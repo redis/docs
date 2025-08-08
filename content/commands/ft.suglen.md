@@ -43,10 +43,6 @@ Get the size of an auto-complete suggestion dictionary
 is suggestion dictionary key.
 </details>
 
-## Return
-
-FT.SUGLEN returns an integer reply, which is the current size of the suggestion dictionary.
-
 ## Examples
 
 <details open>
@@ -57,6 +53,20 @@ FT.SUGLEN returns an integer reply, which is the current size of the suggestion 
 (integer) 2
 {{< / highlight >}}
 </details>
+
+## Return information
+
+{{< multitabs id="ft-suglen-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): number of suggestions in the dictionary.
+
+-tab-sep-
+
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): number of suggestions in the dictionary.
+
+{{< /multitabs >}}
 
 ## See also
 

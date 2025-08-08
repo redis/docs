@@ -55,14 +55,6 @@ is used when a time series is a compaction. With `LATEST`, TS.GET reports the co
 The data in the latest bucket of a compaction is possibly partial. A bucket is _closed_ and compacted only upon arrival of a new sample that _opens_ a new _latest_ bucket. There are cases, however, when the compacted value of the latest (possibly partial) bucket is also required. In such a case, use `LATEST`.
 </details>
 
-## Return value
-
-Returns one of these replies:
-
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of a single ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) pair representing (timestamp, value(double)) of the sample with the highest timestamp
-- An empty [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) - when the time series is empty
-- [] (invalid arguments, wrong key type, key does not exist, etc.)
-
 ## Examples
 
 <details open>
@@ -135,7 +127,27 @@ Get the latest maximum daily temperature (the temperature with the highest times
 {{< / highlight >}}
 
 </details>
-  
+
+## Return information
+
+{{< multitabs id="ts-get-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+One of the following:
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of a single ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) pair representing (timestamp, value) of the sample with the highest timestamp.
+* An empty [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) when the time series is empty.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, key does not exist, etc.
+
+-tab-sep-
+
+One of the following:
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of a single ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}})) pair representing (timestamp, value) of the sample with the highest timestamp.
+* An empty [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) when the time series is empty.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, key does not exist, etc.
+
+{{< /multitabs >}}
+
 ## See also
 
 [`TS.MGET`]({{< relref "commands/ts.mget/" >}})  

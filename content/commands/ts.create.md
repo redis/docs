@@ -180,14 +180,7 @@ is set of label-value pairs that represent metadata labels of the key and serve 
 The [`TS.MGET`]({{< relref "commands/ts.mget/" >}}), [`TS.MRANGE`]({{< relref "commands/ts.mrange/" >}}), and [`TS.MREVRANGE`]({{< relref "commands/ts.mrevrange/" >}}) commands operate on multiple time series based on their labels. The [`TS.QUERYINDEX`]({{< relref "commands/ts.queryindex/" >}}) command returns all time series keys matching a given filter based on their labels.
 </details>
 
-## Return value
-
-Returns one of these replies:
-
-- [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - `OK` if executed correctly
-- [] on error (invalid arguments, key already exists, etc.)
-
-## Examples 
+## Examples
 
 <details open><summary><b>Create a temperature time series</b></summary>
 
@@ -196,6 +189,24 @@ Returns one of these replies:
 OK
 {{< / highlight >}}
 </details>
+
+## Return information
+
+{{< multitabs id="ts-create-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` when the time series is created successfully.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, key already exists, etc.
+
+-tab-sep-
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` when the time series is created successfully.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, key already exists, etc.
+
+{{< /multitabs >}}
 
 ## See also
 

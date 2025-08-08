@@ -133,16 +133,6 @@ If `WITHLABELS` or `SELECTED_LABELS` are not specified, by default, an empty lis
 
 <note><b>Note:</b> The [`MGET`]({{< relref "/commands/mget" >}}) command cannot be part of a transaction when running on a Redis cluster.</note>
 
-## Return value
-
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): for each time series matching the specified filters, the following is reported:
-  - bulk-string-reply: The time series key name
-  - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): label-value pairs ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}))
-    - By default, an empty array is reported
-    - If `WITHLABELS` is specified, all labels associated with this time series are reported
-    - If `SELECTED_LABELS label...` is specified, the selected labels are reported (null value when no such label defined)
-  - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a single timestamp-value pair ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) (double))
-
 ## Examples
 
 <details open>
@@ -203,6 +193,32 @@ To get only the `location` label for each last sample, use `SELECTED_LABELS`.
       2) 40
 {{< / highlight >}}
 </details>
+
+## Return information
+
+{{< multitabs id="ts-mget-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): for each time series matching the specified filters, the following is reported:
+- [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}): The time series key name
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): label-value pairs ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}))
+  - By default, an empty array is reported
+  - If `WITHLABELS` is specified, all labels associated with this time series are reported
+  - If `SELECTED_LABELS label...` is specified, the selected labels are reported (null value when no such label defined)
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a single timestamp-value pair ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}))
+
+-tab-sep-
+
+[Map reply]({{< relref "/develop/reference/protocol-spec#maps" >}}): for each time series matching the specified filters, the following is reported:
+- [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}): The time series key name
+- [Map reply]({{< relref "/develop/reference/protocol-spec#maps" >}}) or [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): label-value pairs
+  - By default, an empty array is reported
+  - If `WITHLABELS` is specified, all labels associated with this time series are reported as a map
+  - If `SELECTED_LABELS label...` is specified, the selected labels are reported as a map (null value when no such label defined)
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a single timestamp-value pair ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}}))
+
+{{< /multitabs >}}
 
 ## See also
 

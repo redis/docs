@@ -21,9 +21,9 @@ To create a LangCache service, you will need:
 
     {{< note >}}
 LangCache does not support the following databases during public preview:
-- Databases with a [CIDR allow list]({{< relref "/operate/rc/security/cidr-whitelist" >}})
+- Databases with a [CIDR allow list]({{< relref "/operate/rc/security/network-security/cidr-whitelist" >}})
 - [Active-Active]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}) databases
-- Databases with the [default user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) turned off
+- Databases with the [default user]({{< relref "/operate/rc/security/data-access-control/default-user" >}}) turned off
     {{< /note >}}
 
 - An [OpenAI API key](https://platform.openai.com/api-keys). LangCache uses OpenAI to generate embeddings for prompts and responses.
@@ -57,7 +57,7 @@ The **General settings** section defines basic properties of your service.
 | **Service name** | Enter a name for your LangCache service. We recommend you use a name that describes your service's purpose. |
 | **Select database** | Select the Redis Cloud database to use for this service from the list. |
 | **TTL** | The time to live (TTL) for cache entries, in milliseconds. Default: `No expiration` - items in the cache will remain until manually removed. |
-| **User** | The [database access user]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control" >}}) to use for this service. LangCache only supports the [`default` user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) during public preview. |
+| **User** | The [database access user]({{< relref "/operate/rc/security/data-access-control/role-based-access-control" >}}) to use for this service. LangCache only supports the [`default` user]({{< relref "/operate/rc/security/data-access-control/default-user" >}}) during public preview. |
 
 ### Embedding settings
 

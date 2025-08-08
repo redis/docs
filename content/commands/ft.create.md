@@ -403,10 +403,6 @@ if set, does not scan and index.
 
 </note>
 
-## Return
-
-FT.CREATE returns a simple string reply `OK` if executed correctly, or an error reply otherwise.
-
 ## Examples
 
 <details open>
@@ -462,6 +458,24 @@ The following example uses data similar to the hash examples above but uses JSON
 127.0.0.1:6379> FT.CREATE idx ON JSON SCHEMA $.title AS title TEXT $.categories AS categories TAG
 {{< / highlight >}}
 </details>
+
+## Return information
+
+{{< multitabs id="ft-create-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: index already exists, invalid schema syntax.
+
+-tab-sep-
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: index already exists, invalid schema syntax.
+
+{{< /multitabs >}}
 
 ## See also
 
