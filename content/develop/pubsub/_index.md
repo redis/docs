@@ -12,7 +12,9 @@ categories:
 description: How to use pub/sub channels in Redis
 linkTitle: Pub/sub
 title: Redis Pub/sub
-aliases: /develop/interact/pubsub
+aliases:
+- /develop/interact/pubsub
+- /develop/interact/pubsub/
 hideListLinks: true
 weight: 60
 ---

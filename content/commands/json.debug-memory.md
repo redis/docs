@@ -55,11 +55,6 @@ is key to parse.
 is JSONPath to specify. Default is root `$`. 
 </details>
 
-## Return
-
-JSON.DEBUG MEMORY returns an integer reply specified as the value size in bytes.
-For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
-
 ## Examples
 
 <details open>
@@ -79,6 +74,20 @@ redis> JSON.DEBUG MEMORY item:2
 (integer) 573
 {{< / highlight >}}
 </details>
+
+## Return information
+
+{{< multitabs id="json-debug-memory-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the value size in bytes.
+
+-tab-sep-
+
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the value size in bytes.
+
+{{< /multitabs >}}
 
 ## See also
 

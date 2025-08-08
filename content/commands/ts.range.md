@@ -265,13 +265,6 @@ is a flag, which, when specified, reports aggregations also for empty buckets.
 Regardless of the values of `fromTimestamp` and `toTimestamp`, no data is reported for buckets that end before the earliest sample or begin after the latest sample in the time series.
 </details>
 
-## Return value
-
-Returns one of these replies:
-
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) pairs representing (timestamp, value(double))
-- [] (e.g., on invalid filter value)
-
 ## Complexity
 
 TS.RANGE complexity can be improved in the future by using binary search to find the start of the range, which makes this `O(Log(n/m)+k*m)`.
@@ -343,11 +336,13 @@ Next, aggregate without using `ALIGN`, defaulting to alignment 0.
    2) 100
 2) 1) (integer) 1020
    2) 120
-3) 1) (integer) 1040
-   2) 210
-4) 1) (integer) 1060
+3) 1) (integer) 2000
+   2) 200
+4) 1) (integer) 2020
+   2) 220
+5) 1) (integer) 3000
    2) 300
-5) 1) (integer) 1080
+6) 1) (integer) 3020
    2) 320
 {{< / highlight >}}
 
@@ -389,6 +384,24 @@ When the start timestamp for the range query is explicitly stated (not `-`), you
 
 Similarly, when the end timestamp for the range query is explicitly stated, you can set `ALIGN` to that time by setting align to `+` or to `end`.
 </details>
+
+## Return information
+
+{{< multitabs id="ts-range-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+One of the following:
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) pairs representing (timestamp, value).
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid filter value, wrong key type, key does not exist, etc.
+
+-tab-sep-
+
+One of the following:
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}})) pairs representing (timestamp, value).
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid filter value, wrong key type, key does not exist, etc.
+
+{{< /multitabs >}}
 
 ## See also
 

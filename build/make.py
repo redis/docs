@@ -6,6 +6,7 @@ import tempfile
 
 from components.component import All
 from components.util import mkdir_p
+from local_examples import process_local_examples
 
 
 def parse_args() -> argparse.Namespace:
@@ -40,5 +41,10 @@ if __name__ == '__main__':
     print(f'Applying all configured components"{ALL._name}"')
     start = datetime.now()
     ALL.apply()
+
+    # Process local examples
+    print('Processing local examples')
+    process_local_examples()
+
     total = datetime.now() - start
     print(f'+OK ({total.microseconds / 1000} ms)')

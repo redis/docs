@@ -66,10 +66,6 @@ To check the completion of the indexing, use [`FT.INFO`]({{< relref "commands/ft
 
 </details>
 
-## Return
-
-FT.DROPINDEX returns a simple string reply `OK` if executed correctly, or an error reply otherwise.
-
 ## Examples
 
 <details open>
@@ -80,6 +76,24 @@ FT.DROPINDEX returns a simple string reply `OK` if executed correctly, or an err
 OK
 {{< / highlight >}}
 </details>
+
+## Return information
+
+{{< multitabs id="ft-dropindex-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index.
+
+-tab-sep-
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index.
+
+{{< /multitabs >}}
 
 ## See also
 

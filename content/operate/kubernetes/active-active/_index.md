@@ -5,13 +5,15 @@ categories:
 - docs
 - operate
 - kubernetes
-description: Content related to Active-Active Redis Enterprise databases for Kubernetes.
+description: Create and manage Active-Active Redis Enterprise databases across multiple Kubernetes clusters.
 hideListLinks: true
 linkTitle: Active-Active databases
 weight: 40
 ---
 
-On Kubernetes, Redis Enterprise [Active-Active]({{< relref "/operate/rs/databases/active-active/" >}}) databases provide read and write access to the same dataset from different Kubernetes clusters.
+Redis Enterprise [Active-Active]({{< relref "/operate/rs/databases/active-active/" >}}) databases on Kubernetes provide read and write access to the same dataset from different Kubernetes clusters. This enables globally distributed applications with local read and write access, automatic conflict resolution, and seamless failover capabilities.
+
+Active-Active databases use multi-master replication to keep data synchronized across participating clusters, allowing applications to read and write data locally while maintaining global consistency.
 
 ## Active-Active setup methods
 
@@ -75,13 +77,13 @@ If you are using a preview version of these features (operator version 6.4.2-4 o
 
 Redis Enterprise Active-Active database (REAADB) contains a link to the RERC for each participating cluster, and provides configuration and status to the management plane.
 
-For a full list of fields and options, see the [REAADB API reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_active_active_database_api">}}).
+For a full list of fields and options, see the [REAADB API reference]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_active_active_database_api">}}).
 
 ### RERC custom resource
 
 Redis Enterprise remote cluster (RERC) custom resource contains configuration details for all the participating clusters.
 
-For a full list of fields and options, see the [RERC API reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_remote_cluster_api">}}).
+For a full list of fields and options, see the [RERC API reference]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api">}}).
 
 ### Limitations
 

@@ -354,12 +354,7 @@ You can use `@__score` in a pipeline as shown in the following example:
 selects the dialect version under which to execute the query. If not specified, the query will execute under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) command.
 </details>
 
-## Return
-
-FT.AGGREGATE returns an array reply where each row is an array reply and represents a single aggregate result.
-The [integer reply]({{< relref "develop/reference/protocol-spec#resp-integers" >}}) at position `1` does not represent a valid value.
-
-### Return multiple values
+## Return multiple values
 
 See [Return multiple values]({{< relref "commands/ft.search#return-multiple-values/" >}}) in [`FT.SEARCH`]({{< relref "commands/ft.search/" >}})
 The `DIALECT` can be specified as a parameter in the FT.AGGREGATE command. If it is not specified, the `DEFAULT_DIALECT` is used, which can be set using [`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) or by passing it as an argument to the `redisearch` module when it is loaded.
@@ -489,13 +484,56 @@ Next, count GitHub events by user (actor), to produce the most active users.
 
 </details>
 
+<details open>
+<summary><b>Use the case function for conditional logic</b></summary>
+{{< highlight bash >}}
+//Simple mapping
+FT.AGGREGATE products "*"
+APPLY case(@price > 100, "premium", "standard") AS category
+
+//Nested conditions where an error should be returned
+FT.AGGREGATE orders "*"
+APPLY case(@status == "pending", 
+           case(@priority == "high", 1, 2), 
+           case(@status == "completed", 3, 4)) AS status_code
+
+//Mapped approach
+FT.AGGREGATE orders "*"
+APPLY case(@status == "pending", 1, 0) AS is_pending
+APPLY case(@is_pending == 1 && @priority == "high", 1,2) AS status_high
+APPLY case(@is_pending == 0 && @priority == "high", 3,4) AS status_completed
+{{< / highlight >}}
+
+</details>
+## Return information
+
+{{< multitabs id="ft-aggregate-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with the first element being the total number of results, followed by result rows as [arrays]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of field-value pairs.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: incorrect number of arguments, non-existent index, invalid query syntax.
+
+-tab-sep-
+
+One of the following:
+* [Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) with the following fields:
+    - `attributes`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of attribute names.
+    - `format`: [Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - result format.
+    - `results`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [maps]({{< relref "/develop/reference/protocol-spec#maps" >}}) containing aggregated data.
+    - `total_results`: [Integer]({{< relref "/develop/reference/protocol-spec#integers" >}}) - total number of results.
+    - `warning`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of warning messages.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: incorrect number of arguments, non-existent index, invalid query syntax.
+
+{{< /multitabs >}}
+
 ## See also
 
-[`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) | [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) 
+[`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) | [`FT.SEARCH`]({{< relref "commands/ft.search/" >}})
 
 ## Related topics
 
 - [Aggregations]({{< relref "/develop/ai/search-and-query/advanced-concepts/aggregations" >}})
 - [Key and field expiration behavior]({{< relref "/develop/ai/search-and-query/advanced-concepts/expiration" >}})
 - [RediSearch]({{< relref "/develop/ai/search-and-query" >}})
-

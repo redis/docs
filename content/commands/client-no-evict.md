@@ -50,3 +50,23 @@ When turned on and client eviction is configured, the current connection will be
 When turned off, the current client will be re-included in the pool of potential clients to be evicted (and evicted if needed).
 
 See [client eviction]({{< relref "/develop/reference/clients" >}}#client-eviction) for more details.
+
+## Return information
+
+{{< multitabs id="client-no-evict-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+One of the following:
+
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if the command was successful.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: wrong number of or invalid arguments. 
+
+-tab-sep-
+
+One of the following:
+
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if the command was successful.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: wrong number of or invalid arguments.
+
+{{< /multitabs >}}
