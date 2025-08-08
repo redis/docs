@@ -33,6 +33,7 @@ Cluster resources management policy
 | default_shards_placement | `dense`<br />`sparse` | Default shards_placement for a newly created databases |
 | default_tracking_table_max_keys_policy | integer (default: 1000000) | Defines the default value of the client-side caching invalidation table size for new databases. 0 makes the cache unlimited. |
 | endpoint_rebind_propagation_grace_time | integer | Time to wait between the addition and removal of a proxy |
+| expose_hostnames_for_all_suffixes | boolean (default: false) | If true, enables exposing hostnames for non-default DNS suffixes |
 | failure_detection_sensitivity | `high`<br />`low` | Predefined thresholds and timeouts for failure detection (previously known as <span class="break-all">`watchdog_profile`</span>)<br />• `high` (previously `local-network`) – high failure detection sensitivity, lower thresholds, faster failure detection and failover<br />• `low` (previously `cloud`) – low failure detection sensitivity, higher tolerance for latency variance (also called network jitter) |
 | hide_user_data_from_log | boolean (default: false) | Set to `true` to enable the `hide-user-data-from-log` Redis configuration setting, which avoids logging user data |
 | login_lockout_counter_reset_after | integer | Number of seconds that must elapse between failed sign in attempts before the lockout counter is reset to 0. |
@@ -40,6 +41,7 @@ Cluster resources management policy
 | login_lockout_threshold | integer | Number of failed sign in attempts allowed before locking a user account |
 | max_saved_events_per_type | integer | Maximum saved events per event type |
 | max_simultaneous_backups | integer (default: 4) | Maximum number of backup processes allowed at the same time |
+| metrics_exporter_expose_bdb_name | boolean (default: false) | If true, adds a label with the database name to relevant metrics |
 | parallel_shards_upgrade | integer | Maximum number of shards to upgrade in parallel |
 | persistence_cleanup_scan_interval | string | [CRON expression](https://en.wikipedia.org/wiki/Cron#CRON_expression) that defines the Redis cleanup schedule |
 | persistent_node_removal | boolean | When removing a node, wait for persistence files to be created for all migrated shards |

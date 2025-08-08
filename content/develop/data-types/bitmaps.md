@@ -9,9 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Introduction to Redis bitmaps
-
-  '
+description: Introduction to Redis bitmaps
 linkTitle: Bitmaps
 title: Redis bitmaps
 weight: 120
@@ -79,7 +77,7 @@ stored into the target key) are always considered to be zero.
 
 There are three commands operating on group of bits:
 
-1. [`BITOP`]({{< relref "/commands/bitop" >}}) performs bit-wise operations between different strings. The provided operations are AND, OR, XOR and NOT.
+1. [`BITOP`]({{< relref "/commands/bitop" >}}) performs bit-wise operations between different strings. The provided operators are `AND`, `OR`, `XOR`, `NOT`, `DIFF`, `DIFF1`, `ANDOR`, and `ONE`.
 2. [`BITCOUNT`]({{< relref "/commands/bitcount" >}}) performs population counting, reporting the number of bits set to 1.
 3. [`BITPOS`]({{< relref "/commands/bitpos" >}}) finds the first bit having the specified value of 0 or 1.
 

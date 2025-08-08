@@ -47,6 +47,8 @@ redis> CMS.INFO test
  6) (integer) 0
 ```
 
+## Return information
+
 {{< multitabs id=“cms-info-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}

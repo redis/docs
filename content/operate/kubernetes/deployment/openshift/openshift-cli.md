@@ -81,7 +81,7 @@ Versions 7.22.0-6 and later run in without permissions to [allow automatic resou
 
 1. Apply the `RedisEnterpriseCluster` resource file ([rec_rhel.yaml](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/openshift/rec_rhel.yaml)).
 
-    You can rename the file to `<your_cluster_name>.yaml`, but it is not required. Examples below use `<rec_rhel>.yaml`. [Options for Redis Enterprise clusters]({{< relref "/operate/kubernetes/reference/redis_enterprise_cluster_api" >}}) has more info about the Redis Enterprise cluster (REC) custom resource, or see the [Redis Enterprise cluster API]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api">}}) for a full list of options.
+    You can rename the file to `<your_cluster_name>.yaml`, but it is not required. Examples below use `<rec_rhel>.yaml`. [Options for Redis Enterprise clusters]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api" >}}) has more info about the Redis Enterprise cluster (REC) custom resource, or see the [Redis Enterprise cluster API]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api">}}) for a full list of options.
 
     {{<note>}}
 If you suspect your file descriptor limits are below 100,000, you must either manually increase limits or [Allow automatic resource adjustment]({{< relref "/operate/kubernetes/security/allow-resource-adjustment" >}}). Most major cloud providers and standard container runtime configurations set default file descriptor limits well above the minimum required by Redis Enterprise. In these environments, you can safely run without enabling automatic resource adjustment.
@@ -199,7 +199,7 @@ The operator uses the instructions in the Redis Enterprise database (REDB) custo
 
 1. Create a `RedisEnterpriseDatabase` custom resource.
 
-    This example creates a test database. For production databases, see [create a database]({{< relref "/operate/kubernetes/re-databases/db-controller.md#create-a-database" >}}) and [RedisEnterpriseDatabase API reference]({{< relref "/operate/kubernetes/reference/redis_enterprise_database_api" >}}).
+    This example creates a test database. For production databases, see [create a database]({{< relref "/operate/kubernetes/re-databases/db-controller.md#create-a-database" >}}) and [RedisEnterpriseDatabase API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_database_api" >}}).
 
     ```sh
     cat << EOF > /tmp/redis-enterprise-database.yml
@@ -220,5 +220,5 @@ The operator uses the instructions in the Redis Enterprise database (REDB) custo
 
 ## More info
 
-- [Redis Enterprise cluster API]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api">}})
-- [Redis Enterprise database API]({{<relref "/operate/kubernetes/reference/redis_enterprise_database_api">}})
+- [Redis Enterprise cluster API]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api">}})
+- [Redis Enterprise database API]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_database_api">}})

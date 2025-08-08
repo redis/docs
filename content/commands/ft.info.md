@@ -39,10 +39,6 @@ Returns information and statistics about a given index.
 <br />
 is the name of the given index. You must first create the index using [`FT.CREATE`]({{< relref "commands/ft.create/" >}}).
 
-## RESP reply
-
-`FT.INFO` returns an array reply with pairs of keys and values.
-
 ## Returned values
 
 ### General
@@ -353,6 +349,24 @@ The next two GC-related fields are relevant in scenarios where simultaneous chan
           6) "N/A"
 {{< / highlight >}}
 </details>
+
+## Return information
+
+{{< multitabs id="ft-info-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of key-value pairs containing index information and statistics.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index.
+
+-tab-sep-
+
+One of the following:
+* [Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) containing index information and statistics as key-value pairs.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index.
+
+{{< /multitabs >}}
 
 ## See also
 

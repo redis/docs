@@ -69,14 +69,7 @@ The given timestamp interval is closed (inclusive), meaning that samples whose t
 
 </note>
 
-## Return value
-
-Returns one of these replies:
-
-- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - the number of samples that were deleted
-- [] on error (invalid arguments, wrong key type, etc.), when `timestamp` is older than the retention period compared to the maximum existing timestamp, or when an affected compaction bucket cannot be recalculated
-
-## Examples 
+## Examples
 
 <details open><summary><b>Delete range of data points</b></summary>
 
@@ -106,6 +99,24 @@ Delete the range of data points for temperature in Tel Aviv.
 (integer) 4
 {{< / highlight >}}
 </details>
+
+## Return information
+
+{{< multitabs id="ts-del-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+One of the following:
+* [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of samples that were deleted.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, `timestamp` is older than the retention period compared to the maximum existing timestamp, or when an affected compaction bucket cannot be recalculated.
+
+-tab-sep-
+
+One of the following:
+* [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of samples that were deleted.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, `timestamp` is older than the retention period compared to the maximum existing timestamp, or when an affected compaction bucket cannot be recalculated.
+
+{{< /multitabs >}}
 
 ## See also
 

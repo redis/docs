@@ -14,7 +14,7 @@ weight: 50
 
 The Redis Enterprise Active-Active database (REAADB) custom resource contains the field `.spec.globalConfigurations`. This field sets configurations for the Active-Active database across all participating clusters, such as memory size, shard count, and the global database secrets.
 
-The [REAADB API reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_active_active_database_api">}}) contains a full list of available fields.
+The [REAADB API reference]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_active_active_database_api">}}) contains a full list of available fields.
 
 ## Edit global configurations
 
@@ -46,7 +46,7 @@ The [REAADB API reference]({{<relref "/operate/kubernetes/reference/redis_enterp
 
 ## Edit global configuration secrets
 
-This section edits the secrets under the REAADB `.spec.globalConfigurations` section. For more information and all available fields, see the [REAADB API reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_active_active_database_api">}}).
+This section edits the secrets under the REAADB `.spec.globalConfigurations` section. For more information and all available fields, see the [REAADB API reference]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_active_active_database_api">}}).
 
 1. On an existing participating cluster, generate a YAML file containing the database secret with the relevant data.
 
@@ -170,4 +170,4 @@ If you encounter issues with role permissions:
 - **Permission propagation failures**: Verify that the roles and ACLs are properly configured and accessible on each cluster. Remember that you must manually create identical roles and ACLs on every participating cluster.
 - **Case sensitivity issues**: Verify that role and ACL names match exactly, including capitalization, across all clusters.
 
-For more details on the `rolesPermissions` field structure, see the [REAADB API reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_active_active_database_api#specglobalconfigurationsrolespermissions">}}).
+For more details on the `rolesPermissions` field structure, see the [REAADB API reference]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_active_active_database_api#specglobalconfigurationsrolespermissions">}}).

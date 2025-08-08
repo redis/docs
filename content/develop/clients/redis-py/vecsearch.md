@@ -56,16 +56,8 @@ pip install sentence-transformers
 
 In a new Python source file, start by importing the required classes:
 
-```python
-from sentence_transformers import SentenceTransformer
-from redis.commands.search.query import Query
-from redis.commands.search.field import TextField, TagField, VectorField
-from redis.commands.search.indexDefinition import IndexDefinition, IndexType
-from redis.commands.json.path import Path
-
-import numpy as np
-import redis
-```
+{{< clients-example set="home_query_vec" step="import" lang_filter="Python" >}}
+{{< /clients-example >}}
 
 The first of these imports is the
 `SentenceTransformer` class, which generates an embedding from a section of text.
@@ -78,9 +70,8 @@ tokens (see
 at the [Hugging Face](https://huggingface.co/) docs to learn more about the way tokens
 are related to the original text).
 
-```python
-model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
-```
+{{< clients-example set="home_query_vec" step="model" lang_filter="Python" >}}
+{{< /clients-example >}}
 
 ## Create the index
 
@@ -89,14 +80,8 @@ name `vector_idx`. (The `dropindex()` call throws an exception if
 the index doesn't already exist, which is why you need the
 `try: except:` block.)
 
-```python
-r = redis.Redis(decode_responses=True)
-
-try:
-    r.ft("vector_idx").dropindex(True)
-except redis.exceptions.ResponseError:
-    pass
-```
+{{< clients-example set="home_query_vec" step="connect" lang_filter="Python" >}}
+{{< /clients-example >}}
 
 Next, create the index.
 The schema in the example below specifies hash objects for storage and includes
@@ -110,24 +95,8 @@ indexing, the
 vector distance metric, `Float32` values to represent the vector's components,
 and 384 dimensions, as required by the `all-MiniLM-L6-v2` embedding model.
 
-```python
-schema = (
-    TextField("content"),
-    TagField("genre"),
-    VectorField("embedding", "HNSW", {
-        "TYPE": "FLOAT32",
-        "DIM": 384,
-        "DISTANCE_METRIC":"L2"
-    })
-)
-
-r.ft("vector_idx").create_index(
-    schema,
-    definition=IndexDefinition(
-        prefix=["doc:"], index_type=IndexType.HASH
-    )
-)
-```
+{{< clients-example set="home_query_vec" step="create_index" lang_filter="Python" >}}
+{{< /clients-example >}}
 
 ## Add data
 
@@ -144,31 +113,8 @@ Use the binary string representation when you are indexing hashes
 or running a query (but use a list of `float` for
 [JSON documents](#differences-with-json-documents)).
 
-```python
-content = "That is a very happy person"
-
-r.hset("doc:0", mapping={
-    "content": content,
-    "genre": "persons",
-    "embedding": model.encode(content).astype(np.float32).tobytes(),
-})
-
-content = "That is a happy dog"
-
-r.hset("doc:1", mapping={
-    "content": content,
-    "genre": "pets",
-    "embedding": model.encode(content).astype(np.float32).tobytes(),
-})
-
-content = "Today is a sunny day"
-
-r.hset("doc:2", mapping={
-    "content": content,
-    "genre": "weather",
-    "embedding": model.encode(content).astype(np.float32).tobytes(),
-})
-```
+{{< clients-example set="home_query_vec" step="add_data" lang_filter="Python" >}}
+{{< /clients-example >}}
 
 ## Run a query
 
@@ -184,21 +130,8 @@ the indexing, and passes it as a parameter when the query executes
 [Vector search]({{< relref "/develop/ai/search-and-query/query/vector-search" >}})
 for more information about using query parameters with embeddings).
 
-```python
-q = Query(
-    "*=>[KNN 3 @embedding $vec AS vector_distance]"
-).return_field("score").dialect(2)
-
-query_text = "That is a happy person"
-
-res = r.ft("vector_idx").search(
-    q, query_params={
-        "vec": model.encode(query_text).astype(np.float32).tobytes()
-    }
-)
-
-print(res)
-```
+{{< clients-example set="home_query_vec" step="query" lang_filter="Python" >}}
+{{< /clients-example >}}
 
 The code is now ready to run, but note that it may take a while to complete when
 you run it for the first time (which happens because RedisVL must download the
@@ -206,7 +139,7 @@ you run it for the first time (which happens because RedisVL must download the
 generate the embeddings). When you run the code, it outputs the following result
 object (slightly formatted here for clarity):
 
-```Python
+```
 Result{
     3 total,
     docs: [
@@ -250,27 +183,8 @@ every query. Also, you must specify `IndexType.JSON` when you create the index.
 The code below shows these differences, but the index is otherwise very similar to
 the one created previously for hashes:
 
-```py
-schema = (
-    TextField("$.content", as_name="content"),
-    TagField("$.genre", as_name="genre"),
-    VectorField(
-        "$.embedding", "HNSW", {
-            "TYPE": "FLOAT32",
-            "DIM": 384,
-            "DISTANCE_METRIC": "L2"
-        },
-        as_name="embedding"
-    )
-)
-
-r.ft("vector_json_idx").create_index(
-    schema,
-    definition=IndexDefinition(
-        prefix=["jdoc:"], index_type=IndexType.JSON
-    )
-)
-```
+{{< clients-example set="home_query_vec" step="json_index" lang_filter="Python" >}}
+{{< /clients-example >}}
 
 Use [`json().set()`]({{< relref "/commands/json.set" >}}) to add the data
 instead of [`hset()`]({{< relref "/commands/hset" >}}). The dictionaries
@@ -283,31 +197,8 @@ specified using lists instead of binary strings. Generate the list
 using the `tolist()` method instead of `tobytes()` as you would with a
 hash.
 
-```py
-content = "That is a very happy person"
-
-r.json().set("jdoc:0", Path.root_path(), {
-    "content": content,
-    "genre": "persons",
-    "embedding": model.encode(content).astype(np.float32).tolist(),
-})
-
-content = "That is a happy dog"
-
-r.json().set("jdoc:1", Path.root_path(), {
-    "content": content,
-    "genre": "pets",
-    "embedding": model.encode(content).astype(np.float32).tolist(),
-})
-
-content = "Today is a sunny day"
-
-r.json().set("jdoc:2", Path.root_path(), {
-    "content": content,
-    "genre": "weather",
-    "embedding": model.encode(content).astype(np.float32).tolist(),
-})
-```
+{{< clients-example set="home_query_vec" step="json_data" lang_filter="Python" >}}
+{{< /clients-example >}}
 
 The query is almost identical to the one for the hash documents. This
 demonstrates how the right choice of aliases for the JSON paths can
@@ -316,19 +207,8 @@ is that the vector parameter for the query is still specified as a
 binary string (using the `tobytes()` method), even though the data for
 the `embedding` field of the JSON was specified as a list.
 
-```py
-q = Query(
-    "*=>[KNN 3 @embedding $vec AS vector_distance]"
-).return_field("vector_distance").return_field("content").dialect(2)
-
-query_text = "That is a happy person"
-
-res = r.ft("vector_json_idx").search(
-    q, query_params={
-        "vec": model.encode(query_text).astype(np.float32).tobytes()
-    }
-)
-```
+{{< clients-example set="home_query_vec" step="json_query" lang_filter="Python" >}}
+{{< /clients-example >}}
 
 Apart from the `jdoc:` prefixes for the keys, the result from the JSON
 query is the same as for hash:
