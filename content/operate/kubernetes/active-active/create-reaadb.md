@@ -69,7 +69,7 @@ For a list of example values used throughout this article, see the [Example valu
       secretName: redis-enterprise-rerc-reagan
     ```
 
-    For more details on RERC fields, see the [RERC API reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_remote_cluster_api">}}).
+    For more details on RERC fields, see the [RERC API reference]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api">}}).
 
 1. Create a Redis Enterprise remote cluster from each RERC custom resource file.
   
@@ -123,7 +123,7 @@ For a list of example values used throughout this article, see the [Example valu
 
      {{<note>}}Sharding is disabled on Active-Active databases created with a `shardCount` of 1. Sharding cannot be enabled after database creation. {{</note>}}
 
-    For more details on RERC fields, see the [RERC API reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_remote_cluster_api">}}).
+    For more details on RERC fields, see the [RERC API reference]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api">}}).
 
 1. Create a Redis Enterprise Active-Active database from the REAADB custom resource file.
   

@@ -33,6 +33,7 @@ rladmin tune cluster
         [ slave_ha_cooldown_period <seconds> ]
         [ slave_ha_bdb_cooldown_period <seconds> ]
         [ max_saved_events_per_type <value> ]
+        [ metrics_exporter_expose_bdb_name { enabled | disabled } ]
         [ parallel_shards_upgrade <value> ]
         [ default_concurrent_restore_actions <value> ]
         [ show_internals { enabled | disabled } ]
@@ -74,6 +75,7 @@ rladmin tune cluster
 | login_lockout_threshold                | integer                           | Number of failed sign-in attempts to trigger locking a user account ("0" means never lock the account)                   |
 | max_saved_events_per_type              | integer                           | Maximum number of events each type saved in CCS per object type                                                              |
 | max_simultaneous_backups               | integer (default: 4)                      | Number of database backups allowed to run at the same time. Combines with `max_redis_forks` (set by [`tune node`](#tune-node)) to determine the number of shard backups allowed to run simultaneously.                                                                                  |
+| metrics_exporter_expose_bdb_name       | `enabled`<br />`disabled`       | If enabled, adds a label with the database name to relevant metrics                                                          |
 | parallel_shards_upgrade                | integer<br />`all`              | Number of shards upgraded in parallel during DB upgrade (positive integer or "all")                                          |
 | redis_migrate_node_threshold           | size in MB                        | Memory (in MBs by default or can be specified) needed to migrate a database between nodes                                   |
 | redis_migrate_node_threshold_percent   | percentage                | Memory (in percentage) needed to migrate a database between nodes                                                            |

@@ -381,30 +381,53 @@ When combined with `AGGREGATION` the `GROUPBY`/`REDUCE` is applied post aggregat
 
 <note><b>Note:</b> An `MRANGE` command cannot be part of a transaction when running on a Redis cluster.</note>
 
-## Return value
+## Return information
+
+{{< multitabs id="ts-mrange-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
 
 If `GROUPBY label REDUCE reducer` is not specified:
 
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): for each time series matching the specified filters, the following is reported:
-  - bulk-string-reply: The time series key name
-  - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): label-value pairs ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}))
-    - By default, an empty array is reported
-    - If `WITHLABELS` is specified, all labels associated with this time series are reported
-    - If `SELECTED_LABELS label...` is specified, the selected labels are reported (null value when no such label defined)
-  - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): timestamp-value pairs ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) (double)): all samples/aggregations matching the range
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): for each time series matching the specified filters, the following is reported:
+- [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}): The time series key name
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): label-value pairs ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}))
+  - By default, an empty array is reported
+  - If `WITHLABELS` is specified, all labels associated with this time series are reported
+  - If `SELECTED_LABELS label...` is specified, the selected labels are reported (null value when no such label defined)
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): timestamp-value pairs ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) representing all samples/aggregations matching the range
 
 If `GROUPBY label REDUCE reducer` is specified:
 
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): for each group of time series matching the specified filters, the following is reported:
-  - bulk-string-reply with the format `label=value` where `label` is the `GROUPBY` label argument
-  - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): label-value pairs ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})):
-    - By default, an empty array is reported
-    - If `WITHLABELS` is specified, the `GROUPBY` label argument and value are reported
-    - If `SELECTED_LABELS label...` is specified, the selected labels are reported (null value when no such label defined or label does not have the same value for all grouped time series)
-  - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): either a single pair ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})): the `GROUPBY` label argument and value, or empty array if 
-  - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a single pair ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})):  the string `__reducer__` and the reducer argument
-  - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a single pair ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})): the string `__source__` and the time series key names separated by `,`
-  - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): timestamp-value pairs ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) (double)): all samples/aggregations matching the range
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): for each group of time series matching the specified filters, the following is reported:
+- [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) with the format `label=value` where `label` is the `GROUPBY` label argument
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): label-value pairs ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})):
+  - By default, an empty array is reported
+  - If `WITHLABELS` is specified, the `GROUPBY` label argument and value are reported
+  - If `SELECTED_LABELS label...` is specified, the selected labels are reported (null value when no such label defined or label does not have the same value for all grouped time series)
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): either a single pair ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})): the `GROUPBY` label argument and value, or empty array
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a single pair ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})):  the string `__reducer__` and the reducer argument
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a single pair ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})): the string `__source__` and the time series key names separated by ","
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): timestamp-value pairs ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) representing all samples/aggregations matching the range
+
+-tab-sep-
+
+If `GROUPBY label REDUCE reducer` is not specified:
+
+[Map reply]({{< relref "/develop/reference/protocol-spec#maps" >}}): for each time series matching the specified filters, the following is reported:
+- [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}): The time series key name
+- [Map reply]({{< relref "/develop/reference/protocol-spec#maps" >}}) or [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): label-value pairs
+  - By default, an empty map is reported
+  - If `WITHLABELS` is specified, all labels associated with this time series are reported as a map
+  - If `SELECTED_LABELS label...` is specified, the selected labels are reported as a map (null value when no such label defined)
+- Additional metadata including aggregators information
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): timestamp-value pairs ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}})) representing all samples/aggregations matching the range
+
+If `GROUPBY label REDUCE reducer` is specified:
+
+Similar structure as RESP2 but with map-based organization for labels and metadata, and double values instead of string values.
+
+{{< /multitabs >}}
 
 ## Examples
 

@@ -114,7 +114,7 @@ redis-enterprise-operator   1/1     1            1           0m36s
 A Redis Enterprise cluster (REC) is created from a `RedisEnterpriseCluster` custom resource
 that contains cluster specifications.
 
-The following example creates a minimal Redis Enterprise cluster. See the [RedisEnterpriseCluster API reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api">}}) for more information on the various options available.
+The following example creates a minimal Redis Enterprise cluster. See the [RedisEnterpriseCluster API reference]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api">}}) for more information on the various options available.
 
 {{<note>}}
 If you suspect your file descriptor limits are below 100,000, you must either manually increase limits or [Allow automatic resource adjustment]({{< relref "/operate/kubernetes/security/allow-resource-adjustment" >}}). Most major cloud providers and standard container runtime configurations set default file descriptor limits well above the minimum required by Redis Enterprise. In these environments, you can safely run without enabling automatic resource adjustment.

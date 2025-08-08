@@ -59,6 +59,8 @@ redis> CF.EXISTS cf item2
 (integer) 0
 {{< / highlight >}}
 
+## Return information
+
 {{< multitabs id="cf-exists-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}

@@ -11,7 +11,7 @@ title: Use the LangCache API on Redis Cloud
 weight: 10
 ---
 
-You can use the LangCache API from your client app to store and retrieve LLM, RAG, or agent responses.
+You can use the [LangCache API and SDK]({{< relref "/develop/ai/langcache/api-examples" >}}) from your client app to store and retrieve LLM, RAG, or agent responses. 
 
 To access the LangCache API, you need:
 
@@ -25,4 +25,4 @@ The LangCache API key is only available immediately after you create the LangCac
 
 When you call the API, you need to pass the LangCache API key in the `Authorization` header as a Bearer token and the Cache ID as the `cacheId` path parameter. 
 
-See the [LangCache API reference]({{< relref "/develop/ai/langcache/api-reference" >}}) for more information on how to use the LangCache API.
+See the [LangCache API and SDK examples]({{< relref "/develop/ai/langcache/api-examples" >}}) for more information on how to use the LangCache API.

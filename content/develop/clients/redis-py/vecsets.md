@@ -47,12 +47,8 @@ pip install sentence-transformers
 
 In a new Python file, import the required classes:
 
-```python
-from sentence_transformers import SentenceTransformer
-
-import redis
-import numpy as np
-```
+{{< clients-example set="home_vecsets" step="import" >}}
+{{< /clients-example >}}
 
 The first of these imports is the
 `SentenceTransformer` class, which generates an embedding from a section of text.
@@ -65,77 +61,16 @@ tokens (see
 at the [Hugging Face](https://huggingface.co/) docs to learn more about the way tokens
 are related to the original text).
 
-```python
-model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
-```
+{{< clients-example set="home_vecsets" step="model" >}}
+{{< /clients-example >}}
 
 ## Create the data
 
 The example data is contained a dictionary with some brief
 descriptions of famous people:
 
-```python
-peopleData = {
-    "Marie Curie": {
-        "born": 1867, "died": 1934,
-        "description": """
-        Polish-French chemist and physicist. The only person ever to win
-        two Nobel prizes for two different sciences.
-        """
-    },
-    "Linus Pauling": {
-        "born": 1901, "died": 1994,
-        "description": """
-        American chemist and peace activist. One of only two people to win two
-        Nobel prizes in different fields (chemistry and peace).
-        """
-    },
-    "Freddie Mercury": {
-        "born": 1946, "died": 1991,
-        "description": """
-        British musician, best known as the lead singer of the rock band
-        Queen.
-        """
-    },
-    "Marie Fredriksson": {
-        "born": 1958, "died": 2019,
-        "description": """
-        Swedish multi-instrumentalist, mainly known as the lead singer and
-        keyboardist of the band Roxette.
-        """
-    },
-    "Paul Erdos": {
-        "born": 1913, "died": 1996,
-        "description": """
-        Hungarian mathematician, known for his eccentric personality almost
-        as much as his contributions to many different fields of mathematics.
-        """
-    },
-    "Maryam Mirzakhani": {
-        "born": 1977, "died": 2017,
-        "description": """
-        Iranian mathematician. The first woman ever to win the Fields medal
-        for her contributions to mathematics.
-        """
-    },
-    "Masako Natsume": {
-        "born": 1957, "died": 1985,
-        "description": """
-        Japanese actress. She was very famous in Japan but was primarily
-        known elsewhere in the world for her portrayal of Tripitaka in the
-        TV series Monkey.
-        """
-    },
-    "Chaim Topol": {
-        "born": 1935, "died": 2023,
-        "description": """
-        Israeli actor and singer, usually credited simply as 'Topol'. He was
-        best known for his many appearances as Tevye in the musical Fiddler
-        on the Roof.
-        """
-    }
-}
-```
+{{< clients-example set="home_vecsets" step="data" >}}
+{{< /clients-example >}}
 
 ## Add the data to a vector set
 
@@ -164,22 +99,8 @@ The call to `vadd()` also adds the `born` and `died` values from the
 original dictionary as attribute data. You can access this during a query
 or by using the [`vgetattr()`]({{< relref "/commands/vgetattr" >}}) method.
 
-```py
-r = redis.Redis(decode_responses=True)
-
-for name, details in peopleData.items():
-    emb = model.encode(details["description"]).astype(np.float32).tobytes()
-
-    r.vset().vadd(
-        "famousPeople",
-        emb,
-        name,
-        attributes={
-            "born": details["born"],
-            "died": details["died"]
-        }
-    )
-```
+{{< clients-example set="home_vecsets" step="add_data" >}}
+{{< /clients-example >}}
 
 ## Query the vector set
 
@@ -191,16 +112,8 @@ of the set, ranked in order of similarity to the query.
 
 Start with a simple query for "actors":
 
-```py
-query_value = "actors"
-
-actors_results = r.vset().vsim(
-    "famousPeople",
-    model.encode(query_value).astype(np.float32).tobytes(),
-)
-
-print(f"'actors': {actors_results}")
-```
+{{< clients-example set="home_vecsets" step="basic_query" >}}
+{{< /clients-example >}}
 
 This returns the following list of elements (formatted slightly for clarity):
 
@@ -218,18 +131,8 @@ on the information contained in the embedding model.
 You can use the `count` parameter of `vsim()` to limit the list of elements
 to just the most relevant few items:
 
-```py
-query_value = "actors"
-
-two_actors_results = r.vset().vsim(
-    "famousPeople",
-    model.encode(query_value).astype(np.float32).tobytes(),
-    count=2
-)
-
-print(f"'actors (2)': {two_actors_results}")
-# >>> 'actors (2)': ['Masako Natsume', 'Chaim Topol']
-```
+{{< clients-example set="home_vecsets" step="limited_query" >}}
+{{< /clients-example >}}
 
 The reason for using text embeddings rather than simple text search
 is that the embeddings represent semantic information. This allows a query
@@ -238,19 +141,8 @@ different. For example, the word "entertainer" doesn't appear in any of the
 descriptions but if you use it as a query, the actors and musicians are ranked
 highest in the results list:
 
-```py
-query_value = "entertainer"
-
-entertainer_results = r.vset().vsim(
-    "famousPeople",
-    model.encode(query_value).astype(np.float32).tobytes()
-)
-
-print(f"'entertainer': {entertainer_results}")
-# >>> 'entertainer': ['Chaim Topol', 'Freddie Mercury',
-# >>> 'Marie Fredriksson', 'Masako Natsume', 'Linus Pauling',
-# 'Paul Erdos', 'Maryam Mirzakhani', 'Marie Curie']
-```
+{{< clients-example set="home_vecsets" step="entertainer_query" >}}
+{{< /clients-example >}}
 
 Similarly, if you use "science" as a query, you get the following results:
 
@@ -270,19 +162,8 @@ with `vsim()` to restrict the search further. For example,
 repeat the "science" query, but this time limit the results to people
 who died before the year 2000:
 
-```py
-query_value = "science"
-
-science2000_results = r.vset().vsim(
-    "famousPeople",
-    model.encode(query_value).astype(np.float32).tobytes(),
-    filter=".died < 2000"
-)
-
-print(f"'science2000': {science2000_results}")
-# >>> 'science2000': ['Marie Curie', 'Linus Pauling',
-# 'Paul Erdos', 'Freddie Mercury', 'Masako Natsume']
-```
+{{< clients-example set="home_vecsets" step="filtered_query" >}}
+{{< /clients-example >}}
 
 Note that the boolean filter expression is applied to items in the list
 before the vector distance calculation is performed. Items that don't

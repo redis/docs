@@ -13,9 +13,11 @@ hideListLinks: true
 ---
 Redis stores and indexes vector embeddings that semantically represent unstructured data including text passages, images, videos, or audio. Store vectors and the associated metadata within [hashes]({{< relref "/develop/data-types/hashes" >}}) or [JSON]({{< relref "/develop/data-types/json" >}}) documents for [indexing]({{< relref "/develop/ai/search-and-query/indexing" >}}) and [querying]({{< relref "/develop/ai/search-and-query/query" >}}).
 
-| Vector | RAG | RedisVL |
-| :-- | :-- | :-- |
-| {{<image filename="images/ai-cube.svg" alt="AI Redis icon.">}}[Redis vector database quick start guide]({{< relref "/develop/get-started/vector-database" >}}) |{{<image filename="images/ai-brain.svg" alt="AI Redis icon.">}} [Retrieval-Augmented Generation quick start guide]({{< relref "/develop/get-started/rag" >}}) | {{<image filename="images/ai-lib.svg" alt="AI Redis icon.">}}[Redis vector Python client library documentation]({{< relref "/develop/ai/redisvl/" >}}) |
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
+  {{< image-card image="images/ai-lib.svg" alt="AI Redis icon" title="Redis vector Python client library documentation" url="/develop/ai/redisvl/" >}}
+  {{< image-card image="images/ai-cube.svg" alt="AI Redis icon" title="Use Redis Query Engine to search data" url="/develop/ai/search-and-query/" >}}
+  {{< image-card image="images/ai-brain.svg" alt="AI Redis icon" title="Use LangCache to store LLM responses" url="/develop/ai/langcache/" >}}
+</div>
 
 #### Overview
 
@@ -25,6 +27,7 @@ This page is organized into a few sections depending on what you're trying to do
 * **Quickstarts** - Short, focused guides to get you started with key features or workflows in minutes.
 * **Tutorials** - In-depth walkthroughs that dive deeper into specific use cases or processes. These step-by-step guides help you master essential tasks and workflows.
 * **Integrations** - Guides and resources to help you connect and use the product with popular tools, frameworks, or platforms.
+* **Video tutorials** - Watch our AI video collection featuring practical tutorials and demonstrations.
 * **Benchmarks** - Performance comparisons and metrics to demonstrate how the product performs under various scenarios. This helps you understand its efficiency and capabilities.
 * **Best practices** - Recommendations and guidelines for maximizing effectiveness and avoiding common pitfalls. This section equips you to use the product effectively and efficiently.
 
@@ -46,13 +49,22 @@ This page is organized into a few sections depending on what you're trying to do
 
 Learn to perform vector search and use gateways and semantic caching in your AI/ML projects.
 
-| Search | LLM memory | Semantic caching | Semantic routing | AI Gateways |
-| :-- | :-- | :-- | :-- | :-- |
-| {{<image filename="images/ai-search.svg" alt="AI Redis icon.">}}[Vector search guide]({{< relref "/develop/ai/search-and-query/query/vector-search" >}}) | {{<image filename="images/ai-LLM-memory.svg" alt="LLM memory icon.">}}[Store memory for LLMs](https://redis.io/blog/level-up-rag-apps-with-redis-vector-library/) | {{<image filename="images/ai-brain-2.svg" alt="AI Redis icon.">}}[Semantic caching for faster, smarter LLM apps](https://redis.io/blog/what-is-semantic-caching) | {{<image filename="images/ai-semantic-routing.svg" alt="Semantic routing icon.">}}[Semantic routing chooses the best tool](https://redis.io/blog/level-up-rag-apps-with-redis-vector-library/) | {{<image filename="images/ai-model.svg" alt="AI Redis icon.">}}[Deploy an enhanced gateway with Redis](https://redis.io/blog/ai-gateways-what-are-they-how-can-you-deploy-an-enhanced-gateway-with-redis/) |
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 my-8">
+  {{< image-card image="images/ai-search.svg" alt="AI Redis icon" title="Vector search guide" url="/develop/ai/search-and-query/query/vector-search" >}}
+  {{< image-card image="images/ai-LLM-memory.svg" alt="LLM memory icon" title="Store memory for LLMs" url="https://redis.io/blog/level-up-rag-apps-with-redis-vector-library/" >}}
+  {{< image-card image="images/ai-brain-2.svg" alt="AI Redis icon" title="Semantic caching for faster, smarter LLM apps" url="https://redis.io/blog/what-is-semantic-caching" >}}
+  {{< image-card image="images/ai-semantic-routing.svg" alt="Semantic routing icon" title="Semantic routing chooses the best tool" url="https://redis.io/blog/level-up-rag-apps-with-redis-vector-library/" >}}
+  {{< image-card image="images/ai-model.svg" alt="AI Redis icon" title="Deploy an enhanced gateway with Redis" url="https://redis.io/blog/ai-gateways-what-are-they-how-can-you-deploy-an-enhanced-gateway-with-redis/" >}}
+</div>
 
 ## Quickstarts
 
 Quickstarts or recipes are useful when you are trying to build specific functionality. For example, you might want to do RAG with LangChain or set up LLM memory for your AI agent.
+
+Get started with these foundational guides:
+
+* [Redis vector database quick start guide]({{< relref "/develop/get-started/vector-database" >}})
+* [Retrieval-Augmented Generation quick start guide]({{< relref "/develop/get-started/rag" >}})
 
 #### RAG
 Retrieval Augmented Generation (aka RAG) is a technique to enhance the ability of an LLM to respond to user queries. The retrieval part of RAG is supported by a vector database, which can return semantically relevant results to a user's query, serving as contextual information to augment the generative capabilities of an LLM.
