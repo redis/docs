@@ -282,3 +282,18 @@ spec:
 {{< note >}}
 When you use the `rackAwarenessNodeLabel` property, the operator will change the topologyKey for the anti-affinity rule to the label name used unless you have specified the `podAntiAffinity` property as well. If you use `rackAwarenessNodeLabel` and `podAntiAffinity` together, you must make sure that the `topologyKey` in your pod anti-affinity rule is set to the node label name.
 {{< /note >}}
+
+### Rack awareness limitations
+
+{{< warning >}}
+**Pod restart distribution maintenance**: When rack awareness is enabled, node pods and shards are initially deployed based on rack constraints to ensure proper distribution across zones. However, Redis Enterprise does not automatically maintain this distribution when node pods are restarted.
+
+After pod restarts, the rack awareness policy may be violated, requiring manual intervention to restore proper shard distribution. While Redis Enterprise provides tools to identify shards that need to be moved to restore correct rack distribution, it does not provide automated orchestration to perform these moves.
+{{< /warning >}}
+
+**Important considerations for production deployments:**
+
+- At scale, manual shard redistribution can become operationally challenging
+- This limitation is particularly important for edge deployments where automated recovery is preferred
+- Plan for operational procedures to handle rack awareness policy violations after pod restarts
+- Consider monitoring tools to detect when rack awareness constraints are violated
