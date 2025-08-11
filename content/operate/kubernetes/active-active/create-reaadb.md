@@ -41,33 +41,11 @@ For a list of example values used throughout this article, see the [Example valu
 
     Example RERC (`rerc-ohare`) for the REC named `rec-chicago` in the namespace `ns-illinois`:
 
-    ```yaml
-    apiVersion: app.redislabs.com/v1alpha1
-    kind: RedisEnterpriseRemoteCluster
-    metadata:
-      name: rerc-ohare
-    spec:
-      recName: rec-chicago
-      recNamespace: ns-illinois
-      apiFqdnUrl: api-rec-chicago-ns-illinois.example.com
-      dbFqdnSuffix: -db-rec-chicago-ns-illinois.example.com
-      secretName: redis-enterprise-rerc-ohare
-    ```
+    {{<embed-yaml "k8s/rerc-ohare.md" "rerc-ohare.yaml">}}
 
     Example RERC (`rerc-raegan`) for the REC named `rec-arlington` in the namespace `ns-virginia`:
 
-    ```yaml
-    apiVersion: app.redislabs.com/v1alpha1
-    kind: RedisEnterpriseRemoteCluster
-    metadata:
-      name: rerc-reagan
-    spec:
-      recName: rec-arlington
-      recNamespace: ns-virginia
-      apiFqdnUrl: test-example-api-rec-arlington-ns-virginia.example.com
-      dbFqdnSuffix: -example-cluster-rec-arlington-ns-virginia.example.com
-      secretName: redis-enterprise-rerc-reagan
-    ```
+    {{<embed-yaml "k8s/rerc-raegan.md" "rerc-raegan.yaml">}}
 
     For more details on RERC fields, see the [RERC API reference]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api">}}).
 
@@ -106,20 +84,7 @@ For a list of example values used throughout this article, see the [Example valu
 
     Example REAADB named `reaadb-boeing` linked to the REC named `rec-chicago` with two participating clusters and a global database configuration with shard count set to 3:
 
-     ```yaml
-     apiVersion: app.redislabs.com/v1alpha1
-     kind: RedisEnterpriseActiveActiveDatabase
-     metadata:
-       name: reaadb-boeing
-     spec:
-       globalConfigurations:
-         databaseSecretName: <my-secret>
-         memorySize: 200MB
-         shardCount: 3
-       participatingClusters:
-           - name: rerc-ohare
-           - name: rerc-reagan
-     ```
+     {{<embed-yaml "k8s/reaadb-boeing.md" "reaadb-boeing.yaml">}}
 
      {{<note>}}Sharding is disabled on Active-Active databases created with a `shardCount` of 1. Sharding cannot be enabled after database creation. {{</note>}}
 

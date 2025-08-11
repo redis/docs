@@ -22,11 +22,17 @@ This example shows a two-cluster Active-Active setup:
 
 For complete deployment instructions, see [Active-Active databases]({{< relref "/operate/kubernetes/active-active" >}}).
 
-## RERC for Chicago cluster
+## RERC examples
 
 Create a RedisEnterpriseRemoteCluster (RERC) resource on each participating cluster that points to the other clusters.
 
+Plain example:
+
 {{<embed-yaml "k8s/rerc.md" "redis-enterprise-remote-cluster.yaml">}}
+
+Customized example (matches Kubernetes Active-Active guide examples):
+
+{{<embed-yaml "k8s/rerc_custom.md" "redis-enterprise-remote-cluster-custom.yaml">}}
 
 RERC configuration:
 - `metadata.name`: Unique name for this remote cluster reference
@@ -38,11 +44,17 @@ RERC configuration:
 
 Edit the values in the downloaded YAML file for your specific setup, updating the remote cluster details, API endpoints, and secret names to match your actual environment.
 
-## Active-Active database
+## Active-Active database examples
 
 The RedisEnterpriseActiveActiveDatabase (REAADB) resource defines the Active-Active database.
 
+Plain example:
+
 {{<embed-yaml "k8s/reaadb.md" "redis-enterprise-active-active-database.yaml">}}
+
+Customized example (matches Kubernetes Active-Active guide examples):
+
+{{<embed-yaml "k8s/reaadb_custom.md" "redis-enterprise-active-active-database-custom.yaml">}}
 
 REAADB configuration:
 - `metadata.name`: Active-Active database name
