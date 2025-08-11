@@ -58,11 +58,15 @@ Redis Enterprise Active-Active database (REAADB) contains a link to the RERC for
 
 For a full list of fields and options, see the [REAADB API reference]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_active_active_database_api">}}).
 
+For examples, see the [YAML examples]({{< relref "/operate/kubernetes/reference/yaml/active-active" >}}) section.
+
 ### RERC custom resource
 
 Redis Enterprise remote cluster (RERC) custom resource contains configuration details for all the participating clusters.
 
 For a full list of fields and options, see the [RERC API reference]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api">}}).
+
+For examples, see the [YAML examples]({{< relref "/operate/kubernetes/reference/yaml/active-active" >}}) section.
 
 ### Limitations
 

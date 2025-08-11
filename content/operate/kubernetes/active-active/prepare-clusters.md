@@ -122,9 +122,9 @@ Now you are ready to [create your Redis Enterprise Active-Active database]({{< r
 
 ## Example values
 
-This article uses the following example values:
+This article uses the example values listed below. They can also be found in the [YAML examples]({{< relref "/operate/kubernetes/reference/yaml/active-active" >}}) section.
 
-#### Example cluster 1
+Example cluster 1:
 
 * REC name: `rec-chicago`
 * REC namespace: `ns-illinois`
@@ -133,7 +133,7 @@ This article uses the following example values:
 * API FQDN: `api-rec-chicago-ns-illinois.example.com`
 * DB FQDN suffix: `-db-rec-chicago-ns-illinois.example.com`
 
-#### Example cluster 2
+Example cluster 2:
 
 * REC name: `rec-arlington`
 * REC namespace: `ns-virginia`
