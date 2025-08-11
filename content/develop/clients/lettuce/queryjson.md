@@ -96,7 +96,7 @@ need to specify some slightly different options.
 
 When you create the schema for a hash index, you don't need to
 add aliases for the fields, since you use the basic names to access
-the fields anyway. Also, you must use `CreateArgs.TargetType.HASH` for the `On()`
+the fields. Also, you must use `CreateArgs.TargetType.HASH` for the `On()`
 option of `CreateArgs` when you create the index. The code below shows these
 changes with a new index called `hash-idx:users`, which is otherwise the same as
 the `idx:users` index used for JSON documents in the previous examples.
