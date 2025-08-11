@@ -31,7 +31,7 @@ Do not use these tools for normal operations.
 |---------|-------------|
 | bdb-cli | `redis-cli` connected to a database. |
 | ccs-cli | Inspect Cluster Configuration Store. |
-| cnm-ctl | Manages services for provisioning, migration, monitoring, <br />resharding, rebalancing, deprovisioning, and autoscaling. |
+| cnm_ctl | Manages services for provisioning, migration, monitoring, <br />resharding, rebalancing, deprovisioning, and autoscaling. |
 | consistency_checker | Checks the consistency of Redis instances. |
 | crdbtop | Monitor Active-Active databases. |
 | debug_mode | Enables debug mode. |
