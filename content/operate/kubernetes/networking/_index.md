@@ -13,6 +13,12 @@ weight: 40
 
 Configure networking and external access for your Redis Enterprise deployment on Kubernetes. By default, Kubernetes doesn't allow external access to your Redis databases. Redis Enterprise for Kubernetes provides several methods to route external traffic to your clusters and databases.
 
+## Database connectivity
+
+Connect applications to your Redis Enterprise databases:
+
+- [Database connectivity]({{< relref "/operate/kubernetes/networking/database-connectivity" >}}) - Comprehensive guide to in-cluster and external database access, service discovery, and credentials management
+
 ## External routing methods
 
 Choose the appropriate method for your environment to enable external access:
