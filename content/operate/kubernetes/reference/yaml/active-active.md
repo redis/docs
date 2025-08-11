@@ -14,6 +14,10 @@ This page provides YAML examples for deploying Active-Active Redis Enterprise da
 
 For complete deployment instructions, see [Active-Active databases]({{< relref "/operate/kubernetes/active-active" >}}).
 
+## Applying the configuration
+
+To deploy Active-Active databases using these YAML files, follow [Create Active-Active database (REAADB)]({{< relref "/operate/kubernetes/active-active/create-reaadb" >}}), which provides detailed instructions for preparing clusters, creating RERC resources, and deploying REAADB configurations.
+
 ## Namespace examples
 
 A namespace is an abstraction used by Kubernetes to support multiple virtual clusters on the same physical cluster.
@@ -52,12 +56,12 @@ RedisEnterpriseRemoteCluster represents a remote participating cluster.
 
 ### RERC configuration
 
-- `metadata.name`: Unique name for this remote cluster reference
-- `spec.recName`: Name of the remote REC
-- `spec.recNamespace`: Namespace of the remote REC
-- `spec.apiFqdnUrl`: API endpoint URL for the remote cluster
-- `spec.dbFqdnSuffix`: Database hostname suffix for the remote cluster
-- `spec.secretName`: Secret containing authentication credentials
+- [metadata.name]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api#appredislabscomv1alpha1" >}}): Unique name for this remote cluster reference
+- [spec.recName]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api#spec" >}}): Name of the remote REC
+- [spec.recNamespace]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api#spec" >}}): Namespace of the remote REC
+- [spec.apiFqdnUrl]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api#spec" >}}): API endpoint URL for the remote cluster
+- [spec.dbFqdnSuffix]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api#spec" >}}): Database hostname suffix for the remote cluster
+- [spec.secretName]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api#spec" >}}): Secret containing authentication credentials
 
 Edit the values in the downloaded YAML file for your specific setup, updating the remote cluster details, API endpoints, and secret names to match your actual environment.
 
@@ -71,19 +75,19 @@ Active-Active databases are geo-distributed databases that span multiple Redis E
 
 ### REAADB configuration
 
-- `metadata.name`: Active-Active database name
-- `spec.participatingClusters`: List of RERC names that participate in this database
-- `spec.globalConfigurations`: Database settings applied to all participating clusters
+- [metadata.name]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_active_active_database_api#appredislabscomv1alpha1" >}}): Active-Active database name
+- [spec.participatingClusters]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_active_active_database_api#specparticipatingclusters" >}}): List of RERC names that participate in this database
+- [spec.globalConfigurations]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_active_active_database_api#specglobalconfigurations" >}}): Database settings applied to all participating clusters
 
 Edit the downloaded YAML file to add global database settings such as memory allocation, shard count, replication settings, database secrets, Redis modules, and database-specific Redis configuration.
 
-## Applying the configuration
-
-To deploy Active-Active databases using these YAML files, follow [Create Active-Active database (REAADB)]({{< relref "/operate/kubernetes/active-active/create-reaadb" >}}), which provides detailed instructions for preparing clusters, creating RERC resources, and deploying REAADB configurations.
-
 ## Related documentation
 
+- [Active-Active databases (index)]({{< relref "/operate/kubernetes/active-active" >}})
+- [Prepare participating clusters]({{< relref "/operate/kubernetes/active-active/prepare-clusters" >}})
 - [Create Active-Active database (REAADB)]({{< relref "/operate/kubernetes/active-active/create-reaadb" >}})
-- [REAADB API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_active_active_database_api" >}})
+- [Edit global configuration]({{< relref "/operate/kubernetes/active-active/global-config" >}})
+- [Sync global database secret]({{< relref "/operate/kubernetes/active-active/global-db-secret" >}})
 - [RERC API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api" >}})
+- [REAADB API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_active_active_database_api" >}})
 - [Networking configuration]({{< relref "/operate/kubernetes/networking" >}})
