@@ -56,7 +56,6 @@ Then, when the operator creates the StatefulSet associated with the pod, the nod
 section is part of the pod specification. When the scheduler attempts to
 create new pods, it needs to satisfy the node selection constraints.
 
-
 ## Using node pools
 
 A node pool is a common part of the underlying infrastructure of the Kubernetes cluster deployment and provider.
@@ -177,7 +176,6 @@ spec:
 
 In this case, any pods that are deployed with the label `local/role: database` cannot be scheduled on the same node.
 
-
 ## Using rack awareness
 
 You can configure Redis Enterprise with rack-zone awareness to increase availability
@@ -222,45 +220,22 @@ For the operator to read the cluster node information, you must create a cluster
 
 Here's a cluster role:
 
-```yaml
-kind: ClusterRole
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: redis-enterprise-operator
-rules:
-  # needed for rack awareness
-  - apiGroups: [""]
-    resources: ["nodes"]
-    verbs: ["list", "get", "watch"]
-```
+{{<embed-yaml "k8s/rack_aware_cluster_role.md" "rack-aware-cluster-role.yaml">}}
 
 And here's how to apply the role:
 
 ```sh
-kubectl apply -f https://raw.githubusercontent.com/RedisLabs/redis-enterprise-k8s-docs/master/rack_awareness/rack_aware_cluster_role.yaml
+kubectl apply -f rack-aware-cluster-role.yaml
 ```
 
 The binding is typically to the `redis-enterprise-operator` service account:
 
-```yaml
-kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: redis-enterprise-operator
-subjects:
-- kind: ServiceAccount
-  namespace: OPERATOR_NAMESPACE
-  name: redis-enterprise-operator
-roleRef:
-  kind: ClusterRole
-  name: redis-enterprise-operator
-  apiGroup: rbac.authorization.k8s.io
-```
+{{<embed-yaml "k8s/rack_aware_cluster_role_binding.md" "rack-aware-cluster-role-binding.yaml">}}
 
 and it can be applied by running:
 
 ```sh
-kubectl apply -f https://raw.githubusercontent.com/RedisLabs/redis-enterprise-k8s-docs/master/rack_awareness/rack_aware_cluster_role_binding.yaml
+kubectl apply -f rack-aware-cluster-role-binding.yaml
 ```
 
 Once the cluster role and the binding have been applied, you can configure Redis Enterprise clusters to use rack awareness labels.
@@ -269,15 +244,7 @@ Once the cluster role and the binding have been applied, you can configure Redis
 
 You can configure the node label to read for the rack zone by setting the `rackAwarenessNodeLabel` property:
 
-```yaml
-apiVersion: app.redislabs.com/v1
-kind: RedisEnterpriseCluster
-metadata:
-  name: example-redisenterprisecluster
-spec:
-  nodes: 3
-  rackAwarenessNodeLabel: topology.kubernetes.io/zone
-```
+{{<embed-yaml "k8s/rack_aware_rec.md" "rack-aware-cluster.yaml">}}
 
 {{< note >}}
 When you use the `rackAwarenessNodeLabel` property, the operator will change the topologyKey for the anti-affinity rule to the label name used unless you have specified the `podAntiAffinity` property as well. If you use `rackAwarenessNodeLabel` and `podAntiAffinity` together, you must make sure that the `topologyKey` in your pod anti-affinity rule is set to the node label name.
