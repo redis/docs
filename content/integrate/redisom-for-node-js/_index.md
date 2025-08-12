@@ -16,21 +16,31 @@ type: integration
 weight: 9
 ---
 
-This tutorial will show you how to build an API using Node.js and Redis Stack.
+This tutorial will show you how to build a simple, RESTful API that reads, writes, and finds data on persons (including first name, last name, and  age) using Node.js and Redis Stack. You'll also add a simple location tracking feature for a bit of extra interest. You'll be using [Express](https://expressjs.com/) and [Redis OM](https://github.com/redis/redis-om-node) to do this.
 
-We'll be using [Express](https://expressjs.com/) and [Redis OM](https://github.com/redis/redis-om-node) to do this, and we assume that you have a basic understanding of Express.
+## What is Redis OM?
 
-The API we'll be building is a simple and relatively RESTful API that reads, writes, and finds data on persons: first name, last name, age, etc. We'll also add a simple location tracking feature just for a bit of extra interest.
+Redis OM is an object-mapping library that provides high-level abstractions for working with Redis as a document database. You can use Redis OM to map Redis data types,specifically Hashes and JSON documents, to objects in your preferred programming language.
 
-But before we start with the coding, let's start with a description of what Redis OM *is*.
+Redis OM leverages the JSON and Redis Query Engine features included in Redis Stack, enabling you to:
 
+- **Model your data** as objects with schemas and validation
+- **Store and retrieve** complex data structures seamlessly
+- **Search and query** your data using full-text search, numeric ranges, and geospatial queries
+- **Index your data** automatically for optimal query performance
+
+With Redis OM, you work with familiar object-oriented patterns while Redis Stack handles the underlying data storage, indexing, and querying efficiently.
+
+{{< note >}}
+Redis Stack was replaced by Redis Open Source as of version 8.0.
+{{< /note >}}
 
 ## Prerequisites
 
 Like anything software-related, you need to have some dependencies installed before you can get started:
 
 - [Node.js 14.8+](https://nodejs.org/en/): In this tutorial, we're using JavaScript's top-level `await` feature which was introduced in Node 14.8. So, make sure you are using that version or later.
-- [Redis Stack](/download): You need a version of Redis Stack, either running locally on your machine or [in the cloud](https://redis.com/try-free/?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users).
+- [Redis Stack]({{< relref "/operate/oss_and_stack/install/archive/install-stack/" >}}): You need a version of Redis Stack, either running locally on your machine or [in the cloud](https://redis.com/try-free/?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users).
 - [Redis Insight](https://redis.com/redis-enterprise/redis-insight/): We'll use this to look inside Redis and make sure our code is doing what we think it's doing.
 
 
