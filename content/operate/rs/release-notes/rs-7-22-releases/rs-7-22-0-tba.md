@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: Bug fixes for TBA
+description: Bug fix for shard memory usage metrics in the Cluster Manager UI. Internal fixes and improvements.
 linkTitle: 7.22.0-tba (August 2025)
 weight: 87
 ---
@@ -17,7 +17,9 @@ weight: 87
 
 This version offers:
 
-- Bug fixes for TBA
+- Bug fix for shard memory usage metrics in the Cluster Manager UI
+
+- Internal fixes and improvements
 
 ## New in this release
 
@@ -41,7 +43,7 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 ### Resolved issues
 
-- TBA
+- RS165532: Fixed an issue that could prevent viewing shard memory usage metrics in the Cluster Manager UI and cause the page to fail to load when switching between database and shard metrics.
 
 ## Version changes
 
