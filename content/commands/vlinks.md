@@ -66,14 +66,16 @@ includes similarity scores for each neighbor.
     tab2="RESP3" >}}
 
 One of the following:
-* [Array reply](../../develop/reference/protocol-spec#arrays) containing the names of adjacent elements as [strings](../../develop/reference/protocol-spec#simple-strings); interleved with scores when using the WITHSCORES option.
+* An [array](../../develop/reference/protocol-spec#arrays) of [array replies](../../develop/reference/protocol-spec#arrays) containing the names of adjacent elements as [bulk strings](../../develop/reference/protocol-spec#bulk-strings); interleaved with scores as [bulk strings](../../develop/reference/protocol-spec#bulk-strings) when used with the `WITHSCORES` option.
+* [Simple error reply](../../develop/reference/protocol-spec/#simple-errors) for incorrect syntax.
 * [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) (null bulk string) for unknown keys and/or elements.
 
 -tab-sep-
 
 One of the following:
-* [Array reply](../../develop/reference/protocol-spec#arrays) containing the names of adjacent elements as [strings](../../develop/reference/protocol-spec#simple-strings) when used without the WITHSCORES option.
-* [Map reply](../../develop/reference/protocol-spec#maps) containing the names of adjecent elements as [strings](../../develop/reference/protocol-spec#simple-strings), together with their scores as [doubles](../../develop/reference/protocol-spec#doubles) when used with the WITHSCORES option.
+* An [array](../../develop/reference/protocol-spec#arrays) of [array replies](../../develop/reference/protocol-spec#arrays) containing the names of adjacent elements as [bulk strings](../../develop/reference/protocol-spec#bulk-strings) when used without the `WITHSCORES` option.
+* An [array](../../develop/reference/protocol-spec#arrays) of [map replies](../../develop/reference/protocol-spec#maps) containing the names of adjecent elements as [bulk strings](../../develop/reference/protocol-spec#bulk-strings), together with their scores as [doubles](../../develop/reference/protocol-spec#doubles) when used with the `WITHSCORES` option.
+* [Simple error reply](../../develop/reference/protocol-spec/#simple-errors) for incorrect syntax.
 * [Null reply](../../develop/reference/protocol-spec#nulls) for unknown keys and/or elements.
 
 {{< /multitabs >}}

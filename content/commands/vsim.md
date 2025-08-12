@@ -70,7 +70,7 @@ is the name of the key that holds the vector set data.
 <details open>
 <summary><code>ELE | FP32 | VALUES num</code></summary>
 
-specifies how the input vector is provided. Use `ELE` to refer to an existing element, `FP32` for binary float format, or `VALUES num` for a list of stringified float values.
+specifies how the input vector is provided. Use `ELE` to refer to an existing element, `FP32` for binary float format (little-endian encoding required), or `VALUES num` for a list of stringified float values.
 </details>
 
 <details open>

@@ -82,7 +82,7 @@ One of the following:
 * [Array reply](../../develop/reference/protocol-spec#arrays): consisting of the following elements:
     1. The quantization type as a [simple string](../../develop/reference/protocol-spec#simple-strings): `fp32`, `bin`, or `q8`.
     1. A [bulk string](../../develop/reference/protocol-spec#bulk-strings) blob with the following raw data:
-        * 4-byte floats for fp32
+        * 4-byte floats for fp32 (little-endian encoding)
         * A bitmap for binary quantization
         * A byte array for q8
     1. The L2 norm, as a [simple string](../../develop/reference/protocol-spec#simple-strings), of the vector before normalization.
@@ -95,7 +95,7 @@ One of the following:
 * [Array reply](../../develop/reference/protocol-spec#arrays): consisting of the following elements:
     1. The quantization type as a [simple string](../../develop/reference/protocol-spec#simple-strings): `fp32`, `bin`, or `q8`.
     1. A [bulk string](../../develop/reference/protocol-spec#bulk-strings) blob with the following raw data:
-        * 4-byte floats for fp32
+        * 4-byte floats for fp32 (little-endian encoding)
         * A bitmap for binary quantization
         * A byte array for q8
     1. The [double](../../develop/reference/protocol-spec#doubles) L2 norm of the vector before normalization.
