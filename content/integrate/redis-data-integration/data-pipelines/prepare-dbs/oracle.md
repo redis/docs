@@ -144,9 +144,25 @@ use the following setting:
 
 ## 5. Create a user for the connector {#create-dbz-user}
 
-The Debezium Oracle connector must run as an Oracle LogMiner user with
-specific permissions. The following example shows some SQL that creates
-an Oracle user account for the connector in a multi-tenant database model:
+The Debezium Oracle connector must run as an Oracle LogMiner user with specific permissions.
+
+Typically, when you create the Oracle account for the connector, 
+you grant the account a level of access that permits the connector to detect changes from all tables in the database. 
+However, in some environments, security policies might prohibit you from granting such a broad level of access.
+
+The following example shows some SQL that creates an Oracle user account for the connector in a multi-tenant database model. 
+The grant settings in the example permit the Debezium user to access all user tables in the database.
+
+To comply with security policies, you can modify the `SELECT ANY TABLE` and `FLASHBACK ANY TABLE` grants 
+so that the connector can access only those tables that you intend to capture.
+
+Do not modify other grants, such as the `SELECT ANY TRANSACTION` grant, 
+or the set of `SELECT ON V_$` grants, which provide access to dynamic performance views (`V$`). 
+These grants are required for the connector to function.
+
+{{< note >}}To prevent data loss, if you restrict the scope of the SELECT and FLASHBACK grants, 
+be sure that the modified scope is compatible with the settings in the connector’s include configuration. 
+The privileges that you set for the account must permit reading from all of the tables that you want the connector to capture.{{< /note >}}
 
 ```sql
 sqlplus sys/top_secret@//localhost:1521/ORCLCDB as sysdba
@@ -207,6 +223,24 @@ GRANT SELECT ON V_$STATNAME TO c##dbzuser CONTAINER=ALL;
 
 exit;
 ```
+
+| Role name                | Description                                                                                                                                                                                                                                                                                                                                                                                            |
+|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| CREATE SESSION           | Enables the connector to connect to Oracle.                                                                                                                                                                                                                                                                                                                                                            |
+| SET CONTAINER            | Enables the connector to switch between pluggable databases. This is only required when the Oracle installation has container database support (CDB) enabled.                                                                                                                                                                                                                                          |
+| SELECT ON V_$DATABASE    | Enables the connector to read the V$DATABASE table.                                                                                                                                                                                                                                                                                                                                                    |
+| FLASHBACK ANY TABLE      | Enables the connector to perform Flashback queries, which is how the connector performs the initial snapshot of data. Optionally, rather than granting FLASHBACK permission on all tables, you can grant the FLASHBACK privilege for specific tables only.                                                                                                                                             |
+| SELECT ANY TABLE         | Enables the connector to read any table. Optionally, rather than granting SELECT permission on all tables, you can grant the SELECT privilege for specific tables only.                                                                                                                                                                                                                                |
+| SELECT_CATALOG_ROLE      | Enables the connector to read the data dictionary, which is needed by Oracle LogMiner sessions.                                                                                                                                                                                                                                                                                                        |
+| EXECUTE_CATALOG_ROLE     | Enables the connector to write the data dictionary into the Oracle redo logs, which is needed to track schema changes.                                                                                                                                                                                                                                                                                 |
+| SELECT ANY TRANSACTION   | Enables the snapshot process to perform a Flashback snapshot query against any transaction so that the connector can read past changes from LogMiner. When FLASHBACK ANY TABLE is granted, this should also be granted. This grant is optional for Oracle 12c and later. In those later releases, the connector obtains the required privileges through the EXECUTE_CATALOG_ROLE and LOGMINING grants. |
+| LOGMINING                | This role was added in newer versions of Oracle as a way to grant full access to Oracle LogMiner and its packages. On older versions of Oracle that don’t have this role, you can ignore this grant.                                                                                                                                                                                                   |
+| CREATE TABLE             | Enables the connector to create its flush table in its default tablespace. The flush table allows the connector to explicitly control flushing of the LGWR internal buffers to disk.                                                                                                                                                                                                                   |
+| LOCK ANY TABLE           | Enables the connector to lock tables during schema snapshot. If snapshot locks are explicitly disabled via configuration, this grant can be safely ignored.                                                                                                                                                                                                                                            |
+| CREATE SEQUENCE          | Enables the connector to create a sequence in its default tablespace.                                                                                                                                                                                                                                                                                                                                  |
+| EXECUTE ON DBMS_LOGMNR   | Enables the connector to run methods in the DBMS_LOGMNR package. This is required to interact with Oracle LogMiner. On newer versions of Oracle this is granted via the LOGMINING role but on older versions, this must be explicitly granted.                                                                                                                                                         |
+| EXECUTE ON DBMS_LOGMNR_D | Enables the connector to run methods in the DBMS_LOGMNR_D package. This is required to interact with Oracle LogMiner. On newer versions of Oracle this is granted via the LOGMINING role but on older versions, this must be explicitly granted.                                                                                                                                                       |
+| SELECT ON V_$…​.          | Enables the connector to read these tables. The connector must be able to read information about the Oracle redo and archive logs, and the current transaction state, to prepare the Oracle LogMiner session. Without these grants, the connector cannot operate.                                                                                                                                      |
 
 ### Limiting privileges
 
