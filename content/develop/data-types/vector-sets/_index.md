@@ -40,6 +40,14 @@ The following commands are available for vector sets:
 - [VSETATTR]({{< relref "/commands/vsetattr" >}}) - set or replace attributes on a vector set element.
 - [VSIM]({{< relref "/commands/vsim" >}}) - retrieve elements similar to a given vector or element with optional filtering.
 
+## Endianness considerations for FP32 format
+
+When using the FP32 blob format with vector set commands like [`VADD`]({{< relref "/commands/vadd" >}}) and [`VSIM`]({{< relref "/commands/vsim" >}}), the binary data must be encoded in little-endian byte order. This is important for cross-platform compatibility, as some ARM variants and other architectures may use different endianness.
+
+If your platform uses big-endian or mixed-endian encoding, you have two options:
+- Manually convert the byte order to little-endian before passing the blob to Redis.
+- Use the `VALUES` syntax instead, which accepts floating-point numbers as strings and is platform-independent.
+
 ## Examples
 
 The following examples give an overview of how to use vector sets. For clarity,
