@@ -816,7 +816,7 @@ will emit a command. All the sequence emitted is wrapped between a
 `MULTI/EXEC` transaction, so that the AOF and replication effects are the
 same as executing a single command.
 
-Note that before Redis version 7.0 `Call()` replication and `Replicate()` replication have a rule,
+Note that before Redis version 7.0, `Call()` replication and `Replicate()` replication have a rule,
 in case you want to mix both forms of replication (not necessarily a good
 idea if there are simpler approaches). Commands replicated with `Call()`
 are always the first emitted in the final `MULTI/EXEC` block, while all
