@@ -10,7 +10,7 @@ linkTitle: Rack awareness
 weight: 20
 ---
 
-This page provides YAML examples for deploying Redis Enterprise with [rack awareness]({{< relref "/operate/kubernetes/architecture/operator-architecture#rack-awareness" >}}). Rack awareness distributes Redis Enterprise nodes and database shards across different availability zones or failure domains to improve high availability and fault tolerance.
+This page provides YAML examples for deploying Redis Enterprise with [rack awareness]({{< relref "/operate/kubernetes/recommendations/node-selection#using-rack-awareness" >}}). Rack awareness distributes Redis Enterprise nodes and database shards across different availability zones or failure domains to improve high availability and fault tolerance.
 
 ## Prerequisites
 
