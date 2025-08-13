@@ -1,0 +1,144 @@
+<link rel="stylesheet" href="/css/agent-builder.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked@9.1.6/marked.min.js"></script>
+
+<!-- Redis AI Agent Builder Shortcode -->
+<div id="redis-agent-builder" class="agent-builder-container">
+  <div class="agent-builder-header">
+    <h3 class="text-2xl font-semibold text-redis-ink-900 mb-2">Build Your Redis AI Agent</h3>
+    <p class="text-redis-pen-600 mb-6">Tell us what you want to build and we'll generate the code for you</p>
+  </div>
+
+  <!-- Chat Interface -->
+  <div id="chat-container" class="chat-container">
+    <div id="chat-messages" class="chat-messages">
+      <!-- Initial bot message -->
+      <div class="chat-message bot-message">
+        <div class="message-avatar">
+          <svg class="w-6 h-6 text-redis-red-500" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+          </svg>
+        </div>
+        <div class="message-content">
+          <p>Hi! I'll help you build a Redis AI agent. Let's start with what type of agent you want to create.</p>
+          <div class="suggestion-chips">
+            <button class="suggestion-chip" data-suggestion="recommendation">🛍️ Recommendation Engine</button>
+            <button class="suggestion-chip" data-suggestion="conversational">💬 Conversational Assistant</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Input -->
+    <div class="chat-input-container">
+      <div class="chat-input-wrapper">
+        <input
+          type="text"
+          id="chat-input"
+          class="chat-input"
+          placeholder="Type your choice or describe what you want to build..."
+          autocomplete="off"
+        >
+        <button id="send-button" class="send-button" disabled>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Suggestions dropdown -->
+      <div id="suggestions-dropdown" class="suggestions-dropdown agent-builder-hidden">
+        <div class="suggestions-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Generated Code Output -->
+  <div id="generated-code-section" class="code-output-section agent-builder-hidden">
+    <div class="code-header">
+      <h4 class="text-lg font-medium text-redis-ink-900 mb-4">Generated Agent Code</h4>
+    </div>
+    <div class="code-actions mb-4">
+      <button type="button" id="copy-code-btn" class="copy-btn">
+        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+        </svg>
+        Copy
+      </button>
+      <button type="button" id="download-code-btn" class="download-btn">
+        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+        </svg>
+        Download
+      </button>
+      <button type="button" id="try-jupyter-btn" class="jupyter-btn">
+        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v-.07zM17.9 17.39c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+        </svg>
+        Try in Jupyter
+      </button>
+      <button type="button" id="chat-about-code-btn" class="chat-btn">
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 4v-4z"/>
+        </svg>
+        Chat about code
+      </button>
+      <button type="button" id="start-again-btn" class="start-again-btn">
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+        </svg>
+        Start again
+      </button>
+    </div>
+    <div class="code-container">
+      <pre class="code-block"><code id="generated-code"></code></pre>
+    </div>
+    <div class="code-footer">
+      <p class="text-sm text-redis-pen-600">
+        <strong>Next steps:</strong> Save this code to a file, install the required dependencies, and configure your Redis connection.
+      </p>
+    </div>
+  </div>
+
+  <!-- Code Chat Section -->
+  <div id="code-chat-section" class="code-chat-section agent-builder-hidden">
+    <div class="code-chat-header">
+      <div class="flex justify-between items-center mb-4">
+        <h4 class="text-lg font-medium text-redis-ink-900">Chat About Your Code</h4>
+        <button id="close-code-chat-btn" class="text-redis-pen-600 hover:text-redis-ink-900 focus:outline-none focus:ring-2 focus:ring-redis-red-500 focus:ring-offset-2 rounded-md p-1">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Code Chat Interface -->
+    <div id="code-chat-container" class="chat-container">
+      <div id="code-chat-messages" class="chat-messages">
+        <!-- Initial message will be added by JavaScript -->
+      </div>
+
+      <!-- Code Chat Input -->
+      <div class="chat-input-container">
+        <div class="chat-input-wrapper">
+          <input
+            type="text"
+            id="code-chat-input"
+            class="chat-input"
+            placeholder="Ask a question about your generated code..."
+            autocomplete="off"
+          >
+          <button id="code-chat-send" class="send-button" disabled>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Load the agent builder JavaScript -->
+<script src="/js/agent-builder.js"></script>
