@@ -49,6 +49,9 @@ Redis does not document directly:
 | :-- | :-- | :-- | :-- |
 | [C++](https://en.wikipedia.org/wiki/C%2B%2B) | Boost.Redis | https://github.com/boostorg/redis | https://www.boost.org/doc/libs/develop/libs/redis/doc/html/index.html |
 | [Dart](https://dart.dev/) | redis_dart_link | https://github.com/toolsetlink/redis_dart_link | https://github.com/toolsetlink/redis_dart_link |
+| [Elixir](https://elixir-lang.org/) | redix | https://github.com/whatyouhide/redix | https://hexdocs.pm/redix/ |
+| [Erlang](https://www.erlang.org/) | eredis | https://github.com/Nordix/eredis/ | https://hexdocs.pm/eredis/ |
+| [Gleam](https://gleam.run) | radish | https://github.com/massivefermion/radish | https://hexdocs.pm/radish/ |
 | [PHP](https://www.php.net/) | PhpRedis extension | https://github.com/phpredis/phpredis | https://github.com/phpredis/phpredis/blob/develop/README.md |
 | [Ruby](https://www.ruby-lang.org/en/) | redis-rb | https://github.com/redis/redis-rb | https://rubydoc.info/gems/redis |
 | [Rust](https://www.rust-lang.org/) | redis-rs | https://github.com/redis-rs/redis-rs | https://docs.rs/redis/latest/redis/ |
