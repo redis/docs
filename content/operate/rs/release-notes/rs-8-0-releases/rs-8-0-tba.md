@@ -1,5 +1,5 @@
 ---
-Title: Redis Enterprise Software release notes 8.0.x-tba (TBA 2025)
+Title: Redis Enterprise Software release notes 8.0.x-tba (September 2025)
 alwaysopen: false
 categories:
 - docs
@@ -7,7 +7,7 @@ categories:
 - rs
 compatibleOSSVersion: Redis 7.4.0
 description: TBA
-linkTitle: 8.0.x-tba (TBA 2025)
+linkTitle: 8.0.x-tba (September 2025)
 weight: 90
 ---
 
@@ -144,7 +144,7 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 The following table shows the SHA256 checksums for the available packages:
 
-| Package | SHA256 checksum (8.0-tba tba release) |
+| Package | SHA256 checksum (8.0-tba September release) |
 |---------|---------------------------------------|
 | Ubuntu 20 | <span class="break-all"></span> |
 | Red Hat Enterprise Linux (RHEL) 8 | <span class="break-all"></span> |
