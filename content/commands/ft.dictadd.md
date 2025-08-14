@@ -52,10 +52,6 @@ is dictionary name.
 term to add to the dictionary.
 </details>
 
-## Return
-
-FT.DICTADD returns an integer reply, the number of new terms that were added.
-
 ## Examples
 
 <details open>
@@ -66,6 +62,20 @@ FT.DICTADD returns an integer reply, the number of new terms that were added.
 (integer) 3
 {{< / highlight >}}
 </details>
+
+## Return information
+
+{{< multitabs id="ft-dictadd-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of new terms added to the dictionary.
+
+-tab-sep-
+
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of new terms added to the dictionary.
+
+{{< /multitabs >}}
 
 ## See also
 

@@ -5,18 +5,27 @@ categories:
 - docs
 - operate
 - kubernetes
-description: null
+description: Configure networking and external access for Redis Enterprise clusters and databases on Kubernetes.
 hideListLinks: true
 linkTitle: Networking
 weight: 40
 ---
 
-Redis Enterprise for Kubernetes supports several ways to route external traffic to your RedisEnterpriseCluster:
+Configure networking and external access for your Redis Enterprise deployment on Kubernetes. By default, Kubernetes doesn't allow external access to your Redis databases. Redis Enterprise for Kubernetes provides several methods to route external traffic to your clusters and databases.
 
-- Ingress controllers [HAProxy](https://haproxy-ingress.github.io/) and [NGINX](https://kubernetes.github.io/ingress-nginx/) require an `ingress` API resource.
-- [Istio](https://istio.io/latest/docs/setup/getting-started/) requires `Gateway` and `VirtualService` API resources.
-- OpenShift uses [routes]({{< relref "/operate/kubernetes/networking/routes" >}}) to route external traffic.
-- The RedisEnterpriseActiveActiveDatabase (REAADB) requires any of the above routing methods to be configured in the RedisEnterpriseCluster (REC) with the `ingressOrRouteSpec` field.
+## External routing methods
+
+Choose the appropriate method for your environment to enable external access:
+
+- [Ingress routing]({{< relref "/operate/kubernetes/networking/ingress" >}}) - Use NGINX or HAProxy ingress controllers with `ingress` API resources
+- [Istio ingress routing]({{< relref "/operate/kubernetes/networking/istio-ingress" >}}) - Use Istio service mesh with `Gateway` and `VirtualService` API resources
+- [OpenShift routes]({{< relref "/operate/kubernetes/networking/routes" >}}) - Use OpenShift-specific route resources for external traffic
+
+## Automatic ingress configuration
+
+For Active-Active databases, configure automatic ingress creation:
+
+- [REC external routing]({{< relref "/operate/kubernetes/networking/ingressorroutespec" >}}) - Use `ingressOrRouteSpec` field in RedisEnterpriseCluster (REC) for automatic ingress creation
 
 ## External routing using Redis Enterprise for Kubernetes
 

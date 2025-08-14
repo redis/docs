@@ -151,13 +151,6 @@ ensures that there is a bucket that starts exactly at `alignTimestamp` and align
 For example, if `bucketDuration` is 24 hours (`24 * 3600 * 1000`), setting `alignTimestamp` to 6 hours after the Unix epoch (`6 * 3600 * 1000`) ensures that each bucket’s timeframe is `[06:00 .. 06:00)`.
 </details>
 
-## Return value
-
-Returns one of these replies:
-
-- [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - `OK` if executed correctly
-- [] on error (invalid arguments, wrong key type, etc.), when `sourceKey` does not exist, when `destKey` does not exist, when `sourceKey` is already a destination of a compaction rule, when `destKey` is already a source or a destination of a compaction rule, or when `sourceKey` and `destKey` are identical
-
 ## Examples
 
 <details open>
@@ -184,8 +177,26 @@ Now, also create a compacted time series named _dailyDiffTemp_. This time series
 127.0.0.1:6379> TS.CREATE dailyDiffTemp:TLV LABELS type temp location TLV
 127.0.0.1:6379> TS.CREATERULE temp:TLV dailyDiffTemp:TLV AGGREGATION range 86400000 21600000
 {{< / highlight >}}
-  
+
 </details>
+
+## Return information
+
+{{< multitabs id="ts-createrule-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` when the compaction rule is created successfully.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, `sourceKey` does not exist, `destKey` does not exist, `sourceKey` is already a destination of a compaction rule, `destKey` is already a source or a destination of a compaction rule, or `sourceKey` and `destKey` are identical.
+
+-tab-sep-
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` when the compaction rule is created successfully.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, `sourceKey` does not exist, `destKey` does not exist, `sourceKey` is already a destination of a compaction rule, `destKey` is already a source or a destination of a compaction rule, or `sourceKey` and `destKey` are identical.
+
+{{< /multitabs >}}
 
 ## See also
 

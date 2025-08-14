@@ -119,13 +119,6 @@ is set of label-value pairs that represent metadata labels of the key and serve 
 If `LABELS` is specified, the given label list is applied. Labels that are not present in the given list are removed implicitly. Specifying `LABELS` with no label-value pairs removes all existing labels. See `LABELS` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}}).
 </details>
 
-## Return value
-
-Returns one of these replies:
-
-- [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - `OK` if executed correctly
-- [] on error (invalid arguments, wrong key type, key does not exist, etc.)
-
 ## Examples
 
 <details open><summary><b>Alter a temperature time series</b></summary>
@@ -144,6 +137,24 @@ Alter the labels in the time series.
 OK
 {{< / highlight >}}
 </details>
+
+## Return information
+
+{{< multitabs id="ts-alter-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` when the time series is altered successfully.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, key does not exist, etc.
+
+-tab-sep-
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` when the time series is altered successfully.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, key does not exist, etc.
+
+{{< /multitabs >}}
 
 ## See also
 

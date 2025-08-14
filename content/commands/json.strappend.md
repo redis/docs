@@ -62,11 +62,6 @@ To specify a string as an array value to append, wrap the quoted string with an 
 is JSONPath to specify. Default is root `$`.
 </details>
 
-## Return value 
-
-JSON.STRAPPEND returns an array of integer replies for each path, the string's new length, or `nil`, if the matching JSON value is not a string.
-For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}). 
-
 ## Examples
 
 {{< highlight bash >}}
@@ -79,6 +74,24 @@ redis> JSON.STRAPPEND doc $..a '"baz"'
 redis> JSON.GET doc $
 "[{\"a\":\"foobaz\",\"nested\":{\"a\":\"hellobaz\"},\"nested2\":{\"a\":31}}]"
 {{< / highlight >}}
+
+## Return information
+
+{{< multitabs id="json-strappend-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+With `$`-based path argument: [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integer replies]({{< relref "/develop/reference/protocol-spec#integers" >}}) or [null replies]({{< relref "/develop/reference/protocol-spec#nulls" >}}), where each element is the string's new length, or `null` if the matching value is not a string.
+
+With `.`-based path argument: [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing the string's new length, or [null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the matching value is not a string.
+
+-tab-sep-
+
+With `$`-based path argument (default): [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integer replies]({{< relref "/develop/reference/protocol-spec#integers" >}}) or [null replies]({{< relref "/develop/reference/protocol-spec#nulls" >}}), where each element is the string's new length, or `null` if the matching value is not a string.
+
+With `.`-based path argument: [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing the string's new length, or [null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the matching value is not a string.
+
+{{< /multitabs >}}
 
 ## See also
 

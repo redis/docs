@@ -9,6 +9,7 @@ description: Overview of the architecture and components of Redis Enterprise for
 hideListLinks: true
 linkTitle: Architecture
 weight: 1
+aliases: [/operate/kubernetes/7.8.6/architecture/operator/]
 url: '/operate/kubernetes/7.8.6/architecture/'
 ---
 

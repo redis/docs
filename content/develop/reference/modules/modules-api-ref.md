@@ -58,6 +58,7 @@ weight: 1
 * [Server hooks implementation](#section-server-hooks-implementation)
 * [Module Configurations API](#section-module-configurations-api)
 * [RDB load/save API](#section-rdb-load-save-api)
+* [Config access API](#section-config-access-api)
 * [Key eviction API](#section-key-eviction-api)
 * [Miscellaneous APIs](#section-miscellaneous-apis)
 * [Defrag API](#section-defrag-api)
@@ -3166,7 +3167,7 @@ The returned `RedisModuleString` objects should be released with
 
     mstime_t RedisModule_HashFieldMinExpire(RedisModuleKey *key);
 
-**Available since:** unreleased
+**Available since:** 8.0.0
 
 
 Retrieves the minimum expiration time of fields in a hash.
@@ -5042,7 +5043,13 @@ is interested in. This can be an ORed mask of any of the following flags:
                                this notification is wrong and discourage. It will
                                cause the read command that trigger the event to be
                                replicated to the AOF/Replica.
- - `REDISMODULE_NOTIFY_ALL`: All events (Excluding `REDISMODULE_NOTIFY_KEYMISS`)
+
+ - `REDISMODULE_NOTIFY_NEW`: New key notification
+ - `REDISMODULE_NOTIFY_OVERWRITTEN`: Overwritten events
+ - `REDISMODULE_NOTIFY_TYPE_CHANGED`: Type-changed events
+ - `REDISMODULE_NOTIFY_ALL`: All events (Excluding `REDISMODULE_NOTIFY_KEYMISS`,
+                           REDISMODULE_NOTIFY_NEW, REDISMODULE_NOTIFY_OVERWRITTEN
+                           and REDISMODULE_NOTIFY_TYPE_CHANGED)
  - `REDISMODULE_NOTIFY_LOADED`: A special notification available only for modules,
                               indicates that the key was loaded from persistence.
                               Notice, when this event fires, the given key
@@ -5080,6 +5087,31 @@ runs is dangerous and discouraged. In order to react to key space events with
 write actions, please refer to [`RedisModule_AddPostNotificationJob`](#RedisModule_AddPostNotificationJob).
 
 See [https://redis.io/docs/latest/develop/use/keyspace-notifications/](https://redis.io/docs/latest/develop/use/keyspace-notifications/) for more information.
+
+<span id="RedisModule_UnsubscribeFromKeyspaceEvents"></span>
+
+### `RedisModule_UnsubscribeFromKeyspaceEvents`
+
+    int RedisModule_UnsubscribeFromKeyspaceEvents(RedisModuleCtx *ctx,
+                                                  int types,
+                                                  RedisModuleNotificationFunc callback);
+
+**Available since:** unreleased
+
+
+[`RedisModule_UnsubscribeFromKeyspaceEvents`](#RedisModule_UnsubscribeFromKeyspaceEvents) - Unregister a module's callback from keyspace notifications for specific event types.
+
+This function removes a previously registered subscription identified by both the event mask and the callback function.
+It is useful to reduce performance overhead when the module no longer requires notifications for certain events.
+
+Parameters:
+ - ctx: The `RedisModuleCtx` associated with the calling module.
+ - types: The event mask representing the keyspace notification types to unsubscribe from.
+ - callback: The callback function pointer that was originally registered for these events.
+
+Returns:
+ - `REDISMODULE_OK` on successful removal of the subscription.
+ - `REDISMODULE_ERR` if no matching subscription was found or if invalid parameters were provided.
 
 <span id="RedisModule_AddPostNotificationJob"></span>
 
@@ -5650,7 +5682,7 @@ If the user is able to access the key then `REDISMODULE_OK` is returned, otherwi
                                                  RedisModuleString *prefix,
                                                  int flags);
 
-**Available since:** unreleased
+**Available since:** 8.0.0
 
 Check if the user can access keys matching the given key prefix according to the ACLs 
 attached to the user and the flags representing key access. The flags are the same that 
@@ -7435,7 +7467,7 @@ Create an integer config that server clients can interact with via the
 
     int RedisModule_LoadDefaultConfigs(RedisModuleCtx *ctx);
 
-**Available since:** unreleased
+**Available since:** 8.0.0
 
 Applies all default configurations for the parameters the module registered.
 Only call this function if the module would like to make changes to the
@@ -7542,11 +7574,272 @@ Example:
 
     const char* RedisModule_GetInternalSecret(RedisModuleCtx *ctx, size_t *len);
 
-**Available since:** unreleased
+**Available since:** 8.0.0
 
 Returns the internal secret of the cluster.
 Should be used to authenticate as an internal connection to a node in the
 cluster, and by that gain the permissions to execute internal commands.
+
+<span id="section-config-access-api"></span>
+
+## Config access API
+
+<span id="RedisModule_ConfigIteratorCreate"></span>
+
+### `RedisModule_ConfigIteratorCreate`
+
+    RedisModuleConfigIterator *RedisModule_ConfigIteratorCreate(RedisModuleCtx *ctx,
+                                                                const char *pattern);
+
+**Available since:** unreleased
+
+Get an iterator to all configs.
+Optional `ctx` can be provided if use of auto-memory is desired.
+Optional `pattern` can be provided to filter configs by name. If `pattern` is
+NULL all configs will be returned.
+
+The returned iterator can be used to iterate over all configs using
+[`RedisModule_ConfigIteratorNext()`](#RedisModule_ConfigIteratorNext).
+
+Example usage:
+```
+// Below is same as [`RedisModule_ConfigIteratorCreate`](#RedisModule_ConfigIteratorCreate)(ctx, NULL)
+`RedisModuleConfigIterator` *iter = [`RedisModule_ConfigIteratorCreate`](#RedisModule_ConfigIteratorCreate)(ctx, "*");
+const char *config_name = NULL;
+while ((`config_name` = [`RedisModule_ConfigIteratorNext`](#RedisModule_ConfigIteratorNext)(iter)) != NULL) {
+    RedisModuleString *value = NULL;
+    if (RedisModule_ConfigGet(ctx, config_name, &value) == REDISMODULE_OK) {
+        // Do something with `value`...
+        RedisModule_FreeString(ctx, value);
+    }
+}
+[`RedisModule_ConfigIteratorRelease`](#RedisModule_ConfigIteratorRelease)(ctx, iter);
+
+// Or optionally one can check the type to get the config value directly
+// via the appropriate API in case performance is of consideration
+iter = [`RedisModule_ConfigIteratorCreate`](#RedisModule_ConfigIteratorCreate)(ctx, "*");
+while ((`config_name` = [`RedisModule_ConfigIteratorNext`](#RedisModule_ConfigIteratorNext)(iter)) != NULL) {
+    RedisModuleConfigType type = RedisModule_ConfigGetType(config_name);
+    if (type == REDISMODULE_CONFIG_TYPE_STRING) {
+        RedisModuleString *value;
+        RedisModule_ConfigGet(ctx, config_name, &value);
+        // Do something with `value`...
+        RedisModule_FreeString(ctx, value);
+    } if (type == REDISMODULE_CONFIG_TYPE_NUMERIC) {
+        long long value;
+        RedisModule_ConfigGetNumeric(ctx, config_name, &value);
+        // Do something with `value`...
+    } else if (type == REDISMODULE_CONFIG_TYPE_BOOL) {
+        int value;
+        RedisModule_ConfigGetBool(ctx, config_name, &value);
+        // Do something with `value`...
+    } else if (type == REDISMODULE_CONFIG_TYPE_ENUM) {
+        RedisModuleString *value;
+        RedisModule_ConfigGetEnum(ctx, config_name, &value);
+        // Do something with `value`...
+        RedisModule_Free(value);
+    }
+}
+[`RedisModule_ConfigIteratorRelease`](#RedisModule_ConfigIteratorRelease)(ctx, iter);
+```
+
+Returns a pointer to `RedisModuleConfigIterator`. Unless auto-memory is enabled
+the caller is responsible for freeing the iterator using
+[`RedisModule_ConfigIteratorRelease()`](#RedisModule_ConfigIteratorRelease).
+
+<span id="RedisModule_ConfigIteratorRelease"></span>
+
+### `RedisModule_ConfigIteratorRelease`
+
+    void RedisModule_ConfigIteratorRelease(RedisModuleCtx *ctx,
+                                           RedisModuleConfigIterator *iter);
+
+**Available since:** unreleased
+
+Release the iterator returned by [`RedisModule_ConfigIteratorCreate()`](#RedisModule_ConfigIteratorCreate). If auto-memory
+is enabled and manual release is needed one must pass the same `RedisModuleCtx`
+that was used to create the iterator.
+
+<span id="RedisModule_ConfigGetType"></span>
+
+### `RedisModule_ConfigGetType`
+
+    int RedisModule_ConfigGetType(const char *name, RedisModuleConfigType *res);
+
+**Available since:** unreleased
+
+Get the type of a config as `RedisModuleConfigType`. One may use this  in order
+to get or set the values of the config with the appropriate function if the
+generic [`RedisModule_ConfigGet`](#RedisModule_ConfigGet) and [`RedisModule_ConfigSet`](#RedisModule_ConfigSet) APIs are performing
+poorly.
+
+Intended usage of this function is when iteration over the configs is
+performed. See [`RedisModule_ConfigIteratorNext()`](#RedisModule_ConfigIteratorNext) for example usage. If setting
+or getting individual configs one can check the config type by hand in
+redis.conf (or via other sources if config is added by a module) and use the
+appropriate function without the need to call this function.
+
+Explanation of config types:
+ - `REDISMODULE_CONFIG_TYPE_BOOL`: Config is a boolean. One can use `RedisModule_Config`(Get/Set)Bool
+ - `REDISMODULE_CONFIG_TYPE_NUMERIC`: Config is a numeric value. One can use `RedisModule_Config`(Get/Set)Numeric
+ - `REDISMODULE_CONFIG_TYPE_STRING`: Config is a string. One can use the generic `RedisModule_Config`(Get/Set)
+ - `REDISMODULE_CONFIG_TYPE_ENUM`: Config is an enum. One can use `RedisModule_Config`(Get/Set)Enum
+
+If a config with the given name exists `res` is populated with its type, else
+`REDISMODULE_ERR` is returned.
+
+<span id="RedisModule_ConfigIteratorNext"></span>
+
+### `RedisModule_ConfigIteratorNext`
+
+    const char *RedisModule_ConfigIteratorNext(RedisModuleConfigIterator *iter);
+
+**Available since:** unreleased
+
+Go to the next element of the config iterator.
+
+Returns the name of the next config, or NULL if there are no more configs.
+Returned string is non-owning and thus should not be freed.
+If a pattern was provided when creating the iterator, only configs matching
+the pattern will be returned.
+
+See [`RedisModule_ConfigIteratorCreate()`](#RedisModule_ConfigIteratorCreate) for example usage.
+
+<span id="RedisModule_ConfigGet"></span>
+
+### `RedisModule_ConfigGet`
+
+    int RedisModule_ConfigGet(RedisModuleCtx *ctx,
+                              const char *name,
+                              RedisModuleString **res);
+
+**Available since:** unreleased
+
+Get the value of a config as a string. This function can be used to get the
+value of any config, regardless of its type.
+
+The string is allocated by the module and must be freed by the caller unless
+auto memory is enabled.
+
+If the config does not exist, `REDISMODULE_ERR` is returned, else `REDISMODULE_OK`
+is returned and `res` is populated with the value.
+
+<span id="RedisModule_ConfigGetBool"></span>
+
+### `RedisModule_ConfigGetBool`
+
+    int RedisModule_ConfigGetBool(RedisModuleCtx *ctx, const char *name, int *res);
+
+**Available since:** unreleased
+
+Get the value of a bool config.
+
+If the config does not exist or is not a bool config, `REDISMODULE_ERR` is
+returned, else `REDISMODULE_OK` is returned and `res` is populated with the
+value.
+
+<span id="RedisModule_ConfigGetEnum"></span>
+
+### `RedisModule_ConfigGetEnum`
+
+    int RedisModule_ConfigGetEnum(RedisModuleCtx *ctx,
+                                  const char *name,
+                                  RedisModuleString **res);
+
+**Available since:** unreleased
+
+Get the value of an enum config.
+
+If the config does not exist or is not an enum config, `REDISMODULE_ERR` is
+returned, else `REDISMODULE_OK` is returned and `res` is populated with the value.
+If the config has multiple arguments they are returned as a space-separated
+string.
+
+<span id="RedisModule_ConfigGetNumeric"></span>
+
+### `RedisModule_ConfigGetNumeric`
+
+    int RedisModule_ConfigGetNumeric(RedisModuleCtx *ctx,
+                                     const char *name,
+                                     long long *res);
+
+**Available since:** unreleased
+
+Get the value of a numeric config.
+
+If the config does not exist or is not a numeric config, `REDISMODULE_ERR` is
+returned, else `REDISMODULE_OK` is returned and `res` is populated with the
+value.
+
+<span id="RedisModule_ConfigSet"></span>
+
+### `RedisModule_ConfigSet`
+
+    int RedisModule_ConfigSet(RedisModuleCtx *ctx,
+                              const char *name,
+                              RedisModuleString *value,
+                              RedisModuleString **err);
+
+**Available since:** unreleased
+
+Set the value of a config.
+
+This function can be used to set the value of any config, regardless of its
+type. If the config is multi-argument, the value must be a space-separated
+string.
+
+If the value failed to be set `REDISMODULE_ERR` will be returned and if `err`
+is not NULL, it will be populated with an error message.
+
+<span id="RedisModule_ConfigSetBool"></span>
+
+### `RedisModule_ConfigSetBool`
+
+    int RedisModule_ConfigSetBool(RedisModuleCtx *ctx,
+                                  const char *name,
+                                  int value,
+                                  RedisModuleString **err);
+
+**Available since:** unreleased
+
+Set the value of a bool config.
+
+See [`RedisModule_ConfigSet`](#RedisModule_ConfigSet) for return value.
+
+<span id="RedisModule_ConfigSetEnum"></span>
+
+### `RedisModule_ConfigSetEnum`
+
+    int RedisModule_ConfigSetEnum(RedisModuleCtx *ctx,
+                                  const char *name,
+                                  RedisModuleString *value,
+                                  RedisModuleString **err);
+
+**Available since:** unreleased
+
+Set the value of an enum config.
+
+If the config is multi-argument the value parameter must be a space-separated
+string.
+
+See [`RedisModule_ConfigSet`](#RedisModule_ConfigSet) for return value.
+
+<span id="RedisModule_ConfigSetNumeric"></span>
+
+### `RedisModule_ConfigSetNumeric`
+
+    int RedisModule_ConfigSetNumeric(RedisModuleCtx *ctx,
+                                     const char *name,
+                                     long long value,
+                                     RedisModuleString **err);
+
+**Available since:** unreleased
+
+Set the value of a numeric config.
+If the value passed is meant to be a percentage, it should be passed as a
+negative value.
+
+See [`RedisModule_ConfigSet`](#RedisModule_ConfigSet) for return value.
 
 <span id="section-key-eviction-api"></span>
 
@@ -7801,7 +8094,7 @@ may allocate that is not tied to a specific data type.
     int RedisModule_RegisterDefragFunc2(RedisModuleCtx *ctx,
                                         RedisModuleDefragFunc2 cb);
 
-**Available since:** unreleased
+**Available since:** 8.0.0
 
 Register a defrag callback for global data, i.e. anything that the module
 may allocate that is not tied to a specific data type.
@@ -7817,7 +8110,7 @@ in and indicate that it should be called again later, or is it done (returned 0)
                                             RedisModuleDefragFunc start,
                                             RedisModuleDefragFunc end);
 
-**Available since:** unreleased
+**Available since:** 8.0.0
 
 Register a defrag callbacks that will be called when defrag operation starts and ends.
 
@@ -7914,7 +8207,7 @@ be used again.
 
     void *RedisModule_DefragAllocRaw(RedisModuleDefragCtx *ctx, size_t size);
 
-**Available since:** unreleased
+**Available since:** 8.0.0
 
 Allocate memory for defrag purposes
 
@@ -7934,7 +8227,7 @@ allow to support more complex defrag usecases.
 
     void RedisModule_DefragFreeRaw(RedisModuleDefragCtx *ctx, void *ptr);
 
-**Available since:** unreleased
+**Available since:** 8.0.0
 
 Free memory for defrag purposes
 
@@ -7968,7 +8261,7 @@ on the Redis side is dropped as soon as the command callback returns).
                                                        RedisModuleDefragDictValueCallback valueCB,
                                                        RedisModuleString **seekTo);
 
-**Available since:** unreleased
+**Available since:** 8.0.0
 
 Defragment a Redis Module Dictionary by scanning its contents and calling a value
 callback for each value.
@@ -8061,6 +8354,18 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_CommandFilterArgReplace`](#RedisModule_CommandFilterArgReplace)
 * [`RedisModule_CommandFilterArgsCount`](#RedisModule_CommandFilterArgsCount)
 * [`RedisModule_CommandFilterGetClientId`](#RedisModule_CommandFilterGetClientId)
+* [`RedisModule_ConfigGet`](#RedisModule_ConfigGet)
+* [`RedisModule_ConfigGetBool`](#RedisModule_ConfigGetBool)
+* [`RedisModule_ConfigGetEnum`](#RedisModule_ConfigGetEnum)
+* [`RedisModule_ConfigGetNumeric`](#RedisModule_ConfigGetNumeric)
+* [`RedisModule_ConfigGetType`](#RedisModule_ConfigGetType)
+* [`RedisModule_ConfigIteratorCreate`](#RedisModule_ConfigIteratorCreate)
+* [`RedisModule_ConfigIteratorNext`](#RedisModule_ConfigIteratorNext)
+* [`RedisModule_ConfigIteratorRelease`](#RedisModule_ConfigIteratorRelease)
+* [`RedisModule_ConfigSet`](#RedisModule_ConfigSet)
+* [`RedisModule_ConfigSetBool`](#RedisModule_ConfigSetBool)
+* [`RedisModule_ConfigSetEnum`](#RedisModule_ConfigSetEnum)
+* [`RedisModule_ConfigSetNumeric`](#RedisModule_ConfigSetNumeric)
 * [`RedisModule_CreateCommand`](#RedisModule_CreateCommand)
 * [`RedisModule_CreateDataType`](#RedisModule_CreateDataType)
 * [`RedisModule_CreateDict`](#RedisModule_CreateDict)
@@ -8356,6 +8661,7 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_UnblockClient`](#RedisModule_UnblockClient)
 * [`RedisModule_UnlinkKey`](#RedisModule_UnlinkKey)
 * [`RedisModule_UnregisterCommandFilter`](#RedisModule_UnregisterCommandFilter)
+* [`RedisModule_UnsubscribeFromKeyspaceEvents`](#RedisModule_UnsubscribeFromKeyspaceEvents)
 * [`RedisModule_ValueLength`](#RedisModule_ValueLength)
 * [`RedisModule_WrongArity`](#RedisModule_WrongArity)
 * [`RedisModule_Yield`](#RedisModule_Yield)
@@ -8373,4 +8679,3 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_ZsetRem`](#RedisModule_ZsetRem)
 * [`RedisModule_ZsetScore`](#RedisModule_ZsetScore)
 * [`RedisModule__Assert`](#RedisModule__Assert)
-

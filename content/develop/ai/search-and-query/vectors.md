@@ -25,7 +25,7 @@ To quickly get started, check out the [Redis vector quickstart guide]({{< relref
 
 ## Overview
 
-1. [**Create a vector index**]({{< relref "develop/ai/search-and-query/vectors#create-a-vector-index" >}}): Redis maintains a secondary index over your data with a defined schema (including vector fields and metadata). Redis supports [`FLAT`]({{< relref "develop/ai/search-and-query/vectors#flat-index" >}}) and [`HNSW`]({{< relref "develop/ai/search-and-query/vectors#hnsw-index" >}}) vector index types.
+1. [**Create a vector index**]({{< relref "develop/ai/search-and-query/vectors#create-a-vector-index" >}}): Redis maintains a secondary index over your data with a defined schema (including vector fields and metadata). Redis supports [`FLAT`]({{< relref "develop/ai/search-and-query/vectors#flat-index" >}}), [`HNSW`]({{< relref "develop/ai/search-and-query/vectors#hnsw-index" >}}) and [`SVS-VAMANA`]({{< relref "develop/ai/search-and-query/vectors#svs-vamana-index" >}}) vector index types.
 1. [**Store and update vectors**]({{< relref "develop/ai/search-and-query/vectors#store-and-update-vectors" >}}): Redis stores vectors and metadata in hashes or JSON objects.
 1. [**Search with vectors**]({{< relref "develop/ai/search-and-query/vectors#search-with-vectors" >}}): Redis supports several advanced querying strategies with vector fields including k-nearest neighbor ([KNN]({{< relref "develop/ai/search-and-query/vectors#knn-vector-search" >}})), [vector range queries]({{< relref "develop/ai/search-and-query/vectors#vector-range-queries" >}}), and [metadata filters]({{< relref "develop/ai/search-and-query/vectors#filters" >}}).
 1. [**Configure vector queries at runtime**]({{< relref "develop/ai/search-and-query/vectors#runtime-query-params" >}}).
@@ -106,12 +106,12 @@ Choose the `HNSW` index type when you have larger datasets (> 1M documents) or w
 [`HNSW`](https://arxiv.org/ftp/arxiv/papers/1603/1603.09320.pdf) supports a number of additional parameters to tune
 the accuracy of the queries, while trading off performance.
 
-| Attribute          | Description                                                                                 |
-|:-------------------|:--------------------------------------------------------------------------------------------|
-| `M`                | Max number of outgoing edges (connections) for each node in a graph layer. On layer zero, the max number of connections will be `2 * M`. Higher values increase accuracy, but also increase memory usage and index build time. The default is 16. |
-| `EF_CONSTRUCTION`  | Max number of connected neighbors to consider during graph building. Higher values increase accuracy, but also increase index build time. The default is 200. |
-| `EF_RUNTIME`       | Max top candidates during KNN search. Higher values increase accuracy, but also increase search latency. The default is 10. |
-| `EPSILON`          | Relative factor that sets the boundaries in which a range query may search for candidates. That is, vector candidates whose distance from the query vector is `radius * (1 + EPSILON)` are potentially scanned, allowing more extensive search and more accurate results, at the expense of run time. The default is 0.01. |
+| Attribute          | Description                                                        | Default value |
+|:-------------------|:-------------------------------------------------------------------|:-------------:|
+| `M`                | Max number of outgoing edges (connections) for each node in a graph layer. On layer zero, the max number of connections will be `2 * M`. Higher values increase accuracy, but also increase memory usage and index build time. | 16 |
+| `EF_CONSTRUCTION`  | Max number of connected neighbors to consider during graph building. Higher values increase accuracy, but also increase index build time. | 200 |
+| `EF_RUNTIME`       | Max top candidates during KNN search. Higher values increase accuracy, but also increase search latency. | 10 |
+| `EPSILON`          | Relative factor that sets the boundaries in which a range query may search for candidates. That is, vector candidates whose distance from the query vector is `radius * (1 + EPSILON)` are potentially scanned, allowing more extensive search and more accurate results, at the expense of run time. | 0.01 |
 
 **Example**
 
@@ -128,6 +128,79 @@ FT.CREATE documents
 ```
 
 In the example above, an index named `documents` is created over hashes with the key prefix `docs:` and an `HNSW` vector field named `doc_embedding` with five index attributes: `TYPE`, `DIM`, `DISTANCE_METRIC`, `M`, and `EF_CONSTRUCTION`.
+
+### SVS-VAMANA index
+
+Scalable Vector Search (SVS) is an Intel project featuring a graph-based vector search algorithm that is optimized to work with compression methods to reduce memory usage. You can read more about the project [here](https://intel.github.io/ScalableVectorSearch/intro.html). Support for SVS-VAMANA indexing was added in Redis 8.2.
+
+Choose the `SVS-VAMANA` index type when all of the following requirements apply:
+- High search performance and scalability are more important than exact search accuracy (similar to HNSW)
+- Reduced memory usage
+- Performance optimizations for Intel hardware
+
+**Required attributes**
+
+| Attribute          | Description                              |
+|:-------------------|:-----------------------------------------|
+| `TYPE`             | Vector type (`FLOAT16` or `FLOAT32`). Note: `COMPRESSION` is supported with both types. |
+| `DIM`              | The width, or number of dimensions, of the vector embeddings stored in this field. In other words, the number of floating point elements comprising the vector. `DIM` must be a positive integer. The vector used to query this field must have the exact same dimensions as the field itself.  |
+| `DISTANCE_METRIC`  | Distance metric (`L2`, `IP`, `COSINE`).  |
+
+**Optional attributes**
+
+`SVS-VAMANA` supports a number of additional parameters to tune the accuracy of the queries.
+
+| Attribute                  | Description                              | Default value |
+|:---------------------------|:-----------------------------------------|:-------------:|
+| `COMPRESSION`              | Compression algorithm; one of `LVQ8`, `LVQ4`, `LVQ4x4`, `LVQ4x8`, `LeanVec4x8`, or `LeanVec8x8`. Vectors will be compressed during indexing. See below for descriptions of each algorithm. Also, see these Intel pages for best practices on using these algorithms: [`COMPRESSION` settings](https://intel.github.io/ScalableVectorSearch/howtos.html#compression-setting) and [`LeanVec`](https://intel.github.io/ScalableVectorSearch/python/experimental/leanvec.html). | `LVQ4x4` |
+| `CONSTRUCTION_WINDOW_SIZE` | The search window size to use during graph construction. A higher search window size will yield a higher quality graph since more overall vertexes are considered, but will increase construction time. | 200 |
+| `GRAPH_MAX_DEGREE`         | Sets the maximum number of edges per node; equivalent to `HNSW’s M*2`. A higher max degree may yield a higher quality graph in terms of recall for performance, but the memory footprint of the graph is directly proportional to the maximum degree. | 32 |
+| `SEARCH_WINDOW_SIZE`       | The size of the search window; the same as `HSNW's EF_RUNTIME`. Increasing the search window size and capacity generally yields more accurate but slower search results. | 10 |
+| `EPSILON`                  | The range search approximation factor; the same as `HSNW's EPSILON`. | 0.01 |
+| `TRAINING_THRESHOLD`       | Number of vectors needed to learn compression parameters. Applicable only when used with `COMPRESSION`. Increase if recall is low. Note: setting this too high may slow down search.If a value is provided, it must be less than `100 * DEFAULT_BLOCK_SIZE`, where `DEFAULT_BLOCK_SIZE` is 1024. | `10 * DEFAULT_BLOCK_SIZE` |
+| `LEANVEC_DIM`              | The dimension used when using `LeanVec4x8` or `LeanVec8x8` compression for dimensionality reduction. If a value is provided, it should be less than `DIM`. Lowering it can speed up search and reduce memory use. | `DIM / 2` |
+
+{{< warning >}}
+On non-Intel platforms, `SVS-VAMANA` with `COMPRESSION` will fall back to Intel’s basic scalar quantization implementation.
+{{< /warning >}}
+
+**SVS_VAMANA vector compression algorithms**
+
+LVQ is a scalar quantization method that applies scaling constants for each vector. LeanVec builds on this by combining query-aware dimensionality reduction with LVQ-based scalar quantization for efficient vector compression. 
+
+`LVQ4x4` (the default): Fast search with 4x vector compression relative to float32-encoded vectors (8 bits per dimension) and high accuracy.
+
+`LeanVec4x8`: Recommended for high-dimensional datasets. It offers the fastest search and ingestion. It's not the default because in rare cases it may reduce recall if the data does not compress well.
+
+`LeanVec` dimensional: For faster search and lower memory use, reduce the dimension further (default is input `dim / 2`; try `dim / 4` or even higher reduction).
+
+`LVQ8`: Faster ingestion than the default, but with slower search.
+
+| Compression algorithm | Best for |
+|-----------------------|----------|
+| `LVQ4x4` (default)    | Fast search in most cases with low memory use. |
+| `LeanVec4x8`          | Fastest search and ingestion. |
+| `LVQ4`                | Maximum memory savings. |
+| `LVQ8`                | Faster ingestion than the default. |
+| `LeanVec8x8`          | Improved recall in cases where `LeanVec4x8` is not sufficient. |
+| `LVQ4x8`              | Improved recall in cases where the default is not sufficient. |
+
+**Example**
+
+```
+FT.CREATE documents
+  ON HASH
+  PREFIX 1 docs:
+  SCHEMA doc_embedding VECTOR SVS-VAMANA 12
+    TYPE FLOAT32
+    DIM 1536
+    DISTANCE_METRIC COSINE
+    GRAPH_MAX_DEGREE 40
+    CONSTRUCTION_WINDOW_SIZE 250
+    COMPRESSION LVQ8
+```
+
+In the example above, an index named `documents` is created over hashes with the key prefix `docs:` and an `SVS-VAMANA` vector field named `doc_embedding` with six index attributes: `TYPE`, `DIM`, `DISTANCE_METRIC`, `GRAPH_MAX_DEGREE`, `CONSTRUCTION_WINDOW_SIZE` and `COMPRESSION`.
 
 ### Distance metrics
 
@@ -159,7 +232,7 @@ HSET docs:01 doc_embedding <vector_bytes> category sports
 Hash values are stored as binary-safe strings. The value `<vector_bytes>` represents the vector's underlying memory buffer.
 {{% /alert  %}}
 
-A common method for converting vectors to bytes uses the [redis-py](https://redis-py.readthedocs.io/en/stable/examples/search_vector_similarity_examples.html) client library and the Python [NumPy](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.tobytes.html) library.
+A common method for converting vectors to bytes uses the [redis-py](https://redis.readthedocs.io/en/stable/examples/search_vector_similarity_examples.html) client library and the Python [NumPy](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.tobytes.html) library.
 
 **Example**
 
@@ -378,6 +451,17 @@ Optional runtime parameters for HNSW indexes are:
 | `EF_RUNTIME`    | The maximum number of top candidates to hold during the KNN search. Higher values lead to more accurate results at the expense of a longer query runtime. | The value passed during index creation. The default is 10. |
 | `EPSILON`       | The relative factor that sets the boundaries for a vector range query. Vector candidates whose distance from the query vector is `radius * (1 + EPSILON)` are potentially scanned, allowing a more extensive search and more accurate results at the expense of runtime. | The value passed during index creation. The default is 0.01. |
 
+**SVS-VAMANA**
+
+Optional runtime parameters for SVS-VAMANA indexes are:
+
+| Parameter | Description | Default value |
+|:----------|:------------|:--------------|
+| `SEARCH_WINDOW_SIZE` | The size of the search window (applies only to KNN searches). | 10 or the value that was passed upon index creation. |
+| `EPSILON` | The range search approximation factor. | 0.01 or the value that was passed upon index creation. |
+| `USE_SEARCH_HISTORY` | When building an index, either the contents of the search buffer is used or the entire search history is used. The latter case may yield a slightly better graph at the cost of more search time. Boolean options are `OFF`, `ON`, and `AUTO`. `AUTO` is always evaluated internally as `ON`. | `AUTO` |
+| `SEARCH_BUFFER_CAPACITY` | A tuning parameter used in compressed `SVS-VAMANA` indexes, which are using a two-level compression type (`LVQ<X>x<Y>` or one of the `LeanVec` types), that determines the number of vector candidates to collect in the first level of the search, before the re-ranking level (which is the second level). | `SEARCH_WINDOW_SIZE` |
+
 
 ### Important notes
 
@@ -524,7 +608,7 @@ retrieval techniques, Redis is well positioned to serve as your high performance
 Here are some additional resources that apply vector search for different use cases:
 
 - [Retrieval augmented generation from scratch](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/RAG/01_redisvl.ipynb)
-- [Semantic caching](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/semantic-cache/semantic_caching_gemini.ipynb)
+- [Semantic caching](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/semantic-cache/00_semantic_caching_gemini.ipynb)
 
 ## Continue learning with Redis University
 

@@ -33,11 +33,20 @@ The following commands are available for vector sets:
 - [VEMB]({{< relref "/commands/vemb" >}}) - retrieve the approximate vector associated with a vector set element.
 - [VGETATTR]({{< relref "/commands/vgetattr" >}}) - retrieve the attributes of a vector set element.
 - [VINFO]({{< relref "/commands/vinfo" >}}) - retrieve metadata and internal details about a vector set, including size, dimensions, quantization type, and graph structure.
+- [VISMEMBER]({{< relref "/commands/vismember" >}}) - check if an element exists in a vector set.
 - [VLINKS]({{< relref "/commands/vlinks" >}}) - retrieve the neighbors of a specified element in a vector set; the connections for each layer of the HNSW graph.
 - [VRANDMEMBER]({{< relref "/commands/vrandmember" >}}) - retrieve random elements of a vector set.
 - [VREM]({{< relref "/commands/vrem" >}}) - remove an element from a vector set.
 - [VSETATTR]({{< relref "/commands/vsetattr" >}}) - set or replace attributes on a vector set element.
 - [VSIM]({{< relref "/commands/vsim" >}}) - retrieve elements similar to a given vector or element with optional filtering.
+
+## Endianness considerations for FP32 format
+
+When using the FP32 blob format with vector set commands like [`VADD`]({{< relref "/commands/vadd" >}}) and [`VSIM`]({{< relref "/commands/vsim" >}}), the binary data must be encoded in little-endian byte order. This is important for cross-platform compatibility, as some ARM variants and other architectures may use different endianness.
+
+If your platform uses big-endian or mixed-endian encoding, you have two options:
+- Manually convert the byte order to little-endian before passing the blob to Redis.
+- Use the `VALUES` syntax instead, which accepts floating-point numbers as strings and is platform-independent.
 
 ## Examples
 

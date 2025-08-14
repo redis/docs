@@ -42,22 +42,42 @@ your Redis database.
 
 You can also add the configuration for Redis MCP to your client app
 manually. The exact method varies from client to client but the
-basic approach is similar in each case. The pages listed below
+basic approach is similar in each case. The sections below
 give the general configuration details for some common MCP client tools:
 
--   [Claude Desktop](https://modelcontextprotocol.io/quickstart/user)
--   [GitHub Copilot for VS Code](https://code.visualstudio.com/docs/copilot/chat/mcp-servers)
--   [OpenAI](https://openai.github.io/openai-agents-python/mcp/)
+-   [Augment Code](#augment-code)
+-   [Claude Desktop](#claude-desktop)
+-   [OpenAI Agents](#openai-agents)
+-   [VS Code with GitHub Copilot](#vs-code-with-github-copilot)
 
-### Local servers
 
-For a locally-running MCP server, you need to edit the configuration
-file to add the command that launches the server, along with its
-arguments. For example, with Claude Desktop, you can locate the
-file by selecting **Settings** from the menu, then selecting the
-**Developer** tab, and then clicking the **Edit Config** button.
-Open this JSON file and add your settings as
-shown below:
+### Augment Code
+
+Redis supports Augment Code's
+[Easy MCP](https://docs.augmentcode.com/setup-augment/mcp#easy-mcp%3A-one-click-integrations)
+feature in [VSCode](https://docs.augmentcode.com/setup-augment/mcp#getting-started-with-easy-mcp)
+and the [JetBrains IDEs](https://docs.augmentcode.com/jetbrains/setup-augment/mcp#getting-started-with-easy-mcp)
+to install the server in seconds:
+
+1.  Open the Augment settings panel and
+    navigate to the **MCP** pane.
+1.  Click the "+" button next to Redis in the
+    **Easy MCP installation** list and enter the connection details for your Redis database.
+1.  Click **Install** to start using Redis MCP.
+
+If you need to supply environment variables or command line parameters:
+
+1.  Click the **Add MCP** button underneath the list of Easy MCP integrations.
+1.  Enter `Redis` in the name field and paste the appropriate command line in the
+    command field (see 
+    [Configuration]({{< relref "/integrate/redis-mcp/install#configuration" >}}) for
+    more information about the available command line options).
+1.  Click the **+ Variable** button to add any environment variables that you need.
+1.  Click **Add** to add the server.
+
+### Claude Desktop
+
+First, locate the configuration file by selecting **Settings** from the menu, then selecting the **Developer** tab, and then clicking the **Edit Config** button. Open this JSON file and add your settings as shown below to run Redis MCP with [`uvx`](https://docs.astral.sh/uv/guides/tools/#running-tools):
 
 ```json
 {
@@ -79,9 +99,8 @@ shown below:
   }
 ```
 
-You can find the path to the `uv` command using `which uv`, or
-the equivalent. You can also optionally set the environment for
-the command shell here in the `env` section:
+You can also optionally set the environment for the command shell here in the
+`env` section:
 
 ```json
 "redis": {
@@ -123,6 +142,88 @@ configuration as shown below:
             "mcp-redis"]
 }
 ```
+
+For more information about using MCP with Claude Desktop, see
+[Connect to Local MCP Servers](https://modelcontextprotocol.io/quickstart/user).
+
+### OpenAI Agents
+
+The
+[`redis_assistant.py`](https://github.com/redis/mcp-redis/blob/main/examples/redis_assistant.py)
+file in the [`mcp-redis`](https://github.com/redis/mcp-redis) repository contains an
+example of how to configure OpenAI Agents to use Redis MCP.
+
+To use this example, install the `openai-agents` library, ensure
+you have exported the OpenAI token in the `OPENAI_API_KEY` environment variable
+and run the `redis_assistant.py` script:
+
+```bash
+pip install openai-agents
+export OPENAI_API_KEY=<your_openai_api_key>
+python3 redis_assistant.py
+```
+
+See the
+[OpenAI Agents SDK documentation](https://openai.github.io/openai-agents-python/mcp/)
+for more information about using MCP servers.
+
+### VS Code with GitHub Copilot
+
+To use Redis MCP with VS Code, first add the following to your `settings.json`
+file to enable the
+[agent mode tools](https://code.visualstudio.com/docs/copilot/chat/chat-agent-mode):
+
+```json
+{
+  "chat.agent.enabled": true
+}
+```
+
+Then, add the following lines to `settings.json` to run Redis MCP
+with [`uvx`](https://docs.astral.sh/uv/guides/tools/#running-tools):
+
+```json
+  .
+  .
+"mcp": {
+    "servers": {
+        "Redis MCP Server": {
+        "type": "stdio",
+        "command": "uvx", 
+        "args": [
+            "--from", "git+https://github.com/redis/mcp-redis.git",
+            "redis-mcp-server",
+            "--url", "redis://localhost:6379/0"
+        ]
+        },
+    }
+},
+  .
+  .
+```
+
+You can also add
+[environment variables]({{< relref "/integrate/redis-mcp/install#environment-variables" >}}) 
+in the `env` section of the configuration:
+
+```json
+"Redis MCP Server": {
+    .
+    .
+  "env": {
+    "REDIS_HOST": "<your_redis_database_hostname>",
+    "REDIS_PORT": "<your_redis_database_port>",
+    "REDIS_USERNAME": "<your_redis_database_username>",
+    "REDIS_PWD": "<your_redis_database_password>",
+      .
+      .
+  }
+}
+```
+
+See
+[Use MCP servers in VS Code](https://code.visualstudio.com/docs/copilot/chat/mcp-servers)
+for more information.
 
 ## Redis Cloud MCP
 
