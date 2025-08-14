@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: Bug fix for shard memory usage metrics in the Cluster Manager UI. Internal fixes and improvements.
+description: Internal fixes and improvements.
 linkTitle: 7.22.0-tba (August 2025)
 weight: 87
 ---
@@ -16,8 +16,6 @@ weight: 87
 ## Highlights
 
 This version offers:
-
-- Bug fix for shard memory usage metrics in the Cluster Manager UI
 
 - Internal fixes and improvements
 
@@ -43,7 +41,7 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 ### Resolved issues
 
-- RS165532: Fixed an issue that could prevent viewing shard memory usage metrics in the Cluster Manager UI and cause the page to fail to load when switching between database and shard metrics.
+- TBA
 
 ## Version changes
 
