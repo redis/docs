@@ -27,7 +27,11 @@ This version offers:
 
 ### Enhancements
 
-- TBA
+- Added `--update-db-config-modules` option to the [`crdb-cli crdb update`]({{<relref "/operate/rs/references/cli-utilities/crdb-cli/update">}}) command to streamline updating module information in the CRDB configuration after uprading modules used by Active-Active databases. Use this option only after all CRDB database instances have upgraded their modules.
+
+    ```sh
+    crdb-cli crdb update --crdb-guid <guid> --update-db-config-modules true
+    ```
 
 ### Redis database versions
 
@@ -51,7 +55,25 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 ### Resolved issues
 
-- TBA
+- RS156391: Fixed an issue where the `job_scheduler`'s memory usage could increase significantly when the diagnostic logging service was enabled.
+
+- RS132033: Fixed an issue where out-of-memory errors in the Lua interpreter prevented scripts from running Redis commands until the shard was restarted. This fix is included in Redis database version 7.2 and requires a database upgrade from earlier versions.
+
+- RS153192: Updated the installer's minimum RAM requirement to 8 GB.
+
+- RS159685: Fixed an issue with high DMC CPU usage after changing the primary node of a cluster that has Active-Active databases.
+
+- RS160546: Fixed an issue where `rladmin status extra all` did not show available RAM.
+
+- RS150592: Fixed an issue where connection errors were not automatically retried.
+
+- RS161945: Fixed an issue where state machine logs showed a generic state machine ID instead of the descriptive state machine name when creating a database from persistence.
+
+- RS160196: Fixed an issue where a node could be set as primary before completing the bootstrap process.
+
+- RS153736: Fixed an issue where the `PUBSUB SHARDNUMSUB` command would not respond when called without arguments if the OSS Cluster API was enabled.
+
+- RS163254: Fixed an issue where the policy update logs displayed inconsistent boolean value formats, mixing `enabled/disabled` and `True/False`.
 
 ## Version changes
 
@@ -72,6 +94,12 @@ Redis Software version 8.0.x introduces the following breaking changes:
 #### API deprecations
 
 - TBA
+
+#### Internal monitoring and v1 Prometheus metrics deprecation
+
+The existing [internal monitoring engine]({{<relref "/operate/rs/monitoring/v1_monitoring">}}) is deprecated. We recommend transitioning to the new [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}) for improved performance, enhanced integration capabilities, and modernized metrics streaming.
+
+V1 Prometheus metrics are deprecated but still available. To transition to the new metrics stream engine, either migrate your existing dashboards using [this guide]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v1-to-v2">}}) now, or wait to use new preconfigured dashboards when they become available in a future release.
 
 ### Upcoming changes
 
@@ -126,6 +154,10 @@ The following table shows the SHA256 checksums for the available packages:
 ## Known issues
 
 - RS131972: Creating an ACL that contains a line break in the Cluster Manager UI can cause shard migration to fail due to ACL errors.
+
+- RS155734: Endpoint availability metrics do not work as expected due to a calculation error.
+
+- RS153589: The metrics stream engine preview reports incorrect latency metrics.
 
 ## Known limitations
 

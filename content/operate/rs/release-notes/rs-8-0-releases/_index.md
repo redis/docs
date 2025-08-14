@@ -47,6 +47,12 @@ Redis Enterprise Software version 8.0 introduces the following breaking changes:
 
 - TBA
 
+#### Internal monitoring and v1 Prometheus metrics deprecation
+
+The existing [internal monitoring engine]({{<relref "/operate/rs/monitoring/v1_monitoring">}}) is deprecated. We recommend transitioning to the new [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}) for improved performance, enhanced integration capabilities, and modernized metrics streaming.
+
+V1 Prometheus metrics are deprecated but still available. To transition to the new metrics stream engine, either migrate your existing dashboards using [this guide]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v1-to-v2">}}) now, or wait to use new preconfigured dashboards when they become available in a future release.
+
 ### Upcoming changes
 
 ### Supported platforms
@@ -88,6 +94,10 @@ The following table provides a snapshot of supported platforms as of this Redis 
 ## Known issues
 
 - RS131972: Creating an ACL that contains a line break in the Cluster Manager UI can cause shard migration to fail due to ACL errors.
+
+- RS155734: Endpoint availability metrics do not work as expected due to a calculation error.
+
+- RS153589: The metrics stream engine preview reports incorrect latency metrics.
 
 ## Known limitations
 
