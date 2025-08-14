@@ -94,13 +94,15 @@ shown below does this for you:
 {{< clients-example set="home_query_vec" step="helper_method" lang_filter="Java-Async,Java-Reactive" >}}
 {{< /clients-example >}}
 
-## Create a embedding model instance
+## Create an embedding model instance
 
 The example below uses the
 [`all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2)
-model to generate the embeddings. The vectors that represent the
-embeddings have 384 components, regardless of the length of the input
-text.
+model to generate the embeddings. This model generates vectors with 384 dimensions, regardless of the length of the input text, but note that the input is truncated to 256
+tokens (see
+[Word piece tokenization](https://huggingface.co/learn/nlp-course/en/chapter6/6)
+at the [Hugging Face](https://huggingface.co/) docs to learn more about the way tokens
+are related to the original text).
 
 The [`Predictor`](https://javadoc.io/doc/ai.djl/api/latest/ai/djl/inference/Predictor.html)
 class implements the model to generate the embeddings. The code below
@@ -112,15 +114,18 @@ creates an instance of `Predictor` that uses the `all-MiniLM-L6-v2` model:
 ## Create the index
 
 As noted in [Define a helper method](#define-a-helper-method) above, you must
-pass the embeddings to the hash and query commands as a binary string. Lettuce lets
-you specify a `ByteBufferCodec` for the connection to Redis, which lets you construct
-the binary strings for Redis keys and values conveniently using
+pass the embeddings to the hash and query commands as a binary string.
+
+Lettuce has an option to specify a `ByteBufferCodec` for the connection to Redis.
+This lets you construct binary strings for Redis keys and values conveniently using
 the standard
 [`ByteBuffer`](https://docs.oracle.com/javase/8/docs/api/java/nio/ByteBuffer.html)
 class (see [Codecs](https://redis.github.io/lettuce/integration-extension/#codecs)
-in the Lettuce documentation for more information). However, it is more convenient
-to use the default `StringCodec` for commands that don't require binary strings.
-The code below shows how to declare both connections in the try-with-resources
+in the Lettuce documentation for more information). However, you will probably find
+it more convenient to use the default `StringCodec` for commands that don't require binary strings. It is therefore helpful to have two connections available, one using `ByteBufferCodec` and one using `StringCodec`.
+
+The code below shows how to declare one connection with the
+`ByteBufferCodec` and another without in the try-with-resources
 block. You also need two separate instances of `RedisAsyncCommands` to
 use the two connections:
 
@@ -143,7 +148,7 @@ vector distance metric, `Float32` values to represent the vector's components,
 and 384 dimensions, as required by the `all-MiniLM-L6-v2` embedding model.
 
 The `CreateArgs` object specifies hash objects for storage and a
-prefix `doc:` that identifies the hash objects we want to index.
+prefix `doc:` that identifies the hash objects to index.
 
 {{< clients-example set="home_query_vec" step="create_index" lang_filter="Java-Async,Java-Reactive" >}}
 {{< /clients-example >}}
@@ -158,13 +163,13 @@ Use the `predict()` method of the `Predictor` object
 as shown below to create the embedding that represents the `content` field
 and use the `floatArrayToByteBuffer()` helper method to convert it to a binary string.
 Use the binary string representation when you are
-indexing hash objects (as we are here), but use an array of `float` for
+indexing hash objects, but use an array of `float` for
 JSON objects (see [Differences with JSON objects](#differences-with-json-documents)
 below).
 
 You must use instances of `Map<ByteBuffer, ByteBuffer>` to supply the data to `hset()`
 when using the `ByteBufferCodec` connection, which adds a little complexity. Note
-that the `predict()` method is in a `try`/`catch` block because it can throw
+that the `predict()` call is in a `try`/`catch` block because it will throw
 exceptions if it can't download the embedding model (you should add code to handle
 the exceptions in production code).
 
@@ -228,7 +233,7 @@ the one created previously for hashes:
 An important difference with JSON indexing is that the vectors are
 specified using arrays of `float` instead of binary strings. This means
 you don't need to use the `ByteBufferCodec` connection, and you can use
-`Arrays.toString()` to convert the `float` array to a suitable JSON string.
+[`Arrays.toString()`](https://docs.oracle.com/javase/8/docs/api/java/util/Arrays.html#toString-float:A-) to convert the `float` array to a suitable JSON string.
 
 Use [`jsonSet()`]({{< relref "/commands/json.set" >}}) to add the data
 instead of [`hset()`]({{< relref "/commands/hset" >}}). Use instances
