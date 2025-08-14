@@ -157,7 +157,7 @@ The reason for using text embeddings rather than simple text search
 is that the embeddings represent semantic information. This allows a query
 to find elements with a similar meaning even if the text is
 different. For example, the word "entertainer" doesn't appear in any of the
-descriptions but if you use it as a query, the actors and musicians are ranked
+descriptions, but if you use it as a query, the actors and musicians are ranked
 highest in the results list:
 
 {{< clients-example set="home_vecsets" step="entertainer_query" lang_filter="Java-Async,Java-Reactive" >}}
@@ -171,9 +171,8 @@ Similarly, if you use "science" as a query, you get the following results:
 'Chaim Topol']
 ```
 
-The scientists are ranked highest but they are then followed by the
-mathematicians. This seems reasonable given the connection between mathematics
-and science.
+The scientists are ranked highest, followed by the
+mathematicians. This ranking seems reasonable given the connection between mathematics and science.
 
 You can also use
 [filter expressions]({{< relref "/develop/data-types/vector-sets/filtered-search" >}})
