@@ -27,6 +27,7 @@ crdb-cli crdb update --crdb-guid <guid>
          [--memory-size <maximum_memory>]
          [--bigstore-ram-size <maximum_memory>]
          [--update-module name=<name>,featureset_version=<version>]
+         [--update-db-config-modules { true | false } ]
 ```
 
 If you want to change the configuration of the local instance only, use [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}) instead.
@@ -50,6 +51,7 @@ If you want to change the configuration of the local instance only, use [`rladmi
 | eviction-policy                                                     | noeviction<br/>allkeys-lru<br/>allkeys-lfu<br/>allkeys-random<br/>volatile-lru<br/>volatile-lfu<br/>volatile-random<br/>volatile-ttl | Updates [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}})                                                                                                          |
 | featureset-version                                                  | true<br/>false                                                                                                             | Updates to latest FeatureSet version                                                                                                                                     |
 | update-module name=\<name>,featureset_version=\<version\>         | strings                                                                                                                       | Update a module to the specified version                                                                                                                                 |
+| update-db-config-modules                                        | true<br/>false                                                                                                             | Updates module information in the CRDB configuration (default-db-config) based on the latest module data for the database. Use this option only after all CRDB database instances have upgraded their modules.      |
 
 ### Returns
 
