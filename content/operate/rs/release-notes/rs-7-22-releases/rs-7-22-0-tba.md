@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: Internal fixes and improvements.
+description: Bug fix for LDAPS port configuration in the Cluster Manager UI. Internal fixes and improvements.
 linkTitle: 7.22.0-tba (August 2025)
 weight: 87
 ---
@@ -16,6 +16,8 @@ weight: 87
 ## Highlights
 
 This version offers:
+
+- A bug fix for LDAPS port configuration in the Cluster Manager UI
 
 - Internal fixes and improvements
 
@@ -41,7 +43,7 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 ### Resolved issues
 
-- TBA
+- RS166727: Fixed an issue in the Cluster Manager UI that prevented configuring LDAPS servers on ports other than the default port 389.
 
 ## Version changes
 
