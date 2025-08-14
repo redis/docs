@@ -87,12 +87,14 @@ Every installation of Redis Enterprise Software includes the command-line tool [
 Use [`docker exec`](https://docs.docker.com/engine/reference/commandline/exec/) to start an interactive `redis-cli` session in the running Redis Enterprise Software container:
 
 ```sh
-$ docker exec -it redis-cli -h redis-12000.cluster.local -p 12000
+$ docker exec -it <container_name_or_ID> redis-cli -h <host_or_IP> -p <port>
 127.0.0.1:12000> SET key1 123
 OK
 127.0.0.1:12000> GET key1
 "123"
 ```
+
+To find the container name or ID, use [`docker ps`](https://docs.docker.com/reference/cli/docker/container/ls/) to list running containers.
 
 ### Connect from the host environment {#connect-outside-docker}
 

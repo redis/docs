@@ -46,10 +46,6 @@ index, FT.ALIASUPDATE removes the alias association with the previous index.
 is alias to be added to an index.
 </details>
 
-## Return
-
-FT.ALIASUPDATE returns a simple string reply `OK` if executed correctly, or an error reply otherwise.
-
 ## Examples
 
 <details open>
@@ -61,6 +57,24 @@ Update the alias of an index.
 127.0.0.1:6379> FT.ALIASUPDATE alias idx
 OK
 {{< / highlight >}}
+
+## Return information
+
+{{< multitabs id="ft-aliasupdate-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: index does not exist.
+
+-tab-sep-
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: index does not exist.
+
+{{< /multitabs >}}
 
 ## See also
 

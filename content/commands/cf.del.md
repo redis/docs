@@ -35,10 +35,9 @@ Deletes an item once from the filter.
 
 If the item exists only once, it will be removed from the filter. If the item was added multiple times, it will still be present.
 
-<note><b>Note:</b>
-
-- Deleting an item that are not in the filter may delete a different item, resulting in false negatives.
-</note>
+{{< note >}}
+Never use this command to delete an item unless you are certain you've added the item to the filter. Deleting an item you didn't previously add may corrupt the filter and cause false negatives.
+{{< /note >}}
 
 ## Required arguments
 

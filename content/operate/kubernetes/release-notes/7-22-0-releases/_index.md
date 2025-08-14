@@ -12,7 +12,7 @@ title: Redis Enterprise for Kubernetes 7.22.0 release notes
 weight: 46
 ---
 
-Redis Enterprise for Kubernetes 7.22.0 includes bug fixes, enhancements, and support for Redis Enterprise Software. The latest maintenance release is 7.22.0-11 with support for Redis Enterprise Software version 7.22.0.
+Redis Enterprise for Kubernetes 7.22.0 includes bug fixes, enhancements, and support for Redis Enterprise Software. The latest release is 7.22.0-16 with support for Redis Enterprise Software version 7.22.0-241.
 
 ## Detailed release notes
 
@@ -23,6 +23,8 @@ Redis Enterprise for Kubernetes 7.22.0 includes bug fixes, enhancements, and sup
 - **Only upgrades from 7.4.2-2 and later are supported.** If you are using an earlier version, install 7.4.2-2 before upgrading to 7.8.2-6 or later.
 
 - **When changing the REDB field `spec.modulesList`, version might be upgraded to latest, even if a different version is specified.** To prevent the upgrade to latest, set  `spec.upgradeSpec.setModuleToLatest` to `false` before upgrading to 7.8.2-6.
+
+- **PVC expansion is not supported when using Redis on Flash (Auto Tiering) (RED-165770)** Do not enable `enablePersistentVolumeResize` if your REC uses `redisOnFlashSpec` as this will result in conflicts.
 
 - **Missing endpoint for admission endpoint (rare) (RED-119469)** Restart the operator pod.
 

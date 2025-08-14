@@ -9,7 +9,7 @@ description: Overview of the architecture and components of Redis Enterprise for
 hideListLinks: true
 linkTitle: Architecture
 weight: 1
-aliases: [/operate/kubernetes/architecture/operator/]
+aliases: [/operate/kubernetes/architecture/operator/, /operate/kubernetes/architecture/operator-architecture/, /operate/kubernetes/architecture/operator-architecture]
 ---
 
 Redis Enterprise for Kubernetes gives you the speed and durability of [Redis Enterprise](https://redis.io/redis-enterprise/advantages/), with the flexibility and ease of [Kubernetes (K8s)](https://kubernetes.io/). Redis Enterprise for Kubernetes uses the Kubernetes operator pattern and custom controllers to bring the best of Redis Enterprise to the Kubernetes platform.
@@ -68,19 +68,19 @@ A Redis Enterprise cluster is a set of Redis Enterprise nodes pooling resources.
 
 {{< image filename="/images/k8s/k8s-node-arch.png">}}
 
-A Redis cluster is created and managed by the [RedisEnterpriseCluster (REC)]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api">}}) [custom resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/). Changes to the REC configuration file prompt the operator to make changes to the cluster. The REC is required for both standard databases ([REDB](#redisenterprisedatabase-redb)) and Active-Active databases ([REAADB](#redisenterpriseactiveactivedatabase-reaadb)).
+A Redis cluster is created and managed by the [RedisEnterpriseCluster (REC)]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api">}}) [custom resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/). Changes to the REC configuration file prompt the operator to make changes to the cluster. The REC is required for both standard databases ([REDB](#redisenterprisedatabase-redb)) and Active-Active databases ([REAADB](#redisenterpriseactiveactivedatabase-reaadb)).
 
-See the [RedisEnterpriseCluster API Reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api">}}) for a full list of fields and settings.
+See the [RedisEnterpriseCluster API Reference]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api">}}) for a full list of fields and settings.
 
 ## RedisEnterpriseDatabase REDB
 
 A Redis Enterprise database is a logical entity that manages your entire dataset across multiple Redis instances. A Redis instance is a single-threaded database process ([commonly referred to as a shard]({{<relref "/operate/rs/references/terminology">}})).
 
-Redis databases are created and managed by the [RedisEnterpriseDatabase (REDB)]({{<relref "/operate/kubernetes/reference/redis_enterprise_database_api">}}) [custom resource (CR)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/). Changes to the REDB YAML configuration file prompt the operator to make changes to the database.
+Redis databases are created and managed by the [RedisEnterpriseDatabase (REDB)]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_database_api">}}) [custom resource (CR)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/). Changes to the REDB YAML configuration file prompt the operator to make changes to the database.
 
 An operator can manage a database in the same namespace, or a different namespace. See ["Flexible deployment"]({{<relref "/operate/kubernetes/architecture/deployment-options">}}) options and ["Manage databases in multiple namespaces"]({{<relref "/operate/kubernetes/re-clusters/multi-namespace">}}) for more information.
 
-See the [RedisEnterpriseDatabase (REDB) API Reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_database_api">}}) for a full list of fields and settings.
+See the [RedisEnterpriseDatabase (REDB) API Reference]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_database_api">}}) for a full list of fields and settings.
 
 ## Security
 
@@ -88,7 +88,7 @@ Redis Enterprise for Kubernetes uses [secrets](https://kubernetes.io/docs/concep
 
 ### REC credentials
 
-Redis Enterprise for Kubernetes uses the [RedisEnterpriseCluster (REC)]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api">}}) [custom resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) to create a Redis Enterprise cluster. During creation it generates random credentials for the operator to use. The credentials are saved in a Kubernetes (K8s) [secret](https://kubernetes.io/docs/concepts/configuration/secret/). The secret name defaults to the name of the cluster.
+Redis Enterprise for Kubernetes uses the [RedisEnterpriseCluster (REC)]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api">}}) [custom resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) to create a Redis Enterprise cluster. During creation it generates random credentials for the operator to use. The credentials are saved in a Kubernetes (K8s) [secret](https://kubernetes.io/docs/concepts/configuration/secret/). The secret name defaults to the name of the cluster.
 
 See [Manage REC credentials]({{<relref "/operate/kubernetes/security/manage-rec-credentials">}}) for more details.
 
@@ -126,11 +126,11 @@ By default, Kubernetes doesn't allow you to access your Redis database from outs
 - [Istio](https://istio.io/latest/docs/setup/getting-started/) requires `Gateway` and `VirtualService` API resources.
 - OpenShift uses [routes]({{< relref "/operate/kubernetes/networking/routes" >}}) to route external traffic.
 
-The [Active-Active databases](#active-active-databases) require one of above routing methods to be configured in the REC with the [ingressOrRouteSpec field]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api#specingressorroutespec">}}).
+The [Active-Active databases](#active-active-databases) require one of above routing methods to be configured in the REC with the [ingressOrRouteSpec field]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api#specingressorroutespec">}}).
 
 ## Services Rigger
 
-The services rigger is responsible for creating and updating services related to database objects. It identifies database objects within the cluster and creates services in accordance with [`redisEnterpriseCluster.Spec.servicesRiggerSpec` setting]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api#specservicesriggerspec">}}) to allow access to those databases. By default, each database has two services, a `cluster_ip` Service with the same name as the database and a `headless` Service with the same name as the database suffixed with `-headless`. It also creates other types of Services such as Ingress Services or OpenshiftRoutes (defined in `redisEnterpriseCluster.Spec.ingressOrRouteSpec`) meant to provide access to REAADB objects.
+The services rigger is responsible for creating and updating services related to database objects. It identifies database objects within the cluster and creates services in accordance with [`redisEnterpriseCluster.Spec.servicesRiggerSpec` setting]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api#specservicesriggerspec">}}) to allow access to those databases. By default, each database has two services, a `cluster_ip` Service with the same name as the database and a `headless` Service with the same name as the database suffixed with `-headless`. It also creates other types of Services such as Ingress Services or OpenshiftRoutes (defined in `redisEnterpriseCluster.Spec.ingressOrRouteSpec`) meant to provide access to REAADB objects.
 
 You can view a list of services with the `kubectl get services` command.
 
@@ -144,15 +144,15 @@ For more details and installation information, see [Active-Active databases]({{<
 
 ## RedisEnterpriseRemoteCluster RERC
 
-The [RedisEnterpriseRemoteCluster (RERC)]({{<relref "/operate/kubernetes/reference/redis_enterprise_remote_cluster_api">}}) contains details allowing the REC to link to the RedisEnterpriseActiveActiveDatabase (REAADB). The RERC resource is listed in the [REAADB](#redisenterpriseactiveactivedatabase-reaadb) resource to become a participating cluster for the Active-Active database.
+The [RedisEnterpriseRemoteCluster (RERC)]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api">}}) contains details allowing the REC to link to the RedisEnterpriseActiveActiveDatabase (REAADB). The RERC resource is listed in the [REAADB](#redisenterpriseactiveactivedatabase-reaadb) resource to become a participating cluster for the Active-Active database.
 
-See the [RERC API reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_remote_cluster_api">}}) for a full list of fields and settings.
+See the [RERC API reference]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api">}}) for a full list of fields and settings.
 
 ## RedisEnterpriseActiveActiveDatabase REAADB
 
 The RedisEnterpriseActiveActiveDatabase (REAADB) resource creates and manages a database that spans more than one Kubernetes cluster. An REAADB requires [external routing](#networking), at least two [RECs](#redisenterprisecluster-rec), and at least two [RERCs](#redisenterpriseremotecluster-rerc).
 
-See the [REAADB API reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_active_active_database_api">}}) for a full list of fields and settings.
+See the [REAADB API reference]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_active_active_database_api">}}) for a full list of fields and settings.
 
 ## Metrics
 

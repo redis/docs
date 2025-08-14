@@ -152,6 +152,7 @@ Here is the meaning of all fields in the **memory** section:
 *   `used_memory_rss_human`: Human readable representation of previous value
 *   `used_memory_peak`: Peak memory consumed by Redis (in bytes)
 *   `used_memory_peak_human`: Human readable representation of previous value
+*   `used_memory_peak_time`: Time when peak memory was recorded
 *   `used_memory_peak_perc`: The percentage of `used_memory` out of `used_memory_peak`
 *   `used_memory_overhead`: The sum in bytes of all overheads that the server
      allocated for managing its internal data structures
@@ -550,14 +551,14 @@ _Redis Query Engine fields_
 *   `search_fields_geoshape_Sortable`: The total number of `SORTABLE GEOSHAPE` fields across all indexes in the shard. This field appears only if its value is larger than 0. <sup>[2](#tnote-2)</sup>
 *   `search_fields_geoshape_NoIndex`: The total number of `NOINDEX GEOSHAPE` fields across all indexes in the shard; i.e., used for sorting only but not indexed. This field appears only if its value is larger than 0. <sup>[2](#tnote-2)</sup>
 *   `search_fields_<field>_IndexErrors`: The total number of indexing failures caused by attempts to index a document containing <field> field. <sup>[1](#tnote-1)</sup>
-*   `search_used_memory_indexes`: The total memory allocated by all indexes in the shard in bytes. <sup>[1](#tnote-1)</sup>
-*   `search_used_memory_indexes_human`: The total memory allocated by all indexes in the shard in MB. <sup>[1](#tnote-1)</sup>
-*   `search_smallest_memory_index`: The memory usage of the index with the smallest memory usage in the shard in bytes. <sup>[1](#tnote-1)</sup>
-*   `search_smallest_memory_index_human`: The memory usage of the index with the smallest memory usage in the shard in MB. <sup>[1](#tnote-1)</sup>
-*   `search_largest_memory_index`: The memory usage of the index with the largest memory usage in the shard in bytes. <sup>[1](#tnote-1)</sup>
-*   `search_largest_memory_index_human`: The memory usage of the index with the largest memory usage in the shard in MB. <sup>[1](#tnote-1)</sup>
-*   `search_total_indexing_time`: The total time spent on indexing operations, excluding the background indexing of vectors in the HNSW graph. <sup>[1](#tnote-1)</sup>
 *   `search_used_memory_vector_index`: The total memory usage of all vector indexes in the shard. <sup>[1](#tnote-1)</sup>
+*   `search_used_memory_indexes`: The estimated total memory allocated by all indexes in the shard in bytes (including vector indexes memory accounted in `search_used_memory_vector_index`). <sup>[1](#tnote-1)</sup>
+*   `search_used_memory_indexes_human`: The estimated total memory allocated by all indexes in the shard in MB. <sup>[1](#tnote-1)</sup>
+*   `search_smallest_memory_index`: The estimated memory usage of the index with the smallest memory usage in the shard in bytes. <sup>[1](#tnote-1)</sup>
+*   `search_smallest_memory_index_human`: The estimated memory usage of the index with the smallest memory usage in the shard in MB. <sup>[1](#tnote-1)</sup>
+*   `search_largest_memory_index`: The estimated memory usage of the index with the largest memory usage in the shard in bytes. <sup>[1](#tnote-1)</sup>
+*   `search_largest_memory_index_human`: The estimated memory usage of the index with the largest memory usage in the shard in MB. <sup>[1](#tnote-1)</sup>
+*   `search_total_indexing_time`: The total time spent on indexing operations, excluding the background indexing of vectors in the HNSW graph. <sup>[1](#tnote-1)</sup>
 *   `search_bytes_collected`: The total amount of memory freed by the garbage collectors from indexes in the shard memory in bytes. <sup>[1](#tnote-1)</sup>
 *   `search_total_cycles`: The total number of garbage collection cycles executed. <sup>[1](#tnote-1)</sup>
 *   `search_total_ms_run`: The total duration of all garbage collection cycles in the shard, measured in milliseconds. <sup>[1](#tnote-1)</sup>
