@@ -110,6 +110,8 @@ We recommend running Prometheus in Docker only for development and testing.
                     - 9090:9090
                 volumes:
                     - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+                    # Persistent storage for Prometheus
+                    - prometheus-data:/prometheus
 
             grafana-ui:
                 image: grafana/grafana
@@ -117,8 +119,17 @@ We recommend running Prometheus in Docker only for development and testing.
                     - 3000:3000
                 environment:
                     - GF_SECURITY_ADMIN_PASSWORD=secret
+                volumes:
+                    # Persistent storage for Grafana
+                    - grafana-storage:/var/lib/grafana
                 links:
                     - prometheus-server:prometheus
+
+        # Define Docker-managed volumes for persistent storage
+        # These volumes are created automatically and persist data between container restarts
+        volumes:
+            prometheus-data:
+            grafana-storage:
         ```
 
     1. To start the containers, run:
