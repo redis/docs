@@ -369,7 +369,7 @@
   
     // Click handler function
     function clickHandler(event) {
-      if (event.target.closest('#search-button')) {
+      if (event.target.closest('#search-button') || event.target.closest('#search-button-home')) {
         startSearch()
       } else if (event.target.closest('#search-cancel') || event.target.matches('#search-container')) {
         stopSearch()
