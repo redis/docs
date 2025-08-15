@@ -108,57 +108,13 @@ kubectl delete redb mydb
 
 ## Connect to a database
 
-After the database controller creates a database, the services for accessing the database are created in the same namespace. By default there are two services, one 'ClusterIP' service and one 'headless' service.  
-Connection information for the database is stored in a Kubernetes [secret](https://kubernetes.io/docs/concepts/configuration/secret/) maintained by the database controller. This secret contains:
+After the database controller creates a database, services for accessing the database are automatically created in the same namespace. Connection information is stored in a Kubernetes [secret](https://kubernetes.io/docs/concepts/configuration/secret/) maintained by the database controller.
 
-- The database port (`port`)
-- A comma separated list of service names (`service_names`)
-- The database password for authenticating (`password`)
+For comprehensive information about connecting to your database, including:
 
-The name of that secret is stored in the database custom resource.
+- Service types and access patterns
+- Retrieving connection information from secrets
+- In-cluster and external access methods
+- Connection examples and troubleshooting
 
-{{<note>}}
-Use these steps to connect to your database from within your K8s cluster. To access your database from outside the K8s cluster, set up the [Ingress]({{< relref "/operate/kubernetes/networking/ingress" >}}) controller or use OpenShift routes.
-{{</note>}}
-
-1. Retrieve the secret name.
-
-    ```sh
-    kubectl get redb mydb -o jsonpath="{.spec.databaseSecretName}"
-    ```
-
-      The database secret name usually takes the form of `redb-<database_name>`, so in our example it will be `redb-mydb`.
-
-1. Retrieve and decode the password.
-
-    ```sh
-    kubectl get secret redb-mydb -o jsonpath="{.data.password}" | base64 --decode
-    ```
-
-1. Retrieve and decode the port number.
-
-    ```sh
-    kubectl get secret redb-mydb -o jsonpath="{.data.port}" | base64 --decode
-    ```
-
-1. Retrieve and decode the service_names.
-
-    ```sh
-    kubectl get secret redb-mydb -o jsonpath="{.data.service_names}" | base64 --decode
-    ```
-
-    You'll need to pick just one service listed here to use for connecting.
-
-1. From a pod within your cluster, use `redis-cli` to connect to your database.
-
-    ```sh
-    redis-cli -h <service_name> -p <port>
-    ```
-
-1. Enter the password you retrieved from the secret.
-
-    ```sh
-    auth <password>
-    ```
-
-    You are now connected to your database!
+See [Database connectivity]({{< relref "/operate/kubernetes/networking/database-connectivity" >}}).
