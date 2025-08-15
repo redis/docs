@@ -115,7 +115,7 @@ In case of errors, review the REAADB custom resource events and the Redis Enterp
 
 ## Example values
 
-This article uses the example values listed below. They can also be found in the [YAML examples]({{< relref "/operate/kubernetes/reference/yaml/active-active" >}}) section.
+This article uses the example values listed below. You can also find them in the [YAML examples]({{< relref "/operate/kubernetes/reference/yaml/active-active" >}}) section.
 
 Example cluster 1:
 

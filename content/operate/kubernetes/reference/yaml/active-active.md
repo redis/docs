@@ -69,7 +69,7 @@ Edit the values in the downloaded YAML file for your specific setup, updating th
 
 Active-Active databases are geo-distributed databases that span multiple Redis Enterprise clusters and use multi-primary replication and conflict-free replicated data types (CRDTs).
 
-`reaadb-boeing.yaml` is used in [Create Active-Active database]({{< relref "/operate/kubernetes/active-active/create-reaadb#create-reaadb" >}}) section.
+`reaadb-boeing.yaml` is used in the [Create Active-Active database]({{< relref "/operate/kubernetes/active-active/create-reaadb#create-reaadb" >}}) section.
 
 {{<embed-yaml "k8s/reaadb-boeing.md" "reaadb-boeing.yaml">}}
 
