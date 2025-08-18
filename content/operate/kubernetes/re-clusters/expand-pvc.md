@@ -26,6 +26,8 @@ By default, if you omit [`spec.persistentSpec.volumeSize`]({{< relref "/operate/
 
 - If you set [`spec.persistentSpec.volumeSize`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api#specpersistentspec" >}}) explicitly, that exact size is used and the 5x default does not apply.
 - Changing node memory requests does not automatically resize existing PVCs. Use the procedure below to expand the PVC if you want to maintain the 5x ratio after changing memory.
+- If you omit [`spec.redisEnterpriseNodeResources.requests.memory`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api#specredisenterprisenoderesources" >}}), the operator uses its default memory request (4Gi). With `volumeSize` omitted, this results in a default PVC size of approximately 20Gi per node (5 × 4Gi). See [sizing on Kubernetes]({{< relref "/operate/kubernetes/recommendations/sizing-on-kubernetes" >}}) for defaults.
+
 - See the [volume size recommendations]({{< relref "/operate/kubernetes/recommendations/persistent-volumes#volume-size" >}}) and [hardware requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements" >}}) for guidance.
 
 ## Prerequisites
