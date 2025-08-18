@@ -205,4 +205,4 @@ There are several important things to note when you use nesting:
   See the
   [Debezium PostgreSQL Connector Documentation](https://debezium.io/documentation/reference/connectors/postgresql.html#postgresql-replica-identity)
   for more information about this.
-- Prior to RDI v1.12.1 there is a known limitation if you change the foreign key of a child object. In that scenario, the child object will be added to the new parent, but the old parent will not be updated.
+- Prior to RDI v1.12.1, there is a known limitation if you change the foreign key of a child object. In that scenario, the child object will be added to the new parent, but the old parent will not be updated.
