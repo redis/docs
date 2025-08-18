@@ -199,7 +199,7 @@ operator:
           enabled: true
           className: traefik # Replace with your ingress controller
           hosts:
-            - hostname # Replace with your Spanner DB hostname
+            - hostname # Replace with your desired ingress hostname
 ```
 
 ## Next steps
@@ -207,5 +207,5 @@ operator:
 After completing the Spanner preparation steps, you can proceed with:
 
 1. [Installing RDI on Kubernetes](/integrate/redis-data-integration/installation/install-k8s)
-2. [Deploying your RDI pipeline](/integrate/redis-data-integration/data-pipelines/deploy")
+2. [Deploying your RDI pipeline](/integrate/redis-data-integration/data-pipelines/deploy)
 3. [Using Redis Insight to manage your RDI pipeline](/develop/tools/insight/rdi-connector)
