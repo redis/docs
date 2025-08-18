@@ -16,16 +16,20 @@ type: integration
 weight: 2
 ---
 
-Google Cloud Spanner requires specific configuration to enable change data capture (CDC) with RDI. 
-RDI operates in two phases with Spanner: snapshot (initial sync) and streaming. During the snapshot 
-phase, RDI uses the JDBC driver to connect directly to Spanner and read the current state of the 
-database. In the streaming phase, RDI uses Spanner's Change Streams to capture changes related to 
+Google Cloud Spanner requires specific configuration to enable change data capture (CDC) with RDI.
+RDI operates in two phases with Spanner: snapshot (initial sync) and streaming. During the snapshot
+phase, RDI uses the JDBC driver to connect directly to Spanner and read the current state of the
+database. In the streaming phase, RDI uses Spanner's Change Streams to capture changes related to
 the monitored schemas and tables.
 
-You must have the necessary privileges to manage the database schema and create service accounts 
+{{< note >}}
+Spanner is only supported with RDI deployed on Kubernetes/Helm. RDI VM mode does not support Spanner as a source database.
+{{< /note >}}
+
+You must have the necessary privileges to manage the database schema and create service accounts
 with the appropriate permissions, so that RDI can access the Spanner database.
 
-## Prepare for snapshot
+## 1. Prepare for snapshot
 
 During the snapshot phase, RDI executes multiple transactions to capture data at an exact point 
 in time that remains consistent across all queries. This is achieved using a Spanner feature called 
@@ -37,7 +41,7 @@ which is set to 1 hour by default. Depending on the database tier, the volume of
 ingested into RDI, and the load on the database, this setting may need to be increased. You can 
 update it using [this method](https://cloud.google.com/spanner/docs/use-pitr#set-period).
 
-## Prepare for streaming
+## 2. Prepare for streaming
 
 To enable streaming, you must create a change stream in Spanner at the database level. Use the 
 option `value_capture_type = 'NEW_ROW_AND_OLD_VALUES'` to capture both the previous and updated 
@@ -57,7 +61,7 @@ CREATE CHANGE STREAM change_stream_table1_and_table2
 Refer to the [official documentation](https://cloud.google.com/spanner/docs/change-streams/manage#googlesql) 
 for more details, including additional configuration options and dialect-specific syntax.
 
-## Create a service account
+## 3. Create a service account
 
 To allow RDI to access the Spanner instance, you'll need to create a service account with the 
 appropriate permissions. This service account will then be provided to RDI as a secret for 
@@ -108,11 +112,11 @@ gcloud iam service-accounts keys create ~/spanner-reader-account.json \
     --project=YOUR_PROJECT_ID
 ```
 
-## Set up secrets for Kubernetes deployment
+## 4. Set up secrets for Kubernetes deployment
 
 Before deploying the RDI pipeline, you need to configure the necessary secrets for both the source 
 and target databases. Instructions for setting up the target database secrets are available in the 
-[RDI deployment guide](/integrate/redis-data-integration/data-pipelines/deploy#set-secrets-for-k8shelm-deployment-using-kubectl-command).
+[RDI deployment guide]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets-for-k8shelm-deployment-using-kubectl-command" >}}).
 
 In addition to the target database secrets, you'll also need to create a Spanner-specific secret 
 named `source-db-credentials`. This secret should contain the service account key file generated 
@@ -127,7 +131,7 @@ kubectl create secret generic source-db-credentials --namespace=rdi \
 Be sure to adjust the file path (`~/spanner-reader-account.json`) if your service account key is 
 stored elsewhere.
 
-## Configure RDI for Spanner
+## 5. Configure RDI for Spanner
 
 When configuring your RDI pipeline for Spanner, use the following example configuration in your 
 `config.yaml` file:
@@ -184,7 +188,7 @@ processors:
 Make sure to replace the relevant connection details with your own for both the Spanner and target 
 Redis databases.
 
-## Additional Kubernetes configuration
+## 6. Additional Kubernetes configuration
 
 In your `rdi-values.yaml` file for Kubernetes deployment, make sure to configure the `dataPlane` 
 section like this:
@@ -202,10 +206,6 @@ operator:
             - hostname # Replace with your desired ingress hostname
 ```
 
-## Next steps
+## 7. Configuration is complete
 
-After completing the Spanner preparation steps, you can proceed with:
-
-1. [Installing RDI on Kubernetes](/integrate/redis-data-integration/installation/install-k8s)
-2. [Deploying your RDI pipeline](/integrate/redis-data-integration/data-pipelines/deploy)
-3. [Using Redis Insight to manage your RDI pipeline](/develop/tools/insight/rdi-connector)
+Once you have followed the steps above, your Google Spanner database is ready for RDI to use.
