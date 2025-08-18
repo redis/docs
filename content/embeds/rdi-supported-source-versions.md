@@ -6,5 +6,6 @@
 | MySQL | 5.7, 8.0.x, 8.2 | 8.0.x | 8.0 |
 | PostgreSQL | 10, 11, 12, 13, 14, 15, 16  | 11, 12, 13, 14, 15, 16 | 15 |
 | SQL Server | 2017, 2019, 2022 | 2016, 2017, 2019, 2022 | 2019 |
+| Spanner | - | - | All versions |
 | AlloyDB for PostgreSQL | 14.2, 15.7 | - | 14.2, 15.7 |
 | AWS Aurora/PostgreSQL | 15 | 15 | - |
