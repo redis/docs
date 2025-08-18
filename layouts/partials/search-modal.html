@@ -23,6 +23,9 @@
           <path d="M10 10l5.09-5.09L10 10l5.09 5.09L10 10zm0 0L4.91 4.91 10 10l-5.09 5.09L10 10z" stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
       </button>
+      <button id="ai-copilot-toggle" type="button" style="height: calc(3rem - 2px);" class="px-3 border border-redis-pen-800 rounded-md bg-white hover:bg-redis-yellow-100 transition-colors flex items-center gap-2" title="Switch to AI Copilot">
+        <span class="text-sm">🤖 AI</span>
+      </button>
       <select id="search-select" style="height: calc(3rem - 2px);" class="w-2/5 pl-3 grow-0 border border-redis-pen-800 rounded-md search-filter bg-white text-left pr-8 appearance-none hidden md:block" autocomplete="off">
         <option value="all" selected>All products</option>
         <option value="rs">Redis Enterprise</option>
@@ -369,10 +372,19 @@
   
     // Click handler function
     function clickHandler(event) {
-      if (event.target.closest('#search-button') || event.target.closest('#search-button-home')) {
+      if (event.target.closest('#search-button') || event.target.closest('#search-trigger-home')) {
         startSearch()
       } else if (event.target.closest('#search-cancel') || event.target.matches('#search-container')) {
         stopSearch()
+      } else if (event.target.closest('#ai-copilot-toggle')) {
+        // Get the current search query
+        const searchQuery = searchInput.value.trim()
+        // Redirect to chat with the query
+        if (searchQuery) {
+          window.location.href = `/chat?q=${encodeURIComponent(searchQuery)}`
+        } else {
+          window.location.href = '/chat'
+        }
       }
     }
   

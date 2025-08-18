@@ -16,20 +16,14 @@
       {{ with .Params.description }}
       <p class="text-xl md:text-2xl">{{ . | markdownify }}</p>
       {{ end }}
-      <div class="flex flex-row items-center gap-4 w-full md:w-4/5">
-        <form class="flex flex-row items-center border border-white rounded-md px-6 gap-6 w-full bg-redis-ink-900" action="/chat">
-          <label class="" for="search-home" id="search-label-home">
-            {{ partial "icons/search.html" }}
-          </label>
-          <input id="seach-home" name="q" class="appearance-none bg-transparent text-base sm:text-lg text-white placeholder-white w-full h-16 focus:outline-none"
-                 autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                 placeholder="Ask our AI-powered Redis copilot a question…" maxlength="500" type="text" value="" tabindex=""/>
-          <!--<input type="submit" class="hover:text-redis-pen-300" value="&#x23CE;"/>-->
-          <input class="invisible" type="submit" class="hover:text-redis-pen-300" value=""/>
-        </form>
-        <button id="search-button-home" type="button" class="flex-shrink-0 p-3 border border-white rounded-md bg-redis-ink-900 hover:bg-white hover:text-redis-ink-900 transition-colors" title="Search documentation (Ctrl+K)">
+      <div class="flex flex-row items-center border border-white rounded-md px-6 gap-6 w-full md:w-4/5 bg-redis-ink-900 cursor-pointer" id="search-trigger-home">
+        <label class="" for="search-home" id="search-label-home">
           {{ partial "icons/search.html" }}
-        </button>
+        </label>
+        <div class="appearance-none bg-transparent text-base sm:text-lg text-white placeholder-white w-full h-16 flex items-center"
+             autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+          Search Redis documentation…
+        </div>
       </div>
     </div>
   </header>
