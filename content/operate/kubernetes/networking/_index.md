@@ -33,16 +33,6 @@ For Active-Active databases, configure automatic ingress creation:
 
 - [REC external routing]({{< relref "/operate/kubernetes/networking/ingressorroutespec" >}}) - Use `ingressOrRouteSpec` field in RedisEnterpriseCluster (REC) for automatic ingress creation
 
-## External routing using Redis Enterprise for Kubernetes
-
-The Redis Enterprise operator automatically creates Kubernetes services for database access. For external access from outside the cluster, you need to configure additional routing methods:
-
-- To use NGINX or HAProxy Ingress controllers, see [Ingress routing]({{< relref "/operate/kubernetes/networking/ingress" >}}).
-- To use OpenShift routes, see [OpenShift routes]({{< relref "/operate/kubernetes/networking/routes" >}}).
-- To use Istio as an Ingress controller, see [Istio Ingress routing]({{< relref "/operate/kubernetes/networking/istio-ingress" >}})
-
-For comprehensive information about service types, in-cluster access, and connectivity patterns, see [Database connectivity]({{< relref "/operate/kubernetes/networking/database-connectivity" >}}).
-
 ## `ingressOrRouteSpec` for Active-Active databases
 
 Versions 6.4.2 or later of Redis Enterprise for Kubernetes include a feature for ingress configuration. The `ingressOrRouteSpec` field is available in the RedisEnterpriseCluster spec to automatically create an Ingress (or route) for the API service and databases (REAADB) on that REC. See [REC external routing]({{< relref "/operate/kubernetes/networking/ingressorroutespec" >}}) for more details.
