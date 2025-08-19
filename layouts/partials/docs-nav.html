@@ -105,6 +105,17 @@
           {{- end }}
         </div>
       </div>
+      {{else if (eq (.Params.linkTitle) "RedisVL")}}
+      <div id="versionSelectorRedisvl" class="menu__version-selector version-selector-control" onclick="_openVersionSelector('Redisvl')" style="display: none;">
+        <button class="menu__version-selector-btn version-selector-control">
+            <span id="versionSelectorRedisvlValue" class="version-selector-control">latest</span>
+            <span class="menu__version-selector__toggler opener version-selector-control">&#x25BC;</span>
+            <span class="menu__version-selector__toggler closer version-selector-control">&#x25B2;</span>
+        </button>
+        <div id="versionDropdownRedisvl" class="menu__version-selector__list version-selector-control">
+            <a href="{{ absURL "develop/ai/redisvl/" }}" id="redisvl-version-select-latest" onclick="_setSelectedVersion('redisvl', 'latest')">latest</a>
+        </div>
+      </div>
     </li>
 
     {{end}}
