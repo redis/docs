@@ -10,7 +10,7 @@ description: TBA
 hideListLinks: true
 linkTitle: 8.0.x releases
 toc: 'true'
-weight: 68
+weight: 67
 ---
 
 ​[​Redis Enterprise Software version 8.0](https://redis.io/downloads/#software) is now available!

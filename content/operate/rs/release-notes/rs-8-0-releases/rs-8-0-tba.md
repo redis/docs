@@ -1,5 +1,5 @@
 ---
-Title: Redis Enterprise Software release notes 8.0.x-tba (September 2025)
+Title: Redis Enterprise Software release notes 8.0.0-tba (September 2025)
 alwaysopen: false
 categories:
 - docs
@@ -7,11 +7,11 @@ categories:
 - rs
 compatibleOSSVersion: Redis 7.4.0
 description: TBA
-linkTitle: 8.0.x-tba (September 2025)
+linkTitle: 8.0.0-tba (September 2025)
 weight: 90
 ---
 
-​[​Redis Enterprise Software version 8.0.x](https://redis.io/downloads/#software) is now available!
+​[​Redis Enterprise Software version 8.0.0](https://redis.io/downloads/#software) is now available!
 
 ## Highlights
 
@@ -35,7 +35,7 @@ This version offers:
 
 ### Redis database versions
 
-Redis Software version 7.8.2 includes three Redis database versions: 7.4, 7.2, and 6.2.
+Redis Software version 8.0.0 includes three Redis database versions: 8.2, 7.4, 7.2.
 
 The [default Redis database version]({{<relref "/operate/rs/databases/configure/db-defaults#database-version">}}) is 7.4.
 
@@ -74,6 +74,12 @@ The following table shows which Redis modules are compatible with each Redis dat
 - RS153736: Fixed an issue where the `PUBSUB SHARDNUMSUB` command would not respond when called without arguments if the OSS Cluster API was enabled.
 
 - RS163254: Fixed an issue where the policy update logs displayed inconsistent boolean value formats, mixing `enabled/disabled` and `True/False`.
+
+- RS158250: Fixed an issue with Active-Active databases with search enabled where replica shards could crash after migration to a new node.
+
+- RS164471: Fixed an issue where the script to generate self-signed certificate (generate_self_signed_certs.sh) failed on custom installations due to hard-coded file paths.
+
+- RS164218: Fixed an issue where Speedb log files were not properly rotated and archived, causing logs to accumulate and consume disk space.
 
 ## Version changes
 
