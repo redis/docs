@@ -16,7 +16,7 @@ When you update the certificates, the new certificate replaces the same certific
 
 ## How to update certificates
 
-You can use the [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}) command-line interface (CLI) or the [REST API]({{< relref "/operate/rs/references/rest-api" >}}) to update certificates. The Cluster Manager UI lets you update proxy and syncer certificates on the **Cluster > Security > Certificates** screen.
+You can use the [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}) command-line interface (CLI) or the [REST API]({{< relref "/operate/rs/references/rest-api" >}}) to update certificates. The Cluster Manager UI lets you update proxy, syncer, and internode encryption certificates on the **Cluster > Security > Certificates** screen.
 
 The new certificates are used the next time the clients connect to the database.
 
@@ -33,6 +33,7 @@ To replace proxy or syncer certificates using the Cluster Manager UI:
 1. Go to **Cluster > Security > Certificates**.
 
 1. Expand the section for the certificate you want to update:
+    - For internode encryption certificates, expand **Internode encryption certificates**.
     - For the proxy certificate, expand **Server authentication**.
     - For the syncer certificate, expand **Replica Of and Active-Active authentication**.
 
