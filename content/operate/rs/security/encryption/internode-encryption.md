@@ -143,6 +143,7 @@ You can upload either:
 
 - Two separate certificates: one for DPINE and one for CPINE.
 
+To upload internode encryption certificates, use one of the following methods:
 
 {{< multitabs id="get-module-versions" 
 tab1="Cluster Manager UI"
