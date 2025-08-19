@@ -3,3 +3,8 @@
     analytics.load("WRrz9T87YdiSbmMaU8rm2JAq7EFKp5H4");
     }}();
 </script>
+<script>
+    analytics.track('PageViewed', {
+      page_name: name || (typeof window !== 'undefined' ? window.location.pathname : undefined)
+    });
+</script>
