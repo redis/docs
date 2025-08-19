@@ -26,9 +26,6 @@ the monitored schemas and tables.
 Spanner is only supported with RDI deployed on Kubernetes/Helm. RDI VM mode does not support Spanner as a source database.
 {{< /note >}}
 
-You must have the necessary privileges to manage the database schema and create service accounts
-with the appropriate permissions so that RDI can access the Spanner database.
-
 ## 1. Prepare for snapshot
 
 During the snapshot phase, RDI executes multiple transactions to capture data at an exact point 
@@ -67,50 +64,50 @@ To allow RDI to access the Spanner instance, you'll need to create a service acc
 appropriate permissions. This service account will then be provided to RDI as a secret for 
 authentication.
 
-### Step 1: Create the service account
+1. Create the service account
 
-```bash
-gcloud iam service-accounts create spanner-reader-account \
-    --display-name="Spanner Reader Service Account" \
-    --description="Service account for reading from Spanner databases" \
-    --project=YOUR_PROJECT_ID
-```
+    ```bash
+    gcloud iam service-accounts create spanner-reader-account \
+        --display-name="Spanner Reader Service Account" \
+        --description="Service account for reading from Spanner databases" \
+        --project=YOUR_PROJECT_ID
+    ```
 
-### Step 2: Grant required roles
+1. Grant required roles
 
-**Database Reader** (read access to Spanner data):
+    **Database Reader** (read access to Spanner data):
 
-```bash
-gcloud projects add-iam-policy-binding YOUR_PROJECT_ID \
-    --member="serviceAccount:spanner-reader-account@YOUR_PROJECT_ID.iam.gserviceaccount.com" \
-    --role="roles/spanner.databaseReader"
-```
+    ```bash
+    gcloud projects add-iam-policy-binding YOUR_PROJECT_ID \
+        --member="serviceAccount:spanner-reader-account@YOUR_PROJECT_ID.iam.gserviceaccount.com" \
+        --role="roles/spanner.databaseReader"
+    ```
 
-**Database User** (query execution and metadata access):
+    **Database User** (query execution and metadata access):
 
-```bash
-gcloud projects add-iam-policy-binding YOUR_PROJECT_ID \
-    --member="serviceAccount:spanner-reader-account@YOUR_PROJECT_ID.iam.gserviceaccount.com" \
-    --role="roles/spanner.databaseUser"
-```
+    ```bash
+    gcloud projects add-iam-policy-binding YOUR_PROJECT_ID \
+        --member="serviceAccount:spanner-reader-account@YOUR_PROJECT_ID.iam.gserviceaccount.com" \
+        --role="roles/spanner.databaseUser"
+    ```
 
-**Viewer** (viewing instance and database configuration):
+    **Viewer** (viewing instance and database configuration):
 
-```bash
-gcloud projects add-iam-policy-binding YOUR_PROJECT_ID \
-    --member="serviceAccount:spanner-reader-account@YOUR_PROJECT_ID.iam.gserviceaccount.com" \
-    --role="roles/spanner.viewer"
-```
+    ```bash
+    gcloud projects add-iam-policy-binding YOUR_PROJECT_ID \
+        --member="serviceAccount:spanner-reader-account@YOUR_PROJECT_ID.iam.gserviceaccount.com" \
+        --role="roles/spanner.viewer"
+    ```
 
-### Step 3: Download the service account key
+1. Download the service account key
 
-Save the credentials locally so they can be used later by RDI:
+    Save the credentials locally so they can be used later by RDI:
 
-```bash
-gcloud iam service-accounts keys create ~/spanner-reader-account.json \
-    --iam-account=spanner-reader-account@YOUR_PROJECT_ID.iam.gserviceaccount.com \
-    --project=YOUR_PROJECT_ID
-```
+    ```bash
+    gcloud iam service-accounts keys create ~/spanner-reader-account.json \
+        --iam-account=spanner-reader-account@YOUR_PROJECT_ID.iam.gserviceaccount.com \
+        --project=YOUR_PROJECT_ID
+    ```
 
 ## 4. Set up secrets for Kubernetes deployment
 
