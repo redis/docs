@@ -25,9 +25,11 @@ Redis Insight is a powerful tool for visualizing and optimizing data in Redis, m
 
 ### Installation and release notes
 
-| | | |
-|---|---|---|
-| {{<image filename="images/redisinsight-desktop.svg" alt="Install Redis Insight icon.">}}[Installation guides]({{< relref "/operate/redisinsight/install" >}})<br/>See installation guides for all platforms | {{<image filename="images/redisinsight-download.svg" alt="Download Redis Insight icon.">}}[Download Redis Insight](https://redis.io/downloads/#insight)<br/>Download Redis Insight directly from redis.io | {{<image filename="images/redisinsight-aws.svg" alt="Release Notes Redis Insight icon.">}}[Release Notes]({{< relref "/develop/tools/insight/release-notes/" >}})<br/>View Redis Insight release notes and changelog |
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
+  {{< image-card image="images/redisinsight-desktop.svg" alt="Install Redis Insight icon" title="Installation guides" url="/operate/redisinsight/install" description="See installation guides for all platforms" >}}
+  {{< image-card image="images/redisinsight-download.svg" alt="Download Redis Insight icon" title="Download Redis Insight" url="https://redis.io/downloads/#insight" description="Download Redis Insight directly from redis.io" >}}
+  {{< image-card image="images/redisinsight-aws.svg" alt="Release Notes Redis Insight icon" title="Release Notes" url="/develop/tools/insight/release-notes/" description="View Redis Insight release notes and changelog" >}}
+</div>
 
 ## Overview
 
