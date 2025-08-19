@@ -53,9 +53,9 @@ Intel's proprietary LVQ and LeanVec optimizations are not available on Redis Ope
 | LVQ4x4 | Fast search in most cases with low memory use | Consider LeanVec for even faster search |
 | LeanVec4x8 | Fastest search and ingestion | LeanVec dimensionality reduction might reduce recall. |
 | LVQ4 | Maximum memory saving | Recall might be insufficient |
-| LVQ8 | Faster ingestion than LVQ4x4 | Search likely slower than default |
+| LVQ8 | Faster ingestion than LVQ4x4 | Search likely slower than LVQ4x4 |
 | LeanVec8x8 | Improved recall in case LeanVec4x8 is not sufficient | LeanVec dimensionality reduction might reduce recall |
-| LVQ4x8 | Improved recall in case default is not sufficient | Worse memory savings |
+| LVQ4x8 | Improved recall in case LVQ4x4 is not sufficient | Worse memory savings |
 
 ## Two-level compression
 
