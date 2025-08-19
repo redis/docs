@@ -19,7 +19,7 @@ weight: 2
 Google Cloud Spanner requires specific configuration to enable change data capture (CDC) with RDI.
 RDI operates in two phases with Spanner: snapshot (initial sync) and streaming. During the snapshot
 phase, RDI uses the JDBC driver to connect directly to Spanner and read the current state of the
-database. In the streaming phase, RDI uses Spanner's Change Streams to capture changes related to
+database. In the streaming phase, RDI uses [Spanner's Change Streams](https://cloud.google.com/spanner/docs/change-streams) to capture changes related to
 the monitored schemas and tables.
 
 {{< note >}}
@@ -27,17 +27,17 @@ Spanner is only supported with RDI deployed on Kubernetes/Helm. RDI VM mode does
 {{< /note >}}
 
 You must have the necessary privileges to manage the database schema and create service accounts
-with the appropriate permissions, so that RDI can access the Spanner database.
+with the appropriate permissions so that RDI can access the Spanner database.
 
 ## 1. Prepare for snapshot
 
 During the snapshot phase, RDI executes multiple transactions to capture data at an exact point 
 in time that remains consistent across all queries. This is achieved using a Spanner feature called 
-[Timestamp bounds with Exact staleness](https://cloud.google.com/spanner/docs/timestamp-bounds#exact_staleness). 
+[Timestamp bounds with exact staleness](https://cloud.google.com/spanner/docs/timestamp-bounds#exact_staleness). 
 
 This feature relies on the 
 [version_retention_period](https://cloud.google.com/spanner/docs/reference/rest/v1/projects.instances.databases#Database.FIELDS.version_retention_period), 
-which is set to 1 hour by default. Depending on the database tier, the volume of data to be 
+which is set to one hour by default. Depending on the database tier, the volume of data to be 
 ingested into RDI, and the load on the database, this setting may need to be increased. You can 
 update it using [this method](https://cloud.google.com/spanner/docs/use-pitr#set-period).
 
@@ -47,7 +47,7 @@ To enable streaming, you must create a change stream in Spanner at the database 
 option `value_capture_type = 'NEW_ROW_AND_OLD_VALUES'` to capture both the previous and updated 
 row values.
 
-Be sure to specify only the tables you want to ingest from—and optionally, the specific columns 
+Be sure to specify only the tables you want to ingest from and, optionally, the specific columns 
 you're interested in. Here's an example using Google SQL syntax:
 
 ```sql
