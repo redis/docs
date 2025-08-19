@@ -152,7 +152,7 @@ Choose the `SVS-VAMANA` index type when all of the following requirements apply:
 
 | Attribute                  | Description                              | Default value |
 |:---------------------------|:-----------------------------------------|:-------------:|
-| `COMPRESSION`              | Compression algorithm; one of `LVQ8`, `LVQ4`, `LVQ4x4`, `LVQ4x8`, `LeanVec4x8`, or `LeanVec8x8`. See [this page]({{< relref "/develop/ai/search-and-query/vectors/svs-compression" >}}) for more information. | `LVQ4x4` |
+| `COMPRESSION`              | Compression algorithm; one of `LVQ8`, `LVQ4`, `LVQ4x4`, `LVQ4x8`, `LeanVec4x8`, or `LeanVec8x8`. See [this page]({{< relref "/develop/ai/search-and-query/vectors/svs-compression" >}}) for more information. | none |
 | `CONSTRUCTION_WINDOW_SIZE` | The search window size to use during graph construction. A higher search window size will yield a higher quality graph since more overall vertexes are considered, but will increase construction time. | 200 |
 | `GRAPH_MAX_DEGREE`         | Sets the maximum number of edges per node; equivalent to `HNSW’s M*2`. A higher max degree may yield a higher quality graph in terms of recall for performance, but the memory footprint of the graph is directly proportional to the maximum degree. | 32 |
 | `SEARCH_WINDOW_SIZE`       | The size of the search window; the same as `HSNW's EF_RUNTIME`. Increasing the search window size and capacity generally yields more accurate but slower search results. | 10 |
