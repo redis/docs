@@ -18,7 +18,7 @@ weight: 2
 Intel's SVS (Scalable Vector Search) introduces two advanced vector compression techniques&mdash;LVQ and LeanVec&mdash;designed to optimize memory usage and search performance. These methods compress high-dimensional vectors while preserving the geometric relationships essential for accurate similarity search.
 
 {{< warning >}}
-On non-Intel platforms and Redis Open Source platforms (even when using Intel CPUs), `SVS-VAMANA` with `COMPRESSION` will fall back to Intel’s basic, 8-bit scalar quantization implementation: all values in a vector are scaled using the global minimum and maximum, and then each dimension is quantized independently into 256 levels using 8-bit precision.
+Intel's proprietary LVQ and LeanVec optimizations are not available on Redis Open Source. On non-Intel platforms and Redis Open Source platforms, `SVS-VAMANA` with `COMPRESSION` will fall back to Intel’s basic, 8-bit scalar quantization implementation: all values in a vector are scaled using the global minimum and maximum, and then each dimension is quantized independently into 256 levels using 8-bit precision.
 {{< /warning >}}
 
 ## LVQ and LeanVec compression
@@ -44,13 +44,13 @@ On non-Intel platforms and Redis Open Source platforms (even when using Intel CP
 * **Variants:**
     * **LeanVec4x8:** Recommended for high-dimensional datasets, fastest search and ingestion.
     * **LeanVec8x8:** Improved recall when LeanVec4x8 is insufficient.
-* **LeanVec Dimension:** For faster search and lower memory use, reduce the dimension further by using the optional `REDUCE` argument (the default is `input dim / 2`; try `dim / 4` for even higher reduction).
+* **LeanVec Dimension:** For faster search and lower memory use, reduce the dimension further by using the optional `REDUCE` argument. The default value for `REDUCE` is `input dim / 2`; try `dim / 4` for even higher reduction.
 
 ## Choosing a compression type
 
 | Compression type | Best for | Observations |
 |------------------|----------|--------------|
-| LVQ4x4 (default) | Fast search in most cases with low memory use | Consider LeanVec for even faster search |
+| LVQ4x4 | Fast search in most cases with low memory use | Consider LeanVec for even faster search |
 | LeanVec4x8 | Fastest search and ingestion | LeanVec dimensionality reduction might reduce recall. |
 | LVQ4 | Maximum memory saving | Recall might be insufficient |
 | LVQ8 | Faster ingestion than default | Search likely slower than default |
@@ -97,6 +97,6 @@ The strong performance of LVQ and LeanVec stems from their ability to adapt to t
 ### What does this mean in practice?
 
 * **Initial training requirement:**
-    A minimum number of representative vectors is required during index initialization to train the compression parameters (see the TRAINING_THRESHOLD parameter). A random sample from the dataset typically works well.
+    A minimum number of representative vectors is required during index initialization to train the compression parameters (see the [TRAINING_THRESHOLD]({{< relref "/develop/ai/search-and-query/vectors/#svs-vamana-index" >}}) parameter). A random sample from the dataset typically works well.
 * **Handling data drift:**
     If the characteristics of incoming vectors change significantly over time (that is, a data distribution shift), compression quality may degrade. This is a general limitation of all data-dependent compression methods,not just LVQ and LeanVec. When the data no longer resembles the original training sample, the learned representation becomes less effective.
