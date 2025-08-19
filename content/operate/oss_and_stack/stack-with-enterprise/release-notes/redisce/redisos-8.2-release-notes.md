@@ -12,6 +12,22 @@ min-version-rs: blah
 weight: 20
 ---
 
+## Redis Open Source 8.2.1 (August 2025)
+
+Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgent.
+
+### Bug fixes
+
+- [#14240](https://github.com/redis/redis/pull/14240) `INFO KEYSIZES` - potential incorrect histogram updates on cluster mode with modules.
+- [#14274](https://github.com/redis/redis/pull/14274) Disable Active Defrag during flushing replica.
+- [#14276](https://github.com/redis/redis/pull/14276) `XADD` or `XTRIM` can crash the server after loading RDB.
+- [#Q6601](https://github.com/RediSearch/RediSearch/pull/6601) Potential crash when running `FLUSHDB` (MOD-10681).
+
+### Performance and resource utilization
+
+- Query Engine - LeanVec and LVQ proprietary Intel optimizations were removed from Redis Open Source.
+- [#Q6621](https://github.com/RediSearch/RediSearch/pull/6621) Fix regression in `INFO` (MOD-10779).
+
 ## Redis Open Source 8.2 (August 2025)
 
 This is the General Availability release of Redis 8.2 in Redis Open Source.
