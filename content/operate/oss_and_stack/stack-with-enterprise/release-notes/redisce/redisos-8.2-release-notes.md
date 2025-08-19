@@ -14,8 +14,6 @@ weight: 20
 
 ## Redis Open Source 8.2.1 (August 2025)
 
-Release notes for tag '8.2.1'.
-
 Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgent.
 
 ### Bug fixes
