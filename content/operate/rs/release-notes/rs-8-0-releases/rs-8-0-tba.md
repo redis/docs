@@ -81,6 +81,22 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS164218: Fixed an issue where Speedb log files were not properly rotated and archived, causing logs to accumulate and consume disk space.
 
+- RS162719: Fixed an issue where connection problems could prevent shards from restarting during failover and cause the failover process to become stuck.
+
+- RS161589: Changed the installer answers file parameter from `skip_updating_env_path` to `update_env_path` to improve clarity and accuracy.
+
+- RS161574: Fixed an issue where Active-Active database synchronization could fail when Lua scripts used certain read-only commands that accessed keys across multiple slots.
+
+- RS160347: Made optimizations to reduce the `heartbeatd` service's memory usage.
+
+- RS156394: Improved error messages when module commands are temporarily unavailable during cluster configuration changes.
+
+- RS154815: Improved diagnostic reporting for connection issues when the maximum number of transactions is reached.
+
+- RS147053: Fixed an issue where some `system_reserved_ports` were not displayed in the `rladmin info cluster` command output.
+
+- RS114668: Fixed an issue where setting `failure_detection_sensitivity` with the `bootstrap` API did not automatically update `watchdog_profile` accordingly.
+
 ## Version changes
 
 - TBA
