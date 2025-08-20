@@ -23,11 +23,26 @@
             <span class="menu__version-selector__toggler opener version-selector-control">&#x25BC;</span>
             <span class="menu__version-selector__toggler closer version-selector-control">&#x25B2;</span>
         </button>
+        {{- $entries := readDir "content/operate/kubernetes" -}}
+        {{- $vers := slice -}}
+
+        {{- range $e := $entries -}}
+          {{- if and $e.IsDir (findRE `^\d+\.\d+\.\d+$` $e.Name) -}}
+            {{- $p := split $e.Name "." -}}
+            {{- $maj := int (index $p 0) -}}
+            {{- $min := int (index $p 1) -}}
+            {{- $pat := int (index $p 2) -}}
+            {{- $key := printf "%03d.%03d.%03d" $maj $min $pat -}} {{/* for sorting */}}
+            {{- $vers = $vers | append (dict "v" $e.Name "key" $key) -}}
+          {{- end -}}
+        {{- end -}}
+        {{- $vers = sort $vers "key" "desc" -}}
+
         <div id="versionDropdownKubernetes" class="menu__version-selector__list version-selector-control">
-            <a href="{{ absURL "operate/kubernetes/" }}" id="kubernetes-version-select-latest" onclick="_setSelectedVersion('kubernetes', 'latest')">latest</a>
-            <a href="{{ absURL "operate/kubernetes/7.8.4/" }}" id="kubernetes-version-select-7.8.6" onclick="_setSelectedVersion('kubernetes', 'v7.8.6')">v7.8.6</a>
-            <a href="{{ absURL "operate/kubernetes/7.8.4/" }}" id="kubernetes-version-select-7.8.4" onclick="_setSelectedVersion('kubernetes', 'v7.8.4')">v7.8.4</a>
-            <a href="{{ absURL "operate/kubernetes/7.4.6/" }}" id="kubernetes-version-select-7.4.6" onclick="_setSelectedVersion('kubernetes', 'v7.4.6')">v7.4.6</a> 
+          <a href="{{ absURL "operate/kubernetes/" }}" id="kubernetes-version-select-latest" onclick="_setSelectedVersion('kubernetes', 'latest')">latest</a>
+          {{- range $vers }}
+          <a href="{{ absURL (printf "operate/kubernetes/%s" .v) }}" id="kubernetes-version-select-{{ .v }}" onclick="_setSelectedVersion('kubernetes', 'v{{ .v }}')">v{{ .v }}</a>
+          {{- end }}
         </div>
       </div>
       {{else if (eq (.Params.linkTitle) "Redis Software")}}
@@ -37,10 +52,26 @@
             <span class="menu__version-selector__toggler opener version-selector-control">&#x25BC;</span>
             <span class="menu__version-selector__toggler closer version-selector-control">&#x25B2;</span>
         </button>
+        {{- $entries := readDir "content/operate/rs" -}}
+        {{- $vers := slice -}}
+
+        {{- range $e := $entries -}}
+          {{- if and $e.IsDir (findRE `^\d+\.\d+$` $e.Name) -}}
+            {{- $p := split $e.Name "." -}}
+            {{- $maj := int (index $p 0) -}}
+            {{- $min := int (index $p 1) -}}
+            {{- $pat := int (index $p 2) -}}
+            {{- $key := printf "%03d.%03d.%03d" $maj $min $pat -}} {{/* for sorting */}}
+            {{- $vers = $vers | append (dict "v" $e.Name "key" $key) -}}
+          {{- end -}}
+        {{- end -}}
+        {{- $vers = sort $vers "key" "desc" -}}
+
         <div id="versionDropdownRs" class="menu__version-selector__list version-selector-control">
-            <a href="{{ absURL "operate/rs/" }}" id="rs-version-select-latest" onclick="_setSelectedVersion('rs', 'latest')">latest</a>
-            <a href="{{ absURL "operate/rs/7.8/" }}" id="rs-version-select-7.8" onclick="_setSelectedVersion('rs', 'v7.8')">v7.8</a>  
-            <a href="{{ absURL "operate/rs/7.4/" }}" id="rs-version-select-7.4" onclick="_setSelectedVersion('rs', 'v7.4')">v7.4</a>  
+          <a href="{{ absURL "operate/rs/" }}" id="rs-version-select-latest" onclick="_setSelectedVersion('rs', 'latest')">latest</a>
+          {{- range $vers }}
+          <a href="{{ absURL (printf "operate/rs/%s" .v) }}" id="rs-version-select-{{ .v }}" onclick="_setSelectedVersion('rs', 'v{{ .v }}')">v{{ .v }}</a>
+          {{- end }}
         </div>
       </div>
     </li>
