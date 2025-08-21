@@ -45,7 +45,7 @@ Redis Enterprise Software version 8.0 introduces the following breaking changes:
 
 #### API deprecations
 
-- TBA
+- Deprecated the `policy` field for [bootstrap]({{<relref "/operate/rs/references/rest-api/requests/bootstrap">}}) REST API requests. Use [`PUT /v1/cluster/policy`]({{< relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) to change cluster policies after cluster creation instead.
 
 #### Internal monitoring and v1 Prometheus metrics deprecation
 
