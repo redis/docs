@@ -20,8 +20,8 @@ When you create a RedisEnterpriseDatabase (REDB), the Redis Enterprise operator 
 
 By default, the operator creates two services for each database:
 
-- ClusterIP service - Provides a stable cluster-internal IP address
-- Headless service - Enables direct pod-to-pod communication and service discovery
+- ClusterIP service - Provides a stable cluster-internal IP address.
+- Headless service - Enables direct pod-to-pod communication and service discovery.
 
 Both services are created in the same namespace as your database and follow predictable naming conventions.
 
@@ -139,9 +139,9 @@ See [OpenShift routes]({{< relref "/operate/kubernetes/networking/routes" >}}) f
 
 ### Default port behavior
 
-- Redis Enterprise databases use dynamic port allocation
-- Port numbers are assigned automatically during database creation
-- The actual port is stored in the database secret
+- Redis Enterprise databases use dynamic port allocation.
+- Port numbers are assigned automatically during database creation.
+- The actual port is stored in the database secret.
 
 ### Custom port configuration
 
@@ -264,10 +264,10 @@ client.on('connect', () => {
 
 ### Common issues
 
-1. Connection refused - Verify service names and ports from the database secret
-2. Authentication failed - Check password encoding and special characters
-3. DNS resolution - Ensure applications use correct service FQDNs
-4. Network policies - Verify Kubernetes network policies allow traffic
+1. Connection refused - Verify service names and ports from the database secret.
+2. Authentication failed - Check password encoding and special characters.
+3. DNS resolution - Ensure applications use correct service FQDNs.
+4. Network policies - Verify Kubernetes network policies allow traffic.
 
 ### Debugging steps
 

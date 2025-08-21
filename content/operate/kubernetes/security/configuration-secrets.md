@@ -81,11 +81,11 @@ kubectl create secret generic <secret-name> \
 
 ## Best practices
 
-- Store sensitive configuration in Secrets rather than directly in YAML files
-- Use `--from-file` to avoid manual base64 encoding
-- Create secrets in the same namespace as your REC or REDB resources
-- Use descriptive secret names for easy identification
-- Regularly rotate certificates and update secrets
+- Store sensitive configuration in Secrets rather than directly in YAML files.
+- Use `--from-file` to avoid manual base64 encoding.
+- Create secrets in the same namespace as your REC or REDB resources.
+- Use descriptive secret names for easy identification.
+- Regularly rotate certificates and update secrets.
 
 ## See also
 

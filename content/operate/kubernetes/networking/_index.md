@@ -17,7 +17,7 @@ Configure networking and external access for your Redis Enterprise deployment on
 
 Connect applications to your Redis Enterprise databases:
 
-- [Database connectivity]({{< relref "/operate/kubernetes/networking/database-connectivity" >}}) - Comprehensive guide to in-cluster and external database access, service discovery, and credentials management
+- [Database connectivity]({{< relref "/operate/kubernetes/networking/database-connectivity" >}}) - Comprehensive guide to in-cluster and external database access, service discovery, and credentials management.
 
 ## External routing methods
 
