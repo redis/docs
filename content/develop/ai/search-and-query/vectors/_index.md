@@ -158,7 +158,7 @@ Choose the `SVS-VAMANA` index type when all of the following requirements apply:
 | `SEARCH_WINDOW_SIZE`       | The size of the search window; the same as `HSNW's EF_RUNTIME`. Increasing the search window size and capacity generally yields more accurate but slower search results. | 10 |
 | `EPSILON`                  | The range search approximation factor; the same as `HSNW's EPSILON`. | 0.01 |
 | `TRAINING_THRESHOLD`       | Number of vectors needed to learn compression parameters. Applicable only when used with `COMPRESSION`. Increase if recall is low. Note: setting this too high may slow down search.If a value is provided, it must be less than `100 * DEFAULT_BLOCK_SIZE`, where `DEFAULT_BLOCK_SIZE` is 1024. | `10 * DEFAULT_BLOCK_SIZE` |
-| `LEANVEC_DIM`              | The dimension used when using `LeanVec4x8` or `LeanVec8x8` compression for dimensionality reduction. If a value is provided, it should be less than `DIM`. Lowering it can speed up search and reduce memory use. | `DIM / 2` |
+| `REDUCE`              | The dimension used when using `LeanVec4x8` or `LeanVec8x8` compression for dimensionality reduction. If a value is provided, it should be less than `DIM`. Lowering it can speed up search and reduce memory use. | `DIM / 2` |
 
 {{< warning >}}
 Intel's proprietary LVQ and LeanVec optimizations are not available on Redis Open Source. On non-Intel platforms and Redis Open Source platforms, `SVS-VAMANA` with `COMPRESSION` will fall back to Intel’s basic, 8-bit scalar quantization implementation: all values in a vector are scaled using the global minimum and maximum, and then each dimension is quantized independently into 256 levels using 8-bit precision.
