@@ -67,6 +67,18 @@ but tries to avoid stopping primary shards.
 We recommend that you have a [monitoring platform]({{< relref "/operate/rs/monitoring/" >}}) that alerts you before a system gets low on RAM.
 You must maintain sufficient free memory to make sure that you have a healthy Redis Enterprise installation.
 
+## Adaptive memory allocation
+
+In rare cases during high-velocity data ingestion, databases can temporarily reach up to 200% of their configured memory limit. This adaptive memory allocation strategy allows large amounts of data to be written to the database quickly without rejecting valid transactions.
+
+For example, when pushing data at approximately 100 MB/sec into a 2 GB database:
+- A database with 2 shards could reach 199% of its configured memory limit.
+- A database with 4 shards could reach around 220% of its configured memory limit.
+
+Databases should return to their configured memory limits after data is removed according to the [eviction policy]({{<relref "/operate/rs/databases/memory-performance/eviction-policy/">}}) and [time-to-live (TTL)]({{<relref "/develop/using-commands/keyspace#key-expiration">}}).
+
+If you observe this behavior, consider [monitoring]({{< relref "/operate/rs/monitoring/" >}}) memory usage and controlling the traffic load on the application side.
+
 ## Memory metrics
 
 The Cluster Manager UI provides metrics that can help you evaluate your memory use.
