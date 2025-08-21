@@ -9,16 +9,16 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Intel scalable vector search (SVS) LVQ and LeanVec compression
-linkTitle: Intel SVS compression
-title: Intel scalable vector search (SVS) compression
+description: Vector compression and quantization for efficient memory usage and search performance
+linkTitle: Vector Compression & Quantization
+title: Vector Compression and Quantization
 weight: 2
 ---
 
-Intel's SVS (Scalable Vector Search) introduces two advanced vector compression techniques&mdash;LVQ and LeanVec&mdash;designed to optimize memory usage and search performance. These methods compress high-dimensional vectors while preserving the geometric relationships essential for accurate similarity search.
+Efficient management of high-dimensional vector data is crucial for scalable search and retrieval. Advanced methods for vector compression and quantization—such as LVQ (Locally-Adaptive Vector Quantization) and LeanVec—can dramatically optimize memory usage and improve search speed, without sacrificing too much accuracy. This page describes practical approaches to compressing and quantizing vectors for scalable search.
 
 {{< warning >}}
-Intel's proprietary LVQ and LeanVec optimizations are not available on Redis Open Source. On non-Intel platforms and Redis Open Source platforms, `SVS-VAMANA` with `COMPRESSION` will fall back to Intel’s basic, 8-bit scalar quantization implementation: all values in a vector are scaled using the global minimum and maximum, and then each dimension is quantized independently into 256 levels using 8-bit precision.
+Some advanced vector compression features may depend on hardware or Intel's proprietary optimizations. Intel's proprietary LVQ and LeanVec optimizations are not available on Redis Open Source. On non-Intel platforms and Redis Open Source platforms, `SVS-VAMANA` with `COMPRESSION` will fall back to basic, 8-bit scalar quantization implementation: all values in a vector are scaled using the global minimum and maximum, and then each dimension is quantized independently into 256 levels using 8-bit precision.
 {{< /warning >}}
 
 ## Compression and Quantization Techniques
