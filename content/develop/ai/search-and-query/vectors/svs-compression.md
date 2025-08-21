@@ -9,16 +9,16 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Vector compression and quantization for efficient memory usage and search performance
-linkTitle: Vector Compression & Quantization
-title: Vector Compression and Quantization Techniques
+description: Intel scalable vector search (SVS) LVQ and LeanVec compression
+linkTitle: Intel SVS compression
+title: Intel scalable vector search (SVS) compression
 weight: 2
 ---
 
-Efficient management of high-dimensional vector data is crucial for scalable search and retrieval. Advanced methods for vector compression and quantization—such as LVQ (Locally-Adaptive Vector Quantization) and LeanVec—can dramatically optimize memory usage and improve search speed, without sacrificing too much accuracy. This page describes practical approaches to compressing and quantizing vectors for scalable search.
+Intel's SVS (Scalable Vector Search) introduces two advanced vector compression techniques&mdash;LVQ and LeanVec&mdash;designed to optimize memory usage and search performance. These methods compress high-dimensional vectors while preserving the geometric relationships essential for accurate similarity search.
 
 {{< warning >}}
-Some advanced vector compression features may depend on hardware or Intel's proprietary optimizations. On platforms without these capabilities, generic compression methods will be used, possibly with reduced performance.
+Intel's proprietary LVQ and LeanVec optimizations are not available on Redis Open Source. On non-Intel platforms and Redis Open Source platforms, `SVS-VAMANA` with `COMPRESSION` will fall back to Intel’s basic, 8-bit scalar quantization implementation: all values in a vector are scaled using the global minimum and maximum, and then each dimension is quantized independently into 256 levels using 8-bit precision.
 {{< /warning >}}
 
 ## Compression and Quantization Techniques
@@ -57,42 +57,46 @@ Some advanced vector compression features may depend on hardware or Intel's prop
 | LeanVec8x8           | Improved recall when LeanVec4x8 is insufficient  | LeanVec dimensionality reduction might reduce recall    |
 | LVQ4x8               | Improved recall when LVQ4x4 is insufficient      | Slightly worse memory savings                           |
 
-## Two-Level Compression
+## Two-level compression
 
-Both LVQ and LeanVec support multi-level compression schemes. The first level compresses each vector to capture its main structure, while the second encodes residual errors for more precise re-ranking.
+Both LVQ and LeanVec support two-level compression schemes. LVQ's two-level compression works by first quantizing each vector individually to capture its main structure, then encoding the residual error&mdash;the difference between the original and quantized vector&mdash;using a second quantization step. This allows fast search using only the first level, with the second level used for re-ranking to boost accuracy when needed.
 
-This two-level approach enables:
+Similarly, LeanVec uses a two-level approach: the first level reduces dimensionality and applies LVQ to speed up candidate retrieval, while the second level applies LVQ to the original high-dimensional vectors for accurate re-ranking.
+
+Note that the original full-precision embeddings are never used by either LVQ or LeanVec, as both operate entirely on compressed representations.
+
+This two-level approach allows for:
 
 * Fast candidate retrieval using the first-level compressed vectors.
-* High-accuracy re-ranking using second-level residuals.
+* High-accuracy re-ranking using the second-level residuals.
 
-The naming convention reflects the number of bits per dimension at each compression level.
+The naming convention used for the configurations reflects the number of bits allocated per dimension at each level of compression.
 
-### Naming convention: LVQ<B₁>x<B₂> or LeanVec<B₁>x<B₂>
+### Naming convention: LVQ<B₁>x<B₂>
 
-* **B₁:** Bits per dimension for first-level quantization.
-* **B₂:** Bits per dimension for second-level quantization (residual encoding).
+* **B₁:** Number of bits per dimension used in the first-level quantization.
+* **B₂:** Number of bits per dimension used in the second-level quantization (residual encoding).
 
 #### Examples
 
 * **LVQ4x8:**
     * First level: 4 bits per dimension.
     * Second level: 8 bits per dimension.
-    * Total: 12 bits per dimension (across two stages).
+    * Total: 12 bits per dimension (used across two stages).
 * **LVQ8:**
-    * Single-level compression.
+    * Single-level compression only.
     * 8 bits per dimension.
     * No second-level residuals.
-* **LeanVec4x8:**  
-    * Dimensionality reduction followed by LVQ4x8 scheme.
 
-## Learning Compression Parameters from Vector Data
+Same notation is used for LeanVec.
 
-The effectiveness of LVQ and LeanVec compression relies on adapting to the structure of input vectors. Learning parameters directly from data leads to more accurate and efficient search.
+## Learning compression parameters from vector data
 
-### Practical Considerations
+The strong performance of LVQ and LeanVec stems from their ability to adapt to the structure of the input vectors. By learning compression parameters directly from the data, they achieve more accurate representations with fewer bits.
 
-* **Initial Training Requirement:**  
-    A minimum number of representative vectors is needed during index initialization to train the compression parameters (see [TRAINING_THRESHOLD]({{< relref "/develop/ai/search-and-query/vectors/svs-training.md" >}})).
-* **Handling Data Drift:**  
-    If incoming vector characteristics change significantly over time (data distribution shift), compression quality may degrade—a general limitation of all data-dependent methods.
+### What does this mean in practice?
+
+* **Initial training requirement:**
+    A minimum number of representative vectors is required during index initialization to train the compression parameters (see the [TRAINING_THRESHOLD]({{< relref "/develop/ai/search-and-query/vectors/#svs-vamana-index" >}}) parameter). A random sample from the dataset typically works well.
+* **Handling data drift:**
+    If the characteristics of incoming vectors change significantly over time (that is, a data distribution shift), compression quality may degrade. This is a general limitation of all data-dependent compression methods,not just LVQ and LeanVec. When the data no longer resembles the original training sample, the learned representation becomes less effective.
