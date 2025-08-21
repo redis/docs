@@ -9,27 +9,27 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Intel scalable vector search (SVS) LVQ and LeanVec compression
-linkTitle: Intel SVS compression
-title: Intel scalable vector search (SVS) compression
+description: Vector compression and quantization for efficient memory usage and search performance
+linkTitle: Vector Compression & Quantization
+title: Vector Compression and Quantization Techniques
 weight: 2
 ---
 
-Intel's SVS (Scalable Vector Search) introduces two advanced vector compression techniques&mdash;LVQ and LeanVec&mdash;designed to optimize memory usage and search performance. These methods compress high-dimensional vectors while preserving the geometric relationships essential for accurate similarity search.
+Efficient management of high-dimensional vector data is crucial for scalable search and retrieval. Advanced methods for vector compression and quantization—such as LVQ (Locally-Adaptive Vector Quantization) and LeanVec—can dramatically optimize memory usage and improve search speed, without sacrificing too much accuracy. This page describes practical approaches to compressing and quantizing vectors for scalable search.
 
 {{< warning >}}
-Intel's proprietary LVQ and LeanVec optimizations are not available on Redis Open Source. On non-Intel platforms and Redis Open Source platforms, `SVS-VAMANA` with `COMPRESSION` will fall back to Intel’s basic, 8-bit scalar quantization implementation: all values in a vector are scaled using the global minimum and maximum, and then each dimension is quantized independently into 256 levels using 8-bit precision.
+Some advanced vector compression features may depend on hardware or Intel's proprietary optimizations. On platforms without these capabilities, generic compression methods will be used, possibly with reduced performance.
 {{< /warning >}}
 
-## LVQ and LeanVec compression
+## Compression and Quantization Techniques
 
-### LVQ (locally-adaptive vector quantization)
+### LVQ (Locally-Adaptive Vector Quantization)
 
-* **Method:** Applies per-vector normalization and scalar quantization.
+* **Method:** Applies per-vector normalization and scalar quantization, learning parameters directly from the data.
 * **Advantages:**
     * Enables fast, on-the-fly distance computations.
-    * SIMD-optimized layout using Turbo LVQ for efficient distance computations.
-    * Learns compression parameters from data.
+    * SIMD-optimized layout for efficient search.
+    * Learns compression parameters from representative vectors.
 * **Variants:**
     * **LVQ4x4:** 8 bits per dimension, fast search, large memory savings.
     * **LVQ8:** Faster ingestion, slower search.
@@ -37,66 +37,62 @@ Intel's proprietary LVQ and LeanVec optimizations are not available on Redis Ope
 
 ### LeanVec
 
-* **Method:** Combines dimensionality reduction with LVQ.
+* **Method:** Combines dimensionality reduction with LVQ, applying quantization after reducing vector dimensions.
 * **Advantages:**
-    * Ideal for high-dimensional vectors.
-    * Significant performance boost with reduced memory.
+    * Best suited for high-dimensional vectors.
+    * Significant speed and memory improvements.
 * **Variants:**
     * **LeanVec4x8:** Recommended for high-dimensional datasets, fastest search and ingestion.
-    * **LeanVec8x8:** Improved recall when LeanVec4x8 is insufficient.
-* **LeanVec Dimension:** For faster search and lower memory use, reduce the dimension further by using the optional `REDUCE` argument. The default value for `REDUCE` is `input dim / 2`; try `dim / 4` for even higher reduction.
+    * **LeanVec8x8:** Improved recall when more granularity is needed.
+* **LeanVec Dimension:** For faster search and lower memory usage, reduce the dimension further by using the optional `REDUCE` argument. The default is typically `input dimension / 2`, but more aggressive reduction (such as `dimension / 4`) is possible for greater efficiency.
 
-## Choosing a compression type
+## Choosing a Compression Type
 
-| Compression type | Best for | Observations |
-|------------------|----------|--------------|
-| LVQ4x4 | Fast search in most cases with low memory use | Consider LeanVec for even faster search |
-| LeanVec4x8 | Fastest search and ingestion | LeanVec dimensionality reduction might reduce recall. |
-| LVQ4 | Maximum memory saving | Recall might be insufficient |
-| LVQ8 | Faster ingestion than LVQ4x4 | Search likely slower than LVQ4x4 |
-| LeanVec8x8 | Improved recall in case LeanVec4x8 is not sufficient | LeanVec dimensionality reduction might reduce recall |
-| LVQ4x8 | Improved recall in case LVQ4x4 is not sufficient | Worse memory savings |
+| Compression type      | Best for                                        | Observations                                            |
+|----------------------|--------------------------------------------------|---------------------------------------------------------|
+| LVQ4x4               | Fast search and low memory use                   | Consider LeanVec for even faster search                 |
+| LeanVec4x8           | Fastest search and ingestion                     | LeanVec dimensionality reduction might reduce recall    |
+| LVQ4                 | Maximum memory saving                            | Recall might be insufficient                            |
+| LVQ8                 | Faster ingestion than LVQ4x4                     | Search likely slower than LVQ4x4                        |
+| LeanVec8x8           | Improved recall when LeanVec4x8 is insufficient  | LeanVec dimensionality reduction might reduce recall    |
+| LVQ4x8               | Improved recall when LVQ4x4 is insufficient      | Slightly worse memory savings                           |
 
-## Two-level compression
+## Two-Level Compression
 
-Both LVQ and LeanVec support two-level compression schemes. LVQ's two-level compression works by first quantizing each vector individually to capture its main structure, then encoding the residual error&mdash;the difference between the original and quantized vector&mdash;using a second quantization step. This allows fast search using only the first level, with the second level used for re-ranking to boost accuracy when needed.
+Both LVQ and LeanVec support multi-level compression schemes. The first level compresses each vector to capture its main structure, while the second encodes residual errors for more precise re-ranking.
 
-Similarly, LeanVec uses a two-level approach: the first level reduces dimensionality and applies LVQ to speed up candidate retrieval, while the second level applies LVQ to the original high-dimensional vectors for accurate re-ranking.
-
-Note that the original full-precision embeddings are never used by either LVQ or LeanVec, as both operate entirely on compressed representations.
-
-This two-level approach allows for:
+This two-level approach enables:
 
 * Fast candidate retrieval using the first-level compressed vectors.
-* High-accuracy re-ranking using the second-level residuals.
+* High-accuracy re-ranking using second-level residuals.
 
-The naming convention used for the configurations reflects the number of bits allocated per dimension at each level of compression.
+The naming convention reflects the number of bits per dimension at each compression level.
 
-### Naming convention: LVQ<B₁>x<B₂>
+### Naming convention: LVQ<B₁>x<B₂> or LeanVec<B₁>x<B₂>
 
-* **B₁:** Number of bits per dimension used in the first-level quantization.
-* **B₂:** Number of bits per dimension used in the second-level quantization (residual encoding).
+* **B₁:** Bits per dimension for first-level quantization.
+* **B₂:** Bits per dimension for second-level quantization (residual encoding).
 
 #### Examples
 
 * **LVQ4x8:**
     * First level: 4 bits per dimension.
     * Second level: 8 bits per dimension.
-    * Total: 12 bits per dimension (used across two stages).
+    * Total: 12 bits per dimension (across two stages).
 * **LVQ8:**
-    * Single-level compression only.
+    * Single-level compression.
     * 8 bits per dimension.
     * No second-level residuals.
+* **LeanVec4x8:**  
+    * Dimensionality reduction followed by LVQ4x8 scheme.
 
-Same notation is used for LeanVec.
+## Learning Compression Parameters from Vector Data
 
-## Learning compression parameters from vector data
+The effectiveness of LVQ and LeanVec compression relies on adapting to the structure of input vectors. Learning parameters directly from data leads to more accurate and efficient search.
 
-The strong performance of LVQ and LeanVec stems from their ability to adapt to the structure of the input vectors. By learning compression parameters directly from the data, they achieve more accurate representations with fewer bits.
+### Practical Considerations
 
-### What does this mean in practice?
-
-* **Initial training requirement:**
-    A minimum number of representative vectors is required during index initialization to train the compression parameters (see the [TRAINING_THRESHOLD]({{< relref "/develop/ai/search-and-query/vectors/#svs-vamana-index" >}}) parameter). A random sample from the dataset typically works well.
-* **Handling data drift:**
-    If the characteristics of incoming vectors change significantly over time (that is, a data distribution shift), compression quality may degrade. This is a general limitation of all data-dependent compression methods,not just LVQ and LeanVec. When the data no longer resembles the original training sample, the learned representation becomes less effective.
+* **Initial Training Requirement:**  
+    A minimum number of representative vectors is needed during index initialization to train the compression parameters (see [TRAINING_THRESHOLD]({{< relref "/develop/ai/search-and-query/vectors/svs-training.md" >}})).
+* **Handling Data Drift:**  
+    If incoming vector characteristics change significantly over time (data distribution shift), compression quality may degrade—a general limitation of all data-dependent methods.
