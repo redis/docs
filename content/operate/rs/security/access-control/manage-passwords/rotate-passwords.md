@@ -41,6 +41,8 @@ The new password cannot already exist as a password for the user and must meet t
 
 ## Rotate password
 
+Admins can rotate passwords for any user. If you are not an admin, you can only rotate passwords for your account.
+
 To rotate passwords:
 
 1. Add an additional password to a user's password list with [`POST /v1/users/password`]({{< relref "/operate/rs/references/rest-api/requests/users/password#add-password" >}}).
@@ -70,7 +72,7 @@ To rotate passwords:
 
 ## Replace all passwords
 
-You can also replace all existing passwords for a user account with a single password that does not match any existing passwords.
+You can replace all existing passwords for your account with a single password that does not match any existing passwords. Admins can reset passwords for any user.
 This can be helpful if you suspect that your passwords are compromised and you want to quickly resecure the account.
 
 To replace a user's passwords, use [`PUT /v1/users/password`]({{< relref "/operate/rs/references/rest-api/requests/users/password#update-password" >}}).

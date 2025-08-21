@@ -152,38 +152,17 @@ Choose the `SVS-VAMANA` index type when all of the following requirements apply:
 
 | Attribute                  | Description                              | Default value |
 |:---------------------------|:-----------------------------------------|:-------------:|
-| `COMPRESSION`              | Compression algorithm; one of `LVQ8`, `LVQ4`, `LVQ4x4`, `LVQ4x8`, `LeanVec4x8`, or `LeanVec8x8`. Vectors will be compressed during indexing. See below for descriptions of each algorithm. Also, see these Intel pages for best practices on using these algorithms: [`COMPRESSION` settings](https://intel.github.io/ScalableVectorSearch/howtos.html#compression-setting) and [`LeanVec`](https://intel.github.io/ScalableVectorSearch/python/experimental/leanvec.html). | `LVQ4x4` |
+| `COMPRESSION`              | Compression algorithm; one of `LVQ8`, `LVQ4`, `LVQ4x4`, `LVQ4x8`, `LeanVec4x8`, or `LeanVec8x8`. See [this page]({{< relref "/develop/ai/search-and-query/vectors/svs-compression" >}}) for more information. | none |
 | `CONSTRUCTION_WINDOW_SIZE` | The search window size to use during graph construction. A higher search window size will yield a higher quality graph since more overall vertexes are considered, but will increase construction time. | 200 |
 | `GRAPH_MAX_DEGREE`         | Sets the maximum number of edges per node; equivalent to `HNSW’s M*2`. A higher max degree may yield a higher quality graph in terms of recall for performance, but the memory footprint of the graph is directly proportional to the maximum degree. | 32 |
 | `SEARCH_WINDOW_SIZE`       | The size of the search window; the same as `HSNW's EF_RUNTIME`. Increasing the search window size and capacity generally yields more accurate but slower search results. | 10 |
 | `EPSILON`                  | The range search approximation factor; the same as `HSNW's EPSILON`. | 0.01 |
 | `TRAINING_THRESHOLD`       | Number of vectors needed to learn compression parameters. Applicable only when used with `COMPRESSION`. Increase if recall is low. Note: setting this too high may slow down search.If a value is provided, it must be less than `100 * DEFAULT_BLOCK_SIZE`, where `DEFAULT_BLOCK_SIZE` is 1024. | `10 * DEFAULT_BLOCK_SIZE` |
-| `LEANVEC_DIM`              | The dimension used when using `LeanVec4x8` or `LeanVec8x8` compression for dimensionality reduction. If a value is provided, it should be less than `DIM`. Lowering it can speed up search and reduce memory use. | `DIM / 2` |
+| `REDUCE`              | The dimension used when using `LeanVec4x8` or `LeanVec8x8` compression for dimensionality reduction. If a value is provided, it should be less than `DIM`. Lowering it can speed up search and reduce memory use. | `DIM / 2` |
 
 {{< warning >}}
-On non-Intel platforms, `SVS-VAMANA` with `COMPRESSION` will fall back to Intel’s basic scalar quantization implementation.
+Intel's proprietary LVQ and LeanVec optimizations are not available on Redis Open Source. On non-Intel platforms and Redis Open Source platforms, `SVS-VAMANA` with `COMPRESSION` will fall back to Intel’s basic, 8-bit scalar quantization implementation: all values in a vector are scaled using the global minimum and maximum, and then each dimension is quantized independently into 256 levels using 8-bit precision.
 {{< /warning >}}
-
-**SVS_VAMANA vector compression algorithms**
-
-LVQ is a scalar quantization method that applies scaling constants for each vector. LeanVec builds on this by combining query-aware dimensionality reduction with LVQ-based scalar quantization for efficient vector compression. 
-
-`LVQ4x4` (the default): Fast search with 4x vector compression relative to float32-encoded vectors (8 bits per dimension) and high accuracy.
-
-`LeanVec4x8`: Recommended for high-dimensional datasets. It offers the fastest search and ingestion. It's not the default because in rare cases it may reduce recall if the data does not compress well.
-
-`LeanVec` dimensional: For faster search and lower memory use, reduce the dimension further (default is input `dim / 2`; try `dim / 4` or even higher reduction).
-
-`LVQ8`: Faster ingestion than the default, but with slower search.
-
-| Compression algorithm | Best for |
-|-----------------------|----------|
-| `LVQ4x4` (default)    | Fast search in most cases with low memory use. |
-| `LeanVec4x8`          | Fastest search and ingestion. |
-| `LVQ4`                | Maximum memory savings. |
-| `LVQ8`                | Faster ingestion than the default. |
-| `LeanVec8x8`          | Improved recall in cases where `LeanVec4x8` is not sufficient. |
-| `LVQ4x8`              | Improved recall in cases where the default is not sufficient. |
 
 **Example**
 
