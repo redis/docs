@@ -35,18 +35,19 @@ This version offers:
 
 ### Redis database versions
 
-Redis Software version 8.0.0 includes three Redis database versions: 8.2, 7.4, 7.2.
+Redis Enterprise Software version 8.0.0 includes four Redis database versions: 8.2, 7.4, 7.2, and 6.2.
 
-The [default Redis database version]({{<relref "/operate/rs/databases/configure/db-defaults#database-version">}}) is 7.4.
+The [default Redis database version]({{<relref "/operate/rs/databases/configure/db-defaults#database-version">}}) is 8.2.
 
-### Redis module feature sets
+### Redis feature sets
 
-Redis Software comes packaged with several modules. As of version 7.8.2, Redis Software includes three feature sets, compatible with different Redis database versions.
+As of version 8.0.0, Redis Enterprise Software includes four feature sets, compatible with different Redis database versions.
 
 The following table shows which Redis modules are compatible with each Redis database version included in this release.
 
 | Redis database version | Compatible Redis modules |
 |------------------------|--------------------------|
+| 8.2 | TBA? |
 | 7.4 | [RediSearch 2.10]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisearch/redisearch-2.10-release-notes.md" >}})<br />[RedisJSON 2.8]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisjson/redisjson-2.8-release-notes.md" >}})<br />[RedisTimeSeries 1.12]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redistimeseries/redistimeseries-1.12-release-notes.md" >}})<br />[RedisBloom 2.8]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisbloom/redisbloom-2.8-release-notes.md" >}}) |
 | 7.2 | [RediSearch 2.8]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisearch/redisearch-2.8-release-notes.md" >}})<br />[RedisJSON 2.6]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisjson/redisjson-2.6-release-notes.md" >}})<br />[RedisTimeSeries 1.10]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redistimeseries/redistimeseries-1.10-release-notes.md" >}})<br />[RedisBloom 2.6]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisbloom/redisbloom-2.6-release-notes.md" >}}) |
 | 6.2 | [RediSearch 2.6]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisearch/redisearch-2.6-release-notes.md" >}})<br />[RedisJSON 2.4]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisjson/redisjson-2.4-release-notes.md" >}})<br />[RedisTimeSeries 1.8]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redistimeseries/redistimeseries-1.8-release-notes.md" >}})<br />[RedisBloom 2.4]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisbloom/redisbloom-2.4-release-notes.md" >}})<br />[RedisGraph v2.10]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisgraph/redisgraph-2.10-release-notes.md" >}})<sup>[1](#module-note-1)</sup>  |
@@ -203,7 +204,7 @@ As part of Redis's commitment to security, Redis Enterprise Software implements 
 
 Some CVEs announced for open source Redis do not affect Redis Enterprise Software due to different or additional functionality available in Redis Enterprise Software that is not available in open source Redis.
 
-Redis Software 8.0.x-tba supports open source Redis 7.4, 7.2, and 6.2. Below is the list of open source Redis CVEs fixed by version.
+Redis Enterprise Software 8.0.0-tba supports open source Redis 8.2, 7.4, 7.2, and 6.2. Below is the list of open source Redis CVEs fixed by version.
 
 Redis 7.4.x:
 
