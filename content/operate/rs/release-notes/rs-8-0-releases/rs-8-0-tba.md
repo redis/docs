@@ -103,7 +103,7 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 ### Breaking changes
 
-Redis Software version 8.0.x introduces the following breaking changes:
+Redis Enterprise Software version 8.0.0 introduces the following breaking changes:
 
 - TBA
 
@@ -199,9 +199,9 @@ The following legacy UI features are not yet available in the new Cluster Manage
 
 #### Open source Redis security fixes compatibility
 
-As part of Redis's commitment to security, Redis Software implements the latest [security fixes](https://github.com/redis/redis/releases) available with [open source Redis](https://github.com/redis/redis). Redis Software has already included the fixes for the relevant CVEs.
+As part of Redis's commitment to security, Redis Enterprise Software implements the latest [security fixes](https://github.com/redis/redis/releases) available with [open source Redis](https://github.com/redis/redis). Redis Enterprise Software has already included the fixes for the relevant CVEs.
 
-Some CVEs announced for open source Redis do not affect Redis Software due to different or additional functionality available in Redis Software that is not available in open source Redis.
+Some CVEs announced for open source Redis do not affect Redis Enterprise Software due to different or additional functionality available in Redis Enterprise Software that is not available in open source Redis.
 
 Redis Software 8.0.x-tba supports open source Redis 7.4, 7.2, and 6.2. Below is the list of open source Redis CVEs fixed by version.
 
