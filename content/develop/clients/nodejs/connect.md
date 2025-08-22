@@ -287,7 +287,7 @@ You can also set the
 whether to try to reconnect and how to approach it. Choose one of the following values for
 `socket.reconnectionStrategy`:
 
--   `false`: (Default) Don't attempt to reconnect.
+-   `false`: Don't attempt to reconnect.
 -   `number`: Wait for this number of milliseconds and then attempt to reconnect.
 -   `<function>`: Use a custom
     function to decide how to handle reconnection.

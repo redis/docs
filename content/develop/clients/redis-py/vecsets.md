@@ -47,7 +47,7 @@ pip install sentence-transformers
 
 In a new Python file, import the required classes:
 
-{{< clients-example set="home_vecsets" step="import" >}}
+{{< clients-example set="home_vecsets" step="import" lang_filter="Python" >}}
 {{< /clients-example >}}
 
 The first of these imports is the
@@ -61,7 +61,7 @@ tokens (see
 at the [Hugging Face](https://huggingface.co/) docs to learn more about the way tokens
 are related to the original text).
 
-{{< clients-example set="home_vecsets" step="model" >}}
+{{< clients-example set="home_vecsets" step="model" lang_filter="Python" >}}
 {{< /clients-example >}}
 
 ## Create the data
@@ -69,7 +69,7 @@ are related to the original text).
 The example data is contained a dictionary with some brief
 descriptions of famous people:
 
-{{< clients-example set="home_vecsets" step="data" >}}
+{{< clients-example set="home_vecsets" step="data" lang_filter="Python" >}}
 {{< /clients-example >}}
 
 ## Add the data to a vector set
@@ -99,7 +99,7 @@ The call to `vadd()` also adds the `born` and `died` values from the
 original dictionary as attribute data. You can access this during a query
 or by using the [`vgetattr()`]({{< relref "/commands/vgetattr" >}}) method.
 
-{{< clients-example set="home_vecsets" step="add_data" >}}
+{{< clients-example set="home_vecsets" step="add_data" lang_filter="Python" >}}
 {{< /clients-example >}}
 
 ## Query the vector set
@@ -112,7 +112,7 @@ of the set, ranked in order of similarity to the query.
 
 Start with a simple query for "actors":
 
-{{< clients-example set="home_vecsets" step="basic_query" >}}
+{{< clients-example set="home_vecsets" step="basic_query" lang_filter="Python" >}}
 {{< /clients-example >}}
 
 This returns the following list of elements (formatted slightly for clarity):
@@ -131,7 +131,7 @@ on the information contained in the embedding model.
 You can use the `count` parameter of `vsim()` to limit the list of elements
 to just the most relevant few items:
 
-{{< clients-example set="home_vecsets" step="limited_query" >}}
+{{< clients-example set="home_vecsets" step="limited_query" lang_filter="Python" >}}
 {{< /clients-example >}}
 
 The reason for using text embeddings rather than simple text search
@@ -141,7 +141,7 @@ different. For example, the word "entertainer" doesn't appear in any of the
 descriptions but if you use it as a query, the actors and musicians are ranked
 highest in the results list:
 
-{{< clients-example set="home_vecsets" step="entertainer_query" >}}
+{{< clients-example set="home_vecsets" step="entertainer_query" lang_filter="Python" >}}
 {{< /clients-example >}}
 
 Similarly, if you use "science" as a query, you get the following results:
@@ -162,7 +162,7 @@ with `vsim()` to restrict the search further. For example,
 repeat the "science" query, but this time limit the results to people
 who died before the year 2000:
 
-{{< clients-example set="home_vecsets" step="filtered_query" >}}
+{{< clients-example set="home_vecsets" step="filtered_query" lang_filter="Python" >}}
 {{< /clients-example >}}
 
 Note that the boolean filter expression is applied to items in the list

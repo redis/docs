@@ -29,26 +29,6 @@ Next you'll [collect credentials](#collect-rec-credentials) for your participati
 
 For a list of example values used throughout this article, see the [Example values](#example-values) section.
 
-### Preview versions
-
-If you are using a preview version of these features (operator version 6.4.2-4 or 6.4.2-5), you'll need to enable the Active-Active controller with the following steps. You need to do this only once per cluster. We recommend using the fully supported 6.4.2-6 version.
-
-1. Download the custom resource definitions (CRDs) for the most recent release (6.4.2-4) from [redis-enterprise-k8s-docs Github](https://github.com/RedisLabs/redis-enterprise-k8s-docs/tree/master/crds).
-
-1. Apply the new CRDs for the Redis Enterprise Active-Active database (REAADB) and Redis Enterprise remote cluster (RERC) to install those controllers.
-
-    ```sh
-    kubectl apply -f crds/reaadb_crd.yaml
-    kubectl apply -f crds/rerc_crd.yaml
-    ```
-
-1. Enable the Active-Active and remote cluster controllers on the operator ConfigMap.
-
-    ```sh
-    kubectl patch cm  operator-environment-config --type merge --patch "{\"data\": \
-    {\"ACTIVE_ACTIVE_DATABASE_CONTROLLER_ENABLED\":\"true\", \
-    \"REMOTE_CLUSTER_CONTROLLER_ENABLED\":\"true\"}}"
-
 ## Collect REC credentials
 
 To communicate with other clusters, all participating clusters will need access to the admin credentials for all other clusters.
@@ -142,9 +122,9 @@ Now you are ready to [create your Redis Enterprise Active-Active database]({{< r
 
 ## Example values
 
-This article uses the following example values:
+This article uses the example values listed below. They can also be found in the [YAML examples]({{< relref "/operate/kubernetes/reference/yaml/active-active" >}}) section.
 
-#### Example cluster 1
+Example cluster 1:
 
 * REC name: `rec-chicago`
 * REC namespace: `ns-illinois`
@@ -153,7 +133,7 @@ This article uses the following example values:
 * API FQDN: `api-rec-chicago-ns-illinois.example.com`
 * DB FQDN suffix: `-db-rec-chicago-ns-illinois.example.com`
 
-#### Example cluster 2
+Example cluster 2:
 
 * REC name: `rec-arlington`
 * REC namespace: `ns-virginia`

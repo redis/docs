@@ -81,9 +81,13 @@ rladmin tune db < db:id | name > mtls_allow_outdated_certs enabled
 
 ## Enable TLS for Active-Active cluster connections
 
-You cannot enable or turn off TLS after the Active-Active database is created, but you can change the TLS configuration.
+You can enable TLS for Active-Active cluster connections when you create a database using the Cluster Manager UI, [`crdb-cli`]({{<relref "/operate/rs/references/cli-utilities/crdb-cli">}}), or the [REST API]({{<relref "/operate/rs/references/rest-api">}}).
 
-To enable TLS for Active-Active cluster connections:
+If you need to enable or turn off TLS after the Active-Active database is created, you must use [`crdb-cli`]({{<relref "/operate/rs/references/cli-utilities/crdb-cli">}}) or the [REST API]({{<relref "/operate/rs/references/rest-api">}}).
+
+### Enable TLS during database creation
+
+To enable TLS for Active-Active cluster connections using the Cluster Manager UI:
 
 1. During [database creation]({{<relref "/operate/rs/databases/active-active/create">}}), expand the **TLS** configuration section.
 
@@ -94,6 +98,48 @@ To enable TLS for Active-Active cluster connections:
 1. Click **Create**.
 
 If you also want to require TLS for client connections, you must edit the Active-Active database configuration after creation. See [Enable TLS for client connections](#client) for instructions.
+
+### Enable TLS after database creation
+
+You can enable TLS for an existing Active-Active database using either `crdb-cli` or the REST API.
+
+{{< multitabs id="enable-tls-post-creation"
+tab1="CLI"
+tab2="REST API" >}}
+
+Run the following [`crdb-cli crdb update`]({{<relref "/operate/rs/references/cli-utilities/crdb-cli/crdb/update">}}) command:
+
+```sh
+crdb-cli crdb update --crdb-guid <guid> --encryption true
+```
+
+Replace `<guid>` with your Active-Active database's globally unique identifier.
+
+-tab-sep-
+
+You can use an [update database configuration]({{<relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs">}}) request to enable TLS.
+
+To enable TLS for Active-Active database communications only:
+
+```sh
+PUT https://<host>:9443/v1/bdbs/<database-id>
+{
+  "enforce_client_authentication": "disabled",
+  "tls_mode": "replica_ssl"
+}
+```
+
+To enable TLS for all communications:
+
+```sh
+PUT https://<host>:9443/v1/bdbs/<database-id>
+{
+  "enforce_client_authentication": "disabled",
+  "tls_mode": "enabled"
+}
+```
+
+{{< /multitabs >}}
 
 ## Enable TLS for Replica Of cluster connections
 

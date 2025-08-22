@@ -73,10 +73,13 @@ If the credentials are changed or updated for a REC participating cluster, you n
 
     ```sh
     kubectl get reaadb reaadb-boeing
-
-    NAME              STATUS   SPEC STATUS   LINKED REDBS   REPLICATION STATUS
-    reaadb-boeing     active   Valid                        up
     ```
+    The output should look similar to:
+
+      ```sh
+      NAME              STATUS   SPEC STATUS   LINKED REDBS   REPLICATION STATUS
+      reaadb-boeing     active   Valid                        up
+      ```
 
     To troubleshoot invalid configurations, view the RERC custom resource events and the [Redis Enterprise operator logs]({{< relref "/operate/kubernetes/logs/" >}}).
 

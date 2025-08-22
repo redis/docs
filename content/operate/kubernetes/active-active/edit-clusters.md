@@ -75,7 +75,7 @@ To communicate with other clusters, all participating clusters need access to th
 
 1. From one of the existing participating clusters, create a `RedisEnterpriseRemoteCluster` (RERC) custom resource for the new participating cluster.
 
-    This example shows an RERC custom resource for an REC named `rec-boston` in the namespace `ns-massachusetts`. 
+    This example (rerc-logan) shows an RERC custom resource for an REC named `rec-boston` in the namespace `ns-massachusetts`. 
 
     ```yaml
     apiVersion: app.redislabs.com/v1alpha1
