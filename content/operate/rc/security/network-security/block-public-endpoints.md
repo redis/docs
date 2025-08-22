@@ -18,6 +18,10 @@ Public endpoints are accessible from the public internet and don't require a pri
 
 Users with Redis Cloud Pro databases can choose to block public endpoints for all databases in their subscription.
 
+{{< note >}}
+After you block your database's public endpoint, any connection from an IP address that is not part of the private address space defined in [RFC 1918](https://datatracker.ietf.org/doc/html/rfc1918#section-3) will be rejected. Ensure that all connections to your database are made through a private connectivity method before blocking the public endpoint.
+{{< /note >}}
+
 ## Block public endpoints
 
 You can block public endpoints for a [new subscription](#new-subscription) or an [existing subscription](#existing-subscription).
@@ -46,7 +50,7 @@ To block the public endpoints of an existing Pro subscription:
 1. Select **Save** to save your changes.
 1. A window will appear asking you to confirm that blocking the public endpoint will reject clients connecting to the public endpoint. Select **I understand** and then **Block** to confirm.
 
-After your changes are saved, any incoming connections to the public endpoint of your database will be rejected.
+After your changes are saved, any incoming connections to the public endpoint of your database will be rejected, and only connections through a private connectivity method will be allowed.
 
 ## Private connectivity methods
 

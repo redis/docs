@@ -120,10 +120,6 @@ The Standard hashing policy is mostly consistent with the Redis hashing policy, 
 1. Keys with a single hashtag: a key's hashtag is any substring between '{' and '}' in the key's name. That means that when a key's name includes the pattern '{...}', the hashtag is used as input for the hashing function. For example, the following key names have the same hashtag and are mapped to the same slot: foo{bar}, {bar}baz & foo{bar}baz.
 1. Keys without a hashtag: when a key doesn't contain the '{...}' pattern, the entire key's name is used for hashing
 
-However, this policy is less recommended and you should select it only if any of the following conditions apply:
-- Your application uses empty hashtags to hash different keys to the same hashslot
-- Your application uses multiple curly brackets within a key’s name
-
 In some cases, the Standard hashing policy behaves differently from the Redis hashing policy:
 1. Using empty hashtags (“{}”): the Standard hashing policy does not ignore empty hashtags, so two keys that start with empty hashtags will be hashed to the same hashslot (while the Redis hashing policy would ignore them). 
     For example: given 2 keys {}foo and {}bar, hashing would be:
@@ -133,6 +129,12 @@ In some cases, the Standard hashing policy behaves differently from the Redis ha
     For example: given 2 keys {foo}bar} and {foo}qux}:
     - Standard hashing policy: substrings “foo}bar” and “foo}qux” will be used for the 1st and 2nd key respectively, hashed each key to a different hash-slot.
     - Redis hashing policy: the substring “foo” will be used for both keys, hashing them to the same slot.
+
+{{< note >}}
+To allow seamless transition between hashing policies, the following techniques are not recommended:
+- Using empty hashtags to hash different keys to the same hashslot
+- Using multiple curly brackets within a key’s name 
+{{< /note >}}
 
 ### Custom hashing policy
 

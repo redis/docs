@@ -12,7 +12,7 @@ categories:
 description: Get your Lettuce app ready for production
 linkTitle: Production usage
 title: Production usage
-weight: 3
+weight: 50
 ---
 
 This guide offers recommendations to get the best reliability and
