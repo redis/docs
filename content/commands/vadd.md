@@ -38,7 +38,7 @@ is the name of the key that will hold the vector set data.
 <details open>
 <summary><code>FP32 vector or VALUES num vector</code></summary>
 
-either a 32-bit floating point (FP32) blob of values or `num` floating point numbers as strings.
+either a 32-bit floating point (FP32) blob of values or `num` floating point numbers as strings. When using the FP32 format, the blob must use little-endian encoding. On platforms with different endianness, you should either manually adjust the byte order or use the VALUES syntax instead.
 </details>
 
 <details open>

@@ -10,13 +10,13 @@ linkTitle: Rack awareness
 weight: 20
 ---
 
-This page provides YAML examples for deploying Redis Enterprise with [rack awareness]({{< relref "/operate/kubernetes/architecture/operator-architecture#rack-awareness" >}}). Rack awareness distributes Redis Enterprise nodes and database shards across different availability zones or failure domains to improve high availability and fault tolerance.
+This page provides YAML examples for deploying Redis Enterprise with [rack awareness]({{< relref "/operate/kubernetes/recommendations/node-selection#using-rack-awareness" >}}). Rack awareness distributes Redis Enterprise nodes and database shards across different availability zones or failure domains to improve high availability and fault tolerance.
 
 ## Prerequisites
 
 - Label [Kubernetes nodes](https://kubernetes.io/docs/concepts/architecture/nodes/) with zone information
 - Typically uses the standard label `topology.kubernetes.io/zone`
-- Verify node labels: `kubectl get nodes --show-labels`
+- Verify node labels: `kubectl get nodes -o custom-columns="name:metadata.name","rack\\zone:metadata.labels.topology\.kubernetes\.io/zone"`
 - Install the [Redis Enterprise operator]({{< relref "/operate/kubernetes/deployment" >}})
 
 For complete deployment instructions, see [Deploy on Kubernetes]({{< relref "/operate/kubernetes/deployment" >}}).
@@ -34,11 +34,13 @@ Rack awareness requires additional permissions to read [node labels](https://kub
 {{<embed-yaml "k8s/rack_aware_cluster_role.md" "rack-aware-cluster-role.yaml">}}
 
 Cluster role configuration:
+
 - `name`: ClusterRole name for rack awareness permissions
 - `rules`: Permissions to read nodes and their labels cluster-wide
 - `resources`: Access to `nodes` resource for zone label discovery
 
 Key permissions:
+
 - `nodes`: Read access to discover node zone labels
 - `get, list, watch`: Monitor node changes and zone assignments
 
@@ -49,6 +51,7 @@ The [ClusterRoleBinding](https://kubernetes.io/docs/reference/access-authn-authz
 {{<embed-yaml "k8s/rack_aware_cluster_role_binding.md" "rack-aware-cluster-role-binding.yaml">}}
 
 Cluster role binding configuration:
+
 - `subjects.name`: Must match the service account name
 - `subjects.namespace`: Namespace where the operator is deployed
 - `roleRef.name`: Must match the cluster role name
@@ -60,6 +63,7 @@ The rack-aware [REC configuration]({{< relref "/operate/kubernetes/reference/api
 {{<embed-yaml "k8s/rack_aware_rec.md" "rack-aware-cluster.yaml">}}
 
 Rack-aware cluster configuration:
+
 - `metadata.name`: Cluster name (cannot be changed after creation)
 - `spec.rackAwarenessNodeLabel`: Node label used for zone identification
 - `spec.nodes`: Minimum 3 nodes, ideally distributed across zones
@@ -69,6 +73,7 @@ Edit the values in the downloaded YAML file based on your environment, such as i
 ### Common zone labels
 
 Different Kubernetes distributions use different zone labels:
+
 - `Standard`: `topology.kubernetes.io/zone`
 - `Legacy`: `failure-domain.beta.kubernetes.io/zone`
 - `Custom`: Your organization's specific labeling scheme
@@ -76,7 +81,7 @@ Different Kubernetes distributions use different zone labels:
 Verify the correct label on your nodes:
 
 ```bash
-kubectl get nodes -o custom-columns=NAME:.metadata.name,ZONE:.metadata.labels.'topology\.kubernetes\.io/zone'
+kubectl get nodes -o custom-columns="name:metadata.name","rack\\zone:metadata.labels.topology\.kubernetes\.io/zone"
 ```
 
 ## Redis Enterprise database

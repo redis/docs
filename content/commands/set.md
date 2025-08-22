@@ -180,18 +180,20 @@ The script should be called with `EVAL ...script... 1 resource-name token-value`
     tab1="RESP2" 
     tab2="RESP3" >}}
 
-Any of the following:
-* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): `GET` not given: Operation was aborted (conflict with one of the `XX`/`NX` options).
-* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`. `GET` not given: The key was set.
-* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): `GET` given: The key didn't exist before the `SET`.
-* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): `GET` given: The previous value of the key.
+* If `GET` was not specified, any of the following:
+  * [Nil reply](../../develop/reference/protocol-spec#bulk-strings): Operation was aborted (conflict with one of the `XX`/`NX` options). The key was not set.
+  * [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`: The key was set.
+* If `GET` was specified, any of the following:
+  * [Nil reply](../../develop/reference/protocol-spec#bulk-strings): The key didn't exist before the `SET`. If `XX` was specified, the key was not set. Otherwise, the key was set.
+  * [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The previous value of the key. If `NX` was specified, the key was not set. Otherwise, the key was set.
 
 -tab-sep-
 
-Any of the following:
-* [Null reply](../../develop/reference/protocol-spec#nulls): `GET` not given: Operation was aborted (conflict with one of the `XX`/`NX` options).
-* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`. `GET` not given: The key was set.
-* [Null reply](../../develop/reference/protocol-spec#nulls): `GET` given: The key didn't exist before the `SET`.
-* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): `GET` given: The previous value of the key.
+* If `GET` was not specified, any of the following:
+  * [Null reply](../../develop/reference/protocol-spec#nulls): Operation was aborted (conflict with one of the `XX`/`NX` options). The key was not set.
+  * [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`: The key was set.
+* If `GET` was specified, any of the following:
+  * [Null reply](../../develop/reference/protocol-spec#nulls): The key didn't exist before the `SET`. If `XX` was specified, the key was not set. Otherwise, the key was set.
+  * [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The previous value of the key. If `NX` was specified, the key was not set. Otherwise, the key was set.
 
 {{< /multitabs >}}
