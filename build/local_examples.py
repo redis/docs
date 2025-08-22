@@ -51,6 +51,24 @@ def get_client_name_from_language(language: str) -> str:
     return LANGUAGE_TO_CLIENT.get(language, language.title())
 
 
+def get_client_name_from_language_and_path(language: str, path: str) -> str:
+    """Get client name from language with path-based overrides.
+
+    For Java (.java) files, override based on path substrings:
+    - If 'lettuce-async' in path -> Java-Async
+    - If 'lettuce-reactive' in path -> Java-Reactive
+
+    Substring checks are case-sensitive and can appear anywhere in the path.
+    """
+    if language == 'java':
+        if 'lettuce-async' in path:
+            return 'Java-Async'
+        if 'lettuce-reactive' in path:
+            return 'Java-Reactive'
+    # Default behavior for all languages (and Java fallback)
+    return get_client_name_from_language(language)
+
+
 def get_example_id_from_file(path: str) -> str:
     """Extract example ID from the first line of a file."""
     try:
@@ -136,8 +154,8 @@ def process_local_examples(local_examples_dir: str = 'local_examples',
             # Process with Example class
             example = Example(language, target_file)
 
-            # Get client name
-            client_name = get_client_name_from_language(language)
+            # Get client name (with Java path-based overrides)
+            client_name = get_client_name_from_language_and_path(language, source_file)
 
             # Create metadata
             example_metadata = {

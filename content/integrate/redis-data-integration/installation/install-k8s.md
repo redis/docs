@@ -209,6 +209,10 @@ also use mTLS, you must set the client certificate and private key contents in
       --set-file connection.ssl.key=<path-to-client-key>
     ```
 
+{{< note >}}
+Please see [these docs]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/spanner#6-additional-kubernetes-configuration" >}}) if this RDI installation is for use with GCP Spanner.
+{{< /note >}}
+
 ## Check the installation
 
 To verify the status of the K8s deployment, run the following command:

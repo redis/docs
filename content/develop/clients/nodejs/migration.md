@@ -34,7 +34,7 @@ each feature.
 | Feature | `ioredis` | `node-redis` |
 | :-- | :-- | :-- |
 | [Initial connection](#initial-connection) | Happens when you create a client instance | Requires you to call a method on the client instance |
-| [Reconnection after a connection is lost](#reconnection) | Automatic by default | Manual by default |
+| [Reconnection after a connection is lost](#reconnection) | Automatic by default | Automatic by default and configurable |
 | [Connection events](#connection-events) | Emits `connect`, `ready`, `error`, and `close` events | Emits `connect`, `ready`, `error`, `end`, and `reconnecting` events |
 
 ### Command handling
@@ -91,9 +91,8 @@ await client.connect(); // Requires explicit connection.
 
 ### Reconnection after a connection is lost {#reconnection}
 
-`ioredis` automatically attempts to reconnect if the connection
-was lost due to an error. By default, `node-redis` doesn't attempt
-to reconnect, but you can enable a custom reconnection strategy
+Both `ioredis` and `node-redis` automatically attempt to reconnect if the connection
+was lost due to an error. `node-redis` also lets you add a custom reconnection strategy
 when you create the client object. See
 [Reconnect after disconnection]({{< relref "/develop/clients/nodejs/connect#reconnect-after-disconnection" >}})
 for more information.
