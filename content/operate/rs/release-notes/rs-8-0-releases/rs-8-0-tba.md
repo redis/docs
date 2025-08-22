@@ -33,6 +33,12 @@ This version offers:
     crdb-cli crdb update --crdb-guid <guid> --update-db-config-modules true
     ```
 
+- REST API enhancements:
+
+    - Added `replica_sconns_on_demand` to database configuration. When enabled, the DMC stops holding persistent connections to replica shards and reduces the number of internode connections by half.
+
+    - Added `conns_minimum_dedicated` to database configuration to define the minimum number of dedicated server connections the DMC maintains per worker per shard.
+
 ### Redis database versions
 
 Redis Enterprise Software version 8.0.0 includes four Redis database versions: 8.2, 7.4, 7.2, and 6.2.

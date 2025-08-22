@@ -51,6 +51,7 @@ An API object that represents a managed database in the cluster.
 | bigstore_version | The database's `bigstore_version`:<br />• `1` for Auto Tiering (Redis on Flash version 1). Default version.<br/>• `2` for Redis Flex (Redis on Flash version 2) on databases that support it. Can only be used with the `speedb` driver. |
 | client_cert_subject_validation_type | Enables additional certificate validations that further limit connections to clients with valid certificates during TLS client authentication.<br />Values:<br />**disabled**: Authenticates clients with valid certificates. No additional validations are enforced.<br />**san_cn**: A client certificate is valid only if its Common Name (CN) matches an entry in the list of valid subjects. Ignores other Subject attributes.<br />**full_subject**: A client certificate is valid only if its Subject attributes match an entry in the list of valid subjects. |
 | conns | integer (default&nbsp;5);  Number of internal proxy connections |
+| conns_minimum_dedicated | integer (default:&nbsp;2); Number of dedicated server connections the DMC has per worker per shard |
 | conns_type | Connections limit type<br />Values:<br />**‘per-thread’**<br />‘per-shard’ |
 | crdt | boolean (default:&nbsp;false);  Use CRDT-based data types for multi-master replication |
 | crdt_causal_consistency | boolean (default:&nbsp;false);  Causal consistent CRDB. |
@@ -127,6 +128,7 @@ An API object that represents a managed database in the cluster.
 | redis_version | string; Version of the redis-server processes: e.g. 6.0, 5.0-big |
 | repl_backlog_size | string; Redis replication backlog size ('auto' or size in bytes) |
 | replica_read_only | boolean (default: false); If `true`, enables an Active-Passive setup where Replica Of databases only allow read operations. Only configurable during database creation and cannot be changed later. |
+| replica_sconns_on_demand | Reduces DMC internode connections by at least 50%, conserving sockets, file descriptors, and KEEPALIVE traffic.<br />Values:<br />**'enabled'** <br />'disabled' |
 | replica_sources | array of [syncer_sources]({{< relref "/operate/rs/references/rest-api/objects/bdb/syncer_sources" >}}) objects; Remote endpoints of database to sync from. See the 'bdb -\> replica_sources' section |
 | [replica_sync]({{< relref "/operate/rs/references/rest-api/objects/bdb/replica_sync" >}}) | Enable, disable, or pause syncing from specified replica_sources<br />Values:<br />'enabled'<br /> **'disabled'** <br />'paused'<br />'stopped' |
 | <span class="break-all">replica_sync_connection_alarm_timeout_seconds</span> | integer (default: 0); If the syncer takes longer than the specified number of seconds to connect to a replica, raise a connection alarm |
