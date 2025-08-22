@@ -237,7 +237,7 @@ jobs:
             product=$(awk 'BEGIN{FS=OFS="-"}{NF--; print}' <<< $versioned_build)
             if [[ "${product}" == "redis-data-integration" ]]; then
               gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/integrate/${product}/" "gs://${BUCKET}/${bucket_path}/${versioned_build}/integrate/${product}"
-            else if [[ "${product}" == "redisvl" ]]; then
+            elif [[ "${product}" == "redisvl" ]]; then
               gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/develop/ai/${product}/" "gs://${BUCKET}/${bucket_path}/${versioned_build}/develop/ai/${product}"
             else
               gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/operate/${product}/" "gs://${BUCKET}/${bucket_path}/${versioned_build}/operate/${product}"
