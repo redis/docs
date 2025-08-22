@@ -66,6 +66,10 @@ jobs:
         rs_versions=($(find content/operate/rs/ -maxdepth 1 -type d -regex ".*[0-9-]" | awk -F/ '{print $NF}'))
         rdi_versions=($(find content/integrate/redis-data-integration/ -maxdepth 1 -type d -regex ".*[0-9-]" | awk -F/ '{print $NF}'))
 
+        printf "%s\n" "${kubernetes_versions[@]}" > kubernetes-versions
+        printf "%s\n" "${rs_versions[@]}" > rs-versions
+        printf "%s\n" "${rdi_versions[@]}" > rdi-versions
+
         # build latest
         for version in "${kubernetes_versions[@]}"; do
           rm -r "content/operate/kubernetes/${version}"

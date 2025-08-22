@@ -8,8 +8,10 @@ class VersionArchiver:
 
         if self.product in ("kubernetes", "rs"):
             self.prefix = "operate"
-        else:
+        elif self.product in ("redis-data-integration"):
             self.prefix = "integrate"
+        elif self.product in ("redisvl"):
+            self.prefix = "develop/ai"
         self.new_directory = os.path.join("content",self.prefix,self.product,self.new_version)
         self.latest = os.path.join("content",self.prefix,self.product)
 
@@ -179,9 +181,9 @@ class VersionArchiver:
 
 def validate_product(value):
     """Custom validator for product argument to allow only 'rs' or 'kubernetes'"""
-    if value not in ["rs", "kubernetes", "redis-data-integration"]:
+    if value not in ["rs", "kubernetes", "redis-data-integration", "redisvl"]:
         raise argparse.ArgumentTypeError(
-            "Product must be either 'rs' or 'kubernetes' or 'redis-data-integration'."
+            "Product must be either 'rs' or 'kubernetes' or 'redis-data-integration' or 'redisvl'. "
         )
     return value
 
@@ -204,16 +206,24 @@ if __name__ == "__main__":
     parser.add_argument(
         "product",
         type=validate_product,
-        help="The name of the product (e.g., rs, kubernetes, redis-data-integration)",
+        help="The name of the product (e.g., rs, kubernetes, redis-data-integration, redisvl)",
     )
     parser.add_argument(
         "version",
         type=validate_version,
         help="The release version (e.g., 7, 7.1, 7.1.11)",
     )
+    parser.add_argument(
+        "--skip-archive",
+        action="store_true",
+        default=False,
+        help="Only update relrefs and inject URL frontmatter"
+    )
     args = parser.parse_args()
 
     r = VersionArchiver(args.product, args.version)
-    r.archive_version()
+    if not args.skip_archive:
+        r.archive_version()
+
     r.version_relrefs()
     r.inject_url_frontmatter()

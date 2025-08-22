@@ -28,6 +28,10 @@ In addition, the database must _not_:
 
 The OSS Cluster API setting applies to individual databases instead of the entire cluster.
 
+{{< warning >}}
+Kubernetes limitation: OSS Cluster API can only be used by clients running within the same Kubernetes cluster as the Redis Enterprise pods. External clients cannot use OSS Cluster API due to pod IP address accessibility limitations.
+{{< /warning >}}
+
 ## Enable OSS Cluster API support
 
 You can use the Cluster Manager UI, the `rladmin` utility, or the REST API to enable OSS Cluster API support for a database.
