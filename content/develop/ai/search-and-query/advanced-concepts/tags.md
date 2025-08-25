@@ -20,7 +20,16 @@ weight: 6
 
 Tag fields provide exact match search capabilities with high performance and memory efficiency. Use tag fields when you need to filter documents by specific values without the complexity of full-text search tokenization.
 
-Tag fields interpret text as a simple list of *tags* delimited by a [separator](#separator-options) character (comma "`,`" by default). This approach enables simpler [tokenization]({{< relref "/develop/ai/search-and-query/advanced-concepts/escaping/#tokenization-rules-for-tag-fields" >}}) and encoding, making tag indexes much more efficient than full-text indexes. Note: even though tag and text fields both use text, they are two separate field types and so you don't query them the same way.
+Tag fields interpret text as a simple list of *tags* delimited by a [separator](#separator-options) character. This approach enables simpler [tokenization]({{< relref "/develop/ai/search-and-query/advanced-concepts/escaping/#tokenization-rules-for-tag-fields" >}}) and encoding, making tag indexes much more efficient than full-text indexes. Note: even though tag and text fields both use text, they are two separate field types and so you don't query them the same way.
+
+{{% alert title="Important: Different defaults for HASH vs JSON" color="warning" %}}
+- The default separator for hash documents is a comma (`,`).
+- There is no default separator for JSON documents. You must explicitly specify one if needed.
+
+Specifying a tag from the text `"foo,bar"` behaves differently:
+- For hash documents, two tags are created: `"foo"` and `"bar"`.
+- For JSON documents, one tag is created: `"foo,bar"` (unless you add `SEPARATOR ","`).
+{{% /alert %}}
 
 ## Tag fields vs text fields
 
@@ -69,9 +78,35 @@ FT.CREATE ... SCHEMA ... {field_name} TAG [SEPARATOR {sep}] [CASESENSITIVE]
 
 ### Separator options
 
-- **Hash documents**: Default separator is comma (`,`). You can use any printable ASCII character
-- **JSON documents**: No default separator - you must specify one explicitly if needed
-- **Custom separators**: Use semicolon (`;`), pipe (`|`), or other characters as needed
+The separator behavior differs significantly between hash and JSON documents:
+
+**Hash documents**
+
+- The default separator is the comma (`,`).
+- Strings are automatically splits at commas. For example,
+  the string `"red,blue,green"` becomes three tags: `"red"`, `"blue"`, and `"green"`.
+- You can use any printable ASCII character as a custom separator.
+
+**JSON documents**
+
+- There is no default separator; it's effectively `null`.
+- Treats the entire string as single tag unless you specify a separator with the `SEPARATOR` option. For example,
+  the string `"red,blue,green"` becomes one tag: `"red,blue,green"`
+- Add `SEPARATOR ","` to your schema to allow splitting.
+- You should use JSON arrays instead of comma-separated strings
+
+**Why the difference?**
+
+JSON has native array support, so the preferred approach is:
+
+```json
+{"colors": ["red", "blue", "green"]}  // Use with $.colors[*] AS colors TAG
+```
+Rather than:
+
+```json
+{"colors": "red,blue,green"}  // Requires SEPARATOR ","
+```
 
 ### Case sensitivity
 
@@ -80,33 +115,76 @@ FT.CREATE ... SCHEMA ... {field_name} TAG [SEPARATOR {sep}] [CASESENSITIVE]
 
 ### Examples
 
-**Basic tag field with JSON:**
-```sql
-JSON.SET key:1 $ '{"colors": "red, orange, yellow"}'
-FT.CREATE idx ON JSON PREFIX 1 key: SCHEMA $.colors AS colors TAG SEPARATOR ","
+**Hash examples**
 
-> FT.SEARCH idx '@colors:{orange}'
-1) "1"
-2) "key:1"
-3) 1) "$"
-   2) "{\"colors\":\"red, orange, yellow\"}"
-```
+1. Basic hash tag field (automatic comma splitting):
 
-**Case-sensitive tags with Hash:**
-```sql
-HSET product:1 categories "Electronics,Gaming,PC"
-FT.CREATE products ON HASH PREFIX 1 product: SCHEMA categories TAG CASESENSITIVE
+    ```sql
+    HSET product:1 categories "Electronics,Gaming,PC"
+    FT.CREATE products ON HASH PREFIX 1 product: SCHEMA categories TAG
 
-> FT.SEARCH products '@categories:{PC}'
-1) "1"
-2) "product:1"
-```
+    > FT.SEARCH products '@categories:{Gaming}'
+    1) "1"
+    2) "product:1"
+    ```
 
-**Custom separator:**
-```sql
-HSET book:1 genres "Fiction;Mystery;Thriller"
-FT.CREATE books ON HASH PREFIX 1 book: SCHEMA genres TAG SEPARATOR ";"
-```
+1. Hash with custom separator:
+
+    ```sql
+    HSET book:1 genres "Fiction;Mystery;Thriller"
+    FT.CREATE books ON HASH PREFIX 1 book: SCHEMA genres TAG SEPARATOR ";"
+    ```
+
+1. Case-sensitive hash tags:
+
+    ```sql
+    HSET product:1 categories "Electronics,Gaming,PC"
+    FT.CREATE products ON HASH PREFIX 1 product: SCHEMA categories TAG CASESENSITIVE
+
+    > FT.SEARCH products '@categories:{PC}'  # Case matters
+    1) "1"
+    2) "product:1"
+    ```
+
+**JSON examples**
+
+1. JSON with string and explicit separator (not recommended):
+
+    ```sql
+    JSON.SET key:1 $ '{"colors": "red, orange, yellow"}'
+    FT.CREATE idx ON JSON PREFIX 1 key: SCHEMA $.colors AS colors TAG SEPARATOR ","
+
+    > FT.SEARCH idx '@colors:{orange}'
+    1) "1"
+    2) "key:1"
+    3) 1) "$"
+       2) "{\"colors\":\"red, orange, yellow\"}"
+    ```
+
+1. JSON with array of strings (recommended approach):
+
+    ```sql
+    JSON.SET key:1 $ '{"colors": ["red", "orange", "yellow"]}'
+    FT.CREATE idx ON JSON PREFIX 1 key: SCHEMA $.colors[*] AS colors TAG
+
+    > FT.SEARCH idx '@colors:{orange}'
+    1) "1"
+    2) "key:1"
+    3) 1) "$"
+       2) "{\"colors\":[\"red\",\"orange\",\"yellow\"]}"
+    ```
+
+1. JSON without separator (single tag):
+
+    ```sql
+    JSON.SET key:1 $ '{"category": "Electronics,Gaming"}'
+    FT.CREATE idx ON JSON PREFIX 1 key: SCHEMA $.category AS category TAG
+    # No SEPARATOR specified - entire string becomes one tag
+
+    > FT.SEARCH idx '@category:{Electronics,Gaming}'  # Must match exactly
+    1) "1"
+    2) "key:1"
+    ```
 
 ## Query tag fields
 
@@ -270,6 +348,62 @@ FT.SEARCH products "@tags:{ Top\\ Rated\\ Product }"
 - **Use consistent casing**: Decide on case sensitivity early in your design
 
 See [Query syntax]({{< relref "/develop/ai/search-and-query/advanced-concepts/query_syntax#tag-filters" >}}) for complete escaping rules.
+
+## Performance and architecture considerations
+
+### Multiple TAG fields versus a single TAG field
+
+You can structure your data in two ways:
+
+1. Multiple single-value TAG fields
+
+    ```sql
+    FT.CREATE products ON JSON PREFIX 1 product: SCHEMA
+        $.color AS color TAG
+        $.brand AS brand TAG
+        $.type AS type TAG
+
+    JSON.SET product:1 $ '{"color": "blue", "brand": "ASUS", "type": "laptop"}'
+
+    # Query specific fields
+    FT.SEARCH products '@color:{blue} @brand:{ASUS}'
+    ```
+
+1. Single multi-value TAG field
+
+    ```sql
+    FT.CREATE products ON JSON PREFIX 1 product: SCHEMA
+        $.tags[*] AS tags TAG
+
+    JSON.SET product:1 $ '{"tags": ["color:blue", "brand:ASUS", "type:laptop"]}'
+
+    # Query with prefixed values
+    FT.SEARCH products '@tags:{color:blue} @tags:{brand:ASUS}'
+    ```
+
+### Performance comparison
+
+Both approaches have similar performance characteristics:
+
+- Memory usage is comparable: TAG indexes are highly compressed regardless of structure.
+- Query speed is similar: both use the same underlying inverted index structure.
+- Index efficiency; TAG fields store only document IDs (1-2 bytes per entry).
+
+### Choose TAG fields based on your use case
+
+Use multiple TAG fields when:
+
+- You need field-specific queries (`@color:{blue}` vs `@brand:{ASUS}`).
+- Your schema is stable and well-defined.
+- You want cleaner, more readable queries.
+- You need different configurations per field (for example, case-sensitive versus case-insensitive).
+
+Use single TAG field when:
+
+- You have dynamic or unknown tag categories.
+- You want maximum flexibility for adding new tag types.
+- Your application manages tag prefixing/namespacing.
+- You have many sparse categorical fields.
 
 ## An e-commerce use case
 
