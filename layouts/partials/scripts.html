@@ -142,7 +142,12 @@
         var versionsDropdown = document.getElementById("versionDropdown" + product).children
         var versionsDropdownLength = versionsDropdown.length
 
-        const regex = new RegExp(String.raw`^.+\/operate\/${productLowercase}`,"g");
+        if (productLowercase == "kubernetes" || productLowercase == "rs") {
+            const regex = new RegExp(String.raw`^.+\/operate\/${productLowercase}`,"g");
+        }
+        else {
+            const regex = new RegExp(String.raw`^.+\/develop\/ai\/${productLowercase}`,"g");
+        }
         const versionRegex = /^(\/\d+\.\d+(?:\.\d+)?(?:\-\d+)?)?/g;
 
         // for each version in dropdown, edit its href link
