@@ -13694,20 +13694,32 @@
         "description": "Essentials subscription create request"
       },
       "SubscriptionRegionNetworkingSpec": {
-        "required": [
-          "deploymentCIDR"
-        ],
         "type": "object",
         "properties": {
           "deploymentCIDR": {
             "type": "string",
-            "description": "Required for Active-Active subscriptions. Deployment CIDR mask. Must be a valid CIDR format with a range of 256 IP addresses. Default for single-region subscriptions: If using Redis internal cloud account, 192.168.0.0/24",
+            "description": "Optional. Deployment CIDR mask. Must be a valid CIDR format with a range of 256 IP addresses. Default for single-region subscriptions: If using Redis internal cloud account, 192.168.0.0/24",
             "example": "10.0.0.0/24"
           },
           "vpcId": {
             "type": "string",
             "description": "Optional. Enter a VPC identifier that exists in the hosted AWS account. Creates a new VPC if not set. VPC Identifier must be in a valid format (for example: 'vpc-0125be68a4625884ad') and must exist within the hosting account.",
             "example": "<vpc-identifier>"
+          },
+          "subnetIds": {
+            "type": "array",
+            "description": "Optional. Enter a list of subnets identifiers that exists in the hosted AWS account. Subnet Identifier must exist within the hosting account.",
+            "example": "<subnet-identifier>",
+            "items": {
+              "type": "string",
+              "description": "Optional. Enter a list of subnets identifiers that exists in the hosted AWS account. Subnet Identifier must exist within the hosting account.",
+              "example": "<subnet-identifier>"
+            }
+          },
+          "securityGroupId": {
+            "type": "string",
+            "description": "Optional. Enter a security group identifier that exists in the hosted AWS account. Security group Identifier must be in a valid format (for example: 'sg-0125be68a4625884ad') and must exist within the hosting account.",
+            "example": "<security-group-identifier>"
           }
         },
         "description": "Optional. Cloud networking details, per region. Required if creating an Active-Active subscription."
@@ -14290,6 +14302,12 @@
               "SUBSCRIPTION_NETWORKING_MISSING",
               "SUBSCRIPTION_NETWORKING_CIDR_MISSING",
               "SUBSCRIPTION_INVALID_CIDR",
+              "SUBSCRIPTION_NETWORKING_SECURITY_GROUP_MISSING",
+              "SUBSCRIPTION_NETWORKING_SUBNET_IDS_MISSING",
+              "SUBSCRIPTION_NETWORKING_VPC_ID_MISSING",
+              "SUBSCRIPTION_NETWORKING_CIDR_IS_NOT_SUPPORTED",
+              "SUBSCRIPTION_NETWORKING_VPC_WITH_SUBNETS_AND_SECURITY_GROUP_IS_NOT_SUPPORTED",
+              "SUBSCRIPTION_INVALID_NUMBER_OF_SUBNET_IDS",
               "SUBSCRIPTION_PI_NOT_FOUND",
               "SUBSCRIPTION_INVALID_REGION_NAME",
               "SUBSCRIPTION_INVALID_REGION_ID",
@@ -14663,6 +14681,8 @@
               "FIXED_DATABASE_NUMBER_OF_SHARDS_SUPPORTED_ONLY_FOR_PAY_AS_YOU_GO",
               "FIXED_DATABASE_NUMBER_OF_SHARDS_NOT_A_MULTIPLE_OF_CURRENT_VALUE",
               "VPC_ID_NOT_ALLOWED_WITH_INTERNAL_CLOUD_ACCOUNT",
+              "SUBNET_ID_NOT_ALLOWED_WITH_INTERNAL_CLOUD_ACCOUNT",
+              "SECURITY_GROUP_ID_NOT_ALLOWED_WITH_INTERNAL_CLOUD_ACCOUNT",
               "CLIENT_SSL_CERTIFICATE_IS_NOT_ALLOWED_WITHOUT_ENABLE_TLS_IS_TRUE",
               "MARKETPLACE_PAYMENT_INFO_COLLISION",
               "ACCOUNT_MARKETPLACE_IS_NOT_ACTIVE",
@@ -15257,8 +15277,9 @@
           },
           "redisVersion": {
             "type": "string",
-            "description": "Optional. Defines the Redis version of the databases in the subscription. If not set, the Redis version for your databases will be the default version. Use GET /subscriptions/redis-versions to get a list of available Redis versions.",
-            "example": "7.2"
+            "description": "Optional. Defines the Redis version of the databases created in this specific request. It doesn't determine future databases associated with this subscription. If not set, databases will use the default Redis version. This field is deprecated and will be removed in a future API version - use the database-level redisVersion property instead.",
+            "example": "7.2",
+            "deprecated": true
           },
           "commandType": {
             "type": "string",
