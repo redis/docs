@@ -1,5 +1,5 @@
-<?php
 // EXAMPLE: cmds_generic
+<?php
 // HIDE_START
 require_once 'vendor/autoload.php';
 
