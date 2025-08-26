@@ -95,6 +95,12 @@ The [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_eng
 
     - Added `conns_minimum_dedicated` to database configuration to define the minimum number of dedicated server connections the DMC maintains per worker per shard.
 
+- Added action IDs to operation and state machine log entries.
+
+- Internal connections no longer generate `new_int_conn` audit records.
+
+- Improved control plane authentication handling for new clusters with a dedicated authentication service.
+
 ### Redis database versions
 
 Redis Enterprise Software version 8.0.0 includes four Redis database versions: 8.2, 7.4, 7.2, and 6.2.
