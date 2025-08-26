@@ -57,7 +57,7 @@
         <div id="versionDropdownKubernetes" class="menu__version-selector__list version-selector-control">
           <a href="{{ absURL "operate/kubernetes/" }}" id="kubernetes-version-select-latest" onclick="_setSelectedVersion('kubernetes', 'latest')">latest</a>
           {{- range $vers }}
-          <a href="{{ (absURL "operate/kubernetes/{{ .v }}/") }}" id="kubernetes-version-select-{{ .v }}" onclick="_setSelectedVersion('kubernetes', 'v{{ .v }}')">v{{ .v }}</a>
+          <a href="{{ (absURL (printf "operate/kubernetes/%s/" .v)) }}" id="kubernetes-version-select-{{ .v }}" onclick="_setSelectedVersion('kubernetes', 'v{{ .v }}')">v{{ .v }}</a>
           {{- end }}
         </div>
       </div>
@@ -101,7 +101,7 @@
         <div id="versionDropdownRs" class="menu__version-selector__list version-selector-control">
           <a href="{{ absURL "operate/rs/" }}" id="rs-version-select-latest" onclick="_setSelectedVersion('rs', 'latest')">latest</a>
           {{- range $vers }}
-          <a href="{{ (absURL "operate/rs/{{ .v }}/") }}" id="rs-version-select-{{ .v }}" onclick="_setSelectedVersion('rs', 'v{{ .v }}')">v{{ .v }}</a>
+          <a href="{{ (absURL (printf "operate/rs/%s/" .v)) }}" id="rs-version-select-{{ .v }}" onclick="_setSelectedVersion('rs', 'v{{ .v }}')">v{{ .v }}</a>
           {{- end }}
         </div>
       </div>
@@ -146,7 +146,7 @@
         <div id="versionDropdownRedisvl" class="menu__version-selector__list version-selector-control">
           <a href="{{ absURL "develop/ai/redisvl/" }}" id="redisvl-version-select-latest" onclick="_setSelectedVersion('redisvl', 'latest')">latest</a>
           {{- range $vers }}
-          <a href="{{ (absURL "develop/ai/redisvl/{{ .v }}/") }}" id="redisvl-version-select-{{ .v }}" onclick="_setSelectedVersion('redisvl', 'v{{ .v }}')">v{{ .v }}</a>
+          <a href="{{ (absURL (printf "develop/ai/redisvl/%s/" .v)) }}" id="redisvl-version-select-{{ .v }}" onclick="_setSelectedVersion('redisvl', 'v{{ .v }}')">v{{ .v }}</a>
           {{- end }}
         </div>
       </div>
