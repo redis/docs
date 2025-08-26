@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: TBA
+description: Redis Open Source 8.0 and 8.2 features. Lag awareness API. Metrics stream engine GA.
 linkTitle: 8.0.0-tba (September 2025)
 weight: 90
 ---
@@ -17,13 +17,59 @@ weight: 90
 
 This version offers:
 
-- TBA
+- Redis Open Source 8.0 and 8.2 features
+
+- Lag awareness API
+
+- Metrics stream engine GA
 
 ## New in this release
 
 ### New features
 
-- TBA
+#### Redis Open Source 8.0 and 8.2 features
+
+Redis Open Source 8.0 and 8.2 features are now available when you [create]({{<relref "/operate/rs/databases/create">}}) or [upgrade]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-database">}}) a database with database version 8.2.
+
+##### Redis Open Source 8.0 features and enhancements
+
+- Preview of a new [vector set]({{<relref "/develop/data-types/vector-sets">}}) data structure that supports high-dimensional vector similarity search, ideal for AI use cases such as semantic search and recommendation systems.
+
+- New hash commands [`HGETEX`]({{<relref "/commands/hgetex">}}), [`HSETEX`]({{<relref "/commands/hsetex">}}), and [`HGETDEL`]({{<relref "/commands/hgetdel">}}), which can simplify caching and session management patterns.
+
+- Enhanced access control lists (ACLs) to support new data structures introduced in Redis 8. Existing ACL categories such as `@read` and `@write` now include commands for JSON, time series, vector, and probabilistic data structures.
+
+- Redis Query Engine improvements.
+
+- Significant performance improvements, including:
+
+    - Up to 87% lower command latency.
+
+    - 35% memory savings for replica nodes.
+
+    - 16x more query processing capacity with horizontal and vertical scaling.
+
+- See [What's new in Redis 8.0]({{<relref "/develop/whats-new/8-0">}}) and [Redis Open Source 8.0 release notes]({{<relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisos-8.0-release-notes">}}) for more details.
+
+##### Redis Open Source 8.2 features and enhancements
+
+- New Redis streams commands [`XDELEX`]({{<relref "/commands/xdelex">}}) and [`XACKDEL`]({{<relref "/commands/xackdel">}}) that simplify consumer group management and stream lifecycle operations.
+
+- New operators `DIFF`, `DIFF1`, `ANDOR`, and `ONE` for the [`BITOP`]({{<relref "/commands/bitop">}}) command, which enable more complex bitmap workflows and can simplify operations that previously required multiple commands.
+
+- New keyspace notification event types `OVERWRITTEN` and `TYPE_CHANGED` that provide better visibility into data changes.
+
+- Performance optimizations and memory efficiency improvements.
+
+- See [What's new in Redis 8.2]({{<relref "/develop/whats-new/8-2">}}) and [Redis Open Source 8.2 release notes]({{<relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisos-8.2-release-notes">}}) for more details.
+
+#### Lag awareness API
+
+TBA
+
+#### Metrics stream engine GA
+
+TBA
 
 ### Enhancements
 
