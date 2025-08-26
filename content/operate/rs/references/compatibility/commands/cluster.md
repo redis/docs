@@ -15,7 +15,7 @@ weight: 10
 
 Redis Enterprise blocks most [cluster commands]({{< relref "/commands" >}}?group=cluster). If you try to use a blocked cluster command, it returns an error.
 
-| Command | Redis<br />Enterprise | Redis<br />Cloud | Notes |
+| Command | Redis<br />Software | Redis<br />Cloud | Notes |
 |:--------|:----------------------|:-----------------|:------|
 | [ASKING]({{< relref "/commands/asking" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 | [CLUSTER ADDSLOTS]({{< relref "/commands/cluster-addslots" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
