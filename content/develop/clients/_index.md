@@ -52,6 +52,7 @@ Redis does not document directly:
 | [PHP](https://www.php.net/) | PhpRedis extension | https://github.com/phpredis/phpredis | https://github.com/phpredis/phpredis/blob/develop/README.md |
 | [Ruby](https://www.ruby-lang.org/en/) | redis-rb | https://github.com/redis/redis-rb | https://rubydoc.info/gems/redis |
 | [Rust](https://www.rust-lang.org/) | redis-rs | https://github.com/redis-rs/redis-rs | https://docs.rs/redis/latest/redis/ |
+| [Rust](https://www.rust-lang.org/) | rustis | https://github.com/dahomey-technologies/rustis | https://docs.rs/rustis |
 
 
 ## Requirements
