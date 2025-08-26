@@ -386,7 +386,7 @@ You can structure your data in two ways:
 Both approaches have similar performance characteristics:
 
 - Memory usage is comparable: TAG indexes are highly compressed regardless of structure.
-- Query speed is similar: both use the same underlying inverted index structure.
+- Query speed is also comparable, though single-value tags may offer a slight edge: both use the same underlying inverted index structure.
 - Index efficiency; TAG fields store only document IDs (1-2 bytes per entry).
 
 ### Choose TAG fields based on your use case
