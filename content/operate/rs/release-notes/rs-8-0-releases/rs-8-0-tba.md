@@ -69,7 +69,17 @@ TBA
 
 #### Metrics stream engine GA
 
-TBA
+The [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}) is now generally available:
+
+- The metrics stream engine's exporter-based infrastructure provides access to more accurate, real-time data. This enhanced, scalable monitoring system allows you to set up more effective alerts and respond to issues faster.
+
+- Exposes a new `/v2` Prometheus scraping endpoint that you can use to export metrics to external monitoring tools such as Grafana, DataDog, NewRelic, and Dynatrace.
+
+- Exports raw data instead of aggregated data to improve monitoring at scale and accuracy compared to v1 Prometheus metrics.
+
+- For a list of metrics exported by the metrics stream engine, see [Prometheus metrics v2]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v2">}}).
+
+- To transition to the metrics stream engine, either migrate your existing dashboards using [Prometheus v1 metrics and equivalent v2 PromQL]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v1-to-v2">}}), or use new preconfigured dashboards when they become available.
 
 ### Enhancements
 
