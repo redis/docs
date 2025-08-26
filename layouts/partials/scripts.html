@@ -142,11 +142,12 @@
         var versionsDropdown = document.getElementById("versionDropdown" + product).children
         var versionsDropdownLength = versionsDropdown.length
 
+        let regex;
         if (productLowercase == "kubernetes" || productLowercase == "rs") {
-            const regex = new RegExp(String.raw`^.+\/operate\/${productLowercase}`,"g");
+            regex = new RegExp(String.raw`^.+\/operate\/${productLowercase}`,"g");
         }
         else {
-            const regex = new RegExp(String.raw`^.+\/develop\/ai\/${productLowercase}`,"g");
+            regex = new RegExp(String.raw`^.+\/develop\/ai\/${productLowercase}`,"g");
         }
         const versionRegex = /^(\/\d+\.\d+(?:\.\d+)?(?:\-\d+)?)?/g;
 
