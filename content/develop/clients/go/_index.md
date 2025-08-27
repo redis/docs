@@ -156,6 +156,21 @@ fmt.Printf("Model: %v, Brand: %v, Type: %v, Price: $%v\n",
 // >>> Model: Deimos, Brand: Ergonom, Type: Enduro bikes, Price: $4972
  ```
 
+Close the connection when you're done using `client.Close()`. In the
+common case where you want to close the connection at the end of the
+function where you opened it, you may find it convenient to use a `defer`
+statement right after connecting:
+
+```go
+func main() {    
+    client := redis.NewClient(&redis.Options{
+        ...
+    })
+    defer client.Close()
+    ...
+}
+```
+
 ## Observability
 
 `go-redis` supports [OpenTelemetry](https://opentelemetry.io/) instrumentation.

@@ -31,7 +31,7 @@ This guide shows how to create a paid Essentials database.
     
     After you select **Essentials**, the rest of the database details will appear.
 
-    {{<image filename="images/rc/create-database-essentials-cloud-vendor.png" alt="The database name, cloud vendor, version, region, and type settings.">}}
+    {{<image filename="images/rc/create-database-essentials-cloud-vendor.png" alt="The database name, cloud vendor, version, region, type, and durability settings.">}}
 
 1. Redis will generate a database name for you. If you want to change it, you can do so in the **Database name** field.  
 
@@ -49,9 +49,7 @@ This guide shows how to create a paid Essentials database.
 
     A Redis Stack database gives access to a set of advanced capabilities. For more information, see [Advanced capabilities]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#essentials" >}}).
 
-1. In the **Durability settings** panel, choose your **High availability settings** and **Data persistence** settings from the list. 
-
-    {{<image filename="images/rc/create-database-essentials-durability.png" alt="The durability settings allow you to choose High availability and Data persistence." width=75% >}}
+1. Choose your **High availability settings** from the list.
 
     Redis Cloud supports the following high availability settings:
 
@@ -61,6 +59,8 @@ This guide shows how to create a paid Essentials database.
 
     See [High availability]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) for more information about these settings.
 
+1. Choose your **Data persistence** settings from the list.
+
     Redis Cloud supports the following Data persistence options:
 
     - An **Append-Only File** maintains a record (sometimes called a _redo log_ or _journal_) of write operations.  This allows the data to be restored by using the record to reconstruct the database up to the point of failure. For Essentials databases, Redis updates the Append-Only file every second.
@@ -69,15 +69,15 @@ This guide shows how to create a paid Essentials database.
     
     See [Data persistence]({{< relref "/operate/rc/databases/configuration/data-persistence" >}}) for more information about these settings.
     
-1. Select the desired memory limit.
+1. Select your desired memory limit.
 
     {{<image filename="images/rc/subscription-new-fixed-tiers.png" alt="Available Essentials plans." >}}
 
     For a comparison of available plans, see [Redis Cloud Essentials plans]({{< relref "/operate/rc/subscriptions/view-essentials-subscription/essentials-plan-details" >}}).
 
-1.  Enter your payment details if you chose a paid plan.
+1.  Enter your payment details.
 
-    If you chose a paid plan and haven't previously entered a payment method, use the **Add Credit Card** button to add one.
+    If you haven't previously entered a payment method, use the **Add Credit Card** button to add one.
 
     {{<image filename="images/rc/icon-add.png" width="30px" alt="The Add credit card icon." >}}
 

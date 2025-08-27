@@ -58,7 +58,8 @@ To include `Jedis` as a dependency in your application, edit the dependency file
 
 ## Connect and test
 
-The following code opens a basic connection to a local Redis server:
+The following code opens a basic connection to a local Redis server
+and closes it after use.
 
 ```java
 package org.example;

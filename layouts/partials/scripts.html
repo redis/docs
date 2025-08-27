@@ -94,6 +94,7 @@
         var currentUrl = window.location.href
         const regex_kubernetes = new RegExp('/docs/(latest|staging\/.+)/operate/kubernetes/.*')
         const regex_rs = new RegExp('/docs/(latest|staging\/.+)/operate/rs/.*')
+        const regex_redisvl = new RegExp('/docs/(latest|staging\/.+)/develop/ai/redisvl/.*')
 
         if (regex_kubernetes.test(currentUrl)){
             // unhide kubernetes version selector
@@ -102,6 +103,10 @@
         else if (regex_rs.test(currentUrl)) {
             // unhide rs version selector
             document.getElementById( 'versionSelectorRs' ).style.display = '';
+        }
+        else if (regex_redisvl.test(currentUrl)) {
+            // unhide redisvl version selector
+            document.getElementById( 'versionSelectorRedisvl' ).style.display = '';
         }
     }
 
@@ -137,7 +142,13 @@
         var versionsDropdown = document.getElementById("versionDropdown" + product).children
         var versionsDropdownLength = versionsDropdown.length
 
-        const regex = new RegExp(String.raw`^.+\/operate\/${productLowercase}`,"g");
+        let regex;
+        if (productLowercase == "kubernetes" || productLowercase == "rs") {
+            regex = new RegExp(String.raw`^.+\/operate\/${productLowercase}`,"g");
+        }
+        else {
+            regex = new RegExp(String.raw`^.+\/develop\/ai\/${productLowercase}`,"g");
+        }
         const versionRegex = /^(\/\d+\.\d+(?:\.\d+)?(?:\-\d+)?)?/g;
 
         // for each version in dropdown, edit its href link
