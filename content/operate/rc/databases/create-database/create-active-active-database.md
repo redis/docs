@@ -144,7 +144,7 @@ By default, you're shown basic settings, which include:
 
     ```sh
     Region ops/sec = Local read ops/sec + 
-                    (Sum of write ops/sec from all regions)
+                    Sum of write ops/sec from all regions
     ```
 
     The total ops/sec for the database is the sum of the ops/sec for each region.
