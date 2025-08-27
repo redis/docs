@@ -134,6 +134,6 @@ This table shows each role's ability to perform common tasks.
 
 4. <a name="table-note-4" style="display: block; height: 80px; margin-top: -80px;"></a>Managers are able to view existing payment methods and assign them as payment methods for subscriptions, but they cannot add or remove payment methods.
 
-5. <a name="table-note-5" style="display: block; height: 80px; margin-top: -80px;"></a>Viewers can use the REST API for GET requests, but can not modify subscription or database details.
+5. <a name="table-note-5" style="display: block; height: 80px; margin-top: -80px;"></a>Viewers can use the REST API for GET requests, but cannot modify subscription or database details.
 
 6. <a name="table-note-6" style="display: block; height: 80px; margin-top: -80px;"></a>Logs viewers can only use the [`GET logs/`]({{< relref "/operate/rc/api/api-reference#tag/Account/operation/getAccountSystemLogs" >}}) endpoint of the REST API.
