@@ -176,6 +176,34 @@ Redis Enterprise Software version 8.0.0 introduces the following breaking change
 
 - TBA
 
+### Redis database version 8 breaking changes {#redis-8-breaking-changes}
+
+When new major versions of Redis Open Source change existing commands, upgrading your database to a new version can potentially break some functionality. Before you upgrade, read the provided list of breaking changes that affect Redis Software and update any applications that connect to your database to handle these changes.
+
+#### ACL behavior changes
+
+Before Redis 8, the existing [ACL]({{<relref "/operate/rs/security/access-control/redis-acl-overview">}}) categories `@read`, `@write`, `@dangerous`, `@admin`, `@slow`, and `@fast` did not include commands for the Redis Query Engine and the JSON, time series, and probabilistic data structures.
+
+Starting with Redis 8, Redis includes all Query Engine, JSON, time series, Bloom filter, cuckoo filter, top-k, count-min sketch, and t-digest commands in these existing ACL categories.
+
+As a result:
+
+- Existing ACL rules such as `+@read +@write` will allow access to more commands than in previous versions of Redis. Here are some examples:
+  - A user with `+@read` access will be able to execute `FT.SEARCH`.
+  - A user with `+@write` access will be able to execute `JSON.SET`. 
+
+- ACL rules such as `+@all -@write`  will allow access to fewer commands than previous versions of Redis.
+  - For example, a user with `+@all -@write` will not be able to execute `JSON.SET`.
+  - Explicit inclusion of new [command categories]({{<relref "/operate/oss_and_stack/management/security/acl#command-categories">}}) is required to maintain access.
+
+- ACL rules such as `+@read +JSON.GET` can now be simplified as `+@read` because `JSON.GET` is included in the `@read` category.
+
+Note that the `@all` category did not change, as it always included all the commands.
+
+#### Redis Query Engine changes
+
+{{<embed-md "redis8-breaking-changes-rqe.md">}}
+
 ### Product lifecycle updates
 
 - TBA
