@@ -20,7 +20,7 @@ Before running this notebook, be sure to
 !rvl version
 ```
 
-    12:42:18 [RedisVL] INFO   RedisVL version 0.8.0
+    11:20:38 [RedisVL] INFO   RedisVL version 0.8.2
 
 
 ## Commands
@@ -191,7 +191,7 @@ You can modify these commands with the below optional arguments
 
 | Argument       | Description | Default |
 |----------------|-------------|---------|
-| `-u --url`     | The full Redis URL to connec to | `redis://localhost:6379` |
+| `-u --url`     | The full Redis URL to connect to | `redis://localhost:6379` |
 | `--host`       | Redis host to connect to | `localhost` |
 | `-p --port`    | Redis port to connect to. Must be an integer | `6379` |
 | `--user`       | Redis username, if one is required   | `default` |
@@ -211,8 +211,8 @@ By default rvl first checks if you have `REDIS_URL` environment variable defined
     12:43:06 [RedisVL] INFO   1. vectorizers
 
 
-### Using SSL encription
-If your Redis instance is configured to use SSL encription then set the `--ssl` flag.
+### Using SSL encryption
+If your Redis instance is configured to use SSL encryption then set the `--ssl` flag.
 You can similarly specify the username and password to construct the full Redis URL
 
 
