@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: Redis Open Source 8.0 and 8.2 features. Lag awareness API. Metrics stream engine GA.
+description: Redis Open Source 8.0 and 8.2 features. Lag-aware availability API. Metrics stream engine GA.
 linkTitle: 8.0.0-tba (September 2025)
 weight: 90
 ---
@@ -19,7 +19,7 @@ This version offers:
 
 - Redis Open Source 8.0 and 8.2 features
 
-- Lag awareness API
+- Lag-aware availability API
 
 - Metrics stream engine GA
 
@@ -63,9 +63,23 @@ Redis Open Source 8.0 and 8.2 features are now available when you [create]({{<re
 
 - See [What's new in Redis 8.2]({{<relref "/develop/whats-new/8-2">}}) and [Redis Open Source 8.2 release notes]({{<relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisos-8.2-release-notes">}}) for more details.
 
-#### Lag awareness API
+#### Lag-aware availability API
 
-TBA
+The [database availability API]({{<relref "/operate/rs/references/rest-api/requests/bdbs/availability">}}) now supports lag-aware availability checks that consider replication lag tolerance.
+
+You can reduce the risk of data inconsistencies during disaster recovery by incorporating lag-aware availability checks into your disaster recovery solution and ensuring failover-failback flows only occur when databases are accessible and sufficiently synchronized.
+
+The lag tolerance threshold is 100 milliseconds by default. Depending on factors such as workload, network conditions, and  throughput, you might want to adjust the lag tolerance threshold using one of the following methods:
+
+- Change the default threshold for the entire cluster by setting `availability_lag_tolerance_ms` with an [update cluster]({{<relref "/operate/rs/references/rest-api/requests/cluster#put-cluster">}}) request.
+
+- Override the default threshold by adding the `availability_lag_tolerance_ms` query parameter to specific lag-aware [availability checks]({{<relref "/operate/rs/references/rest-api/requests/bdbs/availability">}}). For example:
+
+    ```sh
+    GET /v1/bdbs/<database_id>/availability?extend_check=lag&availability_lag_tolerance_ms=100
+    ```
+
+For more details, see [Check database availability for monitoring and load balancers]({{<relref "/operate/rs/monitoring/db-availability">}}).
 
 #### Metrics stream engine GA
 
