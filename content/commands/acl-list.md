@@ -44,6 +44,10 @@ configuration file if you wish (but make sure to check [`ACL SAVE`]({{< relref "
 2) "user default on nopass ~* &* +@all"
 ```
 
+{{< note >}}
+In some cases, you might see `allchannels` instead of `&*` and `allkeys` instead of `~*` in the output. This is because `allchannels` and `allkeys` are aliases for `&*` and `~*` respectively.
+{{< /note>}}
+
 ## Return information
 
 {{< multitabs id="acl-list-return-info" 
