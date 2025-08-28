@@ -45,7 +45,7 @@ The credentials can be used to access the Redis Enterprise admin console or the 
 1. Access a [pod](https://kubernetes.io/docs/concepts/workloads/pods/) running a Redis Enterprise cluster.
 
 ```sh
-kubectl exec -it <rec-resource-name>-0 bash
+kubectl exec -it <rec-resource-name>-0 -c redis-enterprise-node -- /bin/bash
 ```
 
 2. Add a new password for the existing user.
@@ -79,7 +79,7 @@ kubectl apply -f -
 5. Access a pod running a Redis Enterprise cluster again.
 
 ```sh
-kubectl exec -it <rec-resource-name>-0 bash
+kubectl exec -it <rec-resource-name>-0 -c redis-enterprise-node -- /bin/bash
 ```
 
 6. Remove the previous password to ensure only the new one applies.
