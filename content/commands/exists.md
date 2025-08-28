@@ -58,6 +58,16 @@ The user should be aware that if the same existing key is mentioned in the argum
 
 ## Examples
 
+{{< clients-example set="cmds_generic" step="exists" >}}
+SET key1 "Hello"
+EXISTS key1
+EXISTS nosuchkey
+SET key2 "World"
+EXISTS key1 key2 nosuchkey
+{{< /clients-example >}}
+
+Give these commands a try in the interactive console:
+
 {{% redis-cli %}}
 SET key1 "Hello"
 EXISTS key1
