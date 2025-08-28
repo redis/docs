@@ -58,8 +58,8 @@ Returns a JSON array of [action objects]({{< relref "/operate/rs/references/rest
 
 | Code | Description |
 |------|-------------|
-| [200 OK](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1) | No error, response provides info about an ongoing action. |
-| [404 Not Found](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.5) | Action does not exist (i.e. not currently running and no available status of last run). |
+| [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | No error, response provides info about an ongoing action. |
+| [404 Not Found](https://www.rfc-editor.org/rfc/rfc9110.html#name-404-not-found) | Action does not exist (i.e. not currently running and no available status of last run). |
 
 ## Get cluster action {#get-cluster-action}
 
@@ -103,8 +103,8 @@ Returns an [action object]({{< relref "/operate/rs/references/rest-api/objects/a
 
 | Code | Description |
 |------|-------------|
-| [200 OK](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1) | No error, response provides info about an ongoing action. |
-| [404 Not Found](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.5) | Action does not exist (i.e. not currently running and no available status of last run). |
+| [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | No error, response provides info about an ongoing action. |
+| [404 Not Found](https://www.rfc-editor.org/rfc/rfc9110.html#name-404-not-found) | Action does not exist (i.e. not currently running and no available status of last run). |
 
 ## Initiate cluster-wide action {#post-cluster-action}
 
@@ -194,5 +194,5 @@ Returns a status code.
 
 | Code | Description |
 |------|-------------|
-| [200 OK](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1) | Action will be cancelled when possible. |
-| [404 Not Found](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.5) | Action unknown or not currently running. |
+| [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | Action will be cancelled when possible. |
+| [404 Not Found](https://www.rfc-editor.org/rfc/rfc9110.html#name-404-not-found) | Action unknown or not currently running. |
