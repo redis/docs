@@ -182,7 +182,7 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 ## Version changes
 
-- TBA
+- [`POST /v1/cluster/actions/change_master`]({{<relref "/operate/rs/references/rest-api/requests/cluster/actions#post-cluster-action">}}) REST API requests will no longer allow a node that exists but is not finished bootstrapping to become the primary node. Such requests will now return the status code `406 Not Acceptable`.
 
 ### Breaking changes
 
