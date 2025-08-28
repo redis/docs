@@ -48,6 +48,7 @@
     {{ end -}}
     
     <script src='{{ "js/index.js" | relURL }}' defer></script>
+    {{ partial "segment.html" . }}
     {{ if .Params.math }}
         {{ partial "mathjax.html" }}
     {{ end }}
