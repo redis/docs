@@ -18,7 +18,7 @@ title: Configuration parameters
 weight: 1
 ---
 {{< note >}}
-As of Redis 8 in Redis Open Source (Redis 8), configuration parameters for the time series data structure are now set in the following ways:
+As of Redis 8 in Redis Open Source (Redis 8), configuration parameters for Redis Query Engine (RQE) are now set in the following ways:
 * At load time via your `redis.conf` file.
 * At run time (where applicable) using the [`CONFIG SET`]({{< relref "/commands/config-set" >}}) command.
 

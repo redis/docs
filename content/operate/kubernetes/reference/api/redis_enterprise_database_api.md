@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - kubernetes
+aliases: /operate/kubernetes/reference/redis_enterprise_cluster_api
 linkTitle: REDB API
 weight: 30
 ---
