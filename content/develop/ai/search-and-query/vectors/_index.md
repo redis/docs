@@ -162,6 +162,8 @@ Choose the `SVS-VAMANA` index type when all of the following requirements apply:
 
 {{< warning >}}
 Some advanced vector compression features may depend on hardware or Intel's proprietary optimizations. Intel's proprietary LVQ and LeanVec optimizations are not available in Redis Open Source. On non-Intel platforms and Redis Open Source platforms, `SVS-VAMANA` with `COMPRESSION` will fall back to basic, 8-bit scalar quantization implementation: all values in a vector are scaled using the global minimum and maximum, and then each dimension is quantized independently into 256 levels using 8-bit precision.
+
+Note - to use Intel's proprietary LVQ and LeanVec optimizations in Redis Open Source, one can build the RediSearch module from source using the `SVS_BASE_URL` environment variable set to the path of the Intel's ScalableVectorSearch GitHub asset. For example, for using v0.0.9, set `SVS_BASE_URL=https://github.com/intel/ScalableVectorSearch/releases/v0.0.9` and call `make` from `https://github.com/RediSearch/RediSearch` root directory. By doing that, you acknowledge that AGPL licnece is not used (todo: refine the disclaimer)
 {{< /warning >}}
 
 **Example**
