@@ -195,6 +195,43 @@ The `MultiClusterClientConfig` builder has the following options to configure re
 | `retryIncludedExceptionList()` | See description | `List` of `Throwable` classes that should be considered as failures to be retried. By default, it includes just `JedisConnectionException`. |
 | `retryIgnoreExceptionList()` | `null` | `List` of `Throwable` classes that should be ignored for retry. |
 
+### Failover callbacks
+
+You may want to take some custom action when a failover occurs.
+For example, you may want to log a warning, increment a metric, 
+or externally persist the cluster connection state.
+
+You can provide a custom failover action using a class that
+implements `java.util.function.Consumer`. You should place
+the custom action in the `accept()` method, as shown in the example below.
+
+```java
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.function.Consumer;
+
+public class FailoverReporter implements Consumer<ClusterSwitchEventArgs> {
+
+    @Override
+    public void accept(ClusterSwitchEventArgs e) {
+        Logger logger = LoggerFactory.getLogger(FailoverReporter.class);
+        logger.warn("Jedis failover to cluster: " + e.getClusterName() + " due to " + e.getReason());
+    }
+}
+```
+
+Then, pass an instance of your class to your `MultiPooledConnectionProvider`
+to enable the action (see [Failover configuration](#failover-configuration)
+above for an example of creating the `MultiPooledConnectionProvider`).
+
+```java
+FailoverReporter reporter = new FailoverReporter();
+provider.setClusterSwitchListener(reporter);
+```
+
+The `accept()` method is now called whenever a failover occurs.
+
 ## Health check configuration
 
 The general strategy for health checks is to ask the Redis server for a
@@ -314,3 +351,59 @@ MultiClusterClientConfig.ClusterConfig clusterConfig =
         .build();
 ```
 
+## Manual failback
+
+By default, the failback mechanism runs health checks on all servers in the
+weighted list and selects the highest-weighted server that is
+healthy. However, you can also use the `setActiveCluster()` method of 
+`MultiClusterPooledConnectionProvider` to select which cluster to use
+manually:
+
+```java
+// The `setActiveCluster()` method receives the `HostAndPort` of the
+// cluster to switch to.
+provider.setActiveCluster("west");
+```
+
+If you decide to implement manual failback, you will need a way for external
+systems to trigger this method in your application. For example, if your application
+exposes a REST API, you might consider creating a REST endpoint to call
+`setActiveCluster()`.
+
+## Troubleshooting
+
+This section lists some common problems and their solutions.
+
+### Excessive or constant health check failures
+
+If all health checks fail, you should first rule out authentication
+problems with the Redis server and also make sure there are no persistent
+network connectivity problems. If you still see frequent or constant
+failures, try increasing the timeout for health checks and the
+interval between them:
+
+```java
+HealthCheckStrategy.Config config = HealthCheckStrategy.Config.builder()
+    .interval(5000)                 // Less frequent checks
+    .timeout(2000)                  // More generous timeout
+    .build();
+```
+
+### Slow failback after recovery
+
+If failback is too slow after a server recovers, you can try
+increasing the frequency of health checks and reducing the grace
+period before failback is attempted (the grace period is the
+minimum time after a failover before Jedis will check if a
+failback is possible).
+
+```java
+HealthCheckStrategy.Config config = HealthCheckStrategy.Config.builder()
+    .interval(1000)                    // More frequent checks
+    .build();
+
+// Adjust failback timing
+MultiClusterClientConfig multiConfig = new MultiClusterClientConfig.Builder(clusterConfigs)
+    .gracePeriod(5000)                 // Shorter grace period
+    .build();
+```
