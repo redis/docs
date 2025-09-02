@@ -121,6 +121,8 @@ The [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_eng
 
 - Improved control plane authentication handling for new clusters with a dedicated authentication service.
 
+- Improved handling of long-running read-only scripts to reduce unnecessary failovers.
+
 ### Redis database versions
 
 Redis Enterprise Software version 8.0.0 includes four Redis database versions: 8.2, 7.4, 7.2, and 6.2.
