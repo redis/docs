@@ -4,7 +4,7 @@
 {{ end }}
 
 {{ define "main" }}
-<main>
+<main class="bg-redis-ink-900 text-white">
   <header class="relative h-48 bg-redis-ink-900 text-white overflow-hidden">
     <div class="absolute w-1/2 h-full top-0 left-1/4">
       <div class="absolute w-fit -top-10 md:-top-6 -right-80 md:-left-96 scale-75 md:scale-100">
@@ -20,7 +20,7 @@
         <label class="" for="search-home" id="search-label-home">
           {{ partial "icons/search.html" }}
         </label>
-        <input id="seach-home" name="q" class="appearance-none bg-transparent text-base sm:text-lg text-white placeholder-white w-full h-16 focus:outline-none" 
+        <input id="seach-home" name="q" class="appearance-none bg-transparent text-base sm:text-lg text-white placeholder-white w-full h-16 focus:outline-none"
                autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
                placeholder="Ask our AI-powered Redis copilot a question…" maxlength="500" type="text" value="" tabindex=""/>
         <!--<input type="submit" class="hover:text-redis-pen-300" value="&#x23CE;"/>-->
@@ -28,42 +28,43 @@
       </form>
     </div>
   </header>
+  <div class="w-full h-1 bg-[#163341]"></div>
   {{ partial "second-header.html" "disabled" }}
-  <div class="flex flex-col lg:flex-row gap-8 mx-auto px-4 md:px-11 py-6 md:py-28 max-w-[1920px]">
+  <div class="flex flex-col lg:flex-row gap-8 mx-auto px-4 md:px-11 py-6 md:py-28 max-w-[1920px] bg-redis-ink-900 text-white">
     <div class="lg:sticky lg:top-32 w-full lg:w-64 h-fit lg:h-full shrink-0 text-sm font-mono font-normal">
-      <nav class="lg:hidden w-full lg:w-64 z-40 bg-white h-fit lg:h-full leading-7">
-        <div class="border border-opacity-50 border-redis-ink-900 rounded-md flex flex-col">
-          <button class="px-6 py-4 text-redis-ink-900 font-medium flex justify-between cursor-pointer lg:cursor-default" onclick="dropdownToggle()">
+      <nav class="lg:hidden w-full lg:w-64 z-40 bg-redis-ink-900 h-fit lg:h-full leading-7">
+        <div class="border border-opacity-50 border-white rounded-md flex flex-col bg-redis-ink-900">
+          <button class="px-6 py-4 text-white font-medium flex justify-between cursor-pointer lg:cursor-default" onclick="dropdownToggle()">
             <div class="uppercase">Docs</div>
             <div id="dropdownChevron" class="lg:hidden self-center">{{ partial "icons/chevron.html" }}</div>
           </button>
-          <div id="dropdown" class="hidden lg:block border-t border-opacity-50 border-redis-ink-900 text-redis-pen-800">
+          <div id="dropdown" class="hidden lg:block border-t border-opacity-50 border-white text-gray-300 bg-redis-ink-900">
             <ul class="p-6">
-              <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ relURL "develop" }}'>Develop with Redis</a></li>
-              <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ relURL "integrate" }}'>Libraries and tools</a></li>
-              <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ relURL "operate" }}'>Redis products</a></li>
-              <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ relURL "commands" }}'>Commands</a></li>
-              <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ relURL "apis" }}'>APIs</a></li>
+              <li><a class="py-2 hover:underline hover:text-white" href='{{ relURL "develop" }}'>Develop with Redis</a></li>
+              <li><a class="py-2 hover:underline hover:text-white" href='{{ relURL "integrate" }}'>Libraries and tools</a></li>
+              <li><a class="py-2 hover:underline hover:text-white" href='{{ relURL "operate" }}'>Redis products</a></li>
+              <li><a class="py-2 hover:underline hover:text-white" href='{{ relURL "commands" }}'>Commands</a></li>
+              <li><a class="py-2 hover:underline hover:text-white" href='{{ relURL "apis" }}'>APIs</a></li>
             </ul>
           </div>
         </div>
       </nav>
       <nav class="hidden lg:block w-full lg:w-64 z-40 h-full leading-7">
         <div class="flex flex-col gap-4">
-          <div class="flex flex-col border border-redis-ink-900 border-opacity-50 rounded-md">
-            <a class="px-6 py-4 rounded-t-md hover:bg-redis-pen-200" href='{{ relURL "develop" }}'>Develop with Redis</a>
-            <a class="px-6 py-4 hover:bg-redis-pen-200 border-y border-redis-ink-900 border-opacity-50" href='{{ relURL "integrate" }}'>Libraries and tools</a>
-            <a class="px-6 py-4 rounded-b-md hover:bg-redis-pen-200" href='{{ relURL "operate" }}'>Redis products</a>
+          <div class="flex flex-col border border-white border-opacity-50 rounded-md bg-redis-ink-900">
+            <a class="px-6 py-4 rounded-t-md hover:bg-redis-pen-800 text-white" href='{{ relURL "develop" }}'>Develop with Redis</a>
+            <a class="px-6 py-4 hover:bg-redis-pen-800 border-y border-white border-opacity-50 text-white" href='{{ relURL "integrate" }}'>Libraries and tools</a>
+            <a class="px-6 py-4 rounded-b-md hover:bg-redis-pen-800 text-white" href='{{ relURL "operate" }}'>Redis products</a>
           </div>
-          <div class="flex flex-col border border-redis-ink-900 border-opacity-50 rounded-md">
-            <a class="px-6 py-4 rounded-t-md hover:bg-redis-pen-200 text-redis-red-600" href='{{ relURL "commands" }}'>Commands</a>
-            <a class="px-6 py-4 rounded-b-md hover:bg-redis-pen-200 border-t border-redis-ink-900 border-opacity-50" href='{{ relURL "apis" }}'>APIs</a>
+          <div class="flex flex-col border border-white border-opacity-50 rounded-md bg-redis-ink-900">
+            <a class="px-6 py-4 rounded-t-md hover:bg-redis-pen-800 text-redis-red-500" href='{{ relURL "commands" }}'>Commands</a>
+            <a class="px-6 py-4 rounded-b-md hover:bg-redis-pen-800 border-t border-white border-opacity-50 text-white" href='{{ relURL "apis" }}'>APIs</a>
           </div>
         </div>
       </nav>
     </div>
     <div class="lg:px-11 w-full flex flex-col gap-3">
-      <h2 class="text-5xl font-medium" id="operate">Get Started</h2>
+      <h2 class="text-5xl font-medium text-white" id="operate">Get Started</h2>
         {{ partial "docs-section.html" (dict
           "Title" "Quickly set up a Redis cache, primary, vector, or custom database"
           "Description" "Set up a Free Redis-managed database on AWS, GCP, or Azure"
@@ -116,7 +117,7 @@
           )  ) }}
       </div>
       <div class="lg:px-11 w-full flex flex-col gap-3">
-        <h2 class="text-5xl font-medium" id="operate">Deploy</h2>
+        <h2 class="text-5xl font-medium text-white" id="operate">Deploy</h2>
         {{ partial "docs-section.html" (dict
             "Title" "Control your Redis deployments on-premises and on cloud platforms"
           "Description" "Robust support for hybrid and multi-AZ environments"

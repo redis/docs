@@ -1,6 +1,6 @@
 {{ $defaultWidth := "fit" }}
 {{ if eq .AltColors true }}
-<a class="w-{{- .Width | default $defaultWidth }} p-4 text-sm font-mono bg-white text-redis-ink-900 border border-redis-pen-600 rounded hover:bg-redis-yellow-500 hover:border-redis-yellow-500 transition-colors" href="{{ .Href }}">{{ .Text }}</a>
+<a class="w-{{- .Width | default $defaultWidth }} p-4 text-sm font-mono bg-white text-redis-ink-900 border border-redis-pen-600 rounded hover:bg-[#163341] hover:border-[#163341] hover:text-white transition-colors" href="{{ .Href }}">{{ .Text }}</a>
 {{ else }}
-<a class="w-{{- .Width | default $defaultWidth }} p-4 text-sm font-mono bg-redis-yellow-500 text-redis-ink-900 border border-redis-pen-600 rounded  hover:bg-redis-ink-900 hover:text-white transition-colors" href="{{ .Href }}">{{ .Text }}</a>
+<a class="w-{{- .Width | default $defaultWidth }} p-4 text-sm font-mono bg-[#163341] text-white border border-[#163341] rounded hover:bg-[#1a3a4a] hover:border-[#1a3a4a] transition-colors" href="{{ .Href }}">{{ .Text }}</a>
 {{ end }}
