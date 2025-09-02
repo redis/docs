@@ -57,7 +57,7 @@
         <div id="versionDropdownKubernetes" class="menu__version-selector__list version-selector-control">
           <a href="{{ absURL "operate/kubernetes/" }}" id="kubernetes-version-select-latest" onclick="_setSelectedVersion('kubernetes', 'latest')">latest</a>
           {{- range $vers }}
-          <a href="{{ (absURL "operate/kubernetes/{{ .v }}/") }}" id="kubernetes-version-select-{{ .v }}" onclick="_setSelectedVersion('kubernetes', 'v{{ .v }}')">v{{ .v }}</a>
+          <a href="{{ (absURL (printf "operate/kubernetes/%s/" .v)) }}" id="kubernetes-version-select-{{ .v }}" onclick="_setSelectedVersion('kubernetes', 'v{{ .v }}')">v{{ .v }}</a>
           {{- end }}
         </div>
       </div>
@@ -101,7 +101,52 @@
         <div id="versionDropdownRs" class="menu__version-selector__list version-selector-control">
           <a href="{{ absURL "operate/rs/" }}" id="rs-version-select-latest" onclick="_setSelectedVersion('rs', 'latest')">latest</a>
           {{- range $vers }}
-          <a href="{{ (absURL "operate/rs/{{ .v }}/") }}" id="rs-version-select-{{ .v }}" onclick="_setSelectedVersion('rs', 'v{{ .v }}')">v{{ .v }}</a>
+          <a href="{{ (absURL (printf "operate/rs/%s/" .v)) }}" id="rs-version-select-{{ .v }}" onclick="_setSelectedVersion('rs', 'v{{ .v }}')">v{{ .v }}</a>
+          {{- end }}
+        </div>
+      </div>
+      {{else if (eq (.Params.linkTitle) "RedisVL")}}
+      <div id="versionSelectorRedisvl" class="menu__version-selector version-selector-control" onclick="_openVersionSelector('Redisvl')" style="display: none;">
+        <button class="menu__version-selector-btn version-selector-control">
+            <span id="versionSelectorRedisvlValue" class="version-selector-control">latest</span>
+            <span class="menu__version-selector__toggler opener version-selector-control">&#x25BC;</span>
+            <span class="menu__version-selector__toggler closer version-selector-control">&#x25B2;</span>
+        </button>
+        {{- $vers := slice -}}
+        {{- $lines := slice -}}
+
+        {{ if fileExists "redisvl-versions" }}
+          {{- $txt := readFile "redisvl-versions" -}}
+          {{- $lines = split $txt "\n" -}}
+
+          {{- range $lines }}
+          {{- $v := strings.TrimSpace . -}}
+          {{- if and (ne $v "") (findRE `^\d+\.\d+\.\d+$` $v) -}}
+            {{- $p := split $v "." -}}
+            {{- $key := printf "%03d.%03d.%03d" (int (index $p 0)) (int (index $p 1)) (int (index $p 2)) -}}
+            {{- $vers = $vers | append (dict "v" $v "key" $key) -}}
+          {{- end -}}
+        {{- end -}}
+        {{ else }}
+          {{- $entries := readDir "content/develop/ai/redisvl" -}}
+          {{- range $e := $entries -}}
+            {{- if and $e.IsDir (findRE `^\d+\.\d+\.\d+$` $e.Name) -}}
+              {{- $p := split $e.Name "." -}}
+              {{- $maj := int (index $p 0) -}}
+              {{- $min := int (index $p 1) -}}
+              {{- $pat := int (index $p 2) -}}
+              {{- $key := printf "%03d.%03d.%03d" $maj $min $pat -}} {{/* for sorting */}}
+              {{- $vers = $vers | append (dict "v" $e.Name "key" $key) -}}
+            {{- end -}}
+          {{- end -}}
+        {{ end}}
+
+        {{- $vers = sort $vers "key" "desc" -}}
+
+        <div id="versionDropdownRedisvl" class="menu__version-selector__list version-selector-control">
+          <a href="{{ absURL "develop/ai/redisvl/" }}" id="redisvl-version-select-latest" onclick="_setSelectedVersion('redisvl', 'latest')">latest</a>
+          {{- range $vers }}
+          <a href="{{ (absURL (printf "develop/ai/redisvl/%s/" .v)) }}" id="redisvl-version-select-{{ .v }}" onclick="_setSelectedVersion('redisvl', 'v{{ .v }}')">v{{ .v }}</a>
           {{- end }}
         </div>
       </div>
