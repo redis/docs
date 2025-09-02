@@ -37,7 +37,11 @@ Redis Open Source 8.0 and 8.2 features are now available when you [create]({{<re
 
 - New hash commands [`HGETEX`]({{<relref "/commands/hgetex">}}), [`HSETEX`]({{<relref "/commands/hsetex">}}), and [`HGETDEL`]({{<relref "/commands/hgetdel">}}), which can simplify caching and session management patterns.
 
-- Enhanced access control lists (ACLs) to support new data structures introduced in Redis 8. Existing ACL categories such as `@read` and `@write` now include commands for JSON, time series, vector, and probabilistic data structures.
+- Enhanced access control lists (ACLs) to support new data structures introduced in Redis 8.
+
+    - Existing ACL categories such as `@read` and `@write` now include commands for JSON, time series, vector, and probabilistic data structures.
+
+    - New ACL categories: `@search`, `@json`, `@timeseries`, `@bloom`, `@cuckoo`, `@topk`, `@cms`, and `@tdigest`.
 
 - Redis Query Engine improvements.
 
