@@ -79,6 +79,8 @@ Note that the `@all` category did not change, as it always included all the comm
 
 - Deprecated the `policy` field for [bootstrap]({{<relref "/operate/rs/references/rest-api/requests/bootstrap">}}) REST API requests. Use [`PUT /v1/cluster/policy`]({{< relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) to change cluster policies after cluster creation instead.
 
+- Deprecated the `module_args` field for [database]({{<relref "/operate/rs/references/rest-api/requests/bdbs">}}) REST API requests. Use the new module configuration objects `search`, `timeseries`, and `probabilistic` instead.
+
 #### Internal monitoring and v1 Prometheus metrics deprecation
 
 The existing [internal monitoring engine]({{<relref "/operate/rs/monitoring/v1_monitoring">}}) is deprecated. We recommend transitioning to the new [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}) for improved performance, enhanced integration capabilities, and modernized metrics streaming.
