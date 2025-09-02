@@ -216,7 +216,7 @@ As a result:
 
 - ACL rules such as `+@all -@write`  will allow access to fewer commands than previous versions of Redis.
   - For example, a user with `+@all -@write` will not be able to execute `JSON.SET`.
-  - Explicit inclusion of new [command categories]({{<relref "/operate/oss_and_stack/management/security/acl#command-categories">}}) is required to maintain access.
+  - Explicit inclusion of new [command categories]({{<relref "/operate/oss_and_stack/management/security/acl#command-categories">}}) is required to maintain access. The new categories are: `@search`, `@json`, `@timeseries`, `@bloom`, `@cuckoo`, `@topk`, `@cms`, and `@tdigest`.
 
 - ACL rules such as `+@read +JSON.GET` can now be simplified as `+@read` because `JSON.GET` is included in the `@read` category.
 
