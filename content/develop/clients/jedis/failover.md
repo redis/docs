@@ -23,27 +23,26 @@ the concepts and describes how to configure Jedis for failover and failback.
 
 You may have several [Active-Active databases]({{< relref "/operate/rs/databases/active-active" >}})
 or independent Redis servers that are all suitable to serve your app.
-Typically, you would prefer some database endpoints over others for a particular
+Typically, you would prefer to use some database endpoints over others for a particular
 instance of your app (perhaps the ones that are closest geographically to the app server
 to reduce network latency). However, if the best endpoint is not available due
 to a failure, it is generally better to switch to another, suboptimal endpoint
 than to let the app fail completely.
 
 *Failover* is the technique of actively checking for connection failures or
-unacceptably slow connections and
-automatically switching to another endpoint when they occur. The
-diagram below shows this process:
+unacceptably slow connections and automatically switching to the best available endpoint 
+when they occur. This requires you to specify a list of endpoints to try, ordered by priority. The diagram below shows this process:
 
 {{< image filename="images/failover/failover-client-reconnect.svg" alt="Failover and client reconnection" >}}
 
 The complementary technique of *failback* then involves periodically checking the health
-of endpoints that are preferred to the current, temporary endpoint.
-If any preferred endpoint has recovered, the connection is switched over to it.
-This could potentially continue until the best endpoint is available again.
+of all endpoints that have failed. If any endpoints recover, the failback mechanism
+automatically switches the connection to the one with the highest priority. 
+This could potentially be repeated until the optimal endpoint is available again.
 
 {{< image filename="images/failover/failover-client-failback.svg" alt="Failback: client switches back to original server" width="75%" >}}
 
-### Detecting a failed connection
+### Detecting connection problems
 
 Jedis uses the [resilience4j](https://resilience4j.readme.io/docs/getting-started)
 library to detect connection problems using a
@@ -58,7 +57,8 @@ the command a few times.)
 
 The status of the attempted command calls is kept in a "sliding window", which
 is simply a buffer where the least recent item is dropped as each new
-one is added.
+one is added. The buffer can be configured to have a fixed number of items or to
+be based on a time window.
 
 {{< image filename="images/failover/failover-sliding-window.svg" alt="Sliding window of recent connection attempts" >}}
 
@@ -77,15 +77,18 @@ endpoint that is still healthy and uses it for the temporary connection.
 
 Given that the original endpoint had some geographical or other advantage
 over the failover target, you will generally want to fail back to it as soon
-as it recovers. To detect when this happens, Jedis periodically
-runs a "health check" on the server. This can be as simple as
-sending a Redis [`ECHO`]({{< relref "/commands/echo" >}}) command and checking
-that it gives a response.
+as it recovers. In the meantime, another server might recover that is
+still better than the current failover target, so it might be worth
+failing back to that server even if it is not optimal.
+
+Jedis periodically runs a "health check" on each server to see if it has recovered.
+The health check can be as simple as
+sending a Redis [`ECHO`]({{< relref "/commands/echo" >}}) command and ensuring
+that it gives the expected response.
 
 You can also configure Jedis to run health checks on the current target
-server during periods of inactivity. This can help to detect when the
-server has failed and a failover is needed even when your app is not actively
-using it.
+server during periods of inactivity, even if no failover has occurred. This can
+help to detect problems even if your app is not actively using the server.
 
 ## Failover configuration
 
@@ -121,10 +124,16 @@ weight being tried first.
 MultiClusterClientConfig.ClusterConfig[] clusterConfigs = new MultiClusterClientConfig.ClusterConfig[2];
 
 HostAndPort east = new HostAndPort("redis-east.example.com", 14000);
-clusterConfigs[0] = ClusterConfig.builder(east, config).connectionPoolConfig(poolConfig).weight(1.0f).build();
+clusterConfigs[0] = ClusterConfig.builder(east, config)
+    .connectionPoolConfig(poolConfig)
+    .weight(1.0f)
+    .build();
 
 HostAndPort west = new HostAndPort("redis-west.example.com", 14000);
-clusterConfigs[1] = ClusterConfig.builder(west, config).connectionPoolConfig(poolConfig).weight(0.5f).build();
+clusterConfigs[1] = ClusterConfig.builder(west, config)
+    .connectionPoolConfig(poolConfig)
+    .weight(0.5f)
+    .build();
 ```
 
 Pass the `clusterConfigs` array when you create the `MultiClusterClientConfig` builder.
@@ -175,11 +184,11 @@ the circuit breaker:
 | Builder method | Default value | Description|
 | --- | --- | --- |
 | `circuitBreakerSlidingWindowType()` | `COUNT_BASED` | Type of sliding window. `COUNT_BASED` uses a sliding window based on the number of calls, while `TIME_BASED` uses a sliding window based on time. |
-| `circuitBreakerSlidingWindowSize()` | `100` | Size of the sliding window in number of calls or time in seconds, depending on the sliding window type. |
+| `circuitBreakerSlidingWindowSize()` | `100` | Size of the sliding window (this is the number of calls for a `COUNT_BASED` window or time in seconds, for a `TIME_BASED` window). |
 | `circuitBreakerSlidingWindowMinCalls()` | `10` | Minimum number of calls required (per sliding window period) before the circuit breaker will start calculating the error rate or slow call rate. |
 | `circuitBreakerFailureRateThreshold()` | `50.0f` | Percentage of failures to trigger the circuit breaker. |
 | `circuitBreakerSlowCallRateThreshold()` | `100.0f` | Percentage of slow calls to trigger the circuit breaker. |
-| `circuitBreakerSlowCallDurationThreshold()` | `60000` | Duration in milliseconds to consider a call as slow. |
+| `circuitBreakerSlowCallDurationThreshold()` | `60000` | Duration in milliseconds after which a call is considered slow. |
 | `circuitBreakerIncludedExceptionList()` | See description | `List` of `Throwable` classes that should be considered as failures. By default, it includes just `JedisConnectionException`. |
 | `circuitBreakerIgnoreExceptionList()` | `null` | `List` of `Throwable` classes that should be ignored for failure rate calculation. |
 
@@ -190,19 +199,19 @@ The `MultiClusterClientConfig` builder has the following options to configure re
 | Builder method | Default value | Description|
 | --- | --- | --- |
 | `retryMaxAttempts()` | `3` | Maximum number of retry attempts (including the initial call). |
-| `retryWaitDuration()` | `500` | Number of milliseconds to wait between retry attempts. |
-| `retryWaitDurationExponentialBackoffMultiplier()` | `2` | [Exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff) factor multiplied against wait duration between retries. For example, with a wait duration of 1 second and a multiplier of 2, the retries would occur after 1s, 2s, 4s, 8s, 16s, and so on. |
+| `retryWaitDuration()` | `500` | Initial number of milliseconds to wait between retry attempts. |
+| `retryWaitDurationExponentialBackoffMultiplier()` | `2` | [Exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff) factor multiplied by the wait duration between retries. For example, with a wait duration of 1 second and a multiplier of 2, the retries would occur after 1s, 2s, 4s, 8s, 16s, and so on. |
 | `retryIncludedExceptionList()` | See description | `List` of `Throwable` classes that should be considered as failures to be retried. By default, it includes just `JedisConnectionException`. |
 | `retryIgnoreExceptionList()` | `null` | `List` of `Throwable` classes that should be ignored for retry. |
 
 ### Failover callbacks
 
 You may want to take some custom action when a failover occurs.
-For example, you may want to log a warning, increment a metric, 
+For example, you could log a warning, increment a metric, 
 or externally persist the cluster connection state.
 
 You can provide a custom failover action using a class that
-implements `java.util.function.Consumer`. You should place
+implements `java.util.function.Consumer`. Place
 the custom action in the `accept()` method, as shown in the example below.
 
 ```java
@@ -234,10 +243,8 @@ The `accept()` method is now called whenever a failover occurs.
 
 ## Health check configuration
 
-The general strategy for health checks is to ask the Redis server for a
-response that it could only give if it is healthy. There are several
-specific strategies available for health checks that you can configure using the
-`MultiClusterClientConfig` builder. The sections below explain these
+There are several strategies available for health checks that you can configure using the
+`MultiClusterClientConfig` builder. The sections below explain these strategies
 in more detail.
 
 ### `EchoStrategy` (default)
@@ -265,9 +272,9 @@ builder.
 BiFunction<HostAndPort, Supplier<RedisCredentials>, MultiClusterClientConfig.StrategySupplier> healthCheckStrategySupplier =
 (HostAndPort clusterHostPort, Supplier<RedisCredentials> credentialsSupplier) -> {
   LagAwareStrategy.Config lagConfig = LagAwareStrategy.Config.builder(clusterHostPort, credentialsSupplier)
-      .interval(5000)                                         // Check every 5 seconds
-      .timeout(3000)                                          // 3 second timeout
-      .extendedCheckEnabled(true)                             // Check replication lag
+      .interval(5000)                         // Check every 5 seconds
+      .timeout(3000)                          // 3 second timeout
+      .extendedCheckEnabled(true)             // Check replication lag
       .build();
 
   return (hostAndPort, jedisClientConfig) -> new LagAwareStrategy(lagConfig);
@@ -290,11 +297,10 @@ MultiClusterClientConfig.ClusterConfig clusterConfig =
 ### Custom health check strategy
 
 You can supply your own custom health check strategy by
-implementing the `HealthCheckStrategy` interface. You might
-use this to implement custom checks or to integrate with
-external monitoring tools, for example. The example below
-shows a simple custom strategy. As with `LagAwareStrategy`, you
-can pass a custom strategy implementation to the `MultiClusterClientConfig.ClusterConfig`
+implementing the `HealthCheckStrategy` interface. For example, you might
+use this to integrate with external monitoring tools or to implement
+checks that are specific to your application. The example below
+shows a simple custom strategy. Pass your custom strategy implementation to the `MultiClusterClientConfig.ClusterConfig`
 builder with the `healthCheckStrategySupplier()` method.
 
 ```java
@@ -362,8 +368,10 @@ manually:
 ```java
 // The `setActiveCluster()` method receives the `HostAndPort` of the
 // cluster to switch to.
-provider.setActiveCluster("west");
+provider.setActiveCluster(west);
 ```
+
+Note that `setActiveCluster()` is thread-safe.
 
 If you decide to implement manual failback, you will need a way for external
 systems to trigger this method in your application. For example, if your application
