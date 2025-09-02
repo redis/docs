@@ -1,12 +1,12 @@
 ---
-Title: Redis modules on Kubernetes
+Title: Configure modules
 alwaysopen: false
 categories:
 - docs
 - operate
 - kubernetes
 description: Deploy Redis Enterprise databases with modules using the Redis Enterprise operator for Kubernetes.
-linkTitle: Redis modules
+linkTitle: Configure modules
 weight: 15
 ---
 
@@ -31,7 +31,7 @@ Redis Enterprise includes several built-in modules:
 - **RedisGraph** (`graph`) - Graph database capabilities
 - **RedisGears** (`rg`) - Programmable data processing engine
 
-## Check available modules
+### Check available modules
 
 Before configuring databases with modules, check which modules are available in your cluster:
 
@@ -66,151 +66,98 @@ If you need to install additional modules or specific versions, upload them usin
      https://localhost:9443/v2/modules
    ```
 
-## Configure databases with modules
-
-### Basic database with modules
-
-The following example shows a `RedisEnterpriseDatabase` with modules:
-
-```yaml
-apiVersion: app.redislabs.com/v1alpha1
-kind: RedisEnterpriseDatabase
-metadata:
-  name: search-db
-  labels:
-    app: redis-enterprise
-spec:
-  redisEnterpriseCluster:
-    name: rec
-  memorySize: 1GB
-  shardCount: 1
-  replication: false
-
-  # Configure modules
-  modulesList:
-    - name: search
-      config: "MAXSEARCHRESULTS 10000 MAXAGGREGATERESULTS 10000"
-    - name: ReJSON
-```
-
-### Database with multiple modules
-
-The following example shows a database configured with multiple modules:
-
-```yaml
-apiVersion: app.redislabs.com/v1alpha1
-kind: RedisEnterpriseDatabase
-metadata:
-  name: multi-module-db
-  labels:
-    app: redis-enterprise
-spec:
-  redisEnterpriseCluster:
-    name: rec
-  memorySize: 2GB
-  shardCount: 2
-  replication: true
-
-  modulesList:
-    - name: search
-      config: "MAXSEARCHRESULTS 50000"
-    - name: ReJSON
-    - name: timeseries
-      config: "RETENTION_POLICY 86400000"
-    - name: bf
-```
-
-### Active-Active database with modules
-
-For Active-Active databases, you must specify modules with explicit versions:
-
-```yaml
-apiVersion: app.redislabs.com/v1alpha1
-kind: RedisEnterpriseActiveActiveDatabase
-metadata:
-  name: aa-search-db
-  labels:
-    app: redis-enterprise
-spec:
-  participatingClusters:
-    - name: cluster-east
-    - name: cluster-west
-
-  redisEnterpriseDatabase:
-    memorySize: 1GB
-    shardCount: 1
-    replication: true
-
-    modulesList:
-      - name: search
-        version: "2.8.4"
-        config: "MAXSEARCHRESULTS 10000"
-      - name: ReJSON
-        version: "2.6.6"
-```
-
 ## Module configuration
 
-### Module parameters
+#### Module parameters
 
-Each module in the `modulesList` supports the following fields:
+Each module in the [`modulesList`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_database_api#specmoduleslist" >}}) supports the following fields:
 
 - **name** (required): The module name (for example, "search", "ReJSON")
 - **version** (optional for REDB, required for REAADB): Specific module version
 - **config** (optional): Module-specific configuration parameters
 
-### Common module configurations
+#### Common module configurations
 
-#### RediSearch
-
-```yaml
-- name: search
-  config: "MAXSEARCHRESULTS 10000 MAXAGGREGATERESULTS 5000 TIMEOUT 500"
-```
-
-#### RedisTimeSeries
+##### RediSearch
 
 ```yaml
-- name: timeseries
-  config: "RETENTION_POLICY 86400000 MAX_SAMPLE_PER_CHUNK 360"
+modulesList:
+  - name: search
+    config: "MAXSEARCHRESULTS 10000 MAXAGGREGATERESULTS 5000 TIMEOUT 500"
 ```
 
-#### RedisBloom
+##### RedisTimeSeries
 
 ```yaml
-- name: bf
-  config: "ERROR_RATE 0.01 INITIAL_SIZE 1000"
+modulesList:
+  - name: timeseries
+    config: "RETENTION_POLICY 86400000 MAX_SAMPLE_PER_CHUNK 360"
 ```
+
+##### RedisBloom
+
+```yaml
+modulesList:
+  - name: bf
+    config: "ERROR_RATE 0.01 INITIAL_SIZE 1000"
+```
+
+## Upgrade considerations
+
+When upgrading Redis Enterprise clusters or the operator with modules, follow these guidelines:
+
+#### Pre-upgrade planning
+
+- **Check module compatibility**: Verify that your current module versions are compatible with the target Redis Enterprise version
+- **Review module dependencies**: Some modules may have specific version requirements or dependencies
+- **Document current configurations**: Record all module versions and configurations before upgrading
+- **Test in non-production**: Always test module upgrades in a development or staging environment first
+
+#### Module version management during upgrades
+
+- **Upload required modules**: Ensure all necessary module versions are uploaded to the cluster before upgrading
+- **Version pinning**: For Active-Active databases, explicitly specify module versions to prevent automatic updates
+- **Compatibility matrices**: Consult the Redis Enterprise documentation for module compatibility matrices
+
+#### Upgrade sequence
+
+1. **Upload new module versions** (if required) to the cluster before upgrading Redis Enterprise
+2. **Upgrade the Redis Enterprise cluster** following standard upgrade procedures
+3. **Verify module functionality** after the cluster upgrade completes
+4. **Update database configurations** if new module versions require configuration changes
+
+#### Post-upgrade verification
+
+- **Check module status**: Verify all modules are loaded correctly: `kubectl get rec <cluster-name> -o jsonpath='{.status.modules}'`
+- **Test module functionality**: Validate that module-specific commands and features work as expected
+- **Monitor performance**: Watch for any performance changes after the upgrade
+- **Update documentation**: Record the new module versions and any configuration changes
+
+For detailed upgrade procedures, see [Upgrade Redis Enterprise clusters]({{< relref "/operate/kubernetes/upgrade/upgrade-redis-cluster" >}}).
 
 ## Best practices
 
-### Module version management
+#### Module version management
 
 - For production environments, specify explicit module versions in Active-Active databases
 - Use the cluster's available modules list to ensure compatibility
 - Test module upgrades in non-production environments first
 
-### Resource planning
+#### Resource planning
 
 - Modules consume additional memory and CPU resources
 - Plan cluster resources accordingly when using multiple modules
 - Monitor module-specific metrics and performance
 
-### Configuration management
+#### Configuration management
 
 - Use module configuration parameters to optimize performance
 - Document module configurations for consistency across environments
 - Consider module-specific backup and recovery requirements
 
-### Upgrade considerations
-
-- Ensure compatible module versions before cluster upgrades
-- Upload required module versions before upgrading the cluster
-- Review module compatibility matrices in Redis Enterprise documentation
-
 ## Troubleshooting
 
-### Common issues
+#### Common issues
 
 1. **Module not available error:**
    - Check if the module is installed: `kubectl get rec <cluster-name> -o jsonpath='{.status.modules}'`
@@ -224,7 +171,7 @@ Each module in the `modulesList` supports the following fields:
    - Validate module configuration parameters
    - Check Redis Enterprise logs for specific error messages
 
-### Debugging commands
+#### Debugging commands
 
 ```bash
 # Check cluster status and available modules
@@ -239,13 +186,6 @@ kubectl logs -l name=redis-enterprise-operator
 # Check cluster logs
 kubectl logs <cluster-pod-name>
 ```
-
-## Examples
-
-See the `deploy/examples/` directory for additional configuration examples:
-
-- Basic database: `deploy/examples/v1alpha1/redb.yaml`
-- Active-Active database: `deploy/examples/v1alpha1/reaadb.yaml`
 
 ## Related information
 
