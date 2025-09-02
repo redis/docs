@@ -105,9 +105,11 @@ The [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_eng
 
 - REST API enhancements:
 
-    - Added `replica_sconns_on_demand` to database configuration. When enabled, the DMC stops holding persistent connections to replica shards and reduces the number of internode connections by half.
+    - Added `replica_sconns_on_demand` to the database configuration. When enabled, the DMC stops holding persistent connections to replica shards and reduces the number of internode connections by half.
 
-    - Added `conns_minimum_dedicated` to database configuration to define the minimum number of dedicated server connections the DMC maintains per worker per shard.
+    - Added `conns_minimum_dedicated` to the database configuration to define the minimum number of dedicated server connections the DMC maintains per worker per shard.
+
+    - Added module configuration fields to the database configuration. Use `search`, `timeseries`, and `probabilistic` objects to configure Redis modules instead of the deprecated `module_args` field. These fields are visible in [`GET /v1/bdbs`]({{<relref "/operate/rs/references/rest-api/requests/bdbs">}}) requests only when using the `extended=true` query parameter.
 
 - Added action IDs to operation and state machine log entries.
 
@@ -227,6 +229,8 @@ Note that the `@all` category did not change, as it always included all the comm
 #### API deprecations
 
 - Deprecated the `policy` field for [bootstrap]({{<relref "/operate/rs/references/rest-api/requests/bootstrap">}}) REST API requests. Use [`PUT /v1/cluster/policy`]({{< relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) to change cluster policies after cluster creation instead.
+
+- Deprecated the `module_args` field for [database]({{<relref "/operate/rs/references/rest-api/requests/bdbs">}}) REST API requests. Use the new module configuration objects `search`, `timeseries`, and `probabilistic` instead.
 
 #### Internal monitoring and v1 Prometheus metrics deprecation
 
