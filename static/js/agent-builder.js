@@ -113,14 +113,7 @@
             copyBtn: document.getElementById('copy-code-btn'),
             downloadBtn: document.getElementById('download-code-btn'),
             tryJupyterBtn: document.getElementById('try-jupyter-btn'),
-            chatAboutCodeBtn: document.getElementById('chat-about-code-btn'),
-            startAgainBtn: document.getElementById('start-again-btn'),
-            codeChatSection: document.getElementById('code-chat-section'),
-            codeChatContainer: document.getElementById('code-chat-container'),
-            codeChatMessages: document.getElementById('code-chat-messages'),
-            codeChatInput: document.getElementById('code-chat-input'),
-            codeChatSend: document.getElementById('code-chat-send'),
-            closeCodeChatBtn: document.getElementById('close-code-chat-btn')
+            startAgainBtn: document.getElementById('start-again-btn')
         };
 
         // Check if elements exist (shortcode might not be on this page)
@@ -786,7 +779,6 @@ public class ${formData.agentName.replace(/\s+/g, '')}
         const copyBtn = document.getElementById('copy-code-btn');
         const downloadBtn = document.getElementById('download-code-btn');
         const tryJupyterBtn = document.getElementById('try-jupyter-btn');
-        const chatAboutCodeBtn = document.getElementById('chat-about-code-btn');
 
         // Attach listeners only if they haven't been attached yet
         if (copyBtn && !copyBtn.hasAttribute('data-listener-attached')) {
@@ -807,23 +799,6 @@ public class ${formData.agentName.replace(/\s+/g, '')}
             tryJupyterBtn.setAttribute('data-listener-attached', 'true');
         }
 
-        if (chatAboutCodeBtn && !chatAboutCodeBtn.hasAttribute('data-listener-attached')) {
-            chatAboutCodeBtn.addEventListener('click', function(event) {
-                event.preventDefault();
-                openCodeChat();
-            });
-            chatAboutCodeBtn.setAttribute('data-listener-attached', 'true');
-        }
-
-        // Add close code chat button listener
-        const closeCodeChatBtn = document.getElementById('close-code-chat-btn');
-        if (closeCodeChatBtn && !closeCodeChatBtn.hasAttribute('data-listener-attached')) {
-            closeCodeChatBtn.addEventListener('click', function(event) {
-                event.preventDefault();
-                closeCodeChat();
-            });
-            closeCodeChatBtn.setAttribute('data-listener-attached', 'true');
-        }
 
         // Add start again button listener
         const startAgainBtn = document.getElementById('start-again-btn');
@@ -977,7 +952,8 @@ public class ${formData.agentName.replace(/\s+/g, '')}
     }
 
     // Code Chat Functions
-    function openCodeChat() {
+    /* Removed: Code Chat Functions */
+    /* function openCodeChat() {
         const code = elements.codeSection.dataset.code;
         if (!code) {
             alert('No code available to chat about');
@@ -1014,10 +990,18 @@ public class ${formData.agentName.replace(/\s+/g, '')}
         elements.codeChatSection.scrollIntoView({ behavior: 'smooth' });
     }
 
+    */
+
     function closeCodeChat() {
-        elements.codeChatSection.classList.add('agent-builder-hidden');
-        elements.codeChatInput.value = '';
-        elements.codeChatSend.disabled = true;
+        if (elements.codeChatSection) {
+            elements.codeChatSection.classList.add('agent-builder-hidden');
+        }
+        if (elements.codeChatInput) {
+            elements.codeChatInput.value = '';
+        }
+        if (elements.codeChatSend) {
+            elements.codeChatSend.disabled = true;
+        }
 
         // Don't reactivate the wizard - it should remain inactive until "Start again" is clicked
         // The wizard was made inactive when code was generated, not when chat was opened
@@ -1031,7 +1015,9 @@ public class ${formData.agentName.replace(/\s+/g, '')}
         elements.codeSection.classList.add('agent-builder-hidden');
 
         // Hide code chat section
-        elements.codeChatSection.classList.add('agent-builder-hidden');
+        if (elements.codeChatSection) {
+            elements.codeChatSection.classList.add('agent-builder-hidden');
+        }
 
         // Reactivate the initial wizard
         elements.chatContainer.classList.remove('agent-builder-inactive');
@@ -1076,25 +1062,10 @@ public class ${formData.agentName.replace(/\s+/g, '')}
         elements.chatInput.focus();
     }
 
-    function setupCodeChatListeners() {
-        // Input change listener
-        elements.codeChatInput.addEventListener('input', handleCodeChatInputChange);
+    /* Removed: Code Chat listeners and handlers as feature is removed */
+    function setupCodeChatListeners() { /* no-op */ }
 
-        // Enter key listener
-        elements.codeChatInput.addEventListener('keydown', handleCodeChatKeyDown);
-
-        // Prevent search modal on slash
-        elements.codeChatInput.addEventListener('keydown', preventSearchModalOnSlash);
-
-        // Send button listener
-        elements.codeChatSend.addEventListener('click', handleCodeChatSend);
-    }
-
-    function removeCodeChatListeners() {
-        elements.codeChatInput.removeEventListener('input', handleCodeChatInputChange);
-        elements.codeChatInput.removeEventListener('keydown', handleCodeChatKeyDown);
-        elements.codeChatSend.removeEventListener('click', handleCodeChatSend);
-    }
+    function removeCodeChatListeners() { /* no-op */ }
 
     function handleCodeChatInputChange() {
         const input = elements.codeChatInput.value.trim();

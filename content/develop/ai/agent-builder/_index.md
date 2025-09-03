@@ -54,7 +54,6 @@ Select the **Try in Jupyter** button to run the code in a notebook, load a sampl
 
 The generated code includes detailed setup instructions and best practices to get you started quickly. If you want to generate another agent, select the **Start again** button.
 
-Use the **Chat about code** button to ask questions about your agent code and learn how to customize it.
 
 ## Learn more
 

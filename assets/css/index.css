@@ -1296,15 +1296,7 @@ a[href*="#no-click"], img[src*="#no-click"] {
   @apply bg-redis-red-600 border-redis-red-600;
 }
 
-.chat-btn {
-  @apply inline-flex items-center px-4 py-2 border border-redis-pen-700 text-sm font-medium rounded-md;
-  @apply text-redis-ink-900 bg-white hover:bg-redis-pen-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-redis-red-500;
-  @apply transition-colors duration-200;
-}
 
-.chat-btn:hover {
-  @apply border-redis-red-500 text-redis-red-600;
-}
 
 .start-again-btn {
   @apply inline-flex items-center px-3 py-2 border border-orange-500 text-sm font-medium rounded-md;
@@ -1353,7 +1345,6 @@ a[href*="#no-click"], img[src*="#no-click"] {
   .copy-btn,
   .download-btn,
   .jupyter-btn,
-  .chat-btn,
   .start-again-btn {
     @apply flex-1 justify-center;
   }
@@ -1379,8 +1370,7 @@ a[href*="#no-click"], img[src*="#no-click"] {
 .generate-btn:focus,
 .copy-btn:focus,
 .download-btn:focus,
-.jupyter-btn:focus,
-.chat-btn:focus {
+.jupyter-btn:focus {
   @apply outline-none ring-2 ring-offset-2 ring-redis-red-500;
 }
 
@@ -1444,14 +1434,6 @@ a[href*="#no-click"], img[src*="#no-click"] {
   background: #718096;
 }
 
-/* Code Chat Section Styles */
-.code-chat-section {
-  @apply mt-8 border-t border-redis-pen-700 pt-8;
-}
-
-.code-chat-header {
-  @apply mb-4;
-}
 
 /* Markdown Rendering Styles for Chat Messages */
 .chat-message .message-content h1,
