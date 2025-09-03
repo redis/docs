@@ -14,30 +14,7 @@
     color: #9ca3af;
   }
 
-  .search-item {
-    background-color: #374151 !important;
-    border-radius: 0.5rem !important;
-    margin-bottom: 0.5rem !important;
-    overflow: hidden !important;
-  }
 
-  .search-item a {
-    color: #d1d5db !important;
-    padding: 0.75rem !important;
-    display: block !important;
-    background-color: #374151 !important;
-    transition: background-color 0.2s !important;
-    text-decoration: none !important;
-    border-radius: inherit !important;
-  }
-
-  .search-item:hover,
-  .search-item a:hover,
-  .search-item[aria-selected],
-  .search-item[aria-selected] a {
-    background-color: #4b5563 !important;
-    color: white !important;
-  }
 
   .search-item-title {
     font-weight: 500;
@@ -218,8 +195,8 @@
             Object.keys(result).forEach((key, index) => {
               resultsContainer.insertAdjacentHTML(
                 'beforeend',
-                `<dd class="search-item" role="option" style="background-color: #374151; border-radius: 0.5rem; margin-bottom: 0.5rem; overflow: hidden;">
-                  <a href="${result[key].url}" style="color: #d1d5db; padding: 0.75rem; display: block; background-color: #374151; text-decoration: none; border-radius: inherit;">
+                `<dd class="search-item" role="option">
+                  <a href="${result[key].url}">
                     <span class="search-item-icon"></span>
                     <span class="search-item-content">
                       ${result[key].path && result[key].product ? `<div class="search-item-container"><span class="search-item-path">${result[key].path}</span><span class="px-2">→</span><span class="search-item-path">${result[key].product}</span></div>` : ''}
