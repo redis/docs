@@ -77,7 +77,7 @@ The limitations below are specific to the Redis Enterprise for Kubernetes produc
 ### New limitations
 
 - **Missing endpoint for admission endpoint (rare) (RED-119469)** Restart the operator pod.
-- **The REDB “redisVersion” field can’t be used for memcached databases(RED-119152)**
+- **The REDB "redisVersion” field can’t be used for memcached databases(RED-119152)**
 
 ### Existing limitations
 

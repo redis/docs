@@ -69,13 +69,13 @@ For example:
 
         limits:
 
-        cpu: “2000m”
+        cpu: "2000m”
 
         memory: 4Gi
 
         requests:
 
-        cpu: “2000m”
+        cpu: "2000m”
 
         memory: 4Gi
 
@@ -98,13 +98,13 @@ redisEnterpriseNodeResources:
 
     limits:
 
-        cpu: “8000m”
+        cpu: "8000m”
 
         memory: 30Gi
 
     requests
 
-        cpu: “8000m”
+        cpu: "8000m”
 
         memory: 30Gi
 

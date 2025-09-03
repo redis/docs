@@ -50,7 +50,7 @@ resources
 - Logging events
 - Enabling a simple mechanism for editing the Cluster spec
 
-The Redis Enterprise operator functions as the logic “glue” between the
+The Redis Enterprise operator functions as the logic "glue” between the
 K8s infrastructure and the Redis Enterprise Cluster.
 
 The operator creates the following resources:

@@ -29,7 +29,7 @@ Customers who use load balancers for Active-Active replication endpoints and rel
 
 - **Missing endpoint for admission endpoint (rare) (RED-119469)** Restart the operator pod.
 
-- **The REDB “redisVersion” field can’t be used for memcached databases(RED-119152)**
+- **The REDB "redisVersion” field can’t be used for memcached databases(RED-119152)**
 
 - **When modifying the database suffix for an Active-Active database, while the service-rigger is in a terminating state, the services-rigger will delete and create the ingress or route resources in a loop (RED-107687)** Wait until the services rigger pod has finished to terminate it.
 

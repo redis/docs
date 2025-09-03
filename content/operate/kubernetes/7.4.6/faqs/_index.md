@@ -113,7 +113,7 @@ metadata:
    kind: RedisEnterpriseCluster
    name: test
    uid: 8b247469-c715-11e8-a5d5-0a778671fc2e
- resourceVersion: “911969”
+ resourceVersion: "911969”
  selfLink: /api/v1/namespaces/redis/secrets/redis-enterprise-cluster
  uid: 8c4ff52e-c715-11e8-80f5-02cc4fca9682
 type: Opaque
@@ -130,7 +130,7 @@ echo "Q2h5N1BBY28=" | base64 –-decode
 
 To retrieve your password, navigate to the OpenShift management console, select your project name, go to Resources->Secrets->your_cluster_name
 
-Retrieve your password by selecting “Reveal Secret.”
+Retrieve your password by selecting "Reveal Secret.”
 {{< image filename="/images/rs/openshift-password-retrieval.png" >}}
 
 
