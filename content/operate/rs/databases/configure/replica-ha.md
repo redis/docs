@@ -110,6 +110,8 @@ By default, replica HA has a 10-minute grace period after node failure and befor
 
 {{<note>}}The default grace period is 30 minutes for containerized applications using [Redis Enterprise Software for Kubernetes]({{< relref "/operate/kubernetes/" >}}).{{</note>}}
 
+{{<note>}}For Kubernetes deployments, if ReplicaHA(previously SlaveHA) is enabled at the cluster level, you must also manually enable it at the database level for each RedisEnterpriseDatabase (REDB) using the UI or `rladmin`. Without manual database-level configuration, databases will show `slave_ha: disabled (database)` even when cluster-level ReplicaHA is enabled.{{</note>}}
+
 To configure this grace period from rladmin, run:
 
 ``` text
