@@ -281,7 +281,11 @@ Where:
 - `<path-to-client-key>` - Path to the client key file
 - `<encryption-key-arn>` - ARN of the [encryption key](#create-encryption-key) you created earlier
 
-After you create the secret, you need to add permissions to allow the data pipeline to access it. In the [AWS Management Console](https://console.aws.amazon.com/), use the **Services** menu to locate and select **Security, Identity, and Compliance** > **Secrets Manager**. Select the private key secret you just created and then select **Edit permissions**. Add the following permissions to your secret:
+After you create the secret, you need to add permissions to allow the data pipeline to access it. 
+
+In the [AWS Management Console](https://console.aws.amazon.com/), use the **Services** menu to locate and select **Security, Identity, and Compliance** > **Secrets Manager**. Select the private key secret you just created and then select **Edit permissions**. 
+
+Add the following permissions to your secret:
 
 {{< embed-md "rc-rdi-secrets-permissions.md" >}}
 
