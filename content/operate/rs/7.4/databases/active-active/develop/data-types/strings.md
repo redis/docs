@@ -34,12 +34,12 @@ time (t2) wins over the update at t1.
 
 |  **Time** | **Region 1** | **Region 2** |
 |  :------: | :------: | :------: |
-|  t1 | SET text “a” |  |
-|  t2 |  | SET text “b” |
+|  t1 | SET text "a" |  |
+|  t2 |  | SET text "b" |
 |  t3 | — Sync — | — Sync — |
-|  t4 | SET text “c” |  |
+|  t4 | SET text "c" |  |
 |  t5 | — Sync — | — Sync — |
-|  t6 |  | SET text “d” |
+|  t6 |  | SET text "d" |
 
 ### String counter support
 

@@ -77,7 +77,7 @@ redis> CF.DEL cf item2
 
 ## Return information
 
-{{< multitabs id=“cf-del-return-info" 
+{{< multitabs id="cf-del-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}
 

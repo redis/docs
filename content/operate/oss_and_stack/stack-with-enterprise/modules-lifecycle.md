@@ -17,7 +17,7 @@ The modules included in Redis Stack also follow a release lifecycle and schedule
 
 Redis modules use a three-place numbering scheme to identify released versions.
 
-The format is “Major1.Major2.Minor”.
+The format is "Major1.Major2.Minor".
 
 - Major sections of the version number represent fundamental changes to functionality and feature capabilities. The _Major1_ and _Major2_ part of the version number are incremented according to the size and scale of the changes in each release.
 

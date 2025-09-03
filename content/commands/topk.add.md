@@ -54,7 +54,7 @@ redis> TOPK.ADD topk foo bar 42
 
 ## Return information
 
-{{< multitabs id=“topk-add-return-info" 
+{{< multitabs id="topk-add-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}
 

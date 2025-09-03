@@ -15,10 +15,25 @@ weight: 92
 ---
 ## Requirements
 
-RediSearch v2.6.31 requires:
+RediSearch v2.6.32 requires:
 
 - Minimum Redis compatibility version (database): 6.0.16
 - Minimum Redis Enterprise Software version (cluster): 6.2.8
+
+## v2.6.32 (August 2025)
+
+This is a maintenance release for RediSearch 2.6.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#6405](https://github.com/redisearch/redisearch/pull/6405) Validate compatibility against RedisJSON version upon open key (MOD-10298).
+- [#6419](https://github.com/redisearch/redisearch/pull/6419) Errors when loading schema from RDB get incorrectly cleared (MOD-10307).
+- [#6604](https://github.com/redisearch/redisearch/pull/6604) `FLUSHDB` while active queries are still running could lead to a crash due to premature release of the CURSOR (MOD-10681).
+
+Improvements:
+- [#6467](https://github.com/redisearch/redisearch/pull/6467) Handle excessive error logs when handling JSON.DEL errors (MOD-10266).
+- [#6659](https://github.com/redisearch/redisearch/pull/6659) Time measurement on `FT.PROFILE` using thread-independent clock mechanism (MOD-10622).
 
 ## v2.6.31 (June 2025)
 

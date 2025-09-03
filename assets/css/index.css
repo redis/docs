@@ -720,7 +720,7 @@ html {
 
 /* Names - Red (NameNamespace) */
 .chroma .nn {
-  @apply text-red-400;
+  @apply text-blue-400;
 }
 
 /* Names - Green (NameTag) */
