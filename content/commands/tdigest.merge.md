@@ -110,7 +110,7 @@ redis> TDIGEST.BYRANK sM 0 1 2 3 4
 
 ## Return information
 
-{{< multitabs id=“tdigest-merge-return-info" 
+{{< multitabs id="tdigest-merge-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}
 

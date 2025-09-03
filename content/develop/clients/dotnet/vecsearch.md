@@ -207,7 +207,7 @@ for more information.
 
 ```csharp
 private static byte[] GetEmbeddingFromAzure(string sentence){
-	Uri oaiEndpoint = new ("your-azure-openai-endpoint”);
+	Uri oaiEndpoint = new ("your-azure-openai-endpoint");
 	string oaiKey = "your-openai-key";
 
 	AzureKeyCredential credentials = new (oaiKey);

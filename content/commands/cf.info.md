@@ -64,7 +64,7 @@ redis> CF.INFO cf
 
 One of the following:
 
-{{< multitabs id=“cf-info-return-info" 
+{{< multitabs id="cf-info-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}
 
