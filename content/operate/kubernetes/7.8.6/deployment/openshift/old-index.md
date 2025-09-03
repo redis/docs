@@ -38,7 +38,7 @@ Prerequisites:
 
     {{< image filename="/images/rs/getting-started-kubernetes-openshift-image1.png" >}}
 
-- Click on "admin” (upper right corner) and then "Copy Login.”
+- Click on "admin" (upper right corner) and then "Copy Login."
 
     {{< image filename="/images/rs/getting-started-kubernetes-openshift-image4.png" >}}
 
@@ -89,7 +89,7 @@ Let’s look at each yaml file to see what requires editing:
     You should receive the following response:
 
     ```sh
-    securitycontextconstraints.security.openshift.io "redis-enterprise-scc” configured
+    securitycontextconstraints.security.openshift.io "redis-enterprise-scc" configured
     ```
 
     Now you need to bind the scc to your project by typing:
@@ -98,7 +98,7 @@ Let’s look at each yaml file to see what requires editing:
     oc adm policy add-scc-to-group redis-enterprise-scc  system:serviceaccounts:your_project_name
     ```
 
-    (If you do not remember your project name, run "oc project”)
+    (If you do not remember your project name, run "oc project")
 
 - [openshift.bundle.yaml](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/openshift.bundle.yaml) -
 
@@ -215,7 +215,7 @@ Now, run `kubectl get deployment` and verify that your redis-enterprise-operator
 
     This yaml can be edited to the required use case, however, the sample provided can be used for test/dev and quick start purposes. Here are the main fields you may review and edit:
 
-    - name: "your_cluster_name” (e.g. "demo-cluster”)
+    - name: "your_cluster_name" (e.g. "demo-cluster")
     - nodes: number_of_nodes_in_the_cluster (Must be an uneven number of at least 3 or greater—[here’s why](https://redislabs.com/redis-enterprise/technology/highly-available-redis/))
     - uiServiceType: service_type
 
@@ -223,7 +223,7 @@ Now, run `kubectl get deployment` and verify that your redis-enterprise-operator
 
     - storageClassName: "<span style="color: #ff0000;">gp2</span>"
 
-        This specifies the [StorageClass](https://kubernetes.io/docs/concepts/storage/storage-classes/) used for your nodes’ persistent disks. For example, AWS uses "gp2” as a default, GKE uses "standard” and Azure uses "default").
+        This specifies the [StorageClass](https://kubernetes.io/docs/concepts/storage/storage-classes/) used for your nodes’ persistent disks. For example, AWS uses "gp2" as a default, GKE uses "standard" and Azure uses "default").
 
     - redisEnterpriseNodeResources: The [compute resources](https://docs.openshift.com/enterprise/3.2/dev_guide/compute_resources.html#dev-compute-resources) required for each node.
     - limits – specifies the max resources for a Redis node
@@ -233,11 +233,11 @@ Now, run `kubectl get deployment` and verify that your redis-enterprise-operator
 
         ```sh
         limits
-        cpu: "4000m”
+        cpu: "4000m"
         memory: 4Gi
         requests
 
-        cpu: "4000m”
+        cpu: "4000m"
         memory: 4Gi
         ```
 
@@ -250,7 +250,7 @@ Resource limits should equal requests ([Learn why](https://github.com/RedisLabs/
     - serviceBrokerSpec –
     - enabled: \<false/true\>
 
-        This specifies [persistence](https://redislabs.com/redis-features/persistence) for the Service Broker with an "enabled/disabled” flag. The default is "false.”
+        This specifies [persistence](https://redislabs.com/redis-features/persistence) for the Service Broker with an "enabled/disabled" flag. The default is "false."
 
         persistentSpec:
         storageClassName: "gp2"
@@ -272,7 +272,7 @@ Once you have your_cluster_name yaml set, you need to apply it to create your Re
 kubectl apply -f your_cluster_name.yaml
 ```
 
-Run kubectl get rec and verify that creation was successful (rec is a shortcut for "RedisEnterpriseClusters”).
+Run kubectl get rec and verify that creation was successful (rec is a shortcut for "RedisEnterpriseClusters").
 
 You should receive a response similar to the following:
 
@@ -325,7 +325,7 @@ In order to create your database, we will log in to the Redis Enterprise UI.
     {{< image filename="/images/rs/getting-started-kubernetes-openshift-image5.png" >}}
 
 - In order to retrieve your password, navigate to the OpenShift management console, select your project name, go to    Resources-\>Secrets-\>your_cluster_name
-- Retrieve your password by selecting "Reveal Secret.”
+- Retrieve your password by selecting "Reveal Secret."
 
     {{< warning >}}
 Do not change the default admin user password in the Redis Enterprise admin console.

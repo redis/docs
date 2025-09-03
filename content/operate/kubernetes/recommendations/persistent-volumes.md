@@ -28,7 +28,7 @@ spec should include a *persistentSpec* section, in the
       persistentSpec:
        enabled: true
        storageClassName: "standard"
-       volumeSize: "23Gi” #optional
+       volumeSize: "23Gi" #optional
 
 Persistence storage is a requirement for production deployments.
 
@@ -70,7 +70,7 @@ deployment, use the following command:
 
     kubectl get StorageClass
 
-Typically, AWS provides "gp2” as the Storage Class name while GKE uses "standard.”
+Typically, AWS provides "gp2" as the Storage Class name while GKE uses "standard."
 Azure provides two Storage Classes: "default" using HDDs, and "managed-premium" using SSDs.
 
 Below is an example of a response to the command.
@@ -100,8 +100,8 @@ Example of the redisEnterpriseNodeResources definition:
 
     redisEnterpriseNodeResources:
       limits:
-        cpu: "4000m”
+        cpu: "4000m"
         memory: 4Gi
       requests:
-        cpu: "4000m”
+        cpu: "4000m"
         memory: 4Gi
