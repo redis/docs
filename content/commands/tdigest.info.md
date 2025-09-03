@@ -67,7 +67,7 @@ redis> TDIGEST.INFO t
 
 ## Return information
 
-{{< multitabs id=“tdigest-info-return-info" 
+{{< multitabs id="tdigest-info-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}
 

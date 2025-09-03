@@ -16,14 +16,26 @@ weight: 99
 
 ## Requirements
 
-RedisGears v1.2.12 requires:
+RedisGears v1.2.13 requires:
 
 - Minimum Redis compatibility version (database): 6.0.0
 - Minimum Redis Enterprise Software version (cluster): 6.0.12
 
+## 1.2.13 (August 2025)
+
+This is a maintenance release for RedisGears 1.2.
+
+Update urgency: `LOW`: No need to upgrade unless there are new features or fixes.
+
+Details
+
+- Added support for Ubuntu 22.
+- Ubuntu 16.04 and Ubuntu 18.04 are no longer supported.
+- RedisGears dependencies (Python) now include redis-py 5.0.
+
 ## 1.2.12 (December 2024)
 
-This is a maintenance release for RedisGears 1.2
+This is a maintenance release for RedisGears 1.2.
 
 Update urgency: `HIGH`: There is a critical bug that may affect a subset of users. Upgrade!
 
@@ -37,7 +49,7 @@ Details
 
 ## 1.2.10 (October 2024)
 
-This is a maintenance release for RedisGears 1.2
+This is a maintenance release for RedisGears 1.2.
 
 Update urgency: `LOW`: No need to upgrade unless there are new features or fixes.
 
@@ -51,7 +63,7 @@ Details
 
 ## 1.2.9 (March 2024)
 
-This is a maintenance release for RedisGears 1.2
+This is a maintenance release for RedisGears 1.2.
 
 Update urgency: `LOW`: No need to upgrade unless there are new features or fixes.
 
@@ -68,7 +80,7 @@ Details
 
 ## 1.2.7 (July 2023)
 
-This is a maintenance release for RedisGears 1.2
+This is a maintenance release for RedisGears 1.2.
 
 Update urgency: `LOW`: No need to upgrade unless there are new features or fixes.
 
