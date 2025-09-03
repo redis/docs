@@ -626,7 +626,7 @@ It won't be included when `INFO` or `INFO ALL` are called, and it is returned on
 
 Note: key memory usage is different on Redis Software or Redis Cloud active-active databases than on non-active-active databases. This is because memory usage includes some amount of CRDB overhead.
 
-Additionally, for JSON keys, Redis implements a “shared string” mechanism to save memory when the same JSON field names or field values of type string are used more than once (either inter-key or intra-key).
+Additionally, for JSON keys, Redis implements a "shared string" mechanism to save memory when the same JSON field names or field values of type string are used more than once (either inter-key or intra-key).
 In such cases, instead of storing the field names or values many times, Redis stores them only once. This mechanism is not in place for active-active databases.
 
 On non-active-active databases, `INFO` (Memory > used_memory) reports that the shared memory is counted, but only once for all keys. On active-active databases, there is no shared memory, so if strings are repeated, they are stored multiple times.

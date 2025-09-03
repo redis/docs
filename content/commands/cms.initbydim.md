@@ -51,7 +51,7 @@ OK
 
 ## Return information
 
-{{< multitabs id=“cms-initbydim-return-info" 
+{{< multitabs id="cms-initbydim-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}
 

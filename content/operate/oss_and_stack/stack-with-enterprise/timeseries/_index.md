@@ -92,11 +92,11 @@ Redis streams allow you to add several field value pairs in a message for a give
 
 {{< image filename="/images/rs/TimeSeries-modeling1.png" >}}
 
-For sorted sets, we modeled the data in two different ways. For “Sorted set per device”, we concatenated the metrics and separated them out by colons, e.g. `“<timestamp>:<metric1>:<metric2>: … :<metric10>”`.
+For sorted sets, we modeled the data in two different ways. For "Sorted set per device", we concatenated the metrics and separated them out by colons, e.g. `"<timestamp>:<metric1>:<metric2>: … :<metric10>"`.
 
 {{< image filename="/images/rs/TimeSeries-modeling2.png" >}}
 
-Of course, this consumes less memory but needs more CPU cycles to get the correct metric at read time. It also implies that changing the number of metrics per device isn’t straightforward, which is why we also benchmarked a second sorted set approach. In “Sorted set per metric,” we kept each metric in its own sorted set and had 10 sorted sets per device. We logged values in the format `“<timestamp>:<metric>”`.
+Of course, this consumes less memory but needs more CPU cycles to get the correct metric at read time. It also implies that changing the number of metrics per device isn’t straightforward, which is why we also benchmarked a second sorted set approach. In "Sorted set per metric," we kept each metric in its own sorted set and had 10 sorted sets per device. We logged values in the format `"<timestamp>:<metric>"`.
 
 {{< image filename="/images/rs/TimeSeries-modeling3.png" >}}
 

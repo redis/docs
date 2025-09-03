@@ -29,7 +29,7 @@ More info: [Active-Active geo-distributed Redis]({{<relref "/operate/rs/database
 {{%/definition%}}
 
 {{%definition "Active-Active database instance"%}}
-A “member database” of a global [Active-Active database]({{<relref "#active-active">}}) which is made up of its own master and replica [shards]({{<relref "#shard">}}) spanning a single [cluster]({{<relref "#cluster">}}).
+A "member database" of a global [Active-Active database]({{<relref "#active-active">}}) which is made up of its own master and replica [shards]({{<relref "#shard">}}) spanning a single [cluster]({{<relref "#cluster">}}).
 
 More info: [Active-Active database instances]({{<relref "/operate/rs/databases/active-active/create">}})
 {{%/definition%}}
@@ -325,7 +325,7 @@ More info: [operator pattern](https://kubernetes.io/docs/concepts/extend-kuberne
 {{%/definition%}}
 
 {{%definition "Out-of-Memory (OOM)"%}}
-If a member [Active-Active database]({{<relref "#active-active">}}) is in an out of memory situation, that member is marked “inconsistent” by Redis Enterprise Software, the member stops responding to user traffic, and the [syncer]({{<relref "#syncer">}}) initiates full reconciliation with other peers in the Active-Active database.
+If a member [Active-Active database]({{<relref "#active-active">}}) is in an out of memory situation, that member is marked "inconsistent" by Redis Enterprise Software, the member stops responding to user traffic, and the [syncer]({{<relref "#syncer">}}) initiates full reconciliation with other peers in the Active-Active database.
 
 More info: [Active-Active database troubleshooting]({{<relref "/operate/rs/databases/active-active/syncer">}}), [Memory management]({{<relref "/operate/rs/databases/memory-performance">}})
 {{%/definition%}}

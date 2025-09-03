@@ -106,7 +106,7 @@ redis> TDIGEST.REVRANK s 10 20
 
 ## Return information
 
-{{< multitabs id=“tdigest-revrank-return-info" 
+{{< multitabs id="tdigest-revrank-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}
 
