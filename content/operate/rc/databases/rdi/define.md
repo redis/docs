@@ -30,7 +30,10 @@ After you have [prepared your source database]({{<relref "/operate/rc/databases/
     - **Database**: Your database's name, or the root database *(PostgreSQL, Oracle only)*, or a comma-separated list of one or more databases you want to connect to *(SQL Server only)*
     - **Database Server ID**: Unique ID for the replication client. Enter a number that is not used by any existing replication clients *(mySQL and mariaDB only)*
     - **PDB**: Name of the Oracle pluggable database *(Oracle only)*
-1. Enter the ARN of your [database credentials secret]({{< relref "/operate/rc/databases/rdi/setup#share-source-database-credentials" >}}) in the **Source database secrets ARN** field.
+1. Enter the ARN of your [database credentials secret]({{< relref "/operate/rc/databases/rdi/setup#create-database-credentials-secrets" >}}) in the **Source database secrets ARN** field.
+1. If your database requires TLS, select **Use TLS**. Enter the ARN of your [CA certificate secret]({{< relref "/operate/rc/databases/rdi/setup#create-database-credentials-secrets" >}}) in the **CA Cert Secret ARN** field.
+1. If your database requires mTLS, select **Use mTLS**. Enter the ARN of your [Client certificate secret]({{< relref "/operate/rc/databases/rdi/setup#create-database-credentials-secrets" >}}) in the **Client Certificate Secret ARN** field and the ARN of your [Client key secret]({{< relref "/operate/rc/databases/rdi/setup#create-database-credentials-secrets" >}}) in the **Client Key Secret ARN** field.
+1. If your database requires mTLS with a client key passphrase, enter the ARN of your [Client key passphrase secret]({{< relref "/operate/rc/databases/rdi/setup#create-database-credentials-secrets" >}}) in the **Please add a secret ARN for the password to use with the secret store** field.
 1. Select **Start pipeline setup**.
     {{<image filename="images/rc/rdi/rdi-start-pipeline-setup.png" alt="The start pipeline setup button." width=200px >}}
 1. Redis Cloud will attempt to connect to PrivateLink. If your PrivateLink does not allow automatic acceptance of incoming connections, accept the incoming connection on AWS PrivateLink to proceed. See [Accept or Reject PrivateLink connection requests](https://docs.aws.amazon.com/vpc/latest/privatelink/configure-endpoint-service.html#accept-reject-connection-requests).
