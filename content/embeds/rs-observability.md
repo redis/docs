@@ -278,7 +278,7 @@ Dashboard displaying connection metrics between zones - [Synchronization Dashboa
 CRDT provides three fundamental benefits over other geo-distributed solutions:
 
 * It offers local latency on read and write operations, regardless of the number of geo-replicated regions and their distance from each other.
-* It enables seamless conflict resolution (“conflict-free”) for simple and complex data types like those of Redis core.
+* It enables seamless conflict resolution ("conflict-free") for simple and complex data types like those of Redis core.
 * Even if most of the geo-replicated regions in a CRDT database (for example, 3 out of 5) are down, the remaining geo-replicated regions are uninterrupted and can continue to handle read and write operations, ensuring business continuity.
 
 ## Database performance indicators
