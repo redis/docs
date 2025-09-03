@@ -44,9 +44,9 @@ When using Redis Flex, RAM storage holds:
 - Dictionaries
 - Hot data (working set)
 
-All data is accessed through RAM. If a value in flash memory is accessed, it becomes part of the working set and is moved to RAM. These values are referred to as “hot data”.
+All data is accessed through RAM. If a value in flash memory is accessed, it becomes part of the working set and is moved to RAM. These values are referred to as "hot data".
 
-Inactive or infrequently accessed data is referred to as “warm data” and stored in flash memory. When more space is needed in RAM, warm data is moved from RAM to flash storage.
+Inactive or infrequently accessed data is referred to as "warm data" and stored in flash memory. When more space is needed in RAM, warm data is moved from RAM to flash storage.
 
 ## Create a Redis Flex database on Redis Cloud Essentials
 
