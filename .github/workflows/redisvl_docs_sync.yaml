@@ -274,6 +274,9 @@ jobs:
               fi
           done
 
+          # Globally replace unicode quotes to ASCII
+          find content/develop/ai/redisvl/ -type f -exec sed -i 's/[“”]/"/g' {} \;
+
           if [ ${isLatest} = true ]; then
             cp -r redis_vl_hugo/* content/develop/ai/redisvl/
           else
