@@ -23,10 +23,28 @@ configure the Redis MCP server.
 
 ## Quick Start with uvx
 
-The easiest way to use the Redis MCP Server is with [`uvx`](https://docs.astral.sh/uv/guides/tools/),
-which lets you run it directly from a GitHub branch or a tagged release (see the `uv`
+The easiest way to use the Redis MCP Server is with
+[`uvx`](https://docs.astral.sh/uv/guides/tools/),
+which lets you run it from its [PyPI package](https://pypi.org/project/redis-mcp-server/)
+(see the `uv`
 [installation instructions](https://github.com/astral-sh/uv?tab=readme-ov-file#installation)
 for more information.)
+
+```bash
+# Run with Redis URI
+uvx --from redis-mcp-server@latest redis-mcp-server --url redis://localhost:6379/0
+
+# Run with Redis URI and SSL 
+uvx --from redis-mcp-server@latest redis-mcp-server --url "rediss://<USERNAME>:<PASSWORD>@<HOST>:<PORT>?ssl_cert_reqs=required&ssl_ca_certs=<PATH_TO_CERT>"
+
+# Run with individual parameters
+uvx --from redis-mcp-server@latest redis-mcp-server --host localhost --port 6379 --password mypassword
+
+# See all options
+uvx --from redis-mcp-server@latest redis-mcp-server --help
+```
+
+You can also run Redis MCP from a GitHub branch or a tagged release with `uvx`:
 
 ```bash
 # Run with Redis URI
@@ -124,21 +142,21 @@ of options).
 
 ```bash
 # Basic Redis connection
-uvx --from git+https://github.com/redis/mcp-redis.git redis-mcp-server \
+uvx --from redis-mcp-server@latest redis-mcp-server \
   --host localhost \
   --port 6379 \
   --password mypassword
 
 # Using Redis URI (simpler)
-uvx --from git+https://github.com/redis/mcp-redis.git redis-mcp-server \
+uvx --from redis-mcp-server@latest redis-mcp-server \
   --url redis://user:pass@localhost:6379/0
 
 # SSL connection
-uvx --from git+https://github.com/redis/mcp-redis.git redis-mcp-server \
+uvx --from redis-mcp-server@latest redis-mcp-server \
   --url rediss://user:pass@redis.example.com:6379/0
 
 # See all available options
-uvx --from git+https://github.com/redis/mcp-redis.git redis-mcp-server --help
+uvx --from redis-mcp-server@latest redis-mcp-server --help
 ```
 
 {{< note >}}The command-line options take precedence over the environment variables.
