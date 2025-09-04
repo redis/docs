@@ -14,9 +14,9 @@ weight: $weight
 | Method | Path | Description |
 |--------|------|-------------|
 | [GET](#get-local-user-defined-artifacts) | /v2/local/modules/user-defined/artifacts | List custom module artifacts on a node |
-| [POST](#post-user-defined-module) | /v2/modules/user-defined | Create a custom module object in the CCS |
+| [POST](#post-user-defined-module) | /v2/modules/user-defined | Upload custom module configuration |
 | [POST](#post-local-user-defined-artifacts) | /v2/local/modules/user-defined/artifacts | Upload a custom module artifact to a node |
-| [DELETE](#delete-user-defined-module) | /v2/modules/user-defined/<uid> | Delete a custom module object from the CCS |
+| [DELETE](#delete-user-defined-module) | /v2/modules/user-defined/<uid> | Delete a custom module configuration |
 | [DELETE](#delete-local-user-defined-artifacts) | /v2/local/modules/user-defined/artifacts/<module_name>/<version> | Delete a custom module artifact from a node |
 
 ## List custom module artifacts {#get-local-user-defined-artifacts}
@@ -73,13 +73,13 @@ Returns a JSON array of custom module artifacts.
 |------|-------------|
 | [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | Success, returns list of artifacts |
 
-## Create custom module {#post-user-defined-module}
+## Upload custom module configuration {#post-user-defined-module}
 
 ```sh
 POST /v2/modules/user-defined
 ```
 
-Creates a module object in the CCS. After calling this endpoint, you still need to upload the module's `.so` file to each node by calling [`POST /v2/local/modules/user-defined/artifacts`](#post-local-user-defined-artifacts) on each node.
+Creates a module object in the cluster configuration store (CCS). After calling this endpoint, you still need to upload the module's `.so` file to each node by calling [`POST /v2/local/modules/user-defined/artifacts`](#post-local-user-defined-artifacts) on each node.
 
 #### Permissions
 
@@ -212,7 +212,7 @@ Returns a status code to indicate upload success or failure.
 DELETE /v2/modules/user-defined/{string: uid}
 ```
 
-Delete a module object from the CCS. This REST API request does not delete the module artifact from the nodes, so you also need to call [`DELETE /v2/local/modules/user-defined/artifacts/<module_name>/<version>`](#delete-local-user-defined-artifacts) on each node.
+Delete a module object from the cluster configuration store (CCS). This REST API request does not delete the module artifact from the nodes, so you also need to call [`DELETE /v2/local/modules/user-defined/artifacts/<module_name>/<version>`](#delete-local-user-defined-artifacts) on each node.
 
 #### Permissions
 
