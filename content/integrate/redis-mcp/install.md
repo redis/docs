@@ -21,7 +21,7 @@ how to get a test server active within minutes.
 When you have a Redis server available, use the instructions below to install and
 configure the Redis MCP server.
 
-## Quick Start with uvx
+## Quick Start with PyPI
 
 The easiest way to use the Redis MCP Server is with
 [`uvx`](https://docs.astral.sh/uv/guides/tools/),
@@ -44,7 +44,11 @@ uvx --from redis-mcp-server@latest redis-mcp-server --host localhost --port 6379
 uvx --from redis-mcp-server@latest redis-mcp-server --help
 ```
 
-You can also run Redis MCP from a GitHub branch or a tagged release with `uvx`:
+## Run from GitHub
+
+Running from [PyPI](#quick-start-with-pypi)
+is the recommended way to use the Redis MCP server, but
+you can also run it from a GitHub branch or a tagged release with `uvx`:
 
 ```bash
 # Run with Redis URI
