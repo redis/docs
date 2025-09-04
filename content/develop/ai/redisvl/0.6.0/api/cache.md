@@ -19,7 +19,7 @@ Semantic Cache for Large Language Models.
 
 * **Parameters:**
   * **name** (*str* *,* *optional*) – The name of the semantic cache search index.
-    Defaults to “llmcache”.
+    Defaults to "llmcache".
   * **distance_threshold** (*float* *,* *optional*) – Semantic threshold for the
     cache. Defaults to 0.1.
   * **ttl** (*Optional* *[* *int* *]* *,* *optional*) – The time-to-live for records cached
@@ -416,10 +416,10 @@ Embeddings Cache for storing embedding vectors with exact key matching.
 Initialize an embeddings cache.
 
 * **Parameters:**
-  * **name** (*str*) – The name of the cache. Defaults to “embedcache”.
+  * **name** (*str*) – The name of the cache. Defaults to "embedcache".
   * **ttl** (*Optional* *[* *int* *]*) – The time-to-live for cached embeddings. Defaults to None.
   * **redis_client** (*Optional* *[* *Redis* *]*) – Redis client instance. Defaults to None.
-  * **redis_url** (*str*) – Redis URL for connection. Defaults to “redis://localhost:6379”.
+  * **redis_url** (*str*) – Redis URL for connection. Defaults to "redis://localhost:6379".
   * **connection_kwargs** (*Dict* *[* *str* *,* *Any* *]*) – Redis connection arguments. Defaults to {}.
 * **Raises:**
   **ValueError** – If vector dimensions are invalid
