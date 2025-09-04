@@ -227,7 +227,7 @@ The required secrets depend on your source database's security configuration. Th
 | Username and password only | <ul><li>Credentials secret (username and password)</li></ul> |
 | TLS connection | <ul><li>Credentials secret (username and password)</li><li>CA Certificate secret (server certificate)</li></ul> |
 | mTLS connection | <ul><li>Credentials secret (username and password)</li><li>CA Certificate secret (server certificate)</li><li>Client certificate secret</li><li>Client key secret</li></ul> |
-| mTLS connection with client key passphrase | <ul><li>Credentials secret with username and password</li><li>CA Certificate secret (server certificate)</li><li>Client certificate secret</li><li>Client key secret</li><li>Client key passphrase secret</li></ul> |
+| mTLS connection with client key passphrase | <ul><li>Credentials secret (username and password)</li><li>CA Certificate secret (server certificate)</li><li>Client certificate secret</li><li>Client key secret</li><li>Client key passphrase secret</li></ul> |
 
 Select a tab to learn how to create the required secret.
 
