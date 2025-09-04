@@ -14,8 +14,8 @@ weight: 100
 
 Redis Enterprise Auto Tiering supports two storage engines:
 
-* [Speedb](https://www.speedb.io/) (default, recommended)
-* [RocksDB](https://rocksdb.org/)
+* Speedb (default, recommended. A Redis proprietary storage engine)
+* [RocksDB](https://rocksdb.org/) (used up to Redis version 6.2, considered deprecated in later Redis versions)
 
 {{<warning>}}Switching between storage engines requires guidance by Redis Support or your Account Manager.{{</warning>}}
 
