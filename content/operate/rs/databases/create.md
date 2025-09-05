@@ -53,6 +53,8 @@ To quickly create a database and skip additional configuration options during in
 
     - Capabilities (previously modules) to enable
 
+        {{<embed-md "rs-8-enabled-modules.md">}}
+
 1. Optionally select **Full options** to configure [additional settings]({{< relref "/operate/rs/databases/configure#config-settings" >}}).
 
 1. Select **Create**.
