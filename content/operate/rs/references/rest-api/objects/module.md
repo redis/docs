@@ -24,7 +24,7 @@ Represents a [Redis module]({{< relref "/operate/oss_and_stack/stack-with-enterp
 | config_command | string | Name of command to configure module arguments at runtime |
 | crdb | CRDB object | CRDB-related information about the module<br />CRDB object fields:<br />**supported_featureset_versions**: array of integers |
 | dependencies | dependencies object | Module dependencies |
-| description | string | Short description of the module
+| description | string | Short description of the module |
 | display_name | string | Name of module for display purposes |
 | email | string | Author's email address |
 | homepage | string | Module's homepage |
