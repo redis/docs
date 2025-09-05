@@ -21,12 +21,34 @@ how to get a test server active within minutes.
 When you have a Redis server available, use the instructions below to install and
 configure the Redis MCP server.
 
-## Quick Start with uvx
+## Quick Start with PyPI
 
-The easiest way to use the Redis MCP Server is with [`uvx`](https://docs.astral.sh/uv/guides/tools/),
-which lets you run it directly from a GitHub branch or a tagged release (see the `uv`
+The easiest way to use the Redis MCP Server is with
+[`uvx`](https://docs.astral.sh/uv/guides/tools/),
+which lets you run it from its [PyPI package](https://pypi.org/project/redis-mcp-server/)
+(see the `uv`
 [installation instructions](https://github.com/astral-sh/uv?tab=readme-ov-file#installation)
 for more information.)
+
+```bash
+# Run with Redis URI
+uvx --from redis-mcp-server@latest redis-mcp-server --url redis://localhost:6379/0
+
+# Run with Redis URI and SSL 
+uvx --from redis-mcp-server@latest redis-mcp-server --url "rediss://<USERNAME>:<PASSWORD>@<HOST>:<PORT>?ssl_cert_reqs=required&ssl_ca_certs=<PATH_TO_CERT>"
+
+# Run with individual parameters
+uvx --from redis-mcp-server@latest redis-mcp-server --host localhost --port 6379 --password mypassword
+
+# See all options
+uvx --from redis-mcp-server@latest redis-mcp-server --help
+```
+
+## Run from GitHub
+
+Running from [PyPI](#quick-start-with-pypi)
+is the recommended way to use the Redis MCP server, but
+you can also run it from a GitHub branch or a tagged release with `uvx`:
 
 ```bash
 # Run with Redis URI
@@ -124,21 +146,21 @@ of options).
 
 ```bash
 # Basic Redis connection
-uvx --from git+https://github.com/redis/mcp-redis.git redis-mcp-server \
+uvx --from redis-mcp-server@latest redis-mcp-server \
   --host localhost \
   --port 6379 \
   --password mypassword
 
 # Using Redis URI (simpler)
-uvx --from git+https://github.com/redis/mcp-redis.git redis-mcp-server \
+uvx --from redis-mcp-server@latest redis-mcp-server \
   --url redis://user:pass@localhost:6379/0
 
 # SSL connection
-uvx --from git+https://github.com/redis/mcp-redis.git redis-mcp-server \
+uvx --from redis-mcp-server@latest redis-mcp-server \
   --url rediss://user:pass@redis.example.com:6379/0
 
 # See all available options
-uvx --from git+https://github.com/redis/mcp-redis.git redis-mcp-server --help
+uvx --from redis-mcp-server@latest redis-mcp-server --help
 ```
 
 {{< note >}}The command-line options take precedence over the environment variables.
@@ -185,9 +207,8 @@ The full set of command line options is shown in the table below:
 
 ## Redis Cloud MCP
 
-A separate version of the MCP server is available for
-[Redis Cloud]({{< relref "/operate/rc" >}}). This has the same main
-functionality as the basic MCP server but also has some features
+A separate MCP server is available for
+[Redis Cloud]({{< relref "/operate/rc" >}}). This has features
 specific to Redis Cloud, including subscription management and
 billing details. For example, you can use questions and instructions
 like the following:
@@ -195,6 +216,11 @@ like the following:
 -   "Create a new Redis database in AWS"
 -   "What are my current subscriptions?"
 -   "Help me choose the right Redis database for my e-commerce application"
+
+{{< note >}}By itself, the Redis Cloud MCP server only provides admin
+features and does not let you interact
+with Redis databases. You can still use the main MCP server for interaction
+with a Cloud database, but you must install it separately.{{< /note >}}
 
 You will need [Node.js](https://nodejs.org/en) installed to run Redis Cloud MCP.
 Clone the GitHub repository using the following command:

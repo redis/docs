@@ -259,16 +259,16 @@ select {
 }
 
 .search-item {
-  @apply bg-white rounded-md relative text-redis-ink-900 border border-redis-pen-800;
+  @apply bg-gray-700 rounded-md relative text-gray-300 border border-gray-600;
 }
 
 .search-item[aria-selected] {
-  @apply bg-red-100;
+  @apply bg-gray-600;
 }
 
 .search-item:hover,
 .search-item:not([aria-selected]):focus-within {
-  @apply bg-red-50 text-redis-pen-800;
+  @apply bg-gray-600 text-white;
 }
 
 .search-item > a {

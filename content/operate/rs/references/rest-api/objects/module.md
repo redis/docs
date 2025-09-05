@@ -15,26 +15,26 @@ Represents a [Redis module]({{< relref "/operate/oss_and_stack/stack-with-enterp
 | Name | Type/Value | Description |
 |------|------------|-------------|
 | uid | string | Cluster unique ID of module |
-| architecture | string | Architecture used to compile the module |
 | author | string | Module creator |
+| bigstore_version_2_support | boolean (default: false) | Whether the module supports bigstore_version_2 capability, bypassing capability validation (optional) |
 | capabilities | array of strings | List of capabilities supported by this module |
 | capability_name | string | Short description of module functionality |
 | command_line_args | string | Command line arguments passed to the module |
 | compatible_redis_version | string | Redis version required by this module |
 | config_command | string | Name of command to configure module arguments at runtime |
-| dependencies | object dependencies | Module dependencies |
-| description | string | Short description of the module
+| crdb | CRDB object | CRDB-related information about the module<br />CRDB object fields:<br />**supported_featureset_versions**: array of integers |
+| dependencies | dependencies object | Module dependencies |
+| description | string | Short description of the module |
 | display_name | string | Name of module for display purposes |
 | email | string | Author's email address |
 | homepage | string | Module's homepage |
 | is_bundled | boolean | Whether module came bundled with a version of Redis Enterprise |
-| license | string | Module is distributed under this license
+| license | string | Module is distributed under this license |
 | min_redis_pack_version | string | Minimum Redis Enterprise Software cluster version required by this module |
 | min_redis_version | string | Minimum Redis database version required by this module. Only relevant for Redis databases earlier than v7.4. |
 | module_file | string | Module filename |
-| module_name | `search`<br />`ReJSON`<br />`graph`<br />`timeseries`<br />`bf` | Module's name<br/> |
-| os | string | Operating system used to compile the module |
-| os_list | array of strings | List of supported operating systems |
+| module_name | string | Module's name<br />Values:<br />`search`<br />`ReJSON`<br />`timeseries`<br />`bf` |
+| platforms | platforms object | Mapping operating system and architecture to module information (read-only) |
 | semantic_version | string | Module's semantic version |
-| sha256 | string | SHA256 of module binary |
+| sha256 | string | SHA256 of module binary (deprecated) |
 | version | integer | Module's version |

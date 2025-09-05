@@ -284,6 +284,9 @@ jobs:
             python3 build/version_archiver.py redisvl ${version} --skip-archive
           fi
 
+          # Globally replace unicode quotes to ASCII
+          find content/develop/ai/redisvl/ -type f -exec sed -i 's/[“”]/"/g' {} \;
+
       - name: 'Create pull request if necessary'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
