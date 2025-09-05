@@ -143,7 +143,7 @@ The request body is a JSON object that must contain the following fields:
 
 ### Response {#post-user-defined-response}
 
-Returns a module metadata object.
+Returns a [module object]({{< relref "/operate/rs/references/rest-api/objects/module" >}}).
 
 #### Example JSON body
 
