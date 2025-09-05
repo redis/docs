@@ -4,26 +4,48 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>');
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>');
     background-repeat: no-repeat;
     background-position: right 1rem center;
     background-size: 1rem;
   }
+
+  .search-magnifier-label svg {
+    color: #9ca3af;
+  }
+
+
+
+  .search-item-title {
+    font-weight: 500;
+  }
+
+  .search-item-path {
+    font-size: 0.875rem;
+    color: #9ca3af;
+  }
+
+  .search-term-match {
+    background-color: #fbbf24;
+    color: #1f2937;
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.25rem;
+  }
 </style>
 <div class="sr-only w-screen h-screen fixed z-[200] top-0 left-0 cursor-auto flex flex-col bg-redis-ink-900/75 p-4 sm:p-6 md:p-[10vh] lg:p-[12vh]" id="search-container" role="button" aria-expanded="true" aria-haspopup="listbox" aria-labelledby="search-label" tabindex="0">
-<div class="my-0 mx-auto w-full max-w-[47.375rem] flex flex-col min-h-0 rounded-lg shadow-lg bg-white p-6 gap-4">
+<div class="my-0 mx-auto w-full max-w-[47.375rem] flex flex-col min-h-0 rounded-lg shadow-lg bg-redis-ink-900 border border-white border-opacity-30 p-6 gap-4">
   <header class="flex flex-row gap-4 p-2">
     <form id="search-form" class="grow flex flex-row gap-3 items-center" style="position: relative;">
       <label class="search-magnifier-label" for="search-input" id="search-label" style="position: absolute;  left:20px; pointer-events: none;">
         {{ partial "icons/search.html" }}
       </label>
-      <input id="search-input" style="height: calc(3rem - 2px);" class="w-full pl-12 border border-redis-pen-800 rounded-md search-input appearance-none focus:outline-none" aria-autocomplete="both" aria-labelledby="search-label" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search&hellip;" type="text" value="">
+      <input id="search-input" style="height: calc(3rem - 2px);" class="w-full pl-12 border border-white border-opacity-30 rounded-md search-input appearance-none focus:outline-none bg-redis-pen-800 text-white placeholder-gray-300" aria-autocomplete="both" aria-labelledby="search-label" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search&hellip;" type="text" value="">
       <button type="reset" title="Clear the query" class="search-reset" aria-label="Clear the query" hidden="">
         <svg width="20" height="20" viewBox="0 0 20 20">
           <path d="M10 10l5.09-5.09L10 10l5.09 5.09L10 10zm0 0L4.91 4.91 10 10l-5.09 5.09L10 10z" stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
       </button>
-      <select id="search-select" style="height: calc(3rem - 2px);" class="w-2/5 pl-3 grow-0 border border-redis-pen-800 rounded-md search-filter bg-white text-left pr-8 appearance-none hidden md:block" autocomplete="off">
+      <select id="search-select" style="height: calc(3rem - 2px);" class="w-2/5 pl-3 grow-0 border border-white border-opacity-30 rounded-md search-filter bg-redis-pen-800 text-white text-left pr-8 appearance-none hidden md:block" autocomplete="off">
         <option value="all" selected>All products</option>
         <option value="rs">Redis Enterprise</option>
         <option value="rc">Redis Cloud</option>
@@ -34,11 +56,11 @@
         <option value="clients">Client Libraries</option>
       </select>
     </form>
-    <button id="search-cancel" type="reset" aria-label="Cancel" class="px-3 border border-redis-pen-800 rounded-md text-center bg-redis-yellow-500 hover:bg-redis-yellow-300">
+    <button id="search-cancel" type="reset" aria-label="Cancel" class="px-3 border border-white border-opacity-30 rounded-md text-center bg-[#163341] text-white hover:bg-[#1a3a4a]">
       ESC
     </button>
   </header>
-  <dl id="search-results" class="min-h-48 overflow-auto px-2" role="listbox"></dl>
+  <dl id="search-results" class="min-h-48 overflow-auto px-2 text-white" role="listbox"></dl>
 </div>
 </div>
 

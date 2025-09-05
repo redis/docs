@@ -34,7 +34,7 @@ For example:
 curl -s -X POST "https://$HOST/v1/caches/$CACHE_ID/entries/search" \
     -H "accept: application/json" \
     -H "Authorization: Bearer $API_KEY" \
-    -d "{ 'prompt': 'What is semantic caching' }"
+    -d '{ "prompt": "What is semantic caching" }'
 {{< /clients-example >}}
 
 This example expects several variables to be set in the shell:
