@@ -127,7 +127,7 @@ f = Text("job") == "engineer"
 
 #### `__mod__(other)`
 
-Create a Text "LIKE" filter expression. A flexible expression that
+Create a Text “LIKE” filter expression. A flexible expression that
 yields filters that can use a variety of additional operators like
 wildcards (\*), fuzzy matches (%%), or combinatorics (|) of the supplied
 term(s).
@@ -345,9 +345,9 @@ Create a GeoRadius specification (GeoSpec)
   * **longitude** (*float*) – The longitude of the center of the radius.
   * **latitude** (*float*) – The latitude of the center of the radius.
   * **radius** (*int* *,* *optional*) – The radius of the circle. Defaults to 1.
-  * **unit** (*str* *,* *optional*) – The unit of the radius. Defaults to "km".
+  * **unit** (*str* *,* *optional*) – The unit of the radius. Defaults to “km”.
 * **Raises:**
-  **ValueError** – If the unit is not one of "m", "km", "mi", or "ft".
+  **ValueError** – If the unit is not one of “m”, “km”, “mi”, or “ft”.
 
 #### `__init__(longitude, latitude, radius=1, unit='km')`
 
@@ -357,6 +357,6 @@ Create a GeoRadius specification (GeoSpec)
   * **longitude** (*float*) – The longitude of the center of the radius.
   * **latitude** (*float*) – The latitude of the center of the radius.
   * **radius** (*int* *,* *optional*) – The radius of the circle. Defaults to 1.
-  * **unit** (*str* *,* *optional*) – The unit of the radius. Defaults to "km".
+  * **unit** (*str* *,* *optional*) – The unit of the radius. Defaults to “km”.
 * **Raises:**
-  **ValueError** – If the unit is not one of "m", "km", "mi", or "ft".
+  **ValueError** – If the unit is not one of “m”, “km”, “mi”, or “ft”.

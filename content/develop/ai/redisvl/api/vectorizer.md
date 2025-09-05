@@ -672,7 +672,7 @@ Initialize the VoyageAI vectorizer.
 Visit [https://docs.voyageai.com/docs/embeddings](https://docs.voyageai.com/docs/embeddings) to learn about embeddings and check the available models.
 
 * **Parameters:**
-  * **model** (*str*) – Model to use for embedding. Defaults to "voyage-large-2".
+  * **model** (*str*) – Model to use for embedding. Defaults to “voyage-large-2”.
   * **api_config** (*Optional* *[* *Dict* *]* *,* *optional*) – Dictionary containing the API key.
     Defaults to None.
   * **dtype** (*str*) – the default datatype to use when embedding text as byte arrays.
