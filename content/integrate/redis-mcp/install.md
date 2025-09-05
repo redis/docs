@@ -207,9 +207,8 @@ The full set of command line options is shown in the table below:
 
 ## Redis Cloud MCP
 
-A separate version of the MCP server is available for
-[Redis Cloud]({{< relref "/operate/rc" >}}). This has the same main
-functionality as the basic MCP server but also has some features
+A separate MCP server is available for
+[Redis Cloud]({{< relref "/operate/rc" >}}). This has features
 specific to Redis Cloud, including subscription management and
 billing details. For example, you can use questions and instructions
 like the following:
@@ -217,6 +216,11 @@ like the following:
 -   "Create a new Redis database in AWS"
 -   "What are my current subscriptions?"
 -   "Help me choose the right Redis database for my e-commerce application"
+
+{{< note >}}By itself, the Redis Cloud MCP server only provides admin
+features and does not let you interact
+with Redis databases. You can still use the main MCP server for interaction
+with a Cloud database, but you must install it separately.{{< /note >}}
 
 You will need [Node.js](https://nodejs.org/en) installed to run Redis Cloud MCP.
 Clone the GitHub repository using the following command:
