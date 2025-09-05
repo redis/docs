@@ -20,7 +20,7 @@ Represents a [Redis module]({{< relref "/operate/oss_and_stack/stack-with-enterp
 | bigstore_version_2_support | boolean (default: false) | Whether the module supports bigstore_version_2 capability, bypassing capability validation (optional) |
 | capabilities | array of strings | List of capabilities supported by this module |
 | capability_name | string | Short description of module functionality |
-| command_line_args | string | Command line arguments passed to the module |
+| command_line_args | string | Command-line arguments passed to the module |
 | compatible_redis_version | string | Redis version required by this module |
 | config_command | string | Name of command to configure module arguments at runtime |
 | crdb | CRDB object | CRDB-related information about the module<br />CRDB object fields:<br />**name**: string<br />**supported_featureset_versions**: array of integers |
