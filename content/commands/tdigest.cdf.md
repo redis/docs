@@ -69,7 +69,7 @@ redis> TDIGEST.CDF t 0 1 2 3 4 5 6
 
 ## Return information
 
-{{< multitabs id=“tdigest-cdf-return-info" 
+{{< multitabs id="tdigest-cdf-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}
 

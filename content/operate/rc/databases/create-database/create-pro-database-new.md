@@ -67,6 +67,8 @@ If you choose to create your database with Easy create:
 
     {{<image filename="images/rc/icon-add.png" width="30px" alt="The Add credit card icon." >}}
 
+    {{< embed-md "rc-credit-card-add.md" >}}
+
  Select **Confirm & pay** to create your database.
 
 {{<image filename="images/rc/button-create-db-confirm-pay.png" width="140px" alt="Select Confirm & Pay to create your new database." >}}

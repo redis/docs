@@ -29,4 +29,4 @@ is configured to a relatively small value, which causes the connection drop.
 
     `config set client-output-buffer-limit "slave <hard_limit> <soft_limit> <soft_seconds>"`
 
-**Additional information**: [Top Redis Headaches for DevOps - Replication Buffer](https://redislabs.com/blog/top-redis-headaches-for-devops-replication-buffer)
+**Additional information**: [Top Redis Headaches for DevOps - Replication Buffer](https://redis.io/blog/top-redis-headaches-for-devops-replication-buffer/)
