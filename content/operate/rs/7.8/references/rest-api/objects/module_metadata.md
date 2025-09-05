@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: An object that represents a Redis module metadata
+description: An object that represents Redis module metadata
 linkTitle: module_metadata
 weight: $weight
 url: '/operate/rs/7.8/references/rest-api/objects/module_metadata/'
@@ -17,7 +17,7 @@ Represents a [Redis module]({{< relref "/operate/oss_and_stack/stack-with-enterp
 |------|------------|-------------|
 | uid | string | Cluster unique ID of module |
 | architecture | string | Module was compiled under this architecture |
-| author | string | Module's creator |
+| author | string | Module creator |
 | capabilities | array of strings | List of capabilities supported by this module |
 | capability_name | string | Short description of module functionality |
 | command_line_args | string | Command-line arguments passed to the module |
