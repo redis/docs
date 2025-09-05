@@ -44,9 +44,9 @@ When using Redis Flex, RAM storage holds:
 - Dictionaries
 - Hot data (working set)
 
-All data is accessed through RAM. If a value in flash memory is accessed, it becomes part of the working set and is moved to RAM. These values are referred to as “hot data”.
+All data is accessed through RAM. If a value in flash memory is accessed, it becomes part of the working set and is moved to RAM. These values are referred to as "hot data".
 
-Inactive or infrequently accessed data is referred to as “warm data” and stored in flash memory. When more space is needed in RAM, warm data is moved from RAM to flash storage.
+Inactive or infrequently accessed data is referred to as "warm data" and stored in flash memory. When more space is needed in RAM, warm data is moved from RAM to flash storage.
 
 ## Create a Redis Flex database on Redis Cloud Essentials
 
@@ -71,10 +71,7 @@ This guide shows how to create a Redis Flex database on Redis Cloud Essentials.
 
 1. Choose a **Region** on Amazon Web Services for your database.
 
-1. In the **Durability settings** panel, choose your **High availability settings** and **Data persistence** settings from the list. 
-
-    {{<image filename="images/rc/create-database-essentials-durability.png" alt="The durability settings allow you to choose High availability and Data persistence." width=75% >}}
-
+1. Choose your **High availability settings** from the list. 
 
     Redis Cloud supports the following high availability settings:
 
@@ -84,6 +81,8 @@ This guide shows how to create a Redis Flex database on Redis Cloud Essentials.
 
     See [High availability]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) for more information about these settings.
 
+1. Choose your **Data persistence** settings from the list.
+
     Redis Cloud supports the following Data persistence options:
 
     - An **Append-Only File** maintains a record (sometimes called a _redo log_ or _journal_) of write operations.  This allows the data to be restored by using the record to reconstruct the database up to the point of failure. For Essentials databases, Redis updates the Append-Only file every second.
@@ -92,7 +91,7 @@ This guide shows how to create a Redis Flex database on Redis Cloud Essentials.
     
     See [Data persistence]({{< relref "/operate/rc/databases/configuration/data-persistence" >}}) for more information about these settings.
     
-1. Select the desired memory limit. 
+1. Select your desired memory limit. 
 
     {{<image filename="images/rc/subscription-new-flex-tiers.png" alt="Available Redis Flex plans." >}}
 

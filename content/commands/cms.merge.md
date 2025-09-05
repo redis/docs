@@ -62,7 +62,7 @@ OK
 
 ## Return information
 
-{{< multitabs id=“cms-merge-return-info" 
+{{< multitabs id="cms-merge-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}
 

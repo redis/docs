@@ -110,7 +110,7 @@ The command reports on the following statistics:
 
 ## Return information
 
-{{< multitabs id=“cmd-name-return-info" 
+{{< multitabs id="cmd-name-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}
 

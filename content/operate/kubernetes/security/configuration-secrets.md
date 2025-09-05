@@ -92,4 +92,4 @@ kubectl create secret generic <secret-name> \
 - [Manage REC credentials]({{< relref "/operate/kubernetes/security/manage-rec-credentials" >}})
 - [Manage REC certificates]({{< relref "/operate/kubernetes/security/manage-rec-certificates" >}})
 - [Add client certificates]({{< relref "/operate/kubernetes/security/add-client-certificates" >}})
-- [Redis Enterprise Cluster API reference]({{< relref "/operate/kubernetes/reference/redis_enterprise_cluster_api" >}})
+- [Redis Enterprise Cluster API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api" >}})

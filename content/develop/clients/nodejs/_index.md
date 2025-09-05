@@ -86,6 +86,12 @@ createClient({
 ```
 To check if the client is connected and ready to send commands, use `client.isReady`, which returns a Boolean. `client.isOpen` is also available. This returns `true` when the client's underlying socket is open, and `false` when it isn't (for example, when the client is still connecting or reconnecting after a network error).
 
+When you have finished using a connection, close it with `client.quit()`.
+
+```js
+await client.quit();
+```
+
 ## More information
 
 The [`node-redis` website](https://redis.js.org/) has more examples.

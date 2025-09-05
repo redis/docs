@@ -19,3 +19,5 @@ Here’s an example:
 {{<note>}}
 The formula and numbers above provide a rough estimate of your monthly savings. Actual savings will vary depending on your usage.
 {{</note>}}
+
+You can also use the [LangCache savings calculator](https://redis.io/calculator/langcache/) to estimate your annual savings with LangCache.

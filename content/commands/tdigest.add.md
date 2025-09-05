@@ -63,7 +63,7 @@ redis> TDIGEST.ADD t string
 
 ## Return information
 
-{{< multitabs id=“tdigest-add-return-info" 
+{{< multitabs id="tdigest-add-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}
 

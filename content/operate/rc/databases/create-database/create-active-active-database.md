@@ -143,15 +143,137 @@ By default, you're shown basic settings, which include:
 - **Throughput**: When you create an Active-Active database, you define the throughput for each instance. The total operations per second combines the total read ops/sec and applies the write ops/sec for each region across every region. 
 
     {{<image filename="images/rc/active-active-throughput-detail.png" width="75%" alt="When you create an Active-Active database, you define throughput for each region." >}}
-    
-    Because each instance needs the ability to write to every other instance, write operations significantly affect the total, as shown in the following table:
 
-    | Number of regions | Read operations | Write operations | Total operations |
-    |:-----------------:|:---------------:|:----------------:|:----------------:|
-    | Two | 1,000 each | 1,000 each | 6,000<br/>(2,000 reads; 4,000 writes) |
-    | Two | 1,500 each | 1,000 each | 7,000<br/>(3,000 reads; 4,000 writes) |
-    | Two | 1,000 each | 1,500 each | 8,000<br/>(2,000 reads; 6,000 writes) |
-    | Three | 1,000 each | 1,000 each | 12,000<br/>(3,000 reads; 9,000 writes) |
+    The total ops/sec for each region is calculated as follows:
+
+    ```sh
+    Region ops/sec = Local read ops/sec + 
+                    Sum of write ops/sec from all regions
+    ```
+
+    The total ops/sec for the database is the sum of the ops/sec for each region.
+    
+    Because each instance needs the ability to write to every other instance, write operations significantly affect the total number of ops/sec. 
+
+    Select a tab to see examples of throughput calculations for different Active-Active configurations.
+
+    {{< multitabs id="rc-aa-throughput-examples" 
+    tab1="Two regions, balanced between regions" 
+    tab2="Two regions, read/write heavy in one region" 
+    tab3="Three regions, balanced between regions"
+    tab4="Three regions, different read/write in each region" >}}
+
+For this database, we have two regions where read and write operations are balanced between the regions, as described in the table below:
+
+| Region | Local read ops/sec | Local write ops/sec | 
+|:------:|:------------------:|:-------------------:|
+| Region 1 | 2000 | 1000 |
+| Region 2 | 2000 | 1000 |
+
+The total ops/sec for this database is calculated as follows:
+
+```text
+Region 1 ops/sec = 2000 (local read) + 
+                   1000 (local write) + 
+                   1000 (write from Region 2) = 4000 ops/sec
+
+Region 2 ops/sec = 2000 (local read) + 
+                   1000 (local write) + 
+                   1000 (write from Region 1) = 4000 ops/sec
+
+Total ops/sec = 4000 (Region 1) + 4000 (Region 2) 
+              = 8000 ops/sec
+```
+
+    -tab-sep-
+
+For this database, we have two regions where one region has more read and write operations than the other region, as described in the table below:
+
+| Region | Local read ops/sec | Local write ops/sec | 
+|:------:|:------------------:|:-------------------:|
+| Region 1 | 2000 | 1000 |
+| Region 2 | 4000 | 2000 |
+
+The total ops/sec for this database is calculated as follows:
+
+```text
+Region 1 ops/sec = 2000 (local read) + 
+                   1000 (local write) + 
+                   2000 (write from Region 2) = 5000 ops/sec
+
+Region 2 ops/sec = 4000 (local read) + 
+                   2000 (local write) + 
+                   1000 (write from Region 1) = 7000 ops/sec
+
+Total ops/sec = 5000 (Region 1) + 7000 (Region 2) 
+              = 12000 ops/sec
+```
+
+    -tab-sep-
+
+For this database, we have three regions where read and write operations are balanced between the regions, as described in the table below:
+
+| Region | Local read ops/sec | Local write ops/sec | 
+|:------:|:------------------:|:-------------------:|
+| Region 1 | 2000 | 1000 |
+| Region 2 | 2000 | 1000 |
+| Region 3 | 2000 | 1000 |
+
+The total ops/sec for this database is calculated as follows:
+
+```text
+Region 1 ops/sec = 2000 (local read) + 
+                   1000 (local write) + 
+                   1000 (write from Region 2) +
+                   1000 (write from Region 3) = 5000 ops/sec
+
+Region 2 ops/sec = 2000 (local read) + 
+                   1000 (local write) + 
+                   1000 (write from Region 1) +
+                   1000 (write from Region 3) = 5000 ops/sec
+
+Region 3 ops/sec = 2000 (local read) + 
+                   1000 (local write) + 
+                   1000 (write from Region 1) +
+                   1000 (write from Region 2) = 5000 ops/sec
+
+Total ops/sec = 5000 (Region 1) + 5000 (Region 2) + 5000 (Region 3) 
+              = 15000 ops/sec
+```
+
+    -tab-sep-
+
+For this database, we have three regions where read and write operations are different between the regions, as described in the table below:
+
+| Region | Local read ops/sec | Local write ops/sec | 
+|:------:|:------------------:|:-------------------:|
+| Region 1 | 3000 | 1000 |
+| Region 2 | 4000 | 3000 |
+| Region 3 | 1000 | 2000 |
+
+The total ops/sec for this database is calculated as follows:
+
+```text
+Region 1 ops/sec = 3000 (local read) + 
+                   1000 (local write) + 
+                   3000 (write from Region 2) +
+                   2000 (write from Region 3) = 9000 ops/sec
+
+Region 2 ops/sec = 4000 (local read) + 
+                   3000 (local write) + 
+                   1000 (write from Region 1) +
+                   2000 (write from Region 3) = 10000 ops/sec
+
+Region 3 ops/sec = 1000 (local read) + 
+                   2000 (local write) + 
+                   1000 (write from Region 1) +
+                   3000 (write from Region 2) = 7000 ops/sec
+
+Total ops/sec = 9000 (Region 1) + 10000 (Region 2) + 7000 (Region 3) 
+              = 26000 ops/sec
+```
+
+    {{< /multitabs >}}
 
     For Search and query databases, the estimated throughput from the [Sizing calculator](https://redis.io/redisearch-sizing-calculator/) is the total amount of throughput you need. When setting throughput for your Active-Active database, use the total amount for each region and divide it depending on your read (query) and write (update) needs for each region. For example, if the total amount of throughput needed is 50000 ops/sec, you could set each region to have 20000 ops/sec for reads (queries) and 30000 ops/sec for writes (updates).
 

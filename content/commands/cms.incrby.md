@@ -55,7 +55,7 @@ redis> CMS.INCRBY test foo 10 bar 42
 
 ## Return information
 
-{{< multitabs id=“cms-incrby-return-info" 
+{{< multitabs id="cms-incrby-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}
 

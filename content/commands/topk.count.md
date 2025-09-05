@@ -56,7 +56,7 @@ redis> TOPK.COUNT topk foo 42 nonexist
 
 ## Return information
 
-{{< multitabs id=“topk-count-return-info" 
+{{< multitabs id="topk-count-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}
 
