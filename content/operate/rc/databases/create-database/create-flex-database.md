@@ -65,19 +65,18 @@ This guide shows how to create a Redis Flex database on Redis Cloud Essentials.
     
     After you select **Redis Flex**, the rest of the database details will appear.
 
-    {{<image filename="images/rc/create-database-essentials-cloud-vendor.png" alt="The database name, cloud vendor, region, and type settings.">}}
+    {{<image filename="images/rc/create-database-flex-cloud-vendor.png" alt="The database name, cloud vendor, region, and type settings.">}}
 
 1. Redis will generate a database name for you. If you want to change it, you can do so in the **Database name** field.  
 
 1. Choose a **Region** on Amazon Web Services for your database.
 
-1. Choose your **High availability settings** from the list. 
+1. Choose your **High availability (replication)** settings from the list. 
 
-    Redis Cloud supports the following high availability settings:
+    Redis Cloud supports the following high availability settings with Redis Flex:
 
     - **None**: You will have a single copy of your database without replication.
     - **Single-Zone**: Your database will have a primary and a replica located in the same cloud zone. If anything happens to the primary, the replica takes over and becomes the new primary.
-    - **Multi-Zone**: The primary and its replicas are stored in different zones. This means that your database can remain online even if an entire zone becomes unavailable.
 
     See [High availability]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) for more information about these settings.
 
