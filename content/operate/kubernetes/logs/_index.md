@@ -42,6 +42,6 @@ sideContainersSpec:
 
 Now the logs can be accessed from in the sidecar. For example by running
 
-```kubectl exec -it <pod-name> -c busybox tail home/logs/supervisord.log```
+```kubectl exec -it <pod-name> -c busybox -- tail home/logs/supervisord.log```
 
 The sidecar container is user determined and can be used to format, process and share logs in a specified format and protocol.

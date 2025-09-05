@@ -1,4 +1,6 @@
 ---
+aliases:
+
 categories:
 - docs
 - develop
@@ -9,53 +11,53 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Intel scalable vector search (SVS) LVQ and LeanVec compression
-linkTitle: Intel SVS compression
-title: Intel scalable vector search (SVS) compression
+description: Vector quantization and compression for efficient memory usage and search performance
+linkTitle: Quantization and compression
+title: Vector quantization and compression
 weight: 2
 ---
 
-Intel's SVS (Scalable Vector Search) introduces two advanced vector compression techniques&mdash;LVQ and LeanVec&mdash;designed to optimize memory usage and search performance. These methods compress high-dimensional vectors while preserving the geometric relationships essential for accurate similarity search.
+Efficient management of high-dimensional vector data is crucial for scalable search and retrieval. Advanced methods for vector quantization and compression, such as LVQ (Locally-adaptive Vector Quantization) and LeanVec, can dramatically optimize memory usage and improve search speed, without sacrificing much accuracy. This page describes practical approaches to quantizing and compressing vectors for scalable search.
 
 {{< warning >}}
-Intel's proprietary LVQ and LeanVec optimizations are not available on Redis Open Source. On non-Intel platforms and Redis Open Source platforms, `SVS-VAMANA` with `COMPRESSION` will fall back to Intel’s basic, 8-bit scalar quantization implementation: all values in a vector are scaled using the global minimum and maximum, and then each dimension is quantized independently into 256 levels using 8-bit precision.
+Some advanced vector compression features may depend on hardware or Intel's proprietary optimizations. Intel's proprietary LVQ and LeanVec optimizations are not available in Redis Open Source. On non-Intel platforms and Redis Open Source platforms, `SVS-VAMANA` with `COMPRESSION` will fall back to basic, 8-bit scalar quantization implementation: all values in a vector are scaled using the global minimum and maximum, and then each dimension is quantized independently into 256 levels using 8-bit precision.
 {{< /warning >}}
 
-## LVQ and LeanVec compression
+## Quantization and compression techniques
 
-### LVQ (locally-adaptive vector quantization)
+### LVQ (Locally-adaptive Vector Quantization)
 
-* **Method:** Applies per-vector normalization and scalar quantization.
+* **Method:** Applies per-vector normalization and scalar quantization; learns parameters directly from the data.
 * **Advantages:**
     * Enables fast, on-the-fly distance computations.
-    * SIMD-optimized layout using Turbo LVQ for efficient distance computations.
-    * Learns compression parameters from data.
+    * SIMD-optimized layout for efficient search.
+    * Learns compression parameters from representative vectors.
 * **Variants:**
     * **LVQ4x4:** 8 bits per dimension, fast search, large memory savings.
     * **LVQ8:** Faster ingestion, slower search.
     * **LVQ4x8:** Two-level quantization for improved recall.
 
-### LeanVec
+### LeanVec (LVQ with dimensionality reduction)
 
-* **Method:** Combines dimensionality reduction with LVQ.
+* **Method:** Combines dimensionality reduction with LVQ, applying quantization after reducing vector dimensions.
 * **Advantages:**
-    * Ideal for high-dimensional vectors.
-    * Significant performance boost with reduced memory.
+    * Best suited for high-dimensional vectors.
+    * Significant speed and memory improvements.
 * **Variants:**
     * **LeanVec4x8:** Recommended for high-dimensional datasets, fastest search and ingestion.
-    * **LeanVec8x8:** Improved recall when LeanVec4x8 is insufficient.
-* **LeanVec Dimension:** For faster search and lower memory use, reduce the dimension further by using the optional `REDUCE` argument. The default value for `REDUCE` is `input dim / 2`; try `dim / 4` for even higher reduction.
+    * **LeanVec8x8:** Improved recall when more granularity is needed.
+* **LeanVec Dimension:** For faster search and lower memory usage, reduce the dimension further by using the optional `REDUCE` argument. The default is typically `input dimension / 2`, but more aggressive reduction (such as `input dimension / 4`) is possible for greater efficiency.
 
 ## Choosing a compression type
 
-| Compression type | Best for | Observations |
-|------------------|----------|--------------|
-| LVQ4x4 | Fast search in most cases with low memory use | Consider LeanVec for even faster search |
-| LeanVec4x8 | Fastest search and ingestion | LeanVec dimensionality reduction might reduce recall. |
-| LVQ4 | Maximum memory saving | Recall might be insufficient |
-| LVQ8 | Faster ingestion than LVQ4x4 | Search likely slower than LVQ4x4 |
-| LeanVec8x8 | Improved recall in case LeanVec4x8 is not sufficient | LeanVec dimensionality reduction might reduce recall |
-| LVQ4x8 | Improved recall in case LVQ4x4 is not sufficient | Worse memory savings |
+| Compression type     | Best for                                         | Observations                                            |
+|----------------------|--------------------------------------------------|---------------------------------------------------------|
+| LVQ4x4               | Fast search and low memory use                   | Consider LeanVec for even faster search                 |
+| LeanVec4x8           | Fastest search and ingestion                     | LeanVec dimensionality reduction might reduce recall    |
+| LVQ4                 | Maximum memory saving                            | Recall might be insufficient                            |
+| LVQ8                 | Faster ingestion than LVQ4x4                     | Search likely slower than LVQ4x4                        |
+| LeanVec8x8           | Improved recall when LeanVec4x8 is insufficient  | LeanVec dimensionality reduction might reduce recall    |
+| LVQ4x8               | Improved recall when LVQ4x4 is insufficient      | Slightly worse memory savings                           |
 
 ## Two-level compression
 

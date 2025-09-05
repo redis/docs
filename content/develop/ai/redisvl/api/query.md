@@ -28,7 +28,7 @@ expression.
   * **filter_expression** (*Union* *[* *str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]* *,* *optional*) – A filter to apply
     along with the vector search. Defaults to None.
   * **dtype** (*str* *,* *optional*) – The dtype of the vector. Defaults to
-    “float32”.
+    "float32".
   * **num_results** (*int* *,* *optional*) – The top k results to return from the
     vector search. Defaults to 10.
   * **return_score** (*bool* *,* *optional*) – Whether to return the vector
@@ -41,14 +41,14 @@ expression.
     the same order as the terms in the query filter, regardless of
     the offsets between them. Defaults to False.
   * **hybrid_policy** (*Optional* *[* *str* *]*) – Controls how filters are applied during vector search.
-    Options are “BATCHES” (paginates through small batches of nearest neighbors) or
-    “ADHOC_BF” (computes scores for all vectors passing the filter).
-    “BATCHES” mode is typically faster for queries with selective filters.
-    “ADHOC_BF” mode is better when filters match a large portion of the dataset.
+    Options are "BATCHES" (paginates through small batches of nearest neighbors) or
+    "ADHOC_BF" (computes scores for all vectors passing the filter).
+    "BATCHES" mode is typically faster for queries with selective filters.
+    "ADHOC_BF" mode is better when filters match a large portion of the dataset.
     Defaults to None, which lets Redis auto-select the optimal policy.
-  * **batch_size** (*Optional* *[* *int* *]*) – When hybrid_policy is “BATCHES”, controls the number
+  * **batch_size** (*Optional* *[* *int* *]*) – When hybrid_policy is "BATCHES", controls the number
     of vectors to fetch in each batch. Larger values may improve performance
-    at the cost of memory usage. Only applies when hybrid_policy=”BATCHES”.
+    at the cost of memory usage. Only applies when hybrid_policy="BATCHES".
     Defaults to None, which lets Redis auto-select an appropriate batch size.
   * **ef_runtime** (*Optional* *[* *int* *]*) – Controls the size of the dynamic candidate list for HNSW
     algorithm at query time. Higher values improve recall at the expense of
@@ -91,7 +91,7 @@ Add a expander field to the query.
 
 Match only documents where the query terms appear in
 the same order in the document.
-i.e. for the query “hello world”, we do not match “world hello”
+i.e. for the query "hello world", we do not match "world hello"
 
 * **Return type:**
   *Query*
@@ -187,7 +187,7 @@ Since Redis 8.0 default was changed to BM25STD.
 Set the batch size for the query.
 
 * **Parameters:**
-  **batch_size** (*int*) – The batch size to use when hybrid_policy is “BATCHES”.
+  **batch_size** (*int*) – The batch size to use when hybrid_policy is "BATCHES".
 * **Raises:**
   * **TypeError** – If batch_size is not an integer
   * **ValueError** – If batch_size is not positive
@@ -218,8 +218,8 @@ Set the filter expression for the query.
 Set the hybrid policy for the query.
 
 * **Parameters:**
-  **hybrid_policy** (*str*) – The hybrid policy to use. Options are “BATCHES”
-  or “ADHOC_BF”.
+  **hybrid_policy** (*str*) – The hybrid policy to use. Options are "BATCHES"
+  or "ADHOC_BF".
 * **Raises:**
   **ValueError** – If hybrid_policy is not one of the valid options
 
@@ -339,7 +339,7 @@ distance threshold.
   * **filter_expression** (*Union* *[* *str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]* *,* *optional*) – A filter to apply
     along with the range query. Defaults to None.
   * **dtype** (*str* *,* *optional*) – The dtype of the vector. Defaults to
-    “float32”.
+    "float32".
   * **distance_threshold** (*float*) – The threshold for vector distance.
     A smaller threshold indicates a stricter semantic search.
     Defaults to 0.2.
@@ -360,14 +360,14 @@ distance threshold.
     the same order as the terms in the query filter, regardless of
     the offsets between them. Defaults to False.
   * **hybrid_policy** (*Optional* *[* *str* *]*) – Controls how filters are applied during vector search.
-    Options are “BATCHES” (paginates through small batches of nearest neighbors) or
-    “ADHOC_BF” (computes scores for all vectors passing the filter).
-    “BATCHES” mode is typically faster for queries with selective filters.
-    “ADHOC_BF” mode is better when filters match a large portion of the dataset.
+    Options are "BATCHES" (paginates through small batches of nearest neighbors) or
+    "ADHOC_BF" (computes scores for all vectors passing the filter).
+    "BATCHES" mode is typically faster for queries with selective filters.
+    "ADHOC_BF" mode is better when filters match a large portion of the dataset.
     Defaults to None, which lets Redis auto-select the optimal policy.
-  * **batch_size** (*Optional* *[* *int* *]*) – When hybrid_policy is “BATCHES”, controls the number
+  * **batch_size** (*Optional* *[* *int* *]*) – When hybrid_policy is "BATCHES", controls the number
     of vectors to fetch in each batch. Larger values may improve performance
-    at the cost of memory usage. Only applies when hybrid_policy=”BATCHES”.
+    at the cost of memory usage. Only applies when hybrid_policy="BATCHES".
     Defaults to None, which lets Redis auto-select an appropriate batch size.
   * **normalize_vector_distance** (*bool*) – Redis supports 3 distance metrics: L2 (euclidean),
     IP (inner product), and COSINE. By default, L2 distance returns an unbounded value.
@@ -407,7 +407,7 @@ Add a expander field to the query.
 
 Match only documents where the query terms appear in
 the same order in the document.
-i.e. for the query “hello world”, we do not match “world hello”
+i.e. for the query "hello world", we do not match "world hello"
 
 * **Return type:**
   *Query*
@@ -503,7 +503,7 @@ Since Redis 8.0 default was changed to BM25STD.
 Set the batch size for the query.
 
 * **Parameters:**
-  **batch_size** (*int*) – The batch size to use when hybrid_policy is “BATCHES”.
+  **batch_size** (*int*) – The batch size to use when hybrid_policy is "BATCHES".
 * **Raises:**
   * **TypeError** – If batch_size is not an integer
   * **ValueError** – If batch_size is not positive
@@ -544,8 +544,8 @@ Set the filter expression for the query.
 Set the hybrid policy for the query.
 
 * **Parameters:**
-  **hybrid_policy** (*str*) – The hybrid policy to use. Options are “BATCHES”
-  or “ADHOC_BF”.
+  **hybrid_policy** (*str*) – The hybrid policy to use. Options are "BATCHES"
+  or "ADHOC_BF".
 * **Raises:**
   **ValueError** – If hybrid_policy is not one of the valid options
 
@@ -698,20 +698,20 @@ Instantiates a HybridQuery object.
   * **vector** (*Union* *[* *bytes* *,* *List* *[* *float* *]* *]*) – The vector to perform vector similarity search.
   * **vector_field_name** (*str*) – The vector field name to search in.
   * **text_scorer** (*str* *,* *optional*) – The text scorer to use. Options are {TFIDF, TFIDF.DOCNORM,
-    BM25, DISMAX, DOCSCORE, BM25STD}. Defaults to “BM25STD”.
+    BM25, DISMAX, DOCSCORE, BM25STD}. Defaults to "BM25STD".
   * **filter_expression** (*Optional* *[*[*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]* *,* *optional*) – The filter expression to use.
     Defaults to None.
   * **alpha** (*float* *,* *optional*) – The weight of the vector similarity. Documents will be scored
     as: hybrid_score = (alpha) \* vector_score + (1-alpha) \* text_score.
     Defaults to 0.7.
-  * **dtype** (*str* *,* *optional*) – The data type of the vector. Defaults to “float32”.
+  * **dtype** (*str* *,* *optional*) – The data type of the vector. Defaults to "float32".
   * **num_results** (*int* *,* *optional*) – The number of results to return. Defaults to 10.
   * **return_fields** (*Optional* *[* *List* *[* *str* *]* *]* *,* *optional*) – The fields to return. Defaults to None.
   * **stopwords** (*Optional* *[* *Union* *[* *str* *,* *Set* *[* *str* *]* *]* *]* *,* *optional*) – The stopwords to remove from the
-    provided text prior to searchuse. If a string such as “english” “german” is
+    provided text prior to searchuse. If a string such as "english" "german" is
     provided then a default set of stopwords for that language will be used. if a list,
     set, or tuple of strings is provided then those will be used as stopwords.
-    Defaults to “english”. if set to “None” then no stopwords will be removed.
+    Defaults to "english". if set to "None" then no stopwords will be removed.
   * **dialect** (*int* *,* *optional*) – The Redis dialect version. Defaults to 2.
 * **Raises:**
   * **ValueError** – If the text string is empty, or if the text string becomes empty after
@@ -733,7 +733,7 @@ Specify one or more projection expressions to add to each result
 
 - **kwexpr**: One or more key-value pairs for a projection. The key is
   : the alias for the projection, and the value is the projection
-    expression itself, for example apply(square_root=”sqrt(@foo)”)
+    expression itself, for example apply(square_root="sqrt(@foo)")
 
 * **Return type:**
   *AggregateRequest*
@@ -991,7 +991,7 @@ Add a expander field to the query.
 
 Match only documents where the query terms appear in
 the same order in the document.
-i.e. for the query “hello world”, we do not match “world hello”
+i.e. for the query "hello world", we do not match "world hello"
 
 * **Return type:**
   *Query*
@@ -1205,7 +1205,7 @@ Add a expander field to the query.
 
 Match only documents where the query terms appear in
 the same order in the document.
-i.e. for the query “hello world”, we do not match “world hello”
+i.e. for the query "hello world", we do not match "world hello"
 
 * **Return type:**
   *Query*
@@ -1424,7 +1424,7 @@ Add a expander field to the query.
 
 Match only documents where the query terms appear in
 the same order in the document.
-i.e. for the query “hello world”, we do not match “world hello”
+i.e. for the query "hello world", we do not match "world hello"
 
 * **Return type:**
   *Query*

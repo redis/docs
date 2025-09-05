@@ -43,7 +43,7 @@ The architecture is shown in the following diagram with a 3-node Redis Enterpris
 - [Install]({{< relref "/operate/rs/installing-upgrading" >}}) the latest version of Redis Enterprise Software on your clusters
 - Configure the cluster with the cluster name (FQDN) even though DNS is not in use.
     Remember that the same cluster name is used to issue the license keys.
-    We recommend that you use a “.local” suffix in the FQDN.
+    We recommend that you use a ".local" suffix in the FQDN.
 
 ### Configure load balancers
 
