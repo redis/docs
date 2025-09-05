@@ -51,7 +51,7 @@ To enable internode encryption for a database (also called _data internode encry
 
     ``` rest
     put /v1/bdbs/${database_id}
-    { “data_internode_encryption” : true }
+    { "data_internode_encryption" : true }
     ```
 
 When you change the data internode encryption setting for a database, all active remote client connections are disconnected.  This restarts the internal (DMC) proxy and disconnects all client connections.

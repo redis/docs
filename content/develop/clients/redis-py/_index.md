@@ -82,6 +82,12 @@ r.hgetall('user-session:123')
 # {'surname': 'Smith', 'name': 'John', 'company': 'Redis', 'age': '29'}
 ```
 
+Close the connection when you're done.
+
+```python
+r.close()
+```
+
 ## More information
 
 The [`redis-py`](https://redis.readthedocs.io/en/stable/index.html) website

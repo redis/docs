@@ -55,7 +55,8 @@ To build from source, see the instructions on the [Lettuce source code GitHub re
 ## Connect and test
 
 Connect to a local server using the following code. This example
-also stores and retrieves a simple string value to test the connection.
+also stores and retrieves a simple string value to test the connection
+and closes the connection after use.
 
 ```java
 import io.lettuce.core.*;

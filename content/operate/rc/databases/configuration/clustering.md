@@ -121,14 +121,14 @@ The Standard hashing policy is mostly consistent with the Redis hashing policy, 
 1. Keys without a hashtag: when a key doesn't contain the '{...}' pattern, the entire key's name is used for hashing
 
 In some cases, the Standard hashing policy behaves differently from the Redis hashing policy:
-1. Using empty hashtags (“{}”): the Standard hashing policy does not ignore empty hashtags, so two keys that start with empty hashtags will be hashed to the same hashslot (while the Redis hashing policy would ignore them). 
+1. Using empty hashtags ("{}"): the Standard hashing policy does not ignore empty hashtags, so two keys that start with empty hashtags will be hashed to the same hashslot (while the Redis hashing policy would ignore them). 
     For example: given 2 keys {}foo and {}bar, hashing would be:
     - Standard hashing policy: to the same hash slot
     - Redis hashing policy: to different hash slots
 2. Using multiple curly brackets: when a key’s name contains multiple curly brackets, the Standard hashing calculation might be different than the Redis hashing policy. 
     For example: given 2 keys {foo}bar} and {foo}qux}:
-    - Standard hashing policy: substrings “foo}bar” and “foo}qux” will be used for the 1st and 2nd key respectively, hashed each key to a different hash-slot.
-    - Redis hashing policy: the substring “foo” will be used for both keys, hashing them to the same slot.
+    - Standard hashing policy: substrings "foo}bar" and "foo}qux" will be used for the 1st and 2nd key respectively, hashed each key to a different hash-slot.
+    - Redis hashing policy: the substring "foo" will be used for both keys, hashing them to the same slot.
 
 {{< note >}}
 To allow seamless transition between hashing policies, the following techniques are not recommended:
