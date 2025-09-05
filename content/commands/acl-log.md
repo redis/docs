@@ -92,7 +92,7 @@ Each log entry is composed of the following fields:
 5. `username`: The username that executed the command that caused the security events or the username that had a failed authentication attempt.
 6. `age-seconds`: Age of the log entry in seconds.
 7. `client-info`: Displays the client info of a client which caused one of the security events.
-8. `entry-id`: The sequence number of the entry (starting at 0) since the server process started. Can also be used to check if items were “lost”, if they fell between periods.
+8. `entry-id`: The sequence number of the entry (starting at 0) since the server process started. Can also be used to check if items were "lost", if they fell between periods.
 9. `timestamp-created`: A UNIX timestamp in `milliseconds` at the time the entry was first created.
 10. `timestamp-last-updated`: A UNIX timestamp in `milliseconds` at the time the entry was last updated.
 

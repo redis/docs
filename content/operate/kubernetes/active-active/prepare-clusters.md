@@ -81,6 +81,10 @@ To communicate with other clusters, all participating clusters will need access 
     type: Opaque
     ```
 
+    {{< note >}}
+    The `username` and `password` values should be base64 encoded, not plain text.
+    {{< /note >}}
+
 1. Add the username and password to the new secret for that REC and namespace.
 
     This example shows the collected secrets file (`all-rec-secrets.yaml`) for `rerc-ohare` (representing `rec-chicago` in namespace `ns-illinois`) and `rerc-reagan` (representing `rec-arlington` in namespace `ns-virginia`).

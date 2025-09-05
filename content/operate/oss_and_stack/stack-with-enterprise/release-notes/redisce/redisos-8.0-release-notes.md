@@ -151,7 +151,7 @@ You can use these new categories in your ACL rules.
 
 The following time series commands retrieve data from all keys that match a given filter expression: `TS.MGET`, `TS.MRANGE`, and `TS.MREVRANGE`. 
 
-There can be a case where a user may have to only some of the matching keys. In such cases, the command’s result is an error message: “*current user doesn't have read permission to one or more keys that match the specified filter*”.
+There can be a case where a user may have to only some of the matching keys. In such cases, the command’s result is an error message: "*current user doesn't have read permission to one or more keys that match the specified filter*".
 
 On the other hand, `TS.QUERYINDEX` does not require `@read` access to the keys that match the specified filter, as it accesses only time series metadata (name and labels) and not content (measurements).
 

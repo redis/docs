@@ -33,23 +33,13 @@ This guide shows how to create a paid Essentials database.
 
     {{<image filename="images/rc/create-database-essentials-cloud-vendor.png" alt="The database name, cloud vendor, version, region, type, and durability settings.">}}
 
-1. Redis will generate a database name for you. If you want to change it, you can do so in the **Database name** field.  
+1. Redis will generate a database name for you. If you want to change it, you can do so in the **Name** field.  
 
-1. Choose a **Cloud vendor** for your database.
-
-1. Select the **Database version** you want to use.
-
-    A preview of Redis 8.0 is available for databases in selected regions. Select **8.0** to use it.
-
-    Redis 8.0 introduces powerful new capabilities, including the beta release of the Vector Set data structure, designed for AI use cases such as semantic search and recommendation systems. For more information on the changes in Redis 8.0, see [What's new in Redis 8.0]({{<relref "/develop/whats-new/8-0" >}}) and review the [breaking changes]({{<relref "/operate/rc/changelog/version-release-notes/8-0" >}}).
+1. Choose a **Cloud vendor** for your database from the list.
 
 1. Choose a **Region** from the list.
 
-1. The **Type** of database controls the protocol and advanced capabilities. Leave this as **Redis** unless you have a legacy application that uses **Memcached**.
-
-    A Redis Stack database gives access to a set of advanced capabilities. For more information, see [Advanced capabilities]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#essentials" >}}).
-
-1. Choose your **High availability settings** from the list.
+1. Choose your **High availability (replication)** settings.
 
     Redis Cloud supports the following high availability settings:
 
@@ -68,6 +58,16 @@ This guide shows how to create a paid Essentials database.
     - A **Snapshot** is a copy of the in-memory database, taken at periodic intervals (one, six, or twelve hours). You can restore data to the snapshot's point in time. 
     
     See [Data persistence]({{< relref "/operate/rc/databases/configuration/data-persistence" >}}) for more information about these settings.
+
+1. Select the **Database version** you want to use.
+
+    A preview of Redis 8.0 is available for databases in selected regions. Select **8.0** to use it.
+
+    Redis 8.0 introduces powerful new capabilities, including the beta release of the Vector Set data structure, designed for AI use cases such as semantic search and recommendation systems. For more information on the changes in Redis 8.0, see [What's new in Redis 8.0]({{<relref "/develop/whats-new/8-0" >}}) and review the [breaking changes]({{<relref "/operate/rc/changelog/version-release-notes/8-0" >}}).
+
+1. The **Type** of database controls the protocol and advanced capabilities. Leave this as **Redis** unless you have a legacy application that uses **Memcached**.
+
+    A Redis database gives access to a set of advanced capabilities. For more information, see [Advanced capabilities]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#essentials" >}}).
     
 1. Select your desired memory limit.
 

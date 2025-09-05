@@ -53,7 +53,7 @@ redis>TDIGEST.MAX t
 
 ## Return information
 
-{{< multitabs id=“tdigest-max-return-info" 
+{{< multitabs id="tdigest-max-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}
 

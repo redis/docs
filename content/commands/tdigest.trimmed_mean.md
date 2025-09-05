@@ -78,7 +78,7 @@ redis> TDIGEST.TRIMMED_MEAN t 0 1
 
 ## Return information
 
-{{< multitabs id=“tdigest-trimmedmean-return-info" 
+{{< multitabs id="tdigest-trimmedmean-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}
 

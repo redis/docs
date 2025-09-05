@@ -57,7 +57,7 @@ OK
 
 ## Return information
 
-{{< multitabs id=“tdigest-create-return-info" 
+{{< multitabs id="tdigest-create-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}
 

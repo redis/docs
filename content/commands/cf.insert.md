@@ -109,7 +109,7 @@ redis> CF.INSERT cf2 ITEMS 1 1 1 1
 
 ## Return information
 
-{{< multitabs id=“cf-insert-return-info" 
+{{< multitabs id="cf-insert-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}
 

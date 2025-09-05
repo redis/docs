@@ -277,12 +277,15 @@ jobs:
           if [ ${isLatest} = true ]; then
             cp -r redis_vl_hugo/* content/develop/ai/redisvl/
           else
-            mkdir content/develop/ai/redisvl/${version}/
+            mkdir -p content/develop/ai/redisvl/${version}/
             cp -r redis_vl_hugo/* content/develop/ai/redisvl/${version}/
             cp content/develop/ai/redisvl/_index.md content/develop/ai/redisvl/${version}/_index.md
             cp content/develop/ai/redisvl/install.md content/develop/ai/redisvl/${version}/install.md
             python3 build/version_archiver.py redisvl ${version} --skip-archive
           fi
+
+          # Globally replace unicode quotes to ASCII
+          find content/develop/ai/redisvl/ -type f -exec sed -i 's/[“”]/"/g' {} \;
 
       - name: 'Create pull request if necessary'
         env:

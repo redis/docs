@@ -287,7 +287,7 @@ Highlighting will highlight the found term and its variants with a user-defined 
 
 Another important feature for Redis Open Source is its autocomplete engine. This allows users to create dictionaries of weighted terms, and then query them for completion suggestions to a given user prefix. Completions can have payloads, which are user-provided pieces of data that can be used for display. For example, completing the names of users, it is possible to add extra metadata about users to be displayed.
 
-For example, if a user starts to put the term “lcd tv” into a dictionary, sending the prefix “lc” will return the full term as a result. The dictionary is modeled as a compact trie (prefix tree) with weights, which is traversed to find the top suffixes of a prefix.
+For example, if a user starts to put the term "lcd tv" into a dictionary, sending the prefix "lc" will return the full term as a result. The dictionary is modeled as a compact trie (prefix tree) with weights, which is traversed to find the top suffixes of a prefix.
 
 Redis also allows fuzzy suggestions, meaning you can get suggestions to prefixes even if the user makes a typo in their prefix. This is enabled using a Levenshtein automaton, allowing efficient searching of the dictionary for all terms within a maximal Levenshtein distance of a term or prefix. Suggestions are then weighted based on both their original score and their distance from the prefix typed by the user. 
 

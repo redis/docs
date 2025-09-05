@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - kubernetes
+aliases: [/operate/kubernetes/reference/redis_enterprise_remote_cluster_api]
 linkTitle: RERC API
 weight: 30
 ---
