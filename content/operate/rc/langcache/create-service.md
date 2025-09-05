@@ -26,7 +26,7 @@ LangCache does not support the following databases during public preview:
 - Databases with the [default user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) turned off
     {{< /note >}}
 
-- An [OpenAI API key](https://platform.openai.com/api-keys). LangCache uses OpenAI to generate embeddings for prompts and responses.
+- An API key for your embedding provider, if not using the default Redis embedding provider. LangCache supports [OpenAI](https://platform.openai.com/api-keys) and the Redis embedding provider during public preview.
 
 ## Create a LangCache service
 
@@ -67,10 +67,10 @@ The **Embedding settings** section defines the embedding model used by your serv
 
 | Setting name          |Description|
 |:----------------------|:----------|
-| **Supported Embedding Provider** | The embedding provider to use for your service. LangCache only supports OpenAI during public preview. |
-| **Embedding provider API key** | Enter your embedding provider's API key. |
+| **Embedding Provider** | The embedding provider to use for your service. Select between `Redis` and `OpenAI`. |
+| **Embedding provider API key** | Enter your embedding provider's API key if not using the default Redis embedding provider. |
 | **Model** | Select the embedding model to use for your service. |
-| **Similarity threshold** | Set the minimum similarity score required to consider a cached response a match. Range: `0.5` to `1.0`. Default: `0.9`<br/><br/>A higher value means more precise matches, but if it's too high, you will compromise on the number of matches and may lose relevant matches. A lower value means more matches, but may include less relevant matches. We recommend starting between `0.8` and `0.9` and then fine-tuning based on your results. |
+| **Similarity threshold** | Set the minimum similarity score required to consider a cached response a match. Range: `0.5` to `1.0`. Default: `0.85`<br/><br/>A higher value means more precise matches, but if it's too high, you will compromise on the number of matches and may lose relevant matches. A lower value means more matches, but may include less relevant matches. We recommend starting between `0.8` and `0.9` and then fine-tuning based on your results. |
 
 ### Attributes settings
 
@@ -111,7 +111,7 @@ A window containing your LangCache service key will appear. Select **Copy** to c
 {{<warning>}}
 This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box.<br/><br/>
 
-If you lose the service key value, you will need to [replace the service key]({{< relref "/operate/rc/langcache/view-edit-cache#replace-service-api-key" >}}) to be able to use the LangCache API.
+If you lose the service key value, you will need to [generate a new service key]({{< relref "/operate/rc/langcache/view-edit-cache#replace-service-api-key" >}}) to be able to use the LangCache API.
 {{</warning>}}
 
 You'll be taken to your LangCache service's **Configuration** page. You'll also be able to see your LangCache service in the LangCache service list.
