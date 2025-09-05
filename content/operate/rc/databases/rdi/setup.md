@@ -198,7 +198,7 @@ You need to share your source database credentials and certificates in an Amazon
 
 To do this, you need to:
 1. [Create an encryption key](#create-encryption-key) using AWS Key Management Service with the right permissions.
-1. [Create a secret](#create-database-credentials-secret) containing the source database credentials encrypted using that key.
+1. [Create secrets](#create-database-credentials-secrets) containing the source database credentials encrypted using that key.
 
 ### Create encryption key
 
@@ -216,7 +216,27 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
 
 Review the key policy and key settings, and then select **Finish** to create the key.
 
-### Create database credentials secret
+### Create database credentials secrets
+
+To let Redis Cloud access your source database, you need to create AWS secrets for the source database's credentials and certificates. 
+
+The required secrets depend on your source database's security configuration. The following table shows the required secrets for each configuration:
+
+| Security configuration | Required secrets |
+| :-- | :-- |
+| Username and password only | <ul><li>Credentials secret (username and password)</li></ul> |
+| TLS connection | <ul><li>Credentials secret (username and password)</li><li>CA Certificate secret (server certificate)</li></ul> |
+| mTLS connection | <ul><li>Credentials secret (username and password)</li><li>CA Certificate secret (server certificate)</li><li>Client certificate secret</li><li>Client key secret</li></ul> |
+| mTLS connection with client key passphrase | <ul><li>Credentials secret (username and password)</li><li>CA Certificate secret (server certificate)</li><li>Client certificate secret</li><li>Client key secret</li><li>Client key passphrase secret</li></ul> |
+
+Select a tab to learn how to create the required secret.
+
+{{< multitabs id="rdi-cloud-secrets"
+      tab1="Credentials secret"
+      tab2="CA Certificate secret"
+      tab3="Client certificate secret"
+      tab4="Client key secret"
+      tab5="Client key passphrase secret" >}}
 
 In the [AWS Management Console](https://console.aws.amazon.com/), use the **Services** menu to locate and select **Security, Identity, and Compliance** > **Secrets Manager**. [Create a secret](https://docs.aws.amazon.com/secretsmanager/latest/userguide/create_secret.html) of type **Other type of secret** with the following settings:
 
@@ -224,36 +244,62 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
 
     - `username`: Database username
     - `password`: Database password
-    - `trust_certificate`: Server certificate in PEM format *(TLS only)*
-    - `client_public_key`: [X.509 client certificate](https://en.wikipedia.org/wiki/X.509) or chain in PEM format *(mTLS only)*
-    - `client_private_key`: Key for the client certificate or chain in PEM format *(mTLS only)*
-    - `client_private_key_passphrase`: Passphrase or password for the client certificate or chain in PEM format *(mTLS only)*
 
-    {{<note>}}
-If your source database has TLS or mTLS enabled, we recommend that you enter the `trust_certificate`, `client_public_key`, and `client_private_key` into the secret editor using the **Key/Value** input method instead of the **JSON** input method. Pasting directly into the JSON editor may cause an error. 
-    {{</note>}}
+{{< embed-md "rc-rdi-secrets-encryption-permissions.md" >}}
 
-- **Encryption key**: Select the [encryption key](#create-encryption-key) you created earlier.
+--tab-sep--
 
-- **Resource permissions**: Add the following permissions to your secret to allow the Redis data pipeline to access your secret. Replace `<AWS ACCOUNT ID>` with the AWS account ID for the Redis Cloud cluster that you saved earlier.
+In the [AWS Management Console](https://console.aws.amazon.com/), use the **Services** menu to locate and select **Security, Identity, and Compliance** > **Secrets Manager**. [Create a secret](https://docs.aws.amazon.com/secretsmanager/latest/userguide/create_secret.html) of type **Other type of secret** with the following settings:
 
-    ```json
-    {
-        "Version" : "2012-10-17",
-        "Statement" : [ {
-            "Sid" : "RedisDataIntegrationRoleAccess",
-            "Effect" : "Allow",
-            "Principal" : "*",
-            "Action" : [ "secretsmanager:GetSecretValue", "secretsmanager:DescribeSecret" ],
-            "Resource" : "*",
-            "Condition" : {
-                "StringLike" : {
-                    "aws:PrincipalArn" : "arn:aws:iam::<AWS ACCOUNT ID>:role/redis-data-pipeline-secrets-role"
-                }
-            }
-        } ]
-    }
-    ```
+- **Key/value pairs**: Select **Plaintext** and enter the server certificate.
+
+{{< embed-md "rc-rdi-secrets-encryption-permissions.md" >}}
+
+--tab-sep--
+
+In the [AWS Management Console](https://console.aws.amazon.com/), use the **Services** menu to locate and select **Security, Identity, and Compliance** > **Secrets Manager**. [Create a secret](https://docs.aws.amazon.com/secretsmanager/latest/userguide/create_secret.html) of type **Other type of secret** with the following settings:
+
+- **Key/value pairs**: Select **Plaintext** and enter the client certificate.
+
+{{< embed-md "rc-rdi-secrets-encryption-permissions.md" >}}
+
+--tab-sep--
+
+Use the [AWS CLI create-secret command](https://docs.aws.amazon.com/cli/latest/reference/secretsmanager/create-secret.html) or the [AWS CreateSecret API endpoint](https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_CreateSecret.html) to create a binary secret containing the client key.
+
+For example, using the AWS CLI, run the following command:
+
+```sh
+aws secretsmanager create-secret \
+    --name <secret-name> \
+    --secret-binary fileb://<path-to-client-key> \
+    --kms-key-id <encryption-key-arn> 
+```
+
+Where:
+- `<secret-name>` - Name of the secret
+- `<path-to-client-key>` - Path to the client key file
+- `<encryption-key-arn>` - ARN of the [encryption key](#create-encryption-key) you created earlier
+
+After you create the secret, you need to add permissions to allow the data pipeline to access it. 
+
+In the [AWS Management Console](https://console.aws.amazon.com/), use the **Services** menu to locate and select **Security, Identity, and Compliance** > **Secrets Manager**. Select the private key secret you just created and then select **Edit permissions**. 
+
+Add the following permissions to your secret:
+
+{{< embed-md "rc-rdi-secrets-permissions.md" >}}
+
+Replace `<AWS ACCOUNT ID>` with the AWS account ID for the Redis Cloud cluster that you saved earlier.
+
+--tab-sep--
+
+In the [AWS Management Console](https://console.aws.amazon.com/), use the **Services** menu to locate and select **Security, Identity, and Compliance** > **Secrets Manager**. [Create a secret](https://docs.aws.amazon.com/secretsmanager/latest/userguide/create_secret.html) of type **Other type of secret** with the following settings:
+
+- **Key/value pairs**: Select **Plaintext** and enter the client key passphrase.
+
+{{< embed-md "rc-rdi-secrets-encryption-permissions.md" >}}
+
+{{< /multitabs >}}
 
 After you store this secret, you can view and copy the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#iam-resources) of your secret on the secret details page. 
 

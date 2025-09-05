@@ -49,19 +49,26 @@ To change the data you want to ingest from the data pipeline:
 
     {{<image filename="images/rc/rdi/rdi-edit-button.png" alt="The edit pipeline button." width=100px >}}
 
-1. Select the schema and tables you want to migrate to the target database from the **Source data selection** list. 
+1. Select the Schema and Tables you want to migrate to the target database from the list. 
+    {{<image filename="images/rc/rdi/rdi-select-source-data.png" alt="The data modeling section. " width=75% >}}
 
-    {{<image filename="images/rc/rdi/rdi-select-source-data.png" alt="The select source data section. " width=75% >}}
+    Select **Manage Columns** to choose which columns you want to import.
+
+    {{<image filename="images/rc/rdi/rdi-manage-columns.png" alt="The manage columns button." width=150px >}}
 
     You can select any number of columns from a table.
 
-    {{<image filename="images/rc/rdi/rdi-select-columns.png" alt="The select source data section. A table is expanded with a few columns selected." width=75% >}}
+    {{<image filename="images/rc/rdi/rdi-select-columns.png" alt="The manage columns screen, with a few columns selected from one table" width=75% >}}
 
-    If any tables are missing a unique constraint, the **Missing unique constraint** list will appear. Select the columns that define a unique constraint for those tables from the list.
+    If any tables are missing a unique constraint, a warning will appear in the **Data modeling** section. Select **Manage columns** to select the columns that define a unique constraint for those tables.
 
     {{<image filename="images/rc/rdi/rdi-missing-unique-constraint.png" alt="The missing unique constraint list." width=75% >}}
 
     {{<image filename="images/rc/rdi/rdi-select-constraints.png" alt="The missing unique constraint list with columns selected." width=75% >}}
+
+    Select **Save** to save your column changes and go back to schema selection.
+
+    {{<image filename="images/rc/button-save.png" alt="The save button." width=100px >}}
 
     Select **Add schema** to add more database schemas.
 
@@ -74,16 +81,20 @@ To change the data you want to ingest from the data pipeline:
     After you've selected the schemas and tables you want to sync, select **Continue**.
 
      {{<image filename="images/rc/rdi/rdi-continue-button.png" alt="The continue button." width=150px >}}
-
-1. In the **Pipeline definition** section, select the Redis data type to write keys to the target. You can choose **Hash** or **JSON** if the target database supports JSON. 
-
-    {{<image filename="images/rc/rdi/rdi-configure-new-pipeline.png" alt="The Pipeline definition screen. Configure a new pipeline is selected." width=75% >}}
     
+1. Select the Redis data type to write keys to the target. You can choose **Hash** or **JSON** if the target database supports JSON. 
+    {{<image filename="images/rc/rdi/rdi-configure-new-pipeline.png" alt="The pipeline definition screen." width=75% >}}
+
+    You can also supply one or more [transformation job files]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}}) that specify how you want to transform the captured data before writing it to the target. Select **Upload jobs** to upload your job files.
+
+    {{<image filename="images/rc/rdi/rdi-transformation-jobs.png" alt="The transformation jobs section. Select Upload jobs to upload transformation jobs." >}}
+
+    When you upload job files, Redis Cloud will validate the job files to check for errors. 
+
     Select **Continue**.
-    
     {{<image filename="images/rc/rdi/rdi-continue-button.png" alt="The continue button." width=150px >}}
 
-1. Review the tables you selected in the **Summary** and select how you want to update the data pipeline:
+1. Review the tables you selected in and select how you want to update the data pipeline:
 
     {{<image filename="images/rc/rdi/rdi-update-preferences.png" alt="The Select update preferences section." width=25% >}}
 
