@@ -67,6 +67,16 @@ Redis Open Source 8.0 and 8.2 features are now available when you [create]({{<re
 
 - See [What's new in Redis 8.2]({{<relref "/develop/whats-new/8-2">}}) and [Redis Open Source 8.2 release notes]({{<relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisos-8.2-release-notes">}}) for more details.
 
+#### Automatically enabled capabilities in Redis 8
+
+Redis Enterprise Software databases created with or upgraded to Redis version 8 or later automatically enable the capabilities (modules) bundled with Redis Enterprise Software as follows:
+
+| Database type | Automatically enabled capabilities |
+|---------------|------------------------------------|
+| RAM-only | [Search and query]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search">}})<br />[JSON]({{<relref "/operate/oss_and_stack/stack-with-enterprise/json">}})<br />[Time series]({{<relref "/operate/oss_and_stack/stack-with-enterprise/timeseries">}})<br />[Probabilistic]({{<relref "/operate/oss_and_stack/stack-with-enterprise/bloom">}})  |
+| Flash-enabled ([Auto Tiering]({{<relref "/operate/rs/databases/auto-tiering">}})) | [JSON]({{<relref "/operate/oss_and_stack/stack-with-enterprise/json">}})<br />[Probabilistic]({{<relref "/operate/oss_and_stack/stack-with-enterprise/bloom">}}) |
+| [Active-Active]({{<relref "/operate/rs/databases/active-active">}}) | [Search and query]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search/search-active-active">}})<br />[JSON]({{<relref "/operate/oss_and_stack/stack-with-enterprise/json">}}) |
+
 #### Lag-aware availability API
 
 The [database availability API]({{<relref "/operate/rs/references/rest-api/requests/bdbs/availability">}}) now supports lag-aware availability checks that consider replication lag tolerance.
@@ -101,19 +111,27 @@ The [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_eng
 
 ### Enhancements
 
-- Added `--update-db-config-modules` option to the [`crdb-cli crdb update`]({{<relref "/operate/rs/references/cli-utilities/crdb-cli/update">}}) command to streamline updating module information in the CRDB configuration after uprading modules used by Active-Active databases. Use this option only after all CRDB database instances have upgraded their modules.
+- Module management enhancements:
 
-    ```sh
-    crdb-cli crdb update --crdb-guid <guid> --update-db-config-modules true
-    ```
+    - Operating system (OS) upgrades no longer require manually uploading module packages compiled for the target OS version to a node in the existing cluster.
 
-- REST API enhancements:
+    - Copying module packages to a node in the cluster before cluster recovery is no longer required.
+
+    - Added new REST API requests to manage custom, user-defined modules. See [Custom module management APIs]({{<relref "/operate/rs/references/rest-api/requests/modules/user-defined">}}) for details.
+
+    - Added module configuration fields to the database configuration. Use `search`, `timeseries`, and `probabilistic` objects to configure Redis modules instead of the deprecated `module_args` field. These fields are visible in [`GET /v1/bdbs`]({{<relref "/operate/rs/references/rest-api/requests/bdbs">}}) requests only when using the `extended=true` query parameter.
+
+    - Added `--update-db-config-modules` option to the [`crdb-cli crdb update`]({{<relref "/operate/rs/references/cli-utilities/crdb-cli/update">}}) command to streamline updating module information in the CRDB configuration after uprading modules used by Active-Active databases. Use this option only after all CRDB database instances have upgraded their modules.
+
+        ```sh
+        crdb-cli crdb update --crdb-guid <guid> --update-db-config-modules true
+        ```
+
+- Additional REST API enhancements:
 
     - Added `replica_sconns_on_demand` to the database configuration. When enabled, the DMC stops holding persistent connections to replica shards and reduces the number of internode connections by half.
 
     - Added `conns_minimum_dedicated` to the database configuration to define the minimum number of dedicated server connections the DMC maintains per worker per shard.
-
-    - Added module configuration fields to the database configuration. Use `search`, `timeseries`, and `probabilistic` objects to configure Redis modules instead of the deprecated `module_args` field. These fields are visible in [`GET /v1/bdbs`]({{<relref "/operate/rs/references/rest-api/requests/bdbs">}}) requests only when using the `extended=true` query parameter.
 
 - Added action IDs to operation and state machine log entries.
 
