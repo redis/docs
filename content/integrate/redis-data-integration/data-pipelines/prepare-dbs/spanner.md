@@ -61,7 +61,7 @@ for more details, including additional configuration options and dialect-specifi
 ## 3. Create a service account
 
 To allow RDI to access the Spanner instance, you'll need to create a service account with the
-appropriate permissions. By default, RDI uses Google Cloud Workload Identity authentication
+appropriate permissions. By default, RDI uses Google Cloud Workload Identity authentication. In this case RDI will assume the [service account is assigned to the GKE cluster](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity#enable_on_clusters_and_node_pools)
 when the service account is assigned to the GKE cluster. Alternatively, you can provide the
 service account credentials as a Kubernetes secret (see step 4 for details).
 
@@ -127,7 +127,7 @@ Before deploying the RDI pipeline, you need to configure the necessary secrets f
 database. Instructions for setting up the target database secrets are available in the
 [RDI deployment guide]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets-for-k8shelm-deployment-using-kubectl-command" >}}).
 
-**Optional**: If you prefer to use service account credentials file instead of Workload Identity
+**Optional**: If you prefer to use a service account credentials file instead of Workload Identity
 authentication, you'll need to create a Spanner-specific secret named `source-db-credentials`.
 This secret should contain the service account key file generated during the Spanner setup phase.
 Use the command below to create it:
@@ -160,7 +160,7 @@ sources:
       project_id: your-project-id
       instance_id: your-spanner-instance
       database_id: your-spanner-database
-      # use_credentials_file: false  # Set to true if using service account credentials file instead of Workload Identity
+      # use_credentials_file: false  # Default: uses Workload Identity. Set to true to use service account credentials file instead
       change_streams:
         change_stream_all:
           {}
