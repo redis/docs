@@ -85,6 +85,8 @@ You can use a region's Remove button to remove it from the list.
 {{<image filename="images/rc/create-sub-active-active-cidr.png" width="75%" alt="Each region needs a unique CIDR address block to communicate securely with other instances." >}}
 
 In the **Advanced options** section, you can:
+
+- Choose to deploy your Active-Active database to an existing Cloud Account, if [Redis Cloud Bring your own Cloud]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud" >}}) is enabled.
     
 - Define CIDR addresses for each region in the **VPC configuration** section.
 
@@ -97,6 +99,8 @@ In the **Advanced options** section, you can:
     Red exclamation marks indicate error conditions; the tooltip provides additional details.
 
     {{<image filename="images/rc/icon-cidr-address-error.png" width="30px" alt="Red exclamation points indicate CIDR address problems." >}} 
+
+    If you chose to deploy your Active-Active database to an existing [Bring your own Cloud]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud" >}}) account, you can also define the VPC ID for each region. Select **In existing VPC** and the set the VPC ID for each selected region. 
 
 - Set your [maintenance]({{< relref "/operate/rc/subscriptions/maintenance" >}}) settings in the **Maintenance windows** section. Select **Manual** if you want to set [manual maintenance windows]({{< relref "/operate/rc/subscriptions/maintenance/set-maintenance-windows" >}}).
 
