@@ -1,6 +1,6 @@
 | Database | Versions | AWS RDS  Versions | GCP SQL Versions |
 | :-- | :-- | :-- | :-- |
-| Oracle | 12c, 19c, 21c | 19c, 21c | - |
+| Oracle | 19c, 21c | 19c, 21c | - |
 | MariaDB | 10.5, 11.4.3 | 10.4 to 10.11, 11.4.3 | - |
 | MongoDB | 6.0, 7.0, 8.0 | - | - |
 | MySQL | 5.7, 8.0.x, 8.2 | 8.0.x | 8.0 |
