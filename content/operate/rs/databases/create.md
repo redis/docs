@@ -53,6 +53,8 @@ To quickly create a database and skip additional configuration options during in
 
     - Capabilities (previously modules) to enable
 
+        Databases created with Redis version 8 or later automatically enable the capabilities (modules) bundled with Redis Enterprise Software as follows:
+
         {{<embed-md "rs-8-enabled-modules.md">}}
 
 1. Optionally select **Full options** to configure [additional settings]({{< relref "/operate/rs/databases/configure#config-settings" >}}).

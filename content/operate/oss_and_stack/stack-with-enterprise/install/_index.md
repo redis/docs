@@ -20,4 +20,6 @@ However, if you want to use additional modules or upgrade a module to a more rec
 
 ## Automatically enabled capabilities in Redis 8
 
+Databases created with or upgraded to Redis version 8 or later automatically enable the capabilities (modules) bundled with Redis Enterprise Software as follows:
+
 {{<embed-md "rs-8-enabled-modules.md">}}

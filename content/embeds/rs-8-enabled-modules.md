@@ -1,5 +1,3 @@
-Databases created with or upgraded to Redis version 8 or later automatically enable the capabilities (modules) bundled with Redis Enterprise Software as follows:
-
 | Database type | Automatically enabled capabilities |
 |---------------|------------------------------------|
 | RAM-only | [Search and query]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search">}})<br />[JSON]({{<relref "/operate/oss_and_stack/stack-with-enterprise/json">}})<br />[Time series]({{<relref "/operate/oss_and_stack/stack-with-enterprise/timeseries">}})<br />[Probabilistic]({{<relref "/operate/oss_and_stack/stack-with-enterprise/bloom">}})  |

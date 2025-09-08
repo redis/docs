@@ -15,6 +15,8 @@ Modules add additional functionality to Redis databases for specific use cases. 
 
 ## Automatically enabled capabilities in Redis 8
 
+Databases created with or upgraded to Redis version 8 or later automatically enable the capabilities (modules) bundled with Redis Enterprise Software as follows:
+
 {{<embed-md "rs-8-enabled-modules.md">}}
 
 ## Create a database with a module
