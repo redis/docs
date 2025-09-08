@@ -61,8 +61,7 @@ for more details, including additional configuration options and dialect-specifi
 ## 3. Create a service account
 
 To allow RDI to access the Spanner instance, you'll need to create a service account with the
-appropriate permissions. By default, RDI uses Google Cloud Workload Identity authentication. In this case RDI will assume the [service account is assigned to the GKE cluster](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity#enable_on_clusters_and_node_pools)
-when the service account is assigned to the GKE cluster. Alternatively, you can provide the
+appropriate permissions. By default, RDI uses Google Cloud Workload Identity authentication. In this case RDI will assume the [service account is assigned to the GKE cluster](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity#enable_on_clusters_and_node_pools). Alternatively, you can provide the
 service account credentials as a Kubernetes secret (see step 4 for details).
 
 1. Create the service account
