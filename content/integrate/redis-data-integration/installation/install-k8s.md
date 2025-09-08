@@ -213,6 +213,48 @@ also use mTLS, you must set the client certificate and private key contents in
 Please see [these docs]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/spanner#6-additional-kubernetes-configuration" >}}) if this RDI installation is for use with GCP Spanner.
 {{< /note >}}
 
+If you are deploying to [OpenShift](https://docs.openshift.com/), you must
+set `global.openshift` to `true`:
+
+```yaml
+global:
+  # Indicates whether the deployment is intended for an OpenShift environment.
+  openShift: true
+```
+
+You should also set `global.securityContext.runAsUser` and
+`global.securityContext.runAsGroup` to the appropriate values for your
+OpenShift environment.
+
+```yaml
+global:
+  # Container default security context.
+  # ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
+  securityContext:
+    runAsNonRoot: true
+    # On OpenShift, user and group 1000 are usually not allowed.
+    # If using OpenShift, set runAsUser and runAsGroup to values in your project's user and group ranges.
+    # You can examine the latter via `oc get projects <rid-project-name> -o yaml | grep "openshift.io/sa.scc"`
+    runAsUser: 1000701234
+    runAsGroup: 1000701234
+    allowPrivilegeEscalation: false
+```
+
+{{< warning >}}The default OpenShift Security Context Constraints (SCCs)
+will not allow RDI to run if `global.securityContext.runAsUser`
+and `global.securityContext.runAsGroup` have their default values of `1000`.
+You must edit your `rdi-values.yaml` file to ensure these values are
+in the valid range for your OpenShift environment.
+
+Use the following [OpenShift CLI](https://docs.redhat.com/en/documentation/openshift_container_platform/4.19/html/cli_tools/openshift-cli-oc) command
+to find the user and group ranges for your project:
+
+```bash
+oc get projects <rid-project-name> -o yaml | grep "openshift.io/sa.scc"
+```
+{{< /warning >}}
+
+
 ## Check the installation
 
 To verify the status of the K8s deployment, run the following command:
