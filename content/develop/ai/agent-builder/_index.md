@@ -45,7 +45,7 @@ The agent builder will generate complete, working code examples for your chosen 
 
 ## After you generate your code
 
-Select the **Try in Jupyter** button to run the code in a notebook, load a sample dataset, and start testing and customizing your agent. Alternatively, use the **Copy** or **Download** buttons and follow the steps to test it locally:
+Use the **Copy** or **Download** buttons and follow the steps below to test it locally:
 
 1. **Set up your environment**: Install Redis and the required dependencies
 2. **Configure your API keys**: Add your LLM provider credentials to environment variables
@@ -53,7 +53,6 @@ Select the **Try in Jupyter** button to run the code in a notebook, load a sampl
 4. **Deploy and scale**: Use Redis Cloud for production deployments
 
 The generated code includes detailed setup instructions and best practices to get you started quickly. If you want to generate another agent, select the **Start again** button.
-
 
 ## Learn more
 
