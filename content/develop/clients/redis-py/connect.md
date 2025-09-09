@@ -252,3 +252,46 @@ a simple retry strategy by default, but there are various ways you can customize
 this behavior to suit your use case. See
 [Retries]({{< relref "/develop/clients/redis-py/produsage#retries" >}})
 for more information about custom retry strategies, with example code.
+
+## Connect using Seamless client experience (SCE)
+
+*Seamless client experience (SCE)* is a feature of Redis Cloud and
+Redis Enterprise servers that lets them actively notify clients
+about planned server maintenance shortly before it happens. This
+lets a client take action to avoid disruptions in service.
+See [Seamless client experience]({{< relref "/develop/clients/sce" >}})
+for more information about SCE.
+
+To enable SCE on the client, pass a `MaintenanceEventsConfig` object
+during the connection, as shown in the following example:
+
+```py
+import redis
+from redis.connection import MaintenanceEventsConfig
+from redis.maintenance_events import EndpointType
+
+r = redis.Redis(
+    decode_responses=True,
+    protocol=3,
+    maintenance_events_config= MaintenanceEventsConfig(
+        enabled=True,
+        proactive_reconnect=True,
+        relax_timeout=30,
+        endpoint_type=EndpointType.INTERNAL_IP,
+    ),
+    ...
+)
+```
+
+{{< note >}}SCE requires the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
+protocol, so you must set `protocol=3` explicitly when you connect.
+{{< /note >}}
+
+The `MaintenanceEventsConfig` constructor accepts the following parameters:
+
+| Name | Type | Default | Description |
+|------|------|---------|-------------|
+| `enabled` | `bool` | `False` | Whether or not to enable SCE. |
+| `proactive_reconnect` | `bool` | `False` | Whether or not to automatically reconnect when a node is replaced. |
+| `relax_timeout` | `int` | `20` | The number of seconds to wait before reconnecting after a node replacement. A value of `-1` disables the relax timeout. |
+| `endpoint_type` | `EndpointType` | `None` | Override for the endpoint type to use in the `CLIENT MAINT_NOTIFICATIONS` command. If this is `None`, the endpoint type will be  determined automatically based on the host and TLS configuration. |
