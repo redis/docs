@@ -99,11 +99,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -165,11 +165,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -227,11 +227,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -291,11 +291,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -357,11 +357,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -419,11 +419,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -503,11 +503,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -575,11 +575,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -650,11 +650,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -724,11 +724,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -798,11 +798,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -893,11 +893,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -976,11 +976,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -1062,11 +1062,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -1147,11 +1147,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -1251,11 +1251,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -1343,11 +1343,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -1433,11 +1433,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -1505,11 +1505,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -1599,11 +1599,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -1681,11 +1681,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -1771,11 +1771,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -1843,11 +1843,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -1907,11 +1907,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -1973,11 +1973,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -2049,11 +2049,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -2142,11 +2142,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -2214,11 +2214,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -2288,11 +2288,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -2364,11 +2364,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -2446,11 +2446,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -2542,11 +2542,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -2624,11 +2624,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -2728,11 +2728,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -2812,11 +2812,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -2876,11 +2876,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -2942,11 +2942,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -3027,11 +3027,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -3091,11 +3091,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -3156,11 +3156,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -3218,11 +3218,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -3294,11 +3294,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -3383,11 +3383,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -3455,11 +3455,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -3529,11 +3529,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -3605,11 +3605,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -3687,11 +3687,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -3783,11 +3783,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -3865,11 +3865,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -3930,11 +3930,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -3997,11 +3997,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -4060,11 +4060,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -4125,11 +4125,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -4191,11 +4191,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -4253,11 +4253,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -4327,11 +4327,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -4389,11 +4389,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -4463,11 +4463,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -4525,11 +4525,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -4577,11 +4577,11 @@
         "description": "Gets a list of all Pro subscriptions in the current account.",
         "operationId": "getAllSubscriptions",
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -4673,11 +4673,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -4740,11 +4740,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -4806,11 +4806,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -4878,11 +4878,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -4952,11 +4952,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -5018,11 +5018,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -5093,11 +5093,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -5177,11 +5177,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -5263,11 +5263,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -5309,6 +5309,332 @@
         }
       }
     },
+    "/subscriptions/{subscriptionId}/regions/{regionId}/private-link": {
+      "get": {
+        "tags": [
+          "Subscriptions - Pro - Connectivity"
+        ],
+        "summary": "Get Private Link configuration for a specific region",
+        "description": "(Active-Active subscriptions only) Gets the Private Link configuration for a specific region.",
+        "operationId": "getActiveActivePrivateLink",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "regionId",
+            "in": "path",
+            "description": "Region ID - required for Active-Active subscription",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Subscriptions - Pro - Connectivity"
+        ],
+        "summary": "Create a Private Link for a specific region",
+        "description": "(Active-Active subscriptions only) Creates a new Private Link for a specific region.",
+        "operationId": "createActiveActivePrivateLink",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "regionId",
+            "in": "path",
+            "description": "Region ID - required for Active-Active subscription",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 1
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrivateLinkActiveActiveCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "204": {
+            "description": "No Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to create requested resource (primarily due to not active resource)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with the new name"
+          },
+          "422": {
+            "description": "Unprocessable Entity - The server understands the request, and the syntax of the request is correct, but it was unable to process the contained instructions"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/regions/{regionId}/private-link/principals": {
+      "post": {
+        "tags": [
+          "Subscriptions - Pro - Connectivity"
+        ],
+        "summary": "Add principal to Private Link for a specific region",
+        "description": "(Active-Active subscriptions only) Adds a principal (AWS ARN) to the Private Link configuration for a specific region.",
+        "operationId": "createActiveActivePrivateLinkPrincipal",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "regionId",
+            "in": "path",
+            "description": "Region ID - required for Active-Active subscription",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 1
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrivateLinkActiveActivePrincipalsCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "204": {
+            "description": "No Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to create requested resource (primarily due to not active resource)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with the new name"
+          },
+          "422": {
+            "description": "Unprocessable Entity - The server understands the request, and the syntax of the request is correct, but it was unable to process the contained instructions"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Subscriptions - Pro - Connectivity"
+        ],
+        "summary": "Remove a principal from Private Link for a specific region",
+        "description": "(Active-Active subscriptions only) Removes one principal (AWS ARNs) from the Private Link configuration for a specific region.",
+        "operationId": "deleteActiveActivePrivateLinkPrincipals",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "regionId",
+            "in": "path",
+            "description": "Region ID - required for Active-Active subscription",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 1
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrivateLinkActiveActivePrincipalsDeleteRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "204": {
+            "description": "No Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/regions/peerings": {
       "get": {
         "tags": [
@@ -5330,11 +5656,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -5406,11 +5732,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -5473,11 +5799,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -5529,11 +5855,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -5594,11 +5920,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -5668,11 +5994,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -5744,11 +6070,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -5790,6 +6116,288 @@
         }
       }
     },
+    "/subscriptions/{subscriptionId}/private-link": {
+      "get": {
+        "tags": [
+          "Subscriptions - Pro - Connectivity"
+        ],
+        "summary": "Get Private Link configuration",
+        "description": "Gets the Private Link configuration for a subscription.",
+        "operationId": "getPrivateLink",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Subscriptions - Pro - Connectivity"
+        ],
+        "summary": "Create a Private Link",
+        "description": "Creates a new Private Link.",
+        "operationId": "createPrivateLink",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrivateLinkCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "204": {
+            "description": "No Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to create requested resource (primarily due to not active resource)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with the new name"
+          },
+          "422": {
+            "description": "Unprocessable Entity - The server understands the request, and the syntax of the request is correct, but it was unable to process the contained instructions"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/private-link/principals": {
+      "post": {
+        "tags": [
+          "Subscriptions - Pro - Connectivity"
+        ],
+        "summary": "Add principal to Private Link",
+        "description": "Adds a principal (AWS ARN) to the Private Link configuration.",
+        "operationId": "createPrivateLinkPrincipal",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrivateLinkPrincipalsCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "204": {
+            "description": "No Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to create requested resource (primarily due to not active resource)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with the new name"
+          },
+          "422": {
+            "description": "Unprocessable Entity - The server understands the request, and the syntax of the request is correct, but it was unable to process the contained instructions"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Subscriptions - Pro - Connectivity"
+        ],
+        "summary": "Remove a principal from Private Link",
+        "description": "Removes a principal (AWS ARNs) from the Private Link configuration.",
+        "operationId": "deletePrivateLinkPrincipals",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrivateLinkPrincipalsDeleteRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "204": {
+            "description": "No Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/peerings": {
       "get": {
         "tags": [
@@ -5811,11 +6419,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -5888,11 +6496,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -5978,11 +6586,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -6062,11 +6670,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -6139,11 +6747,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -6215,11 +6823,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -6289,11 +6897,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -6365,11 +6973,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -6448,11 +7056,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -6523,11 +7131,11 @@
           }
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -6575,11 +7183,11 @@
         "description": "Gets a list of all Essentials subscriptions in the current account.",
         "operationId": "getAllSubscriptions_1",
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -6629,11 +7237,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -6719,11 +7327,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -6798,11 +7406,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -6875,11 +7483,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -6951,11 +7559,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -7025,11 +7633,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -7100,11 +7708,11 @@
           }
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -7152,11 +7760,11 @@
         "description": "Gets a list of all configured cloud accounts.",
         "operationId": "getCloudAccounts",
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -7206,11 +7814,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -7261,11 +7869,11 @@
         "description": "Gets a list of all access control users for this account.",
         "operationId": "getAllUsers_1",
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -7315,11 +7923,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -7370,11 +7978,11 @@
         "description": "Gets a list of all database access roles for this account.",
         "operationId": "getRoles",
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -7424,11 +8032,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -7479,11 +8087,11 @@
         "description": "Gets a list of all Redis ACL rules for this account.",
         "operationId": "getAllRedisRules",
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -7533,11 +8141,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -7588,11 +8196,11 @@
         "description": "Gets a list of all account users.",
         "operationId": "getAllUsers",
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -7634,11 +8242,11 @@
         "description": "Gets a list of all currently running tasks for this account.",
         "operationId": "getAllTasks",
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -7691,11 +8299,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -7749,11 +8357,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -7807,11 +8415,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -7876,11 +8484,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -7945,11 +8553,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -8033,11 +8641,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -8121,11 +8729,79 @@
           }
         ],
         "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
           },
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/regions/{regionId}/private-link/endpoint-script": {
+      "get": {
+        "tags": [
+          "Subscriptions - Pro - Connectivity"
+        ],
+        "summary": "Get Private Link endpoint script for a single region",
+        "description": "(Active-Active subscriptions only) Gets the Private Link endpoint script for a single region in an Active-Active subscription.",
+        "operationId": "getActiveActivePrivateLinkEndpointScript",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "regionId",
+            "in": "path",
+            "description": "Region ID - required for Active-Active subscription",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -8199,11 +8875,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -8277,11 +8953,69 @@
           }
         ],
         "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
           },
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/private-link/endpoint-script": {
+      "get": {
+        "tags": [
+          "Subscriptions - Pro - Connectivity"
+        ],
+        "summary": "Get Private Link endpoint script",
+        "description": "Gets the Python discovery script for Private Link. Internal users can optionally request a Terraform snippet.",
+        "operationId": "getPrivateLinkEndpointScript",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -8335,11 +9069,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -8412,11 +9146,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -8482,11 +9216,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -8540,11 +9274,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -8609,14 +9343,34 @@
               "format": "int32"
             },
             "example": 100
+          },
+          {
+            "name": "startTime",
+            "in": "query",
+            "description": "Filter session logs with time >= startTime (UTC)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "2025-01-01T00:00:00Z"
+          },
+          {
+            "name": "endTime",
+            "in": "query",
+            "description": "Filter session logs with time <= endTime (UTC)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "2025-01-31T23:59:59Z"
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -8673,11 +9427,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -8719,11 +9473,11 @@
         "description": "Gets a list of available [query performance factors](https://redis.io/docs/latest/operate/rc/databases/configuration/advanced-capabilities/#query-performance-factor).",
         "operationId": "getSupportedSearchScalingFactors",
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -8765,11 +9519,11 @@
         "description": "Gets a list of all payment methods for this account.",
         "operationId": "getAccountPaymentMethods",
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -8834,14 +9588,45 @@
               "format": "int32"
             },
             "example": 100
+          },
+          {
+            "name": "startTime",
+            "in": "query",
+            "description": "Filter logs with time >= startTime (UTC)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "2025-01-01T00:00:00Z"
+          },
+          {
+            "name": "endTime",
+            "in": "query",
+            "description": "Filter logs with time <= endTime (UTC)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "2025-01-31T23:59:59Z"
+          },
+          {
+            "name": "resourceId",
+            "in": "query",
+            "description": "Filter logs by resourceId",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 1234
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -8905,11 +9690,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -8963,11 +9748,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -9034,11 +9819,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -9092,11 +9877,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -9150,11 +9935,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -9196,11 +9981,11 @@
         "description": "Gets a list of Redis [advanced capabilities](https://redis.io/docs/latest/operate/rc/databases/configuration/advanced-capabilities/) (also known as modules) available for this account. Advanced capability support may differ based on subscription and database settings.",
         "operationId": "getSupportedDatabaseModules",
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -9242,11 +10027,11 @@
         "description": "Gets a list of all [data persistence](https://redis.io/docs/latest/operate/rc/databases/configuration/data-persistence/) options for this account.",
         "operationId": "getDataPersistenceOptions",
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -9288,11 +10073,11 @@
         "description": "Gets information on this account.",
         "operationId": "getCurrentAccount",
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -9344,12 +10129,12 @@
           "role": {
             "type": "string",
             "description": "Name of the database access role to assign to this user. Use GET '/acl/roles' to get a list of database access roles.",
-            "example": "Redis-role-example"
+            "example": "ACL-role-example"
           },
           "password": {
             "type": "string",
             "description": "The database password for this user.",
-            "example": "some-random-password"
+            "example": "ab123AB$%^"
           },
           "commandType": {
             "type": "string",
@@ -9518,7 +10303,7 @@
         "example": {
           "account": {
             "id": 1001,
-            "name": "Redis Labs",
+            "name": "Redis",
             "createdTimestamp": "2018-12-23T15:15:31Z",
             "updatedTimestamp": "2022-10-12T10:54:10Z",
             "pocStatus": "inactive",
@@ -9526,7 +10311,7 @@
             "key": {
               "name": "capi-api-key-name",
               "accountId": 1001,
-              "accountName": "Redis Labs",
+              "accountName": "Redis",
               "allowedSourceIps": [
                 "0.0.0.0/0"
               ],
@@ -9540,6 +10325,64 @@
             }
           }
         }
+      },
+      "PrivateLinkActiveActiveCreateRequest": {
+        "required": [
+          "principal",
+          "regionId",
+          "shareName",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "subscriptionId": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "regionId": {
+            "type": "integer",
+            "description": "Deployment region id as defined by cloud provider",
+            "format": "int32",
+            "readOnly": true,
+            "example": 27
+          },
+          "shareName": {
+            "maxLength": 64,
+            "minLength": 0,
+            "type": "string",
+            "description": "Name for the resource share",
+            "example": "my-private-link-share"
+          },
+          "principal": {
+            "type": "string",
+            "description": "AWS account ID or ARN of the principal (IAM user, role, or account)",
+            "example": "123456789012"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the principal",
+            "example": "aws_account",
+            "enum": [
+              "aws_account",
+              "organization",
+              "organization_unit",
+              "iam_role",
+              "iam_user",
+              "service_principal"
+            ]
+          },
+          "alias": {
+            "type": "string",
+            "description": "Alias or friendly name for the principal",
+            "example": "Production Account"
+          },
+          "commandType": {
+            "type": "string",
+            "readOnly": true
+          }
+        },
+        "description": "Request to create a private link for Active-Active subscription"
       },
       "ActiveActiveVpcPeeringCreateAwsRequest": {
         "required": [
@@ -9877,6 +10720,12 @@
               "redis",
               "memcached"
             ]
+          },
+          "port": {
+            "type": "integer",
+            "description": "Optional. TCP port on which the database is available (10000-19999). Generated automatically if not set.",
+            "format": "int32",
+            "example": 10000
           },
           "memoryLimitInGb": {
             "minimum": 0.1,
@@ -10531,6 +11380,10 @@
               "resp2",
               "resp3"
             ]
+          },
+          "enableDefaultUser": {
+            "type": "boolean",
+            "description": "Optional. When 'true', allows connecting to the database with the 'default' user. When 'false', only defined access control users can connect to the database."
           }
         },
         "description": "Optional. A list of regions and local settings to update."
@@ -10966,7 +11819,7 @@
           "cloudAccounts": [
             {
               "id": 1,
-              "name": "Redis Labs Internal Resources",
+              "name": "Redis Internal Resources",
               "provider": "AWS",
               "status": "active",
               "links": []
@@ -10996,6 +11849,55 @@
             }
           ]
         }
+      },
+      "PrivateLinkActiveActivePrincipalsCreateRequest": {
+        "required": [
+          "principal",
+          "regionId"
+        ],
+        "type": "object",
+        "properties": {
+          "subscriptionId": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "regionId": {
+            "type": "integer",
+            "description": "Deployment region id as defined by cloud provider",
+            "format": "int32",
+            "readOnly": true,
+            "example": 27
+          },
+          "principal": {
+            "type": "string",
+            "description": "AWS account ID or ARN of the principal (IAM user, role, or account)",
+            "example": "123456789012"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the principal",
+            "example": "aws_account",
+            "enum": [
+              "aws_account",
+              "organization",
+              "organization_unit",
+              "iam_role",
+              "iam_user",
+              "service_principal"
+            ]
+          },
+          "alias": {
+            "type": "string",
+            "description": "Alias or friendly name for the principal",
+            "example": "Production Account"
+          },
+          "commandType": {
+            "type": "string",
+            "readOnly": true
+          }
+        },
+        "description": "Request to add a principal to private link for Active-Active subscription"
       },
       "VpcPeeringUpdateAwsRequest": {
         "type": "object",
@@ -11196,7 +12098,8 @@
           },
           "redisRule": {
             "type": "string",
-            "description": "Optional. Changes the Redis ACL rule pattern. See [ACL syntax](https://redis.io/docs/latest/operate/rc/security/access-control/data-access-control/configure-acls/#define-permissions-with-acl-syntax) to learn how to define rules."
+            "description": "Optional. Changes the Redis ACL rule pattern. See [ACL syntax](https://redis.io/docs/latest/operate/rc/security/access-control/data-access-control/configure-acls/#define-permissions-with-acl-syntax) to learn how to define rules.",
+            "example": "+set allkeys allchannels"
           },
           "commandType": {
             "type": "string",
@@ -11246,6 +12149,12 @@
           "signInLoginUrl": {
             "type": "string"
           },
+          "awsUserArn": {
+            "type": "string"
+          },
+          "awsConsoleRoleArn": {
+            "type": "string"
+          },
           "links": {
             "type": "array",
             "items": {
@@ -11266,7 +12175,7 @@
         "description": "RedisLabs Cloud Account information",
         "example": {
           "id": 1,
-          "name": "Redis Labs Internal Resources",
+          "name": "Redis Internal Resources",
           "provider": "AWS",
           "status": "active",
           "links": [
@@ -11277,6 +12186,47 @@
             }
           ]
         }
+      },
+      "PrivateLinkPrincipalsCreateRequest": {
+        "required": [
+          "principal"
+        ],
+        "type": "object",
+        "properties": {
+          "subscriptionId": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "principal": {
+            "type": "string",
+            "description": "AWS account ID or ARN of the principal (IAM user, role, or account)",
+            "example": "123456789012"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the principal",
+            "example": "aws_account",
+            "enum": [
+              "aws_account",
+              "organization",
+              "organization_unit",
+              "iam_role",
+              "iam_user",
+              "service_principal"
+            ]
+          },
+          "alias": {
+            "type": "string",
+            "description": "Alias or friendly name for the principal",
+            "example": "Production Account"
+          },
+          "commandType": {
+            "type": "string",
+            "readOnly": true
+          }
+        },
+        "description": "Private Link principals create request"
       },
       "FixedSubscriptionUpdateRequest": {
         "type": "object",
@@ -11832,6 +12782,10 @@
           "resource": {
             "type": "string"
           },
+          "resourceId": {
+            "type": "integer",
+            "format": "int32"
+          },
           "type": {
             "type": "string"
           },
@@ -12144,7 +13098,7 @@
               "time": "2022-10-12T10:54:31Z",
               "originator": "example-value",
               "type": "Account",
-              "description": "example-value (example.value@redislabs.com)'s user name was changed to Example Value"
+              "description": "example-value (example.value@redis.com)'s user name was changed to Example Value"
             },
             {
               "id": 2900348,
@@ -13709,17 +14663,14 @@
           "subnetIds": {
             "type": "array",
             "description": "Optional. Enter a list of subnets identifiers that exists in the hosted AWS account. Subnet Identifier must exist within the hosting account.",
-            "example": "<subnet-identifier>",
             "items": {
               "type": "string",
-              "description": "Optional. Enter a list of subnets identifiers that exists in the hosted AWS account. Subnet Identifier must exist within the hosting account.",
-              "example": "<subnet-identifier>"
+              "description": "Optional. Enter a list of subnets identifiers that exists in the hosted AWS account. Subnet Identifier must exist within the hosting account."
             }
           },
           "securityGroupId": {
             "type": "string",
-            "description": "Optional. Enter a security group identifier that exists in the hosted AWS account. Security group Identifier must be in a valid format (for example: 'sg-0125be68a4625884ad') and must exist within the hosting account.",
-            "example": "<security-group-identifier>"
+            "description": "Optional. Enter a security group identifier that exists in the hosted AWS account. Security group Identifier must be in a valid format (for example: 'sg-0125be68a4625884ad') and must exist within the hosting account."
           }
         },
         "description": "Optional. Cloud networking details, per region. Required if creating an Active-Active subscription."
@@ -13921,7 +14872,8 @@
           },
           "redisRule": {
             "type": "string",
-            "description": "Redis ACL rule pattern. See [ACL syntax](https://redis.io/docs/latest/operate/rc/security/access-control/data-access-control/configure-acls/#define-permissions-with-acl-syntax) to learn how to define rules."
+            "description": "Redis ACL rule pattern. See [ACL syntax](https://redis.io/docs/latest/operate/rc/security/access-control/data-access-control/configure-acls/#define-permissions-with-acl-syntax) to learn how to define rules.",
+            "example": "+set allkeys allchannels"
           },
           "commandType": {
             "type": "string",
@@ -14251,12 +15203,12 @@
           "role": {
             "type": "string",
             "description": "Optional. Changes the ACL role assigned to the user. Use GET '/acl/roles' to get a list of database access roles.",
-            "example": "Redis-role-example"
+            "example": "ACL-role-example"
           },
           "password": {
             "type": "string",
             "description": "Optional. Changes the user's database password.",
-            "example": "some-random-password"
+            "example": "ab123AB$%^"
           },
           "commandType": {
             "type": "string",
@@ -14300,14 +15252,15 @@
               "SUBSCRIPTION_IN_USE",
               "SUBSCRIPTION_CA_PROVIDER_MISMATCH",
               "SUBSCRIPTION_NETWORKING_MISSING",
-              "SUBSCRIPTION_NETWORKING_CIDR_MISSING",
+              "NETWORKING_CIDR_MISSING",
               "SUBSCRIPTION_INVALID_CIDR",
-              "SUBSCRIPTION_NETWORKING_SECURITY_GROUP_MISSING",
-              "SUBSCRIPTION_NETWORKING_SUBNET_IDS_MISSING",
-              "SUBSCRIPTION_NETWORKING_VPC_ID_MISSING",
-              "SUBSCRIPTION_NETWORKING_CIDR_IS_NOT_SUPPORTED",
-              "SUBSCRIPTION_NETWORKING_VPC_WITH_SUBNETS_AND_SECURITY_GROUP_IS_NOT_SUPPORTED",
-              "SUBSCRIPTION_INVALID_NUMBER_OF_SUBNET_IDS",
+              "NETWORKING_SECURITY_GROUP_MISSING",
+              "NETWORKING_SUBNET_IDS_MISSING",
+              "NETWORKING_VPC_ID_MISSING",
+              "NETWORKING_CIDR_IS_NOT_SUPPORTED",
+              "NETWORKING_VPC_WITH_SUBNETS_AND_SECURITY_GROUP_IS_NOT_SUPPORTED",
+              "NETWORKING_VPC_WITH_SUBNETS_AND_SECURITY_GROUP_IS_NOT_SUPPORTED_FOR_INTERNAL_CLOUD_ACCOUNT",
+              "INVALID_NUMBER_OF_SUBNET_IDS",
               "SUBSCRIPTION_PI_NOT_FOUND",
               "SUBSCRIPTION_INVALID_REGION_NAME",
               "SUBSCRIPTION_INVALID_REGION_ID",
@@ -14330,6 +15283,9 @@
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_DISABLED_KEY",
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_INVALID_KEY_NAME",
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_WRONG_REGION",
+              "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_NOT_ALLOWED_WITH_CLOUD_PROVIDER_MANAGED_KEY",
+              "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_NOT_ALLOWED_WITH_INTERNAL_CLOUD_ACCOUNT",
+              "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_REQUIRED_FOR_EXTERNAL_CLOUD_ACCOUNT",
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_NOT_PENDING",
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_INVALID_NUMBER_OF_KEYS",
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_REGION_NOT_REQUIRED",
@@ -14473,11 +15429,13 @@
               "DATABASE_PORT_INVALID_VALUE",
               "DATABASE_PORT_IS_UNAVAILABLE",
               "DATABASE_CUSTOM_PORT_NOT_SUPPORTED",
+              "DATABASE_CUSTOM_PORT_NOT_UNIQUE",
               "DATABASE_AVERAGE_ITEM_SIZE_INVALID_VALUE",
               "DATABASE_REDIS_VERSION_IS_NOT_SUPPORTED",
               "DATABASE_REDIS_VERSION_IS_NOT_SUPPORTED_FOR_MEMCACHED",
               "DATABASE_REDIS_VERSION_IS_REQUIRED",
               "DATABASE_REDIS_VERSION_INVALID_VALUE",
+              "CONNECTIVITY_REQUESTS_ON_CUSTOMER_MANAGED_VPC_SUBSCRIPTION",
               "VPC_PEERING_NOT_ACTIVE",
               "VPC_PEERING_GENERAL_ERROR",
               "VPC_PEERING_INVALID_ACCOUNT",
@@ -14817,7 +15775,23 @@
               "ACTIVE_ACTIVE_GCP_EXTERNAL_CLOUD_ACCOUNT_NOT_SUPPORTED",
               "DEDICATED_SUBSCRIPTION_PREFERRED_AZ_INVALID_VALUE",
               "DEDICATED_SUBSCRIPTION_INVALID_INSTANCE_NAME",
-              "DEDICATED_SUBSCRIPTION_INVALID_REPLICATION"
+              "DEDICATED_SUBSCRIPTION_INVALID_REPLICATION",
+              "PRIVATE_LINK_NOT_FOUND",
+              "PRIVATE_LINK_ALREADY_EXISTS",
+              "PRIVATE_LINK_PRINCIPAL_ALREADY_EXISTS",
+              "PRIVATE_LINK_PRINCIPAL_NOT_FOUND",
+              "PRIVATE_LINK_PRINCIPAL_INVALID_PRINCIPLE",
+              "PRIVATE_LINK_CLOUD_PROVIDER_NOT_SUPPORTED",
+              "PRIVATE_LINK_GET_A_FLEXIBLE_SUBSCRIPTION_PRIVATE_LINK_IS_NOT_ALLOWED_WITH_AN_ACTIVE_ACTIVE_SUBSCRIPTION",
+              "PRIVATE_LINK_GET_AN_ACTIVE_ACTIVE_SUBSCRIPTION_PRIVATE_LINK_IS_NOT_ALLOWED_WITH_A_SINGLE_REGION_SUBSCRIPTION",
+              "PRIVATE_LINK_CREATING_PRINCIPLES_IS_NOT_ALLOWED_WITH_AN_ACTIVE_ACTIVE_SUBSCRIPTION",
+              "PRIVATE_LINK_CREATING_PRINCIPLES_IS_NOT_ALLOWED_WITH_A_SINGLE_REGION_SUBSCRIPTION",
+              "PRIVATE_LINK_DELETING_A_FLEXIBLE_SUBSCRIPTION_PRINCIPALS_IS_NOT_ALLOWED_WITH_AN_ACTIVE_ACTIVE_SUBSCRIPTION",
+              "PRIVATE_LINK_DELETING_AN_ACTIVE_ACTIVE_SUBSCRIPTION_PRINCIPALS_IS_NOT_ALLOWED_WITH_A_SINGLE_REGION_SUBSCRIPTION",
+              "PRIVATE_LINK_CREATE_A_FLEXIBLE_SUBSCRIPTION_PRIVATE_LINK_IS_NOT_ALLOWED_WITH_AN_ACTIVE_ACTIVE_SUBSCRIPTION",
+              "PRIVATE_LINK_CREATE_AN_ACTIVE_ACTIVE_SUBSCRIPTION_PRIVATE_LINK_IS_NOT_ALLOWED_WITH_A_SINGLE_REGION_SUBSCRIPTION",
+              "PRIVATE_LINK_IS_NOT_SUPPORTED",
+              "PRIVATE_LINK_SERVICE_ERROR"
             ]
           },
           "additionalInfo": {
@@ -15261,6 +16235,9 @@
               "customer-managed-key"
             ]
           },
+          "persistentStorageEncryptionKeys": {
+            "$ref": "#/components/schemas/CustomerManagedKeyProperties"
+          },
           "cloudProviders": {
             "type": "array",
             "description": "Cloud provider, region, and networking details.",
@@ -15350,6 +16327,56 @@
         },
         "description": "Cloud Account definition"
       },
+      "PrivateLinkCreateRequest": {
+        "required": [
+          "principal",
+          "shareName",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "subscriptionId": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "shareName": {
+            "maxLength": 64,
+            "minLength": 0,
+            "type": "string",
+            "description": "Name of the resource share",
+            "example": "my-redis-share"
+          },
+          "principal": {
+            "type": "string",
+            "description": "AWS account ID or ARN of the principal (IAM user, role, or account)",
+            "example": "123456789012"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the principal",
+            "example": "aws_account",
+            "enum": [
+              "aws_account",
+              "organization",
+              "organization_unit",
+              "iam_role",
+              "iam_user",
+              "service_principal"
+            ]
+          },
+          "alias": {
+            "type": "string",
+            "description": "Alias or friendly name for the principal",
+            "example": "Production Account"
+          },
+          "commandType": {
+            "type": "string",
+            "readOnly": true
+          }
+        },
+        "description": "Private Link create request"
+      },
       "SubscriptionPricings": {
         "type": "object",
         "properties": {
@@ -15407,6 +16434,37 @@
           }
         },
         "description": "Optional. Changes Replica Of (also known as Active-Passive) configuration details."
+      },
+      "PrivateLinkActiveActivePrincipalsDeleteRequest": {
+        "required": [
+          "principal",
+          "regionId"
+        ],
+        "type": "object",
+        "properties": {
+          "subscriptionId": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "regionId": {
+            "type": "integer",
+            "description": "Deployment region id as defined by cloud provider",
+            "format": "int32",
+            "readOnly": true,
+            "example": 27
+          },
+          "principal": {
+            "type": "string",
+            "description": "An AWS account ID or ARN to remove from the private link",
+            "example": "123456789012"
+          },
+          "commandType": {
+            "type": "string",
+            "readOnly": true
+          }
+        },
+        "description": "Request to remove principals from private link for Active-Active subscription"
       },
       "DatabaseThroughputSpec": {
         "required": [
@@ -15745,9 +16803,6 @@
         "description": "Object representing a customer managed key (CMK), along with the region it is associated to."
       },
       "ActiveActiveRegionCreateRequest": {
-        "required": [
-          "deploymentCIDR"
-        ],
         "type": "object",
         "properties": {
           "subscriptionId": {
@@ -15768,6 +16823,21 @@
             "type": "string",
             "description": "Deployment CIDR mask. Must be a valid CIDR format with a range of 256 IP addresses.",
             "example": "10.0.0.0/24"
+          },
+          "subnetIds": {
+            "type": "array",
+            "description": "Optional. Enter a list of subnets identifiers that exists in the hosted AWS account. Subnet Identifier must exist within the hosting account.",
+            "example": "['subnet-0125be68a4625884ad', 'subnet-0125be68a4625884ad','subnet-0125be68a4625884ad']",
+            "items": {
+              "type": "string",
+              "description": "Optional. Enter a list of subnets identifiers that exists in the hosted AWS account. Subnet Identifier must exist within the hosting account.",
+              "example": "['subnet-0125be68a4625884ad', 'subnet-0125be68a4625884ad','subnet-0125be68a4625884ad']"
+            }
+          },
+          "securityGroupId": {
+            "type": "string",
+            "description": "Optional. Enter a security group identifier that exists in the hosted AWS account. Security group Identifier must be in a valid format (for example: 'sg-0125be68a4625884ad') and must exist within the hosting account.",
+            "example": "sg-0125be68a4625884ad"
           },
           "dryRun": {
             "type": "boolean",
@@ -15847,6 +16917,61 @@
           }
         },
         "description": "Database import request"
+      },
+      "PrivateLinkPrincipalsDeleteRequest": {
+        "required": [
+          "principal"
+        ],
+        "type": "object",
+        "properties": {
+          "subscriptionId": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "principal": {
+            "type": "string",
+            "description": "An AWS account ID or ARN to remove from the private link",
+            "example": "123456789012"
+          },
+          "commandType": {
+            "type": "string",
+            "readOnly": true
+          }
+        },
+        "description": "Private Link principals delete request"
+      },
+      "CustomerManagedKeyProperties": {
+        "required": [
+          "customerManagedKeys"
+        ],
+        "type": "object",
+        "properties": {
+          "customerManagedKeys": {
+            "type": "array",
+            "description": "The customer managed keys (CMK) to use for this subscription. If is active-active subscription, must set a key for each region.",
+            "items": {
+              "$ref": "#/components/schemas/CustomerManagedKey"
+            }
+          },
+          "deletionGracePeriod": {
+            "type": "string",
+            "description": "Optional. The grace period for deleting the subscription. If not set, will default to immediate deletion grace period.",
+            "example": "alerts-only",
+            "enum": [
+              "alerts-only",
+              "immediate",
+              "15-minutes",
+              "30-minutes",
+              "1-hour",
+              "4-hours",
+              "8-hours",
+              "12-hours",
+              "24-hours"
+            ]
+          }
+        },
+        "description": "Optional. Contains information about the keys used for each region. Can be used only with external cloud account"
       },
       "VpcPeeringCreateBaseRequest": {
         "type": "object",
