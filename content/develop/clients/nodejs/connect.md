@@ -329,6 +329,57 @@ createClient({
 });
 ```
 
+## Connect using Seamless client experience (SCE)
+
+*Seamless client experience (SCE)* is a feature of Redis Cloud and
+Redis Enterprise servers that lets them actively notify clients
+about planned server maintenance shortly before it happens. This
+lets a client take action to avoid disruptions in service.
+See [Seamless client experience]({{< relref "/develop/clients/sce" >}})
+for more information about SCE.
+
+Use the configuration options shown in the example below to enable SCE
+during the connection:
+
+```js
+const client = createClient({
+  RESP: 3,
+  maintPushNotifications: 'auto',
+  maintMovingEndpointType: 'auto',
+  maintRelaxedCommandTimeout: 10000,
+  maintRelaxedSocketTimeout: 10000,
+  ...
+});
+```
+
+{{< note >}}SCE requires the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
+protocol, so you must set the `RESP:3` option explicitly when you connect.
+{{< /note >}}
+
+The available options are:
+
+-   `maintPushNotifications`: (`string`) Whether or not to enable SCE. The options are  
+    -   `'disabled'`: don't use SCE
+    -   `'enabled'`: attempt to activate SCE on the server and abort the connection if it isn't supported
+    -   `'auto'`: attempt to activate SCE on the server and fall back to a non-SCE
+      connection if it isn't supported. This is the default.
+-   `maintRelaxedCommandTimeout`: (`number`) The command timeout to use when the server is 
+    in maintenance mode. The default is 10000 (10 seconds). If a timeout happens during the 
+    maintenance period, the client receives a `CommandTimeoutDuringMaintenance` error.
+-   `maintRelaxedSocketTimeout`: (`number`) The socket timeout to use when the server is in 
+    maintenance mode. The default is 10000 (10 seconds). If a timeout happens during the 
+    maintenance period, the client receives a `SocketTimeoutDuringMaintenance` error.
+-   `maintMovingEndpointType`: (`MovingEndpointType`) Controls how the client requests the 
+    endpoint to reconnect to. The options are:
+    - `internal-ip`: Enforce requesting the internal IP.
+    - `internal-fqdn`: Enforce requesting the internal FQDN.
+    - `external-ip`: Enforce requesting the external IP address.
+    - `external-fqdn`: Enforce requesting the external FQDN.
+    - `none`: Used to request a null endpoint, which tells the client to reconnect
+      based on its current config.
+    - `auto`: Let the client decide based on its current config. This is the default.
+
+
 ## Connection events
 
 The client object emits the following
