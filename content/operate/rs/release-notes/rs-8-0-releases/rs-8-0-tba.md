@@ -206,6 +206,22 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS114668: Fixed an issue where setting `failure_detection_sensitivity` with the `bootstrap` API did not automatically update `watchdog_profile` accordingly.
 
+- RS163266: Fixed an issue where shard rebalancing could take excessive time when replicas were unresponsive due to high CPU load by reducing connection retry attempts from 300 to 5.
+
+- RS162524: Fixed an issue where the DNS backend could fail with "too many open files" errors due to socket leaks.
+
+- RS161547: Fixed an issue where nodes could fail to send messages related to state-machines due to a timing issue between notification threads and management threads.
+
+- RS155990: Fixed an issue where the `forwarding_state` field was missing from the endpoint schema.
+
+- RS166307: Updated v2 Prometheus metric names to comply with naming conventions by changing the `proxy_` prefix to `endpoint_` for `connections_rate`, `rate_limit_ok`, `rate_limit_overflows`, `accepted_connections`, and `dispatch_failures`.
+
+- RS164703: Improved diagnostic reporting for shard restart operations by adding PID logging before shutdown.
+
+- RS152179: Reduced log noise by removing a harmless error message that appeared repeatedly in DMC proxy logs.
+
+- RS132087: Fixed inconsistent node status reports between `rladmin` and the REST API.
+
 ## Version changes
 
 - [`POST /v1/cluster/actions/change_master`]({{<relref "/operate/rs/references/rest-api/requests/cluster/actions#post-cluster-action">}}) REST API requests will no longer allow a node that exists but is not finished bootstrapping to become the primary node. Such requests will now return the status code `406 Not Acceptable`.
