@@ -80,7 +80,7 @@ redis> TDIGEST.BYRANK t 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
 
 ## Return information
 
-{{< multitabs id=“tdigest-byrank-return-info" 
+{{< multitabs id="tdigest-byrank-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}
 

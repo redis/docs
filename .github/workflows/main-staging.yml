@@ -65,6 +65,12 @@ jobs:
         kubernetes_versions=($(find content/operate/kubernetes/ -maxdepth 1 -type d -regex ".*[0-9-]" | awk -F/ '{print $NF}'))
         rs_versions=($(find content/operate/rs/ -maxdepth 1 -type d -regex ".*[0-9-]" | awk -F/ '{print $NF}'))
         rdi_versions=($(find content/integrate/redis-data-integration/ -maxdepth 1 -type d -regex ".*[0-9-]" | awk -F/ '{print $NF}'))
+        redisvl_versions=($(find content/develop/ai/redisvl/ -maxdepth 1 -type d -regex ".*[0-9-]" | awk -F/ '{print $NF}'))
+
+        printf "%s\n" "${kubernetes_versions[@]}" > kubernetes-versions
+        printf "%s\n" "${rs_versions[@]}" > rs-versions
+        printf "%s\n" "${rdi_versions[@]}" > rdi-versions
+        printf "%s\n" "${redisvl_versions[@]}" > redisvl-versions
 
         # build latest
         for version in "${kubernetes_versions[@]}"; do
@@ -75,6 +81,9 @@ jobs:
         done
         for version in "${rdi_versions[@]}"; do
           rm -r "content/integrate/redis-data-integration/${version}"
+        done
+        for version in "${redisvl_versions[@]}"; do
+          rm -r "content/develop/ai/redisvl/${version}"
         done
         make all
 
@@ -162,6 +171,33 @@ jobs:
           git checkout .
         done
 
+        for version in "${redisvl_versions[@]}"; do
+
+          setBaseUrl
+
+          # for each version, remove all other versions before building
+          versions_to_remove=($(echo "${redisvl_versions[@]}" "${version}" | tr ' ' '\n' | sort | uniq -u))
+          for version_to_remove in "${versions_to_remove[@]}"; do
+            rm -r "content/develop/ai/redisvl/${version_to_remove}"
+          done
+
+          # relrefs should not include version
+          find "content/develop/ai/redisvl/${version}" -type f | while read file; do
+              awk '{gsub(/\(\{\{< ?relref "\/develop\/ai\/redisvl\/'${version}'/, "({{< relref \"/develop/ai/redisvl") }1' "$file" > tmpfile && mv tmpfile "$file"
+          done
+
+          rsync -a --delete-after "content/develop/ai/redisvl/${version}"/ content/develop/ai/redisvl/
+          sed -i 's/id="versionSelectorRedisvlValue" class="version-selector-control">latest/id="versionSelectorRedisvlValue" class="version-selector-control">v'"${version}"'/' layouts/partials/docs-nav.html
+          sed -i 's/linkTitle: '"${version}"'/linkTitle: RedisVL/' content/develop/ai/redisvl/_index.md
+
+          # inject replace command in meta-links to make sure editURL and issuesURL point to right version
+          sed -i "12i \{\{ \$gh_path = replaceRE \`\^develop\/ai\/redisvl\/\` \"develop\/ai\/redisvl\/$version\/\" \$gh_path }}" layouts/partials/meta-links.html
+
+          hugo -d "redisvl-${version}"
+
+          git checkout .
+        done
+
     - name: List client examples
       run: ls "${{ github.workspace }}/examples"
     - name: List files to be published
@@ -201,6 +237,8 @@ jobs:
             product=$(awk 'BEGIN{FS=OFS="-"}{NF--; print}' <<< $versioned_build)
             if [[ "${product}" == "redis-data-integration" ]]; then
               gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/integrate/${product}/" "gs://${BUCKET}/${bucket_path}/${versioned_build}/integrate/${product}"
+            elif [[ "${product}" == "redisvl" ]]; then
+              gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/develop/ai/${product}/" "gs://${BUCKET}/${bucket_path}/${versioned_build}/develop/ai/${product}"
             else
               gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/operate/${product}/" "gs://${BUCKET}/${bucket_path}/${versioned_build}/operate/${product}"
             fi

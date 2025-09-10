@@ -29,7 +29,7 @@ RediSearch Enterprise, which is installed with Redis Enterprise Software by defa
 - RED-20506 – Fixed high CPU and File Descriptors utilization by the node watchdog process (node_wd)
 - RED-20275 – Fixed wrong metrics values while importing a dataset into an RoF database
 - RED-20214 – Fixed obstacles to login to the UI when using an LDAP integration
-- RED-20162 – Fixed known limitation of being able to activate “Require SSL for All Communication” to Redis Enterprise CRDBs via Rest API without providing a certificate
+- RED-20162 – Fixed known limitation of being able to activate "Require SSL for All Communication" to Redis Enterprise CRDBs via Rest API without providing a certificate
 - RED-19758 – Upgraded NGINX from 1.10.3 to 1.13.12
 - RED-19415, RED-18945 – Improved support for Lettuce client with OSS Cluster enabled
 - RED-19287 – Fixed a scenario of a stuck shard migration process

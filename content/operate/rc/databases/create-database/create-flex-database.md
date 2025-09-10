@@ -44,9 +44,9 @@ When using Redis Flex, RAM storage holds:
 - Dictionaries
 - Hot data (working set)
 
-All data is accessed through RAM. If a value in flash memory is accessed, it becomes part of the working set and is moved to RAM. These values are referred to as “hot data”.
+All data is accessed through RAM. If a value in flash memory is accessed, it becomes part of the working set and is moved to RAM. These values are referred to as "hot data".
 
-Inactive or infrequently accessed data is referred to as “warm data” and stored in flash memory. When more space is needed in RAM, warm data is moved from RAM to flash storage.
+Inactive or infrequently accessed data is referred to as "warm data" and stored in flash memory. When more space is needed in RAM, warm data is moved from RAM to flash storage.
 
 ## Create a Redis Flex database on Redis Cloud Essentials
 
@@ -65,24 +65,22 @@ This guide shows how to create a Redis Flex database on Redis Cloud Essentials.
     
     After you select **Redis Flex**, the rest of the database details will appear.
 
-    {{<image filename="images/rc/create-database-essentials-cloud-vendor.png" alt="The database name, cloud vendor, region, and type settings.">}}
+    {{<image filename="images/rc/create-database-flex-cloud-vendor.png" alt="The database name, cloud vendor, region, and type settings.">}}
 
 1. Redis will generate a database name for you. If you want to change it, you can do so in the **Database name** field.  
 
 1. Choose a **Region** on Amazon Web Services for your database.
 
-1. In the **Durability settings** panel, choose your **High availability settings** and **Data persistence** settings from the list. 
+1. Choose your **High availability (replication)** settings from the list. 
 
-    {{<image filename="images/rc/create-database-essentials-durability.png" alt="The durability settings allow you to choose High availability and Data persistence." width=75% >}}
-
-
-    Redis Cloud supports the following high availability settings:
+    Redis Cloud supports the following high availability settings with Redis Flex:
 
     - **None**: You will have a single copy of your database without replication.
     - **Single-Zone**: Your database will have a primary and a replica located in the same cloud zone. If anything happens to the primary, the replica takes over and becomes the new primary.
-    - **Multi-Zone**: The primary and its replicas are stored in different zones. This means that your database can remain online even if an entire zone becomes unavailable.
 
     See [High availability]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) for more information about these settings.
+
+1. Choose your **Data persistence** settings from the list.
 
     Redis Cloud supports the following Data persistence options:
 
@@ -92,7 +90,7 @@ This guide shows how to create a Redis Flex database on Redis Cloud Essentials.
     
     See [Data persistence]({{< relref "/operate/rc/databases/configuration/data-persistence" >}}) for more information about these settings.
     
-1. Select the desired memory limit. 
+1. Select your desired memory limit. 
 
     {{<image filename="images/rc/subscription-new-flex-tiers.png" alt="Available Redis Flex plans." >}}
 

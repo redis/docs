@@ -167,14 +167,71 @@ For more information about search queries, see [Search query syntax]({{< relref 
 [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) queries require `attribute` modifiers. Don't use JSONPath expressions in queries because the query parser doesn't fully support them.
 {{% /alert %}}
 
-## Index JSON arrays as TAG
+## Understanding TAG field behavior: hash versus JSON
 
-The preferred method for indexing a JSON field with multivalued terms is using JSON arrays. Each value of the array is indexed, and those values must be scalars. If you want to index string or boolean values as TAGs within a JSON array, use the [JSONPath]({{< relref "/develop/data-types/json/path" >}}) wildcard operator.
+TAG fields behave differently depending on whether you're indexing hash or JSON documents. This difference is a common source of confusion.
 
-To index an item's list of available colors, specify the JSONPath `$.colors.*` in the `SCHEMA` definition during index creation:
+### Hash documents
 
 ```sql
-127.0.0.1:6379> FT.CREATE itemIdx2 ON JSON PREFIX 1 item: SCHEMA $.colors.* AS colors TAG $.name AS name TEXT $.description as description TEXT
+# HASH: Comma is the default separator
+HSET product:1 category "Electronics,Gaming,PC"
+FT.CREATE products ON HASH PREFIX 1 product: SCHEMA category TAG
+
+# Result: Creates 3 separate tags: "Electronics", "Gaming", "PC"
+FT.SEARCH products '@category:{Gaming}'  # ✅ Finds the document
+```
+
+### JSON documents
+
+```sql
+# JSON: No default separator - the entire string becomes one tag
+JSON.SET product:1 $ '{"category": "Electronics,Gaming,PC"}'
+FT.CREATE products ON JSON PREFIX 1 product: SCHEMA $.category AS category TAG
+
+# Result: Creates 1 tag: "Electronics,Gaming,PC"
+FT.SEARCH products '@category:{Gaming}'           # ❌ Does NOT find the document
+FT.SEARCH products '@category:{Electronics,Gaming,PC}'  # ✅ Finds the document
+```
+
+### Making JSON documents behave like hash documents
+
+To get hash-like behavior in JSON, explicitly add `SEPARATOR ","`:
+
+```sql
+JSON.SET product:1 $ '{"category": "Electronics,Gaming,PC"}'
+FT.CREATE products ON JSON PREFIX 1 product: SCHEMA $.category AS category TAG SEPARATOR ","
+
+# Result: Creates 3 separate tags: "Electronics", "Gaming", "PC"
+FT.SEARCH products '@category:{Gaming}'  # ✅ Now finds the document
+```
+
+### Recommended approach for JSON
+
+Instead of comma-separated strings, use JSON arrays:
+
+```sql
+JSON.SET product:1 $ '{"category": ["Electronics", "Gaming", "PC"]}'
+FT.CREATE products ON JSON PREFIX 1 product: SCHEMA $.category[*] AS category TAG
+
+# Result: Creates 3 separate tags: "Electronics", "Gaming", "PC"
+FT.SEARCH products '@category:{Gaming}'  # ✅ Finds the document
+```
+
+## Index JSON arrays as TAG
+
+For JSON documents, you have two approaches to create TAG fields with multiple values:
+
+### Approach 1: JSON arrays (recommended)
+
+The preferred method for indexing multiple tag values is using JSON arrays. Each array element becomes a separate tag value. Use the [JSONPath]({{< relref "/develop/data-types/json/path" >}}) wildcard operator `[*]` to index array elements.
+
+```sql
+# Create index with array indexing
+127.0.0.1:6379> FT.CREATE itemIdx2 ON JSON PREFIX 1 item: SCHEMA $.colors[*] AS colors TAG $.name AS name TEXT $.description as description TEXT
+
+# The JSON data uses arrays
+# Each array element ("black", "silver") becomes a separate tag
 ```
 
 Now you can search for silver headphones:
@@ -186,6 +243,43 @@ Now you can search for silver headphones:
 3) 1) "$"
    2) "{\"name\":\"Noise-cancelling Bluetooth headphones\",\"description\":\"Wireless Bluetooth headphones with noise-cancelling technology\",\"connection\":{\"wireless\":true,\"type\":\"Bluetooth\"},\"price\":99.98,\"stock\":25,\"colors\":[\"black\",\"silver\"]}"
 ```
+
+### Approach 2: strings with explicit separators
+
+You can also use comma-separated strings, but you must explicitly specify the `SEPARATOR`:
+
+```sql
+# JSON with comma-separated string
+JSON.SET item:1 $ '{"colors": "black,silver,gold"}'
+
+# Index with explicit separator
+FT.CREATE itemIdx3 ON JSON PREFIX 1 item: SCHEMA $.colors AS colors TAG SEPARATOR ","
+
+# Now you can search individual colors
+FT.SEARCH itemIdx3 "@colors:{silver}"
+```
+
+{{% alert title="Important: JSON vs HASH behavior" color="warning" %}}
+- **JSON without SEPARATOR**: `"black,silver"` becomes one tag: `"black,silver"`.
+- **JSON with SEPARATOR ","**: `"black,silver"` becomes two tags: `"black"` and `"silver"`.
+- **Hash (default)**: `"black,silver"` becomes two tags: `"black"` and `"silver"`.
+
+For JSON, always specify `SEPARATOR ","` if you want to split comma-separated strings, or use arrays instead.
+{{% /alert %}}
+
+### Which approach to choose?
+
+Use JSON arrays when:
+
+- You control the data structure.
+- You want clean, structured data.
+- You need to store complex values (strings with spaces, punctuation).
+
+Use strings with separators when:
+
+- You're migrating from hashes to JSON.
+- You receive data as delimited strings.
+- You need compatibility with existing systems.
 
 ## Index JSON arrays as TEXT
 Starting with RediSearch v2.6.0, full text search can be done on an array of strings or on a JSONPath leading to multiple strings.
