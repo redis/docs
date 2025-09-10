@@ -30,6 +30,7 @@ progress in implementing the recommendations.
     {{< checklist-item "#monitor-performance-and-errors">}}Monitor performance and errors{{< /checklist-item >}}
     {{< checklist-item "#retries" >}}Retries{{< /checklist-item >}}
     {{< checklist-item "#timeouts" >}}Timeouts{{< /checklist-item >}}
+    {{< checklist-item "#seamless-client-experience" >}}Seamless client experience{{< /checklist-item >}}
 {{< /checklist >}}
 
 ## Recommendations
@@ -122,3 +123,15 @@ for your application. If timeouts are set too short, then `go-redis`
 might retry commands that would have succeeded if given more time. However,
 if they are too long, your app might hang unnecessarily while waiting for a
 response that will never arrive.
+
+### Seamless client experience
+
+*Seamless client experience (SCE)* is a feature of Redis Cloud and
+Redis Enterprise servers that lets them actively notify clients
+about planned server maintenance shortly before it happens. This
+lets a client take action to avoid disruptions in service.
+
+See [Seamless client experience]({{< relref "/develop/clients/sce" >}})
+for more information about SCE and
+[Connect using Seamless client experience]({{< relref "/develop/clients/go/connect#connect-using-seamless-client-experience-sce" >}})
+for example code.
