@@ -276,8 +276,7 @@ r = redis.Redis(
     maintenance_events_config= MaintenanceEventsConfig(
         enabled=True,
         proactive_reconnect=True,
-        relax_timeout=30,
-        endpoint_type=EndpointType.INTERNAL_IP,
+        relax_timeout=10,
     ),
     ...
 )
@@ -292,6 +291,5 @@ The `MaintenanceEventsConfig` constructor accepts the following parameters:
 | Name | Type | Default | Description |
 |------|------|---------|-------------|
 | `enabled` | `bool` | `False` | Whether or not to enable SCE. |
-| `proactive_reconnect` | `bool` | `False` | Whether or not to automatically reconnect when a node is replaced. |
-| `relax_timeout` | `int` | `20` | The number of seconds to wait before reconnecting after a node replacement. A value of `-1` disables the relax timeout. |
-| `endpoint_type` | `EndpointType` | `None` | Override for the endpoint type to use in the `CLIENT MAINT_NOTIFICATIONS` command. If this is `None`, the endpoint type will be  determined automatically based on the host and TLS configuration. |
+| `proactive_reconnect` | `bool` | `True` | Whether or not to automatically reconnect when a node is replaced. |
+| `relax_timeout` | `int` | `20` | The timeout (in seconds) to use while the server is performing maintenance. A value of `-1` disables the relax timeout and just uses the normal timeout during maintenance. |
