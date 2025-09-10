@@ -273,7 +273,7 @@ from redis.maintenance_events import EndpointType
 r = redis.Redis(
     decode_responses=True,
     protocol=3,
-    maintenance_events_config= MaintenanceEventsConfig(
+    maintenance_events_config = MaintenanceEventsConfig(
         enabled=True,
         proactive_reconnect=True,
         relax_timeout=10,

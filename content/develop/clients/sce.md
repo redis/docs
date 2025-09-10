@@ -36,11 +36,10 @@ see no disruption in service.
 SCE is enabled by default on Redis Cloud, but you must enable it
 explicitly on Redis Enterprise servers.
 
-You must also configure SCE explicitly on the client side during connection.
+You must also configure SCE on the client side during connection.
 See the pages linked below to learn how to enable SCE for:
 
 - [redis-py]({{< relref "/develop/clients/redis-py/connect#connect-using-seamless-client-experience-sce" >}})
 - [node-redis]({{< relref "/develop/clients/nodejs/connect#connect-using-seamless-client-experience-sce" >}})
-- [Jedis]({{< relref "/develop/clients/jedis/connect#connect-using-seamless-client-experience-sce" >}})
 - [Lettuce]({{< relref "/develop/clients/lettuce/connect#connect-using-seamless-client-experience-sce" >}})
-- [go-redis]({{< relref "/develop/clients/go/   connect#connect-using-seamless-client-experience-sce" >}})
+- [go-redis]({{< relref "/develop/clients/go/connect#connect-using-seamless-client-experience-sce" >}})
