@@ -168,30 +168,32 @@ tab3="REST API" >}}
 
 -tab-sep-
 
-<!-- TODO: these are placeholder examples, need to confirm real commands-->
-
-Run [`rladmin cluster certificate`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/certificate" >}}).
-
-To upload a single certificate for both CPINE and DPINE:
+Run [`rladmin cluster certificate`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/certificate" >}}):
 
 ```sh
-rladmin cluster certificate set cpine_dpine certificate_file <cert1>.pem key_file <key1>.pem
-```
-
-To upload 2 different certificate and key pairs for CPINE and DPINE:
-
-```sh
-rladmin cluster certificate set cpine certificate_file <cert1>.pem key_file <key1>.pem dpine certificate_file <cert2>.pem key_file <key2>.pem
+rladmin cluster certificate set internal dpine_certificate_file <path-to-file> dpine_key_file <path-to-file> cpine_certificate_file <path-to-file> cpine_key_file <path-to-file>
 ```
 
 -tab-sep-
 
-<!-- TODO: these are placeholder examples, need to confirm real API-->
-
-Send a [`PUT /v1/certificates`]({{< relref "/operate/rs/references/rest-api/requests/certificates#put-certificates" >}}) request:
+Send a [`PUT /v1/cluster/certificates`]({{< relref "/operate/rs/references/rest-api/requests/cluster/certificates#put-cluster-certificates" >}}) request:
 
 ```sh
-PUT https://<host>:<port>/v1/certificates
+PUT https://<host>:<port>/v1/cluster/certificates
+{
+  "certificates": [
+    {
+      "name": "ccs_internode_encryption",
+      "key": "<cpine-private-key>",
+      "certificate": "<cpine-certificate-chain>"
+    },
+    {
+      "name": "data_internode_encryption",
+      "key": "<dpine-private-key>",
+      "certificate": "<dpine-certificate-chain>"
+    }
+  ]
+}
 ```
 
 {{< /multitabs >}}
