@@ -6,7 +6,8 @@ categories:
 - operate
 - rs
 description: You can export data to import it into a new database or to make a backup.  This
-  article shows how to do so.
+  article shows how to do so. Please note that periodic backups of the database must first
+  be configured on the database before you will be able to export the data.
 linktitle: Export data
 weight: 20
 ---
