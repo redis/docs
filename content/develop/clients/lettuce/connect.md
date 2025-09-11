@@ -284,7 +284,6 @@ MaintenanceEventsOptions maintOptions = MaintenanceEventsOptions.builder()
 
 ClientOptions clientOptions = ClientOptions.builder()
     .supportMaintenanceEvents(maintOptions)
-    .protocolVersion(ProtocolVersion.RESP3)
     .build();
 
 redisClient.setOptions(clientOptions);
@@ -293,8 +292,3 @@ try (StatefulRedisConnection<String, String> connection = redisClient.connect())
 //  ...
 //  ...
 ```
-
-{{< note >}}SCE requires the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
-protocol, so you must add the option `protocolVersion(ProtocolVersion.RESP3)`
-to the `ClientOptions` builder explicitly.
-{{< /note >}}

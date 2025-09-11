@@ -36,8 +36,12 @@ see no disruption in service.
 SCE is enabled by default on Redis Cloud, but you must enable it
 explicitly on Redis Enterprise servers.
 
-You must also configure SCE on the client side during connection.
-See the pages linked below to learn how to enable SCE for:
+SCE is enabled automatically on the client side during connection
+if you select the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
+protocol, which is a requirement for SCE. However, you can
+configure some parameters, such as the timeouts to use
+during maintenance.
+See the pages linked below to learn how to configure SCE for:
 
 - [redis-py]({{< relref "/develop/clients/redis-py/connect#connect-using-seamless-client-experience-sce" >}})
 - [node-redis]({{< relref "/develop/clients/nodejs/connect#connect-using-seamless-client-experience-sce" >}})
