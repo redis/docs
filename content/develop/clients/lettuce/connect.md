@@ -271,8 +271,8 @@ and pass it to the `ClientOptions` builder using the `supportMaintenanceEvents()
 import io.lettuce.core.*;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.protocol.ProtocolVersion;
-  .
-  .
+//  ...
+//  ...
 
 RedisClient redisClient = RedisClient.create("redis://localhost:6379");
         
@@ -290,8 +290,8 @@ ClientOptions clientOptions = ClientOptions.builder()
 redisClient.setOptions(clientOptions);
 
 try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {
-  .
-  .
+//  ...
+//  ...
 ```
 
 {{< note >}}SCE requires the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
