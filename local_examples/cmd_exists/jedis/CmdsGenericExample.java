@@ -1,14 +1,27 @@
 // EXAMPLE: cmds_generic
+// REMOVE_START
+package io.redis.examples;
+
+import org.junit.jupiter.api.Test;
+// REMOVE_END
+
 // HIDE_START
 import redis.clients.jedis.UnifiedJedis;
 import redis.clients.jedis.args.ExpiryOption;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+// HIDE_END
 
+// HIDE_START
 public class CmdsGenericExample {
 
+    @Test
     public void run() {
         UnifiedJedis jedis = new UnifiedJedis("redis://localhost:6379");
+
+        //REMOVE_START
+        // Clear any keys here before using them in tests.
+        //REMOVE_END
 // HIDE_END
 
         // STEP_START del
@@ -20,9 +33,15 @@ public class CmdsGenericExample {
 
         long delResult3 = jedis.del("key1", "key2", "key3");
         System.out.println(delResult3); // >>> 2
+        // STEP_END
 
         // Tests for 'del' step.
-        // STEP_END
+        // REMOVE_START
+        assertEquals("OK", delResult1);
+        assertEquals("OK", delResult2);
+        assertEquals(2, delResult3);
+        // REMOVE_END
+
 
         // STEP_START exists
         String existsResult1 = jedis.set("key1", "Hello");
@@ -39,9 +58,17 @@ public class CmdsGenericExample {
 
         long existsResult5 = jedis.exists("key1", "key2", "nosuchkey");
         System.out.println(existsResult5); // >>> 2
+        // STEP_END
 
         // Tests for 'exists' step.
-        // STEP_END
+        // REMOVE_START
+        assertEquals("OK", existsResult1);
+        assertEquals(true, existsResult2);
+        assertEquals(false, existsResult3);
+        assertEquals("OK", existsResult4);
+        assertEquals(2, existsResult5);
+        // REMOVE_END
+
 
         // STEP_START expire
         String expireResult1 = jedis.set("mykey", "Hello");
@@ -70,9 +97,22 @@ public class CmdsGenericExample {
 
         long expireResult9 = jedis.ttl("mykey");
         System.out.println(expireResult9);  // >>> 10
+        // STEP_END
 
         // Tests for 'expire' step.
-        // STEP_END
+        // REMOVE_START
+        assertEquals("OK", expireResult1);
+        assertEquals(1, expireResult2);
+        assertEquals(10, expireResult3);
+        assertEquals("OK", expireResult4);
+        assertEquals(-1, expireResult5);
+        assertEquals(0, expireResult6);
+        assertEquals(-1, expireResult7);
+        assertEquals(1, expireResult8);
+        assertEquals(10, expireResult9);
+        jedis.del("mykey");
+        // REMOVE_END
+
 
         // STEP_START ttl
         String ttlResult1 = jedis.set("mykey", "Hello");
@@ -83,9 +123,15 @@ public class CmdsGenericExample {
 
         long ttlResult3 = jedis.ttl("mykey");
         System.out.println(ttlResult3); // >>> 10
+        // STEP_END
 
         // Tests for 'ttl' step.
-        // STEP_END
+        // REMOVE_START
+        assertEquals("OK", ttlResult1);
+        assertEquals(1, ttlResult2);
+        assertEquals(10, ttlResult3);
+        jedis.del("mykey");
+        // REMOVE_END
 
 // HIDE_START
         jedis.close();

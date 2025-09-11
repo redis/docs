@@ -1,4 +1,5 @@
 // EXAMPLE: cmds_generic
+// HIDE_START
 package example_commands_test
 
 import (
@@ -9,6 +10,8 @@ import (
 
 	"github.com/redis/go-redis/v9"
 )
+
+// HIDE_END
 
 func ExampleClient_del_cmd() {
 	ctx := context.Background()
@@ -112,6 +115,7 @@ func ExampleClient_exists_cmd() {
 	}
 
 	fmt.Println(existsResult5) // >>> 2
+	// STEP_END
 
 	// Output:
 	// OK
@@ -120,7 +124,6 @@ func ExampleClient_exists_cmd() {
 	// OK
 	// 2
 }
-// STEP_END
 
 func ExampleClient_expire_cmd() {
 	ctx := context.Background()
