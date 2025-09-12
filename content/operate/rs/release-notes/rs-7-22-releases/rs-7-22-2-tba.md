@@ -55,6 +55,12 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 ## Version changes
 
+### Deprecations
+
+#### API deprecations
+
+- Deprecated [`PUT /v1/cluster/update_cert`]({{<relref "/operate/rs/references/rest-api/requests/cluster/certificates#put-cluster-update_cert">}}) REST API requests. Use [`PUT /v1/cluster/certificates`]({{<relref "/operate/rs/references/rest-api/requests/cluster/certificates#put-cluster-certificates">}}) to update cluster certificates instead.
+
 ### Supported platforms
 
 The following table provides a snapshot of supported platforms as of this Redis Enterprise Software release. See the [supported platforms reference]({{< relref "/operate/rs/references/supported-platforms" >}}) for more details about operating system compatibility.
