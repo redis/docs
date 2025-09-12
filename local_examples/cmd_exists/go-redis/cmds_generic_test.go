@@ -60,7 +60,6 @@ func ExampleClient_del_cmd() {
 	// 2
 }
 
-// STEP_START exists
 func ExampleClient_exists_cmd() {
 	ctx := context.Background()
 
@@ -76,6 +75,7 @@ func ExampleClient_exists_cmd() {
 	rdb.Del(ctx, "key1", "key2", "nosuchkey")
 	// REMOVE_END
 
+	// STEP_START exists
 	existsResult1, err := rdb.Set(ctx, "key1", "Hello", 0).Result()
 
 	if err != nil {

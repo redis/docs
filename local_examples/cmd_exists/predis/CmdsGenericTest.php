@@ -10,7 +10,7 @@ extends PredisTestCase
 // REMOVE_END
 {
     public function testCmdsGeneric() {
-        $r = new Client([
+        $r = new PredisClient([
             'scheme'   => 'tcp',
             'host'     => '127.0.0.1',
             'port'     => 6379,
@@ -34,10 +34,14 @@ extends PredisTestCase
         $existsResult4 = $r->set('key2', 'World');
         echo $existsResult4 . PHP_EOL; // >>> OK
 
-        $existsResult5 = $r->exists(['key1', 'key2', 'nosuchkey']);
+        $existsResult5 = $r->exists('key1', 'key2', 'nosuchkey');
         echo $existsResult5 . PHP_EOL; // >>> 2
         // STEP_END
         // REMOVE_START
+        $this->assertEquals('OK', $existsResult1);
+        $this->assertEquals(1, $existsResult2);
+        $this->assertEquals(0, $existsResult3);
+        $this->assertEquals('OK', $existsResult4);
         $this->assertEquals(2, $existsResult5);
         // REMOVE_END
 

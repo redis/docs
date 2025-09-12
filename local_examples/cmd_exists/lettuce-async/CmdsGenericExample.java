@@ -1,20 +1,17 @@
 // EXAMPLE: cmds_generic
 package io.redis.examples.async;
 
-// STEP_START import
 import io.lettuce.core.*;
 
 import io.lettuce.core.api.async.RedisAsyncCommands;
 
 import io.lettuce.core.api.StatefulRedisConnection;
 
-import java.util.*;
 import java.util.concurrent.CompletableFuture;
-// STEP_END
 // REMOVE_START
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 // REMOVE_END
 
 public class CmdsGenericExample {
@@ -23,15 +20,13 @@ public class CmdsGenericExample {
     @Test
     // REMOVE_END
     public void run() {
-        // STEP_START connect
+        // REMOVE_START
         RedisClient redisClient = RedisClient.create("redis://localhost:6379");
 
         try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {
             RedisAsyncCommands<String, String> asyncCommands = connection.async();
-            // STEP_END
-            // REMOVE_START
             asyncCommands.del("key1", "key2", "nosuchkey").toCompletableFuture().join();
-            // REMOVE_END
+        // REMOVE_END
 
             // STEP_START exists
             CompletableFuture<Void> existsExample = asyncCommands.set("key1", "Hello").thenCompose(res1 -> {

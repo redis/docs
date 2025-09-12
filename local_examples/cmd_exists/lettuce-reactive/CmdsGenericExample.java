@@ -9,10 +9,8 @@ import org.junit.jupiter.api.Test;
 // REMOVE_END
 import reactor.core.publisher.Mono;
 
-import java.util.*;
-
 // REMOVE_START
-import static org.junit.jupiter.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 // REMOVE_END
 
 public class CmdsGenericExample {
