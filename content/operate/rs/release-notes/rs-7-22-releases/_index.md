@@ -55,6 +55,8 @@ For more detailed release notes, select a build version from the following table
 
 - Deprecated the `data_files` option for the `recovery_plan` specified in [`POST /v2/bdbs`]({{<relref "/operate/rs/references/rest-api/requests/bdbs#post-bdbs-v2">}}) requests. Use the new `original_bdb_shards` option to recover a database from the provided list of shards instead.
 
+- Deprecated [`PUT /v1/cluster/update_cert`]({{<relref "/operate/rs/references/rest-api/requests/cluster/certificates#put-cluster-update_cert">}}) REST API requests as of Redis Enterprise Software version 7.22.2. Use [`PUT /v1/cluster/certificates`]({{<relref "/operate/rs/references/rest-api/requests/cluster/certificates#put-cluster-certificates">}}) to update cluster certificates instead.
+
 #### Internal monitoring and v1 Prometheus metrics deprecation
 
 The existing [internal monitoring engine]({{<relref "/operate/rs/monitoring/v1_monitoring">}}) is deprecated. We recommend transitioning to the new [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}) for improved performance, enhanced integration capabilities, and modernized metrics streaming.

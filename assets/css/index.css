@@ -101,6 +101,25 @@ section.prose {
   @apply mt-16 scroll-mt-6;
 }
 
+/* Reduce top margin when headers immediately follow other headers */
+.prose h1[id] + h2[id],
+.prose h1[id] + h3[id],
+.prose h1[id] + h4[id],
+.prose h1[id] + h5[id],
+.prose h1[id] + h6[id],
+.prose h2[id] + h3[id],
+.prose h2[id] + h4[id],
+.prose h2[id] + h5[id],
+.prose h2[id] + h6[id],
+.prose h3[id] + h4[id],
+.prose h3[id] + h5[id],
+.prose h3[id] + h6[id],
+.prose h4[id] + h5[id],
+.prose h4[id] + h6[id],
+.prose h5[id] + h6[id] {
+  @apply mt-6;
+}
+
 .prose p:empty,
 .prose li:empty {
   @apply hidden;
@@ -577,6 +596,11 @@ select {
 
 html {
   scrollbar-gutter: stable;
+}
+
+/* Auto-clickable for standalone images */
+img:not(a img):not(.image-card-img):not([src*="#no-click"]) {
+  cursor: pointer;
 }
 
 /* Chroma syntax highlighting */
