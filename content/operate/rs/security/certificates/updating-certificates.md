@@ -32,11 +32,11 @@ To replace proxy or syncer certificates using the Cluster Manager UI:
     - For the proxy certificate, expand **Server authentication**.
     - For the syncer certificate, expand **Replica Of and Active-Active authentication**.
 
-    <img src="/images/rs/screenshots/cluster/security-expand-proxy-cert.png" alt="Expanded proxy certificate for server authentication.">
+    <img src="../../../../../images/rs/screenshots/cluster/security-expand-proxy-cert.png" alt="Expanded proxy certificate for server authentication.">
 
 1. Click **Replace Certificate** to open the dialog.
 
-    <img src="/images/rs/screenshots/cluster/security-replace-proxy-cert.png" alt="Replace proxy certificate dialog.">
+    <img src="../../../../../images/rs/screenshots/cluster/security-replace-proxy-cert.png" alt="Replace proxy certificate dialog.">
 
 1. Upload the key file.
 
