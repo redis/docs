@@ -68,7 +68,7 @@ Choose the `FLAT` index when you have small datasets (< 1M vectors) or when perf
 
 | Attribute          | Description                              |
 |:-------------------|:-----------------------------------------|
-| `TYPE`             | Vector type (`BFLOAT16`, `FLOAT16`, `FLOAT32`, `FLOAT64`). `BFLOAT16` and `FLOAT16` require v2.10 or later.  |
+| `TYPE`             | Vector type (`BFLOAT16`, `FLOAT16`, `FLOAT32`, `FLOAT64`, `INT8`, `UINT8`). `BFLOAT16` and `FLOAT16` require v2.10 or later, while `INT8` and `UINT8` require 8.0 or later. |
 | `DIM`              | The width, or number of dimensions, of the vector embeddings stored in this field. In other words, the number of floating point elements comprising the vector. `DIM` must be a positive integer. The vector used to query this field must have the exact dimensions as the field itself.  |
 | `DISTANCE_METRIC`  | Distance metric (`L2`, `IP`, `COSINE`).  |
 
@@ -97,7 +97,7 @@ Choose the `HNSW` index type when you have larger datasets (> 1M documents) or w
 
 | Attribute          | Description                              |
 |:-------------------|:-----------------------------------------|
-| `TYPE`             | Vector type (`BFLOAT16`, `FLOAT16`, `FLOAT32`, `FLOAT64`). `BFLOAT16` and `FLOAT16` require v2.10 or later. |
+| `TYPE`             | Vector type (`BFLOAT16`, `FLOAT16`, `FLOAT32`, `FLOAT64`, `INT8`, `UINT8`). `BFLOAT16` and `FLOAT16` require v2.10 or later, while `INT8` and `UINT8` require 8.0 or later. |
 | `DIM`              | The width, or number of dimensions, of the vector embeddings stored in this field. In other words, the number of floating point elements comprising the vector. `DIM` must be a positive integer. The vector used to query this field must have the exact dimensions as the field itself. |
 | `DISTANCE_METRIC`  | Distance metric (`L2`, `IP`, `COSINE`). |
 
