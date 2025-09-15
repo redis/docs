@@ -105,7 +105,7 @@ Replace the following variables with your own values:
 
 {{< /multitabs >}}
 
-The new certificates are used the next time the clients connect to the database.
+New proxy and syncer certificates certificates are used the next time clients connect to the database. For internode encryption certificates, the new certificates are used after they are replaced on all existing nodes in the cluster.
 
 When you upgrade Redis Enterprise Software, the upgrade process copies the certificates that are on the first upgraded node to all of the nodes in the cluster.
 
