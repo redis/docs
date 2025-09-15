@@ -34,7 +34,19 @@ see no disruption in service.
 ## Enable SCE
 
 SCE is enabled by default on Redis Cloud, but you must enable it
-explicitly on Redis Enterprise servers.
+explicitly on Redis Enterprise servers by using the
+[v1/cluster]({{< relref "/operate/rs/references/rest-api/requests/cluster" >}})
+REST API request to set the `client_maint_notifications` option to `true`.
+The example below shows how to do this using the
+[`curl`](https://curl.se/) command line utility:
+
+```bash
+curl -k -X PUT -H "accept: application/json" \
+    -H "content-type: application/json" \
+    -u "test@redis.com:test123" \
+    -d '{ "client_maint_notifications": true }' \
+    https://localhost:9443/v1/cluster
+```
 
 SCE is enabled automatically on the client side during connection
 if you select the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
