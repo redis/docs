@@ -11,9 +11,11 @@ title: Create a Redis Enterprise Software database
 toc: 'true'
 weight: 10
 ---
-Redis Enterprise Software lets you create databases and distribute them across a cluster of nodes.
+Redis Enterprise Software lets you create databases and distribute them across a cluster of nodes using the [Cluster Manager UI](#cluster-manager-ui-method) or the [REST API](#rest-api-method).
 
-To create a new database:
+## Cluster Manager UI method
+
+To create a new database using the Cluster Manager UI:
 
 1. Sign in to the Cluster Manager UI at `https://<hostname>:8443`
 
@@ -21,7 +23,7 @@ To create a new database:
 
     - [Quick database](#quick-database)
 
-    - [Create database](#create-database) with additional configuration
+    - [Create database with additional configuration](#create-db-ui)
 
 1. If you did not specify a port number for the database, you can find the port number in the **Endpoint** field in the **Databases > Configuration > General** section.
 
@@ -33,7 +35,7 @@ For databases with Active-Active replication for geo-distributed locations,
 see [Create an Active-Active database]({{< relref "/operate/rs/databases/active-active/create.md" >}}). To create and manage Active-Active databases, use the legacy UI.
 {{< /note >}}
 
-## Quick database
+### Quick database
 
 To quickly create a database and skip additional configuration options during initial creation:
 
@@ -57,7 +59,7 @@ To quickly create a database and skip additional configuration options during in
 
 1. Select **Create**.
 
-## Create database
+### Create database with additional configuration {#create-db-ui}
 
 To create a new database and configure additional settings:
 
@@ -98,6 +100,22 @@ For Active-Active databases, see [Create an Active-Active geo-replicated databas
     See [Configuration settings]({{< relref "/operate/rs/databases/configure#config-settings" >}}) for more information about each setting.
 
 1. Select **Create**.
+
+## REST API method
+
+To [create a database]({{<relref "/operate/rs/references/rest-api/requests/bdbs#post-bdbs-v1">}}) using a REST API request:
+
+```sh
+POST https://<host>:<port>/v1/bdbs
+{
+    "name": "test-database",
+    "type": "redis",
+    "memory_size": 1073741824,
+    // Additional fields
+}
+```
+
+For additional database configuration fields, see the [BDB object]({{<relref "/operate/rs/references/rest-api/objects/bdb">}}) reference.
 
 ## Continue learning with Redis University
 
