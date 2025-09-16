@@ -107,7 +107,7 @@ Replace the following variables with your own values:
 
 New proxy and syncer certificates certificates are used the next time clients connect to the database. For internode encryption certificates, the new certificates are used after they are replaced on all existing nodes in the cluster.
 
-When you upgrade Redis Enterprise Software, the upgrade process copies the certificates that are on the first upgraded node to all of the nodes in the cluster.
+When you add a new node to the cluster, the certificates are automatically copied to the new node.
 
 {{<note>}}
 Don't manually overwrite the files located in `/etc/opt/redislabs`. Instead, upload new certificates to a temporary location on one of the cluster nodes, such as the `/tmp` directory.
