@@ -168,15 +168,41 @@ tab3="REST API" >}}
 
 -tab-sep-
 
-Run [`rladmin cluster certificate`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/certificate" >}}):
+To use the same certificate for data and control plane internode encryption, run the following [`rladmin cluster certificate`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/certificate#cluster-certificate-set-internal" >}}) command:
 
 ```sh
-rladmin cluster certificate set internal dpine_certificate_file <path-to-file> dpine_key_file <path-to-file> cpine_certificate_file <path-to-file> cpine_key_file <path-to-file>
+rladmin cluster certificate set internal dpine_certificate_file <path-to-shared-cert> dpine_key_file <path-to-shared-key> cpine_certificate_file <path-to-shared-cert> cpine_key_file <path-to-shared-key>
+```
+
+To use separate certificates for data and control plane internode encryption, run the following [`rladmin cluster certificate`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/certificate#cluster-certificate-set-internal" >}}) command:
+
+```sh
+rladmin cluster certificate set internal dpine_certificate_file <path-to-dpine-cert> dpine_key_file <path-to-dpine-key> cpine_certificate_file <path-to-cpine-cert> cpine_key_file <path-to-cpine-key>
 ```
 
 -tab-sep-
 
-Send a [`PUT /v1/cluster/certificates`]({{< relref "/operate/rs/references/rest-api/requests/cluster/certificates#put-cluster-certificates" >}}) request:
+To use the same certificate for data and control plane internode encryption, send a [`PUT /v1/cluster/certificates`]({{< relref "/operate/rs/references/rest-api/requests/cluster/certificates#put-cluster-certificates" >}}) request:
+
+```sh
+PUT https://<host>:<port>/v1/cluster/certificates
+{
+  "certificates": [
+    {
+      "name": "ccs_internode_encryption",
+      "key": "<shared-private-key>",
+      "certificate": "<shared-certificate-chain>"
+    },
+    {
+      "name": "data_internode_encryption",
+      "key": "<shared-private-key>",
+      "certificate": "<shared-certificate-chain>"
+    }
+  ]
+}
+```
+
+To use separate certificates for data and control plane internode encryption, send a [`PUT /v1/cluster/certificates`]({{< relref "/operate/rs/references/rest-api/requests/cluster/certificates#put-cluster-certificates" >}}) request:
 
 ```sh
 PUT https://<host>:<port>/v1/cluster/certificates
