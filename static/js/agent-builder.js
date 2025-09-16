@@ -520,8 +520,8 @@
             java: '.java',
             csharp: '.cs'
         };
-
-        const filename = `/code/agent-templates/${formData.programmingLanguage}/${formData.agentType}_agent${fileExtensions[formData.programmingLanguage]}`;
+        const base = window.HUGO_BASEURL || '';
+        const filename = `${base}code/agent-templates/${formData.programmingLanguage}/${formData.agentType}_agent${fileExtensions[formData.programmingLanguage]}`;
 
         return loadTemplateFile(filename, formData) || genericTemplates[formData.programmingLanguage](formData);
     }
