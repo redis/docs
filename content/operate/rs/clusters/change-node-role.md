@@ -20,7 +20,7 @@ tab2="rladmin" >}}
 
 To demote the primary node to a secondary node using the Cluster Manager UI:
 
-1. On the **Nodes** screen, click <img src="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="More actions button" width="22px" class="inline"> for the primary node you want to demote.
+1. On the **Nodes** screen, click the **More actions** button (**&vellip;**) for the primary node you want to demote.
 
     <img src="../../../../images/rs/screenshots/nodes/primary-node-more-actions.png" alt="Click the more actions button for a node to access node actions.">
 
@@ -65,7 +65,7 @@ tab2="rladmin" >}}
 
 To promote a secondary node to become the primary node using the Cluster Manager UI:
 
-1. On the **Nodes** screen, click <img src="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="More actions button" width="22px" class="inline"> for the secondary node you want to promote.
+1. On the **Nodes** screen, click the **More actions** button (**&vellip;**) for the secondary node you want to promote.
 
     <img src="../../../../images/rs/screenshots/nodes/secondary-nodes-more-actions.png" alt="Click the more actions button for a node to access node actions.">
 
