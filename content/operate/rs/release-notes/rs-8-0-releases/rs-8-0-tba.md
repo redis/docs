@@ -282,7 +282,7 @@ The following changes affect behavior and validation in the Redis Query Engine:
 
 - Improved handling of expired records, memory constraints, and malformed fields.
 
-Redis Query Engine deprecations:
+#### Redis Query Engine deprecations
 
 - Deprecated commands: `FT.ADD`, `FT.SAFEADD`, `FT.DEL`, `FT.GET`, `FT.MGET`, `FT.SYNADD`, `FT.DROP`, `FT._DROPIFX`, and `FT.CONFIG`.
 
