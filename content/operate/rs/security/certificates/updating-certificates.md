@@ -105,7 +105,7 @@ Replace the following variables with your own values:
 
 {{< /multitabs >}}
 
-New proxy and syncer certificates certificates are used the next time clients connect to the database. For internode encryption certificates, the new certificates are used after they are replaced on all existing nodes in the cluster.
+New proxy and syncer certificates are used the next time clients connect to the database. For internode encryption certificates, the new certificates are used after they are replaced on all existing nodes in the cluster.
 
 When you add a new node to the cluster, the certificates are automatically copied to the new node.
 
