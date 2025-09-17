@@ -145,7 +145,7 @@ You can upload either:
 
 To upload internode encryption certificates, use one of the following methods:
 
-{{< multitabs id="get-module-versions" 
+{{< multitabs id="upload-ine-certs" 
 tab1="Cluster Manager UI"
 tab2="rladmin"
 tab3="REST API" >}}
