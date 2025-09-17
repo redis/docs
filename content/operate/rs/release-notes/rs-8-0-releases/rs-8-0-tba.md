@@ -262,7 +262,15 @@ Note that the `@all` category did not change, as it always included all the comm
 
 #### Redis Query Engine changes
 
-{{<embed-md "redis8-breaking-changes-rqe.md">}}
+The following changes affect behavior and validation in the Redis Query Engine:
+
+- Enforces validation for `LIMIT` arguments (offset must be 0 if limit is 0).
+- Enforces parsing rules for `FT.CURSOR READ` and `FT.ALIASADD`.
+- Parentheses are now required for exponentiation precedence in `APPLY` expressions.
+- Invalid input now returns errors instead of empty results.
+- Default values revisited for reducers like `AVG`, `COUNT`, `SUM`, `STDDEV`, `QUANTILE`, and others.
+- Updates to scoring (`BM25` is now the default instead of `TF-IDF`).
+- Improved handling of expired records, memory constraints, and malformed fields.
 
 ### Product lifecycle updates
 
