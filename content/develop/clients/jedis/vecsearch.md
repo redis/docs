@@ -151,7 +151,7 @@ Use the `predict()` method of the `Predictor` object
 as shown below to create the embedding that represents the `content` field.
 The `predict()` method returns a `float[]` array which is then converted to a `byte`
 string using the helper method. Use the `byte` string representation when you are
-indexing hash objects (as we are here), but use the array of `float` directly for
+indexing hash objects (as in this example), but use the array of `float` directly for
 JSON objects (see [Differences with JSON objects](#differences-with-json-documents)
 below). Note that when you set the `embedding` field, you must use an overload
 of `hset()` that requires `byte` arrays for each of the key, the field name, and

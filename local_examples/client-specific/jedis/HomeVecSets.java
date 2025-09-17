@@ -133,7 +133,8 @@ public class HomeVecSets {
 
         List<String> basicResults = jedis.vsim("famousPeople", actorsEmbedding);
         System.out.println(basicResults);
-        // >>> [Masako Natsume, Chaim Topol, Linus Pauling, Marie Fredriksson, Maryam Mirzakhani, Marie Curie, Freddie Mercury, Paul Erdos]
+        // >>> [Masako Natsume, Chaim Topol, Linus Pauling, Marie Fredriksson,
+        // >>> Maryam Mirzakhani, Marie Curie, Freddie Mercury, Paul Erdos]
     // STEP_END
 
     // STEP_START limited_query
@@ -153,7 +154,8 @@ public class HomeVecSets {
 
         List<String> entertainerResults = jedis.vsim("famousPeople", entertainerEmbedding);
         System.out.println(entertainerResults);
-        // >>> [Freddie Mercury, Chaim Topol, Linus Pauling, Marie Fredriksson, Masako Natsume, Paul Erdos, Maryam Mirzakhani, Marie Curie]
+        // >>> [Freddie Mercury, Chaim Topol, Linus Pauling, Marie Fredriksson,
+        // >>> Masako Natsume, Paul Erdos, Maryam Mirzakhani, Marie Curie]
     // STEP_END
 
         float[] scienceEmbedding;
