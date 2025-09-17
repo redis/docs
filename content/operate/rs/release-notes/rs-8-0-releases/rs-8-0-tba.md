@@ -272,6 +272,18 @@ The following changes affect behavior and validation in the Redis Query Engine:
 - Updates to scoring (`BM25` is now the default instead of `TF-IDF`).
 - Improved handling of expired records, memory constraints, and malformed fields.
 
+Redis Query Engine deprecations:
+
+- Deprecated commands: `FT.ADD`, `FT.SAFEADD`, `FT.DEL`, `FT.GET`, `FT.MGET`, `FT.SYNADD`, `FT.DROP`, `FT._DROPIFX`, and `FT.CONFIG`.
+
+- Deprecated `FT.SEARCH` options: `GEOFILTER`, `FILTER`, and `NOSTOPWORDS`.
+
+- Deprecated vector search options: `INITIAL_CAP` and `BLOCK_SIZE`.
+
+- Deprecated configuration parameters: `WORKER_THREADS`, `MT_MODE`, `PRIVILEGED_THREADS_NUM`, and `GCSCANSIZE`.
+
+- Deprecated dialects: `DIALECT 1`, `DIALECT 3`, and `DIALECT 4`.
+
 ### Product lifecycle updates
 
 - TBA
