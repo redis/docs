@@ -1,4 +1,4 @@
-* Redis Enterprise v6.4 or greater for the cluster.
+* Redis Enterprise >= v6.4 and < v8.0 for the cluster. Note that Redis Enterprise may suggest v8.0 or above by default for new databases, but you must select a version in the 6.4 to 7.4 range.
 * For production, 250MB RAM with one primary and one replica is recommended, but for the
   quickstart or for development, 125MB and a single shard is sufficient.
 * If you are deploying RDI for a production environment then secure this database with a password
