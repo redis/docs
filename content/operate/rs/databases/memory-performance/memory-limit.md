@@ -79,6 +79,48 @@ Databases should return to their configured memory limits after data is removed 
 
 If you observe this behavior, consider [monitoring]({{< relref "/operate/rs/monitoring/" >}}) memory usage and controlling the traffic load on the application side.
 
+## Resharding duration factors
+
+Resharding enables you to increase database capacity by adding shards and utilizing more cluster memory. Understanding resharding duration helps you plan maintenance operations and minimize database risk.
+
+### Resharding process overview
+
+Resharding follows a three-stage process for each new shard:
+
+1. **Shard creation**: Creates a new shard and performs partial synchronization based on assigned hash slots
+2. **Key trimming**: Removes keys from the original shard according to new hash slot assignments
+3. **Defragmentation**: Executes failovers to optimize new shard performance
+
+When resharding multiple shards (for example, expanding from 4 to 8 shards), this process runs serially for each new shard. The operation completes only after all stages finish for every shard.
+
+{{< note >}}
+Resharding is an atomic operation that cannot be interrupted. Database corruption can occur if the process fails or stops unexpectedly. Minimizing resharding time reduces this risk.
+{{< /note >}}
+
+Flexible sharding optimizes the key trimming stage, significantly reducing the time required to remove unnecessary keys from original shards.
+
+### Duration characteristics
+
+Resharding duration increases linearly with the number of keys in your database. Several factors affect resharding duration:
+
+### Flex sharding impact
+
+Flex sharding improves resharding duration compared to standard sharding. 
+
+### Key length considerations
+
+Key length directly affects resharding duration. Longer keys require more time to process due to increased hash calculation overhead per key.
+
+The decrease in duration provided by flex sharding varies based on key length:
+
+- **Short keys (10 bytes)**: Flex sharding provides up to 50% improvement
+- **Long keys (2000 KB)**: Flex sharding provides minimal improvement (approximately 11%)
+- **Critical threshold**: Between 50-100 bytes, flex sharding advantages begin to diminish
+
+### Traffic impact during resharding
+
+Network traffic has a measurable but limited effect on resharding duration. Since resharding operations typically don't reach CPU limits, the impact on both resharding time and ongoing traffic remains minimal.
+
 ## Memory metrics
 
 The Cluster Manager UI provides metrics that can help you evaluate your memory use.
