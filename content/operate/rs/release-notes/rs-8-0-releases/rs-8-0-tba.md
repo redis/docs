@@ -65,6 +65,12 @@ Redis Open Source 8.0 and 8.2 features are now available when you [create]({{<re
 
 - Performance optimizations and memory efficiency improvements.
 
+- Redis Query Engine improvements:
+
+    - New [SVS-VAMANA vector index]({{<relref "/develop/ai/search-and-query/vectors#svs-vamana-index">}}) type, which supports vector compression.
+
+    - New `SHARD_K_RATIO` parameter for [K-nearest neighbor (KNN) vector queries]({{<relref "develop/ai/search-and-query/vectors#knn-vector-search">}}), which favors network latency over accuracy to provide faster responses when exact precision isn't critical.
+
 - See [What's new in Redis 8.2]({{<relref "/develop/whats-new/8-2">}}) and [Redis Open Source 8.2 release notes]({{<relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisos-8.2-release-notes">}}) for more details.
 
 #### Automatically enabled capabilities in Redis 8
