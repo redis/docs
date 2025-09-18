@@ -110,6 +110,8 @@ operations over two or more source keys, storing the result in a destination key
 The examples below show the available operations using three keys: `A` (with bit pattern
 `11011000`), `B` (`00011001`), and `C` (`01101100`).
 
+{{< image filename="/images/dev/bitmap/BitopSetup.svg" alt="Bitop setup" >}}
+
 Numbering the bits from left to right, starting at zero, the following `SETBIT` commands 
 will create these bitmaps:
 
@@ -153,6 +155,8 @@ will create these bitmaps:
 
 Set a bit in the destination key to 1 only if it is set in all the source keys.
 
+{{< image filename="/images/dev/bitmap/BitopAnd.svg" alt="Bitop AND" >}}
+
 {{< clients-example set="bitmap_tutorial" step="bitop_and" >}}
 > BITOP AND R A B C
 (integer) 1
@@ -163,6 +167,8 @@ Set a bit in the destination key to 1 only if it is set in all the source keys.
 
 #### `OR`
 Set a bit in the destination key to 1 if it is set in at least one of the source keys.
+
+{{< image filename="/images/dev/bitmap/BitopOr.svg" alt="Bitop OR" >}}
 
 {{< clients-example set="bitmap_tutorial" step="bitop_or" >}}
 > BITOP OR R A B C
@@ -178,6 +184,8 @@ For two source keys, set a bit in the destination key to 1 if the value of the b
 different in the two keys. For three or more source keys, the result of XORing the first two 
 keys is then XORed with the next key, and so forth.
 
+{{< image filename="/images/dev/bitmap/BitopXor.svg" alt="Bitop XOR" >}}
+
 {{< clients-example set="bitmap_tutorial" step="bitop_xor" >}}
 > BITOP XOR R A B
 (integer) 1
@@ -191,6 +199,8 @@ keys is then XORed with the next key, and so forth.
 Set a bit in the destination key to 1 if it is not set in the source key (this
 is the only unary operator).
 
+{{< image filename="/images/dev/bitmap/BitopNot.svg" alt="Bitop NOT" >}}
+
 {{< clients-example set="bitmap_tutorial" step="bitop_not" >}}
 > BITOP NOT R A
 (integer) 1
@@ -201,7 +211,10 @@ is the only unary operator).
 
 #### `DIFF`
 
-Set a bit in the destination key to 1 if it is set in the first source key, but not in any of the other source keys.
+Set a bit in the destination key to 1 if it is set in the first source key, but not in any 
+of the other source keys.
+
+{{< image filename="/images/dev/bitmap/BitopDiff.svg" alt="Bitop DIFF" >}}
 
 {{< clients-example set="bitmap_tutorial" step="bitop_diff" >}}
 > BITOP DIFF R A B C
@@ -216,6 +229,8 @@ Set a bit in the destination key to 1 if it is set in the first source key, but 
 Set a bit in the destination key to 1 if it is not set in the first source key, 
 but set in at least one of the other source keys.
 
+{{< image filename="/images/dev/bitmap/BitopDiff1.svg" alt="Bitop DIFF1" >}}
+
 {{< clients-example set="bitmap_tutorial" step="bitop_diff1" >}}
 > BITOP DIFF1 R A B C
 (integer) 1
@@ -228,6 +243,8 @@ but set in at least one of the other source keys.
 
 Set a bit in the destination key to 1 if it is set in the first source key and also in at least one of the other source keys.
 
+{{< image filename="/images/dev/bitmap/BitopAndor.svg" alt="Bitop ANDOR" >}}
+
 {{< clients-example set="bitmap_tutorial" step="bitop_andor" >}}
 > BITOP ANDOR R A B C
 (integer) 1
@@ -239,6 +256,8 @@ Set a bit in the destination key to 1 if it is set in the first source key and a
 #### `ONE`
 
 Set a bit in the destination key to 1 if it is set in exactly one of the source keys.
+
+{{< image filename="/images/dev/bitmap/BitopOne.svg" alt="Bitop ONE" >}}
 
 {{< clients-example set="bitmap_tutorial" step="bitop_one" >}}
 > BITOP ONE R A B C
