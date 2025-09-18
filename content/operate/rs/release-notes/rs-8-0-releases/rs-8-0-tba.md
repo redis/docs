@@ -1,5 +1,5 @@
 ---
-Title: Redis Enterprise Software release notes 8.0.0-tba (September 2025)
+Title: Redis Enterprise Software release notes 8.0.2-tba (October 2025)
 alwaysopen: false
 categories:
 - docs
@@ -7,7 +7,7 @@ categories:
 - rs
 compatibleOSSVersion: Redis 7.4.0
 description: Redis Open Source 8.0 and 8.2 features. Lag-aware availability API. Metrics stream engine GA.
-linkTitle: 8.0.0-tba (September 2025)
+linkTitle: 8.0.2-tba (October 2025)
 weight: 90
 ---
 
@@ -332,8 +332,8 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 | Redis Software<br />major versions | 8.0 | 7.22 | 7.8 | 7.4 | 7.2 | 6.4 | 6.2 |
 |---------------------------------|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
-| **Release date** | Sept 2025 | May 2025 | Nov 2024 | Feb 2024 | Aug 2023 | Feb 2023 | Aug 2021 |
-| [**End-of-life date**]({{< relref "/operate/rs/installing-upgrading/product-lifecycle#endoflife-schedule" >}}) | Determined after<br />next major release | Sept 2027 | May 2027 | Nov 2026 | Feb 2026 | Aug 2025 | Feb 2025 |
+| **Release date** | Oct 2025 | May 2025 | Nov 2024 | Feb 2024 | Aug 2023 | Feb 2023 | Aug 2021 |
+| [**End-of-life date**]({{< relref "/operate/rs/installing-upgrading/product-lifecycle#endoflife-schedule" >}}) | Determined after<br />next major release | Oct 2027 | May 2027 | Nov 2026 | Feb 2026 | Aug 2025 | Feb 2025 |
 | **Platforms** | | | | | | | |
 | RHEL 9 &<br />compatible distros<sup>[1](#table-note-1)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | – | – | – |
 | RHEL 9<br />FIPS mode<sup>[5](#table-note-5)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | – | – | – | – |
@@ -362,7 +362,7 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 The following table shows the SHA256 checksums for the available packages:
 
-| Package | SHA256 checksum (8.0-tba September release) |
+| Package | SHA256 checksum (8.0.2-tba October release) |
 |---------|---------------------------------------|
 | Ubuntu 20 | <span class="break-all"></span> |
 | Ubuntu 22 | <span class="break-all"></span> |
@@ -398,7 +398,7 @@ As part of Redis's commitment to security, Redis Enterprise Software implements 
 
 Some CVEs announced for open source Redis do not affect Redis Enterprise Software due to different or additional functionality available in Redis Enterprise Software that is not available in open source Redis.
 
-Redis Enterprise Software 8.0.0-tba supports open source Redis 8.2, 7.4, 7.2, and 6.2. Below is the list of open source Redis CVEs fixed by version.
+Redis Enterprise Software 8.0.2-tba supports open source Redis 8.2, 7.4, 7.2, and 6.2. Below is the list of open source Redis CVEs fixed by version.
 
 Redis 7.4.x:
 
