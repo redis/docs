@@ -81,6 +81,18 @@ Note that the `@all` category did not change, as it always included all the comm
 
 - Deprecated the `module_args` field for [database]({{<relref "/operate/rs/references/rest-api/requests/bdbs">}}) REST API requests. Use the new module configuration objects `search`, `timeseries`, and `probabilistic` instead.
 
+#### Redis Query Engine deprecations
+
+- Deprecated commands: `FT.ADD`, `FT.SAFEADD`, `FT.DEL`, `FT.GET`, `FT.MGET`, `FT.SYNADD`, `FT.DROP`, `FT._DROPIFX`, and `FT.CONFIG`.
+
+- Deprecated `FT.SEARCH` options: `GEOFILTER`, `FILTER`, and `NOSTOPWORDS`.
+
+- Deprecated vector search options: `INITIAL_CAP` and `BLOCK_SIZE`.
+
+- Deprecated configuration parameters: `WORKER_THREADS`, `MT_MODE`, `PRIVILEGED_THREADS_NUM`, and `GCSCANSIZE`.
+
+- Deprecated dialects: `DIALECT 1`, `DIALECT 3`, and `DIALECT 4`.
+
 #### Internal monitoring and v1 Prometheus metrics deprecation
 
 The existing [internal monitoring engine]({{<relref "/operate/rs/monitoring/v1_monitoring">}}) is deprecated. We recommend transitioning to the new [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}) for improved performance, enhanced integration capabilities, and modernized metrics streaming.
