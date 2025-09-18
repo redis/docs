@@ -102,14 +102,160 @@ the number of days a given user visited the web site, while with
 a few [`BITPOS`]({{< relref "/commands/bitpos" >}}) calls, or simply fetching and analyzing the bitmap client-side,
 it is possible to easily compute the longest streak.
 
+### Bitwise operations
+
+The [`BITOP`]({{< relref "/commands/bitop" >}}) command performs bitwise
+operations over two or more source keys, storing the result in a destination key.
+
+The examples below show the available operations using three keys: `A` (with bit pattern
+`11011000`), `B` (`00011001`), and `C` (`01101100`).
+
+Numbering the bits from left to right, starting at zero, the following `SETBIT` commands 
+will create these bitmaps:
+
+{{< clients-example set="bitmap_tutorial" step="bitop_setup" >}}
+> SETBIT A 0 1
+(integer) 0
+> SETBIT A 1 1
+(integer) 0
+> SETBIT A 3 1
+(integer) 0
+> SETBIT A 4 1
+(integer) 0
+> GET A
+"\xd8"
+# Hex value: 0xd8 = 0b11011000
+
+> SETBIT B 3 1
+(integer) 0
+> SETBIT B 4 1
+(integer) 0
+> SETBIT B 7 1
+(integer) 0
+> GET B
+"\x19"
+# Hex value: 0x19 = 0b00011001
+
+> SETBIT C 1 1
+(integer) 0
+> SETBIT C 2 1
+(integer) 0
+> SETBIT C 4 1
+(integer) 0
+> SETBIT C 5 1
+(integer) 0
+> GET C
+"l"
+# ASCII "l" = hex 0x6c = 0b01101100
+{{< /clients-example >}}
+
+#### `AND`
+
+Set a bit in the destination key to 1 only if it is set in all the source keys.
+
+{{< clients-example set="bitmap_tutorial" step="bitop_and" >}}
+> BITOP AND R A B C
+(integer) 1
+> GET R
+"\b"
+# ASCII "\b" (backspace) = hex 0x08 = 0b00001000
+{{< /clients-example >}}
+
+#### `OR`
+Set a bit in the destination key to 1 if it is set in at least one of the source keys.
+
+{{< clients-example set="bitmap_tutorial" step="bitop_or" >}}
+> BITOP OR R A B C
+(integer) 1
+> GET R
+"\xfd"
+# Hex value: 0xfd = 0b11111101
+{{< /clients-example >}}
+
+#### `XOR`
+
+For two source keys, set a bit in the destination key to 1 if the value of the bit is 
+different in the two keys. For three or more source keys, the result of XORing the first two 
+keys is then XORed with the next key, and so forth.
+
+{{< clients-example set="bitmap_tutorial" step="bitop_xor" >}}
+> BITOP XOR R A B
+(integer) 1
+> GET R
+"\xc1"
+# Hex value: 0xc1 = 0b11000001
+{{< /clients-example >}}
+
+#### `NOT`
+
+Set a bit in the destination key to 1 if it is not set in the source key (this
+is the only unary operator).
+
+{{< clients-example set="bitmap_tutorial" step="bitop_not" >}}
+> BITOP NOT R A
+(integer) 1
+> GET R
+"'"
+# ASCII "'" (single quote) = hex 0x27 = 0b00100111
+{{< /clients-example >}}
+
+#### `DIFF`
+
+Set a bit in the destination key to 1 if it is set in the first source key, but not in any of the other source keys.
+
+{{< clients-example set="bitmap_tutorial" step="bitop_diff" >}}
+> BITOP DIFF R A B C
+(integer) 1
+> GET R
+"\x80"
+# Hex value: 0x80 = 0b10000000
+{{< /clients-example >}}
+
+#### `DIFF1`
+
+Set a bit in the destination key to 1 if it is not set in the first source key, 
+but set in at least one of the other source keys.
+
+{{< clients-example set="bitmap_tutorial" step="bitop_diff1" >}}
+> BITOP DIFF1 R A B C
+(integer) 1
+> GET R
+"%"
+# ASCII "%" (percent) = hex 0x25 = 0b00100101
+{{< /clients-example >}}
+
+#### `ANDOR`
+
+Set a bit in the destination key to 1 if it is set in the first source key and also in at least one of the other source keys.
+
+{{< clients-example set="bitmap_tutorial" step="bitop_andor" >}}
+> BITOP ANDOR R A B C
+(integer) 1
+> GET R
+"X"
+# ASCII "X" = hex 0x58 = 0b01011000
+{{< /clients-example >}}
+
+#### `ONE`
+
+Set a bit in the destination key to 1 if it is set in exactly one of the source keys.
+
+{{< clients-example set="bitmap_tutorial" step="bitop_one" >}}
+> BITOP ONE R A B C
+(integer) 1
+> GET R
+"\xa5"
+# Hex value: 0xa5 = 0b10100101
+{{< /clients-example >}}
+
+## Split bitmaps into multiple keys
+
 Bitmaps are trivial to split into multiple keys, for example for
 the sake of sharding the data set and because in general it is better to
 avoid working with huge keys. To split a bitmap across different keys
 instead of setting all the bits into a key, a trivial strategy is just
 to store M bits per key and obtain the key name with `bit-number/M` and
 the Nth bit to address inside the key with `bit-number MOD M`.
-
-
 
 ## Performance
 
