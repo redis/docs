@@ -44,7 +44,7 @@ traffic from a relational database.
 ## Can RDI work with any Redis database?
 
 No. RDI is designed and tested to work only with Redis Enterprise. The staging database can
-only use version 6.4 or above. The target Redis database can be of any version and can be a
+only use versions greater than or equal to 6.4 and strictly less than 8.0. The target Redis database can be of any version and can be a
 replica of an Active-Active replication setup or an Auto tiering database.
 
 ## Can RDI automatically track changes to the source database schema?

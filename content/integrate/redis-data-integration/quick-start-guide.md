@@ -14,7 +14,7 @@ In this tutorial you will learn how to install RDI and set up a pipeline to inge
 
 - A Redis Enterprise database that will serve as the pipeline target. The dataset that will be ingested is
   quite small in size, so a single shard database should be enough. RDI also needs to maintain its
-  own database on the cluster to store state information. *This requires Redis Enterprise v6.4 or greater*.
+  own database on the cluster to store state information. *This requires Redis Enterprise >= v6.4 and < v8.0*.
 - [Redis Insight]({{< relref "/develop/tools/insight" >}})
   to edit your pipeline
 - A virtual machine (VM) with one of the following operating systems:  
