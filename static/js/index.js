@@ -185,3 +185,16 @@ const mobileMenu = (() => {
   document.addEventListener('keydown', keyHandler, false)
 
 })()
+
+// Simple click-to-open for standalone images
+document.addEventListener('click', function(e) {
+  // Check if clicked element is a standalone img (not inside an anchor, not image-card, not no-click)
+  if (e.target.tagName === 'IMG' &&
+      !e.target.closest('a') &&
+      !e.target.classList.contains('image-card-img') &&
+      !e.target.src.includes('#no-click')) {
+
+    // Open image in same tab, just like clicking a regular link
+    window.location.href = e.target.src
+  }
+})
