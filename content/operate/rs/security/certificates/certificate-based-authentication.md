@@ -26,7 +26,23 @@ To set up certificate-based authentication:
 
 ### Add mtls_trusted_ca certificate {#add-cert}
 
-Add a trusted CA certificate `mtls_trusted_ca` to the cluster using an [update cluster certificate]({{<relref "/operate/rs/references/rest-api/requests/cluster/certificates#put-cluster-update_cert">}}) request:
+To add a trusted CA certificate `mtls_trusted_ca` to the cluster, use an [update cluster certificates]({{<relref "/operate/rs/references/rest-api/requests/cluster/certificates">}}) request.
+
+For Redis Enterprise Software versions 7.22.2 and later, use:
+
+```sh
+PUT /v1/cluster/certificates
+{
+  "certificates": [
+    {
+      "name": "mtls_trusted_ca",
+      "certificate": "<content of certificate PEM file>"
+    }
+  ]
+}
+```
+
+For Redis Enterprise Software versions 7.22.0 and earlier, use:
 
 ```sh
 PUT /v1/cluster/update_cert
