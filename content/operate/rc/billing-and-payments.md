@@ -117,3 +117,11 @@ For any special circumstances that may warrant a refund, please contact [Support
 ## Download cost report
 
 {{< embed-md "rc-cost-report-csv.md" >}}
+
+## Troubleshoot
+
+See [Billing](https://support.redislabs.com/hc/en-us/categories/26174537325842-Billing) on the Redis knowledge base for help troubleshooting billing issues:
+- [Resolving payment failures in Redis Cloud](https://support.redislabs.com/hc/en-us/articles/26266042933522-Resolving-Payment-Failures-in-Redis-Cloud)
+- [Credit card retry behavior and troubleshooting](https://support.redislabs.com/hc/en-us/articles/27697187187986-Credit-Card-Retry-Behavior-and-Troubleshooting)
+- [Access invoices and payment links](https://support.redislabs.com/hc/en-us/articles/26265945230226-Access-Invoices-and-Payment-Links-in-the-Portal)
+- [How to find payment information](https://support.redislabs.com/hc/en-us/articles/26266104144914-How-to-Find-Payment-Information)
