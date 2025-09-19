@@ -117,11 +117,11 @@ The **Connectivity** tabs helps secure your subscription.
 
 Here, you can:
 
-- Set up a [VPC peering]({{< relref "/operate/rc/security/vpc-peering.md" >}}) relationship between the virtual PC (VPC) hosting your subscription and another virtual PC.
+- Set up a [VPC peering]({{< relref "/operate/rc/security/vpc-peering.md" >}}) relationship between the virtual private cloud (VPC) hosting your subscription and another VPC.
 
 - Set up a [CIDR allow list]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/subscription-whitelist" >}}) containing IP addresses or security groups permitted to access your subscription (_AWS Cloud accounts only_).
 
-- Set up [Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}}) (*Google Cloud only*) or [Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}) (*AWS only*).
+- Set up [Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}}) (*Google Cloud only*), [Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}) (*AWS only*), or [AWS PrivateLink]({{< relref "/operate/rc/security/aws-privatelink" >}}) (*AWS only*).
 
 See the individual links to learn more.
 
