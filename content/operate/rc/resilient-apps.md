@@ -58,7 +58,18 @@ A Redis Cloud Essentials database has a set maintenance window based on the regi
 
 When you're developing your apps, it is best to use specific Redis Client features to connect to Redis Cloud if they are available for your preferred client.
 
-See [Clients]({{< relref "/develop/clients" >}}) to learn how to connect with the official Redis clients. 
+See [Clients]({{< relref "/develop/clients" >}}) to learn how to connect with the official Redis clients.
+
+### Production usage guides
+
+For production-ready configurations and best practices, see the production usage guides for each client:
+
+- [redis-py production usage]({{< relref "/develop/clients/redis-py/produsage" >}})
+- [Node.js production usage]({{< relref "/develop/clients/nodejs/produsage" >}})
+- [Jedis production usage]({{< relref "/develop/clients/jedis/produsage" >}})
+- [Lettuce production usage]({{< relref "/develop/clients/lettuce/produsage" >}})
+- [go-redis production usage]({{< relref "/develop/clients/go/produsage" >}})
+- [NRedisStack production usage]({{< relref "/develop/clients/dotnet/produsage" >}})
 
 ### Re-attempt connections
 
