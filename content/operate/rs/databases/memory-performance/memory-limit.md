@@ -83,7 +83,7 @@ If you observe this behavior, consider [monitoring]({{< relref "/operate/rs/moni
 
 Resharding enables you to increase database capacity by adding shards and utilizing more cluster memory. Understanding resharding duration helps you plan maintenance operations and minimize database risk.
 
-### Resharding process overview
+### Resharding overview
 
 Resharding follows a three-stage process for each new shard:
 
@@ -99,25 +99,17 @@ Resharding is an atomic operation that cannot be interrupted. Database corruptio
 
 Flexible sharding optimizes the key trimming stage, significantly reducing the time required to remove unnecessary keys from original shards.
 
-### Duration characteristics
+### Resharding duration factors
 
-Resharding duration increases linearly with the number of keys in your database. Several factors affect resharding duration:
+Resharding duration increases linearly with the number of keys in your database. Flexible sharding, key length, and network traffic affect resharding duration:
 
-### Flex sharding impact
+Flexible sharding improves resharding duration compared to standard sharding. 
 
-Flex sharding improves resharding duration compared to standard sharding. 
-
-### Key length considerations
-
-Key length directly affects resharding duration. Longer keys require more time to process due to increased hash calculation overhead per key.
-
-The decrease in duration provided by flex sharding varies based on key length:
+Key length directly affects resharding duration. Longer keys require more time to process due to increased hash calculation overhead per key. The decrease in duration provided by flex sharding varies based on key length:
 
 - **Short keys (10 bytes)**: Flex sharding provides up to 50% improvement
 - **Long keys (2000 KB)**: Flex sharding provides minimal improvement (approximately 11%)
 - **Critical threshold**: Between 50-100 bytes, flex sharding advantages begin to diminish
-
-### Traffic impact during resharding
 
 Network traffic has a measurable but limited effect on resharding duration. Since resharding operations typically don't reach CPU limits, the impact on both resharding time and ongoing traffic remains minimal.
 
