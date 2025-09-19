@@ -85,7 +85,7 @@ In this step, you will associate the Redis Cloud resource share with an AWS prin
 
 1. Select **Share** to share the resource share with the principal.
 
-1. After the resource share is shared with the principal, you can [accept the resource share in the Resource Access Manager](https://docs.aws.amazon.com/ram/latest/userguide/working-with-shared-invitations.html) or copy the **Accept resource share** command and run it with the AWS CLI.
+1. After sharing the resource share with the principal, [accept the resource share in the Resource Access Manager](https://docs.aws.amazon.com/ram/latest/userguide/working-with-shared-invitations.html) or copy the **Accept resource share** command and run it with the AWS CLI.
 
 After you accept the resource share, the Redis Cloud console will show the resource share as **Accepted**.
 
@@ -101,7 +101,7 @@ From the **Connectivity > PrivateLink** tab in your Redis Cloud subscription, op
 
 {{<image filename="images/rc/privatelink-add-connection.png" width="80%" alt="The Add connection section." >}}
 
-Here, choose whether you want to connect to Redis using a **Resource endpoint** or a **Service network**. VPC lattice service networks tend to have higher latency than VPC resource endpoints. 
+Here, choose whether you want to connect to Redis using a **Resource endpoint** or a **Service network**. 
 
 {{< multitabs id="privatelink-connection-type" 
     tab1="Resource endpoint" 
@@ -141,4 +141,7 @@ To use the AWS CLI to connect to an already existing service network, select **C
 
 {{< /multitabs >}}
 
-After you've added a connection, you can view the connection details in the **Connections** section.
+After you've connected to Redis Cloud with a VPC resource endpoint or a VPC lattice service network, download the **Discovery script** and run it in your consumer account to discover the database endpoints.
+
+After you've connected to your database, you can view the connection details in the Redis Cloud console in your subscription's **Connectivity > PrivateLink** tab. 
+
