@@ -58,7 +58,7 @@ A Redis Cloud Essentials database has a set maintenance window based on the regi
 
 When you're developing your apps, it is best to use specific Redis Client features to connect to Redis Cloud if they are available for your preferred client.
 
-See [Clients]({{< relref "/develop/clients" >}}) to learn how to connect with the official Redis clients.
+See [Clients]({{< relref "/develop/clients" >}}) to learn how to connect with the official Redis clients. 
 
 ### Re-attempt connections
 
@@ -77,6 +77,12 @@ Depending on the client, you may be recommended to turn off the DNS cache entire
 The [WAIT]({{< relref "/commands/wait" >}}) and [WAITAOF]({{< relref "/commands/waitaof" >}}) commands block the current client until all previous write commands are persisted between replicas. With these commands, your application guarantees that acknowledged writes are recorded between replicas. 
 
 For more info, see [Use the WAIT command for strong consistency]({{< relref "/operate/rs/clusters/optimize/wait" >}}).
+
+## Test failover behavior
+
+You can test your app's failover behavior in Redis Cloud by running a failover test. A failover test in Redis Cloud simulates a controlled disruption such as an endpoint migration, node failure, or cluster outage to confirm that your app can reconnect, recover, and continue operating without data loss. These tests are a critical part of validating high-availability and disaster recovery, ensuring that applications meet recovery time and recovery point objectives. 
+
+For more info, see [How to run a Failover Test in Redis Cloud](https://support.redislabs.com/hc/en-us/articles/28595965192338-Configuring-Access-Control-and-RBAC-in-Redis-Cloud).
 
 ## More info
 
