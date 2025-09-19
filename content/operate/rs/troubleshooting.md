@@ -22,11 +22,15 @@ For general troubleshooting, see:
 
 - [`rlcheck`]({{<relref "/operate/rs/references/cli-utilities/rlcheck">}})  utility, which runs various tests to check node health and reports any discovered issues
 
+- [Troubleshooting pocket guide]({{<relref "/operate/rs/databases/connect/troubleshooting-guide">}})
+
 ## Troubleshooting by topic
 
 For troubleshooting specific issues, see:
 
-- [Database connectivity troubleshooting]({{<relref "/operate/rs/databases/connect/troubleshooting-guide">}})
+- [Database connectivity troubleshooting]({{<relref "/operate/rs/databases/connect/troubleshooting-guide#troubleshoot-connectivity">}})
+
+- [Latency troubleshooting]({{<relref "/operate/rs/databases/connect/troubleshooting-guide#troubleshoot-latency">}})
 
 - [Replica Of repeatedly fails]({{<relref "/operate/rs/databases/import-export/replica-of/replicaof-repeatedly-fails">}})
 
