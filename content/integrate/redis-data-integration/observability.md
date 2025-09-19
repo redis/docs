@@ -123,7 +123,7 @@ RDI reports with their descriptions.
 | `rdi_processor_process_time_ms_total` | Counter | Total process time in milliseconds across all batches | Informational - use for performance analysis |
 | `rdi_processor_ack_time_ms_total` | Counter | Total acknowledgment time in milliseconds across all batches | Informational - use for performance analysis |
 | `rdi_processor_total_time_ms_total` | Counter | Total total time in milliseconds across all batches | Informational - use for performance analysis |
-| `rdi_processor_rec_per_sec_total` | Counter | Total records per second across all batches | Informational - use for throughput analysis |
+| `rdi_processor_rec_per_sec_total` | Gauge | Total records per second across all batches | Informational - use for throughput analysis |
 | **Processor Performance Last Batch Metrics** | | | |
 | `rdi_processor_batch_size_last` | Gauge | Last batch size processed | Informational - use for real-time monitoring |
 | `rdi_processor_read_time_ms_last` | Gauge | Last batch read time in milliseconds | Informational - use for real-time performance monitoring |
@@ -142,8 +142,8 @@ RDI reports with their descriptions.
 - The `rdi_incoming_entries` metric provides a detailed breakdown for each data source by operation type.
 - The `rdi_stream_event_latency_ms` metric helps monitor data freshness and processing delays.
 - The processor performance metrics are divided into two categories:
-  - **Total metrics** (Counters): Accumulate values across all processed batches for historical analysis
-  - **Last batch metrics** (Gauges): Show real-time performance data for the most recently processed batch
+  - **Total metrics**: Accumulate values across all processed batches for historical analysis
+  - **Last batch metrics**: Show real-time performance data for the most recently processed batch
 {{< /note >}}
 
 ## Recommended alerting strategy
