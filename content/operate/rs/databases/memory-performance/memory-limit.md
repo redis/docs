@@ -107,8 +107,8 @@ Flexible sharding improves resharding duration compared to standard sharding.
 
 Key length directly affects resharding duration. Longer keys require more time to process due to increased hash calculation overhead per key. The decrease in duration provided by flex sharding varies based on key length:
 
-- **Short keys (10 bytes)**: Flex sharding provides up to 50% improvement
-- **Long keys (2000 KB)**: Flex sharding provides minimal improvement (approximately 11%)
+- **Short keys (10 bytes)**: Flexible sharding provides up to 50% improvement
+- **Long keys (2000 KB)**: Flexible sharding provides minimal improvement (approximately 11%)
 - **Critical threshold**: Between 50-100 bytes, flex sharding advantages begin to diminish
 
 Network traffic has a measurable but limited effect on resharding duration. Since resharding operations typically don't reach CPU limits, the impact on both resharding time and ongoing traffic remains minimal.
