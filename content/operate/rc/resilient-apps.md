@@ -64,12 +64,12 @@ See [Clients]({{< relref "/develop/clients" >}}) to learn how to connect with th
 
 For production-ready configurations and best practices, see the production usage guides for each client:
 
-- [redis-py production usage]({{< relref "/develop/clients/redis-py/produsage" >}})
-- [Node.js production usage]({{< relref "/develop/clients/nodejs/produsage" >}})
-- [Jedis production usage]({{< relref "/develop/clients/jedis/produsage" >}})
-- [Lettuce production usage]({{< relref "/develop/clients/lettuce/produsage" >}})
-- [go-redis production usage]({{< relref "/develop/clients/go/produsage" >}})
-- [NRedisStack production usage]({{< relref "/develop/clients/dotnet/produsage" >}})
+- [redis-py]({{< relref "/develop/clients/redis-py/produsage" >}})
+- [Node.js]({{< relref "/develop/clients/nodejs/produsage" >}})
+- [Jedis]({{< relref "/develop/clients/jedis/produsage" >}})
+- [Lettuce]({{< relref "/develop/clients/lettuce/produsage" >}})
+- [go-redis]({{< relref "/develop/clients/go/produsage" >}})
+- [NRedisStack]({{< relref "/develop/clients/dotnet/produsage" >}})
 
 ### Re-attempt connections
 
