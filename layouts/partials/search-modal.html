@@ -68,6 +68,7 @@
   const searchModal = (() => {
     const searchSite = encodeURIComponent(window.location.pathname)
     const searchButton = document.querySelector('#search-button')
+    const searchButtonMobile = document.querySelector('#search-button-mobile')
     const searchContainer = document.querySelector('#search-container')
     const searchInput = searchContainer.querySelector('#search-input')
     const searchSelect = searchContainer.querySelector('#search-select')
@@ -391,7 +392,7 @@
   
     // Click handler function
     function clickHandler(event) {
-      if (event.target.closest('#search-button')) {
+      if (event.target.closest('#search-button') || event.target.closest('#search-button-mobile')) {
         startSearch()
       } else if (event.target.closest('#search-cancel') || event.target.matches('#search-container')) {
         stopSearch()
