@@ -30,4 +30,4 @@ The [Redis Cloud knowledge base](https://support.redislabs.com/hc/en-us/categori
 
 - [Manage network usage and subscription limits in Redis Cloud Essentials](https://support.redislabs.com/hc/en-us/articles/27315881501202-Manage-Network-Usage-and-Subscription-Limits-in-Redis-Cloud-Essentials)
 - [Configuring Access Control and RBAC in Redis Cloud](https://support.redislabs.com/hc/en-us/articles/28595965192338-Configuring-Access-Control-and-RBAC-in-Redis-Cloud)
-- [How to run a Failover Test in Redis Cloud](https://support.redislabs.com/hc/en-us/articles/28595965192338-Configuring-Access-Control-and-RBAC-in-Redis-Cloud)
+- [How to run a Failover Test in Redis Cloud](https://support.redislabs.com/hc/en-us/articles/29001166157074-How-to-Run-a-Failover-Test-in-Redis-Cloud)
