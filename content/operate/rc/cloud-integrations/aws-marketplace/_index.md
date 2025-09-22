@@ -58,3 +58,7 @@ If your AWS Marketplace account is deactivated or otherwise unavailable, you won
 If you are the owner of more than one Redis Cloud account and have already associated your AWS marketplace account with one or more of your Redis accounts, you can add your AWS marketplace account to your other Redis Cloud accounts.
 
 {{< embed-md "rc-marketplace-account-add.md" >}}
+
+## Disconnect AWS Marketplace account
+
+See [Disconnect AWS Marketplace account](https://support.redislabs.com/hc/en-us/articles/29215779949074-Disconnect-Redis-Cloud-from-AWS-Marketplace) on the Redis knowledge base for help disconnecting your AWS Marketplace account from your Redis Cloud account.

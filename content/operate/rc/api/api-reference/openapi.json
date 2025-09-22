@@ -22,7 +22,8 @@
   "security": [
     {
       "x-api-key": [],
-      "x-api-secret-key": []
+      "x-api-secret-key": [],
+      "X-Auth-Token": []
     }
   ],
   "tags": [
@@ -15359,6 +15360,7 @@
               "DATABASE_MODULE_MUST_BE_DEFINED_ONCE",
               "DATABASE_MEMCACHED_CONTAINS_MODULES",
               "DATABASE_MEMCACHED_NOT_SUPPORT_OSS_CLUSTER_API",
+              "REDIS_ON_FLASH_DATABASE_MEMCACHED_PROTOCOL_IS_NOT_ALLOWED",
               "DATABASE_MEMCACHED_CONTAINS_REDIS_PASSWORD",
               "DATABASE_MEMCACHED_CONTAINS_REDIS_DEFAULT_USER",
               "DATABASE_MEMCACHED_SASL_USERNAME_IS_BLANK",
@@ -15380,6 +15382,7 @@
               "DATABASE_INVALID_MODULE",
               "DATABASE_INVALID_MODULE_PARAMETER",
               "DATABASE_INVALID_MODULE_PARAMETER_VALUE",
+              "DATABASE_EXPLICIT_MODULES_NOT_SUPPORTED_FOR_THIS_REDIS_VERSION",
               "DATABASE_INVALID_ALERT_VALUE",
               "DATABASE_SHARDING_TYPE_IS_IMMUTABLE",
               "DATABASE_SHARDING_TYPE_IS_NOT_SUPPORTED",
@@ -17004,6 +17007,11 @@
       "x-api-secret-key": {
         "type": "apiKey",
         "name": "x-api-secret-key",
+        "in": "header"
+      },
+      "X-Auth-Token": {
+        "type": "apiKey",
+        "name": "X-Auth-Token",
         "in": "header"
       }
     }
