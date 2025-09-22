@@ -1,6 +1,7 @@
 // EXAMPLE: bitmap_tutorial
-// HIDE_START
+// REMOVE_START
 import assert from 'assert';
+// REMOVE_END
 import { createClient, RESP_TYPES } from 'redis';
 
 const client = createClient({
@@ -11,7 +12,6 @@ const client = createClient({
   }
 });
 await client.connect();
-// HIDE_END
 
 // REMOVE_START
 await client.flushDb();

@@ -1,10 +1,9 @@
 // EXAMPLE: bitmap_tutorial
-// HIDE_START
-
+// REMOVE_START
 using NRedisStack.Tests;
+// REMOVE_END
 using StackExchange.Redis;
 
-// HIDE_END
 
 // REMOVE_START
 namespace Doc;

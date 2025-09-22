@@ -1,22 +1,20 @@
 // EXAMPLE: bitmap_tutorial
-// HIDE_START
 package io.redis.examples;
 
-import org.junit.jupiter.api.Test;
 import redis.clients.jedis.UnifiedJedis;
 import redis.clients.jedis.args.BitOP;
-
-
+// REMOVE_START
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+// REMOVE_END
 
 public class BitMapsExample {
 
     @Test
     public void run() {
         UnifiedJedis jedis = new UnifiedJedis("redis://localhost:6379");
-        // HIDE_END
 
         // REMOVE_START
         jedis.del("pings:2024-01-01-00:00");
