@@ -38,7 +38,7 @@ Monitor cluster health and performance:
 
 ### Call home client
 
-The call home client sends daily usage statistics to Redis. You can disable it by adding the following to your REC specification:
+The call home client sends health or error data from your deployment(s) back to Redis. You can disable it by adding the following to your REC specification:
 
 ```yaml
 spec:
