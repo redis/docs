@@ -135,6 +135,8 @@ Customer-provided internode encryption certificates must meet the following requ
 
 - Certificates must contain the certificate chain and the leaf certificate.
 
+- Certificates must use an RSA key. Using other key types, such as ECDSA or EdDSA, might prevent internode encryption from working.
+
 ### Upload customer-provided certificates
 
 You can upload either:
