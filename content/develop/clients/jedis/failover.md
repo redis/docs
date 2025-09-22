@@ -13,6 +13,7 @@ description: Improve reliability using the failover/failback features of Jedis.
 linkTitle: Failover/failback
 title: Failover and failback
 weight: 50
+draft: true
 ---
 
 Jedis supports [failover and failback](https://en.wikipedia.org/wiki/Failover)
