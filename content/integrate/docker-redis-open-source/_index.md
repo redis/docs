@@ -24,7 +24,7 @@ Redis Open Source with Docker provides a containerized version of Redis and Redi
 ## Key Features
 
 - **Redis 8.x in Redis Open Source**
-- **RedisInsight**: Web-based Redis management and monitoring interface
+- **Redis Insight**: Web-based Redis management and monitoring interface
 - **Easy Setup**: Single command deployment with Docker or Docker Compose
 - **Development Ready**: Perfect for local development and prototyping
 - **Module Support**: Pre-installed Redis modules for advanced data types
