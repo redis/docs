@@ -5,7 +5,6 @@ categories:
 - docs
 - operate
 - rs
-- kubernetes
 description: The call home client sends your Redis Enterprise Software cluster's daily usage statistics to Redis.
 linkTitle: Call home client
 weight: 80
@@ -14,7 +13,6 @@ weight: 80
 The call home client collects data hourly and sends daily usage statistics to Redis with a POST request to `https://usage.redis.io/callHome`. Reports include memory usage, shard details, enabled features, and other operational metrics. To prevent increased load when multiple clusters are running, the daily report is sent at a random time.
 
 These reports provide insights into license consumption, which helps Redis to ensure performance metrics align with contractual agreements, optimize service delivery, and offer proactive customer support.
-    
 We recommend contacting [Redis support](https://redis.io/support/) before making changes to call home behavior.
 
 ## Collected data
@@ -76,9 +74,9 @@ To stop the call home client from sending daily usage statistics to Redis, [upda
 
 ```sh
 PUT /v1/cluster/services_configuration
-{ 
-  "call_home_agent": { 
+{
+  "call_home_agent": {
     "operating_mode": "disabled"
-  } 
+  }
 }
 ```
