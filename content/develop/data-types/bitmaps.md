@@ -243,7 +243,7 @@ but set in at least one of the other source keys.
 
 Set a bit in the destination key to 1 if it is set in the first source key and also in at least one of the other source keys.
 
-{{< image filename="/images/dev/bitmap/BitopAndor.svg" alt="Bitop ANDOR" >}}
+{{< image filename="/images/dev/bitmap/BitopAndOr.svg" alt="Bitop ANDOR" >}}
 
 {{< clients-example set="bitmap_tutorial" step="bitop_andor" >}}
 > BITOP ANDOR R A B C
