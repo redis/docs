@@ -18,7 +18,7 @@ Redis Enterprise Software provides one predefined Redis ACL named **Full Access*
 
 ## Redis ACL syntax
 
-Redis ACLs are defined by a [Redis syntax]({{< relref "/operate/oss_and_stack/management/security/acl" >}}) where you specify the commands or command categories that are allowed for specific keys.
+Redis ACLs are defined by a syntax where you specify the commands or command categories that are allowed for specific keys.
 
 ### Commands and categories
 
@@ -195,3 +195,6 @@ Redis ACLs also have the following differences in Redis Enterprise Software:
 
     - REST API [`PUT /v1/users`]({{< relref "/operate/rs/references/rest-api/requests/users#put-user" >}}) request and provide `password`
 
+## See also
+
+[Redis syntax]({{< relref "/operate/oss_and_stack/management/security/acl" >}})
