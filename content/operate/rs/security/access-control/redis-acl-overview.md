@@ -197,4 +197,4 @@ Redis ACLs also have the following differences in Redis Enterprise Software:
 
 ## See also
 
-[Redis syntax]({{< relref "/operate/oss_and_stack/management/security/acl" >}})
+[Redis ACL rules]({{< relref "/operate/oss_and_stack/management/security/acl" >}})
