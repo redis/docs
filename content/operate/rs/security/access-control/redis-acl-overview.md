@@ -18,7 +18,7 @@ Redis Enterprise Software provides one predefined Redis ACL named **Full Access*
 
 ## Redis ACL syntax
 
-Redis ACLs are defined by a syntax where you specify the commands or command categories that are allowed for specific keys.
+Redis ACLs are defined by a set of rules where you specify the commands or command categories that are allowed for specific keys.
 
 ### Commands and categories
 
