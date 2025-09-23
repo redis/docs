@@ -20,7 +20,7 @@ Connect your C#/.NET application to a Redis database using the NRedisStack clien
 
 ## Overview
 
-NRedisStack is a comprehensive .NET client library for Redis that extends StackExchange.Redis with support for Redis Stack modules. It provides strongly-typed APIs for Redis data structures and advanced features, making it ideal for modern .NET applications.
+NRedisStack is a comprehensive .NET client library for Redis that extends StackExchange.Redis with support for all Redis data structures and capabilities. It provides strongly-typed APIs for Redis data structures and advanced features, making it ideal for modern .NET applications.
 
 ## Key Features
 
