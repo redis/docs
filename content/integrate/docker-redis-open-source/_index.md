@@ -19,7 +19,7 @@ Deploy Redis Open Source using Docker containers for development and testing env
 
 ## Overview
 
-Redis Open Source with Docker provides a containerized version of Redis with modules and RedisInsight for development and testing. Get a complete Redis development environment with Redis Stack, including popular modules and a web-based management interface.
+Redis Open Source with Docker provides a containerized version of Redis and Redis Insight for development and testing. Get a complete Redis development environment and a web-based management interface.
 
 ## Key Features
 
