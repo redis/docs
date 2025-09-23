@@ -83,6 +83,7 @@ weight: 10
 #### Go (go-redis)
 - Added [retries and timeouts]({{< relref "/develop/clients/go/produsage" >}}) to production usage
 - Enhanced [dialect 2 notes]({{< relref "/develop/clients/go/queryjson" >}})
+- Added [Connect with AMR]({{< relref "/develop/clients/go/amr" >}}) page.
 
 #### Lettuce
 - Updated to [latest Lettuce version]({{< relref "/develop/clients/lettuce/_index#install" >}})
