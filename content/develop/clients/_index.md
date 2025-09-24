@@ -19,7 +19,7 @@ weight: 30
 
 Use the Redis client libraries to connect to Redis servers from
 your own code. We document the following client libraries
-for seven main languages:
+for eight main languages:
 
 | Language | Client name | Docs | Supported |
 | :-- | :-- | :-- | :-- |
