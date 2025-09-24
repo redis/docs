@@ -105,7 +105,7 @@ output:
 
 ### Important notes when using `row_format: full`
 
-- The `before` object will be `null` for `insert` and `create` operations, and the `after` object will be `null` for `delete` operations. This means that if you are building the output key manually, you should account for this and ensure that you are not trying to access fields from a `null` object. Example:
+- The `before` object will be `null` for `insert` and `create` operations, and the `after` object will be `null` for `delete` operations. If you are building the output key manually, you should account for this and ensure that you are not trying to access fields from a `null` object, as shown in the example below:
 
     ```yaml
     source:
