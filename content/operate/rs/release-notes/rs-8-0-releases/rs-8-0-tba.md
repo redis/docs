@@ -232,9 +232,13 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS166825: Fixed an issue where the Sentinel service could become unresponsive while processing certain commands due to a timing issue.
 
+- RS162290: Fixed an issue where the node status API returned 0 instead of the actual provisional RAM and flash values if the node reached its shard limit.
+
 ## Version changes
 
 - [`POST /v1/cluster/actions/change_master`]({{<relref "/operate/rs/references/rest-api/requests/cluster/actions#post-cluster-action">}}) REST API requests will no longer allow a node that exists but is not finished bootstrapping to become the primary node. Such requests will now return the status code `406 Not Acceptable`.
+
+- Node status now returns the actual provisional RAM and flash values even when the maximum number of shards on the node (`max_redis_servers`) is reached. Previously, the API returned 0 for `provisional_ram_of_node` and `provisional_flash_of_node` when a node reached its shard limit. This change affects REST API node status requests and the `rladmin status nodes` command's output.
 
 ### Breaking changes
 
