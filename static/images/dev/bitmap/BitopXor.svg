@@ -1,0 +1,73 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="340" height="170" viewBox="0 0 340 170">
+  <style>
+    .title { font: 700 16px 'Space Grotesk', Helvetica, Arial, sans-serif; fill: #000; }
+    .label { font: 12px 'Space Grotesk', Helvetica, Arial, sans-serif; fill: #000; }
+    .panel { fill: #ffffff; stroke: none; rx: 10; }
+    .axisLabel { font: 12px 'Space Grotesk', Helvetica, Arial, sans-serif; fill: rgb(200,0,0); }
+    .colLabel { font: 10px 'Space Grotesk', Helvetica, Arial, sans-serif; fill: rgb(200,0,0); }
+    .divider { stroke: #cccccc; stroke-width: 1; fill: none; }
+    .highlight { fill: rgb(240,240,240); stroke: none; }
+  </style>
+
+  <!-- Single panel -->
+  <g transform="translate(10,10)">
+    <rect class="panel" x="0" y="0" width="320" height="150" />
+
+    <!-- Grid group (row labels at x=20; columns centered from x=100 step 28) -->
+    <g id="grid" transform="translate(0,0)">
+      <!-- Highlights for columns with 1s in R (columns 0,1,7) -->
+      <rect class="highlight" x="86" y="20" width="56" height="100" rx="4" />
+      <rect class="highlight" x="282" y="20" width="28" height="100" rx="4" />
+
+      <!-- Column numbering -->
+      <g id="colNumbers">
+        <text class="colLabel" x="100" y="32" text-anchor="middle">0</text>
+        <text class="colLabel" x="128" y="32" text-anchor="middle">1</text>
+        <text class="colLabel" x="156" y="32" text-anchor="middle">2</text>
+        <text class="colLabel" x="184" y="32" text-anchor="middle">3</text>
+        <text class="colLabel" x="212" y="32" text-anchor="middle">4</text>
+        <text class="colLabel" x="240" y="32" text-anchor="middle">5</text>
+        <text class="colLabel" x="268" y="32" text-anchor="middle">6</text>
+        <text class="colLabel" x="296" y="32" text-anchor="middle">7</text>
+      </g>
+
+      <!-- Byte A: 11011000 -->
+      <text class="axisLabel" x="20" y="60">A</text>
+      <text class="label" x="100" y="60" text-anchor="middle">1</text>
+      <text class="label" x="128" y="60" text-anchor="middle">1</text>
+      <text class="label" x="156" y="60" text-anchor="middle">0</text>
+      <text class="label" x="184" y="60" text-anchor="middle">1</text>
+      <text class="label" x="212" y="60" text-anchor="middle">1</text>
+      <text class="label" x="240" y="60" text-anchor="middle">0</text>
+      <text class="label" x="268" y="60" text-anchor="middle">0</text>
+      <text class="label" x="296" y="60" text-anchor="middle">0</text>
+
+      <!-- Byte B: 00011001 -->
+      <text class="axisLabel" x="20" y="85">B</text>
+      <text class="label" x="100" y="85" text-anchor="middle">0</text>
+      <text class="label" x="128" y="85" text-anchor="middle">0</text>
+      <text class="label" x="156" y="85" text-anchor="middle">0</text>
+      <text class="label" x="184" y="85" text-anchor="middle">1</text>
+      <text class="label" x="212" y="85" text-anchor="middle">1</text>
+      <text class="label" x="240" y="85" text-anchor="middle">0</text>
+      <text class="label" x="268" y="85" text-anchor="middle">0</text>
+      <text class="label" x="296" y="85" text-anchor="middle">1</text>
+
+
+      <!-- Divider between B and R -->
+      <line class="divider" x1="86" y1="97" x2="310" y2="97" />
+
+      <!-- Row R: 11000001 -->
+      <text class="axisLabel" x="20" y="115">R</text>
+      <text class="label" x="100" y="115" text-anchor="middle">1</text>
+      <text class="label" x="128" y="115" text-anchor="middle">1</text>
+      <text class="label" x="156" y="115" text-anchor="middle">0</text>
+      <text class="label" x="184" y="115" text-anchor="middle">0</text>
+      <text class="label" x="212" y="115" text-anchor="middle">0</text>
+      <text class="label" x="240" y="115" text-anchor="middle">0</text>
+      <text class="label" x="268" y="115" text-anchor="middle">0</text>
+      <text class="label" x="296" y="115" text-anchor="middle">1</text>
+    </g>
+  </g>
+</svg>
+

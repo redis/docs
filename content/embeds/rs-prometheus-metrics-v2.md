@@ -2,6 +2,7 @@
 
 | Metric | Type | Description |
 | :-------- | :--- | :---------- |
+| <span class="break-all">endpoint_accepted_connections</span> | counter | Number of incoming accepted client connections |
 | endpoint_client_connections | counter | Number of client connection establishment events |
 | endpoint_client_disconnections | counter | Number of client disconnections initiated by the client |
 | <span class="break-all">endpoint_client_connection_expired</span> | counter | Total number of client connections with expired TTL (Time To Live) |
@@ -9,9 +10,11 @@
 | <span class="break-all">endpoint_client_expiration_refresh</span> | counter | Number of expiration time changes of clients |
 | <span class="break-all">endpoint_client_tracking_off_requests</span> | counter | Total number of `CLIENT TRACKING OFF` requests |
 | <span class="break-all">endpoint_client_tracking_on_requests</span> | counter | Total number of `CLIENT TRACKING ON` requests |
+| <span class="break-all">endpoint_connections_rate</span> | gauge | The rate of incoming connections. Computed as `n_accepted / N` for the last interval where `n_accepted` is the number of accepted connections in this interval, and `N` is the interval in seconds. |
 | <span class="break-all">endpoint_disconnected_cba_client</span> | counter | Number of certificate-based clients disconnected |
 | <span class="break-all">endpoint_disconnected_ldap_client</span> | counter | Number of LDAP clients disconnected |
 | <span class="break-all">endpoint_disconnected_user_password_client</span> | counter | Number of user&password clients disconnected |
+| <span class="break-all">endpoint_dispatch_failures</span> | counter | Number of clients closed due to failure to be dispatched to workers |
 | <span class="break-all">endpoint_disposed_commands_after_client_caching</span> | counter | Total number of client caching commands that were disposed due to misuse |
 | endpoint_egress | counter | Number of egress bytes |
 | endpoint_egress_pending | counter | Number of send-pending bytes |
@@ -26,6 +29,8 @@
 | <span class="break-all">endpoint_other_requests_latency_histogram_bucket</span> | histogram | Latency histograms for commands other than read or write commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_other_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
 | endpoint_other_responses | counter | Number of other responses |
 | endpoint_proxy_disconnections | counter | Number of client disconnections initiated by the proxy |
+| <span class="break-all">endpoint_rate_limit_ok</span> | gauge | Rate limit status based on the last 2 intervals.<br />0 = rate limit was recently exceeded<br />1 = rate limit was not recently exceeded |
+| <span class="break-all">endpoint_rate_limit_overflows</span> | counter | Total number of rate limit overflows |
 | endpoint_read_requests | counter | Number of read requests |
 | <span class="break-all">endpoint_read_requests_latency_histogram</span> | histogram | Latency (in µs) histogram of read commands |
 | <span class="break-all">endpoint_read_requests_latency_histogram_bucket</span> | histogram | Latency histograms for read commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_read_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
@@ -37,9 +42,6 @@
 | <span class="break-all">endpoint_write_requests_latency_histogram</span> | histogram | Latency (in µs) histogram of write commands |
 | <span class="break-all">endpoint_write_requests_latency_histogram_bucket</span> | histogram | Latency histograms for write commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_write_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
 | endpoint_write_responses | counter | Number of write responses |
-| <span class="break-all">proxy_connections_rate</span> | gauge | The rate of incoming connections. Computed as `n_accepted / N` for the last interval where `n_accepted` is the number of accepted connections in this interval, and `N` is the interval in seconds. |
-| <span class="break-all">proxy_rate_limit_ok</span> | gauge | Rate limit status based on the last 2 intervals.<br />0 = rate limit was recently exceeded<br />1 = rate limit was not recently exceeded |
-| <span class="break-all">proxy_rate_limit_overflows</span> | counter | Total number of rate limit overflows |
 
 ## Node metrics
 

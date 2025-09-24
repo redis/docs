@@ -87,6 +87,8 @@ You need the following RDI images with tags matching the RDI version you want to
 -   [redis/rdi-collector-api](https://hub.docker.com/r/redis/rdi-collector-api)
 -   [redis/rdi-collector-initializer](https://hub.docker.com/r/redis/rdi-collector-initializer)
 
+If you plan to use Spanner as a source for your pipeline, you’ll need an additional image.: [redis/rdi-flink-collector](https://hub.docker.com/r/redis/rdi-flink-collector).
+
 In addition, the RDI Helm chart uses the following 3rd party images:
 
 -   [redislabs/debezium-server:3.0.8.Final-rdi.1](https://hub.docker.com/r/redislabs/debezium-server), 

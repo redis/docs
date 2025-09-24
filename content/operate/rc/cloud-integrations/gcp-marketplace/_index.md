@@ -73,3 +73,7 @@ If your Google Cloud Marketplace account is deactivated or otherwise unavailable
 If you are the owner of more than one Redis Cloud account and have already associated your Google Cloud marketplace account with one or more of your Redis accounts, you can add your Google Cloud marketplace account to your other Redis Cloud accounts.
 
 {{< embed-md "rc-marketplace-account-add.md" >}}
+
+## Disconnect Google Cloud marketplace account
+
+See [Disconnect Google Cloud Marketplace account](https://support.redislabs.com/hc/en-us/articles/29209085344018-Disconnect-Redis-Cloud-from-Google-Cloud-Marketplace) on the Redis knowledge base for help disconnecting your Google Cloud Marketplace account from your Redis Cloud account.
