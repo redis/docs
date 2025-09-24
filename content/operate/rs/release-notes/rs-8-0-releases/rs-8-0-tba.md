@@ -11,7 +11,7 @@ linkTitle: 8.0.2-tba (October 2025)
 weight: 90
 ---
 
-​[​Redis Enterprise Software version 8.0.0](https://redis.io/downloads/#software) is now available!
+​[​Redis Enterprise Software version 8.0.2](https://redis.io/downloads/#software) is now available!
 
 ## Highlights
 
@@ -149,13 +149,13 @@ The [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_eng
 
 ### Redis database versions
 
-Redis Enterprise Software version 8.0.0 includes four Redis database versions: 8.2, 7.4, 7.2, and 6.2.
+Redis Enterprise Software version 8.0.2 includes four Redis database versions: 8.2, 7.4, 7.2, and 6.2.
 
 The [default Redis database version]({{<relref "/operate/rs/databases/configure/db-defaults#database-version">}}) is 8.2.
 
 ### Redis feature sets
 
-As of version 8.0.0, Redis Enterprise Software includes four feature sets, compatible with different Redis database versions.
+As of version 8.0.2, Redis Enterprise Software includes four feature sets, compatible with different Redis database versions.
 
 The following table shows which Redis modules are compatible with each Redis database version included in this release.
 
@@ -238,7 +238,7 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 ### Breaking changes
 
-Redis Enterprise Software version 8.0.0 introduces the following breaking changes:
+Redis Enterprise Software version 8.0.2 introduces the following breaking changes:
 
 - TBA
 
