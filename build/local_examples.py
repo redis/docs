@@ -25,7 +25,8 @@ EXTENSION_TO_LANGUAGE = {
     '.go': 'go',
     '.cs': 'c#',
     '.java': 'java',
-    '.php': 'php'
+    '.php': 'php',
+    '.rs': 'rust'
 }
 
 # Language to client name mapping (from config.toml clientsExamples)
@@ -36,7 +37,8 @@ LANGUAGE_TO_CLIENT = {
     'c#': 'C#',
     'java': 'Java-Sync',  # Default to sync, could be overridden
     'php': 'PHP',
-    'redisvl': 'RedisVL'
+    'redisvl': 'RedisVL',
+    'rust': 'Rust'
 }
 
 

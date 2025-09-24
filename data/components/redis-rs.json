@@ -1,0 +1,15 @@
+{
+    "id": "redis_rs",
+    "type": "client",
+    "name": "redis-rs",
+    "language": "Rust",
+    "label": "Rust",
+    "repository": {
+        "git_uri": "https://github.com/redis-rs/redis-rs"
+    },
+    "examples": {
+        "git_uri": "https://github.com/redis-rs/redis-rs",
+        "path": "redis/examples",
+        "pattern": "*.rs"
+    }
+}

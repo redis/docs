@@ -45,7 +45,7 @@ tagManagerId = "GTM-TKZ6J9R"
 gitHubRepo = "https://github.com/redis/docs"
 
 # Display and sort order for client examples
-clientsExamples = ["Python", "Node.js", "Java-Sync", "Java-Async", "Java-Reactive", "Go", "C#", "RedisVL", "PHP"]
+clientsExamples = ["Python", "Node.js", "Java-Sync", "Java-Async", "Java-Reactive", "Go", "C#", "RedisVL", "PHP", "Rust"]
 searchService = "/convai/api/search-service"
 ratingsService = "/docusight/api/rate"
 
@@ -67,6 +67,7 @@ rdi_current_version = "1.14.1"
 "C#"={quickstartSlug="dotnet"}
 "RedisVL"={quickstartSlug="redis-vl"}
 "PHP"={quickstartSlug="php"}
+"Rust"={quickstartSlug="redis-rs"}
 
 # Markup
 [markup]
