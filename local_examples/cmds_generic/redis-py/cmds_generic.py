@@ -132,7 +132,7 @@ res = list(r.sscan_iter("myset", match="f*"))
 print(res)
 # >>> ['foobar', 'foo', 'feelsgood']
 # REMOVE_START
-assert set(res) == {"foo", "foobar", "feelsgood"}
+assert sorted(res) == sorted(["foo", "foobar", "feelsgood"])
 r.delete("myset")
 # REMOVE_END
 # STEP_END
@@ -181,16 +181,22 @@ print(res)
 res = r.type("geokey")
 print(res)
 # >>> zset
+# REMOVE_START
+assert res == "zset"
+# REMOVE_END
 
 res = r.type("zkey")
 print(res)
 # >>> zset
+# REMOVE_START
+assert res == "zset"
+# REMOVE_END
 
 cursor, keys = r.scan(cursor=0, _type="zset")
 print(keys)
 # >>> ['zkey', 'geokey']
 # REMOVE_START
-assert set(keys) == {"zkey", "geokey"}
+assert sorted(keys) == sorted(["zkey", "geokey"])
 r.delete("geokey", "zkey")
 # REMOVE_END
 # STEP_END
@@ -203,12 +209,18 @@ print(res)
 cursor, keys = r.hscan("myhash", 0)
 print(keys)
 # >>> {'a': '1', 'b': '2'}
+# REMOVE_START
+assert keys == {'a': '1', 'b': '2'}
+# REMOVE_END
 
 cursor, keys = r.hscan("myhash", 0, no_values=True)
 print(keys)
 # >>> ['a', 'b']
 # REMOVE_START
 assert keys == ['a', 'b']
+# REMOVE_END
+
+# REMOVE_START
 r.delete("myhash")
 # REMOVE_END
 # STEP_END
