@@ -121,8 +121,8 @@ output:
             # be 'addresses:None' and the key won't be removed from the target
             # expression: concat(['addresses:', after.ID])
           
-            # This pattern work for all operations, by using the ID from the `after` object if available, 
-            # and do a fallback to the ID from the `before` object if not.
+            # This pattern works for all operations, by using the ID from the `after` object if it is available, 
+            # and falling back to the ID from the `before` object if not.
             expression: concat(['addresses:', after.ID || before.ID])
       
             # Another option is to use the ID from the `key` object
