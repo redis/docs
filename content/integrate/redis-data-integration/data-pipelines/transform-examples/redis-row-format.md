@@ -102,3 +102,48 @@ output:
         expression: concat(['addresses-full', '#', values(key)[0]])
         language: jmespath
 ```
+
+### Important notes when using `row_format: full`
+
+- The `before` object will be `null` for `insert` and `create` operations, and the `after` object will be `null` for `delete` operations. This means that if you are building the output key manually, you should account for this and ensure that you are not trying to access fields from a `null` object. Example:
+
+    ```yaml
+    source:
+      table: addresses
+      row_format: full
+    
+    output:
+      - uses: redis.write
+        with:
+          key:
+            language: jmespath
+            # The following pattern will fail for delete operations. In those cases `after` is null, the resulting key will
+            # be 'addresses:None' and the key won't be removed from the target
+            # expression: concat(['addresses:', after.ID])
+          
+            # This pattern work for all operations, by using the ID from the `after` object if available, 
+            # and do a fallback to the ID from the `before` object if not.
+            expression: concat(['addresses:', after.ID || before.ID])
+      
+            # Another option is to use the ID from the `key` object
+            # expression: concat(['addresses:', values(key)[0]])
+    ```
+
+    Please note that `key` should not be used in combination with `row_format: full` and more than one output, as the `key` object will be overwritten by the previous output. This is a known limitation of the current implementation and is subject to change in future versions.
+
+
+- The final result of the processing, that will be stored in the output, is the value of the `after` object, so you have to reference the fields using the `after` prefix unless you change the output structure in a transformation step. This also means that when adding new fields, you have to prefix them with `after.` to ensure that they are added to the correct part of the output. Example:
+
+    ```yaml
+    source:
+      table: addresses
+      row_format: full
+    
+    transform:
+      - uses: add_field
+        with:
+          field: after.city_state  # use this to add the new field to the final output
+          # field: city_state  # use this if you need a temporary field in the transformation steps, but not in the final output
+          expression: concat([after.CITY, ', ', after.STATE])
+          language: jmespath
+    ```
