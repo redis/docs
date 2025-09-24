@@ -129,7 +129,7 @@ output:
             # expression: concat(['addresses:', values(key)[0]])
     ```
 
-    Please note that `key` should not be used in combination with `row_format: full` and more than one output, as the `key` object will be overwritten by the previous output. This is a known limitation of the current implementation and is subject to change in future versions.
+    Please note that you should not use`key` in combination with `row_format: full` and more than one output, as the `key` object will be overwritten by the previous output. This is a known limitation of the current implementation and is subject to change in future versions.
 
 
 - The final result of the processing (which is what will be stored in the output) is the value of the `after` object. This means you must reference the fields using the `after` prefix unless you change the output structure in a transformation step. Also, when you add new fields, you must prefix them with `after.` to ensure that they are added to the correct part of the output:
