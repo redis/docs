@@ -20,7 +20,7 @@ Predis is the recommended PHP client for Redis.
 
 ## Overview
 
-Predis is a flexible and feature-complete Redis client for PHP that supports Redis 2.0+ and provides a clean, object-oriented interface. PhpRedis is a PHP extension written in C that offers high performance for Redis operations.
+Predis is a flexible and feature-complete Redis client for PHP that supports Redis 2.0+ and provides a clean, object-oriented interface.
 
 ## Key Features
 
