@@ -25,7 +25,11 @@ Redis Cloud exposes its metrics through a Prometheus endpoint. You can configure
 
 The Redis Cloud Prometheus endpoint is exposed on Redis Cloud's internal network. To access this network, enable [VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}}) or [Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}}). Both options are only available with Redis Cloud Pro. You cannot use Prometheus and Grafana with Redis Cloud Essentials.
 
-{{}} The Prometheus endpoint is scoped per subscription. Metrics available on this endpoint cover all databases within that subscription. Any database added to or removed from the subscription is reflected automatically on the endpoint. {{}}
+  {{< note >}}
+  
+  The Prometheus endpoint is scoped per subscription. Metrics available on this endpoint cover all databases within that subscription. Any database added to or removed from the subscription is reflected automatically on the endpoint. 
+
+  {{< /note >}}
 
 For more information on how Prometheus communicates with Redis Enterprise clusters, see [Prometheus integration with Redis Enterprise Software]({{< relref "/integrate/prometheus-with-redis-enterprise/" >}}).
 
