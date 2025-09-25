@@ -114,14 +114,14 @@ RDI reports with their descriptions.
 | `rdi_incoming_entries` | Gauge | Count of incoming events by `data_source` and `operation` type (pending, inserted, updated, deleted, filtered, rejected) | Informational - monitor for trends, alert only on "rejected" > 0 |
 | `rdi_stream_event_latency_ms` | Gauge | Latency in milliseconds of the oldest event in each data stream, labeled by `data_source` | Informational - monitor based on business SLA requirements |
 | **Processor Performance Total Metrics** | | | |
-| `rdi_processed_batches_total` | Counter | Count of the total processed batches | Informational - use for data ingestion and load tracking |
+| `rdi_processed_batches_total` | Counter | Total number of processed batches | Informational - use for data ingestion and load tracking |
 | `rdi_processor_batch_size_total` | Counter | Total batch size across all processed batches | Informational - use for throughput analysis |
 | `rdi_processor_read_time_ms_total` | Counter | Total read time in milliseconds across all batches | Informational - use for performance analysis |
 | `rdi_processor_transform_time_ms_total` | Counter | Total transform time in milliseconds across all batches | Informational - use for performance analysis |
 | `rdi_processor_write_time_ms_total` | Counter | Total write time in milliseconds across all batches | Informational - use for performance analysis |
 | `rdi_processor_process_time_ms_total` | Counter | Total process time in milliseconds across all batches | Informational - use for performance analysis |
 | `rdi_processor_ack_time_ms_total` | Counter | Total acknowledgment time in milliseconds across all batches | Informational - use for performance analysis |
-| `rdi_processor_total_time_ms_total` | Counter | Total total time in milliseconds across all batches | Informational - use for performance analysis |
+| `rdi_processor_total_time_ms_total` | Counter | Sum of the total `read_time`, `process_time` and `ack_time` values in milliseconds across all batches | Informational - use for performance analysis |
 | `rdi_processor_rec_per_sec_total` | Gauge | Total records per second across all batches | Informational - use for throughput analysis |
 | **Processor Performance Last Batch Metrics** | | | |
 | `rdi_processor_batch_size_last` | Gauge | Last batch size processed | Informational - use for real-time monitoring |
