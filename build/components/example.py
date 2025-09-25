@@ -27,7 +27,9 @@ PREFIXES = {
     'c#': '//',
     'redisvl': '#',
     'php': '//',
-    'rust': '//'
+    'rust': '//',
+    'rust-sync': '//',
+    'rust-async': '//'
 }
 
 

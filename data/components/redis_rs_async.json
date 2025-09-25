@@ -1,0 +1,15 @@
+{
+    "id": "redis_rs_async",
+    "type": "client",
+    "name": "redis-rs-Async",
+    "language": "Rust-Async",
+    "label": "Rust-Async",
+    "repository": {
+        "git_uri": "https://github.com/redis-rs/redis-rs"
+    },
+    "examples": {
+        "git_uri": "https://github.com/redis-rs/redis-rs",
+        "path": "redis/examples",
+        "pattern": "*.rs"
+    }
+}

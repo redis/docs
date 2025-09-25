@@ -37,23 +37,23 @@ redis = "0.32.5"
 
 Start by importing the `Commands` trait from the `redis` crate:
 
-{{< clients-example set="landing" step="import" lang_filter="Rust" >}}
+{{< clients-example set="landing" step="import" lang_filter="Rust-Sync" >}}
 {{< /clients-example >}}
 
 The following example shows the simplest way to connect to a Redis server:
 
-{{< clients-example set="landing" step="connect" lang_filter="Rust" >}}
+{{< clients-example set="landing" step="connect" lang_filter="Rust-Sync" >}}
 {{< /clients-example >}}
 
 After connecting, you can test the connection by  storing and retrieving
 a simple [string]({{< relref "/develop/data-types/strings" >}}):
 
-{{< clients-example set="landing" step="set_get_string" lang_filter="Rust" >}}
+{{< clients-example set="landing" step="set_get_string" lang_filter="Rust-Sync" >}}
 {{< /clients-example >}}
 
 You can also easily store and retrieve a [hash]({{< relref "/develop/data-types/hashes" >}}):
 
-{{< clients-example set="landing" step="set_get_hash" lang_filter="Rust" >}}
+{{< clients-example set="landing" step="set_get_hash" lang_filter="Rust-Sync" >}}
 {{< /clients-example >}}
 
 ## More information

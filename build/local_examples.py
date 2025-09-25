@@ -38,7 +38,7 @@ LANGUAGE_TO_CLIENT = {
     'java': 'Java-Sync',  # Default to sync, could be overridden
     'php': 'PHP',
     'redisvl': 'RedisVL',
-    'rust': 'Rust'
+    'rust': 'Rust-Sync'
 }
 
 
