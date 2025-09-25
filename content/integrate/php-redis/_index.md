@@ -1,5 +1,5 @@
 ---
-LinkTitle: php-redis
+LinkTitle: predis
 Title: PHP client for Redis
 categories:
 - docs
