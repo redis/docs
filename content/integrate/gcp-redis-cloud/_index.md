@@ -22,14 +22,10 @@ Redis Cloud on Google Cloud provides a fully managed Redis service that integrat
 
 ## Key Features
 
-- **GCP Integration**: Native integration with Google Cloud VPC and services
 - **Private Service Connect**: Secure, private connectivity within Google Cloud
 - **Global Network**: Deploy across Google's worldwide network of regions
-- **AI/ML Integration**: Optimized for Google Cloud AI and machine learning workloads
-- **BigQuery Integration**: Seamless data pipeline integration with BigQuery
 - **Auto-scaling**: Intelligent scaling based on traffic patterns and usage
 - **Enterprise Security**: Google Cloud IAM integration and advanced security features
-- **Kubernetes Integration**: Native support for Google Kubernetes Engine (GKE)
 
 ## Getting Started
 
