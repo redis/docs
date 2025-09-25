@@ -23,7 +23,7 @@ Redis Cloud on AWS provides a fully managed Redis service that combines the powe
 ## Key Features
 
 - **VPC Peering**: Secure, private connectivity between Redis Cloud and your AWS VPC
-- **AWS PrivateLink**: Private connectivity without internet exposure
+- **AWS Transit Gateway**: Private connectivity to multiple resources
 - **Multi-AZ Deployment**: High availability across AWS Availability Zones
 - **AWS Marketplace**: Simple billing through your existing AWS account
 - **Global Distribution**: Deploy in 12+ AWS regions worldwide
