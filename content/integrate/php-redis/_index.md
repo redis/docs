@@ -24,8 +24,7 @@ Predis is a flexible and feature-complete Redis client for PHP that supports Red
 
 ## Key Features
 
-- **Predis (Recommended)**: Pure PHP implementation, easy Composer installation, framework integration
-- **PhpRedis**: High-performance C extension for maximum speed and efficiency
+- **Pure PHP implementation**: easy Composer installation, framework integration
 - **Full Redis Support**: Complete command coverage for all Redis features
 - **Framework Integration**: Seamless integration with Laravel, Symfony, and other PHP frameworks
 - **Connection Management**: Automatic connection pooling and reconnection handling
