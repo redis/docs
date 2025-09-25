@@ -20,7 +20,7 @@ Connect your Python application to a Redis database using the redis-py client li
 
 ## Overview
 
-redis-py is the most popular Python client for Redis, providing a comprehensive interface for all Redis commands and features. It offers both synchronous and asynchronous APIs, making it suitable for a wide range of Python applications from simple scripts to high-performance web applications.
+redis-py is the recommended Python client for Redis, providing a comprehensive interface for all Redis commands and features. It offers both synchronous and asynchronous APIs, making it suitable for a wide range of Python applications from simple scripts to high-performance web applications.
 
 ## Key Features
 
