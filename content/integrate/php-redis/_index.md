@@ -34,4 +34,4 @@ Predis is a flexible and feature-complete Redis client for PHP that supports Red
 
 ## Getting Started
 
-Refer to the complete [PHP guide]({{< relref "/develop/clients/php" >}}) to install, connect, and use PHP Redis clients with detailed examples and framework integration guides.
+Refer to the complete [Predis guide]({{< relref "/develop/clients/php" >}}) to install, connect, and use PHP Redis clients with detailed examples and framework integration guides.
