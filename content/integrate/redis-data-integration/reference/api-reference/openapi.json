@@ -4627,6 +4627,22 @@
               10.5
             ]
           },
+          "transform_time_avg": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Transform Time Avg",
+            "examples": [
+              2.3
+            ]
+          },
+          "write_time_avg": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Write Time Avg",
+            "examples": [
+              4.4
+            ]
+          },
           "process_time_avg": {
             "type": "number",
             "minimum": 0.0,
@@ -4665,6 +4681,8 @@
           "total_batches",
           "batch_size_avg",
           "read_time_avg",
+          "transform_time_avg",
+          "write_time_avg",
           "process_time_avg",
           "ack_time_avg",
           "total_time_avg",
