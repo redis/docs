@@ -16,7 +16,7 @@ type: integration
 weight: 4
 ---
 
-Predis is the recommended PHP client for Redis. Connect your PHP application to a Redis database using Predis or PhpRedis client libraries.
+Predis is the recommended PHP client for Redis.
 
 ## Overview
 
