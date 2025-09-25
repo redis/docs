@@ -20,17 +20,10 @@ Deploy Redis Cloud on Microsoft Azure to combine Redis's high performance with A
 
 Redis Cloud on Azure provides a fully managed Redis service that integrates seamlessly with Azure's enterprise cloud platform. Deploy Redis databases across multiple Azure regions with enterprise-grade security, compliance, and Azure-native integrations.
 
-## Key Features
+## Regions
 
-- **Azure Integration**: Native integration with Azure Virtual Networks and services
-- **Private Endpoints**: Secure, private connectivity without internet exposure
-- **Multi-region Deployment**: High availability across Azure regions and availability zones
-- **Azure Marketplace**: Simplified procurement and billing through Azure
-- **Enterprise Security**: Azure AD integration, encryption, and compliance certifications
-- **Auto-scaling**: Automatic scaling based on demand and usage patterns
-- **Azure Monitor**: Integration with Azure monitoring and alerting services
-- **Hybrid Cloud**: Seamless integration with on-premises and multi-cloud architectures
+Redis Cloud Essentials is available on multiple Microsoft Azure regions, see [Supported regions]({{< relref "/operate/rc/supported-regions/#microsoft-azure" >}}).
 
 ## Getting Started
 
-Get started with [Redis Cloud]({{< relref "/operate/rc/rc-quickstart" >}}) on Azure to create and manage your Redis databases.
+Get started with [Redis Cloud]({{< relref "/operate/rc/rc-quickstart" >}}) to create and manage your Redis databases.
