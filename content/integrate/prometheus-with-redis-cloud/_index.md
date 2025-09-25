@@ -27,7 +27,7 @@ The Redis Cloud Prometheus endpoint is exposed on Redis Cloud's internal network
 
   {{< note >}}
   
-  The Prometheus endpoint is scoped per subscription. Metrics available on this endpoint cover all databases within that subscription. Any database added to or removed from the subscription is reflected automatically on the endpoint. 
+The Prometheus endpoint's metrics cover all databases within a subscription. Any database added to or removed from the subscription is reflected automatically. 
 
   {{< /note >}}
 
