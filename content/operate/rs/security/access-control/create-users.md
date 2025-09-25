@@ -24,15 +24,11 @@ To add a user to the cluster:
 
 1. From the **Access Control > Users** tab in the Cluster Manager UI, select **+ Add user**.
 
-    {{<image filename="images/rs/access-control-user-panel.png" alt="Add role with name" >}}
+    {{<image filename="images/rs/screenshots/access-control/7-22-updates/users-screen.png" alt="The list of existing users on the Access Control > Users screen.">}}
 
 1. Enter the name, email, and password of the new user.
 
-    {{<image filename="images/rs/access-control-user-add.png" alt="Add role with name" >}}
-
-1. Assign a **Role** to the user to grant permissions for cluster management and data access.
-
-    {{<image filename="images/rs/access-control-user-role-select.png" width="300px" alt="Add role to user." >}}
+    {{<image filename="images/rs/screenshots/access-control/7-22-updates/create-user-panel.png" alt="Create user panel with fields for username, email, password, and alerts.">}}
 
 1. Select the **Alerts** the user should receive by email:
 
@@ -40,23 +36,33 @@ To add a user to the cluster:
     
     - **Receive cluster alerts** - The alerts that are enabled for the cluster in **Cluster > Alerts Settings** are sent to the user.
 
-1. Select **Save**.
+1. Click **Add permissions**.
+
+1. Assign a **Role** to the user to grant permissions for cluster management and data access.
+
+    {{<image filename="images/rs/screenshots/access-control/7-22-updates/create-user-role-select.png" alt="Add role to new user." >}}
+
+1. Click **Save user**.
 
 ## Assign roles to users
 
 Assign a role, associated with specific databases and access control lists (ACLs), to a user to grant database access:
 
-1. From the **Access Control > Users** tab in the Cluster Manager UI, you can:
+1. From the **Access Control > Users** tab in the Cluster Manager UI, select an existing user from the list of users.
 
-    - Point to an existing user and select {{< image filename="/images/rs/buttons/edit-button.png#no-click" alt="The Edit button" width="25px" class="inline" >}} to edit the user.
-    
-    - Select **+ Add user** to [create a new user]({{< relref "/operate/rs/security/access-control/create-users" >}}).
+1. Click the **Edit** button.
+
+1. In the **User roles** section, click **Edit**.
+
+    {{<image filename="images/rs/screenshots/access-control/7-22-updates/edit-user-roles.png" alt="The User roles section of the Edit user panel." >}}
 
 1. Select a role to assign to the user.
 
-    {{<image filename="images/rs/access-control-user-role-select.png" width="300px" alt="Add role to user." >}}
+    {{<image filename="images/rs/screenshots/access-control/7-22-updates/edit-user-select-role.png" alt="Select role for user." >}}
 
-1. Select **Save**.
+1. Click **Done** to close the **Roles** dialog.
+
+1. Click **Save**.
 
 ## Next steps
 
