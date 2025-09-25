@@ -10,7 +10,7 @@ categories:
 description: Learn how to build with Redis and PHP
 group: library
 stack: true
-summary: PhpRedis is a PHP extension for Redis.
+summary: Predis is a PHP client for Redis.
 title: php-redis
 type: integration
 weight: 4
