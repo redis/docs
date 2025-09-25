@@ -11,7 +11,7 @@ description: Learn how to build with Redis and PHP
 group: library
 stack: true
 summary: Predis is a PHP client for Redis.
-title: php-redis
+title: predis
 type: integration
 weight: 4
 ---
