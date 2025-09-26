@@ -80,7 +80,7 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
     - **Scheme**: Select **Internal**.
     - **Load balancer IP address type**: Select **IPv4**.
 1. In **Network mapping**, select the VPC and availability zone associated with your source database.
-1. In **Security groups**, select the security group associated with your source database.
+1. In **Security groups**, select the security group associated with your source database, or another security group that allows traffic from PrivateLink and allows traffic to the database.
 1. In **Listeners and routing**: 
     1. Select **Create target group** to [create a target group](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-target-group.html) with the following settings:
         1. In **Specify group details**:
@@ -93,7 +93,11 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
         - **Port**: Enter your source database's port.
         - **Default action**: Select the target group you created in the previous step.
 1. Review the network load balancer settings, and then select **Create load balancer** to continue.
-1. After the network load balancer is active, select **Security**, and then select the security group ID to open the Security group settings.
+1. After the network load balancer is active, select **Security**. 
+
+    If you selected the same security group as your source database, you must not enforce security group rules on PrivateLink traffic. Select **Edit** and then deselect **Enforce inbound rules on PrivateLink traffic**, and then select **Save changes**.
+
+1. Select the security group ID to open the Security group settings.
 1. Select **Edit inbound rules**, then **Add rule** to add a rule with the following settings:
     - **Type**: Select **HTTP**.
     - **Source**: Select **Anywhere - IPv4**.
@@ -146,7 +150,7 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
     - **Scheme**: Select **Internal**.
     - **Load balancer IP address type**: Select **IPv4**.
 1. In **Network mapping**, select the VPC and availability zone associated with your source database.
-1. In **Security groups**, select the security group associated with your source database.
+1. In **Security groups**, select the security group associated with your source database, or another security group that allows traffic from PrivateLink and allows traffic to the database.
 1. In **Listeners and routing**: 
     1. Select **Create target group** to [create a target group](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-target-group.html) with the following settings:
         1. In **Specify group details**:
@@ -164,7 +168,12 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
         - **Port**: Enter your source database's port.
         - **Default action**: Select the target group you created in the previous step.
 1. Review the network load balancer settings, and then select **Create load balancer** to continue.
-1. After the network load balancer is active, select **Security**, and then select the security group ID to open the Security group settings.
+1. After the network load balancer is active, select **Security**. 
+
+    If you selected the same security group as your source database, you must not enforce security group rules on PrivateLink traffic. Select **Edit** and then deselect **Enforce inbound rules on PrivateLink traffic**, and then select **Save changes**.
+
+1. Select the security group ID to open the Security group settings.
+
 1. Select **Edit inbound rules**, then **Add rule** to add a rule with the following settings:
     - **Type**: Select **HTTP**.
     - **Source**: Select **Anywhere - IPv4**.
