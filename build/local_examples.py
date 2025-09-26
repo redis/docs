@@ -67,6 +67,11 @@ def get_client_name_from_language_and_path(language: str, path: str) -> str:
             return 'Java-Async'
         if 'lettuce-reactive' in path:
             return 'Java-Reactive'
+    if language == 'rust':
+        if 'rust-async' in path:
+            return 'Rust-Async'
+        if 'rust-sync' in path:
+            return 'Rust-Sync'
     # Default behavior for all languages (and Java fallback)
     return get_client_name_from_language(language)
 

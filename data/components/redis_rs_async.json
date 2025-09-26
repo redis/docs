@@ -1,7 +1,7 @@
 {
     "id": "redis_rs_async",
     "type": "client",
-    "name": "redis-rs-Async",
+    "name": "redis-rs-async",
     "language": "Rust-Async",
     "label": "Rust-Async",
     "repository": {
