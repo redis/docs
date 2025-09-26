@@ -1,22 +1,22 @@
-<div class="w-full border-t border-t-redis-pen-300 mt-14 pt-14 flex flex-col md:flex-row gap-11 md:gap-0">
+<div class="w-full border-t border-t-white border-opacity-30 mt-14 pt-14 flex flex-col md:flex-row gap-11 md:gap-0">
   <div class="flex flex-col gap-5 flex-1">
-    <h3 class="text-2xl">{{ .Title }}</h3>
-    <p>{{ .Description }}</p>
+    <h3 class="text-2xl text-white">{{ .Title }}</h3>
+    <p class="text-gray-300">{{ .Description }}</p>
     {{ partial "components/button-link.html" (dict "Href" .ButtonLink "Text" .ButtonLabel) }}
   </div>
   <div class="flex-1 font-mono">
-    <div class="h-full flex flex-col md:flex-row gap-11 md:gap-8 md:pl-8 md:ml-8 md:border-l md:border-l-redis-pen-300">
+    <div class="h-full flex flex-col md:flex-row gap-11 md:gap-8 md:pl-8 md:ml-8 md:border-l md:border-l-white md:border-opacity-30">
       <div class="flex flex-col gap-5 flex-1">
-        <p class="uppercase">{{ .LinksLeftTitle }}</p>
+        <p class="uppercase text-gray-400">{{ .LinksLeftTitle }}</p>
         {{ range .LinksLeft }}
-          <a class="hover:text-redis-red-500 transition-colors text-balance" href="{{ .URL }}">{{ .Text }}&nbsp;→</a>
+          <a class="hover:text-redis-red-500 transition-colors text-balance text-gray-300" href="{{ .URL }}">{{ .Text }}&nbsp;→</a>
         {{ end }}
       </div>
       {{ if .LinksRight }}
       <div class="flex flex-col gap-5 flex-1">
-        <p class="uppercase">{{ .LinksRightTitle }}</p>
+        <p class="uppercase text-gray-400">{{ .LinksRightTitle }}</p>
         {{ range .LinksRight }}
-          <a class="hover:text-redis-red-500 transition-colors text-balance" href="{{ .URL }}">{{ .Text }}&nbsp;→</a>
+          <a class="hover:text-redis-red-500 transition-colors text-balance text-gray-300" href="{{ .URL }}">{{ .Text }}&nbsp;→</a>
         {{ end }}
       </div>
       {{ end }}

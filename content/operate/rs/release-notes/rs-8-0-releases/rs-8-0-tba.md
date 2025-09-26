@@ -1,5 +1,5 @@
 ---
-Title: Redis Enterprise Software release notes 8.0.0-tba (September 2025)
+Title: Redis Enterprise Software release notes 8.0.2-tba (October 2025)
 alwaysopen: false
 categories:
 - docs
@@ -7,11 +7,11 @@ categories:
 - rs
 compatibleOSSVersion: Redis 7.4.0
 description: Redis Open Source 8.0 and 8.2 features. Lag-aware availability API. Metrics stream engine GA.
-linkTitle: 8.0.0-tba (September 2025)
+linkTitle: 8.0.2-tba (October 2025)
 weight: 90
 ---
 
-​[​Redis Enterprise Software version 8.0.0](https://redis.io/downloads/#software) is now available!
+​[​Redis Enterprise Software version 8.0.2](https://redis.io/downloads/#software) is now available!
 
 ## Highlights
 
@@ -37,7 +37,11 @@ Redis Open Source 8.0 and 8.2 features are now available when you [create]({{<re
 
 - New hash commands [`HGETEX`]({{<relref "/commands/hgetex">}}), [`HSETEX`]({{<relref "/commands/hsetex">}}), and [`HGETDEL`]({{<relref "/commands/hgetdel">}}), which can simplify caching and session management patterns.
 
-- Enhanced access control lists (ACLs) to support new data structures introduced in Redis 8. Existing ACL categories such as `@read` and `@write` now include commands for JSON, time series, vector, and probabilistic data structures.
+- Enhanced access control lists (ACLs) to support new data structures introduced in Redis 8.
+
+    - Existing ACL categories such as `@read` and `@write` now include commands for JSON, time series, vector, and probabilistic data structures.
+
+    - New ACL categories: `@search`, `@json`, `@timeseries`, `@bloom`, `@cuckoo`, `@topk`, `@cms`, and `@tdigest`.
 
 - Redis Query Engine improvements.
 
@@ -61,7 +65,23 @@ Redis Open Source 8.0 and 8.2 features are now available when you [create]({{<re
 
 - Performance optimizations and memory efficiency improvements.
 
+- Redis Query Engine improvements:
+
+    - New [SVS-VAMANA vector index]({{<relref "/develop/ai/search-and-query/vectors#svs-vamana-index">}}) type, which supports vector compression.
+
+    - New `SHARD_K_RATIO` parameter for [K-nearest neighbor (KNN) vector queries]({{<relref "develop/ai/search-and-query/vectors#knn-vector-search">}}), which favors network latency over accuracy to provide faster responses when exact precision isn't critical.
+
 - See [What's new in Redis 8.2]({{<relref "/develop/whats-new/8-2">}}) and [Redis Open Source 8.2 release notes]({{<relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisos-8.2-release-notes">}}) for more details.
+
+#### Automatically enabled capabilities in Redis 8
+
+Redis Enterprise Software databases created with or upgraded to Redis version 8 or later automatically enable the capabilities (modules) bundled with Redis Enterprise Software as follows:
+
+| Database type | Automatically enabled capabilities |
+|---------------|------------------------------------|
+| RAM-only | [Search and query]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search">}})<br />[JSON]({{<relref "/operate/oss_and_stack/stack-with-enterprise/json">}})<br />[Time series]({{<relref "/operate/oss_and_stack/stack-with-enterprise/timeseries">}})<br />[Probabilistic]({{<relref "/operate/oss_and_stack/stack-with-enterprise/bloom">}})  |
+| Flash-enabled ([Auto Tiering]({{<relref "/operate/rs/databases/auto-tiering">}})) | [JSON]({{<relref "/operate/oss_and_stack/stack-with-enterprise/json">}})<br />[Probabilistic]({{<relref "/operate/oss_and_stack/stack-with-enterprise/bloom">}}) |
+| [Active-Active]({{<relref "/operate/rs/databases/active-active">}}) | [Search and query]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search/search-active-active">}})<br />[JSON]({{<relref "/operate/oss_and_stack/stack-with-enterprise/json">}}) |
 
 #### Lag-aware availability API
 
@@ -97,17 +117,29 @@ The [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_eng
 
 ### Enhancements
 
-- Added `--update-db-config-modules` option to the [`crdb-cli crdb update`]({{<relref "/operate/rs/references/cli-utilities/crdb-cli/update">}}) command to streamline updating module information in the CRDB configuration after uprading modules used by Active-Active databases. Use this option only after all CRDB database instances have upgraded their modules.
+- Module management enhancements:
 
-    ```sh
-    crdb-cli crdb update --crdb-guid <guid> --update-db-config-modules true
-    ```
+    - Operating system (OS) upgrades no longer require manually uploading module packages compiled for the target OS version to a node in the existing cluster.
 
-- REST API enhancements:
+    - Copying module packages to a node in the cluster before cluster recovery is no longer required.
 
-    - Added `replica_sconns_on_demand` to database configuration. When enabled, the DMC stops holding persistent connections to replica shards and reduces the number of internode connections by half.
+    - Added new REST API requests to manage custom, user-defined modules. See [Custom module management APIs]({{<relref "/operate/rs/references/rest-api/requests/modules/user-defined">}}) for details.
 
-    - Added `conns_minimum_dedicated` to database configuration to define the minimum number of dedicated server connections the DMC maintains per worker per shard.
+    - Added module configuration fields to the database configuration. Use `search`, `timeseries`, and `probabilistic` objects to configure Redis modules instead of the deprecated `module_args` field. These fields are visible in [`GET /v1/bdbs`]({{<relref "/operate/rs/references/rest-api/requests/bdbs">}}) requests only when using the `extended=true` query parameter.
+
+    - Added `--update-db-config-modules` option to the [`crdb-cli crdb update`]({{<relref "/operate/rs/references/cli-utilities/crdb-cli/update">}}) command to streamline updating module information in the CRDB configuration after uprading modules used by Active-Active databases. Use this option only after all CRDB database instances have upgraded their modules.
+
+        ```sh
+        crdb-cli crdb update --crdb-guid <guid> --update-db-config-modules true
+        ```
+
+- Additional REST API enhancements:
+
+    - Added `replica_sconns_on_demand` to the database configuration. When enabled, the DMC stops holding persistent connections to replica shards and reduces the number of internode connections by half.
+
+    - Added `conns_minimum_dedicated` to the database configuration to define the minimum number of dedicated server connections the DMC maintains per worker per shard.
+
+    - Added `metrics_auth` to the cluster configuration. If set to `true`, it enables basic authentication for Prometheus exporters and restricts access to authenticated users with `admin`, `cluster_member`, or `cluster_viewer` [management roles]({{<relref "/operate/rs/references/rest-api/permissions">}}).
 
 - Added action IDs to operation and state machine log entries.
 
@@ -115,15 +147,17 @@ The [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_eng
 
 - Improved control plane authentication handling for new clusters with a dedicated authentication service.
 
+- Improved handling of long-running read-only scripts to reduce unnecessary failovers.
+
 ### Redis database versions
 
-Redis Enterprise Software version 8.0.0 includes four Redis database versions: 8.2, 7.4, 7.2, and 6.2.
+Redis Enterprise Software version 8.0.2 includes four Redis database versions: 8.2, 7.4, 7.2, and 6.2.
 
 The [default Redis database version]({{<relref "/operate/rs/databases/configure/db-defaults#database-version">}}) is 8.2.
 
 ### Redis feature sets
 
-As of version 8.0.0, Redis Enterprise Software includes four feature sets, compatible with different Redis database versions.
+As of version 8.0.2, Redis Enterprise Software includes four feature sets, compatible with different Redis database versions.
 
 The following table shows which Redis modules are compatible with each Redis database version included in this release.
 
@@ -180,13 +214,37 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS114668: Fixed an issue where setting `failure_detection_sensitivity` with the `bootstrap` API did not automatically update `watchdog_profile` accordingly.
 
+- RS163266: Fixed an issue where shard rebalancing could take excessive time when replicas were unresponsive due to high CPU load by reducing connection retry attempts from 300 to 5.
+
+- RS162524: Fixed an issue where the DNS backend could fail with "too many open files" errors due to socket leaks.
+
+- RS161547: Fixed an issue where nodes could fail to send messages related to state-machines due to a timing issue between notification threads and management threads.
+
+- RS155990: Fixed an issue where the `forwarding_state` field was missing from the endpoint schema.
+
+- RS166307: Updated v2 Prometheus metric names to comply with naming conventions by changing the `proxy_` prefix to `endpoint_` for `connections_rate`, `rate_limit_ok`, `rate_limit_overflows`, `accepted_connections`, and `dispatch_failures`.
+
+- RS164703: Improved diagnostic reporting for shard restart operations by adding PID logging before shutdown.
+
+- RS152179: Reduced log noise by removing a harmless error message that appeared repeatedly in DMC proxy logs.
+
+- RS132087: Fixed inconsistent node status reports between `rladmin` and the REST API.
+
+- RS166878: Fixed legacy `module_args` mapping to handle boolean fields as `TRUE/FALSE` values instead of flags.
+
+- RS166825: Fixed an issue where the Sentinel service could become unresponsive while processing certain commands due to a timing issue.
+
+- RS162290: Fixed an issue where the node status API returned 0 instead of the actual provisional RAM and flash values if the node reached its shard limit.
+
 ## Version changes
 
 - [`POST /v1/cluster/actions/change_master`]({{<relref "/operate/rs/references/rest-api/requests/cluster/actions#post-cluster-action">}}) REST API requests will no longer allow a node that exists but is not finished bootstrapping to become the primary node. Such requests will now return the status code `406 Not Acceptable`.
 
+- Node status now returns the actual provisional RAM and flash values even when the maximum number of shards on the node (`max_redis_servers`) is reached. Previously, the API returned 0 for `provisional_ram_of_node` and `provisional_flash_of_node` when a node reached its shard limit. This change affects REST API node status requests and the `rladmin status nodes` command's output.
+
 ### Breaking changes
 
-Redis Enterprise Software version 8.0.0 introduces the following breaking changes:
+Redis Enterprise Software version 8.0.2 introduces the following breaking changes:
 
 - TBA
 
@@ -203,12 +261,16 @@ Starting with Redis 8, Redis includes all Query Engine, JSON, time series, Bloom
 As a result:
 
 - Existing ACL rules such as `+@read +@write` will allow access to more commands than in previous versions of Redis. Here are some examples:
+
   - A user with `+@read` access will be able to execute `FT.SEARCH`.
+  
   - A user with `+@write` access will be able to execute `JSON.SET`. 
 
 - ACL rules such as `+@all -@write`  will allow access to fewer commands than previous versions of Redis.
+
   - For example, a user with `+@all -@write` will not be able to execute `JSON.SET`.
-  - Explicit inclusion of new [command categories]({{<relref "/operate/oss_and_stack/management/security/acl#command-categories">}}) is required to maintain access.
+
+  - Explicit inclusion of new [command categories]({{<relref "/operate/oss_and_stack/management/security/acl#command-categories">}}) is required to maintain access. The new categories are: `@search`, `@json`, `@timeseries`, `@bloom`, `@cuckoo`, `@topk`, `@cms`, and `@tdigest`.
 
 - ACL rules such as `+@read +JSON.GET` can now be simplified as `+@read` because `JSON.GET` is included in the `@read` category.
 
@@ -216,7 +278,21 @@ Note that the `@all` category did not change, as it always included all the comm
 
 #### Redis Query Engine changes
 
-{{<embed-md "redis8-breaking-changes-rqe.md">}}
+The following changes affect behavior and validation in the Redis Query Engine:
+
+- Enforces validation for `LIMIT` arguments (offset must be 0 if limit is 0).
+
+- Enforces parsing rules for `FT.CURSOR READ` and `FT.ALIASADD`.
+
+- Parentheses are now required for exponentiation precedence in `APPLY` expressions.
+
+- Invalid input now returns errors instead of empty results.
+
+- Default values revisited for reducers like `AVG`, `COUNT`, `SUM`, `STDDEV`, `QUANTILE`, and others.
+
+- Updates to scoring (`BM25` is now the default instead of `TF-IDF`).
+
+- Improved handling of expired records, memory constraints, and malformed fields.
 
 ### Product lifecycle updates
 
@@ -227,6 +303,20 @@ Note that the `@all` category did not change, as it always included all the comm
 #### API deprecations
 
 - Deprecated the `policy` field for [bootstrap]({{<relref "/operate/rs/references/rest-api/requests/bootstrap">}}) REST API requests. Use [`PUT /v1/cluster/policy`]({{< relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) to change cluster policies after cluster creation instead.
+
+- Deprecated the `module_args` field for [database]({{<relref "/operate/rs/references/rest-api/requests/bdbs">}}) REST API requests. Use the new module configuration objects `search`, `timeseries`, and `probabilistic` instead.
+
+#### Redis Query Engine deprecations
+
+- Deprecated commands: `FT.ADD`, `FT.SAFEADD`, `FT.DEL`, `FT.GET`, `FT.MGET`, `FT.SYNADD`, `FT.DROP`, `FT._DROPIFX`, and `FT.CONFIG`.
+
+- Deprecated `FT.SEARCH` options: `GEOFILTER`, `FILTER`, and `NOSTOPWORDS`.
+
+- Deprecated vector search options: `INITIAL_CAP` and `BLOCK_SIZE`.
+
+- Deprecated configuration parameters: `WORKER_THREADS`, `MT_MODE`, `PRIVILEGED_THREADS_NUM`, and `GCSCANSIZE`.
+
+- Deprecated dialects: `DIALECT 1`, `DIALECT 3`, and `DIALECT 4`.
 
 #### Internal monitoring and v1 Prometheus metrics deprecation
 
@@ -248,8 +338,8 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 | Redis Software<br />major versions | 8.0 | 7.22 | 7.8 | 7.4 | 7.2 | 6.4 | 6.2 |
 |---------------------------------|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
-| **Release date** | Sept 2025 | May 2025 | Nov 2024 | Feb 2024 | Aug 2023 | Feb 2023 | Aug 2021 |
-| [**End-of-life date**]({{< relref "/operate/rs/installing-upgrading/product-lifecycle#endoflife-schedule" >}}) | Determined after<br />next major release | Sept 2027 | May 2027 | Nov 2026 | Feb 2026 | Aug 2025 | Feb 2025 |
+| **Release date** | Oct 2025 | May 2025 | Nov 2024 | Feb 2024 | Aug 2023 | Feb 2023 | Aug 2021 |
+| [**End-of-life date**]({{< relref "/operate/rs/installing-upgrading/product-lifecycle#endoflife-schedule" >}}) | Determined after<br />next major release | Oct 2027 | May 2027 | Nov 2026 | Feb 2026 | Aug 2025 | Feb 2025 |
 | **Platforms** | | | | | | | |
 | RHEL 9 &<br />compatible distros<sup>[1](#table-note-1)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | – | – | – |
 | RHEL 9<br />FIPS mode<sup>[5](#table-note-5)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | – | – | – | – |
@@ -278,7 +368,7 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 The following table shows the SHA256 checksums for the available packages:
 
-| Package | SHA256 checksum (8.0-tba September release) |
+| Package | SHA256 checksum (8.0.2-tba October release) |
 |---------|---------------------------------------|
 | Ubuntu 20 | <span class="break-all"></span> |
 | Ubuntu 22 | <span class="break-all"></span> |
@@ -314,7 +404,7 @@ As part of Redis's commitment to security, Redis Enterprise Software implements 
 
 Some CVEs announced for open source Redis do not affect Redis Enterprise Software due to different or additional functionality available in Redis Enterprise Software that is not available in open source Redis.
 
-Redis Enterprise Software 8.0.0-tba supports open source Redis 8.2, 7.4, 7.2, and 6.2. Below is the list of open source Redis CVEs fixed by version.
+Redis Enterprise Software 8.0.2-tba supports open source Redis 8.2, 7.4, 7.2, and 6.2. Below is the list of open source Redis CVEs fixed by version.
 
 Redis 7.4.x:
 

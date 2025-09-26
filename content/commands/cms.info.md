@@ -49,7 +49,7 @@ redis> CMS.INFO test
 
 ## Return information
 
-{{< multitabs id=“cms-info-return-info" 
+{{< multitabs id="cms-info-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}
 

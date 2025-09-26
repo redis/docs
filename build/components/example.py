@@ -26,7 +26,10 @@ PREFIXES = {
     'go': '//',
     'c#': '//',
     'redisvl': '#',
-    'php': '//'
+    'php': '//',
+    'rust': '//',
+    'rust-sync': '//',
+    'rust-async': '//'
 }
 
 

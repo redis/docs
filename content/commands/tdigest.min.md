@@ -53,7 +53,7 @@ redis> TDIGEST.MIN t
 
 ## Return information
 
-{{< multitabs id=“tdigest-min-return-info" 
+{{< multitabs id="tdigest-min-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}
 

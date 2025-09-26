@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - kubernetes
+aliases: [/operate/kubernetes/reference/redis_enterprise_cluster_api, /operate/kubernetes/reference/cluster-options]
 linkTitle: REC API
 weight: 30
 ---

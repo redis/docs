@@ -18,7 +18,7 @@ Redis Enterprise modules follow the [modules lifecycle]({{< relref "/operate/oss
 ## Release numbers
 
 Redis uses a four-place numbering scheme to designate released versions of its products.
-The format is “Major1.Major2.Minor-Build”.
+The format is "Major1.Major2.Minor-Build".
 
 - Major sections of the version number represents fundamental changes and additions in
     capabilities to Redis  Enterprise Software. The Major1 and Major2 part of the
@@ -40,8 +40,8 @@ This update to the EOL policy allows a lead time of at least 24 months to upgrad
 
 | Version - Release date | End of Life (EOL)  |
 | ----------------------------------------- | ------------------ |
-| 8.0 – September 2025				            | - |
-| 7.22 – May 2025				            | September 30, 2027 |
+| 8.0 – October 2025				        | - |
+| 7.22 – May 2025				            | October 30, 2027 |
 | 7.8 – November 2024				        | May 30, 2027 |
 | 7.4 – February 2024				        | November 30, 2026 |
 | 7.2 – August 2023				            | February 28, 2026 |

@@ -63,7 +63,7 @@ redis> CF.COUNT cf item2
 
 ## Return information
 
-{{< multitabs id=“cf-count-return-info" 
+{{< multitabs id="cf-count-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}
 

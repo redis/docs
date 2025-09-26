@@ -119,7 +119,7 @@ redis> CF.INSERTNX cf_new CAPACITY 1000 NOCREATE ITEMS item1 item2
 
 ## Return information
 
-{{< multitabs id=“cf-insert-return-info" 
+{{< multitabs id="cf-insert-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}
 

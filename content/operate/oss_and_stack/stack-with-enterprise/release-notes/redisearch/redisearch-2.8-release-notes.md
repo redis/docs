@@ -13,10 +13,38 @@ weight: 91
 ---
 ## Requirements
 
-RediSearch v2.8.28 requires:
+RediSearch v2.8.30 requires:
 
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
+
+## v2.8.30 (September 2025)
+
+This is a maintenance release for RediSearch 2.8.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#6672](https://github.com/RediSearch/RediSearch/pull/6672) Fix potential file descriptor leak when OOM.
+- [#6763](https://github.com/RediSearch/RediSearch/pull/6763) Fix potential deadlock during RDB loading in cases where the `INFO` command is sent to the server.
+
+**Full Changelog**: https://github.com/RediSearch/RediSearch/compare/v2.8.29...v2.8.30.
+
+## v2.8.29 (August 2025)
+
+This is a maintenance release for RediSearch 2.8.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#6599](https://github.com/redisearch/redisearch/pull/6599) `FLUSHDB` while active queries are still running could lead to a crash due to premature release of the CURSOR (MOD-10681).
+- [#6418](https://github.com/redisearch/redisearch/pull/6418) Errors when loading schema from RDB get incorrectly cleared (MOD-10307).
+- [#6405](https://github.com/redisearch/redisearch/pull/6405) Validate compatibility against RedisJSON version upon open key (MOD-10298).
+
+Improvements:
+- [#6466](https://github.com/redisearch/redisearch/pull/6466) Handle excessive error logs when handling JSON.DEL errors (MOD-10266).
+- [#6663](https://github.com/redisearch/redisearch/pull/6663) Time measurement on `FT.PROFILE` using thread-independent clock mechanism (MOD-10622).
+- [#6646](https://github.com/redisearch/redisearch/pull/6646) Response on RESP2/3 validation was inefficiently consuming excessive CPU cycles (MOD-9687).
 
 ## v2.8.28 (June 2025)
 

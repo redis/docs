@@ -13,10 +13,35 @@ weight: 90
 ---
 ## Requirements
 
-RediSearch v2.10.21 requires:
+RediSearch v2.10.23 requires:
 
 - Minimum Redis compatibility version (database): 7.4
 - Minimum Redis Enterprise Software version (cluster): 7.8
+
+## v2.10.23 (September 2025)
+
+This is a maintenance release for RediSearch 2.10.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#6672](https://github.com/RediSearch/RediSearch/pull/6672) Fix potential file descriptor leak when OOM.
+- [#6763](https://github.com/RediSearch/RediSearch/pull/6763) Fix potential deadlock during RDB loading in cases where the `INFO` command is sent to the server.
+
+**Full Changelog**: https://github.com/RediSearch/RediSearch/compare/v2.10.22...v2.10.23
+
+## v2.10.22 (August 2025)
+
+This is a maintenance release for RediSearch 2.10.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#6600](https://github.com/redisearch/redisearch/pull/6600) `FLUSHDB` while active queries are still running could lead to a crash due to premature release of the CURSOR (MOD-10681).
+
+Improvements:
+- [#6664](https://github.com/redisearch/redisearch/pull/6664) Time measurement on `FT.PROFILE` using thread-independent clock mechanism (MOD-10622).
+- [#6647](https://github.com/redisearch/redisearch/pull/6647) Response on RESP2/3 validation was inefficiently consuming excessive CPU cycles (MOD-9687).
 
 ## v2.10.21 (July 2025)
 
@@ -24,10 +49,10 @@ This is a maintenance release for RediSearch 2.10.
 
 Update urgency: `LOW`: No need to upgrade unless there are new features you want to use.
 
-**Bug fixes:**
+Bug fixes:
 - [#6405](https://github.com/redisearch/redisearch/pull/6405) Validate compatibility against RedisJSON version upon open key.
 
-**Improvements:**
+Improvements:
 - [#6340](https://github.com/redisearch/redisearch/pull/6340) Handle excessive logging when processing JSON.DEL errors.
 
 ## v2.10.20 (June 2025)

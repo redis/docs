@@ -33,8 +33,8 @@ Using LangCache as a semantic caching service has the following benefits:
 
 - **Lower LLM costs**:  Reduce costly LLM calls by easily storing the most frequently-requested responses.
 - **Faster AI app responses**: Get faster AI responses by retrieving previously-stored requests from memory.
-- **Simpler Deployments**: Access our managed service using a REST API with automated embedding generation, configurable controls, and no database management required.
-- **Advanced cache management**: Manage data access and privacy, eviction protocols, and monitor usage and cache hit rates.
+- **Simpler deployments**: Access our managed service using a REST API with automated embedding generation, configurable controls, and no database management required.
+- **Advanced cache management**: Manage data access, privacy, and eviction protocols. Monitor usage and cache hit rates.
 
 LangCache works well for the following use cases:
 

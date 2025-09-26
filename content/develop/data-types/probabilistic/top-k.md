@@ -100,4 +100,4 @@ Insertion in a top-k has time complexity of O(K + depth) ≈ O(K) and lookup has
 - [HeavyKeeper: An Accurate Algorithm for Finding Top-k Elephant Flows.](https://yangtonghome.github.io/uploads/HeavyKeeper_ToN.pdf)
 
 ## References
-- [Meet Top-K: an Awesome Probabilistic Addition to RedisBloom](https://redis.com/blog/meet-top-k-awesome-probabilistic-addition-redisbloom/)
+- [Meet Top-K: an Awesome Probabilistic Addition to Redis](https://redis.com/blog/meet-top-k-awesome-probabilistic-addition-redis/)
