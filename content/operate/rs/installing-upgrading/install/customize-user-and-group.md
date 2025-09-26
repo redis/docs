@@ -16,7 +16,7 @@ During installation, you can specify the user and group that own all Redis Enter
 
 ## Considerations
 
-- Custom installation user is supported on Red Hat Enterprise Linux.
+- Custom installation user is supported on Red Hat Enterprise Linux and compatible distributions.
 
 - You must create the user and group before installing Redis Enterprise Software.
 

@@ -39,17 +39,17 @@ The **Connectivity** section provides the connection details for your LangCache 
 | **Cache ID** | The unique ID of your LangCache service. |
 | **API Base URL** | The base URL for LangCache API requests. |
 
-Select the **Copy** button next to the Cache ID and API Base URL to copy them to the clipboard. If you lost the API key value or need to rotate the key, you can [replace the service API key](#replace-service-api-key) at any time.
+Select the **Copy** button next to the Cache ID and API Base URL to copy them to the clipboard. If you lost the API key value or need to rotate the key, you can [generate a new service API key](#replace-service-api-key) at any time.
 
 See [use the LangCache API]({{< relref "/operate/rc/langcache/use-langcache" >}}) for more information on how to use these values. 
 
-#### Replace service API key
+#### Generate a new service API key {#replace-service-api-key}
 
-The API key is only available immediately after you create the LangCache service. If you lost this value, or need to rotate the key, you can replace the service key at any time.
+The API key is only available immediately after you create the LangCache service. If you lost this value, or need to rotate the key, you can generate a new service key at any time.
 
-To replace the service key:
+To generate a new service key:
 
-1. Select **Replace key**.
+1. Select **Generate key**.
 
     {{<image filename="images/rc/langcache-replace-key.png" alt="The Replace Key button." >}}
 
@@ -60,9 +60,11 @@ To replace the service key:
     {{<image filename="images/rc/langcache-service-key.png" alt="The LangCache service key window. Use the Copy button to save the service key to the clipboard." >}}
 
     {{<warning>}}
+After you generate a new service key, calls to the LangCache API with the old key will fail. <br/><br/>
+
 This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box. <br/><br/>
 
-If you lose the service key value, you will need to replace the key again.
+If you lose the service key value, you will need to generate a new key again.
     {{</warning>}}
 
 ### General
@@ -77,7 +79,9 @@ The **General** section provides configuration details for your LangCache servic
 | **Database** | The database that stores your cache data. |
 | **Similarity threshold** | The minimum similarity score required to consider a cached response a match. _(Editable)_ |
 | **TTL** | The number of seconds to cache entries before they expire. _(Editable)_ |
-| **Embedding Provider** | The embedding provider to use for your service. |
+| **Embedding Provider** | The embedding provider used for your service. |
+| **Embedding Model** | The embedding model used for your service. |
+| **Embedding Model API key** | The obfuscated API key for the embedding provider. |
 
 Some of these settings can be changed after cache creation. To do so, select the **Edit** button.
 

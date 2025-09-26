@@ -45,7 +45,7 @@ tagManagerId = "GTM-TKZ6J9R"
 gitHubRepo = "https://github.com/redis/docs"
 
 # Display and sort order for client examples
-clientsExamples = ["Python", "Node.js", "Java-Sync", "Java-Async", "Java-Reactive", "Go", "C#", "RedisVL", "PHP"]
+clientsExamples = ["Python", "Node.js", "Java-Sync", "Java-Async", "Java-Reactive", "Go", "C#", "RedisVL", "PHP", "Rust-Sync", "Rust-Async"]
 searchService = "/convai/api/search-service"
 ratingsService = "/docusight/api/rate"
 
@@ -55,7 +55,7 @@ rdi_redis_gears_version = "1.2.6"
 rdi_debezium_server_version = "2.3.0.Final"
 rdi_db_types = "cassandra|mysql|oracle|postgresql|sqlserver"
 rdi_cli_latest = "latest"
-rdi_current_version = "1.14.0"
+rdi_current_version = "1.14.1"
 
 [params.clientsConfig]
 "Python"={quickstartSlug="redis-py"}
@@ -67,6 +67,8 @@ rdi_current_version = "1.14.0"
 "C#"={quickstartSlug="dotnet"}
 "RedisVL"={quickstartSlug="redis-vl"}
 "PHP"={quickstartSlug="php"}
+"Rust-sync"={quickstartSlug="rust"}
+"Rust-async"={quickstartSlug="rust"}
 
 # Markup
 [markup]
