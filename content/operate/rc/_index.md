@@ -26,6 +26,8 @@ Use the [Quick start]({{< relref "/operate/rc/rc-quickstart" >}}) to learn how t
 - [Connect with Redis client]({{< relref "/operate/rc/rc-quickstart#using-redis-client" >}})
 - [Connect with Redis Insight]({{< relref "/operate/rc/rc-quickstart#using-redisinsight" >}})
 
+You can also use [Vercel's Redis Cloud integration](https://vercel.com/marketplace/redis-cloud) or [Heroku's Redis Cloud add-on](https://elements.heroku.com/addons/rediscloud) to quickly add a Redis database to your project.
+
 ## Databases
 Create and manage [Redis databases]({{< relref "/operate/rc/databases" >}}) in the cloud.
 - [Create database]({{< relref "/operate/rc/databases/create-database" >}})
