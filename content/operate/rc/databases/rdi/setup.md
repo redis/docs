@@ -233,10 +233,10 @@ The required secrets depend on your source database's security configuration. Th
 
 | Security configuration | Required secrets |
 | :-- | :-- |
-| Username and password only | <ul><li>Credentials secret (username and password)</li></ul> |
-| TLS connection | <ul><li>Credentials secret (username and password)</li><li>CA Certificate secret (server certificate)</li></ul> |
-| mTLS connection | <ul><li>Credentials secret (username and password)</li><li>CA Certificate secret (server certificate)</li><li>Client certificate secret</li><li>Client key secret</li></ul> |
-| mTLS connection with client key passphrase | <ul><li>Credentials secret (username and password)</li><li>CA Certificate secret (server certificate)</li><li>Client certificate secret</li><li>Client key secret</li><li>Client key passphrase secret</li></ul> |
+| Username and password only | <ul><li>Credentials secret (username and password for the RDI pipeline user)</li></ul> |
+| TLS connection | <ul><li>Credentials secret (username and password for the RDI pipeline user)</li><li>CA Certificate secret (server certificate)</li></ul> |
+| mTLS connection | <ul><li>Credentials secret (username and password for the RDI pipeline user)</li><li>CA Certificate secret (server certificate)</li><li>Client certificate secret</li><li>Client key secret</li></ul> |
+| mTLS connection with client key passphrase | <ul><li>Credentials secret (username and password for the RDI pipeline user)</li><li>CA Certificate secret (server certificate)</li><li>Client certificate secret</li><li>Client key secret</li><li>Client key passphrase secret</li></ul> |
 
 Select a tab to learn how to create the required secret.
 
@@ -251,8 +251,8 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
 
 - **Key/value pairs**: Enter the following key/value pairs.
 
-    - `username`: Database username
-    - `password`: Database password
+    - `username`: Database username for the RDI pipeline user
+    - `password`: Database password for the RDI pipeline user
 
 {{< embed-md "rc-rdi-secrets-encryption-permissions.md" >}}
 
