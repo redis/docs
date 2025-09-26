@@ -69,7 +69,7 @@ This guide shows how to create a Redis Flex database on Redis Cloud Essentials.
 
 1. Redis will generate a database name for you. If you want to change it, you can do so in the **Database name** field.  
 
-1. Choose a **Region** on Amazon Web Services for your database.
+1. Choose a **Region** on Amazon Web Services for your database. See [Supported regions]({{< relref "/operate/rc/supported-regions" >}}) for a list of supported regions by cloud vendor.
 
 1. Choose your **High availability (replication)** settings from the list. 
 
