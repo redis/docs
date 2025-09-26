@@ -91,33 +91,7 @@ Configure Vault token policies with minimum TTL of 1 hour:
 - Ensures stable operation during maintenance windows
 - See [Vault token management](https://developer.hashicorp.com/vault/tutorials/tokens/token-management)
 
-## Architecture overview
-
-Understanding the integration architecture helps ensure proper configuration and troubleshooting.
-
-### Components and data flow
-
-```
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Kubernetes    │    │  HashiCorp Vault │    │ Redis Enterprise│
-│     Cluster     │    │                  │    │    Cluster     │
-│                 │    │                  │    │                 │
-│ ┌─────────────┐ │    │ ┌──────────────┐ │    │ ┌─────────────┐ │
-│ │   Redis     │◄┼────┼►│  KV-v2 Store │ │    │ │   Database  │ │
-│ │ Enterprise  │ │    │ │              │ │    │ │   Instances │ │
-│ │  Operator   │ │    │ │ - Credentials│ │    │ │             │ │
-│ └─────────────┘ │    │ │ - Certificates│ │    │ └─────────────┘ │
-│                 │    │ │ - Licenses   │ │    │                 │
-│ ┌─────────────┐ │    │ └──────────────┘ │    │                 │
-│ │   Vault     │ │    │                  │    │                 │
-│ │   Agent     │ │    │ ┌──────────────┐ │    │                 │
-│ │  Injector   │ │    │ │ Kubernetes   │ │    │                 │
-│ └─────────────┘ │    │ │ Auth Method  │ │    │                 │
-└─────────────────┘    │ └──────────────┘ │    └─────────────────┘
-                       └──────────────────┘
-```
-
-### Authentication flow
+## Authentication flow
 
 1. **Service Account Authentication**: Redis Enterprise operator uses its Kubernetes service account token
 2. **Vault Authentication**: Operator authenticates with Vault using Kubernetes auth method
