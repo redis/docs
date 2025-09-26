@@ -139,6 +139,8 @@ The [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_eng
 
     - Added `conns_minimum_dedicated` to the database configuration to define the minimum number of dedicated server connections the DMC maintains per worker per shard.
 
+    - Added `metrics_auth` to the cluster configuration. If set to `true`, it enables basic authentication for Prometheus exporters and restricts access to authenticated users with `admin`, `cluster_member`, or `cluster_viewer` [management roles]({{<relref "/operate/rs/references/rest-api/permissions">}}).
+
 - Added action IDs to operation and state machine log entries.
 
 - Internal connections no longer generate `new_int_conn` audit records.
