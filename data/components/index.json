@@ -15,7 +15,9 @@
         "jedis",
         "lettuce_async",
         "lettuce_reactive",
-        "redis_vl"
+        "redis_vl",
+        "redis_rs_sync",
+        "redis_rs_async"
     ],
     "assets": [],
     "website": {

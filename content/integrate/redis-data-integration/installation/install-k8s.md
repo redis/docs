@@ -323,10 +323,12 @@ section to learn how to do this.
 
 When the Helm installation is complete and you have prepared the source database for CDC,
 you are ready to start using RDI.
-Use [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}}) to
+Use [Redis Insight]({{< relref "/develop/tools/insight" >}}) to
 [configure]({{< relref "/integrate/redis-data-integration/data-pipelines" >}}) and
 [deploy]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})
-your pipeline.
+your pipeline (see
+[RDI in Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}})
+for full details on how to do this).
 
 ## Uninstall RDI
 
