@@ -294,11 +294,9 @@ After you create the secret, you need to add permissions to allow the data pipel
 
 In the [AWS Management Console](https://console.aws.amazon.com/), use the **Services** menu to locate and select **Security, Identity, and Compliance** > **Secrets Manager**. Select the private key secret you just created and then select **Edit permissions**. 
 
-Add the following permissions to your secret:
+Add the following permissions to your secret. Replace `<AWS ACCOUNT ID>` with the AWS account ID for the Redis Cloud cluster that you saved earlier.
 
 {{< embed-md "rc-rdi-secrets-permissions.md" >}}
-
-Replace `<AWS ACCOUNT ID>` with the AWS account ID for the Redis Cloud cluster that you saved earlier.
 
 --tab-sep--
 
@@ -309,8 +307,6 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
 {{< embed-md "rc-rdi-secrets-encryption-permissions.md" >}}
 
 {{< /multitabs >}}
-
-After you store this secret, you can view and copy the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#iam-resources) of your secret on the secret details page. 
 
 ## Next steps
 
