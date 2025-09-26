@@ -54,25 +54,41 @@ console.log(expireRes2); // 1
 
 const expireRes3 = await client.ttl('mykey');
 console.log(expireRes3); // 10
+// REMOVE_START
+assert.equal(expireRes3, 10);
+// REMOVE_END
 
 const expireRes4 = await client.set('mykey', 'Hello World');
 console.log(expireRes4); // OK
 
 const expireRes5 = await client.ttl('mykey');
 console.log(expireRes5); // -1
+// REMOVE_START
+assert.equal(expireRes5, -1);
+// REMOVE_END
 
 const expireRes6 = await client.expire('mykey', 10, "XX");
 console.log(expireRes6); // 0
+// REMOVE_START
+assert.equal(expireRes6, 0)
+// REMOVE_END
 
 const expireRes7 = await client.ttl('mykey');
 console.log(expireRes7); // -1
+// REMOVE_START
+assert.equal(expireRes7, -1);
+// REMOVE_END
 
 const expireRes8 = await client.expire('mykey', 10, "NX");
 console.log(expireRes8); // 1
+// REMOVE_START
+assert.equal(expireRes8, 1);
+// REMOVE_END
 
 const expireRes9 = await client.ttl('mykey');
 console.log(expireRes9); // 10
 // REMOVE_START
+assert.equal(expireRes9, 10);
 await client.del('mykey');
 // REMOVE_END
 // STEP_END
@@ -87,6 +103,7 @@ console.log(ttlRes2); // 1
 const ttlRes3 = await client.ttl('mykey');
 console.log(ttlRes3); // 10
 // REMOVE_START
+assert.equal(ttlRes3, 10);
 await client.del('mykey');
 // REMOVE_END
 // STEP_END
@@ -155,13 +172,20 @@ console.log(scan3Res2); // 1
 
 const scan3Res3 = await client.type('geokey');
 console.log(scan3Res3); // zset
+// REMOVE_START
+console.assert(scan3Res3 === 'zset');
+// REMOVE_END
 
 const scan3Res4 = await client.type('zkey');
 console.log(scan3Res4); // zset
+// REMOVE_START
+console.assert(scan3Res4 === 'zset');
+// REMOVE_END
 
 const scan3Res5 = await client.scan('0', { TYPE: 'zset' });
 console.log(scan3Res5.keys); // ['zkey', 'geokey']
 // REMOVE_START
+console.assert(scan3Res5.keys.sort().toString() === ['zkey', 'geokey'].sort().toString());
 await client.del(['geokey', 'zkey']);
 // REMOVE_END
 // STEP_END
@@ -172,11 +196,18 @@ console.log(scan4Res1); // 2
 
 const scan4Res2 = await client.hScan('myhash', '0');
 console.log(scan4Res2.entries); // [{field: 'a', value: '1'}, {field: 'b', value: '2'}]
+// REMOVE_START
+assert.deepEqual(scan4Res2.entries, [
+  { field: 'a', value: '1' },
+  { field: 'b', value: '2' }
+]);
+// REMOVE_END
 
 const scan4Res3 = await client.hScan('myhash', '0', { COUNT: 10 });
 const items = scan4Res3.entries.map((item) => item.field)
 console.log(items); // ['a', 'b']
 // REMOVE_START
+assert.deepEqual(items, ['a', 'b'])
 await client.del('myhash');
 // REMOVE_END
 // STEP_END

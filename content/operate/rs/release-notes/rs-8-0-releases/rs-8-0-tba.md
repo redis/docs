@@ -139,6 +139,8 @@ The [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_eng
 
     - Added `conns_minimum_dedicated` to the database configuration to define the minimum number of dedicated server connections the DMC maintains per worker per shard.
 
+    - Added `metrics_auth` to the cluster configuration. If set to `true`, it enables basic authentication for Prometheus exporters and restricts access to authenticated users with `admin`, `cluster_member`, or `cluster_viewer` [management roles]({{<relref "/operate/rs/references/rest-api/permissions">}}).
+
 - Added action IDs to operation and state machine log entries.
 
 - Internal connections no longer generate `new_int_conn` audit records.
@@ -232,9 +234,13 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS166825: Fixed an issue where the Sentinel service could become unresponsive while processing certain commands due to a timing issue.
 
+- RS162290: Fixed an issue where the node status API returned 0 instead of the actual provisional RAM and flash values if the node reached its shard limit.
+
 ## Version changes
 
 - [`POST /v1/cluster/actions/change_master`]({{<relref "/operate/rs/references/rest-api/requests/cluster/actions#post-cluster-action">}}) REST API requests will no longer allow a node that exists but is not finished bootstrapping to become the primary node. Such requests will now return the status code `406 Not Acceptable`.
+
+- Node status now returns the actual provisional RAM and flash values even when the maximum number of shards on the node (`max_redis_servers`) is reached. Previously, the API returned 0 for `provisional_ram_of_node` and `provisional_flash_of_node` when a node reached its shard limit. This change affects REST API node status requests and the `rladmin status nodes` command's output.
 
 ### Breaking changes
 

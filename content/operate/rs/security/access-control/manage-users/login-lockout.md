@@ -128,27 +128,38 @@ To change the amount of time that the user account is locked after excessive fai
 
 ### Unlock locked user accounts
 
+To unlock a locked user account as an admin, use one of the following methods:
+
+{{< multitabs id="unlock-users" 
+tab1="Cluster Manager UI"
+tab2="rladmin"
+tab3="REST API" >}}
+
 To unlock a user account in the Cluster Manager UI:
 
 1. Go to **Access Control > Users**. Locked users have a "User is locked out" label:
 
-   {{<image filename="images/rs/screenshots/access-control/users-locked-out.png" alt="The Access Control > Users configuration screen in the Cluster Manager UI" >}}
+   <img src="../../../../../../images/rs/screenshots/access-control/7-22-updates/users-locked-out.png" alt="The Access Control > Users configuration screen in the Cluster Manager UI">
 
-1. Point to the user you want to unlock, then click **Reset to unlock**:
+1. Point to the "User is locked out" label, then click **Reset to unlock** when it appears:
 
-   {{<image filename="images/rs/screenshots/access-control/users-reset-to-unlock.png" alt="Reset to unlock button appears when you point to a locked user in the list" >}}
+   <img src="../../../../../../images/rs/screenshots/access-control/7-22-updates/users-reset-to-unlock.png" alt="Reset to unlock button appears when you point to a locked user in the list">
 
 1. In the **Reset user password** dialog, enter a new password for the user:
 
-   {{<image filename="images/rs/screenshots/access-control/users-reset-user-password-dialog.png" alt="Reset user password dialog" >}}
+   <img src="../../../../../../images/rs/screenshots/access-control/users-reset-user-password-dialog.png" alt="Reset user password dialog">
 
 1. Select **Save** to reset the user's password and unlock their account.
 
-To unlock a user account or reset a user password with `rladmin`, run:
+-tab-sep-
+
+To unlock a user account or reset a user password with `rladmin`, run the [`rladmin cluster reset_password`]({{<relref "/operate/rs/references/cli-utilities/rladmin/cluster/reset_password">}}) command:
 
 ```sh
 rladmin cluster reset_password <user_email>
 ```
+
+-tab-sep-
 
 To unlock a user account or reset a user password with the REST API, use [`PUT /v1/users`]({{< relref "/operate/rs/references/rest-api/requests/users#put-user" >}}):
 
@@ -157,23 +168,33 @@ PUT /v1/users
 {"password": "<new_password>"}
 ```
 
+{{< /multitabs >}}
+
 ### Turn off login lockout
 
 To turn off user login lockout and allow unlimited login attempts, use one of the following methods:
 
-- Cluster Manager UI:
+{{< multitabs id="turn-off-login-lockout" 
+tab1="Cluster Manager UI"
+tab2="rladmin" >}}
 
-    1. Go to **Cluster > Security > Preferences**, then select **Edit**.
+To turn off user login lockout using the Cluster Manager UI:
 
-    1. Clear the **Lockout threshold** checkbox.
+1. Go to **Cluster > Security > Preferences**, then select **Edit**.
 
-    1. Select **Save**.
+1. Clear the **Lockout threshold** checkbox.
 
-- [`rladmin tune cluster`]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-cluster" >}}):
+1. Select **Save**.
 
-    ```sh
-    rladmin tune cluster login_lockout_threshold 0
-    ```
+-tab-sep-
+
+To turn off user login lockout using `rladmin`, run the [`rladmin tune cluster`]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-cluster" >}}) command:
+
+```sh
+rladmin tune cluster login_lockout_threshold 0
+```
+
+{{< /multitabs >}}
 
 The cluster settings show `login_lockout_threshold: disabled`.
 
@@ -183,18 +204,26 @@ The Redis Enterprise Cluster Manager UI supports session timeouts. By default, u
 
 To customize the session timeout, use one of the following methods:
 
-- Cluster Manager UI:
+{{< multitabs id="config-session-timeout" 
+tab1="Cluster Manager UI"
+tab2="rladmin" >}}
 
-    1. Go to **Cluster > Security > Preferences**, then select **Edit**.
+To configure the session timeout using the Cluster Manager UI:
 
-    1. For **Session timeout**, select minutes or hours from the list and enter the timeout value.
+1. Go to **Cluster > Security > Preferences**, then select **Edit**.
 
-    1. Select **Save**.
+1. For **Session timeout**, select minutes or hours from the list and enter the timeout value.
 
-- [`rladmin cluster config`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/config" >}}):
+1. Select **Save**.
 
-    ```sh
-    rladmin cluster config cm_session_timeout_minutes <number_of_min>
-    ```
+-tab-sep-
 
-    The `<number_of_min>` is the number of minutes after which sessions will time out.
+To configure the session timeout using `rladmin`, run the [`rladmin cluster config`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/config" >}}) command:
+
+```sh
+rladmin cluster config cm_session_timeout_minutes <number_of_min>
+```
+
+The `<number_of_min>` is the number of minutes after which sessions will time out.
+
+{{< /multitabs >}}

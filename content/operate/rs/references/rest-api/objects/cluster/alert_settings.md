@@ -16,7 +16,6 @@ weight: $weight
 | cluster_certs_about_to_expire | <span class="break-all">[cluster_alert_settings_with_threshold]({{< relref "/operate/rs/references/rest-api/objects/cluster/cluster_alert_settings_with_threshold" >}})</span> object | Cluster certificate will expire in x days |
 | cluster_even_node_count | boolean (default: false) | True high availability requires an odd number of nodes in the cluster |
 | cluster_flash_overcommit | boolean (default: false) | Flash memory committed to databases is larger than cluster total flash memory |
-| cluster_inconsistent_redis_sw | boolean (default: false) | Some shards in the cluster are running different versions of Redis software |
 | cluster_inconsistent_rl_sw | boolean (default: false) | Some nodes in the cluster are running different versions of Redis Enterprise software |
 | cluster_internal_bdb | boolean (default: false) | Issues with internal cluster databases |
 | cluster_license_about_to_expire | <span class="break-all">[cluster_alert_settings_with_threshold]({{<relref "/operate/rs/references/rest-api/objects/cluster/cluster_alert_settings_with_threshold">}})</span> object | Cluster license will expire in x days. This alert is enabled by default. Its default threshold is 7 days before license expiration. |
