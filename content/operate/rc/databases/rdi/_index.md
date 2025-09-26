@@ -56,7 +56,7 @@ Please be aware of the following limitations:
 - Source databases must also be hosted on AWS.
 - You must use a [custom encryption key on AWS](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html) to create the instance hosting the database.
 - One source database can only be synced to one target database.
-- You must be able to set up AWS PrivateLink to connect your Source database to your target database. RDI only works with AWS PrivateLink and not VPC Peering or other private connectivity options.
+- You must be able to set up AWS PrivateLink to connect your source database to your target database. RDI only works with AWS PrivateLink and not VPC Peering or other private connectivity options.
 {{< /note >}} 
 
 ## Get started
