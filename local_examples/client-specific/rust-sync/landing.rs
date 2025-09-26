@@ -10,13 +10,13 @@ fn main() {
             match client.get_connection() {
                 Ok(conn) => conn,
                 Err(e) => {
-                    println!("Failed to connect to Redis: {}", e);
+                    println!("Failed to connect to Redis: {e}");
                     return;
                 }
             }
         },
         Err(e) => {
-            println!("Failed to create Redis client: {}", e);
+            println!("Failed to create Redis client: {e}");
             return;
         }
     };
@@ -25,7 +25,7 @@ fn main() {
     // STEP_START set_get_string
     if let Ok(res) = r.set("foo", "bar") {
         let res: String = res;
-        println!("{}", res);    // >>> OK
+        println!("{res}"); // >>> OK
     } else {
         println!("Error setting foo");
     }
@@ -33,10 +33,10 @@ fn main() {
     match r.get("foo") {
         Ok(res) => {
             let res: String = res;
-            println!("{}", res);   // >>> bar
+            println!("{res}"); // >>> bar
         },
         Err(e) => {
-            println!("Error getting foo: {}", e);
+            println!("Error getting foo: {e}");
             return;
         }
     };
@@ -52,7 +52,7 @@ fn main() {
 
     if let Ok(res) = r.hset_multiple("bike:1", &hash_fields) {
         let res: String = res;
-        println!("{}", res); // >>> OK
+        println!("{res}"); // >>> OK
     } else {
         println!("Error setting bike:1");
     }
@@ -60,10 +60,10 @@ fn main() {
     match r.hget("bike:1", "model") {
         Ok(res) => {
             let res: String = res;
-            println!("{}", res); // >>> Deimos
+            println!("{res}"); // >>> Deimos
         },
         Err(e) => {
-            println!("Error getting bike:1: {}", e);
+            println!("Error getting bike:1 model: {e}");
             return;
         }   
     }
@@ -71,10 +71,10 @@ fn main() {
     match r.hget("bike:1", "price") {
         Ok(res) => {
             let res: String = res;
-            println!("{}", res); // >>> 4972
+            println!("{res}"); // >>> 4972
         },
         Err(e) => {
-            println!("Error getting bike:1: {}", e);
+            println!("Error getting bike:1 price: {e}");
             return;
         }   
     }
@@ -83,7 +83,7 @@ fn main() {
         Ok(res) => {
             let res: Vec<(String, String)> = res;
             for (key, value) in res {
-                println!("{}: {}", key, value);
+                println!("{key}: {value}");
             }
             // >>> model: Deimos
             // >>> brand: Ergonom
@@ -91,7 +91,7 @@ fn main() {
             // >>> price: 4972
         },
         Err(e) => {
-            println!("Error getting bike:1: {}", e);
+            println!("Error getting bike:1: {e}");
             return;
         }   
     }

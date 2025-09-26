@@ -26,34 +26,50 @@ client library and is not developed or supported directly by Redis.
 
 ## Install
 
-Add the `redis` crate as a dependency in your `Cargo.toml` file:
+To use the synchronous API, add the `redis` crate as a dependency in your
+`Cargo.toml` file:
 
 ```toml
 [dependencies]
 redis = "0.32.5"
 ```
 
+If you want to use the asynchronous API, you should also enable either
+[`tokio`](https://tokio.rs/) or [`smol`](https://crates.io/crates/smol)
+as your async platform:
+
+```toml
+[dependencies]
+# if you use tokio
+tokio = { version = "1.32.0", features = ["full"] }
+redis = { version = "0.32.5", features = ["tokio-comp"] }
+
+# if you use smol
+smol = "2.0.2"
+redis = { version = "0.32.5", features = ["smol-comp"] }
+```
+
 ## Connect
 
-Start by importing the `Commands` trait from the `redis` crate:
+Start by importing the `Commands` or `AsyncCommands` trait from the `redis` crate:
 
-{{< clients-example set="landing" step="import" lang_filter="Rust-Sync" >}}
+{{< clients-example set="landing" step="import" lang_filter="Rust-Sync,Rust-Async" >}}
 {{< /clients-example >}}
 
 The following example shows the simplest way to connect to a Redis server:
 
-{{< clients-example set="landing" step="connect" lang_filter="Rust-Sync" >}}
+{{< clients-example set="landing" step="connect" lang_filter="Rust-Sync,Rust-Async" >}}
 {{< /clients-example >}}
 
 After connecting, you can test the connection by  storing and retrieving
 a simple [string]({{< relref "/develop/data-types/strings" >}}):
 
-{{< clients-example set="landing" step="set_get_string" lang_filter="Rust-Sync" >}}
+{{< clients-example set="landing" step="set_get_string" lang_filter="Rust-Sync,Rust-Async" >}}
 {{< /clients-example >}}
 
 You can also easily store and retrieve a [hash]({{< relref "/develop/data-types/hashes" >}}):
 
-{{< clients-example set="landing" step="set_get_hash" lang_filter="Rust-Sync" >}}
+{{< clients-example set="landing" step="set_get_hash" lang_filter="Rust-Sync,Rust-Async" >}}
 {{< /clients-example >}}
 
 ## More information
