@@ -20,7 +20,7 @@ Connect your Go application to a Redis database using the go-redis client librar
 
 ## Overview
 
-go-redis is a type-safe, Redis client library for Go that supports Redis 6.0+ features including Redis modules, Redis Cluster, Redis Sentinel, and Redis streams. It provides a clean, idiomatic Go API for interacting with Redis.
+go-redis is a type-safe, Redis client library for Go that supports Redis 6.0+ features including Redis Cluster, Redis Sentinel, and Redis streams. It provides a clean, idiomatic Go API for interacting with Redis.
 
 ## Key Features
 
