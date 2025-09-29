@@ -12,7 +12,7 @@
     {{ range $i, $tab := $tabs }}
         {{ $tid := printf "%s_%s" (replace (replace (index $tab "title") "#" "sharp") "." "") $id }}
         {{ $pid := printf "panel_%s" $tid }}
-        {{ $dataLang := replace (or (index $tab "language") "redis-cli") "C#" "dotnet" }}
+        {{ $dataLang := replace (or (index $tab "language") "redis-cli") "C#-Sync" "dotnet_sync" }}
         {{ $dataLang := replace $dataLang "." "-" }}
         <input tabindex="1" type="radio" name="{{ $id }}" id="{{ $tid }}" data-lang="{{ $dataLang }}" class="radiotab w-0 h-0"
                {{ if eq $i 0 }}checked{{ end }}

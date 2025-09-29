@@ -48,7 +48,7 @@ dotnet add package Microsoft.ML
 In a new C# file, import the required classes. Note that the `#pragma`
 directive suppresses warnings about the experimental status of the vector set API:
 
-{{< clients-example set="home_vecsets" step="import" lang_filter="C#" >}}
+{{< clients-example set="home_vecsets" step="import" lang_filter="C#-Sync" >}}
 {{< /clients-example >}}
 
 ## Access the model

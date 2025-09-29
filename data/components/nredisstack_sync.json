@@ -1,9 +1,9 @@
 {
-  "id": "nredisstack",
+  "id": "nredisstack_sync",
   "type": "client",
-  "name": "NRedisStack",
-  "language": "C#",
-  "label": "C#",
+  "name": "NRedisStack_Sync",
+  "language": "C#-Sync",
+  "label": "C#-Sync",
   "repository": {
       "git_uri": "https://github.com/redis/NRedisStack"
   },
