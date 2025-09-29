@@ -330,124 +330,7 @@ you should also revoke `LOCK` on all tables:
 REVOKE LOCK ANY TABLE FROM c##dbzuser container=all;
 ```
 
-### 6. Support for Oracle XMLTYPE columns (optional)
-
-If your Oracle database contains tables with columns of type
-[`XMLTYPE`](https://docs.oracle.com/en/database/oracle/oracle-database/21/arpls/XMLTYPE.html),
-you must configure additional libraries for Debezium Server to process these columns correctly.
-
-#### Create a custom Debezium Server image
-
-To support `XMLTYPE` columns, you must create a custom [Docker](https://www.docker.com/) image
-that includes the required Oracle XML libraries.
-
-1. Download the required libraries from Maven Central:
-
-   ```bash
-   mkdir xml
-   cd xml
-   wget https://repo.maven.apache.org/maven2/com/oracle/database/xml/xdb/19.27.0.0/xdb-19.27.0.0.jar
-   wget https://repo.maven.apache.org/maven2/com/oracle/database/xml/xmlparserv2/19.27.0.0/xmlparserv2-19.27.0.0.jar
-   mv xdb-19.27.0.0.jar xdb.jar
-   mv xmlparserv2-19.27.0.0.jar xmlparserv2.jar
-   ```
-
-2. Create a `Dockerfile` in the same directory:
-
-   ```dockerfile
-   FROM quay.io/debezium/server:3.0.8.Final
-
-   USER root
-
-   COPY xdb.jar /debezium/lib
-   COPY xmlparserv2.jar /debezium/lib
-   ```
-
-3. Build the custom image:
-
-   ```bash
-   cd ..
-   docker build -t dbz-xml xml
-   docker tag dbz-xml quay.io/debezium/server:3.0.8.Final
-   docker image save quay.io/debezium/server:3.0.8.Final -o dbz3.0.8-xml-linux-amd.tar
-   ```
-
-4. Add the image to your K3s image repository:
-
-   ```bash
-   sudo k3s ctr images import dbz3.0.8-xml-linux-amd.tar all
-   ```
-
-#### Configure RDI for XMLTYPE support
-
-In your RDI configuration file, set the `lob.enabled` property to `true` in the
-`advanced.source` section:
-
-```yaml
-sources:
-  oracle:
-    type: cdc
-    logging:
-      level: info
-    connection:
-      type: oracle
-      host: oracle
-      port: 1521
-      user: ${SOURCE_DB_USERNAME}
-      password: ${SOURCE_DB_PASSWORD}
-      database: ORCLCDB
-    advanced:
-      source:
-        database.pdb.name: ORCLPDB1
-        lob.enabled: true
-```
-
-#### Test XMLTYPE support
-
-You can create a test table to verify that `XMLTYPE` columns work correctly
-(using the
-[`CHINOOK`](https://github.com/Redislabs-Solution-Architects/rdi-quickstart-postgres/tree/main)
-schema as an example):
-
-```sql
-CREATE TABLE tab1 (
-  xmlid INT NOT NULL,
-  col1  SYS.XMLTYPE,
-  CONSTRAINT PK_tab1 PRIMARY KEY (xmlid)
-);
-
-DECLARE
-  v_xml   SYS.XMLTYPE;
-  v_doc   CLOB;
-BEGIN
-  -- XMLTYPE created from a CLOB
-  v_doc := '<?xml version="1.0"?>' || Chr(10) || ' <TABLE_NAME>MY_TABLE</TABLE_NAME>';
-  v_xml := SYS.XMLTYPE.createXML(v_doc);
-
-  INSERT INTO tab1 (xmlid, col1) VALUES (1, v_xml);
-
-  -- XMLTYPE created from a query
-  SELECT SYS_XMLGEN(table_name)
-  INTO   v_xml
-  FROM   user_tables
-  WHERE  rownum = 1;
-
-  INSERT INTO tab1 (xmlid, col1) VALUES (2, v_xml);
-
-  COMMIT;
-END;
-/
-
-ALTER TABLE CHINOOK.TAB1 ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
-```
-
-After you run an initial
-[snapshot]({{< relref "/integrate/redis-data-integration/data-pipelines/#pipeline-lifecycle" >}}),
-the XML data appears in your Redis target database:
-
-{{< image filename="/images/rdi/ingest/xmltype-example.webp" >}}
-
-### 7. Configuration is complete
+### 6. Configuration is complete
 
 Once you have followed the steps above, your Oracle database is ready
 for Debezium to use.
@@ -665,59 +548,55 @@ END;
 
 ### 4. Add a custom Docker image for the Debezium server
 
-Debezium requires
-[Oracle Instant Client](https://www.oracle.com/database/technologies/instant-client.html)
-to connect to the database with Xstream. Use the commands shown below to set this up for
-the Debezium Server container image (`debezium/server:3.0.8.Final` for RDI GA v1.8.0 and
-later).
+To support XStream connector, you must create a custom [Docker](https://www.docker.com/) image that includes the required Instant Client package libraries for Linux x64 from the Oracle website.
 
-On the Docker machine, download the Instant Client package for Linux x64 from the Oracle website
+1.  On the Docker machine, download the Instant Client package for Linux x64 from the Oracle website
 
-```bash
-wget https://download.oracle.com/otn_software/linux/instantclient/2380000/instantclient-basic-linux.x64-23.8.0.25.04.zip
-```
+    ```bash
+    wget https://download.oracle.com/otn_software/linux/instantclient/2380000/instantclient-basic-linux.x64-23.8.0.25.04.zip
+    ```
 
-Then, unzip it to the `./dbz-ora` directory:
+1.  Unzip it to the `./dbz-ora` directory:
 
-```bash
-unzip instantclient-basic-linux.x64-23.8.0.25.04.zip -d ./dbz-ora
-```
+    ```bash
+    unzip instantclient-basic-linux.x64-23.8.0.25.04.zip -d ./dbz-ora
+    ```
 
-Create a `Dockerfile` in the `./dbz-ora` directory with the following contents:
+1.  Create a `Dockerfile` in the `./dbz-ora` directory with the following contents:
 
-```docker
-FROM debezium/server:3.0.8.Final
+    ```docker
+    FROM debezium/server:3.0.8.Final
 
-USER root
+    USER root
 
-RUN microdnf -y install libaio \
- && microdnf clean all \
- && mkdir -p /opt/oracle/instant_client \
- && rm -f /debezium/lib/ojdbc11*.jar
+    RUN microdnf -y install libaio \
+    && microdnf clean all \
+    && mkdir -p /opt/oracle/instant_client \
+    && rm -f /debezium/lib/ojdbc11*.jar
 
-COPY instantclient_23_8/* /opt/oracle/instant_client
+    COPY instantclient_23_8/* /opt/oracle/instant_client
 
-USER jboss
+    USER jboss
 
-COPY instantclient_23_8/xstreams.jar /debezium/lib
-COPY instantclient_23_8/ojdbc11.jar /debezium/lib
+    COPY instantclient_23_8/xstreams.jar /debezium/lib
+    COPY instantclient_23_8/ojdbc11.jar /debezium/lib
 
-ENV LD_LIBRARY_PATH=/opt/oracle/instant_client
-```
+    ENV LD_LIBRARY_PATH=/opt/oracle/instant_client
+    ```
 
-Create the custom image:
+1.  Create the custom image:
 
-```bash
-docker build -t dbz-ora dbz-ora
-```
+    ```bash
+    docker build -t dbz-ora dbz-ora
+    ```
 
-Then, add the image to the K3s image registry using the following commands:
+1.  Add the image to the K3s image registry using the following commands:
 
-```bash
-docker tag dbz-ora quay.io/debezium/server:3.0.8.Final
-docker image save quay.io/debezium/server:3.0.8.Final -o dbz3.0.8-xstream-linux-amd.tar
-sudo k3s ctr images import dbz3.0.8-xstream-linux-amd.tar all
-```
+    ```bash
+    docker tag dbz-ora quay.io/debezium/server:3.0.8.Final
+    docker image save quay.io/debezium/server:3.0.8.Final -o dbz3.0.8-xstream-linux-amd.tar
+    sudo k3s ctr images import dbz3.0.8-xstream-linux-amd.tar all
+    ```
 
 ### 5. Enable the Oracle configuration in RDI
 
@@ -752,3 +631,120 @@ for a full list of properties you can use in the `advanced.source` subsection.
 
 After you have followed the steps above, your Oracle database is ready
 for Debezium to use.
+
+## Support for Oracle XMLTYPE columns (optional)
+
+If your Oracle database contains tables with columns of type
+[`XMLTYPE`](https://docs.oracle.com/en/database/oracle/oracle-database/21/arpls/XMLTYPE.html),
+you must configure additional libraries for Debezium Server to process these columns correctly.
+
+### Create a custom Debezium Server image
+
+To support `XMLTYPE` columns, you must create a custom [Docker](https://www.docker.com/) image
+that includes the required Oracle XML libraries.
+
+1. Download the required libraries from Maven Central:
+
+   ```bash
+   mkdir xml
+   cd xml
+   wget https://repo.maven.apache.org/maven2/com/oracle/database/xml/xdb/19.27.0.0/xdb-19.27.0.0.jar
+   wget https://repo.maven.apache.org/maven2/com/oracle/database/xml/xmlparserv2/19.27.0.0/xmlparserv2-19.27.0.0.jar
+   mv xdb-19.27.0.0.jar xdb.jar
+   mv xmlparserv2-19.27.0.0.jar xmlparserv2.jar
+   ```
+
+2. Create a `Dockerfile` in the same directory:
+
+   ```dockerfile
+   FROM quay.io/debezium/server:3.0.8.Final
+
+   USER root
+
+   COPY xdb.jar /debezium/lib
+   COPY xmlparserv2.jar /debezium/lib
+   ```
+
+3. Build the custom image:
+
+   ```bash
+   cd ..
+   docker build -t dbz-xml xml
+   docker tag dbz-xml quay.io/debezium/server:3.0.8.Final
+   docker image save quay.io/debezium/server:3.0.8.Final -o dbz3.0.8-xml-linux-amd.tar
+   ```
+
+4. Add the image to your K3s image repository:
+
+   ```bash
+   sudo k3s ctr images import dbz3.0.8-xml-linux-amd.tar all
+   ```
+
+### Configure RDI for XMLTYPE support
+
+In your RDI configuration file, set the `lob.enabled` property to `true` in the
+`advanced.source` section:
+
+```yaml
+sources:
+  oracle:
+    type: cdc
+    logging:
+      level: info
+    connection:
+      type: oracle
+      host: oracle
+      port: 1521
+      user: ${SOURCE_DB_USERNAME}
+      password: ${SOURCE_DB_PASSWORD}
+      database: ORCLCDB
+    advanced:
+      source:
+        database.pdb.name: ORCLPDB1
+        lob.enabled: true
+```
+
+### Test XMLTYPE support
+
+You can create a test table to verify that `XMLTYPE` columns work correctly
+(using the
+[`CHINOOK`](https://github.com/Redislabs-Solution-Architects/rdi-quickstart-postgres/tree/main)
+schema as an example):
+
+```sql
+CREATE TABLE tab1 (
+  xmlid INT NOT NULL,
+  col1  SYS.XMLTYPE,
+  CONSTRAINT PK_tab1 PRIMARY KEY (xmlid)
+);
+
+DECLARE
+  v_xml   SYS.XMLTYPE;
+  v_doc   CLOB;
+BEGIN
+  -- XMLTYPE created from a CLOB
+  v_doc := '<?xml version="1.0"?>' || Chr(10) || ' <TABLE_NAME>MY_TABLE</TABLE_NAME>';
+  v_xml := SYS.XMLTYPE.createXML(v_doc);
+
+  INSERT INTO tab1 (xmlid, col1) VALUES (1, v_xml);
+
+  -- XMLTYPE created from a query
+  SELECT SYS_XMLGEN(table_name)
+  INTO   v_xml
+  FROM   user_tables
+  WHERE  rownum = 1;
+
+  INSERT INTO tab1 (xmlid, col1) VALUES (2, v_xml);
+
+  COMMIT;
+END;
+/
+
+ALTER TABLE CHINOOK.TAB1 ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
+```
+
+After you run an initial
+[snapshot]({{< relref "/integrate/redis-data-integration/data-pipelines/#pipeline-lifecycle" >}}),
+the XML data appears in your Redis target database:
+
+{{< image filename="/images/rdi/ingest/xmltype-example.webp" >}}
