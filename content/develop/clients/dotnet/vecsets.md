@@ -55,7 +55,7 @@ directive suppresses warnings about the experimental status of the vector set AP
 
 Use the `GetPredictionEngine()` helper function declared in the example below to load the model that creates the embeddings:
 
-{{< clients-example set="home_vecsets" step="model" lang_filter="C#" >}}
+{{< clients-example set="home_vecsets" step="model" lang_filter="C#-Sync" >}}
 {{< /clients-example >}}
 
 The `GetPredictionEngine()` function uses two classes, `TextData` and `TransformedTextData`, 
@@ -63,7 +63,7 @@ to specify the `PredictionEngine` model. These have a very simple definition
 and are required because the model expects the input and output to be
 passed in named object fields:
 
-{{< clients-example set="home_vecsets" step="data_classes" lang_filter="C#" >}}
+{{< clients-example set="home_vecsets" step="data_classes" lang_filter="C#-Sync" >}}
 {{< /clients-example >}}
 
 Note that you must declare these classes at the end of the source file
@@ -73,7 +73,7 @@ The `GetEmbedding()` function declared below can then use this model to
 generate an embedding from a section of text and return it as a `float[]` array,
 which is the format required by the vector set API:
 
-{{< clients-example set="home_vecsets" step="get_embedding" lang_filter="C#" >}}
+{{< clients-example set="home_vecsets" step="get_embedding" lang_filter="C#-Sync" >}}
 {{< /clients-example >}}
 
 ## Create the data
@@ -81,7 +81,7 @@ which is the format required by the vector set API:
 The example data is contained a `Dictionary` object with some brief
 descriptions of famous people:
 
-{{< clients-example set="home_vecsets" step="data" lang_filter="C#" >}}
+{{< clients-example set="home_vecsets" step="data" lang_filter="C#-Sync" >}}
 {{< /clients-example >}}
 
 ## Add the data to a vector set
@@ -99,7 +99,7 @@ The call to `VectorSetAdd()` also adds the `born` and `died` values from the
 original dictionary as attribute data. You can access this during a query
 or by using the [`VectorSetGetAttributesJson()`]({{< relref "/commands/vgetattr" >}}) method.
 
-{{< clients-example set="home_vecsets" step="add_data" lang_filter="C#" >}}
+{{< clients-example set="home_vecsets" step="add_data" lang_filter="C#-Sync" >}}
 {{< /clients-example >}}
 
 ## Query the vector set
@@ -112,7 +112,7 @@ return elements of the set, ranked in order of similarity to the query.
 
 Start with a simple query for "actors":
 
-{{< clients-example set="home_vecsets" step="basic_query" lang_filter="C#" >}}
+{{< clients-example set="home_vecsets" step="basic_query" lang_filter="C#-Sync" >}}
 {{< /clients-example >}}
 
 This returns the following list of elements (formatted slightly for clarity):
@@ -131,7 +131,7 @@ on the information contained in the embedding model.
 You can use the `Count` property of `VectorSetSimilaritySearchRequest` to limit the
 list of elements to just the most relevant few items:
 
-{{< clients-example set="home_vecsets" step="limited_query" lang_filter="C#" >}}
+{{< clients-example set="home_vecsets" step="limited_query" lang_filter="C#-Sync" >}}
 {{< /clients-example >}}
 
 The reason for using text embeddings rather than simple text search
@@ -141,7 +141,7 @@ different. For example, the word "entertainer" doesn't appear in any of the
 descriptions but if you use it as a query, the actors and musicians are ranked
 highest in the results list:
 
-{{< clients-example set="home_vecsets" step="entertainer_query" lang_filter="C#" >}}
+{{< clients-example set="home_vecsets" step="entertainer_query" lang_filter="C#-Sync" >}}
 {{< /clients-example >}}
 
 Similarly, if you use "science" as a query, you get the following results:
@@ -162,7 +162,7 @@ with `VectorSetSimilaritySearch()` to restrict the search further. For example,
 repeat the "science" query, but this time limit the results to people
 who died before the year 2000:
 
-{{< clients-example set="home_vecsets" step="filtered_query" lang_filter="C#" >}}
+{{< clients-example set="home_vecsets" step="filtered_query" lang_filter="C#-Sync" >}}
 {{< /clients-example >}}
 
 Note that the boolean filter expression is applied to items in the list
