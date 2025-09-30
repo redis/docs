@@ -45,7 +45,7 @@ tagManagerId = "GTM-TKZ6J9R"
 gitHubRepo = "https://github.com/redis/docs"
 
 # Display and sort order for client examples
-clientsExamples = ["Python", "Node.js", "Java-Sync", "Java-Async", "Java-Reactive", "Go", "C#-Sync", "RedisVL", "PHP", "Rust-Sync", "Rust-Async"]
+clientsExamples = ["Python", "Node.js", "Java-Sync", "Java-Async", "Java-Reactive", "Go", "C#-Sync", "C#-Async", "RedisVL", "PHP", "Rust-Sync", "Rust-Async"]
 searchService = "/convai/api/search-service"
 ratingsService = "/docusight/api/rate"
 

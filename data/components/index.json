@@ -8,6 +8,7 @@
     "modules": [],
     "clients": [
         "nredisstack_sync",
+        "nredisstack_async",
         "go_redis",
         "node_redis",
         "php",
