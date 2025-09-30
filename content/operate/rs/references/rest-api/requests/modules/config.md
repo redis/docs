@@ -11,6 +11,10 @@ linkTitle: config/bdb
 weight: $weight
 ---
 
+{{<note>}}
+This REST API path is deprecated as of Redis Enterprise Software version 7.4. Use [`PUT /v2/bdbs/<uid>`]({{<relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs-action">}}) instead.
+{{</note>}}
+
 | Method | Path | Description |
 |--------|------|-------------|
 | [POST](#post-modules-config-bdb) | `/v1/modules/config/bdb/{uid}` | Configure module |
