@@ -16,7 +16,8 @@ TEST_MARKER = {
     'java-reactive': '@Test',
     'c#': r'\[Fact]|\[SkipIfRedis\(.*\)]',
     'c#-sync': r'\[Fact]|\[SkipIfRedis\(.*\)]',
-    'c#-async': r'\[Fact]|\[SkipIfRedis\(.*\)]'
+    'c#-async': r'\[Fact]|\[SkipIfRedis\(.*\)]',
+    'rust': r'#\[test]|#\[cfg\(test\)]|#\[tokio::test]'
 }
 PREFIXES = {
     'python': '#',

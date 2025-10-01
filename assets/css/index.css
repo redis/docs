@@ -395,34 +395,30 @@ select {
   @apply text-redis-red-500;
 }
 
-.codetabs .label {
-  min-width: 2rem;
-  line-height: 0.852rem;
-  color: #8CA0AD;
+/* Language selector dropdown styling */
+.codetabs .lang-selector {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
 }
 
-.codetabs .label:active {
-  color: white;
+.codetabs .codetabs-header {
+  border-bottom: 1px solid #475569;
 }
 
-
-.codetabs .radiotab:focus + .label {
-  @apply bg-transparent text-indigo-600;
+/* Panel visibility controlled by JavaScript */
+.codetabs .panel.panel-hidden {
+  display: none !important;
 }
 
-.codetabs .radiotab:checked + .label {
-  @apply border-slate-900 not-italic;
-  @apply bg-slate-600 text-white pt-1 mt-2.5;
-
-}
-
-
-.codetabs .radiotab:checked + .label + .panel {
-  @apply block;
+.codetabs .panel:not(.panel-hidden) {
+  display: block;
 }
 
 .codetabs > .panel .highlight > .chroma {
-  @apply rounded-tl-none m-0;
+  @apply rounded-t-none m-0;
   font-size: 0.875rem;
   line-height: 1.25rem;
 }

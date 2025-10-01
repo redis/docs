@@ -26,6 +26,7 @@ crdb-cli crdb update --crdb-guid <guid>
          [--featureset-version { true | false } ]
          [--memory-size <maximum_memory>]
          [--bigstore-ram-size <maximum_memory>]
+         [--eviction-policy { noeviction | allkeys-lru | allkeys-lfu | allkeys-random | volatile-lru | volatile-lfu | volatile-random | volatile-ttl }]
          [--update-module name=<name>,featureset_version=<version>]
          [--update-db-config-modules { true | false } ]
 ```

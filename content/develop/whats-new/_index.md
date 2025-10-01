@@ -11,6 +11,54 @@ linkTitle: What's new?
 hideListLinks: true
 weight: 10
 ---
+## Q3 2025 (July - September) Updates
+
+### Tools
+
+- Added [redis-cli installation instructions]({{< relref "/develop/tools/cli" >}})
+
+---
+
+### Redis AI & Vectors
+
+- Updated [vector types documentation]({{< relref "/develop/ai/search-and-query/vectors/_index" >}}) for INT8 and UINT8
+- Added [GEO search precision information]({{< relref "/develop/ai/search-and-query/indexing/geoindex" >}})
+- Enhanced [LangCache SDK]({{< relref "/develop/ai/langcache/_index" >}}) with savings calculator and improved API documentation
+
+---
+
+### Data Types
+
+- [Bitmaps]({{< relref "/develop/data-types/bitmaps" >}}):
+  - Added BITOP documentation with Python testable code examples
+  - Added bit operation diagrams
+
+---
+
+### Client Libraries
+
+#### Java (Jedis)
+- Added [vector set embedding examples]({{< relref "/develop/clients/jedis/vecsets" >}})
+
+#### .NET (NRedisStack)
+- Added [vector set embedding examples]({{< relref "/develop/clients/dotnet/vecsets" >}})
+- Enabled C#-Sync and C#-Async client variants with async examples on the landing page
+
+#### Rust (NEW)
+- Added initial [Rust client documentation]({{< relref "/develop/clients/rust/_index" >}})
+- Enabled Rust-Sync and Rust-Async client variants
+- Landing page code examples for Rust
+
+---
+
+### Documentation Updates
+
+- Added [close/quit details]({{< relref "/develop/clients/_index" >}}) to client landing pages
+- Added [redlock-universal]({{< relref "/develop/clients/patterns/distributed-locks" >}}) to Redlock implementations list
+- Fixed [keyspace notifications]({{< relref "/develop/pubsub/keyspace-notifications" >}}) typo
+- Updated Unicode quotes to ASCII throughout documentation
+- Fixed broken links and improved cross-references
+
 ## Q2 2025 (April - June) Updates
 
 ### Tools
