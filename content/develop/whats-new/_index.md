@@ -42,12 +42,12 @@ weight: 10
 
 #### .NET (NRedisStack)
 - Added [vector set embedding examples]({{< relref "/develop/clients/dotnet/vecsets" >}})
-- Enabled C#-Sync client variant with async examples
+- Enabled C#-Sync and C#-Async client variants with async examples on the landing page
 
 #### Rust (NEW)
 - Added initial [Rust client documentation]({{< relref "/develop/clients/rust/_index" >}})
 - Enabled Rust-Sync and Rust-Async client variants
-- Added testable code examples for Rust
+- Landing page code examples for Rust
 
 ---
 
