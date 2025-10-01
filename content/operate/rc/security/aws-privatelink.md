@@ -10,7 +10,7 @@ linkTitle: AWS PrivateLink
 weight: 90
 ---
 
-[Amazon Web Services (AWS) PrivateLink](https://docs.aws.amazon.com/vpc/latest/privatelink/privatelink-access-resources.html) allows you to securely connect your Amazon virtual private cloud(s) (VPCs) to Redis Cloud without using public IP addresses or traversing the public internet. PrivateLink provides private connectivity between VPCs, simplifying your network architecture and reducing exposure to security threats.
+[Amazon Web Services (AWS) PrivateLink](https://docs.aws.amazon.com/vpc/latest/privatelink/privatelink-access-resources.html) allows service providers to securely expose specific services without exposing the entire service provider and consumer VPCs to each other. When you use AWS PrivateLink to connect to Redis Cloud, you can connect to your database as if it was already in your own AWS VPC. 
 
 {{< note >}}
 Connecting to Redis Cloud with an AWS PrivateLink is available only with Redis Cloud Pro.  It is not supported for Redis Cloud Essentials.
@@ -31,7 +31,19 @@ AWS PrivateLink provides the following benefits over VPC Peering:
 Be aware of the following limitations when using PrivateLink with Redis Cloud:
 - You cannot use the [OSS Cluster API]({{< relref "/operate/rc/databases/create-database#oss-cluster-api" >}}) with PrivateLink.
 - Redis Cloud [Bring your Own Cloud]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud" >}}) subscriptions are not supported with PrivateLink.
-- Redis Cloud subscriptions with AWS PrivateLink are limited to a maximum of 35 databases.
+- Redis Cloud subscriptions with AWS PrivateLink are limited to a maximum of 55 databases. [Contact support](https://redis.com/company/support/) if you need more than 55 databases with AWS PrivateLink.
+- Your subnets must have at least 16 available IP addresses for the resource endpoint.
+- Redis Cloud's PrivateLink implementation is based on Amazon VPC Lattice, so the [VPC Lattice quotas](https://docs.aws.amazon.com/vpc-lattice/latest/ug/quotas.html) apply. Currently, the following availability zones are not supported with Amazon VPC Lattice: 
+    - `use1-az3`
+    - `usw1-az2`
+    - `apne1-az3`
+    - `apne2-az2`
+    - `euc1-az2`
+    - `euw1-az4`
+    - `cac1-az3`
+    - `ilc1-az2`
+
+    We recommend avoiding these availability zones when creating your Redis Cloud database if you plan to use AWS PrivateLink.
 
 ## Prerequisites
 
@@ -87,9 +99,9 @@ In this step, you will associate the Redis Cloud resource share with an AWS prin
 
 1. After sharing the resource share with the principal, [accept the resource share in the Resource Access Manager](https://docs.aws.amazon.com/ram/latest/userguide/working-with-shared-invitations.html) or copy the **Accept resource share** command and run it with the AWS CLI.
 
-After you accept the resource share, the Redis Cloud console will show the resource share as **Accepted**.
+After you accept the resource share, the Redis Cloud console will show the principal as **Accepted**.
 
-{{<image filename="images/rc/privatelink-resource-share-accepted.png" width="80%" alt="The Resource Share section, with the resource share accepted." >}}
+{{<image filename="images/rc/privatelink-principal-accepted.png" width="80%" alt="The Consumer Principals section, with the consumer principal shown as accepted." >}}
 
 You can add additional principals to the resource share at any time.
 
@@ -141,7 +153,7 @@ To use the AWS CLI to connect to an already existing service network, select **C
 
 {{< /multitabs >}}
 
-After you've connected to Redis Cloud with a VPC resource endpoint or a VPC lattice service network, download the **Discovery script** and run it in your consumer account to discover the database endpoints.
+After you've connected to Redis Cloud with a VPC resource endpoint or a VPC lattice service network, download the **Discovery script** and run it in your consumer VPC to discover the database endpoints.
 
 After you've connected to your database, you can view the connection details in the Redis Cloud console in your subscription's **Connectivity > PrivateLink** tab. 
 
