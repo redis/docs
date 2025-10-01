@@ -33,7 +33,7 @@ crdb-cli crdb create --name <name>
          [--oss-sharding { true | false } ]
          [--bigstore { true | false }]
          [--bigstore-ram-size <maximum_memory>]
-         [--eviction-policy { noeviction | allkeys-lru | allkeys-lfu |allkeys-random | volatile-lru | volatile-lfu | volatile-random | volatile-ttl }]
+         [--eviction-policy { noeviction | allkeys-lru | allkeys-lfu | allkeys-random | volatile-lru | volatile-lfu | volatile-random | volatile-ttl }]
          [--proxy-policy { all-nodes | all-master-shards | single }]
          [--with-module name=<module_name>,version=<module_version>,args=<module_args>]
 ```
