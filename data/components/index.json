@@ -7,7 +7,8 @@
     "docs": [],
     "modules": [],
     "clients": [
-        "nredisstack",
+        "nredisstack_sync",
+        "nredisstack_async",
         "go_redis",
         "node_redis",
         "php",

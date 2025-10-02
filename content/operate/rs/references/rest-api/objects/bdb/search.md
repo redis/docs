@@ -14,18 +14,18 @@ Configuration fields for search and query.
 
 | Field | Type/Value | Description |
 |-------|------------|-------------|
-| search-timeout | integer (range: 1-9223372036854775807) (default: 1000) | The maximum amount of time in milliseconds that a search query is allowed to run. |
+| search-timeout | integer (range: 1-9223372036854775807) (default: 500) | The maximum amount of time in milliseconds that a search query is allowed to run. |
 | search-ext-load | string  | If present, RediSearch will try to load an extension dynamic library from its specified file path. Requires a database restart to take effect. |
 | search-max-doctablesize | integer (range: 1-18446744073709551615) (default: 1000000) | The maximum size of the internal hash table used for storing the documents. Requires a database restart to take effect. |
 | search-friso-ini | string  | If present, load the custom Chinese dictionary from the specified path. Requires a database restart to take effect. |
-| search-cursor-max-idle | integer (range: 1-9223372036854775807) (default: 30000) | The maximum idle time in milliseconds that can be set to the cursor api. |
-| search-partial-indexed-docs | integer (range: 1-9223372036854775807) (default: 30000) | Enable or turn off the Redis command filter. Requires a database restart to take effect. |
+| search-cursor-max-idle | integer (range: 1-9223372036854775807) (default: 300000) | The maximum idle time in milliseconds that can be set to the cursor api. |
+| search-partial-indexed-docs | integer (range: 0-9223372036854775807) (default: 0) | Enable or turn off the Redis command filter. Requires a database restart to take effect. |
 | search-gc-scan-size | integer (range: 1-9223372036854775807) (default: 100) | The bulk size of the internal GC used for cleaning up indexes. Requires a database restart to take effect. |
 | search-no-gc | boolean (default: false) | If set, Garbage Collection is deactivated for all indexes. Requires a database restart to take effect. |
 | search-fork-gc-run-interval | integer (range: 1-9223372036854775807) (default: 30) | Interval in seconds between two consecutive fork GC runs. |
 | search-fork-gc-retry-interval | integer (range: 1-9223372036854775807) (default: 5) | Interval in seconds in which RediSearch will retry to run fork GC in case of a failure. |
 | search-fork-gc-clean-threshold | integer (range: 1-9223372036854775807) (default: 100) | The fork GC will only start to clean when the number of not cleaned documents exceeds this threshold; otherwise, it will skip this run. |
-| search-vss-max-resize | integer (range: 1-4294967295) (default: 100) | The maximum memory resize for vector similarity indexes in bytes. |
+| search-vss-max-resize | integer (range: 0-4294967295) (default: 0) | The maximum memory resize for vector similarity indexes in bytes. |
 | search-union-iterator-heap | integer (range: 1-9223372036854775807) (default: 20) | The minimum number of iterators in a union from which the iterator will switch to heap-based implementation. |
 | search-min-phonetic-term-len | integer (range: 1-9223372036854775807) (default: 3) | Minimum length of term to be considered for phonetic matching. |
 | search-multi-text-slop | integer (range: 1-4294967295) (default: 100) | Set RediSearch delta used to increase positional offsets between array slots for multi-text values. Requires a database restart to take effect. |
@@ -49,7 +49,7 @@ Configuration fields for search and query.
 | search-workers-priority-bias-threshold | integer (range: 0-9223372036854775807) (default: 1) | The number of high-priority tasks to run at any given time by the worker thread pool, before executing low-priority tasks. After this number of high-priority tasks are running, the worker thread pool will run high and low-priority tasks alternately. Requires a database restart to take effect. |
 | search-on-timeout | string (values: RETURN, FAIL) (default: "RETURN") | The response policy for queries that exceed the TIMEOUT setting can be one of the following: RETURN / FAIL |
 | search-min-prefix | integer (range: 1-9223372036854775807) (default: 2) | The minimum number of characters allowed for prefix queries (e.g., hel*) |
-| search-min-stem-len | integer (range: 2-4294967295) (default: 0) | The minimum word length to stem |
+| search-min-stem-len | integer (range: 2-4294967295) (default: 4) | The minimum word length to stem |
 | search-max-prefix-expansions | integer (range: 1-9223372036854775807) (default: 200) | The maximum number of expansions allowed for query prefixes |
 | search-max-search-results | integer (range: 0-9223372036854775807) (default: 1000000) | The maximum number of results to be returned by the FT.SEARCH command if LIMIT is used |
 | search-max-aggregate-results | integer (range: 0-9223372036854775807) (default: 2147483648) | The maximum number of results to be returned by the FT.AGGREGATE command if LIMIT is used |
