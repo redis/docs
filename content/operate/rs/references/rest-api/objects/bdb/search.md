@@ -47,10 +47,11 @@ Configuration fields for search and query.
 | search-min-operation-workers | integer (range: 0-8192) (default: 4) | Number of worker threads to use for background tasks when the server is in an operation event. |
 | search-tiered-hnsw-buffer-limit | integer (range: 0-9223372036854775807) (default: 1024) | Sets the buffer limit threshold for vector similarity tiered HNSW index. If using WORKERS for indexing and the number of vectors waiting in the buffer to be indexed exceeds this limit, inserts new vectors directly into HNSW. Requires a database restart to take effect. |
 | search-workers-priority-bias-threshold | integer (range: 0-9223372036854775807) (default: 1) | The number of high-priority tasks to run at any given time by the worker thread pool, before executing low-priority tasks. After this number of high-priority tasks are running, the worker thread pool will run high and low-priority tasks alternately. Requires a database restart to take effect. |
-| search-on-timeout | string (values: RETURN, FAIL) (default: "RETURN") | The response policy for queries that exceed the TIMEOUT setting can be one of the following: RETURN / FAIL |
+| search-on-timeout | "RETURN"<br />"FAIL"<br />(default: "RETURN") | The response policy for queries that exceed the TIMEOUT setting can be one of the following: RETURN / FAIL |
 | search-min-prefix | integer (range: 1-9223372036854775807) (default: 2) | The minimum number of characters allowed for prefix queries (e.g., hel*) |
 | search-min-stem-len | integer (range: 2-4294967295) (default: 4) | The minimum word length to stem |
 | search-max-prefix-expansions | integer (range: 1-9223372036854775807) (default: 200) | The maximum number of expansions allowed for query prefixes |
 | search-max-search-results | integer (range: 0-9223372036854775807) (default: 1000000) | The maximum number of results to be returned by the FT.SEARCH command if LIMIT is used |
 | search-max-aggregate-results | integer (range: 0-9223372036854775807) (default: 2147483648) | The maximum number of results to be returned by the FT.AGGREGATE command if LIMIT is used |
+| search-io-threads | integer (range: 1-256) (default: 1) | The number of threads the coordinator is using for IO threads to handle network to/from other shards |
 | search-enable-unstable-features | boolean (default: false) | Enable unstable features. |
