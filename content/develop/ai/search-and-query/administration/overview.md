@@ -245,9 +245,9 @@ These are the pre-bundled scoring functions available in Redis:
 
     The relevance score for each document is multiplied by the presumptive document score and a penalty is applied based on slop as in `TFIDF`.
 
-    {{ note }}
+    {{< note >}}
     The `BM25` scorer was renamed `BM25STD` in Redis Open Source 8.4. `BM25` is deprecated.
-    {{ /note }}
+    {{< /note >}}
 
 * **BM25STD.NORM**
 
