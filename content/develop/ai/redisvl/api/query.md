@@ -35,8 +35,12 @@ expression.
     distance. Defaults to True.
   * **dialect** (*int* *,* *optional*) – The RediSearch query dialect.
     Defaults to 2.
-  * **sort_by** (*Optional* *[* *str* *]*) – The field to order the results by. Defaults
-    to None. Results will be ordered by vector distance.
+  * **sort_by** (*Optional* *[* *SortSpec* *]*) – The field(s) to order the results by. Can be:
+    - str: single field name
+    - Tuple[str, str]: (field_name, "ASC"|"DESC")
+    - List: list of fields or tuples
+    Note: Only the first field is used for Redis sorting.
+    Defaults to None. Results will be ordered by vector distance.
   * **in_order** (*bool*) – Requires the terms in the field to have
     the same order as the terms in the query filter, regardless of
     the offsets between them. Defaults to False.
@@ -162,12 +166,20 @@ Return the query string of this query only.
 * **Return type:**
   str
 
-#### `return_fields(*fields)`
+#### `return_fields(*fields, skip_decode=None)`
 
-Add fields to return fields.
+Set the fields to return with search results.
 
+* **Parameters:**
+  * **\*fields** – Variable number of field names to return.
+  * **skip_decode** (*str* *|* *List* *[* *str* *]*  *|* *None*) – Optional field name or list of field names that should not be
+    decoded. Useful for binary data like embeddings.
+* **Returns:**
+  Returns the query object for method chaining.
 * **Return type:**
-  *Query*
+  self
+* **Raises:**
+  **TypeError** – If skip_decode is not a string, list, or None.
 
 #### `scorer(scorer)`
 
@@ -233,18 +245,42 @@ phrase terms (0 means exact phrase).
 * **Return type:**
   *Query*
 
-#### `sort_by(field, asc=True)`
+#### `sort_by(sort_spec=None, asc=True)`
 
-Add a sortby field to the query.
+Set the sort order for query results.
 
-- **field** - the name of the field to sort by
-- **asc** - when True, sorting will be done in asceding order
+This method supports sorting by single or multiple fields. Note that Redis Search
+natively supports only a single SORTBY field. When multiple fields are specified,
+only the FIRST field is used for the Redis SORTBY clause.
 
 * **Parameters:**
-  * **field** (*str*)
-  * **asc** (*bool*)
+  * **sort_spec** (*str* *|* *Tuple* *[* *str* *,* *str* *]*  *|* *List* *[* *str* *|* *Tuple* *[* *str* *,* *str* *]* *]*  *|* *None*) – Sort specification in various formats:
+    - str: single field name
+    - Tuple[str, str]: (field_name, "ASC"|"DESC")
+    - List: list of field names or tuples
+  * **asc** (*bool*) – Default sort direction when not specified (only used when sort_spec is a string).
+    Defaults to True (ascending).
+* **Returns:**
+  Returns the query object for method chaining.
 * **Return type:**
-  *Query*
+  self
+* **Raises:**
+  * **TypeError** – If sort_spec is not a valid type.
+  * **ValueError** – If direction is not "ASC" or "DESC".
+
+### `Examples`
+
+```pycon
+>> query.sort_by("price")  # Single field, ascending
+>> query.sort_by(("price", "DESC"))  # Single field, descending
+>> query.sort_by(["price", "rating"])  # Multiple fields (only first used)
+>> query.sort_by([("price", "DESC"), ("rating", "ASC")])
+```
+
+#### `NOTE`
+When multiple fields are specified, only the first field is used for sorting
+in Redis. Future versions may support multi-field sorting through post-query
+sorting in Python.
 
 #### `timeout(timeout)`
 
@@ -354,8 +390,12 @@ distance threshold.
     distance. Defaults to True.
   * **dialect** (*int* *,* *optional*) – The RediSearch query dialect.
     Defaults to 2.
-  * **sort_by** (*Optional* *[* *str* *]*) – The field to order the results by. Defaults
-    to None. Results will be ordered by vector distance.
+  * **sort_by** (*Optional* *[* *SortSpec* *]*) – The field(s) to order the results by. Can be:
+    - str: single field name
+    - Tuple[str, str]: (field_name, "ASC"|"DESC")
+    - List: list of fields or tuples
+    Note: Only the first field is used for Redis sorting.
+    Defaults to None. Results will be ordered by vector distance.
   * **in_order** (*bool*) – Requires the terms in the field to have
     the same order as the terms in the query filter, regardless of
     the offsets between them. Defaults to False.
@@ -478,12 +518,20 @@ Return the query string of this query only.
 * **Return type:**
   str
 
-#### `return_fields(*fields)`
+#### `return_fields(*fields, skip_decode=None)`
 
-Add fields to return fields.
+Set the fields to return with search results.
 
+* **Parameters:**
+  * **\*fields** – Variable number of field names to return.
+  * **skip_decode** (*str* *|* *List* *[* *str* *]*  *|* *None*) – Optional field name or list of field names that should not be
+    decoded. Useful for binary data like embeddings.
+* **Returns:**
+  Returns the query object for method chaining.
 * **Return type:**
-  *Query*
+  self
+* **Raises:**
+  **TypeError** – If skip_decode is not a string, list, or None.
 
 #### `scorer(scorer)`
 
@@ -559,18 +607,42 @@ phrase terms (0 means exact phrase).
 * **Return type:**
   *Query*
 
-#### `sort_by(field, asc=True)`
+#### `sort_by(sort_spec=None, asc=True)`
 
-Add a sortby field to the query.
+Set the sort order for query results.
 
-- **field** - the name of the field to sort by
-- **asc** - when True, sorting will be done in asceding order
+This method supports sorting by single or multiple fields. Note that Redis Search
+natively supports only a single SORTBY field. When multiple fields are specified,
+only the FIRST field is used for the Redis SORTBY clause.
 
 * **Parameters:**
-  * **field** (*str*)
-  * **asc** (*bool*)
+  * **sort_spec** (*str* *|* *Tuple* *[* *str* *,* *str* *]*  *|* *List* *[* *str* *|* *Tuple* *[* *str* *,* *str* *]* *]*  *|* *None*) – Sort specification in various formats:
+    - str: single field name
+    - Tuple[str, str]: (field_name, "ASC"|"DESC")
+    - List: list of field names or tuples
+  * **asc** (*bool*) – Default sort direction when not specified (only used when sort_spec is a string).
+    Defaults to True (ascending).
+* **Returns:**
+  Returns the query object for method chaining.
 * **Return type:**
-  *Query*
+  self
+* **Raises:**
+  * **TypeError** – If sort_spec is not a valid type.
+  * **ValueError** – If direction is not "ASC" or "DESC".
+
+### `Examples`
+
+```pycon
+>> query.sort_by("price")  # Single field, ascending
+>> query.sort_by(("price", "DESC"))  # Single field, descending
+>> query.sort_by(["price", "rating"])  # Multiple fields (only first used)
+>> query.sort_by([("price", "DESC"), ("rating", "ASC")])
+```
+
+#### `NOTE`
+When multiple fields are specified, only the first field is used for sorting
+in Redis. Future versions may support multi-field sorting through post-query
+sorting in Python.
 
 #### `timeout(timeout)`
 
@@ -935,7 +1007,8 @@ A query for running a full text search, along with an optional filter expression
 
 * **Parameters:**
   * **text** (*str*) – The text string to perform the text search with.
-  * **text_field_name** (*str*) – The name of the document field to perform text search on.
+  * **text_field_name** (*Union* *[* *str* *,* *Dict* *[* *str* *,* *float* *]* *]*) – The name of the document field to perform
+    text search on, or a dictionary mapping field names to their weights.
   * **text_scorer** (*str* *,* *optional*) – The text scoring algorithm to use.
     Defaults to BM25STD. Options are {TFIDF, BM25STD, BM25, TFIDF.DOCNORM, DISMAX, DOCSCORE}.
     See [https://redis.io/docs/latest/develop/interact/search-and-query/advanced-concepts/scoring/](https://redis.io/docs/latest/develop/interact/search-and-query/advanced-concepts/scoring/)
@@ -949,8 +1022,12 @@ A query for running a full text search, along with an optional filter expression
     Defaults to True.
   * **dialect** (*int* *,* *optional*) – The RediSearch query dialect.
     Defaults to 2.
-  * **sort_by** (*Optional* *[* *str* *]*) – The field to order the results by. Defaults
-    to None. Results will be ordered by text score.
+  * **sort_by** (*Optional* *[* *SortSpec* *]*) – The field(s) to order the results by. Can be:
+    - str: single field name
+    - Tuple[str, str]: (field_name, "ASC"|"DESC")
+    - List: list of fields or tuples
+    Note: Only the first field is used for Redis sorting.
+    Defaults to None. Results will be ordered by text score.
   * **in_order** (*bool*) – Requires the terms in the field to have
     the same order as the terms in the query filter, regardless of
     the offsets between them. Defaults to False.
@@ -1062,12 +1139,20 @@ Return the query string of this query only.
 * **Return type:**
   str
 
-#### `return_fields(*fields)`
+#### `return_fields(*fields, skip_decode=None)`
 
-Add fields to return fields.
+Set the fields to return with search results.
 
+* **Parameters:**
+  * **\*fields** – Variable number of field names to return.
+  * **skip_decode** (*str* *|* *List* *[* *str* *]*  *|* *None*) – Optional field name or list of field names that should not be
+    decoded. Useful for binary data like embeddings.
+* **Returns:**
+  Returns the query object for method chaining.
 * **Return type:**
-  *Query*
+  self
+* **Raises:**
+  **TypeError** – If skip_decode is not a string, list, or None.
 
 #### `scorer(scorer)`
 
@@ -1081,6 +1166,13 @@ Since Redis 8.0 default was changed to BM25STD.
   (e.g. TFIDF.DOCNORM or BM25)
 * **Return type:**
   *Query*
+
+#### `set_field_weights(field_weights)`
+
+Set or update the field weights for the query.
+
+* **Parameters:**
+  **field_weights** (*str* *|* *Dict* *[* *str* *,* *float* *]*) – Either a single field name or dictionary of field:weight mappings
 
 #### `set_filter(filter_expression=None)`
 
@@ -1102,18 +1194,42 @@ phrase terms (0 means exact phrase).
 * **Return type:**
   *Query*
 
-#### `sort_by(field, asc=True)`
+#### `sort_by(sort_spec=None, asc=True)`
 
-Add a sortby field to the query.
+Set the sort order for query results.
 
-- **field** - the name of the field to sort by
-- **asc** - when True, sorting will be done in asceding order
+This method supports sorting by single or multiple fields. Note that Redis Search
+natively supports only a single SORTBY field. When multiple fields are specified,
+only the FIRST field is used for the Redis SORTBY clause.
 
 * **Parameters:**
-  * **field** (*str*)
-  * **asc** (*bool*)
+  * **sort_spec** (*str* *|* *Tuple* *[* *str* *,* *str* *]*  *|* *List* *[* *str* *|* *Tuple* *[* *str* *,* *str* *]* *]*  *|* *None*) – Sort specification in various formats:
+    - str: single field name
+    - Tuple[str, str]: (field_name, "ASC"|"DESC")
+    - List: list of field names or tuples
+  * **asc** (*bool*) – Default sort direction when not specified (only used when sort_spec is a string).
+    Defaults to True (ascending).
+* **Returns:**
+  Returns the query object for method chaining.
 * **Return type:**
-  *Query*
+  self
+* **Raises:**
+  * **TypeError** – If sort_spec is not a valid type.
+  * **ValueError** – If direction is not "ASC" or "DESC".
+
+### `Examples`
+
+```pycon
+>> query.sort_by("price")  # Single field, ascending
+>> query.sort_by(("price", "DESC"))  # Single field, descending
+>> query.sort_by(["price", "rating"])  # Multiple fields (only first used)
+>> query.sort_by([("price", "DESC"), ("rating", "ASC")])
+```
+
+#### `NOTE`
+When multiple fields are specified, only the first field is used for sorting
+in Redis. Future versions may support multi-field sorting through post-query
+sorting in Python.
 
 #### `timeout(timeout)`
 
@@ -1146,6 +1262,13 @@ Ask the engine to return document search scores.
 * **Return type:**
   *Query*
 
+#### `property field_weights: Dict[str, float]`
+
+Get the field weights for the query.
+
+* **Returns:**
+  Dictionary mapping field names to their weights
+
 #### `property filter: str | `[`FilterExpression`]({{< relref "filter/#filterexpression" >}})` `
 
 The filter expression for the query.
@@ -1157,6 +1280,14 @@ Return the query parameters.
 #### `property query: BaseQuery`
 
 Return self as the query object.
+
+#### `property text_field_name: str | Dict[str, float]`
+
+Get the text field name(s) - for backward compatibility.
+
+* **Returns:**
+  Either a single field name string (if only one field with weight 1.0)
+  or a dictionary of field:weight mappings.
 
 ## FilterQuery
 
@@ -1172,7 +1303,12 @@ A query for running a filtered search with a filter expression.
   * **return_fields** (*Optional* *[* *List* *[* *str* *]* *]* *,* *optional*) – The fields to return.
   * **num_results** (*Optional* *[* *int* *]* *,* *optional*) – The number of results to return. Defaults to 10.
   * **dialect** (*int* *,* *optional*) – The query dialect. Defaults to 2.
-  * **sort_by** (*Optional* *[* *str* *]* *,* *optional*) – The field to order the results by. Defaults to None.
+  * **sort_by** (*Optional* *[* *SortSpec* *]* *,* *optional*) – The field(s) to order the results by. Can be:
+    - str: single field name (e.g., "price")
+    - Tuple[str, str]: (field_name, "ASC"|"DESC") (e.g., ("price", "DESC"))
+    - List: list of fields or tuples (e.g., ["price", ("rating", "DESC")])
+    Note: Redis Search only supports single-field sorting, so only the first field is used.
+    Defaults to None.
   * **in_order** (*bool* *,* *optional*) – Requires the terms in the field to have the same order as the
     terms in the query filter. Defaults to False.
   * **params** (*Optional* *[* *Dict* *[* *str* *,* *Any* *]* *]* *,* *optional*) – The parameters for the query. Defaults to None.
@@ -1276,12 +1412,20 @@ Return the query string of this query only.
 * **Return type:**
   str
 
-#### `return_fields(*fields)`
+#### `return_fields(*fields, skip_decode=None)`
 
-Add fields to return fields.
+Set the fields to return with search results.
 
+* **Parameters:**
+  * **\*fields** – Variable number of field names to return.
+  * **skip_decode** (*str* *|* *List* *[* *str* *]*  *|* *None*) – Optional field name or list of field names that should not be
+    decoded. Useful for binary data like embeddings.
+* **Returns:**
+  Returns the query object for method chaining.
 * **Return type:**
-  *Query*
+  self
+* **Raises:**
+  **TypeError** – If skip_decode is not a string, list, or None.
 
 #### `scorer(scorer)`
 
@@ -1316,18 +1460,42 @@ phrase terms (0 means exact phrase).
 * **Return type:**
   *Query*
 
-#### `sort_by(field, asc=True)`
+#### `sort_by(sort_spec=None, asc=True)`
 
-Add a sortby field to the query.
+Set the sort order for query results.
 
-- **field** - the name of the field to sort by
-- **asc** - when True, sorting will be done in asceding order
+This method supports sorting by single or multiple fields. Note that Redis Search
+natively supports only a single SORTBY field. When multiple fields are specified,
+only the FIRST field is used for the Redis SORTBY clause.
 
 * **Parameters:**
-  * **field** (*str*)
-  * **asc** (*bool*)
+  * **sort_spec** (*str* *|* *Tuple* *[* *str* *,* *str* *]*  *|* *List* *[* *str* *|* *Tuple* *[* *str* *,* *str* *]* *]*  *|* *None*) – Sort specification in various formats:
+    - str: single field name
+    - Tuple[str, str]: (field_name, "ASC"|"DESC")
+    - List: list of field names or tuples
+  * **asc** (*bool*) – Default sort direction when not specified (only used when sort_spec is a string).
+    Defaults to True (ascending).
+* **Returns:**
+  Returns the query object for method chaining.
 * **Return type:**
-  *Query*
+  self
+* **Raises:**
+  * **TypeError** – If sort_spec is not a valid type.
+  * **ValueError** – If direction is not "ASC" or "DESC".
+
+### `Examples`
+
+```pycon
+>> query.sort_by("price")  # Single field, ascending
+>> query.sort_by(("price", "DESC"))  # Single field, descending
+>> query.sort_by(["price", "rating"])  # Multiple fields (only first used)
+>> query.sort_by([("price", "DESC"), ("rating", "ASC")])
+```
+
+#### `NOTE`
+When multiple fields are specified, only the first field is used for sorting
+in Redis. Future versions may support multi-field sorting through post-query
+sorting in Python.
 
 #### `timeout(timeout)`
 
@@ -1495,12 +1663,20 @@ Return the query string of this query only.
 * **Return type:**
   str
 
-#### `return_fields(*fields)`
+#### `return_fields(*fields, skip_decode=None)`
 
-Add fields to return fields.
+Set the fields to return with search results.
 
+* **Parameters:**
+  * **\*fields** – Variable number of field names to return.
+  * **skip_decode** (*str* *|* *List* *[* *str* *]*  *|* *None*) – Optional field name or list of field names that should not be
+    decoded. Useful for binary data like embeddings.
+* **Returns:**
+  Returns the query object for method chaining.
 * **Return type:**
-  *Query*
+  self
+* **Raises:**
+  **TypeError** – If skip_decode is not a string, list, or None.
 
 #### `scorer(scorer)`
 
@@ -1535,18 +1711,42 @@ phrase terms (0 means exact phrase).
 * **Return type:**
   *Query*
 
-#### `sort_by(field, asc=True)`
+#### `sort_by(sort_spec=None, asc=True)`
 
-Add a sortby field to the query.
+Set the sort order for query results.
 
-- **field** - the name of the field to sort by
-- **asc** - when True, sorting will be done in asceding order
+This method supports sorting by single or multiple fields. Note that Redis Search
+natively supports only a single SORTBY field. When multiple fields are specified,
+only the FIRST field is used for the Redis SORTBY clause.
 
 * **Parameters:**
-  * **field** (*str*)
-  * **asc** (*bool*)
+  * **sort_spec** (*str* *|* *Tuple* *[* *str* *,* *str* *]*  *|* *List* *[* *str* *|* *Tuple* *[* *str* *,* *str* *]* *]*  *|* *None*) – Sort specification in various formats:
+    - str: single field name
+    - Tuple[str, str]: (field_name, "ASC"|"DESC")
+    - List: list of field names or tuples
+  * **asc** (*bool*) – Default sort direction when not specified (only used when sort_spec is a string).
+    Defaults to True (ascending).
+* **Returns:**
+  Returns the query object for method chaining.
 * **Return type:**
-  *Query*
+  self
+* **Raises:**
+  * **TypeError** – If sort_spec is not a valid type.
+  * **ValueError** – If direction is not "ASC" or "DESC".
+
+### `Examples`
+
+```pycon
+>> query.sort_by("price")  # Single field, ascending
+>> query.sort_by(("price", "DESC"))  # Single field, descending
+>> query.sort_by(["price", "rating"])  # Multiple fields (only first used)
+>> query.sort_by([("price", "DESC"), ("rating", "ASC")])
+```
+
+#### `NOTE`
+When multiple fields are specified, only the first field is used for sorting
+in Redis. Future versions may support multi-field sorting through post-query
+sorting in Python.
 
 #### `timeout(timeout)`
 
