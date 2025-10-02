@@ -124,7 +124,7 @@ For more details on AWS PrivateLink, see [Share your services through AWS Privat
 To set up PrivateLink for a database hosted on AWS RDS or AWS Aurora:
 
 {{<warning>}}
-**RDS Proxy does not work with RDS PostgreSQL and Aurora PostgreSQL.** RDS Proxy doesn't support PostgreSQL logical replication, mainly because RDS and Aurora themselves do not support automatic failovers (from the perspective of the client) very well.
+The RDS Proxy does not work with RDS PostgreSQL and Aurora PostgreSQL because it does not support PostgreSQL logical replication.
 
 For PostgreSQL databases, use one of the following alternatives instead:
 - **For test environments**: Connect the Network Load Balancer directly to the database IP address (skip the RDS Proxy step).
@@ -132,13 +132,13 @@ For PostgreSQL databases, use one of the following alternatives instead:
 {{</warning>}}
 
 1. [Create an RDS Proxy](#create-rds-proxy) that will route requests to your database (MySQL and SQL Server only).
-1. [Create a network load balancer](#create-network-load-balancer-rds) that will route incoming HTTP requests to the RDS proxy (or directly to the database for PostgreSQL).
+1. [Create a network load balancer](#create-network-load-balancer-rds) that will route incoming requests to the RDS proxy (or directly to the database for PostgreSQL).
 1. [Create an endpoint service](#create-endpoint-service-rds) through AWS PrivateLink.
 
 ### Create RDS proxy {#create-rds-proxy}
 
 {{<note>}}
-**Skip this step for PostgreSQL databases.** For RDS PostgreSQL and Aurora PostgreSQL, proceed directly to [Create network load balancer](#create-network-load-balancer-rds) and configure it to connect directly to your database IP address.
+For RDS PostgreSQL and Aurora PostgreSQL, skip this step and proceed directly to [Create network load balancer](#create-network-load-balancer-rds) and configure it to connect directly to your database IP address.
 {{</note>}}
 
 In the [AWS Management Console](https://console.aws.amazon.com/), use the **Services** menu to locate and select **Database** > **Aurora and RDS**. [Create an RDS proxy](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-proxy-creating.html) that can access your database.
