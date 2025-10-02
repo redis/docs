@@ -35,6 +35,7 @@ An API object that represents the cluster.
 | debuginfo_path | string | Path to a local directory used when generating support packages |
 | <span class="break-all">default_non_sharded_proxy_policy</span> | string (default: single) | Default proxy_policy for newly created non-sharded databases' endpoints (read-only) |
 | <span class="break-all">default_sharded_proxy_policy</span> | string (default: all-master-shards) | Default proxy_policy for newly created sharded databases' endpoints (read-only) |
+| <span class="break-all">disconnect_clients_on_password_removal</span> | "enabled"<br />"disabled"<br />**"auto"** | This flag controls whether client connections using removed, revoked, or rotated passwords are actively disconnected |
 | email_alerts | boolean (default: false) | Send node/cluster email alerts (requires valid SMTP and email_from settings) |
 | email_from | string | Sender email for automated emails |
 | encrypt_pkeys | boolean (default: false) | Enable or turn off encryption of private keys |
@@ -61,6 +62,7 @@ An API object that represents the cluster.
 | <span class="break-all">proxy_max_ccs_disconnection_time</span> | integer | Cluster-wide proxy timeout policy between proxy and CCS |
 | rack_aware | boolean | Cluster operates in a rack-aware mode (read-only) |
 | reserved_ports | array of strings | List of reserved ports and/or port ranges to avoid using for database endpoints (for example `"reserved_ports": ["11000", "13000-13010"]`) |
+| <span class="break-all">replica_sconns_on_demand</span> | "enabled"<br />"disabled"<br />**"auto"** | Reduces DMC internode connections by at least 50%, conserving sockets, file descriptors, and `KEEPALIVE` traffic |
 | robust_crdt_syncer | boolean (default: false) | If `true`, enables the robust syncer for Active-Active databases |
 | s3_ca_cert | string | Filepath to the PEM-encoded CA certificate to use for validating TLS connections to the S3 server |
 | s3_url | string | Specifies the URL for S3 export and import |
