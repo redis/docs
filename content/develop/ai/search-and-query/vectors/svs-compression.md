@@ -107,11 +107,11 @@ The strong performance of LVQ and LeanVec stems from their ability to adapt to t
 
 By default, Redis Open Source with the Redis Query Engine supports SVS-VAMANA indexing with the global 8-bit quantisation. To compile Redis with the Intel SVS-VAMANA optimisations, LeanVec and LVQ, for Intel platforms, follow the instructions below.
 
-{{ warning }}
+{{< warning >}}
 If you are using Redis Open Source under the AGPLv3 or SSPLv1 licenses, you cannot use it together with the Intel Optimization binaries (LeanVec and LVQ). The reason is that the Intel SVS license is not compatible with those licenses.
 The LeanVec and LVQ techniques are closed source and are only available for use with Redis Open Source when distributed under the RSALv2 license.
 For more details, please refer to the [information provided by Intel](https://github.com/intel/ScalableVectorSearch).
-{{ /warning }}
+{{< /warning >}}
 
 ### Build Redis Open Source
 
