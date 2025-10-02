@@ -49,22 +49,16 @@ If the local database endpoint is unavailable, returns an error status code and 
 
 The database availability API supports lag-aware availability checks that consider replication lag tolerance. You can reduce the risk of data inconsistencies during disaster recovery by incorporating lag-aware availability checks into your disaster recovery solution and ensuring failover-failback flows only occur when databases are accessible and sufficiently synchronized.
 
-### Adjust availability lag tolerance threshold
+### Change default availability lag tolerance threshold
 
-The lag tolerance threshold is 100 milliseconds by default. Depending on factors such as workload, network conditions, and throughput, you might want to adjust the lag tolerance threshold using one of the following methods:
+The lag tolerance threshold is 100 milliseconds by default. Depending on factors such as workload, network conditions, and throughput, you might want to adjust the lag tolerance threshold.
 
-- Change the default threshold for the entire cluster by setting `availability_lag_tolerance_ms` with an [update cluster]({{<relref "/operate/rs/references/rest-api/requests/cluster#put-cluster">}}) request.
+To change the default threshold for the entire cluster, set `availability_lag_tolerance_ms` with an [update cluster]({{<relref "/operate/rs/references/rest-api/requests/cluster#put-cluster">}}) request:
 
-    ```sh
-    PUT /v1/cluster
-    { "availability_lag_tolerance_ms": 100 }
-    ```
-
-- Override the default threshold by adding the `availability_lag_tolerance_ms` query parameter to specific lag-aware [availability checks]({{<relref "/operate/rs/references/rest-api/requests/bdbs/availability">}}).
-
-    ```sh
-    GET /v1/bdbs/<database_id>/availability?extend_check=lag&availability_lag_tolerance_ms=100
-    ```
+```sh
+PUT /v1/cluster
+{ "availability_lag_tolerance_ms": 100 }
+```
 
 ### Lag-aware database availability checks
 
