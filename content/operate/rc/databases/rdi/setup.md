@@ -123,11 +123,23 @@ For more details on AWS PrivateLink, see [Share your services through AWS Privat
 
 To set up PrivateLink for a database hosted on AWS RDS or AWS Aurora:
 
-1. [Create an RDS Proxy](#create-rds-proxy) that will route requests to your database.
-1. [Create a network load balancer](#create-network-load-balancer-rds) that will route incoming HTTP requests to the RDS proxy.
+{{<warning>}}
+**RDS Proxy does not work with RDS PostgreSQL and Aurora PostgreSQL.** RDS Proxy doesn't support PostgreSQL logical replication, mainly because RDS and Aurora themselves do not support automatic failovers (from the perspective of the client) very well.
+
+For PostgreSQL databases, use one of the following alternatives instead:
+- **For test environments**: Connect the Network Load Balancer directly to the database IP address (skip the RDS Proxy step).
+- **For production environments**: Use the AWS Lambda approach described in [Access Amazon RDS across VPCs using AWS PrivateLink and Network Load Balancer](https://aws.amazon.com/blogs/database/access-amazon-rds-across-vpcs-using-aws-privatelink-and-network-load-balancer/).
+{{</warning>}}
+
+1. [Create an RDS Proxy](#create-rds-proxy) that will route requests to your database (MySQL and SQL Server only).
+1. [Create a network load balancer](#create-network-load-balancer-rds) that will route incoming HTTP requests to the RDS proxy (or directly to the database for PostgreSQL).
 1. [Create an endpoint service](#create-endpoint-service-rds) through AWS PrivateLink.
 
 ### Create RDS proxy {#create-rds-proxy}
+
+{{<note>}}
+**Skip this step for PostgreSQL databases.** For RDS PostgreSQL and Aurora PostgreSQL, proceed directly to [Create network load balancer](#create-network-load-balancer-rds) and configure it to connect directly to your database IP address.
+{{</note>}}
 
 In the [AWS Management Console](https://console.aws.amazon.com/), use the **Services** menu to locate and select **Database** > **Aurora and RDS**. [Create an RDS proxy](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-proxy-creating.html) that can access your database.
 
@@ -142,23 +154,30 @@ You can set the proxy's IAM role during creation in the **Authentication** secti
 
 In the [AWS Management Console](https://console.aws.amazon.com/), use the **Services** menu to locate and select **Compute** > **EC2**. [Create a network load balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-network-load-balancer.html#configure-load-balancer) with the following settings:
 
-1. In **Basic configuration**: 
+1. In **Basic configuration**:
     - **Scheme**: Select **Internal**.
     - **Load balancer IP address type**: Select **IPv4**.
 1. In **Network mapping**, select the VPC and availability zone associated with your source database.
 1. In **Security groups**, select the security group associated with your source database.
-1. In **Listeners and routing**: 
+1. In **Listeners and routing**:
     1. Select **Create target group** to [create a target group](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-target-group.html) with the following settings:
         1. In **Specify group details**:
             - **Target type**: Select **IP Addresses**.
             - **Protocol : Port**: Select **TCP**, and then enter the port number where your database is exposed.
             - The **IP address type** and **VPC** should be selected already and match the VPC you selected earlier.
-        1. In **Register targets**, enter the static IP address of your RDS proxy, enter the port, and select **Include as pending below**. Then, select **Create target group** to create your target group. Return to **Listeners and routing** in the Network Load Balancer setup.
-            To get the static IP address of your RDS Proxy, run the following command on an EC2 instance in the same VPC as the Proxy:
+        1. In **Register targets**, enter the static IP address of your RDS proxy (for MySQL and SQL Server) or your database (for PostgreSQL), enter the port, and select **Include as pending below**. Then, select **Create target group** to create your target group. Return to **Listeners and routing** in the Network Load Balancer setup.
+
+            **For MySQL and SQL Server**: To get the static IP address of your RDS Proxy, run the following command on an EC2 instance in the same VPC as the Proxy:
             ```sh
             $ nslookup <proxy-endpoint>
             ```
             Replace `<proxy-endpoint>` with the endpoint of your RDS proxy.
+
+            **For PostgreSQL**: To get the static IP address of your database, run the following command on an EC2 instance in the same VPC as the database:
+            ```sh
+            $ nslookup <database-endpoint>
+            ```
+            Replace `<database-endpoint>` with the endpoint of your RDS or Aurora PostgreSQL database.
     1. Set the following **Listener** properties:
         - **Protocol**: Select **TCP**.
         - **Port**: Enter your source database's port.
