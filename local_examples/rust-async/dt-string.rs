@@ -1,15 +1,14 @@
+
 // EXAMPLE: set_tutorial
 #[cfg(test)]
-mod strings_tests {
-    // STEP_START import
-    use redis::{Commands, ExistenceCheck};
-    // STEP_END
+mod tests {
+    use redis::{AsyncCommands, ExistenceCheck};
 
-    #[test]
-    fn run() {
+    #[tokio::test]
+    async fn run() {
         let mut r = match redis::Client::open("redis://127.0.0.1") {
             Ok(client) => {
-                match client.get_connection() {
+                match client.get_multiplexed_async_connection().await {
                     Ok(conn) => conn,
                     Err(e) => {
                         println!("Failed to connect to Redis: {e}");
@@ -24,7 +23,7 @@ mod strings_tests {
         };
 
         // STEP_START set_get
-        if let Ok(res) = r.set("bike:1", "Deimos") {
+        if let Ok(res) = r.set("bike:1", "Deimos").await {
             let res: String = res;
             println!("{res}");    // >>> OK
             // REMOVE_START
@@ -32,7 +31,7 @@ mod strings_tests {
             // REMOVE_END
         }
 
-        match r.get("bike:1") {
+        match r.get("bike:1").await {
             Ok(res) => {
                 let res: String = res;
                 println!("{res}");   // >>> Deimos
@@ -41,14 +40,14 @@ mod strings_tests {
                 // REMOVE_END
             },
             Err(e) => {
-                println!("Error getting bike:1: {e}");
+                println!("Error getting foo: {e}");
                 return;
             }
         };
         // STEP_END
 
         // STEP_START setnx_xx
-        if let Ok(res) = r.set_options("bike:1", "bike", redis::SetOptions::default().conditional_set(ExistenceCheck::NX)) {
+        if let Ok(res) = r.set_options("bike:1", "bike", redis::SetOptions::default().conditional_set(ExistenceCheck::NX)).await {
             let res: bool = res;
             println!("{res}");    // >>> false
             // REMOVE_START
@@ -56,7 +55,7 @@ mod strings_tests {
             // REMOVE_END
         }
 
-        match r.get("bike:1") {
+        match r.get("bike:1").await {
             Ok(res) => {
                 let res: String = res;
                 println!("{res}");   // >>> Deimos
@@ -65,20 +64,20 @@ mod strings_tests {
                 // REMOVE_END
             },
             Err(e) => {
-                println!("Error getting bike:1: {e}");
+                println!("Error getting foo: {e}");
                 return;
             }
         };
 
-        if let Ok(res) = r.set_options("bike:1", "bike", redis::SetOptions::default().conditional_set(ExistenceCheck::XX)) {
+        if let Ok(res) = r.set_options("bike:1", "bike", redis::SetOptions::default().conditional_set(ExistenceCheck::XX)).await {
             let res: String = res;
             println!("{res}");    // >>> OK
             // REMOVE_START
             assert_eq!(res, "OK");
             // REMOVE_END
         }
-        
-        match r.get("bike:1") {
+
+        match r.get("bike:1").await {
             Ok(res) => {
                 let res: String = res;
                 println!("{res}");   // >>> bike
@@ -87,14 +86,14 @@ mod strings_tests {
                 // REMOVE_END
             },
             Err(e) => {
-                println!("Error getting bike:1: {e}");
+                println!("Error getting foo: {e}");
                 return;
             }
         };
         // STEP_END
 
         // STEP_START mset
-        if let Ok(res) = r.mset(&[("bike:1", "Deimos"), ("bike:2", "Ares"), ("bike:3", "Vanth")]) {
+        if let Ok(res) = r.mset(&[("bike:1", "Deimos"), ("bike:2", "Ares"), ("bike:3", "Vanth")]).await {
             let res: String = res;
             println!("{res}");    // >>> OK
             // REMOVE_START
@@ -102,7 +101,7 @@ mod strings_tests {
             // REMOVE_END
         }
 
-        match r.mget(&["bike:1", "bike:2", "bike:3"]) {
+        match r.mget(&["bike:1", "bike:2", "bike:3"]).await {
             Ok(res) => {
                 let res: Vec<String> = res;
                 println!("{res:?}");   // >>> ["Deimos", "Ares", "Vanth"]
@@ -114,14 +113,14 @@ mod strings_tests {
                 // REMOVE_END
             },
             Err(e) => {
-                println!("Error getting values: {e}");
+                println!("Error getting foo: {e}");
                 return;
             }
         };
         // STEP_END
 
         // STEP_START incr
-        if let Ok(res) = r.set("total_crashes", 0) {
+        if let Ok(res) = r.set("total_crashes", 0).await {
             let res: String = res;
             println!("{res}");    // >>> OK
             // REMOVE_START
@@ -129,7 +128,7 @@ mod strings_tests {
             // REMOVE_END
         }
 
-        if let Ok(res) = r.incr("total_crashes", 1) {
+        if let Ok(res) = r.incr("total_crashes", 1).await {
             let res: i32 = res;
             println!("{res}");    // >>> 1
             // REMOVE_START
@@ -137,7 +136,7 @@ mod strings_tests {
             // REMOVE_END
         }
 
-        if let Ok(res) = r.incr("total_crashes", 10) {
+        if let Ok(res) = r.incr("total_crashes", 10).await {
             let res: i32 = res;
             println!("{res}");    // >>> 11
             // REMOVE_START
