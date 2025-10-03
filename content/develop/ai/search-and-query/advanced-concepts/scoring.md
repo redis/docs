@@ -94,11 +94,21 @@ FT.SEARCH myIndex "foo" SCORER BM25STD
 
 ## BM25STD.NORM
 
-A variation of `BM25STD`, where the scores are normalized by the minimum and maximum score.
+A variation of `BM25STD`, where the scores are normalized by the minimum and maximum scores.
+
+`BM25STD.NORM` uses min–max normalization across the collection, making it more accurate in distinguishing documents when term frequency distributions vary significantly. Because it depends on global statistics, results adapt better to collection-specific characteristics, but this comes at a performance cost: min and max values must be computed and updated whenever the collection changes. This method is recommended when ranking precision is critical and the dataset is relatively stable.
 
 ## BM25STD.TANH
 
 A variation of `BM25STD.NORM`, where the scores are normalised by linear function `tanh(x)`. `BMSTDSTD.TANH` can take an optional argument, `BM25STD_TANH_FACTOR Y`, which is used to smooth the function and the score values. The default value for `Y` is 4.
+
+`BM25STD.TANH` applies a smooth transformation using the `tanh(x/factor)` function, which avoids collection-dependent statistics and yields faster, more efficient scoring. While this makes it more scalable and consistent across different datasets, the trade-off is reduced accuracy in cases where min–max normalization provides sharper separation. This method is recommended when performance and throughput are prioritized over fine-grained ranking sensitivity.
+
+Following is an example of how to use `BM25STD_TANH_FACTOR Y` in a query.
+
+```
+FT.SEARCH idx "term" SCORER BM25STD.TANH BM25STD_TANH_FACTOR 12 WITHSCORES
+```
 
 ## DISMAX
 
