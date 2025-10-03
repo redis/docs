@@ -273,6 +273,20 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS162290: Fixed an issue where the node status API returned 0 instead of the actual provisional RAM and flash values if the node reached its shard limit.
 
+- RS158251: Added a check to block new user creation after the maximum limit of 32,000 users has been reached to prevent DMC proxy crashes.
+
+- RS166813: Fixed an issue where Lua incorrectly converted empty JSON arrays into empty JSON objects.
+
+- RS166683: Fixed an issue where `FT.DROPINDEX index DD` deleted indexed keys on the local Active-Active database instance but failed to sync the deletions to instances in other participating clusters.
+
+- RS162972: Fixed an issue where the REST API was only accessible from the primary node when certificate-based authentication was enabled.
+
+- RS158972: Fixed an issue where certificate verification failed during node join and replace operations when internode encryption was enabled, causing connection errors until certificates were fetched from the primary node.
+
+- RS123263: Fixed an issue where creating a new role with a specified UID failed with "A uid is already assigned" error.
+
+- RS120420: Fixed an issue where `rladmin cluster config` incorrectly included quotes as part of the cipher suite value when updating `control_cipher_suites` configuration.
+
 ## Version changes
 
 - [`POST /v1/cluster/actions/change_master`]({{<relref "/operate/rs/references/rest-api/requests/cluster/actions#post-cluster-action">}}) REST API requests will no longer allow a node that exists but is not finished bootstrapping to become the primary node. Such requests will now return the status code `406 Not Acceptable`.
