@@ -1,0 +1,94 @@
+<link rel="stylesheet" href="{{ "css/agent-builder.css" | relURL }}">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked@9.1.6/marked.min.js"></script>
+
+<!-- Redis AI Agent Builder Shortcode -->
+<div id="redis-agent-builder" class="agent-builder-container">
+  <div class="agent-builder-header">
+    <h3 class="text-2xl font-semibold text-redis-ink-900 mb-2">Build Your Redis AI Agent</h3>
+    <p class="text-redis-pen-600 mb-6">Tell us what you want to build and we'll generate the code for you</p>
+  </div>
+
+  <!-- Chat Interface -->
+  <div id="chat-container" class="chat-container">
+    <div id="chat-messages" class="chat-messages">
+      <!-- Initial bot message -->
+      <div class="chat-message bot-message">
+        <div class="message-avatar">
+          <svg class="w-6 h-6 text-redis-red-500" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+          </svg>
+        </div>
+        <div class="message-content">
+          <p>Hi! I'll help you build a Redis AI agent. Let's start with what type of agent you want to create.</p>
+          <div class="suggestion-chips">
+            <button class="suggestion-chip" data-suggestion="recommendation">🛍️ Recommendation Engine</button>
+            <button class="suggestion-chip" data-suggestion="conversational">💬 Conversational Assistant</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Input -->
+    <div class="chat-input-container">
+      <div class="chat-input-wrapper">
+        <input
+          type="text"
+          id="chat-input"
+          class="chat-input"
+          placeholder="Type your choice or describe what you want to build..."
+          autocomplete="off"
+        >
+        <button id="send-button" class="send-button" disabled>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Suggestions dropdown -->
+      <div id="suggestions-dropdown" class="suggestions-dropdown agent-builder-hidden">
+        <div class="suggestions-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Generated Code Output -->
+  <div id="generated-code-section" class="code-output-section agent-builder-hidden">
+    <div class="code-header">
+      <h4 class="text-lg font-medium text-redis-ink-900 mb-4">Generated Agent Code</h4>
+    </div>
+    <div class="code-actions mb-4">
+      <button type="button" id="copy-code-btn" class="copy-btn">
+        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+        </svg>
+        Copy
+      </button>
+      <button type="button" id="download-code-btn" class="download-btn">
+        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+        </svg>
+        Download
+      </button>
+      <button type="button" id="start-again-btn" class="start-again-btn">
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+        </svg>
+        Start again
+      </button>
+    </div>
+    <div class="code-container">
+      <pre class="code-block"><code id="generated-code"></code></pre>
+    </div>
+    <div class="code-footer">
+      <p class="text-sm text-redis-pen-600">
+        <strong>Next steps:</strong> Save this code to a file, install the required dependencies, and configure your Redis connection.
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<!-- Load the agent builder JavaScript -->
+<script src="{{ "js/agent-builder.js" | relURL }}"></script>

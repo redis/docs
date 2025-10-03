@@ -1,184 +1,187 @@
 // EXAMPLE: home_vecsets
+// REMOVE_START
+package com.redis.app;
+// REMOVE_END
 // STEP_START import
-// Redis client (Lettuce) and vector set APIs
-import io.lettuce.core.RedisClient;
-import io.lettuce.core.RedisURI;
-import io.lettuce.core.api.StatefulRedisConnection;
-import io.lettuce.core.api.sync.RedisCommands;
-import io.lettuce.core.VAddArgs;
-import io.lettuce.core.VSimArgs;
+import redis.clients.jedis.UnifiedJedis;
+import redis.clients.jedis.params.VAddParams;
+import redis.clients.jedis.params.VSimParams;
 
-// Tokenizer to generate vectors (kept consistent with HomeQueryVec.java)
-import ai.djl.huggingface.tokenizers.HuggingFaceTokenizer;
-
-// Data & utils
 import java.util.*;
+
+// DJL classes for model loading and inference.
+import ai.djl.huggingface.translator.TextEmbeddingTranslatorFactory;
+import ai.djl.inference.Predictor;
+import ai.djl.repository.zoo.Criteria;
+import ai.djl.training.util.ProgressBar;
 // STEP_END
 
 public class HomeVecSets {
-    // Keep the same tokenizer model style as HomeQueryVec.java
-    private static final int DIM = 768; // fixed dimension to pad/truncate token ids
 
-    // Helper: convert tokenizer ids to a fixed-length Double[] of size DIM
-    private static Double[] idsToDoubleVector(long[] ids) {
-        Double[] out = new Double[DIM];
-        int n = Math.min(ids.length, DIM);
-        for (int i = 0; i < n; i++) out[i] = (double) ids[i];
-        for (int i = n; i < DIM; i++) out[i] = 0.0d; // pad
-        return out;
-    }
+    // REMOVE_START
+    public static void main(String[] args) {
+    // REMOVE_END
+    // STEP_START model
+        Predictor<String, float[]> predictor = null;
 
-    // Simple container for people data
-    private static class Person {
-        final int born;
-        final int died;
-        final String description;
-        Person(int born, int died, String description) {
-            this.born = born; this.died = died; this.description = description;
-        }
-    }
-
-    public static void main(String[] args) throws Exception {
-        // STEP_START model
-        // Tokenizer configured like HomeQueryVec.java (acts as a simple, deterministic vectorizer here)
-        HuggingFaceTokenizer tokenizer = HuggingFaceTokenizer.newInstance(
-            "sentence-transformers/all-mpnet-base-v2",
-            Map.of("maxLength", String.valueOf(DIM), "modelMaxLength", String.valueOf(DIM))
-        );
-        // STEP_END
-
-        // STEP_START data
-        Map<String, Person> peopleData = new LinkedHashMap<>();
-        peopleData.put("Marie Curie", new Person(
-            1867, 1934,
-            """
-            Polish-French chemist and physicist. The only person ever to win
-            two Nobel prizes for two different sciences.
-            """.trim()
-        ));
-        peopleData.put("Linus Pauling", new Person(
-            1901, 1994,
-            """
-            American chemist and peace activist. One of only two people to win two
-            Nobel prizes in different fields (chemistry and peace).
-            """.trim()
-        ));
-        peopleData.put("Freddie Mercury", new Person(
-            1946, 1991,
-            """
-            British musician, best known as the lead singer of the rock band
-            Queen.
-            """.trim()
-        ));
-        peopleData.put("Marie Fredriksson", new Person(
-            1958, 2019,
-            """
-            Swedish multi-instrumentalist, mainly known as the lead singer and
-            keyboardist of the band Roxette.
-            """.trim()
-        ));
-        peopleData.put("Paul Erdos", new Person(
-            1913, 1996,
-            """
-            Hungarian mathematician, known for his eccentric personality almost
-            as much as his contributions to many different fields of mathematics.
-            """.trim()
-        ));
-        peopleData.put("Maryam Mirzakhani", new Person(
-            1977, 2017,
-            """
-            Iranian mathematician. The first woman ever to win the Fields medal
-            for her contributions to mathematics.
-            """.trim()
-        ));
-        peopleData.put("Masako Natsume", new Person(
-            1957, 1985,
-            """
-            Japanese actress. She was very famous in Japan but was primarily
-            known elsewhere in the world for her portrayal of Tripitaka in the
-            TV series Monkey.
-            """.trim()
-        ));
-        peopleData.put("Chaim Topol", new Person(
-            1935, 2023,
-            """
-            Israeli actor and singer, usually credited simply as 'Topol'. He was
-            best known for his many appearances as Tevye in the musical Fiddler
-            on the Roof.
-            """.trim()
-        ));
-        // STEP_END
-
-        // STEP_START add_data
-        RedisClient client = RedisClient.create(RedisURI.Builder.redis("localhost", 6379).build());
-        StatefulRedisConnection<String, String> conn = null;
         try {
-            conn = client.connect();
-            RedisCommands<String, String> cmd = conn.sync();
+            Criteria<String, float[]> criteria = Criteria.builder().setTypes(String.class, float[].class)
+                    .optModelUrls("djl://ai.djl.huggingface.pytorch/sentence-transformers/all-MiniLM-L6-v2")
+                    .optEngine("PyTorch").optTranslatorFactory(new TextEmbeddingTranslatorFactory())
+                    .optProgress(new ProgressBar()).build();
 
-            for (Map.Entry<String, Person> e : peopleData.entrySet()) {
-                String name = e.getKey();
-                Person p = e.getValue();
+            predictor = criteria.loadModel().newPredictor();
+        } catch (Exception e) {
+            // ...
+        }
+    // STEP_END
 
-                // Vector from description
-                Double[] vec = idsToDoubleVector(tokenizer.encode(p.description).getIds());
-
-                // Add with attributes using VADD (vector sets API)
-                VAddArgs addArgs = new VAddArgs()
-                    .attributes(String.format("{\"born\": %d, \"died\": %d}", p.born, p.died));
-
-                // Create set and add element + vector in one call
-                Boolean added = cmd.vadd("famousPeople", name, addArgs, vec);
-                if (Boolean.FALSE.equals(added)) {
-                    // If element exists, you could update attributes via vsetattr
-                    cmd.vsetattr("famousPeople", name, String.format("{\"born\": %d, \"died\": %d}", p.born, p.died));
-                }
+    // STEP_START data
+        final class Person {
+            final String name;
+            final int born;
+            final int died;
+            final String description;
+            Person(String name, int born, int died, String description) {
+                this.name = name; this.born = born; this.died = died; this.description = description;
             }
-        } finally {
-            if (conn != null) conn.close();
-            client.shutdown();
         }
-        // STEP_END
 
-        // Reconnect for queries (explicitly, to mirror example flow)
-        client = RedisClient.create(RedisURI.Builder.redis("localhost", 6379).build());
-        try (StatefulRedisConnection<String, String> qconn = client.connect()) {
-            RedisCommands<String, String> q = qconn.sync();
+        List<Person> people = Arrays.asList(
+            new Person(
+                "Marie Curie",
+                1867, 1934,
+                "Polish-French chemist and physicist. The only person ever to win" +
+                " two Nobel prizes for two different sciences."
+            ),
+            new Person(
+                "Linus Pauling",
+                1901, 1994,
+                "American chemist and peace activist. One of only two people to" +
+                " win two Nobel prizes in different fields (chemistry and peace)."
+            ),
+            new Person(
+                "Freddie Mercury",
+                1946, 1991,
+                "British musician, best known as the lead singer of the rock band Queen."
+            ),
+            new Person(
+                "Marie Fredriksson",
+                1958, 2019,
+                "Swedish multi-instrumentalist, mainly known as the lead singer and" +
+                " keyboardist of the band Roxette."
+            ),
+            new Person(
+                "Paul Erdos",
+                1913, 1996,
+                "Hungarian mathematician, known for his eccentric personality almost" +
+                " as much as his contributions to many different fields of mathematics."
+            ),
+            new Person(
+                "Maryam Mirzakhani",
+                1977, 2017,
+                "Iranian mathematician. The first woman ever to win the Fields medal" +
+                " for her contributions to mathematics."
+            ),
+            new Person(
+                "Masako Natsume",
+                1957, 1985,
+                "Japanese actress. She was very famous in Japan but was primarily" +
+                " known elsewhere in the world for her portrayal of Tripitaka in the" +
+                " TV series Monkey."
+            ),
+            new Person(
+                "Chaim Topol",
+                1935, 2023,
+                "Israeli actor and singer, usually credited simply as 'Topol'. He was" +
+                " best known for his many appearances as Tevye in the musical Fiddler" +
+                " on the Roof."
+            )
+        );
+    // STEP_END
 
-            // STEP_START basic_query
-            String queryValue = "actors";
-            List<String> actors = q.vsim("famousPeople", idsToDoubleVector(tokenizer.encode(queryValue).getIds()));
-            System.out.println("'actors': " + String.join(", ", actors));
-            // STEP_END
+    // STEP_START add_data
+        UnifiedJedis jedis = new UnifiedJedis("redis://localhost:6379");
+        // REMOVE_START
+        jedis.del("famousPeople");
+        // REMOVE_END
 
-            // STEP_START limited_query
-            queryValue = "actors";
-            VSimArgs twoCount = new VSimArgs().count(2L);
-            List<String> twoActors = q.vsim("famousPeople", twoCount, idsToDoubleVector(tokenizer.encode(queryValue).getIds()));
-            System.out.println("'actors (2)': " + String.join(", ", twoActors));
-            // >>> 'actors (2)': Masako Natsume, Chaim Topol
-            // STEP_END
+        for (Person person : people) {
+            float[] embedding;
+            try {
+                embedding = predictor.predict(person.description);
+            } catch (Exception e) {
+                // This just allows the code to compile without errors.
+                // In a real-world scenario, you would handle the exception properly.
+                embedding = new float[384];
+            }
 
-            // STEP_START entertainer_query
-            queryValue = "entertainer";
-            List<String> entertainers = q.vsim("famousPeople", idsToDoubleVector(tokenizer.encode(queryValue).getIds()));
-            System.out.println("'entertainer': " + String.join(", ", entertainers));
-            // >>> 'entertainer': Chaim Topol, Freddie Mercury, Marie Fredriksson, ...
-            // STEP_END
-
-            queryValue = "science";
-            List<String> science = q.vsim("famousPeople", idsToDoubleVector(tokenizer.encode(queryValue).getIds()));
-            System.out.println("'science': " + String.join(", ", science));
-
-            // STEP_START filtered_query
-            queryValue = "science";
-            VSimArgs filtered = new VSimArgs().filter(".died < 2000");
-            List<String> science2000 = q.vsim("famousPeople", filtered, idsToDoubleVector(tokenizer.encode(queryValue).getIds()));
-            System.out.println("'science2000': " + String.join(", ", science2000));
-            // STEP_END
-        } finally {
-            client.shutdown();
+            // Add element with attributes using VAddParams
+            String attrs = String.format("{\"born\": %d, \"died\": %d}", person.born, person.died);
+            boolean added = jedis.vadd("famousPeople", embedding, person.name, new VAddParams().setAttr(attrs));
+            System.out.println(added); // >>> true
         }
+    // STEP_END
+
+    // STEP_START basic_query
+        float[] actorsEmbedding;
+        try {
+            actorsEmbedding = predictor.predict("actors");
+        } catch (Exception e) {
+            actorsEmbedding = new float[384];
+        }
+
+        List<String> basicResults = jedis.vsim("famousPeople", actorsEmbedding);
+        System.out.println(basicResults);
+        // >>> [Masako Natsume, Chaim Topol, Linus Pauling, Marie Fredriksson,
+        // >>> Maryam Mirzakhani, Marie Curie, Freddie Mercury, Paul Erdos]
+    // STEP_END
+
+    // STEP_START limited_query
+        VSimParams limitParams = new VSimParams().count(2);
+        List<String> limitedResults = jedis.vsim("famousPeople", actorsEmbedding, limitParams);
+        System.out.println(limitedResults);
+        // >>> [Masako Natsume, Chaim Topol]
+    // STEP_END
+
+    // STEP_START entertainer_query
+        float[] entertainerEmbedding;
+        try {
+            entertainerEmbedding = predictor.predict("entertainers");
+        } catch (Exception e) {
+            entertainerEmbedding = new float[384];
+        }
+
+        List<String> entertainerResults = jedis.vsim("famousPeople", entertainerEmbedding);
+        System.out.println(entertainerResults);
+        // >>> [Freddie Mercury, Chaim Topol, Linus Pauling, Marie Fredriksson,
+        // >>> Masako Natsume, Paul Erdos, Maryam Mirzakhani, Marie Curie]
+    // STEP_END
+
+        float[] scienceEmbedding;
+        try {
+            scienceEmbedding = predictor.predict("science");
+        } catch (Exception e) {
+            scienceEmbedding = new float[384];
+        }
+
+        List<String> scienceResults = jedis.vsim("famousPeople", scienceEmbedding);
+        System.out.println(scienceResults);
+        // >>> [Marie Curie, Linus Pauling, Maryam Mirzakhani, Paul Erdos, Marie Fredriksson, Freddie Mercury, Masako Natsume, Chaim Topol]
+
+    // STEP_START filtered_query
+        float[] science2000Embedding;
+        try {
+            science2000Embedding = predictor.predict("science");
+        } catch (Exception e) {
+            science2000Embedding = new float[384];
+        }
+
+        VSimParams filterParams = new VSimParams().filter(".died < 2000");
+        List<String> filteredResults = jedis.vsim("famousPeople", science2000Embedding, filterParams);
+        System.out.println(filteredResults);
+        // >>> [Marie Curie, Linus Pauling, Paul Erdos, Freddie Mercury, Masako Natsume]
+    // STEP_END
     }
 }
 
