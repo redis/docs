@@ -30,6 +30,7 @@ progress in implementing the recommendations.
     {{< checklist-item "#dns-cache-and-redis" >}}DNS cache and Redis{{< /checklist-item >}}
     {{< checklist-item "#exception-handling" >}}Exception handling{{< /checklist-item >}}
     {{< checklist-item "#connection-and-execution-reliability" >}}Connection and execution reliability{{< /checklist-item >}}
+    {{< checklist-item "#seamless-client-experience" >}}Seamless client experience{{< /checklist-item >}}
 {{< /checklist >}}
 
 ## Recommendations
@@ -238,3 +239,15 @@ client.setOptions(ClientOptions.builder()
 See
 [Command execution reliability](https://redis.github.io/lettuce/advanced-usage/#command-execution-reliability)
 in the Lettuce reference guide for more information.
+
+## Seamless client experience
+
+*Seamless client experience (SCE)* is a feature of Redis Cloud and
+Redis Enterprise servers that lets them actively notify clients
+about planned server maintenance shortly before it happens. This
+lets a client take action to avoid disruptions in service.
+
+See [Seamless client experience]({{< relref "/develop/clients/sce" >}})
+for more information about SCE and
+[Connect using Seamless client experience]({{< relref "/develop/clients/lettuce/connect#connect-using-seamless-client-experience-sce" >}})
+for example code.
