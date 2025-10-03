@@ -255,7 +255,7 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS162524: Fixed an issue where the DNS backend could fail with "too many open files" errors due to socket leaks.
 
-- RS161547: Fixed an issue where nodes could fail to send messages related to state-machines due to a timing issue between notification threads and management threads.
+- RS161547: Fixed an issue where nodes could fail to send messages related to state machines due to a timing issue between notification threads and management threads.
 
 - RS155990: Fixed an issue where the `forwarding_state` field was missing from the endpoint schema.
 
@@ -286,6 +286,20 @@ The following table shows which Redis modules are compatible with each Redis dat
 - RS123263: Fixed an issue where creating a new role with a specified UID failed with "A uid is already assigned" error.
 
 - RS120420: Fixed an issue where `rladmin cluster config` incorrectly included quotes as part of the cipher suite value when updating `control_cipher_suites` configuration.
+
+- RS170611: Fixed an issue where the `generate_self_signed_certs.sh` script incorrectly formatted wildcard certificate entries.
+
+- RS167849: Fixed an issue where `rlutil check` incorrectly reported that existing databases did not exist.
+
+- RS167199: Fixed an issue where the remove node action could become stuck during node decommissioning.
+
+- RS166990: Fixed an issue where install logs were not included in support packages when installation or upgrade operations failed.
+
+- RS166528: Improved error handling when verifying that a data file has been loaded.
+
+- RS162973: Fixed an issue with shard failover where the shard failed to restart because its port was not released quickly enough after it crashed.
+
+- RS166122: Fixed an issue where the actions API could incorrectly report state machine operations as running after they completed.
 
 ## Version changes
 
