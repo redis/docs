@@ -28,48 +28,91 @@ To get started with Prometheus and Grafana:
 1. Within that directory, create a configuration file called `prometheus.yml`.
 1. Add the following contents to the configuration file and replace `<cluster_name>` with your Redis Enterprise cluster's FQDN:
 
+    {{< multitabs id="prometheus-config-yml" 
+tab1="v2 (metrics stream engine)"
+tab2="v1" >}}
+
+```yml
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+# Attach these labels to any time series or alerts when communicating with
+# external systems (federation, remote storage, Alertmanager).
+  external_labels:
+    monitor: "prometheus-stack-monitor"
+
+# Load and evaluate rules in this file every 'evaluation_interval' seconds.
+#rule_files:
+# - "first.rules"
+# - "second.rules"
+
+scrape_configs:
+# scrape Prometheus itself
+  - job_name: prometheus
+    scrape_interval: 10s
+    scrape_timeout: 5s
+    static_configs:
+      - targets: ["localhost:9090"]
+
+# scrape Redis Enterprise
+  - job_name: redis-enterprise
+    scrape_interval: 30s
+    scrape_timeout: 30s
+    metrics_path: /v2
+    scheme: https
+    tls_config:
+      insecure_skip_verify: true
+    static_configs:
+      - targets: ["<cluster_name>:8070"]
+```
+
+-tab-sep-
+
+```yml
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+# Attach these labels to any time series or alerts when communicating with
+# external systems (federation, remote storage, Alertmanager).
+  external_labels:
+    monitor: "prometheus-stack-monitor"
+
+# Load and evaluate rules in this file every 'evaluation_interval' seconds.
+#rule_files:
+# - "first.rules"
+# - "second.rules"
+
+scrape_configs:
+# scrape Prometheus itself
+  - job_name: prometheus
+    scrape_interval: 10s
+    scrape_timeout: 5s
+    static_configs:
+      - targets: ["localhost:9090"]
+
+# scrape Redis Enterprise
+  - job_name: redis-enterprise
+    scrape_interval: 30s
+    scrape_timeout: 30s
+    metrics_path: /
+    scheme: https
+    tls_config:
+      insecure_skip_verify: true
+    static_configs:
+      - targets: ["<cluster_name>:8070"]
+```
+    {{< /multitabs >}}
+
+1. Set up your Prometheus and Grafana servers.
+
     {{< note >}}
 
 We recommend running Prometheus in Docker only for development and testing.
 
     {{< /note >}}
 
-    ```yml
-    global:
-      scrape_interval: 15s
-      evaluation_interval: 15s
-
-    # Attach these labels to any time series or alerts when communicating with
-    # external systems (federation, remote storage, Alertmanager).
-      external_labels:
-        monitor: "prometheus-stack-monitor"
-
-    # Load and evaluate rules in this file every 'evaluation_interval' seconds.
-    #rule_files:
-    # - "first.rules"
-    # - "second.rules"
-
-    scrape_configs:
-    # scrape Prometheus itself
-      - job_name: prometheus
-        scrape_interval: 10s
-        scrape_timeout: 5s
-        static_configs:
-          - targets: ["localhost:9090"]
-
-    # scrape Redis Enterprise
-      - job_name: redis-enterprise
-        scrape_interval: 30s
-        scrape_timeout: 30s
-        metrics_path: /  # For v2, use /v2
-        scheme: https
-        tls_config:
-          insecure_skip_verify: true
-        static_configs:
-          - targets: ["<cluster_name>:8070"]
-    ```
-
-1. Set up your Prometheus and Grafana servers.
     To set up Prometheus and Grafana on Docker:
     1. Create a _docker-compose.yml_ file:
 
