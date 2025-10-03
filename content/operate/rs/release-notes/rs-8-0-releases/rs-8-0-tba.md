@@ -451,6 +451,10 @@ The following table shows the SHA256 checksums for the available packages:
 
 ## Known limitations
 
+#### Rolling upgrade limitation for clusters with custom or deprecated modules
+
+Due to module handling changes introduced in Redis Enterprise Software version 8.0, upgrading a cluster that contains custom or deprecated modules, such as RedisGraph and RedisGears v2, can become stuck when adding a new node to the cluster during a rolling upgrade.
+
 #### New Cluster Manager UI limitations
 
 The following legacy UI features are not yet available in the new Cluster Manager UI:
