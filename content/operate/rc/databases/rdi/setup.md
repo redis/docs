@@ -80,7 +80,7 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
     - **Scheme**: Select **Internal**.
     - **Load balancer IP address type**: Select **IPv4**.
 1. In **Network mapping**, select the VPC and availability zone associated with your source database.
-1. In **Security groups**, select the security group associated with your source database.
+1. In **Security groups**, select the security group associated with your source database, or another security group that allows traffic from PrivateLink and allows traffic to the database.
 1. In **Listeners and routing**: 
     1. Select **Create target group** to [create a target group](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-target-group.html) with the following settings:
         1. In **Specify group details**:
@@ -93,7 +93,11 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
         - **Port**: Enter your source database's port.
         - **Default action**: Select the target group you created in the previous step.
 1. Review the network load balancer settings, and then select **Create load balancer** to continue.
-1. After the network load balancer is active, select **Security**, and then select the security group ID to open the Security group settings.
+1. After the network load balancer is active, select **Security**. 
+
+    If you selected the same security group as your source database, you must not enforce security group rules on PrivateLink traffic. Select **Edit** and then deselect **Enforce inbound rules on PrivateLink traffic**, and then select **Save changes**.
+
+1. Select the security group ID to open the Security group settings.
 1. Select **Edit inbound rules**, then **Add rule** to add a rule with the following settings:
     - **Type**: Select **HTTP**.
     - **Source**: Select **Anywhere - IPv4**.
@@ -146,7 +150,7 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
     - **Scheme**: Select **Internal**.
     - **Load balancer IP address type**: Select **IPv4**.
 1. In **Network mapping**, select the VPC and availability zone associated with your source database.
-1. In **Security groups**, select the security group associated with your source database.
+1. In **Security groups**, select the security group associated with your source database, or another security group that allows traffic from PrivateLink and allows traffic to the database.
 1. In **Listeners and routing**: 
     1. Select **Create target group** to [create a target group](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-target-group.html) with the following settings:
         1. In **Specify group details**:
@@ -164,7 +168,12 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
         - **Port**: Enter your source database's port.
         - **Default action**: Select the target group you created in the previous step.
 1. Review the network load balancer settings, and then select **Create load balancer** to continue.
-1. After the network load balancer is active, select **Security**, and then select the security group ID to open the Security group settings.
+1. After the network load balancer is active, select **Security**. 
+
+    If you selected the same security group as your source database, you must not enforce security group rules on PrivateLink traffic. Select **Edit** and then deselect **Enforce inbound rules on PrivateLink traffic**, and then select **Save changes**.
+
+1. Select the security group ID to open the Security group settings.
+
 1. Select **Edit inbound rules**, then **Add rule** to add a rule with the following settings:
     - **Type**: Select **HTTP**.
     - **Source**: Select **Anywhere - IPv4**.
@@ -224,10 +233,10 @@ The required secrets depend on your source database's security configuration. Th
 
 | Security configuration | Required secrets |
 | :-- | :-- |
-| Username and password only | <ul><li>Credentials secret (username and password)</li></ul> |
-| TLS connection | <ul><li>Credentials secret (username and password)</li><li>CA Certificate secret (server certificate)</li></ul> |
-| mTLS connection | <ul><li>Credentials secret (username and password)</li><li>CA Certificate secret (server certificate)</li><li>Client certificate secret</li><li>Client key secret</li></ul> |
-| mTLS connection with client key passphrase | <ul><li>Credentials secret (username and password)</li><li>CA Certificate secret (server certificate)</li><li>Client certificate secret</li><li>Client key secret</li><li>Client key passphrase secret</li></ul> |
+| Username and password only | <ul><li>Credentials secret (username and password for the RDI pipeline user)</li></ul> |
+| TLS connection | <ul><li>Credentials secret (username and password for the RDI pipeline user)</li><li>CA Certificate secret (server certificate)</li></ul> |
+| mTLS connection | <ul><li>Credentials secret (username and password for the RDI pipeline user)</li><li>CA Certificate secret (server certificate)</li><li>Client certificate secret</li><li>Client key secret</li></ul> |
+| mTLS connection with client key passphrase | <ul><li>Credentials secret (username and password for the RDI pipeline user)</li><li>CA Certificate secret (server certificate)</li><li>Client certificate secret</li><li>Client key secret</li><li>Client key passphrase secret</li></ul> |
 
 Select a tab to learn how to create the required secret.
 
@@ -242,8 +251,8 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
 
 - **Key/value pairs**: Enter the following key/value pairs.
 
-    - `username`: Database username
-    - `password`: Database password
+    - `username`: Database username for the RDI pipeline user
+    - `password`: Database password for the RDI pipeline user
 
 {{< embed-md "rc-rdi-secrets-encryption-permissions.md" >}}
 
@@ -285,11 +294,9 @@ After you create the secret, you need to add permissions to allow the data pipel
 
 In the [AWS Management Console](https://console.aws.amazon.com/), use the **Services** menu to locate and select **Security, Identity, and Compliance** > **Secrets Manager**. Select the private key secret you just created and then select **Edit permissions**. 
 
-Add the following permissions to your secret:
+Add the following permissions to your secret. Replace `<AWS ACCOUNT ID>` with the AWS account ID for the Redis Cloud cluster that you saved earlier.
 
 {{< embed-md "rc-rdi-secrets-permissions.md" >}}
-
-Replace `<AWS ACCOUNT ID>` with the AWS account ID for the Redis Cloud cluster that you saved earlier.
 
 --tab-sep--
 
@@ -300,8 +307,6 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
 {{< embed-md "rc-rdi-secrets-encryption-permissions.md" >}}
 
 {{< /multitabs >}}
-
-After you store this secret, you can view and copy the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#iam-resources) of your secret on the secret details page. 
 
 ## Next steps
 
