@@ -12,6 +12,46 @@ min-version-rs: blah
 weight: 20
 ---
 
+## Redis Open Source 8.2.2 (October 2025)
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+### Security fixes
+
+- (CVE-2025-49844) A Lua script may lead to remote code execution
+- (CVE-2025-46817) A Lua script may lead to integer overflow and potential RCE
+- (CVE-2025-46818) A Lua script can be executed in the context of another user
+- (CVE-2025-46819) LUA out-of-bound read
+
+### New Features
+
+- [#14223](https://github.com/redis/redis/pull/14223) `VSIM`: new `EPSILON` argument to specify maximum distance
+- [#Q6867](https://github.com/RediSearch/RediSearch/pull/6867), [#Q6845](https://github.com/RediSearch/RediSearch/pull/6845) `SVS-VAMANA`: allow use of `BUILD_INTEL_SVS_OPT` flag for Intel optimisations (MOD-10920)
+
+### Bug fixes
+
+- [#14319](https://github.com/redis/redis/pull/14319) Potential crash on Lua script defrag
+- [#14323](https://github.com/redis/redis/pull/14323) Potential crash on streams and HFE defrag
+- [#14330](https://github.com/redis/redis/pull/14330) Potential use-after-free after pubsub and Lua defrag
+- [#14288](https://github.com/redis/redis/pull/14288) `MEMORY USAGE`: fix reported value
+- [#14259](https://github.com/redis/redis/pull/14259) `XGROUP CREATE`, `XGROUP SETID`: limit `ENTRIESREAD` value to the number of entries added to the stream
+- [#J1374](https://github.com/RedisJSON/RedisJSON/issues/1374) `JSON.DEL` doesn’t delete all matching object members / array elements (MOD-11032, MOD-11067)
+- [#P886](https://github.com/RedisBloom/RedisBloom/pull/886) `TDIGEST.CREATE` crashes (OOM) on huge initialization values (MOD-10840)
+- [#Q6787](https://github.com/RediSearch/RediSearch/pull/6787) Potential shard restart while reindexing vectors on RDB loading (MOD-11011)
+- [#Q6676](https://github.com/RediSearch/RediSearch/pull/6676) Potential crash when using small `CONSTRUCTION_WINDOW_SIZE` on `SVS-VAMANA` (MOD-10771)
+- [#Q6701](https://github.com/RediSearch/RediSearch/pull/6701) Potential crash (OOM) in heavy updates due to a file descriptor leak (MOD-10975)
+- [#Q6723](https://github.com/RediSearch/RediSearch/pull/6723) Potential crash when using ACL rules (MOD-10748)
+- [#Q6641](https://github.com/RediSearch/RediSearch/pull/6641) `INFO SEARCH`: `search_used_memory_indexes` vector index memory value incorrect
+- [#Q6665](https://github.com/RediSearch/RediSearch/pull/6665) `FT.PROFILE`: more accurate execution duration measurements (MOD-10622)
+
+### Performance and resource utilization
+
+- [#Q6648](https://github.com/RediSearch/RediSearch/pull/6648) Improve RESP3 serialization performance (MOD-9687)
+
+### Metrics
+
+- [#Q6671](https://github.com/RediSearch/RediSearch/pull/6671) `INFO SEARCH`: new `SVS-VAMANA` metrics
+
 ## Redis Open Source 8.2.1 (August 2025)
 
 Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgent.
