@@ -125,7 +125,7 @@ The [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_eng
 
     - Added new REST API requests to manage custom, user-defined modules. See [Custom module management APIs]({{<relref "/operate/rs/references/rest-api/requests/modules/user-defined">}}) for details.
 
-    - Added module configuration fields to the database configuration. Use `search`, `timeseries`, and `probabilistic` objects to configure Redis modules instead of the deprecated `module_args` field. These fields are visible in [`GET /v1/bdbs`]({{<relref "/operate/rs/references/rest-api/requests/bdbs">}}) requests only when using the `extended=true` query parameter.
+    - Added module configuration fields to the database configuration. Use `search`, `query_performance_factor`, `timeseries`, and `probabilistic` objects to configure Redis modules instead of the deprecated `module_args` field. These fields are visible in [`GET /v1/bdbs`]({{<relref "/operate/rs/references/rest-api/requests/bdbs">}}) requests only when using the `extended=true` query parameter.
 
     - Added `--update-db-config-modules` option to the [`crdb-cli crdb update`]({{<relref "/operate/rs/references/cli-utilities/crdb-cli/update">}}) command to streamline updating module information in the CRDB configuration after uprading modules used by Active-Active databases. Use this option only after all CRDB database instances have upgraded their modules.
 
@@ -133,13 +133,43 @@ The [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_eng
         crdb-cli crdb update --crdb-guid <guid> --update-db-config-modules true
         ```
 
+- New [database configuration]({{<relref "/operate/rs/references/rest-api/requests/bdbs">}}) fields in the REST API for automatic shard balancing:
+
+    - `auto_shards_balancing`: Automatically balances database shards.
+
+    - `auto_shards_balancing_grace_period`: Time to wait before auto sharding is initiated.
+
+    - `shard_imbalance_threshold`: Threshold for automatic shard balancing based on imbalance size.
+
+    - `shard_imbalance_threshold_percentage`: Threshold for automatic shard balancing based on imbalance percentage.
+
 - Additional REST API enhancements:
 
-    - Added `replica_sconns_on_demand` to the database configuration. When enabled, the DMC stops holding persistent connections to replica shards and reduces the number of internode connections by half.
+    - Added [cluster configuration]({{<relref "/operate/rs/references/rest-api/requests/cluster">}}) fields:
 
-    - Added `conns_minimum_dedicated` to the database configuration to define the minimum number of dedicated server connections the DMC maintains per worker per shard.
+        - `disconnect_clients_on_password_removal`: Controls whether client connections using removed, revoked, or rotated passwords are actively disconnected.
 
-    - Added `metrics_auth` to the cluster configuration. If set to `true`, it enables basic authentication for Prometheus exporters and restricts access to authenticated users with `admin`, `cluster_member`, or `cluster_viewer` [management roles]({{<relref "/operate/rs/references/rest-api/permissions">}}).
+        - `replica_sconns_on_demand`: When enabled, the DMC stops holding persistent connections to replica shards and reduces the number of internode connections by half.
+
+        - `metrics_auth`: If set to `true`, enables basic authentication for Prometheus exporters and restricts access to authenticated users with `admin`, `cluster_member`, or `cluster_viewer` [management roles]({{<relref "/operate/rs/references/rest-api/permissions">}}).
+
+    - Added [database configuration]({{<relref "/operate/rs/references/rest-api/requests/bdbs">}}) fields:
+
+        - `conns_global_maximum_dedicated`: Defines the maximum number of dedicated server connections for a database across all workers.
+
+        - `conns_minimum_dedicated`: Defines the minimum number of dedicated server connections the DMC maintains per worker per shard.
+
+        - `disconnect_clients_on_password_removal`: Controls whether client connections using removed, revoked, or rotated passwords are actively disconnected.
+
+        - `link_sconn_on_full_request`: Feature flag for DMC behavior on linking client requests.
+
+        - `partial_request_timeout_seconds`: Timeout for incomplete client commands that cause head-of-line blocking.
+
+        - `preemptive_drain_timeout_seconds`: Timeout for preemptive drain of client connections before a shard is taken down.
+
+        - `replica_sconns_on_demand`: When enabled, the DMC stops holding persistent connections to replica shards and reduces the number of internode connections by half.
+
+        - `use_selective_flush`: Enables selective flush of destination shards.
 
 - Added action IDs to operation and state machine log entries.
 
