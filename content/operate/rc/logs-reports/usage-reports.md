@@ -24,3 +24,5 @@ You can also hold the pointer over each bar in the graph to view the precise mem
 ## Download cost report
 
 {{< embed-md "rc-cost-report-csv.md" >}}
+
+See [Cost report]({{< relref "/operate/rc/billing-and-payments/cost-report" >}}) for more information.

@@ -127,4 +127,6 @@ The **Alerts** section defines notification emails sent to your account and the 
 
 The available alerts vary according to the plan type. See [Configure alerts]({{< relref "/operate/rc/databases/monitor-performance#configure-metric-alerts" >}}) for more information.
 
+## Billing unit types
+
 {{< embed-md "rc-pro-billing-units.md" >}}
