@@ -35,9 +35,11 @@ This guide shows how to create a paid Essentials database.
 
 1. Redis will generate a database name for you. If you want to change it, you can do so in the **Name** field.  
 
-1. Choose a **Cloud vendor** for your database from the list.
+1. Choose a **Cloud vendor** for your database from the list. You can choose between **Amazon Web Services (AWS)**, **Google Cloud**, and **Microsoft Azure** for the Cloud Vendor. 
 
-1. Choose a **Region** from the list.
+    {{<image filename="images/rc/create-database-essentials-cloud-vendor-list.png" alt="The list of available cloud vendors.">}}
+
+1. Choose a **Region** from the list. See [Supported regions]({{< relref "/operate/rc/supported-regions" >}}) for a list of supported regions by cloud vendor.
 
 1. Choose your **High availability (replication)** settings.
 

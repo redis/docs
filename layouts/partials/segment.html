@@ -4,7 +4,5 @@
     }}();
 </script>
 <script>
-    analytics.track('PageViewed', {
-      page_name: name || (typeof window !== 'undefined' ? window.location.pathname : undefined)
-    });
+    analytics.page();
 </script>
