@@ -78,6 +78,7 @@
 | <span class="break-all">total_node_count{cluster_wd=<node_uid>}</span> | gauge| Number of nodes |
 | <span class="break-all">total_primary_selection_ended{cluster_wd=<node_uid>}</span> | counter | Monotonic counter for each selection process that ended |
 | <span class="break-all">total_primary_selections{cluster_wd=<node_uid>}</span> | counter | Monotonic counter for each selection process that started|
+| users_count | gauge | Current number of users on the cluster |
 
 ## Replication metrics
 

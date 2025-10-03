@@ -133,6 +133,12 @@ The [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_eng
         crdb-cli crdb update --crdb-guid <guid> --update-db-config-modules true
         ```
 
+- Added a check to block new user creation after the maximum limit of 32,000 users has been reached:
+
+    - Added a [cluster alert]({{<relref "operate/rs/references/rest-api/objects/cluster/alert_settings">}}) `cluster_users_count_approaches_limit`, which triggers when the number of users surpasses a threshold percentage of the maximum user limit. This alert is enabled with a 90% threshold by default on new clusters.
+
+    - Added a `users_count` cluster metric to [Prometheus metrics v2]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v2">}}) that shows the current number of users on the cluster.
+
 - New [database configuration]({{<relref "/operate/rs/references/rest-api/requests/bdbs">}}) fields in the REST API for automatic shard balancing:
 
     - `auto_shards_balancing`: Automatically balances database shards.
@@ -144,6 +150,8 @@ The [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_eng
     - `shard_imbalance_threshold_percentage`: Threshold for automatic shard balancing based on imbalance percentage.
 
 - Additional REST API enhancements:
+
+    - New `last_login` field for [users]({{<relref "/operate/rs/references/rest-api/requests/users">}}), which stores the UNIX timestamp of the user's last successful login to the Cluster Manager UI or REST API.
 
     - Added [cluster configuration]({{<relref "/operate/rs/references/rest-api/requests/cluster">}}) fields:
 
