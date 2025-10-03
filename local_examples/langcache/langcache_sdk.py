@@ -6,7 +6,7 @@ import os
 lang_cache = LangCache(
     server_url=f"https://{os.getenv('HOST', '')}",
     cache_id=os.getenv("CACHE_ID", ""),
-    service_key=os.getenv("API_KEY", "")
+    api_key=os.getenv("API_KEY", "")
 )
 # STEP_END
 

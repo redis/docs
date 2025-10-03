@@ -87,6 +87,8 @@ You need the following RDI images with tags matching the RDI version you want to
 -   [redis/rdi-collector-api](https://hub.docker.com/r/redis/rdi-collector-api)
 -   [redis/rdi-collector-initializer](https://hub.docker.com/r/redis/rdi-collector-initializer)
 
+If you plan to use Spanner as a source for your pipeline, you’ll need an additional image.: [redis/rdi-flink-collector](https://hub.docker.com/r/redis/rdi-flink-collector).
+
 In addition, the RDI Helm chart uses the following 3rd party images:
 
 -   [redislabs/debezium-server:3.0.8.Final-rdi.1](https://hub.docker.com/r/redislabs/debezium-server), 
@@ -213,6 +215,48 @@ also use mTLS, you must set the client certificate and private key contents in
 Please see [these docs]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/spanner#6-additional-kubernetes-configuration" >}}) if this RDI installation is for use with GCP Spanner.
 {{< /note >}}
 
+If you are deploying to [OpenShift](https://docs.openshift.com/), you must
+set `global.openshift` to `true`:
+
+```yaml
+global:
+  # Indicates whether the deployment is intended for an OpenShift environment.
+  openShift: true
+```
+
+You should also set `global.securityContext.runAsUser` and
+`global.securityContext.runAsGroup` to the appropriate values for your
+OpenShift environment.
+
+```yaml
+global:
+  # Container default security context.
+  # ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
+  securityContext:
+    runAsNonRoot: true
+    # On OpenShift, user and group 1000 are usually not allowed.
+    # If using OpenShift, set runAsUser and runAsGroup to values in your project's user and group ranges.
+    # You can examine the latter via `oc get projects <rid-project-name> -o yaml | grep "openshift.io/sa.scc"`
+    runAsUser: 1000701234
+    runAsGroup: 1000701234
+    allowPrivilegeEscalation: false
+```
+
+{{< warning >}}The default OpenShift Security Context Constraints (SCCs)
+will not allow RDI to run if `global.securityContext.runAsUser`
+and `global.securityContext.runAsGroup` have their default values of `1000`.
+You must edit your `rdi-values.yaml` file to ensure these values are
+in the valid range for your OpenShift environment.
+
+Use the following [OpenShift CLI](https://docs.redhat.com/en/documentation/openshift_container_platform/4.19/html/cli_tools/openshift-cli-oc) command
+to find the user and group ranges for your project:
+
+```bash
+oc get projects <rid-project-name> -o yaml | grep "openshift.io/sa.scc"
+```
+{{< /warning >}}
+
+
 ## Check the installation
 
 To verify the status of the K8s deployment, run the following command:
@@ -279,10 +323,12 @@ section to learn how to do this.
 
 When the Helm installation is complete and you have prepared the source database for CDC,
 you are ready to start using RDI.
-Use [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}}) to
+Use [Redis Insight]({{< relref "/develop/tools/insight" >}}) to
 [configure]({{< relref "/integrate/redis-data-integration/data-pipelines" >}}) and
 [deploy]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})
-your pipeline.
+your pipeline (see
+[RDI in Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}})
+for full details on how to do this).
 
 ## Uninstall RDI
 

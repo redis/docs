@@ -15,10 +15,21 @@ weight: 94
 
 ## Requirements
 
-RedisBloom v2.8.7 requires:
+RedisBloom v2.8.10 requires:
 
 - Minimum Redis compatibility version (database): 7.4
 - Minimum Redis Enterprise Software version (cluster): 7.8
+
+## v2.8.10 (September 2025)
+
+This is a maintenance release for RedisBloom 2.8.
+
+Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgent.
+
+Details:
+
+Bug fixes:
+- [#886](https://github.com/redisbloom/redisbloom/pull/886) - `TDIGEST.CREATE` crashes (OOM) on huge initialization values (MOD-10840).
 
 ## v2.8.7 (April 2025)
 

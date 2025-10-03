@@ -64,7 +64,7 @@ To enable LDAP:
 
 1.  From **Access Control > LDAP** in the Cluster Manager UI, select the **Configuration** tab and [enable LDAP access]({{< relref "/operate/rs/security/access-control/ldap/enable-role-based-ldap" >}}).
 
-    {{<image filename="images/rs/access-control-ldap-panel.png" alt="Enable LDAP Panel" >}}
+    {{<image filename="images/rs/screenshots/access-control/7-22-updates/ldap-config.png" alt="Configure LDAP screen" >}}
 
 2.  Map LDAP groups to [access control roles]({{< relref "/operate/rs/security/access-control/ldap/map-ldap-groups-to-roles" >}}).
 

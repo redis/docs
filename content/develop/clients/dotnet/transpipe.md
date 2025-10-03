@@ -37,7 +37,7 @@ versions of the standard command methods
 buffered in the pipeline and only execute when you call the `Execute()`
 method on the pipeline object.
 
-{{< clients-example pipe_trans_tutorial basic_pipe "C#" >}}
+{{< clients-example pipe_trans_tutorial basic_pipe "C#-Sync" >}}
 {{< /clients-example >}}
 
 ## Execute a transaction
@@ -47,7 +47,7 @@ instance of the `Transaction` class, call async command methods
 on that object, and then call the transaction object's 
 `Execute()` method to execute it.
 
-{{< clients-example pipe_trans_tutorial basic_trans "C#" >}}
+{{< clients-example pipe_trans_tutorial basic_trans "C#-Sync" >}}
 {{< /clients-example >}}
 
 ## Watch keys for changes
@@ -77,7 +77,7 @@ For example, the `KeyNotExists` condition aborts the transaction
 if a specified key exists or is added by another client while the
 transaction executes:
 
-{{< clients-example pipe_trans_tutorial trans_watch "C#" >}}
+{{< clients-example pipe_trans_tutorial trans_watch "C#-Sync" >}}
 {{< /clients-example >}}
 
 You can also use a `When` condition on certain individual commands to

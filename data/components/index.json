@@ -7,7 +7,8 @@
     "docs": [],
     "modules": [],
     "clients": [
-        "nredisstack",
+        "nredisstack_sync",
+        "nredisstack_async",
         "go_redis",
         "node_redis",
         "php",
@@ -15,7 +16,9 @@
         "jedis",
         "lettuce_async",
         "lettuce_reactive",
-        "redis_vl"
+        "redis_vl",
+        "redis_rs_sync",
+        "redis_rs_async"
     ],
     "assets": [],
     "website": {
