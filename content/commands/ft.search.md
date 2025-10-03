@@ -510,6 +510,8 @@ defines one or more value parameters. Each parameter has a name and a value.
 You can reference parameters in the `query` by a `$`, followed by the parameter name, for example, `$user`. Each such reference in the search query to a parameter name is substituted by the corresponding parameter value. For example, with parameter definition `PARAMS 4 lon 29.69465 lat 34.95126`, the expression `@loc:[$lon $lat 10 km]` is evaluated to `@loc:[29.69465 34.95126 10 km]`. You cannot reference parameters in the query string where concrete values are not allowed, such as in field names, for example, `@loc`. To use `PARAMS`, set
 [`DIALECT`]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects#dialect-2" >}})
 to `2` or greater than `2` (this requires [RediSearch v2.4](https://github.com/RediSearch/RediSearch/releases/tag/v2.4.3) or above).
+
+**Query attributes**: You can also use `PARAMS` to pass values to [query attributes]({{< relref "/develop/ai/search-and-query/advanced-concepts/query_syntax#query-attributes" >}}) in vector search queries. For example, `$SHARD_K_RATIO` controls cluster optimization for vector KNN queries by setting the ratio of results each shard retrieves relative to the requested `top_k`. See [cluster-specific query parameters]({{< relref "develop/ai/search-and-query/vectors#cluster-specific-query-parameters" >}}) for details.
 </details>
 
 <details open>
@@ -676,6 +678,16 @@ Search for books with semantically similar title to _Planet Earth_. Return top 1
 
 {{< highlight bash >}}
 127.0.0.1:6379> FT.SEARCH books-idx "*=>[KNN 10 @title_embedding $query_vec AS title_score]" PARAMS 2 query_vec <"Planet Earth" embedding BLOB> SORTBY title_score DIALECT 2
+{{< / highlight >}}
+</details>
+
+<details open>
+<summary><b>Vector search with cluster optimization</b></summary>
+
+Search for books with semantically similar title to _Planet Earth_ using cluster optimization. Each shard retrieves 60% of the requested results for improved performance in Redis cluster environments.
+
+{{< highlight bash >}}
+127.0.0.1:6379> FT.SEARCH books-idx "*=>[KNN 100 @title_embedding $query_vec]=>{$SHARD_K_RATIO: 0.6; $YIELD_DISTANCE_AS: title_score}" PARAMS 2 query_vec <"Planet Earth" embedding BLOB> SORTBY title_score DIALECT 2
 {{< / highlight >}}
 </details>
 

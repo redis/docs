@@ -414,6 +414,24 @@ By default, Redis selects the best filter mode to optimize query execution. You 
 | `HYBRID_POLICY`  | Specifies the filter mode to use during vector search with filters (hybrid). | `BATCHES` or `ADHOC_BF` |
 | `BATCH_SIZE`     | A fixed batch size to use in every iteration when the `BATCHES` policy is auto-selected or requested. | Positive integer. |
 
+### Cluster-specific query parameters
+
+**$SHARD_K_RATIO**
+
+The `$SHARD_K_RATIO` parameter controls how many results each shard retrieves relative to the requested `top_k` in Redis cluster environments. This creates a tunable trade-off between accuracy and performance.
+
+| Parameter        | Description | Value Range | Default |
+|:-----------------|:------------|:------------|:--------|
+| `$SHARD_K_RATIO` | Ratio of `top_k` results to fetch per shard in cluster setups. Calculation: `shard_results = top_k × ratio`. | 0.1 - 1.0 (up to 2 decimal places) | 1.0 |
+
+**Important considerations:**
+
+- Only applicable to vector KNN queries in Redis cluster environments
+- Each shard must retrieve at least `max(top_k / #shards, ceil(top_k × ratio))` results
+- If the user-defined ratio is lower than `top_k / #shards`, the server ignores it and uses the minimum required ratio
+- Unbalanced shards returning fewer results than required may lead to fewer total results than requested in `top_k`
+- Invalid ratios return descriptive error messages
+
 
 ### Index-specific query parameters
 
@@ -523,6 +541,63 @@ FT.SEARCH movies "(@category:{action})=>[KNN 10 @doc_embedding $BLOB]=>{$HYBRID_
 
 To explore additional Python vector search examples, review recipes for the [`Redis Python`](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/00_redispy.ipynb) client library and the [`Redis Vector Library`](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/01_redisvl.ipynb).
 
+### Cluster optimization examples
+
+The following examples demonstrate using `$SHARD_K_RATIO` to optimize vector search performance in Redis cluster environments.
+
+Return the top 100 nearest neighbors with each shard providing 50% of the requested results (50 results per shard):
+
+```
+FT.SEARCH documents "*=>[KNN 100 @doc_embedding $BLOB]=>{$SHARD_K_RATIO: 0.5; $YIELD_DISTANCE_AS: vector_distance}" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY vector_distance DIALECT 2
+```
+
+Combine cluster optimization with filtering and other query attributes. Among movies with `action` category, return top 50 nearest neighbors with 30% shard ratio and custom EF_RUNTIME:
+
+```
+FT.SEARCH movies "(@category:{action})=>[KNN 50 @movie_embedding $BLOB]=>{$SHARD_K_RATIO: 0.3; $EF_RUNTIME: 150; $YIELD_DISTANCE_AS: movie_distance}" PARAMS 4 BLOB "\x12\xa9\xf5\x6c" EF 150 SORTBY movie_distance DIALECT 2
+```
+
+Use a higher ratio for better accuracy when precision is more important than performance:
+
+```
+FT.SEARCH products "*=>[KNN 20 @product_embedding $BLOB]=>{$SHARD_K_RATIO: 0.8; $YIELD_DISTANCE_AS: similarity}" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY similarity DIALECT 2
+```
+
+### Cluster considerations and best practices
+
+When using `$SHARD_K_RATIO` in Redis cluster environments, consider the following behavioral characteristics and best practices:
+
+#### Minimum results guarantee
+
+Each shard must retrieve at least `max(top_k / #shards, ceil(top_k × ratio))` results to ensure the cluster can return the requested `top_k` results. If your specified ratio would result in fewer results per shard than this minimum, Redis automatically adjusts to the minimum required ratio.
+
+**Example scenarios:**
+- `top_k=100`, 4 shards, `ratio=0.5` → 50 results per shard (valid)
+- `top_k=100`, 4 shards, `ratio=0.2` → 25 results per shard (minimum: 25, so valid)
+- `top_k=100`, 8 shards, `ratio=0.1` → 10 results per shard (minimum: 13, so Redis uses 13)
+
+#### Handling unbalanced shards
+
+In cases where some shards contain fewer documents than required to fulfill the `top_k` results, using a lower ratio may lead to fewer total results than requested. To mitigate this:
+
+1. **Monitor shard distribution**: Ensure your data is relatively balanced across shards
+2. **Adjust ratio dynamically**: If you consistently get fewer results than expected, increase the ratio
+3. **Use higher ratios for critical queries**: When result completeness is more important than performance
+
+#### Performance vs accuracy trade-offs
+
+| Ratio Range | Use Case | Performance | Accuracy |
+|:------------|:---------|:------------|:---------|
+| 0.1 - 0.3   | High-performance, approximate results | Excellent | Good |
+| 0.4 - 0.6   | Balanced performance and accuracy | Good | Very Good |
+| 0.7 - 1.0   | High-accuracy, precision-critical | Fair | Excellent |
+
+#### Error handling
+
+Redis returns descriptive error messages for invalid `$SHARD_K_RATIO` values:
+- Values outside the 0.1 - 1.0 range
+- Values with more than 2 decimal places
+- Non-numeric values
 
 ### Range query examples
 
