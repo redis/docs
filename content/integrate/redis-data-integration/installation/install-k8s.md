@@ -87,6 +87,8 @@ You need the following RDI images with tags matching the RDI version you want to
 -   [redis/rdi-collector-api](https://hub.docker.com/r/redis/rdi-collector-api)
 -   [redis/rdi-collector-initializer](https://hub.docker.com/r/redis/rdi-collector-initializer)
 
+If you plan to use Spanner as a source for your pipeline, you’ll need an additional image.: [redis/rdi-flink-collector](https://hub.docker.com/r/redis/rdi-flink-collector).
+
 In addition, the RDI Helm chart uses the following 3rd party images:
 
 -   [redislabs/debezium-server:3.0.8.Final-rdi.1](https://hub.docker.com/r/redislabs/debezium-server), 
@@ -321,10 +323,12 @@ section to learn how to do this.
 
 When the Helm installation is complete and you have prepared the source database for CDC,
 you are ready to start using RDI.
-Use [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}}) to
+Use [Redis Insight]({{< relref "/develop/tools/insight" >}}) to
 [configure]({{< relref "/integrate/redis-data-integration/data-pipelines" >}}) and
 [deploy]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})
-your pipeline.
+your pipeline (see
+[RDI in Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}})
+for full details on how to do this).
 
 ## Uninstall RDI
 

@@ -13,10 +13,22 @@ weight: 91
 ---
 ## Requirements
 
-RediSearch v2.8.29 requires:
+RediSearch v2.8.30 requires:
 
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
+
+## v2.8.30 (September 2025)
+
+This is a maintenance release for RediSearch 2.8.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#6672](https://github.com/RediSearch/RediSearch/pull/6672) Fix potential file descriptor leak when OOM.
+- [#6763](https://github.com/RediSearch/RediSearch/pull/6763) Fix potential deadlock during RDB loading in cases where the `INFO` command is sent to the server.
+
+**Full Changelog**: https://github.com/RediSearch/RediSearch/compare/v2.8.29...v2.8.30.
 
 ## v2.8.29 (August 2025)
 

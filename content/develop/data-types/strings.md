@@ -76,7 +76,7 @@ the [`MSET`]({{< relref "/commands/mset" >}}) and [`MGET`]({{< relref "/commands
 
 When [`MGET`]({{< relref "/commands/mget" >}}) is used, Redis returns an array of values.
 
-### Strings as counters
+## Strings as counters
 Even if strings are the basic values of Redis, there are interesting operations
 you can perform with them. For instance, one is atomic increment:
 

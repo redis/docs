@@ -5,7 +5,7 @@ import { LangCache } from "@redis-ai/langcache";
 const langCache = new LangCache({
     serverURL: "https://" + process.env.HOST,
     cacheId: process.env.CACHE_ID,
-    serviceKey: process.env.API_KEY,
+    apiKey: process.env.API_KEY,
   });
 // STEP_END
 

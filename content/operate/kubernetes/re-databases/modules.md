@@ -26,7 +26,7 @@ Redis Enterprise includes several built-in modules:
 
 | Module | Name | Description |
 |--------|------|-------------|
-| **[RediSearch]({{< relref "/develop/interact/search-and-query" >}})** | `search` | Full-text search and secondary indexing |
+| **[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})** | `search` | Full-text search and secondary indexing |
 | **[RedisJSON]({{< relref "/develop/data-types/json" >}})** | `ReJSON` | JSON data type support |
 | **[RedisTimeSeries]({{< relref "/develop/data-types/timeseries" >}})** | `timeseries` | Time series data structures |
 | **[RedisBloom]({{< relref "/develop/data-types/probabilistic" >}})** | `bf` | Probabilistic data structures (Bloom filters, etc.) |

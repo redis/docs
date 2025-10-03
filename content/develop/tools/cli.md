@@ -26,6 +26,19 @@ To launch the program in special modes, you can use several options, including:
 
 This topic covers the different aspects of `redis-cli`, starting from the simplest and ending with the more advanced features.
 
+## Install `redis-cli`
+
+You have several options for installing or using `redis-cli`.
+
+- [Install Redis Open Source]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}). The `redis-cli` utility is installed as part of each installation method.
+- [Build Redis from source]({{< relref "/operate/oss_and_stack/install/build-stack" >}}). Instead of building everything, you can just run the following command:
+
+    `$ make redis-cli`.
+    
+    The `redis-cli` utility will be built in the `/path/to/redis-source/src` directory as `/path/to/redis-source/src/redis-cli`.
+
+If you prefer not to install Redis, you can also run `redis-cli` in Docker. See the [Run `redis-cli` using Docker]({{< relref "/operate/oss_and_stack/install/install-stack/docker/#connect-with-redis-cli" >}}) page for instructions.
+
 ## Command line usage
 
 To run a Redis command and return a standard output at the terminal, include the command to execute as separate arguments of `redis-cli`:

@@ -14,10 +14,21 @@ weight: 96
 ---
 ## Requirements
 
-RedisJSON v2.6.15 requires:
+RedisJSON v2.6.21 requires:
 
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
+
+## v2.6.21 (September 2025)
+
+This is a maintenance release for RedisJSON 2.6.
+
+Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgent.
+
+Details:
+
+Bug fixes
+- [#1374](https://github.com/redisjson/redisjson/pull/1374) - `JSON.DEL` doesn’t delete all matching object members / array elements (MOD-11032, MOD-11067).
 
 ## v2.6.15 (April 2025)
 
