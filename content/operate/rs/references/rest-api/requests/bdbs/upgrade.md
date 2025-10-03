@@ -9,6 +9,7 @@ description: Database upgrade requests
 headerRange: '[1-2]'
 linkTitle: upgrade
 weight: $weight
+aliases: /operate/rs/references/rest-api/requests/modules/upgrade/
 ---
 
 | Method | Path | Description |
