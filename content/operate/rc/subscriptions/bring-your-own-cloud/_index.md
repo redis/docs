@@ -50,6 +50,14 @@ To set up Redis Cloud BYOC on Amazon Web Services (AWS):
 
 1. [Set your AWS Account as a BYOC Cloud account]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/cloud-account-settings" >}}) on Redis Cloud.
 
+After you set up your cloud account, you can create a [new Redis Cloud Pro subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) or an [Active-Active database]({{< relref "/operate/rc/databases/create-database/create-active-active-database" >}}) that uses your cloud account.
+
+## Redis Cloud BYOC pricing
+
+With Redis Cloud BYOC, you pay for the Redis Cloud service, including database management, monitoring, and support.  You also pay for the underlying cloud infrastructure, including virtual machines, storage, and networking, directly to your cloud provider. 
+
+When you create a database, you'll see the costs for the Redis Cloud service, but not the costs for the underlying cloud infrastructure. You can view and manage those costs in your cloud provider account.
+
 ## Avoid Redis Cloud BYOC service disruption {#avoid-service-disruption}
 
 {{< warning >}}
