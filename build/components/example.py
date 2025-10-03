@@ -14,7 +14,10 @@ TEST_MARKER = {
     'java-sync': '@Test',
     'java-async': '@Test',
     'java-reactive': '@Test',
-    'c#': r'\[Fact]|\[SkipIfRedis\(.*\)]'
+    'c#': r'\[Fact]|\[SkipIfRedis\(.*\)]',
+    'c#-sync': r'\[Fact]|\[SkipIfRedis\(.*\)]',
+    'c#-async': r'\[Fact]|\[SkipIfRedis\(.*\)]',
+    'rust': r'#\[test]|#\[cfg\(test\)]|#\[tokio::test]'
 }
 PREFIXES = {
     'python': '#',
@@ -25,8 +28,13 @@ PREFIXES = {
     'java-reactive': '//',
     'go': '//',
     'c#': '//',
+    'c#-sync': '//',
+    'c#-async': '//',
     'redisvl': '#',
-    'php': '//'
+    'php': '//',
+    'rust': '//',
+    'rust-sync': '//',
+    'rust-async': '//'
 }
 
 

@@ -1,6 +1,6 @@
 ---
-LinkTitle: View and Upgrade Essentials plan
-Title: View and Upgrade Redis Cloud Essentials plan
+LinkTitle: View and Upgrade Essentials or Flex plan
+Title: View and Upgrade Redis Cloud Essentials or Redis Flex plan
 alwaysopen: false
 categories:
 - docs
@@ -10,7 +10,7 @@ description: null
 hideListLinks: true
 weight: 30
 ---
-To view the details of a Redis Cloud Essentials subscription:
+To view the details of a Redis Cloud Essentials or Redis Flex subscription:
 
 1.  Sign in to the [Redis Cloud console](https://cloud.redis.io/) and select the **Subscriptions** list.
 
@@ -34,7 +34,7 @@ The following sections provide more details.
 
 ## Upgrade plan
 
-Use the **Upgrade** button to update your Redis Cloud Essentials plan, your high availability settings, or your payment method. Upgrading your database between Redis Cloud Essentials plans does not impact database availability during the update.
+Use the **Upgrade** button to update your Redis Cloud Essentials or Redis Flex plan, your high availability settings, or your payment method. Upgrading your database between Redis Cloud Essentials or Redis Flex plans does not impact database availability during the update.
 
 {{<image filename="images/rc/button-subscription-upgrade-plan.png" alt="Use the Upgrade plan button to change selected Redis Cloud Essentials subscription detils." width=100px >}}
 
@@ -46,7 +46,7 @@ To change your subscription plan, select the desired plan from the list and sele
 
 {{<image filename="images/rc/subscription-change-fixed-tiers.png" width="100%" alt="Select the desired subscription plan from the ones shown." >}}
 
-Each Redis Cloud Essentials plan provides a variety of benefits, including increased memory and number of connections.
+Each Redis Cloud Essentials or Redis Flex plan provides a variety of benefits, including increased memory and number of connections.
 For a comparison of available plans, see [Redis Cloud Essentials plans]({{< relref "/operate/rc/subscriptions/view-essentials-subscription/essentials-plan-details" >}}).
 
 When you change your plan, your data and endpoints are not disrupted.  

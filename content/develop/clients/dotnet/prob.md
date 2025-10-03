@@ -99,7 +99,7 @@ add. The following example adds some names to a Bloom filter representing
 a list of users and checks for the presence or absence of users in the list.
 Note that you must use the `BF()` method to access the Bloom filter commands.
 
-{{< clients-example home_prob_dts bloom "C#" >}}
+{{< clients-example home_prob_dts bloom "C#-Sync" >}}
 {{< /clients-example >}}
 
 A Cuckoo filter has similar features to a Bloom filter, but also supports
@@ -107,7 +107,7 @@ a deletion operation to remove hashes from a set, as shown in the example
 below. Note that you must use the `CF()` method to access the Cuckoo filter
 commands.
 
-{{< clients-example home_prob_dts cuckoo "C#" >}}
+{{< clients-example home_prob_dts cuckoo "C#-Sync" >}}
 {{< /clients-example >}}
 
 Which of these two data types you choose depends on your use case.
@@ -128,7 +128,7 @@ You can also merge two or more HyperLogLogs to find the cardinality of the
 [union](https://en.wikipedia.org/wiki/Union_(set_theory)) of the sets they
 represent.
 
-{{< clients-example home_prob_dts hyperloglog "C#" >}}
+{{< clients-example home_prob_dts hyperloglog "C#-Sync" >}}
 {{< /clients-example >}}
 
 The main benefit that HyperLogLogs offer is their very low
@@ -169,7 +169,7 @@ a Count-min sketch object, add data to it, and then query it.
 Note that you must use the `CMS()` method to access the Count-min
 sketch commands.
 
-{{< clients-example home_prob_dts cms "C#" >}}
+{{< clients-example home_prob_dts cms "C#-Sync" >}}
 {{< /clients-example >}}
 
 The advantage of using a CMS over keeping an exact count with a
@@ -202,7 +202,7 @@ shows how to merge two or more t-digest objects to query the combined
 data set. Note that you must use the `TDIGEST()` method to access the
 t-digest commands.
 
-{{< clients-example home_prob_dts tdigest "C#" >}}
+{{< clients-example home_prob_dts tdigest "C#-Sync" >}}
 {{< /clients-example >}}
 
 A t-digest object also supports several other related commands, such
@@ -225,5 +225,5 @@ top *k* items and query whether or not a given item is in the
 list. Note that you must use the `TOPK()` method to access the
 Top-K commands.
 
-{{< clients-example home_prob_dts topk "C#" >}}
+{{< clients-example home_prob_dts topk "C#-Sync" >}}
 {{< /clients-example >}}

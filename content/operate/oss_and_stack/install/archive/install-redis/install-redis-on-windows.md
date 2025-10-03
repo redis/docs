@@ -41,7 +41,7 @@ sudo apt-get install redis
 Lastly, start the Redis server like so:
 
 {{< highlight bash  >}}
-sudo service redis-server start
+redis-server --daemonize yes
 {{< / highlight  >}}
 
 ### Connect to Redis

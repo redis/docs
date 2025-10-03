@@ -16,31 +16,27 @@ When you update the certificates, the new certificate replaces the same certific
 
 ## How to update certificates
 
-You can use the [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}) command-line interface (CLI) or the [REST API]({{< relref "/operate/rs/references/rest-api" >}}) to update certificates. The Cluster Manager UI lets you update proxy and syncer certificates on the **Cluster > Security > Certificates** screen.
+You can use the [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}) command-line interface (CLI) or the [REST API]({{< relref "/operate/rs/references/rest-api" >}}) to update certificates. The Cluster Manager UI lets you update proxy, syncer, and internode encryption certificates on the **Cluster > Security > Certificates** screen.
 
-The new certificates are used the next time the clients connect to the database.
+{{< multitabs id="update-certs" 
+tab1="Cluster Manager UI"
+tab2="rladmin"
+tab3="REST API" >}}
 
-When you upgrade Redis Enterprise Software, the upgrade process copies the certificates that are on the first upgraded node to all of the nodes in the cluster.
-
-{{<note>}}
-Don't manually overwrite the files located in `/etc/opt/redislabs`. Instead, upload new certificates to a temporary location on one of the cluster nodes, such as the `/tmp` directory.
-{{</note>}}
-
-### Use the Cluster Manager UI
-
-To replace proxy or syncer certificates using the Cluster Manager UI:
+To replace proxy, syncer, or internode encryption certificates using the Cluster Manager UI:
 
 1. Go to **Cluster > Security > Certificates**.
 
 1. Expand the section for the certificate you want to update:
+    - For internode encryption certificates, expand **Internode encryption certificates**.
     - For the proxy certificate, expand **Server authentication**.
     - For the syncer certificate, expand **Replica Of and Active-Active authentication**.
 
-    {{<image filename="images/rs/screenshots/cluster/security-expand-proxy-cert.png"  alt="Expanded proxy certificate for server authentication.">}}
+    <img src="../../../../../images/rs/screenshots/cluster/security-certs-with-ine-expand-proxy-cert.png" alt="Expanded proxy certificate for server authentication.">
 
 1. Click **Replace Certificate** to open the dialog.
 
-    {{<image filename="images/rs/screenshots/cluster/security-replace-proxy-cert.png"  alt="Replace proxy certificate dialog.">}}
+    <img src="../../../../../images/rs/screenshots/cluster/security-replace-proxy-cert.png" alt="Replace proxy certificate dialog.">
 
 1. Upload the key file.
 
@@ -48,7 +44,7 @@ To replace proxy or syncer certificates using the Cluster Manager UI:
 
 1. Click **Save**.
 
-### Use the CLI
+-tab-sep-
 
 To replace certificates with the `rladmin` CLI, run the [`cluster certificate set`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/certificate" >}}) command:
 
@@ -68,12 +64,29 @@ For example, to replace the Cluster Manager UI (`cm`) certificate with the priva
 rladmin cluster certificate set cm certificate_file cluster.pem key_file key.pem
 ```
 
-### Use the REST API
+-tab-sep-
 
-To replace a certificate using the REST API, use [`PUT /v1/cluster/update_cert`]({{< relref "/operate/rs/references/rest-api/requests/cluster/certificates#put-cluster-update_cert" >}}):
+To replace a certificate using the REST API, use an [update cluster certificates]({{<relref "/operate/rs/references/rest-api/requests/cluster/certificates">}}) request.
+
+For Redis Enterprise Software versions 7.22.2 and later, use:
 
 ```sh
-PUT https://[host][:port]/v1/cluster/update_cert
+PUT https://<host>:<port>/v1/cluster/certificates
+{
+  "certificates": [
+    {
+      "name": "<cert_name>",
+      "certificate": "<cert>",
+      "key": "<key>"
+    }
+  ]
+}
+```
+
+For Redis Enterprise Software versions 7.22.0 and earlier, use:
+
+```sh
+PUT https://<host>:<port>/v1/cluster/update_cert
     '{ "name": "<cert_name>", "key": "<key>", "certificate": "<cert>" }'
 ```
 
@@ -89,6 +102,16 @@ Replace the following variables with your own values:
   {{< /tip >}}
 
 - `<cert>` - The contents of the \*\_cert.pem file
+
+{{< /multitabs >}}
+
+New proxy and syncer certificates are used the next time clients connect to the database. For internode encryption certificates, the new certificates are used after they are replaced on all existing nodes in the cluster.
+
+When you add a new node to the cluster, the certificates are automatically copied to the new node.
+
+{{<note>}}
+Don't manually overwrite the files located in `/etc/opt/redislabs`. Instead, upload new certificates to a temporary location on one of the cluster nodes, such as the `/tmp` directory.
+{{</note>}}
 
 ## Replica Of database certificates
 
