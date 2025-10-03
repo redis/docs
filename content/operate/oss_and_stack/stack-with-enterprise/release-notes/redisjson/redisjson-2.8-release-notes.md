@@ -15,10 +15,21 @@ weight: 95
 
 ## Requirements
 
-RedisJSON v2.8.9 requires:
+RedisJSON v2.8.14 requires:
 
 - Minimum Redis compatibility version (database): 7.4
 - Minimum Redis Enterprise Software version (cluster): 7.8
+
+## v2.8.14 (September 2025)
+
+This is a maintenance release for RedisJSON 2.8.
+
+Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgent.
+
+Details:
+
+Bug fixes
+- [#1374](https://github.com/redisjson/redisjson/pull/1374) - `JSON.DEL` doesn’t delete all matching object members / array elements (MOD-11032, MOD-11067).
 
 ## v2.8.9 (April 2025)
 

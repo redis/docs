@@ -171,4 +171,4 @@ Checking for an item is O(K) or O(K*n) for stacked filters, where n is the numbe
 1. [Developing with Bloom Filters](https://redis.io/blog/bloom-filter/)
 1. [RedisBloom on Redis Enterprise](https://redis.com/redis-enterprise/redis-bloom/)
 1. [Probably and No: Redis, RedisBloom, and Bloom Filters](https://redis.com/blog/redis-redisbloom-bloom-filters/)
-1. [RedisBloom – Bloom Filter Datatype for Redis](https://redis.com/blog/rebloom-bloom-filter-datatype-redis/)
+
