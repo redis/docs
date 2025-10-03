@@ -91,7 +91,7 @@ Remove a specific exchange from the message history.
 * **Return type:**
   None
 
-#### `get_recent(top_k=5, as_text=False, raw=False, session_tag=None)`
+#### `get_recent(top_k=5, as_text=False, raw=False, session_tag=None, role=None)`
 
 Retrieve the recent message history in sequential order.
 
@@ -103,15 +103,19 @@ Retrieve the recent message history in sequential order.
     prompt and response
   * **session_tag** (*Optional* *[* *str* *]*) – Tag of the entries linked to a specific
     conversation session. Defaults to instance ULID.
+  * **role** (*Optional* *[* *Union* *[* *str* *,* *List* *[* *str* *]* *]* *]*) – Filter messages by role(s).
+    Can be a single role string ("system", "user", "llm", "tool") or
+    a list of roles. If None, all roles are returned.
 * **Returns:**
   A single string transcription of the session
   : or list of strings if as_text is false.
 * **Return type:**
   Union[str, List[str]]
 * **Raises:**
-  **ValueError** – if top_k is not an integer greater than or equal to 0.
+  **ValueError** – if top_k is not an integer greater than or equal to 0,
+      or if role contains invalid values.
 
-#### `get_relevant(prompt, as_text=False, top_k=5, fall_back=False, session_tag=None, raw=False, distance_threshold=None)`
+#### `get_relevant(prompt, as_text=False, top_k=5, fall_back=False, session_tag=None, raw=False, distance_threshold=None, role=None)`
 
 Searches the message history for information semantically related to
 the specified prompt.
@@ -134,13 +138,17 @@ context to the next LLM call.
     if no relevant context is found.
   * **raw** (*bool*) – Whether to return the full Redis hash entry or just the
     message.
+  * **role** (*Optional* *[* *Union* *[* *str* *,* *List* *[* *str* *]* *]* *]*) – Filter messages by role(s).
+    Can be a single role string ("system", "user", "llm", "tool") or
+    a list of roles. If None, all roles are returned.
 * **Returns:**
   Either a list of strings, or a
   list of prompts and responses in JSON containing the most relevant.
 * **Return type:**
   Union[List[str], List[Dict[str,str]]
 
-Raises ValueError: if top_k is not an integer greater or equal to 0.
+Raises ValueError: if top_k is not an integer greater or equal to 0,
+: or if role contains invalid values.
 
 #### `store(prompt, response, session_tag=None)`
 
@@ -237,7 +245,7 @@ Remove a specific exchange from the conversation history.
 * **Return type:**
   None
 
-#### `get_recent(top_k=5, as_text=False, raw=False, session_tag=None)`
+#### `get_recent(top_k=5, as_text=False, raw=False, session_tag=None, role=None)`
 
 Retrieve the recent message history in sequential order.
 
@@ -249,13 +257,17 @@ Retrieve the recent message history in sequential order.
     prompt and response.
   * **session_tag** (*Optional* *[* *str* *]*) – Tag of the entries linked to a specific
     conversation session. Defaults to instance ULID.
+  * **role** (*Optional* *[* *Union* *[* *str* *,* *List* *[* *str* *]* *]* *]*) – Filter messages by role(s).
+    Can be a single role string ("system", "user", "llm", "tool") or
+    a list of roles. If None, all roles are returned.
 * **Returns:**
   A single string transcription of the messages
   : or list of strings if as_text is false.
 * **Return type:**
   Union[str, List[str]]
 * **Raises:**
-  **ValueError** – if top_k is not an integer greater than or equal to 0.
+  **ValueError** – if top_k is not an integer greater than or equal to 0,
+      or if role contains invalid values.
 
 #### `store(prompt, response, session_tag=None)`
 

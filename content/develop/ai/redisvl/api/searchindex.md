@@ -275,8 +275,7 @@ Initialize from an existing search index in Redis by index name.
   * **redis_url** (*Optional* *[* *str* *]*) – The URL of the Redis server to
     connect to.
 * **Raises:**
-  * **ValueError** – If redis_url or redis_client is not provided.
-  * **RedisModuleVersionError** – If required Redis modules are not installed.
+  **ValueError** – If redis_url or redis_client is not provided.
 
 #### `classmethod from_yaml(schema_path, **kwargs)`
 
@@ -466,7 +465,8 @@ The name of the Redis search index.
 #### `property prefix: str`
 
 The optional key prefix that comes before a unique key value in
-forming a Redis key.
+forming a Redis key. If multiple prefixes are configured, returns the
+first one.
 
 #### `property storage_type: StorageType`
 
@@ -934,7 +934,8 @@ The name of the Redis search index.
 #### `property prefix: str`
 
 The optional key prefix that comes before a unique key value in
-forming a Redis key.
+forming a Redis key. If multiple prefixes are configured, returns the
+first one.
 
 #### `property storage_type: StorageType`
 
