@@ -78,8 +78,7 @@ command_flags:
 - fast
 complexity: O(N) where N is the number of fields being set.
 description: Set the value of one or more fields of a given hash key, and optionally
-  set their expiration. If key already holds a value, it is overwritten. Any previous time to live
-  associated with the key is discarded on successful HSETEX operation.
+  set their expiration.
 group: hash
 hidden: false
 key_specs:
