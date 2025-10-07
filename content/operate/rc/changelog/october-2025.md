@@ -1,14 +1,14 @@
 ---
-Title: Redis Cloud changelog (September 2025)
+Title: Redis Cloud changelog (October 2025)
 alwaysopen: false
 categories:
 - docs
 - operate
 - rc
 description: New features, enhancements, and other changes added to Redis Cloud during
-  September 2025.
+  October 2025.
 highlights: Data Integration
-linktitle: September 2025
+linktitle: October 2025
 weight: 70
 tags:
 - changelog
