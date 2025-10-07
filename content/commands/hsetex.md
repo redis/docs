@@ -107,7 +107,8 @@ syntax_str: "[FNX | FXX] [EX\_seconds | PX\_milliseconds | EXAT\_unix-time-secon
 title: HSETEX
 ---
 
-Set the value of one or more fields of a given hash key, and optionally set their expiration time or time-to-live (TTL).
+Set the value of one or more fields of a given hash key and optionally
+set their expiration time or time-to-live (TTL). If the given key already holds a value, it is overwritten and any previous TTLs associated with the key are discarded.
 
 ## Options
 
