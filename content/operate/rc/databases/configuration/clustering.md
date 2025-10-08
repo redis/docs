@@ -200,10 +200,10 @@ These changes include:
 
 {{< embed-md "oss-cluster-api-intro.md"  >}}
 
-The OSS Cluster API is only supported on Redis Cloud Pro databases. You can enable it in the Performance section of the configuration screen.
+The OSS Cluster API is only supported on Redis Cloud Pro databases. You can enable it in the **Performance** section of the configuration screen.
 
 After you select OSS Cluster API, you can select **Use external endpoint** if you want to use the external endpoint for the database. Selecting **Use external endpoint** will block the private endpoint for this database.
 
-The OSS Cluster API is supported only when a database uses the [standard hashing policy](#standard-hashing-policy)
+The OSS Cluster API is supported only when a database uses the [standard hashing policy](#standard-hashing-policy).
 
 Review [OSS Cluster API architecture]({{< relref "/operate/rs/clusters/optimize/oss-cluster-api" >}}) to determine if you should enable this feature for your database.
