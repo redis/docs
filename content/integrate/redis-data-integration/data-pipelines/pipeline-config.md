@@ -144,9 +144,6 @@ processors:
   # Time (in ms) after which data will be read from stream even if
   # read_batch_size was not reached.
   # duration: 100
-  # Data type to use in Redis target database: `hash` for Redis Hash,
-  # `json` for JSON (which requires the RedisJSON module).
-  # target_data_type: hash
   # The batch size for writing data to the target Redis database. Should be
   # less than or equal to the read_batch_size.
   # write_batch_size: 200
@@ -155,8 +152,26 @@ processors:
   # Max size of the deduplication set (default: 1024).
   # dedup_max_size: <DEDUP_MAX_SIZE>
   # Error handling strategy: ignore - skip, dlq - store rejected messages
-  # in a dead letter queue
+  # in a dead letter queue.
   # error_handling: dlq
+  # Dead letter queue max messages per stream.
+  # dlq_max_messages: 1000
+  # Data type to use in Redis target database: `hash` for Redis Hash,
+  # `json` for JSON (which requires the RedisJSON module).
+  # target_data_type: hash
+  # Number of processes to use when syncing initial data.
+  # initial_sync_processes: 4
+  # Checks if the batch has been written to the replica shard.
+  # wait_enabled: false
+  # Timeout in milliseconds when checking write to the replica shard.
+  # wait_timeout: 1000
+  # Ensures that a batch has been written to the replica shard and keeps
+  # retrying if not.
+  # retry_on_replica_failure: true
+  # Enable merge as the default strategy to writing JSON documents.
+  # json_update_strategy: merge
+  # Use native JSON merge if the target RedisJSON module supports it.
+  # use_native_json_merge: true
 ```
 
 ## Sections
