@@ -56,7 +56,7 @@ Manage [secure connections]({{< relref "/operate/rc/security" >}}) to cloud data
 - [Data access control]({{< relref "/operate/rc/security/access-control/data-access-control" >}})
 
 ## REST API
-Use the [REST API]({{< relref "/operate/rc/api" >}}) to manage the database.
+Use the [REST API]({{< relref "/operate/rc/api" >}}) to manage Redis Cloud databases and subscriptions.
 - [Get started with the REST API]({{< relref "/operate/rc/api/get-started" >}})
 - REST API [reference]({{< relref "/operate/rc/api/api-reference" >}}) & [examples]({{< relref "/operate/rc/api/examples" >}})
 
