@@ -33,6 +33,8 @@ Consider the following limitations when viewing the cost report:
 
 The Cost Report CSV file is separated into two sections, one for Redis Cloud Essentials subscriptions and one for Redis Cloud Pro subscriptions.
 
+See [How to download and visualize the cost report](https://support.redislabs.com/hc/en-us/articles/30042563097874-How-to-Download-and-Visualize-Redis-Cloud-Cost-Report) on the Redis knowledge base for more information on how to effectively use the cost report.
+
 ### Essentials subscriptions
 
 In the Essentials subscription section, each row represents one month of usage for a subscription. 
