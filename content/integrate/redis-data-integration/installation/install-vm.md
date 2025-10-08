@@ -182,6 +182,18 @@ it without the `noexec` option. See
     ```bash
     sudo ./install.sh --installation-dir <custom-installation-directory>
     ```
+
+    **Advanced**: You can also pass custom K3s parameters to the installer using the `INSTALL_K3S_EXEC` environment variable. For example, to set the kubeconfig file permissions to be readable by all users:
+
+    ```bash
+    sudo INSTALL_K3S_EXEC='--write-kubeconfig-mode=644' ./install.sh
+    ```
+
+    You can combine multiple K3s options in the `INSTALL_K3S_EXEC` variable. See the [K3s documentation](https://docs.k3s.io/installation/configuration) for a full list of available options.
+
+    {{<warning>}}
+    Only modify K3s parameters if you understand exactly what you are changing and why. Incorrect K3s configuration can cause RDI installation to fail or result in an unstable deployment.
+    {{</warning>}}
     {{< /note >}}
 
 The RDI installer collects all necessary configuration details and alerts you to potential issues, 
