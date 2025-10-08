@@ -196,14 +196,14 @@ These changes include:
    - **PCRE_ANCHORED:** the pattern is constrained to match only at
         the start of the string which is being searched.
 
-## Cluster API {#oss-cluster-api}
+## OSS Cluster API {#oss-cluster-api}
 
 {{< embed-md "oss-cluster-api-intro.md"  >}}
 
-The Cluster API is only supported on Redis Cloud Pro databases. You can enable it in the Performance section of the configuration screen.
+The OSS Cluster API is only supported on Redis Cloud Pro databases. You can enable it in the Performance section of the configuration screen.
 
 After you select OSS Cluster API, you can select **Use external endpoint** if you want to use the external endpoint for the database. Selecting **Use external endpoint** will block the private endpoint for this database.
 
-The Redis Cluster API is supported only when a database uses the [standard hashing policy](#standard-hashing-policy) and does not use Search and Query or Time Series advanced capabilities.
+The OSS Cluster API is supported only when a database uses the [standard hashing policy](#standard-hashing-policy)
 
-Review [Redis Cluster API architecture]({{< relref "/operate/rs/clusters/optimize/oss-cluster-api" >}}) to determine if you should enable this feature for your database.
+Review [OSS Cluster API architecture]({{< relref "/operate/rs/clusters/optimize/oss-cluster-api" >}}) to determine if you should enable this feature for your database.
