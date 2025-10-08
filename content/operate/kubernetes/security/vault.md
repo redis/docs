@@ -30,33 +30,21 @@ When Vault integration is enabled, all secrets referenced in Redis Enterprise cu
 
 For complete details on supported secrets, see the [RedisEnterpriseCluster API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api" >}}) and [RedisEnterpriseDatabase API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_database_api" >}}).
 
-### Key benefits
-
-- Centralized secret management - Single source of truth for all secrets
-- Enhanced security - Vault's encryption, access controls, and audit logging
-- Secret rotation - Automated credential rotation capabilities
-- Compliance - Meet regulatory requirements with comprehensive audit trails
-- Multi-environment support - Consistent secret management across dev/staging/prod
-
 {{<note>}}
 When using OpenShift, replace `kubectl` commands with `oc` throughout this guide.
 {{</note>}}
+
 ## Prerequisites
 
 Before integrating Redis Enterprise operator with HashiCorp Vault, ensure you have the following components properly configured:
 
 ### HashiCorp Vault Requirements
 
-- Vault Instance: Deploy HashiCorp Vault with network connectivity from your Kubernetes cluster
-  - Tested Version: HashiCorp Vault v1.15.2 (other versions may work but are not officially tested)
-  - TLS Required: Vault must be configured with TLS encryption
-  - High Availability: Recommended for production environments
+- Vault instance: HashiCorp Vault v1.15.2+ with TLS and network connectivity to your Kubernetes cluster
 
-- Authentication Method: Configure Kubernetes authentication method in Vault
-  - Enables Kubernetes service accounts to authenticate with Vault
-  - See [HashiCorp's Kubernetes Auth documentation](https://developer.hashicorp.com/vault/docs/auth/kubernetes)
+- Authentication method: Configure Kubernetes authentication method in Vault (see [HashiCorp's Kubernetes Auth documentation](https://developer.hashicorp.com/vault/docs/auth/kubernetes))
 
-- Secret Engine: Enable and configure KV version 2 secret engine
+- Secret engine: Enable and configure KV version 2 secret engine
   - Default mount path: `secret/` (configurable)
   - Used to store all Redis Enterprise secrets
   - Supports versioning and metadata
@@ -67,22 +55,18 @@ Before integrating Redis Enterprise operator with HashiCorp Vault, ensure you ha
   - Enables automatic secret injection into pods
   - See [Vault Agent Injector tutorial](https://developer.hashicorp.com/vault/tutorials/kubernetes/kubernetes-sidecar)
 
-- Network Access: Ensure Kubernetes cluster can reach Vault
+- Network access: Ensure Kubernetes cluster can reach Vault
   - Configure appropriate network policies and firewall rules
   - Vault typically runs on port 8200 (HTTPS)
 
-- Service Accounts: Proper RBAC configuration for operator service accounts
+- Service accounts: Proper RBAC configuration for operator service accounts
 
-### Vault Enterprise considerations
+### Vault editions
 
-This guide assumes HashiCorp Vault Enterprise with namespace support:
-- **Vault namespaces**: Logical isolation within Vault (not Kubernetes namespaces)
-- **Multi-tenancy**: Separate Redis Enterprise deployments by Vault namespace
-- **Advanced features**: Audit logging, performance replication, disaster recovery
+This guide supports both Vault Community and Enterprise editions:
 
-{{<note>}}
-For Vault Community Edition, omit all `VAULT_NAMESPACE` parameters and `-namespace` flags from commands.
-{{</note>}}
+- Vault Community: Use all commands without `-namespace` flags or `VAULT_NAMESPACE` parameters
+- Vault Enterprise: Supports namespaces for logical isolation and multi-tenancy (separate from Kubernetes namespaces)
 
 ### Minimum token TTL
 
@@ -93,12 +77,12 @@ Configure Vault token policies with minimum TTL of 1 hour:
 
 ## Authentication flow
 
-1. **Service Account Authentication**: Redis Enterprise operator uses its Kubernetes service account token
-2. **Vault Authentication**: Operator authenticates with Vault using Kubernetes auth method
-3. **Token Acquisition**: Vault issues a time-limited token with appropriate policies
-4. **Secret Retrieval**: Operator fetches secrets from Vault KV store using the token
-5. **Caching**: Secrets are cached locally with configurable expiration times
-6. **Token Renewal**: Tokens are automatically renewed before expiration
+1. Service Account Authentication: Redis Enterprise operator uses its Kubernetes service account token
+2. Vault Authentication: Operator authenticates with Vault using Kubernetes auth method
+3. Token Acquisition: Vault issues a time-limited token with appropriate policies
+4. Secret Retrieval: Operator fetches secrets from Vault KV store using the token
+5. Caching: Secrets are cached locally with configurable expiration times
+6. Token Renewal: Tokens are automatically renewed before expiration
 
 ### Secret path structure
 
@@ -107,7 +91,7 @@ Vault secrets follow a hierarchical path structure:
 <VAULT_SECRET_ROOT>/<VAULT_SECRET_PREFIX>/<secret-name>
 ```
 
-**Default Example**:
+Default example:
 ```
 secret/data/redisenterprise-redis-ns/my-cluster
 secret/data/redisenterprise-redis-ns/my-database-password
@@ -120,13 +104,13 @@ secret/data/redisenterprise-redis-ns/tls-certificates
 
 This guide covers the most common deployment scenario with the following assumptions:
 
-- **Vault Enterprise** with namespace support (adapt for Community Edition by removing namespace parameters)
-- **Multiple Redis Enterprise clusters** in the same Kubernetes cluster
-- **Namespace isolation** using Kubernetes namespace suffixes for Vault configurations
-- **Production security** with proper RBAC and network policies
+- Vault Enterprise with namespace support (adapt for Community Edition by removing namespace parameters)
+- Multiple Redis Enterprise clusters in the same Kubernetes cluster
+- Namespace isolation using Kubernetes namespace suffixes for Vault configurations
+- Production security with proper RBAC and network policies
 
 {{<note>}}
-**Multi-cluster considerations**: When deploying across multiple Kubernetes clusters with identical namespace names, additional prefixing may be required to avoid Vault path conflicts.
+Multi-cluster considerations: When deploying across multiple Kubernetes clusters with identical namespace names, additional prefixing may be required to avoid Vault path conflicts.
 {{</note>}}
 
 ## Configure the operator
@@ -148,7 +132,7 @@ path "secret/metadata/redisenterprise-<K8S_NAMESPACE>/*" {
 EOF
 ```
 
-**Parameter explanation:**
+Parameter explanation:
 - `<VAULT_NAMESPACE>`: Your Vault Enterprise namespace (omit for Community Edition)
 - `<K8S_NAMESPACE>`: Kubernetes namespace where Redis Enterprise operator is deployed
 
@@ -163,7 +147,7 @@ vault write -namespace=<VAULT_NAMESPACE> auth/<AUTH_PATH>/role/redis-enterprise-
         policies=redisenterprise-<K8S_NAMESPACE>
 ```
 
-**Parameter explanation:**
+Parameter explanation:
 - `<AUTH_PATH>`: Kubernetes auth method path in Vault (default: `kubernetes`)
 - Role name includes namespace for multi-tenant isolation
 
@@ -211,7 +195,7 @@ kubectl apply -f operator-environment-config.yaml
 | `VAULT_CACHE_SECRET_EXPIRATION_SECONDS` | Secret cache duration | `120` | No |
 
 {{<note>}}
-**Secret path construction**: Secrets are stored at `<VAULT_SECRET_ROOT>/data/<VAULT_SECRET_PREFIX>/<secret-name>`
+Secret path construction: Secrets are stored at `<VAULT_SECRET_ROOT>/data/<VAULT_SECRET_PREFIX>/<secret-name>`
 {{</note>}}
 
 ### Step 3: Deploy the operator
@@ -288,7 +272,7 @@ vault kv put -namespace=<VAULT_NAMESPACE> \
 ```
 
 {{<note>}}
-**Important notes:**
+Important notes:
 
 - The username field in the REC spec is ignored when using Vault
 - The username from the Vault secret takes precedence
@@ -463,7 +447,7 @@ kubectl patch rec rec --type merge --patch '{"spec": {"certificates": {"apiCerti
 
 To create a Redis Enterprise database (REDB) with Vault integration:
 
-1. **Create database password in Vault**:
+1. Create database password in Vault:
 
    ```bash
    vault kv put -namespace=<VAULT_NAMESPACE> \
@@ -471,11 +455,11 @@ To create a Redis Enterprise database (REDB) with Vault integration:
      password=<DATABASE_PASSWORD>
    ```
 
-2. **Create the REDB custom resource**:
+2. Create the REDB custom resource:
 
    Follow the standard [database creation process]({{< relref "/operate/kubernetes/re-databases" >}}). The REC configuration automatically enables Vault integration for all databases.
 
-3. **Configure additional secrets** (optional):
+3. Configure additional secrets (optional):
 
    Store additional REDB secrets in the path `redisenterprise-<K8S_NAMESPACE>/`. Secrets must comply with the [REDB secrets schema]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_database_api" >}}).
 
@@ -487,17 +471,17 @@ When using the Redis Enterprise Vault plugin, set `defaultUser: false` and assoc
 
 Redis Enterprise databases support several types of secrets that can be stored in Vault:
 
-1. **Database password** - Required for database access
-2. **Replica source credentials** (optional) - For cross-cluster replication:
+1. Database password - Required for database access
+2. Replica source credentials (optional) - For cross-cluster replication:
    - `clientKeySecret` - Client TLS key
    - `serverCertSecret` - Server certificate
-3. **Backup credentials** (optional) - For database backups:
-   - **S3 storage**: `awsSecretName`
-   - **SFTP storage**: `sftpSecretName`
-   - **Swift storage**: `swiftSecretName`
-   - **Azure Blob storage**: `absSecretName`
-   - **Google Cloud storage**: `gcsSecretName`
-4. **Client authentication certificates** (optional) - TLS client certificates for authentication
+3. Backup credentials (optional) - For database backups:
+   - S3 storage: `awsSecretName`
+   - SFTP storage: `sftpSecretName`
+   - Swift storage: `swiftSecretName`
+   - Azure Blob storage: `absSecretName`
+   - Google Cloud storage: `gcsSecretName`
+4. Client authentication certificates (optional) - TLS client certificates for authentication
 
 For complete field documentation, see the [Redis Enterprise database API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_database_api" >}}).
 
@@ -515,18 +499,18 @@ REAADB resources include REDB specifications in the `globalConfigurations` field
 
 #### Operator pod not ready
 
-**Symptoms**: Operator pod remains in `Pending` or `CrashLoopBackOff` state
+Symptoms: Operator pod remains in `Pending` or `CrashLoopBackOff` state
 
-**Causes and solutions**:
+Causes and solutions:
 
-1. **Missing admission controller secret**
+1. Missing admission controller secret
 
    ```bash
    # Check if admission-tls secret exists in Vault
    vault kv get -namespace=<VAULT_NAMESPACE> <VAULT_SECRET_ROOT>/redisenterprise-<K8S_NAMESPACE>/admission-tls
    ```
 
-2. **Vault CA certificate issues**
+2. Vault CA certificate issues
 
    ```bash
    # Verify vault-ca-cert secret exists
@@ -536,7 +520,7 @@ REAADB resources include REDB specifications in the `globalConfigurations` field
    kubectl get secret vault-ca-cert -n <K8S_NAMESPACE> -o jsonpath='{.data.vault\.ca}' | base64 -d
    ```
 
-3. **Network connectivity**
+3. Network connectivity
 
    ```bash
    # Test Vault connectivity from operator pod
@@ -546,17 +530,17 @@ REAADB resources include REDB specifications in the `globalConfigurations` field
 
 #### Authentication failures
 
-**Symptoms**: `Failed to authenticate with Vault` errors in operator logs
+Symptoms: `Failed to authenticate with Vault` errors in operator logs
 
-**Solutions**:
+Solutions:
 
-1. **Verify Vault role configuration**
+1. Verify Vault role configuration
 
    ```bash
    vault read -namespace=<VAULT_NAMESPACE> auth/<AUTH_PATH>/role/redis-enterprise-operator-<K8S_NAMESPACE>
    ```
 
-2. **Check service account token**
+2. Check service account token
 
    ```bash
    # Verify service account exists
@@ -568,23 +552,23 @@ REAADB resources include REDB specifications in the `globalConfigurations` field
 
 #### Secret retrieval failures
 
-**Symptoms**: `Failed to read Vault secret` errors
+Symptoms: `Failed to read Vault secret` errors
 
-**Solutions**:
+Solutions:
 
-1. **Verify secret exists**
+1. Verify secret exists
 
    ```bash
    vault kv get -namespace=<VAULT_NAMESPACE> <VAULT_SECRET_ROOT>/redisenterprise-<K8S_NAMESPACE>/<secret-name>
    ```
 
-2. **Check policy permissions**
+2. Check policy permissions
 
    ```bash
    vault policy read -namespace=<VAULT_NAMESPACE> redisenterprise-<K8S_NAMESPACE>
    ```
 
-3. **Validate secret format**
+3. Validate secret format
 
    ```bash
    # Cluster credentials must have 'username' and 'password' keys
@@ -617,40 +601,40 @@ kubectl exec -it <operator-pod> -n <K8S_NAMESPACE> -c redis-enterprise-operator 
 
 ### Vault configuration
 
-1. **Enable audit logging**
+1. Enable audit logging
 
    ```bash
    vault audit enable file file_path=/vault/logs/audit.log
    ```
 
-2. **Use least privilege policies**
+2. Use least privilege policies
    - Grant only necessary permissions to Redis Enterprise policies
    - Regularly review and update access policies
    - Use separate policies for different environments
 
-3. **Implement secret rotation**
+3. Implement secret rotation
    - Configure automatic rotation for database passwords
    - Use Vault's dynamic secrets when possible
    - Monitor secret access patterns
 
-4. **Secure network communication**
+4. Secure network communication
    - Always use TLS for Vault communication
    - Implement network policies to restrict access
    - Use private networks when possible
 
 ### Kubernetes security
 
-1. **Service account management**
+1. Service account management
    - Use dedicated service accounts for each Redis Enterprise deployment
    - Implement RBAC with minimal required permissions
    - Regularly audit service account usage
 
-2. **Secret management**
+2. Secret management
    - Never store secrets in container images or configuration files
    - Use Kubernetes secrets only for Vault CA certificates
    - Implement secret scanning in CI/CD pipelines
 
-3. **Network policies**
+3. Network policies
 
    ```yaml
    apiVersion: networking.k8s.io/v1
@@ -675,34 +659,34 @@ kubectl exec -it <operator-pod> -n <K8S_NAMESPACE> -c redis-enterprise-operator 
 
 ### Monitoring and alerting
 
-1. **Monitor Vault access**
+1. Monitor Vault access
    - Set up alerts for failed authentication attempts
    - Monitor secret access patterns
    - Track token usage and expiration
 
-2. **Redis Enterprise monitoring**
+2. Redis Enterprise monitoring
    - Monitor operator pod health and logs
    - Set up alerts for secret retrieval failures
    - Track cluster and database creation events
 
-3. **Security scanning**
+3. Security scanning
    - Regularly scan container images for vulnerabilities
    - Implement runtime security monitoring
    - Audit Vault policies and access patterns
 
 ### Compliance considerations
 
-1. **Data encryption**
+1. Data encryption
    - Ensure data is encrypted in transit and at rest
    - Use strong encryption algorithms
    - Regularly rotate encryption keys
 
-2. **Access control**
+2. Access control
    - Implement multi-factor authentication for Vault access
    - Use role-based access control (RBAC)
    - Maintain audit trails for all access
 
-3. **Backup and recovery**
+3. Backup and recovery
    - Regularly backup Vault data
    - Test disaster recovery procedures
    - Implement cross-region replication for high availability
