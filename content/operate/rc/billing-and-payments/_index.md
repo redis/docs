@@ -118,6 +118,8 @@ For any special circumstances that may warrant a refund, please contact [Support
 
 {{< embed-md "rc-cost-report-csv.md" >}}
 
+See [Cost report]({{< relref "/operate/rc/billing-and-payments/cost-report" >}}) and [How to download and visualize the cost report](https://support.redislabs.com/hc/en-us/articles/30042563097874-How-to-Download-and-Visualize-Redis-Cloud-Cost-Report) for more information.
+
 ## Troubleshoot
 
 See [Billing](https://support.redislabs.com/hc/en-us/categories/26174537325842-Billing) on the Redis knowledge base for help troubleshooting billing issues:

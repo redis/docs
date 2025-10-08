@@ -1,5 +1,3 @@
-## Billing Unit types
-
 The Redis Billing Unit types associated with your Pro subscription depend on your database memory size and throughput requirements.  
 
 | Billing unit type | Capacity (Memory/Throughput) |
