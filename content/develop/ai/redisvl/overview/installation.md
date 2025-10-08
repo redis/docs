@@ -79,3 +79,31 @@ This will also spin up the [Redis Insight GUI](https://redis.io/insight/) at `ht
 Redis Enterprise is a commercial offering that can be self-hosted. You can download the latest version [here](https://redis.io/downloads/).
 
 If you are considering a self-hosted Redis Enterprise deployment on Kubernetes, there is the [Redis Enterprise Operator](https://docs.redis.com/latest/kubernetes/) for Kubernetes. This will allow you to easily deploy and manage a Redis Enterprise cluster on Kubernetes.
+
+### Redis Sentinel
+
+For high availability deployments, RedisVL supports connecting to Redis through Sentinel. Use the `redis+sentinel://` URL scheme to connect:
+
+```python
+from redisvl.index import SearchIndex
+
+# Connect via Sentinel
+# Format: redis+sentinel://[username:password@]host1:port1,host2:port2/service_name[/db]
+index = SearchIndex.from_yaml(
+    "schema.yaml",
+    redis_url="redis+sentinel://sentinel1:26379,sentinel2:26379/mymaster"
+)
+
+# With authentication
+index = SearchIndex.from_yaml(
+    "schema.yaml",
+    redis_url="redis+sentinel://user:pass@sentinel1:26379,sentinel2:26379/mymaster/0"
+)
+```
+
+The Sentinel URL format supports:
+
+- Multiple sentinel hosts (comma-separated)
+- Optional authentication (username:password)
+- Service name (required - the name of the Redis master)
+- Optional database number (defaults to 0)
