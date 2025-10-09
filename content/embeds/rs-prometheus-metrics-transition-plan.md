@@ -29,7 +29,7 @@
 | <span class="break-all">bdb_main_thread_cpu_user_max</span></span> | <span class="break-all">`sum by(irate(namedprocess_namegroup_thread_cpu_seconds_total{mode="user", threadname=~"redis-server.*"}[1m]))`</span> | Highest value of % cores utilization in user mode for all Redis shard main threads of this database |
 | <span class="break-all">bdb_mem_frag_ratio</span> | <span class="break-all">`avg(redis_server_mem_fragmentation_ratio)`</span> | RAM fragmentation ratio (RSS / allocated RAM) |
 | <span class="break-all">bdb_mem_size_lua</span> | <span class="break-all">`sum by(db) (redis_server_used_memory_lua)`</span> | Redis lua scripting heap size (bytes) |
-| <span class="break-all">bdb_memory_limit</span> | <span class="break-all">`sum by(db) (redis_server_maxmemory)`</span> | Configured RAM limit for the database |
+| <span class="break-all">bdb_memory_limit</span> | <span class="break-all">`db_memory_limit_bytes`</span> | Configured RAM limit for the database |
 | <span class="break-all">bdb_monitor_sessions_count</span> | <span class="break-all">`sum by(db) (endpoint_monitor_sessions_count)`</span> | Number of clients connected in monitor mode to the database |
 | <span class="break-all">bdb_no_of_keys</span> | <span class="break-all">`sum by (db) (redis_server_db_keys{role="master"})`</span> | Number of keys in database |
 | <span class="break-all">bdb_other_req</span> | <span class="break-all">`sum by(db) (irate(endpoint_other_requests{db="$db"}[1m]))`</span> | Rate of other (non read/write) requests on the database (ops/sec) |
