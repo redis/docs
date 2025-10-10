@@ -648,71 +648,244 @@ https://redis.io/binder/v2/gh/redis/binder-launchers/<binderId>?urlpath=%2Fdoc%2
 https://redis.io/binder/v2/gh/redis/binder-launchers/6bbed3da294e8de5a8c2ad99abf883731a50d4dd?urlpath=%2Fdoc%2Ftree%2Fdemo.ipynb
 ```
 
-**Implementation in Hugo Template**:
+**Implementation in Hugo Templates**:
 
-The `layouts/shortcodes/clients-example.html` template should implement this feature as follows:
+The implementation spans two template files:
 
-**1. Access the binderId from template context**:
+**1. Extract and pass binderId in `layouts/partials/tabbed-clients-example.html`**:
 
-```go-html-template
-{{- $exampleSet := .Get "set" -}}
-{{- $exampleData := index $.Site.Data.examples $exampleSet -}}
-
-{{- range $lang, $langConfig := $.Site.Params.clientsexamples -}}
-  {{- $langData := index $exampleData $langConfig.label -}}
-  {{- if $langData -}}
-    {{- $binderId := $langData.binderId -}}
-    {{- /* binderId is now available for this language */ -}}
-  {{- end -}}
-{{- end -}}
-```
-
-**2. Construct the BinderHub URL**:
+In the loop that builds tabs for each language, extract the `binderId` and include it in the tab dictionary:
 
 ```go-html-template
-{{- if $binderId -}}
-  {{- $binderUrl := printf "https://redis.io/binder/v2/gh/redis/binder-launchers/%s?urlpath=%%2Fdoc%%2Ftree%%2Fdemo.ipynb" $binderId -}}
-{{- end -}}
+{{ $clientExamples := index $.Site.Data.examples $id }}
+{{ range $client := $.Site.Params.clientsexamples }}
+    {{ $example := index $clientExamples $client }}
+    {{ $clientConfig := index $.Site.Params.clientsconfig $client }}
+    {{ $language := index $example "language" }}
+    {{ $quickstartSlug := index $clientConfig "quickstartSlug" }}
+
+    {{ if and ($example) (or (eq $lang "") (strings.Contains $lang $client)) }}
+        {{ $examplePath := index $example "target" }}
+        {{ $options := printf "linenos=false" }}
+
+        {{/* ... highlight options logic ... */}}
+
+        {{ if hasPrefix $language "java" }}{{ $language = "java"}}{{ end }}
+        {{ $params := dict "language" $language "contentPath" $examplePath "options" $options }}
+        {{ $content := partial "tabs/source.html" $params }}
+
+        {{/* Extract binderId if it exists */}}
+        {{ $binderId := index $example "binderId" }}
+
+        {{ $tabs = $tabs | append (dict "title" $client "language" $client "quickstartSlug" $quickstartSlug "content" $content "sourceUrl" (index $example "sourceUrl") "binderId" $binderId) }}
+    {{ end }}
+{{ end }}
 ```
 
-**3. Render the link in the top bar**:
+**Key points**:
+- Extract `binderId` using `index $example "binderId"`
+- Add it to the tab dictionary alongside other tab data
+- If `binderId` doesn't exist, it will be `nil` (which is fine - handled later)
 
-The link should be placed in the top bar of the example box, alongside the existing menu icon. The exact HTML structure depends on the theme, but conceptually:
+**2. Add link container in `layouts/partials/tabs/wrapper.html` top bar**:
 
-```html
-<div class="example-top-bar">
-  <!-- Language selector -->
-  <select>...</select>
+Insert the BinderHub link container between the language selector and the control buttons:
 
-  <!-- BinderHub link (conditional) -->
-  {{ if $binderId }}
-  <a href="{{ $binderUrl }}"
-     target="_blank"
-     rel="noopener noreferrer"
-     class="binder-link"
-     title="Run this example in an interactive Jupyter notebook">
-    Run this example in the browser
-  </a>
-  {{ end }}
+```go-html-template
+<!-- Language selector dropdown with controls -->
+<div class="codetabs-header flex items-center justify-between px-4 py-2 bg-slate-900 rounded-t-lg">
+    <div class="flex items-center flex-1">
+        <label for="lang-select-{{ $id }}" class="text-xs text-slate-400 mr-3 whitespace-nowrap">Language:</label>
+        <select id="lang-select-{{ $id }}"
+                class="lang-selector max-w-xs px-3 py-2 text-sm bg-slate-700 text-white border border-slate-600 rounded-md cursor-pointer
+                       hover:bg-slate-600 focus:outline-none
+                       transition duration-150 ease-in-out appearance-none"
+                data-codetabs-id="{{ $id }}">
+            {{/* ... options ... */}}
+        </select>
+    </div>
 
-  <!-- Menu icon -->
-  <button class="menu-icon">...</button>
+    {{/* BinderHub "Run in browser" link - shown conditionally based on current tab's binderId */}}
+    <div id="binder-link-container-{{ $id }}" class="flex items-center ml-4">
+        {{/* Link will be shown/hidden by JavaScript based on selected tab */}}
+    </div>
+
+    <div class="flex items-center gap-2 ml-2">
+        {{/* Visibility toggle button */}}
+        {{/* Copy to clipboard button */}}
+    </div>
 </div>
 ```
 
-**4. Styling considerations**:
+**Placement notes**:
+- Container is placed **after** the language selector (`flex-1` div)
+- Container is placed **before** the control buttons (visibility/copy)
+- `ml-4` adds left margin to separate from language selector
+- `ml-2` on buttons div adds small gap between link and buttons
+- Container starts empty - JavaScript will populate it
 
-- Link should be visually distinct but not overwhelming
-- Should work on mobile devices (may need to be icon-only on small screens)
-- Should indicate it opens in a new tab/window
-- Consider adding a BinderHub icon for visual recognition
+**3. Add binderId data attribute to tab panels**:
+
+In the tab panels loop, add the `data-binder-id` attribute if `binderId` exists:
+
+```go-html-template
+<!-- Tab panels -->
+{{ range $i, $tab := $tabs }}
+    {{ $tid := printf "%s_%s" (replace (replace (index $tab "title") "#" "sharp") "." "") $id }}
+    {{ $pid := printf "panel_%s" $tid }}
+    {{ $dataLang := replace (or (index $tab "language") "redis-cli") "C#" "dotnet" }}
+    {{ $dataLang := replace $dataLang "." "-" }}
+    {{ $binderId := index $tab "binderId" }}
+
+    <div class="panel {{ if ne $i 0 }}panel-hidden{{ end }} w-full mt-0 {{ if not $showFooter}}pb-8{{end}}"
+         id="{{ $pid }}"
+         data-lang="{{ $dataLang }}"
+         {{ if $binderId }}data-binder-id="{{ $binderId }}"{{ end }}
+         data-codetabs-id="{{ $id }}"
+         role="tabpanel"
+         tabindex="0"
+         aria-labelledby="lang-select-{{ $id }}">
+        {{/* ... panel content ... */}}
+    </div>
+{{ end }}
+```
+
+**Key points**:
+- Extract `binderId` from tab data
+- Only add `data-binder-id` attribute if `binderId` exists (conditional)
+- Add `data-codetabs-id` to match panels to their container
+- Both attributes are used by JavaScript to find and update the link
+
+**4. Add JavaScript to handle link display and updates**:
+
+Add this script at the end of `layouts/partials/tabs/wrapper.html` (after the closing `</div>` of the codetabs container):
+
+```html
+<script>
+(function() {
+    // Initialize BinderHub link for this codetabs instance
+    const codetabsId = '{{ $id }}';
+    const container = document.getElementById('binder-link-container-' + codetabsId);
+    const langSelect = document.getElementById('lang-select-' + codetabsId);
+
+    function updateBinderLink() {
+        if (!container || !langSelect) return;
+
+        // Get the currently selected tab index
+        const selectedOption = langSelect.options[langSelect.selectedIndex];
+        const tabIndex = parseInt(selectedOption.getAttribute('data-index'));
+
+        // Find the corresponding panel
+        const panels = document.querySelectorAll('[data-codetabs-id="' + codetabsId + '"].panel');
+        if (!panels || tabIndex >= panels.length) return;
+
+        const currentPanel = panels[tabIndex];
+        const binderId = currentPanel.getAttribute('data-binder-id');
+
+        // Clear existing content
+        container.innerHTML = '';
+
+        // If binderId exists, create and show the link
+        if (binderId) {
+            const binderUrl = 'https://redis.io/binder/v2/gh/redis/binder-launchers/' +
+                            binderId +
+                            '?urlpath=%2Fdoc%2Ftree%2Fdemo.ipynb';
+
+            const link = document.createElement('a');
+            link.href = binderUrl;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            link.className = 'text-xs text-slate-300 hover:text-white hover:underline whitespace-nowrap flex items-center gap-1';
+            link.title = 'Run this example in an interactive Jupyter notebook';
+
+            // Add Binder icon (play icon)
+            link.innerHTML = `
+                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+                <span>Run in browser</span>
+            `;
+
+            container.appendChild(link);
+        }
+    }
+
+    // Initialize on page load
+    updateBinderLink();
+
+    // Update when language changes (in addition to existing language change handler)
+    if (langSelect) {
+        langSelect.addEventListener('change', updateBinderLink);
+    }
+})();
+</script>
+```
+
+**JavaScript implementation details**:
+
+**Function: `updateBinderLink()`**
+- **Purpose**: Show or hide the BinderHub link based on the currently selected language tab
+- **Trigger**: Called on page load and when language selector changes
+
+**Step-by-step logic**:
+1. **Get references**: Find the link container and language selector by ID
+2. **Get selected tab index**: Read `data-index` attribute from selected option
+3. **Find corresponding panel**: Query all panels with matching `data-codetabs-id`
+4. **Read binderId**: Get `data-binder-id` attribute from current panel
+5. **Clear container**: Remove any existing link (important for language switches)
+6. **Conditional rendering**:
+   - If `binderId` exists: Create link element with proper URL and append to container
+   - If `binderId` is null/undefined: Container remains empty (no link shown)
+
+**URL construction**:
+```javascript
+const binderUrl = 'https://redis.io/binder/v2/gh/redis/binder-launchers/' +
+                binderId +
+                '?urlpath=%2Fdoc%2Ftree%2Fdemo.ipynb';
+```
+- Base URL + commit hash + URL-encoded path
+- `%2F` is the URL-encoded form of `/`
+- Path is constant: `/doc/tree/demo.ipynb`
+
+**Link element properties**:
+- `target="_blank"`: Opens in new tab
+- `rel="noopener noreferrer"`: Security best practice for external links
+- `className`: Tailwind CSS classes for styling (small text, hover effects, flex layout)
+- `title`: Tooltip text for accessibility
+- `innerHTML`: SVG play icon + text label
+
+**Event handling**:
+- **Page load**: IIFE executes immediately, calls `updateBinderLink()`
+- **Language change**: Event listener on `<select>` element calls `updateBinderLink()`
+- **Scoped variables**: IIFE prevents global namespace pollution
+
+**Why JavaScript instead of Hugo template**:
+- Hugo templates are static - can't respond to language selector changes
+- Each codetabs instance can have multiple languages with different `binderId` values
+- Need to dynamically show/hide link based on user's language selection
+- JavaScript allows real-time updates without page reload
 
 **Data Flow**:
 
 1. **Build time**: Python scripts extract `BINDER_ID` from source files → store in `data/examples.json`
-2. **Hugo build**: Template reads `binderId` from `$.Site.Data.examples[exampleSet][language].binderId`
-3. **Template logic**: If `binderId` exists, construct URL and render link
-4. **Runtime**: User clicks link → opens BinderHub in new tab
+2. **Hugo build**:
+   - Template reads `binderId` from `$.Site.Data.examples[exampleSet][language].binderId`
+   - Passes `binderId` through tab data structure
+   - Adds `data-binder-id` attribute to panel HTML
+   - Creates empty container for link
+   - Embeds JavaScript with template variable `{{ $id }}`
+3. **Page load (JavaScript runtime)**:
+   - Script executes in IIFE
+   - Finds container and selector using `codetabsId`
+   - Reads `data-binder-id` from currently visible panel
+   - Creates link element if `binderId` exists
+   - Appends link to container
+4. **User interaction**:
+   - User changes language selector
+   - Event listener triggers `updateBinderLink()`
+   - Script finds new panel, reads its `data-binder-id`
+   - Clears container and recreates link (or leaves empty)
+5. **Link click**: Opens BinderHub in new tab with constructed URL
 
 **Important Notes**:
 
@@ -721,6 +894,68 @@ The link should be placed in the top bar of the example box, alongside the exist
 - **Notebook filename is constant**: Always use `demo.ipynb` - the BinderHub launcher repository handles routing to the correct example
 - **URL encoding**: The `?urlpath=%2Fdoc%2Ftree%2Fdemo.ipynb` part is URL-encoded (`%2F` = `/`)
 - **External dependency**: Requires the `redis/binder-launchers` repository to be properly configured with the commit referenced by `binderId`
+
+**Implementation Gotchas and Edge Cases**:
+
+1. **Empty container initialization**:
+   - The link container `<div id="binder-link-container-{{ $id }}">` is intentionally empty in the Hugo template
+   - JavaScript populates it dynamically based on the selected tab
+   - **Why**: Hugo templates are static and can't respond to language selector changes
+   - **Don't**: Try to render the link in Hugo template with conditionals - it won't update when user changes language
+
+2. **Container clearing is critical**:
+   - `container.innerHTML = ''` must be called before checking `binderId`
+   - **Why**: When user switches from a language with `binderId` to one without, the old link must be removed
+   - **Without clearing**: Link from previous language would remain visible incorrectly
+
+3. **Play icon instead of text-only**:
+   - Link includes an SVG play icon (`<path d="M8 5v14l11-7z"/>`)
+   - **Why**: Visual indicator that this is an interactive/executable feature
+   - **Benefit**: Recognizable across languages, saves horizontal space
+   - **Alternative**: Could use BinderHub's official logo, but play icon is simpler
+
+4. **Importance of `data-codetabs-id` attribute**:
+   - Both the container and panels need `data-codetabs-id="{{ $id }}"` attribute
+   - **Why**: Multiple example boxes can exist on the same page
+   - **Purpose**: Ensures JavaScript matches the correct panels to the correct container
+   - **Without it**: JavaScript might update the wrong container or fail to find panels
+
+5. **IIFE (Immediately Invoked Function Expression)**:
+   - Script is wrapped in `(function() { ... })();`
+   - **Why**: Creates a closure to avoid polluting global namespace
+   - **Benefit**: Multiple codetabs instances on same page don't interfere with each other
+   - **Variables**: `codetabsId`, `container`, `langSelect`, `updateBinderLink` are scoped to this instance
+
+6. **Event listener doesn't replace existing handlers**:
+   - Uses `addEventListener('change', updateBinderLink)` instead of `onchange=`
+   - **Why**: Existing language selector change handler (for tab switching) must continue to work
+   - **Benefit**: Multiple handlers can coexist on the same element
+   - **Order**: BinderHub link updates after tab switching completes
+
+7. **Null/undefined binderId handling**:
+   - `if (binderId)` check handles both `null` and `undefined`
+   - **When null**: Hugo template didn't add `data-binder-id` attribute (no `binderId` in metadata)
+   - **When undefined**: `getAttribute()` returns `null` if attribute doesn't exist
+   - **Result**: Container remains empty, no broken link shown
+
+8. **CSS classes for responsive design**:
+   - `text-xs`: Small text size to fit in top bar
+   - `whitespace-nowrap`: Prevents text wrapping on narrow screens
+   - `flex items-center gap-1`: Aligns icon and text horizontally with small gap
+   - `hover:text-white hover:underline`: Visual feedback on hover
+   - **Mobile consideration**: May need media queries to hide text and show icon-only on very small screens
+
+9. **Timing of script execution**:
+   - Script is at the end of the template (after all HTML)
+   - **Why**: Ensures DOM elements exist before JavaScript tries to access them
+   - **Alternative**: Could use `DOMContentLoaded` event, but not necessary here
+   - **Benefit**: Simpler code, immediate execution
+
+10. **Hugo template variable in JavaScript**:
+    - `const codetabsId = '{{ $id }}';` embeds Hugo variable in JavaScript
+    - **How it works**: Hugo processes template first, outputs static HTML with JavaScript
+    - **Result**: Each codetabs instance gets a unique ID in its script
+    - **Example output**: `const codetabsId = 'landing-stepconnect';`
 
 **Relationship to Manual Links**:
 
@@ -1360,25 +1595,63 @@ ModuleNotFoundError: No module named 'pytoml'
 **BinderHub "Run in browser" link issues**:
 - **Symptom 1**: Link not appearing in example box
   - **Cause 1**: No `binderId` in metadata
-    - **Debug**: Check `data/examples.json` for the example set and language
-    - **Fix**: Add `BINDER_ID` marker to source file and rebuild
-  - **Cause 2**: Template conditional not checking for `binderId`
-    - **Debug**: Inspect `layouts/shortcodes/clients-example.html` template
-    - **Fix**: Ensure template has `{{ if $binderId }}` conditional around link
-  - **Cause 3**: Wrong variable name in template
-    - **Debug**: Check template is accessing `$langData.binderId` correctly
-    - **Fix**: Verify variable names match the data structure in `examples.json`
+    - **Debug**:
+      ```bash
+      # Check if binderId exists in metadata
+      python3 -c "import json; data = json.load(open('data/examples.json')); print(data['example_id']['Python'].get('binderId'))"
+      ```
+    - **Fix**: Add `BINDER_ID` marker to source file and rebuild with `python3 build/local_examples.py`
+
+  - **Cause 2**: `data-binder-id` attribute missing from HTML
+    - **Debug**:
+      1. Open page in browser
+      2. Right-click on example box → Inspect
+      3. Find the panel div (class `panel`)
+      4. Check if it has `data-binder-id` attribute
+    - **Expected**: `<div class="panel" ... data-binder-id="6bbed3da294e8de5a8c2ad99abf883731a50d4dd" ...>`
+    - **If missing**: Template not passing `binderId` through tab data
+    - **Fix**: Verify `layouts/partials/tabbed-clients-example.html` includes `"binderId" $binderId` in tab dict
+
+  - **Cause 3**: JavaScript not executing
+    - **Debug**:
+      1. Open browser console (F12 → Console tab)
+      2. Look for JavaScript errors
+      3. Type: `document.getElementById('binder-link-container-landing-stepconnect')` (replace with actual ID)
+      4. Should return the container element, not `null`
+    - **If null**: Container div not rendered or ID mismatch
+    - **Fix**: Check `layouts/partials/tabs/wrapper.html` has container div with correct ID format
+
+  - **Cause 4**: JavaScript can't find panels
+    - **Debug**:
+      1. Open browser console
+      2. Type: `document.querySelectorAll('[data-codetabs-id="landing-stepconnect"].panel')` (replace with actual ID)
+      3. Should return NodeList with panel elements
+    - **If empty**: Panels missing `data-codetabs-id` attribute
+    - **Fix**: Add `data-codetabs-id="{{ $id }}"` to panel divs in wrapper template
 
 - **Symptom 2**: Link appears but URL is malformed
-  - **Cause 1**: Missing URL encoding in template
-    - **Expected**: `?urlpath=%2Fdoc%2Ftree%2Fdemo.ipynb`
-    - **Wrong**: `?urlpath=/doc/tree/demo.ipynb`
-    - **Fix**: Use `%%2F` (double percent) in `printf` to get `%2F` in output
+  - **Cause 1**: Missing URL encoding in JavaScript
+    - **Debug**:
+      1. Right-click link → Inspect
+      2. Check `href` attribute value
+      3. Or hover over link and check browser status bar
+    - **Expected**: `https://redis.io/binder/v2/gh/redis/binder-launchers/6bbed3da294e8de5a8c2ad99abf883731a50d4dd?urlpath=%2Fdoc%2Ftree%2Fdemo.ipynb`
+    - **Wrong**: `?urlpath=/doc/tree/demo.ipynb` (missing `%2F` encoding)
+    - **Fix**: JavaScript should use `%2F` directly (not `%%2F` - that's for Hugo templates)
+    - **Correct code**: `'?urlpath=%2Fdoc%2Ftree%2Fdemo.ipynb'`
+
   - **Cause 2**: Wrong notebook filename
+    - **Debug**: Check URL ends with `demo.ipynb`
     - **Fix**: Always use `demo.ipynb` - do not change per example
-  - **Cause 3**: `binderId` variable is empty or undefined
-    - **Debug**: Add template debugging: `{{ printf "%#v" $binderId }}`
-    - **Fix**: Ensure `binderId` is extracted from correct language data
+
+  - **Cause 3**: `binderId` value is incorrect in JavaScript
+    - **Debug**:
+      1. Open browser console
+      2. Find the current panel: `document.querySelector('.panel:not(.panel-hidden)')`
+      3. Check attribute: `panel.getAttribute('data-binder-id')`
+      4. Should be 40-character hex string
+    - **If wrong**: Check metadata in `data/examples.json`
+    - **Fix**: Verify `BINDER_ID` in source file is correct commit hash
 
 - **Symptom 3**: Link opens but BinderHub shows error
   - **Cause 1**: Invalid commit hash in `binderId`
@@ -1393,10 +1666,57 @@ ModuleNotFoundError: No module named 'pytoml'
   - **Fix**: Ensure the `redis/binder-launchers` repository has the necessary kernel configuration
   - **Note**: Jupyter notebooks can run multiple languages (Python, Node.js, Java, etc.) through kernels
 
-- **Symptom 5**: Link text or styling is wrong
+- **Symptom 5**: Link doesn't update when changing languages
+  - **Cause 1**: Event listener not attached
+    - **Debug**:
+      1. Open browser console
+      2. Change language selector
+      3. Check if `updateBinderLink()` is called (add `console.log` to function)
+    - **Fix**: Verify `langSelect.addEventListener('change', updateBinderLink)` is in script
+
+  - **Cause 2**: Container not being cleared
+    - **Debug**:
+      1. Switch from language with `binderId` to one without
+      2. Check if old link remains visible
+    - **Fix**: Ensure `container.innerHTML = ''` is called at start of `updateBinderLink()`
+
+  - **Cause 3**: Wrong panel being queried
+    - **Debug**:
+      1. Add to script: `console.log('Tab index:', tabIndex, 'Panel:', currentPanel)`
+      2. Change language and check console output
+    - **Fix**: Verify `data-index` attribute on `<option>` elements matches panel order
+
+- **Symptom 6**: Link text or styling is wrong
   - **Cause**: CSS classes or HTML structure doesn't match theme
-  - **Debug**: Inspect browser developer tools for CSS issues
+  - **Debug**:
+    1. Right-click link → Inspect
+    2. Check computed styles in browser dev tools
+    3. Verify Tailwind classes are being applied
+  - **Expected classes**: `text-xs text-slate-300 hover:text-white hover:underline whitespace-nowrap flex items-center gap-1`
   - **Fix**: Update template HTML/CSS to match theme's design system
+
+- **Symptom 7**: Multiple links appear or wrong link shown
+  - **Cause**: Multiple codetabs instances interfering with each other
+  - **Debug**:
+    1. Check page has multiple example boxes
+    2. Verify each has unique `data-codetabs-id`
+    3. Console: `document.querySelectorAll('[id^="binder-link-container-"]')`
+  - **Fix**: Ensure each codetabs instance has unique `{{ $id }}` value
+  - **Prevention**: IIFE scope prevents variable conflicts
+
+- **Symptom 8**: JavaScript errors in console
+  - **Common errors**:
+    - `Cannot read property 'getAttribute' of undefined`: Panel not found
+      - **Fix**: Check `data-codetabs-id` matches between container and panels
+    - `container is null`: Container div not rendered
+      - **Fix**: Verify container div exists in wrapper template
+    - `langSelect is null`: Language selector not found
+      - **Fix**: Check `id="lang-select-{{ $id }}"` on select element
+  - **Debug approach**:
+    1. Note the error message and line number
+    2. Check which variable is null/undefined
+    3. Verify the corresponding HTML element exists with correct ID
+    4. Check for typos in ID construction
 
 ### Performance Issues
 
