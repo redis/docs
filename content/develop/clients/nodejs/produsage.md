@@ -116,5 +116,5 @@ lets a client take action to avoid disruptions in service.
 
 See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
 for more information about SCH and
-[Connect using Smart client handoffs]({{< relref "/develop/clients/nodejs/connect#connect-using-seamless-client-experience-sce" >}})
+[Connect using Smart client handoffs]({{< relref "/develop/clients/nodejs/connect#connect-using-smart-client-handoffs-sch" >}})
 for example code.

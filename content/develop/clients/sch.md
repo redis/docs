@@ -59,7 +59,7 @@ configure some parameters, such as the timeouts to use
 during maintenance.
 See the pages linked below to learn how to configure SCH for:
 
-- [redis-py]({{< relref "/develop/clients/redis-py/connect#connect-using-seamless-client-experience-sce" >}})
-- [node-redis]({{< relref "/develop/clients/nodejs/connect#connect-using-seamless-client-experience-sce" >}})
-- [Lettuce]({{< relref "/develop/clients/lettuce/connect#connect-using-seamless-client-experience-sce" >}})
-- [go-redis]({{< relref "/develop/clients/go/connect#connect-using-seamless-client-experience-sce" >}})
+- [redis-py]({{< relref "/develop/clients/redis-py/connect#connect-using-smart-client-handoffs-sch" >}})
+- [node-redis]({{< relref "/develop/clients/nodejs/connect#connect-using-smart-client-handoffs-sch" >}})
+- [Lettuce]({{< relref "/develop/clients/lettuce/connect#connect-using-smart-client-handoffs-sch" >}})
+- [go-redis]({{< relref "/develop/clients/go/connect#connect-using-smart-client-handoffs-sch" >}})
