@@ -1,7 +1,6 @@
 # EXAMPLE: landing
-# REMOVE_START
+# BINDER_ID 6bbed3da294e8de5a8c2ad99abf883731a50d4dd
 import redis
-# REMOVE_END
 
 # STEP_START connect
 r = redis.Redis(host='localhost', port=6379, decode_responses=True)

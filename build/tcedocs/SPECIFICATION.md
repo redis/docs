@@ -299,24 +299,84 @@ This allows the same language to appear multiple times in the tab interface with
 **Purpose**: Parse and process individual example files
 
 **Special Comment Markers**:
-- `EXAMPLE: {id}`: Defines the example identifier
+- `EXAMPLE: {id}`: Defines the example identifier (required, must be first line)
+- `BINDER_ID {hash}`: Defines the BinderHub commit hash for interactive notebook link (optional)
 - `HIDE_START` / `HIDE_END`: Code blocks hidden by default (revealed with eye button)
 - `REMOVE_START` / `REMOVE_END`: Code blocks completely removed from display
 - `STEP_START {name}` / `STEP_END`: Named code blocks for step-by-step examples
 
+**BINDER_ID Marker**:
+
+The `BINDER_ID` marker provides a commit hash for [BinderHub](https://binderhub.readthedocs.io/en/latest/) integration, allowing users to run examples in an interactive Jupyter notebook environment.
+
+**Syntax**:
+```python
+# EXAMPLE: example_id
+# BINDER_ID 6bbed3da294e8de5a8c2ad99abf883731a50d4dd
+```
+
+**Requirements**:
+- Must appear after the `EXAMPLE:` marker (typically on line 2)
+- Must use the language's comment prefix (e.g., `#` for Python, `//` for JavaScript)
+- The hash value is a Git commit SHA from the binder-launchers repository
+- Only one `BINDER_ID` per example file
+- Optional - not all examples need BinderHub integration
+
+**Usage**:
+The hash is used to construct a BinderHub URL like:
+```
+https://redis.io/binder/v2/gh/redis/binder-launchers/{hash}?urlpath=%2Fdoc%2Ftree%2Fdemo.ipynb
+```
+
+This allows documentation to include "Try this in Jupyter" links that launch interactive notebook environments with the example pre-loaded.
+
 **Processing Algorithm**:
 1. Read file line by line
 2. Detect special comment markers (using language-specific comment prefix)
-3. Track hidden/highlighted/removed ranges
-4. Extract named steps
-5. Filter out test markers and removed blocks
-6. Generate metadata (highlight ranges, hidden ranges, named steps)
-7. Write processed content back to file (in-place modification)
+3. Extract example ID from `EXAMPLE:` marker (line 1)
+4. Extract BinderHub hash from `BINDER_ID` marker if present (typically line 2)
+5. Track hidden/highlighted/removed ranges
+6. Extract named steps with `STEP_START`/`STEP_END`
+7. Filter out test markers and removed blocks
+8. Generate metadata (highlight ranges, hidden ranges, named steps, binder ID)
+9. Write processed content back to file (in-place modification)
+
+**BINDER_ID Extraction Details**:
+
+The parser should implement the following logic in `build/components/example.py`:
+
+1. **Detection**: After reading the `EXAMPLE:` line, check subsequent lines for `BINDER_ID` marker
+   - Look for the pattern: `{comment_prefix} BINDER_ID {hash}`
+   - Example for Python: `# BINDER_ID 6bbed3da294e8de5a8c2ad99abf883731a50d4dd`
+   - Example for JavaScript: `// BINDER_ID 6bbed3da294e8de5a8c2ad99abf883731a50d4dd`
+
+2. **Extraction**: Parse the hash value
+   - Strip the comment prefix and `BINDER_ID` keyword
+   - Trim whitespace from the remaining string
+   - The result should be a 40-character Git commit SHA (hexadecimal)
+   - Example regex pattern: `{comment_prefix}\s*BINDER_ID\s+([a-f0-9]{40})`
+
+3. **Validation** (optional but recommended):
+   - Verify the hash is exactly 40 characters
+   - Verify it contains only hexadecimal characters (0-9, a-f)
+   - Log a warning if validation fails but continue processing
+
+4. **Storage**: Add to metadata
+   - Store in the language-specific metadata object as `binderId`
+   - Type: string
+   - Only include the field if `BINDER_ID` marker was found
+   - Do not set to null or empty string if not found - omit the field entirely
+
+5. **Line Processing**: The `BINDER_ID` line should be treated like `EXAMPLE:`
+   - It should NOT appear in the processed output file
+   - It should NOT affect line number calculations for highlight/hidden ranges
+   - Remove it during processing (similar to how `EXAMPLE:` line is handled)
 
 **Output Metadata** (stored in `examples.json`):
 - `highlight`: Line ranges to highlight (e.g., `["1-10", "15-20"]`)
 - `hidden`: Line ranges initially hidden (e.g., `["5-8"]`)
 - `named_steps`: Map of step names to line ranges (e.g., `{"connect": "1-5"}`)
+- `binderId`: BinderHub commit hash (optional, e.g., `"6bbed3da294e8de5a8c2ad99abf883731a50d4dd"`)
 
 > **Note**: For language-specific configuration (comment prefixes, test markers), see [Appendix: Language Mappings](#language-mappings).
 
@@ -1182,7 +1242,8 @@ In Markdown files:
       "named_steps": {
         "step_name": "1-5"
       },
-      "sourceUrl": "https://github.com/..."
+      "sourceUrl": "https://github.com/...",
+      "binderId": "6bbed3da294e8de5a8c2ad99abf883731a50d4dd"
     }
   }
 }
@@ -1196,12 +1257,20 @@ In Markdown files:
 - `hidden`: Line ranges initially hidden (revealed with eye button)
 - `named_steps`: Map of step names to line ranges
 - `sourceUrl`: GitHub link to original source (null for local examples)
+- `binderId`: **Optional** - BinderHub commit hash for interactive notebook link (string, only present if `BINDER_ID` marker exists in source file)
+
+**Metadata Hierarchy**:
+- The `binderId` field is stored **per-language**, not per-example-set
+- This allows different languages to have different BinderHub configurations
+- Example: Python might have a BinderHub link, while Node.js doesn't
+- If `BINDER_ID` marker is not present in the source file, the `binderId` field should be omitted entirely (not set to null or empty string)
 
 ### Special Comment Reference
 
 | Marker | Purpose | Example | Notes |
 |--------|---------|---------|-------|
 | `EXAMPLE: id` | Define example ID | `# EXAMPLE: home_vecsets` | Must be first line |
+| `BINDER_ID hash` | Define BinderHub commit hash | `# BINDER_ID 6bbed3da294e8de5a8c2ad99abf883731a50d4dd` | Optional, typically line 2. Used to generate interactive notebook links. Hash is a Git commit SHA from binder-launchers repo. |
 | `HIDE_START` | Start hidden block | `# HIDE_START` | Code hidden by default |
 | `HIDE_END` | End hidden block | `# HIDE_END` | Must close HIDE_START |
 | `REMOVE_START` | Start removed block | `# REMOVE_START` | Code completely removed |

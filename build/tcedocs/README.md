@@ -111,7 +111,8 @@ The `TEST_MARKER` dictionary maps programming languages to test framework annota
 
 Each code example uses special comments, such as `HIDE_START` and `REMOVE_START`, to control how the examples are displayed. The following list gives an explanation:
 
-- `EXAMPLE id`: Defines the identifier of the source code example file, where `id` is any common string (for example, `cmds_string`). IDs should only contain ASCII alphanumeric characters, underline characters (`_`), or hyphen characters (`-`). Do not use multibyte characters.
+- `EXAMPLE: id`: Defines the identifier of the source code example file, where `id` is any common string (for example, `cmds_string`). IDs should only contain ASCII alphanumeric characters, underline characters (`_`), or hyphen characters (`-`). Do not use multibyte characters.
+- `BINDER_ID id`: Defines the [BinderHub](https://binderhub.readthedocs.io/en/latest/) commit hash for the example. This is used to generate a link to a BinderHub instance that will run the example.
 - `HIDE_START`: Starts a code block that should be *hidden* when showing the example. This code block will only become visible if **unhide** (the eye button) is clicked.
 - `HIDE_END`: Marks the end a hidden code block.
 - `REMOVE_START`: Starts a code block that should be entirely removed when the example is processed by the build code. This is useful for removing lines of code that do not contribute to the example but are needed to embed the code into a proper test case or framework. Good examples of such code blocks are imports of external libraries or test assertions.
