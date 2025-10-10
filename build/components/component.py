@@ -273,6 +273,11 @@ class Client(Component):
                 example_metadata['sourceUrl'] = (
                     f'{ex["git_uri"]}/tree/{default_branch}/{ex["path"]}/{os.path.basename(f)}'
                 )
+
+                # Add binderId only if it exists
+                if e.binder_id:
+                    example_metadata['binderId'] = e.binder_id
+
                 examples = self._root._examples
                 if example_id not in examples:
                     examples[example_id] = {}

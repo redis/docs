@@ -180,6 +180,10 @@ def process_local_examples(local_examples_dir: str = 'local_examples',
                 'sourceUrl': None  # Local examples don't have source URLs
             }
 
+            # Add binderId only if it exists
+            if example.binder_id:
+                example_metadata['binderId'] = example.binder_id
+
             examples_data[example_id][client_name] = example_metadata
             logging.info(f"Processed {client_name} example for {example_id}")
 

@@ -48,7 +48,11 @@
         {{ if hasPrefix $language "java" }}{{ $language = "java"}}{{ end }}
         {{ $params := dict "language" $language "contentPath" $examplePath "options" $options }}
         {{ $content := partial "tabs/source.html" $params }}
-        {{ $tabs = $tabs | append (dict "title" $client "language" $client "quickstartSlug" $quickstartSlug "content" $content "sourceUrl" (index $example "sourceUrl")) }}
+
+        {{/* Extract binderId if it exists */}}
+        {{ $binderId := index $example "binderId" }}
+
+        {{ $tabs = $tabs | append (dict "title" $client "language" $client "quickstartSlug" $quickstartSlug "content" $content "sourceUrl" (index $example "sourceUrl") "binderId" $binderId) }}
     {{ end }}
 {{ end }}
 
