@@ -345,32 +345,186 @@ This allows documentation to include "Try this in Jupyter" links that launch int
 
 The parser should implement the following logic in `build/components/example.py`:
 
-1. **Detection**: After reading the `EXAMPLE:` line, check subsequent lines for `BINDER_ID` marker
-   - Look for the pattern: `{comment_prefix} BINDER_ID {hash}`
-   - Example for Python: `# BINDER_ID 6bbed3da294e8de5a8c2ad99abf883731a50d4dd`
-   - Example for JavaScript: `// BINDER_ID 6bbed3da294e8de5a8c2ad99abf883731a50d4dd`
+**1. Add Constant and Class Attribute**:
 
-2. **Extraction**: Parse the hash value
-   - Strip the comment prefix and `BINDER_ID` keyword
-   - Trim whitespace from the remaining string
-   - The result should be a 40-character Git commit SHA (hexadecimal)
-   - Example regex pattern: `{comment_prefix}\s*BINDER_ID\s+([a-f0-9]{40})`
+First, add the constant at the top of the file with other marker constants:
+```python
+BINDER_ID = 'BINDER_ID'
+```
 
-3. **Validation** (optional but recommended):
-   - Verify the hash is exactly 40 characters
-   - Verify it contains only hexadecimal characters (0-9, a-f)
-   - Log a warning if validation fails but continue processing
+Add the attribute to the `Example` class:
+```python
+class Example(object):
+    language = None
+    path = None
+    content = None
+    hidden = None
+    highlight = None
+    named_steps = None
+    binder_id = None  # Add this
+```
 
-4. **Storage**: Add to metadata
-   - Store in the language-specific metadata object as `binderId`
-   - Type: string
-   - Only include the field if `BINDER_ID` marker was found
-   - Do not set to null or empty string if not found - omit the field entirely
+Initialize in `__init__`:
+```python
+self.binder_id = None
+```
 
-5. **Line Processing**: The `BINDER_ID` line should be treated like `EXAMPLE:`
-   - It should NOT appear in the processed output file
-   - It should NOT affect line number calculations for highlight/hidden ranges
-   - Remove it during processing (similar to how `EXAMPLE:` line is handled)
+**2. Compile Regex Pattern**:
+
+In the `make_ranges()` method, add the regex pattern compilation alongside other patterns (after `exid` pattern):
+```python
+exid = re.compile(f'{PREFIXES[self.language]}\\s?{EXAMPLE}')
+binder = re.compile(f'{PREFIXES[self.language]}\\s?{BINDER_ID}\\s+([a-f0-9]{{40}})')
+go_output = re.compile(f'{PREFIXES[self.language]}\\s?{GO_OUTPUT}')
+```
+
+**Pattern explanation**:
+- `{PREFIXES[self.language]}` - Language-specific comment prefix (e.g., `#` or `//`)
+- `\\s?` - Optional whitespace after comment prefix
+- `{BINDER_ID}` - The literal string "BINDER_ID"
+- `\\s+` - Required whitespace before hash
+- `([a-f0-9]{40})` - Capture group for exactly 40 hexadecimal characters
+
+**3. Detection and Extraction**:
+
+Add detection logic in the main processing loop, **after** the `EXAMPLE:` check and **before** the `GO_OUTPUT` check:
+
+```python
+elif re.search(exid, l):
+    output = False
+    pass
+elif re.search(binder, l):
+    # Extract BINDER_ID hash value
+    match = re.search(binder, l)
+    if match:
+        self.binder_id = match.group(1)
+        logging.debug(f'Found BINDER_ID: {self.binder_id} in {self.path}:L{curr+1}')
+    output = False  # CRITICAL: Skip this line from output
+elif self.language == "go" and re.search(go_output, l):
+    # ... rest of processing
+```
+
+**Critical implementation details**:
+- **Must set `output = False`**: This prevents the line from being added to the `content` array
+- **Placement matters**: Must be in the `elif` chain, not a separate `if` statement
+- **No `content.append(l)`**: The line is skipped entirely, just like `EXAMPLE:` lines
+- **Extract before setting output**: Get the hash value before marking the line to skip
+
+**4. Storage in Metadata**:
+
+In `build/local_examples.py`, add the `binderId` field conditionally after creating the metadata dictionary:
+
+```python
+example_metadata = {
+    'source': source_file,
+    'language': language,
+    'target': target_file,
+    'highlight': example.highlight,
+    'hidden': example.hidden,
+    'named_steps': example.named_steps,
+    'sourceUrl': None
+}
+
+# Add binderId only if it exists
+if example.binder_id:
+    example_metadata['binderId'] = example.binder_id
+
+examples_data[example_id][client_name] = example_metadata
+```
+
+In `build/components/component.py`, add similarly after setting other metadata fields:
+
+```python
+example_metadata['highlight'] = e.highlight
+example_metadata['hidden'] = e.hidden
+example_metadata['named_steps'] = e.named_steps
+example_metadata['sourceUrl'] = (
+    f'{ex["git_uri"]}/tree/{default_branch}/{ex["path"]}/{os.path.basename(f)}'
+)
+
+# Add binderId only if it exists
+if e.binder_id:
+    example_metadata['binderId'] = e.binder_id
+
+examples = self._root._examples
+```
+
+**Why conditional addition**:
+- Only add the field if `binder_id` is not `None`
+- This keeps the JSON clean - examples without BinderHub links don't have the field
+- Avoids `null` or empty string values in the metadata
+
+**5. Line Processing Behavior**:
+
+The `BINDER_ID` line is removed from output through the same mechanism as other marker lines:
+
+- **How it works**: Setting `output = False` prevents the line from reaching the `else` block that calls `content.append(l)`
+- **Line number impact**: Because the line is never added to `content`, it doesn't affect line number calculations for steps, highlights, or hidden ranges
+- **Result**: The processed file is clean, containing only the actual code without any marker comments
+
+**Common Pitfalls**:
+1. **Forgetting `output = False`**: The line will appear in processed output
+2. **Wrong placement in elif chain**: May not be detected or may interfere with other markers
+3. **Using `if` instead of `elif`**: Could cause multiple conditions to match
+4. **Not checking `if match`**: Could cause AttributeError if regex doesn't match
+5. **Adding field unconditionally**: Results in `"binderId": null` in JSON for examples without the marker
+
+**6. Complete Example Flow**:
+
+Here's a complete example showing how a file is processed:
+
+**Input file** (`local_examples/client-specific/redis-py/landing.py`):
+```python
+# EXAMPLE: landing
+# BINDER_ID 6bbed3da294e8de5a8c2ad99abf883731a50d4dd
+import redis
+
+# STEP_START connect
+r = redis.Redis(host='localhost', port=6379, decode_responses=True)
+# STEP_END
+```
+
+**Processing steps**:
+1. Line 1: `EXAMPLE:` detected → `output = False` → line skipped
+2. Line 2: `BINDER_ID` detected → extract hash `6bbed3da294e8de5a8c2ad99abf883731a50d4dd` → `output = False` → line skipped
+3. Line 3: `import redis` → no marker → added to `content` array at index 0
+4. Line 4: Empty line → added to `content` array at index 1
+5. Line 5: `STEP_START` detected → record step start at line 3 (len(content) + 1) → line skipped
+6. Line 6: Code → added to `content` array at index 2
+7. Line 7: `STEP_END` detected → record step range "3-3" → line skipped
+
+**Output file** (`examples/landing/local_client-specific_redis-py_landing.py`):
+```python
+import redis
+
+r = redis.Redis(host='localhost', port=6379, decode_responses=True)
+```
+
+**Metadata** (`data/examples.json`):
+```json
+{
+  "landing": {
+    "Python": {
+      "source": "local_examples/client-specific/redis-py/landing.py",
+      "language": "python",
+      "target": "examples/landing/local_client-specific_redis-py_landing.py",
+      "highlight": ["1-3"],
+      "hidden": [],
+      "named_steps": {
+        "connect": "3-3"
+      },
+      "sourceUrl": null,
+      "binderId": "6bbed3da294e8de5a8c2ad99abf883731a50d4dd"
+    }
+  }
+}
+```
+
+**Key observations**:
+- Both `EXAMPLE:` and `BINDER_ID` lines are removed from output
+- Line numbers in metadata refer to the processed file (after marker removal)
+- `binderId` is stored at the language level, not the example set level
+- The hash value is extracted cleanly without comment prefix or keyword
 
 **Output Metadata** (stored in `examples.json`):
 - `highlight`: Line ranges to highlight (e.g., `["1-10", "15-20"]`)
@@ -1006,6 +1160,35 @@ ModuleNotFoundError: No module named 'pytoml'
   2. Check `data/examples.json` has entry for that language
   3. Ensure `label` field matches exactly (case-sensitive)
 
+**BINDER_ID not extracted or appearing in output**:
+- **Symptom 1**: `binderId` field missing from `data/examples.json`
+  - **Cause**: Regex pattern not matching the line
+  - **Debug**:
+    1. Check comment prefix matches language: `# BINDER_ID` for Python, `// BINDER_ID` for JavaScript
+    2. Verify hash is exactly 40 hexadecimal characters (lowercase a-f, 0-9)
+    3. Check for extra whitespace or special characters
+    4. Run with debug logging: `python3 build/local_examples.py --loglevel DEBUG`
+    5. Look for "Found BINDER_ID" message in logs
+  - **Fix**: Ensure format is exactly `{comment_prefix} BINDER_ID {40-char-hash}`
+
+- **Symptom 2**: `BINDER_ID` line appears in processed output file
+  - **Cause**: `output = False` not set in detection logic
+  - **Fix**: Verify the `elif re.search(binder, l):` block sets `output = False`
+  - **Verify**: Check processed file in `examples/{example_id}/` - should not contain `BINDER_ID` line
+
+- **Symptom 3**: `"binderId": null` in metadata
+  - **Cause**: Field added unconditionally instead of conditionally
+  - **Fix**: Only add field if `example.binder_id` is not None:
+    ```python
+    if example.binder_id:
+        example_metadata['binderId'] = example.binder_id
+    ```
+
+- **Symptom 4**: Wrong hash value extracted
+  - **Cause**: Regex capture group not matching correctly
+  - **Debug**: Check the regex pattern includes capture group: `([a-f0-9]{40})`
+  - **Fix**: Ensure using `match.group(1)` to extract the captured hash
+
 ### Performance Issues
 
 **Build takes too long**:
@@ -1269,16 +1452,20 @@ In Markdown files:
 
 | Marker | Purpose | Example | Notes |
 |--------|---------|---------|-------|
-| `EXAMPLE: id` | Define example ID | `# EXAMPLE: home_vecsets` | Must be first line |
-| `BINDER_ID hash` | Define BinderHub commit hash | `# BINDER_ID 6bbed3da294e8de5a8c2ad99abf883731a50d4dd` | Optional, typically line 2. Used to generate interactive notebook links. Hash is a Git commit SHA from binder-launchers repo. |
-| `HIDE_START` | Start hidden block | `# HIDE_START` | Code hidden by default |
+| `EXAMPLE: id` | Define example ID | `# EXAMPLE: home_vecsets` | **Required**. Must be first line. Removed from processed output. |
+| `BINDER_ID hash` | Define BinderHub commit hash | `# BINDER_ID 6bbed3da294e8de5a8c2ad99abf883731a50d4dd` | **Optional**. Typically line 2 (after EXAMPLE). Hash must be exactly 40 hexadecimal characters (Git commit SHA). Removed from processed output. Stored as `binderId` in metadata. Used to generate interactive Jupyter notebook links. |
+| `HIDE_START` | Start hidden block | `# HIDE_START` | Code hidden by default, revealed with eye button |
 | `HIDE_END` | End hidden block | `# HIDE_END` | Must close HIDE_START |
-| `REMOVE_START` | Start removed block | `# REMOVE_START` | Code completely removed |
+| `REMOVE_START` | Start removed block | `# REMOVE_START` | Code completely removed from output |
 | `REMOVE_END` | End removed block | `# REMOVE_END` | Must close REMOVE_START |
-| `STEP_START name` | Start named step | `# STEP_START connect` | Name is lowercase |
-| `STEP_END` | End named step | `# STEP_END` | Must close STEP_START |
+| `STEP_START name` | Start named step | `# STEP_START connect` | Name is lowercase. Removed from output. |
+| `STEP_END` | End named step | `# STEP_END` | Must close STEP_START. Removed from output. |
 
-**Important**: All markers must use the correct comment prefix for the language (see [Language Mappings](#language-mappings)).
+**Important**:
+- All markers must use the correct comment prefix for the language (see [Language Mappings](#language-mappings))
+- Marker lines (`EXAMPLE:`, `BINDER_ID`, `STEP_START`, `STEP_END`, `HIDE_START`, `HIDE_END`, `REMOVE_START`, `REMOVE_END`) are **removed** from the processed output file
+- Only the code between markers appears in the final processed file
+- Line numbers in metadata (highlight, hidden, named_steps) refer to the processed file, not the source file
 
 ### Shortcode Parameter Reference
 
