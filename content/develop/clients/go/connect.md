@@ -126,3 +126,39 @@ if err != nil {
 }
 fmt.Println("foo", val)
 ```
+
+## Connect using Smart client handoffs (SCH)
+
+*Smart client handoffs (SCH)* is a feature of Redis Cloud and
+Redis Enterprise servers that lets them actively notify clients
+about planned server maintenance shortly before it happens. This
+lets a client take action to avoid disruptions in service.
+See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
+for more information about SCH.
+
+To enable SCH on the client, add the `HitlessUpgrades` option during the
+connection, as shown in the following example:
+
+```go
+rdb := redis.NewClient(&redis.Options{
+    Addr:     "localhost:6379",
+    Protocol: 3, // RESP3 required
+    HitlessUpgrades: &hitless.Config{
+        Mode:               hitless.MaintNotificationsEnabled,
+        RelaxedTimeout:     10 * time.Second,
+    },
+})
+```
+
+{{< note >}}SCH requires the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
+protocol, so you must set `Protocol:3` explicitly when you connect.
+{{< /note >}}
+
+The `hitless.Config` object accepts the following parameters:
+
+| Name | Description |
+|------ |------------- |
+| `Mode` | Whether or not to enable SCH. The options are `hitless.MaintNotificationsDisabled`, `hitless.MaintNotificationsEnabled` (require SCH and abort the connection if not supported), and `hitless.MaintNotificationsAuto` (require SCH and fall back to a non-SCH connection if not supported). The default is `hitless.MaintNotificationsAuto`.   |
+| `RelaxedTimeout` | The timeout to use for commands and connections while the server is performing maintenance. The default is 10 seconds. |
+| `HandoffTimeout` | The timeout to connect to the replacement node. The default is 15 seconds. |
+| `MaxHandoffRetries` | The maximum number of times to retry connecting to the replacement node. The default is 3. |

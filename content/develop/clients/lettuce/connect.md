@@ -254,3 +254,41 @@ public class Pool {
 ```
 
 In this setup, `LettuceConnectionFactory` is a custom class you would need to implement, adhering to Apache Commons Pool's `PooledObjectFactory` interface, to manage lifecycle events of pooled `StatefulRedisConnection` objects.
+
+## Connect using Smart client handoffs (SCH)
+
+*Smart client handoffs (SCH)* is a feature of Redis Cloud and
+Redis Enterprise servers that lets them actively notify clients
+about planned server maintenance shortly before it happens. This
+lets a client take action to avoid disruptions in service.
+See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
+for more information about SCH.
+
+To enable SCH on the client, create a `MaintenanceEventsOptions` object
+and pass it to the `ClientOptions` builder using the `supportMaintenanceEvents()` method:
+
+```java
+import io.lettuce.core.*;
+import io.lettuce.core.api.StatefulRedisConnection;
+import io.lettuce.core.protocol.ProtocolVersion;
+//  ...
+//  ...
+
+RedisClient redisClient = RedisClient.create("redis://localhost:6379");
+        
+MaintenanceEventsOptions maintOptions = MaintenanceEventsOptions.builder()
+    // You can also pass `false` as a parameter to `supportMaintenanceEvents()`
+    // to explicitly disable SCH.
+    .supportMaintenanceEvents()
+    .build();
+
+ClientOptions clientOptions = ClientOptions.builder()
+    .supportMaintenanceEvents(maintOptions)
+    .build();
+
+redisClient.setOptions(clientOptions);
+
+try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {
+//  ...
+//  ...
+```

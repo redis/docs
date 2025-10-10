@@ -329,6 +329,44 @@ createClient({
 });
 ```
 
+## Connect using Smart client handoffs (SCH)
+
+*Smart client handoffs (SCH)* is a feature of Redis Cloud and
+Redis Enterprise servers that lets them actively notify clients
+about planned server maintenance shortly before it happens. This
+lets a client take action to avoid disruptions in service.
+See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
+for more information about SCH.
+
+Use the configuration options shown in the example below to enable SCH
+during the connection:
+
+```js
+const client = createClient({
+  RESP: 3,
+  maintPushNotifications: 'auto',
+  maintRelaxedCommandTimeout: 10000,
+  maintRelaxedSocketTimeout: 10000,
+  ...
+});
+```
+
+{{< note >}}SCH requires the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
+protocol, so you must set the `RESP:3` option explicitly when you connect.
+{{< /note >}}
+
+The available options are:
+
+-   `maintPushNotifications`: (`string`) Whether or not to enable SCH. The options are  
+    -   `'disabled'`: don't use SCH
+    -   `'enabled'`: attempt to activate SCH on the server and abort the connection if it isn't supported
+    -   `'auto'`: attempt to activate SCH on the server and fall back to a non-SCH
+        connection if it isn't supported. This is the default.
+-   `maintRelaxedCommandTimeout`: (`number`) The command timeout to use while the server is 
+    performing maintenance. The default is 10000 (10 seconds). If a timeout happens during the maintenance period, the client receives a `CommandTimeoutDuringMaintenance` error.
+-   `maintRelaxedSocketTimeout`: (`number`) The socket timeout to use while the server is 
+    performing maintenance. The default is 10000 (10 seconds). If a timeout happens during the maintenance period, the client receives a `SocketTimeoutDuringMaintenance` error.
+
 ## Connection events
 
 The client object emits the following
