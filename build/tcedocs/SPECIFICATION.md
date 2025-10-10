@@ -48,6 +48,7 @@ The code example system provides a multi-language, tabbed code example interface
 ### Key Features
 
 - **Multi-language support**: Display the same example in multiple programming languages
+- **Interactive execution**: "Run in browser" links via BinderHub integration (Jupyter notebooks supporting multiple languages)
 - **Tabbed interface**: Users can switch between languages using a dropdown selector
 - **Code hiding/highlighting**: Support for hiding boilerplate code and highlighting relevant sections
 - **Named steps**: Break examples into logical steps that can be referenced individually
@@ -602,6 +603,7 @@ r = redis.Redis(host='localhost', port=6379, decode_responses=True)
 - Language selector dropdown
 - Visibility toggle button (show/hide hidden code)
 - Copy to clipboard button
+- BinderHub "Run in browser" link (conditional)
 - Tab panels with syntax-highlighted code
 - Footer with quickstart links and GitHub source links
 - Responsive design with Tailwind CSS
@@ -615,6 +617,118 @@ The interactive features are implemented in JavaScript (location varies by theme
 - Language preference persistence (localStorage)
 
 > **Note**: JavaScript implementation details are theme-specific and not covered in this specification.
+
+#### BinderHub Integration ("Run in Browser" Link)
+
+**Purpose**: Provide interactive Jupyter notebook environment for running examples
+
+**Feature Description**:
+
+The code example boxes can display a "Run this example in the browser" link that launches the example in a BinderHub-powered Jupyter notebook environment. This link appears in the top bar of the example box, next to the three-dot menu icon.
+
+**Conditional Display**:
+- Only shown if the example has a `binderId` value in its metadata
+- If no `binderId` exists, the link is not rendered (no placeholder, no broken link)
+- The `binderId` is language-specific, so different languages in the same example set may have different BinderHub links
+- BinderHub uses Jupyter notebooks which can run code in multiple languages (Python, Node.js, Java, etc.)
+
+**Link URL Format**:
+```
+https://redis.io/binder/v2/gh/redis/binder-launchers/<binderId>?urlpath=%2Fdoc%2Ftree%2Fdemo.ipynb
+```
+
+**URL Components**:
+- **Base URL**: `https://redis.io/binder/v2/gh/redis/binder-launchers/`
+- **Binder ID**: The Git commit SHA from `binderId` field (40 hexadecimal characters)
+- **URL Path**: `?urlpath=%2Fdoc%2Ftree%2Fdemo.ipynb` (constant, URL-encoded path to notebook)
+- **Notebook filename**: Always `demo.ipynb` - do NOT change per example
+
+**Example**:
+```
+https://redis.io/binder/v2/gh/redis/binder-launchers/6bbed3da294e8de5a8c2ad99abf883731a50d4dd?urlpath=%2Fdoc%2Ftree%2Fdemo.ipynb
+```
+
+**Implementation in Hugo Template**:
+
+The `layouts/shortcodes/clients-example.html` template should implement this feature as follows:
+
+**1. Access the binderId from template context**:
+
+```go-html-template
+{{- $exampleSet := .Get "set" -}}
+{{- $exampleData := index $.Site.Data.examples $exampleSet -}}
+
+{{- range $lang, $langConfig := $.Site.Params.clientsexamples -}}
+  {{- $langData := index $exampleData $langConfig.label -}}
+  {{- if $langData -}}
+    {{- $binderId := $langData.binderId -}}
+    {{- /* binderId is now available for this language */ -}}
+  {{- end -}}
+{{- end -}}
+```
+
+**2. Construct the BinderHub URL**:
+
+```go-html-template
+{{- if $binderId -}}
+  {{- $binderUrl := printf "https://redis.io/binder/v2/gh/redis/binder-launchers/%s?urlpath=%%2Fdoc%%2Ftree%%2Fdemo.ipynb" $binderId -}}
+{{- end -}}
+```
+
+**3. Render the link in the top bar**:
+
+The link should be placed in the top bar of the example box, alongside the existing menu icon. The exact HTML structure depends on the theme, but conceptually:
+
+```html
+<div class="example-top-bar">
+  <!-- Language selector -->
+  <select>...</select>
+
+  <!-- BinderHub link (conditional) -->
+  {{ if $binderId }}
+  <a href="{{ $binderUrl }}"
+     target="_blank"
+     rel="noopener noreferrer"
+     class="binder-link"
+     title="Run this example in an interactive Jupyter notebook">
+    Run this example in the browser
+  </a>
+  {{ end }}
+
+  <!-- Menu icon -->
+  <button class="menu-icon">...</button>
+</div>
+```
+
+**4. Styling considerations**:
+
+- Link should be visually distinct but not overwhelming
+- Should work on mobile devices (may need to be icon-only on small screens)
+- Should indicate it opens in a new tab/window
+- Consider adding a BinderHub icon for visual recognition
+
+**Data Flow**:
+
+1. **Build time**: Python scripts extract `BINDER_ID` from source files → store in `data/examples.json`
+2. **Hugo build**: Template reads `binderId` from `$.Site.Data.examples[exampleSet][language].binderId`
+3. **Template logic**: If `binderId` exists, construct URL and render link
+4. **Runtime**: User clicks link → opens BinderHub in new tab
+
+**Important Notes**:
+
+- **Language-specific**: Each language in an example set can have its own `binderId`
+- **Multi-language support**: BinderHub uses Jupyter notebooks which can execute code in multiple languages (Python, Node.js, Java, etc.) through language kernels
+- **Notebook filename is constant**: Always use `demo.ipynb` - the BinderHub launcher repository handles routing to the correct example
+- **URL encoding**: The `?urlpath=%2Fdoc%2Ftree%2Fdemo.ipynb` part is URL-encoded (`%2F` = `/`)
+- **External dependency**: Requires the `redis/binder-launchers` repository to be properly configured with the commit referenced by `binderId`
+
+**Relationship to Manual Links**:
+
+Some documentation pages may have manual BinderHub links in the markdown content (e.g., "You can try this code out in a Jupyter notebook on Binder"). The automated link in the example box serves the same purpose but is:
+- Automatically generated from metadata
+- Consistently placed across all examples
+- Easier to maintain (no manual URL construction in markdown)
+- Visually integrated with the code example UI
 
 #### `layouts/partials/tabs/source.html`
 
@@ -857,6 +971,7 @@ cat examples/example_id/processed_file.py
 - ✅ **Minimal**: Only essential code (use REMOVE for test setup)
 - ✅ **Self-contained**: Doesn't depend on external state
 - ✅ **Commented**: Explains non-obvious parts
+- ✅ **Interactive** (optional): Includes `BINDER_ID` for "Run in browser" functionality via Jupyter notebooks
 - ✅ **Stepped**: Uses STEP_START for multi-part examples
 - ❌ **Avoid**: Complex logic, multiple concepts, undocumented magic
 
@@ -930,6 +1045,59 @@ cat data/examples.json | grep my_new_example
 # Build and serve
 hugo serve
 ```
+
+**5. Add BinderHub Support (Optional)**:
+
+If you want to enable the "Run in browser" link for an example:
+
+**Step 1: Create or update the BinderHub launcher**:
+
+The `redis/binder-launchers` repository contains Jupyter notebooks for each example. Jupyter notebooks can run code in multiple languages (Python, Node.js, Java, etc.) through language kernels. You need to:
+1. Create a notebook file (e.g., `demo.ipynb`) that runs your example in the appropriate language
+2. Ensure the necessary language kernel is configured in the BinderHub environment
+3. Commit and push to the `redis/binder-launchers` repository
+4. Note the commit SHA (40-character hexadecimal hash)
+
+**Step 2: Add BINDER_ID to your example**:
+
+Add the `BINDER_ID` marker as the second line of your example file (after `EXAMPLE:`):
+
+```python
+# EXAMPLE: my_new_example
+# BINDER_ID 6bbed3da294e8de5a8c2ad99abf883731a50d4dd
+import redis
+
+# STEP_START connect
+r = redis.Redis(host='localhost', port=6379, decode_responses=True)
+# STEP_END
+```
+
+**Step 3: Rebuild and verify**:
+
+```bash
+# Process examples
+python3 build/local_examples.py
+
+# Verify binderId appears in metadata
+python3 -c "import json; data = json.load(open('data/examples.json')); print(data['my_new_example']['Python'].get('binderId'))"
+# Should output: 6bbed3da294e8de5a8c2ad99abf883731a50d4dd
+
+# Verify BINDER_ID line is removed from processed file
+cat examples/my_new_example/local_*.py | grep BINDER_ID
+# Should output nothing (line removed)
+
+# Build Hugo and check the page
+hugo serve
+# Navigate to the page and verify "Run this example in the browser" link appears
+```
+
+**Important notes**:
+- BinderHub uses **Jupyter notebooks** which support multiple languages through kernels (Python, Node.js, Java, etc.)
+- The commit hash must exist in the `redis/binder-launchers` repository
+- The notebook filename is always `demo.ipynb` (hardcoded in the URL)
+- The link will only appear if `binderId` exists in the metadata
+- Update the `BINDER_ID` hash whenever you update the notebook in the launcher repository
+- Ensure the appropriate language kernel is installed in the BinderHub environment for your example's language
 
 ### When to Rebuild
 
@@ -1188,6 +1356,47 @@ ModuleNotFoundError: No module named 'pytoml'
   - **Cause**: Regex capture group not matching correctly
   - **Debug**: Check the regex pattern includes capture group: `([a-f0-9]{40})`
   - **Fix**: Ensure using `match.group(1)` to extract the captured hash
+
+**BinderHub "Run in browser" link issues**:
+- **Symptom 1**: Link not appearing in example box
+  - **Cause 1**: No `binderId` in metadata
+    - **Debug**: Check `data/examples.json` for the example set and language
+    - **Fix**: Add `BINDER_ID` marker to source file and rebuild
+  - **Cause 2**: Template conditional not checking for `binderId`
+    - **Debug**: Inspect `layouts/shortcodes/clients-example.html` template
+    - **Fix**: Ensure template has `{{ if $binderId }}` conditional around link
+  - **Cause 3**: Wrong variable name in template
+    - **Debug**: Check template is accessing `$langData.binderId` correctly
+    - **Fix**: Verify variable names match the data structure in `examples.json`
+
+- **Symptom 2**: Link appears but URL is malformed
+  - **Cause 1**: Missing URL encoding in template
+    - **Expected**: `?urlpath=%2Fdoc%2Ftree%2Fdemo.ipynb`
+    - **Wrong**: `?urlpath=/doc/tree/demo.ipynb`
+    - **Fix**: Use `%%2F` (double percent) in `printf` to get `%2F` in output
+  - **Cause 2**: Wrong notebook filename
+    - **Fix**: Always use `demo.ipynb` - do not change per example
+  - **Cause 3**: `binderId` variable is empty or undefined
+    - **Debug**: Add template debugging: `{{ printf "%#v" $binderId }}`
+    - **Fix**: Ensure `binderId` is extracted from correct language data
+
+- **Symptom 3**: Link opens but BinderHub shows error
+  - **Cause 1**: Invalid commit hash in `binderId`
+    - **Debug**: Verify hash exists in `redis/binder-launchers` repository
+    - **Fix**: Update `BINDER_ID` in source file to valid commit SHA
+  - **Cause 2**: BinderHub launcher not configured for this commit
+    - **Debug**: Check `redis/binder-launchers` repository for the commit
+    - **Fix**: Ensure the commit has the necessary notebook and configuration files
+
+- **Symptom 4**: Link appears but example doesn't work in BinderHub
+  - **Cause**: Language kernel not installed in BinderHub environment
+  - **Fix**: Ensure the `redis/binder-launchers` repository has the necessary kernel configuration
+  - **Note**: Jupyter notebooks can run multiple languages (Python, Node.js, Java, etc.) through kernels
+
+- **Symptom 5**: Link text or styling is wrong
+  - **Cause**: CSS classes or HTML structure doesn't match theme
+  - **Debug**: Inspect browser developer tools for CSS issues
+  - **Fix**: Update template HTML/CSS to match theme's design system
 
 ### Performance Issues
 
