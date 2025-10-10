@@ -127,16 +127,16 @@ if err != nil {
 fmt.Println("foo", val)
 ```
 
-## Connect using Seamless client experience (SCE)
+## Connect using Smart client handoffs (SCH)
 
-*Seamless client experience (SCE)* is a feature of Redis Cloud and
+*Smart client handoffs (SCH)* is a feature of Redis Cloud and
 Redis Enterprise servers that lets them actively notify clients
 about planned server maintenance shortly before it happens. This
 lets a client take action to avoid disruptions in service.
-See [Seamless client experience]({{< relref "/develop/clients/sce" >}})
-for more information about SCE.
+See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
+for more information about SCH.
 
-To enable SCE on the client, add the `HitlessUpgrades` option during the
+To enable SCH on the client, add the `HitlessUpgrades` option during the
 connection, as shown in the following example:
 
 ```go
@@ -150,7 +150,7 @@ rdb := redis.NewClient(&redis.Options{
 })
 ```
 
-{{< note >}}SCE requires the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
+{{< note >}}SCH requires the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
 protocol, so you must set `Protocol:3` explicitly when you connect.
 {{< /note >}}
 
@@ -158,7 +158,7 @@ The `hitless.Config` object accepts the following parameters:
 
 | Name | Description |
 |------ |------------- |
-| `Mode` | Whether or not to enable SCE. The options are `hitless.MaintNotificationsDisabled`, `hitless.MaintNotificationsEnabled` (require SCE and abort the connection if not supported), and `hitless.MaintNotificationsAuto` (require SCE and fall back to a non-SCE connection if not supported). The default is `hitless.MaintNotificationsAuto`.   |
+| `Mode` | Whether or not to enable SCH. The options are `hitless.MaintNotificationsDisabled`, `hitless.MaintNotificationsEnabled` (require SCH and abort the connection if not supported), and `hitless.MaintNotificationsAuto` (require SCH and fall back to a non-SCH connection if not supported). The default is `hitless.MaintNotificationsAuto`.   |
 | `RelaxedTimeout` | The timeout to use for commands and connections while the server is performing maintenance. The default is 10 seconds. |
 | `HandoffTimeout` | The timeout to connect to the replacement node. The default is 15 seconds. |
 | `MaxHandoffRetries` | The maximum number of times to retry connecting to the replacement node. The default is 3. |

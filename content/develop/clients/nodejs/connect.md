@@ -329,16 +329,16 @@ createClient({
 });
 ```
 
-## Connect using Seamless client experience (SCE)
+## Connect using Smart client handoffs (SCH)
 
-*Seamless client experience (SCE)* is a feature of Redis Cloud and
+*Smart client handoffs (SCH)* is a feature of Redis Cloud and
 Redis Enterprise servers that lets them actively notify clients
 about planned server maintenance shortly before it happens. This
 lets a client take action to avoid disruptions in service.
-See [Seamless client experience]({{< relref "/develop/clients/sce" >}})
-for more information about SCE.
+See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
+for more information about SCH.
 
-Use the configuration options shown in the example below to enable SCE
+Use the configuration options shown in the example below to enable SCH
 during the connection:
 
 ```js
@@ -351,16 +351,16 @@ const client = createClient({
 });
 ```
 
-{{< note >}}SCE requires the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
+{{< note >}}SCH requires the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
 protocol, so you must set the `RESP:3` option explicitly when you connect.
 {{< /note >}}
 
 The available options are:
 
--   `maintPushNotifications`: (`string`) Whether or not to enable SCE. The options are  
-    -   `'disabled'`: don't use SCE
-    -   `'enabled'`: attempt to activate SCE on the server and abort the connection if it isn't supported
-    -   `'auto'`: attempt to activate SCE on the server and fall back to a non-SCE
+-   `maintPushNotifications`: (`string`) Whether or not to enable SCH. The options are  
+    -   `'disabled'`: don't use SCH
+    -   `'enabled'`: attempt to activate SCH on the server and abort the connection if it isn't supported
+    -   `'auto'`: attempt to activate SCH on the server and fall back to a non-SCH
         connection if it isn't supported. This is the default.
 -   `maintRelaxedCommandTimeout`: (`number`) The command timeout to use while the server is 
     performing maintenance. The default is 10000 (10 seconds). If a timeout happens during the maintenance period, the client receives a `CommandTimeoutDuringMaintenance` error.

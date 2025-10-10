@@ -253,16 +253,16 @@ this behavior to suit your use case. See
 [Retries]({{< relref "/develop/clients/redis-py/produsage#retries" >}})
 for more information about custom retry strategies, with example code.
 
-## Connect using Seamless client experience (SCE)
+## Connect using Smart client handoffs (SCH)
 
-*Seamless client experience (SCE)* is a feature of Redis Cloud and
+*Smart client handoffs (SCH)* is a feature of Redis Cloud and
 Redis Enterprise servers that lets them actively notify clients
 about planned server maintenance shortly before it happens. This
 lets a client take action to avoid disruptions in service.
-See [Seamless client experience]({{< relref "/develop/clients/sce" >}})
-for more information about SCE.
+See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
+for more information about SCH.
 
-To enable SCE on the client, pass a `MaintenanceEventsConfig` object
+To enable SCH on the client, pass a `MaintenanceEventsConfig` object
 during the connection, as shown in the following example:
 
 ```py
@@ -282,7 +282,7 @@ r = redis.Redis(
 )
 ```
 
-{{< note >}}SCE requires the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
+{{< note >}}SCH requires the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
 protocol, so you must set `protocol=3` explicitly when you connect.
 {{< /note >}}
 
@@ -290,6 +290,6 @@ The `MaintenanceEventsConfig` constructor accepts the following parameters:
 
 | Name | Type | Default | Description |
 |------|------|---------|-------------|
-| `enabled` | `bool` | `False` | Whether or not to enable SCE. |
+| `enabled` | `bool` | `False` | Whether or not to enable SCH. |
 | `proactive_reconnect` | `bool` | `True` | Whether or not to automatically reconnect when a node is replaced. |
 | `relax_timeout` | `int` | `20` | The timeout (in seconds) to use while the server is performing maintenance. A value of `-1` disables the relax timeout and just uses the normal timeout during maintenance. |

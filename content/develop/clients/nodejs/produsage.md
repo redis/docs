@@ -29,7 +29,7 @@ progress in implementing the recommendations.
     {{< checklist-item "#handling-reconnections" >}}Handling reconnections{{< /checklist-item >}}
     {{< checklist-item "#connection-timeouts" >}}Connection timeouts{{< /checklist-item >}}
     {{< checklist-item "#command-execution-reliability" >}}Command execution reliability{{< /checklist-item >}}
-    {{< checklist-item "#seamless-client-experience" >}}Seamless client experience{{< /checklist-item >}}
+    {{< checklist-item "#seamless-client-experience" >}}Smart client handoffs{{< /checklist-item >}}
 {{< /checklist >}}
 
 ## Recommendations
@@ -107,14 +107,14 @@ const client = createClient({
 Use a separate connection with the queue disabled if you want to avoid queuing
 only for specific commands.
 
-### Seamless client experience
+### Smart client handoffs
 
-*Seamless client experience (SCE)* is a feature of Redis Cloud and
+*Smart client handoffs (SCH)* is a feature of Redis Cloud and
 Redis Enterprise servers that lets them actively notify clients
 about planned server maintenance shortly before it happens. This
 lets a client take action to avoid disruptions in service.
 
-See [Seamless client experience]({{< relref "/develop/clients/sce" >}})
-for more information about SCE and
-[Connect using Seamless client experience]({{< relref "/develop/clients/nodejs/connect#connect-using-seamless-client-experience-sce" >}})
+See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
+for more information about SCH and
+[Connect using Smart client handoffs]({{< relref "/develop/clients/nodejs/connect#connect-using-seamless-client-experience-sce" >}})
 for example code.

@@ -30,7 +30,7 @@ progress in implementing the recommendations.
     {{< checklist-item "#health-checks" >}}Health checks{{< /checklist-item >}}
     {{< checklist-item "#exception-handling" >}}Exception handling{{< /checklist-item >}}
     {{< checklist-item "#timeouts" >}}Timeouts{{< /checklist-item >}}
-    {{< checklist-item "#seamless-client-experience" >}}Seamless client experience{{< /checklist-item >}}
+    {{< checklist-item "#seamless-client-experience" >}}Smart client handoffs{{< /checklist-item >}}
 {{< /checklist >}}
 
 ## Recommendations
@@ -199,14 +199,14 @@ commands that would have succeeded if given more time. However, if the
 timeouts are too long, your app might hang unnecessarily while waiting for a
 response that will never arrive.
 
-### Seamless client experience
+### Smart client handoffs
 
-*Seamless client experience (SCE)* is a feature of Redis Cloud and
+*Smart client handoffs (SCH)* is a feature of Redis Cloud and
 Redis Enterprise servers that lets them actively notify clients
 about planned server maintenance shortly before it happens. This
 lets a client take action to avoid disruptions in service.
 
-See [Seamless client experience]({{< relref "/develop/clients/sce" >}})
-for more information about SCE and
-[Connect using Seamless client experience]({{< relref "/develop/clients/redis-py/connect#connect-using-seamless-client-experience-sce" >}})
+See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
+for more information about SCH and
+[Connect using Smart client handoffs]({{< relref "/develop/clients/redis-py/connect#connect-using-seamless-client-experience-sce" >}})
 for example code.

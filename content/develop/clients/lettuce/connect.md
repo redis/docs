@@ -255,16 +255,16 @@ public class Pool {
 
 In this setup, `LettuceConnectionFactory` is a custom class you would need to implement, adhering to Apache Commons Pool's `PooledObjectFactory` interface, to manage lifecycle events of pooled `StatefulRedisConnection` objects.
 
-## Connect using Seamless client experience (SCE)
+## Connect using Smart client handoffs (SCH)
 
-*Seamless client experience (SCE)* is a feature of Redis Cloud and
+*Smart client handoffs (SCH)* is a feature of Redis Cloud and
 Redis Enterprise servers that lets them actively notify clients
 about planned server maintenance shortly before it happens. This
 lets a client take action to avoid disruptions in service.
-See [Seamless client experience]({{< relref "/develop/clients/sce" >}})
-for more information about SCE.
+See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
+for more information about SCH.
 
-To enable SCE on the client, create a `MaintenanceEventsOptions` object
+To enable SCH on the client, create a `MaintenanceEventsOptions` object
 and pass it to the `ClientOptions` builder using the `supportMaintenanceEvents()` method:
 
 ```java
@@ -278,7 +278,7 @@ RedisClient redisClient = RedisClient.create("redis://localhost:6379");
         
 MaintenanceEventsOptions maintOptions = MaintenanceEventsOptions.builder()
     // You can also pass `false` as a parameter to `supportMaintenanceEvents()`
-    // to explicitly disable SCE.
+    // to explicitly disable SCH.
     .supportMaintenanceEvents()
     .build();
 
