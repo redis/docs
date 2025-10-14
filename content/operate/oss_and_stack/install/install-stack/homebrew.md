@@ -17,7 +17,80 @@ weight: 6
 To install Redis Open Source on macOS, use [Homebrew](https://brew.sh/).
 Make sure that you have [Homebrew installed](https://docs.brew.sh/Installation) before starting on the installation instructions below.
 
-## Install using Homebrew
+## Remove any existing Redis installation files
+
+If you had previously installed Redis on your system using the default Homebrew formula called "redis", you need to remove it before installing Redis Open Source 8.x.
+
+Follow these steps to remove any existing Redis installation files:
+
+1. Uninstall Redis:
+    ```bash
+    brew uninstall redis
+    ```
+1. Next check if the `redis.conf` file is still installed:
+    ```bash
+    ls -l $(brew --prefix)/etc/redis.conf
+    ```
+
+    If you get output similar to the following, then it’s still there:
+
+    ```bash
+    -rw-r--r--@ 1 user  admin  122821  2 Oct 16:07 /opt/homebrew/etc/redis.conf
+    ```
+
+    Run this command to remove the file:
+
+    ```bash
+    rm -iv $(brew --prefix)/etc/redis.conf
+    ```
+
+Next, follow the instructions in the [next section](#install-using-homebrew) to install Redis Open Source 8.x using the Redis Homebrew cask. After installation and starting Redis, you can test to see if all the modules are loaded correctly by running the following command.
+
+{{< highlight bash  >}}
+$ redis-cli MODULE LIST
+1) 1) "name"
+   2) "bf"
+   3) "ver"
+   4) (integer) 80200
+   5) "path"
+   6) "/usr/local/lib/redis/modules//redisbloom.so"
+   7) "args"
+   8) (empty array)
+2) 1) "name"
+   2) "timeseries"
+   3) "ver"
+   4) (integer) 80200
+   5) "path"
+   6) "/usr/local/lib/redis/modules//redistimeseries.so"
+   7) "args"
+   8) (empty array)
+3) 1) "name"
+   2) "search"
+   3) "ver"
+   4) (integer) 80201
+   5) "path"
+   6) "/usr/local/lib/redis/modules//redisearch.so"
+   7) "args"
+   8) (empty array)
+4) 1) "name"
+   2) "vectorset"
+   3) "ver"
+   4) (integer) 1
+   5) "path"
+   6) ""
+   7) "args"
+   8) (empty array)
+5) 1) "name"
+   2) "ReJSON"
+   3) "ver"
+   4) (integer) 80200
+   5) "path"
+   6) "/usr/local/lib/redis/modules//rejson.so"
+   7) "args"
+   8) (empty array)
+{{< /highlight >}}
+
+## Install using Homebrew {#install-using-homebrew}
 
 First, tap the Redis Homebrew cask:
 
