@@ -1531,6 +1531,81 @@ a[href*="#no-click"], img[src*="#no-click"] {
   @apply bg-redis-pen-200 font-semibold;
 }
 
+/* Deprecated Command Styles */
+.deprecated-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  padding: 0.25rem 0.5rem !important;
+  font-size: 0.75rem !important;
+  font-weight: 500 !important;
+  background-color: #fed7aa !important;
+  color: #9a3412 !important;
+  border-radius: 9999px !important;
+  border: 1px solid #fdba74 !important;
+  flex-shrink: 0 !important;
+}
+
+.deprecated-tooltip {
+  position: absolute !important;
+  z-index: 9999 !important;
+  padding: 0.5rem 0.75rem !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  color: white !important;
+  background-color: #111827 !important;
+  border-radius: 0.5rem !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transition: opacity 300ms ease-in-out !important;
+  pointer-events: none !important;
+  white-space: nowrap !important;
+  bottom: calc(100% + 8px) !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+}
+
+.deprecated-tooltip::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 100% !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 0 !important;
+  height: 0 !important;
+  border-left: 5px solid transparent !important;
+  border-right: 5px solid transparent !important;
+  border-top: 5px solid #111827 !important;
+}
+
+.deprecated-tooltip-trigger {
+  position: relative !important;
+  display: inline-flex !important;
+  z-index: 10 !important;
+}
+
+.deprecated-tooltip-trigger:hover .deprecated-tooltip {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.command-title-deprecated {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  flex-wrap: nowrap !important;
+}
+
+.command-title-deprecated .truncate {
+  flex: 1 1 0% !important;
+  min-width: 0 !important;
+}
+
+/* Fix alignment on individual command pages */
+.prose h1.command-name .command-title-deprecated {
+  align-items: center !important;
+}
+
 /* Utility Classes */
 .agent-builder-hidden {
   display: none !important;
