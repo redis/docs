@@ -18,7 +18,6 @@ since: 8.0.0
 summary: Retrieve the JSON attributes of elements.
 syntax_fmt: "VGETATTR key element"
 title: VGETATTR
-bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
 ---
 
 Return the JSON attributes associated with an element in a vector set.
