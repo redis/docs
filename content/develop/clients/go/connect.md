@@ -136,16 +136,20 @@ lets a client take action to avoid disruptions in service.
 See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
 for more information about SCH.
 
-To enable SCH on the client, add the `HitlessUpgrades` option during the
+To enable SCH on the client, add the `MaintNotificationsConfig` option during the
 connection, as shown in the following example:
 
 ```go
 rdb := redis.NewClient(&redis.Options{
     Addr:     "localhost:6379",
     Protocol: 3, // RESP3 required
-    HitlessUpgrades: &hitless.Config{
-        Mode:               hitless.MaintNotificationsEnabled,
-        RelaxedTimeout:     10 * time.Second,
+    MaintNotificationsConfig: &maintnotifications.Config{
+            Mode:                       maintnotifications.ModeEnabled,
+            EndpointType:               maintnotifications.EndpointTypeExternalIP,
+            HandoffTimeout:             10 * time.Second,
+            RelaxedTimeout:             10 * time.Second,
+            PostHandoffRelaxedDuration: 10 * time.Second,
+            MaxHandoffRetries:          5,
     },
 })
 ```
@@ -154,11 +158,13 @@ rdb := redis.NewClient(&redis.Options{
 protocol, so you must set `Protocol:3` explicitly when you connect.
 {{< /note >}}
 
-The `hitless.Config` object accepts the following parameters:
+The `maintnotifications.Config` object accepts the following parameters:
 
 | Name | Description |
 |------ |------------- |
-| `Mode` | Whether or not to enable SCH. The options are `hitless.MaintNotificationsDisabled`, `hitless.MaintNotificationsEnabled` (require SCH and abort the connection if not supported), and `hitless.MaintNotificationsAuto` (require SCH and fall back to a non-SCH connection if not supported). The default is `hitless.MaintNotificationsAuto`.   |
-| `RelaxedTimeout` | The timeout to use for commands and connections while the server is performing maintenance. The default is 10 seconds. |
+| `Mode` | Whether or not to enable SCH. The options are `ModeDisabled`, `ModeEnabled` (require SCH and abort the connection if not supported), and `ModeAuto` (require SCH and fall back to a non-SCH connection if not supported). The default is `ModeAuto`.   |
+| `EndpointType` | The type of endpoint to use for the connection. The options are `EndpointTypeExternalIP`, `EndpointTypeInternalIP`, `EndpointTypeExternalFQDN`, `EndpointTypeInternalFQDN`, `EndpointTypeAuto` (auto-detect based on connection), and `EndpointTypeNone` (reconnect with current config). The default is `EndpointTypeExternalIP`. |
 | `HandoffTimeout` | The timeout to connect to the replacement node. The default is 15 seconds. |
+| `RelaxedTimeout` | The timeout to use for commands and connections while the server is performing maintenance. The default is 10 seconds. |
+| `PostHandoffRelaxedDuration` | The duration to continue using relaxed timeouts after a successful handoff (this provides extra resilience during cluster transitions). The default is 20 seconds. |
 | `MaxHandoffRetries` | The maximum number of times to retry connecting to the replacement node. The default is 3. |
