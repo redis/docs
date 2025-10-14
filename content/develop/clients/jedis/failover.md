@@ -171,7 +171,7 @@ multiConfig
                 .minNumOfFailures(1000)          // Minimum number of failures before circuit breaker is tripped
                 .build())
         .failbackSupported(true)                // Enable failback
-        .failbackCheckInterval(1000)            // Check every second the unhealthy database to see if it has recovered
+        .failbackCheckInterval(120000)            // Check every 2 minutes the unhealthy database to see if it has recovered
         .gracePeriod(10000)                     // Keep database disabled for 10 seconds after it becomes unhealthy
         // Optional: configure retry settings
         .commandRetry(MultiDbConfig.RetryConfig.builder()
