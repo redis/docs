@@ -168,7 +168,7 @@ multiConfig
         .failureDetector(MultiDbConfig.CircuitBreakerConfig.builder()
                 .slidingWindowSize(2)        // Sliding window size as a duration in seconds.
                 .failureRateThreshold(10.0f)    // percentage of failures to trigger circuit breaker
-                .minNumOfFailures(500)          // Minimum number of failures before circuit breaker is tripped
+                .minNumOfFailures(1000)          // Minimum number of failures before circuit breaker is tripped
                 .build())
         .failbackSupported(true)                // Enable failback
         .failbackCheckInterval(1000)            // Check every second the unhealthy database to see if it has recovered
