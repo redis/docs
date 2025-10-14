@@ -70,8 +70,8 @@ is the name of the given index. You must first create the index using [`FT.CREAT
 | `bytes_per_record_avg` | The average size of each record in bytes. |
 | `offsets_per_term_avg` | The average number of offsets (position information) per term. |
 | `offset_bits_per_record_avg` | The average number of bits used for offsets per record. |
-| `tag_overhead_sz_mb` | The size of the index structures used for optimising performance. |
-| `text_overhead_sz_mb` | The size of the index structures used for optimising performance. |
+| `tag_overhead_sz_mb` | The size of the TAG index structures used for optimising performance. |
+| `text_overhead_sz_mb` | The size of the TEXT index structures used for optimising performance. |
 | `total_index_memory_sz_mb` | The total memory consumed by all indexes in the DB. |
 
 ### Indexing-related statistics
