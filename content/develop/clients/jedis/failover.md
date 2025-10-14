@@ -167,7 +167,7 @@ and [retries](#retry-configuration) (these are explained in more detail below).
 multiConfig
         .failureDetector(MultiDbConfig.CircuitBreakerConfig.builder()
                 .slidingWindowSize(2)        // Sliding window size as a duration in seconds.
-                .failureRateThreshold(50.0f)    // percentage of failures to trigger circuit breaker
+                .failureRateThreshold(10.0f)    // percentage of failures to trigger circuit breaker
                 .minNumOfFailures(500)          // Minimum number of failures before circuit breaker is tripped
                 .build())
         .failbackSupported(true)                // Enable failback
