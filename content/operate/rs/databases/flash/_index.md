@@ -1,18 +1,18 @@
 ---
-Title: Redis Flex
+Title: Redis Flex and Auto Tiering
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
 - rc
-description: Redis Flex enables your data to span both RAM and dedicated flash memory.
+description: Redis Flex and Auto Tiering enable your data to span both RAM and dedicated flash memory.
 hideListLinks: true
-linktitle: Redis Flex
+linktitle: Redis Flex and Auto Tiering
 weight: 50
 aliases: /operate/rs/databases/auto-tiering/
 ---
-Redis Flex (previously known as auto tiering) offers users the unique ability to use solid state drives (SSDs) to extend databases beyond DRAM capacity.
+Redis Flex and Auto Tiering in Redis Enterprise Software enable databases to use solid state drives (SSDs) to extend beyond DRAM capacity.
 Developers can build applications that require large datasets using the same Redis API.
 Using SSDs can significantly reduce the infrastructure costs compared to only DRAM deployments. 
 
@@ -25,6 +25,20 @@ Redis Flex is based on a high-performance storage engine (Speedb) that manages t
 Just like all-RAM databases, Redis Flex databases are compatible with existing Redis applications.
 
 Redis Flex is also supported on [Redis Cloud]({{< relref "/operate/rc/" >}}) and [Redis Enterprise Software for Kubernetes]({{< relref "/operate/rs/" >}}).
+
+## Redis Flex versus Auto Tiering
+
+Redis Flex is the enhanced successor to Auto Tiering, generally available as of Redis Enterprise Software version 8.0.2.
+
+Redis database versions support Redis Flex and Auto Tiering as follows:
+
+| Redis database version | Redis Flex | Auto Tiering |
+|------------------------|------------|--------------|
+| 8.0 and later | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
+| 7.4 | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span>|
+| 7.2 and earlier | <span title="Not supported">&#x274c;</span> | <span title="Supported">&#x2705;</span> |
+
+Redis Flex requires the Speedb driver, while Auto Tiering can use either RocksDB or Speedb. See [Manage Auto Tiering storage engine]({{<relref "/operate/rs/databases/flash/storage-engine">}}) for more information.
 
 ## Use cases
 

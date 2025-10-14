@@ -1,17 +1,17 @@
 ---
-Title: Redis Flex quick start
+Title: Redis Flex and Auto Tiering quick start
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
-description: Get started with Redis Flex quickly, creating a cluster and database
+description: Get started with Redis Flex and Auto Tiering quickly, creating a cluster and database
   using flash storage.
 linkTitle: Quick start
 weight: 80
 aliases: /operate/rs/databases/auto-tiering/quickstart/
 ---
-This page guides you through a quick setup of [Redis Flex]({{< relref "/operate/rs/databases/flash" >}}) with a single node for testing and demo purposes.
+This page guides you through a quick setup of [Redis Flex and Auto Tiering]({{< relref "/operate/rs/databases/flash" >}}) with a single node for testing and demo purposes.
 
 For production environments, you can find more detailed installation instructions in the [install and setup]({{< relref "/operate/rs/installing-upgrading" >}}) section.
 
