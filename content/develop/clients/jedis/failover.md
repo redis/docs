@@ -202,7 +202,7 @@ the circuit breaker:
 
 | Builder method | Default value | Description|
 | --- | --- | --- |
-| `slidingWindowSize()` | `2` | Number of calls to keep in the sliding window. |
+| `slidingWindowSize()` | `2` | Duration in seconds to keep failures and successes in the sliding window. |
 | `minNumOfFailures()` | `1000` | Minimum number of failures that must occur before the circuit breaker is tripped. |
 | `failureRateThreshold()` | `10.0f` | Percentage of failures to trigger the circuit breaker. |
 | `includedExceptionList()` | See description | `List` of `Throwable` classes that should be considered as failures. By default, it includes just `JedisConnectionException`. |
