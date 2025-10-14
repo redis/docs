@@ -344,6 +344,19 @@ This allows documentation to include "Try this in Jupyter" links that launch int
 
 **BINDER_ID Extraction Details**:
 
+The `BINDER_ID` marker allows example authors to specify a Git reference (branch name or commit SHA) from the `redis/binder-launchers` repository. This enables the Hugo templates to generate "Run this example in the browser" links that open the example in an interactive Jupyter notebook environment via BinderHub.
+
+**Quick Implementation Checklist**:
+- [ ] Add constant: `BINDER_ID = 'BINDER_ID'` (around line 11 in `example.py`)
+- [ ] Add class attribute: `binder_id = None` (around line 49 in `Example` class)
+- [ ] Add regex pattern: `binder = re.compile(...)` (around line 94 in `make_ranges()`)
+- [ ] Add detection logic in `elif` chain (around line 157 in main loop)
+- [ ] Add conditional metadata field in `build/local_examples.py` (around line 183)
+- [ ] Add conditional metadata field in `build/components/component.py` (around line 278)
+- [ ] Test with both branch name and commit SHA
+- [ ] Verify `BINDER_ID` line removed from processed output
+- [ ] Verify `binderId` appears in `data/examples.json`
+
 The parser should implement the following logic in `build/components/example.py`:
 
 **1. Add Constant and Class Attribute**:
@@ -372,30 +385,40 @@ self.binder_id = None
 
 **2. Compile Regex Pattern**:
 
-In the `make_ranges()` method, add the regex pattern compilation alongside other patterns (after `exid` pattern):
+In the `make_ranges()` method (around line 94), add the regex pattern compilation alongside other patterns (after `exid` pattern):
 ```python
 exid = re.compile(f'{PREFIXES[self.language]}\\s?{EXAMPLE}')
-binder = re.compile(f'{PREFIXES[self.language]}\\s?{BINDER_ID}\\s+([a-f0-9]{{40}})')
+binder = re.compile(f'{PREFIXES[self.language]}\\s?{BINDER_ID}\\s+([a-zA-Z0-9_-]+)')
 go_output = re.compile(f'{PREFIXES[self.language]}\\s?{GO_OUTPUT}')
 ```
+
+**Exact location**: In `build/components/example.py`, class `Example`, method `make_ranges()`, in the section where regex patterns are compiled (after line 93).
 
 **Pattern explanation**:
 - `{PREFIXES[self.language]}` - Language-specific comment prefix (e.g., `#` or `//`)
 - `\\s?` - Optional whitespace after comment prefix
 - `{BINDER_ID}` - The literal string "BINDER_ID"
-- `\\s+` - Required whitespace before hash
-- `([a-f0-9]{40})` - Capture group for exactly 40 hexadecimal characters
+- `\\s+` - Required whitespace before identifier
+- `([a-zA-Z0-9_-]+)` - Capture group for Git reference (commit SHA or branch name)
+  - Matches: lowercase letters (a-z), uppercase letters (A-Z), digits (0-9), hyphens (-), underscores (_)
+  - Length: 1 or more characters (no maximum)
+  - Examples: `6bbed3da294e8de5a8c2ad99abf883731a50d4dd` (commit SHA), `python-landing` (branch name), `main`, `feature-123`
+
+**Why this pattern works**:
+- **Backward compatible**: The old pattern `([a-f0-9]{40})` only matched commit SHAs. The new pattern `([a-zA-Z0-9_-]+)` matches commit SHAs (which are valid under the new pattern) AND branch names.
+- **No breaking changes**: Existing examples with commit SHAs continue to work without modification.
+- **Flexible**: Supports common Git branch naming conventions (kebab-case, snake_case, alphanumeric).
 
 **3. Detection and Extraction**:
 
-Add detection logic in the main processing loop, **after** the `EXAMPLE:` check and **before** the `GO_OUTPUT` check:
+Add detection logic in the main processing loop (around line 157), **after** the `EXAMPLE:` check and **before** the `GO_OUTPUT` check:
 
 ```python
 elif re.search(exid, l):
     output = False
     pass
 elif re.search(binder, l):
-    # Extract BINDER_ID hash value
+    # Extract BINDER_ID value (commit SHA or branch name)
     match = re.search(binder, l)
     if match:
         self.binder_id = match.group(1)
@@ -405,11 +428,14 @@ elif self.language == "go" and re.search(go_output, l):
     # ... rest of processing
 ```
 
+**Exact location**: In `build/components/example.py`, class `Example`, method `make_ranges()`, in the main `while curr < len(self.content):` loop, in the `elif` chain that handles special markers.
+
 **Critical implementation details**:
 - **Must set `output = False`**: This prevents the line from being added to the `content` array
 - **Placement matters**: Must be in the `elif` chain, not a separate `if` statement
 - **No `content.append(l)`**: The line is skipped entirely, just like `EXAMPLE:` lines
-- **Extract before setting output**: Get the hash value before marking the line to skip
+- **Extract before setting output**: Get the value before marking the line to skip
+- **Order in elif chain**: Must come after `exid` (EXAMPLE:) but before `go_output` to maintain proper precedence
 
 **4. Storage in Metadata**:
 
@@ -469,6 +495,9 @@ The `BINDER_ID` line is removed from output through the same mechanism as other 
 3. **Using `if` instead of `elif`**: Could cause multiple conditions to match
 4. **Not checking `if match`**: Could cause AttributeError if regex doesn't match
 5. **Adding field unconditionally**: Results in `"binderId": null` in JSON for examples without the marker
+6. **Regex pattern too restrictive**: Using `[a-f0-9]{40}` only matches commit SHAs, not branch names
+7. **Regex pattern too permissive**: Using `.*` or `.+` could match invalid characters or whitespace
+8. **Wrong capture group**: Using `match.group(0)` returns the entire match including comment prefix, not just the value
 
 **6. Complete Example Flow**:
 
@@ -477,7 +506,7 @@ Here's a complete example showing how a file is processed:
 **Input file** (`local_examples/client-specific/redis-py/landing.py`):
 ```python
 # EXAMPLE: landing
-# BINDER_ID 6bbed3da294e8de5a8c2ad99abf883731a50d4dd
+# BINDER_ID python-landing
 import redis
 
 # STEP_START connect
@@ -487,7 +516,7 @@ r = redis.Redis(host='localhost', port=6379, decode_responses=True)
 
 **Processing steps**:
 1. Line 1: `EXAMPLE:` detected → `output = False` → line skipped
-2. Line 2: `BINDER_ID` detected → extract hash `6bbed3da294e8de5a8c2ad99abf883731a50d4dd` → `output = False` → line skipped
+2. Line 2: `BINDER_ID` detected → extract value `python-landing` → `output = False` → line skipped
 3. Line 3: `import redis` → no marker → added to `content` array at index 0
 4. Line 4: Empty line → added to `content` array at index 1
 5. Line 5: `STEP_START` detected → record step start at line 3 (len(content) + 1) → line skipped
@@ -515,7 +544,7 @@ r = redis.Redis(host='localhost', port=6379, decode_responses=True)
         "connect": "3-3"
       },
       "sourceUrl": null,
-      "binderId": "6bbed3da294e8de5a8c2ad99abf883731a50d4dd"
+      "binderId": "python-landing"
     }
   }
 }
@@ -525,7 +554,8 @@ r = redis.Redis(host='localhost', port=6379, decode_responses=True)
 - Both `EXAMPLE:` and `BINDER_ID` lines are removed from output
 - Line numbers in metadata refer to the processed file (after marker removal)
 - `binderId` is stored at the language level, not the example set level
-- The hash value is extracted cleanly without comment prefix or keyword
+- The value is extracted cleanly without comment prefix or keyword
+- Value can be either a Git commit SHA (40 hex chars) or a branch name (letters, numbers, hyphens, underscores)
 
 **Output Metadata** (stored in `examples.json`):
 - `highlight`: Line ranges to highlight (e.g., `["1-10", "15-20"]`)
@@ -639,12 +669,18 @@ https://redis.io/binder/v2/gh/redis/binder-launchers/<binderId>?urlpath=%2Fdoc%2
 
 **URL Components**:
 - **Base URL**: `https://redis.io/binder/v2/gh/redis/binder-launchers/`
-- **Binder ID**: The Git commit SHA from `binderId` field (40 hexadecimal characters)
+- **Binder ID**: The Git reference from `binderId` field (commit SHA or branch name)
+  - **Commit SHA**: 40 hexadecimal characters (e.g., `6bbed3da294e8de5a8c2ad99abf883731a50d4dd`)
+  - **Branch name**: Letters, numbers, hyphens, underscores (e.g., `python-landing`, `main`, `feature-123`)
 - **URL Path**: `?urlpath=%2Fdoc%2Ftree%2Fdemo.ipynb` (constant, URL-encoded path to notebook)
 - **Notebook filename**: Always `demo.ipynb` - do NOT change per example
 
-**Example**:
+**Examples**:
 ```
+# Using branch name
+https://redis.io/binder/v2/gh/redis/binder-launchers/python-landing?urlpath=%2Fdoc%2Ftree%2Fdemo.ipynb
+
+# Using commit SHA
 https://redis.io/binder/v2/gh/redis/binder-launchers/6bbed3da294e8de5a8c2ad99abf883731a50d4dd?urlpath=%2Fdoc%2Ftree%2Fdemo.ipynb
 ```
 
@@ -1291,12 +1327,26 @@ The `redis/binder-launchers` repository contains Jupyter notebooks for each exam
 1. Create a notebook file (e.g., `demo.ipynb`) that runs your example in the appropriate language
 2. Ensure the necessary language kernel is configured in the BinderHub environment
 3. Commit and push to the `redis/binder-launchers` repository
-4. Note the commit SHA (40-character hexadecimal hash)
+4. Choose your Git reference strategy:
+   - **Branch name** (recommended for active development): Use a descriptive branch name like `python-landing`, `main`, or `feature-xyz`
+   - **Commit SHA** (recommended for stable examples): Use the 40-character hexadecimal commit hash
 
 **Step 2: Add BINDER_ID to your example**:
 
-Add the `BINDER_ID` marker as the second line of your example file (after `EXAMPLE:`):
+Add the `BINDER_ID` marker as the second line of your example file (after `EXAMPLE:`).
 
+**Option A: Using a branch name** (recommended for active development):
+```python
+# EXAMPLE: my_new_example
+# BINDER_ID python-landing
+import redis
+
+# STEP_START connect
+r = redis.Redis(host='localhost', port=6379, decode_responses=True)
+# STEP_END
+```
+
+**Option B: Using a commit SHA** (recommended for stable examples):
 ```python
 # EXAMPLE: my_new_example
 # BINDER_ID 6bbed3da294e8de5a8c2ad99abf883731a50d4dd
@@ -1307,6 +1357,18 @@ r = redis.Redis(host='localhost', port=6379, decode_responses=True)
 # STEP_END
 ```
 
+**Choosing between branch name and commit SHA**:
+
+| Aspect | Branch Name | Commit SHA |
+|--------|-------------|------------|
+| **Updates** | Automatically uses latest commit on branch | Fixed to specific commit |
+| **Stability** | May change if branch is updated | Immutable, always same version |
+| **Maintenance** | Easy - just push to branch | Requires updating `BINDER_ID` after each change |
+| **Use case** | Active development, frequently updated examples | Stable, production examples |
+| **Example** | `python-landing`, `main`, `dev` | `6bbed3da294e8de5a8c2ad99abf883731a50d4dd` |
+
+**Recommendation**: Use branch names during development for easier iteration, then switch to commit SHAs when the example is stable and ready for production.
+
 **Step 3: Rebuild and verify**:
 
 ```bash
@@ -1315,7 +1377,7 @@ python3 build/local_examples.py
 
 # Verify binderId appears in metadata
 python3 -c "import json; data = json.load(open('data/examples.json')); print(data['my_new_example']['Python'].get('binderId'))"
-# Should output: 6bbed3da294e8de5a8c2ad99abf883731a50d4dd
+# Should output: python-landing (or your commit SHA)
 
 # Verify BINDER_ID line is removed from processed file
 cat examples/my_new_example/local_*.py | grep BINDER_ID
@@ -1326,12 +1388,56 @@ hugo serve
 # Navigate to the page and verify "Run this example in the browser" link appears
 ```
 
+**Step 4: Test both formats** (recommended during development):
+
+To ensure the regex pattern works correctly with both branch names and commit SHAs, create temporary test files:
+
+```bash
+# Test 1: Branch name
+cat > local_examples/test_branch.py << 'EOF'
+# EXAMPLE: test_branch
+# BINDER_ID main
+import redis
+r = redis.Redis()
+EOF
+
+# Test 2: Commit SHA
+cat > local_examples/test_sha.py << 'EOF'
+# EXAMPLE: test_sha
+# BINDER_ID 6bbed3da294e8de5a8c2ad99abf883731a50d4dd
+import redis
+r = redis.Redis()
+EOF
+
+# Process and verify both
+python3 build/local_examples.py
+
+# Check branch name extraction
+python3 -c "import json; data = json.load(open('data/examples.json')); print('Branch:', data['test_branch']['Python'].get('binderId'))"
+# Expected output: Branch: main
+
+# Check commit SHA extraction
+python3 -c "import json; data = json.load(open('data/examples.json')); print('SHA:', data['test_sha']['Python'].get('binderId'))"
+# Expected output: SHA: 6bbed3da294e8de5a8c2ad99abf883731a50d4dd
+
+# Verify both lines removed from processed files
+grep BINDER_ID examples/test_branch/local_test_branch.py
+grep BINDER_ID examples/test_sha/local_test_sha.py
+# Both should output nothing
+
+# Clean up test files
+rm local_examples/test_branch.py local_examples/test_sha.py
+python3 build/local_examples.py  # Rebuild to remove from metadata
+```
+
 **Important notes**:
 - BinderHub uses **Jupyter notebooks** which support multiple languages through kernels (Python, Node.js, Java, etc.)
-- The commit hash must exist in the `redis/binder-launchers` repository
+- The Git reference (branch or commit) must exist in the `redis/binder-launchers` repository
 - The notebook filename is always `demo.ipynb` (hardcoded in the URL)
 - The link will only appear if `binderId` exists in the metadata
-- Update the `BINDER_ID` hash whenever you update the notebook in the launcher repository
+- **Branch names**: Automatically use the latest commit on that branch (easier maintenance, but may change)
+- **Commit SHAs**: Point to a specific immutable version (more stable, but requires manual updates)
+- Update the `BINDER_ID` value whenever you want to point to a different version of the notebook
 - Ensure the appropriate language kernel is installed in the BinderHub environment for your example's language
 
 ### When to Rebuild
@@ -1568,11 +1674,13 @@ ModuleNotFoundError: No module named 'pytoml'
   - **Cause**: Regex pattern not matching the line
   - **Debug**:
     1. Check comment prefix matches language: `# BINDER_ID` for Python, `// BINDER_ID` for JavaScript
-    2. Verify hash is exactly 40 hexadecimal characters (lowercase a-f, 0-9)
+    2. Verify value format:
+       - **Branch name**: Letters, numbers, hyphens, underscores (e.g., `python-landing`, `main`)
+       - **Commit SHA**: Exactly 40 hexadecimal characters (e.g., `6bbed3da294e8de5a8c2ad99abf883731a50d4dd`)
     3. Check for extra whitespace or special characters
     4. Run with debug logging: `python3 build/local_examples.py --loglevel DEBUG`
     5. Look for "Found BINDER_ID" message in logs
-  - **Fix**: Ensure format is exactly `{comment_prefix} BINDER_ID {40-char-hash}`
+  - **Fix**: Ensure format is exactly `{comment_prefix} BINDER_ID {git-reference}`
 
 - **Symptom 2**: `BINDER_ID` line appears in processed output file
   - **Cause**: `output = False` not set in detection logic
@@ -1587,10 +1695,11 @@ ModuleNotFoundError: No module named 'pytoml'
         example_metadata['binderId'] = example.binder_id
     ```
 
-- **Symptom 4**: Wrong hash value extracted
+- **Symptom 4**: Wrong value extracted
   - **Cause**: Regex capture group not matching correctly
-  - **Debug**: Check the regex pattern includes capture group: `([a-f0-9]{40})`
-  - **Fix**: Ensure using `match.group(1)` to extract the captured hash
+  - **Debug**: Check the regex pattern includes capture group: `([a-zA-Z0-9_-]+)`
+  - **Fix**: Ensure using `match.group(1)` to extract the captured value
+  - **Verify**: Value should match what's in the source file (branch name or commit SHA)
 
 **BinderHub "Run in browser" link issues**:
 - **Symptom 1**: Link not appearing in example box
@@ -1649,9 +1758,9 @@ ModuleNotFoundError: No module named 'pytoml'
       1. Open browser console
       2. Find the current panel: `document.querySelector('.panel:not(.panel-hidden)')`
       3. Check attribute: `panel.getAttribute('data-binder-id')`
-      4. Should be 40-character hex string
+      4. Should be a valid Git reference (branch name or 40-character commit SHA)
     - **If wrong**: Check metadata in `data/examples.json`
-    - **Fix**: Verify `BINDER_ID` in source file is correct commit hash
+    - **Fix**: Verify `BINDER_ID` in source file is correct (matches what's in `redis/binder-launchers` repo)
 
 - **Symptom 3**: Link opens but BinderHub shows error
   - **Cause 1**: Invalid commit hash in `binderId`
@@ -1982,7 +2091,7 @@ In Markdown files:
 | Marker | Purpose | Example | Notes |
 |--------|---------|---------|-------|
 | `EXAMPLE: id` | Define example ID | `# EXAMPLE: home_vecsets` | **Required**. Must be first line. Removed from processed output. |
-| `BINDER_ID hash` | Define BinderHub commit hash | `# BINDER_ID 6bbed3da294e8de5a8c2ad99abf883731a50d4dd` | **Optional**. Typically line 2 (after EXAMPLE). Hash must be exactly 40 hexadecimal characters (Git commit SHA). Removed from processed output. Stored as `binderId` in metadata. Used to generate interactive Jupyter notebook links. |
+| `BINDER_ID ref` | Define BinderHub Git reference | `# BINDER_ID python-landing`<br>`# BINDER_ID 6bbed3da294e8de5a8c2ad99abf883731a50d4dd` | **Optional**. Typically line 2 (after EXAMPLE). Value can be a Git branch name (e.g., `python-landing`, `main`) or commit SHA (40 hex chars). Removed from processed output. Stored as `binderId` in metadata. Used to generate interactive Jupyter notebook links. |
 | `HIDE_START` | Start hidden block | `# HIDE_START` | Code hidden by default, revealed with eye button |
 | `HIDE_END` | End hidden block | `# HIDE_END` | Must close HIDE_START |
 | `REMOVE_START` | Start removed block | `# REMOVE_START` | Code completely removed from output |

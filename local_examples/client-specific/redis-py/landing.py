@@ -1,5 +1,5 @@
 # EXAMPLE: landing
-# BINDER_ID 6bbed3da294e8de5a8c2ad99abf883731a50d4dd
+# BINDER_ID python-landing
 import redis
 
 # STEP_START connect

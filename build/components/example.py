@@ -91,7 +91,7 @@ class Example(object):
         rstart = re.compile(f'{PREFIXES[self.language]}\\s?{REMOVE_START}')
         rend = re.compile(f'{PREFIXES[self.language]}\\s?{REMOVE_END}')
         exid = re.compile(f'{PREFIXES[self.language]}\\s?{EXAMPLE}')
-        binder = re.compile(f'{PREFIXES[self.language]}\\s?{BINDER_ID}\\s+([a-f0-9]{{40}})')
+        binder = re.compile(f'{PREFIXES[self.language]}\\s?{BINDER_ID}\\s+([a-zA-Z0-9_-]+)')
         go_output = re.compile(f'{PREFIXES[self.language]}\\s?{GO_OUTPUT}')
         go_comment = re.compile(f'{PREFIXES[self.language]}')
         test_marker = re.compile(f'{TEST_MARKER.get(self.language)}')
