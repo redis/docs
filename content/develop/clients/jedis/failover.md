@@ -58,7 +58,7 @@ the command a few times.)
 The status of the attempted command calls is kept in a "sliding window", which
 is simply a buffer where the least recent item is dropped as each new
 one is added. The buffer can be configured to have a fixed number of items or to
-be based on a time window.
+one is added. The buffer can be configured to have a fixed number of failures and/or a failure ratio (specified as a percentage), both based on a time window..
 
 {{< image filename="images/failover/failover-sliding-window.svg" alt="Sliding window of recent connection attempts" >}}
 
