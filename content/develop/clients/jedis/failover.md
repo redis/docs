@@ -168,10 +168,10 @@ multiConfig
         .failureDetector(MultiDbConfig.CircuitBreakerConfig.builder()
                 .slidingWindowSize(2)        // Sliding window size as a duration in seconds.
                 .failureRateThreshold(10.0f)    // Percentage of failures to trigger circuit breaker.
-                .minNumOfFailures(1000)          // Minimum number of failures before circuit breaker is tripped
+                .minNumOfFailures(1000)          // Minimum number of failures before circuit breaker is tripped.
                 .build())
         .failbackSupported(true)                // Enable failback.
-        .failbackCheckInterval(120000)          // Check every 2 minutes to see if the unhealthy database has recovered
+        .failbackCheckInterval(120000)          // Check every 2 minutes to see if the unhealthy database has recovered.
         .gracePeriod(60000)                     // Keep database disabled for 60 seconds after it becomes unhealthy.
         // Optional: configure retry settings
         .commandRetry(MultiDbConfig.RetryConfig.builder()
@@ -180,8 +180,8 @@ multiConfig
                 .exponentialBackoffMultiplier(2) // Exponential backoff factor multiplied by the wait duration between retries.
                 .build())
         // Optional: configure fast failover
-        .fastFailover(true)                       // Force closing connections to unhealthy database on failover
-        .retryOnFailover(false);                  // Do not retry failed commands during failover
+        .fastFailover(true)                       // Force closing connections to unhealthy database on failover.
+        .retryOnFailover(false);                  // Do not retry failed commands during failover.
 ```
 
 Finally, use the configuration to build the `MultiDbClient`.
