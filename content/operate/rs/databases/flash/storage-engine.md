@@ -5,18 +5,21 @@ categories:
 - docs
 - operate
 - rs
-description: Manage the storage engine used for your database with auto tiering enabled.
+description: Manage the storage engine used for your database with auto tiering (Redis on Flash version 1) enabled.
 linkTitle: Manage storage engine
 weight: 100
+aliases: /operate/rs/databases/auto-tiering/storage-engine/
 ---
 
 ## Manage the storage engine
 
-Redis Enterprise Auto Tiering supports two storage engines:
+Redis Enterprise Auto Tiering (Redis on Flash version 1) supports two storage engines:
 
 - Speedb: Redis proprietary storage engine. The default and recommended storage engine as of Redis Enterprise Software version 7.2.4.
 
 - [RocksDB](https://rocksdb.org/): Used up to Redis version 6.2. Deprecated for later Redis versions.
+
+Redis Flex (Redis on Flash version 2) supports Speedb only.
 
 {{<warning>}}Switching between storage engines requires guidance by Redis Support or your Account Manager.{{</warning>}}
 
