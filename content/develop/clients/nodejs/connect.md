@@ -344,7 +344,8 @@ during the connection:
 ```js
 const client = createClient({
   RESP: 3,
-  maintPushNotifications: 'auto',
+  maintNotifications: 'auto',
+  maintEndpointType: 'auto'
   maintRelaxedCommandTimeout: 10000,
   maintRelaxedSocketTimeout: 10000,
   ...
@@ -357,11 +358,17 @@ protocol, so you must set the `RESP:3` option explicitly when you connect.
 
 The available options are:
 
--   `maintPushNotifications`: (`string`) Whether or not to enable SCH. The options are  
+-   `maintNotifications`: (`string`) Whether or not to enable SCH. The options are  
     -   `'disabled'`: don't use SCH
     -   `'enabled'`: attempt to activate SCH on the server and abort the connection if it isn't supported
     -   `'auto'`: attempt to activate SCH on the server and fall back to a non-SCH
         connection if it isn't supported. This is the default.
+-   `maintEndpointType`: (`MovingEndpointType`) The type of endpoint to use for the connection. The options are:
+    -   `'external-ip'`: use the external IP address of the server
+    -   `'internal-ip'`: use the internal IP address of the server
+    -   `'external-fqdn'`: use the external FQDN of the server
+    -   `'internal-fqdn'`: use the internal FQDN of the server
+    -   `'auto'`: auto-detect based on connection. This is the default.
 -   `maintRelaxedCommandTimeout`: (`number`) The command timeout to use while the server is 
     performing maintenance. The default is 10000 (10 seconds). If a timeout happens during the maintenance period, the client receives a `CommandTimeoutDuringMaintenance` error.
 -   `maintRelaxedSocketTimeout`: (`number`) The socket timeout to use while the server is 
