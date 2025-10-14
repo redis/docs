@@ -172,7 +172,7 @@ multiConfig
                 .build())
         .failbackSupported(true)                // Enable failback
         .failbackCheckInterval(120000)            // Check every 2 minutes the unhealthy database to see if it has recovered
-        .gracePeriod(10000)                     // Keep database disabled for 10 seconds after it becomes unhealthy
+        .gracePeriod(60000)                     // Keep database disabled for 60 seconds after it becomes unhealthy
         // Optional: configure retry settings
         .commandRetry(MultiDbConfig.RetryConfig.builder()
                 .maxAttempts(3)                  // Maximum number of retry attempts (including the initial call)
