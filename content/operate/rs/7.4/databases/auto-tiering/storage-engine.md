@@ -9,7 +9,7 @@ description: Manage the storage engine used for your database with auto tiering 
 linkTitle: Manage storage engine
 weight: 100
 url: '/operate/rs/7.4/databases/auto-tiering/storage-engine/'
-aliases: /operate/rs/7.4/databases/redis-flex/storage-engine/
+aliases: /operate/rs/7.4/databases/flash/storage-engine/
 ---
 
 ## Manage the storage engine
