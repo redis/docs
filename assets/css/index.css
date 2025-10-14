@@ -1537,11 +1537,11 @@ a[href*="#no-click"], img[src*="#no-click"] {
   align-items: center !important;
   padding: 0.25rem 0.5rem !important;
   font-size: 0.75rem !important;
-  font-weight: 500 !important;
-  background-color: #fed7aa !important;
-  color: #9a3412 !important;
+  font-weight: 700 !important;
+  background-color: rgb(220, 255, 30) !important;
+  color: #000000 !important;
   border-radius: 9999px !important;
-  border: 1px solid #fdba74 !important;
+  border: none !important;
   flex-shrink: 0 !important;
 }
 
