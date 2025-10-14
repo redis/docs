@@ -120,4 +120,4 @@ After you create the database, you can connect to it and store data. See [Test c
 
 ## Next steps
 
-To see the true performance and scale of Redis Flex, you must tune your I/O path and set the flash path to the mounted path of SSD or NVMe flash memory as that is what it is designed to run on. For more information, see [Redis Flex]({{< relref "/operate/rs/databases/redis-flex/" >}}).
+To see the true performance and scale of Redis Flex, you must tune your I/O path and set the flash path to the mounted path of SSD or NVMe flash memory as that is what it is designed to run on. For more information, see [Redis Flex and Auto Tiering]({{< relref "/operate/rs/databases/flash/" >}}).

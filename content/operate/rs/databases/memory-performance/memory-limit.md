@@ -51,8 +51,8 @@ Redis Enterprise Software protects the existing data and prevents the database 
 
 You can configure the cluster to move the data to another node, or even discard it according to the [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy.md" >}}) set on each database by the administrator.
 
-[Auto Tiering]({{< relref "/operate/rs/databases/auto-tiering/" >}})
-manages memory so that you can also use flash memory (SSD) to store data.
+[Redis Flex and Auto Tiering]({{< relref "/operate/rs/databases/flash/" >}})
+manage memory so that you can also use flash memory (SSD) to store data.
 
 ### Order of events for low RAM
 
