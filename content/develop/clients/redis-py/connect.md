@@ -262,21 +262,21 @@ lets a client take action to avoid disruptions in service.
 See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
 for more information about SCH.
 
-To enable SCH on the client, pass a `MaintenanceEventsConfig` object
+To enable SCH on the client, pass a `MaintNotificationsConfig` object
 during the connection, as shown in the following example:
 
 ```py
 import redis
-from redis.connection import MaintenanceEventsConfig
-from redis.maintenance_events import EndpointType
+from redis.maint_notifications import MaintNotificationsConfig, EndpointType
 
 r = redis.Redis(
     decode_responses=True,
     protocol=3,
-    maintenance_events_config = MaintenanceEventsConfig(
+    maint_notifications_config = MaintNotificationsConfig(
         enabled=True,
         proactive_reconnect=True,
-        relax_timeout=10,
+        relaxed_timeout=10,
+        endpoint_type=EndpointType.EXTERNAL_IP
     ),
     ...
 )
@@ -286,10 +286,11 @@ r = redis.Redis(
 protocol, so you must set `protocol=3` explicitly when you connect.
 {{< /note >}}
 
-The `MaintenanceEventsConfig` constructor accepts the following parameters:
+The `MaintNotificationsConfig` constructor accepts the following parameters:
 
 | Name | Type | Default | Description |
 |------|------|---------|-------------|
 | `enabled` | `bool` | `False` | Whether or not to enable SCH. |
 | `proactive_reconnect` | `bool` | `True` | Whether or not to automatically reconnect when a node is replaced. |
-| `relax_timeout` | `int` | `20` | The timeout (in seconds) to use while the server is performing maintenance. A value of `-1` disables the relax timeout and just uses the normal timeout during maintenance. |
+| `endpoint_type` | `EndpointType` | Auto-detect | The type of endpoint to use for the connection. The options are `EndpointType.EXTERNAL_IP`, `EndpointType.INTERNAL_IP`, `EndpointType.EXTERNAL_FQDN`, `EndpointType.INTERNAL_FQDN`, and `EndpointType.NONE`. |
+| `relaxed_timeout` | `int` | `20` | The timeout (in seconds) to use while the server is performing maintenance. A value of `-1` disables the relax timeout and just uses the normal timeout during maintenance. |
