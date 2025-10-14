@@ -1563,6 +1563,25 @@ a[href*="#no-click"], img[src*="#no-click"] {
   bottom: calc(100% + 8px) !important;
   left: 50% !important;
   transform: translateX(-50%) !important;
+  max-width: 250px !important;
+  white-space: normal !important;
+  word-wrap: break-word !important;
+}
+
+/* Adjust tooltip position when near right edge */
+.deprecated-tooltip-trigger:nth-last-child(-n+2) .deprecated-tooltip,
+.deprecated-tooltip-trigger:last-child .deprecated-tooltip {
+  left: auto !important;
+  right: 0 !important;
+  transform: none !important;
+}
+
+/* Adjust tooltip position when near left edge */
+.deprecated-tooltip-trigger:nth-child(-n+2) .deprecated-tooltip,
+.deprecated-tooltip-trigger:first-child .deprecated-tooltip {
+  left: 0 !important;
+  right: auto !important;
+  transform: none !important;
 }
 
 .deprecated-tooltip::before {
