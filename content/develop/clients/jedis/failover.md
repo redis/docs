@@ -167,17 +167,17 @@ and [retries](#retry-configuration) (these are explained in more detail below).
 multiConfig
         .failureDetector(MultiDbConfig.CircuitBreakerConfig.builder()
                 .slidingWindowSize(2)        // Sliding window size as a duration in seconds.
-                .failureRateThreshold(10.0f)    // percentage of failures to trigger circuit breaker
+                .failureRateThreshold(10.0f)    // Percentage of failures to trigger circuit breaker.
                 .minNumOfFailures(1000)          // Minimum number of failures before circuit breaker is tripped
                 .build())
-        .failbackSupported(true)                // Enable failback
-        .failbackCheckInterval(120000)            // Check every 2 minutes the unhealthy database to see if it has recovered
-        .gracePeriod(60000)                     // Keep database disabled for 60 seconds after it becomes unhealthy
+        .failbackSupported(true)                // Enable failback.
+        .failbackCheckInterval(120000)          // Check every 2 minutes to see if the unhealthy database has recovered
+        .gracePeriod(60000)                     // Keep database disabled for 60 seconds after it becomes unhealthy.
         // Optional: configure retry settings
         .commandRetry(MultiDbConfig.RetryConfig.builder()
                 .maxAttempts(3)                  // Maximum number of retry attempts (including the initial call)
-                .waitDuration(500)               // Number of milliseconds to wait between retry attempts
-                .exponentialBackoffMultiplier(2) // Exponential backoff factor multiplied against wait duration between retries
+                .waitDuration(500)               // Number of milliseconds to wait between retry attempts.
+                .exponentialBackoffMultiplier(2) // Exponential backoff factor multiplied by the wait duration between retries.
                 .build())
         // Optional: configure fast failover
         .fastFailover(true)                       // Force closing connections to unhealthy database on failover
@@ -297,28 +297,28 @@ builder.
 
 ```java
 BiFunction<HostAndPort, Supplier<RedisCredentials>, MultiDbConfig.StrategySupplier> healthCheckStrategySupplier =
-        (HostAndPort dbHostPort, Supplier<RedisCredentials> credentialsSupplier) -> {
-            LagAwareStrategy.Config lagConfig = LagAwareStrategy.Config.builder(dbHostPort, credentialsSupplier)
-                    .interval(5000)                                          // Check every 5 seconds
-                    .timeout(3000)                                           // 3 second timeout
-                    .extendedCheckEnabled(true)
-                    .build();
-
-            return (hostAndPort, jedisClientConfig) -> new LagAwareStrategy(lagConfig);
-        };
-
-// Configure REST API endpoint and credentials
-HostAndPort restEndpoint = new HostAndPort("redis-enterprise-db-fqdn", 9443);
-Supplier<RedisCredentials> credentialsSupplier = () ->
-        new DefaultRedisCredentials("rest-api-user", "pwd");
-
-MultiDbConfig.StrategySupplier lagawareStrategySupplier = healthCheckStrategySupplier.apply(
-        restEndpoint, credentialsSupplier);
-
-MultiDbConfig.DatabaseConfig dbConfig =
-        MultiDbConfig.DatabaseConfig.builder(hostAndPort, clientConfig)
-                .healthCheckStrategySupplier(lagawareStrategySupplier)
+    (HostAndPort dbHostPort, Supplier<RedisCredentials> credentialsSupplier) -> {
+        LagAwareStrategy.Config lagConfig = LagAwareStrategy.Config.builder(dbHostPort, credentialsSupplier)
+                .interval(5000)                       // Check every 5 seconds
+                .timeout(3000)                        // 3 second timeout
+                .extendedCheckEnabled(true)
                 .build();
+
+        return (hostAndPort, jedisClientConfig) -> new LagAwareStrategy(lagConfig);
+    };
+
+    // Configure REST API endpoint and credentials
+    HostAndPort restEndpoint = new HostAndPort("redis-enterprise-db-fqdn", 9443);
+    Supplier<RedisCredentials> credentialsSupplier = () -> new DefaultRedisCredentials("rest-api-user", "pwd");
+    // Build a single LagAwareStrategy based on REST endpoint and credentials
+    LagAwareStrategy.Config lagConfig = LagAwareStrategy.Config
+        .builder(restEndpoint, credentialsSupplier)
+        .interval(5000) // Check every 5 seconds
+        .timeout(3000) // 3 second timeout
+        .extendedCheckEnabled(true)
+        .build();
+    MultiDbConfig.StrategySupplier lagAwareStrategySupplier = (hostAndPort,
+        jedisClientConfig) -> new LagAwareStrategy(lagConfig);
 ```
 
 ### Custom health check strategy
