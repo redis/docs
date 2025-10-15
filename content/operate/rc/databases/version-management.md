@@ -21,14 +21,13 @@ Redis Cloud balances customer control with automated maintenance to ensure your 
 
 | Version | Type | Status | EOL Date |
 |---------|------|--------|----------|
-| **Redis 8.2** | STS | GA (October 2025) | TBD |
+| **Redis 8.2** | STS | GA | TBD |
 | **Redis 8.0** | STS | Preview | May 1, 2026 |
 | **Redis 7.4** | LTS | GA | TBD |
 | **Redis 7.2** | LTS | GA | TBD |
 | **Redis 6.2** | LTS | GA | Nov 2025* |
 
-*Redis 6.2 EOL announced one month after Redis 8.2 GA, with EOL 18 months later.
-
+**EOL (End of life)**: Databases on EOL versions are not supported. 
 **LTS (Long-Term Support)**: Final minor release of a major version with extended support.
 **STS (Short-Term Support)**: All other minor releases, supported for 6 months after the next minor release.
 
@@ -37,7 +36,7 @@ Redis Cloud balances customer control with automated maintenance to ensure your 
 Starting October 2025:
 
 - **You select**: Major version only (e.g., Redis 8)
-- **We manage**: Minor versions automatically within your selected major
+- **We manage**: Minor versions automatically within your selected major version
 - **You control**: Opt out of auto-upgrades if preferred; major upgrades always require your action
 
 ## How it works
@@ -66,8 +65,8 @@ If you opt out of auto-upgrades and reach EOL, Redis Cloud will force upgrade af
 
 ### Manual upgrades (Pro)
 
-1. Select your database > **More actions > Version upgrade**
-2. Choose target version > **Upgrade**
+1. Select your database: **More actions** > **Version upgrade**
+2. Choose target version: **Upgrade**
 
 {{< note >}}
 Before upgrading: [Back up your data]({{< relref "/operate/rc/databases/back-up-data" >}}), review [breaking changes]({{< relref "/operate/rc/changelog/version-release-notes" >}}), and plan for off-peak hours.
@@ -75,9 +74,9 @@ Before upgrading: [Back up your data]({{< relref "/operate/rc/databases/back-up-
 
 ### Auto-upgrade settings (Pro)
 
-**Enable/disable**: Database details > **Configuration** > **General** > **Auto-upgrade minor versions**
+**Enable/disable**: **Database details** > **Configuration** > **General** > **Auto-upgrade minor versions**
 
-**Maintenance windows**: Subscription details > **Maintenance** > Set preferred window
+**Maintenance windows**: **Subscription details** > **Maintenance** > **Set preferred window**
 
 ## Compatibility
 
