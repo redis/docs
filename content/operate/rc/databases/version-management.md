@@ -27,7 +27,7 @@ Redis Cloud balances customer control with automated maintenance to ensure your 
 | **Redis 7.2** | LTS | *GA | TBD | Essentials, Pro |
 | **Redis 6.2** | LTS | GA | Nov 2025* | Essentials, Pro |
 
-**EOL (End of life)**: Databases on EOL versions are not supported.
+**EOL (End of life)**: Databases on EOL versions are not supported. If auto-upgrades are enabled, Redis Cloud will automatically upgrade your database to the following version.
 **LTS (Long-Term Support)**: Final minor release of a major version with extended support.
 **STS (Short-Term Support)**: All other minor releases, supported for 6 months after the next minor release.
 *7.2 and 8.0 versions are not available for new databases.
