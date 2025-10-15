@@ -17,9 +17,9 @@ Redis Cloud gives you control over major version upgrades, while minor version u
 
 Starting with Redis 8.2 (October 2025), Redis Cloud manages minor version upgrades automatically:
 
-- **You choose the major version** (7.8) when creating a database
-- **We automatically upgrade minor versions** within that major version (7.8.2 → 7.8.4 → 7.8.6)
-- **You control major upgrades** (7.8 → 8.2) - these always require your explicit action
+- **You choose the major version** (e.g., 8.2) when creating a database
+- **We automatically upgrade minor versions** within that major version (e.g., 8.2.1 → 8.2.2 → 8.2.3)
+- **You control major upgrades** (e.g., 8.2 → 8.4) - these always require your explicit action
 - **You can opt out** of automatic minor upgrades (Pro plans only)
 
 ### Version types
