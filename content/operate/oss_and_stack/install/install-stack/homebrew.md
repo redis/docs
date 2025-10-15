@@ -44,51 +44,7 @@ Follow these steps to remove any existing Redis installation files:
     rm -iv $(brew --prefix)/etc/redis.conf
     ```
 
-Next, follow the instructions in the [next section](#install-using-homebrew) to install Redis Open Source 8.x using the Redis Homebrew cask. After installation and starting Redis, you can test to see if all the modules are loaded correctly by running the following command.
-
-{{< highlight bash  >}}
-$ redis-cli MODULE LIST
-1) 1) "name"
-   2) "bf"
-   3) "ver"
-   4) (integer) 80200
-   5) "path"
-   6) "/usr/local/lib/redis/modules//redisbloom.so"
-   7) "args"
-   8) (empty array)
-2) 1) "name"
-   2) "timeseries"
-   3) "ver"
-   4) (integer) 80200
-   5) "path"
-   6) "/usr/local/lib/redis/modules//redistimeseries.so"
-   7) "args"
-   8) (empty array)
-3) 1) "name"
-   2) "search"
-   3) "ver"
-   4) (integer) 80201
-   5) "path"
-   6) "/usr/local/lib/redis/modules//redisearch.so"
-   7) "args"
-   8) (empty array)
-4) 1) "name"
-   2) "vectorset"
-   3) "ver"
-   4) (integer) 1
-   5) "path"
-   6) ""
-   7) "args"
-   8) (empty array)
-5) 1) "name"
-   2) "ReJSON"
-   3) "ver"
-   4) (integer) 80200
-   5) "path"
-   6) "/usr/local/lib/redis/modules//rejson.so"
-   7) "args"
-   8) (empty array)
-{{< /highlight >}}
+Next, follow the instructions in the [next section](#install-using-homebrew) to install Redis Open Source 8.x using the Redis Homebrew cask.
 
 ## Install using Homebrew {#install-using-homebrew}
 
@@ -147,6 +103,54 @@ Test the connection with the `ping` command:
 {{< highlight bash  >}}
 127.0.0.1:6379> PING
 PONG
+{{< /highlight >}}
+
+### Verify that all modules are loaded correctly
+
+If you had previously installed earlier versions of Redis using Homebrew, for example 7.2.x or 7.4.x, you should test to see if all the modules are loaded correctly by running the following command. Your output should look similar to the following:
+
+{{< highlight bash  >}}
+$ redis-cli MODULE LIST
+1) 1) "name"
+   2) "bf"
+   3) "ver"
+   4) (integer) 80200
+   5) "path"
+   6) "/usr/local/lib/redis/modules//redisbloom.so"
+   7) "args"
+   8) (empty array)
+2) 1) "name"
+   2) "timeseries"
+   3) "ver"
+   4) (integer) 80200
+   5) "path"
+   6) "/usr/local/lib/redis/modules//redistimeseries.so"
+   7) "args"
+   8) (empty array)
+3) 1) "name"
+   2) "search"
+   3) "ver"
+   4) (integer) 80201
+   5) "path"
+   6) "/usr/local/lib/redis/modules//redisearch.so"
+   7) "args"
+   8) (empty array)
+4) 1) "name"
+   2) "vectorset"
+   3) "ver"
+   4) (integer) 1
+   5) "path"
+   6) ""
+   7) "args"
+   8) (empty array)
+5) 1) "name"
+   2) "ReJSON"
+   3) "ver"
+   4) (integer) 80200
+   5) "path"
+   6) "/usr/local/lib/redis/modules//rejson.so"
+   7) "args"
+   8) (empty array)
 {{< /highlight >}}
 
 ## Stop Redis
