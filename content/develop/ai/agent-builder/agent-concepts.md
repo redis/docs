@@ -87,7 +87,7 @@ Redis is the **ideal foundation** for AI agents because it excels at the three t
 
 <div>
 
-<div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 mb-4">
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200  mb-4">
 <h3 class="no-toc">Conversational assistants</h3>
 
 Build chatbots and virtual assistants that:
@@ -99,7 +99,7 @@ Build chatbots and virtual assistants that:
 [Build a conversational agent →](../)
 </div>
 
-<div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 mb-4">
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
 <h3 class="no-toc">Recommendation engines</h3>
 
 Create intelligent recommendation systems that:
@@ -111,7 +111,7 @@ Create intelligent recommendation systems that:
 [Build a recommendation agent →](../)
 </div>
 
-<div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 mb-4">
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
 <h3 class="no-toc">Task automation agents</h3>
 
 Automate complex workflows and business processes:
@@ -121,7 +121,7 @@ Automate complex workflows and business processes:
 - Monitor and report on task completion
 </div>
 
-<div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 mb-4">
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
 <h3 class="no-toc">Data analysis agents</h3>
 
 Process and analyze large datasets intelligently:
@@ -131,7 +131,7 @@ Process and analyze large datasets intelligently:
 - Create visualizations and dashboards
 </div>
 
-<div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 mb-4">
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
 <h3 class="no-toc">Content generation agents</h3>
 
 Create and manage content at scale:
@@ -145,7 +145,7 @@ Create and manage content at scale:
 
 <div>
 
-<div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 mb-4">
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
 <h3 class="no-toc">Customer support agents</h3>
 
 Provide intelligent customer service:
@@ -155,7 +155,7 @@ Provide intelligent customer service:
 - Learn from interactions to improve responses
 </div>
 
-<div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 mb-4">
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
 <h3 class="no-toc">Research and retrieval agents</h3>
 
 Find and synthesize information from multiple sources:
@@ -165,7 +165,7 @@ Find and synthesize information from multiple sources:
 - Maintain up-to-date knowledge repositories
 </div>
 
-<div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 mb-4">
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
 <h3 class="no-toc">Monitoring and alerting agents</h3>
 
 Watch systems and notify when action is needed:
@@ -175,7 +175,7 @@ Watch systems and notify when action is needed:
 - Suggest remediation actions
 </div>
 
-<div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 mb-4">
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
 <h3 class="no-toc">Personal productivity agents</h3>
 
 Help users manage tasks and information:
@@ -185,7 +185,7 @@ Help users manage tasks and information:
 - Learn user preferences and habits
 </div>
 
-<div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 mb-4">
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
 <h3 class="no-toc">Trading and financial agents</h3>
 
 Make intelligent financial decisions:
@@ -343,7 +343,7 @@ Production-ready agents include built-in reliability features:
 
 ## Key takeaways
 
-<div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700 my-8">
+<div class="bg-gray-50 p-6 rounded-lg border border-gray-200 my-8">
 
 **What makes agents different:**
 Agents maintain memory, plan multi-step tasks, and learn from interactions—unlike simple chatbots.
