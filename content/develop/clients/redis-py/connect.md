@@ -252,3 +252,45 @@ a simple retry strategy by default, but there are various ways you can customize
 this behavior to suit your use case. See
 [Retries]({{< relref "/develop/clients/redis-py/produsage#retries" >}})
 for more information about custom retry strategies, with example code.
+
+## Connect using Smart client handoffs (SCH)
+
+*Smart client handoffs (SCH)* is a feature of Redis Cloud and
+Redis Enterprise servers that lets them actively notify clients
+about planned server maintenance shortly before it happens. This
+lets a client take action to avoid disruptions in service.
+See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
+for more information about SCH.
+
+To enable SCH on the client, pass a `MaintNotificationsConfig` object
+during the connection, as shown in the following example:
+
+```py
+import redis
+from redis.maint_notifications import MaintNotificationsConfig, EndpointType
+
+r = redis.Redis(
+    decode_responses=True,
+    protocol=3,
+    maint_notifications_config=MaintNotificationsConfig(
+        enabled=True,
+        proactive_reconnect=True,
+        relaxed_timeout=10,
+        endpoint_type=EndpointType.EXTERNAL_IP
+    ),
+    ...
+)
+```
+
+{{< note >}}SCH requires the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
+protocol, so you must set `protocol=3` explicitly when you connect.
+{{< /note >}}
+
+The `MaintNotificationsConfig` constructor accepts the following parameters:
+
+| Name | Type | Default | Description |
+|------|------|---------|-------------|
+| `enabled` | `bool` | `False` | Whether or not to enable SCH. |
+| `proactive_reconnect` | `bool` | `True` | Whether or not to automatically reconnect when a node is replaced. |
+| `endpoint_type` | `EndpointType` | Auto-detect | The type of endpoint to use for the connection. The options are `EndpointType.EXTERNAL_IP`, `EndpointType.INTERNAL_IP`, `EndpointType.EXTERNAL_FQDN`, `EndpointType.INTERNAL_FQDN`, and `EndpointType.NONE`. |
+| `relaxed_timeout` | `int` | `20` | The timeout (in seconds) to use while the server is performing maintenance. A value of `-1` disables the relax timeout and just uses the normal timeout during maintenance. |
