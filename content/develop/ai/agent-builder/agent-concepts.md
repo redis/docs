@@ -73,7 +73,7 @@ Redis is the **ideal foundation** for AI agents because it excels at the three t
 - SVS-VAMANA leverages Intel hardware acceleration for enhanced performance
 - Hybrid search combining vector similarity with metadata filtering
 - Real-time updates without index rebuilds
-- [Learn more about Redis Vector Search →]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}})
+- [Learn more about Redis Vector Search →]({{< relref "/develop/ai/search-and-query/vectors/" >}})
 
 **Agent memory**
 - **Short-term**: Conversation context and session state
@@ -269,7 +269,7 @@ Understanding how to map agent memory needs to Redis data structures is crucial 
 - Key benefits: High-performance vector similarity search, multiple distance metrics, real-time indexing
 - Implementation: RAG systems, semantic memory, content discovery, personalized recommendations
 - Queries: K-nearest neighbor search, range queries, hybrid filtering with metadata
-- [Learn about Redis Vector Sets →]({{< relref "/develop/data-types/vector" >}})
+- [Learn about Redis Vector Sets →]({{< relref "/develop/data-types/vector-sets" >}})
 
 ### Redis Sorted Sets for Rankings and Priorities
 
@@ -337,7 +337,7 @@ Production-ready agents include built-in reliability features:
 - Redis memory optimization: Efficient data structures and TTL policies
 - API rate limiting: Prevent excessive external API calls
 - Resource monitoring: Track and optimize compute and storage costs
-- [Redis performance optimization →]({{< relref "/operate/rs/administering/database-operations/memory-performance" >}})
+- [Redis performance optimization →]({{< relref "/operate/rs/databases/memory-performance" >}})
 
 ---
 
@@ -365,12 +365,12 @@ Ready to build your AI agent with Redis?
 - [Redis quick start guide]({{< relref "/develop/get-started" >}}) for setting up Redis
 
 **Learn more:**
-- [Redis Vector Search documentation]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}})
-- [RedisVL Python library]({{< relref "/develop/clients/redisvl" >}}) for vector operations and AI workflows
+- [Redis Vector Search documentation]({{< relref "develop/ai/search-and-query/vectors" >}})
+- [RedisVL Python library]({{< relref "develop/clients/redis-vl" >}}) for vector operations and AI workflows
 - [Redis data structures guide](/develop/data-types/)
 - [Redis client libraries]({{< relref "/develop/clients" >}}) for your programming language
 
 **Deploy and scale:**
 - [Redis Cloud]({{< relref "/operate/rc" >}}) for managed Redis hosting
 - [Redis Enterprise]({{< relref "/operate/rs" >}}) for on-premises deployment
-- [Performance optimization]({{< relref "/operate/rs/administering/database-operations/memory-performance" >}}) best practices
+- [Performance optimization]({{< relref "/operate/rs/databases/memory-performance" >}}) best practices
