@@ -10,7 +10,7 @@ description: Clustering to allow customers to spread the load of a Redis process
 linktitle: Clustering
 weight: 10
 ---
-Source available [Redis](https://redislabs.com/redis-features/redis) is a single-threaded process
+Source available [Redis](https://redis.io/docs/latest/get-started/) is a single-threaded process
 to provide speed and simplicity.
 A single Redis process is bound by the CPU core that it is running on and available memory on the server.
 
