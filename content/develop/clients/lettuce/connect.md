@@ -272,6 +272,7 @@ and pass them to the `ClientOptions` builder as shown in the example below:
 import io.lettuce.core.*;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.protocol.ProtocolVersion;
+import java.time.Duration;
 //  ...
 //  ...
 
@@ -284,7 +285,7 @@ MaintNotificationsConfig maintNotificationsConfig = MaintNotificationsConfig.bui
         .build();
 
 TimeoutOptions timeoutOptions = TimeoutOptions.builder()
-        .relaxedTimeoutsDuringMaintenance( Duration.ofSeconds(10))
+        .relaxedTimeoutsDuringMaintenance(Duration.ofSeconds(10))
         .build();
 
 ClientOptions clientOptions = ClientOptions.builder()

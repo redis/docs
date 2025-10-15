@@ -345,7 +345,7 @@ during the connection:
 const client = createClient({
   RESP: 3,
   maintNotifications: 'auto',
-  maintEndpointType: 'auto'
+  maintEndpointType: 'auto',
   maintRelaxedCommandTimeout: 10000,
   maintRelaxedSocketTimeout: 10000,
   ...

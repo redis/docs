@@ -272,7 +272,7 @@ from redis.maint_notifications import MaintNotificationsConfig, EndpointType
 r = redis.Redis(
     decode_responses=True,
     protocol=3,
-    maint_notifications_config = MaintNotificationsConfig(
+    maint_notifications_config=MaintNotificationsConfig(
         enabled=True,
         proactive_reconnect=True,
         relaxed_timeout=10,
