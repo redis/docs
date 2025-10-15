@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: Redis Open Source 8.0 and 8.2 features. Lag-aware availability API. Metrics stream engine GA.
+description: Redis Open Source 8.0 and 8.2 features. Lag-aware availability API. Redis Flex GA. Metrics stream engine GA. Module management enhancements. New REST API fields for database and cluster configuration.
 linkTitle: 8.0.2-tba (October 2025)
 weight: 90
 ---
@@ -21,7 +21,13 @@ This version offers:
 
 - Lag-aware availability API
 
+- Redis Flex GA
+
 - Metrics stream engine GA
+
+- Module management enhancements
+
+- New REST API fields for database and cluster configuration
 
 ## New in this release
 
@@ -315,6 +321,8 @@ The following table shows which Redis modules are compatible with each Redis dat
 - RS162973: Fixed an issue with shard failover where the shard failed to restart because its port was not released quickly enough after it crashed.
 
 - RS166122: Fixed an issue where the actions API could incorrectly report state machine operations as running after they completed.
+
+- RS171579: Fixed an issue where the new UI incorrectly added `default_user: False` when the default_user field was absent, causing connection issues.
 
 ## Version changes
 

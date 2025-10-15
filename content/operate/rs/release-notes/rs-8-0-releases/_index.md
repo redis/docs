@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 8.0
-description: Redis Open Source 8.0 and 8.2 features. Lag-aware availability API. Metrics stream engine GA.
+description: Redis Open Source 8.0 and 8.2 features. Lag-aware availability API. Redis Flex GA. Metrics stream engine GA. Module management enhancements. New REST API fields for database and cluster configuration.
 hideListLinks: true
 linkTitle: 8.0.x releases
 toc: 'true'
@@ -23,7 +23,13 @@ This version offers:
 
 - Lag-aware availability API
 
+- Redis Flex GA
+
 - Metrics stream engine GA
+
+- Module management enhancements
+
+- New REST API fields for database and cluster configuration
 
 ## Detailed release notes
 
