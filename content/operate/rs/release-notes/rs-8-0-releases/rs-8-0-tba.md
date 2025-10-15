@@ -80,7 +80,7 @@ Redis Enterprise Software databases created with or upgraded to Redis version 8 
 | Database type | Automatically enabled capabilities |
 |---------------|------------------------------------|
 | RAM-only | [Search and query]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search">}})<br />[JSON]({{<relref "/operate/oss_and_stack/stack-with-enterprise/json">}})<br />[Time series]({{<relref "/operate/oss_and_stack/stack-with-enterprise/timeseries">}})<br />[Probabilistic]({{<relref "/operate/oss_and_stack/stack-with-enterprise/bloom">}})  |
-| Flash-enabled ([Auto Tiering]({{<relref "/operate/rs/databases/auto-tiering">}})) | [JSON]({{<relref "/operate/oss_and_stack/stack-with-enterprise/json">}})<br />[Probabilistic]({{<relref "/operate/oss_and_stack/stack-with-enterprise/bloom">}}) |
+| Flash-enabled ([Redis Flex]({{<relref "/operate/rs/databases/flash">}})) | [JSON]({{<relref "/operate/oss_and_stack/stack-with-enterprise/json">}})<br />[Probabilistic]({{<relref "/operate/oss_and_stack/stack-with-enterprise/bloom">}}) |
 | [Active-Active]({{<relref "/operate/rs/databases/active-active">}}) | [Search and query]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search/search-active-active">}})<br />[JSON]({{<relref "/operate/oss_and_stack/stack-with-enterprise/json">}}) |
 
 #### Lag-aware availability API
@@ -100,6 +100,21 @@ The lag tolerance threshold is 100 milliseconds by default. Depending on factors
     ```
 
 For more details, see [Check database availability for monitoring and load balancers]({{<relref "/operate/rs/monitoring/db-availability">}}).
+
+#### Redis Flex GA
+
+Redis Flex (Redis on Flash version 2) is now generally available for flash-enabled databases. Redis Flex is the enhanced successor to Auto Tiering (Redis on Flash version 1), which allows you to provision larger databases at a lower cost by extending the RAM with flash drives.
+
+- Databases created with Redis version 8.0 and later automatically use Redis Flex.
+
+- Databases with Redis version 7.4 can choose between Auto Tiering (`bigstore_version` 1) and Redis Flex (`bigstore_version` 2)
+
+- Databases with Redis versions earlier than 7.4 will continue to use Auto Tiering.
+
+For more information about Redis Flex, see:
+
+- [Redis Flex overview]({{< relref "/operate/rs/databases/flash" >}})
+- [Redis Flex quick start]({{< relref "/operate/rs/databases/flash/quickstart" >}})
 
 #### Metrics stream engine GA
 
