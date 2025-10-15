@@ -114,7 +114,7 @@ try (RedisClient client = RedisClient.create(redisURI)) {
 
 ### Setting timeouts in Spring Data Redis
 
-If you are using Spring Data Redis, you can set timeouts and keepalive settings using `LettuceClientConfigurationCustomizer`:
+If you are using Spring Data Redis, you can set timeouts and keepalive settings using `LettuceClientConfigurationBuilderCustomizer`:
 
 ```java
 @Bean
