@@ -29,7 +29,7 @@ Starting with Redis 8.0, all advanced capabilities provided by Redis Stack are i
 
 ### Version management for Essentials
 
-- **Auto-upgrades**: Minor version auto-upgrades are enabled by default and cannot be disabled
+- **Minor version auto-upgrades**: Enabled by default for Redis 8+ and cannot be disabled
 - **Latest versions**: All new databases automatically use the latest available Redis version
 - **Notifications**: You receive notifications when new database versions become available
 
@@ -43,7 +43,7 @@ By default, Redis Cloud Pro databases load all supported advanced capabilities. 
 
 ### Version management for Pro
 
-- **Auto-upgrades**: Minor version auto-upgrades are enabled by default but can be disabled
+- **Minor version auto-upgrades**: Enabled by default for Redis 8+ but can be disabled
 - **Manual control**: You can upgrade to any available version at any time
 - **Maintenance windows**: Automatic upgrades occur during your defined maintenance window
 

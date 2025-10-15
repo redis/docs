@@ -74,7 +74,7 @@ When creating a database, you select the **major version only**. Redis Cloud aut
 
 | Feature | Essentials | Pro |
 |---------|------------|-----|
-| Auto minor upgrades (Redis 8+) | Always enabled | Default enabled, can disable |
+| Minor version auto-upgrades (Redis 8+) | Always enabled | Default enabled, can disable |
 | Manual upgrades | No | Yes |
 | Maintenance window | Standard | Configurable |
 
@@ -106,12 +106,12 @@ Redis Cloud Pro users can upgrade their databases at any time:
 1. Select your database: **More actions** > **Version upgrade**
 2. Choose target version: **Upgrade**
 
-For information about automatic minor version upgrades and configuration options, see [Database configuration]({{< relref "/operate/rc/databases/view-edit-database" >}}).
+For information about minor version auto-upgrades and configuration options, see [Database configuration]({{< relref "/operate/rc/databases/view-edit-database" >}}).
 
 ## FAQ
 
 **Can I prevent auto-upgrades?**
-Pro users can opt out of minor auto-upgrades for Redis 8+. Major upgrades always require your action.
+Pro users can opt out of minor version auto-upgrades for Redis 8+. Major upgrades always require your action.
 
 **What if I don't upgrade before EOL?**
 Redis Cloud will force upgrade after notifications to ensure security and support.
