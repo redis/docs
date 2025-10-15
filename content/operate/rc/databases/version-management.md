@@ -19,17 +19,18 @@ Redis Cloud balances customer control with automated maintenance to ensure your 
 
 ## Supported versions
 
-| Version | Type | Status | EOL Date |
-|---------|------|--------|----------|
-| **Redis 8.2** | STS | GA | TBD |
-| **Redis 8.0** | STS | Preview | May 1, 2026 |
-| **Redis 7.4** | LTS | GA | TBD |
-| **Redis 7.2** | LTS | GA | TBD |
-| **Redis 6.2** | LTS | GA | Nov 2025* |
+| Version | Type | Status | EOL Date | Plans |
+|---------|------|--------|----------|-------|
+| **Redis 8.2** | STS | GA | TBD | Essentials, Pro |
+| **Redis 8.0** | STS | *Preview | May 1, 2026 | Essentials |
+| **Redis 7.4** | LTS | GA | TBD | Essentials, Pro |
+| **Redis 7.2** | LTS | *GA | TBD | Essentials, Pro |
+| **Redis 6.2** | LTS | GA | Nov 2025* | Essentials, Pro |
 
-**EOL (End of life)**: Databases on EOL versions are not supported. 
+**EOL (End of life)**: Databases on EOL versions are not supported.
 **LTS (Long-Term Support)**: Final minor release of a major version with extended support.
 **STS (Short-Term Support)**: All other minor releases, supported for 6 months after the next minor release.
+*7.2 and 8.0 versions are not available for new databases.
 
 ## New version policy (Redis 8.2+)
 
