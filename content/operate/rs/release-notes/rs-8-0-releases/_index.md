@@ -45,10 +45,6 @@ For more detailed release notes, select a build version from the following table
 
 ### Breaking changes
 
-Redis Enterprise Software version 8.0 introduces the following breaking changes:
-
-- TBA
-
 ### Redis database version 8 breaking changes {#redis-8-breaking-changes}
 
 When new major versions of Redis Open Source change existing commands, upgrading your database to a new version can potentially break some functionality. Before you upgrade, read the provided list of breaking changes that affect Redis Software and update any applications that connect to your database to handle these changes.
@@ -76,10 +72,6 @@ Note that the `@all` category did not change, as it always included all the comm
 #### Redis Query Engine changes
 
 {{<embed-md "redis8-breaking-changes-rqe.md">}}
-
-### Product lifecycle updates
-
-- TBA
 
 ### Deprecations
 

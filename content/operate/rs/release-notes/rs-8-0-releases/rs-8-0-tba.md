@@ -332,10 +332,6 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 ### Breaking changes
 
-Redis Enterprise Software version 8.0.2 introduces the following breaking changes:
-
-- TBA
-
 ### Redis database version 8 breaking changes {#redis-8-breaking-changes}
 
 When new major versions of Redis Open Source change existing commands, upgrading your database to a new version can potentially break some functionality. Before you upgrade, read the provided list of breaking changes that affect Redis Software and update any applications that connect to your database to handle these changes.
@@ -382,10 +378,6 @@ The following changes affect behavior and validation in the Redis Query Engine:
 
 - Improved handling of expired records, memory constraints, and malformed fields.
 
-### Product lifecycle updates
-
-- TBA
-
 ### Deprecations
 
 #### API deprecations
@@ -411,10 +403,6 @@ The following changes affect behavior and validation in the Redis Query Engine:
 The existing [internal monitoring engine]({{<relref "/operate/rs/monitoring/v1_monitoring">}}) is deprecated. We recommend transitioning to the new [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}) for improved performance, enhanced integration capabilities, and modernized metrics streaming.
 
 V1 Prometheus metrics are deprecated but still available. To transition to the new metrics stream engine, either migrate your existing dashboards using [this guide]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v1-to-v2">}}) now, or wait to use new preconfigured dashboards when they become available in a future release.
-
-### Upcoming changes
-
-- TBA
 
 ### Supported platforms
 
