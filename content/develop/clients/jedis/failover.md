@@ -297,33 +297,27 @@ and can also optionally check replication lag.
 `LagAwareStrategy` determines the health of the server using the
 [REST API]({{< relref "/operate/rs/references/rest-api" >}}). The example
 below shows how to configure `LagAwareStrategy` and activate it using
-the `healthCheckStrategySupplier()` method of the `MultiDbConfig.DatabaseConfig`
+the `healthCheckStrategy()` method of the `MultiDbConfig.DatabaseConfig`
 builder.
 
 ```java
-BiFunction<HostAndPort, Supplier<RedisCredentials>, MultiDbConfig.StrategySupplier> healthCheckStrategySupplier =
-    (HostAndPort dbHostPort, Supplier<RedisCredentials> credentialsSupplier) -> {
-        LagAwareStrategy.Config lagConfig = LagAwareStrategy.Config.builder(dbHostPort, credentialsSupplier)
-                .interval(5000)                       // Check every 5 seconds
-                .timeout(3000)                        // 3 second timeout
-                .extendedCheckEnabled(true)
-                .build();
+// Configure REST API endpoint and credentials
+HostAndPort restEndpoint = new HostAndPort("redis-enterprise-db-fqdn", 9443);
+Supplier<RedisCredentials> credentialsSupplier = () -> new DefaultRedisCredentials("rest-api-user", "pwd");
 
-        return (hostAndPort, jedisClientConfig) -> new LagAwareStrategy(lagConfig);
-    };
-
-    // Configure REST API endpoint and credentials
-    HostAndPort restEndpoint = new HostAndPort("redis-enterprise-db-fqdn", 9443);
-    Supplier<RedisCredentials> credentialsSupplier = () -> new DefaultRedisCredentials("rest-api-user", "pwd");
-    // Build a single LagAwareStrategy based on REST endpoint and credentials
-    LagAwareStrategy.Config lagConfig = LagAwareStrategy.Config
+// Build a single LagAwareStrategy based on REST endpoint and credentials
+LagAwareStrategy.Config lagConfig = LagAwareStrategy.Config
         .builder(restEndpoint, credentialsSupplier)
         .interval(5000) // Check every 5 seconds
         .timeout(3000) // 3 second timeout
         .extendedCheckEnabled(true)
         .build();
-    MultiDbConfig.StrategySupplier lagAwareStrategySupplier = (hostAndPort,
-        jedisClientConfig) -> new LagAwareStrategy(lagConfig);
+
+// Configure a database to use lag-aware health check
+MultiDbConfig.DatabaseConfig dbConfig =
+        MultiDbConfig.DatabaseConfig.builder(hostAndPort, clientConfig)
+                .healthCheckStrategy(new LagAwareStrategy(lagConfig))
+                .build();
 ```
 
 ### Custom health check strategy
