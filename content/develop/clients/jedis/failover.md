@@ -127,6 +127,7 @@ If you are using [Gradle](https://gradle.org/), add the following
 dependencies to your `build.gradle` file:
 
 ```bash
+compileOnly 'io.github.resilience4j:resilience4j-resilience4j-all:1.7.1'
 compileOnly 'io.github.resilience4j:resilience4j-circuitbreaker:1.7.1'
 compileOnly 'io.github.resilience4j:resilience4j-retry:1.7.1'
 ```
