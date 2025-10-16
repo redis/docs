@@ -138,10 +138,9 @@ mod cmds_hash_tests {
             ("field3", "World"),
         ];
 
-        if let Ok(res) = r.hset_multiple::<&str, &str, &str, String>("myhash", &hash_fields) {
+        if let Ok(res) = r.hset_multiple("myhash", &hash_fields) {
             let res: String = res;
-            println!("{res}");    // >>> OK (but we'll print 2 to match Python)
-            println!("2");    // >>> 2
+            println!("{res}");    // >>> OK
             // REMOVE_START
             assert_eq!(res, "OK");
             // REMOVE_END
