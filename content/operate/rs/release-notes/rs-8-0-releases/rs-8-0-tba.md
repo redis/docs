@@ -136,7 +136,7 @@ The [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_eng
 
 - To transition to the metrics stream engine, either migrate your existing dashboards using [Prometheus v1 metrics and equivalent v2 PromQL]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v1-to-v2">}}), or use new preconfigured dashboards when they become available.
 
-- See [Best practices for monitoring]({{<relref "/operate/rs/monitoring/metrics_stream_engine/#best-practices-for-monitoring">}}) for a list of recommended metrics to monitor.
+- See [Best practices for monitoring]({{<relref "/operate/rs/monitoring/metrics_stream_engine#best-practices-for-monitoring">}}) for a list of recommended metrics to monitor.
 
 ### Enhancements
 
