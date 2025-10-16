@@ -184,6 +184,49 @@ public class CmdsHashExample {
             // REMOVE_START
             asyncCommands.del("myhash").toCompletableFuture().join();
             // REMOVE_END
+
+            // STEP_START hexpire
+            // Set up hash with fields
+            Map<String, String> hExpireExampleParams = new HashMap<>();
+            hExpireExampleParams.put("field1", "Hello");
+            hExpireExampleParams.put("field2", "World");
+
+            CompletableFuture<Void> hExpireExample = asyncCommands.hset("myhash", hExpireExampleParams).thenCompose(res1 -> {
+                // REMOVE_START
+                assertThat(res1).isEqualTo(2L);
+                // REMOVE_END
+                // Set expiration on hash fields
+                return asyncCommands.hexpire("myhash", 10, "field1", "field2");
+            }).thenCompose(res2 -> {
+                System.out.println(res2);
+                // >>> [1, 1]
+                // REMOVE_START
+                assertThat(res2).isEqualTo(Arrays.asList(1L, 1L));
+                // REMOVE_END
+                // Check TTL of the fields
+                return asyncCommands.httl("myhash", "field1", "field2");
+            }).thenCompose(res3 -> {
+                System.out.println(res3.size());
+                // >>> 2
+                // REMOVE_START
+                assertThat(res3.size()).isEqualTo(2);
+                assertThat(res3.stream().allMatch(ttl -> ttl > 0)).isTrue(); // TTL should be positive
+                // REMOVE_END
+                // Try to set expiration on non-existent field
+                return asyncCommands.hexpire("myhash", 10, "nonexistent");
+            }).thenAccept(res4 -> {
+                System.out.println(res4);
+                // >>> [-2]
+                // REMOVE_START
+                assertThat(res4).isEqualTo(Arrays.asList(-2L));
+                // REMOVE_END
+            }).toCompletableFuture();
+            // STEP_END
+
+            hExpireExample.join();
+            // REMOVE_START
+            asyncCommands.del("myhash").toCompletableFuture().join();
+            // REMOVE_END
         } finally {
             redisClient.shutdown();
         }

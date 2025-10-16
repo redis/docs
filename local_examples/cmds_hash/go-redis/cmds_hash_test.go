@@ -6,6 +6,7 @@ import (
 	"context"
 	"fmt"
 	"sort"
+	"time"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -293,4 +294,54 @@ func ExampleClient_hdel() {
 	// 1
 	// 1
 	// 0
+}
+
+func ExampleClient_hexpire() {
+	ctx := context.Background()
+
+	rdb := redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+		Password: "", // no password
+		DB:       0,  // use default DB
+	})
+
+	// STEP_START hexpire
+	// Set up hash with fields
+	rdb.HSet(ctx, "myhash", "field1", "Hello", "field2", "World")
+
+	// Set expiration on hash fields
+	res1, err := rdb.HExpire(ctx, "myhash", 10*time.Second, "field1", "field2").Result()
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println(res1) // >>> [1 1]
+
+	// Check TTL of the fields
+	res2, err := rdb.HTTL(ctx, "myhash", "field1", "field2").Result()
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println(len(res2)) // >>> 2
+
+	// Try to set expiration on non-existent field
+	res3, err := rdb.HExpire(ctx, "myhash", 10*time.Second, "nonexistent").Result()
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println(res3) // >>> [-2]
+
+	// Clean up
+	rdb.Del(ctx, "myhash")
+	// STEP_END
+
+	// Output:
+	// [1 1]
+	// 2
+	// [-2]
 }

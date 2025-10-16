@@ -1,6 +1,7 @@
 // EXAMPLE: cmds_hash
 using StackExchange.Redis;
 using Xunit;
+using System.Linq;
 
 namespace Doc;
 
@@ -110,5 +111,40 @@ public class CmdsHashExample
         // >>> Hello, World
         // STEP_END
         Assert.Equal("Hello, World", string.Join(", ", hValsResult));
+        db.KeyDelete("myhash");
+
+        // STEP_START hexpire
+        // Set up hash with fields
+        db.HashSet("myhash",
+            [
+                new("field1", "Hello"),
+                new("field2", "World")
+            ]
+        );
+
+        // Set expiration on hash fields using raw Execute
+        RedisResult hexpireRes1 = db.Execute("HEXPIRE", "myhash", 10, "FIELDS", 2, "field1", "field2");
+        Console.WriteLine(string.Join(", ", (RedisValue[])hexpireRes1));
+        // >>> 1, 1
+
+        // Check TTL of the fields using raw Execute
+        RedisResult hexpireRes2 = db.Execute("HTTL", "myhash", "FIELDS", 2, "field1", "field2");
+        RedisValue[] ttlValues = (RedisValue[])hexpireRes2;
+        Console.WriteLine(ttlValues.Length);
+        // >>> 2
+
+        // Try to set expiration on non-existent field
+        RedisResult hexpireRes3 = db.Execute("HEXPIRE", "myhash", 10, "FIELDS", 1, "nonexistent");
+        Console.WriteLine(string.Join(", ", (RedisValue[])hexpireRes3));
+        // >>> -2
+        // STEP_END
+
+        RedisValue[] expireResult1 = (RedisValue[])hexpireRes1;
+        RedisValue[] expireResult3 = (RedisValue[])hexpireRes3;
+        Assert.Equal("1, 1", string.Join(", ", expireResult1));
+        Assert.Equal(2, ttlValues.Length);
+        Assert.True(ttlValues.All(ttl => (int)ttl > 0)); // TTL should be positive
+        Assert.Equal("-2", string.Join(", ", expireResult3));
+        db.KeyDelete("myhash");
     }
 }
