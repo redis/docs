@@ -15,10 +15,6 @@ from redis.commands.search.query import Query
 import redis.exceptions
 # STEP_END
 
-# STEP_START connect
-r = redis.Redis(decode_responses=True)
-# STEP_END
-
 # STEP_START create_data
 user1 = {
     "name": "Paul John",
@@ -40,6 +36,10 @@ user3 = {
     "age": 35,
     "city": "Tel Aviv"
 }
+# STEP_END
+
+# STEP_START connect
+r = redis.Redis(decode_responses=True)
 # STEP_END
 
 # STEP_START cleanup_json
