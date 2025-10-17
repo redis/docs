@@ -73,7 +73,7 @@ Redis is the **ideal foundation** for AI agents because it excels at the three t
 - SVS-VAMANA leverages Intel hardware acceleration for enhanced performance
 - Hybrid search combining vector similarity with metadata filtering
 - Real-time updates without index rebuilds
-- [Learn more about Redis Vector Search →](/develop/interact/search-and-query/advanced-concepts/vectors/)
+- [Learn more about Redis Vector Search →]({{< relref "/develop/ai/search-and-query/vectors/" >}})
 
 **Agent memory**
 - **Short-term**: Conversation context and session state
@@ -87,7 +87,7 @@ Redis is the **ideal foundation** for AI agents because it excels at the three t
 
 <div>
 
-<div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 mb-4">
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200  mb-4">
 <h3 class="no-toc">Conversational assistants</h3>
 
 Build chatbots and virtual assistants that:
@@ -99,7 +99,7 @@ Build chatbots and virtual assistants that:
 [Build a conversational agent →](../)
 </div>
 
-<div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 mb-4">
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
 <h3 class="no-toc">Recommendation engines</h3>
 
 Create intelligent recommendation systems that:
@@ -111,7 +111,7 @@ Create intelligent recommendation systems that:
 [Build a recommendation agent →](../)
 </div>
 
-<div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 mb-4">
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
 <h3 class="no-toc">Task automation agents</h3>
 
 Automate complex workflows and business processes:
@@ -121,7 +121,7 @@ Automate complex workflows and business processes:
 - Monitor and report on task completion
 </div>
 
-<div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 mb-4">
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
 <h3 class="no-toc">Data analysis agents</h3>
 
 Process and analyze large datasets intelligently:
@@ -131,7 +131,7 @@ Process and analyze large datasets intelligently:
 - Create visualizations and dashboards
 </div>
 
-<div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 mb-4">
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
 <h3 class="no-toc">Content generation agents</h3>
 
 Create and manage content at scale:
@@ -145,7 +145,7 @@ Create and manage content at scale:
 
 <div>
 
-<div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 mb-4">
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
 <h3 class="no-toc">Customer support agents</h3>
 
 Provide intelligent customer service:
@@ -155,7 +155,7 @@ Provide intelligent customer service:
 - Learn from interactions to improve responses
 </div>
 
-<div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 mb-4">
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
 <h3 class="no-toc">Research and retrieval agents</h3>
 
 Find and synthesize information from multiple sources:
@@ -165,7 +165,7 @@ Find and synthesize information from multiple sources:
 - Maintain up-to-date knowledge repositories
 </div>
 
-<div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 mb-4">
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
 <h3 class="no-toc">Monitoring and alerting agents</h3>
 
 Watch systems and notify when action is needed:
@@ -175,7 +175,7 @@ Watch systems and notify when action is needed:
 - Suggest remediation actions
 </div>
 
-<div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 mb-4">
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
 <h3 class="no-toc">Personal productivity agents</h3>
 
 Help users manage tasks and information:
@@ -185,7 +185,7 @@ Help users manage tasks and information:
 - Learn user preferences and habits
 </div>
 
-<div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 mb-4">
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
 <h3 class="no-toc">Trading and financial agents</h3>
 
 Make intelligent financial decisions:
@@ -269,7 +269,7 @@ Understanding how to map agent memory needs to Redis data structures is crucial 
 - Key benefits: High-performance vector similarity search, multiple distance metrics, real-time indexing
 - Implementation: RAG systems, semantic memory, content discovery, personalized recommendations
 - Queries: K-nearest neighbor search, range queries, hybrid filtering with metadata
-- [Learn about Redis Vector Sets →](/develop/data-types/vector/)
+- [Learn about Redis Vector Sets →]({{< relref "/develop/data-types/vector-sets" >}})
 
 ### Redis Sorted Sets for Rankings and Priorities
 
@@ -329,7 +329,7 @@ Production-ready agents include built-in reliability features:
 - Load balancing: Distribute requests across agent instances
 - Redis clustering: Scale data storage across multiple nodes
 - Caching layers: CDN for static content, Redis for dynamic data
-- [Learn about Redis scaling →](/operate/rs/clusters/)
+- [Learn about Redis scaling →]({{< relref "/operate/rs/clusters" >}})
 
 ### Cost Optimization
 
@@ -337,13 +337,13 @@ Production-ready agents include built-in reliability features:
 - Redis memory optimization: Efficient data structures and TTL policies
 - API rate limiting: Prevent excessive external API calls
 - Resource monitoring: Track and optimize compute and storage costs
-- [Redis performance optimization →](/operate/rs/administering/database-operations/memory-performance/)
+- [Redis performance optimization →]({{< relref "/operate/rs/databases/memory-performance" >}})
 
 ---
 
 ## Key takeaways
 
-<div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700 my-8">
+<div class="bg-gray-50 p-6 rounded-lg border border-gray-200 my-8">
 
 **What makes agents different:**
 Agents maintain memory, plan multi-step tasks, and learn from interactions—unlike simple chatbots.
@@ -361,16 +361,16 @@ Conversational assistants, recommendation engines, and complex multi-agent syste
 Ready to build your AI agent with Redis?
 
 **Get started:**
-- [Use the agent builder](/develop/ai/agent-builder/) to generate your code and get started
-- [Redis quick start guide](/develop/get-started/) for setting up Redis
+- [Use the agent builder]({{< relref "/develop/ai/agent-builder" >}}) to generate your code and get started
+- [Redis quick start guide]({{< relref "/develop/get-started" >}}) for setting up Redis
 
 **Learn more:**
-- [Redis Vector Search documentation](/develop/interact/search-and-query/advanced-concepts/vectors/)
-- [RedisVL Python library](/develop/clients/redisvl/) for vector operations and AI workflows
+- [Redis Vector Search documentation]({{< relref "develop/ai/search-and-query/vectors" >}})
+- [RedisVL Python library]({{< relref "develop/clients/redis-vl" >}}) for vector operations and AI workflows
 - [Redis data structures guide](/develop/data-types/)
-- [Redis client libraries](/develop/clients/) for your programming language
+- [Redis client libraries]({{< relref "/develop/clients" >}}) for your programming language
 
 **Deploy and scale:**
-- [Redis Cloud](/operate/rc/) for managed Redis hosting
-- [Redis Enterprise](/operate/rs/) for on-premises deployment
-- [Performance optimization](/operate/rs/administering/database-operations/memory-performance/) best practices
+- [Redis Cloud]({{< relref "/operate/rc" >}}) for managed Redis hosting
+- [Redis Enterprise]({{< relref "/operate/rs" >}}) for on-premises deployment
+- [Performance optimization]({{< relref "/operate/rs/databases/memory-performance" >}}) best practices
