@@ -204,6 +204,27 @@
     const sidebar = document.getElementById('sidebar');
     const footer = document.querySelector('footer');
 
+    // Scroll sidebar to show active page on load
+    const activeLink = sidebar.querySelector('a.active');
+    if (activeLink) {
+      // Find the scrollable UL container that contains the active link
+      const scrollContainer = activeLink.closest('ul.overflow-y-auto');
+
+      if (scrollContainer) {
+        // Get the position of the active link relative to its scrollable container
+        const linkRect = activeLink.getBoundingClientRect();
+        const containerRect = scrollContainer.getBoundingClientRect();
+
+        // Calculate how far the link is from the top of the container
+        const relativeTop = linkRect.top - containerRect.top + scrollContainer.scrollTop;
+
+        // Scroll so the active link appears near the top (with some padding)
+        const scrollPosition = relativeTop - 20; // 20px padding from top
+
+        scrollContainer.scrollTop = Math.max(0, scrollPosition);
+      }
+    }
+
     window.addEventListener('scroll', function() {
       const scrolledHeight = window.scrollY + window.innerHeight;
       if (scrolledHeight >= footer.offsetTop) {
