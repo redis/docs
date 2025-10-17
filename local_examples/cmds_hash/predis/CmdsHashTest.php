@@ -122,6 +122,34 @@ class CmdsHashTest extends TestCase
         $this->assertEquals('OK', $hValsResult1);
         $this->assertEquals(['Hello', 'World'], $hValsResult2);
 
+        // STEP_START hexpire
+        echo "\n--- HEXPIRE Command ---\n";
+        // Clean up first
+        $this->redis->del('myhash');
+
+        // Set up hash with fields
+        $hExpireResult1 = $this->redis->hmset('myhash', ['field1' => 'Hello', 'field2' => 'World']);
+        echo "HMSET myhash field1 Hello field2 World: " . ($hExpireResult1 ? 'OK' : 'FAIL') . "\n"; // >>> OK
+
+        // Set expiration on hash fields
+        $hExpireResult2 = $this->redis->hexpire('myhash', 10, ['field1', 'field2']);
+        echo "HEXPIRE myhash 10 FIELDS field1 field2: " . json_encode($hExpireResult2) . "\n"; // >>> [1,1]
+
+        // Check TTL of the fields
+        $hExpireResult3 = $this->redis->httl('myhash', ['field1', 'field2']);
+        echo "HTTL myhash FIELDS field1 field2 count: " . count($hExpireResult3) . "\n"; // >>> 2
+
+        // Try to set expiration on non-existent field
+        $hExpireResult4 = $this->redis->hexpire('myhash', 10, ['nonexistent']);
+        echo "HEXPIRE myhash 10 FIELDS nonexistent: " . json_encode($hExpireResult4) . "\n"; // >>> [-2]
+        // STEP_END
+
+        $this->assertEquals('OK', $hExpireResult1);
+        $this->assertEquals([1, 1], $hExpireResult2);
+        $this->assertEquals(2, count($hExpireResult3));
+        $this->assertTrue(array_reduce($hExpireResult3, function($carry, $ttl) { return $carry && $ttl > 0; }, true)); // TTL should be positive
+        $this->assertEquals([-2], $hExpireResult4);
+
         echo "\n=== All Hash Commands Tests Passed! ===\n";
     }
 

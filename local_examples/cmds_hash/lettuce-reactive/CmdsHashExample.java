@@ -224,6 +224,58 @@ public class CmdsHashExample {
             // REMOVE_START
             reactiveCommands.del("myhash").block();
             // REMOVE_END
+
+            // STEP_START hexpire
+            // Set up hash with fields
+            Map<String, String> hExpireExampleParams = new HashMap<>();
+            hExpireExampleParams.put("field1", "Hello");
+            hExpireExampleParams.put("field2", "World");
+
+            Mono<Long> hExpireExample1 = reactiveCommands.hset("myhash", hExpireExampleParams).doOnNext(result -> {
+                // REMOVE_START
+                assertThat(result).isEqualTo(2L);
+                // REMOVE_END
+            });
+
+            hExpireExample1.block();
+
+            // Set expiration on hash fields
+            Mono<List<Long>> hExpireExample2 = reactiveCommands.hexpire("myhash", 10, "field1", "field2").collectList().doOnNext(result -> {
+                System.out.println(result);
+                // >>> [1, 1]
+                // REMOVE_START
+                assertThat(result).isEqualTo(Arrays.asList(1L, 1L));
+                // REMOVE_END
+            });
+
+            hExpireExample2.block();
+
+            // Check TTL of the fields
+            Mono<List<Long>> hExpireExample3 = reactiveCommands.httl("myhash", "field1", "field2").collectList().doOnNext(result -> {
+                System.out.println(result.size());
+                // >>> 2
+                // REMOVE_START
+                assertThat(result.size()).isEqualTo(2);
+                assertThat(result.stream().allMatch(ttl -> ttl > 0)).isTrue(); // TTL should be positive
+                // REMOVE_END
+            });
+
+            hExpireExample3.block();
+
+            // Try to set expiration on non-existent field
+            Mono<List<Long>> hExpireExample4 = reactiveCommands.hexpire("myhash", 10, "nonexistent").collectList().doOnNext(result -> {
+                System.out.println(result);
+                // >>> [-2]
+                // REMOVE_START
+                assertThat(result).isEqualTo(Arrays.asList(-2L));
+                // REMOVE_END
+            });
+            // STEP_END
+
+            hExpireExample4.block();
+            // REMOVE_START
+            reactiveCommands.del("myhash").block();
+            // REMOVE_END
         } finally {
             redisClient.shutdown();
         }
