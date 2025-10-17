@@ -208,8 +208,6 @@ The [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_eng
 
 - Improved handling of long-running read-only scripts to reduce unnecessary failovers.
 
-- The DMC enables client eviction by default.
-
 ### Redis database versions
 
 Redis Enterprise Software version 8.0.2 includes five Redis database versions: 8.2, 8.0, 7.4, 7.2, and 6.2.
