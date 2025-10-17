@@ -70,6 +70,10 @@ We recommend migrating to the metrics stream engine for enhanced accuracy, scala
 
 If you are already using the existing scraping endpoint for integration, follow [this guide]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v1-to-v2">}}) to transition and try the new engine. It is possible to scrape both existing and new endpoints simultaneously, allowing advanced dashboard preparation and a smooth transition.
 
+### Transition cluster manager alerts
+
+As part of Redis Enterprise Software's transition to the [new metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}), some internal cluster manager alerts were deprecated in favor of external monitoring solutions. See the [alerts transition plan]({{<relref "/operate/rs/references/alerts/alerts-v1-to-v2">}}) for guidance.
+
 ## Cluster manager metrics
 
 You can see the metrics of the cluster in:
@@ -98,7 +102,7 @@ In **Cluster > Alert Settings**, you can enable alerts for node or cluster eve
 
 Configured alerts are shown:
 
-- As a notification on the status icon ( {{< image filename="/images/rs/icons/icon_warning.png#no-click" alt="Warning" width="18px" class="inline" >}} ) for the node and cluster
+- As a notification on the status icon ( {{< inline-icon filename="/images/rs/icons/icon_warning.png#no-click" alt="Warning" width="18px" >}} ) for the node and cluster
 - In the **log**
 - In email notifications, if you configure [email alerts](#send-alerts-by-email)
 
@@ -118,7 +122,7 @@ For each database, you can enable alerts for database events, such as high memor
 
 Configured alerts are shown:
 
-- As a notification on the status icon ( {{< image filename="/images/rs/icons/icon_warning.png#no-click" alt="Warning" width="18px" class="inline" >}} ) for the database
+- As a notification on the status icon ( {{< inline-icon filename="/images/rs/icons/icon_warning.png#no-click" alt="Warning" width="18px" >}} ) for the database
 - In the **log**
 - In emails, if you configure [email alerts](#send-alerts-by-email)
 
