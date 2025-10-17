@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 8.0
-description: Redis Open Source 8.0 and 8.2 features. Lag-aware availability API. Metrics stream engine GA.
+description: Redis Open Source 8.0 and 8.2 features. Lag-aware availability API. Redis Flex GA. Metrics stream engine GA. Module management enhancements. New REST API fields for database and cluster configuration.
 hideListLinks: true
 linkTitle: 8.0.x releases
 toc: 'true'
@@ -23,7 +23,13 @@ This version offers:
 
 - Lag-aware availability API
 
+- Redis Flex GA
+
 - Metrics stream engine GA
+
+- Module management enhancements
+
+- New REST API fields for database and cluster configuration
 
 ## Detailed release notes
 
@@ -38,10 +44,6 @@ For more detailed release notes, select a build version from the following table
 - Node status now returns the actual provisional RAM and flash values even when the maximum number of shards on the node (`max_redis_servers`) is reached. Previously, the API returned 0 for `provisional_ram_of_node` and `provisional_flash_of_node` when a node reached its shard limit. This change affects REST API node status requests and the `rladmin status nodes` command's output.
 
 ### Breaking changes
-
-Redis Enterprise Software version 8.0 introduces the following breaking changes:
-
-- TBA
 
 ### Redis database version 8 breaking changes {#redis-8-breaking-changes}
 
@@ -70,10 +72,6 @@ Note that the `@all` category did not change, as it always included all the comm
 #### Redis Query Engine changes
 
 {{<embed-md "redis8-breaking-changes-rqe.md">}}
-
-### Product lifecycle updates
-
-- TBA
 
 ### Deprecations
 
@@ -152,6 +150,10 @@ The following table provides a snapshot of supported platforms as of this Redis 
 #### Rolling upgrade limitation for clusters with custom or deprecated modules
 
 Due to module handling changes introduced in Redis Enterprise Software version 8.0, upgrading a cluster that contains custom or deprecated modules, such as RedisGraph and RedisGears v2, can become stuck when adding a new node to the cluster during a rolling upgrade.
+
+#### Module commands limitation during Active-Active database upgrades to Redis 8.0
+
+When upgrading an Active-Active database to Redis version 8.0, you cannot use module commands until all Active-Active database instances have been upgraded. Currently, these commands are not blocked automatically.
 
 #### New Cluster Manager UI limitations
 

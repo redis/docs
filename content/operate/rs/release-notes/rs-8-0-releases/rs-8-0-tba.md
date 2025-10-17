@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: Redis Open Source 8.0 and 8.2 features. Lag-aware availability API. Metrics stream engine GA.
+description: Redis Open Source 8.0 and 8.2 features. Lag-aware availability API. Redis Flex GA. Metrics stream engine GA. Module management enhancements. New REST API fields for database and cluster configuration.
 linkTitle: 8.0.2-tba (October 2025)
 weight: 90
 ---
@@ -21,7 +21,13 @@ This version offers:
 
 - Lag-aware availability API
 
+- Redis Flex GA
+
 - Metrics stream engine GA
+
+- Module management enhancements
+
+- New REST API fields for database and cluster configuration
 
 ## New in this release
 
@@ -80,7 +86,7 @@ Redis Enterprise Software databases created with or upgraded to Redis version 8 
 | Database type | Automatically enabled capabilities |
 |---------------|------------------------------------|
 | RAM-only | [Search and query]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search">}})<br />[JSON]({{<relref "/operate/oss_and_stack/stack-with-enterprise/json">}})<br />[Time series]({{<relref "/operate/oss_and_stack/stack-with-enterprise/timeseries">}})<br />[Probabilistic]({{<relref "/operate/oss_and_stack/stack-with-enterprise/bloom">}})  |
-| Flash-enabled ([Auto Tiering]({{<relref "/operate/rs/databases/auto-tiering">}})) | [JSON]({{<relref "/operate/oss_and_stack/stack-with-enterprise/json">}})<br />[Probabilistic]({{<relref "/operate/oss_and_stack/stack-with-enterprise/bloom">}}) |
+| Flash-enabled ([Redis Flex]({{<relref "/operate/rs/databases/flash">}})) | [JSON]({{<relref "/operate/oss_and_stack/stack-with-enterprise/json">}})<br />[Probabilistic]({{<relref "/operate/oss_and_stack/stack-with-enterprise/bloom">}}) |
 | [Active-Active]({{<relref "/operate/rs/databases/active-active">}}) | [Search and query]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search/search-active-active">}})<br />[JSON]({{<relref "/operate/oss_and_stack/stack-with-enterprise/json">}}) |
 
 #### Lag-aware availability API
@@ -100,6 +106,21 @@ The lag tolerance threshold is 100 milliseconds by default. Depending on factors
     ```
 
 For more details, see [Check database availability for monitoring and load balancers]({{<relref "/operate/rs/monitoring/db-availability">}}).
+
+#### Redis Flex GA
+
+Redis Flex (Redis on Flash version 2) is now generally available for flash-enabled databases. Redis Flex is the enhanced successor to Auto Tiering (Redis on Flash version 1), which allows you to provision larger databases at a lower cost by extending the RAM with flash drives.
+
+- Databases created with Redis version 8.0 and later automatically use Redis Flex.
+
+- Databases with Redis version 7.4 can choose between Auto Tiering (`bigstore_version` 1) and Redis Flex (`bigstore_version` 2)
+
+- Databases with Redis versions earlier than 7.4 will continue to use Auto Tiering.
+
+For more information about Redis Flex, see:
+
+- [Redis Flex overview]({{< relref "/operate/rs/databases/flash" >}})
+- [Redis Flex quick start]({{< relref "/operate/rs/databases/flash/quickstart" >}})
 
 #### Metrics stream engine GA
 
@@ -301,6 +322,8 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS166122: Fixed an issue where the actions API could incorrectly report state machine operations as running after they completed.
 
+- RS171579: Fixed an issue where the new UI incorrectly added `default_user: False` when the default_user field was absent, causing connection issues.
+
 ## Version changes
 
 - [`POST /v1/cluster/actions/change_master`]({{<relref "/operate/rs/references/rest-api/requests/cluster/actions#post-cluster-action">}}) REST API requests will no longer allow a node that exists but is not finished bootstrapping to become the primary node. Such requests will now return the status code `406 Not Acceptable`.
@@ -308,10 +331,6 @@ The following table shows which Redis modules are compatible with each Redis dat
 - Node status now returns the actual provisional RAM and flash values even when the maximum number of shards on the node (`max_redis_servers`) is reached. Previously, the API returned 0 for `provisional_ram_of_node` and `provisional_flash_of_node` when a node reached its shard limit. This change affects REST API node status requests and the `rladmin status nodes` command's output.
 
 ### Breaking changes
-
-Redis Enterprise Software version 8.0.2 introduces the following breaking changes:
-
-- TBA
 
 ### Redis database version 8 breaking changes {#redis-8-breaking-changes}
 
@@ -359,10 +378,6 @@ The following changes affect behavior and validation in the Redis Query Engine:
 
 - Improved handling of expired records, memory constraints, and malformed fields.
 
-### Product lifecycle updates
-
-- TBA
-
 ### Deprecations
 
 #### API deprecations
@@ -388,10 +403,6 @@ The following changes affect behavior and validation in the Redis Query Engine:
 The existing [internal monitoring engine]({{<relref "/operate/rs/monitoring/v1_monitoring">}}) is deprecated. We recommend transitioning to the new [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}) for improved performance, enhanced integration capabilities, and modernized metrics streaming.
 
 V1 Prometheus metrics are deprecated but still available. To transition to the new metrics stream engine, either migrate your existing dashboards using [this guide]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v1-to-v2">}}) now, or wait to use new preconfigured dashboards when they become available in a future release.
-
-### Upcoming changes
-
-- TBA
 
 ### Supported platforms
 
@@ -454,6 +465,10 @@ The following table shows the SHA256 checksums for the available packages:
 #### Rolling upgrade limitation for clusters with custom or deprecated modules
 
 Due to module handling changes introduced in Redis Enterprise Software version 8.0, upgrading a cluster that contains custom or deprecated modules, such as RedisGraph and RedisGears v2, can become stuck when adding a new node to the cluster during a rolling upgrade.
+
+#### Module commands limitation during Active-Active database upgrades to Redis 8.0
+
+When upgrading an Active-Active database to Redis version 8.0, you cannot use module commands until all Active-Active database instances have been upgraded. Currently, these commands are not blocked automatically.
 
 #### New Cluster Manager UI limitations
 
