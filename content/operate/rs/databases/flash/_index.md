@@ -120,7 +120,7 @@ On-premises environments support more deployment options than other environments
   - [Probabilistic data structures]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom" >}})
 
 
-{{<note>}} Enabling Redis Flex for [Active-Active distributed databases]({{<relref "/operate/rs/databases/active-active">}}) requires validating and getting the Redis technical team's approval first . {{</note>}}
+{{<note>}}You should get the Redis technical team's approval before you enable Redis Flex for [Active-Active distributed databases]({{<relref "/operate/rs/databases/active-active">}}). {{</note>}}
 
 {{<warning>}} Redis Flex is not supported running on network attached storage (NAS), storage area network (SAN), or with local HDD drives. {{</warning>}}
 
