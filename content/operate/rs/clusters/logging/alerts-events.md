@@ -70,10 +70,10 @@ The following alerts and events can appear in `syslog` and the Cluster Manager U
 | node_abort_remove_request | Node abort remove request | info | Node event |
 | node_joined | Node joined | info | Cluster event |
 | node_operation_failed | Node operation failed | error | Cluster event |
-| node_remove_abort_completed | Node remove abort completed | info | Cluster event; The remove node is a process that can fail and can also be aborted. If aborted, the abort can succeed or fail |
-| node_remove_abort_failed | Node remove abort failed | error | Cluster event; The remove node is a process that can fail and can also be aborted. If aborted, the abort can succeed or fail |
-| node_remove_completed | Node removed | info | Cluster event; The remove node is a process that can fail and can also be aborted. If aborted, the abort can succeed or fail |
-| node_remove_failed | Node removed | error | Cluster event; The remove node is a process that can fail and can also be aborted. If aborted, the abort can succeed or fail |
+| node_remove_abort_completed | Node remove abort completed | info | Cluster event; Node remove is a process that can fail and can also be aborted. If aborted, the abort can succeed or fail |
+| node_remove_abort_failed | Node remove abort failed | error | Cluster event; Node remove is a process that can fail and can also be aborted. If aborted, the abort can succeed or fail |
+| node_remove_completed | Node removed | info | Cluster event; Node remove is a process that can fail and can also be aborted. If aborted, the abort can succeed or fail |
+| node_remove_failed | Node removed | error | Cluster event; Node remove is a process that can fail and can also be aborted. If aborted, the abort can succeed or fail |
 | node_remove_request | Node remove request | info | Node event |
 | user_created | User created | info | User event |
 | user_deleted | User deleted | info | User event |
