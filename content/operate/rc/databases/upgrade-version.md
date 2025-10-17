@@ -14,7 +14,11 @@ Database version upgrade options depend on your plan type.
 
 ## Redis Cloud Essentials
 
-All new Redis Cloud Essentials databases are on the latest available version of Redis. Redis will notify Redis Cloud Essentials users when a new database version is available. 
+All new Redis Cloud Essentials databases are on the latest available version of Redis.
+
+For Redis 8+, minor version auto-upgrades are always enabled and occur automatically during maintenance windows when new versions become available. Major version upgrades require customer action.
+
+For Redis 7 and earlier versions, Redis will notify users when new database versions are available, but upgrades must be done manually.
 
 ## Redis Cloud Pro
 
