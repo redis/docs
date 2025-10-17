@@ -30,11 +30,9 @@ Represents a [Redis module]({{< relref "/operate/oss_and_stack/stack-with-enterp
 | homepage | string | Module's homepage |
 | is_bundled | boolean | Whether module came bundled with a version of Redis Enterprise |
 | license | string | Module is distributed under this license |
-| min_redis_pack_version | string | Minimum Redis Enterprise Software cluster version required by this module |
 | min_redis_version | string | Minimum Redis database version required by this module. Only relevant for Redis databases earlier than v7.4. |
 | module_file | string | Module filename |
 | module_name | string | Module's name<br />Values:<br />`search`<br />`ReJSON`<br />`timeseries`<br />`bf` |
-| platforms | platforms object | Mapping operating system and architecture to module information (read-only) |
 | semantic_version | string | Module's semantic version |
 | sha256 | string | SHA256 of module binary (deprecated) |
 | version | integer | Module's version |

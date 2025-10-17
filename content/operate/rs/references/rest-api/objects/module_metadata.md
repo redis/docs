@@ -15,7 +15,6 @@ Represents a [Redis module]({{< relref "/operate/oss_and_stack/stack-with-enterp
 | Name | Type/Value | Description |
 |------|------------|-------------|
 | uid | string | Cluster unique ID of module |
-| architecture | string | Module was compiled under this architecture |
 | author | string | Module creator |
 | bigstore_version_2_support | boolean (default: false) | Whether the module supports bigstore_version_2 capability, bypassing capability validation (optional) |
 | capabilities | array of strings | List of capabilities supported by this module |
@@ -30,7 +29,6 @@ Represents a [Redis module]({{< relref "/operate/oss_and_stack/stack-with-enterp
 | email | string | Author's email address |
 | homepage | string | Module's homepage |
 | license | string | Module is distributed under this license |
-| min_redis_pack_version | string | Minimum Redis Enterprise Software cluster version required by this module |
 | min_redis_version | string | Minimum Redis database version required by this module. Only relevant for Redis databases earlier than v7.4. |
 | module_file | string | Module filename |
 | module_name | string | Module's name |
