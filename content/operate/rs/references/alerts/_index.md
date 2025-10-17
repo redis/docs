@@ -20,7 +20,7 @@ In **Cluster > Alert Settings**, you can enable alerts for node or cluster eve
 
 Configured alerts are shown:
 
-- As a notification on the status icon ( {{< image filename="/images/rs/icons/icon_warning.png#no-click" alt="Warning" width="18px" class="inline" >}} ) for the node and cluster
+- As a notification on the status icon ( {{< inline-icon filename="/images/rs/icons/icon_warning.png#no-click" alt="Warning" width="18px" >}} ) for the node and cluster
 - In the **log**
 - In email notifications, if you configure [email alerts](#send-alerts-by-email)
 
@@ -40,7 +40,7 @@ For each database, you can enable alerts for database events, such as high memor
 
 Configured alerts are shown:
 
-- As a notification on the status icon ( {{< image filename="/images/rs/icons/icon_warning.png#no-click" alt="Warning" width="18px" class="inline" >}} ) for the database
+- As a notification on the status icon ( {{< inline-icon filename="/images/rs/icons/icon_warning.png#no-click" alt="Warning" width="18px" >}} ) for the database
 - In the **log**
 - In emails, if you configure [email alerts](#send-alerts-by-email)
 
