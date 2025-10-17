@@ -89,7 +89,7 @@ Use an answer file to manage your response:
     | `ignore_swap` | `yes`<br />`no` | Continue even if swap is enabled. If `no`, stops installation if swap is enabled. |
     | `ntp` | `yes`<br />`no` | Configure NTP for time synchronization. |
     | `rlcheck` | `yes`<br />`no` | Run `rlcheck` after installation to validate the system. |
-    | `skip_updating_env_path` | `yes`<br />`no` | Skip adding Redis Enterprise Software paths to the PATH environment variable. |
+    | `update_env_path` | `yes`<br />`no` | Add Redis Enterprise Software paths to the PATH environment variable. |
     | `systune` | `yes`<br />`no` | Automatically tune system performance (CPU, sysctl). If `yes`, answers `yes` to all system tuning questions. |
 
     Example answer file:
@@ -101,7 +101,7 @@ Use an answer file to manage your response:
     firewall=no
     rlcheck=yes
     ignore_existing_osuser_osgroup=no
-    skip_updating_env_path=yes
+    update_env_path=no
     ignore_master_version=no
     ```
 
