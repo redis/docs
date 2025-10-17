@@ -34,6 +34,8 @@ An API object that represents a managed database in the cluster.
 | authentication_ssl_crdt_certs | {{<code>}}[{<br />  "client_cert": string<br />}, ...]{{</code>}} List of authorized CRDT certificates<br />**client_cert**: X.509 PEM (base64) encoded certificate |
 | authorized_names | array of strings; Additional certified names (deprecated as of Redis Enterprise v6.4.2; use authorized_subjects instead) |
 | authorized_subjects | {{<code>}}[{<br />  "CN": string,<br />  "O": string,<br />  "OU": [array of strings],<br />  "L": string,<br />  "ST": string,<br />  "C": string<br />}, ...]{{</code>}} A list of valid subjects used for additional certificate validations during TLS client authentication. All subject attributes are case-sensitive.<br />**Required subject fields**:<br />"CN" for Common Name<br />**Optional subject fields:**<br />"O" for Organization<br />"OU" for Organizational Unit (array of strings)<br />"L" for Locality (city)<br />"ST" for State/Province<br />"C" for 2-letter country code |
+| auto_shards_balancing | boolean (default: false); Automatically balance database shards |
+| <span class="break-all">auto_shards_balancing_grace_period</span> | integer (default: 120); Time to wait before auto sharding is initiated |
 | auto_upgrade | boolean (default:&nbsp;false); Upgrade the database automatically after a cluster upgrade |
 | avoid_nodes | array of strings; Cluster node UIDs to avoid when placing the database's shards and binding its endpoints |
 | background_op | Deprecated as of Redis Enterprise Software v7.8.2. Use [`GET /v1/actions/bdb/<bdb_uid>`]({{<relref "/operate/rs/references/rest-api/requests/actions/bdb">}}) instead.<br />{{<code>}}[{<br />  "status": string,<br />  "name": string,<br />  "error": object,<br />  "progress": number<br />}, ...]{{</code>}} (read-only); **progress**: Percent of completed steps in current operation |
@@ -51,6 +53,7 @@ An API object that represents a managed database in the cluster.
 | bigstore_version | The database's `bigstore_version`:<br />• `1` for Auto Tiering (Redis on Flash version 1). Default version.<br/>• `2` for Redis Flex (Redis on Flash version 2) on databases that support it. Can only be used with the `speedb` driver.<br /><br />You can only choose the `bigstore_version` for databases with Redis version 7.4. Database versions earlier than 7.4 use `bigstore_version` `1`. Database versions 8.0 and later use `bigstore_version` `2`. |
 | client_cert_subject_validation_type | Enables additional certificate validations that further limit connections to clients with valid certificates during TLS client authentication.<br />Values:<br />**disabled**: Authenticates clients with valid certificates. No additional validations are enforced.<br />**san_cn**: A client certificate is valid only if its Common Name (CN) matches an entry in the list of valid subjects. Ignores other Subject attributes.<br />**full_subject**: A client certificate is valid only if its Subject attributes match an entry in the list of valid subjects. |
 | conns | integer (default&nbsp;5);  Number of internal proxy connections |
+| <span class="break-all">conns_global_maximum_dedicated</span> | integer (default: 0); Defines the maximum number of dedicated server connections for a given database. The total number across all workers. The default is 0 for unlimited. |
 | conns_minimum_dedicated | integer (default:&nbsp;2); Number of dedicated server connections the DMC has per worker per shard |
 | conns_type | Connections limit type<br />Values:<br />**‘per-thread’**<br />‘per-shard’ |
 | crdt | boolean (default:&nbsp;false);  Use CRDT-based data types for multi-master replication |
@@ -77,6 +80,7 @@ An API object that represents a managed database in the cluster.
 | db_conns_auditing | boolean;  Enables/deactivates [database connection auditing]({{< relref "/operate/rs/security/audit-events" >}}) |
 | default_user | boolean (default:&nbsp;true); Allow/disallow a default user to connect |
 | disabled_commands | string (default: ); Redis commands which are disabled in db |
+| <span class="break-all">disconnect_clients_on_password_removal</span> | boolean (default: false); Controls whether client connections using removed, revoked, or rotated passwords are actively disconnected |
 | dns_address_master | string;  Database private address endpoint FQDN (read-only) (deprecated as of Redis Enterprise v4.3.3) |
 | email_alerts | boolean (default:&nbsp;false);  Send email alerts for this DB |
 | endpoint | string;  Latest bound endpoint. Used when reconfiguring an endpoint via update |
@@ -102,6 +106,7 @@ An API object that represents a managed database in the cluster.
 | last_backup_time | string; Time of last successful backup (read-only) |
 | last_changed_time | string; Last administrative configuration change (read-only) |
 | last_export_time | string; Time of last successful export (read-only) |
+| <span class="break-all">link_sconn_on_full_request</span> | Feature-flag for DMC behaviour on linking client request<br />Values:<br />'enabled'<br />**'disabled'**<br />'ssl_only' |
 | max_aof_file_size | integer; Maximum size for shard's AOF file (bytes). Default 300GB, (on bigstore DB 150GB) |
 | max_aof_load_time | integer (default:&nbsp;3600); Maximum time shard's AOF reload should take (seconds). |
 | max_client_pipeline | integer (default:&nbsp;200); Maximum number of pipelined commands per connection. Maximum value is 2047. |
@@ -121,9 +126,12 @@ An API object that represents a managed database in the cluster.
 | <span class="break-all">oss_cluster_api_preferred_endpoint_type</span> | Endpoint type in the OSS cluster API<br />Values:<br />**‘ip’**<br />‘hostname’ |
 | <span class="break-all">oss_cluster_api_preferred_ip_type</span> | Internal/external IP type in OSS cluster API. Default value for new endpoints<br />Values:<br />**'internal'** <br />'external' |
 | oss_sharding | boolean (default:&nbsp;false); An alternative to `shard_key_regex` for using the common case of the OSS shard hashing policy |
+| <span class="break-all">partial_request_timeout_seconds</span> | integer (default: 3); When a client connection sends a command, takes a server connection, and stops writing before the command is complete, it causes head-of-line blocking on this server connection. Such commands will time out after this many seconds and the client connection will be closed. |
 | port | integer; TCP port on which the database is available. Generated automatically if omitted and returned as 0 |
+| <span class="break-all">preemptive_drain_timeout_seconds</span> | integer (default: 2); Timeout in seconds for preemptive drain of client connections before a shard is taken down |
 | probabilistic | [complex object]({{< relref "/operate/rs/references/rest-api/objects/bdb/probabilistic" >}}); Configuration fields for probabilistic data structures. |
 | proxy_policy | The default policy used for proxy binding to endpoints<br />Values:<br />'single'<br />'all-master-shards'<br />'all-nodes' |
+| query_performance_factor | [complex object]({{< relref "/operate/rs/references/rest-api/objects/bdb/query_performance_factor" >}}); Configures query performance factor and related fields |
 | rack_aware | boolean (default:&nbsp;false); Require the database to always replicate across multiple racks |
 | recovery_wait_time | integer (default:&nbsp;-1); Defines how many seconds to wait for the persistence file to become available during auto recovery. After the wait time expires, auto recovery completes with potential data loss. The default `-1` means to wait forever. |
 | redis_version | string; Version of the redis-server processes: e.g. 6.0, 5.0-big |
@@ -142,6 +150,8 @@ An API object that represents a managed database in the cluster.
 | shard_block_crossslot_keys | boolean (default:&nbsp;false); In Lua scripts, prevent use of keys from different hash slots within the range owned by the current shard |
 | shard_block_foreign_keys | boolean (default:&nbsp;true); In Lua scripts, `foreign_keys` prevent use of keys which could reside in a different shard (foreign keys) |
 | shard_key_regex | Custom keyname-based sharding rules.<br />`[{"regex": string}, ...]`<br />To use the default rules you should set the value to: <br />`[{"regex": ".*\\{(?<tag>.*)\\}.*"}, {"regex": "(?<tag>.*)"}]` |
+| <span class="break-all">shard_imbalance_threshold</span> | number (default: 314572800); Automatically balances shards only if their imbalance is greater than this threshold |
+| <span class="break-all">shard_imbalance_threshold_percentage</span> | integer (default: 20); Automatically balances shards only if their imbalance percentage is greater than this threshold |
 | shard_list | array of integers; Cluster unique IDs of all database shards. |
 | sharding | boolean (default:&nbsp;false); Cluster mode (server-side sharding). When true, shard hashing rules must be provided by either `oss_sharding` or `shard_key_regex` |
 | shards_count | integer, <nobr>(range: 1-512)</nobr> (default:&nbsp;1); Number of database server-side shards |
@@ -165,5 +175,6 @@ An API object that represents a managed database in the cluster.
 | tracking_table_max_keys | integer; The client-side caching invalidation table size. 0 makes the cache unlimited. |
 | type | Type of database<br />Values:<br />**'redis'** <br />'memcached' |
 | use_nodes | array of strings; Cluster node UIDs to use for database shards and bound endpoints |
+| use_selective_flush | boolean (default: true); If true, enable selective flush of destination shards |
 | version | string; Database compatibility version: full Redis/memcached version number, such as 6.0.6. This value can only change during database creation and database upgrades.|
 | wait_command | boolean (default:&nbsp;true); Supports Redis wait command (read-only) |
