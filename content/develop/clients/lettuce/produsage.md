@@ -112,6 +112,51 @@ try (RedisClient client = RedisClient.create(redisURI)) {
 }
 ```
 
+### Setting timeouts in Spring Data Redis
+
+If you are using Spring Data Redis, you can set timeouts and keepalive settings using `LettuceClientConfigurationBuilderCustomizer`:
+
+```java
+@Bean
+public LettuceClientConfigurationBuilderCustomizer lettuceClientConfigurationBuilderCustomizer() {
+    return clientConfigurationBuilder -> {
+        // Configure TCP User Timeout
+        // This is useful for scenarios where the server stops responding without
+        // acknowledging the last request
+        SocketOptions.TcpUserTimeoutOptions tcpUserTimeout = SocketOptions.TcpUserTimeoutOptions.builder()
+                .tcpUserTimeout(Duration.ofSeconds(20))
+                .enable()
+                .build();
+
+        // Configure TCP Keep-Alive
+        // This is good for detecting dead connections where there is no traffic
+        // between the client and the server
+        SocketOptions.KeepAliveOptions keepAliveOptions = SocketOptions.KeepAliveOptions.builder()
+                .interval(Duration.ofSeconds(5))  // TCP_KEEPINTVL: interval between probes
+                .idle(Duration.ofSeconds(5))      // TCP_KEEPIDLE: time before first probe
+                .count(3)                         // TCP_KEEPCNT: number of probes
+                .enable()
+                .build();
+
+        // Build SocketOptions with both TCP User Timeout and Keep-Alive
+        SocketOptions socketOptions = SocketOptions.builder()
+                .tcpUserTimeout(tcpUserTimeout)
+                .keepAlive(keepAliveOptions)
+                .build();
+
+        // Build ClientOptions with the configured SocketOptions
+        ClientOptions clientOptions = ClientOptions.builder()
+                .socketOptions(socketOptions)
+                .build();
+
+        // Apply the client options and command timeout to the builder
+        clientConfigurationBuilder
+                .clientOptions(clientOptions)
+                .commandTimeout(Duration.ofSeconds(30));  // Global command timeout
+    };
+}
+```
+
 ## Cluster topology refresh
 
 The Redis Cluster configuration is dynamic and can change at runtime. 
