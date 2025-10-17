@@ -1,6 +1,5 @@
 ---
-description: Install RedisVL
-linkTitle: Install
+linkTitle: Install RedisVL
 title: Install
 weight: 2
 aliases:
