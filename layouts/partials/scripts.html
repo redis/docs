@@ -2,9 +2,12 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
 
-        // don't run script for tabbed code examples
-        if (!document.querySelector('.codetabs.cli.group.flex.justify-start.items-center.flex-wrap.box-border.rounded-lg.mt-0.mb-0.mx-auto.bg-slate-900')) {
-            document.querySelectorAll('div.highlight').forEach(block => {
+        // Add copy buttons to code blocks (but skip those inside codetabs)
+        document.querySelectorAll('div.highlight').forEach(block => {
+            // Skip if this code block is inside a codetabs container
+            if (block.closest('.codetabs')) {
+                return;
+            }
                 // Create a wrapper for the button and message
                 const wrapper = document.createElement('div');
 
@@ -80,10 +83,9 @@
                     wrapper.appendChild(downloadButton);
                 }
 
-                block.style.position = 'relative';
-                block.appendChild(wrapper);
-            });
-        }
+            block.style.position = 'relative';
+            block.appendChild(wrapper);
+        });
     });
 </script>
 

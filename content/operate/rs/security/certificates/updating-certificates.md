@@ -23,7 +23,7 @@ tab1="Cluster Manager UI"
 tab2="rladmin"
 tab3="REST API" >}}
 
-To replace proxy or syncer certificates using the Cluster Manager UI:
+To replace proxy, syncer, or internode encryption certificates using the Cluster Manager UI:
 
 1. Go to **Cluster > Security > Certificates**.
 

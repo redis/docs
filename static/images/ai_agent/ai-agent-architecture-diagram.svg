@@ -1,0 +1,161 @@
+<svg width="1000" height="800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradients for each component -->
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#dbeafe;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#bfdbfe;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#dcfce7;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#bbf7d0;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f3e8ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e9d5ff;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fed7aa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#fdba74;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Arrow marker -->
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+            refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#374151" />
+    </marker>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1000" height="800" fill="#f9fafb" stroke="#e5e7eb" stroke-width="2"/>
+  
+  <!-- Title -->
+  <text x="500" y="40" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#1f2937">
+    AI Agent Architecture Components
+  </text>
+  
+  <!-- Language Model Core (Top Center) -->
+  <rect x="320" y="80" width="360" height="140" rx="10" fill="url(#blueGrad)" stroke="#3b82f6" stroke-width="2"/>
+  <text x="500" y="105" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#1e40af">
+    Language Model Core
+  </text>
+  <text x="340" y="125" font-family="Arial, sans-serif" font-size="12" fill="#1e40af">
+    • Processes natural language input and generates responses
+  </text>
+  <text x="340" y="142" font-family="Arial, sans-serif" font-size="12" fill="#1e40af">
+    • Performs reasoning and decision-making
+  </text>
+  <text x="340" y="159" font-family="Arial, sans-serif" font-size="12" fill="#1e40af">
+    • Requires careful prompt engineering for consistent behavior
+  </text>
+  <text x="340" y="176" font-family="Arial, sans-serif" font-size="12" fill="#1e40af">
+    • Uses different models for different tasks
+  </text>
+  
+  <!-- Memory System (Left) -->
+  <rect x="30" y="290" width="320" height="140" rx="10" fill="url(#greenGrad)" stroke="#10b981" stroke-width="2"/>
+  <text x="190" y="315" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#065f46">
+    Memory System
+  </text>
+  <text x="50" y="335" font-family="Arial, sans-serif" font-size="12" fill="#065f46">
+    • Working memory: Current conversation context
+  </text>
+  <text x="50" y="352" font-family="Arial, sans-serif" font-size="12" fill="#065f46">
+    • Episodic memory: Historical interactions
+  </text>
+  <text x="50" y="369" font-family="Arial, sans-serif" font-size="12" fill="#065f46">
+    • Semantic memory: Domain knowledge and facts
+  </text>
+  <text x="50" y="386" font-family="Arial, sans-serif" font-size="12" fill="#065f46">
+    • Procedural memory: Learned skills and workflows
+  </text>
+
+  <!-- Tool Integration Layer (Right) -->
+  <rect x="650" y="290" width="320" height="140" rx="10" fill="url(#purpleGrad)" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="810" y="315" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#581c87">
+    Tool Integration Layer
+  </text>
+  <text x="670" y="335" font-family="Arial, sans-serif" font-size="12" fill="#581c87">
+    • Function calling capabilities for external systems
+  </text>
+  <text x="670" y="352" font-family="Arial, sans-serif" font-size="12" fill="#581c87">
+    • API connectors for databases and web services
+  </text>
+  <text x="670" y="369" font-family="Arial, sans-serif" font-size="12" fill="#581c87">
+    • Error handling and retry logic
+  </text>
+  <text x="670" y="386" font-family="Arial, sans-serif" font-size="12" fill="#581c87">
+    • Result parsing and validation
+  </text>
+  
+  <!-- Planning & Execution Engine (Bottom Center) -->
+  <rect x="320" y="520" width="360" height="140" rx="10" fill="url(#orangeGrad)" stroke="#f97316" stroke-width="2"/>
+  <text x="500" y="545" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#9a3412">
+    Planning &amp; Execution Engine
+  </text>
+  <text x="340" y="565" font-family="Arial, sans-serif" font-size="12" fill="#9a3412">
+    • Task decomposition algorithms
+  </text>
+  <text x="340" y="582" font-family="Arial, sans-serif" font-size="12" fill="#9a3412">
+    • Dependency management between subtasks
+  </text>
+  <text x="340" y="599" font-family="Arial, sans-serif" font-size="12" fill="#9a3412">
+    • Progress tracking and state management
+  </text>
+  <text x="340" y="616" font-family="Arial, sans-serif" font-size="12" fill="#9a3412">
+    • Failure recovery and replanning capabilities
+  </text>
+  
+  <!-- Connection arrows -->
+  <!-- Language Model to Memory System -->
+  <path d="M 320 145 Q 220 145 220 290" stroke="#374151" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <rect x="225" y="210" width="85" height="16" rx="2" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="268" y="222" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#374151">Context &amp; History</text>
+
+  <!-- Memory System to Language Model -->
+  <path d="M 350 330 Q 420 260 450 220" stroke="#374151" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <rect x="375" y="245" width="65" height="16" rx="2" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="408" y="257" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#374151">Retrieved Info</text>
+
+  <!-- Language Model to Tool Integration -->
+  <path d="M 680 145 Q 780 145 780 290" stroke="#374151" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <rect x="745" y="210" width="70" height="16" rx="2" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="780" y="222" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#374151">Function Calls</text>
+
+  <!-- Tool Integration to Language Model -->
+  <path d="M 650 330 Q 580 260 550 220" stroke="#374151" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <rect x="560" y="245" width="60" height="16" rx="2" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="590" y="257" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#374151">Tool Results</text>
+
+  <!-- Language Model to Planning Engine -->
+  <path d="M 520 220 L 520 520" stroke="#374151" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <rect x="525" y="365" width="80" height="16" rx="2" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="565" y="377" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#374151">Task Instructions</text>
+
+  <!-- Planning Engine to Language Model -->
+  <path d="M 460 520 L 460 220" stroke="#374151" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <rect x="385" y="365" width="70" height="16" rx="2" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="420" y="377" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#374151">Status Updates</text>
+
+  <!-- Planning Engine to Memory System -->
+  <path d="M 320 585 Q 220 585 220 430" stroke="#374151" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <rect x="225" y="505" width="70" height="14" rx="2" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="260" y="515" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#374151">Store Progress</text>
+
+  <!-- Planning Engine to Tool Integration -->
+  <path d="M 680 585 Q 780 585 780 430" stroke="#374151" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <rect x="745" y="505" width="75" height="14" rx="2" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="783" y="515" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#374151">Execute Actions</text>
+  
+
+  <!-- Legend -->
+  <rect x="50" y="720" width="900" height="60" rx="5" fill="#ffffff" stroke="#d1d5db" stroke-width="1"/>
+  <text x="70" y="740" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#374151">
+    Data Flow Legend:
+  </text>
+  <text x="70" y="755" font-family="Arial, sans-serif" font-size="10" fill="#374151">
+    • Bidirectional communication between Language Model Core and all other components
+  </text>
+  <text x="70" y="770" font-family="Arial, sans-serif" font-size="10" fill="#374151">
+    • Planning Engine coordinates execution through Memory System and Tool Integration Layer
+  </text>
+</svg>

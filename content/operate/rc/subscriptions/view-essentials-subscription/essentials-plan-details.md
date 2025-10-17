@@ -1,11 +1,11 @@
 ---
-Title: Redis Cloud Essentials plans
+Title: Redis Cloud Essentials and Redis Flex plans
 alwaysopen: false
 categories:
 - docs
 - operate
 - rc
-description: Provides detailed information on Redis Cloud Essentials plans
+description: Provides detailed information on Redis Cloud Essentials and Redis Flex plans
 weight: $weight
 ---
 

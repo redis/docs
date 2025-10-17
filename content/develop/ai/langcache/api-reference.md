@@ -4,5 +4,6 @@ linkTitle: API reference
 layout: apireference
 type: page
 params:
+  sourcefile: ./api.yaml
   sortOperationsAlphabetically: false
 ---

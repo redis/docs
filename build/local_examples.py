@@ -34,7 +34,7 @@ LANGUAGE_TO_CLIENT = {
     'python': 'Python',
     'node.js': 'Node.js',
     'go': 'Go',
-    'c#': 'C#',
+    'c#': 'C#-Sync',
     'java': 'Java-Sync',  # Default to sync, could be overridden
     'php': 'PHP',
     'redisvl': 'RedisVL',
@@ -72,6 +72,11 @@ def get_client_name_from_language_and_path(language: str, path: str) -> str:
             return 'Rust-Async'
         if 'rust-sync' in path:
             return 'Rust-Sync'
+    if language == 'c#':
+        if 'async' in path:
+            return 'C#-Async'
+        if 'sync' in path:
+            return 'C#-Sync'
     # Default behavior for all languages (and Java fallback)
     return get_client_name_from_language(language)
 
@@ -174,6 +179,10 @@ def process_local_examples(local_examples_dir: str = 'local_examples',
                 'named_steps': example.named_steps,
                 'sourceUrl': None  # Local examples don't have source URLs
             }
+
+            # Add binderId only if it exists
+            if example.binder_id:
+                example_metadata['binderId'] = example.binder_id
 
             examples_data[example_id][client_name] = example_metadata
             logging.info(f"Processed {client_name} example for {example_id}")

@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: Redis Open Source 8.0 and 8.2 features. Lag-aware availability API. Metrics stream engine GA.
+description: Redis Open Source 8.0 and 8.2 features. Lag-aware availability API. Redis Flex GA. Metrics stream engine GA. Module management enhancements. New REST API fields for database and cluster configuration.
 linkTitle: 8.0.2-tba (October 2025)
 weight: 90
 ---
@@ -21,7 +21,13 @@ This version offers:
 
 - Lag-aware availability API
 
+- Redis Flex GA
+
 - Metrics stream engine GA
+
+- Module management enhancements
+
+- New REST API fields for database and cluster configuration
 
 ## New in this release
 
@@ -80,7 +86,7 @@ Redis Enterprise Software databases created with or upgraded to Redis version 8 
 | Database type | Automatically enabled capabilities |
 |---------------|------------------------------------|
 | RAM-only | [Search and query]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search">}})<br />[JSON]({{<relref "/operate/oss_and_stack/stack-with-enterprise/json">}})<br />[Time series]({{<relref "/operate/oss_and_stack/stack-with-enterprise/timeseries">}})<br />[Probabilistic]({{<relref "/operate/oss_and_stack/stack-with-enterprise/bloom">}})  |
-| Flash-enabled ([Auto Tiering]({{<relref "/operate/rs/databases/auto-tiering">}})) | [JSON]({{<relref "/operate/oss_and_stack/stack-with-enterprise/json">}})<br />[Probabilistic]({{<relref "/operate/oss_and_stack/stack-with-enterprise/bloom">}}) |
+| Flash-enabled ([Redis Flex]({{<relref "/operate/rs/databases/flash">}})) | [JSON]({{<relref "/operate/oss_and_stack/stack-with-enterprise/json">}})<br />[Probabilistic]({{<relref "/operate/oss_and_stack/stack-with-enterprise/bloom">}}) |
 | [Active-Active]({{<relref "/operate/rs/databases/active-active">}}) | [Search and query]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search/search-active-active">}})<br />[JSON]({{<relref "/operate/oss_and_stack/stack-with-enterprise/json">}}) |
 
 #### Lag-aware availability API
@@ -100,6 +106,21 @@ The lag tolerance threshold is 100 milliseconds by default. Depending on factors
     ```
 
 For more details, see [Check database availability for monitoring and load balancers]({{<relref "/operate/rs/monitoring/db-availability">}}).
+
+#### Redis Flex GA
+
+Redis Flex (Redis on Flash version 2) is now generally available for flash-enabled databases. Redis Flex is the enhanced successor to Auto Tiering (Redis on Flash version 1), which allows you to provision larger databases at a lower cost by extending the RAM with flash drives.
+
+- Databases created with Redis version 8.0 and later automatically use Redis Flex.
+
+- Databases with Redis version 7.4 can choose between Auto Tiering (`bigstore_version` 1) and Redis Flex (`bigstore_version` 2)
+
+- Databases with Redis versions earlier than 7.4 will continue to use Auto Tiering.
+
+For more information about Redis Flex, see:
+
+- [Redis Flex overview]({{< relref "/operate/rs/databases/flash" >}})
+- [Redis Flex quick start]({{< relref "/operate/rs/databases/flash/quickstart" >}})
 
 #### Metrics stream engine GA
 
@@ -125,7 +146,7 @@ The [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_eng
 
     - Added new REST API requests to manage custom, user-defined modules. See [Custom module management APIs]({{<relref "/operate/rs/references/rest-api/requests/modules/user-defined">}}) for details.
 
-    - Added module configuration fields to the database configuration. Use `search`, `timeseries`, and `probabilistic` objects to configure Redis modules instead of the deprecated `module_args` field. These fields are visible in [`GET /v1/bdbs`]({{<relref "/operate/rs/references/rest-api/requests/bdbs">}}) requests only when using the `extended=true` query parameter.
+    - Added module configuration fields to the database configuration. Use `search`, `query_performance_factor`, `timeseries`, and `probabilistic` objects to configure Redis modules instead of the deprecated `module_args` field. These fields are visible in [`GET /v1/bdbs`]({{<relref "/operate/rs/references/rest-api/requests/bdbs">}}) requests only when using the `extended=true` query parameter.
 
     - Added `--update-db-config-modules` option to the [`crdb-cli crdb update`]({{<relref "/operate/rs/references/cli-utilities/crdb-cli/update">}}) command to streamline updating module information in the CRDB configuration after uprading modules used by Active-Active databases. Use this option only after all CRDB database instances have upgraded their modules.
 
@@ -133,13 +154,51 @@ The [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_eng
         crdb-cli crdb update --crdb-guid <guid> --update-db-config-modules true
         ```
 
+- Added a check to block new user creation after the maximum limit of 32,000 users has been reached:
+
+    - Added a [cluster alert]({{<relref "operate/rs/references/rest-api/objects/cluster/alert_settings">}}) `cluster_users_count_approaches_limit`, which triggers when the number of users surpasses a threshold percentage of the maximum user limit. This alert is enabled with a 90% threshold by default on new clusters.
+
+    - Added a `users_count` cluster metric to [Prometheus metrics v2]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v2">}}) that shows the current number of users on the cluster.
+
+- New [database configuration]({{<relref "/operate/rs/references/rest-api/requests/bdbs">}}) fields in the REST API for automatic shard balancing:
+
+    - `auto_shards_balancing`: Automatically balances database shards.
+
+    - `auto_shards_balancing_grace_period`: Time to wait before auto sharding is initiated.
+
+    - `shard_imbalance_threshold`: Threshold for automatic shard balancing based on imbalance size.
+
+    - `shard_imbalance_threshold_percentage`: Threshold for automatic shard balancing based on imbalance percentage.
+
 - Additional REST API enhancements:
 
-    - Added `replica_sconns_on_demand` to the database configuration. When enabled, the DMC stops holding persistent connections to replica shards and reduces the number of internode connections by half.
+    - New `last_login` field for [users]({{<relref "/operate/rs/references/rest-api/requests/users">}}), which stores the UNIX timestamp of the user's last successful login to the Cluster Manager UI or REST API.
 
-    - Added `conns_minimum_dedicated` to the database configuration to define the minimum number of dedicated server connections the DMC maintains per worker per shard.
+    - Added [cluster configuration]({{<relref "/operate/rs/references/rest-api/requests/cluster">}}) fields:
 
-    - Added `metrics_auth` to the cluster configuration. If set to `true`, it enables basic authentication for Prometheus exporters and restricts access to authenticated users with `admin`, `cluster_member`, or `cluster_viewer` [management roles]({{<relref "/operate/rs/references/rest-api/permissions">}}).
+        - `disconnect_clients_on_password_removal`: Controls whether client connections using removed, revoked, or rotated passwords are actively disconnected.
+
+        - `replica_sconns_on_demand`: When enabled, the DMC stops holding persistent connections to replica shards and reduces the number of internode connections by half.
+
+        - `metrics_auth`: If set to `true`, enables basic authentication for Prometheus exporters and restricts access to authenticated users with `admin`, `cluster_member`, or `cluster_viewer` [management roles]({{<relref "/operate/rs/references/rest-api/permissions">}}).
+
+    - Added [database configuration]({{<relref "/operate/rs/references/rest-api/requests/bdbs">}}) fields:
+
+        - `conns_global_maximum_dedicated`: Defines the maximum number of dedicated server connections for a database across all workers.
+
+        - `conns_minimum_dedicated`: Defines the minimum number of dedicated server connections the DMC maintains per worker per shard.
+
+        - `disconnect_clients_on_password_removal`: Controls whether client connections using removed, revoked, or rotated passwords are actively disconnected.
+
+        - `link_sconn_on_full_request`: Feature flag for DMC behavior on linking client requests.
+
+        - `partial_request_timeout_seconds`: Timeout for incomplete client commands that cause head-of-line blocking.
+
+        - `preemptive_drain_timeout_seconds`: Timeout for preemptive drain of client connections before a shard is taken down.
+
+        - `replica_sconns_on_demand`: When enabled, the DMC stops holding persistent connections to replica shards and reduces the number of internode connections by half.
+
+        - `use_selective_flush`: Enables selective flush of destination shards.
 
 - Added action IDs to operation and state machine log entries.
 
@@ -151,24 +210,23 @@ The [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_eng
 
 ### Redis database versions
 
-Redis Enterprise Software version 8.0.2 includes four Redis database versions: 8.2, 7.4, 7.2, and 6.2.
+Redis Enterprise Software version 8.0.2 includes five Redis database versions: 8.2, 8.0, 7.4, 7.2, and 6.2.
 
 The [default Redis database version]({{<relref "/operate/rs/databases/configure/db-defaults#database-version">}}) is 8.2.
 
 ### Redis feature sets
 
-As of version 8.0.2, Redis Enterprise Software includes four feature sets, compatible with different Redis database versions.
+Redis Enterprise Software includes multiple feature sets, compatible with different Redis database versions.
 
 The following table shows which Redis modules are compatible with each Redis database version included in this release.
 
 | Redis database version | Compatible Redis modules |
 |------------------------|--------------------------|
-| 8.2 | TBA? |
+| 8.2 | RediSearch 8.2<br />RedisJSON 8.2<br />RedisTimeSeries 8.2<br />RedisBloom 8.2<br />See [What's new in Redis 8.2]({{<relref "/develop/whats-new/8-2">}}) and [Redis Open Source 8.2 release notes]({{<relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisos-8.2-release-notes">}}) |
+| 8.0 | RediSearch 8.0<br />RedisJSON 8.0<br />RedisTimeSeries 8.0<br />RedisBloom 8.0<br />See [What's new in Redis 8.0]({{<relref "/develop/whats-new/8-0">}}) and [Redis Open Source 8.0 release notes]({{<relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisos-8.0-release-notes">}}) |
 | 7.4 | [RediSearch 2.10]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisearch/redisearch-2.10-release-notes.md" >}})<br />[RedisJSON 2.8]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisjson/redisjson-2.8-release-notes.md" >}})<br />[RedisTimeSeries 1.12]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redistimeseries/redistimeseries-1.12-release-notes.md" >}})<br />[RedisBloom 2.8]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisbloom/redisbloom-2.8-release-notes.md" >}}) |
 | 7.2 | [RediSearch 2.8]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisearch/redisearch-2.8-release-notes.md" >}})<br />[RedisJSON 2.6]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisjson/redisjson-2.6-release-notes.md" >}})<br />[RedisTimeSeries 1.10]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redistimeseries/redistimeseries-1.10-release-notes.md" >}})<br />[RedisBloom 2.6]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisbloom/redisbloom-2.6-release-notes.md" >}}) |
-| 6.2 | [RediSearch 2.6]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisearch/redisearch-2.6-release-notes.md" >}})<br />[RedisJSON 2.4]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisjson/redisjson-2.4-release-notes.md" >}})<br />[RedisTimeSeries 1.8]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redistimeseries/redistimeseries-1.8-release-notes.md" >}})<br />[RedisBloom 2.4]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisbloom/redisbloom-2.4-release-notes.md" >}})<br />[RedisGraph v2.10]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisgraph/redisgraph-2.10-release-notes.md" >}})<sup>[1](#module-note-1)</sup>  |
-
-1. <a name="module-note-1"></a>RedisGraph end-of-life has been announced and will be removed in a future release. See the [RedisGraph end-of-life announcement](https://redis.io/blog/redisgraph-eol/) for more details.
+| 6.2 | [RediSearch 2.6]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisearch/redisearch-2.6-release-notes.md" >}})<br />[RedisJSON 2.4]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisjson/redisjson-2.4-release-notes.md" >}})<br />[RedisTimeSeries 1.8]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redistimeseries/redistimeseries-1.8-release-notes.md" >}})<br />[RedisBloom 2.4]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisbloom/redisbloom-2.4-release-notes.md" >}}) |
 
 ### Resolved issues
 
@@ -218,7 +276,7 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS162524: Fixed an issue where the DNS backend could fail with "too many open files" errors due to socket leaks.
 
-- RS161547: Fixed an issue where nodes could fail to send messages related to state-machines due to a timing issue between notification threads and management threads.
+- RS161547: Fixed an issue where nodes could fail to send messages related to state machines due to a timing issue between notification threads and management threads.
 
 - RS155990: Fixed an issue where the `forwarding_state` field was missing from the endpoint schema.
 
@@ -236,6 +294,36 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS162290: Fixed an issue where the node status API returned 0 instead of the actual provisional RAM and flash values if the node reached its shard limit.
 
+- RS158251: Added a check to block new user creation after the maximum limit of 32,000 users has been reached to prevent DMC proxy crashes.
+
+- RS166813: Fixed an issue where Lua incorrectly converted empty JSON arrays into empty JSON objects.
+
+- RS166683: Fixed an issue where `FT.DROPINDEX index DD` deleted indexed keys on the local Active-Active database instance but failed to sync the deletions to instances in other participating clusters.
+
+- RS162972: Fixed an issue where the REST API was only accessible from the primary node when certificate-based authentication was enabled.
+
+- RS158972: Fixed an issue where certificate verification failed during node join and replace operations when internode encryption was enabled, causing connection errors until certificates were fetched from the primary node.
+
+- RS123263: Fixed an issue where creating a new role with a specified UID failed with "A uid is already assigned" error.
+
+- RS120420: Fixed an issue where `rladmin cluster config` incorrectly included quotes as part of the cipher suite value when updating `control_cipher_suites` configuration.
+
+- RS170611: Fixed an issue where the `generate_self_signed_certs.sh` script incorrectly formatted wildcard certificate entries.
+
+- RS167849: Fixed an issue where `rlutil check` incorrectly reported that existing databases did not exist.
+
+- RS167199: Fixed an issue where the remove node action could become stuck during node decommissioning.
+
+- RS166990: Fixed an issue where install logs were not included in support packages when installation or upgrade operations failed.
+
+- RS166528: Improved error handling when verifying that a data file has been loaded.
+
+- RS162973: Fixed an issue with shard failover where the shard failed to restart because its port was not released quickly enough after it crashed.
+
+- RS166122: Fixed an issue where the actions API could incorrectly report state machine operations as running after they completed.
+
+- RS171579: Fixed an issue where the new UI incorrectly added `default_user: False` when the default_user field was absent, causing connection issues.
+
 ## Version changes
 
 - [`POST /v1/cluster/actions/change_master`]({{<relref "/operate/rs/references/rest-api/requests/cluster/actions#post-cluster-action">}}) REST API requests will no longer allow a node that exists but is not finished bootstrapping to become the primary node. Such requests will now return the status code `406 Not Acceptable`.
@@ -243,10 +331,6 @@ The following table shows which Redis modules are compatible with each Redis dat
 - Node status now returns the actual provisional RAM and flash values even when the maximum number of shards on the node (`max_redis_servers`) is reached. Previously, the API returned 0 for `provisional_ram_of_node` and `provisional_flash_of_node` when a node reached its shard limit. This change affects REST API node status requests and the `rladmin status nodes` command's output.
 
 ### Breaking changes
-
-Redis Enterprise Software version 8.0.2 introduces the following breaking changes:
-
-- TBA
 
 ### Redis database version 8 breaking changes {#redis-8-breaking-changes}
 
@@ -294,10 +378,6 @@ The following changes affect behavior and validation in the Redis Query Engine:
 
 - Improved handling of expired records, memory constraints, and malformed fields.
 
-### Product lifecycle updates
-
-- TBA
-
 ### Deprecations
 
 #### API deprecations
@@ -323,10 +403,6 @@ The following changes affect behavior and validation in the Redis Query Engine:
 The existing [internal monitoring engine]({{<relref "/operate/rs/monitoring/v1_monitoring">}}) is deprecated. We recommend transitioning to the new [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}) for improved performance, enhanced integration capabilities, and modernized metrics streaming.
 
 V1 Prometheus metrics are deprecated but still available. To transition to the new metrics stream engine, either migrate your existing dashboards using [this guide]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v1-to-v2">}}) now, or wait to use new preconfigured dashboards when they become available in a future release.
-
-### Upcoming changes
-
-- TBA
 
 ### Supported platforms
 
@@ -386,6 +462,14 @@ The following table shows the SHA256 checksums for the available packages:
 
 ## Known limitations
 
+#### Rolling upgrade limitation for clusters with custom or deprecated modules
+
+Due to module handling changes introduced in Redis Enterprise Software version 8.0, upgrading a cluster that contains custom or deprecated modules, such as RedisGraph and RedisGears v2, can become stuck when adding a new node to the cluster during a rolling upgrade.
+
+#### Module commands limitation during Active-Active database upgrades to Redis 8.0
+
+When upgrading an Active-Active database to Redis version 8.0, you cannot use module commands until all Active-Active database instances have been upgraded. Currently, these commands are not blocked automatically.
+
 #### New Cluster Manager UI limitations
 
 The following legacy UI features are not yet available in the new Cluster Manager UI:
@@ -404,15 +488,51 @@ As part of Redis's commitment to security, Redis Enterprise Software implements 
 
 Some CVEs announced for open source Redis do not affect Redis Enterprise Software due to different or additional functionality available in Redis Enterprise Software that is not available in open source Redis.
 
-Redis Enterprise Software 8.0.2-tba supports open source Redis 8.2, 7.4, 7.2, and 6.2. Below is the list of open source Redis CVEs fixed by version.
+Redis Enterprise Software 8.0.2-tba supports open source Redis 8.2, 8.0, 7.4, 7.2, and 6.2. Below is the list of open source Redis CVEs fixed by version.
+
+Redis 8.2.x:
+
+- (CVE-2025-46818) An authenticated user may use a specially crafted Lua script to manipulate different LUA objects and potentially run their own code in the context of another user.
+
+- (CVE-2025-46819) An authenticated user may use a specially crafted LUA script to read out-of-bound data or crash the server and lead to subsequent denial of service.
+
+- (CVE-2025-46817) An authenticated user may use a specially crafted Lua script to cause an integer overflow and potentially lead to remote code execution.
+
+- (CVE-2025-49844) An authenticated user may use a specially crafted Lua script to manipulate the garbage collector, trigger a use-after-free, and potentially lead to remote code execution.
+
+Redis 8.0.x:
+
+- (CVE-2025-46818) An authenticated user may use a specially crafted Lua script to manipulate different LUA objects and potentially run their own code in the context of another user.
+
+- (CVE-2025-46819) An authenticated user may use a specially crafted LUA script to read out-of-bound data or crash the server and lead to subsequent denial of service.
+
+- (CVE-2025-46817) An authenticated user may use a specially crafted Lua script to cause an integer overflow and potentially lead to remote code execution.
+
+- (CVE-2025-49844) An authenticated user may use a specially crafted Lua script to manipulate the garbage collector, trigger a use-after-free, and potentially lead to remote code execution.
 
 Redis 7.4.x:
+
+- (CVE-2025-46818) An authenticated user may use a specially crafted Lua script to manipulate different LUA objects and potentially run their own code in the context of another user.
+
+- (CVE-2025-46819) An authenticated user may use a specially crafted LUA script to read out-of-bound data or crash the server and lead to subsequent denial of service.
+
+- (CVE-2025-46817) An authenticated user may use a specially crafted Lua script to cause an integer overflow and potentially lead to remote code execution.
+
+- (CVE-2025-49844) An authenticated user may use a specially crafted Lua script to manipulate the garbage collector, trigger a use-after-free, and potentially lead to remote code execution.
 
 - (CVE-2025-32023) An authenticated user can use a specially crafted string to trigger a stack/heap out-of-bounds write on HyperLogLog operations, which can lead to remote code execution.
 
 - (CVE-2025-21605) An unauthenticated client can cause unlimited growth of output buffers until the server runs out of memory or is terminated, which can lead to denial-of-service.
 
 Redis 7.2.x:
+
+- (CVE-2025-46818) An authenticated user may use a specially crafted Lua script to manipulate different LUA objects and potentially run their own code in the context of another user.
+
+- (CVE-2025-46819) An authenticated user may use a specially crafted LUA script to read out-of-bound data or crash the server and lead to subsequent denial of service.
+
+- (CVE-2025-46817) An authenticated user may use a specially crafted Lua script to cause an integer overflow and potentially lead to remote code execution.
+
+- (CVE-2025-49844) An authenticated user may use a specially crafted Lua script to manipulate the garbage collector, trigger a use-after-free, and potentially lead to remote code execution.
 
 - (CVE-2025-32023) An authenticated user can use a specially crafted string to trigger a stack/heap out-of-bounds write on HyperLogLog operations, which can lead to remote code execution.
 
@@ -461,6 +581,14 @@ Redis 7.0.x:
 - (CVE-2022-24735) By exploiting weaknesses in the Lua script execution environment, an attacker with access to Redis can inject Lua code that will execute with the (potentially higher) privileges of another Redis user. (Redis 7.0.0)
 
 Redis 6.2.x:
+
+- (CVE-2025-46818) An authenticated user may use a specially crafted Lua script to manipulate different LUA objects and potentially run their own code in the context of another user.
+
+- (CVE-2025-46819) An authenticated user may use a specially crafted LUA script to read out-of-bound data or crash the server and lead to subsequent denial of service.
+
+- (CVE-2025-46817) An authenticated user may use a specially crafted Lua script to cause an integer overflow and potentially lead to remote code execution.
+
+- (CVE-2025-49844) An authenticated user may use a specially crafted Lua script to manipulate the garbage collector, trigger a use-after-free, and potentially lead to remote code execution.
 
 - (CVE-2025-32023) An authenticated user can use a specially crafted string to trigger a stack/heap out-of-bounds write on HyperLogLog operations, which can lead to remote code execution.
 

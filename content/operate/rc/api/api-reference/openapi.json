@@ -11384,7 +11384,7 @@
           },
           "enableDefaultUser": {
             "type": "boolean",
-            "description": "Optional. When 'true', allows connecting to the database with the 'default' user. When 'false', only defined access control users can connect to the database."
+            "description": "Optional. When 'true', allows connecting to the database with the 'default' user. When 'false', only defined access control users can connect to the database. If set, 'globalEnableDefaultUser' will not apply to this region."
           }
         },
         "description": "Optional. A list of regions and local settings to update."
@@ -14816,6 +14816,10 @@
             "type": "string",
             "description": "Optional. Changes the password used to access the database in all regions that don't set a local 'password'."
           },
+          "globalEnableDefaultUser": {
+            "type": "boolean",
+            "description": "Optional. When 'true', allows connecting to the database with the 'default' user in all regions that don't set local 'enableDefaultUser'. When 'false', only defined access control users can connect to the database."
+          },
           "globalSourceIp": {
             "type": "array",
             "description": "Optional. List of source IP addresses or subnet masks to whitelist in all regions that don't set local 'sourceIp' settings. If set, Redis clients will be able to connect to this database only from within the specified source IP addresses ranges. Example: ['192.168.10.0/32', '192.168.12.0/24']",
@@ -15521,6 +15525,10 @@
               "CIDR_WHITELIST_DUPLICATE_CIDRS",
               "CIDR_WHITELIST_DUPLICATE_SG",
               "CIDR_WHITELIST_NOT_ALLOWED",
+              "CLIENT_PUBLIC_ACCESS_INVALID_SOURCE_IPS",
+              "CLIENT_PUBLIC_ACCESS_NOT_SUPPORTED",
+              "CLIENT_PUBLIC_ACCESS_ALREADY_SET",
+              "CLIENT_PUBLIC_ACCESS_ON_NON_HOSTED",
               "AWS_ERROR_INSTANCE_LIMIT_EXCEEDED",
               "AWS_ERROR_VPC_LIMIT_EXCEEDED",
               "AWS_ERROR_INSUFFICIENT_INSTANCE_CAPACITY",
