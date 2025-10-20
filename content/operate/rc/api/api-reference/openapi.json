@@ -4633,6 +4633,7 @@
                 "deploymentType": "single-region",
                 "paymentMethod": "credit-card",
                 "paymentMethodId": 12345,
+                "publicEndpointAccess": true,
                 "memoryStorage": "ram",
                 "cloudProviders": [
                   {
@@ -7440,6 +7441,156 @@
           },
           "422": {
             "description": "Unprocessable Entity - The server understands the request, and the syntax of the request is correct, but it was unable to process the contained instructions"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/upgrade": {
+      "get": {
+        "tags": [
+          "Databases - Essentials"
+        ],
+        "summary": "Get Essentials database version upgrade status",
+        "description": "Gets information on the latest upgrade attempt for this Essentials database.",
+        "operationId": "getEssentialsDatabaseRedisVersionUpgradeStatus",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "databaseId",
+            "in": "path",
+            "description": "Database ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BdbVersionUpgradeStatus"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Databases - Essentials"
+        ],
+        "summary": "Upgrade Essentials database version",
+        "description": "Upgrades the specified Essentials database to a later Redis version.",
+        "operationId": "upgradeEssentialsDatabaseRedisVersion",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "databaseId",
+            "in": "path",
+            "description": "Database ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FixedDatabaseUpgradeRedisVersionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
           },
           "429": {
             "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
@@ -10472,6 +10623,10 @@
               "marketplace"
             ]
           },
+          "publicEndpointAccess": {
+            "type": "boolean",
+            "description": "Optional. When 'false', all databases on this subscription will reject any connection attempt to the public endpoint and any connection attempt to the private endpoint that does not come from an IP address in the private address space defined in [RFC 1918](https://datatracker.ietf.org/doc/html/rfc1918#section-3 ). You must use a [private connectivity method](https://redis.io/docs/latest/operate/rc/security/database-security/block-public-endpoints/#private-connectivity-methods ) to connect to a database with a blocked public endpoint."
+          },
           "commandType": {
             "type": "string",
             "readOnly": true
@@ -10766,6 +10921,10 @@
             "type": "boolean",
             "description": "Optional. Databases replication. Default: 'true'"
           },
+          "autoMinorVersionUpgrade": {
+            "type": "boolean",
+            "description": "Optional. When 'true', enables auto minor version upgrades for this database. Default: 'true'"
+          },
           "throughputMeasurement": {
             "$ref": "#/components/schemas/DatabaseThroughputSpec"
           },
@@ -10842,6 +11001,9 @@
           "status": {
             "type": "string"
           },
+          "publicEndpointAccess": {
+            "type": "boolean"
+          },
           "memoryStorage": {
             "type": "string",
             "enum": [
@@ -10886,6 +11048,7 @@
           "status": "active",
           "deploymentType": "single-region",
           "paymentMethodId": 2,
+          "publicEndpointAccess": true,
           "memoryStorage": "ram",
           "numberOfDatabases": 6,
           "paymentMethodType": "credit-card",
@@ -11226,6 +11389,10 @@
           "replication": {
             "type": "boolean",
             "description": "Optional. Turns database replication on or off."
+          },
+          "autoMinorVersionUpgrade": {
+            "type": "boolean",
+            "description": "Optional. When 'true', enables auto minor version upgrades for this database."
           },
           "regexRules": {
             "type": "array",
@@ -13356,6 +13523,7 @@
               "status": "active",
               "deploymentType": "single-region",
               "paymentMethodId": 123,
+              "publicEndpointAccess": true,
               "memoryStorage": "ram",
               "numberOfDatabases": 6,
               "paymentMethodType": "credit-card",
@@ -14735,6 +14903,34 @@
           ]
         }
       },
+      "FixedDatabaseUpgradeRedisVersionRequest": {
+        "required": [
+          "targetRedisVersion"
+        ],
+        "type": "object",
+        "properties": {
+          "databaseId": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "subscriptionId": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "targetRedisVersion": {
+            "type": "string",
+            "description": "The target Redis version the database will be upgraded to. Use GET /subscriptions/redis-versions to get a list of available Redis versions.",
+            "example": "7.4"
+          },
+          "commandType": {
+            "type": "string",
+            "readOnly": true
+          }
+        },
+        "description": "Upgrades the specified Essentials database to a later Redis version."
+      },
       "CrdbUpdatePropertiesRequest": {
         "type": "object",
         "properties": {
@@ -14855,6 +15051,10 @@
               "volatile-ttl",
               "noeviction"
             ]
+          },
+          "autoMinorVersionUpgrade": {
+            "type": "boolean",
+            "description": "Optional. When 'true', enables auto minor version upgrades for this database."
           },
           "commandType": {
             "type": "string",
@@ -15062,6 +15262,10 @@
           "replication": {
             "type": "boolean",
             "description": "Optional. Sets database replication. Default: 'true'"
+          },
+          "autoMinorVersionUpgrade": {
+            "type": "boolean",
+            "description": "Optional. When 'true', enables auto minor version upgrades for this database. Default: 'true'"
           },
           "replicaOf": {
             "type": "array",
@@ -16268,6 +16472,10 @@
             "description": "Optional. Defines the Redis version of the databases created in this specific request. It doesn't determine future databases associated with this subscription. If not set, databases will use the default Redis version. This field is deprecated and will be removed in a future API version - use the database-level redisVersion property instead.",
             "example": "7.2",
             "deprecated": true
+          },
+          "publicEndpointAccess": {
+            "type": "boolean",
+            "description": "Optional. When 'false', all databases on this subscription will reject any connection attempt to the public endpoint and any connection attempt to the private endpoint that does not come from an IP address in the private address space defined in [RFC 1918](https://datatracker.ietf.org/doc/html/rfc1918#section-3 ). You must use a [private connectivity method](https://redis.io/docs/latest/operate/rc/security/database-security/block-public-endpoints/#private-connectivity-methods ) to connect to a database with a blocked public endpoint. Default: 'true'."
           },
           "commandType": {
             "type": "string",
