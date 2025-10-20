@@ -378,6 +378,143 @@ r = redis.Redis()
     print("✓ Error handling tests passed")
 
 
+def test_csharp_boilerplate_injection():
+    """Test that C# files get NuGet directives as first cell."""
+    print("\nTesting C# boilerplate injection...")
+
+    test_content = """// EXAMPLE: test_csharp
+using NRedisStack;
+
+public class TestExample {
+    public void Run() {
+        var muxer = ConnectionMultiplexer.Connect("localhost");
+    }
+}
+"""
+
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.cs', delete=False) as f:
+        f.write(test_content)
+        test_file = f.name
+
+    try:
+        output_file = test_file.replace('.cs', '.ipynb')
+        jupyterize(test_file, output_file, verbose=False)
+
+        with open(output_file) as f:
+            nb = json.load(f)
+
+        # Should have at least one cell
+        assert len(nb['cells']) >= 1, "Should have at least one cell"
+
+        # First cell should be boilerplate
+        first_cell = nb['cells'][0]
+        first_cell_source = ''.join(first_cell['source'])
+        assert '#r "nuget:' in first_cell_source, \
+            f"First cell should contain NuGet directive, got: {first_cell_source}"
+        assert first_cell['metadata'].get('cell_type') == 'boilerplate', \
+            "First cell should be marked as boilerplate"
+
+        print("✓ C# boilerplate injection test passed")
+
+    finally:
+        if os.path.exists(test_file):
+            os.unlink(test_file)
+        if os.path.exists(output_file):
+            os.unlink(output_file)
+
+
+def test_csharp_unwrapping():
+    """Test that C# class/method wrappers are removed."""
+    print("\nTesting C# unwrapping...")
+
+    test_content = """// EXAMPLE: test_unwrap
+using NRedisStack;
+
+public class TestExample {
+    public void Run() {
+        var muxer = ConnectionMultiplexer.Connect("localhost");
+        var db = muxer.GetDatabase();
+    }
+}
+"""
+
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.cs', delete=False) as f:
+        f.write(test_content)
+        test_file = f.name
+
+    try:
+        output_file = test_file.replace('.cs', '.ipynb')
+        jupyterize(test_file, output_file, verbose=False)
+
+        with open(output_file) as f:
+            nb = json.load(f)
+
+        # Collect all code from all cells
+        all_code = '\n'.join([
+            ''.join(cell['source'])
+            for cell in nb['cells']
+        ])
+
+        # Should NOT contain class/method declarations
+        assert 'public class TestExample' not in all_code, \
+            "Should not contain class declaration"
+        assert 'public void Run()' not in all_code, \
+            "Should not contain method declaration"
+
+        # Should contain the actual code
+        assert 'var muxer = ConnectionMultiplexer.Connect' in all_code, \
+            "Should contain actual code"
+        assert 'var db = muxer.GetDatabase()' in all_code, \
+            "Should contain actual code"
+
+        print("✓ C# unwrapping test passed")
+
+    finally:
+        if os.path.exists(test_file):
+            os.unlink(test_file)
+        if os.path.exists(output_file):
+            os.unlink(output_file)
+
+
+def test_python_no_boilerplate():
+    """Test that Python files don't get boilerplate (not configured)."""
+    print("\nTesting Python (no boilerplate)...")
+
+    test_content = """# EXAMPLE: test_python
+import redis
+
+r = redis.Redis()
+"""
+
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
+        f.write(test_content)
+        test_file = f.name
+
+    try:
+        output_file = test_file.replace('.py', '.ipynb')
+        jupyterize(test_file, output_file, verbose=False)
+
+        with open(output_file) as f:
+            nb = json.load(f)
+
+        # Should have exactly one cell (no boilerplate)
+        assert len(nb['cells']) == 1, \
+            f"Python should have 1 cell (no boilerplate), got {len(nb['cells'])}"
+
+        # First cell should NOT be boilerplate
+        first_cell = nb['cells'][0]
+        assert first_cell['metadata'].get('cell_type') != 'boilerplate', \
+            "Python should not have boilerplate cell"
+
+        print("✓ Python (no boilerplate) test passed")
+
+    finally:
+        if os.path.exists(test_file):
+            os.unlink(test_file)
+        if os.path.exists(output_file):
+            os.unlink(output_file)
+
+
 def main():
     """Run all tests."""
     print("=" * 60)
@@ -399,6 +536,11 @@ def main():
 
         # Error handling tests
         test_error_handling()
+
+        # Language-specific feature tests
+        test_csharp_boilerplate_injection()
+        test_csharp_unwrapping()
+        test_python_no_boilerplate()
 
         print("\n" + "=" * 60)
         print("All tests passed! ✓")

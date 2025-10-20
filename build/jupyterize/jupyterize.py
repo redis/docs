@@ -16,9 +16,12 @@ Options:
 """
 
 import argparse
+import json
 import logging
 import os
+import re
 import sys
+import textwrap
 import nbformat
 from nbformat.v4 import new_notebook, new_code_cell
 
@@ -69,6 +72,179 @@ def _check_marker(line, prefix, marker):
         bool: True if marker is found
     """
     return f'{prefix} {marker}' in line or f'{prefix}{marker}' in line
+
+
+def load_language_config(language):
+    """
+    Load language-specific configuration from jupyterize_config.json.
+
+    Args:
+        language: Language name (e.g., 'python', 'c#')
+
+    Returns:
+        dict: Configuration for the language, or empty dict if not found
+    """
+    config_file = os.path.join(os.path.dirname(__file__), 'jupyterize_config.json')
+    if not os.path.exists(config_file):
+        logging.debug(f"Configuration file not found: {config_file}")
+        return {}
+
+    try:
+        with open(config_file, 'r', encoding='utf-8') as f:
+            config = json.load(f)
+        return config.get(language.lower(), {})
+    except json.JSONDecodeError as e:
+        logging.warning(f"Failed to parse configuration file: {e}")
+        return {}
+    except Exception as e:
+        logging.warning(f"Error loading configuration: {e}")
+        return {}
+
+
+def remove_wrapper_keep_content(code, start_pattern, end_pattern):
+    """
+    Remove wrapper lines but keep content between them.
+
+    Args:
+        code: Source code as string
+        start_pattern: Regex pattern for wrapper start
+        end_pattern: Regex pattern for wrapper end
+
+    Returns:
+        str: Code with wrappers removed and content dedented
+    """
+    lines = code.split('\n')
+    result = []
+    in_wrapper = False
+    wrapper_indent = 0
+    skip_next_empty = False
+
+    for i, line in enumerate(lines):
+        # Check for wrapper start
+        if re.match(start_pattern, line):
+            in_wrapper = True
+            wrapper_indent = len(line) - len(line.lstrip())
+            skip_next_empty = True
+            continue  # Skip wrapper start line
+
+        # Check for wrapper end
+        if in_wrapper and re.match(end_pattern, line):
+            in_wrapper = False
+            skip_next_empty = True
+            continue  # Skip wrapper end line
+
+        # Skip empty line immediately after wrapper start/end
+        if skip_next_empty and not line.strip():
+            skip_next_empty = False
+            continue
+
+        skip_next_empty = False
+
+        # Process content inside wrapper
+        if in_wrapper:
+            # Remove wrapper indentation (typically 4 spaces)
+            if line.startswith(' ' * (wrapper_indent + 4)):
+                result.append(line[wrapper_indent + 4:])
+            elif line.strip():  # Non-empty line with different indentation
+                result.append(line.lstrip())
+            else:  # Empty line
+                result.append(line)
+        else:
+            result.append(line)
+
+    return '\n'.join(result)
+
+
+def remove_matching_lines(code, start_pattern, end_pattern):
+    """
+    Remove lines matching patterns (including the matched lines).
+
+    Args:
+        code: Source code as string
+        start_pattern: Regex pattern for start line
+        end_pattern: Regex pattern for end line
+
+    Returns:
+        str: Code with matching lines removed
+    """
+    lines = code.split('\n')
+    result = []
+    in_match = False
+    single_line_pattern = (start_pattern == end_pattern)
+
+    for line in lines:
+        # Check for start pattern
+        if re.match(start_pattern, line):
+            if single_line_pattern:
+                # For single-line patterns, just skip this line
+                continue
+            else:
+                # For multi-line patterns, enter match mode
+                in_match = True
+                continue  # Skip this line
+
+        # Check for end pattern (only for multi-line patterns)
+        if in_match and re.match(end_pattern, line):
+            in_match = False
+            continue  # Skip this line
+
+        # Keep line if not in match
+        if not in_match:
+            result.append(line)
+
+    return '\n'.join(result)
+
+
+def unwrap_code(code, language):
+    """
+    Remove language-specific structural wrappers from code.
+
+    Args:
+        code: Source code as string
+        language: Language name (e.g., 'c#')
+
+    Returns:
+        str: Code with structural wrappers removed
+    """
+    lang_config = load_language_config(language)
+    unwrap_patterns = lang_config.get('unwrap_patterns', [])
+
+    if not unwrap_patterns:
+        return code
+
+    # Apply each unwrap pattern
+    for pattern_config in unwrap_patterns:
+        try:
+            keep_content = pattern_config.get('keep_content', True)
+
+            if keep_content:
+                # Remove wrapper but keep content
+                code = remove_wrapper_keep_content(
+                    code,
+                    pattern_config['pattern'],
+                    pattern_config['end_pattern']
+                )
+            else:
+                # Remove entire matched section
+                code = remove_matching_lines(
+                    code,
+                    pattern_config['pattern'],
+                    pattern_config['end_pattern']
+                )
+
+            logging.debug(
+                f"Applied unwrap pattern: {pattern_config.get('type', 'unknown')}"
+            )
+        except KeyError as e:
+            logging.warning(
+                f"Malformed unwrap pattern (missing {e}), skipping"
+            )
+        except re.error as e:
+            logging.warning(
+                f"Invalid regex pattern: {e}, skipping"
+            )
+
+    return code
 
 
 def detect_language(file_path):
@@ -267,38 +443,68 @@ def parse_file(file_path, language):
     return cells
 
 
-def create_cells(parsed_blocks):
+def create_cells(parsed_blocks, language):
     """
     Convert parsed blocks to notebook cells.
-    
+
     Args:
         parsed_blocks: List of dicts with 'code' and 'step_name'
-        
+        language: Programming language (for boilerplate injection and unwrapping)
+
     Returns:
         list: List of nbformat cell objects
     """
     cells = []
-    
+
+    # Get language configuration
+    lang_config = load_language_config(language)
+
+    # Add boilerplate cell if defined
+    boilerplate = lang_config.get('boilerplate', [])
+    if boilerplate:
+        boilerplate_code = '\n'.join(boilerplate)
+        boilerplate_cell = new_code_cell(source=boilerplate_code)
+        boilerplate_cell.metadata['cell_type'] = 'boilerplate'
+        boilerplate_cell.metadata['language'] = language
+        cells.append(boilerplate_cell)
+        logging.info(f"Added boilerplate cell for {language} ({len(boilerplate)} lines)")
+
+    # Process regular cells
     for i, block in enumerate(parsed_blocks):
-        code = block['code'].rstrip()
-        
+        code = block['code']
+
+        # Apply unwrapping if configured
+        if lang_config.get('unwrap_patterns'):
+            original_code = code
+            code = unwrap_code(code, language)
+            if code != original_code:
+                logging.debug(f"Applied unwrapping to cell {i}")
+
+        # Dedent code if unwrap patterns are configured
+        # (code may have been indented inside wrappers)
+        if lang_config.get('unwrap_patterns'):
+            code = textwrap.dedent(code)
+
+        # Strip trailing whitespace
+        code = code.rstrip()
+
         # Skip empty cells
         if not code.strip():
             logging.debug(f"Skipping empty cell {i}")
             continue
-        
+
         # Create code cell
         cell = new_code_cell(source=code)
-        
+
         # Add step metadata if present
         if block['step_name']:
             cell.metadata['step'] = block['step_name']
             logging.debug(f"Created cell {i} with step '{block['step_name']}'")
         else:
             logging.debug(f"Created cell {i} (preamble)")
-        
+
         cells.append(cell)
-    
+
     logging.info(f"Created {len(cells)} notebook cells")
     return cells
 
@@ -398,8 +604,8 @@ def jupyterize(input_file, output_file=None, verbose=False):
         if not parsed_blocks:
             logging.warning("No code blocks found in file")
 
-        # Create cells
-        cells = create_cells(parsed_blocks)
+        # Create cells (with language-specific boilerplate and unwrapping)
+        cells = create_cells(parsed_blocks, language)
 
         if not cells:
             logging.warning("No cells created (all code may be in REMOVE blocks)")

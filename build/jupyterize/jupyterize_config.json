@@ -1,0 +1,70 @@
+{
+  "c#": {
+    "boilerplate": [
+      "#r \"nuget: NRedisStack, 0.12.0\"",
+      "#r \"nuget: StackExchange.Redis, 2.6.122\""
+    ],
+    "unwrap_patterns": [
+      {
+        "type": "class_single_line",
+        "pattern": "^\\s*public\\s+class\\s+\\w+.*\\{\\s*$",
+        "end_pattern": "^\\s*public\\s+class\\s+\\w+.*\\{\\s*$",
+        "keep_content": false,
+        "description": "Remove public class declaration with opening brace on same line"
+      },
+      {
+        "type": "class_opening",
+        "pattern": "^\\s*public\\s+class\\s+\\w+",
+        "end_pattern": "^\\s*\\{\\s*$",
+        "keep_content": false,
+        "description": "Remove public class declaration and opening brace on separate lines"
+      },
+      {
+        "type": "method_single_line",
+        "pattern": "^\\s*public\\s+void\\s+Run\\(\\).*\\{\\s*$",
+        "end_pattern": "^\\s*public\\s+void\\s+Run\\(\\).*\\{\\s*$",
+        "keep_content": false,
+        "description": "Remove public void Run() with opening brace on same line"
+      },
+      {
+        "type": "method_opening",
+        "pattern": "^\\s*public\\s+void\\s+Run\\(\\)",
+        "end_pattern": "^\\s*\\{\\s*$",
+        "keep_content": false,
+        "description": "Remove public void Run() declaration and opening brace on separate lines"
+      },
+      {
+        "type": "closing_braces",
+        "pattern": "^\\s*\\}\\s*$",
+        "end_pattern": "^\\s*\\}\\s*$",
+        "keep_content": false,
+        "description": "Remove closing braces"
+      }
+    ]
+  },
+  "python": {
+    "boilerplate": [],
+    "unwrap_patterns": []
+  },
+  "node.js": {
+    "boilerplate": [],
+    "unwrap_patterns": []
+  },
+  "go": {
+    "boilerplate": [],
+    "unwrap_patterns": []
+  },
+  "java": {
+    "boilerplate": [],
+    "unwrap_patterns": []
+  },
+  "php": {
+    "boilerplate": [],
+    "unwrap_patterns": []
+  },
+  "rust": {
+    "boilerplate": [],
+    "unwrap_patterns": []
+  }
+}
+

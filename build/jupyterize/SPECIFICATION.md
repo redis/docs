@@ -19,9 +19,10 @@ This specification provides implementation details for developers building the `
 4. [Core Mappings](#core-mappings)
 5. [Implementation Approach](#implementation-approach)
 6. [Marker Processing Rules](#marker-processing-rules)
-7. [Notebook Generation](#notebook-generation)
-8. [Error Handling](#error-handling)
-9. [Testing](#testing)
+7. [Language-Specific Features](#language-specific-features)
+8. [Notebook Generation](#notebook-generation)
+9. [Error Handling](#error-handling)
+10. [Testing](#testing)
 
 ---
 
@@ -162,6 +163,31 @@ elif step_name:
 - Jupyter notebooks can have duplicate cell metadata
 - Non-breaking - helps users but doesn't stop processing
 - Useful for debugging example files
+
+### 8. Handle Language-Specific Boilerplate and Wrappers
+
+**Problem**: Different languages have different requirements for Jupyter notebooks:
+- **C#**: Needs `#r "nuget: PackageName, Version"` directives for dependencies
+- **Test wrappers**: Source files have class/method wrappers needed for testing but not for notebooks
+
+**Solution**: Two-part approach:
+
+**Part 1: Boilerplate Injection**
+- Define language-specific boilerplate in configuration
+- Insert as first cell (before preamble)
+- Example: C# needs `#r "nuget: NRedisStack, 1.1.1"`
+
+**Part 2: Structural Unwrapping**
+- Detect and remove language-specific structural wrappers
+- C#: Remove `public class ClassName { ... }` and `public void Run() { ... }`
+- Keep only the actual example code inside
+
+**Why this matters**:
+- Without boilerplate: Notebooks won't run (missing dependencies)
+- Without unwrapping: Notebooks have unnecessary test framework code
+- These aren't marked with REMOVE blocks because they're needed for tests
+
+**See**: [Language-Specific Features](#language-specific-features) section for detailed implementation.
 
 ---
 
@@ -533,6 +559,302 @@ def parse_file(file_path, language):
 
 ---
 
+## Language-Specific Features
+
+> **⚠️ New Requirement**: Notebooks need language-specific setup that source files don't have.
+
+### Overview
+
+Different languages have different requirements for Jupyter notebooks that aren't present in the source test files:
+
+1. **Dependency declarations**: C# needs NuGet package directives, Node.js might need npm packages
+2. **Structural wrappers**: Test files have class/method wrappers that shouldn't appear in notebooks
+3. **Initialization code**: Some languages need setup code that's implicit in test frameworks
+
+### Problem 1: Missing Dependency Declarations
+
+**Issue**: C# Jupyter notebooks require NuGet package directives to download dependencies:
+
+```csharp
+#r "nuget: NRedisStack, 1.1.1"
+```
+
+**Current behavior**: Source files don't have these directives (they're in project files)
+**Desired behavior**: Automatically inject language-specific boilerplate as first cell
+
+**Example - C# source file**:
+```csharp
+// EXAMPLE: landing
+using NRedisStack;
+using StackExchange.Redis;
+
+public class SyncLandingExample {
+    public void Run() {
+        var muxer = ConnectionMultiplexer.Connect("localhost:6379");
+        // ...
+    }
+}
+```
+
+**Desired notebook output**:
+```
+Cell 1 (boilerplate):
+#r "nuget: NRedisStack, 1.1.1"
+#r "nuget: StackExchange.Redis, 2.6.122"
+
+Cell 2 (preamble):
+using NRedisStack;
+using StackExchange.Redis;
+
+Cell 3 (code):
+var muxer = ConnectionMultiplexer.Connect("localhost:6379");
+// ...
+```
+
+### Problem 2: Unnecessary Structural Wrappers
+
+**Issue**: Test files have class/method wrappers needed for test frameworks but not for notebooks.
+
+**C# example**:
+```csharp
+public class SyncLandingExample  // ← Test framework wrapper
+{
+    public void Run()             // ← Test framework wrapper
+    {
+        // Actual example code here
+        var muxer = ConnectionMultiplexer.Connect("localhost:6379");
+    }
+}
+```
+
+**Current behavior**: These wrappers are copied to the notebook
+**Desired behavior**: Remove wrappers, keep only the code inside
+
+**Why not use REMOVE blocks?**
+- These wrappers are needed for the test framework to compile/run
+- Marking them with REMOVE would break the tests
+- They're structural, not boilerplate
+
+### Solution Approach
+
+#### Option 1: Configuration-Based (Recommended)
+
+**Pros**:
+- No changes to source files
+- Centralized configuration
+- Easy to update package versions
+- Works with existing examples
+
+**Cons**:
+- Requires maintaining configuration file
+- Less visible to example authors
+
+**Implementation**:
+
+1. **Create configuration file** (`jupyterize_config.json`):
+```json
+{
+  "c#": {
+    "boilerplate": [
+      "#r \"nuget: NRedisStack, 1.1.1\"",
+      "#r \"nuget: StackExchange.Redis, 2.6.122\""
+    ],
+    "unwrap_patterns": [
+      {
+        "type": "class",
+        "pattern": "^\\s*public\\s+class\\s+\\w+.*\\{",
+        "end_pattern": "^\\}\\s*$",
+        "keep_content": true
+      },
+      {
+        "type": "method",
+        "pattern": "^\\s*public\\s+void\\s+Run\\(\\).*\\{",
+        "end_pattern": "^\\s*\\}\\s*$",
+        "keep_content": true
+      }
+    ]
+  },
+  "node.js": {
+    "boilerplate": [
+      "// npm install redis"
+    ],
+    "unwrap_patterns": []
+  }
+}
+```
+
+2. **Load configuration** in jupyterize.py:
+```python
+def load_language_config(language):
+    """Load language-specific configuration."""
+    config_file = os.path.join(os.path.dirname(__file__), 'jupyterize_config.json')
+    if os.path.exists(config_file):
+        with open(config_file) as f:
+            config = json.load(f)
+        return config.get(language.lower(), {})
+    return {}
+```
+
+3. **Inject boilerplate** as first cell:
+```python
+def create_cells(parsed_blocks, language):
+    """Convert parsed blocks to notebook cells."""
+    cells = []
+
+    # Get language config
+    lang_config = load_language_config(language)
+
+    # Add boilerplate cell if defined
+    if 'boilerplate' in lang_config:
+        boilerplate_code = '\n'.join(lang_config['boilerplate'])
+        cells.append(new_code_cell(
+            source=boilerplate_code,
+            metadata={'cell_type': 'boilerplate', 'language': language}
+        ))
+
+    # Add regular cells...
+    for block in parsed_blocks:
+        # ... existing logic
+```
+
+4. **Unwrap structural patterns**:
+```python
+def unwrap_code(code, language):
+    """Remove language-specific structural wrappers."""
+    lang_config = load_language_config(language)
+    unwrap_patterns = lang_config.get('unwrap_patterns', [])
+
+    for pattern_config in unwrap_patterns:
+        if pattern_config.get('keep_content', True):
+            # Remove wrapper but keep content
+            code = remove_wrapper_keep_content(
+                code,
+                pattern_config['pattern'],
+                pattern_config['end_pattern']
+            )
+
+    return code
+
+def remove_wrapper_keep_content(code, start_pattern, end_pattern):
+    """Remove wrapper lines but keep content between them."""
+    lines = code.split('\n')
+    result = []
+    in_wrapper = False
+    wrapper_indent = 0
+
+    for line in lines:
+        if re.match(start_pattern, line):
+            in_wrapper = True
+            wrapper_indent = len(line) - len(line.lstrip())
+            continue  # Skip wrapper start line
+        elif in_wrapper and re.match(end_pattern, line):
+            in_wrapper = False
+            continue  # Skip wrapper end line
+        elif in_wrapper:
+            # Remove wrapper indentation
+            if line.startswith(' ' * (wrapper_indent + 4)):
+                result.append(line[wrapper_indent + 4:])
+            else:
+                result.append(line)
+        else:
+            result.append(line)
+
+    return '\n'.join(result)
+```
+
+#### Option 2: Marker-Based
+
+**Pros**:
+- Explicit in source files
+- Self-documenting
+- No external configuration needed
+
+**Cons**:
+- Requires updating all source files
+- More markers to maintain
+- Clutters source files
+
+**New markers**:
+```csharp
+// NOTEBOOK_BOILERPLATE_START
+#r "nuget: NRedisStack, 1.1.1"
+// NOTEBOOK_BOILERPLATE_END
+
+// NOTEBOOK_UNWRAP_START class
+public class SyncLandingExample {
+// NOTEBOOK_UNWRAP_END
+
+    // NOTEBOOK_UNWRAP_START method
+    public void Run() {
+    // NOTEBOOK_UNWRAP_END
+
+        // Actual code here
+
+    // NOTEBOOK_UNWRAP_CLOSE method
+    }
+// NOTEBOOK_UNWRAP_CLOSE class
+}
+```
+
+**Not recommended** because:
+- Too many new markers
+- Clutters source files
+- Harder to maintain
+- Breaks existing examples
+
+### Recommended Implementation Strategy
+
+**Phase 1: Boilerplate Injection** (High Priority)
+1. Create `jupyterize_config.json` with C# boilerplate
+2. Load configuration in jupyterize.py
+3. Inject boilerplate as first cell
+4. Test with C# examples
+
+**Phase 2: Structural Unwrapping** (Medium Priority)
+1. Add unwrap_patterns to configuration
+2. Implement pattern-based unwrapping
+3. Test with C# class/method wrappers
+4. Verify indentation handling
+
+**Phase 3: Other Languages** (Low Priority)
+1. Add Node.js configuration (if needed)
+2. Add Java configuration (if needed)
+3. Add other languages as needed
+
+### Configuration File Location
+
+**Recommended**: `build/jupyterize/jupyterize_config.json`
+
+**Rationale**:
+- Co-located with jupyterize.py
+- Easy to find and edit
+- Version controlled
+- Can be updated independently of code
+
+### Testing Requirements
+
+**Boilerplate injection tests**:
+1. C# file → First cell contains NuGet directives
+2. Python file → No boilerplate cell (not configured)
+3. Multiple languages → Each gets correct boilerplate
+
+**Unwrapping tests**:
+1. C# class wrapper → Removed, content kept
+2. C# method wrapper → Removed, content kept
+3. Nested wrappers → Both removed, content kept
+4. Indentation → Correctly adjusted after unwrapping
+
+### Edge Cases
+
+1. **No configuration file**: Tool works normally, no boilerplate/unwrapping
+2. **Language not in config**: Tool works normally for that language
+3. **Empty boilerplate**: No boilerplate cell created
+4. **Empty unwrap_patterns**: No unwrapping performed
+5. **Malformed patterns**: Log warning, skip that pattern
+6. **Nested wrappers**: Process from outermost to innermost
+
+---
+
 ## Notebook Generation
 
 ### Creating Cells
@@ -755,6 +1077,13 @@ def validate_input(file_path, language):
 - **Nested markers** (should warn)
 - **Missing EXAMPLE marker** (should error)
 
+**4. Language-Specific Feature Tests** (New!)
+- **Boilerplate injection**: C# gets NuGet directives as first cell
+- **Structural unwrapping**: C# class/method wrappers removed
+- **Indentation handling**: Code properly dedented after unwrapping
+- **Configuration loading**: Missing config handled gracefully
+- **Multiple languages**: Each language gets correct boilerplate
+
 ### Essential Edge Case Tests
 
 These tests catch common real-world issues:
@@ -821,6 +1150,99 @@ code
 ```
 
 **Why**: Validates warning system for malformed files.
+
+#### 5. Boilerplate Injection (C#)
+```python
+def test_csharp_boilerplate_injection():
+    """Test that C# files get NuGet directives as first cell."""
+    test_content = """// EXAMPLE: test_csharp
+using NRedisStack;
+
+public class TestExample {
+    public void Run() {
+        var muxer = ConnectionMultiplexer.Connect("localhost");
+    }
+}
+"""
+
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.cs', delete=False) as f:
+        f.write(test_content)
+        test_file = f.name
+
+    try:
+        output_file = test_file.replace('.cs', '.ipynb')
+        jupyterize(test_file, output_file, verbose=False)
+
+        with open(output_file) as f:
+            nb = json.load(f)
+
+        # First cell should be boilerplate
+        assert len(nb['cells']) >= 1
+        first_cell = nb['cells'][0]
+        assert '#r "nuget:' in ''.join(first_cell['source'])
+        assert first_cell['metadata'].get('cell_type') == 'boilerplate'
+
+        print("✓ C# boilerplate injection test passed")
+
+    finally:
+        if os.path.exists(test_file):
+            os.unlink(test_file)
+        if os.path.exists(output_file):
+            os.unlink(output_file)
+```
+
+**Why**: C# notebooks need NuGet directives to download dependencies.
+
+#### 6. Structural Unwrapping (C#)
+```python
+def test_csharp_unwrapping():
+    """Test that C# class/method wrappers are removed."""
+    test_content = """// EXAMPLE: test_unwrap
+using NRedisStack;
+
+public class TestExample {
+    public void Run() {
+        var muxer = ConnectionMultiplexer.Connect("localhost");
+        var db = muxer.GetDatabase();
+    }
+}
+"""
+
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.cs', delete=False) as f:
+        f.write(test_content)
+        test_file = f.name
+
+    try:
+        output_file = test_file.replace('.cs', '.ipynb')
+        jupyterize(test_file, output_file, verbose=False)
+
+        with open(output_file) as f:
+            nb = json.load(f)
+
+        # Check that class/method wrappers are removed
+        all_code = '\n'.join([
+            ''.join(cell['source'])
+            for cell in nb['cells']
+        ])
+
+        # Should NOT contain class/method declarations
+        assert 'public class TestExample' not in all_code
+        assert 'public void Run()' not in all_code
+
+        # Should contain the actual code
+        assert 'var muxer = ConnectionMultiplexer.Connect' in all_code
+        assert 'var db = muxer.GetDatabase()' in all_code
+
+        print("✓ C# unwrapping test passed")
+
+    finally:
+        if os.path.exists(test_file):
+            os.unlink(test_file)
+        if os.path.exists(output_file):
+            os.unlink(output_file)
+```
+
+**Why**: Test framework wrappers shouldn't appear in notebooks.
 
 ### Example Test
 
