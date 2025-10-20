@@ -42,7 +42,7 @@ Starting with Redis 8.2 (October 2025):
 
 ## Version support models
 
-Redis Cloud uses two version support models:
+Redis Cloud uses two version support models.
 
 ### LTS (Long-Term Support)
 
@@ -72,16 +72,14 @@ When a version reaches EOL:
 - Security updates are not available
 - Databases with auto-upgrades disabled are automatically upgraded to the next supported version during maintenance windows
 
-## How version selection works
-
-### For new databases
+## Version selection
 
 When creating a database, you select the version (e.g., Redis 8.2). Redis Cloud automatically provides the latest patch version within that version.
 
-### For existing databases
+For existing databases:
 
 - **Redis 8+**: Minor version auto-upgrades are available (with opt-out for Pro users)
-- **Redis 7 and earlier**: Auto-upgrade for minor versions is not supported; all upgrades must be done manually
+- **Redis 7 and earlier**: Auto-upgrade for minor versions is not supported; all upgrades must be done manually. See [Upgrade database version]({{< relref "/operate/rc/databases/version-management/upgrade-version" >}}) for more details.
 
 ### Plan differences
 
@@ -110,17 +108,14 @@ When creating a database, you select the version (e.g., Redis 8.2). Redis Cloud 
 
 ## Manual upgrades
 
-### Before upgrading
+Redis Cloud Pro users can update their databases to a later version at any time by selecting **More actions** > **Version upgrade** from the database list or database page.
+
+Before upgrading, you should:
 
 - Review the [breaking changes]({{< relref "/operate/rc/changelog/version-release-notes" >}}) for your target version to ensure compatibility with your applications.
 - [Back up your data]({{< relref "/operate/rc/databases/back-up-data" >}}), review [breaking changes]({{< relref "/operate/rc/changelog/version-release-notes" >}}), and plan for off-peak hours.
 
-Redis Cloud Pro users can upgrade their databases at any time:
-
-1. Select your database: **More actions** > **Version upgrade**
-2. Choose target version: **Upgrade**
-
-For information about minor version auto-upgrades and configuration options, see [Database configuration]({{< relref "/operate/rc/databases/view-edit-database" >}}).
+See [Upgrade database version]({{< relref "/operate/rc/databases/version-management/upgrade-version" >}}) for detailed instructions.
 
 ## FAQ
 
@@ -131,7 +126,7 @@ Pro users can opt out of minor version auto-upgrades for Redis 8+. If disabled a
 Redis Cloud will force upgrade after notifications to ensure security and support.
 
 **Can I downgrade?**
-No automatic downgrades. Restore from backup if needed.
+Automatically reverting to a previous Redis version is not supported on Redis Cloud. See [Manually revert upgrade]({{< relref "/operate/rc/databases/version-management/upgrade-version#manually-revert-upgrade" >}}) for more details.
 
 **How do I identify LTS vs STS?**
 Check the [supported versions table](#supported-versions).

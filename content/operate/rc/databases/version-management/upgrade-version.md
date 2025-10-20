@@ -7,7 +7,9 @@ categories:
 - rc
 description: Describes when you can upgrade your database to the latest available version for each plan type.
 linkTitle: Upgrade database version
-weight: 37
+weight: 1
+aliases:
+  - /rc/databases/upgrade-version
 ---
 
 Database version upgrade options depend on your plan type.
