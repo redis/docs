@@ -58,12 +58,16 @@ Starting with Redis 8, Redis includes all Query Engine, JSON, time series, Bloom
 As a result:
 
 - Existing ACL rules such as `+@read +@write` will allow access to more commands than in previous versions of Redis. Here are some examples:
+
   - A user with `+@read` access will be able to execute `FT.SEARCH`.
+
   - A user with `+@write` access will be able to execute `JSON.SET`. 
 
 - ACL rules such as `+@all -@write`  will allow access to fewer commands than previous versions of Redis.
+
   - For example, a user with `+@all -@write` will not be able to execute `JSON.SET`.
-  - Explicit inclusion of new [command categories]({{<relref "/operate/oss_and_stack/management/security/acl#command-categories">}}) is required to maintain access.
+
+  - Explicit inclusion of new [command categories]({{<relref "/operate/oss_and_stack/management/security/acl#command-categories">}}) is required to maintain access. The new categories are: `@search`, `@json`, `@timeseries`, `@bloom`, `@cuckoo`, `@topk`, `@cms`, and `@tdigest`.
 
 - ACL rules such as `+@read +JSON.GET` can now be simplified as `+@read` because `JSON.GET` is included in the `@read` category.
 
@@ -71,7 +75,21 @@ Note that the `@all` category did not change, as it always included all the comm
 
 #### Redis Query Engine changes
 
-{{<embed-md "redis8-breaking-changes-rqe.md">}}
+The following changes affect behavior and validation in the Redis Query Engine:
+
+- Enforces validation for `LIMIT` arguments (offset must be 0 if limit is 0).
+
+- Enforces parsing rules for `FT.CURSOR READ` and `FT.ALIASADD`.
+
+- Parentheses are now required for exponentiation precedence in `APPLY` expressions.
+
+- Invalid input now returns errors instead of empty results.
+
+- Default values revisited for reducers like `AVG`, `COUNT`, `SUM`, `STDDEV`, `QUANTILE`, and others.
+
+- Updates to scoring (`BM25` is now the default instead of `TF-IDF`).
+
+- Improved handling of expired records, memory constraints, and malformed fields.
 
 ### Deprecations
 
