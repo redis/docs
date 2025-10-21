@@ -1,4 +1,5 @@
 # EXAMPLE: py_home_json
+# BINDER_ID python-py_home_json
 """
 JSON examples from redis-py "home" page"
  https://redis.io/docs/latest/develop/connect/clients/python/redis-py/#example-indexing-and-querying-json-documents
