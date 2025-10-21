@@ -10,7 +10,7 @@ linkTitle: HashiCorp Vault integration
 weight: 97
 ---
 
-HashiCorp Vault can be configured as the centralized secret management system for the Redis Enterprise Kubernetes operator, replacing the default Kubernetes secrets. This integration provides enhanced security, centralized secret management, and advanced features like secret rotation and audit logging.
+You can configure HashiCorp Vault as the centralized secret management system for the Redis Enterprise Kubernetes operator, replacing the default Kubernetes secrets. This integration provides enhanced security, centralized secret management, and advanced features like secret rotation and audit logging.
 
 ## What secrets are managed by Vault?
 
