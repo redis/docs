@@ -267,12 +267,11 @@ Multi-cluster considerations: When deploying across multiple Kubernetes clusters
      password=<YOUR_PASSWORD>
    ```
 
-   {{<note>}}
-   Important notes:
+   {{< alert title="Important notes" >}}
    - The username field in the REC spec is ignored when using Vault
    - The username from the Vault secret takes precedence
    - Use strong, unique passwords for each cluster
-   {{</note>}}
+   {{</alert>}}
 
    <br>
 
