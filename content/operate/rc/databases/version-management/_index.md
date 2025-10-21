@@ -100,8 +100,8 @@ For existing databases:
 |---------|------|--------|----------|-------|
 | **Redis 8.2** | STS | GA | TBD | Essentials, Pro |
 | **Redis 8.0** | STS | *Preview | May 1, 2026 | Essentials |
-| **Redis 7.4** | LTS | GA | Apr 30, 2028 | Essentials, Pro |
-| **Redis 7.2** | STS | *GA | Oct 30, 2027 | Essentials, Pro |
+| **Redis 7.4** | LTS | GA | December 1, 2029 | Essentials, Pro |
+| **Redis 7.2** | STS | *GA | December 1, 2029 | Essentials, Pro |
 | **Redis 6.2** | LTS | GA | 2026 | Pro |
 
 *Redis 8.0 is not available for new databases.

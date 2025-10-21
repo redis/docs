@@ -27,29 +27,11 @@ When the database **Type** is set to _Redis_, the Advanced capabilities section 
 
 Starting with Redis 8.0, all advanced capabilities provided by Redis Stack are included in Redis by default.
 
-### Version management for Essentials
-
-- **Minor version auto-upgrades**: Always enabled for Redis 8+, upgrades to latest minor version during maintenance windows
-- **Major version upgrades**: Customer controlled, never automatic
-- **Latest versions**: All new databases automatically use the latest available Redis version
-- **Notifications**: You receive notifications when new database versions become available
-
-For more information about Redis Cloud version management, see [Redis version management]({{< relref "/operate/rc/databases/version-management" >}}).
-
-Redis Cloud is updated on a regular basis, which includes the advanced capabilities supported by the service. Versions displayed by the Redis Cloud console may vary from those shown above.  For the latest details of any capability, see [Redis Stack and Redis Enterprise]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}).
+Redis Cloud is updated on a regular basis, which includes the advanced capabilities supported by the service. Versions displayed by the Redis Cloud console may vary from those shown above.  For the latest details of any capability, see [Redis Stack and Redis Enterprise]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}). For more information about Redis Cloud version management, see [Redis version management]({{< relref "/operate/rc/databases/version-management" >}}).
 
 ## Redis Cloud Pro {#pro}
 
-By default, Redis Cloud Pro databases load all supported advanced capabilities. You can choose to load specific capabilities when you create your database. To choose which capabilities to load for your Pro database, [create it with custom settings]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) and select **More options** when adding your database in the **Sizing tab** to view advanced capability settings.
-
-### Version management for Pro
-
-- **Minor version auto-upgrades**: Enabled by default for Redis 8+ but can be disabled, occur during maintenance windows
-- **Major version upgrades**: Customer controlled, never automatic
-- **Manual control**: You can upgrade to any available version at any time
-- **Forced upgrades**: If auto-upgrades disabled and version reaches EOL, automatic upgrade during maintenance windows
-
-For more information about Redis Cloud version management, see [Redis version management]({{< relref "/operate/rc/databases/version-management" >}}).
+By default, Redis Cloud Pro databases load all supported advanced capabilities. For versions prior to Redis 8.0, you can choose to load specific capabilities when you create your database. To choose which capabilities to load for your Pro database, [create it with custom settings]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) and select **More options** when adding your database in the **Sizing tab** to view advanced capability settings.
 
 {{<image filename="images/rc/database-details-redis-module-select-flexible.png" alt="For Pro databases, you can select the capabilities included in your database." width="75%">}}
 
@@ -66,7 +48,9 @@ You can select more than one advanced capability for a database, though there ar
 
 To remove a selected capability, clear its checkbox.
 
-To learn more, see [Redis Stack]({{< relref "/develop/get-started/" >}}) and [Redis Stack and Redis Enterprise]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}).
+Starting with Redis 8.0, all advanced capabilities provided by Redis Stack are included in Redis by default. 
+
+To learn more, see [Redis Stack]({{< relref "/develop/get-started/" >}}) and [Redis Stack and Redis Enterprise]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}). For more information about Redis Cloud version management, see [Redis version management]({{< relref "/operate/rc/databases/version-management" >}}).
 
 ### Search and query sizing
 
