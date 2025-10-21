@@ -26,6 +26,7 @@ The cost report is especially useful for:
 Consider the following limitations when viewing the cost report:
 - All pricing shown is based on list price. Account-specific discounts are not reflected in the cost report.
 - Network costs for Pro subscriptions are not available in the cost report before July 2025.
+- Network costs for Pro subscriptions are displayed for each subscription. Network costs for each database are not available.
 - Monthly Network costs for Pro subscriptions take up to 72 hours to reflect in the cost report.
 {{< /note >}}
 
@@ -48,10 +49,18 @@ In the Essentials subscription section, each row represents one month of usage f
 | **Plan size** | The size of the [subscription plan]({{< relref "/operate/rc/subscriptions/view-essentials-subscription/essentials-plan-details" >}}), in MB |
 | **Plan cost** | The cost of the subscription plan for the usage period |
 
+All columns after the **Plan cost** column are labeled with the key value for any [Tags]({{< relref "/operate/rc/databases/tag-database" >}}) you added to databases in all subscriptions. If a database has a tag with a key, the cell shows the tag value. You can use this information to filter and analyze your costs by tag.
+
+{{< note >}}
+The cost report does not show tags for Essentials subscriptions created before January 2024 with multiple databases.
+{{< /note >}}
+
 ### Pro subscriptions
 
-In the Pro subscription section, each subscription has multiple rows per month.
-- Each row represents monthly usage of each database within the subscription. For Active-Active databases, there will be multiple rows for each region of the database.
+In the Pro subscription section, each subscription has multiple rows per usage period.
+- Each row represents each database's usage within the subscription over the usage period.
+    - If you made a change to a database's configuration, the cost report shows additional rows for usage before and after the change.
+    - For Active-Active databases, there will be multiple rows for each region of the database.
 - Another row shows the Monthly network costs for the subscription after July 2025.
 - If the Pro subscription does not meet the minimum price threshold, the cost report shows the actual cost of the subscription and another row shows the difference from the minimum price.
 
@@ -72,6 +81,8 @@ In the Pro subscription section, each subscription has multiple rows per month.
 | **RBU Price/hr** | The price per hour for the Redis Billing Unit (RBU) type of the database.  |
 | **Hours** | The number of hours the database was active during the usage period.  |
 | **Total cost** | The total cost of the database or network costs for the usage period |
+
+All columns after the **Total cost** column are labeled with the key value for any [Tags]({{< relref "/operate/rc/databases/tag-database" >}}) you added to databases in all subscriptions. If a database has a tag with that key, the column shows the value for that tag. You can use this information to filter and analyze your costs by tag.
 
 #### Billing unit types
 
