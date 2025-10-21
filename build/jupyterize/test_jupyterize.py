@@ -537,10 +537,15 @@ def main():
         # Error handling tests
         test_error_handling()
 
-        # Language-specific feature tests
+        # Language-specific feature tests (C#)
         test_csharp_boilerplate_injection()
         test_csharp_unwrapping()
         test_python_no_boilerplate()
+
+        # Language-specific feature tests (Java)
+        test_java_unwrapping()
+        test_java_static_main_unwrapping()
+        test_java_real_file()
 
         print("\n" + "=" * 60)
         print("All tests passed! ✓")
@@ -555,6 +560,177 @@ def main():
         import traceback
         traceback.print_exc()
         return 1
+
+
+def test_java_unwrapping():
+    """Test that Java class/method wrappers and @Test annotations are removed."""
+    print("\nTesting Java unwrapping...")
+
+    test_content = """// EXAMPLE: test_java_unwrap
+import redis.clients.jedis.UnifiedJedis;
+
+public class TestExample {
+
+    @Test
+    public void run() {
+        UnifiedJedis jedis = new UnifiedJedis("redis://localhost:6379");
+        jedis.set("key", "value");
+        jedis.close();
+    }
+}
+"""
+
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.java', delete=False) as f:
+        f.write(test_content)
+        test_file = f.name
+
+    try:
+        output_file = test_file.replace('.java', '.ipynb')
+        jupyterize(test_file, output_file, verbose=False)
+
+        with open(output_file) as f:
+            nb = json.load(f)
+
+        # Collect all code from all cells
+        all_code = '\n'.join([
+            ''.join(cell['source'])
+            for cell in nb['cells']
+        ])
+
+        # Should NOT contain class/method declarations or @Test
+        assert 'public class TestExample' not in all_code, \
+            "Should not contain class declaration"
+        assert '@Test' not in all_code, \
+            "Should not contain @Test annotation"
+        assert 'public void run()' not in all_code, \
+            "Should not contain method declaration"
+
+        # Should contain the actual code
+        assert 'UnifiedJedis jedis = new UnifiedJedis' in all_code, \
+            "Should contain actual code"
+        assert 'jedis.set("key", "value")' in all_code, \
+            "Should contain actual code"
+        assert 'jedis.close()' in all_code, \
+            "Should contain actual code"
+
+        print("✓ Java unwrapping test passed")
+
+    finally:
+        if os.path.exists(test_file):
+            os.unlink(test_file)
+        if os.path.exists(output_file):
+            os.unlink(output_file)
+
+
+def test_java_static_main_unwrapping():
+    """Test that Java static main() method wrappers are removed."""
+    print("\nTesting Java static main() unwrapping...")
+
+    test_content = """// EXAMPLE: test_java_main
+import redis.clients.jedis.UnifiedJedis;
+
+public class MainExample {
+    public static void main(String[] args) {
+        UnifiedJedis jedis = new UnifiedJedis("redis://localhost:6379");
+        jedis.ping();
+    }
+}
+"""
+
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.java', delete=False) as f:
+        f.write(test_content)
+        test_file = f.name
+
+    try:
+        output_file = test_file.replace('.java', '.ipynb')
+        jupyterize(test_file, output_file, verbose=False)
+
+        with open(output_file) as f:
+            nb = json.load(f)
+
+        # Collect all code from all cells
+        all_code = '\n'.join([
+            ''.join(cell['source'])
+            for cell in nb['cells']
+        ])
+
+        # Should NOT contain class/method declarations
+        assert 'public class MainExample' not in all_code, \
+            "Should not contain class declaration"
+        assert 'public static void main' not in all_code, \
+            "Should not contain main method declaration"
+
+        # Should contain the actual code
+        assert 'UnifiedJedis jedis = new UnifiedJedis' in all_code, \
+            "Should contain actual code"
+        assert 'jedis.ping()' in all_code, \
+            "Should contain actual code"
+
+        print("✓ Java static main() unwrapping test passed")
+
+    finally:
+        if os.path.exists(test_file):
+            os.unlink(test_file)
+        if os.path.exists(output_file):
+            os.unlink(output_file)
+
+
+def test_java_real_file():
+    """Test with a real Java file from the repository."""
+    print("\nTesting with real Java file (LandingExample.java)...")
+
+    # Try both relative paths (from build/jupyterize and from repo root)
+    test_file_options = [
+        'local_examples/client-specific/jedis/LandingExample.java',
+        '../../local_examples/client-specific/jedis/LandingExample.java'
+    ]
+
+    test_file = None
+    for option in test_file_options:
+        if os.path.exists(option):
+            test_file = option
+            break
+
+    if not test_file:
+        print("⚠ Skipping test - file not found in any of:", test_file_options)
+        return
+
+    try:
+        output_file = tempfile.mktemp(suffix='.ipynb')
+        jupyterize(test_file, output_file, verbose=False)
+
+        with open(output_file) as f:
+            nb = json.load(f)
+
+        # Collect all code from all cells
+        all_code = '\n'.join([
+            ''.join(cell['source'])
+            for cell in nb['cells']
+        ])
+
+        # Should NOT contain wrappers
+        assert 'public class LandingExample' not in all_code, \
+            "Should not contain class declaration"
+        assert '@Test' not in all_code, \
+            "Should not contain @Test annotation"
+        assert 'public void run()' not in all_code, \
+            "Should not contain method declaration"
+
+        # Should contain actual code
+        assert 'UnifiedJedis jedis' in all_code, \
+            "Should contain actual code"
+        assert 'jedis.set(' in all_code, \
+            "Should contain actual code"
+
+        # Should have multiple cells (one per step)
+        assert len(nb['cells']) >= 4, \
+            f"Should have at least 4 cells, got {len(nb['cells'])}"
+
+        print("✓ Real Java file test passed")
+
+    finally:
+        if os.path.exists(output_file):
+            os.unlink(output_file)
 
 
 if __name__ == '__main__':
