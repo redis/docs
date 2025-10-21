@@ -189,6 +189,37 @@ elif step_name:
 
 **See**: [Language-Specific Features](#language-specific-features) section for detailed implementation.
 
+### 9. Unwrapping Patterns: Single‑line vs Multi‑line, and Dedenting (Based on Implementation Experience)
+
+During implementation, several non‑obvious details significantly reduced bugs and rework:
+
+- Pattern classes and semantics
+  - Single‑line patterns: When `start_pattern == end_pattern`, treat as “remove this line only”. Examples: `public class X {` or `public void Run() {` on one line.
+  - Multi‑line patterns: When `start_pattern != end_pattern`, remove the start line, everything until the end line, and the end line itself. Use this to strip a wrapper’s braces while preserving the inner code with a separate “keep content” strategy.
+  - Use anchored patterns with `^` to avoid over‑matching. Prefer `re.match` (anchored at the start) over `re.search`.
+
+- Wrappers split across cells
+  - Real C# files often split wrappers across lines/blocks (e.g., class name on line N, `{` or `}` in later lines). Because parsing splits code into preamble/step cells, wrapper open/close tokens may land in separate cells.
+  - Practical approach: Use separate, simple patterns to remove opener lines (class/method declarations with `{` either on the same line or next line) and a generic pattern to remove solitary closing braces in any cell.
+
+- Order of operations inside cell creation
+  1) Apply unwrapping patterns (in the order listed in configuration)
+  2) Dedent code (e.g., `textwrap.dedent`) so content previously nested inside wrappers aligns to column 0
+  3) Strip trailing whitespace (e.g., `rstrip()`)
+  4) Skip empty cells
+
+- Dedent all cells when unwrapping is enabled
+  - Even if a particular cell didn’t change after unwrapping, its content may still be indented due to having originated inside a method/class in the source file. Dedent ALL cells whenever `unwrap_patterns` are configured for the language.
+
+- Logging for traceability
+  - Emit `DEBUG` logs per applied pattern (e.g., pattern `type`) to simplify diagnosing regex issues.
+
+- Safety tips for patterns
+  - Anchor with `^` and keep them specific; avoid overly greedy constructs.
+  - Keep patterns minimal and composable (e.g., separate `class_opening`, `method_opening`, `closing_braces`).
+  - Validate patterns at startup or wrap application with try/except to warn and continue on malformed regex.
+
+
 ---
 
 ## Code Quality Patterns
@@ -801,6 +832,86 @@ public class SyncLandingExample {
 - Clutters source files
 - Harder to maintain
 - Breaks existing examples
+
+### Configuration Schema and Semantics (Implementation-Proven)
+
+- Location: `build/jupyterize/jupyterize_config.json`
+- Keys: Lowercased language names (`"c#"`, `"python"`, `"node.js"`, ...)
+- Structure per language:
+  - `boilerplate`: Array of strings (each becomes a line in the first code cell)
+  - `unwrap_patterns`: Array of pattern objects with fields:
+    - `type` (string): Human-readable label used in logs
+    - `pattern` (regex string): Start condition (anchored with `^` recommended)
+    - `end_pattern` (regex string): End condition
+    - `keep_content` (bool):
+      - `true` → remove wrapper start/end lines, keep the inner content (useful for `{ ... }` ranges)
+      - `false` → remove the matching line(s) entirely
+        - If `pattern == end_pattern` → remove only the single matching line
+        - If `pattern != end_pattern` → remove from first match through end match, inclusive
+    - `description` (optional): Intent for maintainers
+
+Minimal example (C#) reflecting patterns that worked in practice:
+
+```json
+{
+  "c#": {
+    "boilerplate": [
+      "#r \"nuget: NRedisStack, 0.12.0\"",
+      "#r \"nuget: StackExchange.Redis, 2.6.122\""
+    ],
+    "unwrap_patterns": [
+      { "type": "class_single_line",  "pattern": "^\\s*public\\s+class\\s+\\w+.*\\{\\s*$", "end_pattern": "^\\s*public\\s+class\\s+\\w+.*\\{\\s*$", "keep_content": false },
+      { "type": "class_opening",      "pattern": "^\\s*public\\s+class\\s+\\w+",             "end_pattern": "^\\s*\\{\\s*$",                                       "keep_content": false },
+      { "type": "method_single_line", "pattern": "^\\s*public\\s+void\\s+Run\\(\\).*\\{\\s*$", "end_pattern": "^\\s*public\\s+void\\s+Run\\(\\).*\\{\\s*$",         "keep_content": false },
+      { "type": "method_opening",     "pattern": "^\\s*public\\s+void\\s+Run\\(\\)",         "end_pattern": "^\\s*\\{\\s*$",                                       "keep_content": false },
+      { "type": "closing_braces",     "pattern": "^\\s*\\}\\s*$",                               "end_pattern": "^\\s*\\}\\s*$",                                       "keep_content": false }
+    ]
+  }
+}
+```
+
+Notes:
+- Listing order matters. Apply openers before generic closers (as above) to avoid accidentally stripping desired content.
+- Keep patterns intentionally narrow and anchored to reduce false positives.
+
+### Runtime Order of Operations (within create_cells)
+
+1) Load `lang_config = load_language_config(language)`
+2) If present, insert a boilerplate cell first
+3) For each parsed block:
+   - Apply `unwrap_code(code, language)` (sequentially over `unwrap_patterns`)
+   - Dedent with `textwrap.dedent(code)` whenever unwrapping is configured for the language
+
+> Note: When language-specific features are enabled, prefer the extended signature `create_cells(parsed_blocks, language)` and the runtime order defined in the Language-Specific Features section (boilerplate → unwrap → dedent → rstrip → skip empty). The simplified example above illustrates the core cell construction only.
+
+   - `rstrip()` to remove trailing whitespace
+   - Skip cell if now empty
+4) Add step metadata if available
+
+This order ensures wrapper removal doesn’t leave code over-indented and avoids generating spurious empty cells.
+
+### Testing Checklist (Language-Specific)
+
+- Boilerplate
+  - First cell is boilerplate for languages with `boilerplate` configured
+  - Languages without `boilerplate` configured do not get a boilerplate cell
+- Unwrapping
+  - Class and method wrappers (single-line and multi-line) are removed
+  - Closing braces are removed wherever they appear
+  - Inner content remains and is dedented to column 0
+- Robustness
+  - Missing configuration file → proceed without boilerplate/unwrapping
+  - Malformed regex → warn and continue; no crash
+  - Real repository example file converts correctly end-to-end
+
+### Edge Cases and Gotchas
+
+- Wrappers split across cells: rely on separate opener and generic `}` patterns
+- Dedent all cells when unwrapping is enabled (not only those that changed)
+- Anchoring with `^` is crucial to avoid removing mid-line braces in string literals or comments
+- Apply patterns in a safe order: openers before closers
+- Tabs vs spaces: dedent works on common leading whitespace; prefer spaces in examples
+
 
 ### Recommended Implementation Strategy
 
