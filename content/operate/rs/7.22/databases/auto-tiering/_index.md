@@ -11,6 +11,7 @@ hideListLinks: true
 linktitle: Auto Tiering
 weight: 50
 url: '/operate/rs/7.22/databases/auto-tiering/'
+aliases: /operate/rs/7.22/databases/flash/
 ---
 Redis Enterprise's auto tiering offers users the unique ability to use solid state drives (SSDs) to extend databases beyond DRAM capacity.
 Developers can build applications that require large datasets using the same Redis API.
