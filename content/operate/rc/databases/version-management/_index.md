@@ -87,8 +87,8 @@ For existing databases:
 |---------|------------|-----|
 | Minor version auto-upgrades (Redis 8+) | Always enabled, upgrades to latest minor version | Default enabled, can disable |
 | Major version upgrades | Customer controlled | Customer controlled |
-| Manual upgrades | No | Yes |
-| Maintenance window | Standard | Configurable |
+| Manual upgrades | Yes | Yes |
+| [Automatic upgrade time]({{< relref "/operate/rc/subscriptions/maintenance" >}}) | Standard - between 12 AM and 6 AM region time | Configurable - [Set maintenance windows]({{< relref "/operate/rc/subscriptions/maintenance/set-maintenance-windows" >}}) |
 
 ## Supported versions
 
@@ -108,12 +108,13 @@ For existing databases:
 
 ## Manual upgrades
 
-Redis Cloud Pro users can update their databases to a later version at any time by selecting **More actions** > **Version upgrade** from the database list or database page.
+You can update your databases to a later version if by selecting **More actions** > **Version upgrade** from the database list or database page.
 
 Before upgrading, you should:
 
-- Review the [breaking changes]({{< relref "/operate/rc/changelog/version-release-notes" >}}) for your target version to ensure compatibility with your applications.
-- [Back up your data]({{< relref "/operate/rc/databases/back-up-data" >}}), review [breaking changes]({{< relref "/operate/rc/changelog/version-release-notes" >}}), and plan for off-peak hours.
+- Review the [release notes]({{< relref "/operate/rc/changelog/version-release-notes" >}}) for your target version and all versions in between to ensure compatibility with your applications.
+- [Back up your data]({{< relref "/operate/rc/databases/back-up-data" >}}), review [breaking changes]({{< relref "/operate/rc/changelog/version-release-notes" >}}).
+- Upgrade your staging or QA database before upgrading your production database.
 
 See [Upgrade database version]({{< relref "/operate/rc/databases/version-management/upgrade-version" >}}) for detailed instructions.
 
