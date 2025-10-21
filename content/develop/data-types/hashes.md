@@ -100,7 +100,7 @@ See the [complete list of hash commands]({{< relref "/commands/" >}}?group=hash)
 
 ## Field expiration
 
-New in Redis Open Source 7.4 is the ability to specify an expiration time or a time-to-live (TTL) value for individual hash fields.
+In Redis 7.4 we introduced the ability to specify an expiration time or a time-to-live (TTL) value for individual hash fields.
 This capability is comparable to [key expiration]({{< relref "/develop/using-commands/keyspace#key-expiration" >}}) and includes a number of similar commands.
 
 Use the following commands to set either an exact expiration time or a TTL value for specific fields:
@@ -122,6 +122,11 @@ Use the following commands to retrieve either the exact time when or the remaini
 Use the following command to remove the expiration of specific fields:
 
 * [`HPERSIST`]({{< relref "/commands/hpersist" >}}): remove the expiration.
+
+In Redis 8.0 we introduced the following commands:
+
+* [`HGETEX`]({{< relref "/commands/HGETEX" >}}): Get the value of one or more fields of a given hash key and optionally set their expiration time or time-to-live (TTL).
+* [`HSETEX`]({{< relref "/commands/HSETEX" >}}): Set the value of one or more fields of a given hash key and optionally set their expiration time or time-to-live (TTL).
 
 ### Common field expiration use cases
 
