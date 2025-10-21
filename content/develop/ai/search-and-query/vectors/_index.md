@@ -161,7 +161,8 @@ Choose the `SVS-VAMANA` index type when all of the following requirements apply:
 | `REDUCE`              | The dimension used when using `LeanVec4x8` or `LeanVec8x8` compression for dimensionality reduction. If a value is provided, it should be less than `DIM`. Lowering it can speed up search and reduce memory use. | `DIM / 2` |
 
 {{< warning >}}
-Some advanced vector compression features may depend on hardware or Intel's proprietary optimizations. Intel's proprietary LVQ and LeanVec optimizations are not available in Redis Open Source. On non-Intel platforms and Redis Open Source platforms, `SVS-VAMANA` with `COMPRESSION` will fall back to basic, 8-bit scalar quantization implementation: all values in a vector are scaled using the global minimum and maximum, and then each dimension is quantized independently into 256 levels using 8-bit precision.
+Some advanced vector compression features may depend on hardware or Intel's proprietary optimizations. Intel's proprietary LVQ and LeanVec optimizations are not available in Redis Open Source by default. However, one can build Redis from source using `BUILD_INTEL_SVS_OPT=yes` flag and have the aforementioned optimizations enabled (see [Redis README page](https://github.com/redis/redis?tab=readme-ov-file#running-redis-with-the-query-engine-and-optional-proprietary-intel-svs-vamana-optimisations)).
+On non-Intel platforms and Redis Open Source platforms, `SVS-VAMANA` with `COMPRESSION` will fall back to basic, 8-bit scalar quantization implementation: all values in a vector are scaled using the global minimum and maximum, and then each dimension is quantized independently into 256 levels using 8-bit precision.
 {{< /warning >}}
 
 **Example**
