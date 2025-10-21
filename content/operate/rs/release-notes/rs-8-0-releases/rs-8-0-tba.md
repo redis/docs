@@ -11,7 +11,7 @@ linkTitle: 8.0.2-tba (October 2025)
 weight: 90
 ---
 
-​[​Redis Enterprise Software version 8.0.2](https://redis.io/downloads/#software) is now available!
+​[​Redis Enterprise Software version 8.0.2](https://redis.io/downloads/#Redis_Software) is now available!
 
 ## Highlights
 
@@ -152,7 +152,7 @@ The [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_eng
 
     - Added module configuration fields to the database configuration. Use `search`, `query_performance_factor`, `timeseries`, and `probabilistic` objects to configure Redis modules instead of the deprecated `module_args` field. These fields are visible in [`GET /v1/bdbs`]({{<relref "/operate/rs/references/rest-api/requests/bdbs">}}) requests only when using the `extended=true` query parameter.
 
-    - Added `--update-db-config-modules` option to the [`crdb-cli crdb update`]({{<relref "/operate/rs/references/cli-utilities/crdb-cli/update">}}) command to streamline updating module information in the CRDB configuration after uprading modules used by Active-Active databases. Use this option only after all CRDB database instances have upgraded their modules.
+    - Added `--update-db-config-modules` option to the [`crdb-cli crdb update`]({{<relref "/operate/rs/references/cli-utilities/crdb-cli/crdb/update">}}) command to streamline updating module information in the CRDB configuration after uprading modules used by Active-Active databases. Use this option only after all CRDB database instances have upgraded their modules.
 
         ```sh
         crdb-cli crdb update --crdb-guid <guid> --update-db-config-modules true
@@ -407,6 +407,8 @@ The following changes affect behavior and validation in the Redis Query Engine:
 The existing [internal monitoring engine]({{<relref "/operate/rs/monitoring/v1_monitoring">}}) is deprecated. We recommend transitioning to the new [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}) for improved performance, enhanced integration capabilities, and modernized metrics streaming.
 
 V1 Prometheus metrics are deprecated but still available. To transition to the new metrics stream engine, either migrate your existing dashboards using [this guide]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v1-to-v2">}}) now, or wait to use new preconfigured dashboards when they become available in a future release.
+
+As part of the transition to the metrics stream engine, some internal cluster manager alerts were deprecated in favor of external monitoring solutions. See the [alerts transition plan]({{<relref "/operate/rs/references/alerts/alerts-v1-to-v2">}}) for guidance.
 
 ### Supported platforms
 

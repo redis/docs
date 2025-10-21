@@ -13,7 +13,7 @@ toc: 'true'
 weight: 67
 ---
 
-​[​Redis Enterprise Software version 8.0](https://redis.io/downloads/#software) is now available!
+​[​Redis Enterprise Software version 8.0](https://redis.io/downloads/#Redis_Software) is now available!
 
 ## Highlights
 
@@ -98,6 +98,8 @@ Note that the `@all` category did not change, as it always included all the comm
 The existing [internal monitoring engine]({{<relref "/operate/rs/monitoring/v1_monitoring">}}) is deprecated. We recommend transitioning to the new [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}) for improved performance, enhanced integration capabilities, and modernized metrics streaming.
 
 V1 Prometheus metrics are deprecated but still available. To transition to the new metrics stream engine, either migrate your existing dashboards using [this guide]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v1-to-v2">}}) now, or wait to use new preconfigured dashboards when they become available in a future release.
+
+As part of the transition to the metrics stream engine, some internal cluster manager alerts were deprecated in favor of external monitoring solutions. See the [alerts transition plan]({{<relref "/operate/rs/references/alerts/alerts-v1-to-v2">}}) for guidance.
 
 ### Upcoming changes
 
