@@ -72,9 +72,9 @@ See [Synchronizing cluster node clocks]({{< relref "/operate/rs/clusters/configu
 ## Redis modules {#redis-modules}
 
 Several Redis modules are compatible with Active-Active databases. Find the list of [compatible Redis modules]({{< relref "/operate/oss_and_stack/stack-with-enterprise/enterprise-capabilities" >}}).
-{{< note >}}
-Starting with v6.2.18, you can index, query, and perform full-text searches of nested JSON documents in Active-Active databases by combining RedisJSON and RediSearch.
-{{< /note >}}
+
+Active-Active databases created with or upgraded to Redis version 8 or later automatically enable [search and query]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search/search-active-active">}}) and [JSON]({{<relref "/operate/oss_and_stack/stack-with-enterprise/json">}}), which allows you to index, query, and perform full-text searches of nested JSON documents.
+
 
 ## Limitations
 

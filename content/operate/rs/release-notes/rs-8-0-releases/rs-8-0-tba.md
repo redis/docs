@@ -136,6 +136,10 @@ The [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_eng
 
 - To transition to the metrics stream engine, either migrate your existing dashboards using [Prometheus v1 metrics and equivalent v2 PromQL]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v1-to-v2">}}), or use new preconfigured dashboards when they become available.
 
+- As part of the transition to the metrics stream engine, some internal cluster manager alerts were deprecated in favor of external monitoring solutions. See the [alerts transition plan]({{<relref "/operate/rs/references/alerts/alerts-v1-to-v2">}}) for guidance.
+
+- See [Best practices for monitoring]({{<relref "/operate/rs/monitoring/metrics_stream_engine#best-practices-for-monitoring">}}) for a list of recommended metrics to monitor.
+
 ### Enhancements
 
 - Module management enhancements:
