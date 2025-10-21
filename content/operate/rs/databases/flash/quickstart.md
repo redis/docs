@@ -1,26 +1,27 @@
 ---
-Title: Auto Tiering quick start
+Title: Redis Flex and Auto Tiering quick start
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
-description: Get started with Auto Tiering quickly, creating a cluster and database
+description: Get started with Redis Flex and Auto Tiering quickly, creating a cluster and database
   using flash storage.
 linkTitle: Quick start
 weight: 80
+aliases: /operate/rs/databases/auto-tiering/quickstart/
 ---
-This page guides you through a quick setup of [Auto Tiering]({{< relref "/operate/rs/databases/auto-tiering/" >}}) with a single node for testing and demo purposes. 
+This page guides you through a quick setup of [Redis Flex and Auto Tiering]({{< relref "/operate/rs/databases/flash" >}}) with a single node for testing and demo purposes.
 
 For production environments, you can find more detailed installation instructions in the [install and setup]({{< relref "/operate/rs/installing-upgrading" >}}) section.
 
-The steps to set up a Redis Enterprise Software cluster using Auto Tiering
+The steps to set up a Redis Enterprise Software cluster using Redis Flex
 with a single node are:
 
 1. Install Redis Enterprise Software or run it in a Docker
     container.
-1. Set up a Redis Enterprise Software cluster with Auto Tiering.
-1. Create a new database with Auto Tiering enabled.
+1. Set up a Redis Enterprise Software cluster with Redis Flex.
+1. Create a new database with Redis Flex enabled.
 1. Connect to your new database.
 
 ## Install Redis Enterprise Software
@@ -70,7 +71,7 @@ To verify the disk configuration, run:
 sudo lsblk
 ```
 
-## Set up a cluster and enable Auto Tiering
+## Set up a cluster and enable Redis Flex
 
 1. Direct your browser to `https://localhost:8443` on the host machine to
 see the Redis Enterprise Software Cluster Manager UI.
@@ -111,7 +112,7 @@ On the **Databases** screen:
 
 1. Select **Create**.
 
-You now have a  database with Auto Tiering enabled!
+You now have a database with Redis Flex enabled!
 
 ## Connect to your database
 
@@ -119,4 +120,4 @@ After you create the database, you can connect to it and store data. See [Test c
 
 ## Next steps
 
-To see the true performance and scale of Auto Tiering, you must tune your I/O path and set the flash path to the mounted path of SSD or NVMe flash memory as that is what it is designed to run on. For more information, see [Auto Tiering]({{< relref "/operate/rs/databases/auto-tiering/" >}}).
+To see the true performance and scale of Redis Flex, you must tune your I/O path and set the flash path to the mounted path of SSD or NVMe flash memory as that is what it is designed to run on. For more information, see [Redis Flex and Auto Tiering]({{< relref "/operate/rs/databases/flash/" >}}).

@@ -19,7 +19,7 @@ In the Redis Enterprise Cluster Manager UI, you can see real-time performance me
 See the following topics for metrics definitions:
 - [Database operations]({{< relref "/operate/rs/references/metrics/database-operations" >}}) for database metrics
 - [Resource usage]({{< relref "/operate/rs/references/metrics/resource-usage" >}}) for resource and database usage metrics
-- [Auto Tiering]({{< relref "/operate/rs/references/metrics/auto-tiering" >}}) for additional metrics for [Auto Tiering ]({{< relref "/operate/rs/databases/auto-tiering" >}}) databases
+- [Auto Tiering]({{< relref "/operate/rs/references/metrics/auto-tiering" >}}) for additional metrics for [Auto Tiering ]({{< relref "/operate/rs/databases/flash" >}}) databases
 
 ## Prometheus metrics
 
