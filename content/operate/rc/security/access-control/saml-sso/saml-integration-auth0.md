@@ -27,7 +27,9 @@ Before completing this guide, you must [verify ownership of any domains]({{< rel
 
     SAML assertion requires first and last name, which are not available in the default user profile. 
 
-    > **Note**: Depending how they are created, users can have different profiles. 
+    {{<note>}}
+Depending how they are created, users can have different profiles. 
+    {{</note>}}
 
     {{<image filename="images/rc/saml/auth0_saml_1.png" >}}
 
@@ -37,7 +39,7 @@ Before completing this guide, you must [verify ownership of any domains]({{< rel
 
    The key-value pair of `redisAccountMapping` consists of a lowercase role name (owner, member, manager, billing_admin, or viewer) and your Redis Cloud Account ID found in the [account settings]({{< relref "/operate/rc/accounts/account-settings" >}}).
 
-    ```
+    ```json
     {
        "FirstName": "Test",
        "LastName": "User",
@@ -45,30 +47,51 @@ Before completing this guide, you must [verify ownership of any domains]({{< rel
     }
     ```
 
-1. Open **Auth Pipeline > Rules** and select **Create**.
+1. Open **Actions > Triggers** and select **`post-login`**.
 
     {{<image filename="images/rc/saml/auth0_saml_3.png" >}}
 
-1. Pick a rule template then select **Empty rule**.
+1. Select **Create Action** to create a new custom action.
 
-1. Provide a **name** for the rule and add the following script.
+    {{<image filename="images/rc/saml/auth0_saml_add-action.png" >}}
 
+1. Provide a **name** for the action and select **Create**.
+
+    {{<image filename="images/rc/saml/auth0_saml_create-action.png" >}}
+
+1. Add the following code to the action:
+
+    ```js
+    exports.onExecutePostLogin = async (event, api) => {
+        const um = event.user.user_metadata || {};
+        const am = event.user.app_metadata || {};
+        api.samlResponse.setAttribute('email', event.user.email);
+        api.samlResponse.setAttribute(
+            'firstName',
+            um.FirstName || ''
+        );
+        api.samlResponse.setAttribute(
+            'lastName',
+            um.LastName || ''
+        );
+        const mapping = am.redisAccountMapping || um.redisAccountMapping;
+        if (mapping) {
+            api.samlResponse.setAttribute('redisAccountMapping', mapping);
+        } else {
+            api.access.deny('missing_redis_account_mapping', 'redisAccountMapping not set for user');
+        }
+    };
     ```
-    function mapSamlAttributes(user, context, callback) {
-      user.user_metadata = user.user_metadata || {};
-      context.samlConfiguration.mappings = {
-         "Email": "email",
-         "LastName":  "user_metadata.LastName",
-         "FirstName": "user_metadata.FirstName",
-         "redisAccountMapping": "user_metadata.redisAccountMapping"
-      };
-      callback(null, user, context);
-    }
-    ```
 
- 1. Select **Save Changes**.
+1. Select **Deploy** to save and deploy the action.
 
     {{<image filename="images/rc/saml/auth0_saml_4.png" >}}
+
+1. Return to the **`post-login`** trigger and drag the action you just created to the trigger.
+
+    {{<image filename="images/rc/saml/auth0_saml_action-trigger.png" >}}
+
+    Select **Apply** to save your changes.
 
 ### Create and configure the SAML application
 
@@ -97,7 +120,7 @@ Before completing this guide, you must [verify ownership of any domains]({{< rel
     * Copy and save the **Issuer** value.
     * Copy and save the **Identity Provider Login URL**.
     
-    You will need both of these values, along with the certificate value you copied in the previous step, to configure SAML in admin console.
+    You will need both of these values, along with the certificate value you copied in the previous step, to configure SAML in the Redis Cloud console.
 
     {{<image filename="images/rc/saml/auth0_saml_9.png" >}}
 
@@ -139,25 +162,25 @@ To activate SAML, you need to have a local user (or social sign-on user) with th
 
 ## Step 3: Finish SAML configuration in Auth0
 
-1. Return to the Auth0 SAML application and select **Addons > Settings**:
+1. Return to the Auth0 SAML application and select **Addons > SAML 2 Web App > Settings**:
 
     {{<image filename="images/rc/saml/auth0_saml_10.png" >}}
 
     * Paste the **Location** link in **Application Callback URL** field.
 
-    * To update the **Settings** code area, add this code. Modify the `audience` variable with the `EntityID` value from the metadata file you downloaded. Also, modify the `recipient` variable with the `Location` value from the metadata file you downloaded.
+    * Enter the following code in the **Settings** code area. Modify the `audience` variable with the `EntityID` value, and the `recipient` variable with the `Location` value from the metadata file you downloaded. 
 
-    ```
+    ```json
     {
-      "audience": "ENTITYID VALUE FROM FILE",
-      "recipient": "LOCATION VALUE FROM FILE",
+      "audience": "<EntityID>",
+      "recipient": "<Location>",
       "passthroughClaimsWithNoMapping": false,
       "nameIdentifierProbes": [
         "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
       ]
     }
     ```
-    Scroll down and select **Save** to apply the configuration.
+    Scroll down and select **Enable** to apply the configuration.
 
 ### IdP initiated SSO
 
