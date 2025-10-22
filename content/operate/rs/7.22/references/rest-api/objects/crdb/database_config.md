@@ -8,7 +8,7 @@ categories:
 description: An object that represents the database configuration
 linkTitle: database_config
 weight: $weight
-url: '/operate/rs/7.22/references/rest-api/objects/crdb/atabase_config/'
+url: '/operate/rs/7.22/references/rest-api/objects/crdb/database_config/'
 ---
 
 An object that represents the database configuration.

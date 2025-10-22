@@ -8,7 +8,7 @@ categories:
 description: Describes how to map LDAP authorization groups to Redis Enterprise roles
   using the Cluster Manager UI.
 weight: 35
-url: '/operate/rs/7.22/security/access-control/ldap/ap-ldap-groups-to-roles/'
+url: '/operate/rs/7.22/security/access-control/ldap/map-ldap-groups-to-roles/'
 ---
 
 Redis Enterprise Software uses a role-based mechanism to enable LDAP authentication and authorization.  

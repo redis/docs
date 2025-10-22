@@ -9,7 +9,7 @@ description: Change the password hashing algorithm for user passwords in a Redis
 linkTitle: Password hashing algorithm
 toc: 'true'
 weight: 95
-url: '/operate/rs/7.22/security/access-control/manage-passwords/password-hashing-algorith/'
+url: '/operate/rs/7.22/security/access-control/manage-passwords/password-hashing-algorithm/'
 ---
 
 Redis Enterprise Software securely stores all user passwords using a cryptographic hash function. The default password hashing algorithm is `SHA-256`, but `PBKDF2` is also supported as of Redis Enterprise Software version 7.8.6-13.

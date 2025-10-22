@@ -9,7 +9,7 @@ description: Information and requirements for using multiple IP addresses or IPv
   addresses with Redis Enterprise Software.
 linkTitle: Manage IP addresses
 weight: $weight
-url: '/operate/rs/7.22/networking/ulti-ip-ipv6/'
+url: '/operate/rs/7.22/networking/multi-ip-ipv6/'
 ---
 Redis Enterprise Software supports servers, instances, and VMs with
 multiple IPv4 or IPv6 addresses.

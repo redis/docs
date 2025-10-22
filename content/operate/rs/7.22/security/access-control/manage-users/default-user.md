@@ -9,7 +9,7 @@ description: Manage a database's default user.
 linkTitle: Manage default user
 toc: 'true'
 weight: 60
-url: '/operate/rs/7.22/security/access-control/manage-users/efault-user/'
+url: '/operate/rs/7.22/security/access-control/manage-users/default-user/'
 ---
 
 When you [create a database]({{< relref "/operate/rs/7.22/databases/create" >}}), default user database access is enabled by default (**Unauthenticated access** is selected). This gives the default user full access to the database and enables compatibility with versions of Redis before Redis 6.

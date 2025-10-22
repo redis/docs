@@ -9,7 +9,7 @@ description: REST API requests to change the hashing algorithm for user password
 headerRange: '[1-2]'
 linkTitle: change_password_hashing_algorithm
 weight: $weight
-url: '/operate/rs/7.22/references/rest-api/requests/cluster/change_password_hashing_algorith/'
+url: '/operate/rs/7.22/references/rest-api/requests/cluster/change_password_hashing_algorithm/'
 ---
 
 | Method | Path | Description |

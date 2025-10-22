@@ -8,7 +8,7 @@ categories:
 description: An object for database connection auditing settings
 linkTitle: db_conns_auditing_config
 weight: $weight
-url: '/operate/rs/7.22/references/rest-api/objects/b-conns-auditing-config/'
+url: '/operate/rs/7.22/references/rest-api/objects/db-conns-auditing-config/'
 ---
 
 Database connection auditing configuration

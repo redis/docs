@@ -8,7 +8,7 @@ categories:
 description: An object that represents a Redis module
 linkTitle: module
 weight: $weight
-url: '/operate/rs/7.22/references/rest-api/objects/odule/'
+url: '/operate/rs/7.22/references/rest-api/objects/module/'
 ---
 
 Represents a [Redis module]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}).

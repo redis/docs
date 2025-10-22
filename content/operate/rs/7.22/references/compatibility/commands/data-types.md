@@ -11,7 +11,7 @@ description: Data type commands compatibility (bitmaps, geospatial indices, hash
 linkTitle: Data types
 toc: 'true'
 weight: 10
-url: '/operate/rs/7.22/references/compatibility/commands/ata-types/'
+url: '/operate/rs/7.22/references/compatibility/commands/data-types/'
 ---
 
 The following tables show which Redis Open Source data type commands are compatible with standard and Active-Active databases in Redis Enterprise Software and Redis Cloud.

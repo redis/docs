@@ -8,7 +8,7 @@ categories:
 description: Delete a database from the Cluster Manager UI.
 linktitle: Delete
 weight: 36
-url: '/operate/rs/7.22/databases/elete/'
+url: '/operate/rs/7.22/databases/delete/'
 ---
 
 When you delete a database, both the database configuration and data are removed.

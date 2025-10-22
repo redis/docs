@@ -10,7 +10,7 @@ description: Preview the new metrics stream engine for monitoring Redis Enterpri
 hideListLinks: true
 linkTitle: Metrics stream engine preview for monitoring v2
 weight: 60
-url: '/operate/rs/7.22/monitoring/etrics_stream_engine/'
+url: '/operate/rs/7.22/monitoring/metrics_stream_engine/'
 ---
 
 A preview of the new metrics stream engine is available as of [Redis Enterprise Software version 7.8.2]({{<relref "/operate/rs/release-notes/rs-7-8-releases">}}).

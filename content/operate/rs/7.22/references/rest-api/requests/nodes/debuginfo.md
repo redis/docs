@@ -9,7 +9,7 @@ description: Documents the Redis Enterprise Software REST API /nodes/debuginfo r
 headerRange: '[1-2]'
 linkTitle: debuginfo
 weight: $weight
-url: '/operate/rs/7.22/references/rest-api/requests/nodes/ebuginfo/'
+url: '/operate/rs/7.22/references/rest-api/requests/nodes/debuginfo/'
 ---
 
 | Method | Path | Description |

@@ -8,7 +8,7 @@ categories:
 description: Diagnostic logs can help troubleshoot Redis Enterprise Software.
 linkTitle: Diagnostic logging
 weight: 50
-url: '/operate/rs/7.22/clusters/logging/iagnostic-logging/'
+url: '/operate/rs/7.22/clusters/logging/diagnostic-logging/'
 ---
 
 The diagnostic logging service collects detailed system logs, which you can use to troubleshoot Redis Enterprise Software.

@@ -9,7 +9,7 @@ description: Describes Redis Enterprise Software installation questions and how 
   answer them automatically.
 linkTitle: Manage install questions
 weight: 25
-url: '/operate/rs/7.22/installing-upgrading/install/anage-installation-questions/'
+url: '/operate/rs/7.22/installing-upgrading/install/manage-installation-questions/'
 ---
 
 Several questions are displayed during the Redis Enterprise Software installation process.

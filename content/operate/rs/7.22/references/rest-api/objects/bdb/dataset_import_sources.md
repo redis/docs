@@ -9,7 +9,7 @@ description: Documents the bdb dataset_import_sources object used with Redis Ent
   Software REST API calls.
 linkTitle: dataset_import_sources
 weight: $weight
-url: '/operate/rs/7.22/references/rest-api/objects/bdb/ataset_import_sources/'
+url: '/operate/rs/7.22/references/rest-api/objects/bdb/dataset_import_sources/'
 ---
 
 You can import data to a database from the following location types:

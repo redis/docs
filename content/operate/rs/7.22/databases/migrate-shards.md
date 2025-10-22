@@ -10,7 +10,7 @@ linkTitle: Migrate shards
 title: Migrate database shards
 toc: 'true'
 weight: 32
-url: '/operate/rs/7.22/databases/igrate-shards/'
+url: '/operate/rs/7.22/databases/migrate-shards/'
 ---
 
 To migrate database shards to other nodes in the cluster, you can use the [`rladmin migrate`]({{<relref "/operate/rs/7.22/references/cli-utilities/rladmin/migrate">}}) command or [REST API requests]({{<relref "/operate/rs/7.22/references/rest-api/requests/shards/actions/migrate">}}).

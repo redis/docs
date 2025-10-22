@@ -10,7 +10,7 @@ description: Overview of how developing applications differs for Active-Active d
 linkTitle: Develop for Active-Active
 title: Develop applications with Active-Active databases
 weight: 10
-url: '/operate/rs/7.22/databases/active-active/develop/evelop-for-aa/'
+url: '/operate/rs/7.22/databases/active-active/develop/develop-for-aa/'
 ---
 Developing geo-distributed, multi-master applications can be difficult.
 Application developers may have to understand a large number of race

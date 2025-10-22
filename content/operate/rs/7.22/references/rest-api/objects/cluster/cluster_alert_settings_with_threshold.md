@@ -9,7 +9,7 @@ description: Documents the cluster_alert_settings_with_threshold object used wit
   Redis Enterprise Software REST API calls.
 linkTitle: cluster_alert_settings_with_threshold
 weight: $weight
-url: '/operate/rs/7.22/references/rest-api/objects/cluster/cluster_alert_settings_with_threshol/'
+url: '/operate/rs/7.22/references/rest-api/objects/cluster/cluster_alert_settings_with_threshold/'
 ---
 
 | Name | Type/Value | Description |

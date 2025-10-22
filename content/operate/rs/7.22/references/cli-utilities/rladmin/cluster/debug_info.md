@@ -12,7 +12,7 @@ tags:
 - configured
 toc: 'true'
 weight: $weight
-url: '/operate/rs/7.22/references/cli-utilities/rladmin/cluster/ebug_info/'
+url: '/operate/rs/7.22/references/cli-utilities/rladmin/cluster/debug_info/'
 ---
 
 Downloads a support package to the specified path. If you do not specify a path, it downloads the package to the default path specified in the cluster configuration file.

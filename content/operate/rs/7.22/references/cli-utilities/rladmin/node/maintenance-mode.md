@@ -10,7 +10,7 @@ headerRange: '[1-2]'
 linkTitle: maintenance_mode
 toc: 'true'
 weight: $weight
-url: '/operate/rs/7.22/references/cli-utilities/rladmin/node/aintenance-mode/'
+url: '/operate/rs/7.22/references/cli-utilities/rladmin/node/maintenance-mode/'
 ---
 
 Configures [quorum-only mode]({{< relref "/operate/rs/7.22/clusters/maintenance-mode#activate-maintenance-mode" >}}) on a node.

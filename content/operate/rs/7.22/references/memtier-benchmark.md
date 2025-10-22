@@ -8,7 +8,7 @@ categories:
 description: null
 linkTitle: Benchmark Auto Tiering
 weight: $weight
-url: '/operate/rs/7.22/references/emtier-benchmark/'
+url: '/operate/rs/7.22/references/memtier-benchmark/'
 ---
 Auto Tiering on Redis Enterprise Software lets you use cost-effective Flash memory as a RAM extension for your database.
 

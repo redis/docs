@@ -11,7 +11,7 @@ title: Check database availability for monitoring and load balancers
 toc: 'true'
 weight: 80
 aliases: /operate/rs/databases/durability-ha/db-availability/
-url: '/operate/rs/7.22/monitoring/b-availability/'
+url: '/operate/rs/7.22/monitoring/db-availability/'
 ---
 
 You can use the [database availability API]({{<relref "/operate/rs/7.22/references/rest-api/requests/bdbs/availability">}}) to verify whether a Redis Software database is available to perform read and write operations and can respond to queries from client applications. Load balancers and automated monitoring tools can use this API to monitor database availability.

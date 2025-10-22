@@ -8,7 +8,7 @@ categories:
 description: Deletes an Active-Active database.
 linkTitle: delete
 weight: $weight
-url: '/operate/rs/7.22/references/cli-utilities/crdb-cli/crdb/elete/'
+url: '/operate/rs/7.22/references/cli-utilities/crdb-cli/crdb/delete/'
 ---
 
 Deletes an Active-Active database.

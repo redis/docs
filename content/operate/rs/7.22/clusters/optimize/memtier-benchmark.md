@@ -9,7 +9,7 @@ description: Use the `memtier_benchmark` tool to perform a performance benchmark
   Redis Enterprise Software.
 linkTitle: Benchmark
 weight: $weight
-url: '/operate/rs/7.22/clusters/optimize/emtier-benchmark/'
+url: '/operate/rs/7.22/clusters/optimize/memtier-benchmark/'
 ---
 
 Use the `memtier_benchmark` tool to perform a performance benchmark of Redis Enterprise Software.

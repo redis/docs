@@ -9,7 +9,7 @@ description: Documents the mdns_server object used with Redis Enterprise Softwar
   REST API calls.
 linkTitle: mdns_server
 weight: $weight
-url: '/operate/rs/7.22/references/rest-api/objects/services_configuration/ns_server/'
+url: '/operate/rs/7.22/references/rest-api/objects/services_configuration/mdns_server/'
 ---
 
 | Name | Type/Value | Description |

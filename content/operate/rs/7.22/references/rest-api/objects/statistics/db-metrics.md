@@ -9,7 +9,7 @@ description: Documents the DB metrics used with Redis Enterprise Software REST A
   calls.
 linkTitle: DB metrics
 weight: $weight
-url: '/operate/rs/7.22/references/rest-api/objects/statistics/b-metrics/'
+url: '/operate/rs/7.22/references/rest-api/objects/statistics/db-metrics/'
 ---
 
 | Metric name | Type | Description |

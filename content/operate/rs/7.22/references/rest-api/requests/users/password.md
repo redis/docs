@@ -9,7 +9,7 @@ description: User password requests
 headerRange: '[1-2]'
 linkTitle: password
 weight: $weight
-url: '/operate/rs/7.22/references/rest-api/requests/users/passwor/'
+url: '/operate/rs/7.22/references/rest-api/requests/users/password/'
 ---
 
 | Method                     | Path                 | Description                 |

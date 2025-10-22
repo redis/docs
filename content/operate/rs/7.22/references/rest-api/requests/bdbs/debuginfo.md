@@ -9,7 +9,7 @@ description: Documents the Redis Enterprise Software REST API /bdbs/debuginfo re
 headerRange: '[1-2]'
 linkTitle: debuginfo
 weight: $weight
-url: '/operate/rs/7.22/references/rest-api/requests/bdbs/ebuginfo/'
+url: '/operate/rs/7.22/references/rest-api/requests/bdbs/debuginfo/'
 ---
 
 | Method | Path | Description |

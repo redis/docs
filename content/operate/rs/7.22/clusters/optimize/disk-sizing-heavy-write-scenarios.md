@@ -9,7 +9,7 @@ description: Sizing considerations for persistent disk space for heavy throughpu
   databases.
 linktitle: Disk sizing
 weight: $weight
-url: '/operate/rs/7.22/clusters/optimize/isk-sizing-heavy-write-scenarios/'
+url: '/operate/rs/7.22/clusters/optimize/disk-sizing-heavy-write-scenarios/'
 ---
 In extreme write scenarios when append-only files (AOF) are enabled, the AOF rewrite process can require considerably more disk space for [database persistence]({{<relref "/operate/rs/7.22/databases/configure/database-persistence/">}}).
 

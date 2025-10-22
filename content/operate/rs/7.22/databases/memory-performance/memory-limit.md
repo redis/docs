@@ -10,7 +10,7 @@ description: When you set a database's memory limit, you define the maximum size
   database can reach.
 linkTitle: Memory limits
 weight: 20
-url: '/operate/rs/7.22/databases/memory-performance/emory-limit/'
+url: '/operate/rs/7.22/databases/memory-performance/memory-limit/'
 ---
 When you set a database's memory limit, you define the maximum size the
 database can reach in the cluster, across all database replicas and

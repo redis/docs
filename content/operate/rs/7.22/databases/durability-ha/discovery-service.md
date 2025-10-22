@@ -8,7 +8,7 @@ categories:
 description: null
 linktitle: Discovery service
 weight: 30
-url: '/operate/rs/7.22/databases/durability-ha/iscovery-service/'
+url: '/operate/rs/7.22/databases/durability-ha/discovery-service/'
 ---
 The Discovery Service provides an IP-based connection management service
 used when connecting to Redis Enterprise Software databases. When used

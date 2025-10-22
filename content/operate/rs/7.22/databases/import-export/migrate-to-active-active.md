@@ -8,7 +8,7 @@ categories:
 description: Use Replica Of to migrate your database to an Active-Active database.
 linktitle: Migrate to Active-Active
 weight: $weight
-url: '/operate/rs/7.22/databases/import-export/igrate-to-active-active/'
+url: '/operate/rs/7.22/databases/import-export/migrate-to-active-active/'
 ---
 
 If you have data in a single-region Redis Enterprise Software database that you want to migrate to an [Active-Active database]({{< relref "/operate/rs/7.22/databases/active-active" >}}),

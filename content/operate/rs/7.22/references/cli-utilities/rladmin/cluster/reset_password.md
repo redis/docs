@@ -12,7 +12,7 @@ tags:
 - configured
 toc: 'true'
 weight: $weight
-url: '/operate/rs/7.22/references/cli-utilities/rladmin/cluster/reset_passwor/'
+url: '/operate/rs/7.22/references/cli-utilities/rladmin/cluster/reset_password/'
 ---
 
 Changes the password for the user associated with the specified email address.

@@ -9,7 +9,7 @@ description: Documents the bdb_alert_settings_with_threshold object used with Re
   Enterprise Software REST API calls.
 linkTitle: bdb_alert_settings_with_threshold
 weight: $weight
-url: '/operate/rs/7.22/references/rest-api/objects/db_alerts_settings/bdb_alert_settings_with_threshol/'
+url: '/operate/rs/7.22/references/rest-api/objects/db_alerts_settings/bdb_alert_settings_with_threshold/'
 ---
 
 | Name | Type/Value | Description |

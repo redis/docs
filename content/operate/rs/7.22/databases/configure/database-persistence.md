@@ -9,7 +9,7 @@ description: How to configure database persistence with either an append-only fi
   (AOF) or snapshots.
 linktitle: Persistence
 weight: 30
-url: '/operate/rs/7.22/databases/configure/atabase-persistence/'
+url: '/operate/rs/7.22/databases/configure/database-persistence/'
 ---
 
 Data is stored in RAM or a combination of RAM and flash memory ([Auto Tiering]({{< relref "/operate/rs/7.22/databases/auto-tiering/" >}})), which risks data loss during process or server failures. Redis Enterprise Software supports multiple methods to persist data to disk on a per-database basis to ensure data durability.

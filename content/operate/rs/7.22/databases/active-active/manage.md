@@ -8,7 +8,7 @@ categories:
 description: Manage your Active-Active database settings.
 linktitle: Manage
 weight: 30
-url: '/operate/rs/7.22/databases/active-active/anage/'
+url: '/operate/rs/7.22/databases/active-active/manage/'
 ---
 
 You can configure and manage your Active-Active database from either the Cluster Manager UI or the command line.

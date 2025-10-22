@@ -9,7 +9,7 @@ description: Configure cluster-wide policies that affect default database upgrad
 linkTitle: Upgrade configuration
 toc: 'true'
 weight: 15
-url: '/operate/rs/7.22/databases/configure/b-upgrade/'
+url: '/operate/rs/7.22/databases/configure/db-upgrade/'
 ---
 
 Database upgrade configuration includes cluster-wide policies that affect default database upgrades.

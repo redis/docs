@@ -8,7 +8,7 @@ categories:
 description: An object to update an Active-Active database
 linkTitle: modify_request
 weight: $weight
-url: '/operate/rs/7.22/references/rest-api/objects/crdb/odify_request/'
+url: '/operate/rs/7.22/references/rest-api/objects/crdb/modify_request/'
 ---
 
 An object to update an Active-Active database.

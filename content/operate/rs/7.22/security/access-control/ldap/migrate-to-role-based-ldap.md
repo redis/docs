@@ -8,7 +8,7 @@ categories:
 description: Describes how to migrate existing cluster-based LDAP deployments to role-based
   LDAP.
 weight: 55
-url: '/operate/rs/7.22/security/access-control/ldap/igrate-to-role-based-ldap/'
+url: '/operate/rs/7.22/security/access-control/ldap/migrate-to-role-based-ldap/'
 ---
 
 Redis Enterprise Software supports LDAP through a [role-based mechanism]({{< relref "/operate/rs/7.22/security/access-control/ldap/" >}}), first introduced [in v6.0.20]({{< relref "/operate/rs/release-notes/rs-6-0-20-april-2021" >}}).

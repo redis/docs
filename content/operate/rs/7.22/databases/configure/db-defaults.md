@@ -10,7 +10,7 @@ description: Cluster-wide policies that determine default settings when creating
 linkTitle: Database defaults
 toc: 'true'
 weight: 10
-url: '/operate/rs/7.22/databases/configure/b-defaults/'
+url: '/operate/rs/7.22/databases/configure/db-defaults/'
 ---
 
 Database defaults are cluster-wide policies that determine default settings when creating new databases.

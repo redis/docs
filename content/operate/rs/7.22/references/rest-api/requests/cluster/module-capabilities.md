@@ -9,7 +9,7 @@ description: Redis module capabilities requests
 headerRange: '[1-2]'
 linkTitle: module-capabilities
 weight: $weight
-url: '/operate/rs/7.22/references/rest-api/requests/cluster/odule-capabilities/'
+url: '/operate/rs/7.22/references/rest-api/requests/cluster/module-capabilities/'
 ---
 
 | Method | Path | Description |

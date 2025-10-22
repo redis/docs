@@ -11,7 +11,7 @@ headerRange: '[1-2]'
 linkTitle: migrate
 toc: 'true'
 weight: $weight
-url: '/operate/rs/7.22/references/cli-utilities/rladmin/igrate/'
+url: '/operate/rs/7.22/references/cli-utilities/rladmin/migrate/'
 ---
 
 Moves Redis Enterprise shards or endpoints to a new node in the same cluster.

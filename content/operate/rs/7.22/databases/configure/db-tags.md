@@ -9,7 +9,7 @@ description: Manage tags for databases in a Redis Software cluster.
 linkTitle: Database tags
 toc: 'true'
 weight: 17
-url: '/operate/rs/7.22/databases/configure/b-tags/'
+url: '/operate/rs/7.22/databases/configure/db-tags/'
 ---
 
 You can create custom tags to categorize databases in a Redis Software cluster. 

@@ -8,7 +8,7 @@ categories:
 description: Download a Redis Enterprise Software installation package.
 linkTitle: Download installation package
 weight: 20
-url: '/operate/rs/7.22/installing-upgrading/install/prepare-install/ownload-install-package/'
+url: '/operate/rs/7.22/installing-upgrading/install/prepare-install/download-install-package/'
 ---
 
 To download the installation package for any of the supported platforms:

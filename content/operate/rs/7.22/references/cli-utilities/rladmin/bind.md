@@ -10,7 +10,7 @@ headerRange: '[1-2]'
 linkTitle: bind
 toc: 'true'
 weight: $weight
-url: '/operate/rs/7.22/references/cli-utilities/rladmin/bin/'
+url: '/operate/rs/7.22/references/cli-utilities/rladmin/bind/'
 ---
 
 Manages the proxy policy for a specific database endpoint.

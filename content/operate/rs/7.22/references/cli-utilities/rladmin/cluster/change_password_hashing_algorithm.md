@@ -12,7 +12,7 @@ tags:
 - configured
 toc: 'true'
 weight: $weight
-url: '/operate/rs/7.22/references/cli-utilities/rladmin/cluster/change_password_hashing_algorith/'
+url: '/operate/rs/7.22/references/cli-utilities/rladmin/cluster/change_password_hashing_algorithm/'
 ---
 
 Changes the password hashing algorithm for the entire cluster. When you change the hashing algorithm, it rehashes the administrator password and passwords for all users, including default users.

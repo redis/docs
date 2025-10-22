@@ -8,7 +8,7 @@ categories:
 description: Requirements for using the mDNS protocol in development and testing environments.
 linkTitle: mDNS client prerequisites
 weight: $weight
-url: '/operate/rs/7.22/networking/ns/'
+url: '/operate/rs/7.22/networking/mdns/'
 ---
 {{< note >}}
 mDNS is only supported for development and testing environments.

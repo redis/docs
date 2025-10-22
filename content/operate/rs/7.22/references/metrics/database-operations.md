@@ -9,7 +9,7 @@ categories:
 description: null
 linkTitle: Database operations
 weight: $weight
-url: '/operate/rs/7.22/references/metrics/atabase-operations/'
+url: '/operate/rs/7.22/references/metrics/database-operations/'
 ---
 
 ## Evicted objects/sec

@@ -9,7 +9,7 @@ description: REST API requests to migrate database shards
 headerRange: '[1-2]'
 linkTitle: migrate
 weight: $weight
-url: '/operate/rs/7.22/references/rest-api/requests/shards/actions/igrate/'
+url: '/operate/rs/7.22/references/rest-api/requests/shards/actions/migrate/'
 ---
 
 | Method | Path | Description |

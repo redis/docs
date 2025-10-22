@@ -8,7 +8,7 @@ description: Monitor certificates on a Redis Enterprise cluster.
 linkTitle: Monitor certificates
 title: Monitor certificates
 weight: 10
-url: '/operate/rs/7.22/security/certificates/onitor-certificates/'
+url: '/operate/rs/7.22/security/certificates/monitor-certificates/'
 ---
 
 You can monitor certificates used by Redis Enterprise Software.

@@ -12,7 +12,7 @@ tags:
 - configured
 toc: 'true'
 weight: $weight
-url: '/operate/rs/7.22/references/cli-utilities/rladmin/cluster/aster/'
+url: '/operate/rs/7.22/references/cli-utilities/rladmin/cluster/master/'
 ---
 
 Identifies the cluster's master node. Use `set` to change the cluster's master to a different node.

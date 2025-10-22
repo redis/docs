@@ -8,7 +8,7 @@ categories:
 description: Prepare a cluster node for maintenance.
 linkTitle: Maintenance mode
 weight: 60
-url: '/operate/rs/7.22/clusters/aintenance-mode/'
+url: '/operate/rs/7.22/clusters/maintenance-mode/'
 ---
 
 Use maintenance mode to prevent data loss during hardware patching or operating system maintenance on Redis Enterprise servers. When maintenance mode is on, all shards move off of the node under maintenance and migrate to another available node.

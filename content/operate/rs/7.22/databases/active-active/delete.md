@@ -8,7 +8,7 @@ categories:
 description: Considerations while deleting Active-Active databases.
 linktitle: Delete
 weight: 35
-url: '/operate/rs/7.22/databases/active-active/elete/'
+url: '/operate/rs/7.22/databases/active-active/delete/'
 ---
 
 When you delete an Active-Active database (formerly known as CRDB),

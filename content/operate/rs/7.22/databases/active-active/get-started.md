@@ -8,7 +8,7 @@ categories:
 description: Quick start guide to create an Active-Active database for test and development.
 linktitle: Get started
 weight: 20
-url: '/operate/rs/7.22/databases/active-active/get-starte/'
+url: '/operate/rs/7.22/databases/active-active/get-started/'
 ---
 
 To get started, this article will help you set up an Active-Active database, formerly known as CRDB (conflict-free replicated database), spanning across two Redis Enterprise Software
