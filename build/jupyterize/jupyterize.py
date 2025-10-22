@@ -165,16 +165,19 @@ def remove_matching_lines(code, start_pattern, end_pattern):
         end_pattern: Regex pattern for end line
 
     Returns:
-        str: Code with matching lines removed
+        tuple: (modified_code, match_count) where match_count is the number
+               of times the pattern was matched
     """
     lines = code.split('\n')
     result = []
     in_match = False
     single_line_pattern = (start_pattern == end_pattern)
+    match_count = 0
 
     for line in lines:
         # Check for start pattern
         if re.match(start_pattern, line):
+            match_count += 1
             if single_line_pattern:
                 # For single-line patterns, just skip this line
                 continue
@@ -191,6 +194,44 @@ def remove_matching_lines(code, start_pattern, end_pattern):
         # Keep line if not in match
         if not in_match:
             result.append(line)
+
+    return '\n'.join(result), match_count
+
+
+
+def remove_trailing_braces(code, count):
+    """
+    Remove a specific number of closing braces from the end of the code.
+
+    This is used after unwrapping class/method wrappers to remove only
+    the closing braces that correspond to the removed opening braces,
+    while preserving closing braces from control structures (for, foreach, if, etc.).
+
+    Args:
+        code: Source code as string
+        count: Number of closing braces to remove from the end
+
+    Returns:
+        str: Code with trailing closing braces removed
+    """
+    if count <= 0:
+        return code
+
+    lines = code.split('\n')
+    removed = 0
+
+    # Scan from the end, removing lines that are only closing braces
+    for i in range(len(lines) - 1, -1, -1):
+        if removed >= count:
+            break
+
+        # Check if this line is only whitespace and a closing brace
+        if re.match(r'^\s*\}\s*$', lines[i]):
+            lines[i] = None  # Mark for removal
+            removed += 1
+
+    # Filter out marked lines
+    result = [line for line in lines if line is not None]
 
     return '\n'.join(result)
 
@@ -212,9 +253,18 @@ def unwrap_code(code, language):
     if not unwrap_patterns:
         return code
 
+    # Track how many opening braces we removed (for closing brace removal)
+    braces_removed = 0
+
     # Apply each unwrap pattern
     for pattern_config in unwrap_patterns:
         try:
+            pattern_type = pattern_config.get('type', 'unknown')
+
+            # Skip the closing_braces pattern - we'll handle it specially
+            if pattern_type == 'closing_braces':
+                continue
+
             keep_content = pattern_config.get('keep_content', True)
 
             if keep_content:
@@ -224,17 +274,28 @@ def unwrap_code(code, language):
                     pattern_config['pattern'],
                     pattern_config['end_pattern']
                 )
+                # For keep_content patterns, we don't track braces
+                match_count = 0
             else:
                 # Remove entire matched section
-                code = remove_matching_lines(
+                code, match_count = remove_matching_lines(
                     code,
                     pattern_config['pattern'],
                     pattern_config['end_pattern']
                 )
 
-            logging.debug(
-                f"Applied unwrap pattern: {pattern_config.get('type', 'unknown')}"
-            )
+            # Count opening braces removed (only if pattern actually matched)
+            # For class/method patterns, we remove one opening brace per match
+            # Single-line patterns: opening brace is in the pattern itself
+            # Multi-line patterns: opening brace is in the end_pattern
+            if match_count > 0:
+                if '{' in pattern_config['pattern'] or '{' in pattern_config.get('end_pattern', ''):
+                    braces_removed += match_count
+
+            if match_count > 0:
+                logging.debug(
+                    f"Applied unwrap pattern: {pattern_type} ({match_count} matches)"
+                )
         except KeyError as e:
             logging.warning(
                 f"Malformed unwrap pattern (missing {e}), skipping"
@@ -244,32 +305,37 @@ def unwrap_code(code, language):
                 f"Invalid regex pattern: {e}, skipping"
             )
 
+    # Remove the corresponding number of closing braces from the end
+    if braces_removed > 0:
+        logging.debug(f"Removing {braces_removed} trailing closing braces")
+        code = remove_trailing_braces(code, braces_removed)
+
     return code
 
 
 def detect_language(file_path):
     """
     Detect programming language from file extension.
-    
+
     Args:
         file_path: Path to the input file
-        
+
     Returns:
         str: Language name (e.g., 'python', 'node.js')
-        
+
     Raises:
         ValueError: If file extension is not supported
     """
     _, ext = os.path.splitext(file_path)
     language = EXTENSION_TO_LANGUAGE.get(ext.lower())
-    
+
     if not language:
         supported = ', '.join(sorted(EXTENSION_TO_LANGUAGE.keys()))
         raise ValueError(
             f"Unsupported file extension: {ext}\n"
             f"Supported extensions: {supported}"
         )
-    
+
     logging.info(f"Detected language: {language} (from extension {ext})")
     return language
 
@@ -277,11 +343,11 @@ def detect_language(file_path):
 def validate_input(file_path, language):
     """
     Validate input file.
-    
+
     Args:
         file_path: Path to the input file
         language: Detected language
-        
+
     Raises:
         FileNotFoundError: If file doesn't exist
         ValueError: If file is invalid
@@ -289,10 +355,10 @@ def validate_input(file_path, language):
     # Check file exists
     if not os.path.exists(file_path):
         raise FileNotFoundError(f"Input file not found: {file_path}")
-    
+
     if not os.path.isfile(file_path):
         raise ValueError(f"Path is not a file: {file_path}")
-    
+
     # Check EXAMPLE marker
     prefix = PREFIXES.get(language.lower())
     if not prefix:
@@ -313,19 +379,19 @@ def validate_input(file_path, language):
 def parse_file(file_path, language):
     """
     Parse file and extract cells.
-    
+
     Args:
         file_path: Path to the input file
         language: Programming language
-        
+
     Returns:
         list: List of dicts with 'code' and 'step_name' keys
     """
     with open(file_path, 'r', encoding='utf-8') as f:
         lines = f.readlines()
-    
+
     prefix = PREFIXES[language.lower()]
-    
+
     # State tracking
     in_remove = False
     in_step = False
@@ -336,7 +402,7 @@ def parse_file(file_path, language):
     seen_step_names = set()  # Track duplicate step names
 
     logging.debug(f"Parsing {len(lines)} lines with comment prefix '{prefix}'")
-    
+
     for line_num, line in enumerate(lines, 1):
         # Skip metadata markers
         if _check_marker(line, prefix, EXAMPLE):
@@ -420,25 +486,25 @@ def parse_file(file_path, language):
             step_name = None
             step_lines = []
             continue
-        
+
         # Collect code
         if in_step:
             step_lines.append(line)
         else:
             preamble_lines.append(line)
-    
+
     # Save remaining preamble
     if preamble_lines:
         preamble_code = ''.join(preamble_lines)
         cells.append({'code': preamble_code, 'step_name': None})
         logging.debug(f"Saved final preamble cell ({len(preamble_lines)} lines)")
-    
+
     # Check for unclosed blocks
     if in_remove:
         logging.warning("File ended with unclosed REMOVE block")
     if in_step:
         logging.warning("File ended with unclosed STEP block")
-    
+
     logging.info(f"Parsed {len(cells)} cells from file")
     return cells
 
@@ -493,6 +559,15 @@ def create_cells(parsed_blocks, language):
             logging.debug(f"Skipping empty cell {i}")
             continue
 
+        # Skip cells that contain only closing braces and whitespace
+        # (orphaned closing braces from removed class/method wrappers)
+        if lang_config.get('unwrap_patterns'):
+            # Remove all whitespace and check if only closing braces remain
+            code_no_whitespace = re.sub(r'\s', '', code)
+            if code_no_whitespace and re.match(r'^}+$', code_no_whitespace):
+                logging.debug(f"Skipping cell {i} (contains only closing braces)")
+                continue
+
         # Create code cell
         cell = new_code_cell(source=code)
 
@@ -512,32 +587,32 @@ def create_cells(parsed_blocks, language):
 def create_notebook(cells, language):
     """
     Create complete Jupyter notebook.
-    
+
     Args:
         cells: List of nbformat cell objects
         language: Programming language
-        
+
     Returns:
         nbformat.NotebookNode: Complete notebook
     """
     nb = new_notebook()
     nb.cells = cells
-    
+
     # Set kernel metadata
     kernel_spec = KERNEL_SPECS.get(language.lower())
     if not kernel_spec:
         raise ValueError(f"No kernel specification for language: {language}")
-    
+
     nb.metadata.kernelspec = {
         'display_name': kernel_spec['display_name'],
         'language': language.lower(),
         'name': kernel_spec['name']
     }
-    
+
     nb.metadata.language_info = {
         'name': language.lower()
     }
-    
+
     logging.info(f"Created notebook with kernel: {kernel_spec['name']}")
     return nb
 

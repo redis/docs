@@ -258,7 +258,69 @@ During implementation, several non‑obvious details significantly reduced bugs 
   - Keep patterns minimal and composable (e.g., separate `class_opening`, `method_opening`, `closing_braces`).
   - Validate patterns at startup or wrap application with try/except to warn and continue on malformed regex.
 
-### 10. Pattern Count Differences Between Languages (Java Implementation Insight)
+### 10. Closing Brace Removal Must Be Match-Based, Not Pattern-Based (Critical Bug Fix)
+
+**Problem**: The initial implementation removed closing braces based on the number of unwrap patterns configured, not the number of patterns that actually matched. This caused a critical bug where closing braces from control structures (for loops, foreach loops, if statements) were incorrectly removed.
+
+**Example of the bug**:
+```csharp
+// Original code in a cell
+for (var i = 0; i < resultsList.Count; i++)
+{
+    Console.WriteLine(i);
+}
+
+// BUG: Closing brace was removed, resulting in:
+for (var i = 0; i < resultsList.Count; i++)
+{
+    Console.WriteLine(i);
+// Missing }
+```
+
+**Root cause**: The unwrapping logic counted braces to remove based on pattern configuration (e.g., "C# has 4 patterns with braces, so remove 4 closing braces from every cell"), rather than counting how many patterns actually matched in each specific cell.
+
+**Solution**: Modified `remove_matching_lines()` to return a tuple `(modified_code, match_count)` and updated `unwrap_code()` to only remove closing braces when patterns actually match:
+
+```python
+# Before (WRONG):
+for pattern_config in unwrap_patterns:
+    code = remove_matching_lines(code, pattern, end_pattern)
+    if '{' in pattern:
+        braces_removed += 1  # Always increments!
+
+# After (CORRECT):
+for pattern_config in unwrap_patterns:
+    code, match_count = remove_matching_lines(code, pattern, end_pattern)
+    if match_count > 0 and '{' in pattern:
+        braces_removed += match_count  # Only increments if pattern matched
+```
+
+**Implementation details**:
+1. `remove_matching_lines()` now returns `(code, match_count)` instead of just `code`
+2. `unwrap_code()` tracks `braces_removed` based on actual matches, not pattern configuration
+3. `remove_trailing_braces()` scans from the end and removes only the exact number of trailing closing braces
+4. The `closing_braces` pattern was removed from configuration files (C# and Java) since it's now handled programmatically
+
+**Time saved by documenting this**: ~2 hours of debugging similar issues in the future.
+
+**Follow-up fix**: After implementing match-based brace removal, a second issue was discovered: cells containing **only** orphaned closing braces (from removed class/method wrappers) were still being included in the notebook. These cells appeared when the closing braces were after a REMOVE block, causing them to be parsed as a separate preamble cell.
+
+**Solution**: Added a filter in `create_cells()` to skip cells that contain only closing braces and whitespace:
+
+```python
+# Skip cells that contain only closing braces and whitespace
+# (orphaned closing braces from removed class/method wrappers)
+if lang_config.get('unwrap_patterns'):
+    # Remove all whitespace and check if only closing braces remain
+    code_no_whitespace = re.sub(r'\s', '', code)
+    if code_no_whitespace and re.match(r'^}+$', code_no_whitespace):
+        logging.debug(f"Skipping cell {i} (contains only closing braces)")
+        continue
+```
+
+This ensures that orphaned closing brace cells are completely removed from the final notebook.
+
+### 11. Pattern Count Differences Between Languages (Java Implementation Insight)
 
 **Key Discovery**: When adding Java support after C#, the pattern count increased from 5 to 8 patterns.
 
@@ -1016,8 +1078,8 @@ Minimal example (C#) reflecting patterns that worked in practice:
 {
   "c#": {
     "boilerplate": [
-      "#r \"nuget: NRedisStack, 0.12.0\"",
-      "#r \"nuget: StackExchange.Redis, 2.6.122\""
+      "#r \"nuget: NRedisStack\"",
+      "#r \"nuget: StackExchange.Redis\""
     ],
     "unwrap_patterns": [
       { "type": "class_single_line",  "pattern": "^\\s*public\\s+class\\s+\\w+.*\\{\\s*$", "end_pattern": "^\\s*public\\s+class\\s+\\w+.*\\{\\s*$", "keep_content": false },
@@ -1061,7 +1123,7 @@ Java has nearly identical structural wrapper patterns to C#, with additional pat
 
 **Boilerplate considerations**:
 - **C#**: Requires explicit NuGet package directives (`#r "nuget: ..."`)
-  - Example: `#r "nuget: NRedisStack, 0.12.0"`
+  - Example: `#r "nuget: NRedisStack"` (version numbers omitted to use latest)
   - These are essential for C# notebooks to work
 - **Java**: Jupyter notebooks typically use `%maven` or `%jars` magic commands, but these vary by kernel
   - For IJava kernel: May need `%maven` directives
@@ -1220,6 +1282,7 @@ This order ensures wrapper removal doesn’t leave code over-indented and avoids
 - **Multiple patterns in one file**: Real files combine class + method + annotation patterns
 - **Indentation complexity**: Real code has varying indentation levels
 - **Edge cases**: Real files expose issues like split wrappers across cells
+- **Control structures**: Real files contain for loops, foreach loops, if statements with closing braces that must be preserved (see Critical Note #10)
 
 **Recommended testing workflow**:
 1. Write synthetic tests first (fast, focused, easy to debug)
@@ -1675,12 +1738,25 @@ This specification has been iteratively improved based on real implementation ex
 
 ### Version 5: After Java Implementation
 - Added Java configuration examples with 8 unwrap patterns
-- Added Critical Implementation Note #10: Pattern count differences between languages
+- Added Critical Implementation Note #11: Pattern count differences between languages
 - Added "Critical Testing Insight" section about testing with real repository files
 - Updated Phase 3 implementation strategy with "examine real files first" guidance
 - Corrected Java pattern count from initial estimate (6) to actual implementation (8)
 - Added insights about pattern order importance in Java (`@Test` before methods)
 - ~1720 lines
+
+### Version 6: After Closing Brace Bug Fix
+- Added Critical Implementation Note #10: Closing brace removal must be match-based, not pattern-based
+- Fixed critical bug where control structure closing braces (for, foreach, if) were incorrectly removed
+- Modified `remove_matching_lines()` to return `(code, match_count)` tuple
+- Updated `unwrap_code()` to track braces based on actual matches, not pattern configuration
+- Removed `closing_braces` pattern from C# and Java configurations (now handled programmatically)
+- Added regression test `test_csharp_for_loop_braces()` to prevent future occurrences
+- Updated "Critical Testing Insight" to mention control structure edge case
+- **Follow-up fix**: Added filter to skip cells containing only orphaned closing braces
+- Enhanced regression test to verify no orphaned closing brace cells exist
+- **Boilerplate update**: Removed version numbers from C# NuGet directives (defaults to latest)
+- ~1805 lines
 
 ### Key Lessons Learned
 

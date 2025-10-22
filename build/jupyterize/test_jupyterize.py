@@ -19,7 +19,7 @@ from jupyterize import jupyterize, detect_language, validate_input, parse_file
 def test_language_detection():
     """Test language detection from file extensions."""
     print("Testing language detection...")
-    
+
     assert detect_language('example.py') == 'python'
     assert detect_language('example.js') == 'node.js'
     assert detect_language('example.go') == 'go'
@@ -27,21 +27,21 @@ def test_language_detection():
     assert detect_language('example.java') == 'java'
     assert detect_language('example.php') == 'php'
     assert detect_language('example.rs') == 'rust'
-    
+
     # Test unsupported extension
     try:
         detect_language('example.txt')
         assert False, "Should have raised ValueError"
     except ValueError as e:
         assert "Unsupported file extension" in str(e)
-    
+
     print("✓ Language detection tests passed")
 
 
 def test_basic_conversion():
     """Test converting a simple Python file."""
     print("\nTesting basic conversion...")
-    
+
     # Create test file
     test_content = """# EXAMPLE: test
 import redis
@@ -55,43 +55,43 @@ r.set('foo', 'bar')
 r.get('foo')
 # STEP_END
 """
-    
+
     with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
         f.write(test_content)
         test_file = f.name
-    
+
     try:
         # Convert
         output_file = test_file.replace('.py', '.ipynb')
         result = jupyterize(test_file, output_file, verbose=False)
-        
+
         # Validate output exists
         assert os.path.exists(output_file), "Output file not created"
-        
+
         # Load and validate notebook
         with open(output_file) as f:
             nb = json.load(f)
-        
+
         # Check structure
         assert 'cells' in nb
         assert 'metadata' in nb
         assert nb['nbformat'] == 4
-        
+
         # Check kernel
         assert nb['metadata']['kernelspec']['name'] == 'python3'
         assert nb['metadata']['kernelspec']['display_name'] == 'Python 3'
-        
+
         # Check cells
         assert len(nb['cells']) == 3  # Preamble + 2 steps
         assert all(cell['cell_type'] == 'code' for cell in nb['cells'])
-        
+
         # Check step metadata
         assert 'step' not in nb['cells'][0]['metadata']  # Preamble has no step
         assert nb['cells'][1]['metadata']['step'] == 'connect'
         assert nb['cells'][2]['metadata']['step'] == 'set_get'
-        
+
         print("✓ Basic conversion test passed")
-        
+
     finally:
         # Cleanup
         if os.path.exists(test_file):
@@ -103,7 +103,7 @@ r.get('foo')
 def test_hide_remove_blocks():
     """Test that HIDE blocks are included and REMOVE blocks are excluded."""
     print("\nTesting HIDE and REMOVE blocks...")
-    
+
     test_content = """# EXAMPLE: test_markers
 # HIDE_START
 import redis
@@ -118,29 +118,29 @@ r.flushdb()  # This should be excluded
 r.set('key', 'value')
 # STEP_END
 """
-    
+
     with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
         f.write(test_content)
         test_file = f.name
-    
+
     try:
         output_file = test_file.replace('.py', '.ipynb')
         jupyterize(test_file, output_file, verbose=False)
-        
+
         with open(output_file) as f:
             nb = json.load(f)
-        
+
         # Check that HIDE content is included
         preamble_source = ''.join(nb['cells'][0]['source'])
         assert 'import redis' in preamble_source
         assert 'r = redis.Redis()' in preamble_source
-        
+
         # Check that REMOVE content is excluded
         all_source = ''.join(''.join(cell['source']) for cell in nb['cells'])
         assert 'flushdb' not in all_source
-        
+
         print("✓ HIDE/REMOVE blocks test passed")
-        
+
     finally:
         if os.path.exists(test_file):
             os.unlink(test_file)
@@ -151,7 +151,7 @@ r.set('key', 'value')
 def test_javascript_file():
     """Test converting a JavaScript file."""
     print("\nTesting JavaScript conversion...")
-    
+
     test_content = """// EXAMPLE: test_js
 // STEP_START connect
 import { createClient } from 'redis';
@@ -164,27 +164,27 @@ await client.set('key', 'value');
 const value = await client.get('key');
 // STEP_END
 """
-    
+
     with tempfile.NamedTemporaryFile(mode='w', suffix='.js', delete=False) as f:
         f.write(test_content)
         test_file = f.name
-    
+
     try:
         output_file = test_file.replace('.js', '.ipynb')
         jupyterize(test_file, output_file, verbose=False)
-        
+
         with open(output_file) as f:
             nb = json.load(f)
-        
+
         # Check kernel
         assert nb['metadata']['kernelspec']['name'] == 'javascript'
         assert nb['metadata']['kernelspec']['display_name'] == 'JavaScript (Node.js)'
-        
+
         # Check cells
         assert len(nb['cells']) == 2  # 2 steps
-        
+
         print("✓ JavaScript conversion test passed")
-        
+
     finally:
         if os.path.exists(test_file):
             os.unlink(test_file)
@@ -547,6 +547,9 @@ def main():
         test_java_static_main_unwrapping()
         test_java_real_file()
 
+        # Regression tests
+        test_csharp_for_loop_braces()
+
         print("\n" + "=" * 60)
         print("All tests passed! ✓")
         print("=" * 60)
@@ -729,6 +732,106 @@ def test_java_real_file():
         print("✓ Real Java file test passed")
 
     finally:
+        if os.path.exists(output_file):
+            os.unlink(output_file)
+
+
+
+def test_csharp_for_loop_braces():
+    """Test that for/foreach loop closing braces are preserved (regression test)."""
+    print("\nTesting C# for/foreach loop closing braces...")
+
+    test_content = """// EXAMPLE: test_for_loop
+using System;
+
+public class TestExample {
+    public void Run() {
+        // STEP_START loop_test
+        for (var i = 0; i < 5; i++)
+        {
+            Console.WriteLine(i);
+        }
+
+        foreach (var item in new[] { 1, 2, 3 })
+        {
+            Console.WriteLine(item);
+        }
+        // STEP_END
+        // REMOVE_START
+        Assert.True(true);
+        // REMOVE_END
+    }
+}
+"""
+
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.cs', delete=False) as f:
+        f.write(test_content)
+        test_file = f.name
+
+    try:
+        output_file = test_file.replace('.cs', '.ipynb')
+        jupyterize(test_file, output_file, verbose=False)
+
+        with open(output_file) as f:
+            nb = json.load(f)
+
+        # Find the loop_test cell
+        loop_cell = None
+        for cell in nb['cells']:
+            if cell.get('metadata', {}).get('step') == 'loop_test':
+                loop_cell = cell
+                break
+
+        assert loop_cell is not None, "loop_test cell not found"
+
+        code = ''.join(loop_cell['source'])
+
+        # Should contain both for and foreach loops
+        assert 'for (var i = 0; i < 5; i++)' in code
+        assert 'foreach (var item in new[] { 1, 2, 3 })' in code
+
+        # Verify the closing braces are in the right places
+        lines = code.split('\n')
+        for_brace_found = False
+        foreach_brace_found = False
+
+        for i, line in enumerate(lines):
+            if 'Console.WriteLine(i)' in line:
+                # Next non-empty line should be closing brace
+                if i + 1 < len(lines) and lines[i + 1].strip() == '}':
+                    for_brace_found = True
+            if 'Console.WriteLine(item)' in line:
+                # Next non-empty line should be closing brace
+                if i + 1 < len(lines) and lines[i + 1].strip() == '}':
+                    foreach_brace_found = True
+
+        assert for_brace_found, "for loop closing brace not found"
+        assert foreach_brace_found, "foreach loop closing brace not found"
+
+        # Verify no class or method wrappers remain
+        assert 'public class TestExample' not in code
+        assert 'public void Run()' not in code
+
+        # Verify no orphaned closing brace cells exist
+        # (cells containing only closing braces should be filtered out)
+        # Count cells - should not have an extra cell with just closing braces
+        # Expected: boilerplate + using statement + loop_test = 3 cells
+        assert len(nb['cells']) == 3, \
+            f"Expected 3 cells, got {len(nb['cells'])}"
+
+        # Verify no cell contains only closing braces
+        for cell in nb['cells']:
+            cell_code = ''.join(cell['source'])
+            stripped = cell_code.strip()
+            # Check if cell is only closing braces
+            if stripped and all(c in '}\n\t ' for c in stripped):
+                assert False, f"Found orphaned closing brace cell: {repr(cell_code)}"
+
+        print("✓ C# for/foreach loop braces test passed")
+
+    finally:
+        if os.path.exists(test_file):
+            os.unlink(test_file)
         if os.path.exists(output_file):
             os.unlink(output_file)
 

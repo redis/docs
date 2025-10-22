@@ -1,8 +1,8 @@
 {
   "c#": {
     "boilerplate": [
-      "#r \"nuget: NRedisStack, 0.12.0\"",
-      "#r \"nuget: StackExchange.Redis, 2.6.122\""
+      "#r \"nuget: NRedisStack\"",
+      "#r \"nuget: StackExchange.Redis\""
     ],
     "unwrap_patterns": [
       {
@@ -32,13 +32,6 @@
         "end_pattern": "^\\s*\\{\\s*$",
         "keep_content": false,
         "description": "Remove public void Run() declaration and opening brace on separate lines"
-      },
-      {
-        "type": "closing_braces",
-        "pattern": "^\\s*\\}\\s*$",
-        "end_pattern": "^\\s*\\}\\s*$",
-        "keep_content": false,
-        "description": "Remove closing braces"
       }
     ]
   },
@@ -105,13 +98,6 @@
         "end_pattern": "^\\s*\\{\\s*$",
         "keep_content": false,
         "description": "Remove public static void main() declaration and opening brace on separate lines"
-      },
-      {
-        "type": "closing_braces",
-        "pattern": "^\\s*\\}\\s*$",
-        "end_pattern": "^\\s*\\}\\s*$",
-        "keep_content": false,
-        "description": "Remove closing braces"
       }
     ]
   },
