@@ -464,8 +464,6 @@ The following table shows the SHA256 checksums for the available packages:
 
 - RS155734: Endpoint availability metrics do not work as expected due to a calculation error.
 
-- RS153589: The metrics stream engine preview reports incorrect latency metrics.
-
 ## Known limitations
 
 #### Rolling upgrade limitation for clusters with custom or deprecated modules
