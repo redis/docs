@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-compatibleOSSVersion: Redis 8.0
+compatibleOSSVersion: Redis 8.2, 8.0, 7.4, 7.2, 6.2
 description: Redis Open Source 8.0 and 8.2 features. Lag-aware availability API. Redis Flex GA. Metrics stream engine GA. Module management enhancements. New REST API fields for database and cluster configuration.
 hideListLinks: true
 linkTitle: 8.0.x releases
@@ -35,7 +35,7 @@ This version offers:
 
 For more detailed release notes, select a build version from the following table:
 
-{{<table-children columnNames="Version&nbsp;(Release&nbsp;date)&nbsp;,Major changes,Redis CE compatibility" columnSources="LinkTitle,Description,compatibleOSSVersion" enableLinks="LinkTitle">}}
+{{<table-children columnNames="Version&nbsp;(Release&nbsp;date)&nbsp;,Major changes,Redis Open Source compatibility" columnSources="LinkTitle,Description,compatibleOSSVersion" enableLinks="LinkTitle">}}
 
 ## Version changes
 
@@ -118,8 +118,6 @@ The existing [internal monitoring engine]({{<relref "/operate/rs/monitoring/v1_m
 V1 Prometheus metrics are deprecated but still available. To transition to the new metrics stream engine, either migrate your existing dashboards using [this guide]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v1-to-v2">}}) or use [new preconfigured dashboards]({{<relref "/operate/rs/monitoring/prometheus_and_grafana#v2-metrics-dashboards">}}).
 
 As part of the transition to the metrics stream engine, some internal cluster manager alerts were deprecated in favor of external monitoring solutions. See the [alerts transition plan]({{<relref "/operate/rs/references/alerts/alerts-v1-to-v2">}}) for guidance.
-
-### Upcoming changes
 
 ### Supported platforms
 
