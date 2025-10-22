@@ -349,5 +349,64 @@ mod cmds_hash_tests {
         let _: Result<i32, _> = r.del("myhash").await;
         // REMOVE_END
         // STEP_END
+
+        // STEP_START hexpire
+        // Set up hash with fields
+        let hash_fields = vec![("field1", "Hello"), ("field2", "World")];
+        if let Ok(res) = r.hset_multiple("myhash", &hash_fields).await {
+            let res: String = res;
+            println!("{res}");    // >>> OK
+        }
+
+        // Set expiration on hash fields
+        match r.hexpire("myhash", 10, redis::ExpireOption::NONE, &["field1", "field2"]).await {
+            Ok(res1) => {
+                let res1: Vec<i32> = res1;
+                println!("{:?}", res1);    // >>> [1, 1]
+                // REMOVE_START
+                assert_eq!(res1, vec![1, 1]);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error setting expiration: {e}");
+                return;
+            }
+        }
+
+        // Check TTL of the fields
+        match r.httl("myhash", &["field1", "field2"]).await {
+            Ok(res2) => {
+                let res2: Vec<i32> = res2;
+                println!("{}", res2.len());    // >>> 2
+                // REMOVE_START
+                assert_eq!(res2.len(), 2);
+                assert!(res2.iter().all(|&ttl| ttl > 0)); // TTL should be positive
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting TTL: {e}");
+                return;
+            }
+        }
+
+        // Try to set expiration on non-existent field
+        match r.hexpire("myhash", 10, redis::ExpireOption::NONE, &["nonexistent"]).await {
+            Ok(res3) => {
+                let res3: Vec<i32> = res3;
+                println!("{:?}", res3);    // >>> [-2]
+                // REMOVE_START
+                assert_eq!(res3, vec![-2]);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error setting expiration on non-existent field: {e}");
+                return;
+            }
+        }
+
+        // REMOVE_START
+        let _: Result<i32, _> = r.del("myhash").await;
+        // REMOVE_END
+        // STEP_END
     }
 }

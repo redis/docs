@@ -106,3 +106,27 @@ assert res11 == [ "Hello", "World" ]
 r.delete("myhash")
 # REMOVE_END
 # STEP_END
+
+# STEP_START hexpire
+# Set up hash with fields
+r.hset("myhash", mapping={"field1": "Hello", "field2": "World"})
+
+# Set expiration on hash fields
+res12 = r.hexpire("myhash", 10, "field1", "field2")
+print(res12)  # >>> [1, 1]
+
+# Check TTL of the fields
+res13 = r.httl("myhash", "field1", "field2")
+print(res13)  # >>> [10, 10] (or close to 10)
+
+# Try to set expiration on non-existent field
+res14 = r.hexpire("myhash", 10, "nonexistent")
+print(res14)  # >>> [-2]
+
+# REMOVE_START
+assert res12 == [1, 1]
+assert all(ttl > 0 for ttl in res13)  # TTL should be positive
+assert res14 == [-2]
+r.delete("myhash")
+# REMOVE_END
+# STEP_END
