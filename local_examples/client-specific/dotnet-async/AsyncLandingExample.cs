@@ -1,4 +1,5 @@
 // EXAMPLE: landing
+// BINDER_ID netasync-landing
 // STEP_START import
 using NRedisStack;
 using NRedisStack.RedisStackCommands;

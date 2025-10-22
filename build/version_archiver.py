@@ -155,7 +155,7 @@ class VersionArchiver:
                             url = f"url: '/{base_url}/{self.new_version}/{relative_path}/'"
 
                     else:
-                        f = file.strip(".md")
+                        f = file.removesuffix(".md")
                         if relative_path == ".":
                             url = f"url: '/{base_url}/{self.new_version}/{f}/'"
                         else:
