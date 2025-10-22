@@ -65,7 +65,7 @@ Please be aware of the following limitations:
 - You must use a [custom encryption key on AWS](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html) to create the instance hosting the database.
 - One source database can only be synced to one target database.
 - You must be able to set up AWS PrivateLink to connect your source database to your target database. RDI only works with AWS PrivateLink and not VPC Peering or other private connectivity options.
-- For AWS RDS databases, the source database can use TLS, but can not use mutual TLS.
+- Mutual TLS is not supported for AWS RDS and AWS Aurora source databases.
 {{< /note >}} 
 
 ## Get started
