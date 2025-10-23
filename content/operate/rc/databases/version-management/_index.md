@@ -8,6 +8,7 @@ categories:
 description: Describes Redis Cloud version management policy, supported versions, and upgrade options.
 linkTitle: Version management
 weight: 36
+hideListLinks: true
 tocEmbedHeaders: true
 ---
 
