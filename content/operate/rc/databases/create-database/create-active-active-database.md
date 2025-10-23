@@ -126,7 +126,7 @@ By default, you're shown basic settings, which include:
 
     {{<image filename="images/rc/active-active-json-detail.png" width="75%" alt="When you create an Active-Active database, you can select the JSON and Search and query advanced capabilities." >}}  
 
-    For Redis versions prior to 8.0, we select both capabilities for you automatically. You can remove a capability by selecting it. Selected capabilities will be available in all regions, including those added in the future.
+    For Redis versions prior to 8.0, we select both capabilities for you automatically. You can remove a capability by clicking on it while selected. Selected capabilities will be available in all regions, including those added in the future.
 
     Starting with Redis 8.0, JSON and Search and query are included by default.
 
