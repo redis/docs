@@ -30,6 +30,7 @@ progress in implementing the recommendations.
     {{< checklist-item "#health-checks" >}}Health checks{{< /checklist-item >}}
     {{< checklist-item "#exception-handling" >}}Exception handling{{< /checklist-item >}}
     {{< checklist-item "#timeouts" >}}Timeouts{{< /checklist-item >}}
+    {{< checklist-item "#seamless-client-experience" >}}Smart client handoffs{{< /checklist-item >}}
 {{< /checklist >}}
 
 ## Recommendations
@@ -197,3 +198,15 @@ If you use timeouts that are too short, then `redis-py` might retry
 commands that would have succeeded if given more time. However, if the
 timeouts are too long, your app might hang unnecessarily while waiting for a
 response that will never arrive.
+
+### Smart client handoffs
+
+*Smart client handoffs (SCH)* is a feature of Redis Cloud and
+Redis Enterprise servers that lets them actively notify clients
+about planned server maintenance shortly before it happens. This
+lets a client take action to avoid disruptions in service.
+
+See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
+for more information about SCH and
+[Connect using Smart client handoffs]({{< relref "/develop/clients/redis-py/connect#connect-using-smart-client-handoffs-sch" >}})
+for example code.
