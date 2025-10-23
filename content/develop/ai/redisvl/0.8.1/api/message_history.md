@@ -1,7 +1,7 @@
 ---
 linkTitle: LLM message history
 title: LLM Message History
-url: '/develop/ai/redisvl/0.8.1/api/essage_history/'
+url: '/develop/ai/redisvl/0.8.1/api/message_history/'
 ---
 
 
