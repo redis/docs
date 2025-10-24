@@ -17,8 +17,8 @@ Parameters:
 {{ $fullCurrentPath := printf "%s%s" .Site.BaseURL $currentPath }}
 
 {{/* Remove trailing slash from both paths for consistent comparison */}}
-{{ $normalizedFilepath := cond (strings.HasSuffix $fullFilepath "/") (substr $filepath 0 (sub (len $filepath) 1)) $filepath }}
-{{ $normalizedCurrentPath := cond (strings.HasSuffix $fullCurrentPath "/") (substr $currentPath 0 (sub (len $currentPath) 1)) $currentPath }}
+{{ $normalizedFilepath := cond (strings.HasSuffix $fullFilepath "/") (substr $fullFilepath 0 (sub (len $fullFilepath) 1)) $fullFilepath }}
+{{ $normalizedCurrentPath := cond (strings.HasSuffix $fullCurrentPath "/") (substr $fullCurrentPath 0 (sub (len $fullCurrentPath) 1)) $fullCurrentPath }}
 
 {{/* Debug output */}}
 <div style="border: 1px solid red; padding: 10px; margin: 10px 0; background: #ffe6e6;">
