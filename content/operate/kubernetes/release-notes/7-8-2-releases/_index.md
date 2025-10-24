@@ -8,7 +8,7 @@ description: Releases with support for Redis Enterprise Software 7.8.2
 hideListLinks: true
 linkTitle: 7.8.2 releases
 title: Redis Enterprise for Kubernetes 7.8.2-6 release notes
-weight: 51
+weight: 50
 ---
 
 Redis Enterprise for Kubernetes 7.8.2-6 is a feature release including support for Redis Software 7.8.2-2.

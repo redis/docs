@@ -9,7 +9,7 @@ description: Support for Redis Enterprise 7.2.4, platform support updates, and b
   fixes.
 hideListLinks: true
 linkTitle: 7.2.4 releases
-weight: 55
+weight: 80
 ---
 
 ## Highlights

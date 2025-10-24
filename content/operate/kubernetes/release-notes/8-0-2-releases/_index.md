@@ -8,7 +8,7 @@ description: Releases with support for Redis Enterprise Software 8.0.2
 hideListLinks: true
 linkTitle: 8.0.2 releases
 title: Redis Enterprise for Kubernetes 8.0.2 release notes
-weight: 
+weight: 1
 ---
 
 
