@@ -10,9 +10,10 @@ linkTitle: Create Active-Active database
 weight: 20
 aliases: 
     - /operate/rc/subscriptions/create-active-active-subscription
+    - /operate/rc/databases/create-database/create-active-active-database
 ---
 
-Active-Active databases store data across multiple regions and availability zones.  This improves scalability, performance, and availability, especially when compared to standalone databases. See [Active-Active Redis]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}) for more information.
+Active-Active databases store data across multiple regions and availability zones.  This improves scalability, performance, and availability, especially when compared to standalone databases. See [Active-Active Redis]({{< relref "/operate/rc/databases/active-active" >}}) for more information.
 
 To deploy Active-Active databases in Redis Cloud, you need a Redis Cloud Pro plan that enables Active-Active Redis and defines the regions for each copy of your databases.
 
@@ -319,8 +320,8 @@ Use the **Database list** to check the status of your databases.
 ## More info
 
 - [Create a Pro database with a new subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}})
-- [Active-Active Redis]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}})
-- [Develop applications with Active-Active databases]({{< relref "/operate/rs/databases/active-active/develop/_index.md" >}})
+- [Active-Active Redis]({{< relref "/operate/rc/databases/active-active" >}})
+- [Develop applications with Active-Active databases]({{< relref "/operate/rc/databases/active-active/develop/_index.md" >}})
 - Database [memory limit]({{< relref "/operate/rc/databases/configuration/sizing#dataset-size" >}})
 - Redis Cloud [subscription plans]({{< relref "/operate/rc/subscriptions/" >}})
 - [Redis Cloud pricing](https://redis.io/pricing/#monthly)
