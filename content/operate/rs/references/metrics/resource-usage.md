@@ -49,7 +49,7 @@ Remaining unused disk space.
 ## Memory
 ### Used memory 
 
-Total memory used by the database, including RAM, [Flash]({{< relref "/operate/rs/databases/auto-tiering" >}}) (if enabled), and [replication]({{< relref "/operate/rs/databases/durability-ha/replication" >}}) (if enabled).
+Total memory used by the database, including RAM, [Flash]({{< relref "/operate/rs/databases/flash" >}}) (if enabled), and [replication]({{< relref "/operate/rs/databases/durability-ha/replication" >}}) (if enabled).
 
 Used memory does not include:
 

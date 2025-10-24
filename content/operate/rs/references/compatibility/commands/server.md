@@ -18,7 +18,7 @@ The following tables show which Redis Open Source [server management commands]({
 
 Several access control list (ACL) commands are not available in Redis Enterprise. Instead, you can manage access controls from the [Redis Enterprise Software Cluster Manager UI]({{< relref "/operate/rs/security/access-control" >}}) and the [Redis Cloud console]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control.md" >}}).
 
-| <span style="min-width: 9em; display: table-cell">Command</span> | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| <span style="min-width: 9em; display: table-cell">Command</span> | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:--------|:----------------------|:-----------------|:------|
 | [ACL CAT]({{< relref "/commands/acl-cat" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts]({{<relref "/develop/programmability">}}). |
 | [ACL DELUSER]({{< relref "/commands/acl-deluser" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
@@ -37,7 +37,7 @@ Several access control list (ACL) commands are not available in Redis Enterprise
 
 ## Configuration commands
 
-| <span style="min-width: 9em; display: table-cell">Command</span> | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| <span style="min-width: 9em; display: table-cell">Command</span> | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:--------|:----------------------|:-----------------|:------|
 | [CONFIG GET]({{< relref "/commands/config-get" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | [Only supports a subset of configuration settings.]({{< relref "/operate/rs/references/compatibility/config-settings" >}}) |
 | [CONFIG RESETSTAT]({{< relref "/commands/config-resetstat" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
@@ -47,7 +47,7 @@ Several access control list (ACL) commands are not available in Redis Enterprise
 
 ## General server commands
 
-| <span style="min-width: 9em; display: table-cell">Command</span> | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| <span style="min-width: 9em; display: table-cell">Command</span> | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:--------|:----------------------|:-----------------|:------|
 | [COMMAND]({{< relref "/commands/command" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 | [COMMAND COUNT]({{< relref "/commands/command-count" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
@@ -72,7 +72,7 @@ For Redis Enterprise Software, you can [manage Redis modules]({{< relref "/opera
 
 Redis Cloud manages modules for you and lets you [enable modules]({{< relref "/operate/rc/databases/create-database#modules" >}}) when you create a database.
 
-| <span style="min-width: 9em; display: table-cell">Command</span> | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| <span style="min-width: 9em; display: table-cell">Command</span> | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:--------|:----------------------|:-----------------|:------|
 | [MODULE HELP]({{< relref "/commands/module-help" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 | [MODULE LIST]({{< relref "/commands/module-list" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
@@ -85,7 +85,7 @@ Redis Cloud manages modules for you and lets you [enable modules]({{< relref "/o
 
 Although Redis Enterprise does not support certain monitoring commands, you can use the Cluster Manager UI to view Redis Enterprise Software [metrics]({{< relref "/operate/rs/monitoring" >}}) and [logs]({{< relref "/operate/rs/clusters/logging" >}}) or the Redis Cloud console to view Redis Cloud [metrics]({{< relref "/operate/rc/databases/monitor-performance" >}}) and [logs]({{< relref "/operate/rc/logs-reports/system-logs" >}}).
 
-| <span style="min-width: 9em; display: table-cell">Command</span> | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| <span style="min-width: 9em; display: table-cell">Command</span> | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:--------|:----------------------|:-----------------|:------|
 | [DBSIZE]({{< relref "/commands/dbsize" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 | [INFO]({{< relref "/commands/info" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | In Redis Enterprise, `INFO` returns a different set of fields than Redis Open Source.<br />Not supported for [scripts]({{<relref "/develop/programmability">}}). |
@@ -112,7 +112,7 @@ Although Redis Enterprise does not support certain monitoring commands, you can 
 
 Data persistence and backup commands are not available in Redis Enterprise. Instead, you can [manage data persistence]({{< relref "/operate/rs/databases/configure/database-persistence" >}}) and [backups]({{< relref "/operate/rs/databases/import-export/schedule-backups" >}}) from the Redis Enterprise Software Cluster Manager UI and the [Redis Cloud console]({{< relref "/operate/rc/databases/view-edit-database#durability-section" >}}).
 
-| <span style="min-width: 9em; display: table-cell">Command</span> | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| <span style="min-width: 9em; display: table-cell">Command</span> | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:--------|:----------------------|:-----------------|:------|
 | [BGREWRITEAOF]({{< relref "/commands/bgrewriteaof" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 | [BGSAVE]({{< relref "/commands/bgsave" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
@@ -124,7 +124,7 @@ Data persistence and backup commands are not available in Redis Enterprise. Inst
 
 Redis Enterprise automatically manages [replication]({{< relref "/operate/rs/databases/durability-ha/replication" >}}).
 
-| <span style="min-width: 9em; display: table-cell">Command</span> | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| <span style="min-width: 9em; display: table-cell">Command</span> | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:--------|:----------------------|:-----------------|:------|
 | [FAILOVER]({{< relref "/commands/failover" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 | [MIGRATE]({{< relref "/commands/migrate" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |

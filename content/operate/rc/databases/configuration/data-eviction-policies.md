@@ -35,7 +35,7 @@ For each database, you can choose from these data eviction policies:
 
 ## Prevent data eviction
 
-Redis Cloud supports [Auto Tiering]({{< relref "/operate/rs/databases/auto-tiering/" >}})
+Redis Cloud supports [Auto Tiering]({{< relref "/operate/rs/databases/flash/" >}})
 to prevent data eviction but maintain high performance.
 
 Auto Tiering can extend your database across RAM and Flash Memory and intelligently manage "hot" (active) data in RAM and "cold" (less active) data in Flash memory (SSD).

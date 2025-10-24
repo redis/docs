@@ -23,7 +23,7 @@ upgrade to this version.
 - Various improvements to internal performance and stability were
     implemented.
 - RLEC Flash functionality added. For additional details, refer to
-    [Auto Tiering]({{< relref "/operate/rs/databases/auto-tiering/" >}})
+    [Auto Tiering]({{< relref "/operate/rs/databases/flash/" >}})
     and contact <support@redislabs.com> if you are interested in this
     functionality.
 - Support for Redis version 3.0 added. When you install or upgrade the

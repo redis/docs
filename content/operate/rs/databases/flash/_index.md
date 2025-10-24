@@ -1,52 +1,67 @@
 ---
-Title: Auto Tiering
+Title: Redis Flex and Auto Tiering
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
 - rc
-description: Auto Tiering enables your data to span both RAM and dedicated flash memory.
+description: Redis Flex and Auto Tiering enable your data to span both RAM and dedicated flash memory.
 hideListLinks: true
-linktitle: Auto Tiering
+linktitle: Redis Flex and Auto Tiering
 weight: 50
+aliases: /operate/rs/databases/auto-tiering/
 ---
-Redis Enterprise's auto tiering offers users the unique ability to use solid state drives (SSDs) to extend databases beyond DRAM capacity.
+Redis Flex and Auto Tiering in Redis Enterprise Software enable databases to use solid state drives (SSDs) to extend beyond DRAM capacity.
 Developers can build applications that require large datasets using the same Redis API.
 Using SSDs can significantly reduce the infrastructure costs compared to only DRAM deployments. 
 
 Frequently used data, called hot data, belongs in the fastest memory level to deliver a real-time user experience.
 Data that is accessed less frequently, called warm data, can be kept in a slightly slower memory tier.
-Redis Enterprise’s Auto tiering maintains hot data in DRAM, keeps warm data in SSDs, and transfers data between tiers automatically.
+Redis Flex maintains hot data in DRAM, keeps warm data in SSDs, and transfers data between tiers automatically.
 
-Redis Enterprise’s auto tiering is based on a high-performance storage engine (Speedb) that manages the complexity of using SSDs and DRAM as the total available memory for databases in a Redis Enterprise cluster. This implementation offers a performance boost of up to 10k operations per second per core of the database, doubling the performance of Redis on Flash.
+Redis Flex is based on a high-performance storage engine (Speedb) that manages the complexity of using SSDs and DRAM as the total available memory for databases in a Redis Enterprise cluster. This implementation offers a performance boost of up to 10k operations per second per core of the database, doubling the performance of Redis on Flash.
 
-Just like all-RAM databases, databases with Auto Tiering enabled are compatible with existing Redis applications.
+Just like all-RAM databases, Redis Flex databases are compatible with existing Redis applications.
 
-Auto Tiering is also supported on [Redis Cloud]({{< relref "/operate/rc/" >}}) and [Redis Enterprise Software for Kubernetes]({{< relref "/operate/rs/" >}}).
+Redis Flex is also supported on [Redis Cloud]({{< relref "/operate/rc/" >}}) and [Redis Enterprise Software for Kubernetes]({{< relref "/operate/rs/" >}}).
+
+## Redis Flex versus Auto Tiering
+
+Redis Flex is the enhanced successor to Auto Tiering, generally available as of Redis Enterprise Software version 8.0.2.
+
+Redis database versions support Redis Flex and Auto Tiering as follows:
+
+| Redis database version | Redis Flex | Auto Tiering |
+|------------------------|------------|--------------|
+| 8.0 and later | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
+| 7.4 | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span>|
+| 7.2 and earlier | <span title="Not supported">&#x274c;</span> | <span title="Supported">&#x2705;</span> |
+
+Redis Flex requires the Speedb driver, while Auto Tiering can use either RocksDB or Speedb. See [Manage Auto Tiering storage engine]({{<relref "/operate/rs/databases/flash/storage-engine">}}) for more information.
 
 ## Use cases
 
-The benefits associated with Auto Tiering are dependent on the use case.
+The benefits associated with Redis Flex are dependent on the use case.
 
-Auto Tiering is ideal when your:
+Redis Flex is ideal when your:
 
 - working set is significantly smaller than your dataset (high RAM hit rate)
 - average key size is smaller than average value size (all key names are stored in RAM)
 - most recent data is the most frequently used (high RAM hit rate)
 
-Auto Tiering is not recommended for:
+Redis Flex is not recommended for:
 
 - Long key names (all key names are stored in RAM)
 - Broad access patterns (any value could be pulled into RAM)
 - Large working sets (working set is stored in RAM)
 - Frequently moved data (moving to and from RAM too often can impact performance)
 
-Auto Tiering is not intended to be used for persistent storage. Redis Enterprise Software database persistent and ephemeral storage should be on different disks, either local or attached.
+Redis Flex is not intended to be used for persistent storage. Redis Enterprise Software database persistent and ephemeral storage should be on different disks, either local or attached.
 
 ## Where is my data?
 
-When using Auto Tiering, RAM storage holds:
+When using Redis Flex, RAM storage holds:
 - All keys (names)
 - Key indexes
 - Dictionaries
@@ -56,7 +71,7 @@ All data is accessed through RAM. If a value in flash memory is accessed, it bec
 
 Inactive or infrequently accessed data is referred to as "warm data" and stored in flash memory. When more space is needed in RAM, warm data is moved from RAM to flash storage.
 
-{{<note>}} When using Auto Tiering with RediSearch, it’s important to note that RediSearch indexes are also stored in RAM.{{</note>}}
+{{<note>}} When using Redis Flex with RediSearch, it’s important to note that RediSearch indexes are also stored in RAM.{{</note>}}
 
 ## RAM to Flash ratio
 
@@ -67,19 +82,19 @@ The RAM limit cannot be smaller than 10% of the total memory. We recommend you k
 
 ## Flash memory
 
-Implementing Auto Tiering requires pre planning around memory and sizing. Considerations and requirements for Auto Tiering include:
+Implementing Redis Flex requires pre planning around memory and sizing. Considerations and requirements for Redis Flex include:
 
 - Flash memory must be locally attached. Using network-attached storage (NAS), storage area networks (SAN), or solutions such as AWS Elastic Block Storage (EBS) is not supported. 
-- Flash memory must be dedicated to Auto Tiering and not shared with other parts of the database, such as durability, binaries, or persistence.
+- Flash memory must be dedicated to Redis Flex and not shared with other parts of the database, such as durability, binaries, or persistence.
 - For the best performance, the SSDs should be NVMe based, but SATA can also be used.
 - The available flash space must be greater than or equal to the total database size (RAM+Flash). The extra space accounts for write buffers and [write amplification](https://en.wikipedia.org/wiki/Write_amplification).
 
 {{<note>}} The Redis Enterprise Software database persistent and ephemeral storage should be on different disks, either local or attached. {{</note>}}
 
-Once these requirements are met, you can create and manage both databases with Auto Tiering enabled and
+After these requirements are met, you can create and manage both Redis Flex databases and
 all-RAM databases in the same cluster.
 
-When you begin planning the deployment of an Auto Tiering enabled database in production,
+When you begin planning the deployment of a Redis Flex database in production,
 we recommend working closely with the Redis technical team for sizing and performance tuning.
 
 ### Cloud environments
@@ -94,7 +109,7 @@ We specifically recommend "[Storage Optimized I4i - High I/O Instances](https://
 
 ### On-premises environments
 
-When you begin planning the deployment of Auto Tiering in production, we recommend working closely with the Redis technical team for sizing and performance tuning.
+When you begin planning the deployment of Redis Flex in production, we recommend working closely with the Redis technical team for sizing and performance tuning.
 
 On-premises environments support more deployment options than other environments such as:
 
@@ -105,13 +120,13 @@ On-premises environments support more deployment options than other environments
   - [Probabilistic data structures]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom" >}})
 
 
-{{<note>}} Enabling Auto Tiering for [Active-Active distributed databases]({{<relref "/operate/rs/databases/active-active">}}) requires validating and getting the Redis technical team's approval first . {{</note>}}
+{{<note>}}You should get the Redis technical team's approval before you enable Redis Flex for [Active-Active distributed databases]({{<relref "/operate/rs/databases/active-active">}}). {{</note>}}
 
-{{<warning>}} Auto Tiering is not supported running on network attached storage (NAS), storage area network (SAN), or with local HDD drives. {{</warning>}}
+{{<warning>}} Redis Flex is not supported running on network attached storage (NAS), storage area network (SAN), or with local HDD drives. {{</warning>}}
 
 ## Size limits for keys and values
 
-Auto Tiering databases cannot store keys or values larger than 4GB in flash storage.
+Redis Flex databases cannot store keys or values larger than 4GB in flash storage.
 
 Keys or values larger than 4GB will be stored in RAM only, and warnings will appear in the Redis logs similar to:
 
@@ -121,8 +136,8 @@ Keys or values larger than 4GB will be stored in RAM only, and warnings will app
 
 ## Next steps
 
-- [Auto Tiering metrics]({{< relref "/operate/rs/references/metrics/auto-tiering" >}})
-- [Auto Tiering quick start]({{< relref "/operate/rs/databases/auto-tiering/quickstart.md" >}})
+- [Redis Flex metrics]({{< relref "/operate/rs/references/metrics/auto-tiering" >}})
+- [Redis Flex quick start]({{< relref "/operate/rs/databases/flash/quickstart" >}})
 
 - [Ephemeral and persistent storage]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}})
 - [Hardware requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md" >}})

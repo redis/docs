@@ -35,7 +35,7 @@ the new database instance can accept connections and read operations.
 The new instance does not accept write operations until it is in the syncing state.
 
 {{<note>}}
-If an Active-Active database [runs on flash memory]({{<relref "/operate/rs/databases/auto-tiering">}}), you cannot add participating clusters that run on RAM only.
+If an Active-Active database [runs on flash memory]({{<relref "/operate/rs/databases/flash">}}), you cannot add participating clusters that run on RAM only.
 {{</note>}}
 
 To add a new participating cluster to an existing Active-Active configuration using the Cluster Manager UI:

@@ -83,6 +83,10 @@ after the database is created.
 
 When you create a new in-memory database, you can enable multiple Redis Stack [**Capabilities**]({{<relref "/operate/oss_and_stack/stack-with-enterprise">}}).
 
+Databases created with or upgraded to Redis version 8 or later automatically enable the capabilities (modules) bundled with Redis Enterprise Software as follows:
+
+{{<embed-md "rs-8-enabled-modules.md">}}
+
 For Auto Tiering databases, you can enable capabilities that support Auto Tiering. See [Redis Enterprise and Redis Stack feature compatibility 
 ]({{< relref "/operate/oss_and_stack/stack-with-enterprise/enterprise-capabilities" >}}) for compatibility details.
 
