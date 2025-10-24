@@ -65,7 +65,7 @@ The **Insights** panel provides interactive tutorials and recommendations to hel
 
 {{<image filename="images/rc/rc-ri-insights.png" alt="The Insights panel" width=75% >}}
 
-From the **Workbench** of an empty database, select **Explore** to view the [**Insights** panel](#insights).
+From the **Workbench** of an empty database, select **Explore** to view the **Insights** panel.
 
 {{<image filename="images/rc/rc-ri-explore-button.png" alt="The Explore button" width=200px >}}
 
