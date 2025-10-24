@@ -49,4 +49,4 @@ configured in the Active-Active database. For unidirectional replication, see [A
 
 [Learn more about
 synchronization for
-each supported data type]({{< relref "content/operate/rc/databases/active-active/develop/data-types/" >}}) and [how to develop applications]({{< relref "content/operate/rc/databases/active-active/develop/develop-for-aa.md" >}}) with them on Redis Cloud.
+each supported data type]({{< relref "/operate/rc/databases/active-active/develop/data-types/" >}}) and [how to develop applications]({{< relref "/operate/rc/databases/active-active/develop/develop-for-aa" >}}) with them on Redis Cloud.

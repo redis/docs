@@ -51,4 +51,4 @@ Replica Of capabilities in Redis Enterprise Software.
 
 [Learn more about
 synchronization for
-each supported data type]({{< relref "content/operate/rs/databases/active-active/develop/data-types/" >}}) and [how to develop applications]({{< relref "content/operate/rs/databases/active-active/develop/develop-for-aa.md" >}}) with them on Redis Enterprise Software.
+each supported data type]({{< relref "/operate/rs/databases/active-active/develop/data-types/" >}}) and [how to develop applications]({{< relref "/operate/rs/databases/active-active/develop/develop-for-aa.md" >}}) with them on Redis Enterprise Software.
