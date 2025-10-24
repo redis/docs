@@ -60,6 +60,11 @@ to learn more about the available connection options.
 {{< clients-example cs_home_json connect >}}
 {{< /clients-example >}}
 
+Delete any existing index called `idx:users` and any keys that start with `user:`.
+
+{{< clients-example cs_home_json cleanup_json >}}
+{{< /clients-example >}}
+
 Create an index. In this example, only JSON documents with the key prefix `user:` are indexed. For more information, see [Query syntax]({{< relref "/develop/ai/search-and-query/query/" >}}).
 
 {{< clients-example cs_home_json make_index >}}
@@ -108,6 +113,13 @@ the fields anyway. Also, you must set the `On` option to `IndexDataType.HASH`
 in the `FTCreateParams` object when you create the index. The code below shows
 these changes with a new index called `hash-idx:users`, which is otherwise the
 same as the `idx:users` index used for JSON documents in the previous examples.
+
+First, delete any existing index called `hash-idx:users` and any keys that start with `huser:`.
+
+{{< clients-example cs_home_json cleanup_hash >}}
+{{< /clients-example >}}
+
+Now create the new index:
 
 {{< clients-example cs_home_json make_hash_index >}}
 {{< /clients-example >}}
