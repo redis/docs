@@ -17,6 +17,16 @@ Parameters:
 {{ $normalizedFilepath := cond (strings.HasSuffix $filepath "/") (substr $filepath 0 (sub (len $filepath) 1)) $filepath }}
 {{ $normalizedCurrentPath := cond (strings.HasSuffix $currentPath "/") (substr $currentPath 0 (sub (len $currentPath) 1)) $currentPath }}
 
+{{/* Debug output */}}
+<div style="border: 1px solid red; padding: 10px; margin: 10px 0; background: #ffe6e6;">
+<strong>Debug Info:</strong><br>
+currentPath: {{ $currentPath }}<br>
+filepath: {{ $filepath }}<br>
+normalizedCurrentPath: {{ $normalizedCurrentPath }}<br>
+normalizedFilepath: {{ $normalizedFilepath }}<br>
+Match: {{ eq $normalizedCurrentPath $normalizedFilepath }}
+</div>
+
 {{/* Display content only if paths match */}}
 {{ if eq $normalizedCurrentPath $normalizedFilepath }}
 {{ .Inner | markdownify }}
