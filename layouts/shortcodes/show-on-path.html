@@ -13,8 +13,8 @@ Parameters:
 {{ $filepath := .Get "filepath" }}
 {{ $currentPath := .Page.RelPermalink }}
 
-{{ $fullFilepath = printf "%s%s" .Site.BaseURL $filepath }}
-{{ $fullCurrentPath = printf "%s%s" .Site.BaseURL $filepath }}
+{{ $fullFilepath := printf "%s%s" .Site.BaseURL $filepath }}
+{{ $fullCurrentPath := printf "%s%s" .Site.BaseURL $filepath }}
 
 {{/* Remove trailing slash from both paths for consistent comparison */}}
 {{ $normalizedFilepath := cond (strings.HasSuffix $fullFilepath "/") (substr $filepath 0 (sub (len $filepath) 1)) $filepath }}
