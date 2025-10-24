@@ -45,7 +45,7 @@ configured in the Active-Active database. For unidirectional replication, see [A
 
 ## Example of synchronization
 
-{{< embedmd "content/embeds/rc-rs-aa-synchronization.md" >}}
+{{< embed-md "rc-rs-aa-synchronization.md" >}}
 
 [Learn more about
 synchronization for
