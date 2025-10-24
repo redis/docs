@@ -82,7 +82,7 @@ failing back to that server even if it is not optimal.
 
 redis-py periodically runs a "health check" on each server to see if it has recovered.
 The health check can be as simple as
-sending a Redis [`ECHO`]({{< relref "/commands/echo" >}}) command and ensuring
+sending a Redis [`PING`]({{< relref "/commands/ping" >}}) command and ensuring
 that it gives the expected response.
 
 You can also configure redis-py to run health checks on the current target
@@ -131,12 +131,25 @@ constructor in the `databases_config` parameter.
 
 | Option | Description |
 | --- | --- |
-| `client_kwargs` | Keyword parameters to pass to the internal `RedisClient` constructor for this endpoint. Use it to specify the host, port, username, password, and other connection parameters (see [Connect to the server]({{< relref "/develop/clients/redis-py/connect" >}}) for more information). |
+| `client_kwargs` | Keyword parameters to pass to the internal client constructor for this endpoint. Use it to specify the host, port, username, password, and other connection parameters (see [Connect to the server]({{< relref "/develop/clients/redis-py/connect" >}}) for more information). This is especially useful if you are using a custom client class (see [Client configuration](#client-configuration) below for more information). |
 | `from_url` | Redis URL to connect to this endpoint, as an alternative to passing the host and port in `client_kwargs`. |
 | `from_pool` | A `ConnectionPool` to supply the endpoint connection (see [Connect with a connection pool]({{< relref "/develop/clients/redis-py/connect#connect-with-a-connection-pool" >}}) for more information) |
 | `weight` | Priority of the endpoint, with higher values being tried first. Default is `1.0`. |
 | `grace_period` | Duration in seconds to keep an unhealthy endpoint disabled before attempting a failback. Default is `60` seconds. |
 | `health_check_url` | URL for health checks that use the database's REST API (see [`LagAwareHealthCheck`](#lag-aware-health-check) for more information). |
+
+### Client configuration
+
+`MultiDbConfig` provides the `client_class` option to specify the class of the internal client to use for each endpoint. The default is the basic `redis.Redis` client, but
+you could, for example, replace this with `redis.asyncio.client.Redis` for an asynchronous basic client, or with `redis.cluster.RedisCluster`/`redis.asyncio.cluster.RedisCluster` for a cluster client. Use the `client_kwargs` option of `DatabaseConfig` to supply any extra parameters required by the client class (see [Endpoint configuration](#endpoint-configuration) above for more information).
+
+```py
+cfg = MultiDbConfig(
+    ...
+    client_class=redis.asyncio.client.Redis,
+    ...
+)
+```
 
 ### Retry configuration
 
@@ -159,7 +172,7 @@ cfg = MultiDbConfig(
 ### Health check configuration
 
 Each health check consists of one or more separate "probes", each of which is a simple
-test (such as an [`ECHO`]({{< relref "/commands/echo" >}}) command) to determine if the database is available. The results of the separate probes are combined
+test (such as a [`PING`]({{< relref "/commands/ping" >}}) command) to determine if the database is available. The results of the separate probes are combined
 using a configurable policy to determine if the database is healthy. `MultiDbConfig` provides the following options to configure the health check behavior:
 
 | Option | Description |
@@ -168,7 +181,7 @@ using a configurable policy to determine if the database is healthy. `MultiDbCon
 | `health_check_probes` | Number of separate probes performed during each health check. Default is `3`. |
 | `health_check_probes_delay` | Delay between probes during a health check. Default is `0.5` seconds. |
 | `health_check_policy` | `HealthCheckPolicies` enum value to specify the policy for determining database health from the separate probes of a health check. The options are `HealthCheckPolicies.ALL` (all probes must succeed), `HealthCheckPolicies.ANY` (at least one probe must succeed), and `HealthCheckPolicies.MAJORITY` (more than half the probes must succeed). The default policy is `HealthCheckPolicies.MAJORITY`. |
-| `health_check` | Custom list of `HealthCheck` objects to specify how to perform each probe during a health check. This defaults to just the simple [`EchoHealthCheck`](#echohealthcheck-default). |
+| `health_check` | Custom list of `HealthCheck` objects to specify how to perform each probe during a health check. This defaults to just the simple [`PingHealthCheck`](#pinghealthcheck-default). |
 
 ### Circuit breaker configuration
 
@@ -196,12 +209,12 @@ There are several strategies available for health checks that you can configure 
 `MultiClusterClientConfig` builder. The sections below explain these strategies
 in more detail.
 
-### `EchoHealthCheck` (default)
+### `PingHealthCheck` (default)
 
-The default strategy, `EchoHealthCheck`, periodically sends a Redis
-[`ECHO`]({{< relref "/commands/echo" >}}) command
+The default strategy, `PingHealthCheck`, periodically sends a Redis
+[`PING`]({{< relref "/commands/ping" >}}) command
 and checks that it gives the expected response. Any unexpected response
-or exception indicates an unhealthy server. Although `EchoHealthCheck` is
+or exception indicates an unhealthy server. Although `PingHealthCheck` is
 very simple, it is a good basic approach for most Redis deployments.
 
 ### `LagAwareHealthCheck` (Redis Enterprise only) {#lag-aware-health-check}
@@ -279,30 +292,30 @@ instance of your custom class to the `health_check` list in
 the `MultiDbConfig` constructor, as with [`LagAwareHealthCheck`](#lag-aware-health-check).
 
 The example below
-shows a simple custom strategy that sends a Redis [`PING`]({{< relref "/commands/ping" >}})
-command and checks for the expected `PONG` response.
+shows a simple custom strategy that sends a Redis [`ECHO`]({{< relref "/commands/echo" >}})
+command and checks for the expected response.
 
 ```py
 from redis.multidb.healthcheck import AbstractHealthCheck
 from redis.retry import Retry
 from redis.utils import dummy_fail
 
-class PingHealthCheck(AbstractHealthCheck):
+class EchoHealthCheck(AbstractHealthCheck):
     def __init__(self, retry: Retry):
         super().__init__(retry=retry)
     def check_health(self, database) -> bool:
         return self._retry.call_with_retry(
-            lambda: self._returns_pong(database),
+            lambda: self._returns_echo(database),
             lambda _: dummy_fail()
         )
-    def _returns_pong(self, database) -> bool:
-        expected_message = ["PONG", b"PONG"]
-        actual_message = database.client.execute_command("PING")
+    def _returns_echo(self, database) -> bool:
+        expected_message = ["Yodel-Ay-Ee-Oooo!", b"Yodel-Ay-Ee-Oooo!"]
+        actual_message = database.client.execute_command("ECHO", "Yodel-Ay-Ee-Oooo!")
         return actual_message in expected_message
 
 cfg = MultiDbConfig(
     ...
-    health_check=[PingHealthCheck(retry=Retry(retries=3))],
+    health_check=[EchoHealthCheck(retry=Retry(retries=3))],
     ...
 )
 
