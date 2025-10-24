@@ -11,6 +11,7 @@ description: General information to keep in mind while developing applications f
 hideListLinks: true
 linktitle: Develop applications
 weight: 99
+note: This entire folder is duplicated in operate/rc/databases/active-active/develop. If you link to anything in this folder, make sure the link works on both RS and RC.
 ---
 Developing globally distributed applications can be challenging, as
 developers have to think about race conditions and complex combinations
@@ -64,4 +65,4 @@ in between.
 
 [Learn more about
 synchronization for
-each supported data type]({{< relref "/operate/rs/databases/active-active/develop/data-types/" >}}) and [how to develop applications]({{< relref "/operate/rs/databases/active-active/develop/develop-for-aa.md" >}}) with them on Redis Enterprise Software.
+each supported data type]({{< relref "./data-types/" >}}) and [how to develop applications]({{< relref "./develop-for-aa.md" >}}) with them on Redis Enterprise Software.
