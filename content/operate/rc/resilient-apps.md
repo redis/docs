@@ -98,5 +98,5 @@ For more info, see [How to run a Failover Test in Redis Cloud](https://support.r
 ## More info
 
 - [Redis Clients]({{< relref "/develop/clients" >}})
-- [Active-Active Redis]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}})
+- [Active-Active Redis]({{< relref "/operate/rc/databases/active-active" >}})
 - [Active-Active Redis applications]({{< relref "/operate/rs/databases/active-active/develop" >}})

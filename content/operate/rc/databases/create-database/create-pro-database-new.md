@@ -113,7 +113,7 @@ In the **General settings** of the **Setup** tab, you need to:
 1. Select the **Region** where you want to deploy your database. 
 
     {{< note >}}
-This guide is for single region database deployment. If you want to create a multi-region Active-Active database, see [Create an Active-Active database]({{< relref "/operate/rc/databases/create-database/create-active-active-database" >}}) for specific steps and configuration options exclusive to Active-Active.
+This guide is for single region database deployment. If you want to create a multi-region Active-Active database, see [Create an Active-Active database]({{< relref "/operate/rc/databases/active-active/create-active-active-database" >}}) for specific steps and configuration options exclusive to Active-Active.
     {{< /note >}}
 
 #### Advanced options {#advanced-options}

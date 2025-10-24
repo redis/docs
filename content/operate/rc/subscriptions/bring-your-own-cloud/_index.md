@@ -50,7 +50,7 @@ To set up Redis Cloud BYOC on Amazon Web Services (AWS):
 
 1. [Set your AWS Account as a BYOC Cloud account]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/cloud-account-settings" >}}) on Redis Cloud.
 
-After you set up your cloud account, you can create a [new Redis Cloud Pro subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) or an [Active-Active database]({{< relref "/operate/rc/databases/create-database/create-active-active-database" >}}) that uses your cloud account.
+After you set up your cloud account, you can create a [new Redis Cloud Pro subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) or an [Active-Active database]({{< relref "/operate/rc/databases/active-active/create-active-active-database" >}}) that uses your cloud account.
 
 ## Redis Cloud BYOC pricing
 

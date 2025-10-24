@@ -44,7 +44,7 @@ You can select more than one advanced capability for a database, though there ar
     - Time series
     - Probabilistic
 
-- [Active-Active databases]({{< relref "/operate/rc/databases/create-database/create-active-active-database" >}}) only support JSON and Search and query.
+- [Active-Active databases]({{< relref "/operate/rc/databases/active-active/create-active-active-database" >}}) only support JSON and Search and query.
 
 To remove a selected capability, clear its checkbox.
 

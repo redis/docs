@@ -25,6 +25,6 @@ A **Free** plan is a type of Essentials plan designed for learning and building 
 A **Pro** plan is an hourly price based on capacity. It supports more databases, larger databases, greater throughput, and unlimited connections. 
 - [Create a Pro database with a new subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}})
 - [Create a Pro database in an existing subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-existing" >}})
-- [Create an Active-Active database]({{< relref "/operate/rc/databases/create-database/create-active-active-database" >}})
+- [Create an Active-Active database]({{< relref "/operate/rc/databases/active-active/create-active-active-database" >}})
 
 
