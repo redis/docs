@@ -11,7 +11,7 @@ Parameters:
 */}}
 
 {{ $filepath := .Get "filepath" }}
-{{ $currentPath := .Page.RelPermalink }}
+{{ $currentPath := .Page.Path }}
 
 {{ $fullFilepath := printf "%s%s" .Site.BaseURL $filepath }}
 {{ $fullCurrentPath := printf "%s%s" .Site.BaseURL $currentPath }}
