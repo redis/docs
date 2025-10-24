@@ -1,0 +1,23 @@
+{{/* 
+Show-on-path shortcode that displays content only if the current page URL matches the specified filepath.
+
+Usage:
+{{< show-on-path filepath="/path/to/page" >}}
+Content to show only on the specified path
+{{< /show-on-path >}}
+
+Parameters:
+- filepath: The URL path to match against (required)
+*/}}
+
+{{ $filepath := .Get "filepath" }}
+{{ $currentPath := .Page.RelPermalink }}
+
+{{/* Remove trailing slash from both paths for consistent comparison */}}
+{{ $normalizedFilepath := cond (strings.HasSuffix $filepath "/") (substr $filepath 0 (sub (len $filepath) 1)) $filepath }}
+{{ $normalizedCurrentPath := cond (strings.HasSuffix $currentPath "/") (substr $currentPath 0 (sub (len $currentPath) 1)) $currentPath }}
+
+{{/* Display content only if paths match */}}
+{{ if eq $normalizedCurrentPath $normalizedFilepath }}
+{{ .Inner | markdownify }}
+{{ end }}
