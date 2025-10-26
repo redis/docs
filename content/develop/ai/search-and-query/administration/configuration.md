@@ -541,6 +541,24 @@ Valid range: `[0 .. 8192]`
 
 Default: `0`
 
+### search-on-oom
+
+Specifies the response policy for queries when the server's current memory usage exceeds the configured [maxmemory](https://redis.io/docs/latest/develop/reference/eviction/#maxmem) limit.
+
+* `IGNORE`: Execute the query regardless of current memory usage.
+* `RETURN`: In cluster mode, the query returns partial results from shards that did not exceed the memory limit. Shards that exceed the limit will not contribute results.
+* `FAIL`: Will return an error if memory usage exceeds memory limit.
+
+Type: string
+
+Valid values: `IGNORE`, `RETURN`, `FAIL`
+
+Default: `IGNORE`
+
+{{% alert title="Notes" color="info" %}}
+To prevent potential out-of-memory conditions, it is recommended to set this parameter to FAIL or RETURN rather than IGNORE.
+{{% /alert %}}
+
 ## Set configuration parameters at module load-time (deprecated)
 
 These methods are deprecated beginning with Redis 8.
