@@ -23,6 +23,8 @@ Parameters:
 {{/* Debug output */}}
 <div style="border: 1px solid red; padding: 10px; margin: 10px 0; background: #ffe6e6;">
 <strong>Debug Info:</strong><br>
+RelPermalink: {{ .Page.RelPermalink }}<br>
+RelRef: {{ .Page.RelRef .Page.File.Path }}<br>
 currentPath: {{ $currentPath }}<br>
 filepath: {{ $filepath }}<br>
 normalizedCurrentPath: {{ $normalizedCurrentPath }}<br>
