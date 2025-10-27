@@ -7,7 +7,7 @@ categories:
 - rc
 description: Shows how to create an Active-Active database
 linkTitle: Create Active-Active database
-weight: 20
+weight: 5
 aliases: 
     - /operate/rc/subscriptions/create-active-active-subscription
     - /operate/rc/databases/create-database/create-active-active-database
@@ -91,18 +91,10 @@ In the **Advanced options** section, you can:
     
 - Define CIDR addresses for each region in the **VPC configuration** section.
 
-    Every CIDR should be unique to properly route network traffic between each Active-Active database instance and your consumer VPCs. The CIDR block regions should _not_ overlap between the Redis server and your app consumer VPCs. In addition, CIDR blocks should not overlap between cluster instances. 
-
-    When all **Deployment CIDR** regions display a green checkmark, you're ready to continue.  
-
-    {{<image filename="images/rc/icon-cidr-address-ok.png" width="30px" alt="Green checkmarks indicate valid CIDR address values." >}}
-
-    Red exclamation marks indicate error conditions; the tooltip provides additional details.
-
-    {{<image filename="images/rc/icon-cidr-address-error.png" width="30px" alt="Red exclamation points indicate CIDR address problems." >}} 
-
-    If you chose to deploy your Active-Active database to an existing [Bring your own Cloud]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud" >}}) account, you can also define the VPC ID for each region. Select **In existing VPC** and the set the VPC ID for each selected region. 
-
+    {{< embed-md "rc-aa-cidr.md" >}}
+    
+    If you chose to deploy your Active-Active database to an existing [Bring your own Cloud]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud" >}}) account, you can also define the VPC ID for each region. Select **In existing VPC** and the set the VPC ID for each selected region.
+    
 - Set your [maintenance]({{< relref "/operate/rc/subscriptions/maintenance" >}}) settings in the **Maintenance windows** section. Select **Manual** if you want to set [manual maintenance windows]({{< relref "/operate/rc/subscriptions/maintenance/set-maintenance-windows" >}}).
 
 When finished, choose **Continue** to determine your size requirements.

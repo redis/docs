@@ -1,5 +1,6 @@
 ---
 Title: Active-Active Redis
+linkTitle: Active-Active
 alwaysopen: false
 categories:
 - docs
