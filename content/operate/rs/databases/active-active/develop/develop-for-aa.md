@@ -97,19 +97,8 @@ execute them in script-replication mode.
 
 ## Eviction
 
-{{< show-on-path filepath="/operate/rs/databases/active-active/develop/develop-for-aa" >}}
-
 The default policy for Active-Active databases is _noeviction_ mode. Redis Enterprise version 6.0.20 and later support all eviction policies for Active-Active databases, unless [Auto Tiering]({{< relref "/operate/rs/databases/auto-tiering" >}}) (previously known as Redis on Flash) is enabled.
-For details, see [eviction for Active-Active databases]({{< relref "/operate/rs/databases/memory-performance/eviction-policy#active-active-database-eviction" >}}).
-
-{{< /show-on-path >}}
-
-{{< show-on-path filepath="/operate/rc/databases/active-active/develop/develop-for-aa" >}}
-
-The default policy for Active-Active databases is _noeviction_ mode. All eviction policies are supported for Active-Active databases.
-For details, see [eviction for Active-Active databases]({{< relref "/operate/rc/databases/configuration/data-eviction-policies#active-active-replication-considerations" >}}).
-
-{{< /show-on-path >}}
+For details, see [eviction for Active-Active databases (Redis Enterprise)]({{< relref "/operate/rs/databases/memory-performance/eviction-policy#active-active-database-eviction" >}}) or [eviction for Active-Active databases (Redis Cloud)]({{< relref "/operate/rc/databases/configuration/data-eviction-policies#active-active-replication-considerations" >}}).
 
 ## Expiration
 
