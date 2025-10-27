@@ -384,6 +384,8 @@ example "write deny-oom". The set of flags are:
 * **"internal"**: Internal command, one that should not be exposed to the user connections.
                   For example, module commands that are called by the modules,
                   commands that do not perform ACL validations (relying on earlier checks)
+* **"touches-arbitrary-keys"**: This command may modify arbitrary keys (i.e. not provided via argv).
+                  This flag is used so we don't wrap the replicated commands with MULTI/EXEC.
 
 The last three parameters specify which arguments of the new command are
 Redis keys. See [https://redis.io/commands/command](https://redis.io/commands/command) for more information.
@@ -5047,9 +5049,11 @@ is interested in. This can be an ORed mask of any of the following flags:
  - `REDISMODULE_NOTIFY_NEW`: New key notification
  - `REDISMODULE_NOTIFY_OVERWRITTEN`: Overwritten events
  - `REDISMODULE_NOTIFY_TYPE_CHANGED`: Type-changed events
+ - `REDISMODULE_NOTIFY_KEY_TRIMMED`: Key trimmed events after a slot migration operation
  - `REDISMODULE_NOTIFY_ALL`: All events (Excluding `REDISMODULE_NOTIFY_KEYMISS`,
-                           REDISMODULE_NOTIFY_NEW, REDISMODULE_NOTIFY_OVERWRITTEN
-                           and REDISMODULE_NOTIFY_TYPE_CHANGED)
+                           REDISMODULE_NOTIFY_NEW, REDISMODULE_NOTIFY_OVERWRITTEN,
+                           REDISMODULE_NOTIFY_TYPE_CHANGED
+                           and REDISMODULE_NOTIFY_KEY_TRIMMED)
  - `REDISMODULE_NOTIFY_LOADED`: A special notification available only for modules,
                               indicates that the key was loaded from persistence.
                               Notice, when this event fires, the given key
@@ -5096,7 +5100,7 @@ See [https://redis.io/docs/latest/develop/use/keyspace-notifications/](https://r
                                                   int types,
                                                   RedisModuleNotificationFunc callback);
 
-**Available since:** unreleased
+**Available since:** 8.2.0
 
 
 [`RedisModule_UnsubscribeFromKeyspaceEvents`](#RedisModule_UnsubscribeFromKeyspaceEvents) - Unregister a module's callback from keyspace notifications for specific event types.
@@ -5341,6 +5345,18 @@ With the following effects:
 Returns the cluster slot of a key, similar to the `CLUSTER KEYSLOT` command.
 This function works even if cluster mode is not enabled.
 
+<span id="RedisModule_ClusterKeySlotC"></span>
+
+### `RedisModule_ClusterKeySlotC`
+
+    unsigned int RedisModule_ClusterKeySlotC(const char *keystr, size_t keylen);
+
+**Available since:** unreleased
+
+Like [`RedisModule_ClusterKeySlot`](#RedisModule_ClusterKeySlot), but gets a char pointer and a length.
+Returns the cluster slot of a key, similar to the `CLUSTER KEYSLOT` command.
+This function works even if cluster mode is not enabled.
+
 <span id="RedisModule_ClusterCanonicalKeyNameInSlot"></span>
 
 ### `RedisModule_ClusterCanonicalKeyNameInSlot`
@@ -5352,6 +5368,86 @@ This function works even if cluster mode is not enabled.
 Returns a short string that can be used as a key or as a hash tag in a key,
 such that the key maps to the given cluster slot. Returns NULL if slot is not
 a valid slot.
+
+<span id="RedisModule_ClusterCanAccessKeysInSlot"></span>
+
+### `RedisModule_ClusterCanAccessKeysInSlot`
+
+    int RedisModule_ClusterCanAccessKeysInSlot(int slot);
+
+**Available since:** unreleased
+
+Returns 1 if keys in the specified slot can be accessed by this node, 0 otherwise.
+
+This function returns 1 in the following cases:
+- The slot is owned by this node or by its master if this node is a replica
+- The slot is being imported under the old slot migration approach (CLUSTER SETSLOT <slot> IMPORTING ..)
+- Not in cluster mode (all slots are accessible)
+
+Returns 0 for:
+- Invalid slot numbers (< 0 or >= 16384)
+- Slots owned by other nodes
+
+<span id="RedisModule_ClusterPropagateForSlotMigration"></span>
+
+### `RedisModule_ClusterPropagateForSlotMigration`
+
+    int RedisModule_ClusterPropagateForSlotMigration(RedisModuleCtx *ctx,
+                                                     const char *cmdname,
+                                                     const char *fmt,
+                                                     ...);
+
+**Available since:** unreleased
+
+Propagate commands along with slot migration.
+
+This function allows modules to add commands that will be sent to the
+destination node before the actual slot migration begins. It should only be
+called during the `REDISMODULE_SUBEVENT_CLUSTER_SLOT_MIGRATION_MIGRATE_MODULE_PROPAGATE` event.
+
+This function can be called multiple times within the same event to
+replicate multiple commands. All commands will be sent before the
+actual slot data migration begins.
+
+Note: This function is only available in the fork child process just before
+      slot snapshot delivery begins.
+
+On success `REDISMODULE_OK` is returned, otherwise
+`REDISMODULE_ERR` is returned and errno is set to the following values:
+
+* EINVAL: function arguments or format specifiers are invalid.
+* EBADF: not called in the correct context, e.g. not called in the `REDISMODULE_SUBEVENT_CLUSTER_SLOT_MIGRATION_MIGRATE_MODULE_PROPAGATE` event.
+* ENOENT: command does not exist.
+* ENOTSUP: command is cross-slot.
+* ERANGE: command contains keys that are not within the migrating slot range.
+
+<span id="RedisModule_ClusterGetLocalSlotRanges"></span>
+
+### `RedisModule_ClusterGetLocalSlotRanges`
+
+    RedisModuleSlotRangeArray *RedisModule_ClusterGetLocalSlotRanges(RedisModuleCtx *ctx);
+
+**Available since:** unreleased
+
+Returns the locally owned slot ranges for the node.
+
+An optional `ctx` can be provided to enable auto-memory management.
+If cluster mode is disabled, the array will include all slots (0–16383).
+If the node is a replica, the slot ranges of its master are returned.
+
+The returned array must be freed with [`RedisModule_ClusterFreeSlotRanges()`](#RedisModule_ClusterFreeSlotRanges).
+
+<span id="RedisModule_ClusterFreeSlotRanges"></span>
+
+### `RedisModule_ClusterFreeSlotRanges`
+
+    void RedisModule_ClusterFreeSlotRanges(RedisModuleCtx *ctx,
+                                           RedisModuleSlotRangeArray *slots);
+
+**Available since:** unreleased
+
+Frees a slot range array returned by [`RedisModule_ClusterGetLocalSlotRanges()`](#RedisModule_ClusterGetLocalSlotRanges).
+Pass the `ctx` pointer only if the array was created with a context.
 
 <span id="section-modules-timers-api"></span>
 
@@ -7261,6 +7357,63 @@ Here is a list of events you can use as 'eid' and related sub events:
 
         RedisModuleKey *key;    // Key name
 
+* `RedisModuleEvent_ClusterSlotMigration`
+
+    Called when an atomic slot migration (ASM) event happens.
+    IMPORT events are triggered on the destination side of a slot migration
+    operation. These notifications let modules prepare for the upcoming
+    ownership change, observe successful completion once the cluster config
+    reflects the new owner, or detect a failure in which case slot ownership
+    remains with the source.
+
+    Similarly, MIGRATE events triggered on the source side of a slot
+    migration operation to let modules prepare for the ownership change and
+    observe the completion of the slot migration. MIGRATE_MODULE_PROPAGATE
+    event is triggered in the fork just before snapshot delivery; modules may
+    use it to enqueue commands that will be delivered first. See
+    RedisModule_ClusterPropagateForSlotMigration() for details.
+
+    * `REDISMODULE_SUBEVENT_CLUSTER_SLOT_MIGRATION_IMPORT_STARTED`
+    * `REDISMODULE_SUBEVENT_CLUSTER_SLOT_MIGRATION_IMPORT_FAILED`
+    * `REDISMODULE_SUBEVENT_CLUSTER_SLOT_MIGRATION_IMPORT_COMPLETED`
+    * `REDISMODULE_SUBEVENT_CLUSTER_SLOT_MIGRATION_MIGRATE_STARTED`
+    * `REDISMODULE_SUBEVENT_CLUSTER_SLOT_MIGRATION_MIGRATE_FAILED`
+    * `REDISMODULE_SUBEVENT_CLUSTER_SLOT_MIGRATION_MIGRATE_COMPLETED`
+    * `REDISMODULE_SUBEVENT_CLUSTER_SLOT_MIGRATION_MIGRATE_MODULE_PROPAGATE`
+
+    The data pointer can be casted to a RedisModuleClusterSlotMigrationInfo
+    structure with the following fields:
+
+        char source_node_id[REDISMODULE_NODE_ID_LEN + 1];
+        char destination_node_id[REDISMODULE_NODE_ID_LEN + 1];
+        const char *task_id;               // Task ID
+        RedisModuleSlotRangeArray *slots;  // Slot ranges
+
+* `RedisModuleEvent_ClusterSlotMigrationTrim`
+
+    Called when trimming keys after a slot migration. Fires on the source
+    after a successful migration to clean up migrated keys, or on the
+    destination after a failed import to discard partial imports. Two methods
+    are supported. In the first method, keys are deleted in a background
+    thread; this is reported via the TRIM_BACKGROUND event. In the second
+    method, Redis performs incremental deletions on the main thread via the
+    cron loop to avoid stalls; this is reported via the TRIM_STARTED and
+    TRIM_COMPLETED events. Each deletion emits REDISMODULE_NOTIFY_KEY_TRIMMED
+    so modules can react to individual key deletions. Redis selects the
+    method automatically: background by default; switches to main thread
+    trimming when a module subscribes to REDISMODULE_NOTIFY_KEY_TRIMMED.
+
+    The following sub events are available:
+
+    * `REDISMODULE_SUBEVENT_CLUSTER_SLOT_MIGRATION_TRIM_STARTED`
+    * `REDISMODULE_SUBEVENT_CLUSTER_SLOT_MIGRATION_TRIM_COMPLETED`
+    * `REDISMODULE_SUBEVENT_CLUSTER_SLOT_MIGRATION_TRIM_BACKGROUND`
+
+    The data pointer can be casted to a RedisModuleClusterSlotMigrationTrimInfo
+    structure with the following fields:
+
+        RedisModuleSlotRangeArray *slots;  // Slot ranges
+
 The function returns `REDISMODULE_OK` if the module was successfully subscribed
 for the specified event. If the API is called from a wrong context or unsupported event
 is given then `REDISMODULE_ERR` is returned.
@@ -7591,7 +7744,7 @@ cluster, and by that gain the permissions to execute internal commands.
     RedisModuleConfigIterator *RedisModule_ConfigIteratorCreate(RedisModuleCtx *ctx,
                                                                 const char *pattern);
 
-**Available since:** unreleased
+**Available since:** 8.2.0
 
 Get an iterator to all configs.
 Optional `ctx` can be provided if use of auto-memory is desired.
@@ -7654,7 +7807,7 @@ the caller is responsible for freeing the iterator using
     void RedisModule_ConfigIteratorRelease(RedisModuleCtx *ctx,
                                            RedisModuleConfigIterator *iter);
 
-**Available since:** unreleased
+**Available since:** 8.2.0
 
 Release the iterator returned by [`RedisModule_ConfigIteratorCreate()`](#RedisModule_ConfigIteratorCreate). If auto-memory
 is enabled and manual release is needed one must pass the same `RedisModuleCtx`
@@ -7666,7 +7819,7 @@ that was used to create the iterator.
 
     int RedisModule_ConfigGetType(const char *name, RedisModuleConfigType *res);
 
-**Available since:** unreleased
+**Available since:** 8.2.0
 
 Get the type of a config as `RedisModuleConfigType`. One may use this  in order
 to get or set the values of the config with the appropriate function if the
@@ -7694,7 +7847,7 @@ If a config with the given name exists `res` is populated with its type, else
 
     const char *RedisModule_ConfigIteratorNext(RedisModuleConfigIterator *iter);
 
-**Available since:** unreleased
+**Available since:** 8.2.0
 
 Go to the next element of the config iterator.
 
@@ -7713,7 +7866,7 @@ See [`RedisModule_ConfigIteratorCreate()`](#RedisModule_ConfigIteratorCreate) fo
                               const char *name,
                               RedisModuleString **res);
 
-**Available since:** unreleased
+**Available since:** 8.2.0
 
 Get the value of a config as a string. This function can be used to get the
 value of any config, regardless of its type.
@@ -7730,7 +7883,7 @@ is returned and `res` is populated with the value.
 
     int RedisModule_ConfigGetBool(RedisModuleCtx *ctx, const char *name, int *res);
 
-**Available since:** unreleased
+**Available since:** 8.2.0
 
 Get the value of a bool config.
 
@@ -7746,7 +7899,7 @@ value.
                                   const char *name,
                                   RedisModuleString **res);
 
-**Available since:** unreleased
+**Available since:** 8.2.0
 
 Get the value of an enum config.
 
@@ -7763,7 +7916,7 @@ string.
                                      const char *name,
                                      long long *res);
 
-**Available since:** unreleased
+**Available since:** 8.2.0
 
 Get the value of a numeric config.
 
@@ -7780,7 +7933,7 @@ value.
                               RedisModuleString *value,
                               RedisModuleString **err);
 
-**Available since:** unreleased
+**Available since:** 8.2.0
 
 Set the value of a config.
 
@@ -7800,7 +7953,7 @@ is not NULL, it will be populated with an error message.
                                   int value,
                                   RedisModuleString **err);
 
-**Available since:** unreleased
+**Available since:** 8.2.0
 
 Set the value of a bool config.
 
@@ -7815,7 +7968,7 @@ See [`RedisModule_ConfigSet`](#RedisModule_ConfigSet) for return value.
                                   RedisModuleString *value,
                                   RedisModuleString **err);
 
-**Available since:** unreleased
+**Available since:** 8.2.0
 
 Set the value of an enum config.
 
@@ -7833,7 +7986,7 @@ See [`RedisModule_ConfigSet`](#RedisModule_ConfigSet) for return value.
                                      long long value,
                                      RedisModuleString **err);
 
-**Available since:** unreleased
+**Available since:** 8.2.0
 
 Set the value of a numeric config.
 If the value passed is meant to be a percentage, it should be passed as a
@@ -8346,8 +8499,13 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_Calloc`](#RedisModule_Calloc)
 * [`RedisModule_ChannelAtPosWithFlags`](#RedisModule_ChannelAtPosWithFlags)
 * [`RedisModule_CloseKey`](#RedisModule_CloseKey)
+* [`RedisModule_ClusterCanAccessKeysInSlot`](#RedisModule_ClusterCanAccessKeysInSlot)
 * [`RedisModule_ClusterCanonicalKeyNameInSlot`](#RedisModule_ClusterCanonicalKeyNameInSlot)
+* [`RedisModule_ClusterFreeSlotRanges`](#RedisModule_ClusterFreeSlotRanges)
+* [`RedisModule_ClusterGetLocalSlotRanges`](#RedisModule_ClusterGetLocalSlotRanges)
 * [`RedisModule_ClusterKeySlot`](#RedisModule_ClusterKeySlot)
+* [`RedisModule_ClusterKeySlotC`](#RedisModule_ClusterKeySlotC)
+* [`RedisModule_ClusterPropagateForSlotMigration`](#RedisModule_ClusterPropagateForSlotMigration)
 * [`RedisModule_CommandFilterArgDelete`](#RedisModule_CommandFilterArgDelete)
 * [`RedisModule_CommandFilterArgGet`](#RedisModule_CommandFilterArgGet)
 * [`RedisModule_CommandFilterArgInsert`](#RedisModule_CommandFilterArgInsert)
