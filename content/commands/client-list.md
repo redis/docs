@@ -70,6 +70,12 @@ history:
   - Added `resp`, `multi-mem`, `rbs` and `rbp` fields.
 - - 7.0.3
   - Added `ssub` field.
+- - 7.2.0
+  - Added `lib-name` and `lib-ver` fields.
+- - 7.4.0
+  - Added `watch` field.
+- - 8.0.0
+  - Added `io-thread` field.
 linkTitle: CLIENT LIST
 since: 2.4.0
 summary: Lists open connections.
