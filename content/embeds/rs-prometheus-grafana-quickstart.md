@@ -28,48 +28,91 @@ To get started with Prometheus and Grafana:
 1. Within that directory, create a configuration file called `prometheus.yml`.
 1. Add the following contents to the configuration file and replace `<cluster_name>` with your Redis Enterprise cluster's FQDN:
 
+    {{< multitabs id="prometheus-config-yml" 
+tab1="v2 (metrics stream engine)"
+tab2="v1" >}}
+
+```yml
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+# Attach these labels to any time series or alerts when communicating with
+# external systems (federation, remote storage, Alertmanager).
+  external_labels:
+    monitor: "prometheus-stack-monitor"
+
+# Load and evaluate rules in this file every 'evaluation_interval' seconds.
+#rule_files:
+# - "first.rules"
+# - "second.rules"
+
+scrape_configs:
+# scrape Prometheus itself
+  - job_name: prometheus
+    scrape_interval: 10s
+    scrape_timeout: 5s
+    static_configs:
+      - targets: ["localhost:9090"]
+
+# scrape Redis Enterprise
+  - job_name: redis-enterprise
+    scrape_interval: 30s
+    scrape_timeout: 30s
+    metrics_path: /v2
+    scheme: https
+    tls_config:
+      insecure_skip_verify: true
+    static_configs:
+      - targets: ["<cluster_name>:8070"]
+```
+
+-tab-sep-
+
+```yml
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+# Attach these labels to any time series or alerts when communicating with
+# external systems (federation, remote storage, Alertmanager).
+  external_labels:
+    monitor: "prometheus-stack-monitor"
+
+# Load and evaluate rules in this file every 'evaluation_interval' seconds.
+#rule_files:
+# - "first.rules"
+# - "second.rules"
+
+scrape_configs:
+# scrape Prometheus itself
+  - job_name: prometheus
+    scrape_interval: 10s
+    scrape_timeout: 5s
+    static_configs:
+      - targets: ["localhost:9090"]
+
+# scrape Redis Enterprise
+  - job_name: redis-enterprise
+    scrape_interval: 30s
+    scrape_timeout: 30s
+    metrics_path: /
+    scheme: https
+    tls_config:
+      insecure_skip_verify: true
+    static_configs:
+      - targets: ["<cluster_name>:8070"]
+```
+    {{< /multitabs >}}
+
+1. Set up your Prometheus and Grafana servers.
+
     {{< note >}}
 
 We recommend running Prometheus in Docker only for development and testing.
 
     {{< /note >}}
 
-    ```yml
-    global:
-      scrape_interval: 15s
-      evaluation_interval: 15s
-
-    # Attach these labels to any time series or alerts when communicating with
-    # external systems (federation, remote storage, Alertmanager).
-      external_labels:
-        monitor: "prometheus-stack-monitor"
-
-    # Load and evaluate rules in this file every 'evaluation_interval' seconds.
-    #rule_files:
-    # - "first.rules"
-    # - "second.rules"
-
-    scrape_configs:
-    # scrape Prometheus itself
-      - job_name: prometheus
-        scrape_interval: 10s
-        scrape_timeout: 5s
-        static_configs:
-          - targets: ["localhost:9090"]
-
-    # scrape Redis Enterprise
-      - job_name: redis-enterprise
-        scrape_interval: 30s
-        scrape_timeout: 30s
-        metrics_path: /  # For v2, use /v2
-        scheme: https
-        tls_config:
-          insecure_skip_verify: true
-        static_configs:
-          - targets: ["<cluster_name>:8070"]
-    ```
-
-1. Set up your Prometheus and Grafana servers.
     To set up Prometheus and Grafana on Docker:
     1. Create a _docker-compose.yml_ file:
 
@@ -141,16 +184,34 @@ We recommend running Prometheus in Docker only for development and testing.
     1. Click **Import**.
     1. Upload one or more [Grafana dashboards](#grafana-dashboards-for-redis-enterprise).
 
-### Grafana dashboards for Redis Enterprise
+## Grafana dashboards for Redis Enterprise
 
-Redis publishes four preconfigured dashboards for Redis Enterprise and Grafana:
+Redis publishes preconfigured dashboards for Redis Enterprise and Grafana.
 
-* The [cluster status dashboard](https://grafana.com/grafana/dashboards/18405-cluster-status-dashboard/) provides an overview of your Redis Enterprise clusters.
-* The [database status dashboard](https://grafana.com/grafana/dashboards/18408-database-status-dashboard/) displays specific database metrics, including latency, memory usage, ops/second, and key count.
-* The [node metrics dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/basic/redis-software-node-dashboard_v9-11.json) provides metrics for each of the nodes hosting your cluster.
-* The [shard metrics dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/basic/redis-software-shard-dashboard_v9-11.json) displays metrics for the individual Redis processes running on your cluster nodes
-* The [Active-Active dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/basic/redis-software-active-active-dashboard_v9-11.json) displays metrics specific to [Active-Active databases]({{< relref "/operate/rs/databases/active-active" >}}).
+{{< note >}}
+V1 dashboards are not compatible with the v2 metrics exporter endpoint. Make sure to use the correct dashboard version for your metrics endpoint.
+{{< /note >}}
 
-These dashboards are open source. For additional dashboard options, or to file an issue, see the [Redis Enterprise observability Github repository](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana).
+These dashboards are open source. For additional dashboard options, or to file an issue, see the [Redis Enterprise observability Github repository](https://github.com/redis-field-engineering/redis-enterprise-observability/).
 
 For more information about configuring Grafana dashboards, see the [Grafana documentation](https://grafana.com/docs/).
+
+### V1 metrics dashboards
+
+Use the following dashboards when connecting to the v1 metrics endpoint (`https://<cluster_name>:8070/`):
+
+* The [cluster status dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/basic/redis-software-cluster-dashboard_v9-11.json) provides an overview of your Redis Enterprise clusters.
+* The [database status dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/basic/redis-software-database-dashboard_v9-11.json) displays specific database metrics, including latency, memory usage, ops/second, and key count.
+* The [node metrics dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/basic/redis-software-node-dashboard_v9-11.json) provides metrics for each of the nodes hosting your cluster.
+* The [shard metrics dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/basic/redis-software-shard-dashboard_v9-11.json) displays metrics for the individual Redis processes running on your cluster nodes.
+* The [Active-Active dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/basic/redis-software-active-active-dashboard_v9-11.json) displays metrics specific to [Active-Active databases]({{< relref "/operate/rs/databases/active-active" >}}).
+
+### V2 metrics dashboards
+
+Use the following dashboards when connecting to the v2 metrics endpoint (`https://<cluster_name>:8070/v2`):
+
+* The [cluster status dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana_v2/dashboards/grafana_v9-11/software/basic/redis-software-cluster-dashboard_v9-11.json) provides an overview of your Redis Enterprise clusters.
+* The [database status dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana_v2/dashboards/grafana_v9-11/software/basic/redis-software-database-dashboard_v9-11.json) displays specific database metrics, including latency, memory usage, ops/second, and key count.
+* The [node metrics dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana_v2/dashboards/grafana_v9-11/software/basic/redis-software-node-dashboard_v9-11.json) provides metrics for each of the nodes hosting your cluster.
+* The [shard metrics dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana_v2/dashboards/grafana_v9-11/software/basic/redis-software-shard-dashboard_v9-11.json) displays metrics for the individual Redis processes running on your cluster nodes.
+* The [Active-Active dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana_v2/dashboards/grafana_v9-11/software/basic/redis-software-active-active-dashboard_v9-11.json) displays metrics specific to [Active-Active databases]({{< relref "/operate/rs/databases/active-active" >}}).

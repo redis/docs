@@ -64,6 +64,14 @@ to learn more about the available connection options.
 {{< clients-example py_home_json connect >}}
 {{< /clients-example >}}
 
+The example uses an index called `idx:users` for JSON documents and adds
+some JSON documents with the `user:` key prefix. To avoid errors, first
+delete any existing index or documents whose names that might
+conflict with the example:
+
+{{< clients-example py_home_json cleanup_json >}}
+{{< /clients-example >}}
+
 Create an index for the JSON data. The code below specifies that only JSON documents with
 the key prefix `user:` are indexed. For more information, see
 [Query syntax]({{< relref "/develop/ai/search-and-query/query/" >}}).
@@ -111,9 +119,16 @@ need to specify some slightly different options.
 When you create the schema for a hash index, you don't need to
 add aliases for the fields, since you use the basic names to access
 the fields anyway. Also, you must use `HASH` for the `IndexType`
-when you create the index. The code below shows these changes with
-a new index called `hash-idx:users`, which is otherwise the same as
-the `idx:users` index used for JSON documents in the previous examples.
+when you create the index.
+
+First delete any existing index or documents
+whose names might conflict with the hash example:
+
+{{< clients-example py_home_json cleanup_hash >}}
+{{< /clients-example >}}
+
+Create a new index called `hash-idx:users`, which is otherwise the same as
+the `idx:users` index used for JSON documents in the previous examples:
 
 {{< clients-example py_home_json make_hash_index >}}
 {{< /clients-example >}}

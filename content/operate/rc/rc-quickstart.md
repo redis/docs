@@ -109,7 +109,7 @@ You can connect to your database with Redis Insight in two ways:
 #### Open in your browser {#ri-browser}
 
 {{< note >}}
-Opening your database with Redis Insight in your browser is currently available for some Essentials databases, and will be available to more Essentials databases over time. 
+Opening your database with Redis Insight in your browser is only available for Essentials databases. For all other databases, [Download and install Redis Insight](#ri-app) on your computer.
 {{< /note >}}
 
 If Redis Insight on Redis Cloud is available for your database, select **Launch Redis Insight web** from the connection wizard to open it.
