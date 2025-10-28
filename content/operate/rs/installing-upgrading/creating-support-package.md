@@ -30,7 +30,7 @@ To create a support package from the Cluster Manager UI:
 
 1. In the navigation menu, select **Support**.
 
-    <img src="../../../../../images/rs/screenshots/create-support-package/support-package-dialog.png" alt="Select Support from the navigation menu and create a support package.">
+    <img src="../../../../images/rs/screenshots/create-support-package/support-package-dialog.png" alt="Select Support from the navigation menu and create a support package.">
 
 1. Click **Proceed**.
 
@@ -52,13 +52,13 @@ To create a support package from the Cluster Manager UI:
 
         - Select a specific node from the **Node ID (IP Addresses)** list to include information about that node only.
 
-        <img src="../../../../../images/rs/screenshots/create-support-package/generate-support-package-select-node.png" alt="The list of nodes you can include in the support package.">
+        <img src="../../../../images/rs/screenshots/create-support-package/generate-support-package-select-node.png" alt="The list of nodes you can include in the support package.">
 
 1. Click **Generate package**.
 
 1. The package is created and downloaded by your browser.
 
-    <img src="../../../../../images/rs/screenshots/create-support-package/support-package-created-alert.png" alt="An alert appears that says, 'Support package created, attach it to your request in the Redis Support portal'. The Redis Support portal is a button you can click to contact Redis Support.">
+    <img src="../../../../images/rs/screenshots/create-support-package/support-package-created-alert.png" alt="An alert appears that says, 'Support package created, attach it to your request in the Redis Support portal'. The Redis Support portal is a button you can click to contact Redis Support.">
 
 -tab-sep-
 
