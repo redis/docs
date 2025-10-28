@@ -12,8 +12,11 @@ weight: 1
 ---
 
 
-Redis Enterprise for Kubernetes 8.0.2-2 includes bug fixes, enhancements, and support for [Redis Enterprise Software version 8.0.2]({{<relref "">}}).
+Redis Enterprise for Kubernetes 8.0.2-2 includes bug fixes, enhancements, and support for [Redis Software version 8.0.2-17]({{< relref "/operate/rs/release-notes/rs-8-0-2-releases/rs-8-0-2-17.md" >}}).
 
+{{< warning >}}
+**Custom modules not supported**: If you use custom (non-bundled) modules, skip this release. Custom module support will be available in the next release.
+{{< /warning >}}
 
 ## Detailed release notes
 
@@ -22,6 +25,12 @@ Redis Enterprise for Kubernetes 8.0.2-2 includes bug fixes, enhancements, and su
 
 
 ## Breaking changes
+
+- **Non-bundled modules are not supported** with this version. If you use non-bundled modules, don't upgrade to this version. The Redis Enterprise version used with this operator version includes significant changes to modules, including using built-in modules by default on databases. For more details, see the Redis Enterprise core software release notes.
+
+- **TKG (TKG) is no longer supported**. Broadcom/VMware doesn't plan to support this platform in the near future. We recommend that you migrate to TKGI/VKS.
+
+For additional breaking changes related to Redis Software 8.0.2-17, see [Redis 8 breaking changes]({{< relref "/operate/rs/release-notes/rs-8-0-releases/rs-8-0-2-17#redis-8-breaking-changes" >}}).
 
 
 ## Known limitations
