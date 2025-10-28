@@ -94,7 +94,7 @@ Upload the tar file to [Redis support](https://redis.com/company/support/). The 
 
 -tab-sep-
 
-You can also use `debuginfo` [REST API]({{< relref "/operate/rs/references/rest-api" >}}) requests to create and download support packages.
+You can use `debuginfo` [REST API]({{< relref "/operate/rs/references/rest-api" >}}) requests to create and download support packages.
 
 To download debug info from all nodes and databases:
 
