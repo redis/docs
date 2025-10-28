@@ -1,12 +1,3 @@
----
-title: Cache-Aside Pattern Tutorial Specification
-description: Comprehensive language-neutral specification for the cache-aside pattern tutorial
-categories:
-  - docs
-  - develop
-  - use-cases
----
-
 # Cache-Aside Pattern Tutorial Specification
 
 **Document Type:** Language-Neutral Specification  

@@ -1,0 +1,12 @@
+# Core dependencies
+redis>=4.5.0
+
+# Optional dependencies for serialization
+msgpack>=1.0.0
+
+# Optional dependencies for logging
+python-json-logger>=2.0.0
+
+# Optional dependencies for async support
+aioredis>=2.0.0
+
