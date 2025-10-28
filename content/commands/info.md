@@ -199,6 +199,9 @@ Here is the meaning of all fields in the **memory** section:
 *   `mem_clients_slaves`: Memory used by replica clients - Starting Redis 7.0, replica buffers share memory with the replication backlog, so this field can show 0 when replicas don't trigger an increase of memory usage.
 *   `mem_clients_normal`: Memory used by normal clients
 *   `mem_cluster_links`: Memory used by links to peers on the cluster bus when cluster mode is enabled.
+*   `mem_cluster_slot_migration_output_buffer`: Memory usage of the migration client's output buffer. Redis writes incoming changes to this buffer during the migration process.
+*   `mem_cluster_slot_migration_input_buffer`: Memory usage of the accumulated replication stream buffer on the importing node.
+*   `mem_cluster_slot_migration_input_buffer_peak`: Peak accumulated repl buffer size on the importing side.
 *   `mem_aof_buffer`: Transient memory used for AOF and AOF rewrite buffers
 *   `mem_replication_backlog`: Memory used by replication backlog
 *   `mem_total_replication_buffers`: Total memory consumed for replication buffers - Added in Redis 7.0.
@@ -501,9 +504,16 @@ The **sentinel** section is only available in Redis Sentinel instances. It consi
 *   `sentinel_scripts_queue_length`: The length of the queue of user scripts that are pending execution
 *   `sentinel_simulate_failure_flags`: Flags for the `SENTINEL SIMULATE-FAILURE` command
     
-The **cluster** section currently only contains a unique field:
+The **cluster** section contains the following fields:
 
 *   `cluster_enabled`: Indicate Redis cluster is enabled
+*   `cluster_slot_migration_active_tasks`: Number of in-progress ASM tasks. Currently, it will be 1 or 0.
+*   `cluster_slot_migration_active_trim_running`: Number of active trim jobs in progress and scheduled.
+*   `cluster_slot_migration_active_trim_current_job_keys`: Number of keys scheduled for deletion in the current trim job.
+*   `cluster_slot_migration_active_trim_current_job_trimmed`: Number of keys already deleted in the current trim job.
+*   `cluster_slot_migration_stats_active_trim_started`: Total number of trim jobs that have started since the process began.
+*   `cluster_slot_migration_stats_active_trim_completed`: Total number of trim jobs completed since the process began.
+*   `cluster_slot_migration_stats_active_trim_cancelled`: Total number of trim jobs cancelled since the process began.
 
 The **modules** section contains additional information about loaded modules if the modules provide it. The field part of property lines in this section are always prefixed with the module's name.
 
