@@ -41,20 +41,13 @@ key_specs:
     type: range
 linkTitle: DIGEST
 since: 8.4.0
-summary: Returns the XXH3 hash of a string value.
+summary: Returns the XXH3 hash of a string value as a hexadecimal string.
 syntax_fmt: DIGEST key
 syntax_str: ''
 title: DIGEST
 ---
-Returns the XXH3 hash of a string value.
 
-## Required arguments
-
-<details open><summary><code>key</code></summary>
-
-TODO: Add description for key (key)
-
-</details>
+Get the XXH3 hash digest for the value stored in the specified key as a hexadecimal string. Keys must be of type string.
 
 ## Return information
 
@@ -62,11 +55,18 @@ TODO: Add description for key (key)
     tab1="RESP2"
     tab2="RESP3" >}}
 
-TODO: Add RESP2 return information
+One of the following:
+
+- [Null bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) if the key does not exist.
+- [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if the key exists but holds a value which is not a string.
+- [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) the XXH3 digest of the value stored in the key as a hexadecimal string.
 
 -tab-sep-
 
-TODO: Add RESP3 return information
+One of the following:
+
+- [Null bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) if the key does not exist.
+- [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if the key exists but holds a value which is not a string.
+- [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) the XXH3 digest of the value stored in the key as a hexadecimal string.
 
 {{< /multitabs >}}
-
