@@ -71,7 +71,7 @@ When a version reaches EOL:
 
 - Technical support is no longer provided
 - Security updates are not available
-- Databases with auto-upgrades disabled are automatically upgraded to the next supported version during maintenance windows
+- All databases are automatically updated to the next supported version during maintenance windows
 
 ## Version selection
 
@@ -102,7 +102,7 @@ For existing databases:
 | **Redis 8.2** | STS | GA | TBD | Essentials, Pro |
 | **Redis 8.0** | STS | *Preview | May 1, 2026 | Essentials |
 | **Redis 7.4** | LTS | GA | December 1, 2029 | Essentials, Pro |
-| **Redis 7.2** | STS | *GA | December 1, 2029 | Essentials, Pro |
+| **Redis 7.2** | LTS | GA | December 1, 2029 | Essentials, Pro |
 | **Redis 6.2** | LTS | GA | 2026 | Pro |
 
 *Redis 8.0 is not available for new databases.
