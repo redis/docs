@@ -14,7 +14,7 @@ You can use Prometheus and Grafana to:
 
 - Display Redis Enterprise Software metrics alongside data from other systems
 
-{{<image filename="images/rs/grafana-prometheus.png" alt="Graphic showing how Prometheus and Grafana collect and display data from a Redis Enterprise Cluster. Prometheus collects metrics from the Redis Enterprise cluster, and Grafana queries those metrics for visualization.">}}
+{{<image filename="images/rs/grafana-prometheus.png" alt="Graphic showing how Prometheus and Grafana collect and display data from a Redis Enterprise Cluster. Prometheus collects metrics from the Redis Enterprise cluster, and Grafana queries those metrics for visualization." width="80%" class="mx-auto block my-6 p-4 border border-redis-pen-300 rounded-lg shadow-sm">}}
 
 In each cluster, the metrics_exporter process exposes Prometheus metrics on port 8070.
 Redis Enterprise version 7.8.2 introduces a preview of the new metrics stream engine that exposes the v2 Prometheus scraping endpoint at `https://<IP>:8070/v2`.
