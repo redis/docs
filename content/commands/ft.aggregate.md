@@ -512,7 +512,7 @@ APPLY case(@is_pending == 0 && @priority == "high", 3,4) AS status_completed
     tab2="RESP3" >}}
 
 One of the following:
-* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with the first element being the total number of results, followed by result rows as [arrays]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of field-value pairs.
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each row is an array reply representing a single aggregate result. The [integer reply]({{< relref "develop/reference/protocol-spec#resp-integers" >}}) at position `1` does not represent a valid value.
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: incorrect number of arguments, non-existent index, invalid query syntax.
 
 -tab-sep-
