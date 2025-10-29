@@ -97,6 +97,10 @@ In the **Advanced options** section, you can:
     
 - Set your [maintenance]({{< relref "/operate/rc/subscriptions/maintenance" >}}) settings in the **Maintenance windows** section. Select **Manual** if you want to set [manual maintenance windows]({{< relref "/operate/rc/subscriptions/maintenance/set-maintenance-windows" >}}).
 
+{{< note >}}
+Multi-AZ replication is required for all Active-Active databases.
+{{< /note >}}
+
 When finished, choose **Continue** to determine your size requirements.
 
 {{<image filename="images/rc/button-subscription-continue.png" width="100px" alt="Select the Continue button to continue to the next step." >}}

@@ -36,17 +36,17 @@ To add a new region to an Active-Active deployment:
 
     Select **Continue**.
 
-1. In the **Throughput** step, enter the desired read and write throughput for the new region. 
-
-    {{<image filename="images/rc/subscription-add-region-throughput.png" alt="The Throughput step." >}}
+1. In the **Throughput** step, enter the desired read and write throughput for the new region.
 
     You can also select **Set throughput as existing region** to duplicate the throughput settings from an existing region.
+
+    {{<image filename="images/rc/subscription-add-region-throughput.png" alt="The Throughput step." >}}
 
 1. Review the required resources and updated price for the database in the **Required resources** step. 
 
     {{<image filename="images/rc/subscription-add-region-required-resources.png" alt="The Required resources step." >}}
 
-    Select **Continue** to add the region to your Active-Active deployment.
+1. Select **Continue** to add the region to your Active-Active deployment.
 
 Redis Cloud will provision the new region in the background and add it to all databases in the subscription. You aren't allowed to make changes to the database settings while this process is running. 
 
