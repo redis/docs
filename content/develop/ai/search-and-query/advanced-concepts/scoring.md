@@ -19,7 +19,7 @@ weight: 8
 
 When searching, documents are scored based on their relevance to the query. The score is a floating point number between 0.0 and 1.0, where 1.0 is the highest score. The score is returned as part of the search results and can be used to sort the results.
 
-Redis Open Source comes with a few very basic scoring functions to evaluate document relevance. They are all based on document scores and term frequency. This is regardless of the ability to use [sortable fields]({{< relref "/develop/ai/search-and-query/advanced-concepts/sorting" >}}). Scoring functions are specified by adding the `SCORER {scorer_name}` argument to a search query.
+Redis Open Source comes with a few scoring functions to evaluate document relevance. They are all based on document scores and term frequency. This is distinct from the ability to use [sortable fields]({{< relref "/develop/ai/search-and-query/advanced-concepts/sorting" >}}). Scoring functions are specified by adding the `SCORER {scorer_name}` argument to a search query.
 
 If you prefer a custom scoring function, it is possible to add more functions using the [extension API]({{< relref "/develop/ai/search-and-query/administration/extensions" >}}).
 
@@ -78,14 +78,36 @@ Term frequencies are normalized by the length of the document, expressed as the 
 FT.SEARCH myIndex "foo" SCORER TFIDF.DOCNORM
 ```
 
-## BM25 (default)
+## BM25STD (default)
 
 A variation on the basic `TFIDF` scorer, see [this Wikipedia article for more info](https://en.wikipedia.org/wiki/Okapi_BM25).
 
 The relevance score for each document is multiplied by the presumptive document score and a penalty is applied based on slop as in `TFIDF`.
 
+{{< note >}}
+The `BM25` scorer was renamed `BM25STD` in Redis Open Source 8.4. `BM25` is deprecated.
+{{< /note >}}
+
 ```
-FT.SEARCH myIndex "foo" SCORER BM25
+FT.SEARCH myIndex "foo" SCORER BM25STD
+```
+
+## BM25STD.NORM
+
+A variation of `BM25STD`, where the scores are normalized by the minimum and maximum scores.
+
+`BM25STD.NORM` uses min–max normalization across the collection, making it more accurate in distinguishing documents when term frequency distributions vary significantly. Because it depends on global statistics, results adapt better to collection-specific characteristics, but this comes at a performance cost: min and max values must be computed and updated whenever the collection changes. This method is recommended when ranking precision is critical and the dataset is relatively stable.
+
+## BM25STD.TANH
+
+A variation of `BM25STD.NORM`, where the scores are normalised by the linear function `tanh(x)`. `BMSTDSTD.TANH` can take an optional argument, `BM25STD_TANH_FACTOR Y`, which is used to smooth the function and the score values. The default value for `Y` is 4.
+
+`BM25STD.TANH` applies a smooth transformation using the `tanh(x/factor)` function, which avoids collection-dependent statistics and yields faster, more efficient scoring. While this makes it more scalable and consistent across different datasets, the trade-off is reduced accuracy in cases where min–max normalization provides sharper separation. This method is recommended when performance and throughput are prioritized over fine-grained ranking sensitivity.
+
+Following is an example of how to use `BM25STD_TANH_FACTOR Y` in a query.
+
+```
+FT.SEARCH idx "term" SCORER BM25STD.TANH BM25STD_TANH_FACTOR 12 WITHSCORES
 ```
 
 ## DISMAX
