@@ -23,8 +23,6 @@ Redis Enterprise for Kubernetes 8.0.2 includes bug fixes, enhancements, and supp
 
 - **Custom certificate upload is not supported for internode encryption (RED-173229).** Internode communication between cluster nodes continues to use default self-signed certificates and cannot be configured with customer-provided certificates.
 
-- **When changing the REDB field `spec.modulesList`, version might be upgraded to latest, even if a different version is specified.** To prevent the upgrade to latest, set  `spec.upgradeSpec.setModuleToLatest` to `false` before upgrading to 8.0.2-2.
-
 - **Missing endpoint for admission endpoint (rare) (RED-119469)** Restart the operator pod.
 
 - **The REDB "redisVersion" field can't be used for memcached databases(RED-119152)**
