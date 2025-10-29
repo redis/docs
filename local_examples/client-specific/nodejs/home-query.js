@@ -1,5 +1,4 @@
 // EXAMPLE: js_home_query
-// BINDER_ID nodejs-js_home_query
 // REMOVE_START
 import assert from "node:assert";
 // REMOVE_END
