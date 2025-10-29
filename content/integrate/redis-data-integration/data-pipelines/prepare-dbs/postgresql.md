@@ -18,8 +18,8 @@ weight: 2
 
 {{< note >}}
 [Supabase](https://supabase.com/docs/guides/database/overview) uses PostgreSQL as
-its database engine, so the instructions below also apply to Supabase. However,
-Supabase is not currently supported for RDI with Redis Cloud.
+its database engine, so the instructions below also apply to Supabase. However, RDI
+doesn't currently support cloud deployments of Supabase with AWS or GCP.
 {{< /note >}}
 
 PostgreSQL supports several
