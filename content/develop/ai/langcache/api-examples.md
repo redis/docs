@@ -76,10 +76,10 @@ POST https://[host]/v1/caches/{cacheId}/entries/search
 #### Search strategies
 LangCache supports two search strategies when looking for a cached response:
 
-- **EXACT**: Returns a result only when the stored prompt matches the query exactly (case insensitive).
-- **SEMANTIC**: Uses vector similarity to find semantically similar prompts and responses.
+- **`exact`**: Returns a result only when the stored prompt matches the query exactly (case insensitive).
+- `**semantic**`: Uses vector similarity to find semantically similar prompts and responses.
 
-By default, LangCache uses SEMANTIC search. You can specify the search strategies you want to use in the request body.
+By default, LangCache uses `semantic` search only. You can specify one or more search strategies in the request body.
 This can be set as default in the cache settings page.
 
 {{< clients-example set="langcache_sdk" step="search_strategies" dft_tab_name="REST API" footer="hide" >}}
