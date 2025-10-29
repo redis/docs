@@ -582,7 +582,7 @@ In cases where some shards contain fewer documents than required to fulfill the 
 
 1. **Monitor shard distribution**: Ensure your data is relatively balanced across shards
 2. **Adjust ratio dynamically**: If you consistently get fewer results than expected, increase the ratio
-3. **Use higher ratios for critical queries**: When result completeness is more important than performance
+3. **Use higher ratios for critical queries**: Do this when result completeness is more important than performance
 
 #### Performance vs accuracy trade-offs
 
