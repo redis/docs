@@ -33,7 +33,7 @@ Your Redis Enterprise clusters must be running version 7.4.2-2 or later before u
 
 #### Redis database version
 
-Your Redis databases must be running version 7.2 or later before upgrading your cluster version to 7.8.2-6. See [upgrade databases](#upgrade-databases) for detailed steps. You can find your database version in the [REDB `spec.redisVersion` field]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_database_api#redisversion" >}}).
+Your Redis databases must be running version 7.2 or later before upgrading your cluster version. See [upgrade databases](#upgrade-databases) for detailed steps. You can find your database version in the [REDB `spec.redisVersion` field]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_database_api#redisversion" >}}).
 
 #### RHEL9-compatible modules
 

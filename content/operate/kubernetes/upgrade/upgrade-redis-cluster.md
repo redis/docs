@@ -205,7 +205,7 @@ You can view the state of the REC with `kubectl get rec`.
 ```sh
 $ kubectl get rec
 NAME   NODES   VERSION      STATE     SPEC STATUS   LICENSE STATE   SHARDS LIMIT   LICENSE EXPIRATION DATE   AGE
-rec    3       6.2.10-107   Upgrade   Valid         Valid           4              2022-07-16T13:59:00Z      92m
+rec    3       8.0.2-17   Upgrade   Valid         Valid           4              2022-07-16T13:59:00Z      92m
 ```
 
 To see the status of the current rolling upgrade, run:
