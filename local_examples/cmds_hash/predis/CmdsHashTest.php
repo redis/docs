@@ -26,10 +26,7 @@ class CmdsHashTest extends TestCase
 
     public function testCmdsHash(): void
     {
-        echo "\n=== Testing Redis Hash Commands ===\n";
-
         // STEP_START hdel
-        echo "\n--- HDEL Command ---\n";
         $hDelResult1 = $this->redis->hset('myhash', 'field1', 'foo');
         echo "HSET myhash field1 foo: " . $hDelResult1 . "\n"; // >>> 1
 
@@ -40,12 +37,13 @@ class CmdsHashTest extends TestCase
         echo "HDEL myhash field2: " . $hDelResult3 . "\n"; // >>> 0
         // STEP_END
 
+        // REMOVE_START
         $this->assertEquals(1, $hDelResult1);
         $this->assertEquals(1, $hDelResult2);
         $this->assertEquals(0, $hDelResult3);
+        // REMOVE_END
 
         // STEP_START hget
-        echo "\n--- HGET Command ---\n";
         $hGetResult1 = $this->redis->hset('myhash', 'field1', 'foo');
         echo "HSET myhash field1 foo: " . $hGetResult1 . "\n"; // >>> 1
 
@@ -56,12 +54,13 @@ class CmdsHashTest extends TestCase
         echo "HGET myhash field2: " . ($hGetResult3 ?? 'null') . "\n"; // >>> null
         // STEP_END
 
+        // REMOVE_START
         $this->assertEquals(1, $hGetResult1);
         $this->assertEquals('foo', $hGetResult2);
         $this->assertNull($hGetResult3);
+        // REMOVE_END
 
         // STEP_START hgetall
-        echo "\n--- HGETALL Command ---\n";
         $hGetAllResult1 = $this->redis->hmset('myhash', ['field1' => 'Hello', 'field2' => 'World']);
         echo "HMSET myhash field1 Hello field2 World: " . ($hGetAllResult1 ? 'OK' : 'FAIL') . "\n"; // >>> OK
 
@@ -69,13 +68,15 @@ class CmdsHashTest extends TestCase
         echo "HGETALL myhash: " . json_encode($hGetAllResult2) . "\n"; // >>> {"field1":"Hello","field2":"World"}
         // STEP_END
 
+        // REMOVE_START
         $this->assertEquals('OK', $hGetAllResult1);
         $this->assertEquals(['field1' => 'Hello', 'field2' => 'World'], $hGetAllResult2);
+        // REMOVE_END
 
         // STEP_START hset
-        echo "\n--- HSET Command ---\n";
-        // Clean up first
+        // REMOVE_START
         $this->redis->del('myhash');
+        // REMOVE_END
 
         $hSetResult1 = $this->redis->hset('myhash', 'field1', 'Hello');
         echo "HSET myhash field1 Hello: " . $hSetResult1 . "\n"; // >>> 1
@@ -100,17 +101,19 @@ class CmdsHashTest extends TestCase
         echo "\n";
         // STEP_END
 
+        // REMOVE_START
         $this->assertEquals(1, $hSetResult1);
         $this->assertEquals('Hello', $hSetResult2);
         $this->assertEquals('OK', $hSetResult3);
         $this->assertEquals('Hi', $hSetResult4);
         $this->assertEquals('World', $hSetResult5);
         $this->assertEquals(['field1' => 'Hello', 'field2' => 'Hi', 'field3' => 'World'], $hSetResult6);
+        // REMOVE_END
 
         // STEP_START hvals
-        echo "\n--- HVALS Command ---\n";
-        // Clean up first
+        // REMOVE_START
         $this->redis->del('myhash');
+        // REMOVE_END
 
         $hValsResult1 = $this->redis->hmset('myhash', ['field1' => 'Hello', 'field2' => 'World']);
         echo "HMSET myhash field1 Hello field2 World: " . ($hValsResult1 ? 'OK' : 'FAIL') . "\n"; // >>> OK
@@ -119,13 +122,15 @@ class CmdsHashTest extends TestCase
         echo "HVALS myhash: " . json_encode($hValsResult2) . "\n"; // >>> ["Hello","World"]
         // STEP_END
 
+        // REMOVE_START
         $this->assertEquals('OK', $hValsResult1);
         $this->assertEquals(['Hello', 'World'], $hValsResult2);
+        // REMOVE_END
 
         // STEP_START hexpire
-        echo "\n--- HEXPIRE Command ---\n";
-        // Clean up first
+        // REMOVE_START
         $this->redis->del('myhash');
+        // REMOVE_END
 
         // Set up hash with fields
         $hExpireResult1 = $this->redis->hmset('myhash', ['field1' => 'Hello', 'field2' => 'World']);
@@ -144,13 +149,13 @@ class CmdsHashTest extends TestCase
         echo "HEXPIRE myhash 10 FIELDS nonexistent: " . json_encode($hExpireResult4) . "\n"; // >>> [-2]
         // STEP_END
 
+        // REMOVE_START
         $this->assertEquals('OK', $hExpireResult1);
         $this->assertEquals([1, 1], $hExpireResult2);
         $this->assertEquals(2, count($hExpireResult3));
         $this->assertTrue(array_reduce($hExpireResult3, function($carry, $ttl) { return $carry && $ttl > 0; }, true)); // TTL should be positive
         $this->assertEquals([-2], $hExpireResult4);
-
-        echo "\n=== All Hash Commands Tests Passed! ===\n";
+        // REMOVE_END
     }
 
     protected function tearDown(): void

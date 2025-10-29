@@ -23,12 +23,14 @@ public class CmdsHashExample
 
         RedisValue hdelRes3 = db.HashDelete("myhash", "field1");
         Console.WriteLine(hdelRes3);    // >>> 0
-
         // STEP_END
+
+        // REMOVE_START
         Assert.True(hdelRes1);
         Assert.Equal(1, hdelRes2);
         Assert.Equal(0, hdelRes3);
         db.KeyDelete("myhash");
+        // REMOVE_END
 
         // STEP_START hget
         bool hgetRes1 = db.HashSet("myhash", "field1", "foo");
@@ -38,12 +40,14 @@ public class CmdsHashExample
 
         RedisValue hgetRes3 = db.HashGet("myhash", "field2");
         Console.WriteLine(hgetRes3);    // >>> Null
-
         // STEP_END
+
+        // REMOVE_START
         Assert.True(hgetRes1);
         Assert.Equal("foo", hgetRes2);
         Assert.Equal(RedisValue.Null, hgetRes3);
         db.KeyDelete("myhash");
+        // REMOVE_END
 
         // STEP_START hset
         bool hsetRes1 = db.HashSet("myhash", "field1", "Hello");
@@ -67,8 +71,9 @@ public class CmdsHashExample
         HashEntry[] hsetRes5 = db.HashGetAll("myhash");
         Console.WriteLine($"{string.Join(", ", hsetRes5.Select(h => $"{h.Name}: {h.Value}"))}");
         // >>> field1: Hello, field2: Hi, field3: World
-
         // STEP_END
+
+        // REMOVE_START
         Assert.True(hsetRes1);
         Assert.Equal("Hello", hsetRes2);
         Assert.Equal("Hi", hsetRes3);
@@ -78,6 +83,7 @@ public class CmdsHashExample
             string.Join(", ", hsetRes5.Select(h => $"{h.Name}: {h.Value}"))
         );
         db.KeyDelete("myhash");
+        // REMOVE_END
 
         // STEP_START hgetall
         db.HashSet("myhash",
@@ -94,8 +100,11 @@ public class CmdsHashExample
         );
         // >>> field1: Hello, field2: World
         // STEP_END
+
+        // REMOVE_START
         Assert.Equal("field1: Hello, field2: World", string.Join(", ", hGetAllResult.Select(e => $"{e.Name}: {e.Value}")));
         db.KeyDelete("myhash");
+        // REMOVE_END
 
         // STEP_START hvals
         db.HashSet("myhash",
@@ -110,8 +119,11 @@ public class CmdsHashExample
         Console.WriteLine(string.Join(", ", hValsResult));
         // >>> Hello, World
         // STEP_END
+
+        // REMOVE_START
         Assert.Equal("Hello, World", string.Join(", ", hValsResult));
         db.KeyDelete("myhash");
+        // REMOVE_END
 
         // STEP_START hexpire
         // Set up hash with fields
@@ -139,6 +151,7 @@ public class CmdsHashExample
         // >>> -2
         // STEP_END
 
+        // REMOVE_START
         RedisValue[] expireResult1 = (RedisValue[])hexpireRes1;
         RedisValue[] expireResult3 = (RedisValue[])hexpireRes3;
         Assert.Equal("1, 1", string.Join(", ", expireResult1));
@@ -146,5 +159,6 @@ public class CmdsHashExample
         Assert.True(ttlValues.All(ttl => (int)ttl > 0)); // TTL should be positive
         Assert.Equal("-2", string.Join(", ", expireResult3));
         db.KeyDelete("myhash");
+        // REMOVE_END
     }
 }
