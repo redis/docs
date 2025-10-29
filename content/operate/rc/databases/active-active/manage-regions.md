@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rc
-description: Shows how to add and edit regions for an Active-Active deployment.
+description: Learn how to add and edit regions for an Active-Active deployment.
 linkTitle: Manage regions
 weight: 10
 ---

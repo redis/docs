@@ -24,7 +24,7 @@ Once you have the username and password, select **Connect** to open the connecti
 {{< image filename="/images/rc/button-connect.png#no-click" alt="Connect button." >}}
 
 {{< note >}}
-For [Active-Active databases]({{< relref "/operate/rc/databases/active-active" >}}), you connect to one of the database instances. Select the region you to connect to from the region selection to access the connection information for that instance.
+For [Active-Active databases]({{< relref "/operate/rc/databases/active-active" >}}), you connect to one of the database instances. Choose the region you want to connect to from the region selection to access the connection information for that instance.
 {{< /note >}}
 
 The connection wizard provides the following database connection methods:
