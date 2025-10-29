@@ -11,7 +11,7 @@ title: Use the LangCache API and SDK
 weight: 10
 ---
 
-Use the [LangCache API]({{< relref "/develop/ai/langcache/api-reference" >}}) from your client app to store and retrieve LLM, RAG, or agent responses. 
+Use the [LangCache API]({{< relref "/develop/ai/langcache/api-reference" >}}) from your client app to store and retrieve LLM, RAG, or agent responses.
 
 You can use any standard REST client or library to access the API. If your app is written in Python or Javascript, you can also use the LangCache Software Development Kits (SDKs) to access the API:
 
@@ -60,6 +60,7 @@ Place this call in your client app right before you call your LLM's REST API. If
 
 If LangCache does not return a response, you should call your LLM's REST API to generate a new response. After you get a response from the LLM, you can [store it in LangCache](#store-a-new-response-in-langcache) for future use.
 
+#### Attributes
 You can also scope the responses returned from LangCache by adding an `attributes` object to the request. LangCache will only return responses that match the attributes you specify.
 
 {{< clients-example set="langcache_sdk" step="search_attributes" dft_tab_name="REST API" footer="hide" >}}
@@ -69,6 +70,23 @@ POST https://[host]/v1/caches/{cacheId}/entries/search
     "attributes": {
         "customAttributeName": "customAttributeValue"
     }
+}
+{{< /clients-example >}}
+
+#### Search strategies
+LangCache supports two search strategies when looking for a cached response:
+
+- **EXACT**: Returns a result only when the stored prompt matches the query exactly (case insensitive).
+- **SEMANTIC**: Uses vector similarity to find semantically similar prompts and responses.
+
+By default, LangCache uses SEMANTIC search. You can specify the search strategies you want to use in the request body.
+This can be set as default in the cache settings page.
+
+{{< clients-example set="langcache_sdk" step="search_strategies" dft_tab_name="REST API" footer="hide" >}}
+POST https://[host]/v1/caches/{cacheId}/entries/search
+{
+    "prompt": "User prompt text",
+    "searchStrategies": ["exact", "semantic"]
 }
 {{< /clients-example >}}
 
@@ -107,7 +125,7 @@ Use [`DELETE /v1/caches/{cacheId}/entries/{entryId}`]({{< relref "/develop/ai/la
 DELETE https://[host]/v1/caches/{cacheId}/entries/{entryId}
 {{< /clients-example >}}
 
-You can also use [`DELETE /v1/caches/{cacheId}/entries`]({{< relref "/develop/ai/langcache/api-reference#tag/Cache-Entries/operation/deleteQuery" >}}) to delete multiple cached responses based on the `attributes` you specify. If you specify multiple `attributes`, LangCache will delete entries that contain all given attributes. 
+You can also use [`DELETE /v1/caches/{cacheId}/entries`]({{< relref "/develop/ai/langcache/api-reference#tag/Cache-Entries/operation/deleteQuery" >}}) to delete multiple cached responses based on the `attributes` you specify. If you specify multiple `attributes`, LangCache will delete entries that contain all given attributes.
 
 {{< warning >}}
 If you do not specify any `attributes`, all responses in the cache will be deleted. This cannot be undone.
@@ -123,4 +141,3 @@ DELETE https://[host]/v1/caches/{cacheId}/entries
     }
 }
 {{< /clients-example >}}
-
