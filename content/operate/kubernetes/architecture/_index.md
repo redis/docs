@@ -114,7 +114,7 @@ PVCs are created with a specific size and [can be expanded](https://kubernetes.i
 
 ### Redis Flex
 
-Redis Enterprise Software for Kubernetes supports [Redis Flex]({{<relref "/operate/kubernetes/re-clusters/auto-tiering">}}) (previously known as Redis on Flash), which extends your node memory to use both RAM and flash storage. SSDs (solid state drives) can store infrequently used (warm) values while your keys and frequently used (hot) values are still stored in RAM. This improves performance and lowers costs for large datasets.
+Redis Enterprise Software for Kubernetes supports [Redis Flex]({{<relref "/operate/kubernetes/re-clusters/redis-flex">}}) (previously known as Redis on Flash), which extends your node memory to use both RAM and flash storage. SSDs (solid state drives) can store infrequently used (warm) values while your keys and frequently used (hot) values are still stored in RAM. This improves performance and lowers costs for large datasets.
 
 NVMe (non-volatile memory express) SSDs are strongly recommended to achieve the best performance.
 
