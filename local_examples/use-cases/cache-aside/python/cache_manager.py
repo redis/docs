@@ -1,90 +1,98 @@
-"""Cache manager implementations for cache-aside pattern."""
+# EXAMPLE: cache_manager_class
+"""Cache manager implementations for cache-aside pattern using Redis JSON."""
 
-import json
 import logging
 from typing import Any, Optional, Callable
 
 import redis
-import aioredis
-
-from cache_config import CacheConfig
 
 
 class CacheAsideManager:
-    """Manages cache-aside pattern operations."""
-    
+    """Manages cache-aside pattern operations using Redis JSON."""
+
+    # STEP_START init
     def __init__(
         self,
         redis_client: redis.Redis,
-        config: CacheConfig,
+        ttl: int = 60,
+        key_prefix: str = 'cache:',
         logger: Optional[logging.Logger] = None
     ):
         """Initialize cache manager.
-        
+
         Args:
             redis_client: Redis client instance
-            config: Cache configuration
+            ttl: Default time-to-live in seconds
+            key_prefix: Prefix for cache keys
             logger: Optional logger instance
         """
         self.redis = redis_client
-        self.config = config
+        self.ttl = ttl
+        self.key_prefix = key_prefix
         self.logger = logger or logging.getLogger(__name__)
         self.hits = 0
         self.misses = 0
-    
+    # STEP_END
+
+    # STEP_START get_method
     def get(
         self,
         key: str,
         data_source: Callable,
         ttl: Optional[int] = None
     ) -> Optional[Any]:
-        """Get data using cache-aside pattern.
-        
+        """Get data using cache-aside pattern with Redis JSON.
+
         Args:
             key: Data key
             data_source: Callable that fetches data from source
             ttl: Optional TTL override
-            
+
         Returns:
             Data from cache or data source
         """
-        cache_key = f"{self.config.key_prefix}{key}"
-        ttl = ttl or self.config.ttl
-        
+        cache_key = f"{self.key_prefix}{key}"
+        ttl = ttl or self.ttl
+
         # Check cache
         try:
-            cached_value = self.redis.get(cache_key)
+            # Use Redis JSON for native JSON retrieval
+            cached_value = self.redis.json().get(cache_key)
             if cached_value is not None:
                 self.hits += 1
                 self.logger.debug(f"Cache hit: {key}")
-                return json.loads(cached_value)
+                return cached_value
         except redis.RedisError as e:
             self.logger.error(f"Cache error: {e}")
-        
+
         # Cache miss
         self.misses += 1
         self.logger.debug(f"Cache miss: {key}")
         value = data_source(key)
-        
+
         # Store in cache
         if value is not None:
             try:
-                self.redis.set(cache_key, json.dumps(value), ex=ttl)
+                # Store as JSON using Redis JSON module
+                self.redis.json().set(cache_key, '$', value, nx=False)
+                self.redis.expire(cache_key, ttl)
             except redis.RedisError as e:
                 self.logger.error(f"Failed to cache: {e}")
-        
+
         return value
-    
+    # STEP_END
+
+    # STEP_START invalidate_method
     def invalidate(self, key: str) -> bool:
         """Invalidate cache entry.
-        
+
         Args:
             key: Data key to invalidate
-            
+
         Returns:
             True if key was deleted, False otherwise
         """
-        cache_key = f"{self.config.key_prefix}{key}"
+        cache_key = f"{self.key_prefix}{key}"
         try:
             result = self.redis.delete(cache_key)
             self.logger.debug(f"Invalidated: {key}")
@@ -92,10 +100,11 @@ class CacheAsideManager:
         except redis.RedisError as e:
             self.logger.error(f"Invalidation error: {e}")
             return False
-    
+    # STEP_END
+
     def get_hit_ratio(self) -> float:
         """Calculate cache hit ratio.
-        
+
         Returns:
             Hit ratio as float between 0 and 1
         """
@@ -104,23 +113,26 @@ class CacheAsideManager:
 
 
 class AsyncCacheAsideManager:
-    """Async cache-aside manager for asyncio applications."""
+    """Async cache-aside manager for asyncio applications using Redis JSON."""
 
     def __init__(
         self,
-        redis_client: aioredis.Redis,
-        config: CacheConfig,
+        redis_client: redis.asyncio.Redis,
+        ttl: int = 60,
+        key_prefix: str = 'cache:',
         logger: Optional[logging.Logger] = None
     ):
         """Initialize async cache manager.
-        
+
         Args:
             redis_client: Async Redis client instance
-            config: Cache configuration
+            ttl: Default time-to-live in seconds
+            key_prefix: Prefix for cache keys
             logger: Optional logger instance
         """
         self.redis = redis_client
-        self.config = config
+        self.ttl = ttl
+        self.key_prefix = key_prefix
         self.logger = logger or logging.getLogger(__name__)
         self.hits = 0
         self.misses = 0
@@ -131,27 +143,28 @@ class AsyncCacheAsideManager:
         data_source_coro: Callable,
         ttl: Optional[int] = None
     ) -> Optional[Any]:
-        """Get data asynchronously using cache-aside pattern.
-        
+        """Get data asynchronously using cache-aside pattern with Redis JSON.
+
         Args:
             key: Data key
             data_source_coro: Async callable that fetches data
             ttl: Optional TTL override
-            
+
         Returns:
             Data from cache or data source
         """
-        cache_key = f"{self.config.key_prefix}{key}"
-        ttl = ttl or self.config.ttl
+        cache_key = f"{self.key_prefix}{key}"
+        ttl = ttl or self.ttl
 
         # Check cache
         try:
-            cached_value = await self.redis.get(cache_key)
+            # Use Redis JSON for native JSON retrieval
+            cached_value = await self.redis.json().get(cache_key)
             if cached_value is not None:
                 self.hits += 1
                 self.logger.debug(f"Cache hit: {key}")
-                return json.loads(cached_value)
-        except aioredis.RedisError as e:
+                return cached_value
+        except redis.RedisError as e:
             self.logger.error(f"Cache error: {e}")
 
         # Cache miss
@@ -162,31 +175,29 @@ class AsyncCacheAsideManager:
         # Store in cache
         if value is not None:
             try:
-                await self.redis.set(
-                    cache_key,
-                    json.dumps(value),
-                    expire=ttl
-                )
-            except aioredis.RedisError as e:
+                # Store as JSON using Redis JSON module
+                await self.redis.json().set(cache_key, '$', value, nx=False)
+                await self.redis.expire(cache_key, ttl)
+            except redis.RedisError as e:
                 self.logger.error(f"Failed to cache: {e}")
 
         return value
 
     async def invalidate(self, key: str) -> bool:
         """Invalidate cache entry asynchronously.
-        
+
         Args:
             key: Data key to invalidate
-            
+
         Returns:
             True if key was deleted, False otherwise
         """
-        cache_key = f"{self.config.key_prefix}{key}"
+        cache_key = f"{self.key_prefix}{key}"
         try:
             result = await self.redis.delete(cache_key)
             self.logger.debug(f"Invalidated: {key}")
             return result > 0
-        except aioredis.RedisError as e:
+        except redis.RedisError as e:
             self.logger.error(f"Invalidation error: {e}")
             return False
 

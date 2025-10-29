@@ -49,140 +49,66 @@ Cache-aside is ideal for:
 
 ## Basic Implementation
 
-Here's a simple cache-aside implementation in Python:
+Here's a simple cache-aside implementation in Python using Redis JSON:
 
-```python
-import redis
-import json
+{{< clients-example set="cache_aside_basic" step="connect" lang_filter="Python" />}}
 
-# Connect to Redis
-r = redis.Redis(host='localhost', port=6379, decode_responses=True)
+The `CacheAsideManager` class provides a convenient way to manage cache-aside operations:
 
-def get_user(user_id):
-    """Get user data with cache-aside pattern."""
-    cache_key = f'user:{user_id}'
-    
-    # Step 1: Check cache
-    cached_user = r.get(cache_key)
-    if cached_user:
-        print(f"Cache hit for {cache_key}")
-        return json.loads(cached_user)
-    
-    # Step 2: Cache miss - fetch from database
-    print(f"Cache miss for {cache_key}")
-    user = fetch_from_database(user_id)  # Your database query
-    
-    # Step 3: Store in cache with 1-hour TTL
-    r.setex(cache_key, 3600, json.dumps(user))
-    
-    # Step 4: Return data
-    return user
-```
+{{< clients-example set="cache_manager_class" step="init" lang_filter="Python" />}}
+
+**Key Differences with Redis JSON:**
+- No need for `json.dumps()` or `json.loads()` - Redis JSON handles serialization
+- Use `r.json().get()` and `r.json().set()` for native JSON operations
+- Cleaner, more efficient code with native JSON support
 
 ## Cache Invalidation
 
 When data changes, you need to invalidate the cache to prevent stale data:
 
-```python
-def update_user(user_id, new_data):
-    """Update user and invalidate cache."""
-    # Update database
-    update_database(user_id, new_data)
-    
-    # Invalidate cache
-    cache_key = f'user:{user_id}'
-    r.delete(cache_key)
-    
-    # Next request will fetch fresh data
-```
+{{< clients-example set="cache_aside_basic" step="invalidate" lang_filter="Python" />}}
 
 ### Pattern-Based Invalidation
 
 Invalidate multiple related keys at once:
 
-```python
-def invalidate_user_cache(user_id):
-    """Invalidate all cache keys for a user."""
-    # Delete all keys matching pattern
-    pattern = f'user:{user_id}:*'
-    for key in r.scan_iter(match=pattern):
-        r.delete(key)
-```
+{{< clients-example set="cache_aside_utils" step="invalidate_pattern" lang_filter="Python" />}}
 
 ## TTL Management
 
-Set appropriate time-to-live values for different data types:
+Set appropriate time-to-live values for different data types using Redis JSON:
 
-```python
-# Short TTL for frequently changing data (5 minutes)
-r.setex('user:session:123', 300, session_data)
+{{< clients-example set="cache_aside_utils" step="set_ttl" lang_filter="Python" />}}
 
-# Medium TTL for user profiles (1 hour)
-r.setex('user:profile:456', 3600, profile_data)
+You can also retrieve and refresh TTL values:
 
-# Long TTL for reference data (24 hours)
-r.setex('product:catalog', 86400, catalog_data)
-```
+{{< clients-example set="cache_aside_utils" step="get_ttl" lang_filter="Python" />}}
+
+{{< clients-example set="cache_aside_utils" step="refresh_ttl" lang_filter="Python" />}}
 
 ## Error Handling
 
-Always handle cache failures gracefully:
+Always handle cache failures gracefully using Redis JSON. The `CacheAsideManager` class includes built-in error handling:
 
-```python
-def get_user_safe(user_id):
-    """Get user with fallback to database on cache failure."""
-    try:
-        cache_key = f'user:{user_id}'
-        cached_user = r.get(cache_key)
-        if cached_user:
-            return json.loads(cached_user)
-    except redis.ConnectionError:
-        print("Redis unavailable, falling back to database")
-    except Exception as e:
-        print(f"Cache error: {e}")
-    
-    # Fallback: fetch from database
-    return fetch_from_database(user_id)
-```
+{{< clients-example set="cache_manager_class" step="get_method" lang_filter="Python" />}}
+
+This implementation automatically falls back to the data source if Redis is unavailable.
 
 ## Performance Metrics
 
-Monitor cache effectiveness with hit/miss ratios:
+Monitor cache effectiveness with hit/miss ratios. The `CacheAsideManager` class tracks these metrics automatically:
 
 ```python
-class CacheMetrics:
-    def __init__(self):
-        self.hits = 0
-        self.misses = 0
-    
-    def record_hit(self):
-        self.hits += 1
-    
-    def record_miss(self):
-        self.misses += 1
-    
-    def hit_ratio(self):
-        total = self.hits + self.misses
-        return self.hits / total if total > 0 else 0
-
-metrics = CacheMetrics()
-
-def get_user_tracked(user_id):
-    cache_key = f'user:{user_id}'
-    cached_user = r.get(cache_key)
-    
-    if cached_user:
-        metrics.record_hit()
-        return json.loads(cached_user)
-    
-    metrics.record_miss()
-    user = fetch_from_database(user_id)
-    r.setex(cache_key, 3600, json.dumps(user))
-    return user
-
-# Check performance
-print(f"Hit ratio: {metrics.hit_ratio():.2%}")
+# After using cache_manager.get() multiple times
+hit_ratio = cache_manager.get_hit_ratio()
+print(f"Hit ratio: {hit_ratio:.2%}")
+print(f"Hits: {cache_manager.hits}, Misses: {cache_manager.misses}")
 ```
+
+Aim for an 80%+ hit ratio for optimal performance. If your hit ratio is lower, consider:
+- Increasing TTL values for stable data
+- Pre-warming the cache with frequently accessed data
+- Analyzing access patterns to identify optimization opportunities
 
 ## Best Practices
 
@@ -197,56 +123,25 @@ print(f"Hit ratio: {metrics.hit_ratio():.2%}")
 ## Common Pitfalls
 
 ### Cache Stampede
-When a popular cache entry expires, many concurrent requests hit the database:
+When a popular cache entry expires, many concurrent requests hit the database simultaneously, overwhelming it. Solutions include:
 
-```python
-# Problem: Multiple requests fetch same data simultaneously
-# Solution: Use locks or probabilistic early expiration
-def get_user_with_lock(user_id):
-    cache_key = f'user:{user_id}'
-    lock_key = f'{cache_key}:lock'
-    
-    cached_user = r.get(cache_key)
-    if cached_user:
-        return json.loads(cached_user)
-    
-    # Try to acquire lock
-    if r.set(lock_key, '1', nx=True, ex=10):
-        try:
-            user = fetch_from_database(user_id)
-            r.setex(cache_key, 3600, json.dumps(user))
-            return user
-        finally:
-            r.delete(lock_key)
-    else:
-        # Wait for lock holder to populate cache
-        time.sleep(0.1)
-        return get_user_with_lock(user_id)
-```
+- **Lock-based approach**: Use Redis `SET` with `NX` (only if not exists) to create a lock. Only the lock holder fetches from the database; others wait.
+- **Probabilistic early expiration**: Refresh cache entries before they expire based on a probability calculation.
+- **Stale-while-revalidate**: Serve stale data while refreshing in the background.
 
 ### Null Value Caching
-Cache null values to prevent repeated database queries:
+When a key doesn't exist in the database, cache a null marker to prevent repeated database queries:
 
-```python
-def get_user_with_null_cache(user_id):
-    cache_key = f'user:{user_id}'
-    cached = r.get(cache_key)
-    
-    if cached == 'NULL':
-        return None  # User doesn't exist
-    
-    if cached:
-        return json.loads(cached)
-    
-    user = fetch_from_database(user_id)
-    
-    if user is None:
-        r.setex(cache_key, 300, 'NULL')  # Cache null for 5 minutes
-    else:
-        r.setex(cache_key, 3600, json.dumps(user))
-    
-    return user
-```
+- Store a special marker (e.g., `"NULL"`) in Redis with a short TTL (e.g., 5 minutes)
+- Check for this marker before querying the database
+- This prevents "cache misses" from repeatedly hitting the database for non-existent keys
+
+### Other Common Issues
+
+- **Inconsistent TTLs**: Different data types should have different TTLs based on how frequently they change
+- **Missing error handling**: Always handle Redis connection failures gracefully
+- **Inefficient invalidation**: Use pattern-based invalidation for related keys instead of individual deletes
+- **No monitoring**: Track hit ratios and cache performance metrics to identify optimization opportunities
 
 ## Next Steps
 

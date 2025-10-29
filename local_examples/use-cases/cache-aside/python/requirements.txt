@@ -1,12 +1,8 @@
 # Core dependencies
-redis>=4.5.0
-
-# Optional dependencies for serialization
-msgpack>=1.0.0
+redis>=4.5.0  # Redis client with JSON support
 
 # Optional dependencies for logging
 python-json-logger>=2.0.0
 
 # Optional dependencies for async support
-aioredis>=2.0.0
-
+redis[asyncio]>=4.5.0

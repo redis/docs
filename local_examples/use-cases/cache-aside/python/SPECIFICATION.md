@@ -80,14 +80,14 @@ pool = redis.ConnectionPool(
 r = redis.Redis(connection_pool=pool)
 ```
 
-**Configuration Class:**
+**Configuration Class (Optional):**
 ```python
 from dataclasses import dataclass
 from typing import Optional
 
 @dataclass
 class CacheConfig:
-    """Cache configuration."""
+    """Cache configuration parameters."""
     host: str = 'localhost'
     port: int = 6379
     db: int = 0
@@ -95,17 +95,11 @@ class CacheConfig:
     key_prefix: str = 'cache:'
     socket_timeout: Optional[float] = 5.0
     socket_connect_timeout: Optional[float] = 5.0
-    
-    def create_redis_client(self) -> redis.Redis:
-        """Create Redis client from config."""
-        return redis.Redis(
-            host=self.host,
-            port=self.port,
-            db=self.db,
-            decode_responses=True,
-            socket_timeout=self.socket_timeout,
-            socket_connect_timeout=self.socket_connect_timeout
-        )
+```
+
+**Note:** For simplicity in tutorials, you can instantiate Redis clients directly without a configuration class:
+```python
+redis_client = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
 ```
 
 ---
@@ -152,9 +146,8 @@ class MockDataStore:
 
 ### 4. Core Cache-Aside Implementation
 
-**Basic Function:**
+**Basic Function (Using Redis JSON):**
 ```python
-import json
 from typing import Any, Optional, Callable
 
 def get_cached_data(
@@ -164,80 +157,88 @@ def get_cached_data(
     ttl: int = 60,
     prefix: str = 'cache:'
 ) -> Optional[Any]:
-    """Retrieve data using cache-aside pattern."""
+    """Retrieve data using cache-aside pattern with Redis JSON."""
     cache_key = f"{prefix}{key}"
-    
+
     try:
-        cached_value = redis_client.get(cache_key)
+        # Use Redis JSON for native JSON storage
+        cached_value = redis_client.json().get(cache_key)
         if cached_value is not None:
-            return json.loads(cached_value)
+            return cached_value
     except redis.RedisError as e:
         print(f"Cache error: {e}")
-    
+
     value = data_source(key)
-    
+
     if value is not None:
         try:
-            redis_client.set(cache_key, json.dumps(value), ex=ttl)
+            # Store as JSON using Redis JSON module
+            redis_client.json().set(cache_key, '$', value, nx=False)
+            redis_client.expire(cache_key, ttl)
         except redis.RedisError as e:
             print(f"Failed to cache: {e}")
-    
+
     return value
 ```
 
-**Object-Oriented Implementation:**
+**Object-Oriented Implementation (Using Redis JSON):**
 ```python
 import logging
 
 class CacheAsideManager:
-    """Manages cache-aside pattern operations."""
-    
+    """Manages cache-aside pattern operations using Redis JSON."""
+
     def __init__(
         self,
         redis_client: redis.Redis,
-        config: CacheConfig,
+        ttl: int = 60,
+        key_prefix: str = 'cache:',
         logger: Optional[logging.Logger] = None
     ):
         self.redis = redis_client
-        self.config = config
+        self.ttl = ttl
+        self.key_prefix = key_prefix
         self.logger = logger or logging.getLogger(__name__)
         self.hits = 0
         self.misses = 0
-    
+
     def get(
         self,
         key: str,
         data_source: Callable,
         ttl: Optional[int] = None
     ) -> Optional[Any]:
-        """Get data using cache-aside pattern."""
-        cache_key = f"{self.config.key_prefix}{key}"
-        ttl = ttl or self.config.ttl
-        
+        """Get data using cache-aside pattern with Redis JSON."""
+        cache_key = f"{self.key_prefix}{key}"
+        ttl = ttl or self.ttl
+
         try:
-            cached_value = self.redis.get(cache_key)
+            # Use Redis JSON for native JSON retrieval
+            cached_value = self.redis.json().get(cache_key)
             if cached_value is not None:
                 self.hits += 1
                 self.logger.debug(f"Cache hit: {key}")
-                return json.loads(cached_value)
+                return cached_value
         except redis.RedisError as e:
             self.logger.error(f"Cache error: {e}")
-        
+
         self.misses += 1
         self.logger.debug(f"Cache miss: {key}")
         value = data_source(key)
-        
+
         if value is not None:
             try:
-                self.redis.set(cache_key, json.dumps(value), ex=ttl)
+                # Store as JSON using Redis JSON module
+                self.redis.json().set(cache_key, '$', value, nx=False)
+                self.redis.expire(cache_key, ttl)
             except redis.RedisError as e:
                 self.logger.error(f"Failed to cache: {e}")
-        
+
         return value
-    
+
     def invalidate(self, key: str) -> bool:
         """Invalidate cache entry."""
-        cache_key = f"{self.config.key_prefix}{key}"
+        cache_key = f"{self.key_prefix}{key}"
         try:
             result = self.redis.delete(cache_key)
             self.logger.debug(f"Invalidated: {key}")
@@ -245,7 +246,7 @@ class CacheAsideManager:
         except redis.RedisError as e:
             self.logger.error(f"Invalidation error: {e}")
             return False
-    
+
     def get_hit_ratio(self) -> float:
         """Calculate cache hit ratio."""
         total = self.hits + self.misses
@@ -344,46 +345,39 @@ def refresh_ttl(
 
 ---
 
-### 7. Serialization Strategies
+### 7. Redis JSON Storage
 
-**JSON (Default):**
+**Native JSON Support:**
+
+This implementation uses Redis's native JSON data type (available in Redis Stack or with the RedisJSON module). This eliminates the need for manual serialization/deserialization:
+
 ```python
-def serialize_json(value: Any) -> str:
-    return json.dumps(value)
+# Store JSON directly
+redis_client.json().set('user:123', '$', {'id': 123, 'name': 'Alice'})
 
-def deserialize_json(data: str) -> Any:
-    return json.loads(data)
+# Retrieve JSON directly (no json.loads() needed)
+user = redis_client.json().get('user:123')
+# Returns: {'id': 123, 'name': 'Alice'}
+
+# Update specific fields
+redis_client.json().set('user:123', '$.name', 'Alice Updated')
+
+# Delete specific fields
+redis_client.json().delete('user:123', '$.email')
 ```
 
-**MessagePack (Efficient):**
-```python
-import msgpack
-
-def serialize_msgpack(value: Any) -> bytes:
-    return msgpack.packb(value)
-
-def deserialize_msgpack(data: bytes) -> Any:
-    return msgpack.unpackb(data)
-```
-
-**Compression:**
-```python
-import gzip
-
-def serialize_compressed(value: Any) -> bytes:
-    json_data = json.dumps(value).encode('utf-8')
-    return gzip.compress(json_data)
-
-def deserialize_compressed(data: bytes) -> Any:
-    json_data = gzip.decompress(data).decode('utf-8')
-    return json.loads(json_data)
-```
+**Benefits of Redis JSON:**
+- No manual serialization/deserialization overhead
+- Native JSON path queries
+- Atomic updates to nested fields
+- Better performance for complex data structures
+- Type safety with native JSON support
 
 ---
 
 ### 8. Error Handling
 
-**Graceful Degradation:**
+**Graceful Degradation (Using Redis JSON):**
 ```python
 def get_data_with_fallback(
     redis_client: redis.Redis,
@@ -394,21 +388,24 @@ def get_data_with_fallback(
 ) -> Optional[Any]:
     """Get data with fallback to data source on cache error."""
     cache_key = f"{prefix}{key}"
-    
+
     try:
-        cached_value = redis_client.get(cache_key)
+        # Use Redis JSON for native retrieval
+        cached_value = redis_client.json().get(cache_key)
         if cached_value is not None:
-            return json.loads(cached_value)
-    except (redis.RedisError, json.JSONDecodeError) as e:
+            return cached_value
+    except redis.RedisError as e:
         print(f"Cache error, falling back: {e}")
-    
+
     value = data_source(key)
-    
+
     try:
-        redis_client.set(cache_key, json.dumps(value), ex=ttl)
+        # Store as JSON using Redis JSON module
+        redis_client.json().set(cache_key, '$', value, nx=False)
+        redis_client.expire(cache_key, ttl)
     except redis.RedisError:
         pass
-    
+
     return value
 ```
 
