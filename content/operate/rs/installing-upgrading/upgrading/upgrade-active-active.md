@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Upgrade an Active-Active database.
+description: How to upgrade an Active-Active database.
 linkTitle: Active-Active databases
 weight: 70
 ---
@@ -36,33 +36,33 @@ To check the status of an Active-Active database instance, run [`rladmin status`
 
 The statuses of the Active-Active instances on the node can indicate:
 
-- `OLD REDIS VERSION`: The database instance is running a Redis version that is outdated or not fully compatible with the current Redis Enterprise Software cluster version. You should upgrade the database to a later version of Redis bundled with the cluster's current Redis Enterprise Software version.
+- `OLD REDIS VERSION`: The database instance is running a Redis version that is outdated or not fully compatible with the current Redis Enterprise Software cluster version. You should [upgrade the database](#upgrade-database-instances) to a later version of Redis bundled with the cluster's current Redis Enterprise Software version.
 
-- `OLD CRDB PROTOCOL VERSION`: This instance uses an older CRDB protocol. Redis Enterprise Software versions 5.4.2 and later use CRDB protocol version 1. See "CRDB protocol version guidelines".
+- `OLD CRDB PROTOCOL VERSION`: This instance uses an older CRDB protocol. Redis Enterprise Software versions 5.4.2 and later use CRDB protocol version 1. You can upgrade the CRDB protocol version when you [upgrade the Active-Active database instances](#upgrade-database-instances). See [CRDB protocol version guidelines](#crdb-protocol-version-guidelines) for more information.
 
-- `OLD CRDB FEATURESET VERSION`: The database feature set version is outdated. After all Active-Active instances are upgraded, update the feature set.
+- `OLD CRDB FEATURESET VERSION`: The database feature set version is outdated. After all [Active-Active database instances are upgraded](#upgrade-database-instances), [upgrade the feature set version](#upgrade-featureset-version). See [Feature version guidelines](#feature-version-guidelines) for more information.
 
 ## Upgrade database instances
 
 For each Active-Active database instance:
 
-1. Upgrade the Redis database version, modules, and CRDB protocol version with [`rladmin upgrade db`]({{<relref "/operate/rs/references/cli-utilities/rladmin/upgrade#upgrade-db">}}):
+1. Upgrade the Redis database version and enabled modules with [`rladmin upgrade db`]({{<relref "/operate/rs/references/cli-utilities/rladmin/upgrade#upgrade-db">}}):
 
     ```sh
     rladmin upgrade db <database_name | database_ID>
     ```
 
-1. If the protocol version is old, read the warning message carefully and confirm.
+1. If the CRDB protocol version is old, read the warning message carefully and confirm that you want to update the CRDB protocol. See [CRDB protocol version guidelines](#crdb-protocol-version-guidelines) for more information.
 
     {{< image filename="/images/rs/crdb-upgrade-protocol.png" >}}
 
-    The Active-Active instance uses the new Redis version and CRDB protocol version.
+    After confirmation, the Active-Active instance will use the new Redis version and CRDB protocol version.
 
-    Use the `keep_crdt_protocol_version` option to upgrade the database version without upgrading the CRDB protocol version.
+    {{<note>}}
+You can use the `keep_crdt_protocol_version` option to upgrade the database version without upgrading the CRDB protocol version. However, you must upgrade the CRDB protocol before you update the CRDB feature set version.
 
-    If you use this option, make sure that you upgrade the CRDB protocol soon after with the [`rladmin upgrade db`]({{< relref "/operate/rs/references/cli-utilities/rladmin/upgrade#upgrade-db" >}}) command.
-
-    You must upgrade the CRDB protocol before you update the CRDB feature set version.
+If you use `keep_crdt_protocol_version`, make sure that you upgrade the CRDB protocol soon after with the [`rladmin upgrade db`]({{< relref "/operate/rs/references/cli-utilities/rladmin/upgrade#upgrade-db" >}}) command.
+    {{</note>}}
 
 ### CRDB protocol version guidelines
 
@@ -82,7 +82,7 @@ Follow these upgrade guidelines:
 
 - Upgrade all instances of a specific CRDB within a reasonable time frame to avoid temporary inconsistencies between the instances.
 
-- Make sure that you upgrade all instances of a specific CRDB before you do global operations on the CRDB, such as removing instances and adding new instances.
+- Make sure that you upgrade all instances of a specific CRDB before you perform global operations on the CRDB, such as removing instances and adding new instances.
 
 - As of v6.0.20, protocol version 0 is deprecated and support will be removed in a future version.
 
@@ -92,11 +92,11 @@ Follow these upgrade guidelines:
 
 If the feature set version is old, as indicated by the `OLD CRDB FEATURESET VERSION` status:
 
-1. Upgrade all of the Active-Active database instances and make sure the CRDB protocol is not outdated.
+1. [Upgrade all Active-Active database instances](#upgrade-database-instances) and make sure the CRDB protocol is not outdated.
 
 1. Find the `<CRDB-GUID>` of your Active-Active database.
 
-    You can use [`crdb-cli crdb list`]({{<relref "/operate/rs/references/cli-utilities/crdb-cli/crdb/list">}}) command:
+    You can use the [`crdb-cli crdb list`]({{<relref "/operate/rs/references/cli-utilities/crdb-cli/crdb/list">}}) command:
 
     ```sh
     crdb-cli crdb list
@@ -110,7 +110,7 @@ If the feature set version is old, as indicated by the `OLD CRDB FEATURESET VERS
     700140c5-478e-49d7-ad3c-64d517ddc486  aatest  2        aatest2.example.com
     ```
 
-1. Update the feature set for each Active-Active database:
+1. Update the feature set for each Active-Active database. See [Feature version guidelines](#feature-version-guidelines) for more information.
 
     ```sh
     crdb-cli crdb update --crdb-guid <CRDB-GUID> --featureset-version yes
@@ -126,11 +126,11 @@ Follow these upgrade guidelines:
 
 - As of v6.0.20, feature version 0 is deprecated and support will be removed in a future version.
 
-- To avoid upgrade failures, update all Active-Active databases to protocol version 1 _before_ upgrading Redis Enterprise Software to v6.0.20 or later.
+- To avoid upgrade failures, make sure all your Active-Active databases are configured with the latest feature set version before upgrading to Redis Enterprise Software 6.0.20 or later.
 
 ## Update module information
 
-If your Active-Active database uses modules, Update module information in the CRDB configuration using the following command syntax:
+If your Active-Active database uses modules, update module information in the CRDB configuration using the following command syntax:
 
 ```sh
 crdb-cli crdb update --crdb-guid <guid> --default-db-config \
