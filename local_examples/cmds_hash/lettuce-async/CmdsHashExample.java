@@ -214,13 +214,16 @@ public class CmdsHashExample {
                 // REMOVE_END
                 // Try to set expiration on non-existent field
                 return asyncCommands.hexpire("myhash", 10, "nonexistent");
-            }).thenAccept(res4 -> {
-                System.out.println(res4);
-                // >>> [-2]
-                // REMOVE_START
-                assertThat(res4).isEqualTo(Arrays.asList(-2L));
-                // REMOVE_END
-            }).toCompletableFuture();
+            })
+                    // REMOVE_START
+                    .thenApply(res4 -> {
+                        assertThat(res4).isEqualTo(Arrays.asList(-2L));
+                        return res;
+                    })
+                    // REMOVE_END
+                    .thenAccept(System.out::println)
+                    // >>> -2
+                    .toCompletableFuture();
             // STEP_END
 
             hExpireExample.join();
