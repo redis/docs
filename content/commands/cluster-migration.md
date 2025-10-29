@@ -81,7 +81,7 @@ The `CLUSTER MIGRATION` command provides atomic slot migration functionality for
 
 The subcommand specifies the operation to perform:
 
-- `IMPORT <start-slot> <end-slot> [<start-slot> <end-slot> ...]`: Executes on the destination master. Accepts multiple slot ranges and triggers atomic migration for the specified ranges. Returns a task ID that can be used to monitor the status of the task.
+- `IMPORT <start-slot> <end-slot> [<start-slot> <end-slot> ...]`: Executes on the destination master. Accepts multiple slot ranges and triggers atomic migration for the specified ranges. Returns a task ID that you can use to monitor the status of the task.
 
 - `CANCEL [ID <task-id> | ALL]`: Cancels an ongoing migration task by its ID or cancels all tasks if `ALL` is specified. Note: Cancelling a task on the source node does not stop the migration on the destination node, which will continue retrying until it is also cancelled there.
 
