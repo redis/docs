@@ -26,7 +26,7 @@ To upgrade an [Active-Active (CRDB) database]({{< relref "/operate/rs/databases/
 
 ## Check database status
 
-To check the status of an Active-Active database instance, run [`rladmin status`]({{<relref "/operate/rs/references/rladmin/status">}}):
+To check the status of an Active-Active database instance, run [`rladmin status`]({{<relref "/operate/rs/references/cli-utilities/rladmin/status">}}):
 
 ```sh
   rladmin status
