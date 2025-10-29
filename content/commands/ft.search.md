@@ -510,8 +510,6 @@ defines one or more value parameters. Each parameter has a name and a value.
 You can reference parameters in the `query` by a `$`, followed by the parameter name, for example, `$user`. Each such reference in the search query to a parameter name is substituted by the corresponding parameter value. For example, with parameter definition `PARAMS 4 lon 29.69465 lat 34.95126`, the expression `@loc:[$lon $lat 10 km]` is evaluated to `@loc:[29.69465 34.95126 10 km]`. You cannot reference parameters in the query string where concrete values are not allowed, such as in field names, for example, `@loc`. To use `PARAMS`, set
 [`DIALECT`]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects#dialect-2" >}})
 to `2` or greater than `2` (this requires [RediSearch v2.4](https://github.com/RediSearch/RediSearch/releases/tag/v2.4.3) or above).
-
-**Query attributes**: You can also use `PARAMS` to pass values to [query attributes]({{< relref "/develop/ai/search-and-query/advanced-concepts/query_syntax#query-attributes" >}}) in vector search queries. For example, `$SHARD_K_RATIO` controls cluster optimization for vector KNN queries by setting the ratio of results each shard retrieves relative to the requested `top_k`. See [cluster-specific query parameters]({{< relref "develop/ai/search-and-query/vectors#cluster-specific-query-parameters" >}}) for details.
 </details>
 
 <details open>
