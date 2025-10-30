@@ -12,7 +12,7 @@ categories:
 description: Learn how to use Redis pipelines and transactions
 linkTitle: Pipelines/transactions
 title: Pipelines and transactions
-weight: 4
+weight: 5
 ---
 
 Redis lets you send a sequence of commands to the server together in a batch.
@@ -21,11 +21,11 @@ There are two types of batch that you can use:
 -   **Pipelines** avoid network and processing overhead by sending several commands
     to the server together in a single communication. The server then sends back
     a single communication with all the responses. See the
-    [Pipelining]({{< relref "/develop/use/pipelining" >}}) page for more
+    [Pipelining]({{< relref "/develop/using-commands/pipelining" >}}) page for more
     information.
 -   **Transactions** guarantee that all the included commands will execute
     to completion without being interrupted by commands from other clients.
-    See the [Transactions]({{< relref "/develop/interact/transactions" >}})
+    See the [Transactions]({{< relref "develop/using-commands/transactions" >}})
     page for more information.
 
 ## Execute a pipeline
@@ -112,7 +112,7 @@ to different keys. The basic idea is to watch for changes to any
 keys that you use in a transaction while you are are processing the
 updates. If the watched keys do change, you must restart the updates
 with the latest data from the keys. See
-[Transactions]({{< relref "/develop/interact/transactions" >}})
+[Transactions]({{< relref "develop/using-commands/transactions" >}})
 for more information about optimistic locking.
 
 The code below reads a string
@@ -156,27 +156,39 @@ console.log(updatedPath);
 ```
 
 In an environment where multiple concurrent requests are sharing a connection
-(such as a web server), you must wrap the above transaction logic in a call to
-`client.executeIsolated` to get an isolated connection, like so:
+(such as a web server), you must use a connection pool to get an isolated connection,
+as shown below:
 
 ```js
-await client.executeIsolated(async (client) => {
-   await client.watch('shellpath');
-   // ...
-})
+import { createClientPool } from 'redis';
+
+const pool = await createClientPool()
+  .on('error', err => console.error('Redis Client Pool Error', err));
+
+try {
+  await pool.execute(async client => {
+    await client.watch('key');
+
+    const multi = client.multi()
+      .ping()
+      .get('key');
+
+    if (Math.random() > 0.5) {
+      await client.watch('another-key');
+      multi.set('another-key', await client.get('another-key') / 2);
+    }
+
+    return multi.exec();
+  });
+} catch (err) {
+  if (err instanceof WatchError) {
+    // the transaction aborted
+  }
+}
 ```
 
 This is important because the server tracks the state of the WATCH on a
 per-connection basis, and concurrent WATCH and MULTI/EXEC calls on the same
-connection will interfere with one another.
-
-You can configure the size of the isolation pool when calling `createClient`:
-
-```js
-const client = createClient({
-    isolationPoolOptions: {
-        min: 1,
-        max: 100,
-    },
-})
-```
+connection will interfere with one another. See
+[`RedisClientPool`](https://github.com/redis/node-redis/blob/master/docs/pool.md)
+for more information.

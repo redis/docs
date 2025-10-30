@@ -8,17 +8,39 @@ categories:
 description: RedisBloom 2.8 introduces improvements and bug fixes.
 linkTitle: v2.8 (July 2024)
 min-version-db: '7.4'
-min-version-rs: 7.6 (TBD)
+min-version-rs: 7.8
 toc: 'true'
 weight: 94
 ---
 
 ## Requirements
 
-RedisBloom v2.8.5 requires:
+RedisBloom v2.8.10 requires:
 
 - Minimum Redis compatibility version (database): 7.4
-- Minimum Redis Enterprise Software version (cluster): 7.6 (TBD)
+- Minimum Redis Enterprise Software version (cluster): 7.8
+
+## v2.8.10 (September 2025)
+
+This is a maintenance release for RedisBloom 2.8.
+
+Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgent.
+
+Details:
+
+Bug fixes:
+- [#886](https://github.com/redisbloom/redisbloom/pull/886) - `TDIGEST.CREATE` crashes (OOM) on huge initialization values (MOD-10840).
+
+## v2.8.7 (April 2025)
+
+This is a maintenance release for RedisBloom 2.8
+
+Update urgency: `LOW`: No need to upgrade unless there are new features you want to use.
+
+Details:
+
+Improvements:
+- [#865](https://github.com/redisbloom/redisbloom/pull/865) Added support for Azure Linux 3 (MOD-9171)
 
 ## v2.8.5 (January 2025)
 

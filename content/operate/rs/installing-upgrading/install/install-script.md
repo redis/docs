@@ -24,3 +24,5 @@ The following options are supported:
 | <nobr>`--var-dir <dir>`</nobr> | Var directory used for installation *(new installs only)* <br/>See [Customize install locations]({{< relref "/operate/rs/installing-upgrading/install/customize-install-directories" >}})|
 | <nobr>`--os-user <user>`| Operating system user account associated with install; default: `redislabs`<br/>See [Customize user and group]({{< relref "/operate/rs/installing-upgrading/install/customize-user-and-group" >}}) *(new installs only)*|
 |<nobr>`--os-group <group>` | Operating system group associated with install; default: `redislabs`<br/>See [Customize user and group]({{< relref "/operate/rs/installing-upgrading/install/customize-user-and-group" >}}) *(new installs only)* |
+| `--skip-dns-port-verification` | Skip DNS port verification during installation |
+| <nobr>`--update-env-path`</nobr> | Add paths related to Redis Enterprise Software to root's PATH environment variable<br/>See [Manage install questions]({{< relref "/operate/rs/installing-upgrading/install/manage-installation-questions" >}}) |

@@ -16,10 +16,10 @@ Creates an Active-Active database.
 ```sh
 crdb-cli crdb create --name <name>
          --memory-size <maximum_memory>
-         --instance fqdn=<cluster_fqdn>,username=<username>,password=<password>[,url=<url>,replication_endpoint=<endpoint>]
-         --instance fqdn=<cluster_fqdn>,username=<username>,password=<password>[,url=<url>,replication_endpoint=<endpoint>]
+         --instance fqdn=<cluster1.example.com>,username=<username>,password=<password>[,url=https://<hostname-or-IP>:9443,replication_endpoint=<hostname-or-IP>:<port>,replication_tls_sni=<hostname>]
+         --instance fqdn=<cluster2.example.com>,username=<username>,password=<password>[,url=https://<hostname-or-IP>:9443,replication_endpoint=<hostname-or-IP>:<port>,replication_tls_sni=<hostname>]
          [--port <port_number>]
-         [--no-wait]
+         [--wait | --no-wait]
          [--default-db-config <configuration>]
          [--default-db-config-file <filename>]
          [--compression <0-6>]
@@ -31,8 +31,11 @@ crdb-cli crdb create --name <name>
          [--shards-count <number_of_shards>]
          [--shard-key-regex <regex_rule>]
          [--oss-cluster { true | false } ]
+         [--oss-sharding { true | false } ]
          [--bigstore { true | false }]
          [--bigstore-ram-size <maximum_memory>]
+         [--eviction-policy { noeviction | allkeys-lru | allkeys-lfu | allkeys-random | volatile-lru | volatile-lfu | volatile-random | volatile-ttl }]
+         [--proxy-policy { all-nodes | all-master-shards | single }]
          [--with-module name=<module_name>,version=<module_version>,args=<module_args>]
 ```
 
@@ -50,11 +53,12 @@ Before you create an Active-Active database, you must have:
 |---------------------------------------------------------------------------------------|-------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | name \<CRDB_name\>                                                                  | string                                          | Name of the Active-Active database (required)                                                                                                                                                                                |
 | memory-size \<maximum_memory\>                                                                | size in bytes, kilobytes (KB), or gigabytes (GB) | Maximum database memory (required)                                                                                                                                                                                           |
-| instance<br/>&nbsp;&nbsp; fqdn=\<cluster_fqdn\>,<br/>&nbsp;&nbsp; username=\<username\>,<br/>&nbsp;&nbsp; password=\<password\>         | strings                                         | The connection information for the participating clusters (required for each participating cluster)                                                                                                                          |
+| instance fqdn=\<cluster_fqdn\>,username=\<username\>,password=\<password\>,url=https://\<hostname-or-IP\>:9443,replication_endpoint=\<hostname-or-IP\>:\<port\>,replication_tls_sni=\<hostname\>         | strings                                         | The connection information for the participating clusters (required for each participating cluster)<br/><br/>**Required:**<br/>• `fqdn` - Cluster fully qualified domain name<br/>• `username` - Cluster username<br/>• `password` - Cluster password<br/><br/>**Optional:**<br/>• `url` - URL to access the cluster's REST API<br/>• `replication_endpoint` - Address to access the database instance for peer replication<br/>• `replication_tls_sni` - Cluster [Server Name Indication (SNI)](https://en.wikipedia.org/wiki/Server_Name_Indication) hostname for TLS connections |
 | port \<port_number\>                                                                 | integer                                         | TCP port for the Active-Active database on all participating clusters                                                                                                                                                        |
 | default-db-config \<configuration\>                                                  | string                                          | Default database configuration options                                                                                                                                                                                       |
 | default-db-config-file \<filename\>                                                  | filepath                                        | Default database configuration options from a file                                                                                                                                                                           |
-| no-wait                                                                               |                                                 | Prevents `crdb-cli` from running another command before this command finishes                                                                                                                                                  |
+| wait                                                                               |                                                 | Prevents `crdb-cli` from running another command before this command finishes                                                                                                                                                  |
+| no-wait                                                                            |                                                 | `crdb-cli` can run another command before this command finishes                                                                                                                                 |
 | compression                                                                           | 0-6                                             | The level of data compression: <br /><br > 0 = No compression <br /><br > 6 = High compression and resource load (Default: 3)                                                                                                            |
 | causal-consistency                                                                    | true <br/> false (*default*)                        | [Causal consistency]({{< relref "/operate/rs/7.4/databases/active-active/causal-consistency.md" >}}) applies updates to all instances in the order they were received                                                     |
 | password \<password\>                                                                | string                                          | Password for access to the database                                                                                                                                                                                          |

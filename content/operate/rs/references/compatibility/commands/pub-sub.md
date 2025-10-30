@@ -11,9 +11,9 @@ linkTitle: Pub/sub
 weight: 10
 ---
 
-The following table shows which Redis Community Edition [pub/sub commands]({{< relref "/commands" >}}?group=pubsub) are compatible with standard and Active-Active databases in Redis Enterprise Software and Redis Cloud.
+The following table shows which Redis Open Source [pub/sub commands]({{< relref "/commands" >}}?group=pubsub) are compatible with standard and Active-Active databases in Redis Enterprise Software and Redis Cloud.
 
-| Command | Redis<br />Enterprise | Redis<br />Cloud | Notes |
+| Command | Redis<br />Software | Redis<br />Cloud | Notes |
 |:--------|:----------------------|:-----------------|:------|
 | [PSUBSCRIBE]({{< relref "/commands/psubscribe" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 | [PUBLISH]({{< relref "/commands/publish" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |

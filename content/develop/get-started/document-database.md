@@ -44,14 +44,14 @@ The easiest way to get started with [Redis]({{< relref "/operate/oss_and_stack/"
    <img src="../img/free-cloud-db.png" width="500px">
 2. Follow the instructions to create a free database.
 
-This free Redis Cloud database comes out of the box with all the Redis Community Edition features.
+This free Redis Cloud database comes out of the box with all the Redis Open Source features.
 
-You can alternatively use the [installation guides]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) to install Redis Community Edition on your local machine.
+You can alternatively use the [installation guides]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) to install Redis Open Source on your local machine.
 
 
 ## Connect
 
-The first step is to connect to your Redis Community Edition database. You can find further details about the connection options in this documentation site's [Tools section]({{< relref "/develop/tools" >}}). The following example shows how to connect to a Redis Community Edition server that runs on localhost (`-h 127.0.0.1`) and listens on the default port (`-p 6379`): 
+The first step is to connect to your Redis Open Source database. You can find further details about the connection options in this documentation site's [Tools section]({{< relref "/develop/tools" >}}). The following example shows how to connect to a Redis Open Source server that runs on localhost (`-h 127.0.0.1`) and listens on the default port (`-p 6379`): 
 
 {{< clients-example search_quickstart connect >}}
 > redis-cli -h 127.0.0.1 -p 6379
@@ -169,11 +169,11 @@ Below is a command to perform an exact match query that finds all bicycles with 
    2) "{\"brand\":\"Noka Bikes\",\"model\":\"Kahuna\",\"price\":3200,\"description\":\"Whether you want to try your hand at XC racing or are looking for a lively trail bike that's just as inspiring on the climbs as it is over rougher ground, the Wilder is one heck of a bike built specifically for short women. Both the frames and components have been tweaked to include a women\xe2\x80\x99s saddle, different bars and unique colourway.\",\"condition\":\"used\"}"
 {{< / clients-example >}}
 
-Please see the [query documentation]({{< relref "/develop/interact/search-and-query/query/" >}}) to learn how to make more advanced queries.
+Please see the [query documentation]({{< relref "/develop/ai/search-and-query/query/" >}}) to learn how to make more advanced queries.
 
 ## Next steps
 
-You can learn more about how to use Redis Community Edition as a vector database in the following quick start guide:
+You can learn more about how to use Redis Open Source as a vector database in the following quick start guide:
 
 * [Redis as a vector database]({{< relref "/develop/get-started/vector-database" >}})
 

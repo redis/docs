@@ -65,7 +65,7 @@ rc.set('foo', 'bar')
 rc.get('foo')
 # b'bar'
 ```
-For more information, see [redis-py Clustering](https://redis-py.readthedocs.io/en/stable/clustering.html).
+For more information, see [redis-py Clustering](https://redis.readthedocs.io/en/stable/clustering.html).
 
 ## Connect to your production Redis with TLS
 
@@ -89,7 +89,7 @@ r.set('foo', 'bar')
 r.get('foo')
 # b'bar'
 ```
-For more information, see [redis-py TLS examples](https://redis-py.readthedocs.io/en/stable/examples/ssl_connection_examples.html).
+For more information, see [redis-py TLS examples](https://redis.readthedocs.io/en/stable/examples/ssl_connection_examples.html).
 
 ## Connect using client-side caching
 
@@ -114,6 +114,11 @@ use client-side caching with a connection pool or a cluster connection in exactl
 {{< note >}}Client-side caching requires redis-py v5.1.0 or later.
 To maximize compatibility with all Redis products, client-side caching
 is supported by Redis v7.4 or later.
+
+The [Redis server products]({{< relref "/operate" >}}) support
+[opt-in/opt-out]({{< relref "/develop/reference/client-side-caching#opt-in-and-opt-out-caching" >}}) mode
+and [broadcasting mode]({{< relref "/develop/reference/client-side-caching#broadcasting-mode" >}})
+for CSC, but these modes are not currently implemented by `redis-py`.
 {{< /note >}}
 
 ```python
@@ -237,3 +242,55 @@ r3.close()
 
 pool.close()
 ```
+
+## Retrying connections
+
+A connection will sometimes fail because of a transient problem, such as a
+network outage or a server that is temporarily unavailable. In these cases,
+retrying the connection after a short delay will usually succeed. `redis-py` uses
+a simple retry strategy by default, but there are various ways you can customize
+this behavior to suit your use case. See
+[Retries]({{< relref "/develop/clients/redis-py/produsage#retries" >}})
+for more information about custom retry strategies, with example code.
+
+## Connect using Smart client handoffs (SCH)
+
+*Smart client handoffs (SCH)* is a feature of Redis Cloud and
+Redis Enterprise servers that lets them actively notify clients
+about planned server maintenance shortly before it happens. This
+lets a client take action to avoid disruptions in service.
+See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
+for more information about SCH.
+
+To enable SCH on the client, pass a `MaintNotificationsConfig` object
+during the connection, as shown in the following example:
+
+```py
+import redis
+from redis.maint_notifications import MaintNotificationsConfig, EndpointType
+
+r = redis.Redis(
+    decode_responses=True,
+    protocol=3,
+    maint_notifications_config=MaintNotificationsConfig(
+        enabled=True,
+        proactive_reconnect=True,
+        relaxed_timeout=10,
+        endpoint_type=EndpointType.EXTERNAL_IP
+    ),
+    ...
+)
+```
+
+{{< note >}}SCH requires the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
+protocol, so you must set `protocol=3` explicitly when you connect.
+{{< /note >}}
+
+The `MaintNotificationsConfig` constructor accepts the following parameters:
+
+| Name | Type | Default | Description |
+|------|------|---------|-------------|
+| `enabled` | `bool` | `False` | Whether or not to enable SCH. |
+| `proactive_reconnect` | `bool` | `True` | Whether or not to automatically reconnect when a node is replaced. |
+| `endpoint_type` | `EndpointType` | Auto-detect | The type of endpoint to use for the connection. The options are `EndpointType.EXTERNAL_IP`, `EndpointType.INTERNAL_IP`, `EndpointType.EXTERNAL_FQDN`, `EndpointType.INTERNAL_FQDN`, and `EndpointType.NONE`. |
+| `relaxed_timeout` | `int` | `20` | The timeout (in seconds) to use while the server is performing maintenance. A value of `-1` disables the relax timeout and just uses the normal timeout during maintenance. |

@@ -45,9 +45,9 @@ tagManagerId = "GTM-TKZ6J9R"
 gitHubRepo = "https://github.com/redis/docs"
 
 # Display and sort order for client examples
-clientsExamples = ["Python", "Node.js", "Java-Sync", "Java-Async", "Java-Reactive", "Go", "C#", "RedisVL"]
+clientsExamples = ["Python", "Node.js", "Java-Sync", "Java-Async", "Java-Reactive", "Go", "C#-Sync", "C#-Async", "RedisVL", "PHP", "Rust-Sync", "Rust-Async"]
 searchService = "/convai/api/search-service"
-ratingsService = "/docusight/api/rate"
+ratingsService = "/docusight/api/rate/docs"
 
 # RDI params
 rdi_rlec_min_version = "6.2.18"
@@ -55,7 +55,7 @@ rdi_redis_gears_version = "1.2.6"
 rdi_debezium_server_version = "2.3.0.Final"
 rdi_db_types = "cassandra|mysql|oracle|postgresql|sqlserver"
 rdi_cli_latest = "latest"
-rdi_current_version = "v1.6.5"
+rdi_current_version = "1.15.0"
 
 [params.clientsConfig]
 "Python"={quickstartSlug="redis-py"}
@@ -64,8 +64,22 @@ rdi_current_version = "v1.6.5"
 "Java-async"={quickstartSlug="lettuce"}
 "Java-reactive"={quickstartSlug="lettuce"}
 "Go"={quickstartSlug="go"}
-"C#"={quickstartSlug="dotnet"}
+"C#-Sync"={quickstartSlug="dotnet"}
+"C#-Async"={quickstartSlug="dotnet"}
 "RedisVL"={quickstartSlug="redis-vl"}
+"PHP"={quickstartSlug="php"}
+"Rust-sync"={quickstartSlug="rust"}
+"Rust-async"={quickstartSlug="rust"}
+
+# Mount directories for duplicate content
+[module]
+[[module.mounts]]
+  source = "content"
+  target = "content"
+[[module.mounts]]
+  source = "content/operate/rs/databases/active-active/develop"
+  target = "content/operate/rc/databases/active-active/develop"
+  excludeFiles = ["_index.md"]
 
 # Markup
 [markup]
@@ -83,6 +97,15 @@ rdi_current_version = "v1.6.5"
 
 # Everything below this are Site Params
 
+# Add markdown output
+[outputFormats]
+  [outputFormats.markdown]
+    name = "markdown"
+    baseName = "index.html"
+    mediaType = "text/markdown"
+    isPlainText = true
+
 # Comment out if you don't want the "print entire section" link enabled.
 [outputs]
-section = ["HTML", "RSS"] # print
+section = ["HTML", "RSS", "Markdown"] # print
+page = ["HTML", "Markdown"]

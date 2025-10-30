@@ -57,7 +57,7 @@ To create a cluster:
     1. Enter a path for [*Persistent storage*]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}}),
         or leave the default path.
 
-    1. To enable [*Auto Tiering*]({{< relref "/operate/rs/databases/auto-tiering/" >}}),
+    1. To enable [*Redis Flex or Auto Tiering*]({{< relref "/operate/rs/databases/flash/" >}}),
         select **Enable flash storage** and enter the path to the flash storage.
 
     1. If the cluster is configured to support [rack-zone awareness]({{< relref "/operate/rs/clusters/configure/rack-zone-awareness.md" >}}), set the **Rack-zone ID** for the new node.

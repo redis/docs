@@ -3,6 +3,7 @@ const plugin = require('tailwindcss/plugin');
 
 module.exports = {
   content: ["content/**/*.md", "layouts/**/*.html", "./tailwindcss.whitelist.txt"],
+  blocklist: ['[username:password@]'],
   theme: {
     extend: {
       fontFamily: {
@@ -21,7 +22,8 @@ module.exports = {
 				},
 				'redis-red': {
 					500: '#FF4438',
-					600: '#D52D1F'
+					600: '#D52D1F',
+					700: '#E4291E',
 				},
 				'redis-yellow': {
 					100: '#FBFFE8',
@@ -38,7 +40,8 @@ module.exports = {
 					400: '#8A99A0',
 					600: '#5C707A',
 					700: '#2D4754',
-					800: '#163341'
+					800: '#163341',
+					900: '#8A221C',
 				},
 				'redis-pencil': {
 					200: '#E5E5E5',
@@ -61,6 +64,14 @@ module.exports = {
 					200: '#F9F9F9',
 					600: '#bfc2c4',
 					800: '#4E545B'
+				},
+				'blue-bubble': '#80DBFF',
+        		'yellow-bubble': '#DCFF1E',
+        		'purple-bubble': '#C795E3',
+        		'gray-bubble': '#8A99A0',
+        		'red-bubble': '#FD4439',
+				'redis-white': {
+					200: '#FFF',
 				}
 			},
       typography: (theme) => (  {

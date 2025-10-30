@@ -25,7 +25,7 @@ To grant Redis Cloud access to a Google Cloud user, select **Add** to add a memb
 If these roles are not available, you can add them to your project.
 
 1. Select **Manage Roles**.
-2. Use the filter table field to locate the role. (Search for “service usage viewer” or “Redis Cloud admin”.)
+2. Use the filter table field to locate the role. (Search for "service usage viewer" or "Redis Cloud admin".)
 3. Select the role.
 4. Select **Create role from selection** and then select **Create**.
 5. Use IAM to add a member and assign the desired role.

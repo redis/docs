@@ -14,9 +14,6 @@ weight: 50
 
 When you upgrade an existing database, it uses the latest bundled Redis version unless you specify a different version with the `redis_version` option in the [REST API]({{< relref "/operate/rs/references/rest-api/requests/bdbs" >}}) or [`rladmin upgrade db`]({{< relref "/operate/rs/references/cli-utilities/rladmin/upgrade#upgrade-db" >}}).
 
-Redis Enterprise Software v6.x includes two Redis database versions: 6.0 and 6.2.
-As of version 7.2, Redis Enterprise Software includes three Redis database versions.
-
 To view available Redis database versions:
 
 - In the Cluster Manager UI, see **Redis database versions** on the **Cluster > Configuration** screen.
@@ -28,14 +25,13 @@ The default Redis database version differs between Redis Enterprise releases as 
 <a name="db-versions-table"></a>
 | Redis<br />Software | Bundled Redis<br />DB versions | Default DB version<br />(upgraded/new databases) |
 |-------|----------|-----|
+| 8.0.x | 6.2, 7.2, 7.4, 8.2 | 8.2 |
+| 7.22.x | 6.2, 7.2, 7.4 | 7.4 |
 | 7.8.x | 6.2, 7.2, 7.4 | 7.4 |
 | 7.4.x | 6.0, 6.2, 7.2 | 7.2 |
 | 7.2.4 | 6.0, 6.2, 7.2 | 7.2 |
 | 6.4.2 | 6.0, 6.2 | 6.2 |
 | 6.2.x | 6.0, 6.2 | 6.0 |
-
-
-The upgrade policy is only relevant for Redis Enterprise Software versions 6.2.4 through 6.2.18. For more information about upgrade policies, see the [6.2 version of this document](https://docs.redis.com/6.2/rs/installing-upgrading/upgrading/#redis-upgrade-policy).
 
 ## Upgrade prerequisites
 
@@ -78,6 +74,8 @@ Before upgrading a database:
 ## Upgrade database
 
 To upgrade a database:
+
+1. Complete all [prerequisites](#upgrade-prerequisites) before starting the upgrade.
 
 1.  _(Optional)_  Back up the database to minimize the risk of data loss.
 

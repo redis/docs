@@ -31,6 +31,14 @@ Usage: redis-di scaffold [OPTIONS]
 
   DB type
 
+- `db_flavor`:
+
+  - Type: Choice([<DbFlavor.MONGODB_ATLAS: 'mongodb_atlas'>, <DbFlavor.MONGODB_REPLICA_SET: 'mongodb_replica_set'>, <DbFlavor.MONGODB_SHARDED_CLUSTER: 'mongodb_sharded_cluster'>])
+  - Default: `none`
+  - Usage: `--db-flavor`
+
+  DB flavor
+
   Output to directory or stdout
 
 - `directory`:
@@ -69,6 +77,8 @@ Options:
                                   [default: INFO]
   --db-type [cassandra|mariadb|mongodb|mysql|oracle|postgresql|sqlserver]
                                   DB type  [required]
+  --db-flavor [mongodb_atlas|mongodb_replica_set|mongodb_sharded_cluster]
+                                  DB flavor
   Output formats: [mutually_exclusive, required]
                                   Output to directory or stdout
     --dir TEXT                    Directory containing RDI configuration

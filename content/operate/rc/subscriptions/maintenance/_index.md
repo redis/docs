@@ -63,13 +63,17 @@ We won't schedule major upgrades or upgrades that might include breaking changes
 
 Redis will notify you by email when maintenance starts and ends. If Redis needs an action from you to start maintenance, we will notify you with a reasonable amount of time before planned maintenance.
 
-If you want to receive maintenance notifications by email:
+If you want to receive advance notifications, you must [set manual maintenance windows]({{< relref "/operate/rc/subscriptions/maintenance/set-maintenance-windows#set-manual-maintenance-windows" >}}).
+
+To receive maintenance notifications by email:
+ 
+ 1. Go to [Access Management]({{< relref "/operate/rc/security/access-control/access-management" >}}) and select your account in the list.
 
 1. Go to [Access Management]({{< relref "/operate/rc/security/access-control/access-management" >}}) and select your account in the list.
 
 1. Select the Edit button.
 
-    {{<image filename="images/rc/icon-access-management-edit-user.png" width="30px" alt="Use the Edit button change details for a team member." >}}
+    {{<image filename="images/rc/icon-edit.png" width="30px" alt="Use the Edit button change details for a team member." >}}
 
 1. Select **Operational emails** if it is not already turned on.
 

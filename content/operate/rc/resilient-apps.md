@@ -19,7 +19,7 @@ These settings can be turned on when you create or edit your database.
 
 ### Enable data persistence
 
-Enabling [Data persistence]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) allows Redis to save your data to a durable storage medium, such as a disk, to ensure data availability in case of memory loss or system failure.
+Enabling [Data persistence]({{< relref "/operate/rc/databases/configuration/data-persistence" >}}) allows Redis to save your data to a durable storage medium, such as a disk, to ensure data availability in case of memory loss or system failure.
 
 Redis Cloud supports the following data persistence options:
 
@@ -60,6 +60,17 @@ When you're developing your apps, it is best to use specific Redis Client featur
 
 See [Clients]({{< relref "/develop/clients" >}}) to learn how to connect with the official Redis clients.
 
+### Production usage guides
+
+For production-ready configurations and best practices, see the production usage guides for each client:
+
+- [redis-py]({{< relref "/develop/clients/redis-py/produsage" >}})
+- [Node.js]({{< relref "/develop/clients/nodejs/produsage" >}})
+- [Jedis]({{< relref "/develop/clients/jedis/produsage" >}})
+- [Lettuce]({{< relref "/develop/clients/lettuce/produsage" >}})
+- [go-redis]({{< relref "/develop/clients/go/produsage" >}})
+- [NRedisStack]({{< relref "/develop/clients/dotnet/produsage" >}})
+
 ### Re-attempt connections
 
 Some clients allow you to re-try connecting to your database if the connection fails. For these clients, we recommend that you implement connection re-attempts to ensure high availability and connection stability. 
@@ -78,8 +89,14 @@ The [WAIT]({{< relref "/commands/wait" >}}) and [WAITAOF]({{< relref "/commands/
 
 For more info, see [Use the WAIT command for strong consistency]({{< relref "/operate/rs/clusters/optimize/wait" >}}).
 
+## Test failover behavior
+
+You can test your app's failover behavior in Redis Cloud by running a failover test. A failover test in Redis Cloud simulates a controlled disruption such as an endpoint migration, node failure, or cluster outage to confirm that your app can reconnect, recover, and continue operating without data loss. These tests are a critical part of validating high-availability and disaster recovery, ensuring that applications meet recovery time and recovery point objectives. 
+
+For more info, see [How to run a Failover Test in Redis Cloud](https://support.redislabs.com/hc/en-us/articles/29001166157074-How-to-Run-a-Failover-Test-in-Redis-Cloud).
+
 ## More info
 
 - [Redis Clients]({{< relref "/develop/clients" >}})
-- [Active-Active Redis]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}})
+- [Active-Active Redis]({{< relref "/operate/rc/databases/active-active" >}})
 - [Active-Active Redis applications]({{< relref "/operate/rs/databases/active-active/develop" >}})

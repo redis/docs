@@ -46,7 +46,7 @@ Data is often unstructured, which means that it isn't described by a well-define
 
 
 ## Create a Redis vector database
-You can use [Redis Community Edition]({{< relref "/operate/oss_and_stack/" >}}) as a vector database. It allows you to:
+You can use [Redis Open Source]({{< relref "/operate/oss_and_stack/" >}}) as a vector database. It allows you to:
 
 * Store vectors and the associated metadata within hashes or [JSON]({{< relref "/develop/data-types/json" >}}) documents
 * Create and configure secondary indices for search
@@ -61,7 +61,7 @@ The easiest way to get started is to use Redis Cloud:
    <img src="../img/free-cloud-db.png" width="500px">
 2. Follow the instructions to create a free database.
 
-This free Redis Cloud database comes out of the box with all the Redis Community Edition features.
+This free Redis Cloud database comes out of the box with all the Redis Open Source features.
 
 You can alternatively use the [installation guides]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) to install Redis on your local machine.
 
@@ -120,7 +120,7 @@ Inspect the structure of one of the bike JSON documents:
 {{< clients-example search_vss dump_data />}}
 
 ### 2. Store the demo data in Redis
-Now iterate over the `bikes`  array to store the data as [JSON]({{< relref "/develop/data-types/json/" >}}) documents in Redis by using the [JSON.SET]({{< relref "commands/json.set/" >}}) command. The below code uses a [pipeline]({{< relref "/develop/use/pipelining" >}}) to minimize the network round-trip times:
+Now iterate over the `bikes`  array to store the data as [JSON]({{< relref "/develop/data-types/json/" >}}) documents in Redis by using the [JSON.SET]({{< relref "commands/json.set/" >}}) command. The below code uses a [pipeline]({{< relref "/develop/using-commands/pipelining" >}}) to minimize the network round-trip times:
 
 {{< clients-example search_vss load_data />}}
 
@@ -186,7 +186,7 @@ Here is a breakdown of the `VECTOR` field definition:
 * `DIM 768`: The length or dimension of the embeddings, determined by the chosen embedding model.
 * `DISTANCE_METRIC COSINE`: The chosen distance function: [cosine distance](https://en.wikipedia.org/wiki/Cosine_similarity).
 
-You can find further details about all these options in the [vector reference documentation]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}}).
+You can find further details about all these options in the [vector reference documentation]({{< relref "/develop/ai/search-and-query/vectors" >}}).
 
 ### 2. Check the state of the index
 
@@ -277,8 +277,8 @@ From the description, this bike is an excellent match for younger children, and 
 
 ## Next steps
 
-1. You can learn more about the query options, such as filters and vector range queries, by reading the [vector reference documentation]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}}).
-2. The complete [Redis Query Engine documentation]({{< relref "/develop/interact/search-and-query/" >}}) might be interesting for you.
+1. You can learn more about the query options, such as filters and vector range queries, by reading the [vector reference documentation]({{< relref "/develop/ai/search-and-query/vectors" >}}).
+2. The complete [Redis Query Engine documentation]({{< relref "/develop/ai/search-and-query/" >}}) might be interesting for you.
 3. If you want to follow the code examples more interactively, then you can use the [Jupyter notebook](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/00_redispy.ipynb) that inspired this quick start guide.
 4. If you want to see more advanced examples of a Redis vector database in action, visit the [Redis AI Resources](https://github.com/redis-developer/redis-ai-resources) page on GitHub.
 

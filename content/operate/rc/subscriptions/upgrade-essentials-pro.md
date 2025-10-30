@@ -63,11 +63,11 @@ Before you follow this guide, be aware of the following limitations:
 
 1. This will open the **Add Active-Passive Redis** screen. Select **Current account** to connect a database in your current account.
 
-    {{<image filename="images/rc/migrate-data-add-active-passive.png" alt="The Add Active-Passive Redis screen." >}}
+    {{<image filename="images/rc/migrate-data-add-active-passive.png" alt="The Add Active-Passive Redis screen." width=70% >}}
 
 1. Select your Redis Cloud Essentials database from the **Source database** list. This will be your source database. You can type in the database's name to find it.
 
-    {{<image filename="images/rc/database-add-account-path-list.png" alt="Select the Source database from the database list." >}}
+    {{<image filename="images/rc/database-add-account-path-list.png" alt="Select the Source database from the database list." width=70% >}}
 
 1. Select **Save Database** to begin updating the database.
 
@@ -79,7 +79,7 @@ Before you follow this guide, be aware of the following limitations:
 
     The sync process doesn't begin until the database becomes `Active`.  
 
-    {{<image filename="images/rc/icon-database-update-status-active.png" alt="When the status becomes 'Active', data begins to sync." >}}
+    {{<image filename="images/rc/icon-database-status-active.png" alt="When the status becomes 'Active', data begins to sync." >}}
 
     When data has fully migrated to the target database, database status reports `Synced`.  
 

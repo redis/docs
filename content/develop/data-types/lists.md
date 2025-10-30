@@ -170,7 +170,7 @@ multiple elements into a list in a single call:
 > RPUSH bikes:repairs bike:1 bike:2 bike:3
 (integer) 3
 > LPUSH bikes:repairs bike:important_bike bike:very_important_bike
-> LRANGE mylist 0 -1
+> LRANGE bikes:repairs 0 -1
 1) "bike:very_important_bike"
 2) "bike:important_bike"
 3) "bike:1"
@@ -377,7 +377,7 @@ string
 Example of rule 2:
 
 {{< clients-example list_tutorial rule_2 >}}
-> RPUSH bikes:repairs bike:1 bike:2 bike:3
+> LPUSH bikes:repairs bike:1 bike:2 bike:3
 (integer) 3
 > EXISTS bikes:repairs
 (integer) 1

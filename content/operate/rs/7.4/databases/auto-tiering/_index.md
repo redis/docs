@@ -11,6 +11,7 @@ hideListLinks: true
 linktitle: Auto Tiering
 weight: 50
 url: '/operate/rs/7.4/databases/auto-tiering/'
+aliases: /operate/rs/7.4/databases/flash/
 ---
 Redis Enterprise's auto tiering offers users the unique ability to use solid state drives (SSDs) to extend databases beyond DRAM capacity.
 Developers can build applications that require large datasets using the same Redis API.
@@ -24,7 +25,7 @@ Redis Enterprise’s auto tiering is based on a high-performance storage engine 
 
 Just like all-RAM databases, databases with Auto Tiering enabled are compatible with existing Redis applications.
 
-Auto Tiering is also supported on [Redis Cloud]({{< relref "/operate/rc/" >}}) and [Redis Enterprise Software for Kubernetes]({{< relref "/operate/rs/" >}}).
+Auto Tiering is also supported on [Redis Cloud]({{< relref "/operate/rc/" >}}) and [Redis Enterprise Software for Kubernetes]({{< relref "/operate/kubernetes/" >}}).
 
 ## Use cases
 
@@ -53,9 +54,9 @@ When using Auto Tiering, RAM storage holds:
 - Dictionaries
 - Hot data (working set)
 
-All data is accessed through RAM. If a value in flash memory is accessed, it becomes part of the working set and is moved to RAM. These values are referred to as “hot data”.
+All data is accessed through RAM. If a value in flash memory is accessed, it becomes part of the working set and is moved to RAM. These values are referred to as "hot data".
 
-Inactive or infrequently accessed data is referred to as “warm data” and stored in flash memory. When more space is needed in RAM, warm data is moved from RAM to flash storage.
+Inactive or infrequently accessed data is referred to as "warm data" and stored in flash memory. When more space is needed in RAM, warm data is moved from RAM to flash storage.
 
 {{<note>}} When using Auto Tiering with RediSearch, it’s important to note that RediSearch indexes are also stored in RAM.{{</note>}}
 
@@ -87,7 +88,7 @@ we recommend working closely with the Redis technical team for sizing and perfor
 
 When running in a cloud environment:
 
-- Flash memory is on the ephemeral SSDs of the cloud instance (for example the local NVMe of AWS i4i instnaces and Azure Lsv2 and Lsv3 series).
+- Flash memory is on the ephemeral SSDs of the cloud instance (for example the local NVMe of AWS i4i instances and Azure Lsv2 and Lsv3 series).
 - Persistent database storage needs to be network attached (for example, AWS EBS for AWS).
 
 {{<note>}}

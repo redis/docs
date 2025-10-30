@@ -51,33 +51,33 @@ Here's a summary of the Cluster Manager UI actions permitted by each default man
 
 You can use the [Cluster Manager UI](#create-roles-ui) or the [REST API](#define-roles-rest-api) to create a role that grants cluster access but does not grant access to any databases.
 
-### Cluster Manager UI method {#create-roles-ui}
+{{< multitabs id="create-cluster-role" 
+tab1="Cluster Manager UI"
+tab2="REST API" >}}
 
-To create a role that grants cluster access:
+To create a role that grants cluster access using the Cluster Manager UI:
 
 1. From **Access Control** > **Roles**, you can:
 
-    - Point to a role and select {{< image filename="/images/rs/buttons/edit-button.png#no-click" alt="The Edit button" width="25px" class="inline" >}} to edit an existing role.
+    - Select a role from the list of existing roles to edit it.
 
-    - Select **+ Add role** to create a new role.
+    - Click **+ Add role** to create a new role.
 
-    {{<image filename="images/rs/access-control-role-panel.png" alt="Add role with name" >}}
+    <img src="../../../../../images/rs/screenshots/access-control/7-22-updates/roles-screen.png" alt="Add role with name">
 
 1. Enter a descriptive name for the role.
 
-1. Choose a **Cluster management role** to determine cluster management permissions.
+1. Choose a **Management role** to determine cluster management permissions.
 
-    {{<image filename="images/rs/screenshots/access-control/rbac-create-role-cluster-only.png" alt="Select a cluster management role to set the level of cluster management permissions for the new role." >}}
+    <img src="../../../../../images/rs/screenshots/access-control/7-22-updates/rbac-create-role-cluster-only.png" alt="Select a cluster management role to set the level of cluster management permissions for the new role.">
     
 1. To prevent database access when using this role, do not add any ACLs.
 
-1. Select **Save**.
+1. Click **Save**.
 
-You can [assign the new role to users]({{<relref "/operate/rs/security/access-control/create-users#assign-roles-to-users">}}) to grant cluster access.
+-tab-sep-
 
-### REST API method {#define-roles-rest-api}
-
-To [create a role]({{<relref "/operate/rs/references/rest-api/requests/roles#post-role">}}) that grants cluster access:
+To [create a role]({{<relref "/operate/rs/references/rest-api/requests/roles#post-role">}}) that grants cluster access using the REST API:
 
 ```sh
 POST /v1/roles
@@ -86,3 +86,6 @@ POST /v1/roles
   "management": "db_viewer | db_member | cluster_viewer | cluster_member | user_manager | admin" 
 }
 ```
+{{< /multitabs >}}
+
+You can [assign the new role to users]({{<relref "/operate/rs/security/access-control/create-users#assign-roles-to-users">}}) to grant cluster access.

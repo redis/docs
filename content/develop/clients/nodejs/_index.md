@@ -20,7 +20,7 @@ weight: 4
 The sections below explain how to install `node-redis` and connect your application
 to a Redis database.
 
-`node-redis` requires a running [Redis Community Edition]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) server. See [Getting started]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis installation instructions.
+`node-redis` requires a running Redis server. See [here]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis Open Source installation instructions.
 
 You can also access Redis with an object-mapping client interface. See
 [RedisOM for Node.js]({{< relref "/integrate/redisom-for-node-js" >}})
@@ -38,44 +38,18 @@ npm install redis
 
 Connect to localhost on port 6379. 
 
-```js
-import { createClient } from 'redis';
-
-const client = createClient();
-
-client.on('error', err => console.log('Redis Client Error', err));
-
-await client.connect();
-```
+{{< clients-example set="landing" step="connect" lang_filter="Node.js" >}}
+{{< /clients-example >}}
 
 Store and retrieve a simple string.
 
-```js
-await client.set('key', 'value');
-const value = await client.get('key');
-```
+{{< clients-example set="landing" step="set_get_string" lang_filter="Node.js" >}}
+{{< /clients-example >}}
 
 Store and retrieve a map.
 
-```js
-await client.hSet('user-session:123', {
-    name: 'John',
-    surname: 'Smith',
-    company: 'Redis',
-    age: 29
-})
-
-let userSession = await client.hGetAll('user-session:123');
-console.log(JSON.stringify(userSession, null, 2));
-/*
-{
-  "surname": "Smith",
-  "name": "John",
-  "company": "Redis",
-  "age": "29"
-}
- */
-```
+{{< clients-example set="landing" step="set_get_hash" lang_filter="Node.js" >}}
+{{< /clients-example >}}
 
 To connect to a different host or port, use a connection string in the format `redis[s]://[[username][:password]@][host][:port][/db-number]`:
 
@@ -85,6 +59,11 @@ createClient({
 });
 ```
 To check if the client is connected and ready to send commands, use `client.isReady`, which returns a Boolean. `client.isOpen` is also available. This returns `true` when the client's underlying socket is open, and `false` when it isn't (for example, when the client is still connecting or reconnecting after a network error).
+
+When you have finished using a connection, close it with `client.quit()`.
+
+{{< clients-example set="landing" step="close" lang_filter="Node.js" >}}
+{{< /clients-example >}}
 
 ## More information
 

@@ -44,7 +44,7 @@ You can also initiate single sign-on from the [Redis Cloud console](https://clou
 
 1. From the Redis Cloud console's [sign-in screen](https://cloud.redis.io/#/login), select **SSO**.
 
-    {{<image filename="images/rc/button-sign-in-sso.png" width="150px" alt="Sign in with SSO button">}}
+    {{<image filename="images/rc/button-sign-in-sso.png" width="50px" alt="Sign in with SSO button">}}
 
 1. Enter the email address associated with your SAML user account.
 
@@ -100,7 +100,7 @@ Before you set up SAML SSO in Redis Cloud, you must verify that you own the doma
 
     {{<image filename="images/rc/saml-button-add-domain.png" width="120px" alt="Add domain button">}}
 
-1. Enter the domain name and select {{<image filename="images/rc/saml-button-confirm.png#no-click" width="20px" alt="The confirm domain button" class="inline">}} to save it, or select {{<image filename="images/rc/saml-button-cancel.png#no-click" width="20px" alt="The cancel button" class="inline">}} to cancel.
+1. Enter the domain name and select {{<image filename="images/rc/saml-button-confirm.png#no-click" width="20px" alt="Confirm domain" class="inline">}} to save it, or select {{<image filename="images/rc/saml-button-cancel.png#no-click" width="20px" alt="Cancel" class="inline">}} to cancel.
 
     {{<image filename="images/rc/saml-enter-domain.png" width="80%" alt="Enter domain name in the Domain field.">}}
 
@@ -110,11 +110,9 @@ Before you set up SAML SSO in Redis Cloud, you must verify that you own the doma
 
     We'll check the domain's DNS records for the provided TXT record. If the TXT record does not exist or we can't resolve your domain, we won't be able to verify the domain and users with that domain won't be able to sign in using SAML SSO. 
     
-    Select {{<image filename="images/rc/saml-button-delete-domain.png#no-click" width="25px" alt="The delete domain button" class="inline">}} to delete a domain if it was added by mistake.
+    Select {{<image filename="images/rc/icon-delete-teal.png#no-click" width="25px" alt="delete domain" class="inline">}} to delete a domain if it was added by mistake.
 
     If we find the TXT record, the domain's status will change to **Verified**.
-
-    {{<image filename="images/rc/saml-domain-verified.png" width="80%" alt="The Manage domain bindings panel, with a verified domain">}}
 
     You can select **Add domain** to add another domain.
 
@@ -276,9 +274,13 @@ If you change certain metadata or configuration settings after you set up SAML S
 
 After you set up SAML SSO for one account, you can link other accounts you own to the existing SAML configuration. This lets you use the same SAML configuration for SSO across multiple accounts.
 
+{{<note>}}
+You must have the `Owner` role assigned to your user account for all accounts you want to link. The same user must link each account to the original configuration.
+{{</note>}}
+
 To link other accounts to an existing SAML SSO configuration:
 
-1. Sign in to the [Redis Cloud console](cloud.redis.io) with the account that has an existing SAML configuration.
+1. Sign in to the [Redis Cloud console](https://cloud.redis.io/) with the account that has an existing SAML configuration.
 
 1. Go to **Access Management > Single Sign-On**. 
 
@@ -294,17 +296,11 @@ To link other accounts to an existing SAML SSO configuration:
 
 1. Sign in with the original account and select **Access Management > Single Sign-On**. You should see the new account in the **Unlinked accounts** list.
 
-    {{<note>}}
-To see and interact with the Redis Cloud account in the **Unlinked accounts** list, you must be an owner of the account. If you are not an owner, the account will not be displayed in the section.
-    {{</note>}}
-
 1. Select **Link account**.
 
-    {{<image filename="images/rc/saml/button-saml-link-account.png" alt="The Link Account button">}}
+    {{<image filename="images/rc/saml/button-saml-link-account.png" alt="The Link Account button" width=150px >}}
 
 1. In the **Convert existing users** dialog, select **Confirm conversion** to finish linking the accounts.
-
-    {{<image filename="images/rc/saml/popup-saml-convert-users.png" alt="The Convert users popup">}}
 
 ## Deactivate SAML SSO
 

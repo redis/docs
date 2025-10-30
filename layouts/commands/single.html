@@ -12,10 +12,12 @@
       {{ partial "breadcrumbs" . }}
       <section class="prose w-full py-12">
         <h1 class="command-name">
-          {{- .Title }}
-          {{- if (isset .Params "deprecated_since") }}
-          <span class="text-base">(deprecated)</span>
-          {{- end }}
+          <div class="command-title-deprecated">
+            {{- .Title }}
+            {{- if (and (isset .Params "doc_flags") (in .Params.doc_flags "deprecated")) }}
+              <span class="deprecated-badge">Deprecated</span>
+            {{- end }}
+          </div>
         </h1>
         {{ if (isset .Params "deprecated_since") }}
           <div class="border-l-8 pl-4">
@@ -45,11 +47,11 @@
         <dl class="grid grid-cols-[auto,1fr] gap-2 mb-12">
           {{ if not $isModule }}
           <dt class="font-semibold text-redis-ink-900 m-0">Available since:</dt>
-          <dd class="m-0">Redis CE {{ .Params.since }}</dd>
+          <dd class="m-0">Redis Open Source {{ .Params.since }}</dd>
           {{ else }}
           <dt class="font-semibold text-redis-ink-900 m-0">Available in:</dt>
           <dd class="m-0">
-            Redis CE</a> / {{ .Params.module }} {{ .Params.since }}</a>
+            Redis Open Source</a> / {{ .Params.module }} {{ .Params.since }}</a>
           </dd>
           {{ end }}
           <dt class="font-semibold text-redis-ink-900 m-0">Time complexity:</dt>
@@ -66,38 +68,6 @@
 
         {{ .Content }}
 
-        {{ $resp2 := index .Site.Data.resp2_replies .Params.title }}
-        {{ $resp3 := index .Site.Data.resp3_replies .Params.title }}
-        {{ if and $resp2 $resp3 }}
-          {{ $same := false }}
-          {{ $responses := slice }}
-          {{ $complement := complement $resp2 $resp3 }}
-          {{ if eq (len $complement) 0 }}
-            {{ $same = true }}
-            {{ $responses = $responses | append (dict "response" $resp2) }}
-            {{ printf "## RESP2/RESP3 Reply" | markdownify }}
-          {{ else }}
-            {{ $responses = $responses | append (dict "response" $resp2) }}
-            {{ $responses = $responses | append (dict "response" $resp3) }}
-          {{ end }}
-
-          {{ $respver := 2 }}
-          {{ range $response := $responses }}
-            {{ with $response.response }}
-              {{ if eq $same false }}
-                {{ printf "## RESP%d Reply" $respver | markdownify }}
-                {{ $respver = add $respver 1 }}
-              {{ end }}
-              {{ $mergedString := "" }}
-              {{ range . }}
-                {{ $mergedString = print $mergedString . "\n" }}
-              {{ end }}
-              {{ $processedContent := $mergedString | markdownify }}
-              {{ $processedContent }}
-            {{ end }}
-          {{ end }}
-        {{ end }}
-        <br />
 
         {{ if isset .Params "history" }}
           <h2>History</h2>
@@ -130,6 +100,6 @@
       </dl>
       {{ end }}
     </aside>
-
+    {{ partial "scripts.html" . }}
   </main>
 {{ end }}

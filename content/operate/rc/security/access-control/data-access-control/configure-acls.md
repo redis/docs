@@ -46,7 +46,7 @@ To configure a Redis ACL that you can assign to a data access role:
 
     {{<image filename="images/rc/data-access-control-redis-acls-saved.png" alt="Saved Redis ACL." >}}
 
-After you create a Redis ACL, you can assign it to a role. Redis ACLs are not fully verified until they are assigned to a role. For more information, see [Create roles]({{< relref "/operate/rc/security/access-control/data-access-control/create-roles" >}}) or [Active-Active access roles]({{< relref "/operate/rc/security/access-control/data-access-control/active-active-roles" >}}) for an [Active-Active database]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}).
+After you create a Redis ACL, you can assign it to a role. Redis ACLs are not fully verified until they are assigned to a role. For more information, see [Create roles]({{< relref "/operate/rc/security/access-control/data-access-control/create-roles" >}}) or [Active-Active access roles]({{< relref "/operate/rc/security/access-control/data-access-control/active-active-roles" >}}) for an [Active-Active database]({{< relref "/operate/rc/databases/active-active" >}}).
 
 ## Define permissions with ACL syntax
 
@@ -56,7 +56,7 @@ You can define these permissions using the [Redis ACL syntax]({{< relref "/opera
 - `-` *excludes* commands or command categories
 - `@` indicates a command category
 - `~` defines a permitted key pattern
-- `&` allows access to a [pub/sub channel]({{< relref "/develop/interact/pubsub" >}})
+- `&` allows access to a [pub/sub channel]({{< relref "/develop/pubsub" >}})
 
 The Redis Cloud console will validate your ACL syntax while you are typing.
 
@@ -116,13 +116,13 @@ For more information on how this works, see the [key permissions syntax]({{< rel
 
 ### Pub/sub ACL rules
 
-Pub/sub ACL rules determine which pub/sub channels a user can access. For more information see, [Redis pub/sub]({{< relref "/develop/interact/pubsub" >}})
+Pub/sub ACL rules determine which pub/sub channels a user can access. For more information see, [Redis pub/sub]({{< relref "/develop/pubsub" >}})
 
 For versions older than Redis 7.0, pub/sub is permissive and allows access to all channels by default.
 
 Redis 7.0 makes pub/sub restrictive and blocks access to all channels in Redis Software. However, Redis Cloud still defaults to permissive pub/sub even for Redis 7.0 subscriptions.
 
-| Redis<br />version | Redis Community Edition<br />pub/sub ACLs | Redis Cloud<br />pub/sub ACLs |
+| Redis<br />version | Redis Open Source<br />pub/sub ACLs | Redis Cloud<br />pub/sub ACLs |
 |:-------------:|-----------|-------------|
 | 6.0 | Not supported | Not supported |
 | 6.2 | Permissive | Permissive |

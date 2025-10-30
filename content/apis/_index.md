@@ -6,7 +6,7 @@ title: APIs
 type: develop
 ---
 
-Redis provides a number of APIs for developers and operators. The following sections provide you easy access to the client API, the several programmability APIs, the RESTFul management APIs and the Kubernetes resource defintions.
+Redis provides a number of APIs for developers and operators. The following sections provide you easy access to the client API, the several programmability APIs, the RESTFul management APIs and the Kubernetes resource definitions.
 
 ## APIs for Developers
 
@@ -26,12 +26,12 @@ The existing Redis commands cover most use cases, but if low latency is a critic
 
 Lua scripts have been available since early versions of Redis. With Lua, the script is provided by the client and cached on the server side, which implies the risk that different clients might use a different script version.
 
-- [Redis Lua API reference]({{< relref "/develop/interact/programmability/lua-api" >}})
-- [Scripting with Lua introduction]({{< relref "/develop/interact/programmability/eval-intro" >}})
+- [Redis Lua API reference]({{< relref "/develop/programmability/lua-api" >}})
+- [Scripting with Lua introduction]({{< relref "/develop/programmability/eval-intro" >}})
 
 The Redis functions feature, which became available in Redis 7, supersedes the use of Lua in prior versions of Redis. The client is still responsible for invoking the execution, but unlike the previous Lua scripts, functions can now be replicated and persisted.
 
-- [Functions and scripting in Redis 7 and beyond]({{< relref "/develop/interact/programmability/functions-intro" >}})
+- [Functions and scripting in Redis 7 and beyond]({{< relref "/develop/programmability/functions-intro" >}})
 
 If none of the previous methods fulfills your needs, then you can extend the functionality of Redis with new commands using the Redis Modules API. 
 
@@ -60,5 +60,5 @@ If you have installed Redis Enterprise Software, you can automate operations wit
 
 If you need to install Redis Enterprise on Kubernetes, then you can use the [Redis Enterprise for Kubernetes Operators]({{< relref "/operate/Kubernetes/" >}}). You can find the resource definitions here:
 
-- [Redis Enterprise Cluster API]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api">}})
-- [Redis Enterprise Database API]({{<relref "/operate/kubernetes/reference/redis_enterprise_database_api">}})
+- [Redis Enterprise Cluster API]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api">}})
+- [Redis Enterprise Database API]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_database_api">}})

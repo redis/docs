@@ -31,7 +31,7 @@ For more information on node storage, see [Node persistent and ephemeral storage
 
 ## Create a Redis Enterprise cluster
 
-To deploy a Redis Enterprise cluster (REC) with Auto Tiering, you'll need to specify the following in the `redisOnFlashSpec` section of your [REC custom resource]({{< relref "/operate/kubernetes/reference/redis_enterprise_cluster_api" >}}):
+To deploy a Redis Enterprise cluster (REC) with Auto Tiering, you'll need to specify the following in the `redisOnFlashSpec` section of your [REC custom resource]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api" >}}):
 
 - enable Auto Tiering (`enabled: true`)
 - flash storage driver (`bigStoreDriver`)
@@ -42,6 +42,8 @@ To deploy a Redis Enterprise cluster (REC) with Auto Tiering, you'll need to spe
 {{<note>}} Clusters upgraded to version 7.2.4-2 from an earlier version will change the `bigStoreDriver` (previously called `flashStorageEngine`) to the new default `speedb`, regardless of previous configuration. {{</note>}}
 
 {{<warning>}}Switching between storage engines (`speedb` and `rocksdb`) requires guidance by Redis Support or your Account Manager.{{</warning>}}
+
+{{<warning>}}PVC expansion is not supported when using Auto Tiering. Do not enable `enablePersistentVolumeResize` in the REC `persistentSpec` if you are using `redisOnFlashSpec` as this will result in conflicts. {{</warning>}}
 
 Here is an example of an REC custom resource with these attributes:
 

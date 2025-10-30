@@ -17,7 +17,7 @@ title: t-digest
 weight: 40
 ---
 
-The t-digest is a sketch data structure in Redis Community Edition for estimating percentiles from a data stream or a large dataset using a compact sketch.
+The t-digest is a sketch data structure in Redis Open Source for estimating percentiles from a data stream or a large dataset using a compact sketch.
 
 It can answer questions like:
 - Which fraction of the values in the data stream are smaller than a given value?
@@ -25,7 +25,8 @@ It can answer questions like:
 - What's the highest value that's smaller than *p* percent of the values in the data stream? (what is the p-percentile value)?
 
 
-### What is t-digest?
+## What is t-digest?
+
 t-digest is a data structure that will estimate a percentile point without having to store and order all the data points in a set. For example: to answer the question "What's the average latency for 99% of my database operations" we would have to store the average latency for every user, order the values, cut out the last 1% and only then find the average value of all the rest. This kind of process is costly not just in terms of the processing needed to order those values but also in terms of the space needed to store them. Those are precisely the problems t-digest solves.
 
 t-digest can also be used to estimate other values related to percentiles, like trimmed means.   

@@ -8,7 +8,7 @@ categories:
 linkTitle: Manage REC credentials
 weight: 93
 ---
-Redis Enterprise for Kubernetes uses a custom resource called [`RedisEnterpriseCluster`]({{< relref "/operate/kubernetes/reference/redis_enterprise_cluster_api" >}}) to create a Redis Enterprise cluster (REC). During creation it generates random credentials for the operator to use. The credentials are saved in a Kubernetes (K8s) [secret](https://kubernetes.io/docs/concepts/configuration/secret/). The secret name defaults to the name of the cluster.
+Redis Enterprise for Kubernetes uses a custom resource called [`RedisEnterpriseCluster`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api" >}}) to create a Redis Enterprise cluster (REC). During creation it generates random credentials for the operator to use. The credentials are saved in a Kubernetes (K8s) [secret](https://kubernetes.io/docs/concepts/configuration/secret/). The secret name defaults to the name of the cluster.
 
 {{<note>}}
 This procedure is only supported for operator versions 6.0.20-12 and above.
@@ -45,7 +45,7 @@ The credentials can be used to access the Redis Enterprise admin console or the 
 1. Access a [pod](https://kubernetes.io/docs/concepts/workloads/pods/) running a Redis Enterprise cluster.
 
 ```sh
-kubectl exec -it <rec-resource-name>-0 bash
+kubectl exec -it <rec-resource-name>-0 -c redis-enterprise-node -- /bin/bash
 ```
 
 2. Add a new password for the existing user.
@@ -79,7 +79,7 @@ kubectl apply -f -
 5. Access a pod running a Redis Enterprise cluster again.
 
 ```sh
-kubectl exec -it <rec-resource-name>-0 bash
+kubectl exec -it <rec-resource-name>-0 -c redis-enterprise-node -- /bin/bash
 ```
 
 6. Remove the previous password to ensure only the new one applies.

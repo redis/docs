@@ -3,7 +3,7 @@
   "info": {
     "title": "Redis Data Integration API",
     "description": "API for Redis Data Integration services",
-    "version": "1.6.1"
+    "version": "1.12.0"
   },
   "paths": {
     "/": {
@@ -14,21 +14,29 @@
         "responses": {
           "200": {
             "description": "Successful Response",
-            "content": { "application/json": { "schema": {} } }
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
           }
         }
       }
     },
     "/api/v1/login": {
       "post": {
-        "tags": ["login"],
+        "tags": [
+          "login"
+        ],
         "summary": "Login",
         "description": "Login route.\n\nArgs:\n    credentials (CredentialsInfo): User credentials.\n\nReturns:\n    TokenInfo: Token information.",
         "operationId": "login_api_v1_login_post",
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/CredentialsInfo" }
+              "schema": {
+                "$ref": "#/components/schemas/CredentialsInfo"
+              }
             }
           },
           "required": true
@@ -38,7 +46,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/TokenInfo" }
+                "schema": {
+                  "$ref": "#/components/schemas/TokenInfo"
+                }
               }
             }
           },
@@ -46,7 +56,9 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
@@ -55,7 +67,9 @@
     },
     "/api/v1/pipelines/start": {
       "post": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Start Pipeline",
         "description": "Starts a pipeline.",
         "operationId": "start_pipeline_api_v1_pipelines_start_post",
@@ -64,7 +78,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ActionIdResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/ActionIdResponse"
+                }
               }
             }
           },
@@ -72,7 +88,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -80,17 +98,25 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           }
         },
-        "security": [{ "JWTBearer": [] }]
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ]
       }
     },
     "/api/v1/pipelines/stop": {
       "post": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Stop Pipeline",
         "description": "Stops a pipeline.",
         "operationId": "stop_pipeline_api_v1_pipelines_stop_post",
@@ -99,7 +125,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ActionIdResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/ActionIdResponse"
+                }
               }
             }
           },
@@ -107,7 +135,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -115,17 +145,25 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           }
         },
-        "security": [{ "JWTBearer": [] }]
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ]
       }
     },
     "/api/v1/pipelines/reset": {
       "post": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Reset Pipeline",
         "description": "Reset pipeline.",
         "operationId": "reset_pipeline_api_v1_pipelines_reset_post",
@@ -134,7 +172,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ActionIdResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/ActionIdResponse"
+                }
               }
             }
           },
@@ -142,7 +182,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -150,27 +192,42 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           }
         },
-        "security": [{ "JWTBearer": [] }]
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ]
       }
     },
     "/api/v1/actions/{action_id}": {
       "get": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Get Action",
         "description": "Gets an action status by ID.",
         "operationId": "get_action_api_v1_actions__action_id__get",
-        "security": [{ "JWTBearer": [] }],
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "action_id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string", "title": "Action Id" }
+            "schema": {
+              "type": "string",
+              "title": "Action Id"
+            }
           }
         ],
         "responses": {
@@ -178,7 +235,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ActionResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/ActionResponse"
+                }
               }
             }
           },
@@ -186,7 +245,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -194,7 +255,9 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -202,7 +265,9 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
@@ -211,7 +276,9 @@
     },
     "/api/v1/me": {
       "get": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Protected Route",
         "description": "Protected route.\n\nArgs:\n    token_data (dict): Token data.\n\nReturns:\n    Dict[str, Any]: Token data.",
         "operationId": "protected_route_api_v1_me_get",
@@ -231,7 +298,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -239,17 +308,29 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           }
         },
-        "security": [{ "JWTBearer": [] }, { "JWTBearer": [] }]
+        "security": [
+          {
+            "JWTBearer": []
+          },
+          {
+            "JWTBearer": []
+          }
+        ]
       }
     },
     "/api/v1/pipelines/sources": {
       "put": {
-        "tags": ["secure", "sources"],
+        "tags": [
+          "secure",
+          "sources"
+        ],
         "summary": "Update Sources",
         "description": "Updates the sources in RDI settings.",
         "operationId": "update_sources_api_v1_pipelines_sources_put",
@@ -263,7 +344,9 @@
                   {
                     "psql": {
                       "type": "cdc",
-                      "logging": { "level": "debug" },
+                      "logging": {
+                        "level": "debug"
+                      },
                       "connection": {
                         "type": "mysql",
                         "host": "${HOST_IP}",
@@ -287,7 +370,9 @@
               "application/json": {
                 "schema": {
                   "anyOf": [
-                    { "$ref": "#/components/schemas/ActionIdResponse" },
+                    {
+                      "$ref": "#/components/schemas/ActionIdResponse"
+                    },
                     {
                       "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
                     }
@@ -301,7 +386,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -309,7 +396,9 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -317,27 +406,43 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
         },
-        "security": [{ "JWTBearer": [] }]
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ]
       }
     },
     "/api/v1/pipelines/sources/{name}": {
       "put": {
-        "tags": ["secure", "sources"],
+        "tags": [
+          "secure",
+          "sources"
+        ],
         "summary": "Upsert Source By Name",
         "description": "Upserts a source in RDI settings by its name.",
         "operationId": "upsert_source_by_name_api_v1_pipelines_sources__name__put",
-        "security": [{ "JWTBearer": [] }],
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "name",
             "in": "path",
             "required": true,
-            "schema": { "type": "string", "title": "Name" }
+            "schema": {
+              "type": "string",
+              "title": "Name"
+            }
           }
         ],
         "requestBody": {
@@ -349,7 +454,9 @@
                 "examples": [
                   {
                     "type": "cdc",
-                    "logging": { "level": "debug" },
+                    "logging": {
+                      "level": "debug"
+                    },
                     "connection": {
                       "type": "mysql",
                       "host": "${HOST_IP}",
@@ -372,7 +479,9 @@
               "application/json": {
                 "schema": {
                   "anyOf": [
-                    { "$ref": "#/components/schemas/ActionIdResponse" },
+                    {
+                      "$ref": "#/components/schemas/ActionIdResponse"
+                    },
                     {
                       "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
                     }
@@ -386,7 +495,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -394,7 +505,9 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -402,24 +515,36 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
         }
       },
       "patch": {
-        "tags": ["secure", "sources"],
+        "tags": [
+          "secure",
+          "sources"
+        ],
         "summary": "Partial Update Source By Name",
         "description": "Partially updates a source in RDI settings by name.",
         "operationId": "partial_update_source_by_name_api_v1_pipelines_sources__name__patch",
-        "security": [{ "JWTBearer": [] }],
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "name",
             "in": "path",
             "required": true,
-            "schema": { "type": "string", "title": "Name" }
+            "schema": {
+              "type": "string",
+              "title": "Name"
+            }
           }
         ],
         "requestBody": {
@@ -431,7 +556,14 @@
                 "examples": [
                   {
                     "active": true,
-                    "tables": { "my_table": { "columns": ["id", "name"] } }
+                    "tables": {
+                      "my_table": {
+                        "columns": [
+                          "id",
+                          "name"
+                        ]
+                      }
+                    }
                   }
                 ],
                 "title": "Body"
@@ -446,7 +578,9 @@
               "application/json": {
                 "schema": {
                   "anyOf": [
-                    { "$ref": "#/components/schemas/ActionIdResponse" },
+                    {
+                      "$ref": "#/components/schemas/ActionIdResponse"
+                    },
                     {
                       "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
                     }
@@ -460,7 +594,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -468,7 +604,9 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -476,24 +614,36 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
         }
       },
       "delete": {
-        "tags": ["secure", "sources"],
+        "tags": [
+          "secure",
+          "sources"
+        ],
         "summary": "Delete Source By Name",
         "description": "Deletes a source from RDI settings by its name.",
         "operationId": "delete_source_by_name_api_v1_pipelines_sources__name__delete",
-        "security": [{ "JWTBearer": [] }],
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "name",
             "in": "path",
             "required": true,
-            "schema": { "type": "string", "title": "Name" }
+            "schema": {
+              "type": "string",
+              "title": "Name"
+            }
           }
         ],
         "responses": {
@@ -503,7 +653,9 @@
               "application/json": {
                 "schema": {
                   "anyOf": [
-                    { "$ref": "#/components/schemas/ActionIdResponse" },
+                    {
+                      "$ref": "#/components/schemas/ActionIdResponse"
+                    },
                     {
                       "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
                     }
@@ -517,7 +669,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -525,7 +679,9 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -533,7 +689,9 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
@@ -542,7 +700,10 @@
     },
     "/api/v1/pipelines/targets": {
       "put": {
-        "tags": ["secure", "targets"],
+        "tags": [
+          "secure",
+          "targets"
+        ],
         "summary": "Update Targets",
         "description": "Updates the targets in RDI settings.",
         "operationId": "update_targets_api_v1_pipelines_targets_put",
@@ -575,7 +736,9 @@
               "application/json": {
                 "schema": {
                   "anyOf": [
-                    { "$ref": "#/components/schemas/ActionIdResponse" },
+                    {
+                      "$ref": "#/components/schemas/ActionIdResponse"
+                    },
                     {
                       "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
                     }
@@ -589,7 +752,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -597,7 +762,9 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -605,27 +772,43 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
         },
-        "security": [{ "JWTBearer": [] }]
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ]
       }
     },
     "/api/v1/pipelines/targets/{name}": {
       "put": {
-        "tags": ["secure", "targets"],
+        "tags": [
+          "secure",
+          "targets"
+        ],
         "summary": "Upsert Target By Name",
         "description": "Upserts a target in RDI settings by its name.",
         "operationId": "upsert_target_by_name_api_v1_pipelines_targets__name__put",
-        "security": [{ "JWTBearer": [] }],
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "name",
             "in": "path",
             "required": true,
-            "schema": { "type": "string", "title": "Name" }
+            "schema": {
+              "type": "string",
+              "title": "Name"
+            }
           }
         ],
         "requestBody": {
@@ -655,7 +838,9 @@
               "application/json": {
                 "schema": {
                   "anyOf": [
-                    { "$ref": "#/components/schemas/ActionIdResponse" },
+                    {
+                      "$ref": "#/components/schemas/ActionIdResponse"
+                    },
                     {
                       "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
                     }
@@ -669,7 +854,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -677,7 +864,9 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -685,24 +874,36 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
         }
       },
       "patch": {
-        "tags": ["secure", "targets"],
+        "tags": [
+          "secure",
+          "targets"
+        ],
         "summary": "Partial Update Target By Name",
         "description": "Partially updates a target in RDI settings by name.",
         "operationId": "partial_update_target_by_name_api_v1_pipelines_targets__name__patch",
-        "security": [{ "JWTBearer": [] }],
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "name",
             "in": "path",
             "required": true,
-            "schema": { "type": "string", "title": "Name" }
+            "schema": {
+              "type": "string",
+              "title": "Name"
+            }
           }
         ],
         "requestBody": {
@@ -711,7 +912,13 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "examples": [{ "connection": { "port": 12001 } }],
+                "examples": [
+                  {
+                    "connection": {
+                      "port": 12001
+                    }
+                  }
+                ],
                 "title": "Body"
               }
             }
@@ -724,7 +931,9 @@
               "application/json": {
                 "schema": {
                   "anyOf": [
-                    { "$ref": "#/components/schemas/ActionIdResponse" },
+                    {
+                      "$ref": "#/components/schemas/ActionIdResponse"
+                    },
                     {
                       "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
                     }
@@ -738,7 +947,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -746,7 +957,9 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -754,24 +967,36 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
         }
       },
       "delete": {
-        "tags": ["secure", "targets"],
+        "tags": [
+          "secure",
+          "targets"
+        ],
         "summary": "Delete Target By Name",
         "description": "Deletes a target from RDI settings by its name.",
         "operationId": "delete_target_by_name_api_v1_pipelines_targets__name__delete",
-        "security": [{ "JWTBearer": [] }],
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "name",
             "in": "path",
             "required": true,
-            "schema": { "type": "string", "title": "Name" }
+            "schema": {
+              "type": "string",
+              "title": "Name"
+            }
           }
         ],
         "responses": {
@@ -781,7 +1006,9 @@
               "application/json": {
                 "schema": {
                   "anyOf": [
-                    { "$ref": "#/components/schemas/ActionIdResponse" },
+                    {
+                      "$ref": "#/components/schemas/ActionIdResponse"
+                    },
                     {
                       "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
                     }
@@ -795,7 +1022,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -803,7 +1032,9 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -811,7 +1042,9 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
@@ -820,17 +1053,27 @@
     },
     "/api/v1/pipelines/secret-providers/{name}": {
       "put": {
-        "tags": ["secure", "secret-providers"],
+        "tags": [
+          "secure",
+          "secret-providers"
+        ],
         "summary": "Upsert Secret Provider By Name",
         "description": "Upserts a secret-provider in RDI settings by its name.",
         "operationId": "upsert_secret_provider_by_name_api_v1_pipelines_secret_providers__name__put",
-        "security": [{ "JWTBearer": [] }],
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "name",
             "in": "path",
             "required": true,
-            "schema": { "type": "string", "title": "Name" }
+            "schema": {
+              "type": "string",
+              "title": "Name"
+            }
           }
         ],
         "requestBody": {
@@ -868,7 +1111,9 @@
               "application/json": {
                 "schema": {
                   "anyOf": [
-                    { "$ref": "#/components/schemas/ActionIdResponse" },
+                    {
+                      "$ref": "#/components/schemas/ActionIdResponse"
+                    },
                     {
                       "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
                     }
@@ -882,7 +1127,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -890,7 +1137,9 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -898,24 +1147,36 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
         }
       },
       "patch": {
-        "tags": ["secure", "secret-providers"],
+        "tags": [
+          "secure",
+          "secret-providers"
+        ],
         "summary": "Partial Update Secret Provider By Name",
         "description": "Partially updates a secret provider in RDI settings by name.",
         "operationId": "partial_update_secret_provider_by_name_api_v1_pipelines_secret_providers__name__patch",
-        "security": [{ "JWTBearer": [] }],
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "name",
             "in": "path",
             "required": true,
-            "schema": { "type": "string", "title": "Name" }
+            "schema": {
+              "type": "string",
+              "title": "Name"
+            }
           }
         ],
         "requestBody": {
@@ -924,7 +1185,11 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "examples": [{ "type": "aws" }],
+                "examples": [
+                  {
+                    "type": "aws"
+                  }
+                ],
                 "title": "Body"
               }
             }
@@ -937,7 +1202,9 @@
               "application/json": {
                 "schema": {
                   "anyOf": [
-                    { "$ref": "#/components/schemas/ActionIdResponse" },
+                    {
+                      "$ref": "#/components/schemas/ActionIdResponse"
+                    },
                     {
                       "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
                     }
@@ -951,7 +1218,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -959,7 +1228,9 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -967,24 +1238,36 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
         }
       },
       "delete": {
-        "tags": ["secure", "secret-providers"],
+        "tags": [
+          "secure",
+          "secret-providers"
+        ],
         "summary": "Delete Secret Provider By Name",
         "description": "Deletes a secret-provider from RDI settings by its name.",
         "operationId": "delete_secret_provider_by_name_api_v1_pipelines_secret_providers__name__delete",
-        "security": [{ "JWTBearer": [] }],
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "name",
             "in": "path",
             "required": true,
-            "schema": { "type": "string", "title": "Name" }
+            "schema": {
+              "type": "string",
+              "title": "Name"
+            }
           }
         ],
         "responses": {
@@ -994,7 +1277,9 @@
               "application/json": {
                 "schema": {
                   "anyOf": [
-                    { "$ref": "#/components/schemas/ActionIdResponse" },
+                    {
+                      "$ref": "#/components/schemas/ActionIdResponse"
+                    },
                     {
                       "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
                     }
@@ -1008,7 +1293,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -1016,7 +1303,9 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -1024,7 +1313,9 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
@@ -1033,7 +1324,10 @@
     },
     "/api/v1/pipelines/sources/dry-run": {
       "post": {
-        "tags": ["secure", "connection"],
+        "tags": [
+          "secure",
+          "connection"
+        ],
         "summary": "Sources Dry Run",
         "description": "Tests the connection to the source database.\n\nArgs:\n    body: The connection details according to the OpenAPI Scheme.\n\nReturns:\n    Union[ConnectionStatusSingleConnection, Error]: The connection status.",
         "operationId": "sources_dry_run_api_v1_pipelines_sources_dry_run_post",
@@ -1046,7 +1340,9 @@
                 "examples": [
                   {
                     "type": "cdc",
-                    "logging": { "level": "debug" },
+                    "logging": {
+                      "level": "debug"
+                    },
                     "connection": {
                       "type": "mysql",
                       "host": "${HOST_IP}",
@@ -1085,7 +1381,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -1093,7 +1391,9 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -1101,17 +1401,25 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
         },
-        "security": [{ "JWTBearer": [] }]
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ]
       }
     },
     "/api/v1/pipelines/targets/dry-run": {
       "post": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Multiple Targets Dry Run",
         "description": "Tests connection to the target database(s).",
         "operationId": "multiple_targets_dry_run_api_v1_pipelines_targets_dry_run_post",
@@ -1148,7 +1456,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/TargetsOutput" }
+                "schema": {
+                  "$ref": "#/components/schemas/TargetsOutput"
+                }
               }
             }
           },
@@ -1156,7 +1466,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -1164,7 +1476,9 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -1172,17 +1486,25 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
         },
-        "security": [{ "JWTBearer": [] }]
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ]
       }
     },
     "/api/v1/pipelines/target/dry-run": {
       "post": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Single Target Dry Run",
         "description": "Tests connection by name to the target database.",
         "operationId": "single_target_dry_run_api_v1_pipelines_target_dry_run_post",
@@ -1193,7 +1515,11 @@
                 "type": "object",
                 "title": "Body",
                 "examples": [
-                  { "type": "redis", "host": "${HOST_IP}", "port": 12002 }
+                  {
+                    "type": "redis",
+                    "host": "${HOST_IP}",
+                    "port": 12002
+                  }
                 ]
               }
             }
@@ -1215,7 +1541,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -1223,7 +1551,9 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -1231,34 +1561,56 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
         },
-        "security": [{ "JWTBearer": [] }]
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ]
       }
     },
     "/api/v1/pipelines/sources/{source_name}/columns": {
       "get": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Get Columns",
         "description": "Fetches column metadata for specified tables in a source.\n\nArgs:\n    source_name (str): Source name.\n    schema (Optional[str]): Schema name. Defaults to None.\n    tables (str): Table names.\n\nReturns:\n    MetadataResponse: Column metadata information for the specified tables.",
         "operationId": "get_columns_api_v1_pipelines_sources__source_name__columns_get",
-        "security": [{ "JWTBearer": [] }],
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "source_name",
             "in": "path",
             "required": true,
-            "schema": { "type": "string", "title": "Source Name" }
+            "schema": {
+              "type": "string",
+              "title": "Source Name"
+            }
           },
           {
             "name": "schema",
             "in": "query",
             "required": false,
             "schema": {
-              "anyOf": [{ "type": "string" }, { "type": "null" }],
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
               "description": "Optional schema name",
               "title": "Schema"
             },
@@ -1281,7 +1633,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/MetadataResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/MetadataResponse"
+                }
               }
             }
           },
@@ -1289,7 +1643,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -1297,7 +1653,9 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -1305,7 +1663,9 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
@@ -1314,17 +1674,26 @@
     },
     "/api/v1/pipelines/sources/{source_name}/schemas": {
       "get": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Get Schemas For Sources",
         "description": "Fetches available schemas for the specified source.\n\nArgs:\n    source_name (str): The name of the source.\n\nReturns:\n    SchemaResponse: List of available schema names for the source.",
         "operationId": "get_schemas_for_sources_api_v1_pipelines_sources__source_name__schemas_get",
-        "security": [{ "JWTBearer": [] }],
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "source_name",
             "in": "path",
             "required": true,
-            "schema": { "type": "string", "title": "Source Name" }
+            "schema": {
+              "type": "string",
+              "title": "Source Name"
+            }
           }
         ],
         "responses": {
@@ -1332,7 +1701,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/SchemaResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/SchemaResponse"
+                }
               }
             }
           },
@@ -1340,7 +1711,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -1348,7 +1721,9 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -1356,7 +1731,9 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
@@ -1365,17 +1742,26 @@
     },
     "/api/v1/pipelines/sources/{source_name}/databases": {
       "get": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Get Databases For Sources",
         "description": "Fetches available databases for the specified source.\n\nArgs:\n    source_name (str): The name of the source.\n\nReturns:\n    DatabaseResponse: List of available databases for the source.",
         "operationId": "get_databases_for_sources_api_v1_pipelines_sources__source_name__databases_get",
-        "security": [{ "JWTBearer": [] }],
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "source_name",
             "in": "path",
             "required": true,
-            "schema": { "type": "string", "title": "Source Name" }
+            "schema": {
+              "type": "string",
+              "title": "Source Name"
+            }
           }
         ],
         "responses": {
@@ -1383,7 +1769,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/DatabaseResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/DatabaseResponse"
+                }
               }
             }
           },
@@ -1391,7 +1779,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -1399,7 +1789,9 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -1407,7 +1799,9 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
@@ -1416,24 +1810,135 @@
     },
     "/api/v1/pipelines/sources/{source_name}/metadata": {
       "get": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Get Metadata Per Schema",
-        "description": "Fetches metadata for specified schema from a source.\n\nArgs:\n    source_name (str): Source name.\n    schema (Optional[str]): Schema name. Defaults to None.\n\nReturns:\n    MetadataResponse: Detailed metadata information for the specified schema, or all schemas if none specified.",
+        "description": "Fetches metadata for specified schema from a source.\n\nArgs:\n    source_name (str): Source name.\n    schema (Optional[str]): Schema name. Defaults to None.\n    tables (Optional[str]): Comma-separated list of table names to filter by. Defaults to None.\n\nReturns:\n    MetadataResponse: Detailed metadata information for the specified schema and tables, or all schemas/tables if none specified.",
         "operationId": "get_metadata_per_schema_api_v1_pipelines_sources__source_name__metadata_get",
-        "security": [{ "JWTBearer": [] }],
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "source_name",
             "in": "path",
             "required": true,
-            "schema": { "type": "string", "title": "Source Name" }
+            "schema": {
+              "type": "string",
+              "title": "Source Name"
+            }
           },
           {
             "name": "schema",
             "in": "query",
             "required": false,
             "schema": {
-              "anyOf": [{ "type": "string" }, { "type": "null" }],
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Schema"
+            }
+          },
+          {
+            "name": "tables",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Comma-separated list of table names to filter by",
+              "title": "Tables"
+            },
+            "description": "Comma-separated list of table names to filter by"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MetadataResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pipelines/sources/{source_name}/tables": {
+      "get": {
+        "tags": [
+          "secure"
+        ],
+        "summary": "Get Tables For Sources",
+        "description": "Fetches available tables for the specified schema in a source.\n\nArgs:\n    source_name (str): The name of the source.\n    schema (str): The schema to fetch tables from.\n\nRaises:\n    HTTPException: Raised when no sources are provided in the connection details.\n\nReturns:\n    TableResponse: List of tables available in the specified schema.",
+        "operationId": "get_tables_for_sources_api_v1_pipelines_sources__source_name__tables_get",
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "source_name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Source Name"
+            }
+          },
+          {
+            "name": "schema",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
               "title": "Schema"
             }
           }
@@ -1443,7 +1948,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/MetadataResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/TableResponse"
+                }
               }
             }
           },
@@ -1451,7 +1958,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -1459,7 +1968,9 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -1467,64 +1978,9 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/pipelines/sources/{source_name}/tables": {
-      "get": {
-        "tags": ["secure"],
-        "summary": "Get Tables For Sources",
-        "description": "Fetches available tables for the specified schema in a source.\n\nArgs:\n    source_name (str): The name of the source.\n    schema (str): The schema to fetch tables from.\n\nRaises:\n    HTTPException: Raised when no sources are provided in the connection details.\n\nReturns:\n    TableResponse: List of tables available in the specified schema.",
-        "operationId": "get_tables_for_sources_api_v1_pipelines_sources__source_name__tables_get",
-        "security": [{ "JWTBearer": [] }],
-        "parameters": [
-          {
-            "name": "source_name",
-            "in": "path",
-            "required": true,
-            "schema": { "type": "string", "title": "Source Name" }
-          },
-          {
-            "name": "schema",
-            "in": "query",
-            "required": true,
-            "schema": { "type": "string", "title": "Schema" }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/TableResponse" }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
@@ -1533,10 +1989,18 @@
     },
     "/api/v1/pipelines": {
       "get": {
-        "tags": ["secure", "deploy"],
+        "tags": [
+          "secure",
+          "deploy"
+        ],
         "summary": "Retrieve Pipelines",
         "description": "Retrieves a pipeline.",
         "operationId": "retrieve_pipelines_api_v1_pipelines_get",
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -1553,7 +2017,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -1561,30 +2027,60 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           }
-        },
-        "security": [{ "JWTBearer": [] }]
+        }
       },
       "post": {
-        "tags": ["secure", "deploy"],
+        "tags": [
+          "secure",
+          "deploy"
+        ],
         "summary": "Pipelines",
-        "description": "Deploys a pipeline.",
+        "description": "Deploys a pipeline.\n\nArgs:\n    body: Pipeline configuration\n    dry_run: If True, only validates the pipeline without deploying it.",
         "operationId": "pipelines_api_v1_pipelines_post",
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "dry_run",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": false,
+              "title": "Dry Run"
+            }
+          }
+        ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
-                "title": "Body",
                 "examples": [
                   {
                     "sources": {
                       "psql": {
                         "type": "cdc",
-                        "logging": { "level": "debug" },
+                        "logging": {
+                          "level": "debug"
+                        },
                         "connection": {
                           "type": "postgresql",
                           "host": "host.docker.internal",
@@ -1606,7 +2102,9 @@
                               "invoiceid",
                               "invoicedate"
                             ],
-                            "keys": ["invoiceid"]
+                            "keys": [
+                              "invoiceid"
+                            ]
                           },
                           "public.track": {
                             "columns": [
@@ -1620,11 +2118,18 @@
                               "albumid",
                               "unitprice"
                             ],
-                            "keys": ["trackid"]
+                            "keys": [
+                              "trackid"
+                            ]
                           },
                           "public.mediatype": {
-                            "columns": ["mediatypeid", "name"],
-                            "keys": ["mediatypeid"]
+                            "columns": [
+                              "mediatypeid",
+                              "name"
+                            ],
+                            "keys": [
+                              "mediatypeid"
+                            ]
                           },
                           "public.customer": {
                             "columns": [
@@ -1642,11 +2147,18 @@
                               "email",
                               "supportrepid"
                             ],
-                            "keys": ["customerid"]
+                            "keys": [
+                              "customerid"
+                            ]
                           },
                           "public.genre": {
-                            "columns": ["genreid", "name"],
-                            "keys": ["genreid"]
+                            "columns": [
+                              "genreid",
+                              "name"
+                            ],
+                            "keys": [
+                              "genreid"
+                            ]
                           },
                           "public.invoiceline": {
                             "columns": [
@@ -1656,11 +2168,18 @@
                               "invoiceid",
                               "unitprice"
                             ],
-                            "keys": ["invoicelineid"]
+                            "keys": [
+                              "invoicelineid"
+                            ]
                           },
                           "public.playlist": {
-                            "columns": ["playlistid", "name"],
-                            "keys": ["playlistid"]
+                            "columns": [
+                              "playlistid",
+                              "name"
+                            ],
+                            "keys": [
+                              "playlistid"
+                            ]
                           },
                           "public.employee": {
                             "columns": [
@@ -1680,19 +2199,38 @@
                               "fax",
                               "email"
                             ],
-                            "keys": ["employeeid"]
+                            "keys": [
+                              "employeeid"
+                            ]
                           },
                           "public.album": {
-                            "columns": ["albumid", "artistid", "title"],
-                            "keys": ["albumid"]
+                            "columns": [
+                              "albumid",
+                              "artistid",
+                              "title"
+                            ],
+                            "keys": [
+                              "albumid"
+                            ]
                           },
                           "public.artist": {
-                            "columns": ["name", "artistid"],
-                            "keys": ["artistid"]
+                            "columns": [
+                              "name",
+                              "artistid"
+                            ],
+                            "keys": [
+                              "artistid"
+                            ]
                           },
                           "public.playlisttrack": {
-                            "columns": ["playlistid", "trackid"],
-                            "keys": ["playlistid", "trackid"]
+                            "columns": [
+                              "playlistid",
+                              "trackid"
+                            ],
+                            "keys": [
+                              "playlistid",
+                              "trackid"
+                            ]
                           }
                         }
                       }
@@ -1705,12 +2243,13 @@
                         "password": "test"
                       }
                     },
-                    "processors": { "target_data_type": "hash" },
+                    "processors": {
+                      "target_data_type": "hash"
+                    },
                     "jobs": [
                       {
                         "name": "chinook_customer",
                         "source": {
-                          "server_name": "chinook",
                           "schema": "public",
                           "table": "Customer"
                         },
@@ -1730,11 +2269,11 @@
                       }
                     ]
                   }
-                ]
+                ],
+                "title": "Body"
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
@@ -1742,13 +2281,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "anyOf": [
-                    { "$ref": "#/components/schemas/ActionIdResponse" },
-                    {
-                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
-                    }
-                  ],
-                  "title": "Response Pipelines Api V1 Pipelines Post"
+                  "$ref": "#/components/schemas/ActionIdResponse"
                 }
               }
             }
@@ -1757,7 +2290,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -1765,25 +2300,382 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
           "422": {
-            "description": "Unprocessable Entity",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/Error-Input" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "secure",
+          "deploy"
+        ],
+        "summary": "Patch Pipelines",
+        "description": "This endpoint allows for partial updates to the pipeline configuration. It expects a JSON Object containing pipeline configuration keys to be updated. JSON Merge Patch is used to update the configuration, see RFC 7396. Arrays are replaced, not merged.",
+        "operationId": "patch_pipelines_api_v1_pipelines_patch",
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "dry_run",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": false,
+              "title": "Dry Run"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "examples": [
+                  {
+                    "sources": {
+                      "psql": {
+                        "type": "cdc",
+                        "logging": {
+                          "level": "debug"
+                        },
+                        "connection": {
+                          "type": "postgresql",
+                          "host": "host.docker.internal",
+                          "port": 5432,
+                          "database": "chinook",
+                          "user": "postgres",
+                          "password": "postgres"
+                        },
+                        "tables": {
+                          "public.invoice": {
+                            "columns": [
+                              "billingaddress",
+                              "billingcity",
+                              "billingcountry",
+                              "billingpostalcode",
+                              "total",
+                              "customerid",
+                              "billingstate",
+                              "invoiceid",
+                              "invoicedate"
+                            ],
+                            "keys": [
+                              "invoiceid"
+                            ]
+                          },
+                          "public.track": {
+                            "columns": [
+                              "genreid",
+                              "milliseconds",
+                              "mediatypeid",
+                              "trackid",
+                              "composer",
+                              "bytes",
+                              "name",
+                              "albumid",
+                              "unitprice"
+                            ],
+                            "keys": [
+                              "trackid"
+                            ]
+                          },
+                          "public.mediatype": {
+                            "columns": [
+                              "mediatypeid",
+                              "name"
+                            ],
+                            "keys": [
+                              "mediatypeid"
+                            ]
+                          },
+                          "public.customer": {
+                            "columns": [
+                              "country",
+                              "firstname",
+                              "address",
+                              "city",
+                              "lastname",
+                              "phone",
+                              "postalcode",
+                              "customerid",
+                              "company",
+                              "state",
+                              "fax",
+                              "email",
+                              "supportrepid"
+                            ],
+                            "keys": [
+                              "customerid"
+                            ]
+                          },
+                          "public.genre": {
+                            "columns": [
+                              "genreid",
+                              "name"
+                            ],
+                            "keys": [
+                              "genreid"
+                            ]
+                          },
+                          "public.invoiceline": {
+                            "columns": [
+                              "quantity",
+                              "trackid",
+                              "invoicelineid",
+                              "invoiceid",
+                              "unitprice"
+                            ],
+                            "keys": [
+                              "invoicelineid"
+                            ]
+                          },
+                          "public.playlist": {
+                            "columns": [
+                              "playlistid",
+                              "name"
+                            ],
+                            "keys": [
+                              "playlistid"
+                            ]
+                          },
+                          "public.employee": {
+                            "columns": [
+                              "country",
+                              "firstname",
+                              "birthdate",
+                              "address",
+                              "city",
+                              "reportsto",
+                              "title",
+                              "employeeid",
+                              "hiredate",
+                              "lastname",
+                              "phone",
+                              "postalcode",
+                              "state",
+                              "fax",
+                              "email"
+                            ],
+                            "keys": [
+                              "employeeid"
+                            ]
+                          },
+                          "public.album": {
+                            "columns": [
+                              "albumid",
+                              "artistid",
+                              "title"
+                            ],
+                            "keys": [
+                              "albumid"
+                            ]
+                          },
+                          "public.artist": {
+                            "columns": [
+                              "name",
+                              "artistid"
+                            ],
+                            "keys": [
+                              "artistid"
+                            ]
+                          },
+                          "public.playlisttrack": {
+                            "columns": [
+                              "playlistid",
+                              "trackid"
+                            ],
+                            "keys": [
+                              "playlistid",
+                              "trackid"
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    "targets": {
+                      "target": {
+                        "type": "redis",
+                        "host": "host.docker.internal",
+                        "port": 12002,
+                        "password": "test"
+                      }
+                    },
+                    "processors": {
+                      "target_data_type": "hash"
+                    },
+                    "jobs": [
+                      {
+                        "name": "chinook_customer",
+                        "source": {
+                          "schema": "public",
+                          "table": "Customer"
+                        },
+                        "output": [
+                          {
+                            "uses": "redis.write",
+                            "with": {
+                              "connection": "target",
+                              "key": {
+                                "expression": "concat(['CustomerId:', CustomerId])",
+                                "language": "jmespath"
+                              },
+                              "expire": 100
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "targets": {
+                      "target": {
+                        "type": "redis",
+                        "host": "host.docker.internal",
+                        "port": 12002,
+                        "password": "test"
+                      }
+                    },
+                    "processors": {
+                      "target_data_type": "hash"
+                    }
+                  }
+                ],
+                "title": "Body"
               }
             }
           }
         },
-        "security": [{ "JWTBearer": [] }]
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionIdResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          }
+        }
+      }
+    },
+    "/api/v1/pipelines/undeploy": {
+      "post": {
+        "tags": [
+          "secure",
+          "deploy"
+        ],
+        "summary": "Undeploy Pipelines",
+        "description": "Undeploys a pipeline.",
+        "operationId": "undeploy_pipelines_api_v1_pipelines_undeploy_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/ActionIdResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
+                    }
+                  ],
+                  "title": "Response Undeploy Pipelines Api V1 Pipelines Undeploy Post"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ]
       }
     },
     "/api/v1/pipelines/jobs/functions": {
       "get": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Pipelines Jobs Functions",
         "description": "Retrieves a list of all supported JMESPath functions (builtin and custom) that can be used in JMESPath.",
         "operationId": "pipelines_jobs_functions_api_v1_pipelines_jobs_functions_get",
@@ -1802,7 +2694,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -1810,27 +2704,59 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           }
         },
-        "security": [{ "JWTBearer": [] }]
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ]
       }
     },
     "/api/v1/pipelines/config/templates/ingest/{db_type}": {
       "get": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Pipelines Config Templates",
-        "description": "Returns the YAML template describing the config for the specifieddb type.",
+        "description": "Returns the YAML template describing the config for the specified db type.",
         "operationId": "pipelines_config_templates_api_v1_pipelines_config_templates_ingest__db_type__get",
-        "security": [{ "JWTBearer": [] }],
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "db_type",
             "in": "path",
             "required": true,
-            "schema": { "$ref": "#/components/schemas/DbType" }
+            "schema": {
+              "$ref": "#/components/schemas/DbType"
+            }
+          },
+          {
+            "name": "db_flavor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/DbFlavor"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional database flavor",
+              "title": "Db Flavor"
+            },
+            "description": "Optional database flavor"
           }
         ],
         "responses": {
@@ -1840,8 +2766,12 @@
               "application/json": {
                 "schema": {
                   "anyOf": [
-                    { "$ref": "#/components/schemas/TemplateResponse" },
-                    { "$ref": "#/components/schemas/ApiErrorDetail" }
+                    {
+                      "$ref": "#/components/schemas/TemplateResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ApiErrorDetail"
+                    }
                   ],
                   "title": "Response Pipelines Config Templates Api V1 Pipelines Config Templates Ingest  Db Type  Get",
                   "$ref": "#/components/schemas/TemplateResponse"
@@ -1853,7 +2783,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -1861,14 +2793,18 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
           "501": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             },
             "description": "Not Implemented"
@@ -1877,7 +2813,9 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
@@ -1886,7 +2824,9 @@
     },
     "/api/v1/pipelines/jobs/templates/ingest": {
       "get": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Pipelines Jobs Templates",
         "description": "Returns the YAML templates describing how to create a job",
         "operationId": "pipelines_jobs_templates_api_v1_pipelines_jobs_templates_ingest_get",
@@ -1898,8 +2838,12 @@
                 "schema": {
                   "$ref": "#/components/schemas/TemplateResponse",
                   "anyOf": [
-                    { "$ref": "#/components/schemas/TemplateResponse" },
-                    { "$ref": "#/components/schemas/ApiErrorDetail" }
+                    {
+                      "$ref": "#/components/schemas/TemplateResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ApiErrorDetail"
+                    }
                   ],
                   "title": "Response Pipelines Jobs Templates Api V1 Pipelines Jobs Templates Ingest Get"
                 }
@@ -1910,7 +2854,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -1918,7 +2864,9 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -1926,24 +2874,34 @@
             "description": "Not Implemented",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           }
         },
-        "security": [{ "JWTBearer": [] }]
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ]
       }
     },
     "/api/v1/pipelines/jobs/dry-run": {
       "post": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Job Dry Run",
         "description": "Executes a job using input data in a dry-run mode.",
         "operationId": "job_dry_run_api_v1_pipelines_jobs_dry_run_post",
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/JobDryRunBody" }
+              "schema": {
+                "$ref": "#/components/schemas/JobDryRunBody"
+              }
             }
           },
           "required": true
@@ -1955,7 +2913,9 @@
               "application/json": {
                 "schema": {
                   "anyOf": [
-                    { "$ref": "#/components/schemas/JobDryRunSuccessResponse" },
+                    {
+                      "$ref": "#/components/schemas/JobDryRunSuccessResponse"
+                    },
                     {
                       "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
                     }
@@ -1969,7 +2929,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -1977,7 +2939,9 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -1985,17 +2949,72 @@
             "description": "Unprocessable Entity",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/Error-Input" }
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
+                }
               }
             }
           }
         },
-        "security": [{ "JWTBearer": [] }]
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/pipelines/strategies": {
+      "get": {
+        "tags": [
+          "secure"
+        ],
+        "summary": "Pipelines Strategies",
+        "description": "Retrieves available strategies.",
+        "operationId": "pipelines_strategies_api_v1_pipelines_strategies_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PipelinesStrategiesResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ]
       }
     },
     "/api/v1/pipelines/config/schemas": {
       "get": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Pipelines Config Schemas",
         "description": "Retrieves config schema.",
         "operationId": "pipelines_config_schemas_api_v1_pipelines_config_schemas_get",
@@ -2015,7 +3034,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -2023,17 +3044,25 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           }
         },
-        "security": [{ "JWTBearer": [] }]
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ]
       }
     },
     "/api/v1/pipelines/jobs/schemas": {
       "get": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Pipelines Jobs Schemas",
         "description": "Retrieves job schemas.",
         "operationId": "pipelines_jobs_schemas_api_v1_pipelines_jobs_schemas_get",
@@ -2053,7 +3082,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -2061,24 +3092,36 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           }
         },
-        "security": [{ "JWTBearer": [] }]
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ]
       }
     },
     "/api/v1/pipelines/processors": {
       "put": {
-        "tags": ["secure", "processors"],
+        "tags": [
+          "secure",
+          "processors"
+        ],
         "summary": "Update Processors",
         "description": "Updates multiple processor properties in RDI settings.\nThe request body should be a dictionary with property names as keys and new values as values.",
         "operationId": "update_processors_api_v1_pipelines_processors_put",
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "type": "object", "title": "Body" },
+              "schema": {
+                "type": "object",
+                "title": "Body"
+              },
               "examples": {
                 "multi_update": {
                   "summary": "Update multiple processor properties",
@@ -2101,7 +3144,9 @@
               "application/json": {
                 "schema": {
                   "anyOf": [
-                    { "$ref": "#/components/schemas/ActionIdResponse" },
+                    {
+                      "$ref": "#/components/schemas/ActionIdResponse"
+                    },
                     {
                       "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
                     }
@@ -2115,7 +3160,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -2123,7 +3170,9 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -2131,49 +3180,72 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
         },
-        "security": [{ "JWTBearer": [] }]
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ]
       }
     },
     "/api/v1/pipelines/processors/{prop}": {
       "put": {
-        "tags": ["secure", "processors"],
+        "tags": [
+          "secure",
+          "processors"
+        ],
         "summary": "Upsert Processors Property",
         "description": "Upserts a single processor property by property name.\nThe request body should contain a single 'value' field with the new value for the property.\nThe property name is specified in the URL path.",
         "operationId": "upsert_processors_property_api_v1_pipelines_processors__prop__put",
-        "security": [{ "JWTBearer": [] }],
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "prop",
             "in": "path",
             "required": true,
-            "schema": { "$ref": "#/components/schemas/ProcessorPropertyName" }
+            "schema": {
+              "$ref": "#/components/schemas/ProcessorPropertyName"
+            }
           }
         ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/ProcessorProperty" },
+              "schema": {
+                "$ref": "#/components/schemas/ProcessorProperty"
+              },
               "examples": {
                 "read_batch_size": {
                   "summary": "Update read_batch_size",
                   "description": "Example of updating the read_batch_size property.",
-                  "value": { "value": 1000 }
+                  "value": {
+                    "value": 1000
+                  }
                 },
                 "target_data_type": {
                   "summary": "Update target_data_type",
                   "description": "Example of updating the target_data_type property.",
-                  "value": { "value": "hash" }
+                  "value": {
+                    "value": "hash"
+                  }
                 },
                 "write_batch_size": {
                   "summary": "Update write_batch_size",
                   "description": "Example of updating the write_batch_size property.",
-                  "value": { "value": 500 }
+                  "value": {
+                    "value": 500
+                  }
                 }
               }
             }
@@ -2186,7 +3258,9 @@
               "application/json": {
                 "schema": {
                   "anyOf": [
-                    { "$ref": "#/components/schemas/ActionIdResponse" },
+                    {
+                      "$ref": "#/components/schemas/ActionIdResponse"
+                    },
                     {
                       "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
                     }
@@ -2200,7 +3274,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -2208,7 +3284,9 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -2216,7 +3294,9 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
@@ -2225,14 +3305,19 @@
     },
     "/api/v1/secrets/{secret_name}": {
       "put": {
-        "tags": ["secure", "secrets"],
+        "tags": [
+          "secure",
+          "secrets"
+        ],
         "summary": "Set Multi Key Secret",
         "description": "Stores multiple key-value pairs under a single secret name in the key store.\nNOTE: {secret_name} is legacy and is not used - calculated automatically\n\nArgs:\n    secret_keys (SecretKeyModel): The secret key/value pairs to set.\n\nReturns:\n    OperationResponse: The operation response.",
         "operationId": "set_multi_key_secret_api_v1_secrets__secret_name__put",
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/SecretKeyModel" }
+              "schema": {
+                "$ref": "#/components/schemas/SecretKeyModel"
+              }
             }
           },
           "required": true
@@ -2242,7 +3327,9 @@
             "description": "Secrets were set successfully",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/OperationResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/OperationResponse"
+                }
               }
             }
           },
@@ -2250,7 +3337,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -2258,7 +3347,9 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -2266,24 +3357,35 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
         },
-        "security": [{ "JWTBearer": [] }]
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ]
       }
     },
     "/api/v1/secrets": {
       "put": {
-        "tags": ["secure", "secrets"],
+        "tags": [
+          "secure",
+          "secrets"
+        ],
         "summary": "Set Secrets",
         "description": "Sets multiple secret values in the key store for multiple secret names.\n\nArgs:\n    secrets (SecretsModel): Collection of secrets to store.\n\nReturns:\n    OperationResponse: The operation response.",
         "operationId": "set_secrets_api_v1_secrets_put",
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/SecretsModel" }
+              "schema": {
+                "$ref": "#/components/schemas/SecretsModel"
+              }
             }
           },
           "required": true
@@ -2293,7 +3395,9 @@
             "description": "Secrets were set successfully",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/OperationResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/OperationResponse"
+                }
               }
             }
           },
@@ -2301,7 +3405,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -2309,7 +3415,9 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -2317,17 +3425,25 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
         },
-        "security": [{ "JWTBearer": [] }]
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ]
       }
     },
     "/api/v1/monitoring/statistics": {
       "get": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Statistics",
         "description": "Retrieves RDI statistics.",
         "operationId": "statistics_api_v1_monitoring_statistics_get",
@@ -2336,7 +3452,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/StatisticsResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/StatisticsResponse"
+                }
               }
             }
           },
@@ -2344,7 +3462,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -2352,17 +3472,25 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           }
         },
-        "security": [{ "JWTBearer": [] }]
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ]
       }
     },
     "/api/v1/status": {
       "get": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Get Status",
         "description": "Retrieves RDI status.",
         "operationId": "get_status_api_v1_status_get",
@@ -2371,7 +3499,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/StatusResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/StatusResponse"
+                }
               }
             }
           },
@@ -2379,7 +3509,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -2387,24 +3519,34 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           }
         },
-        "security": [{ "JWTBearer": [] }]
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ]
       }
     },
     "/api/v1/trace/start": {
       "post": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Start Trace",
         "description": "Starts a trace session for troubleshooting data transformation.",
         "operationId": "start_trace_api_v1_trace_start_post",
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/TraceRequest" }
+              "schema": {
+                "$ref": "#/components/schemas/TraceRequest"
+              }
             }
           },
           "required": true
@@ -2414,7 +3556,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ActionIdResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/ActionIdResponse"
+                }
               }
             }
           },
@@ -2422,7 +3566,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -2430,7 +3576,9 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDetail"
+                }
               }
             }
           },
@@ -2438,12 +3586,18 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
         },
-        "security": [{ "JWTBearer": [] }]
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ]
       }
     }
   },
@@ -2452,13 +3606,21 @@
       "ActionIdResponse": {
         "properties": {
           "action_id": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Action Id",
-            "examples": ["1234567890"]
+            "examples": [
+              "1234567890"
+            ]
           }
         },
         "type": "object",
-        "required": ["action_id"],
         "title": "ActionIdResponse",
         "description": "Response model containing an action ID."
       },
@@ -2467,17 +3629,26 @@
           "action_id": {
             "type": "string",
             "title": "Action ID",
-            "examples": ["1715254593439-0"]
+            "examples": [
+              "1715254593439-0"
+            ]
           },
           "status": {
             "$ref": "#/components/schemas/TaskStatus",
             "title": "Action status",
-            "examples": ["completed", "failed"]
+            "examples": [
+              "completed",
+              "failed"
+            ]
           },
           "output": {
             "anyOf": [
-              { "$ref": "#/components/schemas/SourcesOutput" },
-              { "type": "null" }
+              {
+                "$ref": "#/components/schemas/SourcesOutput"
+              },
+              {
+                "type": "null"
+              }
             ],
             "title": "Action output"
           },
@@ -2486,14 +3657,23 @@
               {
                 "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__sources__Error"
               },
-              { "type": "null" }
+              {
+                "type": "null"
+              }
             ],
             "title": "Error object",
-            "examples": [{ "message": "Unknown error occurred" }]
+            "examples": [
+              {
+                "message": "Unknown error occurred"
+              }
+            ]
           }
         },
         "type": "object",
-        "required": ["action_id", "status"],
+        "required": [
+          "action_id",
+          "status"
+        ],
         "title": "ActionResponse"
       },
       "ApiErrorDetail": {
@@ -2501,11 +3681,29 @@
           "detail": {
             "type": "string",
             "title": "Detail",
-            "examples": ["Incorrect username or password"]
+            "examples": [
+              "Detailed error message"
+            ]
+          },
+          "errors": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__Error"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Errors"
           }
         },
         "type": "object",
-        "required": ["detail"],
+        "required": [
+          "detail"
+        ],
         "title": "ApiErrorDetail",
         "description": "Model representing detailed API error information."
       },
@@ -2514,76 +3712,142 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "examples": ["975820001001"]
+            "examples": [
+              "975820001001"
+            ]
           },
           "addr": {
             "type": "string",
             "title": "Addr",
-            "examples": ["172.17.0.1:56982"]
+            "examples": [
+              "172.17.0.1:56982"
+            ]
           },
           "age_sec": {
             "anyOf": [
-              { "type": "integer", "minimum": 0.0 },
-              { "$ref": "#/components/schemas/NotApplicable" }
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "$ref": "#/components/schemas/NotApplicable"
+              }
             ],
             "title": "Age Sec",
-            "examples": [1111, "N/A"]
+            "examples": [
+              1111,
+              "N/A"
+            ]
           },
           "idle_sec": {
             "anyOf": [
-              { "type": "integer", "minimum": 0.0 },
-              { "$ref": "#/components/schemas/NotApplicable" }
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "$ref": "#/components/schemas/NotApplicable"
+              }
             ],
             "title": "Idle Sec",
-            "examples": [1111, "N/A"]
+            "examples": [
+              1111,
+              "N/A"
+            ]
           },
-          "user": { "type": "string", "title": "User", "examples": ["default"] }
+          "user": {
+            "type": "string",
+            "title": "User",
+            "examples": [
+              "default"
+            ]
+          }
         },
         "type": "object",
-        "required": ["id", "addr", "age_sec", "idle_sec", "user"],
+        "required": [
+          "id",
+          "addr",
+          "age_sec",
+          "idle_sec",
+          "user"
+        ],
         "title": "Client"
       },
       "ConnectionStatus": {
         "properties": {
           "status": {
             "$ref": "#/components/schemas/Result",
-            "examples": ["success", "failed"]
+            "examples": [
+              "success",
+              "failed"
+            ]
           },
           "error": {
             "anyOf": [
               {
                 "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__sources__Error"
               },
-              { "type": "null" }
+              {
+                "type": "null"
+              }
             ]
           }
         },
         "type": "object",
-        "required": ["status"],
+        "required": [
+          "status"
+        ],
         "title": "ConnectionStatus"
       },
       "ConnectionStatusSingleConnection": {
         "properties": {
-          "connected": { "type": "boolean", "title": "Connected" },
-          "error": { "type": "string", "title": "Error" }
+          "connected": {
+            "type": "boolean",
+            "title": "Connected"
+          },
+          "error": {
+            "type": "string",
+            "title": "Error"
+          }
         },
         "type": "object",
-        "required": ["connected", "error"],
+        "required": [
+          "connected",
+          "error"
+        ],
         "title": "ConnectionStatusSingleConnection"
       },
       "CredentialsInfo": {
         "properties": {
-          "user": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
-            "title": "User",
+          "username": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Username",
             "description": "RDI database user",
-            "examples": ["admin"]
+            "examples": [
+              "admin"
+            ]
           },
           "password": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Password",
             "description": "RDI database password",
-            "examples": ["secret-password"]
+            "examples": [
+              "secret-password"
+            ]
           }
         },
         "type": "object",
@@ -2604,162 +3868,282 @@
           }
         },
         "type": "object",
-        "required": ["totals", "streams"],
+        "required": [
+          "totals",
+          "streams"
+        ],
         "title": "DataStreams"
       },
       "DataStreamsStatistics": {
         "properties": {
           "total": {
             "anyOf": [
-              { "type": "integer", "minimum": 0.0 },
-              { "type": "null" }
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
             ],
             "title": "Total",
             "default": 0,
-            "examples": [0]
+            "examples": [
+              0
+            ]
           },
           "pending": {
             "anyOf": [
-              { "type": "integer", "minimum": 0.0 },
-              { "type": "null" }
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
             ],
             "title": "Pending",
             "default": 0,
-            "examples": [0]
+            "examples": [
+              0
+            ]
           },
           "inserted": {
             "anyOf": [
-              { "type": "integer", "minimum": 0.0 },
-              { "type": "null" }
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
             ],
             "title": "Inserted",
             "default": 0,
-            "examples": [0]
+            "examples": [
+              0
+            ]
           },
           "updated": {
             "anyOf": [
-              { "type": "integer", "minimum": 0.0 },
-              { "type": "null" }
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
             ],
             "title": "Updated",
             "default": 0,
-            "examples": [0]
+            "examples": [
+              0
+            ]
           },
           "deleted": {
             "anyOf": [
-              { "type": "integer", "minimum": 0.0 },
-              { "type": "null" }
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
             ],
             "title": "Deleted",
             "default": 0,
-            "examples": [0]
+            "examples": [
+              0
+            ]
           },
           "filtered": {
             "anyOf": [
-              { "type": "integer", "minimum": 0.0 },
-              { "type": "null" }
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
             ],
             "title": "Filtered",
             "default": 0,
-            "examples": [0]
+            "examples": [
+              0
+            ]
           },
           "rejected": {
             "anyOf": [
-              { "type": "integer", "minimum": 0.0 },
-              { "type": "null" }
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
             ],
             "title": "Rejected",
             "default": 0,
-            "examples": [0]
+            "examples": [
+              0
+            ]
           },
           "deduplicated": {
             "anyOf": [
-              { "type": "integer", "minimum": 0.0 },
-              { "type": "null" }
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
             ],
             "title": "Deduplicated",
             "default": 0,
-            "examples": [0]
+            "examples": [
+              0
+            ]
           },
-          "last_arrival": { "type": "string", "title": "Last Arrival" }
+          "last_arrival": {
+            "type": "string",
+            "title": "Last Arrival"
+          }
         },
         "type": "object",
-        "required": ["last_arrival"],
+        "required": [
+          "last_arrival"
+        ],
         "title": "DataStreamsStatistics"
       },
       "DataStreamsStatisticsTotal": {
         "properties": {
           "total": {
             "anyOf": [
-              { "type": "integer", "minimum": 0.0 },
-              { "type": "null" }
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
             ],
             "title": "Total",
             "default": 0,
-            "examples": [0]
+            "examples": [
+              0
+            ]
           },
           "pending": {
             "anyOf": [
-              { "type": "integer", "minimum": 0.0 },
-              { "type": "null" }
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
             ],
             "title": "Pending",
             "default": 0,
-            "examples": [0]
+            "examples": [
+              0
+            ]
           },
           "inserted": {
             "anyOf": [
-              { "type": "integer", "minimum": 0.0 },
-              { "type": "null" }
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
             ],
             "title": "Inserted",
             "default": 0,
-            "examples": [0]
+            "examples": [
+              0
+            ]
           },
           "updated": {
             "anyOf": [
-              { "type": "integer", "minimum": 0.0 },
-              { "type": "null" }
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
             ],
             "title": "Updated",
             "default": 0,
-            "examples": [0]
+            "examples": [
+              0
+            ]
           },
           "deleted": {
             "anyOf": [
-              { "type": "integer", "minimum": 0.0 },
-              { "type": "null" }
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
             ],
             "title": "Deleted",
             "default": 0,
-            "examples": [0]
+            "examples": [
+              0
+            ]
           },
           "filtered": {
             "anyOf": [
-              { "type": "integer", "minimum": 0.0 },
-              { "type": "null" }
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
             ],
             "title": "Filtered",
             "default": 0,
-            "examples": [0]
+            "examples": [
+              0
+            ]
           },
           "rejected": {
             "anyOf": [
-              { "type": "integer", "minimum": 0.0 },
-              { "type": "null" }
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
             ],
             "title": "Rejected",
             "default": 0,
-            "examples": [0]
+            "examples": [
+              0
+            ]
           },
           "deduplicated": {
             "anyOf": [
-              { "type": "integer", "minimum": 0.0 },
-              { "type": "null" }
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
             ],
             "title": "Deduplicated",
             "default": 0,
-            "examples": [0]
+            "examples": [
+              0
+            ]
           }
         },
         "type": "object",
@@ -2768,16 +4152,33 @@
       "DatabaseResponse": {
         "properties": {
           "databases": {
-            "items": { "type": "string" },
+            "items": {
+              "type": "string"
+            },
             "type": "array",
             "title": "Databases",
-            "examples": ["database1", "database2"]
+            "examples": [
+              "database1",
+              "database2"
+            ]
           }
         },
         "type": "object",
-        "required": ["databases"],
+        "required": [
+          "databases"
+        ],
         "title": "DatabaseResponse",
         "description": "Database response class."
+      },
+      "DbFlavor": {
+        "type": "string",
+        "enum": [
+          "mongodb-atlas",
+          "mongodb-replica-set",
+          "mongodb-sharded-cluster"
+        ],
+        "title": "DbFlavor",
+        "description": "Defines supported database flavors."
       },
       "DbType": {
         "type": "string",
@@ -2798,52 +4199,75 @@
         "properties": {
           "status": {
             "$ref": "#/components/schemas/RdiStatus",
-            "examples": ["ready"]
+            "examples": [
+              "ready"
+            ]
           },
           "connected": {
-            "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Connected",
-            "examples": [true]
+            "examples": [
+              true
+            ]
           },
           "version": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Version",
-            "examples": ["1.2.3", "1.2.0b17"]
+            "examples": [
+              "1.2.3",
+              "1.2.0b17"
+            ]
           },
           "error": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Error",
-            "examples": ["Error message"]
+            "examples": [
+              "Error message"
+            ]
           }
         },
         "type": "object",
-        "required": ["status"],
+        "required": [
+          "status"
+        ],
         "title": "Entity"
       },
-      "Error-Input": {
-        "properties": {
-          "status": {
-            "type": "string",
-            "const": "error",
-            "title": "The status of the run.",
-            "default": "error",
-            "examples": ["error"]
-          },
-          "error": {
-            "type": "string",
-            "title": "The error message.",
-            "examples": ["Job is malformed"]
-          }
-        },
-        "type": "object",
-        "required": ["error"],
-        "title": "Error",
-        "description": "Model representing an error status."
+      "ErrorCode": {
+        "type": "string",
+        "enum": [
+          "validation_error",
+          "job_validation_error"
+        ],
+        "title": "ErrorCode",
+        "description": "Error codes"
       },
       "HTTPValidationError": {
         "properties": {
           "detail": {
-            "items": { "$ref": "#/components/schemas/ValidationError" },
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
             "type": "array",
             "title": "Detail"
           }
@@ -2853,30 +4277,50 @@
       },
       "Job": {
         "properties": {
-          "source": { "$ref": "#/components/schemas/Source" },
+          "source": {
+            "$ref": "#/components/schemas/Source"
+          },
           "transform": {
             "anyOf": [
               {
-                "items": { "$ref": "#/components/schemas/Transform" },
+                "items": {
+                  "$ref": "#/components/schemas/Transform"
+                },
                 "type": "array"
               },
-              { "type": "null" }
+              {
+                "type": "null"
+              }
             ],
             "title": "Transform"
           },
           "output": {
-            "items": { "$ref": "#/components/schemas/Output" },
+            "items": {
+              "$ref": "#/components/schemas/Output"
+            },
             "type": "array",
             "title": "Output"
           },
           "name": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Name",
-            "examples": ["Alex"]
+            "examples": [
+              "Alex"
+            ]
           }
         },
         "type": "object",
-        "required": ["source", "output"],
+        "required": [
+          "source",
+          "output"
+        ],
         "title": "Job"
       },
       "JobDryRunBody": {
@@ -2886,48 +4330,87 @@
             "title": "Job settings to dry run with."
           },
           "input_data": {
-            "items": { "type": "object" },
+            "items": {
+              "type": "object"
+            },
             "type": "array",
             "title": "Input Data",
             "examples": [
               [
-                { "COUNTRY": "IL", "FNAME": "John", "LAST_NAME": "Lennon" },
-                { "COUNTRY": "US", "FNAME": "John", "LAST_NAME": "Doe" }
+                {
+                  "COUNTRY": "IL",
+                  "FNAME": "John",
+                  "LAST_NAME": "Lennon"
+                },
+                {
+                  "COUNTRY": "US",
+                  "FNAME": "John",
+                  "LAST_NAME": "Doe"
+                }
               ]
             ]
           }
         },
         "type": "object",
-        "required": ["job", "input_data"],
+        "required": [
+          "job",
+          "input_data"
+        ],
         "title": "JobDryRunBody"
       },
       "JobDryRunSuccessResponse": {
         "properties": {
           "transformation": {
-            "items": { "type": "object" },
+            "items": {
+              "type": "object"
+            },
             "type": "array",
             "title": "Transformation",
             "examples": [
-              [{ "COUNTRY": "IL", "FIRST_NAME": "John", "LAST_NAME": "Lennon" }]
+              [
+                {
+                  "COUNTRY": "IL",
+                  "FIRST_NAME": "John",
+                  "LAST_NAME": "Lennon"
+                }
+              ]
             ]
           },
-          "output": { "items": {}, "type": "array", "title": "Output" }
+          "output": {
+            "items": {},
+            "type": "array",
+            "title": "Output"
+          }
         },
         "type": "object",
-        "required": ["transformation", "output"],
+        "required": [
+          "transformation",
+          "output"
+        ],
         "title": "JobDryRunSuccessResponse"
       },
       "MetadataResponse": {
         "properties": {
           "tables": {
-            "additionalProperties": { "$ref": "#/components/schemas/Table" },
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Table"
+            },
             "type": "object",
             "title": "Tables",
-            "examples": [{ "table1": { "cdc_ready": true, "columns": {} } }]
+            "examples": [
+              {
+                "table1": {
+                  "cdc_ready": true,
+                  "columns": {}
+                }
+              }
+            ]
           }
         },
         "type": "object",
-        "required": ["tables"],
+        "required": [
+          "tables"
+        ],
         "title": "MetadataResponse",
         "description": "Metadata response class."
       },
@@ -2937,9 +4420,16 @@
         "default": "N/A"
       },
       "OperationResponse": {
-        "properties": { "status": { "type": "boolean", "title": "Status" } },
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "title": "Status"
+          }
+        },
         "type": "object",
-        "required": ["status"],
+        "required": [
+          "status"
+        ],
         "title": "OperationResponse",
         "description": "Represents the response of an operation."
       },
@@ -2948,44 +4438,74 @@
           "uses": {
             "type": "string",
             "title": "Uses",
-            "examples": ["redis.write"]
+            "examples": [
+              "redis.write"
+            ]
           },
           "with": {
             "anyOf": [
-              { "$ref": "#/components/schemas/WithInput" },
-              { "$ref": "#/components/schemas/WithFields" },
-              { "$ref": "#/components/schemas/WithConnection" }
+              {
+                "$ref": "#/components/schemas/WithInput"
+              },
+              {
+                "$ref": "#/components/schemas/WithFields"
+              },
+              {
+                "$ref": "#/components/schemas/WithConnection"
+              }
             ],
             "title": "With"
           }
         },
         "type": "object",
-        "required": ["uses", "with"],
+        "required": [
+          "uses",
+          "with"
+        ],
         "title": "Output"
       },
       "Pipeline": {
         "properties": {
           "status": {
             "$ref": "#/components/schemas/RdiStatus",
-            "examples": ["ready"]
+            "examples": [
+              "ready"
+            ]
           },
           "state": {
             "$ref": "#/components/schemas/State",
-            "examples": ["cdc"]
+            "examples": [
+              "cdc"
+            ]
           },
           "last_error": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Last Error",
-            "examples": ["Error message"]
+            "examples": [
+              "Error message"
+            ]
           },
           "tasks": {
-            "items": { "$ref": "#/components/schemas/Task" },
+            "items": {
+              "$ref": "#/components/schemas/Task"
+            },
             "type": "array",
             "title": "Tasks"
           }
         },
         "type": "object",
-        "required": ["status", "state", "tasks"],
+        "required": [
+          "status",
+          "state",
+          "tasks"
+        ],
         "title": "Pipeline"
       },
       "PipelineFunction": {
@@ -2993,7 +4513,9 @@
           "summary": {
             "type": "string",
             "title": "Summary",
-            "examples": ["Decodes a base64(RFC 4648) encoded string"]
+            "examples": [
+              "Decodes a base64(RFC 4648) encoded string"
+            ]
           },
           "arguments": {
             "items": {
@@ -3004,12 +4526,18 @@
           }
         },
         "type": "object",
-        "required": ["summary", "arguments"],
+        "required": [
+          "summary",
+          "arguments"
+        ],
         "title": "PipelineFunction"
       },
       "PipelineFunctionArgument": {
         "properties": {
-          "name": { "type": "string", "title": "Name" },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
           "type": {
             "type": "string",
             "enum": [
@@ -3023,10 +4551,19 @@
             ],
             "title": "Type",
             "default": "string",
-            "examples": ["string"]
+            "examples": [
+              "string"
+            ]
           },
           "display_text": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Display Text"
           },
           "optional": {
@@ -3036,7 +4573,9 @@
           }
         },
         "type": "object",
-        "required": ["name"],
+        "required": [
+          "name"
+        ],
         "title": "PipelineFunctionArgument"
       },
       "PipelinesFunctionsResponse": {
@@ -3046,49 +4585,95 @@
         "type": "object",
         "title": "PipelinesFunctionsResponse"
       },
+      "PipelinesStrategiesResponse": {
+        "properties": {
+          "strategies": {
+            "items": {
+              "$ref": "#/components/schemas/StrategyModel"
+            },
+            "type": "array",
+            "title": "Strategies"
+          }
+        },
+        "type": "object",
+        "required": [
+          "strategies"
+        ],
+        "title": "PipelinesStrategiesResponse"
+      },
       "ProcessingPerformance": {
         "properties": {
           "total_batches": {
             "type": "integer",
             "minimum": 0.0,
             "title": "Total Batches",
-            "examples": [100]
+            "examples": [
+              100
+            ]
           },
           "batch_size_avg": {
             "type": "number",
             "minimum": 0.0,
             "title": "Batch Size Avg",
-            "examples": [50.2]
+            "examples": [
+              50.2
+            ]
           },
           "read_time_avg": {
             "type": "number",
             "minimum": 0.0,
             "title": "Read Time Avg",
-            "examples": [10.5]
+            "examples": [
+              10.5
+            ]
+          },
+          "transform_time_avg": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Transform Time Avg",
+            "examples": [
+              2.3
+            ]
+          },
+          "write_time_avg": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Write Time Avg",
+            "examples": [
+              4.4
+            ]
           },
           "process_time_avg": {
             "type": "number",
             "minimum": 0.0,
             "title": "Process Time Avg",
-            "examples": [20.3]
+            "examples": [
+              20.3
+            ]
           },
           "ack_time_avg": {
             "type": "number",
             "minimum": 0.0,
             "title": "Ack Time Avg",
-            "examples": [5.2]
+            "examples": [
+              5.2
+            ]
           },
           "total_time_avg": {
             "type": "number",
             "minimum": 0.0,
             "title": "Total Time Avg",
-            "examples": [35.5]
+            "examples": [
+              35.5
+            ]
           },
           "rec_per_sec_avg": {
             "type": "number",
             "minimum": 0.0,
             "title": "Rec Per Sec Avg",
-            "examples": [100.1]
+            "examples": [
+              100.1
+            ]
           }
         },
         "type": "object",
@@ -3096,6 +4681,8 @@
           "total_batches",
           "batch_size_avg",
           "read_time_avg",
+          "transform_time_avg",
+          "write_time_avg",
           "process_time_avg",
           "ack_time_avg",
           "total_time_avg",
@@ -3104,9 +4691,18 @@
         "title": "ProcessingPerformance"
       },
       "ProcessorProperty": {
-        "properties": { "value": { "title": "Value", "examples": ["hash"] } },
+        "properties": {
+          "value": {
+            "title": "Value",
+            "examples": [
+              "hash"
+            ]
+          }
+        },
         "type": "object",
-        "required": ["value"],
+        "required": [
+          "value"
+        ],
         "title": "ProcessorProperty"
       },
       "ProcessorPropertyName": {
@@ -3114,7 +4710,6 @@
         "enum": [
           "on_failed_retry_interval",
           "read_batch_size",
-          "debezium_lob_encoded_placeholder",
           "dedup",
           "dedup_max_size",
           "dedup_strategy",
@@ -3136,7 +4731,12 @@
       },
       "ProcessorState": {
         "type": "string",
-        "enum": ["unknown", "running", "idling", "stopped"],
+        "enum": [
+          "unknown",
+          "running",
+          "idling",
+          "stopped"
+        ],
         "title": "ProcessorState",
         "description": "Enum for the state of the stream processor."
       },
@@ -3145,63 +4745,99 @@
           "rdi_version": {
             "type": "string",
             "title": "Rdi Version",
-            "examples": ["N/A"]
+            "examples": [
+              "N/A"
+            ]
           },
           "address": {
             "type": "string",
             "title": "Address",
-            "examples": ["172.17.0.2:12006"]
+            "examples": [
+              "172.17.0.2:12006"
+            ]
           },
           "run_status": {
             "anyOf": [
-              { "$ref": "#/components/schemas/ProcessorState" },
-              { "$ref": "#/components/schemas/RdiStatus" }
+              {
+                "$ref": "#/components/schemas/ProcessorState"
+              },
+              {
+                "$ref": "#/components/schemas/RdiStatus"
+              }
             ],
             "title": "Run Status",
-            "examples": ["stopped"]
+            "examples": [
+              "stopped"
+            ]
           },
           "sync_mode": {
             "type": "string",
             "title": "Sync Mode",
-            "examples": ["N/A"]
+            "examples": [
+              "N/A"
+            ]
           }
         },
         "type": "object",
-        "required": ["rdi_version", "address", "run_status", "sync_mode"],
+        "required": [
+          "rdi_version",
+          "address",
+          "run_status",
+          "sync_mode"
+        ],
         "title": "RdiPipelineStatus"
       },
       "RdiStatus": {
         "type": "string",
-        "enum": ["stopped", "ready", "not-ready"],
+        "enum": [
+          "stopped",
+          "ready",
+          "not-ready"
+        ],
         "title": "RdiStatus",
         "description": "RDI component status."
       },
       "Result": {
         "type": "string",
-        "enum": ["success", "failed"],
+        "enum": [
+          "success",
+          "failed"
+        ],
         "title": "Result",
         "description": "Represents the result of an operation."
       },
       "SchemaResponse": {
         "properties": {
           "schemas": {
-            "items": { "type": "string" },
+            "items": {
+              "type": "string"
+            },
             "type": "array",
             "title": "Schemas",
-            "examples": ["schema1", "schema2"]
+            "examples": [
+              "schema1",
+              "schema2"
+            ]
           }
         },
         "type": "object",
-        "required": ["schemas"],
+        "required": [
+          "schemas"
+        ],
         "title": "SchemaResponse",
         "description": "Schema response class."
       },
       "SecretKeyModel": {
-        "additionalProperties": { "type": "string" },
+        "additionalProperties": {
+          "type": "string"
+        },
         "type": "object",
         "title": "SecretKeyModel",
         "examples": [
-          { "TARGET_DB_PASSWORD": "password", "TARGET_DB_USERNAME": "admin" }
+          {
+            "TARGET_DB_PASSWORD": "password",
+            "TARGET_DB_USERNAME": "admin"
+          }
         ]
       },
       "SecretName": {
@@ -3221,7 +4857,9 @@
         "additionalProperties": {
           "$ref": "#/components/schemas/SecretKeyModel"
         },
-        "propertyNames": { "$ref": "#/components/schemas/SecretName" },
+        "propertyNames": {
+          "$ref": "#/components/schemas/SecretName"
+        },
         "type": "object",
         "title": "SecretsModel",
         "examples": [
@@ -3235,33 +4873,62 @@
       },
       "SnapshotStatus": {
         "type": "string",
-        "enum": ["running", "failed", "paused", "completed", "N/A"],
+        "enum": [
+          "running",
+          "failed",
+          "paused",
+          "completed",
+          "N/A"
+        ],
         "title": "SnapshotStatus"
       },
       "Source": {
         "properties": {
-          "server_name": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
-            "title": "Server Name",
-            "examples": ["localhost"]
-          },
           "schema": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Schema",
-            "examples": ["public"]
+            "examples": [
+              "public"
+            ]
           },
           "table": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Table",
-            "examples": ["employee"]
+            "examples": [
+              "employee"
+            ]
           },
           "row_format": {
             "anyOf": [
-              { "type": "string", "enum": ["full", "partial"] },
-              { "type": "null" }
+              {
+                "type": "string",
+                "enum": [
+                  "full",
+                  "partial"
+                ]
+              },
+              {
+                "type": "null"
+              }
             ],
             "title": "Row Format",
-            "examples": ["full"]
+            "examples": [
+              "full"
+            ]
           }
         },
         "additionalProperties": true,
@@ -3279,71 +4946,137 @@
           }
         },
         "type": "object",
-        "required": ["sources"],
+        "required": [
+          "sources"
+        ],
         "title": "SourcesOutput"
       },
       "State": {
         "type": "string",
-        "enum": ["cdc", "initial-sync", "not-running"],
+        "enum": [
+          "cdc",
+          "initial-sync",
+          "not-running"
+        ],
         "title": "State",
         "description": "Represents the state of a pipeline."
       },
       "StatisticsConnection": {
         "properties": {
           "key": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Key"
           },
           "cert": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Cert"
           },
           "cacert": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Cacert"
           },
           "key_password": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Key Password"
           },
           "type": {
             "$ref": "#/components/schemas/DbType",
             "default": "redis",
-            "examples": ["redis"]
+            "examples": [
+              "redis"
+            ]
           },
           "host": {
             "type": "string",
             "title": "Host",
             "default": "localhost",
-            "examples": ["localhost"]
+            "examples": [
+              "localhost"
+            ]
           },
           "port": {
             "type": "integer",
             "exclusiveMinimum": 0.0,
             "title": "Port",
             "default": 5432,
-            "examples": [5432]
+            "examples": [
+              5432
+            ]
           },
           "database": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Database",
-            "examples": ["rdi"]
+            "examples": [
+              "rdi"
+            ]
           },
           "user": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "User",
-            "examples": ["rdi"]
+            "examples": [
+              "rdi"
+            ]
           },
           "password": {
             "type": "string",
             "title": "Password",
-            "examples": ["********"]
+            "examples": [
+              "********"
+            ]
           },
-          "status": { "type": "string", "title": "Status" }
+          "status": {
+            "type": "string",
+            "title": "Status"
+          }
         },
         "additionalProperties": false,
         "type": "object",
-        "required": ["password", "status"],
+        "required": [
+          "password",
+          "status"
+        ],
         "title": "StatisticsConnection"
       },
       "StatisticsResponse": {
@@ -3355,7 +5088,9 @@
             "type": "object",
             "title": "Connections"
           },
-          "data_streams": { "$ref": "#/components/schemas/DataStreams" },
+          "data_streams": {
+            "$ref": "#/components/schemas/DataStreams"
+          },
           "processing_performance": {
             "$ref": "#/components/schemas/ProcessingPerformance"
           },
@@ -3363,14 +5098,21 @@
             "$ref": "#/components/schemas/RdiPipelineStatus"
           },
           "clients": {
-            "additionalProperties": { "$ref": "#/components/schemas/Client" },
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Client"
+            },
             "type": "object",
             "title": "Clients"
           },
-          "offsets": { "type": "object", "title": "Offsets" },
+          "offsets": {
+            "type": "object",
+            "title": "Offsets"
+          },
           "snapshot_status": {
             "$ref": "#/components/schemas/SnapshotStatus",
-            "examples": ["running"]
+            "examples": [
+              "running"
+            ]
           }
         },
         "type": "object",
@@ -3388,44 +5130,103 @@
       "StatusResponse": {
         "properties": {
           "components": {
-            "additionalProperties": { "$ref": "#/components/schemas/Entity" },
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Entity"
+            },
             "type": "object",
             "title": "Components"
           },
           "pipelines": {
-            "additionalProperties": { "$ref": "#/components/schemas/Pipeline" },
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Pipeline"
+            },
             "type": "object",
             "title": "Pipelines"
           }
         },
         "type": "object",
-        "required": ["components", "pipelines"],
+        "required": [
+          "components",
+          "pipelines"
+        ],
         "title": "StatusResponse"
+      },
+      "Strategy": {
+        "type": "string",
+        "enum": [
+          "ingest"
+        ],
+        "title": "Strategy",
+        "description": "Defines available strategies."
+      },
+      "StrategyModel": {
+        "properties": {
+          "strategy": {
+            "$ref": "#/components/schemas/Strategy",
+            "examples": [
+              "ingest"
+            ]
+          },
+          "databases": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Databases",
+            "examples": [
+              "mongodb",
+              "mysql",
+              "oracle",
+              "sqlserver"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "strategy",
+          "databases"
+        ],
+        "title": "StrategyModel"
       },
       "Table": {
         "properties": {
           "cdc_ready": {
             "type": "boolean",
             "title": "Cdc Ready",
-            "examples": [true]
+            "examples": [
+              true
+            ]
           },
-          "columns": { "type": "object", "title": "Columns" }
+          "columns": {
+            "type": "object",
+            "title": "Columns"
+          }
         },
         "type": "object",
-        "required": ["cdc_ready", "columns"],
+        "required": [
+          "cdc_ready",
+          "columns"
+        ],
         "title": "Table"
       },
       "TableResponse": {
         "properties": {
           "tables": {
-            "items": { "type": "string" },
+            "items": {
+              "type": "string"
+            },
             "type": "array",
             "title": "Tables",
-            "examples": ["table1", "table2"]
+            "examples": [
+              "table1",
+              "table2"
+            ]
           }
         },
         "type": "object",
-        "required": ["tables"],
+        "required": [
+          "tables"
+        ],
         "title": "TableResponse",
         "description": "Table response class."
       },
@@ -3440,32 +5241,59 @@
           }
         },
         "type": "object",
-        "required": ["targets"],
+        "required": [
+          "targets"
+        ],
         "title": "TargetsOutput"
       },
       "Task": {
         "properties": {
-          "name": { "type": "string", "title": "Name" },
-          "status": { "$ref": "#/components/schemas/TaskStatus" },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "status": {
+            "$ref": "#/components/schemas/TaskStatus"
+          },
           "error": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Error",
-            "examples": ["Error message"]
+            "examples": [
+              "Error message"
+            ]
           },
           "created_at": {
             "type": "string",
             "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$",
             "title": "Created At",
-            "examples": ["2024-03-03T10:23:12"]
+            "examples": [
+              "2024-03-03T10:23:12"
+            ]
           }
         },
         "type": "object",
-        "required": ["name", "status", "created_at"],
+        "required": [
+          "name",
+          "status",
+          "created_at"
+        ],
         "title": "Task"
       },
       "TaskStatus": {
         "type": "string",
-        "enum": ["pending", "processing", "failed", "completed"],
+        "enum": [
+          "pending",
+          "processing",
+          "failed",
+          "completed"
+        ],
         "title": "TaskStatus",
         "description": "Defines task statuses for Operator"
       },
@@ -3474,20 +5302,33 @@
           "template": {
             "type": "string",
             "title": "Template",
-            "examples": ["template1"]
+            "examples": [
+              "template1"
+            ]
           }
         },
         "type": "object",
-        "required": ["template"],
+        "required": [
+          "template"
+        ],
         "title": "TemplateResponse"
       },
       "TokenInfo": {
         "properties": {
-          "access_token": { "type": "string", "title": "Access Token" },
-          "token_type": { "type": "string", "title": "Token Type" }
+          "access_token": {
+            "type": "string",
+            "title": "Access Token"
+          },
+          "token_type": {
+            "type": "string",
+            "title": "Token Type"
+          }
         },
         "type": "object",
-        "required": ["access_token", "token_type"],
+        "required": [
+          "access_token",
+          "token_type"
+        ],
         "title": "TokenInfo",
         "description": "Token information"
       },
@@ -3497,19 +5338,25 @@
             "type": "integer",
             "title": "The maximum number of traced change records.",
             "default": 10,
-            "examples": [10]
+            "examples": [
+              10
+            ]
           },
           "rejected_only": {
             "type": "boolean",
             "title": "Indicating whether to trace only rejected change records.",
             "default": false,
-            "examples": [false]
+            "examples": [
+              false
+            ]
           },
           "timeout": {
             "type": "integer",
             "title": "The maximum duration of the trace in seconds.",
             "default": 20,
-            "examples": [20]
+            "examples": [
+              20
+            ]
           }
         },
         "type": "object",
@@ -3518,67 +5365,138 @@
       },
       "Transform": {
         "properties": {
-          "uses": { "type": "string", "title": "Uses", "examples": ["filter"] },
+          "uses": {
+            "type": "string",
+            "title": "Uses",
+            "examples": [
+              "add_field"
+            ]
+          },
           "with": {
             "anyOf": [
-              { "$ref": "#/components/schemas/WithInput" },
-              { "$ref": "#/components/schemas/WithFields" },
-              { "$ref": "#/components/schemas/WithConnection" }
+              {
+                "$ref": "#/components/schemas/WithInput"
+              },
+              {
+                "$ref": "#/components/schemas/WithFields"
+              },
+              {
+                "$ref": "#/components/schemas/WithConnection"
+              }
             ],
             "title": "With"
           }
         },
         "type": "object",
-        "required": ["uses", "with"],
+        "required": [
+          "uses",
+          "with"
+        ],
         "title": "Transform"
       },
       "ValidationError": {
         "properties": {
           "loc": {
-            "items": { "anyOf": [{ "type": "string" }, { "type": "integer" }] },
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
             "type": "array",
             "title": "Location"
           },
-          "msg": { "type": "string", "title": "Message" },
-          "type": { "type": "string", "title": "Error Type" }
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
         },
         "type": "object",
-        "required": ["loc", "msg", "type"],
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
         "title": "ValidationError"
       },
       "WithConnection": {
         "properties": {
           "connection": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Connection",
-            "examples": ["target"]
+            "examples": [
+              "target"
+            ]
           },
           "data_type": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Data Type",
-            "examples": ["hash"]
+            "examples": [
+              "hash"
+            ]
           },
           "args": {
-            "anyOf": [{ "type": "object" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Args",
-            "examples": [{ "member": "value" }]
+            "examples": [
+              {
+                "member": "value"
+              }
+            ]
           },
-          "key": { "$ref": "#/components/schemas/WithInput" }
+          "key": {
+            "$ref": "#/components/schemas/WithInput"
+          }
         },
         "type": "object",
-        "required": ["key"],
+        "required": [
+          "key"
+        ],
         "title": "WithConnection"
       },
       "WithFields": {
         "properties": {
           "fields": {
-            "items": { "$ref": "#/components/schemas/WithInput" },
+            "items": {
+              "$ref": "#/components/schemas/WithInput"
+            },
             "type": "array",
             "title": "Fields"
           }
         },
         "type": "object",
-        "required": ["fields"],
+        "required": [
+          "fields"
+        ],
         "title": "WithFields"
       },
       "WithInput": {
@@ -3586,22 +5504,64 @@
           "expression": {
             "type": "string",
             "title": "Expression",
-            "examples": ["InvoiceLineId = 999"]
+            "examples": [
+              "FNAME || ' ' || LAST_NAME",
+              "concat([fname, ' ' , last_name])"
+            ]
           },
           "field": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Field",
-            "examples": ["InvoiceLineId"]
+            "description": "This field it available only for a subset of with expressions e.g. `add_field`, `remove_field`.",
+            "examples": [
+              "FullName"
+            ]
           },
           "language": {
             "type": "string",
             "title": "Language",
-            "examples": ["sql"]
+            "examples": [
+              "sql",
+              "jmespath"
+            ]
           }
         },
         "type": "object",
-        "required": ["expression", "language"],
+        "required": [
+          "expression",
+          "language"
+        ],
         "title": "WithInput"
+      },
+      "redis_di_api__models__errors__Error": {
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/ErrorCode"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "details": {
+            "type": "object",
+            "title": "Details",
+            "default": {}
+          }
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "title": "Error",
+        "description": "Generic error model"
       },
       "redis_di_api__v1__modules__shared__response__Error": {
         "properties": {
@@ -3610,16 +5570,22 @@
             "const": "error",
             "title": "The status of the run.",
             "default": "error",
-            "examples": ["error"]
+            "examples": [
+              "error"
+            ]
           },
           "error": {
             "type": "string",
             "title": "The error message.",
-            "examples": ["Job is malformed"]
+            "examples": [
+              "Job is malformed"
+            ]
           }
         },
         "type": "object",
-        "required": ["error"],
+        "required": [
+          "error"
+        ],
         "title": "Error",
         "description": "Model representing an error status."
       },
@@ -3634,10 +5600,17 @@
           }
         },
         "type": "object",
-        "required": ["message"],
+        "required": [
+          "message"
+        ],
         "title": "Error"
       }
     },
-    "securitySchemes": { "JWTBearer": { "type": "http", "scheme": "bearer" } }
+    "securitySchemes": {
+      "JWTBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
   }
 }

@@ -11,6 +11,92 @@ min-version-db: blah
 min-version-rs: blah
 weight: 100
 ---
+
+## Redis Community Edition 7.4.6 (October 2025)
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+### Security fixes
+
+- (CVE-2025-49844) A Lua script may lead to remote code execution
+- (CVE-2025-46817) A Lua script may lead to integer overflow and potential RCE
+- (CVE-2025-46818) A Lua script can be executed in the context of another user
+- (CVE-2025-46819) LUA out-of-bound read
+
+### Bug fixes
+
+- [#14330](https://github.com/redis/redis/pull/14330) Potential use-after-free after pubsub and Lua defrag
+- [#14319](https://github.com/redis/redis/pull/14319) Potential crash on Lua script defrag
+- [#14164](https://github.com/redis/redis/pull/14164) Prevent `CLIENT UNBLOCK` from unblocking `CLIENT PAUSE`
+- [#14165](https://github.com/redis/redis/pull/14165) Endless client blocking for blocking commands
+- [#14163](https://github.com/redis/redis/pull/14163) `EVAL` crash when error table is empty
+- [#14227](https://github.com/redis/redis/pull/14227) `HINCRBYFLOAT` removes field expiration on replica
+
+## Redis Community Edition 7.4.5 (July 2025)
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+### Security fixes
+
+* (CVE-2025-27151) redis-check-aof may lead to stack overflow and potential RCE
+
+### Bug fixes
+
+- [#13966](https://github.com/redis/redis/pull/13966), [#13932](https://github.com/redis/redis/pull/13932) `CLUSTER SLOTS` - TLS port update not reflected in CLUSTER SLOTS
+- [#13958](https://github.com/redis/redis/pull/13958) `XTRIM`, `XADD` - incorrect lag due to trimming stream
+
+## Redis Community Edition 7.4.4 (May 2025):
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+### Security fixes
+
+* (CVE-2025-27151) redis-check-aof may lead to stack overflow and potential RCE.
+
+### Bug fixes
+
+- [#13966](https://github.com/redis/redis/pull/13966), [#13932](https://github.com/redis/redis/pull/13932) `CLUSTER SLOTS` - TLS port update not reflected in CLUSTER SLOTS.
+- [#13958](https://github.com/redis/redis/pull/13958) `XTRIM`, `XADD` - incorrect lag due to trimming stream.
+
+## Redis Community Edition 7.4.3 (April 2025)
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+### Security fixes
+
+* (CVE-2025-21605) An unauthenticated client can cause an unlimited growth of output buffers.
+
+### Bug fixes
+
+* [#13661](https://github.com/redis/redis/pull/13661) `FUNCTION FLUSH` - memory leak when using jemalloc.
+* [#13793](https://github.com/redis/redis/pull/13793) `WAITAOF` returns prematurely.
+* [#13853](https://github.com/redis/redis/pull/13853) `SLAVEOF` - crash when clients are blocked on lazy free.
+* [#13863](https://github.com/redis/redis/pull/13863) `RANDOMKEY` - infinite loop during client pause.
+* [#13877](https://github.com/redis/redis/pull/13877) ShardID inconsistency when both primary and replica support it.
+
+## Redis Community Edition 7.4.2 (Jan 2025)
+
+Upgrade urgency SECURITY: See security fixes below.
+
+### Security fixes
+
+- (CVE-2024-46981) Lua script commands may lead to remote code execution
+- (CVE-2024-51741) Denial-of-service due to malformed ACL selectors
+
+### Bug fixes
+
+- [#13627](https://github.com/redis/redis/pull/13627) Crash on module memory defragmentation
+- [#13338](https://github.com/redis/redis/pull/13338) Streams: `XINFO` lag field is wrong when tombstone is after the `last_id` of the consume group
+- [#13473](https://github.com/redis/redis/pull/13473) Streams: `XTRIM` does not update the maximal tombstone, leading to an incorrect lag
+- [#13470](https://github.com/redis/redis/pull/13470) `INFO` after `HDEL` show wrong number of hash keys with expiration
+- [#13476](https://github.com/redis/redis/pull/13476) Fix a race condition in the `cache_memory` of `functionsLibCtx`
+- [#13626](https://github.com/redis/redis/pull/13626) Memory leak on failed RDB loading
+- [#13539](https://github.com/redis/redis/pull/13539) Hash: fix key ref for a hash that no longer has fields with expiration on `RENAME`/`MOVE`/`SWAPDB`/`RESTORE`
+- [#13443](https://github.com/redis/redis/pull/13443) Cluster: crash when loading cluster config
+- [#13422](https://github.com/redis/redis/pull/13422) Cluster: `CLUSTER SHARDS` returns empty array
+- [#13465](https://github.com/redis/redis/pull/13465) Cluster: incompatibility with older node versions
+- [#13608](https://github.com/redis/redis/pull/13608) Cluster: `SORT ... GET #`: incorrect error message
+
 ## Redis Community Edition 7.4.1 (October 2024)
 
 Upgrade urgency SECURITY: See security fixes below.

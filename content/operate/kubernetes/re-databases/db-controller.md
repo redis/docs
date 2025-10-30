@@ -32,7 +32,7 @@ If the database [custom resource is deleted]({{< relref "/operate/kubernetes/re-
 
 Databases in multiple namespaces can be managed by the same operator. To learn more, see [Manage databases in multiple namespaces]({{<relref "/operate/kubernetes/re-clusters/multi-namespace">}}).
 
-To learn more about designing a multi-namespace Redis Enterprise cluster, see [flexible deployment options]({{< relref "/operate/kubernetes/architecture/deployment-options.md" >}}).
+To learn more about designing a multi-namespace Redis Enterprise cluster, see [flexible deployment options]({{< relref "/operate/kubernetes/architecture/deployment-options" >}}).
 
 ## Create a database
 
@@ -84,7 +84,7 @@ To modify the database:
     ```
 
 1. Change the specification (only properties in `spec` section) and save the changes.  
-    For more details, see [RedisEnterpriseDatabaseSpec](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/redis_enterprise_database_api.md#redisenterprisedatabasespec) or [Options for Redis Enterprise databases]({{< relref "/operate/kubernetes/reference/redis_enterprise_database_api" >}}). 
+    For more details, see [RedisEnterpriseDatabaseSpec](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/redis_enterprise_database_api.md#redisenterprisedatabasespec) or [Options for Redis Enterprise databases]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_database_api" >}}). 
 
 1. Monitor the status to see when the changes take effect:
 
@@ -108,57 +108,13 @@ kubectl delete redb mydb
 
 ## Connect to a database
 
-After the database controller creates a database, the services for accessing the database are created in the same namespace. By default there are two services, one 'ClusterIP' service and one 'headless' service.  
-Connection information for the database is stored in a Kubernetes [secret](https://kubernetes.io/docs/concepts/configuration/secret/) maintained by the database controller. This secret contains:
+After the database controller creates a database, services for accessing the database are automatically created in the same namespace. Connection information is stored in a Kubernetes [secret](https://kubernetes.io/docs/concepts/configuration/secret/) maintained by the database controller.
 
-- The database port (`port`)
-- A comma separated list of service names (`service_names`)
-- The database password for authenticating (`password`)
+For comprehensive information about connecting to your database, including:
 
-The name of that secret is stored in the database custom resource.
+- Service types and access patterns
+- Retrieving connection information from secrets
+- In-cluster and external access methods
+- Connection examples and troubleshooting
 
-{{<note>}}
-Use these steps to connect to your database from within your K8s cluster. To access your database from outside the K8s cluster, set up the [Ingress]({{< relref "/operate/kubernetes/networking/ingress.md" >}}) controller or use OpenShift routes.
-{{</note>}}
-
-1. Retrieve the secret name.
-
-    ```sh
-    kubectl get redb mydb -o jsonpath="{.spec.databaseSecretName}"
-    ```
-
-      The database secret name usually takes the form of `redb-<database_name>`, so in our example it will be `redb-mydb`.
-
-1. Retrieve and decode the password.
-
-    ```sh
-    kubectl get secret redb-mydb -o jsonpath="{.data.password}" | base64 --decode
-    ```
-
-1. Retrieve and decode the port number.
-
-    ```sh
-    kubectl get secret redb-mydb -o jsonpath="{.data.port}" | base64 --decode
-    ```
-
-1. Retrieve and decode the service_names.
-
-    ```sh
-    kubectl get secret redb-mydb -o jsonpath="{.data.service_names}" | base64 --decode
-    ```
-
-    You'll need to pick just one service listed here to use for connecting.
-
-1. From a pod within your cluster, use `redis-cli` to connect to your database.
-
-    ```sh
-    redis-cli -h <service_name> -p <port>
-    ```
-
-1. Enter the password you retrieved from the secret.
-
-    ```sh
-    auth <password>
-    ```
-
-    You are now connected to your database!
+See [Database connectivity]({{< relref "/operate/kubernetes/networking/database-connectivity" >}}).

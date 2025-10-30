@@ -1,5 +1,5 @@
 <header
-  class="sticky top-0 h-[70px] z-50 w-full border-b border-redis-pen-300 bg-white text-midnight-900 font-mono text-[15px] flex justify-center">
+  class="sticky top-0 h-[70px] z-50 w-full border-b border-white border-opacity-30 bg-redis-ink-900 text-white font-mono text-[15px] flex justify-center">
   {{/* {{ partial "banner.html" . }} */}}
   <div class="flex h-[70px] px-4 lg:pl-11 lg:pr-0 items-center self-center grow">
     <a class="relative text-redis-red-500 w-[82px] -mt-[5px] mr-[4px]" href="https://redis.io/">
@@ -7,6 +7,17 @@
     </a>
     <div class="h-full flex items-center mx-4 grow">
       <div class="hidden lg:flex flex-row h-full items-center">
+        <div class="group h-full px-2 xl:px-[14px]">
+          <div class="flex flex-row h-full items-center cursor-pointer w-[18ch] justify-between">
+            <div class="relative flex rounded-[20px] border border-white border-opacity-50 px-4 pl-9 py-1 transition-all duration-500 group-hover:border-[#ff4438]">
+              <svg class="absolute top-0 left-[-112px] right-0 bottom-0 m-auto w-4 h-4" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path class="transform origin-center transition-transform duration-300 group-hover:scale-150" id="star-bottom" d="M11.1718 9.68706C11.2845 9.38235 11.7155 9.38235 11.8282 9.68706L12.3895 11.2037C12.4249 11.2995 12.5005 11.3751 12.5963 11.4105L14.1129 11.9717C14.4176 12.0845 14.4176 12.5155 14.1129 12.6282L12.5963 13.1895C12.5005 13.2249 12.4249 13.3004 12.3895 13.3962L11.8282 14.9129C11.7155 15.2176 11.2845 15.2176 11.1718 14.9129L10.6105 13.3962C10.5751 13.3004 10.4995 13.2249 10.4037 13.1895L8.88708 12.6282C8.58236 12.5155 8.58236 12.0845 8.88708 11.9717L10.4037 11.4105C10.4995 11.3751 10.5751 11.2995 10.6105 11.2037L11.1718 9.68706Z" fill="#FF4438"></path>
+                <path class="transform origin-center transition-transform duration-300 group-hover:scale-50" id="star-top" d="M5.27175 1.68707C5.38451 1.38235 5.81549 1.38235 5.92825 1.68706L7.05666 4.73654C7.09211 4.83235 7.16764 4.90788 7.26344 4.94333L10.3129 6.07174C10.6176 6.18449 10.6176 6.61548 10.3129 6.72824L7.26344 7.85665C7.16764 7.8921 7.09211 7.96763 7.05666 8.06343L5.92825 11.1129C5.81549 11.4176 5.38451 11.4176 5.27175 11.1129L4.14334 8.06343C4.10789 7.96763 4.03236 7.8921 3.93656 7.85665L0.887077 6.72824C0.582361 6.61548 0.58236 6.18449 0.887077 6.07174L3.93656 4.94333C4.03236 4.90788 4.10789 4.83235 4.14334 4.73654L5.27175 1.68707Z" fill="#FF4438"></path>
+              </svg>
+              <a href="https://redis.io/redis-for-ai/" class="inline-block group-hover:font-bold">Redis for AI</a>
+            </div>
+          </div>
+        </div>
         <div class="group h-full px-2 xl:px-[14px]">
           <div class="flex flex-row h-full items-center cursor-pointer w-[10ch] justify-between">
             <span class="inline-block group-hover:font-bold">Products</span>
@@ -33,15 +44,20 @@
     </div>
 
     <div class="h-full flex gap-[18px] xl:gap-7 items-center text-center">
-      <button id="search-button" type="button" class="p-1 mt-1 transition-colors hover:text-redis-red-500">
+      <button id="search-button" type="button" class="hidden lg:flex items-center gap-2 px-6 py-2 bg-[#163341] text-white rounded-full border border-white border-opacity-30 hover:bg-[#1a3a4a] hover:border-opacity-50 transition-colors">
         {{ partial "icons/search.html" }}
+        Search
       </button>
       <a class="hidden lg:block py-1 transition-colors hover:text-redis-red-500"
         href="https://cloud.redis.io/">Login</a>
       <a class="hidden lg:block py-1 transition-colors hover:text-redis-red-500" href="https://redis.io/meeting/">Book a
         meeting</a>
-      <a class="hidden lg:inline-flex transition-colors hover:duration-0 duration-500 ease-out items-center justify-center bg-redis-red-500 hover:bg-redis-yellow-500 hover:text-midnight-900 h-full px-[27px]"
+      <a class="hidden lg:inline-flex items-center justify-center px-6 py-2 mr-4 border-2 border-redis-red-500 text-white font-bold rounded-md hover:bg-redis-red-500 transition-colors"
         href="https://redis.io/try-free/">Try Redis</a>
+      <button id="search-button-mobile" type="button" class="lg:hidden p-1 mt-1 transition-colors hover:text-redis-red-500">
+        <span class="sr-only">Open search</span>
+        {{ partial "icons/search.html" }}
+      </button>
       <button data-menu-toggle aria-expanded="false" type="button"
         class="menu-toggle lg:hidden p-1 mt-1 transition-colors hover:text-redis-red-500">
         <span class="sr-only">Open main menu</span>
@@ -52,10 +68,19 @@
   </div>
 
   <nav data-menu
-    class="hidden absolute left-0 top-[70px] h-[calc(100vh-70px)] w-full overflow-y-auto bg-white pb-12 xl:hidden">
-    <ul class="space-y-4 bg-white p-4">
-      <li data-products-mobile-menu-toggle aria-expanded="false" class="border-b border-b-redis-pen-300 py-4 last:border-none">
-        <div class="flex items-center justify-between"><span class="text-lg font-medium">Products</span>
+    class="hidden absolute left-0 top-[70px] h-[calc(100vh-70px)] w-full overflow-y-auto bg-redis-ink-900 pb-12 xl:hidden">
+    <ul class="space-y-4 bg-redis-ink-900 p-4">
+      <li data-products-mobile-menu-toggle aria-expanded="false" class="border-b border-b-white border-opacity-30 py-4 last:border-none">
+        <div class="flex items-center justify-between">
+          <a href="https://redis.io/redis-for-ai/" class="text-lg font-medium flex items-center gap-2 text-white">Redis for AI
+            <svg class="" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path class="transform origin-center transition-transform duration-300 group-hover:scale-150" id="star-bottom" d="M11.1718 9.68706C11.2845 9.38235 11.7155 9.38235 11.8282 9.68706L12.3895 11.2037C12.4249 11.2995 12.5005 11.3751 12.5963 11.4105L14.1129 11.9717C14.4176 12.0845 14.4176 12.5155 14.1129 12.6282L12.5963 13.1895C12.5005 13.2249 12.4249 13.3004 12.3895 13.3962L11.8282 14.9129C11.7155 15.2176 11.2845 15.2176 11.1718 14.9129L10.6105 13.3962C10.5751 13.3004 10.4995 13.2249 10.4037 13.1895L8.88708 12.6282C8.58236 12.5155 8.58236 12.0845 8.88708 11.9717L10.4037 11.4105C10.4995 11.3751 10.5751 11.2995 10.6105 11.2037L11.1718 9.68706Z" fill="#FF4438"></path>
+            <path class="transform origin-center transition-transform duration-300 group-hover:scale-50" id="star-top" d="M5.27175 1.68707C5.38451 1.38235 5.81549 1.38235 5.92825 1.68706L7.05666 4.73654C7.09211 4.83235 7.16764 4.90788 7.26344 4.94333L10.3129 6.07174C10.6176 6.18449 10.6176 6.61548 10.3129 6.72824L7.26344 7.85665C7.16764 7.8921 7.09211 7.96763 7.05666 8.06343L5.92825 11.1129C5.81549 11.4176 5.38451 11.4176 5.27175 11.1129L4.14334 8.06343C4.10789 7.96763 4.03236 7.8921 3.93656 7.85665L0.887077 6.72824C0.582361 6.61548 0.58236 6.18449 0.887077 6.07174L3.93656 4.94333C4.03236 4.90788 4.10789 4.83235 4.14334 4.73654L5.27175 1.68707Z" fill="#FF4438"></path>
+          </svg></a>
+        </div>
+      </li>
+      <li data-products-mobile-menu-toggle aria-expanded="false" class="border-b border-b-white border-opacity-30 py-4 last:border-none">
+        <div class="flex items-center justify-between"><span class="text-lg font-medium text-white">Products</span>
           <button>
             <span data-products-mobile-menu-open-icon>{{ partial "icons/plus-red.html" }}</span>
             <span data-products-mobile-menu-close-icon class="hidden">{{ partial "icons/minus-red.html" }}</span>
@@ -63,8 +88,8 @@
         </div>
         {{ partial "header/products-mobile.html" }}
       </li>
-      <li data-resources-mobile-menu-toggle aria-expanded="false" class="border-b border-b-redis-pen-300 py-4 last:border-none">
-        <div class="flex items-center justify-between"><span class="text-lg font-medium">Resources</span>
+      <li data-resources-mobile-menu-toggle aria-expanded="false" class="border-b border-b-white border-opacity-30 py-4 last:border-none">
+        <div class="flex items-center justify-between"><span class="text-lg font-medium text-white">Resources</span>
           <button>
             <span data-resources-mobile-menu-open-icon>{{ partial "icons/plus-red.html" }}</span>
             <span data-resources-mobile-menu-close-icon class="hidden">{{ partial "icons/minus-red.html" }}</span>
@@ -72,16 +97,16 @@
         </div>
         {{ partial "header/resources-mobile.html" }}
       </li>
-      <li class="border-b border-b-redis-pen-300">
-        <div class="flex items-center justify-between"><a href="https://redis.io/docs/" class="block py-4 w-full text-lg font-medium">Docs</a></div>
+      <li class="border-b border-b-white border-opacity-30">
+        <div class="flex items-center justify-between"><a href="https://redis.io/docs/" class="block py-4 w-full text-lg font-medium text-white">Docs</a></div>
       </li>
       <li>
-        <div class="flex items-center justify-between"><a href="https://redis.io/pricing/" class="block py-4 w-full text-lg font-medium">Pricing</a></div>
+        <div class="flex items-center justify-between"><a href="https://redis.io/pricing/" class="block py-4 w-full text-lg font-medium text-white">Pricing</a></div>
       </li>
     </ul>
     <ul class="pt-6">
       <li class="mx-auto flex w-11/12 text-center"><a
-          class="my-2 w-full rounded-md border border-redis-pen-600 bg-redis-yellow-500 py-3 text-black active:bg-redis-pen-800 active:text-white"
+          class="my-2 w-full rounded-md border border-redis-pen-600 bg-redis-red-700 py-3 text-redis-white-200 font-sans font-bold active:bg-redis-pen-900 active:text-white"
           href="https://redis.io/try-free/">Try Redis</a></li>
       <li class="mx-auto flex w-11/12 text-center"><a
           class="my-2 w-full rounded-md border border-redis-pen-600 py-3 active:bg-redis-pen-800 active:text-white"

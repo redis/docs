@@ -10,13 +10,13 @@ description: API requests follow specific lifecycle phases and states, based on 
 linkTitle: API request lifecycle
 weight: 60
 ---
-Redis Cloud owners and viewers can leverage a RESTful API that permits operations against a variety of resources, including subscriptions, databases, and related infrastructure.
+Redis Cloud owners and viewers can leverage a REST API that permits operations against a variety of resources, including subscriptions, databases, and related infrastructure.
 
 [Once it's enabled]({{< relref "/operate/rc/api/get-started/enable-the-api.md" >}}), you can use the REST API to create, update, and delete subscriptions, databases, and other entities.
 
-All create, update, and delete API operations (`POST`, `PUT`, and `DELETE`) and some query operations (`GET`) run asynchronously, which means that provisioning occurs in the background.  When you submit a request, a background process, known as a **Task**, starts working on it.  The response object includes an ID that lets you determine the status of the background process as it performs its work.
+All create, update, and delete API operations (`POST`, `PUT`, and `DELETE`) and some query operations (`GET`) run asynchronously, which means that provisioning or processing occurs in the background.  When you submit a request, a background process, known as a **Task**, starts working on it.  The response object includes an ID that lets you determine the status of the background process as it works.
 
-For operations that do not create or modify resources (such as most GET operations), the API is synchronous; that is, the response object reports the results of the request.
+For operations that do not create or modify resources or do not require additional processing (such as most GET operations), the API is synchronous; that is, the response object reports the results of the request.
 
 Asynchronous operations have two main phases: processing and provisioning.  A resource is not available until both phases are complete.
 
@@ -28,11 +28,11 @@ During this phase, the request is received, evaluated, planned, and executed.
 
 ### Use tasks to track requests
 
-Many operations are asychronous, including CREATE, UPDATE, and DELETE operations.  The response objects for such operations provide a `taskId` identifier that lets you track the progress of the underlying operation.
+The response objects for all asynchronous operations provide a `taskId` identifier that lets you track the progress of the underlying operation.
 
 You can query the `taskId` to track the state of a specific task using [`GET /v1/tasks/{taskId}`]({{< relref "/operate/rc/api/api-reference#tag/Tasks/operation/getTaskById" >}}).
 
-You can also query the state of all active tasks or recently completed tasks in your account using [`GET /tasks`]({{< relref "/operate/rc/api/api-reference#tag/Tasks/operation/getAllTasks" >}})
+You can also query the state of all active tasks or recently completed tasks in your account using [`GET /tasks`]({{< relref "/operate/rc/api/api-reference#tag/Tasks/operation/getAllTasks" >}}).
 
 ### Task process states
 

@@ -22,8 +22,8 @@ many common purposes but are much more efficient to calculate. They
 sometimes have other advantages too, such as obfuscating times, locations,
 and other sensitive data.
 
-Probabilistic data structures are available as part of Redis Community Edition and they are available in Redis Software and Redis Cloud.
+Probabilistic data structures are available as part of Redis Open Source and they are available in Redis Software and Redis Cloud.
 See
-[Install Redis Community Edition]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) or
+[Install Redis Open Source]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) or
 [Install Redis Enterprise]({{< relref "/operate/rs/installing-upgrading/install" >}})
 for full installation instructions.

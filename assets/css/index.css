@@ -23,16 +23,61 @@ section.prose {
   @apply font-geist
 }
 
-.prose h1,
-.prose h3,
-.prose h4,
-.prose h5,
-.prose h6 {
-  @apply font-normal;
+.prose h1 {
+  @apply text-4xl font-normal break-words;
 }
 
 .prose h2 {
-  @apply text-lg font-medium pb-3 border-b border-b-redis-pen-700 border-opacity-50;
+  @apply text-2xl font-medium pb-3 border-b border-b-redis-pen-700 border-opacity-50;
+}
+
+.prose h3 {
+  @apply text-xl font-semibold;
+}
+
+.prose h4 {
+  @apply text-lg font-medium;
+}
+
+.prose h5 {
+  @apply text-base font-medium;
+}
+
+.prose h6 {
+  @apply text-sm font-medium;
+}
+
+/* Header link styles */
+.header-link {
+  @apply text-slate-400 hover:text-slate-600 transition-all duration-200 no-underline cursor-pointer;
+  text-decoration: none !important;
+  vertical-align: baseline;
+}
+
+.header-link:hover {
+  @apply text-slate-600;
+  text-decoration: none !important;
+}
+
+.header-link svg {
+  @apply w-4 h-4 inline-block;
+  vertical-align: baseline;
+}
+
+/* Ensure header links don't interfere with prose styling */
+.prose h1 .header-link,
+.prose h2 .header-link,
+.prose h3 .header-link,
+.prose h4 .header-link,
+.prose h5 .header-link,
+.prose h6 .header-link {
+  @apply text-slate-400 hover:text-slate-600;
+  text-decoration: none !important;
+}
+
+/* Feedback state for copied links */
+.header-link.copied {
+  @apply text-green-500;
 }
 
 .prose p, .prose ol, .prose ul {
@@ -47,10 +92,6 @@ section.prose {
   @apply bg-none font-monogeist;
 }
 
-.prose h1 {
-  @apply text-4xl break-words;
-}
-
 .prose h1[id],
 .prose h2[id],
 .prose h3[id],
@@ -58,6 +99,25 @@ section.prose {
 .prose h5[id],
 .prose h6[id] {
   @apply mt-16 scroll-mt-6;
+}
+
+/* Reduce top margin when headers immediately follow other headers */
+.prose h1[id] + h2[id],
+.prose h1[id] + h3[id],
+.prose h1[id] + h4[id],
+.prose h1[id] + h5[id],
+.prose h1[id] + h6[id],
+.prose h2[id] + h3[id],
+.prose h2[id] + h4[id],
+.prose h2[id] + h5[id],
+.prose h2[id] + h6[id],
+.prose h3[id] + h4[id],
+.prose h3[id] + h5[id],
+.prose h3[id] + h6[id],
+.prose h4[id] + h5[id],
+.prose h4[id] + h6[id],
+.prose h5[id] + h6[id] {
+  @apply mt-6;
 }
 
 .prose p:empty,
@@ -76,7 +136,7 @@ section.prose {
 
 .prose :where(li):not(:where([class~="not-prose"],[class~="not-prose"] *)),
 .prose :where(.prose > ol > li > p:last-child):not(:where([class~="not-prose"],[class~="not-prose"] *)),
-.prose :where(.prose > ol > li > p:first-child):not(:where([class~="not-prose"],[class~="not-prose"] *)) 
+.prose :where(.prose > ol > li > p:first-child):not(:where([class~="not-prose"],[class~="not-prose"] *))
 {
   @apply my-0;
 }
@@ -199,16 +259,16 @@ select {
 }
 
 .search-item {
-  @apply bg-white rounded-md relative text-redis-ink-900 border border-redis-pen-800;
+  @apply bg-gray-700 rounded-md relative text-gray-300 border border-gray-600;
 }
 
 .search-item[aria-selected] {
-  @apply bg-red-100;
+  @apply bg-gray-600;
 }
 
 .search-item:hover,
 .search-item:not([aria-selected]):focus-within {
-  @apply bg-red-50 text-redis-pen-800;
+  @apply bg-gray-600 text-white;
 }
 
 .search-item > a {
@@ -302,7 +362,7 @@ select {
 }
 
 .star-rating {
-  @apply flex flex-row-reverse justify-around text-center text-xl items-center; 
+  @apply flex flex-row-reverse justify-around text-center text-xl items-center;
 }
 
 .star-rating input {
@@ -311,18 +371,18 @@ select {
 
 .star-rating label {
   @apply cursor-pointer text-white;
-  /* 
-    From  https://owumaro.github.io/text-stroke-generator/ 
+  /*
+    From  https://owumaro.github.io/text-stroke-generator/
     Currently, there is not great way to text-stroke that works across browsers
     Alternative is to replace star character with SVG
   */
-  text-shadow: 
-    rgb(92, 112, 122) 1px 0px 0px, 
-    rgb(92, 112, 122) 0.540302px 0.841471px 0px, 
-    rgb(92, 112, 122) -0.416147px 0.909297px 0px, 
-    rgb(92, 112, 122) -0.989993px 0.14112px 0px, 
-    rgb(92, 112, 122) -0.653644px -0.756803px 0px, 
-    rgb(92, 112, 122) 0.283662px -0.958924px 0px, 
+  text-shadow:
+    rgb(92, 112, 122) 1px 0px 0px,
+    rgb(92, 112, 122) 0.540302px 0.841471px 0px,
+    rgb(92, 112, 122) -0.416147px 0.909297px 0px,
+    rgb(92, 112, 122) -0.989993px 0.14112px 0px,
+    rgb(92, 112, 122) -0.653644px -0.756803px 0px,
+    rgb(92, 112, 122) 0.283662px -0.958924px 0px,
     rgb(92, 112, 122) 0.96017px -0.279416px 0px;
 }
 
@@ -333,36 +393,32 @@ select {
 .star-rating label:hover,
 .star-rating label:hover ~ label {
   @apply text-redis-red-500;
-}      
-
-.codetabs .label {
-  min-width: 2rem;
-  line-height: 0.852rem;
-  color: #8CA0AD;
 }
 
-.codetabs .label:active {
-  color: white;
+/* Language selector dropdown styling */
+.codetabs .lang-selector {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
 }
 
-
-.codetabs .radiotab:focus + .label {
-  @apply bg-transparent text-indigo-600;
+.codetabs .codetabs-header {
+  border-bottom: 1px solid #475569;
 }
 
-.codetabs .radiotab:checked + .label {
-  @apply border-slate-900 not-italic;
-  @apply bg-slate-600 text-white pt-1 mt-2.5;
-
+/* Panel visibility controlled by JavaScript */
+.codetabs .panel.panel-hidden {
+  display: none !important;
 }
 
-
-.codetabs .radiotab:checked + .label + .panel {
-  @apply block;
+.codetabs .panel:not(.panel-hidden) {
+  display: block;
 }
 
 .codetabs > .panel .highlight > .chroma {
-  @apply rounded-tl-none m-0;
+  @apply rounded-t-none m-0;
   font-size: 0.875rem;
   line-height: 1.25rem;
 }
@@ -382,7 +438,7 @@ select {
 
 .codetabs.cli > .panel .highlight > .chroma {
     margin: 1rem 1rem 0.1rem 0.1rem;
-    overflow-x: hidden;
+    overflow-x: auto;
     padding-bottom: 0;
 }
 
@@ -480,6 +536,41 @@ select {
   @apply w-10 h-10;
 }
 
+/* YAML embed download button styles */
+.download-yaml-btn {
+  @apply transition-colors;
+}
+
+.download-yaml-btn:disabled {
+  @apply opacity-75 cursor-not-allowed;
+}
+
+.download-yaml-btn svg {
+  @apply w-4 h-4;
+}
+
+/* Make long code blocks scrollable */
+.yaml-embed-container .highlight {
+  max-height: 800px;
+  overflow-y: auto;
+}
+
+.yaml-embed-container .highlight::-webkit-scrollbar {
+  width: 8px;
+}
+
+.yaml-embed-container .highlight::-webkit-scrollbar-track {
+  @apply bg-slate-700 rounded;
+}
+
+.yaml-embed-container .highlight::-webkit-scrollbar-thumb {
+  @apply bg-slate-500 rounded;
+}
+
+.yaml-embed-container .highlight::-webkit-scrollbar-thumb:hover {
+  @apply bg-slate-400;
+}
+
 #download-redis > h3,
 #download-redis-stack > h3 {
   @apply mt-2;
@@ -503,7 +594,13 @@ html {
   scrollbar-gutter: stable;
 }
 
-/* Chroma syntax highlighting
+/* Auto-clickable for standalone images */
+img:not(a img):not(.image-card-img):not([src*="#no-click"]) {
+  cursor: pointer;
+}
+
+/* Chroma syntax highlighting */
+
 /* Background */
 .bg {
   @apply text-slate-50 bg-slate-900;
@@ -514,16 +611,10 @@ html {
   @apply p-4 overflow-x-auto text-slate-50 bg-slate-900 rounded-md;
 }
 
-/* Other */
-.chroma .x {}
-
 /* Error */
 .chroma .err {
   @apply text-red-600;
 }
-
-/* CodeLine */
-.chroma .cl {}
 
 /* LineLink */
 .chroma .lnlinks {
@@ -549,8 +640,6 @@ html {
   @apply flex bg-indigo-900/80;
 }
 
-code
-
 /* LineNumbersTable */
 .chroma .lnt {
   @apply text-slate-400 whitespace-pre pl-2 pr-4;
@@ -570,345 +659,167 @@ code
   @apply flex;
 }
 
-/* Keyword */
-.chroma .k {
-  @apply text-red-400;
-}
+/* Empty styles - Other, CodeLine, Name, NameAttribute, NameBuiltin, NameBuiltinPseudo, NameFunctionMagic, NameOther, NameVariableClass, NameVariableGlobal, NameVariableInstance, NameVariableMagic, Punctuation, Generic */
+.chroma .x,
+.chroma .cl,
+.chroma .n,
+.chroma .na,
+.chroma .nb,
+.chroma .bp,
+.chroma .fm,
+.chroma .nx,
+.chroma .vc,
+.chroma .vg,
+.chroma .vi,
+.chroma .vm,
+.chroma .p,
+.chroma .g {}
 
-/* KeywordConstant */
-.chroma .kc {
-  @apply text-blue-400;
-}
-
-/* KeywordDeclaration */
-.chroma .kd {
-  @apply text-red-400;
-}
-
-/* KeywordNamespace */
-.chroma .kn {
-  @apply text-red-400;
-}
-
-/* KeywordPseudo */
-.chroma .kp {
-  @apply text-blue-400;
-}
-
-/* KeywordReserved */
-.chroma .kr {
-  @apply text-red-400;
-}
-
-/* KeywordType */
+/* Keywords - Red (Keyword, KeywordDeclaration, KeywordNamespace, KeywordReserved, KeywordType) */
+.chroma .k,
+.chroma .kd,
+.chroma .kn,
+.chroma .kr,
 .chroma .kt {
   @apply text-red-400;
 }
 
-/* Name */
-.chroma .n {}
-
-/* NameAttribute */
-.chroma .na {}
-
-/* NameBuiltin */
-.chroma .nb {}
-
-/* NameBuiltinPseudo */
-.chroma .bp {}
-
-/* NameClass */
-.chroma .nc {
-  @apply text-orange-400 font-bold;
+/* Keywords - Blue (KeywordConstant, KeywordPseudo) */
+.chroma .kc,
+.chroma .kp {
+  @apply text-blue-400;
 }
 
-/* NameConstant */
-.chroma .no {
-  @apply text-blue-400 font-bold;
-}
-
-/* NameDecorator */
-.chroma .nd {
-  @apply text-purple-300 font-bold;
-}
-
-/* NameEntity */
+/* Names - Orange (NameEntity) */
 .chroma .ni {
   @apply text-orange-400;
 }
 
-/* NameException */
+/* Names - Orange Bold (NameClass, NameException) */
+.chroma .nc,
 .chroma .ne {
   @apply text-orange-400 font-bold;
 }
 
-/* NameFunction */
+/* Names - Purple Bold (NameDecorator, NameFunction) */
+.chroma .nd,
 .chroma .nf {
   @apply text-purple-300 font-bold;
 }
 
-/* NameFunctionMagic */
-.chroma .fm {}
+/* Names - Blue (NameProperty, NameVariable) */
+.chroma .py,
+.chroma .nv {
+  @apply text-blue-400;
+}
 
-/* NameLabel */
+/* Names - Blue Bold (NameConstant, NameLabel) */
+.chroma .no,
 .chroma .nl {
   @apply text-blue-400 font-bold;
 }
 
-/* NameNamespace */
+/* Names - Red (NameNamespace) */
 .chroma .nn {
-  @apply text-red-400;
-}
-
-/* NameOther */
-.chroma .nx {}
-
-/* NameProperty */
-.chroma .py {
   @apply text-blue-400;
 }
 
-/* NameTag */
+/* Names - Green (NameTag) */
 .chroma .nt {
   @apply text-green-400;
 }
 
-/* NameVariable */
-.chroma .nv {
-  @apply text-blue-400
-}
-
-/* NameVariableClass */
-.chroma .vc {}
-
-/* NameVariableGlobal */
-.chroma .vg {}
-
-/* NameVariableInstance */
-.chroma .vi {}
-
-/* NameVariableMagic */
-.chroma .vm {}
-
-/* Literal */
-.chroma .l {
-  @apply text-blue-400;
-}
-
-/* LiteralDate */
-.chroma .ld {
-  @apply text-blue-400;
-}
-
-/* LiteralString */
-.chroma .s {
-  @apply text-blue-400;
-}
-
-/* LiteralStringAffix */
-.chroma .sa {
-  @apply text-blue-400
-}
-
-/* LiteralStringBacktick */
-.chroma .sb {
-  @apply text-blue-400;
-}
-
-/* LiteralStringChar */
-.chroma .sc {
-  @apply text-blue-400;
-}
-
-/* LiteralStringDelimiter */
-.chroma .dl {
-  @apply text-blue-400
-}
-
-/* LiteralStringDoc */
-.chroma .sd {
-  @apply text-blue-400;
-}
-
-/* LiteralStringDouble */
-.chroma .s2 {
-  @apply text-blue-400;
-}
-
-/* LiteralStringEscape */
-.chroma .se {
-  @apply text-blue-400
-}
-
-/* LiteralStringHeredoc */
-.chroma .sh {
-  @apply text-blue-400
-}
-
-/* LiteralStringInterpol */
-.chroma .si {
-  @apply text-blue-400;
-}
-
-/* LiteralStringOther */
-.chroma .sx {
-  @apply text-blue-400;
-}
-
-/* LiteralStringRegex */
-.chroma .sr {
-  @apply text-blue-400
-}
-
-/* LiteralStringSingle */
-.chroma .s1 {
-  @apply text-blue-400;
-}
-
-/* LiteralStringSymbol */
-.chroma .ss {
-  @apply text-blue-400;
-}
-
-/* LiteralNumber */
-.chroma .m {
-  @apply text-blue-400;
-}
-
-/* LiteralNumberBin */
-.chroma .mb {
-  @apply text-blue-400;
-}
-
-/* LiteralNumberFloat */
-.chroma .mf {
-  @apply text-blue-400;
-}
-
-/* LiteralNumberHex */
-.chroma .mh {
-  @apply text-blue-400;
-}
-
-/* LiteralNumberInteger */
-.chroma .mi {
-  @apply text-blue-400;
-}
-
-/* LiteralNumberIntegerLong */
-.chroma .il {
-  @apply text-blue-400;
-}
-
-/* LiteralNumberOct */
+/* Literals - Blue (All literal types: Literal, LiteralDate, LiteralString*, LiteralNumber*) */
+.chroma .l,
+.chroma .ld,
+.chroma .s,
+.chroma .sa,
+.chroma .sb,
+.chroma .sc,
+.chroma .dl,
+.chroma .sd,
+.chroma .s2,
+.chroma .se,
+.chroma .sh,
+.chroma .si,
+.chroma .sx,
+.chroma .sr,
+.chroma .s1,
+.chroma .ss,
+.chroma .m,
+.chroma .mb,
+.chroma .mf,
+.chroma .mh,
+.chroma .mi,
+.chroma .il,
 .chroma .mo {
   @apply text-blue-400;
 }
 
-/* Operator */
-.chroma .o {
-  @apply text-red-400 font-bold;
-}
-
-/* OperatorWord */
+/* Operators - Red Bold (Operator, OperatorWord) */
+.chroma .o,
 .chroma .ow {
   @apply text-red-400 font-bold;
 }
 
-/* Punctuation */
-.chroma .p {}
-
-/* Comment */
-.chroma .c {
-  @apply text-slate-500;
-  font-style: italic
-}
-
-/* CommentHashbang */
-.chroma .ch {
-  @apply text-slate-500;
-  font-style: italic
-}
-
-/* CommentMultiline */
-.chroma .cm {
-  @apply text-slate-500 italic;
-}
-
-/* CommentSingle */
+/* Comments - Slate Italic (Comment, CommentHashbang, CommentMultiline, CommentSingle) */
+.chroma .c,
+.chroma .ch,
+.chroma .cm,
 .chroma .c1 {
   @apply text-slate-500 italic;
 }
 
-/* CommentSpecial */
-.chroma .cs {
-  @apply text-slate-500 font-bold italic;
-}
-
-/* CommentPreproc */
-.chroma .cp {
-  @apply text-slate-500 font-bold italic;
-}
-
-/* CommentPreprocFile */
+/* Comments - Slate Bold Italic (CommentSpecial, CommentPreproc, CommentPreprocFile) */
+.chroma .cs,
+.chroma .cp,
 .chroma .cpf {
   @apply text-slate-500 font-bold italic;
 }
 
-/* Generic */
-.chroma .g {}
-
-/* GenericDeleted */
+/* Generic - Red (GenericDeleted with background, GenericError) */
 .chroma .gd {
   @apply text-red-300 bg-red-900;
 }
 
-/* GenericEmph */
-.chroma .ge {
-  @apply italic;
-}
-
-/* GenericError */
 .chroma .gr {
   @apply text-red-300;
 }
 
-/* GenericHeading */
-.chroma .gh {
-  @apply text-blue-400 font-bold;
-}
-
-/* GenericInserted */
-.chroma .gi {
-  @apply text-green-400 bg-green-900;
-}
-
-/* GenericOutput */
-.chroma .go {
-  @apply text-slate-400;
-}
-
-/* GenericPrompt */
-.chroma .gp {
-  @apply text-slate-400;
-}
-
-/* GenericStrong */
-.chroma .gs {
-  @apply font-bold;
-}
-
-/* GenericSubheading */
-.chroma .gu {
-  @apply text-blue-400;
-}
-
-/* GenericTraceback */
+/* Generic - Red 400 (GenericTraceback) */
 .chroma .gt {
   @apply text-red-400;
 }
 
-/* GenericUnderline */
+/* Generic - Blue (GenericHeading with bold, GenericSubheading) */
+.chroma .gh {
+  @apply text-blue-400 font-bold;
+}
+
+.chroma .gu {
+  @apply text-blue-400;
+}
+
+/* Generic - Green (GenericInserted) */
+.chroma .gi {
+  @apply text-green-400 bg-green-900;
+}
+
+/* Generic - Slate (GenericOutput, GenericPrompt) */
+.chroma .go,
+.chroma .gp {
+  @apply text-slate-400;
+}
+
+/* Generic - Formatting (GenericEmph, GenericStrong, GenericUnderline) */
+.chroma .ge {
+  @apply italic;
+}
+
+.chroma .gs {
+  @apply font-bold;
+}
+
 .chroma .gl {
   @apply underline;
 }
@@ -922,6 +833,67 @@ input[type="radio"] {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+}
+
+/* Generic GitHub-style tabs */
+.generic-tabs {
+  @apply w-full mb-6;
+}
+
+.generic-tabs .tab-nav {
+  @apply flex bg-redis-neutral-200 rounded-t-md border-x border-t border-b-0 border-redis-pen-300;
+}
+
+.generic-tabs .tab-radio {
+  @apply sr-only;
+}
+
+.generic-tabs .tab-label {
+  @apply px-4 py-3 cursor-pointer text-sm font-medium text-redis-pen-600
+         bg-redis-neutral-200 border-r border-redis-pen-300
+         hover:bg-white hover:text-redis-ink-900
+         transition-colors duration-150 ease-in-out
+         focus:outline-none focus:ring-0
+         select-none;
+}
+
+.generic-tabs .tab-label:first-child {
+  @apply rounded-tl-md;
+}
+
+.generic-tabs .tab-radio:checked + .tab-label {
+  @apply bg-white text-redis-ink-900 border-x border-t border-redis-pen-300 border-b-white z-10;
+}
+
+.generic-tabs .tab-radio:checked:first-of-type + .tab-label {
+  @apply rounded-tl-md;
+}
+
+.generic-tabs .tab-radio:focus {
+  @apply ring-0 outline-none;
+}
+
+.generic-tabs .tab-radio:focus + .tab-label {
+  @apply border-x border-t border-redis-pen-300 border-b-white focus:outline-none focus:ring-2 focus:ring-redis-pen-300 focus:ring-inset;
+}
+
+.generic-tabs .tab-content {
+  @apply hidden px-6 pb-6 pt-3 bg-white border border-redis-pen-300 rounded-b-md shadow-sm;
+  /* Unified border (including top) to align with tab borders */
+}
+
+.generic-tabs .tab-content.active {
+  @apply block;
+}
+
+/* Ensure proper stacking and borders */
+.generic-tabs .tab-content-container {
+  @apply relative -mt-px;
+}
+
+/* Single content box styling (when no explicit tabs are provided) */
+.generic-tabs-single .tab-content-single {
+  @apply prose prose-lg max-w-none;
 }
 
 .stack-logo-inline {
@@ -1073,4 +1045,605 @@ a[href*="#no-click"], img[src*="#no-click"] {
 
 .dd-item .highlight:hover {
   color: #5961ff;
+}
+
+.copy-button {
+  background-color: #eee;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.copy-button svg {
+  width: 16px;
+  height: 16px;
+  fill: #333;
+}
+
+.copy-button:hover {
+  background-color: #ddd;
+}
+
+/* Redis AI Agent Builder Styles */
+
+.agent-builder-container {
+  @apply max-w-4xl mx-auto p-6 bg-white rounded-lg border border-redis-pen-800 shadow-lg;
+}
+
+.agent-builder-header {
+  @apply text-center mb-8;
+}
+
+/* Chat Interface Styles */
+.chat-container {
+  @apply bg-gray-50 rounded-lg border border-redis-pen-300 overflow-hidden;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-messages {
+  @apply flex-1 p-4 space-y-4 overflow-y-auto;
+  max-height: 500px;
+}
+
+.chat-message {
+  @apply flex items-start;
+}
+
+.bot-message {
+  @apply justify-start;
+}
+
+.bot-message .message-avatar {
+  @apply mr-3;
+}
+
+.bot-message .message-content {
+  @apply bg-white border border-redis-pen-300 text-redis-ink-900;
+}
+
+.user-message {
+  @apply justify-end;
+}
+
+.user-message .message-avatar {
+  @apply order-2 ml-3 bg-blue-100;
+}
+
+.user-message .message-content {
+  @apply order-1 bg-blue-500 text-white;
+}
+
+.message-avatar {
+  @apply w-8 h-8 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0;
+}
+
+.message-content {
+  @apply max-w-xs lg:max-w-md px-4 py-2 rounded-lg;
+}
+
+.suggestion-chips {
+  @apply flex flex-wrap gap-2 mt-3;
+}
+
+.suggestion-chip {
+  @apply inline-flex items-center px-3 py-1 rounded-full text-sm bg-red-50 text-redis-red-700 border border-red-200;
+  @apply hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-redis-red-500 focus:ring-offset-1;
+  @apply transition-colors duration-200 cursor-pointer;
+}
+
+.suggestion-chip:hover {
+  @apply bg-red-100 border-red-300;
+}
+
+.chat-input-container {
+  @apply relative border-t border-redis-pen-300 bg-white;
+}
+
+.chat-input-wrapper {
+  @apply flex items-center p-4 space-x-3;
+}
+
+.chat-input {
+  @apply flex-1 px-4 py-2 border border-redis-pen-300 rounded-lg;
+  @apply focus:outline-none focus:ring-2 focus:ring-redis-red-500 focus:border-redis-red-500;
+  @apply transition-colors duration-200;
+}
+
+.send-button {
+  @apply p-2 rounded-lg bg-redis-red-500 text-white;
+  @apply hover:bg-redis-red-600 focus:outline-none focus:ring-2 focus:ring-redis-red-500 focus:ring-offset-2;
+  @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-redis-red-500;
+  @apply transition-colors duration-200;
+}
+
+.suggestions-dropdown {
+  @apply absolute bottom-full left-4 right-4 mb-2 bg-white border border-redis-pen-300 rounded-lg shadow-lg z-10;
+  @apply max-h-48 overflow-y-auto;
+}
+
+.suggestions-list {
+  @apply py-2;
+}
+
+.suggestion-item {
+  @apply px-4 py-2 text-sm text-redis-ink-900 hover:bg-red-50 cursor-pointer;
+  @apply flex items-center space-x-2;
+}
+
+.suggestion-item:hover {
+  @apply bg-red-50;
+}
+
+.suggestion-item.highlighted {
+  @apply bg-red-100;
+}
+
+/* Responsive Design for Chat Interface */
+@media (max-width: 768px) {
+  .chat-container {
+    min-height: 350px;
+  }
+
+  .chat-messages {
+    max-height: 400px;
+  }
+
+  .message-content {
+    @apply max-w-xs;
+  }
+
+  .suggestion-chips {
+    @apply flex-col space-y-2;
+  }
+
+  .suggestion-chip {
+    @apply w-full justify-center;
+  }
+
+  .chat-input-wrapper {
+    @apply flex-col space-y-3 space-x-0;
+  }
+
+  .chat-input {
+    @apply w-full;
+  }
+
+  .send-button {
+    @apply w-full;
+  }
+}
+
+/* Form Groups */
+.form-group {
+  @apply space-y-2;
+}
+
+.form-label {
+  @apply block text-sm font-medium text-redis-ink-900;
+}
+
+.label-text {
+  @apply mr-1;
+}
+
+.label-required {
+  @apply text-redis-red-500;
+}
+
+/* Form Controls */
+.form-select,
+.form-input {
+  @apply w-full px-3 py-2 border border-redis-pen-700 rounded-md shadow-sm;
+  @apply focus:outline-none focus:ring-2 focus:ring-redis-red-500 focus:border-redis-red-500;
+  @apply transition-colors duration-200;
+}
+
+.form-select {
+  @apply bg-white cursor-pointer;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.75rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+}
+
+.form-input:focus,
+.form-select:focus {
+  @apply border-redis-red-500 ring-redis-red-500;
+}
+
+.form-help-text {
+  @apply text-sm text-redis-pen-600 mt-1;
+}
+
+/* Form Actions */
+.form-actions {
+  @apply flex justify-center pt-4;
+}
+
+.generate-btn {
+  @apply inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md;
+  @apply text-white bg-redis-red-500 hover:bg-redis-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-redis-red-500;
+  @apply transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.generate-btn:disabled {
+  @apply bg-redis-pen-600 hover:bg-redis-pen-600;
+}
+
+.btn-loading {
+  @apply flex items-center;
+}
+
+/* Code Output Section */
+.code-output-section {
+  @apply mt-8 border-t border-redis-pen-700 pt-8;
+}
+
+.code-header {
+  @apply mb-4;
+}
+
+.code-actions {
+  @apply flex flex-wrap gap-2;
+}
+
+.copy-btn,
+.download-btn {
+  @apply inline-flex items-center px-3 py-2 border border-redis-pen-700 text-sm font-medium rounded-md;
+  @apply text-redis-ink-900 bg-white hover:bg-redis-pen-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-redis-red-500;
+  @apply transition-colors duration-200;
+}
+
+.jupyter-btn {
+  @apply inline-flex items-center px-3 py-2 border border-redis-red-500 text-sm font-medium rounded-md;
+  @apply text-white bg-redis-red-500 hover:bg-redis-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-redis-red-500;
+  @apply transition-colors duration-200;
+}
+
+.copy-btn:hover,
+.download-btn:hover {
+  @apply border-redis-red-500 text-redis-red-600;
+}
+
+.jupyter-btn:hover {
+  @apply bg-redis-red-600 border-redis-red-600;
+}
+
+
+
+.start-again-btn {
+  @apply inline-flex items-center px-3 py-2 border border-orange-500 text-sm font-medium rounded-md;
+  @apply text-orange-700 bg-white hover:bg-orange-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500;
+  @apply transition-colors duration-200;
+}
+
+.start-again-btn:hover {
+  @apply border-orange-600 text-orange-800;
+}
+
+/* Code Container */
+.code-container {
+  @apply relative;
+}
+
+.code-block {
+  @apply bg-slate-900 text-white p-4 rounded-lg overflow-x-auto;
+  @apply font-mono text-sm leading-relaxed;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.code-block code {
+  @apply bg-transparent text-inherit;
+}
+
+.code-footer {
+  @apply mt-4 p-4 bg-redis-pen-200 rounded-lg;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .agent-builder-container {
+    @apply p-4 mx-4;
+  }
+
+  .code-header {
+    @apply flex-col items-start space-y-2;
+  }
+
+  .code-actions {
+    @apply w-full justify-start flex-wrap;
+  }
+
+  .copy-btn,
+  .download-btn,
+  .jupyter-btn,
+  .start-again-btn {
+    @apply flex-1 justify-center;
+  }
+}
+
+/* Loading Animation */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Focus States */
+.form-select:focus,
+.form-input:focus,
+.generate-btn:focus,
+.copy-btn:focus,
+.download-btn:focus,
+.jupyter-btn:focus {
+  @apply outline-none ring-2 ring-offset-2 ring-redis-red-500;
+}
+
+.start-again-btn:focus {
+  @apply outline-none ring-2 ring-offset-2 ring-orange-500;
+}
+
+/* Validation States */
+.form-select:invalid,
+.form-input:invalid {
+  @apply border-red-300;
+}
+
+.form-select:valid,
+.form-input:valid {
+  @apply border-green-300;
+}
+
+/* Hover Effects */
+.form-select:hover,
+.form-input:hover {
+  @apply border-redis-pen-600;
+}
+
+/* Disabled States */
+.form-select:disabled,
+.form-input:disabled {
+  @apply bg-redis-pen-200 cursor-not-allowed opacity-60;
+}
+
+/* Success States */
+.success-message {
+  @apply text-green-600 text-sm mt-2;
+}
+
+.error-message {
+  @apply text-red-600 text-sm mt-2;
+}
+
+/* Code Syntax Highlighting Enhancement */
+.code-block {
+  scrollbar-width: thin;
+  scrollbar-color: #4a5568 #2d3748;
+}
+
+.code-block::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.code-block::-webkit-scrollbar-track {
+  background: #2d3748;
+}
+
+.code-block::-webkit-scrollbar-thumb {
+  background: #4a5568;
+  border-radius: 4px;
+}
+
+.code-block::-webkit-scrollbar-thumb:hover {
+  background: #718096;
+}
+
+
+/* Markdown Rendering Styles for Chat Messages */
+.chat-message .message-content h1,
+.chat-message .message-content h2,
+.chat-message .message-content h3,
+.chat-message .message-content h4,
+.chat-message .message-content h5,
+.chat-message .message-content h6 {
+  @apply font-semibold text-redis-ink-900 mt-4 mb-2;
+}
+
+.chat-message .message-content h1 { @apply text-xl; }
+.chat-message .message-content h2 { @apply text-lg; }
+.chat-message .message-content h3 { @apply text-base; }
+
+.chat-message .message-content p {
+  @apply mb-3 last:mb-0;
+}
+
+.chat-message .message-content ul,
+.chat-message .message-content ol {
+  @apply mb-3 pl-6;
+}
+
+.chat-message .message-content ul {
+  @apply list-disc;
+}
+
+.chat-message .message-content ol {
+  @apply list-decimal;
+}
+
+.chat-message .message-content li {
+  @apply mb-1;
+}
+
+.chat-message .message-content code {
+  @apply bg-redis-pen-200 text-redis-ink-900 px-1 py-0.5 rounded text-sm font-mono;
+}
+
+.chat-message .message-content pre {
+  @apply bg-redis-pen-200 text-redis-ink-900 p-3 rounded-lg mb-3 overflow-x-auto;
+}
+
+.chat-message .message-content pre code {
+  @apply bg-transparent p-0;
+}
+
+.chat-message .message-content blockquote {
+  @apply border-l-4 border-redis-pen-700 pl-4 italic text-redis-pen-600 mb-3;
+}
+
+.chat-message .message-content strong {
+  @apply font-semibold;
+}
+
+.chat-message .message-content em {
+  @apply italic;
+}
+
+.chat-message .message-content a {
+  @apply text-redis-red-600 hover:text-redis-red-700 underline;
+}
+
+.chat-message .message-content table {
+  @apply w-full border-collapse border border-redis-pen-300 mb-3;
+}
+
+.chat-message .message-content th,
+.chat-message .message-content td {
+  @apply border border-redis-pen-300 px-3 py-2 text-left;
+}
+
+.chat-message .message-content th {
+  @apply bg-redis-pen-200 font-semibold;
+}
+
+/* Deprecated Command Styles */
+.deprecated-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  padding: 0.25rem 0.5rem !important;
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  background-color: rgb(220, 255, 30) !important;
+  color: #000000 !important;
+  border-radius: 9999px !important;
+  border: none !important;
+  flex-shrink: 0 !important;
+}
+
+.deprecated-tooltip {
+  position: absolute !important;
+  z-index: 9999 !important;
+  padding: 0.5rem 0.75rem !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  color: white !important;
+  background-color: #111827 !important;
+  border-radius: 0.5rem !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transition: opacity 300ms ease-in-out !important;
+  pointer-events: none !important;
+  white-space: nowrap !important;
+  bottom: calc(100% + 8px) !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  max-width: 250px !important;
+  white-space: normal !important;
+  word-wrap: break-word !important;
+}
+
+/* Adjust tooltip position when near right edge */
+.deprecated-tooltip-trigger:nth-last-child(-n+2) .deprecated-tooltip,
+.deprecated-tooltip-trigger:last-child .deprecated-tooltip {
+  left: auto !important;
+  right: 0 !important;
+  transform: none !important;
+}
+
+/* Adjust tooltip position when near left edge */
+.deprecated-tooltip-trigger:nth-child(-n+2) .deprecated-tooltip,
+.deprecated-tooltip-trigger:first-child .deprecated-tooltip {
+  left: 0 !important;
+  right: auto !important;
+  transform: none !important;
+}
+
+.deprecated-tooltip::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 100% !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 0 !important;
+  height: 0 !important;
+  border-left: 5px solid transparent !important;
+  border-right: 5px solid transparent !important;
+  border-top: 5px solid #111827 !important;
+}
+
+.deprecated-tooltip-trigger {
+  position: relative !important;
+  display: inline-flex !important;
+  z-index: 10 !important;
+}
+
+.deprecated-tooltip-trigger:hover .deprecated-tooltip {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.command-title-deprecated {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  flex-wrap: nowrap !important;
+}
+
+.command-title-deprecated .truncate {
+  flex: 1 1 0% !important;
+  min-width: 0 !important;
+}
+
+/* Fix alignment on individual command pages */
+.prose h1.command-name .command-title-deprecated {
+  align-items: center !important;
+}
+
+/* Utility Classes */
+.agent-builder-hidden {
+  display: none !important;
+}
+
+.agent-builder-inactive {
+  opacity: 0.5 !important;
+  pointer-events: none !important;
+  cursor: not-allowed !important;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }

@@ -21,6 +21,7 @@ weight: 5
 | RI_STDOUT_LOGGER | Logs to STDOUT. | `true` | |
 | RI_PROXY_PATH | Configures a subpath for a proxy. | n/a | Available only for Docker. |
 | RI_DATABASE_MANAGEMENT | When set to `false`, this disables the ability to manage database connections (adding, editing, or deleting). | `true` | | 
+| RI_ACCEPT_TERMS_AND_CONDITIONS | This environment variable allows you to accept the End User License Agreement (EULA) without displaying it in the UI. By setting this variable, you acknowledge that your use of Redis Insight is governed either by your signed agreement with Redis or, if none exists, by the Redis Enterprise Software Subscription Agreement. If neither applies, your use is subject to the Server Side Public License (SSPL). | `true` | | 
 
 ## Preconfigure database connections
 Redis Insight allows you to preconfigure database connections using environment variables or a JSON file, enabling centralized and efficient configuration.
@@ -43,13 +44,14 @@ Redis Insight allows you to preconfigure database connections using environment 
 | RI_REDIS_ALIAS* | Alias of a database connection. | `{host}:{port}` |  |
 | RI_REDIS_USERNAME* | Username to connect to a Redis database. | `default` |  |
 | RI_REDIS_PASSWORD* | Password to connect to a Redis database. | No password |  |
-| RI_REDIS_TLS* | Indicates whether TLS certificates should be used to connect. | `FALSE` | Accepts `TRUE` or `FALSE` |
+| RI_REDIS_TLS* | Indicates whether TLS certificates should be used to connect. | `false` | Accepts `true` or `false` |
 | RI_REDIS_TLS_CA_BASE64* | CA certificate in base64 format. | N/A | Specify a CA certificate in this environment variable or provide a file path using `RI_REDIS_TLS_CA_PATH*`. |
 | RI_REDIS_TLS_CA_PATH* | Path to the CA certificate file. | N/A |  |
 | RI_REDIS_TLS_CERT_BASE64* | Client certificate in base64 format. | N/A | Specify a client certificate in this environment variable or provide a file path using `RI_REDIS_TLS_CERT_PATH*`. |
 | RI_REDIS_TLS_CERT_PATH* | Path to the Client certificate file. | N/A |  |
 | RI_REDIS_TLS_KEY_BASE64* | Private key for the client certificate in base64 format. | N/A | Indicate a private key in this environment variable or use another variable to get it from a file. |
 | RI_REDIS_TLS_KEY_PATH* | Path to private key file. | N/A |  |
+| RI_REDIS_DB | Database index to connect to. | N/A | |
 
 ### Preconfigure database connections using a JSON file
 Redis Insight also allows you to preconfigure database connections using a JSON file.

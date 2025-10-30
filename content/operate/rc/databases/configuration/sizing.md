@@ -24,7 +24,7 @@ Here are some general guidelines:
 
 - [Replication]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) doubles memory consumption; that is, 512 MB of data requires at least 1 GB of memory limit when replication is enabled. This affects both Redis Cloud Pro and Redis Cloud Essentials. For example, if you subscribe to a 1 GB Essentials plan, Redis will allocate 512 MB for your dataset and the other 512 MB for replication.
 
-- [Active-Active]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}) also doubles memory consumption and the effect is cumulative with replication's impact. Since Active-Active requires replication to be turned on, the memory limit impact can be as large as four times (4x) the original data size.
+- [Active-Active]({{< relref "/operate/rc/databases/active-active" >}}) also doubles memory consumption and the effect is cumulative with the impact of replication. Since Active-Active requires replication to be turned on, the memory limit impact can be as large as four times (4x) the original data size.
 
 - [Advanced capabilities]({{< relref "/operate/rc/databases/configuration/advanced-capabilities" >}}) also consume memory. For search databases, consider index size when you size your database. See [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more info.
 
@@ -55,7 +55,7 @@ Here are some things to keep in mind for optimizing throughput:
 - Test and monitor your app's performance and adjust the set ops/sec based on how if performs in real-world conditions.
 - If your average request size is larger than 3KB, consider setting your throughput higher than expected. 
 - Track the slow logs using the [`SLOWLOG` command]({{< relref "/commands/slowlog" >}}) or the **Slowlog** tab on the [database screen]({{< relref "/operate/rc/databases/view-edit-database" >}}).
-- Use [pipelining]({{< relref "/develop/use/pipelining" >}}) and [concurrent connections]({{< relref "/develop/reference/clients" >}}) effectively to optimize throughput and latency.
+- Use [pipelining]({{< relref "/develop/using-commands/pipelining" >}}) and [concurrent connections]({{< relref "/develop/reference/clients" >}}) effectively to optimize throughput and latency.
 - Search databases have their own throughput requirements. See [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more info.
 
 ### Frequently asked questions

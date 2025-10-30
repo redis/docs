@@ -10,7 +10,7 @@ description: Clustering to allow customers to spread the load of a Redis process
 linktitle: Clustering
 weight: 10
 ---
-Source available [Redis](https://redislabs.com/redis-features/redis) is a single-threaded process
+Source available [Redis](https://redis.io/docs/latest/get-started/) is a single-threaded process
 to provide speed and simplicity.
 A single Redis process is bound by the CPU core that it is running on and available memory on the server.
 
@@ -61,7 +61,7 @@ is 3, you can increase the number of shards to 6, 9, or 12.
 
 ### Standard hashing policy
 
-When using the standard hashing policy, a clustered Redis Enterprise database behaves similarly to a standard [Redis Community Edition cluster]({{< relref "/operate/oss_and_stack/reference/cluster-spec" >}}#hash-tags), except when using multiple hash tags in a key's name. We recommend using only a single hash tag in a key name for hashing in Redis Enterprise.
+When using the standard hashing policy, a clustered Redis Enterprise database behaves similarly to a standard [Redis Open Source cluster]({{< relref "/operate/oss_and_stack/reference/cluster-spec" >}}#hash-tags), except when using multiple hash tags in a key's name. We recommend using only a single hash tag in a key name for hashing in Redis Enterprise.
 
 - **Keys with a hash tag**: a key's hash tag is any substring between
     `{` and `}` in the key's name. When a key's name

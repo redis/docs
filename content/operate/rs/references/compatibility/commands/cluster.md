@@ -11,11 +11,11 @@ linkTitle: Cluster management
 weight: 10
 ---
 
-[Clustering in Redis Enterprise Software]({{< relref "/operate/rs/databases/durability-ha/clustering" >}}) and [Redis Cloud]({{< relref "/operate/rc/databases/configuration/clustering" >}}) differs from the [Redis Community Edition cluster]({{<relref "/operate/oss_and_stack/management/scaling">}}) and works with all standard Redis clients.
+[Clustering in Redis Enterprise Software]({{< relref "/operate/rs/databases/durability-ha/clustering" >}}) and [Redis Cloud]({{< relref "/operate/rc/databases/configuration/clustering" >}}) differs from the [Redis Open Source cluster]({{<relref "/operate/oss_and_stack/management/scaling">}}) and works with all standard Redis clients.
 
 Redis Enterprise blocks most [cluster commands]({{< relref "/commands" >}}?group=cluster). If you try to use a blocked cluster command, it returns an error.
 
-| Command | Redis<br />Enterprise | Redis<br />Cloud | Notes |
+| Command | Redis<br />Software | Redis<br />Cloud | Notes |
 |:--------|:----------------------|:-----------------|:------|
 | [ASKING]({{< relref "/commands/asking" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 | [CLUSTER ADDSLOTS]({{< relref "/commands/cluster-addslots" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
@@ -45,6 +45,7 @@ Redis Enterprise blocks most [cluster commands]({{< relref "/commands" >}}?group
 | [CLUSTER SETSLOT]({{< relref "/commands/cluster-setslot" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 | [CLUSTER SHARDS]({{< relref "/commands/cluster-shards" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 | [CLUSTER SLAVES]({{< relref "/commands/cluster-slaves" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | Deprecated as of Redis v5.0.0. |
+| [CLUSTER SLOT-STATS]({{< relref "/commands/cluster-slot-stats" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 | [CLUSTER SLOTS]({{< relref "/commands/cluster-slots" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Only supported with the [OSS cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}). Deprecated as of Redis v7.0.0. |
 | [READONLY]({{< relref "/commands/readonly" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 | [READWRITE]({{< relref "/commands/readwrite" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |

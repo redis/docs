@@ -19,9 +19,7 @@ weight: 7
 [`go-redis`](https://github.com/redis/go-redis) is the [Go](https://go.dev/) client for Redis.
 The sections below explain how to install `go-redis` and connect your application to a Redis database.
 
-`go-redis` requires a running [Redis Community Edition]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) server.
-See [Getting started]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis installation
-instructions.
+`go-redis` requires a running Redis server. See [here]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis Open Source installation instructions.
 
 ## Install
 
@@ -157,6 +155,21 @@ fmt.Printf("Model: %v, Brand: %v, Type: %v, Price: $%v\n",
     res4a.Model, res4a.Brand, res4a.Type, res4a.Price)
 // >>> Model: Deimos, Brand: Ergonom, Type: Enduro bikes, Price: $4972
  ```
+
+Close the connection when you're done using `client.Close()`. In the
+common case where you want to close the connection at the end of the
+function where you opened it, you may find it convenient to use a `defer`
+statement right after connecting:
+
+```go
+func main() {    
+    client := redis.NewClient(&redis.Options{
+        ...
+    })
+    defer client.Close()
+    ...
+}
+```
 
 ## Observability
 

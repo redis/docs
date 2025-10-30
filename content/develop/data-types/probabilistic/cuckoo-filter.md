@@ -17,7 +17,7 @@ title: Cuckoo filter
 weight: 20
 ---
 
-A Cuckoo filter, just like a Bloom filter, is a probabilistic data structure in Redis Community Edition that enables you to check if an element is present in a set in a very fast and space efficient way, while also allowing for deletions and showing better performance than Bloom in some scenarios.
+A Cuckoo filter, just like a Bloom filter, is a probabilistic data structure in Redis Open Source that enables you to check if an element is present in a set in a very fast and space efficient way, while also allowing for deletions and showing better performance than Bloom in some scenarios.
 
 While the Bloom filter is a bit array with flipped bits at positions decided by the hash function, a Cuckoo filter is an array of buckets, storing fingerprints of the values in one of the buckets at positions decided by the two hash functions. A membership query for item `x` searches the possible buckets for the fingerprint of `x`, and returns true if an identical fingerprint is found. A cuckoo filter's fingerprint size will directly determine the false positive rate.
 
@@ -50,7 +50,7 @@ Note> In addition to these two cases, Cuckoo filters serve very well all the Blo
 > You'll learn how to create an empty cuckoo filter with an initial capacity for 1,000 items, add items, check their existence, and remove them. Even though the [`CF.ADD`]({{< relref "commands/cf.add/" >}}) command can create a new filter if one isn't present, it might not be optimally sized for your needs. It's better to use the [`CF.RESERVE`]({{< relref "commands/cf.reserve/" >}}) command to set up a filter with your preferred capacity.
 
 {{< clients-example cuckoo_tutorial cuckoo >}}
-> CF.RESERVE bikes:models 1000000
+> CF.RESERVE bikes:models 1000
 OK
 > CF.ADD bikes:models "Smoky Mountain Striker"
 (integer) 1
@@ -115,18 +115,18 @@ When bucket size of 1 is used the fill rate is 55% and false positive error rate
 
 ### Choosing the scaling factor (`EXPANSION`)
 
-When the filter self-declares itself full, it will auto-expand by generating additional sub-filters at the cost of reduced performance and increased error rate. The new sub-filter is created with size of the previous sub-filter multiplied by `EXPANSION` (chosen on filter creation). Like bucket size, additional sub-filters grow the error rate linearly (the compound error is a sum of all subfilters' errors). The size of the new sub-filter is the size of the last sub-filter multiplied by expansion and this is something very important to keep in mind. If you know you'll have to scale at some point it's better to choose a higher expansion value. The default is 1.
+When the filter self-declares itself full, it will auto-expand by generating additional sub-filters at the cost of reduced performance and increased error rate. The new sub-filter is created with size of the previous sub-filter multiplied by `EXPANSION` (chosen on filter creation). Like bucket size, additional sub-filters grow the error rate linearly (the compound error is a sum of all subfilters' errors). The size of the new sub-filter is the size of the last sub-filter multiplied by expansion and this is something very important to keep in mind. If you know you'll have to scale at some point it's better to choose a higher expansion value. The default is [`cf-expansion-factor`]({{< relref "develop/data-types/probabilistic/configuration/#cf-expansion-factor" >}}).
 
 Maybe you're wondering "Why would I create a smaller filter with a high expansion rate if I know I'm going to scale anyway?"; the answer is: for cases where you need to keep many filters (let's say a filter per user, or per product) and most of them will stay small, but some with more activity will have to scale. 
 
 The expansion factor will be rounded up to the next "power of two (2<sup>n</sup>)" number.
 
 ### Choosing the maximum number of iterations (`MAXITERATIONS`)
-`MAXITERATIONS` dictates the number of attempts to find a slot for the incoming fingerprint. Once the filter gets full, a high MAXITERATIONS value will slow down insertions. The default value is 20.
+`MAXITERATIONS` dictates the number of attempts to find a slot for the incoming fingerprint. Once the filter gets full, a high MAXITERATIONS value will slow down insertions. The default value is [`cf-max-iterations`]({{< relref "develop/data-types/probabilistic/configuration/#cf-max-iterations" >}}).
 
 ### Interesting facts: 
 - Unused capacity in prior sub-filters is automatically used when possible. 
-- The filter can grow up to 32 times. 
+- The filter can grow up to [`cf-max-expansions`]({{< relref "develop/data-types/probabilistic/configuration/#cf-max-expansions" >}}) times.
 - You can delete items to stay within filter limits instead of rebuilding
 - Adding the same element multiple times will create multiple entries, thus filling up your filter.
 

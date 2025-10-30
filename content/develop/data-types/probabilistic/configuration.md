@@ -15,11 +15,11 @@ title: Configuration Parameters
 weight: 100
 ---
 {{< note >}}
-As of Redis Community Edition (CE) 8.0, configuration parameters for the probabilistic data structures are now set in the following ways:
+As of Redis 8 in Redis Open Source (Redis 8), configuration parameters for the probabilistic data structures are now set in the following ways:
 * At load time via your `redis.conf` file.
 * At run time (where applicable) using the [`CONFIG SET`]({{< relref "/commands/config-set" >}}) command.
 
-Also, Redis CE 8.0 persists probabilistic configuration parameters just like any other configuration parameters (e.g., using the [`CONFIG REWRITE`]({{< relref "/commands/config-rewrite/" >}}) command).
+Also, Redis 8 persists probabilistic configuration parameters just like any other configuration parameters (e.g., using the [`CONFIG REWRITE`]({{< relref "/commands/config-rewrite/" >}}) command).
 {{< /note >}}
 
 
@@ -44,7 +44,7 @@ The following table summarizes which Cuckoo filter configuration parameters can 
 |                    | [cf-max-iterations](#cf-max-iterations)     | :white_check_mark: |||
 
 {{< note >}}
-Parameter names for Redis CE versions < 8.0, while deprecated, will still be supported in version 8.0.
+Parameter names for Redis Open Source versions < 8.0, while deprecated, will still be supported in Redis 8.
 {{< /note >}}
 
 ---
@@ -151,7 +151,7 @@ Default: `20`
 
 ## Setting configuration parameters on module load (deprecated)
 
-These methods are deprecated beginning with Redis CE v8.0.0.
+These methods are deprecated beginning with Redis 8.
 
 Setting configuration parameters at load-time is done by appending arguments after the `--loadmodule` argument when starting a server from the command line or after the `loadmodule` directive in a Redis config file. For example:
 

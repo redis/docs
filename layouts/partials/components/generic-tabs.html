@@ -1,0 +1,64 @@
+{{/*
+  Generic GitHub-style tabs component
+  
+  Usage:
+  {{ partial "components/generic-tabs.html" (dict "id" "my-tabs" "tabs" $tabs) }}
+  
+  Where $tabs is an array of dictionaries with "title" and "content" keys:
+  $tabs := slice 
+    (dict "title" "Tab 1" "content" "Content for tab 1")
+    (dict "title" "Tab 2" "content" "Content for tab 2")
+*/}}
+
+{{ $id := .id | default (printf "tabs-%s" (substr (.tabs | jsonify | md5) 0 8)) }}
+{{ $tabs := .tabs | default (slice (dict "title" "Error" "content" "No tabs provided")) }}
+
+<div class="generic-tabs" id="{{ $id }}">
+  <!-- Tab Navigation -->
+  <div class="tab-nav" role="tablist" aria-label="Tab navigation">
+    {{ range $index, $tab := $tabs }}
+      {{ $tabId := printf "%s-tab-%d" $id $index }}
+      {{ $panelId := printf "%s-panel-%d" $id $index }}
+      
+      <input 
+        type="radio" 
+        name="{{ $id }}" 
+        id="{{ $tabId }}" 
+        class="tab-radio"
+        {{ if eq $index 0 }}checked{{ end }}
+        aria-controls="{{ $panelId }}"
+        data-tab-index="{{ $index }}"
+      />
+      <label 
+        for="{{ $tabId }}" 
+        class="tab-label"
+        role="tab"
+        aria-selected="{{ if eq $index 0 }}true{{ else }}false{{ end }}"
+        aria-controls="{{ $panelId }}"
+        tabindex="{{ if eq $index 0 }}0{{ else }}-1{{ end }}"
+      >
+        {{ $tab.title }}
+      </label>
+    {{ end }}
+  </div>
+
+  <!-- Tab Content -->
+  <div class="tab-content-container">
+    {{ range $index, $tab := $tabs }}
+      {{ $tabId := printf "%s-tab-%d" $id $index }}
+      {{ $panelId := printf "%s-panel-%d" $id $index }}
+      
+      <div 
+        id="{{ $panelId }}" 
+        class="tab-content {{ if eq $index 0 }}active{{ end }}"
+        role="tabpanel"
+        aria-labelledby="{{ $tabId }}"
+        tabindex="0"
+        data-tab-index="{{ $index }}"
+        {{ if ne $index 0 }}aria-hidden="true"{{ end }}
+      >
+        {{ $tab.content | safeHTML }}
+      </div>
+    {{ end }}
+  </div>
+</div>
