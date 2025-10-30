@@ -27,7 +27,7 @@ The cost report helps you with:
 Consider the following limitations when you view the cost report:
 
 -   All pricing is based on list price. Account-specific discounts don't appear in the cost report.
--   Network costs for Pro subscriptions aren't available in the cost report before July 2025.
+-   Network costs for Pro subscriptions aren't available in the cost report before November 2025.
 -   Network costs for Pro subscriptions appear for each subscription. Network costs for individual databases aren't available.
 -   Monthly network costs for Pro subscriptions take up to 72 hours to appear in the cost report.
 {{< /note >}}
@@ -64,7 +64,7 @@ In the Pro subscription section, each subscription has multiple rows per usage p
 -   Each row represents each database's usage within the subscription over the usage period.
     -   If you changed a database's configuration, the cost report shows additional rows for usage before and after the change.
     -   For Active-Active databases, there are multiple rows for each region of the database.
--   Another row shows the monthly network costs for the subscription after July 2025.
+-   Another row shows the monthly network costs for the subscription after November 2025.
 -   If the Pro subscription doesn't meet the minimum price threshold, the cost report shows the actual cost of the subscription and another row shows the difference from the minimum price.
 
 | Column | Description |
