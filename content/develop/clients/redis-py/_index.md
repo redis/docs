@@ -48,45 +48,23 @@ pip install redis[hiredis]
 
 Connect to localhost on port 6379, set a value in Redis, and retrieve it. All responses are returned as bytes in Python. To receive decoded strings, set `decode_responses=True`. For more connection options, see [these examples](https://redis.readthedocs.io/en/stable/examples.html).
 
-{{< note >}}
-
-You can try this code out in a [Jupyter notebook on Binder](https://redis.io/binder/v2/gh/redis/binder-launchers/6bbed3da294e8de5a8c2ad99abf883731a50d4dd?urlpath=%2Fdoc%2Ftree%2Fdemo.ipynb).
-
-{{< /note >}}
-
-```python
-r = redis.Redis(host='localhost', port=6379, decode_responses=True)
-```
+{{< clients-example set="landing" step="connect" lang_filter="Python" >}}
+{{< /clients-example >}}
 
 Store and retrieve a simple string.
 
-```python
-r.set('foo', 'bar')
-# True
-r.get('foo')
-# bar
-```
+{{< clients-example set="landing" step="set_get_string" lang_filter="Python" >}}
+{{< /clients-example >}}
 
 Store and retrieve a dict.
 
-```python
-r.hset('user-session:123', mapping={
-    'name': 'John',
-    "surname": 'Smith',
-    "company": 'Redis',
-    "age": 29
-})
-# True
-
-r.hgetall('user-session:123')
-# {'surname': 'Smith', 'name': 'John', 'company': 'Redis', 'age': '29'}
-```
+{{< clients-example set="landing" step="hash_operations" lang_filter="Python" >}}
+{{< /clients-example >}}
 
 Close the connection when you're done.
 
-```python
-r.close()
-```
+{{< clients-example set="landing" step="close" lang_filter="Python" >}}
+{{< /clients-example >}}
 
 ## More information
 

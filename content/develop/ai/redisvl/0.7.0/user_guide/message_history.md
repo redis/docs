@@ -2,7 +2,7 @@
 linkTitle: LLM message history
 title: LLM Message History
 weight: 07
-url: '/develop/ai/redisvl/0.7.0/user_guide/essage_history/'
+url: '/develop/ai/redisvl/0.7.0/user_guide/message_history/'
 ---
 
 
