@@ -130,36 +130,17 @@ Follow these upgrade guidelines:
 
 ## Update module information
 
-If your Active-Active database uses modules, update module information in the CRDB configuration using the following command syntax:
+If your Active-Active database uses modules:
 
-```sh
-crdb-cli crdb update --crdb-guid <guid> --default-db-config \
-'{ "module_list": 
-  [
-    { 
-      "module_name": "<module1_name>",
-      "semantic_version": "<module1_version>" 
-    },
-    { 
-      "module_name": "<module2_name>",
-      "semantic_version": "<module2_version>" 
-    }
-  ]}'
-```
+1. update module information in the CRDB configuration using the following command syntax:
 
-For example:
+    ```sh
+    crdb-cli crdb update --crdb-guid <guid> --update-db-config-modules true
+    ```
 
-```sh
-crdb-cli crdb update --crdb-guid 82a80988-f5fe-4fa5-bca0-aef2a0fd60db --default-db-config \
-'{ "module_list": 
-  [
-    {
-      "module_name": "search",
-      "semantic_version": "2.4.6"
-    },
-    {
-      "module_name": "ReJSON",
-      "semantic_version": "2.4.5"
-    }
-  ]}' 
-```
+1. `crdb-cli` will ask you to verify all Active-Active database instances and their modules have been updated before you enter `y` to continue:
+
+    ```
+    Verify that all CRDB database instances and their modules have been updated.
+    Do you want to continue? (y/n): y
+    ```

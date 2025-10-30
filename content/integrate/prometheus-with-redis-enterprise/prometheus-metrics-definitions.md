@@ -1,5 +1,5 @@
 ---
-Title: Prometheus metrics v2 preview
+Title: Prometheus metrics v2
 alwaysopen: false
 categories:
 - docs
@@ -13,10 +13,6 @@ type: integration
 weight: 50
 tocEmbedHeaders: true
 ---
-
-{{<banner-article>}}
-While the metrics stream engine is in preview, this document provides only a partial list of v2 metrics. More metrics will be added.
-{{</banner-article>}}
 
 You can [integrate Redis Enterprise Software with Prometheus and Grafana]({{<relref "/integrate/prometheus-with-redis-enterprise/">}}) to create dashboards for important metrics.
 

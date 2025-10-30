@@ -180,12 +180,12 @@ stack_path: docs/interact/search-and-query
 summary: Run a search query on an index and perform aggregate transformations on the
   results
 syntax: "FT.AGGREGATE index query \n  [VERBATIM] \n  [LOAD count field [field ...]]\
-  \ \n  [TIMEOUT timeout] \n  [ GROUPBY nargs property [property ...] [ REDUCE function\
-  \ nargs arg [arg ...] [AS name] [ REDUCE function nargs arg [arg ...] [AS name]\
-  \ ...]] ...]] \n  [ SORTBY nargs [ property ASC | DESC [ property ASC | DESC ...]]\
-  \ [MAX num] [WITHCOUNT] \n  [ APPLY expression AS name [ APPLY expression AS name\
-  \ ...]] \n  [ LIMIT offset num] \n  [FILTER filter] \n  [ WITHCURSOR [COUNT read_size]\
-  \ [MAXIDLE idle_time]] \n  [ PARAMS nargs name value [ name value ...]] \n  [SCORER scorer]\n
+  \ \n  [TIMEOUT timeout] \n  [GROUPBY nargs property [property ...] [REDUCE function\
+  \ nargs arg [arg ...] [AS name] [REDUCE function nargs arg [arg ...] [AS name]\
+  \ ...]] ...]] \n  [SORTBY nargs [property ASC | DESC [property ASC | DESC ...]]\
+  \ [MAX num] [WITHCOUNT] \n  [APPLY expression AS name [APPLY expression AS name\
+  \ ...]] \n  [LIMIT offset num] \n  [FILTER filter] \n  [WITHCURSOR [COUNT read_size]\
+  \ [MAXIDLE idle_time]] \n  [PARAMS nargs name value [name value ...]] \n  [SCORER scorer]\n
   \ [ADDSCORES] \n  [DIALECT\
   \ dialect]\n"
 syntax_fmt: "FT.AGGREGATE index query [VERBATIM] [LOAD\_count field [field ...]]\n\
@@ -402,7 +402,7 @@ FT.AGGREGATE idx "@url:\"about.html\""
     GROUPBY 2 @day @country
       REDUCE count 0 AS num_visits
     SORTBY 4 @day
-{{< / highlight >}}
+{{< /highlight >}}
 </details>
 
 <details open>
@@ -416,7 +416,7 @@ FT.AGGREGATE books-idx *
       REDUCE COUNT 0 AS num_published
     GROUPBY 0
       REDUCE MAX 1 @num_published AS max_books_published_per_year
-{{< / highlight >}}
+{{< /highlight >}}
 </details>
 
 <details open>
@@ -430,7 +430,7 @@ Search for libraries within 10 kilometers of the longitude -73.982254 and latitu
  FT.AGGREGATE libraries-idx "@location:[-73.982254 40.753181 10 km]"
     LOAD 1 @location
     APPLY "geodistance(@location, -73.982254, 40.753181)"
-{{< / highlight >}}
+{{< /highlight >}}
 
 Here, notice the required use of `LOAD` to pre-load the `@location` attribute because it is a GEO attribute.    
 
@@ -480,7 +480,7 @@ Next, count GitHub events by user (actor), to produce the most active users.
     3) "num"
     4) "2794"
 (0.59s)
-{{< / highlight >}}
+{{< /highlight >}}
 
 </details>
 
@@ -502,9 +502,10 @@ FT.AGGREGATE orders "*"
 APPLY case(@status == "pending", 1, 0) AS is_pending
 APPLY case(@is_pending == 1 && @priority == "high", 1,2) AS status_high
 APPLY case(@is_pending == 0 && @priority == "high", 3,4) AS status_completed
-{{< / highlight >}}
+{{< /highlight >}}
 
 </details>
+
 ## Return information
 
 {{< multitabs id="ft-aggregate-return-info" 
@@ -512,7 +513,7 @@ APPLY case(@is_pending == 0 && @priority == "high", 3,4) AS status_completed
     tab2="RESP3" >}}
 
 One of the following:
-* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with the first element being the total number of results, followed by result rows as [arrays]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of field-value pairs.
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each row is an array reply representing a single aggregate result. The [integer reply]({{< relref "develop/reference/protocol-spec#resp-integers" >}}) at position `1` does not represent a valid value.
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: incorrect number of arguments, non-existent index, invalid query syntax.
 
 -tab-sep-

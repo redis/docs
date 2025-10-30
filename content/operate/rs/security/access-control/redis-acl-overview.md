@@ -38,7 +38,7 @@ The following example allows all `read` commands and the `SET` command:
 +@read +SET
 ```
 
-Module commands have several ACL limitations:
+For database versions earlier than Redis 8.2, module commands have several ACL limitations:
 
 - [Redis modules]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}) do not have command categories.
 

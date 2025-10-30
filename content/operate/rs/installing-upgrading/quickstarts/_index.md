@@ -19,7 +19,7 @@ Try out Redis Enterprise Software using one of the following quickstarts:
 
 Additional quickstart guides are available to help you:
 
-- Set up a [Auto Tiering cluster]({{< relref "/operate/rs/databases/auto-tiering/quickstart.md" >}}) to optimize  memory resources.
+- Set up a [Redis Flex or Auto Tiering cluster]({{< relref "/operate/rs/databases/flash/quickstart" >}}) to optimize  memory resources.
 
 - Set up an [Active-Active cluster]({{< relref "/operate/rs/databases/active-active/get-started.md" >}}) to enable high availability.
 

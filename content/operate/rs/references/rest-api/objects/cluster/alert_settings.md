@@ -29,6 +29,7 @@ weight: $weight
 | cluster_ocsp_status_revoked | boolean (default: false) | OCSP certificate status is REVOKED |
 | cluster_ram_overcommit | boolean (default: false) | RAM committed to databases is larger than cluster total RAM |
 | cluster_too_few_nodes_for_replication | boolean (default: false) | Replication requires at least 2 nodes in the cluster |
+| cluster_users_count_approaches_limit | <span class="break-all">[cluster_alert_settings_with_threshold]({{< relref "/operate/rs/references/rest-api/objects/cluster/cluster_alert_settings_with_threshold" >}})</span> object | Number of users approaches the maximum limit of 32,000 users. This alert is enabled with a 90% threshold by default on new clusters. |
 | node_aof_slow_disk_io | boolean (default: false) | AOF reaching disk I/O limits
 | node_checks_error | boolean (default: false) | Some node checks have failed |
 | node_cpu_utilization | <span class="break-all">[cluster_alert_settings_with_threshold]({{< relref "/operate/rs/references/rest-api/objects/cluster/cluster_alert_settings_with_threshold" >}})</span> object | Node CPU utilization has reached the threshold value (% of the utilization limit) |
