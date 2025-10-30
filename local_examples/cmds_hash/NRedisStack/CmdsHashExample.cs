@@ -134,30 +134,35 @@ public class CmdsHashExample
             ]
         );
 
-        // Set expiration on hash fields using raw Execute
-        RedisResult hexpireRes1 = db.Execute("HEXPIRE", "myhash", 10, "FIELDS", 2, "field1", "field2");
-        Console.WriteLine(string.Join(", ", (RedisValue[])hexpireRes1));
-        // >>> 1, 1
+        ExpireResult[] hexpireRes1 = db.HashFieldExpire(
+            "myhash",
+            new RedisValue[] { "field1", "field2" },
+            TimeSpan.FromSeconds(10)
+        );
+        Console.WriteLine(string.Join(", ", hexpireRes1));
+        // >>> Success, Success
 
-        // Check TTL of the fields using raw Execute
-        RedisResult hexpireRes2 = db.Execute("HTTL", "myhash", "FIELDS", 2, "field1", "field2");
-        RedisValue[] ttlValues = (RedisValue[])hexpireRes2;
-        Console.WriteLine(ttlValues.Length);
-        // >>> 2
+        long[] hexpireRes2 = db.HashFieldGetTimeToLive(
+            "myhash",
+            new RedisValue[] { "field1", "field2" }
+        );
+        Console.WriteLine(string.Join(", ", hexpireRes2));
+        // >>> 10, 10 (approximately)
 
         // Try to set expiration on non-existent field
-        RedisResult hexpireRes3 = db.Execute("HEXPIRE", "myhash", 10, "FIELDS", 1, "nonexistent");
-        Console.WriteLine(string.Join(", ", (RedisValue[])hexpireRes3));
-        // >>> -2
+        ExpireResult[] hexpireRes3 = db.HashFieldExpire(
+            "myhash",
+            new RedisValue[] { "nonexistent" },
+            TimeSpan.FromSeconds(10)
+        );
+        Console.WriteLine(string.Join(", ", hexpireRes3));
+        // >>> NoSuchField
         // STEP_END
-
         // REMOVE_START
-        RedisValue[] expireResult1 = (RedisValue[])hexpireRes1;
-        RedisValue[] expireResult3 = (RedisValue[])hexpireRes3;
-        Assert.Equal("1, 1", string.Join(", ", expireResult1));
-        Assert.Equal(2, ttlValues.Length);
-        Assert.True(ttlValues.All(ttl => (int)ttl > 0)); // TTL should be positive
-        Assert.Equal("-2", string.Join(", ", expireResult3));
+        Assert.Equal("Success, Success", string.Join(", ", hexpireRes1));
+        Assert.Equal(2, hexpireRes2.Length);
+        Assert.True(hexpireRes2.All(ttl => ttl > 0)); // TTL should be positive
+        Assert.Equal("NoSuchField", string.Join(", ", hexpireRes3));
         db.KeyDelete("myhash");
         // REMOVE_END
     }
