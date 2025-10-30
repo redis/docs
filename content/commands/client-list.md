@@ -135,9 +135,11 @@ b: the client is waiting in a blocking operation
 c: connection to be closed after writing entire reply
 d: a watched keys has been modified - EXEC will fail
 e: the client is excluded from the client eviction mechanism
+g: the client is responsible for migrating slots (atomic slot migration)
 i: the client is waiting for a VM I/O (deprecated)
 M: the client is a master
 N: no specific flag set
+o: the client is responsible for importing slots (atomic slot migration)
 O: the client is a client in MONITOR mode
 P: the client is a Pub/Sub subscriber
 r: the client is in readonly mode against a cluster node
@@ -148,7 +150,7 @@ x: the client is in a MULTI/EXEC context
 t: the client enabled keys tracking in order to perform client side caching
 T: the client will not touch the LRU/LFU of the keys it accesses
 R: the client tracking target client is invalid
-B: the client enabled broadcast tracking mode 
+B: the client enabled broadcast tracking mode
 ```
 
 The file descriptor events can be:
