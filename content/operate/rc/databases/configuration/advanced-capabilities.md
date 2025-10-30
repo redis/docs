@@ -9,6 +9,7 @@ description: Describes Redis Cloud Advanced capability options.
 headerRange: '[1-3]'
 toc: 'true'
 weight: $weight
+bannerText: Starting with Redis 8.0, all advanced capabilities provided by Redis Stack are included in Redis by default, so you no longer need to select them when creating a database on version 8.0 or later.
 ---
 
 Advanced capabilities extend Redis database functionality by adding new features and data types.  

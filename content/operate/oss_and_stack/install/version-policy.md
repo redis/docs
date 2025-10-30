@@ -4,7 +4,7 @@ alwaysopen: false
 categories:
 - docs
 - operate
-- rc
+- oss
 description: Describes Redis version management policy and supported versions.
 linkTitle: Version policy
 weight: 25
