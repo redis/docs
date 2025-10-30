@@ -16,7 +16,7 @@ aliases:
     - /operate/rc/security/database-access-control/active-active-roles/
 ---
 
-For [Active-Active databases]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}), you can define roles with different levels of access for different regions. For example, you can define a user role with full database access in one region and read-only access in another. Or, you can prevent a user from running any commands in a specified region.
+For [Active-Active databases]({{< relref "/operate/rc/databases/active-active" >}}), you can define roles with different levels of access for different regions. For example, you can define a user role with full database access in one region and read-only access in another. Or, you can prevent a user from running any commands in a specified region.
 
 1. Go to **Data Access Control > Roles** and either select `+` to create a new role or point to an existing role and select the pencil icon to edit it.
 

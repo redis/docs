@@ -162,7 +162,7 @@ Redis Cloud Essentials is available on the following Microsoft Azure regions:
 | `west-us` | California, USA |
 
 {{< note >}}
-Redis Cloud Pro is available on Azure through Azure Cache for Redis Enterprise. See [Azure Cache for Redis pricing](https://azure.microsoft.com/en-us/pricing/details/cache/) to view the list of Azure regions that support Azure Cache for Redis Enterprise.
+Redis Cloud Pro is available on Azure through [Azure Managed Redis](https://azure.microsoft.com/en-us/products/managed-redis/). See [Azure Managed Redis pricing](https://azure.microsoft.com/en-us/pricing/details/managed-redis/) to view the list of Azure regions that support Azure Managed Redis.
 {{< /note >}}
 
 

@@ -22,7 +22,7 @@ To create a LangCache service, you will need:
     {{< note >}}
 LangCache does not support the following databases during public preview:
 - Databases with a [CIDR allow list]({{< relref "/operate/rc/security/network-security/cidr-whitelist" >}})
-- [Active-Active]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}) databases
+- [Active-Active]({{< relref "/operate/rc/databases/active-active" >}}) databases
 - Databases with the [default user]({{< relref "/operate/rc/security/data-access-control/default-user" >}}) turned off
     {{< /note >}}
 

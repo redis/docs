@@ -53,7 +53,7 @@ The available settings vary according to your plan, cloud provider, and design c
 | **Type**                  | Displays 'Redis', 'Redis Stack' or 'memcached' based on the value selected when the database was created                                                    |
 | **Redis version**         | Redis version of the database                                                                                                                  |
 | **Auto Tiering**          | Checked when the subscription supports Auto Tiering (_Redis Cloud Pro only_)                                                               |
-| **Active-Active Redis**   | Checked when the database is part of an [Active-Active]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}) relationship (_Redis Cloud Pro only_)                                                                                         |
+| **Active-Active Redis**   | Checked when the database is part of an [Active-Active]({{< relref "/operate/rc/databases/active-active" >}}) relationship (_Redis Cloud Pro only_)                                                                                         |
 | **Creation time**         | Date and time the database was created                                                                                                                      |
 | **Last changed**          | Date and time of last update                                                                                                                                |
 | **Supported Protocol(s)** | Shows which version of RESP the database uses. See [Redis serialization protocol]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions) for details |

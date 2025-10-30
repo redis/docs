@@ -50,7 +50,7 @@ To configure a Redis ACL that you can assign to a data access role:
 
     {{<image filename="images/rc/data-access-control-redis-acls-saved.png" alt="Saved Redis ACL." >}}
 
-After you create a Redis ACL, you can assign it to a role. Redis ACLs are not fully verified until they are assigned to a role. For more information, see [Create roles]({{< relref "/operate/rc/security/data-access-control/role-based-access-control/create-roles" >}}) or [Active-Active access roles]({{< relref "/operate/rc/security/data-access-control/role-based-access-control/active-active-roles" >}}) for an [Active-Active database]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}).
+After you create a Redis ACL, you can assign it to a role. Redis ACLs are not fully verified until they are assigned to a role. For more information, see [Create roles]({{< relref "/operate/rc/security/data-access-control/role-based-access-control/create-roles" >}}) or [Active-Active access roles]({{< relref "/operate/rc/security/data-access-control/role-based-access-control/active-active-roles" >}}) for an [Active-Active database]({{< relref "/operate/rc/databases/active-active" >}}).
 
 ## Define permissions with ACL syntax
 

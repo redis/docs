@@ -33,7 +33,7 @@ From here, you can:
 
 Because subscriptions represent active deployments, there aren't many details you can change.  If your needs change, [create a new subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) and then [migrate the existing data]({{< relref "/operate/rc/databases/migrate-databases" >}}) to the new databases.
 
-In addition, three tabs are available:
+In addition, you can view and edit the following subscription details:
 
 1.  The **Databases** tab lists the databases in your subscription and summarizes their settings.
 
@@ -42,6 +42,8 @@ In addition, three tabs are available:
 3.  The **Connectivity** tab lets you limit access to the subscription by defining a VPC peering or other connectivity options.
 
 4.  The **Security** tab lets you set security settings for the databases in your subscription.
+
+5.  The **Regions** tab lets you manage the regions in your Active-Active subscription (_Active-Active subscriptions only_).
 
 The following sections provide more info.
 
@@ -130,3 +132,11 @@ See the individual links to learn more.
 The **Security** tab lets you set security settings for the databases in your subscription.
 
 Here, you can [block public endpoints]({{< relref "/operate/rc/security/network-security/block-public-endpoints" >}}) for all databases in the subscription.
+
+## **Regions** tab
+
+The **Regions** tab is only available for Active-Active subscriptions.  It lets you manage the regions in your Active-Active subscription.
+
+{{<image filename="images/rc/subscription-details-regions-tab.png" alt="The Regions tab lets you manage the regions in your Active-Active subscription." >}}
+
+See [Manage regions for an Active-Active database]({{< relref "/operate/rc/databases/active-active/manage-regions" >}}) for more information.
