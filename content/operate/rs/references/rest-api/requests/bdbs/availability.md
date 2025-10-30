@@ -32,10 +32,24 @@ Verifies the local database endpoint is available. This request does not redirec
 
 ### Request {#get-endpoint-request}
 
-#### Example HTTP request
+#### Example HTTP requests
+
+To check database endpoint availability without any additional checks:
 
 ```sh
 GET /v1/local/bdbs/1/endpoint/availability
+```
+
+To perform a lag-aware database endpoint availability check using the cluster's default lag tolerance threshold:
+
+```sh
+GET /v1/local/bdbs/1/endpoint/availability?extend_check=lag
+```
+
+To perform a lag-aware database endpoint availability check and override the cluster's default lag tolerance threshold:
+
+```sh
+GET /v1/local/bdbs/1/endpoint/availability?extend_check=lag&availability_lag_tolerance_ms=100
 ```
 
 #### Headers
@@ -50,6 +64,13 @@ GET /v1/local/bdbs/1/endpoint/availability
 | Field | Type | Description |
 |-------|------|-------------|
 | uid | integer | The unique ID of the database. |
+
+#### Query parameters
+
+| Field | Type | Description |
+|-------|------|-------------|
+| extend_check | list of comma-separated strings | List of additional availability checks to perform (optional)<br />Values:<br />**lag**: Enables lag-aware checks to assess replication health. Determines if a replica is sufficiently synced with the primary for failover/failback scenarios. |
+| availability_lag_tolerance_ms | integer | Overrides the cluster's default lag tolerance threshold when using `extend_check=lag`. Recommended value: 100 milliseconds. |
 
 ### Response {#get-endpoint-response}
 
@@ -74,6 +95,8 @@ The following are possible `error_code` values:
 | Code | Description |
 |------|-------------|
 | [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | Database endpoint is available. |
+| [400 Bad Request](https://www.rfc-editor.org/rfc/rfc9110.html#name-400-bad-request) | Invalid schema. |
+| [404 Not Found](https://www.rfc-editor.org/rfc/rfc9110.html#name-404-not-found) | Database not found. |
 | [503 Service Unavailable](https://www.rfc-editor.org/rfc/rfc9110.html#name-503-service-unavailable) | Database endpoint is unavailable. |
 
 
@@ -97,10 +120,25 @@ Gets the availability status of a database.
 
 ### Request {#get-db-request}
 
-#### Example HTTP request
+#### Example HTTP requests
+
+
+To check database availability without any additional checks:
 
 ```sh
 GET /v1/bdbs/1/availability
+```
+
+To perform a lag-aware database availability check using the cluster's default lag tolerance threshold:
+
+```sh
+GET /v1/bdbs/1/availability?extend_check=lag
+```
+
+To perform a lag-aware database availability check and override the cluster's default lag tolerance threshold:
+
+```sh
+GET /v1/bdbs/1/availability?extend_check=lag&availability_lag_tolerance_ms=100
 ```
 
 #### Headers
@@ -115,6 +153,13 @@ GET /v1/bdbs/1/availability
 | Field | Type | Description |
 |-------|------|-------------|
 | uid | integer | The unique ID of the database. |
+
+#### Query parameters
+
+| Field | Type | Description |
+|-------|------|-------------|
+| extend_check | list of comma-separated strings | List of additional availability checks to perform (optional)<br />Values:<br />**lag**: Enables lag-aware checks to assess replication health. Determines if a replica is sufficiently synced with the primary for failover/failback scenarios. |
+| availability_lag_tolerance_ms | integer | Overrides the cluster's default lag tolerance threshold when using `extend_check=lag`. Recommended value: 100 milliseconds. |
 
 ### Response {#get-db-response}
 
@@ -139,4 +184,6 @@ The following are possible `error_code` values:
 | Code | Description |
 |------|-------------|
 | [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | Database is available. |
+| [400 Bad Request](https://www.rfc-editor.org/rfc/rfc9110.html#name-400-bad-request) | Invalid schema. |
+| [404 Not Found](https://www.rfc-editor.org/rfc/rfc9110.html#name-404-not-found) | Database not found. |
 | [503 Service Unavailable](https://www.rfc-editor.org/rfc/rfc9110.html#name-503-service-unavailable) | Database is unavailable or doesn't have quorum. |

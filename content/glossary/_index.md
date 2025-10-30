@@ -451,7 +451,7 @@ More info: [Redis Open Source]({{<relref "/operate/oss_and_stack">}}), [Database
 {{%definition "Auto Tiering "%}}
 Previously known as Redis on Flash. Enables your Redis databases to span both RAM and dedicated flash memory (SSD). Auto Tiering manages the location of key values (RAM vs Flash) in the database via a LRU-based (least-recently-used) mechanism.
 
-More info: [Auto Tiering]({{<relref "/operate/rs/databases/auto-tiering/">}}), [Auto Tiering  quick start]({{<relref "/operate/rs/databases/auto-tiering/quickstart">}})
+More info: [Auto Tiering]({{<relref "/operate/rs/databases/flash/">}}), [Auto Tiering  quick start]({{<relref "/operate/rs/databases/flash/quickstart">}})
 {{%/definition%}}
 
 {{%definition "replica high availability (replicaHA)"%}}

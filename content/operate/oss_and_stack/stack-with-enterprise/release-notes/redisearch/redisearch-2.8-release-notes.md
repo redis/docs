@@ -13,10 +13,21 @@ weight: 91
 ---
 ## Requirements
 
-RediSearch v2.8.30 requires:
+RediSearch v2.8.31 requires:
 
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
+
+## v2.8.31 (October 2025)
+
+This is a maintenance release for RediSearch 2.8.
+
+Update urgency: `LOW`: No need to upgrade unless there are new features you want to use.
+
+Bug Fixes:
+- [#6960](https://github.com/RediSearch/RediSearch/pull/6960) - FT.INFO returns the wrong number of documents in OSS Cluster with replicas.
+- [#6938](https://github.com/RediSearch/RediSearch/pull/6938) - Fix for the HIGHLIGHT feature, where if some fields have empty strings, wrong tokens might be highlighted.
+- [#7049](https://github.com/RediSearch/RediSearch/pull/7049) - Avoid crashing in the FT.AGGREGATE command in clusters where different shards have different ON_TIMEOUT policies configured (fail vs return).
 
 ## v2.8.30 (September 2025)
 
