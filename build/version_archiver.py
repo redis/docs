@@ -108,7 +108,7 @@ class VersionArchiver:
                 file_path = os.path.join(root, file)
 
                 # Read the file line by line
-                with open(file_path, "r", encoding="utf-8") as f:
+                with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
                     lines = f.readlines()
 
                 # Find the positions of the first and second '---' markers
@@ -155,7 +155,7 @@ class VersionArchiver:
                             url = f"url: '/{base_url}/{self.new_version}/{relative_path}/'"
 
                     else:
-                        f = file.strip(".md")
+                        f = file.removesuffix(".md")
                         if relative_path == ".":
                             url = f"url: '/{base_url}/{self.new_version}/{f}/'"
                         else:

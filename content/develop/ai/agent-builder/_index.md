@@ -62,13 +62,13 @@ The generated code includes detailed setup instructions and best practices to ge
 
 ### Redis AI documentation
 
-- [Redis Vector Search](/develop/interact/search-and-query/vector-search/) - Semantic search capabilities
+- [Redis Vector Search]({{< relref "/develop/ai/search-and-query/vectors/" >}}) - Semantic search capabilities 
 - [Redis Streams](/develop/data-types/streams/) - Real-time data and conversation history
-- [AI Notebooks Collection](/develop/ai/notebook-collection/) - Interactive tutorials and examples
-- [Ecosystem Integrations](/develop/ai/ecosystem-integrations/) - Redis with AI frameworks
+- [AI Notebooks Collection]({{< relref "/develop/ai/notebook-collection" >}}) - Interactive tutorials and examples 
+- [Ecosystem Integrations]({{< relref "/develop/ai/ecosystem-integrations" >}}) - Redis with AI frameworks
 
 ### Community and support
 
 - Join the [Redis Discord](https://discord.gg/redis) for community support
 - Explore [Redis AI Resources on GitHub](https://github.com/redis-developer/redis-ai-resources)
-- Watch [AI Video Collection](/develop/ai/ai-videos/) for tutorials and demonstrations
+- Watch [AI Video Collection]({{< relref "/develop/ai/ai-videos" >}}) for tutorials and demonstrations

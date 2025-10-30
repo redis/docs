@@ -1,7 +1,6 @@
 ---
-description: Install RedisVL
-linkTitle: Install
-title: Install
+linkTitle: Install RedisVL
+title: Install RedisVL
 weight: 2
 aliases:
 - /integrate/redisvl/install
