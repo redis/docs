@@ -35,10 +35,12 @@ For each database, you can choose from these data eviction policies:
 
 ## Prevent data eviction
 
-Redis Cloud supports [Auto Tiering]({{< relref "/operate/rs/databases/flash/" >}})
+To avoid data eviction, make sure your database is large enough to hold required values. 
+
+Redis Cloud supports [Auto Tiering]({{< relref "/operate/rs/databases/flash/" >}}) on Redis Cloud Pro and [Redis Flex]({{< relref "/operate/rc/databases/create-database/create-flex-database" >}}) on Redis Cloud Essentials
 to prevent data eviction but maintain high performance.
 
-Auto Tiering can extend your database across RAM and Flash Memory and intelligently manage "hot" (active) data in RAM and "cold" (less active) data in Flash memory (SSD).
+Auto Tiering and Redis Flex can extend your database across RAM and Flash Memory and intelligently manage "hot" (active) data in RAM and "cold" (less active) data in Flash memory (SSD).
 
 ## Active-Passive replication considerations
 
@@ -49,3 +51,7 @@ Do not write to the target database while Active-Passive is enabled. Doing so ca
 - The target database cannot rely on eviction or expiration to manage local writes, requiring sufficient memory to handle both replicated data and local writes.
 - Local writes create differences between the source and target databases, causing replicated commands to behave differently on each database.
 - Inconsistent data can cause replicated commands to fail with errors, which will cause the synchronization process to exit and break replication.
+
+## Active-Active replication considerations
+
+The eviction policy mechanism for [Active-Active databases]({{< relref "/operate/rc/databases/active-active" >}}) kicks in earlier than for standalone databases because it requires propagation to all regions. The eviction policy starts to evict keys when one of the Active-Active instances reaches 80% of its memory limit. If memory usage continues to rise while the keys are being evicted, the rate of eviction will increase to prevent reaching the Out-of-Memory state.

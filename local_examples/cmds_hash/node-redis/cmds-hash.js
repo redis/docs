@@ -122,6 +122,33 @@ await client.del('myhash')
 // REMOVE_END
 // STEP_END
 
+// STEP_START hexpire
+// Set up hash with fields
+await client.hSet('myhash', {
+  'field1': 'Hello',
+  'field2': 'World'
+})
+
+// Set expiration on hash fields
+const res14 = await client.hExpire('myhash', ['field1', 'field2'], 10)
+console.log(res14) // [1, 1]
+
+// Check TTL of the fields
+const res15 = await client.hTTL('myhash', ['field1', 'field2'])
+console.log(res15) // [10, 10] (or close to 10)
+
+// Try to set expiration on non-existent field
+const res16 = await client.hExpire('myhash', ['nonexistent'], 10)
+console.log(res16) // [-2]
+
+// REMOVE_START
+assert.deepEqual(res14, [1, 1]);
+assert(res15.every(ttl => ttl > 0)); // TTL should be positive
+assert.deepEqual(res16, [-2]);
+await client.del('myhash')
+// REMOVE_END
+// STEP_END
+
 // HIDE_START
 await client.close();
 // HIDE_END

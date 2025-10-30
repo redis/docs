@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 import java.util.Collections;
+import java.util.Arrays;
 
 // HIDE_START
 import redis.clients.jedis.UnifiedJedis;
@@ -17,6 +18,7 @@ import redis.clients.jedis.UnifiedJedis;
 import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 // HIDE_START
 public class CmdsHashExample {
@@ -159,10 +161,38 @@ public class CmdsHashExample {
         System.out.println(hValsResult2);
         // >>> [Hello, World]
         // STEP_END
-        // REMOVE_START       
+        // REMOVE_START
         // Tests for 'hvals' step.
         assertEquals(2, hValsResult1);
         assertEquals("[Hello, World]", hValsResult2.toString());
+        jedis.del("myhash");
+        // REMOVE_END
+
+        // STEP_START hexpire
+        // Set up hash with fields
+        Map<String, String> hExpireExampleParams = new HashMap<>();
+        hExpireExampleParams.put("field1", "Hello");
+        hExpireExampleParams.put("field2", "World");
+        jedis.hset("myhash", hExpireExampleParams);
+
+        // Set expiration on hash fields
+        List<Long> hExpireResult1 = jedis.hexpire("myhash", 10, "field1", "field2");
+        System.out.println(hExpireResult1); // >>> [1, 1]
+
+        // Check TTL of the fields
+        List<Long> hExpireResult2 = jedis.httl("myhash", "field1", "field2");
+        System.out.println(hExpireResult2.size()); // >>> 2
+
+        // Try to set expiration on non-existent field
+        List<Long> hExpireResult3 = jedis.hexpire("myhash", 10, "nonexistent");
+        System.out.println(hExpireResult3); // >>> [-2]
+        // STEP_END
+        // REMOVE_START
+        // Tests for 'hexpire' step.
+        assertEquals(Arrays.asList(1L, 1L), hExpireResult1);
+        assertEquals(2, hExpireResult2.size());
+        assertTrue(hExpireResult2.stream().allMatch(ttl -> ttl > 0)); // TTL should be positive
+        assertEquals(Arrays.asList(-2L), hExpireResult3);
         jedis.del("myhash");
         // REMOVE_END
 
