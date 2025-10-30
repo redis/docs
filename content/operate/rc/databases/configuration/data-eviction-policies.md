@@ -37,7 +37,7 @@ For each database, you can choose from these data eviction policies:
 
 To avoid data eviction, make sure your database is large enough to hold required values. 
 
-Redis Cloud supports [Auto Tiering]({{< relref "/operate/rs/databases/auto-tiering/" >}}) on Redis Cloud Pro and [Redis Flex]({{< relref "/operate/rc/databases/create-database/create-flex-database" >}}) on Redis Cloud Essentials
+Redis Cloud supports [Auto Tiering]({{< relref "/operate/rs/databases/flash/" >}}) on Redis Cloud Pro and [Redis Flex]({{< relref "/operate/rc/databases/create-database/create-flex-database" >}}) on Redis Cloud Essentials
 to prevent data eviction but maintain high performance.
 
 Auto Tiering and Redis Flex can extend your database across RAM and Flash Memory and intelligently manage "hot" (active) data in RAM and "cold" (less active) data in Flash memory (SSD).

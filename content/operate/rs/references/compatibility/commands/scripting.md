@@ -15,7 +15,7 @@ The following table shows which Redis Open Source [scripting and function comman
 
 ## Function commands
 
-| Command | Redis<br />Enterprise | Redis<br />Cloud | Notes |
+| Command | Redis<br />Software | Redis<br />Cloud | Notes |
 |:--------|:----------------------|:-----------------|:------|
 | [FCALL]({{< relref "/commands/fcall" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 | [FCALL_RO]({{< relref "/commands/fcall_ro" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
@@ -31,7 +31,7 @@ The following table shows which Redis Open Source [scripting and function comman
 
 ## Scripting commands
 
-| Command | Redis<br />Enterprise | Redis<br />Cloud | Notes |
+| Command | Redis<br />Software | Redis<br />Cloud | Notes |
 |:--------|:----------------------|:-----------------|:------|
 | [EVAL]({{< relref "/commands/eval" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 | [EVAL_RO]({{< relref "/commands/eval_ro" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
