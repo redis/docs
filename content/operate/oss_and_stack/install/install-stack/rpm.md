@@ -10,7 +10,7 @@ title: Install Redis Open Source on Linux
 weight: 3
 ---
 
-## Install Redis Open Source on Red Hat, CentOS, or Rocky Linux using RPM
+## Install Redis Open Source on Rocky Linux 8 and 9, or AlmaLinux 8 and 9 using RPM
 
 Follow these steps to install Redis Open Source.
 

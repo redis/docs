@@ -33,7 +33,13 @@
                 {{ end }}
             </select>
         </div>
-        <div class="flex items-center gap-2">
+
+        {{/* BinderHub "Run in browser" link - shown conditionally based on current tab's binderId */}}
+        <div id="binder-link-container-{{ $id }}" class="flex items-center ml-4">
+            {{/* Link will be shown/hidden by JavaScript based on selected tab */}}
+        </div>
+
+        <div class="flex items-center gap-2 ml-2">
             <button tabindex="1" class="visibility-button text-neutral-400 hover:text-slate-100 bg-slate-600 h-7 w-7 p-1 rounded rounded-mx"
                     title="Toggle visibility" data-codetabs-id="{{ $id }}" onclick="toggleVisibleLinesForCodetabs(this)">
                 <svg class="visibility-icon-on" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor">
@@ -61,10 +67,13 @@
         {{ $pid := printf "panel_%s" $tid }}
         {{ $dataLang := replace (or (index $tab "language") "redis-cli") "C#" "dotnet" }}
         {{ $dataLang := replace $dataLang "." "-" }}
+        {{ $binderId := index $tab "binderId" }}
 
         <div class="panel {{ if ne $i 0 }}panel-hidden{{ end }} w-full mt-0 {{ if not $showFooter}}pb-8{{end}}"
              id="{{ $pid }}"
              data-lang="{{ $dataLang }}"
+             {{ if $binderId }}data-binder-id="{{ $binderId }}"{{ end }}
+             data-codetabs-id="{{ $id }}"
              role="tabpanel"
              tabindex="0"
              aria-labelledby="lang-select-{{ $id }}">
@@ -139,3 +148,62 @@ group-hover:opacity-100 group-hover:visible">
 
 </div>
 <!-- spellchecker-enable -->
+
+<script>
+(function() {
+    // Initialize BinderHub link for this codetabs instance
+    const codetabsId = '{{ $id }}';
+    const container = document.getElementById('binder-link-container-' + codetabsId);
+    const langSelect = document.getElementById('lang-select-' + codetabsId);
+
+    function updateBinderLink() {
+        if (!container || !langSelect) return;
+
+        // Get the currently selected tab index
+        const selectedOption = langSelect.options[langSelect.selectedIndex];
+        const tabIndex = parseInt(selectedOption.getAttribute('data-index'));
+
+        // Find the corresponding panel
+        const panels = document.querySelectorAll('[data-codetabs-id="' + codetabsId + '"].panel');
+        if (!panels || tabIndex >= panels.length) return;
+
+        const currentPanel = panels[tabIndex];
+        const binderId = currentPanel.getAttribute('data-binder-id');
+
+        // Clear existing content
+        container.innerHTML = '';
+
+        // If binderId exists, create and show the link
+        if (binderId) {
+            const binderUrl = 'https://redis.io/binder/v2/gh/redis/binder-launchers/' +
+                            binderId +
+                            '?urlpath=%2Fdoc%2Ftree%2Fdemo.ipynb';
+
+            const link = document.createElement('a');
+            link.href = binderUrl;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            link.className = 'text-xs text-slate-300 hover:text-white hover:underline whitespace-nowrap flex items-center gap-1';
+            link.title = 'Run this example in an interactive Jupyter notebook';
+
+            // Add Binder icon (rocket/play icon)
+            link.innerHTML = `
+                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+                <span>Run in browser</span>
+            `;
+
+            container.appendChild(link);
+        }
+    }
+
+    // Initialize on page load
+    updateBinderLink();
+
+    // Update when language changes (in addition to existing language change handler)
+    if (langSelect) {
+        langSelect.addEventListener('change', updateBinderLink);
+    }
+})();
+</script>

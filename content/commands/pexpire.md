@@ -108,13 +108,13 @@ TTL mykey
     tab2="RESP3" >}}
 
 One of the following:
-* [Integer reply](../../develop/reference/protocol-spec#integers): `0`if the timeout was not set. For example, if the key doesn't exist, or the operation skipped because of the provided arguments.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the timeout was not set. For example, if the key doesn't exist, or the operation skipped because of the provided arguments.
 * [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the timeout was set.
 
 -tab-sep-
 
 One of the following:
-* [Integer reply](../../develop/reference/protocol-spec#integers): `0`if the timeout was not set. For example, if the key doesn't exist, or the operation skipped because of the provided arguments.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the timeout was not set. For example, if the key doesn't exist, or the operation skipped because of the provided arguments.
 * [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the timeout was set.
 
 {{< /multitabs >}}
