@@ -12,10 +12,12 @@
       {{ partial "breadcrumbs" . }}
       <section class="prose w-full py-12">
         <h1 class="command-name">
-          {{- .Title }}
-          {{- if (isset .Params "deprecated_since") }}
-          <span class="text-base">(deprecated)</span>
-          {{- end }}
+          <div class="command-title-deprecated">
+            {{- .Title }}
+            {{- if (and (isset .Params "doc_flags") (in .Params.doc_flags "deprecated")) }}
+              <span class="deprecated-badge">Deprecated</span>
+            {{- end }}
+          </div>
         </h1>
         {{ if (isset .Params "deprecated_since") }}
           <div class="border-l-8 pl-4">
