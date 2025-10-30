@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 8.2, 8.0, 7.4, 7.2, 6.2
-description: Redis Open Source 8.0 and 8.2 features. Lag-aware availability API. Redis Flex GA. Metrics stream engine GA. Module management enhancements. New REST API fields for database and cluster configuration.
+description: Redis Software 8! The most performant, most secure, and richest version so far. Built for performance, scale, and reliability to power modern ML and AI applications.
 hideListLinks: true
 linkTitle: 8.0.x releases
 toc: 'true'
@@ -19,17 +19,25 @@ weight: 67
 
 This version offers:
 
-- Redis Open Source 8.0 and 8.2 features
+- Redis 8.0 and 8.2 feature set versions
+
+- Performance improvements and memory reduction
+
+- New vector set data structure
+
+- Redis Flex revamped engine
+
+- Redis Query Engine upgrades
 
 - Lag-aware availability API
 
-- Redis Flex GA
+- Metrics stream engine (General Availability)
 
-- Metrics stream engine GA
-
-- Module management enhancements
+- Simplified module management
 
 - New REST API fields for database and cluster configuration
+
+- Customer-managed certificates for internode encryption
 
 ## Detailed release notes
 
