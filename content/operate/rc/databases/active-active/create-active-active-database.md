@@ -7,12 +7,13 @@ categories:
 - rc
 description: Shows how to create an Active-Active database
 linkTitle: Create Active-Active database
-weight: 20
+weight: 5
 aliases: 
     - /operate/rc/subscriptions/create-active-active-subscription
+    - /operate/rc/databases/create-database/create-active-active-database
 ---
 
-Active-Active databases store data across multiple regions and availability zones.  This improves scalability, performance, and availability, especially when compared to standalone databases. See [Active-Active Redis]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}) for more information.
+Active-Active databases store data across multiple regions and availability zones.  This improves scalability, performance, and availability, especially when compared to standalone databases. See [Active-Active Redis]({{< relref "/operate/rc/databases/active-active" >}}) for more information.
 
 To deploy Active-Active databases in Redis Cloud, you need a Redis Cloud Pro plan that enables Active-Active Redis and defines the regions for each copy of your databases.
 
@@ -85,20 +86,20 @@ You can use a region's Remove button to remove it from the list.
 {{<image filename="images/rc/create-sub-active-active-cidr.png" width="75%" alt="Each region needs a unique CIDR address block to communicate securely with other instances." >}}
 
 In the **Advanced options** section, you can:
+
+- Choose to deploy your Active-Active database to an existing Cloud Account, if [Redis Cloud Bring your own Cloud]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud" >}}) is enabled.
     
 - Define CIDR addresses for each region in the **VPC configuration** section.
 
-    Every CIDR should be unique to properly route network traffic between each Active-Active database instance and your consumer VPCs. The CIDR block regions should _not_ overlap between the Redis server and your app consumer VPCs. In addition, CIDR blocks should not overlap between cluster instances. 
-
-    When all **Deployment CIDR** regions display a green checkmark, you're ready to continue.  
-
-    {{<image filename="images/rc/icon-cidr-address-ok.png" width="30px" alt="Green checkmarks indicate valid CIDR address values." >}}
-
-    Red exclamation marks indicate error conditions; the tooltip provides additional details.
-
-    {{<image filename="images/rc/icon-cidr-address-error.png" width="30px" alt="Red exclamation points indicate CIDR address problems." >}} 
-
+    {{< embed-md "rc-aa-cidr.md" >}}
+    
+    If you chose to deploy your Active-Active database to an existing [Bring your own Cloud]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud" >}}) account, you can also define the VPC ID for each region. Select **In existing VPC** and the set the VPC ID for each selected region.
+    
 - Set your [maintenance]({{< relref "/operate/rc/subscriptions/maintenance" >}}) settings in the **Maintenance windows** section. Select **Manual** if you want to set [manual maintenance windows]({{< relref "/operate/rc/subscriptions/maintenance/set-maintenance-windows" >}}).
+
+{{< note >}}
+Multi-AZ replication is required for all Active-Active databases.
+{{< /note >}}
 
 When finished, choose **Continue** to determine your size requirements.
 
@@ -317,8 +318,8 @@ Use the **Database list** to check the status of your databases.
 ## More info
 
 - [Create a Pro database with a new subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}})
-- [Active-Active Redis]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}})
-- [Develop applications with Active-Active databases]({{< relref "/operate/rs/databases/active-active/develop/_index.md" >}})
+- [Active-Active Redis]({{< relref "/operate/rc/databases/active-active" >}})
+- [Develop applications with Active-Active databases]({{< relref "/operate/rc/databases/active-active/develop/_index.md" >}})
 - Database [memory limit]({{< relref "/operate/rc/databases/configuration/sizing#dataset-size" >}})
 - Redis Cloud [subscription plans]({{< relref "/operate/rc/subscriptions/" >}})
 - [Redis Cloud pricing](https://redis.io/pricing/#monthly)

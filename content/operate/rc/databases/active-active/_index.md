@@ -1,17 +1,21 @@
 ---
 Title: Active-Active Redis
+linkTitle: Active-Active
 alwaysopen: false
 categories:
 - docs
 - operate
 - rc
 description: Overview of the Active-Active feature for Redis Cloud.
-weight: 5
+weight: 43
+hideListLinks: true
+aliases: 
+  - /operate/rc/databases/configuration/active-active-redis/
 ---
 
 Active-Active databases store data across multiple regions and availability zones.  This improves scalability, performance, and availability, especially when compared to standalone databases.
 
-To create Active-Active databases, you need a Redis Cloud Pro subscription that enables Active-Active Redis and defines the regions for each copy of your databases. See [Create an Active-Active database]({{< relref "/operate/rc/databases/create-database/create-active-active-database" >}}) for instructions.
+To create Active-Active databases, you need a Redis Cloud Pro subscription that enables Active-Active Redis and defines the regions for each copy of your databases. See [Create an Active-Active database]({{< relref "/operate/rc/databases/active-active/create-active-active-database" >}}) for instructions.
 
 Active-Active databases are distributed across multiple regions (geo-distribution).  This improves performance by reducing latency for nearby users and improves availability by protecting against data loss in case of network or resource failure.
 
@@ -19,7 +23,7 @@ Active-Active databases allow read and write operations in each copy.  Each copy
 
 Active-Active databases use TLS to synchronize data between regions.  You can also use TLS to encrypt client connections.  See [Transport Layer Security (TLS)]({{< relref "/operate/rc/security/database-security/tls-ssl.md" >}}) for more information.
 
-When developing for Active-Active databases, you need to consider some important differences. See [Develop applications with Active-Active databases]({{< relref "/operate/rs/databases/active-active/develop/_index.md" >}}) for related information.
+When developing for Active-Active databases, you need to consider some important differences. See [Develop applications with Active-Active databases]({{< relref "/operate/rc/databases/active-active/develop/_index.md" >}}) for related information.
 
 {{< note >}}
 Active-Active subscriptions on Redis Cloud are limited to a maximum of 10 regions and 10 databases.

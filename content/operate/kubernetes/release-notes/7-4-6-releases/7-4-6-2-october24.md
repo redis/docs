@@ -7,7 +7,7 @@ categories:
 description: This is a maintenance release with a new version of Redis Enterprise Software 7.4.6.
 linkTitle: 7.4.6-2 (October 2024)
 title: Redis Enterprise for Kubernetes 7.4.6-2 (October 2024) release notes
-weight: 4
+weight: 6
 ---
 
 ## Highlights
