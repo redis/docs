@@ -43,35 +43,28 @@ Starting with Redis 8.2 (October 2025):
 
 ## Version support models
 
-Redis Cloud uses two version support models.
+Redis Cloud follows the [Redis Open Source version support models]({{< relref "/operate/oss_and_stack/install/version-policy" >}}):
 
-### LTS (Long-Term Support)
+- [**Long-Term Support (LTS)**]({{< relref "/operate/oss_and_stack/install/version-policy#lts" >}}): 5 years of extended support, including security updates and major bug fixes
+- [**Short-Term Support (STS)**]({{< relref "/operate/oss_and_stack/install/version-policy#sts" >}}): 6 months of support after release of the next minor version, including security updates and bug fixes
 
-LTS versions are the final minor release of each major version and receive **5 years of extended support**. These versions are ideal for:
+When a version reaches [End-of-Life (EOL)]({{< relref "/operate/oss_and_stack/install/version-policy#eol" >}}), Redis Cloud will automatically upgrade your database to the latest minor version during maintenance windows if you do not manually upgrade before EOL.
 
-- Production environments requiring stability
-- Applications with infrequent upgrade cycles
-- Enterprise deployments with strict change management
+## Supported versions
 
-**Current LTS versions**: Redis 6.2, 7.2, 7.4
+{{< note >}}
+**We strongly recommend using the latest available version** to benefit from the newest features, performance improvements, and security updates.
+{{< /note >}}
 
-### STS (Short-Term Support)
+| Version | Type | Status | EOL Date | Plans |
+|---------|------|--------|----------|-------|
+| **Redis 8.2** | STS | GA | TBD | Essentials, Pro |
+| **Redis 8.0** | STS | *Preview | May 1, 2026 | Essentials |
+| **Redis 7.4** | LTS | GA | December 1, 2029 | Essentials, Pro |
+| **Redis 7.2** | LTS | GA | December 1, 2029 | Essentials, Pro |
+| **Redis 6.2** | LTS | GA | 2026 | Pro |
 
-STS versions include all minor releases except the final one in each major version. These versions:
-
-- Receive support for **6 months** after the next minor release
-- Provide access to the latest features and improvements
-- Are automatically upgraded when they reach end-of-life
-
-**Current STS versions**: Redis 8.0, 8.2
-
-### End-of-life (EOL)
-
-When a version reaches EOL:
-
-- Technical support is no longer provided
-- Security updates are not available
-- All databases are automatically updated to the next supported version during maintenance windows
+*Redis 8.0 is not available for new databases.
 
 ## Version selection
 
@@ -91,22 +84,6 @@ For existing databases:
 | Manual upgrades | Yes | Yes |
 | [Automatic upgrade time]({{< relref "/operate/rc/subscriptions/maintenance" >}}) | Standard - between 12 AM and 6 AM region time | Configurable - [Set maintenance windows]({{< relref "/operate/rc/subscriptions/maintenance/set-maintenance-windows" >}}) |
 
-## Supported versions
-
-{{< note >}}
-**We strongly recommend using the latest available version** to benefit from the newest features, performance improvements, and security updates.
-{{< /note >}}
-
-| Version | Type | Status | EOL Date | Plans |
-|---------|------|--------|----------|-------|
-| **Redis 8.2** | STS | GA | TBD | Essentials, Pro |
-| **Redis 8.0** | STS | *Preview | May 1, 2026 | Essentials |
-| **Redis 7.4** | LTS | GA | December 1, 2029 | Essentials, Pro |
-| **Redis 7.2** | LTS | GA | December 1, 2029 | Essentials, Pro |
-| **Redis 6.2** | LTS | GA | 2026 | Pro |
-
-*Redis 8.0 is not available for new databases.
-
 ## Manual upgrades
 
 You can update your databases to a later version if by selecting **More actions** > **Version upgrade** from the database list or database page.
@@ -125,7 +102,7 @@ See [Upgrade database version]({{< relref "/operate/rc/databases/version-managem
 Pro users can opt out of minor version auto-upgrades for Redis 8+. If disabled and a version reaches EOL, Redis Cloud will force upgrade during maintenance windows. Major upgrades always require your action.
 
 **What if I don't upgrade before EOL?**
-Redis Cloud will force upgrade after notifications to ensure security and support.
+Redis Cloud will force upgrade after notifications during your next maintenance window to ensure security and support.
 
 **Can I downgrade?**
 Automatically reverting to a previous Redis version is not supported on Redis Cloud. See [Manually revert upgrade]({{< relref "/operate/rc/databases/version-management/upgrade-version#manually-revert-upgrade" >}}) for more details.
