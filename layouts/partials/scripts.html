@@ -1,10 +1,102 @@
-<!-- Code for version selectors -->
+<!-- Code for copy to clipboard button -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
 
+        // Add copy buttons to code blocks (but skip those inside codetabs)
+        document.querySelectorAll('div.highlight').forEach(block => {
+            // Skip if this code block is inside a codetabs container
+            if (block.closest('.codetabs')) {
+                return;
+            }
+                // Create a wrapper for the button and message
+                const wrapper = document.createElement('div');
+
+                if (block.parentElement.classList.contains("expand-content")) {
+                    wrapper.style = 'position:absolute;top:24px;right:20px;z-index:1;display:flex;align-items:center;gap:6px;';
+                } else {
+                    wrapper.style = 'position:absolute;top:24px;right:10px;z-index:1;display:flex;align-items:center;gap:6px;';
+                }
+
+                // Check if this is a YAML embed with download functionality
+                const yamlContainer = block.closest('.yaml-embed-container');
+                const downloadFilename = yamlContainer ? yamlContainer.getAttribute('data-download-filename') : null;
+
+                // Create the copy button
+                const button = document.createElement('button');
+                button.className = 'clipboard-button text-neutral-400 hover:text-slate-100 bg-slate-600 relative h-8 w-8 p-1 rounded rounded-mx';
+                button.title = 'Copy to clipboard';
+                button.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor">
+                        <path d="M9 43.95q-1.2 0-2.1-.9-.9-.9-.9-2.1V10.8h3v30.15h23.7v3Zm6-6q-1.2 0-2.1-.9-.9-.9-.9-2.1v-28q0-1.2.9-2.1.9-.9 2.1-.9h22q1.2 0 2.1.9.9.9.9 2.1v28q0 1.2-.9 2.1-.9.9-2.1.9Zm0-3h22v-28H15v28Zm0 0v-28 28Z"></path>
+                    </svg>
+                `;
+
+                // Create the tooltip container
+                const tooltipContainer = document.createElement('div');
+                tooltipContainer.className = 'tooltip relative inline-block';
+
+                // Create the tooltip span
+                const tooltip = document.createElement('span');
+                tooltip.className = 'tooltiptext hidden bg-slate-200 rounded rounded-mx text-slate-800 text-center text-xs p-1 absolute';
+                tooltip.style.bottom = '-0.6rem';
+                tooltip.style.left = '-5.5rem';
+                tooltip.textContent = 'Copied!';
+
+                tooltipContainer.appendChild(tooltip);
+                button.appendChild(tooltipContainer);
+
+                // Handle copy logic
+                button.addEventListener('click', () => {
+                    const lines = block.querySelectorAll('span.cl');
+                    const text = Array.from(lines).map(line => line.textContent).join('');
+
+                    navigator.clipboard.writeText(text).then(() => {
+                        tooltip.style.display = 'block';
+                        setTimeout(() => {
+                            tooltip.style.display = 'none';
+                        }, 2000);
+                    }).catch(err => {
+                        console.error("Copy failed", err);
+                    });
+                });
+
+                // Append copy button
+                wrapper.appendChild(button);
+
+                // Add download button if this is a YAML embed
+                if (downloadFilename) {
+                    const downloadButton = document.createElement('button');
+                    downloadButton.className = 'download-yaml-btn text-neutral-400 hover:text-slate-100 bg-slate-600 h-8 w-8 p-1 rounded rounded-mx';
+                    downloadButton.title = 'Download YAML file';
+                    downloadButton.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 16l-6-6h4V4h4v6h4l-6 6zm-6 2h12v2H6v-2z"/>
+                        </svg>
+                    `;
+
+                    downloadButton.addEventListener('click', () => {
+                        if (typeof downloadYaml === 'function') {
+                            downloadYaml(downloadFilename, downloadButton);
+                        }
+                    });
+
+                    wrapper.appendChild(downloadButton);
+                }
+
+            block.style.position = 'relative';
+            block.appendChild(wrapper);
+        });
+    });
+</script>
+
+
+<!-- Code for version selectors -->
 <script>
     window.onload = function(){
         var currentUrl = window.location.href
         const regex_kubernetes = new RegExp('/docs/(latest|staging\/.+)/operate/kubernetes/.*')
         const regex_rs = new RegExp('/docs/(latest|staging\/.+)/operate/rs/.*')
+        const regex_redisvl = new RegExp('/docs/(latest|staging\/.+)/develop/ai/redisvl/.*')
 
         if (regex_kubernetes.test(currentUrl)){
             // unhide kubernetes version selector
@@ -13,6 +105,10 @@
         else if (regex_rs.test(currentUrl)) {
             // unhide rs version selector
             document.getElementById( 'versionSelectorRs' ).style.display = '';
+        }
+        else if (regex_redisvl.test(currentUrl)) {
+            // unhide redisvl version selector
+            document.getElementById( 'versionSelectorRedisvl' ).style.display = '';
         }
     }
 
@@ -48,7 +144,13 @@
         var versionsDropdown = document.getElementById("versionDropdown" + product).children
         var versionsDropdownLength = versionsDropdown.length
 
-        const regex = new RegExp(String.raw`^.+\/operate\/${productLowercase}`,"g");
+        let regex;
+        if (productLowercase == "kubernetes" || productLowercase == "rs") {
+            regex = new RegExp(String.raw`^.+\/operate\/${productLowercase}`,"g");
+        }
+        else {
+            regex = new RegExp(String.raw`^.+\/develop\/ai\/${productLowercase}`,"g");
+        }
         const versionRegex = /^(\/\d+\.\d+(?:\.\d+)?(?:\-\d+)?)?/g;
 
         // for each version in dropdown, edit its href link
@@ -79,3 +181,6 @@
         }
     }
 </script>
+
+<!-- Generic tabs functionality -->
+<script src="{{ "js/generic-tabs.js" | relURL }}"></script>

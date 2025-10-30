@@ -58,7 +58,9 @@ Several questions appear during installation:
 - **User already exists** - `The user 'redislabs' already exists, which may lead to problems if it wasn't configured correctly. Would you like to proceed with the installation? (Y/N)?`
 
 - **Group already exists** - `The group 'redislabs' already exists, which may lead to problems if it wasn't configured correctly. Would you like to proceed with the installation? (Y/N)?`
- 
+
+- **Update PATH** - `Add Redis-Enterprise paths to $PATH variable (recommended) [Y/N]?`
+
 ## Answer install questions automatically
 
 To perform a silent (or automated) install, answer the questions when you start the [install]({{< relref "/operate/rs/installing-upgrading/install/install-on-linux" >}}).  
@@ -77,9 +79,20 @@ Use an answer file to manage your response:
 
 1. Create a text file to serve as an answer file.
 
-    The answer file can contain any of the parameters for the installation questions and indicate the answer for each question with `yes` or `no`.
+    The answer file can contain any of the following installation question parameters. If a parameter is not included in the file, the installation script will ask for your answer.
 
-    For example:
+    | Parameter | Values | Description |
+    |-----------|--------|-------------|
+    | `firewall` | `yes`<br />`no` | Configure firewall and open required Redis ports. |
+    | `ignore_existing_osuser_osgroup` | `yes`<br />`no` | Proceed if redislabs user/group already exists. |
+    | `ignore_master_version` | `yes`<br />`no` | Continue the upgrade even if the primary node isn't upgraded. If `no`, stops installation if the primary node hasn't been upgraded. |
+    | `ignore_swap` | `yes`<br />`no` | Continue even if swap is enabled. If `no`, stops installation if swap is enabled. |
+    | `ntp` | `yes`<br />`no` | Configure NTP for time synchronization. |
+    | `rlcheck` | `yes`<br />`no` | Run `rlcheck` after installation to validate the system. |
+    | `update_env_path` | `yes`<br />`no` | Add Redis Enterprise Software paths to the PATH environment variable. |
+    | `systune` | `yes`<br />`no` | Automatically tune system performance (CPU, sysctl). If `yes`, answers `yes` to all system tuning questions. |
+
+    Example answer file:
 
     ```sh
     ignore_swap=no
@@ -88,9 +101,9 @@ Use an answer file to manage your response:
     firewall=no
     rlcheck=yes
     ignore_existing_osuser_osgroup=no
+    update_env_path=no
+    ignore_master_version=no
     ```
-
-    If you use `systune=yes`, the installation answers `yes` to all of the system tuning questions.
 
 1. Run the [installation script]({{< relref "/operate/rs/installing-upgrading/install/install-script" >}}) with the `-c` command-line option and add the path to the answer file.
 

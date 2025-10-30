@@ -96,11 +96,11 @@ for two reasons:
 
 The goal of the authentication layer is to optionally provide a layer of
 redundancy. If firewalling or any other system implemented to protect Redis
-from external attackers fail, an external client will still not be able to
+from external attackers fails, an external client will still not be able to
 access the Redis instance without knowledge of the authentication password.
 
 Since the [`AUTH`](/commands/auth) command, like every other Redis command, is sent unencrypted, it
-does not protect against an attacker that has enough access to the network to
+does not protect against an attacker who has enough access to the network to
 perform eavesdropping.
 
 ## TLS support
@@ -109,6 +109,11 @@ Redis has optional support for TLS on all communication channels, including
 client connections, replication links, and the Redis Cluster bus protocol.
 
 ## Disallowing specific commands
+
+{{< warning >}}
+The method is deprecated and may be removed in future versions.
+Instead, use [ACL rules](/operate/oss_and_stack/management/security/acl/) to disallow specific commands.
+{{< /warning >}}
 
 It is possible to disallow commands in Redis or to rename them as an unguessable
 name, so that normal clients are limited to a specified set of commands.
@@ -137,7 +142,7 @@ algorithm complexity on data structures implemented inside Redis internals.
 An attacker could supply, via a web form, a set of strings that
 are known to hash to the same bucket in a hash table in order to turn the
 O(1) expected time (the average time) to the O(N) worst case. This can consume more
-CPU than expected and ultimately cause a Denial of Service.
+CPU than expected and ultimately causes a Denial of Service.
 
 To prevent this specific attack, Redis uses a per-execution, pseudo-random
 seed to the hash function.

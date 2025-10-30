@@ -19,23 +19,27 @@ Redis Cloud supports databases on the following cloud providers:
 
 ## Amazon Web Services
 
-Redis Cloud supports databases in the following Amazon Web Services (AWS) regions. 
+Redis Cloud supports databases in the following Amazon Web Services (AWS) regions.
 
 Redis Cloud Pro databases on AWS support [VPC Peering]({{< relref "/operate/rc/security/vpc-peering#aws-vpc-peering" >}}) and [Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}).
 
-#### Americas
+{{< multitabs id="aws-regions"
+    tab1="Americas"
+    tab2="Europe"
+    tab3="Asia Pacific"
+    tab4="Middle East and Africa" >}}
 
 | Region ID      | Location                 | Redis Cloud Pro | Redis Cloud Essentials |
 |:---------------|:-------------------------|:----------------|:-----------------------|
 | `ca-central-1` | Montreal, Canada         | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| `mx-central-1` | Central Mexico | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `sa-east-1`    | Sao Paulo, Brazil        | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `us-east-1`    | Northern Virginia, USA   | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `us-east-2`    | Ohio, USA                | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `us-west-1`    | Northern California, USA | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `us-west-2`    | Oregon, USA              | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 
-
-#### Europe
+-tab-sep-
 
 | Region ID | Location | Redis Cloud Pro | Redis Cloud Essentials |
 |---|---|---|---|
@@ -48,21 +52,24 @@ Redis Cloud Pro databases on AWS support [VPC Peering]({{< relref "/operate/rc/s
 | `eu-west-2` | London, UK | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `eu-west-3` | Paris, France | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 
-#### Asia Pacific
+-tab-sep-
 
 | Region ID        | Location             | Redis Cloud Pro | Redis Cloud Essentials |
 |:-----------------|:---------------------|:----------------|:-----------------------|
 | `ap-east-1`      | Hong Kong, China     | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `ap-northeast-1` | Tokyo, Japan         | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `ap-northeast-2` | Seoul, South Korea   | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| `ap-northeast-3` | Osaka, Japan         | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `ap-south-1`     | Mumbai, India        | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `ap-south-2`     | Hyderabad, India     | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `ap-southeast-1` | Singapore            | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `ap-southeast-2` | Sydney, Australia    | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `ap-southeast-3` | Jakarta, Indonesia   | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `ap-southeast-4` | Melbourne, Australia | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
+| `ap-southeast-5` | Malaysia | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
+| `ap-southeast-7` | Thailand | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 
-#### Middle East and Africa
+-tab-sep-
 
 | Region ID      | Location                | Redis Cloud Pro | Redis Cloud Essentials |
 |:---------------|:------------------------|:----------------|:-----------------------|
@@ -71,13 +78,19 @@ Redis Cloud Pro databases on AWS support [VPC Peering]({{< relref "/operate/rc/s
 | `me-central-1` | UAE                     | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `me-south-1`   | Bahrain                 | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 
+{{< /multitabs >}}
+
 ## Google Cloud
 
-Redis Cloud supports databases in the following Google Cloud regions. 
+Redis Cloud supports databases in the following Google Cloud regions.
 
 Redis Cloud Pro databases on Google Cloud support [VPC Peering]({{< relref "/operate/rc/security/vpc-peering#gcp-vpc-peering" >}}) and [Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}}).
 
-#### Americas
+{{< multitabs id="gcp-regions"
+    tab1="Americas"
+    tab2="Europe"
+    tab3="Asia Pacific"
+    tab4="Middle East and Africa" >}}
 
 | Region ID                 | Location            | Redis Cloud Pro | Redis Cloud Essentials |
 |:--------------------------|:--------------------|:----------------|:-----------------------|
@@ -95,7 +108,7 @@ Redis Cloud Pro databases on Google Cloud support [VPC Peering]({{< relref "/ope
 | `us-west3`                | Salt Lake City, USA | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `us-west4`                | Las Vegas, USA      | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 
-#### Europe
+-tab-sep-
 
 | Region ID           | Location            | Redis Cloud Pro | Redis Cloud Essentials |
 |:--------------------|:--------------------|:----------------|:-----------------------|
@@ -112,7 +125,7 @@ Redis Cloud Pro databases on Google Cloud support [VPC Peering]({{< relref "/ope
 | `europe-west10`     | Berlin, Germany     | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `europe-west12`     | Turin, Italy        | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 
-#### Asia Pacific
+-tab-sep-
 
 | Region ID              | Location             | Redis Cloud Pro | Redis Cloud Essentials |
 |:-----------------------|:---------------------|:----------------|:-----------------------|
@@ -128,7 +141,7 @@ Redis Cloud Pro databases on Google Cloud support [VPC Peering]({{< relref "/ope
 | `australia-southeast1` | Sydney, Australia    | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `australia-southeast2` | Melbourne, Australia | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 
-#### Middle East and Africa
+-tab-sep-
 
 | Region ID       | Location                   | Redis Cloud Pro | Redis Cloud Essentials |
 |:----------------|:---------------------------|:----------------|:-----------------------|
@@ -136,6 +149,8 @@ Redis Cloud Pro databases on Google Cloud support [VPC Peering]({{< relref "/ope
 | `me-central1`   | Doha, Qatar                | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `me-central2`   | Dammam, Saudi Arabia       | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `me-west1`      | Tel Aviv, Israel           | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
+
+{{< /multitabs >}}
 
 ## Microsoft Azure
 
@@ -147,7 +162,7 @@ Redis Cloud Essentials is available on the following Microsoft Azure regions:
 | `west-us` | California, USA |
 
 {{< note >}}
-Redis Cloud Pro is available on Azure through Azure Cache for Redis Enterprise. See [Azure Cache for Redis pricing](https://azure.microsoft.com/en-us/pricing/details/cache/) to view the list of Azure regions that support Azure Cache for Redis Enterprise.
+Redis Cloud Pro is available on Azure through [Azure Managed Redis](https://azure.microsoft.com/en-us/products/managed-redis/). See [Azure Managed Redis pricing](https://azure.microsoft.com/en-us/pricing/details/managed-redis/) to view the list of Azure regions that support Azure Managed Redis.
 {{< /note >}}
 
 

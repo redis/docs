@@ -12,17 +12,17 @@ categories:
 description: Learn how to index and query vector embeddings with Redis
 linkTitle: Index and query vectors
 title: Index and query vectors
-weight: 3
+weight: 40
 ---
 
-[Redis Query Engine]({{< relref "/develop/interact/search-and-query" >}})
+[Redis Query Engine]({{< relref "/develop/ai/search-and-query" >}})
 lets you index vector fields in [hash]({{< relref "/develop/data-types/hashes" >}})
 or [JSON]({{< relref "/develop/data-types/json" >}}) objects (see the
-[Vectors]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}}) 
+[Vectors]({{< relref "/develop/ai/search-and-query/vectors" >}}) 
 reference page for more information).
 Among other things, vector fields can store *text embeddings*, which are AI-generated vector
 representations of the semantic information in pieces of text. The
-[vector distance]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors#distance-metrics" >}})
+[vector distance]({{< relref "/develop/ai/search-and-query/vectors#distance-metrics" >}})
 between two embeddings indicates how similar they are semantically. By comparing the
 similarity of an embedding generated from some query text with embeddings stored in hash
 or JSON fields, Redis can retrieve documents that closely match the query in terms
@@ -32,8 +32,18 @@ In the example below, we use [Microsoft.ML](https://dotnet.microsoft.com/en-us/a
 to generate the vector embeddings to store and index with Redis Query Engine.
 We also show how to adapt the code to use
 [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/embeddings?tabs=csharp)
-for the embeddings.
+for the embeddings. The code is first demonstrated for hash documents with a
+separate section to explain the
+[differences with JSON documents](#differences-with-json-documents).
 
+{{< note >}}From [v1.0.0](https://github.com/redis/NRedisStack/releases/tag/v1.0.0)
+onwards, `NRedisStack` uses query dialect 2 by default.
+Redis query engine methods such as [`FT().Search()`]({{< relref "/commands/ft.search" >}})
+will explicitly request this dialect, overriding the default set for the server.
+See
+[Query dialects]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}})
+for more information.
+{{< /note >}}
 ## Initialize
 
 The example is probably easiest to follow if you start with a new
@@ -88,7 +98,6 @@ If you are using the Azure embeddings, also add:
 using Azure;
 using Azure.AI.OpenAI;
 ```
-
 
 ## Define a function to obtain the embedding model
 
@@ -154,7 +163,9 @@ array as a `byte` string. To simplify this, we declare a
 then encodes the returned `float` array as a `byte` string. If you are
 storing your documents as JSON objects instead of hashes, then you should
 use the `float` array for the embedding directly, without first converting
-it to a `byte` string.
+it to a `byte` string (see [Differences with JSON documents](#differences-with-json-documents)
+below).
+
 
 ```csharp
 static byte[] GetEmbedding(
@@ -196,7 +207,7 @@ for more information.
 
 ```csharp
 private static byte[] GetEmbeddingFromAzure(string sentence){
-	Uri oaiEndpoint = new ("your-azure-openai-endpoint”);
+	Uri oaiEndpoint = new ("your-azure-openai-endpoint");
 	string oaiKey = "your-openai-key";
 
 	AzureKeyCredential credentials = new (oaiKey);
@@ -234,12 +245,12 @@ try { db.FT().DropIndex("vector_idx");} catch {}
 
 Next, create the index.
 The schema in the example below includes three fields: the text content to index, a
-[tag]({{< relref "/develop/interact/search-and-query/advanced-concepts/tags" >}})
+[tag]({{< relref "/develop/ai/search-and-query/advanced-concepts/tags" >}})
 field to represent the "genre" of the text, and the embedding vector generated from
 the original text content. The `embedding` field specifies
-[HNSW]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors#hnsw-index" >}}) 
+[HNSW]({{< relref "/develop/ai/search-and-query/vectors#hnsw-index" >}}) 
 indexing, the
-[L2]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors#distance-metrics" >}})
+[L2]({{< relref "/develop/ai/search-and-query/vectors#distance-metrics" >}})
 vector distance metric, `Float32` values to represent the vector's components,
 and 150 dimensions, as required by our embedding model.
 
@@ -328,10 +339,10 @@ sorted to rank them in order of ascending distance.
 
 The code below creates the query embedding using the `GetEmbedding()` method, as with
 the indexing, and passes it as a parameter when the query executes (see
-[Vector search]({{< relref "/develop/interact/search-and-query/query/vector-search" >}})
+[Vector search]({{< relref "/develop/ai/search-and-query/query/vector-search" >}})
 for more information about using query parameters with embeddings).
 The query is a
-[K nearest neighbors (KNN)]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors#knn-vector-search" >}})
+[K nearest neighbors (KNN)]({{< relref "/develop/ai/search-and-query/vectors#knn-vector-search" >}})
 search that sorts the results in order of vector distance from the query vector.
 
 (As before, replace `GetEmbedding()` with `GetEmbeddingFromAzure()` if you are using
@@ -414,9 +425,159 @@ As you would expect, the result for `doc:1` with the content text
 is the result that is most similar in meaning to the query text
 *"That is a happy person"*.
 
+## Differences with JSON documents
+
+Indexing JSON documents is similar to hash indexing, but there are some
+important differences. JSON allows much richer data modeling with nested fields, so
+you must supply a [path]({{< relref "/develop/data-types/json/path" >}}) in the schema
+to identify each field you want to index. However, you can declare a short alias for each
+of these paths to avoid typing it in full for
+every query. Also, you must specify `IndexType.JSON` with the `On()` option when you
+create the index.
+
+The code below shows these differences, but the index is otherwise very similar to
+the one created previously for hashes:
+
+```cs
+var jsonSchema = new Schema()
+    .AddTextField(new FieldName("$.content", "content"))
+    .AddTagField(new FieldName("$.genre", "genre"))
+    .AddVectorField(
+        new FieldName("$.embedding", "embedding"),
+        VectorField.VectorAlgo.HNSW,
+        new Dictionary<string, object>()
+        {
+            ["TYPE"] = "FLOAT32",
+            ["DIM"] = "150",
+            ["DISTANCE_METRIC"] = "L2"
+        }
+    );
+
+
+db.FT().Create(
+    "vector_json_idx",
+    new FTCreateParams()
+        .On(IndexDataType.JSON)
+        .Prefix("jdoc:"),
+    jsonSchema
+);
+```
+
+An important difference with JSON indexing is that the vectors are
+specified using arrays of `float` instead of binary strings. This requires a modification
+to the `GetEmbedding()` function declared in
+[Define a function to generate an embedding](#define-a-function-to-generate-an-embedding)
+above:
+
+```cs
+static float[] GetFloatEmbedding(
+    PredictionEngine<TextData, TransformedTextData> model, string sentence
+)
+{
+    // Call the prediction API to convert the text into embedding vector.
+    var data = new TextData()
+    {
+        Text = sentence
+    };
+
+    var prediction = model.Predict(data);
+
+    float[] floatArray = Array.ConvertAll(prediction.Features, x => (float)x);
+    return floatArray;
+}
+```
+
+You should make a similar modification to the `GetEmbeddingFromAzure()` function
+if you are using Azure OpenAI with JSON.
+
+Use [`JSON().set()`]({{< relref "/commands/json.set" >}}) to add the data
+instead of [`HashSet()`]({{< relref "/commands/hset" >}}):
+
+```cs
+var jSentence1 = "That is a very happy person";
+
+var jdoc1 = new {
+    content = jSentence1,
+    genre = "persons",
+    embedding = GetFloatEmbedding(predEngine, jSentence1),
+};
+
+db.JSON().Set("jdoc:1", "$", jdoc1);
+
+var jSentence2 = "That is a happy dog";
+
+var jdoc2 = new {
+    content = jSentence2,
+    genre = "pets",
+    embedding = GetFloatEmbedding(predEngine, jSentence2),
+};
+
+db.JSON().Set("jdoc:2", "$", jdoc2);
+
+var jSentence3 = "Today is a sunny day";
+
+var jdoc3 = new {
+    content = jSentence3,
+    genre = "weather",
+    embedding = GetFloatEmbedding(predEngine, jSentence3),
+};
+
+db.JSON().Set("jdoc:3", "$", jdoc3);
+```
+
+The query is almost identical to the one for the hash documents. This
+demonstrates how the right choice of aliases for the JSON paths can
+save you having to write complex queries. The only significant difference is
+that the `FieldName` objects created for the `ReturnFields()` option must
+include the JSON path for the field.
+
+An important thing to notice
+is that the vector parameter for the query is still specified as a
+binary string (using the `GetEmbedding()` method), even though the data for
+the `embedding` field of the JSON was specified as a `float` array.
+
+```cs
+var jRes = db.FT().Search("vector_json_idx",
+    new Query("*=>[KNN 3 @embedding $query_vec AS score]")
+    .AddParam("query_vec", GetEmbedding(predEngine, "That is a happy person"))
+    .ReturnFields(
+        new FieldName("$.content", "content"),
+        new FieldName("$.score", "score")
+    )
+    .SetSortBy("score")
+    .Dialect(2));
+
+foreach (var doc in jRes.Documents) {
+    var props = doc.GetProperties();
+    var propText = string.Join(
+        ", ",
+        props.Select(p => $"{p.Key}: '{p.Value}'")
+    );
+
+    Console.WriteLine(
+        $"ID: {doc.Id}, Properties: [\n  {propText}\n]"
+    );
+}
+```
+
+Apart from the `jdoc:` prefixes for the keys, the result from the JSON
+query is the same as for hash:
+
+```
+ID: jdoc:1, Properties: [
+  score: '4.30777168274', content: 'That is a very happy person'
+]
+ID: jdoc:2, Properties: [
+  score: '25.9752807617', content: 'That is a happy dog'
+]
+ID: jdoc:3, Properties: [
+  score: '68.8638000488', content: 'Today is a sunny day'
+]
+```
+
 ## Learn more
 
 See
-[Vector search]({{< relref "/develop/interact/search-and-query/query/vector-search" >}})
+[Vector search]({{< relref "/develop/ai/search-and-query/query/vector-search" >}})
 for more information about the indexing options, distance metrics, and query format
 for vectors.

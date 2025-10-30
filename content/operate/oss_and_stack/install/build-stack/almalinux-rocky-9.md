@@ -5,11 +5,11 @@ categories:
 - stack
 - oss
 linkTitle: AlmaLinux/Rocky 9.5
-title: Build and run Redis Community Edition 8 on AlmaLinux/Rocky Linux 9.5
+title: Build and run Redis Open Source on AlmaLinux/Rocky Linux 9.5
 weight: 10
 ---
 
-Follow the steps below to build and run Redis Community Edition 8 from its source code on a system running AlmaLinux and Rocky Linux 9.5.
+Follow the steps below to build and run Redis Open Source from its source code on a system running AlmaLinux and Rocky Linux 9.5.
 
 {{< note >}}
 Docker images used to produce these build notes:

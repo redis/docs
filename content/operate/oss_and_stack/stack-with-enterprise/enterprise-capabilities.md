@@ -1,21 +1,21 @@
 ---
-Title: Redis Enterprise and Redis Community Edition feature compatibility
+Title: Redis Enterprise and Redis Open Source feature compatibility
 alwaysopen: false
 categories:
 - docs
 - operate
 - stack
-description: Describes the Redis Enterprise features supported by each Redis Community Edition
+description: Describes the Redis Enterprise features supported by each Redis Open Source
   feature.
 linkTitle: Enterprise feature compatibility
 weight: 8
 ---
 
-This article describes compatibility between Redis Enterprise features and Redis Community Edition (CE) features. Version numbers indicate the minimum module version required for feature support.
+This article describes compatibility between Redis Enterprise features and Redis Open Source features. Version numbers indicate the minimum module version required for feature support.
 
-## Supported Redis CE features
+## Supported Redis Open Source features
 
-The following table shows which Redis CE features are supported by Redis Enterprise Software and Redis Cloud.
+The following table shows which Redis Open Source features are supported by Redis Enterprise Software and Redis Cloud.
 
 | Feature | Redis Enterprise<br/>Software | Redis Enterprise<br/>Cloud |
 |:-------|:-------------------------|:-----------------------|
@@ -30,7 +30,7 @@ The following table shows which Redis CE features are supported by Redis Enterpr
 
 ## Feature compatibility
 
-The following tables show Redis Enterprise feature support for each Redis CE feature. 
+The following tables show Redis Enterprise feature support for each Redis Open Source feature. 
 
 Version numbers indicate when the feature was first supported.  If you're using an earlier version than what's shown in the table, the feature is not supported.
 
@@ -49,6 +49,7 @@ For details about individual features, see the corresponding documentation.
 | Persistence (AOF)         | Yes (v1.4)     | Yes (v1.0)   |
 | Persistence (snapshot)    | Yes (v1.6)     | Yes (v1.0)   |
 | Auto Tiering [^4]         | Yes (v2.0)     | Yes (v1.0)   |
+| Redis Flex                | No             | Yes (v8.0)   |
 | Replica Of                | Yes (v1.6)[^2] | Yes (v1.0)   |
 | Reshard/rebalance         | Yes (v2.0)     | Yes (v1.0)   |
 
@@ -56,11 +57,11 @@ For details about individual features, see the corresponding documentation.
 
 [^2]: RediSearch version 1.6 supported Replica Of only between databases with the same number of shards.  This limitation was fixed in v2.0. 
 
-[^3]: You cannot use search and query with the [OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}).
+[^3]: You cannot use search and query with the [OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}). This limitation was fixed in Redis Enterprise Software version 8.0.
 
-[^4]: You currently cannot combine Auto Tiering with Redis CE features in Redis Cloud. 
+[^4]: You currently cannot combine Auto Tiering with Redis Open Source features in Redis Cloud. 
 
-[^5]: With the exception of JSON, you currently cannot combine Active-Active with Redis CE features in Redis Cloud.
+[^5]: With the exception of JSON, you currently cannot combine Active-Active with Redis Open Source features in Redis Cloud.
 
 [^6]: Although time series are compatible with Auto Tiering, the entire series either lives in RAM or on flash.
 
@@ -77,6 +78,7 @@ For details about individual features, see the corresponding documentation.
 | Persistence (AOF)        | Yes (v1.2)     | Yes (v2.0)   | Yes (v1.0) |
 | Persistence (snapshot)   | Yes (v1.2)     | Yes (v2.0)   | Yes (v1.0) |
 | Auto Tiering [^4]        | Yes (v1.6)[^6] | Yes (vTBD)   | Yes (vTBD) |
+| Redis Flex               | No               | Yes (v8.0)   | No |
 | Replica Of               | Yes (v1.2)     | Yes (v2.0)   | No         |
 | Reshard/rebalance        | Yes (v1.2)     | Yes (v2.0)   | Yes (v1.0) |
 
@@ -97,6 +99,7 @@ The following table briefly describes each feature shown in the earlier tables.
 | Persistence (AOF)       | Compatible with databases using AoF persistence |
 | Persistence (snapshot)  | Compatible with databases using snapshot persistence | 
 | Auto Tiering    | Compatible with Auto Tiering |
+| Redis Flex      | Compatible with Redis Flex |
 | Replica Of              | Compatible with Active-Passive replication | 
 | Reshard/rebalance       | Compatible with database scaling for clustered databases, which redistributes data between the new shards. |
 

@@ -289,11 +289,11 @@ The following is a list of command categories and their meanings:
 * **bitmap** - Data type: all bitmap related commands.
 * **blocking** - Potentially blocking the connection until released by another
   command.
-* **bloom** - Data type: all Bloom filter related commands.
-* **cms** - Data type: count-min sketch related commands.
+* **bloom** - Data type: all Bloom filter related commands. <sup>[1](#cmd-note-1)</sup>
+* **cms** - Data type: count-min sketch related commands. <sup>[1](#cmd-note-1)</sup>
 * **connection** - Commands affecting the connection or other connections.
   This includes [`AUTH`](/commands/auth), [`SELECT`](/commands/select), [`COMMAND`](/commands/command), [`CLIENT`](/commands/client), [`ECHO`](/commands/echo), [`PING`](/commands/ping), etc.
-* **cuckoo** - Data type: all Cuckoo filter related commands.
+* **cuckoo** - Data type: all Cuckoo filter related commands. <sup>[1](#cmd-note-1)</sup>
 * **dangerous** - Potentially dangerous commands (each should be considered with care for
   various reasons). This includes [`FLUSHALL`](/commands/flushall), [`MIGRATE`](/commands/migrate), [`RESTORE`](/commands/restore), [`SORT`](/commands/sort), [`KEYS`](/commands/keys),
   [`CLIENT`](/commands/client), [`DEBUG`](/commands/debug), [`INFO`](/commands/info), [`CONFIG`](/commands/config), [`SAVE`](/commands/save), [`REPLICAOF`](/commands/replicaof), etc.
@@ -301,29 +301,32 @@ The following is a list of command categories and their meanings:
 * **geo** - Data type: all geospatial index related commands.
 * **hash** - Data type: all hash related commands.
 * **hyperloglog** - Data type: all hyperloglog related commands.
-* **json** - Data type: all JSON related commands.
+* **json** - Data type: all JSON related commands. <sup>[1](#cmd-note-1)</sup>
 * **keyspace** - Writing or reading from keys, databases, or their metadata 
   in a type agnostic way. Includes [`DEL`](/commands/del), [`RESTORE`](/commands/restore), [`DUMP`](/commands/dump), [`RENAME`](/commands/rename), [`EXISTS`](/commands/exists), [`DBSIZE`](/commands/dbsize),
-  [`KEYS`](/commands/keys), [`EXPIRE`](/commands/expire), [`TTL`](/commands/ttl), [`FLUSHALL`](/commands/flushall), etc. Commands that may modify the keyspace,
+  [`KEYS`](/commands/keys), [`SCAN`](/commands/scan), [`EXPIRE`](/commands/expire), [`TTL`](/commands/ttl), [`FLUSHALL`](/commands/flushall), etc. Commands that may modify the keyspace,
   key, or metadata will also have the `write` category. Commands that only read
   the keyspace, key, or metadata will have the `read` category.
 * **list** - Data type: all list related commands.
 * **pubsub** - all pubsub related commands.
 * **read** - Reading from keys (values or metadata). Note that commands that don't interact with keys, will not have either `read` or `write`.
 * **scripting** - Scripting related.
-* **search** - All search related commands. Note that indexes can only be created/modified if their key prefixes are a superset of the keys to which a user has access. For example, a user with the key ACL pattern `h:*` can create an index with keys prefixed by `h:*` or `h:p*`, but not keys prefixed by `h*`, `k:*`, or `k*`, because these prefixes may involve keys to which the user has access.
+* **search** - All search related commands. Only ACL users with access to a superset of the key prefixes defined during index creation can create, modify, or read the index. For example, a user with the key ACL pattern `h:*` can create an index with keys prefixed by `h:*` or `h:p*`, but not keys prefixed by `h*`, `k:*`, or `k*`, because these prefixes may involve keys to which the user does not have access. <sup>[1](#cmd-note-1)</sup>
 * **set** - Data type: all set related commands.
 * **sortedset** - Data type: all sorted set related commands.
 * **slow** - All commands that are not `fast`.
 * **stream** - Data type: all stream related commands.
 * **string** - Data type: all string related commands.
-* **tdigest** - Data type: all t-digest related commands.
-* **timeseries** - Data type: all time series related commands.
-* **topk** - Data type: all top-k related commands.
+* **tdigest** - Data type: all t-digest related commands. <sup>[1](#cmd-note-1)</sup>
+* **timeseries** - Data type: all time series related commands. <sup>[1](#cmd-note-1)</sup>
+* **topk** - Data type: all top-k related commands. <sup>[1](#cmd-note-1)</sup>
 * **transaction** - [`WATCH`](/commands/watch) / [`MULTI`](/commands/multi) / [`EXEC`](/commands/exec) related commands.
 * **write** - Writing to keys (values or metadata). Note that commands that don't interact with keys, will not have either `read` or `write`.
 
-Redis can also show you a list of all categories and the exact commands each category includes using the Redis [`ACL CAT`](/commands/acl-cat) command. It can be used in two forms:
+1. <a name="cmd-note-1"></a> See the [Redis 8 release notes]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisos-8.0-release-notes/#potentially-breaking-changes-to-acls" >}}) for more information about these command categories, which may introduce breaking changes to your Redis deployments.
+
+NOTE: Redis can also show you a list of all categories and the exact commands each category includes using the Redis [`ACL CAT`](/commands/acl-cat) command. 
+It can be used in two forms:
 
     ACL CAT -- Will just list all the categories available
     ACL CAT <category-name> -- Will list all the commands inside the category

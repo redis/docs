@@ -10,13 +10,13 @@ description: The REAADB contains the field '.spec.globalConfigurations' to set t
 linkTitle: Global database secret
 weight: 50
 ---
-{{<note>}}This feature is supported for general availability in releases 6.4.2-6 and later. Some of these features were available as a preview in 6.4.2-4 and 6.4.2-5. Please upgrade to 6.4.2-6 for the full set of general availability features and bug fixes.{{</note>}}
+
 
 ## Set global database secret
 
 One of the fields available for `globalConfigurations` is `databaseSecretName` which can point to a secret containing the database password. To set the database secret name and sync the data to all participating clusters, follow the steps below.
 
-To edit other global configruations, see [global configuration]({{< relref "/operate/kubernetes/active-active/global-config.md" >}})
+To edit other global configruations, see [global configuration]({{< relref "/operate/kubernetes/active-active/global-config" >}})
 
 1. On an existing participating cluster, generate a YAML file containing the database secret with the database password.
 

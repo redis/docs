@@ -23,7 +23,7 @@ Before upgrading a cluster:
 
 - Verify access to [rlcheck]({{< relref "/operate/rs/7.4/references/cli-utilities/rlcheck/" >}}) and [rladmin]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/#use-the-rladmin-shell" >}}) commands
 
-- Verify that you meet the upgrade path requirements for your desired cluster version and review the relevant [release notes]({{< relref "/operate/rs/release-notes" >}}) for any preparation instructions.
+- Verify that you meet the upgrade path requirements for your desired cluster version and review the relevant [release notes](https://redis.io/docs/latest/operate/rs/release-notes/) for any preparation instructions.
 
 - Avoid changing the database configuration or performing other cluster management operations during the upgrade process, as this might cause unexpected results.
 

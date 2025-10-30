@@ -100,14 +100,8 @@
         </div>
       </form>
       
-      {{ $parent := .Page }}
       {{ $pages := (where .Site.Pages "Section" .Section).ByWeight }}
-      {{ $pages = (where $pages "Type" "!=" "search") }}
-      {{ $pages = (where $pages ".Params.hide_summary" "!=" true) }}
-      {{ $pages = (where $pages ".Parent" "!=" nil) }}
-      {{/* $pages = (where $pages "Parent.File.UniqueID" "==" $parent.File.UniqueID) */}}
       {{ $pages = (where $pages ".Params.hidden" "!=" true) }}
-      {{ $pages = (where $pages "Kind" "!=" "section") }}
       <div id="commands-grid" class="flex flex-col md:grid grid-cols-[repeat(auto-fit,minmax(18rem,1fr))] gap-4 text-redis-ink-900 mx-auto">
         {{ range $index, $page := $pages }}
           <article 
@@ -117,8 +111,20 @@
             data-version
             data-top
           >
-            <h1 class="truncate font-mono font-medium text-lg mb-1.5 px-6">
-              {{ .Title }}
+            <h1 class="font-mono font-medium text-lg mb-1.5 px-6">
+              <div class="command-title-deprecated">
+                <span class="truncate">{{ .Title }}</span>
+                {{ if (and (isset .Params "doc_flags") (in .Params.doc_flags "deprecated")) }}
+                  <div class="deprecated-tooltip-trigger">
+                    <span class="deprecated-badge">Deprecated</span>
+                    {{ if (isset .Params "replaced_by") }}
+                      <div class="deprecated-tooltip">
+                        Use {{ .Params.replaced_by | markdownify | plainify }} instead
+                      </div>
+                    {{ end }}
+                  </div>
+                {{ end }}
+              </div>
             </h1>
             <p class="px-6">
               {{ .Params.summary }}
@@ -132,7 +138,7 @@
         {{ end }}
       </div>
     </div>
-
     {{ partial "commands-nav.html" . }}
+    {{ partial "scripts.html" . }}
   </main>
 {{ end }}

@@ -25,9 +25,11 @@ Redis Insight is a powerful tool for visualizing and optimizing data in Redis, m
 
 ### Installation and release notes
 
-* See [these pages]({{< relref "/operate/redisinsight/install" >}}) for installation information.
-
-* [Redis Insight Release Notes](https://github.com/Redis-Insight/Redis-Insight/releases)
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
+  {{< image-card image="images/redisinsight-desktop.svg" alt="Install Redis Insight icon" title="Installation guides" url="/operate/redisinsight/install" description="See installation guides for all platforms" >}}
+  {{< image-card image="images/redisinsight-download.svg" alt="Download Redis Insight icon" title="Download Redis Insight" url="https://redis.io/downloads/#insight" description="Download Redis Insight directly from redis.io" >}}
+  {{< image-card image="images/redisinsight-aws.svg" alt="Release Notes Redis Insight icon" title="Release Notes" url="/develop/tools/insight/release-notes/" description="View Redis Insight release notes and changelog" >}}
+</div>
 
 ## Overview
 
@@ -35,7 +37,7 @@ Redis Insight is a powerful tool for visualizing and optimizing data in Redis, m
 
 * Automatically discover and add your local Redis databases (that use standalone connection type and do not require authentication).
 * Discover your databases in Redis Enterprise Cluster and databases with Flexible plans in Redis Cloud.
-* Use a form to enter your connection details and add any Redis database running anywhere (including Redis Community Edition Cluster or Sentinel).
+* Use a form to enter your connection details and add any Redis database running anywhere (including Redis Open Source cluster or sentinel).
 * Connect to a Redis Data Integration (RDI) management plane, create, test, and deploy RDI pipelines, and view RDI statistics.
 
 <img src="images/Databases.png">
@@ -67,7 +69,7 @@ Redis Insight includes Redis Data Integration (RDI) connectivity, which allows y
 ### Browser
 
 Browse, filter and visualize your key-value Redis data structures.
-* [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) support for lists, hashes, strings, sets, sorted sets, and streams 
+* [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) support for lists, hashes, strings, sets, sorted sets, and streams
 * CRUD support for [JSON]({{< relref "/develop/data-types/json/" >}})
 * Group keys according to their namespaces
 
@@ -85,7 +87,7 @@ Analyze every command sent to Redis in real time.
 
 ### CLI
 
-The CLI is accessible at any time within the application. 
+The CLI is accessible at any time within the application.
 * Employs integrated help to deliver intuitive assistance
 * Use together with a convenient command helper that lets you search and read on Redis commands.
 
@@ -94,8 +96,8 @@ The CLI is accessible at any time within the application.
 ### Workbench
 
 Workbench is an advanced command line interface with intelligent command auto-complete and complex data visualization support.
-* Built-in guides: you can conveniently discover Redis and Redis Community Edition features using the built-in guides.
-* Command auto-complete support for all features in Redis and Redis Community Edition.
+* Built-in guides: you can conveniently discover Redis and Redis Open Source features using the built-in guides.
+* Command auto-complete support for all features in Redis and Redis Open Source.
 * Advanced, schema-aware auto-complete for Redis Query Engine, which provides for faster query building with context-sensitive suggestions that recognize indexes, schemas, and fields based on your current query. Start typing any Redis Query Engine command in to try this feature. See below for an example of an in-progress `FT.SEARCH` command.
 
 <img src="images/Workbench_Search.png">
@@ -129,7 +131,7 @@ View and manage the list of consumer groups. See existing consumers in a given c
 
 ### Search features
 
-If you're using the indexing, querying, or full-text search features of Redis Community Edition, Redis Insight provides UI controls to quickly and conveniently run search queries against a preselected index. You can also create a secondary index of your data in a dedicated pane.
+If you're using the indexing, querying, or full-text search features of Redis Open Source, Redis Insight provides UI controls to quickly and conveniently run search queries against a preselected index. You can also create a secondary index of your data in a dedicated pane.
 
 <img src="images/search.png">
 
@@ -179,6 +181,6 @@ you can access the API from `http://localhost:5540/api/docs`.
 
 To provide your feedback, [open a ticket in our Redis Insight repository](https://github.com/Redis-Insight/Redis-Insight/issues/new).
 
-## License 
+## License
 
 Redis Insight is licensed under [SSPL](https://github.com/Redis-Insight/Redis-Insight/blob/main/LICENSE) license.

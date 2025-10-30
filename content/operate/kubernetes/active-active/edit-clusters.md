@@ -18,7 +18,7 @@ Use the following steps to add a participating cluster to an existing Redis Ente
 
 ### Prerequisites
 
-To prepare the Redis Enterprise cluster (REC) to participate in an Active-Active database, perform the following tasks from [Prepare participating clusters]({{< relref "/operate/kubernetes/active-active/prepare-clusters.md" >}}):
+To prepare the Redis Enterprise cluster (REC) to participate in an Active-Active database, perform the following tasks from [Prepare participating clusters]({{< relref "/operate/kubernetes/active-active/prepare-clusters" >}}):
 
 - Make sure the cluster meets the hardware and naming requirements.
 - Enable the Active-Active controllers.
@@ -75,7 +75,7 @@ To communicate with other clusters, all participating clusters need access to th
 
 1. From one of the existing participating clusters, create a `RedisEnterpriseRemoteCluster` (RERC) custom resource for the new participating cluster.
 
-    This example shows an RERC custom resource for an REC named `rec-boston` in the namespace `ns-massachusetts`. 
+    This example (rerc-logan) shows an RERC custom resource for an REC named `rec-boston` in the namespace `ns-massachusetts`. 
 
     ```yaml
     apiVersion: app.redislabs.com/v1alpha1

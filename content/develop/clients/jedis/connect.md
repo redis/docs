@@ -166,6 +166,11 @@ use client-side caching with a connection pool or a cluster connection in exactl
 {{< note >}}Client-side caching requires Jedis v5.2.0 or later.
 To maximize compatibility with all Redis products, client-side caching
 is supported by Redis v7.4 or later.
+
+The [Redis server products]({{< relref "/operate" >}}) support
+[opt-in/opt-out]({{< relref "/develop/reference/client-side-caching#opt-in-and-opt-out-caching" >}}) mode
+and [broadcasting mode]({{< relref "/develop/reference/client-side-caching#broadcasting-mode" >}})
+for CSC, but these modes are not currently implemented by Jedis.
 {{< /note >}}
 
 ```java
@@ -362,4 +367,54 @@ poolConfig.setTimeBetweenEvictionRuns(Duration.ofSeconds(1));
 // JedisPooled does all hard work on fetching and releasing connection to the pool
 // to prevent connection starvation
 JedisPooled jedis = new JedisPooled(poolConfig, "localhost", 6379);
+```
+
+### Retrying a command after a connection failure
+
+If a connection is lost before a command is completed, the command will fail with a `JedisConnectionException`. Although the connection pool manages the connections
+for you, you must request a new connection from the pool to retry the command.
+You would typically do this in a loop that makes several attempts to reconnect
+before aborting and reporting that the error isn't transient. The example below
+shows a retry loop that uses a simple
+[exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff)
+strategy:
+
+```java
+JedisPooled jedis = new JedisPooled(
+    new HostAndPort("localhost", 6379),
+    clientConfig,
+    poolConfig
+);
+
+// Set max retry attempts
+final int MAX_RETRIES = 5;
+
+// Example of retrying a command
+String key = "retry-example";
+String value = "success";
+
+int attempts = 0;
+boolean success = false;
+
+while (!success && attempts < MAX_RETRIES) {
+    try {
+        attempts++;
+        String result = jedis.set(key, value);
+        System.out.println("Command succeeded on attempt " + attempts + ": " + result);
+        success = true;
+    } catch (JedisConnectionException e) {
+        System.out.println("Connection failed on attempt " + attempts + ": " + e.getMessage());
+        if (attempts >= MAX_RETRIES) {
+            System.out.println("Max retries reached. Giving up.");
+            throw e;
+        }
+
+        // Wait before retrying
+        try {
+            Thread.sleep(500 * attempts); // Exponential backoff
+        } catch (InterruptedException ie) {
+            Thread.currentThread().interrupt();
+        }
+    }
+}
 ```

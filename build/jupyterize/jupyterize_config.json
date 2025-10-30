@@ -1,0 +1,113 @@
+{
+  "c#": {
+    "boilerplate": [
+      "#r \"nuget: NRedisStack\"",
+      "#r \"nuget: StackExchange.Redis\""
+    ],
+    "unwrap_patterns": [
+      {
+        "type": "class_single_line",
+        "pattern": "^\\s*public\\s+class\\s+\\w+.*\\{\\s*$",
+        "end_pattern": "^\\s*public\\s+class\\s+\\w+.*\\{\\s*$",
+        "keep_content": false,
+        "description": "Remove public class declaration with opening brace on same line"
+      },
+      {
+        "type": "class_opening",
+        "pattern": "^\\s*public\\s+class\\s+\\w+",
+        "end_pattern": "^\\s*\\{\\s*$",
+        "keep_content": false,
+        "description": "Remove public class declaration and opening brace on separate lines"
+      },
+      {
+        "type": "method_single_line",
+        "pattern": "^\\s*public\\s+void\\s+Run\\(\\).*\\{\\s*$",
+        "end_pattern": "^\\s*public\\s+void\\s+Run\\(\\).*\\{\\s*$",
+        "keep_content": false,
+        "description": "Remove public void Run() with opening brace on same line"
+      },
+      {
+        "type": "method_opening",
+        "pattern": "^\\s*public\\s+void\\s+Run\\(\\)",
+        "end_pattern": "^\\s*\\{\\s*$",
+        "keep_content": false,
+        "description": "Remove public void Run() declaration and opening brace on separate lines"
+      }
+    ]
+  },
+  "python": {
+    "boilerplate": [],
+    "unwrap_patterns": []
+  },
+  "node.js": {
+    "boilerplate": [],
+    "unwrap_patterns": []
+  },
+  "go": {
+    "boilerplate": [],
+    "unwrap_patterns": []
+  },
+  "java": {
+    "boilerplate": [],
+    "unwrap_patterns": [
+      {
+        "type": "test_annotation",
+        "pattern": "^\\s*@Test\\s*$",
+        "end_pattern": "^\\s*@Test\\s*$",
+        "keep_content": false,
+        "description": "Remove @Test annotation"
+      },
+      {
+        "type": "class_single_line",
+        "pattern": "^\\s*public\\s+class\\s+\\w+.*\\{\\s*$",
+        "end_pattern": "^\\s*public\\s+class\\s+\\w+.*\\{\\s*$",
+        "keep_content": false,
+        "description": "Remove public class declaration with opening brace on same line"
+      },
+      {
+        "type": "class_opening",
+        "pattern": "^\\s*public\\s+class\\s+\\w+",
+        "end_pattern": "^\\s*\\{\\s*$",
+        "keep_content": false,
+        "description": "Remove public class declaration and opening brace on separate lines"
+      },
+      {
+        "type": "method_single_line",
+        "pattern": "^\\s*public\\s+void\\s+run\\(\\).*\\{\\s*$",
+        "end_pattern": "^\\s*public\\s+void\\s+run\\(\\).*\\{\\s*$",
+        "keep_content": false,
+        "description": "Remove public void run() with opening brace on same line"
+      },
+      {
+        "type": "method_opening",
+        "pattern": "^\\s*public\\s+void\\s+run\\(\\)",
+        "end_pattern": "^\\s*\\{\\s*$",
+        "keep_content": false,
+        "description": "Remove public void run() declaration and opening brace on separate lines"
+      },
+      {
+        "type": "static_main_single_line",
+        "pattern": "^\\s*public\\s+static\\s+void\\s+main\\(.*\\).*\\{\\s*$",
+        "end_pattern": "^\\s*public\\s+static\\s+void\\s+main\\(.*\\).*\\{\\s*$",
+        "keep_content": false,
+        "description": "Remove public static void main() with opening brace on same line"
+      },
+      {
+        "type": "static_main_opening",
+        "pattern": "^\\s*public\\s+static\\s+void\\s+main\\(.*\\)",
+        "end_pattern": "^\\s*\\{\\s*$",
+        "keep_content": false,
+        "description": "Remove public static void main() declaration and opening brace on separate lines"
+      }
+    ]
+  },
+  "php": {
+    "boilerplate": [],
+    "unwrap_patterns": []
+  },
+  "rust": {
+    "boilerplate": [],
+    "unwrap_patterns": []
+  }
+}
+

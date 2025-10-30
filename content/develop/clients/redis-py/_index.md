@@ -20,7 +20,7 @@ weight: 1
 The sections below explain how to install `redis-py` and connect your application
 to a Redis database.
 
-`redis-py` requires a running [Redis Community Edition]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) server. See [Getting started]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis installation instructions.
+`redis-py` requires a running Redis server. See [here]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis Open Source installation instructions.
 
 You can also access Redis with an object-mapping client interface. See
 [RedisOM for Python]({{< relref "/integrate/redisom-for-python" >}})
@@ -48,35 +48,23 @@ pip install redis[hiredis]
 
 Connect to localhost on port 6379, set a value in Redis, and retrieve it. All responses are returned as bytes in Python. To receive decoded strings, set `decode_responses=True`. For more connection options, see [these examples](https://redis.readthedocs.io/en/stable/examples.html).
 
-```python
-r = redis.Redis(host='localhost', port=6379, decode_responses=True)
-```
+{{< clients-example set="landing" step="connect" lang_filter="Python" >}}
+{{< /clients-example >}}
 
 Store and retrieve a simple string.
 
-```python
-r.set('foo', 'bar')
-# True
-r.get('foo')
-# bar
-```
+{{< clients-example set="landing" step="set_get_string" lang_filter="Python" >}}
+{{< /clients-example >}}
 
 Store and retrieve a dict.
 
-```python
-r.hset('user-session:123', mapping={
-    'name': 'John',
-    "surname": 'Smith',
-    "company": 'Redis',
-    "age": 29
-})
-# True
+{{< clients-example set="landing" step="hash_operations" lang_filter="Python" >}}
+{{< /clients-example >}}
 
-r.hgetall('user-session:123')
-# {'surname': 'Smith', 'name': 'John', 'company': 'Redis', 'age': '29'}
-```
+Close the connection when you're done.
 
-
+{{< clients-example set="landing" step="close" lang_filter="Python" >}}
+{{< /clients-example >}}
 
 ## More information
 

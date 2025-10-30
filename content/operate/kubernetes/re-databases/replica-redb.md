@@ -11,7 +11,7 @@ weight: 42
 ---
 
 You can configure a replica of a database by creating an item in
-the [`replicaSources`](/operate/kubernetes/reference/redis_enterprise_database_api#specreplicasources) section of the RedisEnterpriseDatabase (REDB) custom resource.
+the [`replicaSources`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_database_api#specreplicasources" >}}) section of the RedisEnterpriseDatabase (REDB) custom resource.
 
 A secret must be created with the `stringData` section containing the replica source URI as follows:
 

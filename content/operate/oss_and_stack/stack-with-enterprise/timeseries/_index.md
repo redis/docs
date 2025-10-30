@@ -10,7 +10,7 @@ hideListLinks: true
 linkTitle: Time series
 weight: 50
 ---
-You can manage time series data in Redis Enterprise with Redis Community Edition (CE).
+You can manage time series data in Redis Enterprise with Redis Open Source.
 
 ## Features
 
@@ -30,7 +30,7 @@ Each sample is a tuple of the time and the value of 128 bits,
 
 ## Time series capabilities
 
-Redis CE provides a new data type that uses chunks of memory of fixed size for time series samples, indexed by the same Radix Tree implementation as Redis streams. With streams, you can create [a capped stream]({{< relref "/develop/data-types/streams/#capped-streams" >}}), effectively limiting the number of messages by count. For time series, you can apply a retention policy in milliseconds. This is better for time series use cases, because they are typically interested in the data during a given time window, rather than a fixed number of samples.
+Redis Open Source provides a new data type that uses chunks of memory of fixed size for time series samples, indexed by the same Radix Tree implementation as Redis streams. With streams, you can create [a capped stream]({{< relref "/develop/data-types/streams/#capped-streams" >}}), effectively limiting the number of messages by count. For time series, you can apply a retention policy in milliseconds. This is better for time series use cases, because they are typically interested in the data during a given time window, rather than a fixed number of samples.
 
 ### Downsampling/compaction
 
@@ -38,13 +38,13 @@ Redis CE provides a new data type that uses chunks of memory of fixed size for t
 | --- | --- |
 | {{< image filename="/images/rs/TimeSeries-downsampling1.png" >}} | {{< image filename="/images/rs/TimeSeries-downsampling2.png" >}} |
 
-If you want to keep all of your raw data points indefinitely, your data set grows linearly over time. However, if your use case allows you to have less fine-grained data further back in time, downsampling can be applied. This allows you to keep fewer historical data points by aggregating raw data for a given time window using a given aggregation function. Time series support [downsampling]({{< relref "develop/data-types/timeseries/quickstart#aggregation" >}}) with the following aggregations: avg, sum, min, max, range, count, first, and last.  
+If you want to keep all of your raw data points indefinitely, your data set grows linearly over time. However, if your use case allows you to have less fine-grained data further back in time, downsampling can be applied. This allows you to keep fewer historical data points by aggregating raw data for a given time window using a given aggregation function. Time series support [downsampling]({{< relref "develop/data-types/timeseries#aggregation" >}}) with the following aggregations: avg, sum, min, max, range, count, first, and last.  
 
 ### Secondary indexing
 
 When using Redis’ core data structures, you can only retrieve a time series by knowing the exact key holding the time series. Unfortunately, for many time series use cases (such as root cause analysis or monitoring), your application won’t know the exact key it’s looking for. These use cases typically want to query a set of time series that relate to each other in a couple of dimensions to extract the insight you need. You could create your own secondary index with core Redis data structures to help with this, but it would come with a high development cost and require you to manage edge cases to make sure the index is correct.
 
-Redis does this indexing for you based on `field value` pairs called [labels]({{< relref "develop/data-types/timeseries/quickstart#labels" >}}). You can add labels to each time series and use them to [filter]({{< relref "develop/data-types/timeseries/quickstart#filtering" >}}) at query time.
+Redis does this indexing for you based on `field value` pairs called [labels]({{< relref "develop/data-types/timeseries#create-a-time-series" >}}). You can add labels to each time series and use them to [filter]({{< relref "develop/data-types/timeseries#query-data-points" >}}) at query time.
 
 Here’s an example of creating a time series with two labels (sensor_id and area_id are the fields with values 2 and 32 respectively) and a retention window of 60,000 milliseconds:
 
@@ -56,7 +56,7 @@ Here’s an example of creating a time series with two labels (sensor_id and are
 
 When you need to query a time series, it’s cumbersome to stream all raw data points if you’re only interested in, say, an average over a given time interval. Time series only transfer the minimum required data to ensure lowest latency.
 
-Here's an example of [aggregation]({{< relref "develop/data-types/timeseries/quickstart#aggregation" >}}) over time buckets of 5,000 milliseconds:  
+Here's an example of [aggregation]({{< relref "develop/data-types/timeseries#aggregation" >}}) over time buckets of 5,000 milliseconds:  
 
 ```sh
     127.0.0.1:12543> TS.RANGE temperature:3:32 1548149180000 1548149210000 AGGREGATION avg 5000
@@ -78,7 +78,7 @@ Here's an example of [aggregation]({{< relref "develop/data-types/timeseries/qui
 
 ### Integrations
 
-Redis CE comes with several integrations into existing time series tools. One such integration is our [RedisTimeSeries adapter](https://github.com/RedisTimeSeries/prometheus-redistimeseries-adapter) for [Prometheus](https://prometheus.io/), which keeps all your monitoring metrics inside time series while leveraging the entire [Prometheus ecosystem](https://prometheus.io/docs/prometheus/latest/storage/#remote-storage-integrations).
+Redis Open Source comes with several integrations into existing time series tools. One such integration is our [RedisTimeSeries adapter](https://github.com/RedisTimeSeries/prometheus-redistimeseries-adapter) for [Prometheus](https://prometheus.io/), which keeps all your monitoring metrics inside time series while leveraging the entire [Prometheus ecosystem](https://prometheus.io/docs/prometheus/latest/storage/#remote-storage-integrations).
 
 {{< image filename="/images/rs/TimeSeries-integrations.png" >}}
 
@@ -92,11 +92,11 @@ Redis streams allow you to add several field value pairs in a message for a give
 
 {{< image filename="/images/rs/TimeSeries-modeling1.png" >}}
 
-For sorted sets, we modeled the data in two different ways. For “Sorted set per device”, we concatenated the metrics and separated them out by colons, e.g. `“<timestamp>:<metric1>:<metric2>: … :<metric10>”`.
+For sorted sets, we modeled the data in two different ways. For "Sorted set per device", we concatenated the metrics and separated them out by colons, e.g. `"<timestamp>:<metric1>:<metric2>: … :<metric10>"`.
 
 {{< image filename="/images/rs/TimeSeries-modeling2.png" >}}
 
-Of course, this consumes less memory but needs more CPU cycles to get the correct metric at read time. It also implies that changing the number of metrics per device isn’t straightforward, which is why we also benchmarked a second sorted set approach. In “Sorted set per metric,” we kept each metric in its own sorted set and had 10 sorted sets per device. We logged values in the format `“<timestamp>:<metric>”`.
+Of course, this consumes less memory but needs more CPU cycles to get the correct metric at read time. It also implies that changing the number of metrics per device isn’t straightforward, which is why we also benchmarked a second sorted set approach. In "Sorted set per metric," we kept each metric in its own sorted set and had 10 sorted sets per device. We logged values in the format `"<timestamp>:<metric>"`.
 
 {{< image filename="/images/rs/TimeSeries-modeling3.png" >}}
 
@@ -151,7 +151,7 @@ Time series can dramatically reduce the memory consumption when compared against
 
 ## More info
 
-- [Time series quick start]({{< relref "/develop/data-types/timeseries/quickstart" >}})
+- [Time series quick start]({{< relref "/develop/data-types/timeseries" >}})
 - [Time series commands]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries/commands" >}})
 - [Time series configuration]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries/config" >}})
 - [RedisTimeSeries source](https://github.com/RedisTimeSeries/RedisTimeSeries)

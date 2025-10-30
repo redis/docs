@@ -12,7 +12,7 @@ categories:
 description: Connect your C application to a Redis database.
 linkTitle: hiredis (C)
 title: hiredis guide (C)
-weight: 9
+weight: 10
 ---
 
 [`hiredis`](https://github.com/redis/hiredis) is the

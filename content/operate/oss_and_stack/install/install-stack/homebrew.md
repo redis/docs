@@ -4,22 +4,51 @@ categories:
 - operate
 - stack
 - oss
-description: How to install Redis Community Edition on macOS using Homebrew
+description: How to install Redis Open Source on macOS using Homebrew
 linkTitle: Homebrew
-title: Install Redis Community Edition on macOS
+title: Install Redis Open Source on macOS
 weight: 6
 ---
 
-## Install Redis Community Edition (CE) on macOS using Homebrew
+## Install Redis Open Source on macOS using Homebrew
 
 {{< note >}}Installation using Homebrew is only supported on macOS.{{< /note >}}
 
-To install Redis CE on macOS, use [Homebrew](https://brew.sh/).
+To install Redis Open Source on macOS, use [Homebrew](https://brew.sh/).
 Make sure that you have [Homebrew installed](https://docs.brew.sh/Installation) before starting on the installation instructions below.
 
-## Install using Homebrew
+## Remove any existing Redis installation files
 
-First, tap the Redis CE Homebrew cask:
+If you had previously installed Redis on your system using the default Homebrew formula called "redis", you need to remove it before installing Redis Open Source 8.x.
+
+Follow these steps to remove any existing Redis installation files:
+
+1. Uninstall Redis:
+    ```bash
+    brew uninstall redis
+    ```
+1. Next check if the `redis.conf` file is still installed:
+    ```bash
+    ls -l $(brew --prefix)/etc/redis.conf
+    ```
+
+    If you get output similar to the following, then it’s still there:
+
+    ```bash
+    -rw-r--r--@ 1 user  admin  122821  2 Oct 16:07 /opt/homebrew/etc/redis.conf
+    ```
+
+    Run this command to remove the file:
+
+    ```bash
+    rm -iv $(brew --prefix)/etc/redis.conf
+    ```
+
+Next, follow the instructions in the [next section](#install-using-homebrew) to install Redis Open Source 8.x using the Redis Homebrew cask.
+
+## Install using Homebrew {#install-using-homebrew}
+
+First, tap the Redis Homebrew cask:
 
 {{< highlight bash >}}
 brew tap redis/redis
@@ -30,7 +59,6 @@ Next, run `brew install`:
 {{< highlight bash >}}
 brew install --cask redis
 {{< /highlight >}}
-
 
 ## Run Redis
 
@@ -44,16 +72,16 @@ echo $PATH
 
 Next, confirm that the output contains `/opt/homebrew/bin` (Apple silicon Macs) or `/usr/local/bin` (Intel Mac). If neither `/opt/homebrew/bin` nor `/usr/local/bin` are in the output, add them.
 
-Open the file `~/.bashrc` or `~/zshrc` (depending on your shell), and add the following line.
+Open the file `~/.bashrc` or `~/.zshrc` (depending on your shell), and add the following line.
 
 {{< highlight bash >}}
 export PATH=$(brew --prefix)/bin:$PATH
 {{< /highlight >}}
 
-You can now start Redis server as follows:
+You can now start the Redis server as follows:
 
 {{< highlight bash >}}
-redis-server /opt/homebrew/etc/redis.conf
+redis-server $(brew --prefix)/etc/redis.conf
 {{< /highlight >}}
 
 The server will run in the background.
@@ -62,7 +90,7 @@ The server will run in the background.
 Because Redis is installed using a Homebrew cask with the `brew tap` command, it will not be integrated with the `brew services` command.
 {{< /note >}}
 
-## Connect to Redis CE
+## Connect to Redis
 
 Once Redis is running, you can test it by running `redis-cli`:
 
@@ -77,6 +105,54 @@ Test the connection with the `ping` command:
 PONG
 {{< /highlight >}}
 
+### Verify that all modules are loaded correctly
+
+If you had previously installed earlier versions of Redis using Homebrew, for example 7.2.x or 7.4.x, you should test to see if all the modules are loaded correctly by running the following command. Your output should look similar to the following:
+
+{{< highlight bash  >}}
+$ redis-cli MODULE LIST
+1) 1) "name"
+   2) "bf"
+   3) "ver"
+   4) (integer) 80200
+   5) "path"
+   6) "/usr/local/lib/redis/modules//redisbloom.so"
+   7) "args"
+   8) (empty array)
+2) 1) "name"
+   2) "timeseries"
+   3) "ver"
+   4) (integer) 80200
+   5) "path"
+   6) "/usr/local/lib/redis/modules//redistimeseries.so"
+   7) "args"
+   8) (empty array)
+3) 1) "name"
+   2) "search"
+   3) "ver"
+   4) (integer) 80201
+   5) "path"
+   6) "/usr/local/lib/redis/modules//redisearch.so"
+   7) "args"
+   8) (empty array)
+4) 1) "name"
+   2) "vectorset"
+   3) "ver"
+   4) (integer) 1
+   5) "path"
+   6) ""
+   7) "args"
+   8) (empty array)
+5) 1) "name"
+   2) "ReJSON"
+   3) "ver"
+   4) (integer) 80200
+   5) "path"
+   6) "/usr/local/lib/redis/modules//rejson.so"
+   7) "args"
+   8) (empty array)
+{{< /highlight >}}
+
 ## Stop Redis
 
 Run the following command:
@@ -85,9 +161,9 @@ Run the following command:
 redis-cli SHUTDOWN
 {{< /highlight >}}
 
-## Uninstall Redis CE
+## Uninstall Redis Open Source
 
-To uninstall Redis CE, run:
+To uninstall Redis, run:
 
 {{< highlight bash >}}
 brew uninstall redis

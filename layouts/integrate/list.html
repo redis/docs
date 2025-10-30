@@ -46,9 +46,10 @@
         {{ $labelColors := (dict "library" "bg-redis-yellow-500" "framework" "bg-violet-300" "observability" "bg-blue-300" "provisioning" "bg-redis-red-500" "mig" "bg-pink-300" "di" "bg-teal-300" "cloud-service" "bg-rose-300") }}
         {{ $labelText := (dict "mig" "data migration" "di" "data integration" "cloud-service" "cloud service") }}
         {{ range .CurrentSection.Sections }}
-          <article 
-            class="flex flex-col gap-2 relative transition h-full text-redis-ink-900 hover:text-red-900 focus-within:text-red-900 bg-white hover:bg-red-50/50 focus-within:bg-red-50/50 border border-redis-pen-800 focus-within:ring-red-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding rounded-md group" 
-            data-name="{{ .Title }}" 
+          <article
+            class="flex flex-col gap-2 relative transition h-full text-redis-ink-900 hover:text-red-900 focus-within:text-red-900 bg-white hover:bg-red-50/50 focus-within:bg-red-50/50 border border-redis-pen-800 focus-within:ring-red-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding rounded-md group"
+            data-name="{{ .Title }}"
+            data-summary="{{ .Params.summary }}"
             data-group="{{ .Params.group }}"
             data-version
             data-top
@@ -72,7 +73,7 @@
         {{ end }}
       </div>
     </div>
-    
     {{ partial "commands-nav.html" . }}
+    {{ partial "scripts.html" . }}
   </main>
 {{ end }}

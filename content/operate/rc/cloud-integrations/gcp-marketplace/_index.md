@@ -6,14 +6,16 @@ categories:
 - docs
 - operate
 - rc
-description: Shows how to subscribe to Redis Cloud using Google Cloud Marketplace
+description: Shows how to subscribe to Redis Cloud using Google Cloud marketplace
 hideListLinks: true
 weight: 30
 ---
 
-You can use Google Cloud Marketplace to subscribe to Redis Cloud. This lets you provision according to your needs and pay using your Google Cloud account.
+You can use Google Cloud marketplace to subscribe to Redis Cloud. This lets you provision according to your needs and pay using your Google Cloud account.
 
-Here's how to subscribe to Redis Cloud with Google Cloud Marketplace:
+## Subscribe to Redis Cloud using Google Cloud marketplace
+
+Here's how to subscribe to Redis Cloud with Google Cloud marketplace:
 
 1.  Sign in to the [Google Cloud console](https://console.cloud.google.com/).
 
@@ -65,3 +67,13 @@ To confirm this, review the payment method associated with your subscription.
 Additional users can be added on the Redis Cloud console using the [Access Management]({{< relref "/operate/rc/security/access-control/access-management" >}}) page.
 
 If your Google Cloud Marketplace account is deactivated or otherwise unavailable, you can't use your subscription until you update the billing method.  For help, [contact support](https://redis.io/support/).
+
+## Add additional Redis accounts to Google Cloud marketplace
+
+If you are the owner of more than one Redis Cloud account and have already associated your Google Cloud marketplace account with one or more of your Redis accounts, you can add your Google Cloud marketplace account to your other Redis Cloud accounts.
+
+{{< embed-md "rc-marketplace-account-add.md" >}}
+
+## Disconnect Google Cloud marketplace account
+
+See [Disconnect Google Cloud Marketplace account](https://support.redislabs.com/hc/en-us/articles/29209085344018-Disconnect-Redis-Cloud-from-Google-Cloud-Marketplace) on the Redis knowledge base for help disconnecting your Google Cloud Marketplace account from your Redis Cloud account.

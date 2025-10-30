@@ -33,6 +33,7 @@ rladmin tune cluster
         [ slave_ha_cooldown_period <seconds> ]
         [ slave_ha_bdb_cooldown_period <seconds> ]
         [ max_saved_events_per_type <value> ]
+        [ metrics_exporter_expose_bdb_name { enabled | disabled } ]
         [ parallel_shards_upgrade <value> ]
         [ default_concurrent_restore_actions <value> ]
         [ show_internals { enabled | disabled } ]
@@ -47,6 +48,8 @@ rladmin tune cluster
         [ acl_pubsub_default { resetchannels | allchannels } ]
         [ resp3_default { enabled | disabled } ]
         [ automatic_node_offload { enabled | disabled } ]
+        [ auto_recovery { enabled | disabled } ]
+        [ default_recovery_wait_time <value> ]
         [ default_tracking_table_max_keys_policy <value> ]
         [ default_oss_sharding { enabled | disabled } ]
  ]
@@ -58,11 +61,13 @@ rladmin tune cluster
 |----------------------------------------|-----------------------------------|------------------------------------------------------------------------------------------------------------------------------|
 | acl_pubsub_default | `resetchannels`<br /> `allchannels` | Default pub/sub ACL rule for all databases in the cluster:<br />•`resetchannels` blocks access to all channels (restrictive)<br />•`allchannels` allows access to all channels (permissive) |
 | automatic_node_offload | `enabled`<br />`disabled` | Define whether automatic node offload migration will take place |
+| auto_recovery | `enabled`<br />`disabled` | Defines whether to use automatic recovery after shard failure |
 | data_internode_encryption              | `enabled`<br />`disabled`       | Activates or deactivates [internode encryption]({{< relref "/operate/rs/security/encryption/internode-encryption" >}}) for new databases    |
 | db_conns_auditing                      | `enabled`<br /> `disabled`      | Activates or deactivates [connection auditing]({{< relref "/operate/rs/security/audit-events" >}}) by default for new databases of a cluster                                                                  |
 | default_concurrent_restore_actions     | integer<br />`all`              | Default number of concurrent actions when restoring a node from a snapshot (positive integer or "all")                         |
 | default_non_sharded_proxy_policy | `single`<br /><br />`all-master-shards`<br /><br />`all-nodes` | Default [proxy policy]({{< relref "/operate/rs/databases/configure/proxy-policy" >}}) for newly created non-sharded databases' endpoints |
 | default_oss_sharding | `enabled`<br />`disabled` | Default hashing policy to use for new databases. Set to `disabled` by default. This field is for future use only and should not be changed. |
+| default_recovery_wait_time | integer | The default time for new databases to wait for the persistence file to be available during automatic recovery. After the wait time expires, auto recovery completes with potential data loss. The default `-1` means to wait forever. |
 | default_redis_version                  | version number                    | The default Redis database compatibility version used to create new databases.<br/><br/>  The value parameter should be a version number in the form of "x.y" where _x_ represents the major version number and _y_ represents the minor version number.  The final value corresponds to the desired version of Redis.<br/><br/>You cannot set _default_redis_version_ to a value higher than that supported by the current _redis_upgrade_policy_ value. |
 | default_sharded_proxy_policy | `single`<br /><br />`all-master-shards`<br /><br />`all-nodes` | Default [proxy policy]({{< relref "/operate/rs/databases/configure/proxy-policy" >}}) for newly created sharded databases' endpoints |
 | default_shards_placement | `dense`<br />`sparse` | New databases place shards according to the default [shard placement policy]({{< relref "/operate/rs/databases/memory-performance/shard-placement-policy" >}}) |
@@ -74,6 +79,7 @@ rladmin tune cluster
 | login_lockout_threshold                | integer                           | Number of failed sign-in attempts to trigger locking a user account ("0" means never lock the account)                   |
 | max_saved_events_per_type              | integer                           | Maximum number of events each type saved in CCS per object type                                                              |
 | max_simultaneous_backups               | integer (default: 4)                      | Number of database backups allowed to run at the same time. Combines with `max_redis_forks` (set by [`tune node`](#tune-node)) to determine the number of shard backups allowed to run simultaneously.                                                                                  |
+| metrics_exporter_expose_bdb_name       | `enabled`<br />`disabled`       | If enabled, adds a label with the database name to relevant metrics                                                          |
 | parallel_shards_upgrade                | integer<br />`all`              | Number of shards upgraded in parallel during DB upgrade (positive integer or "all")                                          |
 | redis_migrate_node_threshold           | size in MB                        | Memory (in MBs by default or can be specified) needed to migrate a database between nodes                                   |
 | redis_migrate_node_threshold_percent   | percentage                | Memory (in percentage) needed to migrate a database between nodes                                                            |
@@ -146,6 +152,7 @@ rladmin tune db { db:<id> | <name> }
         [ data_internode_encryption { enabled | disabled } ]
         [ db_conns_auditing { enabled | disabled } ]
         [ resp3 { enabled | disabled } ]
+        [ shards_placement { dense | sparse } ]
         [ tracking_table_max_keys <size> ]
 ```
 
@@ -186,6 +193,7 @@ rladmin tune db { db:<id> | <name> }
 | repl_timeout                         | time in seconds                  | Replication timeout (in seconds)                                                                                                      |
 | resp3 | `enabled`<br /> `disabled` | Enables or deactivates RESP3 support (defaults to `enabled`) |
 | schedpolicy                          | `cmp`<br /> `mru`<br /> `spread`<br /> `mnp` | Controls how server-side connections are used when forwarding traffic to shards                                           |
+| shards_placement | `dense`<br /> `sparse` | Configures the [shard placement policy]({{< relref "/operate/rs/databases/memory-performance/shard-placement-policy" >}}) for the database |
 | skip_import_analyze                  | `enabled`<br /> `disabled`       | Skips the analyzing step when importing a database                                                                                    |
 | slave_buffer                         | `auto`<br />value in MB<br /> hard:soft:time | Redis replica output buffer limits<br />• `auto`: dynamically adjusts the buffer limit based on the shard’s current used memory<br />• value in MB: sets the buffer limit in MB<br />• hard:soft:time: sets the hard limit (maximum buffer size in MB), soft limit in MB, and the time in seconds that the soft limit can be exceeded |
 | slave_ha                             | `enabled`<br /> `disabled`       | Activates or deactivates replica high availability (defaults to the cluster setting)                                                      |
@@ -275,6 +283,10 @@ rladmin tune proxy { <id> | all }
 |-----------------|----------------------------|-------------------------------------------------------------------------------------|
 | id              | integer                    | ID of the specified proxy                                                           |
 | all             |                            | Configures settings for all proxies                                                 |
+| client_eviction | boolean (default: false) | If `true,`, enables client eviction based on `maxmemory_clients`. |
+| incoming_connections_capacity | integer (default: 0) | The maximum number of concurrent incoming connections, also known as the maximum burst size. The default is 0, which means no limit. |
+| incoming_connections_min_capacity | integer (default: 10) | The minimum number of free slots required before accepting new connections after an overflow. |
+| incoming_connections_rate_limit | integer (default: 0) | The maximum number of incoming connections per second. The default is 0, which means no limit. |
 | max_threads     | integer, (range:&nbsp;1-255) | Maximum number of threads allowed                                                   |
 | mode            | `static`<br /> `dynamic` | Determines if the proxy automatically adjusts the number of threads based on load size  |
 | scale_duration  | time in seconds, (range:&nbsp;10-300) | Time of scale_threshold CPU utilization before the automatic proxy automatically scales |

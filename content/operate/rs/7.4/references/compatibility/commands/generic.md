@@ -12,7 +12,7 @@ weight: 10
 url: '/operate/rs/7.4/references/compatibility/commands/generic/'
 ---
 
-The following table shows which Redis Community Edition [key (generic) commands]({{< relref "/commands" >}}?group=generic) are compatible with standard and Active-Active databases in Redis Enterprise Software and Redis Cloud.
+The following table shows which Redis Open Source [key (generic) commands]({{< relref "/commands" >}}?group=generic) are compatible with standard and Active-Active databases in Redis Enterprise Software and Redis Cloud.
 
 | Command | Redis<br />Enterprise | Redis<br />Cloud | Notes |
 |:--------|:----------------------|:-----------------|:------|

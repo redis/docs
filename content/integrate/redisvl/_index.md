@@ -35,12 +35,24 @@ title: RedisVL
 type: integration
 weight: 1
 ---
-RedisVL is a powerful, dedicated Python client library for Redis that enables seamless integration and management of high-dimensional vector data.
-Built to support machine learning and artificial intelligence workflows, RedisVL simplifies the process of storing, searching, and analyzing vector embeddings, which are commonly used for tasks like recommendation systems, semantic search, and anomaly detection.
 
-Key features of RedisVL include:
+RedisVL provides a powerful, dedicated Python client library for using Redis as a vector database. Leverage Redis's speed, reliability, and vector-based semantic search capabilities to supercharge your application.
 
-- Vector Similarity Search: Efficiently find nearest neighbors in high-dimensional spaces using algorithms like HNSW (Hierarchical Navigable Small World).
-- Integration with AI Frameworks: RedisVL works seamlessly with popular frameworks such as TensorFlow, PyTorch, and Hugging Face, making it easy to deploy AI models.
-- Scalable and Fast: Leveraging Redis's in-memory architecture, RedisVL provides low-latency access to vector data, even at scale.
-- By bridging the gap between data storage and AI model deployment, RedisVL empowers developers to build intelligent, real-time applications with minimal infrastructure complexity.
+## Overview
+
+RedisVL (Redis Vector Library) is a Python client library specifically designed for building AI applications with Redis as a vector database. It provides high-level abstractions for vector search, semantic caching, and AI-powered applications while leveraging Redis's performance and reliability.
+
+## Key Features
+
+- **Vector Search**: High-performance similarity search with multiple distance metrics
+- **Semantic Caching**: Intelligent caching for AI model responses and embeddings
+- **Schema Management**: Declarative schema definition for vector indexes
+- **Multiple Vectorizers**: Built-in support for OpenAI, Hugging Face, and custom embeddings
+- **Query Filtering**: Advanced filtering capabilities for precise search results
+- **Real-time Updates**: Live vector index updates and real-time search
+- **Python Integration**: Native Python API with pandas and NumPy compatibility
+- **Production Ready**: Enterprise-grade performance and reliability with Redis
+
+## Getting Started
+
+Refer to the complete [RedisVL documentation]({{< relref "/develop/ai/redisvl/" >}}) for installation, setup, and usage examples.

@@ -4,19 +4,20 @@ categories:
 - operate
 - stack
 - oss
-description: How to install Redis CE on your target platform
+description: How to install Redis Open Source on your target platform
 hideListLinks: true
 linkTitle: Install and upgrade
-title: Install Redis Community Edition (CE)
+title: Install Redis Open Source
 weight: 30
 ---
 
-You can install [Redis CE]({{< relref "/operate/oss_and_stack/" >}}) locally on your machine or in the cloud.
-Redis CE is available on Docker, Linux, macOS, and Windows (using Docker only).
+You can install [Redis Open Source]({{< relref "/operate/oss_and_stack/" >}}) locally on your machine. Redis Open Source is available on Docker, Linux, macOS, and Windows (using Docker only).
+
+You can also download [Redis Insight]({{< relref "/operate/redisinsight/install/" >}}), a free dev companion tool with an intuitive GUI and advanced CLI, which you can use alongside Redis Open Source.
 
 Here are the installation and upgrade instructions:
 
-* [Install Redis CE]({{< relref "/operate/oss_and_stack/install/install-stack" >}})
-* [Upgrade Redis CE]({{< relref "/operate/oss_and_stack/install/upgrade" >}})
+* [Install Redis Open Source]({{< relref "/operate/oss_and_stack/install/install-stack" >}})
+* [Upgrade Redis Open Source]({{< relref "/operate/oss_and_stack/install/upgrade" >}})
 
-While you can install Redis CE locally, you might also consider using Redis Cloud by creating a [free account](https://redis.com/try-free/?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users). Redis CE 8.0 is not yet available on Redis Cloud.
+While you can install Redis Open Source locally, you might also consider using Redis Cloud by creating a [free account](https://redis.com/try-free/?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users). Redis 8 is not yet available on Redis Cloud.

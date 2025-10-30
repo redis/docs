@@ -7,7 +7,7 @@ categories:
 - rc
 description: The fastest way to set up Redis - a fully managed Redis database on major public cloud services.
 hideListLinks: true
-weight: 10
+weight: 20
 ---
 [Redis Cloud](https://redis.io/cloud/) is a fully managed database-as-a-service that brings the speed and reliability of Redis to the cloud, offering seamless scalability and high availability for modern applications.
 
@@ -25,6 +25,8 @@ Use the [Quick start]({{< relref "/operate/rc/rc-quickstart" >}}) to learn how t
 - [Connect with redis-cli]({{< relref "/operate/rc/rc-quickstart#using-rediscli" >}})
 - [Connect with Redis client]({{< relref "/operate/rc/rc-quickstart#using-redis-client" >}})
 - [Connect with Redis Insight]({{< relref "/operate/rc/rc-quickstart#using-redisinsight" >}})
+
+You can also use [Vercel's Redis Cloud integration](https://vercel.com/marketplace/redis-cloud) or [Heroku's Redis Cloud add-on](https://elements.heroku.com/addons/rediscloud) to quickly add a Redis database to your project.
 
 ## Databases
 Create and manage [Redis databases]({{< relref "/operate/rc/databases" >}}) in the cloud.
@@ -54,7 +56,7 @@ Manage [secure connections]({{< relref "/operate/rc/security" >}}) to cloud data
 - [Data access control]({{< relref "/operate/rc/security/access-control/data-access-control" >}})
 
 ## REST API
-Use the [REST API]({{< relref "/operate/rc/api" >}}) to manage the database.
+Use the [REST API]({{< relref "/operate/rc/api" >}}) to manage Redis Cloud databases and subscriptions.
 - [Get started with the REST API]({{< relref "/operate/rc/api/get-started" >}})
 - REST API [reference]({{< relref "/operate/rc/api/api-reference" >}}) & [examples]({{< relref "/operate/rc/api/examples" >}})
 

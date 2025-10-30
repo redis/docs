@@ -12,7 +12,7 @@ title: Redis Enterprise for Kubernetes 7.22.0 release notes
 weight: 46
 ---
 
-Redis Enterprise for Kubernetes 7.22.0-7 includes bug fixes, enhancements, and support for Redis Enterprise Software version 7.22.0-28.
+Redis Enterprise for Kubernetes 7.22.0 includes bug fixes, enhancements, and support for Redis Enterprise Software. The latest release is 7.22.0-17 with support for Redis Enterprise Software version 7.22.0-250.
 
 ## Detailed release notes
 
@@ -24,9 +24,11 @@ Redis Enterprise for Kubernetes 7.22.0-7 includes bug fixes, enhancements, and s
 
 - **When changing the REDB field `spec.modulesList`, version might be upgraded to latest, even if a different version is specified.** To prevent the upgrade to latest, set  `spec.upgradeSpec.setModuleToLatest` to `false` before upgrading to 7.8.2-6.
 
+- **PVC expansion is not supported when using Redis on Flash (Auto Tiering) (RED-165770)** Do not enable `enablePersistentVolumeResize` if your REC uses `redisOnFlashSpec` as this will result in conflicts.
+
 - **Missing endpoint for admission endpoint (rare) (RED-119469)** Restart the operator pod.
 
-- **The REDB “redisVersion” field can’t be used for memcached databases(RED-119152)**
+- **The REDB "redisVersion" field can’t be used for memcached databases(RED-119152)**
 
 - **When modifying the database suffix for an Active-Active database, while the service-rigger is in a terminating state, the services-rigger will delete and create the ingress or route resources in a loop (RED-107687)** Wait until the services rigger pod has finished to terminate it.
 

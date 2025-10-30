@@ -17,14 +17,14 @@ title: Top-K
 weight: 50
 ---
 
-Top K is a probabilistic data structure in Redis Community Edition ("CE") used to estimate the `K` highest-rank elements from a stream.
+Top K is a probabilistic data structure in Redis Open Source used to estimate the `K` highest-rank elements from a stream.
 
 "Highest-rank" in this case means "elements with a highest number or score attached to them", where the score can be a count of how many times the element has appeared in the stream - thus making the data structure perfect for finding the elements with the highest frequency in a stream.
 One very common application is detecting network anomalies and DDoS attacks where Top K can answer the question: Is there a sudden increase in the flux of requests to the same address or from the same IP?
  
 There is, indeed, some overlap with the functionality of Count-Min Sketch, but the two data structures have their differences and should be applied for different use cases. 
 
-The Redis CE implementation of Top-K is based on the [HeavyKeepers](https://www.usenix.org/conference/atc18/presentation/gong) algorithm presented by Junzhi Gong et al. It discards some older approaches like "count-all" and "admit-all-count-some" in favour of a "**count-with-exponential-decay**" strategy which is biased against mouse (small) flows and has a limited impact on elephant (large) flows. This implementation uses two data structures in tandem: a hash table that holds the probabilistic counts (much like the Count-Min Sketch), and a min heap that holds the `K` items with the highest counts. This ensures high accuracy with shorter execution times than previous probabilistic algorithms allowed, while keeping memory utilization to a fraction of what is typically required by a Sorted Set. It has the additional benefit of being able to get real time notifications when elements are added or removed from the Top K list. 
+The Redis Open Source implementation of Top-K is based on the [HeavyKeepers](https://www.usenix.org/conference/atc18/presentation/gong) algorithm presented by Junzhi Gong et al. It discards some older approaches like "count-all" and "admit-all-count-some" in favour of a "**count-with-exponential-decay**" strategy which is biased against mouse (small) flows and has a limited impact on elephant (large) flows. This implementation uses two data structures in tandem: a hash table that holds the probabilistic counts (much like the Count-Min Sketch), and a min heap that holds the `K` items with the highest counts. This ensures high accuracy with shorter execution times than previous probabilistic algorithms allowed, while keeping memory utilization to a fraction of what is typically required by a Sorted Set. It has the additional benefit of being able to get real time notifications when elements are added or removed from the Top K list. 
 
 ## Use case
 
@@ -100,4 +100,4 @@ Insertion in a top-k has time complexity of O(K + depth) ≈ O(K) and lookup has
 - [HeavyKeeper: An Accurate Algorithm for Finding Top-k Elephant Flows.](https://yangtonghome.github.io/uploads/HeavyKeeper_ToN.pdf)
 
 ## References
-- [Meet Top-K: an Awesome Probabilistic Addition to RedisBloom](https://redis.com/blog/meet-top-k-awesome-probabilistic-addition-redisbloom/)
+- [Meet Top-K: an Awesome Probabilistic Addition to Redis](https://redis.com/blog/meet-top-k-awesome-probabilistic-addition-redis/)

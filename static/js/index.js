@@ -98,7 +98,72 @@ const mobileMenu = (() => {
       toggleMenu('products-mobile-menu', 'productsMobileMenuState')
     } else if (event.target.closest('[data-resources-mobile-menu-toggle]')) {
       toggleMenu('resources-mobile-menu', 'resourcesMobileMenuState')
+    } else if (event.target.closest('.header-link')) {
+      // Handle header link clicks
+      event.preventDefault()
+      copyHeaderLinkToClipboard(event.target.closest('.header-link'))
     }
+  }
+
+  // Copy header link URL to clipboard
+  function copyHeaderLinkToClipboard(linkElement) {
+    const href = linkElement.getAttribute('href')
+    const fullUrl = window.location.origin + window.location.pathname + href
+
+    // Update the URL hash to provide immediate visual feedback
+    window.location.hash = href
+
+    // Copy to clipboard
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(fullUrl).then(() => {
+        showCopyFeedback(linkElement)
+      }).catch(err => {
+        console.error('Failed to copy link: ', err)
+        fallbackCopyToClipboard(fullUrl, linkElement)
+      })
+    } else {
+      // Fallback for older browsers
+      fallbackCopyToClipboard(fullUrl, linkElement)
+    }
+  }
+
+  // Show visual feedback when link is copied
+  function showCopyFeedback(linkElement) {
+    const originalTitle = linkElement.getAttribute('title')
+
+    linkElement.setAttribute('title', 'Copied!')
+    linkElement.classList.add('copied')
+
+    setTimeout(() => {
+      linkElement.setAttribute('title', originalTitle)
+      linkElement.classList.remove('copied')
+    }, 2000)
+  }
+
+  // Fallback copy method for older browsers
+  function fallbackCopyToClipboard(text, linkElement) {
+    const textArea = document.createElement('textarea')
+    textArea.value = text
+    textArea.style.position = 'fixed'
+    textArea.style.left = '-999999px'
+    textArea.style.top = '-999999px'
+    document.body.appendChild(textArea)
+    textArea.focus()
+    textArea.select()
+
+    try {
+      const successful = document.execCommand('copy')
+      if (successful) {
+        showCopyFeedback(linkElement)
+        console.log('Link copied to clipboard (fallback)')
+      } else {
+        console.error('Fallback copy failed')
+      }
+    } catch (err) {
+      console.error('Fallback copy failed: ', err)
+    }
+
+    document.body.removeChild(textArea)
   }
 
   function allowFocus(selector, state) {
@@ -120,3 +185,16 @@ const mobileMenu = (() => {
   document.addEventListener('keydown', keyHandler, false)
 
 })()
+
+// Simple click-to-open for standalone images
+document.addEventListener('click', function(e) {
+  // Check if clicked element is a standalone img (not inside an anchor, not image-card, not no-click)
+  if (e.target.tagName === 'IMG' &&
+      !e.target.closest('a') &&
+      !e.target.classList.contains('image-card-img') &&
+      !e.target.src.includes('#no-click')) {
+
+    // Open image in same tab, just like clicking a regular link
+    window.location.href = e.target.src
+  }
+})

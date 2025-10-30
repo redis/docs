@@ -26,6 +26,19 @@ To launch the program in special modes, you can use several options, including:
 
 This topic covers the different aspects of `redis-cli`, starting from the simplest and ending with the more advanced features.
 
+## Install `redis-cli`
+
+You have several options for installing or using `redis-cli`.
+
+- [Install Redis Open Source]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}). The `redis-cli` utility is installed as part of each installation method.
+- [Build Redis from source]({{< relref "/operate/oss_and_stack/install/build-stack" >}}). Instead of building everything, you can just run the following command:
+
+    `$ make redis-cli`.
+    
+    The `redis-cli` utility will be built in the `/path/to/redis-source/src` directory as `/path/to/redis-source/src/redis-cli`.
+
+If you prefer not to install Redis, you can also run `redis-cli` in Docker. See the [Run `redis-cli` using Docker]({{< relref "/operate/oss_and_stack/install/install-stack/docker/#connect-with-redis-cli" >}}) page for instructions.
+
 ## Command line usage
 
 To run a Redis command and return a standard output at the terminal, include the command to execute as separate arguments of `redis-cli`:
@@ -223,7 +236,7 @@ To monitor over time the RSS memory size it's possible to use the following comm
 ## Mass insertion of data using `redis-cli`
 
 Mass insertion using `redis-cli` is covered in a separate page as it is a
-worthwhile topic itself. Please refer to our [mass insertion guide]({{< relref "/develop/use/patterns/bulk-loading" >}}).
+worthwhile topic itself. Please refer to our [mass insertion guide]({{< relref "/develop/clients/patterns/bulk-loading" >}}).
 
 ## CSV output
 
@@ -239,7 +252,7 @@ Note that the `--csv` flag will only work on a single command, not the entirety 
 ## Run Lua scripts
 
 The `redis-cli` has extensive support for using the debugging facility
-of Lua scripting, available with Redis 3.2 onwards. For this feature, refer to the [Redis Lua debugger documentation]({{< relref "/develop/interact/programmability/lua-debugging" >}}).
+of Lua scripting, available with Redis 3.2 onwards. For this feature, refer to the [Redis Lua debugger documentation]({{< relref "/develop/programmability/lua-debugging" >}}).
 
 Even without using the debugger, `redis-cli` can be used to
 run scripts from a file as an argument:
@@ -450,7 +463,7 @@ are explained in the next sections:
 * Monitoring tool to show continuous stats about a Redis server.
 * Scanning a Redis database for very large keys.
 * Key space scanner with pattern matching.
-* Acting as a [Pub/Sub]({{< relref "/develop/interact/pubsub" >}}) client to subscribe to channels.
+* Acting as a [Pub/Sub]({{< relref "/develop/pubsub" >}}) client to subscribe to channels.
 * Monitoring the commands executed into a Redis instance.
 * Checking the [latency]({{< relref "/operate/oss_and_stack/management/optimization/latency" >}}) of a Redis server in different ways.
 * Checking the scheduler latency of the local computer.

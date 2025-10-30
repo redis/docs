@@ -14,7 +14,7 @@ The following article reviews the mechanism and methods available for sizing
 and scaling a Redis Enterprise cluster deployment.
 
 For minimum and recommended sizing, always follow the sizing guidelines
-detailed in the [Redis Enterprise hardware requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md" >}}).
+detailed in the [Redis Enterprise hardware requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements" >}}).
 
 ## Sizing and scaling cluster nodes
 
@@ -69,13 +69,13 @@ For example:
 
         limits:
 
-        cpu: “2000m”
+        cpu: "2000m"
 
         memory: 4Gi
 
         requests:
 
-        cpu: “2000m”
+        cpu: "2000m"
 
         memory: 4Gi
 
@@ -98,13 +98,13 @@ redisEnterpriseNodeResources:
 
     limits:
 
-        cpu: “8000m”
+        cpu: "8000m"
 
         memory: 30Gi
 
     requests
 
-        cpu: “8000m”
+        cpu: "8000m"
 
         memory: 30Gi
 
@@ -114,7 +114,7 @@ Then, apply the file by running:
 
 {{< warning >}}
 When adjusting compute resources, make sure the ratio of persistent volume size and the new memory size are in accordance to the [Hardware
-requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md" >}}). 
+requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements" >}}). 
 
 Persistent volume claims can be expanded, but not reduced after creation. See [Expand PersistentVolumeClaim (PVC)]({{<relref "/operate/kubernetes/re-clusters/expand-pvc">}}) for details.
 {{< /warning >}}

@@ -29,33 +29,44 @@ To install Redis Enterprise Software, use the command line:
 1.  _(Optional)_ Use the {{< download "GPG key file" "../GPG-KEY-redislabs-packages.gpg" >}} to confirm the authenticity of Ubuntu/Debian or RHEL RPM packages:
 
     - For Ubuntu:
-        1. Import the key:  
+        1. Import the key:
         ```sh
         gpg --import <path to GPG key>
-        ```  
-        2. Verify the package signature: 
-        ```sh 
+        ```
+        2. Verify the package signature:
+        ```sh
         dpkg-sig --verify </path-to/package.deb>
         ```
 
     - For RHEL:
-        1. Import the key:  
+        1. Import the key:
         ```sh
         rpm --import <path to GPG key>
         ```
-        2. Verify the package signature:  
+        2. Verify the package signature:
          ```sh
          rpm --checksig </path-to/package.rpm>
          ```
 
-1. To start the installation process, run the installation script. See [installation script options]({{< relref "/operate/rs/installing-upgrading/install/install-script" >}}) for a list of command-line options you can add to the following command:
+1. To start the installation process, run the installation script. See [installation script options]({{< relref "/operate/rs/installing-upgrading/install/install-script" >}}) for a complete list of command-line options.
 
+    **For default installation:**
     ```sh
     sudo ./install.sh
     ```
 
+    **For custom installation directories:**
+
+    If you need to specify custom storage paths for persistent or ephemeral storage during cluster setup, you must install Redis Enterprise Software to custom directories.
+
+    ```sh
+    sudo ./install.sh --install-dir <path> --config-dir <path> --var-dir <path>
+    ```
+
+    For detailed information about custom installations, see [Customize installation directories]({{< relref "/operate/rs/installing-upgrading/install/customize-install-directories" >}}).
+
     {{< note >}}
-- The Redis Enterprise Software files are installed in the default [file locations]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/file-locations.md" >}}). 
+- The Redis Enterprise Software files are installed in the default [file locations]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/file-locations.md" >}}) unless you specify custom directories.
 - By default, Redis Enterprise Software runs on the OS as the `redislabs` user and `redislabs` group. If needed, you can [specify a different user and group]({{< relref "/operate/rs/installing-upgrading/install/customize-user-and-group.md" >}}) during the installation.
 - You must either be the root user or use `sudo` to run the installation script.
     {{< /note >}}
@@ -85,11 +96,11 @@ To skip the installation questions, use one of the following methods:
 1. Repeat this process for each node in the cluster.
 
 
-## Auto Tiering installation
+## Redis Flex and Auto Tiering installation
 
-If you want to use Auto Tiering for your databases, review the prerequisites, storage requirements, and [other considerations]({{< relref "/operate/rs/databases/auto-tiering/" >}}) for Auto Tiering databases and prepare and format the flash memory.
+If you want to use Redis Flex or Auto Tiering for your databases, review the prerequisites, storage requirements, and [other considerations]({{< relref "/operate/rs/databases/flash/" >}}) and prepare and format the flash memory.
 
-After you [install on Linux](#install-on-linux), use the `prepare_flash` script to prepare and format flash memory:
+After you install Redis Enterprise Software, use the `prepare_flash` script to prepare and format flash memory:
 
 ```sh
 sudo /opt/redislabs/sbin/prepare_flash.sh

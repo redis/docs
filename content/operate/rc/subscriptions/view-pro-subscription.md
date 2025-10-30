@@ -31,17 +31,19 @@ From here, you can:
 
     {{<image filename="images/rc/icon-database-status-active.png#no-click" alt="When a subscription is active, the status icon displays a green circle with a checkmark." class="inline" >}} &nbsp; {{<image filename="images/rc/icon-subscription-status-pending.png#no-click" alt="When a subscription is pending, the status icon displays a gre, animated circle." class="inline">}}
 
-- {{< embed-md "rc-version-upgrade.md" >}}
-
 Because subscriptions represent active deployments, there aren't many details you can change.  If your needs change, [create a new subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) and then [migrate the existing data]({{< relref "/operate/rc/databases/migrate-databases" >}}) to the new databases.
 
-In addition, three tabs are available:
+In addition, you can view and edit the following subscription details:
 
 1.  The **Databases** tab lists the databases in your subscription and summarizes their settings.
 
 2.  The **Overview** tab displays subscription settings for your Redis Cloud Pro subscription.
 
 3.  The **Connectivity** tab lets you limit access to the subscription by defining a VPC peering or other connectivity options.
+
+4.  The **Security** tab lets you set security settings for the databases in your subscription.
+
+5.  The **Regions** tab lets you manage the regions in your Active-Active subscription (_Active-Active subscriptions only_).
 
 The following sections provide more info.
 
@@ -119,8 +121,22 @@ Here, you can:
 
 - Set up a [VPC peering]({{< relref "/operate/rc/security/vpc-peering.md" >}}) relationship between the virtual PC (VPC) hosting your subscription and another virtual PC.
 
-- Set up a [CIDR allow list]({{< relref "/operate/rc/cloud-integrations/aws-cloud-accounts/subscription-whitelist.md" >}}) containing IP addresses or security groups permitted to access your subscription (_AWS Cloud accounts only_).
+- Set up a [CIDR allow list]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/subscription-whitelist" >}}) containing IP addresses or security groups permitted to access your subscription (_AWS Cloud accounts only_).
 
 - Set up [Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}}) (*Google Cloud only*) or [Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}) (*AWS only*).
 
 See the individual links to learn more.
+
+## **Security** tab
+
+The **Security** tab lets you set security settings for the databases in your subscription.
+
+Here, you can [block public endpoints]({{< relref "/operate/rc/security/database-security/block-public-endpoints" >}}) for all databases in the subscription.
+
+## **Regions** tab
+
+The **Regions** tab is only available for Active-Active subscriptions.  It lets you manage the regions in your Active-Active subscription.
+
+{{<image filename="images/rc/subscription-details-regions-tab.png" alt="The Regions tab lets you manage the regions in your Active-Active subscription." >}}
+
+See [Manage regions for an Active-Active database]({{< relref "/operate/rc/databases/active-active/manage-regions" >}}) for more information.

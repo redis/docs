@@ -6,8 +6,9 @@ categories:
 - operate
 - rs
 description: To delete the data in a database without deleting the database, you can
-  use Redis CLI to flush it from the database.  You can also use Redis CLI, the admin
-  console, and the Redis Software REST API to flush data from Active-Active databases.
+  use Redis CLI to flush it from the database. Learn how to flush data from standard databases,
+  OSS Cluster API databases, and Active-Active databases using Redis CLI, the Cluster Manager UI, 
+  and the Redis Software REST API.
 linkTitle: Flush database
 weight: 40
 ---
@@ -40,6 +41,45 @@ redis-cli -h redis-12345.cluster.local -p 9443 -a xyz flushall
 {{< note >}}
 Port 9443 is the default [port configuration]({{< relref "/operate/rs/networking/port-configurations#https://docs.redis.com/latest/rs/networking/port-configurations#ports-and-port-ranges-used-by-redis-enterprise-software" >}}).
 {{< /note >}}
+
+## Flush data from an OSS Cluster API database
+
+When using the OSS Cluster API, the `FLUSHDB` command only flushes the keys of the shard you're connected to, not all keys in the database. To flush all data from an OSS Cluster API database, you need to connect to each endpoint IP address and run the flush command.
+
+Follow these steps to flush all data from an OSS Cluster API database:
+
+1. Find all IP addresses associated with the database endpoint using the `dig` command:
+
+   ```sh
+   dig +noall +answer <database-endpoint>
+   ```
+
+2. Connect to each IP address using [`redis-cli`]({{<relref "/operate/rs/references/cli-utilities/redis-cli">}}) and run the [`FLUSHDB`]({{<relref "/commands/flushdb">}}) command:
+
+   ```sh
+   redis-cli -h <ip-address> -p <port> flushdb
+   ```
+
+### Example
+
+1. Find all IP addresses for the database endpoint:
+
+   ```sh
+   $ dig +noall +answer redis-19674.test2f4e15b0.cs.redislabs.com
+   redis-19674.test2f4e15b0.cs.redislabs.com. 5 IN A 192.0.2.0
+   redis-19674.test2f4e15b0.cs.redislabs.com. 5 IN A 198.51.100.0
+   ```
+
+2. Connect to each IP address and flush the data:
+
+   ```sh
+   $ redis-cli -h 192.0.2.0 -p 19674 flushdb
+   OK
+   $ redis-cli -h 198.51.100.0 -p 19674 flushdb
+   OK
+   ```
+
+This ensures that all shards in the OSS Cluster API database are flushed properly.
 
 
 ## Flush data from an Active-Active database

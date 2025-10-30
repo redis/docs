@@ -53,11 +53,11 @@ The available settings vary according to your plan, cloud provider, and design c
 | **Type**                  | Displays 'Redis', 'Redis Stack' or 'memcached' based on the value selected when the database was created                                                    |
 | **Redis version**         | Redis version of the database                                                                                                                  |
 | **Auto Tiering**          | Checked when the subscription supports Auto Tiering (_Redis Cloud Pro only_)                                                               |
-| **Active-Active Redis**   | Checked when the database is part of an [Active-Active]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}) relationship (_Redis Cloud Pro only_)                                                                                         |
+| **Active-Active Redis**   | Checked when the database is part of an [Active-Active]({{< relref "/operate/rc/databases/active-active" >}}) relationship (_Redis Cloud Pro only_)                                                                                         |
 | **Creation time**         | Date and time the database was created                                                                                                                      |
 | **Last changed**          | Date and time of last update                                                                                                                                |
 | **Supported Protocol(s)** | Shows which version of RESP the database uses. See [Redis serialization protocol]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions) for details |
-| **Advanced Capabilites**  | This setting appears when an [advanced capability]({{< relref "/operate/rc/databases/configuration/advanced-capabilities" >}}) is enabled for a database                                                  |
+| **Advanced Capabilities**  | This setting appears when an [advanced capability]({{< relref "/operate/rc/databases/configuration/advanced-capabilities" >}}) is enabled for a database                                                  |
 
 ### Performance section
 
@@ -155,7 +155,7 @@ You can:
 
     {{<image filename="images/rc/icon-export-to-csv.png" alt="The Export button exports the current list view to CSV." >}}
 
-- Sort the list in descending or ascending order using the arrow displayed to right of the field name in the header.  Supported fields include **Subscription**, **Database name**, **Memory**, and **Tags**.
+- Sort the list in descending or ascending order using the arrow displayed to right of the field name in the header.  Supported fields include **Subscription**, **Database name**, **Memory usage**, and **Version**.
 
     {{<image filename="images/rc/icon-list-sort-asc.png#no-click" alt="Use the arrows in the list header to sort the list." class="inline">}} {{<image filename="images/rc/icon-list-sort-desc.png#no-click" alt="The direction of the arrow corresponds to the direction of the sort." class="inline">}}
 

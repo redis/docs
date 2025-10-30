@@ -15,8 +15,24 @@ title: Production usage
 weight: 5
 ---
 
-The following sections explain how to handle situations that may occur
-in your production environment.
+This guide offers recommendations to get the best reliability and
+performance in your production environment.
+
+## Checklist
+
+Each item in the checklist below links to the section
+for a recommendation. Use the checklist icons to record your
+progress in implementing the recommendations.
+
+{{< checklist "nodeprodlist" >}}
+    {{< checklist-item "#handling-errors" >}}Handling errors{{< /checklist-item >}}
+    {{< checklist-item "#handling-reconnections" >}}Handling reconnections{{< /checklist-item >}}
+    {{< checklist-item "#connection-timeouts" >}}Connection timeouts{{< /checklist-item >}}
+    {{< checklist-item "#command-execution-reliability" >}}Command execution reliability{{< /checklist-item >}}
+    {{< checklist-item "#seamless-client-experience" >}}Smart client handoffs{{< /checklist-item >}}
+{{< /checklist >}}
+
+## Recommendations
 
 ### Handling errors
 
@@ -41,41 +57,20 @@ client.on('error', error => {
 
 ### Handling reconnections
 
-If network issues or other problems unexpectedly close the socket, the client will reject all commands already sent, since the server might have already executed them.
-The rest of the pending commands will remain queued in memory until a new socket is established.
-This behaviour is controlled by the `enableOfflineQueue` option, which is enabled by default.
+When the socket closes unexpectedly (without calling the `quit()` or `disconnect()` methods),
+the client can automatically restore the connection.  A simple
+[exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff) strategy
+for reconnection is enabled by default, but you can replace this with your
+own custom strategy. See
+[Reconnect after disconnection]({{< relref "/develop/clients/nodejs/connect#reconnect-after-disconnection" >}})
+for more information.
 
-The client uses `reconnectStrategy` to decide when to attempt to reconnect. 
-The default strategy is to calculate the delay before each attempt based on the attempt number `Math.min(retries * 50, 500)`. You can customize this strategy by passing a supported value to `reconnectStrategy` option:
+### Connection timeouts
 
+To set a timeout for a connection, use the `connectTimeout` option
+(the default timeout is 5 seconds):
 
-1. Define a callback `(retries: number, cause: Error) => false | number | Error` **(recommended)**
-```typescript
-const client = createClient({
-  socket: {
-    reconnectStrategy: function(retries) {
-        if (retries > 20) {
-            console.log("Too many attempts to reconnect. Redis connection was terminated");
-            return new Error("Too many retries.");
-        } else {
-            return retries * 500;
-        }
-    }
-  }
-});
-client.on('error', error => console.error('Redis client error:', error));
-```
-In the provided reconnection strategy callback, the client attempts to reconnect up to 20 times with a delay of `retries * 500` milliseconds between attempts. 
-After approximately two minutes, the client logs an error message and terminates the connection if the maximum retry limit is exceeded.
-
-
-2. Use a numerical value to set a fixed delay in milliseconds.
-3. Use `false` to disable reconnection attempts. This option should only be used for testing purposes.
-
-### Timeouts
-
-To set a timeout for a connection, use the `connectTimeout` option:
-```typescript
+```js
 const client = createClient({
   socket: {
     // setting a 10-second timeout  
@@ -84,3 +79,42 @@ const client = createClient({
 });
 client.on('error', error => console.error('Redis client error:', error));
 ```
+
+### Command execution reliability
+
+By default, `node-redis` reconnects automatically when the connection is lost
+(but see [Handling reconnections](#handling-reconnections), if you want to
+customize this behavior). While the connection is down, any commands that you
+execute will be queued and sent to the server when the connection is restored.
+This might occasionally cause problems if the connection fails while a
+[non-idempotent](https://en.wikipedia.org/wiki/Idempotence) command
+is being executed. In this case, the command could change the data on the server
+without the client removing it from the queue. When the connection is restored,
+the command will be sent again, resulting in incorrect data.
+
+If you need to avoid this situation, set the `disableOfflineQueue` option
+to `true` when you create the client. This will cause the client to discard
+unexecuted commands rather than queuing them:
+
+```js
+const client = createClient({
+  disableOfflineQueue: true,
+      .
+      .
+});
+```
+
+Use a separate connection with the queue disabled if you want to avoid queuing
+only for specific commands.
+
+### Smart client handoffs
+
+*Smart client handoffs (SCH)* is a feature of Redis Cloud and
+Redis Enterprise servers that lets them actively notify clients
+about planned server maintenance shortly before it happens. This
+lets a client take action to avoid disruptions in service.
+
+See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
+for more information about SCH and
+[Connect using Smart client handoffs]({{< relref "/develop/clients/nodejs/connect#connect-using-smart-client-handoffs-sch" >}})
+for example code.

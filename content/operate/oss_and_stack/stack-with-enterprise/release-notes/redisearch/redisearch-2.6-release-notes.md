@@ -15,10 +15,64 @@ weight: 92
 ---
 ## Requirements
 
-RediSearch v2.6.28 requires:
+RediSearch v2.6.32 requires:
 
 - Minimum Redis compatibility version (database): 6.0.16
 - Minimum Redis Enterprise Software version (cluster): 6.2.8
+
+## v2.6.32 (August 2025)
+
+This is a maintenance release for RediSearch 2.6.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#6405](https://github.com/redisearch/redisearch/pull/6405) Validate compatibility against RedisJSON version upon open key (MOD-10298).
+- [#6419](https://github.com/redisearch/redisearch/pull/6419) Errors when loading schema from RDB get incorrectly cleared (MOD-10307).
+- [#6604](https://github.com/redisearch/redisearch/pull/6604) `FLUSHDB` while active queries are still running could lead to a crash due to premature release of the CURSOR (MOD-10681).
+
+Improvements:
+- [#6467](https://github.com/redisearch/redisearch/pull/6467) Handle excessive error logs when handling JSON.DEL errors (MOD-10266).
+- [#6659](https://github.com/redisearch/redisearch/pull/6659) Time measurement on `FT.PROFILE` using thread-independent clock mechanism (MOD-10622).
+
+## v2.6.31 (June 2025)
+
+This is a maintenance release for RediSearch 2.6.
+
+Update urgency: `HIGH`: There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#6349](https://github.com/redisearch/redisearch/pull/6349) Search on terms larger than 128 characters could lead to missing matches (MOD-6786).
+- [#6305](https://github.com/redisearch/redisearch/pull/6305) While iterating over a large index, frequent document updates could hit the `TIMEOUT`, causing a crash (MOD-9856).
+- [#6191](https://github.com/redisearch/redisearch/pull/6191) Reindexing from an RDB with multiple vector indexes could lead to a crash because of the cluster health check - NodeWD (MOD-9220).
+
+## v2.6.30 (May 2025)
+
+This is a maintenance release for RediSearch 2.6.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#6032](https://github.com/redisearch/redisearch/pull/6032) `FT.CURSOR...DEL` while another thread is reading it could lead to a crash (MOD-9408,MOD-9432,MOD-9433,MOD-9434,MOD-9435)
+- [#5965](https://github.com/redisearch/redisearch/pull/5965) Indexing documents using `TEXT` without the text in the documents leads to an `inf` or `nan` score (MOD-9423)
+- [#6058](https://github.com/redisearch/redisearch/pull/6058) Avoid lazy expiration in background indexing for Active-Active setup, preventing keys from expiring incorrectly (MOD-9486)
+- [#5962](https://github.com/redisearch/redisearch/pull/5962) Empty results with RESP3 due to the `TIMEOUT` even if setting to deliver partial results using the `ON_TIMEOUT` policy (MOD-8482)
+- [#5962](https://github.com/redisearch/redisearch/pull/5962) Cursor with RESP3 on `FT.AGGREGATE` is never depleted, blocking queries if the cursor limit is achieved (MOD-8515)
+- [#5962](https://github.com/redisearch/redisearch/pull/5962) Using `FT.CURSOR READ` on queries that timed out led to fewer results than expected (MOD-8606)
+
+Improvements:
+- [#6009](https://github.com/redisearch/redisearch/pull/6009) Parser for intersections on parentheses and sub-queries order won't affect full-text scores (MOD-9278)
+- [#5962](https://github.com/redisearch/redisearch/pull/5962) Fixed a coordinator race condition preventing the premature release and avoiding errors and inconsistencies during query executions (MOD-8794)
+
+## v2.6.29 (April 2025)
+
+This is a maintenance release for RediSearch 2.6.
+
+Update urgency: `LOW` No need to upgrade unless there are new features you want to use.
+
+Improvements:
+- [#5940](https://github.com/redisearch/redisearch/pull/5940) Improved performance (reduced CPU time) of collecting vector index statistics (MOD-9354)
+- [#5816](https://github.com/redisearch/redisearch/pull/5816) Improved accuracy of index memory reporting by correcting a bug that caused negative memory counts (MOD-5904)
 
 ## v2.6.28 (March 2025)
 
@@ -93,7 +147,7 @@ Update urgency: `HIGH` : There is a critical bug that may affect a subset of use
 - Bug fixes:
   - [#4944](https://github.com/redisearch/redisearch/pull/4944) Adjusting the module configuration to avoid routing overload on the first shard in a clustered database (MOD-7505)
   - [#4897](https://github.com/redisearch/redisearch/pull/4897) - `FT.AGGREGATE` with `VERBATIM` option is not handled by the shards in cluster mode (MOD-7463)
-  - [#4918](https://github.com/redisearch/redisearch/pull/4918) - Union query, similar to `"is|the"`, starting with 2 [stopwords](https://redis.io/docs/latest/develop/interact/search-and-query/advanced-concepts/stopwords/) could cause a crash (MOD-7495)
+  - [#4918](https://github.com/redisearch/redisearch/pull/4918) - Union query, similar to `"is|the"`, starting with 2 [stopwords](https://redis.io/docs/latest/develop/ai/search-and-query/advanced-concepts/stopwords/) could cause a crash (MOD-7495)
   - [#4919](https://github.com/redisearch/redisearch/pull/4919) - Counting twice the field statistics at the `#search` section of an `INFO` response (MOD-7339)
   - [#4923](https://github.com/redisearch/redisearch/pull/4923) - Loop when using the wildcard `w'term'` and prefix/infix/suffix pattern `'ter*'`, causing the shard to restart (MOD-7453)
   - [#4954](https://github.com/redisearch/redisearch/pull/4954) `FT.PROFILE` on `AGGREGATE` numeric queries could cause a crash due to reusing the internal `CURSOR` in a large range of numeric values (MOD-7454)
@@ -327,7 +381,7 @@ This is the General Availability release of RediSearch 2.6.
 ### Highlights
 
 This new major version introduces the ability to search using **wildcard queries** for TEXT and TAG fields. This enables the frequently requested feature **suffix search** (`*vatore` and `ant?rez` are now supported).
-In addition, the 2.6 release is all about **multi-value indexing and querying of attributes** for any attribute type ( [Text]({{< relref "/develop/interact/search-and-query/indexing/" >}}#index-json-arrays-as-text), [Tag]({{< relref "/develop/interact/search-and-query/indexing/" >}}#index-json-arrays-as-tag), [Numeric]({{< relref "/develop/interact/search-and-query/indexing/" >}}#index-json-arrays-as-numeric), [Geo]({{< relref "/develop/interact/search-and-query/indexing/" >}}#index-json-arrays-as-geo) and [Vector]({{< relref "/develop/interact/search-and-query/indexing/" >}}#index-json-arrays-as-vector)) defined by a [JSONPath]({{< relref "/develop/data-types/json/path" >}}) leading to an array or to multiple scalar values.
+In addition, the 2.6 release is all about **multi-value indexing and querying of attributes** for any attribute type ( [Text]({{< relref "/develop/ai/search-and-query/indexing/" >}}#index-json-arrays-as-text), [Tag]({{< relref "/develop/ai/search-and-query/indexing/" >}}#index-json-arrays-as-tag), [Numeric]({{< relref "/develop/ai/search-and-query/indexing/" >}}#index-json-arrays-as-numeric), [Geo]({{< relref "/develop/ai/search-and-query/indexing/" >}}#index-json-arrays-as-geo) and [Vector]({{< relref "/develop/ai/search-and-query/indexing/" >}}#index-json-arrays-as-vector)) defined by a [JSONPath]({{< relref "/develop/data-types/json/path" >}}) leading to an array or to multiple scalar values.
 Lastly, this version adds support for indexing double-precision floating-point vectors and range queries from a given vector.
 
 ### What's new in 2.6
@@ -336,13 +390,13 @@ Lastly, this version adds support for indexing double-precision floating-point v
 
 - Improvements:
 
-  - [#2886](https://github.com/RediSearch/RediSearch/pull/2886) Support for [wildcard queries]({{< relref "/develop/interact/search-and-query/advanced-concepts/query_syntax" >}}#wildcard-matching) for TEXT and TAG fields, where
+  - [#2886](https://github.com/RediSearch/RediSearch/pull/2886) Support for [wildcard queries]({{< relref "/develop/ai/search-and-query/advanced-concepts/query_syntax" >}}#wildcard-matching) for TEXT and TAG fields, where
     - `?` matches any single character
     - `*` matches zero or more characters
     - use `'` and `\` for escaping, other special characters are ignored
     - [#2932](https://github.com/RediSearch/RediSearch/pull/2932) Optimized wildcard query support (i.e., suffix trie)
   - Multi-value indexing and querying
-    - [#2819](https://github.com/RediSearch/RediSearch/pull/2819), [#2947](https://github.com/RediSearch/RediSearch/pull/2947) Multi-value text search - perform full-text search on an [array of strings or on a JSONPath]({{< relref "/develop/interact/search-and-query/indexing/" >}}#index-json-arrays-as-tag) leading to multiple strings
+    - [#2819](https://github.com/RediSearch/RediSearch/pull/2819), [#2947](https://github.com/RediSearch/RediSearch/pull/2947) Multi-value text search - perform full-text search on an [array of strings or on a JSONPath]({{< relref "/develop/ai/search-and-query/indexing/" >}}#index-json-arrays-as-tag) leading to multiple strings
     - [#3131](https://github.com/RediSearch/RediSearch/pull/3131) Geo [#3118](https://github.com/RediSearch/RediSearch/pull/3118) Vector [#2985](https://github.com/RediSearch/RediSearch/pull/2985) Numeric [#3180](https://github.com/RediSearch/RediSearch/pull/3180) Tag
     - [#3060](https://github.com/RediSearch/RediSearch/pull/3060) Return JSON rather than scalars from multi-value attributes.  This is enabled via Dialect 3 in order not to break existing applications.
     - Support indexing and querying of multi-value JSONPath attributes and/or arrays (requires JSON >2.4.1)

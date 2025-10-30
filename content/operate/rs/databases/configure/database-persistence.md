@@ -11,7 +11,7 @@ linktitle: Persistence
 weight: 30
 ---
 
-Data is stored in RAM or a combination of RAM and flash memory ([Auto Tiering]({{< relref "/operate/rs/databases/auto-tiering/" >}})), which risks data loss during process or server failures. Redis Enterprise Software supports multiple methods to persist data to disk on a per-database basis to ensure data durability.
+Data is stored in RAM or a combination of RAM and flash memory ([Redis Flex and Auto Tiering]({{< relref "/operate/rs/databases/flash/" >}})), which risks data loss during process or server failures. Redis Enterprise Software supports multiple methods to persist data to disk on a per-database basis to ensure data durability.
 
 You can configure [persistence](https://redis.com/redis-enterprise/technology/durable-redis/) during database creation or by editing an existing database. Although the persistence model can be changed dynamically, the switch can take time depending on the database size and the models being switched.
 

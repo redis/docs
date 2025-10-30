@@ -5,13 +5,15 @@ categories:
 - docs
 - operate
 - kubernetes
-description: Content related to Active-Active Redis Enterprise databases for Kubernetes.
+description: Create and manage Active-Active Redis Enterprise databases across multiple Kubernetes clusters.
 hideListLinks: true
 linkTitle: Active-Active databases
 weight: 40
 ---
 
-On Kubernetes, Redis Enterprise [Active-Active]({{< relref "/operate/rs/databases/active-active/" >}}) databases provide read and write access to the same dataset from different Kubernetes clusters.
+Redis Enterprise [Active-Active]({{< relref "/operate/rs/databases/active-active/" >}}) databases on Kubernetes provide read and write access to the same dataset from different Kubernetes clusters. This enables globally distributed applications with local read and write access, automatic conflict resolution, and seamless failover capabilities.
+
+Active-Active databases use multi-master replication to keep data synchronized across participating clusters, allowing applications to read and write data locally while maintaining global consistency.
 
 ## Active-Active setup methods
 
@@ -29,7 +31,7 @@ Versions 6.4.2-6 or later fully support the Active-Active controller. Some of th
 
 This setup method includes the following steps:
 
-1. Gather REC credentials and [prepare participating clusters]({{< relref "/operate/kubernetes/active-active/prepare-clusters.md" >}}).
+1. Gather REC credentials and [prepare participating clusters]({{< relref "/operate/kubernetes/active-active/prepare-clusters" >}}).
 2. Create [`RedisEnterpriseRemoteCluster` (RERC)]({{< relref "/operate/kubernetes/active-active/create-reaadb#create-rerc" >}}) resources.
 3. Create [`RedisEnterpriseActiveActiveDatabase` (REAADB)]({{< relref "/operate/kubernetes/active-active/create-reaadb#create-reaadb" >}}) resource.
 
@@ -48,40 +50,23 @@ For versions 6.4.2 or earlier, this Active-Active setup method includes the foll
 
 [Active-Active]({{< relref "/operate/rs/databases/active-active/" >}}) databases give you read-and-write access to Redis Enterprise clusters (REC) in different Kubernetes clusters or namespaces. Active-Active deployments managed by the Redis Enterprise operator require two additional custom resources: Redis Enterprise Active-Active database (REAADB) and Redis Enterprise remote cluster (RERC).
 
-To create an Active-Active Redis Enterprise deployment for Kubernetes with these new features, first [prepare participating clusters]({{< relref "/operate/kubernetes/active-active/prepare-clusters.md" >}}) then [create an Active-Active database]({{< relref "/operate/kubernetes/active-active/create-reaadb.md" >}}).
-
-### Preview versions
-
-If you are using a preview version of these features (operator version 6.4.2-4 or 6.4.2-5), you'll need to enable the Active-Active controller with the following steps. You need to do this only once per cluster. We recommend using the fully supported 6.4.2-6 version.
-
-1. Download the custom resource definitions (CRDs) for the most recent release (6.4.2-4) from [redis-enterprise-k8s-docs Github](https://github.com/RedisLabs/redis-enterprise-k8s-docs/tree/master/crds).
-
-1. Apply the new CRDs for the Redis Enterprise Active-Active database (REAADB) and Redis Enterprise remote cluster (RERC) to install those controllers.
-
-    ```sh
-    kubectl apply -f crds/reaadb_crd.yaml
-    kubectl apply -f crds/rerc_crd.yaml
-    ```
-
-1. Enable the Active-Active and remote cluster controllers on the operator ConfigMap.
-
-    ```sh
-    kubectl patch cm  operator-environment-config --type merge --patch "{\"data\": \
-    {\"ACTIVE_ACTIVE_DATABASE_CONTROLLER_ENABLED\":\"true\", \
-    \"REMOTE_CLUSTER_CONTROLLER_ENABLED\":\"true\"}}"
-
+To create an Active-Active Redis Enterprise deployment for Kubernetes with these new features, first [prepare participating clusters]({{< relref "/operate/kubernetes/active-active/prepare-clusters" >}}) then [create an Active-Active database]({{< relref "/operate/kubernetes/active-active/create-reaadb" >}}).
 
 ### REAADB custom resource
 
 Redis Enterprise Active-Active database (REAADB) contains a link to the RERC for each participating cluster, and provides configuration and status to the management plane.
 
-For a full list of fields and options, see the [REAADB API reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_active_active_database_api">}}).
+For a full list of fields and options, see the [REAADB API reference]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_active_active_database_api">}}).
+
+For examples, see the [YAML examples]({{< relref "/operate/kubernetes/reference/yaml/active-active" >}}) section.
 
 ### RERC custom resource
 
 Redis Enterprise remote cluster (RERC) custom resource contains configuration details for all the participating clusters.
 
-For a full list of fields and options, see the [RERC API reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_remote_cluster_api">}}).
+For a full list of fields and options, see the [RERC API reference]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api">}}).
+
+For examples, see the [YAML examples]({{< relref "/operate/kubernetes/reference/yaml/active-active" >}}) section.
 
 ### Limitations
 

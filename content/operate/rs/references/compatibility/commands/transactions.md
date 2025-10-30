@@ -11,9 +11,9 @@ linkTitle: Transactions
 weight: 10
 ---
 
-The following table shows which Redis Community Edition [transaction commands]({{< relref "/commands" >}}?group=transactions) are compatible with standard and Active-Active databases in Redis Enterprise Software and Redis Cloud.
+The following table shows which Redis Open Source [transaction commands]({{< relref "/commands" >}}?group=transactions) are compatible with standard and Active-Active databases in Redis Enterprise Software and Redis Cloud.
 
-| Command | Redis<br />Enterprise | Redis<br />Cloud | Notes |
+| Command | Redis<br />Software | Redis<br />Cloud | Notes |
 |:--------|:----------------------|:-----------------|:------|
 | [DISCARD]({{< relref "/commands/discard" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 | [EXEC]({{< relref "/commands/exec" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |

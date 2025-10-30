@@ -79,11 +79,11 @@ To set up a Redis Cloud instance for Bedrock, you need to:
 
 1. Select **Amazon Web Services** as the cloud vendor and select a region.
 
-1. In the **Optimal database settings** section:
+1. In the **Database Sizing** section:
 
     {{<image filename="images/rc/pro-easy-create-size-throughput.png" alt="The Dataset size, throughput, and High availability settings.">}}
  
-    - Turn on [**High-availability**]({{< relref "/operate/rc/databases/configuration/high-availability" >}}).
+    - Select [**High availability**]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) if it is not already selected.
     - Set the Dataset size of your database based on the amount of data that Bedrock will pull from your Simple Storage Service (S3) [bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html). See [Find out the size of your S3 buckets](https://aws.amazon.com/blogs/storage/find-out-the-size-of-your-amazon-s3-buckets/) to find out how much knowledge base data is stored in your S3 bucket and pick the closest size, rounded up, from the table below. 
 
         | Total Size of Documents in S3 | Database size without replication | Database size with replication |
@@ -185,7 +185,7 @@ To create your vector index in Redis Insight:
 
 1. In the [Redis Cloud console](https://cloud.redis.io/), in your database's **Configuration** tab, select the **Connect** button next to your database to open the connection wizard.
 
-    {{< image filename="/images/rc/connection-wizard-button.png#no-click" alt="Connect button." >}}
+    {{< image filename="/images/rc/button-connect.png#no-click" alt="Connect button." >}}
 
 1. In the connection wizard, under **Redis Insight Desktop**, select **Public Endpoint**. Select **Open with Redis Insight** to connect to the database with Redis Insight.
 

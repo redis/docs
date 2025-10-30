@@ -16,7 +16,7 @@ OpenShift routes allow requests to be routed to the database or cluster API from
 
 * Before you can connect to your database from outside the cluster, you'll need the root CA certificate of the DMC Proxy server to validate the server certificate.
 
-  By default, the DMC Proxy uses a self-signed certificate.  You can retrieve it from the Redis Enterprise admin console and save it as a file (for example, named "ca.pem") on the client machine.
+  By default, the DMC Proxy uses a self-signed certificate.  You can retrieve it from the Redis Enterprise admin console, or from the machine at `/etc/opt/redislabs/proxy_cert.pem` (default location), and save it as a file (for example, named "ca.pem") on the client machine.
 
 * Your database also needs TLS encryption enabled.
 
