@@ -389,7 +389,8 @@ The supported attributes are:
 
 As of v2.6.1, the query attributes syntax supports these additional attributes:
 
-* **$yield_distance_as**: specifies the distance field name, used for later sorting and/or returning, for clauses that yield some distance metric. It is currently supported for vector queries only (both KNN and range).   
+* **$yield_distance_as**: specifies the distance field name for clauses that yield some distance metric. This is used for later sorting and/or returning. It is currently supported for vector queries only (both KNN and range).
+* **$shard_k_ratio**: controls how many results each shard retrieves relative to the requested top_k in cluster setups. Value range: 0.1 - 1.0 (default: 1.0). Only applicable to vector KNN queries in Redis cluster environments. See [Cluster-specific query parameters]({{< relref "develop/ai/search-and-query/vectors#cluster-specific-query-parameters" >}}) for detailed information.
 * **vector query params**: pass optional parameters for [vector queries]({{< relref "develop/ai/search-and-query/vectors#querying-vector-fields" >}}) in key-value format.
 
 ## A few query examples
@@ -457,6 +458,10 @@ As of v2.6.1, the query attributes syntax supports these additional attributes:
 * Numeric filtering - users with age greater than 18:
 
         @age:[(18 +inf]
+
+* Vector search with cluster optimization - retrieve 100 nearest neighbors with each shard providing 50% of results:
+
+        *=>[KNN 100 @doc_embedding $BLOB]=>{$SHARD_K_RATIO: 0.5; $YIELD_DISTANCE_AS: vector_distance}
 
 ## Mapping common SQL predicates to Redis Query Engine
 
