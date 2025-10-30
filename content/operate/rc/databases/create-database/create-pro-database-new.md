@@ -212,6 +212,7 @@ Note that databases are created in the background.  While they are provisioning,
 Use the **Database list** to check the status of your databases.
 
 
+## Billing unit types
 
 {{< embed-md "rc-pro-billing-units.md" >}}
 
