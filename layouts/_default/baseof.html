@@ -79,5 +79,20 @@
     {{ partial "toc-js.html" . }}
 
     {{ partial "search-modal.html" . }}
+
+    {{ if .Store.Get "hasMermaid" }}
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        themeVariables: {
+          fontFamily: 'Space Mono',
+          primaryColor: '#ffffff',
+          primaryBorderColor: '#ee0000'
+        }
+      });
+    </script>
+    {{ end }}
   </body>
 </html>
