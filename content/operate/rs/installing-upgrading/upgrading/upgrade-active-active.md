@@ -20,9 +20,13 @@ To upgrade an [Active-Active (CRDB) database]({{< relref "/operate/rs/databases/
 
 1. [Upgrade all Active-Active database instances](#upgrade-database-instances) to a later version of Redis.
 
-1. If the status indicates `OLD CRDB FEATURESET VERSION`, [upgrade the featureset version](#upgrade-featureset-version).
+1. If the status indicates `OLD CRDB FEATURESET VERSION`, [upgrade the featureset version](#upgrade-featureset-version). See [Feature version guidelines](#feature-version-guidelines) for more information.
 
-1. If your Active-Active database uses modules, [update module information](#update-module-information).
+1. If your Active-Active database uses modules, [update module information](#update-module-information). To check if your database uses modules, run [`rladmin status modules`]({{<relref "/operate/rs/references/cli-utilities/rladmin/status#status-modules">}}):
+
+    ```sh
+    rladmin status modules db { db:<ID> | <database-name> }
+    ```
 
 ## Check database status
 
@@ -49,7 +53,7 @@ For each Active-Active database instance:
 1. Upgrade the Redis database version and enabled modules with [`rladmin upgrade db`]({{<relref "/operate/rs/references/cli-utilities/rladmin/upgrade#upgrade-db">}}):
 
     ```sh
-    rladmin upgrade db <database_name | database_ID>
+    rladmin upgrade db { db:<ID> | <database-name> }
     ```
 
 1. If the CRDB protocol version is old, read the warning message carefully and confirm that you want to update the CRDB protocol. See [CRDB protocol version guidelines](#crdb-protocol-version-guidelines) for more information.
@@ -120,7 +124,7 @@ If the feature set version is old, as indicated by the `OLD CRDB FEATURESET VERS
 
 Starting with version 5.6.0, a new feature version (also called a _feature set version_) helps support new Active-Active features.
 
-When you update the feature version for an Active-Active database, the feature version is updated for all database instances.
+The featureset version is an internal version of the Active-Active feature that enables new capabilities and improvements across participating Active-Active clusters. When you update the feature version for an Active-Active database, the feature version is updated for all database instances.
     
 Follow these upgrade guidelines:
 
@@ -132,10 +136,10 @@ Follow these upgrade guidelines:
 
 If your Active-Active database uses modules:
 
-1. update module information in the CRDB configuration using the following command syntax:
+1. Update module information in the CRDB configuration using the following command syntax:
 
     ```sh
-    crdb-cli crdb update --crdb-guid <guid> --update-db-config-modules true
+    crdb-cli crdb update --crdb-guid <CRDB-GUID> --update-db-config-modules true
     ```
 
 1. `crdb-cli` will ask you to verify all Active-Active database instances and their modules have been updated before you enter `y` to continue:
