@@ -9,6 +9,15 @@ When working with Redis, errors can occur for various reasons—network issues, 
 
 ## Categories of errors
 
+Redis errors fall into four main categories. The table below provides a quick overview of each type. Click on any error type to jump to its detailed section, which includes common causes, examples, handling strategies, and code examples.
+
+| Error Type | Common Causes | When to Handle | Examples |
+|---|---|---|---|
+| [Connection errors](#connection-errors) | Network issues, server down, auth failure, timeouts, pool exhaustion | Almost always | `ConnectionError`, `TimeoutError`, `AuthenticationError` |
+| [Command errors](#command-errors) | Typo in command, wrong arguments, invalid types, unsupported command | Rarely (usually indicates a bug) | `ResponseError`, `WRONGTYPE`, `ERR unknown command` |
+| [Data errors](#data-errors) | Serialization failures, corrupted data, type mismatches | Sometimes (depends on data source) | `JSONDecodeError`, `SerializationError`, `WRONGTYPE` |
+| [Resource errors](#resource-errors) | Memory limit, pool exhausted, too many connections, key eviction | Sometimes (some are temporary) | `OOM`, pool timeout, `LOADING` |
+
 ### Connection errors
 
 Connection errors occur when your application cannot communicate with Redis. These are typically temporary and often recoverable.
@@ -29,7 +38,7 @@ Connection errors occur when your application cannot communicate with Redis. The
 
 **Example strategy:**
 
-```mermaid {width="100%"}
+```mermaid {width="80%"}
 graph TB
     A["Try to connect<br/>to Redis"]
     A -->|Success| B(["Use the result"])
@@ -87,7 +96,7 @@ Data errors occur when there's a problem with the data itself—serialization fa
 
 **Example:**
 
-```mermaid {width="60%"}
+```mermaid {width="50%"}
 graph TB
     A["Read cached data"]
     A --> B["Try to deserialize"]
@@ -270,8 +279,11 @@ These metrics help you identify patterns and potential issues.
 
 ## Common mistakes
 
-### ❌ Catching all exceptions
+### Catching all exceptions
 
+**Problem:** You might catch unexpected errors and hide bugs.
+
+**Example (wrong):**
 ```python
 try:
     result = r.get(key)
@@ -279,9 +291,9 @@ except Exception:  # Too broad!
     pass
 ```
 
-**Problem:** You might catch unexpected errors and hide bugs.
+**Better approach:** Catch specific exception types.
 
-**✅ Better:**
+**Example (correct):**
 ```python
 try:
     result = r.get(key)
@@ -290,8 +302,11 @@ except redis.ConnectionError:
     pass
 ```
 
-### ❌ Not distinguishing error types
+### Not distinguishing error types
 
+**Problem:** Different errors need different handling. Retrying a syntax error won't help.
+
+**Example (wrong):**
 ```python
 try:
     result = r.get(key)
@@ -300,9 +315,9 @@ except redis.ResponseError:
     retry()
 ```
 
-**Problem:** Different errors need different handling.
+**Better approach:** Handle each error type differently based on whether it's recoverable.
 
-**✅ Better:**
+**Example (correct):**
 ```python
 try:
     result = r.get(key)
@@ -312,8 +327,11 @@ except redis.ResponseError:
     raise   # Fail on syntax error
 ```
 
-### ❌ Retrying non-idempotent operations
+### Retrying non-idempotent operations
 
+**Problem:** Retrying non-idempotent operations can cause data corruption. Each retry increments the counter again.
+
+**Example (wrong):**
 ```python
 # This increments the counter each retry!
 for attempt in range(3):
@@ -324,20 +342,19 @@ for attempt in range(3):
         pass  # Retry
 ```
 
-**Problem:** Retrying non-idempotent operations can cause data corruption.
+**Better approach:** Only retry idempotent operations (GET, SET with same value) or use transactions.
 
-**✅ Better:** Only retry idempotent operations (GET, SET with same value) or use transactions.
+### Ignoring connection pool errors
 
-### ❌ Ignoring connection pool errors
+**Problem:** Connection pool errors indicate a configuration or concurrency issue that needs to be addressed.
 
+**Example (wrong):**
 ```python
 # Pool is exhausted, but we don't handle it
 result = r.get(key)  # Might timeout waiting for connection
 ```
 
-**Problem:** Connection pool errors indicate a configuration or concurrency issue.
-
-**✅ Better:** Monitor pool usage and increase size if needed.
+**Better approach:** Monitor pool usage and increase size if needed.
 
 ## Client-specific error handling
 
