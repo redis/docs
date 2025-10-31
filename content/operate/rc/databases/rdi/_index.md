@@ -70,6 +70,8 @@ Please be aware of the following limitations:
 
 ## Get started
 
+To get started fast with RDI on Redis Cloud, see the [RDI Cloud quick start]({{<relref "operate/rc/databases/rdi/quick-start">}}) to create a data pipeline between a PostgreSQL source database and a Redis Cloud target database.
+
 To create a new data pipeline, you need to:
 
 1. [Prepare your source database]({{<relref "/operate/rc/databases/rdi/setup">}}) and any associated credentials.

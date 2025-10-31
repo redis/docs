@@ -7,14 +7,14 @@ categories:
 - rc
 description: Prepare your source database, network setup, and database credentials for Data integration.
 hideListLinks: true
-weight: 1
+weight: 2
 ---
 
 ## Create new data pipeline
 
 1. In the [Redis Cloud console](https://cloud.redis.io/), go to your target database and select the **Data Pipeline** tab.
-1. Select **Create data pipeline**.
-    {{<image filename="images/rc/rdi/rdi-create-data-pipeline.png" alt="The create data pipeline button." width=200px >}}
+1. Select **Create pipeline**.
+    {{<image filename="images/rc/rdi/rdi-create-data-pipeline.png" alt="The create pipeline button." width=200px >}}
 1. Select your source database type. The following database types are supported:
     - MySQL
     - mariaDB

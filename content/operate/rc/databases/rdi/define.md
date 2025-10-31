@@ -7,7 +7,7 @@ categories:
 - rc
 description: Define the source connection and data pipeline.
 hideListLinks: true
-weight: 2
+weight: 3
 ---
 
 After you have [prepared your source database]({{<relref "/operate/rc/databases/rdi/setup">}}) and connection information, you can set up your new pipeline. To do this:

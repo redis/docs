@@ -7,7 +7,7 @@ categories:
 - rc
 description: Observe and change your data pipeline.
 hideListLinks: true
-weight: 3
+weight: 4
 ---
 
 Use the **Data pipeline** tab in your database to view and edit your data pipeline.
