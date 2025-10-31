@@ -117,6 +117,12 @@ protocol to the specified version and also accepts the following options:
 * `AUTH <username> <password>`: directly authenticate the connection in addition to switching to the specified protocol version. This makes calling [`AUTH`]({{< relref "/commands/auth" >}}) before `HELLO` unnecessary when setting up a new connection. Note that the `username` can be set to "default" to authenticate against a server that does not use ACLs, but rather the simpler `requirepass` mechanism of Redis prior to version 6.
 * `SETNAME <clientname>`: this is the equivalent of calling [`CLIENT SETNAME`]({{< relref "/commands/client-setname" >}}).
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+
 ## Return information
 
 {{< multitabs id="hello-return-info" 

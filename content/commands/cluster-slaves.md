@@ -52,6 +52,12 @@ configuration update, it may show stale information. However eventually
 (in a matter of seconds if there are no network partitions) all the nodes
 will agree about the set of nodes associated with a given master.
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | Deprecated as of Redis v5.0.0. |
+
 ## Return information
 
 {{< multitabs id="cluster-slaves-return-info" 

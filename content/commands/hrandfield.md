@@ -93,6 +93,12 @@ When the `count` is a negative value, the behavior changes as follows:
 * Exactly `count` fields, or an empty array if the hash is empty (non-existing key), are always returned.
 * The order of fields in the reply is truly random.
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+
 ## Return information
 
 {{< multitabs id="hrandfield-return-info" 

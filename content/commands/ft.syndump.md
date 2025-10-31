@@ -62,6 +62,13 @@ Use FT.SYNDUMP to dump the synonyms data structure. This command returns a list 
 {{< / highlight >}}
 </details>
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span> | <span title="Flexible & Annual"><span title="Supported">&#x2705; Supported</span></span><br /><span title="Free & Fixed"><span title="Supported">&#x2705; Supported</nobr></span></span> |  |
+
+
 ## Return information
 
 {{< multitabs id="ft-syndump-return-info" 
