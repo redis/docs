@@ -5,7 +5,6 @@ categories:
 - docs
 - operate
 - kubernetes
-aliases: [/operate/kubernetes/reference/redis_enterprise_cluster_api, /operate/kubernetes/reference/cluster-options]
 linkTitle: REC API
 weight: 30
 ---
@@ -1300,7 +1299,7 @@ Specification for Redis Enterprise Cluster persistence
         <td>volumeSize</td>
         <td>int or string</td>
         <td>
-          To enable resizing after creating the cluster - please follow the instructions in the pvc_expansion readme<br/>
+          By default, if you omit spec.persistentSpec.volumeSize, the operator allocates a persistent volume that is five times (5x) the Redis Enterprise node memory request defined in spec.redisEnterpriseNodeResources.requests.memory (per node). This 5x ratio is the recommended minimum capacity. To enable resizing after creating the cluster, see the Expand PVC docs: https://redis.io/docs/latest/operate/kubernetes/re-clusters/expand-pvc/<br/>
         </td>
         <td>false</td>
       </tr></tbody>
