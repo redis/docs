@@ -40,6 +40,8 @@ For troubleshooting specific issues, see:
 
 The [Redis Software knowledge base](https://support.redislabs.com/hc/en-us/categories/26174244088594-Redis-Software) provides additional guides and troubleshooting resources.
 
+- [Uploading Support Packages & Cluster Health Analysis](https://support.redislabs.com/hc/en-us/articles/26502436628370-Uploading-Support-Packages-Cluster-Health-Analysis)
+
 - [Tools for Identifying Failures in Clusters](https://support.redislabs.com/hc/en-us/articles/26759137301394-Tools-for-Identifying-Failures-in-Clusters)
 
 - [Troubleshooting TLS Failures](https://support.redislabs.com/hc/en-us/articles/26867190871314-Troubleshooting-TLS-Failures)

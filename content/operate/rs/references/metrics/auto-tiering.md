@@ -1,16 +1,16 @@
 ---
-Title: Auto Tiering Metrics
+Title: Redis Flex and Auto Tiering Metrics
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
 description: null
-linkTitle: Auto Tiering
+linkTitle: Redis Flex and Auto Tiering
 weight: $weight
 ---
 
-These metrics are additional metrics for [Auto Tiering ]({{< relref "/operate/rs/databases/auto-tiering" >}}) databases.
+These metrics are additional metrics for [Redis Flex and Auto Tiering ]({{< relref "/operate/rs/databases/flash" >}}) databases.
 
 #### % Values in RAM
 

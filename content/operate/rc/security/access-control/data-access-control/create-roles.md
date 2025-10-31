@@ -44,7 +44,7 @@ When you assign a user-defined ACL rule to a role and associate it with one or m
 
 After you create a role, you can assign it to a user. Users with this role can access the databases according to the role's associated Redis ACLs. For more information, see [Assign roles to users]({{< relref "/operate/rc/security/access-control/data-access-control/create-assign-users#assign-roles-to-existing-users" >}}).
 
-To assign Redis ACLs to a role for an [Active-Active database]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}), see [Active-Active access roles]({{< relref "/operate/rc/security/access-control/data-access-control/active-active-roles" >}}).
+To assign Redis ACLs to a role for an [Active-Active database]({{< relref "/operate/rc/databases/active-active" >}}), see [Active-Active access roles]({{< relref "/operate/rc/security/access-control/data-access-control/active-active-roles" >}}).
 
 {{< note >}}
 {{< embed-md "rc-acls-note.md" >}}
