@@ -117,20 +117,28 @@ In this case, the time to live is _updated_ to the new value.
 
 Starting with Redis 8, the Redis Query Engine has enhanced behavior when handling expiring hash fields. For detailed information about how [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) and [`FT.AGGREGATE`]({{< relref "/commands/ft.aggregate" >}}) commands interact with expiring hash fields, see [Key and field expiration behavior]({{< relref "/develop/ai/search-and-query/advanced-concepts/expiration" >}}).
 
-## Example
+## Examples
 
-```
-redis> HEXPIRE no-key 20 NX FIELDS 2 field1 field2
+{{< clients-example set="cmds_hash" step="hexpire" >}}
+HEXPIRE no-key 20 NX FIELDS 2 field1 field2
 (nil)
-redis> HSET mykey field1 "hello" field2 "world"
+HSET mykey field1 "hello" field2 "world"
 (integer) 2
-redis> HEXPIRE mykey 10 FIELDS 3 field1 field2 field3
+HEXPIRE mykey 10 FIELDS 3 field1 field2 field3
 1) (integer) 1
 2) (integer) 1
 3) (integer) -2
-redis> HGETALL mykey
-(empty array)
-```
+HGETALL mykey
+{{< /clients-example >}}
+
+Give these commands a try in the interactive console:
+
+{{% redis-cli %}}
+HEXPIRE no-key 20 NX FIELDS 2 field1 field2
+HSET mykey field1 "hello" field2 "world"
+HEXPIRE mykey 10 FIELDS 3 field1 field2 field3
+HGETALL mykey
+{{% /redis-cli %}}
 
 ## Return information
 

@@ -107,36 +107,15 @@ without upgrading the CRDB protocol version.
     700140c5-478e-49d7-ad3c-64d517ddc486  aatest  2        aatest2.example.com
     ```
 
-1. Update module information in the CRDB configuration using the following command syntax:
+1. Update module information in the CRDB configuration using the following command:
 
     ```sh
-    crdb-cli crdb update --crdb-guid <guid> --default-db-config \
-    '{ "module_list": 
-      [
-        { 
-          "module_name": "<module1_name>",
-          "semantic_version": "<module1_version>" 
-        },
-        { 
-          "module_name": "<module2_name>",
-          "semantic_version": "<module2_version>" 
-        }
-      ]}'
+    crdb-cli crdb update --crdb-guid <guid> --update-db-config-modules true
     ```
 
-    For example:
+    `crdb-cli` will ask you to verify all Active-Active database instances and their modules have been updated before you enter `y` to continue.
 
-    ```sh
-    crdb-cli crdb update --crdb-guid 82a80988-f5fe-4fa5-bca0-aef2a0fd60db --default-db-config \
-    '{ "module_list": 
-      [
-        {
-          "module_name": "search",
-          "semantic_version": "2.4.6"
-        },
-        {
-          "module_name": "ReJSON",
-          "semantic_version": "2.4.5"
-        }
-      ]}' 
+    ```
+    Verify that all CRDB database instances and their modules have been updated.
+    Do you want to continue? (y/n): y
     ```

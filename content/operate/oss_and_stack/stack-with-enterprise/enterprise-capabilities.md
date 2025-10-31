@@ -49,6 +49,7 @@ For details about individual features, see the corresponding documentation.
 | Persistence (AOF)         | Yes (v1.4)     | Yes (v1.0)   |
 | Persistence (snapshot)    | Yes (v1.6)     | Yes (v1.0)   |
 | Auto Tiering [^4]         | Yes (v2.0)     | Yes (v1.0)   |
+| Redis Flex                | No             | Yes (v8.0)   |
 | Replica Of                | Yes (v1.6)[^2] | Yes (v1.0)   |
 | Reshard/rebalance         | Yes (v2.0)     | Yes (v1.0)   |
 
@@ -56,7 +57,7 @@ For details about individual features, see the corresponding documentation.
 
 [^2]: RediSearch version 1.6 supported Replica Of only between databases with the same number of shards.  This limitation was fixed in v2.0. 
 
-[^3]: You cannot use search and query with the [OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}).
+[^3]: You cannot use search and query with the [OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}). This limitation was fixed in Redis Enterprise Software version 8.0.
 
 [^4]: You currently cannot combine Auto Tiering with Redis Open Source features in Redis Cloud. 
 
@@ -77,6 +78,7 @@ For details about individual features, see the corresponding documentation.
 | Persistence (AOF)        | Yes (v1.2)     | Yes (v2.0)   | Yes (v1.0) |
 | Persistence (snapshot)   | Yes (v1.2)     | Yes (v2.0)   | Yes (v1.0) |
 | Auto Tiering [^4]        | Yes (v1.6)[^6] | Yes (vTBD)   | Yes (vTBD) |
+| Redis Flex               | No               | Yes (v8.0)   | No |
 | Replica Of               | Yes (v1.2)     | Yes (v2.0)   | No         |
 | Reshard/rebalance        | Yes (v1.2)     | Yes (v2.0)   | Yes (v1.0) |
 
@@ -97,6 +99,7 @@ The following table briefly describes each feature shown in the earlier tables.
 | Persistence (AOF)       | Compatible with databases using AoF persistence |
 | Persistence (snapshot)  | Compatible with databases using snapshot persistence | 
 | Auto Tiering    | Compatible with Auto Tiering |
+| Redis Flex      | Compatible with Redis Flex |
 | Replica Of              | Compatible with Active-Passive replication | 
 | Reshard/rebalance       | Compatible with database scaling for clustered databases, which redistributes data between the new shards. |
 
