@@ -5,7 +5,6 @@ categories:
 - docs
 - operate
 - kubernetes
-aliases: [/operate/kubernetes/reference/redis_enterprise_active_active_database_api]
 linkTitle: REAADB API
 weight: 30
 ---
@@ -491,6 +490,13 @@ Settings for database alerts. Note - Alert settings are not supported for Active
         </td>
         <td>false</td>
       </tr><tr>
+        <td><a href="#specglobalconfigurationsalertsettingsbdb_proxy_cert_expiring_soon">bdb_proxy_cert_expiring_soon</a></td>
+        <td>object</td>
+        <td>
+          Proxy certificate will expire in less than specified threshold value [days]<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td><a href="#specglobalconfigurationsalertsettingsbdb_ram_dataset_overhead">bdb_ram_dataset_overhead</a></td>
         <td>object</td>
         <td>
@@ -764,6 +770,38 @@ An alert for state-machines that are running for too long
 <sup><sup>[↩ Parent](#specglobalconfigurationsalertsettings)</sup></sup>
 
 Throughput is lower than specified threshold value [requests / sec.]
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>enabled</td>
+        <td>boolean</td>
+        <td>
+          Alert enabled or disabled<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>threshold</td>
+        <td>string</td>
+        <td>
+          Threshold for alert going on/off<br/>
+        </td>
+        <td>true</td>
+      </tr></tbody>
+</table>
+
+
+### spec.globalConfigurations.alertSettings.bdb_proxy_cert_expiring_soon
+<sup><sup>[↩ Parent](#specglobalconfigurationsalertsettings)</sup></sup>
+
+Proxy certificate will expire in less than specified threshold value [days]
 
 <table>
     <thead>
@@ -1457,9 +1495,12 @@ Redis Enterprise Role and ACL Binding
         <td>true</td>
       </tr><tr>
         <td>type</td>
-        <td>string</td>
+        <td>enum</td>
         <td>
-          Type of Redis Enterprise Database Role Permission<br/>
+          Type of Redis Enterprise Database Role Permission. Currently, only "redis-enterprise" is supported, which uses roles and ACLs defined within Redis Enterprise directly.<br/>
+          <br/>
+            <i>Enum</i>: redis-enterprise<br/>
+            <i>Default</i>: redis-enterprise<br/>
         </td>
         <td>true</td>
       </tr></tbody>
