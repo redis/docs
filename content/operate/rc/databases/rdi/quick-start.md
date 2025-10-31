@@ -11,7 +11,7 @@ hideListLinks: true
 weight: 1
 ---
 
-The [`rdi-cloud-automation` GitHub repository](https://github.com/redis-field-engineering/rdi-cloud-automation) contains a Terraform script that quickly sets up a PostgreSQL source database on an EC2 instance and all required permissions and network setup to connect it to a Redis Cloud target database.
+The [`rdi-cloud-automation` GitHub repository](https://github.com/redis/rdi-cloud-automation) contains a Terraform script that quickly sets up a PostgreSQL source database on an EC2 instance and all required permissions and network setup to connect it to a Redis Cloud target database.
 
 {{< note >}}
 This guide is for demonstration purposes only. It is not recommended for production use.
@@ -44,7 +44,7 @@ To follow this guide, you need to:
 
 ## Create the source database and network resources
 
-1. Clone or download the [`rdi-cloud-automation` GitHub repository](https://github.com/redis-field-engineering/rdi-cloud-automation).
+1. Clone or download the [`rdi-cloud-automation` GitHub repository](https://github.com/redis/rdi-cloud-automation).
 
 1. In a terminal window, go to the `examples` directory.
 
@@ -55,7 +55,7 @@ To follow this guide, you need to:
     - `region`: The AWS region where your Redis Cloud database is deployed.
     - `azs`: The availability zone IDs where your Redis Cloud database is deployed.
     - `port`: The port number for the new PostgreSQL source database.
-    - `name`: A prefix for all of the created AWS resources
+    - `name`: A prefix for all of the created AWS resources.
     - `redis-account`: The AWS account ID for your Redis Cloud cluster you saved earlier.
 
 1. To view the configuration, run:
