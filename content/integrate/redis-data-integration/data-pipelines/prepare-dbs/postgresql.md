@@ -1,5 +1,5 @@
 ---
-Title: Prepare PostgreSQL for RDI
+Title: Prepare PostgreSQL/Supabase for RDI
 aliases: /integrate/redis-data-integration/ingest/data-pipelines/prepare-dbs/postgresql/
 alwaysopen: false
 categories:
@@ -7,14 +7,20 @@ categories:
 - integrate
 - rs
 - rdi
-description: Prepare PostgreSQL databases to work with RDI
+description: Prepare PostgreSQL databases (including Supabase) to work with RDI
 group: di
-linkTitle: Prepare PostgreSQL
+linkTitle: Prepare PostgreSQL/Supabase
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
 weight: 2
 ---
+
+{{< note >}}
+[Supabase](https://supabase.com/docs/guides/database/overview) uses PostgreSQL as
+its database engine, so the instructions below also apply to Supabase. However, RDI
+doesn't currently support cloud deployments of Supabase with AWS or GCP.
+{{< /note >}}
 
 PostgreSQL supports several
 [logical decoding plug-ins](https://wiki.postgresql.org/wiki/Logical_Decoding_Plugins)
