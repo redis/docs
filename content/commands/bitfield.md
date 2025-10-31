@@ -230,6 +230,12 @@ When offsets and integer sizes are aligned to bytes boundaries, this is the
 same as big endian, however when such alignment does not exist, its important
 to also understand how the bits inside a byte are ordered.
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+
 ## Return information
 
 {{< multitabs id="bitfield-return-info" 

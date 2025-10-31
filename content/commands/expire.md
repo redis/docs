@@ -270,6 +270,12 @@ fully acting as a master.
 
 Starting with Redis 8, the Redis Query Engine has enhanced behavior when handling expiring keys. For detailed information about how [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) and [`FT.AGGREGATE`]({{< relref "/commands/ft.aggregate" >}}) commands interact with expiring keys, see [Key and field expiration behavior]({{< relref "/develop/ai/search-and-query/advanced-concepts/expiration" >}}).
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+
 ## Return information
 
 {{< multitabs id="expire-return-info" 

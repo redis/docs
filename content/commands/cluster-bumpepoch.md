@@ -37,6 +37,12 @@ The `CLUSTER BUMPEPOCH` command triggers an increment to the cluster's config ep
 
 **Note:** config epoch management is performed internally by the cluster, and relies on obtaining a consensus of nodes. The `CLUSTER BUMPEPOCH` attempts to increment the config epoch **WITHOUT** getting the consensus, so using it may violate the "last failover wins" rule. Use it with caution.
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+
 ## Return information
 
 {{< multitabs id="cluster-bumpepoch-return-info" 

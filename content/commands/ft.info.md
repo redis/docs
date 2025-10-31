@@ -353,6 +353,13 @@ The next two GC-related fields are relevant in scenarios where simultaneous chan
 {{< / highlight >}}
 </details>
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span> | <span title="Flexible & Annual"><span title="Supported">&#x2705; Supported</span></span><br /><span title="Free & Fixed"><span title="Supported">&#x2705; Supported</nobr></span></span> |  |
+
+
 ## Return information
 
 {{< multitabs id="ft-info-return-info" 

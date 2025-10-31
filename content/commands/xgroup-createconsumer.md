@@ -57,6 +57,12 @@ Create a consumer named `<consumername>` in the consumer group `<groupname>` of 
 Consumers are also created automatically whenever an operation, such as [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}), references a consumer that doesn't exist.
 This is valid for [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) only when there is data in the stream.
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+
 ## Return information
 
 {{< multitabs id="xgroup-createconsumer-return-info" 
