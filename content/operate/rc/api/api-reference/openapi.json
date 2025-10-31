@@ -2862,7 +2862,7 @@
           "Subscriptions - Pro"
         ],
         "summary": "Get Pro subscription CIDR whitelist",
-        "description": "(Self-hosted AWS subscriptions only) Gets a Pro subscription's CIDR whitelist.",
+        "description": "(Bring your own Cloud only) Gets a Pro subscription's CIDR whitelist. ((Bring your own Cloud only) Gets a Pro subscription's CIDR whitelist. ([Asynchronous operation](https://redis.io/docs/latest/operate/rc/api/get-started/process-lifecycle/) - returns a taskId to query [GET /tasks/{taskId}](#tag/Tasks/operation/getTaskById))",
         "operationId": "getCidrWhiteList",
         "parameters": [
           {
