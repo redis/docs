@@ -9,6 +9,7 @@ description: This task describes how to upgrade a Redis Enterprise cluster via t
   operator.
 linkTitle: Kubernetes
 weight: 10
+url: '/operate/kubernetes/7.22/upgrade/upgrade-redis-cluster/'
 ---
 
 Redis implements rolling updates for software upgrades in Kubernetes deployments. The upgrade process includes updating three components:
@@ -25,7 +26,7 @@ See the [troubleshooting](#troubleshooting) section for details on recovering a 
 
 ### Kubernetes version
 
-Check [Supported Kubernetes distributions]({{<relref "/operate/kubernetes/reference/supported_k8s_distributions" >}}) to make sure your Kubernetes distribution is supported by your target Redis Enterprise operator version. If not, upgrade your Kubernetes distribution before upgrading the Redis operator.
+Check [Supported Kubernetes distributions]({{<relref "/operate/kubernetes/7.22/reference/supported_k8s_distributions" >}}) to make sure your Kubernetes distribution is supported by your target Redis Enterprise operator version. If not, upgrade your Kubernetes distribution before upgrading the Redis operator.
 
 ### Redis operator version
 
@@ -33,7 +34,7 @@ Check the [Redis Enterprise for Kubernetes release notes]({{<relref "/operate/ku
 
 ### Redis database version
 
-Check the release notes for your target version to determine the minimum Redis database version required. See [upgrade databases](#upgrade-databases) for detailed steps. You can find your database version in the [REDB `spec.redisVersion` field]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_database_api#redisversion" >}}).
+Check the release notes for your target version to determine the minimum Redis database version required. See [upgrade databases](#upgrade-databases) for detailed steps. You can find your database version in the [REDB `spec.redisVersion` field]({{<relref "/operate/kubernetes/7.22/reference/api/redis_enterprise_database_api#redisversion" >}}).
 
 ### Module compatibility
 
@@ -82,7 +83,7 @@ helm upgrade <release-name> redis/redis-enterprise-operator --version <chart-ver
 
 After the Helm upgrade completes, continue with [upgrading the Redis Enterprise cluster (REC)](#upgrade-the-redis-enterprise-cluster-rec) and [upgrading databases](#upgrade-databases).
 
-For detailed Helm upgrade instructions, see [Upgrade the chart]({{<relref "/operate/kubernetes/deployment/helm#upgrade-the-chart">}}).
+For detailed Helm upgrade instructions, see [Upgrade the chart]({{<relref "/operate/kubernetes/7.22/deployment/helm#upgrade-the-chart">}}).
 
 ## Upgrade the operator
 
@@ -192,7 +193,7 @@ If you are upgrading from a preview version of the Active-Active controller, you
 
 ### Reapply roles and role bindings
 
-If your operator is monitoring multiple namespaces, you'll need to [reapply your role and role bindings]({{< relref "/operate/kubernetes/re-clusters/multi-namespace#create-role-and-role-binding-for-managed-namespaces" >}}) for each managed namespace. See [Manage databases in multiple namespaces]({{< relref "/operate/kubernetes/re-clusters/multi-namespace" >}}) for more details.
+If your operator is monitoring multiple namespaces, you'll need to [reapply your role and role bindings]({{< relref "/operate/kubernetes/7.22/re-clusters/multi-namespace#create-role-and-role-binding-for-managed-namespaces" >}}) for each managed namespace. See [Manage databases in multiple namespaces]({{< relref "/operate/kubernetes/7.22/re-clusters/multi-namespace" >}}) for more details.
 
 ### Monitor the upgrade
 
@@ -205,7 +206,7 @@ You can view the state of the REC with `kubectl get rec`.
 ```sh
 $ kubectl get rec
 NAME   NODES   VERSION      STATE     SPEC STATUS   LICENSE STATE   SHARDS LIMIT   LICENSE EXPIRATION DATE   AGE
-rec    3       8.0.2-17   Upgrade   Valid         Valid           4              2022-07-16T13:59:00Z      92m
+rec    3       6.2.10-107   Upgrade   Valid         Valid           4              2022-07-16T13:59:00Z      92m
 ```
 
 To see the status of the current rolling upgrade, run:
@@ -216,17 +217,11 @@ kubectl rollout status sts <REC_name>
 
 ### Upgrade databases
 
-After the cluster is upgraded, you can upgrade your databases.
+After the cluster is upgraded, you can upgrade your databases. To upgrade your REDB, specify your new database version in the `spec.redisVersion` field in the REDB custom resources. Check the release notes for your operator version to see which database versions are supported (note this value is a string).
 
-To upgrade your REDB, specify your new database version in the `spec.redisVersion` field in the REDB or REAADB custom resources. Supported database versions for operator versions include "7.2", "7.4", "8.0", and "8.2" (note this value is a string).  
+To upgrade your REAADB, see [Upgrade an Active-Active database]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-active-active/">}}) for details on the `rladmin` and `crdb-cli` commands required. Reach out to Redis support if you have additional questions.
 
-For Active-Active databases, the `redis.Version` change only needs to be applied on one participating cluster and will automatically propagate to all other participating clusters. All participating clusters must be running operator version 8.0.2-2 or later.
-
-If your REAADB uses supported modules, keep the existing `moduleList` version numbers unchanged when upgrading `redisVersion`. The database will automatically use the module versions that are bundled with the new Redis version, regardless of what versions are specified in `moduleList`. After the upgrade is complete, you can optionally change the old version numbers from `moduleList`, but this change has no functional impact.
-
-#### General upgrade notes
-
-Note that if your cluster [`redisUpgradePolicy`]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api#redisupgradepolicy" >}}) or your database [`redisVersion`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_database_api#redisversion" >}}) are set to `major`, you won't be able to upgrade those databases to minor versions. See [Redis upgrade policy]({{< relref "/operate/rs/installing-upgrading/upgrading#redis-upgrade-policy" >}}) for more details.
+Note that if your cluster [`redisUpgradePolicy`]({{<relref "/operate/kubernetes/7.22/reference/api/redis_enterprise_cluster_api#redisupgradepolicy" >}}) or your database [`redisVersion`]({{< relref "/operate/kubernetes/7.22/reference/api/redis_enterprise_database_api#redisversion" >}}) are set to `major`, you won't be able to upgrade those databases to minor versions. See [Redis upgrade policy]({{< relref "/operate/rs/installing-upgrading/upgrading#redis-upgrade-policy" >}}) for more details.
 
 ## Troubleshooting
 
