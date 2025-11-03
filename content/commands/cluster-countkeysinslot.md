@@ -34,7 +34,7 @@ command only queries the local data set, so contacting a node
 that is not serving the specified hash slot will always result in a count of
 zero being returned.
 
-{{< note>}}During atomic slot migration operations (available since Redis 8.4.0), keys being imported or trimmed may be filtered out from the results.
+{{< note>}}During atomic slot migration operations (available since Redis 8.4.0), keys being imported or trimmed will be filtered out from the results.
 {{< /note >}}
 
 ```

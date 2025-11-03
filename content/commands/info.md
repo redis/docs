@@ -504,16 +504,9 @@ The **sentinel** section is only available in Redis Sentinel instances. It consi
 *   `sentinel_scripts_queue_length`: The length of the queue of user scripts that are pending execution
 *   `sentinel_simulate_failure_flags`: Flags for the `SENTINEL SIMULATE-FAILURE` command
     
-The **cluster** section contains the following fields:
+The **cluster** section contains a single fields:
 
-*   `cluster_enabled`: Indicate Redis cluster is enabled
-*   `cluster_slot_migration_active_tasks`: Number of in-progress ASM tasks. Currently, it will be 1 or 0.
-*   `cluster_slot_migration_active_trim_running`: Number of active trim jobs in progress and scheduled.
-*   `cluster_slot_migration_active_trim_current_job_keys`: Number of keys scheduled for deletion in the current trim job.
-*   `cluster_slot_migration_active_trim_current_job_trimmed`: Number of keys already deleted in the current trim job.
-*   `cluster_slot_migration_stats_active_trim_started`: Total number of trim jobs that have started since the process began.
-*   `cluster_slot_migration_stats_active_trim_completed`: Total number of trim jobs completed since the process began.
-*   `cluster_slot_migration_stats_active_trim_cancelled`: Total number of trim jobs cancelled since the process began.
+*   `cluster_enabled`: Indicates whether Redis cluster is enabled.
 
 The **modules** section contains additional information about loaded modules if the modules provide it. The field part of property lines in this section are always prefixed with the module's name.
 
