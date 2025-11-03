@@ -44,6 +44,9 @@ node to another. The way the rehashing is performed is exposed in the Redis
 Cluster specification, or in a more simple to digest form, as an appendix
 of the [`CLUSTER SETSLOT`]({{< relref "/commands/cluster-setslot" >}}) command documentation.
 
+{{< note >}}During atomic slot migration operations (available since Redis 8.4.0), keys being imported or trimmed will be filtered out from the results.
+{{< /note >}}
+
 ```
 > CLUSTER GETKEYSINSLOT 7000 3
 1) "key_39015"
