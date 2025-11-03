@@ -27,7 +27,7 @@ progress in implementing the recommendations.
 {{< checklist "nodeprodlist" >}}
     {{< checklist-item "#handling-errors" >}}Handling errors{{< /checklist-item >}}
     {{< checklist-item "#handling-reconnections" >}}Handling reconnections{{< /checklist-item >}}
-    {{< checklist-item "#connection-timeouts" >}}Connection timeouts{{< /checklist-item >}}
+    {{< checklist-item "#timeouts" >}}Timeouts{{< /checklist-item >}}
     {{< checklist-item "#command-execution-reliability" >}}Command execution reliability{{< /checklist-item >}}
     {{< checklist-item "#seamless-client-experience" >}}Smart client handoffs{{< /checklist-item >}}
 {{< /checklist >}}
@@ -65,7 +65,7 @@ own custom strategy. See
 [Reconnect after disconnection]({{< relref "/develop/clients/nodejs/connect#reconnect-after-disconnection" >}})
 for more information.
 
-### Connection timeouts
+### Timeouts
 
 To set a timeout for a connection, use the `connectTimeout` option
 (the default timeout is 5 seconds):
@@ -78,6 +78,23 @@ const client = createClient({
   }
 });
 client.on('error', error => console.error('Redis client error:', error));
+```
+
+You can also set timeouts for individual commands using `AbortController`:
+
+```javascript
+import { createClient, commandOptions } from 'redis';
+
+const client = createClient({ url: 'redis://localhost:6379' });
+await client.connect();
+
+const ac = new AbortController();
+const t = setTimeout(() => ac.abort(), 1000);
+try {
+  const val = await client.get(commandOptions({ signal: ac.signal }), key);
+} finally {
+  clearTimeout(t);
+}
 ```
 
 ### Command execution reliability
