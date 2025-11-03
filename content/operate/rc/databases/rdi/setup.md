@@ -331,4 +331,4 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
 
 After you have set up your source database and prepared connectivity and credentials, select **Define source database** to [define your source connection and data pipeline]({{<relref "/operate/rc/databases/rdi/define">}}).
 
-{{<image filename="images/rc/rdi/rdi-define-source-database.png" alt="ADD ALT TEXT" width=200px >}}
+{{<image filename="images/rc/rdi/rdi-define-source-database.png" alt="The define source database button." width=200px >}}

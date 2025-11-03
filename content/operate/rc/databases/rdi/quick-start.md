@@ -36,11 +36,13 @@ To follow this guide, you need to:
     {{<image filename="images/rc/rdi/rdi-create-data-pipeline.png" alt="The create pipeline button." width=200px >}}
 1. Select **PostgreSQL** as the source database type.
     {{<image filename="images/rc/rdi/rdi-select-source-db.png" alt="The select source database type list." width=500px >}}
-1. Under **Setup connectivity**, save the provided ARN and extract the AWS account ID for the account associated with your Redis Cloud cluster from it. 
+1. Under **Source database credentials and certificates**, save the provided ARN. This will be the `redis_secrets_arn` you will need later.
 
-    {{<image filename="images/rc/rdi/rdi-setup-connectivity-arn.png" alt="The select source database type list." width=80% >}}
+    {{<image filename="images/rc/rdi/rdi-credentials-arn.png" alt="The setup connectivity section containing the credentials ARN." width=80% >}}
 
-    The AWS account ID is the string of numbers after `arn:aws:iam::` in the ARN. For example, if the ARN is `arn:aws:iam::123456789012:role/redis-data-pipeline`, the AWS account ID is `123456789012`.
+1. Under **Setup connectivity**, save the provided ARN. This will be the `redis_privatelink_arn` you will need later.
+
+    {{<image filename="images/rc/rdi/rdi-setup-connectivity-arn.png" alt="The setup connectivity section containing the private link ARN." width=80% >}}
 
 ## Create the source database and network resources
 
@@ -56,7 +58,8 @@ To follow this guide, you need to:
     - `azs`: The availability zone IDs where your Redis Cloud database is deployed.
     - `port`: The port number for the new PostgreSQL source database.
     - `name`: A prefix for all of the created AWS resources.
-    - `redis-account`: The AWS account ID for your Redis Cloud cluster you saved earlier.
+    - `redis_secrets_arn`: The source database credentials and certificates ARN from the Redis Cloud console.
+    - `redis_privatelink_arn`: The PrivateLink ARN from the Redis Cloud console.
 
 1. To view the configuration, run:
 
