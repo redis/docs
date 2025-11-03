@@ -73,7 +73,7 @@ Conditionally removes the specified key based on value or hash digest comparison
 
 ## Hash Digest
 
-A hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this hash digest for efficient comparison operations without needing to compare the full string content. You can retrieve a key's hash digest using the [`DIGEST`]({{< relref "/commands/digest" >}}) command, which returns it as a hexadecimal string that can be converted to an integer for use with the `IFDEQ` and `IFDNE` options, and also the [`SET`]({{< relref "/commands/set" >}}) command's `IFDEQ` and `IFDNE` options.
+A hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this hash digest for efficient comparison operations without needing to compare the full string content. You can retrieve a key's hash digest using the [`DIGEST`]({{< relref "/commands/digest" >}}) command, which returns it as a hexadecimal string that you can use with the `IFDEQ` and `IFDNE` options, and also the [`SET`]({{< relref "/commands/set" >}}) command's `IFDEQ` and `IFDNE` options.
 
 ## Options
 

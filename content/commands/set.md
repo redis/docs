@@ -163,7 +163,7 @@ Note: Since the `SET` command options can replace [`SETNX`]({{< relref "/command
 
 ## Hash Digest
 
-A hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this hash digest for efficient comparison operations without needing to compare the full string content. You can retrieve a key's hash digest using the [`DIGEST`]({{< relref "/commands/digest" >}}) command, which returns it as a hexadecimal string that can be converted to an integer for use with the `IFDEQ` and `IFDNE` options, and also the [`DELEX`]({{< relref "/commands/delex" >}}) command's `IFDEQ` and `IFDNE` options.
+A hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this hash digest for efficient comparison operations without needing to compare the full string content. You can retrieve a key's hash digest using the [`DIGEST`]({{< relref "/commands/digest" >}}) command, which returns it as a hexadecimal string that you can use with the `IFDEQ` and `IFDNE` options, and also the [`DELEX`]({{< relref "/commands/delex" >}}) command's `IFDEQ` and `IFDNE` options.
 
 ## Examples
 
