@@ -23,7 +23,7 @@ command_flags:
 - readonly
 - fast
 complexity: O(N) where N is the length of the string value.
-description: Returns the XXH3 hash of a string value.
+description: Returns the hash digest of a string value.
 group: string
 hidden: false
 key_specs:
@@ -41,13 +41,17 @@ key_specs:
     type: range
 linkTitle: DIGEST
 since: 8.4.0
-summary: Returns the XXH3 hash of a string value as a hexadecimal string.
+summary: Returns the hash digest of a string value as a hexadecimal string.
 syntax_fmt: DIGEST key
 syntax_str: ''
 title: DIGEST
 ---
 
-Get the XXH3 hash digest for the value stored in the specified key as a hexadecimal string. Keys must be of type string.
+Get the hash digest for the value stored in the specified key as a hexadecimal string. Keys must be of type string.
+
+## Hash Digest
+
+A hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this digest for efficient comparison operations without needing to compare the full string content. You can use these hash digests with the [SET]({{< relref "/commands/set" >}}) command's `IFDEQ` and `IFDNE` options.
 
 ## Return information
 
@@ -59,7 +63,7 @@ One of the following:
 
 - [Null bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) if the key does not exist.
 - [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if the key exists but holds a value which is not a string.
-- [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) the XXH3 digest of the value stored in the key as a hexadecimal string.
+- [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) the hash digest of the value stored in the key as a hexadecimal string.
 
 -tab-sep-
 
@@ -67,6 +71,6 @@ One of the following:
 
 - [Null bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) if the key does not exist.
 - [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if the key exists but holds a value which is not a string.
-- [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) the XXH3 digest of the value stored in the key as a hexadecimal string.
+- [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) the hash digest of the value stored in the key as a hexadecimal string.
 
 {{< /multitabs >}}

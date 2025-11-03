@@ -42,9 +42,8 @@ categories:
 command_flags:
 - write
 - fast
-complexity: O(1) for IFEQ/IFNE, O(N) for IFDEQ/IFDNE where N is the length of the
-  string value.
-description: Conditionally removes the specified key based on value or digest comparison.
+complexity: O(1) for IFEQ/IFNE, O(N) for IFDEQ/IFDNE where N is the length of the string value.
+description: Conditionally removes the specified key based on value or hash digest comparison.
 group: string
 hidden: false
 key_specs:
@@ -62,7 +61,7 @@ key_specs:
     type: range
 linkTitle: DELEX
 since: 8.4.0
-summary: Conditionally removes the specified key based on value or digest comparison.
+summary: Conditionally removes the specified key based on value or hash digest comparison.
 syntax_fmt: "DELEX key [IFEQ\_ifeq-value | IFNE\_ifne-value | IFDEQ\_ifdeq-digest\
   \ |\n  IFDNE\_ifdne-digest]"
 syntax_str: "[IFEQ\_ifeq-value | IFNE\_ifne-value | IFDEQ\_ifdeq-digest | IFDNE\_\
@@ -70,7 +69,11 @@ syntax_str: "[IFEQ\_ifeq-value | IFNE\_ifne-value | IFDEQ\_ifdeq-digest | IFDNE\
 title: DELEX
 ---
 
-Conditionally removes the specified key based on value or digest comparison.
+Conditionally removes the specified key based on value or hash digest comparison.
+
+## Hash Digest
+
+A hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this digest for efficient comparison operations without needing to compare the full string content. You can retrieve a key's hash digest using the [`DIGEST`]({{< relref "/commands/digest" >}}) command, which returns it as a hexadecimal string that can be converted to an integer for use with `IFDEQ` and `IFDNE` options.
 
 ## Options
 
@@ -79,8 +82,8 @@ Only one of the options can be specified.
 
 * `IFEQ ifeq-value` -- Remove the key if the value is equal to the specified value.
 * `IFNE ifne-value` -- Remove the key if the value is not equal to the specified value.
-* `IFDEQ ifeq-digest` -- Remove the key if the digest is equal to the specified digest.
-* `IFDNE ifne-digest` -- Remove the key if the digest is not equal to the specified digest.
+* `IFDEQ ifeq-digest` -- Remove the key if its hash digest is equal to the specified hash digest.
+* `IFDNE ifne-digest` -- Remove the key if its hash digest is not equal to the specified hash digest.
 
 In 8.4, keys must be of type string when using one of the options above. If no options are specified, the key is removed regardless of its type.
 
