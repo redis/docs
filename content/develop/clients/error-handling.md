@@ -371,4 +371,3 @@ For detailed information about exceptions in your client library, see:
 - Learn about [connection pooling]({{< relref "/develop/clients/pools-and-muxing" >}}) to avoid resource errors
 - Explore [client-side caching]({{< relref "/develop/clients/client-side-caching" >}}) for resilient applications
 - See [use-case guides]({{< relref "/develop/use-cases" >}}) for pattern-specific error handling examples
-

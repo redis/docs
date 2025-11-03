@@ -112,6 +112,9 @@ the most common Redis exceptions:
   [stream entry]({{< relref "/develop/data-types/streams#entry-ids" >}})
   using an invalid ID).
 
+See [Error handling]({{< relref "/develop/clients/dotnet/error-handling" >}})
+for more information on handling exceptions.
+
 ### Retries
 
 During the initial `ConnectionMultiplexer.Connect()` call, `NRedisStack` will
