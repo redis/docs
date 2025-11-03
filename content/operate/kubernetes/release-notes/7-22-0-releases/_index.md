@@ -26,6 +26,8 @@ Redis Enterprise for Kubernetes 7.22.0 includes bug fixes, enhancements, and sup
 
 - **PVC expansion is not supported when using Redis on Flash (Auto Tiering) (RED-165770)** Do not enable `enablePersistentVolumeResize` if your REC uses `redisOnFlashSpec` as this will result in conflicts.
 
+- **Istio ingress does not support partial wildcard hostnames** When using Istio ingress for Redis on Kubernetes, avoid partial wildcard hostnames in your REC configuration. Use only valid FQDNs or leftmost wildcards for Istio compatibility and stable external routing. For more information, see [Istio Ingress Fails for Redis on Kubernetes with Partial Wildcard Hostnames](https://support.redislabs.com/hc/en-us/articles/30446436267666-Istio-Ingress-Fails-for-Redis-on-Kubernetes-with-Partial-Wildcard-Hostnames).
+
 - **Missing endpoint for admission endpoint (rare) (RED-119469)** Restart the operator pod.
 
 - **The REDB "redisVersion" field can’t be used for memcached databases(RED-119152)**
