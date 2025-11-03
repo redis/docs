@@ -55,6 +55,8 @@ client.on('error', error => {
 });
 ```
 
+See also [Error handling]({{< relref "/develop/clients/nodejs/error-handling" >}}) for a more detailed discussion of error handling approaches in `node-redis`.
+
 ### Handling reconnections
 
 When the socket closes unexpectedly (without calling the `quit()` or `disconnect()` methods),
