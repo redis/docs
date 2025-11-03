@@ -51,7 +51,7 @@ Get the hash digest for the value stored in the specified key as a hexadecimal s
 
 ## Hash Digest
 
-A hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this digest for efficient comparison operations without needing to compare the full string content. You can use these hash digests with the [SET]({{< relref "/commands/set" >}}) command's `IFDEQ` and `IFDNE` options.
+A hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this hash digest for efficient comparison operations without needing to compare the full string content. You can use these hash digests with the [SET]({{< relref "/commands/set" >}}) command's `IFDEQ` and `IFDNE` options, and also the [DELEX]({{< relref "/commands/delex" >}}) command's `IFDEQ` and `IFDNE` options.
 
 ## Return information
 
