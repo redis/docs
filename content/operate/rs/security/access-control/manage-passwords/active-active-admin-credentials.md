@@ -20,7 +20,7 @@ To update the administrator password on a cluster with Active-Active databases:
 
 1. From the user management page, update the administrator user password on the clusters you want to update.
 
-1. Run `crdb-cli crdb list` to find the `CRDB-GUID` that uniquely identifies each Active-Active database and the fully qualified domain names (`FQDN`) of each participating cluster:
+1. Run [`crdb-cli crdb list`]({{<relref "/operate/rs/references/cli-utilities/crdb-cli/crdb/list">}}) to find the `CRDB-GUID` that uniquely identifies each Active-Active database and the fully qualified domain names (`FQDN`) of each participating cluster:
 
     ```sh
     crdb-cli crdb list
@@ -48,8 +48,8 @@ To update the administrator password on a cluster with Active-Active databases:
 
     - `<CRDB-GUID>`: The `CRDB-GUID` from the `crdb-cli crdb list` output
 
-    - `<cluster-admin-username>`: The administrator username for the clusters
+    - `<admin-username>`: The administrator username for the clusters
 
-    - `<REPL-ID-1>` and `REPL-ID-2`: The `REPL-ID` for the corresponding FQDNs
+    - `<REPL-ID-1>` and `<REPL-ID-2>`: The `REPL-ID` for the corresponding FQDNs
 
-    - `<FQDN-1-password>` and `<FQDN-2-password>`: The current admin passwords for each cluster
+    - `<FQDN-1-password>` and `<FQDN-2-password>`: The current administrator passwords for each cluster
