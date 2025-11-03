@@ -125,12 +125,12 @@ A series of key/value pairs.
 
 The `MSETEX` command supports a set of options that modify its behavior:
 
+* `NX` -- Set the keys and their expiration time only if none of the specified keys exist.
+* `XX` -- Set the keys and their expiration time only if all of the specified keys already exist.
 * `EX seconds` -- Set the specified expiration time in seconds (a positive integer).
 * `PX milliseconds` -- Set the specified expiration time in milliseconds (a positive integer).
 * `EXAT unix-time-seconds` -- Set the specified Unix time in seconds (a positive integer) at which the key(s) will expire.
 * `PXAT unix-time-milliseconds` -- Set the specified Unix time in milliseconds (a positive integer) at which the key(s) will expire.
-* `NX` -- Set the keys and their expiration time only if none of the specified keys exist.
-* `XX` -- Set the keys and their expiration time only if all of the specified keys already exist.
 * `KEEPTTL` -- Retain the time to live associated with the keys.
 
 </details>
