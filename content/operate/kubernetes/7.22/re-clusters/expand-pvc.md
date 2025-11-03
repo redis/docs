@@ -8,6 +8,7 @@ categories:
 description: Expand your persistent volume claim by editing the REC.
 linkTitle: Expand PVC
 weight: 82
+url: '/operate/kubernetes/7.22/re-clusters/expand-pvc/'
 ---
 
 This article outlines steps to increase the size of the persistent volume claim for your Redis Enterprise cluster (REC).
@@ -22,13 +23,13 @@ This process involves deleting and recreating the REC StatefulSet with a larger 
 
 ### Default PVC size
 
-By default, if you omit [`spec.persistentSpec.volumeSize`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api#specpersistentspec" >}}), the operator allocates a persistent volume that is five times (5x) the Redis Enterprise node memory request defined in [`spec.redisEnterpriseNodeResources.requests.memory`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api#specredisenterprisenoderesources" >}}) (per node). This 5x ratio is the recommended minimum capacity.
+By default, if you omit [`spec.persistentSpec.volumeSize`]({{< relref "/operate/kubernetes/7.22/reference/api/redis_enterprise_cluster_api#specpersistentspec" >}}), the operator allocates a persistent volume that is five times (5x) the Redis Enterprise node memory request defined in [`spec.redisEnterpriseNodeResources.requests.memory`]({{< relref "/operate/kubernetes/7.22/reference/api/redis_enterprise_cluster_api#specredisenterprisenoderesources" >}}) (per node). This 5x ratio is the recommended minimum capacity.
 
-- If you set [`spec.persistentSpec.volumeSize`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api#specpersistentspec" >}}) explicitly, that exact size is used and the 5x default does not apply.
+- If you set [`spec.persistentSpec.volumeSize`]({{< relref "/operate/kubernetes/7.22/reference/api/redis_enterprise_cluster_api#specpersistentspec" >}}) explicitly, that exact size is used and the 5x default does not apply.
 - Changing node memory requests does not automatically resize existing PVCs. Use the procedure below to expand the PVC if you want to maintain the 5x ratio after changing memory.
-- If you omit [`spec.redisEnterpriseNodeResources.requests.memory`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api#specredisenterprisenoderesources" >}}), the operator uses its default memory request (4Gi). With `volumeSize` omitted, this results in a default PVC size of approximately 20Gi per node (5 × 4Gi). See [sizing on Kubernetes]({{< relref "/operate/kubernetes/recommendations/sizing-on-kubernetes" >}}) for defaults.
+- If you omit [`spec.redisEnterpriseNodeResources.requests.memory`]({{< relref "/operate/kubernetes/7.22/reference/api/redis_enterprise_cluster_api#specredisenterprisenoderesources" >}}), the operator uses its default memory request (4Gi). With `volumeSize` omitted, this results in a default PVC size of approximately 20Gi per node (5 × 4Gi). See [sizing on Kubernetes]({{< relref "/operate/kubernetes/7.22/recommendations/sizing-on-kubernetes" >}}) for defaults.
 
-- See the [volume size recommendations]({{< relref "/operate/kubernetes/recommendations/persistent-volumes#volume-size" >}}) and [hardware requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements" >}}) for guidance.
+- See the [volume size recommendations]({{< relref "/operate/kubernetes/7.22/recommendations/persistent-volumes#volume-size" >}}) and [hardware requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements" >}}) for guidance.
 
 ## Prerequisites
 
@@ -43,7 +44,7 @@ By default, if you omit [`spec.persistentSpec.volumeSize`]({{< relref "/operate/
 
 {{<warning>}} OpenShift users should be aware that (`ClusterResourceQuota`) can limit the PVC expansion. Check your quota before resizing using `oc describe clusterresourcequota <quota-name>`.{{</warning>}}
 
-{{<warning>}} PVC expansion is not supported when using Redis Flex (previously Redis on Flash). Do not enable `enablePersistentVolumeResize` if your REC uses `redisOnFlashSpec` as this will result in conflicts. {{</warning>}}
+{{<warning>}} PVC expansion is not supported when using Auto Tiering (Redis on Flash). Do not enable `enablePersistentVolumeResize` if your REC uses `redisOnFlashSpec` as this will result in conflicts. {{</warning>}}
 
 ## Expand REC PVC
 
