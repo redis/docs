@@ -9561,7 +9561,7 @@
           "Account"
         ],
         "summary": "Get available Pro plan regions",
-        "description": "Gets a list of available regions for Pro subscriptions. For Essentials subscriptions, use 'GET /fixed/plans'.",
+        "description": "Gets a list of available regions for Pro subscriptions. For Essentials subscriptions, use [GET /fixed/plans](#tag/Subscriptions-Essentials/operation/getAllFixedSubscriptionsPlans).",
         "operationId": "getSupportedRegions",
         "parameters": [
           {
