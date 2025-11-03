@@ -14,10 +14,22 @@ weight: 96
 ---
 ## Requirements
 
-RedisJSON v2.6.21 requires:
+RedisJSON v2.6.22 requires:
 
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
+
+## v2.6.22 (October 2025)
+
+This is a maintenance release for RedisJSON 2.6.
+
+Update urgency: `LOW`: No need to upgrade unless there are new features you want to use.
+
+Details:
+
+Improvements:
+
+- Added support for Rocky Linux 9 and RHEL9 ARM.
 
 ## v2.6.21 (September 2025)
 
