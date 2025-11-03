@@ -10,7 +10,11 @@ linkTitle: Update Active-Active admin credentials
 weight: 90
 ---
 
-Active-Active databases use administrator credentials to manage operations. When you change the administrator password on clusters with Active-Active databases, you must update the Active-Active database configuration to prevent authentication failures during Active-Active operations and synchronization.
+Active-Active databases use administrator credentials to manage operations. When you change the administrator password on clusters with Active-Active databases, you must update the Active-Active database configuration to prevent authentication failures during Active-Active management operations.
+
+{{<warning>}}
+Do not perform any management operations on the databases until these steps are complete.
+{{</warning>}}
 
 To update the administrator password on a cluster with Active-Active databases:
 
@@ -49,7 +53,3 @@ To update the administrator password on a cluster with Active-Active databases:
     - `<REPL-ID-1>` and `REPL-ID-2`: The `REPL-ID` for the corresponding FQDNs
 
     - `<FQDN-1-password>` and `<FQDN-2-password>`: The current admin passwords for each cluster
-
-{{<warning>}}
-Do not perform any management operations on the databases until these steps are complete.
-{{</warning>}}
