@@ -82,37 +82,12 @@ return result, nil
 
 ### Pattern 3: Retry with backoff
 
-Retry on temporary errors (see
+Retry on temporary errors such as timeouts (see
 [Pattern 3: Retry with backoff]({{< relref "/develop/clients/error-handling#pattern-3-retry-with-backoff" >}})
-for a full description):
-
-```go
-import "time"
-
-func getWithRetry(ctx context.Context, key string, maxRetries int) (string, error) {
-    retryDelay := 100 * time.Millisecond
-    
-    for attempt := 0; attempt < maxRetries; attempt++ {
-        result, err := rdb.Get(ctx, key).Result()
-        if err == nil {
-            return result, nil
-        }
-        
-        // Check if error is temporary
-        if netErr, ok := err.(net.Error); ok && netErr.Timeout() {
-            if attempt < maxRetries-1 {
-                time.Sleep(retryDelay)
-                retryDelay *= 2  // Exponential backoff
-                continue
-            }
-        }
-        
-        return "", err
-    }
-    
-    return "", fmt.Errorf("max retries exceeded")
-}
-```
+for a full description). go-redis has built-in retry logic with
+configurable timing and backoffs. See [Retries]({{< relref "/develop/clients/go/produsage#retries" >}}) for more information. Note also that
+you can configure timeouts (which are one of the most common causes of
+temporary errors) for connections and commands. See [Timeouts]({{< relref "/develop/clients/go/produsage#timeouts" >}}) for more information.
 
 ### Pattern 4: Log and continue
 
@@ -132,36 +107,11 @@ if err != nil {
 }
 ```
 
-## Connection pool errors
-
-go-redis manages a connection pool automatically. If the pool is exhausted, operations will timeout. You can configure the pool size to avoid this if
-necessary:
-
-```go
-rdb := redis.NewClient(&redis.Options{
-    Addr:     "localhost:6379",
-    PoolSize: 10,  // Number of connections
-})
-```
-
-## Context-based cancellation
-
-go-redis respects context cancellation. Use context timeouts for error handling:
-
-```go
-ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-defer cancel()
-
-result, err := rdb.Get(ctx, key).Result()
-if err == context.DeadlineExceeded {
-    logger.Warn("Operation timeout")
-    // Handle timeout
-}
-```
+Note that go-redis also supports [OpenTelemetry](https://opentelemetry.io/)
+instrumentation to monitor performance and trace the execution of Redis commands. See [Observability]({{< relref "/develop/clients/go#observability" >}}) for more information.
 
 ## See also
 
 - [Error handling]({{< relref "/develop/clients/error-handling" >}})
 - [Production usage]({{< relref "/develop/clients/go/produsage" >}})
-- [Connection pooling]({{< relref "/develop/clients/pools-and-muxing" >}})
-
+- [Observability]({{< relref "/develop/clients/go#observability" >}})
