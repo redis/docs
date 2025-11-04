@@ -25,8 +25,11 @@ to query the metrics and plot simple graphs or with
 [Grafana](https://grafana.com/) to produce more complex visualizations and
 dashboards.
 
-RDI exposes two endpoints, one for [CDC collector metrics](#collector-metrics) and
-another for [stream processor metrics](#stream-processor-metrics).
+RDI exposes metrics for two main components:
+ - [CDC collector](#collector-metrics)
+ - [Stream processor](#stream-processor-metrics)
+
+
 The sections below explain these sets of metrics in more detail.
 See the
 [architecture overview]({{< relref "/integrate/redis-data-integration/architecture#overview" >}})
@@ -37,9 +40,67 @@ RDI metrics with the RDI monitoring screen in Redis Insight or with the
 [`redis-di status`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-status" >}})
 command from the CLI.{{< /note >}}
 
-## Collector metrics
+### Accessing the metrics
 
-The endpoint for the collector metrics is `https://<RDI_HOST>/metrics/collector-source`
+How you access the metrics endpoints depends on your RDI installation method.
+
+#### VM Installation
+
+For VM installations, the metrics are available by default on the following endpoints:
+- Collector metrics: `https://<RDI_HOST>/collector-source/metrics`
+- Stream processor metrics: `https://<RDI_HOST>/metrics`
+- Operator metrics: `https://<RDI_HOST>/operator/metrics`
+
+Please note that for RDI versions prior to 1.16.0 the collector metrics are not accessible.
+
+#### Helm installation
+
+For Helm installations, the metrics are available via autodiscovery in the K8s cluster. To use them you need to do the following:
+1. Make sure you have the Prometheus Operator installed in your K8s cluster. You can follow the
+   [Prometheus Operator installation guide](https://prometheus-operator.dev/docs/getting-started/installation/).
+
+2. Update your values.yaml file to enable metrics for the operator, collector and stream processor components.
+
+    - For the collector, update the `collector` section, under the `dataPlane` section:
+        ```yaml
+        dataPlane:
+          collector:
+            # Enable service monitor
+            serviceMonitor:
+              enabled: true
+
+              # Make sure to label the ServiceMonitor so that Prometheus can discover it
+              labels:
+                release: prometheus
+        ```
+
+    - For the stream processor, update the `rdiMetricsExporter` section:
+        ```yaml
+        rdiMetricsExporter:
+          # Enable service monitor
+          serviceMonitor:
+            enabled: true
+
+            # Make sure to label the ServiceMonitor so that Prometheus can discover it
+            labels:
+              release: prometheus
+        ```
+
+    - For the operator, update the `operator` section:
+        ```yaml
+        operator:
+          prometheus:
+            enabled: true
+            labels:
+              release: prometheus
+          metrics:
+            enabled: true
+        ```
+
+Note: please have in mind, that the Prometheus service discovery loop runs on regular intervals. Therefore, after deploying or updating RDI with the above configuration, it may take up to a few minutes for Prometheus to discover the new ServiceMonitors and start scraping metrics from the RDI components.
+
+
+## Collector metrics
 
 These metrics are divided into three groups:
 
@@ -89,10 +150,8 @@ The following table lists all collector metrics and their descriptions:
 {{< note >}}
 Many metrics include context labels that specify the phase (`snapshot` or `streaming`), database name, and other contextual information. Metrics with a value of `-1` typically indicate that the measurement is not applicable in the current state.
 {{< /note >}}
-  
-## Stream processor metrics
 
-The endpoint for the stream processor metrics is `https://<RDI_HOST>/metrics/rdi`
+## Stream processor metrics
 
 RDI reports metrics during the two main phases of the ingest pipeline, the *snapshot*
 phase and the *change data capture (CDC)* phase. (See the
@@ -144,6 +203,16 @@ RDI reports with their descriptions.
   - **Total metrics**: Accumulate values across all processed batches for historical analysis
   - **Last batch metrics**: Show real-time performance data for the most recently processed batch
 {{< /note >}}
+
+## Operator metrics
+Most of the metrics exposed by the RDI operator are standard controller-runtime [metrics](https://book.kubebuilder.io/reference/metrics-reference).
+Those important for RDI operations are listed in the table below:
+
+| Metric Name | Metric Type | Metric Description                                                                  | Alerting Recommendations                                                                                              |
+|-------------|-------------|-------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
+| `leader_election_master_status` | Gauge       | USe this one to determine the current leader (for HA and DR setup) | Informational - may be used for alerting there is no leader for prolonged period of time                              |
+| `rdi_operator_pipeline_phase` | Gauge       | Use this one to determine the current phase pipeline phase                          | Informational - may be used for alerting if operator is stuck in the `Resetting` phase for a prolonged period of time |
+
 
 ## Recommended alerting strategy
 
