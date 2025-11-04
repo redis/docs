@@ -135,5 +135,3 @@ try (Jedis jedis = jedisPool.getResource()) {
 
 - [Error handling]({{< relref "/develop/clients/error-handling" >}})
 - [Production usage]({{< relref "/develop/clients/jedis/produsage" >}})
-- [Connection pooling]({{< relref "/develop/clients/pools-and-muxing" >}})
-
