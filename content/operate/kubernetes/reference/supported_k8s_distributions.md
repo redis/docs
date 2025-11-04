@@ -248,10 +248,12 @@ For details on this platform, see the [TKGI documentation](https://docs.vmware.c
 For details on this platform, see the [VKS documentation](https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vsphere-supervisor-services-and-standalone-components/latest/release-notes/vmware-tanzu-kubernetes-grid-service-release-notes.html).
 
 {{<table-scrollable>}}
-Redis operator	**<nobr>8.0.2-2</nobr>**
-	October 2025
-**VMware VKS**	
-1.32	<span title="Supported">&#x2705;</span>
+|  |  |  |
+|---|---|---|
+| Redis operator |  | **<nobr>8.0.2-2</nobr>** |
+|  |  | October 2025 |
+| **VMware VKS** |  |  |
+| 1.32 |  | <span title="Supported">&#x2705;</span> |
 {{</table-scrollable>}}
 
 ## VMware Tanzu Kubernetes Grid (TKG)
