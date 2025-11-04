@@ -250,10 +250,12 @@ For details on this platform, see the [VKS documentation](https://techdocs.broad
 
 |  |  |  |
 |---|---|---|
-| Redis operator |  | **<nobr>8.0.2-2</nobr>** |
-|  |  | October 2025 |
+|  |  |  |
+| Redis operator | **<nobr>8.0.2-2</nobr>** | - |
+|  | October 2025 | - |
 | **VMware VKS** |  |  |
-| 1.32 |  | <span title="Supported">&#x2705;</span> |
+| 1.32 | <span title="Supported">&#x2705;</span> | - |
+
 
 
 ## VMware Tanzu Kubernetes Grid (TKG)
