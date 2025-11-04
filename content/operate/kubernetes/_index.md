@@ -38,7 +38,7 @@ Deploy Redis Enterprise on your Kubernetes cluster and create your first databas
 Create and manage [Redis Enterprise clusters]({{< relref "/operate/kubernetes/re-clusters" >}}) on Kubernetes.
 
 - [Connect to admin console]({{< relref "/operate/kubernetes/re-clusters/connect-to-admin-console" >}})
-- [Auto Tiering]({{< relref "/operate/kubernetes/re-clusters/auto-tiering" >}})
+- [Redis Flex]({{< relref "/operate/kubernetes/re-clusters/redis-flex" >}})
 - [Multi-namespace deployment]({{< relref "/operate/kubernetes/re-clusters/multi-namespace" >}})
 - [Cluster recovery]({{< relref "/operate/kubernetes/re-clusters/cluster-recovery" >}})
 - [REC API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api" >}})

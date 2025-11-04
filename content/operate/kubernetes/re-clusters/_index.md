@@ -27,7 +27,7 @@ Manage your Redis Enterprise cluster lifecycle and configuration:
 
 Optimize storage and performance for your Redis Enterprise cluster:
 
-- [Auto Tiering]({{< relref "/operate/kubernetes/re-clusters/auto-tiering" >}}) - Configure automatic data tiering between RAM and flash storage
+- [Redis Flex]({{< relref "/operate/kubernetes/re-clusters/redis-flex" >}}) - Configure automatic data tiering between RAM and flash storage
 - [Expand PVC]({{< relref "/operate/kubernetes/re-clusters/expand-pvc" >}}) - Expand persistent volume claims for additional storage
 
 ## Monitoring and observability
