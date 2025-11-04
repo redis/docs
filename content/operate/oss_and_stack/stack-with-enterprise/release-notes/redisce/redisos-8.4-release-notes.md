@@ -26,7 +26,7 @@ Release Candidates are feature-complete pre-releases. Pre-releases are not suita
 - Install using RPM - see https://github.com/redis/redis-rpm
 - Install using Debian APT - see https://github.com/redis/redis-debian
 
-### Operating systems we test Redis 8.4 on
+### Redis 8.4 was tested on the following operating systems
 
 - Ubuntu 22.04 (Jammy Jellyfish), 24.04 (Noble Numbat)
 - Rocky Linux 8.10, 9.5
