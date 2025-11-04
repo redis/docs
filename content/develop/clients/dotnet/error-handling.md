@@ -48,7 +48,8 @@ var db = muxer.GetDatabase();
 try {
     var result = db.StringGet("key");
 } catch (RedisCommandException) {
-    // This indicates a bug in our code
+    // This indicates a bug in the code, such as using
+    // StringGet on a list key.
     throw;
 }
 ```
@@ -62,21 +63,18 @@ for a full description):
 ```csharp
 try {
     var cachedValue = db.StringGet(key);
-    if (cachedValue.HasValue) {
-        return cachedValue.ToString();
-    }
+    return cachedValue.ToString();
 } catch (RedisConnectionException) {
     logger.LogWarning("Cache unavailable, using database");
+
+    // Fallback to database
     return database.Get(key);
 }
-
-// Fallback to database
-return database.Get(key);
 ```
 
 ### Pattern 3: Retry with backoff
 
-Retry on temporary errors like timeouts (see
+Retry on temporary errors such as timeouts (see
 [Pattern 3: Retry with backoff]({{< relref "/develop/clients/error-handling#pattern-3-retry-with-backoff" >}})
 for a full description):
 
@@ -98,6 +96,9 @@ for (int attempt = 0; attempt < maxRetries; attempt++) {
 }
 ```
 
+See also [Timeouts]({{< relref "/develop/clients/dotnet/produsage#timeouts" >}})
+for more information on configuring timeouts in NRedisStack.
+
 ### Pattern 4: Log and continue
 
 Log non-critical errors and continue (see
@@ -115,7 +116,8 @@ try {
 
 ## Async error handling
 
-If you're using async methods, error handling works the same way with `async`/`await`:
+Error handling works the usual way with `async`/`await`, as shown in the
+example below:
 
 ```csharp
 using NRedisStack;
@@ -143,5 +145,3 @@ async Task<string> GetWithFallbackAsync(string key) {
 
 - [Error handling]({{< relref "/develop/clients/error-handling" >}})
 - [Production usage]({{< relref "/develop/clients/dotnet/produsage" >}})
-- [Connection pooling]({{< relref "/develop/clients/pools-and-muxing" >}})
-

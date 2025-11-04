@@ -55,9 +55,9 @@ Command errors occur when Redis receives an invalid or malformed command. These 
 **Common causes:**
 -   Typo in command name
 -   Wrong number of arguments
--   Invalid argument types (for example, supplying a [string]({{< relref "/develop/
-    data-types/strings" >}}) key to a [list]({{< relref "/develop/data-types/lists" 
-    >}}) command))
+-   Invalid argument types (for example, supplying a
+    [string]({{< relref "/develop/data-types/strings" >}}) key to a
+    [list]({{< relref "/develop/data-types/lists" >}}) command))
 -   Using a command that doesn't exist in your Redis version
 
 **Examples:**
