@@ -2,7 +2,7 @@
 title: Error handling
 description: Learn how to handle errors when using node-redis.
 linkTitle: Error handling
-weight: 50
+weight: 6
 ---
 
 node-redis uses
@@ -61,6 +61,27 @@ client.get(key)
     .catch(error => {
         // Handle error
     });
+```
+
+## Error events
+
+Node-Redis provides [multiple events to handle various scenarios](https://github.com/redis/node-redis?tab=readme-ov-file#events), among which the most critical is the `error` event.
+
+This event is triggered whenever an error occurs within the client.
+
+It is crucial to listen for error events.
+
+If a client does not register at least one error listener and an error occurs, the system will throw that error, potentially causing the Node.js process to exit unexpectedly.
+See [the EventEmitter docs](https://nodejs.org/api/events.html#events_error_events) for more details.
+
+```typescript
+const client = createClient({
+  // ... client options
+});
+// Always ensure there's a listener for errors in the client to prevent process crashes due to unhandled errors
+client.on('error', error => {
+    console.error(`Redis client error:`, error);
+});
 ```
 
 ## Applying error handling patterns
@@ -134,6 +155,11 @@ async function getWithRetry(key, { attempts = 3, baseDelayMs = 100 } = {}) {
 }
 ```
 
+Note that you can also configure node-redis to reconnect to the
+server automatically when the connection is lost. See
+[Reconnect after disconnection]({{< relref "/develop/clients/nodejs/connect#reconnect-after-disconnection" >}})
+for more information.
+
 ### Pattern 4: Log and continue
 
 Log non-critical errors and continue (see
@@ -156,4 +182,3 @@ try {
 
 - [Error handling]({{< relref "/develop/clients/error-handling" >}})
 - [Production usage]({{< relref "/develop/clients/nodejs/produsage" >}})
-- [Connection pooling]({{< relref "/develop/clients/pools-and-muxing" >}})

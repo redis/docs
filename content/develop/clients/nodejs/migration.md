@@ -12,7 +12,7 @@ categories:
 description: Discover the differences between `ioredis` and `node-redis`.
 linkTitle: Migrate from ioredis
 title: Migrate from ioredis
-weight: 6
+weight: 10
 ---
 
 Redis previously recommended the [`ioredis`](https://github.com/redis/ioredis)
