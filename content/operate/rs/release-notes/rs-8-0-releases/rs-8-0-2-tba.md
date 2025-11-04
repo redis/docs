@@ -142,6 +142,8 @@ Redis Enterprise Software 8.0.2-tba supports Redis Open Source 8.2, 8.0, 7.4, 7.
 
 Redis 8.2.x:
 
+- RedisBloom: Restore invalid filter.
+
 - (CVE-2025-62507) A user can run the `XACKDEL` command with multiple IDs and trigger a stack buffer overflow, which can potentially lead to remote code execution.
 
 - The `HGETEX` command can lead to a buffer overflow.
@@ -168,6 +170,8 @@ Redis 8.2.x:
 
 Redis 8.0.x:
 
+- RedisBloom: Restore invalid filter.
+
 - The `HGETEX` command can lead to a buffer overflow.
 
 - Integer overflow in `hllPatLen`.
@@ -191,6 +195,8 @@ Redis 8.0.x:
 - (CVE-2025-49844) An authenticated user may use a specially crafted Lua script to manipulate the garbage collector, trigger a use-after-free, and potentially lead to remote code execution.
 
 Redis 7.4.x:
+
+- RedisBloom: Restore invalid filter.
 
 - Integer overflow in `hllPatLen`.
 
@@ -217,6 +223,8 @@ Redis 7.4.x:
 - (CVE-2025-21605) An unauthenticated client can cause unlimited growth of output buffers until the server runs out of memory or is terminated, which can lead to denial-of-service.
 
 Redis 7.2.x:
+
+- RedisBloom: Restore invalid filter.
 
 - Integer overflow in `hllPatLen`.
 
@@ -285,6 +293,8 @@ Redis 7.0.x:
 - (CVE-2022-24735) By exploiting weaknesses in the Lua script execution environment, an attacker with access to Redis can inject Lua code that will execute with the (potentially higher) privileges of another Redis user. (Redis 7.0.0)
 
 Redis 6.2.x:
+
+- RedisBloom: Restore invalid filter.
 
 - Integer overflow in `hllPatLen`.
 
