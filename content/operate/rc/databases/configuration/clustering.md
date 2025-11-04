@@ -98,7 +98,7 @@ You can use the `{...}` pattern to direct related keys to the same hash slot, so
 
 Redis Cloud offers 3 hashing policies, which differ in how hash tags are processed. These hashing policies are not always available.
 
-Redis Cloud defaults to the [Redis hashing policy](#redis-hashing-policy) **when creating a new database**. You can select a different hashing policy during database creation, but you cannot change the hashing policy for an existing database, unless the [custom hashing policy](#custom-hashing-policy) is available.
+Redis Cloud defaults to the [Redis hashing policy](#redis-hashing-policy) **when creating a new database**. You can select a different hashing policy during database creation, but you cannot change the hashing policy to or from the Redis hashing policy after the database is created. 
 
 ### Redis hashing policy
 
