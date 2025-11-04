@@ -1,11 +1,11 @@
 ---
 title: Error handling
-description: Learn how to handle errors when using Redis client libraries
+description: Learn how to handle errors when using Redis client libraries.
 linkTitle: Error handling
 weight: 50
 ---
 
-When working with Redis, errors can occur for various reasons—network issues, invalid commands, or resource constraints. This guide explains the types of errors you might encounter and how to handle them effectively.
+When working with Redis, errors can occur for various reasons, including network issues, invalid commands, or resource constraints. This guide explains the types of errors you might encounter and how to handle them effectively.
 
 ## Categories of errors
 
@@ -53,17 +53,20 @@ graph TB
 Command errors occur when Redis receives an invalid or malformed command. These typically indicate a bug in your code.
 
 **Common causes:**
-- Typo in command name
-- Wrong number of arguments
-- Invalid argument types
-- Using a command that doesn't exist in your Redis version
+-   Typo in command name
+-   Wrong number of arguments
+-   Invalid argument types (for example, supplying a [string]({{< relref "/develop/
+    data-types/strings" >}}) key to a [list]({{< relref "/develop/data-types/lists" 
+    >}}) command))
+-   Using a command that doesn't exist in your Redis version
 
 **Examples:**
 - `ResponseError`: Invalid command or syntax error
 - `WRONGTYPE Operation against a key holding the wrong kind of value`
 - `ERR unknown command`
 
-**When to handle:** Rarely. These usually indicate a programming error and should be fixed in your code, not handled at runtime. However, some cases (like invalid user input) may warrant handling.
+**When to handle:** Rarely. These usually indicate programming error and so you
+should fix the errors in your code rather than attempt to handle them at runtime. However, some cases (like invalid user input) may be worth handling.
 
 **Example:**
 
@@ -79,18 +82,17 @@ graph TB
 
 ### Data errors
 
-Data errors occur when there's a problem with the data itself—serialization failures, corrupted data, or type mismatches.
+Data errors occur when there are problems with the data itself, such as
+serialization failures, or data corruption.
 
 **Common causes:**
 - Object cannot be serialized to JSON
 - Cached data is corrupted
 - Attempting to deserialize invalid data
-- Type mismatch (e.g., trying to use string operations on a list)
 
 **Examples:**
 - `JSONDecodeError`: Cannot deserialize JSON data
 - `SerializationError`: Cannot serialize object
-- `WRONGTYPE`: Operating on wrong data type
 
 **When to handle:** Sometimes. If the error is due to user input or external data, handle it gracefully. If it's due to your code, fix the code.
 
@@ -140,11 +142,13 @@ graph TB
 Use this when the error is unrecoverable or indicates a bug in your code.
 
 **When to use:**
+
 - Command errors (invalid syntax)
 - Authentication errors
 - Programming errors
 
 **Example:**
+
 ```python
 try:
     result = r.get(key)
@@ -155,14 +159,17 @@ except redis.ResponseError as e:
 
 ### Pattern 2: Graceful degradation
 
-Use this when you have an alternative way to get the data.
+Use this when you have an alternative way to get the data you need, so you can
+fall back to using the alternative instead of the preferred code.
 
 **When to use:**
+
 - Cache reads (fallback to database)
 - Session reads (fallback to default values)
 - Optional data (skip if unavailable)
 
 **Example:**
+
 ```python
 try:
     cached_value = r.get(key)
@@ -177,14 +184,17 @@ return database.get(key)
 
 ### Pattern 3: Retry with backoff
 
-Use this when the error is temporary and the operation is idempotent.
+Use this when the error could be due to network load or other temporary
+conditions.
 
 **When to use:**
+
 - Connection timeouts
 - Temporary network issues
 - Redis loading data
 
 **Example:**
+
 ```python
 import time
 
@@ -202,16 +212,23 @@ for attempt in range(max_retries):
             raise
 ```
 
+Note that client libraries often implement retry logic for you, so
+you may just need to provide the right configuration rather than
+implementing retries yourself. See [Client-specific error handling](#client-specific-error-handling) below for links to pages that
+describe retry configuration for each client library.
+
 ### Pattern 4: Log and continue
 
 Use this when the operation is not critical to your application.
 
 **When to use:**
+
 - Cache writes (data loss is acceptable)
 - Non-critical updates
 - Metrics collection
 
 **Example:**
+
 ```python
 try:
     r.setex(key, 3600, value)
@@ -247,6 +264,11 @@ graph LR
 
 ## Logging and monitoring
 
+In production, you may find it useful to log errors when they
+occur and monitor the logs for patterns. This can help you identify
+which errors are most common and whether your retry and fallback
+strategies are effective.
+
 ### What to log
 
 - **Error type and message:** What went wrong?
@@ -281,19 +303,22 @@ These metrics help you identify patterns and potential issues.
 
 ### Catching all exceptions
 
-**Problem:** You might catch unexpected errors and hide bugs.
+**Problem:** If you catch all exceptions, you might catch unexpected
+errors and hide bugs.
 
 **Example (wrong):**
+
 ```python
 try:
     result = r.get(key)
-except Exception:  # Too broad!
+except Exception:  # Too broad - some errors indicate code problems.
     pass
 ```
 
 **Better approach:** Catch specific exception types.
 
 **Example (correct):**
+
 ```python
 try:
     result = r.get(key)
@@ -304,20 +329,23 @@ except redis.ConnectionError:
 
 ### Not distinguishing error types
 
-**Problem:** Different errors need different handling. Retrying a syntax error won't help.
+**Problem:** Different errors need different handling. For example, retrying a syntax error won't help.
 
 **Example (wrong):**
+
 ```python
 try:
     result = r.get(key)
 except redis.ResponseError:
-    # Retry? This won't help if it's a syntax error!
+    # Retry? This won't help if it's a syntax error.
     retry()
 ```
 
-**Better approach:** Handle each error type differently based on whether it's recoverable.
+**Better approach:** Handle each error type differently based on whether or not
+it is recoverable.
 
 **Example (correct):**
+
 ```python
 try:
     result = r.get(key)
@@ -327,28 +355,12 @@ except redis.ResponseError:
     raise   # Fail on syntax error
 ```
 
-### Retrying non-idempotent operations
-
-**Problem:** Retrying non-idempotent operations can cause data corruption. Each retry increments the counter again.
-
-**Example (wrong):**
-```python
-# This increments the counter each retry!
-for attempt in range(3):
-    try:
-        r.incr(counter)
-        break
-    except redis.TimeoutError:
-        pass  # Retry
-```
-
-**Better approach:** Only retry idempotent operations (GET, SET with same value) or use transactions.
-
 ### Ignoring connection pool errors
 
 **Problem:** Connection pool errors indicate a configuration or concurrency issue that needs to be addressed.
 
 **Example (wrong):**
+
 ```python
 # Pool is exhausted, but we don't handle it
 result = r.get(key)  # Might timeout waiting for connection
@@ -365,9 +377,3 @@ For detailed information about exceptions in your client library, see:
 - [Java (Jedis) error handling]({{< relref "/develop/clients/jedis/error-handling" >}})
 - [Go (go-redis) error handling]({{< relref "/develop/clients/go/error-handling" >}})
 - [.NET (NRedisStack) error handling]({{< relref "/develop/clients/dotnet/error-handling" >}})
-
-## Next steps
-
-- Learn about [connection pooling]({{< relref "/develop/clients/pools-and-muxing" >}}) to avoid resource errors
-- Explore [client-side caching]({{< relref "/develop/clients/client-side-caching" >}}) for resilient applications
-- See [use-case guides]({{< relref "/develop/use-cases" >}}) for pattern-specific error handling examples
