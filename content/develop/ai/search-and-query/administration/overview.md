@@ -255,7 +255,7 @@ These are the pre-bundled scoring functions available in Redis:
 
 * **BM25STD.TANH**
 
-    A variation of `BM25STD.NORM`, where the scores are normalised by linear function `tanh(x)`. `BMSTDSTD.TANH` can take an optional argument, `BM25STD_TANH_FACTOR Y`, which is used to smooth the function and the score values. The default value for `Y` is 4.
+    A variation of `BM25STD.NORM`, where the scores are normalised by the linear function `tanh(x)`. `BMSTDSTD.TANH` can take an optional argument, `BM25STD_TANH_FACTOR Y`, which is used to smooth the function and the score values. The default value for `Y` is 4.
 
 * **DISMAX**
 

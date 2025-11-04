@@ -13,16 +13,22 @@ weight: 30
 
 Modules add additional functionality to Redis databases for specific use cases. You can enable modules when you create a database.
 
-## Prerequisites
+## Automatically enabled capabilities in Redis 8
+
+Databases created with or upgraded to Redis version 8 or later automatically enable the capabilities (modules) bundled with Redis Enterprise Software as follows:
+
+{{<embed-md "rs-8-enabled-modules.md">}}
+
+## Create a database with a module
+
+You can only add modules to a database when you first create it. You cannot add modules to an existing database.
+
+### Prerequisites
 
 - [Installed the module on the cluster]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster" >}})
 - [Upgraded the module]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module" >}}) to the latest version
 
-## Create a database with a module
-
-{{<note>}}
-You can only add modules to a database when you first create it. You cannot add modules to an existing database.
-{{</note>}}
+### Create a database and enable capabilities
 
 In the Redis Enterprise Cluster Manager UI, follow these steps to add modules to a database:
 
