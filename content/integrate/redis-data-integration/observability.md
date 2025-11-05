@@ -208,10 +208,10 @@ RDI reports with their descriptions.
 Most of the metrics exposed by the RDI operator are standard controller-runtime [metrics](https://book.kubebuilder.io/reference/metrics-reference).
 Those important for RDI operations are listed in the table below:
 
-| Metric Name | Metric Type | Metric Description                                                                  | Alerting Recommendations                                                                                              |
-|-------------|-------------|-------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
-| `leader_election_master_status` | Gauge       | USe this one to determine the current leader (for HA and DR setup) | Informational - may be used for alerting there is no leader for prolonged period of time                              |
-| `rdi_operator_pipeline_phase` | Gauge       | Use this one to determine the current phase pipeline phase                          | Informational - may be used for alerting if operator is stuck in the `Resetting` phase for a prolonged period of time |
+| Metric Name | Metric Type | Metric Description                                                 | Alerting Recommendations                                                                                              |
+|-------------|-------------|--------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
+| `rdi_operator_is_leader` | Gauge       | Current leadership status (1 = leader, 0 = not leader) | Informational - may be used for alerting there is no leader for prolonged period of time.                             |
+| `rdi_operator_pipeline_phase` | Gauge       | Current Pipeline phase         | Informational - may be used for alerting if operator is stuck in the `Resetting` phase for a prolonged period of time |
 
 
 ## Recommended alerting strategy
