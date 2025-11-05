@@ -39,24 +39,17 @@ go get github.com/redis/go-redis/v9
 
 ## Connect
 
-The following example shows the simplest way to connect to a Redis server:
+The following example shows the simplest way to connect to a Redis server.
+First, import the `go-redis` package:
 
-```go
-import (
-	"context"
-	"fmt"
-	"github.com/redis/go-redis/v9"
-)
+{{< clients-example set="landing" step="import" lang_filter="Go" >}}
+{{< /clients-example >}}
 
-func main() {    
-    client := redis.NewClient(&redis.Options{
-        Addr:	  "localhost:6379",
-        Password: "", // No password set
-        DB:		  0,  // Use default DB
-        Protocol: 2,  // Connection protocol
-    })
-}
-```
+Then connect to localhost on port 6379 and add a
+[context](https://golang.org/pkg/context/) object:
+
+{{< clients-example set="landing" step="connect" lang_filter="Go" >}}
+{{< /clients-example >}}
 
 You can also connect using a connection string:
 
@@ -72,101 +65,37 @@ client := redis.NewClient(opt)
 After connecting, you can test the connection by  storing and retrieving
 a simple [string]({{< relref "/develop/data-types/strings" >}}):
 
-```go
-ctx := context.Background()
-
-err := client.Set(ctx, "foo", "bar", 0).Err()
-if err != nil {
-    panic(err)
-}
-
-val, err := client.Get(ctx, "foo").Result()
-if err != nil {
-    panic(err)
-}
-fmt.Println("foo", val)
-```
+{{< clients-example set="landing" step="set_get_string" lang_filter="Go" >}}
+{{< /clients-example >}}
 
 You can also easily store and retrieve a [hash]({{< relref "/develop/data-types/hashes" >}}):
 
-```go
-hashFields := []string{
-    "model", "Deimos",
-    "brand", "Ergonom",
-    "type", "Enduro bikes",
-    "price", "4972",
-}
-
-res1, err := client.HSet(ctx, "bike:1", hashFields).Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res1) // >>> 4
-
-res2, err := client.HGet(ctx, "bike:1", "model").Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res2) // >>> Deimos
-
-res3, err := client.HGet(ctx, "bike:1", "price").Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res3) // >>> 4972
-
-res4, err := client.HGetAll(ctx, "bike:1").Result()
-
-if err != nil {
-    panic(err)
-}
-
-fmt.Println(res4)
-// >>> map[brand:Ergonom model:Deimos price:4972 type:Enduro bikes]
- ```
+{{< clients-example set="landing" step="set_get_hash" lang_filter="Go" >}}
+{{< /clients-example >}}
 
  Use
  [struct tags](https://stackoverflow.com/questions/10858787/what-are-the-uses-for-struct-tags-in-go)
  of the form `redis:"<field-name>"` with the `Scan()` method to parse fields from
  a hash directly into corresponding struct fields:
 
- ```go
-type BikeInfo struct {
-    Model string `redis:"model"`
-    Brand string `redis:"brand"`
-    Type  string `redis:"type"`
-    Price int    `redis:"price"`
-}
+{{< clients-example set="landing" step="get_hash_scan" lang_filter="Go" >}}
+{{< /clients-example >}}
 
-var res4a BikeInfo
-err = client.HGetAll(ctx, "bike:1").Scan(&res4a)
+Close the connection when you're done using a `Close()` call:
 
-if err != nil {
-    panic(err)
-}
+{{< clients-example set="landing" step="close" lang_filter="Go" >}}
+{{< /clients-example >}}
 
-fmt.Printf("Model: %v, Brand: %v, Type: %v, Price: $%v\n",
-    res4a.Model, res4a.Brand, res4a.Type, res4a.Price)
-// >>> Model: Deimos, Brand: Ergonom, Type: Enduro bikes, Price: $4972
- ```
-
-Close the connection when you're done using `client.Close()`. In the
-common case where you want to close the connection at the end of the
+In the common case where you want to close the connection at the end of the
 function where you opened it, you may find it convenient to use a `defer`
 statement right after connecting:
 
 ```go
 func main() {    
-    client := redis.NewClient(&redis.Options{
+    rdb := redis.NewClient(&redis.Options{
         ...
     })
-    defer client.Close()
+    defer rdb.Close()
     ...
 }
 ```

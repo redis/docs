@@ -8,6 +8,7 @@ categories:
 description: This integration guide shows how to set up Microsoft Entra as a SAML single sign on provider for your Redis Cloud account.
 linkTitle: Microsoft Entra integration
 weight: 10
+bannerText: Specific identity provider details may be different than shown in this guide. Always consult your identity provider's docs for the latest information.
 ---
 
 This guide shows how to configure [Microsoft Entra](https://learn.microsoft.com/en-us/azure/active-directory/fundamentals/active-directory-architecture) (formerly Azure Active Directory) as a SAML single sign-on identity provider (IdP) for your Redis Cloud account.

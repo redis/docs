@@ -54,12 +54,12 @@ Returns a JSON array of [action objects]({{< relref "/operate/rs/references/rest
 }
 ```
 
-### Status codes {#get-all-status-codes} 
+### Status codes {#get-all-status-codes}
 
 | Code | Description |
 |------|-------------|
-| [200 OK](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1) | No error, response provides info about an ongoing action. |
-| [404 Not Found](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.5) | Action does not exist (i.e. not currently running and no available status of last run). |
+| [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | No error, response provides info about an ongoing action. |
+| [404 Not Found](https://www.rfc-editor.org/rfc/rfc9110.html#name-404-not-found) | Action does not exist (i.e. not currently running and no available status of last run). |
 
 ## Get cluster action {#get-cluster-action}
 
@@ -99,12 +99,12 @@ Returns an [action object]({{< relref "/operate/rs/references/rest-api/objects/a
 }
 ```
 
-### Status codes {#get-status-codes} 
+### Status codes {#get-status-codes}
 
 | Code | Description |
 |------|-------------|
-| [200 OK](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1) | No error, response provides info about an ongoing action. |
-| [404 Not Found](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.5) | Action does not exist (i.e. not currently running and no available status of last run). |
+| [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | No error, response provides info about an ongoing action. |
+| [404 Not Found](https://www.rfc-editor.org/rfc/rfc9110.html#name-404-not-found) | Action does not exist (i.e. not currently running and no available status of last run). |
 
 ## Initiate cluster-wide action {#post-cluster-action}
 
@@ -153,13 +153,15 @@ Supported cluster actions:
 
 The body content may provide additional action details. Currently, it is not used. 
 
-### Status codes {#post-status-codes} 
+### Status codes {#post-status-codes}
 
 | Code | Description |
 |------|-------------|
-| [200 OK](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1) | No error, action was initiated. |
-| [400 Bad Request](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.1) | Bad action or content provided. |
-| [409 Conflict](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.10) | A conflicting action is already in progress. |
+| [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | No error, action was initiated. |
+| [400 Bad Request](https://www.rfc-editor.org/rfc/rfc9110.html#name-400-bad-request) | Bad action or content provided. |
+| [404 Not Found](https://www.rfc-editor.org/rfc/rfc9110.html#name-404-not-found) | Node does not exist. |
+| [406 Not Acceptable](https://www.rfc-editor.org/rfc/rfc9110.html#name-406-not-acceptable) | Node not bootstrapped. |
+| [409 Conflict](https://www.rfc-editor.org/rfc/rfc9110.html#name-409-conflict) | A conflicting action is already in progress. |
 
 ## Cancel action {#delete-cluster-action}
 
@@ -190,9 +192,9 @@ a previously executed and completed action.
 
 Returns a status code.
 
-### Status codes {#delete-status-codes} 
+### Status codes {#delete-status-codes}
 
 | Code | Description |
 |------|-------------|
-| [200 OK](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1) | Action will be cancelled when possible. |
-| [404 Not Found](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.5) | Action unknown or not currently running. |
+| [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | Action will be cancelled when possible. |
+| [404 Not Found](https://www.rfc-editor.org/rfc/rfc9110.html#name-404-not-found) | Action unknown or not currently running. |
