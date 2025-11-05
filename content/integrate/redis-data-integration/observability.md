@@ -44,7 +44,7 @@ command from the CLI.{{< /note >}}
 
 The way you access the metrics endpoints depends on whether you are using a VM installation or a Helm installation for RDI. The sections below describe the correct approach for each installation type.
 
-#### VM Installation
+### VM Installation
 
 For VM installations, the metrics are available by default on the following endpoints:
 - Collector metrics: `https://<RDI_HOST>/collector-source/metrics`
