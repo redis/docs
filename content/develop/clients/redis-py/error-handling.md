@@ -2,7 +2,7 @@
 title: Error handling
 description: Learn how to handle errors when using redis-py
 linkTitle: Error handling
-weight: 50
+weight: 65
 ---
 
 redis-py uses **exceptions** to signal errors. The redis-py documentation mainly
@@ -53,7 +53,7 @@ redis-py:
 
 ### Pattern 1: Fail fast
 
-Catch specific exceptions and re-raise them (see
+Catch specific exceptions that represent unrecoverable errors and re-raise them (see
 [Pattern 1: Fail fast]({{< relref "/develop/clients/error-handling#pattern-1-fail-fast" >}})
 for a full description):
 
@@ -65,7 +65,7 @@ r = redis.Redis()
 try:
     result = r.get(key)
 except redis.ResponseError:
-    # This indicates a bug in our code
+    # This indicates a bug in the code
     raise
 ```
 
@@ -91,24 +91,12 @@ return database.get(key)
 
 Retry on temporary errors like timeouts (see
 [Pattern 3: Retry with backoff]({{< relref "/develop/clients/error-handling#pattern-3-retry-with-backoff" >}})
-for a full description):
-
-```python
-import time
-
-max_retries = 3
-retry_delay = 0.1
-
-for attempt in range(max_retries):
-    try:
-        return r.get(key)
-    except redis.TimeoutError:
-        if attempt < max_retries - 1:
-            time.sleep(retry_delay)
-            retry_delay *= 2  # Exponential backoff
-        else:
-            raise
-```
+for a full description). redis-py has built-in retry logic
+which is highly configurable. You can customize the retry strategy
+(or supply your own custom strategy) and you can also specify which errors
+should be retried. See
+[Production usage]({{< relref "/develop/clients/redis-py/produsage#retries" >}})
+for more information.
 
 ### Pattern 4: Log and continue
 
@@ -126,7 +114,8 @@ except redis.ConnectionError:
 
 ## Async error handling
 
-If you're using `redis.asyncio`, error handling works the same way, but with `async`/`await`:
+Error handling works the usual way when you use `async`/`await`,
+as shown in the example below:
 
 ```python
 import redis.asyncio as redis
@@ -142,22 +131,7 @@ async def get_with_fallback(key):
         await r.close()
 ```
 
-## Connection pool errors
-
-Connection pool exhaustion raises a `redis.ConnectionError`. Monitor pool usage
-and adjust the pool size if necessary:
-
-```python
-pool = redis.ConnectionPool(
-    host="localhost",
-    port=6379,
-    max_connections=50  # Adjust based on your needs
-)
-r = redis.Redis(connection_pool=pool)
-```
-
 ## See also
 
 - [Error handling]({{< relref "/develop/clients/error-handling" >}})
 - [Production usage]({{< relref "/develop/clients/redis-py/produsage" >}})
-- [Connection pooling]({{< relref "/develop/clients/pools-and-muxing" >}})

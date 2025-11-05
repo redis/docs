@@ -92,7 +92,7 @@ below show how to implement these patterns in node-redis:
 
 ### Pattern 1: Fail fast
 
-Catch specific errors and re-throw them (see
+Catch specific errors that represent unrecoverable errors and re-throw them (see
 [Pattern 1: Fail fast]({{< relref "/develop/clients/error-handling#pattern-1-fail-fast" >}})
 for a full description).
 

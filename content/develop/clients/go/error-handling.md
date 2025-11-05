@@ -45,7 +45,7 @@ go-redis:
 
 ### Pattern 1: Fail fast
 
-Return the error immediately (see
+Return the error immediately if it represents an unrecoverable situation (see
 [Pattern 1: Fail fast]({{< relref "/develop/clients/error-handling#pattern-1-fail-fast" >}})
 for a full description):
 
