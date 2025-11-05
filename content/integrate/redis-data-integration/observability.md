@@ -40,9 +40,9 @@ RDI metrics with the RDI monitoring screen in Redis Insight or with the
 [`redis-di status`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-status" >}})
 command from the CLI.{{< /note >}}
 
-### Accessing the metrics
+## Accessing the metrics
 
-How you access the metrics endpoints depends on your RDI installation method.
+The way you access the metrics endpoints depends on whether you are using a VM installation or a Helm installation for RDI. The sections below describe the correct approach for each installation type.
 
 #### VM Installation
 
