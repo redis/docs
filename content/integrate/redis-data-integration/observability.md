@@ -53,7 +53,7 @@ For VM installations, the metrics are available by default on the following endp
 
 Please note that for RDI versions prior to 1.16.0 the collector metrics are not accessible.
 
-#### Helm installation
+### Helm installation
 
 For Helm installations, the metrics are available via autodiscovery in the K8s cluster. To use them you need to do the following:
 1. Make sure you have the Prometheus Operator installed in your K8s cluster. You can follow the
