@@ -18,7 +18,7 @@ Redis Enterprise for Kubernetes provides all the enterprise features of Redis So
 - Linear scalability with Redis clustering
 - High availability with automatic failover
 - Active-Active geo-distribution
-- Auto Tiering for cost optimization
+- Redis Flex for cost optimization
 - Enterprise-grade security and encryption
 - 24/7 support
 
