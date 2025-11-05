@@ -164,7 +164,16 @@
 	    (dict "Text"  "Redis Insight" "URL" "./develop/tools/insight/")
 	    (dict "Text"  "Redis for VSCode" "URL" "./develop/tools/redis-for-vscode/")	    
           ) ) }}
-	      
+          {{ partial "docs-section.html" (dict
+          "Title" "Resources for AI agents"
+          "Description" "Learn more about Redis documentation features that support AI agents"
+	  "ButtonLink" "https://redis.io/llms.txt"
+          "ButtonLabel" "Main `llms.txt` index for doc structure"  
+	"LinksLeft" (slice
+            (dict "Text" "AI Agent Resources" "URL" "./ai-agent-resources")
+            (dict "Text" "Example doc page in Markdown format" "URL" "./develop/index.html.md")
+          )
+        ) }}
       </div>
     </div>
   </div>
