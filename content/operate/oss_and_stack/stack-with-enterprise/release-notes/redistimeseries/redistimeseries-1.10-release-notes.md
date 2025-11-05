@@ -14,10 +14,26 @@ weight: 95
 ---
 ## Requirements
 
-RedisTimeSeries v1.10.17 requires:
+RedisTimeSeries v1.10.20 requires:
 
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
+
+## v1.10.20 (October 2025)
+
+This is a maintenance release for RedisTimeSeries 1.10.
+
+Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgent.
+
+Details:
+
+Bug fixes:
+
+- [#1776](https://github.com/redistimeseries/redistimeseries/pull/1776) Potential crash on `TS.RANGE` with `ALIGN +`, `AGGREGATION twa` and `EMPTY` (MOD-11620, MOD-10484).
+
+Improvements:
+
+- Added support for Rocky Linux 9 and RHEL9 ARM.
 
 ## v1.10.17 (April 2025)
 

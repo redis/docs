@@ -32,7 +32,7 @@ Here's how to subscribe to Redis Cloud with Google Cloud marketplace:
 
     Alternatively, in the navigation panel, select **View all products** and select **Redis Cloud** under **Databases**. You can pin Redis Cloud for easy access.
 
-    Or, click on the URL provided by your Redis seller for a private offer for [Redis® Cloud Cache and Vector Database](https://console.cloud.google.com/marketplace/product/redis-marketplace-isaas/redis-enterprise-cloud-flexible-plan) and accept the private offer.
+    Or, click on the URL provided by your Redis seller for a private offer for **Redis Cloud - Annual** and accept the private offer.
 
 1.  Select the **Subscribe** button. This redirects you to the subscription details page.
 
