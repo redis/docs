@@ -55,7 +55,7 @@ Please note that for RDI versions prior to 1.16.0 the collector metrics are not 
 
 ### Helm installation
 
-For Helm installations, the metrics are available via autodiscovery in the K8s cluster. To use them you need to do the following:
+For Helm installations, the metrics are available via autodiscovery in the K8s cluster. Follow the steps below to use them:
 1. Make sure you have the Prometheus Operator installed in your K8s cluster. You can follow the
    [Prometheus Operator installation guide](https://prometheus-operator.dev/docs/getting-started/installation/).
 
