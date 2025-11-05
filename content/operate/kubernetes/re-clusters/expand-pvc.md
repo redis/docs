@@ -43,7 +43,7 @@ By default, if you omit [`spec.persistentSpec.volumeSize`]({{< relref "/operate/
 
 {{<warning>}} OpenShift users should be aware that (`ClusterResourceQuota`) can limit the PVC expansion. Check your quota before resizing using `oc describe clusterresourcequota <quota-name>`.{{</warning>}}
 
-{{<warning>}} PVC expansion is not supported when using Auto Tiering (Redis on Flash). Do not enable `enablePersistentVolumeResize` if your REC uses `redisOnFlashSpec` as this will result in conflicts. {{</warning>}}
+{{<warning>}} PVC expansion is not supported when using Redis Flex (previously Redis on Flash). Do not enable `enablePersistentVolumeResize` if your REC uses `redisOnFlashSpec` as this will result in conflicts. {{</warning>}}
 
 ## Expand REC PVC
 

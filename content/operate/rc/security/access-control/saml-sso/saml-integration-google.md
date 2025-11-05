@@ -9,6 +9,7 @@ description: This integration guide shows how to configure Google Workspace as a
   single sign on provider for your Redis Cloud account.
 linkTitle: Google workspace integration
 weight: 10
+bannerText: Specific identity provider details may be different than shown in this guide. Always consult your identity provider's docs for the latest information.
 ---
 
 This guide shows how to configure [Google Workspace](https://workspace.google.com/) as a SAML single sign-on identity provider (IdP) for your Redis Cloud account.

@@ -74,6 +74,12 @@ is number of results to read. This parameter overrides `COUNT` specified in [`FT
 {{< / highlight >}}
 </details>
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis Enterprise<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
+
 ## Return information
 
 {{< multitabs id="ft-cursor-read-return-info" 

@@ -79,6 +79,12 @@ An arbitrary ID is any ID that isn't the ID of the stream's first entry, its las
 This can be useful you know exactly how many entries are between the arbitrary ID (excluding it) and the stream's last entry.
 In such cases, the `entries_read` can be set to the stream's `entries_added` subtracted with the number of entries.
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+
 ## Return information
 
 {{< multitabs id="xgroup-setid-return-info" 

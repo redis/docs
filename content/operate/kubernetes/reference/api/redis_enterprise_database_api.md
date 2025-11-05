@@ -5,7 +5,6 @@ categories:
 - docs
 - operate
 - kubernetes
-aliases: [/operate/kubernetes/reference/redis_enterprise_database_api, /operate/kubernetes/reference/db-options]
 linkTitle: REDB API
 weight: 30
 ---
@@ -178,7 +177,7 @@ RedisEnterpriseDatabaseSpec defines the desired state of RedisEnterpriseDatabase
         <td><a href="#specmoduleslist">modulesList</a></td>
         <td>[]object</td>
         <td>
-          List of modules associated with the database. The list of valid modules for the specific cluster can be retrieved from the status of the REC object. Use the "name" and "versions" fields for the specific module configuration. If specifying an explicit version for a module, automatic modules versions upgrade must be disabled by setting the '.upgradeSpec.upgradeModulesToLatest' field in the REC to 'false'. Note that the option to specify module versions is deprecated, and will be removed in future releases.<br/>
+          List of modules associated with the database. The list of valid modules for the specific cluster can be retrieved from the status of the REC object. Use the "name" and "versions" fields for the specific module configuration. If specifying an explicit version for a module, automatic modules versions upgrade must be disabled by setting the '.upgradeSpec.upgradeModulesToLatest' field in the REC to 'false'. Note that the option to specify module versions is deprecated, and will be removed in future releases. for Redis version 8 and above, bundled modules are enabled automatically, so there is no need to specify them<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -415,6 +414,13 @@ Settings for database alerts
         </td>
         <td>false</td>
       </tr><tr>
+        <td><a href="#specalertsettingsbdb_proxy_cert_expiring_soon">bdb_proxy_cert_expiring_soon</a></td>
+        <td>object</td>
+        <td>
+          Proxy certificate will expire in less than specified threshold value [days]<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td><a href="#specalertsettingsbdb_ram_dataset_overhead">bdb_ram_dataset_overhead</a></td>
         <td>object</td>
         <td>
@@ -639,6 +645,31 @@ An alert for state-machines that are running for too long -Note threshold is com
 <sup><sup>[↩ Parent](#specalertsettings)</sup></sup>
 
 Throughput is lower than specified threshold value [requests / sec.] -Note threshold is commented (allow string/int/float and support backwards compatibility) but is required
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>enabled</td>
+        <td>boolean</td>
+        <td>
+          Alert enabled or disabled<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.alertSettings.bdb_proxy_cert_expiring_soon
+<sup><sup>[↩ Parent](#specalertsettings)</sup></sup>
+
+Proxy certificate will expire in less than specified threshold value [days]
 
 <table>
     <thead>
@@ -1283,9 +1314,12 @@ Redis Enterprise Role and ACL Binding
         <td>true</td>
       </tr><tr>
         <td>type</td>
-        <td>string</td>
+        <td>enum</td>
         <td>
-          Type of Redis Enterprise Database Role Permission<br/>
+          Type of Redis Enterprise Database Role Permission. Currently, only "redis-enterprise" is supported, which uses roles and ACLs defined within Redis Enterprise directly.<br/>
+          <br/>
+            <i>Enum</i>: redis-enterprise<br/>
+            <i>Default</i>: redis-enterprise<br/>
         </td>
         <td>true</td>
       </tr></tbody>

@@ -64,7 +64,7 @@ Because the index on the new shard is created synchronously though, it's expecte
 
 ## Limitations
 
-- You cannot use search and query capabilities with the [OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}).
+- You cannot use search and query capabilities with the [OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}). This limitation was fixed in Redis Enterprise Software version 8.0.
 
 ## More info
 
