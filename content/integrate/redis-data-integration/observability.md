@@ -206,7 +206,7 @@ RDI reports with their descriptions.
 
 ## Operator metrics
 Most of the metrics exposed by the RDI operator are standard controller-runtime [metrics](https://book.kubebuilder.io/reference/metrics-reference).
-Those important for RDI operations are listed in the table below:
+The metrics that are relevant for RDI operations are listed in the table below:
 
 | Metric Name | Metric Type | Metric Description                                                 | Alerting Recommendations                                                                                              |
 |-------------|-------------|--------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
