@@ -13,7 +13,7 @@ Redis provides a comprehensive index of all documentation in Markdown format at 
 All documentation pages are available in Markdown format via the same URL as
 the main doc page but with `index.html.md` added. For example, the Markdown version of 
 this page is available at
-[ai-agent-resources/index.html.md](https://redis.io/docs/latest/develop/ai-agent-resources/index.html.md).
+[ai-agent-resources/index.html.md](https://redis.io/docs/latest/ai-agent-resources/index.html.md).
 
 
 ## API references
