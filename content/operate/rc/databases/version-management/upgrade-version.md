@@ -18,9 +18,7 @@ Database version upgrade options depend on your plan type.
 
 All new Redis Cloud Essentials databases are on the latest available version of Redis.
 
-For Redis 8+, minor version auto-upgrades are always enabled and occur automatically during maintenance windows when new versions become available. Major version upgrades require customer action.
-
-For Redis 7 and earlier versions, Redis will notify users when new database versions are available, but upgrades must be done manually.
+Redis will notify users when new database versions are available, but upgrades must be done manually.
 
 ## Redis Cloud Pro
 
@@ -35,7 +33,9 @@ Please keep in mind the following before upgrading your database version:
 
 - Review the breaking changes for the new database version before upgrading: 
     - [Redis 7.2]({{< relref "/operate/rc/changelog/version-release-notes/7-2" >}}) 
-    - [Redis 7.4]({{< relref "/operate/rc/changelog/version-release-notes/7-4" >}}) 
+    - [Redis 7.4]({{< relref "/operate/rc/changelog/version-release-notes/7-4" >}})
+    - [Redis 8.0]({{< relref "/operate/rc/changelog/version-release-notes/8-0" >}})
+    - [Redis 8.2]({{< relref "/operate/rc/changelog/version-release-notes/8-2" >}})
 
 - You must upgrade the target database in an [Active-Passive]({{< relref "/operate/rc/databases/migrate-databases#sync-using-active-passive" >}}) setup before you upgrade the source database to prevent compatibility issues.
 {{< /note >}}

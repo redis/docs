@@ -31,7 +31,7 @@ Redis uses a **MAJOR.MINOR.PATCH** versioning scheme:
 | Version | Status | EOL Date | Plans |
 |---------|--------|----------|-------|
 | **Redis 8.2** | GA | TBD | Essentials, Pro |
-| **Redis 8.0** | *Preview | TBD | Essentials |
+| **Redis 8.0** | Preview | TBD | Essentials |
 | **Redis 7.4** | GA | December 1, 2029 | Essentials, Pro |
 | **Redis 7.2** | GA | December 1, 2029 | Essentials, Pro |
 | **Redis 6.2** | GA | 2026 | Pro |
