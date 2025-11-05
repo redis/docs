@@ -97,8 +97,8 @@ For Helm installations, the metrics are available via autodiscovery in the K8s c
             enabled: true
         ```
 
-Note: please have in mind, that the Prometheus service discovery loop runs on regular intervals. Therefore, after deploying or updating RDI with the above configuration, it may take up to a few minutes for Prometheus to discover the new ServiceMonitors and start scraping metrics from the RDI components.
-
+{{< note >}}The Prometheus service discovery loop runs at regular intervals. This means that after deploying or updating RDI with the above configuration, it may take a few minutes for Prometheus to discover the new ServiceMonitors and start scraping metrics from the RDI components.
+{{< /note >}}
 
 ## Collector metrics
 
