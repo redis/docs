@@ -98,13 +98,9 @@ You can use the `{...}` pattern to direct related keys to the same hash slot, so
 
 Redis Cloud offers 3 hashing policies, which differ in how hash tags are processed. These hashing policies are not always available.
 
-For accounts created after March 31, 2025, Redis defaults to the [Redis hashing policy](#redis-hashing-policy) **when creating a new database**. For all other accounts, Redis defaults to the [standard hashing policy](#standard-hashing-policy). 
+Redis Cloud defaults to the [Redis hashing policy](#redis-hashing-policy) **when creating a new database**. You can select a different hashing policy during database creation, but you cannot change the hashing policy to or from the Redis hashing policy after the database is created. 
 
 ### Redis hashing policy
-
-{{< note >}}
-This policy is available for selected accounts and will be rolled out gradually to other accounts in the future.
-{{< /note >}}
 
 The Redis hashing policy is identical to the [hashing policy used by Redis Open Source]({{< relref "/operate/oss_and_stack/reference/cluster-spec#hash-tags" >}}). This policy is recommended for most users and you should select it if any of the following conditions apply:
 - This is your first Redis Cloud account, and you are starting fresh.

@@ -13,10 +13,23 @@ weight: 90
 ---
 ## Requirements
 
-RediSearch v2.10.23 requires:
+RediSearch v2.10.24 requires:
 
 - Minimum Redis compatibility version (database): 7.4
 - Minimum Redis Enterprise Software version (cluster): 7.8
+
+## v2.10.24 (October 2025)
+
+This is a maintenance release for RediSearch 2.10.
+
+Update urgency: `LOW`: No need to upgrade unless there are new features you want to use.
+
+Bug Fixes
+- [#6960](https://github.com/redisearch/redisearch/pull/6960) - FT.INFO returns the wrong number of documents in OSS Cluster with replicas.
+- [#6938](https://github.com/redisearch/redisearch/pull/6938) - Fix for the HIGHLIGHT feature, where if some fields have empty strings, wrong tokens might be highlighted.
+- [#7047](https://github.com/redisearch/redisearch/pull/7047) - Avoid crashing in the FT.AGGREGATE command in clusters where different shards have different ON_TIMEOUT policies configured (fail vs return).
+
+Full Changelog: https://github.com/RediSearch/RediSearch/compare/v2.10.23...v2.10.24.
 
 ## v2.10.23 (September 2025)
 
@@ -28,7 +41,7 @@ Bug fixes:
 - [#6672](https://github.com/RediSearch/RediSearch/pull/6672) Fix potential file descriptor leak when OOM.
 - [#6763](https://github.com/RediSearch/RediSearch/pull/6763) Fix potential deadlock during RDB loading in cases where the `INFO` command is sent to the server.
 
-**Full Changelog**: https://github.com/RediSearch/RediSearch/compare/v2.10.22...v2.10.23
+Full Changelog: https://github.com/RediSearch/RediSearch/compare/v2.10.22...v2.10.23
 
 ## v2.10.22 (August 2025)
 
