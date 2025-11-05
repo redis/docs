@@ -96,9 +96,9 @@ To skip the installation questions, use one of the following methods:
 1. Repeat this process for each node in the cluster.
 
 
-## Auto Tiering installation
+## Redis Flex and Auto Tiering installation
 
-If you want to use Auto Tiering for your databases, review the prerequisites, storage requirements, and [other considerations]({{< relref "/operate/rs/databases/auto-tiering/" >}}) for Auto Tiering databases and prepare and format the flash memory.
+If you want to use Redis Flex or Auto Tiering for your databases, review the prerequisites, storage requirements, and [other considerations]({{< relref "/operate/rs/databases/flash/" >}}) and prepare and format the flash memory.
 
 After you install Redis Enterprise Software, use the `prepare_flash` script to prepare and format flash memory:
 
