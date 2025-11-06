@@ -69,7 +69,7 @@ The command is otherwise identical to [`EVAL`]({{< relref "/commands/eval" >}}).
 
 Please refer to the [Redis Programmability]({{< relref "/develop/programmability/" >}}) and [Introduction to Eval Scripts]({{< relref "/develop/programmability/eval-intro" >}}) for more information about Lua scripts.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

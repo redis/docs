@@ -29,7 +29,7 @@ Returns the node's id.
 
 The `CLUSTER MYID` command returns the unique, auto-generated identifier that is associated with the connected cluster node.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

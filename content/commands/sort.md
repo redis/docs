@@ -277,7 +277,7 @@ The string `->` is used to separate the key name from the hash field name.
 The key is substituted as documented above, and the hash stored at the resulting
 key is accessed to retrieve the specified hash field.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

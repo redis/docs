@@ -41,7 +41,7 @@ is persisted on disk, however all the commands should normally be able to
 auto schedule to persist the configuration on disk when it is important
 to do so for the correctness of the system in the event of a restart.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
