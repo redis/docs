@@ -24,6 +24,7 @@ hints:
 - request_policy:all_shards
 - response_policy:one_succeeded
 linkTitle: FUNCTION KILL
+railroad_diagram: /images/railroad/function-kill.svg
 since: 7.0.0
 summary: Terminates a function during execution.
 syntax_fmt: FUNCTION KILL

@@ -59,6 +59,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: PFMERGE
+railroad_diagram: /images/railroad/pfmerge.svg
 since: 2.8.9
 summary: Merges one or more HyperLogLog values into a single key.
 syntax_fmt: PFMERGE destkey [sourcekey [sourcekey ...]]

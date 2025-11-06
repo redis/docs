@@ -57,6 +57,7 @@ key_specs:
   notes: We cannot tell how the keys will be used so we assume the worst, RW and UPDATE
   update: true
 linkTitle: EVAL
+railroad_diagram: /images/railroad/eval.svg
 since: 2.6.0
 summary: Executes a server-side Lua script.
 syntax_fmt: EVAL script numkeys [key [key ...]] [arg [arg ...]]

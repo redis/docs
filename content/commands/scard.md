@@ -39,6 +39,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: SCARD
+railroad_diagram: /images/railroad/scard.svg
 since: 1.0.0
 summary: Returns the number of members in a set.
 syntax_fmt: SCARD key

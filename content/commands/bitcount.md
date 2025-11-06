@@ -65,6 +65,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: BITCOUNT
+railroad_diagram: /images/railroad/bitcount.svg
 since: 2.6.0
 summary: Counts the number of set bits (population counting) in a string.
 syntax_fmt: BITCOUNT key [start end [BYTE | BIT]]

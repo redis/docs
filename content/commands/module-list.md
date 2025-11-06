@@ -24,6 +24,7 @@ hidden: false
 hints:
 - nondeterministic_output_order
 linkTitle: MODULE LIST
+railroad_diagram: /images/railroad/module-list.svg
 since: 4.0.0
 summary: Returns all loaded modules.
 syntax_fmt: MODULE LIST

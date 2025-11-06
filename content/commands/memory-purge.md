@@ -20,6 +20,7 @@ hints:
 - request_policy:all_shards
 - response_policy:all_succeeded
 linkTitle: MEMORY PURGE
+railroad_diagram: /images/railroad/memory-purge.svg
 since: 4.0.0
 summary: Asks the allocator to release memory.
 syntax_fmt: MEMORY PURGE

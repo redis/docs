@@ -22,6 +22,7 @@ description: Returns the unique client ID of the connection.
 group: connection
 hidden: false
 linkTitle: CLIENT ID
+railroad_diagram: /images/railroad/client-id.svg
 since: 5.0.0
 summary: Returns the unique client ID of the connection.
 syntax_fmt: CLIENT ID

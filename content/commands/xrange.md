@@ -54,6 +54,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: XRANGE
+railroad_diagram: /images/railroad/xrange.svg
 since: 5.0.0
 summary: Returns the messages from a stream within a range of IDs.
 syntax_fmt: "XRANGE key start end [COUNT\_count]"

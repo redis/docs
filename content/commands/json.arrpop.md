@@ -35,6 +35,7 @@ group: json
 hidden: false
 linkTitle: JSON.ARRPOP
 module: JSON
+railroad_diagram: /images/railroad/json.arrpop.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Removes and returns the element at the specified index in the array at path

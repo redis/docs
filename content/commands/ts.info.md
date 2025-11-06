@@ -25,6 +25,7 @@ group: timeseries
 hidden: false
 linkTitle: TS.INFO
 module: TimeSeries
+railroad_diagram: /images/railroad/ts.info.svg
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Returns information and statistics for a time series

@@ -25,6 +25,7 @@ description: Resets the connection.
 group: connection
 hidden: false
 linkTitle: RESET
+railroad_diagram: /images/railroad/reset.svg
 since: 6.2.0
 summary: Resets the connection.
 syntax_fmt: RESET

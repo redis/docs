@@ -75,6 +75,7 @@ key_specs:
     type: range
   update: true
 linkTitle: HPEXPIREAT
+railroad_diagram: /images/railroad/hpexpireat.svg
 since: 7.4.0
 summary: Set expiry for hash field using an absolute Unix timestamp (milliseconds)
 syntax_fmt: "HPEXPIREAT key unix-time-milliseconds [NX | XX | GT | LT]\n  FIELDS\_\

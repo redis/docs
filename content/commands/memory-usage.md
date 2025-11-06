@@ -42,6 +42,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: MEMORY USAGE
+railroad_diagram: /images/railroad/memory-usage.svg
 since: 4.0.0
 summary: Estimates the memory usage of a key.
 syntax_fmt: "MEMORY USAGE key [SAMPLES\_count]"

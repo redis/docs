@@ -28,6 +28,7 @@ group: tdigest
 hidden: false
 linkTitle: TDIGEST.ADD
 module: Bloom
+railroad_diagram: /images/railroad/tdigest.add.svg
 since: 2.4.0
 stack_path: docs/data-types/probabilistic
 summary: Adds one or more observations to a t-digest sketch

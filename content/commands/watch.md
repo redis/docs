@@ -42,6 +42,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: WATCH
+railroad_diagram: /images/railroad/watch.svg
 since: 2.2.0
 summary: Monitors changes to keys to determine the execution of a transaction.
 syntax_fmt: WATCH key [key ...]

@@ -63,6 +63,7 @@ key_specs:
       keystep: 1
     type: keynum
 linkTitle: ZMPOP
+railroad_diagram: /images/railroad/zmpop.svg
 since: 7.0.0
 summary: Returns the highest- or lowest-scoring members from one or more sorted sets
   after removing them. Deletes the sorted set if the last member was popped.

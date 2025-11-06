@@ -32,6 +32,7 @@ history:
 - - 7.0.0
   - Added the ability to pass multiple pattern parameters in one call
 linkTitle: CONFIG GET
+railroad_diagram: /images/railroad/config-get.svg
 since: 2.0.0
 summary: Returns the effective values of configuration parameters.
 syntax_fmt: CONFIG GET parameter [parameter ...]

@@ -71,6 +71,7 @@ history:
 - - 7.0.3
   - Added `ssub` field.
 linkTitle: CLIENT LIST
+railroad_diagram: /images/railroad/client-list.svg
 since: 2.4.0
 summary: Lists open connections.
 syntax_fmt: "CLIENT LIST [TYPE\_<NORMAL | MASTER | REPLICA | PUBSUB>]\n  [ID\_client-id\

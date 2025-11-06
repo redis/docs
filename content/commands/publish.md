@@ -31,6 +31,7 @@ description: Posts a message to a channel.
 group: pubsub
 hidden: false
 linkTitle: PUBLISH
+railroad_diagram: /images/railroad/publish.svg
 since: 2.0.0
 summary: Posts a message to a channel.
 syntax_fmt: PUBLISH channel message

@@ -69,6 +69,7 @@ key_specs:
       keystep: 1
     type: keynum
 linkTitle: BZMPOP
+railroad_diagram: /images/railroad/bzmpop.svg
 since: 7.0.0
 summary: Removes and returns a member by score from one or more sorted sets. Blocks
   until a member is available otherwise. Deletes the sorted set if the last element

@@ -115,6 +115,7 @@ key_specs:
     can appear anywhere in the argument array
   update: true
 linkTitle: SORT
+railroad_diagram: /images/railroad/sort.svg
 since: 1.0.0
 summary: Sorts the elements in a list, a set, or a sorted set, optionally storing
   the result.

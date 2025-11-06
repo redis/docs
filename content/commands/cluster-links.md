@@ -21,6 +21,7 @@ hidden: false
 hints:
 - nondeterministic_output
 linkTitle: CLUSTER LINKS
+railroad_diagram: /images/railroad/cluster-links.svg
 since: 7.0.0
 summary: Returns a list of all TCP links to and from peer nodes.
 syntax_fmt: CLUSTER LINKS

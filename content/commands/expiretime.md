@@ -40,6 +40,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: EXPIRETIME
+railroad_diagram: /images/railroad/expiretime.svg
 since: 7.0.0
 summary: Returns the expiration time of a key as a Unix timestamp.
 syntax_fmt: EXPIRETIME key

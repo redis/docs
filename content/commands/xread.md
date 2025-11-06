@@ -62,6 +62,7 @@ key_specs:
       limit: 2
     type: range
 linkTitle: XREAD
+railroad_diagram: /images/railroad/xread.svg
 since: 5.0.0
 summary: Returns messages from multiple streams with IDs greater than the ones requested.
   Blocks until a message is available otherwise.

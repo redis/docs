@@ -28,6 +28,7 @@ group: json
 hidden: false
 linkTitle: JSON.CLEAR
 module: JSON
+railroad_diagram: /images/railroad/json.clear.svg
 since: 2.0.0
 stack_path: docs/data-types/json
 summary: Clears all values from an array or an object and sets numeric values to `0`

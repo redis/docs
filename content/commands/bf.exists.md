@@ -24,6 +24,7 @@ group: bf
 hidden: false
 linkTitle: BF.EXISTS
 module: Bloom
+railroad_diagram: /images/railroad/bf.exists.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Checks whether an item exists in a Bloom Filter

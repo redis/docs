@@ -22,9 +22,10 @@ group: tdigest
 hidden: false
 linkTitle: TDIGEST.RESET
 module: Bloom
+railroad_diagram: /images/railroad/tdigest.reset.svg
 since: 2.4.0
 stack_path: docs/data-types/probabilistic
-summary: Resets a t-digest sketch (empties the sketch and re-initializes it).
+summary: 'Resets a t-digest sketch: empty the sketch and re-initializes it.'
 syntax_fmt: TDIGEST.RESET key
 syntax_str: ''
 title: TDIGEST.RESET

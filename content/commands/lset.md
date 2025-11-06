@@ -47,6 +47,7 @@ key_specs:
     type: range
   update: true
 linkTitle: LSET
+railroad_diagram: /images/railroad/lset.svg
 since: 1.0.0
 summary: Sets the value of an element in a list by its index.
 syntax_fmt: LSET key index element

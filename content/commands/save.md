@@ -24,6 +24,7 @@ description: Synchronously saves the database(s) to disk.
 group: server
 hidden: false
 linkTitle: SAVE
+railroad_diagram: /images/railroad/save.svg
 since: 1.0.0
 summary: Synchronously saves the database(s) to disk.
 syntax_fmt: SAVE

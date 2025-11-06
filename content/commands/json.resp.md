@@ -28,6 +28,7 @@ group: json
 hidden: false
 linkTitle: JSON.RESP
 module: JSON
+railroad_diagram: /images/railroad/json.resp.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Returns the JSON value at path in Redis Serialization Protocol (RESP)

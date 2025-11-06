@@ -32,6 +32,7 @@ hints:
 - request_policy:all_nodes
 - response_policy:all_succeeded
 linkTitle: ACL DELUSER
+railroad_diagram: /images/railroad/acl-deluser.svg
 since: 6.0.0
 summary: Deletes ACL users, and terminates their connections.
 syntax_fmt: ACL DELUSER username [username ...]

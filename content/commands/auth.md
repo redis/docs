@@ -37,6 +37,7 @@ history:
 - - 6.0.0
   - Added ACL style (username and password).
 linkTitle: AUTH
+railroad_diagram: /images/railroad/auth.svg
 since: 1.0.0
 summary: Authenticates the connection.
 syntax_fmt: AUTH [username] password

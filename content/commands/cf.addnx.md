@@ -24,6 +24,7 @@ group: cf
 hidden: false
 linkTitle: CF.ADDNX
 module: Bloom
+railroad_diagram: /images/railroad/cf.addnx.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Adds an item to a Cuckoo Filter if the item did not exist previously.

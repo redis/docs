@@ -35,6 +35,7 @@ description: Assigns new hash slot ranges to a node.
 group: cluster
 hidden: false
 linkTitle: CLUSTER ADDSLOTSRANGE
+railroad_diagram: /images/railroad/cluster-addslotsrange.svg
 since: 7.0.0
 summary: Assigns new hash slot ranges to a node.
 syntax_fmt: CLUSTER ADDSLOTSRANGE start-slot end-slot [start-slot end-slot ...]

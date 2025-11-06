@@ -39,6 +39,7 @@ history:
 - - 7.2.0
   - Added entry ID, timestamp created, and timestamp last updated.
 linkTitle: ACL LOG
+railroad_diagram: /images/railroad/acl-log.svg
 since: 6.0.0
 summary: Lists recent security events generated due to ACL rules.
 syntax_fmt: ACL LOG [count | RESET]

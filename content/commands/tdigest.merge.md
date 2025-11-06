@@ -41,6 +41,7 @@ group: tdigest
 hidden: false
 linkTitle: TDIGEST.MERGE
 module: Bloom
+railroad_diagram: /images/railroad/tdigest.merge.svg
 since: 2.4.0
 stack_path: docs/data-types/probabilistic
 summary: Merges multiple t-digest sketches into a single sketch

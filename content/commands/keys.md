@@ -30,6 +30,7 @@ hints:
 - request_policy:all_shards
 - nondeterministic_output_order
 linkTitle: KEYS
+railroad_diagram: /images/railroad/keys.svg
 since: 1.0.0
 summary: Returns all key names that match a pattern.
 syntax_fmt: KEYS pattern

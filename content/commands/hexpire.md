@@ -75,6 +75,7 @@ key_specs:
     type: range
   update: true
 linkTitle: HEXPIRE
+railroad_diagram: /images/railroad/hexpire.svg
 since: 7.4.0
 summary: Set expiry for hash field using relative time to expire (seconds)
 syntax_fmt: "HEXPIRE key seconds [NX | XX | GT | LT] FIELDS\_numfields field\n  [field\

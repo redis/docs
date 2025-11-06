@@ -51,6 +51,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: HTTL
+railroad_diagram: /images/railroad/httl.svg
 since: 7.4.0
 summary: Returns the TTL in seconds of a hash field.
 syntax_fmt: "HTTL key FIELDS\_numfields field [field ...]"

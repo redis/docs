@@ -23,6 +23,7 @@ description: Asynchronously rewrites the append-only file to disk.
 group: server
 hidden: false
 linkTitle: BGREWRITEAOF
+railroad_diagram: /images/railroad/bgrewriteaof.svg
 since: 1.0.0
 summary: Asynchronously rewrites the append-only file to disk.
 syntax_fmt: BGREWRITEAOF

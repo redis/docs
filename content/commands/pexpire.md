@@ -67,6 +67,7 @@ key_specs:
     type: range
   update: true
 linkTitle: PEXPIRE
+railroad_diagram: /images/railroad/pexpire.svg
 since: 2.6.0
 summary: Sets the expiration time of a key in milliseconds.
 syntax_fmt: PEXPIRE key milliseconds [NX | XX | GT | LT]

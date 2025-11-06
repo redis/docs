@@ -30,6 +30,7 @@ description: Extracts the key names and access flags for an arbitrary command.
 group: server
 hidden: false
 linkTitle: COMMAND GETKEYSANDFLAGS
+railroad_diagram: /images/railroad/command-getkeysandflags.svg
 since: 7.0.0
 summary: Extracts the key names and access flags for an arbitrary command.
 syntax_fmt: COMMAND GETKEYSANDFLAGS command [arg [arg ...]]

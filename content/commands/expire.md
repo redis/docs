@@ -67,6 +67,7 @@ key_specs:
     type: range
   update: true
 linkTitle: EXPIRE
+railroad_diagram: /images/railroad/expire.svg
 since: 1.0.0
 summary: Sets the expiration time of a key in seconds.
 syntax_fmt: EXPIRE key seconds [NX | XX | GT | LT]

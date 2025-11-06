@@ -46,6 +46,7 @@ description: Loads a module using extended parameters.
 group: server
 hidden: false
 linkTitle: MODULE LOADEX
+railroad_diagram: /images/railroad/module-loadex.svg
 since: 7.0.0
 summary: Loads a module using extended parameters.
 syntax_fmt: "MODULE LOADEX path [CONFIG\_name value [CONFIG name value ...]]\n  [ARGS\_\

@@ -62,8 +62,8 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZREVRANGEBYLEX
-replaced_by: '[`ZRANGE`]({{< relref "/commands/zrange" >}}) with the `REV` and `BYLEX`
-  arguments'
+railroad_diagram: /images/railroad/zrevrangebylex.svg
+replaced_by: '`ZRANGE` with the `REV` and `BYLEX` arguments'
 since: 2.8.9
 summary: Returns members in a sorted set within a lexicographical range in reverse
   order.

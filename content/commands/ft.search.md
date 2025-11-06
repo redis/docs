@@ -268,28 +268,25 @@ hidden: false
 history:
 - - 2.0.0
   - Deprecated `WITHPAYLOADS` and `PAYLOAD` arguments
-- - 2.6
-  - Deprecated `GEOFILTER` argument
-- - "2.10"
-  - Deprecated `FILTER` argument
 linkTitle: FT.SEARCH
 module: Search
+railroad_diagram: /images/railroad/ft.search.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Searches the index with a textual query, returning either documents or just
   ids
-syntax: "FT.SEARCH index query \n  [NOCONTENT] \n  [VERBATIM] \n  [NOSTOPWORDS] \n  [WITHSCORES]\
-  \ \n  [WITHPAYLOADS] \n  [WITHSORTKEYS] \n  [FILTER numeric_field min max [ FILTER\
-  \ numeric_field min max ...]] \n  [GEOFILTER geo_field lon lat radius m | km | mi\
-  \ | ft [ GEOFILTER geo_field lon lat radius m | km | mi | ft ...]] \n  [INKEYS count\
-  \ key [key ...]] \n  [INFIELDS count field [field ...]] \n  [RETURN count identifier\
-  \ [AS property] [ identifier [AS property] ...]] \n  [SUMMARIZE [ FIELDS count field\
-  \ [field ...]] [FRAGS num] [LEN fragsize] [SEPARATOR separator]] \n  [HIGHLIGHT\
-  \ [ FIELDS count field [field ...]] [ TAGS open close]] \n  [SLOP slop] \n  [TIMEOUT\
-  \ timeout] \n  [INORDER] \n  [LANGUAGE language] \n  [EXPANDER expander] \n  [SCORER\
-  \ scorer] \n  [EXPLAINSCORE] \n  [PAYLOAD payload] \n  [SORTBY sortby [ ASC | DESC]\
-  \ [WITHCOUNT]] \n  [LIMIT offset num] \n  [PARAMS nargs name value [ name value\
-  \ ...]] \n  [DIALECT dialect]\n"
+syntax: "FT.SEARCH index query \n  [NOCONTENT] \n  [VERBATIM] \n  [NOSTOPWORDS] \n\
+  \  [WITHSCORES] \n  [WITHPAYLOADS] \n  [WITHSORTKEYS] \n  [FILTER numeric_field\
+  \ min max [ FILTER numeric_field min max ...]] \n  [GEOFILTER geo_field lon lat\
+  \ radius m | km | mi | ft [ GEOFILTER geo_field lon lat radius m | km | mi | ft\
+  \ ...]] \n  [INKEYS count key [key ...]] \n  [INFIELDS count field [field ...]]\
+  \ \n  [RETURN count identifier [AS property] [ identifier [AS property] ...]] \n\
+  \  [SUMMARIZE [ FIELDS count field [field ...]] [FRAGS num] [LEN fragsize] [SEPARATOR\
+  \ separator]] \n  [HIGHLIGHT [ FIELDS count field [field ...]] [ TAGS open close]]\
+  \ \n  [SLOP slop] \n  [TIMEOUT timeout] \n  [INORDER] \n  [LANGUAGE language] \n\
+  \  [EXPANDER expander] \n  [SCORER scorer] \n  [EXPLAINSCORE] \n  [PAYLOAD payload]\
+  \ \n  [SORTBY sortby [ ASC | DESC] [WITHCOUNT]] \n  [LIMIT offset num] \n  [PARAMS\
+  \ nargs name value [ name value ...]] \n  [DIALECT dialect]\n"
 syntax_fmt: "FT.SEARCH index query [NOCONTENT] [VERBATIM] [NOSTOPWORDS]\n  [WITHSCORES]\
   \ [WITHPAYLOADS] [WITHSORTKEYS] [FILTER\_numeric_field\n  min max [FILTER\_numeric_field\
   \ min max ...]] [GEOFILTER\_geo_field\n  lon lat radius <m | km | mi | ft> [GEOFILTER\_\

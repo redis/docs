@@ -36,6 +36,7 @@ group: cms
 hidden: false
 linkTitle: CMS.MERGE
 module: Bloom
+railroad_diagram: /images/railroad/cms.merge.svg
 since: 2.0.0
 stack_path: docs/data-types/probabilistic
 summary: Merges several sketches into one sketch

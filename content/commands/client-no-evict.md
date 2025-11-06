@@ -37,6 +37,7 @@ description: Sets the client eviction mode of the connection.
 group: connection
 hidden: false
 linkTitle: CLIENT NO-EVICT
+railroad_diagram: /images/railroad/client-no-evict.svg
 since: 7.0.0
 summary: Sets the client eviction mode of the connection.
 syntax_fmt: CLIENT NO-EVICT <ON | OFF>

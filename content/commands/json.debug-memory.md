@@ -26,6 +26,7 @@ group: json
 hidden: false
 linkTitle: JSON.DEBUG MEMORY
 module: JSON
+railroad_diagram: /images/railroad/json.debug-memory.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Reports the size in bytes of a key

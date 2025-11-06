@@ -143,14 +143,6 @@ arguments:
   name: params
   optional: true
   type: block
-- name: scorer
-  optional: true
-  token: SCORER
-  type: string
-- name: addscores
-  optional: true
-  token: ADDSCORES
-  type: pure-token
 - name: dialect
   optional: true
   since: 2.4.3
@@ -175,19 +167,19 @@ group: search
 hidden: false
 linkTitle: FT.AGGREGATE
 module: Search
+railroad_diagram: /images/railroad/ft.aggregate.svg
 since: 1.1.0
 stack_path: docs/interact/search-and-query
 summary: Run a search query on an index and perform aggregate transformations on the
   results
 syntax: "FT.AGGREGATE index query \n  [VERBATIM] \n  [LOAD count field [field ...]]\
   \ \n  [TIMEOUT timeout] \n  [GROUPBY nargs property [property ...] [REDUCE function\
-  \ nargs arg [arg ...] [AS name] [REDUCE function nargs arg [arg ...] [AS name]\
-  \ ...]] ...]] \n  [SORTBY nargs [property ASC | DESC [property ASC | DESC ...]]\
-  \ [MAX num] [WITHCOUNT] \n  [APPLY expression AS name [APPLY expression AS name\
-  \ ...]] \n  [LIMIT offset num] \n  [FILTER filter] \n  [WITHCURSOR [COUNT read_size]\
-  \ [MAXIDLE idle_time]] \n  [PARAMS nargs name value [name value ...]] \n  [SCORER scorer]\n
-  \ [ADDSCORES] \n  [DIALECT\
-  \ dialect]\n"
+  \ nargs arg [arg ...] [AS name] [REDUCE function nargs arg [arg ...] [AS name] ...]]\
+  \ ...]] \n  [SORTBY nargs [property ASC | DESC [property ASC | DESC ...]] [MAX num]\
+  \ [WITHCOUNT] \n  [APPLY expression AS name [APPLY expression AS name ...]] \n \
+  \ [LIMIT offset num] \n  [FILTER filter] \n  [WITHCURSOR [COUNT read_size] [MAXIDLE\
+  \ idle_time]] \n  [PARAMS nargs name value [name value ...]] \n  [SCORER scorer]\n\
+  \  [ADDSCORES] \n  [DIALECT dialect]\n"
 syntax_fmt: "FT.AGGREGATE index query [VERBATIM] [LOAD\_count field [field ...]]\n\
   \  [TIMEOUT\_timeout] [LOAD *] [GROUPBY\_nargs property [property ...]\n  [REDUCE\_\
   function nargs arg [arg ...] [AS\_name] [REDUCE\_function\n  nargs arg [arg ...]\
@@ -196,7 +188,7 @@ syntax_fmt: "FT.AGGREGATE index query [VERBATIM] [LOAD\_count field [field ...]]
   name] ...]] ...]]\n  [SORTBY\_nargs [property <ASC | DESC> [property <ASC | DESC>\
   \ ...]]\n  [MAX\_num]] [APPLY\_expression AS\_name [APPLY\_expression AS\_name\n\
   \  ...]] [LIMIT offset num] [FILTER\_filter] [WITHCURSOR\n  [COUNT\_read_size] [MAXIDLE\_\
-  idle_time]] [PARAMS nargs name value\n  [name value ...]]\n  [SCORER scorer]\n [ADDSCORES]\n  [DIALECT\_dialect]"
+  idle_time]] [PARAMS nargs name value\n  [name value ...]] [DIALECT\_dialect]"
 syntax_str: "query [VERBATIM] [LOAD\_count field [field ...]] [TIMEOUT\_timeout] [LOAD\
   \ *] [GROUPBY\_nargs property [property ...] [REDUCE\_function nargs arg [arg ...]\
   \ [AS\_name] [REDUCE\_function nargs arg [arg ...] [AS\_name] ...]] [GROUPBY\_nargs\
@@ -204,7 +196,7 @@ syntax_str: "query [VERBATIM] [LOAD\_count field [field ...]] [TIMEOUT\_timeout]
   function nargs arg [arg ...] [AS\_name] ...]] ...]] [SORTBY\_nargs [property <ASC\
   \ | DESC> [property <ASC | DESC> ...]] [MAX\_num]] [APPLY\_expression AS\_name [APPLY\_\
   expression AS\_name ...]] [LIMIT offset num] [FILTER\_filter] [WITHCURSOR [COUNT\_\
-  read_size] [MAXIDLE\_idle_time]] [PARAMS nargs name value [name value ...]] [SCORER scorer] [ADDSCORES] [DIALECT\_\
+  read_size] [MAXIDLE\_idle_time]] [PARAMS nargs name value [name value ...]] [DIALECT\_\
   dialect]"
 title: FT.AGGREGATE
 ---

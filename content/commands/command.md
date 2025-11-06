@@ -23,6 +23,7 @@ hidden: false
 hints:
 - nondeterministic_output_order
 linkTitle: COMMAND
+railroad_diagram: /images/railroad/command.svg
 since: 2.8.13
 summary: Returns detailed information about all commands.
 syntax_fmt: COMMAND

@@ -20,6 +20,7 @@ description: Dumps all libraries into a serialized binary payload.
 group: scripting
 hidden: false
 linkTitle: FUNCTION DUMP
+railroad_diagram: /images/railroad/function-dump.svg
 since: 7.0.0
 summary: Dumps all libraries into a serialized binary payload.
 syntax_fmt: FUNCTION DUMP

@@ -51,6 +51,7 @@ key_specs:
     type: range
   update: true
 linkTitle: HPERSIST
+railroad_diagram: /images/railroad/hpersist.svg
 since: 7.4.0
 summary: Removes the expiration time for each specified field
 syntax_fmt: "HPERSIST key FIELDS\_numfields field [field ...]"

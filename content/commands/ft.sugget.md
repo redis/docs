@@ -38,8 +38,12 @@ complexity: O(1)
 description: Gets completion suggestions for a prefix
 group: suggestion
 hidden: false
+history:
+- - 2.0.0
+  - Deprecated `WITHPAYLOADS` argument
 linkTitle: FT.SUGGET
 module: Search
+railroad_diagram: /images/railroad/ft.sugget.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Gets completion suggestions for a prefix

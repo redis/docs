@@ -47,6 +47,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZREMRANGEBYRANK
+railroad_diagram: /images/railroad/zremrangebyrank.svg
 since: 2.0.0
 summary: Removes members in a sorted set within a range of indexes. Deletes the sorted
   set if all members were removed.

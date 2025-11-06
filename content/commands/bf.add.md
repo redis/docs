@@ -24,6 +24,7 @@ group: bf
 hidden: false
 linkTitle: BF.ADD
 module: Bloom
+railroad_diagram: /images/railroad/bf.add.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Adds an item to a Bloom Filter

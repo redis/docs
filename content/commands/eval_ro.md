@@ -57,6 +57,7 @@ key_specs:
     type: keynum
   notes: We cannot tell how the keys will be used so we assume the worst, RO and ACCESS
 linkTitle: EVAL_RO
+railroad_diagram: /images/railroad/eval_ro.svg
 since: 7.0.0
 summary: Executes a read-only server-side Lua script.
 syntax_fmt: EVAL_RO script numkeys [key [key ...]] [arg [arg ...]]

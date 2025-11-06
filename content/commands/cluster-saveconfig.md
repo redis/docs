@@ -23,6 +23,7 @@ description: Forces a node to save the cluster configuration to disk.
 group: cluster
 hidden: false
 linkTitle: CLUSTER SAVECONFIG
+railroad_diagram: /images/railroad/cluster-saveconfig.svg
 since: 3.0.0
 summary: Forces a node to save the cluster configuration to disk.
 syntax_fmt: CLUSTER SAVECONFIG

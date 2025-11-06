@@ -33,6 +33,7 @@ hidden: false
 hints:
 - nondeterministic_output_order
 linkTitle: FUNCTION LIST
+railroad_diagram: /images/railroad/function-list.svg
 since: 7.0.0
 summary: Returns information about all libraries.
 syntax_fmt: "FUNCTION LIST [LIBRARYNAME\_library-name-pattern] [WITHCODE]"

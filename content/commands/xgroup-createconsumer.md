@@ -46,6 +46,7 @@ key_specs:
     type: range
   insert: true
 linkTitle: XGROUP CREATECONSUMER
+railroad_diagram: /images/railroad/xgroup-createconsumer.svg
 since: 6.2.0
 summary: Creates a consumer in a consumer group.
 syntax_fmt: XGROUP CREATECONSUMER key group consumer

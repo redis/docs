@@ -23,6 +23,7 @@ description: Returns the client ID to which the connection's tracking notificati
 group: connection
 hidden: false
 linkTitle: CLIENT GETREDIR
+railroad_diagram: /images/railroad/client-getredir.svg
 since: 6.0.0
 summary: Returns the client ID to which the connection's tracking notifications are
   redirected.

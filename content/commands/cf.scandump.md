@@ -24,6 +24,7 @@ group: cf
 hidden: false
 linkTitle: CF.SCANDUMP
 module: Bloom
+railroad_diagram: /images/railroad/cf.scandump.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Begins an incremental save of the bloom filter

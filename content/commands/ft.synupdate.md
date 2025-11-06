@@ -31,6 +31,7 @@ group: search
 hidden: false
 linkTitle: FT.SYNUPDATE
 module: Search
+railroad_diagram: /images/railroad/ft.synupdate.svg
 since: 1.2.0
 stack_path: docs/interact/search-and-query
 summary: Creates or updates a synonym group with additional terms

@@ -24,6 +24,7 @@ description: Lists all ACL users.
 group: server
 hidden: false
 linkTitle: ACL USERS
+railroad_diagram: /images/railroad/acl-users.svg
 since: 6.0.0
 summary: Lists all ACL users.
 syntax_fmt: ACL USERS

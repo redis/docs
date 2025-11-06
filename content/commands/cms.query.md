@@ -24,6 +24,7 @@ group: cms
 hidden: false
 linkTitle: CMS.QUERY
 module: Bloom
+railroad_diagram: /images/railroad/cms.query.svg
 since: 2.0.0
 stack_path: docs/data-types/probabilistic
 summary: Returns the count for one or more items in a sketch

@@ -74,6 +74,7 @@ key_specs:
       keystep: 1
     type: keynum
 linkTitle: ZINTER
+railroad_diagram: /images/railroad/zinter.svg
 since: 6.2.0
 summary: Returns the intersect of multiple sorted sets.
 syntax_fmt: "ZINTER numkeys key [key ...] [WEIGHTS\_weight [weight ...]]\n  [AGGREGATE\_\

@@ -18,7 +18,7 @@ categories:
 - oss
 - kubernetes
 - clients
-complexity: O(N) where N is the number of values specified.
+complexity: O(1)
 description: Returns, for each input value, an estimation of the floating-point fraction
   of (observations smaller than the given value + half the observations equal to the
   given value)
@@ -26,9 +26,10 @@ group: tdigest
 hidden: false
 linkTitle: TDIGEST.CDF
 module: Bloom
+railroad_diagram: /images/railroad/tdigest.cdf.svg
 since: 2.4.0
 stack_path: docs/data-types/probabilistic
-summary: Returns, for each input value, an estimation of the floating-point fraction
+summary: Returns, for each input value, an estimation of the fraction (floating-point)
   of (observations smaller than the given value + half the observations equal to the
   given value)
 syntax_fmt: TDIGEST.CDF key value [value ...]

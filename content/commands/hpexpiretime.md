@@ -51,6 +51,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: HPEXPIRETIME
+railroad_diagram: /images/railroad/hpexpiretime.svg
 since: 7.4.0
 summary: Returns the expiration time of a hash field as a Unix timestamp, in msec.
 syntax_fmt: "HPEXPIRETIME key FIELDS\_numfields field [field ...]"

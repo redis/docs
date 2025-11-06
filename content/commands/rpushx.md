@@ -49,6 +49,7 @@ key_specs:
     type: range
   insert: true
 linkTitle: RPUSHX
+railroad_diagram: /images/railroad/rpushx.svg
 since: 2.2.0
 summary: Appends an element to a list only when the list exists.
 syntax_fmt: RPUSHX key element [element ...]

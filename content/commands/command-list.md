@@ -41,6 +41,7 @@ hidden: false
 hints:
 - nondeterministic_output_order
 linkTitle: COMMAND LIST
+railroad_diagram: /images/railroad/command-list.svg
 since: 7.0.0
 summary: Returns a list of command names.
 syntax_fmt: "COMMAND LIST [FILTERBY\_<MODULE\_module-name | ACLCAT\_category |\n \

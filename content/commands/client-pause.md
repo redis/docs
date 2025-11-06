@@ -45,6 +45,7 @@ history:
 - - 6.2.0
   - '`CLIENT PAUSE WRITE` mode added along with the `mode` option.'
 linkTitle: CLIENT PAUSE
+railroad_diagram: /images/railroad/client-pause.svg
 since: 3.0.0
 summary: Suspends commands processing.
 syntax_fmt: CLIENT PAUSE timeout [WRITE | ALL]

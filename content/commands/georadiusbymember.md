@@ -157,8 +157,9 @@ key_specs:
     type: range
   update: true
 linkTitle: GEORADIUSBYMEMBER
-replaced_by: '[`GEOSEARCH`]({{< relref "/commands/geosearch" >}}) and [`GEOSEARCHSTORE`]({{<
-  relref "/commands/geosearchstore" >}}) with the `BYRADIUS` and `FROMMEMBER` arguments'
+railroad_diagram: /images/railroad/georadiusbymember.svg
+replaced_by: '`GEOSEARCH` and `GEOSEARCHSTORE` with the `BYRADIUS` and `FROMMEMBER`
+  arguments'
 since: 3.2.0
 summary: Queries a geospatial index for members within a distance from a member, optionally
   stores the result.

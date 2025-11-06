@@ -20,6 +20,7 @@ description: Signals that a cluster client is following an -ASK redirect.
 group: cluster
 hidden: false
 linkTitle: ASKING
+railroad_diagram: /images/railroad/asking.svg
 since: 3.0.0
 summary: Signals that a cluster client is following an -ASK redirect.
 syntax_fmt: ASKING

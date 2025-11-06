@@ -31,6 +31,7 @@ group: search
 hidden: false
 linkTitle: FT.DROPINDEX
 module: Search
+railroad_diagram: /images/railroad/ft.dropindex.svg
 since: 2.0.0
 stack_path: docs/interact/search-and-query
 summary: Deletes the index

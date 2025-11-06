@@ -16,25 +16,14 @@ arguments:
   optional: true
   token: RETENTION
   type: integer
-- arguments:
-  - name: uncompressed
-    token: UNCOMPRESSED
-    type: pure-token
-  - name: compressed
-    token: COMPRESSED
-    type: pure-token
-  name: enc
+- name: uncompressed
   optional: true
-  token: ENCODING
-  type: oneof
+  token: UNCOMPRESSED
+  type: pure-token
 - name: size
   optional: true
   token: CHUNK_SIZE
   type: integer
-- name: policy
-  optional: true
-  token: DUPLICATE_POLICY
-  type: oneof
 - arguments:
   - name: label
     type: string
@@ -63,18 +52,20 @@ group: timeseries
 hidden: false
 linkTitle: TS.INCRBY
 module: TimeSeries
+railroad_diagram: /images/railroad/ts.incrby.svg
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Increase the value of the sample with the maximum existing timestamp, or
   create a new sample with a value equal to the value of the sample with the maximum
   existing timestamp with a given increment
 syntax: "TS.INCRBY key addend \n  [TIMESTAMP timestamp] \n  [RETENTION retentionPeriod]\
-  \ \n  [ENCODING <COMPRESSED|UNCOMPRESSED>] \n  [CHUNK_SIZE size] \n  [DUPLICATE_POLICY policy] \n  [IGNORE ignoreMaxTimediff ignoreMaxValDiff]\ 
-  \ \n  [LABELS [label value ...]]\n"
+  \ \n  [ENCODING <COMPRESSED|UNCOMPRESSED>] \n  [CHUNK_SIZE size] \n  [DUPLICATE_POLICY\
+  \ policy] \n  [IGNORE ignoreMaxTimediff ignoreMaxValDiff]   \n  [LABELS [label value\
+  \ ...]]\n"
 syntax_fmt: "TS.INCRBY key value [TIMESTAMP\_timestamp]\n  [RETENTION\_retentionPeriod]\
-  \ [ENCODING\_<COMPRESSED|UNCOMPRESSED>] [CHUNK_SIZE\_size]\n [DUPLICATE_POLICY\_policy] [LABELS\_[label value ...]]"
-syntax_str: "value [TIMESTAMP\_timestamp] [RETENTION\_retentionPeriod] [ENCODING\_<COMPRESSED|UNCOMPRESSED>]\
-  \ [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_policy] [LABELS\_[label value ...]]"
+  \ [UNCOMPRESSED] [CHUNK_SIZE\_size]\n  [LABELS\_label value [label value ...]]"
+syntax_str: "value [TIMESTAMP\_timestamp] [RETENTION\_retentionPeriod] [UNCOMPRESSED]\
+  \ [CHUNK_SIZE\_size] [LABELS\_label value [label value ...]]"
 title: TS.INCRBY
 ---
 

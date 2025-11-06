@@ -49,6 +49,7 @@ key_specs:
     type: range
   insert: true
 linkTitle: SADD
+railroad_diagram: /images/railroad/sadd.svg
 since: 1.0.0
 summary: Adds one or more members to a set. Creates the key if it doesn't exist.
 syntax_fmt: SADD key member [member ...]

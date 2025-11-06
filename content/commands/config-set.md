@@ -41,6 +41,7 @@ history:
 - - 7.0.0
   - Added the ability to set multiple parameters in one call.
 linkTitle: CONFIG SET
+railroad_diagram: /images/railroad/config-set.svg
 since: 2.0.0
 summary: Sets configuration parameters in-flight.
 syntax_fmt: CONFIG SET parameter value [parameter value ...]

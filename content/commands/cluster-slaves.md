@@ -31,7 +31,8 @@ hidden: false
 hints:
 - nondeterministic_output
 linkTitle: CLUSTER SLAVES
-replaced_by: '[`CLUSTER REPLICAS`]({{< relref "/commands/cluster-replicas" >}})'
+railroad_diagram: /images/railroad/cluster-slaves.svg
+replaced_by: '`CLUSTER REPLICAS`'
 since: 3.0.0
 summary: Lists the replica nodes of a master node.
 syntax_fmt: CLUSTER SLAVES node-id

@@ -25,6 +25,7 @@ hints:
 - request_policy:all_shards
 - response_policy:agg_sum
 linkTitle: DBSIZE
+railroad_diagram: /images/railroad/dbsize.svg
 since: 1.0.0
 summary: Returns the number of keys in the database.
 syntax_fmt: DBSIZE

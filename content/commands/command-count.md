@@ -21,6 +21,7 @@ description: Returns a count of commands.
 group: server
 hidden: false
 linkTitle: COMMAND COUNT
+railroad_diagram: /images/railroad/command-count.svg
 since: 2.8.13
 summary: Returns a count of commands.
 syntax_fmt: COMMAND COUNT

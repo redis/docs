@@ -91,6 +91,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZRANGESTORE
+railroad_diagram: /images/railroad/zrangestore.svg
 since: 6.2.0
 summary: Stores a range of members from sorted set in a key.
 syntax_fmt: "ZRANGESTORE dst src min max [BYSCORE | BYLEX] [REV] [LIMIT\_offset\n\

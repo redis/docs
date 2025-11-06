@@ -49,6 +49,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZREM
+railroad_diagram: /images/railroad/zrem.svg
 since: 1.2.0
 summary: Removes one or more members from a sorted set. Deletes the sorted set if
   all members were removed.

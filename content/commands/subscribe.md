@@ -28,6 +28,7 @@ description: Listens for messages published to channels.
 group: pubsub
 hidden: false
 linkTitle: SUBSCRIBE
+railroad_diagram: /images/railroad/subscribe.svg
 since: 2.0.0
 summary: Listens for messages published to channels.
 syntax_fmt: SUBSCRIBE channel [channel ...]

@@ -77,6 +77,7 @@ key_specs:
     type: range
   update: true
 linkTitle: GEOADD
+railroad_diagram: /images/railroad/geoadd.svg
 since: 3.2.0
 summary: Adds one or more members to a geospatial index. The key is created if it
   doesn't exist.

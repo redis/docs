@@ -21,6 +21,7 @@ description: Returns helpful text about the different subcommands.
 group: scripting
 hidden: true
 linkTitle: FUNCTION HELP
+railroad_diagram: /images/railroad/function-help.svg
 since: 7.0.0
 summary: Returns helpful text about the different subcommands.
 syntax_fmt: FUNCTION HELP

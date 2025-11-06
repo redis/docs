@@ -85,6 +85,7 @@ key_specs:
     type: range
   update: true
 linkTitle: RESTORE-ASKING
+railroad_diagram: /images/railroad/restore-asking.svg
 since: 3.0.0
 summary: An internal command for migrating keys in a cluster.
 syntax_fmt: "RESTORE-ASKING key ttl serialized-value [REPLACE] [ABSTTL]\n  [IDLETIME\_\

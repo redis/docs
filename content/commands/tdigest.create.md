@@ -25,6 +25,7 @@ group: tdigest
 hidden: false
 linkTitle: TDIGEST.CREATE
 module: Bloom
+railroad_diagram: /images/railroad/tdigest.create.svg
 since: 2.4.0
 stack_path: docs/data-types/probabilistic
 summary: Allocates memory and initializes a new t-digest sketch
