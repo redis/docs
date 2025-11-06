@@ -284,20 +284,28 @@ categories:
 - oss
 - kubernetes
 - clients
-command_flags:
-- readonly
-complexity: O(N)
-description: Performs hybrid search combining text search and vector similarity with configurable fusion methods
+complexity: O(N+M) where N is the complexity of the text search and M is the complexity
+  of the vector search
+description: Performs hybrid search combining text search and vector similarity search
 group: search
 hidden: false
 linkTitle: FT.HYBRID
-module: Search
 since: 8.4.0
-stack_path: docs/interact/search-and-query
-summary: Performs hybrid search combining text search and vector similarity with configurable fusion methods
-syntax: "FT.HYBRID index \n  SEARCH \"<search-expression>\" \n    [SCORER algorithm params...] \n    [YIELD_SCORE_AS <alias-search-score>] \n  VSIM @vector_field \"<vector-data>\" \n    [KNN <count> K <topk-k> [EF_RUNTIME <ef-value>] [YIELD_DISTANCE_AS <distance_field>]] \n    [RANGE <count> RADIUS <radius-value> [EPSILON <epsilon-value>] [YIELD_DISTANCE_AS <distance_field>]] \n    [FILTER \"<filter-expression>\"] \n    [POLICY [ADHOC|BATCHES|ACORN] [BATCH_SIZE <batch-size-value>]] \n  [COMBINE method params...] \n    [RRF <count> [WINDOW <value>] [CONSTANT <value>]] \n    [LINEAR <count> [ALPHA <value>] [BETA <value>]] \n    [YIELD_SCORE_AS <alias-combined-score>] \n  [LOAD <count> field...] \n  [GROUPBY <count> field... REDUCE function...] \n  [APPLY expression AS field] \n  [SORTBY field [ASC|DESC]] \n  [FILTER <post-filter-expression>] \n  [LIMIT offset num] \n  [PARAMS <count> key value...] \n  [EXPLAINSCORE] \n  [TIMEOUT timeout] \n  [WITHCURSOR [COUNT read_size] [MAXIDLE idle_time]]\n"
-syntax_fmt: "FT.HYBRID index SEARCH \"<search-expression>\" [SCORER\_algorithm\n  params...] [YIELD_SCORE_AS\_<alias-search-score>] VSIM @vector_field\n  \"<vector-data>\" [KNN\_<count> K\_<topk-k> [EF_RUNTIME\_<ef-value>]\n  [YIELD_DISTANCE_AS\_<distance_field>]] [RANGE\_<count> RADIUS\_<radius-value>\n  [EPSILON\_<epsilon-value>] [YIELD_DISTANCE_AS\_<distance_field>]]\n  [FILTER\_\"<filter-expression>\"] [POLICY\_[ADHOC|BATCHES|ACORN]\n  [BATCH_SIZE\_<batch-size-value>]] [COMBINE\_method params...]\n  [RRF\_<count> [WINDOW\_<value>] [CONSTANT\_<value>]] [LINEAR\_<count>\n  [ALPHA\_<value>] [BETA\_<value>]] [YIELD_SCORE_AS\_<alias-combined-score>]\n  [LOAD\_<count> field...] [GROUPBY\_<count> field... REDUCE\_function...]\n  [APPLY\_expression AS\_field] [SORTBY\_field [ASC|DESC]]\n  [FILTER\_<post-filter-expression>] [LIMIT\_offset num] [PARAMS\_<count>\n  key value...] [EXPLAINSCORE] [TIMEOUT\_timeout] [WITHCURSOR [COUNT\_read_size]\n  [MAXIDLE\_idle_time]]"
-syntax_str: "SEARCH \"<search-expression>\" [SCORER\_algorithm params...] [YIELD_SCORE_AS\_<alias-search-score>] VSIM @vector_field \"<vector-data>\" [KNN\_<count> K\_<topk-k> [EF_RUNTIME\_<ef-value>] [YIELD_DISTANCE_AS\_<distance_field>]] [RANGE\_<count> RADIUS\_<radius-value> [EPSILON\_<epsilon-value>] [YIELD_DISTANCE_AS\_<distance_field>]] [FILTER\_\"<filter-expression>\"] [POLICY\_[ADHOC|BATCHES|ACORN] [BATCH_SIZE\_<batch-size-value>]] [COMBINE\_method params...] [RRF\_<count> [WINDOW\_<value>] [CONSTANT\_<value>]] [LINEAR\_<count> [ALPHA\_<value>] [BETA\_<value>]] [YIELD_SCORE_AS\_<alias-combined-score>] [LOAD\_<count> field...] [GROUPBY\_<count> field... REDUCE\_function...] [APPLY\_expression AS\_field] [SORTBY\_field [ASC|DESC]] [FILTER\_<post-filter-expression>] [LIMIT\_offset num] [PARAMS\_<count> key value...] [EXPLAINSCORE] [TIMEOUT\_timeout] [WITHCURSOR [COUNT\_read_size] [MAXIDLE\_idle_time]]"
+summary: Performs hybrid search combining text search and vector similarity search
+syntax_fmt: "FT.HYBRID index SEARCH query [SCORER\_scorer]\n  [YIELD_SCORE_AS\_yield_score_as]\
+  \ VSIM field vector [KNN count K\_k\n  [EF_RUNTIME\_ef_runtime] [YIELD_SCORE_AS\_\
+  yield_score_as] | RANGE\n  count RADIUS\_radius [EPSILON\_epsilon]\n  [YIELD_SCORE_AS\_\
+  yield_score_as]] [FILTER\_filter] [COMBINE <RRF\n  count [CONSTANT\_constant] [WINDOW\_\
+  window]\n  [YIELD_SCORE_AS\_yield_score_as] | LINEAR count [ALPHA\_alpha\n  BETA\_\
+  beta] [WINDOW\_window] [YIELD_SCORE_AS\_yield_score_as]>]\n  [LIMIT offset num]\
+  \ [SORTBY\_sortby [ASC | DESC] | NOSORT] [PARAMS\n  nargs name value [name value\
+  \ ...]] [TIMEOUT\_timeout]\n  [FORMAT\_format] [LOAD\_count field [field ...]] [LOAD\
+  \ *] [GROUPBY\n  nproperties property [property ...] [REDUCE <COUNT |\n  COUNT_DISTINCT\
+  \ | COUNT_DISTINCTISH | SUM | MIN | MAX | AVG |\n  STDDEV | QUANTILE | TOLIST |\
+  \ FIRST_VALUE | RANDOM_SAMPLE> nargs\n  arg [arg ...] [AS\_name] [REDUCE <COUNT\
+  \ | COUNT_DISTINCT |\n  COUNT_DISTINCTISH | SUM | MIN | MAX | AVG | STDDEV | QUANTILE\
+  \ |\n  TOLIST | FIRST_VALUE | RANDOM_SAMPLE> nargs arg [arg ...]\n  [AS\_name] ...]]]\
+  \ [APPLY\_expression AS\_name [APPLY\_expression\n  AS\_name ...]] [FILTER\_filter]"
 title: FT.HYBRID
 ---
 
