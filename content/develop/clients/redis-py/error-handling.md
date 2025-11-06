@@ -40,10 +40,10 @@ for a more detailed discussion of these errors and their causes.
 
 | Exception | When it occurs | Recoverable | Recommended action |
 |---|---|---|---|
-| `redis.ConnectionError` | Network or connection issues | Yes | Retry with backoff or fall back to alternative |
-| `redis.TimeoutError` | Operation exceeded timeout | Yes | Retry with backoff |
-| `redis.ResponseError` | Invalid command or Redis error response | No | Fix the command or arguments |
-| `redis.DataError` | Data serialization/deserialization issues | Sometimes | Log, invalidate cache, fetch fresh data |
+| `redis.ConnectionError` | Network or connection issues | ✅ | Retry with backoff or fall back to alternative |
+| `redis.TimeoutError` | Operation exceeded timeout | ✅ | Retry with backoff |
+| `redis.ResponseError` | Invalid command or Redis error response | ❌ | Fix the command or arguments |
+| `redis.DataError` | Data serialization/deserialization issues | ⚠️ | Log, invalidate cache, fetch fresh data |
 
 ## Applying error handling patterns
 

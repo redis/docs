@@ -29,10 +29,10 @@ Common error types from go-redis include:
 
 | Error | When it occurs | Recoverable | Recommended action |
 |---|---|---|---|
-| `redis.Nil` | Key does not exist | Yes | Return default value or fetch from source |
-| `context.DeadlineExceeded` | Operation timeout | Yes | Retry with backoff |
-| `net.OpError` | Network error | Yes | Retry with backoff or fall back to alternative |
-| `redis.ResponseError` | Redis error response | No | Fix the command or arguments |
+| `redis.Nil` | Key does not exist | ✅ | Return default value or fetch from source |
+| `context.DeadlineExceeded` | Operation timeout | ✅ | Retry with backoff |
+| `net.OpError` | Network error | ✅ | Retry with backoff or fall back to alternative |
+| `redis.ResponseError` | Redis error response | ❌ | Fix the command or arguments |
 
 See [Categories of errors]({{< relref "/develop/clients/error-handling#categories-of-errors" >}})
 for a more detailed discussion of these errors and their causes.
