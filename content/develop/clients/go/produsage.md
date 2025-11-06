@@ -24,14 +24,14 @@ Each item in the checklist below links to the section
 for a recommendation. Use the checklist icons to record your
 progress in implementing the recommendations.
 
-{{< checklist "goprodlist" >}}
-    {{< checklist-item "#health-checks" >}}Health checks{{< /checklist-item >}}
-    {{< checklist-item "#error-handling" >}}Error handling{{< /checklist-item >}}
-    {{< checklist-item "#monitor-performance-and-errors">}}Monitor performance and errors{{< /checklist-item >}}
-    {{< checklist-item "#retries" >}}Retries{{< /checklist-item >}}
-    {{< checklist-item "#timeouts" >}}Timeouts{{< /checklist-item >}}
-    {{< checklist-item "#seamless-client-experience" >}}Smart client handoffs{{< /checklist-item >}}
-{{< /checklist >}}
+```checklist {id="goprodlist"}
+- [ ] [Health checks](#health-checks)
+- [ ] [Error handling](#error-handling)
+- [ ] [Monitor performance and errors](#monitor-performance-and-errors)
+- [ ] [Retries](#retries)
+- [ ] [Timeouts](#timeouts)
+- [ ] [Smart client handoffs](#seamless-client-experience)
+```
 
 ## Recommendations
 

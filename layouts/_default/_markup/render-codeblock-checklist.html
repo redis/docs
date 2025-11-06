@@ -1,0 +1,4 @@
+{{- $id := .Attributes.id | default "checklist" -}}
+<pre class="checklist-source" data-checklist-id="{{ $id }}">{{ .Inner | htmlEscape | safeHTML }}</pre>
+{{ .Page.Store.Set "hasChecklist" true }}
+

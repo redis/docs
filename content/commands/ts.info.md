@@ -53,6 +53,13 @@ is key name of the time series.
 is an optional flag to get a more detailed information about the chunks.
 </details>
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+
+
 ## Return information
 
 {{< multitabs id="ts-info-return-info"

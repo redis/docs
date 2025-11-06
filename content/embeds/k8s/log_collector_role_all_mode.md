@@ -36,6 +36,13 @@ rules:
   - get
   - list
 - apiGroups:
+  - discovery.k8s.io
+  resources:
+  - endpointslices
+  verbs:
+  - get
+  - list
+- apiGroups:
   - apps
   resources:
   - deployments
