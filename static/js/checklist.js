@@ -44,16 +44,16 @@ function createChecklistFromMarkdown(markdown, formId, preElement) {
         select.onchange = () => clChange(formId);
         
         const options = [
-            { value: 'R', label: '&#x274C;' },
-            { value: 'G', label: '&#9989;' },
-            { value: 'A', label: '&#x1F50D;' },
-            { value: 'X', label: '&#x2205;' }
+            { value: 'R', label: '❌' },
+            { value: 'G', label: '✅' },
+            { value: 'A', label: '🔍' },
+            { value: 'X', label: '∅' }
         ];
-        
+
         options.forEach(opt => {
             const option = document.createElement('option');
             option.value = opt.value;
-            option.innerHTML = opt.label;
+            option.textContent = opt.label;
             select.appendChild(option);
         });
         
