@@ -34,7 +34,7 @@ Redis uses a **MAJOR.MINOR.PATCH** versioning scheme:
 | **Redis 8.0** | Preview | TBD | Essentials |
 | **Redis 7.4** | GA | December 1, 2029 | Essentials, Pro |
 | **Redis 7.2** | GA | December 1, 2029 | Essentials, Pro |
-| **Redis 6.2** | GA | 2026 | Pro |
+| **Redis 6.2** | GA | April 1, 2027 | Pro |
 
 When a version reaches End-of-Life (EOL), Redis Cloud will automatically upgrade your database to the following minor version during maintenance windows if you do not manually upgrade before EOL.
 
