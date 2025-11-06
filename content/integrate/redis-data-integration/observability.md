@@ -28,6 +28,7 @@ dashboards.
 RDI exposes metrics for two main components:
  - [CDC collector](#collector-metrics)
  - [Stream processor](#stream-processor-metrics)
+ - [Operator](#operator-metrics)
 
 
 The sections below explain these sets of metrics in more detail.
