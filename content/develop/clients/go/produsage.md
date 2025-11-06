@@ -64,6 +64,9 @@ you should also always check that the error value is `nil` before
 proceeding. Errors can be returned for failed connections, network
 problems, and invalid command parameters, among other things.
 
+See [Error handling]({{< relref "/develop/clients/go/error-handling" >}}) for a
+more detailed discussion of error handling approaches in `go-redis`.
+
 ### Monitor performance and errors
 
 `go-redis` supports [OpenTelemetry](https://opentelemetry.io/). This lets
