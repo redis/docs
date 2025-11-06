@@ -42,7 +42,7 @@ and fast data structures that match your app's requirements. You specify the
 transformations using a configuration system, so no coding is necessary.
 
 {{<note>}}
-RDI is supported with Redis databases or [CRDB](https://redis.io/active-active/) (Active Active Replication) targets, and is also available as a feature in [Redis Cloud]({{< relref "/operate/rc/databases/rdi" >}}). 
+RDI is supported with Redis databases or [CRDB](https://redis.io/active-active/) (Active Active Replication) targets, and is also available on [Redis Cloud]({{< relref "/operate/rc/databases/rdi" >}}). 
 {{</note>}}
 
 ## Features
