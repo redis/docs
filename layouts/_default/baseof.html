@@ -79,5 +79,10 @@
     {{ partial "toc-js.html" . }}
 
     {{ partial "search-modal.html" . }}
+
+    <!-- Checklist functionality -->
+    {{ if .Page.Store.Get "hasChecklist" }}
+    <script src="{{ "js/checklist.js" | relURL }}"></script>
+    {{ end }}
   </body>
 </html>
