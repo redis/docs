@@ -80,17 +80,47 @@ function createChecklistFromMarkdown(markdown, formId, preElement) {
     
     // Add counters
     const countersDiv = document.createElement('div');
-    countersDiv.innerHTML = `
-        <label for="${formId}-gcount">&#9989; = </label>
-        <output name="gcount" id="${formId}-gcount">0</output>/<output id="${formId}-gtotal">0</output>,
-        <label for="${formId}-rcount">&#x274C; = </label>
-        <output name="rcount" id="${formId}-rcount">0</output>/<output id="${formId}-rtotal">0</output>,
-        <label for="${formId}-acount">&#x1F50D; = </label>
-        <output name="acount" id="${formId}-acount">0</output>/<output id="${formId}-atotal">0</output>
-        <br/>
-        (<label for="${formId}-xcount">&#x2205; = </label>
-        <output name="xcount" id="${formId}-xcount">0</output>)
-    `;
+
+    // Create counter elements safely without innerHTML
+    const createCounterLabel = (emoji, countId, totalId, isDisabled = false) => {
+        const label = document.createElement('label');
+        label.htmlFor = countId;
+        label.textContent = emoji + ' = ';
+
+        const countOutput = document.createElement('output');
+        countOutput.name = countId.replace(formId + '-', '');
+        countOutput.id = countId;
+        countOutput.textContent = '0';
+
+        const fragment = document.createDocumentFragment();
+        fragment.appendChild(label);
+        fragment.appendChild(countOutput);
+
+        if (!isDisabled) {
+            fragment.appendChild(document.createTextNode('/'));
+            const totalOutput = document.createElement('output');
+            totalOutput.id = totalId;
+            totalOutput.textContent = '0';
+            fragment.appendChild(totalOutput);
+            fragment.appendChild(document.createTextNode(', '));
+        } else {
+            fragment.appendChild(document.createTextNode(')'));
+        }
+
+        return fragment;
+    };
+
+    countersDiv.appendChild(createCounterLabel('✅', formId + '-gcount', formId + '-gtotal'));
+    countersDiv.appendChild(createCounterLabel('❌', formId + '-rcount', formId + '-rtotal'));
+    countersDiv.appendChild(createCounterLabel('🔍', formId + '-acount', formId + '-atotal'));
+
+    const brElement = document.createElement('br');
+    countersDiv.appendChild(brElement);
+
+    const openParen = document.createTextNode('(');
+    countersDiv.appendChild(openParen);
+    countersDiv.appendChild(createCounterLabel('∅', formId + '-xcount', '', true));
+
     form.appendChild(countersDiv);
     
     // Replace the entire <pre> element with the interactive form
