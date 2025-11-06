@@ -5,14 +5,14 @@ categories:
 - docs
 - operate
 - rc
-description: Describes Redis Cloud version management policy, supported versions, and upgrade options.
+description: Describes Redis Cloud supported database versions and upgrade options.
 linkTitle: Version management
 weight: 36
 hideListLinks: true
 tocEmbedHeaders: true
 ---
 
-Redis Cloud provides comprehensive version management that balances automatic updates for security and performance with customer control over major changes.
+Redis Cloud provides comprehensive version management that prioritizes customer control over major changes. 
 
 ## Redis version structure
 
@@ -36,13 +36,12 @@ Redis uses a **MAJOR.MINOR.PATCH** versioning scheme:
 | **Redis 7.2** | GA | December 1, 2029 | Essentials, Pro |
 | **Redis 6.2** | GA | 2026 | Pro |
 
-When a version reaches End-of-Life (EOL), Redis Cloud will automatically upgrade your database to the latest minor version during maintenance windows if you do not manually upgrade before EOL.
+When a version reaches End-of-Life (EOL), Redis Cloud will automatically upgrade your database to the following minor version during maintenance windows if you do not manually upgrade before EOL.
 
 ## Version selection
 
 When creating a database, you select the version (e.g., Redis 8.2). Redis Cloud automatically provides the latest patch version within that version.
 
-For existing databases, all upgrades must be done manually. See [Upgrade database version]({{< relref "/operate/rc/databases/version-management/upgrade-version" >}}) for more details.
 
 ## Manual upgrades
 
