@@ -4,10 +4,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     hierarchies.forEach(pre => {
         const hierarchyType = pre.getAttribute('data-hierarchy-type');
+        const noIconsAttr = pre.getAttribute('data-no-icons');
+        const noIcons = noIconsAttr && noIconsAttr !== '';
         const yamlContent = pre.textContent;
-        console.log('Processing hierarchy:', hierarchyType);
+        console.log('Processing hierarchy:', hierarchyType, 'noIcons attr:', noIconsAttr, 'noIcons bool:', noIcons);
 
-        createHierarchyFromYAML(yamlContent, hierarchyType, pre);
+        createHierarchyFromYAML(yamlContent, hierarchyType, pre, noIcons);
     });
 });
 
@@ -89,7 +91,7 @@ function parseYAML(yamlText) {
     return root;
 }
 
-function createHierarchyFromYAML(yamlText, hierarchyType, preElement) {
+function createHierarchyFromYAML(yamlText, hierarchyType, preElement, noIcons) {
     const data = parseYAML(yamlText);
     const rootKey = Object.keys(data)[0];
 
@@ -99,6 +101,9 @@ function createHierarchyFromYAML(yamlText, hierarchyType, preElement) {
     const items = [];
     flattenHierarchy(rootKey, data[rootKey], 0, items);
 
+    // Determine if we should show icons (filesystem type and not disabled)
+    const showIcons = hierarchyType === 'filesystem' && !noIcons;
+
     // Calculate SVG dimensions
     const lineHeight = 24;
     const charWidth = 8;
@@ -106,6 +111,8 @@ function createHierarchyFromYAML(yamlText, hierarchyType, preElement) {
     const topMargin = 10;
     const indentWidth = 20;
     const commentGap = 40; // Gap between item name and comment
+    const iconSize = 16; // Size of icon
+    const iconGap = 6; // Gap between icon and text
 
     // Find max depth and max text width
     let maxDepth = 0;
@@ -119,7 +126,8 @@ function createHierarchyFromYAML(yamlText, hierarchyType, preElement) {
         }
     });
 
-    const svgWidth = leftMargin + (maxDepth + 1) * indentWidth + maxTextWidth * charWidth + commentGap + maxCommentWidth * charWidth + 20;
+    const iconOffset = showIcons ? iconSize + iconGap : 0;
+    const svgWidth = leftMargin + (maxDepth + 1) * indentWidth + iconOffset + maxTextWidth * charWidth + commentGap + maxCommentWidth * charWidth + 20;
     const svgHeight = topMargin + items.length * lineHeight + 10;
 
     // Create SVG
@@ -145,9 +153,15 @@ function createHierarchyFromYAML(yamlText, hierarchyType, preElement) {
             drawRootConnector(svg, item, items, index, leftMargin, topMargin, lineHeight, indentWidth);
         }
 
+        // Draw icon if enabled
+        if (showIcons) {
+            drawIcon(svg, item, x + 20, y, iconSize);
+        }
+
         // Draw text for item name
+        const textX = x + 20 + iconOffset;
         const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        text.setAttribute('x', x + 20);
+        text.setAttribute('x', textX);
         text.setAttribute('y', y);
         text.setAttribute('font-family', '"Space Mono", monospace');
         text.setAttribute('font-size', '14');
@@ -159,7 +173,7 @@ function createHierarchyFromYAML(yamlText, hierarchyType, preElement) {
         // Draw description/comment if available
         if (item.description) {
             const comment = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-            comment.setAttribute('x', x + 20 + item.name.length * charWidth + commentGap);
+            comment.setAttribute('x', textX + item.name.length * charWidth + commentGap);
             comment.setAttribute('y', y);
             comment.setAttribute('font-family', '"Space Mono", monospace');
             comment.setAttribute('font-size', '12');
@@ -314,5 +328,77 @@ function drawRootConnector(svg, item, items, itemIndex, leftMargin, topMargin, l
         line.setAttribute('stroke-width', '1');
         svg.appendChild(line);
     }
+}
+
+function drawIcon(svg, item, x, y, size) {
+    if (item.name === '(root)') {
+        // Don't draw icon for root
+        return;
+    }
+
+    if (item.isEllipsis) {
+        // Don't draw icon for ellipsis items (the "..." text is enough)
+        return;
+    } else if (item.name.includes('.')) {
+        // File icon (has extension)
+        drawFileIcon(svg, x, y, size);
+    } else {
+        // Folder icon
+        drawFolderIcon(svg, x, y, size);
+    }
+}
+
+function drawFileIcon(svg, x, y, size) {
+    // File icon with folded corner using a path
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+
+    // Create path: start at top-left, go right, then down with folded corner, then left, then up
+    const w = size * 0.6;
+    const h = size;
+    const cornerSize = size * 0.25;
+
+    const pathData = `
+        M ${x} ${y - h / 2}
+        L ${x + w - cornerSize} ${y - h / 2}
+        L ${x + w} ${y - h / 2 + cornerSize}
+        L ${x + w} ${y + h / 2}
+        L ${x} ${y + h / 2}
+        Z
+    `;
+
+    path.setAttribute('d', pathData);
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke', '#c84c4c');
+    path.setAttribute('stroke-width', '1');
+    path.setAttribute('stroke-linejoin', 'miter');
+    svg.appendChild(path);
+}
+
+function drawFolderIcon(svg, x, y, size) {
+    // Folder icon as single continuous outline using a path
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+
+    const tabWidth = size * 0.5;
+    const tabHeight = size * 0.35;
+    const bodyWidth = size;
+
+    // Create path: tab outline, then body outline
+    const pathData = `
+        M ${x} ${y - size / 2 + tabHeight}
+        L ${x} ${y - size / 2}
+        L ${x + tabWidth} ${y - size / 2}
+        L ${x + tabWidth} ${y - size / 2 + tabHeight}
+        L ${x + bodyWidth} ${y - size / 2 + tabHeight}
+        L ${x + bodyWidth} ${y + size / 2}
+        L ${x} ${y + size / 2}
+        Z
+    `;
+
+    path.setAttribute('d', pathData);
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke', '#c84c4c');
+    path.setAttribute('stroke-width', '1');
+    path.setAttribute('stroke-linejoin', 'miter');
+    svg.appendChild(path);
 }
 
