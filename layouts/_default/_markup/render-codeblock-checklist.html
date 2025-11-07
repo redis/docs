@@ -40,7 +40,12 @@
 {{- $metadata = merge $metadata (dict "$schema" "https://redis.io/schemas/checklist.json") -}}
 
 <pre class="checklist-source" data-checklist-id="{{ $id }}">{{ .Inner | htmlEscape | safeHTML }}</pre>
-{{ printf "<script type=\"application/json\" data-redis-metadata=\"checklist\">\n%s\n</script>" ($metadata | jsonify (dict "indent" "  ")) | safeHTML }}
+
+{{ $jsonMetadata := $metadata | jsonify (dict "indent" "  ") }}
+
+{{ printf "<script type=\"application/json\" data-redis-metadata=\"checklist\">\n%s\n</script>" $jsonMetadata | safeHTML }}
+
+{{ printf "<template data-redis-metadata=\"checklist\">\n%s\n</template>" $jsonMetadata | safeHTML }}
 
 {{ .Page.Store.Set "hasChecklist" true }}
 
