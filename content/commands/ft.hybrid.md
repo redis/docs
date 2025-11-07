@@ -597,7 +597,7 @@ One of the following:
 One of the following:
 * [Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) with the following fields:
     - `total_results`: [Integer]({{< relref "/develop/reference/protocol-spec#integers" >}}) - total number of results
-    - `results`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [maps]({{< relref "/develop/reference/protocol-spec#maps" >}}) containing document information
+    - `execution_time`: [double]({{< relref "/develop/reference/protocol-spec#doubles" >}}) containing hybrid query execution time
     - `warning`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of warning messages indicating partial results due to index errors or `MAXPREFIXEXPANSIONS` and `TIMEOUT` reached
      - `results`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [maps]({{< relref "/develop/reference/protocol-spec#maps" >}}) containing document information
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, syntax error in query.
