@@ -576,7 +576,7 @@ FT.HYBRID complexity depends on both the text search and vector similarity compo
 - Fusion: O(k) where k is the number of results to combine
 - Overall complexity is typically dominated by the more expensive component
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
