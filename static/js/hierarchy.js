@@ -60,10 +60,19 @@ function parseYAML(yamlText) {
                     const metaKey = metaMatch[1].trim();
                     let metaValue = metaMatch[2].trim();
 
-                    // Parse boolean values
-                    if (metaValue === 'true') metaValue = true;
-                    else if (metaValue === 'false') metaValue = false;
-                    else if (!isNaN(metaValue)) metaValue = parseInt(metaValue);
+                    // Remove surrounding quotes if present
+                    if ((metaValue.startsWith('"') && metaValue.endsWith('"')) ||
+                        (metaValue.startsWith("'") && metaValue.endsWith("'"))) {
+                        metaValue = metaValue.slice(1, -1);
+                        // Unescape escaped quotes
+                        metaValue = metaValue.replace(/\\"/g, '"');
+                        metaValue = metaValue.replace(/\\\\/g, '\\');
+                    } else {
+                        // Parse boolean values
+                        if (metaValue === 'true') metaValue = true;
+                        else if (metaValue === 'false') metaValue = false;
+                        else if (!isNaN(metaValue)) metaValue = parseInt(metaValue);
+                    }
 
                     parent._meta[metaKey] = metaValue;
                 }
@@ -96,16 +105,21 @@ function createHierarchyFromYAML(yamlText, hierarchyType, preElement) {
     const leftMargin = 20;
     const topMargin = 10;
     const indentWidth = 20;
+    const commentGap = 40; // Gap between item name and comment
 
     // Find max depth and max text width
     let maxDepth = 0;
     let maxTextWidth = 0;
+    let maxCommentWidth = 0;
     items.forEach(item => {
         maxDepth = Math.max(maxDepth, item.depth);
         maxTextWidth = Math.max(maxTextWidth, item.name.length);
+        if (item.description) {
+            maxCommentWidth = Math.max(maxCommentWidth, item.description.length);
+        }
     });
 
-    const svgWidth = leftMargin + (maxDepth + 1) * indentWidth + maxTextWidth * charWidth + 20;
+    const svgWidth = leftMargin + (maxDepth + 1) * indentWidth + maxTextWidth * charWidth + commentGap + maxCommentWidth * charWidth + 20;
     const svgHeight = topMargin + items.length * lineHeight + 10;
 
     // Create SVG
@@ -131,7 +145,7 @@ function createHierarchyFromYAML(yamlText, hierarchyType, preElement) {
             drawRootConnector(svg, item, items, index, leftMargin, topMargin, lineHeight, indentWidth);
         }
 
-        // Draw text
+        // Draw text for item name
         const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
         text.setAttribute('x', x + 20);
         text.setAttribute('y', y);
@@ -142,16 +156,29 @@ function createHierarchyFromYAML(yamlText, hierarchyType, preElement) {
         text.textContent = item.name;
         svg.appendChild(text);
 
-        // Add description as title if available
+        // Draw description/comment if available
         if (item.description) {
-            const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
-            title.textContent = item.description;
-            text.appendChild(title);
+            const comment = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            comment.setAttribute('x', x + 20 + item.name.length * charWidth + commentGap);
+            comment.setAttribute('y', y);
+            comment.setAttribute('font-family', '"Space Mono", monospace');
+            comment.setAttribute('font-size', '12');
+            comment.setAttribute('fill', '#999');
+            comment.setAttribute('font-style', 'italic');
+            comment.setAttribute('dominant-baseline', 'middle');
+            comment.textContent = item.description;
+            svg.appendChild(comment);
         }
     });
 
     // Replace the <pre> element with the SVG
     preElement.replaceWith(svg);
+}
+
+function cleanDescription(text) {
+    // The YAML parser already handles quote removal and unescaping,
+    // so just return the text as-is
+    return text || null;
 }
 
 function flattenHierarchy(name, nodeData, depth, items) {
@@ -160,7 +187,7 @@ function flattenHierarchy(name, nodeData, depth, items) {
     items.push({
         name: name,
         depth: depth,
-        description: nodeData._meta?.description || null,
+        description: cleanDescription(nodeData._meta?.description),
         isEllipsis: isEllipsis
     });
 
