@@ -16,7 +16,7 @@
   },
   "servers": [
     {
-      "url": "https://api.redislabs.com/v1"
+      "url": "https://capi.k8s-billing-dev.sm-qa.qa.redislabs.com/v1"
     }
   ],
   "security": [
@@ -40,6 +40,11 @@
     {
       "name": "Subscriptions - Pro - Connectivity",
       "description": "All Pro subscription connectivity operations.",
+      "x-order": "11"
+    },
+    {
+      "name": "Subscriptions - Dedicated",
+      "description": "All Dedicated subscription operations.",
       "x-order": "11"
     },
     {
@@ -1425,8 +1430,8 @@
               },
               "example": {
                 "vpcCidrs": [
-                  "<10.10.10.0/24>",
-                  "<10.10.20.0/24>"
+                  "\u003C10.10.10.0/24\u003E",
+                  "\u003C10.10.20.0/24\u003E"
                 ]
               }
             }
@@ -1763,8 +1768,8 @@
               },
               "example": {
                 "vpcCidrs": [
-                  "<10.10.10.0/24>",
-                  "<10.10.20.0/24>"
+                  "\u003C10.10.10.0/24\u003E",
+                  "\u003C10.10.20.0/24\u003E"
                 ]
               }
             }
@@ -3078,7 +3083,7 @@
         ],
         "summary": "Get a single Essentials subscription",
         "description": "Gets information on the specified Essentials subscription.",
-        "operationId": "getSubscriptionById_1",
+        "operationId": "getSubscriptionById_2",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -3205,7 +3210,7 @@
         ],
         "summary": "Delete Essentials subscription",
         "description": "Deletes the specified Essentials subscription. All databases in the subscription must be deleted before deleting it.",
-        "operationId": "deleteSubscriptionById_1",
+        "operationId": "deleteSubscriptionById_2",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -5795,11 +5800,11 @@
               "example": {
                 "provider": "string",
                 "region": "us-east-1",
-                "awsAccountId": "<aws-account-id>",
-                "vpcId": "<vpc-identifier>",
+                "awsAccountId": "\u003Caws-account-id\u003E",
+                "vpcId": "\u003Cvpc-identifier\u003E",
                 "vpcCidrs": [
-                  "<10.10.10.0/24>",
-                  "<10.10.20.0/24>"
+                  "\u003C10.10.10.0/24\u003E",
+                  "\u003C10.10.20.0/24\u003E"
                 ]
               }
             }
@@ -6621,11 +6626,11 @@
                 "provider": "string",
                 "sourceRegion": "string",
                 "destinationRegion": "us-east-1",
-                "awsAccountId": "<aws-account-id>",
-                "vpcId": "<vpc-identifier>",
+                "awsAccountId": "\u003Caws-account-id\u003E",
+                "vpcId": "\u003Cvpc-identifier\u003E",
                 "vpcCidrs": [
-                  "<10.10.10.0/24>",
-                  "<10.10.20.0/24>"
+                  "\u003C10.10.10.0/24\u003E",
+                  "\u003C10.10.20.0/24\u003E"
                 ]
               }
             }
@@ -7311,6 +7316,158 @@
         }
       }
     },
+    "/subscriptions/dedicated": {
+      "get": {
+        "tags": [
+          "Subscriptions - Dedicated"
+        ],
+        "summary": "Get Dedicated subscriptions",
+        "description": "Gets a list of all Dedicated subscriptions in the current account.",
+        "operationId": "getAllSubscriptions_1",
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DedicatedSubscriptions"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Subscriptions - Dedicated"
+        ],
+        "summary": "Create Dedicated subscription",
+        "description": "Creates a new Redis Cloud Dedicated subscription.",
+        "operationId": "createSubscription_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DedicatedSubscriptionCreateRequest"
+              },
+              "example": {
+                "name": "My new subscription",
+                "deploymentType": "single-region",
+                "replication": true,
+                "paymentMethod": "credit-card",
+                "paymentMethodId": 12345,
+                "cloudProviders": [
+                  {
+                    "provider": "AWS",
+                    "regions": [
+                      {
+                        "region": "us-east-1",
+                        "multipleAvailabilityZones": true,
+                        "preferredAvailabilityZones": [
+                          "use1-az1",
+                          "use1-az2",
+                          "use1-az3"
+                        ],
+                        "networking": {
+                          "deploymentCIDR": "10.0.0.0/24",
+                          "vpcId": "vpc-123456789"
+                        }
+                      }
+                    ],
+                    "instanceTypes": [
+                      {
+                        "name": "S2",
+                        "quantity": 2
+                      }
+                    ]
+                  }
+                ],
+                "databases": [
+                  {
+                    "name": "Redis-database-example",
+                    "supportOSSClusterApi": false,
+                    "redisVersion": "8.0",
+                    "port": 1010,
+                    "dataEvictionPolicy": "allkeys-lfu",
+                    "supportSharding": true
+                  }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to create requested resource (primarily due to not active resource)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with the new name"
+          },
+          "422": {
+            "description": "Unprocessable Entity - The server understands the request, and the syntax of the request is correct, but it was unable to process the contained instructions"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
     "/fixed/subscriptions": {
       "get": {
         "tags": [
@@ -7318,7 +7475,7 @@
         ],
         "summary": "Get Essentials subscriptions",
         "description": "Gets a list of all Essentials subscriptions in the current account.",
-        "operationId": "getAllSubscriptions_1",
+        "operationId": "getAllSubscriptions_2",
         "responses": {
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
@@ -7362,7 +7519,7 @@
         ],
         "summary": "Create Essentials subscription",
         "description": "Creates a new Essentials subscription.",
-        "operationId": "createSubscription_1",
+        "operationId": "createSubscription_2",
         "requestBody": {
           "content": {
             "application/json": {
@@ -8025,6 +8182,71 @@
           },
           "409": {
             "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/cost-report": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Generate cost report",
+        "description": "Generates a cost report in FOCUS format for the specified time period and filters. [Read more about focus here](https://focus.finops.org/).\n This api returns a taskId [Read more about tasks here](https://redis.io/docs/latest/operate/rc/api/get-started/manage-tasks/).",
+        "operationId": "createCostReport",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CostReportCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to create requested resource (primarily due to not active resource)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with the new name"
+          },
+          "422": {
+            "description": "Unprocessable Entity - The server understands the request, and the syntax of the request is correct, but it was unable to process the contained instructions"
           },
           "429": {
             "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
@@ -9540,74 +9762,6 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}/available-target-versions": {
-      "get": {
-        "tags": [
-          "Databases - Pro"
-        ],
-        "summary": "Get available upgrade versions for Pro database",
-        "description": "Gets a list of available Redis versions that the specified Pro database can be upgraded to.",
-        "operationId": "getDatabaseAvailableVersions",
-        "parameters": [
-          {
-            "name": "subscriptionId",
-            "in": "path",
-            "description": "Subscription ID.",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "databaseId",
-            "in": "path",
-            "description": "Database ID.",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BdbAvailableVersionsResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized - Authentication failed for requested resource"
-          },
-          "403": {
-            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
-          },
-          "404": {
-            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
-          },
-          "429": {
-            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
-          },
-          "500": {
-            "description": "Internal system error - If this error persists, please contact customer support"
-          },
-          "503": {
-            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
-          }
-        }
-      }
-    },
     "/subscriptions/redis-versions": {
       "get": {
         "tags": [
@@ -9666,6 +9820,126 @@
         }
       }
     },
+    "/subscriptions/dedicated/{subscriptionId}": {
+      "get": {
+        "tags": [
+          "Subscriptions - Dedicated"
+        ],
+        "summary": "Get a single dedicated subscription",
+        "description": "Gets information on the specified dedicated subscription.",
+        "operationId": "getSubscriptionById_1",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DedicatedSubscription"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Subscriptions - Dedicated"
+        ],
+        "summary": "Delete Dedicated subscription",
+        "description": "Delete the specified Dedicated subscription. All databases in the subscription must be deleted before deleting it.",
+        "operationId": "deleteSubscriptionById_1",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
     "/session-logs": {
       "get": {
         "tags": [
@@ -9702,7 +9976,7 @@
           {
             "name": "startTime",
             "in": "query",
-            "description": "Filter session logs with time >= startTime (UTC)",
+            "description": "Filter session logs with time \u003E= startTime (UTC)",
             "required": false,
             "schema": {
               "type": "string"
@@ -9712,7 +9986,7 @@
           {
             "name": "endTime",
             "in": "query",
-            "description": "Filter session logs with time <= endTime (UTC)",
+            "description": "Filter session logs with time \u003C= endTime (UTC)",
             "required": false,
             "schema": {
               "type": "string"
@@ -9947,7 +10221,7 @@
           {
             "name": "startTime",
             "in": "query",
-            "description": "Filter logs with time >= startTime (UTC)",
+            "description": "Filter logs with time \u003E= startTime (UTC)",
             "required": false,
             "schema": {
               "type": "string"
@@ -9957,7 +10231,7 @@
           {
             "name": "endTime",
             "in": "query",
-            "description": "Filter logs with time <= endTime (UTC)",
+            "description": "Filter logs with time \u003C= endTime (UTC)",
             "required": false,
             "schema": {
               "type": "string"
@@ -9989,6 +10263,144 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AccountSystemLogEntries"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/instance-types": {
+      "get": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Get list of dedicated instance types for dedicated subscriptions",
+        "description": "Lookup list of dedicated instance types for dedicated subscriptions",
+        "operationId": "getInstances",
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DedicatedInstanceTypes"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/instance-types/pricing": {
+      "get": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Get pricing for each dedicated instance type",
+        "description": "Specific pricing for each dedicated instance type and its add-ons",
+        "operationId": "getInstancesPricing",
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DedicatedInstancesTypePrices"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/instance-types/pricing/add-ons": {
+      "get": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Get pricing addons for each region",
+        "description": "Specific pricing addons per cloud provider and region",
+        "operationId": "getInstancesAddonsPricing",
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DedicatedInstanceAddOnPrices"
                 }
               }
             }
@@ -10057,74 +10469,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/DatabaseSlowLogEntries"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized - Authentication failed for requested resource"
-          },
-          "403": {
-            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
-          },
-          "404": {
-            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
-          },
-          "429": {
-            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
-          },
-          "500": {
-            "description": "Internal system error - If this error persists, please contact customer support"
-          },
-          "503": {
-            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
-          }
-        }
-      }
-    },
-    "/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/available-target-versions": {
-      "get": {
-        "tags": [
-          "Databases - Essentials"
-        ],
-        "summary": "Get available upgrade versions for Essentials database",
-        "description": "Gets a list of available Redis versions that the specified Essentials database can be upgraded to.",
-        "operationId": "getEssentialsDatabaseAvailableVersions",
-        "parameters": [
-          {
-            "name": "subscriptionId",
-            "in": "path",
-            "description": "Subscription ID.",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "databaseId",
-            "in": "path",
-            "description": "Database ID.",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BdbAvailableVersionsResponse"
                 }
               }
             }
@@ -10487,6 +10831,62 @@
         }
       }
     },
+    "/cost-report/{costReportId}": {
+      "get": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Get cost report",
+        "description": "Returns the generated cost report file in FOCUS format using the costReportId returned from the cost report generation task. The file is downloaded as an attachment with the filename set to the costReportId.",
+        "operationId": "getCostReport",
+        "parameters": [
+          {
+            "name": "costReportId",
+            "in": "path",
+            "description": "Cost Report ID. Returned from a Cost Report generation task.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "cost-report-12345-abcdef"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "Returns the cost report file",
+            "content": {
+              "application/octet-stream": {
+
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
     "/": {
       "get": {
         "tags": [
@@ -10536,14 +10936,6 @@
   },
   "components": {
     "schemas": {
-      "TargetVersion": {
-        "type": "object",
-        "properties": {
-          "redisVersion": {
-            "type": "string"
-          }
-        }
-      },
       "AclUserCreateRequest": {
         "required": [
           "name",
@@ -10844,29 +11236,29 @@
           "awsAccountId": {
             "type": "string",
             "description": "AWS Account ID.",
-            "example": "<aws-account-id>"
+            "example": "\u003Caws-account-id\u003E"
           },
           "vpcId": {
             "type": "string",
             "description": "VPC ID.",
-            "example": "<vpc-identifier>"
+            "example": "\u003Cvpc-identifier\u003E"
           },
           "vpcCidr": {
             "type": "string",
             "description": "Optional. VPC CIDR.",
-            "example": "<10.10.10.0/24>"
+            "example": "\u003C10.10.10.0/24\u003E"
           },
           "vpcCidrs": {
             "type": "array",
             "description": "Optional. List of VPC CIDRs.",
             "example": [
-              "<10.10.10.0/24>",
-              "<10.10.20.0/24>"
+              "\u003C10.10.10.0/24\u003E",
+              "\u003C10.10.20.0/24\u003E"
             ],
             "items": {
               "type": "string",
               "description": "Optional. List of VPC CIDRs.",
-              "example": "[\"<10.10.10.0/24>\",\"<10.10.20.0/24>\"]"
+              "example": "[\"\u003C10.10.10.0/24\u003E\",\"\u003C10.10.20.0/24\u003E\"]"
             }
           },
           "commandType": {
@@ -11097,11 +11489,11 @@
             "regexRules": [
               {
                 "ordinal": 1,
-                "pattern": "(?<tag>.*)"
+                "pattern": "(?\u003Ctag\u003E.*)"
               },
               {
                 "ordinal": 0,
-                "pattern": ".*\\{(?<tag>.*)\\}.*"
+                "pattern": ".*\\{(?\u003Ctag\u003E.*)\\}.*"
               }
             ],
             "hashingPolicy": "standard"
@@ -11199,6 +11591,10 @@
           "replication": {
             "type": "boolean",
             "description": "Optional. Databases replication. Default: 'true'"
+          },
+          "autoMinorVersionUpgrade": {
+            "type": "boolean",
+            "description": "Optional. When 'true', enables auto minor version upgrades for this database. Default: 'true'"
           },
           "throughputMeasurement": {
             "$ref": "#/components/schemas/DatabaseThroughputSpec"
@@ -11371,6 +11767,108 @@
           ]
         }
       },
+      "DedicatedInstanceType": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Instance type name"
+          },
+          "provider": {
+            "type": "string",
+            "description": "Cloud provider",
+            "enum": [
+              "AWS",
+              "GCP"
+            ]
+          },
+          "category": {
+            "type": "string",
+            "description": "Instance category",
+            "enum": [
+              "STANDARD",
+              "MEMORY",
+              "COMPUTE",
+              "NETWORK",
+              "FLEX"
+            ]
+          },
+          "vCPUs": {
+            "type": "integer",
+            "description": "Number of virtual CPUs",
+            "format": "int32"
+          },
+          "memoryInGb": {
+            "type": "integer",
+            "description": "Memory in GB",
+            "format": "int32"
+          },
+          "networkBaselineInGbps": {
+            "type": "integer",
+            "description": "Network baseline in Gbps",
+            "format": "int32"
+          },
+          "maxNetworkBandwidthInGbps": {
+            "type": "integer",
+            "description": "Maximum network bandwidth in Gbps",
+            "format": "int32"
+          },
+          "maxConnections": {
+            "type": "integer",
+            "description": "Maximum connections",
+            "format": "int32"
+          },
+          "supportsMultipleInstances": {
+            "type": "boolean",
+            "description": "Supports multiple instances"
+          },
+          "maxDatabases": {
+            "type": "integer",
+            "description": "Maximum number of databases",
+            "format": "int32"
+          }
+        },
+        "description": "Redis dedicated instances types information"
+      },
+      "DedicatedSubscriptionSpec": {
+        "required": [
+          "instanceTypes",
+          "regions"
+        ],
+        "type": "object",
+        "properties": {
+          "provider": {
+            "type": "string",
+            "description": "Optional. Cloud provider. Default: 'AWS'",
+            "example": "AWS",
+            "enum": [
+              "AWS",
+              "GCP"
+            ]
+          },
+          "cloudAccountId": {
+            "type": "integer",
+            "description": "Optional. Cloud account identifier. Default: Redis internal cloud account (Cloud Account ID = 1). Use GET /cloud-accounts to list all available cloud accounts. Note: A subscription on Google Cloud can be created only with Redis internal cloud account.",
+            "format": "int32",
+            "example": 1
+          },
+          "regions": {
+            "type": "array",
+            "description": "The cloud provider region or list of regions (Active-Active only) and networking details.",
+            "items": {
+              "$ref": "#/components/schemas/SubscriptionRegionSpec"
+            }
+          },
+          "instanceTypes": {
+            "type": "array",
+            "description": "Instance types and their quantities",
+            "items": {
+              "$ref": "#/components/schemas/DedicatedInstanceTypeSpecs"
+            }
+          }
+        },
+        "description": "Cloud provider, region, and networking details."
+      },
       "CidrWhiteListUpdateRequest": {
         "type": "object",
         "properties": {
@@ -11512,7 +12010,7 @@
           "periodicBackupPath": {
             "type": "string",
             "description": "Optional. The path to a backup storage location. If specified, the database will back up every 24 hours to this location, and you can manually back up the database to this location at any time. Use GET /fixed/plans/{planId} to see if your plan supports database backups.",
-            "example": "s3://<backup-path>"
+            "example": "s3://\u003Cbackup-path\u003E"
           },
           "sourceIps": {
             "type": "array",
@@ -11582,6 +12080,20 @@
           }
         },
         "description": "Essentials database definition"
+      },
+      "DedicatedInstanceAddOnPrices": {
+        "type": "object",
+        "properties": {
+          "addOns": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/DedicatedInstanceAddOnPricing"
+              }
+            }
+          }
+        }
       },
       "DatabaseUpdateRequest": {
         "type": "object",
@@ -11665,6 +12177,10 @@
             "type": "boolean",
             "description": "Optional. Turns database replication on or off."
           },
+          "autoMinorVersionUpgrade": {
+            "type": "boolean",
+            "description": "Optional. When 'true', enables auto minor version upgrades for this database."
+          },
           "regexRules": {
             "type": "array",
             "description": "Optional. Hashing policy Regex rules. Used only if 'shardingType' is 'custom-regex-rules'.",
@@ -11741,7 +12257,7 @@
           "periodicBackupPath": {
             "type": "string",
             "description": "Optional. Changes the backup location path. If specified, the database will back up every 24 hours to this location, and you can manually back up the database to this location at any time. If set to an empty string, the backup path will be removed.",
-            "example": "s3://<backup-path>",
+            "example": "s3://\u003Cbackup-path\u003E",
             "deprecated": true
           },
           "remoteBackup": {
@@ -12342,19 +12858,19 @@
           "vpcCidr": {
             "type": "string",
             "description": "Optional. VPC CIDR.",
-            "example": "<10.10.10.0/24>"
+            "example": "\u003C10.10.10.0/24\u003E"
           },
           "vpcCidrs": {
             "type": "array",
             "description": "Optional. List of VPC CIDRs.",
             "example": [
-              "<10.10.10.0/24>",
-              "<10.10.22.0/24>"
+              "\u003C10.10.10.0/24\u003E",
+              "\u003C10.10.22.0/24\u003E"
             ],
             "items": {
               "type": "string",
               "description": "Optional. List of VPC CIDRs.",
-              "example": "[\"<10.10.10.0/24>\",\"<10.10.22.0/24>\"]"
+              "example": "[\"\u003C10.10.10.0/24\u003E\",\"\u003C10.10.22.0/24\u003E\"]"
             }
           },
           "commandType": {
@@ -12496,19 +13012,19 @@
           "vpcCidr": {
             "type": "string",
             "description": "Optional. VPC CIDR.",
-            "example": "<10.10.10.0/24>"
+            "example": "\u003C10.10.10.0/24\u003E"
           },
           "vpcCidrs": {
             "type": "array",
             "description": "Optional. List of VPC CIDRs.",
             "example": [
-              "<10.10.10.0/24>",
-              "<10.10.20.0/24>"
+              "\u003C10.10.10.0/24\u003E",
+              "\u003C10.10.20.0/24\u003E"
             ],
             "items": {
               "type": "string",
               "description": "Optional. List of VPC CIDRs.",
-              "example": "[\"<10.10.10.0/24>\",\"<10.10.20.0/24>\"]"
+              "example": "[\"\u003C10.10.10.0/24\u003E\",\"\u003C10.10.20.0/24\u003E\"]"
             }
           },
           "commandType": {
@@ -12624,6 +13140,65 @@
           }
         },
         "description": "Optional. This database will be a replica of the specified Redis databases, provided as a list of objects with endpoint and certificate details."
+      },
+      "DedicatedSubscriptionCreateRequest": {
+        "required": [
+          "cloudProviders",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "New subscription name.",
+            "example": "My new subscription"
+          },
+          "deploymentType": {
+            "type": "string",
+            "description": "Optional. When 'single-region' or not set: Creates a single region subscription. When 'active-active': creates an Active-Active (multi-region) subscription.",
+            "example": "single-region",
+            "enum": [
+              "single-region",
+              "active-active"
+            ]
+          },
+          "replication": {
+            "type": "boolean",
+            "description": "Optional. Sets database replication. Default: 'true'"
+          },
+          "paymentMethod": {
+            "type": "string",
+            "description": "Optional. The payment method for the subscription. If set to ‘credit-card’, ‘paymentMethodId’ must be defined. Default: 'credit-card'",
+            "enum": [
+              "credit-card",
+              "marketplace"
+            ]
+          },
+          "paymentMethodId": {
+            "type": "integer",
+            "description": "Optional. A valid payment method ID for this account. Use GET /payment-methods to get a list of all payment methods for your account. This value is optional if ‘paymentMethod’ is ‘marketplace’, but required for all other account types.",
+            "format": "int32"
+          },
+          "cloudProviders": {
+            "type": "array",
+            "description": "Cloud provider, region, and networking details.",
+            "items": {
+              "$ref": "#/components/schemas/DedicatedSubscriptionSpec"
+            }
+          },
+          "databases": {
+            "type": "array",
+            "description": "One or more database specification(s) to create in this subscription.",
+            "items": {
+              "$ref": "#/components/schemas/DedicatedSubscriptionDatabaseSpec"
+            }
+          },
+          "commandType": {
+            "type": "string",
+            "readOnly": true
+          }
+        },
+        "description": "Dedicated Subscription create request"
       },
       "MaintenanceWindow": {
         "type": "object",
@@ -12846,6 +13421,51 @@
         },
         "description": "Essentials subscription update request"
       },
+      "TagFilter": {
+        "required": [
+          "key",
+          "value"
+        ],
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Tag key",
+            "example": "environment"
+          },
+          "value": {
+            "type": "string",
+            "description": "Tag value",
+            "example": "production"
+          }
+        },
+        "description": "Tag filter for cost report"
+      },
+      "DedicatedSubscriptions": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "subscriptions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DedicatedSubscription"
+            }
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "description": "RedisLabs list of dedicated subscriptions in current account"
+      },
       "SearchScalingFactorsData": {
         "type": "object",
         "properties": {
@@ -12906,6 +13526,90 @@
           }
         },
         "description": "Subscription update request message"
+      },
+      "CostReportCreateRequest": {
+        "required": [
+          "endDate",
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "format": {
+            "type": "string",
+            "description": "Output format for the cost report",
+            "example": "json",
+            "enum": [
+              "json",
+              "csv"
+            ]
+          },
+          "subscriptionIds": {
+            "type": "array",
+            "description": "Array of subscription/cluster IDs to filter by",
+            "example": [123, 456],
+            "items": {
+              "type": "integer",
+              "description": "Array of subscription/cluster IDs to filter by",
+              "format": "int32"
+            }
+          },
+          "databaseIds": {
+            "type": "array",
+            "description": "Array of database IDs to filter by",
+            "example": [789, 101112],
+            "items": {
+              "type": "integer",
+              "description": "Array of database IDs to filter by",
+              "format": "int32"
+            }
+          },
+          "subscriptionType": {
+            "type": "string",
+            "description": "Filter by plan type",
+            "example": "pro",
+            "enum": [
+              "pro",
+              "essentials"
+            ]
+          },
+          "startDate": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "type": "string",
+            "description": "Filter for usage starting on or after this date (YYYY-MM-DD)",
+            "example": "2023-06-01"
+          },
+          "endDate": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "type": "string",
+            "description": "Filter for usage ending on or before this date (YYYY-MM-DD)",
+            "example": "2023-06-30"
+          },
+          "regions": {
+            "type": "array",
+            "description": "Array of regions to filter by",
+            "example": [
+              "us-east-1",
+              "eu-west-1"
+            ],
+            "items": {
+              "type": "string",
+              "description": "Array of regions to filter by",
+              "example": "[\"us-east-1\",\"eu-west-1\"]"
+            }
+          },
+          "tags": {
+            "type": "array",
+            "description": "Array of key-value pairs for tag filtering",
+            "items": {
+              "$ref": "#/components/schemas/TagFilter"
+            }
+          },
+          "commandType": {
+            "type": "string",
+            "readOnly": true
+          }
+        },
+        "description": "Cost report generation request"
       },
       "AccountSubscriptionDatabases": {
         "type": "object",
@@ -12971,11 +13675,11 @@
                     "regexRules": [
                       {
                         "ordinal": 1,
-                        "pattern": "(?<tag>.*)"
+                        "pattern": "(?\u003Ctag\u003E.*)"
                       },
                       {
                         "ordinal": 0,
-                        "pattern": ".*\\{(?<tag>.*)\\}.*"
+                        "pattern": ".*\\{(?\u003Ctag\u003E.*)\\}.*"
                       }
                     ],
                     "hashingPolicy": "standard"
@@ -13040,11 +13744,11 @@
                     "regexRules": [
                       {
                         "ordinal": 0,
-                        "pattern": ".*\\{(?<tag>.*)\\}.*"
+                        "pattern": ".*\\{(?\u003Ctag\u003E.*)\\}.*"
                       },
                       {
                         "ordinal": 1,
-                        "pattern": "(?<tag>.*)"
+                        "pattern": "(?\u003Ctag\u003E.*)"
                       }
                     ],
                     "hashingPolicy": "standard"
@@ -13109,11 +13813,11 @@
                     "regexRules": [
                       {
                         "ordinal": 1,
-                        "pattern": "(?<tag>.*)"
+                        "pattern": "(?\u003Ctag\u003E.*)"
                       },
                       {
                         "ordinal": 0,
-                        "pattern": ".*\\{(?<tag>.*)\\}.*"
+                        "pattern": ".*\\{(?\u003Ctag\u003E.*)\\}.*"
                       }
                     ],
                     "hashingPolicy": "standard"
@@ -13178,11 +13882,11 @@
                     "regexRules": [
                       {
                         "ordinal": 1,
-                        "pattern": "(?<tag>.*)"
+                        "pattern": "(?\u003Ctag\u003E.*)"
                       },
                       {
                         "ordinal": 0,
-                        "pattern": ".*\\{(?<tag>.*)\\}.*"
+                        "pattern": ".*\\{(?\u003Ctag\u003E.*)\\}.*"
                       }
                     ],
                     "hashingPolicy": "standard"
@@ -13298,11 +14002,11 @@
                     "regexRules": [
                       {
                         "ordinal": 1,
-                        "pattern": "(?<tag>.*)"
+                        "pattern": "(?\u003Ctag\u003E.*)"
                       },
                       {
                         "ordinal": 0,
-                        "pattern": ".*\\{(?<tag>.*)\\}.*"
+                        "pattern": ".*\\{(?\u003Ctag\u003E.*)\\}.*"
                       }
                     ],
                     "hashingPolicy": "standard"
@@ -13954,7 +14658,6 @@
               "cloudDetails": [
                 {
                   "provider": "AWS",
-                  "awsAccountId": "550680565604",
                   "cloudAccountId": 1666,
                   "totalSizeInGb": 0.0272,
                   "regions": [
@@ -14012,29 +14715,29 @@
           "awsAccountId": {
             "type": "string",
             "description": "AWS Account ID.",
-            "example": "<aws-account-id>"
+            "example": "\u003Caws-account-id\u003E"
           },
           "vpcId": {
             "type": "string",
             "description": "VPC ID.",
-            "example": "<vpc-identifier>"
+            "example": "\u003Cvpc-identifier\u003E"
           },
           "vpcCidr": {
             "type": "string",
             "description": "Optional. VPC CIDR.",
-            "example": "<10.10.10.0/24>"
+            "example": "\u003C10.10.10.0/24\u003E"
           },
           "vpcCidrs": {
             "type": "array",
             "description": "Optional. List of VPC CIDRs.",
             "example": [
-              "<10.10.10.0/24>",
-              "<10.10.20.0/24>"
+              "\u003C10.10.10.0/24\u003E",
+              "\u003C10.10.20.0/24\u003E"
             ],
             "items": {
               "type": "string",
               "description": "Optional. List of VPC CIDRs.",
-              "example": "[\"<10.10.10.0/24>\",\"<10.10.20.0/24>\"]"
+              "example": "[\"\u003C10.10.10.0/24\u003E\",\"\u003C10.10.20.0/24\u003E\"]"
             }
           },
           "commandType": {
@@ -14142,7 +14845,7 @@
           "periodicBackupPath": {
             "type": "string",
             "description": "Optional. Changes the backup location path. If specified, the database will back up every 24 hours to this location, and you can manually back up the database to this location at any time. Use GET /fixed/plans/{planId} to see if your plan supports database backups. If set to an empty string, the backup path will be removed.",
-            "example": "s3://<backup-path>"
+            "example": "s3://\u003Cbackup-path\u003E"
           },
           "sourceIps": {
             "type": "array",
@@ -14258,7 +14961,7 @@
           "signInLoginUrl": {
             "type": "string",
             "description": "Cloud provider management console login URL.",
-            "example": "https://<aws-account-identifier>.signin.aws.amazon.com/console"
+            "example": "https://\u003Caws-account-identifier\u003E.signin.aws.amazon.com/console"
           },
           "commandType": {
             "type": "string",
@@ -14529,11 +15232,11 @@
                   "regexRules": [
                     {
                       "ordinal": 0,
-                      "pattern": ".*\\{(?<tag>.*)\\}.*"
+                      "pattern": ".*\\{(?\u003Ctag\u003E.*)\\}.*"
                     },
                     {
                       "ordinal": 1,
-                      "pattern": "(?<tag>.*)"
+                      "pattern": "(?\u003Ctag\u003E.*)"
                     }
                   ],
                   "hashingPolicy": "standard"
@@ -14609,11 +15312,11 @@
                   "regexRules": [
                     {
                       "ordinal": 0,
-                      "pattern": ".*\\{(?<tag>.*)\\}.*"
+                      "pattern": ".*\\{(?\u003Ctag\u003E.*)\\}.*"
                     },
                     {
                       "ordinal": 1,
-                      "pattern": "(?<tag>.*)"
+                      "pattern": "(?\u003Ctag\u003E.*)"
                     }
                   ],
                   "hashingPolicy": "standard"
@@ -14728,6 +15431,34 @@
           }
         },
         "description": "Optional. Expected read and write throughput for this region."
+      },
+      "DedicatedInstanceTypePricing": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "provider": {
+            "type": "string",
+            "enum": [
+              "AWS",
+              "GCP"
+            ]
+          },
+          "region": {
+            "type": "string"
+          },
+          "price": {
+            "type": "string"
+          },
+          "priceCurrency": {
+            "type": "string"
+          },
+          "pricePeriod": {
+            "type": "string"
+          }
+        },
+        "description": "Redis dedicated instances types information"
       },
       "PscEndpointUpdateRequest": {
         "required": [
@@ -15113,15 +15844,127 @@
         },
         "description": "Database tag"
       },
-      "BdbAvailableVersionsResponse": {
+      "DedicatedInstanceTypeSpecs": {
+        "required": [
+          "name",
+          "quantity"
+        ],
         "type": "object",
         "properties": {
-          "targets": {
+          "name": {
+            "type": "string",
+            "description": "Instance type name"
+          },
+          "quantity": {
+            "type": "integer",
+            "description": "Instance type quantity",
+            "format": "int32"
+          }
+        },
+        "description": "Instance types and their quantities"
+      },
+      "DedicatedSubscription": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the subscription",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the subscription"
+          },
+          "paymentMethodId": {
+            "type": "integer",
+            "description": "Payment method identifier",
+            "format": "int32"
+          },
+          "status": {
+            "type": "string",
+            "description": "Current status of the subscription"
+          },
+          "memoryStorage": {
+            "type": "string",
+            "description": "Memory storage configuration for the subscription",
+            "enum": [
+              "ram",
+              "ram-and-flash"
+            ]
+          },
+          "totalSizeInGb": {
+            "type": "number",
+            "format": "float"
+          },
+          "numberOfDatabases": {
+            "type": "integer",
+            "description": "Number of databases in the subscription",
+            "format": "int32"
+          },
+          "paymentMethodType": {
+            "type": "string",
+            "description": "Type of payment method used",
+            "enum": [
+              "credit-card",
+              "marketplace"
+            ]
+          },
+          "links": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/TargetVersion"
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
             }
           }
+        },
+        "description": "Redis Dedicated Subscription information",
+        "example": {
+          "id": 1207,
+          "name": "my dedicated subscription",
+          "paymentMethodId": 1234,
+          "status": "active",
+          "memoryStorage": "ram",
+          "storageEncryption": true,
+          "numberOfDatabases": 1,
+          "paymentMethodType": "credit-card",
+          "deploymentType": "single-region",
+          "instanceTypes": [
+            {
+              "name": "S1",
+              "quantity": 2
+            }
+          ],
+          "cloudDetails": [
+            {
+              "provider": "AWS",
+              "regions": [
+                {
+                  "region": "us-east-1",
+                  "networking": [
+                    {
+                      "deploymentCIDR": "192.168.0.0/24"
+                    }
+                  ],
+                  "preferredAvailabilityZones": [
+                    "use1-az1",
+                    "use1-az2",
+                    "use1-az3"
+                  ]
+                }
+              ],
+              "links": []
+            }
+          ],
+          "subscriptionPricing": [],
+          "links": [
+            {
+              "type": "GET",
+              "href": "http://localhost:8081/v1/subscriptions/dedicated/1207",
+              "rel": "self"
+            }
+          ]
         }
       },
       "SubscriptionSpec": {
@@ -15171,7 +16014,7 @@
           "adhocBackupPath": {
             "type": "string",
             "description": "Optional. Manually backs up data to this location, instead of the set 'periodicBackupPath' location.",
-            "example": "s3://<backup-path>"
+            "example": "s3://\u003Cbackup-path\u003E"
           },
           "commandType": {
             "type": "string",
@@ -15195,10 +16038,14 @@
             "additionalProperties": {
               "type": "object",
               "description": "Optional. Redis advanced capability parameters. Use GET /database-modules to get the available capabilities and their parameters.",
-              "example": {}
+              "example": {
+
+              }
             },
             "description": "Optional. Redis advanced capability parameters. Use GET /database-modules to get the available capabilities and their parameters.",
-            "example": {}
+            "example": {
+
+            }
           }
         },
         "description": "Optional. Redis advanced capabilities (also known as modules) to be provisioned in the database. Use GET /database-modules to get a list of available advanced capabilities."
@@ -15251,7 +16098,7 @@
           "vpcId": {
             "type": "string",
             "description": "Optional. Enter a VPC identifier that exists in the hosted AWS account. Creates a new VPC if not set. VPC Identifier must be in a valid format (for example: 'vpc-0125be68a4625884ad') and must exist within the hosting account.",
-            "example": "<vpc-identifier>"
+            "example": "\u003Cvpc-identifier\u003E"
           },
           "subnetIds": {
             "type": "array",
@@ -15476,6 +16323,10 @@
               "noeviction"
             ]
           },
+          "autoMinorVersionUpgrade": {
+            "type": "boolean",
+            "description": "Optional. When 'true', enables auto minor version upgrades for this database."
+          },
           "commandType": {
             "type": "string",
             "readOnly": true
@@ -15550,6 +16401,55 @@
         },
         "description": "The cloud provider region or list of regions (Active-Active only) and networking details."
       },
+      "DedicatedSubscriptionDatabaseSpec": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the database. Database name is limited to 40 characters or less and must include only letters, digits, and hyphens ('-'). It must start with a letter and end with a letter or digit.",
+            "example": "Redis-database-example"
+          },
+          "supportOSSClusterApi": {
+            "type": "boolean",
+            "description": "Optional. Support Redis [OSS Cluster API](https://redis.io/docs/latest/operate/rc/databases/configuration/clustering/#oss-cluster-api). Default: 'false'",
+            "example": false
+          },
+          "redisVersion": {
+            "type": "string",
+            "description": "Optional. If specified, redisVersion defines the Redis database version. If omitted, the Redis version will be set to the default version (available in 'GET /subscriptions/redis-versions')",
+            "example": "7.2"
+          },
+          "port": {
+            "type": "integer",
+            "description": "Optional. TCP port on which the database is available (10000-19999). Generated automatically if not set.",
+            "format": "int32",
+            "example": 10000
+          },
+          "dataEvictionPolicy": {
+            "type": "string",
+            "description": "Optional. Data eviction policy. Default: 'volatile-lru'",
+            "enum": [
+              "allkeys-lru",
+              "allkeys-lfu",
+              "allkeys-random",
+              "volatile-lru",
+              "volatile-lfu",
+              "volatile-random",
+              "volatile-ttl",
+              "noeviction"
+            ]
+          },
+          "supportSharding": {
+            "type": "boolean",
+            "description": "Optional. Support sharding. Default: 'false'",
+            "example": false
+          }
+        },
+        "description": "One or more database specification(s) to create in this subscription."
+      },
       "VpcPeeringCreateGcpRequest": {
         "required": [
           "vpcNetworkName",
@@ -15563,12 +16463,12 @@
           "vpcProjectUid": {
             "type": "string",
             "description": "VPC project ID.",
-            "example": "<vpc-identifer>"
+            "example": "\u003Cvpc-identifer\u003E"
           },
           "vpcNetworkName": {
             "type": "string",
             "description": "VPC network name.",
-            "example": "<name>"
+            "example": "\u003Cname\u003E"
           },
           "commandType": {
             "type": "string",
@@ -15683,6 +16583,10 @@
             "type": "boolean",
             "description": "Optional. Sets database replication. Default: 'true'"
           },
+          "autoMinorVersionUpgrade": {
+            "type": "boolean",
+            "description": "Optional. When 'true', enables auto minor version upgrades for this database. Default: 'true'"
+          },
           "replicaOf": {
             "type": "array",
             "description": "Optional. This database will be a replica of the specified Redis databases provided as one or more URI(s). Example: 'redis://user:password@host:port'. If the URI provided is a Redis Cloud database, only host and port should be provided. Example: ['redis://endpoint1:6379', 'redis://endpoint2:6380'].",
@@ -15713,7 +16617,7 @@
           "periodicBackupPath": {
             "type": "string",
             "description": "Optional. The path to a backup storage location. If specified, the database will back up every 24 hours to this location, and you can manually back up the database to this location at any time.",
-            "example": "s3://<backup-path>",
+            "example": "s3://\u003Cbackup-path\u003E",
             "deprecated": true
           },
           "remoteBackup": {
@@ -15922,6 +16826,7 @@
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_INVALID_REGION",
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_DUPLICATE_REGIONS",
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_INVALID_FORMAT",
+              "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_CREATE_FAILED",
               "ACTIVE_ACTIVE_CREATE_A_REGION_CUSTOMER_MANAGED_KEY_RESOURCE_NAME_SUBSCRIPTION_IS_NOT_CUSTOMER_MANAGED",
               "ACTIVE_ACTIVE_CREATE_A_REGION_CUSTOMER_MANAGED_KEY_RESOURCE_NAME_IS_NOT_SET",
               "PLANNED_SUBSCRIPTION_INVALID_PLAN_ID",
@@ -16544,7 +17449,7 @@
           "adhocBackupPath": {
             "type": "string",
             "description": "Optional. Manually backs up data to this location, instead of the set 'remoteBackup' location.",
-            "example": "s3://<backup-path>"
+            "example": "s3://\u003Cbackup-path\u003E"
           },
           "commandType": {
             "type": "string",
@@ -16777,6 +17682,26 @@
         },
         "description": "Maintenance window timeframes if mode is set to 'manual'. Up to 7 maintenance windows can be provided."
       },
+      "DedicatedInstancesTypePrices": {
+        "type": "object",
+        "properties": {
+          "pricing": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DedicatedInstanceTypePricing"
+            }
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      },
       "ActiveActiveVpcPeeringCreateGcpRequest": {
         "required": [
           "sourceRegion",
@@ -16800,12 +17725,12 @@
           "vpcProjectUid": {
             "type": "string",
             "description": "VPC project ID.",
-            "example": "<vpc-identifer>"
+            "example": "\u003Cvpc-identifer\u003E"
           },
           "vpcNetworkName": {
             "type": "string",
             "description": "VPC network name.",
-            "example": "<name>"
+            "example": "\u003Cname\u003E"
           },
           "commandType": {
             "type": "string",
@@ -16864,7 +17789,7 @@
           },
           "persistentStorageEncryptionType": {
             "type": "string",
-            "description": "Optional. Persistent storage encryption secures data at rest for database persistence. By default, disk storage is encrypted by keys managed by the cloud provider. Use 'customer-managed-key' if you want to use self-managed persistent storage encryption keys. Default: 'cloud-provider-managed-key'",
+            "description": "Optional. Persistent storage encryption secures data-at-rest for database persistence. You can use 'cloud-provider-managed-key' or 'customer-managed-key'.  Default: 'cloud-provider-managed-key'",
             "example": "cloud-provider-managed-key",
             "enum": [
               "cloud-provider-managed-key",
@@ -16958,7 +17883,7 @@
           "signInLoginUrl": {
             "type": "string",
             "description": "Optional. Cloud provider management console login URL.",
-            "example": "https://<aws-account-identifier>.signin.aws.amazon.com/console"
+            "example": "https://\u003Caws-account-identifier\u003E.signin.aws.amazon.com/console"
           },
           "commandType": {
             "type": "string",
@@ -17288,11 +18213,11 @@
             "regexRules": [
               {
                 "ordinal": 0,
-                "pattern": ".*\\{(?<tag>.*)\\}.*"
+                "pattern": ".*\\{(?\u003Ctag\u003E.*)\\}.*"
               },
               {
                 "ordinal": 1,
-                "pattern": "(?<tag>.*)"
+                "pattern": "(?\u003Ctag\u003E.*)"
               }
             ],
             "hashingPolicy": "standard"
@@ -17432,12 +18357,12 @@
         "properties": {
           "resourceName": {
             "type": "string",
-            "description": "The resource name of the customer managed key.",
+            "description": "Required. Resource name of the customer managed key as defined by the cloud provider.",
             "example": "projects/PROJECT_ID/locations/LOCATION/keyRings/KEY_RING/cryptoKeys/KEY_NAME"
           },
           "region": {
             "type": "string",
-            "description": "(Required for Active-Active subscriptions only) Region for the customer managed key as defined by the cloud provider."
+            "description": "Name of region to for the customer managed key as defined by the cloud provider. Required for active-active subscriptions."
           }
         },
         "description": "Object representing a customer managed key (CMK), along with the region it is associated to."
@@ -17479,14 +18404,6 @@
             "description": "Optional. Enter a security group identifier that exists in the hosted AWS account. Security group Identifier must be in a valid format (for example: 'sg-0125be68a4625884ad') and must exist within the hosting account.",
             "example": "sg-0125be68a4625884ad"
           },
-          "preferredAvailabilityZones": {
-            "type": "array",
-            "description": "Optional. List the zone IDs for your preferred availability zones for the cloud provider and region.",
-            "items": {
-              "type": "string",
-              "description": "Optional. List the zone IDs for your preferred availability zones for the cloud provider and region."
-            }
-          },
           "dryRun": {
             "type": "boolean",
             "description": "Optional. When 'false': Creates a deployment plan and deploys it, creating any resources required by the plan. When 'true': creates a read-only deployment plan, and does not create any resources. Default: 'false'",
@@ -17511,7 +18428,7 @@
           },
           "customerManagedKeyResourceName": {
             "type": "string",
-            "description": "Required for subscriptions where 'persistentStorageEncryptionType' is 'customer-managed-key'. The resource name of the customer-managed encryption key for the region.",
+            "description": "Optional. Resource name of the customer managed key as defined by the cloud provider for customer managed subscriptions.",
             "example": "projects/PROJECT_ID/locations/LOCATION/keyRings/KEY_RING/cryptoKeys/KEY_NAME"
           },
           "commandType": {
@@ -17565,6 +18482,33 @@
           }
         },
         "description": "Database import request"
+      },
+      "DedicatedInstanceAddOnPricing": {
+        "type": "object",
+        "properties": {
+          "provider": {
+            "type": "string",
+            "enum": [
+              "AWS",
+              "GCP"
+            ]
+          },
+          "region": {
+            "type": "string"
+          },
+          "price": {
+            "type": "string"
+          },
+          "priceCurrency": {
+            "type": "string"
+          },
+          "pricePeriod": {
+            "type": "string"
+          },
+          "addOnUnit": {
+            "type": "string"
+          }
+        }
       },
       "PrivateLinkPrincipalsDeleteRequest": {
         "required": [
@@ -17620,6 +18564,26 @@
           }
         },
         "description": "Optional. Contains information about the keys used for each region. Can be used only with external cloud account"
+      },
+      "DedicatedInstanceTypes": {
+        "type": "object",
+        "properties": {
+          "instances": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DedicatedInstanceType"
+            }
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
+          }
+        }
       },
       "VpcPeeringCreateBaseRequest": {
         "type": "object",
