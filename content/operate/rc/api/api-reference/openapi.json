@@ -11200,10 +11200,6 @@
             "type": "boolean",
             "description": "Optional. Databases replication. Default: 'true'"
           },
-          "autoMinorVersionUpgrade": {
-            "type": "boolean",
-            "description": "Optional. When 'true', enables auto minor version upgrades for this database. Default: 'true'"
-          },
           "throughputMeasurement": {
             "$ref": "#/components/schemas/DatabaseThroughputSpec"
           },
@@ -11668,10 +11664,6 @@
           "replication": {
             "type": "boolean",
             "description": "Optional. Turns database replication on or off."
-          },
-          "autoMinorVersionUpgrade": {
-            "type": "boolean",
-            "description": "Optional. When 'true', enables auto minor version upgrades for this database."
           },
           "regexRules": {
             "type": "array",
@@ -15484,10 +15476,6 @@
               "noeviction"
             ]
           },
-          "autoMinorVersionUpgrade": {
-            "type": "boolean",
-            "description": "Optional. When 'true', enables auto minor version upgrades for this database."
-          },
           "commandType": {
             "type": "string",
             "readOnly": true
@@ -15694,10 +15682,6 @@
           "replication": {
             "type": "boolean",
             "description": "Optional. Sets database replication. Default: 'true'"
-          },
-          "autoMinorVersionUpgrade": {
-            "type": "boolean",
-            "description": "Optional. When 'true', enables auto minor version upgrades for this database. Default: 'true'"
           },
           "replicaOf": {
             "type": "array",
@@ -17494,6 +17478,14 @@
             "type": "string",
             "description": "Optional. Enter a security group identifier that exists in the hosted AWS account. Security group Identifier must be in a valid format (for example: 'sg-0125be68a4625884ad') and must exist within the hosting account.",
             "example": "sg-0125be68a4625884ad"
+          },
+          "preferredAvailabilityZones": {
+            "type": "array",
+            "description": "Optional. List the zone IDs for your preferred availability zones for the cloud provider and region.",
+            "items": {
+              "type": "string",
+              "description": "Optional. List the zone IDs for your preferred availability zones for the cloud provider and region."
+            }
           },
           "dryRun": {
             "type": "boolean",

@@ -88,6 +88,12 @@ section.prose {
   @apply bg-slate-900 rounded-lg;
 }
 
+.prose pre.mermaid {
+  background-color: white !important;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
 .prose pre > code {
   @apply bg-none font-monogeist;
 }

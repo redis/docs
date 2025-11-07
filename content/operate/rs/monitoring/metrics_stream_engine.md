@@ -26,6 +26,8 @@ The new metrics stream engine:
 
 To integrate Redis Enterprise metrics into your monitoring environment, see the integration guides for [Prometheus and Grafana]({{< relref "/operate/rs/monitoring/prometheus_and_grafana" >}}).
 
+For a detailed tutorial to deploy a complete monitoring stack with Prometheus and Grafana, see [Redis Software Observability with Prometheus and Grafana](https://redis.io/learn/operate/observability/redis-software-prometheus-and-grafana).
+
 Filter [Libraries and tools]({{<relref "/integrate">}}) by "observability" for additional tools and guides.
 
 ## Prometheus metrics v2

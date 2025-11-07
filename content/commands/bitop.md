@@ -188,7 +188,7 @@ For real-time metrics and statistics involving large inputs a good approach is
 to use a replica (with replica-read-only option enabled) where the bit-wise
 operations are performed to avoid blocking the master instance.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

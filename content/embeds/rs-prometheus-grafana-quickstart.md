@@ -19,6 +19,8 @@ You can use Prometheus and Grafana to:
 In each cluster, the metrics_exporter process exposes Prometheus metrics on port 8070.
 Redis Enterprise version 7.8.2 introduces a preview of the new metrics stream engine that exposes the v2 Prometheus scraping endpoint at `https://<IP>:8070/v2`.
 
+To get started with Prometheus and Grafana, see the following [quick start](#quick-start) or see [Redis Software Observability with Prometheus and Grafana](https://redis.io/learn/operate/observability/redis-software-prometheus-and-grafana) for a more detailed tutorial.
+
 ## Quick start
 
 To get started with Prometheus and Grafana:
