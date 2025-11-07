@@ -311,10 +311,11 @@ title: FT.HYBRID
 
 Performs hybrid search combining text search and vector similarity with configurable fusion methods.
 
-FT.HYBRID simplifies the onboarding of new developers who want to explore hybrid search for semantic retrieval, RAG (Retrieval-Augmented Generation), and agent applications. This command re-uses some of the query terms syntax from FT.SEARCH and FT.AGGREGATE while simplifying and splitting the vector similarity functionality.
+`FT.HYBRID` provides a unified interface for combining traditional full-text and vector-based search within a single query. It supports hybrid retrieval use cases such as semantic search, Retrieval-Augmented Generation (RAG), and intelligent agent applications. The command builds on the familiar query syntax of `FT.SEARCH` and `FT.AGGREGATE`, simplifying hybrid query construction while enabling flexible post-processing through aggregation capabilities.
 
 {{< note >}}
 This command will only return keys to which the user has read access.
+This command retrieves documents IDs (`keyid`) and scores. To retrieve entire documents, use projections with `LOAD *` or `LOAD <count> field...`.
 {{< /note >}}
 
 [Examples](#examples)
@@ -336,7 +337,7 @@ defines the text search component of the hybrid query. The search expression use
 <details open>
 <summary><code>VSIM @vector_field "vector-data"</code></summary>
 
-defines the vector similarity component of the hybrid query. The `@vector_field` specifies which vector field in the index to search against, and `vector-data` contains the query vector for similarity comparison.
+defines the vector similarity component of the hybrid query. The `@vector_field` specifies which vector field in the index to search against (for example, `$vector`), and `vector-data` contains the query vector for similarity comparison (for example, `PARAMS 2 $vector <vector-blob>`).
 </details>
 
 ## Optional arguments
@@ -370,13 +371,13 @@ configures range-based vector search within a specified radius. The `count` para
 <details open>
 <summary><code>FILTER "filter-expression"</code></summary>
 
-applies pre-filtering to vector search results. This filter affects which documents are considered for vector similarity but doesn't impact scoring, unlike the `SEARCH` component which affects both filtering and scoring.
+applies pre-filtering to vector search results or post-filtering when used after the `COMBINE` step as post-processing. This filter affects which documents are considered for vector similarity but doesn't impact scoring. In contrast, the `SEARCH` component affects both filtering and scoring. The `FILTER` syntax uses a search expression with the same syntax as [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}), supporting all text search capabilities including field-specific searches, boolean operations, and phrase matching
 </details>
 
 <details open>
-<summary><code>POLICY [ADHOC|BATCHES|ACORN] [BATCH_SIZE batch-size-value]</code></summary>
+<summary><code>POLICY [ADHOC_BF|BATCHES] [BATCH_SIZE batch-size-value]</code></summary>
 
-controls the pre-filtering policy for vector queries. `ADHOC` processes filters on-demand, `BATCHES` processes in configurable batch sizes, and `ACORN` provides future support for advanced pre-filtering.
+controls the pre-filtering policy for vector queries. `ADHOC_BF` processes filters on-demand and `BATCHES` processes in configurable batch sizes. See the [pre-filtering policy]({{< relref "/develop/ai/search-and-query/vectors#filters" >}}) for more information.
 </details>
 
 <details open>
@@ -475,12 +476,12 @@ FT.HYBRID provides sensible defaults to ease onboarding:
 - **Default KNN K**: 10 neighbors
 - **Default RRF WINDOW**: 20 (or follows LIMIT if specified)
 - **Default RRF CONSTANT**: 60 (following Elasticsearch convention)
-
+- **Default EF_RUNTIME**: 10 (as vector KNN [default](https://redis.io/docs/latest/develop/ai/search-and-query/vectors/#hnsw-index))
+- **Default EPSILON**: 0.01 (as the vector RANGE [default]({{< relref "/develop/ai/search-and-query/vectors#hnsw-index" >>}))
 ## Parameter count convention
 
 All multi-parameter options use a count prefix that contains ALL tokens that follow:
 
-- `SCORER 4 BM25 1.2 0.75` - algorithm + 2 parameter values
 - `KNN 4 K 10 EF_RUNTIME 100` - 2 key-value pairs
 - `PARAMS 4 min_price 50 max_price 200` - 2 key-value pairs
 - `COMBINE RRF 4 WINDOW 40 CONSTANT 1.5` - RRF method with 2 key-value pairs
@@ -570,7 +571,7 @@ Use parameter substitution for dynamic queries:
 ## Complexity
 
 FT.HYBRID complexity depends on both the text search and vector similarity components:
-- Text search: O(n) where n is the number of matching documents
+- Text search: O(n) for simple term searches, where n is the number of matching documents. In multi-term queries with INTERSECT or UNION, or when using fuzzy or prefix matches, the complexity increases proportionally to the total number of entries scanned across all participating terms.
 - Vector search: O(log n) for KNN with HNSW index, O(n) for range queries
 - Fusion: O(k) where k is the number of results to combine
 - Overall complexity is typically dominated by the more expensive component
@@ -597,9 +598,8 @@ One of the following:
 * [Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) with the following fields:
     - `total_results`: [Integer]({{< relref "/develop/reference/protocol-spec#integers" >}}) - total number of results
     - `results`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [maps]({{< relref "/develop/reference/protocol-spec#maps" >}}) containing document information
-    - `attributes`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of attribute names
-    - `format`: [Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - result format
-    - `warning`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of warning messages
+    - `warning`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of warning messages indicating partial results due to index errors or `MAXPREFIXEXPANSIONS` and `TIMEOUT` reached
+     - `results`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [maps]({{< relref "/develop/reference/protocol-spec#maps" >}}) containing document information
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, syntax error in query.
 
 {{< /multitabs >}}
