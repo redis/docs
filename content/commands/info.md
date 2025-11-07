@@ -618,7 +618,7 @@ It won't be included when `INFO` or `INFO ALL` are called, and it is returned on
 
 **Modules generated sections**: Starting with Redis 6, modules can inject their information into the `INFO` command. These are excluded by default even when the `all` argument is provided (it will include a list of loaded modules but not their generated info fields). To get these you must use either the `modules` argument or `everything`.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

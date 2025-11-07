@@ -36,7 +36,7 @@ Flushes all the previously watched keys for a [transaction][tt].
 
 If you call [`EXEC`]({{< relref "/commands/exec" >}}) or [`DISCARD`]({{< relref "/commands/discard" >}}), there's no need to manually call `UNWATCH`.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

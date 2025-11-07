@@ -135,7 +135,7 @@ Notes:
 * Step 6, sending `SETSLOT` to the nodes not involved in the resharding, is not technically necessary since the configuration will eventually propagate itself.
   However, it is a good idea to do so in order to stop nodes from pointing to the wrong node for the hash slot moved as soon as possible, resulting in less redirections to find the right node.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

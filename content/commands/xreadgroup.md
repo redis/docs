@@ -225,7 +225,7 @@ Reading the [Redis Streams introduction]({{< relref "/develop/data-types/streams
 suggested in order to understand more about the streams overall behavior
 and semantics.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

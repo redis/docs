@@ -43,7 +43,7 @@ When using Redis Cluster, the `SELECT` command cannot be used, since Redis Clust
 
 Since the currently selected database is a property of the connection, clients should track the currently selected database and re-select it on reconnection. While there is no command in order to query the selected database in the current connection, the [`CLIENT LIST`]({{< relref "/commands/client-list" >}}) output shows, for each client, the currently selected database.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

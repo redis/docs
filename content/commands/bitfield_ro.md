@@ -75,7 +75,7 @@ See original [`BITFIELD`]({{< relref "/commands/bitfield" >}}) for more details.
 BITFIELD_RO hello GET i8 16
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

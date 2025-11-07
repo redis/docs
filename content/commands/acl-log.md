@@ -98,7 +98,7 @@ Each log entry is composed of the following fields:
 9. `timestamp-created`: A UNIX timestamp in `milliseconds` at the time the entry was first created.
 10. `timestamp-last-updated`: A UNIX timestamp in `milliseconds` at the time the entry was last updated.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

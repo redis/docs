@@ -40,7 +40,7 @@ For more information about replication in Redis please check the
 
 [tr]: /operate/oss_and_stack/management/replication
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

@@ -39,7 +39,7 @@ not modified, allowing for a [check-and-set mechanism][ttc].
 
 [ttc]: /develop/interact/transactions#cas
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

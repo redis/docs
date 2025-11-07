@@ -211,7 +211,7 @@ Suppose a sensor ticks whenever a car is passed on a road, and you want to count
 The timestamp is filled automatically.
 </details>
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
