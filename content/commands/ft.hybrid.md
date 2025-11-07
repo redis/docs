@@ -314,8 +314,8 @@ Performs hybrid search combining text search and vector similarity with configur
 `FT.HYBRID` provides a unified interface for combining traditional full-text and vector-based search within a single query. It supports hybrid retrieval use cases such as semantic search, Retrieval-Augmented Generation (RAG), and intelligent agent applications. The command builds on the familiar query syntax of `FT.SEARCH` and `FT.AGGREGATE`, simplifying hybrid query construction while enabling flexible post-processing through aggregation capabilities.
 
 {{< note >}}
-This command will only return keys to which the user has read access.
-This command retrieves documents IDs (`keyid`) and scores. To retrieve entire documents, use projections with `LOAD *` or `LOAD <count> field...`.
+This command will only return document IDs (`keyid`) and scores to which the user has read access.
+To retrieve entire documents, use projections with `LOAD *` or `LOAD <count> field...`.
 {{< /note >}}
 
 [Examples](#examples)
@@ -337,7 +337,7 @@ defines the text search component of the hybrid query. The search expression use
 <details open>
 <summary><code>VSIM @vector_field "vector-data"</code></summary>
 
-defines the vector similarity component of the hybrid query. The `@vector_field` specifies which vector field in the index to search against (for example, `$vector`), and `vector-data` contains the query vector for similarity comparison (for example, `PARAMS 2 $vector <vector-blob>`).
+defines the vector similarity component of the hybrid query. The `@vector_field` specifies which vector field in the index to search against (for example, `$vector`), and `"vector-data"` contains the query vector for similarity comparison (for example, `PARAMS 2 $vector <vector-blob>`).
 </details>
 
 ## Optional arguments
@@ -477,7 +477,7 @@ FT.HYBRID provides sensible defaults to ease onboarding:
 - **Default RRF WINDOW**: 20 (or follows LIMIT if specified)
 - **Default RRF CONSTANT**: 60 (following Elasticsearch convention)
 - **Default EF_RUNTIME**: 10 (as vector KNN [default](https://redis.io/docs/latest/develop/ai/search-and-query/vectors/#hnsw-index))
-- **Default EPSILON**: 0.01 (as the vector RANGE [default]({{< relref "/develop/ai/search-and-query/vectors#hnsw-index" >>}))
+- **Default EPSILON**: 0.01 (as the vector RANGE [default]({{< relref "/develop/ai/search-and-query/vectors#hnsw-index" >}}))
 ## Parameter count convention
 
 All multi-parameter options use a count prefix that contains ALL tokens that follow:
