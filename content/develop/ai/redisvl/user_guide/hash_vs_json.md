@@ -494,9 +494,8 @@ results
 
 
 
-# Cleanup
-
 
 ```python
+# Cleanup
 bike_index.delete()
 ```

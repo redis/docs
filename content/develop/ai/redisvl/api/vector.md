@@ -27,6 +27,13 @@ self is explicitly positional-only to allow self as a field name.
   * **dtype** (*str*)
   * **weight** (*float*)
 
+#### `validate_vector()`
+
+If the vector passed in is an array of float convert it to a byte string.
+
+* **Return type:**
+  *Self*
+
 #### `model_config: ClassVar[ConfigDict] = {}`
 
 Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
