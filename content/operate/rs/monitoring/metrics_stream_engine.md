@@ -91,9 +91,9 @@ For database performance, availability, and efficiency, monitor the following me
 | Group | Metric | Why monitor | Unit |
 |-------|--------|-------------|------|
 | Memory | <span class="break-all">`redis_server_used_memory`</span> | Track actual data memory to prevent out-of-memory errors and evictions. | Bytes |
-| Memory | `allocator_allocate` | Monitor bytes allocated by allocator (includes internal fragmentation). | Bytes |
-| Memory | `allocator_active` | Monitor bytes in active pages (includes external fragmentation). Use delta/ratio versus allocated to infer defraggable memory. | Bytes |
-| Memory | <span class="break-all">`active_defrag_running`</span> | Monitor if defragmentation is active and the intended CPU %. High values can affect performance. | % (gauge) |
+| Memory | <span class="break-all">`redis_server_allocator_allocated`</span> | Monitor bytes allocated by allocator (includes internal fragmentation). | Bytes |
+| Memory | <span class="break-all">`redis_server_allocator_active`</span> | Monitor bytes in active pages (includes external fragmentation). Use delta/ratio versus allocated to infer defraggable memory. | Bytes |
+| Memory | <span class="break-all">`redis_server_active_defrag_running`</span> | Monitor if defragmentation is active and the intended CPU %. High values can affect performance. | % (gauge) |
 | Latency | <span class="break-all">`endpoint_read_requests_latency_histogram`</span>,<br /><span class="break-all">`endpoint_write_requests_latency_histogram`</span>,<br /><span class="break-all">`endpoint_other_requests_latency_histogram`</span> | Monitor server-side command latency. | Microseconds |
 | High availability | <span class="break-all">`redis_server_master_repl_offset`</span> | Compute replica throughput and lag using deltas over time. | Bytes (counter) |
 | High availability | <span class="break-all">`redis_server_master_link_status`</span> | Monitor replica link status (up or down) for early warning of high availability risk. | Status |
@@ -107,8 +107,8 @@ For database performance, availability, and efficiency, monitor the following me
 | Connections | <span class="break-all">`endpoint_client_connection_expired`</span> | Monitor connections closed due to TTL expiry, which can indicate idle policy or client issues. | Counter |
 | Connections | <span class="break-all">`endpoint_longest_pipeline_histogram`</span> | Monitor long pipelines that can amplify latency bursts and detect misbehaving clients. | Histogram (count) |
 | Connections | <span class="break-all">`endpoint_client_connections`</span>,<br /><span class="break-all">`endpoint_client_disconnections`</span>,<br /><span class="break-all">`endpoint_proxy_disconnections`</span> | Monitor connection churn and identify who closed the socket (client versus proxy). Current connections ≈ connections − disconnections. | Counter |
-| Cache efficiency | <span class="break-all">`total_keys`</span>,<br /><span class="break-all">`total_volatile_keys`</span> | Monitor key inventory and TTL coverage to inform eviction strategy. | Counter |
-| Cache efficiency | <span class="break-all">`total_evicted_keys`</span>,<br /><span class="break-all">`total_expired_keys`</span> | Monitor eviction and expiry rates. Frequent evictions indicate memory pressure or poor sizing. | Counter |
+| Cache efficiency | <span class="break-all">`redis_server_db_keys`</span>,<br /><span class="break-all">`redis_server_db_avg_ttl`</span> | Monitor key inventory and TTL coverage to inform eviction strategy. | Counter |
+| Cache efficiency | <span class="break-all">`redis_server_evicted_keys	`</span>,<br /><span class="break-all">`redis_server_expired_keys`</span> | Monitor eviction and expiry rates. Frequent evictions indicate memory pressure or poor sizing. | Counter |
 | Cache efficiency | `cache_hits`,<br /><span class="break-all">`cache_hit_rate`</span> | Monitor hit rate, which drives read latency and cost. Cache hit rate equals <span class="break-all">cache_hits/(cache_hits+cache_misses)</span>. | Count / Ratio (%) |
 | Cache efficiency | <span class="break-all">`endpoint_client_tracking_on_requests`</span>,<br /><span class="break-all">`endpoint_client_tracking_off_requests`</span>,<br /><span class="break-all">`endpoint_disposed_commands_after_client_caching`</span> | Track client-side caching usage and misuse. | Counter |
 | Big / complex keys | <span class="break-all">`redis_server_<data_type>_<size_or_items>_<bucket>`</span> | Monitor oversized keys and cardinality that cause fragmentation, slow replication, and CPU spikes. Track to prevent incidents. Examples:<br /><span class="break-all">`strings_sizes_over_512M`</span>,<br /><span class="break-all">`zsets_items_over_8M`</span> | Gauge |
