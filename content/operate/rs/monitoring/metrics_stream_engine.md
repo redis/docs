@@ -91,8 +91,8 @@ For database performance, availability, and efficiency, monitor the following me
 | Group | Metric | Why monitor | Unit |
 |-------|--------|-------------|------|
 | Memory | <span class="break-all">`redis_server_used_memory`</span> | Track actual data memory to prevent out-of-memory errors and evictions. | Bytes |
-| Memory | `redis_server_allocator_allocated` | Monitor bytes allocated by allocator (includes internal fragmentation). | Bytes |
-| Memory | `redis_server_allocator_active` | Monitor bytes in active pages (includes external fragmentation). Use delta/ratio versus allocated to infer defraggable memory. | Bytes |
+| Memory | <span class="break-all">`redis_server_allocator_allocated`</span> | Monitor bytes allocated by allocator (includes internal fragmentation). | Bytes |
+| Memory | <span class="break-all">`redis_server_allocator_active`</span> | Monitor bytes in active pages (includes external fragmentation). Use delta/ratio versus allocated to infer defraggable memory. | Bytes |
 | Memory | <span class="break-all">`redis_server_active_defrag_running`</span> | Monitor if defragmentation is active and the intended CPU %. High values can affect performance. | % (gauge) |
 | Latency | <span class="break-all">`endpoint_read_requests_latency_histogram`</span>,<br /><span class="break-all">`endpoint_write_requests_latency_histogram`</span>,<br /><span class="break-all">`endpoint_other_requests_latency_histogram`</span> | Monitor server-side command latency. | Microseconds |
 | High availability | <span class="break-all">`redis_server_master_repl_offset`</span> | Compute replica throughput and lag using deltas over time. | Bytes (counter) |
