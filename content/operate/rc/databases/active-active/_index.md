@@ -41,7 +41,7 @@ Applications can connect to a specific copy of an Active-Active database using i
 
 ### Conflict resolution
 
-Active-Active databases use special data types called conflict-free data types (CRDT). These automatically resolve conflicts that occur when writes are made to different clusters at the same time.
+Active-Active databases use special data types called conflict-free replicated data types (CRDT). These automatically resolve conflicts that occur when writes are made to different clusters at the same time.
 
 ### Failover handling
 
