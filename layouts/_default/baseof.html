@@ -99,5 +99,10 @@
     {{ if .Page.Store.Get "hasChecklist" }}
     <script src="{{ "js/checklist.js" | relURL }}"></script>
     {{ end }}
+
+    <!-- Hierarchy functionality -->
+    {{ if .Page.Store.Get "hasHierarchy" }}
+    <script src="{{ "js/hierarchy.js" | relURL }}"></script>
+    {{ end }}
   </body>
 </html>
