@@ -1,6 +1,6 @@
 ---
 aliases:
-/develop/interact/search-and-query/advanced-concepts/stopwords
+- /interact/search-and-query/advanced-concepts/stopwords
 
 categories:
 - docs
