@@ -1,6 +1,7 @@
 {{- $id := .Attributes.id | default "checklist" -}}
 {{- $title := .Attributes.title | default "" -}}
 {{- $description := .Attributes.description | default "" -}}
+{{- $noInteractive := or (eq .Attributes.noInteractive "true") (eq .Attributes.nointeractive "true") -}}
 
 {{- /* Parse checklist items from markdown */ -}}
 {{- $items := slice -}}
@@ -39,13 +40,14 @@
 {{- end -}}
 {{- $metadata = merge $metadata (dict "$schema" "https://redis.io/schemas/checklist.json") -}}
 
-<pre class="checklist-source" data-checklist-id="{{ $id }}">{{ .Inner | htmlEscape | safeHTML }}</pre>
-
 {{ $jsonMetadata := $metadata | jsonify (dict "indent" "  ") }}
 
 {{ printf "<script type=\"application/json\" data-redis-metadata=\"checklist\">\n%s\n</script>" $jsonMetadata | safeHTML }}
 
 {{ printf "<template data-redis-metadata=\"checklist\">\n%s\n</template>" $jsonMetadata | safeHTML }}
 
-{{ .Page.Store.Set "hasChecklist" true }}
+{{- if not $noInteractive -}}
+  <pre class="checklist-source" data-checklist-id="{{ $id }}">{{ .Inner | htmlEscape | safeHTML }}</pre>
+  {{ .Page.Store.Set "hasChecklist" true }}
+{{- end -}}
 
