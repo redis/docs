@@ -43,6 +43,8 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 ### Resolved issues
 
+- RS176280: Fixed an issue where `cluster_wd` reverted to the default configuration after restarting.
+
 - RS170732: Fixed an issue where database creation could become stuck due to connection issues.
 
 - RS173541: Fixed an issue where Lua scripts were not migrated during database import and sync operations, causing script execution errors on the destination cluster.
