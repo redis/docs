@@ -33,22 +33,37 @@ your database then this might restrict the plug-ins you can use. If you can't us
 plug-in then could try the `pgoutput` decoder if you are using PostgreSQL 10 or above.
 If this doesn't work for you then you won't be able to use RDI with your database.
 
-### Amazon RDS for PostgreSQL
+```checklist {id="postgreslist" nointeractive="true" }
+- [ ] [Install the logical decoding output plug-in](#install-the-logical-decoding-output-plug-in)
+- [ ] [Configure the PostgreSQL server](#configure-the-postgresql-server)
+- [ ] [Set up permissions](#set-up-permissions)
+- [ ] [Set privileges for Debezium to create PostgreSQL publications with pgoutput](#set-privileges-for-debezium-to-create-postgresql-publications-with-pgoutput)
+- [ ] [Configure PostgreSQL for replication with the Debezium connector host](#configure-postgresql-for-replication-with-the-debezium-connector-host)
+```
+
+## Amazon RDS for PostgreSQL
 
 Follow the steps below to enable CDC with [Amazon RDS for PostgreSQL](https://aws.amazon.com/rds/postgresql/):
 
-1.  Set the instance parameter `rds.logical_replication` to 1.
+```checklist {id="postgresawslist" nointeractive="true" }
+- [ ] [Set the instance parameter rds.logical_replication to 1](#1-set-the-instance-parameter-rdslogicalreplication-to-1)
+- [ ] [Check that the wal_level parameter is set to logical](#2-check-that-the-wal_level-parameter-is-set-to-logical)
+- [ ] [Set the Debezium plugin.name parameter to pgoutput](#3-set-the-debezium-pluginname-parameter-to-pgoutput)
+- [ ] [Initiate logical replication from an AWS account that has the rds_replication role](#4-initiate-logical-replication-from-an-aws-account-that-has-the-rdsreplication-role)
+```
 
-1.  Check that the `wal_level` parameter is set to `logical` by running the query `SHOW wal_level`
+1.  <a id="1-set-the-instance-parameter-rdslogicalreplication-to-1"></a>Set the instance parameter `rds.logical_replication` to 1.
+
+1.  <a id="2-check-that-the-wal_level-parameter-is-set-to-logical"></a>Check that the `wal_level` parameter is set to `logical` by running the query `SHOW wal_level`
     as the database RDS master user. The parameter might not have this value in multi-zone replication
     setups. You can't change the value manually but it should change automatically when you set the
     `rds.logical_replication` parameter to 1. If it doesn't change then you probably just need to
     restart your database instance. You can restart manually or wait until a restart occurs
     during your maintenance window.
 
-1.  Set the Debezium `plugin.name` parameter to `pgoutput`.
+1.  <a id="3-set-the-debezium-pluginname-parameter-to-pgoutput"></a>Set the Debezium `plugin.name` parameter to `pgoutput`.
 
-1.  Initiate logical replication from an AWS account that has the `rds_replication` role. The role grants
+1.  <a id="4-initiate-logical-replication-from-an-aws-account-that-has-the-rdsreplication-role"></a>Initiate logical replication from an AWS account that has the `rds_replication` role. The role grants
     permissions to manage logical slots and to stream data using logical slots. By default, only the master user account on AWS has the `rds_replication` role on Amazon RDS, but if you have administrator privileges,
     you can grant the role to other accounts using a query like the following:
 
