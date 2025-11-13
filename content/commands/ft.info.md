@@ -37,7 +37,7 @@ Returns information and statistics about a given index.
 
 `index`
 <br />
-is the name of the given index. You must first create the index using [`FT.CREATE`]({{< relref "commands/ft.create/" >}}).
+is the name of the given index. You must first create the index using [`FT.CREATE`]({{< relref "commands/ft.create/" >}}). You can also use an alias of `index` created using [`FT.ALIASADD`]({{< relref "commands/ft.aliasadd/" >}}) or [`FT.ALIASUPDATE`]({{< relref "commands/ft.aliasupdate/" >}}).
 
 ## Returned values
 
@@ -379,7 +379,7 @@ One of the following:
 
 ## See also
 
-[`FT.CREATE`]({{< relref "commands/ft.create/" >}}) | [`FT.SEARCH`]({{< relref "commands/ft.search/" >}})
+[`FT.CREATE`]({{< relref "commands/ft.create/" >}}) | [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) | [`FT.ALIASADD`]({{< relref "commands/ft.aliasadd/" >}}) | [`FT.ALIASUPDATE`]({{< relref "commands/ft.aliasupdate/" >}})
 
 ## Related topics
 
