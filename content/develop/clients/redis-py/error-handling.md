@@ -17,18 +17,23 @@ app reliability.
 
 ## Exception hierarchy
 
-redis-py organizes exceptions in a hierarchy. The base exception is `redis.RedisError`, with specific subclasses for different error types:
+redis-py organizes exceptions in a hierarchy. The base exception is `redis.RedisError`, with specific subclasses for different error types, as shown below:
 
-```
-RedisError (base)
-├── ConnectionError
-│   ├── TimeoutError
-│   └── BusyLoadingError
-├── ResponseError
-├── InvalidResponse
-├── DataError
-├── PubSubError
-└── ... (others)
+```hierarchy {type="exception"}
+"RedisError":
+    _meta:
+        description: "Base class for all redis-py exceptions"
+    "ConnectionError":
+        "TimeoutError":
+        "BusyLoadingError":
+    "ResponseError":
+    "InvalidResponse":
+    "DataError":
+    "PubSubError":
+    "...":
+        _meta:
+            ellipsis: true
+            description: "Other exception types"
 ```
 
 ### Key exceptions

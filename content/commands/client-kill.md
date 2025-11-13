@@ -174,7 +174,7 @@ in the middle of the execution of a command. However, the client
 will notice the connection has been closed only when the
 next command is sent (and results in network error).
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

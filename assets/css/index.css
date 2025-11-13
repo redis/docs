@@ -1074,7 +1074,7 @@ a[href*="#no-click"], img[src*="#no-click"] {
   background-color: #ddd;
 }
 
-/* Redis AI Agent Builder Styles */
+/* AI Agent Builder Styles */
 
 .agent-builder-container {
   @apply max-w-4xl mx-auto p-6 bg-white rounded-lg border border-redis-pen-800 shadow-lg;

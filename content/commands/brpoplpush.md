@@ -97,7 +97,7 @@ Please see the pattern description in the [`RPOPLPUSH`]({{< relref "/commands/rp
 
 Please see the pattern description in the [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}) documentation.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

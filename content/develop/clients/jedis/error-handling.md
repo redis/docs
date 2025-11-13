@@ -16,20 +16,22 @@ app reliability.
 
 Jedis organizes exceptions in a hierarchy rooted at `JedisException`, which extends `RuntimeException`. All Jedis exceptions are unchecked exceptions:
 
-```
-JedisException
-├── JedisDataException
-│   ├── JedisRedirectionException
-│   │   ├── JedisMovedDataException
-│   │   └── JedisAskDataException
-│   ├── AbortedTransactionException
-│   ├── JedisAccessControlException
-│   └── JedisNoScriptException
-├── JedisClusterException
-│   ├── JedisClusterOperationException
-│   ├── JedisConnectionException
-│   └── JedisValidationException
-└── InvalidURIException
+```hierarchy {type="exception"}
+"JedisException":
+    _meta:
+        description: "Base class for all Jedis exceptions"
+    "JedisDataException":
+        "JedisRedirectionException":
+            "JedisMovedDataException":
+            "JedisAskDataException":
+        "AbortedTransactionException":
+        "JedisAccessControlException":
+        "JedisNoScriptException":
+    "JedisClusterException":
+        "JedisClusterOperationException":
+        "JedisConnectionException":
+        "JedisValidationException":
+    "InvalidURIException":
 ```
 
 ### Key exceptions

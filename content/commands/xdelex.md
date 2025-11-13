@@ -122,7 +122,7 @@ XDELEX mystream KEEPREF IDS 2 1526919030474-55 1526919030474-56
 XRANGE mystream - +
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

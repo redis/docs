@@ -170,9 +170,9 @@ You must create an index to query document metadata or to perform vector searche
 FT.CREATE idx:bikes_vss ON JSON
   PREFIX 1 bikes: SCORE 1.0
   SCHEMA
-    $.model TEXT WEIGHT 1.0 NOSTEM
-    $.brand TEXT WEIGHT 1.0 NOSTEM
-    $.price NUMERIC
+    $.model AS model TEXT WEIGHT 1.0 NOSTEM
+    $.brand AS brand TEXT WEIGHT 1.0 NOSTEM
+    $.price AS price NUMERIC
     $.type TAG SEPARATOR ","
     $.description AS description TEXT WEIGHT 1.0
     $.description_embeddings AS vector VECTOR FLAT 6 TYPE FLOAT32 DIM 768 DISTANCE_METRIC COSINE

@@ -12,6 +12,25 @@ min-version-rs: blah
 weight: 20
 ---
 
+## Redis Open Source 8.2.3 (November 2025)
+
+Update urgency: `SECURITY`: There is a security fix in the release.
+
+### Security fixes
+
+- (CVE-2025-62507) `XACKDEL` - potential stack overflow and RCE
+
+### Bug fixes
+
+- `HGETEX` - potential crash when `FIELDS` is used  and `numfields` is missing
+- Potential crash on HyperLogLog with 2GB+ entries
+- Cuckoo filter - Division by zero in Cuckoo filter insertion
+- Cuckoo filter - Counter overflow
+- Bloom filter - Arbitrary memory read/write with invalid filter
+- Bloom filter - Out-of-bounds access with empty chain
+- Bloom filter - Restore invalid filter
+- Top-k - Out-of-bounds access
+
 ## Redis Open Source 8.2.2 (October 2025)
 
 Update urgency: `SECURITY`: There are security fixes in the release.

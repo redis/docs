@@ -570,6 +570,7 @@ _Redis Query Engine fields_
 *   `search_total_active_queries`: The total number of background queries currently being executed in the shard, excluding `FT.CURSOR READ`. <sup>[1](#tnote-1)</sup>
 *   `search_errors_indexing_failures`: The total number of indexing failures recorded across all indexes in the shard. <sup>[1](#tnote-1)</sup>
 *   `search_errors_for_index_with_max_failures`: The number of indexing failures in the index with the highest count of failures. <sup>[1](#tnote-1)</sup>
+*   `search_OOM_indexing_failures_indexes_count`: The number of indexes whose background indexing process failed due to out-of-memory (OOM) conditions. <sup>[2](#tnote-2)</sup>
 
 1. <a name="tnote-1"></a> Available in RediSearch 2.6.
 2. <a name="tnote-2"></a> Available in RediSearch 2.8.
@@ -618,7 +619,7 @@ It won't be included when `INFO` or `INFO ALL` are called, and it is returned on
 
 **Modules generated sections**: Starting with Redis 6, modules can inject their information into the `INFO` command. These are excluded by default even when the `all` argument is provided (it will include a list of loaded modules but not their generated info fields). To get these you must use either the `modules` argument or `everything`.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

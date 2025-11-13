@@ -45,7 +45,7 @@ master node. This may happen because:
 1. The client sent a command about hash slots never served by the master of this replica.
 2. The cluster was reconfigured (for example resharded) and the replica is no longer able to serve commands for a given hash slot.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

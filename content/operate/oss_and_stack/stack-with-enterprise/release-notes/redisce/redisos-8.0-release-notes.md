@@ -11,6 +11,20 @@ min-version-db: blah
 min-version-rs: blah
 weight: 40
 ---
+## Redis Open Source 8.0.5 (November 2025)
+
+Update urgency: `HIGH`: There are critical bugs that may affect a subset of users.
+
+### Bug fixes
+
+- `HGETEX` - potential crash when `FIELDS` is used  and `numfields` is missing
+- Potential crash on HyperLogLog with 2GB+ entries
+- Cuckoo filter - Division by zero in Cuckoo filter insertion
+- Cuckoo filter - Counter overflow
+- Bloom filter - Arbitrary memory read/write with invalid filter
+- Bloom filter - Out-of-bounds access with empty chain
+- Bloom filter - Restore invalid filter
+- Top-k - Out-of-bounds access
 
 ## Redis Open Source 8.0.4 (October 2025)
 
