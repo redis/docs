@@ -19,6 +19,15 @@ weight: 2
 Follow the steps in the sections below to set up a MySQL or MariaDB
 database for CDC with Debezium.
 
+```checklist {id="mysqlmariadblist" nointeractive="true" }
+- [ ] [Create a CDC user](#1-create-a-cdc-user)
+- [ ] [Enable the binlog](#2-enable-the-binlog)
+- [ ] [Enable GTIDs](#3-enable-gtids)
+- [ ] [Configure session timeouts](#4-configure-session-timeouts)
+- [ ] [Enable query log events](#5-enable-query-log-events)
+- [ ] [Check binlog_row_value_options](#6-check-binlog_row_value_options)
+```
+
 ## 1. Create a CDC user
 
 The Debezium connector needs a user account to connect to MySQL/MariaDB. This
