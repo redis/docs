@@ -23,6 +23,13 @@ capture. You need administrator privileges to do this.
 Once you enable CDC, it captures all of the INSERT, UPDATE, and DELETE operations
 on your chosen tables. The Debezium connector can then emit these events to RDI.
 
+```checklist {id="sqlserverlist" nointeractive="true" }
+- [ ] [Create a Debezium user](#1-create-a-debezium-user)
+- [ ] [Enable CDC on the database](#2-enable-cdc-on-the-database)
+- [ ] [Enable CDC for the tables you want to capture](#3-enable-cdc-for-the-tables-you-want-to-capture)
+- [ ] [Check that you have access to the CDC table](#4-check-that-you-have-access-to-the-cdc-table)
+```
+
 ## 1. Create a Debezium user
 
 It is strongly recommended to create a dedicated Debezium user for the connection between RDI
