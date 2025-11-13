@@ -42,7 +42,31 @@ function createChecklistFromMarkdown(markdown, formId, preElement) {
         // Create select dropdown
         const select = document.createElement('select');
         select.onchange = () => clChange(formId);
-        
+
+        // Add styling to make the select element look like an interactive control
+        select.style.border = '1px solid #d0d0d0';
+        select.style.borderRadius = '4px';
+        select.style.padding = '4px 6px';
+        select.style.backgroundColor = '#fafafa';
+        select.style.cursor = 'pointer';
+        select.style.fontFamily = 'inherit';
+        select.style.fontSize = 'inherit';
+        select.style.marginRight = '8px';
+        select.style.transition = 'all 0.2s ease';
+
+        // Add hover effects
+        select.addEventListener('mouseenter', () => {
+            select.style.borderColor = '#999';
+            select.style.backgroundColor = '#f0f0f0';
+            select.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
+        });
+
+        select.addEventListener('mouseleave', () => {
+            select.style.borderColor = '#d0d0d0';
+            select.style.backgroundColor = '#fafafa';
+            select.style.boxShadow = 'none';
+        });
+
         const options = [
             { value: 'R', label: '❌' },
             { value: 'G', label: '✅' },
@@ -56,7 +80,7 @@ function createChecklistFromMarkdown(markdown, formId, preElement) {
             option.textContent = opt.label;
             select.appendChild(option);
         });
-        
+
         li.appendChild(select);
         
         // Parse link and text from markdown
