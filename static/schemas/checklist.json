@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://redis.io/schemas/checklist.json",
+  "title": "Redis Checklist Metadata",
+  "description": "Schema for checklist metadata in Redis documentation",
+  "type": "object",
+  "required": ["type", "id", "items"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Reference to this schema"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["checklist"],
+      "description": "The metadata type"
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the checklist"
+    },
+    "title": {
+      "type": "string",
+      "description": "Human-readable title of the checklist"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of what the checklist covers"
+    },
+    "items": {
+      "type": "array",
+      "description": "Array of checklist items",
+      "items": {
+        "type": "object",
+        "required": ["position", "name"],
+        "properties": {
+          "position": {
+            "type": "integer",
+            "description": "Order in the checklist (1-based)"
+          },
+          "name": {
+            "type": "string",
+            "description": "Item text"
+          },
+          "url": {
+            "type": "string",
+            "description": "Link to the relevant section (can be relative or absolute)"
+          },
+          "optional": {
+            "type": "boolean",
+            "description": "Whether this step is optional"
+          },
+          "estimatedTime": {
+            "type": "string",
+            "description": "Estimated time to complete this step (e.g., '5 minutes', '1 hour')"
+          },
+          "prerequisites": {
+            "type": "array",
+            "description": "List of prerequisite item positions that must be completed first",
+            "items": {
+              "type": "integer"
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
