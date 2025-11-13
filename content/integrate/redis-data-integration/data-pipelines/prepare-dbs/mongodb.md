@@ -37,6 +37,15 @@ The following table summarizes the steps to prepare a MongoDB database for RDI. 
 | MongoDB Atlas       | **[SSL required](https://debezium.io/documentation/reference/stable/connectors/mongodb.html#mongodb-property-mongodb-ssl-enabled)**, provide root CA as `SOURCE_DB_CACERT` secret in RDI       |
 | Network             | RDI Collector must reach all MongoDB nodes on required ports                |
 
+```checklist {id="mongodblist" nointeractive="true" }
+- [ ] [Configure oplog size](#1-configure-oplog-size)
+- [ ] [Create a MongoDB user for RDI](#2-create-a-mongodb-user-for-rdi)
+- [ ] [Connection string format](#3-connection-string-format)
+- [ ] [Enable change streams and pre/post images (only if using a custom key)](#4-enable-change-streams-and-prepost-images-only-if-using-a-custom-key)
+- [ ] [MongoDB Atlas specific requirements](#5-mongodb-atlas-specific-requirements)
+- [ ] [Network and security](#6-network-and-security)
+```
+
 ## 1. Configure oplog size
 
 The Debezium MongoDB connector relies on the [oplog](https://www.mongodb.com/docs/manual/core/replica-set-oplog/) to capture changes from a replica set. The oplog is a fixed-size, capped collection. When it reaches its maximum size, it overwrites the oldest entries. If the connector is stopped and restarted, it attempts to resume from its last recorded position in the oplog. If that position has been overwritten, the connector may fail to start and report an invalid resume token error.
