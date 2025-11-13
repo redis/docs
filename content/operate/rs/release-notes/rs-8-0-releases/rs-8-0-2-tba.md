@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 8.2, 8.0, 7.4, 7.2, 6.2
-description: TBA
+description: Bug fixes for cluster_wd configuration after restarts, database creation, Lua script migration issues, and database endpoint assignment after node removal.
 linkTitle: 8.0.2-tba (November 2025)
 weight: 89
 ---
@@ -17,7 +17,7 @@ This is a maintenance release for ​[​Redis Enterprise Software version 8.0.2
 
 This version offers:
 
-- TBA
+- Bug fixes for `cluster_wd` configuration after restarts, database creation, Lua script migration issues, and database endpoint assignment after node removal
 
 ## New in this release
 
