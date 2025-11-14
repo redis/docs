@@ -122,6 +122,12 @@ XDELEX mystream KEEPREF IDS 2 1526919030474-55 1526919030474-56
 XRANGE mystream - +
 {{% /redis-cli %}}
 
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+
 ## Return information
 
 {{< multitabs id="xdelex-return-info"

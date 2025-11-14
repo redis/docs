@@ -12,10 +12,12 @@
       {{ partial "breadcrumbs" . }}
       <section class="prose w-full py-12">
         <h1 class="command-name">
-          {{- .Title }}
-          {{- if (isset .Params "deprecated_since") }}
-          <span class="text-base">(deprecated)</span>
-          {{- end }}
+          <div class="command-title-deprecated">
+            {{- .Title }}
+            {{- if (and (isset .Params "doc_flags") (in .Params.doc_flags "deprecated")) }}
+              <span class="deprecated-badge">Deprecated</span>
+            {{- end }}
+          </div>
         </h1>
         {{ if (isset .Params "deprecated_since") }}
           <div class="border-l-8 pl-4">
@@ -61,6 +63,12 @@
                 {{ printf "`%s`<span class='mr-1 last:hidden'>,</span>" . | markdownify }}
               {{ end}}
             </dd>
+          {{ end }}
+          {{ if (findRE "## Redis Enterprise and Redis Cloud compatibility" .RawContent) }}
+          <dt class="font-semibold text-redis-ink-900 m-0">Compatibility:</dt>
+          <dd class="m-0">
+            <a href="#redis-enterprise-and-redis-cloud-compatibility" class="text-redis-red-500 hover:text-redis-red-600">Redis Enterprise and Redis Cloud compatibility</a>
+          </dd>
           {{ end }}
         </dl>
 

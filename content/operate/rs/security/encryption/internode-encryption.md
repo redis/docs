@@ -231,7 +231,7 @@ PUT https://<host>:<port>/v1/cluster/certificates
 
 Customer-provided internode encryption certificates are not rotated automatically. To prevent possible issues with cluster and database unavailability caused by expired internode encryption certificates:
 
-- You should monitor the certificates' expiration dates and renew them before they expire.
+- You should monitor the certificates' expiration dates and [renew them]({{<relref "/operate/rs/security/certificates/updating-certificates#how-to-update-certificates">}}) before they expire.
 
 - In case you do not renew the customer-managed certificates before they expire, Redis Enterprise Software automatically replaces them with self-signed certificates 5 days before expiration. You can upload new customer-provided certificates to replace these certificates anytime.
 

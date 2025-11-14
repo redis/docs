@@ -113,7 +113,7 @@ In the **General settings** of the **Setup** tab, you need to:
 1. Select the **Region** where you want to deploy your database. 
 
     {{< note >}}
-This guide is for single region database deployment. If you want to create a multi-region Active-Active database, see [Create an Active-Active database]({{< relref "/operate/rc/databases/create-database/create-active-active-database" >}}) for specific steps and configuration options exclusive to Active-Active.
+This guide is for single region database deployment. If you want to create a multi-region Active-Active database, see [Create an Active-Active database]({{< relref "/operate/rc/databases/active-active/create-active-active-database" >}}) for specific steps and configuration options exclusive to Active-Active.
     {{< /note >}}
 
 #### Advanced options {#advanced-options}
@@ -130,7 +130,7 @@ The following settings are defined in the **Advanced options** of the **Setup** 
 | **Public endpoint access** | Select whether or not to [block public endpoints]({{< relref "/operate/rc/security/database-security/block-public-endpoints" >}}) for all databases in the subscription.  |
 | **VPC configuration** | Select **In a new VPC** to deploy to a new [virtual private cloud](https://en.wikipedia.org/wiki/Virtual_private_cloud) (VPC).<br/><br/>To deploy these databases to an existing virtual private cloud, select **In existing VPC** and then set VPC ID to the appropriate ID value.<br/><br/>(Available only if [Redis Cloud Bring your own Cloud]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud" >}}) is enabled) |
 | **Deployment CIDR** | The [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) range of IP addresses for your deployment. Redis creates a new [subnet](https://en.wikipedia.org/wiki/Subnetwork) for the **Deployment CIDR** in your [virtual private cloud](https://en.wikipedia.org/wiki/Virtual_private_cloud) (VPC). It cannot overlap with the CIDR ranges of other subnets used by your account.<br/><br/>For deployments in an existing VPC, the **Deployment CIDR** must be within your VPC's **primary** CIDR range (secondary CIDRs are not supported). |
-| **Auto Tiering**| Determines if your databases are stored only in memory (RAM) or are split between memory and Flash storage (RAM+Flash).  See [Auto Tiering]({{< relref "/operate/rs/databases/auto-tiering/" >}})|
+| **Auto Tiering**| Determines if your databases are stored only in memory (RAM) or are split between memory and Flash storage (RAM+Flash).  See [Auto Tiering]({{< relref "/operate/rs/databases/flash/" >}})|
 | **Maintenance windows** | Determines when Redis can perform [maintenance]({{< relref "/operate/rc/subscriptions/maintenance" >}}) on your databases. Select **Manual** if you want to set [manual maintenance windows]({{< relref "/operate/rc/subscriptions/maintenance/set-maintenance-windows" >}}). |
 
 When finished, choose **Continue** to determine your size requirements.
@@ -156,7 +156,7 @@ By default, you're shown basic settings, which include:
 | Database&nbsp;setting | Description |
 |:---------|:-----------|
 | **Name** | A custom name for your database (_required_) |
-| **Version** | The Redis version for your database. We recommend you choose the latest available version. |
+| **Version** | The Redis version for your database. We recommend you choose the latest available version. See [Redis version management]({{< relref "/operate/rc/databases/version-management" >}}) for more information. |
 | **Dataset size (GB)** | The amount of data for your dataset. Specify small sizes as decimals of 1.0&nbsp;GB; example: `0.1` GB (minimum). We calculate the total memory limit for you based on the other settings you choose for your database. <br/> Databases with Search and query have specific sizing requirements, see [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
 | **High Availability** | Indicates whether a replica copy of the database is maintained in case the primary database becomes unavailable.  (Warning: Doubles memory consumption). See [High Availability]({{< relref "/operate/rc/databases/configuration/high-availability" >}}).  |
 | **Throughput** | Identifies maximum throughput for the database, which is specified in terms of operations per second (**Ops/sec**). See [Throughput]({{< relref "/operate/rc/databases/configuration/sizing#throughput" >}}) for more information. <br/> Databases with Search and query have specific throughput requirements. See [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
@@ -170,10 +170,10 @@ Select **More options** to specify values for the following settings.
 
 | Database&nbsp;option | Description                                                                                                                                                     |
 |:---------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Advanced Capabilities** | [Advanced features and data types]({{< relref "/operate/rc/databases/configuration/advanced-capabilities" >}}) used by the database. Choose from [Search and query]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}), [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}}), [Time series]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries" >}}), or [Probabilistic]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom" >}}). <br/> Databases with Search and query have specific sizing requirements, see [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
+| **Advanced Capabilities** | [Advanced features and data types]({{< relref "/operate/rc/databases/configuration/advanced-capabilities" >}}) used by the database. Choose from [Search and query]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}), [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}}), [Time series]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries" >}}), and [Probabilistic]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom" >}}). <br/> Starting with Redis 8.0, all advanced capabilities provided by Redis Stack are included in Redis by default. <br/> Databases with Search and query have specific sizing requirements, see [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
 | **OSS Cluster API** | Enable to use the [Redis Cluster API]({{< relref "/operate/rc/databases/configuration/clustering#oss-cluster-api" >}}).                                                                                                                |
 | **Type** | Set to **Redis**, otherwise **Memcached** database for legacy database support.                                                                                     |
-| **Supported Protocol(s)** | Choose between RESP2 and RESP3 _(Redis 7.2 only)_. See [Redis serialization protocol]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions) for details |
+| **Supported Protocol(s)** | Choose between RESP2 and RESP3 _(Redis 7.2 and later only)_. See [Redis serialization protocol]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions) for details |
 | **Quantity** | Number of databases to create with these settings.                                                                                                              |
 
 When finished, select **Save configuration** to save your database configuration.
@@ -212,6 +212,7 @@ Note that databases are created in the background.  While they are provisioning,
 Use the **Database list** to check the status of your databases.
 
 
+## Billing unit types
 
 {{< embed-md "rc-pro-billing-units.md" >}}
 

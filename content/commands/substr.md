@@ -76,6 +76,12 @@ GETRANGE mykey 0 -1
 GETRANGE mykey 10 100
 {{% /redis-cli %}}
 
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | Deprecated as of Redis v2.0.0. |
+
 ## Return information
 
 {{< multitabs id="substr-return-info" 

@@ -101,6 +101,12 @@ If a multi-master scenario is encountered, you will need to manually identify wh
 
 NOTE: [`REPLICAOF`]({{< relref "/commands/replicaof" >}}) is disabled while a failover is in progress, this is to prevent unintended interactions with the failover that might cause data loss.
 
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+
 ## Return information
 
 {{< multitabs id="failover-return-info" 

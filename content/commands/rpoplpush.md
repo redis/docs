@@ -143,6 +143,12 @@ Note that this implementation of workers is trivially scalable and reliable,
 because even if a message is lost the item is still in the queue and will be
 processed at the next iteration.
 
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |
+
 ## Return information
 
 {{< multitabs id="rpoplpush-return-info" 

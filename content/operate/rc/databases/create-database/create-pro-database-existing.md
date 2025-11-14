@@ -75,6 +75,7 @@ The **Performance** section lets you manage the maximum size, throughput, and ha
 | **Dataset size**    | Maximum size (in GB) for your dataset. See [Dataset size]({{< relref "/operate/rc/databases/configuration/sizing#dataset-size" >}}) for sizing considerations. <br/> Databases with Search and query have specific size requirements, see [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
 | **Throughput**      | Defines throughput in terms of maximum operations per second for the database. See [Throughput]({{< relref "/operate/rc/databases/configuration/sizing#throughput" >}}) for more info. <br/> Databases with Search and query have specific throughput requirements, see [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
 | **High availability**    | Replicates your data across multiple nodes, as allowed by your subscription plan. See [High availability]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) for more info|
+| **Query performance factor** | *(Search and query databases on Redis 7.2 or later)* Adds additional compute power to process your query and vector search workloads and boost your queries per second. See [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
 | **Hashing policy**  | Defines the [hashing policy]({{< relref "/operate/rc/databases/configuration/clustering#manage-the-hashing-policy" >}}).  |
 | **OSS Cluster API** | Activates the [Cluster API]({{< relref "/operate/rc/databases/configuration/clustering#oss-cluster-api" >}}) for a database. When this option is selected, you cannot define a custom hashing policy.<br/> After you select OSS Cluster API, you can select **Use external endpoint** if you want to use the external endpoint for the database. Selecting **Use external endpoint** will block the private endpoint for this database. |
 
@@ -126,5 +127,7 @@ The **Alerts** section defines notification emails sent to your account and the 
 {{<image filename="images/rc/database-new-flexible-alerts.png" alt="The Alerts section defines the notification emails and their triggering conditions." >}}
 
 The available alerts vary according to the plan type. See [Configure alerts]({{< relref "/operate/rc/databases/monitor-performance#configure-metric-alerts" >}}) for more information.
+
+## Billing unit types
 
 {{< embed-md "rc-pro-billing-units.md" >}}

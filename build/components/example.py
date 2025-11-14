@@ -8,13 +8,17 @@ REMOVE_END = 'REMOVE_END'
 STEP_START = 'STEP_START'
 STEP_END = 'STEP_END'
 EXAMPLE = 'EXAMPLE:'
+BINDER_ID = 'BINDER_ID'
 GO_OUTPUT = 'Output:'
 TEST_MARKER = {
     'java': '@Test',
     'java-sync': '@Test',
     'java-async': '@Test',
     'java-reactive': '@Test',
-    'c#': r'\[Fact]|\[SkipIfRedis\(.*\)]'
+    'c#': r'\[Fact]|\[SkipIfRedis\(.*\)]',
+    'c#-sync': r'\[Fact]|\[SkipIfRedis\(.*\)]',
+    'c#-async': r'\[Fact]|\[SkipIfRedis\(.*\)]',
+    'rust': r'#\[test]|#\[cfg\(test\)]|#\[tokio::test]'
 }
 PREFIXES = {
     'python': '#',
@@ -25,6 +29,8 @@ PREFIXES = {
     'java-reactive': '//',
     'go': '//',
     'c#': '//',
+    'c#-sync': '//',
+    'c#-async': '//',
     'redisvl': '#',
     'php': '//',
     'rust': '//',
@@ -40,6 +46,7 @@ class Example(object):
     hidden = None
     highlight = None
     named_steps = None
+    binder_id = None
 
     def __init__(self, language: str, path: str) -> None:
         logging.debug("ENTERING: ")
@@ -54,6 +61,7 @@ class Example(object):
         self.hidden = []
         self.highlight = []
         self.named_steps = {}
+        self.binder_id = None
         self.make_ranges()
         self.persist(self.path)
         logging.debug("EXITING: ")
@@ -83,6 +91,7 @@ class Example(object):
         rstart = re.compile(f'{PREFIXES[self.language]}\\s?{REMOVE_START}')
         rend = re.compile(f'{PREFIXES[self.language]}\\s?{REMOVE_END}')
         exid = re.compile(f'{PREFIXES[self.language]}\\s?{EXAMPLE}')
+        binder = re.compile(f'{PREFIXES[self.language]}\\s?{BINDER_ID}\\s+([a-zA-Z0-9_-]+)')
         go_output = re.compile(f'{PREFIXES[self.language]}\\s?{GO_OUTPUT}')
         go_comment = re.compile(f'{PREFIXES[self.language]}')
         test_marker = re.compile(f'{TEST_MARKER.get(self.language)}')
@@ -145,6 +154,13 @@ class Example(object):
             elif re.search(exid, l):
                 output = False
                 pass
+            elif re.search(binder, l):
+                # Extract BINDER_ID hash value
+                match = re.search(binder, l)
+                if match:
+                    self.binder_id = match.group(1)
+                    logging.debug(f'Found BINDER_ID: {self.binder_id} in {self.path}:L{curr+1}')
+                output = False
             elif self.language == "go" and re.search(go_output, l):
                 if output:
                     logging.error("Nested Go Output anchor in {self.path}:L{curr+1} - aborting.")

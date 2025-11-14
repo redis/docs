@@ -16,8 +16,19 @@ type: integration
 weight: 2
 ---
 
-Follow the steps in the sections below to set up a MySQL or MariaDB
-database for CDC with Debezium.
+The following checklist summarizes the steps to prepare a MySQL or MariaDB
+database for RDI, with links to the sections that explain the steps in
+full detail. You may find it helpful to track your progress with the
+checklist as you complete each step.
+
+```checklist {id="mysqlmariadblist"}
+- [ ] [Create a CDC user](#1-create-a-cdc-user)
+- [ ] [Enable the binlog](#2-enable-the-binlog)
+- [ ] [Enable GTIDs](#3-enable-gtids)
+- [ ] [Configure session timeouts](#4-configure-session-timeouts)
+- [ ] [Enable query log events](#5-enable-query-log-events)
+- [ ] [Check binlog_row_value_options](#6-check-binlog_row_value_options)
+```
 
 ## 1. Create a CDC user
 
@@ -28,13 +39,21 @@ to capture changes.
 Run the [MySQL CLI client](https://dev.mysql.com/doc/refman/8.3/en/mysql.html)
 and then run the following commands:
 
-1.  Create the CDC user:
+```checklist {id="mysqlmariadb-create-cdc-user" nointeractive="true" }
+- [ ] [Create the CDC user](#create-the-cdc-user)
+- [ ] [Grant the user the necessary permissions](#grant-the-user-the-necessary-permissions)
+- [ ] [Finalize the user's permissions](#finalize-the-users-permissions)
+```
+
+1.  <a id="create-the-cdc-user"></a>
+    Create the CDC user:
 
     ```sql
     mysql> CREATE USER 'user'@'localhost' IDENTIFIED BY 'password';
     ```
 
-1.  Grant the required permissions to the user:
+1.  <a id="grant-the-user-the-necessary-permissions"></a>
+    Grant the required permissions to the user:
 
     ```sql
     # MySQL <v8.0
@@ -44,7 +63,8 @@ and then run the following commands:
     mysql> GRANT SELECT, RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'user'@'localhost';
     ```
 
-1.  Finalize the user's permissions:
+1.  <a id="finalize-the-users-permissions"></a>
+    Finalize the user's permissions:
 
     ```sql
     mysql> FLUSH PRIVILEGES;
@@ -100,19 +120,28 @@ GTIDs are available in MySQL 5.6.5 and later. See the
 Follow the steps below to enable GTIDs. You will need access to the MySQL configuration file
 to do this.
 
-1.  Enable `gtid_mode`:
+```checklist {id="mysqlmariadb-enable-gtids" nointeractive="true" }
+- [ ] [Enable gtid_mode](#enable-gtid_mode)
+- [ ] [Enable enforce_gtid_consistency](#enable-enforce_gtid_consistency)
+- [ ] [Confirm the changes](#confirm-the-changes)
+```
+
+1.  <a id="enable-gtid_mode"></a>
+    Enable `gtid_mode`:
 
     ```sql
     mysql> gtid_mode=ON
     ```
 
-1.  Enable `enforce_gtid_consistency`:
+1.  <a id="enable-enforce_gtid_consistency"></a>
+    Enable `enforce_gtid_consistency`:
 
     ```sql
     mysql> enforce_gtid_consistency=ON
     ```
 
-1.  Confirm the changes:
+1.  <a id="confirm-the-changes"></a>
+    Confirm the changes:
 
     ```sql
     mysql> show global variables like '%GTID%';

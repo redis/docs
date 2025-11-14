@@ -852,6 +852,12 @@ Query with `CONTAINS` operator:
 
 </details>
 
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
+
 ## Return information
 
 {{< multitabs id="ft-search-return-info" 

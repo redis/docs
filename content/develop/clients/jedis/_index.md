@@ -34,7 +34,7 @@ To include `Jedis` as a dependency in your application, edit the dependency file
   <dependency>
       <groupId>redis.clients</groupId>
       <artifactId>jedis</artifactId>
-      <version>6.1.0</version>
+      <version>7.0.0</version>
   </dependency>
   ```
 
@@ -46,7 +46,7 @@ To include `Jedis` as a dependency in your application, edit the dependency file
   }
   //...
   dependencies {
-      implementation 'redis.clients:jedis:6.1.0'
+      implementation 'redis.clients:jedis:7.0.0'
       //...
   }
   ```
@@ -58,38 +58,31 @@ To include `Jedis` as a dependency in your application, edit the dependency file
 
 ## Connect and test
 
-The following code opens a basic connection to a local Redis server
-and closes it after use.
+Add the following imports to your source file:
 
-```java
-package org.example;
-import redis.clients.jedis.UnifiedJedis;
+{{< clients-example set="landing" step="import" lang_filter="Java-Sync" >}}
+{{< /clients-example >}}
 
-public class Main {
-    public static void main(String[] args) {
-        UnifiedJedis jedis = new UnifiedJedis("redis://localhost:6379");
+Connect to localhost on port 6379:
 
-        // Code that interacts with Redis...
-
-        jedis.close();
-    }
-}
-```
+{{< clients-example set="landing" step="connect" lang_filter="Java-Sync" >}}
+{{< /clients-example >}}
 
 After you have connected, you can check the connection by storing and
-retrieving a simple string value:
+retrieving a simple [string]({{< relref "/develop/data-types/strings" >}}) value:
 
-```java
-...
+{{< clients-example set="landing" step="set_get_string" lang_filter="Java-Sync" >}}
+{{< /clients-example >}}
 
-String res1 = jedis.set("bike:1", "Deimos");
-System.out.println(res1); // OK
+Store and retrieve a [hash]({{< relref "/develop/data-types/hashes" >}}):
 
-String res2 = jedis.get("bike:1");
-System.out.println(res2); // Deimos
+{{< clients-example set="landing" step="set_get_hash" lang_filter="Java-Sync" >}}
+{{< /clients-example >}}
 
-...
-```
+Close the connection when you're done:
+
+{{< clients-example set="landing" step="close" lang_filter="Java-Sync" >}}
+{{< /clients-example >}}
 
 ## More information
 

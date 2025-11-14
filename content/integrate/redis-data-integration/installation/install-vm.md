@@ -178,11 +178,27 @@ it without the `noexec` option. See
     or your company policy forbids you to install there. You can
     select a different directory for the K3s installation using the
     `--installation-dir` option with `install.sh`:
+```bash
+sudo ./install.sh --installation-dir <custom-installation-directory>
+```
+    {{< /note >}}
+
+    **Advanced**: You can also pass custom K3s parameters to the installer using the
+    `INSTALL_K3S_EXEC` environment variable. For example, to set the kubeconfig file 
+    permissions to be readable by all users:
 
     ```bash
-    sudo ./install.sh --installation-dir <custom-installation-directory>
+    sudo INSTALL_K3S_EXEC='--write-kubeconfig-mode=644' ./install.sh
     ```
-    {{< /note >}}
+
+    You can combine multiple K3s options in the `INSTALL_K3S_EXEC` variable. See the
+    [K3s documentation](https://docs.k3s.io/installation/configuration) for a full list of 
+    available options.
+
+    {{< warning >}}Only modify K3s parameters if you understand exactly what you are changing 
+    and why. Incorrect K3s configuration can cause RDI installation to fail or result in an 
+    unstable deployment. {{< /warning >}}
+    
 
 The RDI installer collects all necessary configuration details and alerts you to potential issues, 
 offering options to abort, apply fixes, or provide additional information. 

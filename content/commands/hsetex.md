@@ -107,7 +107,8 @@ syntax_str: "[FNX | FXX] [EX\_seconds | PX\_milliseconds | EXAT\_unix-time-secon
 title: HSETEX
 ---
 
-Set the value of one or more fields of a given hash key, and optionally set their expiration time or time-to-live (TTL).
+Set the value of one or more fields of a given hash key and optionally
+set their expiration time or time-to-live (TTL). If the given key already holds a value, it is overwritten and any previous TTLs associated with the key are discarded.
 
 ## Options
 
@@ -141,6 +142,12 @@ redis> HTTL mykey FIELDS 2 field1 field2
 1) (integer) 55481
 2) (integer) 55481
 ```
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

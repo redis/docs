@@ -16,13 +16,51 @@ type: integration
 weight: 1
 ---
 
-The Oracle Debezium connector uses
-[Oracle LogMiner](https://docs.oracle.com/en/database/oracle/oracle-database/19/sutil/oracle-logminer-utility.html)
-to get data from the commitlog to a view inside the database. Follow the
-steps below to configure LogMiner and prepare your database for use with
-RDI.
+Oracle provides two main systems that Debezium can use to capture data changes:
 
-## 1. Configure Oracle LogMiner
+- [LogMiner](#logminer)
+- [XStream](#xstream)
+
+The sections below explain how to configure each system for use with Debezium and RDI.
+The checklists summarize the steps you should follow to configure each system.
+You may find it helpful to use them to track your progress as you work through the steps.
+
+**LogMiner**
+
+```checklist {id="oraclelogminerlist"}
+- [ ] [Configure Oracle LogMiner](#1-configure-oracle-logminer)
+- [ ] [Enable supplemental logging](#supp-logging)
+- [ ] [Check the redo log sizing](#3-check-the-redo-log-sizing)
+- [ ] [Set the Archive log destination](#4-set-the-archive-log-destination)
+- [ ] [Create a user for the connector](#create-dbz-user)
+```
+
+**XStream**
+
+```checklist {id="oraclexstreamlist"}
+- [ ] [Configure Xstream](#1-configure-xstream)
+- [ ] [Create Xstream users](#2-create-xstream-users)
+- [ ] [Create an Xstream outbound server](#3-create-an-xstream-outbound-server)
+- [ ] [Add a custom Docker image for the Debezium server](#4-add-a-custom-docker-image-for-the-debezium-server)
+- [ ] [Enable the Oracle configuration in RDI](#5-enable-the-oracle-configuration-in-rdi)
+```
+
+**Optional: XMLTYPE Support**
+
+```checklist {id="oraclexmltypelist"}
+- [ ] [Create a custom Debezium Server image](#create-a-custom-debezium-server-image)
+- [ ] [Configure RDI for XMLTYPE support](#configure-rdi-for-xmltype-support)
+- [ ] [Test XMLTYPE support](#test-xmltype-support)
+```
+
+## LogMiner
+
+Follow the steps below to configure
+[LogMiner](https://docs.oracle.com/en/database/oracle/oracle-database/19/sutil/oracle-logminer-utility.html)
+and prepare your database for use with RDI.
+
+
+### 1. Configure Oracle LogMiner
 
 The following example shows the configuration for Oracle LogMiner.
 
@@ -48,7 +86,7 @@ archive log list
 exit;
 ```
 
-### Configure Amazon RDS for Oracle {#config-aws}
+#### Configure Amazon RDS for Oracle {#config-aws}
 
 AWS provides its own set of commands to configure LogMiner.
 
@@ -78,7 +116,7 @@ exec rdsadmin.rdsadmin_util.set_configuration('archivelog retention hours',24);
 exec rdsadmin.rdsadmin_util.alter_supplemental_logging('ADD');
 ```
 
-## 2. Enable supplemental logging {#supp-logging}
+### 2. Enable supplemental logging {#supp-logging}
 
 You must enable supplemental logging for the tables you want to capture or
 for the entire database. This lets Debezium capture the state of
@@ -102,7 +140,7 @@ the following command:
 ALTER DATABASE ADD SUPPLEMENTAL LOG DATA;
 ```
 
-## 3. Check the redo log sizing
+### 3. Check the redo log sizing
 
 Before you use the Debezium connector, you should check with your
 database administrator that there are enough
@@ -112,7 +150,7 @@ of tables and columns in the database. If you don't have enough capacity in
 the logs then you might see performance problems with both the database and
 the Debezium connector.
 
-## 4. Set the Archive log destination
+### 4. Set the Archive log destination
 
 You can configure up to 31 different destinations for archive logs
 (you must have administrator privileges to do this). You can set parameters for
@@ -142,7 +180,7 @@ use the following setting:
 }
 ```
 
-## 5. Create a user for the connector {#create-dbz-user}
+### 5. Create a user for the connector {#create-dbz-user}
 
 The Debezium Oracle connector must run as an Oracle LogMiner user with specific permissions.
 
@@ -242,7 +280,7 @@ exit;
 | EXECUTE ON DBMS_LOGMNR_D | Enables the connector to run methods in the DBMS_LOGMNR_D package. This is required to interact with Oracle LogMiner. On newer versions of Oracle this is granted via the LOGMINING role but on older versions, this must be explicitly granted.                                                                                                                                                       |
 | SELECT ON V_$…​.          | Enables the connector to read these tables. The connector must be able to read information about the Oracle redo and archive logs, and the current transaction state, to prepare the Oracle LogMiner session. Without these grants, the connector cannot operate.                                                                                                                                      |
 
-### Limiting privileges
+#### Limiting privileges
 
 The privileges granted in the example above are convenient,
 but you may prefer to restrict them further to improve security. In particular,
@@ -289,7 +327,7 @@ The `LOCK` privilege is automatically granted by the `SELECT`
 privilege, so you can omit this command if you have granted `SELECT`
 on specific tables.
 
-### Revoking existing privileges
+#### Revoking existing privileges
 
 If you initially set the Debezium user's privileges on all tables,
 but you now want to restrict them, you can revoke the existing
@@ -322,7 +360,309 @@ you should also revoke `LOCK` on all tables:
 REVOKE LOCK ANY TABLE FROM c##dbzuser container=all;
 ```
 
-## 6. Support for Oracle XMLTYPE columns (optional)
+### 6. Configuration is complete {#logminer-complete}
+
+Once you have followed the steps above, your Oracle database is ready
+for Debezium to use.
+
+## Xstream
+
+[Xstream](https://docs.oracle.com/en/database/oracle/oracle-database/19/xstrm/introduction-to-xstream.html#GUID-5939CB6C-8BA9-4594-8F96-B0453D246722)
+is a set of database components and APIs to communicate change data to and
+from an Oracle database. RDI specifically uses
+[Xstream Out](https://docs.oracle.com/en/database/oracle/oracle-database/19/xstrm/xstream-out.html)
+to capture changes.
+
+Follow the steps in the sections below to configure Xstream to work with
+Debezium and RDI.
+
+{{< note >}}You should run all database commands shown below as the `oracle` user.
+{{< /note >}}
+
+### 1. Configure Xstream
+
+Create a directory for the recovery area:
+
+```bash
+mkdir /opt/oracle/oradata/recovery_area
+```
+
+Then, use the following SQL commands to configure Xstream (using the
+[`chinook`](https://github.com/Redislabs-Solution-Architects/rdi-quickstart-postgres/tree/main)
+schema as an example):
+
+```sql
+sqlplus sys/<PASSWORD> as sysdba
+
+SQL> alter system set db_recovery_file_dest_size = 5G;
+SQL> alter system set db_recovery_file_dest = '/opt/oracle/oradata/recovery_area' scope=spfile;
+SQL> alter system set enable_goldengate_replication=true;
+SQL> shutdown immediate
+Database closed.
+Database dismounted.
+ORACLE instance shut down.
+SQL> startup mount
+ORACLE instance started.
+
+Total System Global Area 1476391776 bytes
+Fixed Size     9134944 bytes
+Variable Size 1006632960 bytes
+Database Buffers   452984832 bytes
+Redo Buffers     7639040 bytes
+Database mounted.
+SQL> alter database archivelog;
+SQL> alter database open;
+SQL> archive log list
+Database log mode       Archive Mode
+Automatic archival       Enabled
+Archive destination       USE_DB_RECOVERY_FILE_DEST
+Oldest online log sequence     10
+Next log sequence to archive   12
+Current log sequence       12
+
+SQL> ALTER DATABASE ADD SUPPLEMENTAL LOG DATA;
+
+SQL> alter session set container=orclpdb1;
+
+SQL> ALTER TABLE CHINOOK.ALBUM ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
+SQL> ALTER TABLE CHINOOK.ARTIST ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
+SQL> ALTER TABLE CHINOOK.CUSTOMER ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
+SQL> ALTER TABLE CHINOOK.EMPLOYEE ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
+SQL> ALTER TABLE CHINOOK.GENRE ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
+SQL> ALTER TABLE CHINOOK.INVOICE ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
+SQL> ALTER TABLE CHINOOK.INVOICELINE ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
+SQL> ALTER TABLE CHINOOK.MEDIATYPE ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
+SQL> ALTER TABLE CHINOOK.PLAYLIST ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
+SQL> ALTER TABLE CHINOOK.PLAYLISTTRACK ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
+SQL> ALTER TABLE CHINOOK.TRACK ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
+```
+
+{{< note >}}You must configure supplemental logging explicitly for each table as shown 
+above. Otherwise, only the original sync will be performed and no change data will be 
+captured for the table.
+{{< /note >}}
+
+### 2. Create Xstream users
+
+Create an Xstream administrator user with the following SQL:
+
+```sql
+sqlplus sys/<PASSWORD> as sysdba
+
+SQL> CREATE TABLESPACE xstream_adm_tbs DATAFILE '/opt/oracle/oradata/ORCLCDB/xstream_adm_tbs.dbf'
+    SIZE 25M REUSE AUTOEXTEND ON MAXSIZE UNLIMITED;
+
+SQL> alter session set container=orclpdb1;
+
+SQL> CREATE TABLESPACE xstream_adm_tbs DATAFILE '/opt/oracle/oradata/ORCLCDB/ORCLPDB1/xstream_adm_tbs.dbf'
+    SIZE 25M REUSE AUTOEXTEND ON MAXSIZE UNLIMITED;
+
+SQL> alter session set container=cdb$root;
+
+SQL> CREATE USER c##dbzadmin IDENTIFIED BY dbz
+    DEFAULT TABLESPACE xstream_adm_tbs
+    QUOTA UNLIMITED ON xstream_adm_tbs
+    CONTAINER=ALL;
+
+SQL> GRANT CREATE SESSION, SET CONTAINER TO c##dbzadmin CONTAINER=ALL;
+
+SQL> BEGIN
+     DBMS_XSTREAM_AUTH.GRANT_ADMIN_PRIVILEGE(
+        grantee                 => 'c##dbzadmin',
+        privilege_type          => 'CAPTURE',
+        grant_select_privileges => TRUE,
+        container               => 'ALL'
+     );
+  END;
+  /
+```
+
+Then, create the Xstream user:
+
+```sql
+sqlplus sys/<PASSWORD> as sysdba
+
+SQL> CREATE TABLESPACE xstream_tbs DATAFILE '/opt/oracle/oradata/ORCLCDB/xstream_tbs.dbf'
+    SIZE 25M REUSE AUTOEXTEND ON MAXSIZE UNLIMITED;
+
+SQL> alter session set container=orclpdb1;
+
+SQL> CREATE TABLESPACE xstream_tbs DATAFILE '/opt/oracle/oradata/ORCLCDB/ORCLPDB1/xstream_tbs.dbf'
+    SIZE 25M REUSE AUTOEXTEND ON MAXSIZE UNLIMITED;
+
+SQL> alter session set container=cdb$root;
+
+SQL> CREATE USER c##dbzxsuser IDENTIFIED BY dbz
+    DEFAULT TABLESPACE xstream_tbs
+    QUOTA UNLIMITED ON xstream_tbs
+    CONTAINER=ALL;
+
+SQL> GRANT CREATE SESSION TO c##dbzxsuser CONTAINER=ALL;
+SQL> GRANT SET CONTAINER TO c##dbzxsuser CONTAINER=ALL;
+SQL> GRANT SELECT ON V_$DATABASE to c##dbzxsuser CONTAINER=ALL;
+SQL> GRANT FLASHBACK ANY TABLE TO c##dbzxsuser CONTAINER=ALL;
+SQL> GRANT SELECT_CATALOG_ROLE TO c##dbzxsuser CONTAINER=ALL;
+SQL> GRANT EXECUTE_CATALOG_ROLE TO c##dbzxsuser CONTAINER=ALL;
+SQL> GRANT SELECT ANY TABLE TO c##dbzxsuser CONTAINER=ALL;
+SQL> GRANT LOCK ANY TABLE TO c##dbzxsuser CONTAINER=ALL;
+```
+
+{{< note >}}If you are using the
+[Debezium Xstream documentation](https://debezium.io/documentation/reference/stable/connectors/oracle.html#creating-xstream-users-for-the-connector),
+you should note that it misses out the last two GRANT statements shown above:
+
+```sql
+GRANT SELECT ANY TABLE TO c##dbzxsuser CONTAINER=ALL;
+GRANT LOCK ANY TABLE TO c##dbzxsuser CONTAINER=ALL;
+```
+
+However, without these, no tables can be read by Debezium, so neither the initial snapshot nor any subsequent updates will produce any data.
+{{< /note >}}
+
+### 3. Create an Xstream outbound server
+
+Create the outbound server with the following SQL. Note that
+you must connect as the `c##dbzadmin` user created in the previous step,
+not the `sys` user:
+
+```sql
+sqlplus c##dbzadmin/dbz@localhost:1521/ORCLCDB
+
+SQL> DECLARE
+  tables  DBMS_UTILITY.UNCL_ARRAY;
+  schemas DBMS_UTILITY.UNCL_ARRAY;
+BEGIN
+    tables(1)  := NULL;
+    schemas(1) := 'chinook';
+  DBMS_XSTREAM_ADM.CREATE_OUTBOUND(
+    server_name           =>  'dbzxout',
+    source_container_name =>  'orclpdb1',
+    table_names           =>  tables,
+    schema_names          =>  schemas);
+END;
+/
+```
+
+The value `NULL` for `tables` enables data capture from all tables in the `chinook`
+schema, unless the changes have been made by the `sys` or `system` users.
+
+{{< note >}}The Debezium documentation is misleading here. It includes the line
+
+```sql
+schemas(1) := 'debezium';
+```
+
+instead of
+
+```sql
+schemas(1) := 'chinook';
+```
+
+as shown above. However, this will only capture data from a schema named `debezium`. Also,
+you must provide the `source_container_name` parameter if you are capturing changes from
+a pluggable database.
+{{< /note >}}
+
+Then, configure the XStream user account to connect to the XStream outbound server:
+
+```sql
+sqlplus sys/<PASSWORD> as sysdba
+
+BEGIN
+  DBMS_XSTREAM_ADM.ALTER_OUTBOUND(
+    server_name  => 'dbzxout',
+    connect_user => 'c##dbzxsuser');
+END;
+/
+```
+
+### 4. Add a custom Docker image for the Debezium server
+
+To support XStream connector, you must create a custom [Docker](https://www.docker.com/) image that includes the required Instant Client package libraries for Linux x64 from the Oracle website.
+
+1.  On the Docker machine, download the Instant Client package for Linux x64 from the Oracle website
+
+    ```bash
+    wget https://download.oracle.com/otn_software/linux/instantclient/2380000/instantclient-basic-linux.x64-23.8.0.25.04.zip
+    ```
+
+1.  Unzip it to the `./dbz-ora` directory:
+
+    ```bash
+    unzip instantclient-basic-linux.x64-23.8.0.25.04.zip -d ./dbz-ora
+    ```
+
+1.  Create a `Dockerfile` in the `./dbz-ora` directory with the following contents:
+
+    ```docker
+    FROM debezium/server:3.0.8.Final
+
+    USER root
+
+    RUN microdnf -y install libaio \
+    && microdnf clean all \
+    && mkdir -p /opt/oracle/instant_client \
+    && rm -f /debezium/lib/ojdbc11*.jar
+
+    COPY instantclient_23_8/* /opt/oracle/instant_client
+
+    USER jboss
+
+    COPY instantclient_23_8/xstreams.jar /debezium/lib
+    COPY instantclient_23_8/ojdbc11.jar /debezium/lib
+
+    ENV LD_LIBRARY_PATH=/opt/oracle/instant_client
+    ```
+
+1.  Create the custom image:
+
+    ```bash
+    docker build -t dbz-ora dbz-ora
+    ```
+
+1.  Add the image to the K3s image registry using the following commands:
+
+    ```bash
+    docker tag dbz-ora quay.io/debezium/server:3.0.8.Final
+    docker image save quay.io/debezium/server:3.0.8.Final -o dbz3.0.8-xstream-linux-amd.tar
+    sudo k3s ctr images import dbz3.0.8-xstream-linux-amd.tar all
+    ```
+
+### 5. Enable the Oracle configuration in RDI
+
+Finally, you must update your `config.yaml` file to enable Xstream.
+The example below shows the relevant parts of the `sources` section:
+
+```yaml
+sources:
+  oracle:
+    type: cdc
+    logging:
+      level: info
+    connection:
+      type: oracle
+      host: host.docker.internal
+      port: 1521
+      user: ${SOURCE_DB_USERNAME}
+      password: ${SOURCE_DB_PASSWORD}
+    advanced:
+      source:
+        database.dbname: ORCLCDB
+        database.pdb.name: ORCLPDB1
+        database.connection.adapter: xstream
+        database.out.server.name: dbzxout
+```
+
+See the
+[Debezium Oracle documentation](https://debezium.io/documentation/reference/stable/connectors/oracle.html#oracle-connector-properties)
+for a full list of properties you can use in the `advanced.source` subsection.
+
+### 6. Configuration is complete {#xstream-complete}
+
+After you have followed the steps above, your Oracle database is ready
+for Debezium to use.
+
+## Support for Oracle XMLTYPE columns (optional)
 
 If your Oracle database contains tables with columns of type
 [`XMLTYPE`](https://docs.oracle.com/en/database/oracle/oracle-database/21/arpls/XMLTYPE.html),
@@ -438,8 +778,3 @@ After you run an initial
 the XML data appears in your Redis target database:
 
 {{< image filename="/images/rdi/ingest/xmltype-example.webp" >}}
-
-## 7. Configuration is complete
-
-Once you have followed the steps above, your Oracle database is ready
-for Debezium to use.

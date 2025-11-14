@@ -92,8 +92,6 @@ sets the string that's printed at the end of each line.
 
 sets the string that's put between a key and a value.
 </details>
-
-{{% alert title="Note" color="warning" %}}
  
 Produce pretty-formatted JSON with `redis-cli` by following this example:
 
@@ -101,8 +99,6 @@ Produce pretty-formatted JSON with `redis-cli` by following this example:
 ~/$ redis-cli --raw
 redis> JSON.GET myjsonkey INDENT "\t" NEWLINE "\n" SPACE " " path.to.value[1]
 {{< / highlight >}}
-
-{{% /alert %}}
 
 ## Examples
 
@@ -130,6 +126,13 @@ redis> JSON.GET doc ..a $..b
 "{\"$..b\":[3,null],\"..a\":[2,4]}"
 {{< / highlight >}}
 </details>
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+
 
 ## Return information
 

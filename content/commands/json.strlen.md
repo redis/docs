@@ -62,6 +62,13 @@ redis> JSON.STRLEN doc $..a
 3) (nil)
 {{< / highlight >}}
 
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+
+
 ## Return information
 
 {{< multitabs id="json-strlen-return-info"

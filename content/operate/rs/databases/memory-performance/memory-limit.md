@@ -51,8 +51,8 @@ Redis Enterprise Software protects the existing data and prevents the database 
 
 You can configure the cluster to move the data to another node, or even discard it according to the [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy.md" >}}) set on each database by the administrator.
 
-[Auto Tiering]({{< relref "/operate/rs/databases/auto-tiering/" >}})
-manages memory so that you can also use flash memory (SSD) to store data.
+[Redis Flex and Auto Tiering]({{< relref "/operate/rs/databases/flash/" >}})
+manage memory so that you can also use flash memory (SSD) to store data.
 
 ### Order of events for low RAM
 
@@ -78,6 +78,32 @@ For example, when pushing data at approximately 100 MB/sec into a 2 GB database:
 Databases should return to their configured memory limits after data is removed according to the [eviction policy]({{<relref "/operate/rs/databases/memory-performance/eviction-policy/">}}) and [time-to-live (TTL)]({{<relref "/develop/using-commands/keyspace#key-expiration">}}).
 
 If you observe this behavior, consider [monitoring]({{< relref "/operate/rs/monitoring/" >}}) memory usage and controlling the traffic load on the application side.
+
+## Resharding duration factors
+
+Resharding enables you to increase database capacity by adding shards and utilizing more cluster memory. Understanding resharding duration helps you plan maintenance operations and minimize database risk.
+
+### Resharding overview
+
+Resharding follows a three-stage process for each new shard:
+
+1. **Shard creation**: Creates a new shard and performs partial synchronization based on assigned hash slots
+2. **Key trimming**: Removes keys from the original shard according to new hash slot assignments
+3. **Defragmentation**: Executes failovers to optimize new shard performance
+
+When resharding multiple shards (for example, expanding from 4 to 8 shards), this process runs serially for each new shard. The operation completes only after all stages finish for every shard.
+
+{{< note >}}
+Resharding is an atomic operation that cannot be interrupted. Database corruption can occur if the process fails or stops unexpectedly. Minimizing resharding time reduces this risk.
+{{< /note >}}
+
+### Resharding duration factors
+
+Resharding duration increases linearly with the number of keys in your database. Key length and network traffic affect resharding duration:
+
+Key length directly affects resharding duration. Longer keys (2000 KB) require more time to process due to increased hash calculation overhead per key compared to short keys (10 bytes). 
+
+Network traffic has a measurable but limited effect on resharding duration. Since resharding operations typically don't reach CPU limits, the impact on both resharding time and ongoing traffic remains minimal.
 
 ## Memory metrics
 

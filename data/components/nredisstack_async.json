@@ -1,0 +1,15 @@
+{
+  "id": "nredisstack_async",
+  "type": "client",
+  "name": "NRedisStack_Async",
+  "language": "C#",
+  "label": "C#-Async",
+  "repository": {
+      "git_uri": "https://github.com/redis/NRedisStack"
+  },
+  "examples": {
+      "git_uri": "https://github.com/redis/NRedisStack",
+      "path": "tests/Doc/Async",
+      "pattern": "*.cs"
+  }
+}

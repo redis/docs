@@ -46,7 +46,9 @@
         'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
         })(window,document,'script','dataLayer','{{ .Site.Params.tagManagerId }}');</script>
     {{ end -}}
-    
+
+    <script>window.HUGO_BASEURL = "{{ .Site.BaseURL }}"</script>
+
     <script src='{{ "js/index.js" | relURL }}' defer></script>
     {{ partial "segment.html" . }}
     {{ if .Params.math }}
@@ -77,5 +79,30 @@
     {{ partial "toc-js.html" . }}
 
     {{ partial "search-modal.html" . }}
+
+    {{ if .Store.Get "hasMermaid" }}
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        themeVariables: {
+          fontFamily: 'Space Mono',
+          primaryColor: '#ffffff',
+          primaryBorderColor: '#ee0000'
+        }
+      });
+    </script>
+    {{ end }}
+
+    <!-- Checklist functionality -->
+    {{ if .Page.Store.Get "hasChecklist" }}
+    <script src="{{ "js/checklist.js" | relURL }}"></script>
+    {{ end }}
+
+    <!-- Hierarchy functionality -->
+    {{ if .Page.Store.Get "hasHierarchy" }}
+    <script src="{{ "js/hierarchy.js" | relURL }}"></script>
+    {{ end }}
   </body>
 </html>

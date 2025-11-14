@@ -126,6 +126,12 @@ redis> LRANGE mykey 0 -1
 3) "3"
 ```
 
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported">&#x274c; Active-Active\*</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported">&#x274c; Active-Active\*</nobr></span> | \*Only supported for module keys. |
+
 ## Return information
 
 {{< multitabs id="restore-return-info" 

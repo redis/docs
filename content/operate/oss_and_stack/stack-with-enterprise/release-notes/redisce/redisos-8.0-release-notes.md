@@ -11,6 +11,46 @@ min-version-db: blah
 min-version-rs: blah
 weight: 40
 ---
+## Redis Open Source 8.0.5 (November 2025)
+
+Update urgency: `HIGH`: There are critical bugs that may affect a subset of users.
+
+### Bug fixes
+
+- `HGETEX` - potential crash when `FIELDS` is used  and `numfields` is missing
+- Potential crash on HyperLogLog with 2GB+ entries
+- Cuckoo filter - Division by zero in Cuckoo filter insertion
+- Cuckoo filter - Counter overflow
+- Bloom filter - Arbitrary memory read/write with invalid filter
+- Bloom filter - Out-of-bounds access with empty chain
+- Bloom filter - Restore invalid filter
+- Top-k - Out-of-bounds access
+
+## Redis Open Source 8.0.4 (October 2025)
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+### Security fixes
+
+- (CVE-2025-49844) A Lua script may lead to remote code execution
+- (CVE-2025-46817) A Lua script may lead to integer overflow and potential RCE
+- (CVE-2025-46818) A Lua script can be executed in the context of another user
+- (CVE-2025-46819) LUA out-of-bound read
+
+### New Features
+
+- [#14223](https://github.com/redis/redis/pull/14223) `VSIM`: new `EPSILON` argument to specify maximum distance
+
+### Bug fixes
+
+- [#14330](https://github.com/redis/redis/pull/14330) Potential use-after-free after pubsub and Lua defrag
+- [#14319](https://github.com/redis/redis/pull/14319) Potential crash on Lua script defrag
+- [#14224](https://github.com/redis/redis/pull/14224) `HINCRBYFLOAT` removes field expiration on replica
+- [#14164](https://github.com/redis/redis/pull/14164) Prevent `CLIENT UNBLOCK` from unblocking `CLIENT PAUSE`
+- [#14165](https://github.com/redis/redis/pull/14165) Endless client blocking for blocking commands
+- [#14144](https://github.com/redis/redis/pull/14144) Vector sets - RDB format is not compatible with big endian machines
+- [#14163](https://github.com/redis/redis/pull/14163) `EVAL` crash when error table is empty
+- [#14143](https://github.com/redis/redis/pull/14143) Gracefully handle short read errors for hashes with TTL during full sync
 
 ## Redis Open Source 8.0.3 (July 2025)
 
