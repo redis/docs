@@ -241,13 +241,13 @@ These are the pre-bundled scoring functions available in Redis:
 
 * **BM25STD (default)**
 
-    A variation on the basic `TFIDF` scorer (see [this Wikipedia article for more information](https://en.wikipedia.org/wiki/Okapi_BM25)).
+    A variation on the basic `TFIDF` scorer, see [this Wikipedia article for more info](https://en.wikipedia.org/wiki/Okapi_BM25).
 
     The relevance score for each document is multiplied by the presumptive document score and a penalty is applied based on slop as in `TFIDF`.
 
-{{< note >}}
-The `BM25` scorer was renamed `BM25STD` in Redis Open Source 8.4. `BM25` is deprecated.
-{{< /note >}}
+    {{< note >}}
+    The `BM25` scorer was renamed `BM25STD` in Redis Open Source 8.4. `BM25` is deprecated.
+    {{< /note >}}
 
 * **BM25STD.NORM**
 

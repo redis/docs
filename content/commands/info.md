@@ -199,6 +199,9 @@ Here is the meaning of all fields in the **memory** section:
 *   `mem_clients_slaves`: Memory used by replica clients - Starting Redis 7.0, replica buffers share memory with the replication backlog, so this field can show 0 when replicas don't trigger an increase of memory usage.
 *   `mem_clients_normal`: Memory used by normal clients
 *   `mem_cluster_links`: Memory used by links to peers on the cluster bus when cluster mode is enabled.
+*   `mem_cluster_slot_migration_output_buffer`: Memory usage of the migration client's output buffer. Redis writes incoming changes to this buffer during the migration process.
+*   `mem_cluster_slot_migration_input_buffer`: Memory usage of the accumulated replication stream buffer on the importing node.
+*   `mem_cluster_slot_migration_input_buffer_peak`: Peak accumulated repl buffer size on the importing side.
 *   `mem_aof_buffer`: Transient memory used for AOF and AOF rewrite buffers
 *   `mem_replication_backlog`: Memory used by replication backlog
 *   `mem_total_replication_buffers`: Total memory consumed for replication buffers - Added in Redis 7.0.
@@ -501,9 +504,9 @@ The **sentinel** section is only available in Redis Sentinel instances. It consi
 *   `sentinel_scripts_queue_length`: The length of the queue of user scripts that are pending execution
 *   `sentinel_simulate_failure_flags`: Flags for the `SENTINEL SIMULATE-FAILURE` command
     
-The **cluster** section currently only contains a unique field:
+The **cluster** section contains a single fields:
 
-*   `cluster_enabled`: Indicate Redis cluster is enabled
+*   `cluster_enabled`: Indicates whether Redis cluster is enabled.
 
 The **modules** section contains additional information about loaded modules if the modules provide it. The field part of property lines in this section are always prefixed with the module's name.
 

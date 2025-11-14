@@ -107,3 +107,27 @@ query = (
      .dialect(2)
 )
 </!-->
+
+## Cluster optimization
+
+In Redis cluster environments, you can optimize vector search performance using the `$SHARD_K_RATIO` query attribute. This parameter controls how many results each shard retrieves relative to the requested `top_k`, creating a tunable trade-off between accuracy and performance.
+
+### Basic cluster optimization
+
+Retrieve 100 nearest neighbors with each shard providing 60% of the requested results:
+
+{{< clients-example query_vector vector3 >}}
+FT.SEARCH idx:bikes_vss "(*)=>[KNN 100 @vector $query_vector]=>{$SHARD_K_RATIO: 0.6; $YIELD_DISTANCE_AS: vector_distance}" PARAMS 2 "query_vector" "Z\xf8\x15:\xf23\xa1\xbfZ\x1dI>\r\xca9..." SORTBY vector_distance ASC RETURN 2 "vector_distance" "description" DIALECT 2
+{{< /clients-example >}}
+
+### Combined with filtering
+
+You can combine `$SHARD_K_RATIO` with pre-filtering to optimize searches on specific subsets of data:
+
+{{< clients-example query_vector vector4 >}}
+FT.SEARCH idx:bikes_vss "(@brand:trek)=>[KNN 50 @vector $query_vector]=>{$SHARD_K_RATIO: 0.4; $YIELD_DISTANCE_AS: similarity}" PARAMS 2 "query_vector" "Z\xf8\x15:\xf23\xa1\xbfZ\x1dI>\r\xca9..." SORTBY similarity ASC RETURN 2 "similarity" "description" DIALECT 2
+{{< /clients-example >}}
+
+{{% alert title="Note" color="warning" %}}
+The `$SHARD_K_RATIO` parameter is only applicable in Redis cluster environments and has no effect in standalone Redis instances.
+{{% /alert  %}}

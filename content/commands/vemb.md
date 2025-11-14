@@ -18,7 +18,6 @@ since: 8.0.0
 summary: Return the vector associated with an element.
 syntax_fmt: "VEMB key element [RAW]"
 title: VEMB
-bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
 ---
 
 Return the approximate vector associated with a given element in the vector set.

@@ -25,6 +25,11 @@ arguments:
   optional: true
   token: BLOCK
   type: integer
+- display_text: min-idle-time
+  name: min-idle-time
+  optional: true
+  token: CLAIM
+  type: integer
 - display_text: noack
   name: noack
   optional: true
@@ -85,8 +90,8 @@ since: 5.0.0
 summary: Returns new or historical messages from a stream for a consumer in a group.
   Blocks until a message is available otherwise.
 syntax_fmt: "XREADGROUP GROUP\_group consumer [COUNT\_count] [BLOCK\_milliseconds]\n\
-  \  [NOACK] STREAMS\_key [key ...] id [id ...]"
-syntax_str: "[COUNT\_count] [BLOCK\_milliseconds] [NOACK] STREAMS\_key [key ...] id\
+  \  [CLAIM\_min-idle-time] [NOACK] STREAMS\_key [key ...] id [id ...]"
+syntax_str: "[COUNT\_count] [BLOCK\_milliseconds] [CLAIM\_min-idle-time] [NOACK] STREAMS\_key [key ...] id\
   \ [id ...]"
 title: XREADGROUP
 ---
@@ -140,15 +145,46 @@ can be inspected using the [`XPENDING`]({{< relref "/commands/xpending" >}}) com
 The `NOACK` subcommand can be used to avoid adding the message to the PEL in
 cases where reliability is not a requirement and the occasional message loss
 is acceptable. This is equivalent to acknowledging the message when it is read.
+When used together with `CLAIM`, `NOACK` does not apply for retrieved pending entries.
 
 The ID to specify in the **STREAMS** option when using `XREADGROUP` can
 be one of the following two:
 
-* The special `>` ID, which means that the consumer want to receive only messages that were *never delivered to any other consumer*. It just means, give me new messages.
-* Any other ID, that is, 0 or any other valid ID or incomplete ID (just the millisecond time part), will have the effect of returning entries that are pending for the consumer sending the command with IDs greater than the one provided. So basically if the ID is not `>`, then the command will just let the client access its pending entries: messages delivered to it, but not yet acknowledged. Note that in this case, both `BLOCK` and `NOACK` are ignored.
+* When the special `>` id is specified without `CLAIM`, the consumer wants to receive only messages that were never delivered to any other consumer, hence, just new messages.
+* When the special `>` id is specified with `CLAIM`, the consumer wants, in addition, to receive messages that have been delivered to some consumer and have been pending for at least min-idle-time milliseconds.
+* Any other ID, that is, 0 or any other valid ID or incomplete ID (just the millisecond time part), will have the effect of returning entries that are pending for the consumer sending the command with IDs greater than the one provided. So basically if the ID is not `>`, then the command will just let the client access its pending entries: messages delivered to it, but not yet acknowledged. Note that in this case, `BLOCK`, `NOACK`, and `CLAIM` are ignored.
 
 Like [`XREAD`]({{< relref "/commands/xread" >}}) the `XREADGROUP` command can be used in a blocking way. There
 are no differences in this regard.
+
+## The CLAIM option
+
+When `CLAIM min-idle-time` is specified, Redis will first try to claim messages which have been pending for at least min-idle-time milliseconds from the consumer group of each specified stream key. The pending messages with the highest idle time would be claimed first. Note that the `CLAIM min-idle-time` condition may become true for some pending entries during the `BLOCK milliseconds` period (if specified).
+
+If there are no such messages, Redis will continue as normal (consume incoming messages).
+
+`CLAIM min-idle-time` is ignored if the specified id is not `>`.
+
+### Reply extension for claimed entries
+
+When `CLAIM min-idle-time` is used, additional information is provided for each pending entry retrieved (similar to the reply of [`XPENDING`]({{< relref "/commands/xpending" >}})). For each claimed pending entry, the reply includes:
+
+1. Entry id
+2. Field-value pairs
+3. Milliseconds since the last time this entry was delivered
+4. Number of times this entry was previously delivered
+
+### Ordering guarantees
+
+When using `CLAIM`, the following ordering guarantees apply:
+
+- Idle pending entries are reported first, then incoming entries
+- Idle pending entries are ordered by idle time (longer first)
+- Incoming entries are ordered by the order they were appended to the stream (older first)
+
+For example, if there are 20 idle pending entries and 200 incoming entries (in all the specified streams together):
+- When calling `XREADGROUP ... CLAIM ...`, you would retrieve 220 entries in the reply
+- When calling `XREADGROUP ... COUNT 100 ... CLAIM ...`, you would retrieve the 20 idle pending entries + 80 incoming entries in the reply
 
 ## What happens when a message is delivered to a consumer?
 
