@@ -1,0 +1,32 @@
+{{- /* Generate AI-friendly metadata as JSON in a script tag for the header */ -}}
+{{- $metadata := dict "title" .Title "description" .Description "categories" .Params.categories -}}
+{{- if .Params.arguments -}}
+  {{- $metadata = merge $metadata (dict "arguments" .Params.arguments) -}}
+{{- end -}}
+{{- if .Params.syntax_fmt -}}
+  {{- $metadata = merge $metadata (dict "syntax_fmt" .Params.syntax_fmt) -}}
+{{- end -}}
+{{- if .Params.complexity -}}
+  {{- $metadata = merge $metadata (dict "complexity" .Params.complexity) -}}
+{{- end -}}
+{{- if .Params.group -}}
+  {{- $metadata = merge $metadata (dict "group" .Params.group) -}}
+{{- end -}}
+{{- if .Params.command_flags -}}
+  {{- $metadata = merge $metadata (dict "command_flags" .Params.command_flags) -}}
+{{- end -}}
+{{- if .Params.acl_categories -}}
+  {{- $metadata = merge $metadata (dict "acl_categories" .Params.acl_categories) -}}
+{{- end -}}
+{{- if .Params.since -}}
+  {{- $metadata = merge $metadata (dict "since" .Params.since) -}}
+{{- end -}}
+{{- if .Params.arity -}}
+  {{- $metadata = merge $metadata (dict "arity" .Params.arity) -}}
+{{- end -}}
+{{- if .Params.key_specs -}}
+  {{- $metadata = merge $metadata (dict "key_specs" .Params.key_specs) -}}
+{{- end -}}
+{{- $json := $metadata | jsonify -}}
+{{- printf `<script type="application/json" data-ai-metadata>%s</script>` $json | safeHTML -}}
+
