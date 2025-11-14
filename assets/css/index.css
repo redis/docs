@@ -1074,6 +1074,21 @@ a[href*="#no-click"], img[src*="#no-click"] {
   background-color: #ddd;
 }
 
+/* Copy button wrapper positioning */
+.copy-button-wrapper {
+  position: absolute;
+  top: 24px;
+  right: 10px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.copy-button-wrapper.expand-content-wrapper {
+  right: 20px;
+}
+
 /* AI Agent Builder Styles */
 
 .agent-builder-container {
@@ -1222,6 +1237,51 @@ a[href*="#no-click"], img[src*="#no-click"] {
 
   .send-button {
     @apply w-full;
+  }
+}
+
+/* Fix copy button overlap on smaller screens */
+@media (max-width: 768px) {
+  /* Ensure code blocks have enough padding on the right to accommodate copy button */
+  .highlight {
+    padding-right: 60px !important;
+  }
+
+  /* Adjust copy button wrapper positioning for smaller screens */
+  .copy-button-wrapper {
+    right: 8px !important;
+    top: 8px !important;
+  }
+
+  .copy-button-wrapper.expand-content-wrapper {
+    right: 12px !important;
+  }
+
+  /* Make copy buttons slightly smaller on mobile */
+  .copy-button-wrapper .clipboard-button,
+  .copy-button-wrapper .download-yaml-btn {
+    width: 28px !important;
+    height: 28px !important;
+    padding: 2px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Even more padding for very small screens */
+  .highlight {
+    padding-right: 70px !important;
+  }
+
+  /* Stack buttons vertically on very small screens if both copy and download are present */
+  .copy-button-wrapper {
+    flex-direction: column !important;
+    gap: 4px !important;
+    right: 4px !important;
+    top: 4px !important;
+  }
+
+  .copy-button-wrapper.expand-content-wrapper {
+    right: 8px !important;
   }
 }
 
