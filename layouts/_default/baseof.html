@@ -36,7 +36,9 @@
     {{ partialCached "css.html" . }}
 
     {{ block "head" . }}{{ end }}
-    
+
+    {{ partial "ai-metadata.html" . }}
+
     {{ partial "fonts.html" . }}
     
     {{ if hugo.IsProduction -}}

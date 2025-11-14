@@ -1,4 +1,13 @@
 # {{ .Title }}
+
+```json
+{
+  "title": "{{ .Title }}",
+  "description": "{{ .Description }}",
+  "categories": {{ .Params.categories | jsonify }}
+}
+```
+
 {{ $content := .RawContent }}
 
 {{/* Fix relrefs */}}
