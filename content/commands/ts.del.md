@@ -26,6 +26,7 @@ group: timeseries
 hidden: false
 linkTitle: TS.DEL
 module: TimeSeries
+railroad_diagram: /images/railroad/ts.del.svg
 since: 1.6.0
 stack_path: docs/data-types/timeseries
 summary: Delete all samples between two timestamps for a given time series

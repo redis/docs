@@ -25,6 +25,7 @@ description: Resumes processing commands from paused clients.
 group: connection
 hidden: false
 linkTitle: CLIENT UNPAUSE
+railroad_diagram: /images/railroad/client-unpause.svg
 since: 6.2.0
 summary: Resumes processing commands from paused clients.
 syntax_fmt: CLIENT UNPAUSE

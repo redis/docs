@@ -34,6 +34,7 @@ history:
 - - 7.0.0
   - Added support for taking multiple section arguments.
 linkTitle: INFO
+railroad_diagram: /images/railroad/info.svg
 since: 1.0.0
 summary: Returns information and statistics about the server.
 syntax_fmt: INFO [section [section ...]]

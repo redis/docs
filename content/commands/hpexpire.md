@@ -75,6 +75,7 @@ key_specs:
     type: range
   update: true
 linkTitle: HPEXPIRE
+railroad_diagram: /images/railroad/hpexpire.svg
 since: 7.4.0
 summary: Set expiry for hash field using relative time to expire (milliseconds)
 syntax_fmt: "HPEXPIRE key milliseconds [NX | XX | GT | LT] FIELDS\_numfields field\n\

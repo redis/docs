@@ -22,6 +22,7 @@ group: search
 hidden: false
 linkTitle: FT.ALIASUPDATE
 module: Search
+railroad_diagram: /images/railroad/ft.aliasupdate.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Adds or updates an alias to the index

@@ -27,6 +27,7 @@ group: bf
 hidden: false
 linkTitle: BF.MADD
 module: Bloom
+railroad_diagram: /images/railroad/bf.madd.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Adds one or more items to a Bloom Filter. A filter will be created if it

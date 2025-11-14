@@ -35,6 +35,7 @@ hints:
 - request_policy:all_nodes
 - response_policy:special
 linkTitle: LATENCY HISTOGRAM
+railroad_diagram: /images/railroad/latency-histogram.svg
 since: 7.0.0
 summary: Returns the cumulative distribution of latencies of a subset or all commands.
 syntax_fmt: LATENCY HISTOGRAM [command [command ...]]

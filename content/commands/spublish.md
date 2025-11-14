@@ -43,6 +43,7 @@ key_specs:
     type: range
   not_key: true
 linkTitle: SPUBLISH
+railroad_diagram: /images/railroad/spublish.svg
 since: 7.0.0
 summary: Post a message to a shard channel
 syntax_fmt: SPUBLISH shardchannel message

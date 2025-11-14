@@ -68,6 +68,7 @@ key_specs:
       keystep: 1
     type: keynum
 linkTitle: BLMPOP
+railroad_diagram: /images/railroad/blmpop.svg
 since: 7.0.0
 summary: Pops the first element from one of multiple lists. Blocks until an element
   is available otherwise. Deletes the list if the last element was popped.

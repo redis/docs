@@ -23,6 +23,7 @@ group: search
 hidden: false
 linkTitle: FT.DICTADD
 module: Search
+railroad_diagram: /images/railroad/ft.dictadd.svg
 since: 1.4.0
 stack_path: docs/interact/search-and-query
 summary: Adds terms to a dictionary

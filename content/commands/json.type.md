@@ -26,6 +26,7 @@ group: json
 hidden: false
 linkTitle: JSON.TYPE
 module: JSON
+railroad_diagram: /images/railroad/json.type.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Returns the type of the JSON value at path

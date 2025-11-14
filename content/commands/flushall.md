@@ -45,6 +45,7 @@ history:
 - - 6.2.0
   - Added the `SYNC` flushing mode modifier.
 linkTitle: FLUSHALL
+railroad_diagram: /images/railroad/flushall.svg
 since: 1.0.0
 summary: Removes all keys from all databases.
 syntax_fmt: FLUSHALL [ASYNC | SYNC]

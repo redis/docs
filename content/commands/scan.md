@@ -50,6 +50,7 @@ history:
 - - 6.0.0
   - Added the `TYPE` subcommand.
 linkTitle: SCAN
+railroad_diagram: /images/railroad/scan.svg
 since: 2.8.0
 summary: Iterates over the key names in the database.
 syntax_fmt: "SCAN cursor [MATCH\_pattern] [COUNT\_count] [TYPE\_type]"

@@ -26,6 +26,7 @@ group: tdigest
 hidden: false
 linkTitle: TDIGEST.TRIMMED_MEAN
 module: Bloom
+railroad_diagram: /images/railroad/tdigest.trimmed_mean.svg
 since: 2.4.0
 stack_path: docs/data-types/probabilistic
 summary: Returns an estimation of the mean value from the sketch, excluding observation

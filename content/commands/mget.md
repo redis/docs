@@ -43,6 +43,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: MGET
+railroad_diagram: /images/railroad/mget.svg
 since: 1.0.0
 summary: Atomically returns the string values of one or more keys.
 syntax_fmt: MGET key [key ...]

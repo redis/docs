@@ -39,6 +39,7 @@ group: json
 hidden: false
 linkTitle: JSON.SET
 module: JSON
+railroad_diagram: /images/railroad/json.set.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Sets or updates the JSON value at a path

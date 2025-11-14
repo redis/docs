@@ -65,6 +65,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: GEODIST
+railroad_diagram: /images/railroad/geodist.svg
 since: 3.2.0
 summary: Returns the distance between two members of a geospatial index.
 syntax_fmt: GEODIST key member1 member2 [M | KM | FT | MI]

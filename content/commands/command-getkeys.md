@@ -30,6 +30,7 @@ description: Extracts the key names from an arbitrary command.
 group: server
 hidden: false
 linkTitle: COMMAND GETKEYS
+railroad_diagram: /images/railroad/command-getkeys.svg
 since: 2.8.13
 summary: Extracts the key names from an arbitrary command.
 syntax_fmt: COMMAND GETKEYS command [arg [arg ...]]

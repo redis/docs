@@ -46,6 +46,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: DEL
+railroad_diagram: /images/railroad/del.svg
 since: 1.0.0
 summary: Deletes one or more keys.
 syntax_fmt: DEL key [key ...]

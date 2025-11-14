@@ -24,6 +24,7 @@ description: Dumps the effective rules in ACL file format.
 group: server
 hidden: false
 linkTitle: ACL LIST
+railroad_diagram: /images/railroad/acl-list.svg
 since: 6.0.0
 summary: Dumps the effective rules in ACL file format.
 syntax_fmt: ACL LIST

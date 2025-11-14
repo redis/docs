@@ -56,6 +56,7 @@ key_specs:
     type: range
   update: true
 linkTitle: RENAME
+railroad_diagram: /images/railroad/rename.svg
 since: 1.0.0
 summary: Renames a key and overwrites the destination.
 syntax_fmt: RENAME key newkey

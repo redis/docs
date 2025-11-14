@@ -20,6 +20,7 @@ description: Returns helpful text about the different subcommands.
 group: server
 hidden: true
 linkTitle: LATENCY HELP
+railroad_diagram: /images/railroad/latency-help.svg
 since: 2.8.13
 summary: Returns helpful text about the different subcommands.
 syntax_fmt: LATENCY HELP

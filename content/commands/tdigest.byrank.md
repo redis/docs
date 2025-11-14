@@ -18,16 +18,17 @@ categories:
 - oss
 - kubernetes
 - clients
-complexity: O(N) where N is the number of ranks specified.
+complexity: O(1)
 description: Returns, for each input rank, a floating-point estimation of the value
   with that rank
 group: tdigest
 hidden: false
 linkTitle: TDIGEST.BYRANK
 module: Bloom
+railroad_diagram: /images/railroad/tdigest.byrank.svg
 since: 2.4.0
 stack_path: docs/data-types/probabilistic
-summary: Returns, for each input rank, a floating-point estimation of the value
+summary: Returns, for each input rank, an estimation of the value (floating-point)
   with that rank
 syntax_fmt: TDIGEST.BYRANK key rank [rank ...]
 syntax_str: rank [rank ...]

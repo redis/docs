@@ -1,0 +1,54 @@
+<svg class="railroad-diagram" height="92" viewBox="0 0 538.0 92" width="538.0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs>
+<style type="text/css"><![CDATA[
+svg.railroad-diagram { background-color: transparent; }
+.terminal rect { fill: #DC382D !important; stroke: #DC382D !important; }
+.terminal text { fill: white !important; font-weight: bold; }
+.nonterminal rect { fill: none !important; stroke: #DC382D !important; stroke-width: 2; }
+.nonterminal text { fill: #DC382D !important; font-weight: bold; }
+path { stroke: #DC382D !important; stroke-width: 2; fill: none; }
+circle { fill: #DC382D !important; stroke: #DC382D !important; }
+]]></style>
+</defs>
+<g transform="translate(.5 .5)">
+<style>/* <![CDATA[ */
+	svg.railroad-diagram {
+		background-color: transparent;
+	}
+	svg.railroad-diagram path {
+		stroke-width:3;
+		stroke: #DC382D;
+		fill:rgba(0,0,0,0);
+	}
+	svg.railroad-diagram text {
+		font:bold 14px monospace;
+		text-anchor:middle;
+	}
+	svg.railroad-diagram text.label{
+		text-anchor:start;
+	}
+	svg.railroad-diagram text.comment{
+		font:italic 12px monospace;
+	}
+	svg.railroad-diagram rect{
+		stroke-width:3;
+		stroke: #DC382D;
+		fill: none;
+	}
+	svg.railroad-diagram rect.group-box {
+		stroke: #DC382D;
+		stroke-dasharray: 10 5;
+		fill: none;
+	}
+
+/* ]]> */
+</style><g>
+<path d="M20 21v20m10 -20v20m-10 -10h20"></path></g><path d="M40 31h10"></path><g>
+<path d="M50 31h0.0"></path><path d="M488.0 31h0.0"></path><g class="terminal ">
+<path d="M50.0 31h0.0"></path><path d="M129.5 31h0.0"></path><rect height="22" rx="10" ry="10" width="79.5" x="50.0" y="20"></rect><text x="89.75" y="35">LINSERT</text></g><path d="M129.5 31h10"></path><path d="M139.5 31h10"></path><g class="non-terminal ">
+<path d="M149.5 31h0.0"></path><path d="M195.0 31h0.0"></path><rect height="22" width="45.5" x="149.5" y="20"></rect><text x="172.25" y="35">key</text></g><path d="M195.0 31h10"></path><g>
+<path d="M205.0 31h0.0"></path><path d="M316.0 31h0.0"></path><path d="M205.0 31h20"></path><g class="terminal ">
+<path d="M225.0 31h0.0"></path><path d="M296.0 31h0.0"></path><rect height="22" rx="10" ry="10" width="71.0" x="225.0" y="20"></rect><text x="260.5" y="35">BEFORE</text></g><path d="M296.0 31h20"></path><path d="M205.0 31a10 10 0 0 1 10 10v10a10 10 0 0 0 10 10"></path><g class="terminal ">
+<path d="M225.0 61h4.25"></path><path d="M291.75 61h4.25"></path><rect height="22" rx="10" ry="10" width="62.5" x="229.25" y="50"></rect><text x="260.5" y="65">AFTER</text></g><path d="M296.0 61a10 10 0 0 0 10 -10v-10a10 10 0 0 1 10 -10"></path></g><path d="M316.0 31h10"></path><g class="non-terminal ">
+<path d="M326.0 31h0.0"></path><path d="M388.5 31h0.0"></path><rect height="22" width="62.5" x="326.0" y="20"></rect><text x="357.25" y="35">pivot</text></g><path d="M388.5 31h10"></path><path d="M398.5 31h10"></path><g class="non-terminal ">
+<path d="M408.5 31h0.0"></path><path d="M488.0 31h0.0"></path><rect height="22" width="79.5" x="408.5" y="20"></rect><text x="448.25" y="35">element</text></g></g><path d="M488.0 31h10"></path><path d="M 498.0 31 h 20 m -10 -10 v 20 m 10 -20 v 20"></path></g></svg>

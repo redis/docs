@@ -21,6 +21,7 @@ group: search
 hidden: false
 linkTitle: FT._LIST
 module: Search
+railroad_diagram: /images/railroad/ft._list.svg
 since: 2.0.0
 stack_path: docs/interact/search-and-query
 summary: Returns a list of all existing indexes

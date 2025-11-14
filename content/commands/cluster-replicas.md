@@ -28,6 +28,7 @@ hidden: false
 hints:
 - nondeterministic_output
 linkTitle: CLUSTER REPLICAS
+railroad_diagram: /images/railroad/cluster-replicas.svg
 since: 5.0.0
 summary: Lists the replica nodes of a master node.
 syntax_fmt: CLUSTER REPLICAS node-id

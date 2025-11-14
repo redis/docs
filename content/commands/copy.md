@@ -67,6 +67,7 @@ key_specs:
     type: range
   update: true
 linkTitle: COPY
+railroad_diagram: /images/railroad/copy.svg
 since: 6.2.0
 summary: Copies the value of a key to a new key.
 syntax_fmt: "COPY source destination [DB\_destination-db] [REPLACE]"

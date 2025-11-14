@@ -48,6 +48,7 @@ key_specs:
     type: range
   update: true
 linkTitle: SETBIT
+railroad_diagram: /images/railroad/setbit.svg
 since: 2.2.0
 summary: Sets or clears the bit at offset of the string value. Creates the key if
   it doesn't exist.

@@ -27,6 +27,7 @@ description: Configure a node as replica of a master node.
 group: cluster
 hidden: false
 linkTitle: CLUSTER REPLICATE
+railroad_diagram: /images/railroad/cluster-replicate.svg
 since: 3.0.0
 summary: Configure a node as replica of a master node.
 syntax_fmt: CLUSTER REPLICATE node-id

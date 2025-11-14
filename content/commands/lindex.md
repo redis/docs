@@ -43,6 +43,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: LINDEX
+railroad_diagram: /images/railroad/lindex.svg
 since: 1.0.0
 summary: Returns an element from a list by its index.
 syntax_fmt: LINDEX key index

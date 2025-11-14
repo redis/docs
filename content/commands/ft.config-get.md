@@ -26,6 +26,7 @@ group: search
 hidden: false
 linkTitle: FT.CONFIG GET
 module: Search
+railroad_diagram: /images/railroad/ft.config-get.svg
 replaced_by: '[`CONFIG GET`]({{< relref "/commands/config-get" >}})'
 since: 1.0.0
 stack_path: docs/interact/search-and-query

@@ -45,6 +45,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: PTTL
+railroad_diagram: /images/railroad/pttl.svg
 since: 2.6.0
 summary: Returns the expiration time in milliseconds of a key.
 syntax_fmt: PTTL key

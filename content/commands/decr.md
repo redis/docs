@@ -43,6 +43,7 @@ key_specs:
     type: range
   update: true
 linkTitle: DECR
+railroad_diagram: /images/railroad/decr.svg
 since: 1.0.0
 summary: Decrements the integer value of a key by one. Uses 0 as initial value if
   the key doesn't exist.

@@ -22,6 +22,7 @@ group: topk
 hidden: false
 linkTitle: TOPK.INFO
 module: Bloom
+railroad_diagram: /images/railroad/topk.info.svg
 since: 2.0.0
 stack_path: docs/data-types/probabilistic
 summary: Returns information about a sketch

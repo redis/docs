@@ -37,6 +37,7 @@ description: Resets a node.
 group: cluster
 hidden: false
 linkTitle: CLUSTER RESET
+railroad_diagram: /images/railroad/cluster-reset.svg
 since: 3.0.0
 summary: Resets a node.
 syntax_fmt: CLUSTER RESET [HARD | SOFT]

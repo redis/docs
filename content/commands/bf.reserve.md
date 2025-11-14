@@ -34,6 +34,7 @@ group: bf
 hidden: false
 linkTitle: BF.RESERVE
 module: Bloom
+railroad_diagram: /images/railroad/bf.reserve.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Creates a new Bloom Filter

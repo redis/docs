@@ -34,6 +34,7 @@ group: search
 hidden: false
 linkTitle: FT.ALTER
 module: Search
+railroad_diagram: /images/railroad/ft.alter.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Adds a new field to the index

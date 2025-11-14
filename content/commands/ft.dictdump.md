@@ -22,6 +22,7 @@ group: search
 hidden: false
 linkTitle: FT.DICTDUMP
 module: Search
+railroad_diagram: /images/railroad/ft.dictdump.svg
 since: 1.4.0
 stack_path: docs/interact/search-and-query
 summary: Dumps all terms in the given dictionary

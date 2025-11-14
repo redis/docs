@@ -46,6 +46,7 @@ key_specs:
     type: range
   update: true
 linkTitle: INCRBYFLOAT
+railroad_diagram: /images/railroad/incrbyfloat.svg
 since: 2.6.0
 summary: Increment the floating point value of a key by a number. Uses 0 as initial
   value if the key doesn't exist.

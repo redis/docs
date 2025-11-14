@@ -23,6 +23,7 @@ hidden: false
 hints:
 - nondeterministic_output
 linkTitle: TIME
+railroad_diagram: /images/railroad/time.svg
 since: 2.6.0
 summary: Returns the server time.
 syntax_fmt: TIME

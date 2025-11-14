@@ -20,6 +20,7 @@ description: Returns helpful text about the different subcommands.
 group: pubsub
 hidden: true
 linkTitle: PUBSUB HELP
+railroad_diagram: /images/railroad/pubsub-help.svg
 since: 6.2.0
 summary: Returns helpful text about the different subcommands.
 syntax_fmt: PUBSUB HELP

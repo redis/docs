@@ -45,6 +45,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: XGROUP DELCONSUMER
+railroad_diagram: /images/railroad/xgroup-delconsumer.svg
 since: 5.0.0
 summary: Deletes a consumer from a consumer group.
 syntax_fmt: XGROUP DELCONSUMER key group consumer

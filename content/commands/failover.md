@@ -50,6 +50,7 @@ description: Starts a coordinated failover from a server to one of its replicas.
 group: server
 hidden: false
 linkTitle: FAILOVER
+railroad_diagram: /images/railroad/failover.svg
 since: 6.2.0
 summary: Starts a coordinated failover from a server to one of its replicas.
 syntax_fmt: "FAILOVER [TO\_host port [FORCE]] [ABORT] [TIMEOUT\_milliseconds]"

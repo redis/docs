@@ -31,6 +31,7 @@ description: Swaps two Redis databases.
 group: server
 hidden: false
 linkTitle: SWAPDB
+railroad_diagram: /images/railroad/swapdb.svg
 since: 4.0.0
 summary: Swaps two Redis databases.
 syntax_fmt: SWAPDB index1 index2

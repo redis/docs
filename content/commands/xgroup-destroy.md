@@ -43,6 +43,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: XGROUP DESTROY
+railroad_diagram: /images/railroad/xgroup-destroy.svg
 since: 5.0.0
 summary: Destroys a consumer group.
 syntax_fmt: XGROUP DESTROY key group

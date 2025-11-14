@@ -53,6 +53,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: HRANDFIELD
+railroad_diagram: /images/railroad/hrandfield.svg
 since: 6.2.0
 summary: Returns one or more random fields from a hash.
 syntax_fmt: HRANDFIELD key [count [WITHVALUES]]

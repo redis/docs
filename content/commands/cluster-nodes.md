@@ -21,6 +21,7 @@ hidden: false
 hints:
 - nondeterministic_output
 linkTitle: CLUSTER NODES
+railroad_diagram: /images/railroad/cluster-nodes.svg
 since: 3.0.0
 summary: Returns the cluster configuration for a node.
 syntax_fmt: CLUSTER NODES
