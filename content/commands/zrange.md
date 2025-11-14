@@ -58,6 +58,7 @@ categories:
 - oss
 - rs
 - rc
+- oss
 - kubernetes
 - clients
 command_flags:
@@ -86,8 +87,7 @@ key_specs:
 linkTitle: ZRANGE
 since: 1.2.0
 summary: Returns members in a sorted set within a range of indexes.
-syntax_fmt: "ZRANGE key start stop [BYSCORE | BYLEX] [REV] [LIMIT\_offset count]
-\
+syntax_fmt: "ZRANGE key start stop [BYSCORE | BYLEX] [REV] [LIMIT\_offset count]\n\
   \  [WITHSCORES]"
 syntax_str: "start stop [BYSCORE | BYLEX] [REV] [LIMIT\_offset count] [WITHSCORES]"
 title: ZRANGE

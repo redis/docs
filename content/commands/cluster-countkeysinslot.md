@@ -13,6 +13,7 @@ categories:
 - oss
 - rs
 - rc
+- oss
 - kubernetes
 - clients
 command_flags:

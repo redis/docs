@@ -42,6 +42,7 @@ categories:
 - oss
 - rs
 - rc
+- oss
 - kubernetes
 - clients
 command_flags:
@@ -72,8 +73,7 @@ history:
 linkTitle: CLIENT LIST
 since: 2.4.0
 summary: Lists open connections.
-syntax_fmt: "CLIENT LIST [TYPE\_<NORMAL | MASTER | REPLICA | PUBSUB>]
-  [ID\_client-id\
+syntax_fmt: "CLIENT LIST [TYPE\_<NORMAL | MASTER | REPLICA | PUBSUB>]\n  [ID\_client-id\
   \ [client-id ...]]"
 syntax_str: "[ID\_client-id [client-id ...]]"
 title: CLIENT LIST

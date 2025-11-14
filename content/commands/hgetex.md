@@ -51,6 +51,7 @@ categories:
 - oss
 - rs
 - rc
+- oss
 - kubernetes
 - clients
 command_flags:
@@ -81,9 +82,7 @@ since: 8.0.0
 summary: Get the value of one or more fields of a given hash key, and optionally set
   their expiration.
 syntax_fmt: "HGETEX key [EX\_seconds | PX\_milliseconds | EXAT\_unix-time-seconds\
-  \ |
-  PXAT\_unix-time-milliseconds | PERSIST] FIELDS\_numfields field
-  [field\
+  \ |\n  PXAT\_unix-time-milliseconds | PERSIST] FIELDS\_numfields field\n  [field\
   \ ...]"
 syntax_str: "[EX\_seconds | PX\_milliseconds | EXAT\_unix-time-seconds | PXAT\_unix-time-milliseconds\
   \ | PERSIST] FIELDS\_numfields field [field ...]"

@@ -15,6 +15,7 @@ categories:
 - oss
 - rs
 - rc
+- oss
 - kubernetes
 - clients
 complexity: O(N) where N is the number of ranks specified.
@@ -26,8 +27,8 @@ linkTitle: TDIGEST.BYRANK
 module: Bloom
 since: 2.4.0
 stack_path: docs/data-types/probabilistic
-summary: Returns, for each input rank, a floating-point estimation of the value with
-  that rank
+summary: Returns, for each input rank, a floating-point estimation of the value
+  with that rank
 syntax_fmt: TDIGEST.BYRANK key rank [rank ...]
 syntax_str: rank [rank ...]
 title: TDIGEST.BYRANK

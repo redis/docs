@@ -26,6 +26,7 @@ categories:
 - oss
 - rs
 - rc
+- oss
 - kubernetes
 - clients
 complexity: O(N) when path is evaluated to a single value where N is the size of the

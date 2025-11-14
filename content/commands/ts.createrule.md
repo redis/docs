@@ -65,6 +65,7 @@ categories:
 - oss
 - rs
 - rc
+- oss
 - kubernetes
 - clients
 complexity: O(1)
@@ -76,15 +77,10 @@ module: TimeSeries
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Create a compaction rule
-syntax: "TS.CREATERULE sourceKey destKey 
-  AGGREGATION aggregator bucketDuration\
-  \ 
-  [alignTimestamp]
-"
-syntax_fmt: "TS.CREATERULE sourceKey destKey AGGREGATION\_<AVG | FIRST | LAST |
-\
-  \  MIN | MAX | SUM | RANGE | COUNT | STD.P | STD.S | VAR.P | VAR.S |
-  TWA> bucketDuration\
+syntax: "TS.CREATERULE sourceKey destKey \n  AGGREGATION aggregator bucketDuration\
+  \ \n  [alignTimestamp]\n"
+syntax_fmt: "TS.CREATERULE sourceKey destKey AGGREGATION\_<AVG | FIRST | LAST |\n\
+  \  MIN | MAX | SUM | RANGE | COUNT | STD.P | STD.S | VAR.P | VAR.S |\n  TWA> bucketDuration\
   \ [alignTimestamp]"
 syntax_str: "destKey AGGREGATION\_<AVG | FIRST | LAST | MIN | MAX | SUM | RANGE |\
   \ COUNT | STD.P | STD.S | VAR.P | VAR.S | TWA> bucketDuration [alignTimestamp]"

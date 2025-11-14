@@ -50,6 +50,7 @@ categories:
 - oss
 - rs
 - rc
+- oss
 - kubernetes
 - clients
 command_flags:
@@ -76,8 +77,7 @@ key_specs:
 linkTitle: HPEXPIREAT
 since: 7.4.0
 summary: Set expiry for hash field using an absolute Unix timestamp (milliseconds)
-syntax_fmt: "HPEXPIREAT key unix-time-milliseconds [NX | XX | GT | LT]
-  FIELDS\_\
+syntax_fmt: "HPEXPIREAT key unix-time-milliseconds [NX | XX | GT | LT]\n  FIELDS\_\
   numfields field [field ...]"
 syntax_str: "unix-time-milliseconds [NX | XX | GT | LT] FIELDS\_numfields field [field\
   \ ...]"

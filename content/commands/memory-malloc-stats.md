@@ -9,6 +9,7 @@ categories:
 - oss
 - rs
 - rc
+- oss
 - kubernetes
 - clients
 complexity: Depends on how much memory is allocated, could be slow

@@ -95,6 +95,7 @@ categories:
 - oss
 - rs
 - rc
+- oss
 - kubernetes
 - clients
 command_flags:
@@ -132,10 +133,8 @@ key_specs:
 linkTitle: XADD
 since: 5.0.0
 summary: Appends a new message to a stream. Creates the key if it doesn't exist.
-syntax_fmt: "XADD key [NOMKSTREAM] [KEEPREF | DELREF | ACKED] [<MAXLEN | MINID>
-\
-  \  [= | ~] threshold [LIMIT\_count]] <* | id> field value [field value
-  ...]"
+syntax_fmt: "XADD key [NOMKSTREAM] [KEEPREF | DELREF | ACKED] [<MAXLEN | MINID>\n\
+  \  [= | ~] threshold [LIMIT\_count]] <* | id> field value [field value\n  ...]"
 syntax_str: "[NOMKSTREAM] [KEEPREF | DELREF | ACKED] [<MAXLEN | MINID> [= | ~] threshold\
   \ [LIMIT\_count]] <* | id> field value [field value ...]"
 title: XADD

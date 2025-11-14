@@ -6,6 +6,7 @@ categories:
 - oss
 - rs
 - rc
+- oss
 - kubernetes
 - clients
 complexity: O(1)
@@ -15,10 +16,9 @@ hidden: false
 linkTitle: VEMB
 since: 8.0.0
 summary: Return the vector associated with an element.
-syntax_fmt: VEMB key element [RAW]
+syntax_fmt: "VEMB key element [RAW]"
 title: VEMB
-bannerText: Vector set is a new data type that is currently in preview and may be
-  subject to change.
+bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
 ---
 
 Return the approximate vector associated with a given element in the vector set.

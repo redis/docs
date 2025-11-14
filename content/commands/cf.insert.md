@@ -27,6 +27,7 @@ categories:
 - oss
 - rs
 - rc
+- oss
 - kubernetes
 - clients
 complexity: O(n * (k + i)), where n is the number of items, k is the number of sub-filters

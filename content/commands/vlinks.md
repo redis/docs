@@ -6,6 +6,7 @@ categories:
 - oss
 - rs
 - rc
+- oss
 - kubernetes
 - clients
 complexity: O(1)
@@ -15,10 +16,9 @@ hidden: false
 linkTitle: VLINKS
 since: 8.0.0
 summary: Return the neighbors of an element at each layer in the HNSW graph.
-syntax_fmt: VLINKS key element [WITHSCORES]
+syntax_fmt: "VLINKS key element [WITHSCORES]"
 title: VLINKS
-bannerText: Vector set is a new data type that is currently in preview and may be
-  subject to change.
+bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
 ---
 
 Return the neighbors of a specified element in a vector set. The command shows the connections for each layer of the HNSW graph.

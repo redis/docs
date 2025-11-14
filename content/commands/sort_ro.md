@@ -61,6 +61,7 @@ categories:
 - oss
 - rs
 - rc
+- oss
 - kubernetes
 - clients
 command_flags:
@@ -98,8 +99,7 @@ key_specs:
 linkTitle: SORT_RO
 since: 7.0.0
 summary: Returns the sorted elements of a list, a set, or a sorted set.
-syntax_fmt: "SORT_RO key [BY\_pattern] [LIMIT\_offset count] [GET\_pattern [GET
-\
+syntax_fmt: "SORT_RO key [BY\_pattern] [LIMIT\_offset count] [GET\_pattern [GET\n\
   \  pattern ...]] [ASC | DESC] [ALPHA]"
 syntax_str: "[BY\_pattern] [LIMIT\_offset count] [GET\_pattern [GET pattern ...]]\
   \ [ASC | DESC] [ALPHA]"

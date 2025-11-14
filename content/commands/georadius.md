@@ -99,6 +99,7 @@ categories:
 - oss
 - rs
 - rc
+- oss
 - kubernetes
 - clients
 command_flags:
@@ -165,10 +166,8 @@ replaced_by: '[`GEOSEARCH`]({{< relref "/commands/geosearch" >}}) and [`GEOSEARC
 since: 3.2.0
 summary: Queries a geospatial index for members within a distance from a coordinate,
   optionally stores the result.
-syntax_fmt: "GEORADIUS key longitude latitude radius <M | KM | FT | MI>
-  [WITHCOORD]\
-  \ [WITHDIST] [WITHHASH] [COUNT\_count [ANY]] [ASC | DESC]
-  [STORE\_key | STOREDIST\_\
+syntax_fmt: "GEORADIUS key longitude latitude radius <M | KM | FT | MI>\n  [WITHCOORD]\
+  \ [WITHDIST] [WITHHASH] [COUNT\_count [ANY]] [ASC | DESC]\n  [STORE\_key | STOREDIST\_\
   key]"
 syntax_str: "longitude latitude radius <M | KM | FT | MI> [WITHCOORD] [WITHDIST] [WITHHASH]\
   \ [COUNT\_count [ANY]] [ASC | DESC] [STORE\_key | STOREDIST\_key]"

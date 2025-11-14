@@ -80,6 +80,7 @@ categories:
 - oss
 - rs
 - rc
+- oss
 - kubernetes
 - clients
 command_flags:
@@ -108,14 +109,10 @@ key_specs:
 linkTitle: BITFIELD
 since: 3.2.0
 summary: Performs arbitrary bitfield integer operations on strings.
-syntax_fmt: "BITFIELD key [GET\_encoding offset | [OVERFLOW\_<WRAP | SAT | FAIL>]
-\
-  \  <SET\_encoding offset value | INCRBY\_encoding offset increment>
-  [GET\_encoding\
-  \ offset | [OVERFLOW\_<WRAP | SAT | FAIL>]
-  <SET\_encoding offset value | INCRBY\_\
-  encoding offset increment>
-  ...]]"
+syntax_fmt: "BITFIELD key [GET\_encoding offset | [OVERFLOW\_<WRAP | SAT | FAIL>]\n\
+  \  <SET\_encoding offset value | INCRBY\_encoding offset increment>\n  [GET\_encoding\
+  \ offset | [OVERFLOW\_<WRAP | SAT | FAIL>]\n  <SET\_encoding offset value | INCRBY\_\
+  encoding offset increment>\n  ...]]"
 syntax_str: "[GET\_encoding offset | [OVERFLOW\_<WRAP | SAT | FAIL>] <SET\_encoding\
   \ offset value | INCRBY\_encoding offset increment> [GET\_encoding offset | [OVERFLOW\_\
   <WRAP | SAT | FAIL>] <SET\_encoding offset value | INCRBY\_encoding offset increment>\

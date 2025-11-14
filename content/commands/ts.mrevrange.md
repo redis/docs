@@ -149,6 +149,7 @@ categories:
 - oss
 - rs
 - rc
+- oss
 - kubernetes
 - clients
 complexity: O(n/m+k) where n = Number of data points, m = Chunk size (data points
@@ -161,34 +162,17 @@ module: TimeSeries
 since: 1.4.0
 stack_path: docs/data-types/timeseries
 summary: Query a range across multiple time-series by filters in reverse direction
-syntax: "TS.MREVRANGE fromTimestamp toTimestamp
-  [LATEST]
-  [FILTER_BY_TS ts...]
-\
-  \  [FILTER_BY_VALUE min max]
-  [WITHLABELS | <SELECTED_LABELS label...>]
-  [COUNT\
-  \ count]
-  [[ALIGN align] AGGREGATION aggregator bucketDuration [BUCKETTIMESTAMP\
-  \ bt] [EMPTY]]
-  FILTER filterExpr...
-  [GROUPBY label REDUCE reducer]
-"
-syntax_fmt: "TS.MREVRANGE fromTimestamp toTimestamp [LATEST]
-  [FILTER_BY_TS\_Timestamp\
-  \ [Timestamp ...]] [FILTER_BY_VALUE min max]
-  [WITHLABELS | <SELECTED_LABELS label1\
-  \ [label1 ...]>] [COUNT\_count]
-  [[ALIGN\_value] AGGREGATION\_<AVG | FIRST | LAST\
-  \ | MIN | MAX | SUM |
-  RANGE | COUNT | STD.P | STD.S | VAR.P | VAR.S | TWA>
-\
-  \  bucketDuration [BUCKETTIMESTAMP] [EMPTY]] FILTER\_<l=v | l!=v | l=
-  | l!= |\
-  \ l=(v1,v2,...) | l!=(v1,v2,...) [l=v | l!=v | l= | l!= |
-  l=(v1,v2,...) | l!=(v1,v2,...)\
-  \ ...]> [GROUPBY label REDUCE
-  reducer]"
+syntax: "TS.MREVRANGE fromTimestamp toTimestamp\n  [LATEST]\n  [FILTER_BY_TS ts...]\n\
+  \  [FILTER_BY_VALUE min max]\n  [WITHLABELS | <SELECTED_LABELS label...>]\n  [COUNT\
+  \ count]\n  [[ALIGN align] AGGREGATION aggregator bucketDuration [BUCKETTIMESTAMP\
+  \ bt] [EMPTY]]\n  FILTER filterExpr...\n  [GROUPBY label REDUCE reducer]\n"
+syntax_fmt: "TS.MREVRANGE fromTimestamp toTimestamp [LATEST]\n  [FILTER_BY_TS\_Timestamp\
+  \ [Timestamp ...]] [FILTER_BY_VALUE min max]\n  [WITHLABELS | <SELECTED_LABELS label1\
+  \ [label1 ...]>] [COUNT\_count]\n  [[ALIGN\_value] AGGREGATION\_<AVG | FIRST | LAST\
+  \ | MIN | MAX | SUM |\n  RANGE | COUNT | STD.P | STD.S | VAR.P | VAR.S | TWA>\n\
+  \  bucketDuration [BUCKETTIMESTAMP] [EMPTY]] FILTER\_<l=v | l!=v | l=\n  | l!= |\
+  \ l=(v1,v2,...) | l!=(v1,v2,...) [l=v | l!=v | l= | l!= |\n  l=(v1,v2,...) | l!=(v1,v2,...)\
+  \ ...]> [GROUPBY label REDUCE\n  reducer]"
 syntax_str: "toTimestamp [LATEST] [FILTER_BY_TS\_Timestamp [Timestamp ...]] [FILTER_BY_VALUE\
   \ min max] [WITHLABELS | <SELECTED_LABELS label1 [label1 ...]>] [COUNT\_count] [[ALIGN\_\
   value] AGGREGATION\_<AVG | FIRST | LAST | MIN | MAX | SUM | RANGE | COUNT | STD.P\

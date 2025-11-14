@@ -95,6 +95,7 @@ categories:
 - oss
 - rs
 - rc
+- oss
 - kubernetes
 - clients
 command_flags:
@@ -161,10 +162,8 @@ replaced_by: '[`GEOSEARCH`]({{< relref "/commands/geosearch" >}}) and [`GEOSEARC
 since: 3.2.0
 summary: Queries a geospatial index for members within a distance from a member, optionally
   stores the result.
-syntax_fmt: "GEORADIUSBYMEMBER key member radius <M | KM | FT | MI> [WITHCOORD]
-\
-  \  [WITHDIST] [WITHHASH] [COUNT\_count [ANY]] [ASC | DESC] [STORE\_key
-  | STOREDIST\_\
+syntax_fmt: "GEORADIUSBYMEMBER key member radius <M | KM | FT | MI> [WITHCOORD]\n\
+  \  [WITHDIST] [WITHHASH] [COUNT\_count [ANY]] [ASC | DESC] [STORE\_key\n  | STOREDIST\_\
   key]"
 syntax_str: "member radius <M | KM | FT | MI> [WITHCOORD] [WITHDIST] [WITHHASH] [COUNT\_\
   count [ANY]] [ASC | DESC] [STORE\_key | STOREDIST\_key]"

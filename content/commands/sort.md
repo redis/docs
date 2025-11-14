@@ -67,6 +67,7 @@ categories:
 - oss
 - rs
 - rc
+- oss
 - kubernetes
 - clients
 command_flags:
@@ -117,8 +118,7 @@ linkTitle: SORT
 since: 1.0.0
 summary: Sorts the elements in a list, a set, or a sorted set, optionally storing
   the result.
-syntax_fmt: "SORT key [BY\_pattern] [LIMIT\_offset count] [GET\_pattern [GET pattern
-\
+syntax_fmt: "SORT key [BY\_pattern] [LIMIT\_offset count] [GET\_pattern [GET pattern\n\
   \  ...]] [ASC | DESC] [ALPHA] [STORE\_destination]"
 syntax_str: "[BY\_pattern] [LIMIT\_offset count] [GET\_pattern [GET pattern ...]]\
   \ [ASC | DESC] [ALPHA] [STORE\_destination]"

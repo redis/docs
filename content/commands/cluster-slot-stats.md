@@ -39,6 +39,7 @@ categories:
 - oss
 - rs
 - rc
+- oss
 - kubernetes
 - clients
 command_flags:
@@ -84,9 +85,8 @@ reply_schema:
 since: 8.2.0
 summary: Return an array of slot usage statistics for slots assigned to the current
   node.
-syntax_fmt: "CLUSTER SLOT-STATS <SLOTSRANGE\_start-slot end-slot | ORDERBY\_metric
-\
-  \  [LIMIT\_limit] [ASC | DESC]>"
+syntax_fmt: "CLUSTER SLOT-STATS <SLOTSRANGE\_start-slot end-slot | ORDERBY\_metric\n  [LIMIT\_\
+  limit] [ASC | DESC]>"
 syntax_str: ''
 title: CLUSTER SLOT-STATS
 ---

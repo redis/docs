@@ -68,6 +68,7 @@ categories:
 - oss
 - rs
 - rc
+- oss
 - kubernetes
 - clients
 command_flags:
@@ -101,8 +102,7 @@ key_specs:
 linkTitle: XTRIM
 since: 5.0.0
 summary: Deletes messages from the beginning of a stream.
-syntax_fmt: "XTRIM key <MAXLEN | MINID> [= | ~] threshold [LIMIT\_count] [KEEPREF
-\
+syntax_fmt: "XTRIM key <MAXLEN | MINID> [= | ~] threshold [LIMIT\_count] [KEEPREF\n\
   \  | DELREF | ACKED]"
 syntax_str: "<MAXLEN | MINID> [= | ~] threshold [LIMIT\_count] [KEEPREF | DELREF |\
   \ ACKED]"

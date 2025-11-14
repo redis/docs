@@ -47,6 +47,7 @@ categories:
 - oss
 - rs
 - rc
+- oss
 - kubernetes
 - clients
 command_flags:
@@ -83,8 +84,7 @@ key_specs:
 linkTitle: RESTORE
 since: 2.6.0
 summary: Creates a key from the serialized representation of a value.
-syntax_fmt: "RESTORE key ttl serialized-value [REPLACE] [ABSTTL]
-  [IDLETIME\_seconds]\
+syntax_fmt: "RESTORE key ttl serialized-value [REPLACE] [ABSTTL]\n  [IDLETIME\_seconds]\
   \ [FREQ\_frequency]"
 syntax_str: "ttl serialized-value [REPLACE] [ABSTTL] [IDLETIME\_seconds] [FREQ\_frequency]"
 title: RESTORE

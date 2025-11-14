@@ -31,6 +31,7 @@ categories:
 - oss
 - rs
 - rc
+- oss
 - kubernetes
 - clients
 command_flags:
@@ -60,8 +61,7 @@ key_specs:
 linkTitle: XSETID
 since: 5.0.0
 summary: An internal command for replicating stream values.
-syntax_fmt: "XSETID key last-id [ENTRIESADDED\_entries-added]
-  [MAXDELETEDID\_max-deleted-id]"
+syntax_fmt: "XSETID key last-id [ENTRIESADDED\_entries-added]\n  [MAXDELETEDID\_max-deleted-id]"
 syntax_str: "last-id [ENTRIESADDED\_entries-added] [MAXDELETEDID\_max-deleted-id]"
 title: XSETID
 ---

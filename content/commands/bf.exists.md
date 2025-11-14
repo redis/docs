@@ -15,6 +15,7 @@ categories:
 - oss
 - rs
 - rc
+- oss
 - kubernetes
 - clients
 complexity: O(k), where k is the number of hash functions used by the last sub-filter

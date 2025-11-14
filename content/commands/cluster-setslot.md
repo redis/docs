@@ -34,6 +34,7 @@ categories:
 - oss
 - rs
 - rc
+- oss
 - kubernetes
 - clients
 command_flags:
@@ -47,8 +48,7 @@ hidden: false
 linkTitle: CLUSTER SETSLOT
 since: 3.0.0
 summary: Binds a hash slot to a node.
-syntax_fmt: "CLUSTER SETSLOT slot <IMPORTING\_node-id | MIGRATING\_node-id |
-  NODE\_\
+syntax_fmt: "CLUSTER SETSLOT slot <IMPORTING\_node-id | MIGRATING\_node-id |\n  NODE\_\
   node-id | STABLE>"
 syntax_str: "<IMPORTING\_node-id | MIGRATING\_node-id | NODE\_node-id | STABLE>"
 title: CLUSTER SETSLOT

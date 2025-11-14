@@ -50,6 +50,7 @@ categories:
 - oss
 - rs
 - rc
+- oss
 - kubernetes
 - clients
 command_flags:
@@ -76,8 +77,7 @@ key_specs:
 linkTitle: HEXPIRE
 since: 7.4.0
 summary: Set expiry for hash field using relative time to expire (seconds)
-syntax_fmt: "HEXPIRE key seconds [NX | XX | GT | LT] FIELDS\_numfields field
-  [field\
+syntax_fmt: "HEXPIRE key seconds [NX | XX | GT | LT] FIELDS\_numfields field\n  [field\
   \ ...]"
 syntax_str: "seconds [NX | XX | GT | LT] FIELDS\_numfields field [field ...]"
 title: HEXPIRE

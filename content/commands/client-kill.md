@@ -93,6 +93,7 @@ categories:
 - oss
 - rs
 - rc
+- oss
 - kubernetes
 - clients
 command_flags:
@@ -120,16 +121,11 @@ history:
 linkTitle: CLIENT KILL
 since: 2.4.0
 summary: Terminates open connections.
-syntax_fmt: "CLIENT KILL <ip:port | <[ID\_client-id] | [TYPE\_<NORMAL | MASTER |
-\
-  \  SLAVE | REPLICA | PUBSUB>] | [USER\_username] | [ADDR\_ip:port] |
-  [LADDR\_\
-  ip:port] | [SKIPME\_<YES | NO>] | [MAXAGE\_maxage]
-  [[ID\_client-id] | [TYPE\_\
-  <NORMAL | MASTER | SLAVE | REPLICA |
-  PUBSUB>] | [USER\_username] | [ADDR\_ip:port]\
-  \ | [LADDR\_ip:port] |
-  [SKIPME\_<YES | NO>] | [MAXAGE\_maxage] ...]>>"
+syntax_fmt: "CLIENT KILL <ip:port | <[ID\_client-id] | [TYPE\_<NORMAL | MASTER |\n\
+  \  SLAVE | REPLICA | PUBSUB>] | [USER\_username] | [ADDR\_ip:port] |\n  [LADDR\_\
+  ip:port] | [SKIPME\_<YES | NO>] | [MAXAGE\_maxage]\n  [[ID\_client-id] | [TYPE\_\
+  <NORMAL | MASTER | SLAVE | REPLICA |\n  PUBSUB>] | [USER\_username] | [ADDR\_ip:port]\
+  \ | [LADDR\_ip:port] |\n  [SKIPME\_<YES | NO>] | [MAXAGE\_maxage] ...]>>"
 syntax_str: ''
 title: CLIENT KILL
 ---

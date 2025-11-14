@@ -54,6 +54,7 @@ categories:
 - oss
 - rs
 - rc
+- oss
 - kubernetes
 - clients
 complexity: O(N) where N is the number of labels requested to update
@@ -67,24 +68,12 @@ since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Update the retention, chunk size, duplicate policy, and labels of an existing
   time series
-syntax: "TS.ALTER key 
-  [RETENTION retentionPeriod] 
-  [CHUNK_SIZE size] 
-  [DUPLICATE_POLICY\
-  \ policy] 
-  [IGNORE ignoreMaxTimediff ignoreMaxValDiff] 
-  [LABELS [label value\
-  \ ...]]
-"
-syntax_fmt: "TS.ALTER key [RETENTION\_retentionPeriod] [CHUNK_SIZE\_size]
-  [DUPLICATE_POLICY\_\
-  <BLOCK | FIRST | LAST | MIN | MAX | SUM>]
-  [IGNORE ignoreMaxTimediff ignoreMaxValDiff]\
-  \ 
-  [LABELS [label value ...]]"
+syntax: "TS.ALTER key \n  [RETENTION retentionPeriod] \n  [CHUNK_SIZE size] \n  [DUPLICATE_POLICY\
+  \ policy] \n  [IGNORE ignoreMaxTimediff ignoreMaxValDiff] \n  [LABELS [label value ...]]\n"
+syntax_fmt: "TS.ALTER key [RETENTION\_retentionPeriod] [CHUNK_SIZE\_size]\n  [DUPLICATE_POLICY\_\
+  <BLOCK | FIRST | LAST | MIN | MAX | SUM>]\n  [IGNORE ignoreMaxTimediff ignoreMaxValDiff] \n  [LABELS\ [label value ...]]"
 syntax_str: "[RETENTION\_retentionPeriod] [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_<BLOCK\
-  \ | FIRST | LAST | MIN | MAX | SUM>] [IGNORE ignoreMaxTimediff ignoreMaxValDiff]\
-  \ [LABELS [label value ...]]"
+  \ | FIRST | LAST | MIN | MAX | SUM>] [IGNORE ignoreMaxTimediff ignoreMaxValDiff] [LABELS\ [label value ...]]"
 title: TS.ALTER
 ---
 
