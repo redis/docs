@@ -15,7 +15,6 @@ categories:
 - oss
 - rs
 - rc
-- oss
 - kubernetes
 - clients
 complexity: O(k + i), where k is the number of sub-filters and i is maxIterations

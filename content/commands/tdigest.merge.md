@@ -31,7 +31,6 @@ categories:
 - oss
 - rs
 - rc
-- oss
 - kubernetes
 - clients
 complexity: O(N*K), where N is the number of centroids and K being the number of input
@@ -44,7 +43,8 @@ module: Bloom
 since: 2.4.0
 stack_path: docs/data-types/probabilistic
 summary: Merges multiple t-digest sketches into a single sketch
-syntax_fmt: "TDIGEST.MERGE destination-key numkeys source-key [source-key ...]\n \
+syntax_fmt: "TDIGEST.MERGE destination-key numkeys source-key [source-key ...]
+ \
   \ [COMPRESSION compression] [OVERRIDE]"
 syntax_str: numkeys source-key [source-key ...] [COMPRESSION compression] [OVERRIDE]
 title: TDIGEST.MERGE

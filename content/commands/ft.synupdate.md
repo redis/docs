@@ -20,7 +20,6 @@ categories:
 - oss
 - rs
 - rc
-- oss
 - kubernetes
 - clients
 command_flags:
@@ -34,8 +33,11 @@ module: Search
 since: 1.2.0
 stack_path: docs/interact/search-and-query
 summary: Creates or updates a synonym group with additional terms
-syntax: "FT.SYNUPDATE index synonym_group_id \n  [SKIPINITIALSCAN] term [term ...]\n"
-syntax_fmt: "FT.SYNUPDATE index synonym_group_id [SKIPINITIALSCAN] term [term\n  ...]"
+syntax: "FT.SYNUPDATE index synonym_group_id 
+  [SKIPINITIALSCAN] term [term ...]
+"
+syntax_fmt: "FT.SYNUPDATE index synonym_group_id [SKIPINITIALSCAN] term [term
+  ...]"
 syntax_str: synonym_group_id [SKIPINITIALSCAN] term [term ...]
 title: FT.SYNUPDATE
 ---

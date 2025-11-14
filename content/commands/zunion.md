@@ -48,7 +48,6 @@ categories:
 - oss
 - rs
 - rc
-- oss
 - kubernetes
 - clients
 command_flags:
@@ -75,7 +74,8 @@ key_specs:
 linkTitle: ZUNION
 since: 6.2.0
 summary: Returns the union of multiple sorted sets.
-syntax_fmt: "ZUNION numkeys key [key ...] [WEIGHTS\_weight [weight ...]]\n  [AGGREGATE\_\
+syntax_fmt: "ZUNION numkeys key [key ...] [WEIGHTS\_weight [weight ...]]
+  [AGGREGATE\_\
   <SUM | MIN | MAX>] [WITHSCORES]"
 syntax_str: "key [key ...] [WEIGHTS\_weight [weight ...]] [AGGREGATE\_<SUM | MIN |\
   \ MAX>] [WITHSCORES]"

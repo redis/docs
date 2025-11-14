@@ -27,7 +27,6 @@ categories:
 - oss
 - rs
 - rc
-- oss
 - kubernetes
 - clients
 complexity: O(1)
@@ -39,7 +38,8 @@ module: Bloom
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Creates a new Cuckoo Filter
-syntax_fmt: "CF.RESERVE key capacity [BUCKETSIZE\_bucketsize]\n  [MAXITERATIONS\_\
+syntax_fmt: "CF.RESERVE key capacity [BUCKETSIZE\_bucketsize]
+  [MAXITERATIONS\_\
   maxiterations] [EXPANSION\_expansion]"
 syntax_str: "capacity [BUCKETSIZE\_bucketsize] [MAXITERATIONS\_maxiterations] [EXPANSION\_\
   expansion]"

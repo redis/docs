@@ -56,7 +56,6 @@ categories:
 - oss
 - rs
 - rc
-- oss
 - kubernetes
 - clients
 command_flags:
@@ -94,7 +93,8 @@ key_specs:
 linkTitle: BITOP
 since: 2.6.0
 summary: Performs bitwise operations on multiple strings, and stores the result.
-syntax_fmt: "BITOP <AND | OR | XOR | NOT | DIFF | DIFF1 | ANDOR | ONE> destkey key [key ...]"
+syntax_fmt: BITOP <AND | OR | XOR | NOT | DIFF | DIFF1 | ANDOR | ONE> destkey key
+  [key ...]
 syntax_str: destkey key [key ...]
 title: BITOP
 ---

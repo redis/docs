@@ -6,7 +6,6 @@ categories:
 - oss
 - rs
 - rc
-- oss
 - kubernetes
 - clients
 complexity: O(1)
@@ -16,9 +15,10 @@ hidden: false
 linkTitle: VSETATTR
 since: 8.0.0
 summary: Associate or remove the JSON attributes of elements.
-syntax_fmt: "VSETATTR key element \"{ JSON obj }\""
+syntax_fmt: VSETATTR key element "{ JSON obj }"
 title: VSETATTR
-bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
+bannerText: Vector set is a new data type that is currently in preview and may be
+  subject to change.
 ---
 
 Associate a JSON object with an element in a vector set. Use this command to store attributes that can be used in filtered similarity searches with `VSIM`.

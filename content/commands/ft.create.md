@@ -149,7 +149,6 @@ categories:
 - oss
 - rs
 - rc
-- oss
 - kubernetes
 - clients
 complexity: O(K) at creation where K is the number of fields, O(N) if scanning the
@@ -168,21 +167,49 @@ module: Search
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Creates an index with the given spec
-syntax: "FT.CREATE index \n  [ON HASH | JSON] \n  [PREFIX count prefix [prefix ...]]\
-  \ \n  [FILTER {filter}]\n  [LANGUAGE default_lang] \n  [LANGUAGE_FIELD lang_attribute]\
-  \ \n  [SCORE default_score] \n  [SCORE_FIELD score_attribute] \n  [PAYLOAD_FIELD\
-  \ payload_attribute] \n  [MAXTEXTFIELDS] \n  [TEMPORARY seconds] \n  [NOOFFSETS]\
-  \ \n  [NOHL] \n  [NOFIELDS] \n  [NOFREQS] \n  [STOPWORDS count [stopword ...]] \n\
-  \  [SKIPINITIALSCAN]\n  SCHEMA field_name [AS alias] TEXT | TAG | NUMERIC | GEO\
-  \ | VECTOR | GEOSHAPE [ SORTABLE [UNF]] \n  [NOINDEX] [ field_name [AS alias] TEXT\
-  \ | TAG | NUMERIC | GEO | VECTOR | GEOSHAPE [ SORTABLE [UNF]] [NOINDEX] ...]\n"
-syntax_fmt: "FT.CREATE index [ON\_<HASH | JSON>] [PREFIX\_count prefix [prefix\n \
-  \ ...]] [FILTER\_filter] [LANGUAGE\_default_lang]\n  [LANGUAGE_FIELD\_lang_attribute]\
-  \ [SCORE\_default_score]\n  [SCORE_FIELD\_score_attribute] [PAYLOAD_FIELD\_payload_attribute]\n\
-  \  [MAXTEXTFIELDS] [TEMPORARY\_seconds] [NOOFFSETS] [NOHL] [NOFIELDS]\n  [NOFREQS]\
-  \ [STOPWORDS\_count [stopword [stopword ...]]]\n  [SKIPINITIALSCAN] SCHEMA field_name\
-  \ [AS\_alias] <TEXT | TAG |\n  NUMERIC | GEO | VECTOR> [WITHSUFFIXTRIE] [SORTABLE\
-  \ [UNF]]\n  [NOINDEX] [field_name [AS\_alias] <TEXT | TAG | NUMERIC | GEO |\n  VECTOR>\
+syntax: "FT.CREATE index 
+  [ON HASH | JSON] 
+  [PREFIX count prefix [prefix ...]]\
+  \ 
+  [FILTER {filter}]
+  [LANGUAGE default_lang] 
+  [LANGUAGE_FIELD lang_attribute]\
+  \ 
+  [SCORE default_score] 
+  [SCORE_FIELD score_attribute] 
+  [PAYLOAD_FIELD\
+  \ payload_attribute] 
+  [MAXTEXTFIELDS] 
+  [TEMPORARY seconds] 
+  [NOOFFSETS]\
+  \ 
+  [NOHL] 
+  [NOFIELDS] 
+  [NOFREQS] 
+  [STOPWORDS count [stopword ...]] 
+\
+  \  [SKIPINITIALSCAN]
+  SCHEMA field_name [AS alias] TEXT | TAG | NUMERIC | GEO\
+  \ | VECTOR | GEOSHAPE [ SORTABLE [UNF]] 
+  [NOINDEX] [ field_name [AS alias] TEXT\
+  \ | TAG | NUMERIC | GEO | VECTOR | GEOSHAPE [ SORTABLE [UNF]] [NOINDEX] ...]
+"
+syntax_fmt: "FT.CREATE index [ON\_<HASH | JSON>] [PREFIX\_count prefix [prefix
+ \
+  \ ...]] [FILTER\_filter] [LANGUAGE\_default_lang]
+  [LANGUAGE_FIELD\_lang_attribute]\
+  \ [SCORE\_default_score]
+  [SCORE_FIELD\_score_attribute] [PAYLOAD_FIELD\_payload_attribute]
+\
+  \  [MAXTEXTFIELDS] [TEMPORARY\_seconds] [NOOFFSETS] [NOHL] [NOFIELDS]
+  [NOFREQS]\
+  \ [STOPWORDS\_count [stopword [stopword ...]]]
+  [SKIPINITIALSCAN] SCHEMA field_name\
+  \ [AS\_alias] <TEXT | TAG |
+  NUMERIC | GEO | VECTOR> [WITHSUFFIXTRIE] [SORTABLE\
+  \ [UNF]]
+  [NOINDEX] [field_name [AS\_alias] <TEXT | TAG | NUMERIC | GEO |
+  VECTOR>\
   \ [WITHSUFFIXTRIE] [SORTABLE [UNF]] [NOINDEX] ...]"
 syntax_str: "[ON\_<HASH | JSON>] [PREFIX\_count prefix [prefix ...]] [FILTER\_filter]\
   \ [LANGUAGE\_default_lang] [LANGUAGE_FIELD\_lang_attribute] [SCORE\_default_score]\

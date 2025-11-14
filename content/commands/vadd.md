@@ -6,19 +6,23 @@ categories:
 - oss
 - rs
 - rc
-- oss
 - kubernetes
 - clients
-complexity: O(log(N)) for each element added, where N is the number of elements in the vector set.
-description: Add a new element to a vector set, or update its vector if it already exists.
+complexity: O(log(N)) for each element added, where N is the number of elements in
+  the vector set.
+description: Add a new element to a vector set, or update its vector if it already
+  exists.
 group: vector_set
 hidden: false
 linkTitle: VADD
 since: 8.0.0
 summary: Add a new element to a vector set, or update its vector if it already exists.
-syntax_fmt: "VADD key [REDUCE dim] (FP32 | VALUES num) vector element [CAS] [NOQUANT | Q8 | BIN]\n  [EF build-exploration-factor] [SETATTR attributes] [M numlinks]"
+syntax_fmt: "VADD key [REDUCE dim] (FP32 | VALUES num) vector element [CAS] [NOQUANT\
+  \ | Q8 | BIN]
+  [EF build-exploration-factor] [SETATTR attributes] [M numlinks]"
 title: VADD
-bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
+bannerText: Vector set is a new data type that is currently in preview and may be
+  subject to change.
 ---
 
 Add a new element into the vector set specified by `key`. The vector can be provided as 32-bit floating point (`FP32`) blob of values, or as floating point numbers as strings, prefixed by the number of elements (3 in the example below):

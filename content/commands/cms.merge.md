@@ -27,7 +27,6 @@ categories:
 - oss
 - rs
 - rc
-- oss
 - kubernetes
 - clients
 complexity: O(n) where n is the number of sketches
@@ -39,7 +38,8 @@ module: Bloom
 since: 2.0.0
 stack_path: docs/data-types/probabilistic
 summary: Merges several sketches into one sketch
-syntax_fmt: "CMS.MERGE destination numKeys source [source ...] [WEIGHTS weight\n \
+syntax_fmt: "CMS.MERGE destination numKeys source [source ...] [WEIGHTS weight
+ \
   \ [weight ...]]"
 syntax_str: numKeys source [source ...] [WEIGHTS weight [weight ...]]
 title: CMS.MERGE

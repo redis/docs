@@ -65,7 +65,6 @@ categories:
 - oss
 - rs
 - rc
-- oss
 - kubernetes
 - clients
 complexity: O(1)
@@ -77,11 +76,24 @@ module: TimeSeries
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Create a new time series
-syntax: "TS.CREATE key \n  [RETENTION retentionPeriod] \n  [ENCODING <COMPRESSED|UNCOMPRESSED>]\
-  \ \n  [CHUNK_SIZE size] \n  [DUPLICATE_POLICY policy] \n  [IGNORE ignoreMaxTimediff ignoreMaxValDiff] \n  [LABELS [label value ...]]\n"
-syntax_fmt: "TS.CREATE key [RETENTION\_retentionPeriod] [ENCODING\_<COMPRESSED |\n\
-  \  UNCOMPRESSED>] [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_<BLOCK | FIRST |\n  LAST |\
-  \ MIN | MAX | SUM>]\n\ \ [IGNORE\_ignoreMaxTimediff\_ignoreMaxValDiff]\n\ \ [LABELS\_[label value ...]]"
+syntax: "TS.CREATE key 
+  [RETENTION retentionPeriod] 
+  [ENCODING <COMPRESSED|UNCOMPRESSED>]\
+  \ 
+  [CHUNK_SIZE size] 
+  [DUPLICATE_POLICY policy] 
+  [IGNORE ignoreMaxTimediff\
+  \ ignoreMaxValDiff] 
+  [LABELS [label value ...]]
+"
+syntax_fmt: "TS.CREATE key [RETENTION\_retentionPeriod] [ENCODING\_<COMPRESSED |
+\
+  \  UNCOMPRESSED>] [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_<BLOCK | FIRST |
+  LAST\
+  \ | MIN | MAX | SUM>]
+  [IGNORE\_ignoreMaxTimediff\_ignoreMaxValDiff]
+  [LABELS\_\
+  [label value ...]]"
 syntax_str: "[RETENTION\_retentionPeriod] [ENCODING\_<COMPRESSED | UNCOMPRESSED>]\
   \ [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_<BLOCK | FIRST | LAST | MIN | MAX | SUM>]\
   \ [IGNORE\_ignoreMaxTimediff\_ignoreMaxValDiff] [LABELS\_[label value ...]]"

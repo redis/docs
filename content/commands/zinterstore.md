@@ -47,7 +47,6 @@ categories:
 - oss
 - rs
 - rc
-- oss
 - kubernetes
 - clients
 command_flags:
@@ -88,7 +87,8 @@ key_specs:
 linkTitle: ZINTERSTORE
 since: 2.0.0
 summary: Stores the intersect of multiple sorted sets in a key.
-syntax_fmt: "ZINTERSTORE destination numkeys key [key ...] [WEIGHTS\_weight\n  [weight\
+syntax_fmt: "ZINTERSTORE destination numkeys key [key ...] [WEIGHTS\_weight
+  [weight\
   \ ...]] [AGGREGATE\_<SUM | MIN | MAX>]"
 syntax_str: "numkeys key [key ...] [WEIGHTS\_weight [weight ...]] [AGGREGATE\_<SUM\
   \ | MIN | MAX>]"

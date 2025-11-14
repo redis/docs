@@ -125,7 +125,6 @@ categories:
 - oss
 - rs
 - rc
-- oss
 - kubernetes
 - clients
 command_flags:
@@ -170,9 +169,12 @@ linkTitle: GEOSEARCHSTORE
 since: 6.2.0
 summary: Queries a geospatial index for members inside an area of a box or a circle,
   optionally stores the result.
-syntax_fmt: "GEOSEARCHSTORE destination source <FROMMEMBER\_member |\n  FROMLONLAT\_\
-  longitude latitude> <BYRADIUS\_radius <M | KM | FT | MI>\n  | BYBOX\_width height\
-  \ <M | KM | FT | MI>> [ASC | DESC] [COUNT\_count\n  [ANY]] [STOREDIST]"
+syntax_fmt: "GEOSEARCHSTORE destination source <FROMMEMBER\_member |
+  FROMLONLAT\_\
+  longitude latitude> <BYRADIUS\_radius <M | KM | FT | MI>
+  | BYBOX\_width height\
+  \ <M | KM | FT | MI>> [ASC | DESC] [COUNT\_count
+  [ANY]] [STOREDIST]"
 syntax_str: "source <FROMMEMBER\_member | FROMLONLAT\_longitude latitude> <BYRADIUS\_\
   radius <M | KM | FT | MI> | BYBOX\_width height <M | KM | FT | MI>> [ASC | DESC]\
   \ [COUNT\_count [ANY]] [STOREDIST]"

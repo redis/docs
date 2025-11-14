@@ -52,7 +52,6 @@ categories:
 - oss
 - rs
 - rc
-- oss
 - kubernetes
 - clients
 complexity: O(M) when M is the amount of compaction rules or O(1) with no compaction
@@ -68,12 +67,26 @@ stack_path: docs/data-types/timeseries
 summary: Decrease the value of the sample with the maximum existing timestamp, or
   create a new sample with a value equal to the value of the sample with the maximum
   existing timestamp with a given decrement
-syntax: "TS.DECRBY key subtrahend \n  [TIMESTAMP timestamp] \n  [RETENTION retentionPeriod]\
-  \ \n  [ENCODING <COMPRESSED|UNCOMPRESSED>] \n  [CHUNK_SIZE size] \n  [DUPLICATE_POLICY policy] \n  [IGNORE ignoreMaxTimediff ignoreMaxValDiff]\ \ \n\ \ [LABELS [label value ...]]\n"
-syntax_fmt: "TS.DECRBY key value [TIMESTAMP\_timestamp]\n  [RETENTION\_retentionPeriod]\
-  \ [ENCODING\_<COMPRESSED|UNCOMPRESSED>] [CHUNK_SIZE\_size]\n [DUPLICATE_POLICY\_policy] [LABELS\_[label value ...]]"
-syntax_str: "value [TIMESTAMP\_timestamp] [RETENTION\_retentionPeriod] [ENCODING\_<COMPRESSED|UNCOMPRESSED>]\
-  \ [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_policy] [LABELS\_[label value ...]]"
+syntax: "TS.DECRBY key subtrahend 
+  [TIMESTAMP timestamp] 
+  [RETENTION retentionPeriod]\
+  \ 
+  [ENCODING <COMPRESSED|UNCOMPRESSED>] 
+  [CHUNK_SIZE size] 
+  [DUPLICATE_POLICY\
+  \ policy] 
+  [IGNORE ignoreMaxTimediff ignoreMaxValDiff]  
+  [LABELS [label value\
+  \ ...]]
+"
+syntax_fmt: "TS.DECRBY key value [TIMESTAMP\_timestamp]
+  [RETENTION\_retentionPeriod]\
+  \ [ENCODING\_<COMPRESSED|UNCOMPRESSED>] [CHUNK_SIZE\_size]
+ [DUPLICATE_POLICY\_\
+  policy] [LABELS\_[label value ...]]"
+syntax_str: "value [TIMESTAMP\_timestamp] [RETENTION\_retentionPeriod] [ENCODING\_\
+  <COMPRESSED|UNCOMPRESSED>] [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_policy] [LABELS\_\
+  [label value ...]]"
 title: TS.DECRBY
 ---
 

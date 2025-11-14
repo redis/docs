@@ -25,7 +25,6 @@ categories:
 - oss
 - rs
 - rc
-- oss
 - kubernetes
 - clients
 complexity: O(N) where N is the number of keys in the keyspace

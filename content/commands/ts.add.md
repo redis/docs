@@ -73,7 +73,6 @@ categories:
 - oss
 - rs
 - rc
-- oss
 - kubernetes
 - clients
 complexity: O(M) when M is the amount of compaction rules or O(1) with no compaction
@@ -85,16 +84,30 @@ module: TimeSeries
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Append a sample to a time series
-syntax: "TS.ADD key timestamp value \n  [RETENTION retentionPeriod] \n  [ENCODING\
-  \ <COMPRESSED|UNCOMPRESSED>] \n  [CHUNK_SIZE size] \n  [DUPLICATE_POLICY policy] \n  [ON_DUPLICATE policy_ovr] \n\
-  \  [IGNORE ignoreMaxTimediff ignoreMaxValDiff] \n\
-  \  [LABELS [label value ...]]\n"
-syntax_fmt: "TS.ADD key timestamp value [RETENTION\_retentionPeriod]\n  [ENCODING\_\
-  <COMPRESSED | UNCOMPRESSED>] [CHUNK_SIZE\_size]\n  [DUPLICATE_POLICY\_policy] \n  [ON_DUPLICATE\_<BLOCK | FIRST\
-  \ | LAST | MIN | MAX | SUM>]\n  [IGNORE ignoreMaxTimediff ignoreMaxValDiff]\n  [LABELS\ [label value ...]]"
-syntax_str: "timestamp value [RETENTION\_retentionPeriod] [ENCODING\_<COMPRESSED\
-  \ | UNCOMPRESSED>] [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_policy] [ON_DUPLICATE\_<BLOCK | FIRST | LAST | MIN |\
-  \ MAX | SUM>] [LABELS\ [label value ...]]"
+syntax: "TS.ADD key timestamp value 
+  [RETENTION retentionPeriod] 
+  [ENCODING\
+  \ <COMPRESSED|UNCOMPRESSED>] 
+  [CHUNK_SIZE size] 
+  [DUPLICATE_POLICY policy]\
+  \ 
+  [ON_DUPLICATE policy_ovr] 
+  [IGNORE ignoreMaxTimediff ignoreMaxValDiff]\
+  \ 
+  [LABELS [label value ...]]
+"
+syntax_fmt: "TS.ADD key timestamp value [RETENTION\_retentionPeriod]
+  [ENCODING\_\
+  <COMPRESSED | UNCOMPRESSED>] [CHUNK_SIZE\_size]
+  [DUPLICATE_POLICY\_policy] 
+\
+  \  [ON_DUPLICATE\_<BLOCK | FIRST | LAST | MIN | MAX | SUM>]
+  [IGNORE ignoreMaxTimediff\
+  \ ignoreMaxValDiff]
+  [LABELS [label value ...]]"
+syntax_str: "timestamp value [RETENTION\_retentionPeriod] [ENCODING\_<COMPRESSED |\
+  \ UNCOMPRESSED>] [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_policy] [ON_DUPLICATE\_<BLOCK\
+  \ | FIRST | LAST | MIN | MAX | SUM>] [LABELS [label value ...]]"
 title: TS.ADD
 ---
 

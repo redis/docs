@@ -21,7 +21,6 @@ categories:
 - oss
 - rs
 - rc
-- oss
 - kubernetes
 - clients
 complexity: O(N*M) when N is the amount of series updated and M is the amount of compaction

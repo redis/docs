@@ -25,7 +25,6 @@ categories:
 - oss
 - rs
 - rc
-- oss
 - kubernetes
 - clients
 complexity: O(1)
@@ -37,7 +36,8 @@ module: Bloom
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Creates a new Bloom Filter
-syntax_fmt: "BF.RESERVE key error_rate capacity [EXPANSION\_expansion]\n  [NONSCALING]"
+syntax_fmt: "BF.RESERVE key error_rate capacity [EXPANSION\_expansion]
+  [NONSCALING]"
 syntax_str: "error_rate capacity [EXPANSION\_expansion] [NONSCALING]"
 title: BF.RESERVE
 ---

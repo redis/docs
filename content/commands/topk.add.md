@@ -16,7 +16,6 @@ categories:
 - oss
 - rs
 - rc
-- oss
 - kubernetes
 - clients
 complexity: O(n * k) where n is the number of items and k is the depth

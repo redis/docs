@@ -255,7 +255,6 @@ categories:
 - oss
 - rs
 - rc
-- oss
 - kubernetes
 - clients
 command_flags:
@@ -270,7 +269,7 @@ history:
   - Deprecated `WITHPAYLOADS` and `PAYLOAD` arguments
 - - 2.6
   - Deprecated `GEOFILTER` argument
-- - "2.10"
+- - '2.10'
   - Deprecated `FILTER` argument
 linkTitle: FT.SEARCH
 module: Search
@@ -278,29 +277,68 @@ since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Searches the index with a textual query, returning either documents or just
   ids
-syntax: "FT.SEARCH index query \n  [NOCONTENT] \n  [VERBATIM] \n  [NOSTOPWORDS] \n  [WITHSCORES]\
-  \ \n  [WITHPAYLOADS] \n  [WITHSORTKEYS] \n  [FILTER numeric_field min max [ FILTER\
-  \ numeric_field min max ...]] \n  [GEOFILTER geo_field lon lat radius m | km | mi\
-  \ | ft [ GEOFILTER geo_field lon lat radius m | km | mi | ft ...]] \n  [INKEYS count\
-  \ key [key ...]] \n  [INFIELDS count field [field ...]] \n  [RETURN count identifier\
-  \ [AS property] [ identifier [AS property] ...]] \n  [SUMMARIZE [ FIELDS count field\
-  \ [field ...]] [FRAGS num] [LEN fragsize] [SEPARATOR separator]] \n  [HIGHLIGHT\
-  \ [ FIELDS count field [field ...]] [ TAGS open close]] \n  [SLOP slop] \n  [TIMEOUT\
-  \ timeout] \n  [INORDER] \n  [LANGUAGE language] \n  [EXPANDER expander] \n  [SCORER\
-  \ scorer] \n  [EXPLAINSCORE] \n  [PAYLOAD payload] \n  [SORTBY sortby [ ASC | DESC]\
-  \ [WITHCOUNT]] \n  [LIMIT offset num] \n  [PARAMS nargs name value [ name value\
-  \ ...]] \n  [DIALECT dialect]\n"
-syntax_fmt: "FT.SEARCH index query [NOCONTENT] [VERBATIM] [NOSTOPWORDS]\n  [WITHSCORES]\
-  \ [WITHPAYLOADS] [WITHSORTKEYS] [FILTER\_numeric_field\n  min max [FILTER\_numeric_field\
-  \ min max ...]] [GEOFILTER\_geo_field\n  lon lat radius <m | km | mi | ft> [GEOFILTER\_\
-  geo_field lon lat\n  radius <m | km | mi | ft> ...]] [INKEYS\_count key [key ...]]\n\
-  \  [INFIELDS\_count field [field ...]] [RETURN\_count identifier\n  [AS\_property]\
-  \ [identifier [AS\_property] ...]] [SUMMARIZE\n  [FIELDS\_count field [field ...]]\
-  \ [FRAGS\_num] [LEN\_fragsize]\n  [SEPARATOR\_separator]] [HIGHLIGHT [FIELDS\_count\
-  \ field [field ...]]\n  [TAGS open close]] [SLOP\_slop] [TIMEOUT\_timeout] [INORDER]\n\
-  \  [LANGUAGE\_language] [EXPANDER\_expander] [SCORER\_scorer]\n  [EXPLAINSCORE]\
-  \ [PAYLOAD\_payload] [SORTBY\_sortby [ASC | DESC]]\n  [LIMIT offset num] [PARAMS\
-  \ nargs name value [name value ...]]\n  [DIALECT\_dialect]"
+syntax: "FT.SEARCH index query 
+  [NOCONTENT] 
+  [VERBATIM] 
+  [NOSTOPWORDS] 
+\
+  \  [WITHSCORES] 
+  [WITHPAYLOADS] 
+  [WITHSORTKEYS] 
+  [FILTER numeric_field\
+  \ min max [ FILTER numeric_field min max ...]] 
+  [GEOFILTER geo_field lon lat\
+  \ radius m | km | mi | ft [ GEOFILTER geo_field lon lat radius m | km | mi | ft\
+  \ ...]] 
+  [INKEYS count key [key ...]] 
+  [INFIELDS count field [field ...]]\
+  \ 
+  [RETURN count identifier [AS property] [ identifier [AS property] ...]] 
+\
+  \  [SUMMARIZE [ FIELDS count field [field ...]] [FRAGS num] [LEN fragsize] [SEPARATOR\
+  \ separator]] 
+  [HIGHLIGHT [ FIELDS count field [field ...]] [ TAGS open close]]\
+  \ 
+  [SLOP slop] 
+  [TIMEOUT timeout] 
+  [INORDER] 
+  [LANGUAGE language] 
+\
+  \  [EXPANDER expander] 
+  [SCORER scorer] 
+  [EXPLAINSCORE] 
+  [PAYLOAD payload]\
+  \ 
+  [SORTBY sortby [ ASC | DESC] [WITHCOUNT]] 
+  [LIMIT offset num] 
+  [PARAMS\
+  \ nargs name value [ name value ...]] 
+  [DIALECT dialect]
+"
+syntax_fmt: "FT.SEARCH index query [NOCONTENT] [VERBATIM] [NOSTOPWORDS]
+  [WITHSCORES]\
+  \ [WITHPAYLOADS] [WITHSORTKEYS] [FILTER\_numeric_field
+  min max [FILTER\_numeric_field\
+  \ min max ...]] [GEOFILTER\_geo_field
+  lon lat radius <m | km | mi | ft> [GEOFILTER\_\
+  geo_field lon lat
+  radius <m | km | mi | ft> ...]] [INKEYS\_count key [key ...]]
+\
+  \  [INFIELDS\_count field [field ...]] [RETURN\_count identifier
+  [AS\_property]\
+  \ [identifier [AS\_property] ...]] [SUMMARIZE
+  [FIELDS\_count field [field ...]]\
+  \ [FRAGS\_num] [LEN\_fragsize]
+  [SEPARATOR\_separator]] [HIGHLIGHT [FIELDS\_count\
+  \ field [field ...]]
+  [TAGS open close]] [SLOP\_slop] [TIMEOUT\_timeout] [INORDER]
+\
+  \  [LANGUAGE\_language] [EXPANDER\_expander] [SCORER\_scorer]
+  [EXPLAINSCORE]\
+  \ [PAYLOAD\_payload] [SORTBY\_sortby [ASC | DESC]]
+  [LIMIT offset num] [PARAMS\
+  \ nargs name value [name value ...]]
+  [DIALECT\_dialect]"
 syntax_str: "query [NOCONTENT] [VERBATIM] [NOSTOPWORDS] [WITHSCORES] [WITHPAYLOADS]\
   \ [WITHSORTKEYS] [FILTER\_numeric_field min max [FILTER\_numeric_field min max ...]]\
   \ [GEOFILTER\_geo_field lon lat radius <m | km | mi | ft> [GEOFILTER\_geo_field\

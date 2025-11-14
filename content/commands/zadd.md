@@ -64,7 +64,6 @@ categories:
 - oss
 - rs
 - rc
-- oss
 - kubernetes
 - clients
 command_flags:
@@ -101,7 +100,8 @@ linkTitle: ZADD
 since: 1.2.0
 summary: Adds one or more members to a sorted set, or updates their scores. Creates
   the key if it doesn't exist.
-syntax_fmt: "ZADD key [NX | XX] [GT | LT] [CH] [INCR] score member [score member\n\
+syntax_fmt: "ZADD key [NX | XX] [GT | LT] [CH] [INCR] score member [score member
+\
   \  ...]"
 syntax_str: '[NX | XX] [GT | LT] [CH] [INCR] score member [score member ...]'
 title: ZADD

@@ -15,12 +15,11 @@ categories:
 - oss
 - rs
 - rc
-- oss
 - kubernetes
 - clients
 complexity: O(N) where N is the number of quantiles specified.
-description: Returns, for each input fraction, a floating-point estimation of the value
-  that is smaller than the given fraction of observations
+description: Returns, for each input fraction, a floating-point estimation of the
+  value that is smaller than the given fraction of observations
 group: tdigest
 hidden: false
 linkTitle: TDIGEST.QUANTILE

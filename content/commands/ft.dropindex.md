@@ -21,7 +21,6 @@ categories:
 - oss
 - rs
 - rc
-- oss
 - kubernetes
 - clients
 complexity: O(1) or O(N) if documents are deleted, where N is the number of keys in
@@ -34,7 +33,9 @@ module: Search
 since: 2.0.0
 stack_path: docs/interact/search-and-query
 summary: Deletes the index
-syntax: "FT.DROPINDEX index \n  [DD]\n"
+syntax: "FT.DROPINDEX index 
+  [DD]
+"
 syntax_fmt: FT.DROPINDEX index [DD]
 syntax_str: '[DD]'
 title: FT.DROPINDEX

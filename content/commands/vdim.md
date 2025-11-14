@@ -6,7 +6,6 @@ categories:
 - oss
 - rs
 - rc
-- oss
 - kubernetes
 - clients
 complexity: O(1)
@@ -16,9 +15,10 @@ hidden: false
 linkTitle: VDIM
 since: 8.0.0
 summary: Return the dimension of vectors in the vector set.
-syntax_fmt: "VDIM key"
+syntax_fmt: VDIM key
 title: VDIM
-bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
+bannerText: Vector set is a new data type that is currently in preview and may be
+  subject to change.
 ---
 
 Return the number of dimensions of the vectors in the specified vector set.

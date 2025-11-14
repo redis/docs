@@ -50,7 +50,6 @@ categories:
 - oss
 - rs
 - rc
-- oss
 - kubernetes
 - clients
 command_flags:
@@ -77,7 +76,8 @@ key_specs:
 linkTitle: HEXPIREAT
 since: 7.4.0
 summary: Set expiry for hash field using an absolute Unix timestamp (seconds)
-syntax_fmt: "HEXPIREAT key unix-time-seconds [NX | XX | GT | LT] FIELDS\_numfields\n\
+syntax_fmt: "HEXPIREAT key unix-time-seconds [NX | XX | GT | LT] FIELDS\_numfields
+\
   \  field [field ...]"
 syntax_str: "unix-time-seconds [NX | XX | GT | LT] FIELDS\_numfields field [field\
   \ ...]"

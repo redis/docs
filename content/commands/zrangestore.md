@@ -54,7 +54,6 @@ categories:
 - oss
 - rs
 - rc
-- oss
 - kubernetes
 - clients
 command_flags:
@@ -93,7 +92,8 @@ key_specs:
 linkTitle: ZRANGESTORE
 since: 6.2.0
 summary: Stores a range of members from sorted set in a key.
-syntax_fmt: "ZRANGESTORE dst src min max [BYSCORE | BYLEX] [REV] [LIMIT\_offset\n\
+syntax_fmt: "ZRANGESTORE dst src min max [BYSCORE | BYLEX] [REV] [LIMIT\_offset
+\
   \  count]"
 syntax_str: "src min max [BYSCORE | BYLEX] [REV] [LIMIT\_offset count]"
 title: ZRANGESTORE

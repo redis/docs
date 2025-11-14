@@ -6,7 +6,6 @@ categories:
 - oss
 - rs
 - rc
-- oss
 - kubernetes
 - clients
 complexity: O(log(N)) where N is the number of elements in the vector set.
@@ -19,9 +18,14 @@ history:
 linkTitle: VSIM
 since: 8.0.0
 summary: Return elements by vector similarity.
-syntax_fmt: "VSIM key (ELE | FP32 | VALUES num) (vector | element) [WITHSCORES] [WITHATTRIBS] [COUNT num]\n  [EPSILON delta] [EF search-exploration-factor] [FILTER expression] [FILTER-EF max-filtering-effort]\n  [TRUTH] [NOTHREAD]"
+syntax_fmt: "VSIM key (ELE | FP32 | VALUES num) (vector | element) [WITHSCORES] [WITHATTRIBS]\
+  \ [COUNT num]
+  [EPSILON delta] [EF search-exploration-factor] [FILTER expression]\
+  \ [FILTER-EF max-filtering-effort]
+  [TRUTH] [NOTHREAD]"
 title: VSIM
-bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
+bannerText: Vector set is a new data type that is currently in preview and may be
+  subject to change.
 ---
 
 Return elements similar to a given vector or element. Use this command to perform approximate or exact similarity searches within a vector set.
