@@ -16,6 +16,7 @@ You can configure HashiCorp Vault as the centralized secret management system fo
 
 When Vault integration is enabled, all secrets referenced in Redis Enterprise custom resources are retrieved from Vault instead of Kubernetes secrets, including:
 
+{{<table-scrollable>}}
 | **Category** | **Secret Type** | **API Field** | **Description** |
 |---|---|---|---|
 | **Cluster secrets** |  |  |  |
@@ -40,6 +41,7 @@ When Vault integration is enabled, all secrets referenced in Redis Enterprise cu
 | **Other secrets** |  |  |  |
 |  | [Remote cluster secrets]({{< relref "/operate/kubernetes/active-active" >}}) | [`secretName`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api#redisenterpriseremoteclusterspec" >}}) | Credentials for Redis Enterprise Remote Cluster (RERC) configurations |
 |  | [Active-Active database secrets]({{< relref "/operate/kubernetes/active-active" >}}) | [`globalConfigurations`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_active_active_database_api#redisenterpriseactiveactivedatabasespec" >}}) | All secret names specified in REAADB global configurations |
+{{</table-scrollable>}}
 
 
 For complete details on supported secrets, see the [`RedisEnterpriseCluster` API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api" >}}) and [`RedisEnterpriseDatabase` API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_database_api" >}}).
@@ -177,6 +179,7 @@ Multi-cluster considerations: When deploying across multiple Kubernetes clusters
 
    Configuration parameters:
 
+   {{<table-scrollable>}}
    | Parameter | Description | Default | Required |
    |-----------|-------------|---------|----------|
    | `CREDENTIAL_TYPE` | Must be set to `"vault"` to enable Vault integration | - | Yes |
@@ -188,6 +191,7 @@ Multi-cluster considerations: When deploying across multiple Kubernetes clusters
    | `VAULT_AUTH_PATH` | Kubernetes auth method path | `kubernetes` | Yes |
    | `VAULT_NAMESPACE` | Vault Enterprise namespace | - | Enterprise only |
    | `VAULT_CACHE_SECRET_EXPIRATION_SECONDS` | Secret cache duration | `120` | No |
+   {{</table-scrollable>}}
 
    Secret path construction: Secrets are stored at `<VAULT_SECRET_ROOT>/data/<VAULT_SECRET_PREFIX>/<secret-name>`
 
@@ -317,6 +321,7 @@ Multi-cluster considerations: When deploying across multiple Kubernetes clusters
 
    Key configuration fields:
 
+   {{<table-scrollable>}}
    | Field | Description | Example |
    |-------|-------------|---------|
    | `clusterCredentialSecretName` | Name of the secret in Vault containing cluster credentials | `rec` |
@@ -324,6 +329,7 @@ Multi-cluster considerations: When deploying across multiple Kubernetes clusters
    | `clusterCredentialSecretRole` | Vault role for cluster authentication | `redis-enterprise-rec-<K8S_NAMESPACE>` |
    | `vaultCASecret` | Kubernetes secret containing Vault's CA certificate | `vault-ca-cert` |
    | `podAnnotations` | Vault agent annotations for pod-level configuration | See example above |
+   {{</table-scrollable>}}
 
 
 
