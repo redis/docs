@@ -26,7 +26,12 @@ the monitored schemas and tables.
 Spanner is only supported with RDI deployed on Kubernetes/Helm. RDI VM mode does not support Spanner as a source database.
 {{< /note >}}
 
-```checklist {id="spannerlist" nointeractive="true" }
+The following checklist summarizes the steps to prepare a Spanner
+database for RDI, with links to the sections that explain the steps in
+full detail. You may find it helpful to track your progress with the
+checklist as you complete each step.
+
+```checklist {id="spannerlist"}
 - [ ] [Prepare for snapshot](#1-prepare-for-snapshot)
 - [ ] [Prepare for streaming](#2-prepare-for-streaming)
 - [ ] [Create a service account](#3-create-a-service-account)
@@ -79,7 +84,8 @@ service account credentials as a Kubernetes secret (see step 4 for details).
 - [ ] [Download the service account key](#download-the-service-account-key)
 ```
 
-1. <a id="create-the-service-account"></a>Create the service account
+1. <a id="create-the-service-account"></a>
+   Create the service account
 
     ```bash
     gcloud iam service-accounts create spanner-reader-account \
@@ -88,7 +94,8 @@ service account credentials as a Kubernetes secret (see step 4 for details).
         --project=YOUR_PROJECT_ID
     ```
 
-1. <a id="grant-required-roles"></a>Grant required roles
+1. <a id="grant-required-roles"></a>
+   Grant required roles:
 
     **Database Reader** (read access to Spanner data):
 
@@ -114,7 +121,8 @@ service account credentials as a Kubernetes secret (see step 4 for details).
         --role="roles/spanner.viewer"
     ```
 
-1. <a id="download-the-service-account-key"></a>Download the service account key
+1. <a id="download-the-service-account-key"></a>
+   Download the service account key:
 
     Save the credentials locally so they can be used later by RDI:
 
