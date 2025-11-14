@@ -22,13 +22,24 @@ Follow the steps in the sections below to prepare a [Microsoft SQL Server on AWS
 Change Data Capture (CDC) is not supported on SQL Server Express Edition. Only the Standard, Enterprise, and Developer editions support CDC and are supported by RDI.
 {{< /note >}}
 
+```checklist {id="rds-sqlserver-list" nointeractive="true" }
+- [ ] [Create the Debezium user](#create-the-debezium-user)
+- [ ] [Enable CDC on the database](#enable-cdc-on-the-database)
+```
+
 ## Create the Debezium user
 
 The Debezium connector needs a user account to connect to SQL Server. This
 user must have appropriate permissions on all databases where you want Debezium
 to capture changes.
 
-1. Connect to your database as an admin user and create a new user for the connector:
+```checklist {id="rds-sqlserver-create-debezium-user" nointeractive="true" }
+- [ ] [Connect to SQL Server as an admin user](#connect-to-sql-server-as-an-admin-user)
+- [ ] [Grant the user the necessary permissions](#grant-the-user-the-necessary-permissions)
+```
+
+1. <a id="connect-to-sql-server-as-an-admin-user"></a>
+    Connect to your database as an admin user and create a new user for the connector:
 
     ```sql
     USE master
@@ -43,7 +54,8 @@ to capture changes.
 
     Replace `<username>` and `<password>` with a username and password for the new user and replace `<database>` with the name of your database.
 
-1. Grant the user the necessary permissions:
+1. <a id="grant-the-user-the-necessary-permissions"></a>
+    Grant the user the necessary permissions:
 
     ```sql
     USE master
@@ -62,7 +74,14 @@ to capture changes.
 
 Change Data Capture (CDC) must be enabled for the database and for each table you want to capture.
 
-1. Enable CDC for the database by running the following command:
+```checklist {id="rds-sqlserver-enable-cdc" nointeractive="true" }
+- [ ] [Enable CDC for the database](#enable-cdc-for-the-database)
+- [ ] [Enable CDC for each table you want to capture](#enable-cdc-for-each-table-you-want-to-capture)
+- [ ] [Add the Debezium user to the CDC role](#add-the-debezium-user-to-the-cdc-role)
+```
+
+1. <a id="enable-cdc-for-the-database"></a>
+    Enable CDC for the database by running the following command:
 
     ```sql
     EXEC msdb.dbo.rds_cdc_enable_db '<database>'
@@ -71,7 +90,8 @@ Change Data Capture (CDC) must be enabled for the database and for each table yo
 
     Replace `<database>` with the name of your database.
 
-1. Enable CDC for each table you want to capture by running the following commands:
+1. <a id="enable-cdc-for-each-table-you-want-to-capture"></a>
+    Enable CDC for each table you want to capture by running the following commands:
 
     ```sql
     USE <database>
@@ -92,7 +112,8 @@ Specifying a new name will create a corresponding database role that has full ac
 captured change data.
     {{< /note >}}
 
-1. Add the Debezium user to the CDC role:
+1. <a id="add-the-debezium-user-to-the-cdc-role"></a>
+    Add the Debezium user to the CDC role:
 
     ```sql
     USE <database>
