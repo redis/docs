@@ -7,7 +7,7 @@ categories:
 - rc
 description: New features, enhancements, and other changes added to Redis Cloud during
   November 2025.
-highlights: Redis 8.2 on Redis Cloud Pro, FOCUS-compliant cost reports
+highlights: Redis 8.2 on Redis Cloud Pro
 linktitle: November 2025
 weight: 60
 tags:
@@ -15,12 +15,6 @@ tags:
 ---
 
 ## New features
-
-### FOCUS-compliant cost reports
-
-You can now generate and download [cost reports]({{< relref "/operate/rc/billing-and-payments/cost-report" >}}) in a [FinOps Open Cost and Usage Specification (FOCUS)](https://focus.finops.org/) compliant format using the Redis Cloud REST API. You can use this cost report with any FOCUS-compatible cost reporting tool to analyze and visualize your costs.
-
-See [Generate FOCUS-compliant cost report with REST API]({{< relref "/operate/rc/api/examples/generate-cost-report" >}}) for examples.
 
 ### Redis 8.2 on Redis Cloud Pro
 

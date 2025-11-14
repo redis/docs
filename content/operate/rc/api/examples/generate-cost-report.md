@@ -7,6 +7,7 @@ categories:
 - operate
 - rc
 description: Shows how to generate and download a cost report in FOCUS format using the Redis Cloud REST API.
+bannerText: The cost report API endpoint is currently in preview. [Contact support](https://redis.io/support/) to request access to this endpoint.
 weight: 60
 ---
 
@@ -18,14 +19,14 @@ The following sections provide examples for each step.
 
 ## Generate a cost report
 
-To generate a cost report, use [`POST /cost-report`]({{< relref "/operate/rc/api/api-reference#tag/Account/operation/createCostReport" >}}). 
+To generate a cost report, use [`POST /cost-report`]({{< relref "/operate/rc/api/api-reference#tag/Account/operation/createCostReport" >}}). Your account must have the **Owner** or **Viewer** role to generate a cost report through this endpoint.
 
-The request body must contain the `startDate` and `endDate` for the report in `YYYY-MM-DD` format.
+Include `startDate` and `endDate` in your request body using `YYYY-MM-DD` format. You can specify a date range up to 40 days.
 
 ```json
 {
   "startDate": "2025-01-01",
-  "endDate": "2025-12-31"
+  "endDate": "2025-01-31"
 }
 ```
 
@@ -33,12 +34,12 @@ More options and filters can be added to the request body to filter the report d
 
 | Option name | Type | Description |
 |-------------|--------|-------------|
-| `format` | Enum: `csv`, `json` | The format for the report file. Default is `json`. |
+| `format` | Enum: `csv`, `json` | The format for the report file. Default is `csv`. |
 | `subscriptionIds` | Array of integers | Filters the report to only include the specified subscriptions. |
 | `databaseIds` | Array of integers | Filters the report to only include the specified databases. |
 | `subscriptionType` | Enum: `essentials`, `pro` | Filters the report to only include subscriptions of the specified type. |
 | `regions` | Array of strings | Filters the report to only include subscriptions in the specified regions. |
-| `tags` | Array of key-value pairs | Filters the report to only include databases with the specified [tags]({{< relref "/operate/rc/databases/tag-database" >}}). |
+| `tags` | Array of key-value pairs | Filters the report to only include databases with the specified [tags]({{< relref "/operate/rc/databases/tag-database" >}}). Both `key` and `value` are required for each tag. |
 
 For example, the following request body generates a CSV report for all databases in the `us-east-1` region that have the `team:marketing` tag in January 2025:
 
