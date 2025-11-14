@@ -46,10 +46,12 @@ RDI requires some changes to database parameters. On AWS Aurora, you change thes
 ```checklist {id="auroramysql-param-group" nointeractive="true" }
 - [ ] [Create a parameter group](#aurora-create-a-parameter-group)
 - [ ] [Apply the parameter group](#aurora-apply-the-parameter-group)
+- [ ] [Apply the parameter group to the database](#aurora-apply-the-parameter-group-to-the-database)
 - [ ] [Reboot the database instance](#aurora-reboot-the-database-instance)
 ```
 
-1. <a id="aurora-create-a-parameter-group"></a>In the [Relational Database Service (RDS) console](https://console.aws.amazon.com/rds/),navigate to **Parameter groups > Create parameter group**. [Create a parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithParamGroups.Creating.html) with the following settings:
+1. <a id="aurora-create-a-parameter-group"></a>
+    In the [Relational Database Service (RDS) console](https://console.aws.amazon.com/rds/),navigate to **Parameter groups > Create parameter group**. [Create a parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithParamGroups.Creating.html) with the following settings:
 
     | Name | Value |
     | :-- | :-- |
@@ -61,7 +63,8 @@ RDI requires some changes to database parameters. On AWS Aurora, you change thes
 
     Select **Create** to create the parameter group.
 
-1. <a id="aurora-apply-the-parameter-group"></a>Navigate to **Parameter groups** in the console. Select the parameter group you have just created and then select **Edit**. Change the following parameters:
+1. <a id="aurora-apply-the-parameter-group"></a>
+    Navigate to **Parameter groups** in the console. Select the parameter group you have just created and then select **Edit**. Change the following parameters:
 
     | Name | Value |
     | :-- | :-- |
@@ -72,11 +75,13 @@ RDI requires some changes to database parameters. On AWS Aurora, you change thes
 
     Select **Save Changes** to apply the changes to the parameter group.
 
-1. Go back to your target database on the RDS console, select **Modify** and then scroll down to **Additional Configuration**. Set the **DB Cluster Parameter Group** to the group you just created.
+1. <a id="aurora-apply-the-parameter-group-to-the-database"></a>
+    Go back to your target database on the RDS console, select **Modify** and then scroll down to **Additional Configuration**. Set the **DB Cluster Parameter Group** to the group you just created.
 
     Select **Save changes** to apply the parameter group to the new database.
 
-1. <a id="aurora-reboot-the-database-instance"></a>Reboot your database instance. See [Rebooting a DB instance within an Aurora cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-reboot-db-instance.html) for more information.
+1. <a id="aurora-reboot-the-database-instance"></a>
+    Reboot your database instance. See [Rebooting a DB instance within an Aurora cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-reboot-db-instance.html) for more information.
 
 <a id="aurora-create-debezium-user"></a>
 
@@ -96,10 +101,12 @@ RDI requires some changes to database parameters. On AWS RDS, you change these p
 ```checklist {id="rds-mysql-param-group" nointeractive="true" }
 - [ ] [Create a parameter group](#rds-create-a-parameter-group)
 - [ ] [Apply the parameter group](#rds-apply-the-parameter-group)
+- [ ] [Apply the parameter group to the database](#rds-apply-the-parameter-group-to-the-database)
 - [ ] [Reboot the database instance](#rds-reboot-the-database-instance)
 ```
 
-1. <a id="rds-create-a-parameter-group"></a>In the [Relational Database Service (RDS) console](https://console.aws.amazon.com/rds/),navigate to **Parameter groups > Create parameter group**. [Create a parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithParamGroups.Creating.html) with the following settings:
+1. <a id="rds-create-a-parameter-group"></a>
+    In the [Relational Database Service (RDS) console](https://console.aws.amazon.com/rds/),navigate to **Parameter groups > Create parameter group**. [Create a parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithParamGroups.Creating.html) with the following settings:
 
     | Name | Value |
     | :-- | :-- |
@@ -110,7 +117,8 @@ RDI requires some changes to database parameters. On AWS RDS, you change these p
 
     Select **Create** to create the parameter group.
 
-1. <a id="rds-apply-the-parameter-group"></a>Navigate to **Parameter groups** in the console. Select the parameter group you have just created and then select **Edit**. Change the following parameters:
+1. <a id="rds-apply-the-parameter-group"></a>
+    Navigate to **Parameter groups** in the console. Select the parameter group you have just created and then select **Edit**. Change the following parameters:
 
     | Name | Value |
     | :-- | :-- |
@@ -119,11 +127,13 @@ RDI requires some changes to database parameters. On AWS RDS, you change these p
 
     Select **Save Changes** to apply the changes to the parameter group.
 
-1. Go back to your target database on the RDS console, select **Modify** and then scroll down to **Additional Configuration**. Set the **DB Cluster Parameter Group** to the group you just created.
+1. <a id="rds-apply-the-parameter-group-to-the-database"></a>
+    Go back to your target database on the RDS console, select **Modify** and then scroll down to **Additional Configuration**. Set the **DB Cluster Parameter Group** to the group you just created.
 
     Select **Save changes** to apply the parameter group to the new database.
 
-1. <a id="rds-reboot-the-database-instance"></a>Reboot your database instance. See [Rebooting a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_RebootInstance.html) for more information.
+1. <a id="rds-reboot-the-database-instance"></a>
+    Reboot your database instance. See [Rebooting a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_RebootInstance.html) for more information.
 
 <a id="rds-create-debezium-user"></a>
 
