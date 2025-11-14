@@ -8,19 +8,16 @@ categories:
 description: null
 linkTitle: AWS PrivateLink
 weight: 90
+bannerText: AWS PrivateLink is currently in preview. Features and behavior are subject to change. Redis does not recommend using AWS PrivateLink in production environments.
 ---
 
-[Amazon Web Services (AWS) PrivateLink](https://docs.aws.amazon.com/vpc/latest/privatelink/privatelink-access-resources.html) allows service providers to securely expose specific services without exposing the entire service provider and consumer VPCs to each other. When you use AWS PrivateLink to connect to Redis Cloud, you can connect to your database as if it was already in your own AWS VPC. 
+[Amazon Web Services (AWS) PrivateLink](https://docs.aws.amazon.com/vpc/latest/privatelink/privatelink-access-resources.html) allows service providers to securely expose specific services without exposing the entire service provider and consumer VPCs to each other. With AWS PrivateLink, Redis Cloud exposes a VPC endpoint service that you connect to as a consumer from your own VPC. Traffic stays within the AWS network and is isolated from external networks. 
 
 {{< note >}}
 Connecting to Redis Cloud with an AWS PrivateLink is available only with Redis Cloud Pro.  It is not supported for Redis Cloud Essentials.
 {{< /note >}}
 
-## Considerations and limitations
-
-You can use PrivateLink as an alternative to [VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}}), or you can enable both for your subscription.
-
-With AWS PrivateLink, Redis Cloud exposes a VPC endpoint service that you connect to as a consumer from your own VPC. Traffic stays within the AWS network and is isolated from external networks.
+You can use PrivateLink as an alternative to IP-based private connectivity options like [VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}}) and [Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}).
 
 AWS PrivateLink provides the following benefits over VPC Peering:
 
@@ -28,11 +25,14 @@ AWS PrivateLink provides the following benefits over VPC Peering:
 - **Network Flexibility**: PrivateLink enables cross-account and cross-VPC connectivity and can be configured even when the Redis Cloud VPC and your consumer VPC have overlapping CIDR/IP ranges.
 - **Simplified architecture and low latency**: PrivateLink does not require NAT, internet gateways, or VPNs. It provides simplified network routing, without the need for a network load balancer between the application and the Redis database.
 
+## Limitations
+
 Be aware of the following limitations when using PrivateLink with Redis Cloud:
-- You cannot use the [OSS Cluster API]({{< relref "/operate/rc/databases/create-database#oss-cluster-api" >}}) with PrivateLink.
+- You cannot use the [OSS Cluster API]({{< relref "/operate/rc/databases/create-database#oss-cluster-api" >}}) with PrivateLink during preview.
 - Redis Cloud [Bring your Own Cloud]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud" >}}) subscriptions are not supported with PrivateLink.
-- Redis Cloud subscriptions with AWS PrivateLink are limited to a maximum of 55 databases. [Contact support](https://redis.com/company/support/) if you need more than 55 databases with AWS PrivateLink.
+- Redis Cloud subscriptions with AWS PrivateLink are limited to a maximum of 55 databases. [Contact support](https://redis.com/company/support/) if you need more than 55 databases in one subscription with AWS PrivateLink.
 - Your subnets must have at least 16 available IP addresses for the resource endpoint.
+- Some AWS regions do not support PrivateLink. See [AWS VPC Lattice Pricing](https://aws.amazon.com/vpc/lattice/pricing/) for a list of regions that support AWS PrivateLink.
 - Redis Cloud's PrivateLink implementation is based on Amazon VPC Lattice, so the [VPC Lattice quotas](https://docs.aws.amazon.com/vpc-lattice/latest/ug/quotas.html) apply. Currently, the following availability zones are not supported with Amazon VPC Lattice: 
     - `use1-az3`
     - `usw1-az2`
@@ -49,13 +49,14 @@ Be aware of the following limitations when using PrivateLink with Redis Cloud:
 
 Before you can connect to Redis Cloud with an AWS PrivateLink VPC resource endpoint, you must have:
 
-- A [Redis Cloud Pro database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}).
+- A [Redis Cloud Pro database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}})
 - An [AWS VPC](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html) with the following:
     - A [security group](https://docs.aws.amazon.com/vpc/latest/userguide/creating-security-groups.html) that allows ingress traffic to the following ports: 
         - The database port range (port 10000-19999)
         - The Redis Cloud metrics port (port 8070), if desired
     - Subnets in the same region as your Redis Cloud database.
-- Permission to create and manage VPC endpoints or Service networks in AWS
+    - Settings to allow **DNS resolution** and **DNS hostnames**. See [View and update DNS attributes for your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-dns-updating.html) for more information.
+- Permission to create and manage VPC endpoints or Service networks in AWS.
 
 ## Set up PrivateLink connection
 
@@ -155,5 +156,29 @@ To use the AWS CLI to connect to an already existing service network, select **C
 
 After you've connected to Redis Cloud with a VPC resource endpoint or a VPC lattice service network, download the **Discovery script** and run it in your consumer VPC to discover the database endpoints.
 
-After you've connected to your database, you can view the connection details in the Redis Cloud console in your subscription's **Connectivity > PrivateLink** tab. 
+## Connect to your database with PrivateLink
+
+The downloaded Discovery Script returns a list of database endpoints that you can connect to from your consumer VPC.
+
+```json
+[
+  {
+    "type": "metrics",
+    "dns-entry": "<METRICS DNS ENTRY>",
+    "private-dns-entry": "<METRIC PRIVATE DNS ENTRY>",
+    "port": 8070
+  },
+  {
+    "type": "database",
+    "dns-entry": "<DATABASE DNS ENTRY>",
+    "private-dns-entry": "<PRIVATE DNS ENTRY>",
+    "port": 12345,
+    "database_id": 1234567890
+  }
+]
+```
+
+You can connect to your database by using the database `private-dns-entry` and `port` from your consumer VPC.
+
+After you've connected to your database, you can view the connection details in the Redis Cloud console in your subscription's **Connectivity > PrivateLink** tab or by going to the [connection wizard]({{< relref "/operate/rc/databases/connect" >}}) for your database.
 
