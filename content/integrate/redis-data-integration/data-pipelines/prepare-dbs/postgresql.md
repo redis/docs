@@ -33,7 +33,12 @@ your database then this might restrict the plug-ins you can use. If you can't us
 plug-in then could try the `pgoutput` decoder if you are using PostgreSQL 10 or above.
 If this doesn't work for you then you won't be able to use RDI with your database.
 
-```checklist {id="postgreslist" nointeractive="true" }
+The following checklist summarizes the steps to prepare a PostgreSQL
+database for RDI, with links to the sections that explain the steps in
+full detail. You may find it helpful to track your progress with the
+checklist as you complete each step.
+
+```checklist {id="postgreslist"}
 - [ ] [Install the logical decoding output plug-in](#install-the-logical-decoding-output-plug-in)
 - [ ] [Configure the PostgreSQL server](#configure-the-postgresql-server)
 - [ ] [Set up permissions](#set-up-permissions)
@@ -52,18 +57,22 @@ Follow the steps below to enable CDC with [Amazon RDS for PostgreSQL](https://aw
 - [ ] [Initiate logical replication from an AWS account that has the rds_replication role](#4-initiate-logical-replication-from-an-aws-account-that-has-the-rdsreplication-role)
 ```
 
-1.  <a id="1-set-the-instance-parameter-rdslogicalreplication-to-1"></a>Set the instance parameter `rds.logical_replication` to 1.
+1.  <a id="1-set-the-instance-parameter-rdslogicalreplication-to-1"></a>
+    Set the instance parameter `rds.logical_replication` to 1.
 
-1.  <a id="2-check-that-the-wal_level-parameter-is-set-to-logical"></a>Check that the `wal_level` parameter is set to `logical` by running the query `SHOW wal_level`
+1.  <a id="2-check-that-the-wal_level-parameter-is-set-to-logical"></a>
+    Check that the `wal_level` parameter is set to `logical` by running the query `SHOW wal_level`
     as the database RDS master user. The parameter might not have this value in multi-zone replication
     setups. You can't change the value manually but it should change automatically when you set the
     `rds.logical_replication` parameter to 1. If it doesn't change then you probably just need to
     restart your database instance. You can restart manually or wait until a restart occurs
     during your maintenance window.
 
-1.  <a id="3-set-the-debezium-pluginname-parameter-to-pgoutput"></a>Set the Debezium `plugin.name` parameter to `pgoutput`.
+1.  <a id="3-set-the-debezium-pluginname-parameter-to-pgoutput"></a>
+    Set the Debezium `plugin.name` parameter to `pgoutput`.
 
-1.  <a id="4-initiate-logical-replication-from-an-aws-account-that-has-the-rdsreplication-role"></a>Initiate logical replication from an AWS account that has the `rds_replication` role. The role grants
+1.  <a id="4-initiate-logical-replication-from-an-aws-account-that-has-the-rdsreplication-role"></a>
+    Initiate logical replication from an AWS account that has the `rds_replication` role. The role grants
     permissions to manage logical slots and to stream data using logical slots. By default, only the master user account on AWS has the `rds_replication` role on Amazon RDS, but if you have administrator privileges,
     you can grant the role to other accounts using a query like the following:
 
@@ -190,24 +199,37 @@ this case, the source table already exists, so you must use a PostgreSQL replica
 group to share ownership between the Debezium user and the original owner. Configure
 the replication group using the following commands:
 
-1.  Create the replication group (the name `replication_group` here is
+```checklist {id="postgrespgoutputlist" nointeractive="true" }
+- [ ] [Create the replication group](#1-create-the-replication-group)
+- [ ] [Add the original owner of the table to the group](#2-add-the-original-owner-of-the-table-to-the-group)
+- [ ] [Add the Debezium replication user to the group](#3-add-the-debezium-replication-user-to-the-group)
+- [ ] [Transfer ownership of the table to the replication group](#4-transfer-ownership-of-the-table-to-the-replication-group)
+```
+
+1.  <a id="1-create-the-replication-group"></a>
+    Create the replication group (the name `replication_group` here is
     just an example):
 
     ```sql
     CREATE ROLE replication_group;
     ```
-1.  Add the original owner of the table to the group:
+
+1.  <a id="2-add-the-original-owner-of-the-table-to-the-group"></a>
+    Add the original owner of the table to the group:
 
     ```sql
     GRANT replication_group TO original_owner;
     ```
 
-1.  Add the Debezium replication user to the group:
+1.  <a id="3-add-the-debezium-replication-user-to-the-group"></a>
+    Add the Debezium replication user to the group:
 
     ```sql
     GRANT replication_group TO replication_user;
     ```
-1.  Transfer ownership of the table to `replication_group`:
+
+1.  <a id="4-transfer-ownership-of-the-table-to-the-replication-group"></a>
+    Transfer ownership of the table to `replication_group`:
 
     ```sql
     ALTER TABLE table_name OWNER TO replication_group;
