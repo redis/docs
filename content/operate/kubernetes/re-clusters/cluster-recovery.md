@@ -33,7 +33,7 @@ The Redis Enterprise for Kubernetes automates these recovery steps:
 1. Edit the REC resource to set the `clusterRecovery` flag to `true`.
 
     ```sh
-    kubectl patch rec <cluster-name> --type merge --patch '{"spec":{"clusterRecovery":true}}'
+    kubectl patch rec <cluster-name> -n <rec_namespace> --type merge --patch '{"spec":{"clusterRecovery":true}}'
     ```
 
 
