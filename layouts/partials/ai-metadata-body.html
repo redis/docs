@@ -1,4 +1,20 @@
 {{- /* Generate AI-friendly metadata as a hidden div in the page body */ -}}
-{{- $json := dict "title" .Title "description" .Description "categories" .Params.categories | jsonify -}}
+{{- $metadata := dict "title" .Title "description" .Description "categories" .Params.categories -}}
+{{- if .Params.arguments -}}
+  {{- $metadata = merge $metadata (dict "arguments" .Params.arguments) -}}
+{{- end -}}
+{{- if .Params.syntax_fmt -}}
+  {{- $metadata = merge $metadata (dict "syntax_fmt" .Params.syntax_fmt) -}}
+{{- end -}}
+{{- if .Params.complexity -}}
+  {{- $metadata = merge $metadata (dict "complexity" .Params.complexity) -}}
+{{- end -}}
+{{- if .Params.group -}}
+  {{- $metadata = merge $metadata (dict "group" .Params.group) -}}
+{{- end -}}
+{{- if .Params.command_flags -}}
+  {{- $metadata = merge $metadata (dict "command_flags" .Params.command_flags) -}}
+{{- end -}}
+{{- $json := $metadata | jsonify -}}
 {{- printf `<div hidden data-redis-metadata="page">%s</div>` $json | safeHTML -}}
 
