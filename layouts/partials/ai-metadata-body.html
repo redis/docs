@@ -1,0 +1,4 @@
+{{- /* Generate AI-friendly metadata as a hidden div in the page body */ -}}
+{{- $json := dict "title" .Title "description" .Description "categories" .Params.categories | jsonify -}}
+{{- printf `<div hidden data-redis-metadata="page" data-metadata="%s"></div>` ($json | htmlEscape) | safeHTML -}}
+

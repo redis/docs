@@ -1,4 +1,4 @@
-{{- /* Generate AI-friendly metadata as JSON in a script tag */ -}}
+{{- /* Generate AI-friendly metadata as JSON in a script tag for the header */ -}}
 {{- $json := dict "title" .Title "description" .Description "categories" .Params.categories | jsonify -}}
 {{- printf `<script type="application/json" data-ai-metadata>%s</script>` $json | safeHTML -}}
 

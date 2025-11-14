@@ -1,6 +1,6 @@
 # {{ .Title }}
 
-```json
+```json metadata
 {
   "title": "{{ .Title }}",
   "description": "{{ .Description }}",
