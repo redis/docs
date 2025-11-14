@@ -15,6 +15,18 @@
 {{- if .Params.command_flags -}}
   {{- $metadata = merge $metadata (dict "command_flags" .Params.command_flags) -}}
 {{- end -}}
+{{- if .Params.acl_categories -}}
+  {{- $metadata = merge $metadata (dict "acl_categories" .Params.acl_categories) -}}
+{{- end -}}
+{{- if .Params.since -}}
+  {{- $metadata = merge $metadata (dict "since" .Params.since) -}}
+{{- end -}}
+{{- if .Params.arity -}}
+  {{- $metadata = merge $metadata (dict "arity" .Params.arity) -}}
+{{- end -}}
+{{- if .Params.key_specs -}}
+  {{- $metadata = merge $metadata (dict "key_specs" .Params.key_specs) -}}
+{{- end -}}
 {{- $json := $metadata | jsonify -}}
 {{- printf `<div hidden data-redis-metadata="page">%s</div>` $json | safeHTML -}}
 

@@ -9,7 +9,11 @@
   "syntax_fmt": {{ .Params.syntax_fmt | jsonify }}{{ end }}{{ if .Params.complexity }},
   "complexity": {{ .Params.complexity | jsonify }}{{ end }}{{ if .Params.group }},
   "group": {{ .Params.group | jsonify }}{{ end }}{{ if .Params.command_flags }},
-  "command_flags": {{ .Params.command_flags | jsonify }}{{ end }}
+  "command_flags": {{ .Params.command_flags | jsonify }}{{ end }}{{ if .Params.acl_categories }},
+  "acl_categories": {{ .Params.acl_categories | jsonify }}{{ end }}{{ if .Params.since }},
+  "since": {{ .Params.since | jsonify }}{{ end }}{{ if .Params.arity }},
+  "arity": {{ .Params.arity | jsonify }}{{ end }}{{ if .Params.key_specs }},
+  "key_specs": {{ .Params.key_specs | jsonify }}{{ end }}
 }
 ```
 
