@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 8.2, 8.0, 7.4, 7.2, 6.2
-description: Bug fixes for cluster_wd configuration after restarts, database creation, Lua script migration issues, and database endpoint assignment after node removal.
+description: Bug fixes for cluster_wd configuration after restarts, internode encryption certificate storage and retrieval, database creation, Lua script migration issues, and database endpoint assignment after node removal.
 linkTitle: 8.0.2-tba (November 2025)
 weight: 89
 ---
@@ -17,7 +17,7 @@ This is a maintenance release for ​[​Redis Enterprise Software version 8.0.2
 
 This version offers:
 
-- Bug fixes for `cluster_wd` configuration after restarts, database creation, Lua script migration issues, and database endpoint assignment after node removal
+- Bug fixes for `cluster_wd` configuration after restarts, internode encryption certificate storage and retrieval, database creation, Lua script migration issues, and database endpoint assignment after node removal
 
 ## New in this release
 
@@ -44,6 +44,8 @@ The following table shows which Redis modules are compatible with each Redis dat
 ### Resolved issues
 
 - RS176280: Fixed an issue where `cluster_wd` reverted to the default configuration after restarting.
+
+- RS176540: Fixed inconsistencies between storage and retrieval APIs for internode encryption certificates, which could cause issues in Kubernetes deployments.
 
 - RS170732: Fixed an issue where database creation could become stuck due to connection issues.
 
