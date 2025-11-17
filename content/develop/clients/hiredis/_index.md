@@ -40,6 +40,7 @@ connection. An explanation of the code follows the example.
 
 ```c
 #include <stdio.h>
+#include <stdlib.h>
 
 #include <hiredis/hiredis.h>
 
