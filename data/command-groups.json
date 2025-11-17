@@ -1,0 +1,133 @@
+{
+  "string": {
+    "display": "String",
+    "description": "Commands for working with string values",
+    "order": 1
+  },
+  "hash": {
+    "display": "Hash",
+    "description": "Commands for working with hash data structures",
+    "order": 2
+  },
+  "list": {
+    "display": "List",
+    "description": "Commands for working with list data structures",
+    "order": 3
+  },
+  "set": {
+    "display": "Set",
+    "description": "Commands for working with set data structures",
+    "order": 4
+  },
+  "sorted-set": {
+    "display": "Sorted Set",
+    "description": "Commands for working with sorted set data structures",
+    "order": 5
+  },
+  "stream": {
+    "display": "Stream",
+    "description": "Commands for working with stream data structures",
+    "order": 6
+  },
+  "bitmap": {
+    "display": "Bitmap",
+    "description": "Commands for working with bitmap operations on strings",
+    "order": 7
+  },
+  "hyperloglog": {
+    "display": "HyperLogLog",
+    "description": "Commands for probabilistic cardinality estimation",
+    "order": 8
+  },
+  "geo": {
+    "display": "Geospatial",
+    "description": "Commands for geospatial indexing and queries",
+    "order": 9
+  },
+  "json": {
+    "display": "JSON",
+    "description": "Commands for working with JSON documents",
+    "order": 10
+  },
+  "search": {
+    "display": "Search",
+    "description": "Commands for full-text search and vector similarity",
+    "order": 11
+  },
+  "timeseries": {
+    "display": "Time Series",
+    "description": "Commands for time series data management",
+    "order": 12
+  },
+  "bf": {
+    "display": "Bloom Filter",
+    "description": "Commands for probabilistic set membership testing",
+    "order": 13
+  },
+  "cf": {
+    "display": "Cuckoo Filter",
+    "description": "Commands for space-efficient probabilistic data structures",
+    "order": 14
+  },
+  "cms": {
+    "display": "Count-Min Sketch",
+    "description": "Commands for frequency estimation of events",
+    "order": 15
+  },
+  "tdigest": {
+    "display": "T-Digest",
+    "description": "Commands for probabilistic quantile estimation",
+    "order": 16
+  },
+  "topk": {
+    "display": "Top-K",
+    "description": "Commands for tracking top-k items",
+    "order": 17
+  },
+  "suggestion": {
+    "display": "Auto-Suggest",
+    "description": "Commands for auto-completion suggestions",
+    "order": 18
+  },
+  "pubsub": {
+    "display": "Pub/Sub",
+    "description": "Commands for publish/subscribe messaging",
+    "order": 19
+  },
+  "transactions": {
+    "display": "Transactions",
+    "description": "Commands for executing atomic transaction blocks",
+    "order": 20
+  },
+  "scripting": {
+    "display": "Scripting and Functions",
+    "description": "Commands for server-side scripting with Lua and functions",
+    "order": 21
+  },
+  "connection": {
+    "display": "Connection",
+    "description": "Commands for managing client connections",
+    "order": 22
+  },
+  "server": {
+    "display": "Server",
+    "description": "Commands for server administration and configuration",
+    "order": 23
+  },
+  "cluster": {
+    "display": "Cluster",
+    "description": "Commands for Redis cluster management",
+    "order": 24
+  },
+  "generic": {
+    "display": "Generic",
+    "description": "Commands that work across all data types",
+    "order": 25
+  },
+  "vector_set": {
+    "display": "Vector Set",
+    "description": "Commands for vector similarity search",
+    "order": 26
+  }
+}
+

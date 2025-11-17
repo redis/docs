@@ -1,204 +1,363 @@
-document.addEventListener('click', function (event) {
-  if (event.target.matches('#alpha-filter-container [type=button]')) {
-    const element = event.target
-    const activeButton = document.querySelector('#alpha-filter-container .active')
-    const alphaInput = document.querySelector('#alpha-filter');
+// Accordion Commands Filter - Phase 2
+// Handles accordion expand/collapse, localStorage persistence, and filtering (name, version, deprecated)
 
-    if (activeButton) activeButton.classList.remove('active')
-    if (element.value) element.classList.add('active');
+const STORAGE_KEY = 'redis-commands-selected-group';
+const DEFAULT_GROUP = 'string';
 
-    alphaInput.value = event.target.value;
-    alphaInput.dispatchEvent(new Event("input"))
+// Get filter elements
+const nameFilter = document.querySelector('#name-filter');
+const versionFilter = document.querySelector('#version-filter');
+const deprecatedFilter = document.querySelector('#deprecated-filter');
+const countText = document.querySelector('#count-text');
+const noResults = document.querySelector('#no-results');
+const accordion = document.querySelector('#commands-accordion');
+
+// Accordion state management - radio button behavior (only one group open at a time)
+function getExpandedGroup() {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (!stored) {
+      // Check for old format and migrate
+      const oldKey = 'redis-commands-expanded-groups';
+      const oldStored = localStorage.getItem(oldKey);
+      if (oldStored) {
+        try {
+          const oldArray = JSON.parse(oldStored);
+          if (Array.isArray(oldArray) && oldArray.length > 0) {
+            // Migrate first item from old array format
+            localStorage.removeItem(oldKey);
+            return oldArray[0];
+          }
+        } catch (e) {
+          // Ignore parse errors
+        }
+      }
+      return DEFAULT_GROUP;
+    }
+    return stored;
+  } catch (e) {
+    console.warn('Failed to read from localStorage:', e);
+    return DEFAULT_GROUP;
   }
-});
+}
 
-const FILTERS = {
-  group: {
-    element: document.querySelector('#group-filter'),
-    oninput: () => {
-      const { value } = FILTERS.group.element;
-      if (setDisabledVersions(value)) return;
-      FILTERS.version.element.value = '';
-      const isCore = FILTERS.group.element.value && FILTERS.group.element.selectedOptions[0].dataset.kind === 'core';
-      for (const option of FILTERS.version.element.options) {
-        if (option.value.includes('-')) {
-          option.style.display = option.value.startsWith(value) ? '' : 'none';
-        } else {
-          option.style.display = isCore ? '' : 'none';
+function saveExpandedGroup(groupId) {
+  try {
+    localStorage.setItem(STORAGE_KEY, groupId);
+  } catch (e) {
+    console.warn('Failed to write to localStorage:', e);
+  }
+}
+
+function toggleGroup(groupId) {
+  const currentExpanded = getExpandedGroup();
+
+  if (currentExpanded === groupId) {
+    // Clicking the same group - do nothing (keep it open)
+    return;
+  }
+
+  // Close the currently expanded group
+  if (currentExpanded) {
+    updateGroupDisplay(currentExpanded, false);
+  }
+
+  // Open the new group
+  saveExpandedGroup(groupId);
+  updateGroupDisplay(groupId, true);
+
+  // Scroll to the newly opened group with offset for sticky header + filters
+  const groupElement = document.querySelector(`.command-group[data-group="${groupId}"]`);
+  if (groupElement) {
+    setTimeout(() => {
+      const headerHeight = 70; // Header height
+      const filterHeight = document.querySelector('#command-filter')?.parentElement?.offsetHeight || 200;
+      const offset = headerHeight + filterHeight + 16; // 16px extra padding
+      const elementPosition = groupElement.getBoundingClientRect().top + window.pageYOffset;
+      const offsetPosition = elementPosition - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }, 100);
+  }
+}
+
+function updateGroupDisplay(groupId, isExpanded = null) {
+  const groupElement = document.querySelector(`.command-group[data-group="${groupId}"]`);
+  if (!groupElement) return;
+
+  const header = groupElement.querySelector('.group-header');
+  const content = groupElement.querySelector('.group-content');
+  const chevron = groupElement.querySelector('.group-chevron');
+
+  // If isExpanded is not provided, check localStorage
+  if (isExpanded === null) {
+    const expandedGroup = getExpandedGroup();
+    isExpanded = expandedGroup === groupId;
+  }
+
+  if (isExpanded) {
+    content.classList.remove('hidden');
+    chevron.style.transform = 'rotate(90deg)';
+    header.setAttribute('aria-expanded', 'true');
+  } else {
+    content.classList.add('hidden');
+    chevron.style.transform = 'rotate(0deg)';
+    header.setAttribute('aria-expanded', 'false');
+  }
+}
+
+function initializeAccordion() {
+  const expandedGroup = getExpandedGroup();
+
+  // Set up click handlers for all group headers
+  document.querySelectorAll('.group-header').forEach(header => {
+    const groupId = header.dataset.groupId;
+
+    header.addEventListener('click', () => {
+      toggleGroup(groupId);
+    });
+
+    // Initialize display state
+    updateGroupDisplay(groupId);
+  });
+}
+
+// Helper function to compare versions
+function compareVersions(commandVersion, filterVersion) {
+  if (!commandVersion || !filterVersion) return true;
+
+  const parseVersion = (v) => {
+    const parts = v.split('.').map(n => parseInt(n) || 0);
+    return parts;
+  };
+
+  const cmdParts = parseVersion(commandVersion);
+  const filterParts = parseVersion(filterVersion);
+
+  // Compare major.minor versions
+  for (let i = 0; i < Math.max(cmdParts.length, filterParts.length); i++) {
+    const cmdPart = cmdParts[i] || 0;
+    const filterPart = filterParts[i] || 0;
+
+    if (cmdPart < filterPart) return false;
+    if (cmdPart > filterPart) return true;
+  }
+
+  return true; // Equal versions
+}
+
+// Filtering logic
+function filterCommands() {
+  const searchTerm = nameFilter.value.toLowerCase().trim();
+  const versionValue = versionFilter.value;
+  const deprecatedValue = deprecatedFilter.value;
+  let totalVisible = 0;
+  let totalCommands = 0;
+
+  // Get all command groups
+  const groups = document.querySelectorAll('.command-group');
+
+  groups.forEach(group => {
+    const groupElement = group;
+    const commands = group.querySelectorAll('.command-item');
+    let visibleInGroup = 0;
+
+    commands.forEach(command => {
+      totalCommands++;
+      const commandName = command.dataset.name.toLowerCase();
+      const commandVersion = command.dataset.since;
+      const isDeprecated = command.dataset.deprecated === 'true';
+
+      let visible = true;
+
+      // Filter by name
+      if (searchTerm && !commandName.includes(searchTerm)) {
+        visible = false;
+      }
+
+      // Filter by version
+      if (visible && versionValue && !compareVersions(commandVersion, versionValue)) {
+        visible = false;
+      }
+
+      // Filter by deprecated status
+      if (visible && deprecatedValue !== 'show') {
+        if (deprecatedValue === 'hide' && isDeprecated) {
+          visible = false;
+        } else if (deprecatedValue === 'only' && !isDeprecated) {
+          visible = false;
+        }
+      }
+
+      if (visible) {
+        command.style.display = '';
+        visibleInGroup++;
+        totalVisible++;
+      } else {
+        command.style.display = 'none';
+      }
+    });
+
+    // Update group count
+    const countSpan = group.querySelector('.group-count');
+    if (countSpan) {
+      const hasFilters = searchTerm || versionValue || deprecatedValue !== 'show';
+      if (hasFilters) {
+        countSpan.textContent = `(${visibleInGroup} of ${commands.length} commands)`;
+      } else {
+        countSpan.textContent = `(${commands.length} commands)`;
+      }
+    }
+
+    // Hide group if no visible commands
+    if (visibleInGroup === 0) {
+      groupElement.style.display = 'none';
+    } else {
+      groupElement.style.display = '';
+
+      const groupId = groupElement.dataset.group;
+      const content = groupElement.querySelector('.group-content');
+      const chevron = groupElement.querySelector('.group-chevron');
+      const header = groupElement.querySelector('.group-header');
+
+      // Auto-expand groups with visible commands when filters are active
+      const hasFilters = searchTerm || versionValue || deprecatedValue !== 'show';
+      if (hasFilters) {
+        if (content && chevron && header) {
+          content.classList.remove('hidden');
+          chevron.style.transform = 'rotate(90deg)';
+          header.setAttribute('aria-expanded', 'true');
+        }
+      } else {
+        // When filters are cleared, collapse all groups except the selected one
+        const selectedGroup = getExpandedGroup();
+        if (content && chevron && header) {
+          if (groupId === selectedGroup) {
+            content.classList.remove('hidden');
+            chevron.style.transform = 'rotate(90deg)';
+            header.setAttribute('aria-expanded', 'true');
+          } else {
+            content.classList.add('hidden');
+            chevron.style.transform = 'rotate(0deg)';
+            header.setAttribute('aria-expanded', 'false');
+          }
         }
       }
     }
-  },
-  version: {
-    element: document.querySelector('#version-filter'),
-    versionMatch: true
-  },
-  name: {
-    element: document.querySelector('#name-filter'),
-    partialMatch: true
-  },
-  alpha: {
-    element: document.querySelector('#alpha-filter'),
-    alphaMatch: true
-  }
-};
+  });
 
-nameFilter = FILTERS.name.element
+  // Update count text
+  const hasFilters = searchTerm || versionValue || deprecatedValue !== 'show';
+  if (hasFilters) {
+    countText.textContent = `Showing ${totalVisible} of ${totalCommands} commands`;
+  } else {
+    countText.textContent = `Showing ${totalCommands} commands`;
+  }
+
+  // Show/hide no results message
+  if (totalVisible === 0) {
+    noResults.classList.remove('hidden');
+    accordion.classList.add('hidden');
+  } else {
+    noResults.classList.add('hidden');
+    accordion.classList.remove('hidden');
+  }
+}
+
+// Enter key handler - navigate to command if only one visible
 nameFilter.addEventListener('keydown', function (event) {
-  switch (event.key) {
-    case "Enter":
-      visibleCommands = document.querySelectorAll("article.flex.flex-col.gap-2.transition.relative:not([style='display: none;'])")
-      if (visibleCommands.length == 1) {
-        event.preventDefault();
-        commandHref = visibleCommands[0].getElementsByTagName("a")[0].href
-        window.location.assign(commandHref)
-      };
-    default:
-      return;
+  if (event.key === "Enter") {
+    const visibleCommands = document.querySelectorAll('.command-item:not([style*="display: none"]) a');
+    if (visibleCommands.length === 1) {
+      event.preventDefault();
+      window.location.assign(visibleCommands[0].href);
+    }
   }
 });
 
-const hiddenCards = [];
+// URL state management
+function updateURLParams() {
+  const params = new URLSearchParams();
 
-function setDisabledVersions(value) {
-  return FILTERS.version.element.disabled = !value;
+  if (nameFilter.value) {
+    params.set('search', nameFilter.value);
+  }
+  if (versionFilter.value) {
+    params.set('version', versionFilter.value);
+  }
+  if (deprecatedFilter.value !== 'show') {
+    params.set('deprecated', deprecatedFilter.value);
+  }
+
+  const newURL = params.toString() ? `${window.location.pathname}?${params.toString()}` : window.location.pathname;
+  window.history.replaceState({}, '', newURL);
 }
 
-function isVersionGreaterThan(a, b) {
-  const aSplit = a.split('.', 3),
-    bSplit = b.split('.', 3);
-  for (let i = 0; i < aSplit.length; i++) {
-    const aNum = Number(aSplit[i]),
-      bNum = Number(bSplit[i]);
-    if (aNum < bNum) return true;
-    else if (aNum > bNum) return false;
+function loadURLParams() {
+  const params = new URLSearchParams(window.location.search);
+
+  if (params.has('search')) {
+    nameFilter.value = params.get('search');
   }
-
-  return true;
-}
-
-function match({ element: { value: filterValue }, versionMatch, partialMatch, alphaMatch }, elementValue) {
-  if (versionMatch) {
-    const version = elementValue.substring(elementValue.lastIndexOf('-') + 1);
-    return isVersionGreaterThan(version, filterValue);
-  } else if (partialMatch) {
-    return elementValue.toLowerCase().includes(filterValue.toLowerCase());
-  } else if (alphaMatch) {
-    return elementValue && elementValue.toLowerCase().startsWith(filterValue.toLowerCase());
-  } else {
-    return filterValue === elementValue;
+  if (params.has('version')) {
+    versionFilter.value = params.get('version');
   }
-}
-
-function filter() {
-  while (hiddenCards.length) {
-    hiddenCards.pop().style.display = '';
-  }
-
-  const commandElements = document.querySelectorAll('#commands-grid > [data-group]');
-
-  // Defensive check: if no command elements found, don't filter yet
-  if (commandElements.length === 0) {
-    console.warn('No command elements found for filtering. DOM may not be ready.');
-    return;
-  }
-
-  const visibleElements = [];
-  const nameFilterValue = FILTERS.name.element.value.toLowerCase();
-
-  for (const element of commandElements) {
-    let shouldHide = false;
-
-    for (const [key, filter] of Object.entries(FILTERS)) {
-      if (!filter.element.value) continue;
-
-      const elementValue = key == 'alpha' ? element.dataset['name'] : element.dataset[key];
-      if (!match(filter, elementValue)) {
-        element.style.display = 'none';
-        hiddenCards.push(element);
-        shouldHide = true;
-        break;
-      }
-    }
-
-    if (!shouldHide) {
-      visibleElements.push(element);
-    }
-  }
-
-  // Sort visible elements: commands starting with search term first, then others
-  if (nameFilterValue) {
-    const grid = document.querySelector('#commands-grid');
-
-    visibleElements.sort((a, b) => {
-      const aName = a.dataset.name.toLowerCase();
-      const bName = b.dataset.name.toLowerCase();
-      const aStarts = aName.startsWith(nameFilterValue);
-      const bStarts = bName.startsWith(nameFilterValue);
-
-      // If one starts with the search term and the other doesn't, prioritize the one that starts
-      if (aStarts && !bStarts) return -1;
-      if (!aStarts && bStarts) return 1;
-
-      // Otherwise maintain alphabetical order
-      return aName.localeCompare(bName);
-    });
-
-    // Re-append elements in sorted order
-    visibleElements.forEach(element => {
-      grid.appendChild(element);
-    });
+  if (params.has('deprecated')) {
+    deprecatedFilter.value = params.get('deprecated');
   }
 }
 
-const url = new URL(location);
+// Input handlers for all filters
+nameFilter.addEventListener('input', () => {
+  filterCommands();
+  updateURLParams();
+});
+versionFilter.addEventListener('change', () => {
+  filterCommands();
+  updateURLParams();
+});
+deprecatedFilter.addEventListener('change', () => {
+  filterCommands();
+  updateURLParams();
+});
 
-function setUrl() {
-  history.replaceState(null, '', url);
-}
-
-if (url.hash) {
-  const value = url.hash.substring(1);
-  url.searchParams.set('group', value);
-  url.hash = '';
-  setUrl();
-}
-
-// Initialize filters with DOM ready check
-function initializeFilters() {
-  // Check if commands grid exists and has content
-  const commandsGrid = document.querySelector('#commands-grid');
-  if (!commandsGrid || commandsGrid.children.length === 0) {
+// Initialize on DOM ready
+function initialize() {
+  const accordion = document.querySelector('#commands-accordion');
+  if (!accordion || accordion.children.length === 0) {
     // Retry after a short delay if DOM isn't ready
-    setTimeout(initializeFilters, 50);
+    setTimeout(initialize, 50);
     return;
   }
 
-  for (const [key, { element, oninput }] of Object.entries(FILTERS)) {
-    if (url.searchParams.has(key)) {
-      element.value = url.searchParams.get(key);
-    }
+  // Load filter values from URL
+  loadURLParams();
 
-    element.addEventListener('input', () => {
-      if (oninput) oninput();
+  initializeAccordion();
+  filterCommands();
 
-      if (!element.value) {
-        url.searchParams.delete(key);
-      } else {
-        url.searchParams.set(key, element.value);
-      }
+  // Scroll to the currently expanded group with offset for sticky header + filters
+  const expandedGroup = getExpandedGroup();
+  const groupElement = document.querySelector(`[data-group="${expandedGroup}"]`);
+  if (groupElement) {
+    // Use setTimeout to ensure the accordion has finished expanding
+    setTimeout(() => {
+      const headerHeight = 70; // Header height
+      const filterHeight = document.querySelector('#command-filter')?.parentElement?.offsetHeight || 200;
+      const offset = headerHeight + filterHeight + 16; // 16px extra padding
+      const elementPosition = groupElement.getBoundingClientRect().top + window.pageYOffset;
+      const offsetPosition = elementPosition - offset;
 
-      setUrl();
-      filter();
-    });
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }, 100);
   }
-
-  for (const { oninput } of Object.values(FILTERS)) {
-    if (oninput) oninput();
-  }
-
-  filter();
 }
 
 // Start initialization
-initializeFilters();
+initialize();

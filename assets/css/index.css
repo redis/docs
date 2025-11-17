@@ -1631,6 +1631,39 @@ a[href*="#no-click"], img[src*="#no-click"] {
   align-items: center !important;
 }
 
+/* Commands Accordion Styles */
+.command-group {
+  transition: all 0.2s ease;
+}
+
+.group-header {
+  cursor: pointer;
+  user-select: none;
+}
+
+.group-header:focus {
+  outline: 2px solid #dc2626;
+  outline-offset: 2px;
+}
+
+.group-chevron {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.group-content {
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.command-item a {
+  text-decoration: none;
+}
+
+.command-item a:hover {
+  text-decoration: underline;
+}
+
 /* Utility Classes */
 .agent-builder-hidden {
   display: none !important;
