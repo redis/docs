@@ -303,7 +303,7 @@ FT.SEARCH documents "*=>[KNN 10 @doc_embedding $BLOB]" PARAMS 2 BLOB "\x12\xa9\x
 **Use query attributes**
 
 Alternatively, as of v2.6, `<vector_query_params>` and `<distance_field>` name can be specified in runtime
-[query attributes]({{< relref "/develop/ai/search-and-query/advanced-concepts/query_syntax" >}}#query-attributes) as shown below.
+[query attributes]({{< relref "/develop/ai/search-and-query/advanced-concepts/query_attributes" >}}) as shown below.
 
 ```
 [KNN <top_k> @<vector_field> $<vector_blob_param>]=>{$yield_distance_as: <distance_field>}
@@ -497,7 +497,7 @@ Assign a custom name to the distance field (`vector_distance`) and then sort usi
 FT.SEARCH documents "*=>[KNN 10 @doc_embedding $BLOB AS vector_distance]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY vector_distance DIALECT 2
 ```
 
-Use [query attributes]({{< relref "develop/ai/search-and-query/advanced-concepts/query_syntax#query-attributes" >}}) syntax to specify optional parameters and the distance field name:
+Use [query attributes]({{< relref "develop/ai/search-and-query/advanced-concepts/query_attributes" >}}) syntax to specify optional parameters and the distance field name:
 
 ```
 FT.SEARCH documents "*=>[KNN 10 @doc_embedding $BLOB]=>{$EF_RUNTIME: $EF; $YIELD_DISTANCE_AS: vector_distance}" PARAMS 4 EF 150 BLOB "\x12\xa9\xf5\x6c" SORTBY vector_distance DIALECT 2

@@ -15,7 +15,7 @@ categories:
 description: Stop words support
 linkTitle: Stop words
 title: Stop words
-weight: 4
+weight: 13
 ---
 
 Redis Open Source has a default list of [stop words](https://en.wikipedia.org/wiki/Stop_words). These are words that are usually so common that they do not add much information to search, but take up a lot of space and CPU time in the index. 
