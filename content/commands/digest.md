@@ -59,6 +59,15 @@ A hash digest is a fixed-size numerical representation of a string value, comput
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
+## Example
+
+```bash
+> SET key1 "Hello world"
+OK
+> DIGEST key1
+"b6acb9d84a38ff74"
+```
+
 ## Return information
 
 {{< multitabs id="return-info"
