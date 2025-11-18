@@ -1,14 +1,14 @@
 ---
-Title: Metrics stream engine for monitoring v2
+Title: Monitoring v2
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
 - kubernetes
-description: The new metrics stream engine for monitoring Redis Enterprise Software.
+description: The new metrics engine for monitoring Redis Enterprise Software.
 hideListLinks: true
-linkTitle: Metrics stream engine for monitoring v2
+linkTitle: Monitoring v2
 weight: 60
 ---
 
