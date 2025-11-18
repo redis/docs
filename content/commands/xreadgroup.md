@@ -236,7 +236,7 @@ Entries may be deleted from the stream due to trimming (with [`XADD`]({{< relref
 or explicit calls to [`XDEL`]({{< relref "/commands/xdel" >}}), [`XDELEX`]({{< relref "/commands/xdelex" >}}), or [`XACKDEL`]({{< relref "/commands/xackdel" >}}).
 
 When an entry is trimmed with [`XADD`]({{< relref "/commands/xall" >}}) or [`XTRIM`]({{< relref "/commands/xtrim" >}}) and `DELREF` or `ACKED` are not specified,
-deleted with [`XDEL`]({{< relref "/commands/xdel" >}}), or deleted with [`XDELEX`]({{< relref "/commands/xdelex" >}}), or [`XACKDEL`]({{< relref "/commands/xackdel" >}}) 
+deleted with [`XDEL`]({{< relref "/commands/xdel" >}}), or deleted with [`XDELEX`]({{< relref "/commands/xdelex" >}}) or [`XACKDEL`]({{< relref "/commands/xackdel" >}}) 
 and `DELREF` or `ACKED` are not specified, Redis doesn't prevent the deletion of entries that are present in the stream's PELs.
 When this happens, the PELs retain the deleted entries' IDs, but the actual entry payload is no longer available.
 Therefore, when reading such PEL entries, Redis will return a null value in place of their respective data.
