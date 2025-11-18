@@ -111,20 +111,19 @@
             {{/* Group header - clickable to expand/collapse */}}
             <button
               type="button"
-              class="group-header w-full flex items-center gap-3 px-6 py-4 text-left hover:bg-red-50/50 transition-colors rounded-md"
+              class="group-header w-full flex items-start gap-3 px-6 py-4 text-left hover:bg-red-50/50 transition-colors rounded-md"
               data-group-id="{{ $groupId }}"
               aria-expanded="false"
             >
-              <svg class="group-chevron w-5 h-5 text-redis-ink-900 transition-transform duration-200 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg class="group-chevron w-5 h-5 text-redis-ink-900 transition-transform duration-200 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
               </svg>
-              <div class="flex-1 flex items-baseline gap-3 flex-wrap">
+              <div class="flex-1">
                 <h2 class="text-xl font-semibold text-redis-ink-900">
                   {{ $groupInfo.display }}
                   <span class="group-count ml-2 text-sm font-normal text-redis-ink-900/60">({{ $commandCount }} commands)</span>
                 </h2>
-                <span class="text-redis-ink-900/40">—</span>
-                <p class="text-sm text-redis-ink-900/70">{{ $groupInfo.description }}</p>
+                <p class="text-sm text-redis-ink-900/70 mt-1">{{ $groupInfo.description }}</p>
               </div>
             </button>
 
@@ -133,23 +132,24 @@
               <div class="px-6 py-4">
                 {{ range sort $commands "Title" }}
                   <div
-                    class="command-item py-2 border-b border-redis-pen-800/30 last:border-b-0 flex items-baseline gap-3"
+                    class="command-item py-3 border-b border-redis-pen-800/30 last:border-b-0"
                     data-name="{{ .Title }}"
                     data-group="{{ .Params.group }}"
                     data-since="{{ .Params.since }}"
                     {{ if in .Params.doc_flags "deprecated" }}data-deprecated="true"{{ end }}
                   >
-                    <a
-                      href="{{ .RelPermalink }}"
-                      class="font-mono font-medium text-base text-redis-ink-900 hover:text-redis-red-500 transition-colors flex-shrink-0"
-                    >
-                      {{ .Title }}
-                    </a>
-                    {{ if in .Params.doc_flags "deprecated" }}
-                      <span class="deprecated-badge">Deprecated</span>
-                    {{ end }}
-                    <span class="text-redis-ink-900/40 flex-shrink-0">—</span>
-                    <p class="text-sm text-redis-ink-900/70">{{ .Summary }}</p>
+                    <div class="flex items-center gap-2 mb-1">
+                      <a
+                        href="{{ .RelPermalink }}"
+                        class="font-mono font-medium text-base text-redis-ink-900 hover:text-redis-red-500 transition-colors"
+                      >
+                        {{ .Title }}
+                      </a>
+                      {{ if in .Params.doc_flags "deprecated" }}
+                        <span class="deprecated-badge">Deprecated</span>
+                      {{ end }}
+                    </div>
+                    <p class="text-sm text-redis-ink-900/70 ml-0">{{ .Summary }}</p>
                   </div>
                 {{ end }}
               </div>
