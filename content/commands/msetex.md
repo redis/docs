@@ -94,8 +94,7 @@ key_specs:
 linkTitle: MSETEX
 since: 8.4.0
 summary: Atomically sets multiple string keys with a shared expiration in a single
-  operation. Supports flexible argument parsing where condition and expiration flags
-  can appear in any order.
+  operation.
 syntax_fmt: "MSETEX numkeys key value [key value ...] [NX | XX] [EX\_seconds |\n \
   \ PX\_milliseconds | EXAT\_unix-time-seconds |\n  PXAT\_unix-time-milliseconds |\
   \ KEEPTTL]"
@@ -103,7 +102,7 @@ syntax_str: "key value [key value ...] [NX | XX] [EX\_seconds | PX\_milliseconds
   \ EXAT\_unix-time-seconds | PXAT\_unix-time-milliseconds | KEEPTTL]"
 title: MSETEX
 ---
-Atomically sets multiple string keys with an optional shared expiration in a single operation. Supports flexible argument parsing where condition and expiration flags can appear in any order.
+Atomically sets multiple string keys with an optional shared expiration in a single operation.
 
 ## Required arguments
 
