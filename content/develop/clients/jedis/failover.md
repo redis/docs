@@ -276,7 +276,7 @@ MultiDbClient client = MultiDbClient.builder()
 ## Health check configuration
 
 There are several strategies available for health checks that you can configure using the
-`MultiClusterClientConfig` builder. The sections below explain these strategies
+`MultiDbConfig` builder. The sections below explain these strategies
 in more detail.
 
 ### `PingStrategy` (default)
@@ -319,6 +319,16 @@ MultiDbConfig.DatabaseConfig dbConfig =
                 .healthCheckStrategy(new LagAwareStrategy(lagConfig))
                 .build();
 ```
+
+The `LagAwareStrategy.Config` builder has the following options:
+
+| Builder method | Default value | Description|
+| --- | --- | --- |
+| `sslOptions()` | `null` | Standard SSL options for connecting to the REST API. |
+| `interval()` | `5000` | Interval in milliseconds between health checks. |
+| `timeout()` | `3000` | Timeout in milliseconds for health check requests. |
+| `extendedCheckEnabled()` | `false` | Enable extended lag checking (this includes lag validation in addition to the standard datapath validation). |
+| `availabilityLagTolerance()` | `100` | Maximum lag tolerance in milliseconds for extended lag checking. |
 
 ### Custom health check strategy
 
