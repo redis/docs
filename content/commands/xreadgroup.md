@@ -232,7 +232,7 @@ To see how the command actually replies, please check the [`XREAD`]({{< relref "
 
 ## What happens when a pending message is deleted?
 
-Entries may be deleted from the stream due to trimming (with [`XADD`]({{< relref "/commands/xall" >}}) or [`XTRIM`]({{< relref "/commands/xtrim" >}}),
+Entries may be deleted from the stream due to trimming with [`XADD`]({{< relref "/commands/xall" >}}) or [`XTRIM`]({{< relref "/commands/xtrim" >}}),
 or explicit calls to [`XDEL`]({{< relref "/commands/xdel" >}}), [`XDELEX`]({{< relref "/commands/xdelex" >}}), or [`XACKDEL`]({{< relref "/commands/xackdel" >}}).
 
 When an entry is trimmed with [`XADD`]({{< relref "/commands/xall" >}}) or [`XTRIM`]({{< relref "/commands/xtrim" >}}) and `DELREF` or `ACKED` are not specified,
