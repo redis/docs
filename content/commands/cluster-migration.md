@@ -188,7 +188,7 @@ For the `STATUS` subcommand:
 
 ## Key visibility during migration
 
-During atomic slot migration operations, keys in unowned slotsmay be filtered out from the following commands while importing or trimming is in progress:
+During atomic slot migration operations, keys in unowned slots may be filtered out from the following commands while importing or trimming is in progress:
 
 - [`KEYS`]({{< relref "/commands/keys" >}})
 - [`SCAN`]({{< relref "/commands/scan" >}})
