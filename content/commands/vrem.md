@@ -18,7 +18,6 @@ since: 8.0.0
 summary: Remove an element from a vector set.
 syntax_fmt: "VREM key element"
 title: VREM
-bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
 ---
 
 Remove an element from a vector set.
