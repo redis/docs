@@ -47,6 +47,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZCOUNT
+railroad_diagram: /images/railroad/zcount.svg
 since: 2.0.0
 summary: Returns the count of members in a sorted set that have scores within a range.
 syntax_fmt: ZCOUNT key min max

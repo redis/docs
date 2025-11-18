@@ -21,6 +21,7 @@ hints:
 - request_policy:all_shards
 - response_policy:special
 linkTitle: MEMORY DOCTOR
+railroad_diagram: /images/railroad/memory-doctor.svg
 since: 4.0.0
 summary: Outputs a memory problems report.
 syntax_fmt: MEMORY DOCTOR

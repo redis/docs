@@ -22,6 +22,7 @@ description: Returns the name of the connection.
 group: connection
 hidden: false
 linkTitle: CLIENT GETNAME
+railroad_diagram: /images/railroad/client-getname.svg
 since: 2.6.9
 summary: Returns the name of the connection.
 syntax_fmt: CLIENT GETNAME

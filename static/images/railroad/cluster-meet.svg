@@ -1,0 +1,53 @@
+<svg class="railroad-diagram" height="71" viewBox="0 0 559.0 71" width="559.0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs>
+<style type="text/css"><![CDATA[
+svg.railroad-diagram { background-color: transparent; }
+.terminal rect { fill: #DC382D !important; stroke: #DC382D !important; }
+.terminal text { fill: white !important; font-weight: bold; }
+.nonterminal rect { fill: none !important; stroke: #DC382D !important; stroke-width: 2; }
+.nonterminal text { fill: #DC382D !important; font-weight: bold; }
+path { stroke: #DC382D !important; stroke-width: 2; fill: none; }
+circle { fill: #DC382D !important; stroke: #DC382D !important; }
+]]></style>
+</defs>
+<g transform="translate(.5 .5)">
+<style>/* <![CDATA[ */
+	svg.railroad-diagram {
+		background-color: transparent;
+	}
+	svg.railroad-diagram path {
+		stroke-width:3;
+		stroke: #DC382D;
+		fill:rgba(0,0,0,0);
+	}
+	svg.railroad-diagram text {
+		font:bold 14px monospace;
+		text-anchor:middle;
+	}
+	svg.railroad-diagram text.label{
+		text-anchor:start;
+	}
+	svg.railroad-diagram text.comment{
+		font:italic 12px monospace;
+	}
+	svg.railroad-diagram rect{
+		stroke-width:3;
+		stroke: #DC382D;
+		fill: none;
+	}
+	svg.railroad-diagram rect.group-box {
+		stroke: #DC382D;
+		stroke-dasharray: 10 5;
+		fill: none;
+	}
+
+/* ]]> */
+</style><g>
+<path d="M20 30v20m10 -20v20m-10 -10h20"></path></g><path d="M40 40h10"></path><g>
+<path d="M50 40h0.0"></path><path d="M509.0 40h0.0"></path><g class="terminal ">
+<path d="M50.0 40h0.0"></path><path d="M172.0 40h0.0"></path><rect height="22" rx="10" ry="10" width="122.0" x="50.0" y="29"></rect><text x="111.0" y="44">CLUSTER MEET</text></g><path d="M172.0 40h10"></path><path d="M182.0 40h10"></path><g class="non-terminal ">
+<path d="M192.0 40h0.0"></path><path d="M229.0 40h0.0"></path><rect height="22" width="37.0" x="192.0" y="29"></rect><text x="210.5" y="44">ip</text></g><path d="M229.0 40h10"></path><path d="M239.0 40h10"></path><g class="non-terminal ">
+<path d="M249.0 40h0.0"></path><path d="M303.0 40h0.0"></path><rect height="22" width="54.0" x="249.0" y="29"></rect><text x="276.0" y="44">port</text></g><path d="M303.0 40h10"></path><g>
+<path d="M313.0 40h0.0"></path><path d="M509.0 40h0.0"></path><path d="M313.0 40a10 10 0 0 0 10 -10v0a10 10 0 0 1 10 -10"></path><g>
+<path d="M333.0 20h156.0"></path></g><path d="M489.0 20a10 10 0 0 1 10 10v0a10 10 0 0 0 10 10"></path><path d="M313.0 40h20"></path><g class="non-terminal ">
+<path d="M333.0 40h0.0"></path><path d="M489.0 40h0.0"></path><rect height="22" width="156.0" x="333.0" y="29"></rect><text x="411.0" y="44">cluster-bus-port</text></g><path d="M489.0 40h20"></path></g></g><path d="M509.0 40h10"></path><path d="M 519.0 40 h 20 m -10 -10 v 20 m 10 -20 v 20"></path></g></svg>

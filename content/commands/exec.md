@@ -23,6 +23,7 @@ description: Executes all commands in a transaction.
 group: transactions
 hidden: false
 linkTitle: EXEC
+railroad_diagram: /images/railroad/exec.svg
 since: 1.2.0
 summary: Executes all commands in a transaction.
 syntax_fmt: EXEC

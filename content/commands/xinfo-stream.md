@@ -60,6 +60,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: XINFO STREAM
+railroad_diagram: /images/railroad/xinfo-stream.svg
 since: 5.0.0
 summary: Returns information about a stream.
 syntax_fmt: "XINFO STREAM key [FULL [COUNT\_count]]"

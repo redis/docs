@@ -49,6 +49,7 @@ key_specs:
     type: range
   update: true
 linkTitle: HINCRBYFLOAT
+railroad_diagram: /images/railroad/hincrbyfloat.svg
 since: 2.6.0
 summary: Increments the floating point value of a field by a number. Uses 0 as initial
   value if the field doesn't exist.

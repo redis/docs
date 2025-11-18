@@ -67,6 +67,7 @@ key_specs:
     type: range
   update: true
 linkTitle: EXPIREAT
+railroad_diagram: /images/railroad/expireat.svg
 since: 1.2.0
 summary: Sets the expiration time of a key to a Unix timestamp.
 syntax_fmt: EXPIREAT key unix-time-seconds [NX | XX | GT | LT]

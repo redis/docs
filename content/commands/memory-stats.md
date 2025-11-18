@@ -21,6 +21,7 @@ hints:
 - request_policy:all_shards
 - response_policy:special
 linkTitle: MEMORY STATS
+railroad_diagram: /images/railroad/memory-stats.svg
 since: 4.0.0
 summary: Returns details about memory usage.
 syntax_fmt: MEMORY STATS

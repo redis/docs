@@ -27,6 +27,7 @@ hints:
 - request_policy:all_nodes
 - response_policy:all_succeeded
 linkTitle: CONFIG REWRITE
+railroad_diagram: /images/railroad/config-rewrite.svg
 since: 2.8.0
 summary: Persists the effective configuration to file.
 syntax_fmt: CONFIG REWRITE

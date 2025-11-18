@@ -80,6 +80,7 @@ key_specs:
     type: range
   insert: true
 linkTitle: LMOVE
+railroad_diagram: /images/railroad/lmove.svg
 since: 6.2.0
 summary: Returns an element after popping it from one list and pushing it to another.
   Deletes the list if the last element was moved.

@@ -24,6 +24,7 @@ description: Returns the replication role.
 group: server
 hidden: false
 linkTitle: ROLE
+railroad_diagram: /images/railroad/role.svg
 since: 2.8.12
 summary: Returns the replication role.
 syntax_fmt: ROLE

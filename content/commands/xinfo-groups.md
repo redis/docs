@@ -42,6 +42,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: XINFO GROUPS
+railroad_diagram: /images/railroad/xinfo-groups.svg
 since: 5.0.0
 summary: Returns a list of the consumer groups of a stream.
 syntax_fmt: XINFO GROUPS key

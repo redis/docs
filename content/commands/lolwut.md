@@ -26,6 +26,7 @@ description: Displays computer art and the Redis version
 group: server
 hidden: false
 linkTitle: LOLWUT
+railroad_diagram: /images/railroad/lolwut.svg
 since: 5.0.0
 summary: Displays computer art and the Redis version
 syntax_fmt: "LOLWUT [VERSION\_version]"

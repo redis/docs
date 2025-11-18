@@ -44,6 +44,7 @@ key_specs:
     type: range
   update: true
 linkTitle: MOVE
+railroad_diagram: /images/railroad/move.svg
 since: 1.0.0
 summary: Moves a key to another database.
 syntax_fmt: MOVE key db

@@ -85,6 +85,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZRANGE
+railroad_diagram: /images/railroad/zrange.svg
 since: 1.2.0
 summary: Returns members in a sorted set within a range of indexes.
 syntax_fmt: "ZRANGE key start stop [BYSCORE | BYLEX] [REV] [LIMIT\_offset count]\n\

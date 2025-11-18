@@ -27,6 +27,7 @@ group: json
 hidden: false
 linkTitle: JSON.MGET
 module: JSON
+railroad_diagram: /images/railroad/json.mget.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Returns the values at a path from one or more keys

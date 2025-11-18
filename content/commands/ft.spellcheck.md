@@ -54,6 +54,7 @@ group: search
 hidden: false
 linkTitle: FT.SPELLCHECK
 module: Search
+railroad_diagram: /images/railroad/ft.spellcheck.svg
 since: 1.4.0
 stack_path: docs/interact/search-and-query
 summary: Performs spelling correction on a query, returning suggestions for misspelled

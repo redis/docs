@@ -46,6 +46,7 @@ key_specs:
     type: range
   insert: true
 linkTitle: PFADD
+railroad_diagram: /images/railroad/pfadd.svg
 since: 2.8.9
 summary: Adds elements to a HyperLogLog key. Creates the key if it doesn't exist.
 syntax_fmt: PFADD key [element [element ...]]

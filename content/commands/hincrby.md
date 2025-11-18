@@ -49,6 +49,7 @@ key_specs:
     type: range
   update: true
 linkTitle: HINCRBY
+railroad_diagram: /images/railroad/hincrby.svg
 since: 2.0.0
 summary: Increments the integer value of a field in a hash by a number. Uses 0 as
   initial value if the field doesn't exist.

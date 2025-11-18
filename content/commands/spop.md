@@ -53,6 +53,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: SPOP
+railroad_diagram: /images/railroad/spop.svg
 since: 1.0.0
 summary: Returns one or more random members from a set after removing them. Deletes
   the set if the last member was popped.

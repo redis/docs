@@ -56,6 +56,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZSCAN
+railroad_diagram: /images/railroad/zscan.svg
 since: 2.8.0
 summary: Iterates over members and scores of a sorted set.
 syntax_fmt: "ZSCAN key cursor [MATCH\_pattern] [COUNT\_count]"

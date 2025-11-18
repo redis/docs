@@ -28,6 +28,7 @@ doc_flags:
 group: connection
 hidden: false
 linkTitle: QUIT
+railroad_diagram: /images/railroad/quit.svg
 replaced_by: just closing the connection
 since: 1.0.0
 summary: Closes the connection.

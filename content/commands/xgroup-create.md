@@ -66,6 +66,7 @@ key_specs:
     type: range
   insert: true
 linkTitle: XGROUP CREATE
+railroad_diagram: /images/railroad/xgroup-create.svg
 since: 5.0.0
 summary: Creates a consumer group.
 syntax_fmt: "XGROUP CREATE key group <id | $> [MKSTREAM]\n  [ENTRIESREAD\_entries-read]"

@@ -38,6 +38,7 @@ description: Instructs the server whether to reply to commands.
 group: connection
 hidden: false
 linkTitle: CLIENT REPLY
+railroad_diagram: /images/railroad/client-reply.svg
 since: 3.2.0
 summary: Instructs the server whether to reply to commands.
 syntax_fmt: CLIENT REPLY <ON | OFF | SKIP>

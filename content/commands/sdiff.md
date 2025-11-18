@@ -42,6 +42,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: SDIFF
+railroad_diagram: /images/railroad/sdiff.svg
 since: 1.0.0
 summary: Returns the difference of multiple sets.
 syntax_fmt: SDIFF key [key ...]

@@ -57,6 +57,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: SUNIONSTORE
+railroad_diagram: /images/railroad/sunionstore.svg
 since: 1.0.0
 summary: Stores the union of multiple sets in a key.
 syntax_fmt: SUNIONSTORE destination key [key ...]

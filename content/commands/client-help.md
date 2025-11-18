@@ -21,6 +21,7 @@ description: Returns helpful text about the different subcommands.
 group: connection
 hidden: true
 linkTitle: CLIENT HELP
+railroad_diagram: /images/railroad/client-help.svg
 since: 5.0.0
 summary: Returns helpful text about the different subcommands.
 syntax_fmt: CLIENT HELP

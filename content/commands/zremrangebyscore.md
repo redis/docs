@@ -47,6 +47,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZREMRANGEBYSCORE
+railroad_diagram: /images/railroad/zremrangebyscore.svg
 since: 1.2.0
 summary: Removes members in a sorted set within a range of scores. Deletes the sorted
   set if all members were removed.

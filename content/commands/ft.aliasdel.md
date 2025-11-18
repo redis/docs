@@ -20,6 +20,7 @@ group: search
 hidden: false
 linkTitle: FT.ALIASDEL
 module: Search
+railroad_diagram: /images/railroad/ft.aliasdel.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Deletes an alias from the index

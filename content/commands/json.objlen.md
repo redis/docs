@@ -26,6 +26,7 @@ group: json
 hidden: false
 linkTitle: JSON.OBJLEN
 module: JSON
+railroad_diagram: /images/railroad/json.objlen.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Returns the number of keys of the object at path

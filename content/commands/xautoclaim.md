@@ -69,6 +69,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: XAUTOCLAIM
+railroad_diagram: /images/railroad/xautoclaim.svg
 since: 6.2.0
 summary: Changes, or acquires, ownership of messages in a consumer group, as if the
   messages were delivered to as consumer group member.

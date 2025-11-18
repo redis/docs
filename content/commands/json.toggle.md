@@ -25,6 +25,7 @@ group: json
 hidden: false
 linkTitle: JSON.TOGGLE
 module: JSON
+railroad_diagram: /images/railroad/json.toggle.svg
 since: 2.0.0
 stack_path: docs/data-types/json
 summary: Toggles a boolean value

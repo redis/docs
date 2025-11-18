@@ -28,6 +28,7 @@ group: json
 hidden: false
 linkTitle: JSON.STRAPPEND
 module: JSON
+railroad_diagram: /images/railroad/json.strappend.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Appends a string to a JSON string value at path

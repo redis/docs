@@ -44,6 +44,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: GEOHASH
+railroad_diagram: /images/railroad/geohash.svg
 since: 3.2.0
 summary: Returns members from a geospatial index as geohash strings.
 syntax_fmt: GEOHASH key [member [member ...]]

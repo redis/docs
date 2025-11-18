@@ -86,6 +86,7 @@ key_specs:
       limit: 2
     type: range
 linkTitle: XREADGROUP
+railroad_diagram: /images/railroad/xreadgroup.svg
 since: 5.0.0
 summary: Returns new or historical messages from a stream for a consumer in a group.
   Blocks until a message is available otherwise.

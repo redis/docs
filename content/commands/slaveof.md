@@ -52,7 +52,8 @@ doc_flags:
 group: server
 hidden: false
 linkTitle: SLAVEOF
-replaced_by: '[`REPLICAOF`]({{< relref "/commands/replicaof" >}})'
+railroad_diagram: /images/railroad/slaveof.svg
+replaced_by: '`REPLICAOF`'
 since: 1.0.0
 summary: Sets a Redis server as a replica of another, or promotes it to being a master.
 syntax_fmt: SLAVEOF <host port | NO ONE>

@@ -86,6 +86,7 @@ key_specs:
     type: range
   insert: true
 linkTitle: BLMOVE
+railroad_diagram: /images/railroad/blmove.svg
 since: 6.2.0
 summary: Pops an element from a list, pushes it to another list and returns it. Blocks
   until an element is available otherwise. Deletes the list if the last element was

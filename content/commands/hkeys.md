@@ -41,6 +41,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: HKEYS
+railroad_diagram: /images/railroad/hkeys.svg
 since: 2.0.0
 summary: Returns all fields in a hash.
 syntax_fmt: HKEYS key

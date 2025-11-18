@@ -26,6 +26,7 @@ description: Returns the given string.
 group: connection
 hidden: false
 linkTitle: ECHO
+railroad_diagram: /images/railroad/echo.svg
 since: 1.0.0
 summary: Returns the given string.
 syntax_fmt: ECHO message

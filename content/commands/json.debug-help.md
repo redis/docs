@@ -15,6 +15,7 @@ group: json
 hidden: true
 linkTitle: JSON.DEBUG HELP
 module: JSON
+railroad_diagram: /images/railroad/json.debug-help.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Shows helpful information

@@ -30,7 +30,8 @@ history:
 - - 7.0.0
   - Added additional networking metadata field.
 linkTitle: CLUSTER SLOTS
-replaced_by: '[`CLUSTER SHARDS`]({{< relref "/commands/cluster-shards" >}})'
+railroad_diagram: /images/railroad/cluster-slots.svg
+replaced_by: '`CLUSTER SHARDS`'
 since: 3.0.0
 summary: Returns the mapping of cluster slots to nodes.
 syntax_fmt: CLUSTER SLOTS

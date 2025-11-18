@@ -36,6 +36,7 @@ group: cf
 hidden: false
 linkTitle: CF.RESERVE
 module: Bloom
+railroad_diagram: /images/railroad/cf.reserve.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Creates a new Cuckoo Filter

@@ -56,6 +56,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: SSCAN
+railroad_diagram: /images/railroad/sscan.svg
 since: 2.8.0
 summary: Iterates over members of a set.
 syntax_fmt: "SSCAN key cursor [MATCH\_pattern] [COUNT\_count]"

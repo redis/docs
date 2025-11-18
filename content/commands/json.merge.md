@@ -30,6 +30,7 @@ group: json
 hidden: false
 linkTitle: JSON.MERGE
 module: JSON
+railroad_diagram: /images/railroad/json.merge.svg
 since: 2.6.0
 stack_path: docs/data-types/json
 summary: Merges a given JSON value into matching paths. Consequently, JSON values

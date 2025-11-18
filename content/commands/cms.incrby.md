@@ -29,6 +29,7 @@ group: cms
 hidden: false
 linkTitle: CMS.INCRBY
 module: Bloom
+railroad_diagram: /images/railroad/cms.incrby.svg
 since: 2.0.0
 stack_path: docs/data-types/probabilistic
 summary: Increases the count of one or more items by increment

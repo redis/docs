@@ -21,6 +21,7 @@ group: tdigest
 hidden: false
 linkTitle: TDIGEST.INFO
 module: Bloom
+railroad_diagram: /images/railroad/tdigest.info.svg
 since: 2.4.0
 stack_path: docs/data-types/probabilistic
 summary: Returns information and statistics about a t-digest sketch

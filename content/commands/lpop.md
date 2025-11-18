@@ -50,6 +50,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: LPOP
+railroad_diagram: /images/railroad/lpop.svg
 since: 1.0.0
 summary: Returns the first elements in a list after removing it. Deletes the list
   if the last element was popped.

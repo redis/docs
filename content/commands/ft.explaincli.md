@@ -29,6 +29,7 @@ group: search
 hidden: false
 linkTitle: FT.EXPLAINCLI
 module: Search
+railroad_diagram: /images/railroad/ft.explaincli.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Returns the execution plan for a complex query

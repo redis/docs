@@ -25,6 +25,7 @@ group: topk
 hidden: false
 linkTitle: TOPK.QUERY
 module: Bloom
+railroad_diagram: /images/railroad/topk.query.svg
 since: 2.0.0
 stack_path: docs/data-types/probabilistic
 summary: Checks whether one or more items are in a sketch

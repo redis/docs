@@ -44,6 +44,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: TOUCH
+railroad_diagram: /images/railroad/touch.svg
 since: 3.2.1
 summary: Returns the number of existing keys out of those specified after updating
   the time they were last accessed.

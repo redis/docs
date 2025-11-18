@@ -21,6 +21,7 @@ description: Returns helpful text about the different subcommands.
 group: stream
 hidden: true
 linkTitle: XINFO HELP
+railroad_diagram: /images/railroad/xinfo-help.svg
 since: 5.0.0
 summary: Returns helpful text about the different subcommands.
 syntax_fmt: XINFO HELP

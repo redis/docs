@@ -49,6 +49,7 @@ key_specs:
     type: range
   update: true
 linkTitle: SETRANGE
+railroad_diagram: /images/railroad/setrange.svg
 since: 2.2.0
 summary: Overwrites a part of a string value with another by an offset. Creates the
   key if it doesn't exist.

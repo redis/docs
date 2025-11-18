@@ -46,6 +46,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: LTRIM
+railroad_diagram: /images/railroad/ltrim.svg
 since: 1.0.0
 summary: Removes elements from both ends a list. Deletes the list if all elements
   were trimmed.

@@ -25,6 +25,7 @@ group: topk
 hidden: false
 linkTitle: TOPK.ADD
 module: Bloom
+railroad_diagram: /images/railroad/topk.add.svg
 since: 2.0.0
 stack_path: docs/data-types/probabilistic
 summary: Adds an item to a Top-k sketch. Multiple items can be added at the same time.

@@ -49,6 +49,7 @@ key_specs:
     type: range
   insert: true
 linkTitle: LPUSHX
+railroad_diagram: /images/railroad/lpushx.svg
 since: 2.2.0
 summary: Prepends one or more elements to a list only when the list exists.
 syntax_fmt: LPUSHX key element [element ...]
