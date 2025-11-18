@@ -13,29 +13,29 @@ weight: 50
 
 An application deployed with an Active-Active database connects to a database member that is geographically nearby. If that database member becomes unavailable, the application can fail over to a secondary Active-Active database member, and fail back to the original database member again if it recovers.
 
-However, Active-Active Redis databases do not have a built-in failover or failback mechanism for application connections. To implement failover and failback, you can use one of the following disaster recovery strategies:
+However, Active-Active Redis databases do not have a built-in [failover](https://en.wikipedia.org/wiki/Failover) or failback mechanism for application connections. To implement failover and failback, you can use one of the following disaster recovery strategies:
 
-- [Network-based](#network-based-disaster-recovery): Global traffic managers and load balancers for routing
+- [Network-based](#network-based-disaster-recovery): Global traffic managers and load balancers for routing.
 
-- [Proxy-based](#proxy-based-disaster-recovery): Software proxies handle detection and routing logic
+- [Proxy-based](#proxy-based-disaster-recovery): Software proxies handle detection and routing logic.
 
-- [Client library-based](#client-library-based-disaster-recovery): Database client libraries with built-in failover logic
+- [Client library-based](#client-library-based-disaster-recovery): Database client libraries with built-in failover logic.
 
-- [Application-based](#application-based-disaster-recovery): Custom application-level monitoring and connectivity management
+- [Application-based](#application-based-disaster-recovery): Custom application-level monitoring and connectivity management.
 
 ## Detect failures with health checks
 
 You can use the following health checks to help detect Active-Active database failures and determine when to failover to a secondary Active-Active member or failback to the primary member:
 
-- [`PING`]({{<relref "/commands/ping">}}) or [`ECHO`]({{<relref "/commands/echo">}})
+- [`PING`]({{<relref "/commands/ping">}}) or [`ECHO`]({{<relref "/commands/echo">}}).
 
-- Connection timeouts or Redis errors
+- Connection timeouts or Redis errors.
 
-- [Lag-aware database availability requests]({{<relref "/operate/rs/monitoring/db-availability">}})
+- [Lag-aware database availability requests]({{<relref "/operate/rs/monitoring/db-availability">}}).
 
-- Probing the keyspace with [`SET`]({{<relref "/commands/set">}}) or [`GET`]({{<relref "/commands/get">}}) commands to cover all available shards
+- Probing the keyspace with [`SET`]({{<relref "/commands/set">}}) or [`GET`]({{<relref "/commands/get">}}) commands to cover all available shards.
 
-- A custom health check
+- A custom health check.
 
 ## Considerations for disaster recovery
 
@@ -43,17 +43,17 @@ When implementing a disaster recovery strategy for an Active-Active database, co
 
 - Is the Active-Active database an on-premise, cloud, multi-cloud, or hybrid-cloud deployment?
 
-- Number of regions and availability zones
+- Number of regions and availability zones.
 
-- Application server redundancy and deployment locations
+- Application server redundancy and deployment locations.
 
-- Acceptable values for Recovery Point Objective (RPO) and Recovery Time Objective (RTO)
+- Acceptable values for the maximum amount of data that can be lost during a failure (Recovery Point Objective) and the maximum acceptable time to restore service after a failure (Recovery Time Objective).
 
-- Latency and throughput requirements
+- Latency and throughput requirements.
 
-- Number of application errors that can be tolerated during a failure
+- Number of application errors that can be tolerated during a failure.
 
-- Tolerance for reading stale but eventually consistent data during a failover scenario
+- Tolerance for reading stale but eventually consistent data during a failover scenario.
 
 - Is concurrent access, in which different application servers can read from or write to different Active-Active database members, acceptable?
 
@@ -85,7 +85,7 @@ For cross-region availability, you can use a global traffic manager or a global 
 
 Advantages:
 
-- If DNS routing is available at the application level, no additional load balancer is required between the application and the data tier to resolve the Active-Active database member’s FQDN, reducing the latency.
+- If DNS routing is available at the application level, no additional load balancer is required between the application and the data tier to resolve the Active-Active database member’s FQDN, reducing latency.
 
 - Protects against data center failure since failure in one region should not affect services running in another region.
 
@@ -95,21 +95,21 @@ A global traffic manager acts as an intelligent DNS server that directs clients 
 
 Advantages:
 
-- High availability
+- High availability.
 
-- Latency optimization
+- Latency optimization.
 
-- Seamless disaster recovery
+- Seamless disaster recovery.
 
 Considerations:
 
-- DNS propagation delays affect failover time
+- DNS propagation delays affect failover time.
 
-- DNS caches can impact proper functioning
+- DNS caches can impact proper functioning.
 
-- Limited custom health check support
+- Limited custom health check support.
 
-- May route traffic during CRDT synchronization, causing stale data reads
+- May route traffic during CRDT synchronization, causing stale data reads.
 
 #### Global load balancer
 
@@ -125,7 +125,7 @@ If you add a lightweight proxy software component between the clients and the Ac
 
 Advantages:
 
-- Proxies provide out-of-the-box proactive and reactive health check methods, such as polling target health periodically using either a TCP connection or an HTTP request, or monitoring live operations for errors
+- Proxies provide out-of-the-box proactive and reactive health check methods, such as polling target health periodically using either a TCP connection or an HTTP request, or monitoring live operations for errors.
 
 - Proxies can be configured to easily run the desired A-A health check policy, such as the lag-aware database availability.
 
@@ -141,9 +141,9 @@ Considerations:
 
     - A config syncer component is required to discover topology changes and reconfigure the proxy.
 
--  Proxies introduce latency.
+- Proxies introduce latency.
 
--  Proxy failures can disconnect clients and cause disruption.
+- Proxy failures can disconnect clients and cause disruptions.
 
 ### Avoid concurrent access across replicas
 
@@ -151,15 +151,15 @@ If concurrent access across replicas must be avoided in every scenario, you can 
 
 Advantages:
 
-- Concurrent access across replicas is not possible
+- Concurrent access across replicas is not possible.
 
-- Failover and failback are simultaneous regardless of the Active-Active health check policy
+- Failover and failback are simultaneous regardless of the Active-Active health check policy.
 
 Considerations:
 
 - Although the proxy can be monitored with a watchdog and restarted in case of failure, this setup does not grant high availability for the proxy.
 
-- Limited scalability
+- Limited scalability.
 
 ### Co-locate to reduce latency and improve scalability
 
@@ -167,9 +167,9 @@ To reduce latency and improve scalability, you can use a proxy co-located in the
 
 Advantages:
 
-- Reduced latency
+- Reduced latency.
 
-- Better scalability
+- Better scalability.
 
 Considerations:
 
@@ -181,9 +181,9 @@ You can use a pool of active proxies to scale the routing layer. Application ser
 
 Advantages:
 
-- High availability without complex monitoring and failover solutions
+- High availability without complex monitoring and failover solutions.
 
-- Flexible scalability of the routing layer
+- Flexible scalability of the routing layer.
 
 Considerations:
 
@@ -195,25 +195,25 @@ Some Redis client libraries support geographic failover and failback. These clie
 
 Advantages:
 
-- No additional hardware or software components required
+- No additional hardware or software components required.
 
-- No high availability considerations
+- No high availability considerations.
 
-- No scalability concerns
+- No scalability concerns.
 
-- Tighter control over connectivity such as timeouts, connection retries, and dynamic reconfiguration
+- Tighter control over connectivity such as timeouts, connection retries, and dynamic reconfiguration.
 
-- OSS Cluster API support
+- OSS Cluster API support.
 
-- Low latency
+- Low latency.
 
 Considerations:
 
-- Requires code changes for failover and failback logic
+- Requires code changes for failover and failback logic.
 
-- Concurrent access across replicas is possible, but can be mitigated using the distributed health status provided by the database availability API requests
+- Concurrent access across replicas is possible, but can be mitigated using the distributed health status provided by the database availability API requests.
 
-- When a development framework uses Redis transparently, failover and failback might not be easy to configure
+- When a development framework uses Redis transparently, failover and failback might not be easy to configure.
 
 For additional information, see the following client library guides for failover and failback:
 
