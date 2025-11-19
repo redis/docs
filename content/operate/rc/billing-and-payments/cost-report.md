@@ -101,4 +101,4 @@ You can use the [Redis Cloud REST API]({{< relref "/operate/rc/api" >}}) to get 
 
 {{< embed-md "rc-cost-report-api.md" >}}
 
-See [Generate FOCUS-compliant cost report with REST API]({{< relref "/operate/rc/api/examples/generate-cost-report" >}}) for examples.
+The cost report returned from the Redis Cloud REST API contains fields from the [FOCUS column library](https://focus.finops.org/focus-columns/). See [Generate FOCUS-compliant cost report with REST API]({{< relref "/operate/rc/api/examples/generate-cost-report" >}}) for more details.
