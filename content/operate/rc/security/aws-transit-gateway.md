@@ -6,7 +6,7 @@ categories:
 - operate
 - rc
 description: null
-linkTitle: AWSTransit Gateway
+linkTitle: AWS Transit Gateway
 weight: 80
 ---
 
