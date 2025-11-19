@@ -245,7 +245,8 @@ The system operates in three distinct phases:
 
 Some languages have multiple client implementations (sync/async, different libraries). The system uses directory path to determine which variant:
 
-- Java files in `lettuce-async/` → `Java-Async` (Lettuce async client)
+- Java files in `lettuce-sync/` → `Lettuce-Sync` (Lettuce synchronous client)
+- Java files in `lettuce-async/` → `Java-Async` (Lettuce asynchronous client)
 - Java files in `lettuce-reactive/` → `Java-Reactive` (Lettuce reactive client)
 - Java files elsewhere → `Java-Sync` (Jedis synchronous client)
 - Rust files in `rust-async/` → `Rust-Async`
@@ -253,7 +254,7 @@ Some languages have multiple client implementations (sync/async, different libra
 - C# files in `async/` → `C#-Async`
 - C# files in `sync/` → `C#-Sync`
 
-This allows the same language to appear multiple times in the tab interface with different implementations.
+This allows the same language to appear multiple times in the tab interface with different implementations. The order of checks matters: more specific paths (e.g., `lettuce-sync`) should be checked before generic ones (e.g., `Java-Sync`).
 
 **Outputs**:
 - Copies files to `examples/{example_id}/local_{filename}`
@@ -1126,7 +1127,7 @@ def main():
 **Client Examples Order**:
 ```toml
 [params]
-clientsExamples = ["Python", "Node.js", "Java-Sync", "Java-Async", "Java-Reactive", "Go", "C#-Sync", "C#-Async", "RedisVL", "PHP", "Rust-Sync", "Rust-Async"]
+clientsExamples = ["Python", "Node.js", "Java-Sync", "Lettuce-Sync", "Java-Async", "Java-Reactive", "Go", "C#-Sync", "C#-Async", "RedisVL", "PHP", "Rust-Sync", "Rust-Async"]
 ```
 
 This controls:

@@ -8,7 +8,7 @@ There are two sections that need to updated when new languages are added.
 1. In the `[params]` section:
 
     ```toml
-    clientsExamples = ["Python", "Node.js", "Java-Sync", "Java-Async", "Java-Reactive", "Go", "C#", "RedisVL", "PHP"]
+    clientsExamples = ["Python", "Node.js", "Java-Sync", "Lettuce-Sync", "Java-Async", "Java-Reactive", "Go", "C#-Sync", "C#-Async", "RedisVL", "PHP", "Rust-Sync", "Rust-Async"]
     ```
 
     The order of the `clientsExamples` list matters: it's the order in which the language tabs are presented for each code example.
@@ -18,13 +18,17 @@ There are two sections that need to updated when new languages are added.
     [params.clientsConfig]
     "Python"={quickstartSlug="redis-py"}
     "Node.js"={quickstartSlug="nodejs"}
-    "Java-sync"={quickstartSlug="jedis"}
-    "Java-async"={quickstartSlug="lettuce"}
-    "Java-reactive"={quickstartSlug="lettuce"}
+    "Java-Sync"={quickstartSlug="jedis"}
+    "Lettuce-Sync"={quickstartSlug="lettuce"}
+    "Java-Async"={quickstartSlug="lettuce"}
+    "Java-Reactive"={quickstartSlug="lettuce"}
     "Go"={quickstartSlug="go"}
-    "C#"={quickstartSlug="dotnet"}
+    "C#-Sync"={quickstartSlug="dotnet"}
+    "C#-Async"={quickstartSlug="dotnet"}
     "RedisVL"={quickstartSlug="redis-vl"}
     "PHP"={quickstartSlug="php"}
+    "Rust-Sync"={quickstartSlug="rust"}
+    "Rust-Async"={quickstartSlug="rust"}
     ```
 
 This configuration, along with the configuration steps below, is used to control the behavior of the Hugo shortcode that was developed to show tabbed code examples.
@@ -36,7 +40,7 @@ A shortcode is a simple snippet inside a content file that Hugo will render usin
 
 The folder `data/components` contains one component configuration file for each supported language. These files contain information about the GitHub repos that house the code examples.
 
-Here is the configuration file for Python, `redis_py.json`: 
+Here is the configuration file for Python, `redis_py.json`:
 
 ```json
 {
@@ -65,15 +69,19 @@ Register your component file by adding it to the `clients` array in the `index.j
 Here is an example:
 ```json
 "clients": [
-  "nredisstack",
+  "nredisstack_sync",
+  "nredisstack_async",
   "go_redis",
   "node_redis",
   "php",
   "redis_py",
   "jedis",
+  "lettuce_sync",
   "lettuce_async",
   "lettuce_reactive",
-  "redis_vl"
+  "redis_vl",
+  "redis_rs_sync",
+  "redis_rs_async"
 ]
 ```
 
@@ -133,7 +141,8 @@ Add a source code file to an appropriate client repo. Consult the /data/componen
 | C#                   | [NRedisStack](https://github.com/redis/NRedisStack) | `tests/Doc`                                       |
 | Go                   | [go-redis](https://github.com/redis/go-redis)       | `doctests`                                        |
 | Java                 | [jedis](https://github.com/redis/jedis)             | `src/test/java/io/redis/examples`                 |
-|                      | [Lettuce](https://github.com/redis/lettuce)         | `src/test/java/io/redis/examples/async` or        |
+|                      | [Lettuce](https://github.com/redis/lettuce)         | `src/test/java/io/redis/examples/sync`,            |
+|                      |                                                     | `src/test/java/io/redis/examples/async`, or        |
 |                      |                                                     | `src/test/java/io/redis/examples/reactive`        |
 | Node.js              | [node-redis](https://github.com/redis/node-redis)   | `doctests`                                        |
 | PHP                  | [Predis](https://github.com/predis/predis)          | Examples, for now, are stored in `local_examples` |
@@ -151,6 +160,9 @@ local_examples
 │   │   ...
 │   ├── jedis
 │   │   ...
+│   ├── lettuce-sync
+│   │   ...
+
 │   ├── lettuce-async
 │   │   ...
 │   ├── lettuce-reactive

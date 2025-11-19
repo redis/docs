@@ -57,12 +57,15 @@ def get_client_name_from_language_and_path(language: str, path: str) -> str:
     """Get client name from language with path-based overrides.
 
     For Java (.java) files, override based on path substrings:
+    - If 'lettuce-sync' in path -> Lettuce-Sync
     - If 'lettuce-async' in path -> Java-Async
     - If 'lettuce-reactive' in path -> Java-Reactive
 
     Substring checks are case-sensitive and can appear anywhere in the path.
     """
     if language == 'java':
+        if 'lettuce-sync' in path:
+            return 'Lettuce-Sync'
         if 'lettuce-async' in path:
             return 'Java-Async'
         if 'lettuce-reactive' in path:
