@@ -45,7 +45,7 @@ tagManagerId = "GTM-TKZ6J9R"
 gitHubRepo = "https://github.com/redis/docs"
 
 # Display and sort order for client examples
-clientsExamples = ["Python", "Node.js", "Java-Sync", "Lettuce-Sync", "Java-Async", "Java-Reactive", "Go", "C#-Sync", "C#-Async", "RedisVL", "PHP", "Rust-Sync", "Rust-Async"]
+clientsExamples = ["Python", "Node.js", "Java-Sync", "Lettuce-Sync", "Java-Async", "Java-Reactive", "Go", "C", "C#-Sync", "C#-Async", "RedisVL", "PHP", "Rust-Sync", "Rust-Async"]
 searchService = "/convai/api/search-service"
 ratingsService = "/docusight/api/rate/docs"
 
@@ -65,6 +65,7 @@ rdi_current_version = "1.15.0"
 "Java-Async"={quickstartSlug="lettuce"}
 "Java-Reactive"={quickstartSlug="lettuce"}
 "Go"={quickstartSlug="go"}
+"C"={quickstartSlug="hiredis"}
 "C#-Sync"={quickstartSlug="dotnet"}
 "C#-Async"={quickstartSlug="dotnet"}
 "RedisVL"={quickstartSlug="redis-vl"}

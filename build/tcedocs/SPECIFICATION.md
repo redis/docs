@@ -1127,7 +1127,7 @@ def main():
 **Client Examples Order**:
 ```toml
 [params]
-clientsExamples = ["Python", "Node.js", "Java-Sync", "Lettuce-Sync", "Java-Async", "Java-Reactive", "Go", "C#-Sync", "C#-Async", "RedisVL", "PHP", "Rust-Sync", "Rust-Async"]
+clientsExamples = ["Python", "Node.js", "Java-Sync", "Lettuce-Sync", "Java-Async", "Java-Reactive", "Go", "C", "C#-Sync", "C#-Async", "RedisVL", "PHP", "Rust-Sync", "Rust-Async"]
 ```
 
 This controls:
@@ -1490,9 +1490,10 @@ See [Appendix: Adding a Language](#adding-a-language) for complete step-by-step 
 1. ✅ Update `config.toml` (clientsExamples, clientsConfig)
 2. ✅ Create component config in `data/components/`
 3. ✅ Register in `data/components/index.json`
-4. ✅ Add language to `PREFIXES` in `build/components/example.py`
+4. ✅ Add language to `PREFIXES` in `build/components/example.py` ⚠️ **CRITICAL - DO NOT SKIP**
 5. ✅ Add extension mapping in `build/local_examples.py`
 6. ✅ Add test markers if needed
+7. ⚠️ Check if Jupyter notebook support is needed (update `build/jupyterize/` if applicable)
 
 ### Customizing the UI
 
@@ -2139,3 +2140,130 @@ OK
 {{< /clients-example >}}
 ```
 
+
+## Lessons Learned: Adding the C (hiredis) Client
+
+### Critical Discovery: The PREFIXES Dictionary
+
+When adding the C client, a critical step was initially missed: **adding the language to the `PREFIXES` dictionary in `build/components/example.py`**.
+
+**Why this matters**: The `PREFIXES` dictionary maps each language to its comment prefix character(s). This is used by the example parser to:
+- Identify special markers like `EXAMPLE:`, `STEP_START`, `HIDE_START`, etc.
+- Parse metadata from source files
+- Process example files correctly
+
+**What happens if you skip this step**:
+- The example parser will fail with an error: `Unknown language "c" for example {path}`
+- Examples won't be processed
+- The build system will silently skip C examples
+- No error message will appear in the build output (just a debug log)
+
+**The fix**:
+```python
+# In build/components/example.py, add to PREFIXES dictionary:
+PREFIXES = {
+    ...
+    'c': '//',  # C uses // for comments
+    ...
+}
+```
+
+### Complete Checklist for Adding a New Language
+
+The original checklist was incomplete. Here's the comprehensive version:
+
+**Configuration Files**:
+1. ✅ `config.toml` - Add to `clientsExamples` list and `clientsConfig` section
+2. ✅ `data/components/{language}.json` - Create component configuration
+3. ✅ `data/components/index.json` - Register the component
+
+**Build System**:
+4. ✅ `build/components/example.py` - **CRITICAL**: Add to `PREFIXES` dictionary
+5. ✅ `build/components/example.py` - Add to `TEST_MARKER` dictionary (if language has test annotations)
+6. ✅ `build/local_examples.py` - Add file extension mapping to `EXTENSION_TO_LANGUAGE`
+7. ✅ `build/local_examples.py` - Add language to `LANGUAGE_TO_CLIENT` mapping
+
+**Optional (if Jupyter notebook support is needed)**:
+8. ⚠️ `build/jupyterize/jupyterize.py` - Add to `KERNEL_SPECS` dictionary
+9. ⚠️ `build/jupyterize/jupyterize_config.json` - Add language-specific boilerplate and unwrap patterns
+
+**Documentation**:
+10. ✅ `build/tcedocs/SPECIFICATION.md` - Update examples and checklist
+11. ✅ `build/tcedocs/README.md` - Update tables and examples
+
+### Pre-existing Examples
+
+**Important**: Before adding a new language, check if examples already exist in the repository:
+- Look in `local_examples/client-specific/{language}/` for local examples
+- Check the client repository for remote examples
+- Verify the component configuration points to the correct example directory
+
+For C (hiredis), there was already a `landing.c` example in `local_examples/client-specific/c/` that was ready to be processed once the language was properly configured.
+
+### Language-Specific Comment Prefixes
+
+Different languages use different comment styles. When adding a language, ensure the correct prefix is used:
+
+| Language | Prefix | Example |
+|----------|--------|---------|
+| Python | `#` | `# EXAMPLE: my_example` |
+| C | `//` | `// EXAMPLE: my_example` |
+| Java | `//` | `// EXAMPLE: my_example` |
+| Go | `//` | `// EXAMPLE: my_example` |
+| C# | `//` | `// EXAMPLE: my_example` |
+| PHP | `//` | `// EXAMPLE: my_example` |
+| Rust | `//` | `// EXAMPLE: my_example` |
+| Node.js | `//` | `// EXAMPLE: my_example` |
+
+**Critical**: The `PREFIXES` dictionary uses **lowercase** language names as keys, but the `Example` class converts the language to lowercase before accessing it (line 57 in `example.py`).
+
+### Verification Steps
+
+After adding a new language, verify the integration:
+
+```bash
+# 1. Check that the language is recognized
+grep -r "c" build/components/example.py  # Should find 'c': '//' in PREFIXES
+
+# 2. Process examples
+python3 build/local_examples.py
+
+# 3. Verify examples were processed
+grep -i "landing" data/examples.json | grep -i "c"
+
+# 4. Check for errors in the build output
+python3 build/make.py 2>&1 | grep -i "error\|unknown language"
+
+# 5. Build and serve
+hugo serve
+```
+
+### Common Mistakes to Avoid
+
+1. **Forgetting the PREFIXES entry**: This is the most common mistake. The build will appear to succeed but examples won't be processed.
+
+2. **Case sensitivity**: Language names in `PREFIXES` must be lowercase, but `clientsExamples` in `config.toml` uses proper case (e.g., `"C"` not `"c"`).
+
+3. **Inconsistent naming**: Ensure the language name is consistent across:
+   - `config.toml` clientsExamples (proper case, e.g., `"C"`)
+   - `config.toml` clientsConfig keys (proper case, e.g., `"C"`)
+   - `build/local_examples.py` LANGUAGE_TO_CLIENT values (proper case, e.g., `'C'`)
+   - `build/components/example.py` PREFIXES keys (lowercase, e.g., `'c'`)
+
+4. **Missing component registration**: If the component isn't registered in `data/components/index.json`, remote examples won't be fetched.
+
+5. **Wrong file extension mapping**: Ensure the file extension correctly maps to the language name in `EXTENSION_TO_LANGUAGE`.
+
+### Single-Variant vs Multi-Variant Languages
+
+**Single-variant languages** (Python, Go, PHP, C):
+- One client implementation per language
+- No path-based client name overrides needed
+- File extension mapping is straightforward
+
+**Multi-variant languages** (Java, Rust, C#):
+- Multiple client implementations (e.g., Sync, Async, Reactive)
+- Require path-based client name overrides in `get_client_name_from_language_and_path()`
+- More complex configuration
+
+C is a single-variant language, so it doesn't require path-based overrides.

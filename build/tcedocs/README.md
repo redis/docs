@@ -8,7 +8,7 @@ There are two sections that need to updated when new languages are added.
 1. In the `[params]` section:
 
     ```toml
-    clientsExamples = ["Python", "Node.js", "Java-Sync", "Lettuce-Sync", "Java-Async", "Java-Reactive", "Go", "C#-Sync", "C#-Async", "RedisVL", "PHP", "Rust-Sync", "Rust-Async"]
+    clientsExamples = ["Python", "Node.js", "Java-Sync", "Lettuce-Sync", "Java-Async", "Java-Reactive", "Go", "C", "C#-Sync", "C#-Async", "RedisVL", "PHP", "Rust-Sync", "Rust-Async"]
     ```
 
     The order of the `clientsExamples` list matters: it's the order in which the language tabs are presented for each code example.
@@ -23,6 +23,7 @@ There are two sections that need to updated when new languages are added.
     "Java-Async"={quickstartSlug="lettuce"}
     "Java-Reactive"={quickstartSlug="lettuce"}
     "Go"={quickstartSlug="go"}
+    "C"={quickstartSlug="hiredis"}
     "C#-Sync"={quickstartSlug="dotnet"}
     "C#-Async"={quickstartSlug="dotnet"}
     "RedisVL"={quickstartSlug="redis-vl"}
@@ -81,7 +82,8 @@ Here is an example:
   "lettuce_reactive",
   "redis_vl",
   "redis_rs_sync",
-  "redis_rs_async"
+  "redis_rs_async",
+  "hi_redis"
 ]
 ```
 
@@ -107,13 +109,17 @@ PREFIXES = {
     'java-async': '//',
     'java-reactive': '//',
     'go': '//',
+    'c': '//',
     'c#': '//',
     'redisvl': '#',
-    'php': '//'
+    'php': '//',
+    'rust': '//'
 }
 ```
 
 The `TEST_MARKER` dictionary maps programming languages to test framework annotations, which allows the parser to filter such source code lines out. The `PREFIXES` dictionary maps each language to its comment prefix. Python, for example, uses a hashtag (`#`) to start a comment.
+
+⚠️ **CRITICAL**: The `PREFIXES` dictionary is **essential** for the example parser to work. If you add a new language, you **must** add an entry to this dictionary, or examples will fail to process with an "Unknown language" error. This is the most commonly missed step when adding a new language.
 
 ## Understand special comments in the example source code files
 
@@ -138,6 +144,7 @@ Add a source code file to an appropriate client repo. Consult the /data/componen
 
 | Programming Language | GitHub Repo                                         | Default directory                                 |
 |----------------------|-----------------------------------------------------|---------------------------------------------------|
+| C                    | [hiredis](https://github.com/redis/hiredis)         | `examples`                                        |
 | C#                   | [NRedisStack](https://github.com/redis/NRedisStack) | `tests/Doc`                                       |
 | Go                   | [go-redis](https://github.com/redis/go-redis)       | `doctests`                                        |
 | Java                 | [jedis](https://github.com/redis/jedis)             | `src/test/java/io/redis/examples`                 |
@@ -157,6 +164,9 @@ At times, it can take quite a while to get new or updated examples through the r
 local_examples
 ├── client-specific
 │   ├── go
+│   ├── c
+│   │   ...
+
 │   │   ...
 │   ├── jedis
 │   │   ...

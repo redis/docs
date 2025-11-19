@@ -23,6 +23,8 @@ EXTENSION_TO_LANGUAGE = {
     '.py': 'python',
     '.js': 'node.js',
     '.go': 'go',
+    '.c': 'c',
+    '.h': 'c',
     '.cs': 'c#',
     '.java': 'java',
     '.php': 'php',
@@ -34,6 +36,7 @@ LANGUAGE_TO_CLIENT = {
     'python': 'Python',
     'node.js': 'Node.js',
     'go': 'Go',
+    'c': 'C',
     'c#': 'C#-Sync',
     'java': 'Java-Sync',  # Default to sync, could be overridden
     'php': 'PHP',
