@@ -111,13 +111,25 @@ Considerations:
 
 - May route traffic during CRDT synchronization, causing stale data reads.
 
+The following diagram shows how a global traffic manager with DNS resolution routes traffic and allows applications to connect directly to the nearest Active-Active database member:
+
+{{<image filename="images/active-active-disaster-recovery/gtm-with-DNS.svg">}}
+
+If the environment does not allow DNS resolution, you can use a load balancer to direct traffic to the cluster nodes: 
+
+{{<image filename="images/active-active-disaster-recovery/gtm-with-load-balancer.svg">}}
+
 #### Global load balancer
 
 For real-time traffic control and more advanced routing logic for cross-region failover and failback, you can use a global load balancer. However, this solution can have higher latency than a global traffic manager.
 
+{{<image filename="images/active-active-disaster-recovery/global-load-balancer.svg">}}
+
 ### Cross-zone availability
 
 If your deployment does not require cross-region availability, you can use a regional load balancer to route requests to a healthy Active-Active database member in a different availability zone within the same region.
+
+{{<image filename="images/active-active-disaster-recovery/regional-load-balancer.svg">}}
 
 ## Proxy-based disaster recovery
 
@@ -161,6 +173,8 @@ Considerations:
 
 - Limited scalability.
 
+{{<image filename="images/active-active-disaster-recovery/centralized-proxy.svg">}}
+
 ### Co-locate to reduce latency and improve scalability
 
 To reduce latency and improve scalability, you can use a proxy co-located in the application server.
@@ -175,6 +189,8 @@ Considerations:
 
 - Failover and failback might not be simultaneous depending on the Active-Active health check policy.
 
+{{<image filename="images/active-active-disaster-recovery/co-located-proxy-and-app.svg">}}
+
 ### Pool proxies for scalability
 
 You can use a pool of active proxies to scale the routing layer. Application servers can balance new connections to the pool of proxies using a round-robin distribution algorithm, such as DNS-based round robin.
@@ -188,6 +204,8 @@ Advantages:
 Considerations:
 
 - Concurrent access across replicas is possible, but can be mitigated using database availability API requests.
+
+{{<image filename="images/active-active-disaster-recovery/proxy-pool.svg">}}
 
 ## Client library-based disaster recovery
 
@@ -214,6 +232,8 @@ Considerations:
 - Concurrent access across replicas is possible, but can be mitigated using the distributed health status provided by the database availability API requests.
 
 - When a development framework uses Redis transparently, failover and failback might not be easy to configure.
+
+{{<image filename="images/active-active-disaster-recovery/client-library.svg">}}
 
 For additional information, see the following client library guides for failover and failback:
 
