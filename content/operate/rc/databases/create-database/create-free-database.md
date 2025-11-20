@@ -31,11 +31,9 @@ You can only have one free database per account. If you already have a free data
 
 1. Select the **Database version** you want to use.
 
-    A preview of Redis 8.0 is available for databases in selected regions. Select **8.0** to use it. For more information on the changes in Redis 8.0, see [What's new in Redis 8.0]({{<relref "/develop/whats-new/8-0" >}}) and review the [breaking changes]({{<relref "/operate/rc/changelog/version-release-notes/8-0" >}}).
-
 1. Choose your **Cloud vendor** and **Region**. You can choose between **Amazon Web Services (AWS)**, **Google Cloud**, and **Microsoft Azure** for the Cloud Vendor. 
 
-    {{<image filename="images/rc/create-database-essentials-cloud-vendor.png" alt="The Cloud vendor settings.">}}
+    {{<image filename="images/rc/create-database-essentials-cloud-vendor-list.png" alt="The list of available cloud vendors.">}}
 
     See [Supported regions]({{< relref "/operate/rc/supported-regions" >}}) for a list of supported regions by cloud vendor.
 
