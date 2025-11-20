@@ -202,6 +202,56 @@ There are also a few other options you can pass to the `MultiDbConfig` construct
 | `failover_attempts` | Number of attempts to fail over to a new endpoint before giving up. Default is `10`. |
 | `failover_delay` | Time interval between successive failover attempts. Default is `12` seconds. |
 | `auto_fallback_interval` | Time interval between automatic failback attempts. Default is `30` seconds. |
+| `event_dispatcher` | `EventDispatcher` object to use for emitting events. Supply this to register custom event listeners (see [Failover callbacks](#failover-callbacks) below for more information). |
+
+### Failover callbacks
+
+You may want to take some custom action when a failover occurs. For example, you could log a warning, increment a metric, or externally persist the cluster connection state.
+
+You can implement a custom event listener using a class that implements `EventListenerInterface`. This includes a `listen()` method that is called when
+the event occurs. You should specifically listen for the `ActiveDatabaseChanged`
+event, which is emitted when a failover happens.
+
+The example below shows how to implement a simple listener class and register an instance
+of it using an `EventDispatcher` object. You can then pass the `EventDispatcher` to the
+`MultiDbConfig` constructor to enable the custom behavior.
+
+```py
+import logging
+
+from redis.multidb.client import MultiDBClient
+from redis.multidb.config import MultiDbConfig
+
+from redis.event import EventListenerInterface, EventDispatcher
+from redis.multidb.event import ActiveDatabaseChanged
+ ...
+
+class LogFailoverEventListener(EventListenerInterface):
+    def __init__(self, logger: logging.Logger):
+        self.logger = logger
+
+    def listen(self, event: ActiveDatabaseChanged):
+        self.logger.warning(
+            f"Failover happened. Active database switched from {event.old_database} to {event.new_database}"
+        )
+
+event_dispatcher = EventDispatcher()
+listener = LogFailoverEventListener(logging.getLogger(__name__))
+
+# Register custom listener
+event_dispatcher.register_listeners(
+    {
+        ActiveDatabaseChanged: [listener],
+    }
+)
+
+config = MultiDbConfig(
+    event_dispatcher=event_dispatcher,
+    ...
+)
+
+client = MultiDBClient(config)
+```
 
 ## Health check strategies
 
