@@ -24,8 +24,10 @@ Create the [secret](https://kubernetes.io/docs/tasks/configmap-secret/managing-s
   kubectl create secret generic <secret-name> \
     --from-file=certificate=</PATH/TO/certificate.pem> \
     --from-file=key=</PATH/TO/key.pem> \
-    --from-literal=name=<proxy | api | cm | syncer | metrics_exporter>
+    --from-literal=name=<proxy | api | cm | syncer | metrics_exporter | cp_internode_encryption | dp_internode_encryption>
   ```
+
+{{<note>}}For internode encryption certificates, see [Internode encryption]({{< relref "/operate/kubernetes/7.22/security/internode-encryption" >}}) for detailed configuration instructions.{{</note>}}
 
 ## Update certificates in the REC custom resource
 
@@ -39,6 +41,8 @@ spec:
     syncerCertificateSecretName: <syncercert-secret-name>
     metricsExporterCertificateSecretName: <metricscert-secret-name>
     proxyCertificateSecretName: <proxycert-secret-name>
+    cpInterNodeEncryptionCertificateSecretName: <cpine-secret-name>
+    dpInterNodeEncryptionCertificateSecretName: <dpine-secret-name>
 ```
 
 ### Update certificates through the API
