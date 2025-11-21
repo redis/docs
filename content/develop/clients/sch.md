@@ -12,6 +12,15 @@ categories:
 description: Learn how to avoid disruptions during Redis server maintenance.
 linkTitle: Smart client handoffs
 title: Smart client handoffs
+scope: overview
+relatedPages:
+- /develop/clients/redis-py/connect#connect-using-smart-client-handoffs-sch
+- /develop/clients/nodejs/connect#connect-using-smart-client-handoffs-sch
+- /develop/clients/lettuce/connect#connect-using-smart-client-handoffs-sch
+- /develop/clients/go/connect#connect-using-smart-client-handoffs-sch
+topics:
+- smart-client-handoffs
+- resilience
 weight: 50
 ---
 
