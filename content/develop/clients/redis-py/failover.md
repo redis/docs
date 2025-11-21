@@ -37,7 +37,9 @@ The example below shows a simple case with a list of two servers,
 target. If `redis-east` fails, redis-py should fail over to
 `redis-west`.
 
-Supply the weighted endpoints using a list of `DatabaseConfig` objects.
+Supply the weighted endpoints using a list of `DatabaseConfig` objects
+(see [Selecting a failover target]({{< relref "/develop/clients/failover#selecting-a-failover-target" >}}) for a full description of how
+the weighted list is used).
 Use the `weight` option to order the endpoints, with the highest
 weight being tried first. Then, use the list to create a `MultiDbConfig` object,
 which you can pass to the `MultiDBClient` constructor to create the client.
@@ -94,7 +96,9 @@ cfg = MultiDbConfig(
 
 ### Circuit breaker configuration
 
-`MultiDbConfig` gives you several options to configure the circuit breaker:
+`MultiDbConfig` gives you several options to configure the circuit breaker
+(see [Detecting connection problems]({{< relref "/develop/clients/failover#detecting-connection-problems" >}}) for more information on how the
+circuit breaker works):
 
 | Option | Description |
 | --- | --- |

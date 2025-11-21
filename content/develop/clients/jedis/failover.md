@@ -94,7 +94,9 @@ poolConfig.setTestWhileIdle(true);
 poolConfig.setTimeBetweenEvictionRuns(Duration.ofSeconds(1));
 ```
 
-Supply the weighted list of endpoints using the `MultiDbConfig` builder.
+Supply the weighted list of endpoints using the `MultiDbConfig` builder
+(see [Selecting a failover target]({{< relref "/develop/clients/failover#selecting-a-failover-target" >}}) for a full description of how
+the weighted list is used).
 Use the `weight` option to order the endpoints, with the highest
 weight being tried first.
 
@@ -147,7 +149,8 @@ but will also handle the connection management and failover transparently.
 ### Circuit breaker configuration
 
 The `MultiDbConfig.CircuitBreakerConfig` builder lets you pass several options to configure
-the circuit breaker:
+the circuit breaker (see [Detecting connection problems]({{< relref "/develop/clients/failover#detecting-connection-problems" >}}) for more information on how the
+circuit breaker works):
 
 | Builder method | Default value | Description|
 | --- | --- | --- |
