@@ -3,7 +3,9 @@
     analytics.load("WRrz9T87YdiSbmMaU8rm2JAq7EFKp5H4");
     analytics.page();
     analytics.track('PageViewed', {
-        page_name: document.title || window.location.pathname
+        page_name: window.location.pathname,
+        timestamp: new Date().toISOString(),
+        url: typeof window !== 'undefined' ? window.location.href : undefined
     });
     }}();
 </script>
