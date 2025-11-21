@@ -219,9 +219,27 @@ MultiDbClient client = MultiDbClient.builder()
 
 ## Health check configuration
 
-There are several strategies available for health checks that you can configure using the
-`MultiDbConfig` builder. The sections below explain these strategies
-in more detail.
+Each health check consists of one or more separate "probes", each of which is a simple
+test (such as a [`PING`]({{< relref "/commands/ping" >}}) command) to determine if the database is available. The results of the separate probes are combined
+using a configurable policy to determine if the database is healthy.
+
+There are several strategies available for health checks that you can deploy using the
+`MultiDbConfig` builder. Each strategy is a class that implements the `HealthCheckStrategy` 
+interface. Use the constructor of a `HealthCheckStrategy` implementation to pass
+a `HealthCheckStrategy.Config` object to configure the health check behavior.
+The methods of the base `HealthCheckStrategy.Config` builder are shown below.
+Note that some strategies (including your own custom strategies) may use a
+subclass of `HealthCheckStrategy.Config` to provide extra options.
+
+| Builder method | Default value | Description|
+| --- | --- | --- |
+| `interval()` | `1000` | Interval in milliseconds between health checks. |
+| `timeout()` | `1000` | Timeout in milliseconds for health check requests. |
+| `numProbes()` | `3` | Number of probes to perform during each health check. |
+| `delayInBetweenProbes()` | `100` | Delay in milliseconds between probes during a health check. |
+| `policy()` | `ProbingPolicy.BuiltIn.ALL_SUCCESS` | Policy to determine if the database is healthy based on the probe results. The options are `ALL_SUCCESS` (all probes must succeed), `ANY_SUCCESS` (at least one probe must succeed), and `MAJORITY_SUCCESS` (majority of probes must succeed). |
+
+The sections below explain the available strategies in more detail.
 
 ### `PingStrategy` (default)
 
@@ -230,6 +248,23 @@ The default strategy, `PingStrategy`, periodically sends a Redis
 and checks that it gives the expected response. Any unexpected response
 or exception indicates an unhealthy server. Although `PingStrategy` is
 very simple, it is a good basic approach for most Redis deployments.
+
+Although `PingStrategy` is the default, you can still activate it
+explicitly using the `healthCheckStrategy()` method of the `MultiDbConfig.DatabaseConfig`
+builder. Use this approach if you want to configure the default
+`PingStrategy` with custom options, as shown in the example below.
+
+```java
+MultiDbConfig.DatabaseConfig dbConfig =
+        MultiDbConfig.DatabaseConfig.builder(hostAndPort, clientConfig)
+                .healthCheckStrategy(new PingStrategy(PingStrategy.Config.builder()
+                        .interval(5000) // Check every 5 seconds
+                        .timeout(3000) // 3 second timeout
+                        .numProbes(5) // 5 probes per check
+                        .delayInBetweenProbes(100) // 100ms delay between probes
+                        .build()))
+                .build();
+```
 
 ### `LagAwareStrategy` (preview)
 
@@ -264,13 +299,12 @@ MultiDbConfig.DatabaseConfig dbConfig =
                 .build();
 ```
 
-The `LagAwareStrategy.Config` builder has the following options:
+The `LagAwareStrategy.Config` builder has the following options in
+addition to the standard options provided by `HealthCheckStrategy.Config`:
 
 | Builder method | Default value | Description|
 | --- | --- | --- |
 | `sslOptions()` | `null` | Standard SSL options for connecting to the REST API. |
-| `interval()` | `5000` | Interval in milliseconds between health checks. |
-| `timeout()` | `3000` | Timeout in milliseconds for health check requests. |
 | `extendedCheckEnabled()` | `false` | Enable extended lag checking (this includes lag validation in addition to the standard datapath validation). |
 | `availabilityLagTolerance()` | `100` | Maximum lag tolerance in milliseconds for extended lag checking. |
 
@@ -310,7 +344,25 @@ MultiDbConfig.DatabaseConfig dbConfig = MultiDbConfig.DatabaseConfig.builder(eas
     .build();
 ```
 
-## Manual failback
+## Managing databases at runtime
+
+Although you will typically configure all databases during the initial connection, you can also modify the configuration at runtime. The example below shows how to add and remove database endpoints.
+
+```java
+HostAndPort other = new HostAndPort("redis-south.example.com", 14000);
+
+// Create the database config as you would for the initial connection.
+client.addDatabase(DatabaseConfig.builder(other, config)
+        // ...
+        .weight(0.5f)
+        .build()
+);
+
+// Remove the database from the failover set.
+client.removeDatabase(other);
+```
+
+### Manual failback
 
 By default, the failback mechanism runs health checks on all servers in the
 weighted list and selects the highest-weighted server that is
@@ -318,8 +370,8 @@ healthy. However, you can also use the `setActiveDatabase()` method of
 `MultiDbClient` to select which database to use manually:
 
 ```java
-// The `setActiveDatabase()` method receives the `HostAndPort` of the
-// cluster to switch to.
+// The `setActiveDatabase()` method receives the `Endpoint` (eg,`HostAndPort`)
+// of the cluster to switch to.
 client.setActiveDatabase(west);
 ```
 
