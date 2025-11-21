@@ -141,9 +141,9 @@ If you add a lightweight proxy software component between the clients and the Ac
 
 Advantages:
 
-- Proxies provide out-of-the-box proactive and reactive health check methods, such as polling target health periodically using either a TCP connection or an HTTP request, or monitoring live operations for errors.
+- Proxies provide proactive and reactive health check methods, such as polling target health periodically using either a TCP connection or an HTTP request, or monitoring live operations for errors.
 
-- Proxies can be configured to easily run the desired A-A health check policy, such as the lag-aware database availability.
+- Proxies can be configured to run Active-Active health checks, such as the lag-aware database availability requests.
 
 - If an Active-Active database member fails, a proxy can automatically detect the issue and redirect traffic to a healthy Active-Active database member without requiring DNS propagation delays or client disconnections. This enables fast, controlled failover and minimizes downtime.
 
@@ -153,9 +153,9 @@ Considerations:
 
     - The proxies must have static IPs.
 
-    - Adding a new node to the cluster requires that the proxy be configured with the new endpoint.
+    - If you add a new node to the cluster, you must configure the proxy with the new endpoint.
 
-    - A config syncer component is required to discover topology changes and reconfigure the proxy.
+    - A configuration syncer component is required to discover topology changes and reconfigure the proxy.
 
 - Proxies introduce latency.
 
@@ -167,7 +167,7 @@ If concurrent access across replicas must be avoided in every scenario, you can 
 
 Advantages:
 
-- Concurrent access across replicas is not possible.
+- Prevents concurrent access across replicas.
 
 - Failover and failback are simultaneous regardless of the Active-Active health check policy.
 
