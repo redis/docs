@@ -152,7 +152,9 @@ Limits the number of entries to examine during trimming. Available since Redis 6
 <details open>
 <summary><code>KEEPREF | DELREF | ACKED</code></summary>
 
-Specifies how to handle consumer group references when trimming. If no option is specified, `KEEPREF` is used by default:
+Specifies how to handle consumer group references when trimming. If there are no consummer groups, these arguments have no effect. Available since Redis 8.2.
+
+If no option is specified, `KEEPREF` is used by default. Unlike the `XDELEX` and `XACKDEL` commands where one of these options is required, here they are optional to maintain backward compatibility:
 
 - `KEEPREF` (default): When trimming, removes entries from the stream according to the specified strategy (`MAXLEN` or `MINID`), regardless of whether they are referenced by any consumer groups, but preserves existing references to these entries in all consumer groups' PEL (Pending Entries List).
 - `DELREF`: When trimming, removes entries from the stream according to the specified strategy and also removes all references to these entries from all consumer groups' PEL.
