@@ -31,7 +31,7 @@ You can use the following health checks to help detect Active-Active database fa
 
 - Connection timeouts or Redis errors.
 
-- [Lag-aware database availability requests]({{<relref "/operate/rs/monitoring/db-availability">}}).
+- [Lag-aware database availability requests]({{<relref "/operate/rs/monitoring/db-availability#lag-aware">}}).
 
 - Probing the keyspace with [`SET`]({{<relref "/commands/set">}}) or [`GET`]({{<relref "/commands/get">}}) commands to cover all available shards.
 
