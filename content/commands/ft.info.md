@@ -37,7 +37,7 @@ Returns information and statistics about a given index.
 
 `index`
 <br />
-is the name of the given index. You must first create the index using [`FT.CREATE`]({{< relref "commands/ft.create/" >}}).
+is the name of the given index. You must first create the index using [`FT.CREATE`]({{< relref "commands/ft.create/" >}}). You can also use an alias of `index` created using [`FT.ALIASADD`]({{< relref "commands/ft.aliasadd/" >}}) or [`FT.ALIASUPDATE`]({{< relref "commands/ft.aliasupdate/" >}}).
 
 ## Returned values
 
@@ -79,7 +79,7 @@ is the name of the given index. You must first create the index using [`FT.CREAT
 | Statistic | Definition |
 |:---       |:---        |
 | `hash_indexing_failures` | The number of failures encountered during indexing. |
-| `total_indexing_time` | The total time taken for indexing in seconds. |
+| `total_indexing_time` | The cumulative wall-clock time spent indexing documents in ms. |
 | `indexing` | Indicates whether the index is currently being generated. |
 | `percent_indexed` | The percentage of the index that has been successfully generated (1 means 100%). |
 | `number_of_uses` | The number of times the index has been used. |
@@ -353,9 +353,9 @@ The next two GC-related fields are relevant in scenarios where simultaneous chan
 {{< / highlight >}}
 </details>
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
-| Redis Enterprise<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Enterprise | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
 
@@ -379,7 +379,7 @@ One of the following:
 
 ## See also
 
-[`FT.CREATE`]({{< relref "commands/ft.create/" >}}) | [`FT.SEARCH`]({{< relref "commands/ft.search/" >}})
+[`FT.CREATE`]({{< relref "commands/ft.create/" >}}) | [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) | [`FT.ALIASADD`]({{< relref "commands/ft.aliasadd/" >}}) | [`FT.ALIASUPDATE`]({{< relref "commands/ft.aliasupdate/" >}})
 
 ## Related topics
 

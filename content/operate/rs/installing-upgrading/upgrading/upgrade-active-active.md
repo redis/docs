@@ -106,7 +106,7 @@ If the feature set version is old, as indicated by the `OLD CRDB FEATURESET VERS
     crdb-cli crdb list
     ```
 
-    Look for the fully qualified domain name (`CLUSTER-FDQN`) of your cluster and use the associated `GUID`:
+    Look for the fully qualified domain name (`CLUSTER-FQDN`) of your cluster and use the associated `GUID`:
 
     ```sh
     CRDB-GUID                             NAME    REPL-ID  CLUSTER-FQDN

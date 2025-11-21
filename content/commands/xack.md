@@ -78,7 +78,7 @@ redis> XACK mystream mygroup 1526569495631-0
 (integer) 1
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

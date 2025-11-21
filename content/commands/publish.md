@@ -43,7 +43,7 @@ In a Redis Cluster clients can publish to every node. The cluster makes sure
 that published messages are forwarded as needed, so clients can subscribe to any
 channel by connecting to any one of the nodes.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

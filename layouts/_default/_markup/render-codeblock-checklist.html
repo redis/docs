@@ -1,4 +1,53 @@
 {{- $id := .Attributes.id | default "checklist" -}}
-<pre class="checklist-source" data-checklist-id="{{ $id }}">{{ .Inner | htmlEscape | safeHTML }}</pre>
-{{ .Page.Store.Set "hasChecklist" true }}
+{{- $title := .Attributes.title | default "" -}}
+{{- $description := .Attributes.description | default "" -}}
+{{- $noInteractive := or (eq .Attributes.noInteractive "true") (eq .Attributes.nointeractive "true") -}}
+
+{{- /* Parse checklist items from markdown */ -}}
+{{- $items := slice -}}
+{{- $position := 0 -}}
+{{- range split .Inner "\n" -}}
+  {{- $line := trim . " " -}}
+  {{- if and (ne $line "") (hasPrefix $line "- [") -}}
+    {{- $position = add $position 1 -}}
+    {{- /* Extract link and text */ -}}
+    {{- $linkPattern := `\[([^\]]+)\]\(([^\)]+)\)` -}}
+    {{- $matches := findRE $linkPattern $line -}}
+    {{- if $matches -}}
+      {{- $fullMatch := index $matches 0 -}}
+      {{- $textMatch := findRE `\[([^\]]+)\]` $fullMatch -}}
+      {{- $urlMatch := findRE `\(([^\)]+)\)` $fullMatch -}}
+      {{- $text := trim (index $textMatch 0) "[]" -}}
+      {{- $url := trim (index $urlMatch 0) "()" -}}
+      {{- $item := dict "position" $position "name" $text "url" $url -}}
+      {{- $items = $items | append $item -}}
+    {{- else -}}
+      {{- /* Item without link */ -}}
+      {{- $text := replaceRE `^- \[[\sx]\]\s*` "" $line -}}
+      {{- $item := dict "position" $position "name" $text -}}
+      {{- $items = $items | append $item -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- /* Build metadata object */ -}}
+{{- $metadata := dict "type" "checklist" "id" $id "items" $items -}}
+{{- if ne $title "" -}}
+  {{- $metadata = merge $metadata (dict "title" $title) -}}
+{{- end -}}
+{{- if ne $description "" -}}
+  {{- $metadata = merge $metadata (dict "description" $description) -}}
+{{- end -}}
+{{- $metadata = merge $metadata (dict "$schema" "https://redis.io/schemas/checklist.json") -}}
+
+{{ $jsonMetadata := $metadata | jsonify (dict "indent" "  ") }}
+
+{{ printf "<script type=\"application/json\" data-redis-metadata=\"checklist\">\n%s\n</script>" $jsonMetadata | safeHTML }}
+
+{{ printf "<template data-redis-metadata=\"checklist\">\n%s\n</template>" $jsonMetadata | safeHTML }}
+
+{{- if not $noInteractive -}}
+  <pre class="checklist-source" data-checklist-id="{{ $id }}">{{ .Inner | htmlEscape | safeHTML }}</pre>
+  {{ .Page.Store.Set "hasChecklist" true }}
+{{- end -}}
 

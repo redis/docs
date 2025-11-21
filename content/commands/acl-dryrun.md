@@ -57,7 +57,7 @@ This command can be used to test the permissions of a given user without having 
 "User VIRGINIA has no permissions to run the 'get' command"
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

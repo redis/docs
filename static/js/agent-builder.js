@@ -1,5 +1,5 @@
 /**
- * Redis AI Agent Builder JavaScript
+ * AI Agent Builder JavaScript
  * Handles chat interface and code generation
  */
 
@@ -410,7 +410,7 @@
 
         // Handle special responses from coming soon message
         if (input === 'wait') {
-            addMessage('Thanks for checking out the Redis AI Agent Builder. Come back when your preferred language is supported!', 'bot');
+            addMessage('Thanks for checking out the AI Agent Builder. Come back when your preferred language is supported!', 'bot');
             return;
         }
 
@@ -480,7 +480,7 @@
             const config = CONFIG.models[selectedModel];
 
             addMessage(`Perfect! ${config.description}`, 'bot');
-            addMessage('🎉 I have everything I need! Generating your Redis AI agent code...', 'bot');
+            addMessage('🎉 I have everything I need! Generating your AI agent code...', 'bot');
 
             // Generate code
             setTimeout(() => {
@@ -498,7 +498,7 @@
     function generateAndDisplayCode() {
         const code = generateAgentCode(conversationState.selections);
 
-        addMessage('✅ Your Redis AI agent code is ready! You can copy or download it below.', 'bot');
+        addMessage('✅ Your AI agent code is ready! You can copy or download it below.', 'bot');
 
         // Show code section
         displayGeneratedCode(code, conversationState.selections);
@@ -560,7 +560,7 @@
     }
 
     function getGenericPythonCode(formData) {
-        return `# ${formData.agentName} - Redis AI Agent
+        return `# ${formData.agentName} - AI Agent
 # Generated for ${CONFIG.agentTypes[formData.agentType].description}
 
 import redis
@@ -597,7 +597,7 @@ if __name__ == "__main__":
     }
 
     function getGenericJavaScriptCode(formData) {
-        return `// ${formData.agentName} - Redis AI Agent
+        return `// ${formData.agentName} - AI Agent
 // Generated for ${CONFIG.agentTypes[formData.agentType].description}
 
 const redis = require('redis');
@@ -640,7 +640,7 @@ module.exports = ${formData.agentName.replace(/\s+/g, '')};`;
     }
 
     function getGenericJavaCode(formData) {
-        return `// ${formData.agentName} - Redis AI Agent
+        return `// ${formData.agentName} - AI Agent
 // Generated for ${CONFIG.agentTypes[formData.agentType].description}
 
 import redis.clients.jedis.Jedis;
@@ -680,7 +680,7 @@ public class ${formData.agentName.replace(/\s+/g, '')} {
     }
 
     function getGenericCSharpCode(formData) {
-        return `// ${formData.agentName} - Redis AI Agent
+        return `// ${formData.agentName} - AI Agent
 // Generated for ${CONFIG.agentTypes[formData.agentType].description}
 
 using StackExchange.Redis;

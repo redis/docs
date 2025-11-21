@@ -136,9 +136,9 @@ is name of the configuration option, or '*' for all.
 {{< / highlight >}}
 </details>
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
-| Redis Enterprise<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Enterprise | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:-----------------|:------|
 | <span title="Not supported"><nobr>&#x274c; Not supported</span> | <span title="Not supported"><nobr>&#x26A0;&#xFE0F; Not supported</span><sup>1</sup> | <span title="Not supported"><nobr>&#x274c; Not supported</nobr></span> |  |
 

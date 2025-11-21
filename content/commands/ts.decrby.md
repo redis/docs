@@ -173,7 +173,7 @@ Use it only if you are creating a new time series. It is ignored if you are addi
 - Setting `RETENTION` and `LABELS` introduces additional time complexity.
 </note>
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

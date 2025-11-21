@@ -18,7 +18,6 @@ since: 8.0.0
 summary: Associate or remove the JSON attributes of elements.
 syntax_fmt: "VSETATTR key element \"{ JSON obj }\""
 title: VSETATTR
-bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
 ---
 
 Associate a JSON object with an element in a vector set. Use this command to store attributes that can be used in filtered similarity searches with `VSIM`.
@@ -59,7 +58,7 @@ is a valid JSON string. Use an empty string (`""`) to delete the attributes.
 
 - [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

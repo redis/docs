@@ -214,7 +214,7 @@ end
 **Note:** the implementation for getting a range of bit offsets from a bitmap is
 left as an exercise to the reader.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

@@ -9,7 +9,7 @@ description: This integration guide shows how to configure Auth0 as a SAML singl
   sign on provider for your Redis Cloud account.
 linkTitle: Auth0 integration
 weight: 10
-bannerText: Specific identity provider details may be different than shown in this guide. Always consult your identity provider's docs for the latest information.
+bannerText: Specific identity provider details may be different than shown in this guide. Always consult your [identity provider's docs](https://auth0.com/docs) for the latest information.
 ---
 
 This guide shows how to configure [Auth0](https://auth0.com/docs) as a SAML single sign-on identity provider (IdP) for your Redis Cloud account.

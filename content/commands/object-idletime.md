@@ -50,7 +50,7 @@ This command returns the time in seconds since the last access to the value stor
 
 The command is only available when the `maxmemory-policy` configuration directive is not set to one of the LFU policies.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

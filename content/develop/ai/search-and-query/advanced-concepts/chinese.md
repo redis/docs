@@ -14,7 +14,7 @@ categories:
 description: Chinese support for searching and querying in Redis Open Source
 linkTitle: Chinese
 title: Chinese support
-weight: 15
+weight: 55
 ---
 
 Support for adding documents in Chinese is available starting at version 0.99.0.
