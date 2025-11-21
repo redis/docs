@@ -255,6 +255,8 @@ For additional information, see the following client library guides for failover
 
 - [Jedis (Java)]({{<relref "/develop/clients/jedis/failover">}})
 
+- [redis-py (Python)]({{<relref "/develop/clients/redis-py/failover">}})
+
 ## Application-based disaster recovery
 
 For complete control over failover and failback, you can implement disaster recovery mechanisms directly in the application server.
