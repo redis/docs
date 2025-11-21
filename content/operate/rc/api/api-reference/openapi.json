@@ -11344,8 +11344,15 @@
           },
           "averageItemSizeInBytes": {
             "type": "integer",
-            "description": "Optional. Relevant only to ram-and-flash (also known as Auto Tiering) subscriptions. Estimated average size in bytes of the items stored in the database. Default: 1000",
-            "format": "int64"
+            "description": "Optional. Relevant only to ram-and-flash (also known as Redis-Flex/Auto-Tiering) subscriptions. Estimated average size in bytes of the items stored in the database. Default: 1000",
+            "format": "int64",
+            "deprecated": true
+          },
+          "ramPercentage": {
+            "type": "integer",
+            "description": "Optional. Relevant only to ram-and-flash (also known as Redis-Flex/Auto-Tiering) subscriptions. The percentage of data to be stored in RAM. Range: 10-50. Default: 20",
+            "format": "int32",
+            "example": 20
           },
           "respVersion": {
             "type": "string",
@@ -11872,6 +11879,12 @@
             "items": {
               "$ref": "#/components/schemas/DatabaseAlertSpec"
             }
+          },
+          "ramPercentage": {
+            "type": "integer",
+            "description": "Optional. Relevant only to ram-and-flash (also known as Redis-Flex/Auto-Tiering) subscriptions. The percentage of data to be stored in RAM. Range: 10-50.",
+            "format": "int32",
+            "example": 20
           },
           "commandType": {
             "type": "string",
@@ -15956,8 +15969,15 @@
           },
           "averageItemSizeInBytes": {
             "type": "integer",
-            "description": "Optional. Relevant only to ram-and-flash (also known as Auto Tiering) subscriptions. Estimated average size in bytes of the items stored in the database. Default: 1000",
-            "format": "int64"
+            "description": "Optional. Relevant only to ram-and-flash (also known as Redis-Flex/Auto-Tiering) subscriptions. Estimated average size in bytes of the items stored in the database. Default: 1000",
+            "format": "int64",
+            "deprecated": true
+          },
+          "ramPercentage": {
+            "type": "integer",
+            "description": "Optional. Relevant only to ram-and-flash (also known as Redis-Flex/Auto-Tiering) subscriptions. The percentage of data to be stored in RAM. Range: 10-50. Default: 20",
+            "format": "int32",
+            "example": 20
           },
           "periodicBackupPath": {
             "type": "string",
@@ -16252,6 +16272,12 @@
               "DATABASE_MEMCACHED_SASL_PASSWORD_MAX_LENGTH",
               "DATABASE_REDIS_FLEX_CONTAINS_MODULES",
               "DATABASE_AVERAGE_ITEM_SIZE_NOT_ALLOWED",
+              "DATABASE_RAM_PERCENTAGE_NOT_ALLOWED",
+              "DATABASE_RAM_PERCENTAGE_NOT_SUPPORTED",
+              "DATABASE_RAM_PERCENTAGE_IS_INVALID",
+              "DATABASE_AVERAGE_ITEM_SIZE_IS_DEPRECATED",
+              "DATABASE_MEMORY_LIMIT_IS_INVALID_FOR_ROF",
+              "DATABASE_DATASET_SIZE_IS_INVALID_FOR_ROF",
               "DATABASE_SIZE_SMALLER_THAN_USAGE",
               "DATABASE_USAGE_EXCEEDS_GLOBAL_LIMIT",
               "DATABASE_USAGE_EXCEEDS_LOCAL_LIMIT",
