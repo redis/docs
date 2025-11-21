@@ -65,7 +65,7 @@ When implementing a disaster recovery strategy for an Active-Active database, co
 
 - Is rate-limiting control needed?
 
-- Can you modify the existing codebase or introduce new components such as load balancers or proxies?
+- Can you modify the existing codebase or introduce new components, such as load balancers or proxies?
 
 ## Network-based disaster recovery
 
@@ -229,7 +229,7 @@ Advantages:
 
 - No scalability concerns.
 
-- Tighter control over connectivity such as timeouts, connection retries, and dynamic reconfiguration.
+- Tighter control over connectivity, such as timeouts, connection retries, and dynamic reconfiguration.
 
 - OSS Cluster API support.
 
