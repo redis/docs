@@ -12,17 +12,7 @@ aliases:
   - /rc/databases/upgrade-version
 ---
 
-Database version upgrade options depend on your plan type.
-
-## Redis Cloud Essentials
-
-All new Redis Cloud Essentials databases are on the latest available version of Redis.
-
-Redis will notify users when new database versions are available, but upgrades must be done manually.
-
-## Redis Cloud Pro
-
-You can upgrade Redis Cloud Pro databases that are not on the latest available version of Redis to a later version at any time.
+You can upgrade databases that are not on the latest available version of Redis to a later version at any time.
 
 {{< note >}}
 Please keep in mind the following before upgrading your database version:
@@ -40,9 +30,9 @@ Please keep in mind the following before upgrading your database version:
 - You must upgrade the target database in an [Active-Passive]({{< relref "/operate/rc/databases/migrate-databases#sync-using-active-passive" >}}) setup before you upgrade the source database to prevent compatibility issues.
 {{< /note >}}
 
-### Upgrade Redis Cloud Pro database
+## Upgrade database
 
-To upgrade a Redis Cloud Pro database: 
+To upgrade a Redis Cloud database: 
 
 1. Choose your database from the **Databases** list to open your database page. Select **More actions > Version upgrade**.
 
@@ -64,7 +54,7 @@ The database will start upgrading to the selected version immediately. The upgra
 
 You can continue to use the Redis Cloud console for other tasks during the upgrade.
 
-### Manually revert upgrade
+## Manually revert upgrade
 
 Automatically reverting to a previous Redis version is not supported on Redis Cloud.
 
