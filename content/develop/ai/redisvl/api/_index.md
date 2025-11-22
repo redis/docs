@@ -14,6 +14,7 @@ Reference documentation for the RedisVL API.
 
 * [Schema](schema/)
   * [IndexSchema](schema/#indexschema)
+  * [Index-Level Stopwords Configuration](schema/#index-level-stopwords-configuration)
   * [Defining Fields](schema/#defining-fields)
   * [Basic Field Types](schema/#basic-field-types)
   * [Vector Field Types](schema/#vector-field-types)
