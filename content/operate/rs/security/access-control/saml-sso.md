@@ -46,6 +46,10 @@ You can also initiate single sign-on from the Redis Enterprise Software Cluster 
 
 To set up SAML single sign-on for a Redis Enterprise Software cluster:
 
+1. Upload the new service provider certificate and private key (PUT /v1/cluster/certificates /sso_service/ or Redis Enterprise Software Cluster Manager UI) 
+
+1. Export the metadata (GET /v1/cluster/sso/saml/metadata or Redis Enterprise Software Cluster Manager UI)
+
 1. [Set up a SAML app](#set-up-app) to integrate Redis Enterprise Software with your identity provider.
 
 1. [Configure SAML identity provider in Redis Enterprise Software](#configure-idp).
@@ -74,13 +78,17 @@ Set up a SAML app to integrate Redis Enterprise Software with your identity prov
 
 1. Create or add a SAML integration app for the service provider Redis Enterprise Software.
 
+    1. Single sign-on URL: `https://<cluster-host>:8443/cluster/sso` <!-- Is this supposed to be visible in the CM UI or REST API? Or do I just need to provide this pattern? -->
+
+    1. Audience URI (SP Entity ID): `https://<cluster-host>/sp` <!-- Is this supposed to be visible in the CM UI or REST API? Or do I just need to provide this pattern? -->
+
 1. Set up your SAML service provider app so the SAML assertion contains the following attributes:
 
-    | Attribute&nbsp;name<br />(case-sensitive) | Description |
+    | Attribute name (case-sensitive) | Description |
     |-------------------------------------------|-------------|
-    | FirstName | User's first name |
-    | LastName | User's last name |
-    | Email | User's email address (used as the username in the Redis Enterprise Software Cluster Manager UI) |
+    | firstName | User's first name |
+    | lastName | User's last name |
+    | email | User's email address (used as the username in the Redis Enterprise Software Cluster Manager UI) |
     | redisRoleMapping | Key-value pair of a lowercase role name (owner, member, manager, billing_admin, or viewer) |
 
     For `redisRoleMapping`, you can add the same user to multiple SAML-enabled accounts using one of these options:
@@ -116,15 +124,13 @@ To confirm the identity provider's SAML assertions contain the required attribut
 
     If your identity provider lets you configure custom attributes with workflows or group rules, you can set up automation to configure the `redisRoleMapping` field automatically instead of manually.
 
-### Configure SAML in Redis Enterprise Software {#configure-idp}
+### Configure SSO in Redis Enterprise Software {#configure-idp}
 
 After you set up the SAML integration app and create a SAML user in your identity provider, you need to configure your Redis Enterprise Software cluster to set up SSO.
 
 1. Sign in to Redis Enterprise Software Cluster Manager UI with the email address associated with the SAML user you set up with your identity provider.
 
 1. Go to **Access Control > Single Sign-On**.
-
-1. [Verify at least one domain](#verify-domain) if you haven't.
 
 1. Configure the **Identity Provider metadata** settings. 
 
@@ -161,8 +167,8 @@ Next, you need to download the service provider metadata for Redis Enterprise So
     
         | XML attribute | Value | Description |
         |---------------|-------|-------------|
-        | EntityDescriptor's **entityID** | https://<nobr>auth.redis.com</nobr>/saml2/<nobr>service-provider</nobr>/\<ID\> | Unique URL that identifies the Redis Enterprise Software service provider |
-        | AssertionConsumerService's **Location** | <nobr> https://<nobr>auth.redis.com</nobr>/sso/saml2/\<ID\> | The service provider endpoint where the identity provider sends a SAML assertion that authenticates a user  |
+        | EntityDescriptor's **entityID** | https://auth.redis.com/saml2/service-provider/\<ID\> | Unique URL that identifies the Redis Enterprise Software service provider |
+        | AssertionConsumerService's **Location** |  https://auth.redis.com/sso/saml2/\<ID\> | The service provider endpoint where the identity provider sends a SAML assertion that authenticates a user  |
 
     - To use [IdP-initiated SSO](#idp-initiated-sso) with certain identity providers, you also need to set the RelayState parameter to the following URL:
     
