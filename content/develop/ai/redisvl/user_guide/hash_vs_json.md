@@ -9,7 +9,7 @@ weight: 05
 
 
 Out of the box, Redis provides a [variety of data structures](https://redis.com/redis-enterprise/data-structures/) that can adapt to your domain specific applications and use cases.
-In this notebook, we will demonstrate how to use RedisVL with both [Hash](https://redis.io/docs/data-types/hashes/) and [JSON](https://redis.io/docs/data-types/json/) data.
+In this notebook, we will demonstrate how to use RedisVL with both [Hash](https://redis.io/docs/latest/develop/data-types/#hashes) and [JSON](https://redis.io/docs/latest/develop/data-types/json/) data.
 
 
 Before running this notebook, be sure to
