@@ -142,4 +142,12 @@ and so they are useful for implementing log data, time series, and other
 append-only data structures. They also have built-in support for consumer groups
 to manage multiple readers and ensure at-least-once delivery.
 
+## Choose a data type
 
+The sections below explore the pros and cons of each data type for
+particular tasks.
+
+### Documents
+
+You would normally store document data using the string, hash, or JSON
+types. 
