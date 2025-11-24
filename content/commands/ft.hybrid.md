@@ -512,7 +512,7 @@ syntax_fmt: "FT.HYBRID index\n  SEARCH query\n    [SCORER scorer]\n    [YIELD_SC
   \ nargs property [property ...]\n  [GROUPBY nargs property [property ...]\n   \
   \ [REDUCE function nargs arg [arg ...] [AS name]\n    [REDUCE function nargs arg\
   \ [arg ...] [AS name] ...]] ...]]\n  [APPLY expression AS name [APPLY expression\
-  \ AS name ...]]\n  [FILTER filter]\n  [PARAMS nargs name value [name value ...]]\n\
+  \ AS name ...]]\n  [PARAMS nargs name value [name value ...]]\n\
   \  [TIMEOUT timeout]"
 title: FT.HYBRID
 ---
@@ -636,11 +636,11 @@ Example: `APPLY "@vector_distance+@score" AS final_score`
 sorts the final results by the specified field in ascending or descending order. The `count` parameter indicates the number of fields that follow.
 </details>
 
-<details open>
+<!--<details open>
 <summary><code>FILTER post-filter-expression</code></summary>
 
 applies final filtering to the fused results after combination and before sorting/limiting.
-</details>
+</details>-->
 
 <details open>
 <summary><code>LIMIT offset num</code></summary>
@@ -656,11 +656,11 @@ defines parameter substitution for the query. Parameters can be referenced in se
 Example: `PARAMS 4 min_price 50 max_price 200`
 </details>
 
-<details open>
+<!--<details open>
 <summary><code>EXPLAINSCORE</code></summary>
 
 includes detailed score explanations in the results, showing how both text search and vector similarity scores were calculated and combined.
-</details>
+</details>-->
 
 <details open>
 <summary><code>TIMEOUT timeout</code></summary>
@@ -668,11 +668,11 @@ includes detailed score explanations in the results, showing how both text searc
 sets a runtime timeout for the query execution in milliseconds.
 </details>
 
-<details open>
+<!--<details open>
 <summary><code>WITHCURSOR [COUNT read_size] [MAXIDLE idle_time]</code></summary>
 
 enables cursor-based result pagination for large result sets. `COUNT` specifies the batch size, and `MAXIDLE` sets the cursor timeout.
-</details>
+</details>-->
 
 ## Default values and behaviors
 
@@ -772,7 +772,6 @@ Use parameter substitution for dynamic queries:
   RANGE 4 RADIUS 0.8 EPSILON 0.1
   FILTER "@availability:$stock_status"
   PARAMS 6 brand_name "Apple" query_vector <vector_blob> stock_status "in_stock"
-  EXPLAINSCORE
 {{< / highlight >}}
 </details>
 
