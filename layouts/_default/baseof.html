@@ -36,7 +36,9 @@
     {{ partialCached "css.html" . }}
 
     {{ block "head" . }}{{ end }}
-    
+
+    {{ partial "ai-metadata.html" . }}
+
     {{ partial "fonts.html" . }}
     
     {{ if hugo.IsProduction -}}
@@ -56,6 +58,8 @@
     {{ end }}
   </head>
   <body class="antialiased tracking-[-0.01em] bg-white w-full">
+    {{ partial "ai-metadata-body.html" . }}
+
     {{ if hugo.IsProduction -}}
       <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ .Site.Params.tagManagerId }}"
         height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -79,5 +83,30 @@
     {{ partial "toc-js.html" . }}
 
     {{ partial "search-modal.html" . }}
+
+    {{ if .Store.Get "hasMermaid" }}
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        themeVariables: {
+          fontFamily: 'Space Mono',
+          primaryColor: '#ffffff',
+          primaryBorderColor: '#ee0000'
+        }
+      });
+    </script>
+    {{ end }}
+
+    <!-- Checklist functionality -->
+    {{ if .Page.Store.Get "hasChecklist" }}
+    <script src="{{ "js/checklist.js" | relURL }}"></script>
+    {{ end }}
+
+    <!-- Hierarchy functionality -->
+    {{ if .Page.Store.Get "hasHierarchy" }}
+    <script src="{{ "js/hierarchy.js" | relURL }}"></script>
+    {{ end }}
   </body>
 </html>

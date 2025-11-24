@@ -12,7 +12,7 @@ categories:
 description: Order of operations for the FT.AGGREGATE command
 linkTitle: Aggregation syntax
 title: FT.AGGREGATE order of operations
-weight: 2
+weight: 4
 ---
 
 ## Overview

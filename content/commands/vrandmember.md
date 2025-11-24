@@ -18,7 +18,6 @@ since: 8.0.0
 summary: Return one or multiple random members from a vector set.
 syntax_fmt: "VRANDMEMBER key [count]"
 title: VRANDMEMBER
-bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
 ---
 
 Return one or more random elements from a vector set.
@@ -111,6 +110,12 @@ specifies the number of elements to return. Positive values return distinct elem
 ## Related topics
 
 - [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

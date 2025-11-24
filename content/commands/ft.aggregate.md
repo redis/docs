@@ -401,7 +401,7 @@ FT.AGGREGATE idx "@url:\"about.html\""
     APPLY "day(@timestamp)" AS day
     GROUPBY 2 @day @country
       REDUCE count 0 AS num_visits
-    SORTBY 4 @day
+    SORTBY 1 @day
 {{< /highlight >}}
 </details>
 
@@ -505,6 +505,12 @@ APPLY case(@is_pending == 0 && @priority == "high", 3,4) AS status_completed
 {{< /highlight >}}
 
 </details>
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
 
 ## Return information
 

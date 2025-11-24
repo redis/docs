@@ -21,7 +21,37 @@ Oracle provides two main systems that Debezium can use to capture data changes:
 - [LogMiner](#logminer)
 - [XStream](#xstream)
 
-The sections below explain how to configure each system for use with Debezium and RDI. 
+The sections below explain how to configure each system for use with Debezium and RDI.
+The checklists summarize the steps you should follow to configure each system.
+You may find it helpful to use them to track your progress as you work through the steps.
+
+**LogMiner**
+
+```checklist {id="oraclelogminerlist"}
+- [ ] [Configure Oracle LogMiner](#1-configure-oracle-logminer)
+- [ ] [Enable supplemental logging](#supp-logging)
+- [ ] [Check the redo log sizing](#3-check-the-redo-log-sizing)
+- [ ] [Set the Archive log destination](#4-set-the-archive-log-destination)
+- [ ] [Create a user for the connector](#create-dbz-user)
+```
+
+**XStream**
+
+```checklist {id="oraclexstreamlist"}
+- [ ] [Configure Xstream](#1-configure-xstream)
+- [ ] [Create Xstream users](#2-create-xstream-users)
+- [ ] [Create an Xstream outbound server](#3-create-an-xstream-outbound-server)
+- [ ] [Add a custom Docker image for the Debezium server](#4-add-a-custom-docker-image-for-the-debezium-server)
+- [ ] [Enable the Oracle configuration in RDI](#5-enable-the-oracle-configuration-in-rdi)
+```
+
+**Optional: XMLTYPE Support**
+
+```checklist {id="oraclexmltypelist"}
+- [ ] [Create a custom Debezium Server image](#create-a-custom-debezium-server-image)
+- [ ] [Configure RDI for XMLTYPE support](#configure-rdi-for-xmltype-support)
+- [ ] [Test XMLTYPE support](#test-xmltype-support)
+```
 
 ## LogMiner
 
@@ -330,7 +360,7 @@ you should also revoke `LOCK` on all tables:
 REVOKE LOCK ANY TABLE FROM c##dbzuser container=all;
 ```
 
-### 6. Configuration is complete
+### 6. Configuration is complete {#logminer-complete}
 
 Once you have followed the steps above, your Oracle database is ready
 for Debezium to use.
@@ -627,7 +657,7 @@ See the
 [Debezium Oracle documentation](https://debezium.io/documentation/reference/stable/connectors/oracle.html#oracle-connector-properties)
 for a full list of properties you can use in the `advanced.source` subsection.
 
-### 6. Configuration is complete
+### 6. Configuration is complete {#xstream-complete}
 
 After you have followed the steps above, your Oracle database is ready
 for Debezium to use.

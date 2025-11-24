@@ -9,6 +9,7 @@ description: Describes Redis Cloud Advanced capability options.
 headerRange: '[1-3]'
 toc: 'true'
 weight: $weight
+bannerText: Starting with Redis 8.0, all advanced capabilities provided by Redis Stack are included in Redis by default, so you no longer need to select them when creating a database on version 8.0 or later.
 ---
 
 Advanced capabilities extend Redis database functionality by adding new features and data types.  
@@ -17,7 +18,7 @@ Available options depend on your database plan and **Type**.
 
 ## Redis Cloud Essentials {#essentials}
 
-All Redis Cloud Essentials databases with versions prior to Redis 8.0 support [Redis Stack]({{< relref "/operate/oss_and_stack/" >}}), which enables the most frequently used capabilities. 
+All Redis Cloud Essentials databases with versions prior to Redis 8.0 support [Redis Stack]({{< relref "/operate/oss_and_stack/" >}}), which enables the most frequently used capabilities.
 
 {{<image filename="images/rc/new-database-general-type-free-stack.png" alt="For Essentials, the Type setting in the General section includes an option for Redis." width="300px">}}
 
@@ -27,11 +28,11 @@ When the database **Type** is set to _Redis_, the Advanced capabilities section 
 
 Starting with Redis 8.0, all advanced capabilities provided by Redis Stack are included in Redis by default.
 
-Redis Cloud is updated on a regular basis, which includes the advanced capabilities supported by the service. Versions displayed by the Redis Cloud console may vary from those shown above.  For the latest details of any capability, see [Redis Stack and Redis Enterprise]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}). 
+Redis Cloud is updated on a regular basis, which includes the advanced capabilities supported by the service. Versions displayed by the Redis Cloud console may vary from those shown above.  For the latest details of any capability, see [Redis Stack and Redis Enterprise]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}). For more information about Redis Cloud version management, see [Redis version management]({{< relref "/operate/rc/databases/version-management" >}}).
 
 ## Redis Cloud Pro {#pro}
 
-By default, Redis Cloud Pro databases load all supported advanced capabilities. You can choose to load specific capabilities when you create your database. To choose which capabilities to load for your Pro database, [create it with custom settings]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) and select **More options** when adding your database in the **Sizing tab** to view advanced capability settings.
+By default, Redis Cloud Pro databases load all supported advanced capabilities. For versions prior to Redis 8.0, you can choose to load specific capabilities when you create your database. To choose which capabilities to load for your Pro database, [create it with custom settings]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) and select **More options** when adding your database in the **Sizing tab** to view advanced capability settings.
 
 {{<image filename="images/rc/database-details-redis-module-select-flexible.png" alt="For Pro databases, you can select the capabilities included in your database." width="75%">}}
 
@@ -48,7 +49,9 @@ You can select more than one advanced capability for a database, though there ar
 
 To remove a selected capability, clear its checkbox.
 
-To learn more, see [Redis Stack]({{< relref "/develop/get-started/" >}}) and [Redis Stack and Redis Enterprise]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}).
+Starting with Redis 8.0, all advanced capabilities provided by Redis Stack are included in Redis by default. 
+
+To learn more, see [Redis Stack]({{< relref "/develop/get-started/" >}}) and [Redis Stack and Redis Enterprise]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}). For more information about Redis Cloud version management, see [Redis version management]({{< relref "/operate/rc/databases/version-management" >}}).
 
 ### Search and query sizing
 

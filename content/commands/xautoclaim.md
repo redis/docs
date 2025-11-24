@@ -119,6 +119,12 @@ The consumer "Alice" from the "mygroup" group acquires ownership of these messag
 Note that the stream ID returned in the example is `0-0`, indicating that the entire stream was scanned.
 We can also see that `XAUTOCLAIM` did not stumble upon any deleted messages (the third reply element is an empty array).
 
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+
 ## Return information
 
 {{< multitabs id="xautoclaim-return-info" 

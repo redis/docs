@@ -18,7 +18,6 @@ since: 8.0.0
 summary: Remove an element from a vector set.
 syntax_fmt: "VREM key element"
 title: VREM
-bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
 ---
 
 Remove an element from a vector set.
@@ -53,6 +52,12 @@ is the name of the element to remove from the vector set.
 ## Related topics
 
 - [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

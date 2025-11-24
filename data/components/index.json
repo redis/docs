@@ -14,11 +14,13 @@
         "php",
         "redis_py",
         "jedis",
+        "lettuce_sync",
         "lettuce_async",
         "lettuce_reactive",
         "redis_vl",
         "redis_rs_sync",
-        "redis_rs_async"
+        "redis_rs_async",
+        "hi_redis"
     ],
     "assets": [],
     "website": {

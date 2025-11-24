@@ -13,10 +13,10 @@ weight: 2
 
 Redis Open Source has been tested on the following platforms:
 
-- Ubuntu 20.04 (Focal Fossa), 22.04 (Jammy Jellyfish), and 24.04 (Noble Numbat).
+- Ubuntu 22.04 (Jammy Jellyfish) and 24.04 (Noble Numbat).
 - Rocky Linux 8.10 and 9.5.
 - AlmaLinux 8.10 and 9.5.
-- Debian 11 (Bullseye) and 12 (Bookworm).
+- Debian 12 (Bookworm) and 13 (Trixie).
 - macOS 13 (Ventura), 14 (Sonoma), and 15 (Sequoia).
 
 Follow the links below for installation instructions for your OS and distribution.

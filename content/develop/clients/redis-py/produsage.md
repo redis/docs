@@ -24,14 +24,14 @@ Each item in the checklist below links to the section
 for a recommendation. Use the checklist icons to record your
 progress in implementing the recommendations.
 
-{{< checklist "pyprodlist" >}}
-    {{< checklist-item "#client-side-caching" >}}Client-side caching{{< /checklist-item >}}
-    {{< checklist-item "#retries" >}}Retries{{< /checklist-item >}}
-    {{< checklist-item "#health-checks" >}}Health checks{{< /checklist-item >}}
-    {{< checklist-item "#exception-handling" >}}Exception handling{{< /checklist-item >}}
-    {{< checklist-item "#timeouts" >}}Timeouts{{< /checklist-item >}}
-    {{< checklist-item "#seamless-client-experience" >}}Smart client handoffs{{< /checklist-item >}}
-{{< /checklist >}}
+```checklist {id="pyprodlist"}
+- [ ] [Client-side caching](#client-side-caching)
+- [ ] [Retries](#retries)
+- [ ] [Health checks](#health-checks)
+- [ ] [Exception handling](#exception-handling)
+- [ ] [Timeouts](#timeouts)
+- [ ] [Smart client handoffs](#smart-client-handoffs)
+```
 
 ## Recommendations
 

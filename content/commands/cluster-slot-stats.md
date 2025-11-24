@@ -108,6 +108,12 @@ The command reports on the following statistics:
 * `NETWORK-BYTES-IN`: Total inbound network traffic (in bytes) received by the slot.
 * `NETWORK-BYTES-OUT`: Total outbound network traffic (in bytes) sent from the slot.
 
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+
 ## Return information
 
 {{< multitabs id="cmd-name-return-info" 

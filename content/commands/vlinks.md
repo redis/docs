@@ -18,7 +18,6 @@ since: 8.0.0
 summary: Return the neighbors of an element at each layer in the HNSW graph.
 syntax_fmt: "VLINKS key element [WITHSCORES]"
 title: VLINKS
-bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
 ---
 
 Return the neighbors of a specified element in a vector set. The command shows the connections for each layer of the HNSW graph.
@@ -58,6 +57,12 @@ includes similarity scores for each neighbor.
 ## Related topics
 
 - [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

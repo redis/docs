@@ -18,7 +18,6 @@ since: 8.0.0
 summary: Return information about a vector set.
 syntax_fmt: "VINFO key"
 title: VINFO
-bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
 ---
 
 Return metadata and internal details about a vector set, including size, dimensions, quantization type, and graph structure.
@@ -50,6 +49,12 @@ is the name of the key that holds the vector set.
 ## Related topics
 
 - [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 
