@@ -429,7 +429,7 @@ arguments:
     - arguments:
       - token: timestamp
       name: month
-      summary: Round a unix timestamp to the beginning of the current month.
+      summary: Round a Unix timestamp to the beginning of the current month.
       token: month
       type: function
     - arguments:
