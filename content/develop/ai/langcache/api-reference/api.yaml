@@ -23,7 +23,7 @@ paths:
       parameters:
         - name: cacheId
           in: path
-          description: The cache from which to search the entries.
+          description: The cache to search for the entries.
           schema:
             type: string
             description: The cache to search for the entries.
