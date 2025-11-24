@@ -1,4 +1,4 @@
-openapi: 3.0.1
+openapi: 3.0.2
 info:
   title: Redis LangCache Service
   description: API for managing a [Redis LangCache](https://redis.io/docs/latest/develop/ai/langcache/) service.
@@ -21,7 +21,13 @@ paths:
       description: Searches the cache for entries that match the prompt and attributes. If no entries are found, this endpoint returns an empty array.
       operationId: search
       parameters:
-        - $ref: '#/components/parameters/cacheId'
+        - name: cacheId
+          in: path
+          description: The cache from which to search the entries.
+          schema:
+            type: string
+            description: The cache from which to search the entries.
+          required: true
       requestBody:
         content:
           application/json:
@@ -59,24 +65,30 @@ paths:
             'application/json':
               schema:
                 $ref: '#/components/schemas/NotFoundErrorResponseContent'
+        '413':
+          description: Payload Too Large
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/PayloadTooLargeErrorResponseContent'
         '424':
           description: Failed dependency
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/FailedDependencyErrorResponseContent'
+                $ref: '#/components/schemas/ResourceUnavailableErrorResponseContent'
+        '429':
+          description: Too Many Requests
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/TooManyRequestsErrorResponseContent'
         '500':
           description: An unexpected error occurred
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/InternalServerErrorResponseContent'
-        '503':
-          description: An internal error occurred
-          content:
-            'application/json':
-              schema:
-                $ref: '#/components/schemas/ServiceUnavailableErrorResponseContent'
+                $ref: '#/components/schemas/UnexpectedErrorResponseContent'
   /v1/caches/{cacheId}/entries:
     post:
       tags:
@@ -85,7 +97,13 @@ paths:
       description: Adds an entry to the cache with a prompt and response.
       operationId: set
       parameters:
-        - $ref: '#/components/parameters/cacheId'
+        - name: cacheId
+          in: path
+          description: The cache to which to add the entry.
+          schema:
+            type: string
+            description: The cache to which to add the entry.
+          required: true
       requestBody:
         content:
           application/json:
@@ -123,24 +141,30 @@ paths:
             'application/json':
               schema:
                 $ref: '#/components/schemas/NotFoundErrorResponseContent'
+        '413':
+          description: Payload Too Large
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/PayloadTooLargeErrorResponseContent'
         '424':
           description: Failed dependency
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/FailedDependencyErrorResponseContent'
+                $ref: '#/components/schemas/ResourceUnavailableErrorResponseContent'
+        '429':
+          description: Too Many Requests
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/TooManyRequestsErrorResponseContent'
         '500':
           description: An unexpected error occurred
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/InternalServerErrorResponseContent'
-        '503':
-          description: An internal error occurred
-          content:
-            'application/json':
-              schema:
-                $ref: '#/components/schemas/ServiceUnavailableErrorResponseContent'
+                $ref: '#/components/schemas/UnexpectedErrorResponseContent'
     delete:
       tags:
         - Cache Entries
@@ -148,7 +172,13 @@ paths:
       description: Deletes multiple cache entries based on specified attributes. If no attributes are provided, all entries in the cache are deleted.
       operationId: deleteQuery
       parameters:
-        - $ref: '#/components/parameters/cacheId'
+        - name: cacheId
+          in: path
+          description: The cache from which to delete the entries.
+          schema:
+            type: string
+            description: The cache from which to delete the entries.
+          required: true
       requestBody:
         content:
           application/json:
@@ -186,24 +216,30 @@ paths:
             'application/json':
               schema:
                 $ref: '#/components/schemas/NotFoundErrorResponseContent'
+        '413':
+          description: Payload Too Large
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/PayloadTooLargeErrorResponseContent'
         '424':
           description: Failed dependency
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/FailedDependencyErrorResponseContent'
+                $ref: '#/components/schemas/ResourceUnavailableErrorResponseContent'
+        '429':
+          description: Too Many Requests
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/TooManyRequestsErrorResponseContent'
         '500':
           description: An unexpected error occurred
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/InternalServerErrorResponseContent'
-        '503':
-          description: An internal error occurred
-          content:
-            'application/json':
-              schema:
-                $ref: '#/components/schemas/ServiceUnavailableErrorResponseContent'
+                $ref: '#/components/schemas/UnexpectedErrorResponseContent'
   /v1/caches/{cacheId}/entries/{entryId}:
     delete:
       tags:
@@ -212,8 +248,20 @@ paths:
       description: Deletes a single cache entry by the entry ID.
       operationId: delete
       parameters:
-        - $ref: '#/components/parameters/cacheId'
-        - $ref: '#/components/parameters/entryId'
+        - name: cacheId
+          in: path
+          description: The cache from which to delete the entry.
+          schema:
+            type: string
+            description: The cache from which to delete the entry.
+          required: true
+        - name: entryId
+          in: path
+          description: Unique ID for the cache entry.
+          schema:
+            type: string
+            description: Unique ID for the cache entry.
+          required: true
       responses:
         '204':
           description: Cache entry successfully deleted
@@ -241,42 +289,114 @@ paths:
             'application/json':
               schema:
                 $ref: '#/components/schemas/NotFoundErrorResponseContent'
+        '413':
+          description: Payload Too Large
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/PayloadTooLargeErrorResponseContent'
         '424':
           description: Failed dependency
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/FailedDependencyErrorResponseContent'
+                $ref: '#/components/schemas/ResourceUnavailableErrorResponseContent'
+        '429':
+          description: Too Many Requests
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/TooManyRequestsErrorResponseContent'
         '500':
           description: An unexpected error occurred
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/InternalServerErrorResponseContent'
-        '503':
-          description: An internal error occurred
+                $ref: '#/components/schemas/UnexpectedErrorResponseContent'
+  /v1/caches/{cacheId}/flush:
+    post:
+      tags:
+        - Cache Entries
+      summary: Flush all entries from the cache
+      description: Flushes all entries from the cache.
+      operationId: flush
+      parameters:
+        - name: cacheId
+          in: path
+          description: The ID of the cache to flush.
+          schema:
+            type: string
+            description: The ID of the cache to flush.
+          required: true
+      responses:
+        '204':
+          description: Cache successfully flushed
+        '400':
+          description: Bad Request
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/ServiceUnavailableErrorResponseContent'
+                $ref: '#/components/schemas/BadRequestErrorResponseContent'
+        '401':
+          description: Unauthorized
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/AuthenticationErrorResponseContent'
+        '403':
+          description: Forbidden
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ForbiddenErrorResponseContent'
+        '404':
+          description: Cache not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFoundErrorResponseContent'
+        '413':
+          description: Payload Too Large
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/PayloadTooLargeErrorResponseContent'
+        '424':
+          description: Failed dependency
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ResourceUnavailableErrorResponseContent'
+        '429':
+          description: Too Many Requests
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/TooManyRequestsErrorResponseContent'
+        '500':
+          description: An unexpected error occurred
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/UnexpectedErrorResponseContent'
 components:
   parameters:
     cacheId:
       name: cacheId
       in: path
-      description: The cache ID.
+      description: The cache from which to delete the entries.
       required: true
       schema:
         type: string
-        pattern: '^[a-zA-Z0-9]+$'
+        description: The cache from which to delete the entries.
     entryId:
       name: entryId
       in: path
-      description: The ID of the cache entry to delete.
+      description: Unique ID for the cache entry.
       required: true
       schema:
         type: string
-        pattern: '^[a-f0-9]{32}$'
+        description: Unique ID for the cache entry.
   schemas:
     SearchEntriesRequest:
       required:
@@ -297,19 +417,12 @@ components:
           format: float
           example: 0.9
         attributes:
-          type: object
-          maxProperties: 5
-          propertyNames:
-            pattern: '^[a-zA-Z0-9_-]{1,32}$'
-          additionalProperties:
-            type: string
-            minLength: 1
-            maxLength: 500
-            pattern: '^[^,]*$'
-          description: Key-value pairs of attributes that filter the cache entries. If provided, this endpoint only returns entries that contain all given attributes.
-          example:
-            language: en
-            topic: ai
+          $ref: '#/components/schemas/AttributesMap'
+        searchStrategies:
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchStrategy'
+          description: The search strategies to use for the search, ordered by priority.
       description: Request for searching a cache entry
     SearchEntriesResponse:
       required:
@@ -329,11 +442,12 @@ components:
         - id
         - prompt
         - response
+        - searchStrategy
       type: object
       properties:
         id:
           type: string
-          description: Unique identifier for the cache entry.
+          description: Unique ID for the cache entry.
           pattern: '^[a-f0-9]{32}$'
           example: 5b84acef3ce360988d1b35adbaaaccb1
         prompt:
@@ -345,19 +459,7 @@ components:
           description: The response associated with the cache entry.
           example: Semantic caching stores and retrieves data based on meaning, not exact matches.
         attributes:
-          type: object
-          maxProperties: 5
-          propertyNames:
-            pattern: '^[a-zA-Z0-9_-]{1,32}$'
-          additionalProperties:
-            type: string
-            minLength: 1
-            maxLength: 500
-            pattern: '^[^,]*$'
-          description: The key-value pairs of attributes that are associated with the cache entry.
-          example:
-            language: en
-            topic: ai
+          $ref: '#/components/schemas/AttributesMap'
         similarity:
           type: number
           description: The similarity metric used for similarity comparison.
@@ -365,6 +467,8 @@ components:
           minimum: 0
           maximum: 1
           example: 0.95
+        searchStrategy:
+          $ref: '#/components/schemas/SearchStrategy'
       description: A cache entry
     SetEntryRequest:
       required:
@@ -418,22 +522,10 @@ components:
       required:
         - attributes
       type: object
+      description: Request to delete cache entries based on specified attributes
       properties:
         attributes:
-          type: object
-          maxProperties: 5
-          propertyNames:
-            pattern: '^[a-zA-Z0-9_-]{1,32}$'
-          additionalProperties:
-            type: string
-            minLength: 1
-            maxLength: 500
-            pattern: '^[^,]*$'
-          description: Key-value pairs of attributes associated with the cache entries to delete. If provided, this endpoint only deletes entries that contain all given attributes. If not provided, this endpoint deletes all entries in the cache.
-          example:
-            language: en
-            topic: ai
-      description: Request to delete cache entries based on specified attributes
+          $ref: '#/components/schemas/AttributesMap'
     DeleteEntriesResponse:
       required:
         - deletedEntriesCount
@@ -445,6 +537,18 @@ components:
           format: int64
           example: 42
       description: Response indicating the result of a cache entries deletion operation
+    AttributesMap:
+      type: object
+      additionalProperties:
+        type: string
+    SearchStrategy:
+      type: string
+      enum:
+        - exact
+        - semantic
+      x-enumNames:
+        - SearchStrategyExact
+        - SearchStrategySemantic
     BadRequestErrorResponseContent:
       type: object
       properties:
@@ -460,28 +564,35 @@ components:
           type: string
           description: An explanation specific to this problem.
         type:
-          $ref: '#/components/schemas/BadRequestErrorUri'
+          $ref: '#/components/schemas/BadRequestErrorURI'
       required:
         - status
         - title
         - type
-    BadRequestErrorUri:
+    BadRequestErrorURI:
       type: string
       enum:
-        - /errors/invalid-request
+        - /errors/invalid-data
     AuthenticationErrorResponseContent:
       type: object
       properties:
         title:
           type: string
-          description: A short summary of the problem type.
+          description: A short, human-readable summary of the problem
+                                      type.  It SHOULD NOT change from occurrence to occurrence of the
+                                      problem, except for purposes of localization (e.g., using
+                                      proactive content negotiation; see [RFC7231], Section 3.4).
         status:
           type: integer
           default: 401
-          description: The HTTP status code generated by the origin server.
+          description: The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.
+          format: int32
         detail:
           type: string
-          description: An explanation specific to this problem.
+          description: A human-readable explanation specific to this occurrence of the problem.
+        instance:
+          type: string
+          description: A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced.
         type:
           $ref: '#/components/schemas/AuthenticationErrorUri'
       required:
@@ -491,21 +602,28 @@ components:
     AuthenticationErrorUri:
       type: string
       enum:
-        - /errors/unauthenticated
+        - /errors/authentication-failed
     ForbiddenErrorResponseContent:
       type: object
       properties:
         title:
           type: string
-          description: A short summary of the problem type.
+          description: A short, human-readable summary of the problem
+                                      type.  It SHOULD NOT change from occurrence to occurrence of the
+                                      problem, except for purposes of localization (e.g., using
+                                      proactive content negotiation; see [RFC7231], Section 3.4).
           example: Unauthorized
         status:
           type: integer
           default: 403
-          description: The HTTP status code generated by the origin server.
+          description: The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.
+          format: int32
         detail:
           type: string
-          description: An explanation specific to this problem.
+          description: A human-readable explanation specific to this occurrence of the problem.
+        instance:
+          type: string
+          description: A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced.
         type:
           $ref: '#/components/schemas/ForbiddenErrorUri'
       required:
@@ -515,101 +633,164 @@ components:
     ForbiddenErrorUri:
       type: string
       enum:
-        - /errors/unauthorized
-    FailedDependencyErrorResponseContent:
+        - /errors/insufficient-permissions
+    ResourceUnavailableErrorResponseContent:
       type: object
       properties:
         title:
           type: string
-          description: A short summary of the problem type.
-          example: Failed Dependency
+          description: A short, human-readable summary of the problem
+                                      type.  It SHOULD NOT change from occurrence to occurrence of the
+                                      problem, except for purposes of localization (e.g., using
+                                      proactive content negotiation; see [RFC7231], Section 3.4).
         status:
           type: integer
           default: 424
-          description: The HTTP status code generated by the origin server.
+          description: The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.
+          format: int32
         detail:
           type: string
-          description: An explanation specific to this problem.
+          description: A human-readable explanation specific to this occurrence of the problem.
+        instance:
+          type: string
+          description: A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced.
         type:
-          $ref: '#/components/schemas/FailedDependencyErrorUri'
+          $ref: '#/components/schemas/ResourceUnavailableErrorURI'
       required:
         - status
         - title
         - type
-    FailedDependencyErrorUri:
+    ResourceUnavailableErrorURI:
       type: string
       enum:
+        - /errors/database/resource-database-unavailable
+        - /errors/database/out-of-memory
         - /errors/embeddings/unauthorized
         - /errors/embeddings/too-many-requests
-    ServiceUnavailableErrorResponseContent:
+        - /errors/cache/index-not-found
+    PayloadTooLargeErrorResponseContent:
       type: object
       properties:
         title:
           type: string
-          description: A short summary of the problem type.
-          example: Service Unavailable
+          description: A short, human-readable summary of the problem
+                                      type.  It SHOULD NOT change from occurrence to occurrence of the
+                                      problem, except for purposes of localization (e.g., using
+                                      proactive content negotiation; see [RFC7231], Section 3.4).
         status:
           type: integer
-          default: 503
-          description: The HTTP status code generated by the origin server.
+          default: 413
+          description: The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.
+          format: int32
         detail:
           type: string
-          description: An explanation specific to this problem.
+          description: A human-readable explanation specific to this occurrence of the problem.
+        instance:
+          type: string
+          description: A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced.
         type:
-          $ref: '#/components/schemas/ServiceUnavailableErrorUri'
+          $ref: '#/components/schemas/PayloadTooLargeErrorURI'
       required:
         - status
         - title
         - type
-    ServiceUnavailableErrorUri:
+    PayloadTooLargeErrorURI:
       type: string
       enum:
-        - /errors/cache/unexpected-error
-        - /errors/cache/authentication
-        - /errors/embeddings/unexpected-error
+        - /errors/payload-too-large
+    TooManyRequestsErrorResponseContent:
+      type: object
+      properties:
+        title:
+          type: string
+          description: A short, human-readable summary of the problem
+                                      type.  It SHOULD NOT change from occurrence to occurrence of the
+                                      problem, except for purposes of localization (e.g., using
+                                      proactive content negotiation; see [RFC7231], Section 3.4).
+        status:
+          type: integer
+          default: 429
+          description: The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.
+          format: int32
+        detail:
+          type: string
+          description: A human-readable explanation specific to this occurrence of the problem.
+        instance:
+          type: string
+          description: A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced.
+        type:
+          $ref: '#/components/schemas/TooManyRequestsErrorURI'
+      required:
+        - status
+        - title
+        - type
+    TooManyRequestsErrorURI:
+      type: string
+      enum:
+        - /errors/too-many-requests
     NotFoundErrorResponseContent:
       type: object
       properties:
         title:
           type: string
-          description: A short summary of the problem type.
+          description: A short, human-readable summary of the problem
+                                      type.  It SHOULD NOT change from occurrence to occurrence of the
+                                      problem, except for purposes of localization (e.g., using
+                                      proactive content negotiation; see [RFC7231], Section 3.4).
         status:
           type: integer
           default: 404
-          description: The HTTP status code generated by the origin server.
+          description: The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.
+          format: int32
         detail:
           type: string
-          description: An explanation specific to this problem.
+          description: A human-readable explanation specific to this occurrence of the problem.
+        instance:
+          type: string
+          description: A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced.
         type:
-          $ref: '#/components/schemas/NotFoundErrorUri'
+          $ref: '#/components/schemas/NotFoundErrorURI'
       required:
         - status
         - title
         - type
-    NotFoundErrorUri:
+    NotFoundErrorURI:
       type: string
       enum:
-        - /errors/not-found
-    InternalServerErrorResponseContent:
+        - /errors/resource/not-found
+        - /errors/cache/not-found
+        - /errors/cache/entry/not-found
+        - /errors/token/not-found
+    UnexpectedErrorResponseContent:
       type: object
       properties:
         title:
           type: string
-          description: A short summary of the problem type.
+          description: A short, human-readable summary of the problem
+                                      type.  It SHOULD NOT change from occurrence to occurrence of the
+                                      problem, except for purposes of localization (e.g., using
+                                      proactive content negotiation; see [RFC7231], Section 3.4).
         status:
           type: integer
           default: 500
-          description: The HTTP status code generated by the origin server.
+          description: The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.
+          format: int32
         detail:
           type: string
-          description: An explanation specific to this problem.
+          description: A human-readable explanation specific to this occurrence of the problem.
+        instance:
+          type: string
+          description: A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced.
         type:
-          $ref: '#/components/schemas/InternalServerErrorUri'
+          $ref: '#/components/schemas/UnexpectedErrorURI'
       required:
         - status
         - title
         - type
-    InternalServerErrorUri:
+    UnexpectedErrorURI:
       type: string
       enum:
         - /errors/unexpected-error
+        - /errors/cache/authentication
+        - /errors/cache/unexpected-error
+        - /errors/embeddings/unexpected-error
