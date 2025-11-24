@@ -26,7 +26,7 @@ paths:
           description: The cache from which to search the entries.
           schema:
             type: string
-            description: The cache from which to search the entries.
+            description: The cache to search for the entries.
           required: true
       requestBody:
         content:
