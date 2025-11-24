@@ -1,6 +1,12 @@
 {{ define "head" }}
 
 <script src='{{ relURL "js/cli.js" }}' defer></script>
+
+<!-- AI-friendliness meta tags -->
+<meta name="ai-documentation" content="https://redis.io/llms.txt">
+<meta name="ai-formats" content="markdown">
+<link rel="ai-documentation" href="https://redis.io/llms.txt" type="text/plain">
+
 {{ end }}
 
 {{ define "main" }}
@@ -115,6 +121,16 @@
             (dict "Text" "Go" "URL" "./develop/clients/go/")
             (dict "Text" "PHP" "URL" "./develop/clients/php/")
           )  ) }}
+          {{ partial "docs-section.html" (dict
+          "Title" "Resources for AI agents"
+          "Description" "Learn more about Redis documentation features that support AI agents"
+	  "ButtonLink" "https://redis.io/llms.txt"
+          "ButtonLabel" "Main `llms.txt` index for doc structure"  
+	"LinksLeft" (slice
+            (dict "Text" "AI Agent Resources" "URL" "./ai-agent-resources")
+            (dict "Text" "Example doc page in Markdown format" "URL" "./develop/index.html.md")
+          )
+        ) }}
       </div>
       <div class="lg:px-11 w-full flex flex-col gap-3">
         <h2 class="text-5xl font-medium text-white" id="operate">Deploy</h2>
@@ -164,7 +180,6 @@
 	    (dict "Text"  "Redis Insight" "URL" "./develop/tools/insight/")
 	    (dict "Text"  "Redis for VSCode" "URL" "./develop/tools/redis-for-vscode/")	    
           ) ) }}
-	      
       </div>
     </div>
   </div>

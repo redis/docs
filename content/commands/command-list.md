@@ -56,6 +56,12 @@ You can use the optional _FILTERBY_ modifier to apply one of the following filte
  - **ACLCAT category**: get the commands in the [ACL category]({{< relref "operate/oss_and_stack/management/security/acl#command-categories" >}}) specified by _category_.
  - **PATTERN pattern**: get the commands that match the given glob-like _pattern_.
 
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+
 ## Return information
 
 {{< multitabs id="command-list-return-info" 

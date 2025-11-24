@@ -14,7 +14,7 @@ categories:
 description: Learn how to use query dialects
 linkTitle: Query dialects
 title: Query dialects
-weight: 5
+weight: 16
 ---
 
 Redis Open Source currently supports four query dialects for use with the [`FT.SEARCH`]({{< relref "/commands/ft.search/" >}}), [`FT.AGGREGATE`]({{< relref "/commands/ft.aggregate/" >}}), and other Redis Query Engine commands.

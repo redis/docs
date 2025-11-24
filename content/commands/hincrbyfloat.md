@@ -87,6 +87,12 @@ The command is always propagated in the replication link and the Append Only
 File as a [`HSET`]({{< relref "/commands/hset" >}}) operation, so that differences in the underlying floating point
 math implementation will not be sources of inconsistency.
 
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+
 ## Return information
 
 {{< multitabs id="hincrbyfloat-return-info" 

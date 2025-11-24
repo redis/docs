@@ -176,6 +176,12 @@ just compute a random number between 0 and 1 (which is like calling
 
     RANDOM_ELE = ZRANGEBYSCORE key RAND() +inf LIMIT 0 1
 
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |
+
 ## Return information
 
 {{< multitabs id="zrangebyscore-return-info" 

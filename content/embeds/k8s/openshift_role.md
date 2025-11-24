@@ -44,9 +44,9 @@ rules:
       - list
       - watch
   - apiGroups:
-      - ""
+      - discovery.k8s.io
     resources:
-      - endpoints
+      - endpointslices
     verbs:
       - get
       - list

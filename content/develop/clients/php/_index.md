@@ -40,51 +40,19 @@ composer require predis/predis
 Connect to a locally-running server on the standard port (6379)
 with the following code:
 
-```php
-<?php
-
-require 'vendor/autoload.php';
-
-use Predis\Client as PredisClient;
-
-$r = new PredisClient([
-                'scheme'   => 'tcp',
-                'host'     => '127.0.0.1',
-                'port'     => 6379,
-                'password' => '',
-                'database' => 0,
-            ]);
-```
+{{< clients-example set="landing" step="connect" lang_filter="PHP" >}}
+{{< /clients-example >}}
 
 Store and retrieve a simple string to test the connection:
 
-```php
-echo $r->set('foo', 'bar'), PHP_EOL;
-// >>> OK
-
-echo $r->get('foo'), PHP_EOL;
-// >>> bar
-```
+{{< clients-example set="landing" step="set_get_string" lang_filter="PHP" >}}
+{{< /clients-example >}}
 
 Store and retrieve a [hash]({{< relref "/develop/data-types/hashes" >}})
 object:
 
-```php
-$r->hset('user-session:123', 'name', 'John');
-$r->hset('user-session:123', 'surname', 'Smith');
-$r->hset('user-session:123', 'company', 'Redis');
-$r->hset('user-session:123', 'age', 29);
-
-echo var_export($r->hgetall('user-session:123')), PHP_EOL;
-/* >>>
-array (
-  'name' => 'John',
-  'surname' => 'Smith',
-  'company' => 'Redis',
-  'age' => '29',
-)
-*/
-```
+{{< clients-example set="landing" step="set_get_hash" lang_filter="PHP" >}}
+{{< /clients-example >}}
 
 ## More information
 

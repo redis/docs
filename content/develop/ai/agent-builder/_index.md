@@ -1,18 +1,18 @@
 ---
-Title: Redis AI Agent Builder
+Title: AI agent builder
 alwaysopen: false
 categories:
 - docs
 - develop
 - ai
 description: Build custom AI agents powered by Redis with our interactive code generator
-linkTitle: Agent Builder
+linkTitle: Agent builder
 hideListLinks: true
 weight: 50
 ---
 
 
-Agents use Redis for data storage, vector search, and conversation memory. The interactive builder generates production-ready code in your preferred programming language.
+Agents use Redis for data storage, vector search, and conversation memory. The interactive builder generates code in your preferred programming language with your choice of model.
 
 ## Get started
 
