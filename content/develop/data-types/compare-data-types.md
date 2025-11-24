@@ -151,3 +151,9 @@ particular tasks.
 
 You would normally store document data using the string, hash, or JSON
 types. 
+
+- Strings are suitable for unstructured or opaquely structured text and
+binary documents that change infrequently or will be processed as a whole
+by your application. They provide only limited options for accessing
+individual parts bits and bit ranges within the string.
+
