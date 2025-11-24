@@ -7,9 +7,13 @@ categories:
 - kubernetes
 description: Deploy a cluster with Redis Flex on Kubernetes.
 linkTitle: Redis Flex
-bannerText: This page applies to Redis Enterprise for Kubernetes version 8.0.2-2 and later. If you use version 7.22.2-22 or earlier, see [Auto Tiering]({{< relref "/operate/kubernetes/7.22/re-clusters/auto-tiering" >}}).
 weight: 16
 ---
+
+{{<note>}}
+This page applies to Redis Enterprise for Kubernetes version 8.0.2-2 and later. If you use version 7.22.2-22 or earlier, see [Auto Tiering]({{< relref "/operate/kubernetes/7.22/re-clusters/auto-tiering" >}}).
+{{</note>}}
+
 ## Overview
 
 [Redis Flex]({{< relref "/operate/rs/databases/flash" >}}) (previously known as Redis on Flash) extends your node memory to use both RAM and flash storage. Solid state drives (SSDs) store infrequently used (warm) values, while RAM stores your keys and frequently used (hot) values. This approach improves performance and lowers costs for large datasets.
