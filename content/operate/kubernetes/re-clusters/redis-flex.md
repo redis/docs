@@ -26,19 +26,20 @@ The earlier implementation of Redis Flex is called Auto Tiering, which is availa
 
 The operator automatically selects the appropriate implementation based on your Redis version:
 
-- **Redis versions earlier than 8.0:** Auto Tiering
-- **Redis 8.0 and later:** Redis Flex
+- **Versions 7.22.2-22 and earlier:** Auto Tiering
+- **Versions 8.0.2-2 and later:** Redis Flex
 
 Redis Flex differs from Auto Tiering in the following ways:
 
+**Redis Flex (8.0.2-2 and later)**
 
-**Redis Flex (Redis 8.0 and later)**
 - Storage engine: Speedb only
 - RAM management: Automatic. Redis manages RAM allocation internally.
 - Configuration: `rofRamSize` isn't validated with minimum ratio requirements.
 - Redis versions: Redis 8.0 and later
 
-**Auto Tiering (Redis versions earlier than 8.0)**
+**Auto Tiering ( 7.22.2-22 and earlier)**
+
 - Storage engine: RocksDB or Speedb
 - RAM management: Manual. Requires explicit `rofRamSize` configuration.
 - Validation: `rofRamSize` must be at least 10% of `memorySize` and can't exceed `memorySize`.
