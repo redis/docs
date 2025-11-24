@@ -2,6 +2,13 @@
 title: Error handling
 description: Learn how to handle errors when using redis-py
 linkTitle: Error handling
+scope: implementation
+relatedPages:
+- /develop/clients/error-handling
+- /develop/clients/redis-py/produsage
+topics:
+- error-handling
+- resilience
 weight: 65
 ---
 
