@@ -11,393 +11,10 @@
     }
   ],
   "paths": {
-    "/v4/auth/authorize": {
-      "get": {
-        "summary": "Authorized a request and returns a token",
-        "description": "Authorized a request and returns a token",
-        "operationId": "authorize",
-        "tags": [
-          "Auth"
-        ],
-        "parameters": [
-          {
-            "name": "ttl",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            },
-            "description": "Time-to-live (TTL) of the token in seconds"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Token response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/JWT"
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized"
-          },
-          "500": {
-            "$ref": "#/components/responses/InternalServerError"
-          }
-        }
-      }
-    },
-    "/v4/cluster/health": {
-      "get": {
-        "summary": "Get cluster health report.",
-        "description": "Cluster health report.",
-        "operationId": "cluster_health_report",
-        "tags": [
-          "Cluster"
-        ],
-        "parameters": [
-          {
-            "name": "issues_only",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "boolean"
-            },
-            "description": "indicate to return only resources with unhealthy status"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Cluster report is ready see detailed information.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ClusterHealthReport"
-                }
-              }
-            }
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
-          },
-          "503": {
-            "$ref": "#/components/responses/ServiceUnavailable"
-          }
-        }
-      }
-    },
-    "/v4/bdb/{db_id}/health": {
-      "get": {
-        "summary": "Get database health report.",
-        "description": "Database health check indication.",
-        "operationId": "database_health_report",
-        "tags": [
-          "Database"
-        ],
-        "security": [
-          {
-            "Auth": [
-              "view_bdb_info"
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "name": "db_id",
-            "in": "path",
-            "description": "database ID",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "maxLength": 3
-            }
-          },
-          {
-            "name": "issues_only",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "boolean"
-            },
-            "description": "indicate to return only resources with unhealthy status"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Database report is ready see detailed information.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DatabaseHealthReport"
-                }
-              }
-            }
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
-          },
-          "503": {
-            "$ref": "#/components/responses/ServiceUnavailable"
-          }
-        }
-      }
-    },
-    "/v4/feature-flags/flags/definition": {
-      "get": {
-        "summary": "Get feature flags list.",
-        "description": "List of available feature flags.",
-        "operationId": "get_feature_flags",
-        "tags": [
-          "FeatureFlags"
-        ],
-        "responses": {
-          "200": {
-            "description": "List of feature flags.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "$ref": "#/components/schemas/FeatureFlagDefinitionResponse"
-                  }
-                }
-              }
-            }
-          },
-          "503": {
-            "$ref": "#/components/responses/ServiceUnavailable"
-          }
-        }
-      }
-    },
-    "/v4/feature-flags/flags/definition/{flag_name}": {
-      "get": {
-        "summary": "Get single feature flag.",
-        "description": "Get single feature flag by unique name.",
-        "operationId": "get_feature_flag",
-        "tags": [
-          "FeatureFlags"
-        ],
-        "parameters": [
-          {
-            "name": "flag_name",
-            "in": "path",
-            "description": "The feature flag name",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "x-go-type": "string"
-            },
-            "example": "test-flag"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Feature flag information.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FeatureFlagDefinitionResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
-          },
-          "503": {
-            "$ref": "#/components/responses/ServiceUnavailable"
-          }
-        }
-      },
-      "put": {
-        "summary": "Update feature flag.",
-        "description": "Update feature flag by unique name.",
-        "operationId": "update_feature_flag",
-        "tags": [
-          "FeatureFlags"
-        ],
-        "parameters": [
-          {
-            "name": "flag_name",
-            "in": "path",
-            "description": "The feature flag name",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "x-go-type": "string"
-            },
-            "example": "test-flag"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "additionalProperties": false,
-                "anyOf": [
-                  {
-                    "required": [
-                      "defaultVariant"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "targeting"
-                    ]
-                  }
-                ],
-                "properties": {
-                  "defaultVariant": {
-                    "type": "string",
-                    "description": "The name of the variant to use as the default when no targeting rules match."
-                  },
-                  "targeting": {
-                    "type": "object",
-                    "description": "Optional targeting rules that determine which variant to return based on context. Keys are strings, values can be any type.",
-                    "additionalProperties": true
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Feature flag updated.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
-          },
-          "503": {
-            "$ref": "#/components/responses/ServiceUnavailable"
-          }
-        }
-      }
-    },
-    "/v4/feature-flags/flags/evaluation/{flag_name}": {
-      "post": {
-        "summary": "Evaluate feature flag by context.",
-        "description": "Evaluate feature flag by context.",
-        "operationId": "evaluate_feature_flag",
-        "tags": [
-          "FeatureFlags"
-        ],
-        "parameters": [
-          {
-            "name": "flag_name",
-            "in": "path",
-            "description": "The feature flag name",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "test-flag"
-          }
-        ],
-        "requestBody": {
-          "required": false,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "context": {
-                    "type": "object",
-                    "description": "Optional context object containing key-value pairs for targeting evaluation.",
-                    "additionalProperties": true
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Feature flag evaluation result.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FeatureFlagEvaluationResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
-          },
-          "503": {
-            "$ref": "#/components/responses/ServiceUnavailable"
-          }
-        }
-      }
-    },
-    "/v4/feature-flags/profiles/current": {
-      "put": {
-        "summary": "Update current profile.",
-        "description": "Update current profile by name.",
-        "operationId": "update_current_profile",
-        "tags": [
-          "FeatureFlags"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "profile"
-                ],
-                "properties": {
-                  "profile": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 50,
-                    "pattern": "^[a-zA-Z0-9_-]+$",
-                    "description": "The name of the profile, that will be used to update the current profile."
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Feature flags updating current profile.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
-          },
-          "503": {
-            "$ref": "#/components/responses/ServiceUnavailable"
-          }
-        }
-      }
-    },
     "/v1/migrations/{uid}": {
       "get": {
         "x-stability-level": "stable",
+        "x-publish-docs": true,
         "summary": "Get migration status of a bdb in the cluster",
         "description": "Migration status of a bdb in the cluster",
         "operationId": "get_migration",
@@ -431,571 +48,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/MigrationResponse"
-                }
-              }
-            }
-          },
-          "403": {
-            "$ref": "#/components/responses/Forbidden"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
-          }
-        }
-      }
-    },
-    "/v1/users/role": {
-      "get": {
-        "summary": "Get the management role of the authenticating user.",
-        "description": "Get the management role of the authenticating user.",
-        "operationId": "get_user_role",
-        "tags": [
-          "Users"
-        ],
-        "security": [
-          {
-            "Auth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "User role information",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "role": {
-                      "$ref": "#/components/schemas/UserRole"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "403": {
-            "$ref": "#/components/responses/Forbidden"
-          }
-        }
-      }
-    },
-    "/v1/users/{uid}": {
-      "get": {
-        "summary": "Get a single Redis Enterprise Cluster user",
-        "description": "Get a single user by unique ID",
-        "operationId": "get_user",
-        "tags": [
-          "Users"
-        ],
-        "security": [
-          {
-            "Auth": [
-              "view_user_info"
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "name": "uid",
-            "in": "path",
-            "description": "The user unique ID",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "x-go-type": "json.Number"
-            },
-            "example": 1
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "User information",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          },
-          "403": {
-            "$ref": "#/components/responses/Forbidden"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
-          }
-        }
-      },
-      "delete": {
-        "summary": "Delete a Redis Enterprise Cluster user",
-        "description": "Delete a user by unique ID",
-        "operationId": "delete_user",
-        "tags": [
-          "Users"
-        ],
-        "security": [
-          {
-            "Auth": [
-              "delete_user"
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "name": "uid",
-            "in": "path",
-            "description": "The user unique ID",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "x-go-type": "json.Number"
-            },
-            "example": 1
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "User deleted successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "action_uid": {
-                      "type": "string",
-                      "description": "Action uid for tracking progress"
-                    }
-                  },
-                  "example": {
-                    "action_uid": "12345-abcde-67890"
-                  }
-                }
-              }
-            }
-          },
-          "403": {
-            "$ref": "#/components/responses/Forbidden"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
-          },
-          "406": {
-            "$ref": "#/components/responses/NotAcceptable"
-          }
-        }
-      },
-      "put": {
-        "summary": "Update a Redis Enterprise Cluster user",
-        "description": "Update a user configuration by unique ID",
-        "operationId": "update_user",
-        "tags": [
-          "Users"
-        ],
-        "security": [
-          {
-            "Auth": [
-              "update_user"
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "name": "uid",
-            "in": "path",
-            "description": "The user unique ID",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "x-go-type": "json.Number"
-            },
-            "example": 1
-          },
-          {
-            "name": "dry_run",
-            "in": "query",
-            "description": "Validate the request without persisting changes",
-            "required": false,
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "User update data",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UserRequest"
-              },
-              "example": {
-                "name": "Jane Poe",
-                "email_alerts": false
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "User updated successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
-          },
-          "403": {
-            "$ref": "#/components/responses/Forbidden"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
-          },
-          "406": {
-            "$ref": "#/components/responses/NotAcceptable"
-          }
-        }
-      }
-    },
-    "/v1/users": {
-      "get": {
-        "summary": "Get all Redis Enterprise Cluster users",
-        "description": "Get all Redis Enterprise Cluster users in the cluster",
-        "operationId": "get_users",
-        "tags": [
-          "Users"
-        ],
-        "security": [
-          {
-            "Auth": [
-              "view_all_users_info"
-            ]
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of users",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/User"
-                  }
-                }
-              }
-            }
-          },
-          "403": {
-            "$ref": "#/components/responses/Forbidden"
-          }
-        }
-      },
-      "post": {
-        "summary": "Create a new Redis Enterprise Cluster user",
-        "description": "Create a new user with the provided configuration",
-        "operationId": "create_user",
-        "tags": [
-          "Users"
-        ],
-        "security": [
-          {
-            "Auth": [
-              "create_new_user"
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "name": "dry_run",
-            "in": "query",
-            "description": "Validate the request without persisting changes",
-            "required": false,
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "User creation data",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UserRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "User created successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
-          },
-          "403": {
-            "$ref": "#/components/responses/Forbidden"
-          },
-          "409": {
-            "description": "User with the same email or name already exists",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/users/password": {
-      "put": {
-        "summary": "Reset user password",
-        "description": "Reset the password list of a user to include a single new password",
-        "operationId": "reset_user_password",
-        "tags": [
-          "Users"
-        ],
-        "security": [
-          {
-            "Auth": []
-          }
-        ],
-        "requestBody": {
-          "description": "Password reset data",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "username": {
-                    "type": "string",
-                    "description": "The username of the affected user. If missing, defaults to authenticated user"
-                  },
-                  "new_password": {
-                    "type": "string",
-                    "description": "The new password"
-                  },
-                  "password_hash_method": {
-                    "$ref": "#/components/schemas/PasswordHashMethod"
-                  }
-                },
-                "required": [
-                  "new_password"
-                ]
-              },
-              "example": {
-                "username": "john.doe",
-                "new_password": "new-secure-password"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Password reset successfully"
-          },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
-          },
-          "403": {
-            "$ref": "#/components/responses/Forbidden"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
-          }
-        }
-      },
-      "post": {
-        "summary": "Add user password",
-        "description": "Add a new password to a user's passwords list",
-        "operationId": "add_user_password",
-        "tags": [
-          "Users"
-        ],
-        "security": [
-          {
-            "Auth": []
-          }
-        ],
-        "requestBody": {
-          "description": "Password addition data",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "username": {
-                    "type": "string",
-                    "description": "The username of the affected user. If missing, defaults to authenticated user"
-                  },
-                  "new_password": {
-                    "type": "string",
-                    "description": "A password to add"
-                  },
-                  "password_hash_method": {
-                    "$ref": "#/components/schemas/PasswordHashMethod"
-                  }
-                },
-                "required": [
-                  "new_password"
-                ]
-              },
-              "example": {
-                "username": "john.doe",
-                "new_password": "additional-password"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Password added successfully"
-          },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
-          },
-          "403": {
-            "$ref": "#/components/responses/Forbidden"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
-          }
-        }
-      },
-      "delete": {
-        "summary": "Delete user password",
-        "description": "Delete a password from the list of a user's passwords",
-        "operationId": "delete_user_password",
-        "tags": [
-          "Users"
-        ],
-        "security": [
-          {
-            "Auth": []
-          }
-        ],
-        "requestBody": {
-          "description": "Password deletion data",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "username": {
-                    "type": "string",
-                    "description": "The username of the affected user. If missing, defaults to authenticated user"
-                  },
-                  "old_password": {
-                    "type": "string",
-                    "description": "An existing password to delete"
-                  }
-                },
-                "required": [
-                  "old_password"
-                ]
-              },
-              "example": {
-                "username": "john.doe",
-                "old_password": "password-to-remove"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Password deleted successfully"
-          },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
-          },
-          "403": {
-            "$ref": "#/components/responses/Forbidden"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
-          }
-        }
-      }
-    },
-    "/v1/users/permissions": {
-      "get": {
-        "summary": "Get all role permissions",
-        "description": "Get all management roles along with API and UI permissions",
-        "operationId": "get_roles_with_permissions",
-        "tags": [
-          "Users"
-        ],
-        "security": [
-          {
-            "Auth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Role permissions",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RolesWithPermissions"
-                }
-              }
-            }
-          },
-          "403": {
-            "$ref": "#/components/responses/Forbidden"
-          }
-        }
-      }
-    },
-    "/v1/users/permissions/{role}": {
-      "get": {
-        "summary": "Get permissions for a specific role",
-        "description": "Get API and UI permissions for a specific management role",
-        "operationId": "get_role_with_permissions_by_role_name",
-        "tags": [
-          "Users"
-        ],
-        "security": [
-          {
-            "Auth": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "role",
-            "in": "path",
-            "description": "The role name",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "admin"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Role permissions",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RolesWithPermissions"
                 }
               }
             }
@@ -1048,6 +100,443 @@
             "x-go-json-ignore": true
           }
         }
+      },
+      "Crdb": {
+        "type": "object",
+        "properties": {
+          "guid": {
+            "type": "string",
+            "description": "The GUID of the Active-Active database."
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of Active-Active database."
+          },
+          "managed_by": {
+            "type": "string",
+            "description": "The component that manages the A-A database."
+          },
+          "encryption": {
+            "type": "boolean",
+            "description": "Encrypt communication",
+            "default": false
+          },
+          "default_db_config": {
+            "$ref": "#/components/schemas/DatabaseConfig"
+          },
+          "volatile_config_fields": {
+            "description": "A list of DB config fields that will be set even if unchanged.\nThis list does not persist, and is specific for the API request it\nis part of.\n",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "local_databases": {
+            "description": "Mapping of instance IDs for local databases to local BDB IDs.",
+            "type": "array",
+            "readOnly": true,
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "$ref": "#/components/schemas/InstanceId"
+                },
+                "bdb_uid": {
+                  "description": "Local cluster Bdatabases UID.",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "instances": {
+            "type": "array",
+            "description": "Active-Active instances.",
+            "items": {
+              "$ref": "#/components/schemas/InstanceInfo"
+            }
+          },
+          "causal_consistency": {
+            "type": "boolean",
+            "description": "Enables causal consistency across crdt instances",
+            "default": false
+          },
+          "featureset_version": {
+            "type": "integer",
+            "description": "Active-Active database active FeatureSet version"
+          },
+          "protocol_version": {
+            "type": "integer",
+            "description": "Active-Active database active protocol version"
+          },
+          "modules": {
+            "type": "array",
+            "description": "CRDB-compatible Redis modules.",
+            "items": {
+              "$ref": "#/components/schemas/Module"
+            }
+          }
+        }
+      },
+      "InstanceInfo": {
+        "description": "Active-Active instance information.",
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/InstanceId"
+          },
+          "compression": {
+            "type": "integer",
+            "description": "Compression level when syncing from this source.\n",
+            "minimum": 0,
+            "maximum": 6,
+            "default": 3
+          },
+          "cluster": {
+            "$ref": "#/components/schemas/ClusterInfo"
+          },
+          "db_config": {
+            "$ref": "#/components/schemas/DatabaseConfig"
+          },
+          "db_uid": {
+            "type": "string",
+            "description": "ID of local database instance. This field is likely to be\nempty for instances other than the local one.\n"
+          }
+        }
+      },
+      "DatabaseConfig": {
+        "type": "object",
+        "properties": {
+          "cert": {
+            "type": "string",
+            "description": "Optional PEM-encoded server certificate for the underlying database instance."
+          },
+          "private_key": {
+            "type": "string",
+            "description": "Optional PEM-encoded private key matching cert for the underlying database instance."
+          },
+          "replication": {
+            "type": "boolean",
+            "description": "Database replication",
+            "default": true
+          },
+          "rack_aware": {
+            "type": "boolean",
+            "description": "Require the database to be always replicated across multiple racks",
+            "default": false
+          },
+          "memory_size": {
+            "type": "integer",
+            "description": "Database memory size limit, in bytes.",
+            "default": 0
+          },
+          "data_persistence": {
+            "description": "Database on-disk persistence",
+            "type": "string",
+            "enum": [
+              "disabled",
+              "snapshot",
+              "aof"
+            ],
+            "default": "aof"
+          },
+          "tls_mode": {
+            "type": "string",
+            "enum": [
+              "disabled",
+              "replica_ssl",
+              "enabled"
+            ],
+            "default": "disabled",
+            "description": "Encrypt communication"
+          },
+          "authentication_redis_pass": {
+            "type": "string",
+            "description": "Redis AUTH password"
+          },
+          "authentication_admin_pass": {
+            "type": "string",
+            "description": "Administrative databases access token"
+          },
+          "port": {
+            "type": "integer",
+            "description": "TCP port for database access",
+            "minimum": 1,
+            "maximum": 65535
+          },
+          "shards_count": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 512,
+            "default": 1,
+            "description": "Number of database shards"
+          },
+          "shard_key_regex": {
+            "type": "array",
+            "description": "Custom keyname-based sharding rules. Custom keyname-based sharding rules.\n\nTo use the default rules you should set the value to:\n  [ { \\\"regex\\\": \\\".*\\\\{(?<tag>.*)\\\\}.*\\\" }, { \\\"regex\\\": \\\"(?<tag>.*)\\\" } ]\n",
+            "items": {
+              "type": "object",
+              "properties": {
+                "regex": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "regex"
+              ]
+            }
+          },
+          "oss_sharding": {
+            "type": "boolean",
+            "default": false,
+            "description": "An alternative to shard_key_regex for using the common case of the oss shard hashing policy"
+          },
+          "oss_cluster": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enables OSS Cluster mode"
+          },
+          "proxy_policy": {
+            "type": "string",
+            "enum": [
+              "single",
+              "all-master-shards",
+              "all-nodes"
+            ],
+            "description": "The policy used for proxy binding to the endpoint"
+          },
+          "shards_placement": {
+            "description": "Control the density of shards: should they reside on as few or as many nodes as possible",
+            "type": "string",
+            "enum": [
+              "dense",
+              "sparse"
+            ]
+          },
+          "oss_cluster_api_preferred_ip_type": {
+            "type": "string",
+            "description": "Indicates preferred ip type in oss cluster API: internal/external",
+            "enum": [
+              "internal",
+              "external"
+            ]
+          },
+          "bigstore": {
+            "type": "boolean",
+            "default": false,
+            "description": "Database driver is Redis on Flash"
+          },
+          "bigstore_ram_size": {
+            "type": "integer",
+            "default": 0,
+            "description": "Memory size of RAM size"
+          },
+          "aof_policy": {
+            "type": "string",
+            "enum": [
+              "appendfsync-every-sec",
+              "appendfsync-always"
+            ],
+            "default": "appendfsync-every-sec",
+            "description": "Policy for Append-Only File data persistence"
+          },
+          "snapshot_policy": {
+            "type": "array",
+            "description": "Policy for snapshot-based data persistence.\n\nDataset snapshot will be taken every N secs if there are at least M writes changes in the dataset\n",
+            "items": {
+              "type": "object",
+              "description": "Policy criteria expressed in minimum writes in a given time window (seconds)",
+              "properties": {
+                "secs": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "writes": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              },
+              "required": [
+                "secs",
+                "writes"
+              ]
+            }
+          },
+          "max_aof_load_time": {
+            "type": "integer",
+            "default": 3600,
+            "description": "Hint for maximum AOF reload time"
+          },
+          "max_aof_file_size": {
+            "type": "integer",
+            "default": 322122547200,
+            "description": "Hint for maximum AOF file size"
+          }
+        }
+      },
+      "ClusterInfo": {
+        "type": "object",
+        "description": "Configuration details of a cluster that is part of a multi-master\ndatabase.\n",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Cluster fully qualified name, used to unique identify the cluster.\n\nTypically this is the same as the hostname used in the URL, although\nin some configruations the URL may point to a different name/address.\n"
+          },
+          "url": {
+            "type": "string",
+            "description": "Cluster access URL."
+          },
+          "replication_endpoint": {
+            "type": "string",
+            "description": "Address to use for peer replication.\n\nIf not specified, it is assumed that standard cluster naming conventions apply.\n"
+          },
+          "replication_tls_sni": {
+            "type": "string",
+            "description": "Cluster SNI for TLS connections."
+          },
+          "credentials": {
+            "type": "object",
+            "description": "Cluster access credentials.",
+            "properties": {
+              "username": {
+                "type": "string"
+              },
+              "password": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "username",
+              "password"
+            ]
+          }
+        }
+      },
+      "Module": {
+        "type": "object",
+        "description": "Configuration details of a module that runs in a multi-master\ndatabase.\n",
+        "properties": {
+          "module_name": {
+            "type": "string",
+            "description": "Module name"
+          },
+          "featureset_version": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Module featureset version."
+          }
+        },
+        "required": [
+          "module_name",
+          "featureset_version"
+        ]
+      },
+      "Task": {
+        "type": "object",
+        "description": "An administrative task that gets invoked as a result of a user request.\n",
+        "properties": {
+          "id": {
+            "type": "string",
+            "readOnly": true
+          },
+          "crdb_guid": {
+            "type": "string",
+            "readOnly": true
+          },
+          "started": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2018-03-20T09:12:28Z",
+            "readOnly": true
+          },
+          "ended": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2018-03-20T09:12:28Z",
+            "readOnly": true
+          },
+          "worker_name": {
+            "type": "string",
+            "readOnly": true,
+            "description": "The worker that executes the task."
+          },
+          "operation": {
+            "type": "string",
+            "readOnly": true,
+            "description": "The operation that is running."
+          },
+          "status": {
+            "type": "string",
+            "readOnly": true,
+            "description": "Options:\n\nqueued\n\nstarted\n\nfinished\n\nfailed\n"
+          },
+          "progress": {
+            "type": "object",
+            "readOnly": true,
+            "description": "Shows what the task is doing when its status is started",
+            "properties": {
+              "worker": {
+                "type": "string",
+                "description": "The step the worker is executing"
+              },
+              "clusters": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "The instance cluster name"
+                    },
+                    "progress": {
+                      "type": "string",
+                      "description": "The step the instance coordinator is executing"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "cluster_name": {
+                  "type": "string",
+                  "description": "Cluster on which error occurred."
+                },
+                "error_code": {
+                  "type": "string",
+                  "description": "Returned or generated error code."
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Returned or generated error description."
+                }
+              }
+            }
+          }
+        }
+      },
+      "ErrorDetails": {
+        "type": "object",
+        "description": "Error response details.",
+        "properties": {
+          "error_code": {
+            "type": "string",
+            "description": "Returned or generated error code."
+          },
+          "description": {
+            "type": "string",
+            "description": "Returned or generated error description."
+          }
+        }
+      },
+      "InstanceId": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 31,
+        "description": "Unique instance ID."
       },
       "Database": {
         "required": [
@@ -1713,6 +1202,55 @@
           "migration": {
             "$ref": "#/components/schemas/Migration"
           }
+        }
+      },
+      "RedisAcl": {
+        "type": "object",
+        "description": "An API object that represents a Redis ACL definition.",
+        "required": [
+          "uid",
+          "name",
+          "acl",
+          "min_version",
+          "max_version"
+        ],
+        "properties": {
+          "uid": {
+            "description": "Redis ACL unique uid.",
+            "type": "integer",
+            "x-go-type": "json.Number"
+          },
+          "name": {
+            "description": "ACL name.",
+            "type": "string"
+          },
+          "acl": {
+            "description": "Redis ACL string definition.",
+            "type": "string"
+          },
+          "min_version": {
+            "description": "Minimum Redis version for which this ACL is valid.",
+            "type": "string"
+          },
+          "max_version": {
+            "description": "Maximum Redis version for which this ACL is valid.",
+            "type": "string"
+          },
+          "account_id": {
+            "description": "SM account ID associated with this ACL.",
+            "type": "integer"
+          },
+          "action_uid": {
+            "description": "Action uid. If exists - progress can be tracked by the GET /actions/<uid> API",
+            "type": "string"
+          }
+        },
+        "example": {
+          "uid": 1,
+          "name": "default",
+          "acl": "on >allcommands allkeys",
+          "min_version": "6.2",
+          "max_version": "9999"
         }
       },
       "User": {

@@ -200,5 +200,3 @@ nil pointer evaluating page.Page.Params
 
 This happened for us when Hugo executed the `bannerText` logic, which inspected all parent pages by checking if they have a banner text set. The problem was that one of the parent folders was missing an `_index.md` file, which meant the folder couldn't be identified as a page. The solution was to add an `_index.md` file to the folder that didn't have it yet.
 <!--  -->
-
-<<TEST>>
