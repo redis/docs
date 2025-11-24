@@ -102,7 +102,7 @@ paths:
           description: The cache where the entry should be added.
           schema:
             type: string
-            description: The cache to which to add the entry.
+            description: The cache where the entry should be added.
           required: true
       requestBody:
         content:
