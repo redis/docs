@@ -82,7 +82,7 @@ title: BRPOPLPUSH
 ---
 `BRPOPLPUSH` is the blocking variant of [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}).
 When `source` contains elements, this command behaves exactly like [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}).
-When used inside a [`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) block, this command behaves exactly like [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}).
+When used inside a [`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) block or a Lua script, this command behaves exactly like [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}).
 When `source` is empty, Redis will block the connection until another client
 pushes to it or until `timeout` is reached.
 A `timeout` of zero can be used to block indefinitely.
