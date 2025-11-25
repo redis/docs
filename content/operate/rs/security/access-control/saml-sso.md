@@ -46,9 +46,9 @@ You can also initiate single sign-on from the Redis Enterprise Software Cluster 
 
 To set up SAML single sign-on for a Redis Enterprise Software cluster:
 
-1. Upload the new service provider certificate and private key (PUT /v1/cluster/certificates /sso_service/ or Redis Enterprise Software Cluster Manager UI) 
+1. [Upload the new service provider certificate and private key](#upload-sp-certificate).
 
-1. Export the metadata (GET /v1/cluster/sso/saml/metadata or Redis Enterprise Software Cluster Manager UI)
+1. [Download the service provider metadata](#download-sp-metadata).
 
 1. [Set up a SAML app](#set-up-app) to integrate Redis Enterprise Software with your identity provider.
 
@@ -69,6 +69,100 @@ Flow from HLD: <!--TODO: need to confirm which setup flow to keep-->
 
 1. Set the IdP metadata, fallback behavior and enable SSO (PUT /v1/cluster/sso)
 
+### Upload SP certificate
+
+1. Create a service provider certificate for Redis Enterprise Software. See [Create certificates ]({{<relref "/operate/rs/security/certificates/create-certificates#create-certificates">}}) for instructions.
+
+1. Upload the service provider certificate and key to the Redis Enterprise Software cluster:
+
+    {{< multitabs id="upload-sp-cert"
+    tab1="Cluster Manager UI"
+    tab2="REST API" >}}
+
+1. Sign in to the Redis Enterprise Software Cluster Manager UI using admin credentials.
+
+1. Go to **Access Control > Single Sign-On**.
+
+1. In the **Service Provider (Redis) metadata** section, find **Service-provider's public certificate + private key** and click **Upload**.
+
+1. Enter or upload the private key and certificate for your service provider.
+
+1. Click **Upload** to save.
+
+-tab-sep-
+
+To replace a certificate using the REST API, use an [update cluster certificates]({{<relref "/operate/rs/references/rest-api/requests/cluster/certificates">}}) request.
+
+```sh
+PUT https://<host>:<port>/v1/cluster/certificates
+{
+  "certificates": [
+    {
+      "name": "<cert_name>",
+      "certificate": "sso_service",
+      "key": "<key>"
+    }
+  ]
+}
+```
+
+    {{< /multitabs >}}
+
+### Download SP metadata
+
+{{< multitabs id="download-sp-metadata"
+tab1="Cluster Manager UI"
+tab2="REST API" >}}
+
+To download the service provider's metadata using the Cluster Manager UI:
+
+1. Go to **Access Control > Single Sign-On**.
+
+1. In the **Service Provider (Redis) metadata** section, click the following buttons to download the service provider files needed to set up a SAML app:
+
+    1. **Public certificate**
+
+    1. **Metadata file**
+
+1. Optionally copy the following values for future SAML app setup in the identity provider. You can also find these values in the service provider's metadata file.
+
+    1. **SP entity ID**: `https://<cluster-FQDN>/sp`
+
+    1. **Assertion Consumer Service (ACS)**: `https://<cluster-FQDN>:8443/cluster/sso/saml/acs`
+
+    1. **Single Logout Service**: `https://<cluster-FQDN>:8443/cluster/sso/saml/slo`
+
+-tab-sep-
+
+To download the service provider's metadata using the REST API, use a [get SAML service provider metadata]({{<relref "/operate/rs/references/rest-api/requests/cluster/sso#get-cluster-sso-saml-metadata">}}) request.
+
+```sh
+GET https://<host>:<port>/v1/cluster/sso/saml/metadata
+```
+
+{{< /multitabs >}}
+
+Here's an abridged example of the service provider metadata XML:
+
+```xml
+<md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" validUntil="2025-12-25T20:38:29" cacheDuration="PT2589134S" entityID="https://<cluster-FQDN>/sp" ID="<ID>">
+    ...
+    <md:SPSSODescriptor AuthnRequestsSigned="true" WantAssertionsSigned="true" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+        ...
+        <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://<cluster-FQDN>:8443/cluster/sso/saml/slo"/>
+        <md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress</md:NameIDFormat>
+        <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://<cluster-FQDN>:8443/cluster/sso/saml/acs" index="1"/>
+        <md:AttributeConsumingService index="1">
+            <md:ServiceName xml:lang="en">Redis Cluster Enterprise - <cluster-FQDN></md:ServiceName>
+            <md:ServiceDescription xml:lang="en">Redis Cluster Enterprise SSO</md:ServiceDescription>
+            <md:RequestedAttribute Name="firstName" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic" FriendlyName="firstName" isRequired="true"/>
+            <md:RequestedAttribute Name="lastName" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic" FriendlyName="lastName" isRequired="true"/>
+            <md:RequestedAttribute Name="email" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic" FriendlyName="email" isRequired="true"/>
+            <md:RequestedAttribute Name="redisRoleMapping" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic" FriendlyName="redisRoleMapping"/>
+        </md:AttributeConsumingService>
+    </md:SPSSODescriptor>
+</md:EntityDescriptor>
+```
 
 ### Set up SAML app {#set-up-app}
 
