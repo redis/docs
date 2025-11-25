@@ -35,6 +35,13 @@ client avoid disruptions in service during the maintenance period:
     the buffered commands without aborting any of them. As a result, users
     see no disruption in service.
 
+{{< note >}}SCH does not work with blocking connections.
+These include connections used for blocking operations like
+[`BLPOP`]({{< relref "/commands/blpop" >}}) and also
+[pub/sub]({{< relref "/develop/pubsub" >}}) subscriptions.
+All non-blocking operations are safe to use with SCH.
+{{< /note >}}
+
 ## Enable SCH
 
 SCH is enabled by default on Redis Cloud, but you must enable it
@@ -51,6 +58,10 @@ curl -k -X PUT -H "accept: application/json" \
     -d '{ "client_maint_notifications": true }' \
     https://localhost:9443/v1/cluster
 ```
+
+{{< note >}}SCH is not supported for
+[Kubernetes]({{< relref "/operate/kubernetes" >}}) clusters.
+{{< /note >}}
 
 SCH is enabled automatically on the client side during connection
 if you select the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
