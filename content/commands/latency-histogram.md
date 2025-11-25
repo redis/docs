@@ -79,7 +79,7 @@ To delete the latency histograms' data use the [`CONFIG RESETSTAT`]({{< relref "
       6# (integer) 33 => (integer) 100000
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

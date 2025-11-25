@@ -107,7 +107,7 @@ Because of this the **TAKEOVER** option should be used with care.
 * To check that the failover has actually happened you can use [`ROLE`]({{< relref "/commands/role" >}}), `INFO REPLICATION` (which indicates "role:master" after successful failover), or [`CLUSTER NODES`]({{< relref "/commands/cluster-nodes" >}}) to verify that the state of the cluster has changed sometime after the command was sent.
 * To check if the failover has failed, check the replica's log for "Manual failover timed out", which is logged if the replica has given up after a few seconds.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

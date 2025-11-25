@@ -34,7 +34,7 @@ If an `-ASK` redirect is received during a transaction, only one ASKING command 
 
 See [ASK redirection in the Redis Cluster Specification]({{< relref "/operate/oss_and_stack/reference/cluster-spec#ask-redirection" >}}) for details.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

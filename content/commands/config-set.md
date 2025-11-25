@@ -82,7 +82,7 @@ Redis server that started with AOF turned on since the start.
 You can have both the AOF enabled with RDB snapshotting if you want, the two
 options are not mutually exclusive.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

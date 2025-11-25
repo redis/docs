@@ -54,36 +54,26 @@ To build from source, see the instructions on the [Lettuce source code GitHub re
 
 ## Connect and test
 
-Connect to a local server using the following code. This example
-also stores and retrieves a simple string value to test the connection
-and closes the connection after use.
+Connect to a local server using the following code. First, import
+the required classes.
 
-```java
-import io.lettuce.core.*;
-import io.lettuce.core.api.StatefulRedisConnection;
-import io.lettuce.core.api.sync.RedisCommands;
+{{< clients-example set="landing" step="import" lang_filter="Lettuce-Sync" >}}
+{{< /clients-example >}}
 
-public class ConnectBasicTest {
+Use the following code to connect to the server.
 
-    public void connectBasic() {
-        RedisURI uri = RedisURI.Builder
-                .redis("localhost", 6379)
-                .build();
+{{< clients-example set="landing" step="connect" lang_filter="Lettuce-Sync" >}}
+{{< /clients-example >}}
 
-        RedisClient client = RedisClient.create(uri);
-        StatefulRedisConnection<String, String> connection = client.connect();
-        RedisCommands<String, String> commands = connection.sync();
+Test the connection by storing and retrieving a simple string.
 
-        commands.set("foo", "bar");
-        String result = commands.get("foo");
-        System.out.println(result); // >>> bar
+{{< clients-example set="landing" step="set_get_string" lang_filter="Lettuce-Sync" >}}
+{{< /clients-example >}}
 
-        connection.close();
+Close the connection when you're done.
 
-        client.shutdown();
-    }
-}
-```
+{{< clients-example set="landing" step="close" lang_filter="Lettuce-Sync" >}}
+{{< /clients-example >}}
 
 ## More information
 

@@ -37,7 +37,7 @@ title: REPLCONF
 The `REPLCONF` command is an internal command.
 It is used by a Redis master to configure a connected replica.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

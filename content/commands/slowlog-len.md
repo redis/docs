@@ -41,7 +41,7 @@ The maximum number of entries in the slow log is governed by the `slowlog-max-le
 Once the slog log reaches its maximal size, the oldest entry is removed whenever a new entry is created.
 The slow log can be cleared with the [`SLOWLOG RESET`]({{< relref "/commands/slowlog-reset" >}}) command.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

@@ -118,7 +118,7 @@ Running more `MONITOR` clients will reduce throughput even more.
 *   `>= 6.2.0`: "[`RESET`]({{< relref "/commands/reset" >}}) can be called to exit monitor mode.
 *   `>= 6.2.4`: "[`AUTH`]({{< relref "/commands/auth" >}}), [`HELLO`]({{< relref "/commands/hello" >}}), [`EVAL`]({{< relref "/commands/eval" >}}), [`EVAL_RO`]({{< relref "/commands/eval_ro" >}}), [`EVALSHA`]({{< relref "/commands/evalsha" >}}) and [`EVALSHA_RO`]({{< relref "/commands/evalsha_ro" >}}) included in the command's output.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

@@ -1,4 +1,7 @@
 ---
+aliases:
+- /stack/json/path
+- /stack/json/path/
 categories:
 - docs
 - develop

@@ -80,7 +80,7 @@ Note that you should look at the redis.conf file relevant to the version you're
 working with as configuration options might change between versions. The link
 above is to the latest development version.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

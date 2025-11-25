@@ -146,7 +146,7 @@ This is a list of all the supported Redis ACL rules:
 (error) ERR Error in ACL SETUSER modifier 'heeyyyy': Syntax error
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

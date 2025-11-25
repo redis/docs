@@ -22,7 +22,7 @@ categories:
 - oss
 - kubernetes
 - clients
-complexity: O(N) , where N is the number of samples to add
+complexity: O(N), where N is the number of samples to add
 description: Adds one or more observations to a t-digest sketch
 group: tdigest
 hidden: false
@@ -62,7 +62,7 @@ redis> TDIGEST.ADD t string
 (error) ERR T-Digest: error parsing val parameter
 {{< / highlight >}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

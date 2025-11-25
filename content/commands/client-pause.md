@@ -93,7 +93,7 @@ to be static not just from the point of view of clients not being able to write,
 
 *   `>= 3.2.0`: Client pause prevents client pause and key eviction as well.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

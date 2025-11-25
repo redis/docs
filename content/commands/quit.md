@@ -44,7 +44,7 @@ client.
 Instead, clients should simply close the connection when they're not used anymore.
 Terminating a connection on the client side is preferable, as it eliminates `TIME_WAIT` lingering sockets on the server side.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

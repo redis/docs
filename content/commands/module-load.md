@@ -53,7 +53,7 @@ configuration directive in `redis.conf`.
 As of Redis 8 in Redis Open Source, loading a module using the Redis CLI with configuration parameters is deprecated.
 {{< /note >}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

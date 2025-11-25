@@ -67,7 +67,7 @@ expression.
   **TypeError** – If filter_expression is not of type redisvl.query.FilterExpression
 
 #### `NOTE`
-Learn more about vector queries in Redis: [https://redis.io/docs/interact/search-and-query/search/vectors/#knn-search](https://redis.io/docs/interact/search-and-query/search/vectors/#knn-search)
+Learn more about vector queries in Redis: [https://redis.io/docs/latest/develop/ai/search-and-query/vectors/#knn-vector-search](https://redis.io/docs/latest/develop/ai/search-and-query/vectors/#knn-vector-search)
 
 #### `dialect(dialect)`
 
@@ -730,39 +730,18 @@ Return self as the query object.
 
 ## HybridQuery
 
-### `class HybridQuery(text, text_field_name, vector, vector_field_name, text_scorer='BM25STD', filter_expression=None, alpha=0.7, dtype='float32', num_results=10, return_fields=None, stopwords='english', dialect=2)`
+### `class HybridQuery(*args, **kwargs)`
 
-Bases: `AggregationQuery`
+Bases: `AggregateHybridQuery`
 
-HybridQuery combines text and vector search in Redis.
-It allows you to perform a hybrid search using both text and vector similarity.
-It scores documents based on a weighted combination of text and vector similarity.
+Backward compatibility wrapper for AggregateHybridQuery.
 
-```python
-from redisvl.query import HybridQuery
-from redisvl.index import SearchIndex
+#### `Deprecated`
+Deprecated since version HybridQuery: is a backward compatibility wrapper around AggregateHybridQuery
+and will eventually be replaced with a new hybrid query implementation.
+To maintain current functionality please use AggregateHybridQuery directly.",
 
-index = SearchIndex.from_yaml("path/to/index.yaml")
-
-query = HybridQuery(
-    text="example text",
-    text_field_name="text_field",
-    vector=[0.1, 0.2, 0.3],
-    vector_field_name="vector_field",
-    text_scorer="BM25STD",
-    filter_expression=None,
-    alpha=0.7,
-    dtype="float32",
-    num_results=10,
-    return_fields=["field1", "field2"],
-    stopwords="english",
-    dialect=2,
-)
-
-results = index.query(query)
-```
-
-Instantiates a HybridQuery object.
+Instantiates a AggregateHybridQuery object.
 
 * **Parameters:**
   * **text** (*str*) – The text to search for.
@@ -779,12 +758,21 @@ Instantiates a HybridQuery object.
   * **dtype** (*str* *,* *optional*) – The data type of the vector. Defaults to "float32".
   * **num_results** (*int* *,* *optional*) – The number of results to return. Defaults to 10.
   * **return_fields** (*Optional* *[* *List* *[* *str* *]* *]* *,* *optional*) – The fields to return. Defaults to None.
-  * **stopwords** (*Optional* *[* *Union* *[* *str* *,* *Set* *[* *str* *]* *]* *]* *,* *optional*) – The stopwords to remove from the
+  * **stopwords** (*Optional* *[* *Union* *[* *str* *,* *Set* *[* *str* *]* *]* *]* *,* *optional*) – 
+
+    The stopwords to remove from the
     provided text prior to searchuse. If a string such as "english" "german" is
     provided then a default set of stopwords for that language will be used. if a list,
     set, or tuple of strings is provided then those will be used as stopwords.
     Defaults to "english". if set to "None" then no stopwords will be removed.
+
+    Note: This parameter controls query-time stopword filtering (client-side).
+    For index-level stopwords configuration (server-side), see IndexInfo.stopwords.
+    Using query-time stopwords with index-level STOPWORDS 0 is counterproductive.
   * **dialect** (*int* *,* *optional*) – The Redis dialect version. Defaults to 2.
+  * **text_weights** (*Optional* *[* *Dict* *[* *str* *,* *float* *]* *]*) – The importance weighting of individual words
+    within the query text. Defaults to None, as no modifications will be made to the
+    text_scorer score.
 * **Raises:**
   * **ValueError** – If the text string is empty, or if the text string becomes empty after
         stopwords are removed.
@@ -922,6 +910,14 @@ Default is TFIDF.
 * **Return type:**
   *AggregateRequest*
 
+#### `set_text_weights(weights)`
+
+Set or update the text weights for the query.
+
+* **Parameters:**
+  * **text_weights** – Dictionary of word:weight mappings
+  * **weights** (*Dict* *[* *str* *,* *float* *]*)
+
 #### `sort_by(*fields, **kwargs)`
 
 Indicate how the results should be sorted. This can also be used for
@@ -975,9 +971,23 @@ Return the stopwords used in the query.
 :returns: The stopwords used in the query.
 :rtype: Set[str]
 
+#### `property text_weights: Dict[str, float]`
+
+Get the text weights.
+
+* **Returns:**
+  weight mappings.
+* **Return type:**
+  Dictionary of word
+
+#### `NOTE`
+The `stopwords` parameter in [HybridQuery](#hybridquery) (and `AggregateHybridQuery`) controls query-time stopword filtering (client-side).
+For index-level stopwords configuration (server-side), see `redisvl.schema.IndexInfo.stopwords`.
+Using query-time stopwords with index-level `STOPWORDS 0` is counterproductive.
+
 ## TextQuery
 
-### `class TextQuery(text, text_field_name, text_scorer='BM25STD', filter_expression=None, return_fields=None, num_results=10, return_score=True, dialect=2, sort_by=None, in_order=False, params=None, stopwords='english')`
+### `class TextQuery(text, text_field_name, text_scorer='BM25STD', filter_expression=None, return_fields=None, num_results=10, return_score=True, dialect=2, sort_by=None, in_order=False, params=None, stopwords='english', text_weights=None)`
 
 Bases: `BaseQuery`
 
@@ -1033,11 +1043,20 @@ A query for running a full text search, along with an optional filter expression
     the offsets between them. Defaults to False.
   * **params** (*Optional* *[* *Dict* *[* *str* *,* *Any* *]* *]* *,* *optional*) – The parameters for the query.
     Defaults to None.
-  * **stopwords** (*Optional* *[* *Union* *[* *str* *,* *Set* *[* *str* *]* *]*) – The set of stop words to remove
-    from the query text. If a language like ‘english’ or ‘spanish’ is provided
+  * **stopwords** (*Optional* *[* *Union* *[* *str* *,* *Set* *[* *str* *]* *]*) – 
+
+    The set of stop words to remove
+    from the query text (client-side filtering). If a language like ‘english’ or ‘spanish’ is provided
     a default set of stopwords for that language will be used. Users may specify
     their own stop words by providing a List or Set of words. if set to None,
     then no words will be removed. Defaults to ‘english’.
+
+    Note: This parameter controls query-time stopword filtering (client-side).
+    For index-level stopwords configuration (server-side), see IndexInfo.stopwords.
+    Using query-time stopwords with index-level STOPWORDS 0 is counterproductive.
+  * **text_weights** (*Optional* *[* *Dict* *[* *str* *,* *float* *]* *]*) – The importance weighting of individual words
+    within the query text. Defaults to None, as no modifications will be made to the
+    text_scorer score.
 * **Raises:**
   * **ValueError** – if stopwords language string cannot be loaded.
   * **TypeError** – If stopwords is not a valid iterable set of strings.
@@ -1184,6 +1203,14 @@ Set the filter expression for the query.
 * **Raises:**
   **TypeError** – If filter_expression is not a valid FilterExpression or string.
 
+#### `set_text_weights(weights)`
+
+Set or update the text weights for the query.
+
+* **Parameters:**
+  * **text_weights** – Dictionary of word:weight mappings
+  * **weights** (*Dict* *[* *str* *,* *float* *]*)
+
 #### `slop(slop)`
 
 Allow a maximum of N intervening non matched terms between
@@ -1288,6 +1315,20 @@ Get the text field name(s) - for backward compatibility.
 * **Returns:**
   Either a single field name string (if only one field with weight 1.0)
   or a dictionary of field:weight mappings.
+
+#### `property text_weights: Dict[str, float]`
+
+Get the text weights.
+
+* **Returns:**
+  weight mappings.
+* **Return type:**
+  Dictionary of word
+
+#### `NOTE`
+The `stopwords` parameter in [TextQuery](#textquery) controls query-time stopword filtering (client-side).
+For index-level stopwords configuration (server-side), see `redisvl.schema.IndexInfo.stopwords`.
+Using query-time stopwords with index-level `STOPWORDS 0` is counterproductive.
 
 ## FilterQuery
 
@@ -1797,7 +1838,7 @@ Return self as the query object.
 
 Bases: `AggregationQuery`
 
-MultiVectorQuery allows for search over multiple vector fields in a document simulateously.
+MultiVectorQuery allows for search over multiple vector fields in a document simultaneously.
 The final score will be a weighted combination of the individual vector similarity scores
 following the formula:
 

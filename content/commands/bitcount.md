@@ -143,7 +143,7 @@ When the bitmap is big, there are two alternatives:
   optional parameters, accumulating the results client-side, and optionally
   caching the result into a key.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

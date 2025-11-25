@@ -57,7 +57,7 @@ only if the following additional conditions are met:
 
 If the command succeeds the new replica will immediately try to contact its master in order to replicate from it.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

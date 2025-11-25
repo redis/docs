@@ -64,7 +64,7 @@ The entry's unique ID can be used in order to avoid processing slow log entries 
 The ID is never reset in the course of the Redis server execution, only a server
 restart will reset it.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

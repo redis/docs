@@ -177,7 +177,7 @@ just compute a random number between 0 and 1 (which is like calling
 
     RANDOM_ELE = ZRANGEBYSCORE key RAND() +inf LIMIT 0 1
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

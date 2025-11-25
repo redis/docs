@@ -97,7 +97,7 @@ title: BLMOVE
 ---
 `BLMOVE` is the blocking variant of [`LMOVE`]({{< relref "/commands/lmove" >}}).
 When `source` contains elements, this command behaves exactly like [`LMOVE`]({{< relref "/commands/lmove" >}}).
-When used inside a [`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) block, this command behaves exactly like [`LMOVE`]({{< relref "/commands/lmove" >}}).
+When used inside a [`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) block or a Lua script, this command behaves exactly like [`LMOVE`]({{< relref "/commands/lmove" >}}).
 When `source` is empty, Redis will block the connection until another client
 pushes to it or until `timeout` (a double value specifying the maximum number of seconds to block) is reached.
 A `timeout` of zero can be used to block indefinitely.
@@ -115,7 +115,7 @@ Please see the pattern description in the [`LMOVE`]({{< relref "/commands/lmove"
 
 Please see the pattern description in the [`LMOVE`]({{< relref "/commands/lmove" >}}) documentation.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

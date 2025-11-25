@@ -79,7 +79,7 @@ master and set the application to use this new master in read/write.
 Later when the other Redis server is fixed, it can be reconfigured to work as a
 replica.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
