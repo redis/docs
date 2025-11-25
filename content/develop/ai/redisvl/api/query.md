@@ -67,7 +67,7 @@ expression.
   **TypeError** – If filter_expression is not of type redisvl.query.FilterExpression
 
 #### `NOTE`
-Learn more about vector queries in Redis: [https://redis.io/docs/interact/search-and-query/search/vectors/#knn-search](https://redis.io/docs/interact/search-and-query/search/vectors/#knn-search)
+Learn more about vector queries in Redis: [https://redis.io/docs/latest/develop/ai/search-and-query/vectors/#knn-vector-search](https://redis.io/docs/latest/develop/ai/search-and-query/vectors/#knn-vector-search)
 
 #### `dialect(dialect)`
 
@@ -758,11 +758,17 @@ Instantiates a AggregateHybridQuery object.
   * **dtype** (*str* *,* *optional*) – The data type of the vector. Defaults to "float32".
   * **num_results** (*int* *,* *optional*) – The number of results to return. Defaults to 10.
   * **return_fields** (*Optional* *[* *List* *[* *str* *]* *]* *,* *optional*) – The fields to return. Defaults to None.
-  * **stopwords** (*Optional* *[* *Union* *[* *str* *,* *Set* *[* *str* *]* *]* *]* *,* *optional*) – The stopwords to remove from the
+  * **stopwords** (*Optional* *[* *Union* *[* *str* *,* *Set* *[* *str* *]* *]* *]* *,* *optional*) – 
+
+    The stopwords to remove from the
     provided text prior to searchuse. If a string such as "english" "german" is
     provided then a default set of stopwords for that language will be used. if a list,
     set, or tuple of strings is provided then those will be used as stopwords.
     Defaults to "english". if set to "None" then no stopwords will be removed.
+
+    Note: This parameter controls query-time stopword filtering (client-side).
+    For index-level stopwords configuration (server-side), see IndexInfo.stopwords.
+    Using query-time stopwords with index-level STOPWORDS 0 is counterproductive.
   * **dialect** (*int* *,* *optional*) – The Redis dialect version. Defaults to 2.
   * **text_weights** (*Optional* *[* *Dict* *[* *str* *,* *float* *]* *]*) – The importance weighting of individual words
     within the query text. Defaults to None, as no modifications will be made to the
@@ -974,6 +980,11 @@ Get the text weights.
 * **Return type:**
   Dictionary of word
 
+#### `NOTE`
+The `stopwords` parameter in [HybridQuery](#hybridquery) (and `AggregateHybridQuery`) controls query-time stopword filtering (client-side).
+For index-level stopwords configuration (server-side), see `redisvl.schema.IndexInfo.stopwords`.
+Using query-time stopwords with index-level `STOPWORDS 0` is counterproductive.
+
 ## TextQuery
 
 ### `class TextQuery(text, text_field_name, text_scorer='BM25STD', filter_expression=None, return_fields=None, num_results=10, return_score=True, dialect=2, sort_by=None, in_order=False, params=None, stopwords='english', text_weights=None)`
@@ -1032,11 +1043,17 @@ A query for running a full text search, along with an optional filter expression
     the offsets between them. Defaults to False.
   * **params** (*Optional* *[* *Dict* *[* *str* *,* *Any* *]* *]* *,* *optional*) – The parameters for the query.
     Defaults to None.
-  * **stopwords** (*Optional* *[* *Union* *[* *str* *,* *Set* *[* *str* *]* *]*) – The set of stop words to remove
-    from the query text. If a language like ‘english’ or ‘spanish’ is provided
+  * **stopwords** (*Optional* *[* *Union* *[* *str* *,* *Set* *[* *str* *]* *]*) – 
+
+    The set of stop words to remove
+    from the query text (client-side filtering). If a language like ‘english’ or ‘spanish’ is provided
     a default set of stopwords for that language will be used. Users may specify
     their own stop words by providing a List or Set of words. if set to None,
     then no words will be removed. Defaults to ‘english’.
+
+    Note: This parameter controls query-time stopword filtering (client-side).
+    For index-level stopwords configuration (server-side), see IndexInfo.stopwords.
+    Using query-time stopwords with index-level STOPWORDS 0 is counterproductive.
   * **text_weights** (*Optional* *[* *Dict* *[* *str* *,* *float* *]* *]*) – The importance weighting of individual words
     within the query text. Defaults to None, as no modifications will be made to the
     text_scorer score.
@@ -1307,6 +1324,11 @@ Get the text weights.
   weight mappings.
 * **Return type:**
   Dictionary of word
+
+#### `NOTE`
+The `stopwords` parameter in [TextQuery](#textquery) controls query-time stopword filtering (client-side).
+For index-level stopwords configuration (server-side), see `redisvl.schema.IndexInfo.stopwords`.
+Using query-time stopwords with index-level `STOPWORDS 0` is counterproductive.
 
 ## FilterQuery
 

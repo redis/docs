@@ -157,9 +157,6 @@ keys = index.load(data)
 print(f"Loaded {len(keys)} products into the index")
 ```
 
-    Loaded 6 products into the index
-
-
 ## 1. TextQuery: Full Text Search
 
 The `TextQuery` class enables full text search with advanced scoring algorithms. It's ideal for keyword-based search with relevance ranking.
@@ -184,10 +181,6 @@ results = index.query(text_query)
 result_print(results)
 ```
 
-
-<table><tr><th>score</th><th>product_id</th><th>brief_description</th><th>category</th><th>price</th></tr><tr><td>5.953989333038773</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>footwear</td><td>89.99</td></tr><tr><td>2.085315593627535</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td><td>footwear</td><td>139.99</td></tr><tr><td>2.0410082774474088</td><td>prod_2</td><td>lightweight running jacket with water resistance</td><td>outerwear</td><td>129.99</td></tr></table>
-
-
 ### Text Search with Different Scoring Algorithms
 
 RedisVL supports multiple text scoring algorithms. Let's compare `BM25STD` and `TFIDF`:
@@ -208,13 +201,6 @@ results = index.query(bm25_query)
 result_print(results)
 ```
 
-    Results with BM25 scoring:
-
-
-
-<table><tr><th>score</th><th>product_id</th><th>brief_description</th><th>price</th></tr><tr><td>6.031534703977659</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>89.99</td></tr><tr><td>2.085315593627535</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td><td>139.99</td></tr><tr><td>1.5268074873573214</td><td>prod_4</td><td>yoga mat with extra cushioning for comfort</td><td>39.99</td></tr></table>
-
-
 
 ```python
 # TFIDF scoring
@@ -230,13 +216,6 @@ print("Results with TFIDF scoring:")
 results = index.query(tfidf_query)
 result_print(results)
 ```
-
-    Results with TFIDF scoring:
-
-
-
-<table><tr><th>score</th><th>product_id</th><th>brief_description</th><th>price</th></tr><tr><td>2.3333333333333335</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>89.99</td></tr><tr><td>2.0</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td><td>139.99</td></tr><tr><td>1.0</td><td>prod_4</td><td>yoga mat with extra cushioning for comfort</td><td>39.99</td></tr></table>
-
 
 ### Text Search with Filters
 
@@ -260,10 +239,6 @@ result_print(results)
 ```
 
 
-<table><tr><th>score</th><th>product_id</th><th>brief_description</th><th>category</th><th>price</th></tr><tr><td>3.9314935770863046</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>footwear</td><td>89.99</td></tr><tr><td>3.1279733904413027</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td><td>footwear</td><td>139.99</td></tr></table>
-
-
-
 ```python
 # Search for products under $100
 price_filtered_query = TextQuery(
@@ -277,10 +252,6 @@ price_filtered_query = TextQuery(
 results = index.query(price_filtered_query)
 result_print(results)
 ```
-
-
-<table><tr><th>score</th><th>product_id</th><th>brief_description</th><th>price</th></tr><tr><td>3.1541404034996914</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>89.99</td></tr><tr><td>1.5268074873573214</td><td>prod_4</td><td>yoga mat with extra cushioning for comfort</td><td>39.99</td></tr></table>
-
 
 ### Text Search with Multiple Fields and Weights
 
@@ -299,10 +270,6 @@ weighted_query = TextQuery(
 results = index.query(weighted_query)
 result_print(results)
 ```
-
-
-<table><tr><th>score</th><th>product_id</th><th>brief_description</th></tr><tr><td>5.035440025836444</td><td>prod_1</td><td>comfortable running shoes for athletes</td></tr><tr><td>2.085315593627535</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td></tr></table>
-
 
 ### Text Search with Custom Stopwords
 
@@ -324,10 +291,6 @@ result_print(results)
 ```
 
 
-<table><tr><th>score</th><th>product_id</th><th>brief_description</th></tr><tr><td>5.953989333038773</td><td>prod_1</td><td>comfortable running shoes for athletes</td></tr><tr><td>2.085315593627535</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td></tr><tr><td>2.0410082774474088</td><td>prod_2</td><td>lightweight running jacket with water resistance</td></tr></table>
-
-
-
 ```python
 # Use custom stopwords
 custom_stopwords_query = TextQuery(
@@ -341,10 +304,6 @@ custom_stopwords_query = TextQuery(
 results = index.query(custom_stopwords_query)
 result_print(results)
 ```
-
-
-<table><tr><th>score</th><th>product_id</th><th>brief_description</th></tr><tr><td>3.1541404034996914</td><td>prod_1</td><td>comfortable running shoes for athletes</td></tr><tr><td>3.0864038416103</td><td>prod_3</td><td>professional tennis racket for competitive players</td></tr></table>
-
 
 
 ```python
@@ -361,10 +320,6 @@ results = index.query(no_stopwords_query)
 result_print(results)
 ```
 
-
-<table><tr><th>score</th><th>product_id</th><th>brief_description</th></tr><tr><td>5.953989333038773</td><td>prod_1</td><td>comfortable running shoes for athletes</td></tr><tr><td>2.085315593627535</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td></tr><tr><td>2.0410082774474088</td><td>prod_2</td><td>lightweight running jacket with water resistance</td></tr></table>
-
-
 ## 2. AggregateHybridQuery: Combining Text and Vector Search
 
 The `AggregateHybridQuery` combines text search and vector similarity to provide the best of both worlds:
@@ -378,6 +333,151 @@ hybrid_score = (alpha) * vector_score + (1 - alpha) * text_score
 ```
 
 Where `alpha` controls the balance between vector and text search (default: 0.7).
+
+### Index-Level Stopwords Configuration
+
+The previous example showed **query-time stopwords** using `TextQuery.stopwords`, which filters words from the query before searching. RedisVL also supports **index-level stopwords** configuration, which determines which words are indexed in the first place.
+
+**Key Difference:**
+- **Query-time stopwords** (`TextQuery.stopwords`): Filters words from your search query (client-side)
+- **Index-level stopwords** (`IndexInfo.stopwords`): Controls which words get indexed in Redis (server-side)
+
+**Three Configuration Modes:**
+
+1. **`None` (default)**: Use Redis's default stopwords list
+2. **`[]` (empty list)**: Disable stopwords completely (`STOPWORDS 0` in FT.CREATE)
+3. **`["the", "a", "an"]`**: Use a custom stopwords list
+
+**When to use `STOPWORDS 0`:**
+- When you need to search for common words like "of", "at", "the"
+- For entity names containing stopwords (e.g., "Bank of Glasberliner", "University of Glasberliner")
+- When working with structured data where every word matters
+
+
+```python
+# Create a schema with index-level stopwords disabled
+from redisvl.index import SearchIndex
+
+stopwords_schema = {
+    "index": {
+        "name": "company_index",
+        "prefix": "company:",
+        "storage_type": "hash",
+        "stopwords": []  # STOPWORDS 0 - disable stopwords completely
+    },
+    "fields": [
+        {"name": "company_name", "type": "text"},
+        {"name": "description", "type": "text"}
+    ]
+}
+
+# Create index using from_dict (handles schema creation internally)
+company_index = SearchIndex.from_dict(stopwords_schema, redis_url="redis://localhost:6379")
+company_index.create(overwrite=True, drop=True)
+
+print(f"Index created with STOPWORDS 0: {company_index}")
+```
+
+
+```python
+# Load sample data with company names containing common stopwords
+companies = [
+    {"company_name": "Bank of Glasberliner", "description": "Major financial institution"},
+    {"company_name": "University of Glasberliner", "description": "Public university system"},
+    {"company_name": "Department of Glasberliner Affairs", "description": "A government agency"},
+    {"company_name": "Glasberliner FC", "description": "Football Club"},
+    {"company_name": "The Home Market", "description": "Home improvement retailer"},
+]
+
+for i, company in enumerate(companies):
+    company_index.load([company], keys=[f"company:{i}"])
+
+print(f"✓ Loaded {len(companies)} companies")
+```
+
+
+```python
+# Search for "Bank of Glasberliner" - with STOPWORDS 0, "of" is indexed and searchable
+from redisvl.query import FilterQuery
+
+query = FilterQuery(
+    filter_expression='@company_name:(Bank of Glasberliner)',
+    return_fields=["company_name", "description"],
+)
+
+results = company_index.search(query.query, query_params=query.params)
+
+print(f"Found {len(results.docs)} results for 'Bank of Glasberliner':")
+for doc in results.docs:
+    print(f"  - {doc.company_name}: {doc.description}")
+```
+
+**Comparison: With vs Without Stopwords**
+
+If we had used the default stopwords (not specifying `stopwords` in the schema), the word "of" would be filtered out during indexing. This means:
+
+- ❌ Searching for `"Bank of Glasberliner"` might not find exact matches
+- ❌ The phrase would be indexed as `"Bank Berlin"` (without "of")
+- ✅ With `STOPWORDS 0`, all words including "of" are indexed
+
+**Custom Stopwords Example:**
+
+You can also provide a custom list of stopwords:
+
+
+```python
+# Example: Create index with custom stopwords
+custom_stopwords_schema = {
+    "index": {
+        "name": "custom_stopwords_index",
+        "prefix": "custom:",
+        "stopwords": ["inc", "llc", "corp"]  # Filter out legal entity suffixes
+    },
+    "fields": [
+        {"name": "name", "type": "text"}
+    ]
+}
+
+# This would create an index where "inc", "llc", "corp" are not indexed
+print("Custom stopwords:", custom_stopwords_schema["index"]["stopwords"])
+```
+
+**YAML Format:**
+
+You can also define stopwords in YAML schema files:
+
+```yaml
+version: '0.1.0'
+
+index:
+  name: company_index
+  prefix: company:
+  storage_type: hash
+  stopwords: []  # Disable stopwords (STOPWORDS 0)
+
+fields:
+  - name: company_name
+    type: text
+  - name: description
+    type: text
+```
+
+Or with custom stopwords:
+
+```yaml
+index:
+  stopwords:
+    - the
+    - a
+    - an
+```
+
+
+```python
+# Cleanup
+company_index.delete(drop=True)
+print("✓ Cleaned up company_index")
+```
 
 ### Basic Aggregate Hybrid Query
 
@@ -400,10 +500,6 @@ hybrid_query = AggregateHybridQuery(
 results = index.query(hybrid_query)
 result_print(results)
 ```
-
-
-<table><tr><th>vector_distance</th><th>product_id</th><th>brief_description</th><th>category</th><th>price</th><th>vector_similarity</th><th>text_score</th><th>hybrid_score</th></tr><tr><td>5.96046447754e-08</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>footwear</td><td>89.99</td><td>0.999999970198</td><td>5.95398933304</td><td>2.48619677905</td></tr><tr><td>0.00985252857208</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td><td>footwear</td><td>139.99</td><td>0.995073735714</td><td>2.08531559363</td><td>1.32214629309</td></tr><tr><td>0.00985252857208</td><td>prod_2</td><td>lightweight running jacket with water resistance</td><td>outerwear</td><td>129.99</td><td>0.995073735714</td><td>2.04100827745</td><td>1.30885409823</td></tr><tr><td>0.0038834810257</td><td>prod_4</td><td>yoga mat with extra cushioning for comfort</td><td>accessories</td><td>39.99</td><td>0.998058259487</td><td>0</td><td>0.698640781641</td></tr><tr><td>0.236237406731</td><td>prod_6</td><td>swimming goggles with anti-fog coating</td><td>accessories</td><td>24.99</td><td>0.881881296635</td><td>0</td><td>0.617316907644</td></tr></table>
-
 
 ### Adjusting the Alpha Parameter
 
@@ -430,13 +526,6 @@ results = index.query(vector_heavy_query)
 result_print(results)
 ```
 
-    Results with alpha=0.9 (vector-heavy):
-
-
-
-<table><tr><th>vector_distance</th><th>product_id</th><th>brief_description</th><th>vector_similarity</th><th>text_score</th><th>hybrid_score</th></tr><tr><td>-1.19209289551e-07</td><td>prod_4</td><td>yoga mat with extra cushioning for comfort</td><td>1.0000000596</td><td>1.52680748736</td><td>1.05268080238</td></tr><tr><td>0.00136888027191</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td><td>0.999315559864</td><td>0</td><td>0.899384003878</td></tr><tr><td>0.00136888027191</td><td>prod_2</td><td>lightweight running jacket with water resistance</td><td>0.999315559864</td><td>0</td><td>0.899384003878</td></tr></table>
-
-
 ### Aggregate Hybrid Query with Filters
 
 You can also combine hybrid search with filters:
@@ -458,10 +547,6 @@ results = index.query(filtered_hybrid_query)
 result_print(results)
 ```
 
-
-<table><tr><th>vector_distance</th><th>product_id</th><th>brief_description</th><th>category</th><th>price</th><th>vector_similarity</th><th>text_score</th><th>hybrid_score</th></tr><tr><td>-1.19209289551e-07</td><td>prod_3</td><td>professional tennis racket for competitive players</td><td>equipment</td><td>199.99</td><td>1.0000000596</td><td>3.08640384161</td><td>1.62592119421</td></tr><tr><td>0.411657452583</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td><td>footwear</td><td>139.99</td><td>0.794171273708</td><td>0</td><td>0.555919891596</td></tr><tr><td>0.411657452583</td><td>prod_2</td><td>lightweight running jacket with water resistance</td><td>outerwear</td><td>129.99</td><td>0.794171273708</td><td>0</td><td>0.555919891596</td></tr></table>
-
-
 ### Using Different Text Scorers
 
 AggregateHybridQuery supports the same text scoring algorithms as TextQuery:
@@ -482,10 +567,6 @@ hybrid_tfidf = AggregateHybridQuery(
 results = index.query(hybrid_tfidf)
 result_print(results)
 ```
-
-
-<table><tr><th>vector_distance</th><th>product_id</th><th>brief_description</th><th>vector_similarity</th><th>text_score</th><th>hybrid_score</th></tr><tr><td>0</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td><td>1</td><td>5</td><td>2.2</td></tr><tr><td>0</td><td>prod_2</td><td>lightweight running jacket with water resistance</td><td>1</td><td>0</td><td>0.7</td></tr><tr><td>0.00136888027191</td><td>prod_4</td><td>yoga mat with extra cushioning for comfort</td><td>0.999315559864</td><td>0</td><td>0.699520891905</td></tr></table>
-
 
 ## 3. MultiVectorQuery: Multi-Vector Search
 
@@ -531,10 +612,6 @@ results = index.query(multi_vector_query)
 result_print(results)
 ```
 
-
-<table><tr><th>distance_0</th><th>distance_1</th><th>product_id</th><th>brief_description</th><th>category</th><th>score_0</th><th>score_1</th><th>combined_score</th></tr><tr><td>5.96046447754e-08</td><td>5.96046447754e-08</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>footwear</td><td>0.999999970198</td><td>0.999999970198</td><td>0.999999970198</td></tr><tr><td>0.00985252857208</td><td>0.00266629457474</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td><td>footwear</td><td>0.995073735714</td><td>0.998666852713</td><td>0.996151670814</td></tr><tr><td>0.00985252857208</td><td>0.0118260979652</td><td>prod_2</td><td>lightweight running jacket with water resistance</td><td>outerwear</td><td>0.995073735714</td><td>0.994086951017</td><td>0.994777700305</td></tr><tr><td>0.0038834810257</td><td>0.210647821426</td><td>prod_4</td><td>yoga mat with extra cushioning for comfort</td><td>accessories</td><td>0.998058259487</td><td>0.894676089287</td><td>0.967043608427</td></tr><tr><td>0.236237406731</td><td>0.639005899429</td><td>prod_6</td><td>swimming goggles with anti-fog coating</td><td>accessories</td><td>0.881881296635</td><td>0.680497050285</td><td>0.82146602273</td></tr></table>
-
-
 ### Adjusting Vector Weights
 
 You can adjust the weights to prioritize different vector fields:
@@ -566,13 +643,6 @@ print("Results with emphasis on image similarity:")
 results = index.query(image_heavy_query)
 result_print(results)
 ```
-
-    Results with emphasis on image similarity:
-
-
-
-<table><tr><th>distance_0</th><th>distance_1</th><th>product_id</th><th>brief_description</th><th>category</th><th>score_0</th><th>score_1</th><th>combined_score</th></tr><tr><td>-1.19209289551e-07</td><td>0</td><td>prod_3</td><td>professional tennis racket for competitive players</td><td>equipment</td><td>1.0000000596</td><td>1</td><td>1.00000001192</td></tr><tr><td>0.14539372921</td><td>0.00900757312775</td><td>prod_6</td><td>swimming goggles with anti-fog coating</td><td>accessories</td><td>0.927303135395</td><td>0.995496213436</td><td>0.981857597828</td></tr><tr><td>0.436696171761</td><td>0.219131231308</td><td>prod_4</td><td>yoga mat with extra cushioning for comfort</td><td>accessories</td><td>0.78165191412</td><td>0.890434384346</td><td>0.868677890301</td></tr></table>
-
 
 ### Multi-Vector Query with Filters
 
@@ -606,10 +676,6 @@ results = index.query(filtered_multi_query)
 result_print(results)
 ```
 
-
-<table><tr><th>distance_0</th><th>distance_1</th><th>product_id</th><th>brief_description</th><th>category</th><th>price</th><th>score_0</th><th>score_1</th><th>combined_score</th></tr><tr><td>5.96046447754e-08</td><td>5.96046447754e-08</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>footwear</td><td>89.99</td><td>0.999999970198</td><td>0.999999970198</td><td>0.999999970198</td></tr><tr><td>0.00985252857208</td><td>0.00266629457474</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td><td>footwear</td><td>139.99</td><td>0.995073735714</td><td>0.998666852713</td><td>0.996510982513</td></tr></table>
-
-
 ## Comparing Query Types
 
 Let's compare the three query types side by side:
@@ -629,16 +695,6 @@ result_print(index.query(text_q))
 print()
 ```
 
-    TextQuery Results (keyword-based):
-
-
-
-<table><tr><th>score</th><th>product_id</th><th>brief_description</th></tr><tr><td>2.8773943004779676</td><td>prod_1</td><td>comfortable running shoes for athletes</td></tr><tr><td>2.085315593627535</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td></tr></table>
-
-
-    
-
-
 
 ```python
 # AggregateHybridQuery - combines text and vector search
@@ -655,16 +711,6 @@ print("AggregateHybridQuery Results (text + vector):")
 result_print(index.query(hybrid_q))
 print()
 ```
-
-    AggregateHybridQuery Results (text + vector):
-
-
-
-<table><tr><th>vector_distance</th><th>product_id</th><th>brief_description</th><th>vector_similarity</th><th>text_score</th><th>hybrid_score</th></tr><tr><td>5.96046447754e-08</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>0.999999970198</td><td>2.87739430048</td><td>1.56321826928</td></tr><tr><td>0.0038834810257</td><td>prod_4</td><td>yoga mat with extra cushioning for comfort</td><td>0.998058259487</td><td>0</td><td>0.698640781641</td></tr><tr><td>0.00985252857208</td><td>prod_2</td><td>lightweight running jacket with water resistance</td><td>0.995073735714</td><td>0</td><td>0.696551615</td></tr></table>
-
-
-    
-
 
 
 ```python
@@ -692,13 +738,6 @@ multi_q = MultiVectorQuery(
 print("MultiVectorQuery Results (multiple vectors):")
 result_print(index.query(multi_q))
 ```
-
-    MultiVectorQuery Results (multiple vectors):
-
-
-
-<table><tr><th>distance_0</th><th>distance_1</th><th>product_id</th><th>brief_description</th><th>score_0</th><th>score_1</th><th>combined_score</th></tr><tr><td>5.96046447754e-08</td><td>5.96046447754e-08</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>0.999999970198</td><td>0.999999970198</td><td>0.999999970198</td></tr><tr><td>0.00985252857208</td><td>0.00266629457474</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td><td>0.995073735714</td><td>0.998666852713</td><td>0.996870294213</td></tr><tr><td>0.00985252857208</td><td>0.0118260979652</td><td>prod_2</td><td>lightweight running jacket with water resistance</td><td>0.995073735714</td><td>0.994086951017</td><td>0.994580343366</td></tr></table>
-
 
 ## Best Practices
 
