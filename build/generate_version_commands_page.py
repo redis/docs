@@ -13,27 +13,27 @@ import yaml
 
 # Command group display names and order
 GROUP_ORDER = [
-    ('string', 'String Commands'),
-    ('hash', 'Hash Commands'),
-    ('list', 'List Commands'),
-    ('set', 'Set Commands'),
-    ('sorted-set', 'Sorted Set Commands'),
-    ('stream', 'Stream Commands'),
-    ('bitmap', 'Bitmap Commands'),
-    ('hyperloglog', 'HyperLogLog Commands'),
-    ('geo', 'Geospatial Commands'),
-    ('json', 'JSON Commands'),
-    ('search', 'Search Commands'),
-    ('timeseries', 'Time Series Commands'),
-    ('bloom', 'Probabilistic Commands'),
-    ('vector_set', 'Vector Set Commands'),
-    ('pubsub', 'Pub/Sub Commands'),
-    ('transactions', 'Transaction Commands'),
-    ('scripting', 'Scripting Commands'),
-    ('connection', 'Connection Commands'),
-    ('server', 'Server Commands'),
-    ('cluster', 'Cluster Commands'),
-    ('generic', 'Generic Commands'),
+    ('string', 'String commands'),
+    ('hash', 'Hash commands'),
+    ('list', 'List commands'),
+    ('set', 'Set commands'),
+    ('sorted-set', 'Sorted set commands'),
+    ('stream', 'Stream commands'),
+    ('bitmap', 'Bitmap commands'),
+    ('hyperloglog', 'HyperLogLog commands'),
+    ('geo', 'Geospatial commands'),
+    ('json', 'JSON commands'),
+    ('search', 'Search commands'),
+    ('timeseries', 'Time series commands'),
+    ('bloom', 'Probabilistic commands'),
+    ('vector_set', 'Vector set commands'),
+    ('pubsub', 'Pub/Sub commands'),
+    ('transactions', 'Transaction commands'),
+    ('scripting', 'Scripting commands'),
+    ('connection', 'Connection commands'),
+    ('server', 'Server commands'),
+    ('cluster', 'Cluster commands'),
+    ('generic', 'Generic commands'),
 ]
 
 def parse_frontmatter(content):
@@ -126,11 +126,24 @@ def generate_page_content(commands_by_group, target_version):
 
     version_display = target_version.rsplit('.', 1)[0]  # "8.4.0" -> "8.4"
 
+    # Calculate weight based on version (higher version = lower weight = appears first)
+    # Weight mapping: 8.4->1, 8.2->2, 8.0->3, 7.4->4, 7.2->5, 6.2->6
+    version_weights = {
+        '8.4': 1,
+        '8.2': 2,
+        '8.0': 3,
+        '7.4': 4,
+        '7.2': 5,
+        '6.2': 6,
+    }
+    weight = version_weights.get(version_display, 10)
+
     # Header
     content.append(f'''---
 title: Redis {version_display} Commands Reference
 linkTitle: Redis {version_display} Commands
 description: Complete list of all Redis commands available in version {version_display}, organized by functional group
+summary: Complete list of all Redis commands available in version {version_display}, organized by functional group
 layout: single
 type: develop
 categories:
@@ -142,7 +155,7 @@ categories:
 - rc
 - kubernetes
 - clients
-weight: 1
+weight: {weight}
 ---
 
 This page provides a comprehensive reference of all Redis commands available in Redis {version_display}, organized by functional group. Each command includes its description and syntax in a collapsible section for easy navigation.

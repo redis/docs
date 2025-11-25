@@ -2,6 +2,7 @@
 title: Redis 8.2 Commands Reference
 linkTitle: Redis 8.2 Commands
 description: Complete list of all Redis commands available in version 8.2, organized by functional group
+summary: Complete list of all Redis commands available in version 8.2, organized by functional group
 layout: single
 type: develop
 categories:
@@ -13,7 +14,7 @@ categories:
 - rc
 - kubernetes
 - clients
-weight: 1
+weight: 2
 ---
 
 This page provides a comprehensive reference of all Redis commands available in Redis 8.2, organized by functional group. Each command includes its description and syntax in a collapsible section for easy navigation.
@@ -24,30 +25,30 @@ Redis 8.2 includes all commands from previous versions plus new commands introdu
 
 ## Quick Navigation
 
-- [String Commands](#string-commands)
-- [Hash Commands](#hash-commands)
-- [List Commands](#list-commands)
-- [Set Commands](#set-commands)
-- [Sorted Set Commands](#sorted-set-commands)
-- [Stream Commands](#stream-commands)
-- [Bitmap Commands](#bitmap-commands)
-- [HyperLogLog Commands](#hyperloglog-commands)
-- [Geospatial Commands](#geospatial-commands)
-- [JSON Commands](#json-commands)
-- [Search Commands](#search-commands)
-- [Time Series Commands](#time-series-commands)
-- [Vector Set Commands](#vector-set-commands)
-- [Pub/Sub Commands](#pubsub-commands)
-- [Transaction Commands](#transaction-commands)
-- [Scripting Commands](#scripting-commands)
-- [Connection Commands](#connection-commands)
-- [Server Commands](#server-commands)
-- [Cluster Commands](#cluster-commands)
-- [Generic Commands](#generic-commands)
+- [String commands](#string-commands)
+- [Hash commands](#hash-commands)
+- [List commands](#list-commands)
+- [Set commands](#set-commands)
+- [Sorted set commands](#sorted-set-commands)
+- [Stream commands](#stream-commands)
+- [Bitmap commands](#bitmap-commands)
+- [HyperLogLog commands](#hyperloglog-commands)
+- [Geospatial commands](#geospatial-commands)
+- [JSON commands](#json-commands)
+- [Search commands](#search-commands)
+- [Time series commands](#time-series-commands)
+- [Vector set commands](#vector-set-commands)
+- [Pub/Sub commands](#pubsub-commands)
+- [Transaction commands](#transaction-commands)
+- [Scripting commands](#scripting-commands)
+- [Connection commands](#connection-commands)
+- [Server commands](#server-commands)
+- [Cluster commands](#cluster-commands)
+- [Generic commands](#generic-commands)
 
 ---
 
-## String Commands
+## String commands
 
 String commands operate on string values, the most basic Redis data type.
 
@@ -342,7 +343,7 @@ String commands operate on string values, the most basic Redis data type.
 </details>
 
 
-## Hash Commands
+## Hash commands
 
 Hash commands operate on hash data structures, which map string fields to string values.
 
@@ -719,7 +720,7 @@ Hash commands operate on hash data structures, which map string fields to string
 </details>
 
 
-## List Commands
+## List commands
 
 List commands operate on lists of strings, ordered by insertion order.
 
@@ -1010,7 +1011,7 @@ List commands operate on lists of strings, ordered by insertion order.
 </details>
 
 
-## Set Commands
+## Set commands
 
 Set commands operate on unordered collections of unique strings.
 
@@ -1236,7 +1237,7 @@ Set commands operate on unordered collections of unique strings.
 </details>
 
 
-## Sorted Set Commands
+## Sorted set commands
 
 Sorted set commands operate on sets of unique strings ordered by a score.
 
@@ -1703,7 +1704,7 @@ Sorted set commands operate on sets of unique strings ordered by a score.
 </details>
 
 
-## Stream Commands
+## Stream commands
 
 Stream commands operate on append-only log data structures.
 
@@ -2017,7 +2018,7 @@ Stream commands operate on append-only log data structures.
 </details>
 
 
-## Bitmap Commands
+## Bitmap commands
 
 Bitmap commands operate on strings as arrays of bits.
 
@@ -2117,7 +2118,7 @@ Bitmap commands operate on strings as arrays of bits.
 </details>
 
 
-## HyperLogLog Commands
+## HyperLogLog commands
 
 HyperLogLog commands provide probabilistic cardinality estimation.
 
@@ -2187,7 +2188,7 @@ HyperLogLog commands provide probabilistic cardinality estimation.
 </details>
 
 
-## Geospatial Commands
+## Geospatial commands
 
 Geospatial commands operate on geographic coordinates.
 
@@ -2335,7 +2336,7 @@ Geospatial commands operate on geographic coordinates.
 </details>
 
 
-## JSON Commands
+## JSON commands
 
 JSON commands operate on JSON data structures.
 
@@ -2666,7 +2667,7 @@ JSON commands operate on JSON data structures.
 </details>
 
 
-## Search Commands
+## Search commands
 
 Search commands provide full-text search and secondary indexing.
 
@@ -3020,7 +3021,7 @@ Search commands provide full-text search and secondary indexing.
 </details>
 
 
-## Time Series Commands
+## Time series commands
 
 Time series commands operate on time-series data.
 
@@ -3292,7 +3293,7 @@ Time series commands operate on time-series data.
 </details>
 
 
-## Vector Set Commands
+## Vector set commands
 
 Vector set commands operate on vector data structures for similarity search and range queries.
 
@@ -3456,7 +3457,7 @@ Vector set commands operate on vector data structures for similarity search and 
 </details>
 
 
-## Pub/Sub Commands
+## Pub/Sub commands
 
 Pub/Sub commands enable message passing between clients.
 
@@ -3630,7 +3631,7 @@ Pub/Sub commands enable message passing between clients.
 </details>
 
 
-## Transaction Commands
+## Transaction commands
 
 Transaction commands enable atomic execution of command groups.
 
@@ -3700,7 +3701,7 @@ Transaction commands enable atomic execution of command groups.
 </details>
 
 
-## Scripting Commands
+## Scripting commands
 
 Scripting commands enable server-side Lua script execution.
 
@@ -3952,7 +3953,7 @@ Scripting commands enable server-side Lua script execution.
 </details>
 
 
-## Connection Commands
+## Connection commands
 
 Connection commands manage client connections.
 
@@ -4276,7 +4277,7 @@ Connection commands manage client connections.
 </details>
 
 
-## Server Commands
+## Server commands
 
 Server commands provide server management and introspection.
 
@@ -5090,7 +5091,7 @@ Server commands provide server management and introspection.
 </details>
 
 
-## Cluster Commands
+## Cluster commands
 
 Cluster commands manage Redis Cluster operations.
 
@@ -5500,7 +5501,7 @@ Cluster commands manage Redis Cluster operations.
 </details>
 
 
-## Generic Commands
+## Generic commands
 
 Generic commands work across all data types.
 
@@ -5806,11 +5807,63 @@ Generic commands work across all data types.
 </details>
 
 <details>
+<summary><strong><a href="/commands/redis-6-2-commands/">Redis 6.2 Commands Reference</a></strong> - Complete list of all Redis commands available in version 6.2, organized by functional group</summary>
+
+**Syntax:** ``
+
+**Description:** Complete list of all Redis commands available in version 6.2, organized by functional group
+
+**Complexity:** 
+
+**Since:** 
+
+</details>
+
+<details>
+<summary><strong><a href="/commands/redis-7-2-commands/">Redis 7.2 Commands Reference</a></strong> - Complete list of all Redis commands available in version 7.2, organized by functional group</summary>
+
+**Syntax:** ``
+
+**Description:** Complete list of all Redis commands available in version 7.2, organized by functional group
+
+**Complexity:** 
+
+**Since:** 
+
+</details>
+
+<details>
+<summary><strong><a href="/commands/redis-7-4-commands/">Redis 7.4 Commands Reference</a></strong> - Complete list of all Redis commands available in version 7.4, organized by functional group</summary>
+
+**Syntax:** ``
+
+**Description:** Complete list of all Redis commands available in version 7.4, organized by functional group
+
+**Complexity:** 
+
+**Since:** 
+
+</details>
+
+<details>
 <summary><strong><a href="/commands/redis-8-0-commands/">Redis 8.0 Commands Reference</a></strong> - Complete list of all Redis commands available in version 8.0, organized by functional group</summary>
 
 **Syntax:** ``
 
 **Description:** Complete list of all Redis commands available in version 8.0, organized by functional group
+
+**Complexity:** 
+
+**Since:** 
+
+</details>
+
+<details>
+<summary><strong><a href="/commands/redis-8-2-commands/">Redis 8.2 Commands Reference</a></strong> - Complete list of all Redis commands available in version 8.2, organized by functional group</summary>
+
+**Syntax:** ``
+
+**Description:** Complete list of all Redis commands available in version 8.2, organized by functional group
 
 **Complexity:** 
 

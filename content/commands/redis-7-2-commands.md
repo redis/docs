@@ -1,8 +1,8 @@
 ---
-title: Redis 8.0 Commands Reference
-linkTitle: Redis 8.0 Commands
-description: Complete list of all Redis commands available in version 8.0, organized by functional group
-summary: Complete list of all Redis commands available in version 8.0, organized by functional group
+title: Redis 7.2 Commands Reference
+linkTitle: Redis 7.2 Commands
+description: Complete list of all Redis commands available in version 7.2, organized by functional group
+summary: Complete list of all Redis commands available in version 7.2, organized by functional group
 layout: single
 type: develop
 categories:
@@ -14,13 +14,13 @@ categories:
 - rc
 - kubernetes
 - clients
-weight: 3
+weight: 5
 ---
 
-This page provides a comprehensive reference of all Redis commands available in Redis 8.0, organized by functional group. Each command includes its description and syntax in a collapsible section for easy navigation.
+This page provides a comprehensive reference of all Redis commands available in Redis 7.2, organized by functional group. Each command includes its description and syntax in a collapsible section for easy navigation.
 
 {{< note >}}
-Redis 8.0 includes all commands from previous versions plus new commands introduced in 8.0. Commands marked with **⭐ New in 8.0** were added in this release.
+Redis 7.2 includes all commands from previous versions plus new commands introduced in 7.2. Commands marked with **⭐ New in 7.2** were added in this release.
 {{< /note >}}
 
 ## Quick Navigation
@@ -37,7 +37,6 @@ Redis 8.0 includes all commands from previous versions plus new commands introdu
 - [JSON commands](#json-commands)
 - [Search commands](#search-commands)
 - [Time series commands](#time-series-commands)
-- [Vector set commands](#vector-set-commands)
 - [Pub/Sub commands](#pubsub-commands)
 - [Transaction commands](#transaction-commands)
 - [Scripting commands](#scripting-commands)
@@ -374,47 +373,6 @@ Hash commands operate on hash data structures, which map string fields to string
 </details>
 
 <details>
-<summary><strong><a href="/commands/hexpire/">HEXPIRE</a></strong> - Set expiry for hash field using relative time to expire (seconds)</summary>
-
-**Syntax:** `HEXPIRE key seconds [NX | XX | GT | LT] FIELDS numfields field
-  [field ...]`
-
-**Description:** Set expiry for hash field using relative time to expire (seconds)
-
-**Complexity:** O(N) where N is the number of specified fields
-
-**Since:** 7.4.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/hexpireat/">HEXPIREAT</a></strong> - Set expiry for hash field using an absolute Unix timestamp (seconds)</summary>
-
-**Syntax:** `HEXPIREAT key unix-time-seconds [NX | XX | GT | LT] FIELDS numfields
-  field [field ...]`
-
-**Description:** Set expiry for hash field using an absolute Unix timestamp (seconds)
-
-**Complexity:** O(N) where N is the number of specified fields
-
-**Since:** 7.4.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/hexpiretime/">HEXPIRETIME</a></strong> - Returns the expiration time of a hash field as a Unix timestamp, in seconds.</summary>
-
-**Syntax:** `HEXPIRETIME key FIELDS numfields field [field ...]`
-
-**Description:** Returns the expiration time of a hash field as a Unix timestamp, in seconds.
-
-**Complexity:** O(N) where N is the number of specified fields
-
-**Since:** 7.4.0
-
-</details>
-
-<details>
 <summary><strong><a href="/commands/hget/">HGET</a></strong> - Returns the value of a field in a hash.</summary>
 
 **Syntax:** `HGET key field`
@@ -437,34 +395,6 @@ Hash commands operate on hash data structures, which map string fields to string
 **Complexity:** O(N) where N is the size of the hash.
 
 **Since:** 2.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/hgetdel/">HGETDEL</a></strong> - Returns the value of a field and deletes it from the hash. <span style="color: #e74c3c;">⭐ New in 8.0</span></summary>
-
-**Syntax:** `HGETDEL key FIELDS numfields field [field ...]`
-
-**Description:** Returns the value of a field and deletes it from the hash.
-
-**Complexity:** O(N) where N is the number of specified fields
-
-**Since:** 8.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/hgetex/">HGETEX</a></strong> - Get the value of one or more fields of a given hash key, and optionally set their expiration. <span style="color: #e74c3c;">⭐ New in 8.0</span></summary>
-
-**Syntax:** `HGETEX key [EX seconds | PX milliseconds | EXAT unix-time-seconds |
-  PXAT unix-time-milliseconds | PERSIST] FIELDS numfields field
-  [field ...]`
-
-**Description:** Get the value of one or more fields of a given hash key, and optionally set their expiration.
-
-**Complexity:** O(N) where N is the number of specified fields
-
-**Since:** 8.0.0
 
 </details>
 
@@ -547,73 +477,6 @@ Hash commands operate on hash data structures, which map string fields to string
 </details>
 
 <details>
-<summary><strong><a href="/commands/hpersist/">HPERSIST</a></strong> - Removes the expiration time for each specified field</summary>
-
-**Syntax:** `HPERSIST key FIELDS numfields field [field ...]`
-
-**Description:** Removes the expiration time for each specified field
-
-**Complexity:** O(N) where N is the number of specified fields
-
-**Since:** 7.4.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/hpexpire/">HPEXPIRE</a></strong> - Set expiry for hash field using relative time to expire (milliseconds)</summary>
-
-**Syntax:** `HPEXPIRE key milliseconds [NX | XX | GT | LT] FIELDS numfields field
-  [field ...]`
-
-**Description:** Set expiry for hash field using relative time to expire (milliseconds)
-
-**Complexity:** O(N) where N is the number of specified fields
-
-**Since:** 7.4.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/hpexpireat/">HPEXPIREAT</a></strong> - Set expiry for hash field using an absolute Unix timestamp (milliseconds)</summary>
-
-**Syntax:** `HPEXPIREAT key unix-time-milliseconds [NX | XX | GT | LT]
-  FIELDS numfields field [field ...]`
-
-**Description:** Set expiry for hash field using an absolute Unix timestamp (milliseconds)
-
-**Complexity:** O(N) where N is the number of specified fields
-
-**Since:** 7.4.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/hpexpiretime/">HPEXPIRETIME</a></strong> - Returns the expiration time of a hash field as a Unix timestamp, in msec.</summary>
-
-**Syntax:** `HPEXPIRETIME key FIELDS numfields field [field ...]`
-
-**Description:** Returns the expiration time of a hash field as a Unix timestamp, in msec.
-
-**Complexity:** O(N) where N is the number of specified fields
-
-**Since:** 7.4.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/hpttl/">HPTTL</a></strong> - Returns the TTL in milliseconds of a hash field.</summary>
-
-**Syntax:** `HPTTL key FIELDS numfields field [field ...]`
-
-**Description:** Returns the TTL in milliseconds of a hash field.
-
-**Complexity:** O(N) where N is the number of specified fields
-
-**Since:** 7.4.0
-
-</details>
-
-<details>
 <summary><strong><a href="/commands/hrandfield/">HRANDFIELD</a></strong> - Returns one or more random fields from a hash.</summary>
 
 **Syntax:** `HRANDFIELD key [count [WITHVALUES]]`
@@ -653,21 +516,6 @@ Hash commands operate on hash data structures, which map string fields to string
 </details>
 
 <details>
-<summary><strong><a href="/commands/hsetex/">HSETEX</a></strong> - Set the value of one or more fields of a given hash key, and optionally set their expiration. <span style="color: #e74c3c;">⭐ New in 8.0</span></summary>
-
-**Syntax:** `HSETEX key [FNX | FXX] [EX seconds | PX milliseconds |
-  EXAT unix-time-seconds | PXAT unix-time-milliseconds | KEEPTTL]
-  FIELDS numfields field value [field value ...]`
-
-**Description:** Set the value of one or more fields of a given hash key, and optionally set their expiration.
-
-**Complexity:** O(N) where N is the number of fields being set.
-
-**Since:** 8.0.0
-
-</details>
-
-<details>
 <summary><strong><a href="/commands/hsetnx/">HSETNX</a></strong> - Sets the value of a field in a hash only when the field doesn't exist.</summary>
 
 **Syntax:** `HSETNX key field value`
@@ -690,19 +538,6 @@ Hash commands operate on hash data structures, which map string fields to string
 **Complexity:** O(1)
 
 **Since:** 3.2.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/httl/">HTTL</a></strong> - Returns the TTL in seconds of a hash field.</summary>
-
-**Syntax:** `HTTL key FIELDS numfields field [field ...]`
-
-**Description:** Returns the TTL in seconds of a hash field.
-
-**Complexity:** O(N) where N is the number of specified fields
-
-**Since:** 7.4.0
 
 </details>
 
@@ -3267,170 +3102,6 @@ Time series commands operate on time-series data.
 </details>
 
 
-## Vector set commands
-
-Vector set commands operate on vector data structures for similarity search and range queries.
-
-<details>
-<summary><strong><a href="/commands/vadd/">VADD</a></strong> - Add a new element to a vector set, or update its vector if it already exists. <span style="color: #e74c3c;">⭐ New in 8.0</span></summary>
-
-**Syntax:** `VADD key [REDUCE dim] (FP32 | VALUES num) vector element [CAS] [NOQUANT | Q8 | BIN]
-  [EF build-exploration-factor] [SETATTR attributes] [M numlinks]`
-
-**Description:** Add a new element to a vector set, or update its vector if it already exists.
-
-**Complexity:** O(log(N)) for each element added, where N is the number of elements in the vector set.
-
-**Since:** 8.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/vcard/">VCARD</a></strong> - Return the number of elements in a vector set. <span style="color: #e74c3c;">⭐ New in 8.0</span></summary>
-
-**Syntax:** `VCARD key`
-
-**Description:** Return the number of elements in a vector set.
-
-**Complexity:** O(1)
-
-**Since:** 8.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/vdim/">VDIM</a></strong> - Return the dimension of vectors in the vector set. <span style="color: #e74c3c;">⭐ New in 8.0</span></summary>
-
-**Syntax:** `VDIM key`
-
-**Description:** Return the dimension of vectors in the vector set.
-
-**Complexity:** O(1)
-
-**Since:** 8.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/vemb/">VEMB</a></strong> - Return the vector associated with an element. <span style="color: #e74c3c;">⭐ New in 8.0</span></summary>
-
-**Syntax:** `VEMB key element [RAW]`
-
-**Description:** Return the vector associated with an element.
-
-**Complexity:** O(1)
-
-**Since:** 8.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/vgetattr/">VGETATTR</a></strong> - Retrieve the JSON attributes of elements. <span style="color: #e74c3c;">⭐ New in 8.0</span></summary>
-
-**Syntax:** `VGETATTR key element`
-
-**Description:** Retrieve the JSON attributes of elements.
-
-**Complexity:** O(1)
-
-**Since:** 8.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/vinfo/">VINFO</a></strong> - Return information about a vector set. <span style="color: #e74c3c;">⭐ New in 8.0</span></summary>
-
-**Syntax:** `VINFO key`
-
-**Description:** Return information about a vector set.
-
-**Complexity:** O(1)
-
-**Since:** 8.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/vismember/">VISMEMBER</a></strong> - Check if an element exists in a vector set. <span style="color: #e74c3c;">⭐ New in 8.0</span></summary>
-
-**Syntax:** `VISMEMBER key element`
-
-**Description:** Check if an element exists in a vector set.
-
-**Complexity:** O(1)
-
-**Since:** 8.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/vlinks/">VLINKS</a></strong> - Return the neighbors of an element at each layer in the HNSW graph. <span style="color: #e74c3c;">⭐ New in 8.0</span></summary>
-
-**Syntax:** `VLINKS key element [WITHSCORES]`
-
-**Description:** Return the neighbors of an element at each layer in the HNSW graph.
-
-**Complexity:** O(1)
-
-**Since:** 8.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/vrandmember/">VRANDMEMBER</a></strong> - Return one or multiple random members from a vector set. <span style="color: #e74c3c;">⭐ New in 8.0</span></summary>
-
-**Syntax:** `VRANDMEMBER key [count]`
-
-**Description:** Return one or multiple random members from a vector set.
-
-**Complexity:** O(N) where N is the absolute value of the count argument.
-
-**Since:** 8.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/vrem/">VREM</a></strong> - Remove an element from a vector set. <span style="color: #e74c3c;">⭐ New in 8.0</span></summary>
-
-**Syntax:** `VREM key element`
-
-**Description:** Remove an element from a vector set.
-
-**Complexity:** O(log(N)) for each element removed, where N is the number of elements in the vector set.
-
-**Since:** 8.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/vsetattr/">VSETATTR</a></strong> - Associate or remove the JSON attributes of elements. <span style="color: #e74c3c;">⭐ New in 8.0</span></summary>
-
-**Syntax:** `VSETATTR key element "{ JSON obj }"`
-
-**Description:** Associate or remove the JSON attributes of elements.
-
-**Complexity:** O(1)
-
-**Since:** 8.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/vsim/">VSIM</a></strong> - Return elements by vector similarity. <span style="color: #e74c3c;">⭐ New in 8.0</span></summary>
-
-**Syntax:** `VSIM key (ELE | FP32 | VALUES num) (vector | element) [WITHSCORES] [WITHATTRIBS] [COUNT num]
-  [EPSILON delta] [EF search-exploration-factor] [FILTER expression] [FILTER-EF max-filtering-effort]
-  [TRUTH] [NOTHREAD]`
-
-**Description:** Return elements by vector similarity.
-
-**Complexity:** O(log(N)) where N is the number of elements in the vector set.
-
-**Since:** 8.0.0
-
-</details>
-
-
 ## Pub/Sub commands
 
 Pub/Sub commands enable message passing between clients.
@@ -4055,7 +3726,7 @@ Connection commands manage client connections.
 </details>
 
 <details>
-<summary><strong><a href="/commands/client-no-touch/">CLIENT NO-TOUCH</a></strong> - Controls whether commands sent by the client affect the LRU/LFU of accessed keys.</summary>
+<summary><strong><a href="/commands/client-no-touch/">CLIENT NO-TOUCH</a></strong> - Controls whether commands sent by the client affect the LRU/LFU of accessed keys. <span style="color: #e74c3c;">⭐ New in 7.2</span></summary>
 
 **Syntax:** `CLIENT NO-TOUCH <ON | OFF>`
 
@@ -4094,7 +3765,7 @@ Connection commands manage client connections.
 </details>
 
 <details>
-<summary><strong><a href="/commands/client-setinfo/">CLIENT SETINFO</a></strong> - Sets information specific to the client or connection.</summary>
+<summary><strong><a href="/commands/client-setinfo/">CLIENT SETINFO</a></strong> - Sets information specific to the client or connection. <span style="color: #e74c3c;">⭐ New in 7.2</span></summary>
 
 **Syntax:** `CLIENT SETINFO <LIB-NAME libname | LIB-VER libver>`
 
@@ -5291,7 +4962,7 @@ Cluster commands manage Redis Cluster operations.
 </details>
 
 <details>
-<summary><strong><a href="/commands/cluster-myshardid/">CLUSTER MYSHARDID</a></strong> - Returns the shard ID of a node.</summary>
+<summary><strong><a href="/commands/cluster-myshardid/">CLUSTER MYSHARDID</a></strong> - Returns the shard ID of a node. <span style="color: #e74c3c;">⭐ New in 7.2</span></summary>
 
 **Syntax:** `CLUSTER MYSHARDID`
 
@@ -5951,7 +5622,7 @@ Generic commands work across all data types.
 </details>
 
 <details>
-<summary><strong><a href="/commands/waitaof/">WAITAOF</a></strong> - Blocks until all of the preceding write commands sent by the connection are written to the append-only file of the master and/or replicas.</summary>
+<summary><strong><a href="/commands/waitaof/">WAITAOF</a></strong> - Blocks until all of the preceding write commands sent by the connection are written to the append-only file of the master and/or replicas. <span style="color: #e74c3c;">⭐ New in 7.2</span></summary>
 
 **Syntax:** `WAITAOF numlocal numreplicas timeout`
 

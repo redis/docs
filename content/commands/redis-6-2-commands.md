@@ -1,8 +1,8 @@
 ---
-title: Redis 8.0 Commands Reference
-linkTitle: Redis 8.0 Commands
-description: Complete list of all Redis commands available in version 8.0, organized by functional group
-summary: Complete list of all Redis commands available in version 8.0, organized by functional group
+title: Redis 6.2 Commands Reference
+linkTitle: Redis 6.2 Commands
+description: Complete list of all Redis commands available in version 6.2, organized by functional group
+summary: Complete list of all Redis commands available in version 6.2, organized by functional group
 layout: single
 type: develop
 categories:
@@ -14,13 +14,13 @@ categories:
 - rc
 - kubernetes
 - clients
-weight: 3
+weight: 6
 ---
 
-This page provides a comprehensive reference of all Redis commands available in Redis 8.0, organized by functional group. Each command includes its description and syntax in a collapsible section for easy navigation.
+This page provides a comprehensive reference of all Redis commands available in Redis 6.2, organized by functional group. Each command includes its description and syntax in a collapsible section for easy navigation.
 
 {{< note >}}
-Redis 8.0 includes all commands from previous versions plus new commands introduced in 8.0. Commands marked with **⭐ New in 8.0** were added in this release.
+Redis 6.2 includes all commands from previous versions plus new commands introduced in 6.2. Commands marked with **⭐ New in 6.2** were added in this release.
 {{< /note >}}
 
 ## Quick Navigation
@@ -37,7 +37,6 @@ Redis 8.0 includes all commands from previous versions plus new commands introdu
 - [JSON commands](#json-commands)
 - [Search commands](#search-commands)
 - [Time series commands](#time-series-commands)
-- [Vector set commands](#vector-set-commands)
 - [Pub/Sub commands](#pubsub-commands)
 - [Transaction commands](#transaction-commands)
 - [Scripting commands](#scripting-commands)
@@ -105,7 +104,7 @@ String commands operate on string values, the most basic Redis data type.
 </details>
 
 <details>
-<summary><strong><a href="/commands/getdel/">GETDEL</a></strong> - Returns the string value of a key after deleting the key.</summary>
+<summary><strong><a href="/commands/getdel/">GETDEL</a></strong> - Returns the string value of a key after deleting the key. <span style="color: #e74c3c;">⭐ New in 6.2</span></summary>
 
 **Syntax:** `GETDEL key`
 
@@ -118,7 +117,7 @@ String commands operate on string values, the most basic Redis data type.
 </details>
 
 <details>
-<summary><strong><a href="/commands/getex/">GETEX</a></strong> - Returns the string value of a key after setting its expiration time.</summary>
+<summary><strong><a href="/commands/getex/">GETEX</a></strong> - Returns the string value of a key after setting its expiration time. <span style="color: #e74c3c;">⭐ New in 6.2</span></summary>
 
 **Syntax:** `GETEX key [EX seconds | PX milliseconds | EXAT unix-time-seconds |
   PXAT unix-time-milliseconds | PERSIST]`
@@ -193,19 +192,6 @@ String commands operate on string values, the most basic Redis data type.
 **Complexity:** O(1)
 
 **Since:** 2.6.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/lcs/">LCS</a></strong> - Finds the longest common substring.</summary>
-
-**Syntax:** `LCS key1 key2 [LEN] [IDX] [MINMATCHLEN min-match-len] [WITHMATCHLEN]`
-
-**Description:** Finds the longest common substring.
-
-**Complexity:** O(N*M) where N and M are the lengths of s1 and s2, respectively
-
-**Since:** 7.0.0
 
 </details>
 
@@ -374,47 +360,6 @@ Hash commands operate on hash data structures, which map string fields to string
 </details>
 
 <details>
-<summary><strong><a href="/commands/hexpire/">HEXPIRE</a></strong> - Set expiry for hash field using relative time to expire (seconds)</summary>
-
-**Syntax:** `HEXPIRE key seconds [NX | XX | GT | LT] FIELDS numfields field
-  [field ...]`
-
-**Description:** Set expiry for hash field using relative time to expire (seconds)
-
-**Complexity:** O(N) where N is the number of specified fields
-
-**Since:** 7.4.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/hexpireat/">HEXPIREAT</a></strong> - Set expiry for hash field using an absolute Unix timestamp (seconds)</summary>
-
-**Syntax:** `HEXPIREAT key unix-time-seconds [NX | XX | GT | LT] FIELDS numfields
-  field [field ...]`
-
-**Description:** Set expiry for hash field using an absolute Unix timestamp (seconds)
-
-**Complexity:** O(N) where N is the number of specified fields
-
-**Since:** 7.4.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/hexpiretime/">HEXPIRETIME</a></strong> - Returns the expiration time of a hash field as a Unix timestamp, in seconds.</summary>
-
-**Syntax:** `HEXPIRETIME key FIELDS numfields field [field ...]`
-
-**Description:** Returns the expiration time of a hash field as a Unix timestamp, in seconds.
-
-**Complexity:** O(N) where N is the number of specified fields
-
-**Since:** 7.4.0
-
-</details>
-
-<details>
 <summary><strong><a href="/commands/hget/">HGET</a></strong> - Returns the value of a field in a hash.</summary>
 
 **Syntax:** `HGET key field`
@@ -437,34 +382,6 @@ Hash commands operate on hash data structures, which map string fields to string
 **Complexity:** O(N) where N is the size of the hash.
 
 **Since:** 2.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/hgetdel/">HGETDEL</a></strong> - Returns the value of a field and deletes it from the hash. <span style="color: #e74c3c;">⭐ New in 8.0</span></summary>
-
-**Syntax:** `HGETDEL key FIELDS numfields field [field ...]`
-
-**Description:** Returns the value of a field and deletes it from the hash.
-
-**Complexity:** O(N) where N is the number of specified fields
-
-**Since:** 8.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/hgetex/">HGETEX</a></strong> - Get the value of one or more fields of a given hash key, and optionally set their expiration. <span style="color: #e74c3c;">⭐ New in 8.0</span></summary>
-
-**Syntax:** `HGETEX key [EX seconds | PX milliseconds | EXAT unix-time-seconds |
-  PXAT unix-time-milliseconds | PERSIST] FIELDS numfields field
-  [field ...]`
-
-**Description:** Get the value of one or more fields of a given hash key, and optionally set their expiration.
-
-**Complexity:** O(N) where N is the number of specified fields
-
-**Since:** 8.0.0
 
 </details>
 
@@ -547,74 +464,7 @@ Hash commands operate on hash data structures, which map string fields to string
 </details>
 
 <details>
-<summary><strong><a href="/commands/hpersist/">HPERSIST</a></strong> - Removes the expiration time for each specified field</summary>
-
-**Syntax:** `HPERSIST key FIELDS numfields field [field ...]`
-
-**Description:** Removes the expiration time for each specified field
-
-**Complexity:** O(N) where N is the number of specified fields
-
-**Since:** 7.4.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/hpexpire/">HPEXPIRE</a></strong> - Set expiry for hash field using relative time to expire (milliseconds)</summary>
-
-**Syntax:** `HPEXPIRE key milliseconds [NX | XX | GT | LT] FIELDS numfields field
-  [field ...]`
-
-**Description:** Set expiry for hash field using relative time to expire (milliseconds)
-
-**Complexity:** O(N) where N is the number of specified fields
-
-**Since:** 7.4.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/hpexpireat/">HPEXPIREAT</a></strong> - Set expiry for hash field using an absolute Unix timestamp (milliseconds)</summary>
-
-**Syntax:** `HPEXPIREAT key unix-time-milliseconds [NX | XX | GT | LT]
-  FIELDS numfields field [field ...]`
-
-**Description:** Set expiry for hash field using an absolute Unix timestamp (milliseconds)
-
-**Complexity:** O(N) where N is the number of specified fields
-
-**Since:** 7.4.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/hpexpiretime/">HPEXPIRETIME</a></strong> - Returns the expiration time of a hash field as a Unix timestamp, in msec.</summary>
-
-**Syntax:** `HPEXPIRETIME key FIELDS numfields field [field ...]`
-
-**Description:** Returns the expiration time of a hash field as a Unix timestamp, in msec.
-
-**Complexity:** O(N) where N is the number of specified fields
-
-**Since:** 7.4.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/hpttl/">HPTTL</a></strong> - Returns the TTL in milliseconds of a hash field.</summary>
-
-**Syntax:** `HPTTL key FIELDS numfields field [field ...]`
-
-**Description:** Returns the TTL in milliseconds of a hash field.
-
-**Complexity:** O(N) where N is the number of specified fields
-
-**Since:** 7.4.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/hrandfield/">HRANDFIELD</a></strong> - Returns one or more random fields from a hash.</summary>
+<summary><strong><a href="/commands/hrandfield/">HRANDFIELD</a></strong> - Returns one or more random fields from a hash. <span style="color: #e74c3c;">⭐ New in 6.2</span></summary>
 
 **Syntax:** `HRANDFIELD key [count [WITHVALUES]]`
 
@@ -653,21 +503,6 @@ Hash commands operate on hash data structures, which map string fields to string
 </details>
 
 <details>
-<summary><strong><a href="/commands/hsetex/">HSETEX</a></strong> - Set the value of one or more fields of a given hash key, and optionally set their expiration. <span style="color: #e74c3c;">⭐ New in 8.0</span></summary>
-
-**Syntax:** `HSETEX key [FNX | FXX] [EX seconds | PX milliseconds |
-  EXAT unix-time-seconds | PXAT unix-time-milliseconds | KEEPTTL]
-  FIELDS numfields field value [field value ...]`
-
-**Description:** Set the value of one or more fields of a given hash key, and optionally set their expiration.
-
-**Complexity:** O(N) where N is the number of fields being set.
-
-**Since:** 8.0.0
-
-</details>
-
-<details>
 <summary><strong><a href="/commands/hsetnx/">HSETNX</a></strong> - Sets the value of a field in a hash only when the field doesn't exist.</summary>
 
 **Syntax:** `HSETNX key field value`
@@ -694,19 +529,6 @@ Hash commands operate on hash data structures, which map string fields to string
 </details>
 
 <details>
-<summary><strong><a href="/commands/httl/">HTTL</a></strong> - Returns the TTL in seconds of a hash field.</summary>
-
-**Syntax:** `HTTL key FIELDS numfields field [field ...]`
-
-**Description:** Returns the TTL in seconds of a hash field.
-
-**Complexity:** O(N) where N is the number of specified fields
-
-**Since:** 7.4.0
-
-</details>
-
-<details>
 <summary><strong><a href="/commands/hvals/">HVALS</a></strong> - Returns all values in a hash.</summary>
 
 **Syntax:** `HVALS key`
@@ -725,7 +547,7 @@ Hash commands operate on hash data structures, which map string fields to string
 List commands operate on lists of strings, ordered by insertion order.
 
 <details>
-<summary><strong><a href="/commands/blmove/">BLMOVE</a></strong> - Pops an element from a list, pushes it to another list and returns it. Blocks until an element is available otherwise. Deletes the list if the last element was moved.</summary>
+<summary><strong><a href="/commands/blmove/">BLMOVE</a></strong> - Pops an element from a list, pushes it to another list and returns it. Blocks until an element is available otherwise. Deletes the list if the last element was moved. <span style="color: #e74c3c;">⭐ New in 6.2</span></summary>
 
 **Syntax:** `BLMOVE source destination <LEFT | RIGHT> <LEFT | RIGHT> timeout`
 
@@ -734,19 +556,6 @@ List commands operate on lists of strings, ordered by insertion order.
 **Complexity:** O(1)
 
 **Since:** 6.2.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/blmpop/">BLMPOP</a></strong> - Pops the first element from one of multiple lists. Blocks until an element is available otherwise. Deletes the list if the last element was popped.</summary>
-
-**Syntax:** `BLMPOP timeout numkeys key [key ...] <LEFT | RIGHT> [COUNT count]`
-
-**Description:** Pops the first element from one of multiple lists. Blocks until an element is available otherwise. Deletes the list if the last element was popped.
-
-**Complexity:** O(N+M) where N is the number of provided keys and M is the number of elements returned.
-
-**Since:** 7.0.0
 
 </details>
 
@@ -829,7 +638,7 @@ List commands operate on lists of strings, ordered by insertion order.
 </details>
 
 <details>
-<summary><strong><a href="/commands/lmove/">LMOVE</a></strong> - Returns an element after popping it from one list and pushing it to another. Deletes the list if the last element was moved.</summary>
+<summary><strong><a href="/commands/lmove/">LMOVE</a></strong> - Returns an element after popping it from one list and pushing it to another. Deletes the list if the last element was moved. <span style="color: #e74c3c;">⭐ New in 6.2</span></summary>
 
 **Syntax:** `LMOVE source destination <LEFT | RIGHT> <LEFT | RIGHT>`
 
@@ -838,19 +647,6 @@ List commands operate on lists of strings, ordered by insertion order.
 **Complexity:** O(1)
 
 **Since:** 6.2.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/lmpop/">LMPOP</a></strong> - Returns multiple elements from a list after removing them. Deletes the list if the last element was popped.</summary>
-
-**Syntax:** `LMPOP numkeys key [key ...] <LEFT | RIGHT> [COUNT count]`
-
-**Description:** Returns multiple elements from a list after removing them. Deletes the list if the last element was popped.
-
-**Complexity:** O(N+M) where N is the number of provided keys and M is the number of elements returned.
-
-**Since:** 7.0.0
 
 </details>
 
@@ -1081,19 +877,6 @@ Set commands operate on unordered collections of unique strings.
 </details>
 
 <details>
-<summary><strong><a href="/commands/sintercard/">SINTERCARD</a></strong> - Returns the number of members of the intersect of multiple sets.</summary>
-
-**Syntax:** `SINTERCARD numkeys key [key ...] [LIMIT limit]`
-
-**Description:** Returns the number of members of the intersect of multiple sets.
-
-**Complexity:** O(N*M) worst case where N is the cardinality of the smallest set and M is the number of sets.
-
-**Since:** 7.0.0
-
-</details>
-
-<details>
 <summary><strong><a href="/commands/sinterstore/">SINTERSTORE</a></strong> - Stores the intersect of multiple sets in a key.</summary>
 
 **Syntax:** `SINTERSTORE destination key [key ...]`
@@ -1133,7 +916,7 @@ Set commands operate on unordered collections of unique strings.
 </details>
 
 <details>
-<summary><strong><a href="/commands/smismember/">SMISMEMBER</a></strong> - Determines whether multiple members belong to a set.</summary>
+<summary><strong><a href="/commands/smismember/">SMISMEMBER</a></strong> - Determines whether multiple members belong to a set. <span style="color: #e74c3c;">⭐ New in 6.2</span></summary>
 
 **Syntax:** `SMISMEMBER key member [member ...]`
 
@@ -1242,19 +1025,6 @@ Set commands operate on unordered collections of unique strings.
 Sorted set commands operate on sets of unique strings ordered by a score.
 
 <details>
-<summary><strong><a href="/commands/bzmpop/">BZMPOP</a></strong> - Removes and returns a member by score from one or more sorted sets. Blocks until a member is available otherwise. Deletes the sorted set if the last element was popped.</summary>
-
-**Syntax:** `BZMPOP timeout numkeys key [key ...] <MIN | MAX> [COUNT count]`
-
-**Description:** Removes and returns a member by score from one or more sorted sets. Blocks until a member is available otherwise. Deletes the sorted set if the last element was popped.
-
-**Complexity:** O(K) + O(M*log(N)) where K is the number of provided keys, N being the number of elements in the sorted set, and M being the number of elements popped.
-
-**Since:** 7.0.0
-
-</details>
-
-<details>
 <summary><strong><a href="/commands/bzpopmax/">BZPOPMAX</a></strong> - Removes and returns the member with the highest score from one or more sorted sets. Blocks until a member available otherwise.  Deletes the sorted set if the last element was popped.</summary>
 
 **Syntax:** `BZPOPMAX key [key ...] timeout`
@@ -1321,7 +1091,7 @@ Sorted set commands operate on sets of unique strings ordered by a score.
 </details>
 
 <details>
-<summary><strong><a href="/commands/zdiff/">ZDIFF</a></strong> - Returns the difference between multiple sorted sets.</summary>
+<summary><strong><a href="/commands/zdiff/">ZDIFF</a></strong> - Returns the difference between multiple sorted sets. <span style="color: #e74c3c;">⭐ New in 6.2</span></summary>
 
 **Syntax:** `ZDIFF numkeys key [key ...] [WITHSCORES]`
 
@@ -1334,7 +1104,7 @@ Sorted set commands operate on sets of unique strings ordered by a score.
 </details>
 
 <details>
-<summary><strong><a href="/commands/zdiffstore/">ZDIFFSTORE</a></strong> - Stores the difference of multiple sorted sets in a key.</summary>
+<summary><strong><a href="/commands/zdiffstore/">ZDIFFSTORE</a></strong> - Stores the difference of multiple sorted sets in a key. <span style="color: #e74c3c;">⭐ New in 6.2</span></summary>
 
 **Syntax:** `ZDIFFSTORE destination numkeys key [key ...]`
 
@@ -1360,7 +1130,7 @@ Sorted set commands operate on sets of unique strings ordered by a score.
 </details>
 
 <details>
-<summary><strong><a href="/commands/zinter/">ZINTER</a></strong> - Returns the intersect of multiple sorted sets.</summary>
+<summary><strong><a href="/commands/zinter/">ZINTER</a></strong> - Returns the intersect of multiple sorted sets. <span style="color: #e74c3c;">⭐ New in 6.2</span></summary>
 
 **Syntax:** `ZINTER numkeys key [key ...] [WEIGHTS weight [weight ...]]
   [AGGREGATE <SUM | MIN | MAX>] [WITHSCORES]`
@@ -1370,19 +1140,6 @@ Sorted set commands operate on sets of unique strings ordered by a score.
 **Complexity:** O(N*K)+O(M*log(M)) worst case with N being the smallest input sorted set, K being the number of input sorted sets and M being the number of elements in the resulting sorted set.
 
 **Since:** 6.2.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/zintercard/">ZINTERCARD</a></strong> - Returns the number of members of the intersect of multiple sorted sets.</summary>
-
-**Syntax:** `ZINTERCARD numkeys key [key ...] [LIMIT limit]`
-
-**Description:** Returns the number of members of the intersect of multiple sorted sets.
-
-**Complexity:** O(N*K) worst case with N being the smallest input sorted set, K being the number of input sorted sets.
-
-**Since:** 7.0.0
 
 </details>
 
@@ -1414,20 +1171,7 @@ Sorted set commands operate on sets of unique strings ordered by a score.
 </details>
 
 <details>
-<summary><strong><a href="/commands/zmpop/">ZMPOP</a></strong> - Returns the highest- or lowest-scoring members from one or more sorted sets after removing them. Deletes the sorted set if the last member was popped.</summary>
-
-**Syntax:** `ZMPOP numkeys key [key ...] <MIN | MAX> [COUNT count]`
-
-**Description:** Returns the highest- or lowest-scoring members from one or more sorted sets after removing them. Deletes the sorted set if the last member was popped.
-
-**Complexity:** O(K) + O(M*log(N)) where K is the number of provided keys, N being the number of elements in the sorted set, and M being the number of elements popped.
-
-**Since:** 7.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/zmscore/">ZMSCORE</a></strong> - Returns the score of one or more members in a sorted set.</summary>
+<summary><strong><a href="/commands/zmscore/">ZMSCORE</a></strong> - Returns the score of one or more members in a sorted set. <span style="color: #e74c3c;">⭐ New in 6.2</span></summary>
 
 **Syntax:** `ZMSCORE key member [member ...]`
 
@@ -1466,7 +1210,7 @@ Sorted set commands operate on sets of unique strings ordered by a score.
 </details>
 
 <details>
-<summary><strong><a href="/commands/zrandmember/">ZRANDMEMBER</a></strong> - Returns one or more random members from a sorted set.</summary>
+<summary><strong><a href="/commands/zrandmember/">ZRANDMEMBER</a></strong> - Returns one or more random members from a sorted set. <span style="color: #e74c3c;">⭐ New in 6.2</span></summary>
 
 **Syntax:** `ZRANDMEMBER key [count [WITHSCORES]]`
 
@@ -1519,7 +1263,7 @@ Sorted set commands operate on sets of unique strings ordered by a score.
 </details>
 
 <details>
-<summary><strong><a href="/commands/zrangestore/">ZRANGESTORE</a></strong> - Stores a range of members from sorted set in a key.</summary>
+<summary><strong><a href="/commands/zrangestore/">ZRANGESTORE</a></strong> - Stores a range of members from sorted set in a key. <span style="color: #e74c3c;">⭐ New in 6.2</span></summary>
 
 **Syntax:** `ZRANGESTORE dst src min max [BYSCORE | BYLEX] [REV] [LIMIT offset
   count]`
@@ -1676,7 +1420,7 @@ Sorted set commands operate on sets of unique strings ordered by a score.
 </details>
 
 <details>
-<summary><strong><a href="/commands/zunion/">ZUNION</a></strong> - Returns the union of multiple sorted sets.</summary>
+<summary><strong><a href="/commands/zunion/">ZUNION</a></strong> - Returns the union of multiple sorted sets. <span style="color: #e74c3c;">⭐ New in 6.2</span></summary>
 
 **Syntax:** `ZUNION numkeys key [key ...] [WEIGHTS weight [weight ...]]
   [AGGREGATE <SUM | MIN | MAX>] [WITHSCORES]`
@@ -1737,7 +1481,7 @@ Stream commands operate on append-only log data structures.
 </details>
 
 <details>
-<summary><strong><a href="/commands/xautoclaim/">XAUTOCLAIM</a></strong> - Changes, or acquires, ownership of messages in a consumer group, as if the messages were delivered to as consumer group member.</summary>
+<summary><strong><a href="/commands/xautoclaim/">XAUTOCLAIM</a></strong> - Changes, or acquires, ownership of messages in a consumer group, as if the messages were delivered to as consumer group member. <span style="color: #e74c3c;">⭐ New in 6.2</span></summary>
 
 **Syntax:** `XAUTOCLAIM key group consumer min-idle-time start [COUNT count]
   [JUSTID]`
@@ -1793,7 +1537,7 @@ Stream commands operate on append-only log data structures.
 </details>
 
 <details>
-<summary><strong><a href="/commands/xgroup-createconsumer/">XGROUP CREATECONSUMER</a></strong> - Creates a consumer in a consumer group.</summary>
+<summary><strong><a href="/commands/xgroup-createconsumer/">XGROUP CREATECONSUMER</a></strong> - Creates a consumer in a consumer group. <span style="color: #e74c3c;">⭐ New in 6.2</span></summary>
 
 **Syntax:** `XGROUP CREATECONSUMER key group consumer`
 
@@ -2278,7 +2022,7 @@ Geospatial commands operate on geographic coordinates.
 </details>
 
 <details>
-<summary><strong><a href="/commands/geosearch/">GEOSEARCH</a></strong> - Queries a geospatial index for members inside an area of a box or a circle.</summary>
+<summary><strong><a href="/commands/geosearch/">GEOSEARCH</a></strong> - Queries a geospatial index for members inside an area of a box or a circle. <span style="color: #e74c3c;">⭐ New in 6.2</span></summary>
 
 **Syntax:** `GEOSEARCH key <FROMMEMBER member | FROMLONLAT longitude latitude>
   <BYRADIUS radius <M | KM | FT | MI> | BYBOX width height <M | KM |
@@ -2294,7 +2038,7 @@ Geospatial commands operate on geographic coordinates.
 </details>
 
 <details>
-<summary><strong><a href="/commands/geosearchstore/">GEOSEARCHSTORE</a></strong> - Queries a geospatial index for members inside an area of a box or a circle, optionally stores the result.</summary>
+<summary><strong><a href="/commands/geosearchstore/">GEOSEARCHSTORE</a></strong> - Queries a geospatial index for members inside an area of a box or a circle, optionally stores the result. <span style="color: #e74c3c;">⭐ New in 6.2</span></summary>
 
 **Syntax:** `GEOSEARCHSTORE destination source <FROMMEMBER member |
   FROMLONLAT longitude latitude> <BYRADIUS radius <M | KM | FT | MI>
@@ -3267,170 +3011,6 @@ Time series commands operate on time-series data.
 </details>
 
 
-## Vector set commands
-
-Vector set commands operate on vector data structures for similarity search and range queries.
-
-<details>
-<summary><strong><a href="/commands/vadd/">VADD</a></strong> - Add a new element to a vector set, or update its vector if it already exists. <span style="color: #e74c3c;">⭐ New in 8.0</span></summary>
-
-**Syntax:** `VADD key [REDUCE dim] (FP32 | VALUES num) vector element [CAS] [NOQUANT | Q8 | BIN]
-  [EF build-exploration-factor] [SETATTR attributes] [M numlinks]`
-
-**Description:** Add a new element to a vector set, or update its vector if it already exists.
-
-**Complexity:** O(log(N)) for each element added, where N is the number of elements in the vector set.
-
-**Since:** 8.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/vcard/">VCARD</a></strong> - Return the number of elements in a vector set. <span style="color: #e74c3c;">⭐ New in 8.0</span></summary>
-
-**Syntax:** `VCARD key`
-
-**Description:** Return the number of elements in a vector set.
-
-**Complexity:** O(1)
-
-**Since:** 8.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/vdim/">VDIM</a></strong> - Return the dimension of vectors in the vector set. <span style="color: #e74c3c;">⭐ New in 8.0</span></summary>
-
-**Syntax:** `VDIM key`
-
-**Description:** Return the dimension of vectors in the vector set.
-
-**Complexity:** O(1)
-
-**Since:** 8.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/vemb/">VEMB</a></strong> - Return the vector associated with an element. <span style="color: #e74c3c;">⭐ New in 8.0</span></summary>
-
-**Syntax:** `VEMB key element [RAW]`
-
-**Description:** Return the vector associated with an element.
-
-**Complexity:** O(1)
-
-**Since:** 8.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/vgetattr/">VGETATTR</a></strong> - Retrieve the JSON attributes of elements. <span style="color: #e74c3c;">⭐ New in 8.0</span></summary>
-
-**Syntax:** `VGETATTR key element`
-
-**Description:** Retrieve the JSON attributes of elements.
-
-**Complexity:** O(1)
-
-**Since:** 8.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/vinfo/">VINFO</a></strong> - Return information about a vector set. <span style="color: #e74c3c;">⭐ New in 8.0</span></summary>
-
-**Syntax:** `VINFO key`
-
-**Description:** Return information about a vector set.
-
-**Complexity:** O(1)
-
-**Since:** 8.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/vismember/">VISMEMBER</a></strong> - Check if an element exists in a vector set. <span style="color: #e74c3c;">⭐ New in 8.0</span></summary>
-
-**Syntax:** `VISMEMBER key element`
-
-**Description:** Check if an element exists in a vector set.
-
-**Complexity:** O(1)
-
-**Since:** 8.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/vlinks/">VLINKS</a></strong> - Return the neighbors of an element at each layer in the HNSW graph. <span style="color: #e74c3c;">⭐ New in 8.0</span></summary>
-
-**Syntax:** `VLINKS key element [WITHSCORES]`
-
-**Description:** Return the neighbors of an element at each layer in the HNSW graph.
-
-**Complexity:** O(1)
-
-**Since:** 8.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/vrandmember/">VRANDMEMBER</a></strong> - Return one or multiple random members from a vector set. <span style="color: #e74c3c;">⭐ New in 8.0</span></summary>
-
-**Syntax:** `VRANDMEMBER key [count]`
-
-**Description:** Return one or multiple random members from a vector set.
-
-**Complexity:** O(N) where N is the absolute value of the count argument.
-
-**Since:** 8.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/vrem/">VREM</a></strong> - Remove an element from a vector set. <span style="color: #e74c3c;">⭐ New in 8.0</span></summary>
-
-**Syntax:** `VREM key element`
-
-**Description:** Remove an element from a vector set.
-
-**Complexity:** O(log(N)) for each element removed, where N is the number of elements in the vector set.
-
-**Since:** 8.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/vsetattr/">VSETATTR</a></strong> - Associate or remove the JSON attributes of elements. <span style="color: #e74c3c;">⭐ New in 8.0</span></summary>
-
-**Syntax:** `VSETATTR key element "{ JSON obj }"`
-
-**Description:** Associate or remove the JSON attributes of elements.
-
-**Complexity:** O(1)
-
-**Since:** 8.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/vsim/">VSIM</a></strong> - Return elements by vector similarity. <span style="color: #e74c3c;">⭐ New in 8.0</span></summary>
-
-**Syntax:** `VSIM key (ELE | FP32 | VALUES num) (vector | element) [WITHSCORES] [WITHATTRIBS] [COUNT num]
-  [EPSILON delta] [EF search-exploration-factor] [FILTER expression] [FILTER-EF max-filtering-effort]
-  [TRUTH] [NOTHREAD]`
-
-**Description:** Return elements by vector similarity.
-
-**Complexity:** O(log(N)) where N is the number of elements in the vector set.
-
-**Since:** 8.0.0
-
-</details>
-
-
 ## Pub/Sub commands
 
 Pub/Sub commands enable message passing between clients.
@@ -3501,32 +3081,6 @@ Pub/Sub commands enable message passing between clients.
 </details>
 
 <details>
-<summary><strong><a href="/commands/pubsub-shardchannels/">PUBSUB SHARDCHANNELS</a></strong> - Returns the active shard channels.</summary>
-
-**Syntax:** `PUBSUB SHARDCHANNELS [pattern]`
-
-**Description:** Returns the active shard channels.
-
-**Complexity:** O(N) where N is the number of active shard channels, and assuming constant time pattern matching (relatively short shard channels).
-
-**Since:** 7.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/pubsub-shardnumsub/">PUBSUB SHARDNUMSUB</a></strong> - Returns the count of subscribers of shard channels.</summary>
-
-**Syntax:** `PUBSUB SHARDNUMSUB [shardchannel [shardchannel ...]]`
-
-**Description:** Returns the count of subscribers of shard channels.
-
-**Complexity:** O(N) for the SHARDNUMSUB subcommand, where N is the number of requested shard channels
-
-**Since:** 7.0.0
-
-</details>
-
-<details>
 <summary><strong><a href="/commands/punsubscribe/">PUNSUBSCRIBE</a></strong> - Stops listening to messages published to channels that match one or more patterns.</summary>
 
 **Syntax:** `PUNSUBSCRIBE [pattern [pattern ...]]`
@@ -3540,32 +3094,6 @@ Pub/Sub commands enable message passing between clients.
 </details>
 
 <details>
-<summary><strong><a href="/commands/spublish/">SPUBLISH</a></strong> - Post a message to a shard channel</summary>
-
-**Syntax:** `SPUBLISH shardchannel message`
-
-**Description:** Post a message to a shard channel
-
-**Complexity:** O(N) where N is the number of clients subscribed to the receiving shard channel.
-
-**Since:** 7.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/ssubscribe/">SSUBSCRIBE</a></strong> - Listens for messages published to shard channels.</summary>
-
-**Syntax:** `SSUBSCRIBE shardchannel [shardchannel ...]`
-
-**Description:** Listens for messages published to shard channels.
-
-**Complexity:** O(N) where N is the number of shard channels to subscribe to.
-
-**Since:** 7.0.0
-
-</details>
-
-<details>
 <summary><strong><a href="/commands/subscribe/">SUBSCRIBE</a></strong> - Listens for messages published to channels.</summary>
 
 **Syntax:** `SUBSCRIBE channel [channel ...]`
@@ -3575,19 +3103,6 @@ Pub/Sub commands enable message passing between clients.
 **Complexity:** O(N) where N is the number of channels to subscribe to.
 
 **Since:** 2.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/sunsubscribe/">SUNSUBSCRIBE</a></strong> - Stops listening to messages posted to shard channels.</summary>
-
-**Syntax:** `SUNSUBSCRIBE [shardchannel [shardchannel ...]]`
-
-**Description:** Stops listening to messages posted to shard channels.
-
-**Complexity:** O(N) where N is the number of shard channels to unsubscribe.
-
-**Since:** 7.0.0
 
 </details>
 
@@ -3702,162 +3217,6 @@ Scripting commands enable server-side Lua script execution.
 **Complexity:** Depends on the script that is executed.
 
 **Since:** 2.6.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/evalsha_ro/">EVALSHA_RO</a></strong> - Executes a read-only server-side Lua script by SHA1 digest.</summary>
-
-**Syntax:** `EVALSHA RO sha1 numkeys [key [key ...]] [arg [arg ...]]`
-
-**Description:** Executes a read-only server-side Lua script by SHA1 digest.
-
-**Complexity:** Depends on the script that is executed.
-
-**Since:** 7.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/eval_ro/">EVAL_RO</a></strong> - Executes a read-only server-side Lua script.</summary>
-
-**Syntax:** `EVAL RO script numkeys [key [key ...]] [arg [arg ...]]`
-
-**Description:** Executes a read-only server-side Lua script.
-
-**Complexity:** Depends on the script that is executed.
-
-**Since:** 7.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/fcall/">FCALL</a></strong> - Invokes a function.</summary>
-
-**Syntax:** `FCALL function numkeys [key [key ...]] [arg [arg ...]]`
-
-**Description:** Invokes a function.
-
-**Complexity:** Depends on the function that is executed.
-
-**Since:** 7.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/fcall_ro/">FCALL_RO</a></strong> - Invokes a read-only function.</summary>
-
-**Syntax:** `FCALL RO function numkeys [key [key ...]] [arg [arg ...]]`
-
-**Description:** Invokes a read-only function.
-
-**Complexity:** Depends on the function that is executed.
-
-**Since:** 7.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/function-delete/">FUNCTION DELETE</a></strong> - Deletes a library and its functions.</summary>
-
-**Syntax:** `FUNCTION DELETE library-name`
-
-**Description:** Deletes a library and its functions.
-
-**Complexity:** O(1)
-
-**Since:** 7.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/function-dump/">FUNCTION DUMP</a></strong> - Dumps all libraries into a serialized binary payload.</summary>
-
-**Syntax:** `FUNCTION DUMP`
-
-**Description:** Dumps all libraries into a serialized binary payload.
-
-**Complexity:** O(N) where N is the number of functions
-
-**Since:** 7.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/function-flush/">FUNCTION FLUSH</a></strong> - Deletes all libraries and functions.</summary>
-
-**Syntax:** `FUNCTION FLUSH [ASYNC | SYNC]`
-
-**Description:** Deletes all libraries and functions.
-
-**Complexity:** O(N) where N is the number of functions deleted
-
-**Since:** 7.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/function-kill/">FUNCTION KILL</a></strong> - Terminates a function during execution.</summary>
-
-**Syntax:** `FUNCTION KILL`
-
-**Description:** Terminates a function during execution.
-
-**Complexity:** O(1)
-
-**Since:** 7.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/function-list/">FUNCTION LIST</a></strong> - Returns information about all libraries.</summary>
-
-**Syntax:** `FUNCTION LIST [LIBRARYNAME library-name-pattern] [WITHCODE]`
-
-**Description:** Returns information about all libraries.
-
-**Complexity:** O(N) where N is the number of functions
-
-**Since:** 7.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/function-load/">FUNCTION LOAD</a></strong> - Creates a library.</summary>
-
-**Syntax:** `FUNCTION LOAD [REPLACE] function-code`
-
-**Description:** Creates a library.
-
-**Complexity:** O(1) (considering compilation time is redundant)
-
-**Since:** 7.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/function-restore/">FUNCTION RESTORE</a></strong> - Restores all libraries from a payload.</summary>
-
-**Syntax:** `FUNCTION RESTORE serialized-value [FLUSH | APPEND | REPLACE]`
-
-**Description:** Restores all libraries from a payload.
-
-**Complexity:** O(N) where N is the number of functions on the payload
-
-**Since:** 7.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/function-stats/">FUNCTION STATS</a></strong> - Returns information about a function during execution.</summary>
-
-**Syntax:** `FUNCTION STATS`
-
-**Description:** Returns information about a function during execution.
-
-**Complexity:** O(1)
-
-**Since:** 7.0.0
 
 </details>
 
@@ -3997,7 +3356,7 @@ Connection commands manage client connections.
 </details>
 
 <details>
-<summary><strong><a href="/commands/client-info/">CLIENT INFO</a></strong> - Returns information about the connection.</summary>
+<summary><strong><a href="/commands/client-info/">CLIENT INFO</a></strong> - Returns information about the connection. <span style="color: #e74c3c;">⭐ New in 6.2</span></summary>
 
 **Syntax:** `CLIENT INFO`
 
@@ -4042,32 +3401,6 @@ Connection commands manage client connections.
 </details>
 
 <details>
-<summary><strong><a href="/commands/client-no-evict/">CLIENT NO-EVICT</a></strong> - Sets the client eviction mode of the connection.</summary>
-
-**Syntax:** `CLIENT NO-EVICT <ON | OFF>`
-
-**Description:** Sets the client eviction mode of the connection.
-
-**Complexity:** O(1)
-
-**Since:** 7.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/client-no-touch/">CLIENT NO-TOUCH</a></strong> - Controls whether commands sent by the client affect the LRU/LFU of accessed keys.</summary>
-
-**Syntax:** `CLIENT NO-TOUCH <ON | OFF>`
-
-**Description:** Controls whether commands sent by the client affect the LRU/LFU of accessed keys.
-
-**Complexity:** O(1)
-
-**Since:** 7.2.0
-
-</details>
-
-<details>
 <summary><strong><a href="/commands/client-pause/">CLIENT PAUSE</a></strong> - Suspends commands processing.</summary>
 
 **Syntax:** `CLIENT PAUSE timeout [WRITE | ALL]`
@@ -4090,19 +3423,6 @@ Connection commands manage client connections.
 **Complexity:** O(1)
 
 **Since:** 3.2.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/client-setinfo/">CLIENT SETINFO</a></strong> - Sets information specific to the client or connection.</summary>
-
-**Syntax:** `CLIENT SETINFO <LIB-NAME libname | LIB-VER libver>`
-
-**Description:** Sets information specific to the client or connection.
-
-**Complexity:** O(1)
-
-**Since:** 7.2.0
 
 </details>
 
@@ -4134,7 +3454,7 @@ Connection commands manage client connections.
 </details>
 
 <details>
-<summary><strong><a href="/commands/client-trackinginfo/">CLIENT TRACKINGINFO</a></strong> - Returns information about server-assisted client-side caching for the connection.</summary>
+<summary><strong><a href="/commands/client-trackinginfo/">CLIENT TRACKINGINFO</a></strong> - Returns information about server-assisted client-side caching for the connection. <span style="color: #e74c3c;">⭐ New in 6.2</span></summary>
 
 **Syntax:** `CLIENT TRACKINGINFO`
 
@@ -4160,7 +3480,7 @@ Connection commands manage client connections.
 </details>
 
 <details>
-<summary><strong><a href="/commands/client-unpause/">CLIENT UNPAUSE</a></strong> - Resumes processing commands from paused clients.</summary>
+<summary><strong><a href="/commands/client-unpause/">CLIENT UNPAUSE</a></strong> - Resumes processing commands from paused clients. <span style="color: #e74c3c;">⭐ New in 6.2</span></summary>
 
 **Syntax:** `CLIENT UNPAUSE`
 
@@ -4225,7 +3545,7 @@ Connection commands manage client connections.
 </details>
 
 <details>
-<summary><strong><a href="/commands/reset/">RESET</a></strong> - Resets the connection.</summary>
+<summary><strong><a href="/commands/reset/">RESET</a></strong> - Resets the connection. <span style="color: #e74c3c;">⭐ New in 6.2</span></summary>
 
 **Syntax:** `RESET`
 
@@ -4278,19 +3598,6 @@ Server commands provide server management and introspection.
 **Complexity:** O(1) amortized time considering the typical user.
 
 **Since:** 6.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/acl-dryrun/">ACL DRYRUN</a></strong> - Simulates the execution of a command by a user, without executing the command.</summary>
-
-**Syntax:** `ACL DRYRUN username command [arg [arg ...]]`
-
-**Description:** Simulates the execution of a command by a user, without executing the command.
-
-**Complexity:** O(1).
-
-**Since:** 7.0.0
 
 </details>
 
@@ -4464,19 +3771,6 @@ Server commands provide server management and introspection.
 </details>
 
 <details>
-<summary><strong><a href="/commands/command-docs/">COMMAND DOCS</a></strong> - Returns documentary information about one, multiple or all commands.</summary>
-
-**Syntax:** `COMMAND DOCS [command-name [command-name ...]]`
-
-**Description:** Returns documentary information about one, multiple or all commands.
-
-**Complexity:** O(N) where N is the number of commands to look up
-
-**Since:** 7.0.0
-
-</details>
-
-<details>
 <summary><strong><a href="/commands/command-getkeys/">COMMAND GETKEYS</a></strong> - Extracts the key names from an arbitrary command.</summary>
 
 **Syntax:** `COMMAND GETKEYS command [arg [arg ...]]`
@@ -4490,19 +3784,6 @@ Server commands provide server management and introspection.
 </details>
 
 <details>
-<summary><strong><a href="/commands/command-getkeysandflags/">COMMAND GETKEYSANDFLAGS</a></strong> - Extracts the key names and access flags for an arbitrary command.</summary>
-
-**Syntax:** `COMMAND GETKEYSANDFLAGS command [arg [arg ...]]`
-
-**Description:** Extracts the key names and access flags for an arbitrary command.
-
-**Complexity:** O(N) where N is the number of arguments to the command
-
-**Since:** 7.0.0
-
-</details>
-
-<details>
 <summary><strong><a href="/commands/command-info/">COMMAND INFO</a></strong> - Returns information about one, multiple or all commands.</summary>
 
 **Syntax:** `COMMAND INFO [command-name [command-name ...]]`
@@ -4512,20 +3793,6 @@ Server commands provide server management and introspection.
 **Complexity:** O(N) where N is the number of commands to look up
 
 **Since:** 2.8.13
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/command-list/">COMMAND LIST</a></strong> - Returns a list of command names.</summary>
-
-**Syntax:** `COMMAND LIST [FILTERBY <MODULE module-name | ACLCAT category |
-  PATTERN pattern>]`
-
-**Description:** Returns a list of command names.
-
-**Complexity:** O(N) where N is the total number of Redis commands
-
-**Since:** 7.0.0
 
 </details>
 
@@ -4595,7 +3862,7 @@ Server commands provide server management and introspection.
 </details>
 
 <details>
-<summary><strong><a href="/commands/failover/">FAILOVER</a></strong> - Starts a coordinated failover from a server to one of its replicas.</summary>
+<summary><strong><a href="/commands/failover/">FAILOVER</a></strong> - Starts a coordinated failover from a server to one of its replicas. <span style="color: #e74c3c;">⭐ New in 6.2</span></summary>
 
 **Syntax:** `FAILOVER [TO host port [FORCE]] [ABORT] [TIMEOUT milliseconds]`
 
@@ -4682,19 +3949,6 @@ Server commands provide server management and introspection.
 **Complexity:** O(1)
 
 **Since:** 2.8.13
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/latency-histogram/">LATENCY HISTOGRAM</a></strong> - Returns the cumulative distribution of latencies of a subset or all commands.</summary>
-
-**Syntax:** `LATENCY HISTOGRAM [command [command ...]]`
-
-**Description:** Returns the cumulative distribution of latencies of a subset or all commands.
-
-**Complexity:** O(N) where N is the number of commands with latency information being retrieved.
-
-**Since:** 7.0.0
 
 </details>
 
@@ -4838,20 +4092,6 @@ Server commands provide server management and introspection.
 **Complexity:** O(1)
 
 **Since:** 4.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/module-loadex/">MODULE LOADEX</a></strong> - Loads a module using extended parameters.</summary>
-
-**Syntax:** `MODULE LOADEX path [CONFIG name value [CONFIG name value ...]]
-  [ARGS args [args ...]]`
-
-**Description:** Loads a module using extended parameters.
-
-**Complexity:** O(1)
-
-**Since:** 7.0.0
 
 </details>
 
@@ -5096,19 +4336,6 @@ Cluster commands manage Redis Cluster operations.
 </details>
 
 <details>
-<summary><strong><a href="/commands/cluster-addslotsrange/">CLUSTER ADDSLOTSRANGE</a></strong> - Assigns new hash slot ranges to a node.</summary>
-
-**Syntax:** `CLUSTER ADDSLOTSRANGE start-slot end-slot [start-slot end-slot ...]`
-
-**Description:** Assigns new hash slot ranges to a node.
-
-**Complexity:** O(N) where N is the total number of the slots between the start slot and end slot arguments.
-
-**Since:** 7.0.0
-
-</details>
-
-<details>
 <summary><strong><a href="/commands/cluster-bumpepoch/">CLUSTER BUMPEPOCH</a></strong> - Advances the cluster config epoch.</summary>
 
 **Syntax:** `CLUSTER BUMPEPOCH`
@@ -5157,19 +4384,6 @@ Cluster commands manage Redis Cluster operations.
 **Complexity:** O(N) where N is the total number of hash slot arguments
 
 **Since:** 3.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/cluster-delslotsrange/">CLUSTER DELSLOTSRANGE</a></strong> - Sets hash slot ranges as unbound for a node.</summary>
-
-**Syntax:** `CLUSTER DELSLOTSRANGE start-slot end-slot [start-slot end-slot ...]`
-
-**Description:** Sets hash slot ranges as unbound for a node.
-
-**Complexity:** O(N) where N is the total number of the slots between the start slot and end slot arguments.
-
-**Since:** 7.0.0
 
 </details>
 
@@ -5252,19 +4466,6 @@ Cluster commands manage Redis Cluster operations.
 </details>
 
 <details>
-<summary><strong><a href="/commands/cluster-links/">CLUSTER LINKS</a></strong> - Returns a list of all TCP links to and from peer nodes.</summary>
-
-**Syntax:** `CLUSTER LINKS`
-
-**Description:** Returns a list of all TCP links to and from peer nodes.
-
-**Complexity:** O(N) where N is the total number of Cluster nodes
-
-**Since:** 7.0.0
-
-</details>
-
-<details>
 <summary><strong><a href="/commands/cluster-meet/">CLUSTER MEET</a></strong> - Forces a node to handshake with another node.</summary>
 
 **Syntax:** `CLUSTER MEET ip port [cluster-bus-port]`
@@ -5287,19 +4488,6 @@ Cluster commands manage Redis Cluster operations.
 **Complexity:** O(1)
 
 **Since:** 3.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/cluster-myshardid/">CLUSTER MYSHARDID</a></strong> - Returns the shard ID of a node.</summary>
-
-**Syntax:** `CLUSTER MYSHARDID`
-
-**Description:** Returns the shard ID of a node.
-
-**Complexity:** O(1)
-
-**Since:** 7.2.0
 
 </details>
 
@@ -5396,19 +4584,6 @@ Cluster commands manage Redis Cluster operations.
 </details>
 
 <details>
-<summary><strong><a href="/commands/cluster-shards/">CLUSTER SHARDS</a></strong> - Returns the mapping of cluster slots to shards.</summary>
-
-**Syntax:** `CLUSTER SHARDS`
-
-**Description:** Returns the mapping of cluster slots to shards.
-
-**Complexity:** O(N) where N is the total number of cluster nodes
-
-**Since:** 7.0.0
-
-</details>
-
-<details>
 <summary><strong><a href="/commands/cluster-slaves/">CLUSTER SLAVES</a></strong> - Lists the replica nodes of a master node.</summary>
 
 **Syntax:** `CLUSTER SLAVES node-id`
@@ -5466,7 +4641,7 @@ Cluster commands manage Redis Cluster operations.
 Generic commands work across all data types.
 
 <details>
-<summary><strong><a href="/commands/copy/">COPY</a></strong> - Copies the value of a key to a new key.</summary>
+<summary><strong><a href="/commands/copy/">COPY</a></strong> - Copies the value of a key to a new key. <span style="color: #e74c3c;">⭐ New in 6.2</span></summary>
 
 **Syntax:** `COPY source destination [DB destination-db] [REPLACE]`
 
@@ -5540,19 +4715,6 @@ Generic commands work across all data types.
 **Complexity:** O(1)
 
 **Since:** 1.2.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/expiretime/">EXPIRETIME</a></strong> - Returns the expiration time of a key as a Unix timestamp.</summary>
-
-**Syntax:** `EXPIRETIME key`
-
-**Description:** Returns the expiration time of a key as a Unix timestamp.
-
-**Complexity:** O(1)
-
-**Since:** 7.0.0
 
 </details>
 
@@ -5684,19 +4846,6 @@ Generic commands work across all data types.
 **Complexity:** O(1)
 
 **Since:** 2.6.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/pexpiretime/">PEXPIRETIME</a></strong> - Returns the expiration time of a key as a Unix milliseconds timestamp.</summary>
-
-**Syntax:** `PEXPIRETIME key`
-
-**Description:** Returns the expiration time of a key as a Unix milliseconds timestamp.
-
-**Complexity:** O(1)
-
-**Since:** 7.0.0
 
 </details>
 
@@ -5872,20 +5021,6 @@ Generic commands work across all data types.
 </details>
 
 <details>
-<summary><strong><a href="/commands/sort_ro/">SORT_RO</a></strong> - Returns the sorted elements of a list, a set, or a sorted set.</summary>
-
-**Syntax:** `SORT RO key [BY pattern] [LIMIT offset count] [GET pattern [GET
-  pattern ...]] [ASC | DESC] [ALPHA]`
-
-**Description:** Returns the sorted elements of a list, a set, or a sorted set.
-
-**Complexity:** O(N+M*log(M)) where N is the number of elements in the list or set to sort, and M the number of returned elements. When the elements are not sorted, complexity is O(N).
-
-**Since:** 7.0.0
-
-</details>
-
-<details>
 <summary><strong><a href="/commands/touch/">TOUCH</a></strong> - Returns the number of existing keys out of those specified after updating the time they were last accessed.</summary>
 
 **Syntax:** `TOUCH key [key ...]`
@@ -5947,19 +5082,6 @@ Generic commands work across all data types.
 **Complexity:** O(1)
 
 **Since:** 3.0.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/waitaof/">WAITAOF</a></strong> - Blocks until all of the preceding write commands sent by the connection are written to the append-only file of the master and/or replicas.</summary>
-
-**Syntax:** `WAITAOF numlocal numreplicas timeout`
-
-**Description:** Blocks until all of the preceding write commands sent by the connection are written to the append-only file of the master and/or replicas.
-
-**Complexity:** O(1)
-
-**Since:** 7.2.0
 
 </details>
 
