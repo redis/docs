@@ -150,10 +150,60 @@ particular tasks.
 ### Documents
 
 You would normally store document data using the string, hash, or JSON
-types. 
+types. JSON has the highest requirements for memory and processing, followed
+by hashes, and then strings. Consider the questions below as a guide to
+choosing the best data type for your task.
 
-- Strings are suitable for unstructured or opaquely structured text and
-binary documents that change infrequently or will be processed as a whole
-by your application. They provide only limited options for accessing
-individual parts bits and bit ranges within the string.
+1.  Do you need nested fields or arrays?
+
+    If so, use **JSON** since it is the only type that supports these features.
+
+1.  Do you need to index and query using the Redis query engine?
+
+    If so, use **hashes** since they support indexing and querying with lower memory overhead than JSON.
+
+1.  Do you need any of the following features?
+    - Frequent access to individual fields within the document
+    - Expiration times on individual pieces of data within the document
+
+    If so, use **hashes** for efficient field-level access and expiration.
+
+1.  Is your data unstructured or opaquely structured?
+
+    If so, use **strings** for simple, unstructured data. Otherwise, use **hashes** for structured data without querying needs.
+
+## Decision tree
+
+Use this hierarchy to systematically choose the best data type:
+
+```hierarchy {type="decision"}
+"Choose a data type for documents":
+    _meta:
+        description: "Decision tree for selecting between strings, hashes, and JSON"
+    "Do you need nested fields or arrays?":
+        _meta:
+            description: "Only JSON supports nested structures and arrays"
+        "Yes": "Use JSON"
+        "No":
+            "Do you need to index and query using the Redis query engine?":
+                _meta:
+                    description: "Hashes and JSON both support querying, but hashes are more efficient"
+                "Yes": "Use hashes"
+                "No":
+                    "Do you need frequent access to individual fields?":
+                        _meta:
+                            description: "Hashes provide efficient field-level access"
+                        "Yes":
+                            "Do you need expiration times on individual fields?":
+                                _meta:
+                                    description: "Only hashes support field-level expiration"
+                                "Yes": "Use hashes"
+                                "No": "Use hashes or strings (hashes recommended for structured data)"
+                        "No":
+                            "Is your data unstructured or opaquely structured?":
+                                _meta:
+                                    description: "Strings are ideal for unstructured data"
+                                "Yes": "Use strings"
+                                "No": "Use hashes"
+```
 
