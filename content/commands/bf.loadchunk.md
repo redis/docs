@@ -26,6 +26,7 @@ group: bf
 hidden: false
 linkTitle: BF.LOADCHUNK
 module: Bloom
+railroad_diagram: /images/railroad/bf.loadchunk.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Restores a filter previously saved using SCANDUMP

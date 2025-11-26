@@ -87,6 +87,7 @@ key_specs:
     type: range
   update: true
 linkTitle: XCLAIM
+railroad_diagram: /images/railroad/xclaim.svg
 since: 5.0.0
 summary: Changes, or acquires, ownership of a message in a consumer group, as if the
   message was delivered a consumer group member.

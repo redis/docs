@@ -14,6 +14,7 @@ description: Remove an element from a vector set.
 group: vector_set
 hidden: false
 linkTitle: VREM
+railroad_diagram: /images/railroad/vrem.svg
 since: 8.0.0
 summary: Remove an element from a vector set.
 syntax_fmt: "VREM key element"

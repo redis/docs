@@ -115,6 +115,7 @@ group: timeseries
 hidden: false
 linkTitle: TS.REVRANGE
 module: TimeSeries
+railroad_diagram: /images/railroad/ts.revrange.svg
 since: 1.4.0
 stack_path: docs/data-types/timeseries
 summary: Query a range in reverse direction

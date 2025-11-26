@@ -38,6 +38,7 @@ group: cf
 hidden: false
 linkTitle: CF.INSERT
 module: Bloom
+railroad_diagram: /images/railroad/cf.insert.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Adds one or more items to a Cuckoo Filter. A filter will be created if it

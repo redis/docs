@@ -50,6 +50,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: SRANDMEMBER
+railroad_diagram: /images/railroad/srandmember.svg
 since: 1.0.0
 summary: Get one or multiple random members from a set
 syntax_fmt: SRANDMEMBER key [count]

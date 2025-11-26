@@ -66,6 +66,7 @@ description: Controls server-assisted client-side caching for the connection.
 group: connection
 hidden: false
 linkTitle: CLIENT TRACKING
+railroad_diagram: /images/railroad/client-tracking.svg
 since: 6.0.0
 summary: Controls server-assisted client-side caching for the connection.
 syntax_fmt: "CLIENT TRACKING <ON | OFF> [REDIRECT\_client-id] [PREFIX\_prefix\n  [PREFIX\

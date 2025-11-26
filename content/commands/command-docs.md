@@ -29,6 +29,7 @@ hidden: false
 hints:
 - nondeterministic_output_order
 linkTitle: COMMAND DOCS
+railroad_diagram: /images/railroad/command-docs.svg
 since: 7.0.0
 summary: Returns documentary information about one, multiple or all commands.
 syntax_fmt: COMMAND DOCS [command-name [command-name ...]]

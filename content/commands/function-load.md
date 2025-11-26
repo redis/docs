@@ -35,6 +35,7 @@ hints:
 - request_policy:all_shards
 - response_policy:all_succeeded
 linkTitle: FUNCTION LOAD
+railroad_diagram: /images/railroad/function-load.svg
 since: 7.0.0
 summary: Creates a library.
 syntax_fmt: FUNCTION LOAD [REPLACE] function-code

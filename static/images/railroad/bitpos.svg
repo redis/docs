@@ -1,0 +1,63 @@
+<svg class="railroad-diagram" height="117" viewBox="0 0 654.0 117" width="654.0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs>
+<style type="text/css"><![CDATA[
+svg.railroad-diagram { background-color: transparent; }
+.terminal rect { fill: #DC382D !important; stroke: #DC382D !important; }
+.terminal text { fill: white !important; font-weight: bold; }
+.nonterminal rect { fill: none !important; stroke: #DC382D !important; stroke-width: 2; }
+.nonterminal text { fill: #DC382D !important; font-weight: bold; }
+path { stroke: #DC382D !important; stroke-width: 2; fill: none; }
+circle { fill: #DC382D !important; stroke: #DC382D !important; }
+]]></style>
+</defs>
+<g transform="translate(.5 .5)">
+<style>/* <![CDATA[ */
+	svg.railroad-diagram {
+		background-color: transparent;
+	}
+	svg.railroad-diagram path {
+		stroke-width:3;
+		stroke: #DC382D;
+		fill:rgba(0,0,0,0);
+	}
+	svg.railroad-diagram text {
+		font:bold 14px monospace;
+		text-anchor:middle;
+	}
+	svg.railroad-diagram text.label{
+		text-anchor:start;
+	}
+	svg.railroad-diagram text.comment{
+		font:italic 12px monospace;
+	}
+	svg.railroad-diagram rect{
+		stroke-width:3;
+		stroke: #DC382D;
+		fill: none;
+	}
+	svg.railroad-diagram rect.group-box {
+		stroke: #DC382D;
+		stroke-dasharray: 10 5;
+		fill: none;
+	}
+
+/* ]]> */
+</style><g>
+<path d="M20 46v20m10 -20v20m-10 -10h20"></path></g><path d="M40 56h10"></path><g>
+<path d="M50 56h0.0"></path><path d="M604.0 56h0.0"></path><g class="terminal ">
+<path d="M50.0 56h0.0"></path><path d="M121.0 56h0.0"></path><rect height="22" rx="10" ry="10" width="71.0" x="50.0" y="45"></rect><text x="85.5" y="60">BITPOS</text></g><path d="M121.0 56h10"></path><path d="M131.0 56h10"></path><g class="non-terminal ">
+<path d="M141.0 56h0.0"></path><path d="M186.5 56h0.0"></path><rect height="22" width="45.5" x="141.0" y="45"></rect><text x="163.75" y="60">key</text></g><path d="M186.5 56h10"></path><path d="M196.5 56h10"></path><g class="non-terminal ">
+<path d="M206.5 56h0.0"></path><path d="M252.0 56h0.0"></path><rect height="22" width="45.5" x="206.5" y="45"></rect><text x="229.25" y="60">bit</text></g><path d="M252.0 56h10"></path><g>
+<path d="M262.0 56h0.0"></path><path d="M604.0 56h0.0"></path><path d="M262.0 56a10 10 0 0 0 10 -10v-16a10 10 0 0 1 10 -10"></path><g>
+<path d="M282.0 20h302.0"></path></g><path d="M584.0 20a10 10 0 0 1 10 10v16a10 10 0 0 0 10 10"></path><path d="M262.0 56h20"></path><g>
+<path d="M282.0 56h0.0"></path><path d="M584.0 56h0.0"></path><g class="non-terminal ">
+<path d="M282.0 56h0.0"></path><path d="M344.5 56h0.0"></path><rect height="22" width="62.5" x="282.0" y="45"></rect><text x="313.25" y="60">start</text></g><path d="M344.5 56h10"></path><g>
+<path d="M354.5 56h0.0"></path><path d="M584.0 56h0.0"></path><path d="M354.5 56a10 10 0 0 0 10 -10v-8a10 10 0 0 1 10 -10"></path><g>
+<path d="M374.5 28h189.5"></path></g><path d="M564.0 28a10 10 0 0 1 10 10v8a10 10 0 0 0 10 10"></path><path d="M354.5 56h20"></path><g>
+<path d="M374.5 56h0.0"></path><path d="M564.0 56h0.0"></path><g class="non-terminal ">
+<path d="M374.5 56h0.0"></path><path d="M420.0 56h0.0"></path><rect height="22" width="45.5" x="374.5" y="45"></rect><text x="397.25" y="60">end</text></g><path d="M420.0 56h10"></path><g>
+<path d="M430.0 56h0.0"></path><path d="M564.0 56h0.0"></path><path d="M430.0 56a10 10 0 0 0 10 -10v0a10 10 0 0 1 10 -10"></path><g>
+<path d="M450.0 36h94.0"></path></g><path d="M544.0 36a10 10 0 0 1 10 10v0a10 10 0 0 0 10 10"></path><path d="M430.0 56h20"></path><g>
+<path d="M450.0 56h0.0"></path><path d="M544.0 56h0.0"></path><path d="M450.0 56h20"></path><g class="terminal ">
+<path d="M470.0 56h0.0"></path><path d="M524.0 56h0.0"></path><rect height="22" rx="10" ry="10" width="54.0" x="470.0" y="45"></rect><text x="497.0" y="60">BYTE</text></g><path d="M524.0 56h20"></path><path d="M450.0 56a10 10 0 0 1 10 10v10a10 10 0 0 0 10 10"></path><g class="terminal ">
+<path d="M470.0 86h4.25"></path><path d="M519.75 86h4.25"></path><rect height="22" rx="10" ry="10" width="45.5" x="474.25" y="75"></rect><text x="497.0" y="90">BIT</text></g><path d="M524.0 86a10 10 0 0 0 10 -10v-10a10 10 0 0 1 10 -10"></path></g><path d="M544.0 56h20"></path></g></g><path d="M564.0 56h20"></path></g></g><path d="M584.0 56h20"></path></g></g><path d="M604.0 56h10"></path><path d="M 614.0 56 h 20 m -10 -10 v 20 m 10 -20 v 20"></path></g></svg>

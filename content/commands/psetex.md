@@ -50,7 +50,8 @@ key_specs:
     type: range
   update: true
 linkTitle: PSETEX
-replaced_by: '[`SET`]({{< relref "/commands/set" >}}) with the `PX` argument'
+railroad_diagram: /images/railroad/psetex.svg
+replaced_by: '`SET` with the `PX` argument'
 since: 2.6.0
 summary: Sets both string value and expiration time in milliseconds of a key. The
   key is created if it doesn't exist.

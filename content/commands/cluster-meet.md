@@ -38,6 +38,7 @@ history:
 - - 4.0.0
   - Added the optional `cluster_bus_port` argument.
 linkTitle: CLUSTER MEET
+railroad_diagram: /images/railroad/cluster-meet.svg
 since: 3.0.0
 summary: Forces a node to handshake with another node.
 syntax_fmt: CLUSTER MEET ip port [cluster-bus-port]

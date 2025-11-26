@@ -29,6 +29,7 @@ hints:
 - request_policy:all_nodes
 - response_policy:all_succeeded
 linkTitle: CLIENT SETNAME
+railroad_diagram: /images/railroad/client-setname.svg
 since: 2.6.9
 summary: Sets the connection name.
 syntax_fmt: CLIENT SETNAME connection-name

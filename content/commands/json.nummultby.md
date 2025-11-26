@@ -28,6 +28,7 @@ group: json
 hidden: false
 linkTitle: JSON.NUMMULTBY
 module: JSON
+railroad_diagram: /images/railroad/json.nummultby.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Multiplies the numeric value at path by a value

@@ -24,6 +24,7 @@ group: cf
 hidden: false
 linkTitle: CF.DEL
 module: Bloom
+railroad_diagram: /images/railroad/cf.del.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Deletes an item from a Cuckoo Filter

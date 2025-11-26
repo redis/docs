@@ -20,6 +20,7 @@ description: Returns helpful text about the different subcommands.
 group: server
 hidden: true
 linkTitle: MEMORY HELP
+railroad_diagram: /images/railroad/memory-help.svg
 since: 4.0.0
 summary: Returns helpful text about the different subcommands.
 syntax_fmt: MEMORY HELP

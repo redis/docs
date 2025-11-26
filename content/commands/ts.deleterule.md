@@ -24,6 +24,7 @@ group: timeseries
 hidden: false
 linkTitle: TS.DELETERULE
 module: TimeSeries
+railroad_diagram: /images/railroad/ts.deleterule.svg
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Delete a compaction rule

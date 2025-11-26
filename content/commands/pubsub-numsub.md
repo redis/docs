@@ -28,6 +28,7 @@ description: Returns a count of subscribers to channels.
 group: pubsub
 hidden: false
 linkTitle: PUBSUB NUMSUB
+railroad_diagram: /images/railroad/pubsub-numsub.svg
 since: 2.8.0
 summary: Returns a count of subscribers to channels.
 syntax_fmt: PUBSUB NUMSUB [channel [channel ...]]

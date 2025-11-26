@@ -72,6 +72,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: BITPOS
+railroad_diagram: /images/railroad/bitpos.svg
 since: 2.8.7
 summary: Finds the first set (1) or clear (0) bit in a string.
 syntax_fmt: BITPOS key bit [start [end [BYTE | BIT]]]

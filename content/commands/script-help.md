@@ -21,6 +21,7 @@ description: Returns helpful text about the different subcommands.
 group: scripting
 hidden: true
 linkTitle: SCRIPT HELP
+railroad_diagram: /images/railroad/script-help.svg
 since: 5.0.0
 summary: Returns helpful text about the different subcommands.
 syntax_fmt: SCRIPT HELP

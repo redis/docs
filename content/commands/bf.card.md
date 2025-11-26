@@ -22,6 +22,7 @@ group: bf
 hidden: false
 linkTitle: BF.CARD
 module: Bloom
+railroad_diagram: /images/railroad/bf.card.svg
 since: 2.4.4
 stack_path: docs/data-types/probabilistic
 summary: Returns the cardinality of a Bloom filter

@@ -59,6 +59,7 @@ key_specs:
     type: range
   insert: true
 linkTitle: LINSERT
+railroad_diagram: /images/railroad/linsert.svg
 since: 2.2.0
 summary: Inserts an element before or after another element in a list.
 syntax_fmt: LINSERT key <BEFORE | AFTER> pivot element

@@ -47,6 +47,7 @@ key_specs:
     type: range
   insert: true
 linkTitle: APPEND
+railroad_diagram: /images/railroad/append.svg
 since: 2.0.0
 summary: Appends a string to the value of a key. Creates the key if it doesn't exist.
 syntax_fmt: APPEND key value

@@ -23,6 +23,7 @@ description: Returns information about server-assisted client-side caching for t
 group: connection
 hidden: false
 linkTitle: CLIENT TRACKINGINFO
+railroad_diagram: /images/railroad/client-trackinginfo.svg
 since: 6.2.0
 summary: Returns information about server-assisted client-side caching for the connection.
 syntax_fmt: CLIENT TRACKINGINFO

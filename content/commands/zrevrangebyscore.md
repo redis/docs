@@ -69,8 +69,8 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZREVRANGEBYSCORE
-replaced_by: '[`ZRANGE`]({{< relref "/commands/zrange" >}}) with the `REV` and `BYSCORE`
-  arguments'
+railroad_diagram: /images/railroad/zrevrangebyscore.svg
+replaced_by: '`ZRANGE` with the `REV` and `BYSCORE` arguments'
 since: 2.2.0
 summary: Returns members in a sorted set within a range of scores in reverse order.
 syntax_fmt: "ZREVRANGEBYSCORE key max min [WITHSCORES] [LIMIT\_offset count]"

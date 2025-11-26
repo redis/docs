@@ -20,6 +20,7 @@ description: Returns helpful text about the different subcommands.
 group: server
 hidden: true
 linkTitle: ACL HELP
+railroad_diagram: /images/railroad/acl-help.svg
 since: 6.0.0
 summary: Returns helpful text about the different subcommands.
 syntax_fmt: ACL HELP

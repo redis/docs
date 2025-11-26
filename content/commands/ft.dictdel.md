@@ -23,6 +23,7 @@ group: search
 hidden: false
 linkTitle: FT.DICTDEL
 module: Search
+railroad_diagram: /images/railroad/ft.dictdel.svg
 since: 1.4.0
 stack_path: docs/interact/search-and-query
 summary: Deletes terms from a dictionary

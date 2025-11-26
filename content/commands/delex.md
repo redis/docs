@@ -60,6 +60,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: DELEX
+railroad_diagram: /images/railroad/delex.svg
 since: 8.4.0
 summary: Conditionally removes the specified key based on value or hash digest comparison.
 syntax_fmt: "DELEX key [IFEQ\_ifeq-value | IFNE\_ifne-value | IFDEQ\_ifdeq-digest\

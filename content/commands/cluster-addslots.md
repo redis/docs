@@ -28,6 +28,7 @@ description: Assigns new hash slots to a node.
 group: cluster
 hidden: false
 linkTitle: CLUSTER ADDSLOTS
+railroad_diagram: /images/railroad/cluster-addslots.svg
 since: 3.0.0
 summary: Assigns new hash slots to a node.
 syntax_fmt: CLUSTER ADDSLOTS slot [slot ...]

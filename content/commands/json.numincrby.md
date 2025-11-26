@@ -27,6 +27,7 @@ group: json
 hidden: false
 linkTitle: JSON.NUMINCRBY
 module: JSON
+railroad_diagram: /images/railroad/json.numincrby.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Increments the numeric value at path by a value

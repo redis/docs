@@ -107,6 +107,7 @@ key_specs:
   update: true
   variable_flags: true
 linkTitle: BITFIELD
+railroad_diagram: /images/railroad/bitfield.svg
 since: 3.2.0
 summary: Performs arbitrary bitfield integer operations on strings.
 syntax_fmt: "BITFIELD key [GET\_encoding offset | [OVERFLOW\_<WRAP | SAT | FAIL>]\n\

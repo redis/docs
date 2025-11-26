@@ -45,6 +45,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: TTL
+railroad_diagram: /images/railroad/ttl.svg
 since: 1.0.0
 summary: Returns the expiration time in seconds of a key.
 syntax_fmt: TTL key

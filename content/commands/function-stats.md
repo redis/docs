@@ -25,6 +25,7 @@ hints:
 - request_policy:all_shards
 - response_policy:special
 linkTitle: FUNCTION STATS
+railroad_diagram: /images/railroad/function-stats.svg
 since: 7.0.0
 summary: Returns information about a function during execution.
 syntax_fmt: FUNCTION STATS

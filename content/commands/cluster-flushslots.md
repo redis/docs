@@ -23,6 +23,7 @@ description: Deletes all slots information from a node.
 group: cluster
 hidden: false
 linkTitle: CLUSTER FLUSHSLOTS
+railroad_diagram: /images/railroad/cluster-flushslots.svg
 since: 3.0.0
 summary: Deletes all slots information from a node.
 syntax_fmt: CLUSTER FLUSHSLOTS

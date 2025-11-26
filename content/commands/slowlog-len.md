@@ -27,6 +27,7 @@ hints:
 - response_policy:agg_sum
 - nondeterministic_output
 linkTitle: SLOWLOG LEN
+railroad_diagram: /images/railroad/slowlog-len.svg
 since: 2.2.12
 summary: Returns the number of entries in the slow log.
 syntax_fmt: SLOWLOG LEN

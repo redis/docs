@@ -48,6 +48,7 @@ key_specs:
     type: range
   insert: true
 linkTitle: MSETNX
+railroad_diagram: /images/railroad/msetnx.svg
 since: 1.0.1
 summary: Atomically modifies the string values of one or more keys only when all keys
   don't exist.

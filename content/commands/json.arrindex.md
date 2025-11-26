@@ -38,6 +38,7 @@ group: json
 hidden: false
 linkTitle: JSON.ARRINDEX
 module: JSON
+railroad_diagram: /images/railroad/json.arrindex.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Returns the index of the first occurrence of a JSON scalar value in the array

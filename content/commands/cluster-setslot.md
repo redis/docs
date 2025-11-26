@@ -46,6 +46,7 @@ description: Binds a hash slot to a node.
 group: cluster
 hidden: false
 linkTitle: CLUSTER SETSLOT
+railroad_diagram: /images/railroad/cluster-setslot.svg
 since: 3.0.0
 summary: Binds a hash slot to a node.
 syntax_fmt: "CLUSTER SETSLOT slot <IMPORTING\_node-id | MIGRATING\_node-id |\n  NODE\_\

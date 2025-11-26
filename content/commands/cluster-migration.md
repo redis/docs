@@ -65,6 +65,7 @@ description: Start, monitor, and cancel atomic slot migration tasks.
 group: cluster
 hidden: false
 linkTitle: CLUSTER MIGRATION
+railroad_diagram: /images/railroad/cluster-migration.svg
 since: 8.4.0
 summary: Start, monitor, and cancel atomic slot migration tasks.
 syntax_fmt: "CLUSTER MIGRATION <IMPORT\_start-slot end-slot [start-slot end-slot ...]\n\

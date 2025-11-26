@@ -24,6 +24,7 @@ group: cf
 hidden: false
 linkTitle: CF.COUNT
 module: Bloom
+railroad_diagram: /images/railroad/cf.count.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Return the number of times an item might be in a Cuckoo Filter

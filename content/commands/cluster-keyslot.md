@@ -23,6 +23,7 @@ description: Returns the hash slot for a key.
 group: cluster
 hidden: false
 linkTitle: CLUSTER KEYSLOT
+railroad_diagram: /images/railroad/cluster-keyslot.svg
 since: 3.0.0
 summary: Returns the hash slot for a key.
 syntax_fmt: CLUSTER KEYSLOT key

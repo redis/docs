@@ -40,6 +40,7 @@ key_specs:
     type: range
   update: true
 linkTitle: PERSIST
+railroad_diagram: /images/railroad/persist.svg
 since: 2.2.0
 summary: Removes the expiration time of a key.
 syntax_fmt: PERSIST key

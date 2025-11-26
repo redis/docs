@@ -42,6 +42,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: HEXISTS
+railroad_diagram: /images/railroad/hexists.svg
 since: 2.0.0
 summary: Determines whether a field exists in a hash.
 syntax_fmt: HEXISTS key field

@@ -27,6 +27,7 @@ group: search
 hidden: false
 linkTitle: FT.CURSOR READ
 module: Search
+railroad_diagram: /images/railroad/ft.cursor-read.svg
 since: 1.1.0
 stack_path: docs/interact/search-and-query
 summary: Reads from a cursor

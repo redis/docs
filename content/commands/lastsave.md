@@ -25,6 +25,7 @@ hidden: false
 hints:
 - nondeterministic_output
 linkTitle: LASTSAVE
+railroad_diagram: /images/railroad/lastsave.svg
 since: 1.0.0
 summary: Returns the Unix timestamp of the last successful save to disk.
 syntax_fmt: LASTSAVE

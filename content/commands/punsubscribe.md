@@ -30,6 +30,7 @@ description: Stops listening to messages published to channels that match one or
 group: pubsub
 hidden: false
 linkTitle: PUNSUBSCRIBE
+railroad_diagram: /images/railroad/punsubscribe.svg
 since: 2.0.0
 summary: Stops listening to messages published to channels that match one or more
   patterns.

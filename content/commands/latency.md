@@ -17,6 +17,7 @@ description: A container for latency diagnostics commands.
 group: server
 hidden: true
 linkTitle: LATENCY
+railroad_diagram: /images/railroad/latency.svg
 since: 2.8.13
 summary: A container for latency diagnostics commands.
 syntax_fmt: LATENCY

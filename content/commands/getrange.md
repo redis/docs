@@ -47,6 +47,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: GETRANGE
+railroad_diagram: /images/railroad/getrange.svg
 since: 2.4.0
 summary: Returns a substring of the string stored at a key.
 syntax_fmt: GETRANGE key start end

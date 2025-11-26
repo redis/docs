@@ -45,6 +45,7 @@ key_specs:
   notes: RW because it may change the internal representation of the key, and propagate
     to replicas
 linkTitle: PFCOUNT
+railroad_diagram: /images/railroad/pfcount.svg
 since: 2.8.9
 summary: Returns the approximated cardinality of the set(s) observed by the HyperLogLog
   key(s).

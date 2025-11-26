@@ -42,6 +42,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: SISMEMBER
+railroad_diagram: /images/railroad/sismember.svg
 since: 1.0.0
 summary: Determines whether a member belongs to a set.
 syntax_fmt: SISMEMBER key member

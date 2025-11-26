@@ -32,6 +32,7 @@ hints:
 - request_policy:all_shards
 - response_policy:agg_min
 linkTitle: WAIT
+railroad_diagram: /images/railroad/wait.svg
 since: 3.0.0
 summary: Blocks until the asynchronous replication of all preceding write commands
   sent by the connection is completed.

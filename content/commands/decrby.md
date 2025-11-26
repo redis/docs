@@ -46,6 +46,7 @@ key_specs:
     type: range
   update: true
 linkTitle: DECRBY
+railroad_diagram: /images/railroad/decrby.svg
 since: 1.0.0
 summary: Decrements a number from the integer value of a key. Uses 0 as initial value
   if the key doesn't exist.

@@ -70,8 +70,8 @@ key_specs:
     type: range
   insert: true
 linkTitle: BRPOPLPUSH
-replaced_by: '[`BLMOVE`]({{< relref "/commands/blmove" >}}) with the `RIGHT` and `LEFT`
-  arguments'
+railroad_diagram: /images/railroad/brpoplpush.svg
+replaced_by: '`BLMOVE` with the `RIGHT` and `LEFT` arguments'
 since: 2.2.0
 summary: Pops an element from a list, pushes it to another list and returns it. Block
   until an element is available otherwise. Deletes the list if the last element was

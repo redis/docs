@@ -167,6 +167,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: GEOSEARCHSTORE
+railroad_diagram: /images/railroad/geosearchstore.svg
 since: 6.2.0
 summary: Queries a geospatial index for members inside an area of a box or a circle,
   optionally stores the result.

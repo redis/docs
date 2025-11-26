@@ -24,6 +24,7 @@ group: cf
 hidden: false
 linkTitle: CF.EXISTS
 module: Bloom
+railroad_diagram: /images/railroad/cf.exists.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Checks whether one or more items exist in a Cuckoo Filter

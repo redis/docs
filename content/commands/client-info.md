@@ -24,6 +24,7 @@ hidden: false
 hints:
 - nondeterministic_output
 linkTitle: CLIENT INFO
+railroad_diagram: /images/railroad/client-info.svg
 since: 6.2.0
 summary: Returns information about the connection.
 syntax_fmt: CLIENT INFO
