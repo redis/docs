@@ -150,60 +150,82 @@ particular tasks.
 ### Documents
 
 You would normally store document data using the string, hash, or JSON
-types. JSON has the highest requirements for memory and processing, followed
-by hashes, and then strings. Consider the questions below as a guide to
+types. JSON generally has the highest requirements for memory and processing,
+followed by hashes, and then strings. Use the considerations below as a guide to
 choosing the best data type for your task.
 
-1.  Do you need nested fields or arrays?
+1.  Do you need nested data structures (fields and arrays) or geospatial
+    index/query with Redis query engine?
 
     If so, use **JSON** since it is the only type that supports these features.
 
-1.  Do you need to index and query using the Redis query engine?
+2.  Do you need to index/query using Redis query engine but can live without
+    nested data structures and geospatial data?
 
-    If so, use **hashes** since they support indexing and querying with lower memory overhead than JSON.
+    If so, use **hashes** since they support indexing and querying with lower memory overhead and faster field access than JSON.
 
-1.  Do you need any of the following features?
-    - Frequent access to individual fields within the document
-    - Expiration times on individual pieces of data within the document
+3.  Do you need to set expiration times on individual pieces of data within
+    the document?
 
     If so, use **hashes** for efficient field-level access and expiration.
 
-1.  Is your data unstructured or opaquely structured?
+4.  Do you need frequent access to individual data fields within the document?
 
-    If so, use **strings** for simple, unstructured data. Otherwise, use **hashes** for structured data without querying needs.
+    If the data fields are simple integers or individual bits and you can
+    easily refer to them by an integer index, use **strings** for efficient
+    access and minimum memory overhead. Otherwise, use **hashes** for
+    named fields and support for string and binary field values.
 
-## Decision tree
+5.  For other simple documents with arbitrary internal structure, use **strings**
+    for simplicity and minimum memory overhead.
 
-Use this hierarchy to systematically choose the best data type:
+### Collections
 
-```hierarchy {type="decision"}
-"Choose a data type for documents":
-    _meta:
-        description: "Decision tree for selecting between strings, hashes, and JSON"
-    "Do you need nested fields or arrays?":
-        _meta:
-            description: "Only JSON supports nested structures and arrays"
-        "Yes": "Use JSON"
-        "No":
-            "Do you need to index and query using the Redis query engine?":
-                _meta:
-                    description: "Hashes and JSON both support querying, but hashes are more efficient"
-                "Yes": "Use hashes"
-                "No":
-                    "Do you need frequent access to individual fields?":
-                        _meta:
-                            description: "Hashes provide efficient field-level access"
-                        "Yes":
-                            "Do you need expiration times on individual fields?":
-                                _meta:
-                                    description: "Only hashes support field-level expiration"
-                                "Yes": "Use hashes"
-                                "No": "Use hashes or strings (hashes recommended for structured data)"
-                        "No":
-                            "Is your data unstructured or opaquely structured?":
-                                _meta:
-                                    description: "Strings are ideal for unstructured data"
-                                "Yes": "Use strings"
-                                "No": "Use hashes"
-```
+You would normally store collection data using the set or sorted set
+types and for very simple collections, you can even use strings. They all allow
+basic membership tests, but have different additional features and tradeoffs.
+Sorted sets have the highest memory overhead and processing requirements, followed
+by sets, and then strings.
+Use the considerations below as a guide to choosing the best data type for your task.
+Note that if you need to store extra information for the keys in a set
+or sorted set, you can do so with an auxiliary hash or JSON object that has field
+names matching the keys in the collection.
 
+1.  Do you need to store and retrieve the keys in an arbitrary order or in  
+    lexicographical order?
+
+    If so, use **sorted sets** since they are the only collection type that supports ordered iteration.
+
+2.  Are the keys always simple integer indices in a known range?
+
+    If so, use the bitmap features of **strings** for minimum memory overhead and efficient random access. String bitmaps also support bitwise operations
+    that are equivalent to set operations such as union, intersection, and difference.
+
+3.  For arbitrary string or binary keys, use **sets** for efficient membership tests and  
+    set operations. If you *only* need membership tests on the keys, but you
+    need to store extra information for each key, consider using **hashes** with
+    the keys as field names.
+
+## Sequences
+
+You would normally store sequences of string or binary data using sorted sets,
+lists or streams. They each have advantages and disadvantages for particular purposes.  
+Use the considerations below as a guide to choosing the best data type for your task.
+
+1.  Do you frequently need to do any of the following?
+    
+    -   Maintain an arbitrary priority order or lexicographical order of the elements
+    -   Access individual elements or ranges of elements by index
+    -   Perform basic set operations on the elements
+
+    If so, use **sorted sets** since they are the only sequence type that supports these 
+    operations directly.
+
+2.  Do you need to store and retrieve elements primarily in timestamp order or
+    manage multiple consumers reading from the sequence?
+
+    If so, use **streams** since they are the only sequence type that supports these
+    features natively.
+
+3.  For simple sequences of string or binary data, use **lists** for efficient
+    push/pop operations at the head or tail.
