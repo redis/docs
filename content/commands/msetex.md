@@ -92,6 +92,7 @@ key_specs:
     type: keynum
   update: true
 linkTitle: MSETEX
+railroad_diagram: /images/railroad/msetex.svg
 since: 8.4.0
 summary: Atomically sets multiple string keys with a shared expiration in a single
   operation.

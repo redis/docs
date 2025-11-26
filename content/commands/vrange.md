@@ -29,6 +29,7 @@ function: vrangeCommand
 group: vector_set
 hidden: false
 linkTitle: VRANGE
+railroad_diagram: /images/railroad/vrange.svg
 since: 8.4.0
 summary: Return elements in a lexicographical range
 syntax_fmt: VRANGE key start end [count]

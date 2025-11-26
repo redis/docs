@@ -40,6 +40,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: DIGEST
+railroad_diagram: /images/railroad/digest.svg
 since: 8.4.0
 summary: Returns the hash digest of a string value as a hexadecimal string.
 syntax_fmt: DIGEST key
