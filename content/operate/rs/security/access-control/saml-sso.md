@@ -110,6 +110,8 @@ PUT https://<host>:<port>/v1/cluster/certificates
 
 ### Download SP metadata
 
+You need to download the service provider metadata for Redis Enterprise Software and use it to configure the SAML integration app for your identity provider.
+
 {{< multitabs id="download-sp-metadata"
 tab1="Cluster Manager UI"
 tab2="REST API" >}}
@@ -164,17 +166,30 @@ Here's an abridged example of the service provider metadata XML:
 </md:EntityDescriptor>
 ```
 
+See [Metadata for the OASIS Security
+Assertion Markup Language (SAML)
+V2.0](https://docs.oasis-open.org/security/saml/v2.0/saml-metadata-2.0-os.pdf) for more information about the metadata fields.
+
 ### Set up SAML app {#set-up-app}
 
 Set up a SAML app to integrate Redis Enterprise Software with your identity provider:
 
 1. Sign in to your identity provider's admin console.
 
-1. Create or add a SAML integration app for the service provider Redis Enterprise Software.
+1. Create or add a SAML integration app for the service provider Redis Enterprise Software. For detailed setup instructions, see your identity provider's documentation, and make sure you configure the following SAML settings:
 
-    1. Single sign-on URL: `https://<cluster-host>:8443/cluster/sso` <!-- Is this supposed to be visible in the CM UI or REST API? Or do I just need to provide this pattern? -->
+    | Setting | Value | Description |
+    |---------|-------|-------------|
+    | Single sign-on URL | <span class="break-all">`https://<cluster-FQDN>:8443/cluster/sso/saml/acs`</span> |  |
+    | Audience URI (SP Entity ID) | `https://<cluster-FQDN>/sp` | Copy the **SP entity ID** from the **Access Control > Single Sign-On** page in the Cluster Manager UI or  |
+    | Name ID format | EmailAddress | |
+    | Application username | Email | |
 
-    1. Audience URI (SP Entity ID): `https://<cluster-host>/sp` <!-- Is this supposed to be visible in the CM UI or REST API? Or do I just need to provide this pattern? -->
+1. For **Signature certificate**, upload the Service Provider (Redis) certificate (the public SSO certificate that’s uploaded in the Redis SW SSO page)
+
+1. Enable **Signed requests**.
+
+1. Optionally **Enable Single Logout** if you wish to configure SLO, Single Logout URL should be taken from the Redis SW). **Single Logout Service** in the Cluster Manager UI `https://<cluster-FQDN>:8443/cluster/sso/saml/slo`
 
 1. Set up your SAML service provider app so the SAML assertion contains the following attributes:
 
@@ -183,7 +198,7 @@ Set up a SAML app to integrate Redis Enterprise Software with your identity prov
     | firstName | User's first name |
     | lastName | User's last name |
     | email | User's email address (used as the username in the Redis Enterprise Software Cluster Manager UI) |
-    | redisRoleMapping | Key-value pair of a lowercase role name (owner, member, manager, billing_admin, or viewer) |
+    | redisRoleMapping | Key-value pair of a lowercase role name (owner, member, manager, billing_admin, or viewer) (Configured later, not during this step, so I probably need to move this) |
 
     For `redisRoleMapping`, you can add the same user to multiple SAML-enabled accounts using one of these options:
 
@@ -218,6 +233,20 @@ To confirm the identity provider's SAML assertions contain the required attribut
 
     If your identity provider lets you configure custom attributes with workflows or group rules, you can set up automation to configure the `redisRoleMapping` field automatically instead of manually.
 
+### Download IdP metadata
+
+After you create the SAML app in your identity provider, retrieve the following information:
+
+1. Copy or download your SAML app's assertion signing certificate.
+
+1. Copy the following metadata fields:
+
+    | Issuer | You need this in Redis SW as Issuer (IdP entity ID) |
+    | Sign on URL | You need this in Redis SW as IdP server URL | 
+    | Single Logout URL | Optional |
+
+You will use this certificate and metadata to configure the identity provider metadata in Redis Enterprise Software.
+
 ### Configure SSO in Redis Enterprise Software {#configure-idp}
 
 After you set up the SAML integration app and create a SAML user in your identity provider, you need to configure your Redis Enterprise Software cluster to set up SSO.
@@ -247,7 +276,9 @@ After you set up the SAML integration app and create a SAML user in your identit
 
 ### Download service provider metadata {#download-sp}
 
-Next, you need to download the service provider metadata for Redis Enterprise Software and use it to finish configuring the SAML integration app for your identity provider:
+<!--TODO: This section is mostly duplicated. Do I need to combine this with the section up above?-->
+
+You need to download the service provider metadata for Redis Enterprise Software and use it to finish configuring the SAML integration app for your identity provider:
 
 1. Select the **Download** button to download the service provider [metadata](https://docs.oasis-open.org/security/saml/v2.0/saml-metadata-2.0-os.pdf) in XML format.
 
@@ -263,16 +294,26 @@ Next, you need to download the service provider metadata for Redis Enterprise So
         |---------------|-------|-------------|
         | EntityDescriptor's **entityID** | https://auth.redis.com/saml2/service-provider/\<ID\> | Unique URL that identifies the Redis Enterprise Software service provider |
         | AssertionConsumerService's **Location** |  https://auth.redis.com/sso/saml2/\<ID\> | The service provider endpoint where the identity provider sends a SAML assertion that authenticates a user  |
-
-    - To use [IdP-initiated SSO](#idp-initiated-sso) with certain identity providers, you also need to set the RelayState parameter to the following URL:
-    
-        ```sh
-        https://cloud.redis.io/#/login/?idpId=<ID>
-        ```
-
-       > Replace `<ID>` so it matches the `AssertionConsumerService Location` URL's ID.
         
     To learn more about how to configure service provider apps, see your identity provider's documentation.
+
+### Configure user profiles
+
+<!--TODO: I need to review this again and fix this section-->
+
+Configure user profiles in the identify provider admin console. See your identity provider's documentation for detailed instructions, and make sure you add and map the following attributes to the user profiles for your identity provider and the SAML app:
+
+| Attribute name | Type |
+|----------------|--------|
+| redisRoleMapping | string array |
+
+1. For admin users, set redisRoleMapping to `["1"]` for the identity provider user profile.
+
+1. Assign the SAML app to the admin user, and add `1` as the `redisRoleMapping`.
+
+1. Add redisRoleMapping as a new attribute statement in the SAML app configuration.
+
+1. For users who are not admins, assign a redisRoleMapping other than 1. Check the available roles in your Redis Enterprise Software cluster.
 
 ### Activate SAML SSO {#activate-saml-sso}
 
@@ -284,9 +325,8 @@ To activate SAML SSO:
 
 1. Sign out of any active SSO sessions with your identity provider.
 
-1. For **Activate SAML integration**, select the **Activate SSO** button.
+1. In the Redis Enterprise Software Cluster Manager UI, go to **Access Control > Single Sign-On** and click **Activate SSO**.
 
-1. From the **Logout notification** dialog, select **Continue**. This redirects you to your configured identity provider's sign-in screen.
 
 1. Sign in with your identity provider.
 
@@ -294,11 +334,7 @@ To activate SAML SSO:
 
     - Sign in with your local credentials as usual.
 
-    - Select **SSO** and enter the email address associated with the SAML user configured in your identity provider. Your user converts to a SAML user in Redis Enterprise Software.
-
-    {{<note>}}
-If you see a **SAML activation failed** notification when redirected to the Redis Enterprise Software sign-in screen, sign in with your local user credentials and review the SAML configuration for issues.
-    {{</note>}}
+    - Enter the email address associated with the SAML user configured in your identity provider, then click **Sign in with SSO**.
 
 ## Update configuration {#update-config}
 
