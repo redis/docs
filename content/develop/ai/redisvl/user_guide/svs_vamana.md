@@ -265,6 +265,76 @@ for i, result in enumerate(results, 1):
     ==================================================
 
 
+## Runtime Parameters for Performance Tuning
+
+SVS-VAMANA supports runtime parameters that can be adjusted at query time without rebuilding the index. These parameters allow you to fine-tune the trade-off between search speed and accuracy.
+
+**Available Runtime Parameters:**
+
+- **`search_window_size`**: Controls the size of the search window during KNN search (higher = better recall, slower search)
+- **`epsilon`**: Approximation factor for range queries (default: 0.01)
+- **`use_search_history`**: Whether to use search buffer (OFF/ON/AUTO, default: AUTO)
+- **`search_buffer_capacity`**: Tuning parameter for 2-level compression (default: search_window_size)
+
+Let's see how these parameters affect search performance:
+
+
+```python
+# Example 1: Basic query with default parameters
+basic_query = VectorQuery(
+    vector=query_vector.tolist(),
+    vector_field_name="embedding",
+    return_fields=["content", "category"],
+    num_results=5
+)
+
+print("🔍 Basic Query (default parameters):")
+results = index.query(basic_query)
+print(f"Found {len(results)} results\n")
+
+# Example 2: Query with tuned runtime parameters for higher recall
+tuned_query = VectorQuery(
+    vector=query_vector.tolist(),
+    vector_field_name="embedding",
+    return_fields=["content", "category"],
+    num_results=5,
+    search_window_size=40,      # Larger window for better recall
+    use_search_history='ON',    # Use search history
+    search_buffer_capacity=50   # Larger buffer capacity
+)
+
+print("🎯 Tuned Query (higher recall parameters):")
+results = index.query(tuned_query)
+print(f"Found {len(results)} results")
+print("\nNote: Higher search_window_size improves recall but may increase latency")
+```
+
+### Runtime Parameters with Range Queries
+
+Runtime parameters are also useful for range queries, where you want to find all vectors within a certain distance threshold:
+
+
+```python
+from redisvl.query import VectorRangeQuery
+
+# Range query with runtime parameters
+range_query = VectorRangeQuery(
+    vector=query_vector.tolist(),
+    vector_field_name="embedding",
+    return_fields=["content", "category"],
+    distance_threshold=0.3,
+    epsilon=0.05,               # Approximation factor
+    search_window_size=30,      # Search window size
+    use_search_history='AUTO'   # Automatic history management
+)
+
+results = index.query(range_query)
+print(f"🎯 Range Query Results: Found {len(results)} vectors within distance threshold 0.3")
+for i, result in enumerate(results[:3], 1):
+    distance = result.get('vector_distance', 'N/A')
+    print(f"{i}. {result['content'][:50]}... (distance: {distance})")
+```
+
 ## Understanding Compression Types
 
 SVS-VAMANA supports different compression algorithms that trade off between memory usage and search quality. Let's explore the available options.
@@ -525,16 +595,25 @@ print(f"\nEstimated memory savings: {manual_savings}%")
 - **Applications** that can tolerate slight recall trade-offs for speed and memory savings
 
 ### Parameter Tuning Guidelines
-- **Start with CompressionAdvisor** recommendations
-- **Increase search_window_size** if you need higher recall
+
+**Index-time parameters** (set during index creation):
+- **Start with CompressionAdvisor** recommendations for compression and datatype
 - **Use LeanVec** for high-dimensional vectors (≥1024 dims)
 - **Use LVQ** for lower-dimensional vectors (<1024 dims)
+- **graph_max_degree**: Higher values improve recall but increase memory usage
+- **construction_window_size**: Higher values improve index quality but slow down build time
+
+**Runtime parameters** (adjustable at query time without rebuilding index):
+- **search_window_size**: Start with 20, increase to 40-100 for higher recall
+- **epsilon**: Use 0.01-0.05 for range queries (higher = faster but less accurate)
+- **use_search_history**: Use 'AUTO' (default) or 'ON' for better recall
+- **search_buffer_capacity**: Usually set equal to search_window_size
 
 ### Performance Considerations
 - **Index build time** increases with higher construction_window_size
-- **Search latency** increases with higher search_window_size
+- **Search latency** increases with higher search_window_size (tunable at query time!)
 - **Memory usage** decreases with more aggressive compression
-- **Recall quality** may decrease with more aggressive compression
+- **Recall quality** may decrease with more aggressive compression or lower search_window_size
 
 ## Cleanup
 
