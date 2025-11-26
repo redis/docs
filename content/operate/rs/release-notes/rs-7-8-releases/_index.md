@@ -148,6 +148,23 @@ If your database currently uses triggers and functions, you need to:
 
 1. Migrate your database to a new database without the RedisGears module.
 
+### Reserved ports
+
+Make sure the following ports are open before upgrading Redis Enterprise Software.
+
+Ports reserved as of Redis Enterprise Software version 7.8.2:
+
+| Port | Process name | Usage | 
+|------|--------------|-------|
+| 3347 | cert_exporter | Reports cluster certificate metrics |
+| 3348 | process_exporter | Reports process metrics for DMC and Redis processes |
+| 3349 | cluster_wd_exporter | Reports cluster watchdog metrics |
+| 3350 | db_controller | Internode communication |
+| 9091 | node_exporter | Reports host node metrics related to CPU, memory, disk, and more |
+| 9125 | statsd_exporter | Reports push metrics related to the DMC and syncer, and some cluster and node metrics |
+
+See [Ports and port ranges used by Redis Enterprise Software]({{<relref "/operate/rs/networking/port-configurations#ports-and-port-ranges-used-by-redis-enterprise-software">}}) for a complete list.
+
 ### Deprecations
 
 #### API deprecations
