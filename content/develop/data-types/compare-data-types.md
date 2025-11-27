@@ -156,7 +156,9 @@ types. JSON generally has the highest requirements for memory and processing,
 followed by hashes, and then strings. Use the decision tree below as a guide to
 choosing the best data type for your task.
 
-```decision-tree
+```decision-tree {id="documents-tree"}
+id: documents-tree
+scope: documents
 rootQuestion: root
 questions:
     root:
@@ -250,7 +252,9 @@ Note that if you need to store extra information for the keys in a set
 or sorted set, you can do so with an auxiliary hash or JSON object that has field
 names matching the keys in the collection.
 
-```decision-tree
+```decision-tree {id="collections-tree"}
+id: collections-tree
+scope: collections
 rootQuestion: root
 questions:
     root:
@@ -310,7 +314,9 @@ You would normally store sequences of string or binary data using sorted sets,
 lists or streams. They each have advantages and disadvantages for particular purposes.  
 Use the decision tree below as a guide to choosing the best data type for your task.
 
-```decision-tree
+```decision-tree {id="sequences-tree"}
+id: sequences-tree
+scope: sequences
 rootQuestion: root
 questions:
     root:
