@@ -11350,7 +11350,7 @@
           },
           "ramPercentage": {
             "type": "integer",
-            "description": "Optional. Relevant only to ram-and-flash (also known as Redis-Flex/Auto-Tiering) subscriptions. The percentage of data to be stored in RAM. Range: 10-50. Default: 20",
+            "description": "Optional. Relevant only to ram-and-flash (also known as Redis-Flex/Auto-Tiering) subscriptions. The percentage of data to be stored in RAM. Must be between 10 and 50 in steps of 10 (10, 20, 30, 40, 50). Default: 20",
             "format": "int32",
             "example": 20
           },
@@ -11882,7 +11882,7 @@
           },
           "ramPercentage": {
             "type": "integer",
-            "description": "Optional. Relevant only to ram-and-flash (also known as Redis-Flex/Auto-Tiering) subscriptions. The percentage of data to be stored in RAM. Range: 10-50.",
+            "description": "Optional. Relevant only to ram-and-flash (also known as Redis-Flex/Auto-Tiering) subscriptions. The percentage of data to be stored in RAM. Must be between 10 and 50 in steps of 10 (10, 20, 30, 40, 50).",
             "format": "int32",
             "example": 20
           },
@@ -15975,7 +15975,7 @@
           },
           "ramPercentage": {
             "type": "integer",
-            "description": "Optional. Relevant only to ram-and-flash (also known as Redis-Flex/Auto-Tiering) subscriptions. The percentage of data to be stored in RAM. Range: 10-50. Default: 20",
+            "description": "Optional. Relevant only to ram-and-flash (also known as Redis-Flex/Auto-Tiering) subscriptions. The percentage of data to be stored in RAM. Must be between 10 and 50 in steps of 10 (10, 20, 30, 40, 50). Default: 20",
             "format": "int32",
             "example": 20
           },
@@ -16348,6 +16348,7 @@
               "DATABASE_REDIS_VERSION_IS_NOT_SUPPORTED_FOR_MEMCACHED",
               "DATABASE_REDIS_VERSION_IS_REQUIRED",
               "DATABASE_REDIS_VERSION_INVALID_VALUE",
+              "INCOMPATIBLE_TF_PROVIDER",
               "CONNECTIVITY_REQUESTS_ON_CUSTOMER_MANAGED_VPC_SUBSCRIPTION",
               "VPC_PEERING_NOT_ACTIVE",
               "VPC_PEERING_GENERAL_ERROR",
