@@ -179,6 +179,88 @@ choosing the best data type for your task.
 5.  For other simple documents with arbitrary internal structure, use **strings**
     for simplicity and minimum memory overhead.
 
+```decision-tree
+rootQuestion: root
+questions:
+    root:
+        text: |
+            Do you need nested data structures (fields and arrays) or geospatial
+            index/query with Redis query engine?
+        whyAsk: |
+            JSON is the only document type that supports deeply nested structures and integrates with the query engine for those structures
+        answers:
+            yes:
+                value: "Yes"
+                outcome:
+                    label: "Use JSON"
+                    id: jsonOutcome
+            no:
+                value: "No"
+                nextQuestion: hashQuestion
+    hashQuestion:
+        text: |
+            Do you need to index/query using Redis query engine but can live
+            without nested data structures and geospatial indexing?
+        whyAsk: |
+            Hashes support indexing and querying with lower memory overhead and faster field access than JSON
+        answers:
+            yes:
+                value: "Yes"
+                outcome:
+                    label: "Use hashes"
+                    id: hashOutcome
+            no:
+                value: "No"
+                nextQuestion: expirationQuestion
+    expirationQuestion:
+        text: |
+            Do you need to set expiration times on individual pieces of data
+            within the document?
+        whyAsk: "Only hashes support efficient field-level access and expiration"
+        answers:
+            yes:
+                value: "Yes"
+                outcome:
+                    label: "Use hashes"
+                    id: hashOutcome
+            no:
+                value: "No"
+                nextQuestion: fieldAccessQuestion
+    fieldAccessQuestion:
+        text: |
+            Do you need frequent access to individual data fields within the
+            document, but the fields are simple integers or bits that you can easily 
+            refer to by an integer index?
+        whyAsk: |
+            Strings and hashes support efficient field access, but strings are more compact and efficient if you only need bit fields with integer indices
+        answers:
+            yes:
+                value: "Yes"
+                outcome:
+                    label: "Use strings"
+                    id: stringOutcome
+            no:
+                value: "No"
+                nextQuestion: stringQuestion
+    stringQuestion:
+        text: |
+            Do you need frequent access to individual data fields within the
+            document that have string or binary data values?
+        whyAsk: |
+            Hashes support general field access, but strings are more compact and efficient if you don't need it
+        answers:
+            yes:
+                value: "Yes"
+                outcome:
+                    label: "Use hashes"
+                    id: hashOutcome
+            no:
+                value: "No"
+                outcome:
+                    label: "Use strings"
+                    id: stringOutcome
+```
+
 ### Collections
 
 You would normally store collection data using the set or sorted set
