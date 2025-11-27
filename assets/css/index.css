@@ -94,6 +94,10 @@ section.prose {
   padding: 1rem;
 }
 
+.prose pre.decision-tree-source {
+  display: none;
+}
+
 .prose pre > code {
   @apply bg-none font-monogeist;
 }

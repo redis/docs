@@ -1,4 +1,12 @@
 {{- /* Render hook for decision tree code blocks */ -}}
+{{- /* Preserve YAML source for visual display and JavaScript parsing */ -}}
 <pre class="decision-tree-source">{{ .Inner | htmlEscape | safeHTML }}</pre>
+
+{{- /* Embed metadata as custom JSON for AI agents */ -}}
+{{- $metadata := dict "type" "decision-tree" -}}
+
+{{ $jsonMetadata := $metadata | jsonify (dict "indent" "  ") }}
+{{ printf "<script type=\"application/json\" data-redis-metadata=\"decision-tree\">\n%s\n</script>" $jsonMetadata | safeHTML }}
+
 {{ .Page.Store.Set "hasDecisionTree" true }}
 

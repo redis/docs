@@ -145,39 +145,16 @@ to manage multiple readers and ensure at-least-once delivery.
 ## Choose a data type
 
 The sections below explore the pros and cons of each data type for
-particular tasks.
+particular tasks. Note that you should regard
+the suggestions as "rules-of-thumb" rather than strict prescriptions, since
+there are potentially many subtle reasons to prefer one data type over another.
 
 ### Documents
 
 You would normally store document data using the string, hash, or JSON
 types. JSON generally has the highest requirements for memory and processing,
-followed by hashes, and then strings. Use the considerations below as a guide to
+followed by hashes, and then strings. Use the decision tree below as a guide to
 choosing the best data type for your task.
-
-1.  Do you need nested data structures (fields and arrays) or geospatial
-    index/query with Redis query engine?
-
-    If so, use **JSON** since it is the only type that supports these features.
-
-2.  Do you need to index/query using Redis query engine but can live without
-    nested data structures and geospatial data?
-
-    If so, use **hashes** since they support indexing and querying with lower memory overhead and faster field access than JSON.
-
-3.  Do you need to set expiration times on individual pieces of data within
-    the document?
-
-    If so, use **hashes** for efficient field-level access and expiration.
-
-4.  Do you need frequent access to individual data fields within the document?
-
-    If the data fields are simple integers or individual bits and you can
-    easily refer to them by an integer index, use **strings** for efficient
-    access and minimum memory overhead. Otherwise, use **hashes** for
-    named fields and support for string and binary field values.
-
-5.  For other simple documents with arbitrary internal structure, use **strings**
-    for simplicity and minimum memory overhead.
 
 ```decision-tree
 rootQuestion: root
@@ -288,7 +265,7 @@ names matching the keys in the collection.
     need to store extra information for each key, consider using **hashes** with
     the keys as field names.
 
-## Sequences
+### Sequences
 
 You would normally store sequences of string or binary data using sorted sets,
 lists or streams. They each have advantages and disadvantages for particular purposes.  
