@@ -157,7 +157,7 @@
     const topMargin = 10;
     const indentWidth = 40; // Increased from 24 for wider indent
     const boxPadding = 12; // Increased from 8 for more padding
-    const maxBoxWidth = 360; // Increased from 280 for wider boxes
+    const maxBoxWidth = 420; // Increased to accommodate longer questions
     const maxCharsPerLine = Math.floor(maxBoxWidth / charWidth);
 
     // Calculate box dimensions for each item
@@ -174,7 +174,7 @@
       maxDepth = Math.max(maxDepth, item.depth);
     });
 
-    const svgWidth = leftMargin + (maxDepth + 1) * indentWidth + 320;
+    const svgWidth = leftMargin + (maxDepth + 1) * indentWidth + maxBoxWidth + 40;
     const svgHeight = topMargin + items.reduce((sum, item) => sum + item.boxHeight + 20, 0) + 10;
 
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');

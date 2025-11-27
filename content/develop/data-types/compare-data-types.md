@@ -260,10 +260,64 @@ names matching the keys in the collection.
     If so, use the bitmap features of **strings** for minimum memory overhead and efficient random access. String bitmaps also support bitwise operations
     that are equivalent to set operations such as union, intersection, and difference.
 
-3.  For arbitrary string or binary keys, use **sets** for efficient membership tests and  
+3.  For arbitrary string or binary keys, use **sets** for efficient membership tests and
     set operations. If you *only* need membership tests on the keys, but you
     need to store extra information for each key, consider using **hashes** with
     the keys as field names.
+
+```decision-tree
+rootQuestion: root
+questions:
+    root:
+        text: |
+            Do you need to store and retrieve the keys in an arbitrary order or in
+            lexicographical order?
+        whyAsk: |
+            Sorted sets are the only collection type that supports ordered iteration,
+            which is essential if you need to access elements in a specific order
+        answers:
+            yes:
+                value: "Yes"
+                outcome:
+                    label: "Use sorted sets"
+                    id: sortedSetsOutcome
+            no:
+                value: "No"
+                nextQuestion: extraInfo
+    extraInfo:
+        text: |
+            Do you need to store extra information for each key in the collection,
+            and do you NOT need set operations (union, intersection, difference)?
+        whyAsk: |
+            Hashes allow you to associate data with each key, but they don't support
+            set operations. If you need both extra data and set operations, sets are not suitable
+        answers:
+            yes:
+                value: "Yes"
+                outcome:
+                    label: "Use hashes"
+                    id: hashesOutcome
+            no:
+                value: "No"
+                nextQuestion: integerIndices
+    integerIndices:
+        text: |
+            Are the keys always simple integer indices in a known range?
+        whyAsk: |
+            String bitmaps provide minimum memory overhead and efficient random access
+            for integer indices, with bitwise operations equivalent to set operations
+        answers:
+            yes:
+                value: "Yes"
+                outcome:
+                    label: "Use strings (bitmaps)"
+                    id: stringsOutcome
+            no:
+                value: "No"
+                outcome:
+                    label: "Use sets"
+                    id: setsOutcome
+```
 
 ### Sequences
 
