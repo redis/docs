@@ -245,25 +245,10 @@ types and for very simple collections, you can even use strings. They all allow
 basic membership tests, but have different additional features and tradeoffs.
 Sorted sets have the highest memory overhead and processing requirements, followed
 by sets, and then strings.
-Use the considerations below as a guide to choosing the best data type for your task.
+Use the decision tree below as a guide to choosing the best data type for your task.
 Note that if you need to store extra information for the keys in a set
 or sorted set, you can do so with an auxiliary hash or JSON object that has field
 names matching the keys in the collection.
-
-1.  Do you need to store and retrieve the keys in an arbitrary order or in  
-    lexicographical order?
-
-    If so, use **sorted sets** since they are the only collection type that supports ordered iteration.
-
-2.  Are the keys always simple integer indices in a known range?
-
-    If so, use the bitmap features of **strings** for minimum memory overhead and efficient random access. String bitmaps also support bitwise operations
-    that are equivalent to set operations such as union, intersection, and difference.
-
-3.  For arbitrary string or binary keys, use **sets** for efficient membership tests and
-    set operations. If you *only* need membership tests on the keys, but you
-    need to store extra information for each key, consider using **hashes** with
-    the keys as field names.
 
 ```decision-tree
 rootQuestion: root
@@ -286,8 +271,8 @@ questions:
                 nextQuestion: extraInfo
     extraInfo:
         text: |
-            Do you need to store extra information for each key in the collection,
-            and do you NOT need set operations (union, intersection, difference)?
+            Do you need to store extra information for each key AND you don't need
+            set operations (union, intersection, difference)?
         whyAsk: |
             Hashes allow you to associate data with each key, but they don't support
             set operations. If you need both extra data and set operations, sets are not suitable
@@ -323,22 +308,44 @@ questions:
 
 You would normally store sequences of string or binary data using sorted sets,
 lists or streams. They each have advantages and disadvantages for particular purposes.  
-Use the considerations below as a guide to choosing the best data type for your task.
+Use the decision tree below as a guide to choosing the best data type for your task.
 
-1.  Do you frequently need to do any of the following?
-    
-    -   Maintain an arbitrary priority order or lexicographical order of the elements
-    -   Access individual elements or ranges of elements by index
-    -   Perform basic set operations on the elements
-
-    If so, use **sorted sets** since they are the only sequence type that supports these 
-    operations directly.
-
-2.  Do you need to store and retrieve elements primarily in timestamp order or
-    manage multiple consumers reading from the sequence?
-
-    If so, use **streams** since they are the only sequence type that supports these
-    features natively.
-
-3.  For simple sequences of string or binary data, use **lists** for efficient
-    push/pop operations at the head or tail.
+```decision-tree
+rootQuestion: root
+questions:
+    root:
+        text: |
+            Do you need to maintain an arbitrary priority order, lexicographical order,
+            frequently access elements by index, or perform set operations?
+        whyAsk: |
+            Sorted sets are the only sequence type that supports both ordering and set operations.
+            While lists also support indexing, it is O(n) for lists but O(log n) for sorted sets,
+            so sorted sets are more efficient if you need frequent index access
+        answers:
+            yes:
+                value: "Yes"
+                outcome:
+                    label: "Use sorted sets"
+                    id: sortedSetsOutcome
+            no:
+                value: "No"
+                nextQuestion: timestampOrder
+    timestampOrder:
+        text: |
+            Do you need to store and retrieve elements primarily in timestamp order
+            or manage multiple consumers reading from the sequence?
+        whyAsk: |
+            Streams are the only sequence type that supports timestamp-based ordering
+            and consumer groups for managing multiple readers with at-least-once delivery
+        answers:
+            yes:
+                value: "Yes"
+                outcome:
+                    label: "Use streams"
+                    id: streamsOutcome
+            no:
+                value: "No"
+                outcome:
+                    label: "Use lists"
+                    id: listsOutcome
+```
