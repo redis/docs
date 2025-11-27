@@ -155,7 +155,7 @@
     const charWidth = 8;
     const leftMargin = 20;
     const topMargin = 10;
-    const indentWidth = 24;
+    const indentWidth = 40; // Increased from 24 for wider indent
     const boxPadding = 8;
     const maxBoxWidth = 280; // Max width for text in box
     const maxCharsPerLine = Math.floor(maxBoxWidth / charWidth);
@@ -294,19 +294,20 @@
       line.setAttribute('stroke-width', '1');
       svg.appendChild(line);
 
-      // Horizontal line to child
+      // Horizontal line to child (extended to match wider indent)
       const boxX = x + 10;
+      const hlineExtension = 15; // Extra space for label
       const hline = document.createElementNS('http://www.w3.org/2000/svg', 'line');
       hline.setAttribute('x1', connectorX);
       hline.setAttribute('y1', y);
-      hline.setAttribute('x2', boxX);
+      hline.setAttribute('x2', boxX + hlineExtension);
       hline.setAttribute('y2', y);
       hline.setAttribute('stroke', '#999');
       hline.setAttribute('stroke-width', '1');
       svg.appendChild(hline);
 
       // Add answer label on the horizontal line, positioned below it to avoid boxes
-      const labelX = connectorX + (boxX - connectorX) / 2;
+      const labelX = connectorX + (boxX + hlineExtension - connectorX) / 2;
       const labelY = y + 10;
 
       const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
