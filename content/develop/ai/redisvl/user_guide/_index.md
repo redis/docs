@@ -69,6 +69,7 @@ User guides provide helpful resources for using RedisVL and its different compon
   * [Creating an SVS-VAMANA Index](svs_vamana/#creating-an-svs-vamana-index)
   * [Loading Sample Data](svs_vamana/#loading-sample-data)
   * [Performing Vector Searches](svs_vamana/#performing-vector-searches)
+  * [Runtime Parameters for Performance Tuning](svs_vamana/#runtime-parameters-for-performance-tuning)
   * [Understanding Compression Types](svs_vamana/#understanding-compression-types)
   * [Compression Types Explained](svs_vamana/#compression-types-explained)
   * [Hybrid Queries with SVS-VAMANA](svs_vamana/#hybrid-queries-with-svs-vamana)
