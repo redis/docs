@@ -156,8 +156,8 @@
     const leftMargin = 20;
     const topMargin = 10;
     const indentWidth = 40; // Increased from 24 for wider indent
-    const boxPadding = 8;
-    const maxBoxWidth = 280; // Max width for text in box
+    const boxPadding = 12; // Increased from 8 for more padding
+    const maxBoxWidth = 360; // Increased from 280 for wider boxes
     const maxCharsPerLine = Math.floor(maxBoxWidth / charWidth);
 
     // Calculate box dimensions for each item
@@ -204,9 +204,9 @@
       rect.setAttribute('height', item.boxHeight);
 
       if (item.type === 'outcome') {
-        // Outcomes: lighter background, dashed border
-        rect.setAttribute('fill', '#f9f9f9');
-        rect.setAttribute('stroke', '#ccc');
+        // Outcomes: pale red background, dashed border
+        rect.setAttribute('fill', '#ffe6e6');
+        rect.setAttribute('stroke', '#d9534f');
         rect.setAttribute('stroke-width', '1');
         rect.setAttribute('stroke-dasharray', '3,3');
       } else {
