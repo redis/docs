@@ -1,0 +1,4 @@
+{{- /* Render hook for decision tree code blocks */ -}}
+<pre class="decision-tree-source">{{ .Inner | htmlEscape | safeHTML }}</pre>
+{{ .Page.Store.Set "hasDecisionTree" true }}
+
