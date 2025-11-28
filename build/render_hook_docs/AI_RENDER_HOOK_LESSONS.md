@@ -409,23 +409,208 @@ if ((metaValue.startsWith('"') && metaValue.endsWith('"'))) {
 
 ---
 
+## 21. Server-Side Metadata Extraction for AI Agents
+
+**Pattern**: Extract metadata from structured content (YAML, JSON) in the Hugo render hook and embed it as JSON in the HTML output for AI agents that don't execute JavaScript.
+
+**Implementation**:
+```html
+{{- /* Extract top-level fields only (no indentation) */ -}}
+{{- $lines := split .Inner "\n" -}}
+{{- $id := "" -}}
+{{- range $lines -}}
+  {{- /* Check if line starts without whitespace (32=space, 9=tab) */ -}}
+  {{- if and (gt (len .) 0) (ne (index . 0) 32) (ne (index . 0) 9) -}}
+    {{- $trimmed := strings.TrimSpace . -}}
+    {{- if strings.HasPrefix $trimmed "id:" -}}
+      {{- $afterPrefix := strings.Replace $trimmed "id:" "" 1 -}}
+      {{- $id = strings.TrimSpace $afterPrefix -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- /* Embed as JSON for AI agents */ -}}
+{{- $metadata := dict "type" "decision-tree" "id" $id -}}
+{{ $jsonMetadata := $metadata | jsonify (dict "indent" "  ") }}
+{{ printf "<script type=\"application/json\" data-redis-metadata=\"decision-tree\">\n%s\n</script>" $jsonMetadata | safeHTML }}
+```
+
+**Key Considerations**:
+- **Indentation detection**: When parsing nested structures, only extract top-level fields by checking if the line starts with whitespace
+- **String manipulation**: Use `strings.Replace` instead of `strings.TrimPrefix` for more reliable extraction
+- **Character codes**: Use ASCII codes (32 for space, 9 for tab) to detect indentation reliably
+- **Metadata format**: Use simple JSON (not JSON-LD) for clarity and ease of parsing
+- **Data attributes**: Use `data-*` attributes to mark metadata elements for AI agents
+
+**Why This Matters**:
+- AI agents typically don't execute JavaScript, so metadata must be in static HTML
+- Server-side extraction ensures metadata is available even if JavaScript fails
+- Structured metadata helps AI agents understand the purpose and scope of components
+- Separating metadata from content improves maintainability
+
+**Lesson**: Always provide metadata in static HTML for AI agents. Use server-side extraction to ensure accuracy and avoid relying on JavaScript parsing.
+
+---
+
+## 22. Handling Nested Structures in Hugo Templates
+
+**Pattern**: When extracting data from nested YAML/JSON structures, distinguish between top-level and nested fields using indentation detection.
+
+**Problem**: If you extract all occurrences of a field (e.g., `id:`), you'll get nested occurrences too, leading to incorrect values.
+
+**Solution**: Check indentation before processing:
+```html
+{{- if and (gt (len .) 0) (ne (index . 0) 32) (ne (index . 0) 9) -}}
+  {{- /* Process only top-level lines */ -}}
+{{- end -}}
+```
+
+**Why This Works**:
+- YAML indentation is significant and indicates nesting level
+- Top-level fields have no leading whitespace
+- Nested fields have leading spaces or tabs
+- Character code 32 = space, 9 = tab
+
+**Lesson**: When parsing nested structures in Hugo templates, use indentation detection to distinguish between levels. This prevents extracting nested values when you only want top-level ones.
+
+---
+
+## 23. Progressive Enhancement with Metadata
+
+**Pattern**: Combine progressive enhancement with metadata embedding to serve both humans and AI agents from a single source.
+
+**Architecture**:
+1. **Server-side (Hugo)**:
+   - Extract metadata from source content
+   - Embed metadata as JSON in HTML
+   - Preserve raw source in `<pre>` element
+
+2. **Client-side (JavaScript)**:
+   - Parse raw source for rendering
+   - Use metadata for context/identification
+   - Enhance with interactivity
+
+3. **AI agents**:
+   - Read static JSON metadata
+   - Parse raw source from `<pre>` element
+   - No JavaScript execution needed
+
+**Benefits**:
+- Single source of truth (the YAML/JSON in the Markdown)
+- Metadata available to all consumers (humans, AI agents, JavaScript)
+- Graceful degradation if JavaScript fails
+- AI-friendly without extra work
+
+**Lesson**: Design render hooks to serve multiple audiences simultaneously. Metadata should be available in static HTML, not just in JavaScript.
+
+---
+
+## 24. Text Wrapping and Box Sizing in SVG Diagrams
+
+**Pattern**: When rendering text in SVG boxes, calculate dimensions based on character width and implement text wrapping to fit within maximum width.
+
+**Implementation**:
+```javascript
+const charWidth = 8; // Space Mono at 14px
+const maxBoxWidth = 420;
+const maxCharsPerLine = Math.floor(maxBoxWidth / charWidth);
+
+function wrapText(text, maxChars) {
+  const words = text.split(' ');
+  const lines = [];
+  let currentLine = '';
+
+  for (const word of words) {
+    if ((currentLine + ' ' + word).length > maxChars) {
+      if (currentLine) lines.push(currentLine);
+      currentLine = word;
+    } else {
+      currentLine = currentLine ? currentLine + ' ' + word : word;
+    }
+  }
+  if (currentLine) lines.push(currentLine);
+  return lines;
+}
+```
+
+**Considerations**:
+- **Font metrics**: Different fonts have different character widths
+- **Padding**: Account for box padding when calculating available width
+- **Line height**: Multiply number of lines by line height for total box height
+- **Dynamic sizing**: Calculate SVG dimensions based on content, not fixed values
+
+**Common Pitfall**: Hardcoding SVG width can cause content to be cut off. Instead:
+```javascript
+const svgWidth = leftMargin + (maxDepth + 1) * indentWidth + maxBoxWidth + 40;
+```
+
+**Lesson**: Calculate SVG dimensions dynamically based on content. Account for all visual elements (padding, margins, decorations) when sizing boxes and containers.
+
+---
+
+## 25. Scope and Context Metadata for Component Discovery
+
+**Pattern**: Add `scope` or `category` metadata to components to help AI agents understand their purpose and applicability.
+
+**Implementation**:
+```yaml
+id: documents-tree
+scope: documents
+rootQuestion: root
+questions:
+  # ...
+```
+
+**Benefits**:
+- **Discoverability**: AI agents can filter components by scope
+- **Context awareness**: Agents know which problem domain each component addresses
+- **Prevents misapplication**: Agents won't use a "collections" tree to recommend document storage
+- **Relationship mapping**: Enables linking related components
+
+**Use Cases**:
+- Filtering decision trees by data type category
+- Finding all components related to a specific feature
+- Organizing components hierarchically
+- Providing context in search results
+
+**Lesson**: Add semantic metadata (scope, category, type) to components. This helps AI agents understand purpose and applicability, enabling better recommendations and filtering.
+
+---
+
 ## Quick Checklist for Future Render Hooks
 
+### Core Patterns
 - [ ] Preserve source content in a `<pre>` or similar element
 - [ ] Use page store pattern to avoid duplicate resource loading
 - [ ] Place static JavaScript in `static/js/`, not `assets/js/`
 - [ ] Avoid `innerHTML` with dynamic content; use safe DOM methods
 - [ ] Use `data-*` attributes to pass server data to JavaScript
+
+### Testing & Accessibility
 - [ ] Test with multiple instances on the same page
 - [ ] Consider state persistence if needed
 - [ ] Use semantic HTML and proper accessibility attributes
 - [ ] Document the Markdown format clearly
 - [ ] Provide sensible defaults for optional parameters
+
+### Hugo-Specific
 - [ ] Remember Hugo converts attribute names to lowercase
+- [ ] Use indentation detection when parsing nested structures
+- [ ] Extract top-level metadata in render hook (not JavaScript)
+- [ ] Use `strings.Replace` for reliable string manipulation in templates
+
+### Advanced Features
 - [ ] Use SVG for complex visual structures
 - [ ] Track processed lines when parsing nested structures
 - [ ] Account for all visual elements in dimension calculations
 - [ ] Use type attributes for conditional features
 - [ ] Handle string unescaping during parsing, not rendering
 - [ ] Create comprehensive format documentation
+
+### AI Agent Compatibility
+- [ ] Embed metadata as JSON in static HTML (not just JavaScript)
+- [ ] Add `scope` or `category` metadata for component discovery
+- [ ] Use `data-*` attributes to mark metadata elements
+- [ ] Ensure metadata is available without JavaScript execution
+- [ ] Preserve raw source content for AI parsing
 
