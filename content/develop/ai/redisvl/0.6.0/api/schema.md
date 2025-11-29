@@ -18,7 +18,7 @@ field configurations using the following three components:
 
 <a id="indexschema-api"></a>
 
-### `class IndexSchema(*, index, fields={}, version='0.1.0')`
+### `class IndexSchema(, index, fields={}, version='0.1.0')`
 
 A schema definition for a search index in Redis, used in RedisVL for
 configuring index settings and organizing vector and metadata fields.
@@ -105,6 +105,59 @@ self is explicitly positional-only to allow self as a field name.
   * **fields** (*Dict* *[* *str* *,* *BaseField* *]*)
   * **version** (*Literal* *[* *'0.1.0'* *]*)
 
+#### `classmethod from_dict(data)`
+
+Create an IndexSchema from a dictionary.
+
+* **Parameters:**
+  **data** (*Dict* *[* *str* *,* *Any* *]*) – The index schema data.
+* **Returns:**
+  The index schema.
+* **Return type:**
+  [IndexSchema](#indexschema)
+
+```python
+from redisvl.schema import IndexSchema
+
+schema = IndexSchema.from_dict({
+    "index": {
+        "name": "docs-index",
+        "prefix": "docs",
+        "storage_type": "hash",
+    },
+    "fields": [
+        {
+            "name": "doc-id",
+            "type": "tag"
+        },
+        {
+            "name": "doc-embedding",
+            "type": "vector",
+            "attrs": {
+                "algorithm": "flat",
+                "dims": 1536
+            }
+        }
+    ]
+})
+```
+
+#### `classmethod from_yaml(file_path)`
+
+Create an IndexSchema from a YAML file.
+
+* **Parameters:**
+  **file_path** (*str*) – The path to the YAML file.
+* **Returns:**
+  The index schema.
+* **Return type:**
+  [IndexSchema](#indexschema)
+
+```python
+from redisvl.schema import IndexSchema
+schema = IndexSchema.from_yaml("schema.yaml")
+```
+
 #### `add_field(field_inputs)`
 
 Adds a single field to the index schema based on the specified field
@@ -162,59 +215,6 @@ schema.add_fields([
         }
     }
 ])
-```
-
-#### `classmethod from_dict(data)`
-
-Create an IndexSchema from a dictionary.
-
-* **Parameters:**
-  **data** (*Dict* *[* *str* *,* *Any* *]*) – The index schema data.
-* **Returns:**
-  The index schema.
-* **Return type:**
-  [IndexSchema](#indexschema)
-
-```python
-from redisvl.schema import IndexSchema
-
-schema = IndexSchema.from_dict({
-    "index": {
-        "name": "docs-index",
-        "prefix": "docs",
-        "storage_type": "hash",
-    },
-    "fields": [
-        {
-            "name": "doc-id",
-            "type": "tag"
-        },
-        {
-            "name": "doc-embedding",
-            "type": "vector",
-            "attrs": {
-                "algorithm": "flat",
-                "dims": 1536
-            }
-        }
-    ]
-})
-```
-
-#### `classmethod from_yaml(file_path)`
-
-Create an IndexSchema from a YAML file.
-
-* **Parameters:**
-  **file_path** (*str*) – The path to the YAML file.
-* **Returns:**
-  The index schema.
-* **Return type:**
-  [IndexSchema](#indexschema)
-
-```python
-from redisvl.schema import IndexSchema
-schema = IndexSchema.from_yaml("schema.yaml")
 ```
 
 #### `remove_field(field_name)`
