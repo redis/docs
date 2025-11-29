@@ -27,49 +27,6 @@ Initialize the SemanticRouter.
   * **connection_kwargs** (*Dict* *[* *str* *,* *Any* *]*) – The connection arguments
     for the redis client. Defaults to empty {}.
 
-#### `add_route_references(route_name, references)`
-
-Add a reference(s) to an existing route.
-
-* **Parameters:**
-  * **router_name** (*str*) – The name of the router.
-  * **references** (*Union* *[* *str* *,* *List* *[* *str* *]* *]*) – The reference or list of references to add.
-  * **route_name** (*str*)
-* **Returns:**
-  The list of added references keys.
-* **Return type:**
-  List[str]
-
-#### `clear()`
-
-Flush all routes from the semantic router index.
-
-* **Return type:**
-  None
-
-#### `delete()`
-
-Delete the semantic router index.
-
-* **Return type:**
-  None
-
-#### `delete_route_references(route_name='', reference_ids=[], keys=[])`
-
-Get references for an existing semantic router route.
-
-* **Parameters:**
-  * **Optional** (*keys*) – The name of the router.
-  * **Optional** – The reference or list of references to delete.
-  * **Optional** – List of fully qualified keys (prefix:router:reference_id) to delete.
-  * **route_name** (*str*)
-  * **reference_ids** (*List* *[* *str* *]*)
-  * **keys** (*List* *[* *str* *]*)
-* **Returns:**
-  Number of objects deleted
-* **Return type:**
-  int
-
 #### `classmethod from_dict(data, **kwargs)`
 
 Create a SemanticRouter from a dictionary.
@@ -123,6 +80,49 @@ from redisvl.extensions.router import SemanticRouter
 router = SemanticRouter.from_yaml("router.yaml", redis_url="redis://localhost:6379")
 ```
 
+#### `add_route_references(route_name, references)`
+
+Add a reference(s) to an existing route.
+
+* **Parameters:**
+  * **router_name** (*str*) – The name of the router.
+  * **references** (*Union* *[* *str* *,* *List* *[* *str* *]* *]*) – The reference or list of references to add.
+  * **route_name** (*str*)
+* **Returns:**
+  The list of added references keys.
+* **Return type:**
+  List[str]
+
+#### `clear()`
+
+Flush all routes from the semantic router index.
+
+* **Return type:**
+  None
+
+#### `delete()`
+
+Delete the semantic router index.
+
+* **Return type:**
+  None
+
+#### `delete_route_references(route_name='', reference_ids=[], keys=[])`
+
+Get references for an existing semantic router route.
+
+* **Parameters:**
+  * **Optional** (*keys*) – The name of the router.
+  * **Optional** – The reference or list of references to delete.
+  * **Optional** – List of fully qualified keys (prefix:router:reference_id) to delete.
+  * **route_name** (*str*)
+  * **reference_ids** (*List* *[* *str* *]*)
+  * **keys** (*List* *[* *str* *]*)
+* **Returns:**
+  Number of objects deleted
+* **Return type:**
+  int
+
 #### `get(route_name)`
 
 Get a route by its name.
@@ -149,7 +149,7 @@ Get references for an existing route route.
 * **Return type:**
   List[Dict[str, Any]]]
 
-#### `model_post_init(context, /)`
+#### `model_post_init(context,)`
 
 This function is meant to behave like a BaseModel method to initialise private attributes.
 
@@ -276,7 +276,7 @@ The vectorizer used to embed route references.
 
 ## Routing Config
 
-### `class RoutingConfig(*, max_k=1, aggregation_method=DistanceAggregationMethod.avg)`
+### `class RoutingConfig(, max_k=1, aggregation_method=DistanceAggregationMethod.avg)`
 
 Configuration for routing behavior.
 
@@ -301,7 +301,7 @@ Configuration for the model, should be a dictionary conforming to [ConfigDict][p
 
 ## Route
 
-### `class Route(*, name, references, metadata={}, distance_threshold=0.5)`
+### `class Route(, name, references, metadata={}, distance_threshold=0.5)`
 
 Model representing a routing path with associated metadata and thresholds.
 
@@ -340,7 +340,7 @@ List of reference phrases for the route.
 
 ## Route Match
 
-### `class RouteMatch(*, name=None, distance=None)`
+### `class RouteMatch(, name=None, distance=None)`
 
 Model representing a matched route with distance information.
 
@@ -369,7 +369,7 @@ The matched route name.
 
 ## Distance Aggregation Method
 
-### `class DistanceAggregationMethod(value, names=<not given>, *values, module=None, qualname=None, type=None, start=1, boundary=None)`
+### `class DistanceAggregationMethod(*values)`
 
 Enumeration for distance aggregation methods.
 
