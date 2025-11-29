@@ -57,6 +57,62 @@ kwargs.
   * **validate_on_load** (*bool* *,* *optional*) – Whether to validate data against schema
     when loading. Defaults to False.
 
+#### `classmethod from_dict(schema_dict, **kwargs)`
+
+Create a SearchIndex from a dictionary.
+
+* **Parameters:**
+  **schema_dict** (*Dict* *[* *str* *,* *Any* *]*) – A dictionary containing the schema.
+* **Returns:**
+  A RedisVL SearchIndex object.
+* **Return type:**
+  [SearchIndex](#searchindex)
+
+```python
+from redisvl.index import SearchIndex
+
+index = SearchIndex.from_dict({
+    "index": {
+        "name": "my-index",
+        "prefix": "rvl",
+        "storage_type": "hash",
+    },
+    "fields": [
+        {"name": "doc-id", "type": "tag"}
+    ]
+}, redis_url="redis://localhost:6379")
+```
+
+#### `classmethod from_existing(name, redis_client=None, redis_url=None, **kwargs)`
+
+Initialize from an existing search index in Redis by index name.
+
+* **Parameters:**
+  * **name** (*str*) – Name of the search index in Redis.
+  * **redis_client** (*Optional* *[* *Redis* *]*) – An
+    instantiated redis client.
+  * **redis_url** (*Optional* *[* *str* *]*) – The URL of the Redis server to
+    connect to.
+* **Raises:**
+  **ValueError** – If redis_url or redis_client is not provided.
+
+#### `classmethod from_yaml(schema_path, **kwargs)`
+
+Create a SearchIndex from a YAML schema file.
+
+* **Parameters:**
+  **schema_path** (*str*) – Path to the YAML schema file.
+* **Returns:**
+  A RedisVL SearchIndex object.
+* **Return type:**
+  [SearchIndex](#searchindex)
+
+```python
+from redisvl.index import SearchIndex
+
+index = SearchIndex.from_yaml("schemas/schema.yaml", redis_url="redis://localhost:6379")
+```
+
 #### `aggregate(*args, **kwargs)`
 
 Perform an aggregation operation against the index.
@@ -236,62 +292,6 @@ or derived from some domain-specific metadata combination
   The fetched object.
 * **Return type:**
   Dict[str, Any]
-
-#### `classmethod from_dict(schema_dict, **kwargs)`
-
-Create a SearchIndex from a dictionary.
-
-* **Parameters:**
-  **schema_dict** (*Dict* *[* *str* *,* *Any* *]*) – A dictionary containing the schema.
-* **Returns:**
-  A RedisVL SearchIndex object.
-* **Return type:**
-  [SearchIndex](#searchindex)
-
-```python
-from redisvl.index import SearchIndex
-
-index = SearchIndex.from_dict({
-    "index": {
-        "name": "my-index",
-        "prefix": "rvl",
-        "storage_type": "hash",
-    },
-    "fields": [
-        {"name": "doc-id", "type": "tag"}
-    ]
-}, redis_url="redis://localhost:6379")
-```
-
-#### `classmethod from_existing(name, redis_client=None, redis_url=None, **kwargs)`
-
-Initialize from an existing search index in Redis by index name.
-
-* **Parameters:**
-  * **name** (*str*) – Name of the search index in Redis.
-  * **redis_client** (*Optional* *[* *Redis* *]*) – An
-    instantiated redis client.
-  * **redis_url** (*Optional* *[* *str* *]*) – The URL of the Redis server to
-    connect to.
-* **Raises:**
-  **ValueError** – If redis_url or redis_client is not provided.
-
-#### `classmethod from_yaml(schema_path, **kwargs)`
-
-Create a SearchIndex from a YAML schema file.
-
-* **Parameters:**
-  **schema_path** (*str*) – Path to the YAML schema file.
-* **Returns:**
-  A RedisVL SearchIndex object.
-* **Return type:**
-  [SearchIndex](#searchindex)
-
-```python
-from redisvl.index import SearchIndex
-
-index = SearchIndex.from_yaml("schemas/schema.yaml", redis_url="redis://localhost:6379")
-```
 
 #### `info(name=None)`
 
@@ -476,7 +476,7 @@ hash or json.
 
 ## AsyncSearchIndex
 
-### `class AsyncSearchIndex(schema, *, redis_url=None, redis_client=None, connection_kwargs=None, validate_on_load=False, **kwargs)`
+### `class AsyncSearchIndex(schema, , redis_url=None, redis_client=None, connection_kwargs=None, validate_on_load=False, **kwargs)`
 
 A search index class for interacting with Redis as a vector database in
 async-mode.
@@ -517,6 +517,60 @@ Initialize the RedisVL async search index with a schema.
     args.
   * **validate_on_load** (*bool* *,* *optional*) – Whether to validate data against schema
     when loading. Defaults to False.
+
+#### `classmethod from_dict(schema_dict, **kwargs)`
+
+Create a SearchIndex from a dictionary.
+
+* **Parameters:**
+  **schema_dict** (*Dict* *[* *str* *,* *Any* *]*) – A dictionary containing the schema.
+* **Returns:**
+  A RedisVL SearchIndex object.
+* **Return type:**
+  [SearchIndex](#searchindex)
+
+```python
+from redisvl.index import SearchIndex
+
+index = SearchIndex.from_dict({
+    "index": {
+        "name": "my-index",
+        "prefix": "rvl",
+        "storage_type": "hash",
+    },
+    "fields": [
+        {"name": "doc-id", "type": "tag"}
+    ]
+}, redis_url="redis://localhost:6379")
+```
+
+#### `async classmethod* from_existing(name, redis_client=None, redis_url=None, **kwargs)`
+
+Initialize from an existing search index in Redis by index name.
+
+* **Parameters:**
+  * **name** (*str*) – Name of the search index in Redis.
+  * **redis_client** (*Optional* *[* *Redis* *]*) – An
+    instantiated redis client.
+  * **redis_url** (*Optional* *[* *str* *]*) – The URL of the Redis server to
+    connect to.
+
+#### `classmethod from_yaml(schema_path, **kwargs)`
+
+Create a SearchIndex from a YAML schema file.
+
+* **Parameters:**
+  **schema_path** (*str*) – Path to the YAML schema file.
+* **Returns:**
+  A RedisVL SearchIndex object.
+* **Return type:**
+  [SearchIndex](#searchindex)
+
+```python
+from redisvl.index import SearchIndex
+
+index = SearchIndex.from_yaml("schemas/schema.yaml", redis_url="redis://localhost:6379")
+```
 
 #### `async aggregate(*args, **kwargs)`
 
@@ -693,60 +747,6 @@ metadata combination (like a document id or chunk id).
   The fetched object.
 * **Return type:**
   Dict[str, Any]
-
-#### `classmethod from_dict(schema_dict, **kwargs)`
-
-Create a SearchIndex from a dictionary.
-
-* **Parameters:**
-  **schema_dict** (*Dict* *[* *str* *,* *Any* *]*) – A dictionary containing the schema.
-* **Returns:**
-  A RedisVL SearchIndex object.
-* **Return type:**
-  [SearchIndex](#searchindex)
-
-```python
-from redisvl.index import SearchIndex
-
-index = SearchIndex.from_dict({
-    "index": {
-        "name": "my-index",
-        "prefix": "rvl",
-        "storage_type": "hash",
-    },
-    "fields": [
-        {"name": "doc-id", "type": "tag"}
-    ]
-}, redis_url="redis://localhost:6379")
-```
-
-#### `async classmethod* from_existing(name, redis_client=None, redis_url=None, **kwargs)`
-
-Initialize from an existing search index in Redis by index name.
-
-* **Parameters:**
-  * **name** (*str*) – Name of the search index in Redis.
-  * **redis_client** (*Optional* *[* *Redis* *]*) – An
-    instantiated redis client.
-  * **redis_url** (*Optional* *[* *str* *]*) – The URL of the Redis server to
-    connect to.
-
-#### `classmethod from_yaml(schema_path, **kwargs)`
-
-Create a SearchIndex from a YAML schema file.
-
-* **Parameters:**
-  **schema_path** (*str*) – Path to the YAML schema file.
-* **Returns:**
-  A RedisVL SearchIndex object.
-* **Return type:**
-  [SearchIndex](#searchindex)
-
-```python
-from redisvl.index import SearchIndex
-
-index = SearchIndex.from_yaml("schemas/schema.yaml", redis_url="redis://localhost:6379")
-```
 
 #### `async info(name=None)`
 

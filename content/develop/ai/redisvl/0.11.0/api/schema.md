@@ -105,6 +105,59 @@ self is explicitly positional-only to allow self as a field name.
   * **fields** (*Dict* *[* *str* *,* *BaseField* *]*)
   * **version** (*Literal* *[* *'0.1.0'* *]*)
 
+#### `classmethod from_dict(data)`
+
+Create an IndexSchema from a dictionary.
+
+* **Parameters:**
+  **data** (*Dict* *[* *str* *,* *Any* *]*) – The index schema data.
+* **Returns:**
+  The index schema.
+* **Return type:**
+  [IndexSchema](#indexschema)
+
+```python
+from redisvl.schema import IndexSchema
+
+schema = IndexSchema.from_dict({
+    "index": {
+        "name": "docs-index",
+        "prefix": "docs",
+        "storage_type": "hash",
+    },
+    "fields": [
+        {
+            "name": "doc-id",
+            "type": "tag"
+        },
+        {
+            "name": "doc-embedding",
+            "type": "vector",
+            "attrs": {
+                "algorithm": "flat",
+                "dims": 1536
+            }
+        }
+    ]
+})
+```
+
+#### `classmethod from_yaml(file_path)`
+
+Create an IndexSchema from a YAML file.
+
+* **Parameters:**
+  **file_path** (*str*) – The path to the YAML file.
+* **Returns:**
+  The index schema.
+* **Return type:**
+  [IndexSchema](#indexschema)
+
+```python
+from redisvl.schema import IndexSchema
+schema = IndexSchema.from_yaml("schema.yaml")
+```
+
 #### `add_field(field_inputs)`
 
 Adds a single field to the index schema based on the specified field
@@ -162,59 +215,6 @@ schema.add_fields([
         }
     }
 ])
-```
-
-#### `classmethod from_dict(data)`
-
-Create an IndexSchema from a dictionary.
-
-* **Parameters:**
-  **data** (*Dict* *[* *str* *,* *Any* *]*) – The index schema data.
-* **Returns:**
-  The index schema.
-* **Return type:**
-  [IndexSchema](#indexschema)
-
-```python
-from redisvl.schema import IndexSchema
-
-schema = IndexSchema.from_dict({
-    "index": {
-        "name": "docs-index",
-        "prefix": "docs",
-        "storage_type": "hash",
-    },
-    "fields": [
-        {
-            "name": "doc-id",
-            "type": "tag"
-        },
-        {
-            "name": "doc-embedding",
-            "type": "vector",
-            "attrs": {
-                "algorithm": "flat",
-                "dims": 1536
-            }
-        }
-    ]
-})
-```
-
-#### `classmethod from_yaml(file_path)`
-
-Create an IndexSchema from a YAML file.
-
-* **Parameters:**
-  **file_path** (*str*) – The path to the YAML file.
-* **Returns:**
-  The index schema.
-* **Return type:**
-  [IndexSchema](#indexschema)
-
-```python
-from redisvl.schema import IndexSchema
-schema = IndexSchema.from_yaml("schema.yaml")
 ```
 
 #### `remove_field(field_name)`
@@ -351,7 +351,7 @@ Configuration for the model, should be a dictionary conforming to [ConfigDict][p
 
 Field type
 
-### `class TextFieldAttributes(*, sortable=False, index_missing=False, no_index=False, weight=1, no_stem=False, withsuffixtrie=False, phonetic_matcher=None, index_empty=False, unf=False)`
+### `class TextFieldAttributes(, sortable=False, index_missing=False, no_index=False, weight=1, no_stem=False, withsuffixtrie=False, phonetic_matcher=None, index_empty=False, unf=False)`
 
 Full text field attributes
 
@@ -443,7 +443,7 @@ Configuration for the model, should be a dictionary conforming to [ConfigDict][p
 
 Field type
 
-### `class TagFieldAttributes(*, sortable=False, index_missing=False, no_index=False, separator=',', case_sensitive=False, withsuffixtrie=False, index_empty=False)`
+### `class TagFieldAttributes(, sortable=False, index_missing=False, no_index=False, separator=',', case_sensitive=False, withsuffixtrie=False, index_empty=False)`
 
 Tag field attributes
 
@@ -525,7 +525,7 @@ Configuration for the model, should be a dictionary conforming to [ConfigDict][p
 
 Field type
 
-### `class NumericFieldAttributes(*, sortable=False, index_missing=False, no_index=False, unf=False)`
+### `class NumericFieldAttributes(, sortable=False, index_missing=False, no_index=False, unf=False)`
 
 Numeric field attributes
 
@@ -592,7 +592,7 @@ Configuration for the model, should be a dictionary conforming to [ConfigDict][p
 
 Field type
 
-### `class GeoFieldAttributes(*, sortable=False, index_missing=False, no_index=False)`
+### `class GeoFieldAttributes(, sortable=False, index_missing=False, no_index=False)`
 
 Numeric field attributes
 
@@ -620,7 +620,7 @@ Vector fields enable semantic similarity search using various algorithms. All ve
 
 All vector field types share these base attributes:
 
-### `class BaseVectorFieldAttributes(*, dims, algorithm, datatype=VectorDataType.FLOAT32, distance_metric=VectorDistanceMetric.COSINE, initial_cap=None, index_missing=False)`
+### `class BaseVectorFieldAttributes(, dims, algorithm, datatype=VectorDataType.FLOAT32, distance_metric=VectorDistanceMetric.COSINE, initial_cap=None, index_missing=False)`
 
 Base vector field attributes shared by FLAT, HNSW, and SVS-VAMANA fields
 
@@ -713,7 +713,7 @@ HNSW (Hierarchical Navigable Small World) - Graph-based approximate search with 
 - **Recall quality**: Excellent recall rates (95-99%), often better than other approximate methods
 - **Build time**: Moderate construction time, faster than SVS-VAMANA for smaller datasets
 
-### `class HNSWVectorField(*, name, type='vector', path=None, attrs)`
+### `class HNSWVectorField(, name, type='vector', path=None, attrs)`
 
 Bases: `BaseField`
 
@@ -751,7 +751,7 @@ Configuration for the model, should be a dictionary conforming to [ConfigDict][p
 
 Field type
 
-### `class HNSWVectorFieldAttributes(*, dims, algorithm=VectorIndexAlgorithm.HNSW, datatype=VectorDataType.FLOAT32, distance_metric=VectorDistanceMetric.COSINE, initial_cap=None, index_missing=False, m=16, ef_construction=200, ef_runtime=10, epsilon=0.01)`
+### `class HNSWVectorFieldAttributes(, dims, algorithm=VectorIndexAlgorithm.HNSW, datatype=VectorDataType.FLOAT32, distance_metric=VectorDistanceMetric.COSINE, initial_cap=None, index_missing=False, m=16, ef_construction=200, ef_runtime=10, epsilon=0.01)`
 
 HNSW vector field attributes for approximate nearest neighbor search.
 
@@ -879,7 +879,7 @@ SVS-VAMANA (Scalable Vector Search with VAMANA graph algorithm) provides fast ap
   - LVQ4x4 compression: 1.6 GB (~48% savings)
   - LeanVec4x8 + reduce to 384: 580 MB (~81% savings)
 
-### `class SVSVectorField(*, name, type=FieldTypes.VECTOR, path=None, attrs)`
+### `class SVSVectorField(, name, type=FieldTypes.VECTOR, path=None, attrs)`
 
 Bases: `BaseField`
 
@@ -917,7 +917,7 @@ Configuration for the model, should be a dictionary conforming to [ConfigDict][p
 
 Field type
 
-### `class SVSVectorFieldAttributes(*, dims, algorithm=VectorIndexAlgorithm.SVS_VAMANA, datatype=VectorDataType.FLOAT32, distance_metric=VectorDistanceMetric.COSINE, initial_cap=None, index_missing=False, graph_max_degree=40, construction_window_size=250, search_window_size=20, epsilon=0.01, compression=None, reduce=None, training_threshold=None)`
+### `class SVSVectorFieldAttributes(, dims, algorithm=VectorIndexAlgorithm.SVS_VAMANA, datatype=VectorDataType.FLOAT32, distance_metric=VectorDistanceMetric.COSINE, initial_cap=None, index_missing=False, graph_max_degree=40, construction_window_size=250, search_window_size=20, epsilon=0.01, compression=None, reduce=None, training_threshold=None)`
 
 SVS-VAMANA vector field attributes with compression support.
 
@@ -1069,7 +1069,7 @@ FLAT - Brute-force exact search. **Best for small datasets (<10K vectors) requir
 : - **vs HNSW**: Much slower search but exact results, faster index building
   - **vs SVS-VAMANA**: Slower search and higher memory usage, but exact results
 
-### `class FlatVectorField(*, name, type=FieldTypes.VECTOR, path=None, attrs)`
+### `class FlatVectorField(, name, type=FieldTypes.VECTOR, path=None, attrs)`
 
 Bases: `BaseField`
 
@@ -1107,7 +1107,7 @@ Configuration for the model, should be a dictionary conforming to [ConfigDict][p
 
 Field type
 
-### `class FlatVectorFieldAttributes(*, dims, algorithm=VectorIndexAlgorithm.FLAT, datatype=VectorDataType.FLOAT32, distance_metric=VectorDistanceMetric.COSINE, initial_cap=None, index_missing=False, block_size=None)`
+### `class FlatVectorFieldAttributes(, dims, algorithm=VectorIndexAlgorithm.FLAT, datatype=VectorDataType.FLOAT32, distance_metric=VectorDistanceMetric.COSINE, initial_cap=None, index_missing=False, block_size=None)`
 
 FLAT vector field attributes for exact nearest neighbor search.
 
@@ -1274,7 +1274,7 @@ Recommend compression settings based on dimensions and priorities.
 
 ### `SVSConfig`
 
-### `class SVSConfig(*, algorithm='svs-vamana', datatype=None, compression=None, reduce=None, graph_max_degree=None, construction_window_size=None, search_window_size=None)`
+### `class SVSConfig(, algorithm='svs-vamana', datatype=None, compression=None, reduce=None, graph_max_degree=None, construction_window_size=None, search_window_size=None)`
 
 Bases: `BaseModel`
 
