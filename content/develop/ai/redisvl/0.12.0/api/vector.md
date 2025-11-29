@@ -9,7 +9,7 @@ The Vector class in RedisVL is a container that encapsulates a numerical vector,
 
 ## Vector
 
-### `class Vector(*, vector, field_name, dtype='float32', weight=1.0)`
+### `class Vector(, vector, field_name, dtype='float32', weight=1.0)`
 
 Simple object containing the necessary arguments to perform a multi vector query.
 
