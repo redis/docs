@@ -10,7 +10,7 @@ aliases:
 
 <a id="hftextvectorizer-api"></a>
 
-### `class HFTextVectorizer(model='sentence-transformers/all-mpnet-base-v2', dtype='float32', cache=None, *, dims=None)`
+### `class HFTextVectorizer(model='sentence-transformers/all-mpnet-base-v2', dtype='float32', cache=None, , dims=None)`
 
 Bases: `BaseVectorizer`
 
@@ -78,7 +78,7 @@ Initialize the Hugging Face text vectorizer.
   * **ValueError** – If there is an error setting the embedding model dimensions.
   * **ValueError** – If an invalid dtype is provided.
 
-#### `model_post_init(context, /)`
+#### `model_post_init(context,)`
 
 This function is meant to behave like a BaseModel method to initialise private attributes.
 
@@ -102,7 +102,7 @@ Return the type of vectorizer.
 
 <a id="openaitextvectorizer-api"></a>
 
-### `class OpenAITextVectorizer(model='text-embedding-ada-002', api_config=None, dtype='float32', cache=None, *, dims=None)`
+### `class OpenAITextVectorizer(model='text-embedding-ada-002', api_config=None, dtype='float32', cache=None, , dims=None)`
 
 Bases: `BaseVectorizer`
 
@@ -184,7 +184,7 @@ Return the type of vectorizer.
 
 <a id="azureopenaitextvectorizer-api"></a>
 
-### `class AzureOpenAITextVectorizer(model='text-embedding-ada-002', api_config=None, dtype='float32', cache=None, *, dims=None)`
+### `class AzureOpenAITextVectorizer(model='text-embedding-ada-002', api_config=None, dtype='float32', cache=None, , dims=None)`
 
 Bases: `BaseVectorizer`
 
@@ -277,7 +277,7 @@ Return the type of vectorizer.
 
 <a id="vertexaitextvectorizer-api"></a>
 
-### `class VertexAITextVectorizer(model='textembedding-gecko', api_config=None, dtype='float32', cache=None, *, dims=None)`
+### `class VertexAITextVectorizer(model='textembedding-gecko', api_config=None, dtype='float32', cache=None, , dims=None)`
 
 Bases: `BaseVectorizer`
 
@@ -363,7 +363,7 @@ Return the type of vectorizer.
 
 <a id="coheretextvectorizer-api"></a>
 
-### `class CohereTextVectorizer(model='embed-english-v3.0', api_config=None, dtype='float32', cache=None, *, dims=None)`
+### `class CohereTextVectorizer(model='embed-english-v3.0', api_config=None, dtype='float32', cache=None, , dims=None)`
 
 Bases: `BaseVectorizer`
 
@@ -455,7 +455,7 @@ Return the type of vectorizer.
 
 <a id="bedrocktextvectorizer-api"></a>
 
-### `class BedrockTextVectorizer(model='amazon.titan-embed-text-v2:0', api_config=None, dtype='float32', cache=None, *, dims=None)`
+### `class BedrockTextVectorizer(model='amazon.titan-embed-text-v2:0', api_config=None, dtype='float32', cache=None, , dims=None)`
 
 Bases: `BaseVectorizer`
 
@@ -607,7 +607,7 @@ Return the type of vectorizer.
 
 <a id="voyageaitextvectorizer-api"></a>
 
-### `class VoyageAITextVectorizer(model='voyage-large-2', api_config=None, dtype='float32', cache=None, *, dims=None)`
+### `class VoyageAITextVectorizer(model='voyage-large-2', api_config=None, dtype='float32', cache=None, , dims=None)`
 
 Bases: `BaseVectorizer`
 

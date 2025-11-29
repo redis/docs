@@ -77,7 +77,7 @@ query’s context.
 * **Return type:**
   Union[Tuple[Union[List[Dict[str, Any]], List[str]], float], List[Dict[str, Any]]]
 
-#### `model_post_init(context, /)`
+#### `model_post_init(context,)`
 
 This function is meant to behave like a BaseModel method to initialise private attributes.
 
@@ -114,7 +114,7 @@ Configuration for the model, should be a dictionary conforming to [ConfigDict][p
 
 <a id="hfcrossencoderreranker-api"></a>
 
-### `class HFCrossEncoderReranker(model='cross-encoder/ms-marco-MiniLM-L-6-v2', limit=3, return_score=True, *, rank_by=None)`
+### `class HFCrossEncoderReranker(model='cross-encoder/ms-marco-MiniLM-L-6-v2', limit=3, return_score=True, , rank_by=None)`
 
 Bases: `BaseReranker`
 
@@ -166,7 +166,7 @@ in a manner that is potentially more relevant to the query’s context.
 * **Return type:**
   Union[Tuple[List[Dict[str, Any]], List[float]], List[Dict[str, Any]]]
 
-#### `model_post_init(context, /)`
+#### `model_post_init(context,)`
 
 This function is meant to behave like a BaseModel method to initialise private attributes.
 
@@ -268,7 +268,7 @@ query’s context.
 * **Return type:**
   Union[Tuple[Union[List[Dict[str, Any]], List[str]], float], List[Dict[str, Any]]]
 
-#### `model_post_init(context, /)`
+#### `model_post_init(context,)`
 
 This function is meant to behave like a BaseModel method to initialise private attributes.
 
