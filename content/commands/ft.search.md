@@ -680,6 +680,16 @@ Search for books with semantically similar title to _Planet Earth_. Return top 1
 </details>
 
 <details open>
+<summary><b>Vector search with cluster optimization</b></summary>
+
+Search for books with titles that are semantically similar to _Planet Earth_ using cluster optimization. Each shard retrieves 60% of the requested results for improved performance in Redis cluster environments. See the [query attributes]({{< relref "/develop/ai/search-and-query/advanced-concepts/query_attributes" >}}) reference page for more information.
+
+{{< highlight bash >}}
+127.0.0.1:6379> FT.SEARCH books-idx "*=>[KNN 100 @title_embedding $query_vec]=>{$SHARD_K_RATIO: 0.6; $YIELD_DISTANCE_AS: title_score}" PARAMS 2 query_vec <"Planet Earth" embedding BLOB> SORTBY title_score DIALECT 2
+{{< / highlight >}}
+</details>
+
+<details open>
 <summary><b>Search for a phrase using SLOP</b></summary>
 
 Search for a phrase _hello world_.

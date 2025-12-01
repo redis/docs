@@ -13,7 +13,10 @@
   "acl_categories": {{ .Params.acl_categories | jsonify }}{{ end }}{{ if .Params.since }},
   "since": {{ .Params.since | jsonify }}{{ end }}{{ if .Params.arity }},
   "arity": {{ .Params.arity | jsonify }}{{ end }}{{ if .Params.key_specs }},
-  "key_specs": {{ .Params.key_specs | jsonify }}{{ end }}
+  "key_specs": {{ .Params.key_specs | jsonify }}{{ end }}{{ if .Params.topics }},
+  "topics": {{ .Params.topics | jsonify }}{{ end }}{{ if .Params.relatedPages }},
+  "relatedPages": {{ .Params.relatedPages | jsonify }}{{ end }}{{ if .Params.scope }},
+  "scope": {{ .Params.scope | jsonify }}{{ end }}
 }
 ```
 

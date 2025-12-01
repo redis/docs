@@ -140,7 +140,7 @@ One of the following:
 * [Array reply](../../develop/reference/protocol-spec#arrays): For each ID:
     * [Integer reply](../../develop/reference/protocol-spec#integers): -1 if no such ID exists in the provided stream key.
     * [Integer reply](../../develop/reference/protocol-spec#integers): 1 if the entry was deleted from the stream.
-    * [Integer reply](../../develop/reference/protocol-spec#integers): 2 if the entry was not deleted, but there are still dangling references (ACKED option).
+    * [Integer reply](../../develop/reference/protocol-spec#integers): 2 if the entry was not deleted and there are still existing references (`ACKED` option); also, if there are no consumer groups.
 
 -tab-sep-
 
@@ -150,6 +150,6 @@ One of the following:
 * [Array reply](../../develop/reference/protocol-spec#arrays): For each ID:
     * [Integer reply](../../develop/reference/protocol-spec#integers): -1 if no such ID exists in the provided stream key.
     * [Integer reply](../../develop/reference/protocol-spec#integers): 1 if the entry was deleted from the stream.
-    * [Integer reply](../../develop/reference/protocol-spec#integers): 2 if the entry was not deleted, but there are still dangling references (ACKED option).
+    * [Integer reply](../../develop/reference/protocol-spec#integers):  2 if the entry was not deleted and there are still existing references (`ACKED` option); also, if there are no consumer groups.
 
 {{< /multitabs >}}
