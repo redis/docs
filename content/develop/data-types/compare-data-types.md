@@ -72,7 +72,7 @@ in the string to use as bit sets, integers, or floating-point numbers.
 ### Hashes
 
 -   **Structure**: collection of key-value pairs.
--   **Operations**: get, set, delete, increment, decrement.
+-   **Operations**: get, set, delete, increment, decrement, query.
 -   **Suitable for**: Simple objects with a small number of fields.
 
 Hashes are mainly useful for storing objects with a small number of fields
