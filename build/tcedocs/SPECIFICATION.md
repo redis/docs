@@ -2140,6 +2140,26 @@ OK
 {{< /clients-example >}}
 ```
 
+### Language Filter Matching Behavior
+
+The `lang_filter` parameter uses **exact matching** on comma-separated language names:
+
+**Matching Logic**:
+1. Split the filter string by commas (e.g., `"C#-Sync,C#-Async"` → `["C#-Sync", "C#-Async"]`)
+2. Trim whitespace from each language name
+3. For each configured language in `config.toml`, check if it exactly matches any value in the filter list
+4. Only include languages that match exactly
+
+**Examples**:
+- `lang_filter="C#-Sync,C#-Async"` → Shows only C# sync and async tabs
+- `lang_filter="Python"` → Shows only Python tab
+- `lang_filter="Python,Node.js"` → Shows Python and Node.js tabs
+- `lang_filter="C"` → Shows only C tab (does NOT match "C#-Sync" or "C#-Async")
+
+**Important**: Language names must match exactly as they appear in `config.toml`. This prevents accidental matches when one language name is a substring of another (e.g., "C" is a substring of "C#-Sync", but they are treated as distinct languages).
+
+**Implementation**: See `layouts/partials/tabbed-clients-example.html` for the matching logic.
+
 
 ## Lessons Learned: Adding the C (hiredis) Client
 
