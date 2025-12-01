@@ -1,4 +1,6 @@
 ---
+aliases:
+- /operate/oss_and_stack/management/config-file
 categories:
 - docs
 - operate
@@ -15,14 +17,13 @@ configuration, however this setup is only recommended for testing and
 development purposes.
 
 The proper way to configure Redis is by providing a Redis configuration file,
-usually called `redis.conf`.
+usually called `redis.conf`. Beginning with Redis 8 in Redis Open Source, there are two configuration files:
+* `redis.conf` - contains the configuration settings for Redis server only.
+* `redis-full.conf` - contains configuration settings for Redis server and all available components: Redis Query Engine, Redis time series, and Redis probabilistic data structures. Note: `redis-full.conf` has as its first line `include redis.conf`, which pulls in the Redis server configuration settings at startup. You can use `redis-full.conf` if you want to use all available components.
 
-{{< note >}}
-For Redis 8 in Redis Open Source, the configuration file is called `redis-full.conf`.
-{{< /note >}}
+If you are building Redis from source and choose to build Redis server without the available components, you can use `redis.conf` as your configuration file.
 
-The configuration file contains a number of directives that have a very simple
-format:
+Each configuration file contains a number of directives that have a very simple format:
 
     keyword argument1 argument2 ... argumentN
 
@@ -39,25 +40,15 @@ Single-quoted string can contain characters escaped by backslashes, and
 double-quoted strings can additionally include any ASCII symbols encoded using
 backslashed hexadecimal notation "\\xff".
 
-The list of configuration directives, and their meaning and intended usage
-is available in the self-documented example `redis.conf` or `redis-full.conf` shipped into the
-Redis distribution.
+The list of configuration directives, along with comments describing their meaning and intended usage, is available in the self-documented sample files `redis.conf` and `redis-full.conf` files shipped with the Redis distributions.
 
-* The self-documented [redis-full.conf for Redis 8.4](https://raw.githubusercontent.com/redis/redis/8.4/redis-full.conf).
-* The self-documented [redis-full.conf for Redis 8.2](https://raw.githubusercontent.com/redis/redis/8.2/redis-full.conf).
-* The self-documented [redis-full.conf for Redis 8.0](https://raw.githubusercontent.com/redis/redis/8.0/redis-full.conf).
-* The self-documented [redis.conf for Redis 7.4](https://raw.githubusercontent.com/redis/redis/7.4/redis.conf).
-* The self-documented [redis.conf for Redis 7.2](https://raw.githubusercontent.com/redis/redis/7.2/redis.conf).
-* The self-documented [redis.conf for Redis 7.0](https://raw.githubusercontent.com/redis/redis/7.0/redis.conf).
-* The self-documented [redis.conf for Redis 6.2](https://raw.githubusercontent.com/redis/redis/6.2/redis.conf).
-* The self-documented [redis.conf for Redis 6.0](https://raw.githubusercontent.com/redis/redis/6.0/redis.conf).
-* The self-documented [redis.conf for Redis 5.0](https://raw.githubusercontent.com/redis/redis/5.0/redis.conf).
-* The self-documented [redis.conf for Redis 4.0](https://raw.githubusercontent.com/redis/redis/4.0/redis.conf).
-* The self-documented [redis.conf for Redis 3.2](https://raw.githubusercontent.com/redis/redis/3.2/redis.conf).
-* The self-documented [redis.conf for Redis 3.0](https://raw.githubusercontent.com/redis/redis/3.0/redis.conf).
-* The self-documented [redis.conf for Redis 2.8](https://raw.githubusercontent.com/redis/redis/2.8/redis.conf).
-* The self-documented [redis.conf for Redis 2.6](https://raw.githubusercontent.com/redis/redis/2.6/redis.conf).
-* The self-documented [redis.conf for Redis 2.4](https://raw.githubusercontent.com/redis/redis/2.4/redis.conf).
+* Configuration files for Redis 8.4: [redis-full.conf](https://raw.githubusercontent.com/redis/redis/8.4/redis-full.conf) and [redis.conf](https://raw.githubusercontent.com/redis/redis/8.4/redis.conf).
+* Configuration files for Redis 8.2: [redis-full.conf](https://raw.githubusercontent.com/redis/redis/8.2/redis-full.conf) and [redis.conf](https://raw.githubusercontent.com/redis/redis/8.2/redis.conf).
+* Configuration files for Redis 8.0: [redis-full.conf](https://raw.githubusercontent.com/redis/redis/8.0/redis-full.conf) and [redis.conf](https://raw.githubusercontent.com/redis/redis/8.0/redis.conf).
+* Configuration file for Redis 7.4: [redis.conf](https://raw.githubusercontent.com/redis/redis/7.4/redis.conf).
+* Configuration file for Redis 7.2: [redis.conf](https://raw.githubusercontent.com/redis/redis/7.2/redis.conf).
+* Configuration file for Redis 7.0: [redis.conf](https://raw.githubusercontent.com/redis/redis/7.0/redis.conf).
+* Configuration file for Redis 6.2: [redis.conf](https://raw.githubusercontent.com/redis/redis/6.2/redis.conf).
 
 Passing arguments using the command line
 ---
@@ -88,14 +79,14 @@ Not all of the configuration directives are supported in this way, but most
 are supported as expected.
 Please refer to the [`CONFIG SET`](/commands/config-set) and [`CONFIG GET`](/commands/config-get) pages for more information.
 
-Note that modifying the configuration on the fly **has no effects on the
-redis.conf file** so at the next restart of Redis the old configuration will
+Note that modifying the configuration on the fly does not affect the
+`redis.conf` and `redis-full.conf` files, so at the next restart of Redis, the old configuration will
 be used instead.
 
-Make sure to also modify the `redis.conf` file accordingly to the configuration
+Make sure to also modify the configuration files accordingly to the configuration
 you set using [`CONFIG SET`](/commands/config-set).
-You can do it manually, or you can use [`CONFIG REWRITE`](/commands/config-rewrite), which will automatically scan your `redis.conf` file and update the fields which don't match the current configuration value.
-Fields non existing but set to the default value are not added.
+You can do it manually, or you can use [`CONFIG REWRITE`](/commands/config-rewrite), which will automatically scan your configuration files and update the fields that don't match the current configuration value.
+Fields set to the default value are not added.
 Comments inside your configuration file are retained.
 
 Configuring Redis as a cache
