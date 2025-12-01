@@ -503,8 +503,8 @@ linkTitle: FT.HYBRID
 since: 8.4.0
 summary: Performs hybrid search combining text search and vector similarity search
 syntax_fmt: "FT.HYBRID index\n  SEARCH query\n    [SCORER scorer]\n    [YIELD_SCORE_AS\
-  \ name]\n  VSIM field vector\n    [KNN count [K k] [EF_RUNTIME ef_runtime]]\n \
-  \   [RANGE count [RADIUS radius] [EPSILON epsilon]]\n    [YIELD_SCORE_AS name]\n\
+  \ name]\n  VSIM vector_field $vector_param\n    [KNN count [K k] [EF_RUNTIME ef_runtime]]\n\
+  \    [RANGE count [RADIUS radius] [EPSILON epsilon]]\n    [YIELD_SCORE_AS name]\n\
   \    [FILTER filter]\n  [COMBINE RRF count [CONSTANT constant] [WINDOW window]\
   \ [YIELD_SCORE_AS name]]\n  [COMBINE LINEAR count [[ALPHA alpha] [BETA beta]] [WINDOW\
   \ window] [YIELD_SCORE_AS name]]\n  [LIMIT offset num]\n  [SORTBY count sortby\
@@ -512,8 +512,8 @@ syntax_fmt: "FT.HYBRID index\n  SEARCH query\n    [SCORER scorer]\n    [YIELD_SC
   \ nargs property [property ...]\n  [GROUPBY nargs property [property ...]\n   \
   \ [REDUCE function nargs arg [arg ...] [AS name]\n    [REDUCE function nargs arg\
   \ [arg ...] [AS name] ...]] ...]]\n  [APPLY expression AS name [APPLY expression\
-  \ AS name ...]]\n  [PARAMS nargs name value [name value ...]]\n\
-  \  [TIMEOUT timeout]"
+  \ AS name ...]]\n  [FILTER filter]\n  PARAMS nargs vector_param vector_blob [name\
+  \ value ...]\n  [TIMEOUT timeout]"
 title: FT.HYBRID
 ---
 
@@ -611,7 +611,7 @@ assigns an alias to the combined fusion score for use in post-processing operati
 
 specifies which fields to return in the results. The `count` parameter indicates the number of fields that follow.
 
-Example: `LOAD 3 category brand price`
+Example: `LOAD 3 @category @brand @price`
 </details>
 
 <details open>
@@ -696,7 +696,7 @@ All multi-parameter options use a count prefix that contains ALL tokens that fol
 
 The only exception is alias usage with `AS`, which is not counted:
 - `APPLY "@vector_distance+@score" AS final_score`
-- `LOAD 3 category AS cat brand AS brd price AS prc`
+- `LOAD 3 @category AS cat @brand AS brd @price AS prc`
 
 ## Reserved fields
 
@@ -719,6 +719,7 @@ Perform a simple hybrid search combining text search for "laptop" with vector si
   SEARCH "laptop"
   VSIM @description_vector $query_vec
   KNN 2 K 10
+  PARAMS 2 query_vec <vector_blob>
 {{< / highlight >}}
 </details>
 
@@ -737,8 +738,9 @@ Search for electronics with custom BM25 parameters and RRF fusion:
   YIELD_SCORE_AS vector_score
   COMBINE RRF 4 WINDOW 50 CONSTANT 80
   YIELD_SCORE_AS hybrid_score
-  SORTBY 1 hybrid_score DESC
+  SORTBY 2 hybrid_score DESC
   LIMIT 0 20
+  PARAMS 2 query_vec <vector_blob>
 {{< / highlight >}}
 </details>
 
@@ -754,9 +756,10 @@ Search with vector pre-filtering and post-processing:
   KNN 2 K 15
   FILTER "@price:[100 500]"
   COMBINE LINEAR 4 ALPHA 0.7 BETA 0.3
-  LOAD 4 title price category rating
+  LOAD 4 @title @price @category @rating
   APPLY "@price * 0.9" AS discounted_price
-  SORTBY 1 rating DESC
+  SORTBY 2 rating DESC
+  PARAMS 2 query_vec <vector_blob>
 {{< / highlight >}}
 </details>
 
