@@ -25,3 +25,12 @@ API references are available for the following client libraries:
 - [lettuce](https://lettuce.io/core/release/reference/index.html)
 - [go-redis](https://pkg.go.dev/github.com/redis/go-redis/v9)
 - [redis-rs](https://docs.rs/redis/latest/redis/)
+
+## Data type comparisons
+
+See [Compare data types]({{< relref "/develop/data-types/compare-data-types" >}}) for advice 
+on which of the general-purpose data types is best for common tasks.
+
+## Error handling
+
+See [Error handling]({{< relref "/develop/clients/error-handling" >}}) for a guide to handling errors in client libraries.
