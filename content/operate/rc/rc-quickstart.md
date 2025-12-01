@@ -51,11 +51,7 @@ If you want to create a different type of database, see the following guides:
 
 1. Select the **Database version** you want to use.
 
-    A preview of Redis 8.0 is available for databases in selected regions. Select **8.0** to use it. For more information on the changes in Redis 8.0, see [What's new in Redis 8.0]({{<relref "/develop/whats-new/8-0" >}}) and review the [breaking changes]({{<relref "/operate/rc/changelog/version-release-notes/8-0" >}}).
-
 1. Choose your **Cloud vendor** and **Region**. You can choose between **Amazon Web Services (AWS)**, **Google Cloud**, and **Microsoft Azure** for the Cloud Vendor. 
-
-    {{<image filename="images/rc/create-database-essentials-cloud-vendor.png" alt="The Cloud vendor settings.">}}
 
     See [Supported regions]({{< relref "/operate/rc/supported-regions" >}}) for a list of supported regions by cloud vendor.
 
@@ -67,7 +63,7 @@ If you want to create a different type of database, see the following guides:
 
 1.  In the upper corner, an icon shows the current status of the database.  If the icon shows an orange clock, this means your database is still being created and its status is _pending_.
 
-    {{< image filename="/images/rc/icon-database-update-status-pending.png#no-click" alt="Pending database status" class="inline" >}} {{< image filename="/images/rc/icon-database-status-active.png#no-click" alt="Active database status" class="inline">}}</nobr>
+    {{< image filename="/images/rc/icon-database-update-status-pending.png#no-click" alt="Pending database status" class="inline" width="30px" >}} {{< image filename="/images/rc/icon-database-status-active.png#no-click" alt="Active database status" class="inline" width="30px">}}</nobr>
 
     Once the database has been created, it becomes _active_ and the status indicator switches to a green circle containing a checkmark.  
 
@@ -112,7 +108,7 @@ You can connect to your database with Redis Insight in two ways:
 Opening your database with Redis Insight in your browser is only available for Essentials databases. For all other databases, [Download and install Redis Insight](#ri-app) on your computer.
 {{< /note >}}
 
-If Redis Insight on Redis Cloud is available for your database, select **Launch Redis Insight web** from the connection wizard to open it.
+Select **Launch Redis Insight web** from the connection wizard to open it.
 
 {{<image filename="images/rc/rc-ri-wizard-launch.png" alt="Launch Redis Insight web from the Connection Wizard." width=500px >}}
 
@@ -126,8 +122,8 @@ From there, you can:
 
 - Select **Load sample data** to add sample data into your database.
     {{<image filename="images/rc/rc-ri-load-data.png" alt="Load Sample Data button" width=300px >}}
-- Select **Explore** to learn how to use Redis.
-    {{<image filename="images/rc/rc-ri-explore-icon.png" alt="The Explore icon" >}}
+- Select **Insights** to learn how to use Redis.
+    {{<image filename="images/rc/rc-ri-explore-icon.png" alt="The Insights icon" >}}
 
 For more information on how to use Redis Insight in your browser, see [Open with Redis Insight on Redis Cloud]({{< relref "/operate/rc/databases/connect/insight-cloud" >}}).
 
@@ -172,7 +168,7 @@ See the following guides to get started with different Redis use cases:
 
 The [`redis-cli`]({{< relref "/develop/tools/cli" >}}) utility is installed when you install Redis.  It provides a command-line interface that lets you work with your database using core [Redis commands]({{< relref "/commands" >}}).
 
-To run `redis-cli`, [install Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) on your machine.
+To run `redis-cli`, [install Redis]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) on your machine.
 
 See [Redis CLI]({{< relref "/develop/tools/cli" >}}) to learn how to use `redis-cli`.
 

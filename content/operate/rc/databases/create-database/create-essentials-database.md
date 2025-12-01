@@ -63,13 +63,7 @@ This guide shows how to create a paid Essentials database.
 
 1. Select the **Database version** you want to use.
 
-    A preview of Redis 8.0 is available for databases in selected regions. Select **8.0** to use it.
-
-    Redis 8.0 introduces powerful new capabilities, including the beta release of the Vector Set data structure, designed for AI use cases such as semantic search and recommendation systems. For more information on the changes in Redis 8.0, see [What's new in Redis 8.0]({{<relref "/develop/whats-new/8-0" >}}) and review the [breaking changes]({{<relref "/operate/rc/changelog/version-release-notes/8-0" >}}).
-
 1. The **Type** of database controls the protocol and advanced capabilities. Leave this as **Redis** unless you have a legacy application that uses **Memcached**.
-
-    A Redis database gives access to a set of advanced capabilities. For more information, see [Advanced capabilities]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#essentials" >}}).
     
 1. Select your desired memory limit.
 
