@@ -311,7 +311,7 @@ questions:
 ### Sequences
 
 You would normally store sequences of string or binary data using sorted sets,
-lists or streams. They each have advantages and disadvantages for particular purposes.  
+lists, or streams. They each have advantages and disadvantages for particular purposes.  
 Use the decision tree below as a guide to choosing the best data type for your task.
 
 ```decision-tree {id="sequences-tree"}
