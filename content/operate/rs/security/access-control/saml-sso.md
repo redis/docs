@@ -57,7 +57,7 @@ To set up SAML single sign-on for a Redis Enterprise Software cluster:
 
 1. [Configure SAML identity provider in Redis Enterprise Software](#configure-idp-metadata).
 
-1. [Configure user profiles](#configure-user-profiles).
+1. [Assign the SAML app to existing users](#assign-saml-app-to-existing-users).
 
 1. [Activate SSO](#activate-sso).
 
