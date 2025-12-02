@@ -259,4 +259,22 @@ The following example shows the `connect` step of a Python example:
 ```
 {{< clients-example set="set_and_get" step="connect" lang_filter="Python" />}}
 ```
+
 The programming language name should match the value in the Hugo configuration file.
+
+#### Language Filter Syntax and Matching
+
+The `lang_filter` parameter accepts a **comma-separated list of exact language names**:
+
+```
+{{< clients-example set="example_id" lang_filter="C#-Sync,C#-Async" />}}
+```
+
+**Important**: Language names must match exactly as they appear in `config.toml`. The matching is **exact**, not substring-based:
+
+- ✅ `lang_filter="C#-Sync,C#-Async"` - Shows only C# sync and async tabs
+- ❌ `lang_filter="C"` - Does NOT match "C#-Sync" or "C#-Async" (exact match only)
+- ✅ `lang_filter="Python,Node.js"` - Shows Python and Node.js tabs
+- ❌ `lang_filter="Python,Node"` - Does NOT match "Node.js" (must use exact name)
+
+**Common pitfall**: If you use a language name that is a substring of another language name (e.g., "C" is a substring of "C#-Sync"), the filter will NOT accidentally match the longer name. Each language in the filter list must match exactly.

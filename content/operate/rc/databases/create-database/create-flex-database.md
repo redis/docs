@@ -89,6 +89,8 @@ This guide shows how to create a Redis Flex database on Redis Cloud Essentials.
     - A **Snapshot** is a copy of the in-memory database, taken at periodic intervals (one, six, or twelve hours). You can restore data to the snapshot's point in time. 
     
     See [Data persistence]({{< relref "/operate/rc/databases/configuration/data-persistence" >}}) for more information about these settings.
+
+1. Select the **Database version** you want to use.
     
 1. Select your desired memory limit. 
 
@@ -109,3 +111,13 @@ This guide shows how to create a Redis Flex database on Redis Cloud Essentials.
 {{<image filename="images/rc/button-create-db-confirm-pay.png" width="140px" alt="Select Confirm & Pay to create your new database." >}}
 
 When you create your database, there's a brief pause while your request is processed and then the **Database details** page appears.
+
+## Create a Redis Flex database on Redis Cloud Pro
+
+To create a Redis Flex database on Redis Cloud Pro, [create a new Pro database with custom settings]({{< relref "/operate/rc/databases/create-database/create-pro-database-new#custom-settings" >}}). 
+
+In the **Advanced options** of the **Setup** tab, select **Redis Flex**.
+
+{{<image filename="images/rc/pro-flex-on.png" width="75%" alt="The Redis Flex setting selected." >}}
+
+Continue with the instructions to [create your database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new#custom-settings" >}}).

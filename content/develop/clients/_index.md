@@ -1,5 +1,8 @@
 ---
-aliases: /develop/connect/clients
+aliases:
+- /develop/connect/clients
+- /develop/connect/
+- /develop/connect
 categories:
 - docs
 - develop
