@@ -483,7 +483,7 @@ orders the results by the value of this attribute. This applies to both text and
   - Hybrid - applied when there is a `SORTBY` clause over a numeric field and another non-numeric filter. Some results will get filtered, and the initial range may not be large enough. The iterator is then rewinding with the following ranges, and an additional iteration takes place to collect the `LIMIT` requested results.
   - No optimization - If there is a sort by score or by non-numeric field, there is no other option but to retrieve all results and compare their values.
 
-**Counts behavior**: optional`WITHCOUNT`argument returns accurate counts for the query results with sorting. This operation processes all results in order to get an accurate count, being less performant than the optimized option (default behavior on `DIALECT 4`)
+**Counts behavior**: optional `WITHCOUNT` argument returns accurate counts for the query results with sorting. This operation processes all results in order to get an accurate count, being less performant than the optimized option (default behavior on `DIALECT 4`)
 
 You can also use `WITHOUTCOUNT` in place of `DIALECT 4` when used with either `FT.SEARCH` or `FT.AGGREGATE`.
 </details>
