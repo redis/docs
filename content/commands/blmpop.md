@@ -78,7 +78,7 @@ title: BLMPOP
 `BLMPOP` is the blocking variant of [`LMPOP`]({{< relref "/commands/lmpop" >}}).
 
 When any of the lists contains elements, this command behaves exactly like [`LMPOP`]({{< relref "/commands/lmpop" >}}).
-When used inside a [`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) block, this command behaves exactly like [`LMPOP`]({{< relref "/commands/lmpop" >}}).
+When used inside a [`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) block or a Lua script, this command behaves exactly like [`LMPOP`]({{< relref "/commands/lmpop" >}}).
 When all lists are empty, Redis will block the connection until another client pushes to it or until the `timeout` (a double value specifying the maximum number of seconds to block) elapses.
 A `timeout` of zero can be used to block indefinitely.
 

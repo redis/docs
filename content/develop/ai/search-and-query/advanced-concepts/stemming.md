@@ -14,7 +14,7 @@ categories:
 description: Stemming support
 linkTitle: Stemming
 title: Stemming
-weight: 10
+weight: 40
 ---
 
 RediSearch supports stemming - that is adding the base form of a word to the index. This allows the query for "`hiring`" to also return results for "`hire`" and "`hired`", for example.

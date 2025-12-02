@@ -512,10 +512,22 @@ to the application's data model or the way it interacts with Redis.
 
 ## Alerting
 
-The Redis Enterprise observability package includes [a suite of alerts and their associated tests for use with Prometheus](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana#alerts). **Note:** Not all the alerts are appropriate for all environments; for example, installations that do not use persistence have no need for storage alerts.
+The Redis Enterprise observability package includes a suite of alerts and their associated tests for use with Prometheus.
 
-The alerts are packaged with [a series of tests](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana/tests)
+- [Alerts for the v1 metrics endpoint](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/prometheus)
+
+- [Alerts for the v2 metrics endpoint](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/prometheus_v2)
+
+{{<note>}}
+Not all the alerts are appropriate for all environments; for example, installations that do not use persistence have no need for storage alerts.
+{{</note>}}
+
+The alerts are packaged with a series of tests
 that validate the individual triggers. You can use these tests to validate your modifications to these alerts for specific environments and use cases.
+
+- [Tests for the v1 metrics endpoint](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/prometheus/tests)
+
+- [Tests for the v2 metrics endpoint](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/prometheus_v2/tests)
 
 To use these alerts, install [Prometheus Alertmanager](https://prometheus.io/docs/alerting/latest/configuration/).
 For a comprehensive guide to alerting with Prometheus and Grafana,

@@ -19,7 +19,7 @@ To create Active-Active databases, you need a Redis Cloud Pro subscription that 
 
 Active-Active databases are distributed across multiple regions (geo-distribution).  This improves performance by reducing latency for nearby users and improves availability by protecting against data loss in case of network or resource failure.
 
-Active-Active databases allow read and write operations in each copy.  Each copy eventually reflects changes made in other copies ([eventual consistency]({{< relref "/glossary#eventual-consistency" >}})).  Conflict-free data types (CRDTs) synchronize read and write operations between copies.  CRDTs ensure consistency and resolve conflicts.
+Active-Active databases allow read and write operations in each copy.  Each copy eventually reflects changes made in other copies ([eventual consistency]({{< relref "/glossary#eventual-consistency" >}})).  Conflict-free replicated data types (CRDTs) synchronize read and write operations between copies.  CRDTs ensure consistency and resolve conflicts.
 
 Active-Active databases use TLS to synchronize data between regions.  You can also use TLS to encrypt client connections.  See [Transport Layer Security (TLS)]({{< relref "/operate/rc/security/database-security/tls-ssl.md" >}}) for more information.
 
@@ -41,7 +41,7 @@ Applications can connect to a specific copy of an Active-Active database using i
 
 ### Conflict resolution
 
-Active-Active databases use special data types called conflict-free data types (CRDT). These automatically resolve conflicts that occur when writes are made to different clusters at the same time.
+Active-Active databases use special data types called conflict-free replicated data types (CRDT). These automatically resolve conflicts that occur when writes are made to different clusters at the same time.
 
 ### Failover handling
 

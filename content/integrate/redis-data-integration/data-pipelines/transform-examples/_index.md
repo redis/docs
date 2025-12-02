@@ -142,6 +142,10 @@ also the
 [data transformation reference]({{< relref "/integrate/redis-data-integration/reference/data-transformation" >}})
 for details of all the available transformation blocks.
 
+{{< note >}}When using the `sql` option as language for the expressions keep in mind that RDI uses the SQL syntax and
+functions supported by SQLite and those may differ from the ANSI-SQL ones. You can find more details in SQLite's
+[official documentation](https://sqlite.org/lang.html).{{< /note >}}
+
 ## Examples
 
 The pages listed below show examples of typical job files for different use cases.

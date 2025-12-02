@@ -199,6 +199,9 @@ Here is the meaning of all fields in the **memory** section:
 *   `mem_clients_slaves`: Memory used by replica clients - Starting Redis 7.0, replica buffers share memory with the replication backlog, so this field can show 0 when replicas don't trigger an increase of memory usage.
 *   `mem_clients_normal`: Memory used by normal clients
 *   `mem_cluster_links`: Memory used by links to peers on the cluster bus when cluster mode is enabled.
+*   `mem_cluster_slot_migration_output_buffer`: Memory usage of the migration client's output buffer. Redis writes incoming changes to this buffer during the migration process.
+*   `mem_cluster_slot_migration_input_buffer`: Memory usage of the accumulated replication stream buffer on the importing node.
+*   `mem_cluster_slot_migration_input_buffer_peak`: Peak accumulated repl buffer size on the importing side.
 *   `mem_aof_buffer`: Transient memory used for AOF and AOF rewrite buffers
 *   `mem_replication_backlog`: Memory used by replication backlog
 *   `mem_total_replication_buffers`: Total memory consumed for replication buffers - Added in Redis 7.0.
@@ -501,9 +504,9 @@ The **sentinel** section is only available in Redis Sentinel instances. It consi
 *   `sentinel_scripts_queue_length`: The length of the queue of user scripts that are pending execution
 *   `sentinel_simulate_failure_flags`: Flags for the `SENTINEL SIMULATE-FAILURE` command
     
-The **cluster** section currently only contains a unique field:
+The **cluster** section contains a single fields:
 
-*   `cluster_enabled`: Indicate Redis cluster is enabled
+*   `cluster_enabled`: Indicates whether Redis cluster is enabled.
 
 The **modules** section contains additional information about loaded modules if the modules provide it. The field part of property lines in this section are always prefixed with the module's name.
 
@@ -570,6 +573,7 @@ _Redis Query Engine fields_
 *   `search_total_active_queries`: The total number of background queries currently being executed in the shard, excluding `FT.CURSOR READ`. <sup>[1](#tnote-1)</sup>
 *   `search_errors_indexing_failures`: The total number of indexing failures recorded across all indexes in the shard. <sup>[1](#tnote-1)</sup>
 *   `search_errors_for_index_with_max_failures`: The number of indexing failures in the index with the highest count of failures. <sup>[1](#tnote-1)</sup>
+*   `search_OOM_indexing_failures_indexes_count`: The number of indexes whose background indexing process failed due to out-of-memory (OOM) conditions. <sup>[2](#tnote-2)</sup>
 
 1. <a name="tnote-1"></a> Available in RediSearch 2.6.
 2. <a name="tnote-2"></a> Available in RediSearch 2.8.

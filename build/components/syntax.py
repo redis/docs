@@ -20,6 +20,12 @@ class ArgumentType(Enum):
     BLOCK = 'block'
     PURE_TOKEN = 'pure-token'
     COMMAND = 'command'
+    FUNCTION = 'function'
+    INDEX = 'index'
+    KEYNUM = 'keynum'
+    KEYWORD = 'keyword'
+    RANGE = 'range'
+    UNKNOWN = 'unknown'
 
 
 class Argument:
@@ -28,8 +34,8 @@ class Argument:
         self._stack = []
         self._level: int = level
         self._max_width: int = max_width
-        self._name: str = data['name']
-        self._type = ArgumentType(data['type'])
+        self._name: str = data.get('name', data.get('token', 'unnamed'))
+        self._type = ArgumentType(data.get('type', 'string'))
         self._optional: bool = data.get('optional', False)
         self._multiple: bool = data.get('multiple', False)
         self._multiple_token: bool = data.get('multiple_token', False)
@@ -49,6 +55,11 @@ class Argument:
             args += ' '.join([arg.syntax() for arg in self._arguments])
         elif self._type == ArgumentType.ONEOF:
             args += f' | '.join([arg.syntax() for arg in self._arguments])
+        elif self._type == ArgumentType.FUNCTION:
+            # Functions should display their token/name, not expand nested arguments
+            args += self._display
+            if show_types:
+                args += f':{self._type.value}'
         elif self._type != ArgumentType.PURE_TOKEN:
             args += self._display
             if show_types:

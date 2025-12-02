@@ -26,6 +26,20 @@ the monitored schemas and tables.
 Spanner is only supported with RDI deployed on Kubernetes/Helm. RDI VM mode does not support Spanner as a source database.
 {{< /note >}}
 
+The following checklist summarizes the steps to prepare a Spanner
+database for RDI, with links to the sections that explain the steps in
+full detail. You may find it helpful to track your progress with the
+checklist as you complete each step.
+
+```checklist {id="spannerlist"}
+- [ ] [Prepare for snapshot](#1-prepare-for-snapshot)
+- [ ] [Prepare for streaming](#2-prepare-for-streaming)
+- [ ] [Create a service account](#3-create-a-service-account)
+- [ ] [Set up secrets for Kubernetes deployment (optional)](#4-set-up-secrets-for-kubernetes-deployment-optional)
+- [ ] [Configure RDI for Spanner](#5-configure-rdi-for-spanner)
+- [ ] [Additional Kubernetes configuration](#6-additional-kubernetes-configuration)
+```
+
 ## 1. Prepare for snapshot
 
 During the snapshot phase, RDI executes multiple transactions to capture data at an exact point 
@@ -64,7 +78,14 @@ To allow RDI to access the Spanner instance, you'll need to create a service acc
 appropriate permissions. By default, RDI uses Google Cloud Workload Identity authentication. In this case RDI will assume the [service account is assigned to the GKE cluster](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity#enable_on_clusters_and_node_pools). Alternatively, you can provide the
 service account credentials as a Kubernetes secret (see step 4 for details).
 
-1. Create the service account
+```checklist {id="spanner-service-account" nointeractive="true" }
+- [ ] [Create the service account](#create-the-service-account)
+- [ ] [Grant required roles](#grant-required-roles)
+- [ ] [Download the service account key](#download-the-service-account-key)
+```
+
+1. <a id="create-the-service-account"></a>
+   Create the service account
 
     ```bash
     gcloud iam service-accounts create spanner-reader-account \
@@ -73,7 +94,8 @@ service account credentials as a Kubernetes secret (see step 4 for details).
         --project=YOUR_PROJECT_ID
     ```
 
-1. Grant required roles
+1. <a id="grant-required-roles"></a>
+   Grant required roles:
 
     **Database Reader** (read access to Spanner data):
 
@@ -99,7 +121,8 @@ service account credentials as a Kubernetes secret (see step 4 for details).
         --role="roles/spanner.viewer"
     ```
 
-1. Download the service account key
+1. <a id="download-the-service-account-key"></a>
+   Download the service account key:
 
     Save the credentials locally so they can be used later by RDI:
 
