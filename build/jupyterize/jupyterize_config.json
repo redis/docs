@@ -44,8 +44,32 @@
     "unwrap_patterns": []
   },
   "go": {
-    "boilerplate": [],
-    "unwrap_patterns": []
+    "boilerplate": [
+      "func main() {}"
+    ],
+    "unwrap_patterns": [
+      {
+        "type": "package_declaration",
+        "pattern": "^package\\s+\\w+\\s*$",
+        "end_pattern": "^package\\s+\\w+\\s*$",
+        "keep_content": false,
+        "description": "Remove package declaration"
+      },
+      {
+        "type": "func_main_opening",
+        "pattern": "^func\\s+main\\(\\)\\s*\\{\\s*$",
+        "end_pattern": "^\\}\\s*$",
+        "keep_content": false,
+        "description": "Remove func main() wrapper"
+      },
+      {
+        "type": "closing_braces",
+        "pattern": "^\\s*\\}\\s*$",
+        "end_pattern": "^\\s*\\}\\s*$",
+        "keep_content": false,
+        "description": "Remove orphaned closing braces"
+      }
+    ]
   },
   "java": {
     "boilerplate": [],

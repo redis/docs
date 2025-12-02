@@ -515,6 +515,204 @@ r = redis.Redis()
             os.unlink(output_file)
 
 
+def test_go_boilerplate_injection():
+    """Test Go boilerplate injection (func main() {} appended to first cell)."""
+    print("\nTesting Go boilerplate injection...")
+
+    # Create test file with Go code
+    test_content = """// EXAMPLE: test_go
+package main
+
+// STEP_START connect
+import (
+\t"fmt"
+\t"github.com/redis/go-redis/v9"
+)
+// STEP_END
+
+// STEP_START set_get
+fmt.Println("Hello")
+// STEP_END
+"""
+
+    test_file = None
+    output_file = None
+
+    try:
+        # Create temporary test file
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.go', delete=False) as f:
+            f.write(test_content)
+            test_file = f.name
+
+        # Convert to notebook
+        output_file = tempfile.mktemp(suffix='.ipynb')
+        jupyterize(test_file, output_file)
+
+        # Load and verify notebook
+        with open(output_file) as f:
+            nb = json.load(f)
+
+        # Verify kernel is gophernotes
+        assert nb['metadata']['kernelspec']['name'] == 'gophernotes', \
+            f"Kernel should be gophernotes, got {nb['metadata']['kernelspec']['name']}"
+
+        # First cell should contain imports AND func main() {}
+        # (boilerplate is appended to first cell for Go, not separate)
+        first_cell = nb['cells'][0]
+        first_cell_source = ''.join(first_cell['source'])
+        assert 'import (' in first_cell_source, \
+            f"First cell should contain imports, got: {first_cell_source}"
+        assert 'func main() {}' in first_cell_source, \
+            f"First cell should contain 'func main() {{}}', got: {first_cell_source}"
+
+        # Verify no package main declaration in any cell
+        all_code = '\n'.join([''.join(cell['source']) for cell in nb['cells']])
+        assert 'package main' not in all_code, \
+            "Should not contain 'package main' declaration"
+
+        print("✓ Go boilerplate injection test passed")
+
+    finally:
+        if test_file and os.path.exists(test_file):
+            os.unlink(test_file)
+        if output_file and os.path.exists(output_file):
+            os.unlink(output_file)
+
+
+def test_go_unwrapping():
+    """Test Go func main() wrapper removal and package declaration removal."""
+    print("\nTesting Go unwrapping...")
+
+    # Create test file with Go code that has func main() wrapper
+    test_content = """// EXAMPLE: test_go_unwrap
+package main
+
+import (
+\t"fmt"
+)
+
+func main() {
+\t// STEP_START hello
+\tfmt.Println("Hello, World!")
+\t// STEP_END
+}
+"""
+
+    test_file = None
+    output_file = None
+
+    try:
+        # Create temporary test file
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.go', delete=False) as f:
+            f.write(test_content)
+            test_file = f.name
+
+        # Convert to notebook
+        output_file = tempfile.mktemp(suffix='.ipynb')
+        jupyterize(test_file, output_file)
+
+        # Load and verify notebook
+        with open(output_file) as f:
+            nb = json.load(f)
+
+        # Get all code
+        all_code = '\n'.join([''.join(cell['source']) for cell in nb['cells']])
+
+        # Verify package main is removed
+        assert 'package main' not in all_code, \
+            "Should not contain 'package main' declaration"
+
+        # Verify func main() wrapper is removed from source
+        # (but boilerplate should have it)
+        assert all_code.count('func main()') == 1, \
+            f"Should have exactly one 'func main()' (in boilerplate), got: {all_code.count('func main()')}"
+
+        # Verify no orphaned closing braces
+        for cell in nb['cells']:
+            cell_code = ''.join(cell['source']).strip()
+            if cell_code and all(c in '}\n\t ' for c in cell_code):
+                assert False, f"Found orphaned closing brace cell: {repr(cell_code)}"
+
+        # Verify actual code is present and dedented
+        assert 'fmt.Println("Hello, World!")' in all_code, \
+            "Should contain actual code"
+
+        print("✓ Go unwrapping test passed")
+
+    finally:
+        if test_file and os.path.exists(test_file):
+            os.unlink(test_file)
+        if output_file and os.path.exists(output_file):
+            os.unlink(output_file)
+
+
+def test_go_real_file():
+    """Test with real Go file (landing_examples.go)."""
+    print("\nTesting with real Go file (landing_examples.go)...")
+
+    input_file = 'local_examples/client-specific/go/landing_examples.go'
+    output_file = None
+
+    try:
+        # Skip test if file doesn't exist
+        if not os.path.exists(input_file):
+            print("⊘ Skipping real Go file test (file not found)")
+            return
+
+        # Convert to notebook
+        output_file = tempfile.mktemp(suffix='.ipynb')
+        jupyterize(input_file, output_file)
+
+        # Load and verify notebook
+        with open(output_file) as f:
+            nb = json.load(f)
+
+        # Verify kernel is gophernotes
+        assert nb['metadata']['kernelspec']['name'] == 'gophernotes', \
+            f"Kernel should be gophernotes, got {nb['metadata']['kernelspec']['name']}"
+
+        # Verify first cell contains imports AND func main() {}
+        first_cell = nb['cells'][0]
+        first_cell_source = ''.join(first_cell['source'])
+        assert 'import (' in first_cell_source, \
+            f"First cell should contain imports, got: {first_cell_source}"
+        assert 'func main() {}' in first_cell_source, \
+            f"First cell should contain 'func main() {{}}', got: {first_cell_source}"
+
+        # Get all code
+        all_code = '\n'.join([''.join(cell['source']) for cell in nb['cells']])
+
+        # Verify no package main
+        assert 'package main' not in all_code, \
+            "Should not contain 'package main' declaration"
+
+        # Verify no orphaned closing braces
+        for cell in nb['cells']:
+            cell_code = ''.join(cell['source']).strip()
+            if cell_code == '}':
+                assert False, f"Found orphaned closing brace cell"
+
+        # Verify import statements are preserved
+        assert 'import (' in all_code, \
+            "Should contain import statements"
+        assert 'github.com/redis/go-redis' in all_code, \
+            "Should contain redis import"
+
+        # Verify actual code is present
+        assert 'redis.NewClient' in all_code or 'rdb :=' in all_code, \
+            "Should contain actual code"
+
+        # Should have multiple cells (one per step)
+        assert len(nb['cells']) >= 4, \
+            f"Should have at least 4 cells, got {len(nb['cells'])}"
+
+        print("✓ Real Go file test passed")
+
+    finally:
+        if output_file and os.path.exists(output_file):
+            os.unlink(output_file)
+
+
 def main():
     """Run all tests."""
     print("=" * 60)
@@ -546,6 +744,11 @@ def main():
         test_java_unwrapping()
         test_java_static_main_unwrapping()
         test_java_real_file()
+
+        # Language-specific feature tests (Go)
+        test_go_boilerplate_injection()
+        test_go_unwrapping()
+        test_go_real_file()
 
         # Regression tests
         test_csharp_for_loop_braces()

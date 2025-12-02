@@ -525,10 +525,16 @@ def create_cells(parsed_blocks, language):
     # Get language configuration
     lang_config = load_language_config(language)
 
-    # Add boilerplate cell if defined
+    # Get boilerplate if defined
     boilerplate = lang_config.get('boilerplate', [])
-    if boilerplate:
-        boilerplate_code = '\n'.join(boilerplate)
+    boilerplate_code = '\n'.join(boilerplate) if boilerplate else None
+
+    # For Go, append boilerplate to first cell instead of creating separate cell
+    # This ensures imports and func main() {} are in the same cell
+    append_boilerplate_to_first_cell = language.lower() == 'go'
+
+    # Add boilerplate cell if defined (except for Go, which appends to first cell)
+    if boilerplate and not append_boilerplate_to_first_cell:
         boilerplate_cell = new_code_cell(source=boilerplate_code)
         boilerplate_cell.metadata['cell_type'] = 'boilerplate'
         boilerplate_cell.metadata['language'] = language
@@ -536,6 +542,7 @@ def create_cells(parsed_blocks, language):
         logging.info(f"Added boilerplate cell for {language} ({len(boilerplate)} lines)")
 
     # Process regular cells
+    first_cell_processed = False
     for i, block in enumerate(parsed_blocks):
         code = block['code']
 
@@ -567,6 +574,13 @@ def create_cells(parsed_blocks, language):
             if code_no_whitespace and re.match(r'^}+$', code_no_whitespace):
                 logging.debug(f"Skipping cell {i} (contains only closing braces)")
                 continue
+
+        # For Go: append boilerplate to first cell (imports)
+        if append_boilerplate_to_first_cell and not first_cell_processed:
+            if boilerplate_code:
+                code = code + '\n\n' + boilerplate_code
+                logging.info(f"Appended boilerplate to first cell for {language}")
+            first_cell_processed = True
 
         # Create code cell
         cell = new_code_cell(source=code)
