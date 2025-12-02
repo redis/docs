@@ -75,6 +75,8 @@ To set up SAML single sign-on for a Redis Enterprise Software cluster:
 
 1. Go to **Access Control > Single Sign-On**.
 
+    <img src="../../../../../images/rs/screenshots/access-control/sso/sso-before-config.png" alt="The single sign-on configuration screen.">
+
 1. In the **Service Provider (Redis) metadata** section, find **Service-provider's public certificate + private key** and click **Upload**.
 
 1. Enter or upload the private key and certificate for your service provider.
