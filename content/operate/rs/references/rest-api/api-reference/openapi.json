@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:9443"
+      "url": "https://localhost:9443"
     }
   ],
   "paths": {
@@ -1263,13 +1263,13 @@
         "type": "string",
         "description": "Name of the management role.",
         "enum": [
-          "admin",
-          "user_manager",
-          "cluster_member",
+          "none",
           "db_viewer",
-          "db_member",
           "cluster_viewer",
-          "none"
+          "db_member",
+          "cluster_member",
+          "user_manager",
+          "admin"
         ]
       },
       "RoleBody": {
@@ -1282,6 +1282,7 @@
             "pattern": "^[a-zA-Z0-9_ \\[\\]()@,.;#-]+$"
           },
           "management": {
+            "description": "Role's management role.",
             "$ref": "#/components/schemas/RoleName"
           },
           "account_id": {
@@ -1316,6 +1317,28 @@
           "uid": 1,
           "name": "DBA",
           "management": "admin"
+        }
+      },
+      "RoleCreateRequest": {
+        "description": "Role creation request payload.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/RoleBody"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "uid": {
+                "description": "Optional uid to assign to the role.",
+                "type": "integer",
+                "x-go-type": "json.Number"
+              }
+            }
+          }
+        ],
+        "example": {
+          "name": "Support Engineer",
+          "management": "cluster_viewer"
         }
       },
       "User": {
@@ -1419,11 +1442,6 @@
               "active",
               "locked",
               "password_expired"
-            ],
-            "x-enum-varnames": [
-              "Active",
-              "Locked",
-              "PasswordExpired"
             ]
           }
         },
@@ -1653,6 +1671,16 @@
       },
       "NotAcceptable": {
         "description": "Not Acceptable",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Conflict": {
+        "description": "Conflict",
         "content": {
           "application/json": {
             "schema": {
