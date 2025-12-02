@@ -19,7 +19,7 @@ development purposes.
 The proper way to configure Redis is by providing a Redis configuration file,
 usually called `redis.conf`. Beginning with Redis 8 in Redis Open Source, there are two configuration files:
 * `redis.conf` - contains the configuration settings for Redis server only.
-* `redis-full.conf` - contains configuration settings for Redis server and all available components: Redis Query Engine, Redis time series, and Redis probabilistic data structures. Note: `redis-full.conf` has as its first line `include redis.conf`, which pulls in the Redis server configuration settings at startup. You can use `redis-full.conf` if you want to use all available components.
+* `redis-full.conf` - contains configuration settings for Redis server and all available components: Redis Query Engine, Redis time series, and Redis probabilistic data structures. This file has as its first line `include redis.conf`, which pulls in the Redis server configuration settings at startup. Use `redis-full.conf` when you want to enable all available components. The file contains four `loadmodule` directives, one for each component, and also loads Redis JSON (though JSON has no configuration parameters).
 
 If you are building Redis from source and choose to build Redis server without the available components, you can use `redis.conf` as your configuration file.
 
