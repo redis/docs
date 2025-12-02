@@ -16,13 +16,16 @@ Redis Enterprise Software supports both [IdP-initiated](#idp-initiated-sso) and 
 
 You cannot use [SCIM (System for Cross-domain Identity Management)](https://en.wikipedia.org/wiki/System_for_Cross-domain_Identity_Management) to provision Redis Enterprise Software users. However, Redis Enterprise Software supports just-in-time (JIT) user provisioning, which means Redis Enterprise Software automatically creates a user account the first time a new user signs in with SSO.
 
-## SAML SSO overview
+## SSO overview
 
-When SAML SSO is enabled, the [identity provider (IdP)](https://en.wikipedia.org/wiki/Identity_provider) admin handles SAML user management instead of the Redis Enterprise Software.
+When single sign-on is activated, users can sign in to the Redis Enterprise Software Cluster Manager UI using their [identity provider (IdP)](https://en.wikipedia.org/wiki/Identity_provider) instead of usernames and passwords. If [SSO is enforced](#enforce-sso), non-admin users can no longer sign in with their previous usernames and passwords and must use SSO instead.
 
-You can use any identity provider to integrate with Redis Enterprise Software as long as it supports the SAML protocol.
 
-After you activate SAML SSO, all existing local users except for admin users are required to use SAML SSO to sign in. Before they can sign in to Redis Enterprise Software Cluster Manager UI, the identity provider admin needs to set up these users on the IdP side and configure the `redisRoleMapping` attribute to map them to the appropriate Redis Enterprise Software roles.
+Before users can sign in to the Cluster Manager UI with SSO, the identity provider admin needs to set up these users on the IdP side with matching email addresses.
+
+With just-in-time (JIT) user provisioning, Redis Enterprise Software automatically creates user accounts for new users assigned to the SAML application in your identity provider when they sign in to the Cluster Manager UI for the first time. For these users, you must configure the `redisRoleMapping` attribute in your identity provider to assign appropriate roles for [role-based access control]({{<relref "/operate/rs/security/access-control/">}}) during account creation.
+
+You can use any identity provider to integrate with Redis Enterprise Software as long as it supports the [SAML](https://en.wikipedia.org/wiki/Security_Assertion_Markup_Language) protocol.
 
 ### IdP-initiated SSO
 
@@ -180,11 +183,11 @@ Set up a SAML app to integrate Redis Enterprise Software with your identity prov
         | Name ID format | EmailAddress | |
         | Application username | Email | |
 
-1. For **Signature certificate**, upload the Service Provider (Redis) certificate (the public SSO certificate that’s uploaded in the Redis SW SSO page)
+1. For the signature certificate, upload the Service Provider (Redis) public certificate.
 
-1. Enable **Signed requests**.
+1. Enable signed requests.
 
-1. Optionally **Enable Single Logout** if you wish to configure SLO, Single Logout URL should be taken from the Redis SW). **Single Logout Service** in the Cluster Manager UI `https://<cluster-FQDN>:8443/cluster/sso/saml/slo` <!--TODO: Fix this-->
+1. Optionally, you can enable single log-out (SLO) to allow users to sign out of the the identity provider and connected apps, including Redis Enterprise Software. Copy the **Single Logout Service** from the **Access Control > Single Sign-On** page in the Cluster Manager UI (`https://<cluster-FQDN>:8443/cluster/sso/saml/slo`) and configure it in the SAML app.
 
 1. Set up your SAML service provider app so the SAML assertion contains the following attributes:
 
@@ -193,7 +196,7 @@ Set up a SAML app to integrate Redis Enterprise Software with your identity prov
     | firstName | User's first name |
     | lastName | User's last name |
     | email | User's email address (used as the username in the Redis Enterprise Software Cluster Manager UI) |
-    | redisRoleMapping | String array that includes the role ID <!--TODO: (Configured later near the user profile mapping?)--> |
+    | redisRoleMapping | String array that includes the role UID for role-based access control in Redis Enterprise Software. Only used for just-in-time (JIT) user provisioning. If a user already exists in Redis Enterprise Software, this attribute is ignored and their existing roles are preserved. |
 
     {{<note>}}
 To confirm the identity provider's SAML assertions contain the required attributes, you can use a SAML-tracer web developer tool to inspect them.
@@ -269,23 +272,19 @@ tab2="REST API" >}}
 
 {{< /multitabs >}}
 
-### Configure user profiles
+### Assign SAML app to existing users
 
-<!--TODO: I need to review this again and fix this section-->
+In the identity provider's admin console:
 
-Configure user profiles in the identify provider admin console. See your identity provider's documentation for detailed instructions, and make sure you add and map the following attributes to the user profiles for your identity provider and the SAML app:
+1. Create user profiles in the identity provider for existing Redis Enterprise Software users. Make sure each user's email address matches in the identity provider and Redis Enterprise Software.
 
-| Attribute name | Type |
-|----------------|--------|
-| redisRoleMapping | string array |
+    {{<note>}}
+You do not need to configure the `redisRoleMapping` attribute for existing Redis Enterprise Software users. Their current roles will be preserved, and the `redisRoleMapping` attribute is ignored if provided.
+    {{</note>}}
 
-1. For admin users, set redisRoleMapping to `["1"]` for the identity provider user profile.
+2. Assign the new SAML integration app to each user.
 
-1. Assign the SAML app to the admin user, and add `1` as the `redisRoleMapping`.
-
-1. Add redisRoleMapping as a new attribute statement in the SAML app configuration.
-
-1. For users who are not admins, assign a redisRoleMapping other than 1. Check the available roles in your Redis Enterprise Software cluster.
+See your identity provider's documentation for detailed instructions.
 
 ### Activate SSO {#activate-sso}
 
@@ -314,9 +313,30 @@ PUT https://<host>:<port>/v1/cluster/sso
 
 {{< /multitabs >}}
 
+## Add new users with JIT provisioning
+
+After single sign-on is activated for Redis Enterprise Software, you can create new Redis Enterprise Software users on the identity provider side using just-in-time (JIT) provisioning.
+
+1. In the identity provider's admin console, create a new user profile with a valid email address. See your identity provider's documentation for detailed instructions.
+
+1. Configure the `redisRoleMapping` and assign a Redis Enterprise Software role UID to the user.
+
+    {{<note>}}
+To see a list of available role UIDs in your cluster, use a REST API request to [get all roles]({{<relref "/operate/rs/references/rest-api/requests/roles#get-all-roles">}}):
+
+```sh
+GET https://<host>:<port>/v1/roles
+```
+    {{</note>}}
+
+1. Assign the new SAML integration app to the user.
+
+1. Redis Enterprise Software will create a new user with the mapped role the first time the new user signs in to the Cluster Manager UI using SSO.
+
+
 ## Enforce SSO
 
-If SSO is enforced for the cluster, non-admin users can no longer sign in with their previous username and password and must use SSO instead.
+If SSO is enforced for the cluster, non-admin users can no longer sign in with their previous usernames and passwords and must use SSO instead.
 
 {{< multitabs id="enforce-sso"
 tab1="Cluster Manager UI"
