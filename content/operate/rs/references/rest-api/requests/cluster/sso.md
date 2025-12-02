@@ -17,8 +17,8 @@ weight: $weight
 | [GET](#get-cluster-sso) | `/v1/cluster/sso` | Get SSO configuration |
 | [PUT](#put-cluster-sso) | `/v1/cluster/sso` | Set or update SSO configuration |
 | [DELETE](#delete-cluster-sso) | `/v1/cluster/sso` | Clear SSO configuration |
-| [GET](#get-cluster-sso-saml-metadata) | `/v1/cluster/sso/saml/metadata` | Get SAML service provider metadata |
-| [POST](#post-cluster-sso-saml-metadata) | `/v1/cluster/sso/saml/metadata` | Upload SAML identity provider metadata |
+| [GET](#get-cluster-sso-saml-metadata) | `/v1/cluster/sso/saml/metadata/sp` | Get SAML service provider metadata |
+| [POST](#post-cluster-sso-saml-metadata) | `/v1/cluster/sso/saml/metadata/idp` | Upload SAML identity provider metadata |
 
 ## Get SSO configuration {#get-cluster-sso}
 
@@ -59,9 +59,11 @@ Returns an [SSO object]({{< relref "/operate/rs/references/rest-api/objects/sso"
    "issuer": {
          "id": "urn:sso:example:idp",
          "login_url": "https://idp.example.com/sso/saml",
-         "logout_url": "https://idp.example.com/sso/slo"
+         "logout_url": "https://idp.example.com/sso/slo",
+         "metadata": "<base64 encoded metadata>"
    },
    "service": {
+         "address": "https://hostname:port",
          "saml2": {
              "entity_id": "https://cnm.cluster.fqdn/sp",
              "acs_url": "https://cnm.cluster.fqdn/v1/cluster/sso/saml/acs",
@@ -108,11 +110,7 @@ Set or update the cluster single sign-on configuration.
          "logout_url": "https://idp.example.com/sso/slo"
    },
    "service": {
-         "saml2": {
-             "entity_id": "https://cnm.cluster.fqdn/sp",
-             "acs_url": "https://cnm.cluster.fqdn/v1/cluster/sso/saml/acs",
-             "slo_url": "https://cnm.cluster.fqdn/v1/cluster/sso/saml/slo"
-         }
+         "address": "https://hostname:port"
    }
 }
 ```
@@ -195,7 +193,7 @@ Possible `error_code` values:
 
 ## Get SAML service provider metadata {#get-cluster-sso-saml-metadata}
 
-	GET /v1/cluster/sso/saml/metadata
+	GET /v1/cluster/sso/saml/metadata/sp
 
 Generates and returns the SAML2 service provider metadata XML.
 
@@ -209,7 +207,7 @@ Generates and returns the SAML2 service provider metadata XML.
 
 #### Example HTTP request
 
-	GET /v1/cluster/sso/saml/metadata
+	GET /v1/cluster/sso/saml/metadata/sp
 
 #### Request headers
 
@@ -251,7 +249,7 @@ Possible `error_code` values:
 
 ## Upload SAML identity provider metadata {#post-cluster-sso-saml-metadata}
 
-	POST /v1/cluster/sso/saml/metadata
+	POST /v1/cluster/sso/saml/metadata/idp
 
 Uploads and validates the SAML2 identity provider metadata XML.
 
@@ -265,7 +263,7 @@ Uploads and validates the SAML2 identity provider metadata XML.
 
 #### Example HTTP request
 
-	POST /v1/cluster/sso/saml/metadata
+	POST /v1/cluster/sso/saml/metadata/idp
 
 #### Example JSON body
 

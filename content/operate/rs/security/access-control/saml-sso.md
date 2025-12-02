@@ -131,7 +131,7 @@ To download the service provider's metadata using the Cluster Manager UI:
 To download the service provider's metadata using the REST API, use a [get SAML service provider metadata]({{<relref "/operate/rs/references/rest-api/requests/cluster/sso#get-cluster-sso-saml-metadata">}}) request.
 
 ```sh
-GET https://<host>:<port>/v1/cluster/sso/saml/metadata
+GET https://<host>:<port>/v1/cluster/sso/saml/metadata/sp
 ```
 
 {{< /multitabs >}}
