@@ -49,13 +49,76 @@ BINDER_ID = 'BINDER_ID'
 
 # Jupyter kernel specifications
 KERNEL_SPECS = {
-    'python': {'name': 'python3', 'display_name': 'Python 3'},
-    'node.js': {'name': 'javascript', 'display_name': 'JavaScript (Node.js)'},
-    'go': {'name': 'gophernotes', 'display_name': 'Go'},
-    'c#': {'name': 'csharp', 'display_name': 'C#'},
-    'java': {'name': 'java', 'display_name': 'Java'},
-    'php': {'name': 'php', 'display_name': 'PHP'},
-    'rust': {'name': 'rust', 'display_name': 'Rust'}
+    'python': {
+        'name': 'python3',
+        'display_name': 'Python 3',
+        'language_info': {
+            'name': 'python',
+            'version': '3.x.x',
+            'mimetype': 'text/x-python',
+            'file_extension': '.py'
+        }
+    },
+    'node.js': {
+        'name': 'javascript',
+        'display_name': 'JavaScript (Node.js)',
+        'language_info': {
+            'name': 'javascript',
+            'version': '20.0.0',
+            'mimetype': 'application/javascript',
+            'file_extension': '.js'
+        }
+    },
+    'go': {
+        'name': 'gophernotes',
+        'display_name': 'Go',
+        'language_info': {
+            'name': 'go',
+            'version': '1.x.x',
+            'mimetype': 'text/x-go',
+            'file_extension': '.go'
+        }
+    },
+    'c#': {
+        'name': 'csharp',
+        'display_name': 'C#',
+        'language_info': {
+            'name': 'csharp',
+            'version': '9.0',
+            'mimetype': 'text/x-csharp',
+            'file_extension': '.cs'
+        }
+    },
+    'java': {
+        'name': 'java',
+        'display_name': 'Java',
+        'language_info': {
+            'name': 'java',
+            'version': '11.0.0',
+            'mimetype': 'text/x-java-source',
+            'file_extension': '.java'
+        }
+    },
+    'php': {
+        'name': 'php',
+        'display_name': 'PHP',
+        'language_info': {
+            'name': 'php',
+            'version': '8.0.0',
+            'mimetype': 'application/x-php',
+            'file_extension': '.php'
+        }
+    },
+    'rust': {
+        'name': 'rust',
+        'display_name': 'Rust',
+        'language_info': {
+            'name': 'rust',
+            'version': '1.x.x',
+            'mimetype': 'text/x-rust',
+            'file_extension': '.rs'
+        }
+    }
 }
 
 
@@ -609,9 +672,10 @@ def create_notebook(cells, language):
         'name': kernel_spec['name']
     }
 
-    nb.metadata.language_info = {
+    # Use language_info from kernel spec
+    nb.metadata.language_info = kernel_spec.get('language_info', {
         'name': language.lower()
-    }
+    })
 
     logging.info(f"Created notebook with kernel: {kernel_spec['name']}")
     return nb

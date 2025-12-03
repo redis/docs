@@ -510,17 +510,82 @@ Supported: `.py`, `.js`, `.go`, `.cs`, `.java`, `.php`, `.rs`
 
 ```python
 KERNEL_SPECS = {
-    'python': {'name': 'python3', 'display_name': 'Python 3'},
-    'node.js': {'name': 'javascript', 'display_name': 'JavaScript (Node.js)'},
-    'go': {'name': 'gophernotes', 'display_name': 'Go'},
-    'c#': {'name': 'csharp', 'display_name': 'C#'},
-    'java': {'name': 'java', 'display_name': 'Java'},
-    'php': {'name': 'php', 'display_name': 'PHP'},
-    'rust': {'name': 'rust', 'display_name': 'Rust'}
+    'python': {
+        'name': 'python3',
+        'display_name': 'Python 3',
+        'language_info': {
+            'name': 'python',
+            'version': '3.x.x',
+            'mimetype': 'text/x-python',
+            'file_extension': '.py'
+        }
+    },
+    'node.js': {
+        'name': 'javascript',
+        'display_name': 'JavaScript (Node.js)',
+        'language_info': {
+            'name': 'javascript',
+            'version': '20.0.0',
+            'mimetype': 'application/javascript',
+            'file_extension': '.js'
+        }
+    },
+    'go': {
+        'name': 'gophernotes',
+        'display_name': 'Go',
+        'language_info': {
+            'name': 'go',
+            'version': '1.x.x',
+            'mimetype': 'text/x-go',
+            'file_extension': '.go'
+        }
+    },
+    'c#': {
+        'name': 'csharp',
+        'display_name': 'C#',
+        'language_info': {
+            'name': 'csharp',
+            'version': '9.0',
+            'mimetype': 'text/x-csharp',
+            'file_extension': '.cs'
+        }
+    },
+    'java': {
+        'name': 'java',
+        'display_name': 'Java',
+        'language_info': {
+            'name': 'java',
+            'version': '11.0.0',
+            'mimetype': 'text/x-java-source',
+            'file_extension': '.java'
+        }
+    },
+    'php': {
+        'name': 'php',
+        'display_name': 'PHP',
+        'language_info': {
+            'name': 'php',
+            'version': '8.0.0',
+            'mimetype': 'application/x-php',
+            'file_extension': '.php'
+        }
+    },
+    'rust': {
+        'name': 'rust',
+        'display_name': 'Rust',
+        'language_info': {
+            'name': 'rust',
+            'version': '1.x.x',
+            'mimetype': 'text/x-rust',
+            'file_extension': '.rs'
+        }
+    }
 }
 ```
 
 **⚠️ Critical**: Also use `language.lower()` when accessing this dict.
+
+**Note on language_info**: Each language should include complete metadata with `name`, `version`, `mimetype`, and `file_extension` fields. This ensures notebooks are properly recognized by Jupyter and other tools.
 
 ### Marker Constants
 
