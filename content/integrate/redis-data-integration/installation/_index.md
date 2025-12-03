@@ -14,7 +14,7 @@ linkTitle: Install/upgrade
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: 2
+weight: 20
 ---
 
 The guides in this section explain the options you have for installing and upgrading RDI on your own servers. See the [Redis Cloud RDI guide]({{< relref "/operate/rc/databases/rdi" >}}) to 
