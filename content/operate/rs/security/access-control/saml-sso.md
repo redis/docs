@@ -120,6 +120,8 @@ To download the service provider's metadata using the Cluster Manager UI:
 
     1. **Metadata file**
 
+    <img src="../../../../../images/rs/screenshots/access-control/sso/sp-metadata-after-cert-upload.png" alt="The service provider Redis metadata section.">
+
 1. Optionally copy the following values for future SAML app setup in the identity provider. You can also find these values in the service provider's metadata file.
 
     1. **SP entity ID**: `https://<cluster-FQDN>/sp`
@@ -237,7 +239,7 @@ tab2="REST API" >}}
 
 1. Enter the **Identity Provider metadata** settings. 
 
-    {{<image filename="images/rc/access-management-saml-config.png"  alt="SAML Single Sign-On configuration screen.">}} <!--TODO: replace screenshot-->
+    <img src="../../../../../images/rs/screenshots/access-control/sso/edit-idp-metadata.png" alt="The identity provider metadata dialog.">
 
 1. Click **Save**.
 
@@ -351,6 +353,8 @@ To enforce single sign-on using the Cluster Manager UI:
 1. Find **Fallback behavior** and click **Edit**.
 
 1. Select **Enforce SSO-only login**.
+
+    <img src="../../../../../images/rs/screenshots/access-control/sso/enforce-sso.png" alt="Enforce SSO-only login is selected.">
 
 1. Click **Save**.
 
