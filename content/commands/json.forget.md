@@ -27,6 +27,7 @@ group: json
 hidden: false
 linkTitle: JSON.FORGET
 module: JSON
+railroad_diagram: /images/railroad/json.forget.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Deletes a value

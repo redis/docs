@@ -14,6 +14,7 @@ description: Return the number of elements in a vector set.
 group: vector_set
 hidden: false
 linkTitle: VCARD
+railroad_diagram: /images/railroad/vcard.svg
 since: 8.0.0
 summary: Return the number of elements in a vector set.
 syntax_fmt: "VCARD key"

@@ -14,6 +14,7 @@ description: Return information about a vector set.
 group: vector_set
 hidden: false
 linkTitle: VINFO
+railroad_diagram: /images/railroad/vinfo.svg
 since: 8.0.0
 summary: Return information about a vector set.
 syntax_fmt: "VINFO key"

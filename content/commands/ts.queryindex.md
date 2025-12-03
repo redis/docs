@@ -36,6 +36,7 @@ group: timeseries
 hidden: false
 linkTitle: TS.QUERYINDEX
 module: TimeSeries
+railroad_diagram: /images/railroad/ts.queryindex.svg
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Get all time series keys matching a filter list

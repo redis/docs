@@ -30,6 +30,7 @@ history:
 - - 7.2.0
   - Forgotten nodes are automatically propagated across the cluster via gossip.
 linkTitle: CLUSTER FORGET
+railroad_diagram: /images/railroad/cluster-forget.svg
 since: 3.0.0
 summary: Removes a node from the nodes table.
 syntax_fmt: CLUSTER FORGET node-id

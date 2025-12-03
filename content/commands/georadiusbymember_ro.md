@@ -115,8 +115,8 @@ key_specs:
       limit: 0
     type: range
 linkTitle: GEORADIUSBYMEMBER_RO
-replaced_by: '[`GEOSEARCH`]({{< relref "/commands/geosearch" >}}) with the `BYRADIUS`
-  and `FROMMEMBER` arguments'
+railroad_diagram: /images/railroad/georadiusbymember_ro.svg
+replaced_by: '`GEOSEARCH` with the `BYRADIUS` and `FROMMEMBER` arguments'
 since: 3.2.10
 summary: Returns members from a geospatial index that are within a distance from a
   member.

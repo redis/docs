@@ -268,12 +268,9 @@ hidden: false
 history:
 - - 2.0.0
   - Deprecated `WITHPAYLOADS` and `PAYLOAD` arguments
-- - 2.6
-  - Deprecated `GEOFILTER` argument
-- - "2.10"
-  - Deprecated `FILTER` argument
 linkTitle: FT.SEARCH
 module: Search
+railroad_diagram: /images/railroad/ft.search.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Searches the index with a textual query, returning either documents or just

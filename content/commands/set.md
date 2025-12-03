@@ -126,6 +126,7 @@ key_specs:
   update: true
   variable_flags: true
 linkTitle: SET
+railroad_diagram: /images/railroad/set.svg
 since: 1.0.0
 summary: Sets the string value of a key, ignoring its type. The key is created if
   it doesn't exist.

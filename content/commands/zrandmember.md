@@ -53,6 +53,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZRANDMEMBER
+railroad_diagram: /images/railroad/zrandmember.svg
 since: 6.2.0
 summary: Returns one or more random members from a sorted set.
 syntax_fmt: ZRANDMEMBER key [count [WITHSCORES]]

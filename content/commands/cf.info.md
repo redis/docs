@@ -22,6 +22,7 @@ group: cf
 hidden: false
 linkTitle: CF.INFO
 module: Bloom
+railroad_diagram: /images/railroad/cf.info.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Returns information about a Cuckoo Filter

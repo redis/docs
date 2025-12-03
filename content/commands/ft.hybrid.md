@@ -290,6 +290,7 @@ description: Performs hybrid search combining text search and vector similarity 
 group: search
 hidden: false
 linkTitle: FT.HYBRID
+railroad_diagram: /images/railroad/ft.hybrid.svg
 since: 8.4.0
 summary: Performs hybrid search combining text search and vector similarity search
 syntax_fmt: "FT.HYBRID index SEARCH query [SCORER\_scorer]\n  [YIELD_SCORE_AS\_yield_score_as]\

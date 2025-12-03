@@ -115,6 +115,7 @@ group: timeseries
 hidden: false
 linkTitle: TS.RANGE
 module: TimeSeries
+railroad_diagram: /images/railroad/ts.range.svg
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Query a range in forward direction

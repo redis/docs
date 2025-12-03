@@ -28,6 +28,7 @@ description: Sets hash slots as unbound for a node.
 group: cluster
 hidden: false
 linkTitle: CLUSTER DELSLOTS
+railroad_diagram: /images/railroad/cluster-delslots.svg
 since: 3.0.0
 summary: Sets hash slots as unbound for a node.
 syntax_fmt: CLUSTER DELSLOTS slot [slot ...]

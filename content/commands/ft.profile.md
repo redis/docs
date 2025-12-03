@@ -42,6 +42,7 @@ group: search
 hidden: false
 linkTitle: FT.PROFILE
 module: Search
+railroad_diagram: /images/railroad/ft.profile.svg
 since: 2.2.0
 stack_path: docs/interact/search-and-query
 summary: Performs a `FT.SEARCH` or `FT.AGGREGATE` command and collects performance

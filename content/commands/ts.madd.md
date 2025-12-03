@@ -31,6 +31,7 @@ group: timeseries
 hidden: false
 linkTitle: TS.MADD
 module: TimeSeries
+railroad_diagram: /images/railroad/ts.madd.svg
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Append new samples to one or more time series

@@ -47,6 +47,7 @@ key_specs:
     type: range
   insert: true
 linkTitle: HSETNX
+railroad_diagram: /images/railroad/hsetnx.svg
 since: 2.0.0
 summary: Sets the value of a field in a hash only when the field doesn't exist.
 syntax_fmt: HSETNX key field value

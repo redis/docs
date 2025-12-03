@@ -33,6 +33,7 @@ history:
 - - 3.2.2
   - Added the `SCHEDULE` option.
 linkTitle: BGSAVE
+railroad_diagram: /images/railroad/bgsave.svg
 since: 1.0.0
 summary: Asynchronously saves the database(s) to disk.
 syntax_fmt: BGSAVE [SCHEDULE]

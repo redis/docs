@@ -50,6 +50,7 @@ key_specs:
       keystep: 1
     type: keynum
 linkTitle: ZINTERCARD
+railroad_diagram: /images/railroad/zintercard.svg
 since: 7.0.0
 summary: Returns the number of members of the intersect of multiple sorted sets.
 syntax_fmt: "ZINTERCARD numkeys key [key ...] [LIMIT\_limit]"

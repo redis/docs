@@ -28,6 +28,7 @@ hints:
 - request_policy:all_nodes
 - response_policy:special
 linkTitle: LATENCY DOCTOR
+railroad_diagram: /images/railroad/latency-doctor.svg
 since: 2.8.13
 summary: Returns a human-readable latency analysis report.
 syntax_fmt: LATENCY DOCTOR

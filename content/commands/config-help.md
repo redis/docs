@@ -20,6 +20,7 @@ description: Returns helpful text about the different subcommands.
 group: server
 hidden: true
 linkTitle: CONFIG HELP
+railroad_diagram: /images/railroad/config-help.svg
 since: 5.0.0
 summary: Returns helpful text about the different subcommands.
 syntax_fmt: CONFIG HELP

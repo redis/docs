@@ -40,6 +40,7 @@ key_specs:
     type: range
   not_key: true
 linkTitle: SSUBSCRIBE
+railroad_diagram: /images/railroad/ssubscribe.svg
 since: 7.0.0
 summary: Listens for messages published to shard channels.
 syntax_fmt: SSUBSCRIBE shardchannel [shardchannel ...]

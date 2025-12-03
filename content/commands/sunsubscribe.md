@@ -41,6 +41,7 @@ key_specs:
     type: range
   not_key: true
 linkTitle: SUNSUBSCRIBE
+railroad_diagram: /images/railroad/sunsubscribe.svg
 since: 7.0.0
 summary: Stops listening to messages posted to shard channels.
 syntax_fmt: SUNSUBSCRIBE [shardchannel [shardchannel ...]]

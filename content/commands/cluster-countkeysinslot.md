@@ -23,6 +23,7 @@ description: Returns the number of keys in a hash slot.
 group: cluster
 hidden: false
 linkTitle: CLUSTER COUNTKEYSINSLOT
+railroad_diagram: /images/railroad/cluster-countkeysinslot.svg
 since: 3.0.0
 summary: Returns the number of keys in a hash slot.
 syntax_fmt: CLUSTER COUNTKEYSINSLOT slot

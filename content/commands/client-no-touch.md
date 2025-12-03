@@ -35,6 +35,7 @@ description: Controls whether commands sent by the client affect the LRU/LFU of 
 group: connection
 hidden: false
 linkTitle: CLIENT NO-TOUCH
+railroad_diagram: /images/railroad/client-no-touch.svg
 since: 7.2.0
 summary: Controls whether commands sent by the client affect the LRU/LFU of accessed
   keys.

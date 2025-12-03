@@ -23,6 +23,7 @@ group: suggestion
 hidden: false
 linkTitle: FT.SUGDEL
 module: Search
+railroad_diagram: /images/railroad/ft.sugdel.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Deletes a string from a suggestion index

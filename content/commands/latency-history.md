@@ -32,6 +32,7 @@ hints:
 - request_policy:all_nodes
 - response_policy:special
 linkTitle: LATENCY HISTORY
+railroad_diagram: /images/railroad/latency-history.svg
 since: 2.8.13
 summary: Returns timestamp-latency samples for an event.
 syntax_fmt: LATENCY HISTORY event

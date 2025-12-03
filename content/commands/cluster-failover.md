@@ -36,6 +36,7 @@ description: Forces a replica to perform a manual failover of its master.
 group: cluster
 hidden: false
 linkTitle: CLUSTER FAILOVER
+railroad_diagram: /images/railroad/cluster-failover.svg
 since: 3.0.0
 summary: Forces a replica to perform a manual failover of its master.
 syntax_fmt: CLUSTER FAILOVER [FORCE | TAKEOVER]

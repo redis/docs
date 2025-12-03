@@ -40,6 +40,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: OBJECT REFCOUNT
+railroad_diagram: /images/railroad/object-refcount.svg
 since: 2.2.3
 summary: Returns the reference count of a value of a key.
 syntax_fmt: OBJECT REFCOUNT key

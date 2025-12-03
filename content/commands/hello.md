@@ -53,6 +53,7 @@ history:
   - '`protover` made optional; when called without arguments the command reports the
     current connection''s context.'
 linkTitle: HELLO
+railroad_diagram: /images/railroad/hello.svg
 since: 6.0.0
 summary: Handshakes with the Redis server.
 syntax_fmt: "HELLO [protover [AUTH\_username password] [SETNAME\_clientname]]"

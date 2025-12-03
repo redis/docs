@@ -119,6 +119,7 @@ history:
 - - 7.4.0
   - '`MAXAGE` option.'
 linkTitle: CLIENT KILL
+railroad_diagram: /images/railroad/client-kill.svg
 since: 2.4.0
 summary: Terminates open connections.
 syntax_fmt: "CLIENT KILL <ip:port | <[ID\_client-id] | [TYPE\_<NORMAL | MASTER |\n\

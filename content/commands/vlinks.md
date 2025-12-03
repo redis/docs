@@ -14,6 +14,7 @@ description: Return the neighbors of an element at each layer in the HNSW graph.
 group: vector_set
 hidden: false
 linkTitle: VLINKS
+railroad_diagram: /images/railroad/vlinks.svg
 since: 8.0.0
 summary: Return the neighbors of an element at each layer in the HNSW graph.
 syntax_fmt: "VLINKS key element [WITHSCORES]"

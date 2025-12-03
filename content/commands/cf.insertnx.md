@@ -38,6 +38,7 @@ group: cf
 hidden: false
 linkTitle: CF.INSERTNX
 module: Bloom
+railroad_diagram: /images/railroad/cf.insertnx.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Adds one or more items to a Cuckoo Filter if the items did not exist previously.

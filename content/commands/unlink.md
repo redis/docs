@@ -46,6 +46,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: UNLINK
+railroad_diagram: /images/railroad/unlink.svg
 since: 4.0.0
 summary: Asynchronously deletes one or more keys.
 syntax_fmt: UNLINK key [key ...]

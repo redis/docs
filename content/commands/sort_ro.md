@@ -97,6 +97,7 @@ key_specs:
   notes: For the optional BY/GET keyword. It is marked 'unknown' because the key names
     derive from the content of the key we sort
 linkTitle: SORT_RO
+railroad_diagram: /images/railroad/sort_ro.svg
 since: 7.0.0
 summary: Returns the sorted elements of a list, a set, or a sorted set.
 syntax_fmt: "SORT_RO key [BY\_pattern] [LIMIT\_offset count] [GET\_pattern [GET\n\

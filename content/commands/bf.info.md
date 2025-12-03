@@ -41,6 +41,7 @@ group: bf
 hidden: false
 linkTitle: BF.INFO
 module: Bloom
+railroad_diagram: /images/railroad/bf.info.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Returns information about a Bloom Filter

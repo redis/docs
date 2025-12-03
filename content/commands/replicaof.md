@@ -48,6 +48,7 @@ description: Configures a server as replica of another, or promotes it to a mast
 group: server
 hidden: false
 linkTitle: REPLICAOF
+railroad_diagram: /images/railroad/replicaof.svg
 since: 5.0.0
 summary: Configures a server as replica of another, or promotes it to a master.
 syntax_fmt: REPLICAOF <host port | NO ONE>
