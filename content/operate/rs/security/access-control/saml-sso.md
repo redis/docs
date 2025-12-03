@@ -12,7 +12,7 @@ weight: 60
 ---
 
 
-Redis Enterprise Software supports both [IdP-initiated](#idp-initiated-sso) and [SP-initiated](#sp-initiated-sso) [single sign-on (SSO)](https://en.wikipedia.org/wiki/Single_sign-on) with [SAML (Security Assertion Markup Language)](https://en.wikipedia.org/wiki/Security_Assertion_Markup_Language) for the Cluster Manager UI.
+Redis Enterprise Software supports both [IdP-initiated](#idp-initiated-sso) and [SP-initiated](#sp-initiated-sso) [single sign-on (SSO)](https://en.wikipedia.org/wiki/Single_sign-on) with [SAML (Security Assertion Markup Language)](https://en.wikipedia.org/wiki/Security_Assertion_Markup_Language) for the Cluster Manager UI. Redis Enterprise Software uses SAML 2.0, which is the latest SAML version and an industry standard.
 
 You cannot use [SCIM (System for Cross-domain Identity Management)](https://en.wikipedia.org/wiki/System_for_Cross-domain_Identity_Management) to provision Redis Enterprise Software users. However, Redis Enterprise Software supports just-in-time (JIT) user provisioning, which means Redis Enterprise Software automatically creates a user account the first time a new user signs in with SSO.
 
@@ -46,7 +46,7 @@ Authentication requests expire after 3 minutes.
 
 You can use any identity provider to integrate with Redis Enterprise Software as long as it supports the following:
 
-- [SAML](https://en.wikipedia.org/wiki/Security_Assertion_Markup_Language) protocol.
+- [SAML](https://en.wikipedia.org/wiki/Security_Assertion_Markup_Language) 2.0 protocol.
 
 - Signed SAML responses since Redis Enterprise Software will not accept any unsigned SAML responses.
 
@@ -154,7 +154,7 @@ GET https://<host>:<port>/v1/cluster/sso/saml/metadata/sp
 Here's an abridged example of the service provider metadata XML:
 
 ```xml
-<md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" validUntil="2025-12-25T20:38:29" cacheDuration="PT2589134S" entityID="https://<cluster-FQDN>/sp" ID="<ID>">
+<md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" validUntil="2025-12-25T20:38:29" cacheDuration="PT2589134S" entityID="https://<cluster-FQDN>:8443/sp" ID="<ID>">
     ...
     <md:SPSSODescriptor AuthnRequestsSigned="true" WantAssertionsSigned="true" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
         ...
@@ -197,7 +197,7 @@ Set up a SAML app to integrate Redis Enterprise Software with your identity prov
     
         | Setting | Value | Description |
         |---------|-------|-------------|
-        | Audience URI (SP Entity ID) | `https://<cluster-FQDN>/sp` | Unique URL that identifies the Redis Enterprise Software service provider.<br /><br />Copy the **SP entity ID** from the **Access Control > Single Sign-On** page in the Cluster Manager UI or `EntityDescriptor`'s `entityID` in the metadata XML. |
+        | Audience URI (SP Entity ID) | `https://<cluster-FQDN>:8443/sp` | Unique URL that identifies the Redis Enterprise Software service provider.<br /><br />Copy the **SP entity ID** from the **Access Control > Single Sign-On** page in the Cluster Manager UI or `EntityDescriptor`'s `entityID` in the metadata XML. |
         | Single sign-on URL | <span class="break-all">`https://<cluster-FQDN>:8443/cluster/sso/saml/acs`</span> | The service provider endpoint where the identity provider sends a SAML assertion that authenticates a user.<br /><br />Copy the **Assertion Consumer Service (ACS)** from the **Access Control > Single Sign-On** page in the Cluster Manager UI or `AssertionConsumerService`'s `Location` in the metadata XML. |
         | Name ID format | EmailAddress | |
         | Application username | Email | |
