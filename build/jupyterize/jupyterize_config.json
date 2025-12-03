@@ -127,7 +127,8 @@
   },
   "php": {
     "boilerplate": [],
-    "unwrap_patterns": []
+    "unwrap_patterns": [],
+    "add_step_metadata": false
   },
   "rust": {
     "boilerplate": [],

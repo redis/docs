@@ -585,8 +585,9 @@ def create_cells(parsed_blocks, language):
         # Create code cell
         cell = new_code_cell(source=code)
 
-        # Add step metadata if present
-        if block['step_name']:
+        # Add step metadata if present and enabled for this language
+        add_step_metadata = lang_config.get('add_step_metadata', True)  # Default to True for backward compatibility
+        if block['step_name'] and add_step_metadata:
             cell.metadata['step'] = block['step_name']
             logging.debug(f"Created cell {i} with step '{block['step_name']}'")
         else:

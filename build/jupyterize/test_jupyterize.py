@@ -713,6 +713,65 @@ def test_go_real_file():
             os.unlink(output_file)
 
 
+def test_php_no_step_metadata():
+    """Test that PHP notebooks don't include step metadata."""
+    print("\nTesting PHP (no step metadata)...")
+
+    # Create test file
+    test_content = """// EXAMPLE: test
+// BINDER_ID php-test
+// STEP_START connect
+<?php
+$r = new Client();
+// STEP_END
+
+// STEP_START set_get
+$r->set('foo', 'bar');
+$r->get('foo');
+// STEP_END
+"""
+
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.php', delete=False) as f:
+        f.write(test_content)
+        test_file = f.name
+
+    try:
+        # Convert
+        output_file = test_file.replace('.php', '.ipynb')
+        result = jupyterize(test_file, output_file, verbose=False)
+
+        # Load and validate notebook
+        with open(output_file) as f:
+            nb = json.load(f)
+
+        # Verify kernel is php
+        assert nb['metadata']['kernelspec']['name'] == 'php', \
+            f"Kernel should be php, got {nb['metadata']['kernelspec']['name']}"
+
+        # Verify no step metadata is added
+        for i, cell in enumerate(nb['cells']):
+            assert 'step' not in cell['metadata'], \
+                f"Cell {i} should not have step metadata, but has: {cell['metadata'].get('step')}"
+
+        # Verify we have 2 cells (one per step)
+        assert len(nb['cells']) == 2, \
+            f"Should have 2 cells, got {len(nb['cells'])}"
+
+        # Verify content is present
+        all_code = ''.join(''.join(cell['source']) for cell in nb['cells'])
+        assert '$r = new Client()' in all_code, "Should contain connection code"
+        assert '$r->set' in all_code, "Should contain set code"
+        assert '$r->get' in all_code, "Should contain get code"
+
+        print("✓ PHP (no step metadata) test passed")
+
+    finally:
+        if os.path.exists(test_file):
+            os.unlink(test_file)
+        if output_file and os.path.exists(output_file):
+            os.unlink(output_file)
+
+
 def main():
     """Run all tests."""
     print("=" * 60)
@@ -749,6 +808,9 @@ def main():
         test_go_boilerplate_injection()
         test_go_unwrapping()
         test_go_real_file()
+
+        # Language-specific feature tests (PHP)
+        test_php_no_step_metadata()
 
         # Regression tests
         test_csharp_for_loop_braces()
