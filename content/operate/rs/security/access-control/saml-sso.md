@@ -20,12 +20,9 @@ You cannot use [SCIM (System for Cross-domain Identity Management)](https://en.w
 
 When single sign-on is activated, users can sign in to the Redis Enterprise Software Cluster Manager UI using their [identity provider (IdP)](https://en.wikipedia.org/wiki/Identity_provider) instead of usernames and passwords. If [SSO is enforced](#enforce-sso), non-admin users can no longer sign in with their previous usernames and passwords and must use SSO instead.
 
-
 Before users can sign in to the Cluster Manager UI with SSO, the identity provider admin needs to set up these users on the IdP side with matching email addresses.
 
 With just-in-time (JIT) user provisioning, Redis Enterprise Software automatically creates user accounts for new users assigned to the SAML application in your identity provider when they sign in to the Cluster Manager UI for the first time. For these users, you must configure the `redisRoleMapping` attribute in your identity provider to assign appropriate roles for [role-based access control]({{<relref "/operate/rs/security/access-control/">}}) during account creation.
-
-You can use any identity provider to integrate with Redis Enterprise Software as long as it supports the [SAML](https://en.wikipedia.org/wiki/Security_Assertion_Markup_Language) protocol.
 
 ### IdP-initiated SSO
 
@@ -42,6 +39,20 @@ You can also initiate single sign-on from the Redis Enterprise Software Cluster 
     - If you already have an active SSO session with your identity provider, this signs you in.
 
     - Otherwise, the SSO flow redirects you to your identity provider's sign in screen. Enter your IdP user credentials to sign in. This redirects you back to the Redis Enterprise Software Cluster Manager UI and automatically signs you in.
+
+Authentication requests expire after 3 minutes.
+
+## IdP requirements
+
+You can use any identity provider to integrate with Redis Enterprise Software as long as it supports the following:
+
+- [SAML](https://en.wikipedia.org/wiki/Security_Assertion_Markup_Language) protocol.
+
+- Signed SAML responses since Redis Enterprise Software will not accept any unsigned SAML responses.
+
+- HTTP-Redirect binding for SP-initiated SSO.
+
+- HTTP-POST binding for SAML assertions.
 
 ## Set up SAML SSO
 
@@ -166,6 +177,10 @@ See [Metadata for the OASIS Security
 Assertion Markup Language (SAML)
 V2.0](https://docs.oasis-open.org/security/saml/v2.0/saml-metadata-2.0-os.pdf) for more information about the metadata fields.
 
+{{< note >}}
+Redis Enterprise Software metadata expiration time is equivalent to the SSO service certificate's expiration time. The service provider metadata will only change if the service address used for the Assertion Consumer Service (ACS) and the single logout (SLO) URL is modified.
+{{< /note >}}
+
 ### Set up SAML app {#set-up-app}
 
 Set up a SAML app to integrate Redis Enterprise Software with your identity provider:
@@ -191,7 +206,11 @@ Set up a SAML app to integrate Redis Enterprise Software with your identity prov
 
 1. Enable signed requests.
 
-1. Optionally, you can enable single log-out (SLO) to allow users to sign out of the the identity provider and connected apps, including Redis Enterprise Software. Copy the **Single Logout Service** from the **Access Control > Single Sign-On** page in the Cluster Manager UI (`https://<cluster-FQDN>:8443/cluster/sso/saml/slo`) and configure it in the SAML app.
+1. Optionally, you can enable single log-out (SLO) to allow users to automatically sign out of the the identity provider when they sign out of the Redis Enterprise Software Cluster Manager UI. Copy the **Single Logout Service** from the **Access Control > Single Sign-On** page in the Cluster Manager UI (`https://<cluster-FQDN>:8443/cluster/sso/saml/slo`) and configure it in the SAML app.
+
+    {{< note >}}
+Redis Enterprise Software only supports SP-initiated logout, where the user logs out from the Redis Enterprise Software Cluster Manager UI. IdP-initiated logout requests are not supported.
+    {{< /note >}}
 
 1. Set up your SAML service provider app so the SAML assertion contains the following attributes:
 
@@ -378,6 +397,10 @@ If you change certain metadata or configuration settings after you set up SSO, s
 1. [Update the SAML SSO configuration](#configure-idp-metadata) with the new values.
 
 1. [Download the updated service provider metadata](#download-sp) and use it to update the Redis Enterprise Software service provider app.
+
+{{<warning>}}
+Changes to the service address will break the existing SSO integration and require configuration updates on the identity provider's side.
+{{</warning>}}
 
 ## Deactivate SSO
 
