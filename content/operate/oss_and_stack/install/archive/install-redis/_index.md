@@ -159,9 +159,7 @@ Make sure that everything is working as expected:
 4. If it's a new machine where you can try it without problems, make sure that after a reboot everything is still working.
 
 {{% alert title="Note" color="warning" %}}
-The above instructions don't include all of the Redis configuration parameters that you could change. For example, to use AOF persistence instead of RDB persistence, or to set up replication, and so forth.
+The above instructions don't include all of the Redis configuration parameters that you could change. For example, to use AOF persistence instead of RDB persistence, or to set up replication, and so forth. Further details can be found in the [configuration article on this site]({{< relref "/operate/oss_and_stack/management/config" >}}).
 {{% /alert  %}}
-
-You should also read the example [redis.conf]({{< relref "/operate/oss_and_stack/management/config-file" >}}) file, which is heavily annotated to help guide you on making changes. Further details can also be found in the [configuration article on this site]({{< relref "/operate/oss_and_stack/management/config" >}}).
 
 <hr>

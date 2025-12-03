@@ -2,6 +2,13 @@
 title: Error handling
 description: Learn how to handle errors when using node-redis.
 linkTitle: Error handling
+scope: implementation
+relatedPages:
+- /develop/clients/error-handling
+- /develop/clients/nodejs/produsage
+topics:
+- error-handling
+- resilience
 weight: 6
 ---
 

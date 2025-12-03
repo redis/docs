@@ -48,7 +48,7 @@ To follow this guide, you need to:
 
 1. Clone or download the [`rdi-cloud-automation` GitHub repository](https://github.com/redis/rdi-cloud-automation).
 
-1. In a terminal window, go to the `examples` directory.
+1. In a terminal window, go to the `examples/aws-ec2-privatelink` directory.
 
 1. Run `terraform init` to initialize the Terraform working directory.
 
