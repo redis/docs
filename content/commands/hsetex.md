@@ -95,6 +95,7 @@ key_specs:
     type: range
   update: true
 linkTitle: HSETEX
+railroad_diagram: /images/railroad/hsetex.svg
 since: 8.0.0
 summary: Set the value of one or more fields of a given hash key, and optionally set
   their expiration.

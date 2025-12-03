@@ -57,6 +57,7 @@ function: clusterSlotStatsCommand
 group: cluster
 hidden: false
 linkTitle: CLUSTER SLOT-STATS
+railroad_diagram: /images/railroad/cluster-slot-stats.svg
 reply_schema:
   description: Array of nested arrays, where the inner array element represents a
     slot and its respective usage statistics.

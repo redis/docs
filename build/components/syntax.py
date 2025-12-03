@@ -115,8 +115,17 @@ class Argument:
             component = railroad.Terminal(self._token or self._name)
         elif self._type == ArgumentType.BLOCK:
             # Blocks are sequences of their arguments
+            components = []
+
+            # If the block has a token, add it first
+            if self._token:
+                components.append(railroad.Terminal(self._token))
+
+            # Add the block's arguments
             if self._arguments:
-                components = [arg.to_railroad() for arg in self._arguments]
+                components.extend([arg.to_railroad() for arg in self._arguments])
+
+            if components:
                 component = railroad.Sequence(*components)
             else:
                 component = railroad.Terminal(self._display)
@@ -125,7 +134,14 @@ class Argument:
             if self._arguments:
                 components = [arg.to_railroad() for arg in self._arguments]
                 # Use the first option as the default (index 0)
-                component = railroad.Choice(0, *components)
+                choice_component = railroad.Choice(0, *components)
+
+                # If there's a token, create a sequence of token + choice
+                if self._token:
+                    token_part = railroad.Terminal(self._token)
+                    component = railroad.Sequence(token_part, choice_component)
+                else:
+                    component = choice_component
             else:
                 component = railroad.Terminal(self._display)
         else:
@@ -141,10 +157,66 @@ class Argument:
 
         # Handle multiple (repeating) arguments
         if self._multiple:
-            if self._multiple_token and self._token:
-                # Multiple with token repetition: arg [token arg ...]
-                repeat_part = railroad.Sequence(railroad.Terminal(self._token), component)
-                component = railroad.Sequence(component, railroad.ZeroOrMore(repeat_part))
+            if self._type == ArgumentType.ONEOF:
+                # For ONEOF with multiple=true, we want to allow selecting multiple options
+                # This means: first_option [additional_options ...]
+                # where additional_options is a choice of any of the original options
+                if self._arguments:
+                    # Create a choice of all options for the additional selections
+                    additional_choice = railroad.Choice(0, *[arg.to_railroad() for arg in self._arguments])
+
+                    # If there's a token, we need to include it in the repetition
+                    if self._token:
+                        token_part = railroad.Terminal(self._token)
+                        repeat_part = railroad.Sequence(token_part, additional_choice)
+                        component = railroad.Sequence(component, railroad.ZeroOrMore(repeat_part))
+                    else:
+                        component = railroad.Sequence(component, railroad.ZeroOrMore(additional_choice))
+                else:
+                    component = railroad.OneOrMore(component)
+            elif self._multiple_token and self._token:
+                # For types with multiple_token=true, the token should be repeated with each occurrence
+                if self._type == ArgumentType.BLOCK and self._arguments:
+                    # For BLOCK types: extract the arguments part for repetition to avoid duplicate tokens
+                    args_component = railroad.Sequence(*[arg.to_railroad() for arg in self._arguments])
+                    repeat_part = railroad.Sequence(railroad.Terminal(self._token), args_component)
+                    component = railroad.Sequence(component, railroad.ZeroOrMore(repeat_part))
+                else:
+                    # For non-BLOCK types: create the complete pattern from scratch
+                    # Pattern: TOKEN arg [TOKEN arg ...]
+                    if self._type == ArgumentType.INTEGER:
+                        arg_part = railroad.NonTerminal(self._display)
+                    elif self._type == ArgumentType.STRING:
+                        arg_part = railroad.NonTerminal(self._display)
+                    elif self._type == ArgumentType.KEY:
+                        arg_part = railroad.NonTerminal(self._display)
+                    else:
+                        arg_part = railroad.NonTerminal(self._display)
+
+                    # Create the first occurrence: TOKEN arg
+                    first_occurrence = railroad.Sequence(railroad.Terminal(self._token), arg_part)
+                    # Create the repeat pattern: [TOKEN arg ...]
+                    repeat_part = railroad.Sequence(railroad.Terminal(self._token), arg_part)
+                    # Combine: TOKEN arg [TOKEN arg ...]
+                    component = railroad.Sequence(first_occurrence, railroad.ZeroOrMore(repeat_part))
+            elif self._token and self._multiple:
+                # For non-BLOCK types with multiple=true and a token:
+                # The token appears once, followed by one or more arguments
+                # Pattern: TOKEN arg [arg ...]
+                if self._type != ArgumentType.BLOCK:
+                    # Create the argument part without the token for repetition
+                    if self._type == ArgumentType.INTEGER:
+                        arg_part = railroad.NonTerminal(self._display)
+                    elif self._type == ArgumentType.STRING:
+                        arg_part = railroad.NonTerminal(self._display)
+                    elif self._type == ArgumentType.KEY:
+                        arg_part = railroad.NonTerminal(self._display)
+                    else:
+                        arg_part = railroad.NonTerminal(self._display)
+
+                    # Token + first arg + [additional args ...]
+                    token_part = railroad.Terminal(self._token)
+                    component = railroad.Sequence(token_part, railroad.OneOrMore(arg_part))
             else:
                 # Multiple without token: arg [arg ...]
                 component = railroad.OneOrMore(component)

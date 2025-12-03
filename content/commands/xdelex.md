@@ -68,6 +68,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: XDELEX
+railroad_diagram: /images/railroad/xdelex.svg
 since: 8.2.0
 summary: Deletes one or multiple entries from the stream.
 syntax_fmt: "XDELEX key [KEEPREF | DELREF | ACKED] IDS\_numids id [id ...]"

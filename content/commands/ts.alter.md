@@ -38,6 +38,15 @@ arguments:
   token: DUPLICATE_POLICY
   type: oneof
 - arguments:
+  - name: ignoreMaxTimediff
+    type: integer
+  - name: ignoreMaxValDiff
+    type: double
+  name: ignore
+  optional: true
+  token: IGNORE
+  type: block
+- arguments:
   - name: label
     type: string
   - name: value
@@ -73,9 +82,11 @@ syntax: "TS.ALTER key \n  [RETENTION retentionPeriod] \n  [CHUNK_SIZE size] \n  
   \ policy] \n  [IGNORE ignoreMaxTimediff ignoreMaxValDiff] \n  [LABELS [label value\
   \ ...]]\n"
 syntax_fmt: "TS.ALTER key [RETENTION\_retentionPeriod] [CHUNK_SIZE\_size]\n  [DUPLICATE_POLICY\_\
-  <BLOCK | FIRST | LAST | MIN | MAX | SUM>]\n  [LABELS\_label value [label value ...]]"
+  <BLOCK | FIRST | LAST | MIN | MAX | SUM>]\n  [IGNORE\_ignoreMaxTimediff ignoreMaxValDiff]\
+  \ [LABELS\_label value\n  [label value ...]]"
 syntax_str: "[RETENTION\_retentionPeriod] [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_<BLOCK\
-  \ | FIRST | LAST | MIN | MAX | SUM>] [LABELS\_label value [label value ...]]"
+  \ | FIRST | LAST | MIN | MAX | SUM>] [IGNORE\_ignoreMaxTimediff ignoreMaxValDiff]\
+  \ [LABELS\_label value [label value ...]]"
 title: TS.ALTER
 ---
 

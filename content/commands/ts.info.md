@@ -29,7 +29,7 @@ railroad_diagram: /images/railroad/ts.info.svg
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Returns information and statistics for a time series
-syntax: "TS.INFO key \n  [DEBUG]\n"
+syntax: "TS.INFO key [DEBUG]"
 syntax_fmt: TS.INFO key [DEBUG]
 syntax_str: '[DEBUG]'
 title: TS.INFO
