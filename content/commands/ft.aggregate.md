@@ -183,7 +183,7 @@ syntax: "FT.AGGREGATE index query \n  [VERBATIM] \n  [LOAD count field [field ..
   \ \n  [TIMEOUT timeout] \n  [GROUPBY nargs property [property ...] [REDUCE function\
   \ nargs arg [arg ...] [AS name] [REDUCE function nargs arg [arg ...] [AS name]\
   \ ...]] ...]] \n  [SORTBY nargs [property ASC | DESC [property ASC | DESC ...]]\
-  \ [MAX num] [WITHCOUNT] \n  [APPLY expression AS name [APPLY expression AS name\
+  \ [MAX num] [WITHCOUNT | WITHOUTCOUNT]] \n  [APPLY expression AS name [APPLY expression AS name\
   \ ...]] \n  [LIMIT offset num] \n  [FILTER filter] \n  [WITHCURSOR [COUNT read_size]\
   \ [MAXIDLE idle_time]] \n  [PARAMS nargs name value [name value ...]] \n  [SCORER scorer]\n
   \ [ADDSCORES] \n  [DIALECT\
@@ -282,6 +282,8 @@ Attributes needed for `SORTBY` should be stored as `SORTABLE` to be available wi
 
 **Counts behavior**: optional `WITHCOUNT` argument returns accurate counts for the query results with sorting. This operation processes all results in order to get an accurate count, being less performant than the optimized option (default behavior on `DIALECT 4`)
 
+You can also use `WITHOUTCOUNT` in place of `DIALECT 4` when used with either `FT.SEARCH` or `FT.AGGREGATE`.
+</details>
 
 <details open>
 <summary><code>APPLY {expr} AS {name}</code></summary> 

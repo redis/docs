@@ -208,6 +208,8 @@ Dialect version 4 will improve performance in four different scenarios:
 1. **Hybrid** - applied when there is a `SORTBY` on a numeric field in addition to another non-numeric filter. It could be the case that some results will get filtered, leaving too small a range to satisfy any specified `LIMIT`. In such cases, the iterator then is re-wound and additional iterations occur to collect result up to the requested `LIMIT`.
 1. **No optimization** - If there is a sort by score or by a non-numeric field, there is no other option but to retrieve all results and compare their values to the search parameters.
 
+You can also use `WITHOUTCOUNT` in place of `DIALECT 4` when used with either FT.SEARCH or FT.AGGREGATE.
+
 ## Use `FT.EXPLAINCLI` to compare dialects
 	
 The [`FT.EXPLAINCLI`]({{< relref "commands/ft.explaincli/" >}}) command is a powerful tool that provides a window into the inner workings of your queries. It's like a roadmap that details your query's journey from start to finish.
