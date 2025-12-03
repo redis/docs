@@ -70,6 +70,7 @@ questions:
                 outcome:
                     label: "RDI is not necessary for your use case"
                     id: notNecessary
+                    sentiment: "negative"
     writeLocation:
         text: |
             Does your app write data directly to the disk-based database?
@@ -84,6 +85,7 @@ questions:
                 outcome:
                     label: "RDI won't work - your app must write to the primary database"
                     id: wrongWritePattern
+                    sentiment: "negative"
     consistency:
         text: |
             Can your app tolerate eventual consistency in the Redis cache?
@@ -98,6 +100,7 @@ questions:
                 outcome:
                     label: "RDI is not suitable - you need immediate cache consistency"
                     id: needsImmediate
+                    sentiment: "negative"
     throughput:
         text: |
             Will your throughput stay within RDI limits (≤30K records/sec during full sync, ≤10K records/sec during CDC)?
@@ -112,6 +115,7 @@ questions:
                 outcome:
                     label: "RDI throughput limits will be exceeded"
                     id: exceedsLimits
+                    sentiment: "negative"
     dataPattern:
         text: |
             Is your data updated frequently in small increments (not by batch/ETL with large transactions)?
@@ -126,6 +130,7 @@ questions:
                 outcome:
                     label: "RDI will fail with batch/ETL processes and large transactions"
                     id: batchProcessing
+                    sentiment: "negative"
     dataSize:
         text: |
             Is your data set large enough to benefit from caching?
@@ -140,6 +145,7 @@ questions:
                 outcome:
                     label: "RDI is not necessary - your data set is too small"
                     id: tooSmall
+                    sentiment: "negative"
     dataSource:
         text: |
             Is your data ingested from a single source (not from two Active-Active replicas simultaneously)?
@@ -151,11 +157,13 @@ questions:
                 outcome:
                     label: "✅ RDI is a good fit for your use case"
                     id: goodFit
+                    sentiment: "positive"
             no:
                 value: "No"
                 outcome:
                     label: "RDI won't work with Active-Active replicas"
                     id: activeActive
+                    sentiment: "negative"
 ```
 
 

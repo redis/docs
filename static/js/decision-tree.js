@@ -95,7 +95,8 @@
               depth: depth + 1,
               type: 'outcome',
               text: question.answers.yes.outcome.label || '',
-              answer: 'Yes'
+              answer: 'Yes',
+              sentiment: question.answers.yes.outcome.sentiment || null
             });
           }
         }
@@ -110,7 +111,8 @@
               depth: depth + 1,
               type: 'outcome',
               text: question.answers.no.outcome.label || '',
-              answer: 'No'
+              answer: 'No',
+              sentiment: question.answers.no.outcome.sentiment || null
             });
           }
         }
@@ -204,11 +206,26 @@
       rect.setAttribute('height', item.boxHeight);
 
       if (item.type === 'outcome') {
-        // Outcomes: pale red background, dashed border
-        rect.setAttribute('fill', '#ffe6e6');
-        rect.setAttribute('stroke', '#d9534f');
-        rect.setAttribute('stroke-width', '1');
-        rect.setAttribute('stroke-dasharray', '3,3');
+        // Outcomes: color based on sentiment
+        if (item.sentiment === 'positive') {
+          // Green for positive outcomes
+          rect.setAttribute('fill', '#e6f7f0');
+          rect.setAttribute('stroke', '#0fa869');
+          rect.setAttribute('stroke-width', '1');
+          rect.setAttribute('stroke-dasharray', '3,3');
+        } else if (item.sentiment === 'negative') {
+          // Red for negative outcomes
+          rect.setAttribute('fill', '#ffe6e6');
+          rect.setAttribute('stroke', '#d9534f');
+          rect.setAttribute('stroke-width', '1');
+          rect.setAttribute('stroke-dasharray', '3,3');
+        } else {
+          // Default red for outcomes without explicit sentiment
+          rect.setAttribute('fill', '#ffe6e6');
+          rect.setAttribute('stroke', '#d9534f');
+          rect.setAttribute('stroke-width', '1');
+          rect.setAttribute('stroke-dasharray', '3,3');
+        }
       } else {
         // Questions: standard styling
         rect.setAttribute('fill', '#f5f5f5');
