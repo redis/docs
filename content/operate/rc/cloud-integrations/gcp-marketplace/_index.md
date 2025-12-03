@@ -72,6 +72,10 @@ If you are the owner of more than one Redis Cloud account and have already assoc
 
 {{< embed-md "rc-marketplace-account-add.md" >}}
 
+## Switch from Annual to Pay as You Go
+
+If you have an Annual private offer and want to switch to a Pay as You Go subscription, you can do so by subscribing to the [Redis® Cloud Cache and Vector Database](https://console.cloud.google.com/marketplace/product/redis-marketplace-isaas/redis-enterprise-cloud-flexible-plan) listing. Both existing and future resources will continue to be billed under the Annual offer until it expires, after which they will be billed under the Pay as You Go offer.
+
 ## Disconnect Google Cloud marketplace account
 
 See [Disconnect Google Cloud Marketplace account](https://support.redislabs.com/hc/en-us/articles/29209085344018-Disconnect-Redis-Cloud-from-Google-Cloud-Marketplace) on the Redis knowledge base for help disconnecting your Google Cloud Marketplace account from your Redis Cloud account.

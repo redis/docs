@@ -55,6 +55,10 @@ If you are the owner of more than one Redis Cloud account and have already assoc
 
 {{< embed-md "rc-marketplace-account-add.md" >}}
 
+## Switch from Annual to Pay as You Go
+
+If you have an Annual private offer and want to switch to a Pay as You Go subscription, you can do so by subscribing to the [Redis Cloud Pay as you go with 14-day free trial](https://aws.amazon.com/marketplace/pp/prodview-mwscixe4ujhkq) listing. Both existing and future resources will continue to be billed under the Annual offer until it expires, after which they will be billed under the Pay as You Go offer.
+
 ## Disconnect AWS Marketplace account
 
 See [Disconnect AWS Marketplace account](https://support.redislabs.com/hc/en-us/articles/29215779949074-Disconnect-Redis-Cloud-from-AWS-Marketplace) on the Redis knowledge base for help disconnecting your AWS Marketplace account from your Redis Cloud account.
