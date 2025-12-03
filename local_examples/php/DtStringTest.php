@@ -1,4 +1,5 @@
 // EXAMPLE: set_tutorial
+// BINDER_ID php-dt-string
 <?php
 
 require 'vendor/autoload.php';
