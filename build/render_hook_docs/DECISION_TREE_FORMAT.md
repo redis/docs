@@ -72,6 +72,29 @@ Each answer (`yes` or `no`) contains:
 
 - **`label`** (required): The recommendation text
 - **`id`** (required): Unique identifier (e.g., `jsonOutcome`, `hashOutcome`)
+- **`sentiment`** (optional): Indicates the nature of the outcome for visual styling
+  - `"positive"`: Renders with green styling (e.g., "Use this option")
+  - `"negative"`: Renders with red styling (e.g., "Don't use this option")
+  - Omitted: Defaults to red (neutral/warning styling)
+
+**Note**: The `sentiment` field is particularly useful for **suitability trees** (where outcomes are binary: suitable vs. unsuitable) as opposed to **selection trees** (where all outcomes are valid options). See [Tree Types](#tree-types) below.
+
+## Tree Types
+
+Decision trees can serve different purposes, which affects how you structure outcomes:
+
+### Selection Trees
+All paths lead to valid recommendations. Users choose between options.
+- **Example**: "Which data type should I use?" → JSON, Hash, or String (all valid)
+- **Outcome styling**: Typically all neutral (no sentiment field needed)
+- **Use case**: Helping users choose among alternatives
+
+### Suitability Trees
+Paths lead to binary outcomes: suitable or unsuitable for the use case.
+- **Example**: "Should I use RDI?" → Yes (good fit) or No (various reasons why not)
+- **Outcome styling**: Use `sentiment: "positive"` for suitable outcomes and `sentiment: "negative"` for unsuitable ones
+- **Use case**: Determining if a technology/approach is appropriate
+- **Benefit**: Visual distinction (green vs. red) helps users quickly understand if something is recommended
 
 ## Multi-line Text
 
@@ -112,6 +135,8 @@ scope: documents
 5. **Consistent naming**: Use camelCase for IDs, end question IDs with "Question"
 6. **Match fence and YAML IDs**: The `id` in the code block fence should match the `id` field in the YAML for consistency
 7. **Use meaningful scopes**: Choose scope values that clearly indicate the tree's domain (e.g., `documents`, `collections`, `sequences`)
+8. **Add sentiment for suitability trees**: If your tree determines whether something is suitable (not just choosing between options), use `sentiment: "positive"` and `sentiment: "negative"` to provide visual feedback
+9. **Be consistent with sentiment**: In a suitability tree, ensure all positive outcomes have `sentiment: "positive"` and all negative outcomes have `sentiment: "negative"` for clarity
 
 ## Example: Redis Data Type Selection
 

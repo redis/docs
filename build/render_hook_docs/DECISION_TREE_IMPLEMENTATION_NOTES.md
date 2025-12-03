@@ -140,3 +140,30 @@ const maxCharsPerLine = Math.floor(maxBoxWidth / charWidth);
 
 **Benefit**: Helps future implementers and enables AI agents to understand the format.
 
+## 11. Sentiment-Based Styling for Suitability Trees
+
+**Discovery**: Not all decision trees are "selection trees" (choose between options). Some are "suitability trees" (determine if something is appropriate).
+
+**Problem**: Selection trees and suitability trees have fundamentally different semantics:
+- **Selection trees**: All outcomes are valid recommendations (e.g., "Use JSON" vs. "Use Hash" vs. "Use String")
+- **Suitability trees**: Outcomes are binary (suitable vs. unsuitable) (e.g., "RDI is a good fit" vs. "RDI won't work")
+
+**Solution**: Add optional `sentiment` field to outcomes:
+```yaml
+outcome:
+    label: "✅ RDI is a good fit for your use case"
+    id: goodFit
+    sentiment: "positive"  # Green styling
+```
+
+**Implementation Details**:
+- Extract `sentiment` field during YAML parsing in JavaScript
+- Apply conditional styling in SVG rendering:
+  - `sentiment: "positive"` → Green background (`#0fa869`) and border
+  - `sentiment: "negative"` → Red background (`#d9534f`) and border
+  - No sentiment → Red (default, maintains backward compatibility)
+
+**Key Insight**: Explicit metadata is better than heuristics. Don't try to infer sentiment from emoji (✅/❌) or label text. Use explicit fields for reliability and AI agent compatibility.
+
+**Backward Compatibility**: Existing trees without sentiment fields continue to work with default red styling. This allows gradual adoption.
+
