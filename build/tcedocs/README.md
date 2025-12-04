@@ -278,3 +278,58 @@ The `lang_filter` parameter accepts a **comma-separated list of exact language n
 - ❌ `lang_filter="Python,Node"` - Does NOT match "Node.js" (must use exact name)
 
 **Common pitfall**: If you use a language name that is a substring of another language name (e.g., "C" is a substring of "C#-Sync"), the filter will NOT accidentally match the longer name. Each language in the filter list must match exactly.
+
+## Troubleshooting "Run in browser" Links
+
+### Issue: Link doesn't appear on page load
+
+**Symptom**: The "Run in browser" link appears only after manually changing the language selector.
+
+**Root cause**: The default selected tab (redis-cli) doesn't have a `binderId`. The JavaScript needs to search for the first tab that has a `binderId` on initial page load.
+
+**Solution**: Ensure the JavaScript in `layouts/partials/tabs/wrapper.html` uses an `isInitialLoad` flag to enable fallback search on page load only:
+
+```javascript
+let isInitialLoad = true;
+
+function updateBinderLink() {
+    // ... get current panel and binderId ...
+
+    // On initial page load, if current tab doesn't have a binderId, find the first tab that does
+    if (isInitialLoad && !binderId) {
+        for (let i = 0; i < panels.length; i++) {
+            const panelBinderId = panels[i].getAttribute('data-binder-id');
+            if (panelBinderId) {
+                binderId = panelBinderId;
+                break;
+            }
+        }
+    }
+
+    // ... show link if binderId exists ...
+}
+
+// Initialize on page load
+updateBinderLink();
+isInitialLoad = false;  // Set to false after first call
+```
+
+### Issue: Link shows for languages that don't have a notebook
+
+**Symptom**: Selecting a language without a notebook (e.g., Java-Async) still shows a "Run in browser" link pointing to a different language's notebook.
+
+**Root cause**: The JavaScript is using fallback search on every update, not just on page load. This causes it to show the wrong language's link.
+
+**Solution**: Only enable fallback search on initial page load (see above). After the first call, `isInitialLoad` is set to `false`, so subsequent language changes will only show the link if the selected language has a `binderId`.
+
+### Issue: Link appears but points to wrong notebook
+
+**Symptom**: The link URL is incorrect or points to the wrong example.
+
+**Root cause**: The `binderId` value in `data/examples.json` is incorrect or missing.
+
+**Solution**:
+1. Verify the `BINDER_ID` marker is present in your example source file
+2. Check that the value matches a valid Git reference in the `redis/binder-launchers` repository
+3. Rebuild the site: `python build/make.py`
+4. Verify the `binderId` appears in `data/examples.json` for your example
