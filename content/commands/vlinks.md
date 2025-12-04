@@ -1,4 +1,18 @@
 ---
+arguments:
+- display_text: key
+  key_spec_index: 0
+  name: key
+  type: key
+- display_text: element
+  name: element
+  type: string
+- display_text: withscores
+  name: withscores
+  optional: true
+  token: WITHSCORES
+  type: pure-token
+arity: -3
 categories:
 - docs
 - develop
@@ -9,15 +23,35 @@ categories:
 - oss
 - kubernetes
 - clients
+command_flags:
+- readonly
+- module
+- fast
 complexity: O(1)
 description: Return the neighbors of an element at each layer in the HNSW graph.
-group: vector_set
+group: module
 hidden: false
+key_specs:
+- RW: true
+  access: true
+  begin_search:
+    spec:
+      index: 1
+    type: index
+  find_keys:
+    spec:
+      keystep: 1
+      lastkey: 0
+      limit: 0
+    type: range
+  update: true
 linkTitle: VLINKS
+module: vectorset
 railroad_diagram: /images/railroad/vlinks.svg
 since: 8.0.0
-summary: Return the neighbors of an element at each layer in the HNSW graph.
-syntax_fmt: "VLINKS key element [WITHSCORES]"
+summary: Return the neighbors of an element at each layer in the HNSW graph
+syntax_fmt: VLINKS key element [WITHSCORES]
+syntax_str: element [WITHSCORES]
 title: VLINKS
 ---
 

@@ -1,4 +1,18 @@
 ---
+arguments:
+- display_text: key
+  key_spec_index: 0
+  name: key
+  type: key
+- display_text: element
+  name: element
+  type: string
+- display_text: raw
+  name: raw
+  optional: true
+  token: RAW
+  type: pure-token
+arity: -3
 categories:
 - docs
 - develop
@@ -9,15 +23,35 @@ categories:
 - oss
 - kubernetes
 - clients
+command_flags:
+- readonly
+- module
+- fast
 complexity: O(1)
 description: Return the vector associated with an element.
-group: vector_set
+group: module
 hidden: false
+key_specs:
+- RW: true
+  access: true
+  begin_search:
+    spec:
+      index: 1
+    type: index
+  find_keys:
+    spec:
+      keystep: 1
+      lastkey: 0
+      limit: 0
+    type: range
+  update: true
 linkTitle: VEMB
+module: vectorset
 railroad_diagram: /images/railroad/vemb.svg
 since: 8.0.0
-summary: Return the vector associated with an element.
-syntax_fmt: "VEMB key element [RAW]"
+summary: Return the vector associated with an element
+syntax_fmt: VEMB key element [RAW]
+syntax_str: element [RAW]
 title: VEMB
 ---
 

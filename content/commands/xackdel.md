@@ -52,9 +52,9 @@ categories:
 command_flags:
 - write
 - fast
-complexity: O(1) for each entry ID processed.
-description: Acknowledges and conditionally deletes one or multiple entries for a stream consumer
-  group.
+complexity: O(1) for each message ID processed.
+description: Acknowledges and conditionally deletes one or multiple entries for a
+  stream consumer group.
 group: stream
 hidden: false
 key_specs:
@@ -74,7 +74,7 @@ key_specs:
 linkTitle: XACKDEL
 railroad_diagram: /images/railroad/xackdel.svg
 since: 8.2.0
-summary: Acknowledges and conditionally deletes one or multiple entries for a stream consumer group.
+summary: Acknowledges and deletes one or multiple messages for a stream consumer group.
 syntax_fmt: "XACKDEL key group [KEEPREF | DELREF | ACKED] IDS\_numids id [id ...]"
 syntax_str: "group [KEEPREF | DELREF | ACKED] IDS\_numids id [id ...]"
 title: XACKDEL

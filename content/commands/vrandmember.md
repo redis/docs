@@ -1,4 +1,14 @@
 ---
+arguments:
+- display_text: key
+  key_spec_index: 0
+  name: key
+  type: key
+- display_text: count
+  name: count
+  optional: true
+  type: integer
+arity: -2
 categories:
 - docs
 - develop
@@ -9,15 +19,34 @@ categories:
 - oss
 - kubernetes
 - clients
+command_flags:
+- readonly
+- module
 complexity: O(N) where N is the absolute value of the count argument.
 description: Return one or multiple random members from a vector set.
-group: vector_set
+group: module
 hidden: false
+key_specs:
+- RW: true
+  access: true
+  begin_search:
+    spec:
+      index: 1
+    type: index
+  find_keys:
+    spec:
+      keystep: 1
+      lastkey: 0
+      limit: 0
+    type: range
+  update: true
 linkTitle: VRANDMEMBER
+module: vectorset
 railroad_diagram: /images/railroad/vrandmember.svg
 since: 8.0.0
-summary: Return one or multiple random members from a vector set.
-syntax_fmt: "VRANDMEMBER key [count]"
+summary: Return one or multiple random members from a vector set
+syntax_fmt: VRANDMEMBER key [count]
+syntax_str: '[count]'
 title: VRANDMEMBER
 ---
 

@@ -55,7 +55,6 @@ categories:
 - clients
 command_flags:
 - write
-- denyoom
 - fast
 complexity: O(N) where N is the number of specified fields
 description: Set expiration for hash fields using relative time to expire (milliseconds)

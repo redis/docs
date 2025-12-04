@@ -49,15 +49,6 @@ arguments:
   token: DUPLICATE_POLICY
   type: oneof
 - arguments:
-  - name: ignoreMaxTimediff
-    type: integer
-  - name: ignoreMaxValDiff
-    type: double
-  name: ignore
-  optional: true
-  token: IGNORE
-  type: block
-- arguments:
   - name: label
     type: string
   - name: value

@@ -1,4 +1,10 @@
 ---
+arguments:
+- display_text: key
+  key_spec_index: 0
+  name: key
+  type: key
+arity: 2
 categories:
 - docs
 - develop
@@ -9,15 +15,35 @@ categories:
 - oss
 - kubernetes
 - clients
+command_flags:
+- readonly
+- module
+- fast
 complexity: O(1)
 description: Return information about a vector set.
-group: vector_set
+group: module
 hidden: false
+key_specs:
+- RW: true
+  access: true
+  begin_search:
+    spec:
+      index: 1
+    type: index
+  find_keys:
+    spec:
+      keystep: 1
+      lastkey: 0
+      limit: 0
+    type: range
+  update: true
 linkTitle: VINFO
+module: vectorset
 railroad_diagram: /images/railroad/vinfo.svg
 since: 8.0.0
-summary: Return information about a vector set.
-syntax_fmt: "VINFO key"
+summary: Return information about a vector set
+syntax_fmt: VINFO key
+syntax_str: ''
 title: VINFO
 ---
 

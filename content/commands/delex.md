@@ -42,8 +42,10 @@ categories:
 command_flags:
 - write
 - fast
-complexity: O(1) for IFEQ/IFNE, O(N) for IFDEQ/IFDNE where N is the length of the string value.
-description: Conditionally removes the specified key based on value or hash digest comparison.
+complexity: O(1) for IFEQ/IFNE, O(N) for IFDEQ/IFDNE where N is the length of the
+  string value.
+description: Conditionally removes the specified key based on value or hash digest
+  comparison.
 group: string
 hidden: false
 key_specs:
@@ -59,10 +61,11 @@ key_specs:
       lastkey: 0
       limit: 0
     type: range
+  variable_flags: true
 linkTitle: DELEX
 railroad_diagram: /images/railroad/delex.svg
 since: 8.4.0
-summary: Conditionally removes the specified key based on value or hash digest comparison.
+summary: Conditionally removes the specified key based on value or digest comparison.
 syntax_fmt: "DELEX key [IFEQ\_ifeq-value | IFNE\_ifne-value | IFDEQ\_ifdeq-digest\
   \ |\n  IFDNE\_ifdne-digest]"
 syntax_str: "[IFEQ\_ifeq-value | IFNE\_ifne-value | IFDEQ\_ifdeq-digest | IFDNE\_\

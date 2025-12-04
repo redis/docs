@@ -1,8 +1,11 @@
 ---
 arguments:
-- name: key
+- display_text: key
+  key_spec_index: 0
+  name: key
   type: key
-- name: element
+- display_text: element
+  name: element
   type: string
 arity: 3
 categories:
@@ -16,16 +19,32 @@ categories:
 - kubernetes
 - clients
 command_flags:
-- READONLY
+- readonly
+- module
 complexity: O(1)
 description: Check if an element exists in a vector set.
 function: vismemberCommand
-group: vector_set
+group: module
 hidden: false
+key_specs:
+- RW: true
+  access: true
+  begin_search:
+    spec:
+      index: 1
+    type: index
+  find_keys:
+    spec:
+      keystep: 1
+      lastkey: 0
+      limit: 0
+    type: range
+  update: true
 linkTitle: VISMEMBER
+module: vectorset
 railroad_diagram: /images/railroad/vismember.svg
-since: 8.0.0
-summary: Check if an element exists in a vector set.
+since: 8.2.0
+summary: Check if an element exists in a vector set
 syntax_fmt: VISMEMBER key element
 syntax_str: element
 title: VISMEMBER

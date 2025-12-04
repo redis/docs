@@ -42,6 +42,22 @@ arguments:
     since: 6.2.0
     token: LIMIT
     type: integer
+  - arguments:
+    - display_text: keepref
+      name: keepref
+      token: KEEPREF
+      type: pure-token
+    - display_text: delref
+      name: delref
+      token: DELREF
+      type: pure-token
+    - display_text: acked
+      name: acked
+      token: ACKED
+      type: pure-token
+    name: condition
+    optional: true
+    type: oneof
   name: trim
   type: block
 arity: -4
@@ -68,6 +84,8 @@ hints:
 history:
 - - 6.2.0
   - Added the `MINID` trimming strategy and the `LIMIT` option.
+- - 8.2.0
+  - Added the `KEEPREF`, `DELREF` and `ACKED` options.
 key_specs:
 - RW: true
   begin_search:
@@ -85,8 +103,10 @@ linkTitle: XTRIM
 railroad_diagram: /images/railroad/xtrim.svg
 since: 5.0.0
 summary: Deletes messages from the beginning of a stream.
-syntax_fmt: "XTRIM key <MAXLEN | MINID> [= | ~] threshold [LIMIT\_count]"
-syntax_str: "<MAXLEN | MINID> [= | ~] threshold [LIMIT\_count]"
+syntax_fmt: "XTRIM key <MAXLEN | MINID> [= | ~] threshold [LIMIT\_count] [KEEPREF\n\
+  \  | DELREF | ACKED]"
+syntax_str: "<MAXLEN | MINID> [= | ~] threshold [LIMIT\_count] [KEEPREF | DELREF |\
+  \ ACKED]"
 title: XTRIM
 ---
 

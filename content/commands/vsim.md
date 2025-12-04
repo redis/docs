@@ -1,4 +1,73 @@
 ---
+arguments:
+- display_text: key
+  key_spec_index: 0
+  name: key
+  type: key
+- arguments:
+  - display_text: ele
+    name: ele
+    token: ELE
+    type: pure-token
+  - display_text: fp32
+    name: fp32
+    token: FP32
+    type: pure-token
+  - display_text: values
+    name: values
+    token: VALUES
+    type: pure-token
+  name: format
+  type: oneof
+- display_text: vector_or_element
+  name: vector_or_element
+  type: string
+- display_text: withscores
+  name: withscores
+  optional: true
+  token: WITHSCORES
+  type: pure-token
+- display_text: withattribs
+  name: withattribs
+  optional: true
+  token: WITHATTRIBS
+  type: pure-token
+- display_text: count
+  name: count
+  optional: true
+  token: COUNT
+  type: integer
+- display_text: max_distance
+  name: max_distance
+  optional: true
+  token: EPSILON
+  type: double
+- display_text: search-exploration-factor
+  name: search-exploration-factor
+  optional: true
+  token: EF
+  type: integer
+- display_text: expression
+  name: expression
+  optional: true
+  token: FILTER
+  type: string
+- display_text: max-filtering-effort
+  name: max-filtering-effort
+  optional: true
+  token: FILTER-EF
+  type: integer
+- display_text: truth
+  name: truth
+  optional: true
+  token: TRUTH
+  type: pure-token
+- display_text: nothread
+  name: nothread
+  optional: true
+  token: NOTHREAD
+  type: pure-token
+arity: -4
 categories:
 - docs
 - develop
@@ -9,18 +78,41 @@ categories:
 - oss
 - kubernetes
 - clients
+command_flags:
+- readonly
+- module
 complexity: O(log(N)) where N is the number of elements in the vector set.
 description: Return elements by vector similarity.
-group: vector_set
+group: module
 hidden: false
 history:
 - - 8.2.0
   - added the WITHATTRIBS option.
+key_specs:
+- RW: true
+  access: true
+  begin_search:
+    spec:
+      index: 1
+    type: index
+  find_keys:
+    spec:
+      keystep: 1
+      lastkey: 0
+      limit: 0
+    type: range
+  update: true
 linkTitle: VSIM
+module: vectorset
 railroad_diagram: /images/railroad/vsim.svg
 since: 8.0.0
-summary: Return elements by vector similarity.
-syntax_fmt: "VSIM key (ELE | FP32 | VALUES num) (vector | element) [WITHSCORES] [WITHATTRIBS] [COUNT num]\n  [EPSILON delta] [EF search-exploration-factor] [FILTER expression] [FILTER-EF max-filtering-effort]\n  [TRUTH] [NOTHREAD]"
+summary: Return elements by vector similarity
+syntax_fmt: "VSIM key <ELE | FP32 | VALUES> vector_or_element [WITHSCORES]\n  [WITHATTRIBS]\
+  \ [COUNT\_count] [EPSILON\_max_distance]\n  [EF\_search-exploration-factor] [FILTER\_\
+  expression]\n  [FILTER-EF\_max-filtering-effort] [TRUTH] [NOTHREAD]"
+syntax_str: "<ELE | FP32 | VALUES> vector_or_element [WITHSCORES] [WITHATTRIBS] [COUNT\_\
+  count] [EPSILON\_max_distance] [EF\_search-exploration-factor] [FILTER\_expression]\
+  \ [FILTER-EF\_max-filtering-effort] [TRUTH] [NOTHREAD]"
 title: VSIM
 ---
 

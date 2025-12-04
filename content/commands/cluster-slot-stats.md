@@ -1,26 +1,34 @@
 ---
+acl_categories:
+- '@slow'
 arguments:
 - arguments:
   - arguments:
-    - name: start-slot
+    - display_text: start-slot
+      name: start-slot
       type: integer
-    - name: end-slot
+    - display_text: end-slot
+      name: end-slot
       type: integer
     name: slotsrange
     token: SLOTSRANGE
     type: block
   - arguments:
-    - name: metric
+    - display_text: metric
+      name: metric
       type: string
-    - name: limit
+    - display_text: limit
+      name: limit
       optional: true
       token: LIMIT
       type: integer
     - arguments:
-      - name: asc
+      - display_text: asc
+        name: asc
         token: ASC
         type: pure-token
-      - name: desc
+      - display_text: desc
+        name: desc
         token: DESC
         type: pure-token
       name: order
@@ -43,8 +51,8 @@ categories:
 - kubernetes
 - clients
 command_flags:
-- STALE
-- LOADING
+- loading
+- stale
 command_tips:
 - NONDETERMINISTIC_OUTPUT
 - REQUEST_POLICY:ALL_SHARDS
@@ -56,6 +64,9 @@ description: Return an array of slot usage statistics for slots assigned to the 
 function: clusterSlotStatsCommand
 group: cluster
 hidden: false
+hints:
+- nondeterministic_output
+- request_policy:all_shards
 linkTitle: CLUSTER SLOT-STATS
 railroad_diagram: /images/railroad/cluster-slot-stats.svg
 reply_schema:
@@ -86,8 +97,8 @@ reply_schema:
 since: 8.2.0
 summary: Return an array of slot usage statistics for slots assigned to the current
   node.
-syntax_fmt: "CLUSTER SLOT-STATS <SLOTSRANGE\_start-slot end-slot | ORDERBY\_metric\n  [LIMIT\_\
-  limit] [ASC | DESC]>"
+syntax_fmt: "CLUSTER SLOT-STATS <SLOTSRANGE\_start-slot end-slot | ORDERBY\_metric\n\
+  \  [LIMIT\_limit] [ASC | DESC]>"
 syntax_str: ''
 title: CLUSTER SLOT-STATS
 ---

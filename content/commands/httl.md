@@ -37,6 +37,8 @@ complexity: O(N) where N is the number of specified fields
 description: Returns the TTL in seconds of a hash field.
 group: hash
 hidden: false
+hints:
+- nondeterministic_output
 key_specs:
 - RO: true
   access: true

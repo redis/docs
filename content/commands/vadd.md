@@ -1,4 +1,71 @@
 ---
+arguments:
+- display_text: key
+  key_spec_index: 0
+  name: key
+  type: key
+- arguments:
+  - display_text: dim
+    name: dim
+    type: integer
+  name: reduce
+  optional: true
+  token: REDUCE
+  type: block
+- arguments:
+  - display_text: fp32
+    name: fp32
+    token: FP32
+    type: pure-token
+  - display_text: values
+    name: values
+    token: VALUES
+    type: pure-token
+  name: format
+  type: oneof
+- display_text: vector
+  name: vector
+  type: string
+- display_text: element
+  name: element
+  type: string
+- display_text: cas
+  name: cas
+  optional: true
+  token: CAS
+  type: pure-token
+- arguments:
+  - display_text: noquant
+    name: noquant
+    token: NOQUANT
+    type: pure-token
+  - display_text: bin
+    name: bin
+    token: BIN
+    type: pure-token
+  - display_text: q8
+    name: q8
+    token: Q8
+    type: pure-token
+  name: quant_type
+  optional: true
+  type: oneof
+- display_text: build-exploration-factor
+  name: build-exploration-factor
+  optional: true
+  token: EF
+  type: integer
+- display_text: attributes
+  name: attributes
+  optional: true
+  token: SETATTR
+  type: string
+- display_text: numlinks
+  name: numlinks
+  optional: true
+  token: M
+  type: integer
+arity: -5
 categories:
 - docs
 - develop
@@ -9,15 +76,40 @@ categories:
 - oss
 - kubernetes
 - clients
-complexity: O(log(N)) for each element added, where N is the number of elements in the vector set.
-description: Add a new element to a vector set, or update its vector if it already exists.
-group: vector_set
+command_flags:
+- write
+- denyoom
+- module
+complexity: O(log(N)) for each element added, where N is the number of elements in
+  the vector set.
+description: Add a new element to a vector set, or update its vector if it already
+  exists.
+group: module
 hidden: false
+key_specs:
+- RW: true
+  access: true
+  begin_search:
+    spec:
+      index: 1
+    type: index
+  find_keys:
+    spec:
+      keystep: 1
+      lastkey: 0
+      limit: 0
+    type: range
+  update: true
 linkTitle: VADD
+module: vectorset
 railroad_diagram: /images/railroad/vadd.svg
 since: 8.0.0
-summary: Add a new element to a vector set, or update its vector if it already exists.
-syntax_fmt: "VADD key [REDUCE dim] (FP32 | VALUES num) vector element [CAS] [NOQUANT | Q8 | BIN]\n  [EF build-exploration-factor] [SETATTR attributes] [M numlinks]"
+summary: Add one or more elements to a vector set, or update its vector if it already
+  exists
+syntax_fmt: "VADD key [REDUCE\_dim] <FP32 | VALUES> vector element [CAS] [NOQUANT\n\
+  \  | BIN | Q8] [EF\_build-exploration-factor] [SETATTR\_attributes]\n  [M\_numlinks]"
+syntax_str: "[REDUCE\_dim] <FP32 | VALUES> vector element [CAS] [NOQUANT | BIN | Q8]\
+  \ [EF\_build-exploration-factor] [SETATTR\_attributes] [M\_numlinks]"
 title: VADD
 ---
 

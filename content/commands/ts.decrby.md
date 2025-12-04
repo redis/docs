@@ -25,38 +25,6 @@ arguments:
   token: CHUNK_SIZE
   type: integer
 - arguments:
-  - name: block
-    token: BLOCK
-    type: pure-token
-  - name: first
-    token: FIRST
-    type: pure-token
-  - name: last
-    token: LAST
-    type: pure-token
-  - name: min
-    token: MIN
-    type: pure-token
-  - name: max
-    token: MAX
-    type: pure-token
-  - name: sum
-    token: SUM
-    type: pure-token
-  name: policy
-  optional: true
-  token: DUPLICATE_POLICY
-  type: oneof
-- arguments:
-  - name: ignoreMaxTimediff
-    type: integer
-  - name: ignoreMaxValDiff
-    type: double
-  name: ignore
-  optional: true
-  token: IGNORE
-  type: block
-- arguments:
   - name: label
     type: string
   - name: value

@@ -1,4 +1,13 @@
 ---
+arguments:
+- display_text: key
+  key_spec_index: 0
+  name: key
+  type: key
+- display_text: element
+  name: element
+  type: string
+arity: 3
 categories:
 - docs
 - develop
@@ -9,15 +18,35 @@ categories:
 - oss
 - kubernetes
 - clients
-complexity: O(log(N)) for each element removed, where N is the number of elements in the vector set.
+command_flags:
+- write
+- module
+complexity: O(log(N)) for each element removed, where N is the number of elements
+  in the vector set.
 description: Remove an element from a vector set.
-group: vector_set
+group: module
 hidden: false
+key_specs:
+- RW: true
+  access: true
+  begin_search:
+    spec:
+      index: 1
+    type: index
+  find_keys:
+    spec:
+      keystep: 1
+      lastkey: 0
+      limit: 0
+    type: range
+  update: true
 linkTitle: VREM
+module: vectorset
 railroad_diagram: /images/railroad/vrem.svg
 since: 8.0.0
-summary: Remove an element from a vector set.
-syntax_fmt: "VREM key element"
+summary: Remove an element from a vector set
+syntax_fmt: VREM key element
+syntax_str: element
 title: VREM
 ---
 

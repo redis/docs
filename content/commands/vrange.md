@@ -1,12 +1,17 @@
 ---
 arguments:
-- name: key
+- display_text: key
+  key_spec_index: 0
+  name: key
   type: key
-- name: start
+- display_text: start
+  name: start
   type: string
-- name: end
+- display_text: end
+  name: end
   type: string
-- name: count
+- display_text: count
+  name: count
   optional: true
   type: integer
 arity: -4
@@ -21,17 +26,33 @@ categories:
 - kubernetes
 - clients
 command_flags:
-- READONLY
+- readonly
+- module
 complexity: O(log(K)+M) where K is the number of elements in the start prefix, and
   M is the number of elements returned. In practical terms, the command is just O(M)
 description: Return elements in a lexicographical range
 function: vrangeCommand
-group: vector_set
+group: module
 hidden: false
+key_specs:
+- RW: true
+  access: true
+  begin_search:
+    spec:
+      index: 1
+    type: index
+  find_keys:
+    spec:
+      keystep: 1
+      lastkey: 0
+      limit: 0
+    type: range
+  update: true
 linkTitle: VRANGE
+module: vectorset
 railroad_diagram: /images/railroad/vrange.svg
 since: 8.4.0
-summary: Return elements in a lexicographical range
+summary: Return vector set elements in a lex range
 syntax_fmt: VRANGE key start end [count]
 syntax_str: start end [count]
 title: VRANGE

@@ -92,8 +92,8 @@ summary: Returns new or historical messages from a stream for a consumer in a gr
   Blocks until a message is available otherwise.
 syntax_fmt: "XREADGROUP GROUP\_group consumer [COUNT\_count] [BLOCK\_milliseconds]\n\
   \  [CLAIM\_min-idle-time] [NOACK] STREAMS\_key [key ...] id [id ...]"
-syntax_str: "[COUNT\_count] [BLOCK\_milliseconds] [CLAIM\_min-idle-time] [NOACK] STREAMS\_key [key ...] id\
-  \ [id ...]"
+syntax_str: "[COUNT\_count] [BLOCK\_milliseconds] [CLAIM\_min-idle-time] [NOACK] STREAMS\_\
+  key [key ...] id [id ...]"
 title: XREADGROUP
 ---
 The `XREADGROUP` command is a special version of the [`XREAD`]({{< relref "/commands/xread" >}}) command

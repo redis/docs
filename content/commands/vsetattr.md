@@ -1,4 +1,16 @@
 ---
+arguments:
+- display_text: key
+  key_spec_index: 0
+  name: key
+  type: key
+- display_text: element
+  name: element
+  type: string
+- display_text: json
+  name: json
+  type: string
+arity: 4
 categories:
 - docs
 - develop
@@ -9,15 +21,35 @@ categories:
 - oss
 - kubernetes
 - clients
+command_flags:
+- write
+- module
+- fast
 complexity: O(1)
 description: Associate or remove the JSON attributes of elements.
-group: vector_set
+group: module
 hidden: false
+key_specs:
+- RW: true
+  access: true
+  begin_search:
+    spec:
+      index: 1
+    type: index
+  find_keys:
+    spec:
+      keystep: 1
+      lastkey: 0
+      limit: 0
+    type: range
+  update: true
 linkTitle: VSETATTR
+module: vectorset
 railroad_diagram: /images/railroad/vsetattr.svg
 since: 8.0.0
-summary: Associate or remove the JSON attributes of elements.
-syntax_fmt: "VSETATTR key element \"{ JSON obj }\""
+summary: Associate or remove the JSON attributes of elements
+syntax_fmt: VSETATTR key element json
+syntax_str: element json
 title: VSETATTR
 ---
 

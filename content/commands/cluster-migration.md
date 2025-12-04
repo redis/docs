@@ -41,7 +41,7 @@ arguments:
       type: pure-token
     name: status
     token: STATUS
-    type: block
+    type: oneof
   name: subcommand
   type: oneof
 arity: -4
@@ -67,9 +67,9 @@ hidden: false
 linkTitle: CLUSTER MIGRATION
 railroad_diagram: /images/railroad/cluster-migration.svg
 since: 8.4.0
-summary: Start, monitor, and cancel atomic slot migration tasks.
-syntax_fmt: "CLUSTER MIGRATION <IMPORT\_start-slot end-slot [start-slot end-slot ...]\n\
-  \  | CANCEL\_<ID\_task-id | ALL> | STATUS\_<ID\_task-id | ALL>"
+summary: Start, monitor and cancel slot migration.
+syntax_fmt: "CLUSTER MIGRATION <IMPORT\_start-slot end-slot [start-slot end-slot\n\
+  \  ...] | CANCEL\_<ID\_task-id | ALL> | STATUS\_<[ID\_task-id] | [ALL]>>"
 syntax_str: ''
 title: CLUSTER MIGRATION
 ---

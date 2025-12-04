@@ -1,4 +1,10 @@
 ---
+arguments:
+- display_text: key
+  key_spec_index: 0
+  name: key
+  type: key
+arity: 2
 categories:
 - docs
 - develop
@@ -9,15 +15,35 @@ categories:
 - oss
 - kubernetes
 - clients
+command_flags:
+- readonly
+- module
+- fast
 complexity: O(1)
 description: Return the number of elements in a vector set.
-group: vector_set
+group: module
 hidden: false
+key_specs:
+- RW: true
+  access: true
+  begin_search:
+    spec:
+      index: 1
+    type: index
+  find_keys:
+    spec:
+      keystep: 1
+      lastkey: 0
+      limit: 0
+    type: range
+  update: true
 linkTitle: VCARD
+module: vectorset
 railroad_diagram: /images/railroad/vcard.svg
 since: 8.0.0
-summary: Return the number of elements in a vector set.
-syntax_fmt: "VCARD key"
+summary: Return the number of elements in a vector set
+syntax_fmt: VCARD key
+syntax_str: ''
 title: VCARD
 ---
 

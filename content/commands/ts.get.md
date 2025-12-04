@@ -30,7 +30,7 @@ railroad_diagram: /images/railroad/ts.get.svg
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Get the sample with the highest timestamp from a given time series
-syntax: "TS.GET key [LATEST]"
+syntax: TS.GET key [LATEST]
 syntax_fmt: TS.GET key [LATEST]
 syntax_str: '[LATEST]'
 title: TS.GET
