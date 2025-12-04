@@ -192,8 +192,8 @@ The trimming operator:
 <summary><code>threshold</code></summary>
 
 The trimming threshold:
-- For `MAXLEN`: A non-negative integer representing the maximum number of entries that may remain in the stream after trimming.
-- For `MINID`: A stream ID. Entries with IDs < `threshold` are trimmed, and entries with IDs ≥ `threshold` remain.
+- For `MAXLEN`: `threshold` is a non-negative integer specifying the maximum number of entries that may remain in the stream after trimming. Redis enforces this by removing the oldest entries — that is, the entries with the lowest stream IDs — so that only the newest entries are kept.
+- For `MINID`: `threshold` is a stream ID. All entries whose IDs are less than `threshold` are trimmed. All entries with IDs greater than or equal to `threshold` are kept.
 </details>
 
 <details open>
