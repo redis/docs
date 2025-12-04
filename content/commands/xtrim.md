@@ -85,8 +85,8 @@ linkTitle: XTRIM
 railroad_diagram: /images/railroad/xtrim.svg
 since: 5.0.0
 summary: Deletes messages from the beginning of a stream.
-syntax_fmt: "XTRIM key <MAXLEN | MINID> [= | ~] threshold [LIMIT\_count]"
-syntax_str: "<MAXLEN | MINID> [= | ~] threshold [LIMIT\_count]"
+syntax_fmt: "XTRIM key <MAXLEN | MINID> [= | ~] threshold [LIMIT\_count] [KEEPREF | DELREF | ACKED]"
+syntax_str: "<MAXLEN | MINID> [= | ~] threshold [LIMIT\_count] [KEEPREF | DELREF | ACKED]"
 title: XTRIM
 ---
 
@@ -111,7 +111,9 @@ The trimming strategy:
 <details open>
 <summary><code>threshold</code></summary>
 
-The trimming threshold. For `MAXLEN`, this is a positive integer representing the maximum number of entries. For `MINID`, this is a stream ID.
+The trimming threshold:
+- For `MAXLEN`: `threshold` is a non-negative integer specifying the maximum number of entries that may remain in the stream after trimming. Redis enforces this by removing the oldest entries - that is, the entries with the lowest stream IDs - so that only the newest entries are kept.
+- For `MINID`: `threshold` is a stream ID. All entries whose IDs are less than `threshold` are trimmed. All entries with IDs greater than or equal to `threshold` are kept.
 </details>
 
 ## Optional arguments
@@ -141,11 +143,6 @@ If no option is specified, `KEEPREF` is used by default. Unlike the `XDELEX` and
 - `DELREF`: When trimming, removes entries from the stream according to the specified strategy and also removes all references to these entries from all consumer groups' PEL.
 - `ACKED`: When trimming, only removes entries that were read and acknowledged by all consumer groups. Note that if the number of referenced entries is larger than `MAXLEN`, trimming will still stop at the limit.
 </details>
-
-You can trim the stream using one of these strategies:
-
-* `MAXLEN`: Evicts entries as long as the stream's length exceeds the specified `threshold`, where `threshold` is a positive integer.
-* `MINID`: Evicts entries with IDs lower than `threshold`, where `threshold` is a stream ID.
 
 For example, this trims the stream to exactly the latest 1000 items:
 
