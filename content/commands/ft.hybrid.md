@@ -6,32 +6,28 @@ arguments:
 - name: index
   type: string
 - arguments:
-  - name: search_expression
+  - name: search
     token: SEARCH
+    type: pure-token
+  - name: query
     type: string
-  - arguments:
-    - name: scorer
-      token: SCORER
-      type: pure-token
-    - name: algorithm
-      type: string
-    - multiple: true
-      name: params
-      type: string
-    name: scorer
+  - name: scorer
     optional: true
-    type: block
-  - name: alias_search_score
+    token: SCORER
+    type: string
+  - name: yield_score_as
     optional: true
     token: YIELD_SCORE_AS
     type: string
-  name: search
+  name: search_clause
   type: block
 - arguments:
-  - name: vector_field
+  - name: vsim
     token: VSIM
+    type: pure-token
+  - name: field
     type: string
-  - name: vector_data
+  - name: vector
     type: string
   - arguments:
     - arguments:
@@ -47,11 +43,11 @@ arguments:
         optional: true
         token: EF_RUNTIME
         type: integer
-      - name: distance_field
+      - name: yield_score_as
         optional: true
-        token: YIELD_DISTANCE_AS
+        token: YIELD_SCORE_AS
         type: string
-      name: knn
+      name: knn_clause
       type: block
     - arguments:
       - name: range
@@ -66,42 +62,20 @@ arguments:
         optional: true
         token: EPSILON
         type: double
-      - name: distance_field
+      - name: yield_score_as
         optional: true
-        token: YIELD_DISTANCE_AS
+        token: YIELD_SCORE_AS
         type: string
-      name: range
+      name: range_clause
       type: block
-    name: method
+    name: vector_query_type
+    optional: true
     type: oneof
-  - name: filter_expression
+  - name: filter
     optional: true
     token: FILTER
     type: string
-  - arguments:
-    - name: policy
-      token: POLICY
-      type: pure-token
-    - arguments:
-      - name: adhoc
-        token: ADHOC
-        type: pure-token
-      - name: batches
-        token: BATCHES
-        type: pure-token
-      - name: acorn
-        token: ACORN
-        type: pure-token
-      name: policy_type
-      type: oneof
-    - name: batch_size
-      optional: true
-      token: BATCH_SIZE
-      type: integer
-    name: policy
-    optional: true
-    type: block
-  name: vsim
+  name: vsim_clause
   type: block
 - arguments:
   - name: combine
@@ -114,15 +88,19 @@ arguments:
         type: pure-token
       - name: count
         type: integer
-      - name: window
-        optional: true
-        token: WINDOW
-        type: integer
       - name: constant
         optional: true
         token: CONSTANT
         type: double
-      name: rrf
+      - name: window
+        optional: true
+        token: WINDOW
+        type: integer
+      - name: yield_score_as
+        optional: true
+        token: YIELD_SCORE_AS
+        type: string
+      name: rrf_method
       type: block
     - arguments:
       - name: linear
@@ -130,99 +108,31 @@ arguments:
         type: pure-token
       - name: count
         type: integer
-      - name: alpha
+      - arguments:
+        - name: alpha
+          token: ALPHA
+          type: double
+        - name: beta
+          token: BETA
+          type: double
+        name: weights
         optional: true
-        token: ALPHA
-        type: double
-      - name: beta
+        type: block
+      - name: window
         optional: true
-        token: BETA
-        type: double
-      name: linear
+        token: WINDOW
+        type: integer
+      - name: yield_score_as
+        optional: true
+        token: YIELD_SCORE_AS
+        type: string
+      name: linear_method
       type: block
     name: method
     type: oneof
-  - name: alias_combined_score
-    optional: true
-    token: YIELD_SCORE_AS
-    type: string
   name: combine
   optional: true
   type: block
-- arguments:
-  - name: load
-    token: LOAD
-    type: pure-token
-  - name: count
-    type: integer
-  - multiple: true
-    name: field
-    type: string
-  name: load
-  optional: true
-  type: block
-- arguments:
-  - name: groupby
-    token: GROUPBY
-    type: pure-token
-  - name: count
-    type: integer
-  - multiple: true
-    name: field
-    type: string
-  - arguments:
-    - name: reduce
-      token: REDUCE
-      type: pure-token
-    - name: function
-      type: string
-    - name: nargs
-      type: integer
-    - multiple: true
-      name: arg
-      type: string
-    multiple: true
-    name: reduce
-    type: block
-  name: groupby
-  optional: true
-  type: block
-- arguments:
-  - name: apply
-    token: APPLY
-    type: pure-token
-  - name: expression
-    type: string
-  - name: field
-    token: AS
-    type: string
-  multiple: true
-  name: apply
-  optional: true
-  type: block
-- arguments:
-  - name: sortby
-    token: SORTBY
-    type: pure-token
-  - name: field
-    type: string
-  - arguments:
-    - name: asc
-      token: ASC
-      type: pure-token
-    - name: desc
-      token: DESC
-      type: pure-token
-    name: order
-    optional: true
-    type: oneof
-  name: sortby
-  optional: true
-  type: block
-- name: post_filter_expression
-  optional: true
-  token: FILTER
-  type: string
 - arguments:
   - name: limit
     token: LIMIT
@@ -235,13 +145,36 @@ arguments:
   optional: true
   type: block
 - arguments:
+  - arguments:
+    - name: sortby
+      token: SORTBY
+      type: string
+    - arguments:
+      - name: asc
+        token: ASC
+        type: pure-token
+      - name: desc
+        token: DESC
+        type: pure-token
+      name: order
+      optional: true
+      type: oneof
+    name: sortby
+    type: block
+  - name: nosort
+    token: NOSORT
+    type: pure-token
+  name: sorting
+  optional: true
+  type: oneof
+- arguments:
   - name: params
     token: PARAMS
     type: pure-token
-  - name: count
+  - name: nargs
     type: integer
   - arguments:
-    - name: key
+    - name: name
       type: string
     - name: value
       type: string
@@ -251,29 +184,306 @@ arguments:
   name: params
   optional: true
   type: block
-- name: explainscore
-  optional: true
-  token: EXPLAINSCORE
-  type: pure-token
 - name: timeout
   optional: true
   token: TIMEOUT
   type: integer
+- name: format
+  optional: true
+  token: FORMAT
+  type: string
 - arguments:
-  - name: withcursor
-    token: WITHCURSOR
-    type: pure-token
-  - name: read_size
-    optional: true
-    token: COUNT
-    type: integer
-  - name: idle_time
-    optional: true
-    token: MAXIDLE
-    type: integer
-  name: withcursor
+  - name: count
+    token: LOAD
+    type: string
+  - multiple: true
+    name: field
+    type: string
+  name: load
   optional: true
   type: block
+- name: loadall
+  optional: true
+  token: LOAD *
+  type: pure-token
+- arguments:
+  - name: groupby
+    token: GROUPBY
+    type: pure-token
+  - name: nproperties
+    type: integer
+  - multiple: true
+    name: property
+    type: string
+  - arguments:
+    - name: reduce
+      token: REDUCE
+      type: pure-token
+    - arguments:
+      - name: count
+        token: COUNT
+        type: pure-token
+      - name: count_distinct
+        token: COUNT_DISTINCT
+        type: pure-token
+      - name: count_distinctish
+        token: COUNT_DISTINCTISH
+        type: pure-token
+      - name: sum
+        token: SUM
+        type: pure-token
+      - name: min
+        token: MIN
+        type: pure-token
+      - name: max
+        token: MAX
+        type: pure-token
+      - name: avg
+        token: AVG
+        type: pure-token
+      - name: stddev
+        token: STDDEV
+        type: pure-token
+      - name: quantile
+        token: QUANTILE
+        type: pure-token
+      - name: tolist
+        token: TOLIST
+        type: pure-token
+      - name: first_value
+        token: FIRST_VALUE
+        type: pure-token
+      - name: random_sample
+        token: RANDOM_SAMPLE
+        type: pure-token
+      name: function
+      type: oneof
+    - name: nargs
+      type: integer
+    - multiple: true
+      name: arg
+      type: string
+    - name: name
+      optional: true
+      token: AS
+      type: string
+    multiple: true
+    name: reduce
+    optional: true
+    type: block
+  name: groupby
+  optional: true
+  type: block
+- arguments:
+  - arguments:
+    - arguments:
+      - token: s
+      name: exists
+      summary: Checks whether a field exists in a document.
+      token: exists
+      type: function
+    - arguments:
+      - token: x
+      name: log
+      summary: Return the logarithm of a number, property or subexpression
+      token: log
+      type: function
+    - arguments:
+      - token: x
+      name: abs
+      summary: Return the absolute value of a numeric expression
+      token: abs
+      type: function
+    - arguments:
+      - token: x
+      name: ceil
+      summary: Round to the smallest integer not less than x
+      token: ceil
+      type: function
+    - arguments:
+      - token: x
+      name: floor
+      summary: Round to largest integer not greater than x
+      token: floor
+      type: function
+    - arguments:
+      - token: x
+      name: log2
+      summary: Return the logarithm of x to base 2
+      token: log2
+      type: function
+    - arguments:
+      - token: x
+      name: exp
+      summary: Return the exponent of x, e.g., e^x
+      token: exp
+      type: function
+    - arguments:
+      - token: x
+      name: sqrt
+      summary: Return the square root of x
+      token: sqrt
+      type: function
+    - arguments:
+      - token: s
+      name: upper
+      summary: Return the uppercase conversion of s
+      token: upper
+      type: function
+    - arguments:
+      - token: s
+      name: lower
+      summary: Return the lowercase conversion of s
+      token: lower
+      type: function
+    - arguments:
+      - token: s1
+      - token: s2
+      name: startswith
+      summary: Return 1 if s2 is the prefix of s1, 0 otherwise.
+      token: startswith
+      type: function
+    - arguments:
+      - token: s1
+      - token: s2
+      name: contains
+      summary: Return the number of occurrences of s2 in s1, 0 otherwise. If s2 is
+        an empty string, return length(s1) + 1.
+      token: contains
+      type: function
+    - arguments:
+      - token: s
+      name: strlen
+      summary: Return the length of s
+      token: strlen
+      type: function
+    - arguments:
+      - token: s
+      - token: offset
+      - token: count
+      name: substr
+      summary: Return the substring of s, starting at offset and having count characters.
+        If offset is negative, it represents the distance from the end of the string.
+        If count is -1, it means "the rest of the string starting at offset".
+      token: substr
+      type: function
+    - arguments:
+      - token: fmt
+      name: format
+      summary: Use the arguments following fmt to format a string. Currently the only
+        format argument supported is %s and it applies to all types of arguments.
+      token: format
+      type: function
+    - arguments:
+      - optional: true
+        token: max_terms=100
+      name: matched_terms
+      summary: Return the query terms that matched for each record (up to 100), as
+        a list. If a limit is specified, Redis will return the first N matches found,
+        based on query order.
+      token: matched_terms
+      type: function
+    - arguments:
+      - token: s
+      name: split
+      summary: Split a string by any character in the string sep, and strip any characters
+        in strip. If only s is specified, it is split by commas and spaces are stripped.
+        The output is an array.
+      token: split
+      type: function
+    - arguments:
+      - token: x
+      - optional: true
+        token: fmt
+      name: timefmt
+      summary: Return a formatted time string based on a numeric timestamp value x.
+      token: timefmt
+      type: function
+    - arguments:
+      - token: timesharing
+      - optional: true
+        token: fmt
+      name: parsetime
+      summary: The opposite of timefmt() - parse a time format using a given format
+        string
+      token: parsetime
+      type: function
+    - arguments:
+      - token: timestamp
+      name: day
+      summary: Round a Unix timestamp to midnight (00:00) start of the current day.
+      token: day
+      type: function
+    - arguments:
+      - token: timestamp
+      name: hour
+      summary: Round a Unix timestamp to the beginning of the current hour.
+      token: hour
+      type: function
+    - arguments:
+      - token: timestamp
+      name: minute
+      summary: Round a Unix timestamp to the beginning of the current minute.
+      token: minute
+      type: function
+    - arguments:
+      - token: timestamp
+      name: month
+      summary: Round a Unix timestamp to the beginning of the current month.
+      token: month
+      type: function
+    - arguments:
+      - token: timestamp
+      name: dayofweek
+      summary: Convert a Unix timestamp to the day number (Sunday = 0).
+      token: dayofweek
+      type: function
+    - arguments:
+      - token: timestamp
+      name: dayofmonth
+      summary: Convert a Unix timestamp to the day of month number (1 .. 31).
+      token: dayofmonth
+      type: function
+    - arguments:
+      - token: timestamp
+      name: dayofyear
+      summary: Convert a Unix timestamp to the day of year number (0 .. 365).
+      token: dayofyear
+      type: function
+    - arguments:
+      - token: timestamp
+      name: year
+      summary: Convert a Unix timestamp to the current year (e.g. 2018).
+      token: year
+      type: function
+    - arguments:
+      - token: timestamp
+      name: monthofyear
+      summary: Convert a Unix timestamp to the current month (0 .. 11).
+      token: monthofyear
+      type: function
+    - arguments:
+      - token: ''
+      name: geodistance
+      summary: Return distance in meters.
+      token: geodistance
+      type: function
+    expression: true
+    name: expression
+    token: APPLY
+    type: string
+  - name: name
+    token: AS
+    type: string
+  multiple: true
+  name: apply
+  optional: true
+  type: block
+- expression: true
+  name: filter
+  optional: true
+  token: FILTER
+  type: string
 categories:
 - docs
 - develop
@@ -293,20 +503,18 @@ linkTitle: FT.HYBRID
 railroad_diagram: /images/railroad/ft.hybrid.svg
 since: 8.4.0
 summary: Performs hybrid search combining text search and vector similarity search
-syntax_fmt: "FT.HYBRID index SEARCH query [SCORER\_scorer]\n  [YIELD_SCORE_AS\_yield_score_as]\
-  \ VSIM field vector [KNN count K\_k\n  [EF_RUNTIME\_ef_runtime] [YIELD_SCORE_AS\_\
-  yield_score_as] | RANGE\n  count RADIUS\_radius [EPSILON\_epsilon]\n  [YIELD_SCORE_AS\_\
-  yield_score_as]] [FILTER\_filter] [COMBINE <RRF\n  count [CONSTANT\_constant] [WINDOW\_\
-  window]\n  [YIELD_SCORE_AS\_yield_score_as] | LINEAR count [ALPHA\_alpha\n  BETA\_\
-  beta] [WINDOW\_window] [YIELD_SCORE_AS\_yield_score_as]>]\n  [LIMIT offset num]\
-  \ [SORTBY\_sortby [ASC | DESC] | NOSORT] [PARAMS\n  nargs name value [name value\
-  \ ...]] [TIMEOUT\_timeout]\n  [FORMAT\_format] [LOAD\_count field [field ...]] [LOAD\
-  \ *] [GROUPBY\n  nproperties property [property ...] [REDUCE <COUNT |\n  COUNT_DISTINCT\
-  \ | COUNT_DISTINCTISH | SUM | MIN | MAX | AVG |\n  STDDEV | QUANTILE | TOLIST |\
-  \ FIRST_VALUE | RANDOM_SAMPLE> nargs\n  arg [arg ...] [AS\_name] [REDUCE <COUNT\
-  \ | COUNT_DISTINCT |\n  COUNT_DISTINCTISH | SUM | MIN | MAX | AVG | STDDEV | QUANTILE\
-  \ |\n  TOLIST | FIRST_VALUE | RANDOM_SAMPLE> nargs arg [arg ...]\n  [AS\_name] ...]]]\
-  \ [APPLY\_expression AS\_name [APPLY\_expression\n  AS\_name ...]] [FILTER\_filter]"
+syntax_fmt: "FT.HYBRID index\n  SEARCH query\n    [SCORER scorer]\n    [YIELD_SCORE_AS\
+  \ name]\n  VSIM vector_field $vector_param\n    [KNN count [K k] [EF_RUNTIME ef_runtime]]\n\
+  \    [RANGE count [RADIUS radius] [EPSILON epsilon]]\n    [YIELD_SCORE_AS name]\n\
+  \    [FILTER filter]\n  [COMBINE RRF count [CONSTANT constant] [WINDOW window]\
+  \ [YIELD_SCORE_AS name]]\n  [COMBINE LINEAR count [[ALPHA alpha] [BETA beta]] [WINDOW\
+  \ window] [YIELD_SCORE_AS name]]\n  [LIMIT offset num]\n  [SORTBY count sortby\
+  \ [ASC | DESC]]\n  [NOSORT]\n  [LOAD count field [field ...]]\n  [LOAD *]\n  [GROUPBY\
+  \ nargs property [property ...]\n  [GROUPBY nargs property [property ...]\n   \
+  \ [REDUCE function nargs arg [arg ...] [AS name]\n    [REDUCE function nargs arg\
+  \ [arg ...] [AS name] ...]] ...]]\n  [APPLY expression AS name [APPLY expression\
+  \ AS name ...]]\n  [FILTER filter]\n  PARAMS nargs vector_param vector_blob [name\
+  \ value ...]\n  [TIMEOUT timeout]"
 title: FT.HYBRID
 ---
 
@@ -358,13 +566,13 @@ assigns an alias to the search score for use in post-processing operations like 
 </details>
 
 <details open>
-<summary><code>KNN count K topk-k [EF_RUNTIME ef-value] [YIELD_DISTANCE_AS distance_field]</code></summary>
+<summary><code>KNN count K top-k [EF_RUNTIME ef-value] [YIELD_SCORE_AS name]</code></summary>
 
-configures K-nearest neighbors search for vector similarity. The `count` parameter indicates the number of following parameters. `K` specifies the number of nearest neighbors to find. `EF_RUNTIME` controls the search accuracy vs. speed tradeoff. `YIELD_DISTANCE_AS` assigns an alias to the distance value.
+configures K-nearest neighbors search for vector similarity. The `count` parameter indicates the number of following parameters. `K` specifies the number of nearest neighbors to find. `EF_RUNTIME` controls the search accuracy vs. speed tradeoff. `YIELD_SCORE_AS` assigns an alias to the score value.
 </details>
 
 <details open>
-<summary><code>RANGE count RADIUS radius-value [EPSILON epsilon-value] [YIELD_DISTANCE_AS distance_field]</code></summary>
+<summary><code>RANGE count RADIUS radius-value [EPSILON epsilon-value] [YIELD_SCORE_AS name]</code></summary>
 
 configures range-based vector search within a specified radius. The `count` parameter indicates the number of following parameters. `RADIUS` defines the maximum distance for matches. `EPSILON` provides additional precision control.
 </details>
@@ -404,13 +612,13 @@ assigns an alias to the combined fusion score for use in post-processing operati
 
 specifies which fields to return in the results. The `count` parameter indicates the number of fields that follow.
 
-Example: `LOAD 3 category brand price`
+Example: `LOAD 3 @category @brand @price`
 </details>
 
 <details open>
 <summary><code>GROUPBY count field... REDUCE function...</code></summary>
 
-groups results by specified fields and applies reduction functions. Follows the parameter count convention.
+groups results by specified fields and applies reduction functions. Follows the parameter count convention. The `count` parameter indicates the number of fields that follow.
 
 Example: `GROUPBY 4 category brand REDUCE 2 COUNT 0`
 </details>
@@ -424,16 +632,16 @@ Example: `APPLY "@vector_distance+@score" AS final_score`
 </details>
 
 <details open>
-<summary><code>SORTBY field [ASC|DESC]</code></summary>
+<summary><code>SORTBY count field [ASC|DESC]</code></summary>
 
-sorts the final results by the specified field in ascending or descending order.
+sorts the final results by the specified field in ascending or descending order. The `count` parameter indicates the number of fields that follow.
 </details>
 
-<details open>
+<!--<details open>
 <summary><code>FILTER post-filter-expression</code></summary>
 
 applies final filtering to the fused results after combination and before sorting/limiting.
-</details>
+</details>-->
 
 <details open>
 <summary><code>LIMIT offset num</code></summary>
@@ -449,11 +657,11 @@ defines parameter substitution for the query. Parameters can be referenced in se
 Example: `PARAMS 4 min_price 50 max_price 200`
 </details>
 
-<details open>
+<!--<details open>
 <summary><code>EXPLAINSCORE</code></summary>
 
 includes detailed score explanations in the results, showing how both text search and vector similarity scores were calculated and combined.
-</details>
+</details>-->
 
 <details open>
 <summary><code>TIMEOUT timeout</code></summary>
@@ -461,11 +669,11 @@ includes detailed score explanations in the results, showing how both text searc
 sets a runtime timeout for the query execution in milliseconds.
 </details>
 
-<details open>
+<!--<details open>
 <summary><code>WITHCURSOR [COUNT read_size] [MAXIDLE idle_time]</code></summary>
 
 enables cursor-based result pagination for large result sets. `COUNT` specifies the batch size, and `MAXIDLE` sets the cursor timeout.
-</details>
+</details>-->
 
 ## Default values and behaviors
 
@@ -475,8 +683,8 @@ FT.HYBRID provides sensible defaults to ease onboarding:
 - **Default LIMIT**: 10 results
 - **Default SCORER**: BM25STD for text search
 - **Default KNN K**: 10 neighbors
-- **Default RRF WINDOW**: 20 (or follows LIMIT if specified)
-- **Default RRF CONSTANT**: 60 (following Elasticsearch convention)
+- **Default RRF WINDOW**: 20
+- **Default RRF CONSTANT**: 60
 - **Default EF_RUNTIME**: 10 (as vector KNN [default](https://redis.io/docs/latest/develop/ai/search-and-query/vectors/#hnsw-index))
 - **Default EPSILON**: 0.01 (as the vector RANGE [default]({{< relref "/develop/ai/search-and-query/vectors#hnsw-index" >}}))
 ## Parameter count convention
@@ -489,7 +697,7 @@ All multi-parameter options use a count prefix that contains ALL tokens that fol
 
 The only exception is alias usage with `AS`, which is not counted:
 - `APPLY "@vector_distance+@score" AS final_score`
-- `LOAD 3 category AS cat brand AS brd price AS prc`
+- `LOAD 3 @category AS cat @brand AS brd @price AS prc`
 
 ## Reserved fields
 
@@ -512,6 +720,7 @@ Perform a simple hybrid search combining text search for "laptop" with vector si
   SEARCH "laptop"
   VSIM @description_vector $query_vec
   KNN 2 K 10
+  PARAMS 2 query_vec <vector_blob>
 {{< / highlight >}}
 </details>
 
@@ -527,11 +736,12 @@ Search for electronics with custom BM25 parameters and RRF fusion:
   YIELD_SCORE_AS text_score
   VSIM @features_vector $query_vec
   KNN 4 K 20 EF_RUNTIME 200
-  YIELD_DISTANCE_AS vector_dist
+  YIELD_SCORE_AS vector_score
   COMBINE RRF 4 WINDOW 50 CONSTANT 80
   YIELD_SCORE_AS hybrid_score
-  SORTBY hybrid_score DESC
+  SORTBY 2 hybrid_score DESC
   LIMIT 0 20
+  PARAMS 2 query_vec <vector_blob>
 {{< / highlight >}}
 </details>
 
@@ -547,9 +757,10 @@ Search with vector pre-filtering and post-processing:
   KNN 2 K 15
   FILTER "@price:[100 500]"
   COMBINE LINEAR 4 ALPHA 0.7 BETA 0.3
-  LOAD 4 title price category rating
+  LOAD 4 @title @price @category @rating
   APPLY "@price * 0.9" AS discounted_price
-  SORTBY rating DESC
+  SORTBY 2 rating DESC
+  PARAMS 2 query_vec <vector_blob>
 {{< / highlight >}}
 </details>
 
@@ -565,7 +776,6 @@ Use parameter substitution for dynamic queries:
   RANGE 4 RADIUS 0.8 EPSILON 0.1
   FILTER "@availability:$stock_status"
   PARAMS 6 brand_name "Apple" query_vector <vector_blob> stock_status "in_stock"
-  EXPLAINSCORE
 {{< / highlight >}}
 </details>
 
@@ -599,8 +809,8 @@ One of the following:
 * [Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) with the following fields:
     - `total_results`: [Integer]({{< relref "/develop/reference/protocol-spec#integers" >}}) - total number of results
     - `execution_time`: [double]({{< relref "/develop/reference/protocol-spec#doubles" >}}) containing hybrid query execution time
-    - `warning`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of warning messages indicating partial results due to index errors or `MAXPREFIXEXPANSIONS` and `TIMEOUT` reached
-     - `results`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [maps]({{< relref "/develop/reference/protocol-spec#maps" >}}) containing document information
+    - `warnings`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of warning messages indicating partial results due to index errors or `MAXPREFIXEXPANSIONS`, out-of-memory conditions, and `TIMEOUT` reached
+    - `results`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [maps]({{< relref "/develop/reference/protocol-spec#maps" >}}) containing document information
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, syntax error in query.
 
 {{< /multitabs >}}
