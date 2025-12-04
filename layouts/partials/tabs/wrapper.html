@@ -155,6 +155,7 @@ group-hover:opacity-100 group-hover:visible">
     const codetabsId = '{{ $id }}';
     const container = document.getElementById('binder-link-container-' + codetabsId);
     const langSelect = document.getElementById('lang-select-' + codetabsId);
+    let isInitialLoad = true;
 
     function updateBinderLink() {
         if (!container || !langSelect) return;
@@ -168,12 +169,23 @@ group-hover:opacity-100 group-hover:visible">
         if (!panels || tabIndex >= panels.length) return;
 
         const currentPanel = panels[tabIndex];
-        const binderId = currentPanel.getAttribute('data-binder-id');
+        let binderId = currentPanel.getAttribute('data-binder-id');
+
+        // On initial page load, if current tab doesn't have a binderId, find the first tab that does
+        if (isInitialLoad && !binderId) {
+            for (let i = 0; i < panels.length; i++) {
+                const panelBinderId = panels[i].getAttribute('data-binder-id');
+                if (panelBinderId) {
+                    binderId = panelBinderId;
+                    break;
+                }
+            }
+        }
 
         // Clear existing content
         container.innerHTML = '';
 
-        // If binderId exists, create and show the link
+        // Show the link if we found a binderId
         if (binderId) {
             const binderUrl = 'https://redis.io/binder/v2/gh/redis/binder-launchers/' +
                             binderId +
@@ -200,6 +212,7 @@ group-hover:opacity-100 group-hover:visible">
 
     // Initialize on page load
     updateBinderLink();
+    isInitialLoad = false;
 
     // Update when language changes (in addition to existing language change handler)
     if (langSelect) {
