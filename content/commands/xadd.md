@@ -116,9 +116,9 @@ linkTitle: XADD
 railroad_diagram: /images/railroad/xadd.svg
 since: 5.0.0
 summary: Appends a new message to a stream. Creates the key if it doesn't exist.
-syntax_fmt: "XADD key [NOMKSTREAM] [<MAXLEN | MINID> [= | ~] threshold\n  [LIMIT\_\
+syntax_fmt: "XADD key [NOMKSTREAM] [KEEPREF | DELREF | ACKED] [<MAXLEN | MINID> [= | ~] threshold\n  [LIMIT\_\
   count]] <* | id> field value [field value ...]"
-syntax_str: "[NOMKSTREAM] [<MAXLEN | MINID> [= | ~] threshold [LIMIT\_count]] <* |\
+syntax_str: "[NOMKSTREAM] [KEEPREF | DELREF | ACKED] [<MAXLEN | MINID> [= | ~] threshold [LIMIT\_count]] <* |\
   \ id> field value [field value ...]"
 title: XADD
 ---
@@ -168,17 +168,42 @@ If no option is specified, `KEEPREF` is used by default. Unlike the `XDELEX` and
 </details>
 
 <details open>
-<summary><code>MAXLEN | MINID [= | ~] threshold [LIMIT count]</code></summary>
+<summary><code>MAXLEN | MINID [= | ~] threshold [LIMIT count]></code></summary>
 
 Trims the stream to maintain a specific size or remove old entries:
-- `MAXLEN`: Limits the stream to a maximum number of entries
-- `MINID`: Removes entries with IDs lower than the specified threshold (available since Redis 6.2.0)
-- `=`: Exact trimming (default)
-- `~`: Approximate trimming (more efficient)
-- `threshold`: The maximum number of entries (for MAXLEN) or minimum ID (for MINID)
-- `LIMIT count`: Limits the number of entries to examine during trimming (available since Redis 6.2.0)
+
+<details open>
+<summary><code>MAXLEN | MINID</code></summary>
+
+The trimming strategy:
+- `MAXLEN`: Evicts entries as long as the stream's length exceeds the specified threshold
+- `MINID`: Evicts entries with IDs lower than the specified threshold (available since Redis 6.2.0)
 </details>
 
+<details open>
+<summary><code>= | ~</code></summary>
+
+The trimming operator:
+- `=`: Exact trimming (default) - trims to the exact threshold
+- `~`: Approximate trimming - more efficient, may leave slightly more entries than the threshold
+</details>
+
+<details open>
+<summary><code>threshold</code></summary>
+
+The trimming threshold:
+- For `MAXLEN`: A non-negative integer representing the maximum number of entries that may remain in the stream after trimming.
+- For `MINID`: A stream ID. Entries with IDs < `threshold` are trimmed, and entries with IDs ≥ `threshold` remain.
+</details>
+
+<details open>
+<summary><code>LIMIT count</code></summary>
+
+Limits the number of entries to examine during trimming. Available since Redis 6.2.0. When not specified, Redis uses a default value of 100 * the number of entries in a macro node. Specifying 0 disables the limiting mechanism entirely.
+</details>
+
+</details>
+  
 Each entry consists of a list of field-value pairs.
 Redis stores the field-value pairs in the same order you provide them.
 Commands that read the stream, such as [`XRANGE`]({{< relref "/commands/xrange" >}}) or [`XREAD`]({{< relref "/commands/xread" >}}), return the fields and values in exactly the same order you added them with `XADD`.
