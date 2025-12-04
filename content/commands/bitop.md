@@ -79,7 +79,7 @@ linkTitle: BITOP
 railroad_diagram: /images/railroad/bitop.svg
 since: 2.6.0
 summary: Performs bitwise operations on multiple strings, and stores the result.
-syntax_fmt: BITOP <AND | OR | XOR | NOT> destkey key [key ...]
+syntax_fmt: BITOP <AND | OR | XOR | NOT | DIFF | DIFF1 | ANDOR | ONE> destkey key [key ...]
 syntax_str: destkey key [key ...]
 title: BITOP
 ---
