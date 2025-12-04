@@ -176,22 +176,6 @@
             },
             {
                 "type": "block",
-                "token": "IGNORE",
-                "name": "ignore",
-                "optional": true,
-                "arguments": [
-                    {
-                        "name": "ignoreMaxTimediff",
-                        "type": "integer"
-                    },
-                    {
-                        "name": "ignoreMaxValDiff",
-                        "type": "double"
-                    }
-                ]
-            },
-            {
-                "type": "block",
                 "name": "labels",
                 "token": "LABELS",
                 "optional": true,
