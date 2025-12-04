@@ -111,7 +111,9 @@ The trimming strategy:
 <details open>
 <summary><code>threshold</code></summary>
 
-The trimming threshold. For `MAXLEN`, this is a positive integer representing the maximum number of entries. For `MINID`, this is a stream ID.
+The trimming threshold:
+- For `MAXLEN`: A non-negative integer representing the maximum number of entries that may remain in the stream after trimming.
+- For `MINID`: A stream ID. Entries with IDs < `threshold` are trimmed, and entries with IDs ≥ `threshold` remain.
 </details>
 
 ## Optional arguments
@@ -144,7 +146,7 @@ If no option is specified, `KEEPREF` is used by default. Unlike the `XDELEX` and
 
 You can trim the stream using one of these strategies:
 
-* `MAXLEN`: Evicts entries as long as the stream's length exceeds the specified `threshold`, where `threshold` is a positive integer.
+* `MAXLEN`: Evicts entries as long as the stream's length exceeds the specified `threshold`, where `threshold` is a non-negative integer.
 * `MINID`: Evicts entries with IDs lower than `threshold`, where `threshold` is a stream ID.
 
 For example, this trims the stream to exactly the latest 1000 items:
