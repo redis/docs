@@ -18,7 +18,7 @@ weight: 5
 ```decision-tree
 ```
 
-RDI is designed to support apps that must use a disk based database as the system of record
+RDI is designed to support apps that must use a disk-based database as the system of record
 but must also be fast and scalable. This is a common requirement for mobile and web
 apps with a rapidly-growing number of users; the performance of the main database is fine at first
 but it will soon struggle to handle the increasing demand without a cache.
