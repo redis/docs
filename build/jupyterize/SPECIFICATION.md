@@ -513,6 +513,7 @@ KERNEL_SPECS = {
     'python': {
         'name': 'python3',
         'display_name': 'Python 3',
+        'language': 'python',
         'language_info': {
             'name': 'python',
             'version': '3.x.x',
@@ -523,6 +524,7 @@ KERNEL_SPECS = {
     'node.js': {
         'name': 'javascript',
         'display_name': 'JavaScript (Node.js)',
+        'language': 'javascript',
         'language_info': {
             'name': 'javascript',
             'version': '20.0.0',
@@ -533,6 +535,7 @@ KERNEL_SPECS = {
     'go': {
         'name': 'gophernotes',
         'display_name': 'Go',
+        'language': 'go',
         'language_info': {
             'name': 'go',
             'version': '1.x.x',
@@ -541,18 +544,21 @@ KERNEL_SPECS = {
         }
     },
     'c#': {
-        'name': 'csharp',
-        'display_name': 'C#',
+        'name': '.net-csharp',
+        'display_name': '.NET (C#)',
+        'language': 'C#',
         'language_info': {
-            'name': 'csharp',
-            'version': '9.0',
+            'name': 'C#',
+            'version': '12.0',
             'mimetype': 'text/x-csharp',
-            'file_extension': '.cs'
+            'file_extension': '.cs',
+            'pygments_lexer': 'csharp'
         }
     },
     'java': {
         'name': 'java',
         'display_name': 'Java',
+        'language': 'java',
         'language_info': {
             'name': 'java',
             'version': '11.0.0',
@@ -563,6 +569,7 @@ KERNEL_SPECS = {
     'php': {
         'name': 'php',
         'display_name': 'PHP',
+        'language': 'php',
         'language_info': {
             'name': 'php',
             'version': '8.0.0',
@@ -573,6 +580,7 @@ KERNEL_SPECS = {
     'rust': {
         'name': 'rust',
         'display_name': 'Rust',
+        'language': 'rust',
         'language_info': {
             'name': 'rust',
             'version': '1.x.x',
