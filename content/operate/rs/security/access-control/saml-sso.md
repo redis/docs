@@ -396,9 +396,24 @@ If you change certain metadata or configuration settings after you set up SSO, s
 
 1. [Download the updated service provider metadata](#download-sp) and use it to update the Redis Enterprise Software service provider app.
 
+### Change SP address
+
+If your deployment's default service provider address is not accessible to external identity providers, you can change it to an external hostname.
+
 {{<warning>}}
-Changes to the service address will break the existing SSO integration and require configuration updates on the identity provider's side.
+If you change the service address, the existing SSO integration will break because the metadata file, SP login and logout URLs, and entity ID will change to match the new address. You must update the service provider configuration on the identity provider's side after this change.
 {{</warning>}}
+
+To change the service provider address, use an [update SSO configuration]({{<relref "/operate/rs/references/rest-api/requests/cluster/sso#put-cluster-sso">}}) REST API request:
+
+```sh
+PUT https://<host>:<port>/v1/cluster/sso
+{
+  "service": {
+    "address": "https://<external-domain>"
+  }
+}
+```
 
 ## Deactivate SSO
 
