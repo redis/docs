@@ -32,7 +32,7 @@ To import a dataset from any publicly available Redis Open Source server:
 
 1. Select **Databases** from the Redis Cloud console menu and then select the target database from the database list.
 1. Select **Import**.
-    {{<image filename="images/rc/database-configuration-import.png" alt="The Import dataset section and Import button." >}}
+    {{<image filename="images/rc/database-configuration-import.png" alt="The Import dataset section and Import button." width="50%" >}}
 1. Enter the source database details:
     - Source type - Select **Redis**.
     - Redis Hostname/IP Address - Enter the hostname or the public IP address of the source Redis server. Do not include the port number in the hostname.
