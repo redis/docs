@@ -1002,6 +1002,113 @@ Some documentation pages may have manual BinderHub links in the markdown content
 - Easier to maintain (no manual URL construction in markdown)
 - Visually integrated with the code example UI
 
+**Common Pitfall: Global Synchronization Across Multiple Codetabs Instances**:
+
+When a page contains multiple code example boxes (codetabs instances), a critical implementation detail can cause bugs: **each instance must update independently, but all instances must stay synchronized when the user changes the language selector**.
+
+**The Problem**:
+
+If each codetabs instance has its own independent `updateBinderLink()` function, and you only call that function when its own language selector changes, then:
+- When the user changes the language in one dropdown, only that box's function gets called
+- The other boxes don't know about the language change
+- Result: Only the box where the user clicked shows the updated link; other boxes show stale links
+
+**Why this happens**:
+
+The `codetabs.js` library has a `switchCodeTab()` function that synchronizes all language selector dropdowns on the page when one is changed. However, it updates the dropdowns **without triggering change events** on them. This means:
+- The dropdown where the user clicked fires a change event ✅
+- The other dropdowns are updated silently (no change event) ❌
+- External listeners on those dropdowns never get notified
+
+**Solution**: Implement a global `updateAllBinderLinks()` function that updates ALL binder links on the page:
+
+```javascript
+// Global function to update all binder links on the page
+window.updateAllBinderLinks = window.updateAllBinderLinks || function() {
+    // Find all binder link containers
+    const containers = document.querySelectorAll('[id^="binder-link-container-"]');
+
+    containers.forEach((container) => {
+        // Extract the codetabs ID from the container ID
+        const codetabsId = container.id.replace('binder-link-container-', '');
+        const langSelect = document.getElementById('lang-select-' + codetabsId);
+
+        if (!langSelect) return;
+
+        // Get the currently selected tab index
+        const selectedOption = langSelect.options[langSelect.selectedIndex];
+        const tabIndex = parseInt(selectedOption.getAttribute('data-index'));
+
+        // Find the corresponding panel
+        const panels = document.querySelectorAll('[data-codetabs-id="' + codetabsId + '"].panel');
+        if (!panels || tabIndex >= panels.length) return;
+
+        const currentPanel = panels[tabIndex];
+        const binderId = currentPanel.getAttribute('data-binder-id');
+
+        // Clear existing content
+        container.innerHTML = '';
+
+        // Only show the link if the CURRENTLY SELECTED tab has a binderId
+        if (binderId) {
+            const binderUrl = 'https://redis.io/binder/v2/gh/redis/binder-launchers/' +
+                            binderId +
+                            '?urlpath=%2Fdoc%2Ftree%2Fdemo.ipynb';
+
+            const link = document.createElement('a');
+            link.href = binderUrl;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            link.className = 'text-xs text-slate-300 hover:text-white hover:underline whitespace-nowrap flex items-center gap-1';
+            link.title = 'Run this example in an interactive Jupyter notebook';
+
+            link.innerHTML = `
+                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+                <span>Run in browser</span>
+            `;
+
+            container.appendChild(link);
+        }
+    });
+};
+
+// Initialize on page load with a delay to allow codetabs.js to restore localStorage selection
+setTimeout(() => {
+    window.updateAllBinderLinks();
+}, 100);
+
+// Update all binder links when ANY language selector changes
+// Use a small delay to allow codetabs.js to synchronize all dropdowns first
+document.querySelectorAll('.lang-selector').forEach((selector) => {
+    selector.addEventListener('change', () => {
+        setTimeout(window.updateAllBinderLinks, 10);
+    });
+});
+```
+
+**Key implementation details**:
+
+1. **Global function**: Defined once on `window` object, not per-instance
+2. **Finds all containers**: Uses `querySelectorAll('[id^="binder-link-container-"]')` to find every binder link container
+3. **Loops through each**: For each container, extracts its codetabs ID and updates independently
+4. **Delays on page load**: Uses `setTimeout(..., 100)` to allow `codetabs.js` to restore localStorage selection first
+5. **Delays on change**: Uses `setTimeout(..., 10)` to allow `codetabs.js` to synchronize all dropdowns first
+6. **Listens to all selectors**: Adds change listener to every `.lang-selector` dropdown, not just one per instance
+
+**Why the delays matter**:
+
+- **100ms on page load**: `codetabs.js` is deferred and runs after DOM is ready. It restores the user's language preference from localStorage. Without the delay, our function runs before that restoration completes.
+- **10ms on change**: `codetabs.js` has a `switchCodeTab()` function that updates all dropdowns. Without the delay, our function might run before all dropdowns are synchronized.
+
+**This ensures**:
+- ✅ Link appears on page load for all boxes with the correct language
+- ✅ When user changes language in ANY box, ALL boxes update their links
+- ✅ Link disappears in ALL boxes when switching to a language without a notebook
+- ✅ Link reappears in ALL boxes when switching back to a language with a notebook
+- ✅ No stale or incorrect links shown in any box
+
 #### `layouts/partials/tabs/source.html`
 
 **Purpose**: Read and highlight source code files
@@ -1670,6 +1777,19 @@ ModuleNotFoundError: No module named 'pytoml'
   1. Verify language in `clientsExamples` array
   2. Check `data/examples.json` has entry for that language
   3. Ensure `label` field matches exactly (case-sensitive)
+
+**"Run in browser" link not appearing in all boxes when language changes**:
+- **Symptom**: When you change the language selector in one code example box, the "Run in browser" link updates in that box but not in other boxes on the same page
+- **Cause**: Each codetabs instance has its own change event listener, but `codetabs.js` synchronizes all dropdowns without triggering change events on the non-selected ones
+- **Fix**: Implement a global `updateAllBinderLinks()` function (see [Common Pitfall: Global Synchronization Across Multiple Codetabs Instances](#common-pitfall-global-synchronization-across-multiple-codetabs-instances))
+- **Verify**:
+  1. Open a page with multiple code examples (e.g., `/develop/data-types/hashes/`)
+  2. Select a language with notebooks (e.g., Python)
+  3. Verify ALL boxes show the "Run in browser" link
+  4. Switch to a language without notebooks (e.g., Java-Async)
+  5. Verify ALL boxes hide the link
+  6. Switch back to Python
+  7. Verify ALL boxes show the link again
 
 **BINDER_ID not extracted or appearing in output**:
 - **Symptom 1**: `binderId` field missing from `data/examples.json`
