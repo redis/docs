@@ -28,7 +28,7 @@ AWS PrivateLink provides the following benefits:
 ## Limitations
 
 Be aware of the following limitations when using PrivateLink with Redis Cloud:
-- You cannot use the [OSS Cluster API]({{< relref "/operate/rc/databases/create-database#oss-cluster-api" >}}) with PrivateLink during preview.
+- You cannot use the [OSS Cluster API]({{< relref "/operate/rc/databases/configuration/clustering#oss-cluster-api" >}}) with PrivateLink during preview.
 - You cannot use Layer 3 connectivity options like VPC peering or Transit Gateway with PrivateLink during private preview. 
 - Redis Cloud subscriptions with AWS PrivateLink are limited to a maximum of 55 databases. [Contact support](https://redis.com/company/support/) if you need more than 55 databases in one subscription with AWS PrivateLink.
 - Your subnets must have at least 16 available IP addresses for the resource endpoint.
@@ -97,7 +97,7 @@ In this step, you will associate the Redis Cloud resource share with an AWS prin
 
     {{<image filename="images/rc/privatelink-aws-consumer-principals.png" width="80%" alt="The AWS consumer principals section with an AWS account added as a principal." >}}
 
-1. Select **Share** to share the resource share with the principal.
+1. Select **Share** to share the resource share with the principal. The first resource share may take a few minutes.
 
 1. After sharing the resource share with the principal, [accept the resource share in the Resource Access Manager](https://docs.aws.amazon.com/ram/latest/userguide/working-with-shared-invitations.html) or copy the **Accept resource share** command and run it with the AWS CLI.
 
@@ -158,7 +158,11 @@ To use the AWS CLI to connect to an already existing service network, select **C
 
 ## Connect to your database with PrivateLink
 
-After you've connected to Redis Cloud with a VPC resource endpoint or a VPC lattice service network, download the **Discovery script** and run it in your consumer VPC to discover the database endpoints.
+After you've connected to Redis Cloud with a VPC resource endpoint or a VPC lattice service network, you can find the endpoints for your databases and cluster metrics in the AWS UI by going to the **Associations** tab for your endpoint or service network and viewing the Private DNS entries. You will have one entry for each database and one entry for the metrics endpoint.
+
+{{<image filename="images/rc/privatelink-aws-endpoint-associations.png" width="80%" alt="The Associations tab for a VPC resource endpoint, showing the Private DNS entries for the databases and metrics endpoint." >}}
+
+To view them on Redis Cloud, download the **Discovery script** from the Redis Cloud console and run it in your consumer VPC to discover the database endpoints.
 
 The script returns a list of database endpoints that you can connect to from your consumer VPC.
 
@@ -180,7 +184,20 @@ The script returns a list of database endpoints that you can connect to from you
 ]
 ```
 
-You can connect to your database by using the database `private-dns-entry` and `port` from your consumer VPC.
+You can connect to your database by using the database `private-dns-entry` and `port` from your consumer VPC. You can also connect to the metrics endpoint with services like [Prometheus and Grafana]({{< relref "/integrate/prometheus-with-redis-cloud/" >}}) by using the metrics `private-dns-entry` and `port`.
 
 After you've connected to your database, you can view the connection details in the Redis Cloud console in your subscription's **Connectivity > PrivateLink** tab or by going to the [connection wizard]({{< relref "/operate/rc/databases/connect" >}}) for your database. The private endpoint will point to the PrivateLink VPC resource endpoint or service network that you created.
 
+## Disassociate connection
+
+To disassociate a PrivateLink connection:
+
+1. Go to the **Connectivity > PrivateLink** tab in your Redis Cloud subscription. 
+
+1. In the **Connections** section, select **Disassociate** button next to the connection you want to disassociate.
+
+    {{<image filename="images/rc/privatelink-disassociate-connection.png" width="80%" alt="The Disassociate button next to a VPC endpoint connection." >}}
+
+1. Select **Disassociate VPC endpoint** or **Disassociate service network** to confirm.
+
+After disassociating the connection, you can delete the VPC resource endpoint or service network in the AWS console.
