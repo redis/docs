@@ -69,7 +69,7 @@
     const items = [];
     const visited = new Set();
 
-    function traverse(nodeId, depth) {
+    function traverse(nodeId, depth, parentAnswer = null) {
       if (visited.has(nodeId)) return;
       visited.add(nodeId);
 
@@ -81,7 +81,8 @@
         depth: depth,
         type: 'question',
         text: question.text || '',
-        whyAsk: question.whyAsk || ''
+        whyAsk: question.whyAsk || '',
+        answer: parentAnswer  // Store the answer that led to this question
       });
 
       if (question.answers) {
@@ -92,15 +93,19 @@
         answerKeys.forEach(answerKey => {
           const answer = question.answers[answerKey];
           if (answer) {
+            // Store the answer value for use in tree line labels
+            const answerValue = answer.value || answerKey.charAt(0).toUpperCase() + answerKey.slice(1);
+
             if (answer.nextQuestion) {
-              traverse(answer.nextQuestion, depth + 1);
+              // Traverse to next question, passing the answer value
+              traverse(answer.nextQuestion, depth + 1, answerValue);
             } else if (answer.outcome) {
               items.push({
                 id: answer.outcome.id,
                 depth: depth + 1,
                 type: 'outcome',
                 text: answer.outcome.label || '',
-                answer: answer.value || answerKey.charAt(0).toUpperCase() + answerKey.slice(1),
+                answer: answerValue,
                 sentiment: answer.outcome.sentiment || null
               });
             }
@@ -147,7 +152,8 @@
     const charWidth = 8;
     const leftMargin = 20;
     const topMargin = 10;
-    const indentWidth = 40; // Increased from 24 for wider indent
+    // Allow indentWidth to be customized via YAML, default to 40
+    const indentWidth = treeData.indentWidth ? parseInt(treeData.indentWidth) : 40;
     const boxPadding = 12; // Increased from 8 for more padding
     const maxBoxWidth = 420; // Increased to accommodate longer questions
     const maxCharsPerLine = Math.floor(maxBoxWidth / charWidth);
@@ -305,9 +311,20 @@
       hline.setAttribute('stroke-width', '1');
       svg.appendChild(hline);
 
-      // Add answer label on the horizontal line, positioned below it to avoid boxes
-      const labelX = connectorX + (boxX + hlineExtension - connectorX) / 2;
-      const labelY = y + 10;
+      // Add answer label on the horizontal line, positioned to the left to avoid box overlap
+      // Position label closer to parent box, shifted left by the indent amount
+      const labelX = connectorX + (indentWidth * 0.3);  // Position at 30% of the way across
+      const labelY = y + 16;  // Increased offset to avoid box overlap
+
+      // Add white background rectangle behind label for visibility
+      const labelBg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      labelBg.setAttribute('x', labelX - 12);
+      labelBg.setAttribute('y', labelY - 9);
+      labelBg.setAttribute('width', '24');
+      labelBg.setAttribute('height', '12');
+      labelBg.setAttribute('fill', 'white');
+      labelBg.setAttribute('stroke', 'none');
+      svg.appendChild(labelBg);
 
       const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
       label.setAttribute('x', labelX);

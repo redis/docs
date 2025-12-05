@@ -49,6 +49,7 @@ questions:
 - **`scope`** (required): Category or domain this tree applies to (e.g., `documents`, `collections`, `sequences`). Helps AI agents understand the tree's purpose and applicability.
 - **`rootQuestion`** (required): The ID of the starting question
 - **`questions`** (required): Object containing all questions, keyed by ID
+- **`indentWidth`** (optional): Horizontal spacing in pixels between parent and child nodes. Default: 40. Use smaller values (e.g., 20-30) for deeply nested trees to reduce overall width. This is a rendering preference and does not affect the semantic metadata.
 
 ### Question Object
 
@@ -138,6 +139,7 @@ scope: documents
 8. **Add sentiment for suitability trees**: If your tree determines whether something is suitable (not just choosing between options), use `sentiment: "positive"` and `sentiment: "negative"` to provide visual feedback
 9. **Be consistent with sentiment**: In a suitability tree, ensure all positive outcomes have `sentiment: "positive"` and all negative outcomes have `sentiment: "negative"` for clarity
 10. **Control answer order**: The order of `yes` and `no` in the YAML controls the visual layout. For early rejection patterns, put `no` first so negative outcomes appear on the left side of the diagram
+11. **Adjust indent width for deeply nested trees**: If your tree has many levels and becomes too wide, use `indentWidth="25"` (or lower) in the code block fence to reduce horizontal spacing between parent and child nodes
 
 ## Example: Redis Data Type Selection
 

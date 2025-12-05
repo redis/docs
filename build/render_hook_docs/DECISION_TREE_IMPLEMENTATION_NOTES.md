@@ -197,3 +197,60 @@ answerLabel = item.answer || 'Yes';  // Use stored value, not position
 
 **Key Insight**: YAML object key order is preserved in JavaScript (since ES2015), and we now respect both the order AND the actual answer values, making the layout fully author-controlled.
 
+## 13. Configurable Indent Width for Deeply Nested Trees
+
+**Problem**: Deeply nested decision trees (with many levels of questions) can become too wide to fit on the page, requiring horizontal scrolling.
+
+**Solution**: Added optional `indentWidth` parameter to the YAML root object that controls the horizontal spacing between parent and child nodes:
+
+```yaml
+id: when-to-use-rdi
+scope: rdi
+indentWidth: 25  # Reduce from default 40 to make tree narrower
+rootQuestion: cacheTarget
+questions:
+  # ...
+```
+
+**Implementation**:
+In `renderDecisionTree()`, the indent width is read from `treeData.indentWidth` with a sensible default:
+```javascript
+const indentWidth = treeData.indentWidth ? parseInt(treeData.indentWidth) : 40;
+```
+
+**Design Rationale**: While `indentWidth` is a rendering preference, it's included in the YAML because:
+1. Hugo's Goldmark attribute parsing doesn't reliably expose custom attributes from the code block info string to the render hook
+2. Including it in the YAML keeps all tree configuration in one place
+3. AI agents can still access the semantic metadata (id, scope, questions) separately from rendering preferences
+
+**Benefit**: Authors can now control tree width by adjusting `indentWidth`:
+- Default (40): Comfortable spacing for shallow trees
+- Reduced (20-30): Compact layout for deeply nested trees
+- The SVG width is calculated as: `leftMargin + (maxDepth + 1) * indentWidth + maxBoxWidth + 40`
+
+**Recommendation**: For trees with 8+ levels of nesting, try `indentWidth: 25` or lower to keep the diagram readable without horizontal scrolling.
+
+## 14. Improved Label Visibility with Reduced Indent Width
+
+**Problem**: When using reduced `indentWidth` values, the Yes/No labels on the connecting lines were being covered by the node boxes they referred to.
+
+**Solution**:
+1. Increased the vertical offset of labels from `y + 10` to `y + 16` pixels
+2. Added a white background rectangle behind each label to ensure visibility even when overlapping with boxes
+
+**Implementation**:
+```javascript
+const labelY = y + 16;  // Increased offset
+
+// Add white background rectangle behind label
+const labelBg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+labelBg.setAttribute('x', labelX - 12);
+labelBg.setAttribute('y', labelY - 9);
+labelBg.setAttribute('width', '24');
+labelBg.setAttribute('height', '12');
+labelBg.setAttribute('fill', 'white');
+svg.appendChild(labelBg);
+```
+
+**Benefit**: Labels remain readable regardless of indent width or tree density.
+

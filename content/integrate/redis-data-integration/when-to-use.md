@@ -71,6 +71,7 @@ Use the decision tree below to determine whether RDI is a good fit for your arch
 ```decision-tree {id="when-to-use-rdi"}
 id: when-to-use-rdi
 scope: rdi
+indentWidth: 25
 rootQuestion: cacheTarget
 questions:
     cacheTarget:
@@ -82,7 +83,7 @@ questions:
             no:
                 value: "No"
                 outcome:
-                    label: "RDI is not necessary - you don't need Redis as a cache"
+                    label: "RDI only works with Redis as the target database"
                     id: noRedisCache
                     sentiment: "negative"
             yes:
@@ -97,7 +98,7 @@ questions:
             no:
                 value: "No"
                 outcome:
-                    label: "RDI won't work - you need a single source database"
+                    label: "RDI won't work with multiple source databases"
                     id: multipleSourcesOrActiveActive
                     sentiment: "negative"
             yes:
@@ -105,30 +106,15 @@ questions:
                 nextQuestion: systemOfRecord
     systemOfRecord:
         text: |
-            Is the source database your system of record?
+            Does your app always *write* to the source database and not to Redis?
         whyAsk: |
             RDI requires the source database to be the authoritative source of truth. If your app writes to Redis first, RDI won't work.
         answers:
             no:
                 value: "No"
                 outcome:
-                    label: "RDI won't work - the source database must be the system of record"
+                    label: "RDI doesn't support syncing data from Redis back to the source database"
                     id: notSystemOfRecord
-                    sentiment: "negative"
-            yes:
-                value: "Yes"
-                nextQuestion: appWritesToDb
-    appWritesToDb:
-        text: |
-            Does your app always write its data to the source database?
-        whyAsk: |
-            RDI requires the app to write to the source database first. If your app writes to Redis first, RDI cannot maintain consistency.
-        answers:
-            no:
-                value: "No"
-                outcome:
-                    label: "RDI won't work - your app must write to the source database"
-                    id: appWritesToRedis
                     sentiment: "negative"
             yes:
                 value: "Yes"
@@ -142,7 +128,7 @@ questions:
             no:
                 value: "No"
                 outcome:
-                    label: "RDI is not suitable - you need immediate cache consistency"
+                    label: "RDI does not provide immediate cache consistency"
                     id: needsImmediate
                     sentiment: "negative"
             yes:
@@ -195,14 +181,14 @@ questions:
                 nextQuestion: dataSize
     dataSize:
         text: |
-            Is your total data size not larger than 100GB?
+            Is your total data size smaller than 100GB?
         whyAsk: |
             RDI has practical limits on the total data size it can manage. Very large datasets may exceed these limits.
         answers:
             no:
                 value: "No"
                 outcome:
-                    label: "RDI may not be suitable - your data set is too large"
+                    label: "RDI may not be suitable - your data set is probably too large"
                     id: dataTooLarge
                     sentiment: "negative"
             yes:
@@ -210,18 +196,18 @@ questions:
                 nextQuestion: joins
     joins:
         text: |
-            Do you not need to perform join operations on data from several tables into a nested Redis JSON object?
+            Do you need to perform join operations on data from several tables into a nested Redis JSON object?
         whyAsk: |
             RDI has limitations with complex join operations. If you need to combine data from multiple tables into nested structures, you may need custom transformations.
         answers:
-            no:
-                value: "No"
+            yes:
+                value: "Yes"
                 outcome:
                     label: "RDI may not be suitable - complex joins are not well supported"
                     id: complexJoins
                     sentiment: "negative"
-            yes:
-                value: "Yes"
+            no:
+                value: "No"
                 nextQuestion: transformations
     transformations:
         text: |
@@ -232,7 +218,7 @@ questions:
             no:
                 value: "No"
                 outcome:
-                    label: "RDI may not be suitable - required transformations are not supported"
+                    label: "RDI may not be able to perform the required data transformations"
                     id: unsupportedTransformations
                     sentiment: "negative"
             yes:
@@ -240,14 +226,15 @@ questions:
                 nextQuestion: adminReview
     adminReview:
         text: |
-            Has your database administrator reviewed and confirmed that RDI's requirements for the source database are acceptable?
+            Has your database administrator reviewed RDI's requirements for the source database
+            and confirmed they are acceptable?
         whyAsk: |
             RDI has specific requirements for the source database (binary logging, permissions, etc.). Your DBA must confirm these are acceptable before proceeding.
         answers:
             no:
                 value: "No"
                 outcome:
-                    label: "RDI is not suitable - database administrator has rejected RDI's requirements"
+                    label: "RDI requirements for the source database can't be met"
                     id: adminRejected
                     sentiment: "negative"
             yes:
