@@ -32,13 +32,11 @@ With IdP-initiated single sign-on, you can select the Redis Enterprise Software 
 
 You can also initiate single sign-on from the Redis Enterprise Software Cluster Manager UI. This process is known as [service provider (SP)](https://en.wikipedia.org/wiki/Service_provider)-initiated single sign-on.
 
-1. On the Redis Enterprise Software Cluster Manager UI's sign-in screen, enter the email address associated with the SAML user configured in your identity provider.
+On the Redis Enterprise Software Cluster Manager UI's sign-in screen, click **Sign in with SSO**.
 
-1. Click **Sign in with SSO**.
+- If you already have an active SSO session with your identity provider, this signs you in.
 
-    - If you already have an active SSO session with your identity provider, this signs you in.
-
-    - Otherwise, the SSO flow redirects you to your identity provider's sign in screen. Enter your IdP user credentials to sign in. This redirects you back to the Redis Enterprise Software Cluster Manager UI and automatically signs you in.
+- Otherwise, the SSO flow redirects you to your identity provider's sign in screen. Enter your IdP user credentials to sign in. This redirects you back to the Redis Enterprise Software Cluster Manager UI and automatically signs you in.
 
 Authentication requests expire after 3 minutes.
 
