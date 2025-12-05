@@ -69,7 +69,7 @@
     const items = [];
     const visited = new Set();
 
-    function traverse(nodeId, depth, parentAnswer = null) {
+    function traverse(nodeId, depth) {
       if (visited.has(nodeId)) return;
       visited.add(nodeId);
 
@@ -81,36 +81,39 @@
         depth: depth,
         type: 'question',
         text: question.text || '',
-        whyAsk: question.whyAsk || '',
-        answer: parentAnswer  // Store the answer that led to this question
+        whyAsk: question.whyAsk || ''
       });
 
       if (question.answers) {
-        // Process answers in the order they appear in the YAML
-        // This respects the author's intended layout (e.g., "no" first for early rejection)
-        const answerKeys = Object.keys(question.answers);
-
-        answerKeys.forEach(answerKey => {
-          const answer = question.answers[answerKey];
-          if (answer) {
-            // Store the answer value for use in tree line labels
-            const answerValue = answer.value || answerKey.charAt(0).toUpperCase() + answerKey.slice(1);
-
-            if (answer.nextQuestion) {
-              // Traverse to next question, passing the answer value
-              traverse(answer.nextQuestion, depth + 1, answerValue);
-            } else if (answer.outcome) {
-              items.push({
-                id: answer.outcome.id,
-                depth: depth + 1,
-                type: 'outcome',
-                text: answer.outcome.label || '',
-                answer: answerValue,
-                sentiment: answer.outcome.sentiment || null
-              });
-            }
+        // Process yes answer
+        if (question.answers.yes) {
+          if (question.answers.yes.nextQuestion) {
+            traverse(question.answers.yes.nextQuestion, depth + 1);
+          } else if (question.answers.yes.outcome) {
+            items.push({
+              id: question.answers.yes.outcome.id,
+              depth: depth + 1,
+              type: 'outcome',
+              text: question.answers.yes.outcome.label || '',
+              answer: 'Yes'
+            });
           }
-        });
+        }
+
+        // Process no answer
+        if (question.answers.no) {
+          if (question.answers.no.nextQuestion) {
+            traverse(question.answers.no.nextQuestion, depth + 1);
+          } else if (question.answers.no.outcome) {
+            items.push({
+              id: question.answers.no.outcome.id,
+              depth: depth + 1,
+              type: 'outcome',
+              text: question.answers.no.outcome.label || '',
+              answer: 'No'
+            });
+          }
+        }
       }
     }
 
@@ -152,8 +155,7 @@
     const charWidth = 8;
     const leftMargin = 20;
     const topMargin = 10;
-    // Allow indentWidth to be customized via YAML, default to 40
-    const indentWidth = treeData.indentWidth ? parseInt(treeData.indentWidth) : 40;
+    const indentWidth = 40; // Increased from 24 for wider indent
     const boxPadding = 12; // Increased from 8 for more padding
     const maxBoxWidth = 420; // Increased to accommodate longer questions
     const maxCharsPerLine = Math.floor(maxBoxWidth / charWidth);
@@ -202,26 +204,11 @@
       rect.setAttribute('height', item.boxHeight);
 
       if (item.type === 'outcome') {
-        // Outcomes: color based on sentiment
-        if (item.sentiment === 'positive') {
-          // Green for positive outcomes
-          rect.setAttribute('fill', '#e6f7f0');
-          rect.setAttribute('stroke', '#0fa869');
-          rect.setAttribute('stroke-width', '1');
-          rect.setAttribute('stroke-dasharray', '3,3');
-        } else if (item.sentiment === 'negative') {
-          // Red for negative outcomes
-          rect.setAttribute('fill', '#ffe6e6');
-          rect.setAttribute('stroke', '#d9534f');
-          rect.setAttribute('stroke-width', '1');
-          rect.setAttribute('stroke-dasharray', '3,3');
-        } else {
-          // Default red for outcomes without explicit sentiment
-          rect.setAttribute('fill', '#ffe6e6');
-          rect.setAttribute('stroke', '#d9534f');
-          rect.setAttribute('stroke-width', '1');
-          rect.setAttribute('stroke-dasharray', '3,3');
-        }
+        // Outcomes: pale red background, dashed border
+        rect.setAttribute('fill', '#ffe6e6');
+        rect.setAttribute('stroke', '#d9534f');
+        rect.setAttribute('stroke-width', '1');
+        rect.setAttribute('stroke-dasharray', '3,3');
       } else {
         // Questions: standard styling
         rect.setAttribute('fill', '#f5f5f5');
@@ -278,9 +265,17 @@
         parentY = calcY + items[i].boxHeight / 2;
         parentBoxHeight = items[i].boxHeight;
 
-        // Use the actual answer value stored in the item
-        // This respects the order defined in the YAML
-        answerLabel = item.answer || 'Yes';
+        // Determine if this is a Yes or No answer by checking the parent's answers
+        // Count how many siblings come before this item
+        let siblingCount = 0;
+        for (let k = i + 1; k < itemIndex; k++) {
+          if (items[k].depth === item.depth) {
+            siblingCount++;
+          }
+        }
+
+        // If this is the first child of the parent, it's the "yes" path, otherwise "no"
+        answerLabel = siblingCount === 0 ? 'Yes' : 'No';
         break;
       }
     }
@@ -311,20 +306,9 @@
       hline.setAttribute('stroke-width', '1');
       svg.appendChild(hline);
 
-      // Add answer label on the horizontal line, positioned to the left to avoid box overlap
-      // Position label closer to parent box, shifted left by the indent amount
-      const labelX = connectorX + (indentWidth * 0.3) + 5;  // Position at 30% of the way across, plus 5px offset
-      const labelY = y + 16;  // Increased offset to avoid box overlap
-
-      // Add white background rectangle behind label for visibility
-      const labelBg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-      labelBg.setAttribute('x', labelX - 12);
-      labelBg.setAttribute('y', labelY - 9);
-      labelBg.setAttribute('width', '24');
-      labelBg.setAttribute('height', '12');
-      labelBg.setAttribute('fill', 'white');
-      labelBg.setAttribute('stroke', 'none');
-      svg.appendChild(labelBg);
+      // Add answer label on the horizontal line, positioned below it to avoid boxes
+      const labelX = connectorX + (boxX + hlineExtension - connectorX) / 2;
+      const labelY = y + 10;
 
       const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
       label.setAttribute('x', labelX);

@@ -16,7 +16,7 @@ linkTitle: Data pipelines
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: 40
+weight: 30
 ---
 
 RDI uses *pipelines* to implement

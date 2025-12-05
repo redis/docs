@@ -2,7 +2,7 @@
 Title: Quickstart
 linkTitle: Quickstart
 description: Get started with a simple pipeline example
-weight: 10
+weight: 1
 alwaysopen: false
 categories: ["redis-di"]
 aliases: /integrate/redis-data-integration/ingest/quick-start-guide/
