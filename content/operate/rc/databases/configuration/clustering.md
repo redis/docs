@@ -52,14 +52,6 @@ When creating or editing a Redis database on Redis Cloud, the
 system automatically calculates the number of shards needed based on
 the database memory limit and required throughput.
 
-<!--  DOC-439: Stubbing out for initial pass
-{{< note >}}
-For Redis Cloud Essentials, clustering is only available in the
-"Pay-As-You-Go" subscription.
-{{< image filename="/images/rc/clustering-subscription.png" >}}
-{{< /note >}}
--->
-
 ## Multi-key operations {#multikey-operations}
 
 Operations on multiple keys in a sharded Redis Cloud cluster
