@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Enable Smart client handoffs your Redis Enterprise Software cluster.
+description: Enable Smart client handoffs for your Redis Enterprise Software cluster.
 linkTitle: Smart client handoffs
 weight: 90
 ---
