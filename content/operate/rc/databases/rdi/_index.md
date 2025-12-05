@@ -31,7 +31,9 @@ but must also be fast and scalable. This is a common requirement for mobile and 
 apps with a rapidly-growing number of users; the performance of the main database is fine at first
 but it will soon struggle to handle the increasing demand without a cache.
 
-Use the information in the sections below to determine whether RDI is a good fit for your architecture.
+Use the information in the sections below to determine whether RDI is a good fit for your architecture. See also the
+[decision tree for using RDI]({{<relref "/integrate/redis-data-integration/when-to-use#decision-tree-for-using-rdi">}})
+which presents the considerations in a straightforward question-and-answer format.
 
 ```decision-tree
 ```

@@ -30,3 +30,9 @@ Use the information in the sections below to determine whether RDI is a good fit
 ```
 
 {{< embed-md "rdi-when-to-use.md" >}}
+
+### Decision tree for using RDI
+
+Use the decision tree below to determine whether RDI is a good fit for your architecture:
+
+{{< embed-md "rdi-when-to-use-dec-tree.md" >}}
