@@ -313,7 +313,7 @@
 
       // Add answer label on the horizontal line, positioned to the left to avoid box overlap
       // Position label closer to parent box, shifted left by the indent amount
-      const labelX = connectorX + (indentWidth * 0.3);  // Position at 30% of the way across
+      const labelX = connectorX + (indentWidth * 0.3) + 5;  // Position at 30% of the way across, plus 5px offset
       const labelY = y + 16;  // Increased offset to avoid box overlap
 
       // Add white background rectangle behind label for visibility
