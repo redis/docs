@@ -57,6 +57,7 @@ function: clusterSlotStatsCommand
 group: cluster
 hidden: false
 linkTitle: CLUSTER SLOT-STATS
+railroad_diagram: /images/railroad/cluster-slot-stats.svg
 reply_schema:
   description: Array of nested arrays, where the inner array element represents a
     slot and its respective usage statistics.
@@ -108,7 +109,7 @@ The command reports on the following statistics:
 * `NETWORK-BYTES-IN`: Total inbound network traffic (in bytes) received by the slot.
 * `NETWORK-BYTES-OUT`: Total outbound network traffic (in bytes) sent from the slot.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

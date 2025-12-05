@@ -14,11 +14,11 @@ description: Return the vector associated with an element.
 group: vector_set
 hidden: false
 linkTitle: VEMB
+railroad_diagram: /images/railroad/vemb.svg
 since: 8.0.0
 summary: Return the vector associated with an element.
 syntax_fmt: "VEMB key element [RAW]"
 title: VEMB
-bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
 ---
 
 Return the approximate vector associated with a given element in the vector set.
@@ -71,7 +71,7 @@ returns the raw vector data, its quantization type, and metadata such as norm an
 
 - [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

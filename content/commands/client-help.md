@@ -21,6 +21,7 @@ description: Returns helpful text about the different subcommands.
 group: connection
 hidden: true
 linkTitle: CLIENT HELP
+railroad_diagram: /images/railroad/client-help.svg
 since: 5.0.0
 summary: Returns helpful text about the different subcommands.
 syntax_fmt: CLIENT HELP
@@ -29,7 +30,7 @@ title: CLIENT HELP
 ---
 The `CLIENT HELP` command returns a helpful text describing the different subcommands.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

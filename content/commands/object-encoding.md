@@ -40,6 +40,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: OBJECT ENCODING
+railroad_diagram: /images/railroad/object-encoding.svg
 since: 2.2.3
 summary: Returns the internal encoding of a Redis object.
 syntax_fmt: OBJECT ENCODING key
@@ -89,7 +90,7 @@ Redis objects can be encoded in different ways:
 
 All the specially encoded types are automatically converted to the general type once you perform an operation that makes it impossible for Redis to retain the space saving encoding.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

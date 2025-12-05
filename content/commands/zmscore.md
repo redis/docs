@@ -44,6 +44,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZMSCORE
+railroad_diagram: /images/railroad/zmscore.svg
 since: 6.2.0
 summary: Returns the score of one or more members in a sorted set.
 syntax_fmt: ZMSCORE key member [member ...]
@@ -62,7 +63,7 @@ ZADD myzset 2 "two"
 ZMSCORE myzset "one" "two" "nofield"
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

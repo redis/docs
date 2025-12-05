@@ -15,22 +15,6 @@ arguments:
   token: NOMKSTREAM
   type: pure-token
 - arguments:
-  - display_text: keepref
-    name: keepref
-    token: KEEPREF
-    type: pure-token
-  - display_text: delref
-    name: delref
-    token: DELREF
-    type: pure-token
-  - display_text: acked
-    name: acked
-    token: ACKED
-    type: pure-token
-  name: condition
-  optional: true
-  type: oneof
-- arguments:
   - arguments:
     - display_text: maxlen
       name: maxlen
@@ -114,8 +98,6 @@ history:
   - Added the `NOMKSTREAM` option, `MINID` trimming strategy and the `LIMIT` option.
 - - 7.0.0
   - Added support for the `<ms>-*` explicit ID form.
-- - 8.2.0
-  - Added the `KEEPREF`, `DELREF` and `ACKED` options.
 key_specs:
 - RW: true
   begin_search:
@@ -131,12 +113,13 @@ key_specs:
   notes: UPDATE instead of INSERT because of the optional trimming feature
   update: true
 linkTitle: XADD
+railroad_diagram: /images/railroad/xadd.svg
 since: 5.0.0
 summary: Appends a new message to a stream. Creates the key if it doesn't exist.
-syntax_fmt: "XADD key [NOMKSTREAM] [KEEPREF | DELREF | ACKED] [<MAXLEN | MINID>\n\
-  \  [= | ~] threshold [LIMIT\_count]] <* | id> field value [field value\n  ...]"
-syntax_str: "[NOMKSTREAM] [KEEPREF | DELREF | ACKED] [<MAXLEN | MINID> [= | ~] threshold\
-  \ [LIMIT\_count]] <* | id> field value [field value ...]"
+syntax_fmt: "XADD key [NOMKSTREAM] [<MAXLEN | MINID> [= | ~] threshold\n  [LIMIT\_\
+  count]] <* | id> field value [field value ...]"
+syntax_str: "[NOMKSTREAM] [<MAXLEN | MINID> [= | ~] threshold [LIMIT\_count]] <* |\
+  \ id> field value [field value ...]"
 title: XADD
 ---
 
@@ -175,7 +158,9 @@ Prevents the creation of a new stream if the key does not exist. Available since
 <details open>
 <summary><code>KEEPREF | DELREF | ACKED</code></summary>
 
-Specifies how to handle consumer group references when trimming. Available since Redis 8.2. If no option is specified, `KEEPREF` is used by default. Unlike the `XDELEX` and `XACKDEL` commands where one of these options is required, here they are optional to maintain backward compatibility:
+Specifies how to handle consumer group references when trimming. If there are no consumer groups, these arguments have no effect. Available since Redis 8.2.
+
+If no option is specified, `KEEPREF` is used by default. Unlike the `XDELEX` and `XACKDEL` commands where one of these options is required, here they are optional to maintain backward compatibility:
 
 - `KEEPREF` (default): When trimming, removes entries from the stream according to the specified strategy (`MAXLEN` or `MINID`), regardless of whether they are referenced by any consumer groups, but preserves existing references to these entries in all consumer groups' PEL (Pending Entries List).
 - `DELREF`: When trimming, removes entries from the stream according to the specified strategy and also removes all references to these entries from all consumer groups' PEL.
@@ -259,7 +244,7 @@ XLEN mystream
 XRANGE mystream - +
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

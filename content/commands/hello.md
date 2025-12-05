@@ -53,6 +53,7 @@ history:
   - '`protover` made optional; when called without arguments the command reports the
     current connection''s context.'
 linkTitle: HELLO
+railroad_diagram: /images/railroad/hello.svg
 since: 6.0.0
 summary: Handshakes with the Redis server.
 syntax_fmt: "HELLO [protover [AUTH\_username password] [SETNAME\_clientname]]"
@@ -117,7 +118,7 @@ protocol to the specified version and also accepts the following options:
 * `AUTH <username> <password>`: directly authenticate the connection in addition to switching to the specified protocol version. This makes calling [`AUTH`]({{< relref "/commands/auth" >}}) before `HELLO` unnecessary when setting up a new connection. Note that the `username` can be set to "default" to authenticate against a server that does not use ACLs, but rather the simpler `requirepass` mechanism of Redis prior to version 6.
 * `SETNAME <clientname>`: this is the equivalent of calling [`CLIENT SETNAME`]({{< relref "/commands/client-setname" >}}).
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

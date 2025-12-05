@@ -42,22 +42,6 @@ arguments:
     since: 6.2.0
     token: LIMIT
     type: integer
-  - arguments:
-    - display_text: keepref
-      name: keepref
-      token: KEEPREF
-      type: pure-token
-    - display_text: delref
-      name: delref
-      token: DELREF
-      type: pure-token
-    - display_text: acked
-      name: acked
-      token: ACKED
-      type: pure-token
-    name: condition
-    optional: true
-    type: oneof
   name: trim
   type: block
 arity: -4
@@ -84,8 +68,6 @@ hints:
 history:
 - - 6.2.0
   - Added the `MINID` trimming strategy and the `LIMIT` option.
-- - 8.2.0
-  - Added the `KEEPREF`, `DELREF` and `ACKED` options.
 key_specs:
 - RW: true
   begin_search:
@@ -100,12 +82,11 @@ key_specs:
       limit: 0
     type: range
 linkTitle: XTRIM
+railroad_diagram: /images/railroad/xtrim.svg
 since: 5.0.0
 summary: Deletes messages from the beginning of a stream.
-syntax_fmt: "XTRIM key <MAXLEN | MINID> [= | ~] threshold [LIMIT\_count] [KEEPREF\n\
-  \  | DELREF | ACKED]"
-syntax_str: "<MAXLEN | MINID> [= | ~] threshold [LIMIT\_count] [KEEPREF | DELREF |\
-  \ ACKED]"
+syntax_fmt: "XTRIM key <MAXLEN | MINID> [= | ~] threshold [LIMIT\_count]"
+syntax_str: "<MAXLEN | MINID> [= | ~] threshold [LIMIT\_count]"
 title: XTRIM
 ---
 
@@ -152,7 +133,9 @@ Limits the number of entries to examine during trimming. Available since Redis 6
 <details open>
 <summary><code>KEEPREF | DELREF | ACKED</code></summary>
 
-Specifies how to handle consumer group references when trimming. If no option is specified, `KEEPREF` is used by default:
+Specifies how to handle consumer group references when trimming. If there are no consumer groups, these arguments have no effect. Available since Redis 8.2.
+
+If no option is specified, `KEEPREF` is used by default. Unlike the `XDELEX` and `XACKDEL` commands where one of these options is required, here they are optional to maintain backward compatibility:
 
 - `KEEPREF` (default): When trimming, removes entries from the stream according to the specified strategy (`MAXLEN` or `MINID`), regardless of whether they are referenced by any consumer groups, but preserves existing references to these entries in all consumer groups' PEL (Pending Entries List).
 - `DELREF`: When trimming, removes entries from the stream according to the specified strategy and also removes all references to these entries from all consumer groups' PEL.
@@ -211,7 +194,7 @@ XTRIM mystream MAXLEN 2
 XRANGE mystream - +
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

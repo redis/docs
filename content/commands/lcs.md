@@ -63,6 +63,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: LCS
+railroad_diagram: /images/railroad/lcs.svg
 since: 7.0.0
 summary: Finds the longest common substring.
 syntax_fmt: "LCS key1 key2 [LEN] [IDX] [MINMATCHLEN\_min-match-len] [WITHMATCHLEN]"
@@ -142,7 +143,7 @@ Finally to also have the match len:
 4) (integer) 6
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

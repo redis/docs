@@ -32,6 +32,7 @@ history:
 - - 7.0.0
   - Added the ability to pass multiple pattern parameters in one call
 linkTitle: CONFIG GET
+railroad_diagram: /images/railroad/config-get.svg
 since: 2.0.0
 summary: Returns the effective values of configuration parameters.
 syntax_fmt: CONFIG GET parameter [parameter ...]
@@ -79,7 +80,7 @@ Note that you should look at the redis.conf file relevant to the version you're
 working with as configuration options might change between versions. The link
 above is to the latest development version.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

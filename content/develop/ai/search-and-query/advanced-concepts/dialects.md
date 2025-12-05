@@ -14,7 +14,7 @@ categories:
 description: Learn how to use query dialects
 linkTitle: Query dialects
 title: Query dialects
-weight: 5
+weight: 16
 ---
 
 Redis Open Source currently supports four query dialects for use with the [`FT.SEARCH`]({{< relref "/commands/ft.search/" >}}), [`FT.AGGREGATE`]({{< relref "/commands/ft.aggregate/" >}}), and other Redis Query Engine commands.
@@ -207,6 +207,8 @@ Dialect version 4 will improve performance in four different scenarios:
 1. **Partial range** - applied when there is a `SORTBY` on a numeric field, either with no filter or with a filter by the same numeric field. Such queries will iterate on a range large enough to satisfy the `LIMIT` of requested results.
 1. **Hybrid** - applied when there is a `SORTBY` on a numeric field in addition to another non-numeric filter. It could be the case that some results will get filtered, leaving too small a range to satisfy any specified `LIMIT`. In such cases, the iterator then is re-wound and additional iterations occur to collect result up to the requested `LIMIT`.
 1. **No optimization** - If there is a sort by score or by a non-numeric field, there is no other option but to retrieve all results and compare their values to the search parameters.
+
+You can also use `WITHOUTCOUNT` in place of `DIALECT 4` when used with either FT.SEARCH or FT.AGGREGATE.
 
 ## Use `FT.EXPLAINCLI` to compare dialects
 	

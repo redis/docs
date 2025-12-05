@@ -26,9 +26,10 @@ group: topk
 hidden: false
 linkTitle: TOPK.COUNT
 module: Bloom
+railroad_diagram: /images/railroad/topk.count.svg
 since: 2.0.0
 stack_path: docs/data-types/probabilistic
-summary: Return the count for one or more items in a sketch
+summary: Return the count for one or more items are in a sketch
 syntax_fmt: TOPK.COUNT key item [item ...]
 syntax_str: item [item ...]
 title: TOPK.COUNT
@@ -54,7 +55,7 @@ redis> TOPK.COUNT topk foo 42 nonexist
 3) (integer) 0
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

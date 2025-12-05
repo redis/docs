@@ -27,6 +27,7 @@ description: Sets the configuration epoch for a new node.
 group: cluster
 hidden: false
 linkTitle: CLUSTER SET-CONFIG-EPOCH
+railroad_diagram: /images/railroad/cluster-set-config-epoch.svg
 since: 3.0.0
 summary: Sets the configuration epoch for a new node.
 syntax_fmt: CLUSTER SET-CONFIG-EPOCH config-epoch
@@ -55,7 +56,7 @@ So, using `CLUSTER SET-CONFIG-EPOCH`, when a new cluster is created, we can
 assign a different progressive configuration epoch to each node before
 joining the cluster together.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

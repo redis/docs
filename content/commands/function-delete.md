@@ -29,6 +29,7 @@ hints:
 - request_policy:all_shards
 - response_policy:all_succeeded
 linkTitle: FUNCTION DELETE
+railroad_diagram: /images/railroad/function-delete.svg
 since: 7.0.0
 summary: Deletes a library and its functions.
 syntax_fmt: FUNCTION DELETE library-name
@@ -55,7 +56,7 @@ redis> FCALL myfunc 0
 (error) ERR Function not found
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

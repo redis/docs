@@ -30,6 +30,7 @@ description: Extracts the key names and access flags for an arbitrary command.
 group: server
 hidden: false
 linkTitle: COMMAND GETKEYSANDFLAGS
+railroad_diagram: /images/railroad/command-getkeysandflags.svg
 since: 7.0.0
 summary: Extracts the key names and access flags for an arbitrary command.
 syntax_fmt: COMMAND GETKEYSANDFLAGS command [arg [arg ...]]
@@ -54,7 +55,7 @@ COMMAND GETKEYS EVAL "not consulted" 3 key1 key2 key3 arg1 arg2 arg3 argN
 COMMAND GETKEYSANDFLAGS LMOVE mylist1 mylist2 left left
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

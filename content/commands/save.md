@@ -24,6 +24,7 @@ description: Synchronously saves the database(s) to disk.
 group: server
 hidden: false
 linkTitle: SAVE
+railroad_diagram: /images/railroad/save.svg
 since: 1.0.0
 summary: Synchronously saves the database(s) to disk.
 syntax_fmt: SAVE
@@ -43,7 +44,7 @@ good last resort to perform the dump of the latest dataset.
 
 See the [persistence documentation]({{< relref "/operate/oss_and_stack/management/persistence" >}}) for detailed information.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

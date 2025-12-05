@@ -75,6 +75,7 @@ key_specs:
     type: range
   update: true
 linkTitle: HPEXPIREAT
+railroad_diagram: /images/railroad/hpexpireat.svg
 since: 7.4.0
 summary: Set expiry for hash field using an absolute Unix timestamp (milliseconds)
 syntax_fmt: "HPEXPIREAT key unix-time-milliseconds [NX | XX | GT | LT]\n  FIELDS\_\
@@ -111,7 +112,7 @@ redis> HPTTL mykey FIELDS 2 field1 field2
 2) (integer) 303340
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

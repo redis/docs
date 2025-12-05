@@ -33,6 +33,7 @@ hidden: false
 hints:
 - nondeterministic_output_order
 linkTitle: FUNCTION LIST
+railroad_diagram: /images/railroad/function-list.svg
 since: 7.0.0
 summary: Returns information about all libraries.
 syntax_fmt: "FUNCTION LIST [LIBRARYNAME\_library-name-pattern] [WITHCODE]"
@@ -57,7 +58,7 @@ The following information is provided for each of the libraries in the response:
 
 For more information please refer to [Introduction to Redis Functions]({{< relref "/develop/programmability/functions-intro" >}}).
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

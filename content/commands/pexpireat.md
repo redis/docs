@@ -67,6 +67,7 @@ key_specs:
     type: range
   update: true
 linkTitle: PEXPIREAT
+railroad_diagram: /images/railroad/pexpireat.svg
 since: 2.6.0
 summary: Sets the expiration time of a key to a Unix milliseconds timestamp.
 syntax_fmt: PEXPIREAT key unix-time-milliseconds [NX | XX | GT | LT]
@@ -97,7 +98,7 @@ TTL mykey
 PTTL mykey
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

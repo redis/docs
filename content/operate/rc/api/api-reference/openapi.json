@@ -2862,7 +2862,7 @@
           "Subscriptions - Pro"
         ],
         "summary": "Get Pro subscription CIDR whitelist",
-        "description": "(Self-hosted AWS subscriptions only) Gets a Pro subscription's CIDR whitelist.",
+        "description": "(Bring your own Cloud only) Gets a Pro subscription's CIDR whitelist. [Asynchronous operation](https://redis.io/docs/latest/operate/rc/api/get-started/process-lifecycle/) - Query [GET /tasks/{taskId}](#tag/Tasks/operation/getTaskById) with the returned taskId.",
         "operationId": "getCidrWhiteList",
         "parameters": [
           {
@@ -2918,7 +2918,7 @@
           "Subscriptions - Pro"
         ],
         "summary": "Update Pro subscription CIDR whitelist",
-        "description": "(Self-hosted AWS subscriptions only) Updates a Pro subscription's CIDR whitelist.",
+        "description": "(Bring your own Cloud only) Updates a Pro subscription's CIDR whitelist.",
         "operationId": "updateSubscriptionCidrWhiteList",
         "parameters": [
           {
@@ -4929,7 +4929,7 @@
           "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get Private Service Connect for a single region",
-        "description": "(Active-Active subscriptions only) Gets Private Service Connect details for a single region in an Active-Active subscription.",
+        "description": "(Active-Active subscriptions only) Gets Private Service Connect details for a single region in an Active-Active subscription. [Asynchronous operation](https://redis.io/docs/latest/operate/rc/api/get-started/process-lifecycle/) - Query [GET /tasks/{taskId}](#tag/Tasks/operation/getTaskById) with the returned taskId.",
         "operationId": "getActiveActivePscService",
         "parameters": [
           {
@@ -5144,7 +5144,7 @@
           "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get Private Service Connect endpoints for a single region",
-        "description": "(Active-Active subscriptions only) Gets endpoint details for the specified Private Service Connect in a single region in an Active-Active subscription.",
+        "description": "(Active-Active subscriptions only) Gets endpoint details for the specified Private Service Connect in a single region in an Active-Active subscription. [Asynchronous operation](https://redis.io/docs/latest/operate/rc/api/get-started/process-lifecycle/) - Query [GET /tasks/{taskId}](#tag/Tasks/operation/getTaskById) with the returned taskId.",
         "operationId": "getActiveActivePscServiceEndpoints",
         "parameters": [
           {
@@ -5317,7 +5317,7 @@
           "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get Private Link configuration for a specific region",
-        "description": "(Active-Active subscriptions only) Gets the Private Link configuration for a specific region.",
+        "description": "(Active-Active subscriptions only) Gets the Private Link configuration for a specific region. [Asynchronous operation](https://redis.io/docs/latest/operate/rc/api/get-started/process-lifecycle/) - Query [GET /tasks/{taskId}](#tag/Tasks/operation/getTaskById) with the returned taskId.",
         "operationId": "getActiveActivePrivateLink",
         "parameters": [
           {
@@ -5716,7 +5716,7 @@
           "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get Active-Active VPC peering details",
-        "description": "(Active-Active subscriptions only) Gets VPC peering details for an Active-Active subscription.",
+        "description": "(Active-Active subscriptions only) Gets VPC peering details for an Active-Active subscription. [Asynchronous operation](https://redis.io/docs/latest/operate/rc/api/get-started/process-lifecycle/) - Query [GET /tasks/{taskId}](#tag/Tasks/operation/getTaskById) with the returned taskId.",
         "operationId": "getActiveActiveVpcPeerings",
         "parameters": [
           {
@@ -5859,7 +5859,7 @@
           "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get Private Service Connect",
-        "description": "Gets Private Service Connect details for a subscription.",
+        "description": "Gets Private Service Connect details for a subscription. [Asynchronous operation](https://redis.io/docs/latest/operate/rc/api/get-started/process-lifecycle/) - Query [GET /tasks/{taskId}](#tag/Tasks/operation/getTaskById) with the returned taskId.",
         "operationId": "getPscService",
         "parameters": [
           {
@@ -6044,7 +6044,7 @@
           "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get Private Service Connect endpoints",
-        "description": "Gets endpoint details for the specified Private Service Connect.",
+        "description": "Gets endpoint details for the specified Private Service Connect. [Asynchronous operation](https://redis.io/docs/latest/operate/rc/api/get-started/process-lifecycle/) - Query [GET /tasks/{taskId}](#tag/Tasks/operation/getTaskById) with the returned taskId.",
         "operationId": "getPscServiceEndpoints",
         "parameters": [
           {
@@ -6197,7 +6197,7 @@
           "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get Private Link configuration",
-        "description": "Gets the Private Link configuration for a subscription.",
+        "description": "Gets the Private Link configuration for a subscription. [Asynchronous operation](https://redis.io/docs/latest/operate/rc/api/get-started/process-lifecycle/) - Query [GET /tasks/{taskId}](#tag/Tasks/operation/getTaskById) with the returned taskId.",
         "operationId": "getPrivateLink",
         "parameters": [
           {
@@ -6541,7 +6541,7 @@
           "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get VPC peering details",
-        "description": "Gets VPC peering details for the specified subscription.",
+        "description": "Gets VPC peering details for the specified subscription. [Asynchronous operation](https://redis.io/docs/latest/operate/rc/api/get-started/process-lifecycle/) - Query [GET /tasks/{taskId}](#tag/Tasks/operation/getTaskById) with the returned taskId.",
         "operationId": "getVpcPeering",
         "parameters": [
           {
@@ -8038,6 +8038,71 @@
         }
       }
     },
+    "/cost-report": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Generate cost report (Beta)",
+        "description": "Generates a cost report in FOCUS format for the specified time period (max 40 days range) and filters. [Read more about focus here](https://focus.finops.org/).\n",
+        "operationId": "createCostReport",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CostReportCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to create requested resource (primarily due to not active resource)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with the new name"
+          },
+          "422": {
+            "description": "Unprocessable Entity - The server understands the request, and the syntax of the request is correct, but it was unable to process the contained instructions"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
     "/cloud-accounts": {
       "get": {
         "tags": [
@@ -8629,7 +8694,7 @@
           "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get transit gateways for a subscription",
-        "description": "Gets all AWS transit gateway details for the specified subscription.",
+        "description": "Gets all AWS transit gateway details for the specified subscription. [Asynchronous operation](https://redis.io/docs/latest/operate/rc/api/get-started/process-lifecycle/) - Query [GET /tasks/{taskId}](#tag/Tasks/operation/getTaskById) with the returned taskId.",
         "operationId": "getTgws",
         "parameters": [
           {
@@ -8687,7 +8752,7 @@
           "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get transit gateway invitations for a subscription",
-        "description": "Gets all AWS transit gateway invitations for the specified subscription.",
+        "description": "Gets all AWS transit gateway invitations for the specified subscription. [Asynchronous operation](https://redis.io/docs/latest/operate/rc/api/get-started/process-lifecycle/) - Query [GET /tasks/{taskId}](#tag/Tasks/operation/getTaskById) with the returned taskId.",
         "operationId": "getTgwSharedInvitations",
         "parameters": [
           {
@@ -8745,7 +8810,7 @@
           "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get transit gateways for a single region",
-        "description": "(Active-Active subscriptions only) Gets all AWS transit gateway details for the specified region in an Active-Active subscription.",
+        "description": "(Active-Active subscriptions only) Gets all AWS transit gateway details for the specified region in an Active-Active subscription. [Asynchronous operation](https://redis.io/docs/latest/operate/rc/api/get-started/process-lifecycle/) - Query [GET /tasks/{taskId}](#tag/Tasks/operation/getTaskById) with the returned taskId.",
         "operationId": "getActiveActiveTgws",
         "parameters": [
           {
@@ -8814,7 +8879,7 @@
           "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get transit gateway invitations for a single region",
-        "description": "(Active-Active subscriptions only) Gets AWS transit gateway invitations for the specified region in an Active-Active subscription.",
+        "description": "(Active-Active subscriptions only) Gets AWS transit gateway invitations for the specified region in an Active-Active subscription. [Asynchronous operation](https://redis.io/docs/latest/operate/rc/api/get-started/process-lifecycle/) - Query [GET /tasks/{taskId}](#tag/Tasks/operation/getTaskById) with the returned taskId.",
         "operationId": "getActiveActiveTgwSharedInvitations",
         "parameters": [
           {
@@ -8883,7 +8948,7 @@
           "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get Private Service Connect endpoint deletion script for a single region",
-        "description": "(Active-Active subscriptions only) Gets the gcloud script to delete the specified Private Service Connect endpoint on Google Cloud.",
+        "description": "(Active-Active subscriptions only) Gets the gcloud script to delete the specified Private Service Connect endpoint on Google Cloud. [Asynchronous operation](https://redis.io/docs/latest/operate/rc/api/get-started/process-lifecycle/) - Query [GET /tasks/{taskId}](#tag/Tasks/operation/getTaskById) with the returned taskId.",
         "operationId": "getActiveActivPscServiceEndpointDeletionScript",
         "parameters": [
           {
@@ -8971,7 +9036,7 @@
           "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get Private Service Connect endpoint creation script for a single region",
-        "description": "(Active-Active subscriptions only) Gets the gcloud script to create the specified Private Service Connect endpoint on Google Cloud.",
+        "description": "(Active-Active subscriptions only) Gets the gcloud script to create the specified Private Service Connect endpoint on Google Cloud. [Asynchronous operation](https://redis.io/docs/latest/operate/rc/api/get-started/process-lifecycle/) - Query [GET /tasks/{taskId}](#tag/Tasks/operation/getTaskById) with the returned taskId.",
         "operationId": "getActiveActivPscServiceEndpointCreationScript",
         "parameters": [
           {
@@ -9059,7 +9124,7 @@
           "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get Private Link endpoint script for a single region",
-        "description": "(Active-Active subscriptions only) Gets the Private Link endpoint script for a single region in an Active-Active subscription.",
+        "description": "(Active-Active subscriptions only) Gets the Private Link endpoint script for a single region in an Active-Active subscription. [Asynchronous operation](https://redis.io/docs/latest/operate/rc/api/get-started/process-lifecycle/) - Query [GET /tasks/{taskId}](#tag/Tasks/operation/getTaskById) with the returned taskId.",
         "operationId": "getActiveActivePrivateLinkEndpointScript",
         "parameters": [
           {
@@ -9127,7 +9192,7 @@
           "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get Private Service Connect endpoint deletion script",
-        "description": "Gets the gcloud script to delete the specified Private Service Connect endpoint on Google Cloud.",
+        "description": "Gets the gcloud script to delete the specified Private Service Connect endpoint on Google Cloud. [Asynchronous operation](https://redis.io/docs/latest/operate/rc/api/get-started/process-lifecycle/) - Query [GET /tasks/{taskId}](#tag/Tasks/operation/getTaskById) with the returned taskId.",
         "operationId": "getPscServiceEndpointDeletionScript",
         "parameters": [
           {
@@ -9205,7 +9270,7 @@
           "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get Private Service Connect endpoint creation script",
-        "description": "Gets the gcloud script to create the specified Private Service Connect endpoint on Google Cloud.",
+        "description": "Gets the gcloud script to create the specified Private Service Connect endpoint on Google Cloud. [Asynchronous operation](https://redis.io/docs/latest/operate/rc/api/get-started/process-lifecycle/) - Query [GET /tasks/{taskId}](#tag/Tasks/operation/getTaskById) with the returned taskId.",
         "operationId": "getPscServiceEndpointCreationScript",
         "parameters": [
           {
@@ -9283,7 +9348,7 @@
           "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get Private Link endpoint script",
-        "description": "Gets the Python discovery script for Private Link. Internal users can optionally request a Terraform snippet.",
+        "description": "Gets the Python discovery script for Private Link. Internal users can optionally request a Terraform snippet. [Asynchronous operation](https://redis.io/docs/latest/operate/rc/api/get-started/process-lifecycle/) - Query [GET /tasks/{taskId}](#tag/Tasks/operation/getTaskById) with the returned taskId.",
         "operationId": "getPrivateLinkEndpointScript",
         "parameters": [
           {
@@ -9764,7 +9829,7 @@
           "Account"
         ],
         "summary": "Get available Pro plan regions",
-        "description": "Gets a list of available regions for Pro subscriptions. For Essentials subscriptions, use 'GET /fixed/plans'.",
+        "description": "Gets a list of available regions for Pro subscriptions. For Essentials subscriptions, use [GET /fixed/plans](#tag/Subscriptions-Essentials/operation/getAllFixedSubscriptionsPlans).",
         "operationId": "getSupportedRegions",
         "parameters": [
           {
@@ -10401,7 +10466,7 @@
           "Account"
         ],
         "summary": "Get advanced capabilities",
-        "description": "Gets a list of Redis [advanced capabilities](https://redis.io/docs/latest/operate/rc/databases/configuration/advanced-capabilities/) (also known as modules) available for this account. Advanced capability support may differ based on subscription and database settings.",
+        "description": "Gets a list of Redis [advanced capabilities](https://redis.io/docs/latest/operate/rc/databases/configuration/advanced-capabilities/) (also known as modules) available for databases prior to Redis 8. Advanced capability support may differ based on subscription and database settings.",
         "operationId": "getSupportedDatabaseModules",
         "responses": {
           "400": {
@@ -10464,6 +10529,60 @@
                   "$ref": "#/components/schemas/DataPersistenceOptions"
                 }
               }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/cost-report/{costReportId}": {
+      "get": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Get cost report (Beta)",
+        "description": "Returns the generated cost report file in FOCUS format using the costReportId returned from the cost report generation task. The file is downloaded as an attachment with the filename set to the costReportId.",
+        "operationId": "getCostReport",
+        "parameters": [
+          {
+            "name": "costReportId",
+            "in": "path",
+            "description": "Cost Report ID. Returned from a Cost Report generation task.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "cost-report-12345-abcdef"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "Returns the cost report file",
+            "content": {
+              "application/octet-stream": {}
             }
           },
           "401": {
@@ -11212,7 +11331,7 @@
           },
           "modules": {
             "type": "array",
-            "description": "Optional. Redis advanced capabilities (also known as modules) to be provisioned in the database. Use GET /database-modules to get a list of available advanced capabilities.",
+            "description": "Optional. Redis advanced capabilities (also known as modules) to be provisioned in the database. Use GET /database-modules to get a list of available advanced capabilities. Don't specify modules for database versions 8 and above. All capabilities are bundled in the database by default.",
             "items": {
               "$ref": "#/components/schemas/DatabaseModuleSpec"
             }
@@ -11225,8 +11344,15 @@
           },
           "averageItemSizeInBytes": {
             "type": "integer",
-            "description": "Optional. Relevant only to ram-and-flash (also known as Auto Tiering) subscriptions. Estimated average size in bytes of the items stored in the database. Default: 1000",
-            "format": "int64"
+            "description": "Optional. Relevant only to ram-and-flash (also known as Redis-Flex/Auto-Tiering) subscriptions. Estimated average size in bytes of the items stored in the database. Default: 1000",
+            "format": "int64",
+            "deprecated": true
+          },
+          "ramPercentage": {
+            "type": "integer",
+            "description": "Optional. Relevant only to ram-and-flash (also known as Redis-Flex/Auto-Tiering) subscriptions. The percentage of data to be stored in RAM. Must be between 10 and 50 in steps of 10 (10, 20, 30, 40, 50). Default: 20",
+            "format": "int32",
+            "example": 20
           },
           "respVersion": {
             "type": "string",
@@ -11571,7 +11697,7 @@
           },
           "modules": {
             "type": "array",
-            "description": "Optional. Redis advanced capabilities (also known as modules) to be provisioned in the database. Use GET /database-modules to get a list of available advanced capabilities. Can only be set if 'protocol' is 'redis'.",
+            "description": "Optional. Redis advanced capabilities (also known as modules) to be provisioned in the database. Use GET /database-modules to get a list of available advanced capabilities. Can only be set if 'protocol' is 'redis'. Don't specify modules for database versions 8 and above. All capabilities are bundled in the database by default.",
             "items": {
               "$ref": "#/components/schemas/DatabaseModuleSpec"
             }
@@ -11753,6 +11879,12 @@
             "items": {
               "$ref": "#/components/schemas/DatabaseAlertSpec"
             }
+          },
+          "ramPercentage": {
+            "type": "integer",
+            "description": "Optional. Relevant only to ram-and-flash (also known as Redis-Flex/Auto-Tiering) subscriptions. The percentage of data to be stored in RAM. Must be between 10 and 50 in steps of 10 (10, 20, 30, 40, 50).",
+            "format": "int32",
+            "example": 20
           },
           "commandType": {
             "type": "string",
@@ -12907,6 +13039,97 @@
         },
         "description": "Subscription update request message"
       },
+      "CostReportCreateRequest": {
+        "required": [
+          "endDate",
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "startDate": {
+            "type": "string",
+            "description": "Filter for usage starting on or after this date. Must be in format YYYY-MM-DD",
+            "format": "YYYY-MM-DD",
+            "example": "2025-10-01"
+          },
+          "endDate": {
+            "type": "string",
+            "description": "Filter for usage ending on or before this date. Must be in format YYYY-MM-DD and must be after start date",
+            "format": "YYYY-MM-DD",
+            "example": "2025-11-06"
+          },
+          "format": {
+            "type": "string",
+            "description": "Output format for the cost report",
+            "example": "csv",
+            "default": "csv",
+            "enum": [
+              "json",
+              "csv"
+            ]
+          },
+          "subscriptionIds": {
+            "type": "array",
+            "description": "Array of subscriptionIDs to filter by",
+            "example": [
+              123,
+              456
+            ],
+            "items": {
+              "type": "integer",
+              "description": "Array of subscriptionIDs to filter by",
+              "format": "int32"
+            }
+          },
+          "databaseIds": {
+            "type": "array",
+            "description": "Array of database IDs to filter by",
+            "example": [
+              789,
+              101112
+            ],
+            "items": {
+              "type": "integer",
+              "description": "Array of database IDs to filter by",
+              "format": "int32"
+            }
+          },
+          "subscriptionType": {
+            "type": "string",
+            "description": "Filter by plan type",
+            "example": "pro",
+            "enum": [
+              "pro",
+              "essentials"
+            ]
+          },
+          "regions": {
+            "type": "array",
+            "description": "Array of regions to filter by",
+            "example": [
+              "us-east-1",
+              "eu-west-1"
+            ],
+            "items": {
+              "type": "string",
+              "description": "Array of regions to filter by",
+              "example": "[\"us-east-1\",\"eu-west-1\"]"
+            }
+          },
+          "tags": {
+            "type": "array",
+            "description": "Array of key-value pairs for tag filtering",
+            "items": {
+              "$ref": "#/components/schemas/Tag"
+            }
+          },
+          "commandType": {
+            "type": "string",
+            "readOnly": true
+          }
+        },
+        "description": "Cost report generation request"
+      },
       "AccountSubscriptionDatabases": {
         "type": "object",
         "properties": {
@@ -13787,6 +14010,18 @@
           }
         }
       },
+      "ResourceTag": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "description": "Optional. A list of resource tags to apply to the subscription. (max. 30 tags)."
+      },
       "CustomerManagedKeyAccessDetails": {
         "type": "object",
         "properties": {
@@ -13907,6 +14142,26 @@
             }
           }
         }
+      },
+      "Tag": {
+        "required": [
+          "key",
+          "value"
+        ],
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Tag key",
+            "example": "environment"
+          },
+          "value": {
+            "type": "string",
+            "description": "Tag value",
+            "example": "production"
+          }
+        },
+        "description": "Tag filter for cost report"
       },
       "AccountSubscriptions": {
         "type": "object",
@@ -15151,6 +15406,13 @@
             "items": {
               "$ref": "#/components/schemas/SubscriptionRegionSpec"
             }
+          },
+          "resourceTags": {
+            "type": "array",
+            "description": "Optional. A list of resource tags to apply to the subscription. (max. 30 tags).",
+            "items": {
+              "$ref": "#/components/schemas/ResourceTag"
+            }
           }
         },
         "description": "Cloud provider, region, and networking details."
@@ -15201,7 +15463,7 @@
             "example": {}
           }
         },
-        "description": "Optional. Redis advanced capabilities (also known as modules) to be provisioned in the database. Use GET /database-modules to get a list of available advanced capabilities."
+        "description": "Optional. Redis advanced capabilities (also known as modules) to be provisioned in the database. Use GET /database-modules to get a list of available advanced capabilities. Don't specify modules for database versions 8 and above. All capabilities are bundled in the database by default."
       },
       "FixedSubscriptionCreateRequest": {
         "required": [
@@ -15707,8 +15969,15 @@
           },
           "averageItemSizeInBytes": {
             "type": "integer",
-            "description": "Optional. Relevant only to ram-and-flash (also known as Auto Tiering) subscriptions. Estimated average size in bytes of the items stored in the database. Default: 1000",
-            "format": "int64"
+            "description": "Optional. Relevant only to ram-and-flash (also known as Redis-Flex/Auto-Tiering) subscriptions. Estimated average size in bytes of the items stored in the database. Default: 1000",
+            "format": "int64",
+            "deprecated": true
+          },
+          "ramPercentage": {
+            "type": "integer",
+            "description": "Optional. Relevant only to ram-and-flash (also known as Redis-Flex/Auto-Tiering) subscriptions. The percentage of data to be stored in RAM. Must be between 10 and 50 in steps of 10 (10, 20, 30, 40, 50). Default: 20",
+            "format": "int32",
+            "example": 20
           },
           "periodicBackupPath": {
             "type": "string",
@@ -15764,7 +16033,7 @@
           },
           "modules": {
             "type": "array",
-            "description": "Optional. Redis advanced capabilities (also known as modules) to be provisioned in the database. Use GET /database-modules to get a list of available advanced capabilities.",
+            "description": "Optional. Redis advanced capabilities (also known as modules) to be provisioned in the database. Use GET /database-modules to get a list of available advanced capabilities. Don't specify modules for database versions 8 and above. All capabilities are bundled in the database by default.",
             "items": {
               "$ref": "#/components/schemas/DatabaseModuleSpec"
             }
@@ -15904,6 +16173,15 @@
               "SUBSCRIPTION_GCP_ALLOW_ONLY_INTERNAL",
               "CLUSTER_UNDER_MAINTENANCE",
               "ACTIVE_ACTIVE_SUBSCRIPTION_IS_NOT_SUPPORTED",
+              "RESOURCE_TAGS_EXCEEDS_MAXIMUM_COUNT",
+              "RESOURCE_TAG_KEY_EXCEEDS_MAXIMUM_LENGTH",
+              "RESOURCE_TAG_VALUE_EXCEEDS_MAXIMUM_LENGTH",
+              "RESOURCE_TAGS_NOT_ALLOWED_WITH_INTERNAL_CLOUD_ACCOUNT",
+              "RESOURCE_TAGS_NOT_ALLOWED",
+              "RESOURCE_TAGS_NAME_NOT_ALLOWED",
+              "RESOURCE_TAGS_EMPTY_KEY",
+              "RESOURCE_TAGS_DUPLICATE_KEY",
+              "RESOURCE_TAGS_MISSING_VALUE",
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_IS_NOT_SUPPORTED",
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_MISSING_USAGE_PERMISSIONS",
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_MISSING_GET_KEY_PERMISSIONS",
@@ -15994,6 +16272,12 @@
               "DATABASE_MEMCACHED_SASL_PASSWORD_MAX_LENGTH",
               "DATABASE_REDIS_FLEX_CONTAINS_MODULES",
               "DATABASE_AVERAGE_ITEM_SIZE_NOT_ALLOWED",
+              "DATABASE_RAM_PERCENTAGE_NOT_ALLOWED",
+              "DATABASE_RAM_PERCENTAGE_NOT_SUPPORTED",
+              "DATABASE_RAM_PERCENTAGE_IS_INVALID",
+              "DATABASE_AVERAGE_ITEM_SIZE_IS_DEPRECATED",
+              "DATABASE_MEMORY_LIMIT_IS_INVALID_FOR_ROF",
+              "DATABASE_DATASET_SIZE_IS_INVALID_FOR_ROF",
               "DATABASE_SIZE_SMALLER_THAN_USAGE",
               "DATABASE_USAGE_EXCEEDS_GLOBAL_LIMIT",
               "DATABASE_USAGE_EXCEEDS_LOCAL_LIMIT",
@@ -16064,6 +16348,7 @@
               "DATABASE_REDIS_VERSION_IS_NOT_SUPPORTED_FOR_MEMCACHED",
               "DATABASE_REDIS_VERSION_IS_REQUIRED",
               "DATABASE_REDIS_VERSION_INVALID_VALUE",
+              "INCOMPATIBLE_TF_PROVIDER",
               "CONNECTIVITY_REQUESTS_ON_CUSTOMER_MANAGED_VPC_SUBSCRIPTION",
               "VPC_PEERING_NOT_ACTIVE",
               "VPC_PEERING_GENERAL_ERROR",
@@ -16427,7 +16712,14 @@
               "PRIVATE_LINK_DELETING_AN_ACTIVE_ACTIVE_SUBSCRIPTION_PRIVATE_LINK_IS_NOT_ALLOWED_WITH_A_SINGLE_REGION_SUBSCRIPTION",
               "PRIVATE_LINK_IS_NOT_SUPPORTED",
               "PRIVATE_LINK_SERVICE_ERROR",
-              "COST_REPORT_IS_NOT_SUPPORTED"
+              "COST_REPORT_IS_NOT_SUPPORTED",
+              "COST_REPORT_START_DATE_IS_MISSING",
+              "COST_REPORT_END_DATE_IS_MISSING",
+              "COST_REPORT_INVALID_DATE_FORMAT",
+              "COST_REPORT_END_DATE_BEFORE_START_DATE",
+              "COST_REPORT_DATE_RANGE_EXCEEDS_LIMIT",
+              "COST_REPORT_TAG_KEY_EMPTY",
+              "COST_REPORT_TAG_VALUE_EMPTY"
             ]
           },
           "additionalInfo": {

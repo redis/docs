@@ -26,6 +26,7 @@ group: tdigest
 hidden: false
 linkTitle: TDIGEST.TRIMMED_MEAN
 module: Bloom
+railroad_diagram: /images/railroad/tdigest.trimmed_mean.svg
 since: 2.4.0
 stack_path: docs/data-types/probabilistic
 summary: Returns an estimation of the mean value from the sketch, excluding observation
@@ -76,7 +77,7 @@ redis> TDIGEST.TRIMMED_MEAN t 0 1
 "5.5"
 {{< / highlight >}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

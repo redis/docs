@@ -34,6 +34,7 @@ group: json
 hidden: false
 linkTitle: JSON.MSET
 module: JSON
+railroad_diagram: /images/railroad/json.mset.svg
 since: 2.6.0
 stack_path: docs/data-types/json
 summary: Sets or updates the JSON value of one or more keys
@@ -90,7 +91,7 @@ redis> JSON.GET doc3
 {{< / highlight >}}
 </details>
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

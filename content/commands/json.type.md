@@ -26,6 +26,7 @@ group: json
 hidden: false
 linkTitle: JSON.TYPE
 module: JSON
+railroad_diagram: /images/railroad/json.type.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Returns the type of the JSON value at path
@@ -66,7 +67,7 @@ redis> JSON.TYPE doc $..dummy
 (empty array)
 {{< / highlight >}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

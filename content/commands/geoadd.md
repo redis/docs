@@ -77,6 +77,7 @@ key_specs:
     type: range
   update: true
 linkTitle: GEOADD
+railroad_diagram: /images/railroad/geoadd.svg
 since: 3.2.0
 summary: Adds one or more members to a geospatial index. The key is created if it
   doesn't exist.
@@ -135,7 +136,7 @@ GEORADIUS Sicily 15 37 100 km
 GEORADIUS Sicily 15 37 200 km
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

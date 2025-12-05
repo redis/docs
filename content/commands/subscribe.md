@@ -28,6 +28,7 @@ description: Listens for messages published to channels.
 group: pubsub
 hidden: false
 linkTitle: SUBSCRIBE
+railroad_diagram: /images/railroad/subscribe.svg
 since: 2.0.0
 summary: Listens for messages published to channels.
 syntax_fmt: SUBSCRIBE channel [channel ...]
@@ -47,7 +48,7 @@ For more information, see [Pub/sub]({{< relref "/develop/pubsub" >}}).
 
 *   `>= 6.2.0`: [`RESET`]({{< relref "/commands/reset" >}}) can be called to exit subscribed state.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

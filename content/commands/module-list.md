@@ -24,6 +24,7 @@ hidden: false
 hints:
 - nondeterministic_output_order
 linkTitle: MODULE LIST
+railroad_diagram: /images/railroad/module-list.svg
 since: 4.0.0
 summary: Returns all loaded modules.
 syntax_fmt: MODULE LIST
@@ -32,7 +33,7 @@ title: MODULE LIST
 ---
 Returns information about the modules loaded to the server.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

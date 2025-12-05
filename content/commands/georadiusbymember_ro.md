@@ -115,8 +115,8 @@ key_specs:
       limit: 0
     type: range
 linkTitle: GEORADIUSBYMEMBER_RO
-replaced_by: '[`GEOSEARCH`]({{< relref "/commands/geosearch" >}}) with the `BYRADIUS`
-  and `FROMMEMBER` arguments'
+railroad_diagram: /images/railroad/georadiusbymember_ro.svg
+replaced_by: '`GEOSEARCH` with the `BYRADIUS` and `FROMMEMBER` arguments'
 since: 3.2.10
 summary: Returns members from a geospatial index that are within a distance from a
   member.
@@ -130,7 +130,7 @@ Read-only variant of the [`GEORADIUSBYMEMBER`]({{< relref "/commands/georadiusby
 
 This command is identical to the [`GEORADIUSBYMEMBER`]({{< relref "/commands/georadiusbymember" >}}) command, except that it doesn't support the optional `STORE` and `STOREDIST` parameters.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

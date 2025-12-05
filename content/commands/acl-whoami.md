@@ -21,6 +21,7 @@ description: Returns the authenticated username of the current connection.
 group: server
 hidden: false
 linkTitle: ACL WHOAMI
+railroad_diagram: /images/railroad/acl-whoami.svg
 since: 6.0.0
 summary: Returns the authenticated username of the current connection.
 syntax_fmt: ACL WHOAMI
@@ -38,7 +39,7 @@ can change user using [`AUTH`]({{< relref "/commands/auth" >}}).
 "default"
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

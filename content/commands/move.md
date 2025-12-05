@@ -44,6 +44,7 @@ key_specs:
     type: range
   update: true
 linkTitle: MOVE
+railroad_diagram: /images/railroad/move.svg
 since: 1.0.0
 summary: Moves a key to another database.
 syntax_fmt: MOVE key db
@@ -56,7 +57,7 @@ When `key` already exists in the destination database, or it does not exist in
 the source database, it does nothing.
 It is possible to use `MOVE` as a locking primitive because of this.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

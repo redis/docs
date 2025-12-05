@@ -46,6 +46,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: LTRIM
+railroad_diagram: /images/railroad/ltrim.svg
 since: 1.0.0
 summary: Removes elements from both ends a list. Deletes the list if all elements
   were trimmed.
@@ -96,7 +97,7 @@ LTRIM mylist 1 -1
 LRANGE mylist 0 -1
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

@@ -26,6 +26,7 @@ group: json
 hidden: false
 linkTitle: JSON.DEBUG MEMORY
 module: JSON
+railroad_diagram: /images/railroad/json.debug-memory.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Reports the size in bytes of a key
@@ -75,7 +76,7 @@ redis> JSON.DEBUG MEMORY item:2
 {{< / highlight >}}
 </details>
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

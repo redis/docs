@@ -38,6 +38,15 @@ arguments:
   token: DUPLICATE_POLICY
   type: oneof
 - arguments:
+  - name: ignoreMaxTimediff
+    type: integer
+  - name: ignoreMaxValDiff
+    type: double
+  name: ignore
+  optional: true
+  token: IGNORE
+  type: block
+- arguments:
   - name: label
     type: string
   - name: value
@@ -64,16 +73,20 @@ group: timeseries
 hidden: false
 linkTitle: TS.ALTER
 module: TimeSeries
+railroad_diagram: /images/railroad/ts.alter.svg
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Update the retention, chunk size, duplicate policy, and labels of an existing
   time series
 syntax: "TS.ALTER key \n  [RETENTION retentionPeriod] \n  [CHUNK_SIZE size] \n  [DUPLICATE_POLICY\
-  \ policy] \n  [IGNORE ignoreMaxTimediff ignoreMaxValDiff] \n  [LABELS [label value ...]]\n"
+  \ policy] \n  [IGNORE ignoreMaxTimediff ignoreMaxValDiff] \n  [LABELS [label value\
+  \ ...]]\n"
 syntax_fmt: "TS.ALTER key [RETENTION\_retentionPeriod] [CHUNK_SIZE\_size]\n  [DUPLICATE_POLICY\_\
-  <BLOCK | FIRST | LAST | MIN | MAX | SUM>]\n  [IGNORE ignoreMaxTimediff ignoreMaxValDiff] \n  [LABELS\ [label value ...]]"
+  <BLOCK | FIRST | LAST | MIN | MAX | SUM>]\n  [IGNORE\_ignoreMaxTimediff ignoreMaxValDiff]\
+  \ [LABELS\_label value\n  [label value ...]]"
 syntax_str: "[RETENTION\_retentionPeriod] [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_<BLOCK\
-  \ | FIRST | LAST | MIN | MAX | SUM>] [IGNORE ignoreMaxTimediff ignoreMaxValDiff] [LABELS\ [label value ...]]"
+  \ | FIRST | LAST | MIN | MAX | SUM>] [IGNORE\_ignoreMaxTimediff ignoreMaxValDiff]\
+  \ [LABELS\_label value [label value ...]]"
 title: TS.ALTER
 ---
 
@@ -138,7 +151,7 @@ OK
 {{< / highlight >}}
 </details>
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

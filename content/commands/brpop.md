@@ -50,6 +50,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: BRPOP
+railroad_diagram: /images/railroad/brpop.svg
 since: 2.0.0
 summary: Removes and returns the last element in a list. Blocks until an element is
   available otherwise. Deletes the list if the last element was popped.
@@ -81,7 +82,7 @@ redis> BRPOP list1 list2 0
 2) "c"
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

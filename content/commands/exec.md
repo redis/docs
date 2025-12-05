@@ -23,6 +23,7 @@ description: Executes all commands in a transaction.
 group: transactions
 hidden: false
 linkTitle: EXEC
+railroad_diagram: /images/railroad/exec.svg
 since: 1.2.0
 summary: Executes all commands in a transaction.
 syntax_fmt: EXEC
@@ -39,7 +40,7 @@ not modified, allowing for a [check-and-set mechanism][ttc].
 
 [ttc]: /develop/interact/transactions#cas
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

@@ -40,6 +40,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: EXPIRETIME
+railroad_diagram: /images/railroad/expiretime.svg
 since: 7.0.0
 summary: Returns the expiration time of a key as a Unix timestamp.
 syntax_fmt: EXPIRETIME key
@@ -58,7 +59,7 @@ EXPIREAT mykey 33177117420
 EXPIRETIME mykey
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

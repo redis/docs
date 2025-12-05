@@ -37,6 +37,7 @@ description: Sets the client eviction mode of the connection.
 group: connection
 hidden: false
 linkTitle: CLIENT NO-EVICT
+railroad_diagram: /images/railroad/client-no-evict.svg
 since: 7.0.0
 summary: Sets the client eviction mode of the connection.
 syntax_fmt: CLIENT NO-EVICT <ON | OFF>
@@ -51,7 +52,7 @@ When turned off, the current client will be re-included in the pool of potential
 
 See [client eviction]({{< relref "/develop/reference/clients" >}}#client-eviction) for more details.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

@@ -167,6 +167,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: GEOSEARCHSTORE
+railroad_diagram: /images/railroad/geosearchstore.svg
 since: 6.2.0
 summary: Queries a geospatial index for members inside an area of a box or a circle,
   optionally stores the result.
@@ -197,7 +198,7 @@ GEOSEARCHSTORE key2 Sicily FROMLONLAT 15 37 BYBOX 400 400 km ASC COUNT 3 STOREDI
 ZRANGE key2 0 -1 WITHSCORES
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

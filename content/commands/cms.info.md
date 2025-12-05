@@ -22,6 +22,7 @@ group: cms
 hidden: false
 linkTitle: CMS.INFO
 module: Bloom
+railroad_diagram: /images/railroad/cms.info.svg
 since: 2.0.0
 stack_path: docs/data-types/probabilistic
 summary: Returns information about a sketch
@@ -47,7 +48,7 @@ redis> CMS.INFO test
  6) (integer) 0
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

@@ -24,6 +24,7 @@ description: Forgets about watched keys of a transaction.
 group: transactions
 hidden: false
 linkTitle: UNWATCH
+railroad_diagram: /images/railroad/unwatch.svg
 since: 2.2.0
 summary: Forgets about watched keys of a transaction.
 syntax_fmt: UNWATCH
@@ -36,7 +37,7 @@ Flushes all the previously watched keys for a [transaction][tt].
 
 If you call [`EXEC`]({{< relref "/commands/exec" >}}) or [`DISCARD`]({{< relref "/commands/discard" >}}), there's no need to manually call `UNWATCH`.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

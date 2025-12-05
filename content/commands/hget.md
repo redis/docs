@@ -43,6 +43,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: HGET
+railroad_diagram: /images/railroad/hget.svg
 since: 2.0.0
 summary: Returns the value of a field in a hash.
 syntax_fmt: HGET key field
@@ -70,7 +71,7 @@ HGET myhash field1
 HGET myhash field2
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

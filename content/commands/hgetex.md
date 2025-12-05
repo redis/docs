@@ -78,6 +78,7 @@ key_specs:
   notes: RW and UPDATE because it changes the TTL
   update: true
 linkTitle: HGETEX
+railroad_diagram: /images/railroad/hgetex.svg
 since: 8.0.0
 summary: Get the value of one or more fields of a given hash key, and optionally set
   their expiration.
@@ -127,7 +128,7 @@ redis> HGETALL mykey
 (empty array)
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

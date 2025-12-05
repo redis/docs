@@ -11,6 +11,13 @@ min-version-db: blah
 min-version-rs: blah
 weight: 100
 ---
+## Redis Community Edition 7.4.7 (November 2025)
+
+Update urgency: `HIGH`: There is a critical bug that may affect a subset of users.
+
+### Bug fixes
+
+- Potential crash on HyperLogLog with 2GB+ entries
 
 ## Redis Community Edition 7.4.6 (October 2025)
 

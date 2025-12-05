@@ -79,7 +79,7 @@ Use the checkboxes in the list to select or remove regions.  The Search box lets
 
 You can use a region's Remove button to remove it from the list.
 
-{{<image filename="images/rc/icon-region-delete.png" width="30px" alt="Select the Delete button to remove a region from the list." >}}
+{{<image filename="images/rc/icon-region-delete.png" width="20px" alt="Select the Delete button to remove a region from the list." >}}
 
 #### Advanced options {#advanced-options}
 
@@ -115,7 +115,7 @@ When you first visit the **Sizing** tab, there are no databases defined.  Select
 
 {{<image filename="images/rc/icon-add.png" width="30px" alt="Use the Add button to define a new database for your subscription." >}}
 
-This opens the **New Active-Active Redis Database** dialog, which lets you define the requirements for your new database.
+This opens the **Database configurations** dialog, which lets you define the requirements for your new database.
 
 {{<image filename="images/rc/create-database-active-active.png" width="75%" alt="New database dialog for Active-Active database." >}}
 
@@ -127,7 +127,9 @@ By default, you're shown basic settings, which include:
 
     {{<image filename="images/rc/active-active-json-detail.png" width="75%" alt="When you create an Active-Active database, you can select the JSON and Search and query advanced capabilities." >}}  
 
-    We select both capabilities for you automatically. You can remove a capability by selecting it. Selected capabilities will be available in all regions, including those added in the future.
+    For Redis versions prior to 8.0, we select both capabilities for you automatically. You can remove a capability by clicking on it while selected. Selected capabilities will be available in all regions, including those added in the future.
+
+    Starting with Redis 8.0, JSON and Search and query are included by default.
 
     See [Search and query Active-Active databases]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search/search-active-active" >}}) to learn how to use Search and query on Active-Active databases.
 
@@ -275,7 +277,7 @@ Total ops/sec = 9000 (Region 1) + 10000 (Region 2) + 7000 (Region 3)
     For Search and query databases, the estimated throughput from the [Sizing calculator](https://redis.io/redisearch-sizing-calculator/) is the total amount of throughput you need. When setting throughput for your Active-Active database, use the total amount for each region and divide it depending on your read (query) and write (update) needs for each region. For example, if the total amount of throughput needed is 50000 ops/sec, you could set each region to have 20000 ops/sec for reads (queries) and 30000 ops/sec for writes (updates).
 
 - **Data Persistence**: Defines the data persistence policy, if any. See [Database persistence]({{< relref "/operate/rs/databases/configure/database-persistence.md" >}}).
-- **Supported Protocol(s)**: Choose between RESP2 and RESP3 _(Redis 7.2 only)_. See [Redis serialization protocol]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions) for details.
+- **Supported Protocol(s)**: Choose between RESP2 and RESP3 _(Redis 7.2 or later)_. See [Redis serialization protocol]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions) for details.
 - **Quantity**: Number of databases to create with these settings. 
 
 When finished, select **Save configuration** to save your database configuration.
@@ -286,7 +288,7 @@ Use the **Add database** button to define additional databases or select the **C
 
 Hover over a database to see the **Edit** and **Delete** icons. You can use the **Edit** icon to change a database or the **Delete** icon to remove a database from the list.
 
-{{<image filename="images/rc/icon-edit.png#no-click" width="30px" alt="Use the Edit button to change database settings." class="inline" >}}&nbsp;{{<image filename="images/rc/icon-delete-teal.png#no-click" width="30px" alt="Use the Delete button to remove a database." class="inline">}}
+{{<image filename="images/rc/icon-edit.png#no-click" width="30px" alt="Use the Edit button to change database settings." class="inline" >}}&nbsp;{{<image filename="images/rc/icon-delete-lb.png#no-click" width="30px" alt="Use the Delete button to remove a database." class="inline">}}
 
 
 ### Review and Create tab

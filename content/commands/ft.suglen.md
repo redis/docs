@@ -20,6 +20,7 @@ group: suggestion
 hidden: false
 linkTitle: FT.SUGLEN
 module: Search
+railroad_diagram: /images/railroad/ft.suglen.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Gets the size of an auto-complete suggestion dictionary
@@ -54,7 +55,7 @@ is suggestion dictionary key.
 {{< / highlight >}}
 </details>
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

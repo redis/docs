@@ -52,6 +52,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: BZPOPMAX
+railroad_diagram: /images/railroad/bzpopmax.svg
 since: 5.0.0
 summary: Removes and returns the member with the highest score from one or more sorted
   sets. Blocks until a member available otherwise.  Deletes the sorted set if the
@@ -89,7 +90,7 @@ redis> BZPOPMAX zset1 zset2 0
 3) "2"
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

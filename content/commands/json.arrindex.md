@@ -38,6 +38,7 @@ group: json
 hidden: false
 linkTitle: JSON.ARRINDEX
 module: JSON
+railroad_diagram: /images/railroad/json.arrindex.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Returns the index of the first occurrence of a JSON scalar value in the array
@@ -144,7 +145,7 @@ redis> JSON.ARRINDEX item:1 $..colors '"silver"'
 {{< / highlight >}}
 </details>
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

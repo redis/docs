@@ -43,6 +43,7 @@ key_specs:
     type: range
   not_key: true
 linkTitle: SPUBLISH
+railroad_diagram: /images/railroad/spublish.svg
 since: 7.0.0
 summary: Post a message to a shard channel
 syntax_fmt: SPUBLISH shardchannel message
@@ -66,7 +67,7 @@ For example the following command publishes to the `orders` channel with a subsc
 (integer) 1
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

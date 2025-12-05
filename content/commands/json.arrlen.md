@@ -26,6 +26,7 @@ group: json
 hidden: false
 linkTitle: JSON.ARRLEN
 module: JSON
+railroad_diagram: /images/railroad/json.arrlen.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Returns the length of the array at path
@@ -92,7 +93,7 @@ redis> JSON.GET item:2 '$..max_level'
 
 </details>
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

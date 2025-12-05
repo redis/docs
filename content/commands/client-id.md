@@ -22,6 +22,7 @@ description: Returns the unique client ID of the connection.
 group: connection
 hidden: false
 linkTitle: CLIENT ID
+railroad_diagram: /images/railroad/client-id.svg
 since: 5.0.0
 summary: Returns the unique client ID of the connection.
 syntax_fmt: CLIENT ID
@@ -43,7 +44,7 @@ introduced also in Redis 5 together with `CLIENT ID`. Check the [`CLIENT UNBLOCK
 CLIENT ID
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

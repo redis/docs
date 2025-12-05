@@ -24,6 +24,7 @@ group: bf
 hidden: false
 linkTitle: BF.SCANDUMP
 module: Bloom
+railroad_diagram: /images/railroad/bf.scandump.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Begins an incremental save of the bloom filter
@@ -96,7 +97,7 @@ for chunk in chunks:
     BF.LOADCHUNK(key, iter, data)
 {{< / highlight >}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

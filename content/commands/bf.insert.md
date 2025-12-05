@@ -50,6 +50,7 @@ group: bf
 hidden: false
 linkTitle: BF.INSERT
 module: Bloom
+railroad_diagram: /images/railroad/bf.insert.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Adds one or more items to a Bloom Filter. A filter will be created if it
@@ -138,7 +139,7 @@ Add two items to a filter, then return error if the filter does not already exis
 BF.INSERT filter NOCREATE ITEMS foo bar
 {{< / highlight >}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

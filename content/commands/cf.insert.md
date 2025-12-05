@@ -38,6 +38,7 @@ group: cf
 hidden: false
 linkTitle: CF.INSERT
 module: Bloom
+railroad_diagram: /images/railroad/cf.insert.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Adds one or more items to a Cuckoo Filter. A filter will be created if it
@@ -107,7 +108,7 @@ redis> CF.INSERT cf2 ITEMS 1 1 1 1
 4) (integer) -1
 {{< / highlight >}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

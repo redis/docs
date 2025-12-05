@@ -28,6 +28,7 @@ description: Returns the active channels.
 group: pubsub
 hidden: false
 linkTitle: PUBSUB CHANNELS
+railroad_diagram: /images/railroad/pubsub-channels.svg
 since: 2.8.0
 summary: Returns the active channels.
 syntax_fmt: PUBSUB CHANNELS [pattern]
@@ -42,7 +43,7 @@ If no `pattern` is specified, all the channels are listed, otherwise if pattern 
 
 Cluster note: in a Redis Cluster clients can subscribe to every node, and can also publish to every other node. The cluster will make sure that published messages are forwarded as needed. That said, [`PUBSUB`]({{< relref "/commands/pubsub" >}})'s replies in a cluster only report information from the node's Pub/Sub context, rather than the entire cluster.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

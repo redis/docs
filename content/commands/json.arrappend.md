@@ -30,12 +30,13 @@ group: json
 hidden: false
 linkTitle: JSON.ARRAPPEND
 module: JSON
+railroad_diagram: /images/railroad/json.arrappend.svg
 since: 1.0.0
 stack_path: docs/data-types/json
-summary: Append one or more JSON values into the array at path after the last element
+summary: Append one or more json values into the array at path after the last element
   in it.
-syntax_fmt: JSON.ARRAPPEND key path value [value ...]
-syntax_str: 'path value [value ...]'
+syntax_fmt: JSON.ARRAPPEND key [path] value [value ...]
+syntax_str: '[path] value [value ...]'
 title: JSON.ARRAPPEND
 ---
 Append the JSON values into the array at `path` after the last element in it.
@@ -91,7 +92,7 @@ redis> JSON.GET item:1 $.colors
 
 </details>
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

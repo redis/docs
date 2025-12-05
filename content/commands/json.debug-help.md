@@ -15,6 +15,7 @@ group: json
 hidden: true
 linkTitle: JSON.DEBUG HELP
 module: JSON
+railroad_diagram: /images/railroad/json.debug-help.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Shows helpful information
@@ -24,7 +25,7 @@ title: JSON.DEBUG HELP
 ---
 Return helpful information about the [`JSON.DEBUG`]({{< relref "commands/json.debug/" >}}) command
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
