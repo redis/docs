@@ -13,6 +13,7 @@ linkTitle: When to use RDI
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
+tocEmbedHeaders: true
 weight: 5
 ---
 
