@@ -137,6 +137,7 @@ scope: documents
 7. **Use meaningful scopes**: Choose scope values that clearly indicate the tree's domain (e.g., `documents`, `collections`, `sequences`)
 8. **Add sentiment for suitability trees**: If your tree determines whether something is suitable (not just choosing between options), use `sentiment: "positive"` and `sentiment: "negative"` to provide visual feedback
 9. **Be consistent with sentiment**: In a suitability tree, ensure all positive outcomes have `sentiment: "positive"` and all negative outcomes have `sentiment: "negative"` for clarity
+10. **Control answer order**: The order of `yes` and `no` in the YAML controls the visual layout. For early rejection patterns, put `no` first so negative outcomes appear on the left side of the diagram
 
 ## Example: Redis Data Type Selection
 

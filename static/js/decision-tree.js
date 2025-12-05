@@ -85,37 +85,27 @@
       });
 
       if (question.answers) {
-        // Process yes answer
-        if (question.answers.yes) {
-          if (question.answers.yes.nextQuestion) {
-            traverse(question.answers.yes.nextQuestion, depth + 1);
-          } else if (question.answers.yes.outcome) {
-            items.push({
-              id: question.answers.yes.outcome.id,
-              depth: depth + 1,
-              type: 'outcome',
-              text: question.answers.yes.outcome.label || '',
-              answer: 'Yes',
-              sentiment: question.answers.yes.outcome.sentiment || null
-            });
-          }
-        }
+        // Process answers in the order they appear in the YAML
+        // This respects the author's intended layout (e.g., "no" first for early rejection)
+        const answerKeys = Object.keys(question.answers);
 
-        // Process no answer
-        if (question.answers.no) {
-          if (question.answers.no.nextQuestion) {
-            traverse(question.answers.no.nextQuestion, depth + 1);
-          } else if (question.answers.no.outcome) {
-            items.push({
-              id: question.answers.no.outcome.id,
-              depth: depth + 1,
-              type: 'outcome',
-              text: question.answers.no.outcome.label || '',
-              answer: 'No',
-              sentiment: question.answers.no.outcome.sentiment || null
-            });
+        answerKeys.forEach(answerKey => {
+          const answer = question.answers[answerKey];
+          if (answer) {
+            if (answer.nextQuestion) {
+              traverse(answer.nextQuestion, depth + 1);
+            } else if (answer.outcome) {
+              items.push({
+                id: answer.outcome.id,
+                depth: depth + 1,
+                type: 'outcome',
+                text: answer.outcome.label || '',
+                answer: answer.value || answerKey.charAt(0).toUpperCase() + answerKey.slice(1),
+                sentiment: answer.outcome.sentiment || null
+              });
+            }
           }
-        }
+        });
       }
     }
 
@@ -282,17 +272,9 @@
         parentY = calcY + items[i].boxHeight / 2;
         parentBoxHeight = items[i].boxHeight;
 
-        // Determine if this is a Yes or No answer by checking the parent's answers
-        // Count how many siblings come before this item
-        let siblingCount = 0;
-        for (let k = i + 1; k < itemIndex; k++) {
-          if (items[k].depth === item.depth) {
-            siblingCount++;
-          }
-        }
-
-        // If this is the first child of the parent, it's the "yes" path, otherwise "no"
-        answerLabel = siblingCount === 0 ? 'Yes' : 'No';
+        // Use the actual answer value stored in the item
+        // This respects the order defined in the YAML
+        answerLabel = item.answer || 'Yes';
         break;
       }
     }

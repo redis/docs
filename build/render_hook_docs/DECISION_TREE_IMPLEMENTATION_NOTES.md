@@ -167,3 +167,33 @@ outcome:
 
 **Backward Compatibility**: Existing trees without sentiment fields continue to work with default red styling. This allows gradual adoption.
 
+## 12. Answer Order Respects YAML Structure
+
+**Discovery**: The JavaScript had two issues preventing YAML answer order from being respected:
+1. The `flattenDecisionTree()` function was hardcoded to process "yes" first, then "no"
+2. The tree line drawing code was deriving Yes/No labels from position (first child = Yes, others = No) instead of using the actual answer value
+
+**Problem**: This prevented authors from controlling the visual layout of the tree. If you wanted "no" outcomes to appear first (for early rejection patterns), the diagram would still show "yes" first.
+
+**Solution**:
+1. Modified `flattenDecisionTree()` to iterate through answer keys in the order they appear in the YAML
+2. Modified `drawTreeLines()` to use the actual `answer` value stored in each item instead of deriving it from position
+
+```javascript
+// In flattenDecisionTree():
+const answerKeys = Object.keys(question.answers);
+answerKeys.forEach(answerKey => {
+  const answer = question.answers[answerKey];
+  // Process in order, storing answer.value in the item
+});
+
+// In drawTreeLines():
+answerLabel = item.answer || 'Yes';  // Use stored value, not position
+```
+
+**Benefit**: Authors can now control tree layout by ordering answers in the YAML:
+- Put `no` first for early rejection patterns (negative outcomes appear left)
+- Put `yes` first for positive-path-first patterns (positive outcomes appear left)
+
+**Key Insight**: YAML object key order is preserved in JavaScript (since ES2015), and we now respect both the order AND the actual answer values, making the layout fully author-controlled.
+
