@@ -23,6 +23,20 @@ RDI helps Redis customers sync Redis Cloud with live data from their primary dat
 
 Using RDI with Redis Cloud simplifies managing your data integration pipeline. No need to worry about hardware or underlying infrastructure, as Redis Cloud manages that for you. Creating the data flow from source to target is much easier, and there are validations in place to reduce errors.
 
+## Is RDI a good fit for my architecture?
+
+RDI is designed to support apps that must use a disk-based database as the system of record
+but must also be fast and scalable. This is a common requirement for mobile and web
+apps with a rapidly-growing number of users; the performance of the main database is fine at first
+but it will soon struggle to handle the increasing demand without a cache.
+
+Use the information in the sections below to determine whether RDI is a good fit for your architecture.
+
+```decision-tree
+```
+
+{{< embed-md "rdi-when-to-use.md" >}}
+
 ## Data pipeline architecture
 
 An RDI data pipeline sits between your source database and your target Redis database. Initially, the pipeline reads all of the data and imports it into the target database during the *initial sync* phase. After this initial sync is complete, the data pipeline enters the *streaming* phase, where changes are captured as they happen. Changes in the source database are added to the target within a few seconds of capture. The data pipeline translates relational database rows to Redis hashes or JSON documents. 

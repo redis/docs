@@ -16,8 +16,8 @@ RDI is a good fit when:
   [CDC]({{< relref "/integrate/redis-data-integration/data-pipelines#pipeline-lifecycle" >}})
   would not exceed 10K records per second.
 - You don’t need to perform join operations on the data from several tables
-  into a nested Redis JSON object.
-- RDI supports the data transformations you need for your app.
+  into a [nested Redis JSON object]({{< relref "/integrate/redis-data-integration/data-pipelines/data-denormalization#joining-one-to-many-relationships" >}}).
+- RDI supports the [data transformations]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}}) you need for your app.
 - Your data caching needs are too complex or demanding to implement and maintain yourself.
 - Your database administrator has reviewed RDI's requirements for the source database and
   confirmed that they are acceptable.
