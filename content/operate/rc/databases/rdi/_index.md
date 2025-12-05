@@ -8,6 +8,7 @@ categories:
 description: Use Redis Data Integration with Redis Cloud.
 hideListLinks: true
 weight: 99
+tocEmbedHeaders: true
 ---
 
 Redis Cloud now supports [Redis Data Integration (RDI)]({{<relref "integrate/redis-data-integration">}}), a fast and simple way to bring your data into Redis from other types of primary databases.
