@@ -114,7 +114,8 @@ questions:
         text: |
             Is your total data size smaller than 100GB?
         whyAsk: |
-            RDI has practical limits on the total data size it can manage. Very large datasets may exceed these limits.
+            RDI has practical limits on the total data size it can manage, based
+            on the throughput requirements for full sync.
         answers:
             no:
                 value: "No"
