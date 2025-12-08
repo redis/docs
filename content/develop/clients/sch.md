@@ -69,7 +69,9 @@ curl -k -X PUT -H "accept: application/json" \
 ```
 
 {{< note >}}SCH is not supported for
-[Kubernetes]({{< relref "/operate/kubernetes" >}}) clusters.
+[Kubernetes]({{< relref "/operate/kubernetes" >}}) clusters
+and is supported on Redis Enterprise only for
+[rolling upgrades]({{< relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster#rolling-upgrade" >}}).
 {{< /note >}}
 
 SCH is enabled automatically on the client side during connection
