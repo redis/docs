@@ -37,7 +37,6 @@ By default, Redis Enterprise uses self-signed certificates for internode encrypt
 
 ### Prerequisites
 
-- Internode encryption must be enabled (`dataInternodeEncryption: true`)
 - Certificates must be in PEM format
 - You must create the Kubernetes secrets before referencing them in the REC spec
 - Certificates should include the full certificate chain if using a certificate authority
