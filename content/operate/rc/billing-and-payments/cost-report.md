@@ -93,10 +93,6 @@ All columns after the **Total cost** column show the key values for any [tags]({
 
 ## Get FOCUS format using REST API
 
-{{< note >}}
-The cost report API endpoint is currently in preview. [Contact support](https://redis.io/support/) to request access to this endpoint.
-{{< /note >}}
-
 You can use the [Redis Cloud REST API]({{< relref "/operate/rc/api" >}}) to get a cost report in [FinOps Open Cost and Usage Specification (FOCUS)](https://focus.finops.org/) compatible format.
 
 {{< embed-md "rc-cost-report-api.md" >}}
