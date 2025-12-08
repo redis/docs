@@ -7,7 +7,7 @@ categories:
 - rc
 description: New features, enhancements, and other changes added to Redis Cloud during
   November 2025.
-highlights: Redis 8.2 on Redis Cloud Pro, Automatic minor version upgrades
+highlights: Redis 8.2 on Redis Cloud Pro
 linktitle: November 2025
 weight: 60
 tags:
