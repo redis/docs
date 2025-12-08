@@ -156,7 +156,7 @@ To use the AWS CLI to connect to an already existing service network, select **C
 
 {{< /multitabs >}}
 
-## Connect to your database with PrivateLink
+## Connect to your database and metrics endpoint with PrivateLink
 
 After you've connected to Redis Cloud with a VPC resource endpoint or a VPC lattice service network, you can find the endpoints for your databases and cluster metrics in the AWS UI by going to the **Associations** tab for your endpoint or service network and viewing the Private DNS entries. You will have one entry for each database and one entry for the metrics endpoint.
 
