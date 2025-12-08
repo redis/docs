@@ -7,7 +7,6 @@ categories:
 - operate
 - rc
 description: Shows how to generate and download a cost report in FOCUS format using the Redis Cloud REST API.
-bannerText: The cost report API endpoint is currently in preview. [Contact support](https://redis.io/support/) to request access to this endpoint.
 weight: 60
 ---
 
