@@ -72,8 +72,8 @@ Add the certificate secret names to the `certificates` section of your REC speci
 spec:
   dataInternodeEncryption: true
   certificates:
-    cpInterNodeEncryptionCertificateSecretName: cp-internode-cert
-    dpInterNodeEncryptionCertificateSecretName: dp-internode-cert
+    cpInternodeEncryptionCertificateSecretName: cp-internode-cert
+    dpInternodeEncryptionCertificateSecretName: dp-internode-cert
 ```
 
 You can configure one or both certificate types. If you don't specify a certificate secret name, the cluster uses a self-signed certificate for that encryption type.
@@ -116,7 +116,7 @@ kubectl create secret generic cp-internode-cert \
     ```yaml
     spec:
       certificates:
-        cpInterNodeEncryptionCertificateSecretName: cp-internode-cert-new
+        cpInternodeEncryptionCertificateSecretName: cp-internode-cert-new
     ```
 
 3. Apply the updated REC specification:

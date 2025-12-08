@@ -755,14 +755,14 @@ RS Cluster Certificates. Used to modify the certificates used by the cluster. Se
         </td>
         <td>false</td>
       </tr><tr>
-        <td>cpInterNodeEncryptionCertificateSecretName</td>
+        <td>cpInternodeEncryptionCertificateSecretName</td>
         <td>string</td>
         <td>
           Secret name to use for control plane internode encryption certificate. If left blank, a cluster-provided certificate will be used.<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td>dpInterNodeEncryptionCertificateSecretName</td>
+        <td>dpInternodeEncryptionCertificateSecretName</td>
         <td>string</td>
         <td>
           Secret name to use for data plane internode encryption certificate. If left blank, a cluster-provided certificate will be used.<br/>
@@ -771,7 +771,6 @@ RS Cluster Certificates. Used to modify the certificates used by the cluster. Se
       </tr><tr>
         <td>ldapClientCertificateSecretName</td>
         <td>string</td>
-        <td>
           Secret name to use for cluster's LDAP client certificate. If left blank, LDAP client certificate authentication will be disabled.<br/>
         </td>
         <td>false</td>

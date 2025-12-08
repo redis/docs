@@ -41,8 +41,8 @@ spec:
     syncerCertificateSecretName: <syncercert-secret-name>
     metricsExporterCertificateSecretName: <metricscert-secret-name>
     proxyCertificateSecretName: <proxycert-secret-name>
-    cpInterNodeEncryptionCertificateSecretName: <cpine-secret-name>
-    dpInterNodeEncryptionCertificateSecretName: <dpine-secret-name>
+    cpInternodeEncryptionCertificateSecretName: <cpine-secret-name>
+    dpInternodeEncryptionCertificateSecretName: <dpine-secret-name>
 ```
 
 ### Update certificates through the API
