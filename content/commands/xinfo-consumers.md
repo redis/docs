@@ -47,6 +47,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: XINFO CONSUMERS
+railroad_diagram: /images/railroad/xinfo-consumers.svg
 since: 5.0.0
 summary: Returns a list of the consumers in a consumer group.
 syntax_fmt: XINFO CONSUMERS key group
@@ -87,7 +88,7 @@ In 7.2.0, **inactive** was added and **idle** was changed to denote the time pas
    8) (integer) 993841998
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

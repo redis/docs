@@ -12,6 +12,16 @@ categories:
 description: Learn how to index and query vector embeddings with Redis
 linkTitle: Index and query vectors
 title: Index and query vectors
+scope: example
+relatedPages:
+- /develop/clients/jedis/queryjson
+- /develop/clients/jedis/vecsets
+- /develop/ai/search-and-query
+topics:
+- Redis Query Engine
+- JSON
+- hash
+- vectors
 weight: 3
 ---
 

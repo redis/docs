@@ -47,6 +47,7 @@ key_specs:
     type: range
   update: true
 linkTitle: LSET
+railroad_diagram: /images/railroad/lset.svg
 since: 1.0.0
 summary: Sets the value of an element in a list by its index.
 syntax_fmt: LSET key index element
@@ -69,7 +70,7 @@ LSET mylist -2 "five"
 LRANGE mylist 0 -1
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

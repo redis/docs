@@ -61,8 +61,8 @@ key_specs:
     type: range
   insert: true
 linkTitle: RPOPLPUSH
-replaced_by: '[`LMOVE`]({{< relref "/commands/lmove" >}}) with the `RIGHT` and `LEFT`
-  arguments'
+railroad_diagram: /images/railroad/rpoplpush.svg
+replaced_by: '`LMOVE` with the `RIGHT` and `LEFT` arguments'
 since: 1.2.0
 summary: Returns the last element of a list after removing and pushing it to another
   list. Deletes the list if the last element was popped.
@@ -143,7 +143,7 @@ Note that this implementation of workers is trivially scalable and reliable,
 because even if a message is lost the item is still in the queue and will be
 processed at the next iteration.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

@@ -15,7 +15,7 @@ categories:
 description: How to use tag fields for exact match searches and high-performance filtering
 linkTitle: Tag fields
 title: Tag fields
-weight: 6
+weight: 28
 ---
 
 Tag fields provide exact match search capabilities with high performance and memory efficiency. Use tag fields when you need to filter documents by specific values without the complexity of full-text search tokenization.

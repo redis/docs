@@ -14,7 +14,7 @@ categories:
 description: Controlling text tokenization and escaping
 linkTitle: Tokenization
 title: Tokenization
-weight: 4
+weight: 10
 ---
 
 Full-text search works by comparing words, URLs, numbers, and other elements of the query

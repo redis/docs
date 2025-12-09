@@ -27,6 +27,7 @@ hints:
 - request_policy:all_nodes
 - response_policy:all_succeeded
 linkTitle: CONFIG RESETSTAT
+railroad_diagram: /images/railroad/config-resetstat.svg
 since: 2.0.0
 summary: Resets the server's statistics.
 syntax_fmt: CONFIG RESETSTAT
@@ -44,7 +45,7 @@ The following is a non-exhaustive list of values that are reset:
 * Persistence statistics
 * Active defragmentation statistics
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

@@ -157,8 +157,9 @@ key_specs:
     type: range
   update: true
 linkTitle: GEORADIUSBYMEMBER
-replaced_by: '[`GEOSEARCH`]({{< relref "/commands/geosearch" >}}) and [`GEOSEARCHSTORE`]({{<
-  relref "/commands/geosearchstore" >}}) with the `BYRADIUS` and `FROMMEMBER` arguments'
+railroad_diagram: /images/railroad/georadiusbymember.svg
+replaced_by: '`GEOSEARCH` and `GEOSEARCHSTORE` with the `BYRADIUS` and `FROMMEMBER`
+  arguments'
 since: 3.2.0
 summary: Queries a geospatial index for members within a distance from a member, optionally
   stores the result.
@@ -186,7 +187,7 @@ GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
 GEORADIUSBYMEMBER Sicily Agrigento 100 km
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

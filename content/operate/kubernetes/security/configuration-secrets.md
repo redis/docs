@@ -79,6 +79,26 @@ kubectl create secret generic <secret-name> \
   --from-literal=name=<proxy | api | cm | syncer | metrics_exporter>
 ```
 
+### Internode encryption certificates
+
+You can provide custom certificates for control plane and data plane internode encryption. Create separate secrets for each encryption type:
+
+```sh
+kubectl create secret generic cp-internode-cert \
+  --from-file=certificate=</path/to/cp-certificate.pem> \
+  --from-file=key=</path/to/cp-key.pem> \
+  --from-literal=name=cp_internode_encryption
+```
+
+```sh
+kubectl create secret generic dp-internode-cert \
+  --from-file=certificate=</path/to/dp-certificate.pem> \
+  --from-file=key=</path/to/dp-key.pem> \
+  --from-literal=name=dp_internode_encryption
+```
+
+Reference these secrets in your REC specification under `spec.certificates`. See [Internode encryption]({{< relref "/operate/kubernetes/security/internode-encryption" >}}) for complete configuration details.
+
 ## Best practices
 
 - Store sensitive configuration in Secrets rather than directly in YAML files.

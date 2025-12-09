@@ -47,6 +47,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZLEXCOUNT
+railroad_diagram: /images/railroad/zlexcount.svg
 since: 2.8.9
 summary: Returns the number of members in a sorted set within a lexicographical range.
 syntax_fmt: ZLEXCOUNT key min max
@@ -69,7 +70,7 @@ ZLEXCOUNT myzset - +
 ZLEXCOUNT myzset [b [f
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

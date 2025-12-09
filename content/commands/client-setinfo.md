@@ -37,6 +37,7 @@ hints:
 - request_policy:all_nodes
 - response_policy:all_succeeded
 linkTitle: CLIENT SETINFO
+railroad_diagram: /images/railroad/client-setinfo.svg
 since: 7.2.0
 summary: Sets information specific to the client or connection.
 syntax_fmt: "CLIENT SETINFO <LIB-NAME\_libname | LIB-VER\_libver>"
@@ -62,7 +63,7 @@ We recommend using the following format for the custom suffixes for third-party 
 
 Note that these attributes are **not** cleared by the RESET command.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

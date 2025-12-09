@@ -75,6 +75,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: XPENDING
+railroad_diagram: /images/railroad/xpending.svg
 since: 5.0.0
 summary: Returns the information and entries from a stream consumer group's pending
   entries list.
@@ -212,7 +213,7 @@ prefixing the ID of the last-read pending entry with the `(` character that
 denotes an open (exclusive) range, and proving it to the subsequent call to the
 command.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

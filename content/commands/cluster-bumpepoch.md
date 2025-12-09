@@ -25,6 +25,7 @@ hidden: false
 hints:
 - nondeterministic_output
 linkTitle: CLUSTER BUMPEPOCH
+railroad_diagram: /images/railroad/cluster-bumpepoch.svg
 since: 3.0.0
 summary: Advances the cluster config epoch.
 syntax_fmt: CLUSTER BUMPEPOCH
@@ -37,7 +38,7 @@ The `CLUSTER BUMPEPOCH` command triggers an increment to the cluster's config ep
 
 **Note:** config epoch management is performed internally by the cluster, and relies on obtaining a consensus of nodes. The `CLUSTER BUMPEPOCH` attempts to increment the config epoch **WITHOUT** getting the consensus, so using it may violate the "last failover wins" rule. Use it with caution.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

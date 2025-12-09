@@ -39,6 +39,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: HLEN
+railroad_diagram: /images/railroad/hlen.svg
 since: 2.0.0
 summary: Returns the number of fields in a hash.
 syntax_fmt: HLEN key
@@ -55,7 +56,7 @@ HSET myhash field2 "World"
 HLEN myhash
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

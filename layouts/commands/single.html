@@ -39,10 +39,20 @@
           {{ end }}
         {{ end }}
         {{ if (gt (len $syntax) 0) }}
+        {{ $railroad_path := printf "images/railroad/%s.svg" (.Title | lower | replaceRE " " "-") }}
+        {{ $railroad_file_path := printf "static/%s" $railroad_path }}
+        {{ if fileExists $railroad_file_path }}
+        {{ $tabs := slice
+          (dict "title" "Syntax text" "content" (printf "<pre class=\"command-syntax\">%s</pre>" ($syntax | htmlEscape | replaceRE "\\\\_" "&nbsp;" | safeHTML)))
+          (dict "title" "Syntax diagram" "content" (printf "<div class=\"railroad-diagram-container bg-transparent p-4 overflow-x-auto text-center\"><img src=\"%s\" alt=\"Railroad diagram for %s\" class=\"max-w-none inline-block\" /></div>" ($railroad_path | relURL) .Title))
+        }}
+        {{ partial "components/generic-tabs.html" (dict "id" "syntax-tabs" "tabs" $tabs) }}
+        {{ else }}
         <div class="font-semibold text-redis-ink-900">Syntax</div>
         <pre class="command-syntax">
-          {{- $syntax -}}
+          {{- $syntax | htmlEscape | replaceRE "\\\\_" "&nbsp;" | safeHTML -}}
         </pre>
+        {{ end }}
         {{ end }}
         <dl class="grid grid-cols-[auto,1fr] gap-2 mb-12">
           {{ if not $isModule }}
@@ -64,10 +74,10 @@
               {{ end}}
             </dd>
           {{ end }}
-          {{ if (findRE "## Redis Software and Redis Cloud compatibility" .RawContent) }}
+          {{ if (findRE "## Redis Enterprise and Redis Cloud compatibility" .RawContent) }}
           <dt class="font-semibold text-redis-ink-900 m-0">Compatibility:</dt>
           <dd class="m-0">
-            <a href="#redis-software-and-redis-cloud-compatibility" class="text-redis-red-500 hover:text-redis-red-600">Redis Software and Redis Cloud compatibility</a>
+            <a href="#redis-enterprise-and-redis-cloud-compatibility" class="text-redis-red-500 hover:text-redis-red-600">Redis Enterprise and Redis Cloud compatibility</a>
           </dd>
           {{ end }}
         </dl>

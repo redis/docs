@@ -10,11 +10,12 @@
             }
                 // Create a wrapper for the button and message
                 const wrapper = document.createElement('div');
+                wrapper.className = 'copy-button-wrapper';
 
                 if (block.parentElement.classList.contains("expand-content")) {
-                    wrapper.style = 'position:absolute;top:24px;right:20px;z-index:1;display:flex;align-items:center;gap:6px;';
+                    wrapper.classList.add('expand-content-wrapper');
                 } else {
-                    wrapper.style = 'position:absolute;top:24px;right:10px;z-index:1;display:flex;align-items:center;gap:6px;';
+                    wrapper.classList.add('standard-wrapper');
                 }
 
                 // Check if this is a YAML embed with download functionality

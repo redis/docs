@@ -50,6 +50,7 @@ key_specs:
       keystep: 1
     type: keynum
 linkTitle: ZINTERCARD
+railroad_diagram: /images/railroad/zintercard.svg
 since: 7.0.0
 summary: Returns the number of members of the intersect of multiple sorted sets.
 syntax_fmt: "ZINTERCARD numkeys key [key ...] [LIMIT\_limit]"
@@ -78,7 +79,7 @@ ZINTERCARD 2 zset1 zset2
 ZINTERCARD 2 zset1 zset2 LIMIT 1
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

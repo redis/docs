@@ -119,6 +119,7 @@ history:
 - - 7.4.0
   - '`MAXAGE` option.'
 linkTitle: CLIENT KILL
+railroad_diagram: /images/railroad/client-kill.svg
 since: 2.4.0
 summary: Terminates open connections.
 syntax_fmt: "CLIENT KILL <ip:port | <[ID\_client-id] | [TYPE\_<NORMAL | MASTER |\n\
@@ -174,7 +175,7 @@ in the middle of the execution of a command. However, the client
 will notice the connection has been closed only when the
 next command is sent (and results in network error).
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

@@ -38,7 +38,7 @@ To turn on database backups:
 
 1.  Select the database to open the **Database** page and then select **Edit**.
 
-    {{<image filename="images/rc/database-details-configuration-tab-general-flexible.png" alt="The Configuration tab of the Database details screen." >}}
+    {{<image filename="images/rc/button-database-edit.png" alt="The Edit button lets you change database settings." width=100px >}}
 
 1.  In the **Durability** section of the **Configuration** tab, locate the **Remote backup** setting:
 
@@ -60,7 +60,7 @@ When you enable **Remote backup**, additional options appear.  The options vary 
 
 After backups are turned on, you can back up your data at any time.  Use the **Backup now** button in the **Durability** section.
 
-{{<image filename="images/rc/button-database-backup-now.png" alt="Use the Backup Now button to make backups on demand." >}}
+{{<image filename="images/rc/button-database-backup-now.png" alt="Use the Backup Now button to make backups on demand." width=150px >}}
 
 You can only use the **Backup now** button after you turn on backups.
 

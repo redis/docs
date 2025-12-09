@@ -49,6 +49,7 @@ key_specs:
     type: range
   update: true
 linkTitle: SETRANGE
+railroad_diagram: /images/railroad/setrange.svg
 since: 2.2.0
 summary: Overwrites a part of a string value with another by an offset. Creates the
   key if it doesn't exist.
@@ -102,7 +103,7 @@ SETRANGE key2 6 "Redis"
 GET key2
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

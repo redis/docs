@@ -41,6 +41,7 @@ group: tdigest
 hidden: false
 linkTitle: TDIGEST.MERGE
 module: Bloom
+railroad_diagram: /images/railroad/tdigest.merge.svg
 since: 2.4.0
 stack_path: docs/data-types/probabilistic
 summary: Merges multiple t-digest sketches into a single sketch
@@ -108,7 +109,7 @@ redis> TDIGEST.BYRANK sM 0 1 2 3 4
 5) "inf"
 {{< / highlight >}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

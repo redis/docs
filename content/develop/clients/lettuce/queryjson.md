@@ -12,6 +12,14 @@ categories:
 description: Learn how to use the Redis query engine with JSON and hash documents.
 linkTitle: Index and query documents
 title: Index and query documents
+scope: example
+relatedPages:
+- /develop/clients/lettuce/vecsearch
+- /develop/ai/search-and-query
+topics:
+- Redis Query Engine
+- JSON
+- hash
 weight: 2
 ---
 

@@ -37,6 +37,7 @@ description: Resets a node.
 group: cluster
 hidden: false
 linkTitle: CLUSTER RESET
+railroad_diagram: /images/railroad/cluster-reset.svg
 since: 3.0.0
 summary: Resets a node.
 syntax_fmt: CLUSTER RESET [HARD | SOFT]
@@ -65,7 +66,7 @@ reset the state of the cluster every time a new test unit is executed.
 
 If no reset type is specified, the default is **soft**.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

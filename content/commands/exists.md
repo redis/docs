@@ -46,6 +46,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: EXISTS
+railroad_diagram: /images/railroad/exists.svg
 since: 1.0.0
 summary: Determines whether one or more keys exist.
 syntax_fmt: EXISTS key [key ...]
@@ -76,7 +77,7 @@ SET key2 "World"
 EXISTS key1 key2 nosuchkey
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

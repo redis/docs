@@ -39,6 +39,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: TYPE
+railroad_diagram: /images/railroad/type.svg
 since: 1.0.0
 summary: Determines the type of value stored at a key.
 syntax_fmt: TYPE key
@@ -60,7 +61,7 @@ TYPE key2
 TYPE key3
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

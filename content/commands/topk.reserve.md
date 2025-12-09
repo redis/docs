@@ -34,9 +34,10 @@ group: topk
 hidden: false
 linkTitle: TOPK.RESERVE
 module: Bloom
+railroad_diagram: /images/railroad/topk.reserve.svg
 since: 2.0.0
 stack_path: docs/data-types/probabilistic
-summary: Initializes a Top-K sketch with specified parameters
+summary: Initializes a TopK with specified parameters
 syntax_fmt: TOPK.RESERVE key topk [width depth decay]
 syntax_str: topk [width depth decay]
 title: TOPK.RESERVE
@@ -60,7 +61,7 @@ redis> TOPK.RESERVE topk 50 2000 7 0.925
 OK
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

@@ -28,6 +28,7 @@ group: json
 hidden: false
 linkTitle: JSON.RESP
 module: JSON
+railroad_diagram: /images/railroad/json.resp.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Returns the JSON value at path in Redis Serialization Protocol (RESP)
@@ -105,7 +106,7 @@ redis> JSON.RESP item:2
 {{< / highlight >}}
 </details>
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

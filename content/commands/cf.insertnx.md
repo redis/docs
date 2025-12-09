@@ -38,6 +38,7 @@ group: cf
 hidden: false
 linkTitle: CF.INSERTNX
 module: Bloom
+railroad_diagram: /images/railroad/cf.insertnx.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Adds one or more items to a Cuckoo Filter if the items did not exist previously.
@@ -117,7 +118,7 @@ redis> CF.INSERTNX cf_new CAPACITY 1000 NOCREATE ITEMS item1 item2
 (error) ERR not found
 {{< / highlight >}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

@@ -46,6 +46,7 @@ key_specs:
     type: range
   insert: true
 linkTitle: PFADD
+railroad_diagram: /images/railroad/pfadd.svg
 since: 2.8.9
 summary: Adds elements to a HyperLogLog key. Creates the key if it doesn't exist.
 syntax_fmt: PFADD key [element [element ...]]
@@ -69,7 +70,7 @@ PFADD hll a b c d e f g
 PFCOUNT hll
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

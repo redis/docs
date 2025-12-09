@@ -102,3 +102,27 @@ The strong performance of LVQ and LeanVec stems from their ability to adapt to t
     A minimum number of representative vectors is required during index initialization to train the compression parameters (see the [TRAINING_THRESHOLD]({{< relref "/develop/ai/search-and-query/vectors/#svs-vamana-index" >}}) parameter). A random sample from the dataset typically works well.
 * **Handling data drift:**
     If the characteristics of incoming vectors change significantly over time (that is, a data distribution shift), compression quality may degrade. This is a general limitation of all data-dependent compression methods,not just LVQ and LeanVec. When the data no longer resembles the original training sample, the learned representation becomes less effective.
+
+## Build Redis Open Source with Intel SVS support
+
+By default, Redis Open Source with the Redis Query Engine supports SVS-VAMANA indexing with the global 8-bit quantisation. To compile Redis with the Intel SVS-VAMANA optimisations, LeanVec and LVQ, for Intel platforms, follow the instructions below.
+
+{{< warning >}}
+If you are using Redis Open Source under the AGPLv3 or SSPLv1 licenses, you cannot use it together with the Intel Optimization binaries (LeanVec and LVQ). The reason is that the Intel SVS license is not compatible with those licenses.
+The LeanVec and LVQ techniques are closed source and are only available for use with Redis Open Source when distributed under the RSALv2 license.
+For more details, please refer to the [information provided by Intel](https://github.com/intel/ScalableVectorSearch).
+{{< /warning >}}
+
+### Build Redis Open Source
+
+Follow the [Redis Open Source build instructions]({{< relref "/operate/oss_and_stack/install/build-stack" >}}). Before executing `make`, define the following environment variable.
+
+```sh
+export BUILD_INTEL_SVS_OPT=yes
+```
+
+Alternatively, you can define the `BUILD_INTEL_SVS_OPT` variable as part of the `make` command:
+
+```sh
+make BUILD_INTEL_SVS_OPT=yes
+```

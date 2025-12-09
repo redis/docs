@@ -33,6 +33,7 @@ hints:
 - request_policy:all_nodes
 - response_policy:agg_sum
 linkTitle: LATENCY RESET
+railroad_diagram: /images/railroad/latency-reset.svg
 since: 2.8.13
 summary: Resets the latency data for one or more events.
 syntax_fmt: LATENCY RESET [event [event ...]]
@@ -70,7 +71,7 @@ For more information refer to the [Latency Monitoring Framework page][lm].
 
 [lm]: /operate/oss_and_stack/management/optimization/latency-monitor.md
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

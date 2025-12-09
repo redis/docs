@@ -37,6 +37,7 @@ arguments:
   optional: true
   token: DUPLICATE_POLICY
   type: oneof
+
 - arguments:
   - name: label
     type: string
@@ -64,16 +65,17 @@ group: timeseries
 hidden: false
 linkTitle: TS.ALTER
 module: TimeSeries
+railroad_diagram: /images/railroad/ts.alter.svg
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Update the retention, chunk size, duplicate policy, and labels of an existing
   time series
 syntax: "TS.ALTER key \n  [RETENTION retentionPeriod] \n  [CHUNK_SIZE size] \n  [DUPLICATE_POLICY\
-  \ policy] \n  [IGNORE ignoreMaxTimediff ignoreMaxValDiff] \n  [LABELS [label value ...]]\n"
+  \ policy] \n  [LABELS [label value ...]]\n"
 syntax_fmt: "TS.ALTER key [RETENTION\_retentionPeriod] [CHUNK_SIZE\_size]\n  [DUPLICATE_POLICY\_\
-  <BLOCK | FIRST | LAST | MIN | MAX | SUM>]\n  [IGNORE ignoreMaxTimediff ignoreMaxValDiff] \n  [LABELS\ [label value ...]]"
+  <BLOCK | FIRST | LAST | MIN | MAX | SUM>] [LABELS\_label value\n  [label value ...]]"
 syntax_str: "[RETENTION\_retentionPeriod] [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_<BLOCK\
-  \ | FIRST | LAST | MIN | MAX | SUM>] [IGNORE ignoreMaxTimediff ignoreMaxValDiff] [LABELS\ [label value ...]]"
+  \ | FIRST | LAST | MIN | MAX | SUM>] [LABELS\_label value [label value ...]]"
 title: TS.ALTER
 ---
 
@@ -107,10 +109,6 @@ is the initial allocation size, in bytes, for the data part of each new chunk. A
 is policy for handling multiple samples with identical timestamps. See `DUPLICATE_POLICY` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}}).
 </details>
 
-<details open><summary><code>IGNORE ignoreMaxTimediff ignoreMaxValDiff</code></summary> 
-
-is the policy for handling duplicate samples. See `IGNORE` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}}).
-</details>
 
 <details open><summary><code>LABELS [{label value}...]</code></summary> 
 
@@ -138,7 +136,7 @@ OK
 {{< / highlight >}}
 </details>
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

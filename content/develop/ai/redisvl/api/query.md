@@ -12,7 +12,7 @@ queries for different use cases. Each query class wraps the `redis-py` Query mod
 
 ## VectorQuery
 
-### `class VectorQuery(vector, vector_field_name, return_fields=None, filter_expression=None, dtype='float32', num_results=10, return_score=True, dialect=2, sort_by=None, in_order=False, hybrid_policy=None, batch_size=None, ef_runtime=None, normalize_vector_distance=False)`
+### `class VectorQuery(vector, vector_field_name, return_fields=None, filter_expression=None, dtype='float32', num_results=10, return_score=True, dialect=2, sort_by=None, in_order=False, hybrid_policy=None, batch_size=None, ef_runtime=None, epsilon=None, search_window_size=None, use_search_history=None, search_buffer_capacity=None, normalize_vector_distance=False)`
 
 Bases: `BaseVectorQuery`, `BaseQuery`
 
@@ -57,6 +57,22 @@ expression.
   * **ef_runtime** (*Optional* *[* *int* *]*) – Controls the size of the dynamic candidate list for HNSW
     algorithm at query time. Higher values improve recall at the expense of
     slower search performance. Defaults to None, which uses the index-defined value.
+  * **epsilon** (*Optional* *[* *float* *]*) – The range search approximation factor for HNSW and SVS-VAMANA
+    indexes. Sets boundaries for candidates within radius \* (1 + epsilon). Higher values
+    allow more extensive search and more accurate results at the expense of run time.
+    Defaults to None, which uses the index-defined value (typically 0.01).
+  * **search_window_size** (*Optional* *[* *int* *]*) – The size of the search window for SVS-VAMANA KNN searches.
+    Increasing this value generally yields more accurate but slower search results.
+    Defaults to None, which uses the index-defined value (typically 10).
+  * **use_search_history** (*Optional* *[* *str* *]*) – For SVS-VAMANA indexes, controls whether to use the
+    search buffer or entire search history. Options are "OFF", "ON", or "AUTO".
+    "AUTO" is always evaluated internally as "ON". Using the entire history may yield
+    a slightly better graph at the cost of more search time.
+    Defaults to None, which uses the index-defined value (typically "AUTO").
+  * **search_buffer_capacity** (*Optional* *[* *int* *]*) – Tuning parameter for SVS-VAMANA indexes using
+    two-level compression (LVQ<X>x<Y> or LeanVec types). Determines the number of vector
+    candidates to collect in the first level of search before the re-ranking level.
+    Defaults to None, which uses the index-defined value (typically SEARCH_WINDOW_SIZE).
   * **normalize_vector_distance** (*bool*) – Redis supports 3 distance metrics: L2 (euclidean),
     IP (inner product), and COSINE. By default, L2 distance returns an unbounded value.
     COSINE distance returns a value between 0 and 2. IP returns a value determined by
@@ -67,7 +83,7 @@ expression.
   **TypeError** – If filter_expression is not of type redisvl.query.FilterExpression
 
 #### `NOTE`
-Learn more about vector queries in Redis: [https://redis.io/docs/interact/search-and-query/search/vectors/#knn-search](https://redis.io/docs/interact/search-and-query/search/vectors/#knn-search)
+Learn more about vector queries in Redis: [https://redis.io/docs/latest/develop/ai/search-and-query/vectors/#knn-vector-search](https://redis.io/docs/latest/develop/ai/search-and-query/vectors/#knn-vector-search)
 
 #### `dialect(dialect)`
 
@@ -215,6 +231,19 @@ Set the EF_RUNTIME parameter for the query.
   * **TypeError** – If ef_runtime is not an integer
   * **ValueError** – If ef_runtime is not positive
 
+#### `set_epsilon(epsilon)`
+
+Set the epsilon parameter for the query.
+
+* **Parameters:**
+  **epsilon** (*float*) – The range search approximation factor for HNSW and SVS-VAMANA
+  indexes. Sets boundaries for candidates within radius \* (1 + epsilon).
+  Higher values allow more extensive search and more accurate results at the
+  expense of run time.
+* **Raises:**
+  * **TypeError** – If epsilon is not a float or int
+  * **ValueError** – If epsilon is negative
+
 #### `set_filter(filter_expression=None)`
 
 Set the filter expression for the query.
@@ -234,6 +263,40 @@ Set the hybrid policy for the query.
   or "ADHOC_BF".
 * **Raises:**
   **ValueError** – If hybrid_policy is not one of the valid options
+
+#### `set_search_buffer_capacity(search_buffer_capacity)`
+
+Set the SEARCH_BUFFER_CAPACITY parameter for the query.
+
+* **Parameters:**
+  **search_buffer_capacity** (*int*) – Tuning parameter for SVS-VAMANA indexes using
+  two-level compression. Determines the number of vector candidates to collect
+  in the first level of search before the re-ranking level.
+* **Raises:**
+  * **TypeError** – If search_buffer_capacity is not an integer
+  * **ValueError** – If search_buffer_capacity is not positive
+
+#### `set_search_window_size(search_window_size)`
+
+Set the SEARCH_WINDOW_SIZE parameter for the query.
+
+* **Parameters:**
+  **search_window_size** (*int*) – The size of the search window for SVS-VAMANA KNN searches.
+  Increasing this value generally yields more accurate but slower search results.
+* **Raises:**
+  * **TypeError** – If search_window_size is not an integer
+  * **ValueError** – If search_window_size is not positive
+
+#### `set_use_search_history(use_search_history)`
+
+Set the USE_SEARCH_HISTORY parameter for the query.
+
+* **Parameters:**
+  **use_search_history** (*str*) – For SVS-VAMANA indexes, controls whether to use the
+  search buffer or entire search history. Options are "OFF", "ON", or "AUTO".
+* **Raises:**
+  * **TypeError** – If use_search_history is not a string
+  * **ValueError** – If use_search_history is not one of "OFF", "ON", or "AUTO"
 
 #### `slop(slop)`
 
@@ -331,6 +394,15 @@ Return the EF_RUNTIME parameter for the query.
 * **Return type:**
   Optional[int]
 
+#### `property epsilon: float | None`
+
+Return the epsilon parameter for the query.
+
+* **Returns:**
+  The epsilon value for the query.
+* **Return type:**
+  Optional[float]
+
 #### `property filter: str | `[`FilterExpression`]({{< relref "filter/#filterexpression" >}})` `
 
 The filter expression for the query.
@@ -357,9 +429,77 @@ Return the parameters for the query.
 
 Return self as the query object.
 
+#### `property search_buffer_capacity: int | None`
+
+Return the SEARCH_BUFFER_CAPACITY parameter for the query.
+
+* **Returns:**
+  The SEARCH_BUFFER_CAPACITY value for the query.
+* **Return type:**
+  Optional[int]
+
+#### `property search_window_size: int | None`
+
+Return the SEARCH_WINDOW_SIZE parameter for the query.
+
+* **Returns:**
+  The SEARCH_WINDOW_SIZE value for the query.
+* **Return type:**
+  Optional[int]
+
+#### `property use_search_history: str | None`
+
+Return the USE_SEARCH_HISTORY parameter for the query.
+
+* **Returns:**
+  The USE_SEARCH_HISTORY value for the query.
+* **Return type:**
+  Optional[str]
+
+#### `NOTE`
+**Runtime Parameters for Performance Tuning**
+
+VectorQuery supports runtime parameters for HNSW and SVS-VAMANA indexes that can be adjusted at query time without rebuilding the index:
+
+**HNSW Parameters:**
+
+- `ef_runtime`: Controls search accuracy (higher = better recall, slower search)
+
+**SVS-VAMANA Parameters:**
+
+- `search_window_size`: Size of search window for KNN searches
+- `use_search_history`: Whether to use search buffer (OFF/ON/AUTO)
+- `search_buffer_capacity`: Tuning parameter for 2-level compression
+
+Example with HNSW runtime parameters:
+
+```python
+from redisvl.query import VectorQuery
+
+query = VectorQuery(
+    vector=[0.1, 0.2, 0.3],
+    vector_field_name="embedding",
+    num_results=10,
+    ef_runtime=150  # Higher for better recall
+)
+```
+
+Example with SVS-VAMANA runtime parameters:
+
+```python
+query = VectorQuery(
+    vector=[0.1, 0.2, 0.3],
+    vector_field_name="embedding",
+    num_results=10,
+    search_window_size=20,
+    use_search_history='ON',
+    search_buffer_capacity=30
+)
+```
+
 ## VectorRangeQuery
 
-### `class VectorRangeQuery(vector, vector_field_name, return_fields=None, filter_expression=None, dtype='float32', distance_threshold=0.2, epsilon=None, num_results=10, return_score=True, dialect=2, sort_by=None, in_order=False, hybrid_policy=None, batch_size=None, normalize_vector_distance=False)`
+### `class VectorRangeQuery(vector, vector_field_name, return_fields=None, filter_expression=None, dtype='float32', distance_threshold=0.2, epsilon=None, search_window_size=None, use_search_history=None, search_buffer_capacity=None, num_results=10, return_score=True, dialect=2, sort_by=None, in_order=False, hybrid_policy=None, batch_size=None, normalize_vector_distance=False)`
 
 Bases: `BaseVectorQuery`, `BaseQuery`
 
@@ -384,6 +524,18 @@ distance threshold.
     This controls how extensive the search is beyond the specified radius.
     Higher values increase recall at the expense of performance.
     Defaults to None, which uses the index-defined epsilon (typically 0.01).
+  * **search_window_size** (*Optional* *[* *int* *]*) – The size of the search window for SVS-VAMANA range searches.
+    Increasing this value generally yields more accurate but slower search results.
+    Defaults to None, which uses the index-defined value (typically 10).
+  * **use_search_history** (*Optional* *[* *str* *]*) – For SVS-VAMANA indexes, controls whether to use the
+    search buffer or entire search history. Options are "OFF", "ON", or "AUTO".
+    "AUTO" is always evaluated internally as "ON". Using the entire history may yield
+    a slightly better graph at the cost of more search time.
+    Defaults to None, which uses the index-defined value (typically "AUTO").
+  * **search_buffer_capacity** (*Optional* *[* *int* *]*) – Tuning parameter for SVS-VAMANA indexes using
+    two-level compression (LVQ<X>x<Y> or LeanVec types). Determines the number of vector
+    candidates to collect in the first level of search before the re-ranking level.
+    Defaults to None, which uses the index-defined value (typically SEARCH_WINDOW_SIZE).
   * **num_results** (*int*) – The MAX number of results to return.
     Defaults to 10.
   * **return_score** (*bool* *,* *optional*) – Whether to return the vector
@@ -597,6 +749,38 @@ Set the hybrid policy for the query.
 * **Raises:**
   **ValueError** – If hybrid_policy is not one of the valid options
 
+#### `set_search_buffer_capacity(search_buffer_capacity)`
+
+Set the SEARCH_BUFFER_CAPACITY parameter for the range query.
+
+* **Parameters:**
+  **search_buffer_capacity** (*int*) – Tuning parameter for SVS-VAMANA indexes using
+  two-level compression.
+* **Raises:**
+  * **TypeError** – If search_buffer_capacity is not an integer
+  * **ValueError** – If search_buffer_capacity is not positive
+
+#### `set_search_window_size(search_window_size)`
+
+Set the SEARCH_WINDOW_SIZE parameter for the range query.
+
+* **Parameters:**
+  **search_window_size** (*int*) – The size of the search window for SVS-VAMANA range searches.
+* **Raises:**
+  * **TypeError** – If search_window_size is not an integer
+  * **ValueError** – If search_window_size is not positive
+
+#### `set_use_search_history(use_search_history)`
+
+Set the USE_SEARCH_HISTORY parameter for the range query.
+
+* **Parameters:**
+  **use_search_history** (*str*) – Controls whether to use the search buffer or entire history.
+  Must be one of "OFF", "ON", or "AUTO".
+* **Raises:**
+  * **TypeError** – If use_search_history is not a string
+  * **ValueError** – If use_search_history is not one of the valid options
+
 #### `slop(slop)`
 
 Allow a maximum of N intervening non matched terms between
@@ -728,41 +912,77 @@ Return the parameters for the query.
 
 Return self as the query object.
 
-## HybridQuery
+#### `property search_buffer_capacity: int | None`
 
-### `class HybridQuery(text, text_field_name, vector, vector_field_name, text_scorer='BM25STD', filter_expression=None, alpha=0.7, dtype='float32', num_results=10, return_fields=None, stopwords='english', dialect=2)`
+Return the SEARCH_BUFFER_CAPACITY parameter for the query.
 
-Bases: `AggregationQuery`
+* **Returns:**
+  The SEARCH_BUFFER_CAPACITY value for the query.
+* **Return type:**
+  Optional[int]
 
-HybridQuery combines text and vector search in Redis.
-It allows you to perform a hybrid search using both text and vector similarity.
-It scores documents based on a weighted combination of text and vector similarity.
+#### `property search_window_size: int | None`
+
+Return the SEARCH_WINDOW_SIZE parameter for the query.
+
+* **Returns:**
+  The SEARCH_WINDOW_SIZE value for the query.
+* **Return type:**
+  Optional[int]
+
+#### `property use_search_history: str | None`
+
+Return the USE_SEARCH_HISTORY parameter for the query.
+
+* **Returns:**
+  The USE_SEARCH_HISTORY value for the query.
+* **Return type:**
+  Optional[str]
+
+#### `NOTE`
+**Runtime Parameters for Range Queries**
+
+VectorRangeQuery supports runtime parameters for controlling range search behavior:
+
+**HNSW & SVS-VAMANA Parameters:**
+
+- `epsilon`: Range search approximation factor (default: 0.01)
+
+**SVS-VAMANA Parameters:**
+
+- `search_window_size`: Size of search window
+- `use_search_history`: Whether to use search buffer (OFF/ON/AUTO)
+- `search_buffer_capacity`: Tuning parameter for 2-level compression
+
+Example:
 
 ```python
-from redisvl.query import HybridQuery
-from redisvl.index import SearchIndex
+from redisvl.query import VectorRangeQuery
 
-index = SearchIndex.from_yaml("path/to/index.yaml")
-
-query = HybridQuery(
-    text="example text",
-    text_field_name="text_field",
+query = VectorRangeQuery(
     vector=[0.1, 0.2, 0.3],
-    vector_field_name="vector_field",
-    text_scorer="BM25STD",
-    filter_expression=None,
-    alpha=0.7,
-    dtype="float32",
-    num_results=10,
-    return_fields=["field1", "field2"],
-    stopwords="english",
-    dialect=2,
+    vector_field_name="embedding",
+    distance_threshold=0.3,
+    epsilon=0.05,              # Approximation factor
+    search_window_size=20,     # SVS-VAMANA only
+    use_search_history='AUTO'  # SVS-VAMANA only
 )
-
-results = index.query(query)
 ```
 
-Instantiates a HybridQuery object.
+## HybridQuery
+
+### `class HybridQuery(*args, **kwargs)`
+
+Bases: `AggregateHybridQuery`
+
+Backward compatibility wrapper for AggregateHybridQuery.
+
+#### `Deprecated`
+Deprecated since version HybridQuery: is a backward compatibility wrapper around AggregateHybridQuery
+and will eventually be replaced with a new hybrid query implementation.
+To maintain current functionality please use AggregateHybridQuery directly.",
+
+Instantiates a AggregateHybridQuery object.
 
 * **Parameters:**
   * **text** (*str*) – The text to search for.
@@ -779,12 +999,27 @@ Instantiates a HybridQuery object.
   * **dtype** (*str* *,* *optional*) – The data type of the vector. Defaults to "float32".
   * **num_results** (*int* *,* *optional*) – The number of results to return. Defaults to 10.
   * **return_fields** (*Optional* *[* *List* *[* *str* *]* *]* *,* *optional*) – The fields to return. Defaults to None.
-  * **stopwords** (*Optional* *[* *Union* *[* *str* *,* *Set* *[* *str* *]* *]* *]* *,* *optional*) – The stopwords to remove from the
+  * **stopwords** (*Optional* *[* *Union* *[* *str* *,* *Set* *[* *str* *]* *]* *]* *,* *optional*) – 
+
+    The stopwords to remove from the
     provided text prior to searchuse. If a string such as "english" "german" is
     provided then a default set of stopwords for that language will be used. if a list,
     set, or tuple of strings is provided then those will be used as stopwords.
     Defaults to "english". if set to "None" then no stopwords will be removed.
+
+    Note: This parameter controls query-time stopword filtering (client-side).
+    For index-level stopwords configuration (server-side), see IndexInfo.stopwords.
+    Using query-time stopwords with index-level STOPWORDS 0 is counterproductive.
   * **dialect** (*int* *,* *optional*) – The Redis dialect version. Defaults to 2.
+  * **text_weights** (*Optional* *[* *Dict* *[* *str* *,* *float* *]* *]*) – The importance weighting of individual words
+    within the query text. Defaults to None, as no modifications will be made to the
+    text_scorer score.
+
+#### `NOTE`
+AggregateHybridQuery uses FT.AGGREGATE commands which do NOT support runtime
+parameters. For runtime parameter support (ef_runtime, search_window_size, etc.),
+use VectorQuery or VectorRangeQuery which use FT.SEARCH commands.
+
 * **Raises:**
   * **ValueError** – If the text string is empty, or if the text string becomes empty after
         stopwords are removed.
@@ -922,6 +1157,14 @@ Default is TFIDF.
 * **Return type:**
   *AggregateRequest*
 
+#### `set_text_weights(weights)`
+
+Set or update the text weights for the query.
+
+* **Parameters:**
+  * **text_weights** – Dictionary of word:weight mappings
+  * **weights** (*Dict* *[* *str* *,* *float* *]*)
+
 #### `sort_by(*fields, **kwargs)`
 
 Indicate how the results should be sorted. This can also be used for
@@ -975,9 +1218,46 @@ Return the stopwords used in the query.
 :returns: The stopwords used in the query.
 :rtype: Set[str]
 
+#### `property text_weights: Dict[str, float]`
+
+Get the text weights.
+
+* **Returns:**
+  weight mappings.
+* **Return type:**
+  Dictionary of word
+
+#### `NOTE`
+The `stopwords` parameter in [HybridQuery](#hybridquery) (and `AggregateHybridQuery`) controls query-time stopword filtering (client-side).
+For index-level stopwords configuration (server-side), see `redisvl.schema.IndexInfo.stopwords`.
+Using query-time stopwords with index-level `STOPWORDS 0` is counterproductive.
+
+#### `NOTE`
+**Runtime Parameters for Hybrid Queries**
+
+**Important:** AggregateHybridQuery uses FT.AGGREGATE commands which do NOT support runtime parameters.
+Runtime parameters (`ef_runtime`, `search_window_size`, `use_search_history`, `search_buffer_capacity`)
+are only supported with FT.SEARCH commands.
+
+For runtime parameter support, use [VectorQuery](#vectorquery) or [VectorRangeQuery](#vectorrangequery) instead of AggregateHybridQuery.
+
+Example with VectorQuery (supports runtime parameters):
+
+```python
+from redisvl.query import VectorQuery
+
+query = VectorQuery(
+    vector=[0.1, 0.2, 0.3],
+    vector_field_name="embedding",
+    return_fields=["description"],
+    num_results=10,
+    ef_runtime=150  # Runtime parameters work with VectorQuery
+)
+```
+
 ## TextQuery
 
-### `class TextQuery(text, text_field_name, text_scorer='BM25STD', filter_expression=None, return_fields=None, num_results=10, return_score=True, dialect=2, sort_by=None, in_order=False, params=None, stopwords='english')`
+### `class TextQuery(text, text_field_name, text_scorer='BM25STD', filter_expression=None, return_fields=None, num_results=10, return_score=True, dialect=2, sort_by=None, in_order=False, params=None, stopwords='english', text_weights=None)`
 
 Bases: `BaseQuery`
 
@@ -1033,11 +1313,20 @@ A query for running a full text search, along with an optional filter expression
     the offsets between them. Defaults to False.
   * **params** (*Optional* *[* *Dict* *[* *str* *,* *Any* *]* *]* *,* *optional*) – The parameters for the query.
     Defaults to None.
-  * **stopwords** (*Optional* *[* *Union* *[* *str* *,* *Set* *[* *str* *]* *]*) – The set of stop words to remove
-    from the query text. If a language like ‘english’ or ‘spanish’ is provided
+  * **stopwords** (*Optional* *[* *Union* *[* *str* *,* *Set* *[* *str* *]* *]*) – 
+
+    The set of stop words to remove
+    from the query text (client-side filtering). If a language like ‘english’ or ‘spanish’ is provided
     a default set of stopwords for that language will be used. Users may specify
     their own stop words by providing a List or Set of words. if set to None,
     then no words will be removed. Defaults to ‘english’.
+
+    Note: This parameter controls query-time stopword filtering (client-side).
+    For index-level stopwords configuration (server-side), see IndexInfo.stopwords.
+    Using query-time stopwords with index-level STOPWORDS 0 is counterproductive.
+  * **text_weights** (*Optional* *[* *Dict* *[* *str* *,* *float* *]* *]*) – The importance weighting of individual words
+    within the query text. Defaults to None, as no modifications will be made to the
+    text_scorer score.
 * **Raises:**
   * **ValueError** – if stopwords language string cannot be loaded.
   * **TypeError** – If stopwords is not a valid iterable set of strings.
@@ -1184,6 +1473,14 @@ Set the filter expression for the query.
 * **Raises:**
   **TypeError** – If filter_expression is not a valid FilterExpression or string.
 
+#### `set_text_weights(weights)`
+
+Set or update the text weights for the query.
+
+* **Parameters:**
+  * **text_weights** – Dictionary of word:weight mappings
+  * **weights** (*Dict* *[* *str* *,* *float* *]*)
+
 #### `slop(slop)`
 
 Allow a maximum of N intervening non matched terms between
@@ -1288,6 +1585,20 @@ Get the text field name(s) - for backward compatibility.
 * **Returns:**
   Either a single field name string (if only one field with weight 1.0)
   or a dictionary of field:weight mappings.
+
+#### `property text_weights: Dict[str, float]`
+
+Get the text weights.
+
+* **Returns:**
+  weight mappings.
+* **Return type:**
+  Dictionary of word
+
+#### `NOTE`
+The `stopwords` parameter in [TextQuery](#textquery) controls query-time stopword filtering (client-side).
+For index-level stopwords configuration (server-side), see `redisvl.schema.IndexInfo.stopwords`.
+Using query-time stopwords with index-level `STOPWORDS 0` is counterproductive.
 
 ## FilterQuery
 
@@ -1797,7 +2108,7 @@ Return self as the query object.
 
 Bases: `AggregationQuery`
 
-MultiVectorQuery allows for search over multiple vector fields in a document simulateously.
+MultiVectorQuery allows for search over multiple vector fields in a document simultaneously.
 The final score will be a weighted combination of the individual vector similarity scores
 following the formula:
 

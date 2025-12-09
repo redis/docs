@@ -85,6 +85,7 @@ key_specs:
       keystep: 1
     type: keynum
 linkTitle: ZUNIONSTORE
+railroad_diagram: /images/railroad/zunionstore.svg
 since: 2.0.0
 summary: Stores the union of multiple sorted sets in a key.
 syntax_fmt: "ZUNIONSTORE destination numkeys key [key ...] [WEIGHTS\_weight\n  [weight\
@@ -128,7 +129,7 @@ ZUNIONSTORE out 2 zset1 zset2 WEIGHTS 2 3
 ZRANGE out 0 -1 WITHSCORES
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

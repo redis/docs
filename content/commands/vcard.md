@@ -14,11 +14,11 @@ description: Return the number of elements in a vector set.
 group: vector_set
 hidden: false
 linkTitle: VCARD
+railroad_diagram: /images/railroad/vcard.svg
 since: 8.0.0
 summary: Return the number of elements in a vector set.
 syntax_fmt: "VCARD key"
 title: VCARD
-bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
 ---
 
 Return the number of elements in the specified vector set.
@@ -40,7 +40,7 @@ is the name of the key that holds the vector set.
 
 - [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

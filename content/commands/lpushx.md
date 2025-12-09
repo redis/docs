@@ -49,6 +49,7 @@ key_specs:
     type: range
   insert: true
 linkTitle: LPUSHX
+railroad_diagram: /images/railroad/lpushx.svg
 since: 2.2.0
 summary: Prepends one or more elements to a list only when the list exists.
 syntax_fmt: LPUSHX key element [element ...]
@@ -70,7 +71,7 @@ LRANGE mylist 0 -1
 LRANGE myotherlist 0 -1
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

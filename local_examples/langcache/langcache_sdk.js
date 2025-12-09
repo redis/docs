@@ -108,3 +108,11 @@ async function deleteQuery() {
 
 deleteQuery();
 // STEP_END
+
+// STEP_START flush
+async function flush() {
+    await langCache.flush();
+}
+
+flush();
+// STEP_END

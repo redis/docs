@@ -23,6 +23,7 @@ description: Returns the hash slot for a key.
 group: cluster
 hidden: false
 linkTitle: CLUSTER KEYSLOT
+railroad_diagram: /images/railroad/cluster-keyslot.svg
 since: 3.0.0
 summary: Returns the hash slot for a key.
 syntax_fmt: CLUSTER KEYSLOT key
@@ -50,7 +51,7 @@ Example use cases for this command:
 
 Note that the command implements the full hashing algorithm, including support for **hash tags**, that is the special property of Redis Cluster key hashing algorithm, of hashing just what is between `{` and `}` if such a pattern is found inside the key name, in order to force multiple keys to be handled by the same node.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

@@ -63,6 +63,7 @@ key_specs:
       keystep: 1
     type: keynum
 linkTitle: ZDIFFSTORE
+railroad_diagram: /images/railroad/zdiffstore.svg
 since: 6.2.0
 summary: Stores the difference of multiple sorted sets in a key.
 syntax_fmt: ZDIFFSTORE destination numkeys key [key ...]
@@ -89,7 +90,7 @@ ZDIFFSTORE out 2 zset1 zset2
 ZRANGE out 0 -1 WITHSCORES
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

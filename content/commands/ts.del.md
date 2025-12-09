@@ -26,6 +26,7 @@ group: timeseries
 hidden: false
 linkTitle: TS.DEL
 module: TimeSeries
+railroad_diagram: /images/railroad/ts.del.svg
 since: 1.6.0
 stack_path: docs/data-types/timeseries
 summary: Delete all samples between two timestamps for a given time series
@@ -100,7 +101,7 @@ Delete the range of data points for temperature in Tel Aviv.
 {{< / highlight >}}
 </details>
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

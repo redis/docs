@@ -25,6 +25,7 @@ group: json
 hidden: false
 linkTitle: JSON.TOGGLE
 module: JSON
+railroad_diagram: /images/railroad/json.toggle.svg
 since: 2.0.0
 stack_path: docs/data-types/json
 summary: Toggles a boolean value
@@ -92,7 +93,7 @@ redis> JSON.GET doc $
 {{< / highlight >}}
 </details>
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

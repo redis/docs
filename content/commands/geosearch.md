@@ -159,6 +159,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: GEOSEARCH
+railroad_diagram: /images/railroad/geosearch.svg
 since: 6.2.0
 summary: Queries a geospatial index for members inside an area of a box or a circle.
 syntax_fmt: "GEOSEARCH key <FROMMEMBER\_member | FROMLONLAT\_longitude latitude>\n\
@@ -208,7 +209,7 @@ GEOSEARCH Sicily FROMLONLAT 15 37 BYRADIUS 200 km ASC
 GEOSEARCH Sicily FROMLONLAT 15 37 BYBOX 400 400 km ASC WITHCOORD WITHDIST
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

@@ -20,6 +20,7 @@ hints:
 - request_policy:all_shards
 - response_policy:all_succeeded
 linkTitle: MEMORY PURGE
+railroad_diagram: /images/railroad/memory-purge.svg
 since: 4.0.0
 summary: Asks the allocator to release memory.
 syntax_fmt: MEMORY PURGE
@@ -32,7 +33,7 @@ reclaimed by the allocator.
 This command is currently implemented only when using **jemalloc** as an
 allocator, and evaluates to a benign NOOP for all others.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

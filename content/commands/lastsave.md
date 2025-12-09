@@ -25,6 +25,7 @@ hidden: false
 hints:
 - nondeterministic_output
 linkTitle: LASTSAVE
+railroad_diagram: /images/railroad/lastsave.svg
 since: 1.0.0
 summary: Returns the Unix timestamp of the last successful save to disk.
 syntax_fmt: LASTSAVE
@@ -36,7 +37,7 @@ A client may check if a [`BGSAVE`]({{< relref "/commands/bgsave" >}}) command su
 then issuing a [`BGSAVE`]({{< relref "/commands/bgsave" >}}) command and checking at regular intervals every N
 seconds if `LASTSAVE` changed. Redis considers the database saved successfully at startup.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

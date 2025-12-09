@@ -53,6 +53,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: HRANDFIELD
+railroad_diagram: /images/railroad/hrandfield.svg
 since: 6.2.0
 summary: Returns one or more random fields from a hash.
 syntax_fmt: HRANDFIELD key [count [WITHVALUES]]
@@ -93,7 +94,7 @@ When the `count` is a negative value, the behavior changes as follows:
 * Exactly `count` fields, or an empty array if the hash is empty (non-existing key), are always returned.
 * The order of fields in the reply is truly random.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

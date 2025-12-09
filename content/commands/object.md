@@ -17,6 +17,7 @@ description: A container for object introspection commands.
 group: generic
 hidden: true
 linkTitle: OBJECT
+railroad_diagram: /images/railroad/object.svg
 since: 2.2.3
 summary: A container for object introspection commands.
 syntax_fmt: OBJECT

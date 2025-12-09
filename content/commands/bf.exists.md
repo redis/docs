@@ -24,6 +24,7 @@ group: bf
 hidden: false
 linkTitle: BF.EXISTS
 module: Bloom
+railroad_diagram: /images/railroad/bf.exists.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Checks whether an item exists in a Bloom Filter
@@ -59,7 +60,7 @@ redis> BF.EXISTS bf item2
 (integer) 0
 {{< / highlight >}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

@@ -27,6 +27,7 @@ group: json
 hidden: false
 linkTitle: JSON.MGET
 module: JSON
+railroad_diagram: /images/railroad/json.mget.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Returns the values at a path from one or more keys
@@ -84,7 +85,7 @@ redis> JSON.MGET doc1 doc2 $..a
 {{< / highlight >}}
 </details>
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

@@ -82,11 +82,10 @@ The Redis Enterprise Software Cluster Manager UI uses port 8443, by default. You
 To change this port, run:
 
 ```sh
-rladmin cluster config cm_port <new-port>
+rladmin cluster config cm_port <custom-port>
 ```
 
-After changing the Redis Enterprise Software web UI port, you must connect any new node added to the cluster to the UI with the custom port number:
-`https://newnode.mycluster.example.com:`**`<nonstandard-port-number>`**
+After you change the Cluster Manager UI port, use the new port in the URL when accessing the UI on any node in the cluster. Example: `https://newnode.mycluster.example.com:<custom-port>`
 
 ### Change the envoy  ports
 

@@ -63,6 +63,7 @@ key_specs:
       keystep: 1
     type: keynum
 linkTitle: ZMPOP
+railroad_diagram: /images/railroad/zmpop.svg
 since: 7.0.0
 summary: Returns the highest- or lowest-scoring members from one or more sorted sets
   after removing them. Deletes the sorted set if the last member was popped.
@@ -100,7 +101,7 @@ ZRANGE myzset2 0 -1 WITHSCORES
 EXISTS myzset myzset2
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

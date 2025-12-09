@@ -51,6 +51,7 @@ key_specs:
     type: range
   update: true
 linkTitle: HPERSIST
+railroad_diagram: /images/railroad/hpersist.svg
 since: 7.4.0
 summary: Removes the expiration time for each specified field
 syntax_fmt: "HPERSIST key FIELDS\_numfields field [field ...]"
@@ -79,7 +80,7 @@ redis> HTTL mykey FIELDS 2 field1 field2
 2) (integer) -1
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

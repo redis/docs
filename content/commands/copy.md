@@ -67,6 +67,7 @@ key_specs:
     type: range
   update: true
 linkTitle: COPY
+railroad_diagram: /images/railroad/copy.svg
 since: 6.2.0
 summary: Copies the value of a key to a new key.
 syntax_fmt: "COPY source destination [DB\_destination-db] [REPLACE]"
@@ -91,7 +92,7 @@ COPY dolly clone
 GET clone
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

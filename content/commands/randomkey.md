@@ -25,6 +25,7 @@ hints:
 - response_policy:special
 - nondeterministic_output
 linkTitle: RANDOMKEY
+railroad_diagram: /images/railroad/randomkey.svg
 since: 1.0.0
 summary: Returns a random key name from the database.
 syntax_fmt: RANDOMKEY
@@ -33,7 +34,7 @@ title: RANDOMKEY
 ---
 Return a random key from the currently selected database.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

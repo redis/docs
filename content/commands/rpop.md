@@ -50,6 +50,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: RPOP
+railroad_diagram: /images/railroad/rpop.svg
 since: 1.0.0
 summary: Returns and removes the last elements of a list. Deletes the list if the
   last element was popped.
@@ -87,7 +88,7 @@ RPOP mylist 2
 LRANGE mylist 0 -1
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

@@ -28,6 +28,7 @@ hidden: false
 hints:
 - nondeterministic_output
 linkTitle: CLUSTER COUNT-FAILURE-REPORTS
+railroad_diagram: /images/railroad/cluster-count-failure-reports.svg
 since: 3.0.0
 summary: Returns the number of active failure reports active for a node.
 syntax_fmt: CLUSTER COUNT-FAILURE-REPORTS node-id
@@ -53,7 +54,7 @@ This command returns the number of failure reports for the current node which ar
 This command is mainly useful for debugging, when the failure detector of
 Redis Cluster is not operating as we believe it should.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

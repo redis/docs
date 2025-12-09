@@ -40,6 +40,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: PEXPIRETIME
+railroad_diagram: /images/railroad/pexpiretime.svg
 since: 7.0.0
 summary: Returns the expiration time of a key as a Unix milliseconds timestamp.
 syntax_fmt: PEXPIRETIME key
@@ -56,7 +57,7 @@ PEXPIREAT mykey 33177117420000
 PEXPIRETIME mykey
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

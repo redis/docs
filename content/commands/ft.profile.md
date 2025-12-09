@@ -42,6 +42,7 @@ group: search
 hidden: false
 linkTitle: FT.PROFILE
 module: Search
+railroad_diagram: /images/railroad/ft.profile.svg
 since: 2.2.0
 stack_path: docs/interact/search-and-query
 summary: Performs a `FT.SEARCH` or `FT.AGGREGATE` command and collects performance
@@ -395,9 +396,9 @@ Here's an example of running the `FT.PROFILE` command for a vector query.
 {{< /highlight >}}
 </details>
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
-| Redis Enterprise<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Enterprise | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
 

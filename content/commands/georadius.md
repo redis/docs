@@ -161,8 +161,8 @@ key_specs:
     type: range
   update: true
 linkTitle: GEORADIUS
-replaced_by: '[`GEOSEARCH`]({{< relref "/commands/geosearch" >}}) and [`GEOSEARCHSTORE`]({{<
-  relref "/commands/geosearchstore" >}}) with the `BYRADIUS` argument'
+railroad_diagram: /images/railroad/georadius.svg
+replaced_by: '`GEOSEARCH` and `GEOSEARCHSTORE` with the `BYRADIUS` argument'
 since: 3.2.0
 summary: Queries a geospatial index for members within a distance from a coordinate,
   optionally stores the result.
@@ -223,7 +223,7 @@ GEORADIUS Sicily 15 37 200 km WITHCOORD
 GEORADIUS Sicily 15 37 200 km WITHDIST WITHCOORD
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

@@ -52,6 +52,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: BZPOPMIN
+railroad_diagram: /images/railroad/bzpopmin.svg
 since: 5.0.0
 summary: Removes and returns the member with the lowest score from one or more sorted
   sets. Blocks until a member is available otherwise. Deletes the sorted set if the
@@ -89,7 +90,7 @@ redis> BZPOPMIN zset1 zset2 0
 3) "0"
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

@@ -26,6 +26,7 @@ group: bf
 hidden: false
 linkTitle: BF.LOADCHUNK
 module: Bloom
+railroad_diagram: /images/railroad/bf.loadchunk.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Restores a filter previously saved using SCANDUMP
@@ -65,7 +66,7 @@ Current data chunk (returned by [`BF.SCANDUMP`]({{< relref "commands/bf.scandump
 
 See [`BF.SCANDUMP`]({{< relref "commands/bf.scandump/" >}}) for an example.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

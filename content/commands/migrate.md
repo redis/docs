@@ -129,6 +129,7 @@ key_specs:
     type: range
   incomplete: true
 linkTitle: MIGRATE
+railroad_diagram: /images/railroad/migrate.svg
 since: 2.6.0
 summary: Atomically transfers a key from one Redis instance to another.
 syntax_fmt: "MIGRATE host port <key | \"\"> destination-db timeout [COPY] [REPLACE]\n\
@@ -205,7 +206,7 @@ just a single key exists.
 * `AUTH` -- Authenticate with the given password to the remote instance.
 * `AUTH2` -- Authenticate with the given username and password pair (Redis 6 or greater ACL auth style).
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

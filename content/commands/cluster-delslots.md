@@ -28,6 +28,7 @@ description: Sets hash slots as unbound for a node.
 group: cluster
 hidden: false
 linkTitle: CLUSTER DELSLOTS
+railroad_diagram: /images/railroad/cluster-delslots.svg
 since: 3.0.0
 summary: Sets hash slots as unbound for a node.
 syntax_fmt: CLUSTER DELSLOTS slot [slot ...]
@@ -78,7 +79,7 @@ debugging and in order to manually orchestrate a cluster configuration
 when a new cluster is created. It is currently not used by `redis-cli`,
 and mainly exists for API completeness.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

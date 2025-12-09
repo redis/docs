@@ -38,6 +38,7 @@ description: Instructs the server whether to reply to commands.
 group: connection
 hidden: false
 linkTitle: CLIENT REPLY
+railroad_diagram: /images/railroad/client-reply.svg
 since: 3.2.0
 summary: Instructs the server whether to reply to commands.
 syntax_fmt: CLIENT REPLY <ON | OFF | SKIP>
@@ -52,7 +53,7 @@ The `CLIENT REPLY` command controls whether the server will reply the client's c
 * `OFF`. In this mode the server will not reply to client commands.
 * `SKIP`. This mode skips the reply of command immediately after it.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

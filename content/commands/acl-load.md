@@ -24,6 +24,7 @@ description: Reloads the rules from the configured ACL file.
 group: server
 hidden: false
 linkTitle: ACL LOAD
+railroad_diagram: /images/railroad/acl-load.svg
 since: 6.0.0
 summary: Reloads the rules from the configured ACL file.
 syntax_fmt: ACL LOAD
@@ -48,7 +49,7 @@ sure to have an *all or nothing* behavior, that is:
 -ERR /tmp/foo:1: Unknown command or category name in ACL...
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

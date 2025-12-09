@@ -22,6 +22,7 @@ description: Returns the name of the connection.
 group: connection
 hidden: false
 linkTitle: CLIENT GETNAME
+railroad_diagram: /images/railroad/client-getname.svg
 since: 2.6.9
 summary: Returns the name of the connection.
 syntax_fmt: CLIENT GETNAME
@@ -30,7 +31,7 @@ title: CLIENT GETNAME
 ---
 The `CLIENT GETNAME` returns the name of the current connection as set by [`CLIENT SETNAME`]({{< relref "/commands/client-setname" >}}). Since every new connection starts without an associated name, if no name was assigned a null bulk reply is returned.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

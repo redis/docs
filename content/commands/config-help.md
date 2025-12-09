@@ -20,6 +20,7 @@ description: Returns helpful text about the different subcommands.
 group: server
 hidden: true
 linkTitle: CONFIG HELP
+railroad_diagram: /images/railroad/config-help.svg
 since: 5.0.0
 summary: Returns helpful text about the different subcommands.
 syntax_fmt: CONFIG HELP
@@ -28,7 +29,7 @@ title: CONFIG HELP
 ---
 The `CONFIG HELP` command returns a helpful text describing the different subcommands.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

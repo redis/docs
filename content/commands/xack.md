@@ -48,6 +48,7 @@ key_specs:
     type: range
   update: true
 linkTitle: XACK
+railroad_diagram: /images/railroad/xack.svg
 since: 5.0.0
 summary: Returns the number of messages that were successfully acknowledged by the
   consumer group member of a stream.
@@ -78,7 +79,7 @@ redis> XACK mystream mygroup 1526569495631-0
 (integer) 1
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

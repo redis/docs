@@ -42,6 +42,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: MEMORY USAGE
+railroad_diagram: /images/railroad/memory-usage.svg
 since: 4.0.0
 summary: Estimates the memory usage of a key.
 syntax_fmt: "MEMORY USAGE key [SAMPLES\_count]"
@@ -88,7 +89,7 @@ OK
 (integer) 160
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

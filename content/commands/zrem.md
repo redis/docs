@@ -49,6 +49,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZREM
+railroad_diagram: /images/railroad/zrem.svg
 since: 1.2.0
 summary: Removes one or more members from a sorted set. Deletes the sorted set if
   all members were removed.
@@ -71,7 +72,7 @@ ZREM myzset "two"
 ZRANGE myzset 0 -1 WITHSCORES
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
