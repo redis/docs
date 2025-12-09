@@ -32,6 +32,13 @@ weight: $weight
 | [PUT]({{< relref "./import_reset_status#put-bdbs-actions-import-reset-status" >}}) | `/v1/bdbs/{uid}/actions/import_reset_status` | Reset database import status |
 | [POST]({{< relref "./import#post-bdbs-actions-import" >}}) | `/v1/bdbs/{uid}/actions/import` | Initiate manual dataset import |
 
+## Migrate slots
+
+| Method | Path | Description |
+|--------|------|-------------|
+| [POST]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/migrate_slots#post-bdbs-actions-migrate-slots">}}) | `/v1/bdbs/{uid}/actions/migrate_slots` | Migrate slots between Redis instances (shards) within a database |
+| [POST]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/cancel_migrate_slots#post-bdbs-actions-cancel-migrate-slots">}}) | `/v1/bdbs/{uid}/actions/cancel_migrate_slots` | Cancel slot migrations between Redis instances (shards) within a database |
+
 ## Optimize shards placement
 
 | Method | Path | Description |

@@ -193,7 +193,7 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 ## Known issues
 
-- RS131972: Creating an ACL that contains a line break in the Cluster Manager UI can cause shard migration to fail due to ACL errors.
+- RS131972: Creating an ACL that contains a line break in the Cluster Manager UI can cause shard migration to fail due to ACL errors. This issue was fixed in Redis Enterprise Software version 8.0.6.
 
 - RS155734: Endpoint availability metrics do not work as expected due to a calculation error.
 

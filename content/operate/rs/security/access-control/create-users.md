@@ -30,6 +30,10 @@ To add a user to the cluster:
 
     {{<image filename="images/rs/screenshots/access-control/7-22-updates/create-user-panel.png" alt="Create user panel with fields for username, email, password, and alerts.">}}
 
+    {{< note >}}
+To use [single sign-on (SSO)]({{< relref "/operate/rs/security/access-control/saml-sso" >}}), users must have email addresses.
+    {{< /note >}}
+
 1. Select the **Alerts** the user should receive by email:
 
     - **Receive alerts for databases** - The alerts that are enabled for the selected databases will be sent to the user. Choose **All databases** or **Customize** to select the individual databases to send alerts for.
