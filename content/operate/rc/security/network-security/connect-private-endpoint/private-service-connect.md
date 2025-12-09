@@ -1,5 +1,5 @@
 ---
-Title: Enable Private Service Connect
+Title: Enable Google Cloud Private Service Connect
 alwaysopen: false
 categories:
 - docs
@@ -7,9 +7,9 @@ categories:
 - rc
 description: Private Service Connect creates a private endpoint that allows secure
   connections to Redis Cloud databases without exposing your application VPC.
-linkTitle: Private Service Connect
+linkTitle: Google Cloud Private Service Connect
 toc: 'true'
-weight: 50
+weight: 80
 aliases:
     - /operate/rc/security/private-service-connect/
 ---

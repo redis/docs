@@ -140,3 +140,13 @@ DELETE https://[host]/v1/caches/{cacheId}/entries
     }
 }
 {{< /clients-example >}}
+
+### Flush the cache
+
+Use
+[POST /v1/caches/{cacheId}/flush](https://redis.io/docs/latest/develop/ai/langcache/api-reference/#tag/Cache-Entries/operation/flush)
+to flush all entries from the cache.
+
+{{< clients-example set="langcache_sdk" step="flush" dft_tab_name="REST API" footer="hide" >}}
+POST https://[host]/v1/caches/{cacheId}/flush
+{{< /clients-example >}}

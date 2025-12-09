@@ -47,6 +47,7 @@ key_specs:
     type: range
   insert: true
 linkTitle: APPEND
+railroad_diagram: /images/railroad/append.svg
 since: 2.0.0
 summary: Appends a string to the value of a key. Creates the key if it doesn't exist.
 syntax_fmt: APPEND key value
@@ -107,7 +108,7 @@ GETRANGE ts 0 3
 GETRANGE ts 4 7
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

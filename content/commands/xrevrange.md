@@ -54,6 +54,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: XREVRANGE
+railroad_diagram: /images/railroad/xrevrange.svg
 since: 5.0.0
 summary: Returns the messages from a stream within a range of IDs in reverse order.
 syntax_fmt: "XREVRANGE key end start [COUNT\_count]"
@@ -88,7 +89,7 @@ XLEN writers
 XREVRANGE writers + - COUNT 1
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

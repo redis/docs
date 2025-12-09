@@ -21,6 +21,7 @@ description: Returns helpful text about the different subcommands.
 group: scripting
 hidden: true
 linkTitle: SCRIPT HELP
+railroad_diagram: /images/railroad/script-help.svg
 since: 5.0.0
 summary: Returns helpful text about the different subcommands.
 syntax_fmt: SCRIPT HELP
@@ -29,7 +30,7 @@ title: SCRIPT HELP
 ---
 The `SCRIPT HELP` command returns a helpful text describing the different subcommands.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

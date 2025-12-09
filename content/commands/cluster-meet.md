@@ -38,6 +38,7 @@ history:
 - - 4.0.0
   - Added the optional `cluster_bus_port` argument.
 linkTitle: CLUSTER MEET
+railroad_diagram: /images/railroad/cluster-meet.svg
 since: 3.0.0
 summary: Forces a node to handshake with another node.
 syntax_fmt: CLUSTER MEET ip port [cluster-bus-port]
@@ -83,7 +84,7 @@ the node to force the receiver to accept it as a trusted node, it sends a
 same format, but the former forces the receiver to acknowledge the node as
 trusted.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

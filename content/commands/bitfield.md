@@ -107,6 +107,7 @@ key_specs:
   update: true
   variable_flags: true
 linkTitle: BITFIELD
+railroad_diagram: /images/railroad/bitfield.svg
 since: 3.2.0
 summary: Performs arbitrary bitfield integer operations on strings.
 syntax_fmt: "BITFIELD key [GET\_encoding offset | [OVERFLOW\_<WRAP | SAT | FAIL>]\n\
@@ -230,7 +231,7 @@ When offsets and integer sizes are aligned to bytes boundaries, this is the
 same as big endian, however when such alignment does not exist, its important
 to also understand how the bits inside a byte are ordered.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

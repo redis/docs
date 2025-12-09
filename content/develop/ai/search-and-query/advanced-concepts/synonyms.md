@@ -14,7 +14,7 @@ categories:
 description: Details on synonym support with Redis Open Source
 linkTitle: Synonym
 title: Synonym support
-weight: 11
+weight: 43
 ---
 
 Redis Open Source supports synonyms. That is, searching for synonym words defined by the synonym data structure.

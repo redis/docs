@@ -46,6 +46,7 @@ key_specs:
     type: range
   update: true
 linkTitle: DECRBY
+railroad_diagram: /images/railroad/decrby.svg
 since: 1.0.0
 summary: Decrements a number from the integer value of a key. Uses 0 as initial value
   if the key doesn't exist.
@@ -67,7 +68,7 @@ SET mykey "10"
 DECRBY mykey 3
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

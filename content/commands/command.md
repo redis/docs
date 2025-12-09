@@ -23,6 +23,7 @@ hidden: false
 hints:
 - nondeterministic_output_order
 linkTitle: COMMAND
+railroad_diagram: /images/railroad/command.svg
 since: 2.8.13
 summary: Returns detailed information about all commands.
 syntax_fmt: COMMAND
@@ -265,7 +266,7 @@ The following is `COMMAND`'s output for the [`GET`]({{< relref "/commands/get" >
 ...
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

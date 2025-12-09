@@ -19,6 +19,8 @@ You can use Prometheus and Grafana to:
 In each cluster, the metrics_exporter process exposes Prometheus metrics on port 8070.
 Redis Enterprise version 7.8.2 introduces a preview of the new metrics stream engine that exposes the v2 Prometheus scraping endpoint at `https://<IP>:8070/v2`.
 
+To get started with Prometheus and Grafana, see the following [quick start](#quick-start) or see [Redis Software Observability with Prometheus and Grafana](https://redis.io/learn/operate/observability/redis-software-prometheus-and-grafana) for a more detailed tutorial.
+
 ## Quick start
 
 To get started with Prometheus and Grafana:
@@ -216,3 +218,4 @@ Use the following dashboards when connecting to the v2 metrics endpoint (`https:
 * The [shard metrics dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana_v2/dashboards/grafana_v9-11/software/basic/redis-software-shard-dashboard_v9-11.json) displays metrics for the individual Redis processes running on your cluster nodes.
 * The [Active-Active dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana_v2/dashboards/grafana_v9-11/software/basic/redis-software-active-active-dashboard_v9-11.json) displays metrics specific to [Active-Active databases]({{< relref "/operate/rs/databases/active-active" >}}).
 * The [QPS dashboard - RQE metrics](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana_v2/dashboards/grafana_v9-11/search/RediSearchQPS.json) displays metrics specific to Redis Query Engine, showcasing QPS, Query Latency, Indexing performance, and more.
+* The [OPS dashboards](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana_v2/dashboards/grafana_v9-11/software/ops) are advanced operational dashboards for on-premises deployments.

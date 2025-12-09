@@ -57,6 +57,7 @@ key_specs:
     type: keynum
   notes: We cannot tell how the keys will be used so we assume the worst, RO and ACCESS
 linkTitle: FCALL_RO
+railroad_diagram: /images/railroad/fcall_ro.svg
 since: 7.0.0
 summary: Invokes a read-only function.
 syntax_fmt: FCALL_RO function numkeys [key [key ...]] [arg [arg ...]]
@@ -69,7 +70,7 @@ For more information about when to use this command vs [`FCALL`]({{< relref "/co
 
 For more information please refer to [Introduction to Redis Functions]({{< relref "/develop/programmability/functions-intro" >}}).
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

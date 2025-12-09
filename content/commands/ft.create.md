@@ -120,9 +120,13 @@ arguments:
     optional: true
     token: WITHSUFFIXTRIE
     type: pure-token
-  - name: indexempty
+  - name: INDEXEMPTY
     optional: true
     token: INDEXEMPTY
+    type: pure-token
+  - name: indexmissing
+    optional: true
+    token: INDEXMISSING
     type: pure-token
   - arguments:
     - name: sortable
@@ -165,6 +169,7 @@ history:
   - Deprecated `PAYLOAD_FIELD` argument
 linkTitle: FT.CREATE
 module: Search
+railroad_diagram: /images/railroad/ft.create.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Creates an index with the given spec
@@ -181,17 +186,18 @@ syntax_fmt: "FT.CREATE index [ON\_<HASH | JSON>] [PREFIX\_count prefix [prefix\n
   \ [SCORE\_default_score]\n  [SCORE_FIELD\_score_attribute] [PAYLOAD_FIELD\_payload_attribute]\n\
   \  [MAXTEXTFIELDS] [TEMPORARY\_seconds] [NOOFFSETS] [NOHL] [NOFIELDS]\n  [NOFREQS]\
   \ [STOPWORDS\_count [stopword [stopword ...]]]\n  [SKIPINITIALSCAN] SCHEMA field_name\
-  \ [AS\_alias] <TEXT | TAG |\n  NUMERIC | GEO | VECTOR> [WITHSUFFIXTRIE] [SORTABLE\
-  \ [UNF]]\n  [NOINDEX] [field_name [AS\_alias] <TEXT | TAG | NUMERIC | GEO |\n  VECTOR>\
-  \ [WITHSUFFIXTRIE] [SORTABLE [UNF]] [NOINDEX] ...]"
+  \ [AS\_alias] <TEXT | TAG |\n  NUMERIC | GEO | VECTOR> [WITHSUFFIXTRIE] [INDEXEMPTY]\n\
+  \  [INDEXMISSING] [SORTABLE [UNF]] [NOINDEX] [field_name [AS\_alias]\n  <TEXT |\
+  \ TAG | NUMERIC | GEO | VECTOR> [WITHSUFFIXTRIE]\n  [INDEXEMPTY] [INDEXMISSING]\
+  \ [SORTABLE [UNF]] [NOINDEX] ...]"
 syntax_str: "[ON\_<HASH | JSON>] [PREFIX\_count prefix [prefix ...]] [FILTER\_filter]\
   \ [LANGUAGE\_default_lang] [LANGUAGE_FIELD\_lang_attribute] [SCORE\_default_score]\
   \ [SCORE_FIELD\_score_attribute] [PAYLOAD_FIELD\_payload_attribute] [MAXTEXTFIELDS]\
   \ [TEMPORARY\_seconds] [NOOFFSETS] [NOHL] [NOFIELDS] [NOFREQS] [STOPWORDS\_count\
   \ [stopword [stopword ...]]] [SKIPINITIALSCAN] SCHEMA field_name [AS\_alias] <TEXT\
-  \ | TAG | NUMERIC | GEO | VECTOR> [WITHSUFFIXTRIE] [SORTABLE [UNF]] [NOINDEX] [field_name\
-  \ [AS\_alias] <TEXT | TAG | NUMERIC | GEO | VECTOR> [WITHSUFFIXTRIE] [SORTABLE [UNF]]\
-  \ [NOINDEX] ...]"
+  \ | TAG | NUMERIC | GEO | VECTOR> [WITHSUFFIXTRIE] [INDEXEMPTY] [INDEXMISSING] [SORTABLE\
+  \ [UNF]] [NOINDEX] [field_name [AS\_alias] <TEXT | TAG | NUMERIC | GEO | VECTOR>\
+  \ [WITHSUFFIXTRIE] [INDEXEMPTY] [INDEXMISSING] [SORTABLE [UNF]] [NOINDEX] ...]"
 title: FT.CREATE
 ---
 
@@ -459,9 +465,9 @@ The following example uses data similar to the hash examples above but uses JSON
 {{< / highlight >}}
 </details>
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
-| Redis Enterprise<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Enterprise | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
 

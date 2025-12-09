@@ -27,6 +27,7 @@ group: bf
 hidden: false
 linkTitle: BF.MADD
 module: Bloom
+railroad_diagram: /images/railroad/bf.madd.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Adds one or more items to a Bloom Filter. A filter will be created if it
@@ -55,7 +56,7 @@ If `key` does not exist - a new Bloom filter is created with default error rate,
 One or more items to add.
 </details>
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

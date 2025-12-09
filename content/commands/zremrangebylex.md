@@ -47,6 +47,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZREMRANGEBYLEX
+railroad_diagram: /images/railroad/zremrangebylex.svg
 since: 2.8.9
 summary: Removes members in a sorted set within a lexicographical range. Deletes the
   sorted set if all members were removed.
@@ -68,7 +69,7 @@ ZREMRANGEBYLEX myzset [alpha [omega
 ZRANGE myzset 0 -1
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

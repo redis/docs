@@ -38,8 +38,12 @@ complexity: O(1)
 description: Gets completion suggestions for a prefix
 group: suggestion
 hidden: false
+history:
+- - 2.0.0
+  - Deprecated `WITHPAYLOADS` argument
 linkTitle: FT.SUGGET
 module: Search
+railroad_diagram: /images/railroad/ft.sugget.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Gets completion suggestions for a prefix
@@ -110,7 +114,7 @@ FT.SUGGET returns an array reply, which is a list of the top suggestions matchin
 {{< / highlight >}}
 </details>
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

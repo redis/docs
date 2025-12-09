@@ -9,10 +9,10 @@ description: This integration guide shows how to set up PingIndentity as a SAML 
   sign-on provider for your Redis Cloud account.
 linkTitle: PingIdentity integration
 weight: 10
-bannerText: Specific identity provider details may be different than shown in this guide. Always consult your identity provider's docs for the latest information.
+bannerText: Specific identity provider details may be different than shown in this guide. Always consult your [identity provider's docs](https://docs.pingidentity.com/) for the latest information.
 ---
 
-This guide shows how to configure [PingIdentity](https://docs.pingidentity.com/p/en-us/makeitwork#top) as a SAML single sign-on identity provider (IdP) for your Redis Cloud account.
+This guide shows how to configure [PingIdentity](https://docs.pingidentity.com/) as a SAML single sign-on identity provider (IdP) for your Redis Cloud account.
 
 To learn more about Redis Cloud support for SAML, see [SAML single sign-on]({{< relref "/operate/rc/security/access-control/saml-sso" >}}).
 

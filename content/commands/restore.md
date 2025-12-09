@@ -82,6 +82,7 @@ key_specs:
     type: range
   update: true
 linkTitle: RESTORE
+railroad_diagram: /images/railroad/restore.svg
 since: 2.6.0
 summary: Creates a key from the serialized representation of a value.
 syntax_fmt: "RESTORE key ttl serialized-value [REPLACE] [ABSTTL]\n  [IDLETIME\_seconds]\
@@ -126,7 +127,7 @@ redis> LRANGE mykey 0 -1
 3) "3"
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

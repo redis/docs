@@ -26,6 +26,7 @@ group: cms
 hidden: false
 linkTitle: CMS.INITBYDIM
 module: Bloom
+railroad_diagram: /images/railroad/cms.initbydim.svg
 since: 2.0.0
 stack_path: docs/data-types/probabilistic
 summary: Initializes a Count-Min Sketch to dimensions specified by user
@@ -49,7 +50,7 @@ redis> CMS.INITBYDIM test 2000 5
 OK
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

@@ -30,6 +30,10 @@ Pitfalls to avoid:
 - Save preamble before the first step and any trailing preamble at end
 - Apply unwrap patterns in listed order; for Java, remove `@Test` before method wrappers
 - Dedent after unwrapping when any unwrap patterns exist for the language
+- **Boilerplate placement is not one-size-fits-all**: Go requires appending to first cell, not separate cell
+  - Check kernel requirements before deciding boilerplate strategy
+  - If kernel needs imports and boilerplate together, use Strategy 2 (append to first cell)
+  - Otherwise, use Strategy 1 (separate boilerplate cell)
 
 Add a new language (5 steps):
 1) Copy the C# pattern set as a starting point
@@ -510,17 +514,90 @@ Supported: `.py`, `.js`, `.go`, `.cs`, `.java`, `.php`, `.rs`
 
 ```python
 KERNEL_SPECS = {
-    'python': {'name': 'python3', 'display_name': 'Python 3'},
-    'node.js': {'name': 'javascript', 'display_name': 'JavaScript (Node.js)'},
-    'go': {'name': 'gophernotes', 'display_name': 'Go'},
-    'c#': {'name': 'csharp', 'display_name': 'C#'},
-    'java': {'name': 'java', 'display_name': 'Java'},
-    'php': {'name': 'php', 'display_name': 'PHP'},
-    'rust': {'name': 'rust', 'display_name': 'Rust'}
+    'python': {
+        'name': 'python3',
+        'display_name': 'Python 3',
+        'language': 'python',
+        'language_info': {
+            'name': 'python',
+            'version': '3.x.x',
+            'mimetype': 'text/x-python',
+            'file_extension': '.py'
+        }
+    },
+    'node.js': {
+        'name': 'javascript',
+        'display_name': 'JavaScript (Node.js)',
+        'language': 'javascript',
+        'language_info': {
+            'name': 'javascript',
+            'version': '20.0.0',
+            'mimetype': 'application/javascript',
+            'file_extension': '.js'
+        }
+    },
+    'go': {
+        'name': 'gophernotes',
+        'display_name': 'Go',
+        'language': 'go',
+        'language_info': {
+            'name': 'go',
+            'version': '1.x.x',
+            'mimetype': 'text/x-go',
+            'file_extension': '.go'
+        }
+    },
+    'c#': {
+        'name': '.net-csharp',
+        'display_name': '.NET (C#)',
+        'language': 'C#',
+        'language_info': {
+            'name': 'C#',
+            'version': '12.0',
+            'mimetype': 'text/x-csharp',
+            'file_extension': '.cs',
+            'pygments_lexer': 'csharp'
+        }
+    },
+    'java': {
+        'name': 'java',
+        'display_name': 'Java',
+        'language': 'java',
+        'language_info': {
+            'name': 'java',
+            'version': '11.0.0',
+            'mimetype': 'text/x-java-source',
+            'file_extension': '.java'
+        }
+    },
+    'php': {
+        'name': 'php',
+        'display_name': 'PHP',
+        'language': 'php',
+        'language_info': {
+            'name': 'php',
+            'version': '8.0.0',
+            'mimetype': 'application/x-php',
+            'file_extension': '.php'
+        }
+    },
+    'rust': {
+        'name': 'rust',
+        'display_name': 'Rust',
+        'language': 'rust',
+        'language_info': {
+            'name': 'rust',
+            'version': '1.x.x',
+            'mimetype': 'text/x-rust',
+            'file_extension': '.rs'
+        }
+    }
 }
 ```
 
 **⚠️ Critical**: Also use `language.lower()` when accessing this dict.
+
+**Note on language_info**: Each language should include complete metadata with `name`, `version`, `mimetype`, and `file_extension` fields. This ensures notebooks are properly recognized by Jupyter and other tools.
 
 ### Marker Constants
 
@@ -1144,6 +1221,56 @@ Notes:
 - Keep patterns intentionally narrow and anchored to reduce false positives.
 - Java's `@Test` annotation pattern should come first to remove it before processing the method declaration
 
+#### Go Configuration Example (Proposed)
+
+Go has a unique requirement: notebooks MUST have a `func main() {}` wrapper for gophernotes to execute code. Unlike C# and Java where wrappers are removed entirely, Go requires the wrapper to be injected as boilerplate.
+
+```json
+{
+  "go": {
+    "boilerplate": [
+      "func main() {}"
+    ],
+    "unwrap_patterns": [
+      { "type": "package_declaration",  "pattern": "^package\\s+\\w+\\s*$",                "end_pattern": "^package\\s+\\w+\\s*$",                "keep_content": false, "description": "Remove package declaration" },
+      { "type": "func_main_opening",    "pattern": "^func\\s+main\\(\\)\\s*\\{\\s*$",      "end_pattern": "^\\}\\s*$",                            "keep_content": false, "description": "Remove func main() wrapper" },
+      { "type": "closing_braces",       "pattern": "^\\s*\\}\\s*$",                        "end_pattern": "^\\s*\\}\\s*$",                        "keep_content": false, "description": "Remove orphaned closing braces" }
+    ]
+  }
+}
+```
+
+**Key differences from C# and Java**:
+- **Boilerplate is mandatory**: Go notebooks REQUIRE `func main() {}` wrapper (gophernotes requirement)
+- **Package declaration removal**: Go source files have `package main` that must be removed
+- **Wrapper removal**: The original `func main() { ... }` wrapper is removed, replaced by clean boilerplate
+- **Pattern count**: Only 3 patterns needed (simpler than C# or Java)
+- **No annotations or complex method signatures**: Go doesn't use annotations like Java or complex method signatures like C#
+
+**Boilerplate considerations**:
+- **Go**: Requires `func main() {}` wrapper in first cell (appended to imports)
+  - This is NOT standard Go practice (normally you'd have code at package level)
+  - But gophernotes requires all code to be inside a function
+  - **Special handling**: For Go, boilerplate is APPENDED to the first cell (imports), not injected as a separate cell
+  - This ensures imports and `func main() {}` are in the same cell, matching gophernotes expectations
+  - The wrapper is injected as boilerplate, then removed from source, then re-injected
+  - This ensures the notebook has a clean wrapper without test framework code
+
+**Pattern complexity comparison** (As Proposed):
+- **C#**: 5 patterns (class/method wrappers + closing braces)
+- **Java**: 8 patterns (annotations + class/method wrappers + static main + closing braces)
+- **Go**: 3 patterns (package declaration + func main wrapper + closing braces)
+- Go is simpler because it doesn't have annotations or complex class hierarchies
+
+**Critical insight for Go**: The wrapper removal strategy is different from C#/Java:
+1. Remove `package main` declaration (test framework boilerplate)
+2. Remove `func main() { ... }` wrapper (test framework wrapper)
+3. Inject clean `func main() {}` as boilerplate (gophernotes requirement)
+4. **Special handling**: Append boilerplate to first cell (imports), not as separate cell
+5. Result: Notebook has imports and `func main() {}` in same first cell, with only example code inside
+
+**Implementation note**: The `create_cells()` function detects Go language and appends boilerplate to the first non-empty cell instead of creating a separate boilerplate cell. This ensures the notebook structure matches gophernotes expectations.
+
 ### Runtime Order of Operations (within create_cells)
 
 1) Load `lang_config = load_language_config(language)`
@@ -1159,6 +1286,83 @@ Notes:
 4) Add step metadata if available
 
 This order ensures wrapper removal doesn’t leave code over-indented and avoids generating spurious empty cells.
+
+### Boilerplate Placement Strategies (Lessons Learned)
+
+**Lesson Learned**: Not all languages should have boilerplate as a separate first cell. The placement strategy depends on kernel requirements and notebook structure expectations.
+
+#### Strategy 1: Separate Boilerplate Cell (Default)
+**Used by**: C#, Java, and most languages
+
+**Characteristics**:
+- Boilerplate is injected as a completely separate first cell
+- Subsequent cells contain only example code
+- Works well for languages where boilerplate (imports, setup) is naturally separate from example code
+
+**Example structure**:
+```
+Cell 0: using StackExchange.Redis;  (boilerplate)
+Cell 1: var client = new Client();  (example code)
+Cell 2: client.Set("key", "value"); (example code)
+```
+
+**Implementation**:
+```python
+if boilerplate and not append_boilerplate_to_first_cell:
+    boilerplate_cell = new_code_cell(source=boilerplate_code)
+    cells.append(boilerplate_cell)
+```
+
+#### Strategy 2: Append to First Cell (Go)
+**Used by**: Go (gophernotes kernel)
+
+**Characteristics**:
+- Boilerplate is appended to the first non-empty cell (imports)
+- Ensures imports and `func main() {}` are in the same cell
+- Required by gophernotes kernel expectations
+- Boilerplate appears AFTER imports in the same cell
+
+**Example structure**:
+```
+Cell 0: import (
+          "fmt"
+          "github.com/redis/go-redis/v9"
+        )
+
+        func main() {}  (boilerplate appended)
+Cell 1: rdb := redis.NewClient(...)  (example code)
+Cell 2: rdb.Set(ctx, "key", "value") (example code)
+```
+
+**Implementation**:
+```python
+append_boilerplate_to_first_cell = language.lower() == 'go'
+
+# Skip separate boilerplate cell for Go
+if boilerplate and not append_boilerplate_to_first_cell:
+    # ... create separate cell
+
+# Later, when processing first cell:
+if append_boilerplate_to_first_cell and not first_cell_processed:
+    if boilerplate_code:
+        code = code + '\n\n' + boilerplate_code
+    first_cell_processed = True
+```
+
+**Why Go needs this**:
+1. gophernotes kernel expects imports and `func main() {}` in the same cell
+2. Separate cells would cause import errors when executing the boilerplate cell
+3. Go's module system requires imports to be at the top of the file/function
+4. The notebook structure must match Go's execution model
+
+**Decision Point for Future Languages**:
+When adding a new language, ask:
+- Does the kernel require boilerplate and code in the same cell?
+- Are there import/dependency issues if boilerplate is separate?
+- Does the language's execution model require a specific cell structure?
+
+If yes to any of these, use Strategy 2 (append to first cell). Otherwise, use Strategy 1 (separate cell).
+
 
 ### Testing Checklist (Language-Specific)
 
@@ -1195,6 +1399,30 @@ This order ensures wrapper removal doesn’t leave code over-indented and avoids
 - Test files with `main()` methods (if present in examples)
 - Verify code inside wrappers is properly dedented
 
+#### Go-Specific Tests
+- Test with files from `local_examples/client-specific/go/`
+- **Boilerplate placement** (Strategy 2: Append to First Cell):
+  - Verify first cell contains BOTH imports AND `func main() {}` (not separate cells)
+  - Verify imports appear BEFORE `func main() {}` in the same cell
+  - Verify no separate boilerplate cell exists
+  - Verify boilerplate is appended with blank line separator (`\n\n`)
+- **Wrapper removal**:
+  - Verify `package main` declaration is removed
+  - Verify `func main() { ... }` wrapper is removed from source
+  - Verify no orphaned closing brace cells exist
+  - Verify all code inside wrapper is properly dedented
+- **Code preservation**:
+  - Verify import statements are preserved in STEP blocks
+  - Verify all STEP blocks are preserved as separate cells
+  - Verify actual example code is intact and executable
+- **Notebook structure**:
+  - Verify kernel is set to `gophernotes`
+  - Verify cell count matches expected (imports + N steps)
+  - Verify step metadata is preserved on each cell
+- **Real-world testing**:
+  - Test with `landing_examples.go` (real repository file)
+  - Verify generated notebook is executable in gophernotes kernel
+
 ### Edge Cases and Gotchas
 
 #### General Unwrapping Gotchas
@@ -1220,6 +1448,56 @@ This order ensures wrapper removal doesn’t leave code over-indented and avoids
   - Example: `^\\s*public\\s+static\\s+void\\s+main\\(.*\\).*\\{`
 - **Empty lines after class declaration**: Java style often has empty line after class opening brace
   - The unwrapping logic should handle this naturally by removing the class line and dedenting
+
+#### Go-Specific Gotchas
+
+**Critical Requirement**: Go Jupyter notebooks using the gophernotes kernel MUST have all code wrapped in a `func main() {}` block. This is NOT standard Go practice, but it IS required for gophernotes to execute code.
+
+- **`func main() {}` wrapper is mandatory**: Unlike C# and Java where wrappers are removed entirely, Go requires the wrapper to be preserved in the notebook
+  - Solution: Inject `func main() {}` as boilerplate in the first cell
+  - Remove the original `func main() { ... }` wrapper from the source file using unwrap patterns
+  - This ensures the notebook has a clean `func main() {}` wrapper without the test framework code inside
+
+- **Package declaration must be removed**: Go source files start with `package main` (or other package names)
+  - This is test framework boilerplate and should be removed
+  - Pattern: `^package\\s+\\w+\\s*$` (single-line pattern)
+  - The boilerplate `func main() {}` replaces the need for package context
+
+- **Wrapper structure in source files**: Go test files have:
+  - Line 1-2: `// EXAMPLE:` and `// BINDER_ID` markers
+  - Line 3: `package main` declaration
+  - Lines 4+: Import statements (typically in STEP blocks)
+  - Lines N: `func main() { ... }` wrapper containing all example code
+  - Last line: Closing `}` for the main function
+
+- **Unwrap pattern order matters**: Must remove `package` declaration BEFORE removing `func main()` wrapper
+  - If `func main()` is removed first, the package line becomes orphaned
+  - Recommended order: `package_declaration` → `func_main_opening`
+
+- **Closing brace handling**: After removing `func main() { ... }` wrapper, the closing `}` will be removed by the generic closing brace pattern
+  - Ensure the closing brace pattern is included in unwrap_patterns
+  - The boilerplate `func main() {}` provides the wrapper, so orphaned closing braces should be filtered out
+
+- **Indentation inside func main()**: Code inside `func main() { ... }` is typically indented with tabs
+  - After unwrapping, dedent all cells to remove the extra indentation
+  - Go uses tabs by convention, so dedent should handle both tabs and spaces
+
+- **Boilerplate placement is special for Go** (Strategy 2: Append to First Cell):
+  - Unlike C# and Java where boilerplate is a separate first cell, Go appends boilerplate to the first cell
+  - This is because gophernotes expects imports and `func main() {}` in the same cell
+  - If boilerplate were a separate cell, executing it would fail (imports not available)
+  - Implementation: Detect Go language and append boilerplate to first non-empty cell instead of creating separate cell
+  - Result: First cell contains imports + blank line + `func main() {}`
+  - This is a critical difference from other languages and must be tested explicitly
+
+- **Real-world example**: `local_examples/client-specific/go/landing_examples.go`
+  - Source file has `func main() { ... }` wrapper (lines 15-105)
+  - Contains multiple STEP blocks inside the wrapper
+  - After conversion, should produce notebook with:
+    - Cell 1 (boilerplate): `func main() {}`
+    - Cell 2 (import step): Import statements
+    - Cell 3+ (other steps): Example code, properly dedented
+    - No orphaned closing brace cells
 
 
 ### Recommended Implementation Strategy
@@ -1251,10 +1529,28 @@ This order ensures wrapper removal doesn’t leave code over-indented and avoids
 
 **Critical lesson from Java implementation**: The specification initially estimated 6 patterns would be needed, but examining real files revealed that 8 patterns were required (added `static_main_single_line` and `static_main_opening` after seeing `main()` methods in real files). **Always examine real files BEFORE writing patterns.**
 
-**Phase 4: Other Languages** (Lower Priority)
+**Phase 4: Structural Unwrapping for Go** (High Priority)
+1. **FIRST**: Examine real Go files to understand wrapper patterns:
+   - Look at `local_examples/client-specific/go/landing_examples.go`
+   - Note: Go files have `package main` declaration and `func main() { ... }` wrapper
+   - Unlike C#/Java, Go REQUIRES a `func main() {}` wrapper in notebooks (gophernotes requirement)
+2. Add Go boilerplate: `func main() {}` as first cell
+3. Add Go unwrap_patterns:
+   - `package_declaration`: Remove `package main` line
+   - `func_main_opening`: Remove `func main() { ... }` wrapper (multi-line pattern)
+   - Ensure closing braces are handled by existing pattern
+4. Test with `local_examples/client-specific/go/landing_examples.go`
+5. Verify:
+   - First cell contains `func main() {}`
+   - No `package main` declaration in notebook
+   - No orphaned closing brace cells
+   - All code properly dedented
+   - All STEP blocks preserved
+
+**Phase 5: Other Languages** (Lower Priority)
 1. Add Node.js configuration (if needed)
-2. Add other languages (Go, PHP, Rust) as needed
-3. Most of these languages don't have the same structural wrapper issues as C#/Java
+2. Add other languages (PHP, Rust) as needed
+3. Most of these languages don't have the same structural wrapper issues as C#/Java/Go
 
 ### Configuration File Location
 

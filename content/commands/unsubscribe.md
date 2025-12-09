@@ -29,6 +29,7 @@ description: Stops listening to messages posted to channels.
 group: pubsub
 hidden: false
 linkTitle: UNSUBSCRIBE
+railroad_diagram: /images/railroad/unsubscribe.svg
 since: 2.0.0
 summary: Stops listening to messages posted to channels.
 syntax_fmt: UNSUBSCRIBE [channel [channel ...]]
@@ -43,7 +44,7 @@ previously subscribed channels.
 In this case, a message for every unsubscribed channel will be sent to the
 client.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

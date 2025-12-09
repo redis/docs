@@ -116,7 +116,7 @@ You can use [Prometheus and Grafana]({{< relref "/integrate/prometheus-with-redi
 
 To view the metrics endpoints for the source collector and pipeline processor, go to the **Data pipeline** tab and select **More actions**, and then **Show metrics**. You can add these endpoints as Prometheus targets to start tracking your RDI metrics.
 
-Prometheus endpoints are exposed on Redis Cloud's internal network. To access this network, enable [VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}}) or [AWS Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}). See [Prometheus and Grafana with Redis Cloud]({{< relref "/integrate/prometheus-with-redis-cloud/" >}}) for more information.
+Prometheus endpoints are exposed on Redis Cloud's internal network. To access this network, enable [VPC peering]({{< relref "/operate/rc/security/network-security/connect-private-endpoint/vpc-peering" >}}) or [AWS Transit Gateway]({{< relref "/operate/rc/security/network-security/connect-private-endpoint/aws-transit-gateway" >}}). See [Prometheus and Grafana with Redis Cloud]({{< relref "/integrate/prometheus-with-redis-cloud/" >}}) for more information.
 
 For more information about available RDI metrics, see [Observability]({{< relref "/integrate/redis-data-integration/observability" >}}).
 

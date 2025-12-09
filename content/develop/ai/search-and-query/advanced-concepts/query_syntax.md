@@ -11,12 +11,10 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Learn how to use query syntax
-
-  '
+description: Learn how to use query syntax
 linkTitle: Query syntax
 title: Query syntax
-weight: 5
+weight: 19
 ---
 
 {{< note >}}The query syntax that RediSearch uses has improved over time,
@@ -369,29 +367,6 @@ As of v1.1.0, you can use a special query to retrieve all the documents in an in
 
 You can't combine this with any other filters, field modifiers, or anything inside the query. It is technically possible to use the deprecated `FILTER` and `GEOFILTER` request parameters outside the query string in conjunction with a wildcard, but this makes the wildcard meaningless and only hurts performance.
 
-## Query attributes
-
-As of v1.2.0, you can apply specific query modifying attributes to specific clauses of the query.
-
-The syntax is `(foo bar) => { $attribute: value; $attribute:value; ...}`:
-
-```
-(foo bar) => { $weight: 2.0; $slop: 1; $inorder: true; }
-~(bar baz) => { $weight: 0.5; }
-```
-
-The supported attributes are:
-
-1. **$weight**: determines the weight of the sub-query or token in the overall ranking on the result (default: 1.0).
-2. **$slop**: determines the maximum allowed slop (space between terms) in the query clause (default: 0).
-3. **$inorder**: whether or not the terms in a query clause must appear in the same order as in the query. This is usually set alongside with `$slop` (default: false).
-4. **$phonetic**: whether or not to perform phonetic matching (default: true). Note: setting this attribute to true for fields which were not created as `PHONETIC` will produce an error.
-
-As of v2.6.1, the query attributes syntax supports these additional attributes:
-
-* **$yield_distance_as**: specifies the distance field name, used for later sorting and/or returning, for clauses that yield some distance metric. It is currently supported for vector queries only (both KNN and range).   
-* **vector query params**: pass optional parameters for [vector queries]({{< relref "develop/ai/search-and-query/vectors#querying-vector-fields" >}}) in key-value format.
-
 ## A few query examples
 
 * Simple phrase query - `hello` _AND_ `world`:
@@ -457,6 +432,10 @@ As of v2.6.1, the query attributes syntax supports these additional attributes:
 * Numeric filtering - users with age greater than 18:
 
         @age:[(18 +inf]
+
+* Vector search with cluster optimization - retrieve 100 nearest neighbors with each shard providing 50% of results:
+
+        *=>[KNN 100 @doc_embedding $BLOB]=>{$SHARD_K_RATIO: 0.5; $YIELD_DISTANCE_AS: vector_distance}
 
 ## Mapping common SQL predicates to Redis Query Engine
 

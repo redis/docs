@@ -24,14 +24,14 @@ Each item in the checklist below links to the section
 for a recommendation. Use the checklist icons to record your
 progress in implementing the recommendations.
 
-{{< checklist "lettuceprodlist" >}}
-    {{< checklist-item "#timeouts" >}}Timeouts{{< /checklist-item >}}
-    {{< checklist-item "#cluster-topology-refresh">}}Cluster topology refresh{{< /checklist-item >}}
-    {{< checklist-item "#dns-cache-and-redis" >}}DNS cache and Redis{{< /checklist-item >}}
-    {{< checklist-item "#exception-handling" >}}Exception handling{{< /checklist-item >}}
-    {{< checklist-item "#connection-and-execution-reliability" >}}Connection and execution reliability{{< /checklist-item >}}
-    {{< checklist-item "#seamless-client-experience" >}}Smart client handoffs{{< /checklist-item >}}
-{{< /checklist >}}
+```checklist {id="lettuceprodlist"}
+- [ ] [Timeouts](#timeouts)
+- [ ] [Cluster topology refresh](#cluster-topology-refresh)
+- [ ] [DNS cache and Redis](#dns-cache-and-redis)
+- [ ] [Exception handling](#exception-handling)
+- [ ] [Connection and execution reliability](#connection-and-execution-reliability)
+- [ ] [Smart client handoffs](#seamless-client-experience)
+```
 
 ## Recommendations
 

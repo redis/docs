@@ -57,6 +57,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: SUNIONSTORE
+railroad_diagram: /images/railroad/sunionstore.svg
 since: 1.0.0
 summary: Stores the union of multiple sets in a key.
 syntax_fmt: SUNIONSTORE destination key [key ...]
@@ -81,7 +82,7 @@ SUNIONSTORE key key1 key2
 SMEMBERS key
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

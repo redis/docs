@@ -98,6 +98,7 @@ key_specs:
     type: range
   update: true
 linkTitle: ZADD
+railroad_diagram: /images/railroad/zadd.svg
 since: 1.2.0
 summary: Adds one or more members to a sorted set, or updates their scores. Creates
   the key if it doesn't exist.
@@ -195,7 +196,7 @@ ZADD myzset 2 "two" 3 "three"
 ZRANGE myzset 0 -1 WITHSCORES
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

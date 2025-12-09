@@ -48,6 +48,7 @@ key_specs:
     type: range
   update: true
 linkTitle: ZINCRBY
+railroad_diagram: /images/railroad/zincrby.svg
 since: 1.2.0
 summary: Increments the score of a member in a sorted set.
 syntax_fmt: ZINCRBY key increment member
@@ -76,7 +77,7 @@ ZINCRBY myzset 2 "one"
 ZRANGE myzset 0 -1 WITHSCORES
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

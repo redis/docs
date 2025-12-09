@@ -39,6 +39,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: STRLEN
+railroad_diagram: /images/railroad/strlen.svg
 since: 2.2.0
 summary: Returns the length of a string value.
 syntax_fmt: STRLEN key
@@ -56,7 +57,7 @@ STRLEN mykey
 STRLEN nonexisting
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

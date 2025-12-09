@@ -24,6 +24,7 @@ group: cms
 hidden: false
 linkTitle: CMS.QUERY
 module: Bloom
+railroad_diagram: /images/railroad/cms.query.svg
 since: 2.0.0
 stack_path: docs/data-types/probabilistic
 summary: Returns the count for one or more items in a sketch
@@ -46,7 +47,7 @@ redis> CMS.QUERY test foo bar
 2) (integer) 42
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

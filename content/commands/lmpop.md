@@ -63,6 +63,7 @@ key_specs:
       keystep: 1
     type: keynum
 linkTitle: LMPOP
+railroad_diagram: /images/railroad/lmpop.svg
 since: 7.0.0
 summary: Returns multiple elements from a list after removing them. Deletes the list
   if the last element was popped.
@@ -99,7 +100,7 @@ LMPOP 2 mylist mylist2 right count 10
 EXISTS mylist mylist2
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

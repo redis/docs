@@ -50,7 +50,8 @@ key_specs:
     type: range
   update: true
 linkTitle: SETEX
-replaced_by: '[`SET`]({{< relref "/commands/set" >}}) with the `EX` argument'
+railroad_diagram: /images/railroad/setex.svg
+replaced_by: '`SET` with the `EX` argument'
 since: 2.0.0
 summary: Sets the string value and expiration time of a key. Creates the key if it
   doesn't exist.
@@ -80,7 +81,7 @@ GET mykey
 
 [`TTL`]({{< relref "/commands/ttl" >}})
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

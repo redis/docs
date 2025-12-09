@@ -30,6 +30,7 @@ description: Stops listening to messages published to channels that match one or
 group: pubsub
 hidden: false
 linkTitle: PUNSUBSCRIBE
+railroad_diagram: /images/railroad/punsubscribe.svg
 since: 2.0.0
 summary: Stops listening to messages published to channels that match one or more
   patterns.
@@ -45,7 +46,7 @@ previously subscribed patterns.
 In this case, a message for every unsubscribed pattern will be sent to the
 client.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

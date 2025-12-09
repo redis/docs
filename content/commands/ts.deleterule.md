@@ -24,6 +24,7 @@ group: timeseries
 hidden: false
 linkTitle: TS.DELETERULE
 module: TimeSeries
+railroad_diagram: /images/railroad/ts.deleterule.svg
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Delete a compaction rule
@@ -51,7 +52,7 @@ is key name for destination (compacted) time series.
 
 <note><b>Note:</b> This command does not delete the compacted series.</note>
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

@@ -26,6 +26,7 @@ description: Lists the ACL categories, or the commands inside a category.
 group: server
 hidden: false
 linkTitle: ACL CAT
+railroad_diagram: /images/railroad/acl-cat.svg
 since: 6.0.0
 summary: Lists the ACL categories, or the commands inside a category.
 syntax_fmt: ACL CAT [category]
@@ -119,7 +120,7 @@ Then we may want to know what commands are part of a given category:
 31) "sort"
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

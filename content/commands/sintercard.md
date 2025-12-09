@@ -50,6 +50,7 @@ key_specs:
       keystep: 1
     type: keynum
 linkTitle: SINTERCARD
+railroad_diagram: /images/railroad/sintercard.svg
 since: 7.0.0
 summary: Returns the number of members of the intersect of multiple sets.
 syntax_fmt: "SINTERCARD numkeys key [key ...] [LIMIT\_limit]"
@@ -81,7 +82,7 @@ SINTERCARD 2 key1 key2
 SINTERCARD 2 key1 key2 LIMIT 1
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

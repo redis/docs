@@ -26,10 +26,11 @@ group: timeseries
 hidden: false
 linkTitle: TS.GET
 module: TimeSeries
+railroad_diagram: /images/railroad/ts.get.svg
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Get the sample with the highest timestamp from a given time series
-syntax: "TS.GET key \n  [LATEST]\n"
+syntax: "TS.GET key [LATEST]"
 syntax_fmt: TS.GET key [LATEST]
 syntax_str: '[LATEST]'
 title: TS.GET
@@ -128,7 +129,7 @@ Get the latest maximum daily temperature (the temperature with the highest times
 
 </details>
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

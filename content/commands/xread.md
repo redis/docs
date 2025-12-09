@@ -62,6 +62,7 @@ key_specs:
       limit: 2
     type: range
 linkTitle: XREAD
+railroad_diagram: /images/railroad/xread.svg
 since: 5.0.0
 summary: Returns messages from multiple streams with IDs greater than the ones requested.
   Blocks until a message is available otherwise.
@@ -291,7 +292,7 @@ Reading the [Redis Streams introduction]({{< relref "/develop/data-types/streams
 suggested in order to understand more about the streams overall behavior
 and semantics.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

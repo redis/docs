@@ -292,6 +292,21 @@ query = VectorQuery(
 )
 ```
 
+**Note:** For HNSW and SVS-VAMANA indexes, you can tune search performance using runtime parameters:
+
+```python
+# Example with HNSW runtime parameters
+query = VectorQuery(
+    vector=[0.1, 0.1, 0.5],
+    vector_field_name="user_embedding",
+    return_fields=["user", "age", "job"],
+    num_results=3,
+    ef_runtime=50  # Higher for better recall (HNSW only)
+)
+```
+
+See the [SVS-VAMANA guide](09_svs_vamana.ipynb) and [Advanced Queries guide](11_advanced_queries.ipynb) for more details on runtime parameters.
+
 ### Executing queries
 With our `VectorQuery` object defined above, we can execute the query over the `SearchIndex` using the `query` method.
 

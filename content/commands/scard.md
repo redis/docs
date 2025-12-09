@@ -39,6 +39,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: SCARD
+railroad_diagram: /images/railroad/scard.svg
 since: 1.0.0
 summary: Returns the number of members in a set.
 syntax_fmt: SCARD key
@@ -55,7 +56,7 @@ SADD myset "World"
 SCARD myset
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

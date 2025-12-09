@@ -14,6 +14,12 @@ linkTitle: Vector set embeddings
 title: Vector set embeddings
 weight: 35
 bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
+scope: example
+relatedPages:
+- /develop/clients/go/vecsearch
+topics:
+- vector sets
+- vectors
 bannerChildren: true
 ---
 

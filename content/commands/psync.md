@@ -30,6 +30,7 @@ description: An internal command used in replication.
 group: server
 hidden: false
 linkTitle: PSYNC
+railroad_diagram: /images/railroad/psync.svg
 since: 2.8.0
 summary: An internal command used in replication.
 syntax_fmt: PSYNC replicationid offset
@@ -44,7 +45,7 @@ stream from the master.
 For more information about replication in Redis please check the
 [replication page]({{< relref "/operate/oss_and_stack/management/replication" >}}).
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

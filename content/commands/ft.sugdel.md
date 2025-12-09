@@ -23,6 +23,7 @@ group: suggestion
 hidden: false
 linkTitle: FT.SUGDEL
 module: Search
+railroad_diagram: /images/railroad/ft.sugdel.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Deletes a string from a suggestion index
@@ -65,7 +66,7 @@ is suggestion string to index.
 {{< / highlight >}}
 </details>
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

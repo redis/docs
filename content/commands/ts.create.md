@@ -49,6 +49,15 @@ arguments:
   token: DUPLICATE_POLICY
   type: oneof
 - arguments:
+  - name: ignoreMaxTimediff
+    type: integer
+  - name: ignoreMaxValDiff
+    type: double
+  name: ignore
+  optional: true
+  token: IGNORE
+  type: block
+- arguments:
   - name: label
     type: string
   - name: value
@@ -74,17 +83,19 @@ group: timeseries
 hidden: false
 linkTitle: TS.CREATE
 module: TimeSeries
+railroad_diagram: /images/railroad/ts.create.svg
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Create a new time series
 syntax: "TS.CREATE key \n  [RETENTION retentionPeriod] \n  [ENCODING <COMPRESSED|UNCOMPRESSED>]\
-  \ \n  [CHUNK_SIZE size] \n  [DUPLICATE_POLICY policy] \n  [IGNORE ignoreMaxTimediff ignoreMaxValDiff] \n  [LABELS [label value ...]]\n"
-syntax_fmt: "TS.CREATE key [RETENTION\_retentionPeriod] [ENCODING\_<COMPRESSED |\n\
-  \  UNCOMPRESSED>] [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_<BLOCK | FIRST |\n  LAST |\
-  \ MIN | MAX | SUM>]\n\ \ [IGNORE\_ignoreMaxTimediff\_ignoreMaxValDiff]\n\ \ [LABELS\_[label value ...]]"
-syntax_str: "[RETENTION\_retentionPeriod] [ENCODING\_<COMPRESSED | UNCOMPRESSED>]\
+  \ \n  [CHUNK_SIZE size] \n  [DUPLICATE_POLICY policy] \n  [IGNORE ignoreMaxTimediff\
+  \ ignoreMaxValDiff] \n  [LABELS [label value ...]]\n"
+syntax_fmt: "TS.CREATE key [RETENTION\_retentionPeriod] [ENCODING\_<UNCOMPRESSED |\n\
+  \  COMPRESSED>] [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_<BLOCK | FIRST |\n  LAST |\
+  \ MIN | MAX | SUM>] [LABELS\_label value [label value ...]]"
+syntax_str: "[RETENTION\_retentionPeriod] [ENCODING\_<UNCOMPRESSED | COMPRESSED>]\
   \ [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_<BLOCK | FIRST | LAST | MIN | MAX | SUM>]\
-  \ [IGNORE\_ignoreMaxTimediff\_ignoreMaxValDiff] [LABELS\_[label value ...]]"
+  \ [LABELS\_label value [label value ...]]"
 title: TS.CREATE
 ---
 
@@ -190,7 +201,7 @@ OK
 {{< / highlight >}}
 </details>
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

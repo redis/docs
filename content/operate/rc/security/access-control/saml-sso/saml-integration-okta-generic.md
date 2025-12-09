@@ -9,7 +9,7 @@ description: This integration guide shows how to set up Okta as a SAML single si
   provider for your Redis Cloud account.
 linkTitle: Okta integration (Generic)
 weight: 10
-bannerText: Specific identity provider details may be different than shown in this guide. Always consult your identity provider's docs for the latest information.
+bannerText: Specific identity provider details may be different than shown in this guide. Always consult your [identity provider's docs](https://help.okta.com/en-us/content/topics/security/identity_providers.htm) for the latest information.
 ---
 
 This guide shows how to configure [Okta](https://help.okta.com/en-us/Content/Topics/Security/Identity_Providers.htm) as a SAML single sign-on identity provider (IdP) for your Redis Cloud account.

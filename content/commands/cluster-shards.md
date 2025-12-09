@@ -22,6 +22,7 @@ hidden: false
 hints:
 - nondeterministic_output
 linkTitle: CLUSTER SHARDS
+railroad_diagram: /images/railroad/cluster-shards.svg
 since: 7.0.0
 summary: Returns the mapping of cluster slots to shards.
 syntax_fmt: CLUSTER SHARDS
@@ -182,7 +183,7 @@ Clients may treat the empty string in the same way as NULL, that is the same end
          14) "online"
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

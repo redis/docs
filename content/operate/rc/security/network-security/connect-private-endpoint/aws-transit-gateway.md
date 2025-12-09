@@ -6,7 +6,7 @@ categories:
 - operate
 - rc
 description: null
-linkTitle: Transit Gateway
+linkTitle: AWS Transit Gateway
 weight: 80
 aliases:
     - /operate/rc/security/aws-transit-gateway/

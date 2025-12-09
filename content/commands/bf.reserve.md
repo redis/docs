@@ -34,6 +34,7 @@ group: bf
 hidden: false
 linkTitle: BF.RESERVE
 module: Bloom
+railroad_diagram: /images/railroad/bf.reserve.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Creates a new Bloom Filter
@@ -117,7 +118,7 @@ redis> BF.RESERVE bf_non 0.01 1000 NONSCALING
 OK
 {{< / highlight >}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

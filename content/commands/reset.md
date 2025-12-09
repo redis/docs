@@ -25,6 +25,7 @@ description: Resets the connection.
 group: connection
 hidden: false
 linkTitle: RESET
+railroad_diagram: /images/railroad/reset.svg
 since: 6.2.0
 summary: Resets the connection.
 syntax_fmt: RESET
@@ -53,7 +54,7 @@ following:
 * Turns off `NO-EVICT` mode.
 * Turns off `NO-TOUCH` mode.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

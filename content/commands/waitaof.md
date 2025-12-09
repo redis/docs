@@ -35,6 +35,7 @@ hints:
 - request_policy:all_shards
 - response_policy:agg_min
 linkTitle: WAITAOF
+railroad_diagram: /images/railroad/waitaof.svg
 since: 7.2.0
 summary: Blocks until all of the preceding write commands sent by the connection are
   written to the append-only file of the master and/or replicas.
@@ -102,7 +103,7 @@ In the above example, the first call to `WAITAOF` does not use a timeout and ask
 In the second attempt we instead specify a timeout, and ask for the write to be confirmed as fsynced by a single replica.
 Since there are no connected replicas, the `WAITAOF` command unblocks after one second and again returns [1, 0], indicating the write has been fsynced on the local Redis but no replicas.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

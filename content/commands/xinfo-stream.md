@@ -60,6 +60,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: XINFO STREAM
+railroad_diagram: /images/railroad/xinfo-stream.svg
 since: 5.0.0
 summary: Returns information about a stream.
 syntax_fmt: "XINFO STREAM key [FULL [COUNT\_count]]"
@@ -216,7 +217,7 @@ OK
                      3) (integer) 1
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

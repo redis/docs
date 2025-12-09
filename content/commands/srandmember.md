@@ -50,6 +50,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: SRANDMEMBER
+railroad_diagram: /images/railroad/srandmember.svg
 since: 1.0.0
 summary: Get one or multiple random members from a set
 syntax_fmt: SRANDMEMBER key [count]
@@ -98,7 +99,7 @@ The algorithm used, that is implemented inside dict.c, samples the hash table bu
 
 This means that if you have two non-empty buckets in the entire hash table, and one has three elements while one has just one, the element that is alone in its bucket will be returned with much higher probability.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

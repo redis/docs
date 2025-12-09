@@ -28,6 +28,7 @@ description: Assigns new hash slots to a node.
 group: cluster
 hidden: false
 linkTitle: CLUSTER ADDSLOTS
+railroad_diagram: /images/railroad/cluster-addslots.svg
 since: 3.0.0
 summary: Assigns new hash slots to a node.
 syntax_fmt: CLUSTER ADDSLOTS slot [slot ...]
@@ -82,7 +83,7 @@ orchestrating Redis Cluster, like `redis-cli`, and the command if used
 out of the right context can leave the cluster in a wrong state or cause
 data loss.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

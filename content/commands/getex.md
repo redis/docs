@@ -66,6 +66,7 @@ key_specs:
   notes: RW and UPDATE because it changes the TTL
   update: true
 linkTitle: GETEX
+railroad_diagram: /images/railroad/getex.svg
 since: 6.2.0
 summary: Returns the string value of a key after setting its expiration time.
 syntax_fmt: "GETEX key [EX\_seconds | PX\_milliseconds | EXAT\_unix-time-seconds |\n\
@@ -97,7 +98,7 @@ GETEX mykey EX 60
 TTL mykey
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

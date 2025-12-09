@@ -46,6 +46,7 @@ key_specs:
     type: range
   update: true
 linkTitle: INCRBY
+railroad_diagram: /images/railroad/incrby.svg
 since: 1.0.0
 summary: Increments the integer value of a key by a number. Uses 0 as initial value
   if the key doesn't exist.
@@ -68,7 +69,7 @@ SET mykey "10"
 INCRBY mykey 5
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

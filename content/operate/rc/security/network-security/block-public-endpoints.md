@@ -57,4 +57,4 @@ After your changes are saved, any incoming connections to the public endpoint of
 Redis Cloud supports the following private connectivity options:
 - [VPC peering]({{< relref "/operate/rc/security/network-security/connect-private-endpoint/vpc-peering" >}})
 - [Google Cloud Private Service Connect]({{< relref "/operate/rc/security/network-security/connect-private-endpoint/private-service-connect" >}}) _(Google Cloud only)_
-- [AWS Transit Gateway]({{< relref "/operate/rc/security/network-security/connect-private-endpoint/aws-transit-gateway" >}}) _(AWS only)_
+- [AWS Transit Gateway]({{< relref "/operate/rc/security/network-security/connect-private-endpoint/aws-transit-gateway" >}}) or [AWS PrivateLink]({{< relref "/operate/rc/security/network-security/connect-private-endpoint/aws-privatelink" >}}) _(AWS only)_

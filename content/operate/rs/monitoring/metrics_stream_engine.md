@@ -1,14 +1,14 @@
 ---
-Title: Metrics stream engine for monitoring v2
+Title: Monitoring v2
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
 - kubernetes
-description: The new metrics stream engine for monitoring Redis Enterprise Software.
+description: The new metrics engine for monitoring Redis Enterprise Software.
 hideListLinks: true
-linkTitle: Metrics stream engine for monitoring v2
+linkTitle: Monitoring v2
 weight: 60
 ---
 
@@ -25,6 +25,8 @@ The new metrics stream engine:
 ## Integrate with external monitoring tools
 
 To integrate Redis Enterprise metrics into your monitoring environment, see the integration guides for [Prometheus and Grafana]({{< relref "/operate/rs/monitoring/prometheus_and_grafana" >}}).
+
+For a detailed tutorial to deploy a complete monitoring stack with Prometheus and Grafana, see [Redis Software Observability with Prometheus and Grafana](https://redis.io/learn/operate/observability/redis-software-prometheus-and-grafana).
 
 Filter [Libraries and tools]({{<relref "/integrate">}}) by "observability" for additional tools and guides.
 
@@ -89,9 +91,9 @@ For database performance, availability, and efficiency, monitor the following me
 | Group | Metric | Why monitor | Unit |
 |-------|--------|-------------|------|
 | Memory | <span class="break-all">`redis_server_used_memory`</span> | Track actual data memory to prevent out-of-memory errors and evictions. | Bytes |
-| Memory | `allocator_allocate` | Monitor bytes allocated by allocator (includes internal fragmentation). | Bytes |
-| Memory | `allocator_active` | Monitor bytes in active pages (includes external fragmentation). Use delta/ratio versus allocated to infer defraggable memory. | Bytes |
-| Memory | <span class="break-all">`active_defrag_running`</span> | Monitor if defragmentation is active and the intended CPU %. High values can affect performance. | % (gauge) |
+| Memory | <span class="break-all">`redis_server_allocator_allocated`</span> | Monitor bytes allocated by allocator (includes internal fragmentation). | Bytes |
+| Memory | <span class="break-all">`redis_server_allocator_active`</span> | Monitor bytes in active pages (includes external fragmentation). Use delta/ratio versus allocated to infer defraggable memory. | Bytes |
+| Memory | <span class="break-all">`redis_server_active_defrag_running`</span> | Monitor if defragmentation is active and the intended CPU %. High values can affect performance. | % (gauge) |
 | Latency | <span class="break-all">`endpoint_read_requests_latency_histogram`</span>,<br /><span class="break-all">`endpoint_write_requests_latency_histogram`</span>,<br /><span class="break-all">`endpoint_other_requests_latency_histogram`</span> | Monitor server-side command latency. | Microseconds |
 | High availability | <span class="break-all">`redis_server_master_repl_offset`</span> | Compute replica throughput and lag using deltas over time. | Bytes (counter) |
 | High availability | <span class="break-all">`redis_server_master_link_status`</span> | Monitor replica link status (up or down) for early warning of high availability risk. | Status |
@@ -105,8 +107,8 @@ For database performance, availability, and efficiency, monitor the following me
 | Connections | <span class="break-all">`endpoint_client_connection_expired`</span> | Monitor connections closed due to TTL expiry, which can indicate idle policy or client issues. | Counter |
 | Connections | <span class="break-all">`endpoint_longest_pipeline_histogram`</span> | Monitor long pipelines that can amplify latency bursts and detect misbehaving clients. | Histogram (count) |
 | Connections | <span class="break-all">`endpoint_client_connections`</span>,<br /><span class="break-all">`endpoint_client_disconnections`</span>,<br /><span class="break-all">`endpoint_proxy_disconnections`</span> | Monitor connection churn and identify who closed the socket (client versus proxy). Current connections ≈ connections − disconnections. | Counter |
-| Cache efficiency | <span class="break-all">`total_keys`</span>,<br /><span class="break-all">`total_volatile_keys`</span> | Monitor key inventory and TTL coverage to inform eviction strategy. | Counter |
-| Cache efficiency | <span class="break-all">`total_evicted_keys`</span>,<br /><span class="break-all">`total_expired_keys`</span> | Monitor eviction and expiry rates. Frequent evictions indicate memory pressure or poor sizing. | Counter |
+| Cache efficiency | <span class="break-all">`redis_server_db_keys`</span>,<br /><span class="break-all">`redis_server_db_avg_ttl`</span> | Monitor key inventory and TTL coverage to inform eviction strategy. | Counter |
+| Cache efficiency | <span class="break-all">`redis_server_evicted_keys	`</span>,<br /><span class="break-all">`redis_server_expired_keys`</span> | Monitor eviction and expiry rates. Frequent evictions indicate memory pressure or poor sizing. | Counter |
 | Cache efficiency | `cache_hits`,<br /><span class="break-all">`cache_hit_rate`</span> | Monitor hit rate, which drives read latency and cost. Cache hit rate equals <span class="break-all">cache_hits/(cache_hits+cache_misses)</span>. | Count / Ratio (%) |
 | Cache efficiency | <span class="break-all">`endpoint_client_tracking_on_requests`</span>,<br /><span class="break-all">`endpoint_client_tracking_off_requests`</span>,<br /><span class="break-all">`endpoint_disposed_commands_after_client_caching`</span> | Track client-side caching usage and misuse. | Counter |
 | Big / complex keys | <span class="break-all">`redis_server_<data_type>_<size_or_items>_<bucket>`</span> | Monitor oversized keys and cardinality that cause fragmentation, slow replication, and CPU spikes. Track to prevent incidents. Examples:<br /><span class="break-all">`strings_sizes_over_512M`</span>,<br /><span class="break-all">`zsets_items_over_8M`</span> | Gauge |
@@ -114,4 +116,5 @@ For database performance, availability, and efficiency, monitor the following me
 | Security – LDAP | <span class="break-all">`endpoint_successful_ldap_authentication`</span>,<br /><span class="break-all">`endpoint_failed_ldap_authentication`</span>,<br /><span class="break-all">`endpoint_disconnected_ldap_client`</span> | Monitor authentication health and detect brute-force attacks or misconfigurations. | Counter |
 | Security – cert-based | <span class="break-all">`endpoint_successful_cba_authentication`</span>,<br /><span class="break-all">`endpoint_failed_cba_authentication`</span>,<br /><span class="break-all">`endpoint_disconnected_cba_client`</span> | Monitor certificate authentication status and failures. | Counter |
 | Security – password | <span class="break-all">`endpoint_disconnected_user_password_client`</span> | Monitor password-authentication client disconnects and correlate with policy changes. | Counter |
-| Security – ACL | <span class="break-all">`acl_access_denied_auth`</span>,<br /><span class="break-all">`acl_access_denied_cmd`</span>,<br /><span class="break-all">`acl_access_denied_key`</span>,<br /><span class="break-all">`acl_access_denied_channel`</span> | Monitor unauthorized access attempts and incorrectly scoped ACLs. | Counter |
+| Security – ACL | <span class="break-all">`redis_server_acl_access_denied_auth`</span>,<br /><span class="break-all">`redis_server_acl_access_denied_cmd`</span>,<br /><span class="break-all">`redis_server_acl_access_denied_key`</span>,<br /><span class="break-all">`redis_server_acl_access_denied_channel`</span> | Monitor unauthorized access attempts and incorrectly scoped ACLs. | Counter |
+| Configuration | <span class="break-all">`db_config`</span>| This is an information metric that holds database configuration within labels such as: db_name, db_version, db_port, tls_mode. | counter | 

@@ -95,6 +95,7 @@ key_specs:
     type: range
   update: true
 linkTitle: HSETEX
+railroad_diagram: /images/railroad/hsetex.svg
 since: 8.0.0
 summary: Set the value of one or more fields of a given hash key, and optionally set
   their expiration.
@@ -143,7 +144,7 @@ redis> HTTL mykey FIELDS 2 field1 field2
 2) (integer) 55481
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

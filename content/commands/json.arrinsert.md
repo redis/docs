@@ -32,6 +32,7 @@ group: json
 hidden: false
 linkTitle: JSON.ARRINSERT
 module: JSON
+railroad_diagram: /images/railroad/json.arrinsert.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Inserts the JSON scalar(s) value at the specified index in the array at path
@@ -119,7 +120,7 @@ redis> JSON.GET item:1 $.colors
 {{< / highlight >}}
 </details>
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

@@ -18,17 +18,18 @@ categories:
 - oss
 - kubernetes
 - clients
-complexity: O(N) where N is the number of values specified.
-description: Returns, for each floating-point input value, the estimated reverse
-  rank of the value (the number of observations in the sketch that are larger than
-  the value + half the number of observations that are equal to the value)
+complexity: O(1)
+description: Returns, for each floating-point input value, the estimated reverse rank
+  of the value (the number of observations in the sketch that are larger than the
+  value + half the number of observations that are equal to the value)
 group: tdigest
 hidden: false
 linkTitle: TDIGEST.REVRANK
 module: Bloom
+railroad_diagram: /images/railroad/tdigest.revrank.svg
 since: 2.4.0
 stack_path: docs/data-types/probabilistic
-summary: Returns, for each floating-point input value, the estimated reverse rank
+summary: Returns, for each input value (floating-point), the estimated reverse rank
   of the value (the number of observations in the sketch that are larger than the
   value + half the number of observations that are equal to the value)
 syntax_fmt: TDIGEST.REVRANK key value [value ...]
@@ -104,7 +105,7 @@ redis> TDIGEST.REVRANK s 10 20
 2) (integer) 1
 {{< / highlight >}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

@@ -150,14 +150,18 @@ group-hover:opacity-100 group-hover:visible">
 <!-- spellchecker-enable -->
 
 <script>
-(function() {
-    // Initialize BinderHub link for this codetabs instance
-    const codetabsId = '{{ $id }}';
-    const container = document.getElementById('binder-link-container-' + codetabsId);
-    const langSelect = document.getElementById('lang-select-' + codetabsId);
+// Global function to update all binder links on the page
+// This is called whenever the language selection changes
+window.updateAllBinderLinks = window.updateAllBinderLinks || function() {
+    // Find all binder link containers and their corresponding language selectors
+    const containers = document.querySelectorAll('[id^="binder-link-container-"]');
 
-    function updateBinderLink() {
-        if (!container || !langSelect) return;
+    containers.forEach((container) => {
+        // Extract the codetabs ID from the container ID
+        const codetabsId = container.id.replace('binder-link-container-', '');
+        const langSelect = document.getElementById('lang-select-' + codetabsId);
+
+        if (!langSelect) return;
 
         // Get the currently selected tab index
         const selectedOption = langSelect.options[langSelect.selectedIndex];
@@ -173,7 +177,7 @@ group-hover:opacity-100 group-hover:visible">
         // Clear existing content
         container.innerHTML = '';
 
-        // If binderId exists, create and show the link
+        // Only show the link if the CURRENTLY SELECTED tab has a binderId
         if (binderId) {
             const binderUrl = 'https://redis.io/binder/v2/gh/redis/binder-launchers/' +
                             binderId +
@@ -196,14 +200,26 @@ group-hover:opacity-100 group-hover:visible">
 
             container.appendChild(link);
         }
-    }
+    });
+};
 
-    // Initialize on page load
-    updateBinderLink();
+(function() {
+    // Initialize BinderHub link for this codetabs instance
+    const codetabsId = '{{ $id }}';
+    const langSelect = document.getElementById('lang-select-' + codetabsId);
 
-    // Update when language changes (in addition to existing language change handler)
+    // Initialize on page load - use a delay to allow codetabs.js to restore localStorage selection
+    // codetabs.js is deferred, so it runs after DOM is ready, but we need to wait for it to complete
+    setTimeout(() => {
+        window.updateAllBinderLinks();
+    }, 100);
+
+    // Update all binder links when language changes
+    // We need to use a small delay to allow codetabs.js to synchronize all dropdowns first
     if (langSelect) {
-        langSelect.addEventListener('change', updateBinderLink);
+        langSelect.addEventListener('change', () => {
+            setTimeout(window.updateAllBinderLinks, 10);
+        });
     }
 })();
 </script>

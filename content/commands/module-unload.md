@@ -27,6 +27,7 @@ description: Unloads a module.
 group: server
 hidden: false
 linkTitle: MODULE UNLOAD
+railroad_diagram: /images/railroad/module-unload.svg
 since: 4.0.0
 summary: Unloads a module.
 syntax_fmt: MODULE UNLOAD name
@@ -43,7 +44,7 @@ Known limitations:
 
 *   Modules that register custom data types can not be unloaded.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

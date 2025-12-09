@@ -46,6 +46,7 @@ description: Binds a hash slot to a node.
 group: cluster
 hidden: false
 linkTitle: CLUSTER SETSLOT
+railroad_diagram: /images/railroad/cluster-setslot.svg
 since: 3.0.0
 summary: Binds a hash slot to a node.
 syntax_fmt: "CLUSTER SETSLOT slot <IMPORTING\_node-id | MIGRATING\_node-id |\n  NODE\_\
@@ -135,7 +136,7 @@ Notes:
 * Step 6, sending `SETSLOT` to the nodes not involved in the resharding, is not technically necessary since the configuration will eventually propagate itself.
   However, it is a good idea to do so in order to stop nodes from pointing to the wrong node for the hash slot moved as soon as possible, resulting in less redirections to find the right node.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

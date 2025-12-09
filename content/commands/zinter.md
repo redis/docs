@@ -74,6 +74,7 @@ key_specs:
       keystep: 1
     type: keynum
 linkTitle: ZINTER
+railroad_diagram: /images/railroad/zinter.svg
 since: 6.2.0
 summary: Returns the intersect of multiple sorted sets.
 syntax_fmt: "ZINTER numkeys key [key ...] [WEIGHTS\_weight [weight ...]]\n  [AGGREGATE\_\
@@ -99,7 +100,7 @@ ZINTER 2 zset1 zset2
 ZINTER 2 zset1 zset2 WITHSCORES
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

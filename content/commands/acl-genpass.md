@@ -27,6 +27,7 @@ description: Generates a pseudorandom, secure password that can be used to ident
 group: server
 hidden: false
 linkTitle: ACL GENPASS
+railroad_diagram: /images/railroad/acl-genpass.svg
 since: 6.0.0
 summary: Generates a pseudorandom, secure password that can be used to identify ACL
   users.
@@ -74,7 +75,7 @@ hex character.
 "90"
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

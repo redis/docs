@@ -49,7 +49,8 @@ key_specs:
     type: range
   update: true
 linkTitle: GETSET
-replaced_by: '[`SET`]({{< relref "/commands/set" >}}) with the `GET` argument'
+railroad_diagram: /images/railroad/getset.svg
+replaced_by: '`SET` with the `!GET` argument'
 since: 1.0.0
 summary: Returns the previous string value of a key after setting it to a new value.
 syntax_fmt: GETSET key value
@@ -84,7 +85,7 @@ GETSET mykey "World"
 GET mykey
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

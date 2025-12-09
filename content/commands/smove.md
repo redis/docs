@@ -60,6 +60,7 @@ key_specs:
     type: range
   insert: true
 linkTitle: SMOVE
+railroad_diagram: /images/railroad/smove.svg
 since: 1.0.0
 summary: Moves a member from one set to another.
 syntax_fmt: SMOVE source destination member
@@ -89,7 +90,7 @@ SMEMBERS myset
 SMEMBERS myotherset
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

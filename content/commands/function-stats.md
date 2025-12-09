@@ -25,6 +25,7 @@ hints:
 - request_policy:all_shards
 - response_policy:special
 linkTitle: FUNCTION STATS
+railroad_diagram: /images/railroad/function-stats.svg
 since: 7.0.0
 summary: Returns information about a function during execution.
 syntax_fmt: FUNCTION STATS
@@ -49,7 +50,7 @@ You can use this command to inspect the invocation of a long-running function an
 
 For more information please refer to [Introduction to Redis Functions]({{< relref "/develop/programmability/functions-intro" >}}).
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

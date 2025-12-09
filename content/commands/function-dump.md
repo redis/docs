@@ -20,6 +20,7 @@ description: Dumps all libraries into a serialized binary payload.
 group: scripting
 hidden: false
 linkTitle: FUNCTION DUMP
+railroad_diagram: /images/railroad/function-dump.svg
 since: 7.0.0
 summary: Dumps all libraries into a serialized binary payload.
 syntax_fmt: FUNCTION DUMP
@@ -59,7 +60,7 @@ redis> FUNCTION LIST
          6) (empty array)
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

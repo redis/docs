@@ -43,6 +43,7 @@ key_specs:
     type: range
   update: true
 linkTitle: DECR
+railroad_diagram: /images/railroad/decr.svg
 since: 1.0.0
 summary: Decrements the integer value of a key by one. Uses 0 as initial value if
   the key doesn't exist.
@@ -67,7 +68,7 @@ SET mykey "234293482390480948029348230948"
 DECR mykey
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
