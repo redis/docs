@@ -164,11 +164,10 @@ Before beginning the upgrade of the Redis Enterprise cluster, check the [Redis E
 
 After the operator upgrade is complete, you can upgrade Redis Enterprise cluster (REC).
 
-### Upgrade an REC with an Active-Active database
 
+{{<note>}}
 We recommend upgrading all participating clusters to the same operator version.
-
-If you are upgrading from a preview version of the Active-Active controller, you can remove the following environment variables: `ACTIVE_ACTIVE_DATABASE_CONTROLLER_ENABLED`, `REMOTE_CLUSTER_CONTROLLER_ENABLED`, and `ENABLE_ALPHA_FEATURES`.
+{{</note>}}
 
 ### Edit `redisEnterpriseImageSpec` in the REC spec
 
@@ -214,7 +213,7 @@ To see the status of the current rolling upgrade, run:
 kubectl rollout status sts <REC_name>
 ```
 
-### Upgrade databases
+## Upgrade databases
 
 After the cluster is upgraded, you can upgrade your databases.
 
@@ -224,7 +223,7 @@ For Active-Active databases, the `redis.Version` change only needs to be applied
 
 If your REAADB uses supported modules, keep the existing `moduleList` version numbers unchanged when upgrading `redisVersion`. The database will automatically use the module versions that are bundled with the new Redis version, regardless of what versions are specified in `moduleList`. After the upgrade is complete, you can optionally change the old version numbers from `moduleList`, but this change has no functional impact.
 
-#### General upgrade notes
+### Upgrade policy
 
 Note that if your cluster [`redisUpgradePolicy`]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api#redisupgradepolicy" >}}) or your database [`redisVersion`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_database_api#redisversion" >}}) are set to `major`, you won't be able to upgrade those databases to minor versions. See [Redis upgrade policy]({{< relref "/operate/rs/installing-upgrading/upgrading#redis-upgrade-policy" >}}) for more details.
 
