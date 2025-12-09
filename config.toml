@@ -2,6 +2,7 @@
 baseURL = "https://redis.io"
 title = "Docs"
 
+timeout="75"
 refLinksErrorLevel = "WARNING"
 enableRobotsTXT = true
 enableGitInfo = true
