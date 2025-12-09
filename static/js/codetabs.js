@@ -1,9 +1,81 @@
 // TODO: URI-able tabs
 
+// Smart copy processing function to handle shell prompts
+function smartCopyProcessing(text) {
+    const lines = text.split('\n');
+    const processedLines = [];
+    let inMultiLineCommand = false;
+    let currentCommand = '';
+
+    // Regex patterns for different shell prompts
+    const promptPatterns = [
+        /^\s*\$\s+(.+)$/,                    // $ command
+        /^\s*#\s+(.+)$/,                     // # command (root)
+        /^\s*[\w.-]+>\s+(.+)$/,              // redis-cli>, rladmin>, etc.
+        /^\s*[\d.:]+>\s+(.+)$/,              // 127.0.0.1:6379> command
+    ];
+
+    for (let line of lines) {
+        let isPromptLine = false;
+        let commandPart = '';
+
+        // Check if this line matches any prompt pattern
+        for (let pattern of promptPatterns) {
+            const match = line.match(pattern);
+            if (match) {
+                isPromptLine = true;
+                commandPart = match[1];
+                break;
+            }
+        }
+
+        if (isPromptLine) {
+            // Handle multi-line commands with backslash continuation
+            if (commandPart.endsWith('\\')) {
+                inMultiLineCommand = true;
+                currentCommand = commandPart.slice(0, -1).trim() + ' ';
+            } else {
+                if (inMultiLineCommand) {
+                    // End of multi-line command
+                    currentCommand += commandPart;
+                    processedLines.push(currentCommand.trim());
+                    inMultiLineCommand = false;
+                    currentCommand = '';
+                } else {
+                    // Single line command
+                    processedLines.push(commandPart);
+                }
+            }
+        } else if (inMultiLineCommand) {
+            // Continuation line of a multi-line command
+            const trimmedLine = line.trim();
+            if (trimmedLine.endsWith('\\')) {
+                currentCommand += trimmedLine.slice(0, -1).trim() + ' ';
+            } else {
+                currentCommand += trimmedLine;
+                processedLines.push(currentCommand.trim());
+                inMultiLineCommand = false;
+                currentCommand = '';
+            }
+        } else {
+            // Regular line (output, comments, etc.) - copy as-is
+            processedLines.push(line);
+        }
+    }
+
+    // Handle case where multi-line command was not completed
+    if (inMultiLineCommand && currentCommand) {
+        processedLines.push(currentCommand.trim());
+    }
+
+    return processedLines.join('\n');
+}
+
 function copyCodeToClipboard(panelId) {
   // Get the last <code>, path depends on highlighter options
-  const code = [...document.querySelectorAll(`${panelId} code`)].pop().textContent;
-  navigator.clipboard.writeText(code);
+  const rawCode = [...document.querySelectorAll(`${panelId} code`)].pop().textContent;
+  const processedCode = smartCopyProcessing(rawCode);
+  navigator.clipboard.writeText(processedCode);
 
   // Toggle tooltip
   const tooltip = document.querySelector(`${panelId} .tooltiptext`);
@@ -22,8 +94,9 @@ function copyCodeToClipboardForCodetabs(button) {
   if (!visiblePanel) return;
 
   // Get the code from the visible panel
-  const code = [...visiblePanel.querySelectorAll('code')].pop().textContent;
-  navigator.clipboard.writeText(code);
+  const rawCode = [...visiblePanel.querySelectorAll('code')].pop().textContent;
+  const processedCode = smartCopyProcessing(rawCode);
+  navigator.clipboard.writeText(processedCode);
 
   // Toggle tooltip
   const tooltip = button.querySelector('.tooltiptext');
