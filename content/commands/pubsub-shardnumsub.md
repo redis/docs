@@ -29,6 +29,7 @@ description: Returns the count of subscribers of shard channels.
 group: pubsub
 hidden: false
 linkTitle: PUBSUB SHARDNUMSUB
+railroad_diagram: /images/railroad/pubsub-shardnumsub.svg
 since: 7.0.0
 summary: Returns the count of subscribers of shard channels.
 syntax_fmt: PUBSUB SHARDNUMSUB [shardchannel [shardchannel ...]]
@@ -49,7 +50,7 @@ Cluster note: in a Redis Cluster, [`PUBSUB`]({{< relref "/commands/pubsub" >}})'
 2) (integer) 1
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

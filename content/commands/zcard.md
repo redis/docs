@@ -39,6 +39,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZCARD
+railroad_diagram: /images/railroad/zcard.svg
 since: 1.2.0
 summary: Returns the number of members in a sorted set.
 syntax_fmt: ZCARD key
@@ -56,7 +57,7 @@ ZADD myzset 2 "two"
 ZCARD myzset
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

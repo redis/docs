@@ -49,13 +49,84 @@ BINDER_ID = 'BINDER_ID'
 
 # Jupyter kernel specifications
 KERNEL_SPECS = {
-    'python': {'name': 'python3', 'display_name': 'Python 3'},
-    'node.js': {'name': 'javascript', 'display_name': 'JavaScript (Node.js)'},
-    'go': {'name': 'gophernotes', 'display_name': 'Go'},
-    'c#': {'name': 'csharp', 'display_name': 'C#'},
-    'java': {'name': 'java', 'display_name': 'Java'},
-    'php': {'name': 'php', 'display_name': 'PHP'},
-    'rust': {'name': 'rust', 'display_name': 'Rust'}
+    'python': {
+        'name': 'python3',
+        'display_name': 'Python 3',
+        'language': 'python',
+        'language_info': {
+            'name': 'python',
+            'version': '3.x.x',
+            'mimetype': 'text/x-python',
+            'file_extension': '.py'
+        }
+    },
+    'node.js': {
+        'name': 'javascript',
+        'display_name': 'JavaScript (Node.js)',
+        'language': 'javascript',
+        'language_info': {
+            'name': 'javascript',
+            'version': '20.0.0',
+            'mimetype': 'application/javascript',
+            'file_extension': '.js'
+        }
+    },
+    'go': {
+        'name': 'gophernotes',
+        'display_name': 'Go',
+        'language': 'go',
+        'language_info': {
+            'name': 'go',
+            'version': '1.x.x',
+            'mimetype': 'text/x-go',
+            'file_extension': '.go'
+        }
+    },
+    'c#': {
+        'name': '.net-csharp',
+        'display_name': '.NET (C#)',
+        'language': 'C#',
+        'language_info': {
+            'name': 'C#',
+            'version': '12.0',
+            'mimetype': 'text/x-csharp',
+            'file_extension': '.cs',
+            'pygments_lexer': 'csharp'
+        }
+    },
+    'java': {
+        'name': 'java',
+        'display_name': 'Java',
+        'language': 'java',
+        'language_info': {
+            'name': 'java',
+            'version': '11.0.0',
+            'mimetype': 'text/x-java-source',
+            'file_extension': '.java'
+        }
+    },
+    'php': {
+        'name': 'php',
+        'display_name': 'PHP',
+        'language': 'php',
+        'language_info': {
+            'name': 'php',
+            'version': '8.0.0',
+            'mimetype': 'application/x-php',
+            'file_extension': '.php'
+        }
+    },
+    'rust': {
+        'name': 'rust',
+        'display_name': 'Rust',
+        'language': 'rust',
+        'language_info': {
+            'name': 'rust',
+            'version': '1.x.x',
+            'mimetype': 'text/x-rust',
+            'file_extension': '.rs'
+        }
+    }
 }
 
 
@@ -525,10 +596,16 @@ def create_cells(parsed_blocks, language):
     # Get language configuration
     lang_config = load_language_config(language)
 
-    # Add boilerplate cell if defined
+    # Get boilerplate if defined
     boilerplate = lang_config.get('boilerplate', [])
-    if boilerplate:
-        boilerplate_code = '\n'.join(boilerplate)
+    boilerplate_code = '\n'.join(boilerplate) if boilerplate else None
+
+    # For Go, append boilerplate to first cell instead of creating separate cell
+    # This ensures imports and func main() {} are in the same cell
+    append_boilerplate_to_first_cell = language.lower() == 'go'
+
+    # Add boilerplate cell if defined (except for Go, which appends to first cell)
+    if boilerplate and not append_boilerplate_to_first_cell:
         boilerplate_cell = new_code_cell(source=boilerplate_code)
         boilerplate_cell.metadata['cell_type'] = 'boilerplate'
         boilerplate_cell.metadata['language'] = language
@@ -536,6 +613,7 @@ def create_cells(parsed_blocks, language):
         logging.info(f"Added boilerplate cell for {language} ({len(boilerplate)} lines)")
 
     # Process regular cells
+    first_cell_processed = False
     for i, block in enumerate(parsed_blocks):
         code = block['code']
 
@@ -568,11 +646,19 @@ def create_cells(parsed_blocks, language):
                 logging.debug(f"Skipping cell {i} (contains only closing braces)")
                 continue
 
+        # For Go: append boilerplate to first cell (imports)
+        if append_boilerplate_to_first_cell and not first_cell_processed:
+            if boilerplate_code:
+                code = code + '\n\n' + boilerplate_code
+                logging.info(f"Appended boilerplate to first cell for {language}")
+            first_cell_processed = True
+
         # Create code cell
         cell = new_code_cell(source=code)
 
-        # Add step metadata if present
-        if block['step_name']:
+        # Add step metadata if present and enabled for this language
+        add_step_metadata = lang_config.get('add_step_metadata', True)  # Default to True for backward compatibility
+        if block['step_name'] and add_step_metadata:
             cell.metadata['step'] = block['step_name']
             logging.debug(f"Created cell {i} with step '{block['step_name']}'")
         else:
@@ -605,13 +691,14 @@ def create_notebook(cells, language):
 
     nb.metadata.kernelspec = {
         'display_name': kernel_spec['display_name'],
-        'language': language.lower(),
+        'language': kernel_spec.get('language', language.lower()),
         'name': kernel_spec['name']
     }
 
-    nb.metadata.language_info = {
+    # Use language_info from kernel spec
+    nb.metadata.language_info = kernel_spec.get('language_info', {
         'name': language.lower()
-    }
+    })
 
     logging.info(f"Created notebook with kernel: {kernel_spec['name']}")
     return nb

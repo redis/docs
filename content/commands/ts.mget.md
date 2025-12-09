@@ -58,6 +58,7 @@ group: timeseries
 hidden: false
 linkTitle: TS.MGET
 module: TimeSeries
+railroad_diagram: /images/railroad/ts.mget.svg
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Get the sample with the highest timestamp from each time series matching
@@ -65,10 +66,10 @@ summary: Get the sample with the highest timestamp from each time series matchin
 syntax: 'TS.MGET [LATEST] [WITHLABELS | <SELECTED_LABELS label...>] FILTER filterExpr...
 
   '
-syntax_fmt: "TS.MGET [LATEST] [WITHLABELS | <SELECTED_LABELS label1 [label1 ...]>]\n\
+syntax_fmt: "TS.MGET [LATEST] [WITHLABELS | SELECTED_LABELS label1 [label1 ...]]\n\
   \  FILTER\_<l=v | l!=v | l= | l!= | l=(v1,v2,...) | l!=(v1,v2,...)\n  [l=v | l!=v\
   \ | l= | l!= | l=(v1,v2,...) | l!=(v1,v2,...) ...]>"
-syntax_str: "[WITHLABELS | <SELECTED_LABELS label1 [label1 ...]>] FILTER\_<l=v | l!=v\
+syntax_str: "[WITHLABELS | SELECTED_LABELS label1 [label1 ...]] FILTER\_<l=v | l!=v\
   \ | l= | l!= | l=(v1,v2,...) | l!=(v1,v2,...) [l=v | l!=v | l= | l!= | l=(v1,v2,...)\
   \ | l!=(v1,v2,...) ...]>"
 title: TS.MGET
@@ -194,7 +195,7 @@ To get only the `location` label for each last sample, use `SELECTED_LABELS`.
 {{< / highlight >}}
 </details>
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

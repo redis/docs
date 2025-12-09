@@ -28,6 +28,7 @@ hidden: false
 hints:
 - nondeterministic_output
 linkTitle: CLUSTER REPLICAS
+railroad_diagram: /images/railroad/cluster-replicas.svg
 since: 5.0.0
 summary: Lists the replica nodes of a master node.
 syntax_fmt: CLUSTER REPLICAS node-id
@@ -46,7 +47,7 @@ configuration update, it may show stale information. However eventually
 (in a matter of seconds if there are no network partitions) all the nodes
 will agree about the set of nodes associated with a given master.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

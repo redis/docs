@@ -29,6 +29,7 @@ group: cms
 hidden: false
 linkTitle: CMS.INCRBY
 module: Bloom
+railroad_diagram: /images/railroad/cms.incrby.svg
 since: 2.0.0
 stack_path: docs/data-types/probabilistic
 summary: Increases the count of one or more items by increment
@@ -53,7 +54,7 @@ redis> CMS.INCRBY test foo 10 bar 42
 2) (integer) 42
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

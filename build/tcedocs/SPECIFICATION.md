@@ -245,7 +245,8 @@ The system operates in three distinct phases:
 
 Some languages have multiple client implementations (sync/async, different libraries). The system uses directory path to determine which variant:
 
-- Java files in `lettuce-async/` → `Java-Async` (Lettuce async client)
+- Java files in `lettuce-sync/` → `Lettuce-Sync` (Lettuce synchronous client)
+- Java files in `lettuce-async/` → `Java-Async` (Lettuce asynchronous client)
 - Java files in `lettuce-reactive/` → `Java-Reactive` (Lettuce reactive client)
 - Java files elsewhere → `Java-Sync` (Jedis synchronous client)
 - Rust files in `rust-async/` → `Rust-Async`
@@ -253,7 +254,7 @@ Some languages have multiple client implementations (sync/async, different libra
 - C# files in `async/` → `C#-Async`
 - C# files in `sync/` → `C#-Sync`
 
-This allows the same language to appear multiple times in the tab interface with different implementations.
+This allows the same language to appear multiple times in the tab interface with different implementations. The order of checks matters: more specific paths (e.g., `lettuce-sync`) should be checked before generic ones (e.g., `Java-Sync`).
 
 **Outputs**:
 - Copies files to `examples/{example_id}/local_{filename}`
@@ -1001,6 +1002,113 @@ Some documentation pages may have manual BinderHub links in the markdown content
 - Easier to maintain (no manual URL construction in markdown)
 - Visually integrated with the code example UI
 
+**Common Pitfall: Global Synchronization Across Multiple Codetabs Instances**:
+
+When a page contains multiple code example boxes (codetabs instances), a critical implementation detail can cause bugs: **each instance must update independently, but all instances must stay synchronized when the user changes the language selector**.
+
+**The Problem**:
+
+If each codetabs instance has its own independent `updateBinderLink()` function, and you only call that function when its own language selector changes, then:
+- When the user changes the language in one dropdown, only that box's function gets called
+- The other boxes don't know about the language change
+- Result: Only the box where the user clicked shows the updated link; other boxes show stale links
+
+**Why this happens**:
+
+The `codetabs.js` library has a `switchCodeTab()` function that synchronizes all language selector dropdowns on the page when one is changed. However, it updates the dropdowns **without triggering change events** on them. This means:
+- The dropdown where the user clicked fires a change event ✅
+- The other dropdowns are updated silently (no change event) ❌
+- External listeners on those dropdowns never get notified
+
+**Solution**: Implement a global `updateAllBinderLinks()` function that updates ALL binder links on the page:
+
+```javascript
+// Global function to update all binder links on the page
+window.updateAllBinderLinks = window.updateAllBinderLinks || function() {
+    // Find all binder link containers
+    const containers = document.querySelectorAll('[id^="binder-link-container-"]');
+
+    containers.forEach((container) => {
+        // Extract the codetabs ID from the container ID
+        const codetabsId = container.id.replace('binder-link-container-', '');
+        const langSelect = document.getElementById('lang-select-' + codetabsId);
+
+        if (!langSelect) return;
+
+        // Get the currently selected tab index
+        const selectedOption = langSelect.options[langSelect.selectedIndex];
+        const tabIndex = parseInt(selectedOption.getAttribute('data-index'));
+
+        // Find the corresponding panel
+        const panels = document.querySelectorAll('[data-codetabs-id="' + codetabsId + '"].panel');
+        if (!panels || tabIndex >= panels.length) return;
+
+        const currentPanel = panels[tabIndex];
+        const binderId = currentPanel.getAttribute('data-binder-id');
+
+        // Clear existing content
+        container.innerHTML = '';
+
+        // Only show the link if the CURRENTLY SELECTED tab has a binderId
+        if (binderId) {
+            const binderUrl = 'https://redis.io/binder/v2/gh/redis/binder-launchers/' +
+                            binderId +
+                            '?urlpath=%2Fdoc%2Ftree%2Fdemo.ipynb';
+
+            const link = document.createElement('a');
+            link.href = binderUrl;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            link.className = 'text-xs text-slate-300 hover:text-white hover:underline whitespace-nowrap flex items-center gap-1';
+            link.title = 'Run this example in an interactive Jupyter notebook';
+
+            link.innerHTML = `
+                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+                <span>Run in browser</span>
+            `;
+
+            container.appendChild(link);
+        }
+    });
+};
+
+// Initialize on page load with a delay to allow codetabs.js to restore localStorage selection
+setTimeout(() => {
+    window.updateAllBinderLinks();
+}, 100);
+
+// Update all binder links when ANY language selector changes
+// Use a small delay to allow codetabs.js to synchronize all dropdowns first
+document.querySelectorAll('.lang-selector').forEach((selector) => {
+    selector.addEventListener('change', () => {
+        setTimeout(window.updateAllBinderLinks, 10);
+    });
+});
+```
+
+**Key implementation details**:
+
+1. **Global function**: Defined once on `window` object, not per-instance
+2. **Finds all containers**: Uses `querySelectorAll('[id^="binder-link-container-"]')` to find every binder link container
+3. **Loops through each**: For each container, extracts its codetabs ID and updates independently
+4. **Delays on page load**: Uses `setTimeout(..., 100)` to allow `codetabs.js` to restore localStorage selection first
+5. **Delays on change**: Uses `setTimeout(..., 10)` to allow `codetabs.js` to synchronize all dropdowns first
+6. **Listens to all selectors**: Adds change listener to every `.lang-selector` dropdown, not just one per instance
+
+**Why the delays matter**:
+
+- **100ms on page load**: `codetabs.js` is deferred and runs after DOM is ready. It restores the user's language preference from localStorage. Without the delay, our function runs before that restoration completes.
+- **10ms on change**: `codetabs.js` has a `switchCodeTab()` function that updates all dropdowns. Without the delay, our function might run before all dropdowns are synchronized.
+
+**This ensures**:
+- ✅ Link appears on page load for all boxes with the correct language
+- ✅ When user changes language in ANY box, ALL boxes update their links
+- ✅ Link disappears in ALL boxes when switching to a language without a notebook
+- ✅ Link reappears in ALL boxes when switching back to a language with a notebook
+- ✅ No stale or incorrect links shown in any box
+
 #### `layouts/partials/tabs/source.html`
 
 **Purpose**: Read and highlight source code files
@@ -1126,7 +1234,7 @@ def main():
 **Client Examples Order**:
 ```toml
 [params]
-clientsExamples = ["Python", "Node.js", "Java-Sync", "Java-Async", "Java-Reactive", "Go", "C#-Sync", "C#-Async", "RedisVL", "PHP", "Rust-Sync", "Rust-Async"]
+clientsExamples = ["Python", "Node.js", "Java-Sync", "Lettuce-Sync", "Java-Async", "Java-Reactive", "Go", "C", "C#-Sync", "C#-Async", "RedisVL", "PHP", "Rust-Sync", "Rust-Async"]
 ```
 
 This controls:
@@ -1489,9 +1597,10 @@ See [Appendix: Adding a Language](#adding-a-language) for complete step-by-step 
 1. ✅ Update `config.toml` (clientsExamples, clientsConfig)
 2. ✅ Create component config in `data/components/`
 3. ✅ Register in `data/components/index.json`
-4. ✅ Add language to `PREFIXES` in `build/components/example.py`
+4. ✅ Add language to `PREFIXES` in `build/components/example.py` ⚠️ **CRITICAL - DO NOT SKIP**
 5. ✅ Add extension mapping in `build/local_examples.py`
 6. ✅ Add test markers if needed
+7. ⚠️ Check if Jupyter notebook support is needed (update `build/jupyterize/` if applicable)
 
 ### Customizing the UI
 
@@ -1668,6 +1777,19 @@ ModuleNotFoundError: No module named 'pytoml'
   1. Verify language in `clientsExamples` array
   2. Check `data/examples.json` has entry for that language
   3. Ensure `label` field matches exactly (case-sensitive)
+
+**"Run in browser" link not appearing in all boxes when language changes**:
+- **Symptom**: When you change the language selector in one code example box, the "Run in browser" link updates in that box but not in other boxes on the same page
+- **Cause**: Each codetabs instance has its own change event listener, but `codetabs.js` synchronizes all dropdowns without triggering change events on the non-selected ones
+- **Fix**: Implement a global `updateAllBinderLinks()` function (see [Common Pitfall: Global Synchronization Across Multiple Codetabs Instances](#common-pitfall-global-synchronization-across-multiple-codetabs-instances))
+- **Verify**:
+  1. Open a page with multiple code examples (e.g., `/develop/data-types/hashes/`)
+  2. Select a language with notebooks (e.g., Python)
+  3. Verify ALL boxes show the "Run in browser" link
+  4. Switch to a language without notebooks (e.g., Java-Async)
+  5. Verify ALL boxes hide the link
+  6. Switch back to Python
+  7. Verify ALL boxes show the link again
 
 **BINDER_ID not extracted or appearing in output**:
 - **Symptom 1**: `binderId` field missing from `data/examples.json`
@@ -2138,3 +2260,150 @@ OK
 {{< /clients-example >}}
 ```
 
+### Language Filter Matching Behavior
+
+The `lang_filter` parameter uses **exact matching** on comma-separated language names:
+
+**Matching Logic**:
+1. Split the filter string by commas (e.g., `"C#-Sync,C#-Async"` → `["C#-Sync", "C#-Async"]`)
+2. Trim whitespace from each language name
+3. For each configured language in `config.toml`, check if it exactly matches any value in the filter list
+4. Only include languages that match exactly
+
+**Examples**:
+- `lang_filter="C#-Sync,C#-Async"` → Shows only C# sync and async tabs
+- `lang_filter="Python"` → Shows only Python tab
+- `lang_filter="Python,Node.js"` → Shows Python and Node.js tabs
+- `lang_filter="C"` → Shows only C tab (does NOT match "C#-Sync" or "C#-Async")
+
+**Important**: Language names must match exactly as they appear in `config.toml`. This prevents accidental matches when one language name is a substring of another (e.g., "C" is a substring of "C#-Sync", but they are treated as distinct languages).
+
+**Implementation**: See `layouts/partials/tabbed-clients-example.html` for the matching logic.
+
+
+## Lessons Learned: Adding the C (hiredis) Client
+
+### Critical Discovery: The PREFIXES Dictionary
+
+When adding the C client, a critical step was initially missed: **adding the language to the `PREFIXES` dictionary in `build/components/example.py`**.
+
+**Why this matters**: The `PREFIXES` dictionary maps each language to its comment prefix character(s). This is used by the example parser to:
+- Identify special markers like `EXAMPLE:`, `STEP_START`, `HIDE_START`, etc.
+- Parse metadata from source files
+- Process example files correctly
+
+**What happens if you skip this step**:
+- The example parser will fail with an error: `Unknown language "c" for example {path}`
+- Examples won't be processed
+- The build system will silently skip C examples
+- No error message will appear in the build output (just a debug log)
+
+**The fix**:
+```python
+# In build/components/example.py, add to PREFIXES dictionary:
+PREFIXES = {
+    ...
+    'c': '//',  # C uses // for comments
+    ...
+}
+```
+
+### Complete Checklist for Adding a New Language
+
+The original checklist was incomplete. Here's the comprehensive version:
+
+**Configuration Files**:
+1. ✅ `config.toml` - Add to `clientsExamples` list and `clientsConfig` section
+2. ✅ `data/components/{language}.json` - Create component configuration
+3. ✅ `data/components/index.json` - Register the component
+
+**Build System**:
+4. ✅ `build/components/example.py` - **CRITICAL**: Add to `PREFIXES` dictionary
+5. ✅ `build/components/example.py` - Add to `TEST_MARKER` dictionary (if language has test annotations)
+6. ✅ `build/local_examples.py` - Add file extension mapping to `EXTENSION_TO_LANGUAGE`
+7. ✅ `build/local_examples.py` - Add language to `LANGUAGE_TO_CLIENT` mapping
+
+**Optional (if Jupyter notebook support is needed)**:
+8. ⚠️ `build/jupyterize/jupyterize.py` - Add to `KERNEL_SPECS` dictionary
+9. ⚠️ `build/jupyterize/jupyterize_config.json` - Add language-specific boilerplate and unwrap patterns
+
+**Documentation**:
+10. ✅ `build/tcedocs/SPECIFICATION.md` - Update examples and checklist
+11. ✅ `build/tcedocs/README.md` - Update tables and examples
+
+### Pre-existing Examples
+
+**Important**: Before adding a new language, check if examples already exist in the repository:
+- Look in `local_examples/client-specific/{language}/` for local examples
+- Check the client repository for remote examples
+- Verify the component configuration points to the correct example directory
+
+For C (hiredis), there was already a `landing.c` example in `local_examples/client-specific/c/` that was ready to be processed once the language was properly configured.
+
+### Language-Specific Comment Prefixes
+
+Different languages use different comment styles. When adding a language, ensure the correct prefix is used:
+
+| Language | Prefix | Example |
+|----------|--------|---------|
+| Python | `#` | `# EXAMPLE: my_example` |
+| C | `//` | `// EXAMPLE: my_example` |
+| Java | `//` | `// EXAMPLE: my_example` |
+| Go | `//` | `// EXAMPLE: my_example` |
+| C# | `//` | `// EXAMPLE: my_example` |
+| PHP | `//` | `// EXAMPLE: my_example` |
+| Rust | `//` | `// EXAMPLE: my_example` |
+| Node.js | `//` | `// EXAMPLE: my_example` |
+
+**Critical**: The `PREFIXES` dictionary uses **lowercase** language names as keys, but the `Example` class converts the language to lowercase before accessing it (line 57 in `example.py`).
+
+### Verification Steps
+
+After adding a new language, verify the integration:
+
+```bash
+# 1. Check that the language is recognized
+grep -r "c" build/components/example.py  # Should find 'c': '//' in PREFIXES
+
+# 2. Process examples
+python3 build/local_examples.py
+
+# 3. Verify examples were processed
+grep -i "landing" data/examples.json | grep -i "c"
+
+# 4. Check for errors in the build output
+python3 build/make.py 2>&1 | grep -i "error\|unknown language"
+
+# 5. Build and serve
+hugo serve
+```
+
+### Common Mistakes to Avoid
+
+1. **Forgetting the PREFIXES entry**: This is the most common mistake. The build will appear to succeed but examples won't be processed.
+
+2. **Case sensitivity**: Language names in `PREFIXES` must be lowercase, but `clientsExamples` in `config.toml` uses proper case (e.g., `"C"` not `"c"`).
+
+3. **Inconsistent naming**: Ensure the language name is consistent across:
+   - `config.toml` clientsExamples (proper case, e.g., `"C"`)
+   - `config.toml` clientsConfig keys (proper case, e.g., `"C"`)
+   - `build/local_examples.py` LANGUAGE_TO_CLIENT values (proper case, e.g., `'C'`)
+   - `build/components/example.py` PREFIXES keys (lowercase, e.g., `'c'`)
+
+4. **Missing component registration**: If the component isn't registered in `data/components/index.json`, remote examples won't be fetched.
+
+5. **Wrong file extension mapping**: Ensure the file extension correctly maps to the language name in `EXTENSION_TO_LANGUAGE`.
+
+### Single-Variant vs Multi-Variant Languages
+
+**Single-variant languages** (Python, Go, PHP, C):
+- One client implementation per language
+- No path-based client name overrides needed
+- File extension mapping is straightforward
+
+**Multi-variant languages** (Java, Rust, C#):
+- Multiple client implementations (e.g., Sync, Async, Reactive)
+- Require path-based client name overrides in `get_client_name_from_language_and_path()`
+- More complex configuration
+
+C is a single-variant language, so it doesn't require path-based overrides.

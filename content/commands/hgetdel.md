@@ -52,6 +52,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: HGETDEL
+railroad_diagram: /images/railroad/hgetdel.svg
 since: 8.0.0
 summary: Returns the value of a field and deletes it from the hash.
 syntax_fmt: "HGETDEL key FIELDS\_numfields field [field ...]"
@@ -87,7 +88,7 @@ redis> KEYS *
 (empty array)
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

@@ -20,6 +20,26 @@ arguments:
     name: xx
     token: XX
     type: pure-token
+  - display_text: ifeq-value
+    name: ifeq-value
+    since: 8.4.0
+    token: IFEQ
+    type: string
+  - display_text: ifne-value
+    name: ifne-value
+    since: 8.4.0
+    token: IFNE
+    type: string
+  - display_text: ifdeq-digest
+    name: ifdeq-digest
+    since: 8.4.0
+    token: IFDEQ
+    type: integer
+  - display_text: ifdne-digest
+    name: ifdne-digest
+    since: 8.4.0
+    token: IFDNE
+    type: integer
   name: condition
   optional: true
   since: 2.6.12
@@ -87,6 +107,8 @@ history:
   - Added the `GET`, `EXAT` and `PXAT` option.
 - - 7.0.0
   - Allowed the `NX` and `GET` options to be used together.
+- - 8.4.0
+  - Added 'IFEQ', 'IFNE', 'IFDEQ', 'IFDNE' options.
 key_specs:
 - RW: true
   access: true
@@ -104,15 +126,19 @@ key_specs:
   update: true
   variable_flags: true
 linkTitle: SET
+railroad_diagram: /images/railroad/set.svg
 since: 1.0.0
 summary: Sets the string value of a key, ignoring its type. The key is created if
   it doesn't exist.
-syntax_fmt: "SET key value [NX | XX] [GET] [EX\_seconds | PX\_milliseconds |\n  EXAT\_\
-  unix-time-seconds | PXAT\_unix-time-milliseconds | KEEPTTL]"
-syntax_str: "value [NX | XX] [GET] [EX\_seconds | PX\_milliseconds | EXAT\_unix-time-seconds\
+syntax_fmt: "SET key value [NX | XX | IFEQ\_ifeq-value | IFNE\_ifne-value |\n\
+  \  IFDEQ\_ifdeq-digest | IFDNE\_ifdne-digest] [GET] [EX\_seconds |\n  PX\_milliseconds\
+  \ | EXAT\_unix-time-seconds |\n  PXAT\_unix-time-milliseconds | KEEPTTL]"
+syntax_str: "value [NX | XX | IFEQ\_ifeq-value | IFNE\_ifne-value | IFDEQ\_ifdeq-digest\
+  \ | IFDNE\_ifdne-digest] [GET] [EX\_seconds | PX\_milliseconds | EXAT\_unix-time-seconds\
   \ | PXAT\_unix-time-milliseconds | KEEPTTL]"
 title: SET
 ---
+
 Set `key` to hold the string `value`.
 If `key` already holds a value, it is overwritten, regardless of its type.
 Any previous time to live associated with the key is discarded on successful `SET` operation.
@@ -121,16 +147,24 @@ Any previous time to live associated with the key is discarded on successful `SE
 
 The `SET` command supports a set of options that modify its behavior:
 
+* `NX` -- Only set the key if it does not already exist.
+* `XX` -- Only set the key if it already exists.
+* `IFEQ ifeq-value` -- Set the key’s value and expiration only if its current value is equal to `ifeq-value`. If the key doesn’t exist, it won’t be created.
+* `IFNE ifne-value` -- Set the key’s value and expiration only if its current value is not equal to `ifne-value`. If the key doesn’t exist, it will be created.
+* `IFDEQ ifeq-digest` -- Set the key’s value and expiration only if the hash digest of its current value is equal to `ifeq-digest`. If the key doesn’t exist, it won’t be created. See the [Hash Digest](#hash-digest) section below for more information.
+* `IFDNE ifne-digest` -- Set the key’s value and expiration only if the hash digest of its current value is not equal to `ifne-digest`. If the key doesn’t exist, it will be created. See the [Hash Digest](#hash-digest) section below for more information.
+* `GET` -- Return the old string stored at key, or nil if key did not exist. An error is returned and `SET` aborted if the value stored at key is not a string.
 * `EX` *seconds* -- Set the specified expire time, in seconds (a positive integer).
 * `PX` *milliseconds* -- Set the specified expire time, in milliseconds (a positive integer).
 * `EXAT` *timestamp-seconds* -- Set the specified Unix time at which the key will expire, in seconds (a positive integer).
 * `PXAT` *timestamp-milliseconds* -- Set the specified Unix time at which the key will expire, in milliseconds (a positive integer).
-* `NX` -- Only set the key if it does not already exist.
-* `XX` -- Only set the key if it already exists.
 * `KEEPTTL` -- Retain the time to live associated with the key.
-* `GET` -- Return the old string stored at key, or nil if key did not exist. An error is returned and `SET` aborted if the value stored at key is not a string.
 
 Note: Since the `SET` command options can replace [`SETNX`]({{< relref "/commands/setnx" >}}), [`SETEX`]({{< relref "/commands/setex" >}}), [`PSETEX`]({{< relref "/commands/psetex" >}}), [`GETSET`]({{< relref "/commands/getset" >}}), it is possible that in future versions of Redis these commands will be deprecated and finally removed.
+
+## Hash Digest
+
+A hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this hash digest for efficient comparison operations without needing to compare the full string content. You can retrieve a key's hash digest using the [`DIGEST`]({{< relref "/commands/digest" >}}) command, which returns it as a hexadecimal string that you can use with the `IFDEQ` and `IFDNE` options, and also the [`DELEX`]({{< relref "/commands/delex" >}}) command's `IFDEQ` and `IFDNE` options.
 
 ## Examples
 
@@ -174,7 +208,7 @@ An example of unlock script would be similar to the following:
 
 The script should be called with `EVAL ...script... 1 resource-name token-value`
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
@@ -186,20 +220,24 @@ The script should be called with `EVAL ...script... 1 resource-name token-value`
     tab1="RESP2" 
     tab2="RESP3" >}}
 
-* If `GET` was not specified, any of the following:
-  * [Nil reply](../../develop/reference/protocol-spec#bulk-strings): Operation was aborted (conflict with one of the `XX`/`NX` options). The key was not set.
+* If `GET` was not specified, one of the following:
+  * [Null bulk string reply](../../develop/reference/protocol-spec#bulk-strings) in the following two cases.
+    * The key doesn’t exist and `XX/IFEQ/IFDEQ` was specified. The key was not created.
+    * The key exists, and `NX` was specified or a specified `IFEQ/IFNE/IFDEQ/IFDNE` condition is false. The key was not set.
   * [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`: The key was set.
-* If `GET` was specified, any of the following:
-  * [Nil reply](../../develop/reference/protocol-spec#bulk-strings): The key didn't exist before the `SET`. If `XX` was specified, the key was not set. Otherwise, the key was set.
-  * [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The previous value of the key. If `NX` was specified, the key was not set. Otherwise, the key was set.
+* If `GET` was specified, one of the following:
+  * [Null bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The key didn't exist before the `SET` operation, whether the key was created of not.
+  * [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The previous value of the key, whether the key was set or not.
 
 -tab-sep-
 
-* If `GET` was not specified, any of the following:
-  * [Null reply](../../develop/reference/protocol-spec#nulls): Operation was aborted (conflict with one of the `XX`/`NX` options). The key was not set.
+* If `GET` was not specified, one of the following:
+  * [Null reply](../../develop/reference/protocol-spec#nulls) in the following two cases.
+    * The key doesn’t exist and `XX/IFEQ/IFDEQ` was specified. The key was not created.
+    * The key exists, and `NX` was specified or a specified `IFEQ/IFNE/IFDEQ/IFDNE` condition is false. The key was not set.
   * [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`: The key was set.
-* If `GET` was specified, any of the following:
-  * [Null reply](../../develop/reference/protocol-spec#nulls): The key didn't exist before the `SET`. If `XX` was specified, the key was not set. Otherwise, the key was set.
-  * [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The previous value of the key. If `NX` was specified, the key was not set. Otherwise, the key was set.
+* If `GET` was specified, one of the following:
+  * [Null reply](../../develop/reference/protocol-spec#nulls): The key didn't exist before the `SET` operation, whether the key was created of not.
+  * [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The previous value of the key, whether the key was set or not.
 
 {{< /multitabs >}}

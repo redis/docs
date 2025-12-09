@@ -41,6 +41,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: SMEMBERS
+railroad_diagram: /images/railroad/smembers.svg
 since: 1.0.0
 summary: Returns all members of a set.
 syntax_fmt: SMEMBERS key
@@ -71,7 +72,7 @@ SADD myset "World"
 SMEMBERS myset
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

@@ -36,6 +36,7 @@ group: timeseries
 hidden: false
 linkTitle: TS.QUERYINDEX
 module: TimeSeries
+railroad_diagram: /images/railroad/ts.queryindex.svg
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Get all time series keys matching a filter list
@@ -110,7 +111,7 @@ To retrieve the keys of all time series representing sensors that measure temper
 {{< / highlight >}}
 </details>
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

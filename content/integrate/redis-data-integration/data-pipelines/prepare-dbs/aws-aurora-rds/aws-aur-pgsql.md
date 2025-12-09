@@ -23,11 +23,24 @@ Follow the steps in the sections below to prepare an
 [AWS Aurora PostgreSQL](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_GettingStartedAurora.CreatingConnecting.AuroraPostgreSQL.html) or [AWS RDS PostgreSQL](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_GettingStarted.CreatingConnecting.PostgreSQL.html)
 database to work with RDI.
 
+```checklist {id="aurorapostgresql" nointeractive="true" }
+- [ ] [Create and apply parameter group](#create-and-apply-parameter-group)
+- [ ] [Create Debezium user](#create-debezium-user)
+```
+
 ## Create and apply parameter group
 
 RDI requires some changes to database parameters. On AWS RDS and AWS Aurora, you change these parameters via a parameter group.
 
-1. In the [Relational Database Service (RDS) console](https://console.aws.amazon.com/rds/), navigate to **Parameter groups > Create parameter group**. [Create a parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithParamGroups.CreatingCluster.html) with the following settings:
+```checklist {id="aurorapostgresql-param-group" nointeractive="true" }
+- [ ] [Create a parameter group](#create-a-parameter-group)
+- [ ] [Apply the parameter group](#apply-the-parameter-group)
+- [ ] [Apply the parameter group to the database](#apply-the-parameter-group-to-the-database)
+- [ ] [Reboot the database instance](#reboot-the-database-instance)
+```
+
+1. <a id="create-a-parameter-group"></a>
+    In the [Relational Database Service (RDS) console](https://console.aws.amazon.com/rds/), navigate to **Parameter groups > Create parameter group**. [Create a parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithParamGroups.CreatingCluster.html) with the following settings:
 
     | Name | Value |
     | :-- | :-- |
@@ -38,7 +51,8 @@ RDI requires some changes to database parameters. On AWS RDS and AWS Aurora, you
 
     Select **Create** to create the parameter group.
 
-1. Navigate to **Parameter groups** in the console. Select the group you have just created and then select **Edit**. Change the following parameters:
+1. <a id="apply-the-parameter-group"></a>
+    Navigate to **Parameter groups** in the console. Select the group you have just created and then select **Edit**. Change the following parameters:
 
     | Name | Value |
     | :-- | :-- |
@@ -46,11 +60,13 @@ RDI requires some changes to database parameters. On AWS RDS and AWS Aurora, you
 
     Select **Save Changes** to apply the changes to the parameter group.
 
-1. Go back to your database on the RDS console, select **Modify** and then scroll down to **Additional Configuration**. Set the **DB Cluster Parameter Group** to the group you just created. 
+1. <a id="apply-the-parameter-group-to-the-database"></a>
+    Go back to your database on the RDS console, select **Modify** and then scroll down to **Additional Configuration**. Set the **DB Cluster Parameter Group** to the group you just created. 
 
     Select **Save changes** to apply the parameter group to your database.
 
-1. Reboot your database instance. See [Rebooting a DB instance within an Aurora cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-reboot-db-instance.html) or [Rebooting a DB instance (RDS)](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_RebootInstance.html) for more information.
+1. <a id="reboot-the-database-instance"></a>
+    Reboot your database instance. See [Rebooting a DB instance within an Aurora cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-reboot-db-instance.html) or [Rebooting a DB instance (RDS)](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_RebootInstance.html) for more information.
 
 ## Create Debezium user
 
@@ -58,7 +74,14 @@ The Debezium connector needs a user account to connect to PostgreSQL. This
 user must have appropriate permissions on all databases where you want Debezium
 to capture changes.
 
-1. Connect to PostgreSQL as the `postgres` user and create a new user for the connector:
+```checklist {id="aurorapostgresql-create-debezium-user" nointeractive="true" }
+- [ ] [Connect to PostgreSQL as the `postgres` user](#connect-to-postgresql-as-the-postgres-user)
+- [ ] [Grant the user the necessary replication permissions](#grant-the-user-the-necessary-replication-permissions)
+- [ ] [Grant the user access to the database](#grant-the-user-access-to-the-database)
+```
+
+1. <a id="connect-to-postgresql-as-the-postgres-user"></a>
+    Connect to PostgreSQL as the `postgres` user and create a new user for the connector:
 
     ```sql
     CREATE ROLE <username> WITH LOGIN PASSWORD '<password>' VALID UNTIL 'infinity';
@@ -66,7 +89,8 @@ to capture changes.
 
     Replace `<username>` and `<password>` with a username and password for the new user.
 
-1. Grant the user the necessary replication permissions:
+1. <a id="grant-the-user-the-necessary-replication-permissions"></a>
+    Grant the user the necessary replication permissions:
 
     ```sql
     GRANT rds_replication TO <username>;
@@ -74,7 +98,8 @@ to capture changes.
 
     Replace `<username>` with the username of the Debezium user.
 
-1. Connect to your database as the `postgres` user and grant the new user access to one or more schemas in the database:
+1. <a id="grant-the-user-access-to-the-database"></a>
+    Connect to your database as the `postgres` user and grant the new user access to one or more schemas in the database:
 
     ```sql
     GRANT SELECT ON ALL TABLES IN SCHEMA <schema> TO <username>;

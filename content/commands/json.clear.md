@@ -28,6 +28,7 @@ group: json
 hidden: false
 linkTitle: JSON.CLEAR
 module: JSON
+railroad_diagram: /images/railroad/json.clear.svg
 since: 2.0.0
 stack_path: docs/data-types/json
 summary: Clears all values from an array or an object and sets numeric values to `0`
@@ -86,7 +87,7 @@ redis> JSON.GET doc $
 {{< / highlight >}}
 </details>
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

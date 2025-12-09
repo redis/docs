@@ -70,7 +70,8 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZRANGEBYSCORE
-replaced_by: '[`ZRANGE`]({{< relref "/commands/zrange" >}}) with the `BYSCORE` argument'
+railroad_diagram: /images/railroad/zrangebyscore.svg
+replaced_by: '`ZRANGE` with the `BYSCORE` argument'
 since: 1.0.5
 summary: Returns members in a sorted set within a range of scores.
 syntax_fmt: "ZRANGEBYSCORE key min max [WITHSCORES] [LIMIT\_offset count]"
@@ -176,7 +177,7 @@ just compute a random number between 0 and 1 (which is like calling
 
     RANDOM_ELE = ZRANGEBYSCORE key RAND() +inf LIMIT 0 1
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

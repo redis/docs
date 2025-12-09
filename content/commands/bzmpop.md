@@ -69,6 +69,7 @@ key_specs:
       keystep: 1
     type: keynum
 linkTitle: BZMPOP
+railroad_diagram: /images/railroad/bzmpop.svg
 since: 7.0.0
 summary: Removes and returns a member by score from one or more sorted sets. Blocks
   until a member is available otherwise. Deletes the sorted set if the last element
@@ -80,13 +81,13 @@ title: BZMPOP
 `BZMPOP` is the blocking variant of [`ZMPOP`]({{< relref "/commands/zmpop" >}}).
 
 When any of the sorted sets contains elements, this command behaves exactly like [`ZMPOP`]({{< relref "/commands/zmpop" >}}).
-When used inside a [`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) block, this command behaves exactly like [`ZMPOP`]({{< relref "/commands/zmpop" >}}).
+When used inside a [`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) block or a Lua script, this command behaves exactly like [`ZMPOP`]({{< relref "/commands/zmpop" >}}).
 When all sorted sets are empty, Redis will block the connection until another client adds members to one of the keys or until the `timeout` (a double value specifying the maximum number of seconds to block) elapses.
 A `timeout` of zero can be used to block indefinitely.
 
 See [`ZMPOP`]({{< relref "/commands/zmpop" >}}) for more information.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

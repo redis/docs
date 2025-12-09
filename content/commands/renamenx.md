@@ -61,6 +61,7 @@ key_specs:
     type: range
   insert: true
 linkTitle: RENAMENX
+railroad_diagram: /images/railroad/renamenx.svg
 since: 1.0.0
 summary: Renames a key only when the target key name doesn't exist.
 syntax_fmt: RENAMENX key newkey
@@ -81,7 +82,7 @@ RENAMENX mykey myotherkey
 GET myotherkey
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

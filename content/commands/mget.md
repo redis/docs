@@ -43,6 +43,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: MGET
+railroad_diagram: /images/railroad/mget.svg
 since: 1.0.0
 summary: Atomically returns the string values of one or more keys.
 syntax_fmt: MGET key [key ...]
@@ -62,7 +63,7 @@ SET key2 "World"
 MGET key1 key2 nonexisting
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

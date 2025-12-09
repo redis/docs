@@ -30,7 +30,8 @@ history:
 - - 7.0.0
   - Added additional networking metadata field.
 linkTitle: CLUSTER SLOTS
-replaced_by: '[`CLUSTER SHARDS`]({{< relref "/commands/cluster-shards" >}})'
+railroad_diagram: /images/railroad/cluster-slots.svg
+replaced_by: '`CLUSTER SHARDS`'
 since: 3.0.0
 summary: Returns the mapping of cluster slots to nodes.
 syntax_fmt: CLUSTER SLOTS
@@ -128,7 +129,7 @@ Similarly a client library should try if possible to cope with the fact that old
 
 *   `>= 7.0.0`: Added support for hostnames and unknown endpoints in first field of node response.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

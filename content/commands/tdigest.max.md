@@ -22,6 +22,7 @@ group: tdigest
 hidden: false
 linkTitle: TDIGEST.MAX
 module: Bloom
+railroad_diagram: /images/railroad/tdigest.max.svg
 since: 2.4.0
 stack_path: docs/data-types/probabilistic
 summary: Returns the maximum observation value from a t-digest sketch
@@ -51,7 +52,7 @@ redis>TDIGEST.MAX t
 "5"
 {{< / highlight >}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

@@ -51,6 +51,7 @@ key_specs:
       keystep: 1
     type: keynum
 linkTitle: ZDIFF
+railroad_diagram: /images/railroad/zdiff.svg
 since: 6.2.0
 summary: Returns the difference between multiple sorted sets.
 syntax_fmt: ZDIFF numkeys key [key ...] [WITHSCORES]
@@ -72,7 +73,7 @@ ZDIFF 2 zset1 zset2
 ZDIFF 2 zset1 zset2 WITHSCORES
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

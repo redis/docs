@@ -35,6 +35,7 @@ description: Controls whether commands sent by the client affect the LRU/LFU of 
 group: connection
 hidden: false
 linkTitle: CLIENT NO-TOUCH
+railroad_diagram: /images/railroad/client-no-touch.svg
 since: 7.2.0
 summary: Controls whether commands sent by the client affect the LRU/LFU of accessed
   keys.
@@ -48,7 +49,7 @@ When turned on, the current client will not change LFU/LRU stats, unless it send
 
 When turned off, the client touches LFU/LRU stats just as a normal client.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

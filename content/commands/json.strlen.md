@@ -26,6 +26,7 @@ group: json
 hidden: false
 linkTitle: JSON.STRLEN
 module: JSON
+railroad_diagram: /images/railroad/json.strlen.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Returns the length of the JSON String at path in key
@@ -62,7 +63,7 @@ redis> JSON.STRLEN doc $..a
 3) (nil)
 {{< / highlight >}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

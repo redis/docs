@@ -42,6 +42,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: SUNION
+railroad_diagram: /images/railroad/sunion.svg
 since: 1.0.0
 summary: Returns the union of multiple sets.
 syntax_fmt: SUNION key [key ...]
@@ -73,7 +74,7 @@ SADD key2 "e"
 SUNION key1 key2
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

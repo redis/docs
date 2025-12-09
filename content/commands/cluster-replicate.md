@@ -27,6 +27,7 @@ description: Configure a node as replica of a master node.
 group: cluster
 hidden: false
 linkTitle: CLUSTER REPLICATE
+railroad_diagram: /images/railroad/cluster-replicate.svg
 since: 3.0.0
 summary: Configure a node as replica of a master node.
 syntax_fmt: CLUSTER REPLICATE node-id
@@ -56,7 +57,7 @@ only if the following additional conditions are met:
 
 If the command succeeds the new replica will immediately try to contact its master in order to replicate from it.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

@@ -54,8 +54,8 @@ key_specs:
     type: range
   update: true
 linkTitle: HMSET
-replaced_by: '[`HSET`]({{< relref "/commands/hset" >}}) with multiple field-value
-  pairs'
+railroad_diagram: /images/railroad/hmset.svg
+replaced_by: '`HSET` with multiple field-value pairs'
 since: 2.0.0
 summary: Sets the values of multiple fields.
 syntax_fmt: HMSET key field value [field value ...]
@@ -75,7 +75,7 @@ HGET myhash field1
 HGET myhash field2
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

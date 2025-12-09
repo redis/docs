@@ -54,6 +54,7 @@ group: search
 hidden: false
 linkTitle: FT.SPELLCHECK
 module: Search
+railroad_diagram: /images/railroad/ft.spellcheck.svg
 since: 1.4.0
 stack_path: docs/interact/search-and-query
 summary: Performs spelling correction on a query, returning suggestions for misspelled
@@ -132,9 +133,9 @@ The score is calculated by dividing the number of documents in which the suggest
 {{< / highlight >}}
 </details>
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
-| Redis Enterprise<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Enterprise | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
 

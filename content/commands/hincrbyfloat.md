@@ -49,6 +49,7 @@ key_specs:
     type: range
   update: true
 linkTitle: HINCRBYFLOAT
+railroad_diagram: /images/railroad/hincrbyfloat.svg
 since: 2.6.0
 summary: Increments the floating point value of a field by a number. Uses 0 as initial
   value if the field doesn't exist.
@@ -87,7 +88,7 @@ The command is always propagated in the replication link and the Append Only
 File as a [`HSET`]({{< relref "/commands/hset" >}}) operation, so that differences in the underlying floating point
 math implementation will not be sources of inconsistency.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

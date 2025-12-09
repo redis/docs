@@ -57,6 +57,7 @@ key_specs:
   notes: We cannot tell how the keys will be used so we assume the worst, RW and UPDATE
   update: true
 linkTitle: FCALL
+railroad_diagram: /images/railroad/fcall.svg
 since: 7.0.0
 summary: Invokes a function.
 syntax_fmt: FCALL function numkeys [key [key ...]] [arg [arg ...]]
@@ -92,7 +93,7 @@ redis> FCALL myfunc 0 hello
 "hello"
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

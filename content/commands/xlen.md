@@ -39,6 +39,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: XLEN
+railroad_diagram: /images/railroad/xlen.svg
 since: 5.0.0
 summary: Return the number of messages in a stream.
 syntax_fmt: XLEN key
@@ -64,7 +65,7 @@ XADD mystream * item 3
 XLEN mystream
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

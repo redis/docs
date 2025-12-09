@@ -42,6 +42,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: XINFO GROUPS
+railroad_diagram: /images/railroad/xinfo-groups.svg
 since: 5.0.0
 summary: Returns a list of the consumer groups of a stream.
 syntax_fmt: XINFO GROUPS key
@@ -119,7 +120,7 @@ Once the consumer group delivers the last message in the stream to its members, 
    12) (integer) 1
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

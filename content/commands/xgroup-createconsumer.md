@@ -46,6 +46,7 @@ key_specs:
     type: range
   insert: true
 linkTitle: XGROUP CREATECONSUMER
+railroad_diagram: /images/railroad/xgroup-createconsumer.svg
 since: 6.2.0
 summary: Creates a consumer in a consumer group.
 syntax_fmt: XGROUP CREATECONSUMER key group consumer
@@ -57,7 +58,7 @@ Create a consumer named `<consumername>` in the consumer group `<groupname>` of 
 Consumers are also created automatically whenever an operation, such as [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}), references a consumer that doesn't exist.
 This is valid for [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) only when there is data in the stream.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

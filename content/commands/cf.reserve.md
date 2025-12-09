@@ -36,6 +36,7 @@ group: cf
 hidden: false
 linkTitle: CF.RESERVE
 module: Bloom
+railroad_diagram: /images/railroad/cf.reserve.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Creates a new Cuckoo Filter
@@ -120,7 +121,7 @@ redis> CF.RESERVE cf_params 1000 BUCKETSIZE 8 MAXITERATIONS 20 EXPANSION 2
 OK
 {{< / highlight >}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

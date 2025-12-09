@@ -24,6 +24,7 @@ group: cf
 hidden: false
 linkTitle: CF.ADD
 module: Bloom
+railroad_diagram: /images/railroad/cf.add.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Adds an item to a Cuckoo Filter
@@ -66,7 +67,7 @@ redis> CF.ADD cf item1
 (integer) 1
 {{< / highlight >}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

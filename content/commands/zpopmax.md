@@ -47,6 +47,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZPOPMAX
+railroad_diagram: /images/railroad/zpopmax.svg
 since: 5.0.0
 summary: Returns the highest-scoring members from a sorted set after removing them.
   Deletes the sorted set if the last member was popped.
@@ -71,7 +72,7 @@ ZADD myzset 3 "three"
 ZPOPMAX myzset
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

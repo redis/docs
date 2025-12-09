@@ -1,4 +1,5 @@
 // EXAMPLE: ss_tutorial
+// BINDER_ID php-dt-sorted-set
 <?php
 
 require 'vendor/autoload.php';

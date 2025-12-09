@@ -24,15 +24,15 @@ Each item in the checklist below links to the section
 for a recommendation. Use the checklist icons to record your
 progress in implementing the recommendations.
 
-{{< checklist "prodlist" >}}
-    {{< checklist-item "#connection-pooling" >}}Connection pooling{{< /checklist-item >}}
-    {{< checklist-item "#connection-retries" >}}Connection retries{{< /checklist-item >}}
-    {{< checklist-item "#client-side-caching" >}}Client-side caching{{< /checklist-item >}}
-    {{< checklist-item "#timeouts" >}}Timeouts{{< /checklist-item >}}
-    {{< checklist-item "#health-checks" >}}Health checks{{< /checklist-item >}}
-    {{< checklist-item "#exception-handling" >}}Exception handling{{< /checklist-item >}}
-    {{< checklist-item "#dns-cache-and-redis" >}}DNS cache and Redis{{< /checklist-item >}}
-{{< /checklist >}}
+```checklist {id="jedisprodlist"}
+- [ ] [Connection pooling](#connection-pooling)
+- [ ] [Connection retries](#connection-retries)
+- [ ] [Client-side caching](#client-side-caching)
+- [ ] [Timeouts](#timeouts)
+- [ ] [Health checks](#health-checks)
+- [ ] [Exception handling](#exception-handling)
+- [ ] [DNS cache and Redis](#dns-cache-and-redis)
+```
 
 ## Recommendations
 

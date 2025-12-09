@@ -14,11 +14,11 @@ description: Retrieve the JSON attributes of elements.
 group: vector_set
 hidden: false
 linkTitle: VGETATTR
+railroad_diagram: /images/railroad/vgetattr.svg
 since: 8.0.0
 summary: Retrieve the JSON attributes of elements.
 syntax_fmt: "VGETATTR key element"
 title: VGETATTR
-bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
 ---
 
 Return the JSON attributes associated with an element in a vector set.
@@ -45,7 +45,7 @@ is the name of the element whose attributes you want to retrieve.
 
 - [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

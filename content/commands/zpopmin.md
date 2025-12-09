@@ -47,6 +47,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZPOPMIN
+railroad_diagram: /images/railroad/zpopmin.svg
 since: 5.0.0
 summary: Returns the lowest-scoring members from a sorted set after removing them.
   Deletes the sorted set if the last member was popped.
@@ -71,7 +72,7 @@ ZADD myzset 3 "three"
 ZPOPMIN myzset
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

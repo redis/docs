@@ -22,6 +22,7 @@ group: tdigest
 hidden: false
 linkTitle: TDIGEST.MIN
 module: Bloom
+railroad_diagram: /images/railroad/tdigest.min.svg
 since: 2.4.0
 stack_path: docs/data-types/probabilistic
 summary: Returns the minimum observation value from a t-digest sketch
@@ -51,7 +52,7 @@ redis> TDIGEST.MIN t
 "1"
 {{< / highlight >}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

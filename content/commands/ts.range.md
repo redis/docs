@@ -115,6 +115,7 @@ group: timeseries
 hidden: false
 linkTitle: TS.RANGE
 module: TimeSeries
+railroad_diagram: /images/railroad/ts.range.svg
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Query a range in forward direction
@@ -385,7 +386,7 @@ When the start timestamp for the range query is explicitly stated (not `-`), you
 Similarly, when the end timestamp for the range query is explicitly stated, you can set `ALIGN` to that time by setting align to `+` or to `end`.
 </details>
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

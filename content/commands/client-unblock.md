@@ -41,6 +41,7 @@ description: Unblocks a client blocked by a blocking command from a different co
 group: connection
 hidden: false
 linkTitle: CLIENT UNBLOCK
+railroad_diagram: /images/railroad/client-unblock.svg
 since: 5.0.0
 summary: Unblocks a client blocked by a blocking command from a different connection.
 syntax_fmt: CLIENT UNBLOCK client-id [TIMEOUT | ERROR]
@@ -99,7 +100,7 @@ NULL
 (client is blocked again)
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

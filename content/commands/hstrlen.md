@@ -42,6 +42,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: HSTRLEN
+railroad_diagram: /images/railroad/hstrlen.svg
 since: 3.2.0
 summary: Returns the length of the value of a field.
 syntax_fmt: HSTRLEN key field
@@ -59,7 +60,7 @@ HSTRLEN myhash f2
 HSTRLEN myhash f3
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

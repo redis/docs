@@ -55,6 +55,7 @@ key_specs:
     type: range
   update: true
 linkTitle: HSET
+railroad_diagram: /images/railroad/hset.svg
 since: 2.0.0
 summary: Creates or modifies the value of a field in a hash.
 syntax_fmt: HSET key field value [field value ...]
@@ -99,7 +100,7 @@ HGET myhash field3
 HGETALL myhash
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

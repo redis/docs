@@ -31,6 +31,7 @@ group: json
 hidden: false
 linkTitle: JSON.ARRTRIM
 module: JSON
+railroad_diagram: /images/railroad/json.arrtrim.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Trims the array at path to contain only the specified inclusive range of
@@ -120,7 +121,7 @@ redis> JSON.GET key $.[1].max_level
 {{< / highlight >}}
 </details>
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

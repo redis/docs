@@ -32,6 +32,7 @@ hints:
 - request_policy:all_nodes
 - response_policy:all_succeeded
 linkTitle: ACL DELUSER
+railroad_diagram: /images/railroad/acl-deluser.svg
 since: 6.0.0
 summary: Deletes ACL users, and terminates their connections.
 syntax_fmt: ACL DELUSER username [username ...]
@@ -51,7 +52,7 @@ exist, in such case no operation is performed for the non existing users.
 1
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

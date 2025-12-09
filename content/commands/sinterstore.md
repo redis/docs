@@ -58,6 +58,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: SINTERSTORE
+railroad_diagram: /images/railroad/sinterstore.svg
 since: 1.0.0
 summary: Stores the intersect of multiple sets in a key.
 syntax_fmt: SINTERSTORE destination key [key ...]
@@ -82,7 +83,7 @@ SINTERSTORE key key1 key2
 SMEMBERS key
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

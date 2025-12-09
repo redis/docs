@@ -43,6 +43,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: GETBIT
+railroad_diagram: /images/railroad/getbit.svg
 since: 2.2.0
 summary: Returns a bit value by offset.
 syntax_fmt: GETBIT key offset
@@ -66,7 +67,7 @@ GETBIT mykey 7
 GETBIT mykey 100
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

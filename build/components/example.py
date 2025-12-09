@@ -28,6 +28,7 @@ PREFIXES = {
     'java-async': '//',
     'java-reactive': '//',
     'go': '//',
+    'c': '//',
     'c#': '//',
     'c#-sync': '//',
     'c#-async': '//',

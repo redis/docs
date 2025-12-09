@@ -46,6 +46,7 @@ description: Loads a module using extended parameters.
 group: server
 hidden: false
 linkTitle: MODULE LOADEX
+railroad_diagram: /images/railroad/module-loadex.svg
 since: 7.0.0
 summary: Loads a module using extended parameters.
 syntax_fmt: "MODULE LOADEX path [CONFIG\_name value [CONFIG name value ...]]\n  [ARGS\_\
@@ -65,7 +66,7 @@ Any additional arguments that follow the `ARGS` keyword are passed unmodified to
 **Note**: modules can also be loaded at server startup with `loadmodule`
 configuration directive in `redis.conf`.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

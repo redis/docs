@@ -20,6 +20,7 @@ description: Returns helpful text about the different subcommands.
 group: server
 hidden: true
 linkTitle: ACL HELP
+railroad_diagram: /images/railroad/acl-help.svg
 since: 6.0.0
 summary: Returns helpful text about the different subcommands.
 syntax_fmt: ACL HELP
@@ -28,7 +29,7 @@ title: ACL HELP
 ---
 The `ACL HELP` command returns a helpful text describing the different subcommands.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

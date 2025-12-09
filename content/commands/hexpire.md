@@ -75,6 +75,7 @@ key_specs:
     type: range
   update: true
 linkTitle: HEXPIRE
+railroad_diagram: /images/railroad/hexpire.svg
 since: 7.4.0
 summary: Set expiry for hash field using relative time to expire (seconds)
 syntax_fmt: "HEXPIRE key seconds [NX | XX | GT | LT] FIELDS\_numfields field\n  [field\
@@ -140,7 +141,7 @@ HEXPIRE mykey 10 FIELDS 3 field1 field2 field3
 HGETALL mykey
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

@@ -43,6 +43,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: SINTER
+railroad_diagram: /images/railroad/sinter.svg
 since: 1.0.0
 summary: Returns the intersect of multiple sets.
 syntax_fmt: SINTER key [key ...]
@@ -77,7 +78,7 @@ SADD key2 "e"
 SINTER key1 key2
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

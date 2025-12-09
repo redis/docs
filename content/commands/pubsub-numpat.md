@@ -22,6 +22,7 @@ description: Returns a count of unique pattern subscriptions.
 group: pubsub
 hidden: false
 linkTitle: PUBSUB NUMPAT
+railroad_diagram: /images/railroad/pubsub-numpat.svg
 since: 2.8.0
 summary: Returns a count of unique pattern subscriptions.
 syntax_fmt: PUBSUB NUMPAT
@@ -34,7 +35,7 @@ Note that this isn't the count of clients subscribed to patterns, but the total 
 
 Cluster note: in a Redis Cluster clients can subscribe to every node, and can also publish to every other node. The cluster will make sure that published messages are forwarded as needed. That said, [`PUBSUB`]({{< relref "/commands/pubsub" >}})'s replies in a cluster only report information from the node's Pub/Sub context, rather than the entire cluster.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

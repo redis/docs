@@ -61,7 +61,8 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZRANGEBYLEX
-replaced_by: '[`ZRANGE`]({{< relref "/commands/zrange" >}}) with the `BYLEX` argument'
+railroad_diagram: /images/railroad/zrangebylex.svg
+replaced_by: '`ZRANGE` with the `BYLEX` argument'
 since: 2.8.9
 summary: Returns members in a sorted set within a lexicographical range.
 syntax_fmt: "ZRANGEBYLEX key min max [LIMIT\_offset count]"
@@ -126,7 +127,7 @@ ZRANGEBYLEX myzset - (c
 ZRANGEBYLEX myzset [aaa (g
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

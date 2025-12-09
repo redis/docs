@@ -26,6 +26,7 @@ group: json
 hidden: false
 linkTitle: JSON.OBJLEN
 module: JSON
+railroad_diagram: /images/railroad/json.objlen.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Returns the number of keys of the object at path
@@ -62,7 +63,7 @@ redis> JSON.OBJLEN doc $..a
 2) (integer) 2
 {{< / highlight >}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

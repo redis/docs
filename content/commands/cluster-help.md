@@ -20,6 +20,7 @@ description: Returns helpful text about the different subcommands.
 group: cluster
 hidden: true
 linkTitle: CLUSTER HELP
+railroad_diagram: /images/railroad/cluster-help.svg
 since: 5.0.0
 summary: Returns helpful text about the different subcommands.
 syntax_fmt: CLUSTER HELP
@@ -28,7 +29,7 @@ title: CLUSTER HELP
 ---
 The `CLUSTER HELP` command returns a helpful text describing the different subcommands.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

@@ -23,6 +23,7 @@ description: Returns the client ID to which the connection's tracking notificati
 group: connection
 hidden: false
 linkTitle: CLIENT GETREDIR
+railroad_diagram: /images/railroad/client-getredir.svg
 since: 6.0.0
 summary: Returns the client ID to which the connection's tracking notifications are
   redirected.
@@ -38,7 +39,7 @@ ID notifications are redirected to, this command exists in order to improve
 introspection and allow clients to check later if redirection is active
 and towards which client ID.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

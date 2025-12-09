@@ -33,6 +33,7 @@ history:
 - - 3.2.2
   - Added the `SCHEDULE` option.
 linkTitle: BGSAVE
+railroad_diagram: /images/railroad/bgsave.svg
 since: 1.0.0
 summary: Asynchronously saves the database(s) to disk.
 syntax_fmt: BGSAVE [SCHEDULE]
@@ -58,7 +59,7 @@ command.
 
 See the [persistence documentation]({{< relref "/operate/oss_and_stack/management/persistence" >}}) for detailed information.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

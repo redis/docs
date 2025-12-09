@@ -51,6 +51,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: HEXPIRETIME
+railroad_diagram: /images/railroad/hexpiretime.svg
 since: 7.4.0
 summary: Returns the expiration time of a hash field as a Unix timestamp, in seconds.
 syntax_fmt: "HEXPIRETIME key FIELDS\_numfields field [field ...]"
@@ -74,7 +75,7 @@ redis> HEXPIRETIME mykey FIELDS 2 field1 field2
 2) (integer) 1715705914
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

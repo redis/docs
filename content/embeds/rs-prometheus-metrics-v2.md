@@ -42,6 +42,7 @@
 | <span class="break-all">endpoint_write_requests_latency_histogram</span> | histogram | Latency (in µs) histogram of write commands |
 | <span class="break-all">endpoint_write_requests_latency_histogram_bucket</span> | histogram | Latency histograms for write commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_write_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
 | endpoint_write_responses | counter | Number of write responses |
+| db_config | counter | This is an information metric that holds database configuration within labels such as: db_name, db_version, db_port, tls_mode |
 
 ## Node metrics
 

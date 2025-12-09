@@ -28,6 +28,7 @@ hints:
 - request_policy:all_shards
 - response_policy:all_succeeded
 linkTitle: PING
+railroad_diagram: /images/railroad/ping.svg
 since: 1.0.0
 summary: Returns the server's liveliness response.
 syntax_fmt: PING [message]
@@ -54,7 +55,7 @@ PING
 PING "hello world"
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

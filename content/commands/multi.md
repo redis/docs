@@ -24,6 +24,7 @@ description: Starts a transaction.
 group: transactions
 hidden: false
 linkTitle: MULTI
+railroad_diagram: /images/railroad/multi.svg
 since: 1.2.0
 summary: Starts a transaction.
 syntax_fmt: MULTI
@@ -35,7 +36,7 @@ Subsequent commands will be queued for atomic execution using [`EXEC`]({{< relre
 
 [tt]: /develop/interact/transactions
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

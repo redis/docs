@@ -53,6 +53,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: BITFIELD_RO
+railroad_diagram: /images/railroad/bitfield_ro.svg
 since: 6.0.0
 summary: Performs arbitrary read-only bitfield integer operations on strings.
 syntax_fmt: "BITFIELD_RO key [GET\_encoding offset [GET encoding offset ...]]"
@@ -75,7 +76,7 @@ See original [`BITFIELD`]({{< relref "/commands/bitfield" >}}) for more details.
 BITFIELD_RO hello GET i8 16
 ```
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

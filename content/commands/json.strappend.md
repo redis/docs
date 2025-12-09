@@ -28,6 +28,7 @@ group: json
 hidden: false
 linkTitle: JSON.STRAPPEND
 module: JSON
+railroad_diagram: /images/railroad/json.strappend.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Appends a string to a JSON string value at path
@@ -75,7 +76,7 @@ redis> JSON.GET doc $
 "[{\"a\":\"foobaz\",\"nested\":{\"a\":\"hellobaz\"},\"nested2\":{\"a\":31}}]"
 {{< / highlight >}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

@@ -40,6 +40,7 @@ history:
 - - 6.2.0
   - Added the `ASYNC` and `SYNC` flushing mode modifiers.
 linkTitle: SCRIPT FLUSH
+railroad_diagram: /images/railroad/script-flush.svg
 since: 2.6.0
 summary: Removes all server-side Lua scripts from the script cache.
 syntax_fmt: SCRIPT FLUSH [ASYNC | SYNC]
@@ -62,7 +63,7 @@ For more information about [`EVAL`]({{< relref "/commands/eval" >}}) scripts ple
 
 *   `>= 6.2.0`: Default flush behavior now configurable by the **lazyfree-lazy-user-flush** configuration directive.
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

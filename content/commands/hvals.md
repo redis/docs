@@ -41,6 +41,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: HVALS
+railroad_diagram: /images/railroad/hvals.svg
 since: 2.0.0
 summary: Returns all values in a hash.
 syntax_fmt: HVALS key
@@ -69,7 +70,7 @@ HSET myhash field2 "World"
 HVALS myhash
 {{% /redis-cli %}}
 
-## Redis Software and Redis Cloud compatibility
+## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
