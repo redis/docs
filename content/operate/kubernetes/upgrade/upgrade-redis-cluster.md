@@ -76,6 +76,8 @@ For detailed Helm upgrade instructions, see [Upgrade the chart]({{<relref "/oper
 
 ## Upgrade the operator
 
+{{<warning>}}If your databases use user-defined modules, set `autoUpgradeRedisEnterprise: false` in the REC custom resource before upgrading the operator.{{</warning>}}
+
 ### Download the bundle
 
 Make sure you pull the correct version of the bundle. You can find the version tags
