@@ -35,23 +35,13 @@ Your Redis Enterprise clusters must be running version 7.4.2-2 or later before u
 
 Your Redis databases must be running version 7.2 or later before upgrading your cluster version. See [upgrade databases](#upgrade-databases) for detailed steps. You can find your database version in the [REDB `spec.redisVersion` field]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_database_api#redisversion" >}}).
 
-#### RHEL9-compatible modules
+### User-defined modules
 
-Upgrading to Redis operator version 7.8.2-6 or later involves migrating your Redis Enterprise nodes to RHEL9 from either Ubuntu 18 or RHEL8. If your databases use modules, you need to manually install modules compatible with RHEL9.
+If your databases use user-defined modules (custom non-bundled modules):
 
-To see which modules you have installed, run:
-
-```sh
-curl -k -u <rec_username>:<rec_password> -X GET https://localhost:9443/v1/modules | jq -r 'map([.module_name, .semantic_version, (.platforms | keys)]) | .[] | .[0] as $name | .[1] as $version | .[2][] | $name + "-" + $version + "-" + .' | sort
-```
-
-To see which modules are currently in use, run:
-
-```sh
-curl -k -u <rec_username>:<rec_password> -X GET https://localhost:9443/v1/bdbs | jq -r '.[].module_list | map(.module_name + "-" + .semantic_version) | .[]'
-```
-
-See [Upgrade modules]({{<relref "/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module">}}) for details on how to upgrade modules with the `rladmin` tool.
+- Set `autoUpgradeRedisEnterprise: false` in the REC custom resource before upgrading the operator.
+- Define the user-defined modules in the REC custom resource before upgrading the database.
+See [user-defined modules](#user-defined-modules) for more details.
 
 ### Valid license
 
@@ -110,6 +100,20 @@ After the operator upgrade is complete, you can upgrade Redis Enterprise cluster
         repository:       redislabs/redis
         versionTag:       <new-version-tag>
     ```
+
+1. Define any user-defined modules used by databases in the cluster.
+
+    ```YAML
+    spec:
+      userDefinedModules:
+        - name: "custom-module"
+          source:
+            https:
+              url: "https://modules.company.com/search-v2.1.zip"
+              credentialsSecret: "module-repo-creds"
+    ```
+
+  The `name` field match the `display_name` or `module_name` that appears in the module manifest (for example, "redisgears"). This enables the operator to run validation on the user-defined module. If these names don't match, the operator can't run validation on the user-defined module and preventable errors may occur.
 
 1. Save the changes to apply.
 

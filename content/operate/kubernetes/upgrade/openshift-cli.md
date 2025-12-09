@@ -210,7 +210,7 @@ After the operator upgrade is complete, you can upgrade Redis Enterprise cluster
               credentialsSecret: "module-repo-creds"
     ```
 
-  The `name` field match the `display_name` or `module_name` that appears in the module manifest. This enables the operator to run validation on the user-defined module. If these names don't match, the operator can't run validation on the user-defined module and preventable errors may occur.
+  The `name` field match the `display_name` or `module_name` that appears in the module manifest (for example, "redisgears"). This enables the operator to run validation on the user-defined module. If these names don't match, the operator can't run validation on the user-defined module and preventable errors may occur.
 
 1. Save the changes to apply.
 
