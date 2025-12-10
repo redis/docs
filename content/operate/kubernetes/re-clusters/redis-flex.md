@@ -11,7 +11,7 @@ weight: 16
 ---
 
 {{<note>}}
-This page applies to Redis Enterprise for Kubernetes version 8.0.2-2 and later. If you use version 7.22.2-22 or earlier, see [Auto Tiering]({{< relref "/operate/kubernetes/7.22/re-clusters/auto-tiering" >}}).
+This page applies to Redis Enterprise for Kubernetes version 8.0.2-2 and later. If you use version 7.22.2-22 or earlier, see [Auto Tiering](https://redis.io/docs/latest/operate/kubernetes/7.22/re-clusters/auto-tiering/).
 {{</note>}}
 
 ## Overview

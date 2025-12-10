@@ -12,7 +12,7 @@ url: '/operate/kubernetes/7.22/re-clusters/auto-tiering/'
 ---
 
 {{<note>}}
-This page applies to Redis Enterprise for Kubernetes version 7.22.2-22. If you use version 8.0.2-2 or later, see [Redis Flex]({{< relref "/operate/kubernetes/re-clusters/redis-flex" >}}).
+This page applies to Redis Enterprise for Kubernetes version 7.22.2-22. If you use version 8.0.2-2 or later, see [Redis Flex](https://redis.io/docs/latest/operate/kubernetes/re-clusters/redis-flex).
 {{</note>}}
 
 ## Prerequisites
