@@ -1,5 +1,7 @@
 ---
-aliases: /develop/connect/insight/tutorials/insight-stream-consumer
+aliases:
+- /develop/connect/insight/tutorials/insight-stream-consumer
+- /develop/tools/insight/tutorials/insight-stream-consumer
 categories:
 - docs
 - develop
@@ -31,8 +33,7 @@ In this stream, sensors are considered _producers_, which broadcast data.
 A _consumer_ reads from the stream and does some work on it. 
 For example, if the temperature is above a certain threshold, it puts a message out to turn on the air conditioner in that unit or notify the maintenance.
 
-<img src="../images/stream.png">
-
+{{< image filename="../images/ri/stream.png" alt="A stream that models temperature and humidity sensors.">}}
 
 It is possible to have multiple consumers doing different jobs, one measuring humidity, and another taking temperature measurements over periods of time. 
 Redis stores a copy of the entire dataset in memory, which is a finite resource.
@@ -51,7 +52,7 @@ There are a couple of ways of retrieving things. You can retrieve entries by tim
 
 A more realistic use case would be a system with many temperature sensors whose data Redis puts in a stream, records the time they arrive, and orders them. 
 
-<img src="../images/consumer.png">
+{{< image filename="images/ri/consumer.png" alt="A stream that models temperature and humidity sensors." >}}
 
 On the right side we have two consumers that read the stream. One of them is alerting if the temperature is over a certain number and texting the maintenance crew that they need to do something, and the other is a data warehouse that is taking the data and putting it into a database. 
 
@@ -193,8 +194,7 @@ Note that in this model, each consumer instance does not receive all of the entr
 2. Select `localhost:6379`
 3. Select **STREAM**. Optionally, select full screen from the upper right corner to expand the view.
 
-<img src="../images/insight_streams.png">
-
+{{< image filename="../images/ri/ri-streams-cg.png" alt="The Streams view in Redis Insight." >}}
 
 You can now toggle between **Stream** and **Consumer Groups** views to see your data. 
 As mentioned earlier in this topic, a stream is an append-only log so you can't modify the contents of an entry, but you can delete an entire entry. 
