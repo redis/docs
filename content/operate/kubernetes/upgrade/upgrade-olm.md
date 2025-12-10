@@ -41,7 +41,7 @@ If your databases use user-defined modules (custom non-bundled modules):
 
 - Set `autoUpgradeRedisEnterprise: false` in the REC custom resource before upgrading the operator.
 - Define the user-defined modules in the REC custom resource before upgrading the database.
-See [user-defined modules](#user-defined-modules) for more details.
+- See [Edit `redisEnterpriseImageSpec`](#edit-redisenterpriseimagespec) for more details.
 
 ### Valid license
 
