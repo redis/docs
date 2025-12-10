@@ -1,4 +1,5 @@
 // EXAMPLE: vecset_tutorial
+// BINDER_ID php-dt-vector-set
 <?php
 
 require 'vendor/autoload.php';
