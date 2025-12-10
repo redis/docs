@@ -11,7 +11,7 @@ linkTitle: Install and upgrade modules
 weight: 4
 ---
 
-Several modules that provide additional Redis capabilities, such as search and query, JSON, time series, and probabilistic data structures, come packaged with [Redis Enterprise Software]({{< relref "/operate/rs" >}}). As of version 8.0, Redis Enterprise Software includes four feature sets, compatible with different Redis database versions.
+Several modules that provide additional Redis capabilities, such as search and query, JSON, time series, and probabilistic data structures, come packaged with [Redis Enterprise Software]({{< relref "/operate/rs" >}}). As of version 8.0, Redis Enterprise Software includes multiple feature sets, compatible with different Redis database versions.
 
 However, if you want to use additional modules or upgrade a module to a more recent version, you need to:
 

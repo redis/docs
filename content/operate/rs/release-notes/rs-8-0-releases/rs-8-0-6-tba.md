@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 8.2.1, 8.0.2, 7.4.3, 7.2.7, 6.2.13
-description: Single sign-on for the Cluster Manager UI. Slot migration API. Error reports for Replica Of migration status.
+description: Single sign-on for the Cluster Manager UI. Slot migration API. Error reports for Replica Of migration status. Automatically download and install user-defined modules during bootstrapping.
 linkTitle: 8.0.6-tba (December 2025)
 weight: 88
 ---
@@ -22,6 +22,8 @@ This version offers:
 - Slot migration API
 
 - Error reports for Replica Of migration status
+
+- Automatically download and install user-defined modules during bootstrapping
 
 ## New in this release
 
@@ -50,6 +52,8 @@ New database actions allow you to migrate and cancel slot migrations between Red
 ### Enhancements
 
 - Added error report to Replica Of [migration status]({{<relref "/operate/rs/references/rest-api/requests/migrations">}}) REST API responses.
+
+- Added support for automatically downloading and installing user-defined modules during bootstrap operations. You can now specify `user_defined_modules` in [bootstrap requests]({{<relref "/operate/rs/references/rest-api/requests/bootstrap#post-bootstrap">}}) for `create_cluster`, `join_cluster`, and `recover_cluster` actions. See [Add user-defined modules during bootstrapping]({{<relref "/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster#bootstrap-user-defined-module">}}) for details.
 
 ### Redis database versions
 
