@@ -1,9 +1,9 @@
 {
-  "openapi": "3.0.0",
+  "openapi": "3.0.3",
   "info": {
-    "version": "1.0.0",
-    "title": "Cluster API",
-    "description": "The next-generation REST API for managing a Redis Enterprise Cluster"
+    "title": "Authentication Service REST API",
+    "description": "REST API for the Authentication Service, primarily used for exposing SSO related endpoints.",
+    "version": "1.0.0"
   },
   "servers": [
     {
@@ -11,75 +11,128 @@
     }
   ],
   "paths": {
-    "/v1/migrations/{uid}": {
+    "/v1/auth/sso/saml/login": {
       "get": {
         "x-stability-level": "stable",
         "x-publish-docs": true,
-        "summary": "Get migration status of a bdb in the cluster",
-        "description": "Migration status of a bdb in the cluster",
-        "operationId": "get_migration",
+        "summary": "Starts SP-initiated SAML login flow",
+        "description": "Generates a redirect URL to the IdP for SAML authentication.",
+        "operationId": "login",
         "tags": [
-          "Migrations"
-        ],
-        "security": [
-          {
-            "Auth": [
-              "view_bdb_info"
-            ]
-          }
+          "Auth"
         ],
         "parameters": [
           {
-            "name": "uid",
-            "in": "path",
-            "description": "The migration unique ID",
-            "required": true,
+            "name": "relayState",
+            "in": "query",
+            "required": false,
             "schema": {
-              "type": "integer",
-              "x-go-type": "json.Number"
+              "type": "string"
             },
-            "example": 1
+            "description": "An optional relay state to be included in the SAML request."
           }
         ],
         "responses": {
           "200": {
-            "description": "migration information",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MigrationResponse"
+            "$ref": "#/components/responses/SamlLoginResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/v1/auth/sso/saml/callback": {
+      "post": {
+        "x-stability-level": "stable",
+        "x-publish-docs": true,
+        "summary": "Handles SAML response from IdP",
+        "description": "Processes the SAML response from the IdP",
+        "operationId": "callback",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "SAMLResponse"
+                ],
+                "properties": {
+                  "SAMLResponse": {
+                    "type": "string",
+                    "description": "Base64-encoded SAML response from the IdP."
+                  },
+                  "TTL": {
+                    "type": "integer",
+                    "x-go-type": "uint32",
+                    "description": "Time-to-live (TTL) of the token in seconds"
+                  }
                 }
               }
             }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/SamlCallbackResponse"
           },
-          "403": {
-            "$ref": "#/components/responses/Forbidden"
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
           },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/v1/auth/sso/saml/logout": {
+      "get": {
+        "x-stability-level": "stable",
+        "x-publish-docs": true,
+        "summary": "Starts SP-initiated SAML logout flow",
+        "description": "Generates a redirect URL to the IdP for SAML logout.",
+        "operationId": "logout",
+        "tags": [
+          "Auth"
+        ],
+        "security": [
+          {
+            "jwtAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/SamlLogoutResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
           }
         }
       }
     }
   },
   "components": {
+    "securitySchemes": {
+      "jwtAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization"
+      }
+    },
     "schemas": {
-      "JWT": {
-        "required": [
-          "token",
-          "uid"
-        ],
-        "properties": {
-          "token": {
-            "type": "string",
-            "description": "Generated JWT"
-          },
-          "uid": {
-            "type": "string",
-            "description": "Uid of user"
-          }
-        }
-      },
       "Error": {
         "required": [
           "error_code",
@@ -89,7 +142,7 @@
         "properties": {
           "error_code": {
             "type": "string",
-            "description": "Semantic error code (e.g., password_not_complex)"
+            "description": "Semantic error code"
           },
           "description": {
             "type": "string",
@@ -100,1527 +153,63 @@
             "x-go-json-ignore": true
           }
         }
-      },
-      "Crdb": {
-        "type": "object",
-        "properties": {
-          "guid": {
-            "type": "string",
-            "description": "The GUID of the Active-Active database."
-          },
-          "name": {
-            "type": "string",
-            "description": "Name of Active-Active database."
-          },
-          "managed_by": {
-            "type": "string",
-            "description": "The component that manages the A-A database."
-          },
-          "encryption": {
-            "type": "boolean",
-            "description": "Encrypt communication",
-            "default": false
-          },
-          "default_db_config": {
-            "$ref": "#/components/schemas/DatabaseConfig"
-          },
-          "volatile_config_fields": {
-            "description": "A list of DB config fields that will be set even if unchanged.\nThis list does not persist, and is specific for the API request it\nis part of.\n",
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "local_databases": {
-            "description": "Mapping of instance IDs for local databases to local BDB IDs.",
-            "type": "array",
-            "readOnly": true,
-            "items": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "$ref": "#/components/schemas/InstanceId"
-                },
-                "bdb_uid": {
-                  "description": "Local cluster Bdatabases UID.",
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "instances": {
-            "type": "array",
-            "description": "Active-Active instances.",
-            "items": {
-              "$ref": "#/components/schemas/InstanceInfo"
-            }
-          },
-          "causal_consistency": {
-            "type": "boolean",
-            "description": "Enables causal consistency across crdt instances",
-            "default": false
-          },
-          "featureset_version": {
-            "type": "integer",
-            "description": "Active-Active database active FeatureSet version"
-          },
-          "protocol_version": {
-            "type": "integer",
-            "description": "Active-Active database active protocol version"
-          },
-          "modules": {
-            "type": "array",
-            "description": "CRDB-compatible Redis modules.",
-            "items": {
-              "$ref": "#/components/schemas/Module"
-            }
-          }
-        }
-      },
-      "InstanceInfo": {
-        "description": "Active-Active instance information.",
-        "type": "object",
-        "properties": {
-          "id": {
-            "$ref": "#/components/schemas/InstanceId"
-          },
-          "compression": {
-            "type": "integer",
-            "description": "Compression level when syncing from this source.\n",
-            "minimum": 0,
-            "maximum": 6,
-            "default": 3
-          },
-          "cluster": {
-            "$ref": "#/components/schemas/ClusterInfo"
-          },
-          "db_config": {
-            "$ref": "#/components/schemas/DatabaseConfig"
-          },
-          "db_uid": {
-            "type": "string",
-            "description": "ID of local database instance. This field is likely to be\nempty for instances other than the local one.\n"
-          }
-        }
-      },
-      "DatabaseConfig": {
-        "type": "object",
-        "properties": {
-          "cert": {
-            "type": "string",
-            "description": "Optional PEM-encoded server certificate for the underlying database instance."
-          },
-          "private_key": {
-            "type": "string",
-            "description": "Optional PEM-encoded private key matching cert for the underlying database instance."
-          },
-          "replication": {
-            "type": "boolean",
-            "description": "Database replication",
-            "default": true
-          },
-          "rack_aware": {
-            "type": "boolean",
-            "description": "Require the database to be always replicated across multiple racks",
-            "default": false
-          },
-          "memory_size": {
-            "type": "integer",
-            "description": "Database memory size limit, in bytes.",
-            "default": 0
-          },
-          "data_persistence": {
-            "description": "Database on-disk persistence",
-            "type": "string",
-            "enum": [
-              "disabled",
-              "snapshot",
-              "aof"
-            ],
-            "default": "aof"
-          },
-          "tls_mode": {
-            "type": "string",
-            "enum": [
-              "disabled",
-              "replica_ssl",
-              "enabled"
-            ],
-            "default": "disabled",
-            "description": "Encrypt communication"
-          },
-          "authentication_redis_pass": {
-            "type": "string",
-            "description": "Redis AUTH password"
-          },
-          "authentication_admin_pass": {
-            "type": "string",
-            "description": "Administrative databases access token"
-          },
-          "port": {
-            "type": "integer",
-            "description": "TCP port for database access",
-            "minimum": 1,
-            "maximum": 65535
-          },
-          "shards_count": {
-            "type": "integer",
-            "minimum": 1,
-            "maximum": 512,
-            "default": 1,
-            "description": "Number of database shards"
-          },
-          "shard_key_regex": {
-            "type": "array",
-            "description": "Custom keyname-based sharding rules. Custom keyname-based sharding rules.\n\nTo use the default rules you should set the value to:\n  [ { \\\"regex\\\": \\\".*\\\\{(?<tag>.*)\\\\}.*\\\" }, { \\\"regex\\\": \\\"(?<tag>.*)\\\" } ]\n",
-            "items": {
-              "type": "object",
-              "properties": {
-                "regex": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "regex"
-              ]
-            }
-          },
-          "oss_sharding": {
-            "type": "boolean",
-            "default": false,
-            "description": "An alternative to shard_key_regex for using the common case of the oss shard hashing policy"
-          },
-          "oss_cluster": {
-            "type": "boolean",
-            "default": false,
-            "description": "Enables OSS Cluster mode"
-          },
-          "proxy_policy": {
-            "type": "string",
-            "enum": [
-              "single",
-              "all-master-shards",
-              "all-nodes"
-            ],
-            "description": "The policy used for proxy binding to the endpoint"
-          },
-          "shards_placement": {
-            "description": "Control the density of shards: should they reside on as few or as many nodes as possible",
-            "type": "string",
-            "enum": [
-              "dense",
-              "sparse"
-            ]
-          },
-          "oss_cluster_api_preferred_ip_type": {
-            "type": "string",
-            "description": "Indicates preferred ip type in oss cluster API: internal/external",
-            "enum": [
-              "internal",
-              "external"
-            ]
-          },
-          "bigstore": {
-            "type": "boolean",
-            "default": false,
-            "description": "Database driver is Redis on Flash"
-          },
-          "bigstore_ram_size": {
-            "type": "integer",
-            "default": 0,
-            "description": "Memory size of RAM size"
-          },
-          "aof_policy": {
-            "type": "string",
-            "enum": [
-              "appendfsync-every-sec",
-              "appendfsync-always"
-            ],
-            "default": "appendfsync-every-sec",
-            "description": "Policy for Append-Only File data persistence"
-          },
-          "snapshot_policy": {
-            "type": "array",
-            "description": "Policy for snapshot-based data persistence.\n\nDataset snapshot will be taken every N secs if there are at least M writes changes in the dataset\n",
-            "items": {
-              "type": "object",
-              "description": "Policy criteria expressed in minimum writes in a given time window (seconds)",
-              "properties": {
-                "secs": {
-                  "type": "integer",
-                  "minimum": 1
-                },
-                "writes": {
-                  "type": "integer",
-                  "minimum": 1
-                }
-              },
-              "required": [
-                "secs",
-                "writes"
-              ]
-            }
-          },
-          "max_aof_load_time": {
-            "type": "integer",
-            "default": 3600,
-            "description": "Hint for maximum AOF reload time"
-          },
-          "max_aof_file_size": {
-            "type": "integer",
-            "default": 322122547200,
-            "description": "Hint for maximum AOF file size"
-          }
-        }
-      },
-      "ClusterInfo": {
-        "type": "object",
-        "description": "Configuration details of a cluster that is part of a multi-master\ndatabase.\n",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Cluster fully qualified name, used to unique identify the cluster.\n\nTypically this is the same as the hostname used in the URL, although\nin some configruations the URL may point to a different name/address.\n"
-          },
-          "url": {
-            "type": "string",
-            "description": "Cluster access URL."
-          },
-          "replication_endpoint": {
-            "type": "string",
-            "description": "Address to use for peer replication.\n\nIf not specified, it is assumed that standard cluster naming conventions apply.\n"
-          },
-          "replication_tls_sni": {
-            "type": "string",
-            "description": "Cluster SNI for TLS connections."
-          },
-          "credentials": {
-            "type": "object",
-            "description": "Cluster access credentials.",
-            "properties": {
-              "username": {
-                "type": "string"
-              },
-              "password": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "username",
-              "password"
-            ]
-          }
-        }
-      },
-      "Module": {
-        "type": "object",
-        "description": "Configuration details of a module that runs in a multi-master\ndatabase.\n",
-        "properties": {
-          "module_name": {
-            "type": "string",
-            "description": "Module name"
-          },
-          "featureset_version": {
-            "type": "integer",
-            "minimum": 0,
-            "description": "Module featureset version."
-          }
-        },
-        "required": [
-          "module_name",
-          "featureset_version"
-        ]
-      },
-      "Task": {
-        "type": "object",
-        "description": "An administrative task that gets invoked as a result of a user request.\n",
-        "properties": {
-          "id": {
-            "type": "string",
-            "readOnly": true
-          },
-          "crdb_guid": {
-            "type": "string",
-            "readOnly": true
-          },
-          "started": {
-            "type": "string",
-            "format": "date-time",
-            "example": "2018-03-20T09:12:28Z",
-            "readOnly": true
-          },
-          "ended": {
-            "type": "string",
-            "format": "date-time",
-            "example": "2018-03-20T09:12:28Z",
-            "readOnly": true
-          },
-          "worker_name": {
-            "type": "string",
-            "readOnly": true,
-            "description": "The worker that executes the task."
-          },
-          "operation": {
-            "type": "string",
-            "readOnly": true,
-            "description": "The operation that is running."
-          },
-          "status": {
-            "type": "string",
-            "readOnly": true,
-            "description": "Options:\n\nqueued\n\nstarted\n\nfinished\n\nfailed\n"
-          },
-          "progress": {
-            "type": "object",
-            "readOnly": true,
-            "description": "Shows what the task is doing when its status is started",
-            "properties": {
-              "worker": {
-                "type": "string",
-                "description": "The step the worker is executing"
-              },
-              "clusters": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "type": "string",
-                      "description": "The instance cluster name"
-                    },
-                    "progress": {
-                      "type": "string",
-                      "description": "The step the instance coordinator is executing"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "cluster_name": {
-                  "type": "string",
-                  "description": "Cluster on which error occurred."
-                },
-                "error_code": {
-                  "type": "string",
-                  "description": "Returned or generated error code."
-                },
-                "description": {
-                  "type": "string",
-                  "description": "Returned or generated error description."
-                }
-              }
-            }
-          }
-        }
-      },
-      "ErrorDetails": {
-        "type": "object",
-        "description": "Error response details.",
-        "properties": {
-          "error_code": {
-            "type": "string",
-            "description": "Returned or generated error code."
-          },
-          "description": {
-            "type": "string",
-            "description": "Returned or generated error description."
-          }
-        }
-      },
-      "InstanceId": {
-        "type": "integer",
-        "minimum": 1,
-        "maximum": 31,
-        "description": "Unique instance ID."
-      },
-      "Database": {
-        "required": [
-          "id",
-          "name"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique id of the Database"
-          },
-          "name": {
-            "type": "string",
-            "description": "Name of the Database"
-          }
-        }
-      },
-      "FeatureFlag": {
-        "type": "object",
-        "description": "A configuration object that represents a Feature Flag following OpenFeature specification, which can be used to enable or disable features with variants and targeting rules.",
-        "properties": {
-          "state": {
-            "type": "string",
-            "description": "The state of the feature flag.",
-            "enum": [
-              "ENABLED",
-              "DISABLED"
-            ]
-          },
-          "variants": {
-            "type": "object",
-            "description": "A map of variant names to their values. Values can be of any type (boolean, string, number, object).",
-            "additionalProperties": true
-          },
-          "defaultVariant": {
-            "type": "string",
-            "description": "The name of the variant to use as the default when no targeting rules match."
-          },
-          "targeting": {
-            "type": "object",
-            "description": "Optional targeting rules that determine which variant to return based on context.",
-            "x-omitempty": true
-          },
-          "metadata": {
-            "type": "object",
-            "description": "Optional metadata associated with the feature flag. Keys are strings, values can be any type.",
-            "properties": {
-              "hidden": {
-                "type": "boolean",
-                "description": "When true, this flag is hidden from feature flags listings.",
-                "default": false
-              }
-            },
-            "additionalProperties": true,
-            "x-omitempty": true
-          }
-        }
-      },
-      "FeatureFlagDefinitionResponse": {
-        "type": "object",
-        "description": "A configuration object that represents a Feature Flag following OpenFeature specification, which can be used to enable or disable features with variants and targeting rules.",
-        "properties": {
-          "state": {
-            "type": "string",
-            "description": "The state of the feature flag.",
-            "enum": [
-              "ENABLED",
-              "DISABLED"
-            ]
-          },
-          "variants": {
-            "type": "object",
-            "description": "A map of variant names to their values. Values can be of any type (boolean, string, number, object).",
-            "additionalProperties": true
-          },
-          "defaultVariant": {
-            "type": "string",
-            "description": "The name of the variant to use as the default when no targeting rules match."
-          },
-          "targeting": {
-            "type": "object",
-            "description": "Optional targeting rules that determine which variant to return based on context.",
-            "x-omitempty": true
-          },
-          "metadata": {
-            "type": "object",
-            "description": "Optional metadata associated with the feature flag. Keys are strings, values can be any type.",
-            "additionalProperties": true,
-            "x-omitempty": true
-          }
-        }
-      },
-      "FeatureFlagEvaluationResponse": {
-        "type": "object",
-        "properties": {
-          "value": {
-            "description": "The evaluated value of the feature flag (can be any type)"
-          },
-          "key": {
-            "type": "string"
-          },
-          "reason": {
-            "type": "string"
-          },
-          "variant": {
-            "description": "The variant name that was selected (can be any type)"
-          },
-          "metadata": {
-            "type": "object",
-            "additionalProperties": true
-          }
-        }
-      },
-      "DatabaseHealthReport": {
-        "type": "object",
-        "required": [
-          "id",
-          "name",
-          "availability",
-          "high_availability",
-          "status",
-          "version",
-          "creation_time",
-          "last_configured_time",
-          "last_backup_time",
-          "persistence",
-          "shards_placement",
-          "endpoints",
-          "shards",
-          "active_alerts"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Database id"
-          },
-          "name": {
-            "type": "string",
-            "description": "Database name"
-          },
-          "availability": {
-            "$ref": "#/components/schemas/replication_status",
-            "description": "Whether the BDB is available (DMC is connected to all master shards)"
-          },
-          "status": {
-            "enum": [
-              "active",
-              "active-change-pending",
-              "pending",
-              "import-pending",
-              "delete-pending",
-              "recovery",
-              "creation-failed",
-              "unknown"
-            ],
-            "type": "string",
-            "default": "unknown",
-            "description": "Database life-cycle status."
-          },
-          "version": {
-            "type": "string",
-            "description": "Database version."
-          },
-          "creation_time": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Database creation time."
-          },
-          "last_configured_time": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Database last configuration time."
-          },
-          "last_backup_time": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Database last backup time."
-          },
-          "persistence": {
-            "type": "string",
-            "enum": [
-              "disabled",
-              "aof",
-              "rdb"
-            ],
-            "default": "disabled",
-            "description": "Database persistence type."
-          },
-          "shards_placement": {
-            "type": "string",
-            "enum": [
-              "dense",
-              "sparse"
-            ],
-            "description": "Database shards placement."
-          },
-          "endpoints": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Endpoint"
-            },
-            "description": "Database endpoints."
-          },
-          "shards": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ShardHealthReport"
-            },
-            "description": "Database shards."
-          },
-          "state_machine": {
-            "type": "object",
-            "$ref": "#/components/schemas/StateMachine",
-            "description": "Currently active state machine for the database"
-          },
-          "active_alerts": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Alert"
-            },
-            "description": "List of active alerts for the database"
-          },
-          "high_availability": {
-            "type": "object",
-            "$ref": "#/components/schemas/HighAvailability"
-          }
-        }
-      },
-      "HighAvailability": {
-        "type": "object",
-        "required": [
-          "status"
-        ],
-        "properties": {
-          "status": {
-            "description": "Whether every replica of the BDB is healthy",
-            "$ref": "#/components/schemas/replication_status"
-          }
-        }
-      },
-      "ShardHealthReport": {
-        "type": "object",
-        "required": [
-          "id",
-          "role",
-          "status",
-          "detailed_status"
-        ],
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "role": {
-            "type": "string",
-            "enum": [
-              "leader",
-              "follower"
-            ],
-            "description": "shard role can be leader or follower"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "active",
-              "inactive",
-              "trimming"
-            ],
-            "description": "shard status can be up or trimming"
-          },
-          "detailed_status": {
-            "type": "string",
-            "enum": [
-              "ok",
-              "importing",
-              "timeout",
-              "loading",
-              "busy",
-              "down",
-              "trimming",
-              "unknown"
-            ],
-            "description": "shard detailed status"
-          }
-        }
-      },
-      "ClusterHealthReport": {
-        "description": "Cluster health report.",
-        "type": "object",
-        "required": [
-          "fqdn",
-          "status",
-          "license",
-          "certificates",
-          "nodes",
-          "active_alerts"
-        ],
-        "properties": {
-          "fqdn": {
-            "type": "string",
-            "description": "Cluster FQDN"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "quorum",
-              "quorum loss"
-            ],
-            "description": "Cluster status"
-          },
-          "license": {
-            "$ref": "#/components/schemas/LicenseHealthReport"
-          },
-          "certificates": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Certificate"
-            },
-            "description": "List of certificates in the cluster"
-          },
-          "nodes": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Node"
-            },
-            "description": "List of nodes in the cluster"
-          },
-          "active_alerts": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Alert"
-            }
-          }
-        }
-      },
-      "LicenseHealthReport": {
-        "description": "License health report.",
-        "type": "object",
-        "required": [
-          "expired",
-          "shards_in_use",
-          "shards_limit"
-        ],
-        "properties": {
-          "expired": {
-            "type": "boolean",
-            "description": "Whether the license has expired"
-          },
-          "shards_in_use": {
-            "type": "integer",
-            "description": "Accumulated number of shards in use by databases in the cluster"
-          },
-          "shards_limit": {
-            "type": "integer",
-            "description": "Shards limit specified in cluster license"
-          }
-        }
-      },
-      "Certificate": {
-        "description": "Certificate information.",
-        "type": "object",
-        "required": [
-          "type",
-          "expired",
-          "valid_until"
-        ],
-        "properties": {
-          "type": {
-            "type": "string",
-            "description": "Certificate type"
-          },
-          "expired": {
-            "type": "boolean",
-            "description": "Whether the certificate has expired"
-          },
-          "valid_until": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Certificate expiration time"
-          }
-        }
-      },
-      "Node": {
-        "description": "Node information.",
-        "type": "object",
-        "required": [
-          "id",
-          "status",
-          "role",
-          "version",
-          "shards",
-          "memory",
-          "observed_at",
-          "services"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Node id"
-          },
-          "status": {
-            "type": "string",
-            "description": "Node status"
-          },
-          "role": {
-            "type": "string",
-            "description": "Node role can be leader or follower",
-            "enum": [
-              "leader",
-              "follower"
-            ]
-          },
-          "version": {
-            "type": "string",
-            "description": "RS version installed on the node"
-          },
-          "shards": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ShardHealthReport"
-            },
-            "description": "Shards on the node."
-          },
-          "memory": {
-            "type": "object",
-            "$ref": "#/components/schemas/Memory",
-            "description": "Memory information regarding the node"
-          },
-          "observed_at": {
-            "type": "integer",
-            "format": "int64",
-            "description": "Unix time in seconds when the value was last written in the CCS"
-          },
-          "services": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Service"
-            }
-          }
-        }
-      },
-      "Service": {
-        "description": "Services running on the node managed by supervisor",
-        "type": "object",
-        "required": [
-          "name",
-          "status"
-        ],
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Name of the service"
-          },
-          "status": {
-            "type": "string",
-            "description": "Status of the service corresponding to the statename returned by supervisor"
-          }
-        }
-      },
-      "Memory": {
-        "description": "Memory information",
-        "type": "object",
-        "required": [
-          "total_ram",
-          "free_ram",
-          "free_provisional_ram",
-          "total_provisional_ram",
-          "overbooking_depth"
-        ],
-        "properties": {
-          "total_ram": {
-            "type": "integer",
-            "format": "int64",
-            "description": "Total ram the node has in bytes"
-          },
-          "free_ram": {
-            "type": "integer",
-            "format": "int64",
-            "description": "Free ram the node has in bytes"
-          },
-          "free_provisional_ram": {
-            "type": "integer",
-            "format": "int64",
-            "description": "Remaining ram for provisioning new shards on the node"
-          },
-          "total_provisional_ram": {
-            "type": "integer",
-            "format": "int64",
-            "description": "Total ram for provisioning shards on the node"
-          },
-          "overbooking_depth": {
-            "type": "integer",
-            "format": "int64",
-            "description": "How much the node is overbooked or has capacity remaining, like free provisional ram but takes into account shards_overbooking (can be negative if it is overbooked)"
-          }
-        }
-      },
-      "Alert": {
-        "description": "Alert information",
-        "type": "object",
-        "required": [
-          "name",
-          "active_since"
-        ],
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Alert name"
-          },
-          "active_since": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Since what time the alert is active"
-          }
-        }
-      },
-      "Endpoint": {
-        "description": "Endpoint information",
-        "type": "object",
-        "required": [
-          "name",
-          "availability"
-        ],
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Endpoint name"
-          },
-          "availability": {
-            "description": "Whether the endpoint is available as reported by Node WD",
-            "$ref": "#/components/schemas/replication_status"
-          }
-        }
-      },
-      "replication_status": {
-        "description": "The replication link status",
-        "type": "string",
-        "enum": [
-          "down",
-          "up"
-        ]
-      },
-      "StateMachine": {
-        "description": "State machine information",
-        "type": "object",
-        "required": [
-          "name",
-          "state"
-        ],
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "State machine name"
-          },
-          "state": {
-            "type": "string",
-            "description": "State machine state"
-          }
-        }
-      },
-      "Migration": {
-        "type": "object",
-        "description": "Object structure for migration status.",
-        "properties": {
-          "status": {
-            "description": "Sync status of this source.",
-            "type": "string",
-            "nullable": true,
-            "readOnly": true,
-            "x-omitempty": true
-          },
-          "lag": {
-            "description": "Lag in milliseconds between source and destination (while synced).",
-            "type": "integer",
-            "nullable": true,
-            "readOnly": true,
-            "x-omitempty": true
-          },
-          "rdb_size": {
-            "description": "Number of source bytes.",
-            "type": "integer",
-            "nullable": true,
-            "readOnly": true,
-            "x-omitempty": true
-          },
-          "rdb_transferred": {
-            "description": "Number of source bytes transferred.",
-            "type": "integer",
-            "nullable": true,
-            "readOnly": true,
-            "x-omitempty": true
-          },
-          "run_id": {
-            "description": "Syncer run id.",
-            "type": "string",
-            "nullable": true,
-            "readOnly": true,
-            "x-omitempty": true
-          },
-          "flush_counter": {
-            "description": "How many times syncer had to restart.",
-            "type": "integer",
-            "nullable": true,
-            "readOnly": true,
-            "x-omitempty": true
-          },
-          "source_shards": {
-            "type": "array",
-            "readOnly": true,
-            "items": {
-              "$ref": "#/components/schemas/SourceShard"
-            }
-          },
-          "error": {
-            "$ref": "#/components/schemas/MigrationError",
-            "nullable": true,
-            "readOnly": true,
-            "x-omitempty": true
-          }
-        }
-      },
-      "SourceShard": {
-        "type": "object",
-        "description": "Replication shard with its metadata",
-        "properties": {
-          "replication_id": {
-            "description": "Replication id",
-            "type": "string",
-            "readOnly": true
-          },
-          "replication_offset": {
-            "description": "Replication offset",
-            "type": "integer",
-            "readOnly": true
-          }
-        }
-      },
-      "MigrationError": {
-        "type": "object",
-        "description": "Error information for migration operations",
-        "properties": {
-          "error_code": {
-            "description": "Error code identifying the specific error",
-            "type": "string",
-            "nullable": true,
-            "readOnly": true,
-            "x-omitempty": true
-          },
-          "message": {
-            "description": "Human-readable error message",
-            "type": "string",
-            "nullable": true,
-            "readOnly": true,
-            "x-omitempty": true
-          },
-          "timestamp": {
-            "description": "Timestamp when the error occurred",
-            "type": "string",
-            "nullable": true,
-            "format": "date-time",
-            "readOnly": true,
-            "x-omitempty": true
-          }
-        }
-      },
-      "MigrationResponse": {
-        "type": "object",
-        "description": "Response wrapper for migration endpoint",
-        "properties": {
-          "migration": {
-            "$ref": "#/components/schemas/Migration"
-          }
-        }
-      },
-      "RedisAcl": {
-        "type": "object",
-        "description": "An API object that represents a Redis ACL definition.",
-        "required": [
-          "uid",
-          "name",
-          "acl",
-          "min_version",
-          "max_version"
-        ],
-        "properties": {
-          "uid": {
-            "description": "Redis ACL unique uid.",
-            "type": "integer",
-            "x-go-type": "json.Number"
-          },
-          "name": {
-            "description": "ACL name.",
-            "type": "string"
-          },
-          "acl": {
-            "description": "Redis ACL string definition.",
-            "type": "string"
-          },
-          "min_version": {
-            "description": "Minimum Redis version for which this ACL is valid.",
-            "type": "string"
-          },
-          "max_version": {
-            "description": "Maximum Redis version for which this ACL is valid.",
-            "type": "string"
-          },
-          "account_id": {
-            "description": "SM account ID associated with this ACL.",
-            "type": "integer"
-          },
-          "action_uid": {
-            "description": "Action uid. If exists - progress can be tracked by the GET /actions/<uid> API",
-            "type": "string"
-          }
-        },
-        "example": {
-          "uid": 1,
-          "name": "default",
-          "acl": "on >allcommands allkeys",
-          "min_version": "6.2",
-          "max_version": "9999"
-        }
-      },
-      "RoleName": {
-        "type": "string",
-        "description": "Name of the management role.",
-        "enum": [
-          "none",
-          "db_viewer",
-          "cluster_viewer",
-          "db_member",
-          "cluster_member",
-          "user_manager",
-          "admin"
-        ]
-      },
-      "RoleBody": {
-        "type": "object",
-        "description": "Common role properties shared across role payloads.",
-        "properties": {
-          "name": {
-            "description": "Role's name.",
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9_ \\[\\]()@,.;#-]+$"
-          },
-          "management": {
-            "description": "Role's management role.",
-            "$ref": "#/components/schemas/RoleName"
-          },
-          "account_id": {
-            "description": "Account ID. Only applicable to account-scoped roles.",
-            "type": "integer"
-          }
-        }
-      },
-      "Role": {
-        "description": "An API object that represents a Redis Enterprise role.",
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/RoleBody"
-          },
-          {
-            "type": "object",
-            "required": [
-              "uid",
-              "name",
-              "management"
-            ],
-            "properties": {
-              "uid": {
-                "description": "Role's unique uid.",
-                "type": "integer",
-                "x-go-type": "json.Number"
-              }
-            }
-          }
-        ],
-        "example": {
-          "uid": 1,
-          "name": "DBA",
-          "management": "admin"
-        }
-      },
-      "RoleCreateRequest": {
-        "description": "Role creation request payload.",
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/RoleBody"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "uid": {
-                "description": "Optional uid to assign to the role.",
-                "type": "integer",
-                "x-go-type": "json.Number"
-              }
-            }
-          }
-        ],
-        "example": {
-          "name": "Support Engineer",
-          "management": "cluster_viewer"
-        }
-      },
-      "User": {
-        "type": "object",
-        "description": "An API object that represents an Redis Enterprise Cluster user.",
-        "required": [
-          "uid",
-          "name",
-          "role",
-          "role_uids",
-          "auth_method"
-        ],
-        "properties": {
-          "uid": {
-            "description": "User's unique uid.",
-            "type": "integer",
-            "x-go-type": "json.Number"
-          },
-          "email": {
-            "description": "User's email. (pattern matching only ascii characters)",
-            "type": "string"
-          },
-          "password": {
-            "description": "User's password. Note that it could also be an already-hashed value, in which case 'password_hash_method' parameter is also provided.",
-            "type": "string"
-          },
-          "name": {
-            "description": "User's name. (pattern does not allow non ascii and special characters &,<,>,\")",
-            "type": "string"
-          },
-          "email_alerts": {
-            "description": "Activate email alerts for a user.",
-            "type": "boolean",
-            "default": true
-          },
-          "bdbs_email_alerts": {
-            "description": "UIDs of databases that user will receive alerts for.",
-            "type": "array",
-            "uniqueItems": true,
-            "items": {
-              "type": "string"
-            }
-          },
-          "cluster_email_alerts": {
-            "description": "Activate cluster email alerts for a user.",
-            "type": "boolean"
-          },
-          "auth_method": {
-            "type": "string",
-            "enum": [
-              "regular",
-              "certificate",
-              "entraid",
-              "sso"
-            ]
-          },
-          "certificate_subject_line": {
-            "description": "The certificate's subject line as defined by RFC2253 (for certificate based authentication users only)",
-            "type": "string"
-          },
-          "password_issue_date": {
-            "description": "The date in which the password was set.",
-            "type": "string",
-            "format": "date-time"
-          },
-          "last_login": {
-            "description": "Timestamp of the user's last login time. This denotes the last time an authentication with the user's credentials was successful.",
-            "type": "integer",
-            "format": "int64"
-          },
-          "role": {
-            "description": "(deprecated) User's role.",
-            "x-deprecated-reason": "Use role_uids instead",
-            "deprecated": true,
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/RoleName"
-              }
-            ]
-          },
-          "role_uids": {
-            "description": "List of role uids associated with the user",
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "x-go-type": "json.Number"
-            }
-          },
-          "account_id": {
-            "description": "SM account ID",
-            "type": "integer"
-          },
-          "action_uid": {
-            "description": "Action uid. If exists - progress can be tracked by the GET /actions/<uid> API",
-            "type": "string"
-          },
-          "status": {
-            "description": "Status of the user.",
-            "type": "string",
-            "enum": [
-              "active",
-              "locked",
-              "password_expired"
-            ]
-          }
-        },
-        "example": {
-          "password_issue_date": "2025-03-02T09:43:34Z",
-          "last_login": 1760618047,
-          "email": "user@redis.com",
-          "name": "John Doe",
-          "email_alerts": true,
-          "auth_method": "regular",
-          "role_uids": [
-            1
-          ],
-          "status": "active"
-        }
-      },
-      "UserRequest": {
-        "type": "object",
-        "description": "User modification request.",
-        "properties": {
-          "name": {
-            "description": "User's name.",
-            "type": "string",
-            "pattern": "^[^&<>\"]*$",
-            "maxLength": 255,
-            "minLength": 1
-          },
-          "email": {
-            "description": "User's email.",
-            "type": "string",
-            "format": "email"
-          },
-          "password": {
-            "description": "User's password for regular authentication. Required for regular auth method.",
-            "type": "string"
-          },
-          "email_alerts": {
-            "description": "Activate email alerts for a user.",
-            "type": "boolean"
-          },
-          "bdbs_email_alerts": {
-            "description": "UIDs of databases that user will receive alerts for.",
-            "type": "array",
-            "uniqueItems": true,
-            "items": {
-              "type": "string"
-            }
-          },
-          "cluster_email_alerts": {
-            "description": "Activate cluster email alerts for a user.",
-            "type": "boolean"
-          },
-          "auth_method": {
-            "type": "string",
-            "enum": [
-              "regular",
-              "certificate",
-              "entraid",
-              "sso"
-            ]
-          },
-          "certificate_subject_line": {
-            "description": "The certificate's subject line as defined by RFC2253 (for certificate based authentication users only)",
-            "type": "string"
-          },
-          "role": {
-            "description": "(deprecated) User's role.",
-            "x-deprecated-reason": "Use role_uids instead",
-            "x-sunset": "2027-12-31",
-            "deprecated": true,
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/RoleName"
-              }
-            ]
-          },
-          "role_uids": {
-            "description": "List of role uids associated with the user",
-            "type": "array",
-            "uniqueItems": true,
-            "minItems": 1,
-            "items": {
-              "type": "integer",
-              "x-go-type": "json.Number"
-            }
-          },
-          "account_id": {
-            "description": "SM account ID",
-            "type": "integer"
-          },
-          "password_hash_method": {
-            "$ref": "#/components/schemas/PasswordHashMethod"
-          }
-        }
-      },
-      "PasswordHashMethod": {
-        "type": "integer",
-        "description": "Used when password is passed pre-hashed",
-        "enum": [
-          1
-        ],
-        "x-enum-varnames": [
-          "PreHashed"
-        ]
-      },
-      "Permissions": {
-        "type": "object",
-        "description": "API and UI permissions for a role",
-        "properties": {
-          "api_permissions": {
-            "type": "array",
-            "description": "List of permission strings",
-            "items": {
-              "type": "string"
-            }
-          },
-          "ui_permissions": {
-            "type": "array",
-            "description": "List of permission strings",
-            "items": {
-              "type": "string"
-            }
-          }
-        },
-        "example": {
-          "api_permissions": [
-            "create_node",
-            "update_node",
-            "delete_node"
-          ],
-          "ui_permissions": [
-            "view_cluster_page",
-            "view_database_page"
-          ]
-        }
-      },
-      "RolesWithPermissions": {
-        "type": "object",
-        "description": "A map of role names to their permissions",
-        "additionalProperties": {
-          "$ref": "#/components/schemas/Permissions"
-        },
-        "example": {
-          "admin": {
-            "api_permissions": [
-              "create_node",
-              "update_node",
-              "delete_node"
-            ],
-            "ui_permissions": [
-              "view_cluster_page",
-              "view_database_page"
-            ]
-          },
-          "db_viewer": {
-            "api_permissions": [
-              "view_bdb_info",
-              "view_all_bdbs_info"
-            ],
-            "ui_permissions": [
-              "view_database_page"
-            ]
-          }
-        }
       }
     },
     "responses": {
-      "BadRequest": {
-        "description": "Unauthorized",
+      "SamlLoginResponse": {
+        "description": "Successful response containing the redirect URL.",
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/Error"
+              "type": "object",
+              "properties": {
+                "redirectUrl": {
+                  "type": "string",
+                  "description": "The URL to redirect the user to for SAML authentication."
+                }
+              }
             }
           }
         }
       },
-      "NotFound": {
-        "description": "Not Found",
+      "SamlCallbackResponse": {
+        "description": "Successful response after processing a SAML response.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "access_token": {
+                  "type": "string",
+                  "description": "JWT access token for the authenticated user"
+                },
+                "uid": {
+                  "type": "string",
+                  "description": "Unique identifier for the authenticated user"
+                }
+              }
+            }
+          }
+        }
+      },
+      "SamlLogoutResponse": {
+        "description": "Successful response containing the redirect URL.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "redirectUrl": {
+                  "type": "string",
+                  "description": "The URL to redirect the user to for SAML logout."
+                }
+              }
+            }
+          }
+        }
+      },
+      "BadRequest": {
+        "description": "Bad request",
         "content": {
           "application/json": {
             "schema": {
@@ -1639,16 +228,6 @@
           }
         }
       },
-      "Forbidden": {
-        "description": "Forbidden",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
-            }
-          }
-        }
-      },
       "InternalServerError": {
         "description": "Internal Server Error",
         "content": {
@@ -1658,43 +237,6 @@
             }
           }
         }
-      },
-      "ServiceUnavailable": {
-        "description": "Service Unavailable",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
-            }
-          }
-        }
-      },
-      "NotAcceptable": {
-        "description": "Not Acceptable",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
-            }
-          }
-        }
-      },
-      "Conflict": {
-        "description": "Conflict",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
-            }
-          }
-        }
-      }
-    },
-    "securitySchemes": {
-      "Auth": {
-        "type": "apiKey",
-        "in": "header",
-        "name": "r-auth-user"
       }
     }
   }
