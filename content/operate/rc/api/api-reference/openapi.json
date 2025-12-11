@@ -16288,6 +16288,7 @@
               "DATABASE_CLIENT_SSL_CERTIFICATE_MORE_THAN_1_ACTIVE",
               "DATABASE_SIP_OVER_LIMIT",
               "DATABASE_INVALID_SIP",
+              "DATABASE_INVALID_SIP_FREE_PLAN",
               "DATABASE_INVALID_ALERTS",
               "DATABASE_INVALID_MODULE",
               "DATABASE_INVALID_MODULE_PARAMETER",
@@ -16719,7 +16720,8 @@
               "COST_REPORT_END_DATE_BEFORE_START_DATE",
               "COST_REPORT_DATE_RANGE_EXCEEDS_LIMIT",
               "COST_REPORT_TAG_KEY_EMPTY",
-              "COST_REPORT_TAG_VALUE_EMPTY"
+              "COST_REPORT_TAG_VALUE_EMPTY",
+              "COST_REPORT_FUTURE_DATES_NOT_ALLOWED"
             ]
           },
           "additionalInfo": {

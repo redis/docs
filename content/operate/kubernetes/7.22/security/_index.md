@@ -27,7 +27,7 @@ Configure TLS certificates and encryption for secure communications:
 
 - [Manage REC certificates]({{< relref "/operate/kubernetes/7.22/security/manage-rec-certificates" >}}) - Configure cluster certificates for TLS encryption
 - [Add client certificates]({{< relref "/operate/kubernetes/7.22/security/add-client-certificates" >}}) - Set up client certificate authentication for databases
-- [Internode encryption]({{< relref "/operate/kubernetes/7.22/security/internode-encryption" >}}) - Enable encryption between cluster nodes
+- [Internode encryption]({{< relref "/operate/kubernetes/7.22/security/internode-encryption" >}}) - Enable encryption between cluster nodes and configure custom certificates
 
 ## Resource management
 
