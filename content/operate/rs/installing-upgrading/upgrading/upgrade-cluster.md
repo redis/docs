@@ -20,6 +20,8 @@ To upgrade a cluster's Redis Software version, use one of the following methods:
 
 - [Rolling upgrade](#rolling-upgrade) - Minimize downtime by adding new nodes with an updated Redis Software version to the cluster, one at a time, while keeping the rest of the cluster operational. This method is recommended for production environments that require continuous availability.
 
+## Supported upgrade paths
+
 {{<embed-md "rs-upgrade-paths.md">}}
 
 See the [Redis Enterprise Software product lifecycle]({{<relref "/operate/rs/installing-upgrading/product-lifecycle">}}) for more information about release numbers and the end-of-life schedule.
