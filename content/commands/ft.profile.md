@@ -121,6 +121,7 @@ Iterator types include:
 * `TAG` with `Term`
 * `NUMERIC` with `Term`
 * `VECTOR`
+* `METRIC - VECTOR DISTANCE`
 * `EMPTY`
 * `WILDCARD`
 * `OPTIONAL`
@@ -130,6 +131,32 @@ Iterator types include:
 Counter is the number of times an iterator was interacted with. A very high value in comparison to others is a possible warning flag. `NUMERIC` and `Child interator` types are broken into ranges, and `Counter` will vary depending on the range. For `UNION`, the sum of the counters in child iterators should be equal or greater than the child iterator’s counters.
 
 `Size` is the size of the document set. `Counter` should always be equal or less than `Size`.
+
+**Notes on Vector iterator profile**
+
+For vector queries, the iterator profile includes additional information specific to vector search execution.
+
+#### Vector search mode
+
+The `Vector search mode` field indicates the execution strategy used for both `VECTOR` and `METRIC - VECTOR DISTANCE` iterator types:
+
+| Mode | Description |
+|:--   |:--          |
+| `STANDARD_KNN`              | Pure KNN vector search without filters. |
+| `RANGE_QUERY`               | Range-based vector search. used with `VECTOR_RANGE` queries. |
+| `HYBRID_ADHOC_BF`           | Ad-hoc brute force for filtered queries. Iterates through results that pass the filter and calculates distances on-the-fly.  |
+| `HYBRID_BATCHES`            | Batch-based filtered search. Retrieves top vectors from the index in batches and checks which ones pass the filter. |
+| `HYBRID_BATCHES_TO_ADHOC_BF`| Dynamic mode switching. Starts with batch-based search but switches to ad-hoc brute force if batch iterations yield insufficient results. |
+
+#### Batch execution statistics
+
+For queries using batch modes (`HYBRID_BATCHES` or `HYBRID_BATCHES_TO_ADHOC_BF`), additional batch statistics are included:
+
+| Returned field name | Definition |
+|:--                  |:--         |
+| `Batches number`    | Total number of batch iterations executed during the search. |
+| `Largest batch size`| The maximum batch size used during execution. Batch sizes may vary dynamically based on the ratio of estimated matching documents to total index size. |
+| `Largest batch iteration (zero based)` | The iteration number (0-based) when the largest batch occurred. |
 
 ### Result processor profiles
 
