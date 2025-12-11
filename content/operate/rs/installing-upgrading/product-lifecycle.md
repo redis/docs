@@ -81,3 +81,46 @@ For detailed upgrade instructions, see [Upgrade a Redis Enterprise Software clus
 {{<note>}}
 Redis Enterprise for Kubernetes has its own support lifecycle, which accounts for the Kubernetes distribution lifecycle. For details, see [Supported Kubernetes distributions]({{<relref "/operate/kubernetes/reference/supported_k8s_distributions">}}).
 {{</note>}}
+
+## Redis database version management
+
+The following sections describe the lifecycle policy for Redis database versions bundled with Redis Enterprise Software.
+
+### Redis database version structure
+
+Redis database versions use a **MAJOR.MINOR.PATCH** versioning scheme:
+
+- **Major versions**: Significant changes that may include breaking changes (for example, Redis 7 → Redis 8)
+
+- **Minor versions**: New features and improvements within a major version (for example, 8.2 → 8.4 → 8.6)
+
+- **Patch versions**: Bug fixes and security updates (for example, 8.2.1 → 8.2.2)
+
+### Redis database version support policy
+
+As of Redis Enterprise Software version 8.0.x, Redis database versions follow a long-term and short-term support model as follows:
+
+- **Long-term support**: The first minor release and last minor release of each major database version receive extended support of 5 years.
+
+- **Short-term support**: Minor versions between the first minor release and last minor release receive short-term support of 6 months.
+
+For example:
+
+| Redis DB version | Release type | Support type |
+|------------------|--------------|--------------|
+| 8.0 | Major release | Short-term |
+| 8.2 | First minor release | Long-term |
+| 8.x | Intermediate minor release | Short-term |
+| 8.z | Last minor release | Long-term |
+
+Redis database versions have the following end-of-life dates:
+
+| Redis version | End-of-life (EOL) |
+|---------------|-------------------|
+| **Redis 8.2** | TBD |
+| **Redis 8.0** | TBD |
+| **Redis 7.4** | December 1, 2029 |
+| **Redis 7.2** | December 1, 2029 |
+| **Redis 6.2** | April 1, 2027 |
+
+For detailed database upgrade instructions, see [Upgrade a Redis Enterprise Software database]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-database">}}) or [Upgrade an Active-Active database]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-active-active">}}).
