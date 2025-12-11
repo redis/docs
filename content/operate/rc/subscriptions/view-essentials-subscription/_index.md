@@ -24,7 +24,7 @@ To view the details of a Redis Cloud Essentials subscription:
 
 From here, you can:
 
-- Select the **Upgrade** button to update your subscription plan, high availability settings, or payment method.
+- Select the **Plan upgrade** button to update your subscription plan, high availability settings, or payment method.
 
     {{<image filename="images/rc/button-subscription-upgrade-plan.png" alt="Select the Upgrade plan button to update your subscription settings." width=150px >}}
 
