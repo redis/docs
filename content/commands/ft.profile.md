@@ -106,10 +106,10 @@ If there's only one shard, the label will be omitted.
 
 ### Iterator profiles
 
-This section contains index iterator information, including `Type`, `Query Type`, `Term` (when applicable), `Time` (in ms), `Counter`, `Child iterator`, and `Size` information.
+This section contains index iterator information, including `Type`, `Query Type`, `Term` (when applicable), `Time` (in ms), `Number of reading operations`, `Child iterator`, and `Estimated number of matches` information.
 Each iterator represents an executor for each part of the query plan, nested per the execution plan. The operation types mentioned below (`UNION`, etc) should match up with the provided query.
 
-Inverted-index iterators also include the number of elements they contain. Hybrid vector iterators return the top results from the vector index in batches, including the number of batches.
+Inverted-index iterators also include the number of elements they contain. Vector iterators include additional profiling information. See [Vector iterator profile](#vector-iterator-profile) below.
 
 Iterator types include:
 
@@ -126,11 +126,11 @@ Iterator types include:
 * `WILDCARD`
 * `OPTIONAL`
 
-**Notes on `Counter` and `Size`**
+**Notes on `Number of reading operations` and `Estimated number of matches`**
 
-Counter is the number of times an iterator was interacted with. A very high value in comparison to others is a possible warning flag. `NUMERIC` and `Child interator` types are broken into ranges, and `Counter` will vary depending on the range. For `UNION`, the sum of the counters in child iterators should be equal or greater than the child iterator’s counters.
+`Number of reading operations` is the number of times an iterator was interacted with. A very high value in comparison to others is a possible warning flag. `NUMERIC` and `Child iterator` types are broken into ranges, and `Number of reading operations` will vary depending on the range. For `UNION`, the sum of the counters in child iterators should be equal or greater than the child iterator's counters.
 
-`Size` is the size of the document set. `Counter` should always be equal or less than `Size`.
+`Estimated number of matches` is the size of the document set. `Number of reading operations` should always be equal or less than `Estimated number of matches`.
 
 **Notes on Vector iterator profile**
 
@@ -160,7 +160,8 @@ For queries using batch modes (`HYBRID_BATCHES` or `HYBRID_BATCHES_TO_ADHOC_BF`)
 
 ### Result processor profiles
 
-Result processors form a powerful pipeline in Redis Query Engine. They work in stages to gather, filter, score, sort, and return results as efficiently as possible based on complex query needs. Each processor reports `Time` information, which represents the total duration (in milliseconds, or ms) spent by the processor to complete its operation, and `Counter` information, which indicates the number of times the processor was invoked during the query.
+Result processors form a powerful pipeline in Redis Query Engine. They work in stages to gather, filter, score, sort, and return results as efficiently as possible based on complex query needs. Each processor reports `Time` information, which represents the total duration (in milliseconds, or ms) spent by the processor to complete its operation, and `Results processed` information, which indicates the number of times the processor was invoked during the query.
+
 
 | Type            | Definition |
 |:--              |:--         |
