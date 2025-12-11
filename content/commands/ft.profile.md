@@ -102,6 +102,7 @@ If there's only one shard, the label will be omitted.
 | `Total`&nbsp;`profile`&nbsp;`time`     | The total run time (ms) of the query. Normally just a few ms. |
 | `Parsing`&nbsp;`time`           | The time (ms) spent parsing the query and its parameters into a query plan. Normally just a few ms. |
 | `Pipeline`&nbsp;`creation`&nbsp;`time` | The creation time (ms) of the execution plan, including iterators, result processors, and reducers creation. Normally just a few ms for `FT.SEARCH` queries, but expect a larger number for `FT.AGGREGATE` queries. |
+| `Total`&nbsp;`GIL`&nbsp;`time`     | The total time (ms) the query held the Global Interpreter Lock (GIL) during execution. Relevant for multi-threaded deployments where queries run in background threads. |
 | `Warning`                | Errors that occurred during query execution. |
 
 ### Iterator profiles
@@ -170,6 +171,7 @@ Result processors form a powerful pipeline in Redis Query Engine. They work in s
 | `Scorer`          | The `Scorer` processor assigns a relevance score to each document based on the query’s specified scoring function. This function could involve factors like term frequency, inverse document frequency, or other weighted metrics. |
 | `Sorter`          | The `Sorter` processor arranges the query results based on a specified sorting criterion. This could be a field value (e.g., sorting by price, date, or another attribute) or by the score assigned during the scoring phase. It operates after documents are fetched and scored, ensuring the results are ordered as required by the query (e.g., ascending or descending order). `Scorer` results will always be present in `FT.SEARCH` profiles. |
 | `Loader`          | The `Loader` processor retrieves the document contents after the results have been sorted and filtered. It ensures that only the fields specified by the query are loaded, which improves efficiency, especially when dealing with large documents where only a few fields are needed. |
+| `Threadsafe-Loader` | The `Threadsafe-Loader` processor safely loads document contents when the query is running in a background thread. It acquires the GIL to access document data. Reports an additional `GIL-Time` field showing how long (ms) it held the GIL. |
 | `Highlighter`     | The `Highlighter` processor is used to highlight matching terms in the search results. This is especially useful for full-text search applications, where relevant terms are often emphasized in the UI. |
 | `Paginator`       | The `Paginator` processor is responsible for handling pagination by limiting the results to a specific range (e.g., LIMIT 0 10).It trims down the set of results to fit the required pagination window, ensuring efficient memory usage when dealing with large result sets. |
 | `Vector`&nbsp;`Filter`   | For vector searches, the `Vector Filter` processor is sometimes used to pre-process results based on vector similarity thresholds before the main scoring and sorting. |
