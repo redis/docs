@@ -1,0 +1,14 @@
+{{ $width := (index .Attributes "width") | default "100%" }}
+{{ $title := (index .Attributes "title") | default "Timeline" }}
+
+<div class="timeline-container" style="width: {{ $width }};">
+  <pre class="timeline-source" 
+       data-timeline-title="{{ $title }}" 
+       style="display: none;">{{ .Inner | htmlEscape }}</pre>
+  <div class="timeline-fallback">
+    <h4>{{ $title }}</h4>
+    <pre style="background-color: #f8f9fa; padding: 1rem; border-radius: 0.5rem; font-family: 'Space Mono', monospace; font-size: 12px;">{{ .Inner | htmlEscape }}</pre>
+  </div>
+</div>
+
+{{ .Page.Store.Set "hasTimeline" true }}

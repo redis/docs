@@ -52,6 +52,22 @@ This update to the EOL policy allows a lead time of at least 24 months to upgrad
 | 5.4 – December 2018                       | December 31, 2020  |
 | 5.2 – June 2018                           | December 31, 2019  |
 
+The following timeline chart visualizes the Redis Enterprise Software product lifecycle, showing release dates and end-of-life dates for each major version:
+
+```timeline {title="Redis Enterprise Software product lifecycle"}
+8.0: Oct 2025 - TBD
+7.22: May 2025 - Oct 30, 2027
+7.8: Nov 2024 - May 30, 2027
+7.4: Feb 2024 - Nov 30, 2026
+7.2: Aug 2023 - Feb 28, 2026
+6.4: Feb 2023 - Aug 31, 2025
+6.2: Aug 2021 - Feb 28, 2025
+6.0: May 2020 - May 31, 2022
+5.6: Apr 2020 - Oct 31, 2021
+5.4: Dec 2018 - Dec 31, 2020
+5.2: June 2018 - Dec 31, 2019
+```
+
 {{<embed-md "rs-upgrade-paths.md">}}
 
 For detailed upgrade instructions, see [Upgrade a Redis Enterprise Software cluster]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster">}}).
