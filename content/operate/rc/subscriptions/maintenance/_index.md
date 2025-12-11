@@ -67,8 +67,6 @@ If you want to receive advance notifications, you must [set manual maintenance w
 
 To receive maintenance notifications by email:
  
- 1. Go to [Access Management]({{< relref "/operate/rc/security/access-control/access-management" >}}) and select your account in the list.
-
 1. Go to [Access Management]({{< relref "/operate/rc/security/access-control/access-management" >}}) and select your account in the list.
 
 1. Select the Edit button.
