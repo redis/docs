@@ -59,7 +59,7 @@ To add a custom module to a cluster running Redis Enterprise Software version 8.
 
     ```sh
     POST https://<host>:<port>/v2/local/modules/user-defined/artifacts
-    "module=@/tmp/custom-module.so"
+    "module=@/tmp/custom-module.zip"
     ```
 
     The *module* parameter specifies the full path of the module artifact and must be submitted as form-data. In addition, the module artifact must be available and accessible to the server processing the request.
