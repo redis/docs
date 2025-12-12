@@ -33,7 +33,7 @@ In this stream, sensors are considered _producers_, which broadcast data.
 A _consumer_ reads from the stream and does some work on it. 
 For example, if the temperature is above a certain threshold, it puts a message out to turn on the air conditioner in that unit or notify the maintenance.
 
-{{< image filename="../images/ri/stream.png" alt="A stream that models temperature and humidity sensors.">}}
+{{< image filename="images/ri/stream.png" alt="A stream that models temperature and humidity sensors." >}}
 
 It is possible to have multiple consumers doing different jobs, one measuring humidity, and another taking temperature measurements over periods of time. 
 Redis stores a copy of the entire dataset in memory, which is a finite resource.
