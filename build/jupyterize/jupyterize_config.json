@@ -45,6 +45,14 @@
   },
   "go": {
     "boilerplate": [
+      "rdb := redis.NewClient(&redis.Options{",
+      "\tAddr:     \"localhost:6379\",",
+      "\tPassword: \"\",",
+      "\tDB:       0,",
+      "\tMaintNotificationsConfig: &maintnotifications.Config{",
+      "\t\tMode: maintnotifications.ModeDisabled,",
+      "\t},",
+      "})",
       "func main() {}"
     ],
     "unwrap_patterns": [
