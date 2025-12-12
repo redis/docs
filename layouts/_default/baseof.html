@@ -114,5 +114,10 @@
     {{ if .Page.Store.Get "hasDecisionTree" }}
     <script src="{{ "js/decision-tree.js" | relURL }}"></script>
     {{ end }}
+
+    <!-- Timeline functionality -->
+    {{ if .Page.Store.Get "hasTimeline" }}
+    <script src="{{ "js/timeline.js" | relURL }}"></script>
+    {{ end }}
   </body>
 </html>
