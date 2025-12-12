@@ -516,7 +516,7 @@ r = redis.Redis()
 
 
 def test_go_boilerplate_injection():
-    """Test Go boilerplate injection (func main() {} appended to first cell)."""
+    """Test Go boilerplate injection (client config and func main() {} appended to first cell)."""
     print("\nTesting Go boilerplate injection...")
 
     # Create test file with Go code
@@ -556,12 +556,16 @@ fmt.Println("Hello")
         assert nb['metadata']['kernelspec']['name'] == 'gophernotes', \
             f"Kernel should be gophernotes, got {nb['metadata']['kernelspec']['name']}"
 
-        # First cell should contain imports AND func main() {}
+        # First cell should contain imports, client config, and func main() {}
         # (boilerplate is appended to first cell for Go, not separate)
         first_cell = nb['cells'][0]
         first_cell_source = ''.join(first_cell['source'])
         assert 'import (' in first_cell_source, \
             f"First cell should contain imports, got: {first_cell_source}"
+        assert 'redis.NewClient' in first_cell_source, \
+            f"First cell should contain redis.NewClient, got: {first_cell_source}"
+        assert 'MaintNotificationsConfig' in first_cell_source, \
+            f"First cell should contain MaintNotificationsConfig, got: {first_cell_source}"
         assert 'func main() {}' in first_cell_source, \
             f"First cell should contain 'func main() {{}}', got: {first_cell_source}"
 

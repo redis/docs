@@ -1255,6 +1255,8 @@ Go has a unique requirement: notebooks MUST have a `func main() {}` wrapper for 
   - This ensures imports and `func main() {}` are in the same cell, matching gophernotes expectations
   - The wrapper is injected as boilerplate, then removed from source, then re-injected
   - This ensures the notebook has a clean wrapper without test framework code
+  - **Client connection configuration**: Boilerplate can include more than just wrappers—it can include client connection setup (e.g., Redis client initialization with configuration options like `MaintNotificationsConfig`)
+  - This allows notebooks to have a working client connection without requiring users to add boilerplate code manually
 
 **Pattern complexity comparison** (As Proposed):
 - **C#**: 5 patterns (class/method wrappers + closing braces)
@@ -1362,6 +1364,53 @@ When adding a new language, ask:
 - Does the language's execution model require a specific cell structure?
 
 If yes to any of these, use Strategy 2 (append to first cell). Otherwise, use Strategy 1 (separate cell).
+
+### Boilerplate Content Patterns (What Goes in Boilerplate)
+
+**Lesson Learned**: Boilerplate is not limited to language wrappers and imports. It can include any code that should appear in every notebook generated from that language, including client connection setup and configuration.
+
+**Common boilerplate content**:
+1. **Language wrappers** (required by kernel)
+   - C#: NuGet package directives (`#r "nuget: ..."`)
+   - Go: `func main() {}` wrapper (gophernotes requirement)
+   - Java: (typically empty; dependencies handled via `%maven` magic commands)
+
+2. **Client connection setup** (optional but recommended)
+   - Redis client initialization with connection options
+   - Configuration flags (e.g., `MaintNotificationsConfig` for Go)
+   - Default connection parameters (host, port, password)
+   - This ensures notebooks have a working client without manual setup
+
+3. **Import statements** (language-dependent)
+   - C#: NuGet directives (not traditional imports)
+   - Go: Typically in STEP blocks, not boilerplate (unless needed for wrapper)
+   - Java: Typically in STEP blocks, not boilerplate
+
+**Example: Go with Client Connection**:
+```json
+{
+  "go": {
+    "boilerplate": [
+      "rdb := redis.NewClient(&redis.Options{",
+      "\tAddr:     \"localhost:6379\",",
+      "\tPassword: \"\",",
+      "\tDB:       0,",
+      "\tMaintNotificationsConfig: &maintnotifications.Config{",
+      "\t\tMode: maintnotifications.ModeDisabled,",
+      "\t},",
+      "})",
+      "func main() {}"
+    ]
+  }
+}
+```
+
+**Design considerations**:
+- **Boilerplate should be minimal**: Include only code that's needed in every notebook
+- **Avoid language-specific details**: Don't include code that only applies to some examples
+- **Configuration over code**: Use boilerplate for configuration (connection options) rather than business logic
+- **Test with real examples**: Verify boilerplate works with actual example files before committing
+- **Document assumptions**: If boilerplate assumes certain imports or packages, document this in comments or README
 
 
 ### Testing Checklist (Language-Specific)
