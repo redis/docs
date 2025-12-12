@@ -22,25 +22,29 @@ You can read more about RDI's ingest architecture [on these pages]({{< relref "/
 
 As of version `2.54.0`, Redis Insight includes RDI connectivity, which allows you to connect to [RDI management planes]({{< relref "/integrate/redis-data-integration/architecture" >}}#how-rdi-is-deployed), create, test, and deploy [RDI pipelines]({{< relref "/integrate/redis-data-integration/data-pipelines" >}}), and view RDI statistics.
 
+{{< note >}}
+Most of the screenshots on this page were taken using a previous version of Redis Insight. The functionality is the same in the current version, but the user interface has changed.
+{{< /note >}}
+
 ## Connect
 
-Open Redis Insight, click on the **Redis Data Integration** tab, and then click on one of the two **+ Add RDI Endpoint** buttons as shown below.
+Open Redis Insight and then click on the **Redis Data Integration** tab, which looks like this:
 
-<img src="../images/ri-rdi-add-endpoint1.png">
+{{< image filename="images/ri/ri-rdi-main.png" alt="Redis Data Integration tab" >}}
 
-Enter your RDI server details in the provided dialog. The **RDI Alias** field can be any name you choose and it will be used as the primary name in the **RDI Instances** list view.
+Next, click on **Let's connect to RDI**, which will open the **Add RDI Endpoint** dialog.
 
-<img src="../images/ri-rdi-add-endpoint2.png">
+{{< image filename="images/ri/ri-rdi-add-ep.png" alt="Connect to RDI" >}}
 
-You'll receive notification if your connection is successful.
+Enter your RDI server details into the dialog. The **RDI Alias** field can be any name you choose and it will be used as the primary name in the **RDI Instances** list view. You'll receive notification if your connection is successful.
 
-<img src="../images/ri-rdi-endpoint-added.png">
+{{< image filename="images/ri/ri-rdi-endpoint-added.png" alt="RDI endpoint added" >}}
 
 ## Create, test, and deploy RDI pipelines
 
 Begin by clicking the alias of your newly configured RDI endpoint in the **RDI Instances** view (for example, **Test connection** in the above image). You'll see the following dialog in the center of the screen.
 
-<img src="../images/ri-rdi-pl-start.png">
+{{< image filename="images/ri/ri-rdi-pl-start.png" alt="Start with your pipeline" >}}
 
 Choose from the following options:
 
@@ -52,7 +56,7 @@ Each of these menu options will be described in more detail in subsequent sectio
 
 There are also equivalent buttons at the top of the editor pane for the first two of these functions.
 
-<img src="../images/ri-rdi-pl-editor-minibuttons.png">
+{{< image filename="images/ri/ri-rdi-pl-editor-minibuttons.png" alt="Editor minibuttons" >}}
 
 If you'd rather start with an empty configuration, exit the dialog, which will leave you in the **Configuration file** editor where you can begin editing the configuration component of your pipeline; the `config.yaml` file.
 
@@ -60,7 +64,7 @@ If you'd rather start with an empty configuration, exit the dialog, which will l
 
 Click the **Download from server** button in the **Start with your pipeline** dialog to download a previously defined pipeline from your RDI configuration. The downloaded pipeline will be displayed in the **Pipeline management** pane. As shown below, each pipeline consists of a configuration file (`config.yaml`) and zero or more `job` YAML files. The configuration file will be displayed in the center editor panel.
 
-<img src="../images/ri-rdi-pl-dl.png">
+{{< image filename="images/ri/ri-rdi-pl-dl.png" alt="Download a pipeline" >}}
 
 ### Upload a pipeline from your local machine
 
@@ -78,7 +82,7 @@ The `config.yaml` file, your configuration YAML file, is required. The `jobs` di
 
 Click the **Create new pipeline** button in the **Start with your pipeline** dialog to create a new pipeline using the built-in editors. After doing so, you'll enter the **Configuration file** editor and you'll see an open **Select a template** dialog in the upper right-hand corner of the editor.
 
-<img src="../images/ri-rdi-pl-editor-dlg.png">
+{{< image filename="images/ri/ri-rdi-pl-editor-dlg.png" alt="Select a template" >}}
 
 Make your selections in the provided fields:
 
@@ -99,13 +103,13 @@ After you make your selections and click **Apply**, Redis Insight will populate 
 
 See the [RDI documentation]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference" >}}) for information about required fields.
 
-<img src="../images/ri-rdi-pl-editor-template.png">
+{{< image filename="images/ri/ri-rdi-pl-editor-template.png" alt="Editor template" >}}
 
 ### Test your target database connection
 
 After you've created your **Target database configuration**, you can test the connection using the **Test Connection** button in the bottom right of the editor pane. A new panel will open to the right containing the test results as shown below.
 
-<img src="../images/ri-rdi-pl-test-cxn.png">
+{{< image filename="images/ri/ri-rdi-pl-test-cxn.png" alt="Test connection" >}}
 
 ### Create a new transformation job file using the built-in editor
 
@@ -119,7 +123,7 @@ The options listed in the above menu depend on the capabilities of your RDI conf
 
 The [RDI documentation]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}}) has several examples of transformation jobs that can help get you started. Note: RDI uses a very specific YAML format for job files. See [here]({{< relref "/integrate/redis-data-integration/data-pipelines" >}}#job-files) for more information.
 
-<img src="../images/ri-rdi-job-editor-template.png">
+{{< image filename="images/ri/ri-rdi-job-editor-template.png" alt="Job editor template" >}}
 
 ## Use the built-in editors
 
@@ -130,13 +134,13 @@ The Redis Insight pipeline file editors are context-aware. They provide auto-com
 
 If you decided to write your own configuration pipeline without using a template, you would see auto-completion prompts such as the one shown below.
 
-<img src="../images/ri-rdi-pl-editor-autoc.png">
+{{< image filename="images/ri/ri-rdi-pl-editor-autoc.png" alt="Editor autocompletion" >}}
 
 While this isn't a replacement for the RDI documentation, it can help speed you along after you have basic familiarity with the building blocks of RDI pipeline files.
 
 Redis Insight will also highlight any errors as shown below.
 
-<img src="../images/ri-rdi-pl-editor-errs.png">
+{{< image filename="images/ri/ri-rdi-pl-editor-errs.png" alt="Editor errors" >}}
 
 Here's an example showing the SQL and JMESPath editor pane. Note the toggle in the bottom left corner of this editor pane. Clicking it allows you to select from:
 
@@ -145,12 +149,12 @@ Here's an example showing the SQL and JMESPath editor pane. Note the toggle in t
 
 After constructing your SQLite or JMESPath code, copy it to the main editor window. Here's a [reference]({{< relref "/integrate/redis-data-integration/reference/jmespath-custom-functions" >}}) to the supported JMESPath extension functions and expressions that you can use in your job files.
 
-<img src="../images/ri-rdi-pl-editor-sql-minie.png">
+{{< image filename="images/ri/ri-rdi-pl-editor-sql-minie.png" alt="Editor SQL minieditor" >}}
 
 {{< warning >}}
 Any changes you make in the editors will be lost if you exit Redis Insight without saving your work. To save any changes you made to your pipeline files, deploy them to your RDI server (see below) or download the modified files as a zip file to your local disk using the **Download** button in the top right of the RDI window. Redis Insight will prepend a green circle on unsaved/undeployed files.
 
-<img src="../images/ri-rdi-pl-unsaved.png">
+{{< image filename="images/ri/ri-rdi-pl-unsaved.png" alt="Unsaved pipeline" >}}
 {{< /warning >}}
 
 ## Dry run transformation job pipelines
@@ -164,7 +168,7 @@ There are two tabs in the **Results** section:
 
 Here's an example.
 
-<img src="../images/ri-rdi-pl-dryrun.png">
+{{< image filename="images/ri/ri-rdi-pl-dryrun.png" alt="Dry run" >}}
 
 ## Deploy pipelines and add target DB to Redis Insight
 
@@ -177,7 +181,7 @@ Doing so will allow you to monitor key creation from your RDI pipeline over time
 
 You can view various statistics for your RDI deployment. To do so, click  the **Pipeline Status** menu button in the left side menu panel.
 
-<img src="../images/ri-rdi-stats-view.png">
+{{< image filename="images/ri/ri-rdi-stats-view.png" alt="RDI statistics" >}}
 
 Each statistics section is either static or refreshed automatically at a particular interval that you set.
 The first section, **Processing performance information** is set by default to refresh every 5 seconds.
