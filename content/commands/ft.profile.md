@@ -102,14 +102,16 @@ If there's only one shard, the label will be omitted.
 | `Total`&nbsp;`profile`&nbsp;`time`     | The total run time (ms) of the query. Normally just a few ms. |
 | `Parsing`&nbsp;`time`           | The time (ms) spent parsing the query and its parameters into a query plan. Normally just a few ms. |
 | `Pipeline`&nbsp;`creation`&nbsp;`time` | The creation time (ms) of the execution plan, including iterators, result processors, and reducers creation. Normally just a few ms for `FT.SEARCH` queries, but expect a larger number for `FT.AGGREGATE` queries. |
+| `Total`&nbsp;`GIL`&nbsp;`time`     | The total time (ms) the query held the Global Interpreter Lock (GIL) during execution. Relevant for multi-threaded deployments where queries run in background threads. |
 | `Warning`                | Errors that occurred during query execution. |
+| `Internal`&nbsp;`cursor`&nbsp;`reads` | The number of internal cursor read operations performed during a distributed `AGGREGATE` query in cluster mode. In cluster mode, the coordinator uses cursors to fetch results from shards - this counts the initial request plus any subsequent `FT.CURSOR READ`. |
 
 ### Iterator profiles
 
-This section contains index iterator information, including `Type`, `Query Type`, `Term` (when applicable), `Time` (in ms), `Counter`, `Child iterator`, and `Size` information.
+This section contains index iterator information, including `Type`, `Query Type`, `Term` (when applicable), `Time` (in ms), `Number of reading operations`, `Child iterator`, and `Estimated number of matches` information.
 Each iterator represents an executor for each part of the query plan, nested per the execution plan. The operation types mentioned below (`UNION`, etc) should match up with the provided query.
 
-Inverted-index iterators also include the number of elements they contain. Hybrid vector iterators return the top results from the vector index in batches, including the number of batches.
+Inverted-index iterators also include the number of elements they contain. Vector iterators include additional profiling information. See [Vector iterator profile](#vector-iterator-profile) below.
 
 Iterator types include:
 
@@ -121,19 +123,47 @@ Iterator types include:
 * `TAG` with `Term`
 * `NUMERIC` with `Term`
 * `VECTOR`
+* `METRIC - VECTOR DISTANCE`
 * `EMPTY`
 * `WILDCARD`
 * `OPTIONAL`
 
-**Notes on `Counter` and `Size`**
+**Notes on `Number of reading operations` and `Estimated number of matches`**
 
-Counter is the number of times an iterator was interacted with. A very high value in comparison to others is a possible warning flag. `NUMERIC` and `Child interator` types are broken into ranges, and `Counter` will vary depending on the range. For `UNION`, the sum of the counters in child iterators should be equal or greater than the child iterator’s counters.
+`Number of reading operations` is the number of times an iterator was interacted with. A very high value in comparison to others is a possible warning flag. `NUMERIC` and `Child iterator` types are broken into ranges, and `Number of reading operations` will vary depending on the range. For `UNION`, the sum of the counters in child iterators should be equal or greater than the child iterator's counters.
 
-`Size` is the size of the document set. `Counter` should always be equal or less than `Size`.
+`Estimated number of matches` is the size of the document set. `Number of reading operations` should always be equal or less than `Estimated number of matches`.
+
+**Notes on Vector iterator profile**
+
+For vector queries, the iterator profile includes additional information specific to vector search execution.
+
+#### Vector search mode
+
+The `Vector search mode` field indicates the execution strategy used for both `VECTOR` and `METRIC - VECTOR DISTANCE` iterator types:
+
+| Mode | Description |
+|:--   |:--          |
+| `STANDARD_KNN`              | Pure KNN vector search without filters. |
+| `RANGE_QUERY`               | Range-based vector search. used with `VECTOR_RANGE` queries. |
+| `HYBRID_ADHOC_BF`           | Ad-hoc brute force for filtered queries. Iterates through results that pass the filter and calculates distances on-the-fly.  |
+| `HYBRID_BATCHES`            | Batch-based filtered search. Retrieves top vectors from the index in batches and checks which ones pass the filter. |
+| `HYBRID_BATCHES_TO_ADHOC_BF`| Dynamic mode switching. Starts with batch-based search but switches to ad-hoc brute force if batch iterations yield insufficient results. |
+
+#### Batch execution statistics
+
+For queries using batch modes (`HYBRID_BATCHES` or `HYBRID_BATCHES_TO_ADHOC_BF`), additional batch statistics are included:
+
+| Returned field name | Definition |
+|:--                  |:--         |
+| `Batches number`    | Total number of batch iterations executed during the search. |
+| `Largest batch size`| The maximum batch size used during execution. Batch sizes may vary dynamically based on the ratio of estimated matching documents to total index size. |
+| `Largest batch iteration (zero based)` | The iteration number (0-based) when the largest batch occurred. |
 
 ### Result processor profiles
 
-Result processors form a powerful pipeline in Redis Query Engine. They work in stages to gather, filter, score, sort, and return results as efficiently as possible based on complex query needs. Each processor reports `Time` information, which represents the total duration (in milliseconds, or ms) spent by the processor to complete its operation, and `Counter` information, which indicates the number of times the processor was invoked during the query.
+Result processors form a powerful pipeline in Redis Query Engine. They work in stages to gather, filter, score, sort, and return results as efficiently as possible based on complex query needs. Each processor reports `Time` information, which represents the total duration (in milliseconds, or ms) spent by the processor to complete its operation, and `Results processed` information, which indicates the number of times the processor was invoked during the query.
+
 
 | Type            | Definition |
 |:--              |:--         |
@@ -142,6 +172,7 @@ Result processors form a powerful pipeline in Redis Query Engine. They work in s
 | `Scorer`          | The `Scorer` processor assigns a relevance score to each document based on the query’s specified scoring function. This function could involve factors like term frequency, inverse document frequency, or other weighted metrics. |
 | `Sorter`          | The `Sorter` processor arranges the query results based on a specified sorting criterion. This could be a field value (e.g., sorting by price, date, or another attribute) or by the score assigned during the scoring phase. It operates after documents are fetched and scored, ensuring the results are ordered as required by the query (e.g., ascending or descending order). `Scorer` results will always be present in `FT.SEARCH` profiles. |
 | `Loader`          | The `Loader` processor retrieves the document contents after the results have been sorted and filtered. It ensures that only the fields specified by the query are loaded, which improves efficiency, especially when dealing with large documents where only a few fields are needed. |
+| `Threadsafe-Loader` | The `Threadsafe-Loader` processor safely loads document contents when the query is running in a background thread. It acquires the GIL to access document data. Reports an additional `GIL-Time` field showing how long (ms) it held the GIL. |
 | `Highlighter`     | The `Highlighter` processor is used to highlight matching terms in the search results. This is especially useful for full-text search applications, where relevant terms are often emphasized in the UI. |
 | `Paginator`       | The `Paginator` processor is responsible for handling pagination by limiting the results to a specific range (e.g., LIMIT 0 10).It trims down the set of results to fit the required pagination window, ensuring efficient memory usage when dealing with large result sets. |
 | `Vector`&nbsp;`Filter`   | For vector searches, the `Vector Filter` processor is sometimes used to pre-process results based on vector similarity thresholds before the main scoring and sorting. |
