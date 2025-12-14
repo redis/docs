@@ -104,7 +104,7 @@ If there's only one shard, the label will be omitted.
 | `Pipeline`&nbsp;`creation`&nbsp;`time` | The creation time (ms) of the execution plan, including iterators, result processors, and reducers creation. Normally just a few ms for `FT.SEARCH` queries, but expect a larger number for `FT.AGGREGATE` queries. |
 | `Total`&nbsp;`GIL`&nbsp;`time`     | The total time (ms) the query held the Global Interpreter Lock (GIL) during execution. Relevant for multi-threaded deployments where queries run in background threads. |
 | `Warning`                | Errors that occurred during query execution. |
-| `Internal`&nbsp;`cursor`&nbsp;`reads` | The number of internal cursor read operations performed during a distributed `AGGREGATE` query in cluster mode. In cluster mode, the coordinator uses cursors to fetch results from shards - this counts the initial request plus any subsequent `FT.CURSOR READ`. |
+| `Internal`&nbsp;`cursor`&nbsp;`reads` | The number of times the coordinator fetched result batches from a given shard during a distributed `AGGREGATE` query in cluster mode. Includes the initial request plus any subsequent batch fetches. |
 
 ### Iterator profiles
 
