@@ -177,7 +177,6 @@ Result processors form a powerful pipeline in Redis Query Engine. They work in s
 | `Threadsafe-Loader` | The `Threadsafe-Loader` processor safely loads document contents when the query is running in a background thread. It acquires the GIL to access document data. Reports an additional `GIL-Time` field showing how long (ms) it held the GIL. |
 | `Highlighter`     | The `Highlighter` processor is used to highlight matching terms in the search results. This is especially useful for full-text search applications, where relevant terms are often emphasized in the UI. |
 | `Pager/Limiter`       | The `Pager/Limiter` processor is responsible for handling pagination by limiting the results to a specific range (e.g., LIMIT 0 10).It trims down the set of results to fit the required pagination window, ensuring efficient memory usage when dealing with large result sets. |
-| `Vector`&nbsp;`Filter`   | For vector searches, the `Vector Filter` processor is sometimes used to pre-process results based on vector similarity thresholds before the main scoring and sorting. |
 | `Counter`         | The `Counter` processor counts the total number of matching results. Used when running queries with `LIMIT 0 0` to return only the count. |
 | `Grouper`         | The `Grouper` processor groups results by field values. Used with `GROUPBY` in `FT.AGGREGATE` queries. |
 | `Projector`       | The `Projector` processor applies field transformations. Used with `APPLY` in `FT.AGGREGATE` queries. |
