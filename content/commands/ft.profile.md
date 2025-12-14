@@ -124,9 +124,12 @@ Iterator types include:
 * `NUMERIC` with `Term`
 * `VECTOR`
 * `METRIC - VECTOR DISTANCE`
+* `GEO` with `Term`
 * `EMPTY`
 * `WILDCARD`
 * `OPTIONAL`
+* `OPTIMIZER` with `Optimizer mode` - Enabled by default in dialect 4+, or explicitly with `WITHOUTCOUNT`.
+* `ID-LIST` - Iterator over specific document IDs (appears when using `INKEYS`)
 
 **Notes on `Number of reading operations` and `Estimated number of matches`**
 
