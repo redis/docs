@@ -167,7 +167,6 @@ For queries using batch modes (`HYBRID_BATCHES` or `HYBRID_BATCHES_TO_ADHOC_BF`)
 
 Result processors form a powerful pipeline in Redis Query Engine. They work in stages to gather, filter, score, sort, and return results as efficiently as possible based on complex query needs. Each processor reports `Time` information, which represents the total duration (in milliseconds, or ms) spent by the processor to complete its operation, and `Results processed` information, which indicates the number of times the processor was invoked during the query.
 
-
 | Type            | Definition |
 |:--              |:--         |
 | `Metrics`&nbsp;`Applier` | The `Metrics Applier` processor calculates or aggregates specific metrics related to the search results. For example, this might include applying a distance or similarity metric to vector search results, or calculating scores based on relevance or other parameters. |
@@ -177,8 +176,12 @@ Result processors form a powerful pipeline in Redis Query Engine. They work in s
 | `Loader`          | The `Loader` processor retrieves the document contents after the results have been sorted and filtered. It ensures that only the fields specified by the query are loaded, which improves efficiency, especially when dealing with large documents where only a few fields are needed. |
 | `Threadsafe-Loader` | The `Threadsafe-Loader` processor safely loads document contents when the query is running in a background thread. It acquires the GIL to access document data. Reports an additional `GIL-Time` field showing how long (ms) it held the GIL. |
 | `Highlighter`     | The `Highlighter` processor is used to highlight matching terms in the search results. This is especially useful for full-text search applications, where relevant terms are often emphasized in the UI. |
-| `Paginator`       | The `Paginator` processor is responsible for handling pagination by limiting the results to a specific range (e.g., LIMIT 0 10).It trims down the set of results to fit the required pagination window, ensuring efficient memory usage when dealing with large result sets. |
+| `Pager/Limiter`       | The `Pager/Limiter` processor is responsible for handling pagination by limiting the results to a specific range (e.g., LIMIT 0 10).It trims down the set of results to fit the required pagination window, ensuring efficient memory usage when dealing with large result sets. |
 | `Vector`&nbsp;`Filter`   | For vector searches, the `Vector Filter` processor is sometimes used to pre-process results based on vector similarity thresholds before the main scoring and sorting. |
+| `Counter`         | The `Counter` processor counts the total number of matching results. Used when running queries with `LIMIT 0 0` to return only the count. |
+| `Grouper`         | The `Grouper` processor groups results by field values. Used with `GROUPBY` in `FT.AGGREGATE` queries. |
+| `Projector`       | The `Projector` processor applies field transformations. Used with `APPLY` in `FT.AGGREGATE` queries. |
+| `Network` | Collects and merges results from shards. Appears as the root processor in the coordinator's result processor chain for `FT.AGGREGATE` in cluster mode. |
 
 ### Coordinator
 
