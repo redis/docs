@@ -133,7 +133,7 @@ Iterator types include:
 
 **Notes on `Number of reading operations` and `Estimated number of matches`**
 
-`Number of reading operations` is the number of times an iterator was interacted with. A very high value in comparison to others is a possible warning flag. `NUMERIC` and `Child iterator` types are broken into ranges, and `Number of reading operations` will vary depending on the range. For `UNION`, the sum of the counters in child iterators should be equal or greater than the child iterator's counters.
+`Number of reading operations` is the number of times an iterator was interacted with. A very high value in comparison to others is a possible warning flag. `NUMERIC` and `Child iterator` types are broken into ranges, and `Number of reading operations` will vary depending on the range. For `UNION`, the sum of the reading operations in child iterators should be equal or greater than the child iterator's reading operations.
 
 `Estimated number of matches` is the size of the document set. `Number of reading operations` should always be equal or less than `Estimated number of matches`.
 
@@ -243,7 +243,7 @@ Here's an example of running the `FT.PROFILE` command for a compound query.
          2) INTERSECT
          3) Time
          4) "0"
-         5) Counter
+         5) Number of reading operations
          6) (integer) 6
          7) Child iterators
          8)  1) Type
@@ -252,7 +252,7 @@ Here's an example of running the `FT.PROFILE` command for a compound query.
              4) UNION
              5) Time
              6) "0"
-             7) Counter
+             7) Number of reading operations
              8) (integer) 6
              9) Child iterators
             10)  1) Type
@@ -261,7 +261,7 @@ Here's an example of running the `FT.PROFILE` command for a compound query.
                  4) UNION
                  5) Time
                  6) "0"
-                 7) Counter
+                 7) Number of reading operations
                  8) (integer) 4
                  9) Child iterators
                 10)  1) Type
@@ -270,9 +270,9 @@ Here's an example of running the `FT.PROFILE` command for a compound query.
                      4) kids
                      5) Time
                      6) "0"
-                     7) Counter
+                     7) Number of reading operations
                      8) (integer) 4
-                     9) Size
+                     9) Estimated number of matches
                     10) (integer) 4
                 11)  1) Type
                      2) TEXT
@@ -280,9 +280,9 @@ Here's an example of running the `FT.PROFILE` command for a compound query.
                      4) +kid
                      5) Time
                      6) "0"
-                     7) Counter
+                     7) Number of reading operations
                      8) (integer) 4
-                     9) Size
+                     9) Estimated number of matches
                     10) (integer) 4
             11)  1) Type
                  2) TEXT
@@ -290,9 +290,9 @@ Here's an example of running the `FT.PROFILE` command for a compound query.
                  4) small
                  5) Time
                  6) "0"
-                 7) Counter
+                 7) Number of reading operations
                  8) (integer) 2
-                 9) Size
+                 9) Estimated number of matches
                 10) (integer) 2
          9)  1) Type
              2) UNION
@@ -300,7 +300,7 @@ Here's an example of running the `FT.PROFILE` command for a compound query.
              4) TAG
              5) Time
              6) "0"
-             7) Counter
+             7) Number of reading operations
              8) (integer) 6
              9) Child iterators
             10)  1) Type
@@ -309,9 +309,9 @@ Here's an example of running the `FT.PROFILE` command for a compound query.
                  4) new
                  5) Time
                  6) "0"
-                 7) Counter
+                 7) Number of reading operations
                  8) (integer) 4
-                 9) Size
+                 9) Estimated number of matches
                 10) (integer) 10
             11)  1) Type
                  2) TAG
@@ -319,34 +319,34 @@ Here's an example of running the `FT.PROFILE` command for a compound query.
                  4) used
                  5) Time
                  6) "0"
-                 7) Counter
+                 7) Number of reading operations
                  8) (integer) 4
-                 9) Size
+                 9) Estimated number of matches
                 10) (integer) 8
    6) 1) Result processors profile
       2) 1) Type
          2) Index
          3) Time
          4) "0"
-         5) Counter
+         5) Results processed
          6) (integer) 3
       3) 1) Type
          2) Scorer
          3) Time
          4) "0"
-         5) Counter
+         5) Results processed
          6) (integer) 3
       4) 1) Type
          2) Sorter
          3) Time
          4) "0"
-         5) Counter
+         5) Results processed
          6) (integer) 3
       5) 1) Type
          2) Loader
          3) Time
          4) "0"
-         5) Counter
+         5) Results processed
          6) (integer) 3
 {{< / highlight >}}
 </details>
@@ -403,32 +403,32 @@ Here's an example of running the `FT.PROFILE` command for a vector query.
          2) VECTOR
          3) Time
          4) "0"
-         5) Counter
+         5) Number of reading operations
          6) (integer) 3
    6) 1) Result processors profile
       2) 1) Type
          2) Index
          3) Time
          4) "0"
-         5) Counter
+         5) Results processed
          6) (integer) 3
       3) 1) Type
          2) Metrics Applier
          3) Time
          4) "0"
-         5) Counter
+         5) Results processed
          6) (integer) 3
       4) 1) Type
          2) Sorter
          3) Time
          4) "0"
-         5) Counter
+         5) Results processed
          6) (integer) 3
       5) 1) Type
          2) Loader
          3) Time
          4) "0"
-         5) Counter
+         5) Results processed
          6) (integer) 3
 {{< /highlight >}}
 </details>
