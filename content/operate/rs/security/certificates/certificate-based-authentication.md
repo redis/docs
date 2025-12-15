@@ -54,7 +54,27 @@ PUT /v1/cluster/update_cert
 
 ### Configure cluster settings {#config-cluster}
 
-[Update cluster settings]({{<relref "/operate/rs/references/rest-api/requests/cluster#put-cluster">}}) with mutual TLS configuration.
+[Update cluster settings]({{<relref "/operate/rs/references/rest-api/requests/cluster#put-cluster">}}) with mutual TLS (mTLS) configuration using one of the following options:
+
+- [Enable mTLS without subject validation](#enable-mtls-without-subject-validation).
+
+- [Enable mTLS with SAN validation](#enable-mtls-with-san-validation).
+
+- [Enable mTLS with Full Subject Name validation](#enable-mtls-with-full-subject-name-validation).
+
+#### Enable mTLS without subject validation
+
+Additional certificate validation is optional. To enable mutual TLS without subject validation, use:
+
+```sh
+PUT /v1/cluster
+{
+  "mtls_certificate_authentication": true,
+  "mtls_client_cert_subject_validation_type": "disabled"
+}
+```
+
+#### Enable mTLS with SAN validation
 
 For certificate validation by Subject Alternative Name (SAN), use:
 
@@ -64,10 +84,14 @@ PUT /v1/cluster
   "mtls_certificate_authentication": true,
   "mtls_client_cert_subject_validation_type": "san_cn",
   "mtls_authorized_subjects": [{
-    "CN": "<Common Name>"
+    "CN": "<Subject Common Name or SAN DNS entry>"
   }]
 }
 ```
+
+Replace the placeholder value `<>` with your client certificate's Subject Common Name or SAN DNS entry.
+
+#### Enable mTLS with Full Subject Name validation
 
 For certificate validation by full Subject Name, use:
 
@@ -88,6 +112,29 @@ PUT /v1/cluster
 ```
 
 Replace the placeholder values `<>` with your client certificate's subject values.
+
+#### Example certificate and mTLS settings
+
+If a client certificate has:
+
+- Subject: `CN=client.example.com`
+
+- SAN: `DNS:app1.example.com, DNS:client.example.com, DNS:app1-prod.example.com`
+
+You can use any of these values for the CN in `mtls_authorized_subjects`:
+
+```sh
+PUT /v1/cluster
+{
+  "mtls_certificate_authentication": true,
+  "mtls_client_cert_subject_validation_type": "san_cn",
+  "mtls_authorized_subjects": [
+    {"CN": "client.example.com"},   // Subject CN
+    {"CN": "app1.example.com"},     // SAN DNS entry
+    {"CN": "app1-prod.example.com"} // Another SAN DNS entry
+  ]
+}
+```
 
 ### Enable mutual TLS for databases {#enable-mtls-dbs}
 
