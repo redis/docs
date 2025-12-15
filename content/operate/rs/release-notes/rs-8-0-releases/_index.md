@@ -39,6 +39,8 @@ This version offers:
 
 - Customer-managed certificates for internode encryption
 
+- Smart client handoffs
+
 ## Detailed release notes
 
 For more detailed release notes, select a build version from the following table:
