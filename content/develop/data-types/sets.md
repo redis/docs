@@ -122,7 +122,7 @@ unions, difference, and more. For example
 if we add a third race we can see some of these commands in action:
 
 {{< clients-example sets_tutorial multisets >}}
-> DEL bikes:racing:france bikes:racing:usa
+> DEL bikes:racing:france bikes:racing:usa bikes:racing:italy
 (integer) 2
 > SADD bikes:racing:france bike:1 bike:2 bike:3
 (integer) 3
