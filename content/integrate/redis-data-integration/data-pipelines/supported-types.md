@@ -56,7 +56,7 @@ Oracle LOBs are supported **with additional configuration**:
 **Required config (RDI / Debezium side):**
 
 ```properties
-# In the Oracle source connector / RDI advanced properties
+# In the Oracle source connector / RDI source advanced properties
 lob.enabled=true
 ```
 
