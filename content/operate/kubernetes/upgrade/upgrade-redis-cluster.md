@@ -43,6 +43,8 @@ If your databases use user-defined modules (custom non-bundled modules):
 - Define the user-defined modules in the REC custom resource before upgrading the database.
 - See [Edit `redisEnterpriseImageSpec`](#edit-redisenterpriseimagespec-in-the-rec-spec) for more details.
 
+For more information about user-defined modules, see [User-defined modules]({{< relref "/operate/kubernetes/re-databases/modules#user-defined-modules" >}}).
+
 ### Valid license
 
 Use `kubectl get rec` and verify the `LICENSE STATE` is valid on your REC before you start the upgrade process.
@@ -238,7 +240,7 @@ If your REAADB uses supported modules, keep the existing `moduleList` version nu
 
 ### Upgrade with user-defined modules
 
-If a user-defined module is used by any database in the cluster, the module must be defined in the REC custom resource before upgrading the database.
+If a user-defined module is used by any database in the cluster, the module must be defined in the REC custom resource before upgrading the database. See [Add user-defined modules to the REC]({{< relref "/operate/kubernetes/re-databases/modules#add-user-defined-modules-to-the-rec" >}}) for detailed instructions.
 
 ### Upgrade policy
 

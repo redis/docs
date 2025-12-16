@@ -43,6 +43,8 @@ If your databases use user-defined modules (custom non-bundled modules):
 - Define the user-defined modules in the REC custom resource before upgrading the database.
 - See [Edit `redisEnterpriseImageSpec`](#edit-redisenterpriseimagespec) for more details.
 
+For more information about user-defined modules, see [User-defined modules]({{< relref "/operate/kubernetes/re-databases/modules#user-defined-modules" >}}).
+
 #### RHEL9-compatible modules
 
 Upgrading to Redis operator versions 7.8.2-6 and later  involves migrating your Redis Enterprise nodes to RHEL9 from either Ubuntu 18 or RHEL8. If your databases use modules, you need to manually install modules compatible with RHEL9.
@@ -254,7 +256,7 @@ If your REAADB uses supported modules, keep the existing `moduleList` version nu
 
 #### Upgrade with user-defined modules
 
-If a user-defined module is used by any database in the cluster, the module must be defined in the REC custom resource before upgrading the database.
+If a user-defined module is used by any database in the cluster, the module must be defined in the REC custom resource before upgrading the database. See [Add user-defined modules to the REC]({{< relref "/operate/kubernetes/re-databases/modules#add-user-defined-modules-to-the-rec" >}}) for detailed instructions.
 
 #### General upgrade notes
 
