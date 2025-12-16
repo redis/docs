@@ -776,6 +776,81 @@ $r->get('foo');
             os.unlink(output_file)
 
 
+def test_php_unwrapping():
+    """Test that PHP class/method wrappers are removed."""
+    print("\nTesting PHP unwrapping...")
+
+    test_content = """// EXAMPLE: test_php_unwrap
+<?php
+
+require 'vendor/autoload.php';
+
+use Predis\\Client as PredisClient;
+
+class DtSetsTest
+{
+    public function testDtSet() {
+        $r = new PredisClient([
+            'scheme'   => 'tcp',
+            'host'     => '127.0.0.1',
+            'port'     => 6379,
+            'password' => '',
+            'database' => 0,
+        ]);
+
+        // STEP_START test_step
+        $res = $r->sadd('test_key', ['value1']);
+        echo $res . PHP_EOL;
+        // STEP_END
+    }
+}
+"""
+
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.php', delete=False) as f:
+        f.write(test_content)
+        test_file = f.name
+
+    try:
+        # Convert
+        output_file = test_file.replace('.php', '.ipynb')
+        result = jupyterize(test_file, output_file, verbose=False)
+
+        # Load and validate notebook
+        with open(output_file) as f:
+            nb = json.load(f)
+
+        # Verify kernel is php
+        assert nb['metadata']['kernelspec']['name'] == 'php', \
+            f"Kernel should be php, got {nb['metadata']['kernelspec']['name']}"
+
+        # Verify class and method wrappers are removed
+        all_code = ''.join(''.join(cell['source']) for cell in nb['cells'])
+        assert 'class DtSetsTest' not in all_code, \
+            "Should not contain class declaration"
+        assert 'public function testDtSet' not in all_code, \
+            "Should not contain method declaration"
+
+        # Verify actual code is present
+        assert '$r = new PredisClient' in all_code, \
+            "Should contain connection code"
+        assert '$r->sadd' in all_code, \
+            "Should contain actual Redis command"
+        assert 'require' in all_code, \
+            "Should contain require statement"
+
+        # Verify we have 2 cells (preamble + step)
+        assert len(nb['cells']) == 2, \
+            f"Should have 2 cells, got {len(nb['cells'])}"
+
+        print("✓ PHP unwrapping test passed")
+
+    finally:
+        if os.path.exists(test_file):
+            os.unlink(test_file)
+        if output_file and os.path.exists(output_file):
+            os.unlink(output_file)
+
+
 def main():
     """Run all tests."""
     print("=" * 60)
@@ -815,6 +890,7 @@ def main():
 
         # Language-specific feature tests (PHP)
         test_php_no_step_metadata()
+        test_php_unwrapping()
 
         # Regression tests
         test_csharp_for_loop_braces()
