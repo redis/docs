@@ -503,9 +503,9 @@ linkTitle: FT.HYBRID
 railroad_diagram: /images/railroad/ft.hybrid.svg
 since: 8.4.0
 summary: Performs hybrid search combining text search and vector similarity search
-syntax: "FT.HYBRID index\n  SEARCH query\n    [SCORER scorer]\n    [YIELD_SCORE_AS\
-  \ name]\n  VSIM vector_field $vector_param\n    [KNN count [K k] [EF_RUNTIME ef_runtime]]\n\
-  \    [RANGE count [RADIUS radius] [EPSILON epsilon]]\n    [YIELD_SCORE_AS name]\n\
+syntax_fmt: "FT.HYBRID index\n  SEARCH query\n    [SCORER scorer]\n    [YIELD_SCORE_AS\
+  \ name]\n  VSIM vector_field $vector_param\n    [KNN count K k [EF_RUNTIME ef_runtime]]\n\
+  \    [RANGE count RADIUS radius [EPSILON epsilon]]\n    [YIELD_SCORE_AS name]\n\
   \    [FILTER filter]\n  [COMBINE RRF count [CONSTANT constant] [WINDOW window]\
   \ [YIELD_SCORE_AS name]]\n  [COMBINE LINEAR count [[ALPHA alpha] [BETA beta]] [WINDOW\
   \ window] [YIELD_SCORE_AS name]]\n  [LIMIT offset num]\n  [SORTBY count sortby\
