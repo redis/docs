@@ -87,7 +87,7 @@ is the query string, sent to `FT.SEARCH` or `FT.AGGREGATE`.
 
 ## Return
 
-**Note**: This page contains the up-to-date profile output as of RediSearch v2.8.33, v2.10.26, v8.2.7, and v8.4.4. 
+**Note**: This page contains the up-to-date profile output as of RediSearch v2.8.33, v2.10.26, v8.2.7, and v8.4.3. 
 The output format itself may differ between RediSearch versions, and RESP protocol versions.
 
 `FT.PROFILE` returns a two-element array reply. The first element contains the results of the provided `FT.SEARCH` or `FT.AGGREGATE` command.
@@ -102,7 +102,7 @@ If there's only one shard, the label will be omitted.
 
 | Returned field name      | Definition                                                                                                                                                                                                            |
 |:--                       |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `Shard ID`               | String containing the unique shard ID. In OSS, this identifier is denoted as the node ID, and is recievend from `RedisModule_GetMyClusterID()` API.                                                                   |
+| `Shard ID`               | String containing the unique shard ID. In OSS, this identifier is denoted as the node ID, and is recievend from `RedisModule_GetMyClusterID()` API. (Available as of RediSearch v8.4.3)                               |
 | `Total`&nbsp;`profile`&nbsp;`time`     | The total run time (ms) of the query. Normally just a few ms.                                                                                                                                                         |
 | `Parsing`&nbsp;`time`           | The time (ms) spent parsing the query and its parameters into a query plan. Normally just a few ms.                                                                                                                   |
 | `Pipeline`&nbsp;`creation`&nbsp;`time` | The creation time (ms) of the execution plan, including iterators, result processors, and reducers creation. Normally just a few ms for `FT.SEARCH` queries, but expect a larger number for `FT.AGGREGATE` queries.   |
