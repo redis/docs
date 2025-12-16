@@ -73,7 +73,6 @@ since: 7.0.0
 summary: Pops the first element from one of multiple lists. Blocks until an element
   is available otherwise. Deletes the list if the last element was popped.
 syntax_fmt: "BLMPOP timeout numkeys key [key ...] <LEFT | RIGHT> [COUNT\_count]"
-syntax_str: "numkeys key [key ...] <LEFT | RIGHT> [COUNT\_count]"
 title: BLMPOP
 ---
 `BLMPOP` is the blocking variant of [`LMPOP`]({{< relref "/commands/lmpop" >}}).

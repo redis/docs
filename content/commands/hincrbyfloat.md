@@ -54,7 +54,6 @@ since: 2.6.0
 summary: Increments the floating point value of a field by a number. Uses 0 as initial
   value if the field doesn't exist.
 syntax_fmt: HINCRBYFLOAT key field increment
-syntax_str: field increment
 title: HINCRBYFLOAT
 ---
 Increment the specified `field` of a hash stored at `key`, and representing a
@@ -80,7 +79,6 @@ HINCRBYFLOAT mykey field -5
 HSET mykey field 5.0e3
 HINCRBYFLOAT mykey field 2.0e2
 {{% /redis-cli %}}
-
 
 ## Implementation details
 

@@ -49,7 +49,6 @@ railroad_diagram: /images/railroad/ttl.svg
 since: 1.0.0
 summary: Returns the expiration time in seconds of a key.
 syntax_fmt: TTL key
-syntax_str: ''
 title: TTL
 ---
 Returns the remaining time to live of a key that has a timeout.

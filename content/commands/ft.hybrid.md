@@ -515,6 +515,7 @@ syntax_fmt: "FT.HYBRID index\n  SEARCH query\n    [SCORER scorer]\n    [YIELD_SC
   \ [arg ...] [AS name] ...]] ...]]\n  [APPLY expression AS name [APPLY expression\
   \ AS name ...]]\n  [FILTER filter]\n  PARAMS nargs vector_param vector_blob [name\
   \ value ...]\n  [TIMEOUT timeout]"
+syntax_fmt: FT.HYBRID
 title: FT.HYBRID
 ---
 

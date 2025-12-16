@@ -63,8 +63,6 @@ syntax: "FT.SPELLCHECK index query \n  [DISTANCE distance] \n  [TERMS INCLUDE | 
   \ dictionary [terms [terms ...]]] \n  [DIALECT dialect]\n"
 syntax_fmt: "FT.SPELLCHECK index query [DISTANCE\_distance] [TERMS\_<INCLUDE |\n \
   \ EXCLUDE> dictionary [terms [terms ...]]] [DIALECT\_dialect]"
-syntax_str: "query [DISTANCE\_distance] [TERMS\_<INCLUDE | EXCLUDE> dictionary [terms\
-  \ [terms ...]]] [DIALECT\_dialect]"
 title: FT.SPELLCHECK
 ---
 

@@ -83,8 +83,6 @@ syntax: "TS.CREATERULE sourceKey destKey \n  AGGREGATION aggregator bucketDurati
 syntax_fmt: "TS.CREATERULE sourceKey destKey AGGREGATION\_<AVG | FIRST | LAST |\n\
   \  MIN | MAX | SUM | RANGE | COUNT | STD.P | STD.S | VAR.P | VAR.S |\n  TWA> bucketDuration\
   \ [alignTimestamp]"
-syntax_str: "destKey AGGREGATION\_<AVG | FIRST | LAST | MIN | MAX | SUM | RANGE |\
-  \ COUNT | STD.P | STD.S | VAR.P | VAR.S | TWA> bucketDuration [alignTimestamp]"
 title: TS.CREATERULE
 ---
 
@@ -186,7 +184,6 @@ Now, also create a compacted time series named _dailyDiffTemp_. This time series
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

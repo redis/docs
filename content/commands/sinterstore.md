@@ -62,7 +62,6 @@ railroad_diagram: /images/railroad/sinterstore.svg
 since: 1.0.0
 summary: Stores the intersect of multiple sets in a key.
 syntax_fmt: SINTERSTORE destination key [key ...]
-syntax_str: key [key ...]
 title: SINTERSTORE
 ---
 This command is equal to [`SINTER`]({{< relref "/commands/sinter" >}}), but instead of returning the resulting set,

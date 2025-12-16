@@ -24,11 +24,7 @@ railroad_diagram: /images/railroad/ft.suglen.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Gets the size of an auto-complete suggestion dictionary
-syntax: 'FT.SUGLEN key
-
-  '
 syntax_fmt: FT.SUGLEN key
-syntax_str: ''
 title: FT.SUGLEN
 ---
 

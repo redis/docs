@@ -77,7 +77,6 @@ summary: Pops an element from a list, pushes it to another list and returns it. 
   until an element is available otherwise. Deletes the list if the last element was
   popped.
 syntax_fmt: BRPOPLPUSH source destination timeout
-syntax_str: destination timeout
 title: BRPOPLPUSH
 ---
 `BRPOPLPUSH` is the blocking variant of [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}).

@@ -53,7 +53,6 @@ since: 2.0.0
 summary: Deletes one or more fields and their values from a hash. Deletes the hash
   if no fields remain.
 syntax_fmt: HDEL key field [field ...]
-syntax_str: field [field ...]
 title: HDEL
 ---
 Removes the specified fields from the hash stored at `key`.

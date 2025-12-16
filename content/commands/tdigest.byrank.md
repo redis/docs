@@ -31,7 +31,6 @@ stack_path: docs/data-types/probabilistic
 summary: Returns, for each input rank, an estimation of the value (floating-point)
   with that rank
 syntax_fmt: TDIGEST.BYRANK key rank [rank ...]
-syntax_str: rank [rank ...]
 title: TDIGEST.BYRANK
 ---
 Returns, for each input rank, a floating-point estimation of the value with that rank.

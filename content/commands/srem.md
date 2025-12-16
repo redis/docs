@@ -53,7 +53,6 @@ since: 1.0.0
 summary: Removes one or more members from a set. Deletes the set if the last member
   was removed.
 syntax_fmt: SREM key member [member ...]
-syntax_str: member [member ...]
 title: SREM
 ---
 Remove the specified members from the set stored at `key`.

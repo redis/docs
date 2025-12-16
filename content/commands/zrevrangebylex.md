@@ -68,7 +68,6 @@ since: 2.8.9
 summary: Returns members in a sorted set within a lexicographical range in reverse
   order.
 syntax_fmt: "ZREVRANGEBYLEX key max min [LIMIT\_offset count]"
-syntax_str: "max min [LIMIT\_offset count]"
 title: ZREVRANGEBYLEX
 ---
 When all the elements in a sorted set are inserted with the same score, in order to force lexicographical ordering, this command returns all the elements in the sorted set at `key` with a value between `max` and `min`.

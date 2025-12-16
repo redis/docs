@@ -51,7 +51,6 @@ railroad_diagram: /images/railroad/xinfo-consumers.svg
 since: 5.0.0
 summary: Returns a list of the consumers in a consumer group.
 syntax_fmt: XINFO CONSUMERS key group
-syntax_str: group
 title: XINFO CONSUMERS
 ---
 This command returns the list of consumers that belong to the `<groupname>` consumer group of the stream stored at `<key>`.

@@ -46,7 +46,6 @@ railroad_diagram: /images/railroad/sismember.svg
 since: 1.0.0
 summary: Determines whether a member belongs to a set.
 syntax_fmt: SISMEMBER key member
-syntax_str: member
 title: SISMEMBER
 ---
 Returns if `member` is a member of the set stored at `key`.

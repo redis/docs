@@ -44,7 +44,6 @@ railroad_diagram: /images/railroad/object-idletime.svg
 since: 2.2.3
 summary: Returns the time since the last access to a Redis object.
 syntax_fmt: OBJECT IDLETIME key
-syntax_str: ''
 title: OBJECT IDLETIME
 ---
 This command returns the time in seconds since the last access to the value stored at `<key>`.

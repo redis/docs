@@ -39,7 +39,6 @@ railroad_diagram: /images/railroad/acl-getuser.svg
 since: 6.0.0
 summary: Lists the ACL rules of a user.
 syntax_fmt: ACL GETUSER username
-syntax_str: ''
 title: ACL GETUSER
 ---
 The command returns all the rules defined for an existing ACL user.

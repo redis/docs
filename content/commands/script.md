@@ -21,7 +21,6 @@ railroad_diagram: /images/railroad/script.svg
 since: 2.6.0
 summary: A container for Lua scripts management commands.
 syntax_fmt: SCRIPT
-syntax_str: ''
 title: SCRIPT
 ---
 This is a container command for script management commands.

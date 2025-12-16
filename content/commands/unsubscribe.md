@@ -33,7 +33,6 @@ railroad_diagram: /images/railroad/unsubscribe.svg
 since: 2.0.0
 summary: Stops listening to messages posted to channels.
 syntax_fmt: UNSUBSCRIBE [channel [channel ...]]
-syntax_str: ''
 title: UNSUBSCRIBE
 ---
 Unsubscribes the client from the given channels, or from all of them if none is

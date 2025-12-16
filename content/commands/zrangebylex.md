@@ -66,7 +66,6 @@ replaced_by: '`ZRANGE` with the `BYLEX` argument'
 since: 2.8.9
 summary: Returns members in a sorted set within a lexicographical range.
 syntax_fmt: "ZRANGEBYLEX key min max [LIMIT\_offset count]"
-syntax_str: "min max [LIMIT\_offset count]"
 title: ZRANGEBYLEX
 ---
 When all the elements in a sorted set are inserted with the same score, in order to force lexicographical ordering, this command returns all the elements in the sorted set at `key` with a value between `min` and `max`.

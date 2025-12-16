@@ -51,7 +51,6 @@ since: 7.0.0
 summary: Loads a module using extended parameters.
 syntax_fmt: "MODULE LOADEX path [CONFIG\_name value [CONFIG name value ...]]\n  [ARGS\_\
   args [args ...]]"
-syntax_str: "[CONFIG\_name value [CONFIG name value ...]] [ARGS\_args [args ...]]"
 title: MODULE LOADEX
 ---
 Loads a module from a dynamic library at runtime with configuration directives.

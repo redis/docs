@@ -49,7 +49,6 @@ since: 3.2.1
 summary: Returns the number of existing keys out of those specified after updating
   the time they were last accessed.
 syntax_fmt: TOUCH key [key ...]
-syntax_str: ''
 title: TOUCH
 ---
 Alters the last access time of a key(s).

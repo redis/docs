@@ -29,7 +29,6 @@ since: 2.0.0
 stack_path: docs/data-types/probabilistic
 summary: Returns the count for one or more items in a sketch
 syntax_fmt: CMS.QUERY key item [item ...]
-syntax_str: item [item ...]
 title: CMS.QUERY
 ---
 Returns the count for one or more items in a sketch.
@@ -52,7 +51,6 @@ redis> CMS.QUERY test foo bar
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

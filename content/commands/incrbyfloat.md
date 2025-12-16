@@ -51,7 +51,6 @@ since: 2.6.0
 summary: Increment the floating point value of a key by a number. Uses 0 as initial
   value if the key doesn't exist.
 syntax_fmt: INCRBYFLOAT key increment
-syntax_str: increment
 title: INCRBYFLOAT
 ---
 Increment the string representing a floating point number stored at `key` by the
@@ -88,7 +87,6 @@ INCRBYFLOAT mykey -5
 SET mykey 5.0e3
 INCRBYFLOAT mykey 2.0e2
 {{% /redis-cli %}}
-
 
 ## Implementation details
 

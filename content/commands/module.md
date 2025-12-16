@@ -21,7 +21,6 @@ railroad_diagram: /images/railroad/module.svg
 since: 4.0.0
 summary: A container for module commands.
 syntax_fmt: MODULE
-syntax_str: ''
 title: MODULE
 ---
 This is a container command for module management commands.

@@ -50,7 +50,6 @@ since: 2.8.9
 summary: Returns the approximated cardinality of the set(s) observed by the HyperLogLog
   key(s).
 syntax_fmt: PFCOUNT key [key ...]
-syntax_str: ''
 title: PFCOUNT
 ---
 When called with a single key, returns the approximated cardinality computed by the HyperLogLog data structure stored at the specified variable, which is 0 if the variable does not exist.
@@ -76,7 +75,6 @@ PFCOUNT hll
 PFADD some-other-hll 1 2 3
 PFCOUNT hll some-other-hll
 {{% /redis-cli %}}
-
 
 Performances
 ---

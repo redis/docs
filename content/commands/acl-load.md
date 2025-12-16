@@ -28,7 +28,6 @@ railroad_diagram: /images/railroad/acl-load.svg
 since: 6.0.0
 summary: Reloads the rules from the configured ACL file.
 syntax_fmt: ACL LOAD
-syntax_str: ''
 title: ACL LOAD
 ---
 When Redis is configured to use an ACL file (with the `aclfile` configuration

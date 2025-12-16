@@ -32,7 +32,6 @@ since: 1.0.0
 stack_path: docs/data-types/json
 summary: Returns the JSON keys of the object at path
 syntax_fmt: JSON.OBJKEYS key [path]
-syntax_str: '[path]'
 title: JSON.OBJKEYS
 ---
 Return the keys in the object that's referenced by `path`
@@ -70,7 +69,6 @@ redis> JSON.OBJKEYS doc $..a
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

@@ -122,8 +122,6 @@ summary: Returns members from a geospatial index that are within a distance from
   member.
 syntax_fmt: "GEORADIUSBYMEMBER_RO key member radius <M | KM | FT | MI>\n  [WITHCOORD]\
   \ [WITHDIST] [WITHHASH] [COUNT\_count [ANY]] [ASC | DESC]"
-syntax_str: "member radius <M | KM | FT | MI> [WITHCOORD] [WITHDIST] [WITHHASH] [COUNT\_\
-  count [ANY]] [ASC | DESC]"
 title: GEORADIUSBYMEMBER_RO
 ---
 Read-only variant of the [`GEORADIUSBYMEMBER`]({{< relref "/commands/georadiusbymember" >}}) command.

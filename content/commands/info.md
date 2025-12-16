@@ -38,7 +38,6 @@ railroad_diagram: /images/railroad/info.svg
 since: 1.0.0
 summary: Returns information and statistics about the server.
 syntax_fmt: INFO [section [section ...]]
-syntax_str: ''
 title: INFO
 ---
 The `INFO` command returns information and statistics about the server in a
@@ -80,7 +79,6 @@ Give these commands a try in the interactive console:
 INFO
 {{% /redis-cli %}}
 
-
 ## Notes
 
 Please note depending on the version of Redis some of the fields have been
@@ -89,7 +87,6 @@ result of this command by skipping unknown properties, and gracefully handle
 missing fields.
 
 Here is the description of fields for Redis >= 2.4.
-
 
 Here is the meaning of all fields in the **server** section:
 

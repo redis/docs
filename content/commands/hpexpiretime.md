@@ -55,7 +55,6 @@ railroad_diagram: /images/railroad/hpexpiretime.svg
 since: 7.4.0
 summary: Returns the expiration time of a hash field as a Unix timestamp, in msec.
 syntax_fmt: "HPEXPIRETIME key FIELDS\_numfields field [field ...]"
-syntax_str: "FIELDS\_numfields field [field ...]"
 title: HPEXPIRETIME
 ---
 `HPEXPIRETIME` has the same semantics as [`HEXPIRETIME`]({{< relref "/commands/hexpiretime" >}}), but returns the absolute Unix expiration timestamp in milliseconds since Unix epoch instead of seconds.

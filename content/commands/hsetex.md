@@ -102,9 +102,6 @@ summary: Set the value of one or more fields of a given hash key, and optionally
 syntax_fmt: "HSETEX key [FNX | FXX] [EX\_seconds | PX\_milliseconds |\n  EXAT\_unix-time-seconds\
   \ | PXAT\_unix-time-milliseconds | KEEPTTL]\n  FIELDS\_numfields field value [field\
   \ value ...]"
-syntax_str: "[FNX | FXX] [EX\_seconds | PX\_milliseconds | EXAT\_unix-time-seconds\
-  \ | PXAT\_unix-time-milliseconds | KEEPTTL] FIELDS\_numfields field value [field\
-  \ value ...]"
 title: HSETEX
 ---
 

@@ -32,7 +32,6 @@ railroad_diagram: /images/railroad/cluster-delslots.svg
 since: 3.0.0
 summary: Sets hash slots as unbound for a node.
 syntax_fmt: CLUSTER DELSLOTS slot [slot ...]
-syntax_str: ''
 title: CLUSTER DELSLOTS
 ---
 In Redis Cluster, each node keeps track of which master is serving

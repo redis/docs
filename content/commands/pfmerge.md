@@ -63,7 +63,6 @@ railroad_diagram: /images/railroad/pfmerge.svg
 since: 2.8.9
 summary: Merges one or more HyperLogLog values into a single key.
 syntax_fmt: PFMERGE destkey [sourcekey [sourcekey ...]]
-syntax_str: '[sourcekey [sourcekey ...]]'
 title: PFMERGE
 ---
 Merge multiple HyperLogLog values into a unique value that will approximate

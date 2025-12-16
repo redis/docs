@@ -32,7 +32,6 @@ stack_path: docs/data-types/probabilistic
 summary: Returns an estimation of the mean value from the sketch, excluding observation
   values outside the low and high cutoff quantiles
 syntax_fmt: TDIGEST.TRIMMED_MEAN key low_cut_quantile high_cut_quantile
-syntax_str: low_cut_quantile high_cut_quantile
 title: TDIGEST.TRIMMED_MEAN
 ---
 Returns an estimation of the mean value from the sketch, excluding observation values outside the low and high cutoff quantiles.
@@ -82,7 +81,6 @@ redis> TDIGEST.TRIMMED_MEAN t 0 1
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

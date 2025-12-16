@@ -27,7 +27,6 @@ since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Returns information about a Cuckoo Filter
 syntax_fmt: CF.INFO key
-syntax_str: ''
 title: CF.INFO
 ---
 Returns information about a cuckoo filter.
@@ -66,7 +65,6 @@ redis> CF.INFO cf
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

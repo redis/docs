@@ -27,7 +27,6 @@ railroad_diagram: /images/railroad/cluster-keyslot.svg
 since: 3.0.0
 summary: Returns the hash slot for a key.
 syntax_fmt: CLUSTER KEYSLOT key
-syntax_str: ''
 title: CLUSTER KEYSLOT
 ---
 Returns an integer identifying the hash slot the specified key hashes to.

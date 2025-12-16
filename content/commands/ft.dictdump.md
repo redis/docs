@@ -26,9 +26,7 @@ railroad_diagram: /images/railroad/ft.dictdump.svg
 since: 1.4.0
 stack_path: docs/interact/search-and-query
 summary: Dumps all terms in the given dictionary
-syntax: FT.DICTDUMP dict
 syntax_fmt: FT.DICTDUMP dict
-syntax_str: ''
 title: FT.DICTDUMP
 ---
 
@@ -84,5 +82,4 @@ is dictionary name.
 ## Related topics
 
 [RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
-
 

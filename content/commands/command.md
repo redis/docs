@@ -27,7 +27,6 @@ railroad_diagram: /images/railroad/command.svg
 since: 2.8.13
 summary: Returns detailed information about all commands.
 syntax_fmt: COMMAND
-syntax_str: ''
 title: COMMAND
 ---
 Return an array with details about every Redis command.

@@ -41,7 +41,6 @@ railroad_diagram: /images/railroad/auth.svg
 since: 1.0.0
 summary: Authenticates the connection.
 syntax_fmt: AUTH [username] password
-syntax_str: password
 title: AUTH
 ---
 The AUTH command authenticates the current connection in two cases:

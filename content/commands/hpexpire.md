@@ -80,7 +80,6 @@ since: 7.4.0
 summary: Set expiry for hash field using relative time to expire (milliseconds)
 syntax_fmt: "HPEXPIRE key milliseconds [NX | XX | GT | LT] FIELDS\_numfields field\n\
   \  [field ...]"
-syntax_str: "milliseconds [NX | XX | GT | LT] FIELDS\_numfields field [field ...]"
 title: HPEXPIRE
 ---
 This command works like [`HEXPIRE`]({{< relref "/commands/hexpire" >}}), but the expiration of a field is

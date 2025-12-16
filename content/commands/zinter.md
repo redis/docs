@@ -79,8 +79,6 @@ since: 6.2.0
 summary: Returns the intersect of multiple sorted sets.
 syntax_fmt: "ZINTER numkeys key [key ...] [WEIGHTS\_weight [weight ...]]\n  [AGGREGATE\_\
   <SUM | MIN | MAX>] [WITHSCORES]"
-syntax_str: "key [key ...] [WEIGHTS\_weight [weight ...]] [AGGREGATE\_<SUM | MIN |\
-  \ MAX>] [WITHSCORES]"
 title: ZINTER
 ---
 This command is similar to [`ZINTERSTORE`]({{< relref "/commands/zinterstore" >}}), but instead of storing the resulting

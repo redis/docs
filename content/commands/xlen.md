@@ -43,7 +43,6 @@ railroad_diagram: /images/railroad/xlen.svg
 since: 5.0.0
 summary: Return the number of messages in a stream.
 syntax_fmt: XLEN key
-syntax_str: ''
 title: XLEN
 ---
 Returns the number of entries inside a stream. If the specified key does not

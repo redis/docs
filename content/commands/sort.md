@@ -121,8 +121,6 @@ summary: Sorts the elements in a list, a set, or a sorted set, optionally storin
   the result.
 syntax_fmt: "SORT key [BY\_pattern] [LIMIT\_offset count] [GET\_pattern [GET pattern\n\
   \  ...]] [ASC | DESC] [ALPHA] [STORE\_destination]"
-syntax_str: "[BY\_pattern] [LIMIT\_offset count] [GET\_pattern [GET pattern ...]]\
-  \ [ASC | DESC] [ALPHA] [STORE\_destination]"
 title: SORT
 ---
 Returns or stores the elements contained in the [list][tdtl], [set][tdts] or
