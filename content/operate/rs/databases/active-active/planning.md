@@ -86,5 +86,5 @@ Active-Active databases have the following limitations:
 - The `UNLINK` command is a blocking command for all types of keys.
 - Cross slot multi commands (such as `MSET`) are not supported with Active-Active databases.
 - The hashing policy can't be changed after database creation.
-- Flash memory is not supported for Active-Active databases.
+- Active-Active databases cannot be configured as Redis Flex deployments.
 - Active-Active databases handle replication internally and do not support the `redis.set_repl()` function in Lua scripts.
