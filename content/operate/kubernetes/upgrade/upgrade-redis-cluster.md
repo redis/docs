@@ -248,6 +248,30 @@ Note that if your cluster [`redisUpgradePolicy`]({{<relref "/operate/kubernetes/
 
 If you start an upgrade without meeting the [prerequisites](#prerequisites), the operator will freeze the upgrade. Check the operator logs for the source of the error. The REDB reconsilliation doesn't work during an upgrade, so you need to apply a manual fix with the Redis Software API (examples below). The updates will also need to be added to the REDB custom resource.
 
+### User-defined modules
+
+If your databases use user-defined modules and you encounter upgrade issues:
+
+1. **Verify `autoUpgradeRedisEnterprise` is set to `false`**: Check the REC spec to ensure automatic upgrades are disabled.
+
+    ```sh
+    kubectl get rec <cluster-name> -o jsonpath='{.spec.autoUpgradeRedisEnterprise}'
+    ```
+
+1. **Verify modules are defined in the REC**: Ensure all user-defined modules are listed in the REC `userDefinedModules` section before upgrading.
+
+    ```sh
+    kubectl get rec <cluster-name> -o jsonpath='{.spec.userDefinedModules}' | jq
+    ```
+
+1. **Check module validation errors**: Review the REC status for module validation errors.
+
+    ```sh
+    kubectl describe rec <cluster-name>
+    ```
+
+For more information about user-defined modules, see [User-defined modules]({{< relref "/operate/kubernetes/re-databases/modules#user-defined-modules" >}}).
+
 ### Invalid module version
 
 If the operator logs show an event related to an unsupported module, download the updated module locally, and install it using the `v2/modules` API endpoint.
