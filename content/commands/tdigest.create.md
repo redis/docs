@@ -30,7 +30,6 @@ since: 2.4.0
 stack_path: docs/data-types/probabilistic
 summary: Allocates memory and initializes a new t-digest sketch
 syntax_fmt: "TDIGEST.CREATE key [COMPRESSION\_compression]"
-syntax_str: "[COMPRESSION\_compression]"
 title: TDIGEST.CREATE
 ---
 Allocates memory and initializes a new t-digest sketch.
@@ -61,7 +60,6 @@ OK
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

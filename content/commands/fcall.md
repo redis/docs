@@ -61,7 +61,6 @@ railroad_diagram: /images/railroad/fcall.svg
 since: 7.0.0
 summary: Invokes a function.
 syntax_fmt: FCALL function numkeys [key [key ...]] [arg [arg ...]]
-syntax_str: numkeys [key [key ...]] [arg [arg ...]]
 title: FCALL
 ---
 Invoke a function.

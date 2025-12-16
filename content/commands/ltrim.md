@@ -51,7 +51,6 @@ since: 1.0.0
 summary: Removes elements from both ends a list. Deletes the list if all elements
   were trimmed.
 syntax_fmt: LTRIM key start stop
-syntax_str: start stop
 title: LTRIM
 ---
 Trim an existing list so that it will contain only the specified range of

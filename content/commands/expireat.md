@@ -71,7 +71,6 @@ railroad_diagram: /images/railroad/expireat.svg
 since: 1.2.0
 summary: Sets the expiration time of a key to a Unix timestamp.
 syntax_fmt: EXPIREAT key unix-time-seconds [NX | XX | GT | LT]
-syntax_str: unix-time-seconds [NX | XX | GT | LT]
 title: EXPIREAT
 ---
 `EXPIREAT` has the same effect and semantic as [`EXPIRE`]({{< relref "/commands/expire" >}}), but instead of

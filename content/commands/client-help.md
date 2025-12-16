@@ -25,7 +25,6 @@ railroad_diagram: /images/railroad/client-help.svg
 since: 5.0.0
 summary: Returns helpful text about the different subcommands.
 syntax_fmt: CLIENT HELP
-syntax_str: ''
 title: CLIENT HELP
 ---
 The `CLIENT HELP` command returns a helpful text describing the different subcommands.

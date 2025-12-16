@@ -42,7 +42,6 @@ stack_path: docs/data-types/probabilistic
 summary: Merges several sketches into one sketch
 syntax_fmt: "CMS.MERGE destination numKeys source [source ...] [WEIGHTS weight\n \
   \ [weight ...]]"
-syntax_str: numKeys source [source ...] [WEIGHTS weight [weight ...]]
 title: CMS.MERGE
 ---
 Merges several sketches into one sketch. All sketches must have identical width and depth. Weights can be used to multiply certain sketches. Default weight is 1. 
@@ -66,7 +65,6 @@ OK
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

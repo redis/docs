@@ -25,7 +25,6 @@ railroad_diagram: /images/railroad/xgroup-help.svg
 since: 5.0.0
 summary: Returns helpful text about the different subcommands.
 syntax_fmt: XGROUP HELP
-syntax_str: ''
 title: XGROUP HELP
 ---
 The `XGROUP HELP` command returns a helpful text describing the different subcommands.

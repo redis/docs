@@ -28,11 +28,9 @@ railroad_diagram: /images/railroad/function-kill.svg
 since: 7.0.0
 summary: Terminates a function during execution.
 syntax_fmt: FUNCTION KILL
-syntax_str: ''
 title: FUNCTION KILL
 ---
 Kill a function that is currently executing.
-
 
 The `FUNCTION KILL` command can be used only on functions that did not modify the dataset during their execution (since stopping a read-only function does not violate the scripting engine's guaranteed atomicity).
 

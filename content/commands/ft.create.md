@@ -190,14 +190,6 @@ syntax_fmt: "FT.CREATE index [ON\_<HASH | JSON>] [PREFIX\_count prefix [prefix\n
   \  [INDEXMISSING] [SORTABLE [UNF]] [NOINDEX] [field_name [AS\_alias]\n  <TEXT |\
   \ TAG | NUMERIC | GEO | VECTOR> [WITHSUFFIXTRIE]\n  [INDEXEMPTY] [INDEXMISSING]\
   \ [SORTABLE [UNF]] [NOINDEX] ...]"
-syntax_str: "[ON\_<HASH | JSON>] [PREFIX\_count prefix [prefix ...]] [FILTER\_filter]\
-  \ [LANGUAGE\_default_lang] [LANGUAGE_FIELD\_lang_attribute] [SCORE\_default_score]\
-  \ [SCORE_FIELD\_score_attribute] [PAYLOAD_FIELD\_payload_attribute] [MAXTEXTFIELDS]\
-  \ [TEMPORARY\_seconds] [NOOFFSETS] [NOHL] [NOFIELDS] [NOFREQS] [STOPWORDS\_count\
-  \ [stopword [stopword ...]]] [SKIPINITIALSCAN] SCHEMA field_name [AS\_alias] <TEXT\
-  \ | TAG | NUMERIC | GEO | VECTOR> [WITHSUFFIXTRIE] [INDEXEMPTY] [INDEXMISSING] [SORTABLE\
-  \ [UNF]] [NOINDEX] [field_name [AS\_alias] <TEXT | TAG | NUMERIC | GEO | VECTOR>\
-  \ [WITHSUFFIXTRIE] [INDEXEMPTY] [INDEXMISSING] [SORTABLE [UNF]] [NOINDEX] ...]"
 title: FT.CREATE
 ---
 

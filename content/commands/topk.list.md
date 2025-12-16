@@ -31,7 +31,6 @@ since: 2.0.0
 stack_path: docs/data-types/probabilistic
 summary: Return full list of items in Top K list
 syntax_fmt: TOPK.LIST key [WITHCOUNT]
-syntax_str: '[WITHCOUNT]'
 title: TOPK.LIST
 ---
 Return the full list of items in Top-K sketch.
@@ -60,13 +59,11 @@ TOPK.LIST topk WITHCOUNT
 6) (integer) 2
 ```
 
-
 ## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

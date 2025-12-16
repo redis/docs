@@ -28,7 +28,6 @@ since: 6.0.0
 summary: Returns the client ID to which the connection's tracking notifications are
   redirected.
 syntax_fmt: CLIENT GETREDIR
-syntax_str: ''
 title: CLIENT GETREDIR
 ---
 This command returns the client ID we are redirecting our

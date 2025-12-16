@@ -27,7 +27,6 @@ since: 2.4.0
 stack_path: docs/data-types/probabilistic
 summary: Returns the maximum observation value from a t-digest sketch
 syntax_fmt: TDIGEST.MAX key
-syntax_str: ''
 title: TDIGEST.MAX
 ---
 Returns the maximum observation value from a t-digest sketch.
@@ -57,7 +56,6 @@ redis>TDIGEST.MAX t
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

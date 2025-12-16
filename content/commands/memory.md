@@ -21,7 +21,6 @@ railroad_diagram: /images/railroad/memory.svg
 since: 4.0.0
 summary: A container for memory diagnostics commands.
 syntax_fmt: MEMORY
-syntax_str: ''
 title: MEMORY
 ---
 This is a container command for memory introspection and management commands.

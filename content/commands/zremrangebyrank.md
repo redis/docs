@@ -52,7 +52,6 @@ since: 2.0.0
 summary: Removes members in a sorted set within a range of indexes. Deletes the sorted
   set if all members were removed.
 syntax_fmt: ZREMRANGEBYRANK key start stop
-syntax_str: start stop
 title: ZREMRANGEBYRANK
 ---
 Removes all elements in the sorted set stored at `key` with rank between `start`

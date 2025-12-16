@@ -27,7 +27,6 @@ railroad_diagram: /images/railroad/vismember.svg
 since: 8.0.0
 summary: Check if an element exists in a vector set.
 syntax_fmt: VISMEMBER key element
-syntax_str: element
 title: VISMEMBER
 ---
 

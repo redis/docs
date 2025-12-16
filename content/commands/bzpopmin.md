@@ -58,7 +58,6 @@ summary: Removes and returns the member with the lowest score from one or more s
   sets. Blocks until a member is available otherwise. Deletes the sorted set if the
   last element was popped.
 syntax_fmt: BZPOPMIN key [key ...] timeout
-syntax_str: timeout
 title: BZPOPMIN
 ---
 `BZPOPMIN` is the blocking variant of the sorted set [`ZPOPMIN`]({{< relref "/commands/zpopmin" >}}) primitive.

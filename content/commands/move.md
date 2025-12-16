@@ -48,7 +48,6 @@ railroad_diagram: /images/railroad/move.svg
 since: 1.0.0
 summary: Moves a key to another database.
 syntax_fmt: MOVE key db
-syntax_str: db
 title: MOVE
 ---
 Move `key` from the currently selected database (see [`SELECT`]({{< relref "/commands/select" >}})) to the specified

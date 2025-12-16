@@ -88,7 +88,6 @@ summary: Return an array of slot usage statistics for slots assigned to the curr
   node.
 syntax_fmt: "CLUSTER SLOT-STATS <SLOTSRANGE\_start-slot end-slot | ORDERBY\_metric\n  [LIMIT\_\
   limit] [ASC | DESC]>"
-syntax_str: ''
 title: CLUSTER SLOT-STATS
 ---
 

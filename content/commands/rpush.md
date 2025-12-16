@@ -54,7 +54,6 @@ railroad_diagram: /images/railroad/rpush.svg
 since: 1.0.0
 summary: Appends one or more elements to a list. Creates the key if it doesn't exist.
 syntax_fmt: RPUSH key element [element ...]
-syntax_str: element [element ...]
 title: RPUSH
 ---
 Insert all the specified values at the tail of the list stored at `key`.

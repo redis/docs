@@ -47,7 +47,6 @@ railroad_diagram: /images/railroad/mget.svg
 since: 1.0.0
 summary: Atomically returns the string values of one or more keys.
 syntax_fmt: MGET key [key ...]
-syntax_str: ''
 title: MGET
 ---
 Returns the values of all specified keys.

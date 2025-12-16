@@ -25,7 +25,6 @@ railroad_diagram: /images/railroad/cluster-myshardid.svg
 since: 7.2.0
 summary: Returns the shard ID of a node.
 syntax_fmt: CLUSTER MYSHARDID
-syntax_str: ''
 title: CLUSTER MYSHARDID
 ---
 Returns the node's shard id.

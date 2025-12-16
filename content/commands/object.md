@@ -21,7 +21,6 @@ railroad_diagram: /images/railroad/object.svg
 since: 2.2.3
 summary: A container for object introspection commands.
 syntax_fmt: OBJECT
-syntax_str: ''
 title: OBJECT
 ---
 This is a container command for object introspection commands.

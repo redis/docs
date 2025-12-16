@@ -24,7 +24,6 @@ railroad_diagram: /images/railroad/function-dump.svg
 since: 7.0.0
 summary: Dumps all libraries into a serialized binary payload.
 syntax_fmt: FUNCTION DUMP
-syntax_str: ''
 title: FUNCTION DUMP
 ---
 Return the serialized payload of loaded libraries.

@@ -40,7 +40,6 @@ since: 7.2.0
 summary: Controls whether commands sent by the client affect the LRU/LFU of accessed
   keys.
 syntax_fmt: CLIENT NO-TOUCH <ON | OFF>
-syntax_str: ''
 title: CLIENT NO-TOUCH
 ---
 The `CLIENT NO-TOUCH` command controls whether commands sent by the client will alter the LRU/LFU of the keys they access.

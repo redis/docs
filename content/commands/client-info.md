@@ -28,7 +28,6 @@ railroad_diagram: /images/railroad/client-info.svg
 since: 6.2.0
 summary: Returns information about the connection.
 syntax_fmt: CLIENT INFO
-syntax_str: ''
 title: CLIENT INFO
 ---
 The command returns information and statistics about the current client connection in a mostly human readable format.

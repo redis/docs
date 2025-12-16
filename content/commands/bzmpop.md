@@ -75,7 +75,6 @@ summary: Removes and returns a member by score from one or more sorted sets. Blo
   until a member is available otherwise. Deletes the sorted set if the last element
   was popped.
 syntax_fmt: "BZMPOP timeout numkeys key [key ...] <MIN | MAX> [COUNT\_count]"
-syntax_str: "numkeys key [key ...] <MIN | MAX> [COUNT\_count]"
 title: BZMPOP
 ---
 `BZMPOP` is the blocking variant of [`ZMPOP`]({{< relref "/commands/zmpop" >}}).

@@ -29,7 +29,6 @@ railroad_diagram: /images/railroad/dbsize.svg
 since: 1.0.0
 summary: Returns the number of keys in the database.
 syntax_fmt: DBSIZE
-syntax_str: ''
 title: DBSIZE
 ---
 Return the number of keys in the currently-selected database.

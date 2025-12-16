@@ -127,7 +127,6 @@ syntax_fmt: "CLIENT KILL <ip:port | <[ID\_client-id] | [TYPE\_<NORMAL | MASTER |
   ip:port] | [SKIPME\_<YES | NO>] | [MAXAGE\_maxage]\n  [[ID\_client-id] | [TYPE\_\
   <NORMAL | MASTER | SLAVE | REPLICA |\n  PUBSUB>] | [USER\_username] | [ADDR\_ip:port]\
   \ | [LADDR\_ip:port] |\n  [SKIPME\_<YES | NO>] | [MAXAGE\_maxage] ...]>>"
-syntax_str: ''
 title: CLIENT KILL
 ---
 The `CLIENT KILL` command closes a given client connection. This command support two formats, the old format:

@@ -92,7 +92,6 @@ summary: Pops an element from a list, pushes it to another list and returns it. 
   until an element is available otherwise. Deletes the list if the last element was
   moved.
 syntax_fmt: BLMOVE source destination <LEFT | RIGHT> <LEFT | RIGHT> timeout
-syntax_str: destination <LEFT | RIGHT> <LEFT | RIGHT> timeout
 title: BLMOVE
 ---
 `BLMOVE` is the blocking variant of [`LMOVE`]({{< relref "/commands/lmove" >}}).

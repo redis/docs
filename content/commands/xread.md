@@ -68,7 +68,6 @@ summary: Returns messages from multiple streams with IDs greater than the ones r
   Blocks until a message is available otherwise.
 syntax_fmt: "XREAD [COUNT\_count] [BLOCK\_milliseconds] STREAMS\_key [key ...] id\n\
   \  [id ...]"
-syntax_str: "[BLOCK\_milliseconds] STREAMS\_key [key ...] id [id ...]"
 title: XREAD
 ---
 Read data from one or multiple streams, only returning entries with an

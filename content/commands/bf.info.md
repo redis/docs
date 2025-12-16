@@ -46,7 +46,6 @@ since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Returns information about a Bloom Filter
 syntax_fmt: BF.INFO key [CAPACITY | SIZE | FILTERS | ITEMS | EXPANSION]
-syntax_str: '[CAPACITY | SIZE | FILTERS | ITEMS | EXPANSION]'
 title: BF.INFO
 ---
 Returns information about a Bloom filter.
@@ -110,7 +109,6 @@ redis> BF.INFO bf1 CAPACITY
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

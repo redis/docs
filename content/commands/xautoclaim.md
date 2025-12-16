@@ -74,7 +74,6 @@ since: 6.2.0
 summary: Changes, or acquires, ownership of messages in a consumer group, as if the
   messages were delivered to as consumer group member.
 syntax_fmt: "XAUTOCLAIM key group consumer min-idle-time start [COUNT\_count]\n  [JUSTID]"
-syntax_str: "group consumer min-idle-time start [COUNT\_count] [JUSTID]"
 title: XAUTOCLAIM
 ---
 This command transfers ownership of pending stream entries that match the specified criteria. Conceptually, `XAUTOCLAIM`  is equivalent to calling [`XPENDING`]({{< relref "/commands/xpending" >}}) and then [`XCLAIM`]({{< relref "/commands/xclaim" >}}),

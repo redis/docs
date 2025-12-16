@@ -24,7 +24,6 @@ railroad_diagram: /images/railroad/acl-help.svg
 since: 6.0.0
 summary: Returns helpful text about the different subcommands.
 syntax_fmt: ACL HELP
-syntax_str: ''
 title: ACL HELP
 ---
 The `ACL HELP` command returns a helpful text describing the different subcommands.

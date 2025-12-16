@@ -32,7 +32,6 @@ railroad_diagram: /images/railroad/pubsub-numsub.svg
 since: 2.8.0
 summary: Returns a count of subscribers to channels.
 syntax_fmt: PUBSUB NUMSUB [channel [channel ...]]
-syntax_str: ''
 title: PUBSUB NUMSUB
 ---
 Returns the number of subscribers (exclusive of clients subscribed to patterns) for the specified channels.

@@ -27,7 +27,6 @@ railroad_diagram: /images/railroad/readonly.svg
 since: 3.0.0
 summary: Enables read-only queries for a connection to a Redis Cluster replica node.
 syntax_fmt: READONLY
-syntax_str: ''
 title: READONLY
 ---
 Enables read queries for a connection to a Redis Cluster replica node. 

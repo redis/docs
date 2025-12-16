@@ -52,7 +52,6 @@ since: 1.2.0
 summary: Removes members in a sorted set within a range of scores. Deletes the sorted
   set if all members were removed.
 syntax_fmt: ZREMRANGEBYSCORE key min max
-syntax_str: min max
 title: ZREMRANGEBYSCORE
 ---
 Removes all elements in the sorted set stored at `key` with a score between

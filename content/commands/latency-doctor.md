@@ -32,7 +32,6 @@ railroad_diagram: /images/railroad/latency-doctor.svg
 since: 2.8.13
 summary: Returns a human-readable latency analysis report.
 syntax_fmt: LATENCY DOCTOR
-syntax_str: ''
 title: LATENCY DOCTOR
 ---
 The `LATENCY DOCTOR` command reports about different latency-related issues and advises about possible remedies.

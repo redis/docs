@@ -64,7 +64,6 @@ railroad_diagram: /images/railroad/smove.svg
 since: 1.0.0
 summary: Moves a member from one set to another.
 syntax_fmt: SMOVE source destination member
-syntax_str: destination member
 title: SMOVE
 ---
 Move `member` from the set at `source` to the set at `destination`.

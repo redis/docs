@@ -31,7 +31,6 @@ since: 1.0.0
 stack_path: docs/data-types/json
 summary: Returns the type of the JSON value at path
 syntax_fmt: JSON.TYPE key [path]
-syntax_str: '[path]'
 title: JSON.TYPE
 ---
 Report the type of JSON value at `path`
@@ -72,7 +71,6 @@ redis> JSON.TYPE doc $..dummy
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

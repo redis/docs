@@ -29,7 +29,6 @@ since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Adds an item to a Bloom Filter
 syntax_fmt: BF.ADD key item
-syntax_str: item
 title: BF.ADD
 ---
 Adds an item to a Bloom filter.
@@ -64,7 +63,6 @@ redis> BF.ADD bf item1
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

@@ -49,7 +49,6 @@ railroad_diagram: /images/railroad/flushall.svg
 since: 1.0.0
 summary: Removes all keys from all databases.
 syntax_fmt: FLUSHALL [ASYNC | SYNC]
-syntax_str: ''
 title: FLUSHALL
 ---
 Delete all the keys of all the existing databases, not just the currently selected one.

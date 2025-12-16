@@ -34,7 +34,6 @@ railroad_diagram: /images/railroad/cluster-forget.svg
 since: 3.0.0
 summary: Removes a node from the nodes table.
 syntax_fmt: CLUSTER FORGET node-id
-syntax_str: ''
 title: CLUSTER FORGET
 ---
 The command is used in order to remove a node, specified via its node ID,

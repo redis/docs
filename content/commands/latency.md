@@ -21,7 +21,6 @@ railroad_diagram: /images/railroad/latency.svg
 since: 2.8.13
 summary: A container for latency diagnostics commands.
 syntax_fmt: LATENCY
-syntax_str: ''
 title: LATENCY
 ---
 This is a container command for latency diagnostics commands.

@@ -21,7 +21,6 @@ railroad_diagram: /images/railroad/function.svg
 since: 7.0.0
 summary: A container for function commands.
 syntax_fmt: FUNCTION
-syntax_str: ''
 title: FUNCTION
 ---
 This is a container command for function commands.

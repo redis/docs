@@ -85,7 +85,6 @@ since: 6.2.0
 summary: Returns an element after popping it from one list and pushing it to another.
   Deletes the list if the last element was moved.
 syntax_fmt: LMOVE source destination <LEFT | RIGHT> <LEFT | RIGHT>
-syntax_str: destination <LEFT | RIGHT> <LEFT | RIGHT>
 title: LMOVE
 ---
 Atomically returns and removes the first/last element (head/tail depending on
@@ -119,7 +118,6 @@ LMOVE mylist myotherlist LEFT RIGHT
 LRANGE mylist 0 -1
 LRANGE myotherlist 0 -1
 {{% /redis-cli %}}
-
 
 ## Pattern: Reliable queue
 

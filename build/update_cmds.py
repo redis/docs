@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 import argparse
+import glob
 import json
 import logging
 import os
-import glob
 
-from components.syntax import Command
 from components.markdown import Markdown
+from components.syntax import Command
 
 
 def parse_args() -> argparse.Namespace:
@@ -20,6 +20,7 @@ def parse_args() -> argparse.Namespace:
                         default='static/images/railroad',
                         help='Directory to save railroad diagram SVG files')
     return parser.parse_args()
+
 
 def generate_railroad_diagrams(commands_data: dict, output_dir: str) -> None:
     """Generate railroad diagrams for all commands."""
@@ -63,10 +64,35 @@ if __name__ == '__main__':
         force=True  # Force reconfiguration in case logging was already configured
     )
 
-    # Load all commands_*.json files
+    # Load all commands_core.json and filter out stubbed commands
     all_commands = {}
-    command_files = glob.glob('data/commands_*.json')
 
+    FILTER_PREFIXES = [
+    "BF.",
+    "CF.",
+    "CMS.",
+    "JSON.",
+    "FT.",
+    "_FT.",
+    "SEARCH.",
+    "TDIGEST.",
+    "TIMESERIES.",
+    "TOPK.",
+    "TS.",
+    ]
+
+    logging.info("Loading commands from data/commands_core.json")
+    with open('data/commands_core.json', 'r') as f:
+        data = json.load(f)
+        
+    filtered = {
+        key: value
+        for key, value in data.items()
+        if not key.startswith(tuple(FILTER_PREFIXES))
+    }
+    all_commands.update(filtered)
+
+    command_files = glob.glob('data/commands_r*.json')
     for command_file in command_files:
         logging.info(f"Loading commands from {command_file}")
         with open(command_file, 'r') as f:
@@ -95,7 +121,6 @@ if __name__ == '__main__':
             md.fm_data['railroad_diagram'] = railroad_file.replace('static/', '/')
 
         md.fm_data.update({
-            'syntax_str': str(c),
             'syntax_fmt': sf,
         })
         md.persist()

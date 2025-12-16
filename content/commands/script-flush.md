@@ -44,7 +44,6 @@ railroad_diagram: /images/railroad/script-flush.svg
 since: 2.6.0
 summary: Removes all server-side Lua scripts from the script cache.
 syntax_fmt: SCRIPT FLUSH [ASYNC | SYNC]
-syntax_str: ''
 title: SCRIPT FLUSH
 ---
 Flush the Lua scripts cache.

@@ -27,11 +27,7 @@ railroad_diagram: /images/railroad/ft.sugdel.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Deletes a string from a suggestion index
-syntax: 'FT.SUGDEL key string
-
-  '
 syntax_fmt: FT.SUGDEL key string
-syntax_str: string
 title: FT.SUGDEL
 ---
 

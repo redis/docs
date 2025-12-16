@@ -50,7 +50,6 @@ railroad_diagram: /images/railroad/unlink.svg
 since: 4.0.0
 summary: Asynchronously deletes one or more keys.
 syntax_fmt: UNLINK key [key ...]
-syntax_str: ''
 title: UNLINK
 ---
 This command is very similar to [`DEL`]({{< relref "/commands/del" >}}): it removes the specified keys.

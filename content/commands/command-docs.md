@@ -33,7 +33,6 @@ railroad_diagram: /images/railroad/command-docs.svg
 since: 7.0.0
 summary: Returns documentary information about one, multiple or all commands.
 syntax_fmt: COMMAND DOCS [command-name [command-name ...]]
-syntax_str: ''
 title: COMMAND DOCS
 ---
 Return documentary information about commands.

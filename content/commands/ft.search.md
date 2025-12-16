@@ -298,17 +298,6 @@ syntax_fmt: "FT.SEARCH index query [NOCONTENT] [VERBATIM] [NOSTOPWORDS]\n  [WITH
   \  [LANGUAGE\_language] [EXPANDER\_expander] [SCORER\_scorer]\n  [EXPLAINSCORE]\
   \ [PAYLOAD\_payload] [SORTBY\_sortby [ASC | DESC]]\n  [LIMIT offset num] [PARAMS\
   \ nargs name value [name value ...]]\n  [DIALECT\_dialect]"
-syntax_str: "query [NOCONTENT] [VERBATIM] [NOSTOPWORDS] [WITHSCORES] [WITHPAYLOADS]\
-  \ [WITHSORTKEYS] [FILTER\_numeric_field min max [FILTER\_numeric_field min max ...]]\
-  \ [GEOFILTER\_geo_field lon lat radius <m | km | mi | ft> [GEOFILTER\_geo_field\
-  \ lon lat radius <m | km | mi | ft> ...]] [INKEYS\_count key [key ...]] [INFIELDS\_\
-  count field [field ...]] [RETURN\_count identifier [AS\_property] [identifier [AS\_\
-  property] ...]] [SUMMARIZE [FIELDS\_count field [field ...]] [FRAGS\_num] [LEN\_\
-  fragsize] [SEPARATOR\_separator]] [HIGHLIGHT [FIELDS\_count field [field ...]] [TAGS\
-  \ open close]] [SLOP\_slop] [TIMEOUT\_timeout] [INORDER] [LANGUAGE\_language] [EXPANDER\_\
-  expander] [SCORER\_scorer] [EXPLAINSCORE] [PAYLOAD\_payload] [SORTBY\_sortby [ASC\
-  \ | DESC]] [LIMIT offset num] [PARAMS nargs name value [name value ...]] [DIALECT\_\
-  dialect]"
 title: FT.SEARCH
 ---
 
@@ -353,7 +342,6 @@ does not try to use stemming for query expansion but searches the query terms ve
 
 ignores any defined stop words in full text searches. Note: this option is deprecated as of Redis 8.0.
 </details>
-
 
 <details open>
 <summary><code>WITHSCORES</code></summary>
@@ -540,7 +528,6 @@ To return all the values, use `DIALECT` 3 (or greater, when available).
 The `DIALECT` can be specified as a parameter in the FT.SEARCH command. If it is not specified, the `DEFAULT_DIALECT` is used, which can be set using [`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) or by passing it as an argument to the `redisearch` module when it is loaded.
 
 For example, with the following document and index:
-
 
 ```sh
 127.0.0.1:6379> JSON.SET doc:1 $ '[{"arr": [1, 2, 3]}, {"val": "hello"}, {"val": "world"}]'
@@ -815,14 +802,12 @@ Query for polygons which:
 
 First, create an index using `GEOSHAPE` type with a `FLAT` coordinate system:
 
-
 {{< highlight bash >}}
 127.0.0.1:6379> FT.CREATE idx SCHEMA geom GEOSHAPE FLAT
 OK
 {{< / highlight >}}
 
 Adding a couple of geometries using [`HSET`]({{< relref "/commands/hset" >}}):
-
 
 {{< highlight bash >}}
 127.0.0.1:6379> HSET small geom 'POLYGON((1 1, 1 100, 100 100, 100 1, 1 1))'
@@ -843,7 +828,6 @@ Query with `WITHIN` operator:
 {{< / highlight >}}
 
 Query with `CONTAINS` operator:
-
 
 {{< highlight bash >}}
 127.0.0.1:6379> FT.SEARCH idx '@geom:[CONTAINS $poly]' PARAMS 2 poly 'POLYGON((2 2, 2 50, 50 50, 50 2, 2 2))' DIALECT 3

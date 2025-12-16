@@ -45,7 +45,6 @@ railroad_diagram: /images/railroad/config-set.svg
 since: 2.0.0
 summary: Sets configuration parameters in-flight.
 syntax_fmt: CONFIG SET parameter value [parameter value ...]
-syntax_str: ''
 title: CONFIG SET
 ---
 The `CONFIG SET` command is used in order to reconfigure the server at run time

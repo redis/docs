@@ -27,7 +27,6 @@ railroad_diagram: /images/railroad/cluster-flushslots.svg
 since: 3.0.0
 summary: Deletes all slots information from a node.
 syntax_fmt: CLUSTER FLUSHSLOTS
-syntax_str: ''
 title: CLUSTER FLUSHSLOTS
 ---
 Deletes all slots from a node.

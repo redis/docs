@@ -55,7 +55,6 @@ since: 2.0.0
 summary: Removes and returns the first element in a list. Blocks until an element
   is available otherwise. Deletes the list if the last element was popped.
 syntax_fmt: BLPOP key [key ...] timeout
-syntax_str: timeout
 title: BLPOP
 ---
 `BLPOP` is a blocking list pop primitive.

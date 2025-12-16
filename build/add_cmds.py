@@ -92,7 +92,6 @@ def generate_command_frontmatter(command_name: str, command_data: dict, all_comm
         'title': full_command_name,
         'linkTitle': full_command_name,
         'description': command_data.get('summary'),
-        'syntax_str': str(c),
         'syntax_fmt': c.syntax(),
         'hidden': False  # Default to not hidden
     })

@@ -57,7 +57,6 @@ railroad_diagram: /images/railroad/hrandfield.svg
 since: 6.2.0
 summary: Returns one or more random fields from a hash.
 syntax_fmt: HRANDFIELD key [count [WITHVALUES]]
-syntax_str: '[count [WITHVALUES]]'
 title: HRANDFIELD
 ---
 When called with just the `key` argument, return a random field from the hash value stored at `key`.
@@ -78,7 +77,6 @@ HRANDFIELD coin
 HRANDFIELD coin
 HRANDFIELD coin -5 WITHVALUES
 {{% /redis-cli %}}
-
 
 ## Specification of the behavior when count is passed
 
