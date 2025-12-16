@@ -70,13 +70,13 @@ The following table shows the key differences between bundled and user-defined m
 
 User-defined modules are custom Redis modules that extend Redis functionality beyond the bundled modules. User-defined modules can include third-party modules like RedisGears or custom in-house modules developed for specific use cases.
 
-### Limitations
+**Limitations:**
 
 - **Active-Active databases**: User-defined modules are not supported with Active-Active databases. Only bundled modules (RediSearch, RedisJSON, RedisTimeSeries, RedisBloom) can be used with Active-Active databases.
 
 - **Redis on Flash**: User-defined modules are fully supported with Redis on Flash databases.
 
-## Add user-defined modules to the REC
+### Add user-defined modules to the REC
 
 To use user-defined modules with your databases, first add them to the Redis Enterprise cluster (REC) custom resource. This enables the operator to validate the modules and make them available for database creation.
 
@@ -130,7 +130,7 @@ You can use either `"rg"` or `"RedisGears"` as the `name` value in your REC spec
 If the names don't match, the operator can't validate the module. This can lead to preventable errors during database creation or upgrades.
 {{< /note >}}
 
-## Edit user-defined modules
+### Edit user-defined modules
 
 To modify the user-defined modules list, complete the following steps:
 
@@ -197,6 +197,138 @@ For detailed upgrade instructions, see the following:
 
 - [Upgrade a Redis Enterprise cluster (REC)]({{< relref "/operate/kubernetes/upgrade/upgrade-redis-cluster" >}})
 - [Upgrade Redis Enterprise on OpenShift]({{< relref "/operate/kubernetes/upgrade/openshift-cli" >}})
+
+## Troubleshooting
+
+This section covers common issues you might encounter when working with user-defined modules.
+
+### Module validation errors
+
+Module validation errors occur when the operator can't validate a user-defined module. Common causes include incorrect URLs, authentication failures, or invalid module manifests.
+
+**Symptoms:**
+
+- REC status shows validation errors
+- Events indicate module download or validation failures
+- Databases fail to create with module-related errors
+
+**Diagnosis:**
+
+Check the REC status for validation errors:
+
+```sh
+kubectl describe rec <cluster-name>
+```
+
+Look for error messages related to modules in the Events section.
+
+**Resolution:**
+
+1. **Verify the module URL is accessible:**
+
+    ```sh
+    curl -I <module-url>
+    ```
+
+2. **Check credentials secret exists and has correct values:**
+
+    ```sh
+    kubectl get secret <credentials-secret-name> -o yaml
+    ```
+
+3. **Verify the module manifest (`module.json`) is valid:**
+
+    Download the module zip file and check that it contains a valid `module.json` file with required fields: `module_name`, `display_name`, `semantic_version`, `commands`, and `min_redis_version`.
+
+4. **Ensure the `name` field in the REC spec matches the module manifest:**
+
+    The `name` must match either `module_name` or `display_name` from the module's `module.json` file. See [Module naming requirements](#module-naming-requirements) for details.
+
+### Bootstrap failures
+
+Bootstrap failures occur when the Redis Enterprise cluster fails to start due to module-related issues.
+
+**Symptoms:**
+
+- REC pods fail to reach Running state
+- Operator logs show module-related errors during bootstrap
+- Cluster remains in a non-ready state
+
+**Diagnosis:**
+
+Check the operator logs:
+
+```sh
+kubectl logs -l name=redis-enterprise-operator -n <namespace>
+```
+
+Check the REC pod logs:
+
+```sh
+kubectl logs <rec-pod-name> -n <namespace>
+```
+
+**Resolution:**
+
+1. **Remove problematic modules from the REC spec:**
+
+    Edit the REC and remove or comment out the problematic module from the `userDefinedModules` list:
+
+    ```sh
+    kubectl edit rec <cluster-name>
+    ```
+
+2. **Wait for the cluster to recover:**
+
+    ```sh
+    kubectl get rec <cluster-name> -w
+    ```
+
+3. **Fix the module configuration and re-add it:**
+
+    After the cluster is running, correct the module URL, credentials, or manifest issues, then add the module back to the REC spec.
+
+### Module not found errors
+
+Module not found errors occur when you try to create a database that uses a module that isn't defined in the REC.
+
+**Symptoms:**
+
+- REDB creation fails with admission webhook errors
+- Error message indicates the module is not found in the REC
+- Database remains in a pending or failed state
+
+**Diagnosis:**
+
+Check the REDB creation error:
+
+```sh
+kubectl describe redb <database-name>
+```
+
+Verify which modules are defined in the REC:
+
+```sh
+kubectl get rec <cluster-name> -o jsonpath='{.spec.userDefinedModules}' | jq
+```
+
+**Resolution:**
+
+1. **Add the missing module to the REC:**
+
+    See [Add user-defined modules to the REC](#add-user-defined-modules-to-the-rec) for detailed instructions.
+
+2. **Wait for the module to be validated:**
+
+    ```sh
+    kubectl describe rec <cluster-name>
+    ```
+
+    Look for successful validation in the Events section.
+
+3. **Retry database creation:**
+
+    After the module is available in the REC, the database creation should succeed automatically, or you can delete and recreate the REDB.
 
 ## Related information
 
