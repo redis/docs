@@ -70,7 +70,13 @@ The following table shows the key differences between bundled and user-defined m
 
 User-defined modules are custom Redis modules that extend Redis functionality beyond the bundled modules. User-defined modules can include third-party modules like RedisGears or custom in-house modules developed for specific use cases.
 
-### Add user-defined modules to the REC
+### Limitations
+
+- **Active-Active databases**: User-defined modules are not supported with Active-Active databases. Only bundled modules (RediSearch, RedisJSON, RedisTimeSeries, RedisBloom) can be used with Active-Active databases.
+
+- **Redis on Flash**: User-defined modules are fully supported with Redis on Flash databases.
+
+## Add user-defined modules to the REC
 
 To use user-defined modules with your databases, first add them to the Redis Enterprise cluster (REC) custom resource. This enables the operator to validate the modules and make them available for database creation.
 
@@ -124,7 +130,7 @@ You can use either `"rg"` or `"RedisGears"` as the `name` value in your REC spec
 If the names don't match, the operator can't validate the module. This can lead to preventable errors during database creation or upgrades.
 {{< /note >}}
 
-### Edit user-defined modules
+## Edit user-defined modules
 
 To modify the user-defined modules list, complete the following steps:
 
