@@ -68,6 +68,7 @@ if you add a member that already exists, it will be ignored.
 > SCARD bikes:racing:france
 (integer) 3
 {{< /clients-example >}}
+
 ## Tutorial
 
 The [`SADD`]({{< relref "/commands/sadd" >}}) command adds new elements to a set. It's also possible
@@ -76,6 +77,8 @@ already exists, performing the intersection, union or difference between
 multiple sets, and so forth.
 
 {{< clients-example sets_tutorial sadd_smembers >}}
+> DEL bikes:racing:france
+(integer) 1
 > SADD bikes:racing:france bike:1 bike:2 bike:3
 (integer) 3
 > SMEMBERS bikes:racing:france
@@ -119,6 +122,8 @@ unions, difference, and more. For example
 if we add a third race we can see some of these commands in action:
 
 {{< clients-example sets_tutorial multisets >}}
+> DEL bikes:racing:france bikes:racing:usa bikes:racing:italy
+(integer) 2
 > SADD bikes:racing:france bike:1 bike:2 bike:3
 (integer) 3
 > SADD bikes:racing:usa bike:1 bike:4
@@ -151,6 +156,8 @@ remove a random item from a set. You can also _return_ a random item from a
 set without removing it using the [`SRANDMEMBER`]({{< relref "/commands/srandmember" >}}) command:
 
 {{< clients-example sets_tutorial srem >}}
+> DEL bikes:racing:france
+(integer) 1
 > SADD bikes:racing:france bike:1 bike:2 bike:3 bike:4 bike:5
 (integer) 5
 > SREM bikes:racing:france bike:1
