@@ -2478,3 +2478,108 @@ build/jupyterize/
 - Easy to add new unwrapping patterns (extend `CodeUnwrapper`)
 - Easy to add new cell types (extend `NotebookBuilder`)
 
+---
+
+### Implementation Lessons Learned
+
+**1. Module Initialization Pattern**
+Each module class should accept `language` in `__init__()` and load configuration once:
+```python
+class FileParser:
+    def __init__(self, language):
+        self.language = language
+        self.prefix = PREFIXES[language.lower()]
+        self.config = load_language_config(language)
+```
+This avoids repeated config loading and makes the class stateful and testable.
+
+**2. Orchestration in Main Script**
+The simplified `jupyterize()` function should instantiate classes in order and pass results forward:
+```python
+validator = InputValidator()
+language = validator.detect_language(input_file)
+validator.validate_file(input_file, language)
+
+parser = FileParser(language)
+parsed_blocks = parser.parse(input_file)
+
+builder = NotebookBuilder(language)
+notebook = builder.build(parsed_blocks)
+builder.write(notebook, output_file)
+```
+This creates a clear, linear pipeline that's easy to understand and debug.
+
+**3. Backward Compatibility**
+Keep the main `jupyterize()` function signature unchanged:
+```python
+def jupyterize(input_file, output_file=None, verbose=False):
+```
+This ensures existing code that imports and calls `jupyterize()` continues to work without modification.
+
+**4. Test Import Updates**
+When updating tests, import classes from new modules instead of functions:
+```python
+# Old: from jupyterize import detect_language, validate_input, parse_file
+# New: from validator import InputValidator
+#      from parser import FileParser
+```
+Tests should instantiate classes and call methods, not import standalone functions.
+
+**5. Logging Configuration**
+Set up logging in the main `jupyterize()` function, not in individual modules:
+```python
+log_level = logging.DEBUG if verbose else logging.INFO
+logging.basicConfig(level=log_level, format='%(levelname)s: %(message)s')
+```
+This ensures consistent logging across all modules and respects the verbose flag.
+
+**6. Error Handling Strategy**
+Let exceptions propagate from modules to the main function, which catches and logs them:
+```python
+try:
+    # Module operations
+except Exception as e:
+    logging.error(f"Conversion failed: {e}")
+    raise
+```
+This keeps modules focused on their logic while main function handles user-facing errors.
+
+**7. Module Size Reality**
+Actual module sizes may differ from estimates:
+- `config.py`: ~120 lines (vs ~100 estimated) - includes full KERNEL_SPECS dict
+- `validator.py`: ~95 lines (vs ~80 estimated) - simpler than expected
+- `parser.py`: ~180 lines (vs ~150 estimated) - state tracking adds complexity
+- `unwrapper.py`: ~180 lines (vs ~150 estimated) - regex patterns and edge cases
+- `notebook_builder.py`: ~160 lines (vs ~150 estimated) - cell creation logic
+- `jupyterize.py`: ~142 lines (vs ~150-200 estimated) - much simpler than expected!
+
+**Key insight**: The main script becomes much simpler (142 lines vs 696 original), while supporting modules are slightly larger due to class structure and docstrings.
+
+**8. Static Methods vs Instance Methods**
+Use instance methods for classes that maintain state (language, config):
+```python
+class FileParser:
+    def __init__(self, language):
+        self.language = language
+        self.config = load_language_config(language)
+
+    def parse(self, file_path):  # Instance method
+        # Uses self.language and self.config
+```
+Use static methods only for utility functions that don't need state.
+
+**9. Configuration Loading Pattern**
+Load configuration once in `__init__()` and cache it:
+```python
+def __init__(self, language):
+    self.language = language
+    self.config = load_language_config(language)  # Load once
+```
+This is more efficient than loading on every method call and makes the class behavior predictable.
+
+**10. Testing Strategy Adjustment**
+The spec mentioned creating separate unit test files (`test_config.py`, `test_parser.py`, etc.), but the existing `test_jupyterize.py` already covers all functionality through integration tests. Consider:
+- Keep existing integration tests (they work well)
+- Add unit tests for edge cases if needed
+- Don't create separate test files unless testing individual modules in isolation becomes necessary
+
