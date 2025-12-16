@@ -70,12 +70,12 @@ RDI (via the Debezium Oracle connector) supports Oracle’s core scalar types:
 
 **Behavior and mapping:**
 
-- `NUMBER(p,s)` / `DECIMAL(p,s)`  
+- `NUMBER(p,s)`/`DECIMAL(p,s)`  
   - Ingested with full precision and scale.  
   - **Redis Hash**: stored as a string, e.g. `4521398.56` → `"4521398.56"`.  
   - **RedisJSON**: stored as a numeric JSON value by default, or as a string if configured.
 
-- `CHAR` / `VARCHAR2` / `NCHAR` / `NVARCHAR2`  
+- `CHAR`/`VARCHAR2`/`NCHAR`/`NVARCHAR2`  
   - Stored as plain strings in Redis (UTF‑8 preserved).
 
 - `DATE`, `TIMESTAMP`  
@@ -93,20 +93,20 @@ Oracle LOBs are supported **with additional configuration**:
 - **Types**: `CLOB`, `NCLOB`, `BLOB` (and LOB‑backed `XMLTYPE`).
 - By default, Debezium does **not** send full LOB contents in change events.
 
-**Required config (RDI / Debezium side):**
+**Required config (RDI/Debezium side):**
 
 ```properties
-# In the Oracle source connector / RDI source advanced properties
+# In the Oracle source connector/RDI source advanced properties
 lob.enabled=true
 ```
 
 - When `lob.enabled=true`:
-  - New values for `CLOB` / `NCLOB` / `BLOB` / `XMLTYPE` are sent in events.
+  - New values for `CLOB`/`NCLOB`/`BLOB`/`XMLTYPE` are sent in events.
   - Unchanged LOB values in update events may be represented by placeholders (connector optimization).
 
 **Mapping:**
 
-- `CLOB` / `NCLOB` → Unicode string (entire text) in Redis.
+- `CLOB`/`NCLOB` → Unicode string (entire text) in Redis.
 - `BLOB` → Base64‑encoded string (by default).  
 - In Redis Hashes, these are string fields; in RedisJSON they are JSON strings.
 
@@ -120,7 +120,7 @@ By default, Debezium uses a **binary handling mode** (commonly `base64`):
 binary.handling.mode=base64   # typical default
 ```
 
-- Oracle `RAW` / `BLOB` values:
+- Oracle `RAW`/`BLOB` values:
   - Emitted as Base64 strings (e.g. `"hello"` bytes → `"aGVsbG8="`).
   - Stored as those encoded strings in Redis Hash fields or RedisJSON string properties.
 
@@ -145,7 +145,7 @@ Oracle `XMLTYPE` is backed by LOBs and **needs extra setup**:
    - `XMLTYPE` values are captured as XML **text**.
    - Redis stores them as strings (Hash or JSON). If desired, you can post‑process XML into JSON with an RDI job.
 
-### Unsupported / special Oracle types
+### Unsupported/special Oracle types
 
 Not supported (or skipped) by the Debezium Oracle connector and therefore by RDI:
 
@@ -153,8 +153,8 @@ Not supported (or skipped) by the Debezium Oracle connector and therefore by RDI
 - `BFILE` – external file LOBs.
 - `UROWID` – universal ROWIDs.
 - PL/SQL `BOOLEAN` – not a SQL column type.
-- Complex object / user‑defined types (UDTs), nested tables.
-- Oracle spatial / locator types.
+- Complex object/user‑defined types (UDTs), nested tables.
+- Oracle spatial/locator types.
 - Oracle vector/AI types (unless explicitly cast to supported text/binary forms).
 
 **ROWID**:
@@ -164,7 +164,7 @@ Not supported (or skipped) by the Debezium Oracle connector and therefore by RDI
 
 ### Oracle → Redis mapping summary
 
-| Oracle type               | Support level      | Notes / requirements                                       |
+| Oracle type               | Support level      | Notes/requirements                                       |
 |---------------------------|--------------------|------------------------------------------------------------|
 | `NUMBER`, `DECIMAL`       | ✅ Supported        | Full precision; string in Hash, numeric in JSON.          |
 | `CHAR`, `VARCHAR2`, `N*`  | ✅ Supported        | Straightforward string mapping.                            |
@@ -176,8 +176,6 @@ Not supported (or skipped) by the Debezium Oracle connector and therefore by RDI
 | `LONG`, `LONG RAW`        | ❌ Not supported    | Legacy types.                                              |
 | `BFILE`, `UROWID`         | ❌ Not supported    | Skipped.                                                   |
 | Object/UDT, spatial, etc. | ❌ Not supported    | Must be transformed/cast upstream.                         |
-
----
 
 ## MySQL and MariaDB
 
@@ -194,7 +192,7 @@ RDI (via Debezium MySQL) supports all common MySQL and MariaDB types:
 **Mapping:**
 
 - Integers and floats: string in Hash, numeric in JSON.
-- `DECIMAL` / `NUMERIC`:
+- `DECIMAL`/`NUMERIC`:
   - Default: preserved precision via `decimal.handling.mode` (default setting
     is `debezium.source.decimal.handling.mode=string`).
   - Recommended: treat high‑precision values as strings to avoid rounding.
@@ -202,7 +200,7 @@ RDI (via Debezium MySQL) supports all common MySQL and MariaDB types:
 - Temporal:
   - `DATE`: days since epoch → epoch ms at 00:00 UTC.
   - `TIME`: time of day → milliseconds from midnight.
-  - `DATETIME` / `TIMESTAMP`: epoch ms (with `TIMESTAMP` in UTC).
+  - `DATETIME`/`TIMESTAMP`: epoch ms (with `TIMESTAMP` in UTC).
 
 ### JSON
 
@@ -234,9 +232,9 @@ No special configuration is required.
   - Debezium emits bytes using configured `binary.handling.mode` (Base64 by default).
   - RDI stores the resulting encoded string.
 
-### Unsupported / partial types
+### Unsupported/partial types
 
-- **Spatial / GIS types**: `GEOMETRY`, `POINT`, `LINESTRING`, `POLYGON`, etc.  
+- **Spatial/GIS types**: `GEOMETRY`, `POINT`, `LINESTRING`, `POLYGON`, etc.  
   - Not supported out of the box. Columns with these types are skipped.
 - **BIT**:
   - Debezium may represent it as raw bytes.
@@ -250,14 +248,12 @@ No special configuration is required.
 | `DECIMAL`, `NUMERIC`    | ✅ Supported    | Configure `decimal.handling.mode` as needed.             |
 | `FLOAT`, `DOUBLE`       | ✅ Supported    | Beware of precision if using JSON numbers.               |
 | Text types (`*TEXT`)    | ✅ Supported    | Large text handled; stored as strings.                   |
-| Binary / BLOB types     | ✅ Supported    | Base64 (or configured) encoded strings in Redis.         |
+| Binary/BLOB types     | ✅ Supported    | Base64 (or configured) encoded strings in Redis.         |
 | `DATE`, `TIME`, `DATETIME`, `TIMESTAMP`, `YEAR` | ✅ Supported | Epoch‑based or integer representations.      |
 | `JSON`                  | ✅ Supported    | Text in Hash; native JSON in RedisJSON.                  |
 | `ENUM`, `SET`           | ✅ Supported    | Saved as strings.                                        |
 | Spatial (`GEOMETRY`…)   | ❌ Not supported| Must be converted upstream if needed.                    |
 | `BIT`                   | ⚠️ Partial      | Comes through as binary; no built‑in boolean mapping.    |
-
----
 
 ## PostgreSQL, Supabase, and AlloyDB
 
@@ -281,7 +277,7 @@ Supported PostgreSQL scalar types:
 - `UUID`, `INET`, `CIDR`, `MACADDR`: stored as strings.
 - `BYTEA`: binary encoded according to Debezium’s binary handling mode (Base64 by default).
 
-### JSON / JSONB / HSTORE
+### JSON/JSONB/HSTORE
 
 - `JSON`, `JSONB`:
   - Debezium captures JSON values directly.
@@ -292,13 +288,13 @@ Supported PostgreSQL scalar types:
   - Stored as a key/value representation (e.g. `'"k1"=>"v1","k2"=>"v2"'`) as a string by default.
   - You can post‑process to a JSON object with an RDI job if desired.
 
-### Unsupported / complex types
+### Unsupported/complex types
 
 Not supported in Debezium’s PostgreSQL connector (and thus RDI):
 
 - **Arrays**: `text[]`, `int[]`, etc. – skipped.
-- **Composite types / UDTs**: not captured.
-- **Geometric / spatial types**:
+- **Composite types/UDTs**: not captured.
+- **Geometric/spatial types**:
   - `POINT`, `LINE`, `LSEG`, `BOX`, `PATH`, `POLYGON`, `CIRCLE`, PostGIS `GEOMETRY`, `GEOGRAPHY`.
 - **`INTERVAL`**: not emitted.
 - **BIT/VARBIT**: bitstring types are not handled as first‑class booleans.
@@ -330,8 +326,6 @@ If these are present, the connector generally skips those fields and logs warnin
 | Geometric/PostGIS types | ❌ Not supported | Skipped.                                                 |
 | `INTERVAL`, `BIT`       | ❌ Not supported | Must be converted upstream.                              |
 
----
-
 ## SQL Server
 
 ### Core types
@@ -345,7 +339,7 @@ Supported SQL Server scalar types:
 - **Temporal**: `DATE`, `TIME`, `DATETIME`, `SMALLDATETIME`, `DATETIME2`, `DATETIMEOFFSET`.
 - **Boolean‑like**: `BIT`.
 - **Identifier**: `UNIQUEIDENTIFIER`.
-- **Row version**: `ROWVERSION` / `TIMESTAMP` (SQL Server’s version column).
+- **Row version**: `ROWVERSION`/`TIMESTAMP` (SQL Server’s version column).
 
 **Mapping:**
 
@@ -380,7 +374,7 @@ Supported SQL Server scalar types:
 
 No special connector tuning is usually required beyond standard CDC configuration.
 
-### Unsupported / special types
+### Unsupported/special types
 
 - `sql_variant`: not supported.
 - `hierarchyid`: not supported.
@@ -403,8 +397,6 @@ No special connector tuning is usually required beyond standard CDC configuratio
 | `ROWVERSION`/`TIMESTAMP`  | ✅ Supported   | Hex string; mostly for diagnostics.                        |
 | `sql_variant`, `hierarchyid` | ❌ Not supported | Skipped.                                             |
 | Spatial (`geometry`, `geography`) | ❌ Not supported | Skipped.                                            |
-
----
 
 ## MongoDB
 
@@ -431,7 +423,7 @@ MongoDB’s JSON‑like model maps very naturally into RedisJSON (or Hashes). De
 
 - **Others (stored as strings)**:
   - `Regular Expression`
-  - `JavaScript` / `JavaScript with Scope`
+  - `JavaScript`/`JavaScript with Scope`
   - `DBRef` (as a small document)
   - MinKey/MaxKey – rarely used, mostly internal.
 
@@ -461,15 +453,15 @@ By default, RDI maps **one MongoDB document → one Redis key** (often RedisJSON
   - Binary data Base64‑encoded into a string.
 
 - Documents and Arrays:
-  - RedisJSON target: nested objects / arrays preserved exactly.
+  - RedisJSON target: nested objects/arrays preserved exactly.
   - Hash target: nested documents and arrays are **stringified** JSON (e.g. `address` field contains the JSON string of the subdocument).
 
 ### Less common BSON types
 
 - **Regex**: stored as a string representation (e.g. `"/^abc/i"`).
-- **JavaScript / JavaScriptWithScope**: captured as code text.
+- **JavaScript/JavaScriptWithScope**: captured as code text.
 - **DBRef**: captured as a small document with `$ref` and `$id`, then mapped like a normal subdocument.
-- **MinKey / MaxKey**: may be treated as extreme sentinels or omitted; rarely used in user data.
+- **MinKey/MaxKey**: may be treated as extreme sentinels or omitted; rarely used in user data.
 
 ### MongoDB → Redis mapping summary
 
@@ -488,8 +480,6 @@ By default, RDI maps **one MongoDB document → one Redis key** (often RedisJSON
 | `Array`             | ✅ Supported   | JSON array (JSON target) or JSON string (Hash).            |
 | Regex, JS, DBRef    | ⚠️ Supported as strings/structs | Stored as strings or embedded objects.       |
 | MinKey/MaxKey       | ⚠️ Rare/edge   | Usually not relevant in user data.                         |
-
----
 
 ## Cross-cutting considerations
 
@@ -525,6 +515,3 @@ For high‑precision numeric values (money, scientific values):
   - `hex`.
 
 Ensure your consumer understands the chosen encoding.
-
----
-
