@@ -102,7 +102,7 @@ If there's only one shard, the label will be omitted.
 | `Total`&nbsp;`profile`&nbsp;`time`     | The total run time (ms) of the query. Normally just a few ms. |
 | `Parsing`&nbsp;`time`           | The time (ms) spent parsing the query and its parameters into a query plan. Normally just a few ms. |
 | `Pipeline`&nbsp;`creation`&nbsp;`time` | The creation time (ms) of the execution plan, including iterators, result processors, and reducers creation. Normally just a few ms for `FT.SEARCH` queries, but expect a larger number for `FT.AGGREGATE` queries. |
-| `Total`&nbsp;`GIL`&nbsp;`time`     | The total time (ms) the query held the Global Interpreter Lock (GIL) during execution. Relevant for multi-threaded deployments where queries run in background threads. |
+| `Total`&nbsp;`GIL`&nbsp;`time` | In multi-threaded deployments, the total time (ms) the query spent holding and waiting for the Redis Global Lock (referred to as GIL) during execution. Note: this value is only valid in the shards profile section. |
 | `Warning`                | Errors that occurred during query execution. |
 | `Internal`&nbsp;`cursor`&nbsp;`reads` | The number of times the coordinator fetched result batches from a given shard during a distributed `AGGREGATE` query in cluster mode. Includes the initial request plus any subsequent batch fetches. |
 
@@ -128,7 +128,7 @@ Iterator types include:
 * `EMPTY`
 * `WILDCARD`
 * `OPTIONAL`
-* `OPTIMIZER` with `Optimizer mode` - Enabled by default in dialect 4+, or explicitly with `WITHOUTCOUNT`.
+* `OPTIMIZER` with `Optimizer mode` - Query optimization wrapper for `FT.SEARCH` queries sorted by a numeric field. Enabled by default in dialect 4+, or explicitly with `WITHOUTCOUNT`.
 * `ID-LIST` - Iterator over specific document IDs (appears when using `INKEYS`)
 
 **Notes on `Number of reading operations` and `Estimated number of matches`**
@@ -174,7 +174,7 @@ Result processors form a powerful pipeline in Redis Query Engine. They work in s
 | `Scorer`          | The `Scorer` processor assigns a relevance score to each document based on the query’s specified scoring function. This function could involve factors like term frequency, inverse document frequency, or other weighted metrics. |
 | `Sorter`          | The `Sorter` processor arranges the query results based on a specified sorting criterion. This could be a field value (e.g., sorting by price, date, or another attribute) or by the score assigned during the scoring phase. It operates after documents are fetched and scored, ensuring the results are ordered as required by the query (e.g., ascending or descending order). `Scorer` results will always be present in `FT.SEARCH` profiles. |
 | `Loader`          | The `Loader` processor retrieves the document contents after the results have been sorted and filtered. It ensures that only the fields specified by the query are loaded, which improves efficiency, especially when dealing with large documents where only a few fields are needed. |
-| `Threadsafe-Loader` | The `Threadsafe-Loader` processor safely loads document contents when the query is running in a background thread. It acquires the GIL to access document data. Reports an additional `GIL-Time` field showing how long (ms) it held the GIL. |
+| `Threadsafe-Loader` | The `Threadsafe-Loader` processor safely loads document contents when the query runs in a background thread (relevant for multi-threaded deployments). It acquires the Redis Global Lock (referred to as GIL) to access document data. Reports an additional `GIL-Time` field representing the time (ms) spent holding the GIL and waiting to acquire it. |
 | `Highlighter`     | The `Highlighter` processor is used to highlight matching terms in the search results. This is especially useful for full-text search applications, where relevant terms are often emphasized in the UI. |
 | `Pager/Limiter`       | The `Pager/Limiter` processor is responsible for handling pagination by limiting the results to a specific range (e.g., LIMIT 0 10).It trims down the set of results to fit the required pagination window, ensuring efficient memory usage when dealing with large result sets. |
 | `Counter`         | The `Counter` processor counts the total number of matching results. Used when running queries with `LIMIT 0 0` to return only the count. |
