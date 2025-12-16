@@ -18,9 +18,49 @@ weight: 80
 The sections below describe the data types supported by RDI for each source database.
 There are also some cross‑cutting considerations that apply to all source databases.
 
+## Quick configuration summary
+
+The lists below summarize the extra configuration steps you may need to take
+for each source database to support all the types you need. Each
+database has its own section in the page with more detail about the supported types.
+
+[**Oracle**](#oracle)<br/>
+
+- Enable supplemental logging on tables/schemas.  
+- Set `lob.enabled=true` if you need `CLOB`/`BLOB`/`XMLTYPE`.  
+- Add Oracle XML JARs (`xdb.jar`, `xmlparserv2.jar`) if using `XMLTYPE`.  
+- Decide on `binary.handling.mode` for `RAW`/`BLOB`.  
+- Avoid unsupported types (LONG, BFILE, complex UDTs) or cast them to supported forms.
+
+[**MySQL/MariaDB**](#mysql-and-mariadb)<br/>
+
+- Enable binlog in **ROW** mode.  
+- Configure `decimal.handling.mode` to balance precision vs convenience.  
+- Be aware that spatial types are not supported.  
+- Treat `BIT` columns as binary (or cast to integer/boolean in SQL).
+
+[**PostgreSQL/Supabase/AlloyDB**](#postgresql-supabase-and-alloydb)<br/>
+
+- Ensure WAL/replication settings match connector needs.  
+- Avoid array/composite/spatial types in replicated columns (or cast them to JSON/TEXT).  
+- Use RedisJSON target to get most value from `JSONB`.  
+
+[**SQL Server**](#sql-server)<br/>
+
+- Enable CDC or transaction log access as required by the connector.  
+- Mind `MONEY`/`DECIMAL` precision—store as strings when exactness is critical.  
+- Exclude or transform unsupported types (`sql_variant`, spatial types).
+
+[**MongoDB**](#mongodb)<br/>
+
+- Ensure replica set/change streams are configured.  
+- Prefer RedisJSON outputs to preserve document structure.  
+- For large binary data, confirm Base64 encoding is acceptable to your consumers.
+
+
 ## Oracle
 
-### Core Supported Types
+### Core supported types
 
 RDI (via the Debezium Oracle connector) supports Oracle’s core scalar types:
 
@@ -28,7 +68,7 @@ RDI (via the Debezium Oracle connector) supports Oracle’s core scalar types:
 - **Character**: `CHAR`, `VARCHAR2`, `NCHAR`, `NVARCHAR2`
 - **Temporal**: `DATE`, `TIMESTAMP`, `TIMESTAMP WITH TIME ZONE`, `TIMESTAMP WITH LOCAL TIME ZONE`
 
-**Behavior & mapping:**
+**Behavior and mapping:**
 
 - `NUMBER(p,s)` / `DECIMAL(p,s)`  
   - Ingested with full precision and scale.  
@@ -46,7 +86,7 @@ RDI (via the Debezium Oracle connector) supports Oracle’s core scalar types:
 - `TIMESTAMP WITH TIME ZONE`  
   - Normalized to UTC, then converted to epoch milliseconds.
 
-### Large Objects (LOBs)
+### Large objects (LOBs)
 
 Oracle LOBs are supported **with additional configuration**:
 
@@ -70,7 +110,7 @@ lob.enabled=true
 - `BLOB` → Base64‑encoded string (by default).  
 - In Redis Hashes, these are string fields; in RedisJSON they are JSON strings.
 
-### Binary & RAW
+### Binary and RAW
 
 - **Types**: `BLOB`, `RAW`, `LONG RAW` (see unsupported below).
 
@@ -105,7 +145,7 @@ Oracle `XMLTYPE` is backed by LOBs and **needs extra setup**:
    - `XMLTYPE` values are captured as XML **text**.
    - Redis stores them as strings (Hash or JSON). If desired, you can post‑process XML into JSON with an RDI job.
 
-### Unsupported / Special Oracle Types
+### Unsupported / special Oracle types
 
 Not supported (or skipped) by the Debezium Oracle connector and therefore by RDI:
 
@@ -122,7 +162,7 @@ Not supported (or skipped) by the Debezium Oracle connector and therefore by RDI
 - In **LogMiner** mode, `ROWID` is supported and captured as a string.
 - In **XStream** mode, `ROWID` is not exposed.
 
-### Oracle → Redis Mapping Summary
+### Oracle → Redis mapping summary
 
 | Oracle type               | Support level      | Notes / requirements                                       |
 |---------------------------|--------------------|------------------------------------------------------------|
@@ -139,9 +179,9 @@ Not supported (or skipped) by the Debezium Oracle connector and therefore by RDI
 
 ---
 
-## MySQL & MariaDB
+## MySQL and MariaDB
 
-### Core Types
+### Core types
 
 RDI (via Debezium MySQL) supports all common MySQL and MariaDB types:
 
@@ -153,9 +193,10 @@ RDI (via Debezium MySQL) supports all common MySQL and MariaDB types:
 
 **Mapping:**
 
-- Integers & floats: string in Hash, numeric in JSON.
+- Integers and floats: string in Hash, numeric in JSON.
 - `DECIMAL` / `NUMERIC`:
-  - Default: preserved precision via `decimal.handling.mode`.
+  - Default: preserved precision via `decimal.handling.mode` (default setting
+    is `debezium.source.decimal.handling.mode=string`).
   - Recommended: treat high‑precision values as strings to avoid rounding.
 - Text types: stored as strings.
 - Temporal:
@@ -187,13 +228,13 @@ No special configuration is required.
   - Treated as integer year (e.g. `2025`).  
   - String in Hash, numeric in JSON.
 
-### Binary & BLOBs
+### Binary and BLOBs
 
 - `BINARY`, `VARBINARY`, `BLOB` variants:
   - Debezium emits bytes using configured `binary.handling.mode` (Base64 by default).
   - RDI stores the resulting encoded string.
 
-### Unsupported / Partial Types
+### Unsupported / partial types
 
 - **Spatial / GIS types**: `GEOMETRY`, `POINT`, `LINESTRING`, `POLYGON`, etc.  
   - Not supported out of the box. Columns with these types are skipped.
@@ -201,7 +242,7 @@ No special configuration is required.
   - Debezium may represent it as raw bytes.
   - RDI stores as an encoded binary string; no automatic boolean conversion.
 
-### MySQL/MariaDB → Redis Mapping Summary
+### MySQL/MariaDB → Redis mapping summary
 
 | MySQL/MariaDB type      | Support level  | Notes                                                     |
 |-------------------------|----------------|-----------------------------------------------------------|
@@ -218,9 +259,9 @@ No special configuration is required.
 
 ---
 
-## PostgreSQL, Supabase & AlloyDB
+## PostgreSQL, Supabase, and AlloyDB
 
-### Core Types
+### Core types
 
 Supported PostgreSQL scalar types:
 
@@ -229,7 +270,7 @@ Supported PostgreSQL scalar types:
 - **Binary**: `BYTEA`.
 - **Temporal**: `DATE`, `TIME`, `TIMESTAMP`, `TIMESTAMPTZ`.
 - **Boolean**: `BOOLEAN`.
-- **Identifiers & network**: `UUID`, `INET`, `CIDR`, `MACADDR`.
+- **Identifiers and network**: `UUID`, `INET`, `CIDR`, `MACADDR`.
 - **Enums**: PostgreSQL `ENUM`.
 
 **Mapping:**
@@ -251,7 +292,7 @@ Supported PostgreSQL scalar types:
   - Stored as a key/value representation (e.g. `'"k1"=>"v1","k2"=>"v2"'`) as a string by default.
   - You can post‑process to a JSON object with an RDI job if desired.
 
-### Unsupported / Complex Types
+### Unsupported / complex types
 
 Not supported in Debezium’s PostgreSQL connector (and thus RDI):
 
@@ -264,13 +305,13 @@ Not supported in Debezium’s PostgreSQL connector (and thus RDI):
 
 If these are present, the connector generally skips those fields and logs warnings.
 
-### Supabase & AlloyDB Notes
+### Supabase and AlloyDB notes
 
 - **Supabase**: is PostgreSQL; all behavior above applies.
 - **AlloyDB**: also PostgreSQL‑compatible; same behavior for standard types.
   - Newer types like vector/embedding columns are generally not handled unless explicitly cast (e.g. to `TEXT`).
 
-### PostgreSQL → Redis Mapping Summary
+### PostgreSQL → Redis mapping summary
 
 | PostgreSQL type         | Support level | Notes                                                      |
 |-------------------------|---------------|------------------------------------------------------------|
@@ -293,7 +334,7 @@ If these are present, the connector generally skips those fields and logs warnin
 
 ## SQL Server
 
-### Core Types
+### Core types
 
 Supported SQL Server scalar types:
 
@@ -316,7 +357,7 @@ Supported SQL Server scalar types:
   - 8‑byte binary value.
   - Debezium usually exposes this as hex; RDI stores a hex string.
 
-### Temporal Types
+### Temporal types
 
 - `DATETIME`, `SMALLDATETIME`:
   - Converted to epoch ms (with `SMALLDATETIME` rounded to minute).
@@ -328,7 +369,7 @@ Supported SQL Server scalar types:
   - `DATE`: ms at midnight.
   - `TIME`: ms from midnight.
 
-### LOBs & Binary
+### LOBs and binary
 
 - `VARBINARY(MAX)`, `IMAGE`:
   - Captured as bytes and encoded (Base64, etc.).
@@ -339,7 +380,7 @@ Supported SQL Server scalar types:
 
 No special connector tuning is usually required beyond standard CDC configuration.
 
-### Unsupported / Special Types
+### Unsupported / special types
 
 - `sql_variant`: not supported.
 - `hierarchyid`: not supported.
@@ -347,7 +388,7 @@ No special connector tuning is usually required beyond standard CDC configuratio
   - `geometry`, `geography` – not supported; columns are skipped.
 - Table‑valued types: not applicable as column types in normal tables.
 
-### SQL Server → Redis Mapping Summary
+### SQL Server → Redis mapping summary
 
 | SQL Server type           | Support level | Notes                                                       |
 |---------------------------|---------------|-------------------------------------------------------------|
@@ -367,7 +408,7 @@ No special connector tuning is usually required beyond standard CDC configuratio
 
 ## MongoDB
 
-### Core BSON Types
+### Core BSON types
 
 MongoDB’s JSON‑like model maps very naturally into RedisJSON (or Hashes). Debezium’s Mongo connector (used by RDI) supports:
 
@@ -394,7 +435,7 @@ MongoDB’s JSON‑like model maps very naturally into RedisJSON (or Hashes). De
   - `DBRef` (as a small document)
   - MinKey/MaxKey – rarely used, mostly internal.
 
-### Mapping Behavior
+### Mapping behavior
 
 By default, RDI maps **one MongoDB document → one Redis key** (often RedisJSON):
 
@@ -419,18 +460,18 @@ By default, RDI maps **one MongoDB document → one Redis key** (often RedisJSON
 - Binary:
   - Binary data Base64‑encoded into a string.
 
-- Documents & Arrays:
+- Documents and Arrays:
   - RedisJSON target: nested objects / arrays preserved exactly.
   - Hash target: nested documents and arrays are **stringified** JSON (e.g. `address` field contains the JSON string of the subdocument).
 
-### Less Common BSON Types
+### Less common BSON types
 
 - **Regex**: stored as a string representation (e.g. `"/^abc/i"`).
 - **JavaScript / JavaScriptWithScope**: captured as code text.
 - **DBRef**: captured as a small document with `$ref` and `$id`, then mapped like a normal subdocument.
 - **MinKey / MaxKey**: may be treated as extreme sentinels or omitted; rarely used in user data.
 
-### MongoDB → Redis Mapping Summary
+### MongoDB → Redis mapping summary
 
 | MongoDB/BSON type   | Support level | Redis representation                                        |
 |---------------------|---------------|-------------------------------------------------------------|
@@ -450,7 +491,7 @@ By default, RDI maps **one MongoDB document → one Redis key** (often RedisJSON
 
 ---
 
-## Cross‑Cutting Considerations
+## Cross-cutting considerations
 
 ### Nullability
 
@@ -459,7 +500,7 @@ By default, RDI maps **one MongoDB document → one Redis key** (often RedisJSON
 - **RedisJSON**:  
   - Null values become JSON `null`.
 
-### Precision & Scale
+### Precision and scale
 
 For high‑precision numeric values (money, scientific values):
 
@@ -468,14 +509,14 @@ For high‑precision numeric values (money, scientific values):
 - In Redis:
   - Use JSON strings if you need exact decimal fidelity, or JSON numbers if range is within double precision.
 
-### Time Zones
+### Time zones
 
 - Source time zone handling is connector‑specific.
 - RDI generally:
   - Converts to UTC where the source type contains a time zone.
   - Stores epoch milliseconds for timestamps in Redis.
 
-### Binary Handling
+### Binary handling
 
 - Controlled by Debezium’s `binary.handling.mode` (exact property name may vary by connector).
 - Common values:
@@ -487,39 +528,3 @@ Ensure your consumer understands the chosen encoding.
 
 ---
 
-## Quick Configuration Checklist
-
-For advanced RDI users, here are the **common extra steps** by database:
-
-### Oracle
-
-- ✅ Enable supplemental logging on tables/schemas.  
-- ✅ Set `lob.enabled=true` if you need `CLOB`/`BLOB`/`XMLTYPE`.  
-- ✅ Add Oracle XML JARs (`xdb.jar`, `xmlparserv2.jar`) if using `XMLTYPE`.  
-- ✅ Decide on `binary.handling.mode` for `RAW`/`BLOB`.  
-- ✅ Avoid unsupported types (LONG, BFILE, complex UDTs) or cast them to supported forms.
-
-### MySQL / MariaDB
-
-- ✅ Binary log enabled in **ROW** mode.  
-- ✅ Configure `decimal.handling.mode` to balance precision vs convenience.  
-- ✅ Be aware that spatial types are not supported.  
-- ✅ Treat `BIT` columns as binary (or cast to integer/boolean in SQL).
-
-### PostgreSQL / Supabase / AlloyDB
-
-- ✅ Ensure WAL/replication settings match connector needs.  
-- ✅ Avoid array/composite/spatial types in replicated columns (or cast them to JSON/TEXT).  
-- ✅ Use RedisJSON target to get most value from `JSONB`.  
-
-### SQL Server
-
-- ✅ Enable CDC or transaction log access as required by the connector.  
-- ✅ Mind `MONEY`/`DECIMAL` precision—store as strings when exactness is critical.  
-- ✅ Exclude or transform unsupported types (`sql_variant`, spatial types).
-
-### MongoDB
-
-- ✅ Ensure replica set / change streams are configured.  
-- ✅ Prefer RedisJSON outputs to preserve document structure.  
-- ✅ For large binary data, confirm Base64 encoding is acceptable to your consumers.
