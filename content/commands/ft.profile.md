@@ -87,8 +87,10 @@ is the query string, sent to `FT.SEARCH` or `FT.AGGREGATE`.
 
 ## Return
 
-**Note**: This page contains the up-to-date profile output as of RediSearch v2.8.33, v2.10.26, v8.2.7, and v8.4.3. 
+{{< note>}}
+This page contains the up-to-date profile output as of RediSearch v2.8.33, v2.10.26, v8.2.7, and v8.4.3. 
 The output format itself may differ between RediSearch versions, and RESP protocol versions.
+{{< /note >}}
 
 `FT.PROFILE` returns a two-element array reply. The first element contains the results of the provided `FT.SEARCH` or `FT.AGGREGATE` command.
 The second element contains information about query creation, iterator profiles, and result processor profiles.
@@ -102,7 +104,7 @@ If there's only one shard, the label will be omitted.
 
 | Returned field name      | Definition                                                                                                                                                                                                            |
 |:--                       |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `Shard ID`               | String containing the unique shard ID. In OSS, this identifier is denoted as the node ID, and is recievend from `RedisModule_GetMyClusterID()` API. (Available as of RediSearch v8.4.3)                               |
+| `Shard ID`               | String containing the unique shard ID. In Redis Open Source, this identifier is denoted as the node ID, and is received from the `RedisModule_GetMyClusterID()` API. (Available as of RediSearch v8.4.3)                               |
 | `Total`&nbsp;`profile`&nbsp;`time`     | The total run time (ms) of the query. Normally just a few ms.                                                                                                                                                         |
 | `Parsing`&nbsp;`time`           | The time (ms) spent parsing the query and its parameters into a query plan. Normally just a few ms.                                                                                                                   |
 | `Pipeline`&nbsp;`creation`&nbsp;`time` | The creation time (ms) of the execution plan, including iterators, result processors, and reducers creation. Normally just a few ms for `FT.SEARCH` queries, but expect a larger number for `FT.AGGREGATE` queries.   |
@@ -112,10 +114,10 @@ If there's only one shard, the label will be omitted.
 
 ### Iterator profiles
 
-This section contains index iterator information, including `Type`, `Query Type`, `Term` (when applicable), `Time` (in ms), `Number of reading operations`, `Child iterator`, and `Estimated number of matches` information.
-Each iterator represents an executor for each part of the query plan, nested per the execution plan. The operation types mentioned below (`UNION`, etc) should match up with the provided query.
+This section contains index iterator information, including `Type`, `Query Type`, `Term` (when applicable), `Time` (ms), `Number of reading operations`, `Child iterator`, and `Estimated number of matches` information.
+Each iterator represents an executor for each part of the query plan, nested per the execution plan. The operation types mentioned below (for example, `UNION`) should match up with the provided query.
 
-Inverted-index iterators also include the number of elements they contain. Vector iterators include additional profiling information. See [Vector iterator profile](#vector-iterator-profile) below.
+Inverted-index iterators also include the number of elements they contain. Vector iterators include additional profiling information. See [Notes on Vector iterator profile](#notes-onvector-iterator-profile) below.
 
 Iterator types include:
 
@@ -132,16 +134,16 @@ Iterator types include:
 * `EMPTY`
 * `WILDCARD`
 * `OPTIONAL`
-* `OPTIMIZER` with `Optimizer mode` - Query optimization wrapper for `FT.SEARCH` queries sorted by a numeric field. Enabled by default in dialect 4+, or explicitly with `WITHOUTCOUNT`.
+* `OPTIMIZER` with `Optimizer mode` - Query optimization wrapper for `FT.SEARCH` queries sorted by a numeric field. Enabled by default in [DIALECT 4]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects##dialect-4-deprecated" >}}) or explicitly with `WITHOUTCOUNT`.
 * `ID-LIST` - Iterator over specific document IDs (appears when using `INKEYS`)
 
 **Notes on `Number of reading operations` and `Estimated number of matches`**
 
-`Number of reading operations` is the number of times an iterator was interacted with. A very high value in comparison to others is a possible warning flag. `NUMERIC` and `Child iterator` types are broken into ranges, and `Number of reading operations` will vary depending on the range. For `UNION`, the sum of the reading operations in child iterators should be equal or greater than the child iterator's reading operations.
+`Number of reading operations` is the number of times an iterator was interacted with. A very high value in comparison to others is a possible warning flag. `NUMERIC` and `Child iterator` types are broken into ranges, and `Number of reading operations` will vary depending on the range. For `UNION`, the sum of the reading operations in child iterators should be equal to or greater than the child iterator's reading operations.
 
-`Estimated number of matches` is the size of the document set. `Number of reading operations` should always be equal or less than `Estimated number of matches`.
+`Estimated number of matches` is the size of the document set. `Number of reading operations` should always be equal to or less than `Estimated number of matches`.
 
-**Notes on Vector iterator profile**
+#### Notes on Vector iterator profile {#notes-onvector-iterator-profile}
 
 For vector queries, the iterator profile includes additional information specific to vector search execution.
 
@@ -152,7 +154,7 @@ The `Vector search mode` field indicates the execution strategy used for both `V
 | Mode | Description |
 |:--   |:--          |
 | `STANDARD_KNN`              | Pure KNN vector search without filters. |
-| `RANGE_QUERY`               | Range-based vector search. used with `VECTOR_RANGE` queries. |
+| `RANGE_QUERY`               | Range-based vector search. Used with `VECTOR_RANGE` queries. |
 | `HYBRID_ADHOC_BF`           | Ad-hoc brute force for filtered queries. Iterates through results that pass the filter and calculates distances on-the-fly.  |
 | `HYBRID_BATCHES`            | Batch-based filtered search. Retrieves top vectors from the index in batches and checks which ones pass the filter. |
 | `HYBRID_BATCHES_TO_ADHOC_BF`| Dynamic mode switching. Starts with batch-based search but switches to ad-hoc brute force if batch iterations yield insufficient results. |
