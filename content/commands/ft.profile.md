@@ -87,6 +87,9 @@ is the query string, sent to `FT.SEARCH` or `FT.AGGREGATE`.
 
 ## Return
 
+**Note**: This page contains the up-to-date profile output as of RediSearch v2.8.33, v2.10.26, v8.2.7, and v8.4.4. 
+The output format itself may differ between RediSearch versions, and RESP protocol versions.
+
 `FT.PROFILE` returns a two-element array reply. The first element contains the results of the provided `FT.SEARCH` or `FT.AGGREGATE` command.
 The second element contains information about query creation, iterator profiles, and result processor profiles.
 Details of the second element follow in the sections below.
@@ -97,14 +100,15 @@ This section contains query execution details for each shard.
 When more than one shard is in play, the shards will be labeled `Shard #1`, `Shard #2`, etc.
 If there's only one shard, the label will be omitted.
 
-| Returned field name      | Definition |
-|:--                       |:--         |
-| `Total`&nbsp;`profile`&nbsp;`time`     | The total run time (ms) of the query. Normally just a few ms. |
-| `Parsing`&nbsp;`time`           | The time (ms) spent parsing the query and its parameters into a query plan. Normally just a few ms. |
-| `Pipeline`&nbsp;`creation`&nbsp;`time` | The creation time (ms) of the execution plan, including iterators, result processors, and reducers creation. Normally just a few ms for `FT.SEARCH` queries, but expect a larger number for `FT.AGGREGATE` queries. |
+| Returned field name      | Definition                                                                                                                                                                                                            |
+|:--                       |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `Shard ID`               | String containing the unique shard ID. In OSS, this identifier is denoted as the node ID, and is recievend from `RedisModule_GetMyClusterID()` API.                                                                   |
+| `Total`&nbsp;`profile`&nbsp;`time`     | The total run time (ms) of the query. Normally just a few ms.                                                                                                                                                         |
+| `Parsing`&nbsp;`time`           | The time (ms) spent parsing the query and its parameters into a query plan. Normally just a few ms.                                                                                                                   |
+| `Pipeline`&nbsp;`creation`&nbsp;`time` | The creation time (ms) of the execution plan, including iterators, result processors, and reducers creation. Normally just a few ms for `FT.SEARCH` queries, but expect a larger number for `FT.AGGREGATE` queries.   |
 | `Total`&nbsp;`GIL`&nbsp;`time` | In multi-threaded deployments, the total time (ms) the query spent holding and waiting for the Redis Global Lock (referred to as GIL) during execution. Note: this value is only valid in the shards profile section. |
-| `Warning`                | Errors that occurred during query execution. |
-| `Internal`&nbsp;`cursor`&nbsp;`reads` | The number of times the coordinator fetched result batches from a given shard during a distributed `AGGREGATE` query in cluster mode. Includes the initial request plus any subsequent batch fetches. |
+| `Warning`                | Errors that occurred during query execution.                                                                                                                                                                          |
+| `Internal`&nbsp;`cursor`&nbsp;`reads` | The number of times the coordinator fetched result batches from a given shard during a distributed `AGGREGATE` query in cluster mode. Includes the initial request plus any subsequent batch fetches.                 |
 
 ### Iterator profiles
 
