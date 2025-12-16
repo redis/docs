@@ -13,24 +13,28 @@ import json
 # Add parent directory to path
 sys.path.insert(0, os.path.dirname(__file__))
 
-from jupyterize import jupyterize, detect_language, validate_input, parse_file
+from jupyterize import jupyterize
+from validator import InputValidator
+from parser import FileParser
 
 
 def test_language_detection():
     """Test language detection from file extensions."""
     print("Testing language detection...")
 
-    assert detect_language('example.py') == 'python'
-    assert detect_language('example.js') == 'node.js'
-    assert detect_language('example.go') == 'go'
-    assert detect_language('example.cs') == 'c#'
-    assert detect_language('example.java') == 'java'
-    assert detect_language('example.php') == 'php'
-    assert detect_language('example.rs') == 'rust'
+    validator = InputValidator()
+
+    assert validator.detect_language('example.py') == 'python'
+    assert validator.detect_language('example.js') == 'node.js'
+    assert validator.detect_language('example.go') == 'go'
+    assert validator.detect_language('example.cs') == 'c#'
+    assert validator.detect_language('example.java') == 'java'
+    assert validator.detect_language('example.php') == 'php'
+    assert validator.detect_language('example.rs') == 'rust'
 
     # Test unsupported extension
     try:
-        detect_language('example.txt')
+        validator.detect_language('example.txt')
         assert False, "Should have raised ValueError"
     except ValueError as e:
         assert "Unsupported file extension" in str(e)
