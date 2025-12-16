@@ -115,6 +115,10 @@ After the operator upgrade is complete, you can upgrade Redis Enterprise cluster
 
   The `name` field must match the `display_name` or `module_name` that appears in the module manifest (for example, "redisgears"). This enables the operator to run validation on the user-defined module. If these names don't match, the operator can't run validation on the user-defined module and preventable errors may occur.
 
+  {{< note >}}
+Adding or modifying the `userDefinedModules` list triggers a rolling restart of the Redis Enterprise cluster pods in addition to the rolling upgrade for the version change.
+  {{< /note >}}
+
 1. Save the changes to apply.
 
 ### Reapply roles and role bindings

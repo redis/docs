@@ -145,6 +145,10 @@ To modify the user-defined modules list, complete the following steps:
 Don't remove modules that are currently in use by any database. The operator rejects the change and puts the REC into an error state.
 {{< /warning >}}
 
+{{< note >}}
+Changes to the `userDefinedModules` list trigger a rolling restart of the Redis Enterprise cluster pods. Plan module updates during a maintenance window to minimize potential impact on your databases.
+{{< /note >}}
+
 ### Verify user-defined modules
 
 After you add user-defined modules to the REC, verify that they're available:
@@ -200,4 +204,3 @@ For detailed upgrade instructions, see the following:
 - [Enable modules for a database]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-database" >}}) - Add modules to databases in Redis Enterprise Software
 - [Upgrade modules]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module" >}}) - Upgrade module versions in Redis Enterprise Software
 - [Module lifecycle]({{< relref "/operate/oss_and_stack/stack-with-enterprise/modules-lifecycle" >}}) - Module versioning and end-of-life schedule
-
