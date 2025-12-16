@@ -74,6 +74,7 @@ group: timeseries
 hidden: false
 linkTitle: TS.CREATERULE
 module: TimeSeries
+railroad_diagram: /images/railroad/ts.createrule.svg
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Create a compaction rule

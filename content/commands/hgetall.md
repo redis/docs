@@ -41,6 +41,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: HGETALL
+railroad_diagram: /images/railroad/hgetall.svg
 since: 2.0.0
 summary: Returns all fields and values in a hash.
 syntax_fmt: HGETALL key

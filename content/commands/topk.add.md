@@ -20,14 +20,15 @@ categories:
 - kubernetes
 - clients
 complexity: O(n * k) where n is the number of items and k is the depth
-description: Increases the count of one or more items by increment
+description: Adds an item to a Top-k sketch. Multiple items can be added at the same time.
 group: topk
 hidden: false
 linkTitle: TOPK.ADD
 module: Bloom
+railroad_diagram: /images/railroad/topk.add.svg
 since: 2.0.0
 stack_path: docs/data-types/probabilistic
-summary: Increases the count of one or more items by increment
+summary: Adds an item to a Top-k sketch. Multiple items can be added at the same time.
 syntax_fmt: TOPK.ADD key items [items ...]
 syntax_str: items [items ...]
 title: TOPK.ADD

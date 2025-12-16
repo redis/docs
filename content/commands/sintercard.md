@@ -50,6 +50,7 @@ key_specs:
       keystep: 1
     type: keynum
 linkTitle: SINTERCARD
+railroad_diagram: /images/railroad/sintercard.svg
 since: 7.0.0
 summary: Returns the number of members of the intersect of multiple sets.
 syntax_fmt: "SINTERCARD numkeys key [key ...] [LIMIT\_limit]"

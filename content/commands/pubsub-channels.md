@@ -28,6 +28,7 @@ description: Returns the active channels.
 group: pubsub
 hidden: false
 linkTitle: PUBSUB CHANNELS
+railroad_diagram: /images/railroad/pubsub-channels.svg
 since: 2.8.0
 summary: Returns the active channels.
 syntax_fmt: PUBSUB CHANNELS [pattern]

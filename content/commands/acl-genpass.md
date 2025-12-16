@@ -27,6 +27,7 @@ description: Generates a pseudorandom, secure password that can be used to ident
 group: server
 hidden: false
 linkTitle: ACL GENPASS
+railroad_diagram: /images/railroad/acl-genpass.svg
 since: 6.0.0
 summary: Generates a pseudorandom, secure password that can be used to identify ACL
   users.

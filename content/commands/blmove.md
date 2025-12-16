@@ -86,6 +86,7 @@ key_specs:
     type: range
   insert: true
 linkTitle: BLMOVE
+railroad_diagram: /images/railroad/blmove.svg
 since: 6.2.0
 summary: Pops an element from a list, pushes it to another list and returns it. Blocks
   until an element is available otherwise. Deletes the list if the last element was
@@ -96,7 +97,7 @@ title: BLMOVE
 ---
 `BLMOVE` is the blocking variant of [`LMOVE`]({{< relref "/commands/lmove" >}}).
 When `source` contains elements, this command behaves exactly like [`LMOVE`]({{< relref "/commands/lmove" >}}).
-When used inside a [`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) block, this command behaves exactly like [`LMOVE`]({{< relref "/commands/lmove" >}}).
+When used inside a [`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) block or a Lua script, this command behaves exactly like [`LMOVE`]({{< relref "/commands/lmove" >}}).
 When `source` is empty, Redis will block the connection until another client
 pushes to it or until `timeout` (a double value specifying the maximum number of seconds to block) is reached.
 A `timeout` of zero can be used to block indefinitely.

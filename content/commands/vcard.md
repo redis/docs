@@ -14,11 +14,11 @@ description: Return the number of elements in a vector set.
 group: vector_set
 hidden: false
 linkTitle: VCARD
+railroad_diagram: /images/railroad/vcard.svg
 since: 8.0.0
 summary: Return the number of elements in a vector set.
 syntax_fmt: "VCARD key"
 title: VCARD
-bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
 ---
 
 Return the number of elements in the specified vector set.

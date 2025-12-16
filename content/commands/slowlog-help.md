@@ -20,6 +20,7 @@ description: Show helpful text about the different subcommands
 group: server
 hidden: true
 linkTitle: SLOWLOG HELP
+railroad_diagram: /images/railroad/slowlog-help.svg
 since: 6.2.0
 summary: Show helpful text about the different subcommands
 syntax_fmt: SLOWLOG HELP

@@ -79,6 +79,51 @@ Render hooks are Hugo templates that intercept and transform specific Markdown e
 
 ---
 
+### 3. Decision Tree Render Hook
+
+**Purpose**: Guide users through a series of questions to reach a recommendation using interactive SVG diagrams.
+
+**Markdown Format**:
+```markdown
+```decision-tree {id="documents-tree"}
+id: documents-tree
+scope: documents
+rootQuestion: root
+questions:
+    root:
+        text: "Do you need nested data structures?"
+        whyAsk: "JSON supports nested structures, hashes and strings don't"
+        answers:
+            yes:
+                value: "Yes"
+                outcome:
+                    label: "Use JSON"
+                    id: jsonOutcome
+            no:
+                value: "No"
+                nextQuestion: nextQuestion
+```
+```
+
+**Features**:
+- 🎯 Interactive decision trees with Yes/No branching
+- 📦 Structured YAML format with explicit question and outcome IDs
+- 💡 `whyAsk` field explains decision logic for AI agents
+- 🤖 AI-friendly metadata embedding (id, scope) in static JSON
+- 📊 SVG rendering with boxes, connecting lines, and answer labels
+- 🔍 Discoverable by scope for AI agent filtering
+- ♿ Accessible - raw YAML preserved for non-JS users
+
+**Implementation Files**:
+- `layouts/_default/_markup/render-codeblock-decision-tree.html` - Hugo render hook
+- `static/js/decision-tree.js` - JavaScript for SVG rendering and YAML parsing
+- Integrated into `layouts/_default/baseof.html` via page store pattern
+
+**Real-World Examples**:
+- `content/develop/data-types/compare-data-types.md` - Redis data type selection trees (Documents, Collections, Sequences)
+
+---
+
 ## Documentation Files
 
 ### [AI_RENDER_HOOK_LESSONS.md](AI_RENDER_HOOK_LESSONS.md)
@@ -166,8 +211,17 @@ See [AI_RENDER_HOOK_LESSONS.md](AI_RENDER_HOOK_LESSONS.md) for detailed guidance
 
 ## Related Files
 
-- `layouts/_default/baseof.html` - Base template with conditional script loading
-- `static/js/checklist.js` - Checklist render hook JavaScript
-- `static/js/hierarchy.js` - Hierarchy render hook JavaScript
-- `layouts/_default/_markup/render-codeblock-checklist.html` - Checklist render hook
-- `layouts/_default/_markup/render-codeblock-hierarchy.html` - Hierarchy render hook
+### Base Template
+- `layouts/_default/baseof.html` - Base template with conditional script loading for all render hooks
+
+### Checklist Render Hook
+- `layouts/_default/_markup/render-codeblock-checklist.html` - Hugo render hook
+- `static/js/checklist.js` - JavaScript for interactivity
+
+### Hierarchy Render Hook
+- `layouts/_default/_markup/render-codeblock-hierarchy.html` - Hugo render hook
+- `static/js/hierarchy.js` - JavaScript for SVG rendering
+
+### Decision Tree Render Hook
+- `layouts/_default/_markup/render-codeblock-decision-tree.html` - Hugo render hook
+- `static/js/decision-tree.js` - JavaScript for SVG rendering and YAML parsing

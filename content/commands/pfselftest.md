@@ -24,6 +24,7 @@ doc_flags:
 group: hyperloglog
 hidden: false
 linkTitle: PFSELFTEST
+railroad_diagram: /images/railroad/pfselftest.svg
 since: 2.8.9
 summary: An internal command for testing HyperLogLog values.
 syntax_fmt: PFSELFTEST

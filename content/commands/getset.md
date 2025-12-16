@@ -49,7 +49,8 @@ key_specs:
     type: range
   update: true
 linkTitle: GETSET
-replaced_by: '[`SET`]({{< relref "/commands/set" >}}) with the `GET` argument'
+railroad_diagram: /images/railroad/getset.svg
+replaced_by: '`SET` with the `!GET` argument'
 since: 1.0.0
 summary: Returns the previous string value of a key after setting it to a new value.
 syntax_fmt: GETSET key value

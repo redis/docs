@@ -31,6 +31,7 @@ group: json
 hidden: false
 linkTitle: JSON.ARRTRIM
 module: JSON
+railroad_diagram: /images/railroad/json.arrtrim.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Trims the array at path to contain only the specified inclusive range of

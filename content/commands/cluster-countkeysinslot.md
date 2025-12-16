@@ -23,6 +23,7 @@ description: Returns the number of keys in a hash slot.
 group: cluster
 hidden: false
 linkTitle: CLUSTER COUNTKEYSINSLOT
+railroad_diagram: /images/railroad/cluster-countkeysinslot.svg
 since: 3.0.0
 summary: Returns the number of keys in a hash slot.
 syntax_fmt: CLUSTER COUNTKEYSINSLOT slot
@@ -33,6 +34,9 @@ Returns the number of keys in the specified Redis Cluster hash slot. The
 command only queries the local data set, so contacting a node
 that is not serving the specified hash slot will always result in a count of
 zero being returned.
+
+{{< note>}}During atomic slot migration operations (available since Redis 8.4.0), keys being imported or trimmed will be filtered out from the results.
+{{< /note >}}
 
 ```
 > CLUSTER COUNTKEYSINSLOT 7000

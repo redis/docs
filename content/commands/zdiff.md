@@ -51,6 +51,7 @@ key_specs:
       keystep: 1
     type: keynum
 linkTitle: ZDIFF
+railroad_diagram: /images/railroad/zdiff.svg
 since: 6.2.0
 summary: Returns the difference between multiple sorted sets.
 syntax_fmt: ZDIFF numkeys key [key ...] [WITHSCORES]

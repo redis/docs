@@ -685,9 +685,7 @@ When there are failures, it is normal that messages will be delivered multiple t
 
 Redis Streams can be associated with multiple consumer groups, where each entry is delivered to all the stream's consumer groups. Within each consumer group, consumers handle a portion of the entries collaboratively. This design enables different applications or services to process the same stream data independently.
 
-When a consumer processes a message, it acknowledges it using the [`XACK`]({{< relref "/commands/xack" >}}) command, which removes the entry reference from the Pending Entries List (PEL) of that specific consumer group. However, the entry remains in the stream and in the PELs of other consumer groups until they also acknowledge it.
-
-Traditionally, applications needed to implement complex logic to delete entries from the stream only after all consumer groups had acknowledged them. This coordination was challenging to implement correctly and efficiently.
+Traditionally, when a consumer processesed a message, it acknowledged it using the [`XACK`]({{< relref "/commands/xack" >}}) command, which removed the entry reference from the Pending Entries List (PEL) of that specific consumer group. However, the entry remained in the stream and in the PELs of other consumer groups until they also acknowledge it. Applications needed to implement complex logic to delete entries from the stream only after all consumer groups had acknowledged them. This coordination was challenging to implement correctly and efficiently.
 
 ### Enhanced deletion control in Redis 8.2
 

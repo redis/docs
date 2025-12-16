@@ -52,9 +52,7 @@ Here's how to subscribe to Redis Cloud with Google Cloud marketplace:
 You must complete this step to bill your Redis Cloud resources to your Google Cloud Marketplace account.
     {{< /note >}}
 
-1.  After you connect your Redis account to your Google Cloud Marketplace account, a message appears in the upper left corner of the account panel.
-
-    {{<image filename="images/rc/gcp-marketplace-billing-badge.png" alt="The Google Cloud Marketplace badge appears when your Redis Cloud account is mapped to a Google Cloud Marketplace account.">}}
+1.  After you connect your Redis account to your Google Cloud Marketplace account, your Google Cloud Marketplace account will be charged for all your Redis Cloud resources going forward.
 
 1. On the Google Cloud Marketplace listing, select **Manage on provider** to go to the [Redis Cloud console](https://cloud.redis.io).
 
@@ -73,6 +71,10 @@ If your Google Cloud Marketplace account is deactivated or otherwise unavailable
 If you are the owner of more than one Redis Cloud account and have already associated your Google Cloud marketplace account with one or more of your Redis accounts, you can add your Google Cloud marketplace account to your other Redis Cloud accounts.
 
 {{< embed-md "rc-marketplace-account-add.md" >}}
+
+## Switch from Annual to Pay as You Go
+
+If you have an Annual private offer and want to switch to a Pay as You Go subscription, you can do so by subscribing to the [Redis® Cloud Cache and Vector Database](https://console.cloud.google.com/marketplace/product/redis-marketplace-isaas/redis-enterprise-cloud-flexible-plan) listing. Both existing and future resources will continue to be billed under the Annual offer until it expires, after which they will be billed under the Pay as You Go offer.
 
 ## Disconnect Google Cloud marketplace account
 

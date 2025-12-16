@@ -19,7 +19,7 @@ Here's how to subscribe to Redis Cloud with AWS Marketplace:
 
 1.  Sign in to the [AWS console](https://console.aws.amazon.com/).
 
-1.  Search AWS Marketplace for [Redis Cloud (Pay-As-You-Go with 14-day FREE TRIAL)](https://aws.amazon.com/marketplace/pp/prodview-mwscixe4ujhkq) and subscribe to the listing.
+1.  Search AWS Marketplace for [Redis Cloud Pay as you go with 14-day free trial](https://aws.amazon.com/marketplace/pp/prodview-mwscixe4ujhkq) and subscribe to the listing.
 
     {{<image filename="images/rc/aws-marketplace-rc-flexible-plan.png" alt="The Redis Cloud listing on AWS Marketplace" >}}
 
@@ -31,7 +31,7 @@ Here's how to subscribe to Redis Cloud with AWS Marketplace:
 
 1.  Sign in to the [Redis Cloud console](https://cloud.redis.io). If you do not yet have an account, you will need to create one. You must have the **Account Owner** role.
 
-1.  Select the Redis account(s) to be mapped to your AWS Marketplace account and confirm that your Marketplace account will pay for your Redis Cloud resources going forward.
+1.  Select the Redis Cloud account(s) to be mapped to your AWS Marketplace account and confirm that your Marketplace account will pay for your Redis Cloud resources going forward.
 
     {{<image filename="images/rc/aws-marketplace-map-account-dialog.png" alt="Use the AWS Marketplace dialog to map your Redis Cloud account to your AWS Marketplace account." width="80%">}}
 
@@ -41,11 +41,7 @@ Here's how to subscribe to Redis Cloud with AWS Marketplace:
 You must complete this step to bill your Redis Cloud resources to your AWS Marketplace account.
     {{< /note >}}
 
-1.  Once your Redis account is mapped to your AWS Marketplace account, a message appears in the upper, left corner of the account panel.
-
-    {{<image filename="images/rc/aws-marketplace-billing-badge.png" alt="The AWS Marketplace badge appears when your Redis Cloud account is mapped to an AWS Marketplace account." width="150px">}}
-
-    In addition, AWS Marketplace is reported as the selected payment method.
+1.  Once your Redis account is mapped to your AWS Marketplace account, your AWS Marketplace account will be charged for all your Redis Cloud resources going forward.
 
 At this point, you can create a new database using the [standard workflow]({{< relref "/operate/rc/databases/create-database" >}}), with one important change. You don't need to enter a payment method, as it's automatically assigned to your AWS Marketplace account.
 
@@ -58,6 +54,10 @@ If your AWS Marketplace account is deactivated or otherwise unavailable, you won
 If you are the owner of more than one Redis Cloud account and have already associated your AWS marketplace account with one or more of your Redis accounts, you can add your AWS marketplace account to your other Redis Cloud accounts.
 
 {{< embed-md "rc-marketplace-account-add.md" >}}
+
+## Switch from Annual to Pay as You Go
+
+If you have an Annual private offer and want to switch to a Pay as You Go subscription, you can do so by subscribing to the [Redis Cloud Pay as you go with 14-day free trial](https://aws.amazon.com/marketplace/pp/prodview-mwscixe4ujhkq) listing. Both existing and future resources will continue to be billed under the Annual offer until it expires, after which they will be billed under the Pay as You Go offer.
 
 ## Disconnect AWS Marketplace account
 

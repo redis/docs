@@ -40,6 +40,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: OBJECT FREQ
+railroad_diagram: /images/railroad/object-freq.svg
 since: 4.0.0
 summary: Returns the logarithmic access frequency counter of a Redis object.
 syntax_fmt: OBJECT FREQ key

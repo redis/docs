@@ -26,6 +26,7 @@ group: search
 hidden: false
 linkTitle: FT.CONFIG SET
 module: Search
+railroad_diagram: /images/railroad/ft.config-set.svg
 replaced_by: '[`CONFIG SET`]({{< relref "/commands/config-set" >}})'
 since: 1.0.0
 stack_path: docs/interact/search-and-query

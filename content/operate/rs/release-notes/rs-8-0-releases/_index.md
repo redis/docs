@@ -39,6 +39,8 @@ This version offers:
 
 - Customer-managed certificates for internode encryption
 
+- Smart client handoffs
+
 ## Detailed release notes
 
 For more detailed release notes, select a build version from the following table:
@@ -98,6 +100,34 @@ The following changes affect behavior and validation in the Redis Query Engine:
 - Updates to scoring (`BM25` is now the default instead of `TF-IDF`).
 
 - Improved handling of expired records, memory constraints, and malformed fields.
+
+### Reserved ports
+
+Make sure the following ports are open before upgrading Redis Enterprise Software.
+
+Ports reserved as of Redis Enterprise Software version 7.22.0:
+
+| Port | Process name | Usage | 
+|------|--------------|-------|
+| 3346 | cluster_api_internal | Cluster API internal port |
+| 3351 | cluster_watchdog_grpc_api | Cluster watchdog now supports gRPC |
+| 3352 | grpc_service_mesh | gRPC communication between nodes |
+| 3353 | local_grpc_service_mesh | Local gRPC services |
+| 3354 | grpc_gossip_envoy | gRPC gossip protocol communication between nodes |
+| 3355 | authentication_service | Authentication service internal port |
+
+Ports reserved as of Redis Enterprise Software version 7.8.2:
+
+| Port | Process name | Usage | 
+|------|--------------|-------|
+| 3347 | cert_exporter | Reports cluster certificate metrics |
+| 3348 | process_exporter | Reports process metrics for DMC and Redis processes |
+| 3349 | cluster_wd_exporter | Reports cluster watchdog metrics |
+| 3350 | db_controller | Internode communication |
+| 9091 | node_exporter | Reports host node metrics related to CPU, memory, disk, and more |
+| 9125 | statsd_exporter | Reports push metrics related to the DMC and syncer, and some cluster and node metrics |
+
+See [Ports and port ranges used by Redis Enterprise Software]({{<relref "/operate/rs/networking/port-configurations#ports-and-port-ranges-used-by-redis-enterprise-software">}}) for a complete list.
 
 ### Deprecations
 

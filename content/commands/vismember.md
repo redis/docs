@@ -23,12 +23,12 @@ function: vismemberCommand
 group: vector_set
 hidden: false
 linkTitle: VISMEMBER
+railroad_diagram: /images/railroad/vismember.svg
 since: 8.0.0
 summary: Check if an element exists in a vector set.
 syntax_fmt: VISMEMBER key element
 syntax_str: element
 title: VISMEMBER
-bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
 ---
 
 Check if an element exists in a vector set.

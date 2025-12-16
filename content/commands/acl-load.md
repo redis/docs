@@ -24,6 +24,7 @@ description: Reloads the rules from the configured ACL file.
 group: server
 hidden: false
 linkTitle: ACL LOAD
+railroad_diagram: /images/railroad/acl-load.svg
 since: 6.0.0
 summary: Reloads the rules from the configured ACL file.
 syntax_fmt: ACL LOAD

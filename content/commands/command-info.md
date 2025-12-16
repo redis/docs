@@ -32,6 +32,7 @@ history:
 - - 7.0.0
   - Allowed to be called with no argument to get info on all commands.
 linkTitle: COMMAND INFO
+railroad_diagram: /images/railroad/command-info.svg
 since: 2.8.13
 summary: Returns information about one, multiple or all commands.
 syntax_fmt: COMMAND INFO [command-name [command-name ...]]

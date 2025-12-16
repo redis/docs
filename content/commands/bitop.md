@@ -21,22 +21,6 @@ arguments:
     name: not
     token: NOT
     type: pure-token
-  - display_text: diff
-    name: diff
-    token: DIFF
-    type: pure-token
-  - display_text: diff1
-    name: diff1
-    token: DIFF1
-    type: pure-token
-  - display_text: andor
-    name: andor
-    token: ANDOR
-    type: pure-token
-  - display_text: one
-    name: one
-    token: ONE
-    type: pure-token
   name: operation
   type: oneof
 - display_text: destkey
@@ -92,9 +76,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: BITOP
+railroad_diagram: /images/railroad/bitop.svg
 since: 2.6.0
 summary: Performs bitwise operations on multiple strings, and stores the result.
-syntax_fmt: "BITOP <AND | OR | XOR | NOT | DIFF | DIFF1 | ANDOR | ONE> destkey key [key ...]"
+syntax_fmt: BITOP <AND | OR | XOR | NOT | DIFF | DIFF1 | ANDOR | ONE> destkey key [key ...]
 syntax_str: destkey key [key ...]
 title: BITOP
 ---

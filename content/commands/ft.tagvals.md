@@ -29,6 +29,7 @@ group: search
 hidden: false
 linkTitle: FT.TAGVALS
 module: Search
+railroad_diagram: /images/railroad/ft.tagvals.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Returns the distinct tags indexed in a Tag field

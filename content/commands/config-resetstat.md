@@ -27,6 +27,7 @@ hints:
 - request_policy:all_nodes
 - response_policy:all_succeeded
 linkTitle: CONFIG RESETSTAT
+railroad_diagram: /images/railroad/config-resetstat.svg
 since: 2.0.0
 summary: Resets the server's statistics.
 syntax_fmt: CONFIG RESETSTAT

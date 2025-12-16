@@ -42,6 +42,7 @@
 | <span class="break-all">endpoint_write_requests_latency_histogram</span> | histogram | Latency (in µs) histogram of write commands |
 | <span class="break-all">endpoint_write_requests_latency_histogram_bucket</span> | histogram | Latency histograms for write commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_write_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
 | endpoint_write_responses | counter | Number of write responses |
+| db_config | counter | This is an information metric that holds database configuration within labels such as: db_name, db_version, db_port, tls_mode |
 
 ## Node metrics
 
@@ -143,7 +144,7 @@
 | redis_server_master_repl_offset | Number of bytes sent to replicas by the shard; calculate the throughput for a time period by comparing the value at different times |
 | <span class="break-all">redis_server_master_sync_in_progress</span> | The primary shard is synchronizing (1 true; 0 false) |
 | redis_server_max_process_mem | Current memory limit configured by redis_mgr according to node free memory |
-| redis_server_maxmemory | Current memory limit configured by redis_mgr according to database memory limits |
+| redis_server_maxmemory | Current memory limit configured by redis_mgr according to database memory limits. <br /><br />To calculate the percent memory usage:<br /><span class="break-all">`sum by (cluster,db)(redis_server_used_memory{role="master"}) / (avg by(cluster,db)(db_memory_limit_bytes) / max by(cluster,db)(db_replication_factor))`</span> |
 | redis_server_mem_aof_buffer | Current size of AOF buffer |
 | redis_server_mem_clients_normal | Current memory used for input and output buffers of non-replica clients |
 | redis_server_mem_clients_slaves | Current memory used for input and output buffers of replica clients |

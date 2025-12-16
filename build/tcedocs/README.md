@@ -8,7 +8,7 @@ There are two sections that need to updated when new languages are added.
 1. In the `[params]` section:
 
     ```toml
-    clientsExamples = ["Python", "Node.js", "Java-Sync", "Java-Async", "Java-Reactive", "Go", "C#", "RedisVL", "PHP"]
+    clientsExamples = ["Python", "Node.js", "Java-Sync", "Lettuce-Sync", "Java-Async", "Java-Reactive", "Go", "C", "C#-Sync", "C#-Async", "RedisVL", "PHP", "Rust-Sync", "Rust-Async"]
     ```
 
     The order of the `clientsExamples` list matters: it's the order in which the language tabs are presented for each code example.
@@ -18,13 +18,18 @@ There are two sections that need to updated when new languages are added.
     [params.clientsConfig]
     "Python"={quickstartSlug="redis-py"}
     "Node.js"={quickstartSlug="nodejs"}
-    "Java-sync"={quickstartSlug="jedis"}
-    "Java-async"={quickstartSlug="lettuce"}
-    "Java-reactive"={quickstartSlug="lettuce"}
+    "Java-Sync"={quickstartSlug="jedis"}
+    "Lettuce-Sync"={quickstartSlug="lettuce"}
+    "Java-Async"={quickstartSlug="lettuce"}
+    "Java-Reactive"={quickstartSlug="lettuce"}
     "Go"={quickstartSlug="go"}
-    "C#"={quickstartSlug="dotnet"}
+    "C"={quickstartSlug="hiredis"}
+    "C#-Sync"={quickstartSlug="dotnet"}
+    "C#-Async"={quickstartSlug="dotnet"}
     "RedisVL"={quickstartSlug="redis-vl"}
     "PHP"={quickstartSlug="php"}
+    "Rust-Sync"={quickstartSlug="rust"}
+    "Rust-Async"={quickstartSlug="rust"}
     ```
 
 This configuration, along with the configuration steps below, is used to control the behavior of the Hugo shortcode that was developed to show tabbed code examples.
@@ -36,7 +41,7 @@ A shortcode is a simple snippet inside a content file that Hugo will render usin
 
 The folder `data/components` contains one component configuration file for each supported language. These files contain information about the GitHub repos that house the code examples.
 
-Here is the configuration file for Python, `redis_py.json`: 
+Here is the configuration file for Python, `redis_py.json`:
 
 ```json
 {
@@ -65,15 +70,20 @@ Register your component file by adding it to the `clients` array in the `index.j
 Here is an example:
 ```json
 "clients": [
-  "nredisstack",
+  "nredisstack_sync",
+  "nredisstack_async",
   "go_redis",
   "node_redis",
   "php",
   "redis_py",
   "jedis",
+  "lettuce_sync",
   "lettuce_async",
   "lettuce_reactive",
-  "redis_vl"
+  "redis_vl",
+  "redis_rs_sync",
+  "redis_rs_async",
+  "hi_redis"
 ]
 ```
 
@@ -99,13 +109,17 @@ PREFIXES = {
     'java-async': '//',
     'java-reactive': '//',
     'go': '//',
+    'c': '//',
     'c#': '//',
     'redisvl': '#',
-    'php': '//'
+    'php': '//',
+    'rust': '//'
 }
 ```
 
 The `TEST_MARKER` dictionary maps programming languages to test framework annotations, which allows the parser to filter such source code lines out. The `PREFIXES` dictionary maps each language to its comment prefix. Python, for example, uses a hashtag (`#`) to start a comment.
+
+⚠️ **CRITICAL**: The `PREFIXES` dictionary is **essential** for the example parser to work. If you add a new language, you **must** add an entry to this dictionary, or examples will fail to process with an "Unknown language" error. This is the most commonly missed step when adding a new language.
 
 ## Understand special comments in the example source code files
 
@@ -130,10 +144,12 @@ Add a source code file to an appropriate client repo. Consult the /data/componen
 
 | Programming Language | GitHub Repo                                         | Default directory                                 |
 |----------------------|-----------------------------------------------------|---------------------------------------------------|
+| C                    | [hiredis](https://github.com/redis/hiredis)         | `examples`                                        |
 | C#                   | [NRedisStack](https://github.com/redis/NRedisStack) | `tests/Doc`                                       |
 | Go                   | [go-redis](https://github.com/redis/go-redis)       | `doctests`                                        |
 | Java                 | [jedis](https://github.com/redis/jedis)             | `src/test/java/io/redis/examples`                 |
-|                      | [Lettuce](https://github.com/redis/lettuce)         | `src/test/java/io/redis/examples/async` or        |
+|                      | [Lettuce](https://github.com/redis/lettuce)         | `src/test/java/io/redis/examples/sync`,            |
+|                      |                                                     | `src/test/java/io/redis/examples/async`, or        |
 |                      |                                                     | `src/test/java/io/redis/examples/reactive`        |
 | Node.js              | [node-redis](https://github.com/redis/node-redis)   | `doctests`                                        |
 | PHP                  | [Predis](https://github.com/predis/predis)          | Examples, for now, are stored in `local_examples` |
@@ -148,9 +164,15 @@ At times, it can take quite a while to get new or updated examples through the r
 local_examples
 ├── client-specific
 │   ├── go
+│   ├── c
+│   │   ...
+
 │   │   ...
 │   ├── jedis
 │   │   ...
+│   ├── lettuce-sync
+│   │   ...
+
 │   ├── lettuce-async
 │   │   ...
 │   ├── lettuce-reactive
@@ -237,4 +259,77 @@ The following example shows the `connect` step of a Python example:
 ```
 {{< clients-example set="set_and_get" step="connect" lang_filter="Python" />}}
 ```
+
 The programming language name should match the value in the Hugo configuration file.
+
+#### Language Filter Syntax and Matching
+
+The `lang_filter` parameter accepts a **comma-separated list of exact language names**:
+
+```
+{{< clients-example set="example_id" lang_filter="C#-Sync,C#-Async" />}}
+```
+
+**Important**: Language names must match exactly as they appear in `config.toml`. The matching is **exact**, not substring-based:
+
+- ✅ `lang_filter="C#-Sync,C#-Async"` - Shows only C# sync and async tabs
+- ❌ `lang_filter="C"` - Does NOT match "C#-Sync" or "C#-Async" (exact match only)
+- ✅ `lang_filter="Python,Node.js"` - Shows Python and Node.js tabs
+- ❌ `lang_filter="Python,Node"` - Does NOT match "Node.js" (must use exact name)
+
+**Common pitfall**: If you use a language name that is a substring of another language name (e.g., "C" is a substring of "C#-Sync"), the filter will NOT accidentally match the longer name. Each language in the filter list must match exactly.
+
+## Troubleshooting "Run in browser" Links
+
+### Issue: Link doesn't appear on page load
+
+**Symptom**: The "Run in browser" link appears only after manually changing the language selector.
+
+**Root cause**: The default selected tab (redis-cli) doesn't have a `binderId`. The JavaScript needs to search for the first tab that has a `binderId` on initial page load.
+
+**Solution**: Ensure the JavaScript in `layouts/partials/tabs/wrapper.html` uses an `isInitialLoad` flag to enable fallback search on page load only:
+
+```javascript
+let isInitialLoad = true;
+
+function updateBinderLink() {
+    // ... get current panel and binderId ...
+
+    // On initial page load, if current tab doesn't have a binderId, find the first tab that does
+    if (isInitialLoad && !binderId) {
+        for (let i = 0; i < panels.length; i++) {
+            const panelBinderId = panels[i].getAttribute('data-binder-id');
+            if (panelBinderId) {
+                binderId = panelBinderId;
+                break;
+            }
+        }
+    }
+
+    // ... show link if binderId exists ...
+}
+
+// Initialize on page load
+updateBinderLink();
+isInitialLoad = false;  // Set to false after first call
+```
+
+### Issue: Link shows for languages that don't have a notebook
+
+**Symptom**: Selecting a language without a notebook (e.g., Java-Async) still shows a "Run in browser" link pointing to a different language's notebook.
+
+**Root cause**: The JavaScript is using fallback search on every update, not just on page load. This causes it to show the wrong language's link.
+
+**Solution**: Only enable fallback search on initial page load (see above). After the first call, `isInitialLoad` is set to `false`, so subsequent language changes will only show the link if the selected language has a `binderId`.
+
+### Issue: Link appears but points to wrong notebook
+
+**Symptom**: The link URL is incorrect or points to the wrong example.
+
+**Root cause**: The `binderId` value in `data/examples.json` is incorrect or missing.
+
+**Solution**:
+1. Verify the `BINDER_ID` marker is present in your example source file
+2. Check that the value matches a valid Git reference in the `redis/binder-launchers` repository
+3. Rebuild the site: `python build/make.py`
+4. Verify the `binderId` appears in `data/examples.json` for your example

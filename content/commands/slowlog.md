@@ -17,6 +17,7 @@ description: A container for slow log commands.
 group: server
 hidden: true
 linkTitle: SLOWLOG
+railroad_diagram: /images/railroad/slowlog.svg
 since: 2.2.12
 summary: A container for slow log commands.
 syntax_fmt: SLOWLOG

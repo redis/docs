@@ -21,6 +21,7 @@ hidden: false
 hints:
 - nondeterministic_output
 linkTitle: CLUSTER INFO
+railroad_diagram: /images/railroad/cluster-info.svg
 since: 3.0.0
 summary: Returns information about the state of a node.
 syntax_fmt: CLUSTER INFO
@@ -57,6 +58,16 @@ total_cluster_links_buffer_limit_exceeded:0
 * `cluster_stats_messages_sent`: Number of messages sent via the cluster node-to-node binary bus.
 * `cluster_stats_messages_received`: Number of messages received via the cluster node-to-node binary bus.
 * `total_cluster_links_buffer_limit_exceeded`: Accumulated count of cluster links freed due to exceeding the `cluster-link-sendbuf-limit` configuration.
+
+The following atomic slot migration fields may be included in the reply (available since Redis 8.4.0):
+
+* `cluster_slot_migration_active_tasks`: Number of in-progress ASM tasks. Currently, it will be 1 or 0.
+* `cluster_slot_migration_active_trim_running`: Number of active trim jobs in progress and scheduled.
+* `cluster_slot_migration_active_trim_current_job_keys`: Number of keys scheduled for deletion in the current trim job.
+* `cluster_slot_migration_active_trim_current_job_trimmed`: Number of keys already deleted in the current trim job.
+* `cluster_slot_migration_stats_active_trim_started`: Total number of trim jobs that have started since the process began.
+* `cluster_slot_migration_stats_active_trim_completed`: Total number of trim jobs completed since the process began.
+* `cluster_slot_migration_stats_active_trim_cancelled`: Total number of trim jobs cancelled since the process began.
 
 The following message-related fields may be included in the reply if the value is not 0:
 Each message type includes statistics on the number of messages sent and received.

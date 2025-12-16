@@ -14,11 +14,11 @@ description: Associate or remove the JSON attributes of elements.
 group: vector_set
 hidden: false
 linkTitle: VSETATTR
+railroad_diagram: /images/railroad/vsetattr.svg
 since: 8.0.0
 summary: Associate or remove the JSON attributes of elements.
 syntax_fmt: "VSETATTR key element \"{ JSON obj }\""
 title: VSETATTR
-bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
 ---
 
 Associate a JSON object with an element in a vector set. Use this command to store attributes that can be used in filtered similarity searches with `VSIM`.

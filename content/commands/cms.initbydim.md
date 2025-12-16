@@ -26,6 +26,7 @@ group: cms
 hidden: false
 linkTitle: CMS.INITBYDIM
 module: Bloom
+railroad_diagram: /images/railroad/cms.initbydim.svg
 since: 2.0.0
 stack_path: docs/data-types/probabilistic
 summary: Initializes a Count-Min Sketch to dimensions specified by user
