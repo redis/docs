@@ -64,7 +64,13 @@
         {{/* Extract binderId if it exists */}}
         {{ $binderId := index $example "binderId" }}
 
-        {{ $tabs = $tabs | append (dict "title" $client "language" $client "quickstartSlug" $quickstartSlug "content" $content "sourceUrl" (index $example "sourceUrl") "binderId" $binderId) }}
+        {{/* Map display names for clients */}}
+        {{ $displayName := $client }}
+        {{ if eq $client "Node.js" }}
+            {{ $displayName = "node-redis" }}
+        {{ end }}
+
+        {{ $tabs = $tabs | append (dict "title" $client "displayName" $displayName "language" $client "quickstartSlug" $quickstartSlug "content" $content "sourceUrl" (index $example "sourceUrl") "binderId" $binderId) }}
     {{ end }}
 {{ end }}
 
