@@ -297,7 +297,10 @@ This means that the XREADGROUP does not return already-acknowledged entries.
 ### Guarantees
 
 Unlike XREAD, XREADGOUP will never skip stream entries.
+
 In traffic redirection, XREADGROUP may return entries that have been read but not acknowledged. It may also even return entries that have already been acknowledged.
+
+XREADGROUP only guarantee message order per source region. When entries are added from multiple regions, monotonically increasing IDs are not guaranteed.
 
 ## Summary
 
