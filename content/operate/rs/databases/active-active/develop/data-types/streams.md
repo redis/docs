@@ -300,7 +300,8 @@ Unlike XREAD, XREADGOUP will never skip stream entries.
 
 In traffic redirection, XREADGROUP may return entries that have been read but not acknowledged. It may also even return entries that have already been acknowledged.
 
-when entries are added from multiple regions, order is not guaranteed for a sequence of read commands (order is still guaranteed for a single XREAD, XREADGROUP, or XRANGE command).
+When entries are added from multiple regions, Redis guarantees ordered entries in the reply of a single read command (`XREAD`, `XREADGROUP`, `XRANGE`). However, ordered IDs are not guaranteed for a sequence of read commands.
+For example, two subsequent `XREADGROUP GROUP group consumer COUNT 1 STREAMS key >` may reply with descreasing IDs.
 
 ## Summary
 
