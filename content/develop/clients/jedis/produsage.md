@@ -49,7 +49,7 @@ and closing connections has a performance overhead.
 Use [connection pooling]({{< relref "/develop/clients/pools-and-muxing" >}})
 to avoid the overhead of opening and closing connections without having to
 write your own code to cache and reuse open connections. See
-[Connect with a connection pool]({{< relref "/develop/clients/jedis/connect#connect-with-a-connection-pool" >}})
+[Configure a connection pool]({{< relref "/develop/clients/jedis/connect#configure-a-connection-pool" >}})
 to learn how to use this technique with Jedis.
 
 ### Connection retries
@@ -76,14 +76,14 @@ connection or issuing a command, it can end up hanging indefinitely.
 You can prevent this from happening by setting timeouts for socket
 reads and writes and for opening connections.
 
-To set a timeout for a connection, use the `JedisPooled` or `JedisPool` constructor with the `timeout` parameter, or use `JedisClientConfig` with the `socketTimeout` and `connectionTimeout` parameters.
+To set a timeout for a connection, use the `RedisClient` constructor with the `timeout` parameter, or use `JedisClientConfig` with the `socketTimeout` and `connectionTimeout` parameters.
 (The socket timeout is the maximum time allowed for reading or writing data while executing a
 command. The connection timeout is the maximum time allowed for establishing a new connection.)
 
 ```java
 HostAndPort hostAndPort = new HostAndPort("localhost", 6379);
 
-JedisPooled jedisWithTimeout = new JedisPooled(hostAndPort,
+RedisClient jedisWithTimeout = new RedisClient(hostAndPort,
     DefaultJedisClientConfig.builder()
         .socketTimeoutMillis(5000)  // set timeout to 5 seconds
         .connectionTimeoutMillis(5000) // set connection timeout to 5 seconds
@@ -100,7 +100,7 @@ every few seconds). You can do this using a simple
 [`PING`]({{< relref "/commands/ping" >}}) command:
 
 ```java
-try (Jedis jedis = jedisPool.getResource()) {
+try (RedisClient jedis = new RedisClient()) {
   if (! "PONG".equals(jedis.ping())) {
     // Report problem.
   }
@@ -120,20 +120,22 @@ The Jedis exception hierarchy is rooted on `JedisException`, which implements
 `RuntimeException`. All exceptions in the hierarchy are therefore unchecked
 exceptions.
 
-```
-JedisException
-├── JedisDataException
-│   ├── JedisRedirectionException
-│   │   ├── JedisMovedDataException
-│   │   └── JedisAskDataException
-│   ├── AbortedTransactionException
-│   ├── JedisAccessControlException
-│   └── JedisNoScriptException
-├── JedisClusterException
-│   ├── JedisClusterOperationException
-│   ├── JedisConnectionException
-│   └── JedisValidationException
-└── InvalidURIException
+```hierarchy {type="exception"}
+"JedisException":
+    _meta:
+        description: "Base class for all Jedis exceptions"
+    "JedisDataException":
+        "JedisRedirectionException":
+            "JedisMovedDataException":
+            "JedisAskDataException":
+        "AbortedTransactionException":
+        "JedisAccessControlException":
+        "JedisNoScriptException":
+    "JedisClusterException":
+        "JedisClusterOperationException":
+        "JedisConnectionException":
+        "JedisValidationException":
+    "InvalidURIException":
 ```
 
 #### General exceptions
