@@ -300,7 +300,7 @@ Unlike XREAD, XREADGOUP will never skip stream entries.
 
 In traffic redirection, XREADGROUP may return entries that have been read but not acknowledged. It may also even return entries that have already been acknowledged.
 
-XREADGROUP only guarantee message order per source region. When entries are added from multiple regions, consumed message are not guaranteed to be ordered by monotonically increasing IDs.
+when entries are added from multiple regions, order is not guaranteed for a sequence of read commands (order is still guaranteed for a single XREAD, XREADGROUP, or XRANGE command).
 
 ## Summary
 
