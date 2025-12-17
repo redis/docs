@@ -72,8 +72,11 @@ It is possible to switch persistence from RDB snapshotting to append-only file
 (and the other way around) using the `CONFIG SET` command.
 See the [persistence page]({{< relref "/operate/oss_and_stack/management/persistence" >}}) for more information.
 
-In general what you should know is that setting the `appendonly` parameter to
-`yes` will start a background process to save the initial append-only file
+```
+CONFIG SET appendonly yes
+```
+
+Setting the `appendonly` parameter as shown above will start a background process to save the initial append-only file
 (obtained from the in memory data set), and will append all the subsequent
 commands on the append-only file, thus obtaining exactly the same effect of a
 Redis server that started with AOF turned on since the start.
