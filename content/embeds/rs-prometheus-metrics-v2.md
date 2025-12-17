@@ -176,21 +176,21 @@
 | redis_server_zsets_items_under_1M | Number of sorted set keys with under 1 million elements |
 | redis_server_zsets_items_1M_to_8M | Number of sorted set keys with an element count between 1 million and 8 million |
 | redis_server_zsets_items_over_8M | Number of sorted set keys with over 8 million elements |
-| <span class="break-all">redis_server_search_gc_bytes_collected</span> | The total amount of memory freed by the garbage collectors from indexes in the shard's memory in bytes. <sup>[3](#tnote-3)</sup> |
+| <span class="break-all">redis_server_search_gc_bytes_collected</span> | The total amount of memory freed by the garbage collectors from indexes in the shard's memory in bytes. <sup>[3](#tnote-4)</sup> |
 | <span class="break-all">redis_server_search_bytes_collected</span> | The total amount of memory freed by the garbage collectors from indexes in the shard's memory in bytes. Deprecated in 8.0 (renamed <span class="break-all">redis_server_search_gc_bytes_collected</span>), but still available in older versions. <sup>[1](#tnote-1)</sup> |
-| <span class="break-all">redis_server_search_gc_marked_deleted_vectors</span> | The number of vectors marked as deleted in the vector indexes that have not yet been cleaned. <sup>[3](#tnote-3)</sup> |
+| <span class="break-all">redis_server_search_gc_marked_deleted_vectors</span> | The number of vectors marked as deleted in the vector indexes that have not yet been cleaned. <sup>[3](#tnote-4)</sup> |
 | <span class="break-all">redis_server_search_marked_deleted_vectors</span> | The number of vectors marked as deleted in the vector indexes that have not yet been cleaned. Deprecated in 8.0 (renamed <span class="break-all">redis_server_search_gc_marked_deleted_vectors</span>), but still available in older versions. <sup>[1](#tnote-1)</sup> |
-| <span class="break-all">redis_server_search_gc_total_cycles</span> | The total number of garbage collection cycles executed. <sup>[3](#tnote-3)</sup> |
+| <span class="break-all">redis_server_search_gc_total_cycles</span> | The total number of garbage collection cycles executed. <sup>[3](#tnote-4)</sup> |
 | <span class="break-all">redis_server_search_total_cycles</span> | The total number of garbage collection cycles executed. Deprecated in 8.0 (renamed <span class="break-all">redis_server_search_gc_total_cycles</span>), but still available in older versions. <sup>[1](#tnote-1)</sup> |
-| <span class="break-all">redis_server_search_gc_total_docs_not_collected_by_gc</span> | The number of documents marked as deleted, whose memory has not yet been freed by the garbage collector. <sup>[3](#tnote-3)</sup> |
+| <span class="break-all">redis_server_search_gc_total_docs_not_collected_by_gc</span> | The number of documents marked as deleted, whose memory has not yet been freed by the garbage collector. <sup>[3](#tnote-4)</sup> |
 | <span class="break-all">redis_server_search_total_docs_not_collected_by_gc</span> | The number of documents marked as deleted, whose memory has not yet been freed by the garbage collector. Deprecated in 8.0 (renamed <span class="break-all">redis_server_search_gc_total_docs_not_collected_by_gc</span>), but still available in older versions. <sup>[1](#tnote-1)</sup> |
-| <span class="break-all">redis_server_search_gc_total_ms_run</span> | The total duration of all garbage collection cycles in the shard, measured in milliseconds. <sup>[3](#tnote-3)</sup> |
+| <span class="break-all">redis_server_search_gc_total_ms_run</span> | The total duration of all garbage collection cycles in the shard, measured in milliseconds. <sup>[3](#tnote-4)</sup> |
 | <span class="break-all">redis_server_search_total_ms_run</span> | The total duration of all garbage collection cycles in the shard, measured in milliseconds. Deprecated in 8.0 (renamed <span class="break-all">redis_server_search_gc_total_ms_run</span>), but still available in older versions. <sup>[1](#tnote-1)</sup> |
-| <span class="break-all">redis_server_search_cursors_internal_idle</span> | The total number of coordinator cursors that are currently holding pending results in the shard. <sup>[3](#tnote-3)</sup> |
-| <span class="break-all">redis_server_search_cursors_user_idle</span> | The total number of cursors that were explicitly requested by users, that are currently holding pending results in the shard. <sup>[3](#tnote-3)</sup> |
+| <span class="break-all">redis_server_search_cursors_internal_idle</span> | The total number of coordinator cursors that are currently holding pending results in the shard. <sup>[3](#tnote-4)</sup> |
+| <span class="break-all">redis_server_search_cursors_user_idle</span> | The total number of cursors that were explicitly requested by users, that are currently holding pending results in the shard. <sup>[3](#tnote-4)</sup> |
 | redis_server_search_global_idle | The total number of user and internal cursors currently holding pending results in the shard. Deprecated in 8.0 (split into <span class="break-all">redis_server_search_cursors_internal_idle</span> and <span class="break-all">redis_server_search_cursors_user_idle</span>), but still available in older versions. <sup>[1](#tnote-1)</sup> |
-| <span class="break-all">redis_server_search_cursors_internal_active</span> | The total number of coordinator cursors in the shard, either holding pending results or actively executing `FT.CURSOR READ`. <sup>[3](#tnote-3)</sup> |
-| <span class="break-all">redis_server_search_cursors_user_active</span> | The total number of user cursors in the shard, either holding pending results or actively executing `FT.CURSOR READ`. <sup>[3](#tnote-3)</sup> |
+| <span class="break-all">redis_server_search_cursors_internal_active</span> | The total number of coordinator cursors in the shard, either holding pending results or actively executing `FT.CURSOR READ`. <sup>[3](#tnote-4)</sup> |
+| <span class="break-all">redis_server_search_cursors_user_active</span> | The total number of user cursors in the shard, either holding pending results or actively executing `FT.CURSOR READ`. <sup>[3](#tnote-4)</sup> |
 | redis_server_search_global_total | The total number of user and internal cursors in the shard, either holding pending results or actively executing `FT.CURSOR READ`. Deprecated in 8.0 (split into <span class="break-all">redis_server_search_cursors_internal_active</span> and <span class="break-all">redis_server_search_cursors_user_active</span>), but still available in older versions. <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_number_of_indexes</span> | Total number of indexes in the shard <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_number_of_active_indexes</span> | The total number of indexes running a background indexing and/or background query processing operation. Background indexing refers to vector ingestion process, or in-progress background indexer. <sup>[1](#tnote-1)</sup> |
@@ -218,8 +218,8 @@
 | <span class="break-all">redis_server_search_fields_vector_Vector</span> | The total number of `VECTOR` fields across all indexes in the shard. This field appears only if its value is larger than 0. <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_fields_vector_Flat</span> | The total number of `FLAT VECTOR` fields across all indexes in the shard. This field appears only if its value is larger than 0. <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_fields_vector_HNSW</span> | The total number of `HNSW VECTOR` fields across all indexes in the shard. This field appears only if its value is larger than 0. <sup>[1](#tnote-1)</sup> |
-| <span class="break-all">redis_server_search_fields_vector_SVS_VAMANA</span> | The total number of `SVS_VAMANA VECTOR` fields across all indexes in the shard. This field appears only if its value is larger than 0. <sup>[3](#tnote-3)</sup> |
-| <span class="break-all">redis_server_search_fields_vector_SVS_VAMANA_Compressed</span> | The total number of `SVS-VAMANA VECTOR` fields with `COMPRESSION` enabled (e.g., `LVQ8`) across all indexes in the shard. This field appears only if its value is larger than 0. <sup>[3](#tnote-3)</sup> |
+| <span class="break-all">redis_server_search_fields_vector_SVS_VAMANA</span> | The total number of `SVS_VAMANA VECTOR` fields across all indexes in the shard. This field appears only if its value is larger than 0. <sup>[3](#tnote-4)</sup> |
+| <span class="break-all">redis_server_search_fields_vector_SVS_VAMANA_Compressed</span> | The total number of `SVS-VAMANA VECTOR` fields with `COMPRESSION` enabled (e.g., `LVQ8`) across all indexes in the shard. This field appears only if its value is larger than 0. <sup>[3](#tnote-4)</sup> |
 | <span class="break-all">redis_server_search_fields_vector_IndexErrors</span> | The total number of indexing failures caused by attempts to index a document containing a `VECTOR` field. <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_fields_geoshape_Geoshape</span> | The total number of `GEOSHAPE` fields across all indexes in the shard. <sup>[2](#tnote-2)</sup> |
 | <span class="break-all">redis_server_search_fields_geoshape_Sortable</span> | The total number of `SORTABLE GEOSHAPE` fields across all indexes in the shard. This field appears only if its value is larger than 0. <sup>[2](#tnote-2)</sup> |
@@ -254,26 +254,26 @@
 | <span class="break-all">redis_server_search_shard_total_query_errors_arguments</span> | The total number of query failed due to wrong arguments in the shard. <sup>[3](#tnote-2)</sup> |
 | <span class="break-all">redis_server_search_shard_total_query_errors_timeout</span> | The total number of query timeout errors in the shard. <sup>[3](#tnote-2)</sup> |
 | <span class="break-all">redis_server_search_shard_total_query_warnings_timeout</span> | The total number of query timeout warnings in the shard. <sup>[3](#tnote-2)</sup> |
-| <span class="break-all">redis_server_search_shard_total_query_errors_oom</span> | The total number of query out-of-memory errors in the shard. <sup>[3](#tnote-3)</sup> |
-| <span class="break-all">redis_server_search_shard_total_query_warnings_oom</span> | The total number of query out-of-memory warnings in the shard. <sup>[3](#tnote-3)</sup> |
+| <span class="break-all">redis_server_search_shard_total_query_errors_oom</span> | The total number of query out-of-memory errors in the shard. <sup>[3](#tnote-4)</sup> |
+| <span class="break-all">redis_server_search_shard_total_query_warnings_oom</span> | The total number of query out-of-memory warnings in the shard. <sup>[3](#tnote-4)</sup> |
 | <span class="break-all">redis_server_search_shard_total_query_warnings_max_prefix_expansions</span> | The total number of max prefix expansion warnings in the shard. <sup>[3](#tnote-2)</sup> |
 | <span class="break-all">redis_server_search_coord_total_query_errors_syntax</span> | The total number of query syntax errors at the coordinator. <sup>[3](#tnote-2)</sup> |
 | <span class="break-all">redis_server_search_coord_total_query_errors_arguments</span> | The total number of query argument errors at the coordinator. <sup>[3](#tnote-2)</sup> |
 | <span class="break-all">redis_server_search_coord_total_query_errors_timeout</span> | The total number of query timeout errors at the coordinator. <sup>[3](#tnote-2)</sup> |
 | <span class="break-all">redis_server_search_coord_total_query_warnings_timeout</span> | The total number of query timeout warnings at the coordinator. <sup>[3](#tnote-2)</sup> |
-| <span class="break-all">redis_server_search_coord_total_query_errors_oom</span> | The total number of query out-of-memory errors at the coordinator. <sup>[3](#tnote-3)</sup> |
-| <span class="break-all">redis_server_search_coord_total_query_warnings_oom</span> | The total number of query out-of-memory warnings at the coordinator. <sup>[3](#tnote-3)</sup> |
+| <span class="break-all">redis_server_search_coord_total_query_errors_oom</span> | The total number of query out-of-memory errors at the coordinator. <sup>[3](#tnote-4)</sup> |
+| <span class="break-all">redis_server_search_coord_total_query_warnings_oom</span> | The total number of query out-of-memory warnings at the coordinator. <sup>[3](#tnote-4)</sup> |
 | <span class="break-all">redis_server_search_coord_total_query_warnings_max_prefix_expansions</span> | The total number of max prefix expansion warnings at the coordinator. <sup>[3](#tnote-2)</sup> |
 | <span class="break-all">redis_server_search_uv_threads_running_queries</span> | The number of UV threads currently running queries. <sup>[3](#tnote-2)</sup> |
-| <span class="break-all">redis_server_search_uv_threads_running_topology_update</span> | The number of UV threads currently running topology updates. <sup>[3](#tnote-4)</sup> |
+| <span class="break-all">redis_server_search_uv_threads_running_topology_update</span> | The number of UV threads currently running topology updates. <sup>[3](#tnote-3)</sup> |
 | <span class="break-all">redis_server_search_active_worker_threads</span> | The number of active worker threads. <sup>[3](#tnote-2)</sup> |
 | <span class="break-all">redis_server_search_active_coord_threads</span> | The number of active coordinator threads. <sup>[3](#tnote-2)</sup> |
 | <span class="break-all">redis_server_search_workers_low_priority_pending_jobs</span> | The number of pending low-priority jobs in worker threads. <sup>[3](#tnote-2)</sup> |
 | <span class="break-all">redis_server_search_workers_high_priority_pending_jobs</span> | The number of pending high-priority jobs in worker threads. <sup>[3](#tnote-2)</sup> |
-| <span class="break-all">redis_server_search_workers_admin_priority_pending_jobs</span> | The number of pending admin-priority jobs in worker threads. <sup>[3](#tnote-4)</sup> |
-| <span class="break-all">redis_server_search_coord_high_priority_pending_jobs</span> | The number of pending high-priority jobs in coordinator threads. <sup>[3](#tnote-3)</sup> |
+| <span class="break-all">redis_server_search_workers_admin_priority_pending_jobs</span> | The number of pending admin-priority jobs in worker threads. <sup>[3](#tnote-3)</sup> |
+| <span class="break-all">redis_server_search_coord_high_priority_pending_jobs</span> | The number of pending high-priority jobs in coordinator threads. <sup>[3](#tnote-4)</sup> |
 
 1. <a name="tnote-1"></a> Available since RediSearch 2.6.
 2. <a name="tnote-2"></a> Available since RediSearch 2.8.
-3. <a name="tnote-3"></a> Available since RediSearch 8.0.
-4. <a name="tnote-4"></a> Available since RediSearch 2.10.
+3. <a name="tnote-3"></a> Available since RediSearch 2.10.
+4. <a name="tnote-4"></a> Available since RediSearch 8.0.
