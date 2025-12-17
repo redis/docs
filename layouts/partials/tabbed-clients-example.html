@@ -67,7 +67,9 @@
         {{/* Map display names for clients */}}
         {{ $displayName := $client }}
         {{ if eq $client "Node.js" }}
-            {{ $displayName = "node-redis" }}
+            {{ $displayName = "JavaScript (node-redis)" }}
+        {{ else if eq $client "ioredis" }}
+            {{ $displayName = "JavaScript (ioredis)" }}
         {{ end }}
 
         {{ $tabs = $tabs | append (dict "title" $client "displayName" $displayName "language" $client "quickstartSlug" $quickstartSlug "content" $content "sourceUrl" (index $example "sourceUrl") "binderId" $binderId) }}
