@@ -75,7 +75,7 @@ Before you can create a data pipeline, you must have:
 Please be aware of the following limitations:
 
 - The target database must be a Redis Cloud Pro database hosted on Amazon Web Services (AWS). Redis Cloud Essentials databases and databases hosted on Google Cloud do not support Data Integration.
-- The target database must use multi-zone [high availability]({{< relref "/operate/rc/databases/configuration/high-availability" >}}).
+- The target database must use [high availability]({{< relref "/operate/rc/databases/configuration/high-availability" >}}). It can use either single-zone or multi-zone high availability.
 - The target database can use TLS, but can not use mutual TLS.
 - The target database cannot be in the same subscription as another database that has a data pipeline.
 - Source databases must also be hosted on AWS.
