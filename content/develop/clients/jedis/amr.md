@@ -160,7 +160,7 @@ JedisClientConfig config = DefaultJedisClientConfig.builder()
         .build();
 
 RedisClient jedis = RedisClient.builder()
-        .hostAndPort(new HostAndPort("<HOST>", <PORT>))
+        .hostAndPort(new HostAndPort("<host>", <port>))
         .clientConfig(config)
         .build();
 
