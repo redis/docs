@@ -1,0 +1,36 @@
+{{/* Convert Hugo's HTML table of contents to JSON using regex substitutions */}}
+{{/* Input: page object */}}
+{{/* Output: JSON structure representing the table of contents */}}
+
+{{ $toc := .TableOfContents }}
+
+{{/* Remove the nav wrapper and all newlines/extra whitespace */}}
+{{ $toc = $toc | replaceRE "<nav[^>]*>" "" }}
+{{ $toc = $toc | replaceRE "</nav>" "" }}
+{{ $toc = $toc | replaceRE "\\n\\s*" "" }}
+
+{{/* Step 1: Replace <ul> with opening bracket for children array */}}
+{{ $toc = $toc | replaceRE "<ul>" "[" }}
+{{ $toc = $toc | replaceRE "</ul>" "]" }}
+
+{{/* Step 2: Replace <li><a href="#ID">TITLE</a> with {"id":"ID","title":"TITLE" */}}
+{{ $toc = $toc | replaceRE "<li><a href=\"#([^\"]+)\">([^<]+)</a>" "{\"id\":\"$1\",\"title\":\"$2\"" }}
+
+{{/* Step 3: Replace </li> with } */}}
+{{ $toc = $toc | replaceRE "</li>" "}" }}
+
+{{/* Step 4: Handle nested structure - replace ][ with ],[ (sibling arrays) */}}
+{{ $toc = $toc | replaceRE "\\]\\[" "],[" }}
+
+{{/* Step 4b: Handle nested structure - replace [  with ,"children":[ (child arrays) */}}
+{{ $toc = $toc | replaceRE "\"\\[" "\",\"children\":[" }}
+
+{{/* Step 5: Add commas between sibling objects - replace }{ with },{ */}}
+{{ $toc = $toc | replaceRE "\\}\\{" "},{" }}
+
+{{/* Step 6: Wrap the entire structure */}}
+{{ $toc = print "{\"sections\":" $toc "}" }}
+
+{{/* Output the JSON - use safeHTML to prevent quote escaping */}}
+{{ $toc | safeHTML }}
+

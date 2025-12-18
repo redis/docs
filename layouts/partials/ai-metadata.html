@@ -37,5 +37,8 @@
   {{- $metadata = merge $metadata (dict "scope" .Params.scope) -}}
 {{- end -}}
 {{- $json := $metadata | jsonify -}}
+{{- $toc := partial "toc-json-regex.html" . -}}
+{{- /* Manually insert tableOfContents into JSON string */ -}}
+{{- $json = $json | replaceRE `}$` (printf `,"tableOfContents":%s}` $toc) -}}
 {{- printf `<script type="application/json" data-ai-metadata>%s</script>` $json | safeHTML -}}
 
