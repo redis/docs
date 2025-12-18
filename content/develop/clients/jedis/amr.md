@@ -159,10 +159,10 @@ JedisClientConfig config = DefaultJedisClientConfig.builder()
         .ssl(true).sslSocketFactory(sslFactory)
         .build();
 
-RedisClient jedis = new RedisClient(
-    new HostAndPort("<host>", <port>),
-    config
-);
+RedisClient jedis = RedisClient.builder()
+        .hostAndPort(new HostAndPort("<HOST>", <PORT>))
+        .clientConfig(config)
+        .build();    
 
 // Test the connection.
 System.out.println(String.format("Database size is %d", jedis.dbSize()));

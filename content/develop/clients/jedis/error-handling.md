@@ -67,7 +67,7 @@ Catch specific exceptions that represent unrecoverable errors and re-throw them 
 for a full description):
 
 ```java
-try (RedisClient jedis = new RedisClient()) {
+try (RedisClient jedis = RedisClient.create()) {
     String result = jedis.get(key);
 } catch (JedisDataException e) {
     // This indicates a bug in our code
@@ -82,7 +82,7 @@ Catch specific errors and fall back to an alternative, where possible (see
 for a full description):
 
 ```java
-try (RedisClient jedis = new RedisClient()) {
+try (RedisClient jedis = RedisClient.create()) {
     String cachedValue = jedis.get(key);
     if (cachedValue != null) {
         return cachedValue;
@@ -107,7 +107,7 @@ int maxRetries = 3;
 int retryDelay = 100;
 
 for (int attempt = 0; attempt < maxRetries; attempt++) {
-    try (RedisClient jedis = new RedisClient()) {
+    try (RedisClient jedis = RedisClient.create()) {
         return jedis.get(key);
     } catch (JedisConnectionException e) {
         if (attempt < maxRetries - 1) {
@@ -132,7 +132,7 @@ Log non-critical errors and continue (see
 for a full description):
 
 ```java
-try (RedisClient jedis = new RedisClient()) {
+try (RedisClient jedis = RedisClient.create()) {
     jedis.setex(key, 3600, value);
 } catch (JedisConnectionException e) {
     logger.warn("Failed to cache " + key + ", continuing without cache");
