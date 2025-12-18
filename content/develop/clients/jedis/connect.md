@@ -36,7 +36,7 @@ import redis.clients.jedis.RedisClient;
 
 public class Main {
     public static void main(String[] args) {
-        RedisClient jedis = new RedisClient("redis://localhost:6379");
+        RedisClient jedis = RedisClient.create("redis://localhost:6379");
 
         // Code that interacts with Redis...
 
@@ -73,7 +73,7 @@ import redis.clients.jedis.HostAndPort;
 Set<HostAndPort> jedisClusterNodes = new HashSet<HostAndPort>();
 jedisClusterNodes.add(new HostAndPort("127.0.0.1", 7379));
 jedisClusterNodes.add(new HostAndPort("127.0.0.1", 7380));
-RedisClusterClient jedis = new RedisClusterClient(jedisClusterNodes);
+RedisClusterClient jedis = RedisClusterClient.create(jedisClusterNodes);
 ```
 
 ### Connect to your production Redis with TLS
@@ -129,7 +129,10 @@ public class Main {
                 .password("secret!") // use your Redis password
                 .build();
 
-        RedisClient jedis = new RedisClient(address, config);
+        RedisClient jedis = RedisClient.builder()
+              .hostAndPort(address)
+              .clientConfig(config)
+              .build();
         jedis.set("foo", "bar");
         System.out.println(jedis.get("foo")); // prints bar
     }
@@ -195,7 +198,11 @@ DefaultJedisClientConfig config = DefaultJedisClientConfig
 
 CacheConfig cacheConfig = CacheConfig.builder().maxSize(1000).build();
 
-RedisClient client = new RedisClient(endpoint, config, cacheConfig);
+RedisClient client = RedisClient.builder()
+        .hostAndPort(endpoint)
+        .clientConfig(config)
+        .cacheConfig(cacheConfig)
+        .build();
 ```
 
 Once you have connected, the usual Redis commands will work transparently
@@ -308,7 +315,7 @@ Here is a simplified connection lifecycle in a pool:
 7. The connection becomes evictable if the number of connections is greater than `minIdle`. 
 8. The connection is ready to be closed.
 
-Pass a `ConnectionPoolConfig` object to the `RedisClient` constructor to configure the pool. 
+Pass a `ConnectionPoolConfig` object to the `RedisClient` builder to configure the pool. 
 (`ConnectionPoolConfig` is a wrapper around `GenericObjectPoolConfig` from [Apache Commons Pool2](https://commons.apache.org/proper/commons-pool/apidocs/org/apache/commons/pool2/impl/GenericObjectPoolConfig.html)).
 
 ```java
@@ -333,7 +340,10 @@ poolConfig.setTestWhileIdle(true);
 // controls the period between checks for idle connections in the pool
 poolConfig.setTimeBetweenEvictionRuns(Duration.ofSeconds(1));
 
-RedisClient jedis = new RedisClient(poolConfig, "localhost", 6379);
+RedisClient jedis = RedisClient.builder()
+        .hostAndPort("localhost", 6379)
+        .poolConfig(poolConfig)
+        .build();
 ```
 
 ### Retrying a command after a connection failure
@@ -347,11 +357,11 @@ shows a retry loop that uses a simple
 strategy:
 
 ```java
-RedisClient jedis = new RedisClient(
-    new HostAndPort("localhost", 6379),
-    clientConfig,
-    poolConfig
-);
+RedisClient jedis = RedisClient.builder()
+        .hostAndPort("localhost", 6379)
+        .poolConfig(poolConfig)
+        .clientConfig(config)
+        .build();
 
 // Set max retry attempts
 final int MAX_RETRIES = 5;

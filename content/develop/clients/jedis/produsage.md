@@ -76,20 +76,19 @@ connection or issuing a command, it can end up hanging indefinitely.
 You can prevent this from happening by setting timeouts for socket
 reads and writes and for opening connections.
 
-To set a timeout for a connection, use the `RedisClient` constructor with the `timeout` parameter, or use `JedisClientConfig` with the `socketTimeout` and `connectionTimeout` parameters.
+To set a timeout for a connection, use `JedisClientConfig` with the `socketTimeout` and `connectionTimeout` parameters.
 (The socket timeout is the maximum time allowed for reading or writing data while executing a
 command. The connection timeout is the maximum time allowed for establishing a new connection.)
 
 ```java
-HostAndPort hostAndPort = new HostAndPort("localhost", 6379);
-
-RedisClient jedisWithTimeout = new RedisClient(hostAndPort,
-    DefaultJedisClientConfig.builder()
-        .socketTimeoutMillis(5000)  // set timeout to 5 seconds
-        .connectionTimeoutMillis(5000) // set connection timeout to 5 seconds
-        .build(),
-    poolConfig
-);
+RedisClient jedisWithTimeout = RedisClient.builder()
+    .hostAndPort("localhost", 6379)
+    .clientConfig(
+        DefaultJedisClientConfig.builder()
+            .socketTimeoutMillis(5000)  // set timeout to 5 seconds
+            .connectionTimeoutMillis(5000) // set connection timeout to 5 seconds
+            .build())
+    .build();
 ```
 
 ### Health checks
@@ -100,11 +99,21 @@ every few seconds). You can do this using a simple
 [`PING`]({{< relref "/commands/ping" >}}) command:
 
 ```java
-try (RedisClient jedis = new RedisClient()) {
-  if (! "PONG".equals(jedis.ping())) {
-    // Report problem.
-  }
-}
+ConnectionPoolConfig poolConfig = new ConnectionPoolConfig();
+poolConfig.setMaxTotal(8);
+poolConfig.setMaxIdle(8);
+poolConfig.setMinIdle(0);
+poolConfig.setBlockWhenExhausted(true);
+poolConfig.setMaxWait(Duration.ofSeconds(1));
+
+// Enables sending a PING command once every second while the connection is idle.
+poolConfig.setTestWhileIdle(true);
+poolConfig.setTimeBetweenEvictionRuns(Duration.ofSeconds(1));
+
+RedisClient jedis = RedisClient.builder()
+        .hostAndPort("localhost", 6379)
+        .poolConfig(poolConfig)
+        .build();
 ```
 
 Health checks help to detect problems as soon as possible without
