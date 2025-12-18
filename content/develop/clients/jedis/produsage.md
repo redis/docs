@@ -87,7 +87,7 @@ RedisClient jedisWithTimeout = RedisClient.builder()
         DefaultJedisClientConfig.builder()
             .socketTimeoutMillis(5000)  // set timeout to 5 seconds
             .connectionTimeoutMillis(5000) // set connection timeout to 5 seconds
-            .build())    
+            .build())
     .build();
 ```
 
