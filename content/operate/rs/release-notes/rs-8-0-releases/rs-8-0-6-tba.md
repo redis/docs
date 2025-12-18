@@ -156,6 +156,10 @@ The following table shows the SHA256 checksums for the available packages:
 
 ## Known issues
 
+- RS180550: You cannot set up SSO when the Cluster Manager UI is exposed through an IPv6-based load balancer or gateway.
+
+    As a workaround, use an IPv4-based address for the SSO service base address, or register a DNS name that resolves to the IPv6 address.
+
 - RS155734: Endpoint availability metrics do not work as expected due to a calculation error.
 
 ## Known limitations

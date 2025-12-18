@@ -193,6 +193,10 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 ## Known issues
 
+- RS180550: You cannot set up SSO when the Cluster Manager UI is exposed through an IPv6-based load balancer or gateway.
+
+    As a workaround, use an IPv4-based address for the SSO service base address, or register a DNS name that resolves to the IPv6 address.
+
 - RS131972: Creating an ACL that contains a line break in the Cluster Manager UI can cause shard migration to fail due to ACL errors. This issue was fixed in Redis Enterprise Software version 8.0.6.
 
 - RS155734: Endpoint availability metrics do not work as expected due to a calculation error.
