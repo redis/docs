@@ -162,7 +162,7 @@ JedisClientConfig config = DefaultJedisClientConfig.builder()
 RedisClient jedis = RedisClient.builder()
         .hostAndPort(new HostAndPort("<HOST>", <PORT>))
         .clientConfig(config)
-        .build();    
+        .build();
 
 // Test the connection.
 System.out.println(String.format("Database size is %d", jedis.dbSize()));
