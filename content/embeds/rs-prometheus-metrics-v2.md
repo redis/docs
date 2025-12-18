@@ -268,7 +268,7 @@
 | <span class="break-all">redis_server_search_uv_threads_running_topology_update</span> | The number of UV threads currently running topology updates. <sup>[3](#tnote-3)</sup> |
 | <span class="break-all">redis_server_search_active_worker_threads</span> | The number of active worker threads. <sup>[2](#tnote-2)</sup> |
 | <span class="break-all">redis_server_search_active_coord_threads</span> | The number of active coordinator threads. <sup>[2](#tnote-2)</sup> |
-| <span class="break-all">redis_server_search_workers_low_priority_pending_jobs</span> | The number of pending low-priority jobs in worker threads, such as vector background indexing, graph updates and vector garbage collection in graph based indexes. <sup>[2](#tnote-2)</sup> |
+| <span class="break-all">redis_server_search_workers_low_priority_pending_jobs</span> | The number of pending low-priority jobs in worker threads, such as vector background indexing, graph updates, and vector garbage collection in graph-based indexes. <sup>[2](#tnote-2)</sup> |
 | <span class="break-all">redis_server_search_workers_high_priority_pending_jobs</span> | The number of pending high-priority jobs in worker threads, such as query execution. <sup>[2](#tnote-2)</sup> |
 | <span class="break-all">redis_server_search_workers_admin_priority_pending_jobs</span> | The number of pending admin-priority jobs in worker threads, such as threadpool configuration changes. <sup>[3](#tnote-3)</sup> |
 | <span class="break-all">redis_server_search_coord_high_priority_pending_jobs</span> | The number of pending jobs in the coordinator thread queue. Coordinator threads only have a high-priority queue and are primarily used for query distribution. <sup>[2](#tnote-2)</sup> |
