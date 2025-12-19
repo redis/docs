@@ -171,7 +171,14 @@ The Active-Active database global configurations, contains the global properties
         <td><a href="#specglobalconfigurationsalertsettings">alertSettings</a></td>
         <td>object</td>
         <td>
-          Settings for database alerts. Note - Alert settings are not supported for Active-Active database.<br/>
+          Settings for database alerts.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specglobalconfigurationsauditing">auditing</a></td>
+        <td>object</td>
+        <td>
+          Database auditing configuration.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -324,6 +331,16 @@ The Active-Active database global configurations, contains the global properties
         </td>
         <td>false</td>
       </tr><tr>
+        <td>rofRamRatio</td>
+        <td>integer</td>
+        <td>
+          RAM allocation ratio for Redis Flex (v2) databases as a percentage of total data size. Valid range 0-100. When omitted, RS uses the default value of 50%. Controls how much RAM is allocated per unit of data (e.g., 30% means 3MB RAM per 10MB data). RAM grows proportionally with data until rofRamSize limit is reached (if specified). Only applicable when isRof=true and Redis version >= 8.0 (BigStore v2 - Redis Flex).<br/>
+          <br/>
+            <i>Minimum</i>: 0<br/>
+            <i>Maximum</i>: 100<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td>rofRamSize</td>
         <td>string</td>
         <td>
@@ -422,7 +439,7 @@ Connection/ association to the Active-Active database.
 ### spec.globalConfigurations.alertSettings
 <sup><sup>[↩ Parent](#specglobalconfigurations)</sup></sup>
 
-Settings for database alerts. Note - Alert settings are not supported for Active-Active database.
+Settings for database alerts.
 
 <table>
     <thead>
@@ -1018,6 +1035,31 @@ Dataset size has reached the threshold value [% of the memory limit]
           Threshold for alert going on/off<br/>
         </td>
         <td>true</td>
+      </tr></tbody>
+</table>
+
+
+### spec.globalConfigurations.auditing
+<sup><sup>[↩ Parent](#specglobalconfigurations)</sup></sup>
+
+Database auditing configuration.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>dbConnsAuditing</td>
+        <td>boolean</td>
+        <td>
+          Enables auditing of database connection and authentication events. When enabled, connection, authentication, and disconnection events are tracked and sent to the configured audit listener (configured at the cluster level). The cluster-level auditing configuration must be set before enabling this on a database.<br/>
+        </td>
+        <td>false</td>
       </tr></tbody>
 </table>
 
