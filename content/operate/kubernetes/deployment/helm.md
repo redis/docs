@@ -149,6 +149,10 @@ The upgrade process automatically updates the operator and its components, inclu
 
 After you upgrade the operator, you might need to upgrade your Redis Enterprise clusters, depending on the Redis software version bundled with the operator. For detailed information about the upgrade process, see [Redis Enterprise for Kubernetes upgrade documentation](https://redis.io/docs/latest/operate/kubernetes/upgrade/).
 
+{{< note >}}
+If your databases use user-defined modules (custom non-bundled modules), you must take additional steps during the upgrade process. See [Upgrade with user-defined modules]({{< relref "/operate/kubernetes/upgrade/upgrade-redis-cluster#user-defined-modules" >}}) for details.
+{{< /note >}}
+
 For more information and options when upgrading charts, see [helm upgrade](https://helm.sh/docs/helm/helm_upgrade/).
 
 ## Uninstall
