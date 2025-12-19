@@ -10,7 +10,7 @@ linkTitle: Enable SSO
 weight: 94
 ---
 
-Redis Enterprise Software supports SAML 2.0 single sign-on (SSO) for the Cluster Manager UI with both IdP-initiated and SP-initiated authentication. User accounts are automatically created on first sign-in using just-in-time (JIT) provisioning.
+Redis Enterprise for Kubernetes supports SAML 2.0 single sign-on (SSO) for the Cluster Manager UI with both IdP-initiated and SP-initiated authentication. User accounts are automatically created on first sign-in using just-in-time (JIT) provisioning. 
 
 ## IdP requirements
 
@@ -29,15 +29,25 @@ To enable SSO for your Redis Enterprise cluster (REC), follow these steps to con
 
 Before enabling SSO, ensure you have:
 
-1. A SAML 2.0-compatible identity provider (such as Okta, Azure AD, or similar)
-2. Admin access to your identity provider
-3. A TLS certificate and private key for the Service Provider (SP)
+1. An existing Redis Enterprise cluster (REC) deployed in Kubernetes
+
+2. **External access to the Cluster Manager UI** - The Cluster Manager UI must be accessible externally via a LoadBalancer service or Ingress so users can access it from their browser and the identity provider can redirect back after authentication. See [Connect to the admin console]({{< relref "/operate/kubernetes/re-clusters/connect-to-admin-console.md" >}}) for configuration options.
+
+3. A SAML 2.0-compatible identity provider (such as Okta, Azure AD, or similar)
+
+4. Admin access to your identity provider
+
+5. A TLS certificate and private key for the service provider (SP)
+
+{{<warning>}}
+SSO requires external access to the Cluster Manager UI. Port forwarding is not sufficient for SSO authentication because the identity provider needs to redirect users back to the UI after authentication. You must configure either a LoadBalancer service (via `spec.uiServiceType: LoadBalancer`) or an Ingress controller.
+{{</warning>}}
 
 ### Step 1: Upload Service Provider certificate and private key
 
 The Service Provider certificate is used by the cluster to sign SAML requests and encrypt SAML responses.
 
-1. Create a secret with your Service Provider certificate and private key:
+1. Create a secret with your service provider certificate and private key:
 
     ```sh
     kubectl -n <rec-namespace> create secret generic sso-service-cert \
@@ -54,7 +64,7 @@ The Service Provider certificate is used by the cluster to sign SAML requests an
 
     Replace the `<placeholders>` in the command above with your own values.
 
-2. Configure the Service Provider certificate in the `RedisEnterpriseCluster` custom resource:
+2. Configure the service provider certificate in the `RedisEnterpriseCluster` custom resource:
 
     ```yaml
     apiVersion: app.redislabs.com/v1
@@ -80,7 +90,7 @@ The Service Provider certificate is used by the cluster to sign SAML requests an
 
 #### Configure Service Provider base address (optional)
 
-The base address is used to construct Service Provider URLs, such as the Assertion Consumer Service (ACS) URL and Single Logout (SLO) URL.
+The base address is used to construct service provider URLs, such as the Assertion Consumer Service (ACS) URL and Single Logout (SLO) URL.
 
 If not specified, the base address is automatically determined from the REC Cluster Manager UI service:
 - If the UI service type is `LoadBalancer` (configured via `spec.uiServiceType`), the load balancer address is used.
@@ -114,7 +124,7 @@ Using `http://` is NOT recommended for production environments as it transmits s
 
 ### Step 2: Download Service Provider metadata
 
-After applying the configuration, retrieve the Service Provider metadata to use when configuring your identity provider.
+After applying the configuration, retrieve the service provider metadata to use when configuring your identity provider.
 
 #### Option A: Retrieve from Kubernetes secret
 
@@ -317,19 +327,6 @@ Finally, activate SSO by enabling it in the `RedisEnterpriseCluster` custom reso
 
 3. Test SSO by accessing the Cluster Manager UI and clicking **Sign in with SSO**.
 
-#### Enforce SSO (optional)
-
-By default, both SSO and local username/password authentication are available. To enforce SSO-only authentication for non-admin users, set `enforceSSO` to `true`:
-
-```yaml
-spec:
-  sso:
-    enabled: true
-    enforceSSO: true
-```
-
-When `enforceSSO` is set to `true`, local username/password authentication is disabled for non-admin users.
-
 ## Complete example
 
 Here's a complete example of a `RedisEnterpriseCluster` resource with SSO enabled:
@@ -363,6 +360,5 @@ After enabling SSO:
 1. Configure users in your identity provider with matching email addresses
 2. Set up the `redisRoleMapping` attribute in your identity provider to assign appropriate roles for new users
 3. Test both IdP-initiated and SP-initiated SSO flows
-4. Consider enforcing SSO to disable local authentication for non-admin users
 
 For more information about Redis Enterprise Software security, see [Access control]({{< relref "/operate/rs/security/access-control/" >}}).
