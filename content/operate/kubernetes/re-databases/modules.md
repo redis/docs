@@ -175,13 +175,19 @@ Look for events or status messages related to module validation in the output.
 
 The upgrade process differs depending on whether you use bundled modules or user-defined modules.
 
+### Module version selection
+
+When multiple versions of a module are available in the cluster, Redis Enterprise selects the appropriate version based on the `compatible_redis_version` field in the module's manifest file (`module.json`). This field must match the Redis OSS version that the database is using.
+
+For example, if your database uses Redis 7.2, Redis Enterprise selects the module version whose `compatible_redis_version` is `7.2`. If no matching version is found, the module cannot be loaded.
+
 ### Upgrade with bundled modules
 
 For databases using bundled modules (RediSearch, RedisJSON, RedisTimeSeries, RedisBloom):
 
-- **Redis 8 and later**: Bundled modules are automatically enabled and upgraded when you upgrade the database to Redis version 8 or later. You don't need to take any additional action.
+- **Redis 8 and later**: Bundled modules are automatically enabled and upgraded when you upgrade the database to Redis version 8 or later. You don't need to take any additional action. The module version is automatically selected based on the database's Redis version.
 
-- **Redis versions earlier than 8**: Bundled modules are upgraded automatically when you upgrade the Redis Enterprise cluster. The bundled module versions are tied to the Redis Enterprise version.
+- **Redis versions earlier than 8**: Bundled modules are upgraded automatically when you upgrade the Redis Enterprise cluster. The bundled module versions are tied to the Redis Enterprise version, and the appropriate version is selected based on the database's Redis version.
 
 ### Upgrade with user-defined modules
 
@@ -189,7 +195,7 @@ For databases using user-defined modules, you must take additional steps during 
 
 1. Set `autoUpgradeRedisEnterprise` to `false` in your REC spec before upgrading.
 
-1. Add or update the `userDefinedModules` list in the REC spec with the new module versions before or during the cluster upgrade.
+1. Add or update the `userDefinedModules` list in the REC spec with the new module versions before or during the cluster upgrade. Ensure that the new module versions include a `compatible_redis_version` field that matches the Redis version your databases will use after the upgrade.
 
 1. After the cluster upgrade completes, you can re-enable `autoUpgradeRedisEnterprise` if desired.
 
@@ -238,7 +244,7 @@ Look for error messages related to modules in the Events section.
 
 3. **Verify the module manifest (`module.json`) is valid:**
 
-    Download the module zip file and check that it contains a valid `module.json` file with required fields: `module_name`, `display_name`, `semantic_version`, `commands`, and `min_redis_version`.
+    Download the module zip file and check that it contains a valid `module.json` file with required fields: `module_name`, `display_name`, `semantic_version`, `commands`, and `compatible_redis_version`.
 
 4. **Ensure the `name` field in the REC spec matches the module manifest:**
 
