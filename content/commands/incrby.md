@@ -46,11 +46,11 @@ key_specs:
     type: range
   update: true
 linkTitle: INCRBY
+railroad_diagram: /images/railroad/incrby.svg
 since: 1.0.0
 summary: Increments the integer value of a key by a number. Uses 0 as initial value
   if the key doesn't exist.
 syntax_fmt: INCRBY key increment
-syntax_str: increment
 title: INCRBY
 ---
 Increments the number stored at `key` by `increment`.

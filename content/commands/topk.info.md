@@ -22,11 +22,11 @@ group: topk
 hidden: false
 linkTitle: TOPK.INFO
 module: Bloom
+railroad_diagram: /images/railroad/topk.info.svg
 since: 2.0.0
 stack_path: docs/data-types/probabilistic
 summary: Returns information about a sketch
 syntax_fmt: TOPK.INFO key
-syntax_str: ''
 title: TOPK.INFO
 ---
 Returns number of required items (k), width, depth, and decay values of a given sketch.
@@ -54,7 +54,6 @@ TOPK.INFO topk
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

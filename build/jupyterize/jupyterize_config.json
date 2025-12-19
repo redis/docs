@@ -44,8 +44,40 @@
     "unwrap_patterns": []
   },
   "go": {
-    "boilerplate": [],
-    "unwrap_patterns": []
+    "boilerplate": [
+      "rdb := redis.NewClient(&redis.Options{",
+      "\tAddr:     \"localhost:6379\",",
+      "\tPassword: \"\",",
+      "\tDB:       0,",
+      "\tMaintNotificationsConfig: &maintnotifications.Config{",
+      "\t\tMode: maintnotifications.ModeDisabled,",
+      "\t},",
+      "})",
+      "func main() {}"
+    ],
+    "unwrap_patterns": [
+      {
+        "type": "package_declaration",
+        "pattern": "^package\\s+\\w+\\s*$",
+        "end_pattern": "^package\\s+\\w+\\s*$",
+        "keep_content": false,
+        "description": "Remove package declaration"
+      },
+      {
+        "type": "func_main_opening",
+        "pattern": "^func\\s+main\\(\\)\\s*\\{\\s*$",
+        "end_pattern": "^\\}\\s*$",
+        "keep_content": false,
+        "description": "Remove func main() wrapper"
+      },
+      {
+        "type": "closing_braces",
+        "pattern": "^\\s*\\}\\s*$",
+        "end_pattern": "^\\s*\\}\\s*$",
+        "keep_content": false,
+        "description": "Remove orphaned closing braces"
+      }
+    ]
   },
   "java": {
     "boilerplate": [],
@@ -103,7 +135,37 @@
   },
   "php": {
     "boilerplate": [],
-    "unwrap_patterns": []
+    "unwrap_patterns": [
+      {
+        "type": "class_single_line",
+        "pattern": "^\\s*class\\s+\\w+.*\\{\\s*$",
+        "end_pattern": "^\\s*class\\s+\\w+.*\\{\\s*$",
+        "keep_content": true,
+        "description": "Remove class declaration with opening brace on same line"
+      },
+      {
+        "type": "class_opening",
+        "pattern": "^\\s*class\\s+\\w+",
+        "end_pattern": "^\\s*\\{\\s*$",
+        "keep_content": true,
+        "description": "Remove class declaration and opening brace on separate lines"
+      },
+      {
+        "type": "method_single_line",
+        "pattern": "^\\s*public\\s+function\\s+\\w+\\(.*\\).*\\{\\s*$",
+        "end_pattern": "^\\s*public\\s+function\\s+\\w+\\(.*\\).*\\{\\s*$",
+        "keep_content": true,
+        "description": "Remove public function declaration with opening brace on same line"
+      },
+      {
+        "type": "method_opening",
+        "pattern": "^\\s*public\\s+function\\s+\\w+\\(.*\\)",
+        "end_pattern": "^\\s*\\{\\s*$",
+        "keep_content": true,
+        "description": "Remove public function declaration and opening brace on separate lines"
+      }
+    ],
+    "add_step_metadata": false
   },
   "rust": {
     "boilerplate": [],

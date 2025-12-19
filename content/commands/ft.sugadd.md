@@ -34,14 +34,17 @@ complexity: O(1)
 description: Adds a suggestion string to an auto-complete suggestion dictionary
 group: suggestion
 hidden: false
+history:
+- - 2.0.0
+  - Deprecated `PAYLOAD` argument
 linkTitle: FT.SUGADD
 module: Search
+railroad_diagram: /images/railroad/ft.sugadd.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Adds a suggestion string to an auto-complete suggestion dictionary
-syntax: "FT.SUGADD key string score \n  [INCR] \n  [PAYLOAD payload]\n"
+syntax: FT.SUGADD key string score [INCR] [PAYLOAD payload]
 syntax_fmt: "FT.SUGADD key string score [INCR] [PAYLOAD\_payload]"
-syntax_str: "string score [INCR] [PAYLOAD\_payload]"
 title: FT.SUGADD
 ---
 

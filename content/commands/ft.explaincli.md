@@ -29,12 +29,11 @@ group: search
 hidden: false
 linkTitle: FT.EXPLAINCLI
 module: Search
+railroad_diagram: /images/railroad/ft.explaincli.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Returns the execution plan for a complex query
-syntax: "FT.EXPLAINCLI index query \n  [DIALECT dialect]\n"
 syntax_fmt: "FT.EXPLAINCLI index query [DIALECT\_dialect]"
-syntax_str: "query [DIALECT\_dialect]"
 title: FT.EXPLAINCLI
 ---
 

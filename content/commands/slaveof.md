@@ -52,11 +52,11 @@ doc_flags:
 group: server
 hidden: false
 linkTitle: SLAVEOF
-replaced_by: '[`REPLICAOF`]({{< relref "/commands/replicaof" >}})'
+railroad_diagram: /images/railroad/slaveof.svg
+replaced_by: '`REPLICAOF`'
 since: 1.0.0
 summary: Sets a Redis server as a replica of another, or promotes it to being a master.
 syntax_fmt: SLAVEOF <host port | NO ONE>
-syntax_str: ''
 title: SLAVEOF
 ---
 **A note about the word slave used in this man page and command name**: starting with Redis version 5, if not for backward compatibility, the Redis project no longer uses the word slave. Please use the new command [`REPLICAOF`]({{< relref "/commands/replicaof" >}}). The command `SLAVEOF` will continue to work for backward compatibility.

@@ -57,10 +57,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: SDIFFSTORE
+railroad_diagram: /images/railroad/sdiffstore.svg
 since: 1.0.0
 summary: Stores the difference of multiple sets in a key.
 syntax_fmt: SDIFFSTORE destination key [key ...]
-syntax_str: key [key ...]
 title: SDIFFSTORE
 ---
 This command is equal to [`SDIFF`]({{< relref "/commands/sdiff" >}}), but instead of returning the resulting set, it

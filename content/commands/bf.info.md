@@ -41,11 +41,11 @@ group: bf
 hidden: false
 linkTitle: BF.INFO
 module: Bloom
+railroad_diagram: /images/railroad/bf.info.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Returns information about a Bloom Filter
 syntax_fmt: BF.INFO key [CAPACITY | SIZE | FILTERS | ITEMS | EXPANSION]
-syntax_str: '[CAPACITY | SIZE | FILTERS | ITEMS | EXPANSION]'
 title: BF.INFO
 ---
 Returns information about a Bloom filter.
@@ -110,7 +110,6 @@ redis> BF.INFO bf1 CAPACITY
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
 
-
 ## Return information
 
 {{< multitabs id="bf-info-return-info" 
@@ -118,13 +117,14 @@ redis> BF.INFO bf1 CAPACITY
     tab2="RESP3" >}}
 
 One of the following:
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with argument name ([Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) and value ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})) pairs.
+* A singleton [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with an [integer]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing the value of the requested property.
+* An [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with [simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) and [integer]({{< relref "/develop/reference/protocol-spec#integers" >}}) pairs.
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, or when the key does not exist.
 
 -tab-sep-
 
 One of the following:
-* [Map reply]({{< relref "/develop/reference/protocol-spec#maps" >}}) with argument name ([Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) and value ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})) pairs.
+* [Map reply]({{< relref "/develop/reference/protocol-spec#maps" >}}) with [simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) and [integer]({{< relref "/develop/reference/protocol-spec#integers" >}}) pairs.
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, or when the key does not exist.
 
 {{< /multitabs >}}

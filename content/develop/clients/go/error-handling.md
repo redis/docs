@@ -2,6 +2,13 @@
 title: Error handling
 description: Learn how to handle errors when using go-redis
 linkTitle: Error handling
+scope: implementation
+relatedPages:
+- /develop/clients/error-handling
+- /develop/clients/go/produsage
+topics:
+- error-handling
+- resilience
 weight: 50
 ---
 

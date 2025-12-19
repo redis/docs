@@ -9,9 +9,9 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Improve reliability using the failover/failback features of Jedis.
-linkTitle: Failover/failback
-title: Failover and failback
+description: Improve reliability using the failover features of Jedis.
+linkTitle: Geographic failover
+title: Client-side geographic failover
 topics:
 - failover
 - failback
@@ -24,10 +24,10 @@ scope: [client-specific, implementation]
 weight: 50
 ---
 
-Jedis supports [failover and failback](https://en.wikipedia.org/wiki/Failover)
+Jedis supports [Client-side geographic failover](https://en.wikipedia.org/wiki/Failover)
 to improve the availability of connections to Redis databases. This page explains
-how to configure Jedis for failover and failback. For an overview of the concepts,
-see the main [Failover/failback]({{< relref "/develop/clients/failover" >}}) page.
+how to configure Jedis for failover. For an overview of the concepts,
+see the main [Client-side geographic failover]({{< relref "/develop/clients/failover" >}}) page.
 
 ## Failover configuration
 

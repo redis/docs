@@ -23,10 +23,10 @@ description: Listens for all requests received by the server in real-time.
 group: server
 hidden: false
 linkTitle: MONITOR
+railroad_diagram: /images/railroad/monitor.svg
 since: 1.0.0
 summary: Listens for all requests received by the server in real-time.
 syntax_fmt: MONITOR
-syntax_str: ''
 title: MONITOR
 ---
 `MONITOR` is a debugging command that streams back every command processed by

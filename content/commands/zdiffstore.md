@@ -63,10 +63,10 @@ key_specs:
       keystep: 1
     type: keynum
 linkTitle: ZDIFFSTORE
+railroad_diagram: /images/railroad/zdiffstore.svg
 since: 6.2.0
 summary: Stores the difference of multiple sorted sets in a key.
 syntax_fmt: ZDIFFSTORE destination numkeys key [key ...]
-syntax_str: numkeys key [key ...]
 title: ZDIFFSTORE
 ---
 Computes the difference between the first and all successive input sorted sets

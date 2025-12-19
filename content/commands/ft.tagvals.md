@@ -29,14 +29,11 @@ group: search
 hidden: false
 linkTitle: FT.TAGVALS
 module: Search
+railroad_diagram: /images/railroad/ft.tagvals.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Returns the distinct tags indexed in a Tag field
-syntax: 'FT.TAGVALS index field_name
-
-  '
 syntax_fmt: FT.TAGVALS index field_name
-syntax_str: field_name
 title: FT.TAGVALS
 ---
 

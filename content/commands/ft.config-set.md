@@ -26,13 +26,12 @@ group: search
 hidden: false
 linkTitle: FT.CONFIG SET
 module: Search
+railroad_diagram: /images/railroad/ft.config-set.svg
 replaced_by: '[`CONFIG SET`]({{< relref "/commands/config-set" >}})'
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Sets runtime configuration options
-syntax: FT.CONFIG SET option value
 syntax_fmt: FT.CONFIG SET option value
-syntax_str: value
 title: FT.CONFIG SET
 ---
 

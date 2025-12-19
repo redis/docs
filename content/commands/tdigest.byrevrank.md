@@ -18,19 +18,19 @@ categories:
 - oss
 - kubernetes
 - clients
-complexity: O(N) where N is the number of reverse ranks specified.
-description: Returns, for each input reverse rank, an estimation of the floating-point value
-  with that reverse rank
+complexity: O(1)
+description: Returns, for each input reverse rank, an estimation of the floating-point
+  value with that reverse rank
 group: tdigest
 hidden: false
 linkTitle: TDIGEST.BYREVRANK
 module: Bloom
+railroad_diagram: /images/railroad/tdigest.byrevrank.svg
 since: 2.4.0
 stack_path: docs/data-types/probabilistic
-summary: Returns, for each input reverse rank, an estimation of the floating-point value
+summary: Returns, for each input reverse rank, an estimation of the value (floating-point)
   with that reverse rank
 syntax_fmt: TDIGEST.BYREVRANK key reverse_rank [reverse_rank ...]
-syntax_str: reverse_rank [reverse_rank ...]
 title: TDIGEST.BYREVRANK
 ---
 Returns, for each input reverse rank (`revrank`), an estimation of the floating-point value with that reverse rank.

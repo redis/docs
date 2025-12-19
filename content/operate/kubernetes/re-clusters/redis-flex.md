@@ -24,7 +24,15 @@ Redis Flex provides automatic RAM management and improved performance compared t
 For best performance, use NVMe (non-volatile memory express) SSDs.
 {{</note>}}
 
+
 ## Redis Flex vs Auto Tiering
+
+{{<warning>}}
+Redis Flex is not supported for [Active-Active databases]({{< relref "/operate/kubernetes/active-active" >}}).
+{{</warning>}}
+
+Before creating your Redis clusters or databases, these SSDs must be:
+
 
 The earlier implementation of Redis Flex is called Auto Tiering, which is available in Redis versions earlier than 8.0. 
 

@@ -46,11 +46,11 @@ description: Binds a hash slot to a node.
 group: cluster
 hidden: false
 linkTitle: CLUSTER SETSLOT
+railroad_diagram: /images/railroad/cluster-setslot.svg
 since: 3.0.0
 summary: Binds a hash slot to a node.
 syntax_fmt: "CLUSTER SETSLOT slot <IMPORTING\_node-id | MIGRATING\_node-id |\n  NODE\_\
   node-id | STABLE>"
-syntax_str: "<IMPORTING\_node-id | MIGRATING\_node-id | NODE\_node-id | STABLE>"
 title: CLUSTER SETSLOT
 ---
 `CLUSTER SETSLOT` is responsible of changing the state of a hash slot in the receiving node in different ways. It can, depending on the subcommand used:

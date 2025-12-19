@@ -41,10 +41,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: SMEMBERS
+railroad_diagram: /images/railroad/smembers.svg
 since: 1.0.0
 summary: Returns all members of a set.
 syntax_fmt: SMEMBERS key
-syntax_str: ''
 title: SMEMBERS
 ---
 Returns all the members of the set value stored at `key`.

@@ -77,11 +77,11 @@ history:
 - - 8.0.0
   - Added `io-thread` field.
 linkTitle: CLIENT LIST
+railroad_diagram: /images/railroad/client-list.svg
 since: 2.4.0
 summary: Lists open connections.
 syntax_fmt: "CLIENT LIST [TYPE\_<NORMAL | MASTER | REPLICA | PUBSUB>]\n  [ID\_client-id\
   \ [client-id ...]]"
-syntax_str: "[ID\_client-id [client-id ...]]"
 title: CLIENT LIST
 ---
 The `CLIENT LIST` command returns information and statistics about the client

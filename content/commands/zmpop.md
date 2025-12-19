@@ -63,11 +63,11 @@ key_specs:
       keystep: 1
     type: keynum
 linkTitle: ZMPOP
+railroad_diagram: /images/railroad/zmpop.svg
 since: 7.0.0
 summary: Returns the highest- or lowest-scoring members from one or more sorted sets
   after removing them. Deletes the sorted set if the last member was popped.
 syntax_fmt: "ZMPOP numkeys key [key ...] <MIN | MAX> [COUNT\_count]"
-syntax_str: "key [key ...] <MIN | MAX> [COUNT\_count]"
 title: ZMPOP
 ---
 Pops one or more elements, that are member-score pairs, from the first non-empty sorted set in the provided list of key names.

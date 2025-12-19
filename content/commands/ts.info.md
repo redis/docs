@@ -25,12 +25,11 @@ group: timeseries
 hidden: false
 linkTitle: TS.INFO
 module: TimeSeries
+railroad_diagram: /images/railroad/ts.info.svg
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Returns information and statistics for a time series
-syntax: "TS.INFO key \n  [DEBUG]\n"
 syntax_fmt: TS.INFO key [DEBUG]
-syntax_str: '[DEBUG]'
 title: TS.INFO
 ---
 
@@ -58,7 +57,6 @@ is an optional flag to get a more detailed information about the chunks.
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

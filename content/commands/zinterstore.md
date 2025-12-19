@@ -86,12 +86,11 @@ key_specs:
       keystep: 1
     type: keynum
 linkTitle: ZINTERSTORE
+railroad_diagram: /images/railroad/zinterstore.svg
 since: 2.0.0
 summary: Stores the intersect of multiple sorted sets in a key.
 syntax_fmt: "ZINTERSTORE destination numkeys key [key ...] [WEIGHTS\_weight\n  [weight\
   \ ...]] [AGGREGATE\_<SUM | MIN | MAX>]"
-syntax_str: "numkeys key [key ...] [WEIGHTS\_weight [weight ...]] [AGGREGATE\_<SUM\
-  \ | MIN | MAX>]"
 title: ZINTERSTORE
 ---
 Computes the intersection of `numkeys` sorted sets given by the specified keys,

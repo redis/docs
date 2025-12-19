@@ -35,10 +35,10 @@ description: Sets hash slot ranges as unbound for a node.
 group: cluster
 hidden: false
 linkTitle: CLUSTER DELSLOTSRANGE
+railroad_diagram: /images/railroad/cluster-delslotsrange.svg
 since: 7.0.0
 summary: Sets hash slot ranges as unbound for a node.
 syntax_fmt: CLUSTER DELSLOTSRANGE start-slot end-slot [start-slot end-slot ...]
-syntax_str: ''
 title: CLUSTER DELSLOTSRANGE
 ---
 The `CLUSTER DELSLOTSRANGE` command is similar to the [`CLUSTER DELSLOTS`]({{< relref "/commands/cluster-delslots" >}}) command in that they both remove hash slots from the node.

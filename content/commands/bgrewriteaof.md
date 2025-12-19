@@ -23,10 +23,10 @@ description: Asynchronously rewrites the append-only file to disk.
 group: server
 hidden: false
 linkTitle: BGREWRITEAOF
+railroad_diagram: /images/railroad/bgrewriteaof.svg
 since: 1.0.0
 summary: Asynchronously rewrites the append-only file to disk.
 syntax_fmt: BGREWRITEAOF
-syntax_str: ''
 title: BGREWRITEAOF
 ---
 Instruct Redis to start an [Append Only File]({{< relref "/operate/oss_and_stack/management/persistence" >}}#append-only-file) rewrite process.

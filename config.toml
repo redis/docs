@@ -2,6 +2,7 @@
 baseURL = "https://redis.io"
 title = "Docs"
 
+timeout="75"
 refLinksErrorLevel = "WARNING"
 enableRobotsTXT = true
 enableGitInfo = true
@@ -45,7 +46,7 @@ tagManagerId = "GTM-TKZ6J9R"
 gitHubRepo = "https://github.com/redis/docs"
 
 # Display and sort order for client examples
-clientsExamples = ["Python", "Node.js", "Java-Sync", "Lettuce-Sync", "Java-Async", "Java-Reactive", "Go", "C", "C#-Sync", "C#-Async", "RedisVL", "PHP", "Rust-Sync", "Rust-Async"]
+clientsExamples = ["Python", "Node.js", "ioredis", "Java-Sync", "Lettuce-Sync", "Java-Async", "Java-Reactive", "Go", "C", "C#-Sync", "C#-Async", "RedisVL", "PHP", "Rust-Sync", "Rust-Async"]
 searchService = "/convai/api/search-service"
 ratingsService = "/docusight/api/rate/docs"
 
@@ -55,11 +56,12 @@ rdi_redis_gears_version = "1.2.6"
 rdi_debezium_server_version = "2.3.0.Final"
 rdi_db_types = "cassandra|mysql|oracle|postgresql|sqlserver"
 rdi_cli_latest = "latest"
-rdi_current_version = "1.15.0"
+rdi_current_version = "1.15.1"
 
 [params.clientsConfig]
 "Python"={quickstartSlug="redis-py"}
 "Node.js"={quickstartSlug="nodejs"}
+"ioredis"={quickstartSlug="ioredis"}
 "Java-Sync"={quickstartSlug="jedis"}
 "Lettuce-Sync"={quickstartSlug="lettuce"}
 "Java-Async"={quickstartSlug="lettuce"}

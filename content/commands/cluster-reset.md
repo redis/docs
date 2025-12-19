@@ -37,10 +37,10 @@ description: Resets a node.
 group: cluster
 hidden: false
 linkTitle: CLUSTER RESET
+railroad_diagram: /images/railroad/cluster-reset.svg
 since: 3.0.0
 summary: Resets a node.
 syntax_fmt: CLUSTER RESET [HARD | SOFT]
-syntax_str: ''
 title: CLUSTER RESET
 ---
 Reset a Redis Cluster node, in a more or less drastic way depending on the

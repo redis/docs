@@ -50,10 +50,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: SRANDMEMBER
+railroad_diagram: /images/railroad/srandmember.svg
 since: 1.0.0
 summary: Get one or multiple random members from a set
 syntax_fmt: SRANDMEMBER key [count]
-syntax_str: '[count]'
 title: SRANDMEMBER
 ---
 When called with just the `key` argument, return a random element from the set value stored at `key`.
@@ -72,7 +72,6 @@ SRANDMEMBER myset
 SRANDMEMBER myset 2
 SRANDMEMBER myset -5
 {{% /redis-cli %}}
-
 
 ## Specification of the behavior when count is passed
 

@@ -30,10 +30,10 @@ description: An internal command used in replication.
 group: server
 hidden: false
 linkTitle: PSYNC
+railroad_diagram: /images/railroad/psync.svg
 since: 2.8.0
 summary: An internal command used in replication.
 syntax_fmt: PSYNC replicationid offset
-syntax_str: offset
 title: PSYNC
 ---
 Initiates a replication stream from the master.

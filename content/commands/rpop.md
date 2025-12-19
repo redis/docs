@@ -50,11 +50,11 @@ key_specs:
       limit: 0
     type: range
 linkTitle: RPOP
+railroad_diagram: /images/railroad/rpop.svg
 since: 1.0.0
 summary: Returns and removes the last elements of a list. Deletes the list if the
   last element was popped.
 syntax_fmt: RPOP key [count]
-syntax_str: '[count]'
 title: RPOP
 ---
 Removes and returns the last elements of the list stored at `key`.

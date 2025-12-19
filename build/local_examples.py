@@ -59,6 +59,10 @@ def get_client_name_from_language(language: str) -> str:
 def get_client_name_from_language_and_path(language: str, path: str) -> str:
     """Get client name from language with path-based overrides.
 
+    For JavaScript (.js) files, override based on path substrings:
+    - If 'ioredis' in path -> ioredis
+    - Otherwise -> Node.js
+
     For Java (.java) files, override based on path substrings:
     - If 'lettuce-sync' in path -> Lettuce-Sync
     - If 'lettuce-async' in path -> Java-Async
@@ -66,6 +70,9 @@ def get_client_name_from_language_and_path(language: str, path: str) -> str:
 
     Substring checks are case-sensitive and can appear anywhere in the path.
     """
+    if language == 'node.js':
+        if 'ioredis' in path:
+            return 'ioredis'
     if language == 'java':
         if 'lettuce-sync' in path:
             return 'Lettuce-Sync'

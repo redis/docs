@@ -28,10 +28,10 @@ hints:
 - request_policy:all_shards
 - response_policy:all_succeeded
 linkTitle: PING
+railroad_diagram: /images/railroad/ping.svg
 since: 1.0.0
 summary: Returns the server's liveliness response.
 syntax_fmt: PING [message]
-syntax_str: ''
 title: PING
 ---
 Returns `PONG` if no argument is provided, otherwise return a copy of the

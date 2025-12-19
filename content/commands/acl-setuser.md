@@ -41,10 +41,10 @@ history:
 - - 7.0.0
   - Added selectors and key based permissions.
 linkTitle: ACL SETUSER
+railroad_diagram: /images/railroad/acl-setuser.svg
 since: 6.0.0
 summary: Creates and modifies an ACL user and its rules.
 syntax_fmt: ACL SETUSER username [rule [rule ...]]
-syntax_str: '[rule [rule ...]]'
 title: ACL SETUSER
 ---
 Create an ACL user with the specified rules or modify the rules of an

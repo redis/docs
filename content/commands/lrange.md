@@ -47,10 +47,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: LRANGE
+railroad_diagram: /images/railroad/lrange.svg
 since: 1.0.0
 summary: Returns a range of elements from a list.
 syntax_fmt: LRANGE key start stop
-syntax_str: start stop
 title: LRANGE
 ---
 Returns the specified elements of the list stored at `key`.

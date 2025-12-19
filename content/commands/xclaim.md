@@ -87,13 +87,12 @@ key_specs:
     type: range
   update: true
 linkTitle: XCLAIM
+railroad_diagram: /images/railroad/xclaim.svg
 since: 5.0.0
 summary: Changes, or acquires, ownership of a message in a consumer group, as if the
   message was delivered a consumer group member.
 syntax_fmt: "XCLAIM key group consumer min-idle-time id [id ...] [IDLE\_ms]\n  [TIME\_\
   unix-time-milliseconds] [RETRYCOUNT\_count] [FORCE] [JUSTID]\n  [LASTID\_lastid]"
-syntax_str: "group consumer min-idle-time id [id ...] [IDLE\_ms] [TIME\_unix-time-milliseconds]\
-  \ [RETRYCOUNT\_count] [FORCE] [JUSTID] [LASTID\_lastid]"
 title: XCLAIM
 ---
 In the context of a stream consumer group, this command changes the ownership

@@ -98,12 +98,12 @@ key_specs:
     type: range
   update: true
 linkTitle: ZADD
+railroad_diagram: /images/railroad/zadd.svg
 since: 1.2.0
 summary: Adds one or more members to a sorted set, or updates their scores. Creates
   the key if it doesn't exist.
 syntax_fmt: "ZADD key [NX | XX] [GT | LT] [CH] [INCR] score member [score member\n\
   \  ...]"
-syntax_str: '[NX | XX] [GT | LT] [CH] [INCR] score member [score member ...]'
 title: ZADD
 ---
 Adds all the specified members with the specified scores to the sorted set

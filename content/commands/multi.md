@@ -24,10 +24,10 @@ description: Starts a transaction.
 group: transactions
 hidden: false
 linkTitle: MULTI
+railroad_diagram: /images/railroad/multi.svg
 since: 1.2.0
 summary: Starts a transaction.
 syntax_fmt: MULTI
-syntax_str: ''
 title: MULTI
 ---
 Marks the start of a [transaction][tt] block.

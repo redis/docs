@@ -27,6 +27,18 @@
 {{- if .Params.key_specs -}}
   {{- $metadata = merge $metadata (dict "key_specs" .Params.key_specs) -}}
 {{- end -}}
+{{- if .Params.topics -}}
+  {{- $metadata = merge $metadata (dict "topics" .Params.topics) -}}
+{{- end -}}
+{{- if .Params.relatedPages -}}
+  {{- $metadata = merge $metadata (dict "relatedPages" .Params.relatedPages) -}}
+{{- end -}}
+{{- if .Params.scope -}}
+  {{- $metadata = merge $metadata (dict "scope" .Params.scope) -}}
+{{- end -}}
 {{- $json := $metadata | jsonify -}}
+{{- $toc := partial "toc-json-regex.html" . -}}
+{{- /* Manually insert tableOfContents into JSON string */ -}}
+{{- $json = $json | replaceRE `}$` (printf `,"tableOfContents":%s}` $toc) -}}
 {{- printf `<script type="application/json" data-ai-metadata>%s</script>` $json | safeHTML -}}
 

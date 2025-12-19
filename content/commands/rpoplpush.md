@@ -61,13 +61,12 @@ key_specs:
     type: range
   insert: true
 linkTitle: RPOPLPUSH
-replaced_by: '[`LMOVE`]({{< relref "/commands/lmove" >}}) with the `RIGHT` and `LEFT`
-  arguments'
+railroad_diagram: /images/railroad/rpoplpush.svg
+replaced_by: '`LMOVE` with the `RIGHT` and `LEFT` arguments'
 since: 1.2.0
 summary: Returns the last element of a list after removing and pushing it to another
   list. Deletes the list if the last element was popped.
 syntax_fmt: RPOPLPUSH source destination
-syntax_str: destination
 title: RPOPLPUSH
 ---
 Atomically returns and removes the last element (tail) of the list stored at
@@ -95,7 +94,6 @@ RPOPLPUSH mylist myotherlist
 LRANGE mylist 0 -1
 LRANGE myotherlist 0 -1
 {{% /redis-cli %}}
-
 
 ## Pattern: Reliable queue
 

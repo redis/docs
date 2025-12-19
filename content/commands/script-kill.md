@@ -24,10 +24,10 @@ hints:
 - request_policy:all_shards
 - response_policy:one_succeeded
 linkTitle: SCRIPT KILL
+railroad_diagram: /images/railroad/script-kill.svg
 since: 2.6.0
 summary: Terminates a server-side Lua script during execution.
 syntax_fmt: SCRIPT KILL
-syntax_str: ''
 title: SCRIPT KILL
 ---
 Kills the currently executing [`EVAL`]({{< relref "/commands/eval" >}}) script, assuming no write operation was yet

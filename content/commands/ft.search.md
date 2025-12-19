@@ -268,12 +268,9 @@ hidden: false
 history:
 - - 2.0.0
   - Deprecated `WITHPAYLOADS` and `PAYLOAD` arguments
-- - 2.6
-  - Deprecated `GEOFILTER` argument
-- - "2.10"
-  - Deprecated `FILTER` argument
 linkTitle: FT.SEARCH
 module: Search
+railroad_diagram: /images/railroad/ft.search.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Searches the index with a textual query, returning either documents or just
@@ -288,7 +285,7 @@ syntax: "FT.SEARCH index query \n  [NOCONTENT] \n  [VERBATIM] \n  [NOSTOPWORDS] 
   \ [ FIELDS count field [field ...]] [ TAGS open close]] \n  [SLOP slop] \n  [TIMEOUT\
   \ timeout] \n  [INORDER] \n  [LANGUAGE language] \n  [EXPANDER expander] \n  [SCORER\
   \ scorer] \n  [EXPLAINSCORE] \n  [PAYLOAD payload] \n  [SORTBY sortby [ ASC | DESC]\
-  \ [WITHCOUNT]] \n  [LIMIT offset num] \n  [PARAMS nargs name value [ name value\
+  \ [WITHCOUNT | WITHOUTCOUNT]] \n  [LIMIT offset num] \n  [PARAMS nargs name value [ name value\
   \ ...]] \n  [DIALECT dialect]\n"
 syntax_fmt: "FT.SEARCH index query [NOCONTENT] [VERBATIM] [NOSTOPWORDS]\n  [WITHSCORES]\
   \ [WITHPAYLOADS] [WITHSORTKEYS] [FILTER\_numeric_field\n  min max [FILTER\_numeric_field\
@@ -301,17 +298,6 @@ syntax_fmt: "FT.SEARCH index query [NOCONTENT] [VERBATIM] [NOSTOPWORDS]\n  [WITH
   \  [LANGUAGE\_language] [EXPANDER\_expander] [SCORER\_scorer]\n  [EXPLAINSCORE]\
   \ [PAYLOAD\_payload] [SORTBY\_sortby [ASC | DESC]]\n  [LIMIT offset num] [PARAMS\
   \ nargs name value [name value ...]]\n  [DIALECT\_dialect]"
-syntax_str: "query [NOCONTENT] [VERBATIM] [NOSTOPWORDS] [WITHSCORES] [WITHPAYLOADS]\
-  \ [WITHSORTKEYS] [FILTER\_numeric_field min max [FILTER\_numeric_field min max ...]]\
-  \ [GEOFILTER\_geo_field lon lat radius <m | km | mi | ft> [GEOFILTER\_geo_field\
-  \ lon lat radius <m | km | mi | ft> ...]] [INKEYS\_count key [key ...]] [INFIELDS\_\
-  count field [field ...]] [RETURN\_count identifier [AS\_property] [identifier [AS\_\
-  property] ...]] [SUMMARIZE [FIELDS\_count field [field ...]] [FRAGS\_num] [LEN\_\
-  fragsize] [SEPARATOR\_separator]] [HIGHLIGHT [FIELDS\_count field [field ...]] [TAGS\
-  \ open close]] [SLOP\_slop] [TIMEOUT\_timeout] [INORDER] [LANGUAGE\_language] [EXPANDER\_\
-  expander] [SCORER\_scorer] [EXPLAINSCORE] [PAYLOAD\_payload] [SORTBY\_sortby [ASC\
-  \ | DESC]] [LIMIT offset num] [PARAMS nargs name value [name value ...]] [DIALECT\_\
-  dialect]"
 title: FT.SEARCH
 ---
 
@@ -356,7 +342,6 @@ does not try to use stemming for query expansion but searches the query terms ve
 
 ignores any defined stop words in full text searches. Note: this option is deprecated as of Redis 8.0.
 </details>
-
 
 <details open>
 <summary><code>WITHSCORES</code></summary>
@@ -483,9 +468,9 @@ orders the results by the value of this attribute. This applies to both text and
   - Hybrid - applied when there is a `SORTBY` clause over a numeric field and another non-numeric filter. Some results will get filtered, and the initial range may not be large enough. The iterator is then rewinding with the following ranges, and an additional iteration takes place to collect the `LIMIT` requested results.
   - No optimization - If there is a sort by score or by non-numeric field, there is no other option but to retrieve all results and compare their values.
 
-**Counts behavior**: optional`WITHCOUNT`argument returns accurate counts for the query results with sorting. This operation processes all results in order to get an accurate count, being less performant than the optimized option (default behavior on `DIALECT 4`)
+**Counts behavior**: optional `WITHCOUNT` argument returns accurate counts for the query results with sorting. This operation processes all results in order to get an accurate count, being less performant than the optimized option (default behavior on `DIALECT 4`)
 
-
+You can also use `WITHOUTCOUNT` in place of `DIALECT 4` when used with either `FT.SEARCH` or `FT.AGGREGATE`.
 </details>
 
 <details open>
@@ -543,7 +528,6 @@ To return all the values, use `DIALECT` 3 (or greater, when available).
 The `DIALECT` can be specified as a parameter in the FT.SEARCH command. If it is not specified, the `DEFAULT_DIALECT` is used, which can be set using [`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) or by passing it as an argument to the `redisearch` module when it is loaded.
 
 For example, with the following document and index:
-
 
 ```sh
 127.0.0.1:6379> JSON.SET doc:1 $ '[{"arr": [1, 2, 3]}, {"val": "hello"}, {"val": "world"}]'
@@ -818,14 +802,12 @@ Query for polygons which:
 
 First, create an index using `GEOSHAPE` type with a `FLAT` coordinate system:
 
-
 {{< highlight bash >}}
 127.0.0.1:6379> FT.CREATE idx SCHEMA geom GEOSHAPE FLAT
 OK
 {{< / highlight >}}
 
 Adding a couple of geometries using [`HSET`]({{< relref "/commands/hset" >}}):
-
 
 {{< highlight bash >}}
 127.0.0.1:6379> HSET small geom 'POLYGON((1 1, 1 100, 100 100, 100 1, 1 1))'
@@ -846,7 +828,6 @@ Query with `WITHIN` operator:
 {{< / highlight >}}
 
 Query with `CONTAINS` operator:
-
 
 {{< highlight bash >}}
 127.0.0.1:6379> FT.SEARCH idx '@geom:[CONTAINS $poly]' PARAMS 2 poly 'POLYGON((2 2, 2 50, 50 50, 50 2, 2 2))' DIALECT 3

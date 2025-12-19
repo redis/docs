@@ -22,10 +22,10 @@ hidden: false
 hints:
 - nondeterministic_output
 linkTitle: CLUSTER SHARDS
+railroad_diagram: /images/railroad/cluster-shards.svg
 since: 7.0.0
 summary: Returns the mapping of cluster slots to shards.
 syntax_fmt: CLUSTER SHARDS
-syntax_str: ''
 title: CLUSTER SHARDS
 ---
 `CLUSTER SHARDS` returns details about the shards of the cluster.

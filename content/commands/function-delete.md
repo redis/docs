@@ -29,10 +29,10 @@ hints:
 - request_policy:all_shards
 - response_policy:all_succeeded
 linkTitle: FUNCTION DELETE
+railroad_diagram: /images/railroad/function-delete.svg
 since: 7.0.0
 summary: Deletes a library and its functions.
 syntax_fmt: FUNCTION DELETE library-name
-syntax_str: ''
 title: FUNCTION DELETE
 ---
 Delete a library and all its functions.

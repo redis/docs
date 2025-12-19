@@ -34,10 +34,10 @@ history:
 - - 4.0.0
   - Added client IP address, port and name to the reply.
 linkTitle: SLOWLOG GET
+railroad_diagram: /images/railroad/slowlog-get.svg
 since: 2.2.12
 summary: Returns the slow log's entries.
 syntax_fmt: SLOWLOG GET [count]
-syntax_str: ''
 title: SLOWLOG GET
 ---
 The `SLOWLOG GET` command returns entries from the slow log in chronological order.

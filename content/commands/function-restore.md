@@ -46,10 +46,10 @@ hints:
 - request_policy:all_shards
 - response_policy:all_succeeded
 linkTitle: FUNCTION RESTORE
+railroad_diagram: /images/railroad/function-restore.svg
 since: 7.0.0
 summary: Restores all libraries from a payload.
 syntax_fmt: FUNCTION RESTORE serialized-value [FLUSH | APPEND | REPLACE]
-syntax_str: '[FLUSH | APPEND | REPLACE]'
 title: FUNCTION RESTORE
 ---
 Restore libraries from the serialized payload.

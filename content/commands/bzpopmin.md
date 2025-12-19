@@ -52,12 +52,12 @@ key_specs:
       limit: 0
     type: range
 linkTitle: BZPOPMIN
+railroad_diagram: /images/railroad/bzpopmin.svg
 since: 5.0.0
 summary: Removes and returns the member with the lowest score from one or more sorted
   sets. Blocks until a member is available otherwise. Deletes the sorted set if the
   last element was popped.
 syntax_fmt: BZPOPMIN key [key ...] timeout
-syntax_str: timeout
 title: BZPOPMIN
 ---
 `BZPOPMIN` is the blocking variant of the sorted set [`ZPOPMIN`]({{< relref "/commands/zpopmin" >}}) primitive.

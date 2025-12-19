@@ -50,11 +50,11 @@ key_specs:
       limit: 0
     type: range
 linkTitle: SUBSTR
-replaced_by: '[`GETRANGE`]({{< relref "/commands/getrange" >}})'
+railroad_diagram: /images/railroad/substr.svg
+replaced_by: '`GETRANGE`'
 since: 1.0.0
 summary: Returns a substring from a string value.
 syntax_fmt: SUBSTR key start end
-syntax_str: start end
 title: SUBSTR
 ---
 Returns the substring of the string value stored at `key`, determined by the

@@ -36,15 +36,13 @@ group: timeseries
 hidden: false
 linkTitle: TS.QUERYINDEX
 module: TimeSeries
+railroad_diagram: /images/railroad/ts.queryindex.svg
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Get all time series keys matching a filter list
-syntax: 'TS.QUERYINDEX filterExpr...
-
-  '
+syntax: "TS.QUERYINDEX filterExpr..."
 syntax_fmt: "TS.QUERYINDEX <l=v | l!=v | l= | l!= | l=(v1,v2,...) |\n  l!=(v1,v2,...)\
   \ [l=v | l!=v | l= | l!= | l=(v1,v2,...) |\n  l!=(v1,v2,...) ...]>"
-syntax_str: ''
 title: TS.QUERYINDEX
 ---
 
@@ -115,7 +113,6 @@ To retrieve the keys of all time series representing sensors that measure temper
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

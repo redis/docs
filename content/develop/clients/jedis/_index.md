@@ -22,6 +22,17 @@ a more advanced Java client that also supports asynchronous and reactive connect
 The sections below explain how to install `Jedis` and connect your application
 to a Redis database.
 
+{{< note >}}Jedis 7.2.0 introduced a new client connection API:
+
+| New API class | Replaces | Use case |
+| :-- | :-- | :-- |
+| `RedisClient` | `UnifiedJedis`, `JedisPool`, `JedisPooled` | Single connection (with connection pooling) |
+| `RedisClusterClient` | `JedisCluster` | Redis Cluster connections |
+| `RedisSentinelClient` | `JedisSentinelPool` | Redis Sentinel connections |
+
+The old client classes are now considered deprecated.
+{{< /note >}}
+
 `Jedis` requires a running Redis server. See [here]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis Open Source installation instructions.
 
 ## Install
@@ -34,7 +45,7 @@ To include `Jedis` as a dependency in your application, edit the dependency file
   <dependency>
       <groupId>redis.clients</groupId>
       <artifactId>jedis</artifactId>
-      <version>7.0.0</version>
+      <version>7.2.0</version>
   </dependency>
   ```
 
@@ -46,7 +57,7 @@ To include `Jedis` as a dependency in your application, edit the dependency file
   }
   //...
   dependencies {
-      implementation 'redis.clients:jedis:7.0.0'
+      implementation 'redis.clients:jedis:7.2.0'
       //...
   }
   ```

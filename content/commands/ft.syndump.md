@@ -20,14 +20,11 @@ group: search
 hidden: false
 linkTitle: FT.SYNDUMP
 module: Search
+railroad_diagram: /images/railroad/ft.syndump.svg
 since: 1.2.0
 stack_path: docs/interact/search-and-query
 summary: Dumps the contents of a synonym group
-syntax: 'FT.SYNDUMP index
-
-  '
 syntax_fmt: FT.SYNDUMP index
-syntax_str: ''
 title: FT.SYNDUMP
 ---
 

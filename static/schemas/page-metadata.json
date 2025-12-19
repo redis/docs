@@ -1,0 +1,115 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://redis.io/schemas/page-metadata.json",
+  "title": "Redis Page Metadata",
+  "description": "Schema for AI-friendly metadata embedded in Redis documentation pages",
+  "type": "object",
+  "required": ["title", "description"],
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "The page title"
+    },
+    "description": {
+      "type": "string",
+      "description": "A brief description of the page content"
+    },
+    "categories": {
+      "type": "array",
+      "description": "Array of category tags for the page",
+      "items": {
+        "type": "string"
+      }
+    },
+    "tableOfContents": {
+      "$ref": "#/definitions/tableOfContents"
+    },
+    "arguments": {
+      "type": "array",
+      "description": "Command arguments (for command reference pages)"
+    },
+    "syntax_fmt": {
+      "type": "string",
+      "description": "Command syntax format (for command reference pages)"
+    },
+    "complexity": {
+      "type": "string",
+      "description": "Time complexity of the command (for command reference pages)"
+    },
+    "group": {
+      "type": "string",
+      "description": "Command group (for command reference pages)"
+    },
+    "command_flags": {
+      "type": "array",
+      "description": "Flags associated with the command (for command reference pages)"
+    },
+    "acl_categories": {
+      "type": "array",
+      "description": "ACL categories for the command (for command reference pages)"
+    },
+    "since": {
+      "type": "string",
+      "description": "Redis version when the command was introduced (for command reference pages)"
+    },
+    "arity": {
+      "type": "integer",
+      "description": "Number of arguments the command accepts (for command reference pages)"
+    },
+    "key_specs": {
+      "type": "array",
+      "description": "Key specifications for the command (for command reference pages)"
+    },
+    "topics": {
+      "type": "array",
+      "description": "Related topics"
+    },
+    "relatedPages": {
+      "type": "array",
+      "description": "Links to related documentation pages"
+    },
+    "scope": {
+      "type": "string",
+      "description": "Scope or domain of the page content"
+    }
+  },
+  "definitions": {
+    "tableOfContents": {
+      "type": "object",
+      "description": "Hierarchical table of contents for the page",
+      "required": ["sections"],
+      "properties": {
+        "sections": {
+          "type": "array",
+          "description": "Array of top-level sections",
+          "items": {
+            "$ref": "#/definitions/section"
+          }
+        }
+      }
+    },
+    "section": {
+      "type": "object",
+      "description": "A section in the table of contents",
+      "required": ["id", "title"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the section (matches the heading anchor ID)"
+        },
+        "title": {
+          "type": "string",
+          "description": "Display title of the section"
+        },
+        "children": {
+          "type": "array",
+          "description": "Nested subsections",
+          "items": {
+            "$ref": "#/definitions/section"
+          }
+        }
+      }
+    }
+  }
+}
+

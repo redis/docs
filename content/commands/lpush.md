@@ -50,10 +50,10 @@ key_specs:
     type: range
   insert: true
 linkTitle: LPUSH
+railroad_diagram: /images/railroad/lpush.svg
 since: 1.0.0
 summary: Prepends one or more elements to a list. Creates the key if it doesn't exist.
 syntax_fmt: LPUSH key element [element ...]
-syntax_str: element [element ...]
 title: LPUSH
 ---
 Insert all the specified values at the head of the list stored at `key`.

@@ -28,10 +28,10 @@ description: Returns the active shard channels.
 group: pubsub
 hidden: false
 linkTitle: PUBSUB SHARDCHANNELS
+railroad_diagram: /images/railroad/pubsub-shardchannels.svg
 since: 7.0.0
 summary: Returns the active shard channels.
 syntax_fmt: PUBSUB SHARDCHANNELS [pattern]
-syntax_str: ''
 title: PUBSUB SHARDCHANNELS
 ---
 Lists the currently *active shard channels*.

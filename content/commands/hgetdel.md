@@ -52,10 +52,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: HGETDEL
+railroad_diagram: /images/railroad/hgetdel.svg
 since: 8.0.0
 summary: Returns the value of a field and deletes it from the hash.
 syntax_fmt: "HGETDEL key FIELDS\_numfields field [field ...]"
-syntax_str: "FIELDS\_numfields field [field ...]"
 title: HGETDEL
 ---
 Get and delete the value of one or more fields of a given hash key. When the last field is deleted, the key will also be deleted.

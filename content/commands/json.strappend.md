@@ -28,11 +28,11 @@ group: json
 hidden: false
 linkTitle: JSON.STRAPPEND
 module: JSON
+railroad_diagram: /images/railroad/json.strappend.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Appends a string to a JSON string value at path
 syntax_fmt: JSON.STRAPPEND key [path] value
-syntax_str: '[path] value'
 title: JSON.STRAPPEND
 ---
 Append the `json-string` values to the string at `path`
@@ -80,7 +80,6 @@ redis> JSON.GET doc $
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

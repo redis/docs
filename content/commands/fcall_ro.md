@@ -57,10 +57,10 @@ key_specs:
     type: keynum
   notes: We cannot tell how the keys will be used so we assume the worst, RO and ACCESS
 linkTitle: FCALL_RO
+railroad_diagram: /images/railroad/fcall_ro.svg
 since: 7.0.0
 summary: Invokes a read-only function.
 syntax_fmt: FCALL_RO function numkeys [key [key ...]] [arg [arg ...]]
-syntax_str: numkeys [key [key ...]] [arg [arg ...]]
 title: FCALL_RO
 ---
 This is a read-only variant of the [`FCALL`]({{< relref "/commands/fcall" >}}) command that cannot execute commands that modify data.

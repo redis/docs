@@ -50,10 +50,6 @@ arguments:
     type: pure-token
   name: policy
   optional: true
-  token: DUPLICATE_POLICY
-  type: oneof
-- name: policy_ovr
-  optional: true
   token: ON_DUPLICATE
   type: oneof
 - arguments:
@@ -82,19 +78,17 @@ group: timeseries
 hidden: false
 linkTitle: TS.ADD
 module: TimeSeries
+railroad_diagram: /images/railroad/ts.add.svg
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Append a sample to a time series
 syntax: "TS.ADD key timestamp value \n  [RETENTION retentionPeriod] \n  [ENCODING\
-  \ <COMPRESSED|UNCOMPRESSED>] \n  [CHUNK_SIZE size] \n  [DUPLICATE_POLICY policy] \n  [ON_DUPLICATE policy_ovr] \n\
-  \  [IGNORE ignoreMaxTimediff ignoreMaxValDiff] \n\
-  \  [LABELS [label value ...]]\n"
+  \ <COMPRESSED|UNCOMPRESSED>] \n  [CHUNK_SIZE size] \n  [DUPLICATE_POLICY policy]\
+  \ \n  [ON_DUPLICATE policy_ovr] \n  [IGNORE ignoreMaxTimediff ignoreMaxValDiff]\
+  \ \n  [LABELS [label value ...]]\n"
 syntax_fmt: "TS.ADD key timestamp value [RETENTION\_retentionPeriod]\n  [ENCODING\_\
-  <COMPRESSED | UNCOMPRESSED>] [CHUNK_SIZE\_size]\n  [DUPLICATE_POLICY\_policy] \n  [ON_DUPLICATE\_<BLOCK | FIRST\
-  \ | LAST | MIN | MAX | SUM>]\n  [IGNORE ignoreMaxTimediff ignoreMaxValDiff]\n  [LABELS\ [label value ...]]"
-syntax_str: "timestamp value [RETENTION\_retentionPeriod] [ENCODING\_<COMPRESSED\
-  \ | UNCOMPRESSED>] [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_policy] [ON_DUPLICATE\_<BLOCK | FIRST | LAST | MIN |\
-  \ MAX | SUM>] [LABELS\ [label value ...]]"
+  <UNCOMPRESSED | COMPRESSED>] [CHUNK_SIZE\_size]\n  [ON_DUPLICATE\_<BLOCK | FIRST\
+  \ | LAST | MIN | MAX | SUM>]\n  [LABELS\_label value [label value ...]]"
 title: TS.ADD
 ---
 
@@ -244,7 +238,6 @@ Add a sample to the time series, setting the sample's timestamp to the current U
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

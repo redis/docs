@@ -77,6 +77,7 @@ For examples, see the [YAML examples]({{< relref "/operate/kubernetes/reference/
 * Only global database options are supported, no support for specifying configuration per location.
 * No support for migration from old (`crdb-cli`) Active-Active database method to new Active-Active controller.
 * No support for REAADB with participating clusters co-located within the same Kubernetes cluster, except for a single designated local participating cluster.
+* Active-Active databases cannot be configured as [Redis Flex]({{< relref "/operate/kubernetes/re-clusters/redis-flex" >}}) deployments.
 
 ## More info
 

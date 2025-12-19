@@ -35,7 +35,7 @@ To create or edit a cloud account in Redis Cloud:
 
 1. Sign in to the [Redis Cloud console](https://cloud.redis.io/) and then select the target subscription.
 
-1. From the console menu, select **Account Settings** and then select the **Cloud Account** tab.
+1. From the console menu, select **Account Settings** and then select the **BYOC Accounts** tab.
 
     This displays a list of cloud accounts associated with your Redis Cloud subscription.
 
@@ -47,13 +47,13 @@ The **Cloud Account** tab is only available for accounts with Redis Cloud Bring 
 
 ## Add a new cloud account
 
-To add a new cloud account to your Redis Cloud subscription, select the **Add** button from the Cloud Account tab of the Account Settings screen.
+To add a new cloud account to your Redis Cloud subscription, select the **Add** button from the **BYOC Accounts** tab of the Account Settings screen.
 
 {{<image filename="images/rc/icon-add.png" width="30px" alt="Use the Add button to add new cloud accounts to your Redis Cloud subscription." width="36px">}}
 
-This displays the **Add cloud account** dialog.
+This displays the **Bring your own Cloud (BYOC)** dialog.
 
-{{<image filename="images/rc/account-settings-prompt-add-cloud-account.png" alt="Use the Add cloud account prompt to enter the details of the cloud account." width="75%">}}
+{{<image filename="images/rc/account-settings-prompt-add-cloud-account.png" alt="Use the Bring your own Cloud prompt to enter the details of the cloud account." width="75%">}}
 
 Each of the following fields are required.
 
@@ -105,7 +105,7 @@ Use the **Update account** button to save your changes.
 
 To remove a cloud account from your Redis cloud subscription, select the cloud account from the **Cloud account** tab and then select the **Delete** button.
 
-{{<image filename="images/rc/icon-delete-teal.png" alt="Use the Delete button to remove cloud account details." width="36px">}}
+{{<image filename="images/rc/icon-delete-lb.png" alt="Use the Delete button to remove cloud account details." width="36px">}}
 
 ## Dedicated IAM resources
 

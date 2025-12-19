@@ -14,6 +14,7 @@ description: Associate or remove the JSON attributes of elements.
 group: vector_set
 hidden: false
 linkTitle: VSETATTR
+railroad_diagram: /images/railroad/vsetattr.svg
 since: 8.0.0
 summary: Associate or remove the JSON attributes of elements.
 syntax_fmt: "VSETATTR key element \"{ JSON obj }\""

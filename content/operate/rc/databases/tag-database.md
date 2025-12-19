@@ -10,7 +10,7 @@ description: null
 weight: 33
 ---
 
-Tags are key-value pairs that let you categorize your databases. You can create tags and add them to your databases to associate them with each other. Once you've added tags, you can filter your databases in the [database list]({{< relref "/operate/rc/databases/view-edit-database#manage-the-database-list" >}}) by tag key or value.
+Tags are key-value pairs that let you categorize your databases. You can create tags and add them to your databases to associate them with each other. Once you've added tags, you can filter your databases in the [database list]({{< relref "/operate/rc/databases/view-edit-database#manage-the-database-list" >}}) or in the [cost report]({{< relref "/operate/rc/billing-and-payments/cost-report" >}}) by tag key or value. 
 
 ## Manage tags
 

@@ -70,19 +70,18 @@ key_specs:
     type: range
   insert: true
 linkTitle: BRPOPLPUSH
-replaced_by: '[`BLMOVE`]({{< relref "/commands/blmove" >}}) with the `RIGHT` and `LEFT`
-  arguments'
+railroad_diagram: /images/railroad/brpoplpush.svg
+replaced_by: '`BLMOVE` with the `RIGHT` and `LEFT` arguments'
 since: 2.2.0
 summary: Pops an element from a list, pushes it to another list and returns it. Block
   until an element is available otherwise. Deletes the list if the last element was
   popped.
 syntax_fmt: BRPOPLPUSH source destination timeout
-syntax_str: destination timeout
 title: BRPOPLPUSH
 ---
 `BRPOPLPUSH` is the blocking variant of [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}).
 When `source` contains elements, this command behaves exactly like [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}).
-When used inside a [`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) block, this command behaves exactly like [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}).
+When used inside a [`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) block or a Lua script, this command behaves exactly like [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}).
 When `source` is empty, Redis will block the connection until another client
 pushes to it or until `timeout` is reached.
 A `timeout` of zero can be used to block indefinitely.

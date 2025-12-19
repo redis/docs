@@ -35,10 +35,10 @@ description: Assigns new hash slot ranges to a node.
 group: cluster
 hidden: false
 linkTitle: CLUSTER ADDSLOTSRANGE
+railroad_diagram: /images/railroad/cluster-addslotsrange.svg
 since: 7.0.0
 summary: Assigns new hash slot ranges to a node.
 syntax_fmt: CLUSTER ADDSLOTSRANGE start-slot end-slot [start-slot end-slot ...]
-syntax_str: ''
 title: CLUSTER ADDSLOTSRANGE
 ---
 The `CLUSTER ADDSLOTSRANGE` is similar to the [`CLUSTER ADDSLOTS`]({{< relref "/commands/cluster-addslots" >}}) command in that they both assign hash slots to nodes.
@@ -56,7 +56,6 @@ The same operation can be completed with the following `CLUSTER ADDSLOTSRANGE` c
 
     > CLUSTER ADDSLOTSRANGE 1 5
     OK
-
 
 ## Usage in Redis Cluster
 

@@ -22,11 +22,11 @@ group: cms
 hidden: false
 linkTitle: CMS.INFO
 module: Bloom
+railroad_diagram: /images/railroad/cms.info.svg
 since: 2.0.0
 stack_path: docs/data-types/probabilistic
 summary: Returns information about a sketch
 syntax_fmt: CMS.INFO key
-syntax_str: ''
 title: CMS.INFO
 ---
 Returns width, depth and total count of the sketch.
@@ -52,7 +52,6 @@ redis> CMS.INFO test
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

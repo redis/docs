@@ -54,10 +54,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: XREVRANGE
+railroad_diagram: /images/railroad/xrevrange.svg
 since: 5.0.0
 summary: Returns the messages from a stream within a range of IDs in reverse order.
 syntax_fmt: "XREVRANGE key end start [COUNT\_count]"
-syntax_str: "end start [COUNT\_count]"
 title: XREVRANGE
 ---
 This command is exactly like [`XRANGE`]({{< relref "/commands/xrange" >}}), but with the notable difference of

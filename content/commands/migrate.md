@@ -129,12 +129,11 @@ key_specs:
     type: range
   incomplete: true
 linkTitle: MIGRATE
+railroad_diagram: /images/railroad/migrate.svg
 since: 2.6.0
 summary: Atomically transfers a key from one Redis instance to another.
 syntax_fmt: "MIGRATE host port <key | \"\"> destination-db timeout [COPY] [REPLACE]\n\
   \  [AUTH\_password | AUTH2\_username password] [KEYS\_key [key ...]]"
-syntax_str: "port <key | \"\"> destination-db timeout [COPY] [REPLACE] [AUTH\_password\
-  \ | AUTH2\_username password] [KEYS\_key [key ...]]"
 title: MIGRATE
 ---
 Atomically transfer a key from a source Redis instance to a destination Redis

@@ -66,12 +66,11 @@ key_specs:
   notes: RW and UPDATE because it changes the TTL
   update: true
 linkTitle: GETEX
+railroad_diagram: /images/railroad/getex.svg
 since: 6.2.0
 summary: Returns the string value of a key after setting its expiration time.
 syntax_fmt: "GETEX key [EX\_seconds | PX\_milliseconds | EXAT\_unix-time-seconds |\n\
   \  PXAT\_unix-time-milliseconds | PERSIST]"
-syntax_str: "[EX\_seconds | PX\_milliseconds | EXAT\_unix-time-seconds | PXAT\_unix-time-milliseconds\
-  \ | PERSIST]"
 title: GETEX
 ---
 Get the value of `key` and optionally set its expiration.

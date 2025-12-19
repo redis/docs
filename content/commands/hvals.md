@@ -41,10 +41,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: HVALS
+railroad_diagram: /images/railroad/hvals.svg
 since: 2.0.0
 summary: Returns all values in a hash.
 syntax_fmt: HVALS key
-syntax_str: ''
 title: HVALS
 ---
 Returns all values in the hash stored at `key`.

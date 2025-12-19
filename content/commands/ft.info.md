@@ -22,12 +22,11 @@ group: search
 hidden: false
 linkTitle: FT.INFO
 module: Search
+railroad_diagram: /images/railroad/ft.info.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Returns information and statistics on the index
-syntax: FT.INFO index
 syntax_fmt: FT.INFO index
-syntax_str: ''
 title: FT.INFO
 ---
 

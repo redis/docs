@@ -1,0 +1,355 @@
+// Decision tree rendering engine
+// Parses YAML decision trees and renders them as tree structure diagrams
+
+(function() {
+  'use strict';
+
+  // Parse YAML from the pre element
+  function parseDecisionTreeYAML(yamlText) {
+    const lines = yamlText.split('\n');
+    const root = {};
+    const stack = [{ node: root, indent: -1, key: null }];
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      if (!line.trim() || line.trim().startsWith('#')) continue;
+
+      const indent = line.search(/\S/);
+      const content = line.trim();
+
+      while (stack.length > 1 && stack[stack.length - 1].indent >= indent) {
+        stack.pop();
+      }
+
+      const parent = stack[stack.length - 1].node;
+
+      if (content.includes(':')) {
+        const colonIndex = content.indexOf(':');
+        const key = content.substring(0, colonIndex).trim();
+        let value = content.substring(colonIndex + 1).trim();
+
+        if ((value.startsWith('"') && value.endsWith('"')) ||
+            (value.startsWith("'") && value.endsWith("'"))) {
+          value = value.slice(1, -1).replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+        }
+
+        if (value === '|') {
+          const multiLineValue = [];
+          i++;
+          while (i < lines.length) {
+            const nextLine = lines[i];
+            if (nextLine.trim() === '') {
+              i++;
+              continue;
+            }
+            const nextIndent = nextLine.search(/\S/);
+            if (nextIndent <= indent) break;
+            multiLineValue.push(nextLine.trim());
+            i++;
+          }
+          i--;
+          value = multiLineValue.join(' ');
+        }
+
+        if (value === '') {
+          const newObj = {};
+          parent[key] = newObj;
+          stack.push({ node: newObj, indent: indent, key: key });
+        } else {
+          parent[key] = value;
+        }
+      }
+    }
+
+    return root;
+  }
+
+  // Flatten decision tree into a list for tree rendering
+  function flattenDecisionTree(questions, rootId) {
+    const items = [];
+    const visited = new Set();
+
+    function traverse(nodeId, depth, parentAnswer = null) {
+      if (visited.has(nodeId)) return;
+      visited.add(nodeId);
+
+      const question = questions[nodeId];
+      if (!question) return;
+
+      items.push({
+        id: nodeId,
+        depth: depth,
+        type: 'question',
+        text: question.text || '',
+        whyAsk: question.whyAsk || '',
+        answer: parentAnswer  // Store the answer that led to this question
+      });
+
+      if (question.answers) {
+        // Process answers in the order they appear in the YAML
+        // This respects the author's intended layout (e.g., "no" first for early rejection)
+        const answerKeys = Object.keys(question.answers);
+
+        answerKeys.forEach(answerKey => {
+          const answer = question.answers[answerKey];
+          if (answer) {
+            // Store the answer value for use in tree line labels
+            const answerValue = answer.value || answerKey.charAt(0).toUpperCase() + answerKey.slice(1);
+
+            if (answer.nextQuestion) {
+              // Traverse to next question, passing the answer value
+              traverse(answer.nextQuestion, depth + 1, answerValue);
+            } else if (answer.outcome) {
+              items.push({
+                id: answer.outcome.id,
+                depth: depth + 1,
+                type: 'outcome',
+                text: answer.outcome.label || '',
+                answer: answerValue,
+                sentiment: answer.outcome.sentiment || null
+              });
+            }
+          }
+        });
+      }
+    }
+
+    traverse(rootId, 0);
+    return items;
+  }
+
+  // Wrap text to fit within a maximum width
+  function wrapText(text, maxChars) {
+    const words = text.split(' ');
+    const lines = [];
+    let currentLine = '';
+
+    words.forEach(word => {
+      if ((currentLine + ' ' + word).trim().length <= maxChars) {
+        currentLine = currentLine ? currentLine + ' ' + word : word;
+      } else {
+        if (currentLine) lines.push(currentLine);
+        currentLine = word;
+      }
+    });
+    if (currentLine) lines.push(currentLine);
+    return lines;
+  }
+
+  // Render decision tree as SVG with tree structure and boxes
+  function renderDecisionTree(container, treeData) {
+    const rootId = treeData.rootQuestion;
+    const questions = treeData.questions;
+
+    if (!rootId || !questions[rootId]) {
+      container.textContent = 'Error: Invalid decision tree structure';
+      return;
+    }
+
+    const items = flattenDecisionTree(questions, rootId);
+
+    const lineHeight = 24;
+    const charWidth = 8;
+    const leftMargin = 20;
+    const topMargin = 10;
+    // Allow indentWidth to be customized via YAML, default to 40
+    const indentWidth = treeData.indentWidth ? parseInt(treeData.indentWidth) : 40;
+    const boxPadding = 12; // Increased from 8 for more padding
+    const maxBoxWidth = 420; // Increased to accommodate longer questions
+    const maxCharsPerLine = Math.floor(maxBoxWidth / charWidth);
+
+    // Calculate box dimensions for each item
+    items.forEach(item => {
+      const lines = wrapText(item.text, maxCharsPerLine);
+      item.lines = lines;
+      item.boxHeight = lines.length * lineHeight + boxPadding * 2;
+      item.boxWidth = Math.min(maxBoxWidth, Math.max(...lines.map(l => l.length)) * charWidth + boxPadding * 2);
+    });
+
+    // Calculate SVG dimensions
+    let maxDepth = 0;
+    items.forEach(item => {
+      maxDepth = Math.max(maxDepth, item.depth);
+    });
+
+    const svgWidth = leftMargin + (maxDepth + 1) * indentWidth + maxBoxWidth + 40;
+    const svgHeight = topMargin + items.reduce((sum, item) => sum + item.boxHeight + 20, 0) + 10;
+
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('width', svgWidth);
+    svg.setAttribute('height', svgHeight);
+    svg.setAttribute('class', 'decision-tree-diagram');
+    svg.style.marginTop = '1em';
+    svg.style.marginBottom = '1em';
+    svg.style.fontFamily = '"Space Mono", monospace';
+    svg.style.fontSize = '13px';
+
+    let currentY = topMargin;
+
+    items.forEach((item, index) => {
+      const x = leftMargin + item.depth * indentWidth;
+      const y = currentY + item.boxHeight / 2;
+
+      if (item.depth > 0) {
+        drawTreeLines(svg, item, items, index, leftMargin, topMargin, lineHeight, indentWidth, currentY, item.boxHeight);
+      }
+
+      // Draw box with different styling for outcomes vs questions
+      const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      rect.setAttribute('x', x + 10);
+      rect.setAttribute('y', currentY);
+      rect.setAttribute('width', item.boxWidth);
+      rect.setAttribute('height', item.boxHeight);
+
+      if (item.type === 'outcome') {
+        // Outcomes: color based on sentiment
+        if (item.sentiment === 'positive') {
+          // Green for positive outcomes
+          rect.setAttribute('fill', '#e6f7f0');
+          rect.setAttribute('stroke', '#0fa869');
+          rect.setAttribute('stroke-width', '1');
+          rect.setAttribute('stroke-dasharray', '3,3');
+        } else if (item.sentiment === 'negative') {
+          // Red for negative outcomes
+          rect.setAttribute('fill', '#ffe6e6');
+          rect.setAttribute('stroke', '#d9534f');
+          rect.setAttribute('stroke-width', '1');
+          rect.setAttribute('stroke-dasharray', '3,3');
+        } else {
+          // Default red for outcomes without explicit sentiment
+          rect.setAttribute('fill', '#ffe6e6');
+          rect.setAttribute('stroke', '#d9534f');
+          rect.setAttribute('stroke-width', '1');
+          rect.setAttribute('stroke-dasharray', '3,3');
+        }
+      } else {
+        // Questions: standard styling
+        rect.setAttribute('fill', '#f5f5f5');
+        rect.setAttribute('stroke', '#999');
+        rect.setAttribute('stroke-width', '1');
+      }
+      rect.setAttribute('rx', '4');
+      svg.appendChild(rect);
+
+      // Draw text lines
+      item.lines.forEach((line, lineIndex) => {
+        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        text.setAttribute('x', x + 10 + boxPadding);
+        text.setAttribute('y', currentY + boxPadding + (lineIndex + 1) * lineHeight - 6);
+        text.setAttribute('font-family', '"Space Mono", monospace');
+        text.setAttribute('font-size', '13');
+        text.setAttribute('fill', item.type === 'outcome' ? '#666' : '#333');
+        text.textContent = line;
+        svg.appendChild(text);
+      });
+
+      currentY += item.boxHeight + 20;
+    });
+
+    const jsonScript = document.createElement('script');
+    jsonScript.type = 'application/json';
+    jsonScript.className = 'decision-tree-data';
+    jsonScript.textContent = JSON.stringify(treeData, null, 2);
+
+    container.appendChild(svg);
+    container.parentNode.insertBefore(jsonScript, container.nextSibling);
+  }
+
+  function drawTreeLines(svg, item, items, itemIndex, leftMargin, topMargin, lineHeight, indentWidth, currentY, boxHeight) {
+    const y = currentY + boxHeight / 2;
+    const x = leftMargin + item.depth * indentWidth;
+    const parentX = x - indentWidth;
+    const connectorX = parentX + 10; // Left edge of parent box (vertical line position)
+
+    // Find parent item and its Y position, and determine the answer (Yes/No)
+    let parentY = null;
+    let parentBoxHeight = 0;
+    let parentCurrentY = null;
+    let answerLabel = '';
+
+    for (let i = itemIndex - 1; i >= 0; i--) {
+      if (items[i].depth === item.depth - 1) {
+        // Calculate parent's Y position
+        let calcY = topMargin;
+        for (let j = 0; j < i; j++) {
+          calcY += items[j].boxHeight + 20;
+        }
+        parentCurrentY = calcY;
+        parentY = calcY + items[i].boxHeight / 2;
+        parentBoxHeight = items[i].boxHeight;
+
+        // Use the actual answer value stored in the item
+        // This respects the order defined in the YAML
+        answerLabel = item.answer || 'Yes';
+        break;
+      }
+    }
+
+    if (parentY !== null) {
+      // Vertical line starts from bottom of parent box
+      const verticalStartY = parentCurrentY + parentBoxHeight;
+
+      // Vertical line from parent box bottom
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute('x1', connectorX);
+      line.setAttribute('y1', verticalStartY);
+      line.setAttribute('x2', connectorX);
+      line.setAttribute('y2', y);
+      line.setAttribute('stroke', '#999');
+      line.setAttribute('stroke-width', '1');
+      svg.appendChild(line);
+
+      // Horizontal line to child (extended to match wider indent)
+      const boxX = x + 10;
+      const hlineExtension = 15; // Extra space for label
+      const hline = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      hline.setAttribute('x1', connectorX);
+      hline.setAttribute('y1', y);
+      hline.setAttribute('x2', boxX + hlineExtension);
+      hline.setAttribute('y2', y);
+      hline.setAttribute('stroke', '#999');
+      hline.setAttribute('stroke-width', '1');
+      svg.appendChild(hline);
+
+      // Add answer label on the horizontal line, positioned to the left to avoid box overlap
+      // Position label closer to parent box, shifted left by the indent amount
+      const labelX = connectorX + (indentWidth * 0.3) + 5;  // Position at 30% of the way across, plus 5px offset
+      const labelY = y + 16;  // Increased offset to avoid box overlap
+
+      // Add white background rectangle behind label for visibility
+      const labelBg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      labelBg.setAttribute('x', labelX - 12);
+      labelBg.setAttribute('y', labelY - 9);
+      labelBg.setAttribute('width', '24');
+      labelBg.setAttribute('height', '12');
+      labelBg.setAttribute('fill', 'white');
+      labelBg.setAttribute('stroke', 'none');
+      svg.appendChild(labelBg);
+
+      const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      label.setAttribute('x', labelX);
+      label.setAttribute('y', labelY);
+      label.setAttribute('font-family', '"Space Mono", monospace');
+      label.setAttribute('font-size', '11');
+      label.setAttribute('fill', '#666');
+      label.setAttribute('text-anchor', 'middle');
+      label.textContent = answerLabel;
+      svg.appendChild(label);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const sources = document.querySelectorAll('pre.decision-tree-source');
+
+    sources.forEach(pre => {
+      const yamlText = pre.textContent;
+      const treeData = parseDecisionTreeYAML(yamlText);
+
+      const container = document.createElement('div');
+      container.className = 'decision-tree-container';
+      pre.parentNode.insertBefore(container, pre.nextSibling);
+
+      renderDecisionTree(container, treeData);
+    });
+  });
+})();

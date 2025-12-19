@@ -39,10 +39,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: LLEN
+railroad_diagram: /images/railroad/llen.svg
 since: 1.0.0
 summary: Returns the length of a list.
 syntax_fmt: LLEN key
-syntax_str: ''
 title: LLEN
 ---
 Returns the length of the list stored at `key`.

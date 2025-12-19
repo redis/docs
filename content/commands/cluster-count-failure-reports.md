@@ -28,10 +28,10 @@ hidden: false
 hints:
 - nondeterministic_output
 linkTitle: CLUSTER COUNT-FAILURE-REPORTS
+railroad_diagram: /images/railroad/cluster-count-failure-reports.svg
 since: 3.0.0
 summary: Returns the number of active failure reports active for a node.
 syntax_fmt: CLUSTER COUNT-FAILURE-REPORTS node-id
-syntax_str: ''
 title: CLUSTER COUNT-FAILURE-REPORTS
 ---
 The command returns the number of *failure reports* for the specified node.

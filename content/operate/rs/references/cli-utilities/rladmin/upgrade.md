@@ -5,18 +5,16 @@ categories:
 - docs
 - operate
 - rs
-description: Upgrades the version of a module or Redis Enterprise Software for a database.
+description: Upgrades a database's Redis version and modules.
 headerRange: '[1-2]'
 linkTitle: upgrade
 toc: 'true'
 weight: $weight
 ---
 
-Upgrades the version of a module or Redis Enterprise Software for a database.
-
 ## `upgrade db`
 
-Schedules a restart of the primary and replica processes of a database and then upgrades the database to the latest version of Redis Enterprise Software.
+Schedules a restart of the primary and replica processes of a database and then upgrades the database to the latest version of Redis.
 
 For more information, see [Upgrade an existing Redis Software Deployment]({{< relref "/operate/rs/installing-upgrading/upgrading" >}}).
 
@@ -30,7 +28,7 @@ rladmin upgrade db { db:<id> | <name> }
                 [ keep_crdt_protocol_version ]
                 [ redis_version <version> ]
                 [ force ]
-                [ { latest_with_modules | and module module_name <module name> version <version> module_args <arguments string> } ]
+                [ and module module_name <module name> version <version> module_args <arguments string> ]
 ```
 
 As of v6.2.4, the default behavior for `upgrade db` has changed.  It is now controlled by a new parameter that sets the default upgrade policy used to create new databases and to upgrade ones already in the cluster.  To learn more, see [`tune cluster default_redis_version`]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-cluster" >}}).
@@ -48,7 +46,6 @@ As of Redis Enterprise Software version 7.8.2, `upgrade db` will always upgrade 
 | force_discard              |                          | Forces `discard_data` if replication or persistence is enabled                                                   |
 | keep_crdt_protocol_version |                          | Keeps the current CRDT protocol version                                                                                |
 | keep_redis_version       |                          | Upgrades to a new patch release, not to the latest major.minor version. Deprecated as of Redis Enterprise Software v7.8.2. To upgrade modules without upgrading the Redis database version, set `redis_version` to the current Redis database version instead. |
-| latest_with_modules        |                          | Upgrades the Redis Enterprise Software version and all modules in the database. As of Redis Enterprise Software version 7.8.2, `upgrade db` will always upgrade modules. |
 | parallel_shards_upgrade    | integer <br />'all'        | Maximum number of shards to upgrade all at once                                                                        |
 | preserve_roles             |                          | Performs an additional failover to guarantee the shards' roles are preserved                                             |
 | redis_version              | Redis version            | Upgrades the database to the specified version instead of the latest version                                               |
@@ -69,45 +66,5 @@ active - SMUpgradeBDB stop_forwarding
 oactive - SMUpgradeBDB start_wd
 active - SMUpgradeBDB wait_for_version
 .completed - SMUpgradeBDB
-Done
-```
-
-## `upgrade module`
-
-Upgrades Redis modules in use by a specific database. Deprecated as of Redis Enterprise Software v7.8.2. Use [`upgrade db`](#upgrade-db) instead.
-
-For more information, see [Upgrade modules]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module" >}}).
-
-```sh
-rladmin upgrade module
-        db_name { db:<id> | <name> }
-        module_name <mod_name>
-        version <version>
-        module_args <args_str>
-```
-
-### Parameters
-
-| Parameters                 | Type/Value               | Description                                                                                                            |
-|----------------------------|--------------------------|------------------------------------------------------------------------------------------------------------------------|
-| db_name                    | db:\<id\> <br />name     | Upgrade a module for the specified database                                                                                     |
-| module_name                | 'ReJSON'<br />'graph'<br />'search'<br />'bf'<br />'rg'<br />'timeseries' | Redis module to upgrade                                       |
-| version                    | module version number    | Upgrades the module to the specified version                                                                               |
-| module_args                | 'keep_args'<br />string    | Module configuration options                                                                                                       |
-
-For more information about module configuration options, see [Module configuration options]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-database#module-configuration-options" >}}).
-
-### Returns
-
-Returns `Done` if the upgrade completed. Otherwise, it returns an error.
-
-### Example
-
-```sh
-$ rladmin upgrade module db_name db:8 module_name graph version 20812 module_args ""
-Monitoring 21ac7659-e44c-4cc9-b243-a07922b2a6cc
-active - SMUpgradeBDB init
-active - SMUpgradeBDB wait_for_version
-Ocompleted - SMUpgradeBDB
 Done
 ```

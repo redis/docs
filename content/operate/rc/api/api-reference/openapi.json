@@ -11344,8 +11344,15 @@
           },
           "averageItemSizeInBytes": {
             "type": "integer",
-            "description": "Optional. Relevant only to ram-and-flash (also known as Auto Tiering) subscriptions. Estimated average size in bytes of the items stored in the database. Default: 1000",
-            "format": "int64"
+            "description": "Optional. Relevant only to ram-and-flash (also known as Redis-Flex/Auto-Tiering) subscriptions. Estimated average size in bytes of the items stored in the database. Default: 1000",
+            "format": "int64",
+            "deprecated": true
+          },
+          "ramPercentage": {
+            "type": "integer",
+            "description": "Optional. Relevant only to ram-and-flash (also known as Redis-Flex/Auto-Tiering) subscriptions. The percentage of data to be stored in RAM. Must be between 10 and 50 in steps of 10 (10, 20, 30, 40, 50). Default: 20",
+            "format": "int32",
+            "example": 20
           },
           "respVersion": {
             "type": "string",
@@ -11872,6 +11879,12 @@
             "items": {
               "$ref": "#/components/schemas/DatabaseAlertSpec"
             }
+          },
+          "ramPercentage": {
+            "type": "integer",
+            "description": "Optional. Relevant only to ram-and-flash (also known as Redis-Flex/Auto-Tiering) subscriptions. The percentage of data to be stored in RAM. Must be between 10 and 50 in steps of 10 (10, 20, 30, 40, 50).",
+            "format": "int32",
+            "example": 20
           },
           "commandType": {
             "type": "string",
@@ -15956,8 +15969,15 @@
           },
           "averageItemSizeInBytes": {
             "type": "integer",
-            "description": "Optional. Relevant only to ram-and-flash (also known as Auto Tiering) subscriptions. Estimated average size in bytes of the items stored in the database. Default: 1000",
-            "format": "int64"
+            "description": "Optional. Relevant only to ram-and-flash (also known as Redis-Flex/Auto-Tiering) subscriptions. Estimated average size in bytes of the items stored in the database. Default: 1000",
+            "format": "int64",
+            "deprecated": true
+          },
+          "ramPercentage": {
+            "type": "integer",
+            "description": "Optional. Relevant only to ram-and-flash (also known as Redis-Flex/Auto-Tiering) subscriptions. The percentage of data to be stored in RAM. Must be between 10 and 50 in steps of 10 (10, 20, 30, 40, 50). Default: 20",
+            "format": "int32",
+            "example": 20
           },
           "periodicBackupPath": {
             "type": "string",
@@ -16252,6 +16272,12 @@
               "DATABASE_MEMCACHED_SASL_PASSWORD_MAX_LENGTH",
               "DATABASE_REDIS_FLEX_CONTAINS_MODULES",
               "DATABASE_AVERAGE_ITEM_SIZE_NOT_ALLOWED",
+              "DATABASE_RAM_PERCENTAGE_NOT_ALLOWED",
+              "DATABASE_RAM_PERCENTAGE_NOT_SUPPORTED",
+              "DATABASE_RAM_PERCENTAGE_IS_INVALID",
+              "DATABASE_AVERAGE_ITEM_SIZE_IS_DEPRECATED",
+              "DATABASE_MEMORY_LIMIT_IS_INVALID_FOR_ROF",
+              "DATABASE_DATASET_SIZE_IS_INVALID_FOR_ROF",
               "DATABASE_SIZE_SMALLER_THAN_USAGE",
               "DATABASE_USAGE_EXCEEDS_GLOBAL_LIMIT",
               "DATABASE_USAGE_EXCEEDS_LOCAL_LIMIT",
@@ -16262,6 +16288,7 @@
               "DATABASE_CLIENT_SSL_CERTIFICATE_MORE_THAN_1_ACTIVE",
               "DATABASE_SIP_OVER_LIMIT",
               "DATABASE_INVALID_SIP",
+              "DATABASE_INVALID_SIP_FREE_PLAN",
               "DATABASE_INVALID_ALERTS",
               "DATABASE_INVALID_MODULE",
               "DATABASE_INVALID_MODULE_PARAMETER",
@@ -16322,6 +16349,7 @@
               "DATABASE_REDIS_VERSION_IS_NOT_SUPPORTED_FOR_MEMCACHED",
               "DATABASE_REDIS_VERSION_IS_REQUIRED",
               "DATABASE_REDIS_VERSION_INVALID_VALUE",
+              "INCOMPATIBLE_TF_PROVIDER",
               "CONNECTIVITY_REQUESTS_ON_CUSTOMER_MANAGED_VPC_SUBSCRIPTION",
               "VPC_PEERING_NOT_ACTIVE",
               "VPC_PEERING_GENERAL_ERROR",
@@ -16692,7 +16720,8 @@
               "COST_REPORT_END_DATE_BEFORE_START_DATE",
               "COST_REPORT_DATE_RANGE_EXCEEDS_LIMIT",
               "COST_REPORT_TAG_KEY_EMPTY",
-              "COST_REPORT_TAG_VALUE_EMPTY"
+              "COST_REPORT_TAG_VALUE_EMPTY",
+              "COST_REPORT_FUTURE_DATES_NOT_ALLOWED"
             ]
           },
           "additionalInfo": {

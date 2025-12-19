@@ -61,10 +61,10 @@ key_specs:
     type: range
   insert: true
 linkTitle: RENAMENX
+railroad_diagram: /images/railroad/renamenx.svg
 since: 1.0.0
 summary: Renames a key only when the target key name doesn't exist.
 syntax_fmt: RENAMENX key newkey
-syntax_str: newkey
 title: RENAMENX
 ---
 Renames `key` to `newkey` if `newkey` does not yet exist.

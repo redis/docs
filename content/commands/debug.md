@@ -26,10 +26,10 @@ doc_flags:
 group: server
 hidden: true
 linkTitle: DEBUG
+railroad_diagram: /images/railroad/debug.svg
 since: 1.0.0
 summary: A container for debugging commands.
 syntax_fmt: DEBUG
-syntax_str: ''
 title: DEBUG
 ---
 The `DEBUG` command is an internal command.

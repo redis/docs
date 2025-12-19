@@ -31,12 +31,12 @@ group: json
 hidden: false
 linkTitle: JSON.ARRTRIM
 module: JSON
+railroad_diagram: /images/railroad/json.arrtrim.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Trims the array at path to contain only the specified inclusive range of
   indices from start to stop
 syntax_fmt: JSON.ARRTRIM key path start stop
-syntax_str: path start stop
 title: JSON.ARRTRIM
 ---
 Trim an array so that it contains only the specified inclusive range of elements
@@ -125,7 +125,6 @@ redis> JSON.GET key $.[1].max_level
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

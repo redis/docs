@@ -40,10 +40,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: PEXPIRETIME
+railroad_diagram: /images/railroad/pexpiretime.svg
 since: 7.0.0
 summary: Returns the expiration time of a key as a Unix milliseconds timestamp.
 syntax_fmt: PEXPIRETIME key
-syntax_str: ''
 title: PEXPIRETIME
 ---
 `PEXPIRETIME` has the same semantic as [`EXPIRETIME`]({{< relref "/commands/expiretime" >}}), but returns the absolute Unix expiration timestamp in milliseconds instead of seconds.

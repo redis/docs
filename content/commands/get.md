@@ -40,10 +40,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: GET
+railroad_diagram: /images/railroad/get.svg
 since: 1.0.0
 summary: Returns the string value of a key.
 syntax_fmt: GET key
-syntax_str: ''
 title: GET
 ---
 Get the value of `key`.
@@ -58,7 +58,6 @@ GET nonexisting
 SET mykey "Hello"
 GET mykey
 {{% /redis-cli %}}
-
 
 ### Code examples
 

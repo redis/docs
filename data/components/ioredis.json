@@ -1,0 +1,16 @@
+{
+    "id": "ioredis",
+    "type": "client",
+    "name": "ioredis",
+    "language": "Node.js",
+    "label": "ioredis",
+    "repository": {
+        "git_uri": "https://github.com/luin/ioredis"
+    },
+    "examples": {
+        "git_uri": "https://github.com/luin/ioredis",
+        "path": "examples",
+        "pattern": "*.js"
+    }
+}
+

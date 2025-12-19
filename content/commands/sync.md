@@ -23,10 +23,10 @@ description: An internal command used in replication.
 group: server
 hidden: false
 linkTitle: SYNC
+railroad_diagram: /images/railroad/sync.svg
 since: 1.0.0
 summary: An internal command used in replication.
 syntax_fmt: SYNC
-syntax_str: ''
 title: SYNC
 ---
 Initiates a replication stream from the master.
