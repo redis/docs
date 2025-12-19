@@ -26,7 +26,6 @@ To launch the program in special modes, you can use several options, including:
 
 This topic covers the different aspects of `redis-cli`, starting from the simplest and ending with the more advanced features.
 
-
 ## Install `redis-cli`
 
 You have several options for installing or using `redis-cli`.
