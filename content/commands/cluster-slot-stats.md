@@ -105,8 +105,13 @@ The command reports on the following statistics:
 
 * `KEY-COUNT`: Number of keys stored in the slot.
 * `CPU-USEC`: CPU time (in microseconds) spent handling the slot.
+* `MEMORY-BYTES`: Number of bytes allocated by the slot.
 * `NETWORK-BYTES-IN`: Total inbound network traffic (in bytes) received by the slot.
 * `NETWORK-BYTES-OUT`: Total outbound network traffic (in bytes) sent from the slot.
+
+{{< note>}}
+`MEMORY-BYTES` requires that you set `cluster-slot-stats-enabled` to `yes` in your `redis.conf` file.
+{{< /note >}}
 
 ## Redis Enterprise and Redis Cloud compatibility
 
