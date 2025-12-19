@@ -19,7 +19,7 @@ Redis Enterprise for Kubernetes 8.0.6 includes bug fixes, enhancements, and supp
 
 ## Known limitations
 
-- **SSO configuration doesn't work with IPv6 or dual stack (IPv4/IPv6) clusters.**
+- **SSO configuration doesn't work with IPv6 or dual stack (IPv4/IPv6) clusters.** <!--RED-180550-->
 
 - **Only upgrades from 7.4.2-2 and later are supported.** If you are using an earlier version, install 7.4.2-2 before upgrading to 8.0.6-6.
 
