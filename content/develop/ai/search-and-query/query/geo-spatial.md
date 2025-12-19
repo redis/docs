@@ -60,16 +60,16 @@ Here is a more detailed explanation of this query:
 1. **Field name**: you need to replace `geo_shape_field` with the `GEOSHAPE` field's name on which you want to query.
 2. **Spatial operator**: spatial operators define the relationship between the shapes in the database and the shape you are searching for. You can either use `WITHIN`, `CONTAINS`, `INTERSECTS`, or `DISJOINT`. `WITHIN` finds any shape in the database that is inside the given shape. `CONTAINS` queries for any shape that surrounds the given shape. `INTERSECTS` finds any shape that has coordinates in common with the provided shape. `DISJOINT` finds any shapes that have nothing in common with the provided shape. `INTERSECTS` and `DISJOINT` were introduced in v2.10.
 3. **Parameter**: the query refers to a parameter named `shape`. You can use any parameter name here. You need to use the `PARAMS` clause to set the parameter value. The value follows the [well-known text representation of a geometry](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry). Supported types are `POINT(x y)` and `POLYGON((x1 y1, x2 y2, ...))`.
-4. **Dialect**: Shape-based queries have been available since version three of the query dialect.
+4. **Dialect**: Shape-based queries are not supported in `DIALECT 1`.
 
 The following example query verifies if a bicycle is within a pickup zone:
 
 {{< clients-example query_geo geo2 >}}
-FT.SEARCH idx:bicycle "@pickup_zone:[CONTAINS $bike]" PARAMS 2 bike "POINT(-0.1278 51.5074)" DIALECT 3
+FT.SEARCH idx:bicycle "@pickup_zone:[CONTAINS $bike]" PARAMS 2 bike "POINT(-0.1278 51.5074)" DIALECT 2
 {{< /clients-example >}}
 
 If you want to find all pickup zones that are approximately within Europe, then you can use the following query:
 
 {{< clients-example query_geo geo3 >}}
-FT.SEARCH idx:bicycle "@pickup_zone:[WITHIN $europe]" PARAMS 2 europe "POLYGON((-25 35, 40 35, 40 70, -25 70, -25 35))" DIALECT 3
+FT.SEARCH idx:bicycle "@pickup_zone:[WITHIN $europe]" PARAMS 2 europe "POLYGON((-25 35, 40 35, 40 70, -25 70, -25 35))" DIALECT 2
 {{< /clients-example >}}

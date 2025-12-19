@@ -63,7 +63,7 @@ dependencies to your `pom.xml` file:
 <dependency>
     <groupId>redis.clients</groupId>
     <artifactId>jedis</artifactId>
-    <version>6.1.0</version>
+    <version>7.2.0</version>
 </dependency>
 <dependency>
     <groupId>ai.djl.huggingface</groupId>
@@ -86,7 +86,7 @@ If you are using [Gradle](https://gradle.org/), add the following
 dependencies to your `build.gradle` file:
 
 ```bash
-implementation 'redis.clients:jedis:6.1.0'
+implementation 'redis.clients:jedis:7.2.0'
 implementation 'ai.djl.huggingface:tokenizers:0.33.0'
 implementation 'ai.djl.pytorch:pytorch-model-zoo:0.33.0'
 implementation 'ai.djl:api:0.33.0'

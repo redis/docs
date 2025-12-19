@@ -16,7 +16,8 @@
   "key_specs": {{ .Params.key_specs | jsonify }}{{ end }}{{ if .Params.topics }},
   "topics": {{ .Params.topics | jsonify }}{{ end }}{{ if .Params.relatedPages }},
   "relatedPages": {{ .Params.relatedPages | jsonify }}{{ end }}{{ if .Params.scope }},
-  "scope": {{ .Params.scope | jsonify }}{{ end }}
+  "scope": {{ .Params.scope | jsonify }}{{ end }},
+  "tableOfContents": {{ partial "toc-json-regex.html" . }}
 }
 ```
 

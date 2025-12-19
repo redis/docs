@@ -18,6 +18,10 @@ Redis Enterprise Software for Kubernetes supports using Redis Flex (previously k
 NVMe (non-volatile memory express) SSDs are strongly recommended to achieve the best performance.
 {{</note>}}
 
+{{<warning>}}
+Redis Flex is not supported for [Active-Active databases]({{< relref "/operate/kubernetes/active-active" >}}).
+{{</warning>}}
+
 Before creating your Redis clusters or databases, these SSDs must be:
 
 - [locally attached to worker nodes in your Kubernetes cluster](https://kubernetes.io/docs/concepts/storage/volumes/#local)

@@ -10,7 +10,9 @@ linkTitle: Enable SSO
 weight: 94
 ---
 
-Redis Enterprise for Kubernetes supports SAML 2.0 single sign-on (SSO) for the Cluster Manager UI with both IdP-initiated and SP-initiated authentication. User accounts are automatically created on first sign-in using just-in-time (JIT) provisioning. 
+
+Redis Enterprise Software supports SAML 2.0 single sign-on (SSO) for the Cluster Manager UI with both IdP-initiated and SP-initiated authentication. User accounts are automatically created on first sign-in using just-in-time (JIT) provisioning.
+
 
 ## IdP requirements
 
@@ -28,6 +30,7 @@ To enable SSO for your Redis Enterprise cluster (REC), follow these steps to con
 ### Prerequisites
 
 Before enabling SSO, ensure you have:
+
 
 1. An existing Redis Enterprise cluster (REC) deployed in Kubernetes
 
