@@ -190,15 +190,6 @@ syntax_fmt: "FT.AGGREGATE index query [VERBATIM] [LOAD\_count field [field ...]]
   \ ...]]\n  [MAX\_num]] [APPLY\_expression AS\_name [APPLY\_expression AS\_name\n\
   \  ...]] [LIMIT offset num] [FILTER\_filter] [WITHCURSOR\n  [COUNT\_read_size] [MAXIDLE\_\
   idle_time]] [PARAMS nargs name value\n  [name value ...]] [DIALECT\_dialect]"
-syntax_str: "query [VERBATIM] [LOAD\_count field [field ...]] [TIMEOUT\_timeout] [LOAD\
-  \ *] [GROUPBY\_nargs property [property ...] [REDUCE\_function nargs arg [arg ...]\
-  \ [AS\_name] [REDUCE\_function nargs arg [arg ...] [AS\_name] ...]] [GROUPBY\_nargs\
-  \ property [property ...] [REDUCE\_function nargs arg [arg ...] [AS\_name] [REDUCE\_\
-  function nargs arg [arg ...] [AS\_name] ...]] ...]] [SORTBY\_nargs [property <ASC\
-  \ | DESC> [property <ASC | DESC> ...]] [MAX\_num]] [APPLY\_expression AS\_name [APPLY\_\
-  expression AS\_name ...]] [LIMIT offset num] [FILTER\_filter] [WITHCURSOR [COUNT\_\
-  read_size] [MAXIDLE\_idle_time]] [PARAMS nargs name value [name value ...]] [DIALECT\_\
-  dialect]"
 title: FT.AGGREGATE
 ---
 
@@ -354,7 +345,6 @@ selects the dialect version under which to execute the query. If not specified, 
 See [Return multiple values]({{< relref "commands/ft.search#return-multiple-values/" >}}) in [`FT.SEARCH`]({{< relref "commands/ft.search/" >}})
 The `DIALECT` can be specified as a parameter in the FT.AGGREGATE command. If it is not specified, the `DEFAULT_DIALECT` is used, which can be set using [`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) or by passing it as an argument to the `redisearch` module when it is loaded.
 For example, with the following document and index:
-
 
 ```sh
 127.0.0.1:6379> JSON.SET doc:1 $ '[{"arr": [1, 2, 3]}, {"val": "hello"}, {"val": "world"}]'

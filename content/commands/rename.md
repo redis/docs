@@ -60,7 +60,6 @@ railroad_diagram: /images/railroad/rename.svg
 since: 1.0.0
 summary: Renames a key and overwrites the destination.
 syntax_fmt: RENAME key newkey
-syntax_str: newkey
 title: RENAME
 ---
 Renames `key` to `newkey`.
@@ -76,7 +75,6 @@ SET mykey "Hello"
 RENAME mykey myotherkey
 GET myotherkey
 {{% /redis-cli %}}
-
 
 ## Behavior change history
 

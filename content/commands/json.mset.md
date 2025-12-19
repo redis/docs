@@ -39,7 +39,6 @@ since: 2.6.0
 stack_path: docs/data-types/json
 summary: Sets or updates the JSON value of one or more keys
 syntax_fmt: JSON.MSET key path value [key path value ...]
-syntax_str: ''
 title: JSON.MSET
 ---
 Set or update one or more JSON values according to the specified `key`-`path`-`value` triplets

@@ -69,7 +69,6 @@ railroad_diagram: /images/railroad/geodist.svg
 since: 3.2.0
 summary: Returns the distance between two members of a geospatial index.
 syntax_fmt: GEODIST key member1 member2 [M | KM | FT | MI]
-syntax_str: member1 member2 [M | KM | FT | MI]
 title: GEODIST
 ---
 Return the distance between two members in the geospatial index represented by the sorted set.

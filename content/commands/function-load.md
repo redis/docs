@@ -39,7 +39,6 @@ railroad_diagram: /images/railroad/function-load.svg
 since: 7.0.0
 summary: Creates a library.
 syntax_fmt: FUNCTION LOAD [REPLACE] function-code
-syntax_str: function-code
 title: FUNCTION LOAD
 ---
 Load a library to Redis.

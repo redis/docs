@@ -63,7 +63,6 @@ railroad_diagram: /images/railroad/linsert.svg
 since: 2.2.0
 summary: Inserts an element before or after another element in a list.
 syntax_fmt: LINSERT key <BEFORE | AFTER> pivot element
-syntax_str: <BEFORE | AFTER> pivot element
 title: LINSERT
 ---
 Inserts `element` in the list stored at `key` either before or after the reference

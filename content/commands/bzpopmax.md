@@ -58,7 +58,6 @@ summary: Removes and returns the member with the highest score from one or more 
   sets. Blocks until a member available otherwise.  Deletes the sorted set if the
   last element was popped.
 syntax_fmt: BZPOPMAX key [key ...] timeout
-syntax_str: timeout
 title: BZPOPMAX
 ---
 `BZPOPMAX` is the blocking variant of the sorted set [`ZPOPMAX`]({{< relref "/commands/zpopmax" >}}) primitive.

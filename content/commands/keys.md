@@ -34,7 +34,6 @@ railroad_diagram: /images/railroad/keys.svg
 since: 1.0.0
 summary: Returns all key names that match a pattern.
 syntax_fmt: KEYS pattern
-syntax_str: ''
 title: KEYS
 ---
 Returns all keys matching `pattern`.

@@ -54,7 +54,6 @@ replaced_by: '`SET` with the `!GET` argument'
 since: 1.0.0
 summary: Returns the previous string value of a key after setting it to a new value.
 syntax_fmt: GETSET key value
-syntax_str: value
 title: GETSET
 ---
 Atomically sets `key` to `value` and returns the old value stored at `key`.
@@ -75,7 +74,6 @@ INCR mycounter
 GETSET mycounter "0"
 GET mycounter
 {{% /redis-cli %}}
-
 
 ## Examples
 

@@ -65,7 +65,6 @@ railroad_diagram: /images/railroad/hscan.svg
 since: 2.8.0
 summary: Iterates over fields and values of a hash.
 syntax_fmt: "HSCAN key cursor [MATCH\_pattern] [COUNT\_count] [NOVALUES]"
-syntax_str: "cursor [MATCH\_pattern] [COUNT\_count] [NOVALUES]"
 title: HSCAN
 ---
 See [`SCAN`]({{< relref "/commands/scan" >}}) for `HSCAN` documentation.

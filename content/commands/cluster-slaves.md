@@ -36,7 +36,6 @@ replaced_by: '`CLUSTER REPLICAS`'
 since: 3.0.0
 summary: Lists the replica nodes of a master node.
 syntax_fmt: CLUSTER SLAVES node-id
-syntax_str: ''
 title: CLUSTER SLAVES
 ---
 **A note about the word slave used in this man page and command name**: starting with Redis version 5, if not for backward compatibility, the Redis project no longer uses the word slave. Please use the new command [`CLUSTER REPLICAS`]({{< relref "/commands/cluster-replicas" >}}). The command `CLUSTER SLAVES` will continue to work for backward compatibility.

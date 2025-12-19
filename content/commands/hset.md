@@ -59,7 +59,6 @@ railroad_diagram: /images/railroad/hset.svg
 since: 2.0.0
 summary: Creates or modifies the value of a field in a hash.
 syntax_fmt: HSET key field value [field value ...]
-syntax_str: field value [field value ...]
 title: HSET
 ---
 Sets the specified fields to their respective values in the hash stored at `key`.

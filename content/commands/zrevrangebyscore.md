@@ -74,7 +74,6 @@ replaced_by: '`ZRANGE` with the `REV` and `BYSCORE` arguments'
 since: 2.2.0
 summary: Returns members in a sorted set within a range of scores in reverse order.
 syntax_fmt: "ZREVRANGEBYSCORE key max min [WITHSCORES] [LIMIT\_offset count]"
-syntax_str: "max min [WITHSCORES] [LIMIT\_offset count]"
 title: ZREVRANGEBYSCORE
 ---
 Returns all the elements in the sorted set at `key` with a score between `max`

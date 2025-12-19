@@ -31,7 +31,6 @@ since: 2.0.0
 stack_path: docs/data-types/probabilistic
 summary: Initializes a Count-Min Sketch to dimensions specified by user
 syntax_fmt: CMS.INITBYDIM key width depth
-syntax_str: width depth
 title: CMS.INITBYDIM
 ---
 Initializes a Count-Min Sketch to dimensions specified by user.
@@ -55,7 +54,6 @@ OK
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

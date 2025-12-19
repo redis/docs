@@ -54,7 +54,6 @@ railroad_diagram: /images/railroad/mset.svg
 since: 1.0.1
 summary: Atomically creates or modifies the string values of one or more keys.
 syntax_fmt: MSET key value [key value ...]
-syntax_str: ''
 title: MSET
 ---
 Sets the given keys to their respective values.

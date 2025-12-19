@@ -31,9 +31,7 @@ replaced_by: '[`CONFIG GET`]({{< relref "/commands/config-get" >}})'
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Retrieves runtime configuration options
-syntax: FT.CONFIG GET option
 syntax_fmt: FT.CONFIG GET option
-syntax_str: ''
 title: FT.CONFIG GET
 ---
 

@@ -48,7 +48,6 @@ since: 1.0.0
 summary: Increments the integer value of a key by one. Uses 0 as initial value if
   the key doesn't exist.
 syntax_fmt: INCR key
-syntax_str: ''
 title: INCR
 ---
 Increments the number stored at `key` by one.

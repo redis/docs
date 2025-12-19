@@ -33,7 +33,6 @@ since: 2.0.0
 stack_path: docs/data-types/json
 summary: Clears all values from an array or an object and sets numeric values to `0`
 syntax_fmt: JSON.CLEAR key [path]
-syntax_str: '[path]'
 title: JSON.CLEAR
 ---
 Clear container values (arrays/objects) and set numeric values to `0`
@@ -92,7 +91,6 @@ redis> JSON.GET doc $
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

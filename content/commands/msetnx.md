@@ -53,7 +53,6 @@ since: 1.0.1
 summary: Atomically modifies the string values of one or more keys only when all keys
   don't exist.
 syntax_fmt: MSETNX key value [key value ...]
-syntax_str: ''
 title: MSETNX
 ---
 Sets the given keys to their respective values.

@@ -36,6 +36,9 @@ After you have [prepared your source database]({{<relref "/operate/rc/databases/
 1. If your database requires mTLS, select **Use mTLS**. Enter the ARN of your [Client certificate secret]({{< relref "/operate/rc/databases/rdi/setup#create-database-credentials-secrets" >}}) in the **Client Certificate Secret ARN** field and the ARN of your [Client key secret]({{< relref "/operate/rc/databases/rdi/setup#create-database-credentials-secrets" >}}) in the **Client Key Secret ARN** field.
     {{<image filename="images/rc/rdi/rdi-define-mtls.png" alt="The Source database connectivity section, with Use TLS selected and the Client Certificate Secret ARN and Client Key Secret ARN fields." >}}
 1. If your database requires mTLS with a client key passphrase, enter the ARN of your [Client key passphrase secret]({{< relref "/operate/rc/databases/rdi/setup#create-database-credentials-secrets" >}}) in the **Please add a secret ARN for the password to use with the secret store** field.
+1. Select **Advanced properties** to configure additional optional properties for your pipeline.
+    {{<image filename="images/rc/rdi/rdi-advanced-properties.png" alt="The advanced properties section." >}}
+    You can add any [Debezium source property](https://debezium.io/documentation/reference/stable/connectors/) for your source database type in the **Collector source properties** section and any [Redis server Debezium sink property](https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream) in the **Collector sink properties** section. 
 1. Select **Start pipeline setup**.
     {{<image filename="images/rc/rdi/rdi-start-pipeline-setup.png" alt="The start pipeline setup button." width=200px >}}
 1. Redis Cloud will attempt to connect to PrivateLink. If your PrivateLink does not allow automatic acceptance of incoming connections, accept the incoming connection on AWS PrivateLink to proceed. See [Accept or Reject PrivateLink connection requests](https://docs.aws.amazon.com/vpc/latest/privatelink/configure-endpoint-service.html#accept-reject-connection-requests).
@@ -73,10 +76,6 @@ After your pipeline is provisioned, you will be able to define your pipeline. Yo
 
     If any tables are missing a unique constraint, a warning will appear in the **Data modeling** section. Select **Manage columns** to select the columns that define a unique constraint for those tables.
 
-    {{<image filename="images/rc/rdi/rdi-missing-unique-constraint.png" alt="The missing unique constraint list." width=75% >}}
-
-    {{<image filename="images/rc/rdi/rdi-select-constraints.png" alt="The missing unique constraint list with columns selected." width=75% >}}
-
     Select **Save** to save your column changes and go back to schema selection.
 
     {{<image filename="images/rc/button-save.png" alt="The save button." width=100px >}}
@@ -93,14 +92,21 @@ After your pipeline is provisioned, you will be able to define your pipeline. Yo
 
      {{<image filename="images/rc/rdi/rdi-continue-button.png" alt="The continue button." width=150px >}}
     
-1. Select the Redis data type to write keys to the target. You can choose **Hash** or **JSON** if the target database supports JSON. 
-    {{<image filename="images/rc/rdi/rdi-configure-new-pipeline.png" alt="The pipeline definition screen." width=75% >}}
+1. Select the Redis data type to write keys to the target. You can choose **Hash key** or **JSON key** if the target database supports JSON. 
+    {{<image filename="images/rc/rdi/rdi-configure-new-pipeline.png" alt="The data modeling section, with Hash Key selected." width=75% >}}
 
     You can also supply one or more [transformation job files]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}}) that specify how you want to transform the captured data before writing it to the target. Select **Upload jobs** to upload your job files.
 
     {{<image filename="images/rc/rdi/rdi-transformation-jobs.png" alt="The transformation jobs section. Select Upload jobs to upload transformation jobs." >}}
 
     When you upload job files, Redis Cloud will validate the job files to check for errors. 
+
+    Select **Continue**.
+    {{<image filename="images/rc/rdi/rdi-continue-button.png" alt="The continue button." width=150px >}}
+
+1. In the **Advanced properties** section, you can add any processor properties to control how the data is processed. See the [RDI configuration file reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors" >}}) for all available processor properties.
+
+    {{<image filename="images/rc/rdi/rdi-processor-properties.png" alt="The advanced properties section with processor properties." >}}
 
     Select **Continue**.
     {{<image filename="images/rc/rdi/rdi-continue-button.png" alt="The continue button." width=150px >}}

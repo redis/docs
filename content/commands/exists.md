@@ -50,7 +50,6 @@ railroad_diagram: /images/railroad/exists.svg
 since: 1.0.0
 summary: Determines whether one or more keys exist.
 syntax_fmt: EXISTS key [key ...]
-syntax_str: ''
 title: EXISTS
 ---
 Returns if `key` exists.

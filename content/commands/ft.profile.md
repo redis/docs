@@ -47,11 +47,7 @@ since: 2.2.0
 stack_path: docs/interact/search-and-query
 summary: Performs a `FT.SEARCH` or `FT.AGGREGATE` command and collects performance
   information
-syntax: 'FT.PROFILE index SEARCH | AGGREGATE [LIMITED] QUERY query
-
-  '
 syntax_fmt: FT.PROFILE index <SEARCH | AGGREGATE> [LIMITED] QUERY query
-syntax_str: <SEARCH | AGGREGATE> [LIMITED] QUERY query
 title: FT.PROFILE
 ---
 

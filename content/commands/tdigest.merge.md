@@ -47,7 +47,6 @@ stack_path: docs/data-types/probabilistic
 summary: Merges multiple t-digest sketches into a single sketch
 syntax_fmt: "TDIGEST.MERGE destination-key numkeys source-key [source-key ...]\n \
   \ [COMPRESSION compression] [OVERRIDE]"
-syntax_str: numkeys source-key [source-key ...] [COMPRESSION compression] [OVERRIDE]
 title: TDIGEST.MERGE
 ---
 Merges multiple t-digest sketches into a single sketch.
@@ -114,7 +113,6 @@ redis> TDIGEST.BYRANK sM 0 1 2 3 4
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

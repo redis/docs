@@ -54,7 +54,6 @@ railroad_diagram: /images/railroad/scan.svg
 since: 2.8.0
 summary: Iterates over the key names in the database.
 syntax_fmt: "SCAN cursor [MATCH\_pattern] [COUNT\_count] [TYPE\_type]"
-syntax_str: "[MATCH\_pattern] [COUNT\_count] [TYPE\_type]"
 title: SCAN
 ---
 The `SCAN` command and the closely related commands [`SSCAN`]({{< relref "/commands/sscan" >}}), [`HSCAN`]({{< relref "/commands/hscan" >}}) and [`ZSCAN`]({{< relref "/commands/zscan" >}}) are used in order to incrementally iterate over a collection of elements.

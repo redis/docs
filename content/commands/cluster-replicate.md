@@ -31,7 +31,6 @@ railroad_diagram: /images/railroad/cluster-replicate.svg
 since: 3.0.0
 summary: Configure a node as replica of a master node.
 syntax_fmt: CLUSTER REPLICATE node-id
-syntax_str: ''
 title: CLUSTER REPLICATE
 ---
 The command reconfigures a node as a replica of the specified master.

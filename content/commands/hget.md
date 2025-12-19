@@ -47,7 +47,6 @@ railroad_diagram: /images/railroad/hget.svg
 since: 2.0.0
 summary: Returns the value of a field in a hash.
 syntax_fmt: HGET key field
-syntax_str: field
 title: HGET
 ---
 Returns the value associated with `field` in the hash stored at `key`.

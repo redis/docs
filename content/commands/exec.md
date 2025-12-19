@@ -27,7 +27,6 @@ railroad_diagram: /images/railroad/exec.svg
 since: 1.2.0
 summary: Executes all commands in a transaction.
 syntax_fmt: EXEC
-syntax_str: ''
 title: EXEC
 ---
 Executes all previously queued commands in a [transaction][tt] and restores the

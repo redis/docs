@@ -54,7 +54,6 @@ railroad_diagram: /images/railroad/zintercard.svg
 since: 7.0.0
 summary: Returns the number of members of the intersect of multiple sorted sets.
 syntax_fmt: "ZINTERCARD numkeys key [key ...] [LIMIT\_limit]"
-syntax_str: "key [key ...] [LIMIT\_limit]"
 title: ZINTERCARD
 ---
 This command is similar to [`ZINTER`]({{< relref "/commands/zinter" >}}), but instead of returning the result set, it returns just the cardinality of the result.

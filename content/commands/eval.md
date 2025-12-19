@@ -61,7 +61,6 @@ railroad_diagram: /images/railroad/eval.svg
 since: 2.6.0
 summary: Executes a server-side Lua script.
 syntax_fmt: EVAL script numkeys [key [key ...]] [arg [arg ...]]
-syntax_str: numkeys [key [key ...]] [arg [arg ...]]
 title: EVAL
 ---
 Invoke the execution of a server-side Lua script.

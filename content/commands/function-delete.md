@@ -33,7 +33,6 @@ railroad_diagram: /images/railroad/function-delete.svg
 since: 7.0.0
 summary: Deletes a library and its functions.
 syntax_fmt: FUNCTION DELETE library-name
-syntax_str: ''
 title: FUNCTION DELETE
 ---
 Delete a library and all its functions.

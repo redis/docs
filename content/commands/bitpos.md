@@ -76,7 +76,6 @@ railroad_diagram: /images/railroad/bitpos.svg
 since: 2.8.7
 summary: Finds the first set (1) or clear (0) bit in a string.
 syntax_fmt: BITPOS key bit [start [end [BYTE | BIT]]]
-syntax_str: bit [start [end [BYTE | BIT]]]
 title: BITPOS
 ---
 Return the position of the first bit set to 1 or 0 in a string.

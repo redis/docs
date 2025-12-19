@@ -126,8 +126,6 @@ summary: Returns members from a geospatial index that are within a distance from
   coordinate.
 syntax_fmt: "GEORADIUS_RO key longitude latitude radius <M | KM | FT | MI>\n  [WITHCOORD]\
   \ [WITHDIST] [WITHHASH] [COUNT\_count [ANY]] [ASC | DESC]"
-syntax_str: "longitude latitude radius <M | KM | FT | MI> [WITHCOORD] [WITHDIST] [WITHHASH]\
-  \ [COUNT\_count [ANY]] [ASC | DESC]"
 title: GEORADIUS_RO
 ---
 Read-only variant of the [`GEORADIUS`]({{< relref "/commands/georadius" >}}) command.

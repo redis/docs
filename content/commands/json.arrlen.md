@@ -31,7 +31,6 @@ since: 1.0.0
 stack_path: docs/data-types/json
 summary: Returns the length of the array at path
 syntax_fmt: JSON.ARRLEN key [path]
-syntax_str: '[path]'
 title: JSON.ARRLEN
 ---
 Report the length of the JSON array at `path` in `key`
@@ -98,7 +97,6 @@ redis> JSON.GET item:2 '$..max_level'
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

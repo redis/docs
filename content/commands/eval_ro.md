@@ -61,7 +61,6 @@ railroad_diagram: /images/railroad/eval_ro.svg
 since: 7.0.0
 summary: Executes a read-only server-side Lua script.
 syntax_fmt: EVAL_RO script numkeys [key [key ...]] [arg [arg ...]]
-syntax_str: numkeys [key [key ...]] [arg [arg ...]]
 title: EVAL_RO
 ---
 This is a read-only variant of the [`EVAL`]({{< relref "/commands/eval" >}}) command that cannot execute commands that modify data.

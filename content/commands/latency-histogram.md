@@ -39,7 +39,6 @@ railroad_diagram: /images/railroad/latency-histogram.svg
 since: 7.0.0
 summary: Returns the cumulative distribution of latencies of a subset or all commands.
 syntax_fmt: LATENCY HISTOGRAM [command [command ...]]
-syntax_str: ''
 title: LATENCY HISTOGRAM
 ---
 `LATENCY HISTOGRAM` returns a cumulative distribution of commands' latencies in histogram format.

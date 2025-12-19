@@ -21,7 +21,6 @@ railroad_diagram: /images/railroad/slowlog.svg
 since: 2.2.12
 summary: A container for slow log commands.
 syntax_fmt: SLOWLOG
-syntax_str: ''
 title: SLOWLOG
 ---
 The Redis Slow Log is a system to log queries that exceeded a specified execution time.

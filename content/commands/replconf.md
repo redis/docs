@@ -31,7 +31,6 @@ railroad_diagram: /images/railroad/replconf.svg
 since: 3.0.0
 summary: An internal command for configuring the replication stream.
 syntax_fmt: REPLCONF
-syntax_str: ''
 title: REPLCONF
 ---
 The `REPLCONF` command is an internal command.
