@@ -39,5 +39,7 @@ A bootstrap configuration object.
 | recovery_filename | string | Name of backup file to recover from |
 | required_version | string | This node can only join the cluster if all nodes in the cluster have a version greater than the required_version (deprecated as of Redis Enterprise Software v7.8.6) |
 | retry_time | integer | Max waiting time between retries (in seconds) |
+| user_defined_modules | array of [user_defined_module]({{< relref "/operate/rs/references/rest-api/objects/bootstrap/user_defined_module" >}}) objects | List of custom modules to download and install during bootstrap. Each node downloads and installs the modules independently. |
+| witness_disk | object | An API object that represents the Witness Disk bootstrap configuration |
 
 
