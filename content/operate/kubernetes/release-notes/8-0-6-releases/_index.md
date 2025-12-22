@@ -11,7 +11,7 @@ title: Redis Enterprise for Kubernetes 8.0.6 release notes
 weight: 1
 ---
 
-Redis Enterprise for Kubernetes 8.0.6 includes bug fixes, enhancements, and support for Redis Enterprise Software 8.0.6. The latest release is 8.0.6-6 with support for Redis Enterprise Software version 8.0.6-50.
+Redis Enterprise for Kubernetes 8.0.6 includes bug fixes, enhancements, and support for Redis Enterprise Software 8.0.6. The latest release is 8.0.6-8 with support for Redis Enterprise Software version 8.0.6-54.
 
 ## Detailed release notes
 
@@ -21,7 +21,7 @@ Redis Enterprise for Kubernetes 8.0.6 includes bug fixes, enhancements, and supp
 
 - **SSO configuration doesn't work with IPv6 or dual stack (IPv4/IPv6) clusters.** <!--RED-180550-->
 
-- **Only upgrades from 7.4.2-2 and later are supported.** If you are using an earlier version, install 7.4.2-2 before upgrading to 8.0.6-6.
+- **Only upgrades from 7.4.2-2 and later are supported.** If you are using an earlier version, install 7.4.2-2 before upgrading to 8.0.6-8.
 
 - **Custom certificate upload is not supported for internode encryption (RED-173229).** Internode communication between cluster nodes continues to use default self-signed certificates and cannot be configured with customer-provided certificates.
 
