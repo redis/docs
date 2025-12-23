@@ -1,0 +1,243 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Authentication Service REST API",
+    "description": "REST API for the Authentication Service, primarily used for exposing SSO related endpoints.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://localhost:9443"
+    }
+  ],
+  "paths": {
+    "/v1/auth/sso/saml/login": {
+      "get": {
+        "x-stability-level": "stable",
+        "x-publish-docs": true,
+        "summary": "Starts SP-initiated SAML login flow",
+        "description": "Generates a redirect URL to the IdP for SAML authentication.",
+        "operationId": "login",
+        "tags": [
+          "Auth"
+        ],
+        "parameters": [
+          {
+            "name": "relayState",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "An optional relay state to be included in the SAML request."
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/SamlLoginResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/v1/auth/sso/saml/callback": {
+      "post": {
+        "x-stability-level": "stable",
+        "x-publish-docs": true,
+        "summary": "Handles SAML response from IdP",
+        "description": "Processes the SAML response from the IdP",
+        "operationId": "callback",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "SAMLResponse"
+                ],
+                "properties": {
+                  "SAMLResponse": {
+                    "type": "string",
+                    "description": "Base64-encoded SAML response from the IdP."
+                  },
+                  "TTL": {
+                    "type": "integer",
+                    "x-go-type": "uint32",
+                    "description": "Time-to-live (TTL) of the token in seconds"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/SamlCallbackResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/v1/auth/sso/saml/logout": {
+      "get": {
+        "x-stability-level": "stable",
+        "x-publish-docs": true,
+        "summary": "Starts SP-initiated SAML logout flow",
+        "description": "Generates a redirect URL to the IdP for SAML logout.",
+        "operationId": "logout",
+        "tags": [
+          "Auth"
+        ],
+        "security": [
+          {
+            "jwtAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/SamlLogoutResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "jwtAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization"
+      }
+    },
+    "schemas": {
+      "Error": {
+        "required": [
+          "error_code",
+          "description",
+          "status_code"
+        ],
+        "properties": {
+          "error_code": {
+            "type": "string",
+            "description": "Semantic error code"
+          },
+          "description": {
+            "type": "string",
+            "description": "Human-readable error description"
+          },
+          "status_code": {
+            "type": "integer",
+            "x-go-json-ignore": true
+          }
+        }
+      }
+    },
+    "responses": {
+      "SamlLoginResponse": {
+        "description": "Successful response containing the redirect URL.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "redirectUrl": {
+                  "type": "string",
+                  "description": "The URL to redirect the user to for SAML authentication."
+                }
+              }
+            }
+          }
+        }
+      },
+      "SamlCallbackResponse": {
+        "description": "Successful response after processing a SAML response.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "access_token": {
+                  "type": "string",
+                  "description": "JWT access token for the authenticated user"
+                },
+                "uid": {
+                  "type": "string",
+                  "description": "Unique identifier for the authenticated user"
+                }
+              }
+            }
+          }
+        }
+      },
+      "SamlLogoutResponse": {
+        "description": "Successful response containing the redirect URL.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "redirectUrl": {
+                  "type": "string",
+                  "description": "The URL to redirect the user to for SAML logout."
+                }
+              }
+            }
+          }
+        }
+      },
+      "BadRequest": {
+        "description": "Bad request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Unauthorized",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "InternalServerError": {
+        "description": "Internal Server Error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+}
