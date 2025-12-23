@@ -45,11 +45,11 @@ key_specs:
   notes: RW because it may change the internal representation of the key, and propagate
     to replicas
 linkTitle: PFCOUNT
+railroad_diagram: /images/railroad/pfcount.svg
 since: 2.8.9
 summary: Returns the approximated cardinality of the set(s) observed by the HyperLogLog
   key(s).
 syntax_fmt: PFCOUNT key [key ...]
-syntax_str: ''
 title: PFCOUNT
 ---
 When called with a single key, returns the approximated cardinality computed by the HyperLogLog data structure stored at the specified variable, which is 0 if the variable does not exist.
@@ -75,7 +75,6 @@ PFCOUNT hll
 PFADD some-other-hll 1 2 3
 PFCOUNT hll some-other-hll
 {{% /redis-cli %}}
-
 
 Performances
 ---
@@ -108,6 +107,12 @@ The HyperLogLog, being a Redis string, can be retrieved with [`GET`]({{< relref 
 The representation is neutral from the point of view of the processor word size and endianness, so the same representation is used by 32 bit and 64 bit processor, big endian or little endian.
 
 More details about the Redis HyperLogLog implementation can be found in [this blog post](http://antirez.com/news/75). The source code of the implementation in the `hyperloglog.c` file is also easy to read and understand, and includes a full specification for the exact encoding used for the sparse and dense representations.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

@@ -74,12 +74,11 @@ key_specs:
       keystep: 1
     type: keynum
 linkTitle: ZINTER
+railroad_diagram: /images/railroad/zinter.svg
 since: 6.2.0
 summary: Returns the intersect of multiple sorted sets.
 syntax_fmt: "ZINTER numkeys key [key ...] [WEIGHTS\_weight [weight ...]]\n  [AGGREGATE\_\
   <SUM | MIN | MAX>] [WITHSCORES]"
-syntax_str: "key [key ...] [WEIGHTS\_weight [weight ...]] [AGGREGATE\_<SUM | MIN |\
-  \ MAX>] [WITHSCORES]"
 title: ZINTER
 ---
 This command is similar to [`ZINTERSTORE`]({{< relref "/commands/zinterstore" >}}), but instead of storing the resulting
@@ -98,6 +97,12 @@ ZADD zset2 3 "three"
 ZINTER 2 zset1 zset2
 ZINTER 2 zset1 zset2 WITHSCORES
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

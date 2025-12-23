@@ -38,10 +38,10 @@ hints:
 - request_policy:all_shards
 - response_policy:all_succeeded
 linkTitle: FUNCTION FLUSH
+railroad_diagram: /images/railroad/function-flush.svg
 since: 7.0.0
 summary: Deletes all libraries and functions.
 syntax_fmt: FUNCTION FLUSH [ASYNC | SYNC]
-syntax_str: ''
 title: FUNCTION FLUSH
 ---
 Deletes all the libraries.
@@ -52,6 +52,12 @@ Unless called with the optional mode argument, the `lazyfree-lazy-user-flush` co
 * `SYNC`: Synchronously flush the libraries.
 
 For more information please refer to [Introduction to Redis Functions]({{< relref "/develop/programmability/functions-intro" >}}).
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

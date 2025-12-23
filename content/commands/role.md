@@ -24,10 +24,10 @@ description: Returns the replication role.
 group: server
 hidden: false
 linkTitle: ROLE
+railroad_diagram: /images/railroad/role.svg
 since: 2.8.12
 summary: Returns the replication role.
 syntax_fmt: ROLE
-syntax_str: ''
 title: ROLE
 ---
 Provide information on the role of a Redis instance in the context of replication, by returning if the instance is currently a `master`, `slave`, or `sentinel`. The command also returns additional information about the state of the replication (if the role is master or slave) or the list of monitored master names (if the role is sentinel).
@@ -107,8 +107,13 @@ The sentinel output is composed of the following parts:
 ROLE
 {{% /redis-cli %}}
 
-
 **A note about the word slave used in this man page**: Starting with Redis 5, if not for backward compatibility, the Redis project no longer uses the word slave. Unfortunately in this command the word slave is part of the protocol, so we'll be able to remove such occurrences only when this API will be naturally deprecated.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 

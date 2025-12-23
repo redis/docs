@@ -47,10 +47,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: LRANGE
+railroad_diagram: /images/railroad/lrange.svg
 since: 1.0.0
 summary: Returns a range of elements from a list.
 syntax_fmt: LRANGE key start stop
-syntax_str: start stop
 title: LRANGE
 ---
 Returns the specified elements of the list stored at `key`.
@@ -112,6 +112,12 @@ LRANGE mylist -3 2
 LRANGE mylist -100 100
 LRANGE mylist 5 10
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

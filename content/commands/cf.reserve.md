@@ -36,13 +36,12 @@ group: cf
 hidden: false
 linkTitle: CF.RESERVE
 module: Bloom
+railroad_diagram: /images/railroad/cf.reserve.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Creates a new Cuckoo Filter
 syntax_fmt: "CF.RESERVE key capacity [BUCKETSIZE\_bucketsize]\n  [MAXITERATIONS\_\
   maxiterations] [EXPANSION\_expansion]"
-syntax_str: "capacity [BUCKETSIZE\_bucketsize] [MAXITERATIONS\_maxiterations] [EXPANSION\_\
-  expansion]"
 title: CF.RESERVE
 ---
 Creates an empty cuckoo filter with a single sub-filter for the initial specified capacity.
@@ -119,6 +118,12 @@ redis> CF.RESERVE cf 1000
 redis> CF.RESERVE cf_params 1000 BUCKETSIZE 8 MAXITERATIONS 20 EXPANSION 2
 OK
 {{< / highlight >}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
 
 ## Return information
 

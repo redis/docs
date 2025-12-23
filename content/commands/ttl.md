@@ -45,10 +45,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: TTL
+railroad_diagram: /images/railroad/ttl.svg
 since: 1.0.0
 summary: Returns the expiration time in seconds of a key.
 syntax_fmt: TTL key
-syntax_str: ''
 title: TTL
 ---
 Returns the remaining time to live of a key that has a timeout.
@@ -82,6 +82,12 @@ SET mykey "Hello"
 EXPIRE mykey 10
 TTL mykey
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

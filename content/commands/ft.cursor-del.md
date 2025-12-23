@@ -23,14 +23,11 @@ group: search
 hidden: false
 linkTitle: FT.CURSOR DEL
 module: Search
+railroad_diagram: /images/railroad/ft.cursor-del.svg
 since: 1.1.0
 stack_path: docs/interact/search-and-query
 summary: Deletes a cursor
-syntax: 'FT.CURSOR DEL index cursor_id
-
-  '
 syntax_fmt: FT.CURSOR DEL index cursor_id
-syntax_str: cursor_id
 title: FT.CURSOR DEL
 ---
 
@@ -69,6 +66,12 @@ Check that the cursor is deleted.
 (error) Cursor does not exist
 {{< / highlight >}}
 </details>
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
 
 ## Return information
 

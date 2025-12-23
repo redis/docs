@@ -56,10 +56,10 @@ key_specs:
     type: range
   update: true
 linkTitle: RENAME
+railroad_diagram: /images/railroad/rename.svg
 since: 1.0.0
 summary: Renames a key and overwrites the destination.
 syntax_fmt: RENAME key newkey
-syntax_str: newkey
 title: RENAME
 ---
 Renames `key` to `newkey`.
@@ -76,10 +76,15 @@ RENAME mykey myotherkey
 GET myotherkey
 {{% /redis-cli %}}
 
-
 ## Behavior change history
 
 *   `>= 3.2.0`: The command no longer returns an error when source and destination names are the same.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active\*</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active\*</nobr></span> | For Active-Active or clustered databases, the original key and new key must be in the same hash slot.<br /><br />\*Not supported for stream consumer group info. |
 
 ## Return information
 

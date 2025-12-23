@@ -39,10 +39,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZCARD
+railroad_diagram: /images/railroad/zcard.svg
 since: 1.2.0
 summary: Returns the number of members in a sorted set.
 syntax_fmt: ZCARD key
-syntax_str: ''
 title: ZCARD
 ---
 Returns the sorted set cardinality (number of elements) of the sorted set stored
@@ -55,6 +55,12 @@ ZADD myzset 1 "one"
 ZADD myzset 2 "two"
 ZCARD myzset
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

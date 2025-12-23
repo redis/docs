@@ -52,11 +52,11 @@ doc_flags:
 group: server
 hidden: false
 linkTitle: SLAVEOF
-replaced_by: '[`REPLICAOF`]({{< relref "/commands/replicaof" >}})'
+railroad_diagram: /images/railroad/slaveof.svg
+replaced_by: '`REPLICAOF`'
 since: 1.0.0
 summary: Sets a Redis server as a replica of another, or promotes it to being a master.
 syntax_fmt: SLAVEOF <host port | NO ONE>
-syntax_str: ''
 title: SLAVEOF
 ---
 **A note about the word slave used in this man page and command name**: starting with Redis version 5, if not for backward compatibility, the Redis project no longer uses the word slave. Please use the new command [`REPLICAOF`]({{< relref "/commands/replicaof" >}}). The command `SLAVEOF` will continue to work for backward compatibility.
@@ -77,6 +77,12 @@ So, if the old master stops working, it is possible to turn the replica into a
 master and set the application to use this new master in read/write.
 Later when the other Redis server is fixed, it can be reconfigured to work as a
 replica.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | Deprecated as of Redis v5.0.0. |
 
 ## Return information
 

@@ -23,10 +23,10 @@ hidden: false
 hints:
 - nondeterministic_output_order
 linkTitle: COMMAND
+railroad_diagram: /images/railroad/command.svg
 since: 2.8.13
 summary: Returns detailed information about all commands.
 syntax_fmt: COMMAND
-syntax_str: ''
 title: COMMAND
 ---
 Return an array with details about every Redis command.
@@ -264,6 +264,12 @@ The following is `COMMAND`'s output for the [`GET`]({{< relref "/commands/get" >
    10) (empty array)
 ...
 ```
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

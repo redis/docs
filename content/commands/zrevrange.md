@@ -55,11 +55,11 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZREVRANGE
-replaced_by: '[`ZRANGE`]({{< relref "/commands/zrange" >}}) with the `REV` argument'
+railroad_diagram: /images/railroad/zrevrange.svg
+replaced_by: '`ZRANGE` with the `REV` argument'
 since: 1.2.0
 summary: Returns members in a sorted set within a range of indexes in reverse order.
 syntax_fmt: ZREVRANGE key start stop [WITHSCORES]
-syntax_str: start stop [WITHSCORES]
 title: ZREVRANGE
 ---
 Returns the specified range of elements in the sorted set stored at `key`.
@@ -78,6 +78,12 @@ ZREVRANGE myzset 0 -1
 ZREVRANGE myzset 2 3
 ZREVRANGE myzset -2 -1
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |
 
 ## Return information
 

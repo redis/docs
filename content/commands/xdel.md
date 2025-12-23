@@ -45,10 +45,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: XDEL
+railroad_diagram: /images/railroad/xdel.svg
 since: 5.0.0
 summary: Returns the number of messages after removing them from a stream.
 syntax_fmt: XDEL key id [id ...]
-syntax_str: id [id ...]
 title: XDEL
 ---
 Removes the specified entries from a stream, and returns the number of entries
@@ -98,6 +98,12 @@ not a good idea to add such complexity.
    2) 1) "c"
       2) "3"
 ```
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

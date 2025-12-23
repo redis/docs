@@ -45,10 +45,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: PTTL
+railroad_diagram: /images/railroad/pttl.svg
 since: 2.6.0
 summary: Returns the expiration time in milliseconds of a key.
 syntax_fmt: PTTL key
-syntax_str: ''
 title: PTTL
 ---
 Like [`TTL`]({{< relref "/commands/ttl" >}}) this command returns the remaining time to live of a key that has an
@@ -69,6 +69,12 @@ SET mykey "Hello"
 EXPIRE mykey 1
 PTTL mykey
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

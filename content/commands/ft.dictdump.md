@@ -22,14 +22,11 @@ group: search
 hidden: false
 linkTitle: FT.DICTDUMP
 module: Search
+railroad_diagram: /images/railroad/ft.dictdump.svg
 since: 1.4.0
 stack_path: docs/interact/search-and-query
 summary: Dumps all terms in the given dictionary
-syntax: 'FT.DICTDUMP dict
-
-  '
 syntax_fmt: FT.DICTDUMP dict
-syntax_str: ''
 title: FT.DICTDUMP
 ---
 
@@ -58,6 +55,12 @@ is dictionary name.
 {{< / highlight >}}
 </details>
 
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
+
 ## Return information
 
 {{< multitabs id="ft-dictdump-return-info" 
@@ -79,5 +82,4 @@ is dictionary name.
 ## Related topics
 
 [RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
-
 

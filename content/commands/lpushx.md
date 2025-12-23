@@ -49,10 +49,10 @@ key_specs:
     type: range
   insert: true
 linkTitle: LPUSHX
+railroad_diagram: /images/railroad/lpushx.svg
 since: 2.2.0
 summary: Prepends one or more elements to a list only when the list exists.
 syntax_fmt: LPUSHX key element [element ...]
-syntax_str: element [element ...]
 title: LPUSHX
 ---
 Inserts specified values at the head of the list stored at `key`, only if `key`
@@ -69,6 +69,12 @@ LPUSHX myotherlist "Hello"
 LRANGE mylist 0 -1
 LRANGE myotherlist 0 -1
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

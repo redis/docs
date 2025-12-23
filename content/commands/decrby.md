@@ -46,11 +46,11 @@ key_specs:
     type: range
   update: true
 linkTitle: DECRBY
+railroad_diagram: /images/railroad/decrby.svg
 since: 1.0.0
 summary: Decrements a number from the integer value of a key. Uses 0 as initial value
   if the key doesn't exist.
 syntax_fmt: DECRBY key decrement
-syntax_str: decrement
 title: DECRBY
 ---
 The `DECRBY` command reduces the value stored at the specified `key` by the specified `decrement`.
@@ -66,6 +66,12 @@ See [`INCR`]({{< relref "/commands/incr" >}}) for extra information on increment
 SET mykey "10"
 DECRBY mykey 3
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

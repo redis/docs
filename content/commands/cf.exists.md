@@ -24,11 +24,11 @@ group: cf
 hidden: false
 linkTitle: CF.EXISTS
 module: Bloom
+railroad_diagram: /images/railroad/cf.exists.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Checks whether one or more items exist in a Cuckoo Filter
 syntax_fmt: CF.EXISTS key item
-syntax_str: item
 title: CF.EXISTS
 ---
 Determines whether a given item was added to a cuckoo filter.
@@ -58,6 +58,12 @@ redis> CF.EXISTS cf item1
 redis> CF.EXISTS cf item2
 (integer) 0
 {{< / highlight >}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
 
 ## Return information
 

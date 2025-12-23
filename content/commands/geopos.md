@@ -44,10 +44,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: GEOPOS
+railroad_diagram: /images/railroad/geopos.svg
 since: 3.2.0
 summary: Returns the longitude and latitude of members from a geospatial index.
 syntax_fmt: GEOPOS key [member [member ...]]
-syntax_str: '[member [member ...]]'
 title: GEOPOS
 ---
 Return the positions (longitude,latitude) of all the specified members of the geospatial index represented by the sorted set at *key*.
@@ -62,6 +62,12 @@ The command can accept a variable number of arguments so it always returns an ar
 GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
 GEOPOS Sicily Palermo Catania NonExisting
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

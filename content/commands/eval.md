@@ -57,10 +57,10 @@ key_specs:
   notes: We cannot tell how the keys will be used so we assume the worst, RW and UPDATE
   update: true
 linkTitle: EVAL
+railroad_diagram: /images/railroad/eval.svg
 since: 2.6.0
 summary: Executes a server-side Lua script.
 syntax_fmt: EVAL script numkeys [key [key ...]] [arg [arg ...]]
-syntax_str: numkeys [key [key ...]] [arg [arg ...]]
 title: EVAL
 ---
 Invoke the execution of a server-side Lua script.
@@ -93,6 +93,12 @@ The following example will run a script that returns the first argument that it 
 > EVAL "return ARGV[1]" 0 hello
 "hello"
 ```
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

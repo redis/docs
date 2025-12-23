@@ -69,12 +69,11 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZREVRANGEBYSCORE
-replaced_by: '[`ZRANGE`]({{< relref "/commands/zrange" >}}) with the `REV` and `BYSCORE`
-  arguments'
+railroad_diagram: /images/railroad/zrevrangebyscore.svg
+replaced_by: '`ZRANGE` with the `REV` and `BYSCORE` arguments'
 since: 2.2.0
 summary: Returns members in a sorted set within a range of scores in reverse order.
 syntax_fmt: "ZREVRANGEBYSCORE key max min [WITHSCORES] [LIMIT\_offset count]"
-syntax_str: "max min [WITHSCORES] [LIMIT\_offset count]"
 title: ZREVRANGEBYSCORE
 ---
 Returns all the elements in the sorted set at `key` with a score between `max`
@@ -99,6 +98,12 @@ ZREVRANGEBYSCORE myzset 2 1
 ZREVRANGEBYSCORE myzset 2 (1
 ZREVRANGEBYSCORE myzset (2 (1
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |
 
 ## Return information
 

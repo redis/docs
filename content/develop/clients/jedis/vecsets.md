@@ -14,6 +14,12 @@ linkTitle: Vector set embeddings
 title: Vector set embeddings
 weight: 4
 bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
+scope: example
+relatedPages:
+- /develop/clients/jedis/vecsearch
+topics:
+- vector sets
+- vectors
 bannerChildren: true
 ---
 
@@ -38,7 +44,7 @@ dependencies to your `pom.xml` file
 <dependency>
     <groupId>redis.clients</groupId>
     <artifactId>jedis</artifactId>
-    <version>6.2.0</version>
+    <version>7.2.0</version>
 </dependency>
 
 <dependency>
@@ -64,7 +70,7 @@ If you are using [Gradle](https://gradle.org/), add the following
 dependencies to your `build.gradle` file:
 
 ```bash
-compileOnly 'redis.clients:jedis:6.2.0'
+compileOnly 'redis.clients:jedis:7.2.0'
 compileOnly 'ai.djl.huggingface:tokenizers:0.33.0'
 compileOnly 'ai.djl.pytorch:pytorch-model-zoo:0.33.0'
 compileOnly 'ai.djl:api:0.33.0'

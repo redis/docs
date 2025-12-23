@@ -24,11 +24,11 @@ group: cf
 hidden: false
 linkTitle: CF.ADDNX
 module: Bloom
+railroad_diagram: /images/railroad/cf.addnx.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Adds an item to a Cuckoo Filter if the item did not exist previously.
 syntax_fmt: CF.ADDNX key item
-syntax_str: item
 title: CF.ADDNX
 ---
 Adds an item to a cuckoo filter if the item does not exist.
@@ -64,6 +64,12 @@ redis> CF.ADDNX cf item
 redis> CF.ADDNX cf item
 (integer) 0
 {{< / highlight >}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
 
 ## Return information
 

@@ -23,11 +23,13 @@ TEST_MARKER = {
 PREFIXES = {
     'python': '#',
     'node.js': '//',
+    'ioredis': '//',
     'java': '//',
     'java-sync': '//',
     'java-async': '//',
     'java-reactive': '//',
     'go': '//',
+    'c': '//',
     'c#': '//',
     'c#-sync': '//',
     'c#-async': '//',

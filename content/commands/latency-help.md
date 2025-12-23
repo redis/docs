@@ -20,10 +20,10 @@ description: Returns helpful text about the different subcommands.
 group: server
 hidden: true
 linkTitle: LATENCY HELP
+railroad_diagram: /images/railroad/latency-help.svg
 since: 2.8.13
 summary: Returns helpful text about the different subcommands.
 syntax_fmt: LATENCY HELP
-syntax_str: ''
 title: LATENCY HELP
 ---
 The `LATENCY HELP` command returns a helpful text describing the different
@@ -32,6 +32,12 @@ subcommands.
 For more information refer to the [Latency Monitoring Framework page][lm].
 
 [lm]: /operate/oss_and_stack/management/optimization/latency-monitor.md
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 

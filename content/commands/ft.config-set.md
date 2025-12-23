@@ -26,13 +26,12 @@ group: search
 hidden: false
 linkTitle: FT.CONFIG SET
 module: Search
+railroad_diagram: /images/railroad/ft.config-set.svg
 replaced_by: '[`CONFIG SET`]({{< relref "/commands/config-set" >}})'
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Sets runtime configuration options
-syntax: FT.CONFIG SET option value
 syntax_fmt: FT.CONFIG SET option value
-syntax_str: value
 title: FT.CONFIG SET
 ---
 
@@ -72,6 +71,16 @@ is value of the configuration option.
 OK
 {{< / highlight >}}
 </details>
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:-----------------|:------|
+| <span title="Not supported"><nobr>&#x26A0;&#xFE0F; Not supported</span><sup>1</sup> | <span title="Not supported"><nobr>&#x26A0;&#xFE0F; Not supported</span><sup>2</sup> | <span title="Not supported"><nobr>&#x274c; Not supported</nobr></span> |  |
+
+1. Use [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}) or the [REST API]({{< relref "/operate/rs/references/rest-api" >}}) to change search and query configuration for Redis Enterprise Software. See [search and query configuration compatibility with Redis Enterprise]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search/config" >}}) for more information and examples.
+
+2. [Contact support](https://redis.com/company/support/) to view the current configuration values or request configuration changes for Flexible or Annual Redis Cloud subscriptions.
 
 ## Return information
 

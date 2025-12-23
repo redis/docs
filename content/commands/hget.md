@@ -43,10 +43,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: HGET
+railroad_diagram: /images/railroad/hget.svg
 since: 2.0.0
 summary: Returns the value of a field in a hash.
 syntax_fmt: HGET key field
-syntax_str: field
 title: HGET
 ---
 Returns the value associated with `field` in the hash stored at `key`.
@@ -69,6 +69,12 @@ HSET myhash field1 "foo"
 HGET myhash field1
 HGET myhash field2
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

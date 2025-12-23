@@ -49,11 +49,11 @@ key_specs:
     type: range
   update: true
 linkTitle: HINCRBYFLOAT
+railroad_diagram: /images/railroad/hincrbyfloat.svg
 since: 2.6.0
 summary: Increments the floating point value of a field by a number. Uses 0 as initial
   value if the field doesn't exist.
 syntax_fmt: HINCRBYFLOAT key field increment
-syntax_str: field increment
 title: HINCRBYFLOAT
 ---
 Increment the specified `field` of a hash stored at `key`, and representing a
@@ -80,12 +80,17 @@ HSET mykey field 5.0e3
 HINCRBYFLOAT mykey field 2.0e2
 {{% /redis-cli %}}
 
-
 ## Implementation details
 
 The command is always propagated in the replication link and the Append Only
 File as a [`HSET`]({{< relref "/commands/hset" >}}) operation, so that differences in the underlying floating point
 math implementation will not be sources of inconsistency.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

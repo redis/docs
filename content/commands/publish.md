@@ -31,10 +31,10 @@ description: Posts a message to a channel.
 group: pubsub
 hidden: false
 linkTitle: PUBLISH
+railroad_diagram: /images/railroad/publish.svg
 since: 2.0.0
 summary: Posts a message to a channel.
 syntax_fmt: PUBLISH channel message
-syntax_str: message
 title: PUBLISH
 ---
 Posts a message to the given channel.
@@ -42,6 +42,12 @@ Posts a message to the given channel.
 In a Redis Cluster clients can publish to every node. The cluster makes sure
 that published messages are forwarded as needed, so clients can subscribe to any
 channel by connecting to any one of the nodes.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

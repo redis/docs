@@ -35,10 +35,10 @@ hints:
 - request_policy:all_nodes
 - response_policy:special
 linkTitle: LATENCY HISTOGRAM
+railroad_diagram: /images/railroad/latency-histogram.svg
 since: 7.0.0
 summary: Returns the cumulative distribution of latencies of a subset or all commands.
 syntax_fmt: LATENCY HISTOGRAM [command [command ...]]
-syntax_str: ''
 title: LATENCY HISTOGRAM
 ---
 `LATENCY HISTOGRAM` returns a cumulative distribution of commands' latencies in histogram format.
@@ -77,6 +77,12 @@ To delete the latency histograms' data use the [`CONFIG RESETSTAT`]({{< relref "
       5# (integer) 16 => (integer) 99968
       6# (integer) 33 => (integer) 100000
 ```
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

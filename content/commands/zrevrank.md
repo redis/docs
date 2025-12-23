@@ -51,10 +51,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZREVRANK
+railroad_diagram: /images/railroad/zrevrank.svg
 since: 2.0.0
 summary: Returns the index of a member in a sorted set ordered by descending scores.
 syntax_fmt: ZREVRANK key member [WITHSCORE]
-syntax_str: member [WITHSCORE]
 title: ZREVRANK
 ---
 Returns the rank of `member` in the sorted set stored at `key`, with the scores
@@ -78,6 +78,12 @@ ZREVRANK myzset "four"
 ZREVRANK myzset "three" WITHSCORE
 ZREVRANK myzset "four" WITHSCORE
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

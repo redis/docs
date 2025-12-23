@@ -50,10 +50,10 @@ key_specs:
       keystep: 1
     type: keynum
 linkTitle: SINTERCARD
+railroad_diagram: /images/railroad/sintercard.svg
 since: 7.0.0
 summary: Returns the number of members of the intersect of multiple sets.
 syntax_fmt: "SINTERCARD numkeys key [key ...] [LIMIT\_limit]"
-syntax_str: "key [key ...] [LIMIT\_limit]"
 title: SINTERCARD
 ---
 This command is similar to [`SINTER`]({{< relref "/commands/sinter" >}}), but instead of returning the result set, it returns just the cardinality of the result.
@@ -80,6 +80,12 @@ SINTER key1 key2
 SINTERCARD 2 key1 key2
 SINTERCARD 2 key1 key2 LIMIT 1
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

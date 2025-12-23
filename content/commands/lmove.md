@@ -80,11 +80,11 @@ key_specs:
     type: range
   insert: true
 linkTitle: LMOVE
+railroad_diagram: /images/railroad/lmove.svg
 since: 6.2.0
 summary: Returns an element after popping it from one list and pushing it to another.
   Deletes the list if the last element was moved.
 syntax_fmt: LMOVE source destination <LEFT | RIGHT> <LEFT | RIGHT>
-syntax_str: destination <LEFT | RIGHT> <LEFT | RIGHT>
 title: LMOVE
 ---
 Atomically returns and removes the first/last element (head/tail depending on
@@ -118,7 +118,6 @@ LMOVE mylist myotherlist LEFT RIGHT
 LRANGE mylist 0 -1
 LRANGE myotherlist 0 -1
 {{% /redis-cli %}}
-
 
 ## Pattern: Reliable queue
 
@@ -165,6 +164,12 @@ reachable, with the smallest delay possible, using a number of parallel workers.
 Note that this implementation of workers is trivially scalable and reliable,
 because even if a message is lost the item is still in the queue and will be
 processed at the next iteration.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

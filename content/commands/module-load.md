@@ -32,10 +32,10 @@ description: Loads a module.
 group: server
 hidden: false
 linkTitle: MODULE LOAD
+railroad_diagram: /images/railroad/module-load.svg
 since: 4.0.0
 summary: Loads a module.
 syntax_fmt: MODULE LOAD path [arg [arg ...]]
-syntax_str: '[arg [arg ...]]'
 title: MODULE LOAD
 ---
 Loads a module from a dynamic library at runtime.
@@ -51,6 +51,12 @@ configuration directive in `redis.conf`.
 {{< note >}}
 As of Redis 8 in Redis Open Source, loading a module using the Redis CLI with configuration parameters is deprecated.
 {{< /note >}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 

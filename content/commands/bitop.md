@@ -21,22 +21,6 @@ arguments:
     name: not
     token: NOT
     type: pure-token
-  - display_text: diff
-    name: diff
-    token: DIFF
-    type: pure-token
-  - display_text: diff1
-    name: diff1
-    token: DIFF1
-    type: pure-token
-  - display_text: andor
-    name: andor
-    token: ANDOR
-    type: pure-token
-  - display_text: one
-    name: one
-    token: ONE
-    type: pure-token
   name: operation
   type: oneof
 - display_text: destkey
@@ -92,10 +76,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: BITOP
+railroad_diagram: /images/railroad/bitop.svg
 since: 2.6.0
 summary: Performs bitwise operations on multiple strings, and stores the result.
-syntax_fmt: "BITOP <AND | OR | XOR | NOT | DIFF | DIFF1 | ANDOR | ONE> destkey key [key ...]"
-syntax_str: destkey key [key ...]
+syntax_fmt: BITOP <AND | OR | XOR | NOT | DIFF | DIFF1 | ANDOR | ONE> destkey key [key ...]
 title: BITOP
 ---
 Perform a bitwise operation between multiple keys (containing string values) and
@@ -103,7 +87,6 @@ store the result in the destination key.
 
 The `BITOP` command supports eight bitwise operations: `AND`, `OR`, `XOR`,
 `NOT`, `DIFF`, `DIFF1`, `ANDOR`, and `ONE`. The valid forms to call the command are:
-
 
 * `BITOP AND destkey srckey1 srckey2 srckey3 ... srckeyN`
 
@@ -187,6 +170,12 @@ Care should be taken when running it against long input strings.
 For real-time metrics and statistics involving large inputs a good approach is
 to use a replica (with replica-read-only option enabled) where the bit-wise
 operations are performed to avoid blocking the master instance.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

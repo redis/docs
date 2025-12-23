@@ -47,10 +47,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZLEXCOUNT
+railroad_diagram: /images/railroad/zlexcount.svg
 since: 2.8.9
 summary: Returns the number of members in a sorted set within a lexicographical range.
 syntax_fmt: ZLEXCOUNT key min max
-syntax_str: min max
 title: ZLEXCOUNT
 ---
 When all the elements in a sorted set are inserted with the same score, in order to force lexicographical ordering, this command returns the number of elements in the sorted set at `key` with a value between `min` and `max`.
@@ -68,6 +68,12 @@ ZADD myzset 0 f 0 g
 ZLEXCOUNT myzset - +
 ZLEXCOUNT myzset [b [f
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

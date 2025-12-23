@@ -266,7 +266,11 @@ for more information about SCH.
 
 To enable SCH on the client, create a `MaintNotificationsConfig` object
 and/or a `TimeoutOptions` object
-and pass them to the `ClientOptions` builder as shown in the example below:
+and pass them to the `ClientOptions` builder as shown in the example below.
+Note that SCH also requires the
+[RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
+protocol. Lettuce uses this by default, but make sure you don't set
+`protocolVersion(ProtocolVersion.RESP2)` in the `ClientOptions` builder.
 
 ```java
 import io.lettuce.core.*;
@@ -291,6 +295,9 @@ TimeoutOptions timeoutOptions = TimeoutOptions.builder()
 ClientOptions clientOptions = ClientOptions.builder()
         .maintNotificationsConfig(maintNotificationsConfig)
         .timeoutOptions(timeoutOptions)
+        // SCH requires RESP3. Don't override the default protocol version
+        // to RESP2:
+        // .protocolVersion(ProtocolVersion.RESP2) // <- Wrong
         .build();
 
 redisClient.setOptions(clientOptions);

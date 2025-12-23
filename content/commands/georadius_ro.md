@@ -119,20 +119,24 @@ key_specs:
       limit: 0
     type: range
 linkTitle: GEORADIUS_RO
-replaced_by: '[`GEOSEARCH`]({{< relref "/commands/geosearch" >}}) with the `BYRADIUS`
-  argument'
+railroad_diagram: /images/railroad/georadius_ro.svg
+replaced_by: '`GEOSEARCH` with the `BYRADIUS` argument'
 since: 3.2.10
 summary: Returns members from a geospatial index that are within a distance from a
   coordinate.
 syntax_fmt: "GEORADIUS_RO key longitude latitude radius <M | KM | FT | MI>\n  [WITHCOORD]\
   \ [WITHDIST] [WITHHASH] [COUNT\_count [ANY]] [ASC | DESC]"
-syntax_str: "longitude latitude radius <M | KM | FT | MI> [WITHCOORD] [WITHDIST] [WITHHASH]\
-  \ [COUNT\_count [ANY]] [ASC | DESC]"
 title: GEORADIUS_RO
 ---
 Read-only variant of the [`GEORADIUS`]({{< relref "/commands/georadius" >}}) command.
 
 This command is identical to the [`GEORADIUS`]({{< relref "/commands/georadius" >}}) command, except that it doesn't support the optional `STORE` and `STOREDIST` parameters.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |
 
 ## Return information
 

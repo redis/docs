@@ -23,10 +23,10 @@ description: Asynchronously rewrites the append-only file to disk.
 group: server
 hidden: false
 linkTitle: BGREWRITEAOF
+railroad_diagram: /images/railroad/bgrewriteaof.svg
 since: 1.0.0
 summary: Asynchronously rewrites the append-only file to disk.
 syntax_fmt: BGREWRITEAOF
-syntax_str: ''
 title: BGREWRITEAOF
 ---
 Instruct Redis to start an [Append Only File]({{< relref "/operate/oss_and_stack/management/persistence" >}}#append-only-file) rewrite process.
@@ -49,6 +49,12 @@ Since Redis 2.4 the AOF rewrite is automatically triggered by Redis, however the
 `BGREWRITEAOF` command can be used to trigger a rewrite at any time.
 
 See the [persistence documentation]({{< relref "/operate/oss_and_stack/management/persistence" >}}) for detailed information.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 

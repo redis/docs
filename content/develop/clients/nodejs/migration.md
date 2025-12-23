@@ -12,10 +12,10 @@ categories:
 description: Discover the differences between `ioredis` and `node-redis`.
 linkTitle: Migrate from ioredis
 title: Migrate from ioredis
-weight: 6
+weight: 10
 ---
 
-Redis previously recommended the [`ioredis`](https://github.com/redis/ioredis)
+Redis previously recommended the [`ioredis`]({{< relref "/develop/clients/ioredis" >}})
 client library for development with [Node.js](https://nodejs.org/en),
 but this library is now deprecated in favor of
 [`node-redis`]({{< relref "/develop/clients/nodejs" >}}). This guide

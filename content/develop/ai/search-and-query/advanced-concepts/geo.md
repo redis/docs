@@ -16,7 +16,7 @@ description: Learn how to use geospatial fields and perform geospatial queries i
 linkTitle: Geospatial
 math: true
 title: Geospatial
-weight: 14
+weight: 49
 ---
 
 Redis Query Engine supports geospatial data. This feature

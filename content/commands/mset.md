@@ -50,10 +50,10 @@ key_specs:
     type: range
   update: true
 linkTitle: MSET
+railroad_diagram: /images/railroad/mset.svg
 since: 1.0.1
 summary: Atomically creates or modifies the string values of one or more keys.
 syntax_fmt: MSET key value [key value ...]
-syntax_str: ''
 title: MSET
 ---
 Sets the given keys to their respective values.
@@ -71,6 +71,12 @@ MSET key1 "Hello" key2 "World"
 GET key1
 GET key2
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

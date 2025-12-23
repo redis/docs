@@ -43,10 +43,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: MGET
+railroad_diagram: /images/railroad/mget.svg
 since: 1.0.0
 summary: Atomically returns the string values of one or more keys.
 syntax_fmt: MGET key [key ...]
-syntax_str: ''
 title: MGET
 ---
 Returns the values of all specified keys.
@@ -61,6 +61,12 @@ SET key1 "Hello"
 SET key2 "World"
 MGET key1 key2 nonexisting
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

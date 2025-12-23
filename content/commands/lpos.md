@@ -59,10 +59,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: LPOS
+railroad_diagram: /images/railroad/lpos.svg
 since: 6.0.6
 summary: Returns the index of matching elements in a list.
 syntax_fmt: "LPOS key element [RANK\_rank] [COUNT\_num-matches] [MAXLEN\_len]"
-syntax_str: "element [RANK\_rank] [COUNT\_num-matches] [MAXLEN\_len]"
 title: LPOS
 ---
 The command returns the index of matching elements inside a Redis list.
@@ -131,6 +131,12 @@ RPUSH mylist a b c d 1 2 3 4 3 3 3
 LPOS mylist 3
 LPOS mylist 3 COUNT 0 RANK 2
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

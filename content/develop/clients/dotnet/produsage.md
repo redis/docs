@@ -24,12 +24,12 @@ Each item in the checklist below links to the section
 for a recommendation. Use the checklist icons to record your
 progress in implementing the recommendations.
 
-{{< checklist "dotnetprodlist" >}}
-    {{< checklist-item "#event-handling" >}}Event handling{{< /checklist-item >}}
-    {{< checklist-item "#timeouts" >}}Timeouts{{< /checklist-item >}}
-    {{< checklist-item "#exception-handling" >}}Exception handling{{< /checklist-item >}}
-    {{< checklist-item "#retries" >}}Retries{{< /checklist-item >}}
-{{< /checklist >}}
+```checklist {id="dotnetprodlist"}
+- [ ] [Event handling](#event-handling)
+- [ ] [Timeouts](#timeouts)
+- [ ] [Exception handling](#exception-handling)
+- [ ] [Retries](#retries)
+```
 
 ## Recommendations
 
@@ -111,6 +111,9 @@ the most common Redis exceptions:
   (for example, trying to access a
   [stream entry]({{< relref "/develop/data-types/streams#entry-ids" >}})
   using an invalid ID).
+
+See [Error handling]({{< relref "/develop/clients/dotnet/error-handling" >}})
+for more information on handling exceptions.
 
 ### Retries
 

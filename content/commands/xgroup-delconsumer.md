@@ -45,10 +45,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: XGROUP DELCONSUMER
+railroad_diagram: /images/railroad/xgroup-delconsumer.svg
 since: 5.0.0
 summary: Deletes a consumer from a consumer group.
 syntax_fmt: XGROUP DELCONSUMER key group consumer
-syntax_str: group consumer
 title: XGROUP DELCONSUMER
 ---
 The `XGROUP DELCONSUMER` command deletes a consumer from the consumer group.
@@ -57,6 +57,12 @@ Sometimes it may be useful to remove old consumers since they are no longer used
 
 Note, however, that any pending messages that the consumer had will become unclaimable after it was deleted.
 It is strongly recommended, therefore, that any pending messages are claimed or acknowledged prior to deleting the consumer from the group.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

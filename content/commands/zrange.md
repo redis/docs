@@ -85,11 +85,11 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZRANGE
+railroad_diagram: /images/railroad/zrange.svg
 since: 1.2.0
 summary: Returns members in a sorted set within a range of indexes.
 syntax_fmt: "ZRANGE key start stop [BYSCORE | BYLEX] [REV] [LIMIT\_offset count]\n\
   \  [WITHSCORES]"
-syntax_str: "start stop [BYSCORE | BYLEX] [REV] [LIMIT\_offset count] [WITHSCORES]"
 title: ZRANGE
 ---
 Returns the specified range of elements in the sorted set stored at `<key>`.
@@ -239,6 +239,12 @@ ZRANGE myzset 0 -1
 ZRANGE myzset 2 3
 ZRANGE myzset -2 -1
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

@@ -30,11 +30,11 @@ description: Stops listening to messages published to channels that match one or
 group: pubsub
 hidden: false
 linkTitle: PUNSUBSCRIBE
+railroad_diagram: /images/railroad/punsubscribe.svg
 since: 2.0.0
 summary: Stops listening to messages published to channels that match one or more
   patterns.
 syntax_fmt: PUNSUBSCRIBE [pattern [pattern ...]]
-syntax_str: ''
 title: PUNSUBSCRIBE
 ---
 Unsubscribes the client from the given patterns, or from all of them if none is
@@ -44,6 +44,12 @@ When no patterns are specified, the client is unsubscribed from all the
 previously subscribed patterns.
 In this case, a message for every unsubscribed pattern will be sent to the
 client.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

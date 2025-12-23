@@ -20,14 +20,11 @@ group: search
 hidden: false
 linkTitle: FT.SYNDUMP
 module: Search
+railroad_diagram: /images/railroad/ft.syndump.svg
 since: 1.2.0
 stack_path: docs/interact/search-and-query
 summary: Dumps the contents of a synonym group
-syntax: 'FT.SYNDUMP index
-
-  '
 syntax_fmt: FT.SYNDUMP index
-syntax_str: ''
 title: FT.SYNDUMP
 ---
 
@@ -61,6 +58,12 @@ Use FT.SYNDUMP to dump the synonyms data structure. This command returns a list 
 6) 1) "synonym1"
 {{< / highlight >}}
 </details>
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
 
 ## Return information
 

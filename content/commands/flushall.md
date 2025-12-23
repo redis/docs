@@ -45,10 +45,10 @@ history:
 - - 6.2.0
   - Added the `SYNC` flushing mode modifier.
 linkTitle: FLUSHALL
+railroad_diagram: /images/railroad/flushall.svg
 since: 1.0.0
 summary: Removes all keys from all databases.
 syntax_fmt: FLUSHALL [ASYNC | SYNC]
-syntax_str: ''
 title: FLUSHALL
 ---
 Delete all the keys of all the existing databases, not just the currently selected one.
@@ -75,6 +75,12 @@ FLUSHALL SYNC
 ## Behavior change history
 
 *   `>= 6.2.0`: Default flush behavior now configurable by the **lazyfree-lazy-user-flush** configuration directive.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active\*</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | \*Can use the [Active-Active flush API request]({{< relref "/operate/rs/references/rest-api/requests/crdbs/flush" >}}). |
 
 ## Return information
 

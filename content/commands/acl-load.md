@@ -24,10 +24,10 @@ description: Reloads the rules from the configured ACL file.
 group: server
 hidden: false
 linkTitle: ACL LOAD
+railroad_diagram: /images/railroad/acl-load.svg
 since: 6.0.0
 summary: Reloads the rules from the configured ACL file.
 syntax_fmt: ACL LOAD
-syntax_str: ''
 title: ACL LOAD
 ---
 When Redis is configured to use an ACL file (with the `aclfile` configuration
@@ -47,6 +47,12 @@ sure to have an *all or nothing* behavior, that is:
 > ACL LOAD
 -ERR /tmp/foo:1: Unknown command or category name in ACL...
 ```
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 

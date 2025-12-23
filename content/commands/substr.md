@@ -50,11 +50,11 @@ key_specs:
       limit: 0
     type: range
 linkTitle: SUBSTR
-replaced_by: '[`GETRANGE`]({{< relref "/commands/getrange" >}})'
+railroad_diagram: /images/railroad/substr.svg
+replaced_by: '`GETRANGE`'
 since: 1.0.0
 summary: Returns a substring from a string value.
 syntax_fmt: SUBSTR key start end
-syntax_str: start end
 title: SUBSTR
 ---
 Returns the substring of the string value stored at `key`, determined by the
@@ -75,6 +75,12 @@ GETRANGE mykey -3 -1
 GETRANGE mykey 0 -1
 GETRANGE mykey 10 100
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | Deprecated as of Redis v2.0.0. |
 
 ## Return information
 

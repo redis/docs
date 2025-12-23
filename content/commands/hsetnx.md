@@ -47,10 +47,10 @@ key_specs:
     type: range
   insert: true
 linkTitle: HSETNX
+railroad_diagram: /images/railroad/hsetnx.svg
 since: 2.0.0
 summary: Sets the value of a field in a hash only when the field doesn't exist.
 syntax_fmt: HSETNX key field value
-syntax_str: field value
 title: HSETNX
 ---
 Sets `field` in the hash stored at `key` to `value`, only if `field` does not
@@ -65,6 +65,12 @@ HSETNX myhash field "Hello"
 HSETNX myhash field "World"
 HGET myhash field
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

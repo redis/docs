@@ -23,10 +23,10 @@ description: Executes all commands in a transaction.
 group: transactions
 hidden: false
 linkTitle: EXEC
+railroad_diagram: /images/railroad/exec.svg
 since: 1.2.0
 summary: Executes all commands in a transaction.
 syntax_fmt: EXEC
-syntax_str: ''
 title: EXEC
 ---
 Executes all previously queued commands in a [transaction][tt] and restores the
@@ -38,6 +38,12 @@ When using [`WATCH`]({{< relref "/commands/watch" >}}), `EXEC` will execute comm
 not modified, allowing for a [check-and-set mechanism][ttc].
 
 [ttc]: /develop/interact/transactions#cas
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

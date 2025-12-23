@@ -20,13 +20,19 @@ description: Returns helpful text about the different subcommands.
 group: cluster
 hidden: true
 linkTitle: CLUSTER HELP
+railroad_diagram: /images/railroad/cluster-help.svg
 since: 5.0.0
 summary: Returns helpful text about the different subcommands.
 syntax_fmt: CLUSTER HELP
-syntax_str: ''
 title: CLUSTER HELP
 ---
 The `CLUSTER HELP` command returns a helpful text describing the different subcommands.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Only supported with the [OSS cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}). |
 
 ## Return information
 

@@ -62,10 +62,10 @@ history:
 - - 7.0.0
   - Added the `NOW`, `FORCE` and `ABORT` modifiers.
 linkTitle: SHUTDOWN
+railroad_diagram: /images/railroad/shutdown.svg
 since: 1.0.0
 summary: Synchronously saves the database(s) to disk and shuts down the Redis server.
 syntax_fmt: SHUTDOWN [NOSAVE | SAVE] [NOW] [FORCE] [ABORT]
-syntax_str: '[NOW] [FORCE] [ABORT]'
 title: SHUTDOWN
 ---
 The command behavior is the following:
@@ -135,6 +135,12 @@ To minimize the risk of data loss in such setups, it's advised to trigger a manu
 ## Behavior change history
 
 *   `>= 7.0.0`: Introduced waiting for lagging replicas before exiting.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 

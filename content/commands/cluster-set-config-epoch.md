@@ -27,10 +27,10 @@ description: Sets the configuration epoch for a new node.
 group: cluster
 hidden: false
 linkTitle: CLUSTER SET-CONFIG-EPOCH
+railroad_diagram: /images/railroad/cluster-set-config-epoch.svg
 since: 3.0.0
 summary: Sets the configuration epoch for a new node.
 syntax_fmt: CLUSTER SET-CONFIG-EPOCH config-epoch
-syntax_str: ''
 title: CLUSTER SET-CONFIG-EPOCH
 ---
 This command sets a specific *config epoch* in a fresh node. It only works when:
@@ -54,3 +54,9 @@ configuration epoch.
 So, using `CLUSTER SET-CONFIG-EPOCH`, when a new cluster is created, we can
 assign a different progressive configuration epoch to each node before
 joining the cluster together.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |

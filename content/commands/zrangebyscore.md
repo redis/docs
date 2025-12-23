@@ -70,11 +70,11 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZRANGEBYSCORE
-replaced_by: '[`ZRANGE`]({{< relref "/commands/zrange" >}}) with the `BYSCORE` argument'
+railroad_diagram: /images/railroad/zrangebyscore.svg
+replaced_by: '`ZRANGE` with the `BYSCORE` argument'
 since: 1.0.5
 summary: Returns members in a sorted set within a range of scores.
 syntax_fmt: "ZRANGEBYSCORE key min max [WITHSCORES] [LIMIT\_offset count]"
-syntax_str: "min max [WITHSCORES] [LIMIT\_offset count]"
 title: ZRANGEBYSCORE
 ---
 Returns all the elements in the sorted set at `key` with a score between `min`
@@ -131,7 +131,6 @@ ZRANGEBYSCORE myzset (1 2
 ZRANGEBYSCORE myzset (1 (2
 {{% /redis-cli %}}
 
-
 ## Pattern: weighted random selection of an element
 
 Normally `ZRANGEBYSCORE` is simply used in order to get range of items
@@ -175,6 +174,12 @@ just compute a random number between 0 and 1 (which is like calling
 `rand()` in most languages), so you can just do:
 
     RANDOM_ELE = ZRANGEBYSCORE key RAND() +inf LIMIT 0 1
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |
 
 ## Return information
 

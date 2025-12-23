@@ -75,11 +75,11 @@ key_specs:
       limit: 0
     type: range
 linkTitle: XPENDING
+railroad_diagram: /images/railroad/xpending.svg
 since: 5.0.0
 summary: Returns the information and entries from a stream consumer group's pending
   entries list.
 syntax_fmt: "XPENDING key group [[IDLE\_min-idle-time] start end count [consumer]]"
-syntax_str: "group [[IDLE\_min-idle-time] start end count [consumer]]"
 title: XPENDING
 ---
 Fetching data from a stream via a consumer group, and not acknowledging
@@ -211,6 +211,12 @@ The `XPENDING` command allows iterating over the pending entries just like
 prefixing the ID of the last-read pending entry with the `(` character that
 denotes an open (exclusive) range, and proving it to the subsequent call to the
 command.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

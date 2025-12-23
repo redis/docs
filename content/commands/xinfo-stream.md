@@ -60,10 +60,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: XINFO STREAM
+railroad_diagram: /images/railroad/xinfo-stream.svg
 since: 5.0.0
 summary: Returns information about a stream.
 syntax_fmt: "XINFO STREAM key [FULL [COUNT\_count]]"
-syntax_str: "[FULL [COUNT\_count]]"
 title: XINFO STREAM
 ---
 This command returns information about the stream stored at `<key>`.
@@ -215,6 +215,12 @@ OK
                      2) (integer) 1638125133432
                      3) (integer) 1
 ```
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

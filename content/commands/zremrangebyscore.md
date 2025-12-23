@@ -47,11 +47,11 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZREMRANGEBYSCORE
+railroad_diagram: /images/railroad/zremrangebyscore.svg
 since: 1.2.0
 summary: Removes members in a sorted set within a range of scores. Deletes the sorted
   set if all members were removed.
 syntax_fmt: ZREMRANGEBYSCORE key min max
-syntax_str: min max
 title: ZREMRANGEBYSCORE
 ---
 Removes all elements in the sorted set stored at `key` with a score between
@@ -66,6 +66,12 @@ ZADD myzset 3 "three"
 ZREMRANGEBYSCORE myzset -inf (2
 ZRANGE myzset 0 -1 WITHSCORES
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

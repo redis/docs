@@ -23,6 +23,8 @@ EXTENSION_TO_LANGUAGE = {
     '.py': 'python',
     '.js': 'node.js',
     '.go': 'go',
+    '.c': 'c',
+    '.h': 'c',
     '.cs': 'c#',
     '.java': 'java',
     '.php': 'php',
@@ -34,6 +36,7 @@ LANGUAGE_TO_CLIENT = {
     'python': 'Python',
     'node.js': 'Node.js',
     'go': 'Go',
+    'c': 'C',
     'c#': 'C#-Sync',
     'java': 'Java-Sync',  # Default to sync, could be overridden
     'php': 'PHP',
@@ -56,13 +59,23 @@ def get_client_name_from_language(language: str) -> str:
 def get_client_name_from_language_and_path(language: str, path: str) -> str:
     """Get client name from language with path-based overrides.
 
+    For JavaScript (.js) files, override based on path substrings:
+    - If 'ioredis' in path -> ioredis
+    - Otherwise -> Node.js
+
     For Java (.java) files, override based on path substrings:
+    - If 'lettuce-sync' in path -> Lettuce-Sync
     - If 'lettuce-async' in path -> Java-Async
     - If 'lettuce-reactive' in path -> Java-Reactive
 
     Substring checks are case-sensitive and can appear anywhere in the path.
     """
+    if language == 'node.js':
+        if 'ioredis' in path:
+            return 'ioredis'
     if language == 'java':
+        if 'lettuce-sync' in path:
+            return 'Lettuce-Sync'
         if 'lettuce-async' in path:
             return 'Java-Async'
         if 'lettuce-reactive' in path:

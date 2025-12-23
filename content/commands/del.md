@@ -46,10 +46,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: DEL
+railroad_diagram: /images/railroad/del.svg
 since: 1.0.0
 summary: Deletes one or more keys.
 syntax_fmt: DEL key [key ...]
-syntax_str: ''
 title: DEL
 ---
 Removes the specified keys.
@@ -73,6 +73,12 @@ SET key1 "Hello"
 SET key2 "World"
 DEL key1 key2 key3
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

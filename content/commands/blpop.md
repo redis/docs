@@ -50,11 +50,11 @@ key_specs:
       limit: 0
     type: range
 linkTitle: BLPOP
+railroad_diagram: /images/railroad/blpop.svg
 since: 2.0.0
 summary: Removes and returns the first element in a list. Blocks until an element
   is available otherwise. Deletes the list if the last element was popped.
 syntax_fmt: BLPOP key [key ...] timeout
-syntax_str: timeout
 title: BLPOP
 ---
 `BLPOP` is a blocking list pop primitive.
@@ -99,9 +99,45 @@ specified keys.
 
 ## What key is served first? What client? What element? Priority ordering details.
 
-* If the client tries to blocks for multiple keys, but at least one key contains elements, the returned key / element pair is the first key from left to right that has one or more elements. In this case the client is not blocked. So for instance `BLPOP key1 key2 key3 key4 0`, assuming that both `key2` and `key4` are non-empty, will always return an element from `key2`.
-* If multiple clients are blocked for the same key, the first client to be served is the one that was waiting for more time (the first that blocked for the key). Once a client is unblocked it does not retain any priority, when it blocks again with the next call to `BLPOP` it will be served accordingly to the number of clients already blocked for the same key, that will all be served before it (from the first to the last that blocked).
-* When a client is blocking for multiple keys at the same time, and elements are available at the same time in multiple keys (because of a transaction or a Lua script added elements to multiple lists), the client will be unblocked using the first key that received a push operation (assuming it has enough elements to serve our client, as there may be other clients as well waiting for this key). Basically after the execution of every command Redis will run a list of all the keys that received data AND that have at least a client blocked. The list is ordered by new element arrival time, from the first key that received data to the last. For every key processed, Redis will serve all the clients waiting for that key in a FIFO fashion, as long as there are elements in this key. When the key is empty or there are no longer clients waiting for this key, the next key that received new data in the previous command / transaction / script is processed, and so forth.
+* If the client tries to block for multiple keys, but at least one key contains elements, the returned key/element pair is the first key from left to right that has one or more elements. In this case, the client is not blocked. For example, `BLPOP key1 key2 key3 key4 0`, assuming that both `key2` and `key4` are non-empty, will always return an element from `key2`.
+
+* If multiple clients are blocked for the same key, the first client to be served is the one that has been waiting the longest (the first that blocked for the key). Once a client is unblocked it does not retain any priority; when it blocks again with another `BLPOP` call, it will be served according to its new position in the queue.
+
+* When a client is blocking for multiple keys and multiple keys become non-empty as a result of the same command, transaction, or Lua script, the client is served according to the **order of keys in its `BLPOP` call**, not the order of the write operations. After the writes occur, Redis reprocesses the blocking command for the client and pops from the **first non-empty key** in the key list.  
+For example, a client blocked on `BLPOP key1 key2 0` will pop from `key1` if both `key1` and `key2` receive elements during the same `MULTI`/`EXEC` transaction, because `key1` appears first.
+
+Internally, when a write makes progress possible for a blocked client, Redis marks that client as unblocked (adding it to an internal queue). No reply is sent immediately. Before the server goes idle (in the `beforeSleep()` phase), Redis rechecks the blocking command and serves the client based on the first non-empty key in its provided key list.
+
+#### Example
+
+**Client A**
+
+```
+BLPOP key1 key2 0
+```
+
+**Client B**
+
+```
+MULTI
+RPUSH key2 1 2 3 4
+RPUSH key1 5 6 7
+EXEC
+```
+
+Although `key2` is pushed first inside the transaction, Redis reprocesses the blocking command for Client A after the transaction completes.  
+At that time both lists are non-empty, and `BLPOP` pops from the first non-empty key in its argument list (`key1`):
+
+```
+"key1"
+"5"
+```
+
+To make Redis pop from `key2` instead, reverse the order of the keys in the blocking call:
+
+```
+BLPOP key2 key1 0
+```
 
 ## Behavior of `BLPOP` when multiple elements are pushed inside a list.
 
@@ -188,6 +224,12 @@ SADD key element
 LPUSH helper_key x
 EXEC
 ```
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

@@ -34,11 +34,11 @@ group: json
 hidden: false
 linkTitle: JSON.MSET
 module: JSON
+railroad_diagram: /images/railroad/json.mset.svg
 since: 2.6.0
 stack_path: docs/data-types/json
 summary: Sets or updates the JSON value of one or more keys
 syntax_fmt: JSON.MSET key path value [key path value ...]
-syntax_str: ''
 title: JSON.MSET
 ---
 Set or update one or more JSON values according to the specified `key`-`path`-`value` triplets
@@ -89,6 +89,12 @@ redis> JSON.GET doc3
 "{\"f1\":{\"a\":1},\"f2\":{\"a\":2}}"
 {{< / highlight >}}
 </details>
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 

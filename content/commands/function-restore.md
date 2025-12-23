@@ -46,10 +46,10 @@ hints:
 - request_policy:all_shards
 - response_policy:all_succeeded
 linkTitle: FUNCTION RESTORE
+railroad_diagram: /images/railroad/function-restore.svg
 since: 7.0.0
 summary: Restores all libraries from a payload.
 syntax_fmt: FUNCTION RESTORE serialized-value [FLUSH | APPEND | REPLACE]
-syntax_str: '[FLUSH | APPEND | REPLACE]'
 title: FUNCTION RESTORE
 ---
 Restore libraries from the serialized payload.
@@ -63,6 +63,12 @@ The following policies are allowed:
 * **REPLACE:** appends the restored libraries to the existing libraries, replacing any existing ones in case of name collisions. Note that this policy doesn't prevent function name collisions, only libraries.
 
 For more information please refer to [Introduction to Redis Functions]({{< relref "/develop/programmability/functions-intro" >}}).
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

@@ -21,10 +21,10 @@ hidden: false
 hints:
 - nondeterministic_output
 linkTitle: CLUSTER NODES
+railroad_diagram: /images/railroad/cluster-nodes.svg
 since: 3.0.0
 summary: Returns the cluster configuration for a node.
 syntax_fmt: CLUSTER NODES
-syntax_str: ''
 title: CLUSTER NODES
 ---
 Each node in a Redis Cluster has its view of the current cluster configuration,
@@ -135,6 +135,12 @@ Note that:
 2. Importing and migrating slots are provided as **additional info**. If the node has a given hash slot assigned, it will be also a plain number in the list of hash slots, so clients that don't have a clue about hash slots migrations can just skip this special fields.
 
 **A note about the word slave used in this man page and command name**: Starting with Redis 5, if not for backward compatibility, the Redis project no longer uses the word slave. Unfortunately in this command the word slave is part of the protocol, so we'll be able to remove such occurrences only when this API will be naturally deprecated.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Only supported with the [OSS cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}). |
 
 ## Return information
 

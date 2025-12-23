@@ -44,10 +44,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: HMGET
+railroad_diagram: /images/railroad/hmget.svg
 since: 2.0.0
 summary: Returns the values of all fields in a hash.
 syntax_fmt: HMGET key field [field ...]
-syntax_str: field [field ...]
 title: HMGET
 ---
 Returns the values associated with the specified `fields` in the hash stored at
@@ -62,6 +62,12 @@ HSET myhash field1 "Hello"
 HSET myhash field2 "World"
 HMGET myhash field1 field2 nofield
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

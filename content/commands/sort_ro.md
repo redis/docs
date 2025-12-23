@@ -97,12 +97,11 @@ key_specs:
   notes: For the optional BY/GET keyword. It is marked 'unknown' because the key names
     derive from the content of the key we sort
 linkTitle: SORT_RO
+railroad_diagram: /images/railroad/sort_ro.svg
 since: 7.0.0
 summary: Returns the sorted elements of a list, a set, or a sorted set.
 syntax_fmt: "SORT_RO key [BY\_pattern] [LIMIT\_offset count] [GET\_pattern [GET\n\
   \  pattern ...]] [ASC | DESC] [ALPHA]"
-syntax_str: "[BY\_pattern] [LIMIT\_offset count] [GET\_pattern [GET pattern ...]]\
-  \ [ASC | DESC] [ALPHA]"
 title: SORT_RO
 ---
 Read-only variant of the [`SORT`]({{< relref "/commands/sort" >}}) command. It is exactly like the original [`SORT`]({{< relref "/commands/sort" >}}) but refuses the `STORE` option and can safely be used in read-only replicas.
@@ -118,6 +117,12 @@ See original [`SORT`]({{< relref "/commands/sort" >}}) for more details.
 ```
 SORT_RO mylist BY weight_*->fieldname GET object_*->fieldname
 ```
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

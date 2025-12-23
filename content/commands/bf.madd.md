@@ -27,12 +27,12 @@ group: bf
 hidden: false
 linkTitle: BF.MADD
 module: Bloom
+railroad_diagram: /images/railroad/bf.madd.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Adds one or more items to a Bloom Filter. A filter will be created if it
   does not exist
 syntax_fmt: BF.MADD key item [item ...]
-syntax_str: item [item ...]
 title: BF.MADD
 ---
 Adds one or more items to a Bloom filter.
@@ -54,6 +54,12 @@ If `key` does not exist - a new Bloom filter is created with default error rate,
 
 One or more items to add.
 </details>
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
 
 ## Return information
 

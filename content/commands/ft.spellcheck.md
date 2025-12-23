@@ -54,6 +54,7 @@ group: search
 hidden: false
 linkTitle: FT.SPELLCHECK
 module: Search
+railroad_diagram: /images/railroad/ft.spellcheck.svg
 since: 1.4.0
 stack_path: docs/interact/search-and-query
 summary: Performs spelling correction on a query, returning suggestions for misspelled
@@ -62,8 +63,6 @@ syntax: "FT.SPELLCHECK index query \n  [DISTANCE distance] \n  [TERMS INCLUDE | 
   \ dictionary [terms [terms ...]]] \n  [DIALECT dialect]\n"
 syntax_fmt: "FT.SPELLCHECK index query [DISTANCE\_distance] [TERMS\_<INCLUDE |\n \
   \ EXCLUDE> dictionary [terms [terms ...]]] [DIALECT\_dialect]"
-syntax_str: "query [DISTANCE\_distance] [TERMS\_<INCLUDE | EXCLUDE> dictionary [terms\
-  \ [terms ...]]] [DIALECT\_dialect]"
 title: FT.SPELLCHECK
 ---
 
@@ -131,6 +130,12 @@ The score is calculated by dividing the number of documents in which the suggest
          2) "help"
 {{< / highlight >}}
 </details>
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
 
 ## Return information
 

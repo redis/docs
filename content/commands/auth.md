@@ -37,10 +37,10 @@ history:
 - - 6.0.0
   - Added ACL style (username and password).
 linkTitle: AUTH
+railroad_diagram: /images/railroad/auth.svg
 since: 1.0.0
 summary: Authenticates the connection.
 syntax_fmt: AUTH [username] password
-syntax_str: password
 title: AUTH
 ---
 The AUTH command authenticates the current connection in two cases:
@@ -79,6 +79,12 @@ Because of the high performance nature of Redis, it is possible to try
 a lot of passwords in parallel in very short time, so make sure to generate a
 strong and very long password so that this attack is infeasible.
 A good way to generate strong passwords is via the [`ACL GENPASS`]({{< relref "/commands/acl-genpass" >}}) command.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

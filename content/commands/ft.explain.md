@@ -29,12 +29,11 @@ group: search
 hidden: false
 linkTitle: FT.EXPLAIN
 module: Search
+railroad_diagram: /images/railroad/ft.explain.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Returns the execution plan for a complex query
-syntax: "FT.EXPLAIN index query \n  [DIALECT dialect]\n"
 syntax_fmt: "FT.EXPLAIN index query [DIALECT\_dialect]"
-syntax_str: "query [DIALECT\_dialect]"
 title: FT.EXPLAIN
 ---
 
@@ -98,6 +97,12 @@ INTERSECT {
 }
 {{< / highlight >}}
 </details>
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
 
 ## Return information
 

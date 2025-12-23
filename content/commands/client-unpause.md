@@ -25,13 +25,19 @@ description: Resumes processing commands from paused clients.
 group: connection
 hidden: false
 linkTitle: CLIENT UNPAUSE
+railroad_diagram: /images/railroad/client-unpause.svg
 since: 6.2.0
 summary: Resumes processing commands from paused clients.
 syntax_fmt: CLIENT UNPAUSE
-syntax_str: ''
 title: CLIENT UNPAUSE
 ---
 `CLIENT UNPAUSE` is used to resume command processing for all clients that were paused by [`CLIENT PAUSE`]({{< relref "/commands/client-pause" >}}).
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 

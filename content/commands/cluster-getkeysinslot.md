@@ -28,10 +28,10 @@ hidden: false
 hints:
 - nondeterministic_output
 linkTitle: CLUSTER GETKEYSINSLOT
+railroad_diagram: /images/railroad/cluster-getkeysinslot.svg
 since: 3.0.0
 summary: Returns the key names in a hash slot.
 syntax_fmt: CLUSTER GETKEYSINSLOT slot count
-syntax_str: count
 title: CLUSTER GETKEYSINSLOT
 ---
 The command returns an array of keys names stored in the contacted node and
@@ -44,12 +44,21 @@ node to another. The way the rehashing is performed is exposed in the Redis
 Cluster specification, or in a more simple to digest form, as an appendix
 of the [`CLUSTER SETSLOT`]({{< relref "/commands/cluster-setslot" >}}) command documentation.
 
+{{< note >}}During atomic slot migration operations (available since Redis 8.4.0), keys being imported or trimmed will be filtered out from the results.
+{{< /note >}}
+
 ```
 > CLUSTER GETKEYSINSLOT 7000 3
 1) "key_39015"
 2) "key_89793"
 3) "key_92937"
 ```
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 

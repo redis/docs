@@ -41,8 +41,6 @@ If you choose to create your database with Easy create:
 
 {{<image filename="images/rc/pro-easy-create-vendor.png" alt="The database name, cloud vendor and region settings.">}}
 
-1. Redis will generate a database name for you. If you want to change it, you can do so in the **Database name** field.  
-
 1. Choose a **Cloud Provider** and a **Region**.
 
 1. Enter the following settings for your database:
@@ -51,7 +49,8 @@ If you choose to create your database with Easy create:
 
     | Database&nbsp;setting | Description |
     |:---------|:-----------|
-    | **Dataset size (GB)** | The amount of data for your dataset. Specify small sizes as decimals of 1.0&nbsp;GB; example: `0.1` GB (minimum). We calculate the total memory limit for you based on the other settings you choose for your database. <br/> Databases with Search and query have specific sizing requirements, see [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
+    | **Name** | The name for your database. Redis will generate a database name for you, but you can change it at any time.  |
+    | **Dataset size (GB)** | The amount of data for your dataset. See [Dataset size]({{< relref "/operate/rc/databases/configuration/sizing#dataset-size" >}}) for sizing considerations. <br/> Databases with Search and query have specific sizing requirements, see [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
     | **Throughput** | Identifies maximum throughput for the database, which is specified in terms of operations per second (**Ops/sec**). See [Throughput]({{< relref "/operate/rc/databases/configuration/sizing#throughput" >}}) for more information. <br/> Databases with Search and query have specific throughput requirements, see [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
     | **High Availability** | Indicates whether a replica copy of the database is maintained in case the primary database becomes unavailable.  (Warning: doubles memory consumption). See [High Availability]({{< relref "/operate/rc/databases/configuration/high-availability" >}}).  |
 
@@ -106,14 +105,14 @@ There are two sections on this tab:
 
 {{<image filename="images/rc/subscription-new-flexible-setup-general.png" width="75%" alt="The General settings of the Setup tab." >}}
 
-In the **General settings** of the **Setup** tab, you need to:
+In the General settings of the **Setup** tab, you need to:
 
 1. Select the public **Cloud vendor** to deploy your databases.
 
 1. Select the **Region** where you want to deploy your database. 
 
     {{< note >}}
-This guide is for single region database deployment. If you want to create a multi-region Active-Active database, see [Create an Active-Active database]({{< relref "/operate/rc/databases/create-database/create-active-active-database" >}}) for specific steps and configuration options exclusive to Active-Active.
+This guide is for single region database deployment. If you want to create a multi-region Active-Active database, see [Create an Active-Active database]({{< relref "/operate/rc/databases/active-active/create-active-active-database" >}}) for specific steps and configuration options exclusive to Active-Active.
     {{< /note >}}
 
 #### Advanced options {#advanced-options}
@@ -124,13 +123,13 @@ The following settings are defined in the **Advanced options** of the **Setup** 
 
 | Advanced option | Description |
 |---|---|
+| **Redis Flex** | Determines if your databases are stored only in memory (RAM) or are split between memory and Flash storage (RAM+Flash).  See [Redis Flex]({{< relref "/operate/rc/databases/create-database/create-flex-database/" >}}) for more information. |
+| **BYOC account** | To deploy these databases to an existing cloud account, select it here.  Use the **Add** button to add a new cloud account.<br/><br/>(Available only if [Redis Cloud Bring your own Cloud]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud" >}}) is enabled) |
 | **Multi-AZ** | Determines if replication spans multiple Availability Zones, which provides automatic failover when problems occur. See [High Availability]({{< relref "/operate/rc/databases/configuration/high-availability" >}}). |
+| **VPC configuration** | Select **In a new VPC** to deploy to a new [virtual private cloud](https://en.wikipedia.org/wiki/Virtual_private_cloud) (VPC).<br/><br/>To deploy these databases to an existing virtual private cloud, select **In existing VPC** and then set VPC ID to the appropriate ID value.<br/><br/>(Available only if [Redis Cloud Bring your own Cloud]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud" >}}) is enabled and you have selected an existing BYOC account) |
 | **Allowed Availability Zones** | The availability zones for your selected region.<br/><br/>If you choose **Manual selection**, you must select at least one zone ID from the **Zone IDs** list.  For more information, see [Availability zones]({{< relref "/operate/rc/databases/configuration/high-availability#availability-zones" >}}). |
-| **Cloud account** | To deploy these databases to an existing cloud account, select it here.  Use the **Add** button to add a new cloud account.<br/><br/>(Available only if [Redis Cloud Bring your own Cloud]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud" >}}) is enabled) |
-| **Public endpoint access** | Select whether or not to [block public endpoints]({{< relref "/operate/rc/security/database-security/block-public-endpoints" >}}) for all databases in the subscription.  |
-| **VPC configuration** | Select **In a new VPC** to deploy to a new [virtual private cloud](https://en.wikipedia.org/wiki/Virtual_private_cloud) (VPC).<br/><br/>To deploy these databases to an existing virtual private cloud, select **In existing VPC** and then set VPC ID to the appropriate ID value.<br/><br/>(Available only if [Redis Cloud Bring your own Cloud]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud" >}}) is enabled) |
 | **Deployment CIDR** | The [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) range of IP addresses for your deployment. Redis creates a new [subnet](https://en.wikipedia.org/wiki/Subnetwork) for the **Deployment CIDR** in your [virtual private cloud](https://en.wikipedia.org/wiki/Virtual_private_cloud) (VPC). It cannot overlap with the CIDR ranges of other subnets used by your account.<br/><br/>For deployments in an existing VPC, the **Deployment CIDR** must be within your VPC's **primary** CIDR range (secondary CIDRs are not supported). |
-| **Auto Tiering**| Determines if your databases are stored only in memory (RAM) or are split between memory and Flash storage (RAM+Flash).  See [Auto Tiering]({{< relref "/operate/rs/databases/auto-tiering/" >}})|
+| **Public endpoint access** | Select whether or not to [block public endpoints]({{< relref "/operate/rc/security/database-security/block-public-endpoints" >}}) for all databases in the subscription.  |
 | **Maintenance windows** | Determines when Redis can perform [maintenance]({{< relref "/operate/rc/subscriptions/maintenance" >}}) on your databases. Select **Manual** if you want to set [manual maintenance windows]({{< relref "/operate/rc/subscriptions/maintenance/set-maintenance-windows" >}}). |
 
 When finished, choose **Continue** to determine your size requirements.
@@ -147,16 +146,16 @@ When you first visit the **Sizing** tab, there are no databases defined.  Select
 
 {{<image filename="images/rc/icon-add.png" width="30px" alt="Use the Add button to define a new database for your subscription." >}}
 
-This opens the **New Database** dialog, which lets you define the requirements for your new database.
+This opens the **Database configurations** dialog, which lets you define the requirements for your new database.
 
-{{<image filename="images/rc/flexible-add-database-basic.png" width="75%" alt="The New Database dialog with basic settings." >}}
+{{<image filename="images/rc/flexible-add-database-basic.png" width="75%" alt="The Database configurations dialog with basic settings." >}}
 
 By default, you're shown basic settings, which include:
 
 | Database&nbsp;setting | Description |
 |:---------|:-----------|
-| **Name** | A custom name for your database (_required_) |
-| **Version** | The Redis version for your database. We recommend you choose the latest available version. |
+| **Name** | Redis Cloud generates a database name for you, but you can change it at any time. |
+| **Version** | The Redis version for your database. We recommend you choose the latest available version. See [Redis version management]({{< relref "/operate/rc/databases/version-management" >}}) for more information. |
 | **Dataset size (GB)** | The amount of data for your dataset. Specify small sizes as decimals of 1.0&nbsp;GB; example: `0.1` GB (minimum). We calculate the total memory limit for you based on the other settings you choose for your database. <br/> Databases with Search and query have specific sizing requirements, see [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
 | **High Availability** | Indicates whether a replica copy of the database is maintained in case the primary database becomes unavailable.  (Warning: Doubles memory consumption). See [High Availability]({{< relref "/operate/rc/databases/configuration/high-availability" >}}).  |
 | **Throughput** | Identifies maximum throughput for the database, which is specified in terms of operations per second (**Ops/sec**). See [Throughput]({{< relref "/operate/rc/databases/configuration/sizing#throughput" >}}) for more information. <br/> Databases with Search and query have specific throughput requirements. See [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
@@ -166,14 +165,14 @@ By default, you're shown basic settings, which include:
 
 Select **More options** to specify values for the following settings.
 
-{{<image filename="images/rc/flexible-add-database-advanced.png" width="75%" alt="The New Database dialog with advanced settings." >}}
+{{<image filename="images/rc/flexible-add-database-advanced.png" width="75%" alt="The Database configurations dialog with advanced settings." >}}
 
 | Database&nbsp;option | Description                                                                                                                                                     |
 |:---------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Advanced Capabilities** | [Advanced features and data types]({{< relref "/operate/rc/databases/configuration/advanced-capabilities" >}}) used by the database. Choose from [Search and query]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}), [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}}), [Time series]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries" >}}), or [Probabilistic]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom" >}}). <br/> Databases with Search and query have specific sizing requirements, see [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
-| **OSS Cluster API** | Enable to use the [Redis Cluster API]({{< relref "/operate/rc/databases/configuration/clustering#oss-cluster-api" >}}).                                                                                                                |
+| **Advanced Capabilities** | [Advanced features and data types]({{< relref "/operate/rc/databases/configuration/advanced-capabilities" >}}) used by the database. Starting with Redis 8.0, all advanced capabilities are included in Redis by default. |
+| **OSS Cluster API** | Enable to use the [OSS Cluster API]({{< relref "/operate/rc/databases/configuration/clustering#oss-cluster-api" >}}).                                                                                                                |
 | **Type** | Set to **Redis**, otherwise **Memcached** database for legacy database support.                                                                                     |
-| **Supported Protocol(s)** | Choose between RESP2 and RESP3 _(Redis 7.2 only)_. See [Redis serialization protocol]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions) for details |
+| **Supported Protocol(s)** | Choose between RESP2 and RESP3 _(Redis 7.2 and later only)_. See [Redis serialization protocol]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions) for details |
 | **Quantity** | Number of databases to create with these settings.                                                                                                              |
 
 When finished, select **Save configuration** to save your database configuration.
@@ -184,7 +183,7 @@ Use the **Add database** button to define additional databases or select the **C
 
 Hover over a database to see the **Edit** and **Delete** icons. You can use the **Edit** icon to change a database or the **Delete** icon to remove a database from the list.
 
-{{<image filename="images/rc/icon-edit.png#no-click" width="30px" alt="Use the Edit button to change database settings." class="inline" >}}&nbsp;{{<image filename="images/rc/icon-delete-teal.png#no-click" width="30px" alt="Use the Delete button to remove a database." class="inline">}}
+{{<image filename="images/rc/icon-edit.png#no-click" width="30px" alt="Use the Edit button to change database settings." class="inline" >}}&nbsp;{{<image filename="images/rc/icon-delete-lb.png#no-click" width="30px" alt="Use the Delete button to remove a database." class="inline">}}
 
 
 ### Review and Create tab
@@ -212,6 +211,7 @@ Note that databases are created in the background.  While they are provisioning,
 Use the **Database list** to check the status of your databases.
 
 
+## Billing unit types
 
 {{< embed-md "rc-pro-billing-units.md" >}}
 

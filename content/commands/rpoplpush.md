@@ -61,13 +61,12 @@ key_specs:
     type: range
   insert: true
 linkTitle: RPOPLPUSH
-replaced_by: '[`LMOVE`]({{< relref "/commands/lmove" >}}) with the `RIGHT` and `LEFT`
-  arguments'
+railroad_diagram: /images/railroad/rpoplpush.svg
+replaced_by: '`LMOVE` with the `RIGHT` and `LEFT` arguments'
 since: 1.2.0
 summary: Returns the last element of a list after removing and pushing it to another
   list. Deletes the list if the last element was popped.
 syntax_fmt: RPOPLPUSH source destination
-syntax_str: destination
 title: RPOPLPUSH
 ---
 Atomically returns and removes the last element (tail) of the list stored at
@@ -95,7 +94,6 @@ RPOPLPUSH mylist myotherlist
 LRANGE mylist 0 -1
 LRANGE myotherlist 0 -1
 {{% /redis-cli %}}
-
 
 ## Pattern: Reliable queue
 
@@ -142,6 +140,12 @@ reachable, with the smallest delay possible, using a number of parallel workers.
 Note that this implementation of workers is trivially scalable and reliable,
 because even if a message is lost the item is still in the queue and will be
 processed at the next iteration.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |
 
 ## Return information
 

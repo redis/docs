@@ -48,11 +48,11 @@ key_specs:
     type: range
   update: true
 linkTitle: SETBIT
+railroad_diagram: /images/railroad/setbit.svg
 since: 2.2.0
 summary: Sets or clears the bit at offset of the string value. Creates the key if
   it doesn't exist.
 syntax_fmt: SETBIT key offset value
-syntax_str: offset value
 title: SETBIT
 ---
 Sets or clears the bit at _offset_ in the string value stored at _key_.
@@ -84,7 +84,6 @@ SETBIT mykey 7 1
 SETBIT mykey 7 0
 GET mykey
 {{% /redis-cli %}}
-
 
 ## Pattern: accessing the entire bitmap
 
@@ -213,6 +212,12 @@ end
 
 **Note:** the implementation for getting a range of bit offsets from a bitmap is
 left as an exercise to the reader.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

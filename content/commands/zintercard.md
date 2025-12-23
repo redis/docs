@@ -50,10 +50,10 @@ key_specs:
       keystep: 1
     type: keynum
 linkTitle: ZINTERCARD
+railroad_diagram: /images/railroad/zintercard.svg
 since: 7.0.0
 summary: Returns the number of members of the intersect of multiple sorted sets.
 syntax_fmt: "ZINTERCARD numkeys key [key ...] [LIMIT\_limit]"
-syntax_str: "key [key ...] [LIMIT\_limit]"
 title: ZINTERCARD
 ---
 This command is similar to [`ZINTER`]({{< relref "/commands/zinter" >}}), but instead of returning the result set, it returns just the cardinality of the result.
@@ -77,6 +77,12 @@ ZINTER 2 zset1 zset2
 ZINTERCARD 2 zset1 zset2
 ZINTERCARD 2 zset1 zset2 LIMIT 1
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

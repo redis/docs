@@ -20,17 +20,17 @@ categories:
 - oss
 - kubernetes
 - clients
-complexity: O(k*log(k)) where k is the value of top-k
+complexity: O(k) where k is the value of top-k
 description: Return the full list of items in the Top-K sketch
 group: topk
 hidden: false
 linkTitle: TOPK.LIST
 module: Bloom
+railroad_diagram: /images/railroad/topk.list.svg
 since: 2.0.0
 stack_path: docs/data-types/probabilistic
-summary: Return the full list of items in the Top-K sketch
+summary: Return full list of items in Top K list
 syntax_fmt: TOPK.LIST key [WITHCOUNT]
-syntax_str: '[WITHCOUNT]'
 title: TOPK.LIST
 ---
 Return the full list of items in Top-K sketch.
@@ -59,6 +59,11 @@ TOPK.LIST topk WITHCOUNT
 6) (integer) 2
 ```
 
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
 
 ## Return information
 

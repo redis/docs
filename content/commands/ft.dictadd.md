@@ -23,14 +23,11 @@ group: search
 hidden: false
 linkTitle: FT.DICTADD
 module: Search
+railroad_diagram: /images/railroad/ft.dictadd.svg
 since: 1.4.0
 stack_path: docs/interact/search-and-query
 summary: Adds terms to a dictionary
-syntax: 'FT.DICTADD dict term [term ...]
-
-  '
 syntax_fmt: FT.DICTADD dict term [term ...]
-syntax_str: term [term ...]
 title: FT.DICTADD
 ---
 
@@ -62,6 +59,12 @@ term to add to the dictionary.
 (integer) 3
 {{< / highlight >}}
 </details>
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
 
 ## Return information
 

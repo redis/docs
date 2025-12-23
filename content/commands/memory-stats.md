@@ -21,10 +21,10 @@ hints:
 - request_policy:all_shards
 - response_policy:special
 linkTitle: MEMORY STATS
+railroad_diagram: /images/railroad/memory-stats.svg
 since: 4.0.0
 summary: Returns details about memory usage.
 syntax_fmt: MEMORY STATS
-syntax_str: ''
 title: MEMORY STATS
 ---
 The `MEMORY STATS` command returns an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) about the memory usage of the
@@ -84,6 +84,12 @@ values. The following metrics are reported:
 *   `fragmentation.bytes`: See [`INFO`]({{< relref "/commands/info" >}})'s `mem_fragmentation_bytes`
 
 **A note about the word slave used in this man page**: Starting with Redis 5, if not for backward compatibility, the Redis project no longer uses the word slave. Unfortunately in this command the word slave is part of the protocol, so we'll be able to remove such occurrences only when this API will be naturally deprecated.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 

@@ -119,6 +119,7 @@ history:
 - - 7.4.0
   - '`MAXAGE` option.'
 linkTitle: CLIENT KILL
+railroad_diagram: /images/railroad/client-kill.svg
 since: 2.4.0
 summary: Terminates open connections.
 syntax_fmt: "CLIENT KILL <ip:port | <[ID\_client-id] | [TYPE\_<NORMAL | MASTER |\n\
@@ -126,7 +127,6 @@ syntax_fmt: "CLIENT KILL <ip:port | <[ID\_client-id] | [TYPE\_<NORMAL | MASTER |
   ip:port] | [SKIPME\_<YES | NO>] | [MAXAGE\_maxage]\n  [[ID\_client-id] | [TYPE\_\
   <NORMAL | MASTER | SLAVE | REPLICA |\n  PUBSUB>] | [USER\_username] | [ADDR\_ip:port]\
   \ | [LADDR\_ip:port] |\n  [SKIPME\_<YES | NO>] | [MAXAGE\_maxage] ...]>>"
-syntax_str: ''
 title: CLIENT KILL
 ---
 The `CLIENT KILL` command closes a given client connection. This command support two formats, the old format:
@@ -173,6 +173,12 @@ the client point of view, the connection can never be closed
 in the middle of the execution of a command. However, the client
 will notice the connection has been closed only when the
 next command is sent (and results in network error).
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

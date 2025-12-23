@@ -92,6 +92,8 @@ See the [complete series of list commands]({{< relref "/commands/" >}}?group=lis
 
 * To limit the length of a list you can call [`LTRIM`]({{< relref "/commands/ltrim" >}}):
 {{< clients-example list_tutorial ltrim.1 >}}
+> DEL bikes:repairs
+(integer) 1
 > RPUSH bikes:repairs bike:1 bike:2 bike:3 bike:4 bike:5
 (integer) 5
 > LTRIM bikes:repairs 0 2
@@ -103,6 +105,7 @@ OK
 {{< /clients-example >}}
 
 ### What are Lists?
+
 To explain the List data type it's better to start with a little bit of theory,
 as the term *List* is often used in an improper way by information technology
 folks. For instance "Python Lists" are not what the name may suggest (Linked
@@ -143,6 +146,8 @@ element into a list, on the right (at the tail). Finally the
 [`LRANGE`]({{< relref "/commands/lrange" >}}) command extracts ranges of elements from lists:
 
 {{< clients-example list_tutorial lpush_rpush >}}
+> DEL bikes:repairs
+(integer) 1
 > RPUSH bikes:repairs bike:1
 (integer) 1
 > RPUSH bikes:repairs bike:2
@@ -167,6 +172,8 @@ Both commands are *variadic commands*, meaning that you are free to push
 multiple elements into a list in a single call:
 
 {{< clients-example list_tutorial variadic >}}
+> DEL bikes:repairs
+(integer) 1
 > RPUSH bikes:repairs bike:1 bike:2 bike:3
 (integer) 3
 > LPUSH bikes:repairs bike:important_bike bike:very_important_bike
@@ -187,6 +194,8 @@ sequence of commands the list is empty and there are no more elements to
 pop:
 
 {{< clients-example list_tutorial lpop_rpop >}}
+> DEL bikes:repairs
+(integer) 1
 > RPUSH bikes:repairs bike:1 bike:2 bike:3
 (integer) 3
 > RPOP bikes:repairs
@@ -239,6 +248,8 @@ For example, if you're adding bikes on the end of a list of repairs, but only
 want to worry about the 3 that have been on the list the longest:
 
 {{< clients-example list_tutorial ltrim >}}
+> DEL bikes:repairs
+(integer) 1
 > RPUSH bikes:repairs bike:1 bike:2 bike:3 bike:4 bike:5
 (integer) 5
 > LTRIM bikes:repairs 0 2
@@ -256,6 +267,8 @@ to add a new element and discard elements exceeding a limit. Using
 [`LTRIM`]({{< relref "/commands/ltrim" >}}) with negative indexes can then be used to keep only the 3 most recently added:
 
 {{< clients-example list_tutorial ltrim_end_of_list >}}
+> DEL bikes:repairs
+(integer) 1
 > RPUSH bikes:repairs bike:1 bike:2 bike:3 bike:4 bike:5
 (integer) 5
 > LTRIM bikes:repairs -3 -1
@@ -273,8 +286,7 @@ without any need to remember very old data.
 Note: while [`LRANGE`]({{< relref "/commands/lrange" >}}) is technically an O(N) command, accessing small ranges
 towards the head or the tail of the list is a constant time operation.
 
-Blocking operations on lists
----
+## Blocking operations on lists
 
 Lists have a special feature that make them suitable to implement queues,
 and in general as a building block for inter process communication systems:
@@ -304,6 +316,8 @@ timeout is reached.
 This is an example of a [`BRPOP`]({{< relref "/commands/brpop" >}}) call we could use in the worker:
 
 {{< clients-example list_tutorial brpop >}}
+> DEL bikes:repairs
+(integer) 1
 > RPUSH bikes:repairs bike:1 bike:2
 (integer) 2
 > BRPOP bikes:repairs 1
@@ -366,6 +380,8 @@ Examples of rule 1:
 However we can't perform operations against the wrong type if the key exists:
 
 {{< clients-example list_tutorial rule_1.1 >}}
+> DEL new_bikes
+(integer) 1
 > SET new_bikes bike:1
 OK
 > TYPE new_bikes
@@ -377,6 +393,8 @@ string
 Example of rule 2:
 
 {{< clients-example list_tutorial rule_2 >}}
+> DEL bikes:repairs
+(integer) 1
 > LPUSH bikes:repairs bike:1 bike:2 bike:3
 (integer) 3
 > EXISTS bikes:repairs
@@ -407,8 +425,7 @@ Example of rule 3:
 
 ## Limits
 
-The max length of a Redis list is 2^32 - 1 (4,294,967,295) elements.
-
+The maximum length of a Redis list is 2^32 - 1 (4,294,967,295) elements.
 
 ## Performance
 

@@ -23,15 +23,21 @@ description: Deletes all slots information from a node.
 group: cluster
 hidden: false
 linkTitle: CLUSTER FLUSHSLOTS
+railroad_diagram: /images/railroad/cluster-flushslots.svg
 since: 3.0.0
 summary: Deletes all slots information from a node.
 syntax_fmt: CLUSTER FLUSHSLOTS
-syntax_str: ''
 title: CLUSTER FLUSHSLOTS
 ---
 Deletes all slots from a node.
 
 The `CLUSTER FLUSHSLOTS` deletes all information about slots from the connected node. It can only be called when the database is empty.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 

@@ -26,10 +26,10 @@ description: Lists the ACL categories, or the commands inside a category.
 group: server
 hidden: false
 linkTitle: ACL CAT
+railroad_diagram: /images/railroad/acl-cat.svg
 since: 6.0.0
 summary: Lists the ACL categories, or the commands inside a category.
 syntax_fmt: ACL CAT [category]
-syntax_str: ''
 title: ACL CAT
 ---
 The command shows the available ACL categories if called without arguments.
@@ -118,6 +118,12 @@ Then we may want to know what commands are part of a given category:
 30) "psync"
 31) "sort"
 ```
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts]({{<relref "/develop/programmability">}}). |
 
 ## Return information
 

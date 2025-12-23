@@ -51,10 +51,10 @@ key_specs:
       keystep: 1
     type: keynum
 linkTitle: ZDIFF
+railroad_diagram: /images/railroad/zdiff.svg
 since: 6.2.0
 summary: Returns the difference between multiple sorted sets.
 syntax_fmt: ZDIFF numkeys key [key ...] [WITHSCORES]
-syntax_str: key [key ...] [WITHSCORES]
 title: ZDIFF
 ---
 This command is similar to [`ZDIFFSTORE`]({{< relref "/commands/zdiffstore" >}}), but instead of storing the resulting
@@ -71,6 +71,12 @@ ZADD zset2 2 "two"
 ZDIFF 2 zset1 zset2
 ZDIFF 2 zset1 zset2 WITHSCORES
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

@@ -46,11 +46,11 @@ key_specs:
       limit: 0
     type: range
 linkTitle: LTRIM
+railroad_diagram: /images/railroad/ltrim.svg
 since: 1.0.0
 summary: Removes elements from both ends a list. Deletes the list if all elements
   were trimmed.
 syntax_fmt: LTRIM key start stop
-syntax_str: start stop
 title: LTRIM
 ---
 Trim an existing list so that it will contain only the specified range of
@@ -95,6 +95,12 @@ RPUSH mylist "three"
 LTRIM mylist 1 -1
 LRANGE mylist 0 -1
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

@@ -44,10 +44,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: SMISMEMBER
+railroad_diagram: /images/railroad/smismember.svg
 since: 6.2.0
 summary: Determines whether multiple members belong to a set.
 syntax_fmt: SMISMEMBER key member [member ...]
-syntax_str: member [member ...]
 title: SMISMEMBER
 ---
 Returns whether each `member` is a member of the set stored at `key`.
@@ -61,6 +61,12 @@ SADD myset "one"
 SADD myset "one"
 SMISMEMBER myset "one" "notamember"
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

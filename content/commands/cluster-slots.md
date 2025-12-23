@@ -30,11 +30,11 @@ history:
 - - 7.0.0
   - Added additional networking metadata field.
 linkTitle: CLUSTER SLOTS
-replaced_by: '[`CLUSTER SHARDS`]({{< relref "/commands/cluster-shards" >}})'
+railroad_diagram: /images/railroad/cluster-slots.svg
+replaced_by: '`CLUSTER SHARDS`'
 since: 3.0.0
 summary: Returns the mapping of cluster slots to nodes.
 syntax_fmt: CLUSTER SLOTS
-syntax_str: ''
 title: CLUSTER SLOTS
 ---
 `CLUSTER SLOTS` returns details about which cluster slots map to which Redis instances. 
@@ -127,6 +127,12 @@ Similarly a client library should try if possible to cope with the fact that old
 ## Behavior change history
 
 *   `>= 7.0.0`: Added support for hostnames and unknown endpoints in first field of node response.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Only supported with the [OSS cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}). Deprecated as of Redis v7.0.0. |
 
 ## Return information
 

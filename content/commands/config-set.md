@@ -41,10 +41,10 @@ history:
 - - 7.0.0
   - Added the ability to set multiple parameters in one call.
 linkTitle: CONFIG SET
+railroad_diagram: /images/railroad/config-set.svg
 since: 2.0.0
 summary: Sets configuration parameters in-flight.
 syntax_fmt: CONFIG SET parameter value [parameter value ...]
-syntax_str: ''
 title: CONFIG SET
 ---
 The `CONFIG SET` command is used in order to reconfigure the server at run time
@@ -72,14 +72,23 @@ It is possible to switch persistence from RDB snapshotting to append-only file
 (and the other way around) using the `CONFIG SET` command.
 See the [persistence page]({{< relref "/operate/oss_and_stack/management/persistence" >}}) for more information.
 
-In general what you should know is that setting the `appendonly` parameter to
-`yes` will start a background process to save the initial append-only file
+```
+CONFIG SET appendonly yes
+```
+
+Setting the `appendonly` parameter as shown above will start a background process to save the initial append-only file
 (obtained from the in memory data set), and will append all the subsequent
 commands on the append-only file, thus obtaining exactly the same effect of a
 Redis server that started with AOF turned on since the start.
 
 You can have both the AOF enabled with RDB snapshotting if you want, the two
 options are not mutually exclusive.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | [Only supports a subset of configuration settings.]({{< relref "/operate/rs/references/compatibility/config-settings" >}}) |
 
 ## Return information
 

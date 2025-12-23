@@ -66,12 +66,11 @@ description: Controls server-assisted client-side caching for the connection.
 group: connection
 hidden: false
 linkTitle: CLIENT TRACKING
+railroad_diagram: /images/railroad/client-tracking.svg
 since: 6.0.0
 summary: Controls server-assisted client-side caching for the connection.
 syntax_fmt: "CLIENT TRACKING <ON | OFF> [REDIRECT\_client-id] [PREFIX\_prefix\n  [PREFIX\
   \ prefix ...]] [BCAST] [OPTIN] [OPTOUT] [NOLOOP]"
-syntax_str: "[REDIRECT\_client-id] [PREFIX\_prefix [PREFIX prefix ...]] [BCAST] [OPTIN]\
-  \ [OPTOUT] [NOLOOP]"
 title: CLIENT TRACKING
 ---
 This command enables the tracking feature of the Redis server, that is used
@@ -103,6 +102,12 @@ command when enabling tracking:
 * `OPTIN`: when broadcasting is NOT active, normally don't track keys in read only commands, unless they are called immediately after a `CLIENT CACHING yes` command.
 * `OPTOUT`: when broadcasting is NOT active, normally track keys in read only commands, unless they are called immediately after a `CLIENT CACHING no` command.
 * `NOLOOP`: don't send notifications about keys modified by this connection itself.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

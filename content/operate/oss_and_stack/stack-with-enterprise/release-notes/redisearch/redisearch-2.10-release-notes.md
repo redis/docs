@@ -13,10 +13,51 @@ weight: 90
 ---
 ## Requirements
 
-RediSearch v2.10.23 requires:
+RediSearch v2.10.25 requires:
 
 - Minimum Redis compatibility version (database): 7.4
 - Minimum Redis Enterprise Software version (cluster): 7.8
+
+## v2.10.25 (December 2025)
+
+This is a maintenance release for RediSearch 2.10.
+
+Update urgency: `LOW`: No need to upgrade unless there are new features you want to use.
+
+Improvements:
+
+- [#7157](https://github.com/RediSearch/RediSearch/pull/7157) Show background Indexing OOM warning in FT.AGGREGATE reply in RESP3.
+- [#7086](https://github.com/RediSearch/RediSearch/pull/7086) Add the default text scorer as a new configuration.
+- [#7380](https://github.com/RediSearch/RediSearch/pull/7380) Rename FT.PROFILE counter fields.
+- [#7366](https://github.com/RediSearch/RediSearch/pull/7366) Reduce temporary memory overhead upon index load from RDB.
+- [#7393](https://github.com/RediSearch/RediSearch/pull/7393) Improve timeout check for FT.AGGREGATE in cluster mode.
+- [#7451](https://github.com/RediSearch/RediSearch/pull/7451) Enhance FT.PROFILE with vector search execution details.
+- [#7480](https://github.com/RediSearch/RediSearch/pull/7480) Ensure full profile output on timeout with RETURN policy.
+
+Bug Fixes:
+
+- [#7216](https://github.com/RediSearch/RediSearch/pull/7216) Fix a concurrency issue on Reducer in FT.AGGREGATE.
+- [#7259](https://github.com/RediSearch/RediSearch/pull/7259) Fix underflow in BM25STD.
+- [#7278](https://github.com/RediSearch/RediSearch/pull/7278) Report used memory as unsigned long long to avoid underflows.
+- [#7340](https://github.com/RediSearch/RediSearch/pull/7340) Fix a rare leak in GC.
+- [#7462](https://github.com/RediSearch/RediSearch/pull/7462) Fix Fork GC potential double-free on error path.
+- [#7525](https://github.com/RediSearch/RediSearch/pull/7525) Avoid draining workers thread pool from FLUSHDB callback to avoid potential deadlocks.
+
+
+Full Changelog: https://github.com/RediSearch/RediSearch/compare/v2.10.24...v2.10.25
+
+## v2.10.24 (October 2025)
+
+This is a maintenance release for RediSearch 2.10.
+
+Update urgency: `LOW`: No need to upgrade unless there are new features you want to use.
+
+Bug Fixes
+- [#6960](https://github.com/redisearch/redisearch/pull/6960) - FT.INFO returns the wrong number of documents in OSS Cluster with replicas.
+- [#6938](https://github.com/redisearch/redisearch/pull/6938) - Fix for the HIGHLIGHT feature, where if some fields have empty strings, wrong tokens might be highlighted.
+- [#7047](https://github.com/redisearch/redisearch/pull/7047) - Avoid crashing in the FT.AGGREGATE command in clusters where different shards have different ON_TIMEOUT policies configured (fail vs return).
+
+Full Changelog: https://github.com/RediSearch/RediSearch/compare/v2.10.23...v2.10.24.
 
 ## v2.10.23 (September 2025)
 
@@ -28,7 +69,7 @@ Bug fixes:
 - [#6672](https://github.com/RediSearch/RediSearch/pull/6672) Fix potential file descriptor leak when OOM.
 - [#6763](https://github.com/RediSearch/RediSearch/pull/6763) Fix potential deadlock during RDB loading in cases where the `INFO` command is sent to the server.
 
-**Full Changelog**: https://github.com/RediSearch/RediSearch/compare/v2.10.22...v2.10.23
+Full Changelog: https://github.com/RediSearch/RediSearch/compare/v2.10.22...v2.10.23
 
 ## v2.10.22 (August 2025)
 

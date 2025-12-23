@@ -38,12 +38,12 @@ group: cf
 hidden: false
 linkTitle: CF.INSERTNX
 module: Bloom
+railroad_diagram: /images/railroad/cf.insertnx.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Adds one or more items to a Cuckoo Filter if the items did not exist previously.
   A filter will be created if it does not exist
 syntax_fmt: "CF.INSERTNX key [CAPACITY\_capacity] [NOCREATE] ITEMS item [item ...]"
-syntax_str: "[CAPACITY\_capacity] [NOCREATE] ITEMS item [item ...]"
 title: CF.INSERTNX
 ---
 Adds one or more items to a cuckoo filter if they did not exist previously, allowing the filter to be created with a custom capacity if it does not exist yet.
@@ -116,6 +116,12 @@ redis> CF.INSERTNX cf CAPACITY 1000 ITEMS item1 item2 item3
 redis> CF.INSERTNX cf_new CAPACITY 1000 NOCREATE ITEMS item1 item2 
 (error) ERR not found
 {{< / highlight >}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
 
 ## Return information
 

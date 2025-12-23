@@ -35,11 +35,11 @@ group: json
 hidden: false
 linkTitle: JSON.ARRPOP
 module: JSON
+railroad_diagram: /images/railroad/json.arrpop.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Removes and returns the element at the specified index in the array at path
 syntax_fmt: JSON.ARRPOP key [path [index]]
-syntax_str: '[path [index]]'
 title: JSON.ARRPOP
 ---
 Remove and return an element from the index in the array
@@ -112,6 +112,12 @@ redis> JSON.GET key $.[1].max_level
 "[[85,90,100,120]]"
 {{< / highlight >}}
 </details>
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
 
 ## Return information
 

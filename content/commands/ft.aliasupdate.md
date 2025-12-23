@@ -22,14 +22,11 @@ group: search
 hidden: false
 linkTitle: FT.ALIASUPDATE
 module: Search
+railroad_diagram: /images/railroad/ft.aliasupdate.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Adds or updates an alias to the index
-syntax: 'FT.ALIASUPDATE alias index
-
-  '
 syntax_fmt: FT.ALIASUPDATE alias index
-syntax_str: index
 title: FT.ALIASUPDATE
 ---
 
@@ -57,6 +54,12 @@ Update the alias of an index.
 127.0.0.1:6379> FT.ALIASUPDATE alias idx
 OK
 {{< / highlight >}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
 
 ## Return information
 

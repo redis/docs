@@ -48,11 +48,11 @@ key_specs:
     type: range
   insert: true
 linkTitle: MSETNX
+railroad_diagram: /images/railroad/msetnx.svg
 since: 1.0.1
 summary: Atomically modifies the string values of one or more keys only when all keys
   don't exist.
 syntax_fmt: MSETNX key value [key value ...]
-syntax_str: ''
 title: MSETNX
 ---
 Sets the given keys to their respective values.
@@ -74,6 +74,12 @@ MSETNX key1 "Hello" key2 "there"
 MSETNX key2 "new" key3 "world"
 MGET key1 key2 key3
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

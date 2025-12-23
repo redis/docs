@@ -14,11 +14,11 @@ description: Add a new element to a vector set, or update its vector if it alrea
 group: vector_set
 hidden: false
 linkTitle: VADD
+railroad_diagram: /images/railroad/vadd.svg
 since: 8.0.0
 summary: Add a new element to a vector set, or update its vector if it already exists.
 syntax_fmt: "VADD key [REDUCE dim] (FP32 | VALUES num) vector element [CAS] [NOQUANT | Q8 | BIN]\n  [EF build-exploration-factor] [SETATTR attributes] [M numlinks]"
 title: VADD
-bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
 ---
 
 Add a new element into the vector set specified by `key`. The vector can be provided as 32-bit floating point (`FP32`) blob of values, or as floating point numbers as strings, prefixed by the number of elements (3 in the example below):
@@ -117,6 +117,12 @@ If you don't have a recall quality problem, the default is acceptable, and uses 
 ## Related topics
 
 - [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

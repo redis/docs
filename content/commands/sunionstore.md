@@ -57,10 +57,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: SUNIONSTORE
+railroad_diagram: /images/railroad/sunionstore.svg
 since: 1.0.0
 summary: Stores the union of multiple sets in a key.
 syntax_fmt: SUNIONSTORE destination key [key ...]
-syntax_str: key [key ...]
 title: SUNIONSTORE
 ---
 This command is equal to [`SUNION`]({{< relref "/commands/sunion" >}}), but instead of returning the resulting set,
@@ -80,6 +80,12 @@ SADD key2 "e"
 SUNIONSTORE key key1 key2
 SMEMBERS key
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

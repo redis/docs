@@ -16,25 +16,46 @@ arguments:
   optional: true
   token: RETENTION
   type: integer
-- arguments:
-  - name: uncompressed
-    token: UNCOMPRESSED
-    type: pure-token
-  - name: compressed
-    token: COMPRESSED
-    type: pure-token
-  name: enc
+- name: uncompressed
   optional: true
-  token: ENCODING
-  type: oneof
+  token: UNCOMPRESSED
+  type: pure-token
 - name: size
   optional: true
   token: CHUNK_SIZE
   type: integer
-- name: policy
+- arguments:
+  - name: block
+    token: BLOCK
+    type: pure-token
+  - name: first
+    token: FIRST
+    type: pure-token
+  - name: last
+    token: LAST
+    type: pure-token
+  - name: min
+    token: MIN
+    type: pure-token
+  - name: max
+    token: MAX
+    type: pure-token
+  - name: sum
+    token: SUM
+    type: pure-token
+  name: policy
   optional: true
   token: DUPLICATE_POLICY
   type: oneof
+- arguments:
+  - name: ignoreMaxTimediff
+    type: integer
+  - name: ignoreMaxValDiff
+    type: double
+  name: ignore
+  optional: true
+  token: IGNORE
+  type: block
 - arguments:
   - name: label
     type: string
@@ -63,17 +84,18 @@ group: timeseries
 hidden: false
 linkTitle: TS.DECRBY
 module: TimeSeries
+railroad_diagram: /images/railroad/ts.decrby.svg
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Decrease the value of the sample with the maximum existing timestamp, or
   create a new sample with a value equal to the value of the sample with the maximum
   existing timestamp with a given decrement
 syntax: "TS.DECRBY key subtrahend \n  [TIMESTAMP timestamp] \n  [RETENTION retentionPeriod]\
-  \ \n  [ENCODING <COMPRESSED|UNCOMPRESSED>] \n  [CHUNK_SIZE size] \n  [DUPLICATE_POLICY policy] \n  [IGNORE ignoreMaxTimediff ignoreMaxValDiff]\ \ \n\ \ [LABELS [label value ...]]\n"
+  \ \n  [ENCODING <COMPRESSED|UNCOMPRESSED>] \n  [CHUNK_SIZE size] \n  [DUPLICATE_POLICY\
+  \ policy] \n  [IGNORE ignoreMaxTimediff ignoreMaxValDiff]  \n  [LABELS [label value\
+  \ ...]]\n"
 syntax_fmt: "TS.DECRBY key value [TIMESTAMP\_timestamp]\n  [RETENTION\_retentionPeriod]\
-  \ [ENCODING\_<COMPRESSED|UNCOMPRESSED>] [CHUNK_SIZE\_size]\n [DUPLICATE_POLICY\_policy] [LABELS\_[label value ...]]"
-syntax_str: "value [TIMESTAMP\_timestamp] [RETENTION\_retentionPeriod] [ENCODING\_<COMPRESSED|UNCOMPRESSED>]\
-  \ [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_policy] [LABELS\_[label value ...]]"
+  \ [UNCOMPRESSED] [CHUNK_SIZE\_size]\n  [LABELS\_label value [label value ...]]"
 title: TS.DECRBY
 ---
 
@@ -172,6 +194,12 @@ Use it only if you are creating a new time series. It is ignored if you are addi
   `RETENTION`, `ENCODING`, `CHUNK_SIZE`, `DUPLICATE_POLICY`, `IGNORE`, and `LABELS` are used only when creating a new time series, and ignored when adding or modifying samples in an existing time series.
 - Setting `RETENTION` and `LABELS` introduces additional time complexity.
 </note>
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
 
 ## Return information
 

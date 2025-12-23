@@ -24,10 +24,10 @@ description: Lists all ACL users.
 group: server
 hidden: false
 linkTitle: ACL USERS
+railroad_diagram: /images/railroad/acl-users.svg
 since: 6.0.0
 summary: Lists all ACL users.
 syntax_fmt: ACL USERS
-syntax_str: ''
 title: ACL USERS
 ---
 The command shows a list of all the usernames of the currently configured
@@ -41,6 +41,12 @@ users in the Redis ACL system.
 2) "antirez"
 3) "default"
 ```
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts]({{<relref "/develop/programmability">}}). |
 
 ## Return information
 

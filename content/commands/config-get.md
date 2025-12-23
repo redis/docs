@@ -32,10 +32,10 @@ history:
 - - 7.0.0
   - Added the ability to pass multiple pattern parameters in one call
 linkTitle: CONFIG GET
+railroad_diagram: /images/railroad/config-get.svg
 since: 2.0.0
 summary: Returns the effective values of configuration parameters.
 syntax_fmt: CONFIG GET parameter [parameter ...]
-syntax_str: ''
 title: CONFIG GET
 ---
 The `CONFIG GET` command is used to read the configuration parameters of a
@@ -78,6 +78,12 @@ configuration parameter used in the [redis.conf][hgcarr22rc] file:
 Note that you should look at the redis.conf file relevant to the version you're
 working with as configuration options might change between versions. The link
 above is to the latest development version.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | [Only supports a subset of configuration settings.]({{< relref "/operate/rs/references/compatibility/config-settings" >}}) |
 
 ## Return information
 

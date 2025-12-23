@@ -5,7 +5,6 @@ categories:
 - docs
 - operate
 - kubernetes
-aliases: [/operate/kubernetes/reference/redis_enterprise_active_active_database_api]
 linkTitle: REAADB API
 weight: 30
 ---
@@ -172,7 +171,14 @@ The Active-Active database global configurations, contains the global properties
         <td><a href="#specglobalconfigurationsalertsettings">alertSettings</a></td>
         <td>object</td>
         <td>
-          Settings for database alerts. Note - Alert settings are not supported for Active-Active database.<br/>
+          Settings for database alerts.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specglobalconfigurationsauditing">auditing</a></td>
+        <td>object</td>
+        <td>
+          Database auditing configuration.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -325,6 +331,16 @@ The Active-Active database global configurations, contains the global properties
         </td>
         <td>false</td>
       </tr><tr>
+        <td>rofRamRatio</td>
+        <td>integer</td>
+        <td>
+          RAM allocation ratio for Redis Flex (v2) databases as a percentage of total data size. Valid range 0-100. When omitted, RS uses the default value of 50%. Controls how much RAM is allocated per unit of data (e.g., 30% means 3MB RAM per 10MB data). RAM grows proportionally with data until rofRamSize limit is reached (if specified). Only applicable when isRof=true and Redis version >= 8.0 (BigStore v2 - Redis Flex).<br/>
+          <br/>
+            <i>Minimum</i>: 0<br/>
+            <i>Maximum</i>: 100<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td>rofRamSize</td>
         <td>string</td>
         <td>
@@ -423,7 +439,7 @@ Connection/ association to the Active-Active database.
 ### spec.globalConfigurations.alertSettings
 <sup><sup>[↩ Parent](#specglobalconfigurations)</sup></sup>
 
-Settings for database alerts. Note - Alert settings are not supported for Active-Active database.
+Settings for database alerts.
 
 <table>
     <thead>
@@ -488,6 +504,13 @@ Settings for database alerts. Note - Alert settings are not supported for Active
         <td>object</td>
         <td>
           Throughput is lower than specified threshold value [requests / sec.]<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specglobalconfigurationsalertsettingsbdb_proxy_cert_expiring_soon">bdb_proxy_cert_expiring_soon</a></td>
+        <td>object</td>
+        <td>
+          Proxy certificate will expire in less than specified threshold value [days]<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -792,6 +815,38 @@ Throughput is lower than specified threshold value [requests / sec.]
 </table>
 
 
+### spec.globalConfigurations.alertSettings.bdb_proxy_cert_expiring_soon
+<sup><sup>[↩ Parent](#specglobalconfigurationsalertsettings)</sup></sup>
+
+Proxy certificate will expire in less than specified threshold value [days]
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>enabled</td>
+        <td>boolean</td>
+        <td>
+          Alert enabled or disabled<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>threshold</td>
+        <td>string</td>
+        <td>
+          Threshold for alert going on/off<br/>
+        </td>
+        <td>true</td>
+      </tr></tbody>
+</table>
+
+
 ### spec.globalConfigurations.alertSettings.bdb_ram_dataset_overhead
 <sup><sup>[↩ Parent](#specglobalconfigurationsalertsettings)</sup></sup>
 
@@ -980,6 +1035,31 @@ Dataset size has reached the threshold value [% of the memory limit]
           Threshold for alert going on/off<br/>
         </td>
         <td>true</td>
+      </tr></tbody>
+</table>
+
+
+### spec.globalConfigurations.auditing
+<sup><sup>[↩ Parent](#specglobalconfigurations)</sup></sup>
+
+Database auditing configuration.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>dbConnsAuditing</td>
+        <td>boolean</td>
+        <td>
+          Enables auditing of database connection and authentication events. When enabled, connection, authentication, and disconnection events are tracked and sent to the configured audit listener (configured at the cluster level). The cluster-level auditing configuration must be set before enabling this on a database.<br/>
+        </td>
+        <td>false</td>
       </tr></tbody>
 </table>
 
@@ -1457,9 +1537,12 @@ Redis Enterprise Role and ACL Binding
         <td>true</td>
       </tr><tr>
         <td>type</td>
-        <td>string</td>
+        <td>enum</td>
         <td>
-          Type of Redis Enterprise Database Role Permission<br/>
+          Type of Redis Enterprise Database Role Permission. Currently, only "redis-enterprise" is supported, which uses roles and ACLs defined within Redis Enterprise directly.<br/>
+          <br/>
+            <i>Enum</i>: redis-enterprise<br/>
+            <i>Default</i>: redis-enterprise<br/>
         </td>
         <td>true</td>
       </tr></tbody>

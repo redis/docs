@@ -50,11 +50,11 @@ key_specs:
       limit: 0
     type: range
 linkTitle: RPOP
+railroad_diagram: /images/railroad/rpop.svg
 since: 1.0.0
 summary: Returns and removes the last elements of a list. Deletes the list if the
   last element was popped.
 syntax_fmt: RPOP key [count]
-syntax_str: '[count]'
 title: RPOP
 ---
 Removes and returns the last elements of the list stored at `key`.
@@ -86,6 +86,12 @@ RPOP mylist
 RPOP mylist 2
 LRANGE mylist 0 -1
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

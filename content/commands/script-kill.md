@@ -24,10 +24,10 @@ hints:
 - request_policy:all_shards
 - response_policy:one_succeeded
 linkTitle: SCRIPT KILL
+railroad_diagram: /images/railroad/script-kill.svg
 since: 2.6.0
 summary: Terminates a server-side Lua script during execution.
 syntax_fmt: SCRIPT KILL
-syntax_str: ''
 title: SCRIPT KILL
 ---
 Kills the currently executing [`EVAL`]({{< relref "/commands/eval" >}}) script, assuming no write operation was yet
@@ -45,6 +45,12 @@ the Redis process in a hard way and preventing it from persisting with half-writ
 information.
 
 For more information about [`EVAL`]({{< relref "/commands/eval" >}}) scripts please refer to [Introduction to Eval Scripts]({{< relref "/develop/programmability/eval-intro" >}}).
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

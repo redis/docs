@@ -47,10 +47,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZCOUNT
+railroad_diagram: /images/railroad/zcount.svg
 since: 2.0.0
 summary: Returns the count of members in a sorted set that have scores within a range.
 syntax_fmt: ZCOUNT key min max
-syntax_str: min max
 title: ZCOUNT
 ---
 Returns the number of elements in the sorted set at `key` with a score between
@@ -70,6 +70,12 @@ ZADD myzset 3 "three"
 ZCOUNT myzset -inf +inf
 ZCOUNT myzset (1 3
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

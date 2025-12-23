@@ -52,12 +52,12 @@ key_specs:
       limit: 0
     type: range
 linkTitle: BZPOPMIN
+railroad_diagram: /images/railroad/bzpopmin.svg
 since: 5.0.0
 summary: Removes and returns the member with the lowest score from one or more sorted
   sets. Blocks until a member is available otherwise. Deletes the sorted set if the
   last element was popped.
 syntax_fmt: BZPOPMIN key [key ...] timeout
-syntax_str: timeout
 title: BZPOPMIN
 ---
 `BZPOPMIN` is the blocking variant of the sorted set [`ZPOPMIN`]({{< relref "/commands/zpopmin" >}}) primitive.
@@ -88,6 +88,12 @@ redis> BZPOPMIN zset1 zset2 0
 2) "a"
 3) "0"
 ```
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

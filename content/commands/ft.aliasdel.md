@@ -20,14 +20,11 @@ group: search
 hidden: false
 linkTitle: FT.ALIASDEL
 module: Search
+railroad_diagram: /images/railroad/ft.aliasdel.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Deletes an alias from the index
-syntax: 'FT.ALIASDEL alias
-
-  '
 syntax_fmt: FT.ALIASDEL alias
-syntax_str: ''
 title: FT.ALIASDEL
 ---
 
@@ -55,6 +52,12 @@ Remove an alias from an index.
 OK
 {{< / highlight >}}
 </details>
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
 
 ## Return information
 

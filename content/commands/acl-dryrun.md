@@ -37,10 +37,10 @@ description: Simulates the execution of a command by a user, without executing t
 group: server
 hidden: false
 linkTitle: ACL DRYRUN
+railroad_diagram: /images/railroad/acl-dryrun.svg
 since: 7.0.0
 summary: Simulates the execution of a command by a user, without executing the command.
 syntax_fmt: ACL DRYRUN username command [arg [arg ...]]
-syntax_str: command [arg [arg ...]]
 title: ACL DRYRUN
 ---
 Simulate the execution of a given command by a given user.
@@ -56,6 +56,12 @@ This command can be used to test the permissions of a given user without having 
 > ACL DRYRUN VIRGINIA GET foo
 "User VIRGINIA has no permissions to run the 'get' command"
 ```
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Might reply with "unknown user" for LDAP users even if `AUTH` succeeds. |
 
 ## Return information
 

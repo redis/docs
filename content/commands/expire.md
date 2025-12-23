@@ -67,10 +67,10 @@ key_specs:
     type: range
   update: true
 linkTitle: EXPIRE
+railroad_diagram: /images/railroad/expire.svg
 since: 1.0.0
 summary: Sets the expiration time of a key in seconds.
 syntax_fmt: EXPIRE key seconds [NX | XX | GT | LT]
-syntax_str: seconds [NX | XX | GT | LT]
 title: EXPIRE
 ---
 Set a timeout on `key`.
@@ -172,7 +172,6 @@ EXPIRE mykey 10 NX
 TTL mykey
 {{% /redis-cli %}}
 
-
 ## Pattern: Navigation session
 
 Imagine you have a web service and you are interested in the latest N pages
@@ -269,6 +268,12 @@ fully acting as a master.
 ### Redis Query Engine and expiration
 
 Starting with Redis 8, the Redis Query Engine has enhanced behavior when handling expiring keys. For detailed information about how [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) and [`FT.AGGREGATE`]({{< relref "/commands/ft.aggregate" >}}) commands interact with expiring keys, see [Key and field expiration behavior]({{< relref "/develop/ai/search-and-query/advanced-concepts/expiration" >}}).
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

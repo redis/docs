@@ -46,11 +46,11 @@ description: Binds a hash slot to a node.
 group: cluster
 hidden: false
 linkTitle: CLUSTER SETSLOT
+railroad_diagram: /images/railroad/cluster-setslot.svg
 since: 3.0.0
 summary: Binds a hash slot to a node.
 syntax_fmt: "CLUSTER SETSLOT slot <IMPORTING\_node-id | MIGRATING\_node-id |\n  NODE\_\
   node-id | STABLE>"
-syntax_str: "<IMPORTING\_node-id | MIGRATING\_node-id | NODE\_node-id | STABLE>"
 title: CLUSTER SETSLOT
 ---
 `CLUSTER SETSLOT` is responsible of changing the state of a hash slot in the receiving node in different ways. It can, depending on the subcommand used:
@@ -134,6 +134,12 @@ Notes:
   If the source node is informed before the destination node and the destination node crashes before it is set as new slot owner, the slot is left with no owner, even after a successful failover.
 * Step 6, sending `SETSLOT` to the nodes not involved in the resharding, is not technically necessary since the configuration will eventually propagate itself.
   However, it is a good idea to do so in order to stop nodes from pointing to the wrong node for the hash slot moved as soon as possible, resulting in less redirections to find the right node.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 

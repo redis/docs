@@ -24,11 +24,11 @@ group: cf
 hidden: false
 linkTitle: CF.COUNT
 module: Bloom
+railroad_diagram: /images/railroad/cf.count.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Return the number of times an item might be in a Cuckoo Filter
 syntax_fmt: CF.COUNT key item
-syntax_str: item
 title: CF.COUNT
 ---
 Returns an estimation of the number of times a given item was added to a cuckoo filter.
@@ -60,6 +60,12 @@ redis> CF.COUNT cf item1
 redis> CF.COUNT cf item2
 (integer) 2
 {{< / highlight >}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
 
 ## Return information
 

@@ -21,14 +21,20 @@ hints:
 - request_policy:all_shards
 - response_policy:special
 linkTitle: MEMORY DOCTOR
+railroad_diagram: /images/railroad/memory-doctor.svg
 since: 4.0.0
 summary: Outputs a memory problems report.
 syntax_fmt: MEMORY DOCTOR
-syntax_str: ''
 title: MEMORY DOCTOR
 ---
 The `MEMORY DOCTOR` command reports about different memory-related issues that
 the Redis server experiences, and advises about possible remedies.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 

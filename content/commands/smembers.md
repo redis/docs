@@ -41,10 +41,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: SMEMBERS
+railroad_diagram: /images/railroad/smembers.svg
 since: 1.0.0
 summary: Returns all members of a set.
 syntax_fmt: SMEMBERS key
-syntax_str: ''
 title: SMEMBERS
 ---
 Returns all the members of the set value stored at `key`.
@@ -70,6 +70,12 @@ SADD myset "Hello"
 SADD myset "World"
 SMEMBERS myset
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

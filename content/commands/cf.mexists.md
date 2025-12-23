@@ -26,11 +26,11 @@ group: cf
 hidden: false
 linkTitle: CF.MEXISTS
 module: Bloom
+railroad_diagram: /images/railroad/cf.mexists.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Checks whether one or more items exist in a Cuckoo Filter
 syntax_fmt: CF.MEXISTS key item [item ...]
-syntax_str: item [item ...]
 title: CF.MEXISTS
 ---
 Determines whether one or more items were added to a cuckoo filter.
@@ -61,6 +61,12 @@ redis> CF.MEXISTS cf item1 item2 item3
 2) (integer) 1
 3) (integer) 0
 {{< / highlight >}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
 
 ## Return information
 

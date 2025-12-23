@@ -66,10 +66,10 @@ key_specs:
     type: range
   insert: true
 linkTitle: XGROUP CREATE
+railroad_diagram: /images/railroad/xgroup-create.svg
 since: 5.0.0
 summary: Creates a consumer group.
 syntax_fmt: "XGROUP CREATE key group <id | $> [MKSTREAM]\n  [ENTRIESREAD\_entries-read]"
-syntax_str: "group <id | $> [MKSTREAM] [ENTRIESREAD\_entries-read]"
 title: XGROUP CREATE
 ---
 Create a new consumer group uniquely identified by `<groupname>` for the stream stored at `<key>`
@@ -93,6 +93,12 @@ To enable consumer group lag tracking, specify the optional `entries_read` named
 An arbitrary ID is any ID that isn't the ID of the stream's first entry, last entry, or zero ("0-0") ID.
 Use it to find out how many entries are between the arbitrary ID (excluding it) and the stream's last entry.
 Set the `entries_read` the stream's `entries_added` subtracted by the number of entries.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

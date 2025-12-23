@@ -91,11 +91,11 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZRANGESTORE
+railroad_diagram: /images/railroad/zrangestore.svg
 since: 6.2.0
 summary: Stores a range of members from sorted set in a key.
 syntax_fmt: "ZRANGESTORE dst src min max [BYSCORE | BYLEX] [REV] [LIMIT\_offset\n\
   \  count]"
-syntax_str: "src min max [BYSCORE | BYLEX] [REV] [LIMIT\_offset count]"
 title: ZRANGESTORE
 ---
 This command is like [`ZRANGE`]({{< relref "/commands/zrange" >}}), but stores the result in the `<dst>` destination key.
@@ -107,6 +107,12 @@ ZADD srczset 1 "one" 2 "two" 3 "three" 4 "four"
 ZRANGESTORE dstzset srczset 2 -1
 ZRANGE dstzset 0 -1
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

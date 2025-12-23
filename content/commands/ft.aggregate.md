@@ -143,14 +143,6 @@ arguments:
   name: params
   optional: true
   type: block
-- name: scorer
-  optional: true
-  token: SCORER
-  type: string
-- name: addscores
-  optional: true
-  token: ADDSCORES
-  type: pure-token
 - name: dialect
   optional: true
   since: 2.4.3
@@ -175,17 +167,18 @@ group: search
 hidden: false
 linkTitle: FT.AGGREGATE
 module: Search
+railroad_diagram: /images/railroad/ft.aggregate.svg
 since: 1.1.0
 stack_path: docs/interact/search-and-query
 summary: Run a search query on an index and perform aggregate transformations on the
   results
 syntax: "FT.AGGREGATE index query \n  [VERBATIM] \n  [LOAD count field [field ...]]\
-  \ \n  [TIMEOUT timeout] \n  [ GROUPBY nargs property [property ...] [ REDUCE function\
-  \ nargs arg [arg ...] [AS name] [ REDUCE function nargs arg [arg ...] [AS name]\
-  \ ...]] ...]] \n  [ SORTBY nargs [ property ASC | DESC [ property ASC | DESC ...]]\
-  \ [MAX num] [WITHCOUNT] \n  [ APPLY expression AS name [ APPLY expression AS name\
-  \ ...]] \n  [ LIMIT offset num] \n  [FILTER filter] \n  [ WITHCURSOR [COUNT read_size]\
-  \ [MAXIDLE idle_time]] \n  [ PARAMS nargs name value [ name value ...]] \n  [SCORER scorer]\n
+  \ \n  [TIMEOUT timeout] \n  [GROUPBY nargs property [property ...] [REDUCE function\
+  \ nargs arg [arg ...] [AS name] [REDUCE function nargs arg [arg ...] [AS name]\
+  \ ...]] ...]] \n  [SORTBY nargs [property ASC | DESC [property ASC | DESC ...]]\
+  \ [MAX num] [WITHCOUNT | WITHOUTCOUNT]] \n  [APPLY expression AS name [APPLY expression AS name\
+  \ ...]] \n  [LIMIT offset num] \n  [FILTER filter] \n  [WITHCURSOR [COUNT read_size]\
+  \ [MAXIDLE idle_time]] \n  [PARAMS nargs name value [name value ...]] \n  [SCORER scorer]\n
   \ [ADDSCORES] \n  [DIALECT\
   \ dialect]\n"
 syntax_fmt: "FT.AGGREGATE index query [VERBATIM] [LOAD\_count field [field ...]]\n\
@@ -196,16 +189,7 @@ syntax_fmt: "FT.AGGREGATE index query [VERBATIM] [LOAD\_count field [field ...]]
   name] ...]] ...]]\n  [SORTBY\_nargs [property <ASC | DESC> [property <ASC | DESC>\
   \ ...]]\n  [MAX\_num]] [APPLY\_expression AS\_name [APPLY\_expression AS\_name\n\
   \  ...]] [LIMIT offset num] [FILTER\_filter] [WITHCURSOR\n  [COUNT\_read_size] [MAXIDLE\_\
-  idle_time]] [PARAMS nargs name value\n  [name value ...]]\n  [SCORER scorer]\n [ADDSCORES]\n  [DIALECT\_dialect]"
-syntax_str: "query [VERBATIM] [LOAD\_count field [field ...]] [TIMEOUT\_timeout] [LOAD\
-  \ *] [GROUPBY\_nargs property [property ...] [REDUCE\_function nargs arg [arg ...]\
-  \ [AS\_name] [REDUCE\_function nargs arg [arg ...] [AS\_name] ...]] [GROUPBY\_nargs\
-  \ property [property ...] [REDUCE\_function nargs arg [arg ...] [AS\_name] [REDUCE\_\
-  function nargs arg [arg ...] [AS\_name] ...]] ...]] [SORTBY\_nargs [property <ASC\
-  \ | DESC> [property <ASC | DESC> ...]] [MAX\_num]] [APPLY\_expression AS\_name [APPLY\_\
-  expression AS\_name ...]] [LIMIT offset num] [FILTER\_filter] [WITHCURSOR [COUNT\_\
-  read_size] [MAXIDLE\_idle_time]] [PARAMS nargs name value [name value ...]] [SCORER scorer] [ADDSCORES] [DIALECT\_\
-  dialect]"
+  idle_time]] [PARAMS nargs name value\n  [name value ...]] [DIALECT\_dialect]"
 title: FT.AGGREGATE
 ---
 
@@ -282,6 +266,8 @@ Attributes needed for `SORTBY` should be stored as `SORTABLE` to be available wi
 
 **Counts behavior**: optional `WITHCOUNT` argument returns accurate counts for the query results with sorting. This operation processes all results in order to get an accurate count, being less performant than the optimized option (default behavior on `DIALECT 4`)
 
+You can also use `WITHOUTCOUNT` in place of `DIALECT 4` when used with either `FT.SEARCH` or `FT.AGGREGATE`.
+</details>
 
 <details open>
 <summary><code>APPLY {expr} AS {name}</code></summary> 
@@ -360,7 +346,6 @@ See [Return multiple values]({{< relref "commands/ft.search#return-multiple-valu
 The `DIALECT` can be specified as a parameter in the FT.AGGREGATE command. If it is not specified, the `DEFAULT_DIALECT` is used, which can be set using [`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) or by passing it as an argument to the `redisearch` module when it is loaded.
 For example, with the following document and index:
 
-
 ```sh
 127.0.0.1:6379> JSON.SET doc:1 $ '[{"arr": [1, 2, 3]}, {"val": "hello"}, {"val": "world"}]'
 OK
@@ -401,8 +386,8 @@ FT.AGGREGATE idx "@url:\"about.html\""
     APPLY "day(@timestamp)" AS day
     GROUPBY 2 @day @country
       REDUCE count 0 AS num_visits
-    SORTBY 4 @day
-{{< / highlight >}}
+    SORTBY 1 @day
+{{< /highlight >}}
 </details>
 
 <details open>
@@ -416,7 +401,7 @@ FT.AGGREGATE books-idx *
       REDUCE COUNT 0 AS num_published
     GROUPBY 0
       REDUCE MAX 1 @num_published AS max_books_published_per_year
-{{< / highlight >}}
+{{< /highlight >}}
 </details>
 
 <details open>
@@ -430,7 +415,7 @@ Search for libraries within 10 kilometers of the longitude -73.982254 and latitu
  FT.AGGREGATE libraries-idx "@location:[-73.982254 40.753181 10 km]"
     LOAD 1 @location
     APPLY "geodistance(@location, -73.982254, 40.753181)"
-{{< / highlight >}}
+{{< /highlight >}}
 
 Here, notice the required use of `LOAD` to pre-load the `@location` attribute because it is a GEO attribute.    
 
@@ -480,7 +465,7 @@ Next, count GitHub events by user (actor), to produce the most active users.
     3) "num"
     4) "2794"
 (0.59s)
-{{< / highlight >}}
+{{< /highlight >}}
 
 </details>
 
@@ -502,9 +487,16 @@ FT.AGGREGATE orders "*"
 APPLY case(@status == "pending", 1, 0) AS is_pending
 APPLY case(@is_pending == 1 && @priority == "high", 1,2) AS status_high
 APPLY case(@is_pending == 0 && @priority == "high", 3,4) AS status_completed
-{{< / highlight >}}
+{{< /highlight >}}
 
 </details>
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
+
 ## Return information
 
 {{< multitabs id="ft-aggregate-return-info" 
@@ -512,7 +504,7 @@ APPLY case(@is_pending == 0 && @priority == "high", 3,4) AS status_completed
     tab2="RESP3" >}}
 
 One of the following:
-* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with the first element being the total number of results, followed by result rows as [arrays]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of field-value pairs.
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each row is an array reply representing a single aggregate result. The [integer reply]({{< relref "develop/reference/protocol-spec#resp-integers" >}}) at position `1` does not represent a valid value.
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: incorrect number of arguments, non-existent index, invalid query syntax.
 
 -tab-sep-

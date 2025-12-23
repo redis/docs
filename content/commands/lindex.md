@@ -43,10 +43,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: LINDEX
+railroad_diagram: /images/railroad/lindex.svg
 since: 1.0.0
 summary: Returns an element from a list by its index.
 syntax_fmt: LINDEX key index
-syntax_str: index
 title: LINDEX
 ---
 Returns the element at index `index` in the list stored at `key`.
@@ -67,6 +67,12 @@ LINDEX mylist 0
 LINDEX mylist -1
 LINDEX mylist 3
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

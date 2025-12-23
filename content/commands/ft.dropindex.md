@@ -31,12 +31,11 @@ group: search
 hidden: false
 linkTitle: FT.DROPINDEX
 module: Search
+railroad_diagram: /images/railroad/ft.dropindex.svg
 since: 2.0.0
 stack_path: docs/interact/search-and-query
 summary: Deletes the index
-syntax: "FT.DROPINDEX index \n  [DD]\n"
 syntax_fmt: FT.DROPINDEX index [DD]
-syntax_str: '[DD]'
 title: FT.DROPINDEX
 ---
 
@@ -76,6 +75,12 @@ To check the completion of the indexing, use [`FT.INFO`]({{< relref "commands/ft
 OK
 {{< / highlight >}}
 </details>
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
 
 ## Return information
 

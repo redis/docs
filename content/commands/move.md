@@ -44,10 +44,10 @@ key_specs:
     type: range
   update: true
 linkTitle: MOVE
+railroad_diagram: /images/railroad/move.svg
 since: 1.0.0
 summary: Moves a key to another database.
 syntax_fmt: MOVE key db
-syntax_str: db
 title: MOVE
 ---
 Move `key` from the currently selected database (see [`SELECT`]({{< relref "/commands/select" >}})) to the specified
@@ -55,6 +55,12 @@ destination database.
 When `key` already exists in the destination database, or it does not exist in
 the source database, it does nothing.
 It is possible to use `MOVE` as a locking primitive because of this.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | Redis Enterprise does not support shared databases due to potential negative performance impacts and blocks any related commands. |
 
 ## Return information
 

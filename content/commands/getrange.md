@@ -47,10 +47,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: GETRANGE
+railroad_diagram: /images/railroad/getrange.svg
 since: 2.4.0
 summary: Returns a substring of the string stored at a key.
 syntax_fmt: GETRANGE key start end
-syntax_str: start end
 title: GETRANGE
 ---
 Returns the substring of the string value stored at `key`, determined by the
@@ -71,6 +71,12 @@ GETRANGE mykey -3 -1
 GETRANGE mykey 0 -1
 GETRANGE mykey 10 100
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

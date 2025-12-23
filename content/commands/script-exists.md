@@ -29,10 +29,10 @@ hints:
 - request_policy:all_shards
 - response_policy:agg_logical_and
 linkTitle: SCRIPT EXISTS
+railroad_diagram: /images/railroad/script-exists.svg
 since: 2.6.0
 summary: Determines whether server-side Lua scripts exist in the script cache.
 syntax_fmt: SCRIPT EXISTS sha1 [sha1 ...]
-syntax_str: ''
 title: SCRIPT EXISTS
 ---
 Returns information about the existence of the scripts in the script cache.
@@ -46,6 +46,12 @@ operation can be performed solely using [`EVALSHA`]({{< relref "/commands/evalsh
 bandwidth.
 
 For more information about [`EVAL`]({{< relref "/commands/eval" >}}) scripts please refer to [Introduction to Eval Scripts]({{< relref "/develop/programmability/eval-intro" >}}).
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

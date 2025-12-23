@@ -25,13 +25,19 @@ hints:
 - response_policy:special
 - nondeterministic_output
 linkTitle: RANDOMKEY
+railroad_diagram: /images/railroad/randomkey.svg
 since: 1.0.0
 summary: Returns a random key name from the database.
 syntax_fmt: RANDOMKEY
-syntax_str: ''
 title: RANDOMKEY
 ---
 Return a random key from the currently selected database.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

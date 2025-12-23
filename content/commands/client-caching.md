@@ -34,10 +34,10 @@ description: Instructs the server whether to track the keys in the next request.
 group: connection
 hidden: false
 linkTitle: CLIENT CACHING
+railroad_diagram: /images/railroad/client-caching.svg
 since: 6.0.0
 summary: Instructs the server whether to track the keys in the next request.
 syntax_fmt: CLIENT CACHING <YES | NO>
-syntax_str: ''
 title: CLIENT CACHING
 ---
 This command controls the tracking of the keys in the next command executed
@@ -58,6 +58,12 @@ tracked using `CLIENT CACHING no`.
 Basically the command sets a state in the connection, that is valid only
 for the next command execution, that will modify the behavior of client
 tracking.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

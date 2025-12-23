@@ -36,10 +36,10 @@ description: Forces a replica to perform a manual failover of its master.
 group: cluster
 hidden: false
 linkTitle: CLUSTER FAILOVER
+railroad_diagram: /images/railroad/cluster-failover.svg
 since: 3.0.0
 summary: Forces a replica to perform a manual failover of its master.
 syntax_fmt: CLUSTER FAILOVER [FORCE | TAKEOVER]
-syntax_str: ''
 title: CLUSTER FAILOVER
 ---
 This command, that can only be sent to a Redis Cluster replica node, forces
@@ -105,6 +105,12 @@ Because of this the **TAKEOVER** option should be used with care.
   To check that the masters are aware of a new replica, you can send [`CLUSTER NODES`]({{< relref "/commands/cluster-nodes" >}}) or [`CLUSTER REPLICAS`]({{< relref "/commands/cluster-replicas" >}}) to each of the master nodes and check that it appears as a replica, before sending `CLUSTER FAILOVER` to the replica.
 * To check that the failover has actually happened you can use [`ROLE`]({{< relref "/commands/role" >}}), `INFO REPLICATION` (which indicates "role:master" after successful failover), or [`CLUSTER NODES`]({{< relref "/commands/cluster-nodes" >}}) to verify that the state of the cluster has changed sometime after the command was sent.
 * To check if the failover has failed, check the replica's log for "Manual failover timed out", which is logged if the replica has given up after a few seconds.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 

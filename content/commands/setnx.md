@@ -47,11 +47,11 @@ key_specs:
     type: range
   insert: true
 linkTitle: SETNX
-replaced_by: '[`SET`]({{< relref "/commands/set" >}}) with the `NX` argument'
+railroad_diagram: /images/railroad/setnx.svg
+replaced_by: '`SET` with the `NX` argument'
 since: 1.0.0
 summary: Set the string value of a key only when the key doesn't exist.
 syntax_fmt: SETNX key value
-syntax_str: value
 title: SETNX
 ---
 Set `key` to hold string `value` if `key` does not exist.
@@ -66,7 +66,6 @@ SETNX mykey "Hello"
 SETNX mykey "World"
 GET mykey
 {{% /redis-cli %}}
-
 
 ## Design pattern: Locking with `SETNX`
 
@@ -147,6 +146,12 @@ unlocking the key with [`DEL`]({{< relref "/commands/del" >}}) because client fa
 crashing but also blocking a lot of time against some operations and trying
 to issue [`DEL`]({{< relref "/commands/del" >}}) after a lot of time (when the LOCK is already held by another
 client).
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

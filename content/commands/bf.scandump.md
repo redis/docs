@@ -24,11 +24,11 @@ group: bf
 hidden: false
 linkTitle: BF.SCANDUMP
 module: Bloom
+railroad_diagram: /images/railroad/bf.scandump.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Begins an incremental save of the bloom filter
 syntax_fmt: BF.SCANDUMP key iterator
-syntax_str: iterator
 title: BF.SCANDUMP
 ---
 Begins an incremental save of the Bloom filter.
@@ -50,8 +50,6 @@ is key name for a Bloom filter to save.
 
 Iterator value; either 0 or the iterator from a previous invocation of this command
 </details>
-
-
 
 ## Examples
 
@@ -95,6 +93,12 @@ for chunk in chunks:
     iter, data = chunk
     BF.LOADCHUNK(key, iter, data)
 {{< / highlight >}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
 
 ## Return information
 

@@ -26,10 +26,10 @@ description: Returns the given string.
 group: connection
 hidden: false
 linkTitle: ECHO
+railroad_diagram: /images/railroad/echo.svg
 since: 1.0.0
 summary: Returns the given string.
 syntax_fmt: ECHO message
-syntax_str: ''
 title: ECHO
 ---
 Returns `message`.
@@ -39,6 +39,12 @@ Returns `message`.
 {{% redis-cli %}}
 ECHO "Hello World!"
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

@@ -53,10 +53,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: HRANDFIELD
+railroad_diagram: /images/railroad/hrandfield.svg
 since: 6.2.0
 summary: Returns one or more random fields from a hash.
 syntax_fmt: HRANDFIELD key [count [WITHVALUES]]
-syntax_str: '[count [WITHVALUES]]'
 title: HRANDFIELD
 ---
 When called with just the `key` argument, return a random field from the hash value stored at `key`.
@@ -78,7 +78,6 @@ HRANDFIELD coin
 HRANDFIELD coin -5 WITHVALUES
 {{% /redis-cli %}}
 
-
 ## Specification of the behavior when count is passed
 
 When the `count` argument is a positive value this command behaves as follows:
@@ -92,6 +91,12 @@ When the `count` is a negative value, the behavior changes as follows:
 * Repeating fields are possible.
 * Exactly `count` fields, or an empty array if the hash is empty (non-existing key), are always returned.
 * The order of fields in the reply is truly random.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

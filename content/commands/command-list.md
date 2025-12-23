@@ -41,11 +41,11 @@ hidden: false
 hints:
 - nondeterministic_output_order
 linkTitle: COMMAND LIST
+railroad_diagram: /images/railroad/command-list.svg
 since: 7.0.0
 summary: Returns a list of command names.
 syntax_fmt: "COMMAND LIST [FILTERBY\_<MODULE\_module-name | ACLCAT\_category |\n \
   \ PATTERN\_pattern>]"
-syntax_str: ''
 title: COMMAND LIST
 ---
 Return an array of the server's command names.
@@ -55,6 +55,12 @@ You can use the optional _FILTERBY_ modifier to apply one of the following filte
  - **MODULE module-name**: get the commands that belong to the module specified by _module-name_.
  - **ACLCAT category**: get the commands in the [ACL category]({{< relref "operate/oss_and_stack/management/security/acl#command-categories" >}}) specified by _category_.
  - **PATTERN pattern**: get the commands that match the given glob-like _pattern_.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

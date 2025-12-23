@@ -25,11 +25,11 @@ group: topk
 hidden: false
 linkTitle: TOPK.QUERY
 module: Bloom
+railroad_diagram: /images/railroad/topk.query.svg
 since: 2.0.0
 stack_path: docs/data-types/probabilistic
 summary: Checks whether one or more items are in a sketch
 syntax_fmt: TOPK.QUERY key item [item ...]
-syntax_str: item [item ...]
 title: TOPK.QUERY
 ---
 Checks whether one or more items are one of the Top-K items.
@@ -46,6 +46,12 @@ redis> TOPK.QUERY topk 42 nonexist
 1) (integer) 1
 2) (integer) 0
 ```
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
 
 ## Return information
 

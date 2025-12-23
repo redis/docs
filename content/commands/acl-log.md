@@ -39,10 +39,10 @@ history:
 - - 7.2.0
   - Added entry ID, timestamp created, and timestamp last updated.
 linkTitle: ACL LOG
+railroad_diagram: /images/railroad/acl-log.svg
 since: 6.0.0
 summary: Lists recent security events generated due to ACL rules.
 syntax_fmt: ACL LOG [count | RESET]
-syntax_str: ''
 title: ACL LOG
 ---
 The command shows a list of recent ACL security events:
@@ -97,6 +97,12 @@ Each log entry is composed of the following fields:
 8. `entry-id`: The sequence number of the entry (starting at 0) since the server process started. Can also be used to check if items were "lost", if they fell between periods.
 9. `timestamp-created`: A UNIX timestamp in `milliseconds` at the time the entry was first created.
 10. `timestamp-last-updated`: A UNIX timestamp in `milliseconds` at the time the entry was last updated.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 

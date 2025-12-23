@@ -59,10 +59,10 @@ key_specs:
     type: range
   insert: true
 linkTitle: LINSERT
+railroad_diagram: /images/railroad/linsert.svg
 since: 2.2.0
 summary: Inserts an element before or after another element in a list.
 syntax_fmt: LINSERT key <BEFORE | AFTER> pivot element
-syntax_str: <BEFORE | AFTER> pivot element
 title: LINSERT
 ---
 Inserts `element` in the list stored at `key` either before or after the reference
@@ -81,6 +81,12 @@ RPUSH mylist "World"
 LINSERT mylist BEFORE "World" "There"
 LRANGE mylist 0 -1
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

@@ -29,6 +29,18 @@ res = lang_cache.search(
 print(res)
 # STEP_END
 
+# STEP_START search_strategies
+from langcache.models import SearchStrategy
+
+res = lang_cache.search(
+    prompt="User prompt text",
+    search_strategies=[SearchStrategy.EXACT, SearchStrategy.SEMANTIC],
+    similarity_threshold=0.9,
+)
+
+print(res)
+# STEP_END
+
 # STEP_START store_basic
 res = lang_cache.set(
     prompt="User prompt text",
@@ -60,4 +72,8 @@ res = lang_cache.delete_query(
 )
 
 print(res)
+# STEP_END
+
+# STEP_START flush
+lang_cache.flush()
 # STEP_END

@@ -22,7 +22,7 @@ See [Active-Active Redis]({{< relref "/operate/rs/databases/active-active/" >}})
 You need at least [two participating clusters]({{< relref "/operate/rs/clusters/new-cluster-setup" >}}) for an Active-Active database. If your database requires more than ten participating clusters, contact Redis support. You can [add or remove participating clusters]({{< relref "/operate/rs/databases/active-active/manage#participating-clusters/" >}}) after database creation.
 
 {{<note>}}
-If an Active-Active database [runs on flash memory]({{<relref "/operate/rs/databases/auto-tiering">}}), you cannot add participating clusters that run on RAM only.
+If an Active-Active database [runs on flash memory]({{<relref "/operate/rs/databases/flash">}}), you cannot add participating clusters that run on RAM only.
 {{</note>}}
 
 Changes made from the Cluster Manager UI to an Active-Active database configuration only apply to the cluster you are editing. For global configuration changes across all clusters, use the `crdb-cli` command-line utility.
@@ -72,9 +72,9 @@ See [Synchronizing cluster node clocks]({{< relref "/operate/rs/clusters/configu
 ## Redis modules {#redis-modules}
 
 Several Redis modules are compatible with Active-Active databases. Find the list of [compatible Redis modules]({{< relref "/operate/oss_and_stack/stack-with-enterprise/enterprise-capabilities" >}}).
-{{< note >}}
-Starting with v6.2.18, you can index, query, and perform full-text searches of nested JSON documents in Active-Active databases by combining RedisJSON and RediSearch.
-{{< /note >}}
+
+Active-Active databases created with or upgraded to Redis version 8 or later automatically enable [search and query]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search/search-active-active">}}) and [JSON]({{<relref "/operate/oss_and_stack/stack-with-enterprise/json">}}), which allows you to index, query, and perform full-text searches of nested JSON documents.
+
 
 ## Limitations
 
@@ -86,4 +86,5 @@ Active-Active databases have the following limitations:
 - The `UNLINK` command is a blocking command for all types of keys.
 - Cross slot multi commands (such as `MSET`) are not supported with Active-Active databases.
 - The hashing policy can't be changed after database creation.
-- If an Active-Active database [runs on flash memory]({{<relref "/operate/rs/databases/auto-tiering">}}), you cannot add participating clusters that run on RAM only.
+- Active-Active databases cannot be configured as Redis Flex deployments.
+- Active-Active databases handle replication internally and do not support the `redis.set_repl()` function in Lua scripts.

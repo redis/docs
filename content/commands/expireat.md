@@ -67,10 +67,10 @@ key_specs:
     type: range
   update: true
 linkTitle: EXPIREAT
+railroad_diagram: /images/railroad/expireat.svg
 since: 1.2.0
 summary: Sets the expiration time of a key to a Unix timestamp.
 syntax_fmt: EXPIREAT key unix-time-seconds [NX | XX | GT | LT]
-syntax_str: unix-time-seconds [NX | XX | GT | LT]
 title: EXPIREAT
 ---
 `EXPIREAT` has the same effect and semantic as [`EXPIRE`]({{< relref "/commands/expire" >}}), but instead of
@@ -110,6 +110,12 @@ EXISTS mykey
 EXPIREAT mykey 1293840000
 EXISTS mykey
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

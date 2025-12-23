@@ -24,14 +24,11 @@ group: timeseries
 hidden: false
 linkTitle: TS.DELETERULE
 module: TimeSeries
+railroad_diagram: /images/railroad/ts.deleterule.svg
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Delete a compaction rule
-syntax: 'TS.DELETERULE sourceKey destKey
-
-  '
 syntax_fmt: TS.DELETERULE sourceKey destKey
-syntax_str: destKey
 title: TS.DELETERULE
 ---
 
@@ -50,6 +47,12 @@ is key name for destination (compacted) time series.
 </details>
 
 <note><b>Note:</b> This command does not delete the compacted series.</note>
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
 
 ## Return information
 

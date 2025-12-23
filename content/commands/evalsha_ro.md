@@ -56,10 +56,10 @@ key_specs:
       keystep: 1
     type: keynum
 linkTitle: EVALSHA_RO
+railroad_diagram: /images/railroad/evalsha_ro.svg
 since: 7.0.0
 summary: Executes a read-only server-side Lua script by SHA1 digest.
 syntax_fmt: EVALSHA_RO sha1 numkeys [key [key ...]] [arg [arg ...]]
-syntax_str: numkeys [key [key ...]] [arg [arg ...]]
 title: EVALSHA_RO
 ---
 This is a read-only variant of the [`EVALSHA`]({{< relref "/commands/evalsha" >}}) command that cannot execute commands that modify data.
@@ -67,6 +67,12 @@ This is a read-only variant of the [`EVALSHA`]({{< relref "/commands/evalsha" >}
 For more information about when to use this command vs [`EVALSHA`]({{< relref "/commands/evalsha" >}}), please refer to [Read-only scripts]({{< relref "develop/programmability#read-only-scripts" >}}).
 
 For more information about [`EVALSHA`]({{< relref "/commands/evalsha" >}}) scripts please refer to [Introduction to Eval Scripts]({{< relref "/develop/programmability/eval-intro" >}}).
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

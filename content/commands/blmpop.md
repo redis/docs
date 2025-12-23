@@ -68,21 +68,27 @@ key_specs:
       keystep: 1
     type: keynum
 linkTitle: BLMPOP
+railroad_diagram: /images/railroad/blmpop.svg
 since: 7.0.0
 summary: Pops the first element from one of multiple lists. Blocks until an element
   is available otherwise. Deletes the list if the last element was popped.
 syntax_fmt: "BLMPOP timeout numkeys key [key ...] <LEFT | RIGHT> [COUNT\_count]"
-syntax_str: "numkeys key [key ...] <LEFT | RIGHT> [COUNT\_count]"
 title: BLMPOP
 ---
 `BLMPOP` is the blocking variant of [`LMPOP`]({{< relref "/commands/lmpop" >}}).
 
 When any of the lists contains elements, this command behaves exactly like [`LMPOP`]({{< relref "/commands/lmpop" >}}).
-When used inside a [`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) block, this command behaves exactly like [`LMPOP`]({{< relref "/commands/lmpop" >}}).
+When used inside a [`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) block or a Lua script, this command behaves exactly like [`LMPOP`]({{< relref "/commands/lmpop" >}}).
 When all lists are empty, Redis will block the connection until another client pushes to it or until the `timeout` (a double value specifying the maximum number of seconds to block) elapses.
 A `timeout` of zero can be used to block indefinitely.
 
 See [`LMPOP`]({{< relref "/commands/lmpop" >}}) for more information.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

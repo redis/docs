@@ -47,11 +47,11 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZREMRANGEBYRANK
+railroad_diagram: /images/railroad/zremrangebyrank.svg
 since: 2.0.0
 summary: Removes members in a sorted set within a range of indexes. Deletes the sorted
   set if all members were removed.
 syntax_fmt: ZREMRANGEBYRANK key start stop
-syntax_str: start stop
 title: ZREMRANGEBYRANK
 ---
 Removes all elements in the sorted set stored at `key` with rank between `start`
@@ -72,6 +72,12 @@ ZADD myzset 3 "three"
 ZREMRANGEBYRANK myzset 0 1
 ZRANGE myzset 0 -1 WITHSCORES
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

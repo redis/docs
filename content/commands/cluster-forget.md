@@ -30,10 +30,10 @@ history:
 - - 7.2.0
   - Forgotten nodes are automatically propagated across the cluster via gossip.
 linkTitle: CLUSTER FORGET
+railroad_diagram: /images/railroad/cluster-forget.svg
 since: 3.0.0
 summary: Removes a node from the nodes table.
 syntax_fmt: CLUSTER FORGET node-id
-syntax_str: ''
 title: CLUSTER FORGET
 ---
 The command is used in order to remove a node, specified via its node ID,
@@ -98,6 +98,12 @@ The command does not succeed and returns an error in the following cases:
 
 *   `>= 7.2.0`: Automatically propagate node deletion to other nodes in a cluster, allowing nodes to be deleted with a single call
   in most cases.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 

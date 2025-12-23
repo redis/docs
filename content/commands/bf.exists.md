@@ -24,11 +24,11 @@ group: bf
 hidden: false
 linkTitle: BF.EXISTS
 module: Bloom
+railroad_diagram: /images/railroad/bf.exists.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Checks whether an item exists in a Bloom Filter
 syntax_fmt: BF.EXISTS key item
-syntax_str: item
 title: BF.EXISTS
 ---
 Determines whether a given item was added to a Bloom filter.
@@ -58,6 +58,12 @@ redis> BF.EXISTS bf item1
 redis> BF.EXISTS bf item2
 (integer) 0
 {{< / highlight >}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
 
 ## Return information
 

@@ -23,10 +23,10 @@ description: Forces a node to save the cluster configuration to disk.
 group: cluster
 hidden: false
 linkTitle: CLUSTER SAVECONFIG
+railroad_diagram: /images/railroad/cluster-saveconfig.svg
 since: 3.0.0
 summary: Forces a node to save the cluster configuration to disk.
 syntax_fmt: CLUSTER SAVECONFIG
-syntax_str: ''
 title: CLUSTER SAVECONFIG
 ---
 Forces a node to save the `nodes.conf` configuration on disk. Before to return
@@ -40,6 +40,12 @@ configuration via the [`CLUSTER`]({{< relref "/commands/cluster" >}}) command in
 is persisted on disk, however all the commands should normally be able to
 auto schedule to persist the configuration on disk when it is important
 to do so for the correctness of the system in the event of a restart.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 

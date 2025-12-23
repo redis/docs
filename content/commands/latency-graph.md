@@ -32,10 +32,10 @@ hints:
 - request_policy:all_nodes
 - response_policy:special
 linkTitle: LATENCY GRAPH
+railroad_diagram: /images/railroad/latency-graph.svg
 since: 2.8.13
 summary: Returns a latency graph for an event.
 syntax_fmt: LATENCY GRAPH event
-syntax_str: ''
 title: LATENCY GRAPH
 ---
 Produces an ASCII-art style graph for the specified event.
@@ -98,6 +98,12 @@ in the lower row) is the minimum, and a # in the higher row is the maximum.
 For more information refer to the [Latency Monitoring Framework page][lm].
 
 [lm]: /operate/oss_and_stack/management/optimization/latency-monitor.md
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 

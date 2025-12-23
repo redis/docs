@@ -48,10 +48,10 @@ description: Configures a server as replica of another, or promotes it to a mast
 group: server
 hidden: false
 linkTitle: REPLICAOF
+railroad_diagram: /images/railroad/replicaof.svg
 since: 5.0.0
 summary: Configures a server as replica of another, or promotes it to a master.
 syntax_fmt: REPLICAOF <host port | NO ONE>
-syntax_str: ''
 title: REPLICAOF
 ---
 The `REPLICAOF` command can change the replication settings of a replica on the fly.
@@ -71,6 +71,12 @@ The form `REPLICAOF` NO ONE will stop replication, turning the server into a MAS
 > REPLICAOF 127.0.0.1 6799
 "OK"
 ```
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 

@@ -23,10 +23,10 @@ description: An internal command used in replication.
 group: server
 hidden: false
 linkTitle: SYNC
+railroad_diagram: /images/railroad/sync.svg
 since: 1.0.0
 summary: An internal command used in replication.
 syntax_fmt: SYNC
-syntax_str: ''
 title: SYNC
 ---
 Initiates a replication stream from the master.
@@ -39,6 +39,12 @@ For more information about replication in Redis please check the
 [replication page][tr].
 
 [tr]: /operate/oss_and_stack/management/replication
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 

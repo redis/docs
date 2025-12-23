@@ -24,11 +24,11 @@ group: cf
 hidden: false
 linkTitle: CF.SCANDUMP
 module: Bloom
+railroad_diagram: /images/railroad/cf.scandump.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Begins an incremental save of the bloom filter
 syntax_fmt: CF.SCANDUMP key iterator
-syntax_str: iterator
 title: CF.SCANDUMP
 ---
 Begins an incremental save of the cuckoo filter.
@@ -93,6 +93,12 @@ for chunk in chunks:
     iter, data = chunk
     CF.LOADCHUNK(key, iter, data)
 {{< / highlight >}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
 
 ## Return information
 

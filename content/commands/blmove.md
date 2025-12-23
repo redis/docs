@@ -86,17 +86,17 @@ key_specs:
     type: range
   insert: true
 linkTitle: BLMOVE
+railroad_diagram: /images/railroad/blmove.svg
 since: 6.2.0
 summary: Pops an element from a list, pushes it to another list and returns it. Blocks
   until an element is available otherwise. Deletes the list if the last element was
   moved.
 syntax_fmt: BLMOVE source destination <LEFT | RIGHT> <LEFT | RIGHT> timeout
-syntax_str: destination <LEFT | RIGHT> <LEFT | RIGHT> timeout
 title: BLMOVE
 ---
 `BLMOVE` is the blocking variant of [`LMOVE`]({{< relref "/commands/lmove" >}}).
 When `source` contains elements, this command behaves exactly like [`LMOVE`]({{< relref "/commands/lmove" >}}).
-When used inside a [`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) block, this command behaves exactly like [`LMOVE`]({{< relref "/commands/lmove" >}}).
+When used inside a [`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) block or a Lua script, this command behaves exactly like [`LMOVE`]({{< relref "/commands/lmove" >}}).
 When `source` is empty, Redis will block the connection until another client
 pushes to it or until `timeout` (a double value specifying the maximum number of seconds to block) is reached.
 A `timeout` of zero can be used to block indefinitely.
@@ -113,6 +113,12 @@ Please see the pattern description in the [`LMOVE`]({{< relref "/commands/lmove"
 ## Pattern: Circular list
 
 Please see the pattern description in the [`LMOVE`]({{< relref "/commands/lmove" >}}) documentation.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

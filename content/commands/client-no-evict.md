@@ -37,10 +37,10 @@ description: Sets the client eviction mode of the connection.
 group: connection
 hidden: false
 linkTitle: CLIENT NO-EVICT
+railroad_diagram: /images/railroad/client-no-evict.svg
 since: 7.0.0
 summary: Sets the client eviction mode of the connection.
 syntax_fmt: CLIENT NO-EVICT <ON | OFF>
-syntax_str: ''
 title: CLIENT NO-EVICT
 ---
 The `CLIENT NO-EVICT` command sets the [client eviction]({{< relref "/develop/reference/clients" >}}#client-eviction) mode for the current connection.
@@ -50,6 +50,12 @@ When turned on and client eviction is configured, the current connection will be
 When turned off, the current client will be re-included in the pool of potential clients to be evicted (and evicted if needed).
 
 See [client eviction]({{< relref "/develop/reference/clients" >}}#client-eviction) for more details.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 

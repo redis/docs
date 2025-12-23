@@ -32,10 +32,10 @@ hints:
 - request_policy:all_nodes
 - response_policy:special
 linkTitle: LATENCY HISTORY
+railroad_diagram: /images/railroad/latency-history.svg
 since: 2.8.13
 summary: Returns timestamp-latency samples for an event.
 syntax_fmt: LATENCY HISTORY event
-syntax_str: ''
 title: LATENCY HISTORY
 ---
 The `LATENCY HISTORY` command returns the raw data of the `event`'s latency spikes time series.
@@ -75,6 +75,12 @@ Valid values for `event` are:
 For more information refer to the [Latency Monitoring Framework page][lm].
 
 [lm]: /operate/oss_and_stack/management/optimization/latency-monitor.md
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 

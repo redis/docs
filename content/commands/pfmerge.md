@@ -59,10 +59,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: PFMERGE
+railroad_diagram: /images/railroad/pfmerge.svg
 since: 2.8.9
 summary: Merges one or more HyperLogLog values into a single key.
 syntax_fmt: PFMERGE destkey [sourcekey [sourcekey ...]]
-syntax_str: '[sourcekey [sourcekey ...]]'
 title: PFMERGE
 ---
 Merge multiple HyperLogLog values into a unique value that will approximate
@@ -84,6 +84,12 @@ PFADD hll2 a b c foo
 PFMERGE hll3 hll1 hll2
 PFCOUNT hll3
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

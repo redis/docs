@@ -22,15 +22,17 @@ In the Redis Enterprise Cluster Manager UI, you can view metrics, configure aler
 
 See [Metrics and alerts for monitoring v1]({{<relref "/operate/rs/monitoring/v1_monitoring">}}) for more information.
 
-## Metrics stream engine preview
+## Metrics stream engine
 
-A preview of the new metrics stream engine is available as of [Redis Enterprise Software version 7.8.2]({{<relref "/operate/rs/release-notes/rs-7-8-releases">}}). This new engine exposes the v2 Prometheus scraping endpoint at `https://<IP>:8070/v2`, exports all time-series metrics to external monitoring tools, and enables real-time monitoring.
+The new metrics stream engine is generally available as of [Redis Enterprise Software version 8.0]({{<relref "/operate/rs/release-notes/rs-8-0-releases">}}) This new engine exposes the v2 Prometheus scraping endpoint at `https://<IP>:8070/v2`, exports all time-series metrics to external monitoring tools, and enables real-time monitoring.
 
-See [Metrics stream engine preview for monitoring v2]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}) for more information.
+See [Metrics stream engine for monitoring v2]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}) for more information.
 
 ## Integrate with external monitoring tools
 
 To integrate Redis Enterprise metrics into your monitoring environment, see the integration guides for [Prometheus and Grafana]({{< relref "/operate/rs/monitoring/prometheus_and_grafana" >}}).
+
+For a detailed tutorial to deploy a complete monitoring stack with Prometheus and Grafana, see [Redis Software Observability with Prometheus and Grafana](https://redis.io/learn/operate/observability/redis-software-prometheus-and-grafana).
 
 Filter [Libraries and tools]({{<relref "/integrate">}}) by "observability" for additional tools and guides.
 

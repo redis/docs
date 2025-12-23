@@ -23,7 +23,7 @@ You can use Prometheus and Grafana to collect and visualize your Redis Cloud met
 
 Redis Cloud exposes its metrics through a Prometheus endpoint. You can configure your Prometheus server to scrape metrics from your Redis Cloud subscription on port 8070.
 
-The Redis Cloud Prometheus endpoint is exposed on Redis Cloud's internal network. To access this network, enable [VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}}) or [Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}}). Both options are only available with Redis Cloud Pro. You cannot use Prometheus and Grafana with Redis Cloud Essentials.
+The Redis Cloud Prometheus endpoint is exposed on Redis Cloud's internal network. To access this network, enable [VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}}), [Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}}), [AWS Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}), or [AWS PrivateLink]({{< relref "/operate/rc/security/aws-privatelink" >}}). Private connectivity options are only available with Redis Cloud Pro. You cannot use Prometheus and Grafana with Redis Cloud Essentials.
 
   {{< note >}}
   
@@ -193,7 +193,7 @@ Redis publishes preconfigured dashboards for Redis Cloud and Grafana:
 
 * The [subscription status dashboard](https://grafana.com/grafana/dashboards/18406-subscription-status-dashboard/) provides an overview of your Redis Cloud subscriptions.
 * The [database status dashboard](https://grafana.com/grafana/dashboards/18407-database-status-dashboard/) displays specific database metrics, including latency, memory usage, ops/second, and key count.
-* The [Active-Active dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/cloud/basic/redis-cloud-active-active-dashboard_v9-11.json) displays metrics specific to [Active-Active databases]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}).
+* The [Active-Active dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/cloud/basic/redis-cloud-active-active-dashboard_v9-11.json) displays metrics specific to [Active-Active databases]({{< relref "/operate/rc/databases/active-active" >}}).
 
 These dashboards are open source. For additional dashboard options, or to file an issue, see the [Redis Enterprise observability Github repository](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana).
 

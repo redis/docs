@@ -40,13 +40,19 @@ key_specs:
       limit: 0
     type: range
 linkTitle: OBJECT REFCOUNT
+railroad_diagram: /images/railroad/object-refcount.svg
 since: 2.2.3
 summary: Returns the reference count of a value of a key.
 syntax_fmt: OBJECT REFCOUNT key
-syntax_str: ''
 title: OBJECT REFCOUNT
 ---
 This command returns the reference count of the stored at `<key>`.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

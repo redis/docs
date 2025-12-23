@@ -18,21 +18,21 @@ categories:
 - oss
 - kubernetes
 - clients
-complexity: O(N) where N is the number of values specified.
-description: Returns, for each floating-point input value, the estimated rank of
-  the value (the number of observations in the sketch that are smaller than the value
+complexity: O(1)
+description: Returns, for each floating-point input value, the estimated rank of the
+  value (the number of observations in the sketch that are smaller than the value
   + half the number of observations that are equal to the value)
 group: tdigest
 hidden: false
 linkTitle: TDIGEST.RANK
 module: Bloom
+railroad_diagram: /images/railroad/tdigest.rank.svg
 since: 2.4.0
 stack_path: docs/data-types/probabilistic
-summary: Returns, for each floating-point input value, the estimated rank of the
+summary: Returns, for each input value (floating-point), the estimated rank of the
   value (the number of observations in the sketch that are smaller than the value
   + half the number of observations that are equal to the value)
 syntax_fmt: TDIGEST.RANK key value [value ...]
-syntax_str: value [value ...]
 title: TDIGEST.RANK
 ---
 Returns, for each floating-point input value, the estimated rank of the value (_the number of observations in the sketch that are smaller than the value_ + _half the number of observations that are equal to the value_).
@@ -89,6 +89,12 @@ redis> TDIGEST.REVRANK s 10 20
 1) (integer) 4
 2) (integer) 1
 {{< / highlight >}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
 
 ## Return information
 

@@ -56,13 +56,19 @@ key_specs:
       limit: 0
     type: range
 linkTitle: SSCAN
+railroad_diagram: /images/railroad/sscan.svg
 since: 2.8.0
 summary: Iterates over members of a set.
 syntax_fmt: "SSCAN key cursor [MATCH\_pattern] [COUNT\_count]"
-syntax_str: "cursor [MATCH\_pattern] [COUNT\_count]"
 title: SSCAN
 ---
 See [`SCAN`]({{< relref "/commands/scan" >}}) for `SSCAN` documentation.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

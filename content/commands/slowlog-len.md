@@ -27,10 +27,10 @@ hints:
 - response_policy:agg_sum
 - nondeterministic_output
 linkTitle: SLOWLOG LEN
+railroad_diagram: /images/railroad/slowlog-len.svg
 since: 2.2.12
 summary: Returns the number of entries in the slow log.
 syntax_fmt: SLOWLOG LEN
-syntax_str: ''
 title: SLOWLOG LEN
 ---
 This command returns the current number of entries in the slow log.
@@ -39,6 +39,12 @@ A new entry is added to the slow log whenever a command exceeds the execution ti
 The maximum number of entries in the slow log is governed by the `slowlog-max-len` configuration directive.
 Once the slog log reaches its maximal size, the oldest entry is removed whenever a new entry is created.
 The slow log can be cleared with the [`SLOWLOG RESET`]({{< relref "/commands/slowlog-reset" >}}) command.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts]({{<relref "/develop/programmability">}}). |
 
 ## Return information
 

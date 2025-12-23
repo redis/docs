@@ -24,10 +24,10 @@ description: Dumps the effective rules in ACL file format.
 group: server
 hidden: false
 linkTitle: ACL LIST
+railroad_diagram: /images/railroad/acl-list.svg
 since: 6.0.0
 summary: Dumps the effective rules in ACL file format.
 syntax_fmt: ACL LIST
-syntax_str: ''
 title: ACL LIST
 ---
 The command shows the currently active ACL rules in the Redis server. Each
@@ -47,6 +47,12 @@ configuration file if you wish (but make sure to check [`ACL SAVE`]({{< relref "
 {{< note >}}
 In some cases, you might see `allchannels` instead of `&*` and `allkeys` instead of `~*` in the output. This is because `allchannels` and `allkeys` are aliases for `&*` and `~*` respectively.
 {{< /note>}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts]({{<relref "/develop/programmability">}}). |
 
 ## Return information
 

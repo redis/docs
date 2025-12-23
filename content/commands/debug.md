@@ -26,11 +26,17 @@ doc_flags:
 group: server
 hidden: true
 linkTitle: DEBUG
+railroad_diagram: /images/railroad/debug.svg
 since: 1.0.0
 summary: A container for debugging commands.
 syntax_fmt: DEBUG
-syntax_str: ''
 title: DEBUG
 ---
 The `DEBUG` command is an internal command.
 It is meant to be used for developing and testing Redis.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |

@@ -43,11 +43,11 @@ key_specs:
     type: range
   update: true
 linkTitle: INCR
+railroad_diagram: /images/railroad/incr.svg
 since: 1.0.0
 summary: Increments the integer value of a key by one. Uses 0 as initial value if
   the key doesn't exist.
 syntax_fmt: INCR key
-syntax_str: ''
 title: INCR
 ---
 Increments the number stored at `key` by one.
@@ -220,6 +220,12 @@ false but the key may be created by another client before we create it inside
 the [`MULTI`]({{< relref "/commands/multi" >}}) / [`EXEC`]({{< relref "/commands/exec" >}}) block.
 However this race will just miss an API call under rare conditions, so the rate
 limiting will still work correctly.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

@@ -40,10 +40,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: OBJECT ENCODING
+railroad_diagram: /images/railroad/object-encoding.svg
 since: 2.2.3
 summary: Returns the internal encoding of a Redis object.
 syntax_fmt: OBJECT ENCODING key
-syntax_str: ''
 title: OBJECT ENCODING
 ---
 Returns the internal encoding for the Redis object stored at `<key>`
@@ -88,6 +88,12 @@ Redis objects can be encoded in different ways:
   - `stream`, encoded as a radix tree of listpacks.
 
 All the specially encoded types are automatically converted to the general type once you perform an operation that makes it impossible for Redis to retain the space saving encoding.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

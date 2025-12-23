@@ -167,15 +167,13 @@ key_specs:
       limit: 0
     type: range
 linkTitle: GEOSEARCHSTORE
+railroad_diagram: /images/railroad/geosearchstore.svg
 since: 6.2.0
 summary: Queries a geospatial index for members inside an area of a box or a circle,
   optionally stores the result.
 syntax_fmt: "GEOSEARCHSTORE destination source <FROMMEMBER\_member |\n  FROMLONLAT\_\
   longitude latitude> <BYRADIUS\_radius <M | KM | FT | MI>\n  | BYBOX\_width height\
   \ <M | KM | FT | MI>> [ASC | DESC] [COUNT\_count\n  [ANY]] [STOREDIST]"
-syntax_str: "source <FROMMEMBER\_member | FROMLONLAT\_longitude latitude> <BYRADIUS\_\
-  radius <M | KM | FT | MI> | BYBOX\_width height <M | KM | FT | MI>> [ASC | DESC]\
-  \ [COUNT\_count [ANY]] [STOREDIST]"
 title: GEOSEARCHSTORE
 ---
 This command is like [`GEOSEARCH`]({{< relref "/commands/geosearch" >}}), but stores the result in destination key.
@@ -196,6 +194,12 @@ GEOSEARCH key1 FROMLONLAT 15 37 BYBOX 400 400 km ASC WITHCOORD WITHDIST WITHHASH
 GEOSEARCHSTORE key2 Sicily FROMLONLAT 15 37 BYBOX 400 400 km ASC COUNT 3 STOREDIST
 ZRANGE key2 0 -1 WITHSCORES
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

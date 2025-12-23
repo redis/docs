@@ -38,15 +38,18 @@ complexity: O(1)
 description: Gets completion suggestions for a prefix
 group: suggestion
 hidden: false
+history:
+- - 2.0.0
+  - Deprecated `WITHPAYLOADS` argument
 linkTitle: FT.SUGGET
 module: Search
+railroad_diagram: /images/railroad/ft.sugget.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Gets completion suggestions for a prefix
 syntax: "FT.SUGGET key prefix \n  [FUZZY] \n  [WITHSCORES] \n  [WITHPAYLOADS] \n \
   \ [MAX max]\n"
 syntax_fmt: "FT.SUGGET key prefix [FUZZY] [WITHSCORES] [WITHPAYLOADS] [MAX\_max]"
-syntax_str: "prefix [FUZZY] [WITHSCORES] [WITHPAYLOADS] [MAX\_max]"
 title: FT.SUGGET
 ---
 
@@ -109,6 +112,12 @@ FT.SUGGET returns an array reply, which is a list of the top suggestions matchin
 4) "0.70710676908493042"
 {{< / highlight >}}
 </details>
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 

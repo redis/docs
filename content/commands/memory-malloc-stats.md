@@ -21,10 +21,10 @@ hints:
 - request_policy:all_shards
 - response_policy:special
 linkTitle: MEMORY MALLOC-STATS
+railroad_diagram: /images/railroad/memory-malloc-stats.svg
 since: 4.0.0
 summary: Returns the allocator statistics.
 syntax_fmt: MEMORY MALLOC-STATS
-syntax_str: ''
 title: MEMORY MALLOC-STATS
 ---
 The `MEMORY MALLOC-STATS` command provides an internal statistics report from
@@ -32,6 +32,12 @@ the memory allocator.
 
 This command is currently implemented only when using **jemalloc** as an
 allocator, and evaluates to a benign NOOP for all others.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 

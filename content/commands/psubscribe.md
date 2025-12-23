@@ -28,10 +28,10 @@ description: Listens for messages published to channels that match one or more p
 group: pubsub
 hidden: false
 linkTitle: PSUBSCRIBE
+railroad_diagram: /images/railroad/psubscribe.svg
 since: 2.0.0
 summary: Listens for messages published to channels that match one or more patterns.
 syntax_fmt: PSUBSCRIBE pattern [pattern ...]
-syntax_str: ''
 title: PSUBSCRIBE
 ---
 Subscribes the client to the given patterns.
@@ -52,6 +52,12 @@ For more information, see [Pub/sub]({{< relref "/develop/pubsub" >}}).
 ## Behavior change history
 
 *   `>= 6.2.0`: [`RESET`]({{< relref "/commands/reset" >}}) can be called to exit subscribed state.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

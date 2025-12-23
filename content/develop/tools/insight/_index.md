@@ -40,7 +40,7 @@ Redis Insight is a powerful tool for visualizing and optimizing data in Redis, m
 * Use a form to enter your connection details and add any Redis database running anywhere (including Redis Open Source cluster or sentinel).
 * Connect to a Redis Data Integration (RDI) management plane, create, test, and deploy RDI pipelines, and view RDI statistics.
 
-<img src="images/Databases.png">
+{{< image filename="images/ri/ri-databases.png" alt="The databases screen" >}}
 
 {{< note >}}
 When you add a Redis database for a particular user using the `username` and `password` fields, that user must be able to run the `INFO` command. See the [access control list (ACL) documentation]({{< relref "/operate/oss_and_stack/management/security/acl" >}}) for more information.
@@ -56,9 +56,15 @@ Currently, Redis Copilot provides two primary features: a general chatbot and a 
 
 **My data chatbot**: the context-aware chatbot available in Redis Insight lets you construct search queries using everyday language rather than requiring specific programming syntax. This feature lets you query and explore data easily and interactively without extensive technical knowledge.
 
+Before you can use Redis Copilot, you must first sign in and accept the terms of use. Click on the Redis Copilot icon in the top right corner of the Redis Insight window to sign in and accept the terms of use.
+
+{{< image filename="images/ri/ri-redis-copilot-icon.png" alt="The Redis Copilot icon" >}}
+
+{{< image filename="images/ri/ri-redis-copilot-signin.png" alt="The Redis Copilot sign in screen" >}}
+
 Here's an example of using Redis Copilot to search data using a simple, natural language prompt.
 
-<img src="images/copilot-example.png">
+{{< image filename="images/ri/ri-redis-copilot-query.png" alt="An example of using Redis Copilot to search data" >}}
 
 See the [Redis Insight Copilot FAQ]({{< relref "/develop/tools/insight/copilot-faq" >}}) for more information.
 
@@ -69,45 +75,47 @@ Redis Insight includes Redis Data Integration (RDI) connectivity, which allows y
 ### Browser
 
 Browse, filter and visualize your key-value Redis data structures.
-* [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) support for lists, hashes, strings, sets, sorted sets, and streams
-* CRUD support for [JSON]({{< relref "/develop/data-types/json/" >}})
-* Group keys according to their namespaces
-
-  <img src="images/Browser.png">
+* [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) support for lists, hashes, strings, sets, sorted sets, and streams.
+* CRUD support for [JSON]({{< relref "/develop/data-types/json/" >}}).
+* Group keys according to their namespaces.
 
 * View, validate, and manage your key values in a human-readable format using formatters that prettify and highlight data in different formats (for example, Unicode, JSON, MessagePack, HEX, and ASCII) in the Browser tool.
 
-  <img src="images/data_formatting.png">
+  {{< image filename="images/ri/ri-browser.png" alt="The Browser tool" >}}
 
 ### Profiler
 
-Analyze every command sent to Redis in real time.
+Analyze every command sent to Redis in real time. To use the profiler, click  **Profiler** at the bottom left of the screen. It should reveal the profiler window, and there you can start the profiler by clicking on **Start Profiler**.
 
-<img src="images/Profiler.png">
+{{< image filename="images/ri/ri-profiler.png" alt="The Profiler tool" >}}
 
 ### CLI
 
-The CLI is accessible at any time within the application.
-* Employs integrated help to deliver intuitive assistance
+The CLI is accessible at any time within the application. To use the CLI, click  **>_ CLI** at the bottom left of the screen. It should reveal the CLI window, and there you can start typing Redis [commands]({{< relref "/commands" >}}).
+
+The CLI includes the following features:
+
+* Employs integrated help to deliver intuitive assistance.
 * Use together with a convenient command helper that lets you search and read on Redis commands.
 
-<img src="images/CLI.png">
+{{< image filename="images/ri/ri-cli.png" alt="The CLI tool" >}}
 
 ### Workbench
 
 Workbench is an advanced command line interface with intelligent command auto-complete and complex data visualization support.
+
 * Built-in guides: you can conveniently discover Redis and Redis Open Source features using the built-in guides.
 * Command auto-complete support for all features in Redis and Redis Open Source.
 * Advanced, schema-aware auto-complete for Redis Query Engine, which provides for faster query building with context-sensitive suggestions that recognize indexes, schemas, and fields based on your current query. Start typing any Redis Query Engine command in to try this feature. See below for an example of an in-progress `FT.SEARCH` command.
 
-<img src="images/Workbench_Search.png">
+{{< image filename="images/ri/ri-workbench.png" alt="An example of an in-progress FT.SEARCH command" >}}
 
 Workbench also includes:
 
 * Visualizations of your indexes, queries, and aggregations.
 * Visualizations of your [time series]({{< relref "/develop/data-types/timeseries/" >}}) data.
 
-  <img src="images/Workbench_TimeSeries.png">
+{{< image filename="images/ri/ri-workbench-timeseries.png" alt="Visualizations of time series data" >}}
 
 ## Tools
 
@@ -119,7 +127,7 @@ Use the database analysis tool to optimize the performance and memory usage of y
 The database analysis tool will only analyze up to 10,000 keys. If more than 10,000 keys are present, the tool will attempt to use extrapolation in its analysis.
 {{< /note >}}
 
-<img src="images/database_analysis.png">
+{{< image filename="images/ri/ri-analysis.png" alt="The database analysis tool" >}}
 
 ### Redis Streams support
 
@@ -127,13 +135,13 @@ Create and manage streams by adding, removing, and filtering entries per timesta
 
 View and manage the list of consumer groups. See existing consumers in a given consumer name as well as the last messages delivered to them. Inspect the list of pending messages, explicitly acknowledge the processed items, or claim unprocessed messages via Redis Insight.
 
-<img src="images/streams.png">
+{{< image filename="images/ri/ri-streams.png" alt="Redis Streams support" >}}
 
 ### Search features
 
 If you're using the indexing, querying, or full-text search features of Redis Open Source, Redis Insight provides UI controls to quickly and conveniently run search queries against a preselected index. You can also create a secondary index of your data in a dedicated pane.
 
-<img src="images/search.png">
+{{< image filename="images/ri/ri-search.png" alt="Search features" >}}
 
 ### Bulk actions
 
@@ -142,13 +150,13 @@ Easily and quickly delete multiple keys of the same type and/or with the same ke
 When the bulk deletion is completed, Redis Insight displays the results of this operation with the number of keys processed and the time taken to delete the keys in bulk.
 Use bulk deletion to optimize the usage of your database based on the results from the Redis database analysis.
 
-<img src="images/bulk_actions.png">
+{{< image filename="images/ri/ri-bulk-actions.png" alt="Bulk actions" >}}
 
 ### Slow Log
 
 The Slow Log tool displays the list of logs captured by the SLOWLOG command to analyze all commands that exceed a specified runtime, which helps with troubleshooting performance issues. Specify both the runtime and the maximum length of Slowlog (which are server configurations) to configure the list of commands logged and set the auto-refresh interval to automatically update the list of commands displayed.
 
-<img src="images/slowlog.png">
+{{< image filename="images/ri/ri-slow-log.png" alt="Slow Log" >}}
 
 ## Plugins
 

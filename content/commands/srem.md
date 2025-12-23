@@ -48,11 +48,11 @@ key_specs:
       limit: 0
     type: range
 linkTitle: SREM
+railroad_diagram: /images/railroad/srem.svg
 since: 1.0.0
 summary: Removes one or more members from a set. Deletes the set if the last member
   was removed.
 syntax_fmt: SREM key member [member ...]
-syntax_str: member [member ...]
 title: SREM
 ---
 Remove the specified members from the set stored at `key`.
@@ -72,6 +72,12 @@ SREM myset "one"
 SREM myset "four"
 SMEMBERS myset
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

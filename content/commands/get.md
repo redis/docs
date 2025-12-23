@@ -40,10 +40,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: GET
+railroad_diagram: /images/railroad/get.svg
 since: 1.0.0
 summary: Returns the string value of a key.
 syntax_fmt: GET key
-syntax_str: ''
 title: GET
 ---
 Get the value of `key`.
@@ -59,10 +59,15 @@ SET mykey "Hello"
 GET mykey
 {{% /redis-cli %}}
 
-
 ### Code examples
 
 {{< clients-example set_and_get />}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

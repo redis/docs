@@ -26,11 +26,11 @@ group: json
 hidden: false
 linkTitle: JSON.STRLEN
 module: JSON
+railroad_diagram: /images/railroad/json.strlen.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Returns the length of the JSON String at path in key
 syntax_fmt: JSON.STRLEN key [path]
-syntax_str: '[path]'
 title: JSON.STRLEN
 ---
 Report the length of the JSON String at `path` in `key`
@@ -61,6 +61,12 @@ redis> JSON.STRLEN doc $..a
 2) (integer) 5
 3) (nil)
 {{< / highlight >}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
 
 ## Return information
 

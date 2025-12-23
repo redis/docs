@@ -50,10 +50,10 @@ key_specs:
     type: range
   insert: true
 linkTitle: LPUSH
+railroad_diagram: /images/railroad/lpush.svg
 since: 1.0.0
 summary: Prepends one or more elements to a list. Creates the key if it doesn't exist.
 syntax_fmt: LPUSH key element [element ...]
-syntax_str: element [element ...]
 title: LPUSH
 ---
 Insert all the specified values at the head of the list stored at `key`.
@@ -86,6 +86,12 @@ LPUSH mylist "world"
 LPUSH mylist "hello"
 LRANGE mylist 0 -1
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

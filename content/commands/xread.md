@@ -62,12 +62,12 @@ key_specs:
       limit: 2
     type: range
 linkTitle: XREAD
+railroad_diagram: /images/railroad/xread.svg
 since: 5.0.0
 summary: Returns messages from multiple streams with IDs greater than the ones requested.
   Blocks until a message is available otherwise.
 syntax_fmt: "XREAD [COUNT\_count] [BLOCK\_milliseconds] STREAMS\_key [key ...] id\n\
   \  [id ...]"
-syntax_str: "[BLOCK\_milliseconds] STREAMS\_key [key ...] id [id ...]"
 title: XREAD
 ---
 Read data from one or multiple streams, only returning entries with an
@@ -290,6 +290,12 @@ data to the stream.
 Reading the [Redis Streams introduction]({{< relref "/develop/data-types/streams" >}}) is highly
 suggested in order to understand more about the streams overall behavior
 and semantics.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

@@ -22,11 +22,11 @@ group: cf
 hidden: false
 linkTitle: CF.INFO
 module: Bloom
+railroad_diagram: /images/railroad/cf.info.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Returns information about a Cuckoo Filter
 syntax_fmt: CF.INFO key
-syntax_str: ''
 title: CF.INFO
 ---
 Returns information about a cuckoo filter.
@@ -59,6 +59,12 @@ redis> CF.INFO cf
 15) Max iteration
 16) (integer) 20
 {{< / highlight >}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
 
 ## Return information
 

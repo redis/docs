@@ -50,10 +50,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: SRANDMEMBER
+railroad_diagram: /images/railroad/srandmember.svg
 since: 1.0.0
 summary: Get one or multiple random members from a set
 syntax_fmt: SRANDMEMBER key [count]
-syntax_str: '[count]'
 title: SRANDMEMBER
 ---
 When called with just the `key` argument, return a random element from the set value stored at `key`.
@@ -72,7 +72,6 @@ SRANDMEMBER myset
 SRANDMEMBER myset 2
 SRANDMEMBER myset -5
 {{% /redis-cli %}}
-
 
 ## Specification of the behavior when count is passed
 
@@ -97,6 +96,12 @@ The distribution of the returned elements is far from perfect when the number of
 The algorithm used, that is implemented inside dict.c, samples the hash table buckets to find a non-empty one. Once a non empty bucket is found, since we use chaining in our hash table implementation, the number of elements inside the bucket is checked and a random element is selected.
 
 This means that if you have two non-empty buckets in the entire hash table, and one has three elements while one has just one, the element that is alone in its bucket will be returned with much higher probability.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

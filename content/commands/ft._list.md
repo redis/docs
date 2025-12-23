@@ -21,15 +21,14 @@ group: search
 hidden: false
 linkTitle: FT._LIST
 module: Search
+railroad_diagram: /images/railroad/ft._list.svg
 since: 2.0.0
 stack_path: docs/interact/search-and-query
 summary: Returns a list of all existing indexes
 syntax_fmt: FT._LIST
-syntax_str: ''
 title: FT._LIST
 ---
 Returns a list of all existing indexes.
-
 
 {{% alert title="Temporary command" color="info" %}}
 The prefix `_` in the command indicates, this is a temporary command.
@@ -46,6 +45,12 @@ FT._LIST
 2) "movies"
 3) "imdb"
 ```
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
 
 ## Return information
 

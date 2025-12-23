@@ -34,7 +34,19 @@
     {{ $language := index $example "language" }}
     {{ $quickstartSlug := index $clientConfig "quickstartSlug" }}
 
-    {{ if and ($example) (or (eq $lang "") (strings.Contains $lang $client)) }}
+    {{/* Check if language filter matches: either no filter or exact match in comma-separated list */}}
+    {{ $langMatches := false }}
+    {{ if eq $lang "" }}
+        {{ $langMatches = true }}
+    {{ else }}
+        {{ range $filterLang := split $lang "," }}
+            {{ if eq (strings.TrimSpace $filterLang) $client }}
+                {{ $langMatches = true }}
+            {{ end }}
+        {{ end }}
+    {{ end }}
+
+    {{ if and ($example) $langMatches }}
         {{ $examplePath := index $example "target" }}
         {{ $options := printf "linenos=false" }}
 
@@ -52,7 +64,15 @@
         {{/* Extract binderId if it exists */}}
         {{ $binderId := index $example "binderId" }}
 
-        {{ $tabs = $tabs | append (dict "title" $client "language" $client "quickstartSlug" $quickstartSlug "content" $content "sourceUrl" (index $example "sourceUrl") "binderId" $binderId) }}
+        {{/* Map display names for clients */}}
+        {{ $displayName := $client }}
+        {{ if eq $client "Node.js" }}
+            {{ $displayName = "JavaScript (node-redis)" }}
+        {{ else if eq $client "ioredis" }}
+            {{ $displayName = "JavaScript (ioredis)" }}
+        {{ end }}
+
+        {{ $tabs = $tabs | append (dict "title" $client "displayName" $displayName "language" $client "quickstartSlug" $quickstartSlug "content" $content "sourceUrl" (index $example "sourceUrl") "binderId" $binderId) }}
     {{ end }}
 {{ end }}
 

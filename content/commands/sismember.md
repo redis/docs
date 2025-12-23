@@ -42,10 +42,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: SISMEMBER
+railroad_diagram: /images/railroad/sismember.svg
 since: 1.0.0
 summary: Determines whether a member belongs to a set.
 syntax_fmt: SISMEMBER key member
-syntax_str: member
 title: SISMEMBER
 ---
 Returns if `member` is a member of the set stored at `key`.
@@ -57,6 +57,12 @@ SADD myset "one"
 SISMEMBER myset "one"
 SISMEMBER myset "two"
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

@@ -37,10 +37,10 @@ hints:
 - request_policy:all_nodes
 - response_policy:all_succeeded
 linkTitle: CLIENT SETINFO
+railroad_diagram: /images/railroad/client-setinfo.svg
 since: 7.2.0
 summary: Sets information specific to the client or connection.
 syntax_fmt: "CLIENT SETINFO <LIB-NAME\_libname | LIB-VER\_libver>"
-syntax_str: ''
 title: CLIENT SETINFO
 ---
 The `CLIENT SETINFO` command assigns various info attributes to the current connection which are displayed in the output of [`CLIENT LIST`]({{< relref "/commands/client-list" >}}) and [`CLIENT INFO`]({{< relref "/commands/client-info" >}}).
@@ -61,6 +61,12 @@ Brace characters are used to delimit the custom suffix and should be avoided in 
 We recommend using the following format for the custom suffixes for third-party libraries `(?<custom-name>[ -~]+)[ -~]v(?<custom-version>[\d\.]+)` and use `;` to delimit multiple suffixes.
 
 Note that these attributes are **not** cleared by the RESET command.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

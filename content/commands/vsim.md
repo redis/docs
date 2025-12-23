@@ -17,11 +17,11 @@ history:
 - - 8.2.0
   - added the WITHATTRIBS option.
 linkTitle: VSIM
+railroad_diagram: /images/railroad/vsim.svg
 since: 8.0.0
 summary: Return elements by vector similarity.
 syntax_fmt: "VSIM key (ELE | FP32 | VALUES num) (vector | element) [WITHSCORES] [WITHATTRIBS] [COUNT num]\n  [EPSILON delta] [EF search-exploration-factor] [FILTER expression] [FILTER-EF max-filtering-effort]\n  [TRUTH] [NOTHREAD]"
 title: VSIM
-bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
 ---
 
 Return elements similar to a given vector or element. Use this command to perform approximate or exact similarity searches within a vector set.
@@ -138,6 +138,12 @@ executes the search in the main thread instead of a background thread. Useful fo
 ## Related topics
 
 - [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

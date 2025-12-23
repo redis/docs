@@ -28,10 +28,10 @@ hints:
 - request_policy:all_nodes
 - response_policy:special
 linkTitle: LATENCY DOCTOR
+railroad_diagram: /images/railroad/latency-doctor.svg
 since: 2.8.13
 summary: Returns a human-readable latency analysis report.
 syntax_fmt: LATENCY DOCTOR
-syntax_str: ''
 title: LATENCY DOCTOR
 ---
 The `LATENCY DOCTOR` command reports about different latency-related issues and advises about possible remedies.
@@ -75,6 +75,12 @@ I have a few advices for you:
 For more information refer to the [Latency Monitoring Framework page][lm].
 
 [lm]: /operate/oss_and_stack/management/optimization/latency-monitor.md
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 

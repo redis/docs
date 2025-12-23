@@ -33,10 +33,10 @@ history:
 - - 3.2.2
   - Added the `SCHEDULE` option.
 linkTitle: BGSAVE
+railroad_diagram: /images/railroad/bgsave.svg
 since: 1.0.0
 summary: Asynchronously saves the database(s) to disk.
 syntax_fmt: BGSAVE [SCHEDULE]
-syntax_str: ''
 title: BGSAVE
 ---
 Save the DB in background.
@@ -57,6 +57,12 @@ A client may be able to check if the operation succeeded using the [`LASTSAVE`](
 command.
 
 See the [persistence documentation]({{< relref "/operate/oss_and_stack/management/persistence" >}}) for detailed information.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 

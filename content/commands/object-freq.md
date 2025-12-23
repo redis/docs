@@ -40,15 +40,21 @@ key_specs:
       limit: 0
     type: range
 linkTitle: OBJECT FREQ
+railroad_diagram: /images/railroad/object-freq.svg
 since: 4.0.0
 summary: Returns the logarithmic access frequency counter of a Redis object.
 syntax_fmt: OBJECT FREQ key
-syntax_str: ''
 title: OBJECT FREQ
 ---
 This command returns the logarithmic access frequency counter of a Redis object stored at `<key>`.
 
 The command is only available when the `maxmemory-policy` configuration directive is set to one of the LFU policies.
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

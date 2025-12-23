@@ -13,8 +13,6 @@ description: Introduction to Redis vector sets
 linkTitle: Vector sets
 title: Redis vector sets
 weight: 55
-bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
-bannerChildren: true
 ---
 
 Vector sets are a data type similar to sorted sets, but instead of a score, vector set elements have a string representation of a vector.
@@ -36,6 +34,7 @@ The following commands are available for vector sets:
 - [VISMEMBER]({{< relref "/commands/vismember" >}}) - check if an element exists in a vector set.
 - [VLINKS]({{< relref "/commands/vlinks" >}}) - retrieve the neighbors of a specified element in a vector set; the connections for each layer of the HNSW graph.
 - [VRANDMEMBER]({{< relref "/commands/vrandmember" >}}) - retrieve random elements of a vector set.
+- [VRANGE]({{< relref "/commands/vrange" >}}) - iterate through a vector set in small, stateless batches without using a cursor.
 - [VREM]({{< relref "/commands/vrem" >}}) - remove an element from a vector set.
 - [VSETATTR]({{< relref "/commands/vsetattr" >}}) - set or replace attributes on a vector set element.
 - [VSIM]({{< relref "/commands/vsim" >}}) - retrieve elements similar to a given vector or element with optional filtering.

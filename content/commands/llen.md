@@ -39,10 +39,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: LLEN
+railroad_diagram: /images/railroad/llen.svg
 since: 1.0.0
 summary: Returns the length of a list.
 syntax_fmt: LLEN key
-syntax_str: ''
 title: LLEN
 ---
 Returns the length of the list stored at `key`.
@@ -67,6 +67,12 @@ LPUSH mylist "World"
 LPUSH mylist "Hello"
 LLEN mylist
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

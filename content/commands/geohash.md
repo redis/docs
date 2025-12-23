@@ -44,10 +44,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: GEOHASH
+railroad_diagram: /images/railroad/geohash.svg
 since: 3.2.0
 summary: Returns members from a geospatial index as geohash strings.
 syntax_fmt: GEOHASH key [member [member ...]]
-syntax_str: '[member [member ...]]'
 title: GEOHASH
 ---
 Return valid [Geohash](https://en.wikipedia.org/wiki/Geohash) strings representing the position of one or more elements in a sorted set value representing a geospatial index (where elements were added using [`GEOADD`]({{< relref "/commands/geoadd" >}})).
@@ -76,6 +76,12 @@ have the following properties:
 GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
 GEOHASH Sicily Palermo Catania
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

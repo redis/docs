@@ -46,10 +46,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: UNLINK
+railroad_diagram: /images/railroad/unlink.svg
 since: 4.0.0
 summary: Asynchronously deletes one or more keys.
 syntax_fmt: UNLINK key [key ...]
-syntax_str: ''
 title: UNLINK
 ---
 This command is very similar to [`DEL`]({{< relref "/commands/del" >}}): it removes the specified keys.
@@ -66,6 +66,12 @@ SET key1 "Hello"
 SET key2 "World"
 UNLINK key1 key2 key3
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

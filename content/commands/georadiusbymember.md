@@ -157,16 +157,15 @@ key_specs:
     type: range
   update: true
 linkTitle: GEORADIUSBYMEMBER
-replaced_by: '[`GEOSEARCH`]({{< relref "/commands/geosearch" >}}) and [`GEOSEARCHSTORE`]({{<
-  relref "/commands/geosearchstore" >}}) with the `BYRADIUS` and `FROMMEMBER` arguments'
+railroad_diagram: /images/railroad/georadiusbymember.svg
+replaced_by: '`GEOSEARCH` and `GEOSEARCHSTORE` with the `BYRADIUS` and `FROMMEMBER`
+  arguments'
 since: 3.2.0
 summary: Queries a geospatial index for members within a distance from a member, optionally
   stores the result.
 syntax_fmt: "GEORADIUSBYMEMBER key member radius <M | KM | FT | MI> [WITHCOORD]\n\
   \  [WITHDIST] [WITHHASH] [COUNT\_count [ANY]] [ASC | DESC] [STORE\_key\n  | STOREDIST\_\
   key]"
-syntax_str: "member radius <M | KM | FT | MI> [WITHCOORD] [WITHDIST] [WITHHASH] [COUNT\_\
-  count [ANY]] [ASC | DESC] [STORE\_key | STOREDIST\_key]"
 title: GEORADIUSBYMEMBER
 ---
 This command is exactly like [`GEORADIUS`]({{< relref "/commands/georadius" >}}) with the sole difference that instead
@@ -185,6 +184,12 @@ GEOADD Sicily 13.583333 37.316667 "Agrigento"
 GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
 GEORADIUSBYMEMBER Sicily Agrigento 100 km
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |
 
 ## Return information
 

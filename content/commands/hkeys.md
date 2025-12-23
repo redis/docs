@@ -41,10 +41,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: HKEYS
+railroad_diagram: /images/railroad/hkeys.svg
 since: 2.0.0
 summary: Returns all fields in a hash.
 syntax_fmt: HKEYS key
-syntax_str: ''
 title: HKEYS
 ---
 Returns all field names in the hash stored at `key`.
@@ -56,6 +56,12 @@ HSET myhash field1 "Hello"
 HSET myhash field2 "World"
 HKEYS myhash
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

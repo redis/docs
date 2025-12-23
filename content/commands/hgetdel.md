@@ -52,10 +52,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: HGETDEL
+railroad_diagram: /images/railroad/hgetdel.svg
 since: 8.0.0
 summary: Returns the value of a field and deletes it from the hash.
 syntax_fmt: "HGETDEL key FIELDS\_numfields field [field ...]"
-syntax_str: "FIELDS\_numfields field [field ...]"
 title: HGETDEL
 ---
 Get and delete the value of one or more fields of a given hash key. When the last field is deleted, the key will also be deleted.
@@ -86,6 +86,12 @@ redis> HGETDEL mykey FIELDS 2 field1 field2
 redis> KEYS *
 (empty array)
 ```
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

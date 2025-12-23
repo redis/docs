@@ -49,10 +49,10 @@ key_specs:
     type: range
   insert: true
 linkTitle: SADD
+railroad_diagram: /images/railroad/sadd.svg
 since: 1.0.0
 summary: Adds one or more members to a set. Creates the key if it doesn't exist.
 syntax_fmt: SADD key member [member ...]
-syntax_str: member [member ...]
 title: SADD
 ---
 Add the specified members to the set stored at `key`.
@@ -81,6 +81,12 @@ SADD myset "Hello" "World"
 SADD myset "World"
 SMEMBERS myset
 {{% /redis-cli %}}
+
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 
