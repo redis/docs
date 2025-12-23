@@ -244,12 +244,16 @@ To utilize a vector query with the [`FT.SEARCH`]({{< relref "commands/ft.search/
 You must pass the vectorized query as a byte array with the param name `query_vector`. The following code creates a Python NumPy array from the query vector and converts it into a compact, byte-level representation that can be passed as a parameter to the query:
 
 ```python
-client.ft('idx:bikes_vss').search(
-    query,
-    {
-      'query_vector': np.array(encoded_query, dtype=np.float32).tobytes()
-    }
-).docs
+for i, encoded_query in enumerate(encoded_queries):
+    result = client.ft('idx:bikes_vss').search(
+        query,
+        {
+          'query_vector': np.array(encoded_query, dtype=np.float32).tobytes()
+        }
+    )
+    print(f"Results for query '{queries[i]}':")
+    for doc in result.docs:
+        print(f"\t{doc.id}: {doc.brand} {doc.model}")
 ```
 
 With the template for the query in place, you can execute all queries in a loop. Notice that the script calculates the `vector_score` for each result as `1 - doc.vector_score`. Because the cosine distance is used as the metric, the items with the smallest distance are closer and, therefore, more similar to the query.
