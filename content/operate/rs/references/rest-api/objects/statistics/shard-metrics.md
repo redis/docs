@@ -11,6 +11,10 @@ linkTitle: shard metrics
 weight: $weight
 ---
 
+{{<banner-article>}}
+The v1 statistics REST API endpoints are deprecated as of Redis Enterprise Software version 7.22. Use the [metrics stream engine for monitoring v2]({{< relref "/operate/rs/monitoring/metrics_stream_engine" >}}) instead for real-time monitoring and metrics collection.
+{{</banner-article>}}
+
 | Metric name | Type | Description |
 |-------------|------|-------------|
 | aof_rewrite_inprog | float | The number of simultaneous AOF rewrites that are in progress |
