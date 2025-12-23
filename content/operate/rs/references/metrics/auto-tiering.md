@@ -10,7 +10,9 @@ linkTitle: Redis Flex and Auto Tiering
 weight: $weight
 ---
 
-These metrics are additional metrics for [Redis Flex and Auto Tiering ]({{< relref "/operate/rs/databases/flash" >}}) databases.
+The following additional metrics for [Redis Flex and Auto Tiering ]({{< relref "/operate/rs/databases/flash" >}}) databases are available in the Redis Enterprise Cluster Manager UI.
+
+{{<image filename="images/rs/screenshots/metrics/flash-db-metrics.png" alt="The database metrics page.">}}
 
 #### % Values in RAM
 

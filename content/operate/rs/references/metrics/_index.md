@@ -16,6 +16,8 @@ weight: $weight
 
 In the Redis Enterprise Cluster Manager UI, you can see real-time performance metrics for clusters, nodes, databases, and shards, and configure alerts that send notifications based on alert parameters. Select the **Metrics** tab to view the metrics for each component. For more information, see [Monitoring with metrics and alerts]({{< relref "/operate/rs/monitoring" >}}).
 
+{{<image filename="images/rs/screenshots/metrics/db-metrics.png" alt="The database metrics page.">}}
+
 See the following topics for metrics definitions:
 - [Database operations]({{< relref "/operate/rs/references/metrics/database-operations" >}}) for database metrics
 - [Resource usage]({{< relref "/operate/rs/references/metrics/resource-usage" >}}) for resource and database usage metrics
