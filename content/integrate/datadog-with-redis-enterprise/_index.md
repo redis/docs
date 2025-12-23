@@ -1,17 +1,17 @@
 ---
-LinkTitle: Datadog with Redis Enterprise
-Title: Datadog with Redis Enterprise
+LinkTitle: Datadog with Redis Software
+Title: Datadog with Redis Enterprise Software
 alwaysopen: false
 categories:
 - docs
 - integrate
 - rs
 description: To collect, view, and monitor metrics data from your databases and other
-  cluster components, you can connect Datadog to your Redis Enterprise cluster using
+  cluster components, you can connect Datadog to your Redis Enterprise Software cluster using
   the Redis Datadog Integration.
 group: observability
 summary: To collect, view, and monitor metrics data from your databases and other
-  cluster components, you can connect Datadog to your Redis Enterprise cluster using
+  cluster components, you can connect Datadog to your Redis Enterprise Software cluster using
   the Redis Datadog Integration.
 type: integration
 weight: 7
@@ -23,11 +23,11 @@ enable digital transformation and cloud migration, drive collaboration among dev
 business teams, accelerate time to market for applications, reduce time to problem resolution, secure applications and 
 infrastructure, understand user behavior, and track key business metrics.
 
-The Datadog Integration for Redis Enterprise uses Datadog's Integration API to connect to Redis metrics exporters. 
+The Datadog Integration for Redis Enterprise Software uses Datadog's Integration API to connect to Redis metrics exporters. 
 The integration is based on the Datadog 
 [OpenMetrics integration](https://datadoghq.dev/integrations-core/base/openmetrics/) in their core API. This integration 
-enables Redis Enterprise users to export metrics directly to Datadog for analysis, and includes Redis-designed 
-dashboards for use in monitoring Redis Enterprise clusters.
+enables Redis Enterprise Software users to export metrics directly to Datadog for analysis, and includes Redis-designed 
+dashboards for use in monitoring Redis Enterprise Software clusters.
 
 This integration makes it possible to:
 - Collect and display metrics not available in the admin console
@@ -35,7 +35,7 @@ This integration makes it possible to:
 - Display these metrics alongside data from other systems
 
 {{< image filename="/images/rc/redis-cloud-datadog.png" >}}
-## Install Redis' Datadog Integration for Redis Enterprise
+## Install Redis' Datadog Integration for Redis Enterprise Software
 
 Installing the Datadog integration is a two-step process. Firstly, the installation must be part of your configuration. 
 Select 'Integrations' from the menu  in the Datadog portal and then enter 'Redis' in the search bar, then select 
@@ -63,14 +63,14 @@ tail -f /var/log/datadog/agent.log
 ```
 
 It will take several minutes for data to reach Datadog. Finally, check the Datadog console by selecting 
-Infrastructure -> Host Map from the menu and then finding the host that is monitoring the Redis Enterprise instance. The host 
+Infrastructure -> Host Map from the menu and then finding the host that is monitoring the Redis Enterprise Software instance. The host 
 should be present, and in its list of components there should be a section called 'rdse', which is the namespace used by 
-the Redis Enterprise integration, although this can take several minutes to appear. It is also possible to verify the metrics 
+the Redis Enterprise Software integration, although this can take several minutes to appear. It is also possible to verify the metrics 
 by choosing Metrics -> Explorer from the menu and entering 'rdse.bdb_up'.
 
 ## View metrics
 
-The Redis Enterprise Integration for Datadog contains pre-defined dashboards to aid in monitoring your Redis Enterprise deployment.
+The Redis Enterprise Software Integration for Datadog contains pre-defined dashboards to aid in monitoring your Redis Enterprise Software deployment.
 
 The following dashboards are currently available:
 

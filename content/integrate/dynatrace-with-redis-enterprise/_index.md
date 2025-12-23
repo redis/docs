@@ -1,17 +1,17 @@
 ---
-LinkTitle: Dynatrace with Redis Enterprise
-Title: Dynatrace with Redis Enterprise
+LinkTitle: Dynatrace with Redis Software
+Title: Dynatrace with Redis Enterprise Software
 alwaysopen: false
 categories:
 - docs
 - integrate
 - rs
 description: To collect, view, and monitor metrics data from your databases and other
-  cluster components, you can connect Dynatrace to your Redis Enterprise cluster using
+  cluster components, you can connect Dynatrace to your Redis Enterprise Software cluster using
   the Redis Dynatrace Integration.
 group: observability
 summary: To collect, view, and monitor metrics data from your databases and other
-  cluster components, you can connect Dynatrace to your Redis Enterprise cluster using
+  cluster components, you can connect Dynatrace to your Redis Enterprise Software cluster using
   the Redis Dynatrace Integration.
 type: integration
 weight: 7
@@ -23,9 +23,9 @@ enable digital transformation and cloud migration, drive collaboration among dev
 business teams, accelerate time to market for applications, reduce time to problem resolution, secure applications and 
 infrastructure, understand user behavior, and track key business metrics.
 
-The Dynatrace Integration for Redis Enterprise uses Prometheus remote write functionality to connect Prometheus data 
-sources to Dynatrace. This integration enables Redis Enterprise users to export metrics to Dynatrace for analysis, 
-and includes Redis-designed dashboards for use in monitoring Redis Enterprise clusters.
+The Dynatrace Integration for Redis Enterprise Software uses Prometheus remote write functionality to connect Prometheus data 
+sources to Dynatrace. This integration enables Redis Enterprise Software users to export metrics to Dynatrace for analysis, 
+and includes Redis-designed dashboards for use in monitoring Redis Enterprise Software clusters.
 
 This integration makes it possible to:
 - Collect and display metrics not available in the admin console
@@ -33,7 +33,7 @@ This integration makes it possible to:
 - Display these metrics alongside data from other systems
 
 {{< image filename="/images/rs/redis-enterprise-dynatrace.png" >}}
-## Install Redis' Dynatrace Integration for Redis Enterprise
+## Install Redis' Dynatrace Integration for Redis Enterprise Software
 
 At the present time the Dynatrace integration is not signed by Dynatrace, meaning that it will be necessary to download 
 the source configuration and dashboards and assemble them and sign them cryptologically with a certificate that you have 
@@ -44,7 +44,7 @@ the src folder.
 
 ## View metrics
 
-The Redis Enterprise Integration for Dynatrace contains pre-defined dashboards to aid in monitoring your Redis Enterprise deployment.
+The Redis Enterprise Software Integration for Dynatrace contains pre-defined dashboards to aid in monitoring your Redis Enterprise Software deployment.
 
 The following dashboards are currently available:
 

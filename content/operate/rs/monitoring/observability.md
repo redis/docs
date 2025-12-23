@@ -10,7 +10,7 @@ group: observability
 linkTitle: Observability and monitoring
 summary: Observe Redis Enterprise resources and database perfomance indicators.
 type: integration
-weight: 45
+weight: 75
 tocEmbedHeaders: true
 ---
 
