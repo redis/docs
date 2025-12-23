@@ -8,7 +8,7 @@ categories:
 - kubernetes
 description: Monitor Redis Enterprise Software clusters and databases using internal monitoring systems and external monitoring tools.
 hideListLinks: true
-linkTitle: Monitoring v1
+linkTitle: Monitoring v1 (deprecated)
 weight: 50
 ---
 
