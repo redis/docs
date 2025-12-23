@@ -23,8 +23,6 @@ Redis Enterprise for Kubernetes 8.0.6 includes bug fixes, enhancements, and supp
 
 - **Only upgrades from 7.4.2-2 and later are supported.** If you are using an earlier version, install 7.4.2-2 before upgrading to 8.0.6-8.
 
-- **Custom certificate upload is not supported for internode encryption (RED-173229).** Internode communication between cluster nodes continues to use default self-signed certificates and cannot be configured with customer-provided certificates.
-
 - **Missing endpoint for admission endpoint (rare) (RED-119469)** Restart the operator pod.
 
 - **The REDB "redisVersion" field can't be used for memcached databases(RED-119152)**
