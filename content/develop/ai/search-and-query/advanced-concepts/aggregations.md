@@ -561,6 +561,12 @@ For example, to set a limit of ten seconds:
 FT.AGGREGATE idx query WITHCURSOR MAXIDLE 10000
 ```
 
+If there are updates during the lifetime of the cursors, these updates may not be reflected
+in the results of the `CURSOR READ` commands.
+
+If during the lifetime of the Cursor, some key rebalancing takes place, there is a chance that some
+results may be missing.
+
 ### Other cursor commands
 
 Cursors can be explicitly deleted using the `CURSOR DEL` command. For example:
