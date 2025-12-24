@@ -564,7 +564,7 @@ FT.AGGREGATE idx query WITHCURSOR MAXIDLE 10000
 If there are updates during the lifetime of the cursors, these updates may not be reflected
 in the results of the `CURSOR READ` commands.
 
-If during the lifetime of the Cursor, some key rebalancing takes place, there is a chance that some
+Also, note that in case of load rebalancing operations (such as Atomic Slot Migration) taking place during the lifetime of a cursor, there is a chance that some results may be missing. In Redis Enterprise deployment, these operation may occur behind the scenes without any user intervention. 
 results may be missing.
 
 ### Other cursor commands
