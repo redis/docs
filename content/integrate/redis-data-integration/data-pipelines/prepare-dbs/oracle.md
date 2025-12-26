@@ -76,6 +76,12 @@ ORACLE_SID=ORACLCDB dbz_oracle sqlplus /nolog
 CONNECT sys/top_secret AS SYSDBA
 alter system set db_recovery_file_dest_size = 10G;
 alter system set db_recovery_file_dest = '/opt/oracle/oradata/recovery_area' scope=spfile;
+-- ======================================================================================================================================================
+-- !!!IMPORTANT!!!: 
+-- In order to avoid Oracle downtime, please check if the LOG_MODE on your database is already set to `ARCHIVELOG` before executing the following commands: 
+-- SELECT log_mode FROM v$database;
+-- If the LOG_MODE is already `ARCHIVELOG`, then you can skip the rest of the commands in this script
+-- ======================================================================================================================================================
 shutdown immediate
 startup mount
 alter database archivelog;
@@ -376,12 +382,12 @@ to capture changes.
 Follow the steps in the sections below to configure Xstream to work with
 Debezium and RDI.
 
-{{< note >}}You should run all database commands shown below as the `oracle` user.
+{{< note >}}You should run all database commands shown below as the `sysdba` user.
 {{< /note >}}
 
 ### 1. Configure Xstream
 
-Create a directory for the recovery area:
+Create a directory for the recovery area on the Oracle host (or Oracle container if you are using a containerized Oracle):
 
 ```bash
 mkdir /opt/oracle/oradata/recovery_area
@@ -397,6 +403,12 @@ sqlplus sys/<PASSWORD> as sysdba
 SQL> alter system set db_recovery_file_dest_size = 5G;
 SQL> alter system set db_recovery_file_dest = '/opt/oracle/oradata/recovery_area' scope=spfile;
 SQL> alter system set enable_goldengate_replication=true;
+-- ======================================================================================================================================================
+-- !!!IMPORTANT!!!: 
+-- In order to avoid Oracle downtime, please check if the LOG_MODE on your database is already set to `ARCHIVELOG` before executing the following commands: 
+-- SELECT log_mode FROM v$database;
+-- If the LOG_MODE is already `ARCHIVELOG`, then you can skip the rest of the commands in this script
+-- ======================================================================================================================================================
 SQL> shutdown immediate
 Database closed.
 Database dismounted.
@@ -419,7 +431,13 @@ Archive destination       USE_DB_RECOVERY_FILE_DEST
 Oldest online log sequence     10
 Next log sequence to archive   12
 Current log sequence       12
+```
 
+Enable supplemental logging for the tables you want to capture or
+for the entire database. This lets Debezium capture the state of
+database rows before and after changes occur.
+
+```sql
 SQL> ALTER DATABASE ADD SUPPLEMENTAL LOG DATA;
 
 SQL> alter session set container=orclpdb1;
@@ -449,6 +467,7 @@ Create an Xstream administrator user with the following SQL:
 ```sql
 sqlplus sys/<PASSWORD> as sysdba
 
+SQL> ALTER SESSION SET CONTAINER=CDB$ROOT;
 SQL> CREATE TABLESPACE xstream_adm_tbs DATAFILE '/opt/oracle/oradata/ORCLCDB/xstream_adm_tbs.dbf'
     SIZE 25M REUSE AUTOEXTEND ON MAXSIZE UNLIMITED;
 
@@ -627,6 +646,33 @@ To support XStream connector, you must create a custom [Docker](https://www.dock
     docker image save quay.io/debezium/server:3.0.8.Final -o dbz3.0.8-xstream-linux-amd.tar
     sudo k3s ctr images import dbz3.0.8-xstream-linux-amd.tar all
     ```
+
+### 5. Make RDI use the custom image
+
+#### 5.1. For VM installation
+
+Edit the `rdi-operator` configmap:
+
+```bash
+kubectl edit configmap rdi-operator -n rdi
+```
+
+In the editor, find the collector section and change the image settings:
+
+```yaml
+      collector:            
+        image:           
+          pullPolicy: IfNotPresent
+          registry: docker.io # change this to `quay.io`
+          repository: redislabs/debezium-server # Change this to `debezium/server`
+          tag: 3.0.8.Final-rdi.1 # Change this to `3.0.8.Final`
+```
+
+Save the configmap. Once it is saved, the operator will restart automatically and will apply the changes.
+
+{{< note >}}After upgrading to another RDI version
+the changes to the configmap will be lost. You must repeat the above steps after each upgrade.
+{{< /note >}}
 
 ### 5. Enable the Oracle configuration in RDI
 
