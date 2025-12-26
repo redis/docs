@@ -208,6 +208,8 @@ These grants are required for the connector to function.
 be sure that the modified scope is compatible with the settings in the connector’s include configuration. 
 The privileges that you set for the account must permit reading from all of the tables that you want the connector to capture.{{< /note >}}
 
+{{< note >}}This example uses `ORCLCDB` as the container database (CDB) name and `ORCLPDB1` as the pluggable database (PDB) name. Replace these with the CDB and PDB names from your own environment.{{< /note >}}
+
 ```sql
 sqlplus sys/top_secret@//localhost:1521/ORCLCDB as sysdba
 CREATE TABLESPACE logminer_tbs DATAFILE '/opt/oracle/oradata/ORCLCDB/logminer_tbs.dbf'
@@ -455,6 +457,8 @@ SQL> ALTER TABLE CHINOOK.PLAYLISTTRACK ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
 SQL> ALTER TABLE CHINOOK.TRACK ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
 ```
 
+{{< note >}}The example above uses `orclpdb1` as the PDB name. Replace it with the name of the pluggable database (PDB) that you use in your own environment.{{< /note >}}
+
 {{< note >}}You must configure supplemental logging explicitly for each table as shown 
 above. Otherwise, only the original sync will be performed and no change data will be 
 captured for the table.
@@ -526,6 +530,8 @@ SQL> GRANT SELECT ANY TABLE TO c##dbzxsuser CONTAINER=ALL;
 SQL> GRANT LOCK ANY TABLE TO c##dbzxsuser CONTAINER=ALL;
 ```
 
+{{< note >}}The Xstream user examples above use `ORCLCDB` as the CDB name and `ORCLPDB1`/`orclpdb1` as the PDB name in file paths and `ALTER SESSION SET CONTAINER` commands. Replace these with the CDB and PDB names from your own Oracle deployment.{{< /note >}}
+
 {{< note >}}If you are using the
 [Debezium Xstream documentation](https://debezium.io/documentation/reference/stable/connectors/oracle.html#creating-xstream-users-for-the-connector),
 you should note that it misses out the last two GRANT statements shown above:
@@ -561,6 +567,8 @@ BEGIN
 END;
 /
 ```
+
+{{< note >}}In this example, `ORCLCDB` is the CDB service name and `orclpdb1` is the PDB name. Replace them with the appropriate service and PDB names for your own environment.{{< /note >}}
 
 The value `NULL` for `tables` enables data capture from all tables in the `chinook`
 schema, unless the changes have been made by the `sys` or `system` users.
@@ -699,6 +707,8 @@ sources:
         database.out.server.name: dbzxout
 ```
 
+{{< note >}}The values `ORCLCDB` and `ORCLPDB1` in the example above are sample CDB and PDB names. Set `database.dbname` and `database.pdb.name` to the CDB and PDB names for your own Oracle database.{{< /note >}}
+
 See the
 [Debezium Oracle documentation](https://debezium.io/documentation/reference/stable/connectors/oracle.html#oracle-connector-properties)
 for a full list of properties you can use in the `advanced.source` subsection.
@@ -779,6 +789,8 @@ sources:
         database.pdb.name: ORCLPDB1
         lob.enabled: true
 ```
+
+{{< note >}}The XMLTYPE configuration example uses `ORCLCDB` as the CDB name and `ORCLPDB1` as the PDB name. Replace these with your actual CDB and PDB names when configuring XMLTYPE support.{{< /note >}}
 
 ### Test XMLTYPE support
 
