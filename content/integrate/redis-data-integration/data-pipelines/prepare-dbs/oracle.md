@@ -42,6 +42,7 @@ You may find it helpful to use them to track your progress as you work through t
 - [ ] [Create Xstream users](#2-create-xstream-users)
 - [ ] [Create an Xstream outbound server](#3-create-an-xstream-outbound-server)
 - [ ] [Add a custom Docker image for the Debezium server](#4-add-a-custom-docker-image-for-the-debezium-server)
+- [ ] [Make RDI use the custom image](#5-make-rdi-use-the-custom-image)
 - [ ] [Enable the Oracle configuration in RDI](#5-enable-the-oracle-configuration-in-rdi)
 ```
 
@@ -682,7 +683,7 @@ Save the configmap. Once it is saved, the operator will restart automatically an
 the changes to the configmap will be lost. You must repeat the above steps after each upgrade.
 {{< /note >}}
 
-### 5. Enable the Oracle configuration in RDI
+### 6. Enable the Oracle configuration in RDI
 
 Finally, you must update your `config.yaml` file to enable Xstream.
 The example below shows the relevant parts of the `sources` section:
@@ -713,7 +714,7 @@ See the
 [Debezium Oracle documentation](https://debezium.io/documentation/reference/stable/connectors/oracle.html#oracle-connector-properties)
 for a full list of properties you can use in the `advanced.source` subsection.
 
-### 6. Configuration is complete {#xstream-complete}
+### 7. Configuration is complete {#xstream-complete}
 
 After you have followed the steps above, your Oracle database is ready
 for Debezium to use.
