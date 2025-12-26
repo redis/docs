@@ -42,6 +42,7 @@ You may find it helpful to use them to track your progress as you work through t
 - [ ] [Create Xstream users](#2-create-xstream-users)
 - [ ] [Create an Xstream outbound server](#3-create-an-xstream-outbound-server)
 - [ ] [Add a custom Docker image for the Debezium server](#4-add-a-custom-docker-image-for-the-debezium-server)
+- [ ] [Make RDI use the custom image](#5-make-rdi-use-the-custom-image)
 - [ ] [Enable the Oracle configuration in RDI](#5-enable-the-oracle-configuration-in-rdi)
 ```
 
@@ -76,6 +77,12 @@ ORACLE_SID=ORACLCDB dbz_oracle sqlplus /nolog
 CONNECT sys/top_secret AS SYSDBA
 alter system set db_recovery_file_dest_size = 10G;
 alter system set db_recovery_file_dest = '/opt/oracle/oradata/recovery_area' scope=spfile;
+-- ======================================================================================================================================================
+-- !!!IMPORTANT!!!: 
+-- In order to avoid Oracle downtime, please check if the LOG_MODE on your database is already set to `ARCHIVELOG` before executing the following commands: 
+-- SELECT log_mode FROM v$database;
+-- If the LOG_MODE is already `ARCHIVELOG`, then you can skip the rest of the commands in this script
+-- ======================================================================================================================================================
 shutdown immediate
 startup mount
 alter database archivelog;
@@ -201,6 +208,8 @@ These grants are required for the connector to function.
 {{< note >}}To prevent data loss, if you restrict the scope of the SELECT and FLASHBACK grants, 
 be sure that the modified scope is compatible with the settings in the connector’s include configuration. 
 The privileges that you set for the account must permit reading from all of the tables that you want the connector to capture.{{< /note >}}
+
+{{< note >}}This example uses `ORCLCDB` as the container database (CDB) name and `ORCLPDB1` as the pluggable database (PDB) name. Replace these with the CDB and PDB names from your own environment.{{< /note >}}
 
 ```sql
 sqlplus sys/top_secret@//localhost:1521/ORCLCDB as sysdba
@@ -376,12 +385,12 @@ to capture changes.
 Follow the steps in the sections below to configure Xstream to work with
 Debezium and RDI.
 
-{{< note >}}You should run all database commands shown below as the `oracle` user.
+{{< note >}}You should run all database commands shown below as the `sysdba` user.
 {{< /note >}}
 
 ### 1. Configure Xstream
 
-Create a directory for the recovery area:
+Create a directory for the recovery area on the Oracle host (or Oracle container if you are using a containerized Oracle):
 
 ```bash
 mkdir /opt/oracle/oradata/recovery_area
@@ -397,6 +406,12 @@ sqlplus sys/<PASSWORD> as sysdba
 SQL> alter system set db_recovery_file_dest_size = 5G;
 SQL> alter system set db_recovery_file_dest = '/opt/oracle/oradata/recovery_area' scope=spfile;
 SQL> alter system set enable_goldengate_replication=true;
+-- ======================================================================================================================================================
+-- !!!IMPORTANT!!!: 
+-- In order to avoid Oracle downtime, please check if the LOG_MODE on your database is already set to `ARCHIVELOG` before executing the following commands: 
+-- SELECT log_mode FROM v$database;
+-- If the LOG_MODE is already `ARCHIVELOG`, then you can skip the rest of the commands in this script
+-- ======================================================================================================================================================
 SQL> shutdown immediate
 Database closed.
 Database dismounted.
@@ -419,7 +434,13 @@ Archive destination       USE_DB_RECOVERY_FILE_DEST
 Oldest online log sequence     10
 Next log sequence to archive   12
 Current log sequence       12
+```
 
+Enable supplemental logging for the tables you want to capture or
+for the entire database. This lets Debezium capture the state of
+database rows before and after changes occur.
+
+```sql
 SQL> ALTER DATABASE ADD SUPPLEMENTAL LOG DATA;
 
 SQL> alter session set container=orclpdb1;
@@ -437,6 +458,8 @@ SQL> ALTER TABLE CHINOOK.PLAYLISTTRACK ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
 SQL> ALTER TABLE CHINOOK.TRACK ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
 ```
 
+{{< note >}}The example above uses `orclpdb1` as the PDB name. Replace it with the name of the pluggable database (PDB) that you use in your own environment.{{< /note >}}
+
 {{< note >}}You must configure supplemental logging explicitly for each table as shown 
 above. Otherwise, only the original sync will be performed and no change data will be 
 captured for the table.
@@ -449,6 +472,7 @@ Create an Xstream administrator user with the following SQL:
 ```sql
 sqlplus sys/<PASSWORD> as sysdba
 
+SQL> ALTER SESSION SET CONTAINER=CDB$ROOT;
 SQL> CREATE TABLESPACE xstream_adm_tbs DATAFILE '/opt/oracle/oradata/ORCLCDB/xstream_adm_tbs.dbf'
     SIZE 25M REUSE AUTOEXTEND ON MAXSIZE UNLIMITED;
 
@@ -507,6 +531,8 @@ SQL> GRANT SELECT ANY TABLE TO c##dbzxsuser CONTAINER=ALL;
 SQL> GRANT LOCK ANY TABLE TO c##dbzxsuser CONTAINER=ALL;
 ```
 
+{{< note >}}The Xstream user examples above use `ORCLCDB` as the CDB name and `ORCLPDB1`/`orclpdb1` as the PDB name in file paths and `ALTER SESSION SET CONTAINER` commands. Replace these with the CDB and PDB names from your own Oracle deployment.{{< /note >}}
+
 {{< note >}}If you are using the
 [Debezium Xstream documentation](https://debezium.io/documentation/reference/stable/connectors/oracle.html#creating-xstream-users-for-the-connector),
 you should note that it misses out the last two GRANT statements shown above:
@@ -542,6 +568,8 @@ BEGIN
 END;
 /
 ```
+
+{{< note >}}In this example, `ORCLCDB` is the CDB service name and `orclpdb1` is the PDB name. Replace them with the appropriate service and PDB names for your own environment.{{< /note >}}
 
 The value `NULL` for `tables` enables data capture from all tables in the `chinook`
 schema, unless the changes have been made by the `sys` or `system` users.
@@ -628,7 +656,34 @@ To support XStream connector, you must create a custom [Docker](https://www.dock
     sudo k3s ctr images import dbz3.0.8-xstream-linux-amd.tar all
     ```
 
-### 5. Enable the Oracle configuration in RDI
+### 5. Make RDI use the custom image
+
+#### 5.1. For VM installation
+
+Edit the `rdi-operator` configmap:
+
+```bash
+kubectl edit configmap rdi-operator -n rdi
+```
+
+In the editor, find the collector section and change the image settings:
+
+```yaml
+      collector:            
+        image:           
+          pullPolicy: IfNotPresent
+          registry: docker.io # change this to `quay.io`
+          repository: redislabs/debezium-server # Change this to `debezium/server`
+          tag: 3.0.8.Final-rdi.1 # Change this to `3.0.8.Final`
+```
+
+Save the configmap. Once it is saved, the operator will restart automatically and will apply the changes.
+
+{{< note >}}After upgrading to another RDI version
+the changes to the configmap will be lost. You must repeat the above steps after each upgrade.
+{{< /note >}}
+
+### 6. Enable the Oracle configuration in RDI
 
 Finally, you must update your `config.yaml` file to enable Xstream.
 The example below shows the relevant parts of the `sources` section:
@@ -653,11 +708,13 @@ sources:
         database.out.server.name: dbzxout
 ```
 
+{{< note >}}The values `ORCLCDB` and `ORCLPDB1` in the example above are sample CDB and PDB names. Set `database.dbname` and `database.pdb.name` to the CDB and PDB names for your own Oracle database.{{< /note >}}
+
 See the
 [Debezium Oracle documentation](https://debezium.io/documentation/reference/stable/connectors/oracle.html#oracle-connector-properties)
 for a full list of properties you can use in the `advanced.source` subsection.
 
-### 6. Configuration is complete {#xstream-complete}
+### 7. Configuration is complete {#xstream-complete}
 
 After you have followed the steps above, your Oracle database is ready
 for Debezium to use.
@@ -733,6 +790,8 @@ sources:
         database.pdb.name: ORCLPDB1
         lob.enabled: true
 ```
+
+{{< note >}}The XMLTYPE configuration example uses `ORCLCDB` as the CDB name and `ORCLPDB1` as the PDB name. Replace these with your actual CDB and PDB names when configuring XMLTYPE support.{{< /note >}}
 
 ### Test XMLTYPE support
 
