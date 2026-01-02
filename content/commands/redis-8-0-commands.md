@@ -21,6 +21,8 @@ This page provides a comprehensive reference of all Redis commands available in 
 
 {{< note >}}
 Redis 8.0 includes all commands from previous versions plus new commands introduced in 8.0. Commands marked with **⭐ New in 8.0** were added in this release.
+
+Command page links take you to the *current implementation* of each command page.
 {{< /note >}}
 
 ## Quick Navigation
