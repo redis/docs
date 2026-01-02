@@ -652,7 +652,7 @@ Lines can contain a section name (starting with a `#` character) or a property. 
 
 -tab-sep-
 
-[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): a map of info fields, one field per line in the form of `<field>:<value>` where the value can be a comma separated map like `<key>=<val>`. Also contains section header lines starting with `#` and blank lines.
+[Verbatim string reply](../../develop/reference/protocol-spec#verbatim-strings): a map of info fields, one field per line in the form of `<field>:<value>` where the value can be a comma separated map like `<key>=<val>`. Also contains section header lines starting with `#` and blank lines.
 Lines can contain a section name (starting with a `#` character) or a property. All the properties are in the form of `field:value` terminated by `\r\n`.
 
 {{< /multitabs >}}
