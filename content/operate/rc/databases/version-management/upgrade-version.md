@@ -52,7 +52,7 @@ To upgrade a single-region Redis Cloud database:
 
 1. Select **Upgrade Now** to start the upgrade.
 
-    <img src="../../../../../static/images/rc/button-upgrade-now.png" alt="The upgrade button." width=100px >
+    <img src="../../../../../images/rc/button-upgrade-now.png" alt="The upgrade button." width=100px >
 
 The database will start upgrading to the selected version immediately. The upgrade may take a few minutes. 
 
@@ -64,11 +64,11 @@ To request to upgrade all databases in an [Active-Active]({{< relref "/operate/r
 
 1. Choose your Active-Active subscription from the **Subscriptions** list to open your subscription page. Select **Version upgrade**.
 
-    <img src="../../../../../static/images/rc/button-version-upgrade.png" width=150px alt="Version upgrade button." >
+    <img src="../../../../../images/rc/button-version-upgrade.png" width=150px alt="Version upgrade button." >
 
 1. Select the version to upgrade your databases from the list and select **Upgrade** to submit the upgrade request.
 
-    <img src="../../../../../static/images/rc/version-upgrade-request.png" width=80% alt="Version upgrade request list with version 8.2 selected." >
+    <img src="../../../../../images/rc/version-upgrade-request.png" width=80% alt="Version upgrade request list with version 8.2 selected." >
 
 The upgrade will start in 1-3 weeks from your request, according to your subscription's [maintenance windows]({{< relref "/operate/rc/subscriptions/maintenance/set-maintenance-windows" >}}). All databases in the subscription will be upgraded to the same version.
 
