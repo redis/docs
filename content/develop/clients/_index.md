@@ -34,9 +34,15 @@ for eight main languages:
 | [Java](https://www.java.com/en/) | [`Jedis`](https://github.com/redis/jedis) | [`Jedis` guide]({{< relref "/develop/clients/jedis" >}}) |  Yes |
 | [Java](https://www.java.com/en/) | [`Lettuce`](https://github.com/redis/lettuce) | [`Lettuce` guide]({{< relref "/develop/clients/lettuce" >}}) | Yes |
 | [Go](https://go.dev/) | [`go-redis`](https://github.com/redis/go-redis) | [`go-redis` guide]({{< relref "/develop/clients/go" >}}) | Yes |
-| [PHP](https://www.php.net/)| [`Predis`](https://github.com/predis/predis) | [`Predis` guide]({{< relref "/develop/clients/php" >}}) | No |
+| [PHP](https://www.php.net/)| [`Predis`](https://github.com/predis/predis) | [`Predis` guide]({{< relref "/develop/clients/php" >}}) | Best effort [*](#best-effort) |
 | [C](https://en.wikipedia.org/wiki/C_(programming_language)) | [`hiredis`](https://github.com/redis/hiredis) | [`hiredis` guide]({{< relref "/develop/clients/hiredis" >}}) | Yes |
-| [Rust](https://www.rust-lang.org/) | [`redis-rs`](https://github.com/redis-rs/redis-rs) | [`redis-rs` guide]({{< relref "/develop/clients/rust" >}}) | No |
+| [Rust](https://www.rust-lang.org/) | [`redis-rs`](https://github.com/redis-rs/redis-rs) | [`redis-rs` guide]({{< relref "/develop/clients/rust" >}}) | Best effort [*](#best-effort) |
+
+
+{{< note >}}*<a name="best-effort"></a> Redis does not provide official support for third-party client libraries.
+However, we contribute new features, offer guidance, and collaborate with the community
+on a best-effort basis to help ensure these libraries remain reliable and up-to-date.
+{{< /note >}}
 
 We also provide several higher-level
 [object mapping (OM)]({{< relref "/develop/clients/om-clients" >}})
