@@ -47,7 +47,7 @@ The optional parameter can be used to select a specific section of information:
 
 *   `server`: General information about the Redis server
 *   `clients`: Client connections section
-*   `memory`: Memory consumption related information
+*   `memory`: Memory consumption-related information
 *   `persistence`: RDB and AOF related information
 *   `threads`: I/O threads information
 *   `stats`: General statistics
@@ -58,7 +58,8 @@ The optional parameter can be used to select a specific section of information:
 *   `sentinel`: Redis Sentinel section (only applicable to Sentinel instances)
 *   `cluster`: Redis Cluster section
 *   `modules`: Modules section
-*   `keyspace`: Database related statistics
+*   `keyspace`: Database-related statistics
+*   `keysizes`: Statistics on the distribution of key sizes for each data type
 *   `errorstats`: Redis error statistics
 
 It can also take the following values:
@@ -652,7 +653,7 @@ Lines can contain a section name (starting with a `#` character) or a property. 
 
 -tab-sep-
 
-[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): a map of info fields, one field per line in the form of `<field>:<value>` where the value can be a comma separated map like `<key>=<val>`. Also contains section header lines starting with `#` and blank lines.
+[Verbatim string reply](../../develop/reference/protocol-spec#verbatim-strings): a map of info fields, one field per line in the form of `<field>:<value>` where the value can be a comma separated map like `<key>=<val>`. Also contains section header lines starting with `#` and blank lines.
 Lines can contain a section name (starting with a `#` character) or a property. All the properties are in the form of `field:value` terminated by `\r\n`.
 
 {{< /multitabs >}}
