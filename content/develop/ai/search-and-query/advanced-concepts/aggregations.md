@@ -561,11 +561,9 @@ For example, to set a limit of ten seconds:
 FT.AGGREGATE idx query WITHCURSOR MAXIDLE 10000
 ```
 
-If there are updates during the lifetime of the cursors, these updates may not be reflected
-in the results of the `CURSOR READ` commands.
+During a cursor’s lifetime, CURSOR READ may return results that exclude newer updates.
 
-Also, note that in case of load rebalancing operations (such as Atomic Slot Migration) taking place during the lifetime of a cursor, there is a chance that some results may be missing. In Redis Enterprise deployment, these operation may occur behind the scenes without any user intervention. 
-results may be missing.
+Also, note that in case of any load rebalancing operations (such as Atomic Slot Migration) occurring during the lifetime of a cursor, some results may be missing. In a Redis Enterprise deployment, these operations may happen behind the scenes without any user intervention.
 
 ### Other cursor commands
 
