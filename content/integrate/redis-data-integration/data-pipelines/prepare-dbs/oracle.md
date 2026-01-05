@@ -38,12 +38,15 @@ You may find it helpful to use them to track your progress as you work through t
 **XStream**
 
 ```checklist {id="oraclexstreamlist"}
-- [ ] [Configure XStream](#1-configure-xstream)
-- [ ] [Create XStream users](#2-create-xstream-users)
-- [ ] [Create an XStream outbound server](#3-create-an-xstream-outbound-server)
-- [ ] [Add a custom Docker image for the Debezium server](#4-add-a-custom-docker-image-for-the-debezium-server)
-- [ ] [Make RDI use the custom image](#5-make-rdi-use-the-custom-image)
-- [ ] [Enable the Oracle configuration in RDI](#5-enable-the-oracle-configuration-in-rdi)
+- [ ] [Configure recovery area](#1-configure-recovery-area)
+- [ ] [Enable GoldenGate replication](#2-enable-goldengate-replication)
+- [ ] [Configure XStream](#3-configure-xstream)
+- [ ] [Enable supplemental logging](#4-enable-supplemental-logging)
+- [ ] [Create XStream users](#5-create-xstream-users)
+- [ ] [Create an XStream outbound server](#6-create-an-xstream-outbound-server)
+- [ ] [Add a custom Docker image for the Debezium server](#7-add-a-custom-docker-image-for-the-debezium-server)
+- [ ] [Make RDI use the custom image](#8-make-rdi-use-the-custom-image-vm-installation)
+- [ ] [Enable the Oracle configuration in RDI](#9-enable-the-oracle-configuration-in-rdi)
 ```
 
 **Optional: XMLTYPE Support**
@@ -60,7 +63,7 @@ Follow the steps below to configure
 [LogMiner](https://docs.oracle.com/en/database/oracle/oracle-database/19/sutil/oracle-logminer-utility.html)
 and prepare your database for use with RDI.
 
-### 1. Configure Oracle LogMiner (#1-configure-oracle-logminer)
+### 1. Configure Oracle LogMiner
 
 The following example shows the configuration for Oracle LogMiner.
 
@@ -391,7 +394,7 @@ Debezium and RDI.
 sqlplus sys/<PASSWORD> as sysdba
 ```
 
-### Configure recovery area
+### 1. Configure recovery area
 
 {{< multitabs id="oracle-recovery-area"
      tab1="non-RAC (single-instance)"
@@ -446,7 +449,7 @@ For Oracle RAC (cluster) environments, the Fast Recovery Area (FRA) must be on *
 
 {{< /multitabs >}}
 
-### Enable GoldenGate replication
+### 2. Enable GoldenGate replication
 
 Check if `enable_goldengate_replication` is already set to `true`:
 
@@ -482,7 +485,7 @@ ALTER SYSTEM SET enable_goldengate_replication=true SCOPE=BOTH;
 
 {{< /multitabs >}}
 
-### 1. Configure XStream
+### 3. Configure XStream
 
 Use the following SQL commands to configure XStream (using the
 [`chinook`](https://github.com/Redislabs-Solution-Architects/rdi-quickstart-postgres/tree/main)
@@ -555,7 +558,7 @@ SQL> SELECT LOG_MODE FROM V$DATABASE;
 
 {{< /multitabs >}}
 
-### 2. Enable supplemental logging
+### 4. Enable supplemental logging
 
 {{< multitabs id="oracle-xstream-supplemental-logging"
      tab1="Container database (CDB)"
@@ -614,7 +617,7 @@ above. Otherwise, only the original sync will be performed and no change data wi
 captured for the table.
 {{< /note >}}
 
-### 3. Create XStream users
+### 5. Create XStream users
 
 {{< multitabs id="oracle-xstream-user-creation"
      tab1="Container database (CDB)"
@@ -709,7 +712,7 @@ For a non-container (non-CDB) Oracle database:
 - Application data is stored directly in the database.
 - You do not use `ALTER SESSION SET CONTAINER` statements or `CONTAINER=ALL` clauses.
 
-### 1. Create XStream users and tablespaces (non-CDB)
+**Create XStream users and tablespaces (non-CDB)**<br/>
 
 Run the following script as the `sys` user:
 
@@ -797,7 +800,7 @@ This script creates:
 
 {{< /multitabs >}}
 
-### 4. Create an XStream outbound server
+### 6. Create an XStream outbound server
 
 Create the outbound server with the following SQL.
 
@@ -936,7 +939,7 @@ PROMPT =====================================================
 
 {{< /multitabs >}}
 
-### 4. Add a custom Docker image for the Debezium server
+### 7. Add a custom Docker image for the Debezium server
 
 To support XStream connector, you must create a custom [Docker](https://www.docker.com/) image that includes the required Instant Client package libraries for Linux x64 from the Oracle website.
 
@@ -988,9 +991,7 @@ To support XStream connector, you must create a custom [Docker](https://www.dock
     sudo k3s ctr images import dbz3.0.8-xstream-linux-amd.tar all
     ```
 
-### 5. Make RDI use the custom image
-
-#### 5.1. For VM installation
+### 8. Make RDI use the custom image (VM installation)
 
 Edit the `rdi-operator` configmap:
 
@@ -1015,7 +1016,7 @@ Save the configmap. Once it is saved, the operator will restart automatically an
 the changes to the configmap will be lost. You must repeat the above steps after each upgrade.
 {{< /note >}}
 
-### 6. Enable the Oracle configuration in RDI
+### 9. Enable the Oracle configuration in RDI
 
 Finally, you must update your `config.yaml` file to enable XStream.
 The example below shows the relevant parts of the `sources` section:
@@ -1046,7 +1047,7 @@ See the
 [Debezium Oracle documentation](https://debezium.io/documentation/reference/stable/connectors/oracle.html#oracle-connector-properties)
 for a full list of properties you can use in the `advanced.source` subsection.
 
-### 7. Configuration is complete {#xstream-complete}
+### 10. Configuration is complete {#xstream-complete}
 
 After you have followed the steps above, your Oracle database is ready
 for Debezium to use.
