@@ -1230,39 +1230,21 @@ You may run client connection tests from multiple nodes, but the actual administ
 
 ### Why are two XStream tablespaces required?
 
-
 XStream is not just reading your tables - it's storing its own data:
 
-```text
-Customer's Existing Tablespaces:
-┌─────────────────────────────────┐
-│  USERS (or custom tablespace)   │
-│                                 │
-│  - CUSTOMERS table              │
-│  - ORDERS table                 │
-│  - PRODUCTS table               │
-│  - TRANSACTIONS table           │
-│  (Application data)             │
-└─────────────────────────────────┘
+**Customer's existing tablespace**:
 
-XStream Admin Tablespace:
-┌─────────────────────────────────┐
-│  XSTREAM_ADM_TBS                │
-│                                 │
-│  - Capture process metadata     │
-│  - Outbound server config       │
-│  - Checkpoint information       │
-│  - Position tracking            │
-└─────────────────────────────────┘
+```mermaid
+graph TB
+    USERS["<b>USERS</b><br/><br/>- CUSTOMERS table<br/>- ORDERS table<br/>- PRODUCTS table<br/>- TRANSACTIONS table<br/><br/>(Application data)"]
+```
 
-XStream User Tablespace:
-┌─────────────────────────────────┐
-│  XSTREAM_TBS                    │
-│                                 │
-│  - LCR Queue (change records)   │
-│  - Buffered changes             │
-│  - Transaction state            │
-└─────────────────────────────────┘
+**XStream tablespaces**:
+
+```mermaid
+graph TB
+    ADM["<b>XSTREAM_ADM_TBS</b><br/><br/>- Capture process metadata<br/>- Outbound server config<br/>- Checkpoint information<br/>- Position tracking"]
+    USER_TS["<b>XSTREAM_TBS</b><br/><br/>- LCR Queue change records<br/>- Buffered changes<br/>- Transaction state"]
 ```
 
 #### Real Example: What Gets Stored Where
@@ -1385,10 +1367,18 @@ The XStream outbound server is the component that streams database changes out o
 
 **High-level architecture**
 
-```text
-Oracle Database
+```mermaid {width="100%"}
+graph LR
+    RedoLogs["<b>Redo Logs</b>"]
+    Capture["<b>Capture Process</b>"]
+    Queue["<b>Queue</b>"]
+    Outbound["<b>XStream Outbound<br/>Server</b>"]
+    Consumer["<b>Debezium/RDI</b>"]
 
-  Redo Logs  -->  Capture Process  -->  Queue  -->  XStream Outbound Server (dbzxout)  -->  Debezium/RDI
+    RedoLogs --> Capture
+    Capture --> Queue
+    Queue --> Outbound
+    Outbound --> Consumer
 ```
 
 **Key components**
