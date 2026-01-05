@@ -1002,8 +1002,8 @@ kubectl edit configmap rdi-operator -n rdi
 In the editor, find the collector section and change the image settings:
 
 ```yaml
-      collector:            
-        image:           
+      collector:
+        image:
           pullPolicy: IfNotPresent
           registry: docker.io # change this to `quay.io`
           repository: redislabs/debezium-server # Change this to `debezium/server`
@@ -1012,7 +1012,7 @@ In the editor, find the collector section and change the image settings:
 
 Save the configmap. Once it is saved, the operator will restart automatically and will apply the changes.
 
-{{< note >}}After upgrading to another RDI version
+{{< note >}}After upgrading to another RDI version,
 the changes to the configmap will be lost. You must repeat the above steps after each upgrade.
 {{< /note >}}
 
@@ -1173,7 +1173,7 @@ the XML data appears in your Redis target database:
 
 ## FAQ
 
-### CDB vs Non-CDB differences
+### How does CDB differ from Non-CDB?
 
 **CDB (Container Database – multitenant)**
 
@@ -1191,7 +1191,7 @@ the XML data appears in your Redis target database:
 
 From an RDI/Debezium point of view, both models are supported; the main differences are in the user names you create and whether you need container-related clauses in the SQL.
 
-### Single-instance vs RAC differences
+### How does single-instance differ from RAC?
 
 **Single-instance**
 
