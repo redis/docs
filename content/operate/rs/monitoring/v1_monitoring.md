@@ -36,7 +36,7 @@ The current monitoring system, which is deprecated as of Redis Enterprise Softwa
       
 - v1 Prometheus scraping endpoint:
 
-    - Redis Enterprise Software exposes a legacy `/prometheus_metrics` endpoint to integrate with external observability platforms like [Prometheus and Grafana]({{<relref "/operate/rs/monitoring/prometheus_and_grafana">}}).
+    - Redis Enterprise Software exposes a legacy `/prometheus_metrics` endpoint to integrate with external observability platforms like [Prometheus and Grafana]({{<relref "/operate/rs/monitoring/get-started">}}).
 
     - This endpoint fetches data from the internal storage, providing basic monitoring integration.
 
@@ -68,11 +68,11 @@ This modern monitoring stack introduces:
 
 We recommend migrating to the metrics stream engine for enhanced accuracy, scalability, and future-proof observability.
 
-If you are already using the existing scraping endpoint for integration, follow [this guide]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v1-to-v2">}}) to transition and try the new engine. It is possible to scrape both existing and new endpoints simultaneously, allowing advanced dashboard preparation and a smooth transition.
+If you are already using the existing scraping endpoint for integration, follow [this guide]({{<relref "/operate/rs/monitoring/metrics_stream_engine/prometheus-metrics-v1-to-v2">}}) to transition and try the new engine. It is possible to scrape both existing and new endpoints simultaneously, allowing advanced dashboard preparation and a smooth transition.
 
 ### Transition cluster manager alerts
 
-As part of Redis Enterprise Software's transition to the [new metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}), some internal cluster manager alerts were deprecated in favor of external monitoring solutions. See the [alerts transition plan]({{<relref "/operate/rs/references/alerts/alerts-v1-to-v2">}}) for guidance.
+As part of Redis Enterprise Software's transition to the [new metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}), some internal cluster manager alerts were deprecated in favor of external monitoring solutions. See the [alerts transition plan]({{<relref "/operate/rs/monitoring/metrics_stream_engine/alerts-v1-to-v2">}}) for guidance.
 
 ## Cluster manager metrics
 

@@ -41,7 +41,7 @@ Filter [Libraries and tools]({{<relref "/integrate">}}) by "observability" for a
 
 ## Prometheus metrics v2
 
-For a list of all available v2 metrics, see [Prometheus metrics v2]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v2">}}).
+For a list of all available v2 metrics, see [Prometheus metrics v2]({{<relref "/operate/rs/monitoring/metrics_stream_engine/prometheus-metrics-v2">}}).
 
 The v2 scraping endpoint also exposes metrics for `node_exporter` version 1.8.1. For more information, see the [Prometheus node_exporter GitHub repository](https://github.com/prometheus/node_exporter).
 
@@ -67,7 +67,7 @@ If you are already using the existing scraping endpoint for integration, do the 
           - targets: ["<cluster_name>:8070"]
     ```
 
-1. Use the metrics tables in [this guide]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v1-to-v2">}}) to transition from v1 metrics to equivalent v2 PromQL.
+1. Use the metrics tables in [this guide]({{<relref "/operate/rs/monitoring/metrics_stream_engine/prometheus-metrics-v1-to-v2">}}) to transition from v1 metrics to equivalent v2 PromQL.
 
 It is possible to scrape both existing and new endpoints simultaneously, allowing advanced dashboard preparation and a smooth transition.
 
