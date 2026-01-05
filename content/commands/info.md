@@ -47,7 +47,7 @@ The optional parameter can be used to select a specific section of information:
 
 *   `server`: General information about the Redis server
 *   `clients`: Client connections section
-*   `memory`: Memory consumption related information
+*   `memory`: Memory consumption-related information
 *   `persistence`: RDB and AOF related information
 *   `threads`: I/O threads information
 *   `stats`: General statistics
@@ -58,7 +58,8 @@ The optional parameter can be used to select a specific section of information:
 *   `sentinel`: Redis Sentinel section (only applicable to Sentinel instances)
 *   `cluster`: Redis Cluster section
 *   `modules`: Modules section
-*   `keyspace`: Database related statistics
+*   `keyspace`: Database-related statistics
+*   `keysizes`: Statistics on the distribution of key sizes for each data type
 *   `errorstats`: Redis error statistics
 
 It can also take the following values:
