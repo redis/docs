@@ -50,7 +50,7 @@
 | :-------- | :--- | :---------- |
 | node_available_flash_bytes | gauge | Available flash in the node (bytes) |
 | <span class="break-all">node_available_flash_no_overbooking_bytes</span> | gauge | Available flash in the node (bytes), without taking into account overbooking |
-| <span class="break-all">node_available_memory_bytes</span> | gauge | Amount of free memory in the node (bytes) that is available for database provisioning |
+| <span class="break-all">node_available_memory_bytes</span> | gauge | Amount of free memory in the node (bytes) |
 | <span class="break-all">node_available_memory_no_overbooking_bytes</span> | gauge | Available RAM in the node (bytes) without taking into account overbooking |
 | node_bigstore_free_bytes | gauge | Sum of free space of back-end flash (used by flash database's [BigRedis]) on all cluster nodes (bytes); returned only when BigRedis is enabled |
 | <span class="break-all">node_cert_expires_in_seconds</span> | gauge | Certificate expiration (in seconds) per given node; read more about [certificates in Redis Enterprise]({{< relref "/operate/rs/security/certificates" >}}) and [monitoring certificates]({{< relref "/operate/rs/security/certificates/monitor-certificates" >}}) |
