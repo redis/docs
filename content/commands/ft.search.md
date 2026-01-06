@@ -510,7 +510,7 @@ FT.SEARCH returns an array reply, where the first element is an integer reply of
 {{% alert title="Notes" color="warning" %}}
  
 - If `NOCONTENT` is given, an array is returned where the first element is the total number of results, and the rest of the members are document ids.
-- If a relevant key expires while a query is running, an attempt to load the key's value will return a null array. However, the key is still counted in the total number of results.
+- If a relevant key expires while a query is running, an attempt to load the updated key's value will return a null array. However, the key is still counted in the total number of results.
 
 {{% /alert %}}
 
