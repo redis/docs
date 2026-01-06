@@ -8,10 +8,11 @@
 {{ $showFooter := (.showFooter) }}
 {{ $exampleId := .exampleId }}
 {{ $description := .description }}
+{{ $difficulty := .difficulty }}
 
 <!-- spellchecker-disable -->
 {{- if $exampleId -}}
-<a id="{{ $exampleId }}"{{ if $description }} data-description="{{ $description | htmlEscape }}"{{ end }}></a>
+<a id="{{ $exampleId }}"{{ if $description }} data-description="{{ $description | htmlEscape }}"{{ end }}{{ if $difficulty }} data-difficulty="{{ $difficulty | htmlEscape }}"{{ end }}></a>
 {{- end -}}
 <div class="codetabs cli group box-border rounded-lg mt-0 mb-0 mx-auto bg-slate-900" id="{{ $id }}">
     <!-- Language selector dropdown with controls -->

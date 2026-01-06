@@ -5,6 +5,7 @@
   - set: Name of the example set (required)
   - step: Example step name (required)
   - description: Description of what the example demonstrates (optional)
+  - difficulty: Difficulty level of the example (optional, default: "beginner")
   - lang_filter: Language filter (optional, default: "")
   - max_lines: Maximum number of lines shown by default (optional, default: 100)
   - dft_tab_name: Custom first tab name (optional, default: ">_ Redis CLI")
@@ -35,6 +36,7 @@
   {{ .Scratch.Set "example" (.Get "set") }}
   {{ .Scratch.Set "step" (.Get "step") }}
   {{ .Scratch.Set "description" (.Get "description") }}
+  {{ .Scratch.Set "difficulty" (or (.Get "difficulty") "beginner") }}
   {{ .Scratch.Set "lang" (or (.Get "lang_filter") (.Get "language") "") }}
   {{ .Scratch.Set "maxLines" (.Get "max_lines") }}
   {{ .Scratch.Set "cli_tab_name" (.Get "dft_tab_name") }}
@@ -48,6 +50,7 @@
   {{ .Scratch.Set "example" (.Get 0) }}
   {{ .Scratch.Set "step" (.Get 1) }}
   {{ .Scratch.Set "description" "" }}
+  {{ .Scratch.Set "difficulty" "beginner" }}
   {{ .Scratch.Set "lang" (.Get 2) }}
   {{ .Scratch.Set "maxLines" (.Get 3) }}
   {{ .Scratch.Set "cli_tab_name" (.Get 4) }}

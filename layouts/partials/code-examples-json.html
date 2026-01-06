@@ -5,11 +5,11 @@
 
 {{- $content := .Content -}}
 
-{{- /* Extract all anchor IDs and descriptions */ -}}
+{{- /* Extract all anchor IDs, descriptions, and difficulties */ -}}
 {{- $examples := slice -}}
 
-{{- /* Use regex to find all <a id="..."></a> anchors with optional data-description */ -}}
-{{- $matches := findRE `<a id="([^"]+)"[^>]*(?:data-description="([^"]*)")?[^>]*></a>` $content -}}
+{{- /* Use regex to find all <a id="..."></a> anchors with optional data-description and data-difficulty */ -}}
+{{- $matches := findRE `<a id="([^"]+)"[^>]*(?:data-description="([^"]*)")?[^>]*(?:data-difficulty="([^"]*)")?[^>]*></a>` $content -}}
 
 {{- range $match := $matches -}}
   {{- /* Extract the ID from the match */ -}}
@@ -21,10 +21,19 @@
     {{- $description = replaceRE `.*data-description="([^"]*)".*` `$1` $match -}}
   {{- end -}}
 
-  {{- /* Create example object with the ID and optional description */ -}}
+  {{- /* Extract the difficulty if it exists */ -}}
+  {{- $difficulty := "" -}}
+  {{- if findRE `data-difficulty="([^"]*)"` $match -}}
+    {{- $difficulty = replaceRE `.*data-difficulty="([^"]*)".*` `$1` $match -}}
+  {{- end -}}
+
+  {{- /* Create example object with the ID and optional description/difficulty */ -}}
   {{- $example := dict "id" $id -}}
   {{- if $description -}}
     {{- $example = merge $example (dict "description" $description) -}}
+  {{- end -}}
+  {{- if $difficulty -}}
+    {{- $example = merge $example (dict "difficulty" $difficulty) -}}
   {{- end -}}
   {{- $examples = $examples | append $example -}}
 {{- end -}}
