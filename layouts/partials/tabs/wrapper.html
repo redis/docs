@@ -12,18 +12,19 @@
 
 <!-- spellchecker-disable -->
 {{- if $exampleId -}}
-<a id="{{ $exampleId }}"{{ if $description }} data-description="{{ $description | htmlEscape }}"{{ end }}{{ if $difficulty }} data-difficulty="{{ $difficulty | htmlEscape }}"{{ end }}></a>
+<a id="{{ $exampleId }}" class="relative"{{ if $description }} data-description="{{ $description | htmlEscape }}"{{ end }}{{ if $difficulty }} data-difficulty="{{ $difficulty | htmlEscape }}"{{ end }}></a>
 {{- end -}}
 <div class="codetabs cli group box-border rounded-lg mt-0 mb-0 mx-auto bg-slate-900" id="{{ $id }}">
     <!-- Language selector dropdown with controls -->
-    <div class="codetabs-header flex items-center justify-between px-4 py-2 bg-slate-900 rounded-t-lg">
-        <div class="flex items-center flex-1">
-            <label for="lang-select-{{ $id }}" class="text-xs text-slate-400 mr-3 whitespace-nowrap">Language:</label>
-            <select id="lang-select-{{ $id }}"
-                    class="lang-selector max-w-xs px-3 py-2 text-sm bg-slate-700 text-white border border-slate-600 rounded-md cursor-pointer
-                           hover:bg-slate-600 focus:outline-none
-                           transition duration-150 ease-in-out appearance-none"
-                    data-codetabs-id="{{ $id }}">
+    <div class="codetabs-header flex items-start justify-between px-4 py-2 bg-slate-900 rounded-t-lg">
+        <div class="flex flex-col items-start">
+            <div class="flex items-center">
+                <label for="lang-select-{{ $id }}" class="text-xs text-slate-400 mr-3 whitespace-nowrap">Language:</label>
+                <select id="lang-select-{{ $id }}"
+                        class="lang-selector max-w-xs px-3 py-2 text-sm bg-slate-700 text-white border border-slate-600 rounded-md cursor-pointer
+                               hover:bg-slate-600 focus:outline-none
+                               transition duration-150 ease-in-out appearance-none"
+                        data-codetabs-id="{{ $id }}">
                 {{ range $i, $tab := $tabs }}
                     {{ $dataLang := replace (or (index $tab "language") "redis-cli") "C#" "dotnet" }}
                     {{ $dataLang := replace $dataLang "." "-" }}
@@ -37,15 +38,18 @@
                         {{ $displayName }}
                     </option>
                 {{ end }}
-            </select>
-        </div>
-
-        {{/* BinderHub "Run in browser" link - shown conditionally based on current tab's binderId */}}
-        <div id="binder-link-container-{{ $id }}" class="flex items-center ml-4">
-            {{/* Link will be shown/hidden by JavaScript based on selected tab */}}
+                </select>
+            </div>
+            {{- if $description -}}
+            <div class="text-xs text-slate-400 mt-1">{{ $description }}</div>
+            {{- end -}}
         </div>
 
         <div class="flex items-center gap-2 ml-2">
+            {{/* BinderHub "Run in browser" link - shown conditionally based on current tab's binderId */}}
+            <div id="binder-link-container-{{ $id }}" class="flex items-center">
+                {{/* Link will be shown/hidden by JavaScript based on selected tab */}}
+            </div>
             <button tabindex="1" class="visibility-button text-neutral-400 hover:text-slate-100 bg-slate-600 h-7 w-7 p-1 rounded rounded-mx"
                     title="Toggle visibility" data-codetabs-id="{{ $id }}" onclick="toggleVisibleLinesForCodetabs(this)">
                 <svg class="visibility-icon-on" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor">
