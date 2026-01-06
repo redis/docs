@@ -1,0 +1,34 @@
+{{- /* Extract code examples from the page content */ -}}
+{{- /* This partial finds all code example anchors and builds a JSON structure */ -}}
+{{- /* Input: page object with .Content */ -}}
+{{- /* Output: JSON array of code examples */ -}}
+
+{{- /* We'll use a regex-based approach to find anchors followed by codetabs divs */ -}}
+{{- $content := .Content -}}
+
+{{- /* Find all patterns like: <a id="example-id"></a><div class="codetabs ... */ -}}
+{{- /* Pattern: <a id="([^"]+)"></a>.*?<div class="codetabs[^>]*id="([^"]+)" */ -}}
+{{- $pattern := `<a id="([^"]+)"></a>` -}}
+
+{{- /* Extract all anchor IDs */ -}}
+{{- $examples := slice -}}
+
+{{- /* Use regex to find all <a id="..."></a> anchors */ -}}
+{{- $matches := findRE `<a id="([^"]+)"></a>` $content -}}
+
+{{- range $match := $matches -}}
+  {{- /* Extract the ID from the match */ -}}
+  {{- $id := replaceRE `<a id="([^"]+)"></a>` `$1` $match -}}
+  
+  {{- /* Create example object with the ID */ -}}
+  {{- $example := dict "id" $id -}}
+  {{- $examples = $examples | append $example -}}
+{{- end -}}
+
+{{- /* Return as JSON array */ -}}
+{{- if gt (len $examples) 0 -}}
+  {{- $examples | jsonify -}}
+{{- else -}}
+  {{- "[]" -}}
+{{- end -}}
+

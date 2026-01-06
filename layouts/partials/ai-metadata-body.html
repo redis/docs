@@ -40,5 +40,8 @@
 {{- $toc := partial "toc-json-regex.html" . -}}
 {{- /* Manually insert tableOfContents into JSON string */ -}}
 {{- $json = $json | replaceRE `}$` (printf `,"tableOfContents":%s}` $toc) -}}
+{{- $codeExamples := partial "code-examples-json.html" . -}}
+{{- /* Manually insert codeExamples into JSON string */ -}}
+{{- $json = $json | replaceRE `}$` (printf `,"codeExamples":%s}` $codeExamples) -}}
 {{- printf `<div hidden data-redis-metadata="page">%s</div>` $json | safeHTML -}}
 
