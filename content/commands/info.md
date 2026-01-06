@@ -503,9 +503,10 @@ The **sentinel** section is only available in Redis Sentinel instances. It consi
 *   `sentinel_scripts_queue_length`: The length of the queue of user scripts that are pending execution
 *   `sentinel_simulate_failure_flags`: Flags for the `SENTINEL SIMULATE-FAILURE` command
     
-The **cluster** section contains a single fields:
+The **cluster** section contains the following fields:
 
 *   `cluster_enabled`: Indicates whether Redis cluster is enabled.
+*   `cluster_incompatible_ops`: The number of cluster-incompatible commands.
 
 The **modules** section contains additional information about loaded modules if the modules provide it. The field part of property lines in this section are always prefixed with the module's name.
 
