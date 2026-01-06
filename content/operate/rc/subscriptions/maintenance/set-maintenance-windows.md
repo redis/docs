@@ -43,7 +43,7 @@ To set manual maintenance windows for a single Redis Cloud Pro subscription:
     - Select **Advance notification** if you want to be notified of maintenance in advance.
 
     {{<note>}}
-[Contact support](https://redis.io/support/) to request advance maintenance notifications.
+You must [contact support](https://redis.io/support/) to request and be approved for advance maintenance notifications, otherwise skip this step as the this option does not appear by default.
     {{</note>}}
 
     Redis recommends allowing maintenance on at least two different days for 8 hours on each day.
