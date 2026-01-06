@@ -76,5 +76,5 @@
     {{ end }}
 {{ end }}
 
-{{ $params := dict "id" (printf "%s-step%s" $id $step) "tabs" $tabs "showFooter" $showFooter }}
+{{ $params := dict "id" (printf "%s-step%s" $id $step) "tabs" $tabs "showFooter" $showFooter "exampleId" $step }}
 {{ partial "tabs/wrapper.html" $params }}

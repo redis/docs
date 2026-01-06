@@ -6,8 +6,12 @@
 {{ $btnRIUrl := "https://redis.com/redis-enterprise/redis-insight/" }}
 {{ $footerText := "Are you tired of using redis-cli? Try Redis Insight - the developer GUI for Redis." }}
 {{ $showFooter := (.showFooter) }}
+{{ $exampleId := .exampleId }}
 
 <!-- spellchecker-disable -->
+{{- if $exampleId -}}
+<a id="{{ $exampleId }}"></a>
+{{- end -}}
 <div class="codetabs cli group box-border rounded-lg mt-0 mb-0 mx-auto bg-slate-900" id="{{ $id }}">
     <!-- Language selector dropdown with controls -->
     <div class="codetabs-header flex items-center justify-between px-4 py-2 bg-slate-900 rounded-t-lg">
