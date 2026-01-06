@@ -130,7 +130,7 @@ Follow the guide to [create a VPC resource endpoint in the AWS console](https://
 - **Type**: Select **Resources**.
 - **Resource configurations**: Select the configuration with the same Resource Configuration ID as the one shown in the Redis Cloud console.
 - **VPC**: Select your VPC from the list.
-- **Addtional settings**: Select **Enable private DNS name** and set **Private DNS Preference** to **Verified domains only** or **Verified domains and specified domains**.
+- **Additional settings**: Select **Enable private DNS name** and set **Private DNS Preference** to **Verified domains only** or **Verified domains and specified domains**.
 - **Subnets**: Select the subnets to create endpoint network resources in.
 - **Security groups**: Select any security groups you want to associate with the resource endpoint, including the security group that allows access to the necessary ports, as described in the [prerequisites](#prerequisites)
 

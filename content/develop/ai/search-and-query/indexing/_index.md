@@ -29,7 +29,7 @@ The result of each JSONPath expression is indexed and associated with a logical 
 You can use these attributes in queries.
 
 {{% alert title="Note" color="info" %}}
-Note: `attribute` is optional for [`FT.CREATE`]({{< relref "commands/ft.create/" >}}).
+`attribute` is optional for [`FT.CREATE`]({{< relref "commands/ft.create/" >}}).
 {{% /alert %}}
 
 Use the following syntax to create a JSON index:

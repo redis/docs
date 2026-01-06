@@ -18,9 +18,7 @@ title: HyperLogLog
 weight: 1
 ---
 
-HyperLogLog is a probabilistic data structure that estimates the cardinality of a set. As a probabilistic data structure, HyperLogLog trades perfect accuracy for efficient space utilization.
-
-The Redis HyperLogLog implementation uses up to 12 KB and provides a standard error of 0.81%.
+HyperLogLog is a probabilistic data structure that estimates the cardinality of a set, trading perfect accuracy for efficient space utilization. The Redis implementation uses up to 12 KB of memory and provides a standard error rate of 0.81%.
 
 Counting unique items usually requires an amount of memory
 proportional to the number of items you want to count, because you need

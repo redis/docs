@@ -4,14 +4,14 @@ categories:
 - docs
 - operate
 - kubernetes
-description: Releases with support for Redis Enterprise Software 8.0.2
+description: Releases with support for Redis Enterprise Software 8.0.6
 hideListLinks: true
-linkTitle: 8.0.2 releases
-title: Redis Enterprise for Kubernetes 8.0.2 release notes
-weight: 2
+linkTitle: 8.0.6 releases
+title: Redis Enterprise for Kubernetes 8.0.6 release notes
+weight: 1
 ---
 
-Redis Enterprise for Kubernetes 8.0.2 includes bug fixes, enhancements, and support for Redis Enterprise Software 8.0.2. The latest release is 8.0.2-2 with support for Redis Enterprise Software version 8.0.2.
+Redis Enterprise for Kubernetes 8.0.6 includes bug fixes, enhancements, and support for Redis Enterprise Software 8.0.6. The latest release is 8.0.6-8 with support for Redis Enterprise Software version 8.0.6-54.
 
 ## Detailed release notes
 
@@ -19,9 +19,9 @@ Redis Enterprise for Kubernetes 8.0.2 includes bug fixes, enhancements, and supp
 
 ## Known limitations
 
-- **Only upgrades from 7.4.2-2 and later are supported.** If you are using an earlier version, install 7.4.2-2 before upgrading to 8.0.2-2.
+- **SSO configuration doesn't work with IPv6 or dual stack (IPv4/IPv6) clusters.** <!--RED-180550-->
 
-- **Custom certificate upload is not supported for internode encryption (RED-173229).** Internode communication between cluster nodes continues to use default self-signed certificates and cannot be configured with customer-provided certificates.
+- **Only upgrades from 7.4.2-2 and later are supported.** If you are using an earlier version, install 7.4.2-2 before upgrading to 8.0.6-8.
 
 - **Missing endpoint for admission endpoint (rare) (RED-119469)** Restart the operator pod.
 
