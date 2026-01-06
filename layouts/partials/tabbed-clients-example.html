@@ -1,5 +1,6 @@
 {{ $id := .Scratch.Get "example" }}
 {{ $step := .Scratch.Get "step" }}
+{{ $description := .Scratch.Get "description" }}
 {{ $lang := .Scratch.Get "lang" }}
 {{ $redisCommands := .Scratch.Get "redisCommands" }}
 {{ $redisCommandsLineLimit := (or (.Scratch.Get "maxLines") 100) }}
@@ -76,5 +77,5 @@
     {{ end }}
 {{ end }}
 
-{{ $params := dict "id" (printf "%s-step%s" $id $step) "tabs" $tabs "showFooter" $showFooter "exampleId" $step }}
+{{ $params := dict "id" (printf "%s-step%s" $id $step) "tabs" $tabs "showFooter" $showFooter "exampleId" $step "description" $description }}
 {{ partial "tabs/wrapper.html" $params }}

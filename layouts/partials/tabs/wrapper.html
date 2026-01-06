@@ -7,10 +7,11 @@
 {{ $footerText := "Are you tired of using redis-cli? Try Redis Insight - the developer GUI for Redis." }}
 {{ $showFooter := (.showFooter) }}
 {{ $exampleId := .exampleId }}
+{{ $description := .description }}
 
 <!-- spellchecker-disable -->
 {{- if $exampleId -}}
-<a id="{{ $exampleId }}"></a>
+<a id="{{ $exampleId }}"{{ if $description }} data-description="{{ $description | htmlEscape }}"{{ end }}></a>
 {{- end -}}
 <div class="codetabs cli group box-border rounded-lg mt-0 mb-0 mx-auto bg-slate-900" id="{{ $id }}">
     <!-- Language selector dropdown with controls -->

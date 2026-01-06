@@ -3,25 +3,29 @@
 {{- /* Input: page object with .Content */ -}}
 {{- /* Output: JSON array of code examples */ -}}
 
-{{- /* We'll use a regex-based approach to find anchors followed by codetabs divs */ -}}
 {{- $content := .Content -}}
 
-{{- /* Find all patterns like: <a id="example-id"></a><div class="codetabs ... */ -}}
-{{- /* Pattern: <a id="([^"]+)"></a>.*?<div class="codetabs[^>]*id="([^"]+)" */ -}}
-{{- $pattern := `<a id="([^"]+)"></a>` -}}
-
-{{- /* Extract all anchor IDs */ -}}
+{{- /* Extract all anchor IDs and descriptions */ -}}
 {{- $examples := slice -}}
 
-{{- /* Use regex to find all <a id="..."></a> anchors */ -}}
-{{- $matches := findRE `<a id="([^"]+)"></a>` $content -}}
+{{- /* Use regex to find all <a id="..."></a> anchors with optional data-description */ -}}
+{{- $matches := findRE `<a id="([^"]+)"[^>]*(?:data-description="([^"]*)")?[^>]*></a>` $content -}}
 
 {{- range $match := $matches -}}
   {{- /* Extract the ID from the match */ -}}
-  {{- $id := replaceRE `<a id="([^"]+)"></a>` `$1` $match -}}
-  
-  {{- /* Create example object with the ID */ -}}
+  {{- $id := replaceRE `<a id="([^"]+)".*` `$1` $match -}}
+
+  {{- /* Extract the description if it exists */ -}}
+  {{- $description := "" -}}
+  {{- if findRE `data-description="([^"]*)"` $match -}}
+    {{- $description = replaceRE `.*data-description="([^"]*)".*` `$1` $match -}}
+  {{- end -}}
+
+  {{- /* Create example object with the ID and optional description */ -}}
   {{- $example := dict "id" $id -}}
+  {{- if $description -}}
+    {{- $example = merge $example (dict "description" $description) -}}
+  {{- end -}}
   {{- $examples = $examples | append $example -}}
 {{- end -}}
 
