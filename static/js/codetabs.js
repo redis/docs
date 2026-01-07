@@ -197,6 +197,16 @@ function onchangeCodeTab(e) {
 
 // Initialize codetabs - script is deferred so DOM is already ready
 (function initCodetabs() {
+  // Helper function to normalize language names to match dropdown values
+  function normalizeLangParam(langParam) {
+    if (!langParam) return null;
+    // Apply the same transformations as the template does
+    let normalized = langParam.replace(/C#/g, 'dotnet');
+    normalized = normalized.replace(/\./g, '-');
+    normalized = normalized.replace(/_/g, '-');
+    return normalized;
+  }
+
   // Register dropdown change listeners
   const dropdowns = document.querySelectorAll('.codetabs .lang-selector');
   dropdowns.forEach((dropdown) => {
@@ -226,7 +236,7 @@ function onchangeCodeTab(e) {
   }
 
   if (langParam) {
-    selectedTab = langParam;
+    selectedTab = normalizeLangParam(langParam);
   } else if (window.localStorage) {
     // Fall back to localStorage if no URL parameter
     selectedTab = window.localStorage.getItem("selectedCodeTab");
@@ -263,16 +273,6 @@ function onchangeCodeTab(e) {
   // Work around Chroma's tabindex: https://github.com/alecthomas/chroma/issues/731
   for (const pre of document.querySelectorAll('.highlight pre')) {
     pre.removeAttribute('tabindex');
-  }
-
-  // Helper function to normalize language names to match dropdown values
-  function normalizeLangParam(langParam) {
-    if (!langParam) return null;
-    // Apply the same transformations as the template does
-    let normalized = langParam.replace(/C#/g, 'dotnet');
-    normalized = normalized.replace(/\./g, '-');
-    normalized = normalized.replace(/_/g, '-');
-    return normalized;
   }
 
   // Helper function to apply language from URL
