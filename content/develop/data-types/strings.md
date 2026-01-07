@@ -6,7 +6,6 @@ categories:
 - oss
 - rs
 - rc
-- oss
 - kubernetes
 - clients
 description: 'Introduction to Redis strings

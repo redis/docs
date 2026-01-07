@@ -229,10 +229,6 @@ function onchangeCodeTab(e) {
       const hashParams = new URLSearchParams(hashParts[1]);
       langParam = hashParams.get('lang');
     }
-    console.log('DEBUG: hash =', window.location.hash);
-    console.log('DEBUG: hashParts =', hashParts);
-    console.log('DEBUG: anchorToScroll =', anchorToScroll);
-    console.log('DEBUG: langParam =', langParam);
   }
 
   if (langParam) {
@@ -244,26 +240,20 @@ function onchangeCodeTab(e) {
 
   // Apply the selected language to all dropdowns
   if (selectedTab) {
-    console.log('DEBUG: Applying selectedTab =', selectedTab);
     dropdowns.forEach((dropdown) => {
       const options = dropdown.querySelectorAll('option');
       const matchingOption = Array.from(options).find(opt => opt.value === selectedTab);
       if (matchingOption) {
-        console.log('DEBUG: Found matching option for', selectedTab);
         dropdown.value = selectedTab;
         updatePanelVisibility(dropdown);
-      } else {
-        console.log('DEBUG: No matching option found for', selectedTab, 'Available options:', Array.from(options).map(o => o.value));
       }
     });
   }
 
   // If we have an anchor with a lang parameter, scroll to it after setting the language
   if (anchorToScroll && langParam) {
-    console.log('DEBUG: Will scroll to anchor', anchorToScroll);
     setTimeout(() => {
       const element = document.getElementById(anchorToScroll);
-      console.log('DEBUG: Looking for element with id', anchorToScroll, 'found:', !!element);
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
       }
