@@ -33,6 +33,66 @@ function copyCodeToClipboardForCodetabs(button) {
   }
 }
 
+function copyCodeBlockLinkToClipboard(button) {
+  const codetabsId = button.getAttribute('data-codetabs-id');
+  const codetabsContainer = document.getElementById(codetabsId);
+
+  if (!codetabsContainer) return;
+
+  // Get the full URL with the code block ID as anchor
+  const fullUrl = window.location.origin + window.location.pathname + '#' + codetabsId;
+
+  // Copy to clipboard
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(fullUrl).then(() => {
+      showCopyLinkFeedback(button);
+    }).catch(err => {
+      console.error('Failed to copy link: ', err);
+      fallbackCopyLinkToClipboard(fullUrl, button);
+    });
+  } else {
+    // Fallback for older browsers
+    fallbackCopyLinkToClipboard(fullUrl, button);
+  }
+}
+
+function showCopyLinkFeedback(button) {
+  const tooltip = button.querySelector('.tooltiptext');
+  if (tooltip) {
+    tooltip.classList.remove('opacity-0');
+    tooltip.classList.add('opacity-100');
+    setTimeout(() => {
+      tooltip.classList.add('opacity-0');
+      tooltip.classList.remove('opacity-100');
+    }, 2000);
+  }
+}
+
+function fallbackCopyLinkToClipboard(text, button) {
+  const textArea = document.createElement('textarea');
+  textArea.value = text;
+  textArea.style.position = 'fixed';
+  textArea.style.left = '-999999px';
+  textArea.style.top = '-999999px';
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+
+  try {
+    const successful = document.execCommand('copy');
+    if (successful) {
+      showCopyLinkFeedback(button);
+      console.log('Link copied to clipboard (fallback)');
+    } else {
+      console.error('Fallback copy failed');
+    }
+  } catch (err) {
+    console.error('Fallback copy failed: ', err);
+  }
+
+  document.body.removeChild(textArea);
+}
+
 function toggleVisibleLines(evt) {
   document.getElementById(evt.getAttribute('aria-controls'))
     .toggleAttribute('aria-expanded');

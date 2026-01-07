@@ -26,7 +26,7 @@ Since Redis keys are strings, when we use the string type as a value too,
 we are mapping a string to another string. The string data type is useful
 for a number of use cases, like caching HTML fragments or pages.
 
-{{< clients-example set_tutorial set_get >}}
+{{< clients-example set="set_tutorial" step="set_get" description="Set and get a string value" >}}
     > SET bike:1 Deimos
     OK
     > GET bike:1
@@ -45,7 +45,7 @@ The [`SET`]({{< relref "/commands/set" >}}) command has interesting options, tha
 arguments. For example, I may ask [`SET`]({{< relref "/commands/set" >}}) to fail if the key already exists,
 or the opposite, that it only succeed if the key already exists:
 
-{{< clients-example set_tutorial setnx_xx >}}
+{{< clients-example set="set_tutorial" step="setnx_xx" description="Use NX and XX options with SET" difficulty="intermediate" >}}
     > set bike:1 bike nx
     (nil)
     > set bike:1 bike xx
@@ -65,7 +65,7 @@ The ability to set or retrieve the value of multiple keys in a single
 command is also useful for reduced latency. For this reason there are
 the [`MSET`]({{< relref "/commands/mset" >}}) and [`MGET`]({{< relref "/commands/mget" >}}) commands:
 
-{{< clients-example set_tutorial mset >}}
+{{< clients-example set="set_tutorial" step="mset" description="Set and get multiple string values" difficulty="beginner" >}}
     > mset bike:1 "Deimos" bike:2 "Ares" bike:3 "Vanth"
     OK
     > mget bike:1 bike:2 bike:3
@@ -80,7 +80,7 @@ When [`MGET`]({{< relref "/commands/mget" >}}) is used, Redis returns an array o
 Even if strings are the basic values of Redis, there are interesting operations
 you can perform with them. For instance, one is atomic increment:
 
-{{< clients-example set_tutorial incr >}}
+{{< clients-example set="set_tutorial" step="incr" description="Increment a counter value" difficulty="beginner" >}}
     > set total_crashes 0
     OK
     > incr total_crashes

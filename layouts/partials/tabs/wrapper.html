@@ -18,7 +18,7 @@
     <!-- Language selector dropdown with controls -->
     <div class="codetabs-header flex items-start justify-between px-4 py-2 bg-slate-900 rounded-t-lg">
         <div class="flex flex-col items-start">
-            <div class="flex items-center">
+            <div class="flex items-center gap-2">
                 <label for="lang-select-{{ $id }}" class="text-xs text-slate-400 mr-3 whitespace-nowrap">Language:</label>
                 <select id="lang-select-{{ $id }}"
                         class="lang-selector max-w-xs px-3 py-1 text-sm bg-slate-700 text-white border border-slate-600 rounded-md cursor-pointer
@@ -50,6 +50,13 @@
             <div id="binder-link-container-{{ $id }}" class="flex items-center">
                 {{/* Link will be shown/hidden by JavaScript based on selected tab */}}
             </div>
+            <button tabindex="1" class="copy-link-button text-neutral-400 hover:text-slate-100 bg-slate-600 h-7 w-7 p-1 rounded rounded-mx relative"
+                    title="Copy link to code block" data-codetabs-id="{{ $id }}" onclick="copyCodeBlockLinkToClipboard(this)">
+                <svg class="inline-block w-4 h-4 align-baseline" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5-1.5a2 2 0 11-2.828-2.828l3-3z" clip-rule="evenodd"></path>
+                </svg>
+                <span class="tooltiptext absolute bottom-full right-0 mb-2 bg-slate-200 rounded text-slate-800 text-center text-xs px-2 py-1 whitespace-nowrap pointer-events-none opacity-0 transition-opacity duration-200">Copied!</span>
+            </button>
             <button tabindex="1" class="visibility-button text-neutral-400 hover:text-slate-100 bg-slate-600 h-7 w-7 p-1 rounded rounded-mx"
                     title="Toggle visibility" data-codetabs-id="{{ $id }}" onclick="toggleVisibleLinesForCodetabs(this)">
                 <svg class="visibility-icon-on" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor">
