@@ -39,8 +39,13 @@ function copyCodeBlockLinkToClipboard(button) {
 
   if (!codetabsContainer) return;
 
-  // Get the full URL with the code block ID as anchor
-  const fullUrl = window.location.origin + window.location.pathname + '#' + codetabsId;
+  // Find the anchor element with the exampleId (which is the step name)
+  // The anchor is a sibling of the codetabs container
+  const anchor = codetabsContainer.previousElementSibling;
+  const anchorId = anchor && anchor.id ? anchor.id : codetabsId;
+
+  // Get the full URL with the anchor ID
+  const fullUrl = window.location.origin + window.location.pathname + '#' + anchorId;
 
   // Copy to clipboard
   if (navigator.clipboard && navigator.clipboard.writeText) {
