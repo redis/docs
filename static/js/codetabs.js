@@ -196,11 +196,104 @@ function onchangeCodeTab(e) {
     dropdown.addEventListener("change", (e) => onchangeCodeTab(e));
   });
 
-  // Restore selection from localStorage
-  if (window.localStorage) {
-    const selectedTab = window.localStorage.getItem("selectedCodeTab");
-    if (selectedTab) {
-      dropdowns.forEach((dropdown) => {
+  // Get language preference from URL parameter or localStorage
+  let selectedTab = null;
+  let anchorToScroll = null;
+
+  // Check for lang parameter in URL (before hash)
+  const urlParams = new URLSearchParams(window.location.search);
+  let langParam = urlParams.get('lang');
+
+  // Also check for lang parameter after the hash (e.g., #anchor?lang=Python)
+  if (!langParam && window.location.hash) {
+    const hashParts = window.location.hash.split('?');
+    anchorToScroll = hashParts[0].substring(1); // Remove the # prefix
+    if (hashParts.length > 1) {
+      const hashParams = new URLSearchParams(hashParts[1]);
+      langParam = hashParams.get('lang');
+    }
+    console.log('DEBUG: hash =', window.location.hash);
+    console.log('DEBUG: hashParts =', hashParts);
+    console.log('DEBUG: anchorToScroll =', anchorToScroll);
+    console.log('DEBUG: langParam =', langParam);
+  }
+
+  if (langParam) {
+    selectedTab = langParam;
+  } else if (window.localStorage) {
+    // Fall back to localStorage if no URL parameter
+    selectedTab = window.localStorage.getItem("selectedCodeTab");
+  }
+
+  // Apply the selected language to all dropdowns
+  if (selectedTab) {
+    console.log('DEBUG: Applying selectedTab =', selectedTab);
+    dropdowns.forEach((dropdown) => {
+      const options = dropdown.querySelectorAll('option');
+      const matchingOption = Array.from(options).find(opt => opt.value === selectedTab);
+      if (matchingOption) {
+        console.log('DEBUG: Found matching option for', selectedTab);
+        dropdown.value = selectedTab;
+        updatePanelVisibility(dropdown);
+      } else {
+        console.log('DEBUG: No matching option found for', selectedTab, 'Available options:', Array.from(options).map(o => o.value));
+      }
+    });
+  }
+
+  // If we have an anchor with a lang parameter, scroll to it after setting the language
+  if (anchorToScroll && langParam) {
+    console.log('DEBUG: Will scroll to anchor', anchorToScroll);
+    setTimeout(() => {
+      const element = document.getElementById(anchorToScroll);
+      console.log('DEBUG: Looking for element with id', anchorToScroll, 'found:', !!element);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 50);
+  }
+
+  // Work around Chroma's tabindex: https://github.com/alecthomas/chroma/issues/731
+  for (const pre of document.querySelectorAll('.highlight pre')) {
+    pre.removeAttribute('tabindex');
+  }
+
+  // Helper function to normalize language names to match dropdown values
+  function normalizeLangParam(langParam) {
+    if (!langParam) return null;
+    // Apply the same transformations as the template does
+    let normalized = langParam.replace(/C#/g, 'dotnet');
+    normalized = normalized.replace(/\./g, '-');
+    normalized = normalized.replace(/_/g, '-');
+    return normalized;
+  }
+
+  // Helper function to apply language from URL
+  function applyLanguageFromUrl() {
+    let selectedTab = null;
+    let anchorToScroll = null;
+
+    // Check for lang parameter in URL (before hash)
+    const urlParams = new URLSearchParams(window.location.search);
+    let langParam = urlParams.get('lang');
+
+    // Also check for lang parameter after the hash (e.g., #anchor?lang=Python)
+    if (!langParam && window.location.hash) {
+      const hashParts = window.location.hash.split('?');
+      anchorToScroll = hashParts[0].substring(1); // Remove the # prefix
+      if (hashParts.length > 1) {
+        const hashParams = new URLSearchParams(hashParts[1]);
+        langParam = hashParams.get('lang');
+      }
+    }
+
+    if (langParam) {
+      selectedTab = normalizeLangParam(langParam);
+      console.log('DEBUG: Applying language from URL:', selectedTab);
+
+      // Apply the selected language to all dropdowns
+      const allDropdowns = document.querySelectorAll('.codetabs .lang-selector');
+      allDropdowns.forEach((dropdown) => {
         const options = dropdown.querySelectorAll('option');
         const matchingOption = Array.from(options).find(opt => opt.value === selectedTab);
         if (matchingOption) {
@@ -209,10 +302,37 @@ function onchangeCodeTab(e) {
         }
       });
     }
+
+    // Scroll to the anchor if we have one
+    if (anchorToScroll) {
+      setTimeout(() => {
+        const element = document.getElementById(anchorToScroll);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 50);
+    }
   }
 
-  // Work around Chroma's tabindex: https://github.com/alecthomas/chroma/issues/731
-  for (const pre of document.querySelectorAll('.highlight pre')) {
-    pre.removeAttribute('tabindex');
-  }
+  // Handle hash changes (when user changes anchor/lang in URL without reloading)
+  window.addEventListener('hashchange', () => {
+    console.log('DEBUG: Hash changed to', window.location.hash);
+    applyLanguageFromUrl();
+  });
+
+  // Also handle popstate events (browser back/forward buttons)
+  window.addEventListener('popstate', () => {
+    console.log('DEBUG: Popstate event');
+    applyLanguageFromUrl();
+  });
+
+  // Monitor URL changes (including query string changes after hash)
+  let lastUrl = window.location.href;
+  setInterval(() => {
+    if (window.location.href !== lastUrl) {
+      console.log('DEBUG: URL changed from', lastUrl, 'to', window.location.href);
+      lastUrl = window.location.href;
+      applyLanguageFromUrl();
+    }
+  }, 100);
 })();
