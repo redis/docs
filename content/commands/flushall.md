@@ -51,6 +51,11 @@ summary: Removes all keys from all databases.
 syntax_fmt: FLUSHALL [ASYNC | SYNC]
 title: FLUSHALL
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Delete all the keys of all the existing databases, not just the currently selected one.
 This command never fails.
 

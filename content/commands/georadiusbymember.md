@@ -168,6 +168,11 @@ syntax_fmt: "GEORADIUSBYMEMBER key member radius <M | KM | FT | MI> [WITHCOORD]\
   key]"
 title: GEORADIUSBYMEMBER
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 This command is exactly like [`GEORADIUS`]({{< relref "/commands/georadius" >}}) with the sole difference that instead
 of taking, as the center of the area to query, a longitude and latitude value, it takes the name of a member already existing inside the geospatial index represented by the sorted set.
 

@@ -64,6 +64,11 @@ summary: Stores the intersect of multiple sets in a key.
 syntax_fmt: SINTERSTORE destination key [key ...]
 title: SINTERSTORE
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 This command is equal to [`SINTER`]({{< relref "/commands/sinter" >}}), but instead of returning the resulting set,
 it is stored in `destination`.
 

@@ -29,6 +29,11 @@ summary: Executes all commands in a transaction.
 syntax_fmt: EXEC
 title: EXEC
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Executes all previously queued commands in a [transaction][tt] and restores the
 connection state to normal.
 

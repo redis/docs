@@ -81,6 +81,11 @@ syntax_fmt: "ZINTER numkeys key [key ...] [WEIGHTS\_weight [weight ...]]\n  [AGG
   <SUM | MIN | MAX>] [WITHSCORES]"
 title: ZINTER
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 This command is similar to [`ZINTERSTORE`]({{< relref "/commands/zinterstore" >}}), but instead of storing the resulting
 sorted set, it is returned to the client.
 

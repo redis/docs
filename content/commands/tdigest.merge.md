@@ -49,6 +49,11 @@ syntax_fmt: "TDIGEST.MERGE destination-key numkeys source-key [source-key ...]\n
   \ [COMPRESSION compression] [OVERRIDE]"
 title: TDIGEST.MERGE
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Merges multiple t-digest sketches into a single sketch.
 
 ## Required arguments

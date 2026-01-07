@@ -176,6 +176,11 @@ syntax_fmt: "TS.MRANGE fromTimestamp toTimestamp [LATEST] [FILTER_BY_TS\_Timesta
   \ [GROUPBY label REDUCE\n  reducer]"
 title: TS.MRANGE
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 
 Query a range across multiple time series by filters in the forward direction.
 

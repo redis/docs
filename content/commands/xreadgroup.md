@@ -94,6 +94,11 @@ syntax_fmt: "XREADGROUP GROUP\_group consumer [COUNT\_count] [BLOCK\_millisecond
   \  [CLAIM\_min-idle-time] [NOACK] STREAMS\_key [key ...] id [id ...]"
 title: XREADGROUP
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 The `XREADGROUP` command is a special version of the [`XREAD`]({{< relref "/commands/xread" >}}) command
 with support for consumer groups. Probably you will have to understand the
 [`XREAD`]({{< relref "/commands/xread" >}}) command before reading this page will makes sense.

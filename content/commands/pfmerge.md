@@ -65,6 +65,11 @@ summary: Merges one or more HyperLogLog values into a single key.
 syntax_fmt: PFMERGE destkey [sourcekey [sourcekey ...]]
 title: PFMERGE
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Merge multiple HyperLogLog values into a unique value that will approximate
 the cardinality of the union of the observed Sets of the source HyperLogLog
 structures.

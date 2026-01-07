@@ -63,6 +63,11 @@ summary: Executes a server-side Lua script.
 syntax_fmt: EVAL script numkeys [key [key ...]] [arg [arg ...]]
 title: EVAL
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Invoke the execution of a server-side Lua script.
 
 The first argument is the script's source code.

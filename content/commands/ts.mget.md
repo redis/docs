@@ -69,6 +69,11 @@ syntax_fmt: "TS.MGET [LATEST] [WITHLABELS | SELECTED_LABELS label1 [label1 ...]]
   \ | l= | l!= | l=(v1,v2,...) | l!=(v1,v2,...) ...]>"
 title: TS.MGET
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 
 Get the sample with the highest timestamp from each time series matching a specific filter.
 

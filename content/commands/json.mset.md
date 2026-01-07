@@ -41,6 +41,11 @@ summary: Sets or updates the JSON value of one or more keys
 syntax_fmt: JSON.MSET key path value [key path value ...]
 title: JSON.MSET
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Set or update one or more JSON values according to the specified `key`-`path`-`value` triplets
 
 `JSON.MSET` is atomic, hence, all given additions or updates are either applied or not. It is not possible for clients to see that some of the keys were updated while others are unchanged.

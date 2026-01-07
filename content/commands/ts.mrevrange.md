@@ -176,6 +176,11 @@ syntax_fmt: "TS.MREVRANGE fromTimestamp toTimestamp [LATEST]\n  [FILTER_BY_TS\_T
   \ ...]> [GROUPBY label REDUCE\n  reducer]"
 title: TS.MREVRANGE
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 
 Query a range across multiple time series by filters in the reverse direction.
 

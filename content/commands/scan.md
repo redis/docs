@@ -56,6 +56,11 @@ summary: Iterates over the key names in the database.
 syntax_fmt: "SCAN cursor [MATCH\_pattern] [COUNT\_count] [TYPE\_type]"
 title: SCAN
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 The `SCAN` command and the closely related commands [`SSCAN`]({{< relref "/commands/sscan" >}}), [`HSCAN`]({{< relref "/commands/hscan" >}}) and [`ZSCAN`]({{< relref "/commands/zscan" >}}) are used in order to incrementally iterate over a collection of elements.
 
 * `SCAN` iterates the set of keys in the currently selected Redis database.

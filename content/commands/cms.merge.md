@@ -44,6 +44,11 @@ syntax_fmt: "CMS.MERGE destination numKeys source [source ...] [WEIGHTS weight\n
   \ [weight ...]]"
 title: CMS.MERGE
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Merges several sketches into one sketch. All sketches must have identical width and depth. Weights can be used to multiply certain sketches. Default weight is 1. 
 
 ### Parameters:

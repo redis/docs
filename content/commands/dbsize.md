@@ -31,6 +31,11 @@ summary: Returns the number of keys in the database.
 syntax_fmt: DBSIZE
 title: DBSIZE
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Return the number of keys in the currently-selected database.
 
 ## Redis Enterprise and Redis Cloud compatibility

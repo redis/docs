@@ -77,6 +77,11 @@ summary: Removes and returns a member by score from one or more sorted sets. Blo
 syntax_fmt: "BZMPOP timeout numkeys key [key ...] <MIN | MAX> [COUNT\_count]"
 title: BZMPOP
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 `BZMPOP` is the blocking variant of [`ZMPOP`]({{< relref "/commands/zmpop" >}}).
 
 When any of the sorted sets contains elements, this command behaves exactly like [`ZMPOP`]({{< relref "/commands/zmpop" >}}).

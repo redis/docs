@@ -92,6 +92,11 @@ syntax_fmt: "ZUNIONSTORE destination numkeys key [key ...] [WEIGHTS\_weight\n  [
   \ ...]] [AGGREGATE\_<SUM | MIN | MAX>]"
 title: ZUNIONSTORE
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Computes the union of `numkeys` sorted sets given by the specified keys, and
 stores the result in `destination`.
 It is mandatory to provide the number of input keys (`numkeys`) before passing

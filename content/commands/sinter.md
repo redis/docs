@@ -49,6 +49,11 @@ summary: Returns the intersect of multiple sets.
 syntax_fmt: SINTER key [key ...]
 title: SINTER
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Returns the members of the set resulting from the intersection of all the given
 sets.
 

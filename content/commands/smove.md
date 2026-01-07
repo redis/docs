@@ -66,6 +66,11 @@ summary: Moves a member from one set to another.
 syntax_fmt: SMOVE source destination member
 title: SMOVE
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Move `member` from the set at `source` to the set at `destination`.
 This operation is atomic.
 In every given moment the element will appear to be a member of `source` **or**

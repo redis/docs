@@ -70,6 +70,11 @@ syntax_fmt: "XREAD [COUNT\_count] [BLOCK\_milliseconds] STREAMS\_key [key ...] i
   \  [id ...]"
 title: XREAD
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Read data from one or multiple streams, only returning entries with an
 ID greater than the last received ID reported by the caller.
 This command has an option to block if items are not available, in a similar

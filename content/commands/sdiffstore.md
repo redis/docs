@@ -63,6 +63,11 @@ summary: Stores the difference of multiple sets in a key.
 syntax_fmt: SDIFFSTORE destination key [key ...]
 title: SDIFFSTORE
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 This command is equal to [`SDIFF`]({{< relref "/commands/sdiff" >}}), but instead of returning the resulting set, it
 is stored in `destination`.
 

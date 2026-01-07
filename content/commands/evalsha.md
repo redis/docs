@@ -62,6 +62,11 @@ summary: Executes a server-side Lua script by SHA1 digest.
 syntax_fmt: EVALSHA sha1 numkeys [key [key ...]] [arg [arg ...]]
 title: EVALSHA
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Evaluate a script from the server's cache by its SHA1 digest.
 
 The server caches scripts by using the [`SCRIPT LOAD`]({{< relref "/commands/script-load" >}}) command.

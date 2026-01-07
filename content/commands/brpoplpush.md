@@ -79,6 +79,11 @@ summary: Pops an element from a list, pushes it to another list and returns it. 
 syntax_fmt: BRPOPLPUSH source destination timeout
 title: BRPOPLPUSH
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 `BRPOPLPUSH` is the blocking variant of [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}).
 When `source` contains elements, this command behaves exactly like [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}).
 When used inside a [`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) block or a Lua script, this command behaves exactly like [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}).

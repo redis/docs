@@ -82,6 +82,11 @@ summary: Performs bitwise operations on multiple strings, and stores the result.
 syntax_fmt: BITOP <AND | OR | XOR | NOT | DIFF | DIFF1 | ANDOR | ONE> destkey key [key ...]
 title: BITOP
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Perform a bitwise operation between multiple keys (containing string values) and
 store the result in the destination key.
 

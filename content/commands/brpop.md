@@ -57,6 +57,11 @@ summary: Removes and returns the last element in a list. Blocks until an element
 syntax_fmt: BRPOP key [key ...] timeout
 title: BRPOP
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 `BRPOP` is a blocking list pop primitive.
 It is the blocking version of [`RPOP`]({{< relref "/commands/rpop" >}}) because it blocks the connection when there
 are no elements to pop from any of the given lists.
