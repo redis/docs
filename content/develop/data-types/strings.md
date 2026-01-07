@@ -65,7 +65,7 @@ The ability to set or retrieve the value of multiple keys in a single
 command is also useful for reduced latency. For this reason there are
 the [`MSET`]({{< relref "/commands/mset" >}}) and [`MGET`]({{< relref "/commands/mget" >}}) commands:
 
-{{< clients-example set="set_tutorial" step="mset" description="Set and get multiple string values" difficulty="beginner" >}}
+{{< clients-example set="set_tutorial" step="mset" description="Set and get multiple string values" >}}
     > mset bike:1 "Deimos" bike:2 "Ares" bike:3 "Vanth"
     OK
     > mget bike:1 bike:2 bike:3
@@ -80,7 +80,7 @@ When [`MGET`]({{< relref "/commands/mget" >}}) is used, Redis returns an array o
 Even if strings are the basic values of Redis, there are interesting operations
 you can perform with them. For instance, one is atomic increment:
 
-{{< clients-example set="set_tutorial" step="incr" description="Increment a counter value" difficulty="beginner" >}}
+{{< clients-example set="set_tutorial" step="incr" description="Increment a counter value" >}}
     > set total_crashes 0
     OK
     > incr total_crashes
