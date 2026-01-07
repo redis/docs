@@ -44,8 +44,15 @@ function copyCodeBlockLinkToClipboard(button) {
   const anchor = codetabsContainer.previousElementSibling;
   const anchorId = anchor && anchor.id ? anchor.id : codetabsId;
 
-  // Get the full URL with the anchor ID
-  const fullUrl = window.location.origin + window.location.pathname + '#' + anchorId;
+  // Get the currently selected language from the dropdown
+  const langSelector = codetabsContainer.querySelector('.lang-selector');
+  const selectedLang = langSelector ? langSelector.value : null;
+
+  // Get the full URL with the anchor ID and language parameter
+  let fullUrl = window.location.origin + window.location.pathname + '#' + anchorId;
+  if (selectedLang) {
+    fullUrl += '?lang=' + encodeURIComponent(selectedLang);
+  }
 
   // Copy to clipboard
   if (navigator.clipboard && navigator.clipboard.writeText) {
