@@ -10,11 +10,70 @@
 {{ $description := .description }}
 {{ $difficulty := .difficulty }}
 
+{{- /* Build metadata map for each language/client combination */ -}}
+{{- $codetabsMeta := dict -}}
+{{- range $tab := $tabs -}}
+  {{- $tabTitle := index $tab "title" -}}
+  {{- $clientConfig := index $.Site.Params.clientsConfig $tabTitle -}}
+  {{- $tabMeta := dict -}}
+
+  {{- /* For redis-cli, use special handling */ -}}
+  {{- if eq $tabTitle "redis-cli" -}}
+    {{- $tabMeta = dict "language" "redis-cli" "client" "redis-cli" -}}
+  {{- else if $clientConfig -}}
+    {{- /* Extract language and client from config */ -}}
+    {{- $langId := index $clientConfig "langId" -}}
+    {{- $clientId := index $clientConfig "clientId" -}}
+    {{- $tabMeta = dict "language" $langId "client" $clientId -}}
+
+    {{- /* Add mode if it's a Java variant */ -}}
+    {{- if or (eq $tabTitle "Java-Sync") (eq $tabTitle "Java-Async") (eq $tabTitle "Java-Reactive") -}}
+      {{- $mode := "" -}}
+      {{- if eq $tabTitle "Java-Sync" -}}
+        {{- $mode = "sync" -}}
+      {{- else if eq $tabTitle "Java-Async" -}}
+        {{- $mode = "async" -}}
+      {{- else if eq $tabTitle "Java-Reactive" -}}
+        {{- $mode = "reactive" -}}
+      {{- end -}}
+      {{- $tabMeta = merge $tabMeta (dict "mode" $mode) -}}
+    {{- end -}}
+
+    {{- /* Add mode if it's a C# variant */ -}}
+    {{- if or (eq $tabTitle "C#-Sync") (eq $tabTitle "C#-Async") -}}
+      {{- $mode := "" -}}
+      {{- if eq $tabTitle "C#-Sync" -}}
+        {{- $mode = "sync" -}}
+      {{- else if eq $tabTitle "C#-Async" -}}
+        {{- $mode = "async" -}}
+      {{- end -}}
+      {{- $tabMeta = merge $tabMeta (dict "mode" $mode) -}}
+    {{- end -}}
+
+    {{- /* Add mode if it's a Rust variant */ -}}
+    {{- if or (eq $tabTitle "Rust-Sync") (eq $tabTitle "Rust-Async") -}}
+      {{- $mode := "" -}}
+      {{- if eq $tabTitle "Rust-Sync" -}}
+        {{- $mode = "sync" -}}
+      {{- else if eq $tabTitle "Rust-Async" -}}
+        {{- $mode = "async" -}}
+      {{- end -}}
+      {{- $tabMeta = merge $tabMeta (dict "mode" $mode) -}}
+    {{- end -}}
+  {{- else -}}
+    {{- /* Fallback for unknown clients */ -}}
+    {{- $tabMeta = dict "language" $tabTitle "client" $tabTitle -}}
+  {{- end -}}
+
+  {{- $codetabsMeta = merge $codetabsMeta (dict $tabTitle $tabMeta) -}}
+{{- end -}}
+{{- $codetabsMetaJson := $codetabsMeta | jsonify -}}
+
 <!-- spellchecker-disable -->
 {{- if $exampleId -}}
 <a id="{{ $exampleId }}" class="relative"{{ if $description }} data-description="{{ $description | htmlEscape }}"{{ end }}{{ if $difficulty }} data-difficulty="{{ $difficulty | htmlEscape }}"{{ end }} data-codetabs-id="{{ $id }}"></a>
 {{- end -}}
-<div class="codetabs cli group box-border rounded-lg mt-0 mb-0 mx-auto bg-slate-900" id="{{ $id }}">
+<div class="codetabs cli group box-border rounded-lg mt-0 mb-0 mx-auto bg-slate-900" id="{{ $id }}" data-codetabs-meta="{{ $codetabsMetaJson | htmlEscape }}">
     <!-- Language selector dropdown with controls -->
     <div class="codetabs-header flex items-start justify-between px-4 py-2 bg-slate-900 rounded-t-lg">
         <div class="flex flex-col items-start">

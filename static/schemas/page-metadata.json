@@ -71,9 +71,83 @@
     "scope": {
       "type": "string",
       "description": "Scope or domain of the page content"
+    },
+    "location": {
+      "type": "string",
+      "enum": ["head", "body"],
+      "description": "Where this metadata is located in the HTML document. 'head' indicates it's in a <script> tag in the document head. 'body' indicates it's in a hidden <div> in the document body."
+    },
+    "duplicateOf": {
+      "type": "string",
+      "description": "If this metadata is a duplicate of another instance, this field indicates the location of the primary copy. Format: 'location:selector' (e.g., 'head:data-ai-metadata'). Only present in duplicate instances."
+    },
+    "codeExamples": {
+      "type": "array",
+      "description": "Array of code examples found on the page",
+      "items": {
+        "$ref": "#/definitions/codeExample"
+      }
     }
   },
   "definitions": {
+    "codeExample": {
+      "type": "object",
+      "description": "A code example with language-specific variants",
+      "required": ["id"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the code example"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of what the code example demonstrates"
+        },
+        "difficulty": {
+          "type": "string",
+          "enum": ["beginner", "intermediate", "advanced"],
+          "description": "Difficulty level of the example"
+        },
+        "codetabsId": {
+          "type": "string",
+          "description": "DOM element ID of the codetabs container"
+        },
+        "languages": {
+          "type": "array",
+          "description": "Array of language-specific code variants",
+          "items": {
+            "$ref": "#/definitions/languageVariant"
+          }
+        }
+      }
+    },
+    "languageVariant": {
+      "type": "object",
+      "description": "A language-specific variant of a code example",
+      "required": ["id", "panelId"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Display name of the language (e.g., 'Python', 'Node.js', 'Java-Sync')"
+        },
+        "panelId": {
+          "type": "string",
+          "description": "DOM element ID of the code panel for this language"
+        },
+        "langId": {
+          "type": "string",
+          "description": "Stable language identifier (e.g., 'python', 'javascript', 'java')"
+        },
+        "clientId": {
+          "type": "string",
+          "description": "Stable client library identifier (e.g., 'redis-py', 'node-redis', 'lettuce')"
+        },
+        "clientName": {
+          "type": "string",
+          "description": "Human-readable client library name (e.g., 'redis-py', 'Jedis', 'Lettuce')"
+        }
+      }
+    },
     "tableOfContents": {
       "type": "object",
       "description": "Hierarchical table of contents for the page",
