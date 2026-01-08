@@ -9,9 +9,9 @@
             }
           }
         },
-        "description": "Bad request"
+        "description": "Bad Request"
       },
-      "InternalServerError": {
+      "Forbidden": {
         "content": {
           "application/json": {
             "schema": {
@@ -19,7 +19,17 @@
             }
           }
         },
-        "description": "Internal Server Error"
+        "description": "Forbidden"
+      },
+      "NotAcceptable": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        },
+        "description": "Not Acceptable"
       },
       "NotFound": {
         "content": {
@@ -30,174 +40,9 @@
           }
         },
         "description": "Not Found"
-      },
-      "SamlCallbackResponse": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "properties": {
-                "access_token": {
-                  "description": "JWT access token for the authenticated user",
-                  "type": "string"
-                },
-                "uid": {
-                  "description": "Unique identifier for the authenticated user",
-                  "type": "string"
-                }
-              },
-              "type": "object"
-            }
-          }
-        },
-        "description": "Successful response after processing a SAML response."
-      },
-      "SamlLoginResponse": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "properties": {
-                "redirectUrl": {
-                  "description": "The URL to redirect the user to for SAML authentication.",
-                  "type": "string"
-                }
-              },
-              "type": "object"
-            }
-          }
-        },
-        "description": "Successful response containing the redirect URL."
-      },
-      "SamlLogoutResponse": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "properties": {
-                "redirectUrl": {
-                  "description": "The URL to redirect the user to for SAML logout.",
-                  "type": "string"
-                }
-              },
-              "type": "object"
-            }
-          }
-        },
-        "description": "Successful response containing the redirect URL."
-      },
-      "ServiceUnavailable": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
-            }
-          }
-        },
-        "description": "Service Unavailable"
-      },
-      "Unauthorized": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
-            }
-          }
-        },
-        "description": "Unauthorized"
       }
     },
     "schemas": {
-      "Alert": {
-        "description": "Alert information",
-        "properties": {
-          "active_since": {
-            "description": "Since what time the alert is active",
-            "format": "date-time",
-            "type": "string"
-          },
-          "name": {
-            "description": "Alert name",
-            "type": "string"
-          }
-        },
-        "required": [
-          "name",
-          "active_since"
-        ],
-        "type": "object"
-      },
-      "Certificate": {
-        "description": "Certificate information.",
-        "properties": {
-          "expired": {
-            "description": "Whether the certificate has expired",
-            "type": "boolean"
-          },
-          "type": {
-            "description": "Certificate type",
-            "type": "string"
-          },
-          "valid_until": {
-            "description": "Certificate expiration time",
-            "format": "date-time",
-            "type": "string"
-          }
-        },
-        "required": [
-          "type",
-          "expired",
-          "valid_until"
-        ],
-        "type": "object"
-      },
-      "ClusterHealthReport": {
-        "description": "Cluster health report.",
-        "properties": {
-          "active_alerts": {
-            "items": {
-              "$ref": "#/components/schemas/Alert"
-            },
-            "type": "array"
-          },
-          "certificates": {
-            "description": "List of certificates in the cluster",
-            "items": {
-              "$ref": "#/components/schemas/Certificate"
-            },
-            "type": "array"
-          },
-          "fqdn": {
-            "description": "Cluster FQDN",
-            "type": "string"
-          },
-          "license": {
-            "$ref": "#/components/schemas/LicenseHealthReport"
-          },
-          "nodes": {
-            "description": "List of nodes in the cluster",
-            "items": {
-              "$ref": "#/components/schemas/Node"
-            },
-            "type": "array"
-          },
-          "status": {
-            "description": "Cluster status",
-            "enum": [
-              "error",
-              "warning",
-              "ok"
-            ],
-            "type": "string"
-          }
-        },
-        "required": [
-          "fqdn",
-          "status",
-          "license",
-          "certificates",
-          "nodes",
-          "active_alerts"
-        ],
-        "type": "object"
-      },
       "Error": {
         "properties": {
           "description": {
@@ -219,191 +64,289 @@
           "status_code"
         ]
       },
-      "LicenseHealthReport": {
-        "description": "License health report.",
+      "PasswordHashMethod": {
+        "description": "Used when password is passed pre-hashed",
+        "enum": [
+          1
+        ],
+        "type": "integer",
+        "x-enum-varnames": [
+          "PreHashed"
+        ]
+      },
+      "Permissions": {
+        "description": "API and UI permissions for a role",
+        "example": {
+          "api_permissions": [
+            "create_node",
+            "update_node",
+            "delete_node"
+          ],
+          "ui_permissions": [
+            "view_cluster_page",
+            "view_database_page"
+          ]
+        },
         "properties": {
-          "expired": {
-            "description": "Whether the license has expired",
+          "api_permissions": {
+            "description": "List of permission strings",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "ui_permissions": {
+            "description": "List of permission strings",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "RoleName": {
+        "description": "Name of the management role.",
+        "enum": [
+          "none",
+          "db_viewer",
+          "cluster_viewer",
+          "db_member",
+          "cluster_member",
+          "user_manager",
+          "admin"
+        ],
+        "type": "string"
+      },
+      "RolesWithPermissions": {
+        "additionalProperties": {
+          "$ref": "#/components/schemas/Permissions"
+        },
+        "description": "A map of role names to their permissions",
+        "example": {
+          "admin": {
+            "api_permissions": [
+              "create_node",
+              "update_node",
+              "delete_node"
+            ],
+            "ui_permissions": [
+              "view_cluster_page",
+              "view_database_page"
+            ]
+          },
+          "db_viewer": {
+            "api_permissions": [
+              "view_bdb_info",
+              "view_all_bdbs_info"
+            ],
+            "ui_permissions": [
+              "view_database_page"
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "User": {
+        "description": "An API object that represents an Redis Enterprise Cluster user.",
+        "example": {
+          "auth_method": "regular",
+          "email": "user@redis.com",
+          "email_alerts": true,
+          "last_login": 1760618047,
+          "name": "John Doe",
+          "password_issue_date": "2025-03-02T09:43:34Z",
+          "role_uids": [
+            1
+          ],
+          "status": "active"
+        },
+        "properties": {
+          "account_id": {
+            "description": "SM account ID",
+            "type": "integer"
+          },
+          "action_uid": {
+            "description": "Action uid. If exists - progress can be tracked by the GET /actions/\u003cuid\u003e API",
+            "type": "string"
+          },
+          "auth_method": {
+            "enum": [
+              "regular",
+              "certificate",
+              "entraid",
+              "sso"
+            ],
+            "type": "string"
+          },
+          "bdbs_email_alerts": {
+            "description": "UIDs of databases that user will receive alerts for.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "certificate_subject_line": {
+            "description": "The certificate's subject line as defined by RFC2253 (for certificate based authentication users only)",
+            "type": "string"
+          },
+          "cluster_email_alerts": {
+            "description": "Activate cluster email alerts for a user.",
             "type": "boolean"
           },
-          "shards_in_use": {
-            "description": "Accumulated number of shards in use by databases in the cluster",
-            "type": "integer"
-          },
-          "shards_limit": {
-            "description": "Shards limit specified in cluster license",
-            "type": "integer"
-          }
-        },
-        "required": [
-          "expired",
-          "shards_in_use",
-          "shards_limit"
-        ],
-        "type": "object"
-      },
-      "Memory": {
-        "description": "Memory information",
-        "properties": {
-          "free_provisional_ram": {
-            "description": "Remaining ram for provisioning new shards on the node",
-            "format": "int64",
-            "type": "integer"
-          },
-          "free_ram": {
-            "description": "Free ram the node has in bytes",
-            "format": "int64",
-            "type": "integer"
-          },
-          "overbooking_depth": {
-            "description": "How much the node is overbooked or has capacity remaining, like free provisional ram but takes into account shards_overbooking (can be negative if it is overbooked)",
-            "format": "int64",
-            "type": "integer"
-          },
-          "total_provisional_ram": {
-            "description": "Total ram for provisioning shards on the node",
-            "format": "int64",
-            "type": "integer"
-          },
-          "total_ram": {
-            "description": "Total ram the node has in bytes",
-            "format": "int64",
-            "type": "integer"
-          }
-        },
-        "required": [
-          "total_ram",
-          "free_ram",
-          "free_provisional_ram",
-          "total_provisional_ram",
-          "overbooking_depth"
-        ],
-        "type": "object"
-      },
-      "Node": {
-        "description": "Node information.",
-        "properties": {
-          "id": {
-            "description": "Node id",
+          "email": {
+            "description": "User's email. (pattern matching only ascii characters)",
             "type": "string"
           },
-          "memory": {
-            "$ref": "#/components/schemas/Memory"
+          "email_alerts": {
+            "default": true,
+            "description": "Activate email alerts for a user.",
+            "type": "boolean"
           },
-          "observed_at": {
-            "description": "Unix time in seconds when the value was last written in the CCS",
+          "last_login": {
+            "description": "Timestamp of the user's last login time. This denotes the last time an authentication with the user's credentials was successful.",
             "format": "int64",
             "type": "integer"
           },
-          "role": {
-            "description": "Node role can be leader or follower",
-            "enum": [
-              "leader",
-              "follower"
-            ],
-            "type": "string"
-          },
-          "services": {
-            "items": {
-              "$ref": "#/components/schemas/Service"
-            },
-            "type": "array"
-          },
-          "shards": {
-            "description": "Shards on the node.",
-            "items": {
-              "$ref": "#/components/schemas/ShardHealthReport"
-            },
-            "type": "array"
-          },
-          "status": {
-            "description": "Node status",
-            "enum": [
-              "down",
-              "provisioning",
-              "decommissioning",
-              "active"
-            ],
-            "type": "string"
-          },
-          "version": {
-            "description": "RS version installed on the node",
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "status",
-          "role",
-          "version",
-          "shards",
-          "memory",
-          "observed_at",
-          "services"
-        ],
-        "type": "object"
-      },
-      "Service": {
-        "description": "Services running on the node managed by supervisor",
-        "properties": {
           "name": {
-            "description": "Name of the service",
+            "description": "User's name. (pattern does not allow non ascii and special characters \u0026,\u003c,\u003e,\")",
             "type": "string"
           },
-          "status": {
-            "description": "Status of the service corresponding to the statename returned by supervisor",
-            "type": "string"
-          }
-        },
-        "required": [
-          "name",
-          "status"
-        ],
-        "type": "object"
-      },
-      "ShardHealthReport": {
-        "properties": {
-          "detailed_status": {
-            "description": "shard detailed status",
-            "enum": [
-              "ok",
-              "importing",
-              "timeout",
-              "loading",
-              "busy",
-              "down",
-              "trimming",
-              "unknown"
-            ],
+          "password": {
+            "description": "User's password. Note that it could also be an already-hashed value, in which case 'password_hash_method' parameter is also provided.",
             "type": "string"
           },
-          "id": {
+          "password_issue_date": {
+            "description": "The date in which the password was set.",
+            "format": "date-time",
             "type": "string"
           },
           "role": {
-            "description": "shard role can be leader or follower",
-            "enum": [
-              "leader",
-              "follower"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RoleName"
+              }
             ],
-            "type": "string"
+            "deprecated": true,
+            "description": "(deprecated) User's role.",
+            "x-deprecated-reason": "Use role_uids instead"
+          },
+          "role_uids": {
+            "description": "List of role uids associated with the user",
+            "items": {
+              "type": "integer",
+              "x-go-type": "json.Number"
+            },
+            "type": "array"
           },
           "status": {
-            "description": "shard status can be up or trimming",
+            "description": "Status of the user.",
             "enum": [
               "active",
-              "inactive",
-              "trimming"
+              "locked",
+              "password_expired"
             ],
             "type": "string"
+          },
+          "uid": {
+            "description": "User's unique uid.",
+            "type": "integer",
+            "x-go-type": "json.Number"
           }
         },
         "required": [
-          "id",
+          "uid",
+          "name",
           "role",
-          "status",
-          "detailed_status"
+          "role_uids",
+          "auth_method"
         ],
+        "type": "object"
+      },
+      "UserRequest": {
+        "description": "User modification request.",
+        "properties": {
+          "account_id": {
+            "description": "SM account ID",
+            "type": "integer"
+          },
+          "auth_method": {
+            "enum": [
+              "regular",
+              "certificate",
+              "entraid",
+              "sso"
+            ],
+            "type": "string"
+          },
+          "bdbs_email_alerts": {
+            "description": "UIDs of databases that user will receive alerts for.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "certificate_subject_line": {
+            "description": "The certificate's subject line as defined by RFC2253 (for certificate based authentication users only)",
+            "type": "string"
+          },
+          "cluster_email_alerts": {
+            "description": "Activate cluster email alerts for a user.",
+            "type": "boolean"
+          },
+          "email": {
+            "description": "User's email.",
+            "pattern": "(^$|^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$)",
+            "type": "string"
+          },
+          "email_alerts": {
+            "description": "Activate email alerts for a user.",
+            "type": "boolean"
+          },
+          "name": {
+            "description": "User's name. (pattern does not allow non ascii and special characters \u0026,\u003c,\u003e,\")",
+            "maxLength": 255,
+            "minLength": 1,
+            "pattern": "^[ -!#-%'-;=?-~]+$",
+            "type": "string"
+          },
+          "password": {
+            "description": "User's password for regular authentication. Required for regular auth method.",
+            "type": "string"
+          },
+          "password_hash_method": {
+            "$ref": "#/components/schemas/PasswordHashMethod"
+          },
+          "role": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RoleName"
+              }
+            ],
+            "deprecated": true,
+            "description": "(deprecated) User's role.",
+            "x-deprecated-reason": "Use role_uids instead",
+            "x-sunset": "2027-12-31"
+          },
+          "role_uids": {
+            "description": "List of role uids associated with the user",
+            "items": {
+              "type": "integer",
+              "x-go-type": "json.Number"
+            },
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "uid": {
+            "description": "User's unique uid.",
+            "minimum": 1,
+            "type": "integer",
+            "x-go-type": "json.Number"
+          }
+        },
         "type": "object"
       }
     },
@@ -427,128 +370,344 @@
   },
   "openapi": "3.0.0",
   "paths": {
-    "/v1/auth/sso/saml/callback": {
+    "/v1/users": {
+      "get": {
+        "description": "Get all Redis Enterprise Cluster users in the cluster",
+        "operationId": "cluster_get_users",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "List of users"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "view_all_users_info"
+            ]
+          }
+        ],
+        "summary": "Get all Redis Enterprise Cluster users",
+        "tags": [
+          "Users"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      },
       "post": {
-        "description": "Processes the SAML response from the IdP",
-        "operationId": "authentication_callback",
+        "description": "Create a new user with the provided configuration",
+        "operationId": "cluster_create_user",
+        "parameters": [
+          {
+            "allowEmptyValue": true,
+            "description": "Validate the request without persisting changes",
+            "in": "query",
+            "name": "dry_run",
+            "schema": {
+              "type": "boolean",
+              "x-go-type": "DryRun"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
+                "$ref": "#/components/schemas/UserRequest"
+              }
+            }
+          },
+          "description": "User creation data",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            },
+            "description": "User created successfully"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "User with the same email or name already exists"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "create_new_user"
+            ]
+          }
+        ],
+        "summary": "Create a new Redis Enterprise Cluster user",
+        "tags": [
+          "Users"
+        ],
+        "x-publish-docs": true
+      }
+    },
+    "/v1/users/password": {
+      "delete": {
+        "description": "Delete a password from the list of a user's passwords",
+        "operationId": "cluster_delete_user_password",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "old_password": "password-to-remove",
+                "username": "john.doe"
+              },
+              "schema": {
                 "properties": {
-                  "SAMLResponse": {
-                    "description": "Base64-encoded SAML response from the IdP.",
+                  "old_password": {
+                    "description": "An existing password to delete",
                     "type": "string"
                   },
-                  "TTL": {
-                    "description": "Time-to-live (TTL) of the token in seconds",
-                    "type": "integer",
-                    "x-go-type": "uint32"
+                  "username": {
+                    "description": "The username of the affected user. If missing, defaults to authenticated user",
+                    "type": "string"
                   }
                 },
                 "required": [
-                  "SAMLResponse"
+                  "old_password"
                 ],
                 "type": "object"
               }
             }
           },
+          "description": "Password deletion data",
           "required": true
         },
         "responses": {
           "200": {
-            "$ref": "#/components/responses/SamlCallbackResponse"
+            "description": "Password deleted successfully"
           },
           "400": {
             "$ref": "#/components/responses/BadRequest"
           },
-          "500": {
-            "$ref": "#/components/responses/InternalServerError"
-          }
-        },
-        "summary": "Handles SAML response from IdP",
-        "tags": [
-          "Auth"
-        ],
-        "x-publish-docs": true,
-        "x-stability-level": "stable"
-      }
-    },
-    "/v1/auth/sso/saml/login": {
-      "get": {
-        "description": "Generates a redirect URL to the IdP for SAML authentication.",
-        "operationId": "authentication_login",
-        "parameters": [
-          {
-            "description": "An optional relay state to be included in the SAML request.",
-            "in": "query",
-            "name": "relayState",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/SamlLoginResponse"
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
           },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
-          },
-          "500": {
-            "$ref": "#/components/responses/InternalServerError"
-          }
-        },
-        "summary": "Starts SP-initiated SAML login flow",
-        "tags": [
-          "Auth"
-        ],
-        "x-publish-docs": true,
-        "x-stability-level": "stable"
-      }
-    },
-    "/v1/auth/sso/saml/logout": {
-      "get": {
-        "description": "Generates a redirect URL to the IdP for SAML logout.",
-        "operationId": "authentication_logout",
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/SamlLogoutResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized"
-          },
-          "500": {
-            "$ref": "#/components/responses/InternalServerError"
+          "404": {
+            "$ref": "#/components/responses/NotFound"
           }
         },
         "security": [
           {
-            "jwtAuth": []
+            "Auth": []
           }
         ],
-        "summary": "Starts SP-initiated SAML logout flow",
+        "summary": "Delete user password",
         "tags": [
-          "Auth"
+          "Users"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      },
+      "post": {
+        "description": "Add a new password to a user's passwords list",
+        "operationId": "cluster_add_user_password",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "new_password": "additional-password",
+                "username": "john.doe"
+              },
+              "schema": {
+                "properties": {
+                  "new_password": {
+                    "description": "A password to add",
+                    "type": "string"
+                  },
+                  "old_password": {
+                    "deprecated": true,
+                    "description": "An existing password of the user. Ignored and will be removed in 8.2.0.",
+                    "type": "string"
+                  },
+                  "password_hash_method": {
+                    "$ref": "#/components/schemas/PasswordHashMethod"
+                  },
+                  "username": {
+                    "description": "The username of the affected user. If missing, defaults to authenticated user",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "new_password"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "description": "Password addition data",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Password added successfully"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "security": [
+          {
+            "Auth": []
+          }
+        ],
+        "summary": "Add user password",
+        "tags": [
+          "Users"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      },
+      "put": {
+        "description": "Reset the password list of a user to include a single new password",
+        "operationId": "cluster_reset_user_password",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "new_password": "new-secure-password",
+                "username": "john.doe"
+              },
+              "schema": {
+                "properties": {
+                  "new_password": {
+                    "description": "The new password",
+                    "type": "string"
+                  },
+                  "old_password": {
+                    "deprecated": true,
+                    "description": "An existing password of the user. Ignored and will be removed in 8.2.0.",
+                    "type": "string"
+                  },
+                  "password_hash_method": {
+                    "$ref": "#/components/schemas/PasswordHashMethod"
+                  },
+                  "username": {
+                    "description": "The username of the affected user. If missing, defaults to authenticated user",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "new_password"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "description": "Password reset data",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Password reset successfully"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "security": [
+          {
+            "Auth": []
+          }
+        ],
+        "summary": "Reset user password",
+        "tags": [
+          "Users"
         ],
         "x-publish-docs": true,
         "x-stability-level": "stable"
       }
     },
-    "/v4/cluster/health": {
+    "/v1/users/permissions": {
       "get": {
-        "description": "Cluster health report.",
-        "operationId": "cluster_cluster_health_report",
+        "description": "Get all management roles along with API and UI permissions",
+        "operationId": "cluster_get_roles_with_permissions",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RolesWithPermissions"
+                }
+              }
+            },
+            "description": "Role permissions"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        },
+        "security": [
+          {
+            "Auth": []
+          }
+        ],
+        "summary": "Get all role permissions",
+        "tags": [
+          "Users"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      }
+    },
+    "/v1/users/permissions/{role}": {
+      "get": {
+        "description": "Get API and UI permissions for a specific management role",
+        "operationId": "cluster_get_role_with_permissions_by_role_name",
         "parameters": [
           {
-            "description": "indicate to return only resources with unhealthy status",
-            "in": "query",
-            "name": "issues_only",
+            "description": "The role name",
+            "example": "admin",
+            "in": "path",
+            "name": "role",
+            "required": true,
             "schema": {
-              "type": "boolean"
+              "type": "string"
             }
           }
         ],
@@ -557,31 +716,252 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ClusterHealthReport"
+                  "$ref": "#/components/schemas/RolesWithPermissions"
                 }
               }
             },
-            "description": "Cluster report is ready see detailed information."
+            "description": "Role permissions"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "security": [
+          {
+            "Auth": []
+          }
+        ],
+        "summary": "Get permissions for a specific role",
+        "tags": [
+          "Users"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      }
+    },
+    "/v1/users/role": {
+      "get": {
+        "description": "Get the management role of the authenticating user.",
+        "operationId": "cluster_get_user_role",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "role": {
+                      "$ref": "#/components/schemas/RoleName"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "User role information"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        },
+        "security": [
+          {
+            "Auth": []
+          }
+        ],
+        "summary": "Get the management role of the authenticating user.",
+        "tags": [
+          "Users"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      }
+    },
+    "/v1/users/{uid}": {
+      "delete": {
+        "description": "Delete a user by unique ID",
+        "operationId": "cluster_delete_user",
+        "parameters": [
+          {
+            "description": "The user unique ID",
+            "example": 1,
+            "in": "path",
+            "name": "uid",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "x-go-type": "json.Number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "action_uid": "12345-abcde-67890"
+                  },
+                  "properties": {
+                    "action_uid": {
+                      "description": "Action uid for tracking progress",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "User deleted successfully"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
           },
-          "503": {
-            "$ref": "#/components/responses/ServiceUnavailable"
+          "406": {
+            "$ref": "#/components/responses/NotAcceptable"
           }
         },
         "security": [
           {
             "Auth": [
-              "view_cluster_info"
+              "delete_user"
             ]
           }
         ],
-        "summary": "Get cluster health report.",
+        "summary": "Delete a Redis Enterprise Cluster user",
         "tags": [
-          "Cluster"
+          "Users"
         ],
-        "x-publish-docs": true
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      },
+      "get": {
+        "description": "Get a single user by unique ID",
+        "operationId": "cluster_get_user",
+        "parameters": [
+          {
+            "description": "The user unique ID",
+            "example": 1,
+            "in": "path",
+            "name": "uid",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "x-go-type": "json.Number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            },
+            "description": "User information"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "security": [
+          {
+            "Auth": []
+          }
+        ],
+        "summary": "Get a single Redis Enterprise Cluster user",
+        "tags": [
+          "Users"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      },
+      "put": {
+        "description": "Update a user configuration by unique ID",
+        "operationId": "cluster_update_user",
+        "parameters": [
+          {
+            "description": "The user unique ID",
+            "example": 1,
+            "in": "path",
+            "name": "uid",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "x-go-type": "json.Number"
+            }
+          },
+          {
+            "allowEmptyValue": true,
+            "description": "Validate the request without persisting changes",
+            "in": "query",
+            "name": "dry_run",
+            "schema": {
+              "type": "boolean",
+              "x-go-type": "DryRun"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "email_alerts": false,
+                "name": "Jane Poe"
+              },
+              "schema": {
+                "$ref": "#/components/schemas/UserRequest"
+              }
+            }
+          },
+          "description": "User update data",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            },
+            "description": "User updated successfully"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "406": {
+            "$ref": "#/components/responses/NotAcceptable"
+          }
+        },
+        "security": [
+          {
+            "Auth": []
+          }
+        ],
+        "summary": "Update a Redis Enterprise Cluster user",
+        "tags": [
+          "Users"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
       }
     }
   },
