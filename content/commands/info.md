@@ -389,7 +389,9 @@ Here is the meaning of all fields in the **stats** section:
 *   `acl_access_denied_auth`: Number of authentication failures
 *   `acl_access_denied_cmd`: Number of commands rejected because of access denied to the command
 *   `acl_access_denied_key`: Number of commands rejected because of access denied to a key
-*   `acl_access_denied_channel`: Number of commands rejected because of access denied to a channel 
+*   `acl_access_denied_channel`: Number of commands rejected because of access denied to a channel
+*   `cluster_incompatible_ops`: Number of cluster-incompatible commands. This metric appears only if the `cluster-compatibility-sample-ratio` configuration parameter is not 0. Added in Redis 8.0.
+
 
 Here is the meaning of all fields in the **replication** section:
 
@@ -503,7 +505,7 @@ The **sentinel** section is only available in Redis Sentinel instances. It consi
 *   `sentinel_scripts_queue_length`: The length of the queue of user scripts that are pending execution
 *   `sentinel_simulate_failure_flags`: Flags for the `SENTINEL SIMULATE-FAILURE` command
     
-The **cluster** section contains a single fields:
+The **cluster** section contains a single field:
 
 *   `cluster_enabled`: Indicates whether Redis cluster is enabled.
 
