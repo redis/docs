@@ -201,6 +201,8 @@ Named parameters:
 
 - set: Name of the example set (required)
 - step: Example step name (required)
+- description: Human-readable description of what the example demonstrates (optional)
+- difficulty: Difficulty level of the example (optional, default: "beginner", values: "beginner", "intermediate", "advanced")
 - lang_filter: Language filter (optional, default: "")
 - max_lines: Maximum number of lines shown by default (optional, default: 100)
 - dft_tab_name: Custom first tab name (optional, default: ">_ Redis CLI")
@@ -217,6 +219,78 @@ Positional parameters (for backward compatibility):
 - 4: custom first tab name
 - 5: custom first tab footer link title
 - 6: custom first tab footer link URL
+
+### Writing effective descriptions
+
+The `description` parameter should provide clear, actionable guidance about what the example demonstrates and when to use it. A well-written description follows this pattern:
+
+**Pattern**: `[Category]: [What it does] [When/why to use it]`
+
+**Examples**:
+- `"Foundational: Add members to a sorted set with their scores (creates new members or updates existing ones)"`
+- `"Query by score range: Retrieve members within a score range using ZRANGEBYSCORE when you need to filter by numeric values"`
+- `"Practical pattern: Use ZADD to set scores and ZINCRBY to increment them when you need to update leaderboards with atomic operations"`
+
+**Best practices**:
+- Start with a category label (e.g., "Foundational", "Query by score range", "Practical pattern") to help readers quickly understand the example's purpose
+- Include specific command names (e.g., ZADD, ZRANGEBYSCORE) so readers know what they're learning
+- Explain the "when/why" in parentheses or with a "when" clause to provide context for when this pattern is useful
+- Keep descriptions concise but informative (aim for 1-2 sentences)
+- Focus on the pattern or concept, not just a literal description of the code
+
+### Choosing difficulty levels
+
+The `difficulty` parameter helps readers find examples appropriate to their skill level. Use these guidelines:
+
+**Beginner** (default):
+- Basic CRUD operations (create, read, update, delete)
+- Simple command usage with straightforward parameters
+- Examples that introduce fundamental concepts
+- No advanced syntax or complex patterns
+- Examples: `ZADD`, `ZRANGE`, `ZRANGE ... WITHSCORES`
+
+**Intermediate**:
+- Range queries with special syntax (e.g., infinity notation `-inf`, `+inf`)
+- Commands that combine multiple operations or concepts
+- Examples that introduce a new conceptual layer (e.g., ranking, lexicographical ordering)
+- Practical patterns that solve real-world problems
+- Examples: `ZRANGEBYSCORE`, `ZREMRANGEBYSCORE`, `ZRANK`, `ZRANGEBYLEX`, leaderboard patterns
+
+**Advanced**:
+- Complex multi-step operations
+- Specialized use cases or edge cases
+- Examples requiring deep understanding of the data structure
+- Performance-critical patterns or optimizations
+- Examples: Advanced indexing patterns, complex aggregations, specialized algorithms
+
+**Decision tree**:
+1. Does the example introduce a fundamental concept? → **Beginner**
+2. Does it require understanding of a previous concept or introduce new syntax? → **Intermediate**
+3. Does it require deep knowledge or solve a specialized problem? → **Advanced**
+
+**Important**: Difficulty should reflect not just syntax complexity, but also:
+- **Misuse risk**: Commands with subtle gotchas (e.g., SDIFF where argument order matters) should be intermediate or higher
+- **Performance implications**: Commands with significant performance differences (e.g., SISMEMBER O(1) vs. list iteration) should highlight this
+- **Conceptual prerequisites**: Set operations (SINTER, SUNION, SDIFF) are intermediate even if syntax is simple, because they require understanding set algebra concepts
+
+### Emphasizing decision context in descriptions
+
+When writing descriptions, focus on the **decision context** rather than just what the command does. This helps readers understand when to use each pattern.
+
+**Anti-pattern** (command-focused):
+- ❌ "Find common members across multiple sets using SINTER"
+- ❌ "Remove members from a set using SREM"
+
+**Better pattern** (decision-focused):
+- ✅ "Find common members across multiple sets using SINTER **when you need to identify shared items** (e.g., users in multiple groups)"
+- ✅ "Use SREM for targeted removal, SPOP for random removal, or SRANDMEMBER to inspect without modifying **when you need flexible deletion patterns**"
+
+**Key phrases to use**:
+- "when you need..." - Emphasizes the use case
+- "when order doesn't matter..." - Highlights set semantics
+- "when you want to precompute..." - Suggests optimization patterns
+- "when you need to reduce round trips..." - Performance considerations
+- "warning: ..." - Highlights misuse risks or gotchas
 
 ### Examples
 
