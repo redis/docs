@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-compatibleOSSVersion: Redis 6.2.3
+compatibleOSSVersion: Redis 6.2.3, 6.0
 description: RHEL 8 support. Set backup start time.
 linkTitle: 6.2.8 (October 2021)
 weight: 75
