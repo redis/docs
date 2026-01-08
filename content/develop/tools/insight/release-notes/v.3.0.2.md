@@ -6,7 +6,7 @@ description: Redis Insight v3.0.2
 weight: 1
 ---
 
-## 3.0.1 (December 2025)
+## 3.0.2 (January 2026)
 
 This maintenance patch release includes critical and non-critical bug fixes for Redis Insight 3.0.0.
 
