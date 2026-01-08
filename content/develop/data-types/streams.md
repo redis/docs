@@ -216,7 +216,7 @@ Each entry returned is an array of two items: the ID and the list of field-value
 
 I have only a single entry in this range. However in real data sets, I could query for ranges of hours, or there could be many items in just two milliseconds, and the result returned could be huge. For this reason, [`XRANGE`]({{< relref "/commands/xrange" >}}) supports an optional **COUNT** option at the end. By specifying a count, I can just get the first *N* items. If I want more, I can get the last ID returned, increment the sequence part by one, and query again. Let's see this in the following example. Let's assume that the stream `race:france` was populated with 4 items. To start my iteration, getting 2 items per command, I start with the full range, but with a count of 2.
 
-{{< clients-example set="stream_tutorial" step="xrange_step_1" description="Paginate through stream entries using XRANGE with COUNT to retrieve results in batches" difficulty="intermediate" >}}
+{{< clients-example set="stream_tutorial" step="xrange_step_1" description="Practical pattern: Paginate through stream entries using XRANGE with COUNT to retrieve results in batches" difficulty="intermediate" >}}
 > XRANGE race:france - + COUNT 2
 1) 1) "1692632086370-0"
    2) 1) "rider"
@@ -240,7 +240,7 @@ I have only a single entry in this range. However in real data sets, I could que
 
 To continue the iteration with the next two items, I have to pick the last ID returned, that is `1692632094485-0`, and add the prefix `(` to it. The resulting exclusive range interval, that is `(1692632094485-0` in this case, can now be used as the new *start* argument for the next [`XRANGE`]({{< relref "/commands/xrange" >}}) call:
 
-{{< clients-example set="stream_tutorial" step="xrange_step_2" description="Continue pagination using exclusive range syntax with ( prefix to skip the last retrieved entry" difficulty="intermediate" >}}
+{{< clients-example set="stream_tutorial" step="xrange_step_2" description="Practical pattern: Continue pagination using exclusive range syntax with ( prefix to skip the last retrieved entry" difficulty="intermediate" >}}
 > XRANGE race:france (1692632094485-0 + COUNT 2
 1) 1) "1692632102976-0"
    2) 1) "rider"
@@ -264,7 +264,7 @@ To continue the iteration with the next two items, I have to pick the last ID re
 
 Now that we've retrieved 4 items out of a stream that only had 4 entries in it, if we try to retrieve more items, we'll get an empty array:
 
-{{< clients-example set="stream_tutorial" step="xrange_empty" description="Handle empty results when pagination reaches the end of the stream" difficulty="intermediate" >}}
+{{< clients-example set="stream_tutorial" step="xrange_empty" description="Practical pattern: Handle empty results when pagination reaches the end of the stream" difficulty="intermediate" >}}
 > XRANGE race:france (1692632147973-0 + COUNT 2
 (empty array)
 {{< /clients-example >}}
@@ -470,7 +470,7 @@ Don't worry if you yet don't know how [`XACK`]({{< relref "/commands/xack" >}}) 
 
 Now it's Bob's turn to read something:
 
-{{< clients-example set="stream_tutorial" step="xgroup_read_bob" description="Demonstrate consumer group load balancing where different consumers receive different messages from the same stream" difficulty="intermediate" >}}
+{{< clients-example set="stream_tutorial" step="xgroup_read_bob" description="Practical pattern: Demonstrate consumer group load balancing where different consumers receive different messages from the same stream" difficulty="intermediate" >}}
 > XREADGROUP GROUP italy_riders Bob COUNT 2 STREAMS race:italy >
 1) 1) "race:italy"
    2) 1) 1) "1692632647899-0"
@@ -653,7 +653,7 @@ XAUTOCLAIM <key> <group> <consumer> <min-idle-time> <start> [COUNT count] [JUSTI
 
 So, in the example above, I could have used automatic claiming to claim a single message like this:
 
-{{< clients-example set="stream_tutorial" step="xautoclaim" description="Automatically claim idle pending messages using XAUTOCLAIM for simplified consumer failure recovery" difficulty="advanced" >}}
+{{< clients-example set="stream_tutorial" step="xautoclaim" description="Practical pattern: Automatically claim idle pending messages using XAUTOCLAIM for simplified consumer failure recovery" difficulty="advanced" >}}
 > XAUTOCLAIM race:italy italy_riders Alice 60000 0-0 COUNT 1
 1) "0-0"
 2) 1) 1) "1692632662819-0"
