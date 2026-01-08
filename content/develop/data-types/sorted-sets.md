@@ -42,7 +42,7 @@ represent sorted sets). They are ordered according to the following rule:
 
 Let's start with a simple example, we'll add all our racers and the score they got in the first race:
 
-{{< clients-example ss_tutorial zadd >}}
+{{< clients-example set="ss_tutorial" step="zadd" description="Foundational: Add members to a sorted set with their scores (creates new members or updates existing ones)" >}}
 > ZADD racer_scores 10 "Norem"
 (integer) 1
 > ZADD racer_scores 12 "Castilla"
@@ -66,7 +66,7 @@ every time we add an element Redis performs an O(log(N)) operation. That's
 good, so when we ask for sorted elements, Redis does not have to do any work at
 all, it's already sorted. Note that the [`ZRANGE`]({{< relref "/commands/zrange" >}}) order is low to high, while the [`ZREVRANGE`]({{< relref "/commands/zrevrange" >}}) order is high to low:
 
-{{< clients-example ss_tutorial zrange >}}
+{{< clients-example set="ss_tutorial" step="zrange" description="Retrieve members in ascending or descending order using ZRANGE and ZREVRANGE (no sorting needed, already ordered)" >}}
 > ZRANGE racer_scores 0 -1
 1) "Ford"
 2) "Sam-Bodden"
@@ -88,7 +88,7 @@ here just as it does in the case of the [`LRANGE`]({{< relref "/commands/lrange"
 
 It is possible to return scores as well, using the `WITHSCORES` argument:
 
-{{< clients-example ss_tutorial zrange_withscores >}}
+{{< clients-example set="ss_tutorial" step="zrange_withscores" description="Retrieve members with their scores using WITHSCORES when you need both the member and its associated score value" >}}
 > ZRANGE racer_scores 0 -1 withscores
  1) "Ford"
  2) "6"
@@ -104,13 +104,13 @@ It is possible to return scores as well, using the `WITHSCORES` argument:
 12) "14"
 {{< /clients-example >}}
 
-### Operating on ranges
+## Operating on ranges
 
 Sorted sets are more powerful than this. They can operate on ranges.
 Let's get all the racers with 10 or fewer points. We
 use the [`ZRANGEBYSCORE`]({{< relref "/commands/zrangebyscore" >}}) command to do it:
 
-{{< clients-example ss_tutorial zrangebyscore >}}
+{{< clients-example set="ss_tutorial" step="zrangebyscore" description="Query by score range: Retrieve members within a score range using ZRANGEBYSCORE when you need to filter by numeric values" difficulty="intermediate" >}}
 > ZRANGEBYSCORE racer_scores -inf 10
 1) "Ford"
 2) "Sam-Bodden"
@@ -121,11 +121,11 @@ use the [`ZRANGEBYSCORE`]({{< relref "/commands/zrangebyscore" >}}) command to d
 We asked Redis to return all the elements with a score between negative
 infinity and 10 (both extremes are included).
 
-To remove an element we'd simply call [`ZREM`]({{< relref "/commands/zrem" >}}) with the racer's name. 
+To remove an element we'd simply call [`ZREM`]({{< relref "/commands/zrem" >}}) with the racer's name.
 It's also possible to remove ranges of elements. Let's remove racer Castilla along with all
 the racers with strictly fewer than 10 points:
 
-{{< clients-example ss_tutorial zremrangebyscore >}}
+{{< clients-example set="ss_tutorial" step="zremrangebyscore" description="Remove members using ZREM for individual elements or ZREMRANGEBYSCORE for score ranges when you need to delete data" difficulty="intermediate" >}}
 > ZREM racer_scores "Castilla"
 (integer) 1
 > ZREMRANGEBYSCORE racer_scores -inf 9
@@ -141,18 +141,18 @@ but it can be very useful, and returns the number of removed elements.
 
 Another extremely useful operation defined for sorted set elements
 is the get-rank operation. It is possible to ask what is the
-position of an element in the set of ordered elements. 
+position of an element in the set of ordered elements.
 The [`ZREVRANK`]({{< relref "/commands/zrevrank" >}}) command is also available in order to get the rank, considering
 the elements sorted in a descending way.
 
-{{< clients-example ss_tutorial zrank >}}
+{{< clients-example set="ss_tutorial" step="zrank" description="Get member position: Use ZRANK and ZREVRANK to find a member's position in the sorted set (useful for leaderboards)" difficulty="intermediate" >}}
 > ZRANK racer_scores "Norem"
 (integer) 0
 > ZREVRANK racer_scores "Norem"
 (integer) 2
 {{< /clients-example >}}
 
-### Lexicographical scores
+## Lexicographical scores
 
 In version Redis 2.8, a new feature was introduced that allows
 getting ranges lexicographically, assuming elements in a sorted set are all
@@ -166,7 +166,7 @@ The main commands to operate with lexicographical ranges are [`ZRANGEBYLEX`]({{<
 For example, let's add again our list of famous racers, but this time
 using a score of zero for all the elements. We'll see that because of the sorted sets ordering rules, they are already sorted lexicographically. Using [`ZRANGEBYLEX`]({{< relref "/commands/zrangebylex" >}}) we can ask for lexicographical ranges:
 
-{{< clients-example ss_tutorial zadd_lex >}}
+{{< clients-example set="ss_tutorial" step="zadd_lex" description="Lexicographical queries: Add members with identical scores and use ZRANGEBYLEX to query by string range (enables generic indexing)" difficulty="intermediate" >}}
 > ZADD racer_scores 0 "Norem" 0 "Sam-Bodden" 0 "Royce" 0 "Castilla" 0 "Prickett" 0 "Ford"
 (integer) 3
 > ZRANGE racer_scores 0 -1
@@ -212,7 +212,7 @@ the #4932 best score here").
 ## Examples
 
 * There are two ways we can use a sorted set to represent a leaderboard. If we know a racer's new score, we can update it directly via the [`ZADD`]({{< relref "/commands/zadd" >}}) command. However, if we want to add points to an existing score, we can use the [`ZINCRBY`]({{< relref "/commands/zincrby" >}}) command.
-{{< clients-example ss_tutorial leaderboard >}}
+{{< clients-example set="ss_tutorial" step="leaderboard" description="Practical pattern: Use ZADD to set scores and ZINCRBY to increment them when you need to update leaderboards with atomic operations" difficulty="intermediate" >}}
 > ZADD racer_scores 100 "Wood"
 (integer) 1
 > ZADD racer_scores 100 "Henshaw"
