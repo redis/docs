@@ -268,6 +268,30 @@ The `difficulty` parameter helps readers find examples appropriate to their skil
 2. Does it require understanding of a previous concept or introduce new syntax? → **Intermediate**
 3. Does it require deep knowledge or solve a specialized problem? → **Advanced**
 
+**Important**: Difficulty should reflect not just syntax complexity, but also:
+- **Misuse risk**: Commands with subtle gotchas (e.g., SDIFF where argument order matters) should be intermediate or higher
+- **Performance implications**: Commands with significant performance differences (e.g., SISMEMBER O(1) vs. list iteration) should highlight this
+- **Conceptual prerequisites**: Set operations (SINTER, SUNION, SDIFF) are intermediate even if syntax is simple, because they require understanding set algebra concepts
+
+### Emphasizing decision context in descriptions
+
+When writing descriptions, focus on the **decision context** rather than just what the command does. This helps readers understand when to use each pattern.
+
+**Anti-pattern** (command-focused):
+- ❌ "Find common members across multiple sets using SINTER"
+- ❌ "Remove members from a set using SREM"
+
+**Better pattern** (decision-focused):
+- ✅ "Find common members across multiple sets using SINTER **when you need to identify shared items** (e.g., users in multiple groups)"
+- ✅ "Use SREM for targeted removal, SPOP for random removal, or SRANDMEMBER to inspect without modifying **when you need flexible deletion patterns**"
+
+**Key phrases to use**:
+- "when you need..." - Emphasizes the use case
+- "when order doesn't matter..." - Highlights set semantics
+- "when you want to precompute..." - Suggests optimization patterns
+- "when you need to reduce round trips..." - Performance considerations
+- "warning: ..." - Highlights misuse risks or gotchas
+
 ### Examples
 
 When converting existing content with redis-cli examples to the new format, you can wrap the existing redis-cli example:
