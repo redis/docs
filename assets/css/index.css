@@ -953,6 +953,8 @@ code {
   @apply font-monogeist;
 }
 
+
+
 /* no-click turns off border and click event on small icons */
 a[href*="#no-click"], img[src*="#no-click"] {
   @apply border-none cursor-default pointer-events-none no-underline;

@@ -6,18 +6,84 @@
 {{ $btnRIUrl := "https://redis.com/redis-enterprise/redis-insight/" }}
 {{ $footerText := "Are you tired of using redis-cli? Try Redis Insight - the developer GUI for Redis." }}
 {{ $showFooter := (.showFooter) }}
+{{ $exampleId := .exampleId }}
+{{ $description := .description }}
+{{ $difficulty := .difficulty }}
+
+{{- /* Build metadata map for each language/client combination */ -}}
+{{- $codetabsMeta := dict -}}
+{{- range $tab := $tabs -}}
+  {{- $tabTitle := index $tab "title" -}}
+  {{- $clientConfig := index $.Site.Params.clientsConfig $tabTitle -}}
+  {{- $tabMeta := dict -}}
+
+  {{- /* For redis-cli, use special handling */ -}}
+  {{- if eq $tabTitle "redis-cli" -}}
+    {{- $tabMeta = dict "language" "redis-cli" "client" "redis-cli" -}}
+  {{- else if $clientConfig -}}
+    {{- /* Extract language and client from config */ -}}
+    {{- $langId := index $clientConfig "langId" -}}
+    {{- $clientId := index $clientConfig "clientId" -}}
+    {{- $tabMeta = dict "language" $langId "client" $clientId -}}
+
+    {{- /* Add mode if it's a Java variant */ -}}
+    {{- if or (eq $tabTitle "Java-Sync") (eq $tabTitle "Java-Async") (eq $tabTitle "Java-Reactive") -}}
+      {{- $mode := "" -}}
+      {{- if eq $tabTitle "Java-Sync" -}}
+        {{- $mode = "sync" -}}
+      {{- else if eq $tabTitle "Java-Async" -}}
+        {{- $mode = "async" -}}
+      {{- else if eq $tabTitle "Java-Reactive" -}}
+        {{- $mode = "reactive" -}}
+      {{- end -}}
+      {{- $tabMeta = merge $tabMeta (dict "mode" $mode) -}}
+    {{- end -}}
+
+    {{- /* Add mode if it's a C# variant */ -}}
+    {{- if or (eq $tabTitle "C#-Sync") (eq $tabTitle "C#-Async") -}}
+      {{- $mode := "" -}}
+      {{- if eq $tabTitle "C#-Sync" -}}
+        {{- $mode = "sync" -}}
+      {{- else if eq $tabTitle "C#-Async" -}}
+        {{- $mode = "async" -}}
+      {{- end -}}
+      {{- $tabMeta = merge $tabMeta (dict "mode" $mode) -}}
+    {{- end -}}
+
+    {{- /* Add mode if it's a Rust variant */ -}}
+    {{- if or (eq $tabTitle "Rust-Sync") (eq $tabTitle "Rust-Async") -}}
+      {{- $mode := "" -}}
+      {{- if eq $tabTitle "Rust-Sync" -}}
+        {{- $mode = "sync" -}}
+      {{- else if eq $tabTitle "Rust-Async" -}}
+        {{- $mode = "async" -}}
+      {{- end -}}
+      {{- $tabMeta = merge $tabMeta (dict "mode" $mode) -}}
+    {{- end -}}
+  {{- else -}}
+    {{- /* Fallback for unknown clients */ -}}
+    {{- $tabMeta = dict "language" $tabTitle "client" $tabTitle -}}
+  {{- end -}}
+
+  {{- $codetabsMeta = merge $codetabsMeta (dict $tabTitle $tabMeta) -}}
+{{- end -}}
+{{- $codetabsMetaJson := $codetabsMeta | jsonify -}}
 
 <!-- spellchecker-disable -->
-<div class="codetabs cli group box-border rounded-lg mt-0 mb-0 mx-auto bg-slate-900" id="{{ $id }}">
+{{- if $exampleId -}}
+<a id="{{ $exampleId }}" class="relative"{{ if $description }} data-description="{{ $description | htmlEscape }}"{{ end }}{{ if $difficulty }} data-difficulty="{{ $difficulty | htmlEscape }}"{{ end }} data-codetabs-id="{{ $id }}"></a>
+{{- end -}}
+<div class="codetabs cli group box-border rounded-lg mt-0 mb-0 mx-auto bg-slate-900" id="{{ $id }}" data-codetabs-meta="{{ $codetabsMetaJson | htmlEscape }}">
     <!-- Language selector dropdown with controls -->
-    <div class="codetabs-header flex items-center justify-between px-4 py-2 bg-slate-900 rounded-t-lg">
-        <div class="flex items-center flex-1">
-            <label for="lang-select-{{ $id }}" class="text-xs text-slate-400 mr-3 whitespace-nowrap">Language:</label>
-            <select id="lang-select-{{ $id }}"
-                    class="lang-selector max-w-xs px-3 py-2 text-sm bg-slate-700 text-white border border-slate-600 rounded-md cursor-pointer
-                           hover:bg-slate-600 focus:outline-none
-                           transition duration-150 ease-in-out appearance-none"
-                    data-codetabs-id="{{ $id }}">
+    <div class="codetabs-header flex items-start justify-between px-4 py-2 bg-slate-900 rounded-t-lg">
+        <div class="flex flex-col items-start">
+            <div class="flex items-center gap-2">
+                <label for="lang-select-{{ $id }}" class="text-xs text-slate-400 mr-3 whitespace-nowrap">Language:</label>
+                <select id="lang-select-{{ $id }}"
+                        class="lang-selector max-w-xs px-3 py-1 text-sm bg-slate-700 text-white border border-slate-600 rounded-md cursor-pointer
+                               hover:bg-slate-600 focus:outline-none
+                               transition duration-150 ease-in-out appearance-none"
+                        data-codetabs-id="{{ $id }}">
                 {{ range $i, $tab := $tabs }}
                     {{ $dataLang := replace (or (index $tab "language") "redis-cli") "C#" "dotnet" }}
                     {{ $dataLang := replace $dataLang "." "-" }}
@@ -31,15 +97,26 @@
                         {{ $displayName }}
                     </option>
                 {{ end }}
-            </select>
-        </div>
-
-        {{/* BinderHub "Run in browser" link - shown conditionally based on current tab's binderId */}}
-        <div id="binder-link-container-{{ $id }}" class="flex items-center ml-4">
-            {{/* Link will be shown/hidden by JavaScript based on selected tab */}}
+                </select>
+            </div>
+            {{- if $description -}}
+            <div class="text-xs text-slate-400 mt-1">{{ $description }}</div>
+            {{- end -}}
         </div>
 
         <div class="flex items-center gap-2 ml-2">
+            {{/* BinderHub "Run in browser" link - shown conditionally based on current tab's binderId */}}
+            <div id="binder-link-container-{{ $id }}" class="flex items-center">
+                {{/* Link will be shown/hidden by JavaScript based on selected tab */}}
+            </div>
+            <button tabindex="1" class="copy-link-button text-neutral-400 hover:text-slate-100 bg-slate-600 h-7 w-7 p-1 rounded rounded-mx relative"
+                    title="Copy link to code block" data-codetabs-id="{{ $id }}" onclick="copyCodeBlockLinkToClipboard(this)">
+                <svg class="inline-block w-4 h-4 align-baseline" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                </svg>
+                <span class="tooltiptext absolute bottom-full right-0 mb-2 bg-slate-200 rounded text-slate-800 text-center text-xs px-2 py-1 whitespace-nowrap pointer-events-none opacity-0 transition-opacity duration-200">Copied!</span>
+            </button>
             <button tabindex="1" class="visibility-button text-neutral-400 hover:text-slate-100 bg-slate-600 h-7 w-7 p-1 rounded rounded-mx"
                     title="Toggle visibility" data-codetabs-id="{{ $id }}" onclick="toggleVisibleLinesForCodetabs(this)">
                 <svg class="visibility-icon-on" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor">

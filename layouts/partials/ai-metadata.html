@@ -1,5 +1,5 @@
 {{- /* Generate AI-friendly metadata as JSON in a script tag for the header */ -}}
-{{- $metadata := dict "title" .Title "description" .Description "categories" .Params.categories -}}
+{{- $metadata := dict "title" .Title "description" .Description "categories" .Params.categories "location" "head" -}}
 {{- if .Params.arguments -}}
   {{- $metadata = merge $metadata (dict "arguments" .Params.arguments) -}}
 {{- end -}}
@@ -40,5 +40,8 @@
 {{- $toc := partial "toc-json-regex.html" . -}}
 {{- /* Manually insert tableOfContents into JSON string */ -}}
 {{- $json = $json | replaceRE `}$` (printf `,"tableOfContents":%s}` $toc) -}}
+{{- $codeExamples := partial "code-examples-json.html" . -}}
+{{- /* Manually insert codeExamples into JSON string */ -}}
+{{- $json = $json | replaceRE `}$` (printf `,"codeExamples":%s}` $codeExamples) -}}
 {{- printf `<script type="application/json" data-ai-metadata>%s</script>` $json | safeHTML -}}
 
