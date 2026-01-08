@@ -75,8 +75,8 @@
 {{- end -}}
 <div class="codetabs cli group box-border rounded-lg mt-0 mb-0 mx-auto bg-slate-900" id="{{ $id }}" data-codetabs-meta="{{ $codetabsMetaJson | htmlEscape }}">
     <!-- Language selector dropdown with controls -->
-    <div class="codetabs-header flex items-start justify-between px-4 py-2 bg-slate-900 rounded-t-lg">
-        <div class="flex flex-col items-start">
+    <div class="codetabs-header flex flex-col px-4 py-2 bg-slate-900 rounded-t-lg">
+        <div class="flex items-start justify-between">
             <div class="flex items-center gap-2">
                 <label for="lang-select-{{ $id }}" class="text-xs text-slate-400 mr-3 whitespace-nowrap">Language:</label>
                 <select id="lang-select-{{ $id }}"
@@ -99,12 +99,8 @@
                 {{ end }}
                 </select>
             </div>
-            {{- if $description -}}
-            <div class="text-xs text-slate-400 mt-1">{{ $description }}</div>
-            {{- end -}}
-        </div>
 
-        <div class="flex items-center gap-2 ml-2">
+            <div class="flex items-center gap-2">
             {{/* BinderHub "Run in browser" link - shown conditionally based on current tab's binderId */}}
             <div id="binder-link-container-{{ $id }}" class="flex items-center">
                 {{/* Link will be shown/hidden by JavaScript based on selected tab */}}
@@ -135,7 +131,11 @@
                     <span class="tooltiptext hidden bg-slate-200 rounded rounded-mx text-slate-800 text-center text-xs p-1 absolute right-6 bottom-4">Copied!</span>
                 </div>
             </button>
+            </div>
         </div>
+        {{- if $description -}}
+        <div class="text-xs text-slate-400 mt-2 w-full">{{ $description }}</div>
+        {{- end -}}
     </div>
 
     <!-- Tab panels -->
