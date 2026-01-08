@@ -42,7 +42,7 @@ See the [complete list of stream commands]({{< relref "/commands/" >}}?group=str
 ## Examples
 
 * When our racers pass a checkpoint, we add a stream entry for each racer that includes the racer's name, speed, position, and location ID:
-{{< clients-example set="stream_tutorial" step="xadd" description="Add entries to a stream using XADD with auto-generated IDs (creates new entries with field-value pairs)" >}}
+{{< clients-example set="stream_tutorial" step="xadd" description="Foundational: Add entries to a stream using XADD with auto-generated IDs (creates new entries with field-value pairs)" >}}
 > XADD race:france * rider Castilla speed 30.2 position 1 location_id 1
 "1692632086370-0"
 > XADD race:france * rider Norem speed 28.8 position 3 location_id 1
@@ -52,7 +52,7 @@ See the [complete list of stream commands]({{< relref "/commands/" >}}?group=str
 {{< /clients-example >}}
 
 * Read two stream entries starting at ID `1692632086370-0`:
-{{< clients-example set="stream_tutorial" step="xrange" description="Retrieve stream entries within a range of IDs using XRANGE when you need to access historical data" >}}
+{{< clients-example set="stream_tutorial" step="xrange" description="Foundational: Retrieve stream entries within a range of IDs using XRANGE when you need to access historical data" >}}
 > XRANGE race:france 1692632086370-0 + COUNT 2
 1) 1) "1692632086370-0"
    2) 1) "rider"
@@ -96,7 +96,7 @@ Streams are an append-only data structure. The fundamental write command, called
 
 Each stream entry consists of one or more field-value pairs, somewhat like a dictionary or a Redis hash:
 
-{{< clients-example set="stream_tutorial" step="xadd_2" description="Add a single entry to a stream with multiple field-value pairs using XADD" >}}
+{{< clients-example set="stream_tutorial" step="xadd_2" description="Foundational: Add a single entry to a stream with multiple field-value pairs using XADD" >}}
 > XADD race:france * rider Castilla speed 29.9 position 1 location_id 2
 "1692632147973-0"
 {{< /clients-example >}}
@@ -105,7 +105,7 @@ The above call to the [`XADD`]({{< relref "/commands/xadd" >}}) command adds an 
 
 It is possible to get the number of items inside a Stream just using the [`XLEN`]({{< relref "/commands/xlen" >}}) command:
 
-{{< clients-example set="stream_tutorial" step="xlen" description="Get the total number of entries in a stream using XLEN" >}}
+{{< clients-example set="stream_tutorial" step="xlen" description="Foundational: Get the total number of entries in a stream using XLEN" >}}
 > XLEN race:france
 (integer) 4
 {{< /clients-example >}}
@@ -159,7 +159,7 @@ Redis Streams support all three of the query modes described above via different
 
 To query the stream by range we are only required to specify two IDs, *start* and *end*. The range returned will include the elements having start or end as ID, so the range is inclusive. The two special IDs `-` and `+` respectively mean the smallest and the greatest ID possible.
 
-{{< clients-example set="stream_tutorial" step="xrange_all" description="Retrieve all entries in a stream using XRANGE with - and + special IDs" >}}
+{{< clients-example set="stream_tutorial" step="xrange_all" description="Foundational: Retrieve all entries in a stream using XRANGE with - and + special IDs" >}}
 > XRANGE race:france - +
 1) 1) "1692632086370-0"
    2) 1) "rider"
@@ -273,7 +273,7 @@ Since [`XRANGE`]({{< relref "/commands/xrange" >}}) complexity is *O(log(N))* to
 
 The command [`XREVRANGE`]({{< relref "/commands/xrevrange" >}}) is the equivalent of [`XRANGE`]({{< relref "/commands/xrange" >}}) but returning the elements in inverted order, so a practical use for [`XREVRANGE`]({{< relref "/commands/xrevrange" >}}) is to check what is the last item in a Stream:
 
-{{< clients-example set="stream_tutorial" step="xrevrange" description="Retrieve stream entries in reverse order using XREVRANGE when you need the most recent entries first" >}}
+{{< clients-example set="stream_tutorial" step="xrevrange" description="Foundational: Retrieve stream entries in reverse order using XREVRANGE when you need the most recent entries first" >}}
 > XREVRANGE race:france + - COUNT 1
 1) 1) "1692632147973-0"
    2) 1) "rider"
@@ -398,7 +398,7 @@ Now it's time to zoom in to see the fundamental consumer group commands. They ar
 
 Assuming I have a key `race:france` of type stream already existing, in order to create a consumer group I just need to do the following:
 
-{{< clients-example set="stream_tutorial" step="xgroup_create" description="Create a consumer group for a stream using XGROUP CREATE to enable coordinated message consumption" >}}
+{{< clients-example set="stream_tutorial" step="xgroup_create" description="Foundational: Create a consumer group for a stream using XGROUP CREATE to enable coordinated message consumption" >}}
 > XGROUP CREATE race:france france_riders $
 OK
 {{< /clients-example >}}
@@ -419,7 +419,7 @@ Now that the consumer group is created we can immediately try to read messages v
 We'll add riders to the race:italy stream and try reading something using the consumer group:
 Note: *here rider is the field name, and the name is the associated value. Remember that stream items are small dictionaries.*
 
-{{< clients-example set="stream_tutorial" step="xgroup_read" description="Read new messages from a stream using a consumer group with XREADGROUP and the > special ID" >}}
+{{< clients-example set="stream_tutorial" step="xgroup_read" description="Foundational: Read new messages from a stream using a consumer group with XREADGROUP and the > special ID" >}}
 > XADD race:italy * rider Castilla
 "1692632639151-0"
 > XADD race:italy * rider Royce
@@ -458,7 +458,7 @@ We can test this behavior immediately specifying an ID of 0, without any **COUNT
 
 However, if we acknowledge the message as processed, it will no longer be part of the pending messages history, so the system will no longer report anything:
 
-{{< clients-example set="stream_tutorial" step="xack" description="Acknowledge processed messages using XACK to mark them as handled by a consumer" >}}
+{{< clients-example set="stream_tutorial" step="xack" description="Foundational: Acknowledge processed messages using XACK to mark them as handled by a consumer" >}}
 > XACK race:italy italy_riders 1692632639151-0
 (integer) 1
 > XREADGROUP GROUP italy_riders Alice STREAMS race:italy 0
