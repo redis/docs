@@ -11,40 +11,16 @@
 
 {{ define "main" }}
 <main class="bg-redis-ink-900 text-white">
-  <header class="relative h-48 bg-redis-ink-900 text-white overflow-hidden">
-    <div class="absolute w-1/2 h-full top-0 left-1/4">
-      <div class="absolute w-fit -top-10 md:-top-6 -right-80 md:-left-96 scale-75 md:scale-100">
-        {{ partial "icons/redis-cube.html" }}
-      </div>
-    </div>
-    <div class="relative max-w-[800px] mx-auto px-5 flex flex-col gap-8 md:items-center justify-center h-full z-10">
-      <h1 class="text-5xl font-medium">{{ .Title }}</h1>
-      {{ with .Params.description }}
-      <p class="text-xl md:text-2xl">{{ . | markdownify }}</p>
-      {{ end }}
-      <form class="flex flex-row items-center border border-white rounded-md px-6 gap-6 w-full md:w-4/5 bg-redis-ink-900" action="/chat">
-        <label class="" for="search-home" id="search-label-home">
-          {{ partial "icons/search.html" }}
-        </label>
-        <input id="seach-home" name="q" class="appearance-none bg-transparent text-base sm:text-lg text-white placeholder-white w-full h-16 focus:outline-none"
-               autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-               placeholder="Ask our AI-powered Redis copilot a question…" maxlength="500" type="text" value="" tabindex=""/>
-        <!--<input type="submit" class="hover:text-redis-pen-300" value="&#x23CE;"/>-->
-        <input class="invisible" type="submit" class="hover:text-redis-pen-300" value=""/>
-      </form>
-    </div>
-  </header>
-  <div class="w-full h-px bg-[#163341]"></div>
   {{ partial "second-header.html" "disabled" }}
-  <div class="flex flex-col lg:flex-row gap-8 mx-auto px-4 md:px-11 py-6 md:py-28 max-w-[1920px] bg-redis-ink-900 text-white">
-    <div class="lg:sticky lg:top-32 w-full lg:w-64 h-fit lg:h-full shrink-0 text-sm font-mono font-normal">
-      <nav class="lg:hidden w-full lg:w-64 z-40 bg-redis-ink-900 h-fit lg:h-full leading-7">
+  <div class="flex flex-col lg:flex-row gap-8 mx-auto px-5 max-w-[1920px] bg-redis-ink-900 text-white" style="padding-top: 2px; padding-bottom: 24px;">
+    <div class="md:block w-full md:w-96 h-fit md:h-full shrink-0 text-base font-mono font-normal py-6">
+      <nav class="md:hidden w-full md:w-96 z-40 bg-redis-ink-900 h-fit md:h-full leading-7">
         <div class="border border-opacity-50 border-white rounded-md flex flex-col bg-redis-ink-900">
-          <button class="px-6 py-4 text-white font-medium flex justify-between cursor-pointer lg:cursor-default" onclick="dropdownToggle()">
+          <button class="px-6 py-4 text-white font-medium flex justify-between cursor-pointer md:cursor-default" onclick="dropdownToggle()">
             <div class="uppercase">Docs</div>
-            <div id="dropdownChevron" class="lg:hidden self-center">{{ partial "icons/chevron.html" }}</div>
+            <div id="dropdownChevron" class="md:hidden self-center">{{ partial "icons/chevron.html" }}</div>
           </button>
-          <div id="dropdown" class="hidden lg:block border-t border-opacity-50 border-white text-gray-300 bg-redis-ink-900">
+          <div id="dropdown" class="hidden md:block border-t border-opacity-50 border-white text-gray-300 bg-redis-ink-900">
             <ul class="p-6">
               <li><a class="py-2 hover:underline hover:text-white" href='{{ relURL "develop" }}'>Develop with Redis</a></li>
               <li><a class="py-2 hover:underline hover:text-white" href='{{ relURL "integrate" }}'>Libraries and tools</a></li>
@@ -55,7 +31,7 @@
           </div>
         </div>
       </nav>
-      <nav class="hidden lg:block w-full lg:w-64 z-40 h-full leading-7">
+      <nav class="hidden md:block max-h-[calc(100vh-7rem)] min-h-96 flex flex-col gap-4 w-full md:w-96 z-40 md:fixed md:pt-6 h-fit md:h-full leading-7">
         <div class="flex flex-col gap-4">
           <div class="flex flex-col border border-white border-opacity-50 rounded-md bg-redis-ink-900">
             <a class="px-6 py-4 rounded-t-md hover:bg-redis-pen-800 text-white" href='{{ relURL "develop" }}'>Develop with Redis</a>
@@ -69,75 +45,94 @@
         </div>
       </nav>
     </div>
-    <div class="lg:px-11 w-full flex flex-col gap-3">
-      <h2 class="text-5xl font-medium text-white" id="operate">Get Started</h2>
+    <div class="w-full flex flex-col gap-16 pt-12">
+      <!-- Welcome heading and search box on same line -->
+      <div class="flex flex-col md:flex-row items-center gap-4 lg:px-11">
+        <h1 class="text-4xl md:text-5xl font-medium text-white text-center md:text-left flex-1">Welcome to Redis Docs</h1>
+        <form class="flex flex-row items-center border border-white rounded-md px-4 gap-3 w-full md:w-auto md:w-[350px] bg-redis-ink-900" action="/chat">
+          <label class="" for="search-home" id="search-label-home">
+            {{ partial "icons/sparkles.html" }}
+          </label>
+          <input id="seach-home" name="q" class="appearance-none bg-transparent text-sm text-white placeholder-white w-full h-10 focus:outline-none"
+                 autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                 placeholder="Ask our AI chatbot to explain Redis docs…" maxlength="500" type="text" value="" tabindex=""/>
+          <input class="invisible" type="submit" class="hover:text-redis-pen-300" value=""/>
+        </form>
+      </div>
+
+      <!-- Two column layout for Get Started and Deploy -->
+      <div class="flex flex-col lg:flex-row gap-8">
+        <div class="lg:px-11 w-full flex flex-col gap-3">
+          <h2 class="text-xl font-medium text-white mb-1">Get Started</h2>
         {{ partial "docs-section.html" (dict
           "Title" "Quickly set up a Redis cache, primary, vector, or custom database"
           "Description" "Set up a Free Redis-managed database on AWS, GCP, or Azure"
-	  "ButtonLink" "./operate/rc/rc-quickstart/"
+  "ButtonLink" "./operate/rc/rc-quickstart/"
           "ButtonLabel" "Redis Cloud quick start" 
           "LinksLeft" (slice
             (dict "Text" "Get started with Redis Open Source" "URL" "./get-started/")
           )
         ) }}
         {{ partial "docs-section.html" (dict
-          "Title" "Build GenAI apps with Redis"
+          "Title" "Build GenAI apps"
           "Description" "Get started using Redis for retrieval augmented generation (RAG)"
-	  "ButtonLink" "./develop/get-started/rag/"
+  "ButtonLink" "./develop/get-started/rag/"
           "ButtonLabel" "Redis with RAG"  
-	"LinksLeft" (slice
+"LinksLeft" (slice
             (dict "Text" "Redis for AI docs and code examples" "URL" "./develop/ai/")
           )  
-	) }}
+) }}
         {{ partial "docs-section.html" (dict
-         "Title" "Optimize Redis for high-scale apps"
-          "Description" "Get the Redis Insight GUI on AWS EC2, Docker, Kubernetes, and desktop"
-	  "ButtonLink" "./operate/redisinsight/install/"
-          "ButtonLabel" "Redis Insight install guide"  
-          "LinksLeft" (slice
-            (dict "Text" "Performance and memory optimization user guide" "URL" "./develop/tools/insight/#database-analysis")
-          )
-        ) }}
-        {{ partial "docs-section.html" (dict
-         "Title" "Migrate data to or from Redis"
-          "Description" "Migrate data from files, data generators, relational databases, or snapshots"
-	  "ButtonLink" "./integrate/riot/"
-          "ButtonLabel" "Redis input and output CLI tool"  
-          "LinksLeft" (slice
-            (dict "Text" "Redis Input/Output Tool quick start" "URL" "./integrate/riot/quick-start/")
-          )
-        ) }}
-	{{ partial "docs-section.html" (dict
-	  "Title" "Connect with Redis client API libraries"
+         "Title" "Connect with Redis client API libraries"
           "Description" "Connect your application to a Redis database and try an example"
           "ButtonLink" "./develop/clients/"
           "ButtonLabel" "Redis client API library guides"
        
           "LinksLeft" (slice
             (dict "Text" "Python" "URL" "./develop/clients/redis-py/")
-	    (dict "Text" "C#/.NET" "URL" "./develop/clients/dotnet/")
-	    (dict "Text" "JavaScript" "URL" "./develop/clients/nodejs/")
+    (dict "Text" "C#/.NET" "URL" "./develop/clients/dotnet/")
+    (dict "Text" "JavaScript" "URL" "./develop/clients/nodejs/")
             (dict "Text" "Java" "URL" "./develop/clients/jedis/")
             (dict "Text" "Go" "URL" "./develop/clients/go/")
             (dict "Text" "PHP" "URL" "./develop/clients/php/")
           )  ) }}
+{{ partial "docs-section.html" (dict
+  "Title" "Client tools to connect to a Redis server"
+          "Description" "You can use the CLI, Redis Insight, or the Redis VSCode extension to connect to Redis"
+  "ButtonLink" "./develop/tools/"
+          "ButtonLabel" "Client tools overview guide"
+  "LinksLeft" (slice
+    (dict "Text"  "Redis CLI" "URL" "./develop/tools/cli/")
+    (dict "Text"  "Redis Insight" "URL" "./develop/tools/insight/")
+    (dict "Text"  "Redis for VSCode" "URL" "./develop/tools/redis-for-vscode/")
+          ) ) }}
+        {{ partial "docs-section.html" (dict
+         "Title" "Understand Redis data structures and use cases"
+          "Description" "Learn which Redis data structures to use for caching, queues, leaderboards, and more"
+          "ButtonLink" "./develop/data-types/"
+          "ButtonLabel" "Redis data types guide"
+          "LinksLeft" (slice
+            (dict "Text" "Common Redis use cases" "URL" "./develop/get-started/data-store/")
+            (dict "Text" "Redis as a vector database" "URL" "./develop/get-started/vector-database/")
+          )
+        ) }}
           {{ partial "docs-section.html" (dict
           "Title" "Resources for AI agents"
           "Description" "Learn more about Redis documentation features that support AI agents"
-	  "ButtonLink" "https://redis.io/llms.txt"
+  "ButtonLink" "https://redis.io/llms.txt"
           "ButtonLabel" "Main `llms.txt` index for doc structure"  
-	"LinksLeft" (slice
+"LinksLeft" (slice
             (dict "Text" "AI Agent Resources" "URL" "./ai-agent-resources")
             (dict "Text" "Example doc page in Markdown format" "URL" "./develop/index.html.md")
           )
         ) }}
-      </div>
-      <div class="lg:px-11 w-full flex flex-col gap-3">
-        <h2 class="text-5xl font-medium text-white" id="operate">Deploy</h2>
+        </div>
+        <div class="lg:px-11 w-full flex flex-col gap-3">
+          <h2 class="text-xl font-medium text-white mb-1">Deploy & Operate</h2>
         {{ partial "docs-section.html" (dict
-            "Title" "Control your Redis deployments on-premises and on cloud platforms"
+            "Title" "Control your Redis Software on-premises and on cloud platforms"
           "Description" "Robust support for hybrid and multi-AZ environments"
-	  "ButtonLink" "./operate/rs/installing-upgrading/install/plan-deployment/"
+  "ButtonLink" "./operate/rs/installing-upgrading/install/plan-deployment/"
           "ButtonLabel" "Redis deployment planning"  
           "LinksLeft" (slice
            (dict "Text" "Active-Active geo-distributed Redis" "URL" "./operate/rs/databases/active-active/")
@@ -146,16 +141,34 @@
         {{ partial "docs-section.html" (dict
            "Title" "Deploy on Kubernetes"
           "Description" "Get started with the Redis Software for Kubernetes container image"
-	  "ButtonLink" "./operate/kubernetes/deployment/quick-start/"
+  "ButtonLink" "./operate/kubernetes/deployment/quick-start/"
           "ButtonLabel" "Kubernetes deployment guide"  
           "LinksLeft" (slice
             (dict "Text" "Deploy Redis Software for Kubernetes with OpenShift" "URL" "./operate/kubernetes/deployment/openshift/")
           )
         ) }}
         {{ partial "docs-section.html" (dict
+         "Title" "Optimize Redis for high-scale apps"
+          "Description" "Get the Redis Insight GUI on AWS EC2, Docker, Kubernetes, and desktop"
+  "ButtonLink" "./operate/redisinsight/install/"
+          "ButtonLabel" "Redis Insight install guide"  
+          "LinksLeft" (slice
+            (dict "Text" "Performance and memory optimization user guide" "URL" "./develop/tools/insight/#database-analysis")
+          )
+        ) }}
+        {{ partial "docs-section.html" (dict
+         "Title" "Migrate data to or from Redis"
+          "Description" "Migrate data from files, data generators, relational databases, or snapshots"
+  "ButtonLink" "./integrate/riot/"
+          "ButtonLabel" "Redis input and output CLI tool"  
+          "LinksLeft" (slice
+            (dict "Text" "Redis Input/Output Tool quick start" "URL" "./integrate/riot/quick-start/")
+          )
+        ) }}
+        {{ partial "docs-section.html" (dict
             "Title" "Ingest and sync data to Redis"
           "Description" "Sync Redis Software with live data from your disk-based databases"
-	  "ButtonLink" "./integrate/redis-data-integration/quick-start-guide/"
+  "ButtonLink" "./integrate/redis-data-integration/quick-start-guide/"
           "ButtonLabel" "Pipeline quick start"  
           "LinksLeft" (slice
             (dict "Text" "Redis Data Integration feature overview" "URL" "./integrate/redis-data-integration/")
@@ -164,22 +177,13 @@
         {{ partial "docs-section.html" (dict
           "Title" "Monitor Redis with Prometheus"
           "Description" "Get started with the Redis Software integration for Prometheus and Grafana"
-	  "ButtonLink" "./integrate/prometheus-with-redis-enterprise/"
+  "ButtonLink" "./integrate/prometheus-with-redis-enterprise/"
           "ButtonLabel" "Prometheus and Grafana with Redis"  
-	"LinksLeft" (slice
+"LinksLeft" (slice
             (dict "Text" "Prometheus and Grafana with Redis Cloud" "URL" "./integrate/prometheus-with-redis-cloud/")
           )
         ) }}
-	{{ partial "docs-section.html" (dict
-	  "Title" "Client tools to connect to a Redis server"
-          "Description" "You can use the CLI, Redis Insight, or the Redis VSCode extension to connect to Redis"
-	  "ButtonLink" "./develop/tools/"
-          "ButtonLabel" "Client tools overview guide"
-	  "LinksLeft" (slice
-	    (dict "Text"  "Redis CLI" "URL" "./develop/tools/cli/")
-	    (dict "Text"  "Redis Insight" "URL" "./develop/tools/insight/")
-	    (dict "Text"  "Redis for VSCode" "URL" "./develop/tools/redis-for-vscode/")	    
-          ) ) }}
+        </div>
       </div>
     </div>
   </div>
