@@ -1,35 +1,491 @@
 {
-  "openapi": "3.0.3",
+  "components": {
+    "responses": {
+      "BadRequest": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        },
+        "description": "Bad request"
+      },
+      "InternalServerError": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        },
+        "description": "Internal Server Error"
+      },
+      "NotFound": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        },
+        "description": "Not Found"
+      },
+      "SamlCallbackResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "access_token": {
+                  "description": "JWT access token for the authenticated user",
+                  "type": "string"
+                },
+                "uid": {
+                  "description": "Unique identifier for the authenticated user",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "description": "Successful response after processing a SAML response."
+      },
+      "SamlLoginResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "redirectUrl": {
+                  "description": "The URL to redirect the user to for SAML authentication.",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "description": "Successful response containing the redirect URL."
+      },
+      "SamlLogoutResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "redirectUrl": {
+                  "description": "The URL to redirect the user to for SAML logout.",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "description": "Successful response containing the redirect URL."
+      },
+      "ServiceUnavailable": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        },
+        "description": "Service Unavailable"
+      },
+      "Unauthorized": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        },
+        "description": "Unauthorized"
+      }
+    },
+    "schemas": {
+      "Alert": {
+        "description": "Alert information",
+        "properties": {
+          "active_since": {
+            "description": "Since what time the alert is active",
+            "format": "date-time",
+            "type": "string"
+          },
+          "name": {
+            "description": "Alert name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "active_since"
+        ],
+        "type": "object"
+      },
+      "Certificate": {
+        "description": "Certificate information.",
+        "properties": {
+          "expired": {
+            "description": "Whether the certificate has expired",
+            "type": "boolean"
+          },
+          "type": {
+            "description": "Certificate type",
+            "type": "string"
+          },
+          "valid_until": {
+            "description": "Certificate expiration time",
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "expired",
+          "valid_until"
+        ],
+        "type": "object"
+      },
+      "ClusterHealthReport": {
+        "description": "Cluster health report.",
+        "properties": {
+          "active_alerts": {
+            "items": {
+              "$ref": "#/components/schemas/Alert"
+            },
+            "type": "array"
+          },
+          "certificates": {
+            "description": "List of certificates in the cluster",
+            "items": {
+              "$ref": "#/components/schemas/Certificate"
+            },
+            "type": "array"
+          },
+          "fqdn": {
+            "description": "Cluster FQDN",
+            "type": "string"
+          },
+          "license": {
+            "$ref": "#/components/schemas/LicenseHealthReport"
+          },
+          "nodes": {
+            "description": "List of nodes in the cluster",
+            "items": {
+              "$ref": "#/components/schemas/Node"
+            },
+            "type": "array"
+          },
+          "status": {
+            "description": "Cluster status",
+            "enum": [
+              "error",
+              "warning",
+              "ok"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "fqdn",
+          "status",
+          "license",
+          "certificates",
+          "nodes",
+          "active_alerts"
+        ],
+        "type": "object"
+      },
+      "Error": {
+        "properties": {
+          "description": {
+            "description": "Human-readable error description",
+            "type": "string"
+          },
+          "error_code": {
+            "description": "Semantic error code (e.g., password_not_complex)",
+            "type": "string"
+          },
+          "status_code": {
+            "type": "integer",
+            "x-go-json-ignore": true
+          }
+        },
+        "required": [
+          "error_code",
+          "description",
+          "status_code"
+        ]
+      },
+      "LicenseHealthReport": {
+        "description": "License health report.",
+        "properties": {
+          "expired": {
+            "description": "Whether the license has expired",
+            "type": "boolean"
+          },
+          "shards_in_use": {
+            "description": "Accumulated number of shards in use by databases in the cluster",
+            "type": "integer"
+          },
+          "shards_limit": {
+            "description": "Shards limit specified in cluster license",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "expired",
+          "shards_in_use",
+          "shards_limit"
+        ],
+        "type": "object"
+      },
+      "Memory": {
+        "description": "Memory information",
+        "properties": {
+          "free_provisional_ram": {
+            "description": "Remaining ram for provisioning new shards on the node",
+            "format": "int64",
+            "type": "integer"
+          },
+          "free_ram": {
+            "description": "Free ram the node has in bytes",
+            "format": "int64",
+            "type": "integer"
+          },
+          "overbooking_depth": {
+            "description": "How much the node is overbooked or has capacity remaining, like free provisional ram but takes into account shards_overbooking (can be negative if it is overbooked)",
+            "format": "int64",
+            "type": "integer"
+          },
+          "total_provisional_ram": {
+            "description": "Total ram for provisioning shards on the node",
+            "format": "int64",
+            "type": "integer"
+          },
+          "total_ram": {
+            "description": "Total ram the node has in bytes",
+            "format": "int64",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "total_ram",
+          "free_ram",
+          "free_provisional_ram",
+          "total_provisional_ram",
+          "overbooking_depth"
+        ],
+        "type": "object"
+      },
+      "Node": {
+        "description": "Node information.",
+        "properties": {
+          "id": {
+            "description": "Node id",
+            "type": "string"
+          },
+          "memory": {
+            "$ref": "#/components/schemas/Memory"
+          },
+          "observed_at": {
+            "description": "Unix time in seconds when the value was last written in the CCS",
+            "format": "int64",
+            "type": "integer"
+          },
+          "role": {
+            "description": "Node role can be leader or follower",
+            "enum": [
+              "leader",
+              "follower"
+            ],
+            "type": "string"
+          },
+          "services": {
+            "items": {
+              "$ref": "#/components/schemas/Service"
+            },
+            "type": "array"
+          },
+          "shards": {
+            "description": "Shards on the node.",
+            "items": {
+              "$ref": "#/components/schemas/ShardHealthReport"
+            },
+            "type": "array"
+          },
+          "status": {
+            "description": "Node status",
+            "enum": [
+              "down",
+              "provisioning",
+              "decommissioning",
+              "active"
+            ],
+            "type": "string"
+          },
+          "version": {
+            "description": "RS version installed on the node",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "status",
+          "role",
+          "version",
+          "shards",
+          "memory",
+          "observed_at",
+          "services"
+        ],
+        "type": "object"
+      },
+      "Service": {
+        "description": "Services running on the node managed by supervisor",
+        "properties": {
+          "name": {
+            "description": "Name of the service",
+            "type": "string"
+          },
+          "status": {
+            "description": "Status of the service corresponding to the statename returned by supervisor",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "status"
+        ],
+        "type": "object"
+      },
+      "ShardHealthReport": {
+        "properties": {
+          "detailed_status": {
+            "description": "shard detailed status",
+            "enum": [
+              "ok",
+              "importing",
+              "timeout",
+              "loading",
+              "busy",
+              "down",
+              "trimming",
+              "unknown"
+            ],
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "role": {
+            "description": "shard role can be leader or follower",
+            "enum": [
+              "leader",
+              "follower"
+            ],
+            "type": "string"
+          },
+          "status": {
+            "description": "shard status can be up or trimming",
+            "enum": [
+              "active",
+              "inactive",
+              "trimming"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "role",
+          "status",
+          "detailed_status"
+        ],
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "Auth": {
+        "in": "header",
+        "name": "r-auth-user",
+        "type": "apiKey"
+      },
+      "jwtAuth": {
+        "in": "header",
+        "name": "Authorization",
+        "type": "apiKey"
+      }
+    }
+  },
   "info": {
-    "title": "Authentication Service REST API",
-    "description": "REST API for the Authentication Service, primarily used for exposing SSO related endpoints.",
+    "description": "Redis Enterprise Software REST API reference. This API reference is still a work in progress. For more API paths, see the [REST API requests](https://redis.io/docs/latest/operate/rs/references/rest-api/requests/) reference pages.",
+    "title": "Redis Enterprise Software REST API",
     "version": "1.0.0"
   },
-  "servers": [
-    {
-      "url": "https://localhost:9443"
-    }
-  ],
+  "openapi": "3.0.0",
   "paths": {
-    "/v1/auth/sso/saml/login": {
-      "get": {
-        "x-stability-level": "stable",
-        "x-publish-docs": true,
-        "summary": "Starts SP-initiated SAML login flow",
-        "description": "Generates a redirect URL to the IdP for SAML authentication.",
-        "operationId": "login",
+    "/v1/auth/sso/saml/callback": {
+      "post": {
+        "description": "Processes the SAML response from the IdP",
+        "operationId": "authentication_callback",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "SAMLResponse": {
+                    "description": "Base64-encoded SAML response from the IdP.",
+                    "type": "string"
+                  },
+                  "TTL": {
+                    "description": "Time-to-live (TTL) of the token in seconds",
+                    "type": "integer",
+                    "x-go-type": "uint32"
+                  }
+                },
+                "required": [
+                  "SAMLResponse"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/SamlCallbackResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        },
+        "summary": "Handles SAML response from IdP",
         "tags": [
           "Auth"
         ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      }
+    },
+    "/v1/auth/sso/saml/login": {
+      "get": {
+        "description": "Generates a redirect URL to the IdP for SAML authentication.",
+        "operationId": "authentication_login",
         "parameters": [
           {
-            "name": "relayState",
+            "description": "An optional relay state to be included in the SAML request.",
             "in": "query",
-            "required": false,
+            "name": "relayState",
             "schema": {
               "type": "string"
-            },
-            "description": "An optional relay state to be included in the SAML request."
+            }
           }
         ],
         "responses": {
@@ -42,71 +498,19 @@
           "500": {
             "$ref": "#/components/responses/InternalServerError"
           }
-        }
-      }
-    },
-    "/v1/auth/sso/saml/callback": {
-      "post": {
-        "x-stability-level": "stable",
-        "x-publish-docs": true,
-        "summary": "Handles SAML response from IdP",
-        "description": "Processes the SAML response from the IdP",
-        "operationId": "callback",
+        },
+        "summary": "Starts SP-initiated SAML login flow",
         "tags": [
           "Auth"
         ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "SAMLResponse"
-                ],
-                "properties": {
-                  "SAMLResponse": {
-                    "type": "string",
-                    "description": "Base64-encoded SAML response from the IdP."
-                  },
-                  "TTL": {
-                    "type": "integer",
-                    "x-go-type": "uint32",
-                    "description": "Time-to-live (TTL) of the token in seconds"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/SamlCallbackResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
-          },
-          "500": {
-            "$ref": "#/components/responses/InternalServerError"
-          }
-        }
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
       }
     },
     "/v1/auth/sso/saml/logout": {
       "get": {
-        "x-stability-level": "stable",
-        "x-publish-docs": true,
-        "summary": "Starts SP-initiated SAML logout flow",
         "description": "Generates a redirect URL to the IdP for SAML logout.",
-        "operationId": "logout",
-        "tags": [
-          "Auth"
-        ],
-        "security": [
-          {
-            "jwtAuth": []
-          }
-        ],
+        "operationId": "authentication_logout",
         "responses": {
           "200": {
             "$ref": "#/components/responses/SamlLogoutResponse"
@@ -120,124 +524,70 @@
           "500": {
             "$ref": "#/components/responses/InternalServerError"
           }
-        }
+        },
+        "security": [
+          {
+            "jwtAuth": []
+          }
+        ],
+        "summary": "Starts SP-initiated SAML logout flow",
+        "tags": [
+          "Auth"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      }
+    },
+    "/v4/cluster/health": {
+      "get": {
+        "description": "Cluster health report.",
+        "operationId": "cluster_cluster_health_report",
+        "parameters": [
+          {
+            "description": "indicate to return only resources with unhealthy status",
+            "in": "query",
+            "name": "issues_only",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClusterHealthReport"
+                }
+              }
+            },
+            "description": "Cluster report is ready see detailed information."
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "view_cluster_info"
+            ]
+          }
+        ],
+        "summary": "Get cluster health report.",
+        "tags": [
+          "Cluster"
+        ],
+        "x-publish-docs": true
       }
     }
   },
-  "components": {
-    "securitySchemes": {
-      "jwtAuth": {
-        "type": "apiKey",
-        "in": "header",
-        "name": "Authorization"
-      }
-    },
-    "schemas": {
-      "Error": {
-        "required": [
-          "error_code",
-          "description",
-          "status_code"
-        ],
-        "properties": {
-          "error_code": {
-            "type": "string",
-            "description": "Semantic error code"
-          },
-          "description": {
-            "type": "string",
-            "description": "Human-readable error description"
-          },
-          "status_code": {
-            "type": "integer",
-            "x-go-json-ignore": true
-          }
-        }
-      }
-    },
-    "responses": {
-      "SamlLoginResponse": {
-        "description": "Successful response containing the redirect URL.",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "redirectUrl": {
-                  "type": "string",
-                  "description": "The URL to redirect the user to for SAML authentication."
-                }
-              }
-            }
-          }
-        }
-      },
-      "SamlCallbackResponse": {
-        "description": "Successful response after processing a SAML response.",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "access_token": {
-                  "type": "string",
-                  "description": "JWT access token for the authenticated user"
-                },
-                "uid": {
-                  "type": "string",
-                  "description": "Unique identifier for the authenticated user"
-                }
-              }
-            }
-          }
-        }
-      },
-      "SamlLogoutResponse": {
-        "description": "Successful response containing the redirect URL.",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "redirectUrl": {
-                  "type": "string",
-                  "description": "The URL to redirect the user to for SAML logout."
-                }
-              }
-            }
-          }
-        }
-      },
-      "BadRequest": {
-        "description": "Bad request",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
-            }
-          }
-        }
-      },
-      "Unauthorized": {
-        "description": "Unauthorized",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
-            }
-          }
-        }
-      },
-      "InternalServerError": {
-        "description": "Internal Server Error",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
-            }
-          }
-        }
-      }
+  "servers": [
+    {
+      "url": "https://localhost:9443"
     }
-  }
+  ]
 }
