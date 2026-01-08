@@ -44,7 +44,7 @@ An API object that represents the cluster.
 | envoy_admin_port | integer, (range: 1024-65535) | Envoy admin port. Changing this port during runtime might result in an empty response because envoy serves as the cluster gateway.|
 | <span class="break-all">envoy_max_downstream_connections</span> | integer, (range: 100-2048) | The max downstream connections envoy is allowed to open |
 | <span class="break-all">envoy_mgmt_server_port</span> | integer, (range: 1024-65535) | Envoy management server port|
-| <span class="break-all">gossip_envoy_admin_port</span> | integer, (range: 1024-65535) | Gossip envoy admin port|
+| <span class="break-all">gossip_envoy_admin_port</span> | integer, (range: 1024-65535) | Gossip envoy admin port (deprecated; this port is no longer used because gossip functionality is handled by the main envoy process on `envoy_admin_port`) |
 | handle_redirects | boolean (default: false) | Handle API HTTPS requests and redirect to the master node internally |
 | http_support | boolean (default: false) | Enable or turn off HTTP support |
 | logrotate_settings | [logrotate_settings]({{<relref "/operate/rs/references/rest-api/objects/cluster/logrotate_settings">}}) object | Settings for logrotate configuration |
@@ -68,7 +68,6 @@ An API object that represents the cluster.
 | robust_crdt_syncer | boolean (default: false) | If `true`, enables the robust syncer for Active-Active databases |
 | s3_ca_cert | string | Filepath to the PEM-encoded CA certificate to use for validating TLS connections to the S3 server |
 | s3_url | string | Specifies the URL for S3 export and import |
-| saslauthd_ldap_conf | string | saslauthd LDAP configuration |
 | <span class="break-all">sentinel_cipher_suites</span> | array | Specifies the list of enabled ciphers for the sentinel service. The supported ciphers are those implemented by the [cipher_suites.go](<https://golang.org/src/crypto/tls/cipher_suites.go>) package. |
 | <span class="break-all">sentinel_cipher_suites_tls_1_3<span> | string | Specifies the list of enabled TLS 1.3 ciphers for the discovery (sentinel) service. The supported ciphers are those implemented by the [cipher_suites.go](<https://golang.org/src/crypto/tls/cipher_suites.go>) package.(read-only) |
 | sentinel_tls_mode | "allowed"<br />"disabled" <br />"required" | Determines whether the discovery service allows, blocks, or requires TLS connections (previously named `sentinel_ssl_policy`)<br />**allowed**: Allows both TLS and non-TLS connections<br />**disabled**: Allows only non-TLS connections<br />**required**: Allows only TLS connections |
