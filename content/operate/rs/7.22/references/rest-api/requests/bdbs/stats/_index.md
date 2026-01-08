@@ -13,6 +13,10 @@ weight: $weight
 url: '/operate/rs/7.22/references/rest-api/requests/bdbs/stats/'
 ---
 
+{{<banner-article>}}
+The v1 statistics REST API endpoints are deprecated as of Redis Enterprise Software version 7.22. Use the [metrics stream engine for monitoring v2]({{< relref "/operate/rs/7.22/monitoring/metrics_stream_engine" >}}) instead for real-time monitoring and metrics collection.
+{{</banner-article>}}
+
 | Method | Path | Description |
 |--------|------|-------------|
 | [GET](#get-all-bdbs-stats) | `/v1/bdbs/stats` | Get stats for all databases |

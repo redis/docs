@@ -1,17 +1,17 @@
 ---
-LinkTitle: New Relic with Redis Enterprise
-Title: New Relic with Redis Enterprise
+LinkTitle: New Relic with Redis Software
+Title: New Relic with Redis Enterprise Software
 alwaysopen: false
 categories:
 - docs
 - integrate
 - rs
 description: To collect, view, and monitor metrics data from your databases and other
-  cluster components, you can connect New Relic to your Redis Enterprise cluster using
+  cluster components, you can connect New Relic to your Redis Enterprise Software cluster using
   the Redis New Relic Integration.
 group: observability
 summary: To collect, view, and monitor metrics data from your databases and other
-  cluster components, you can connect New Relic to your Redis Enterprise cluster using
+  cluster components, you can connect New Relic to your Redis Enterprise Software cluster using
   the Redis New Relic Integration.
 type: integration
 weight: 7
@@ -23,9 +23,9 @@ enable digital transformation and cloud migration, drive collaboration among dev
 business teams, accelerate time to market for applications, reduce time to problem resolution, secure applications and 
 infrastructure, understand user behavior, and track key business metrics.
 
-The New Relic Integration for Redis Enterprise uses Prometheus remote write functionality to connect Prometheus data 
-sources to New Relic. This integration enables Redis Enterprise users to export metrics to New Relic for analysis, 
-and includes Redis-designed dashboards for use in monitoring Redis Enterprise clusters.
+The New Relic Integration for Redis Enterprise Software uses Prometheus remote write functionality to connect Prometheus data 
+sources to New Relic. This integration enables Redis Enterprise Software users to export metrics to New Relic for analysis, 
+and includes Redis-designed dashboards for use in monitoring Redis Enterprise Software clusters.
 
 This integration makes it possible to:
 - Collect and display metrics not available in the admin console
@@ -33,13 +33,13 @@ This integration makes it possible to:
 - Display these metrics alongside data from other systems
 
 {{< image filename="/images/rs/redis-enterprise-newrelic.png" >}}
-## Install Redis' New Relic Integration for Redis Enterprise
+## Install Redis' New Relic Integration for Redis Enterprise Software
 
 The New Relic Integration for Redis is based on a feature of the Prometheus data source. Prometheus can forward metrics on to 
 another destination using remote writes. The Prometheus installation must be configured to pull metrics from Redis 
 Enterprise and write them to New Relic. There are two sections, first the pull from Redis and second the write to New Relic.
 
-Get metrics from Redis Enterprise:
+Get metrics from Redis Enterprise Software:
 
 ```yaml
   - job_name: "redis-enterprise"
@@ -50,7 +50,7 @@ Get metrics from Redis Enterprise:
     tls_config:
       insecure_skip_verify: true
     static_configs:
-      # The default Redis Enterprise Prometheus port is 8070. 
+      # The default Redis Enterprise Software Prometheus port is 8070. 
       # Replace REDIS_ENTERPRISE_HOST with your cluster's hostname.
       - targets: ["REDIS_ENTERPRISE_HOST:8070"]
 ```
@@ -69,7 +69,7 @@ remote_write:
 
 ## View metrics
 
-The Redis Enterprise Integration for New Relic contains pre-defined dashboards to aid in monitoring your Redis Enterprise deployment.
+The Redis Enterprise Software Integration for New Relic contains pre-defined dashboards to aid in monitoring your Redis Enterprise Software deployment.
 
 The following dashboards are currently available:
 

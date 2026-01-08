@@ -11,6 +11,10 @@ linkTitle: DB metrics
 weight: $weight
 ---
 
+{{<banner-article>}}
+The v1 statistics REST API endpoints are deprecated as of Redis Enterprise Software version 7.22. Use the [metrics stream engine for monitoring v2]({{< relref "/operate/rs/monitoring/metrics_stream_engine" >}}) instead for real-time monitoring and metrics collection.
+{{</banner-article>}}
+
 | Metric name | Type | Description |
 |-------------|------|-------------|
 | avg_latency | float | Average latency of operations on the DB (microseconds). Only returned when there is traffic. |
