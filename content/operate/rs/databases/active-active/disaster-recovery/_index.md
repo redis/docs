@@ -8,18 +8,23 @@ categories:
 - rc
 description: Disaster recovery strategies for Active-Active databases using network, proxy, client library, and application-based approaches.
 linkTitle: Disaster recovery
+hideListLinks: true
 weight: 50
 ---
 
 An application deployed with an Active-Active database connects to a database member that is geographically nearby. If that database member becomes unavailable, the application can fail over to a secondary Active-Active database member, and fail back to the original database member again if it recovers.
 
-However, Active-Active Redis databases do not have a built-in [failover](https://en.wikipedia.org/wiki/Failover) or failback mechanism for application connections. To implement failover and failback, you can use one of the following disaster recovery strategies:
+However, because Active-Active Redis databases do not have a built-in [failover](https://en.wikipedia.org/wiki/Failover) or failback mechanism for application connections, you must implement one of the following [disaster recovery strategies](#disaster-recovery-strategies).
 
-- [Network-based]({{<relref "/operate/rs/databases/active-active/disaster-recovery/network-based">}}): Global traffic managers and load balancers for routing.
+## Disaster recovery strategies
+
+Depending on your requirements for Recovery Point Objective, Recovery Time Objective, consistency, scalability, resources, maintainability, and other factors, choose one of the following strategies to fail over to a secondary Active-Active member or fail back to the primary member:
+
+- [Network-based]({{<relref "/operate/rs/databases/active-active/disaster-recovery/network-based">}}): Global traffic managers and load balancers handle routing at the network layer, requiring no application changes.
 
 - [Proxy-based]({{<relref "/operate/rs/databases/active-active/disaster-recovery/proxy-based">}}): Software proxies handle detection and routing logic.
 
-- [Client library-based]({{<relref "/operate/rs/databases/active-active/disaster-recovery/client-library-based">}}): Database client libraries with built-in failover logic.
+- [Client library-based]({{<relref "/operate/rs/databases/active-active/disaster-recovery/client-library-based">}}): Redis client libraries with built-in failover logic.
 
 - [Application-based]({{<relref "/operate/rs/databases/active-active/disaster-recovery/application-based">}}): Custom application-level monitoring and connectivity management.
 
@@ -122,7 +127,3 @@ Use multiple write operations with different randomized keys to access different
 | Database availability requests |:white_check_mark: |  |  |  | No guarantees on readability. For example, the shard might be reloading from a snapshot. |
 | `PING` |:white_check_mark: |:white_check_mark: |:white_check_mark: |  | No support for clustered databases. All `PING` requests will be forwarded to shard 1. |
 | Keyspace sampling |:white_check_mark: |:white_check_mark: |:white_check_mark: |:white_check_mark: | Write operations are persisted, increasing disk usage for AOF and RDB. |
-
-## Disaster recovery strategies
-
-Depending on your requirements for Recovery Point Objective, Recovery Time Objective, consistency, scalability, resources, maintainability, and other factors, choose one of the following strategies to fail over to a secondary Active-Active member or fail back to the primary member.
