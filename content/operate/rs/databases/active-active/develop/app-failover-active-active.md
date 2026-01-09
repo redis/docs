@@ -15,6 +15,10 @@ An application deployed with an Active-Active database connects to a replica of 
 If that replica is not available, the application can failover to a remote replica, and failback again if necessary.
 In this article we explain how this process works.
 
+{{<note>}}
+For other disaster recovery strategies including network-based, proxy-based, and client library approaches, see [Active-Active disaster recovery strategies]({{<relref "/operate/rs/databases/active-active/disaster-recovery">}}).
+{{</note>}}
+
 Active-Active connection failover can improve data availability, but can negatively impact data consistency.
 Active-Active replication, like Redis replication, is asynchronous.
 An application that fails over to another replica can miss write operations.
@@ -27,6 +31,8 @@ Your application can detect two types of failure:
 
 1. **Local failures** - The local replica is down or otherwise unavailable
 1. **Replication failures** - The local replica is available but fails to replicate to or from remote replicas
+
+You can also use [database availability API requests]({{<relref "/operate/rs/monitoring/db-availability">}}) to determine if a database replica is available to handle read and write operations. The lag-aware database availability requests considers CRDT replication lag as a health check criterion to prevent reading stale data during failback scenarios.
 
 ### Local Failures
 

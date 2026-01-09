@@ -46,6 +46,16 @@ You can enable replication when you create your database. You can switch between
 
 It is best practice to enable replication for any databases that need to be highly available.
 
+### Create Active-Active databases for geographic availability
+
+For geographic availability, create [Active-Active databases]({{< relref "/operate/rc/databases/active-active" >}}), which provide:
+
+- **Geographic distribution**: Data is replicated across multiple regions and availability zones. Applications can read from and write to the nearest region, reducing latency for users worldwide.
+
+- **99.999% availability**: Higher availability than single-region deployments by protecting against regional outages.
+
+- **Automatic conflict resolution**: Uses conflict-free replicated data types (CRDTs) to handle concurrent writes across regions.
+
 ### Set manual maintenance windows
 
 Redis maintains your Redis Cloud subscriptions and databases as needed to ensure your databases are running the most stable and up-to-date version of Redis. By default, Redis will perform [maintenance]({{< relref "/operate/rc/subscriptions/maintenance" >}}) automatically while limiting service disruption as much as possible.
