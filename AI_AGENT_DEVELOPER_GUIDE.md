@@ -6,11 +6,15 @@ This guide helps AI agents (like myself) work more effectively on the Redis docu
 
 ### 🎯 Start Here
 
-When you start working on this codebase, follow these steps:
+Before working on any task, complete this checklist:
 
-1. **Read the repository map**: Open [`for-ais-only/REPOSITORY_MAP_FOR_AI_AGENTS.md`](for-ais-only/REPOSITORY_MAP_FOR_AI_AGENTS.md) to understand the codebase structure and find links to relevant documentation
-2. **Find your task**: Look in [`for-ais-only/`](for-ais-only/) for documentation specific to what you're working on (render hooks, metadata, code examples, etc.)
-3. **Understand the project basics**: Check `README.md` for general structure, `config.toml` for site configuration, and `Makefile` for build commands
+```checklist
+- [ ] Read [`for-ais-only/REPOSITORY_MAP_FOR_AI_AGENTS.md`](for-ais-only/REPOSITORY_MAP_FOR_AI_AGENTS.md) to understand the codebase structure
+- [ ] Identify your task type: [Render Hooks](#render-hooks--interactive-components), [Metadata](#page-metadata-system), [Code Examples](#code-examples-system), [Build System](#-project-architecture), or other
+- [ ] Open the relevant documentation in [`for-ais-only/`](for-ais-only/) for your task type (see [AI-Specific Documentation](#-ai-specific-documentation-critical-for-ai-agents) below)
+- [ ] Review existing examples in the codebase that match your task
+- [ ] Only then proceed with your task
+```
 
 ### 📚 AI-Specific Documentation (Critical for AI Agents)
 
