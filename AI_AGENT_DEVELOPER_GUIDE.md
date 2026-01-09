@@ -6,14 +6,48 @@ This guide helps AI agents (like myself) work more effectively on the Redis docu
 
 ### 🎯 Start Here
 
-Before working on any task, complete this checklist:
+Use this decision tree to find the right guidance for your task:
 
-```checklist
-- [ ] Read [`for-ais-only/REPOSITORY_MAP_FOR_AI_AGENTS.md`](for-ais-only/REPOSITORY_MAP_FOR_AI_AGENTS.md) to understand the codebase structure
-- [ ] Identify your task type: [Render Hooks](#render-hooks--interactive-components), [Metadata](#page-metadata-system), [Code Examples](#code-examples-system), [Build System](#-project-architecture), or other
-- [ ] Open the relevant documentation in [`for-ais-only/`](for-ais-only/) for your task type (see [AI-Specific Documentation](#-ai-specific-documentation-critical-for-ai-agents) below)
-- [ ] Review existing examples in the codebase that match your task
-- [ ] Only then proceed with your task
+```decision-tree
+question: "What type of task are you working on?"
+steps:
+  - option: "Fixing typos, updating text, or making small content changes"
+    next: "small_change"
+  - option: "Adding or modifying code examples (description, difficulty, etc.)"
+    next: "code_examples"
+  - option: "Creating a new render hook (checklist, hierarchy, decision tree)"
+    next: "render_hook"
+  - option: "Working with page metadata (TOC, command info, etc.)"
+    next: "metadata"
+  - option: "Understanding or modifying the build system"
+    next: "build_system"
+  - option: "Something else"
+    next: "general"
+
+outcomes:
+  small_change:
+    description: "Small content updates"
+    guidance: "You can proceed directly with your task. No special preparation needed."
+
+  code_examples:
+    description: "Adding/modifying code examples"
+    guidance: "Read [`for-ais-only/tcedocs/README.md`](for-ais-only/tcedocs/README.md) first, especially the sections on [Writing effective descriptions](#) and [Choosing difficulty levels](#). Then review examples in [`content/develop/data-types/strings.md`](../content/develop/data-types/strings.md) to see the pattern in action."
+
+  render_hook:
+    description: "Creating a new render hook"
+    guidance: "Read [`for-ais-only/render_hook_docs/README.md`](for-ais-only/render_hook_docs/README.md) for an overview, then study [`for-ais-only/render_hook_docs/AI_RENDER_HOOK_LESSONS.md`](for-ais-only/render_hook_docs/AI_RENDER_HOOK_LESSONS.md) (Lessons 1-12). Review existing render hooks in [`layouts/_default/_markup/`](../layouts/_default/_markup/) as examples."
+
+  metadata:
+    description: "Working with page metadata"
+    guidance: "Read [`for-ais-only/metadata_docs/PAGE_METADATA_FORMAT.md`](for-ais-only/metadata_docs/PAGE_METADATA_FORMAT.md) for the complete structure, then [`for-ais-only/metadata_docs/IMPLEMENTATION_NOTES.md`](for-ais-only/metadata_docs/IMPLEMENTATION_NOTES.md) for implementation patterns and lessons learned."
+
+  build_system:
+    description: "Understanding the build system"
+    guidance: "Read [`for-ais-only/BUILD_SYSTEM_ARCHITECTURE.md`](for-ais-only/BUILD_SYSTEM_ARCHITECTURE.md) for an overview, then check the [`Makefile`](../Makefile) and [`build/make.py`](../build/make.py) for specific implementation details."
+
+  general:
+    description: "Other tasks"
+    guidance: "Start by reading [`for-ais-only/REPOSITORY_MAP_FOR_AI_AGENTS.md`](for-ais-only/REPOSITORY_MAP_FOR_AI_AGENTS.md) to understand the codebase structure and find documentation relevant to your task."
 ```
 
 ### 📚 AI-Specific Documentation (Critical for AI Agents)
