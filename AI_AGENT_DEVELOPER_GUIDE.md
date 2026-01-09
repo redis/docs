@@ -33,36 +33,103 @@ These files contain patterns, conventions, and implementation details that AI ag
 
 ### 🏗️ Project Architecture
 
-```
-/build/                          # Build scripts and utilities
-├── components/                  # Code example processing
-├── jupyterize/                  # Notebook conversion tool
-├── make.py                       # Main build orchestrator
-└── *.py                         # Build utilities
-
-/for-ais-only/                   # AI-friendly documentation
-├── render_hook_docs/            # Render hook patterns & lessons
-├── metadata_docs/               # Page metadata documentation
-└── tcedocs/                     # Code example system docs
-
-/content/                        # Documentation pages
-├── ai-agent-resources.md        # AI-friendly resources index
-├── develop/                     # Development guides
-├── integrate/                   # Integration guides
-└── operate/                     # Operations guides
-
-/layouts/                        # Hugo templates
-├── partials/                    # Reusable template components
-├── shortcodes/                  # Markdown shortcodes
-└── _default/                    # Default page templates
-
-/data/                           # Data files
-├── components/                  # Language/client configurations
-└── examples.json                # Generated code example metadata
-
-/static/                         # Static assets
-├── js/                          # JavaScript for interactive components
-└── schemas/                     # JSON schemas for metadata validation
+```hierarchy {type="filesystem"}
+"build":
+    _meta:
+        link: "./build/"
+        description: "Build scripts and utilities"
+    "components":
+        _meta:
+            link: "./build/components/"
+            description: "Code example processing"
+    "jupyterize":
+        _meta:
+            link: "./build/jupyterize/"
+            description: "Notebook conversion tool"
+    "make.py":
+        _meta:
+            link: "./build/make.py"
+            description: "Main build orchestrator"
+    "...":
+        _meta:
+            ellipsis: true
+            description: "Other build utilities"
+"for-ais-only":
+    _meta:
+        link: "./for-ais-only/"
+        description: "AI-friendly documentation"
+    "render_hook_docs":
+        _meta:
+            link: "./for-ais-only/render_hook_docs/"
+            description: "Render hook patterns & lessons"
+    "metadata_docs":
+        _meta:
+            link: "./for-ais-only/metadata_docs/"
+            description: "Page metadata documentation"
+    "tcedocs":
+        _meta:
+            link: "./for-ais-only/tcedocs/"
+            description: "Code example system docs"
+"content":
+    _meta:
+        link: "./content/"
+        description: "Documentation pages"
+    "ai-agent-resources.md":
+        _meta:
+            link: "./content/ai-agent-resources.md"
+            description: "AI-friendly resources index"
+    "develop":
+        _meta:
+            link: "./content/develop/"
+            description: "Development guides"
+    "integrate":
+        _meta:
+            link: "./content/integrate/"
+            description: "Integration guides"
+    "operate":
+        _meta:
+            link: "./content/operate/"
+            description: "Operations guides"
+"layouts":
+    _meta:
+        link: "./layouts/"
+        description: "Hugo templates"
+    "partials":
+        _meta:
+            link: "./layouts/partials/"
+            description: "Reusable template components"
+    "shortcodes":
+        _meta:
+            link: "./layouts/shortcodes/"
+            description: "Markdown shortcodes"
+    "_default":
+        _meta:
+            link: "./layouts/_default/"
+            description: "Default page templates"
+"data":
+    _meta:
+        link: "./data/"
+        description: "Data files"
+    "components":
+        _meta:
+            link: "./data/components/"
+            description: "Language/client configurations"
+    "examples.json":
+        _meta:
+            link: "./data/examples.json"
+            description: "Generated code example metadata"
+"static":
+    _meta:
+        link: "./static/"
+        description: "Static assets"
+    "js":
+        _meta:
+            link: "./static/js/"
+            description: "JavaScript for interactive components"
+    "schemas":
+        _meta:
+            link: "./static/schemas/"
+            description: "JSON schemas for metadata validation"
 ```
 
 ### 🔑 Key Concepts for AI Agents

@@ -2,83 +2,168 @@
 
 ## Directory Structure with AI Agent Guidance
 
-```
-docs/
-│
-├── 📖 [README.md](../README.md)                           ← General project info (not AI-focused)
-├── 📖 [AI_AGENT_DEVELOPER_GUIDE.md](../AI_AGENT_DEVELOPER_GUIDE.md)         ← ⭐ START HERE (AI agents)
-│
-├── 🏗️ [for-ais-only/](../)                              ← AI-FRIENDLY DOCUMENTATION
-│   ├── 📖 [BUILD_SYSTEM_ARCHITECTURE.md](./BUILD_SYSTEM_ARCHITECTURE.md)    ← [RECOMMENDED] Build pipeline overview
-│   ├── 📖 [DEVELOPER_TASKS.md](./DEVELOPER_TASKS.md)              ← [RECOMMENDED] Task decision tree
-│   ├── 📖 [REPOSITORY_MAP_FOR_AI_AGENTS.md](./REPOSITORY_MAP_FOR_AI_AGENTS.md)  ← This file
-│   │
-│   ├── [render_hook_docs/](./render_hook_docs/)                  ← RENDER HOOKS (interactive components)
-│   │   ├── 📖 [README.md](./render_hook_docs/README.md)                   ← Overview of 3 render hooks
-│   │   ├── 📖 [AI_RENDER_HOOK_LESSONS.md](./render_hook_docs/AI_RENDER_HOOK_LESSONS.md)   ← ⭐ 12+ implementation lessons
-│   │   ├── 📖 [DECISION_TREE_FORMAT.md](./render_hook_docs/DECISION_TREE_FORMAT.md)     ← YAML format specification
-│   │   ├── 📖 [HIERARCHY_FORMAT.md](./render_hook_docs/HIERARCHY_FORMAT.md)         ← YAML format specification
-│   │   └── 📖 [DECISION_TREE_IMPLEMENTATION_NOTES.md](./render_hook_docs/DECISION_TREE_IMPLEMENTATION_NOTES.md)
-│   │
-│   ├── [metadata_docs/](./metadata_docs/)                     ← PAGE METADATA SYSTEM
-│   │   ├── 📖 [PAGE_METADATA_FORMAT.md](./metadata_docs/PAGE_METADATA_FORMAT.md)     ← ⭐ Complete metadata structure
-│   │   └── 📖 [IMPLEMENTATION_NOTES.md](./metadata_docs/IMPLEMENTATION_NOTES.md)     ← ⭐ 10 key design lessons
-│   │
-│   └── [tcedocs/](./tcedocs/)                           ← CODE EXAMPLES SYSTEM
-│       ├── 📖 [README.md](./tcedocs/README.md)                   ← User guide for code examples
-│       └── 📖 [SPECIFICATION.md](./tcedocs/SPECIFICATION.md)            ← 1600-line technical spec
-│
-├── 📝 [content/](../content/)                            ← DOCUMENTATION PAGES
-│   ├── [ai-agent-resources.md](../content/ai-agent-resources.md)              ← AI-friendly resources index
-│   ├── [develop/](../content/develop/)                           ← Development guides
-│   ├── [integrate/](../content/integrate/)                         ← Integration guides
-│   └── [operate/](../content/operate/)                           ← Operations guides
-│
-├── 🎨 [layouts/](../layouts/)                            ← HUGO TEMPLATES
-│   ├── [partials/](../layouts/partials/)                          ← Reusable components
-│   │   ├── docs-nav.html                  ← Navigation sidebar
-│   │   ├── toc-json-regex.html            ← TOC metadata generation
-│   │   └── code-examples-json.html        ← Code examples metadata
-│   ├── [shortcodes/](../layouts/shortcodes/)                        ← Markdown shortcodes
-│   │   └── clients-example.html           ← Multi-language code examples
-│   ├── [_default/](../layouts/_default/)                          ← Default page templates
-│   │   └── [_markup/](../layouts/_default/_markup/)                       ← Render hooks
-│   │       ├── render-codeblock-checklist.html
-│   │       ├── render-codeblock-hierarchy.html
-│   │       └── render-codeblock-decision-tree.html
-│   └── *.html                             ← Page-specific templates
-│
-├── 📊 [data/](../data/)                               ← DATA FILES
-│   ├── [components/](../data/components/)                        ← Language/client configurations
-│   │   ├── index.json                     ← Component registry
-│   │   ├── redis_py.json                  ← Python client config
-│   │   ├── node_redis.json                ← Node.js client config
-│   │   └── *.json                         ← Other client configs
-│   └── examples.json                      ← Generated code example metadata
-│
-├── 🎯 [static/](../static/)                             ← STATIC ASSETS
-│   ├── [js/](../static/js/)                                ← JavaScript for interactive components
-│   │   ├── checklist.js                   ← Checklist functionality
-│   │   ├── hierarchy.js                   ← Hierarchy rendering
-│   │   ├── decision-tree.js               ← Decision tree rendering
-│   │   └── *.js                           ← Other scripts
-│   ├── [schemas/](../static/schemas/)                           ← JSON schemas for validation
-│   │   └── page-metadata.json             ← Page metadata schema
-│   └── css/                               ← CSS files
-│
-├── ⚙️ [config.toml](../config.toml)                         ← ⭐ Hugo configuration
-│   │                                      ← Language/client mappings
-│   │                                      ← Site parameters
-│   └── clientsConfig section              ← Display name → ID mappings
-│
-├── 📋 [Makefile](../Makefile)                            ← Build commands
-│   ├── make all                           ← Full build
-│   ├── make serve                         ← Development server
-│   └── make components                    ← Process code examples
-│
-├── 📦 [package.json](../package.json)                        ← Node.js dependencies
-├── 📦 [requirements.txt](../requirements.txt)                    ← Python dependencies
-└── 📁 public/                             ← Generated HTML (gitignored)
+```hierarchy {type="filesystem"}
+"(root)":
+    _meta:
+        link: "../"
+    "README.md":
+        _meta:
+            link: "../README.md"
+            description: "General project info (not AI-focused)"
+    "AI_AGENT_DEVELOPER_GUIDE.md":
+        _meta:
+            link: "../AI_AGENT_DEVELOPER_GUIDE.md"
+            description: "⭐ START HERE (AI agents)"
+    "for-ais-only":
+        _meta:
+            link: "./"
+            description: "AI-FRIENDLY DOCUMENTATION"
+        "BUILD_SYSTEM_ARCHITECTURE.md":
+            _meta:
+                link: "./BUILD_SYSTEM_ARCHITECTURE.md"
+                description: "[RECOMMENDED] Build pipeline overview"
+        "DEVELOPER_TASKS.md":
+            _meta:
+                link: "./DEVELOPER_TASKS.md"
+                description: "[RECOMMENDED] Task decision tree"
+        "REPOSITORY_MAP_FOR_AI_AGENTS.md":
+            _meta:
+                link: "./REPOSITORY_MAP_FOR_AI_AGENTS.md"
+                description: "This file"
+        "render_hook_docs":
+            _meta:
+                link: "./render_hook_docs/"
+                description: "RENDER HOOKS (interactive components)"
+            "README.md":
+                _meta:
+                    link: "./render_hook_docs/README.md"
+                    description: "Overview of 3 render hooks"
+            "AI_RENDER_HOOK_LESSONS.md":
+                _meta:
+                    link: "./render_hook_docs/AI_RENDER_HOOK_LESSONS.md"
+                    description: "⭐ 12+ implementation lessons"
+            "DECISION_TREE_FORMAT.md":
+                _meta:
+                    link: "./render_hook_docs/DECISION_TREE_FORMAT.md"
+                    description: "YAML format specification"
+            "HIERARCHY_FORMAT.md":
+                _meta:
+                    link: "./render_hook_docs/HIERARCHY_FORMAT.md"
+                    description: "YAML format specification"
+            "DECISION_TREE_IMPLEMENTATION_NOTES.md":
+                _meta:
+                    link: "./render_hook_docs/DECISION_TREE_IMPLEMENTATION_NOTES.md"
+        "metadata_docs":
+            _meta:
+                link: "./metadata_docs/"
+                description: "PAGE METADATA SYSTEM"
+            "PAGE_METADATA_FORMAT.md":
+                _meta:
+                    link: "./metadata_docs/PAGE_METADATA_FORMAT.md"
+                    description: "⭐ Complete metadata structure"
+            "IMPLEMENTATION_NOTES.md":
+                _meta:
+                    link: "./metadata_docs/IMPLEMENTATION_NOTES.md"
+                    description: "⭐ 10 key design lessons"
+        "tcedocs":
+            _meta:
+                link: "./tcedocs/"
+                description: "CODE EXAMPLES SYSTEM"
+            "README.md":
+                _meta:
+                    link: "./tcedocs/README.md"
+                    description: "User guide for code examples"
+            "SPECIFICATION.md":
+                _meta:
+                    link: "./tcedocs/SPECIFICATION.md"
+                    description: "1600-line technical spec"
+    "content":
+        _meta:
+            link: "../content/"
+            description: "DOCUMENTATION PAGES"
+        "ai-agent-resources.md":
+            _meta:
+                link: "../content/ai-agent-resources.md"
+                description: "AI-friendly resources index"
+        "develop":
+            _meta:
+                link: "../content/develop/"
+                description: "Development guides"
+        "integrate":
+            _meta:
+                link: "../content/integrate/"
+                description: "Integration guides"
+        "operate":
+            _meta:
+                link: "../content/operate/"
+                description: "Operations guides"
+    "layouts":
+        _meta:
+            link: "../layouts/"
+            description: "HUGO TEMPLATES"
+        "partials":
+            _meta:
+                link: "../layouts/partials/"
+                description: "Reusable components"
+        "shortcodes":
+            _meta:
+                link: "../layouts/shortcodes/"
+                description: "Markdown shortcodes"
+        "_default":
+            _meta:
+                link: "../layouts/_default/"
+                description: "Default page templates"
+            "_markup":
+                _meta:
+                    link: "../layouts/_default/_markup/"
+                    description: "Render hooks"
+    "data":
+        _meta:
+            link: "../data/"
+            description: "DATA FILES"
+        "components":
+            _meta:
+                link: "../data/components/"
+                description: "Language/client configurations"
+        "examples.json":
+            _meta:
+                link: "../data/examples.json"
+                description: "Generated code example metadata"
+    "static":
+        _meta:
+            link: "../static/"
+            description: "STATIC ASSETS"
+        "js":
+            _meta:
+                link: "../static/js/"
+                description: "JavaScript for interactive components"
+        "schemas":
+            _meta:
+                link: "../static/schemas/"
+                description: "JSON schemas for validation"
+        "css":
+            _meta:
+                link: "../static/css/"
+                description: "CSS files"
+    "config.toml":
+        _meta:
+            link: "../config.toml"
+            description: "⭐ Hugo configuration"
+    "Makefile":
+        _meta:
+            link: "../Makefile"
+            description: "Build commands"
+    "package.json":
+        _meta:
+            link: "../package.json"
+            description: "Node.js dependencies"
+    "requirements.txt":
+        _meta:
+            link: "../requirements.txt"
+            description: "Python dependencies"
+    "public":
+        _meta:
+            description: "Generated HTML (gitignored)"
 ```
 
 ## Navigation Guide for AI Agents
