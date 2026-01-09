@@ -12,7 +12,7 @@ aliases:
   - /rc/databases/upgrade-version
 ---
 
-You can upgrade databases that are not on the latest available version of Redis to a later version at any time.
+You can upgrade databases that are not on the latest available version of Redis to a later database version at any time.
 
 {{< note >}}
 Please keep in mind the following before upgrading your database version:
@@ -76,9 +76,9 @@ The upgrade will start in 1-3 weeks from your request, according to your subscri
 
 ## Manually revert upgrade
 
-Automatically reverting to a previous Redis version is not supported on Redis Cloud.
+Automatically reverting to a previous Redis database version is not supported on Redis Cloud.
 
-If you [backed up your database]({{< relref "/operate/rc/databases/back-up-data" >}}) before you upgraded your version, you can:
+If you [backed up your database]({{< relref "/operate/rc/databases/back-up-data" >}}) before you upgraded your database version, you can:
 
 1. [Delete your database]({{< relref "/operate/rc/databases/delete-database" >}}) without deleting your subscription.
 1. [Create a new database]({{< relref "/operate/rc/databases/create-database/create-pro-database-existing" >}}) in your subscription with the following settings:
