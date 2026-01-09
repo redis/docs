@@ -5,9 +5,12 @@ This guide helps AI agents (like myself) work more effectively on the Redis docu
 ## Quick Navigation for AI Agents
 
 ### 🎯 Start Here
-- **Project Overview**: See `README.md` for general structure
-- **Build System**: See `Makefile` and `build/make.py` for build pipeline
-- **Hugo Configuration**: See `config.toml` for site settings and language mappings
+
+When you start working on this codebase, follow these steps:
+
+1. **Read the repository map**: Open [`for-ais-only/REPOSITORY_MAP_FOR_AI_AGENTS.md`](for-ais-only/REPOSITORY_MAP_FOR_AI_AGENTS.md) to understand the codebase structure and find links to relevant documentation
+2. **Find your task**: Look in [`for-ais-only/`](for-ais-only/) for documentation specific to what you're working on (render hooks, metadata, code examples, etc.)
+3. **Understand the project basics**: Check `README.md` for general structure, `config.toml` for site configuration, and `Makefile` for build commands
 
 ### 📚 AI-Specific Documentation (Critical for AI Agents)
 
