@@ -216,7 +216,7 @@ Each entry returned is an array of two items: the ID and the list of field-value
 
 I have only a single entry in this range. However in real data sets, I could query for ranges of hours, or there could be many items in just two milliseconds, and the result returned could be huge. For this reason, [`XRANGE`]({{< relref "/commands/xrange" >}}) supports an optional **COUNT** option at the end. By specifying a count, I can just get the first *N* items. If I want more, I can get the last ID returned, increment the sequence part by one, and query again. Let's see this in the following example. Let's assume that the stream `race:france` was populated with 4 items. To start my iteration, getting 2 items per command, I start with the full range, but with a count of 2.
 
-{{< clients-example set="stream_tutorial" step="xrange_step_1" description="Practical pattern: Paginate through stream entries using XRANGE with COUNT to retrieve results in batches" difficulty="intermediate" >}}
+{{< clients-example set="stream_tutorial" step="xrange_step_1" description="Practical pattern: Paginate stream entries using XRANGE with COUNT to retrieve results in batches" difficulty="intermediate" >}}
 > XRANGE race:france - + COUNT 2
 1) 1) "1692632086370-0"
    2) 1) "rider"
