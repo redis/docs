@@ -69,6 +69,11 @@ summary: Stores the difference of multiple sorted sets in a key.
 syntax_fmt: ZDIFFSTORE destination numkeys key [key ...]
 title: ZDIFFSTORE
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Computes the difference between the first and all successive input sorted sets
 and stores the result in `destination`. The total number of input keys is
 specified by `numkeys`.

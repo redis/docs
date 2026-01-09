@@ -70,6 +70,11 @@ summary: Returns the highest- or lowest-scoring members from one or more sorted 
 syntax_fmt: "ZMPOP numkeys key [key ...] <MIN | MAX> [COUNT\_count]"
 title: ZMPOP
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Pops one or more elements, that are member-score pairs, from the first non-empty sorted set in the provided list of key names.
 
 `ZMPOP` and [`BZMPOP`]({{< relref "/commands/bzmpop" >}}) are similar to the following, more limited, commands:

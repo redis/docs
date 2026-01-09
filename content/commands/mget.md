@@ -49,6 +49,10 @@ summary: Atomically returns the string values of one or more keys.
 syntax_fmt: MGET key [key ...]
 title: MGET
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
 Returns the values of all specified keys.
 For every key that does not hold a string value or does not exist, the special
 value `nil` is returned.

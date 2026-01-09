@@ -52,6 +52,11 @@ summary: Determines whether one or more keys exist.
 syntax_fmt: EXISTS key [key ...]
 title: EXISTS
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Returns if `key` exists.
 
 The user should be aware that if the same existing key is mentioned in the arguments multiple times, it will be counted multiple times. So if `somekey` exists, `EXISTS somekey somekey` will return 2.

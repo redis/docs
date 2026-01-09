@@ -67,6 +67,11 @@ summary: Renames a key only when the target key name doesn't exist.
 syntax_fmt: RENAMENX key newkey
 title: RENAMENX
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Renames `key` to `newkey` if `newkey` does not yet exist.
 It returns an error when `key` does not exist.
 

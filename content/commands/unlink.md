@@ -52,6 +52,11 @@ summary: Asynchronously deletes one or more keys.
 syntax_fmt: UNLINK key [key ...]
 title: UNLINK
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 This command is very similar to [`DEL`]({{< relref "/commands/del" >}}): it removes the specified keys.
 Just like [`DEL`]({{< relref "/commands/del" >}}) a key is ignored if it does not exist. However the command
 performs the actual memory reclaiming in a different thread, so it is not

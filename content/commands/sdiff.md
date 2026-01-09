@@ -48,6 +48,11 @@ summary: Returns the difference of multiple sets.
 syntax_fmt: SDIFF key [key ...]
 title: SDIFF
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Returns the members of the set resulting from the difference between the first
 set and all the successive sets.
 

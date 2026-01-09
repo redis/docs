@@ -55,6 +55,11 @@ summary: Atomically modifies the string values of one or more keys only when all
 syntax_fmt: MSETNX key value [key value ...]
 title: MSETNX
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Sets the given keys to their respective values.
 `MSETNX` will not perform any operation at all even if just a single key already
 exists.

@@ -34,6 +34,11 @@ summary: Returns the values at a path from one or more keys
 syntax_fmt: JSON.MGET key [key ...] path
 title: JSON.MGET
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Return the values at `path` from multiple `key` arguments
 
 {{% warning %}}

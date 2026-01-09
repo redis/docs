@@ -38,6 +38,11 @@ summary: Append new samples to one or more time series
 syntax_fmt: TS.MADD key timestamp value [key timestamp value ...]
 title: TS.MADD
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 
 Append new samples to one or more time series
 

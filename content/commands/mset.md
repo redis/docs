@@ -56,6 +56,11 @@ summary: Atomically creates or modifies the string values of one or more keys.
 syntax_fmt: MSET key value [key value ...]
 title: MSET
 ---
+{{< note >}}
+This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Sets the given keys to their respective values.
 `MSET` replaces existing values with new values, just as regular [`SET`]({{< relref "/commands/set" >}}).
 See [`MSETNX`]({{< relref "/commands/msetnx" >}}) if you don't want to overwrite existing values.
