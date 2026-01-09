@@ -14,22 +14,22 @@ This guide helps AI agents (like myself) work more effectively on the Redis docu
 These files contain patterns, conventions, and implementation details that AI agents should reference:
 
 #### Render Hooks & Interactive Components
-- **`for-ais-only/render_hook_docs/README.md`** - Overview of all render hooks (checklists, hierarchies, decision trees)
-- **`for-ais-only/render_hook_docs/AI_RENDER_HOOK_LESSONS.md`** - 12+ lessons on progressive enhancement, security, and patterns
-- **`for-ais-only/render_hook_docs/DECISION_TREE_FORMAT.md`** - YAML format for decision trees
-- **`for-ais-only/render_hook_docs/HIERARCHY_FORMAT.md`** - YAML format for hierarchies
-- **`for-ais-only/render_hook_docs/DECISION_TREE_IMPLEMENTATION_NOTES.md`** - Implementation details and gotchas
+- **[for-ais-only/render_hook_docs/README.md](for-ais-only/render_hook_docs/README.md)** - Overview of all render hooks (checklists, hierarchies, decision trees)
+- **[for-ais-only/render_hook_docs/AI_RENDER_HOOK_LESSONS.md](for-ais-only/render_hook_docs/AI_RENDER_HOOK_LESSONS.md)** - 12+ lessons on progressive enhancement, security, and patterns
+- **[for-ais-only/render_hook_docs/DECISION_TREE_FORMAT.md](for-ais-only/render_hook_docs/DECISION_TREE_FORMAT.md)** - YAML format for decision trees
+- **[for-ais-only/render_hook_docs/HIERARCHY_FORMAT.md](for-ais-only/render_hook_docs/HIERARCHY_FORMAT.md)** - YAML format for hierarchies
+- **[for-ais-only/render_hook_docs/DECISION_TREE_IMPLEMENTATION_NOTES.md](for-ais-only/render_hook_docs/DECISION_TREE_IMPLEMENTATION_NOTES.md)** - Implementation details and gotchas
 
 #### Page Metadata System
-- **`for-ais-only/metadata_docs/PAGE_METADATA_FORMAT.md`** - Complete metadata structure (TOC, code examples, command info)
-- **`for-ais-only/metadata_docs/IMPLEMENTATION_NOTES.md`** - 10 key lessons on metadata design and implementation
+- **[for-ais-only/metadata_docs/PAGE_METADATA_FORMAT.md](for-ais-only/metadata_docs/PAGE_METADATA_FORMAT.md)** - Complete metadata structure (TOC, code examples, command info)
+- **[for-ais-only/metadata_docs/IMPLEMENTATION_NOTES.md](for-ais-only/metadata_docs/IMPLEMENTATION_NOTES.md)** - 10 key lessons on metadata design and implementation
 
 #### Code Examples System
-- **`for-ais-only/tcedocs/README.md`** - User guide for adding multi-language code examples
-- **`for-ais-only/tcedocs/SPECIFICATION.md`** - Technical specification (1600+ lines of detailed architecture)
+- **[for-ais-only/tcedocs/README.md](for-ais-only/tcedocs/README.md)** - User guide for adding multi-language code examples
+- **[for-ais-only/tcedocs/SPECIFICATION.md](for-ais-only/tcedocs/SPECIFICATION.md)** - Technical specification (1600+ lines of detailed architecture)
 
 #### Jupyter Notebook Conversion
-- **`build/jupyterize/README.md`** - Tool for converting code examples to Jupyter notebooks
+- **[build/jupyterize/README.md](build/jupyterize/README.md)** - Tool for converting code examples to Jupyter notebooks
 
 ### 🏗️ Project Architecture
 
