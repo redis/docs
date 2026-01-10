@@ -97,7 +97,63 @@ To enable TLS for Active-Active cluster connections using the Cluster Manager UI
 
 1. Click **Create**.
 
-If you also want to require TLS for client connections, you must edit the Active-Active database configuration after creation. See [Enable TLS for client connections](#client) for instructions.
+If you also want to require TLS for client connections during creation, you can use the [create an Active-Active database]({{< relref "/operate/rs/references/rest-api/requests/crdbs/#post-crdb" >}}) REST API request to create an Active-Active database with TLS enabled for client connections.
+You should configure the client certificates individually for each instance instead of using the default database configuration, even if the same certificate is used across all instances.
+This allows you to rotate the certificates independently for each instance and to avoid outages in case of certificate expiration.
+
+```json
+POST https://<host>:9443/v1/crdb
+{
+  "name": "crdb-mtls",
+  "default_db_config": {
+    "name": "crdb-mtls",
+    "bigstore": false,
+    "memory_size": 4294967296
+  },
+  "encryption": true,
+  "instances": [
+    {
+      "cluster": {
+        "name": "<cluster1_host>",
+        "url": "https://<cluster1_host>:9443",
+        "credentials": {
+          "username": "<username>",
+          "password": "<password>"
+        }
+      },
+      "db_config": {
+        "tls_mode": "enabled",
+        "enforce_client_authentication": "enabled",
+        "authentication_ssl_client_certs": [
+          {
+            "client_cert": "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----\n"
+          }
+        ]
+      }
+    },
+    {
+      "cluster": {
+        "name": "<cluster2_host>",
+        "url": "https://<cluster2_host>:9443",
+        "credentials": {
+          "username": "<username>",
+          "password": "<password>"
+        }
+      },
+      "db_config": {
+        "tls_mode": "enabled",
+        "enforce_client_authentication": "enabled",
+        "authentication_ssl_client_certs": [
+          {
+            "client_cert": "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----\n"
+          }
+        ]
+      }
+    }
+  ],
+  "causal_consistency": false
+}
+```
 
 ### Enable TLS after database creation
 
