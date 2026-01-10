@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-compatibleOSSVersion: Redis 8.2, 8.0, 7.4, 7.2, 6.2
+compatibleOSSVersion: Redis 8.4, 8.2, 8.0, 7.4, 7.2, 6.2
 description: Redis Software 8! The most performant, most secure, and richest version so far. Built for performance, scale, and reliability to power modern ML and AI applications.
 hideListLinks: true
 linkTitle: 8.0.x releases
@@ -19,7 +19,7 @@ weight: 67
 
 This version offers:
 
-- Redis 8.0 and 8.2 feature set versions
+- Redis 8.0, 8.2, and 8.4 feature set versions
 
 - Performance improvements and memory reduction
 
