@@ -46,7 +46,7 @@ syntax_fmt: "TS.QUERYINDEX <l=v | l!=v | l= | l!= | l=(v1,v2,...) |\n  l!=(v1,v2
 title: TS.QUERYINDEX
 ---
 {{< note >}}
-This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
 {{< /note >}}
 
 

@@ -76,7 +76,7 @@ syntax_fmt: "BLMPOP timeout numkeys key [key ...] <LEFT | RIGHT> [COUNT\_count]"
 title: BLMPOP
 ---
 {{< note >}}
-This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
 {{< /note >}}
 
 

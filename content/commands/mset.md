@@ -57,7 +57,7 @@ syntax_fmt: MSET key value [key value ...]
 title: MSET
 ---
 {{< note >}}
-This command is affected by cross-slot operations. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
 {{< /note >}}
 
 
