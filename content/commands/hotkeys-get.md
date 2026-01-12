@@ -79,9 +79,9 @@ Minimum network bytes percentage threshold. Only hotkeys with network bytes perc
 One of the following:
 - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with the following items when tracking data is available:
     - `collection-start-time`: Unix timestamp (integer) when tracking started.
-    - `collection-duration`: duration in seconds (integer) of the tracking period.
-    - `by-cpu-time`: array of key-percentage pairs (bulk strings) sorted by CPU time usage.
-    - `by-net-bytes`: array of key-percentage pairs (bulk strings) sorted by network bytes usage.
+    - `collection-duration`: Duration in seconds (integer) of the tracking period.
+    - `by-cpu-time`: Array of key-percentage pairs (bulk strings) sorted by CPU time usage.
+    - `by-net-bytes`: Array of key-percentage pairs (bulk strings) sorted by network bytes usage.
 
 - [Null bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) when no tracking has been started or no data is available.
 
@@ -117,8 +117,8 @@ One of the following:
 
     - `collection-start-time`: Unix timestamp (integer) when tracking started.
     - `collection-duration`: Duration in seconds (integer) of the tracking period.
-    - `by-cpu-time`: Array of key-percentage (bulk string) pairs sorted by CPU time usage
-    - `by-net-bytes`: Array of key-percentage (bulk string) pairs sorted by network bytes usage
+    - `by-cpu-time`: Array of key-percentage (bulk string) pairs sorted by CPU time usage.
+    - `by-net-bytes`: Array of key-percentage (bulk string) pairs sorted by network bytes usage.
 - [Null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}) when no tracking has been started or no data is available.
 
 Example with tracking data:
