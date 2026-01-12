@@ -23,7 +23,7 @@
     {
       "x-api-key": [],
       "x-api-secret-key": [],
-      "X-Auth-Token": []
+      "x-auth-token": []
     }
   ],
   "tags": [
@@ -5710,6 +5710,91 @@
         }
       }
     },
+    "/subscriptions/{subscriptionId}/regions/{regionId}/private-link/connections/disassociate": {
+      "post": {
+        "tags": [
+          "Subscriptions - Pro - Connectivity"
+        ],
+        "summary": "Disassociate connections from Private Link for a specific region",
+        "description": "(Active-Active subscriptions only) Disassociates one or more VPC endpoint connections from the Private Link configuration for a specific region.",
+        "operationId": "disassociateActiveActivePrivateLinkConnections",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "regionId",
+            "in": "path",
+            "description": "Region ID - required for Active-Active subscription",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 1
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrivateLinkActiveActiveConnectionsDisassociateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/regions/peerings": {
       "get": {
         "tags": [
@@ -6500,6 +6585,80 @@
           },
           "204": {
             "description": "No Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/private-link/connections/disassociate": {
+      "post": {
+        "tags": [
+          "Subscriptions - Pro - Connectivity"
+        ],
+        "summary": "Disassociate connections from Private Link",
+        "description": "Disassociates one or more VPC endpoint connections from the Private Link configuration.",
+        "operationId": "disassociatePrivateLinkConnections",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrivateLinkConnectionsDisassociateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "202": {
+            "description": "Accepted",
             "content": {
               "application/json": {
                 "schema": {
@@ -8043,7 +8202,7 @@
         "tags": [
           "Account"
         ],
-        "summary": "Generate cost report (Beta)",
+        "summary": "Generate cost report",
         "description": "Generates a cost report in FOCUS format for the specified time period (max 40 days range) and filters. [Read more about focus here](https://focus.finops.org/).\n",
         "operationId": "createCostReport",
         "requestBody": {
@@ -10557,7 +10716,7 @@
         "tags": [
           "Account"
         ],
-        "summary": "Get cost report (Beta)",
+        "summary": "Get cost report",
         "description": "Returns the generated cost report file in FOCUS format using the costReportId returned from the cost report generation task. The file is downloaded as an attachment with the filename set to the costReportId.",
         "operationId": "getCostReport",
         "parameters": [
@@ -10894,8 +11053,7 @@
             "type": "integer",
             "description": "Deployment region id as defined by cloud provider",
             "format": "int32",
-            "readOnly": true,
-            "example": 27
+            "readOnly": true
           },
           "shareName": {
             "maxLength": 64,
@@ -11826,6 +11984,11 @@
             "description": "Optional. Changes the password used to access the database with the 'default' user. Can only be set if 'protocol' is 'redis'.",
             "example": "P@ssw0rd"
           },
+          "passwordless": {
+            "type": "boolean",
+            "description": "Optional. When 'true', indicates the user's explicit intent to have an empty/no password for the database. Cannot be set simultaneously with 'password'.",
+            "example": true
+          },
           "saslUsername": {
             "type": "string",
             "description": "Optional. Changes the Memcached (SASL) username to access the database. Can only be set if 'protocol' is 'memcached'.",
@@ -12578,8 +12741,7 @@
             "type": "integer",
             "description": "Deployment region id as defined by cloud provider",
             "format": "int32",
-            "readOnly": true,
-            "example": 27
+            "readOnly": true
           },
           "principal": {
             "type": "string",
@@ -12610,6 +12772,37 @@
           }
         },
         "description": "Request to add a principal to private link for Active-Active subscription"
+      },
+      "PrivateLinkActiveActiveConnectionsDisassociateRequest": {
+        "required": [
+          "connections"
+        ],
+        "type": "object",
+        "properties": {
+          "subscriptionId": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "regionId": {
+            "type": "integer",
+            "description": "Deployment region id as defined by cloud provider",
+            "format": "int32",
+            "readOnly": true
+          },
+          "connections": {
+            "type": "array",
+            "description": "List of connections to disassociate from the private link. Each connection must include associationId, type, and principalId.",
+            "items": {
+              "$ref": "#/components/schemas/PrivateLinkConnectionDisassociate"
+            }
+          },
+          "commandType": {
+            "type": "string",
+            "readOnly": true
+          }
+        },
+        "description": "Request to disassociate connections from private link for Active-Active subscription"
       },
       "VpcPeeringUpdateAwsRequest": {
         "type": "object",
@@ -15560,6 +15753,31 @@
         },
         "description": "Database tags update request message"
       },
+      "PrivateLinkConnectionsDisassociateRequest": {
+        "required": [
+          "connections"
+        ],
+        "type": "object",
+        "properties": {
+          "subscriptionId": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "connections": {
+            "type": "array",
+            "description": "List of connections to disassociate from the private link. Each connection must include associationId, type, and principalId.",
+            "items": {
+              "$ref": "#/components/schemas/PrivateLinkConnectionDisassociate"
+            }
+          },
+          "commandType": {
+            "type": "string",
+            "readOnly": true
+          }
+        },
+        "description": "Private Link connections disassociate request"
+      },
       "AccountUsers": {
         "type": "object",
         "properties": {
@@ -16016,6 +16234,11 @@
             "type": "string",
             "description": "Optional. Password to access the database. If not set, a random 32-character alphanumeric password will be automatically generated. Can only be set if 'protocol' is 'redis'."
           },
+          "passwordless": {
+            "type": "boolean",
+            "description": "Optional. When 'true', indicates the user's explicit intent to have an empty/no password for the database. Cannot be set simultaneously with 'password'. Only supported for single-region subscriptions.",
+            "example": true
+          },
           "saslUsername": {
             "type": "string",
             "description": "Optional. Memcached (SASL) Username to access the database. If not set, the username will be set to a 'mc-' prefix followed by a random 5 character long alphanumeric. Can only be set if 'protocol' is 'memcached'."
@@ -16114,6 +16337,37 @@
           }
         },
         "description": "ACL user update request"
+      },
+      "PrivateLinkConnectionDisassociate": {
+        "required": [
+          "associationId",
+          "principalId",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "associationId": {
+            "type": "string",
+            "description": "Resource share association ID",
+            "example": "rsa-12345678"
+          },
+          "connectionId": {
+            "type": "string",
+            "description": "VPC endpoint connection ID",
+            "example": "vpce-con-12345678"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the connection",
+            "example": "vpc_endpoint"
+          },
+          "principalId": {
+            "type": "string",
+            "description": "Principal ID that owns the connection, e.g. AWS account ID",
+            "example": "123456789012"
+          }
+        },
+        "description": "Private link connection information for disassociation request"
       },
       "ProcessorResponse": {
         "type": "object",
@@ -16258,6 +16512,7 @@
               "DATABASE_SIZE_LIMIT_NOT_DEFINED",
               "DATABASE_SIZE_LIMIT_INVALID_TOO_MANY_MEMORY_SPECIFICATIONS",
               "DATABASE_PASSWORD_IS_BLANK",
+              "DATABASE_PASSWORDLESS_NOT_ALLOWED",
               "DATABASE_PASSWORD_IS_TOO_LONG",
               "DATABASE_REDIS_SEARCH_MODULE_VALUE_IS_NOT_INTEGER",
               "DATABASE_REDIS_SEARCH_MODULE_VALUE_NOT_IN_RANGE",
@@ -16346,6 +16601,7 @@
               "DATABASE_CUSTOM_PORT_NOT_UNIQUE",
               "DATABASE_AVERAGE_ITEM_SIZE_INVALID_VALUE",
               "DATABASE_REDIS_VERSION_IS_NOT_SUPPORTED",
+              "DATABASE_REDIS_VERSION_IS_NOT_SUPPORTED_FOR_REGION",
               "DATABASE_REDIS_VERSION_IS_NOT_SUPPORTED_FOR_MEMCACHED",
               "DATABASE_REDIS_VERSION_IS_REQUIRED",
               "DATABASE_REDIS_VERSION_INVALID_VALUE",
@@ -16468,6 +16724,7 @@
               "FLEXIBLE_DATABASE_ALERT_NOT_SUPPORTED",
               "ACTIVE_ACTIVE_DATABASE_REPLICA_OF_NOT_SUPPORTED",
               "ACTIVE_ACTIVE_DATABASE_PERIODIC_BACK_UP_PATH_NOT_ALLOWED",
+              "ACTIVE_ACTIVE_DATABASE_PASSWORDLESS_NOT_SUPPORTED",
               "ACTIVE_ACTIVE_CHANGE_REQUEST_PLANNING_FAILED",
               "ACTIVE_ACTIVE_CHANGE_REQUEST_PLANNING_EXPIRED",
               "ACTIVE_ACTIVE_MISSING_LOCAL_THROUGHPUT_MEASUREMENT",
@@ -16502,6 +16759,8 @@
               "UPDATING_LOCAL_PROPERTIES_NOT_ALLOWED_WITH_SINGLE_REGION_SUBSCRIPTION",
               "DISABLING_THE_DEFAULT_USER_AND_UPDATING_A_NEW_PASSWORD_IS_NOT_ALLOWED",
               "NOT_ALLOWED_TO_UPDATE_A_DATABASE_PASSWORD_WHEN_DEFAULT_USER_IS_DISABLED",
+              "DATABASE_PASSWORDLESS_AND_PASSWORD_BOTH_SET",
+              "DATABASE_PASSWORDLESS_FALSE_WITH_EMPTY_PASSWORD",
               "UPDATING_SINGLE_REGION_DATABASE_NOT_ALLOWED_WITH_ACTIVE_ACTIVE_SUBSCRIPTION",
               "GETTING_ACTIVE_ACTIVE_SUBSCRIPTION_VPC_PEERINGS_IS_NOT_ALLOWED_WITH_SINGLE_REGION_SUBSCRIPTION",
               "UPDATING_SINGLE_REGION_CIDR_WHITE_LIST_IS_NOT_ALLOWED_WITH_ACTIVE_ACTIVE_SUBSCRIPTION",
@@ -16713,6 +16972,8 @@
               "PRIVATE_LINK_DELETING_AN_ACTIVE_ACTIVE_SUBSCRIPTION_PRIVATE_LINK_IS_NOT_ALLOWED_WITH_A_SINGLE_REGION_SUBSCRIPTION",
               "PRIVATE_LINK_IS_NOT_SUPPORTED",
               "PRIVATE_LINK_SERVICE_ERROR",
+              "PRIVATE_LINK_DISASSOCIATE_CONNECTIONS_A_FLEXIBLE_SUBSCRIPTION_PRIVATE_LINK_IS_NOT_ALLOWED_WITH_AN_ACTIVE_ACTIVE_SUBSCRIPTION",
+              "PRIVATE_LINK_DISASSOCIATE_CONNECTIONS_AN_ACTIVE_ACTIVE_SUBSCRIPTION_PRIVATE_LINK_IS_NOT_ALLOWED_WITH_A_SINGLE_REGION_SUBSCRIPTION",
               "COST_REPORT_IS_NOT_SUPPORTED",
               "COST_REPORT_START_DATE_IS_MISSING",
               "COST_REPORT_END_DATE_IS_MISSING",
@@ -17385,8 +17646,7 @@
             "type": "integer",
             "description": "Deployment region id as defined by cloud provider",
             "format": "int32",
-            "readOnly": true,
-            "example": 27
+            "readOnly": true
           },
           "principal": {
             "type": "string",
@@ -17948,9 +18208,9 @@
         "name": "x-api-secret-key",
         "in": "header"
       },
-      "X-Auth-Token": {
+      "x-auth-token": {
         "type": "apiKey",
-        "name": "X-Auth-Token",
+        "name": "x-auth-token",
         "in": "header"
       }
     }
