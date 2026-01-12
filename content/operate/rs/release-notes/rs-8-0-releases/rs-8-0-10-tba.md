@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 8.4.0, 8.2.1, 8.0.2, 7.4.3, 7.2.7, 6.2.13
-description: Redis 8.4 feature set.
+description: Redis 8.4 feature set and enhancements. Redis Flex support for SST replication and OSS Cluster mode. ARM support for RHEL 9.
 linkTitle: 8.0.10-tba (January 2026)
 weight: 88
 ---
@@ -17,13 +17,19 @@ weight: 88
 
 This version offers:
 
-- Redis 8.4 feature set
+- Redis 8.4 feature set and enhancements
+
+- Redis Flex support for SST replication and OSS Cluster mode
+
+- ARM support for RHEL 9
 
 ## New in this release
 
 ### New features
 
-#### Redis 8.4
+#### Redis 8.4 feature set and enhancements
+
+The Redis 8.4 feature set is now available when you [create]({{<relref "/operate/rs/databases/create">}}) or [upgrade]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-database">}}) a database with database version 8.4.
 
 Redis 8.4 builds on the foundation of Redis 8.2 with significant enhancements to cluster operations, string manipulation, and stream processing capabilities.
 
@@ -41,9 +47,21 @@ This release delivers major improvements across multiple areas:
 
 - Improved JSON handling with better memory efficiency
 
+- See [What's new in Redis 8.4]({{<relref "/develop/whats-new/8-4">}}) and [Redis Open Source 8.4 release notes]({{<relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisos-8.4-release-notes">}}) for more details.
+
+#### Redis Flex support for SST replication and OSS Cluster mode
+
+- Redis Flex now supports SST (Sorted String Table) replication, enabling faster, more robust data synchronization and hot restarts.
+
+- Redis Flex now supports OSS Cluster mode, allowing seamless integration with the Redis OSS Cluster API.
+
+#### ARM support for RHEL 9
+
+Redis Enterprise Software now supports ARM architecture on RHEL 9, enabling deployments on cost-efficient, high-performance ARM-based servers running Red Hat Enterprise Linux 9.
+
 ### Enhancements
 
-- TBA
+- The [default service provider address for single sign-on (SSO)]({{<relref "/operate/rs/security/access-control/saml-sso#change-sp-address">}}) can be changed using the Cluster Manager UI.
 
 ### Redis database versions
 
@@ -102,6 +120,10 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS177389: Fixed an issue where database recovery could fail with a retryable error when given an empty recovery plan.
 
+- RS167864: Fixed an issue with the shards API that could cause temporary inconsistencies with shards' reported roles after database upgrades.
+
+- RS180550: Fixed an issue that prevented setting up SSO when the Cluster Manager UI was exposed through an IPv6-based load balancer or gateway.
+
 ## Version changes
 
 ### Supported platforms
@@ -150,14 +172,11 @@ The following table shows the SHA256 checksums for the available packages:
 | Ubuntu 22 (amd64) | <span class="break-all"></span> |
 | Ubuntu 22 (arm64) | <span class="break-all"></span> |
 | Red Hat Enterprise Linux (RHEL) 8 | <span class="break-all"></span> |
-| Red Hat Enterprise Linux (RHEL) 9 | <span class="break-all"></span> |
+| Red Hat Enterprise Linux (RHEL) 9 (amd64) | <span class="break-all"></span> |
+| Red Hat Enterprise Linux (RHEL) 9 (arm64) | <span class="break-all"></span> |
 | Amazon Linux 2 | <span class="break-all"></span> |
 
 ## Known issues
-
-- RS180550: You cannot set up SSO when the Cluster Manager UI is exposed through an IPv6-based load balancer or gateway.
-
-    As a workaround, use an IPv4-based address for the SSO service base address, or register a DNS name that resolves to the IPv6 address.
 
 - RS155734: Endpoint availability metrics do not work as expected due to a calculation error.
 
