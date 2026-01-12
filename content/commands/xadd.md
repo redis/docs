@@ -4,46 +4,76 @@ acl_categories:
 - '@stream'
 - '@fast'
 arguments:
-- display_text: key
-  key_spec_index: 0
+- key_spec_index: 0
   name: key
   type: key
-- display_text: nomkstream
-  name: nomkstream
+- name: nomkstream
   optional: true
   since: 6.2.0
   token: NOMKSTREAM
   type: pure-token
 - arguments:
+  - name: keepref
+    token: KEEPREF
+    type: pure-token
+  - name: delref
+    token: DELREF
+    type: pure-token
+  - name: acked
+    token: ACKED
+    type: pure-token
+  name: condition
+  optional: true
+  type: oneof
+- arguments:
   - arguments:
-    - display_text: maxlen
-      name: maxlen
+    - name: idmpauto-token
+      token: IDMPAUTO
+      type: pure-token
+    - display_text: producer-id
+      name: pid
+      type: string
+    name: idmpauto-with-pid
+    type: block
+  - arguments:
+    - name: idmp-token
+      token: IDMP
+      type: pure-token
+    - display_text: producer-id
+      name: pid
+      type: string
+    - display_text: idempotent-id
+      name: iid
+      type: string
+    name: idmp-with-pid-iid
+    type: block
+  name: idmp
+  optional: true
+  type: oneof
+- arguments:
+  - arguments:
+    - name: maxlen
       token: MAXLEN
       type: pure-token
-    - display_text: minid
-      name: minid
+    - name: minid
       since: 6.2.0
       token: MINID
       type: pure-token
     name: strategy
     type: oneof
   - arguments:
-    - display_text: equal
-      name: equal
+    - name: equal
       token: '='
       type: pure-token
-    - display_text: approximately
-      name: approximately
+    - name: approximately
       token: '~'
       type: pure-token
     name: operator
     optional: true
     type: oneof
-  - display_text: threshold
-    name: threshold
+  - name: threshold
     type: string
-  - display_text: count
-    name: count
+  - name: count
     optional: true
     since: 6.2.0
     token: LIMIT
@@ -52,21 +82,17 @@ arguments:
   optional: true
   type: block
 - arguments:
-  - display_text: auto-id
-    name: auto-id
+  - name: auto-id
     token: '*'
     type: pure-token
-  - display_text: id
-    name: id
+  - name: id
     type: string
   name: id-selector
   type: oneof
 - arguments:
-  - display_text: field
-    name: field
+  - name: field
     type: string
-  - display_text: value
-    name: value
+  - name: value
     type: string
   multiple: true
   name: data
@@ -116,8 +142,10 @@ linkTitle: XADD
 railroad_diagram: /images/railroad/xadd.svg
 since: 5.0.0
 summary: Appends a new message to a stream. Creates the key if it doesn't exist.
-syntax_fmt: "XADD key [NOMKSTREAM] [KEEPREF | DELREF | ACKED] [<MAXLEN | MINID> [= | ~] threshold\n  [LIMIT\_\
-  count]] <* | id> field value [field value ...]"
+syntax_fmt: "XADD key [NOMKSTREAM] [KEEPREF | DELREF | ACKED]\n \
+  \ [IDMPAUTO producer-id | IDMP producer-id idempotent-id]\n \
+  \ [<MAXLEN | MINID> [= | ~] threshold [LIMIT\_count]] <* | id>\n \
+  \ field value [field value ...]"
 title: XADD
 ---
 
@@ -151,6 +179,19 @@ One or more field-value pairs that make up the stream entry. You must provide at
 <summary><code>NOMKSTREAM</code></summary>
 
 Prevents the creation of a new stream if the key does not exist. Available since Redis 6.2.0.
+</details>
+
+<details open>
+<summary><code>IDMPAUTO producer-id | IDMP producer-id idempotent-id</code></summary>
+
+Enables idempotent message processing to prevent duplicate entries. Available since Redis 8.6.
+
+- `IDMPAUTO producer-id`: Automatically generates a unique idempotent ID for the specified producer. Redis tracks this ID to prevent duplicate messages from the same producer.
+- `IDMP producer-id idempotent-id`: Uses the specified idempotent ID for the given producer. If this producer-id/idempotent-id combination was already used, the command returns the ID of the existing entry instead of creating a duplicate.
+
+The producer ID identifies the source of the message, while the idempotent ID ensures uniqueness within that producer's message stream. Redis maintains an internal map of recent producer-id/idempotent-id combinations to detect and prevent duplicates.
+
+Use [`XCFGSET`]({{< relref "/commands/xcfgset" >}}) to configure how long idempotent IDs are retained (duration) and the maximum number tracked per producer (maxsize).
 </details>
 
 <details open>
@@ -267,6 +308,16 @@ XLEN mystream
 XRANGE mystream - +
 {{% /redis-cli %}}
 
+### Idempotent message processing examples
+
+{{% redis-cli %}}
+XADD mystream IDMP producer1 msg1 * field value
+XADD mystream IDMP producer1 msg1 * field different_value
+XADD mystream IDMPAUTO producer2 * field value
+XADD mystream IDMPAUTO producer2 * field value
+XCFGSET mystream DURATION 300 MAXSIZE 1000
+{{% /redis-cli %}}
+
 ## Redis Enterprise and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
@@ -280,13 +331,13 @@ XRANGE mystream - +
     tab2="RESP3" >}}
 
 One of the following:
-* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The ID of the added entry. The ID is the one automatically generated if an asterisk (`*`) is passed as the _id_ argument, otherwise the command just returns the same ID specified by the user during insertion.
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The ID of the added entry. The ID is the one automatically generated if an asterisk (`*`) is passed as the _id_ argument, otherwise the command just returns the same ID specified by the user during insertion. When using IDMP and a duplicate is detected, returns the ID of the existing entry.
 * [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the NOMKSTREAM option is given and the key doesn't exist.
 
 -tab-sep-
 
 One of the following:
-* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The ID of the added entry. The ID is the one automatically generated if an asterisk (`*`) is passed as the _id_ argument, otherwise the command just returns the same ID specified by the user during insertion.
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The ID of the added entry. The ID is the one automatically generated if an asterisk (`*`) is passed as the _id_ argument, otherwise the command just returns the same ID specified by the user during insertion. When using IDMP and a duplicate is detected, returns the ID of the existing entry.
 * [Null reply](../../develop/reference/protocol-spec#nulls): if the NOMKSTREAM option is given and the key doesn't exist.
 
 {{< /multitabs >}}

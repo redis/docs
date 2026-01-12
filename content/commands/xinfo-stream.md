@@ -4,17 +4,14 @@ acl_categories:
 - '@stream'
 - '@slow'
 arguments:
-- display_text: key
-  key_spec_index: 0
+- key_spec_index: 0
   name: key
   type: key
 - arguments:
-  - display_text: full
-    name: full
+  - name: full
     token: FULL
     type: pure-token
-  - display_text: count
-    name: count
+  - name: count
     optional: true
     token: COUNT
     type: integer
@@ -46,6 +43,9 @@ history:
     `entries-read` and `lag` fields
 - - 7.2.0
   - Added the `active-time` field, and changed the meaning of `seen-time`.
+- - 8.6.0
+  - Added the `idmp-duration`, `idmp-maxsize`, `pids-tracked`, `iids-tracked`, `iids-added`
+    and `iids-duplicates` fields for IDMP tracking.
 key_specs:
 - RO: true
   access: true
@@ -79,6 +79,17 @@ The informative details provided by this command are:
 * **entries-added**: the count of all entries added to the stream during its lifetime
 * **first-entry**: the ID and field-value tuples of the first entry in the stream
 * **last-entry**: the ID and field-value tuples of the last entry in the stream
+
+### IDMP (Idempotent Message Processing) fields
+
+When IDMP is configured for the stream using [`XCFGSET`]({{< relref "/commands/xcfgset" >}}), the following additional fields are included:
+
+* **idmp-duration**: the duration in seconds that idempotent IDs are retained in the stream's IDMP map
+* **idmp-maxsize**: the maximum number of idempotent IDs kept for each producer in the stream's IDMP map
+* **pids-tracked**: the number of unique producer IDs currently being tracked
+* **iids-tracked**: the total number of idempotent IDs currently stored across all producers
+* **iids-added**: the total count of idempotent IDs that have been added to the stream during its lifetime
+* **iids-duplicates**: the total count of duplicate messages that were detected and prevented by IDMP
 
 ### The `FULL` modifier
 
@@ -119,7 +130,20 @@ The default `COUNT` is 10 and a `COUNT` of 0 means that all entries will be retu
 
 ## Examples
 
-Default reply:
+Setting up a stream with IDMP:
+
+```
+> XADD mystream * message apple
+"1638125133432-0"
+> XADD mystream * message banana
+"1638125141232-0"
+> XCFGSET mystream DURATION 100 MAXSIZE 100
+OK
+> XADD mystream IDMP producer1 msg1 * field value
+"1638125150000-0"
+```
+
+Default reply (with IDMP configured):
 
 ```
 > XINFO STREAM mystream
@@ -137,14 +161,26 @@ Default reply:
 12) (integer) 2
 13) "recorded-first-entry-id"
 14) "1719505260513-0"
-15) "groups"
-16) (integer) 1
-17) "first-entry"
-18) 1) "1638125133432-0"
+15) "idmp-duration"
+16) (integer) 100
+17) "idmp-maxsize"
+18) (integer) 100
+19) "pids-tracked"
+20) (integer) 1
+21) "iids-tracked"
+22) (integer) 1
+23) "iids-added"
+24) (integer) 1
+25) "iids-duplicates"
+26) (integer) 0
+27) "groups"
+28) (integer) 1
+29) "first-entry"
+30) 1) "1638125133432-0"
     2) 1) "message"
        2) "apple"
-19) "last-entry"
-20) 1) "1638125141232-0"
+31) "last-entry"
+32) 1) "1638125141232-0"
     2) 1) "message"
        2) "banana"
 ```

@@ -1,0 +1,59 @@
+<svg class="railroad-diagram" height="71" viewBox="0 0 710.0 71" width="710.0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs>
+<style type="text/css"><![CDATA[
+svg.railroad-diagram { background-color: transparent; }
+.terminal rect { fill: #DC382D !important; stroke: #DC382D !important; }
+.terminal text { fill: white !important; font-weight: bold; }
+.nonterminal rect { fill: none !important; stroke: #DC382D !important; stroke-width: 2; }
+.nonterminal text { fill: #DC382D !important; font-weight: bold; }
+path { stroke: #DC382D !important; stroke-width: 2; fill: none; }
+circle { fill: #DC382D !important; stroke: #DC382D !important; }
+]]></style>
+</defs>
+<g transform="translate(.5 .5)">
+<style>/* <![CDATA[ */
+	svg.railroad-diagram {
+		background-color: transparent;
+	}
+	svg.railroad-diagram path {
+		stroke-width:3;
+		stroke: #DC382D;
+		fill:rgba(0,0,0,0);
+	}
+	svg.railroad-diagram text {
+		font:bold 14px monospace;
+		text-anchor:middle;
+	}
+	svg.railroad-diagram text.label{
+		text-anchor:start;
+	}
+	svg.railroad-diagram text.comment{
+		font:italic 12px monospace;
+	}
+	svg.railroad-diagram rect{
+		stroke-width:3;
+		stroke: #DC382D;
+		fill: none;
+	}
+	svg.railroad-diagram rect.group-box {
+		stroke: #DC382D;
+		stroke-dasharray: 10 5;
+		fill: none;
+	}
+
+/* ]]> */
+</style><g>
+<path d="M20 30v20m10 -20v20m-10 -10h20"></path></g><path d="M40 40h10"></path><g>
+<path d="M50 40h0.0"></path><path d="M660.0 40h0.0"></path><g class="terminal ">
+<path d="M50.0 40h0.0"></path><path d="M129.5 40h0.0"></path><rect height="22" rx="10" ry="10" width="79.5" x="50.0" y="29"></rect><text x="89.75" y="44">XCFGSET</text></g><path d="M129.5 40h10"></path><path d="M139.5 40h10"></path><g class="non-terminal ">
+<path d="M149.5 40h0.0"></path><path d="M195.0 40h0.0"></path><rect height="22" width="45.5" x="149.5" y="29"></rect><text x="172.25" y="44">key</text></g><path d="M195.0 40h10"></path><g>
+<path d="M205.0 40h0.0"></path><path d="M441.0 40h0.0"></path><path d="M205.0 40a10 10 0 0 0 10 -10v0a10 10 0 0 1 10 -10"></path><g>
+<path d="M225.0 20h196.0"></path></g><path d="M421.0 20a10 10 0 0 1 10 10v0a10 10 0 0 0 10 10"></path><path d="M205.0 40h20"></path><g>
+<path d="M225.0 40h0.0"></path><path d="M421.0 40h0.0"></path><g class="terminal ">
+<path d="M225.0 40h0.0"></path><path d="M313.0 40h0.0"></path><rect height="22" rx="10" ry="10" width="88.0" x="225.0" y="29"></rect><text x="269.0" y="44">DURATION</text></g><path d="M313.0 40h10"></path><path d="M323.0 40h10"></path><g class="non-terminal ">
+<path d="M333.0 40h0.0"></path><path d="M421.0 40h0.0"></path><rect height="22" width="88.0" x="333.0" y="29"></rect><text x="377.0" y="44">duration</text></g></g><path d="M421.0 40h20"></path></g><g>
+<path d="M441.0 40h0.0"></path><path d="M660.0 40h0.0"></path><path d="M441.0 40a10 10 0 0 0 10 -10v0a10 10 0 0 1 10 -10"></path><g>
+<path d="M461.0 20h179.0"></path></g><path d="M640.0 20a10 10 0 0 1 10 10v0a10 10 0 0 0 10 10"></path><path d="M441.0 40h20"></path><g>
+<path d="M461.0 40h0.0"></path><path d="M640.0 40h0.0"></path><g class="terminal ">
+<path d="M461.0 40h0.0"></path><path d="M540.5 40h0.0"></path><rect height="22" rx="10" ry="10" width="79.5" x="461.0" y="29"></rect><text x="500.75" y="44">MAXSIZE</text></g><path d="M540.5 40h10"></path><path d="M550.5 40h10"></path><g class="non-terminal ">
+<path d="M560.5 40h0.0"></path><path d="M640.0 40h0.0"></path><rect height="22" width="79.5" x="560.5" y="29"></rect><text x="600.25" y="44">maxsize</text></g></g><path d="M640.0 40h20"></path></g></g><path d="M660.0 40h10"></path><path d="M 670.0 40 h 20 m -10 -10 v 20 m 10 -20 v 20"></path></g></svg>
