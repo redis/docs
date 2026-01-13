@@ -78,7 +78,7 @@ The name of the stream key. The stream must already exist.
 
 Sets the duration in seconds that each idempotent ID (iid) is kept in the stream's IDMP map. Valid range: 1-86400 seconds. Default: 100 seconds.
 
-When an idempotent ID expires, it can be reused for new messages. This provides operational guarantee that Redis will not forget an iid before the duration elapses (unless capacity is reached).
+When an idempotent ID expires, it can be reused for new messages. This provides an operational guarantee that Redis will not forget an idempotency ID before the duration elapses (unless capacity is reached).
 
 </details>
 
@@ -99,12 +99,12 @@ When the capacity is reached, the oldest idempotent IDs for that producer are ev
 
 ## Examples
 
-{{% redis-cli %}}
+```redis-cli
 XADD mystream * field value
 XCFGSET mystream DURATION 300
 XCFGSET mystream MAXSIZE 1000
 XCFGSET mystream DURATION 600 MAXSIZE 500
-{{% /redis-cli %}}
+```
 
 ## Return information
 

@@ -184,14 +184,17 @@ Prevents the creation of a new stream if the key does not exist. Available since
 <details open>
 <summary><code>IDMPAUTO producer-id | IDMP producer-id idempotent-id</code></summary>
 
-Enables idempotent message processing to prevent duplicate entries. Available since Redis 8.6.
+Enables idempotent message processing (at-most-once production) to prevent duplicate entries. Available since Redis 8.6.
 
-- `IDMPAUTO producer-id`: Automatically generates a unique idempotent ID for the specified producer. Redis tracks this ID to prevent duplicate messages from the same producer.
-- `IDMP producer-id idempotent-id`: Uses the specified idempotent ID for the given producer. If this producer-id/idempotent-id combination was already used, the command returns the ID of the existing entry instead of creating a duplicate.
+- `IDMPAUTO producer-id`: Automatically generates a unique idempotent ID (iid) for the specified producer-id. Redis tracks this iid to prevent duplicate messages from the same producer-id.
+- `IDMP producer-id idempotent-id`: Uses the specified idempotent-id for the given producer-id. If this producer-id/idempotent-id combination was already used, the command returns the idempotent-id of the existing entry instead of creating a duplicate.
 
-The producer ID identifies the source of the message, while the idempotent ID ensures uniqueness within that producer's message stream. Redis maintains an internal map of recent producer-id/idempotent-id combinations to detect and prevent duplicates.
+The producer-id identifies the source of the message, while the idempotent-id ensures uniqueness within that producer-id's message stream. Redis maintains an internal map of recent producer-id/idempotent-id combinations to detect and prevent duplicates.
 
-Use [`XCFGSET`]({{< relref "/commands/xcfgset" >}}) to configure how long idempotent IDs are retained (duration) and the maximum number tracked per producer (maxsize).
+Use [`XCFGSET`]({{< relref "/commands/xcfgset" >}}) to configure how long idempotent IDs are retained (`DURATION`) and the maximum number tracked per producer (`MAXSIZE`).
+
+See [Idempotent message processing]({{< relref "/develop/data-types/streams/idempotency" >}}) for more information.
+
 </details>
 
 <details open>
