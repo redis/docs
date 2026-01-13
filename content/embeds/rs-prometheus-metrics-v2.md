@@ -65,6 +65,12 @@
 | <span class="break-all">node_provisional_memory_bytes</span> | gauge | Amount of RAM that is available for provisioning to databases out of the total RAM allocated for databases |
 | <span class="break-all">node_provisional_memory_no_overbooking_bytes</span> | gauge | Amount of RAM that is available for provisioning to databases out of the total RAM allocated for databases, without taking into account overbooking |
 | node_metrics_up | gauge | Node is part of the cluster and is connected |
+| <span class="break-all">node_wd_dmc_ping_failures</span> | gauge | Number of consecutive DMC ping failures |
+| <span class="break-all">node_wd_dmc_ping_failure_duration_seconds</span> | gauge | Duration of ongoing DMC failures (0 when healthy) |
+| <span class="break-all">node_wd_endpoint_ping_failures</span> | gauge | Number of consecutive endpoint ping failures. Labels: endpoint_uid |
+| <span class="break-all">node_wd_endpoint_ping_failure_duration_seconds</span> | gauge | Duration of ongoing endpoint failures (0 when healthy). Labels: endpoint_uid |
+| <span class="break-all">node_wd_shard_ping_failures</span> | gauge | Number of consecutive ping failures for a shard. Labels: shard_uid, role |
+| <span class="break-all">node_wd_shard_ping_failure_duration_seconds</span> | gauge | Duration of ongoing failures (0 when healthy). Labels: shard_uid, role |
 
 ## Cluster metrics
 
