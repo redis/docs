@@ -35,8 +35,6 @@ Redis 8.4 builds on the foundation of Redis 8.2 with significant enhancements to
 
 This release delivers major improvements across multiple areas:
 
-- Atomic cluster slot migration for zero-downtime operations
-
 - Enhanced string operations with atomic compare-and-set functionality
 
 - Advanced stream processing with idle entry claiming
@@ -60,8 +58,6 @@ This release delivers major improvements across multiple areas:
 Redis Enterprise Software now supports ARM architecture on RHEL 9, enabling deployments on cost-efficient, high-performance ARM-based servers running Red Hat Enterprise Linux 9.
 
 ### Enhancements
-
-- The [default service provider address for single sign-on (SSO)]({{<relref "/operate/rs/security/access-control/saml-sso#change-sp-address">}}) can be changed using the Cluster Manager UI.
 
 - Added support for database name labels in v2 metrics when the `metrics_exporter_expose_bdb_name` cluster policy setting is enabled:
 
@@ -186,6 +182,10 @@ The following table shows the SHA256 checksums for the available packages:
 | Amazon Linux 2 | <span class="break-all"></span> |
 
 ## Known issues
+
+- RS180550: You cannot set up SSO when the Cluster Manager UI is exposed through an IPv6-based load balancer or gateway.
+
+    As a workaround, use an IPv4-based address for the SSO service base address, or register a DNS name that resolves to the IPv6 address.
 
 - RS155734: Endpoint availability metrics do not work as expected due to a calculation error.
 
