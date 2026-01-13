@@ -102,9 +102,12 @@ The following policies are available:
     then this condition only applies to the primary database. Note that commands that only
     read existing data still work as normal.
 -   `allkeys-lru`: Evict the [least recently used](#apx-lru) (LRU) keys.
+-   `allkeys-lrm`: Evict the [least recently modified](#lrm-eviction) (LRM) keys.
 -   `allkeys-lfu`: Evict the [least frequently used](#lfu-eviction) (LFU) keys.
 -   `allkeys-random`: Evict keys at random.
 -   `volatile-lru`: Evict the least recently used keys that have the `expire` field
+    set to `true`.
+-   `volatile-lrm`: Evict the least recently modified keys that have the `expire` field
     set to `true`.
 -   `volatile-lfu`: Evict the least frequently used keys that have the `expire` field
     set to `true`.
@@ -128,6 +131,10 @@ As a rule of thumb:
     more often than the rest. This is a very common case according to the
     [Pareto principle](https://en.wikipedia.org/wiki/Pareto_principle), so
     `allkeys-lru` is a good default option if you have no reason to prefer any others.
+-   Use `allkeys-lrm` when you want to preserve frequently read data but evict data
+    that hasn't been modified recently. This is useful for read-heavy workloads where
+    you want to distinguish between data that's actively being updated versus data
+    that's only being read.
 -   Use `allkeys-random` when you expect all keys to be accessed with roughly equal
     frequency. An example of this is when your app reads data items in a repeating cycle.
 -   Use `volatile-ttl` if your code can estimate which keys are good candidates for eviction
@@ -135,7 +142,7 @@ As a rule of thumb:
     key expiration, then you are less likely to run into the cache memory limit because keys
     will often expire before they need to be evicted.
 
-The `volatile-lru` and `volatile-random` policies are mainly useful when you want to use
+The `volatile-lru`, `volatile-lrm`, and `volatile-random` policies are mainly useful when you want to use
 a single Redis instance for both caching and for a set of persistent keys. However,
 you should consider running two separate Redis instances in a case like this, if possible.
 
@@ -292,3 +299,25 @@ The counter *logarithm factor* changes how many hits are needed to saturate the 
 ```
 
 So basically the factor is a trade off between better distinguishing items with low accesses VS distinguishing items with high accesses. More information is available in the example `redis.conf` file.
+
+## LRM eviction {#lrm-eviction}
+
+Starting with Redis 8.6, the Least Recently Modified (LRM) eviction mode is available. LRM is similar to LRU but only updates the timestamp on write operations, not read operations. This makes it useful for evicting keys that haven't been modified recently, regardless of how frequently they are read.
+
+The key difference between LRU and LRM is:
+
+- **LRU (Least Recently Used)**: Updates the access timestamp on both read and write operations
+- **LRM (Least Recently Modified)**: Updates the access timestamp only on write operations
+
+This distinction makes LRM particularly useful in scenarios where:
+
+- You want to preserve frequently read data, even if it's not being modified
+- Your application has a clear distinction between read-heavy and write-heavy workloads
+- You want to evict stale data that hasn't been updated, regardless of read activity
+
+To configure the LRM mode, the following policies are available:
+
+* `volatile-lrm` Evict using LRM among the keys with an expire set.
+* `allkeys-lrm` Evict any key using LRM.
+
+Like LRU, LRM uses an approximation algorithm that samples a small number of keys at random and evicts the ones with the longest time since last modification. The same `maxmemory-samples` configuration directive that affects LRU performance also applies to LRM.
