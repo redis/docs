@@ -16,7 +16,7 @@ The OSS Cluster API improves performance by allowing cluster-aware Redis clients
 
 - RedisEnterpriseCluster (REC) running version 8.0.10-tbd or later.
 - Proxy policy is set to `all-master-shards` or `all-nodes`.
-- Modules used by the database (if any) a bundled modules.
+- Modules used by the database (if any) are bundled modules.
 - The database is not an Active-Active database.
 
 ## Enable OSS Cluster API
