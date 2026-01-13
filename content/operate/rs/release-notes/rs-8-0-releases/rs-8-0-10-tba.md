@@ -63,6 +63,15 @@ Redis Enterprise Software now supports ARM architecture on RHEL 9, enabling depl
 
 - The [default service provider address for single sign-on (SSO)]({{<relref "/operate/rs/security/access-control/saml-sso#change-sp-address">}}) can be changed using the Cluster Manager UI.
 
+- Added support for database name labels in v2 metrics when the `metrics_exporter_expose_bdb_name` cluster policy setting is enabled:
+
+    ```sh
+    PUT /v1/cluster/policy
+    { "metrics_exporter_expose_bdb_name": true }
+    ```
+
+- Added `node_wd` v2 metrics for monitoring the health of shards, the DMC, and endpoints.
+
 ### Redis database versions
 
 Redis Enterprise Software version 8.0.10 includes the following Redis database versions: 8.4.0, 8.2.1, 8.0.2, 7.4.3, 7.2.7, and 6.2.13.
@@ -181,6 +190,10 @@ The following table shows the SHA256 checksums for the available packages:
 - RS155734: Endpoint availability metrics do not work as expected due to a calculation error.
 
 ## Known limitations
+
+#### Trim ACKED not supported for Active-Active 8.4 databases
+
+For Active-Active databases running Redis database version 8.4, the `ACKED` option is not supported for trimming commands.
 
 #### Rolling upgrade limitation for clusters with custom or deprecated modules
 

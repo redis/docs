@@ -207,6 +207,10 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 ## Known limitations
 
+#### Trim ACKED not supported for Active-Active 8.4 databases
+
+For Active-Active databases running Redis database version 8.4, the `ACKED` option is not supported for trimming commands.
+
 #### Rolling upgrade limitation for clusters with custom or deprecated modules
 
 Due to module handling changes introduced in Redis Enterprise Software version 8.0, upgrading a cluster that contains custom or deprecated modules, such as RedisGraph and RedisGears v2, can become stuck when adding a new node to the cluster during a rolling upgrade.
