@@ -32,7 +32,7 @@ The JSON capability of Redis Open Source provides JavaScript Object Notation (JS
 
 The first JSON command to try is [`JSON.SET`]({{< relref "commands/json.set/" >}}), which sets a Redis key with a JSON value. [`JSON.SET`]({{< relref "commands/json.set/" >}}) accepts all JSON value types. This example creates a JSON string:
 
-{{< clients-example json_tutorial set_get >}}
+{{< clients-example set="json_tutorial" step="set_get" description="Foundational: Set and retrieve JSON values using JSON.SET and JSON.GET to store and access JSON documents" difficulty="beginner" >}}
 > JSON.SET bike $ '"Hyperion"'
 OK
 > JSON.GET bike $
@@ -45,7 +45,7 @@ Note how the commands include the dollar sign character `$`. This is the [path](
 
 Here are a few more string operations. [`JSON.STRLEN`]({{< relref "commands/json.strlen/" >}}) tells you the length of the string, and you can append another string to it with [`JSON.STRAPPEND`]({{< relref "commands/json.strappend/" >}}).
 
-{{< clients-example json_tutorial str>}}
+{{< clients-example set="json_tutorial" step="str" description="String operations: Manipulate JSON strings using JSON.STRLEN to get length and JSON.STRAPPEND to concatenate values" difficulty="beginner" >}}
 > JSON.STRLEN bike $
 1) (integer) 8
 > JSON.STRAPPEND bike $ '" (Enduro bikes)"'
@@ -56,7 +56,7 @@ Here are a few more string operations. [`JSON.STRLEN`]({{< relref "commands/json
 
 Numbers can be [incremented]({{< relref "commands/json.numincrby/" >}}) and [multiplied]({{< relref "commands/json.nummultby/" >}}):
 
-{{< clients-example json_tutorial num >}}
+{{< clients-example set="json_tutorial" step="num" description="Numeric operations: Perform atomic arithmetic on JSON numbers using JSON.NUMINCRBY to increment and JSON.NUMMULTBY to multiply values" difficulty="beginner" >}}
 > JSON.SET crashes $ 0
 OK
 > JSON.NUMINCRBY crashes $ 1
@@ -71,7 +71,7 @@ OK
 
 Here's a more interesting example that includes JSON arrays and objects:
 
-{{< clients-example json_tutorial arr >}}
+{{< clients-example set="json_tutorial" step="arr" description="Arrays and objects: Work with complex JSON structures using JSONPath to access nested elements and JSON.DEL to remove values" difficulty="intermediate" >}}
 > JSON.SET newbike $ '["Deimos", {"crashes": 0}, null]'
 OK
 > JSON.GET newbike $
@@ -88,7 +88,7 @@ The [`JSON.DEL`]({{< relref "commands/json.del/" >}}) command deletes any JSON v
 
 You can manipulate arrays with a dedicated subset of JSON commands:
 
-{{< clients-example json_tutorial arr2 >}}
+{{< clients-example set="json_tutorial" step="arr2" description="Array manipulation: Use JSON.ARRAPPEND to add elements, JSON.ARRINSERT to insert at positions, JSON.ARRTRIM to keep ranges, and JSON.ARRPOP to remove elements" difficulty="intermediate" >}}
 > JSON.SET riders $ []
 OK
 > JSON.ARRAPPEND riders $ '"Norem"'
@@ -111,7 +111,7 @@ OK
 
 JSON objects also have their own commands:
 
-{{< clients-example json_tutorial obj >}}
+{{< clients-example set="json_tutorial" step="obj" description="Object operations: Inspect JSON objects using JSON.OBJLEN to count fields and JSON.OBJKEYS to retrieve all keys" difficulty="beginner" >}}
 > JSON.SET bike:1 $ '{"model": "Deimos", "brand": "Ergonom", "price": 4972}'
 OK
 > JSON.OBJLEN bike:1 $
