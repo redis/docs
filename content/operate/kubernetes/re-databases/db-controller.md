@@ -25,6 +25,10 @@ If valid, the controller combines the values specified in
 the custom resource with default values to create a full specification. It then uses this full specification to create the
 database on the specified Redis Enterprise cluster (REC).
 
+{{< note >}}
+The admission controller prevents duplicate database names when databases are created via the Kubernetes operator.
+{{< /note >}}
+
 Once the database is created, it is exposed with the same service mechanisms by the service rigger for the Redis Enterprise cluster.
 If the database [custom resource is deleted]({{< relref "/operate/kubernetes/re-clusters/delete-custom-resources" >}}), the database and its services are deleted from the cluster.
 
