@@ -57,7 +57,7 @@ command, specifying a key name. Alternatively, if you use [`TS.ADD`]({{< relref 
 to add data to a time series key that does not exist, it is automatically created (see
 [Adding data points](#adding-data-points) below for more information about `TS.ADD`).
 
-{{< clients-example time_series_tutorial create >}}
+{{< clients-example set="time_series_tutorial" step="create" description="Foundational: Create an empty time series with TS.CREATE to initialize a new time series key" difficulty="beginner" >}}
 > TS.CREATE thermometer:1
 OK
 > TYPE thermometer:1
@@ -76,7 +76,7 @@ When you create a time series, you can specify a maximum retention period for th
 data, relative to the last reported timestamp. A retention period of zero means
 the data does not expire.
 
-{{< clients-example time_series_tutorial create_retention >}}
+{{< clients-example set="time_series_tutorial" step="create_retention" description="Data retention: Use TS.ADD with RETENTION option to automatically expire old data points based on time since the last update" difficulty="intermediate" >}}
 # Create a new time series with a first value of 10.8 (Celsius), recorded at time 1, with a retention period of 100ms.
 > TS.ADD thermometer:2 1 10.8 RETENTION 100
 (integer) 1
@@ -94,7 +94,7 @@ are name-value pairs where both the name and value are strings. You can use
 the names and values to select subsets of all the available time series
 for queries and aggregations.
 
-{{< clients-example time_series_tutorial create_labels >}}
+{{< clients-example set="time_series_tutorial" step="create_labels" description="Labeling: Add metadata labels to time series using LABELS option when you need to organize and filter series by attributes like location or sensor type" difficulty="beginner" >}}
 ```bash
 > TS.ADD thermometer:3 1 10.4 LABELS location UK type Mercury
 (integer) 1
@@ -125,7 +125,7 @@ is an array containing the number of samples in each time series after the opera
 If you use the `*` character as the timestamp, Redis will record the current
 Unix time, as reported by the server's clock.
 
-{{< clients-example time_series_tutorial madd >}}
+{{< clients-example set="time_series_tutorial" step="madd" description="Batch operations: Add multiple data points to one or more time series using TS.MADD when you need to reduce round trips to the server" difficulty="beginner" >}}
 ```bash
 > TS.MADD thermometer:1 1 9.2 thermometer:1 2 9.9 thermometer:2 2 10.3
 1) (integer) 1
@@ -139,7 +139,7 @@ Unix time, as reported by the server's clock.
 Use [`TS.GET`]({{< relref "commands/ts.get/" >}}) to retrieve the data point
 with the highest timestamp in a time series. This returns both the timestamp and the value.
 
-{{< clients-example time_series_tutorial get >}}
+{{< clients-example set="time_series_tutorial" step="get" description="Foundational: Retrieve the most recent data point from a time series using TS.GET to get the latest value and timestamp" difficulty="beginner" >}}
 ```bash
 # The last recorded temperature for thermometer:2
 # was 10.3 at time 2ms.
@@ -157,7 +157,7 @@ indicate the minimum and maximum timestamps in the series. The response is
 an array of timestamp-value pairs returned in ascending order by timestamp.
 If you want the results in descending order, use [`TS.REVRANGE`]({{< relref "commands/ts.revrange/" >}}) with the same parameters.
 
-{{< clients-example time_series_tutorial range >}}
+{{< clients-example set="time_series_tutorial" step="range" description="Range queries: Retrieve data points within a timestamp range using TS.RANGE (ascending) or TS.REVRANGE (descending) when you need to analyze historical data" difficulty="intermediate" >}}
 ```bash
 # Add 5 data points to a time series named "rg:1".
 > TS.CREATE rg:1
@@ -226,7 +226,7 @@ use this option). Specify a minimum and maximum value to include only
 samples within that range. The value range is inclusive and you can
 use the same value for the minimum and maximum to filter for a single value.
 
-{{< clients-example time_series_tutorial range_filter >}}
+{{< clients-example set="time_series_tutorial" step="range_filter" description="Filtering results: Use FILTER_BY_TS and FILTER_BY_VALUE options with range queries when you need to select specific timestamps or value ranges" difficulty="intermediate" >}}
 ```bash
 > TS.RANGE rg:1 - + FILTER_BY_TS 0 2 4
 1) 1) (integer) 0
@@ -268,7 +268,7 @@ the presence or value of a label. See the description in the
 for details of the filter syntax. You can also request that
 data points be returned with all their labels or with a selected subset of them.
 
-{{< clients-example time_series_tutorial query_multi >}}
+{{< clients-example set="time_series_tutorial" step="query_multi" description="Multi-series queries: Use TS.MGET, TS.MRANGE, and TS.MREVRANGE with label filters when you need to query multiple time series based on label criteria" difficulty="advanced" >}}
 ```bash
 # Create three new "rg:" time series (two in the US
 # and one in the UK, with different units) and add some
@@ -400,7 +400,7 @@ For example, the example below shows an aggregation with the `avg` function over
 five data points in the `rg:2` time series. The bucket size is 2ms, so there are three
 aggregated values with only one value used to calculate the average for the last bucket.
 
-{{< clients-example time_series_tutorial agg >}}
+{{< clients-example set="time_series_tutorial" step="agg" description="Aggregation: Use AGGREGATION option with range queries to compute statistics (avg, sum, min, max, etc.) over time buckets when you need to reduce large datasets" difficulty="intermediate" >}}
 ```bash
 > TS.RANGE rg:2 - + AGGREGATION avg 2
 1) 1) (integer) 0
@@ -419,7 +419,7 @@ the first bucket in the sequence starts. By default, the reference timestamp is 
 For example, the following commands create a time series and apply a `min` aggregation
 with a bucket size of 25 milliseconds at the default zero alignment.
 
-{{< clients-example time_series_tutorial agg_bucket >}}
+{{< clients-example set="time_series_tutorial" step="agg_bucket" description="Bucket alignment: Use AGGREGATION with default zero alignment to group data into fixed-size time buckets when you need consistent time-based aggregations" difficulty="intermediate" >}}
 ```bash
 > TS.CREATE sensor3
 OK
@@ -455,7 +455,7 @@ Bucket(25ms): |_________________________||_________________________||___________
 
 You can also align the buckets to the start or end of the query range. For example, the following command aligns the buckets to the start of the query range at time 10.
 
-{{< clients-example time_series_tutorial agg_align >}}
+{{< clients-example set="time_series_tutorial" step="agg_align" description="Custom alignment: Use ALIGN option with aggregations to align buckets to query range start/end when you need aggregations relative to specific time boundaries" difficulty="advanced" >}}
 ```bash
 > TS.RANGE sensor3 10 70 AGGREGATION min 25 ALIGN start
 1) 1) (integer) 10
@@ -487,7 +487,7 @@ that have the same timestamp and the same label value (this feature is available
 
 For example, the following commands create four time series, two for the UK and two for the US, and add some data points. The first `TS.MRANGE` command groups the results by country and applies a `max` aggregation to find the maximum sample value in each country at each timestamp. The second `TS.MRANGE` command uses the same grouping, but applies an `avg` aggregation.
 
-{{< clients-example time_series_tutorial agg_multi >}}
+{{< clients-example set="time_series_tutorial" step="agg_multi" description="Cross-series aggregation: Use GROUPBY and REDUCE with TS.MRANGE to aggregate data across multiple time series by label when you need to compute statistics across groups" difficulty="advanced" >}}
 ```bash
 > TS.CREATE wind:1 LABELS country uk
 OK
@@ -514,7 +514,7 @@ OK
 4) (integer) 3
 
 # The result pairs contain the timestamp and the maximum sample value
-# for the country at that timestamp. 
+# for the country at that timestamp.
 > TS.MRANGE - + FILTER country=(us,uk) GROUPBY country REDUCE max
 1) 1) "country=uk"
    2) (empty array)
@@ -575,7 +575,7 @@ only process data that is added to the source series after you create the rule.
 For example, you could use the commands below to create a time series along with a
 compaction rule to find the minimum reading in each period of 3ms.
 
-{{< clients-example time_series_tutorial create_compaction >}}
+{{< clients-example set="time_series_tutorial" step="create_compaction" description="Compaction rules: Use TS.CREATERULE to automatically aggregate data into a destination time series when you need to maintain pre-computed aggregations" difficulty="advanced" >}}
 ```bash
 # The source time series.
 > TS.CREATE hyg:1
@@ -611,7 +611,7 @@ produce any data in the compacted series. However, when you add data for
 time 4 (in the second bucket), the compaction rule computes the minimum
 value for the first bucket and adds it to the compacted series.
 
-{{< clients-example time_series_tutorial comp_add >}}
+{{< clients-example set="time_series_tutorial" step="comp_add" description="Compaction behavior: Understand how compaction rules process data incrementally, computing aggregates for completed buckets when new data arrives" difficulty="intermediate" >}}
 ```bash
 > TS.MADD hyg:1 0 75 hyg:1 1 77 hyg:1 2 78
 1) (integer) 0
@@ -644,7 +644,7 @@ that fall within a given timestamp range. The range is inclusive, meaning that
 samples whose timestamp equals the start or end of the range are deleted.
 If you want to delete a single timestamp, use it as both the start and end of the range.
 
-{{< clients-example time_series_tutorial del >}}
+{{< clients-example set="time_series_tutorial" step="del" description="Deleting data: Use TS.DEL to remove data points within a timestamp range when you need to clean up or correct historical data" difficulty="beginner" >}}
 ```bash
 > TS.INFO thermometer:1
  1) totalSamples
