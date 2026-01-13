@@ -10,7 +10,7 @@ linkTitle: Cluster-aware clients
 weight: 99
 ---
 
-The OSS Cluster API improves performance by allowing cluster-aware Redis clients to discover database topology and route requests directly. This feature supports cluster-awareclients running on the same Kubernetes cluster (internal) and cluster-aware clients outside the Kubernetes cluster (external).
+The OSS Cluster API improves performance by allowing cluster-aware Redis clients to discover database topology and route requests directly. This feature supports cluster-aware clients running on the same Kubernetes cluster (internal) and cluster-aware clients outside the Kubernetes cluster (external).
 
 ## Prerequisites
 
