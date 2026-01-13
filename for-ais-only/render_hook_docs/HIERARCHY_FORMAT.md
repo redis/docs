@@ -58,7 +58,30 @@ Add metadata to any item using the special `_meta` key:
 
 Currently supported metadata fields:
 - `description`: A brief description of the item (displayed as italic text after the item name)
+- `link`: URL or relative path to make the item clickable (works in both SVG diagrams and AI agent processing)
 - `ellipsis`: Boolean indicating this is a placeholder for omitted items
+
+## Links
+
+Add a `link` field to make items clickable:
+
+```yaml
+"Documentation":
+    _meta:
+        link: "https://example.com/docs"
+    "Getting Started":
+        _meta:
+            link: "./getting-started.md"
+    "API Reference":
+        _meta:
+            link: "./api-reference.md"
+```
+
+The `link` field:
+- Works with both absolute URLs and relative paths
+- Makes the item clickable in SVG diagrams (for users)
+- Provides navigation information for AI agents
+- Can be combined with `description` for additional context
 
 ## Ellipsis (Omitted Items)
 
@@ -189,12 +212,15 @@ Place the hierarchy code block where you want the diagram to appear in the rende
 | Field | Type | Purpose | Example |
 |-------|------|---------|---------|
 | `description` | string | Brief description of the item (displayed as italic text) | `"Base exception class"` |
+| `link` | string | URL or relative path to make the item clickable | `"./api-reference.md"` or `"https://example.com"` |
 | `ellipsis` | boolean | Marks as placeholder for omitted items | `true` |
 
 ### Notes
 
 - The `description` field is displayed as italic text after the item name in the rendered diagram
+- The `link` field makes items clickable in SVG diagrams and provides navigation for AI agents
 - The `ellipsis` field should be set to `true` for items representing omitted content (typically named `"..."`)
+- Multiple metadata fields can be combined (e.g., `description` + `link`)
 - Other metadata fields may be added in the future
 
 ## Rendering

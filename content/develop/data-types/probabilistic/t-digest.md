@@ -75,7 +75,7 @@ You measure the IP packets transferred over your network each second and try to 
 
 In the following example, you'll create a t-digest with a compression of 100 and add items to it. The `COMPRESSION` argument is used to specify the tradeoff between accuracy and memory consumption. The default value is 100. Higher values mean more accuracy. Note: unlike some of the other probabilistic data structures, the [`TDIGEST.ADD`]({{< relref "commands/tdigest.add/" >}}) command will not create a new structure if the key does not exist.
 
-{{< clients-example tdigest_tutorial tdig_start >}}
+{{< clients-example set="tdigest_tutorial" step="tdig_start" description="t-digest creation and data addition: Use TDIGEST.CREATE to initialize a sketch and TDIGEST.ADD to insert values when you need to build a percentile estimation data structure" difficulty="beginner" >}}
 > TDIGEST.CREATE bikes:sales COMPRESSION 100
 OK
 > TDIGEST.ADD bikes:sales 21
@@ -95,7 +95,7 @@ Another helpful feature in t-digest is CDF (definition of rank) which gives us t
 
 Here's an example. Given a set of biker's ages, you can ask a question like "What's the percentage of bike racers that are younger than 50 years?"
 
-{{< clients-example tdigest_tutorial tdig_cdf >}}
+{{< clients-example set="tdigest_tutorial" step="tdig_cdf" description="Percentile rank estimation: Use TDIGEST.CDF to estimate the fraction of values below a threshold and TDIGEST.RANK to estimate the rank of values when you need to determine percentile positions" difficulty="intermediate" >}}
 > TDIGEST.CREATE racer_ages
 OK
 > TDIGEST.ADD racer_ages 45.88 44.2 58.03 19.76 39.84 69.28 50.97 25.41 19.27 85.71 42.63
@@ -117,7 +117,7 @@ And lastly, `TDIGEST.REVRANK key value...` is similar to [TDIGEST.RANK]({{< relr
 
 `TDIGEST.QUANTILE key fraction...` returns, for each input fraction, an estimation of the value (floating point) that is smaller than the given fraction of observations. `TDIGEST.BYRANK key rank...` returns, for each input rank, an estimation of the value (floating point) with that rank.
 
-{{< clients-example tdigest_tutorial tdig_quant >}}
+{{< clients-example set="tdigest_tutorial" step="tdig_quant" description="Quantile and rank value estimation: Use TDIGEST.QUANTILE to find values at specific percentiles and TDIGEST.BYRANK to find values by rank when you need to retrieve percentile values from a sketch" difficulty="intermediate" >}}
 > TDIGEST.QUANTILE racer_ages .5
 1) "44.200000000000003"
 > TDIGEST.BYRANK racer_ages 4
@@ -146,7 +146,7 @@ If `destKey` is an existing sketch, its values are merged with the values of the
 
 Use [`TDIGEST.MIN`]({{< relref "commands/tdigest.min/" >}}) and [`TDIGEST.MAX`]({{< relref "commands/tdigest.max/" >}}) to retrieve the minimal and maximal values in the sketch, respectively.
 
-{{< clients-example tdigest_tutorial tdig_min >}}
+{{< clients-example set="tdigest_tutorial" step="tdig_min" description="Sketch metadata retrieval: Use TDIGEST.MIN and TDIGEST.MAX to retrieve the minimum and maximum values in a sketch when you need to inspect the bounds of your data" difficulty="beginner" >}}
 > TDIGEST.MIN racer_ages
 "19.27"
 > TDIGEST.MAX racer_ages
@@ -161,7 +161,7 @@ Use `TDIGEST.INFO racer_ages` to retrieve some additional information about the 
 
 #### Resetting a sketch
 
-{{< clients-example tdigest_tutorial tdig_reset >}}
+{{< clients-example set="tdigest_tutorial" step="tdig_reset" description="Sketch reset: Use TDIGEST.RESET to clear all data from a sketch when you need to reuse a sketch for new data" difficulty="beginner" >}}
 > TDIGEST.RESET racer_ages
 OK
 {{< /clients-example >}}
