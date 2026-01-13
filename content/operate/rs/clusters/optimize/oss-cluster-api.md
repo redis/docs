@@ -21,4 +21,4 @@ For more about working with the OSS Cluster API in Redis Enterprise Software, se
 
 To learn how to enable OSS Cluster API in Redis Cloud, see [Clustering Redis databases]({{< relref "/operate/rc/databases/configuration/clustering#cluster-api" >}}).
 
-To enable OSS Cluster API in Kubernetes, see [Enable OSS Cluster API]({{< relref "/operate/kubernetes/networking/cluster-aware-clients#enable-oss-cluster-api" >}}).
+To enable OSS Cluster API in Kubernetes, see [Enable cluster-aware clients (OSS Cluster API)]({{< relref "/operate/kubernetes/networking/cluster-aware-clients" >}}).

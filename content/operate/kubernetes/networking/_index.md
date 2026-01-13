@@ -39,11 +39,14 @@ Versions 6.4.2 or later of Redis Enterprise for Kubernetes include a feature for
 
 This feature only supports automatic Ingress creation for Active-Active databases created and managed with the RedisEnterpriseActiveActiveDatabase (REAADB) custom resource. Use with the standard Redis Enterprise database (REDB) is not currently supported.
 
-## OSS Cluster API limitations
+## OSS Cluster API support
 
-When using [OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}), clients must specify the IP addresses of Redis instances to perform operations. Since Pod IP addresses are internal to the Kubernetes cluster and not publicly accessible, **OSS Cluster API can only be used by clients running on pods within the same Kubernetes cluster as the Redis Enterprise pods.** Using OSS Cluster API from outside the Kubernetes cluster is not tested and currently not supported.
+[OSS Cluster API]({{< relref "/operate/kubernetes/networking/cluster-aware-clients" >}}) is supported for both internal and external clients:
 
-For applications that need to access Redis databases from outside the Kubernetes cluster, use standard Redis Enterprise connectivity methods with the external routing options described above (Ingress controllers, load balancers, or OpenShift routes). These methods do not support OSS Cluster API but provide reliable external access to your Redis databases.
+- **Internal clients** running on pods within the same Kubernetes cluster can connect directly to Redis Enterprise pods using pod IPs.
+- **External clients** outside the Kubernetes cluster can connect through a LoadBalancer service when `enableExternalAccess: true` is configured in the database specification.
+
+See [Enable cluster-aware clients (OSS Cluster API)]({{< relref "/operate/kubernetes/networking/cluster-aware-clients" >}}) for configuration details.
 
 ## REC domain name
 
