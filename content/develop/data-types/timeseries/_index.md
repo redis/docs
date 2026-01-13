@@ -57,7 +57,7 @@ command, specifying a key name. Alternatively, if you use [`TS.ADD`]({{< relref 
 to add data to a time series key that does not exist, it is automatically created (see
 [Adding data points](#adding-data-points) below for more information about `TS.ADD`).
 
-{{< clients-example set="time_series_tutorial" step="create" description="Foundational: Create an empty time series with TS.CREATE to initialize a new time series key" difficulty="beginner" >}}
+{{< clients-example set="time_series_tutorial" step="create" description="Foundational: Use TS.CREATE to initialize a new time series key" difficulty="beginner" >}}
 > TS.CREATE thermometer:1
 OK
 > TYPE thermometer:1
@@ -139,7 +139,7 @@ Unix time, as reported by the server's clock.
 Use [`TS.GET`]({{< relref "commands/ts.get/" >}}) to retrieve the data point
 with the highest timestamp in a time series. This returns both the timestamp and the value.
 
-{{< clients-example set="time_series_tutorial" step="get" description="Foundational: Retrieve the most recent data point from a time series using TS.GET to get the latest value and timestamp" difficulty="beginner" >}}
+{{< clients-example set="time_series_tutorial" step="get" description="Foundational: Use TS.GET to get the latest value and timestamp" difficulty="beginner" >}}
 ```bash
 # The last recorded temperature for thermometer:2
 # was 10.3 at time 2ms.
@@ -400,7 +400,7 @@ For example, the example below shows an aggregation with the `avg` function over
 five data points in the `rg:2` time series. The bucket size is 2ms, so there are three
 aggregated values with only one value used to calculate the average for the last bucket.
 
-{{< clients-example set="time_series_tutorial" step="agg" description="Aggregation: Use AGGREGATION option with range queries to compute statistics (avg, sum, min, max, etc.) over time buckets when you need to reduce large datasets" difficulty="intermediate" >}}
+{{< clients-example set="time_series_tutorial" step="agg" description="Aggregation: Use AGGREGATION option with range queries to compute statistics such as avg, sum, min, and max over time buckets when you need to reduce large datasets" difficulty="intermediate" >}}
 ```bash
 > TS.RANGE rg:2 - + AGGREGATION avg 2
 1) 1) (integer) 0
