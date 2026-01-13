@@ -176,7 +176,7 @@ When implementing new metadata features, follow this order:
 
 ### Phase 2: Documentation
 
-4. **Create documentation** (`build/metadata_docs/FEATURE_NAME_FORMAT.md`)
+4. **Create documentation** (`for-ais-only/metadata_docs/FEATURE_NAME_FORMAT.md`)
    - Explain the purpose and structure
    - Show examples for different scenarios
    - Document embedding locations (HTML, Markdown, data attributes)
