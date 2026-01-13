@@ -64,6 +64,7 @@ The following table summarizes which configuration parameters can be set at run-
 | PARTIAL_INDEXED_DOCS              | [search-partial-indexed-docs](#search-partial-indexed-docs)     | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 | RAW_DOCID_ENCODING                | [search-raw-docid-encoding](#search-raw-docid-encoding)         | :white_large_square: |||
 | SEARCH_THREADS                    | [search-threads](#search-threads)                               | :white_large_square: |||
+| SEARCH_IO_THREADS                 | [search-io-threads](#search-io-threads)                         | :white_large_square: |||
 | TIERED_HNSW_BUFFER_LIMIT          | [search-tiered-hnsw-buffer-limit](#search-tiered-hnsw-buffer-limit) | :white_large_square: |||
 | TIMEOUT                           | [search-timeout](#search-timeout)                               | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 | TOPOLOGY_VALIDATION_TIMEOUT       | [search-topology-validation-timeout](#search-topology-validation-timeout) | :white_check_mark: |||
@@ -434,6 +435,16 @@ Default: `FALSE`
 Sets the number of search threads in the coordinator thread pool.
 
 Type: integer
+
+### search-io-threads
+
+Sets the number of threads used in the coordinator to run I/O tasks with other shards
+
+Type: integer
+
+Valid range: `[1 .. 256]`
+
+Default: 1
 
 ### search-tiered-hnsw-buffer-limit
 
