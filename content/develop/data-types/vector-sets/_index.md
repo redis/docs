@@ -68,7 +68,7 @@ Start by adding the point vectors to a set called `points` using
 The [`TYPE`]({{< relref "/commands/type" >}}) command returns a type of `vectorset`
 for this object.
 
-{{< clients-example vecset_tutorial vadd >}}
+{{< clients-example set="vecset_tutorial" step="vadd" description="Foundational: Add vector elements to a vector set using VADD to create a new set and populate it with vectors" difficulty="beginner" >}}
 > VADD points VALUES 2 1.0 1.0 pt:A
 (integer) 1
 > VADD points VALUES 2 -1.0 -1.0 pt:B
@@ -88,7 +88,7 @@ Get the number of elements in the set (also known as the *cardinality* of the se
 using [`VCARD`]({{< relref "/commands/vcard" >}}) and the number of dimensions of
 the vectors using [`VDIM`]({{< relref "/commands/vdim" >}}):
 
-{{< clients-example vecset_tutorial vcardvdim >}}
+{{< clients-example set="vecset_tutorial" step="vcardvdim" description="Metadata retrieval: Use VCARD to get the number of elements and VDIM to get vector dimensions when you need to inspect vector set properties" difficulty="beginner" >}}
 > VCARD points
 (integer) 5
 > VDIM points
@@ -101,7 +101,7 @@ the vector because
 [quantization]({{< relref "/develop/data-types/vector-sets/performance#quantization-effects" >}})
 is applied to improve performance.
 
-{{< clients-example vecset_tutorial vemb >}}
+{{< clients-example set="vecset_tutorial" step="vemb" description="Vector retrieval: Use VEMB to retrieve the approximate vector values of elements when you need to inspect the actual vector data stored in the set" difficulty="beginner" >}}
 > VEMB points pt:A
 1) "0.9999999403953552"
 2) "0.9999999403953552"
@@ -124,12 +124,12 @@ Set and retrieve an element's JSON attribute data using
 and [`VGETATTR`]({{< relref "/commands/vgetattr" >}}). You can also pass an empty string
 to `VSETATTR` to delete the attribute data:
 
-{{< clients-example vecset_tutorial attr >}}
-> VSETATTR points pt:A "{\"name\": \"Point A\", \"description\": \"First point added\"}" 
+{{< clients-example set="vecset_tutorial" step="attr" description="Attribute management: Use VSETATTR to store JSON attributes on elements and VGETATTR to retrieve them when you need to associate metadata with vectors" difficulty="intermediate" >}}
+> VSETATTR points pt:A "{\"name\": \"Point A\", \"description\": \"First point added\"}"
 (integer) 1
 > VGETATTR points pt:A
 "{\"name\": \"Point A\", \"description\": \"First point added\"}"
-> VSETATTR points pt:A "" 
+> VSETATTR points pt:A ""
 (integer) 1
 > VGETATTR points pt:A
 (nil)
@@ -137,7 +137,7 @@ to `VSETATTR` to delete the attribute data:
 
 Remove an unwanted element with [`VREM`]({{< relref "/commands/vrem" >}})
 
-{{< clients-example vecset_tutorial vrem >}}
+{{< clients-example set="vecset_tutorial" step="vrem" description="Element removal: Use VREM to delete elements from a vector set when you need to remove vectors from the collection" difficulty="beginner" >}}
 > VADD points VALUES 2 0 0 pt:F
 (integer) 1
 127.0.0.1:6379> VCARD points
@@ -152,7 +152,7 @@ Remove an unwanted element with [`VREM`]({{< relref "/commands/vrem" >}})
 
 Use [`VSIM`]({{< relref "/commands/vsim" >}}) to rank the points in order of their vector distance from a sample point:
 
-{{< clients-example vecset_tutorial vsim_basic >}}
+{{< clients-example set="vecset_tutorial" step="vsim_basic" description="Similarity search: Use VSIM to find elements most similar to a query vector when you need to perform vector similarity searches" difficulty="intermediate" >}}
 > VSIM points values 2 0.9 0.1
 1) "pt:E"
 2) "pt:A"
@@ -163,7 +163,7 @@ Use [`VSIM`]({{< relref "/commands/vsim" >}}) to rank the points in order of the
 
 Find the four elements that are closest to point A and show their distance "scores":
 
-{{< clients-example vecset_tutorial vsim_options >}}
+{{< clients-example set="vecset_tutorial" step="vsim_options" description="Similarity with options: Use VSIM with ELE, WITHSCORES, and COUNT options to find similar elements with scores and limits when you need detailed similarity results" difficulty="intermediate" >}}
 > VSIM points ELE pt:A WITHSCORES COUNT 4
 1) "pt:A"
 2) "1"
@@ -179,7 +179,7 @@ Add some JSON attributes and use
 [filter expressions]({{< relref "/develop/data-types/vector-sets/filtered-search" >}})
 to include them in the search:
 
-{{< clients-example vecset_tutorial vsim_filter >}}
+{{< clients-example set="vecset_tutorial" step="vsim_filter" description="Filtered similarity search: Use VSIM with FILTER option to apply attribute-based conditions to similarity results when you need to combine vector similarity with attribute filtering" difficulty="advanced" >}}
 > VSETATTR points pt:A "{\"size\":\"large\",\"price\": 18.99}"
 (integer) 1
 > VSETATTR points pt:B "{\"size\":\"large\",\"price\": 35.99}"
