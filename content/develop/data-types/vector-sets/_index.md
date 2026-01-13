@@ -68,7 +68,7 @@ Start by adding the point vectors to a set called `points` using
 The [`TYPE`]({{< relref "/commands/type" >}}) command returns a type of `vectorset`
 for this object.
 
-{{< clients-example set="vecset_tutorial" step="vadd" description="Foundational: Add vector elements to a vector set using VADD to create a new set and populate it with vectors" difficulty="beginner" >}}
+{{< clients-example set="vecset_tutorial" step="vadd" description="Foundational: Use VADD to create a new vector set and populate it with vectors" difficulty="beginner" >}}
 > VADD points VALUES 2 1.0 1.0 pt:A
 (integer) 1
 > VADD points VALUES 2 -1.0 -1.0 pt:B
