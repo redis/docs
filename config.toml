@@ -59,21 +59,21 @@ rdi_cli_latest = "latest"
 rdi_current_version = "1.15.1"
 
 [params.clientsConfig]
-"Python"={quickstartSlug="redis-py"}
-"Node.js"={quickstartSlug="nodejs"}
-"ioredis"={quickstartSlug="ioredis"}
-"Java-Sync"={quickstartSlug="jedis"}
-"Lettuce-Sync"={quickstartSlug="lettuce"}
-"Java-Async"={quickstartSlug="lettuce"}
-"Java-Reactive"={quickstartSlug="lettuce"}
-"Go"={quickstartSlug="go"}
-"C"={quickstartSlug="hiredis"}
-"C#-Sync"={quickstartSlug="dotnet"}
-"C#-Async"={quickstartSlug="dotnet"}
-"RedisVL"={quickstartSlug="redis-vl"}
-"PHP"={quickstartSlug="php"}
-"Rust-Sync"={quickstartSlug="rust"}
-"Rust-Async"={quickstartSlug="rust"}
+"Python"={quickstartSlug="redis-py", langId="python", clientId="redis-py", clientName="redis-py"}
+"Node.js"={quickstartSlug="nodejs", langId="javascript", clientId="node-redis", clientName="node-redis"}
+"ioredis"={quickstartSlug="ioredis", langId="javascript", clientId="ioredis", clientName="ioredis"}
+"Java-Sync"={quickstartSlug="jedis", langId="java", clientId="jedis", clientName="Jedis"}
+"Lettuce-Sync"={quickstartSlug="lettuce", langId="java", clientId="lettuce", clientName="Lettuce"}
+"Java-Async"={quickstartSlug="lettuce", langId="java", clientId="lettuce", clientName="Lettuce"}
+"Java-Reactive"={quickstartSlug="lettuce", langId="java", clientId="lettuce", clientName="Lettuce"}
+"Go"={quickstartSlug="go", langId="go", clientId="go-redis", clientName="go-redis"}
+"C"={quickstartSlug="hiredis", langId="c", clientId="hiredis", clientName="hiredis"}
+"C#-Sync"={quickstartSlug="dotnet", langId="csharp", clientId="stackexchange-redis", clientName="StackExchange.Redis"}
+"C#-Async"={quickstartSlug="dotnet", langId="csharp", clientId="stackexchange-redis", clientName="StackExchange.Redis"}
+"RedisVL"={quickstartSlug="redis-vl", langId="python", clientId="redis-vl", clientName="RedisVL"}
+"PHP"={quickstartSlug="php", langId="php", clientId="predis", clientName="Predis"}
+"Rust-Sync"={quickstartSlug="rust", langId="rust", clientId="redis-rs", clientName="redis-rs"}
+"Rust-Async"={quickstartSlug="rust", langId="rust", clientId="redis-rs", clientName="redis-rs"}
 
 # Mount directories for duplicate content
 [module]

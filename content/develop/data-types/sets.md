@@ -36,9 +36,9 @@ See the [complete list of set commands]({{< relref "/commands/" >}}?group=set).
 
 ## Examples
 
-* Store the sets of bikes racing in France and the USA. Note that 
-if you add a member that already exists, it will be ignored. 
-{{< clients-example sets_tutorial sadd >}}
+* Store the sets of bikes racing in France and the USA. Note that
+if you add a member that already exists, it will be ignored.
+{{< clients-example set="sets_tutorial" step="sadd" description="Foundational: Add members to a set using SADD when you need to store unique items (duplicates are silently ignored)" difficulty="beginner" >}}
 > SADD bikes:racing:france bike:1
 (integer) 1
 > SADD bikes:racing:france bike:1
@@ -50,7 +50,7 @@ if you add a member that already exists, it will be ignored.
 {{< /clients-example >}}
 
 * Check whether bike:1 or bike:2 are racing in the US.
-{{< clients-example sets_tutorial sismember >}}
+{{< clients-example set="sets_tutorial" step="sismember" description="Foundational: Test set membership using SISMEMBER when you need O(1) lookups (much faster than checking a list)" difficulty="beginner" >}}
 > SISMEMBER bikes:racing:usa bike:1
 (integer) 1
 > SISMEMBER bikes:racing:usa bike:2
@@ -58,13 +58,13 @@ if you add a member that already exists, it will be ignored.
 {{< /clients-example >}}
 
 * Which bikes are competing in both races?
-{{< clients-example sets_tutorial sinter >}}
+{{< clients-example set="sets_tutorial" step="sinter" description="Set intersection: Find common members across multiple sets using SINTER when you need to identify shared items (e.g., users in multiple groups)" difficulty="intermediate" >}}
 > SINTER bikes:racing:france bikes:racing:usa
 1) "bike:1"
 {{< /clients-example >}}
 
 * How many bikes are racing in France?
-{{< clients-example sets_tutorial scard >}}
+{{< clients-example set="sets_tutorial" step="scard" description="Foundational: Get the cardinality of a set using SCARD when you need to count unique items efficiently" difficulty="beginner" >}}
 > SCARD bikes:racing:france
 (integer) 3
 {{< /clients-example >}}
@@ -76,7 +76,7 @@ to do a number of other operations against sets like testing if a given element
 already exists, performing the intersection, union or difference between
 multiple sets, and so forth.
 
-{{< clients-example sets_tutorial sadd_smembers >}}
+{{< clients-example set="sets_tutorial" step="sadd_smembers" description="Foundational: Retrieve all members from a set using SMEMBERS when you need the complete set (note: order is not guaranteed)" difficulty="beginner" >}}
 > DEL bikes:racing:france
 (integer) 1
 > SADD bikes:racing:france bike:1 bike:2 bike:3
@@ -93,7 +93,7 @@ elements in any order at every call.
 
 Redis has commands to test for set membership. These commands can be used on single as well as multiple items:
 
-{{< clients-example sets_tutorial smismember >}}
+{{< clients-example set="sets_tutorial" step="smismember" description="Batch membership checks: Test multiple items at once using SMISMEMBER when you need to reduce round trips to the server" difficulty="intermediate" >}}
 > SISMEMBER bikes:racing:france bike:1
 (integer) 1
 > SMISMEMBER bikes:racing:france bike:2 bike:3 bike:4
@@ -105,7 +105,7 @@ Redis has commands to test for set membership. These commands can be used on sin
 We can also find the difference between two sets. For instance, we may want
 to know which bikes are racing in France but not in the USA:
 
-{{< clients-example sets_tutorial sdiff >}}
+{{< clients-example set="sets_tutorial" step="sdiff" description="Set difference: Find members in one set but not in others using SDIFF when you need to exclude items (warning: argument order matters)" difficulty="intermediate" >}}
 > SADD bikes:racing:usa bike:1 bike:4
 (integer) 2
 > SDIFF bikes:racing:france bikes:racing:usa
@@ -121,7 +121,7 @@ sets. In addition to intersection you can also perform
 unions, difference, and more. For example 
 if we add a third race we can see some of these commands in action:
 
-{{< clients-example sets_tutorial multisets >}}
+{{< clients-example set="sets_tutorial" step="multisets" description="Advanced pattern: Combine SINTER, SUNION, and SDIFF to analyze complex relationships when you need to precompute set algebra across multiple datasets" difficulty="advanced" >}}
 > DEL bikes:racing:france bikes:racing:usa bikes:racing:italy
 (integer) 2
 > SADD bikes:racing:france bike:1 bike:2 bike:3
@@ -155,7 +155,7 @@ remove one or more items from a set, or you can use the [`SPOP`]({{< relref "/co
 remove a random item from a set. You can also _return_ a random item from a
 set without removing it using the [`SRANDMEMBER`]({{< relref "/commands/srandmember" >}}) command:
 
-{{< clients-example sets_tutorial srem >}}
+{{< clients-example set="sets_tutorial" step="srem" description="Removal strategies: Use SREM for targeted removal, SPOP for random removal, or SRANDMEMBER to inspect without modifying when you need flexible deletion patterns" difficulty="intermediate" >}}
 > DEL bikes:racing:france
 (integer) 1
 > SADD bikes:racing:france bike:1 bike:2 bike:3 bike:4 bike:5
