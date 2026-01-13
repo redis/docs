@@ -438,7 +438,7 @@ Type: integer
 
 ### search-io-threads
 
-Sets the number of threads used in the coordinator to run I/O tasks with other shards
+Sets the number of threads used in the coordinator to run I/O tasks with other shards.
 
 Type: integer
 
