@@ -22,9 +22,9 @@ Metrics are exposed at the cluster, node, database, shard, and proxy levels.
 - [Prometheus](https://prometheus.io/) is an open source systems monitoring and alerting toolkit that aggregates metrics from different sources.
 
 You can use Prometheus integrations to:
-- Collect and display metrics not available in the admin console
+- Collect and display metrics not available in the Cluster Manager UI
 
-- Set up automatic alerts for node or cluster events
+- Set up automatic alerts for all resources
 
 - Display Redis Enterprise Software metrics alongside data from other systems
 
