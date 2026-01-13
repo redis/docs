@@ -31,7 +31,7 @@ outcomes:
 
   code_examples:
     description: "Adding/modifying code examples"
-    guidance: "Read [`for-ais-only/tcedocs/README.md`](for-ais-only/tcedocs/README.md) first, especially the sections on [Writing effective descriptions](#) and [Choosing difficulty levels](#). Then review examples in [`content/develop/data-types/strings.md`](../content/develop/data-types/strings.md) to see the pattern in action."
+    guidance: "Read [`for-ais-only/tcedocs/README.md`](for-ais-only/tcedocs/README.md) first, especially the sections on [Writing effective descriptions](for-ais-only/tcedocs/README.md#writing-effective-descriptions) and [Choosing difficulty levels](for-ais-only/tcedocs/README.md#choosing-difficulty-levels). Then review examples in [`content/develop/data-types/strings.md`](../content/develop/data-types/strings.md) to see the pattern in action."
 
   render_hook:
     description: "Creating a new render hook"
