@@ -27,27 +27,27 @@ steps:
 outcomes:
   small_change:
     description: "Small content updates"
-    guidance: "You can proceed directly with your task. No special preparation needed."
+    guidance: "You can proceed directly with your task. No special preparation needed. Make your changes and test them."
 
   code_examples:
     description: "Adding/modifying code examples"
-    guidance: "Read [`for-ais-only/tcedocs/README.md`](for-ais-only/tcedocs/README.md) first, especially the sections on [Writing effective descriptions](for-ais-only/tcedocs/README.md#writing-effective-descriptions) and [Choosing difficulty levels](for-ais-only/tcedocs/README.md#choosing-difficulty-levels). Then review examples in [`content/develop/data-types/strings.md`](../content/develop/data-types/strings.md) to see the pattern in action."
+    guidance: "Read [`for-ais-only/tcedocs/README.md`](for-ais-only/tcedocs/README.md) first, especially the sections on [Writing effective descriptions](for-ais-only/tcedocs/README.md#writing-effective-descriptions) and [Choosing difficulty levels](for-ais-only/tcedocs/README.md#choosing-difficulty-levels). Then review examples in [`content/develop/data-types/strings.md`](../content/develop/data-types/strings.md) to see the pattern in action. Once you understand the pattern, proceed with adding or modifying your code examples."
 
   render_hook:
     description: "Creating a new render hook"
-    guidance: "Read [`for-ais-only/render_hook_docs/README.md`](for-ais-only/render_hook_docs/README.md) for an overview, then study [`for-ais-only/render_hook_docs/AI_RENDER_HOOK_LESSONS.md`](for-ais-only/render_hook_docs/AI_RENDER_HOOK_LESSONS.md) (Lessons 1-12). Review existing render hooks in [`layouts/_default/_markup/`](../layouts/_default/_markup/) as examples."
+    guidance: "Read [`for-ais-only/render_hook_docs/README.md`](for-ais-only/render_hook_docs/README.md) for an overview, then study [`for-ais-only/render_hook_docs/AI_RENDER_HOOK_LESSONS.md`](for-ais-only/render_hook_docs/AI_RENDER_HOOK_LESSONS.md) (Lessons 1-12). Review existing render hooks in [`layouts/_default/_markup/`](../layouts/_default/_markup/) as examples. Once you understand the patterns, implement your render hook."
 
   metadata:
     description: "Working with page metadata"
-    guidance: "Read [`for-ais-only/metadata_docs/PAGE_METADATA_FORMAT.md`](for-ais-only/metadata_docs/PAGE_METADATA_FORMAT.md) for the complete structure, then [`for-ais-only/metadata_docs/IMPLEMENTATION_NOTES.md`](for-ais-only/metadata_docs/IMPLEMENTATION_NOTES.md) for implementation patterns and lessons learned."
+    guidance: "Read [`for-ais-only/metadata_docs/PAGE_METADATA_FORMAT.md`](for-ais-only/metadata_docs/PAGE_METADATA_FORMAT.md) for the complete structure, then [`for-ais-only/metadata_docs/IMPLEMENTATION_NOTES.md`](for-ais-only/metadata_docs/IMPLEMENTATION_NOTES.md) for implementation patterns and lessons learned. Then apply this knowledge to your metadata task."
 
   build_system:
     description: "Understanding the build system"
-    guidance: "Read [`for-ais-only/BUILD_SYSTEM_ARCHITECTURE.md`](for-ais-only/BUILD_SYSTEM_ARCHITECTURE.md) for an overview, then check the [`Makefile`](../Makefile) and [`build/make.py`](../build/make.py) for specific implementation details."
+    guidance: "Read [`for-ais-only/BUILD_SYSTEM_ARCHITECTURE.md`](for-ais-only/BUILD_SYSTEM_ARCHITECTURE.md) for an overview, then check the [`Makefile`](../Makefile) and [`build/make.py`](../build/make.py) for specific implementation details. Once you understand the system, proceed with your build-related task."
 
   general:
     description: "Other tasks"
-    guidance: "Start by reading [`for-ais-only/REPOSITORY_MAP_FOR_AI_AGENTS.md`](for-ais-only/REPOSITORY_MAP_FOR_AI_AGENTS.md) to understand the codebase structure and find documentation relevant to your task."
+    guidance: "Start by reading [`for-ais-only/REPOSITORY_MAP_FOR_AI_AGENTS.md`](for-ais-only/REPOSITORY_MAP_FOR_AI_AGENTS.md) to understand the codebase structure and find documentation relevant to your task. Then proceed with your work."
 ```
 
 ### 📚 AI-Specific Documentation (Critical for AI Agents)
