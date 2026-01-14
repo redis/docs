@@ -89,7 +89,7 @@ This is semantically equivalent to:
 
 For bicycles with a price greater than 1000 USD (`price > 1000`), you can use:
 
-{{< clients-example set="query_range" step="range3" description="Intermediate: Query numeric fields with open ranges using infinity notation and exclusive bounds when you need to find documents above or below a threshold" difficulty="intermediate" >}}
+{{< clients-example set="query_range" step="range3" description="Open ranges: Query numeric fields with open ranges using infinity notation and exclusive bounds when you need to find documents above or below a threshold" difficulty="intermediate" >}}
 > FT.SEARCH idx:bicycle "@price:[(1000 +inf]"
  1) (integer) 5
  2) "bicycle:1"
@@ -111,7 +111,7 @@ For bicycles with a price greater than 1000 USD (`price > 1000`), you can use:
 
 The example below returns bicycles with a price lower than or equal to 2000 USD (`price <= 2000`) by returning the five cheapest bikes:
 
-{{< clients-example set="query_range" step="range4" description="Intermediate: Combine range queries with SORTBY and LIMIT to retrieve sorted results in pages when you need to handle large result sets efficiently" difficulty="intermediate" >}}
+{{< clients-example set="query_range" step="range4" description="Sorting and pagination: Combine range queries with SORTBY and LIMIT to retrieve sorted results in pages when you need to handle large result sets efficiently" difficulty="intermediate" >}}
 > FT.SEARCH idx:bicycle "@price:[-inf 2000]" SORTBY price LIMIT 0 5
  1) (integer) 7
  2) "bicycle:0"
