@@ -48,7 +48,7 @@ haven't already done so.
 
 Add the following dependencies:
 
-{{< clients-example set="js_home_query" step="import" lang_filter="Node.js" >}}
+{{< clients-example set="js_home_query" step="import" lang_filter="Node.js" description="Foundational: Import required modules for Redis client and query operations" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Create data
@@ -56,7 +56,7 @@ Add the following dependencies:
 Create some test data to add to your database. The example data shown
 below is compatible with both JSON and hash objects.
 
-{{< clients-example set="js_home_query" step="create_data" lang_filter="Node.js" >}}
+{{< clients-example set="js_home_query" step="create_data" lang_filter="Node.js" description="Foundational: Define sample data structures for indexing and querying examples" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Add the index
@@ -66,7 +66,7 @@ basic connection but see
 [Connect to the server]({{< relref "/develop/clients/nodejs/connect" >}})
 to learn more about the available connection options.
 
-{{< clients-example set="js_home_query" step="connect" lang_filter="Node.js" >}}
+{{< clients-example set="js_home_query" step="connect" lang_filter="Node.js" description="Foundational: Establish a connection to Redis for query operations" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 Create an index. In this example, only JSON documents with the key prefix `user:` are indexed. For more information, see [Query syntax]({{< relref "/develop/ai/search-and-query/query/" >}}).
@@ -74,12 +74,12 @@ Create an index. In this example, only JSON documents with the key prefix `user:
 First, drop any existing index to avoid a collision. (The callback is required
 to avoid an error if the index doesn't already exist.)
 
-{{< clients-example set="js_home_query" step="cleanup_json" lang_filter="Node.js" >}}
+{{< clients-example set="js_home_query" step="cleanup_json" lang_filter="Node.js" description="Foundational: Drop an existing search index safely using error handling to avoid collisions" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 Then create the index:
 
-{{< clients-example set="js_home_query" step="create_index" lang_filter="Node.js" >}}
+{{< clients-example set="js_home_query" step="create_index" lang_filter="Node.js" description="Foundational: Create a search index for JSON documents with field definitions and aliases" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 ## Add the data
@@ -92,7 +92,7 @@ the commands in a `Promise.all()` call is an easy way to create a
 [pipeline]({{< relref "/develop/clients/nodejs/transpipe" >}}),
 which is more efficient than sending the commands individually.
 
-{{< clients-example set="js_home_query" step="add_data" lang_filter="Node.js" >}}
+{{< clients-example set="js_home_query" step="add_data" lang_filter="Node.js" description="Foundational: Add JSON documents with indexed key prefixes using Promise.all() for efficient pipelining" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 ## Query the data
@@ -102,19 +102,19 @@ You can now use the index to search the JSON objects. The
 below searches for objects that have the text "Paul" in any field
 and have an `age` value in the range 30 to 40:
 
-{{< clients-example set="js_home_query" step="query1" lang_filter="Node.js" >}}
+{{< clients-example set="js_home_query" step="query1" lang_filter="Node.js" description="Query data: Execute a full-text search combined with numeric range filtering on indexed JSON documents" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 Specify query options to return only the `city` field:
 
-{{< clients-example set="js_home_query" step="query2" lang_filter="Node.js" >}}
+{{< clients-example set="js_home_query" step="query2" lang_filter="Node.js" description="Restrict query results: Project specific fields in query results to reduce data transfer and improve performance" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 Use an
 [aggregation query]({{< relref "/develop/ai/search-and-query/query/aggregation" >}})
 to count all users in each city.
 
-{{< clients-example set="js_home_query" step="query3" lang_filter="Node.js" >}}
+{{< clients-example set="js_home_query" step="query3" lang_filter="Node.js" description="Aggregate query results: Use aggregation queries to group and count results by field values for analytics" difficulty="advanced" >}}
 {{< /clients-example >}}
 
 ## Differences with hash documents
@@ -131,12 +131,12 @@ the `idx:users` index used for JSON documents in the previous examples.
 
 First, drop any existing index to avoid a collision.
 
-{{< clients-example set="js_home_query" step="cleanup_hash" lang_filter="Node.js" >}}
+{{< clients-example set="js_home_query" step="cleanup_hash" lang_filter="Node.js" description="Foundational: Drop an existing search index safely using error handling to avoid collisions" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 Then create the new index:
 
-{{< clients-example set="js_home_query" step="create_hash_index" lang_filter="Node.js" >}}
+{{< clients-example set="js_home_query" step="create_hash_index" lang_filter="Node.js" description="Foundational: Create a search index for hash documents with HASH type specification" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 You use [`hSet()`]({{< relref "/commands/hset" >}}) to add the hash
@@ -144,14 +144,14 @@ documents instead of [`json.set()`]({{< relref "/commands/json.set" >}}),
 but the same flat `userX` objects work equally well with either
 hash or JSON:
 
-{{< clients-example set="js_home_query" step="add_hash_data" lang_filter="Node.js" >}}
+{{< clients-example set="js_home_query" step="add_hash_data" lang_filter="Node.js" description="Foundational: Add hash documents with indexed key prefixes using hSet() for automatic indexing" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 The query commands work the same here for hash as they do for JSON (but
 the name of the hash index is different). The format of the result is
 also the same:
 
-{{< clients-example set="js_home_query" step="query1_hash" lang_filter="Node.js" >}}
+{{< clients-example set="js_home_query" step="query1_hash" lang_filter="Node.js" description="Query data: Execute the same full-text query pattern on hash documents as on JSON documents" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 ## More information
