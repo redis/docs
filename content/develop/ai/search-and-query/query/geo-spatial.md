@@ -43,7 +43,7 @@ Allowed units are `m`, `km`, `mi`, and `ft`.
 
 The following query finds all bicycle stores within a radius of 20 miles around London:
 
-{{< clients-example query_geo geo1 >}}
+{{< clients-example set="query_geo" step="geo1" description="Foundational: Query geographic locations within a radius using center coordinates and distance when you need to find nearby points of interest" difficulty="beginner" >}}
 FT.SEARCH idx:bicycle "@store_location:[-0.1778 51.5524 20 mi]"
 {{< /clients-example >}}
 
@@ -64,12 +64,12 @@ Here is a more detailed explanation of this query:
 
 The following example query verifies if a bicycle is within a pickup zone:
 
-{{< clients-example query_geo geo2 >}}
+{{< clients-example set="query_geo" step="geo2" description="Spatial operators: Query geometric shapes using CONTAINS to test which shapes enclose another shape when you need to find bounding regions" difficulty="intermediate" >}}
 FT.SEARCH idx:bicycle "@pickup_zone:[CONTAINS $bike]" PARAMS 2 bike "POINT(-0.1278 51.5074)" DIALECT 2
 {{< /clients-example >}}
 
 If you want to find all pickup zones that are approximately within Europe, then you can use the following query:
 
-{{< clients-example query_geo geo3 >}}
+{{< clients-example set="query_geo" step="geo3" description="Spatial operators: Query geometric shapes using the WITHIN operator to find shapes contained in a region when you need to identify items within geographic boundaries" difficulty="intermediate" >}}
 FT.SEARCH idx:bicycle "@pickup_zone:[WITHIN $europe]" PARAMS 2 europe "POLYGON((-25 35, 40 35, 40 70, -25 70, -25 35))" DIALECT 2
 {{< /clients-example >}}
