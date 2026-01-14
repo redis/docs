@@ -135,6 +135,8 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS180550: Fixed an issue that prevented setting up SSO when the Cluster Manager UI was exposed through an IPv6-based load balancer or gateway.
 
+- RS176474: Fixed an issue where clusters could fail after uploading internal certificates that lacked the "TLS Web Client Authentication" option. The system now validates and rejects certificates without this required option during upload to prevent cluster failures.
+
 ## Version changes
 
 ### Supported platforms
