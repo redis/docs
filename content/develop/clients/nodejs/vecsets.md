@@ -47,7 +47,7 @@ npm install @xenova/transformers
 
 In your JavaScript source file, import the required classes:
 
-{{< clients-example set="home_vecsets" step="import" lang_filter="Node.js" >}}
+{{< clients-example set="home_vecsets" step="import" lang_filter="Node.js" description="Foundational: Import Redis client and transformer modules for vector set operations" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 The first of these imports is the
@@ -67,7 +67,7 @@ that you can call to generate embeddings. The `pipeOptions` object is a paramete
 [`all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2)
 documentation for details).
 
-{{< clients-example set="home_vecsets" step="model" lang_filter="Node.js" >}}
+{{< clients-example set="home_vecsets" step="model" lang_filter="Node.js" description="Foundational: Configure a transformer pipeline to generate text embeddings for vector set operations" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Create the data
@@ -75,7 +75,7 @@ documentation for details).
 The example data is contained in an object with some brief
 descriptions of famous people:
 
-{{< clients-example set="home_vecsets" step="data" lang_filter="Node.js" >}}
+{{< clients-example set="home_vecsets" step="data" lang_filter="Node.js" description="Foundational: Define sample data structures with descriptions for vector set examples" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Add the data to a vector set
@@ -94,7 +94,7 @@ The call to `vAdd()` also adds the `born` and `died` values from the
 `peopleData` object as attribute data. You can access this during a query
 or by using the [`vGetAttr()`]({{< relref "/commands/vgetattr" >}}) method.
 
-{{< clients-example set="home_vecsets" step="add_data" lang_filter="Node.js" >}}
+{{< clients-example set="home_vecsets" step="add_data" lang_filter="Node.js" description="Practical pattern: Generate embeddings and add elements to a vector set with vAdd() and attribute metadata" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 ## Query the vector set
@@ -107,7 +107,7 @@ of the set, ranked in order of similarity to the query.
 
 Start with a simple query for "actors":
 
-{{< clients-example set="home_vecsets" step="basic_query" lang_filter="Node.js" >}}
+{{< clients-example set="home_vecsets" step="basic_query" lang_filter="Node.js" description="Vector set query: Execute a basic vector similarity search using vSim() to find semantically similar elements" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 This returns the following list of elements (formatted slightly for clarity):
@@ -126,7 +126,7 @@ on the information contained in the embedding model.
 You can use the `COUNT` parameter of `vSim()` to limit the list of elements
 to just the most relevant few items:
 
-{{< clients-example set="home_vecsets" step="limited_query" lang_filter="Node.js" >}}
+{{< clients-example set="home_vecsets" step="limited_query" lang_filter="Node.js" description="Restrict results: Limit vector search results using the COUNT parameter to return only the most relevant matches" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 The reason for using text embeddings rather than simple text search
@@ -136,7 +136,7 @@ different. For example, the word "entertainer" doesn't appear in any of the
 descriptions but if you use it as a query, the actors and musicians are ranked
 highest in the results list:
 
-{{< clients-example set="home_vecsets" step="entertainer_query" lang_filter="Node.js" >}}
+{{< clients-example set="home_vecsets" step="entertainer_query" lang_filter="Node.js" description="Semantic search: Find elements with similar meaning despite different text" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 Similarly, if you use "science" as a query, you get the following results:
@@ -156,7 +156,7 @@ with `vSim()` to restrict the search further. For example,
 repeat the "science" query, but this time limit the results to people
 who died before the year 2000:
 
-{{< clients-example set="home_vecsets" step="filtered_query" lang_filter="Node.js" >}}
+{{< clients-example set="home_vecsets" step="filtered_query" lang_filter="Node.js" description="Pre-filtering: Combine vector similarity search with filter expressions to restrict results based on attribute metadata" difficulty="advanced" >}}
 {{< /clients-example >}}
 
 Note that the boolean filter expression is applied to items in the list
