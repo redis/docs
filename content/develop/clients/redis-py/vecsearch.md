@@ -66,7 +66,7 @@ pip install sentence-transformers
 
 In a new Python source file, start by importing the required classes:
 
-{{< clients-example set="home_query_vec" step="import" lang_filter="Python" >}}
+{{< clients-example set="home_query_vec" step="import" lang_filter="Python" description="Foundational: Import required libraries for vector embeddings, Redis operations, and search functionality" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 The first of these imports is the
@@ -80,7 +80,7 @@ tokens (see
 at the [Hugging Face](https://huggingface.co/) docs to learn more about the way tokens
 are related to the original text).
 
-{{< clients-example set="home_query_vec" step="model" lang_filter="Python" >}}
+{{< clients-example set="home_query_vec" step="model" lang_filter="Python" description="Foundational: Initialize a SentenceTransformer model to generate vector embeddings from text" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Create the index
@@ -90,7 +90,7 @@ name `vector_idx`. (The `dropindex()` call throws an exception if
 the index doesn't already exist, which is why you need the
 `try: except:` block.)
 
-{{< clients-example set="home_query_vec" step="connect" lang_filter="Python" >}}
+{{< clients-example set="home_query_vec" step="connect" lang_filter="Python" description="Foundational: Connect to a Redis server and clean up existing vector indexes" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 Next, create the index.
@@ -99,13 +99,13 @@ three fields: the text content to index, a
 [tag]({{< relref "/develop/ai/search-and-query/advanced-concepts/tags" >}})
 field to represent the "genre" of the text, and the embedding vector generated from
 the original text content. The `embedding` field specifies
-[HNSW]({{< relref "/develop/ai/search-and-query/vectors#hnsw-index" >}}) 
+[HNSW]({{< relref "/develop/ai/search-and-query/vectors#hnsw-index" >}})
 indexing, the
 [L2]({{< relref "/develop/ai/search-and-query/vectors#distance-metrics" >}})
 vector distance metric, `Float32` values to represent the vector's components,
 and 384 dimensions, as required by the `all-MiniLM-L6-v2` embedding model.
 
-{{< clients-example set="home_query_vec" step="create_index" lang_filter="Python" >}}
+{{< clients-example set="home_query_vec" step="create_index" lang_filter="Python" description="Foundational: Create a vector search index for hash documents with HNSW algorithm and L2 distance metric" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 ## Add data
@@ -123,7 +123,7 @@ Use the binary string representation when you are indexing hashes
 or running a query (but use a list of `float` for
 [JSON documents](#differences-with-json-documents)).
 
-{{< clients-example set="home_query_vec" step="add_data" lang_filter="Python" >}}
+{{< clients-example set="home_query_vec" step="add_data" lang_filter="Python" description="Foundational: Store hash documents with vector embeddings generated from text content" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Run a query
@@ -140,7 +140,7 @@ the indexing, and passes it as a parameter when the query executes
 [Vector search]({{< relref "/develop/ai/search-and-query/query/vector-search" >}})
 for more information about using query parameters with embeddings).
 
-{{< clients-example set="home_query_vec" step="query" lang_filter="Python" >}}
+{{< clients-example set="home_query_vec" step="query" lang_filter="Python" description="Vector similarity search: Find semantically similar documents by comparing query embeddings with indexed vectors using L2 distance" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 The code is now ready to run, but note that it may take a while to complete when
@@ -193,13 +193,13 @@ every query. Also, you must specify `IndexType.JSON` when you create the index.
 The code below shows these differences, but the index is otherwise very similar to
 the one created previously for hashes:
 
-{{< clients-example set="home_query_vec" step="json_index" lang_filter="Python" >}}
+{{< clients-example set="home_query_vec" step="json_index" lang_filter="Python" description="Foundational: Create a vector search index for JSON documents with JSON paths and field aliases" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 Use [`json().set()`]({{< relref "/commands/json.set" >}}) to add the data
 instead of [`hset()`]({{< relref "/commands/hset" >}}). The dictionaries
 that specify the fields have the same structure as the ones used for `hset()`
-but `json().set()` receives them in a positional argument instead of 
+but `json().set()` receives them in a positional argument instead of
 the `mapping` keyword argument.
 
 An important difference with JSON indexing is that the vectors are
@@ -207,7 +207,7 @@ specified using lists instead of binary strings. Generate the list
 using the `tolist()` method instead of `tobytes()` as you would with a
 hash.
 
-{{< clients-example set="home_query_vec" step="json_data" lang_filter="Python" >}}
+{{< clients-example set="home_query_vec" step="json_data" lang_filter="Python" description="Foundational: Store JSON documents with vector embeddings as lists (different from hash binary format)" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 The query is almost identical to the one for the hash documents. This
@@ -217,7 +217,7 @@ is that the vector parameter for the query is still specified as a
 binary string (using the `tobytes()` method), even though the data for
 the `embedding` field of the JSON was specified as a list.
 
-{{< clients-example set="home_query_vec" step="json_query" lang_filter="Python" >}}
+{{< clients-example set="home_query_vec" step="json_query" lang_filter="Python" description="Vector similarity search: Query JSON documents using vector embeddings with field aliases for simplified syntax" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 Apart from the `jdoc:` prefixes for the keys, the result from the JSON

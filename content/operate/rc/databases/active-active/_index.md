@@ -47,4 +47,16 @@ Active-Active databases use special data types called conflict-free replicated d
 
 After a failure at the process, node, or zone level, Active-Active databases automatically promote replica shards to replace failed primaries, copy data to new replica shards, and migrate shards to new nodes as needed. This reduces downtime and makes the most of your computing resources, even in the event of a failure.  
 
-Active-Active also provides a failover opportunity in case an entire cluster fails. Applications should redirect traffic to another cluster in the Active-Active deployment if a connected cluster fails. After the original cluster recovers, applications can direct traffic back to the original cluster. Redirecting traffic to alternate clusters is not handled automatically by Active-Active, so you must add redirection logic to the application. However, data automatically syncs to a recovered cluster when it returns to a healthy state.
+However, Active-Active databases do not have a built-in [failover](https://en.wikipedia.org/wiki/Failover) or failback mechanism for application connections. To handle cluster-level failures, you should implement one of the following disaster recovery strategies to redirect traffic between regions:
+
+- [Network-based]({{<relref "/operate/rs/databases/active-active/disaster-recovery/network-based">}}): Global traffic managers and load balancers for routing.
+
+- [Proxy-based]({{<relref "/operate/rs/databases/active-active/disaster-recovery/proxy-based">}}): Software proxies handle detection and routing logic.
+
+- [Client library-based]({{<relref "/operate/rs/databases/active-active/disaster-recovery/client-library-based">}}): Database client libraries with built-in failover logic.
+
+- [Application-based]({{<relref "/operate/rc/databases/active-active/develop/app-failover-active-active">}}): Custom application-level monitoring and connectivity management.
+
+For more information and guidance on which disaster recovery strategy to implement, see [Disaster recovery strategies for Active-Active databases]({{< relref "/operate/rs/databases/active-active/disaster-recovery" >}}).
+
+Data automatically syncs to a recovered cluster when it returns to a healthy state.
