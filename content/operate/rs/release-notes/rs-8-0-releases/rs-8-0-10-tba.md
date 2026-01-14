@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 8.4.0, 8.2.1, 8.0.2, 7.4.3, 7.2.7, 6.2.13
-description: Redis 8.4 feature set and enhancements. Redis Flex support for SST replication and OSS Cluster mode. ARM support for RHEL 9.
+description: Redis 8.4 feature set and enhancements. ARM support for RHEL 9 and Ubuntu 22.04. Redis Flex operational optimizations during maintenance, scaling, full sync, and shard migration.
 linkTitle: 8.0.10-tba (January 2026)
 weight: 88
 ---
@@ -19,9 +19,9 @@ This version offers:
 
 - Redis 8.4 feature set and enhancements
 
-- ARM support for RHEL 9, Ubuntu 22.04
+- ARM support for RHEL 9 and Ubuntu 22.04
 
-- Redis Flex operaional optimizations - during maintainance, scaling, full sync, shard migration
+- Redis Flex operational optimizations during maintenance, scaling, full sync, and shard migration
 
 ## New in this release
 
@@ -47,15 +47,21 @@ This release delivers major improvements across multiple areas:
 
 - See [What's new in Redis 8.4]({{<relref "/develop/whats-new/8-4">}}) and [Redis Open Source 8.4 release notes]({{<relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisos-8.4-release-notes">}}) for more details.
 
-#### Redis Flex operaional optimizations 
+#### Redis Flex operational optimizations 
 
-Redis Flex databases running on Redis 8.4 will gets major operaional optimizations:
-- Scaling 2x faster (cutting the duration of scaling in half)
-- New internal replication mechinsm enabled 10x faster full sync operations (where an entire shard needs to get replicated across nodes). This means operations such as maintaince, shard migration, recovery from node failure and upgrades would now get up to 10x faster than before. Moreover, this new replication mechinsm means also shorter copy on write (CoW) which will mean: Lower peak memory usage, less latency jitter, better write throughput during persistence.
+Redis Flex databases running on Redis 8.4 have major operational optimizations:
 
-#### ARM support for RHEL 9 and for Ubuntu 22.04
+- Scaling is 2x faster, cutting the duration of scaling in half.
 
-Redis Enterprise Software now supports ARM architecture on RHEL 9 and on Ubuntu 22.04, enabling deployments on cost-efficient, high-performance ARM-based servers.
+- A new internal replication mechanism:
+
+    - Enables 10x faster full sync operations, where an entire shard is replicated across nodes. Operations such as maintenance, shard migration, recovery from node failure, and upgrades are now up to 10x faster than before.
+
+    - Enables shorter copy-on-write (CoW), which lowers peak memory usage, reduces latency jitter, and improves write throughput during persistence.
+
+#### ARM support for RHEL 9 and Ubuntu 22.04
+
+Redis Enterprise Software now supports ARM architecture on RHEL 9 and Ubuntu 22.04, enabling deployments on cost-efficient, high-performance ARM-based servers.
 
 ### Enhancements
 
