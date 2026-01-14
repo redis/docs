@@ -12,7 +12,11 @@ hideListLinks: true
 tocEmbedHeaders: true
 ---
 
-Redis Cloud provides comprehensive version management that prioritizes customer control over major changes. 
+Redis Cloud provides comprehensive database version management that prioritizes customer control over major changes. 
+
+{{< note >}}
+This page describes database version management for Redis Cloud. Redis Cloud manages the cluster version for you automatically.
+{{< /note >}}
 
 ## Redis version structure
 
