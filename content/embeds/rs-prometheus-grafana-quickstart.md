@@ -16,8 +16,6 @@ You can use Prometheus and Grafana to:
 
 {{<image filename="images/rs/grafana-prometheus.png" alt="Graphic showing how Prometheus and Grafana collect and display data from a Redis Enterprise Cluster. Prometheus collects metrics from the Redis Enterprise Software cluster, and Grafana queries those metrics for visualization." width="80%" class="mx-auto block my-6 p-4 border border-redis-pen-300 rounded-lg shadow-sm">}}
 
-In each cluster, the metrics_exporter process exposes Prometheus metrics on port 8070.
-
 To get started with Prometheus and Grafana, see the following [quick start](#quick-start) or see [Redis Software Observability with Prometheus and Grafana](https://redis.io/learn/operate/observability/redis-software-prometheus-and-grafana) for a more detailed tutorial.
 
 ## Quick start

@@ -28,8 +28,6 @@ You can use Prometheus integrations to:
 
 - Display Redis Enterprise Software metrics alongside data from other systems
 
-In each cluster, the `metrics_exporter` process exposes Prometheus metrics on port 8070.
-
 ## Prometheus integrations
 
 You can integrate Redis Enterprise Software with Prometheus and one of the following tools to collect and visualize your deployment's metrics:
