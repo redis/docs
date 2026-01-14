@@ -19,9 +19,9 @@ This version offers:
 
 - Redis 8.4 feature set and enhancements
 
-- Redis Flex support for SST replication and OSS Cluster mode
+- ARM support for RHEL 9, Ubuntu 22.04
 
-- ARM support for RHEL 9
+- Redis Flex operaional optimizations - during maintainance, scaling, full sync, shard migration
 
 ## New in this release
 
@@ -47,15 +47,15 @@ This release delivers major improvements across multiple areas:
 
 - See [What's new in Redis 8.4]({{<relref "/develop/whats-new/8-4">}}) and [Redis Open Source 8.4 release notes]({{<relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisos-8.4-release-notes">}}) for more details.
 
-#### Redis Flex support for SST replication and OSS Cluster mode
+#### Redis Flex operaional optimizations 
 
-- Redis Flex now supports SST (Sorted String Table) replication, enabling faster, more robust data synchronization and hot restarts.
+Redis Flex databases running on Redis 8.4 will gets major operaional optimizations:
+- Scaling 2x faster (cutting the duration of scaling in half)
+- New internal replication mechinsm enabled 10x faster full sync operations (where an entire shard needs to get replicated across nodes). This means operations such as maintaince, shard migration, recovery from node failure and upgrades would now get up to 10x faster than before. Moreover, this new replication mechinsm means also shorter copy on write (CoW) which will mean: Lower peak memory usage, less latency jitter, better write throughput during persistence.
 
-- Redis Flex now supports OSS Cluster mode, allowing seamless integration with the Redis OSS Cluster API.
+#### ARM support for RHEL 9 and for Ubuntu 22.04
 
-#### ARM support for RHEL 9
-
-Redis Enterprise Software now supports ARM architecture on RHEL 9, enabling deployments on cost-efficient, high-performance ARM-based servers running Red Hat Enterprise Linux 9.
+Redis Enterprise Software now supports ARM architecture on RHEL 9 and on Ubuntu 22.04, enabling deployments on cost-efficient, high-performance ARM-based servers.
 
 ### Enhancements
 
