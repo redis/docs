@@ -112,7 +112,7 @@ is key name for the time series.
 
 <details open><summary><code>subtrahend</code></summary> 
 
-is numeric value of the subtrahend (double).
+is numeric value of the subtrahend (double). Starting from Redis 8.6, an error is returned if the subtrahend is NaN.
 </details>
 
 <note><b>Notes</b>
@@ -133,8 +133,10 @@ Unix time is the number of milliseconds that have elapsed since 00:00:00 UTC on 
 `timestamp` must be equal to or higher than the maximum existing timestamp. When equal, the value of the sample with the maximum existing timestamp is decreased. If it is higher, a new sample with a timestamp set to `timestamp` is created, and its value is set to the value of the sample with the maximum existing timestamp minus `subtrahend`. 
 
 If the time series is empty, the value is set to `subtrahend`.
-  
+
 When not specified, the timestamp is set to the Unix time of the server's clock.
+
+<note><b>NaN Handling (Redis 8.6+):</b> An error is returned if the current value at the maximum existing timestamp is NaN.</note>
 </details>
 
 <details open><summary><code>RETENTION retentionPeriod</code></summary> 
