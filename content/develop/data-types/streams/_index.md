@@ -28,6 +28,8 @@ You can use these IDs to retrieve their associated entries later or to read and 
 
 Redis streams support several trimming strategies (to prevent streams from growing unbounded) and more than one consumption strategy (see [`XREAD`]({{< relref "/commands/xread" >}}), [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}), and [`XRANGE`]({{< relref "/commands/xrange" >}})). Starting with Redis 8.2, the `XACKDEL`, `XDELEX`, `XADD`, and `XTRIM` commands provide fine-grained control over how stream operations interact with multiple consumer groups, simplifying the coordination of message processing across different applications.
 
+Beginning with Redis 8.6, Redis streams support idempotent message processing (at-most-once production) to prevent duplicate entries when using at-least-once delivery patterns. This feature enables reliable message submission with automatic deduplication. See [Idempotent Message Processing]({{< relref "/develop/data-types/streams/idempotency" >}}) for more information.
+
 ## Basic commands
 
 * [`XADD`]({{< relref "/commands/xadd" >}}) adds a new entry to a stream.
