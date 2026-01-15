@@ -40,18 +40,18 @@ composer require predis/predis
 Connect to a locally-running server on the standard port (6379)
 with the following code:
 
-{{< clients-example set="landing" step="connect" lang_filter="PHP" >}}
+{{< clients-example set="landing" step="connect" lang_filter="PHP" description="Foundational: Connect to a Redis server and establish a client connection" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 Store and retrieve a simple string to test the connection:
 
-{{< clients-example set="landing" step="set_get_string" lang_filter="PHP" >}}
+{{< clients-example set="landing" step="set_get_string" lang_filter="PHP" description="Foundational: Set and retrieve string values using SET and GET commands" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 Store and retrieve a [hash]({{< relref "/develop/data-types/hashes" >}})
 object:
 
-{{< clients-example set="landing" step="set_get_hash" lang_filter="PHP" >}}
+{{< clients-example set="landing" step="set_get_hash" lang_filter="PHP" description="Foundational: Store and retrieve hash data structures using HSET and HGETALL" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## More information
