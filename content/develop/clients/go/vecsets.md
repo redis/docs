@@ -50,7 +50,7 @@ go get github.com/knights-analytics/hugot
 
 In a new Go file, add the required imports:
 
-{{< clients-example set="home_vecsets" step="import"  lang_filter="Go" >}}
+{{< clients-example set="home_vecsets" step="import" lang_filter="Go" description="Foundational: Import required packages for vector set operations and text embeddings" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 These include the `Hugot` library to generate an embedding from a section of text.
@@ -63,7 +63,7 @@ tokens (see
 at the [Hugging Face](https://huggingface.co/) docs to learn more about the way tokens
 are related to the original text).
 
-{{< clients-example set="home_vecsets" step="model" lang_filter="Go" >}}
+{{< clients-example set="home_vecsets" step="model" lang_filter="Go" description="Practical pattern: Initialize a sentence transformer model for generating text embeddings" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Create the data
@@ -71,7 +71,7 @@ are related to the original text).
 The example data is contained in a map with some brief
 descriptions of famous people:
 
-{{< clients-example set="home_vecsets" step="data" lang_filter="Go" >}}
+{{< clients-example set="home_vecsets" step="data" lang_filter="Go" description="Foundational: Create sample data with descriptions of famous people for vector set storage" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Add the data to a vector set
@@ -92,7 +92,7 @@ The call to `VAdd()` also adds the `born` and `died` values from the
 original map as attribute data. You can access this during a query
 or by using the [`VGetAttr()`]({{< relref "/commands/vgetattr" >}}) method.
 
-{{< clients-example set="home_vecsets" step="add_data" lang_filter="Go" >}}
+{{< clients-example set="home_vecsets" step="add_data" lang_filter="Go" description="Foundational: Generate embeddings and add data to a vector set with VAdd including attribute metadata" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 ## Query the vector set
@@ -105,7 +105,7 @@ of the set, ranked in order of similarity to the query.
 
 Start with a simple query for "actors":
 
-{{< clients-example set="home_vecsets" step="basic_query" lang_filter="Go" >}}
+{{< clients-example set="home_vecsets" step="basic_query" lang_filter="Go" description="Vector similarity search: Find semantically similar items in a vector set using VSIM command" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 This returns the following list of elements (formatted slightly for clarity):
@@ -123,7 +123,7 @@ on the information contained in the embedding model.
 You can use the `Count` parameter of `VSimWithArgs()` to limit the list of elements
 to just the most relevant few items:
 
-{{< clients-example set="home_vecsets" step="limited_query" lang_filter="Go" >}}
+{{< clients-example set="home_vecsets" step="limited_query" lang_filter="Go" description="Vector similarity search with limits: Restrict results to the top K most similar items using the count parameter" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 The reason for using text embeddings rather than simple text search
@@ -133,7 +133,7 @@ different. For example, the word "entertainer" doesn't appear in any of the
 descriptions but if you use it as a query, the actors and musicians are ranked
 highest in the results list:
 
-{{< clients-example set="home_vecsets" step="entertainer_query" lang_filter="Go" >}}
+{{< clients-example set="home_vecsets" step="entertainer_query" lang_filter="Go" description="Semantic search: Leverage text embeddings to find semantically similar items even when exact keywords don't match" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 Similarly, if you use "science" as a query, you get the following results:
@@ -153,7 +153,7 @@ with `VSimWithArgs()` to restrict the search further. For example,
 repeat the "science" query, but this time limit the results to people
 who died before the year 2000:
 
-{{< clients-example set="home_vecsets" step="filtered_query" lang_filter="Go" >}}
+{{< clients-example set="home_vecsets" step="filtered_query" lang_filter="Go" description="Filtered vector search: Combine vector similarity with attribute filters to narrow results based on metadata conditions" difficulty="advanced" >}}
 {{< /clients-example >}}
 
 Note that the boolean filter expression is applied to items in the list
