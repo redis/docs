@@ -105,19 +105,13 @@ The following policies are available:
 -   `allkeys-lrm`: Evict the [least recently modified](#lrm-eviction) (LRM) keys.
 -   `allkeys-lfu`: Evict the [least frequently used](#lfu-eviction) (LFU) keys.
 -   `allkeys-random`: Evict keys at random.
--   `volatile-lru`: Evict the least recently used keys that have the `expire` field
-    set to `true`.
--   `volatile-lrm`: Evict the least recently modified keys that have the `expire` field
-    set to `true`.
--   `volatile-lfu`: Evict the least frequently used keys that have the `expire` field
-    set to `true`.
--   `volatile-random`: Evict keys at random only if they have the `expire` field set
-    to `true`.
--   `volatile-ttl`: Evict keys with the `expire` field set to `true` that have the
-    shortest remaining time-to-live (TTL) value.
+-   `volatile-lru`: Evict the least recently used keys that have an associated expiration (TTL).
+-   `volatile-lrm`: Evict the least recently modified keys that have an associated expiration (TTL).
+-   `volatile-lfu`: Evict the least frequently used keys that have an associated expiration (TTL).
+-   `volatile-random`: Evict keys at random only if they have an associated expiration (TTL).
+-   `volatile-ttl`: Evict keys with an associated expiration (TTL) that have the shortest remaining TTL value.
 
-The `volatile-xxx` policies behave like `noeviction` if no keys have the `expire`
-field set to true, or for `volatile-ttl`, if no keys have a time-to-live value set.
+The `volatile-xxx` policies behave like `noeviction` if no keys have a TTLvalue set.
 
 You should choose an eviction policy that fits the way your app
 accesses keys. You may be able to predict the access pattern in advance
@@ -302,7 +296,7 @@ So basically the factor is a trade off between better distinguishing items with 
 
 ## LRM eviction {#lrm-eviction}
 
-Starting with Redis 8.6, the Least Recently Modified (LRM) eviction mode is available. LRM is similar to LRU but only updates the timestamp on write operations, not read operations. This makes it useful for evicting keys that haven't been modified recently, regardless of how frequently they are read.
+Starting with Redis 8.6, the Least Recently Modified (LRM) eviction policy is available. LRM is similar to LRU but only updates the timestamp on write operations, not read operations. This makes it useful for evicting keys that haven't been modified recently, regardless of how frequently they are read.
 
 The key difference between LRU and LRM is:
 
@@ -311,13 +305,12 @@ The key difference between LRU and LRM is:
 
 This distinction makes LRM particularly useful in scenarios where:
 
-- You want to preserve frequently read data, even if it's not being modified
 - Your application has a clear distinction between read-heavy and write-heavy workloads
 - You want to evict stale data that hasn't been updated, regardless of read activity
 
-To configure the LRM mode, the following policies are available:
+To configure LRM eviction, the following policies are available:
 
-* `volatile-lrm` Evict using LRM among the keys with an expire set.
+* `volatile-lrm` Evict using LRM among the keys with an an associated expiration (TTL).
 * `allkeys-lrm` Evict any key using LRM.
 
 Like LRU, LRM uses an approximation algorithm that samples a small number of keys at random and evicts the ones with the longest time since last modification. The same `maxmemory-samples` configuration directive that affects LRU performance also applies to LRM.
