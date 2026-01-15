@@ -40,14 +40,14 @@ haven't already done so.
 Add the following dependencies. All of them are applicable to both JSON and hash,
 except for the `JsonParser`, `JsonPath`, and `JsonObject` classes.
 
-{{< clients-example lettuce_home_json import >}}
+{{< clients-example set="lettuce_home_json" step="import" description="Foundational: Import required Lettuce and JSON libraries for querying JSON documents" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Create data
 
 Create some test data to add to the database:
 
-{{< clients-example lettuce_home_json create_data >}}
+{{< clients-example set="lettuce_home_json" step="create_data" description="Foundational: Define sample JSON data structures for users with fields like name, age, and city" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Add the index
@@ -57,12 +57,12 @@ basic connection but see
 [Connect to the server]({{< relref "/develop/clients/lettuce/connect" >}})
 to learn more about the available connection options.
 
-{{< clients-example lettuce_home_json connect >}}
+{{< clients-example set="lettuce_home_json" step="connect" description="Foundational: Establish a connection to Redis for executing search and query operations" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 Create an index. In this example, only JSON documents with the key prefix `user:` are indexed. For more information, see [Query syntax]({{< relref "/develop/ai/search-and-query/query/" >}}).
 
-{{< clients-example lettuce_home_json make_index >}}
+{{< clients-example set="lettuce_home_json" step="make_index" description="Foundational: Create a search index on JSON documents with field mappings and aliases for efficient querying" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 ## Add the data
@@ -72,7 +72,7 @@ Add the three sets of user data to the database as
 If you use keys with the `user:` prefix then Redis will index the
 objects automatically as you add them:
 
-{{< clients-example lettuce_home_json add_data >}}
+{{< clients-example set="lettuce_home_json" step="add_data" description="Foundational: Store JSON documents in Redis using the JSON.SET command with keys matching the index prefix" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Query the data
@@ -82,19 +82,19 @@ You can now use the index to search the JSON objects. The
 below searches for objects that have the text "Paul" in any field
 and have an `age` value in the range 30 to 40:
 
-{{< clients-example lettuce_home_json query1 >}}
+{{< clients-example set="lettuce_home_json" step="query1" description="Query data: Execute a full-text search combined with numeric range filtering to find matching documents" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 Specify query options to return only the `city` field:
 
-{{< clients-example lettuce_home_json query2 >}}
+{{< clients-example set="lettuce_home_json" step="query2" description="Restrict query results: Use query options to project specific fields from search results, reducing data transfer" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 Use an
 [aggregation query]({{< relref "/develop/ai/search-and-query/query/aggregation" >}})
 to count all users in each city.
 
-{{< clients-example lettuce_home_json query3 >}}
+{{< clients-example set="lettuce_home_json" step="query3" description="Aggregation: Use aggregation queries to group and count results, performing server-side data analysis" difficulty="advanced" >}}
 {{< /clients-example >}}
 
 ## Differences with hash documents
@@ -109,20 +109,20 @@ option of `CreateArgs` when you create the index. The code below shows these
 changes with a new index called `hash-idx:users`, which is otherwise the same as
 the `idx:users` index used for JSON documents in the previous examples.
 
-{{< clients-example lettuce_home_json make_hash_index >}}
+{{< clients-example set="lettuce_home_json" step="make_hash_index" description="Foundational: Create a search index on hash documents with TargetType.HASH configuration" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 Use [`hset()`]({{< relref "/commands/hset" >}}) to add the hash
 documents instead of [`jsonSet()`]({{< relref "/commands/json.set" >}}).
 
-{{< clients-example lettuce_home_json add_hash_data >}}
+{{< clients-example set="lettuce_home_json" step="add_hash_data" description="Foundational: Store hash documents in Redis using HSET command with keys matching the index prefix" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 The query commands work the same here for hash as they do for JSON (but
-the name of the hash index is different). The results are returned in 
+the name of the hash index is different). The results are returned in
 a `List` of `SearchReply.SearchResult<String, String>` objects, as with JSON:
 
-{{< clients-example lettuce_home_json query1_hash >}}
+{{< clients-example set="lettuce_home_json" step="query1_hash" description="Query data: Execute the same search query on hash documents as you would on JSON documents" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 ## More information

@@ -57,22 +57,22 @@ To build from source, see the instructions on the [Lettuce source code GitHub re
 Connect to a local server using the following code. First, import
 the required classes.
 
-{{< clients-example set="landing" step="import" lang_filter="Lettuce-Sync" >}}
+{{< clients-example set="landing" step="import" lang_filter="Lettuce-Sync" description="Foundational: Import required Lettuce classes for synchronous Redis connections" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 Use the following code to connect to the server.
 
-{{< clients-example set="landing" step="connect" lang_filter="Lettuce-Sync" >}}
+{{< clients-example set="landing" step="connect" lang_filter="Lettuce-Sync" description="Foundational: Establish a synchronous connection to a Redis server using Lettuce" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 Test the connection by storing and retrieving a simple string.
 
-{{< clients-example set="landing" step="set_get_string" lang_filter="Lettuce-Sync" >}}
+{{< clients-example set="landing" step="set_get_string" lang_filter="Lettuce-Sync" description="Foundational: Set and retrieve string values using SET and GET commands to verify the connection works" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 Close the connection when you're done.
 
-{{< clients-example set="landing" step="close" lang_filter="Lettuce-Sync" >}}
+{{< clients-example set="landing" step="close" lang_filter="Lettuce-Sync" description="Foundational: Properly close the Lettuce connection to release resources" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## More information
