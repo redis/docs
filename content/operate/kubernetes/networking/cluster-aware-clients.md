@@ -23,6 +23,10 @@ Enabling external access for OSS Cluster API creates a separate LoadBalancer ser
 - Modules used by the database (if any) are bundled modules.
 - The database is not an Active-Active database.
 
+## Limitations
+
+- OSS Cluster databases with external access must be created and managed using the RedisEnterpriseDatabase (REDB) custom resource. You cannot create or configure these databases using the Redis Enterprise REST API directly.
+
 ## Enable OSS Cluster API
 
 To enable cluster-aware clients, edit the REC and REDB custom resources with the following fields.
