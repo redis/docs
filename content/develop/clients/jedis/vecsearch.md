@@ -96,7 +96,7 @@ implementation 'ai.djl:api:0.33.0'
 
 Import the following classes in your source file:
 
-{{< clients-example set="HomeQueryVec" step="import" lang_filter="Java-Sync" >}}
+{{< clients-example set="HomeQueryVec" step="import" lang_filter="Java-Sync" description="Foundational: Import required libraries for vector embeddings, Redis operations, and search functionality" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Define a helper method
@@ -108,7 +108,7 @@ array as a `byte` string. To simplify this situation, you can declare a helper
 method `floatsToByteString()` that takes the `float` array that the
 embedding model returns and encodes it as a `byte` string:
 
-{{< clients-example set="HomeQueryVec" step="helper_method" lang_filter="Java-Sync" >}}
+{{< clients-example set="HomeQueryVec" step="helper_method" lang_filter="Java-Sync" description="Foundational: Create a helper method to convert float arrays to binary strings for vector storage in hash objects" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Create a tokenizer instance
@@ -121,7 +121,7 @@ text, but note that the input is truncated to 256
 tokens (see
 [Word piece tokenization](https://huggingface.co/learn/nlp-course/en/chapter6/6)
 
-{{< clients-example set="HomeQueryVec" step="tokenizer" lang_filter="Java-Sync" >}}
+{{< clients-example set="HomeQueryVec" step="tokenizer" lang_filter="Java-Sync" description="Practical pattern: Initialize a tokenizer and embedding model for generating vector representations from text" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Create the index
@@ -131,7 +131,7 @@ name `vector_idx`. (The `ftDropIndex()` call throws an exception if
 the index doesn't already exist, which is why you need the
 `try...catch` block.)
 
-{{< clients-example set="HomeQueryVec" step="connect" lang_filter="Java-Sync" >}}
+{{< clients-example set="HomeQueryVec" step="connect" lang_filter="Java-Sync" description="Foundational: Connect to Redis and clean up existing vector indexes" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 Next, create the index.
@@ -139,7 +139,7 @@ The schema in the example below includes three fields: the text content to index
 [tag]({{< relref "/develop/ai/search-and-query/advanced-concepts/tags" >}})
 field to represent the "genre" of the text, and the embedding vector generated from
 the original text content. The `embedding` field specifies
-[HNSW]({{< relref "/develop/ai/search-and-query/vectors#hnsw-index" >}}) 
+[HNSW]({{< relref "/develop/ai/search-and-query/vectors#hnsw-index" >}})
 indexing, the
 [L2]({{< relref "/develop/ai/search-and-query/vectors#distance-metrics" >}})
 vector distance metric, `Float32` values to represent the vector's components,
@@ -148,7 +148,7 @@ and 384 dimensions, as required by the `all-MiniLM-L6-v2` embedding model.
 The `FTCreateParams` object specifies hash objects for storage and a
 prefix `doc:` that identifies the hash objects to index.
 
-{{< clients-example set="HomeQueryVec" step="create_index" lang_filter="Java-Sync" >}}
+{{< clients-example set="HomeQueryVec" step="create_index" lang_filter="Java-Sync" description="Foundational: Create a vector search index for hash documents with HNSW algorithm and L2 distance metric" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 ## Add data
@@ -167,7 +167,7 @@ below). Note that when you set the `embedding` field, you must use an overload
 of `hset()` that requires `byte` arrays for each of the key, the field name, and
 the value, which is why you must include the `getBytes()` calls on the strings.
 
-{{< clients-example set="HomeQueryVec" step="add_data" lang_filter="Java-Sync" >}}
+{{< clients-example set="HomeQueryVec" step="add_data" lang_filter="Java-Sync" description="Foundational: Store hash documents with vector embeddings generated from text content" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Run a query
@@ -186,7 +186,7 @@ The query is a
 [K nearest neighbors (KNN)]({{< relref "/develop/ai/search-and-query/vectors#knn-vector-search" >}})
 search that sorts the results in order of vector distance from the query vector.
 
-{{< clients-example set="HomeQueryVec" step="query" lang_filter="Java-Sync" >}}
+{{< clients-example set="HomeQueryVec" step="query" lang_filter="Java-Sync" description="Vector similarity search: Find semantically similar documents by comparing query embeddings with indexed vectors using L2 distance" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 Assuming you have added the code from the steps above to your source file,
@@ -220,7 +220,7 @@ every query. Also, you must specify `IndexDataType.JSON` when you create the ind
 The code below shows these differences, but the index is otherwise very similar to
 the one created previously for hashes:
 
-{{< clients-example set="HomeQueryVec" step="json_schema" lang_filter="Java-Sync" >}}
+{{< clients-example set="HomeQueryVec" step="json_schema" lang_filter="Java-Sync" description="Foundational: Create a vector search index for JSON documents with JSON paths and field aliases" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 An important difference with JSON indexing is that the vectors are
@@ -232,7 +232,7 @@ instead of [`hset()`]({{< relref "/commands/hset" >}}). Use instances
 of `JSONObject` to supply the data instead of `Map`, as you would for
 hash objects.
 
-{{< clients-example set="HomeQueryVec" step="json_data" lang_filter="Java-Sync" >}}
+{{< clients-example set="HomeQueryVec" step="json_data" lang_filter="Java-Sync" description="Foundational: Store JSON documents with vector embeddings as arrays (different from hash binary format)" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 The query is almost identical to the one for the hash documents. This
@@ -242,7 +242,7 @@ is that the vector parameter for the query is still specified as a
 binary string (created using the `floatsToByteString()` method), even though
 the data for the `embedding` field of the JSON was specified as an array.
 
-{{< clients-example set="HomeQueryVec" step="json_query" lang_filter="Java-Sync" >}}
+{{< clients-example set="HomeQueryVec" step="json_query" lang_filter="Java-Sync" description="Vector similarity search: Query JSON documents using vector embeddings with field aliases for simplified syntax" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 Apart from the `jdoc:` prefixes for the keys, the result from the JSON

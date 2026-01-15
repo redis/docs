@@ -78,7 +78,7 @@ compileOnly 'ai.djl:api:0.33.0'
 
 In a new Java file, import the required classes:
 
-{{< clients-example set="home_vecsets" step="import" lang_filter="Java-Sync" >}}
+{{< clients-example set="home_vecsets" step="import" lang_filter="Java-Sync" description="Foundational: Import required libraries for vector sets, embeddings, and Redis operations" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 The imports include the classes required to generate embeddings from text.
@@ -91,7 +91,7 @@ tokens (see
 at the [Hugging Face](https://huggingface.co/) docs to learn more about the way tokens
 are related to the original text).
 
-{{< clients-example set="home_vecsets" step="model" lang_filter="Java-Sync" >}}
+{{< clients-example set="home_vecsets" step="model" lang_filter="Java-Sync" description="Foundational: Initialize a tokenizer and embedding model to generate vector representations from text" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Create the data
@@ -99,7 +99,7 @@ are related to the original text).
 The example data is contained in a `List<Person>` object with some brief
 descriptions of famous people.
 
-{{< clients-example set="home_vecsets" step="data" lang_filter="Java-Sync" >}}
+{{< clients-example set="home_vecsets" step="data" lang_filter="Java-Sync" description="Foundational: Define sample data with text descriptions for vector embedding and storage" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Add the data to a vector set
@@ -115,7 +115,7 @@ The call to `vadd()` also adds the `born` and `died` values from the
 original `people` list as attribute data. You can access this during a query
 or by using the [`vgetattr()`]({{< relref "/commands/vgetattr" >}}) method.
 
-{{< clients-example set="home_vecsets" step="add_data" lang_filter="Java-Sync" >}}
+{{< clients-example set="home_vecsets" step="add_data" lang_filter="Java-Sync" description="Foundational: Add vector embeddings and attributes to a vector set using VADD command" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Query the vector set
@@ -128,7 +128,7 @@ of the set, ranked in order of similarity to the query.
 
 Start with a simple query for "actors":
 
-{{< clients-example set="home_vecsets" step="basic_query" lang_filter="Java-Sync" >}}
+{{< clients-example set="home_vecsets" step="basic_query" lang_filter="Java-Sync" description="Vector similarity search: Find semantically similar items in a vector set using VSIM command" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 This returns the following list of elements (formatted slightly for clarity):
@@ -147,7 +147,7 @@ on the information contained in the embedding model.
 You can use the `count` parameter of `vsim()` to limit the list of elements
 to just the most relevant few items:
 
-{{< clients-example set="home_vecsets" step="limited_query" lang_filter="Java-Sync" >}}
+{{< clients-example set="home_vecsets" step="limited_query" lang_filter="Java-Sync" description="Vector similarity search with limits: Restrict results to the top K most similar items using the count parameter" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 The reason for using text embeddings rather than simple text search
@@ -157,7 +157,7 @@ different. For example, the word "entertainer" doesn't appear in any of the
 descriptions, but if you use it as a query, the actors and musicians are ranked
 highest in the results list:
 
-{{< clients-example set="home_vecsets" step="entertainer_query" lang_filter="Java-Async,Java-Reactive" >}}
+{{< clients-example set="home_vecsets" step="entertainer_query" lang_filter="Java-Sync" description="Semantic search: Leverage text embeddings to find semantically similar items even when exact keywords don't match" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 Similarly, if you use "science" as a query, you get the following results:
@@ -177,7 +177,7 @@ with `vsim()` to restrict the search further. For example,
 repeat the "science" query, but this time limit the results to people
 who died before the year 2000:
 
-{{< clients-example set="home_vecsets" step="filtered_query" lang_filter="Java-Sync" >}}
+{{< clients-example set="home_vecsets" step="filtered_query" lang_filter="Java-Sync" description="Filtered vector search: Combine vector similarity with attribute filters to narrow results based on metadata conditions" difficulty="advanced" >}}
 {{< /clients-example >}}
 
 Note that the boolean filter expression is applied to items in the list
