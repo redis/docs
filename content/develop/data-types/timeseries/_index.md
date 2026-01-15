@@ -34,6 +34,8 @@ from the results. When you create a time series, you can specify a maximum
 retention period for the data, relative to the last reported timestamp, to
 prevent the time series from growing indefinitely.
 
+Starting from Redis 8.6, time series support NaN (Not a Number) values, which allow you to represent missing or invalid measurements while maintaining the temporal structure of your data.
+
 Time series support very fast reads and writes, making them ideal for
 applications such as:
 
@@ -395,6 +397,8 @@ The available aggregation functions are:
 - `var.p`: Population variance of the values
 - `var.s`: Sample variance of the values
 - `twa`: Time-weighted average over the bucket's timeframe (since RedisTimeSeries v1.8)
+- `countNaN`: Number of NaN values (since Redis 8.6)
+- `countAll`: Number of all values, both NaN and non-NaN (since Redis 8.6)
 
 For example, the example below shows an aggregation with the `avg` function over all
 five data points in the `rg:2` time series. The bucket size is 2ms, so there are three
@@ -411,6 +415,8 @@ aggregated values with only one value used to calculate the average for the last
    2) 1.78
 ```
 {{< /clients-example >}}
+
+<note><b>NaN Handling (Redis 8.6+):</b> Starting from Redis 8.6, all existing aggregation functions ignore NaN values when computing results. For example, if a bucket contains values [1.0, NaN, 3.0], the `avg` aggregator will return 2.0 (average of 1.0 and 3.0), and the `count` aggregator will return 2. Use the new `countNaN` and `countAll` aggregators to count NaN values and total values respectively.</note>
 
 ### Bucket alignment
 
@@ -554,6 +560,70 @@ OK
          2) 13
 ```
 {{< /clients-example >}}
+
+## NaN Values
+
+Starting from Redis 8.6, time series support NaN (Not a Number) values. This feature allows you to insert measurements that represent missing, invalid, or unknown data while preserving the temporal structure of your time series.
+
+### Use Cases for NaN Values
+
+NaN values are useful in scenarios where you need to distinguish between:
+- **Missing data**: A timestamp where no measurement was taken
+- **Invalid data**: A timestamp where a measurement was attempted but failed (for example, sensor malfunction)
+- **Unknown data**: A timestamp where the measurement value is semantically "unknown" and may be filled in later
+
+### NaN Behavior
+
+- **Adding NaN values**: Use [`TS.ADD`]({{< relref "commands/ts.add/" >}}) and [`TS.MADD`]({{< relref "commands/ts.madd/" >}}) to insert NaN values
+- **Querying NaN values**: All raw measurement queries ([`TS.GET`]({{< relref "commands/ts.get/" >}}), [`TS.RANGE`]({{< relref "commands/ts.range/" >}}), etc.) include NaN values in results
+- **Aggregation with NaN**: All existing aggregation functions ignore NaN values. Use `countNaN` and `countAll` to count NaN and total values
+- **Increment/Decrement**: [`TS.INCRBY`]({{< relref "commands/ts.incrby/" >}}) and [`TS.DECRBY`]({{< relref "commands/ts.decrby/" >}}) return errors when the current value or operand is NaN
+- **Duplicate policies**: Special handling for `MIN`, `MAX`, and `SUM` policies when mixing NaN and non-NaN values
+- **Filtering**: [`FILTER_BY_VALUE`]({{< relref "commands/ts.range#filter_by_value-min-max-since-redistimeseries-v16" >}}) parameters cannot be NaN values
+- **Ignore duplicates**: NaN values are never considered duplicates when using `IGNORE` parameters
+
+```bash
+# Create a temperature sensor time series
+> TS.CREATE sensor:temp LABELS type temperature location outdoor
+
+# Add normal readings and NaN for sensor malfunction
+> TS.MADD sensor:temp 1000 25.5 sensor:temp 1010 26.1 sensor:temp 1020 NaN sensor:temp 1030 24.8
+1) (integer) 1000
+2) (integer) 1010
+3) (integer) 1020
+4) (integer) 1030
+
+# Query all values - NaN is included in raw results
+> TS.RANGE sensor:temp - +
+1) 1) (integer) 1000
+   2) 25.5
+2) 1) (integer) 1010
+   2) 26.1
+3) 1) (integer) 1020
+   2) NaN
+4) 1) (integer) 1030
+   2) 24.8
+
+# Aggregate ignores NaN - average of 25.5, 26.1, 24.8 = 25.47
+> TS.RANGE sensor:temp - + AGGREGATION avg 1000
+1) 1) (integer) 1000
+   2) 25.466666666666665
+
+# Count non-NaN values
+> TS.RANGE sensor:temp - + AGGREGATION count 1000
+1) 1) (integer) 1000
+   2) 3
+
+# Count NaN values
+> TS.RANGE sensor:temp - + AGGREGATION countNaN 1000
+1) 1) (integer) 1000
+   2) 1
+
+# Count all values
+> TS.RANGE sensor:temp - + AGGREGATION countAll 1000
+1) 1) (integer) 1000
+   2) 4
+```
 
 ## Compaction
 

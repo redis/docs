@@ -62,7 +62,7 @@ Unix time is the number of milliseconds that have elapsed since 00:00:00 UTC on 
 <details open>
 <summary><code>value</code></summary>
 
-is numeric data value of the sample (double). The double number should follow <a href="https://tools.ietf.org/html/rfc7159">RFC 7159</a> (a JSON standard). The parser rejects overly large values that would not fit in binary64. It does not accept NaN or infinite values.
+is numeric data value of the sample (double). The double number should follow <a href="https://tools.ietf.org/html/rfc7159">RFC 7159</a> (a JSON standard). The parser rejects overly large values that would not fit in binary64. It does not accept infinite values. NaN (Not a Number) values are supported starting from Redis 8.6.
 </details>
 
 <note><b>Notes:</b>

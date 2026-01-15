@@ -112,7 +112,7 @@ Unix time is the number of milliseconds that have elapsed since 00:00:00 UTC on 
 
 <details open><summary><code>value</code></summary> 
 
-is (double) numeric data value of the sample. The double number should follow [RFC 7159](https://tools.ietf.org/html/rfc7159) (JSON standard). In particular, the parser rejects overly large values that do not fit in binary64. It does not accept NaN or infinite values.
+is (double) numeric data value of the sample. The double number should follow [RFC 7159](https://tools.ietf.org/html/rfc7159) (JSON standard). In particular, the parser rejects overly large values that do not fit in binary64. It does not accept infinite values. NaN (Not a Number) values are supported starting from Redis 8.6.
 </details>
 
 <note><b>Notes:</b>
@@ -173,6 +173,8 @@ This override is effective only for this single command and does not set the tim
   - `MAX`: only override if the value is higher than the existing value
   - `SUM`: If a previous sample exists, add the new sample to it so that the updated value is set to (previous + new). If no previous sample exists, the value is set to the new value.
 
+<note><b>NaN Handling (Redis 8.6+):</b> When using `MIN`, `MAX`, or `SUM` policies, an error is returned if there is an existing value in the specified timestamp and either the previous or the new value (but not both) are NaN.</note>
+
 This argument has no effect when a new time series is created by this command.
 </details>
 
@@ -191,6 +193,8 @@ where `max_timestamp` is the timestamp of the sample with the largest timestamp 
 When not specified: set to the global [IGNORE_MAX_TIME_DIFF]({{< relref "develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff" >}}) and [IGNORE_MAX_VAL_DIFF]({{< relref "develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff" >}}), which are, by default, both set to 0.
 
 These parameters are used when creating a new time series to set the per-key parameters, and are ignored when called with an existing time series (the existing per-key configuration parameters is used).
+
+<note><b>NaN Handling (Redis 8.6+):</b> NaN values are never regarded as duplicates when using the `IGNORE` parameters.</note>
 
 </details>
 

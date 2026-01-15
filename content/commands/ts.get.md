@@ -34,7 +34,7 @@ syntax_fmt: TS.GET key [LATEST]
 title: TS.GET
 ---
 
-Get the sample with the highest timestamp from a given time series
+Get the sample with the highest timestamp from a given time series. Starting from Redis 8.6, NaN values are included in the results.
 
 [Examples](#examples)
 

@@ -177,7 +177,7 @@ syntax_fmt: "TS.MRANGE fromTimestamp toTimestamp [LATEST] [FILTER_BY_TS\_Timesta
 title: TS.MRANGE
 ---
 
-Query a range across multiple time series by filters in the forward direction.
+Query a range across multiple time series by filters in the forward direction. Starting from Redis 8.6, NaN values are included in raw measurement reports (queries without aggregation).
 
 {{< note >}}
 This command will reply only if the current user has read access to all keys that match the filter.
@@ -240,7 +240,7 @@ When used together with `AGGREGATION`: samples are filtered before being aggrega
 <details open>
 <summary><code>FILTER_BY_VALUE min max</code> (since RedisTimeSeries v1.6)</summary>
 
-filters samples by minimum and maximum values.
+filters samples by minimum and maximum values. Starting from Redis 8.6, `min` and `max` cannot be NaN values.
 
 When used together with `AGGREGATION`: samples are filtered before being aggregated.
 </details>
@@ -291,19 +291,21 @@ per time series, aggregates samples into time buckets, where:
 
     | `aggregator` | Description                                                                    |
     | ------------ | ------------------------------------------------------------------------------ |
-    | `avg`        | Arithmetic mean of all values                                                  |
-    | `sum`        | Sum of all values                                                              |
-    | `min`        | Minimum value                                                                  |
-    | `max`        | Maximum value                                                                  |
-    | `range`      | Difference between maximum value and minimum value                             |
-    | `count`      | Number of values                                                               |
-    | `first`      | Value with lowest timestamp in the bucket                                      |
-    | `last`       | Value with highest timestamp in the bucket                                     |
-    | `std.p`      | Population standard deviation of the values                                    |
-    | `std.s`      | Sample standard deviation of the values                                        |
-    | `var.p`      | Population variance of the values                                              |
-    | `var.s`      | Sample variance of the values                                                  |
-    | `twa`        | Time-weighted average over the bucket's timeframe (since RedisTimeSeries v1.8) |
+    | `avg`        | Arithmetic mean of all non-NaN values (ignores NaN values since Redis 8.6)    |
+    | `sum`        | Sum of all non-NaN values (ignores NaN values since Redis 8.6)                |
+    | `min`        | Minimum non-NaN value (ignores NaN values since Redis 8.6)                    |
+    | `max`        | Maximum non-NaN value (ignores NaN values since Redis 8.6)                    |
+    | `range`      | Difference between maximum non-NaN value and minimum non-NaN value (ignores NaN values since Redis 8.6) |
+    | `count`      | Number of non-NaN values (ignores NaN values since Redis 8.6)                 |
+    | `countNaN`   | Number of NaN values (since Redis 8.6)                                        |
+    | `countAll`   | Number of all values, both NaN and non-NaN (since Redis 8.6)                  |
+    | `first`      | Value with lowest timestamp in the bucket (ignores NaN values since Redis 8.6) |
+    | `last`       | Value with highest timestamp in the bucket (ignores NaN values since Redis 8.6) |
+    | `std.p`      | Population standard deviation of the non-NaN values (ignores NaN values since Redis 8.6) |
+    | `std.s`      | Sample standard deviation of the non-NaN values (ignores NaN values since Redis 8.6) |
+    | `var.p`      | Population variance of the non-NaN values (ignores NaN values since Redis 8.6) |
+    | `var.s`      | Sample variance of the non-NaN values (ignores NaN values since Redis 8.6)    |
+    | `twa`        | Time-weighted average over the bucket's timeframe (ignores NaN values since Redis 8.6) |
 
   - `bucketDuration` is duration of each bucket, in milliseconds.
   
@@ -354,16 +356,18 @@ When combined with `AGGREGATION` the `GROUPBY`/`REDUCE` is applied post aggregat
 
     | `reducer` | Description                                                                                     |
     | --------- | ----------------------------------------------------------------------------------------------- |
-    | `avg`     | Arithmetic mean of all non-NaN values (since RedisTimeSeries v1.8)                              |
-    | `sum`     | Sum of all non-NaN values                                                                       |
-    | `min`     | Minimum non-NaN value                                                                           |
-    | `max`     | Maximum non-NaN value                                                                           |
-    | `range`   | Difference between maximum non-NaN value and minimum non-NaN value (since RedisTimeSeries v1.8) |
-    | `count`   | Number of non-NaN values (since RedisTimeSeries v1.8)                                           |
-    | `std.p`   | Population standard deviation of all non-NaN values (since RedisTimeSeries v1.8)                |
-    | `std.s`   | Sample standard deviation of all non-NaN values (since RedisTimeSeries v1.8)                    |
-    | `var.p`   | Population variance of all non-NaN values (since RedisTimeSeries v1.8)                          |
-    | `var.s`   | Sample variance of all non-NaN values (since RedisTimeSeries v1.8)                              |
+    | `avg`     | Arithmetic mean of all non-NaN values (ignores NaN values since Redis 8.6)                     |
+    | `sum`     | Sum of all non-NaN values (ignores NaN values since Redis 8.6)                                 |
+    | `min`     | Minimum non-NaN value (ignores NaN values since Redis 8.6)                                     |
+    | `max`     | Maximum non-NaN value (ignores NaN values since Redis 8.6)                                     |
+    | `range`   | Difference between maximum non-NaN value and minimum non-NaN value (ignores NaN values since Redis 8.6) |
+    | `count`   | Number of non-NaN values (ignores NaN values since Redis 8.6)                                  |
+    | `countNaN`| Number of NaN values (since Redis 8.6)                                                         |
+    | `countAll`| Number of all values, both NaN and non-NaN (since Redis 8.6)                                   |
+    | `std.p`   | Population standard deviation of all non-NaN values (ignores NaN values since Redis 8.6)       |
+    | `std.s`   | Sample standard deviation of all non-NaN values (ignores NaN values since Redis 8.6)           |
+    | `var.p`   | Population variance of all non-NaN values (ignores NaN values since Redis 8.6)                 |
+    | `var.s`   | Sample variance of all non-NaN values (ignores NaN values since Redis 8.6)                     |
 
 <note><b>Notes:</b> 
   - The produced time series is named `<label>=<value>`
