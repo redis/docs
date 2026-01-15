@@ -7,7 +7,7 @@ arguments:
   type: key
 - arguments:
   - name: duration-token
-    token: DURATION
+    token: IDMP-DURATION
     type: pure-token
   - name: duration
     type: integer
@@ -16,7 +16,7 @@ arguments:
   type: block
 - arguments:
   - name: maxsize-token
-    token: MAXSIZE
+    token: IDMP-MAXSIZE
     type: pure-token
   - name: maxsize
     type: integer
@@ -59,7 +59,7 @@ reply_schema:
   const: OK
 since: 8.6.0
 summary: Sets the IDMP configuration parameters for a stream.
-syntax_fmt: XCFGSET key [DURATION duration] [MAXSIZE maxsize]
+syntax_fmt: XCFGSET key [IDMP-DURATION duration] [IDMP-MAXSIZE maxsize]
 title: XCFGSET
 ---
 Sets the IDMP (Idempotent Message Processing) configuration parameters for a stream. This command configures how long idempotent IDs are retained and the maximum number of idempotent IDs tracked per producer.
@@ -74,15 +74,15 @@ The name of the stream key. The stream must already exist.
 
 ## Optional arguments
 
-<details open><summary><code>DURATION duration</code></summary>
+<details open><summary><code>IDMP-DURATION duration</code></summary>
 
-Sets the duration in seconds that each idempotent ID (iid) is kept in the stream's IDMP map. Valid range: 1-86400 seconds. Default: 100 seconds.
+Sets the duration in seconds that each idempotent ID (iid) is kept in the stream's IDMP map. Valid range: 1-86,400 seconds. Default: 100 seconds.
 
 When an idempotent ID expires, it can be reused for new messages. This provides an operational guarantee that Redis will not forget an idempotency ID before the duration elapses (unless capacity is reached).
 
 </details>
 
-<details open><summary><code>MAXSIZE maxsize</code></summary>
+<details open><summary><code>IDMP-MAXSIZE maxsize</code></summary>
 
 Sets the maximum number of most recent idempotent IDs kept for each producer in the stream's IDMP map. Valid range: 1-10,000 entries. Default: 100 entries.
 
@@ -92,18 +92,18 @@ When the capacity is reached, the oldest idempotent IDs for that producer are ev
 
 ## Behavior
 
-- Calling `XCFGSET` clears all existing producer IDMP maps for the stream
-- At least one of `DURATION` or `MAXSIZE` must be specified
-- The stream must exist before calling this command
-- Configuration changes apply immediately to all future IDMP operations
+- Calling `XCFGSET` clears all existing producer IDMP maps for the stream.
+- At least one of `IDMP-DURATION` or `IDMP-MAXSIZE` must be specified.
+- The stream must exist before calling this command.
+- Configuration changes apply immediately to all future IDMP operations.
 
 ## Examples
 
 ```redis-cli
 XADD mystream * field value
-XCFGSET mystream DURATION 300
-XCFGSET mystream MAXSIZE 1000
-XCFGSET mystream DURATION 600 MAXSIZE 500
+XCFGSET mystream IDMP-DURATION 300
+XCFGSET mystream IDMP-MAXSIZE 1000
+XCFGSET mystream IDMP-DURATION 600 IDMP-MAXSIZE 500
 ```
 
 ## Return information
@@ -127,6 +127,5 @@ The command returns an error in the following cases:
 - **WRONGTYPE**: The key exists but is not a stream
 - **ERR no such key**: The stream does not exist
 - **ERR syntax error**: Invalid command syntax or missing required arguments
-- **ERR invalid duration**: Duration value is outside the valid range (1-86400)
+- **ERR invalid duration**: Duration value is outside the valid range (1-86,400)
 - **ERR invalid maxsize**: Maxsize value is outside the valid range (1-10,000)
-
