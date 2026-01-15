@@ -36,7 +36,7 @@ ossClusterSettings:
       serviceAnnotations:
 ```
 
-2. If you are using internal clients (within the Kubernetes cluster), you can add them to the `podCIDRs` field to improve performance. Clients from these ranges are routed directly to the Redis Enterprise pods, without going through the load balancer.
+2. If you are using internal clients (within the Kubernetes cluster), you can specify their IP ranges in the `podCIDRs` field to improve performance. Clients from these ranges are routed directly to the Redis Enterprise pods, without going through the load balancer.
 
 The following is an example `podCIDRs` field using example values; replace with your own unique CIDRs.
 
