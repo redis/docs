@@ -123,28 +123,6 @@
           "$ref": "#/components/schemas/Permissions"
         },
         "description": "A map of role names to their permissions",
-        "example": {
-          "admin": {
-            "api_permissions": [
-              "create_node",
-              "update_node",
-              "delete_node"
-            ],
-            "ui_permissions": [
-              "view_cluster_page",
-              "view_database_page"
-            ]
-          },
-          "db_viewer": {
-            "api_permissions": [
-              "view_bdb_info",
-              "view_all_bdbs_info"
-            ],
-            "ui_permissions": [
-              "view_database_page"
-            ]
-          }
-        },
         "type": "object"
       },
       "User": {
@@ -671,6 +649,28 @@
           "200": {
             "content": {
               "application/json": {
+                "example": {
+                  "admin": {
+                    "api_permissions": [
+                      "create_node",
+                      "update_node",
+                      "delete_node"
+                    ],
+                    "ui_permissions": [
+                      "view_cluster_page",
+                      "view_database_page"
+                    ]
+                  },
+                  "db_viewer": {
+                    "api_permissions": [
+                      "view_bdb_info",
+                      "view_all_bdbs_info"
+                    ],
+                    "ui_permissions": [
+                      "view_database_page"
+                    ]
+                  }
+                },
                 "schema": {
                   "$ref": "#/components/schemas/RolesWithPermissions"
                 }
@@ -715,6 +715,19 @@
           "200": {
             "content": {
               "application/json": {
+                "example": {
+                  "admin": {
+                    "api_permissions": [
+                      "create_node",
+                      "update_node",
+                      "delete_node"
+                    ],
+                    "ui_permissions": [
+                      "view_cluster_page",
+                      "view_database_page"
+                    ]
+                  }
+                },
                 "schema": {
                   "$ref": "#/components/schemas/RolesWithPermissions"
                 }
@@ -916,8 +929,8 @@
           "content": {
             "application/json": {
               "example": {
-                "email_alerts": false,
-                "name": "Jane Poe"
+                "email_alerts": true,
+                "name": "John Doe"
               },
               "schema": {
                 "$ref": "#/components/schemas/UserRequest"
