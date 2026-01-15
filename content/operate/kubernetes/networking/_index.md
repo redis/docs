@@ -44,7 +44,7 @@ This feature only supports automatic Ingress creation for Active-Active database
 [OSS Cluster API]({{< relref "/operate/kubernetes/networking/cluster-aware-clients" >}}) is supported for both internal and external clients:
 
 - **Internal clients** running on pods within the same Kubernetes cluster can connect directly to Redis Enterprise pods using pod IPs.
-- **External clients** outside the Kubernetes cluster can connect through a LoadBalancer service when `enableExternalAccess: true` is configured in the database specification.
+- **External clients** outside the Kubernetes cluster can connect through LoadBalancer services when `enableExternalAccess: true` is configured in the database specification. This creates a separate LoadBalancer service for each Redis Enterprise pod, which may increase operational costs.
 
 See [Enable cluster-aware clients (OSS Cluster API)]({{< relref "/operate/kubernetes/networking/cluster-aware-clients" >}}) for configuration details.
 
