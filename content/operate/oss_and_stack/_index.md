@@ -7,6 +7,10 @@ weight: 40
 
 Since 2009, the Redis open source project has inspired an enthusiastic and active community of users and contributors. We continue to be committed to fostering an open, welcoming, diverse, inclusive, and healthy community.
 
+## Original developer and core team
+
+[Salvatore Sanfilippo](https://github.com/antirez) built, led, and maintained the Redis open source project. In 2020, Salvatore Sanfilippo named two successors to take over and lead the Redis project: Yossi Gottlieb [yossigo](https://github.com/yossigo) and Oran Agra [oranagra](https://github.com/oranagra). Salvatore [returned to Redis in 2024](https://antirez.com/news/144). 
+
 ## Code of Conduct
 
 Redis has adopted the [Contributor Covenant Code of Conduct](https://github.com/redis/redis/blob/unstable/CODE_OF_CONDUCT.md).
@@ -31,6 +35,8 @@ Redis regularly sponsors conferences, webinars, and meetups. Check out the [Redi
 
 ## Contributing to Redis
 
+The Redis core source repository is hosted under [https://github.com/redis/redis](https://github.com/redis/redis) along with many of the client libraries. Commits to the Redis source repository will require code review, approval of at least one reviewer who is not the author of the commit, and no objections.
+
 There are many ways to contribute to Redis, starting with documentation all the way to changes to the open source Redis server. Here are a few ways you can get involved.
 
 ### Contributing to docs
@@ -47,13 +53,11 @@ For larger changes, we ask that you first create an issue describing your propos
 
 The Redis [client libraries]({{< relref "/develop/clients" >}}) are nearly always open source and accepting of contributions. Consult the contribution guidelines for the library you're interested in.
 
-## Original developer and Core contributors 
 
-From 2009-2020, [Salvatore Sanfilippo](https://github.com/antirez) built, led, and maintained the Redis open source project. In 2020, Salvatore Sanfilippo named two successors to take over and lead the Redis project: Yossi Gottlieb [yossigo](https://github.com/yossigo) and Oran Agra [oranagra](https://github.com/oranagra). Salvatore [returned to Redis in 2024](https://antirez.com/news/144).
 
-## Redis repository and commits approval process
 
-The Redis core source repository is hosted under [https://github.com/redis/redis](https://github.com/redis/redis) along with many of the client libraries. Commits to the Redis source repository will require code review, approval of at least one reviewer who is not the author of the commit, and no objections.
+
+
 
 
 
