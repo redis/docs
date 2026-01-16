@@ -38,7 +38,6 @@ railroad_diagram: /images/railroad/info.svg
 since: 1.0.0
 summary: Returns information and statistics about the server.
 syntax_fmt: INFO [section [section ...]]
-syntax_str: ''
 title: INFO
 ---
 The `INFO` command returns information and statistics about the server in a
@@ -48,7 +47,7 @@ The optional parameter can be used to select a specific section of information:
 
 *   `server`: General information about the Redis server
 *   `clients`: Client connections section
-*   `memory`: Memory consumption related information
+*   `memory`: Memory consumption-related information
 *   `persistence`: RDB and AOF related information
 *   `threads`: I/O threads information
 *   `stats`: General statistics
@@ -59,7 +58,8 @@ The optional parameter can be used to select a specific section of information:
 *   `sentinel`: Redis Sentinel section (only applicable to Sentinel instances)
 *   `cluster`: Redis Cluster section
 *   `modules`: Modules section
-*   `keyspace`: Database related statistics
+*   `keyspace`: Database-related statistics
+*   `keysizes`: Statistics on the distribution of key sizes for each data type
 *   `errorstats`: Redis error statistics
 
 It can also take the following values:
@@ -70,7 +70,7 @@ It can also take the following values:
 
 When no parameter is provided, the `default` option is assumed.
 
-{{< clients-example cmds_servermgmt info >}}
+{{< clients-example set="cmds_servermgmt" step="info" description="Foundational: Get server information and statistics using INFO (supports optional section filtering, returns key-value pairs)" difficulty="beginner" >}}
 INFO
 {{< /clients-example >}}
 
@@ -80,7 +80,6 @@ Give these commands a try in the interactive console:
 INFO
 {{% /redis-cli %}}
 
-
 ## Notes
 
 Please note depending on the version of Redis some of the fields have been
@@ -89,7 +88,6 @@ result of this command by skipping unknown properties, and gracefully handle
 missing fields.
 
 Here is the description of fields for Redis >= 2.4.
-
 
 Here is the meaning of all fields in the **server** section:
 
@@ -391,7 +389,9 @@ Here is the meaning of all fields in the **stats** section:
 *   `acl_access_denied_auth`: Number of authentication failures
 *   `acl_access_denied_cmd`: Number of commands rejected because of access denied to the command
 *   `acl_access_denied_key`: Number of commands rejected because of access denied to a key
-*   `acl_access_denied_channel`: Number of commands rejected because of access denied to a channel 
+*   `acl_access_denied_channel`: Number of commands rejected because of access denied to a channel
+*   `cluster_incompatible_ops`: Number of cluster-incompatible commands. This metric appears only if the `cluster-compatibility-sample-ratio` configuration parameter is not 0. Added in Redis 8.0.
+
 
 Here is the meaning of all fields in the **replication** section:
 
@@ -505,7 +505,7 @@ The **sentinel** section is only available in Redis Sentinel instances. It consi
 *   `sentinel_scripts_queue_length`: The length of the queue of user scripts that are pending execution
 *   `sentinel_simulate_failure_flags`: Flags for the `SENTINEL SIMULATE-FAILURE` command
     
-The **cluster** section contains a single fields:
+The **cluster** section contains a single field:
 
 *   `cluster_enabled`: Indicates whether Redis cluster is enabled.
 
@@ -655,7 +655,7 @@ Lines can contain a section name (starting with a `#` character) or a property. 
 
 -tab-sep-
 
-[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): a map of info fields, one field per line in the form of `<field>:<value>` where the value can be a comma separated map like `<key>=<val>`. Also contains section header lines starting with `#` and blank lines.
+[Verbatim string reply](../../develop/reference/protocol-spec#verbatim-strings): a map of info fields, one field per line in the form of `<field>:<value>` where the value can be a comma separated map like `<key>=<val>`. Also contains section header lines starting with `#` and blank lines.
 Lines can contain a section name (starting with a `#` character) or a property. All the properties are in the form of `field:value` terminated by `\r\n`.
 
 {{< /multitabs >}}

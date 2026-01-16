@@ -57,7 +57,6 @@ railroad_diagram: /images/railroad/bitfield_ro.svg
 since: 6.0.0
 summary: Performs arbitrary read-only bitfield integer operations on strings.
 syntax_fmt: "BITFIELD_RO key [GET\_encoding offset [GET encoding offset ...]]"
-syntax_str: "[GET\_encoding offset [GET encoding offset ...]]"
 title: BITFIELD_RO
 ---
 Read-only variant of the [`BITFIELD`]({{< relref "/commands/bitfield" >}}) command.

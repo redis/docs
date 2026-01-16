@@ -63,9 +63,13 @@ railroad_diagram: /images/railroad/pfmerge.svg
 since: 2.8.9
 summary: Merges one or more HyperLogLog values into a single key.
 syntax_fmt: PFMERGE destkey [sourcekey [sourcekey ...]]
-syntax_str: '[sourcekey [sourcekey ...]]'
 title: PFMERGE
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Merge multiple HyperLogLog values into a unique value that will approximate
 the cardinality of the union of the observed Sets of the source HyperLogLog
 structures.

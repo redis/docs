@@ -80,15 +80,18 @@ railroad_diagram: /images/railroad/bitop.svg
 since: 2.6.0
 summary: Performs bitwise operations on multiple strings, and stores the result.
 syntax_fmt: BITOP <AND | OR | XOR | NOT | DIFF | DIFF1 | ANDOR | ONE> destkey key [key ...]
-syntax_str: destkey key [key ...]
 title: BITOP
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Perform a bitwise operation between multiple keys (containing string values) and
 store the result in the destination key.
 
 The `BITOP` command supports eight bitwise operations: `AND`, `OR`, `XOR`,
 `NOT`, `DIFF`, `DIFF1`, `ANDOR`, and `ONE`. The valid forms to call the command are:
-
 
 * `BITOP AND destkey srckey1 srckey2 srckey3 ... srckeyN`
 

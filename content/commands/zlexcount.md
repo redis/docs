@@ -51,7 +51,6 @@ railroad_diagram: /images/railroad/zlexcount.svg
 since: 2.8.9
 summary: Returns the number of members in a sorted set within a lexicographical range.
 syntax_fmt: ZLEXCOUNT key min max
-syntax_str: min max
 title: ZLEXCOUNT
 ---
 When all the elements in a sorted set are inserted with the same score, in order to force lexicographical ordering, this command returns the number of elements in the sorted set at `key` with a value between `min` and `max`.

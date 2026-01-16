@@ -52,7 +52,6 @@ since: 5.0.0
 summary: Returns the lowest-scoring members from a sorted set after removing them.
   Deletes the sorted set if the last member was popped.
 syntax_fmt: ZPOPMIN key [count]
-syntax_str: '[count]'
 title: ZPOPMIN
 ---
 Removes and returns up to `count` members with the lowest scores in the sorted

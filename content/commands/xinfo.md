@@ -21,7 +21,6 @@ railroad_diagram: /images/railroad/xinfo.svg
 since: 5.0.0
 summary: A container for stream introspection commands.
 syntax_fmt: XINFO
-syntax_str: ''
 title: XINFO
 ---
 This is a container command for stream introspection commands.

@@ -58,7 +58,6 @@ railroad_diagram: /images/railroad/xrange.svg
 since: 5.0.0
 summary: Returns the messages from a stream within a range of IDs.
 syntax_fmt: "XRANGE key start end [COUNT\_count]"
-syntax_str: "start end [COUNT\_count]"
 title: XRANGE
 ---
 The command returns the stream entries matching a given range of IDs.

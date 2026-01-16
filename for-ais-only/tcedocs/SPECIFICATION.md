@@ -1,6 +1,6 @@
 # Code Example System - Technical Specification
 
-> **For Documentation Authors**: See `build/tcedocs/README.md` for user-facing documentation on writing examples.
+> **For Documentation Authors**: See `for-ais-only/tcedocs/README.md` for user-facing documentation on writing examples.
 
 ## Document Purpose
 
@@ -1969,7 +1969,7 @@ ModuleNotFoundError: No module named 'pytoml'
    - `examples/{example_id}/` for processed code
 3. **Compare with working example**: Find a similar working example and diff the files
 4. **Review this spec**: Check configuration requirements and file formats
-5. **Consult user guide**: `build/tcedocs/README.md` for author-focused documentation
+5. **Consult user guide**: `for-ais-only/tcedocs/README.md` for author-focused documentation
 
 ---
 
@@ -1977,7 +1977,7 @@ ModuleNotFoundError: No module named 'pytoml'
 
 ### Related Documentation
 
-- **User Guide**: `build/tcedocs/README.md` - For documentation authors
+- **User Guide**: `for-ais-only/tcedocs/README.md` - For documentation authors
 - **Hugo Documentation**: https://gohugo.io/documentation/
 - **Tailwind CSS**: https://tailwindcss.com/docs
 - **Makefile**: See `Makefile` for all available build commands
@@ -2328,8 +2328,8 @@ The original checklist was incomplete. Here's the comprehensive version:
 9. ⚠️ `build/jupyterize/jupyterize_config.json` - Add language-specific boilerplate and unwrap patterns
 
 **Documentation**:
-10. ✅ `build/tcedocs/SPECIFICATION.md` - Update examples and checklist
-11. ✅ `build/tcedocs/README.md` - Update tables and examples
+10. ✅ `for-ais-only/tcedocs/SPECIFICATION.md` - Update examples and checklist
+11. ✅ `for-ais-only/tcedocs/README.md` - Update tables and examples
 
 ### Pre-existing Examples
 

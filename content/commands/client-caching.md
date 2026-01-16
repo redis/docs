@@ -38,7 +38,6 @@ railroad_diagram: /images/railroad/client-caching.svg
 since: 6.0.0
 summary: Instructs the server whether to track the keys in the next request.
 syntax_fmt: CLIENT CACHING <YES | NO>
-syntax_str: ''
 title: CLIENT CACHING
 ---
 This command controls the tracking of the keys in the next command executed

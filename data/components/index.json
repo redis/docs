@@ -11,6 +11,7 @@
         "nredisstack_async",
         "go_redis",
         "node_redis",
+        "ioredis",
         "php",
         "redis_py",
         "jedis",

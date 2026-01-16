@@ -48,7 +48,6 @@ railroad_diagram: /images/railroad/hmget.svg
 since: 2.0.0
 summary: Returns the values of all fields in a hash.
 syntax_fmt: HMGET key field [field ...]
-syntax_str: field [field ...]
 title: HMGET
 ---
 Returns the values associated with the specified `fields` in the hash stored at

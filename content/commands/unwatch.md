@@ -28,7 +28,6 @@ railroad_diagram: /images/railroad/unwatch.svg
 since: 2.2.0
 summary: Forgets about watched keys of a transaction.
 syntax_fmt: UNWATCH
-syntax_str: ''
 title: UNWATCH
 ---
 Flushes all the previously watched keys for a [transaction][tt].

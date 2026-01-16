@@ -26,7 +26,6 @@ railroad_diagram: /images/railroad/client-id.svg
 since: 5.0.0
 summary: Returns the unique client ID of the connection.
 syntax_fmt: CLIENT ID
-syntax_str: ''
 title: CLIENT ID
 ---
 The command just returns the ID of the current connection. Every connection

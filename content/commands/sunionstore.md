@@ -61,9 +61,13 @@ railroad_diagram: /images/railroad/sunionstore.svg
 since: 1.0.0
 summary: Stores the union of multiple sets in a key.
 syntax_fmt: SUNIONSTORE destination key [key ...]
-syntax_str: key [key ...]
 title: SUNIONSTORE
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 This command is equal to [`SUNION`]({{< relref "/commands/sunion" >}}), but instead of returning the resulting set,
 it is stored in `destination`.
 

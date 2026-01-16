@@ -52,7 +52,6 @@ replaced_by: '`SET` with the `NX` argument'
 since: 1.0.0
 summary: Set the string value of a key only when the key doesn't exist.
 syntax_fmt: SETNX key value
-syntax_str: value
 title: SETNX
 ---
 Set `key` to hold string `value` if `key` does not exist.
@@ -67,7 +66,6 @@ SETNX mykey "Hello"
 SETNX mykey "World"
 GET mykey
 {{% /redis-cli %}}
-
 
 ## Design pattern: Locking with `SETNX`
 

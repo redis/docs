@@ -91,10 +91,13 @@ since: 2.0.0
 summary: Stores the intersect of multiple sorted sets in a key.
 syntax_fmt: "ZINTERSTORE destination numkeys key [key ...] [WEIGHTS\_weight\n  [weight\
   \ ...]] [AGGREGATE\_<SUM | MIN | MAX>]"
-syntax_str: "numkeys key [key ...] [WEIGHTS\_weight [weight ...]] [AGGREGATE\_<SUM\
-  \ | MIN | MAX>]"
 title: ZINTERSTORE
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Computes the intersection of `numkeys` sorted sets given by the specified keys,
 and stores the result in `destination`.
 It is mandatory to provide the number of input keys (`numkeys`) before passing

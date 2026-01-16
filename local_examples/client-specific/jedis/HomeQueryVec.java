@@ -3,7 +3,7 @@
 package com.redis.app;
 // REMOVE_END
 // STEP_START import
-import redis.clients.jedis.UnifiedJedis;
+import redis.clients.jedis.RedisClient;
 import redis.clients.jedis.search.*;
 import redis.clients.jedis.search.schemafields.*;
 import redis.clients.jedis.search.schemafields.VectorField.VectorAlgorithm;
@@ -54,7 +54,7 @@ public class HomeQueryVec {
         // STEP_END
 
         // STEP_START connect
-        UnifiedJedis jedis = new UnifiedJedis("redis://localhost:6379");
+        RedisClient jedis = new RedisClient("redis://localhost:6379");
         // REMOVE_START
         jedis.del(
             "doc:1", "doc:2", "doc:3",

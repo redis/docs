@@ -97,6 +97,13 @@ RedisEnterpriseDatabaseSpec defines the desired state of RedisEnterpriseDatabase
         </td>
         <td>false</td>
       </tr><tr>
+        <td><a href="#specauditing">auditing</a></td>
+        <td>object</td>
+        <td>
+          Database auditing configuration.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td><a href="#specbackup">backup</a></td>
         <td>object</td>
         <td>
@@ -243,6 +250,16 @@ RedisEnterpriseDatabaseSpec defines the desired state of RedisEnterpriseDatabase
         <td>boolean</td>
         <td>
           Whether this database supports RESP3 protocol. Note - Deleting this property after explicitly setting its value shall have no effect. Please view the corresponding field in RS doc for more info.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>rofRamRatio</td>
+        <td>integer</td>
+        <td>
+          RAM allocation ratio for Redis Flex (v2) databases as a percentage of total data size. Valid range 0-100. When omitted, RS uses the default value of 50%. Controls how much RAM is allocated per unit of data (e.g., 30% means 3MB RAM per 10MB data). RAM grows proportionally with data until rofRamSize limit is reached (if specified). Only applicable when isRof=true and Redis version >= 8.0 (BigStore v2 - Redis Flex).<br/>
+          <br/>
+            <i>Minimum</i>: 0<br/>
+            <i>Maximum</i>: 100<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -841,6 +858,34 @@ Dataset size has reached the threshold value [% of the memory limit] expected fi
 </table>
 
 
+### spec.auditing
+<sup><sup>[↩ Parent](#spec)</sup></sup>
+
+Database auditing configuration.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>dbConnsAuditing</td>
+        <td>boolean</td>
+        <td>
+          Enables auditing of database connection and authentication events.
+When enabled, connection, authentication, and disconnection events are tracked and sent
+to the configured audit listener (configured at the cluster level).
+The cluster-level auditing configuration must be set before enabling this on a database.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
 ### spec.backup
 <sup><sup>[↩ Parent](#spec)</sup></sup>
 
@@ -1377,6 +1422,13 @@ RedisEnterpriseDatabaseStatus defines the observed state of RedisEnterpriseDatab
         <td>object</td>
         <td>
           Information on the database's periodic backup<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>bigstoreVersion</td>
+        <td>integer</td>
+        <td>
+          BigStore version for Redis on Flash databases (1 for Auto Tiering, 2 for Redis Flex). Read-only field populated from RS.<br/>
         </td>
         <td>false</td>
       </tr><tr>

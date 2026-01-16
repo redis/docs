@@ -53,7 +53,6 @@ railroad_diagram: /images/railroad/sadd.svg
 since: 1.0.0
 summary: Adds one or more members to a set. Creates the key if it doesn't exist.
 syntax_fmt: SADD key member [member ...]
-syntax_str: member [member ...]
 title: SADD
 ---
 Add the specified members to the set stored at `key`.
@@ -65,7 +64,7 @@ An error is returned when the value stored at `key` is not a set.
 
 ## Examples
 
-{{< clients-example cmds_set sadd >}}
+{{< clients-example set="cmds_set" step="sadd" description="Foundational: Add one or more members to a set using SADD (creates set if needed, ignores duplicates, returns count of new members)" difficulty="beginner" >}}
 redis> SADD myset "Hello" "World"
 (integer) 2
 redis> SADD myset "World"

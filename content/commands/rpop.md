@@ -55,7 +55,6 @@ since: 1.0.0
 summary: Returns and removes the last elements of a list. Deletes the list if the
   last element was popped.
 syntax_fmt: RPOP key [count]
-syntax_str: '[count]'
 title: RPOP
 ---
 Removes and returns the last elements of the list stored at `key`.
@@ -66,7 +65,7 @@ to `count` elements, depending on the list's length.
 
 ## Examples
 
-{{< clients-example cmds_list rpop >}}
+{{< clients-example set="cmds_list" step="rpop" description="Foundational: Remove and return the last element(s) from a list using RPOP (supports optional count parameter to pop multiple elements from tail)" difficulty="beginner" >}}
 redis> RPUSH mylist "one" "two" "three" "four" "five"
 (integer) 5
 redis> RPOP mylist

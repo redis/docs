@@ -36,7 +36,6 @@ railroad_diagram: /images/railroad/config-get.svg
 since: 2.0.0
 summary: Returns the effective values of configuration parameters.
 syntax_fmt: CONFIG GET parameter [parameter ...]
-syntax_str: ''
 title: CONFIG GET
 ---
 The `CONFIG GET` command is used to read the configuration parameters of a

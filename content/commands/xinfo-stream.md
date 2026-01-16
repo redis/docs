@@ -64,7 +64,6 @@ railroad_diagram: /images/railroad/xinfo-stream.svg
 since: 5.0.0
 summary: Returns information about a stream.
 syntax_fmt: "XINFO STREAM key [FULL [COUNT\_count]]"
-syntax_str: "[FULL [COUNT\_count]]"
 title: XINFO STREAM
 ---
 This command returns information about the stream stored at `<key>`.

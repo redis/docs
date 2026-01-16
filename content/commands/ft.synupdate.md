@@ -37,7 +37,6 @@ stack_path: docs/interact/search-and-query
 summary: Creates or updates a synonym group with additional terms
 syntax: "FT.SYNUPDATE index synonym_group_id \n  [SKIPINITIALSCAN] term [term ...]\n"
 syntax_fmt: "FT.SYNUPDATE index synonym_group_id [SKIPINITIALSCAN] term [term\n  ...]"
-syntax_str: synonym_group_id [SKIPINITIALSCAN] term [term ...]
 title: FT.SYNUPDATE
 ---
 

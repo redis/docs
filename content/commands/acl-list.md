@@ -28,7 +28,6 @@ railroad_diagram: /images/railroad/acl-list.svg
 since: 6.0.0
 summary: Dumps the effective rules in ACL file format.
 syntax_fmt: ACL LIST
-syntax_str: ''
 title: ACL LIST
 ---
 The command shows the currently active ACL rules in the Redis server. Each

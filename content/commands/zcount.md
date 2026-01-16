@@ -51,7 +51,6 @@ railroad_diagram: /images/railroad/zcount.svg
 since: 2.0.0
 summary: Returns the count of members in a sorted set that have scores within a range.
 syntax_fmt: ZCOUNT key min max
-syntax_str: min max
 title: ZCOUNT
 ---
 Returns the number of elements in the sorted set at `key` with a score between

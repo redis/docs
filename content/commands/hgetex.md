@@ -85,8 +85,6 @@ summary: Get the value of one or more fields of a given hash key, and optionally
 syntax_fmt: "HGETEX key [EX\_seconds | PX\_milliseconds | EXAT\_unix-time-seconds\
   \ |\n  PXAT\_unix-time-milliseconds | PERSIST] FIELDS\_numfields field\n  [field\
   \ ...]"
-syntax_str: "[EX\_seconds | PX\_milliseconds | EXAT\_unix-time-seconds | PXAT\_unix-time-milliseconds\
-  \ | PERSIST] FIELDS\_numfields field [field ...]"
 title: HGETEX
 ---
 

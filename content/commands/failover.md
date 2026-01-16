@@ -54,7 +54,6 @@ railroad_diagram: /images/railroad/failover.svg
 since: 6.2.0
 summary: Starts a coordinated failover from a server to one of its replicas.
 syntax_fmt: "FAILOVER [TO\_host port [FORCE]] [ABORT] [TIMEOUT\_milliseconds]"
-syntax_str: "[ABORT] [TIMEOUT\_milliseconds]"
 title: FAILOVER
 ---
 This command will start a coordinated failover between the currently-connected-to master and one of its replicas.

@@ -1,0 +1,94 @@
+{{- /* Extract code examples from the page content */ -}}
+{{- /* This partial finds all code example anchors and builds a JSON structure */ -}}
+{{- /* Input: page object with .Content */ -}}
+{{- /* Output: JSON array of code examples with codetabs container IDs and per-language identifiers */ -}}
+
+{{- $content := .Content -}}
+
+{{- /* Extract all anchor IDs, descriptions, and difficulties */ -}}
+{{- $examples := slice -}}
+
+{{- /* Use regex to find all <a id="..."></a> anchors with optional data-description, data-difficulty, and data-codetabs-id */ -}}
+{{- $matches := findRE `<a id="([^"]+)"[^>]*></a>` $content -}}
+
+{{- range $match := $matches -}}
+  {{- /* Extract the ID from the match */ -}}
+  {{- $id := replaceRE `<a id="([^"]+)".*` `$1` $match -}}
+
+  {{- /* Extract the description if it exists */ -}}
+  {{- $description := "" -}}
+  {{- if findRE `data-description="([^"]*)"` $match -}}
+    {{- $description = replaceRE `.*data-description="([^"]*)".*` `$1` $match -}}
+  {{- end -}}
+
+  {{- /* Extract the difficulty if it exists */ -}}
+  {{- $difficulty := "" -}}
+  {{- if findRE `data-difficulty="([^"]*)"` $match -}}
+    {{- $difficulty = replaceRE `.*data-difficulty="([^"]*)".*` `$1` $match -}}
+  {{- end -}}
+
+  {{- /* Extract the codetabs ID from the data attribute */ -}}
+  {{- $codetabsId := "" -}}
+  {{- if findRE `data-codetabs-id="([^"]*)"` $match -}}
+    {{- $codetabsId = replaceRE `.*data-codetabs-id="([^"]*)".*` `$1` $match -}}
+  {{- end -}}
+
+  {{- /* Extract per-language identifiers from the codetabs container */ -}}
+  {{- $languages := slice -}}
+  {{- if $codetabsId -}}
+    {{- /* Find all panels for this codetabs container */ -}}
+    {{- $panelPattern := printf `<div class="panel[^"]*"[^>]*id="([^"]*)"[^>]*data-lang="([^"]*)"[^>]*data-codetabs-id="%s"` $codetabsId -}}
+    {{- $panelMatches := findRE $panelPattern $content -}}
+    {{- range $panelMatch := $panelMatches -}}
+      {{- $panelId := replaceRE $panelPattern `$1` $panelMatch -}}
+      {{- $lang := replaceRE $panelPattern `$2` $panelMatch -}}
+
+      {{- /* Look up client config to get langId, clientId, and clientName */ -}}
+      {{- $clientConfig := index $.Site.Params.clientsConfig $lang -}}
+      {{- $langId := "" -}}
+      {{- $clientId := "" -}}
+      {{- $clientName := "" -}}
+      {{- if $clientConfig -}}
+        {{- $langId = index $clientConfig "langId" -}}
+        {{- $clientId = index $clientConfig "clientId" -}}
+        {{- $clientName = index $clientConfig "clientName" -}}
+      {{- end -}}
+
+      {{- $langEntry := dict "id" $lang "panelId" $panelId -}}
+      {{- if $langId -}}
+        {{- $langEntry = merge $langEntry (dict "langId" $langId) -}}
+      {{- end -}}
+      {{- if $clientId -}}
+        {{- $langEntry = merge $langEntry (dict "clientId" $clientId) -}}
+      {{- end -}}
+      {{- if $clientName -}}
+        {{- $langEntry = merge $langEntry (dict "clientName" $clientName) -}}
+      {{- end -}}
+      {{- $languages = $languages | append $langEntry -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- /* Create example object with the ID and optional description/difficulty/codetabsId/languages */ -}}
+  {{- $example := dict "id" $id -}}
+  {{- if $description -}}
+    {{- $example = merge $example (dict "description" $description) -}}
+  {{- end -}}
+  {{- if $difficulty -}}
+    {{- $example = merge $example (dict "difficulty" $difficulty) -}}
+  {{- end -}}
+  {{- if $codetabsId -}}
+    {{- $example = merge $example (dict "codetabsId" $codetabsId) -}}
+  {{- end -}}
+  {{- if gt (len $languages) 0 -}}
+    {{- $example = merge $example (dict "languages" $languages) -}}
+  {{- end -}}
+  {{- $examples = $examples | append $example -}}
+{{- end -}}
+
+{{- /* Return as JSON array */ -}}
+{{- if gt (len $examples) 0 -}}
+  {{- $examples | jsonify -}}
+{{- else -}}
+  {{- "[]" -}}
+{{- end -}}
+

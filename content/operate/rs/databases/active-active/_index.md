@@ -60,3 +60,5 @@ Other Redis Enterprise Software features can also be used to enhance the perform
 - [Plan your Active-Active deployment]({{< relref "/operate/rs/databases/active-active/planning.md" >}})
 - [Get started with Active-Active]({{< relref "/operate/rs/databases/active-active/get-started.md" >}})
 - [Create an Active-Active database]({{< relref "/operate/rs/databases/active-active/create.md" >}})
+- [Develop applications with Active-Active databases]({{<relref "/operate/rs/databases/active-active/develop/develop-for-aa">}})
+- Review [disaster recovery strategies for Active-Active databases]({{< relref "/operate/rs/databases/active-active/disaster-recovery" >}})

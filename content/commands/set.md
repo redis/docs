@@ -133,9 +133,6 @@ summary: Sets the string value of a key, ignoring its type. The key is created i
 syntax_fmt: "SET key value [NX | XX | IFEQ\_ifeq-value | IFNE\_ifne-value |\n\
   \  IFDEQ\_ifdeq-digest | IFDNE\_ifdne-digest] [GET] [EX\_seconds |\n  PX\_milliseconds\
   \ | EXAT\_unix-time-seconds |\n  PXAT\_unix-time-milliseconds | KEEPTTL]"
-syntax_str: "value [NX | XX | IFEQ\_ifeq-value | IFNE\_ifne-value | IFDEQ\_ifdeq-digest\
-  \ | IFDNE\_ifdne-digest] [GET] [EX\_seconds | PX\_milliseconds | EXAT\_unix-time-seconds\
-  \ | PXAT\_unix-time-milliseconds | KEEPTTL]"
 title: SET
 ---
 
@@ -175,10 +172,9 @@ GET mykey
 SET anotherkey "will expire in a minute" EX 60
 {{% /redis-cli %}}
 
-
 ### Code examples
 
-{{< clients-example set_and_get />}}
+{{< clients-example set="set_and_get" step="set" description="Foundational: Set the string value of a key using SET (creates key if needed, overwrites existing value, supports expiration options)" difficulty="beginner" />}}
 
 ## Patterns
 

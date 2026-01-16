@@ -33,7 +33,6 @@ replaced_by: just closing the connection
 since: 1.0.0
 summary: Closes the connection.
 syntax_fmt: QUIT
-syntax_str: ''
 title: QUIT
 ---
 Ask the server to close the connection.

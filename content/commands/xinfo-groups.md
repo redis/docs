@@ -46,7 +46,6 @@ railroad_diagram: /images/railroad/xinfo-groups.svg
 since: 5.0.0
 summary: Returns a list of the consumer groups of a stream.
 syntax_fmt: XINFO GROUPS key
-syntax_str: ''
 title: XINFO GROUPS
 ---
 This command returns the list of all consumer groups of the stream stored at `<key>`.

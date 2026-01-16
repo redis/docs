@@ -27,7 +27,6 @@ railroad_diagram: /images/railroad/cluster-saveconfig.svg
 since: 3.0.0
 summary: Forces a node to save the cluster configuration to disk.
 syntax_fmt: CLUSTER SAVECONFIG
-syntax_str: ''
 title: CLUSTER SAVECONFIG
 ---
 Forces a node to save the `nodes.conf` configuration on disk. Before to return

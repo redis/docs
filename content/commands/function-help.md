@@ -25,7 +25,6 @@ railroad_diagram: /images/railroad/function-help.svg
 since: 7.0.0
 summary: Returns helpful text about the different subcommands.
 syntax_fmt: FUNCTION HELP
-syntax_str: ''
 title: FUNCTION HELP
 ---
 The `FUNCTION HELP` command returns a helpful text describing the different subcommands.

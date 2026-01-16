@@ -44,7 +44,6 @@ stack_path: docs/data-types/json
 summary: Returns the index of the first occurrence of a JSON scalar value in the array
   at path
 syntax_fmt: JSON.ARRINDEX key path value [start [stop]]
-syntax_str: path value [start [stop]]
 title: JSON.ARRINDEX
 ---
 Search for the first occurrence of a JSON value in an array
@@ -78,7 +77,6 @@ To specify a string as an array value to index, wrap the quoted string with an a
 
 is inclusive start value to specify in a slice of the array to search. Default is `0`. 
 </details>
-
 
 <details open><summary><code>stop</code></summary> 
 
@@ -150,7 +148,6 @@ redis> JSON.ARRINDEX item:1 $..colors '"silver"'
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

@@ -12,7 +12,7 @@ aliases:
   - /rc/databases/upgrade-version
 ---
 
-You can upgrade databases that are not on the latest available version of Redis to a later version at any time.
+You can upgrade databases that are not on the latest available version of Redis to a later database version at any time.
 
 {{< note >}}
 Please keep in mind the following before upgrading your database version:
@@ -32,33 +32,53 @@ Please keep in mind the following before upgrading your database version:
 
 ## Upgrade database
 
-To upgrade a Redis Cloud database: 
+{{< multitabs id="upgrade-database" 
+tab1="Single-region database"
+tab2="Active-Active database" >}}
+
+To upgrade a single-region Redis Cloud database: 
 
 1. Choose your database from the **Databases** list to open your database page. Select **More actions > Version upgrade**.
 
-    {{<image filename="images/rc/databases-more-actions-menu.png" alt="The More Actions menu on the Database page." width=40% >}}
+    <img src="../../../../../images/rc/databases-more-actions-menu.png" alt="The More Actions menu on the Database page." width=40% >
     
     You can also select **More actions > Version upgrade** from the database list.
 
 1. Select the target version from the **Select version** list.
 
-    {{<image filename="images/rc/database-version-upgrade.png" alt="The Redis version upgrade screen." width=80% >}}
+    <img src="../../../../../images/rc/database-version-upgrade.png" alt="The Redis version upgrade screen." width=80% >
 
     If your database has not been backed up before, we recommend that you back up your database. Select **Go to backup** to go to the [backup settings]({{< relref "/operate/rc/databases/back-up-data" >}}).
 
 1. Select **Upgrade Now** to start the upgrade.
 
-    {{<image filename="images/rc/button-upgrade-now.png" alt="The upgrade button." width=100px >}}
+    <img src="../../../../../images/rc/button-upgrade-now.png" alt="The upgrade button." width=100px >
 
 The database will start upgrading to the selected version immediately. The upgrade may take a few minutes. 
 
 You can continue to use the Redis Cloud console for other tasks during the upgrade.
 
+-tab-sep-
+
+To request to upgrade all databases in an [Active-Active]({{< relref "/operate/rc/databases/active-active" >}}) subscription:
+
+1. Choose your Active-Active subscription from the **Subscriptions** list to open your subscription page. Select **Version upgrade**.
+
+    <img src="../../../../../images/rc/button-version-upgrade.png" width=150px alt="Version upgrade button." >
+
+1. Select the version to upgrade your databases from the list and select **Upgrade** to submit the upgrade request.
+
+    <img src="../../../../../images/rc/version-upgrade-request.png" width=80% alt="Version upgrade request list with version 8.2 selected." >
+
+The upgrade will start in 1-3 weeks from your request, according to your subscription's [maintenance windows]({{< relref "/operate/rc/subscriptions/maintenance/set-maintenance-windows" >}}). All databases in the subscription will be upgraded to the same version.
+
+{{< /multitabs >}}
+
 ## Manually revert upgrade
 
-Automatically reverting to a previous Redis version is not supported on Redis Cloud.
+Automatically reverting to a previous Redis database version is not supported on Redis Cloud.
 
-If you [backed up your database]({{< relref "/operate/rc/databases/back-up-data" >}}) before you upgraded your version, you can:
+If you [backed up your database]({{< relref "/operate/rc/databases/back-up-data" >}}) before you upgraded your database version, you can:
 
 1. [Delete your database]({{< relref "/operate/rc/databases/delete-database" >}}) without deleting your subscription.
 1. [Create a new database]({{< relref "/operate/rc/databases/create-database/create-pro-database-existing" >}}) in your subscription with the following settings:

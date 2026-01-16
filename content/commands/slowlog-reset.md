@@ -30,7 +30,6 @@ railroad_diagram: /images/railroad/slowlog-reset.svg
 since: 2.2.12
 summary: Clears all entries from the slow log.
 syntax_fmt: SLOWLOG RESET
-syntax_str: ''
 title: SLOWLOG RESET
 ---
 This command resets the slow log, clearing all entries in it.

@@ -28,7 +28,6 @@ railroad_diagram: /images/railroad/acl-users.svg
 since: 6.0.0
 summary: Lists all ACL users.
 syntax_fmt: ACL USERS
-syntax_str: ''
 title: ACL USERS
 ---
 The command shows a list of all the usernames of the currently configured

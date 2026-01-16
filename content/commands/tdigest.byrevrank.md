@@ -31,7 +31,6 @@ stack_path: docs/data-types/probabilistic
 summary: Returns, for each input reverse rank, an estimation of the value (floating-point)
   with that reverse rank
 syntax_fmt: TDIGEST.BYREVRANK key reverse_rank [reverse_rank ...]
-syntax_str: reverse_rank [reverse_rank ...]
 title: TDIGEST.BYREVRANK
 ---
 Returns, for each input reverse rank (`revrank`), an estimation of the floating-point value with that reverse rank.

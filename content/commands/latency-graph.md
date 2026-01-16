@@ -36,7 +36,6 @@ railroad_diagram: /images/railroad/latency-graph.svg
 since: 2.8.13
 summary: Returns a latency graph for an event.
 syntax_fmt: LATENCY GRAPH event
-syntax_str: ''
 title: LATENCY GRAPH
 ---
 Produces an ASCII-art style graph for the specified event.

@@ -135,7 +135,36 @@
   },
   "php": {
     "boilerplate": [],
-    "unwrap_patterns": [],
+    "unwrap_patterns": [
+      {
+        "type": "class_single_line",
+        "pattern": "^\\s*class\\s+\\w+.*\\{\\s*$",
+        "end_pattern": "^\\s*class\\s+\\w+.*\\{\\s*$",
+        "keep_content": true,
+        "description": "Remove class declaration with opening brace on same line"
+      },
+      {
+        "type": "class_opening",
+        "pattern": "^\\s*class\\s+\\w+",
+        "end_pattern": "^\\s*\\{\\s*$",
+        "keep_content": true,
+        "description": "Remove class declaration and opening brace on separate lines"
+      },
+      {
+        "type": "method_single_line",
+        "pattern": "^\\s*public\\s+function\\s+\\w+\\(.*\\).*\\{\\s*$",
+        "end_pattern": "^\\s*public\\s+function\\s+\\w+\\(.*\\).*\\{\\s*$",
+        "keep_content": true,
+        "description": "Remove public function declaration with opening brace on same line"
+      },
+      {
+        "type": "method_opening",
+        "pattern": "^\\s*public\\s+function\\s+\\w+\\(.*\\)",
+        "end_pattern": "^\\s*\\{\\s*$",
+        "keep_content": true,
+        "description": "Remove public function declaration and opening brace on separate lines"
+      }
+    ],
     "add_step_metadata": false
   },
   "rust": {

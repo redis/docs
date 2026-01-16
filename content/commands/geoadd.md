@@ -83,7 +83,6 @@ summary: Adds one or more members to a geospatial index. The key is created if i
   doesn't exist.
 syntax_fmt: "GEOADD key [NX | XX] [CH] longitude latitude member [longitude\n  latitude\
   \ member ...]"
-syntax_str: '[NX | XX] [CH] longitude latitude member [longitude latitude member ...]'
 title: GEOADD
 ---
 Adds the specified geospatial items (longitude, latitude, name) to the specified key. Data is stored into the key as a sorted set, in a way that makes it possible to query the items with the [`GEOSEARCH`]({{< relref "/commands/geosearch" >}}) command.

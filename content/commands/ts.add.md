@@ -89,9 +89,6 @@ syntax: "TS.ADD key timestamp value \n  [RETENTION retentionPeriod] \n  [ENCODIN
 syntax_fmt: "TS.ADD key timestamp value [RETENTION\_retentionPeriod]\n  [ENCODING\_\
   <UNCOMPRESSED | COMPRESSED>] [CHUNK_SIZE\_size]\n  [ON_DUPLICATE\_<BLOCK | FIRST\
   \ | LAST | MIN | MAX | SUM>]\n  [LABELS\_label value [label value ...]]"
-syntax_str: "timestamp value [RETENTION\_retentionPeriod] [ENCODING\_<UNCOMPRESSED\
-  \ | COMPRESSED>] [CHUNK_SIZE\_size] [ON_DUPLICATE\_<BLOCK | FIRST | LAST | MIN |\
-  \ MAX | SUM>] [LABELS\_label value [label value ...]]"
 title: TS.ADD
 ---
 
@@ -241,7 +238,6 @@ Add a sample to the time series, setting the sample's timestamp to the current U
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

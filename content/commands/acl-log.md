@@ -43,7 +43,6 @@ railroad_diagram: /images/railroad/acl-log.svg
 since: 6.0.0
 summary: Lists recent security events generated due to ACL rules.
 syntax_fmt: ACL LOG [count | RESET]
-syntax_str: ''
 title: ACL LOG
 ---
 The command shows a list of recent ACL security events:

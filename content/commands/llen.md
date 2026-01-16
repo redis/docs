@@ -43,7 +43,6 @@ railroad_diagram: /images/railroad/llen.svg
 since: 1.0.0
 summary: Returns the length of a list.
 syntax_fmt: LLEN key
-syntax_str: ''
 title: LLEN
 ---
 Returns the length of the list stored at `key`.
@@ -52,7 +51,7 @@ An error is returned when the value stored at `key` is not a list.
 
 ## Examples
 
-{{< clients-example cmds_list llen >}}
+{{< clients-example set="cmds_list" step="llen" description="Foundational: Get the length of a list using LLEN (returns 0 if key doesn't exist, useful for checking list size)" difficulty="beginner" >}}
 redis> LPUSH mylist "World"
 (integer) 1
 redis> LPUSH mylist "Hello"

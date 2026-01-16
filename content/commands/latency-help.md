@@ -24,7 +24,6 @@ railroad_diagram: /images/railroad/latency-help.svg
 since: 2.8.13
 summary: Returns helpful text about the different subcommands.
 syntax_fmt: LATENCY HELP
-syntax_str: ''
 title: LATENCY HELP
 ---
 The `LATENCY HELP` command returns a helpful text describing the different

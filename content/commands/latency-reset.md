@@ -37,7 +37,6 @@ railroad_diagram: /images/railroad/latency-reset.svg
 since: 2.8.13
 summary: Resets the latency data for one or more events.
 syntax_fmt: LATENCY RESET [event [event ...]]
-syntax_str: ''
 title: LATENCY RESET
 ---
 The `LATENCY RESET` command resets the latency spikes time series of all, or only some, events.

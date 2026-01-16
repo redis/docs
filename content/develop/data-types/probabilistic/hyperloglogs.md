@@ -18,9 +18,7 @@ title: HyperLogLog
 weight: 1
 ---
 
-HyperLogLog is a probabilistic data structure that estimates the cardinality of a set. As a probabilistic data structure, HyperLogLog trades perfect accuracy for efficient space utilization.
-
-The Redis HyperLogLog implementation uses up to 12 KB and provides a standard error of 0.81%.
+HyperLogLog is a probabilistic data structure that estimates the cardinality of a set, trading perfect accuracy for efficient space utilization. The Redis implementation uses up to 12 KB of memory and provides a standard error rate of 0.81%.
 
 Counting unique items usually requires an amount of memory
 proportional to the number of items you want to count, because you need
@@ -49,7 +47,7 @@ same:
 * Every time you see a new element, you add it to the count with [`PFADD`]({{< relref "/commands/pfadd" >}}).
 * When you want to retrieve the current approximation of unique elements added using the [`PFADD`]({{< relref "/commands/pfadd" >}}) command, you can use the [`PFCOUNT`]({{< relref "/commands/pfcount" >}}) command. If you need to merge two different HLLs, the [`PFMERGE`]({{< relref "/commands/pfmerge" >}}) command is available. Since HLLs provide approximate counts of unique elements, the result of the merge will give you an approximation of the number of unique elements across both source HLLs.
 
-{{< clients-example hll_tutorial pfadd >}}
+{{< clients-example set="hll_tutorial" step="pfadd" description="HyperLogLog operations: Use PFADD to add items to a HyperLogLog, PFCOUNT to estimate cardinality, and PFMERGE to combine HyperLogLogs when you need space-efficient cardinality estimation" difficulty="intermediate" >}}
 > PFADD bikes Hyperion Deimos Phoebe Quaoar
 (integer) 1
 > PFCOUNT bikes

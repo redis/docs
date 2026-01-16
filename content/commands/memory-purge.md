@@ -24,7 +24,6 @@ railroad_diagram: /images/railroad/memory-purge.svg
 since: 4.0.0
 summary: Asks the allocator to release memory.
 syntax_fmt: MEMORY PURGE
-syntax_str: ''
 title: MEMORY PURGE
 ---
 The `MEMORY PURGE` command attempts to purge dirty pages so these can be

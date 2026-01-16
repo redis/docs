@@ -51,7 +51,6 @@ railroad_diagram: /images/railroad/lrem.svg
 since: 1.0.0
 summary: Removes elements from a list. Deletes the list if the last element was removed.
 syntax_fmt: LREM key count element
-syntax_str: count element
 title: LREM
 ---
 Removes the first `count` occurrences of elements equal to `element` from the list

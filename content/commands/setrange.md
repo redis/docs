@@ -54,7 +54,6 @@ since: 2.2.0
 summary: Overwrites a part of a string value with another by an offset. Creates the
   key if it doesn't exist.
 syntax_fmt: SETRANGE key offset value
-syntax_str: offset value
 title: SETRANGE
 ---
 Overwrites part of the string stored at _key_, starting at the specified offset,
@@ -94,7 +93,6 @@ SET key1 "Hello World"
 SETRANGE key1 6 "Redis"
 GET key1
 {{% /redis-cli %}}
-
 
 Example of zero padding:
 

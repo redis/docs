@@ -67,7 +67,7 @@ npm install @xenova/transformers
 
 In your JavaScript source file, import the required classes:
 
-{{< clients-example set="home_query_vec" step="import" lang_filter="Node.js" >}}
+{{< clients-example set="home_query_vec" step="import" lang_filter="Node.js" description="Foundational: Import Redis client and transformer modules for vector embedding operations" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 The `@xenova/transformers` module handles embedding models. This example uses the
@@ -82,14 +82,14 @@ The `pipe` function generates embeddings. The `pipeOptions` object specifies how
 [`all-distilroberta-v1`](https://huggingface.co/sentence-transformers/all-distilroberta-v1)
 documentation for details):
 
-{{< clients-example set="home_query_vec" step="pipeline" lang_filter="Node.js" >}}
+{{< clients-example set="home_query_vec" step="pipeline" lang_filter="Node.js" description="Foundational: Configure a transformer pipeline to generate vector embeddings from text" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Create the index
 
 First, connect to Redis and remove any existing index named `vector_idx`:
 
-{{< clients-example set="home_query_vec" step="connect" lang_filter="Node.js" >}}
+{{< clients-example set="home_query_vec" step="connect" lang_filter="Node.js" description="Foundational: Connect to Redis and clean up existing vector indexes" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 Next, create the index with the following schema:
@@ -105,7 +105,7 @@ Next, create the index with the following schema:
     -   Float32 values
     -   768 dimensions (matching the embedding model)
 
-{{< clients-example set="home_query_vec" step="create_index" lang_filter="Node.js" >}}
+{{< clients-example set="home_query_vec" step="create_index" lang_filter="Node.js" description="Foundational: Create a vector search index with HNSW algorithm and L2 distance metric for semantic search" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 ## Add data
@@ -119,7 +119,7 @@ For each document:
 
 Use `Promise.all()` to batch the commands and reduce network round trips:
 
-{{< clients-example set="home_query_vec" step="add_data" lang_filter="Node.js" >}}
+{{< clients-example set="home_query_vec" step="add_data" lang_filter="Node.js" description="Practical pattern: Generate embeddings and store documents with vector fields using pipelined hSet() commands" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 ## Run a query
@@ -133,7 +133,7 @@ The query returns an array of document objects. Each object contains:
 - `id`: The document's key
 - `value`: An object with fields specified in the `RETURN` option
 
-{{< clients-example set="home_query_vec" step="query" lang_filter="Node.js" >}}
+{{< clients-example set="home_query_vec" step="query" lang_filter="Node.js" description="Vector query: Execute a vector similarity search by generating a query embedding and finding nearest neighbors" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 The first run may take longer as it downloads the model data. The output shows results ordered by score (vector distance), with lower scores indicating greater similarity:
@@ -156,17 +156,17 @@ JSON documents support richer data modeling with nested fields. Key differences 
 
 Create the index with path aliases:
 
-{{< clients-example set="home_query_vec" step="json_index" lang_filter="Node.js" >}}
+{{< clients-example set="home_query_vec" step="json_index" lang_filter="Node.js" description="Foundational: Create a vector search index for JSON documents with path aliases and nested field support" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 Add data using `json.set()`. Convert the `Float32Array` to a standard JavaScript array using the spread operator:
 
-{{< clients-example set="home_query_vec" step="json_data" lang_filter="Node.js" >}}
+{{< clients-example set="home_query_vec" step="json_data" lang_filter="Node.js" description="Practical pattern: Store JSON documents with vector embeddings converted to arrays for nested field support" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 Query JSON documents using the same syntax, but note that the vector parameter must still be a binary string:
 
-{{< clients-example set="home_query_vec" step="json_query" lang_filter="Node.js" >}}
+{{< clients-example set="home_query_vec" step="json_query" lang_filter="Node.js" description="Vector query: Execute vector similarity search on JSON documents with the same query syntax as hash documents" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 The results are identical to the hash document query, except for the `jdoc:` prefix:

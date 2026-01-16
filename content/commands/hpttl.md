@@ -55,7 +55,6 @@ railroad_diagram: /images/railroad/hpttl.svg
 since: 7.4.0
 summary: Returns the TTL in milliseconds of a hash field.
 syntax_fmt: "HPTTL key FIELDS\_numfields field [field ...]"
-syntax_str: "FIELDS\_numfields field [field ...]"
 title: HPTTL
 ---
 Like [`HTTL`]({{< relref "/commands/httl" >}}), this command returns the remaining TTL (time to live) of a field that has an

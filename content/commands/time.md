@@ -27,7 +27,6 @@ railroad_diagram: /images/railroad/time.svg
 since: 2.6.0
 summary: Returns the server time.
 syntax_fmt: TIME
-syntax_str: ''
 title: TIME
 ---
 The `TIME` command returns the current server time as a two items lists: a Unix

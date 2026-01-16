@@ -37,7 +37,7 @@ The **Connectivity** section provides the connection details for your LangCache 
 |:----------------------|:----------|
 | **API Key** | The Bearer token for your LangCache API requests. |
 | **Cache ID** | The unique ID of your LangCache service. |
-| **API Base URL** | The base URL for LangCache API requests. |
+| **URL List** | A list of base URLs for LangCache API requests. Use the closest URL for the best performance. |
 
 Select the **Copy** button next to the Cache ID and API Base URL to copy them to the clipboard. If you lost the API key value or need to rotate the key, you can [generate a new service API key](#replace-service-api-key) at any time.
 
@@ -51,7 +51,7 @@ To generate a new service key:
 
 1. Select **Generate key**.
 
-    {{<image filename="images/rc/langcache-replace-key.png" alt="The Replace Key button." >}}
+    {{<image filename="images/rc/langcache-replace-key.png" alt="The Generate Key button." >}}
 
 1. A confirmation dialog will appear. Select **Confirm** to confirm.
 

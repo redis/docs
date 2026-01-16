@@ -40,7 +40,6 @@ railroad_diagram: /images/railroad/script-debug.svg
 since: 3.2.0
 summary: Sets the debug mode of server-side Lua scripts.
 syntax_fmt: SCRIPT DEBUG <YES | SYNC | NO>
-syntax_str: ''
 title: SCRIPT DEBUG
 ---
 Set the debug mode for subsequent scripts executed with [`EVAL`]({{< relref "/commands/eval" >}}). Redis includes a

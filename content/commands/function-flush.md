@@ -42,7 +42,6 @@ railroad_diagram: /images/railroad/function-flush.svg
 since: 7.0.0
 summary: Deletes all libraries and functions.
 syntax_fmt: FUNCTION FLUSH [ASYNC | SYNC]
-syntax_str: ''
 title: FUNCTION FLUSH
 ---
 Deletes all the libraries.

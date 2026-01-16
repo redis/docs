@@ -10,13 +10,27 @@ linkTitle: Install on a cluster
 weight: 10
 ---
 
-[Redis Enterprise Software]({{< relref "/operate/rs" >}}) comes packaged with several modules that provide additional Redis capabilities such as [search and query]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search">}}), [JSON]({{<relref "/operate/oss_and_stack/stack-with-enterprise/json">}}), [time series]({{<relref "/operate/oss_and_stack/stack-with-enterprise/timeseries">}}), and [probabilistic data structures]({{<relref "/operate/oss_and_stack/stack-with-enterprise/bloom">}}). As of version 8.0, Redis Enterprise Software includes four feature sets, compatible with different Redis database versions. You can view the installed modules, their versions, and their minimum compatible Redis database versions from **Cluster > Modules** in the Cluster Manager UI.
+[Redis Enterprise Software]({{< relref "/operate/rs" >}}) comes packaged with several modules that provide additional Redis capabilities such as [search and query]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search">}}), [JSON]({{<relref "/operate/oss_and_stack/stack-with-enterprise/json">}}), [time series]({{<relref "/operate/oss_and_stack/stack-with-enterprise/timeseries">}}), and [probabilistic data structures]({{<relref "/operate/oss_and_stack/stack-with-enterprise/bloom">}}). As of version 8.0, Redis Enterprise Software includes multiple feature sets, compatible with different Redis database versions. You can view the installed modules, their versions, and their minimum compatible Redis database versions from **Cluster > Modules** in the Cluster Manager UI.
 
 To use other modules or upgrade an existing module to a more recent version, you need to install the new module package on your cluster.
 
 {{<warning>}}
 Some module versions are not supported or recommended for use with Redis Enterprise Software.
 {{</warning>}}
+
+## Module package requirements
+
+The module must be packaged as a `.zip` file containing:
+
+- **module.json**: A metadata file with module information including:
+  - `module_name`: The actual module name
+  - `version`: Numeric version
+  - `semantic_version`: Semantic version string (for example, "1.0.0")
+  - `min_redis_version`: Minimum compatible Redis version
+  - `commands`: List of commands the module provides
+  - `capabilities`: List of module capabilities
+
+- **Module binary**: The compiled `.so` file for the target platform
 
 ## Get packaged modules
 
@@ -25,6 +39,237 @@ To install or upgrade a module on a [Redis Enterprise Software]({{< relref "/ope
 - For versions of official Redis modules that are not available from the [Redis download center](https://redis.io/downloads/), [contact support](https://redis.io/support/).
 
 - For custom-packaged modules, download a [custom-packaged module](https://redislabs.com/community/redis-modules-hub/) from the developer.
+
+- User-defined modules are downloaded automatically if you [add them during bootstrapping](#bootstrap-user-defined-module).
+
+## Add user-defined modules during bootstrapping (Redis Software v8.0.6 and later) {#bootstrap-user-defined-module}
+
+As of Redis Enterprise Software version 8.0.6, you can include `user_defined_modules` in REST API requests to [initiate boostrap operations]({{<relref "/operate/rs/references/rest-api/requests/bootstrap#post-bootstrap">}}) such as `create_cluster`, `join_cluster`, or `recover_cluster`. Each node in the cluster independently downloads and installs the specified modules during its bootstrap process.
+
+`user_defined_modules` has the following JSON schema:
+
+```json
+{
+  "user_defined_modules": [
+    {
+      "name": "string (required)",
+      "location": {
+        "location_type": "http | https (required)",
+        "url": "string (required)",
+        "credentials": {
+          "username": "string (optional)",
+          "password": "string (optional)"
+        }
+      }
+    }
+  ]
+}
+```
+
+### Best practices
+
+- Use `https` instead of `http` for secure module downloads.
+
+- Include version numbers in module URLs.
+
+- Use the same `user_defined_modules` configuration for all nodes in a cluster.
+
+- If using authenticated downloads, ensure credentials are properly secured.
+
+- Ensure modules are compatible with the Redis database version running on your cluster.
+
+- Verify modules work correctly before deploying to production environments.
+
+### Example requests
+
+{{< multitabs id="bootstrap-modules" 
+        tab1="Create cluster"
+        tab2="Join cluster"
+        tab3="Recover cluster" >}}
+
+The following example creates a cluster with multiple modules:
+
+
+```sh
+POST /v1/bootstrap/create_cluster
+{
+  "action": "create_cluster",
+  "credentials": {
+    "username": "admin@example.com",
+    "password": "your-secure-password"
+  },
+  "cluster": {
+    "name": "my-cluster.example.com"
+  },
+  "user_defined_modules": [
+    {
+      "name": "ModuleA",
+      "location": {
+        "location_type": "https",
+        "url": "https://private-repo.example.com/enterprise-module-2.0.0.zip",
+        "credentials": {
+          "username": "download-user",
+          "password": "download-password"
+        }
+      }
+    },
+    {
+      "name": "ModuleB",
+      "location": {
+        "location_type": "https",
+        "url": "https://modules.example.com/module-b-2.5.0.zip"
+      }
+    },
+    {
+      "name": "ModuleC",
+      "location": {
+        "location_type": "http",
+        "url": "http://internal-server.local/module-c-1.2.0.zip"
+      }
+    }
+  ]
+}
+```
+
+-tab-sep-
+
+The following example joins a node to a cluster with multiple modules:
+
+```sh
+POST /v1/bootstrap/join_cluster
+{
+  "action": "join_cluster",
+  "credentials": {
+    "username": "admin@example.com",
+    "password": "your-secure-password"
+  },
+  "cluster": {
+    "name": "my-cluster.example.com",
+    "nodes": ["192.168.1.10", "192.168.1.11"]
+  },
+  "user_defined_modules": [
+    {
+      "name": "ModuleA",
+      "location": {
+        "location_type": "https",
+        "url": "https://private-repo.example.com/enterprise-module-2.0.0.zip",
+        "credentials": {
+          "username": "download-user",
+          "password": "download-password"
+        }
+      }
+    },
+    {
+      "name": "ModuleB",
+      "location": {
+        "location_type": "https",
+        "url": "https://modules.example.com/module-b-2.5.0.zip"
+      }
+    },
+    {
+      "name": "ModuleC",
+      "location": {
+        "location_type": "http",
+        "url": "http://internal-server.local/module-c-1.2.0.zip"
+      }
+    }
+  ]
+}
+```
+
+-tab-sep-
+
+The following example recovers a cluster with multiple modules:
+
+```sh
+POST /v1/bootstrap/recover_cluster
+{
+  "action": "recover_cluster",
+  "recovery_filename": "/path/to/backup.rdb",
+  "credentials": {
+    "username": "admin@example.com",
+    "password": "your-secure-password"
+  },
+  "user_defined_modules": [
+    {
+      "name": "ModuleA",
+      "location": {
+        "location_type": "https",
+        "url": "https://private-repo.example.com/enterprise-module-2.0.0.zip",
+        "credentials": {
+          "username": "download-user",
+          "password": "download-password"
+        }
+      }
+    },
+    {
+      "name": "ModuleB",
+      "location": {
+        "location_type": "https",
+        "url": "https://modules.example.com/module-b-2.5.0.zip"
+      }
+    },
+    {
+      "name": "ModuleC",
+      "location": {
+        "location_type": "http",
+        "url": "http://internal-server.local/module-c-1.2.0.zip"
+      }
+    }
+  ]
+}
+```
+
+{{< /multitabs >}}
+
+### Troubleshooting
+
+#### Error handling
+
+Download failures do not fail the bootstrap process. If a module fails to download or install, a warning is logged and the bootstrap process continues with the remaining modules.
+
+Warnings are recorded in the bootstrap status with:
+- `warning_type`: `"module_download_failed"`
+- `message`: Error description
+- `details`: `{"module_name": "<name>"}`
+
+#### Module download failed
+
+Check the bootstrap logs for detailed error messages:
+
+```
+Failed to download and install custom module '<name>': <error details>
+```
+
+Common causes:
+- Invalid URL
+- Network connectivity issues
+- Authentication failures
+- Module package format issues
+
+#### Module compatibility errors
+
+After processing user-defined modules, the system validates that all custom modules are compatible with existing databases in the cluster. This validation:
+
+1. Checks which custom modules are used by existing databases.
+
+1. Verifies that compatible module versions are available on the node.
+
+1. Fails the bootstrap process if incompatible modules are detected.
+
+If the bootstrap process fails with an `incompatible_modules` error:
+
+1. Verify the module version is compatible with existing databases.
+
+1. Ensure the module binary exists and is accessible.
+
+#### Missing module.json
+
+If you see `"module.json missing"` errors:
+
+1. Verify the zip file contains a valid `module.json` at the root level.
+
+1. Verify the JSON is properly formatted.
 
 ## Add a user-defined module to a cluster (Redis Software v8.0.x and later) {#add-user-defined-module-to-cluster}
 

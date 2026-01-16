@@ -25,7 +25,6 @@ railroad_diagram: /images/railroad/memory-stats.svg
 since: 4.0.0
 summary: Returns details about memory usage.
 syntax_fmt: MEMORY STATS
-syntax_str: ''
 title: MEMORY STATS
 ---
 The `MEMORY STATS` command returns an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) about the memory usage of the

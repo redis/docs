@@ -57,7 +57,6 @@ railroad_diagram: /images/railroad/hello.svg
 since: 6.0.0
 summary: Handshakes with the Redis server.
 syntax_fmt: "HELLO [protover [AUTH\_username password] [SETNAME\_clientname]]"
-syntax_str: ''
 title: HELLO
 ---
 Switch to a different protocol, optionally authenticating and setting the

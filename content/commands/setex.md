@@ -56,7 +56,6 @@ since: 2.0.0
 summary: Sets the string value and expiration time of a key. Creates the key if it
   doesn't exist.
 syntax_fmt: SETEX key seconds value
-syntax_str: seconds value
 title: SETEX
 ---
 Set `key` to hold the string `value` and set `key` to timeout after a given

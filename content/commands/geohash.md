@@ -48,7 +48,6 @@ railroad_diagram: /images/railroad/geohash.svg
 since: 3.2.0
 summary: Returns members from a geospatial index as geohash strings.
 syntax_fmt: GEOHASH key [member [member ...]]
-syntax_str: '[member [member ...]]'
 title: GEOHASH
 ---
 Return valid [Geohash](https://en.wikipedia.org/wiki/Geohash) strings representing the position of one or more elements in a sorted set value representing a geospatial index (where elements were added using [`GEOADD`]({{< relref "/commands/geoadd" >}})).

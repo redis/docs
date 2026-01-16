@@ -44,7 +44,7 @@ An API object that represents the cluster.
 | envoy_admin_port | integer, (range: 1024-65535) | Envoy admin port. Changing this port during runtime might result in an empty response because envoy serves as the cluster gateway.|
 | <span class="break-all">envoy_max_downstream_connections</span> | integer, (range: 100-2048) | The max downstream connections envoy is allowed to open |
 | <span class="break-all">envoy_mgmt_server_port</span> | integer, (range: 1024-65535) | Envoy management server port|
-| <span class="break-all">gossip_envoy_admin_port</span> | integer, (range: 1024-65535) | Gossip envoy admin port|
+| <span class="break-all">gossip_envoy_admin_port</span> | integer, (range: 1024-65535) | Gossip envoy admin port (deprecated; this port is no longer used because gossip functionality is handled by the main envoy process on `envoy_admin_port`) |
 | handle_redirects | boolean (default: false) | Handle API HTTPS requests and redirect to the master node internally |
 | http_support | boolean (default: false) | Enable or turn off HTTP support |
 | logrotate_settings | [logrotate_settings]({{<relref "/operate/rs/references/rest-api/objects/cluster/logrotate_settings">}}) object | Settings for logrotate configuration |
@@ -57,6 +57,7 @@ An API object that represents the cluster.
 | <span class="break-all">mtls_client_cert_subject_validation_type</span> | "disabled"<br />"san_cn"<br />"full_subject" | Enables additional certificate validations that further limit connections to clients with valid certificates during TLS client authentication.<br />Values:<br />**disabled**: Authenticates clients with valid certificates. No additional validations are enforced.<br />**san_cn**: A client certificate is valid only if its Common Name (CN) matches an entry in the list of valid subjects. Ignores other Subject attributes.<br />**full_subject**: A client certificate is valid only if its Subject attributes match an entry in the list of valid subjects. |
 | multi_commands_opt | **"disabled"**<br />"batch"<br />"force_disabled" | Determines the default `multi_commands_opt` setting for databases in the cluster. If set to `batch`, it reduces the overhead of transaction management by batching multiple commands into a single transaction.<br />Values:<br />**disabled**: Turns off the optimization for all databases except those that override it on the [bdb level]({{<relref "/operate/rs/references/rest-api/objects/bdb">}}). Default value.<br />**batch**: Enables the optimization on all databases except those that override it on the [bdb level]({{<relref "/operate/rs/references/rest-api/objects/bdb">}}).<br />**force_disabled**: Disables the optimization for all databases, even those that override it on the [bdb level]({{<relref "/operate/rs/references/rest-api/objects/bdb">}}). |
 | name | string | Cluster's fully qualified domain name (read-only) |
+| options_method_forbidden | boolean (default: false) | Make OPTIONS http method forbidden over CNM HTTPS port. |
 | password_complexity | boolean (default: false) | Enforce password complexity policy |
 | <span class="break-all">password_expiration_duration</span> | integer (default: 0) | The number of days a password is valid until the user is required to replace it |
 | password_min_length | integer, (range: 8-256) (default: 8) | The minimum length required for a password. |
@@ -68,7 +69,6 @@ An API object that represents the cluster.
 | robust_crdt_syncer | boolean (default: false) | If `true`, enables the robust syncer for Active-Active databases |
 | s3_ca_cert | string | Filepath to the PEM-encoded CA certificate to use for validating TLS connections to the S3 server |
 | s3_url | string | Specifies the URL for S3 export and import |
-| saslauthd_ldap_conf | string | saslauthd LDAP configuration |
 | <span class="break-all">sentinel_cipher_suites</span> | array | Specifies the list of enabled ciphers for the sentinel service. The supported ciphers are those implemented by the [cipher_suites.go](<https://golang.org/src/crypto/tls/cipher_suites.go>) package. |
 | <span class="break-all">sentinel_cipher_suites_tls_1_3<span> | string | Specifies the list of enabled TLS 1.3 ciphers for the discovery (sentinel) service. The supported ciphers are those implemented by the [cipher_suites.go](<https://golang.org/src/crypto/tls/cipher_suites.go>) package.(read-only) |
 | sentinel_tls_mode | "allowed"<br />"disabled" <br />"required" | Determines whether the discovery service allows, blocks, or requires TLS connections (previously named `sentinel_ssl_policy`)<br />**allowed**: Allows both TLS and non-TLS connections<br />**disabled**: Allows only non-TLS connections<br />**required**: Allows only TLS connections |

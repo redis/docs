@@ -32,7 +32,6 @@ railroad_diagram: /images/railroad/psubscribe.svg
 since: 2.0.0
 summary: Listens for messages published to channels that match one or more patterns.
 syntax_fmt: PSUBSCRIBE pattern [pattern ...]
-syntax_str: ''
 title: PSUBSCRIBE
 ---
 Subscribes the client to the given patterns.

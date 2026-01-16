@@ -74,8 +74,6 @@ syntax: "TS.ALTER key \n  [RETENTION retentionPeriod] \n  [CHUNK_SIZE size] \n  
   \ policy] \n  [LABELS [label value ...]]\n"
 syntax_fmt: "TS.ALTER key [RETENTION\_retentionPeriod] [CHUNK_SIZE\_size]\n  [DUPLICATE_POLICY\_\
   <BLOCK | FIRST | LAST | MIN | MAX | SUM>] [LABELS\_label value\n  [label value ...]]"
-syntax_str: "[RETENTION\_retentionPeriod] [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_<BLOCK\
-  \ | FIRST | LAST | MIN | MAX | SUM>] [LABELS\_label value [label value ...]]"
 title: TS.ALTER
 ---
 
@@ -109,7 +107,6 @@ is the initial allocation size, in bytes, for the data part of each new chunk. A
 is policy for handling multiple samples with identical timestamps. See `DUPLICATE_POLICY` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}}).
 </details>
 
-
 <details open><summary><code>LABELS [{label value}...]</code></summary> 
 
 is set of label-value pairs that represent metadata labels of the key and serve as a secondary index.
@@ -141,7 +138,6 @@ OK
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

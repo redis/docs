@@ -72,7 +72,6 @@ railroad_diagram: /images/railroad/xdelex.svg
 since: 8.2.0
 summary: Deletes one or multiple entries from the stream.
 syntax_fmt: "XDELEX key [KEEPREF | DELREF | ACKED] IDS\_numids id [id ...]"
-syntax_str: "[KEEPREF | DELREF | ACKED] IDS\_numids id [id ...]"
 title: XDELEX
 ---
 

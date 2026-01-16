@@ -43,7 +43,6 @@ railroad_diagram: /images/railroad/strlen.svg
 since: 2.2.0
 summary: Returns the length of a string value.
 syntax_fmt: STRLEN key
-syntax_str: ''
 title: STRLEN
 ---
 Returns the length of the string value stored at `key`.

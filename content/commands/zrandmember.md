@@ -57,7 +57,6 @@ railroad_diagram: /images/railroad/zrandmember.svg
 since: 6.2.0
 summary: Returns one or more random members from a sorted set.
 syntax_fmt: ZRANDMEMBER key [count [WITHSCORES]]
-syntax_str: '[count [WITHSCORES]]'
 title: ZRANDMEMBER
 ---
 When called with just the `key` argument, return a random element from the sorted set value stored at `key`.
@@ -78,7 +77,6 @@ ZRANDMEMBER dadi
 ZRANDMEMBER dadi
 ZRANDMEMBER dadi -5 WITHSCORES
 {{% /redis-cli %}}
-
 
 ## Specification of the behavior when count is passed
 

@@ -44,7 +44,6 @@ railroad_diagram: /images/railroad/get.svg
 since: 1.0.0
 summary: Returns the string value of a key.
 syntax_fmt: GET key
-syntax_str: ''
 title: GET
 ---
 Get the value of `key`.
@@ -60,10 +59,9 @@ SET mykey "Hello"
 GET mykey
 {{% /redis-cli %}}
 
-
 ### Code examples
 
-{{< clients-example set_and_get />}}
+{{< clients-example set="set_and_get" step="get" description="Foundational: Retrieve the string value of a key using GET (returns nil if key doesn't exist)" difficulty="beginner" />}}
 
 ## Redis Enterprise and Redis Cloud compatibility
 

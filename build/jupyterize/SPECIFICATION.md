@@ -2148,3 +2148,438 @@ This specification has been iteratively improved based on real implementation ex
 
 **Total improvement**: ~85% time reduction from no spec to v3 spec
 
+---
+
+## Architecture Refactoring Plan
+
+> **Status**: Planned refactoring to improve maintainability and testability
+> **Current state**: Single monolithic `jupyterize.py` (843 lines)
+> **Target state**: Modular architecture with 5 focused modules (~150-200 lines each)
+
+### Motivation
+
+The current `jupyterize.py` script has grown to 843 lines with multiple concerns mixed together:
+- Configuration management (kernel specs, language config loading)
+- File parsing (marker detection, state tracking)
+- Code processing (unwrapping, dedenting)
+- Notebook creation (cell generation, metadata)
+- Input validation (language detection, file validation)
+
+**Benefits of refactoring**:
+- ✅ Easier to test individual components
+- ✅ Clearer separation of concerns
+- ✅ Reusable modules for other tools
+- ✅ Simpler to add new languages or features
+- ✅ Reduced cognitive load per file
+
+### Proposed Module Structure
+
+#### 1. `config.py` - Configuration Management (~100 lines)
+
+**Responsibility**: Load and manage language-specific configuration
+
+**Classes**:
+```python
+class KernelSpecManager:
+    """Manages Jupyter kernel specifications for different languages."""
+
+    KERNEL_SPECS = { ... }  # Moved from jupyterize.py
+
+    @staticmethod
+    def get_kernel_spec(language):
+        """Get kernel spec for a language."""
+
+    @staticmethod
+    def get_language_config(language):
+        """Load language-specific config from jupyterize_config.json."""
+```
+
+**Exports**:
+- `KernelSpecManager` class
+- `load_language_config()` function
+
+**Dependencies**: `json`, `os`, `logging`
+
+---
+
+#### 2. `parser.py` - File Parsing (~150 lines)
+
+**Responsibility**: Parse source files and extract code blocks
+
+**Classes**:
+```python
+class FileParser:
+    """Parses source files with special comment markers."""
+
+    def __init__(self, language):
+        """Initialize parser for a specific language."""
+        self.language = language
+        self.prefix = PREFIXES[language.lower()]
+
+    def parse(self, file_path):
+        """Parse file and return list of code blocks."""
+        # Returns: [{'code': str, 'step_name': str or None}, ...]
+
+    def _check_marker(self, line, marker):
+        """Check if line contains a marker (with/without space)."""
+
+    def _extract_step_name(self, line):
+        """Extract step name from STEP_START line."""
+```
+
+**Exports**:
+- `FileParser` class
+- Marker constants (imported from `components.example`)
+
+**Dependencies**: `logging`, `re`, `components.example`
+
+---
+
+#### 3. `unwrapper.py` - Code Unwrapping (~150 lines)
+
+**Responsibility**: Remove language-specific structural wrappers
+
+**Classes**:
+```python
+class CodeUnwrapper:
+    """Removes language-specific structural wrappers from code."""
+
+    def __init__(self, language):
+        """Initialize unwrapper for a specific language."""
+        self.language = language
+        self.config = load_language_config(language)
+
+    def unwrap(self, code):
+        """Remove wrappers and return cleaned code."""
+
+    def _remove_wrapper_keep_content(self, code, start_pattern, end_pattern):
+        """Remove wrapper lines but keep content between them."""
+
+    def _remove_matching_lines(self, code, start_pattern, end_pattern):
+        """Remove lines matching patterns (including matched lines)."""
+
+    def _remove_trailing_braces(self, code, count):
+        """Remove closing braces from end of code."""
+```
+
+**Exports**:
+- `CodeUnwrapper` class
+
+**Dependencies**: `logging`, `re`, `textwrap`, `config.KernelSpecManager`
+
+---
+
+#### 4. `notebook_builder.py` - Notebook Creation (~150 lines)
+
+**Responsibility**: Create Jupyter notebook cells and assemble notebook
+
+**Classes**:
+```python
+class NotebookBuilder:
+    """Builds Jupyter notebooks from parsed code blocks."""
+
+    def __init__(self, language):
+        """Initialize builder for a specific language."""
+        self.language = language
+        self.config = load_language_config(language)
+
+    def build(self, parsed_blocks):
+        """Build notebook from parsed blocks."""
+        # Returns: nbformat.NotebookNode
+
+    def _create_cells(self, parsed_blocks):
+        """Convert parsed blocks to notebook cells."""
+
+    def _create_notebook(self, cells):
+        """Create complete notebook with metadata."""
+
+    def write(self, notebook, output_path):
+        """Write notebook to file."""
+```
+
+**Exports**:
+- `NotebookBuilder` class
+
+**Dependencies**: `logging`, `os`, `re`, `textwrap`, `nbformat`, `config.KernelSpecManager`, `unwrapper.CodeUnwrapper`
+
+---
+
+#### 5. `validator.py` - Input Validation (~80 lines)
+
+**Responsibility**: Validate input files and detect language
+
+**Classes**:
+```python
+class InputValidator:
+    """Validates input files and detects programming language."""
+
+    def detect_language(self, file_path):
+        """Detect language from file extension."""
+
+    def validate_file(self, file_path, language):
+        """Validate that file is a valid example file."""
+
+    def _check_example_marker(self, file_path, language):
+        """Check that file starts with EXAMPLE marker."""
+```
+
+**Exports**:
+- `InputValidator` class
+
+**Dependencies**: `logging`, `os`, `local_examples.EXTENSION_TO_LANGUAGE`, `components.example.PREFIXES`
+
+---
+
+#### 6. `jupyterize.py` - Main Entry Point (~150-200 lines)
+
+**Responsibility**: Orchestrate the conversion pipeline
+
+**Functions**:
+```python
+def jupyterize(input_file, output_file=None, verbose=False):
+    """Convert code example file to Jupyter notebook."""
+    # Orchestrates: validate → parse → build → write
+
+def main():
+    """Command-line entry point."""
+```
+
+**Simplified flow**:
+```python
+def jupyterize(input_file, output_file=None, verbose=False):
+    # Set up logging
+
+    # Validate input
+    validator = InputValidator()
+    language = validator.detect_language(input_file)
+    validator.validate_file(input_file, language)
+
+    # Parse file
+    parser = FileParser(language)
+    parsed_blocks = parser.parse(input_file)
+
+    # Build notebook
+    builder = NotebookBuilder(language)
+    notebook = builder.build(parsed_blocks)
+
+    # Write output
+    output_path = output_file or f"{input_file}.ipynb"
+    builder.write(notebook, output_path)
+
+    return output_path
+```
+
+**Dependencies**: All other modules
+
+---
+
+### File Structure After Refactoring
+
+```
+build/jupyterize/
+├── __init__.py                 (empty or exports main API)
+├── jupyterize.py              (main entry point, ~150-200 lines)
+├── config.py                  (configuration management, ~100 lines)
+├── parser.py                  (file parsing, ~150 lines)
+├── unwrapper.py               (code unwrapping, ~150 lines)
+├── notebook_builder.py        (notebook creation, ~150 lines)
+├── validator.py               (input validation, ~80 lines)
+├── jupyterize_config.json     (unchanged)
+├── test_jupyterize.py         (tests, updated imports)
+├── README.md                  (unchanged)
+├── SPECIFICATION.md           (this file)
+└── QUICKSTART.md              (unchanged)
+```
+
+**Total lines of code**: ~930 lines (vs 843 currently)
+- Slight increase due to class structure and docstrings
+- But much better organized and testable
+
+---
+
+### Migration Strategy
+
+**Phase 1: Create new modules** (no changes to existing code)
+1. Create `config.py` with `KernelSpecManager` class
+2. Create `validator.py` with `InputValidator` class
+3. Create `parser.py` with `FileParser` class
+4. Create `unwrapper.py` with `CodeUnwrapper` class
+5. Create `notebook_builder.py` with `NotebookBuilder` class
+
+**Phase 2: Update main script**
+1. Update `jupyterize.py` to import from new modules
+2. Simplify `jupyterize()` function to orchestrate modules
+3. Keep backward compatibility (same function signature)
+
+**Phase 3: Update tests**
+1. Update `test_jupyterize.py` to import from new modules
+2. Add unit tests for individual classes
+3. Keep existing integration tests
+
+**Phase 4: Verify**
+1. Run all tests
+2. Test with real example files
+3. Verify no regressions
+
+---
+
+### Benefits Per Module
+
+| Module | Benefits |
+|--------|----------|
+| **config.py** | Centralized kernel specs, easier to add languages, reusable by other tools |
+| **parser.py** | Testable parsing logic, reusable for other marker-based tools, clear state management |
+| **unwrapper.py** | Isolated unwrapping logic, easier to debug regex patterns, testable independently |
+| **notebook_builder.py** | Clear cell creation logic, easier to add new cell types, testable notebook generation |
+| **validator.py** | Reusable validation, easier to add new validation rules, clear error messages |
+| **jupyterize.py** | Simple orchestration, easy to understand flow, minimal business logic |
+
+---
+
+### Testing Strategy
+
+**Unit tests** (new):
+- `test_config.py` - Test kernel spec loading
+- `test_parser.py` - Test file parsing with various marker combinations
+- `test_unwrapper.py` - Test code unwrapping patterns
+- `test_notebook_builder.py` - Test cell creation and notebook assembly
+- `test_validator.py` - Test language detection and file validation
+
+**Integration tests** (existing, updated):
+- Keep existing tests in `test_jupyterize.py`
+- Update imports to use new modules
+- Add tests for module interactions
+
+**Backward compatibility**:
+- Main `jupyterize()` function signature unchanged
+- All existing tests should pass without modification (except imports)
+
+---
+
+### Implementation Notes
+
+**Avoid circular imports**:
+- `config.py` has no dependencies on other modules
+- `validator.py` imports from `config.py`
+- `parser.py` imports from `config.py`
+- `unwrapper.py` imports from `config.py`
+- `notebook_builder.py` imports from `config.py` and `unwrapper.py`
+- `jupyterize.py` imports from all modules
+
+**Maintain existing behavior**:
+- All language-specific logic remains the same
+- Configuration format unchanged
+- Marker processing unchanged
+- Notebook output format unchanged
+
+**Future extensibility**:
+- Easy to add new languages (update `jupyterize_config.json`)
+- Easy to add new validation rules (extend `InputValidator`)
+- Easy to add new unwrapping patterns (extend `CodeUnwrapper`)
+- Easy to add new cell types (extend `NotebookBuilder`)
+
+---
+
+### Implementation Lessons Learned
+
+**1. Module Initialization Pattern**
+Each module class should accept `language` in `__init__()` and load configuration once:
+```python
+class FileParser:
+    def __init__(self, language):
+        self.language = language
+        self.prefix = PREFIXES[language.lower()]
+        self.config = load_language_config(language)
+```
+This avoids repeated config loading and makes the class stateful and testable.
+
+**2. Orchestration in Main Script**
+The simplified `jupyterize()` function should instantiate classes in order and pass results forward:
+```python
+validator = InputValidator()
+language = validator.detect_language(input_file)
+validator.validate_file(input_file, language)
+
+parser = FileParser(language)
+parsed_blocks = parser.parse(input_file)
+
+builder = NotebookBuilder(language)
+notebook = builder.build(parsed_blocks)
+builder.write(notebook, output_file)
+```
+This creates a clear, linear pipeline that's easy to understand and debug.
+
+**3. Backward Compatibility**
+Keep the main `jupyterize()` function signature unchanged:
+```python
+def jupyterize(input_file, output_file=None, verbose=False):
+```
+This ensures existing code that imports and calls `jupyterize()` continues to work without modification.
+
+**4. Test Import Updates**
+When updating tests, import classes from new modules instead of functions:
+```python
+# Old: from jupyterize import detect_language, validate_input, parse_file
+# New: from validator import InputValidator
+#      from parser import FileParser
+```
+Tests should instantiate classes and call methods, not import standalone functions.
+
+**5. Logging Configuration**
+Set up logging in the main `jupyterize()` function, not in individual modules:
+```python
+log_level = logging.DEBUG if verbose else logging.INFO
+logging.basicConfig(level=log_level, format='%(levelname)s: %(message)s')
+```
+This ensures consistent logging across all modules and respects the verbose flag.
+
+**6. Error Handling Strategy**
+Let exceptions propagate from modules to the main function, which catches and logs them:
+```python
+try:
+    # Module operations
+except Exception as e:
+    logging.error(f"Conversion failed: {e}")
+    raise
+```
+This keeps modules focused on their logic while main function handles user-facing errors.
+
+**7. Module Size Reality**
+Actual module sizes may differ from estimates:
+- `config.py`: ~120 lines (vs ~100 estimated) - includes full KERNEL_SPECS dict
+- `validator.py`: ~95 lines (vs ~80 estimated) - simpler than expected
+- `parser.py`: ~180 lines (vs ~150 estimated) - state tracking adds complexity
+- `unwrapper.py`: ~180 lines (vs ~150 estimated) - regex patterns and edge cases
+- `notebook_builder.py`: ~160 lines (vs ~150 estimated) - cell creation logic
+- `jupyterize.py`: ~142 lines (vs ~150-200 estimated) - much simpler than expected!
+
+**Key insight**: The main script becomes much simpler (142 lines vs 696 original), while supporting modules are slightly larger due to class structure and docstrings.
+
+**8. Static Methods vs Instance Methods**
+Use instance methods for classes that maintain state (language, config):
+```python
+class FileParser:
+    def __init__(self, language):
+        self.language = language
+        self.config = load_language_config(language)
+
+    def parse(self, file_path):  # Instance method
+        # Uses self.language and self.config
+```
+Use static methods only for utility functions that don't need state.
+
+**9. Configuration Loading Pattern**
+Load configuration once in `__init__()` and cache it:
+```python
+def __init__(self, language):
+    self.language = language
+    self.config = load_language_config(language)  # Load once
+```
+This is more efficient than loading on every method call and makes the class behavior predictable.
+
+**10. Testing Strategy Adjustment**
+The spec mentioned creating separate unit test files (`test_config.py`, `test_parser.py`, etc.), but the existing `test_jupyterize.py` already covers all functionality through integration tests. Consider:
+- Keep existing integration tests (they work well)
+- Add unit tests for edge cases if needed
+- Don't create separate test files unless testing individual modules in isolation becomes necessary
+

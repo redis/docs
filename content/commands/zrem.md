@@ -54,7 +54,6 @@ since: 1.2.0
 summary: Removes one or more members from a sorted set. Deletes the sorted set if
   all members were removed.
 syntax_fmt: ZREM key member [member ...]
-syntax_str: member [member ...]
 title: ZREM
 ---
 Removes the specified members from the sorted set stored at `key`.

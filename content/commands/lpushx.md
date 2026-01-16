@@ -53,7 +53,6 @@ railroad_diagram: /images/railroad/lpushx.svg
 since: 2.2.0
 summary: Prepends one or more elements to a list only when the list exists.
 syntax_fmt: LPUSHX key element [element ...]
-syntax_str: element [element ...]
 title: LPUSHX
 ---
 Inserts specified values at the head of the list stored at `key`, only if `key`

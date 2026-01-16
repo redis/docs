@@ -50,7 +50,6 @@ railroad_diagram: /images/railroad/pfadd.svg
 since: 2.8.9
 summary: Adds elements to a HyperLogLog key. Creates the key if it doesn't exist.
 syntax_fmt: PFADD key [element [element ...]]
-syntax_str: '[element [element ...]]'
 title: PFADD
 ---
 Adds all the element arguments to the HyperLogLog data structure stored at the variable name specified as first argument.

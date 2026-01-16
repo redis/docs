@@ -263,6 +263,12 @@ The operator bundle includes a webhook file. The webhook will intercept requests
     Error from server: error when creating "STDIN": admission webhook "redisenterprise.admission.redislabs" denied the request: eviction_policy: u'illegal' is not one of [u'volatile-lru', u'volatile-ttl', u'volatile-random', u'allkeys-lru', u'allkeys-random', u'noeviction', u'volatile-lfu', u'allkeys-lfu']
     ```
 
+## Add user-defined modules (optional)
+
+If you plan to create databases that use user-defined modules (custom non-bundled modules), you must add them to the REC custom resource before creating the databases.
+
+See [User-defined modules]({{< relref "/operate/kubernetes/re-databases/modules#user-defined-modules" >}}) for detailed instructions on adding and configuring custom modules.
+
 ## Create a Redis Enterprise Database (REDB)
 
 You can create multiple databases within the same namespace as your REC or in other namespaces.

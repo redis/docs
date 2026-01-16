@@ -78,7 +78,7 @@ compileOnly 'ai.djl:api:0.33.0'
 
 In a new Java file, import the required classes:
 
-{{< clients-example set="home_vecsets" step="import" lang_filter="Java-Async,Java-Reactive" >}}
+{{< clients-example set="home_vecsets" step="import" lang_filter="Java-Async,Java-Reactive" description="Foundational: Import Lettuce, DJL, and embedding model libraries for vector set operations" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 The imports include the classes required to generate embeddings from text.
@@ -91,7 +91,7 @@ tokens (see
 at the [Hugging Face](https://huggingface.co/) docs to learn more about the way tokens
 are related to the original text).
 
-{{< clients-example set="home_vecsets" step="model" lang_filter="Java-Async,Java-Reactive" >}}
+{{< clients-example set="home_vecsets" step="model" lang_filter="Java-Async,Java-Reactive" description="Practical pattern: Initialize a DJL Predictor with the all-MiniLM-L6-v2 embedding model" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Create the data
@@ -99,7 +99,7 @@ are related to the original text).
 The example data is contained in a `List<Person>` object with some brief
 descriptions of famous people.
 
-{{< clients-example set="home_vecsets" step="data" lang_filter="Java-Async,Java-Reactive" >}}
+{{< clients-example set="home_vecsets" step="data" lang_filter="Java-Async,Java-Reactive" description="Foundational: Define sample data with person objects containing names, descriptions, and biographical information" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Add the data to a vector set
@@ -110,7 +110,7 @@ The `predictor.predict()` method that generates the embeddings returns a `float[
 The `vadd()` method that adds the embeddings to the vector set accepts a `Double[]` array,
 so it is useful to define a helper method to perform the conversion:
 
-{{< clients-example set="home_vecsets" step="helper_method" lang_filter="Java-Async,Java-Reactive" >}}
+{{< clients-example set="home_vecsets" step="helper_method" lang_filter="Java-Async,Java-Reactive" description="Foundational: Convert float arrays to Double arrays for storing embeddings in vector sets" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 The code below connects to Redis, then iterates through all the items in the `people` list,
@@ -124,7 +124,7 @@ The call to `vadd()` also adds the `born` and `died` values from the
 original `people` list as attribute data. You can access this during a query
 or by using the [`vgetattr()`]({{< relref "/commands/vgetattr" >}}) method.
 
-{{< clients-example set="home_vecsets" step="add_data" lang_filter="Java-Async,Java-Reactive" >}}
+{{< clients-example set="home_vecsets" step="add_data" lang_filter="Java-Async,Java-Reactive" description="Foundational: Generate embeddings and add vector data with attributes to a vector set" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 ## Query the vector set
@@ -137,7 +137,7 @@ of the set, ranked in order of similarity to the query.
 
 Start with a simple query for "actors":
 
-{{< clients-example set="home_vecsets" step="basic_query" lang_filter="Java-Async,Java-Reactive" >}}
+{{< clients-example set="home_vecsets" step="basic_query" lang_filter="Java-Async,Java-Reactive" description="Semantic search: Execute a semantic similarity search on a vector set using text embeddings" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 This returns the following list of elements (formatted slightly for clarity):
@@ -156,7 +156,7 @@ on the information contained in the embedding model.
 You can use the `count` parameter of `vsim()` to limit the list of elements
 to just the most relevant few items:
 
-{{< clients-example set="home_vecsets" step="limited_query" lang_filter="Java-Async,Java-Reactive" >}}
+{{< clients-example set="home_vecsets" step="limited_query" lang_filter="Java-Async,Java-Reactive" description="Limit results: Limit vector search results to the top K most similar items using the count parameter" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 The reason for using text embeddings rather than simple text search
@@ -166,7 +166,7 @@ different. For example, the word "entertainer" doesn't appear in any of the
 descriptions, but if you use it as a query, the actors and musicians are ranked
 highest in the results list:
 
-{{< clients-example set="home_vecsets" step="entertainer_query" lang_filter="Java-Async,Java-Reactive" >}}
+{{< clients-example set="home_vecsets" step="entertainer_query" lang_filter="Java-Async,Java-Reactive" description="Semantic search: Leverage text embeddings to find semantically similar items even when exact keywords don't match" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 Similarly, if you use "science" as a query, you get the following results:
@@ -186,7 +186,7 @@ with `vsim()` to restrict the search further. For example,
 repeat the "science" query, but this time limit the results to people
 who died before the year 2000:
 
-{{< clients-example set="home_vecsets" step="filtered_query" lang_filter="Java-Async,Java-Reactive" >}}
+{{< clients-example set="home_vecsets" step="filtered_query" lang_filter="Java-Async,Java-Reactive" description="Filtered search: Combine vector similarity search with attribute filtering to narrow results based on metadata" difficulty="advanced" >}}
 {{< /clients-example >}}
 
 Note that the boolean filter expression is applied to items in the list
