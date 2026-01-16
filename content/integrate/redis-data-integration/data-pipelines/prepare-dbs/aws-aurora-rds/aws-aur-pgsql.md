@@ -107,3 +107,37 @@ to capture changes.
 
     Replace `<username>` with the username of the Debezium user and `<schema>` with the schema name.
 
+1. <a id="allow-connection-from-debezium-user"></a>
+    Connect to your database as the `postgres` user and allow the Debezium user to connect to the database:
+
+    ```sql
+    GRANT CONNECT ON DATABASE <database> TO <username>;
+    ```
+
+    Replace `<database>` with the name of the database and `<username>` with the username of the Debezium user.
+
+1. <a id="grant-usage-to-schema"></a>
+    Connect to your database as the `postgres` user and grant the new user usage on the schema:
+
+    ```sql
+    GRANT USAGE ON SCHEMA <schema> TO <username>;
+    ```
+
+    Replace `<schema>` with the schema name and `<username>` with the username of the Debezium user.">
+
+1. <a id="grant-privileges-for-the-future"></a>
+    Connect to your database as the `postgres` user and grant the new user the necessary privileges for the future:
+
+    ```sql
+    ALTER DEFAULT PRIVILEGES IN SCHEMA <schema>
+        GRANT SELECT ON TABLES TO <username>;
+    ```
+
+    Replace `<schema>` with the schema name and `<username>` with the username of the Debezium user.
+
+1. <a id="create-publication"></a>
+    Connect to your database as the `postgres` user and create a publication for the database:
+
+    ```sql
+    CREATE PUBLICATION dbz_publication FOR ALL TABLES;
+    ```
