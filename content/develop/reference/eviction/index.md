@@ -108,10 +108,10 @@ The following policies are available:
 -   `volatile-lru`: Evict the least recently used keys that have an associated expiration (TTL).
 -   `volatile-lrm`: Evict the least recently modified keys that have an associated expiration (TTL).
 -   `volatile-lfu`: Evict the least frequently used keys that have an associated expiration (TTL).
--   `volatile-random`: Evict keys at random only if they have an associated expiration (TTL).
+-   `volatile-random`: Evicts random keys that have an associated expiration date.
 -   `volatile-ttl`: Evict keys with an associated expiration (TTL) that have the shortest remaining TTL value.
 
-The `volatile-xxx` policies behave like `noeviction` if no keys have a TTLvalue set.
+The `volatile-xxx` policies behave like `noeviction` if no keys have an associated expiration.
 
 You should choose an eviction policy that fits the way your app
 accesses keys. You may be able to predict the access pattern in advance
