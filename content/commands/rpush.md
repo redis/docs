@@ -70,7 +70,7 @@ containing `a` as first element, `b` as second element and `c` as third element.
 
 ## Examples
 
-{{< clients-example cmds_list rpush >}}
+{{< clients-example set="cmds_list" step="rpush" description="Foundational: Add one or more elements to the tail of a list using RPUSH (creates list if needed, returns new list length)" difficulty="beginner" >}}
 redis> RPUSH mylist "hello"
 (integer) 1
 redis> RPUSH mylist "world"
