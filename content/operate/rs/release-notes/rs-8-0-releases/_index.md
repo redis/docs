@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-compatibleOSSVersion: Redis 8.2, 8.0, 7.4, 7.2, 6.2
+compatibleOSSVersion: Redis 8.4, 8.2, 8.0, 7.4, 7.2, 6.2
 description: Redis Software 8! The most performant, most secure, and richest version so far. Built for performance, scale, and reliability to power modern ML and AI applications.
 hideListLinks: true
 linkTitle: 8.0.x releases
@@ -19,7 +19,7 @@ weight: 67
 
 This version offers:
 
-- Redis 8.0 and 8.2 feature set versions
+- Redis 8.0, 8.2, and 8.4 feature set versions
 
 - Performance improvements and memory reduction
 
@@ -199,11 +199,17 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
     As a workaround, use an IPv4-based address for the SSO service base address, or register a DNS name that resolves to the IPv6 address.
 
+    This issue was fixed in Redis Enterprise Software version 8.0.10.
+
 - RS131972: Creating an ACL that contains a line break in the Cluster Manager UI can cause shard migration to fail due to ACL errors. This issue was fixed in Redis Enterprise Software version 8.0.6.
 
 - RS155734: Endpoint availability metrics do not work as expected due to a calculation error.
 
 ## Known limitations
+
+#### Trim ACKED not supported for Active-Active 8.4 databases
+
+For Active-Active databases running Redis database version 8.4, the `ACKED` option is not supported for trimming commands.
 
 #### Rolling upgrade limitation for clusters with custom or deprecated modules
 

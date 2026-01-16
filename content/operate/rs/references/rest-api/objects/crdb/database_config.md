@@ -22,6 +22,9 @@ An object that represents the database configuration.
 | cert | string | Optional PEM-encoded server certificate for the underlying database instance |
 | data_persistence | 'disabled'<br />'snapshot'<br />**'aof'** | Database on-disk persistence policy. For snapshot persistence, a [snapshot_policy]({{< relref "/operate/rs/references/rest-api/objects/bdb/snapshot_policy" >}}) must be provided |
 | <span class="break-all">enforce_client_authentication</span> | **'enabled'** <br />'disabled' | Require authentication of client certificates for SSL connections to the database. If enabled, a certificate should be provided in either <span class="break-all">`authentication_ssl_client_certs`</span> or <span class="break-all">`authentication_ssl_crdt_certs`</span> |
+| <span class="break-all">authentication_ssl_client_certs</span> | array | List of authorized client certificates. For Active-Active databases, it is strongly advised to configure the client certificates individually for each instance instead of using the default database configuration, even if the same certificate is used across all instances.<br />{{<code>}}[{<br />  "client_cert": string<br />}, ...]{{</code>}}<br />**client_cert**: X.509 PEM (Base64) encoded certificate |
+| <span class="break-all">mtls_allow_outdated_certs</span> | boolean (default: false) | An optional mTLS relaxation flag for certs verification |
+| <span class="break-all">mtls_allow_weak_hashing</span> | boolean (default: false) | An optional mTLS relaxation flag for certs verification |
 | max_aof_file_size | integer | Maximum AOF file size in bytes |
 | max_aof_load_time | integer (default: 3600) | Maximum AOF reload time in seconds |
 | memory_size | integer (default: 0) | Database memory size limit in bytes. 0 is unlimited. |
