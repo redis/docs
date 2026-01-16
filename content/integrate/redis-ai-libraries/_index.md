@@ -21,7 +21,7 @@ Build powerful AI applications using Redis as your vector database with speciali
 
 Redis provides comprehensive AI libraries and tools to help you build intelligent applications with vector search, retrieval-augmented generation (RAG), semantic caching, and more. Whether you're working with LangChain, LlamaIndex, or building custom AI solutions, Redis has the tools you need.
 
-[Explore the complete Redis for AI documentation →]({{< relref "/develop/ai" >}})
+[Explore the complete Redis for AI documentation]({{< relref "/develop/ai" >}})
 
 ## Key Features
 
@@ -42,7 +42,7 @@ The Redis Vector Library (RedisVL) is a Python client library for building AI ap
 - **RAG Utilities**: Tools for building retrieval-augmented generation apps
 - **Framework Integration**: Works with LangChain, LlamaIndex, and more
 
-[Learn more about RedisVL →]({{< relref "/develop/ai/redisvl" >}})
+[Learn more about RedisVL]({{< relref "/develop/ai/redisvl" >}})
 
 ### LangChain Integration
 
@@ -52,7 +52,7 @@ Use Redis with LangChain for vector stores, semantic caching, and chat message h
 - **Semantic Cache**: Cache LLM responses based on semantic similarity
 - **Chat History**: Persist conversation history for AI agents
 
-[Learn more about LangChain integration →]({{< relref "/integrate/langchain-redis" >}})
+[Learn more about LangChain integration]({{< relref "/integrate/langchain-redis" >}})
 
 ### Client Libraries with Vector Search
 
