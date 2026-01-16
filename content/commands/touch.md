@@ -51,6 +51,11 @@ summary: Returns the number of existing keys out of those specified after updati
 syntax_fmt: TOUCH key [key ...]
 title: TOUCH
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Alters the last access time of a key(s).
 A key is ignored if it does not exist.
 

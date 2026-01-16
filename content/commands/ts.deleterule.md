@@ -31,6 +31,11 @@ summary: Delete a compaction rule
 syntax_fmt: TS.DELETERULE sourceKey destKey
 title: TS.DELETERULE
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 
 Delete a compaction rule
 

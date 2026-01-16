@@ -52,6 +52,11 @@ summary: Deletes one or more keys.
 syntax_fmt: DEL key [key ...]
 title: DEL
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Removes the specified keys.
 A key is ignored if it does not exist.
 
