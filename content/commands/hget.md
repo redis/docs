@@ -53,7 +53,7 @@ Returns the value associated with `field` in the hash stored at `key`.
 
 ## Examples
 
-{{< clients-example cmds_hash hget >}}
+{{< clients-example set="cmds_hash" step="hget" description="Foundational: Retrieve a single field value from a hash using HGET (returns nil if field or key doesn't exist)" difficulty="beginner" >}}
 > HSET myhash field1 "foo"
 (integer) 1
 > HGET myhash field1
