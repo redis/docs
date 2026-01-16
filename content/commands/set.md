@@ -174,7 +174,7 @@ SET anotherkey "will expire in a minute" EX 60
 
 ### Code examples
 
-{{< clients-example set_and_get />}}
+{{< clients-example set="set_and_get" step="set" description="Foundational: Set the string value of a key using SET (creates key if needed, overwrites existing value, supports expiration options)" difficulty="beginner" />}}
 
 ## Patterns
 

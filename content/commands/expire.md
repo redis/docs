@@ -137,7 +137,7 @@ are now fixed.
 
 ## Examples
 
-{{< clients-example cmds_generic expire >}}
+{{< clients-example set="cmds_generic" step="expire" description="Foundational: Set key expiration time using EXPIRE (supports conditional options NX/XX/GT/LT, returns 1 if set or 0 if not)" difficulty="beginner" >}}
 > SET mykey "Hello"
 "OK"
 > EXPIRE mykey 10

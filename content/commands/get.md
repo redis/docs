@@ -61,7 +61,7 @@ GET mykey
 
 ### Code examples
 
-{{< clients-example set_and_get />}}
+{{< clients-example set="set_and_get" step="get" description="Foundational: Retrieve the string value of a key using GET (returns nil if key doesn't exist)" difficulty="beginner" />}}
 
 ## Redis Enterprise and Redis Cloud compatibility
 

@@ -58,7 +58,7 @@ The user should be aware that if the same existing key is mentioned in the argum
 
 ## Examples
 
-{{< clients-example set="cmds_generic" step="exists" >}}
+{{< clients-example set="cmds_generic" step="exists" description="Foundational: Check if one or more keys exist using EXISTS (returns count of existing keys, useful for conditional logic)" difficulty="beginner" >}}
 SET key1 "Hello"
 EXISTS key1
 EXISTS nosuchkey

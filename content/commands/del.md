@@ -57,7 +57,7 @@ A key is ignored if it does not exist.
 
 ## Examples
 
-{{< clients-example cmds_generic del >}}
+{{< clients-example set="cmds_generic" step="del" description="Foundational: Delete one or more keys using DEL (ignores non-existent keys, returns count of deleted keys)" difficulty="beginner" >}}
 > SET key1 "Hello"
 "OK"
 > SET key2 "World"
