@@ -69,7 +69,7 @@ So for instance the command `LPUSH mylist a b c` will result into a list
 containing `c` as first element, `b` as second element and `a` as third element.
 
 ## Examples
-{{< clients-example cmds_list lpush >}}
+{{< clients-example set="cmds_list" step="lpush" description="Foundational: Add one or more elements to the head of a list using LPUSH (creates list if needed, returns new list length)" difficulty="beginner" >}}
 redis> LPUSH mylist "world"
 (integer) 1
 redis> LPUSH mylist "hello"
