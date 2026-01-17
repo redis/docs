@@ -332,7 +332,7 @@ Apart from the fact that [`XREAD`]({{< relref "/commands/xread" >}}) can access 
 > XREAD BLOCK 0 STREAMS race:france $
 ```
 
-Note that in the example above, other than removing **COUNT**, I specified the new **BLOCK** option with a timeout of 0 milliseconds (that means to never timeout). Moreover, instead of passing a normal ID for the stream `mystream` I passed the special ID `$`. This special ID means that [`XREAD`]({{< relref "/commands/xread" >}}) should use as last ID the maximum ID already stored in the stream `mystream`, so that we will receive only *new* messages, starting from the time we started listening. This is similar to the `tail -f` Unix command in some way.
+Note that in the example above, other than removing **COUNT**, I specified the new **BLOCK** option with a timeout of 0 milliseconds (that means to never timeout). Moreover, instead of passing a normal ID for the stream `race:france` I passed the special ID `$`. This special ID means that [`XREAD`]({{< relref "/commands/xread" >}}) should use as last ID the maximum ID already stored in the stream `race:france`, so that we will receive only *new* messages, starting from the time we started listening. This is similar to the `tail -f` Unix command in some way.
 
 Note that when the **BLOCK** option is used, we do not have to use the special ID `$`. We can use any valid ID. If the command is able to serve our request immediately without blocking, it will do so, otherwise it will block. Normally if we want to consume the stream starting from new entries, we start with the ID `$`, and after that we continue using the ID of the last message received to make the next call, and so forth.
 
@@ -439,7 +439,7 @@ Note: *here rider is the field name, and the name is the associated value. Remem
 
 [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) replies are just like [`XREAD`]({{< relref "/commands/xread" >}}) replies. Note however the `GROUP <group-name> <consumer-name>` provided above. It states that I want to read from the stream using the consumer group `mygroup` and I'm the consumer `Alice`. Every time a consumer performs an operation with a consumer group, it must specify its name, uniquely identifying this consumer inside the group.
 
-There is another very important detail in the command line above, after the mandatory **STREAMS** option the ID requested for the key `mystream` is the special ID `>`. This special ID is only valid in the context of consumer groups, and it means: **messages never delivered to other consumers so far**.
+There is another very important detail in the command line above, after the mandatory **STREAMS** option the ID requested for the key `race:italy` is the special ID `>`. This special ID is only valid in the context of consumer groups, and it means: **messages never delivered to other consumers so far**.
 
 This is almost always what you want, however it is also possible to specify a real ID, such as `0` or any other valid ID, in this case, however, what happens is that we request from [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) to just provide us with the **history of pending messages**, and in such case, will never see new messages in the group. So basically [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) has the following behavior based on the ID we specify:
 
