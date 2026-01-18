@@ -43,12 +43,16 @@ key_specs:
       limit: 0
     type: range
 linkTitle: MGET
+railroad_diagram: /images/railroad/mget.svg
 since: 1.0.0
 summary: Atomically returns the string values of one or more keys.
 syntax_fmt: MGET key [key ...]
-syntax_str: ''
 title: MGET
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
 Returns the values of all specified keys.
 For every key that does not hold a string value or does not exist, the special
 value `nil` is returned.

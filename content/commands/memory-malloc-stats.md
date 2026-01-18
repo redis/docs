@@ -21,10 +21,10 @@ hints:
 - request_policy:all_shards
 - response_policy:special
 linkTitle: MEMORY MALLOC-STATS
+railroad_diagram: /images/railroad/memory-malloc-stats.svg
 since: 4.0.0
 summary: Returns the allocator statistics.
 syntax_fmt: MEMORY MALLOC-STATS
-syntax_str: ''
 title: MEMORY MALLOC-STATS
 ---
 The `MEMORY MALLOC-STATS` command provides an internal statistics report from

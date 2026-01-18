@@ -14,6 +14,7 @@ description: Add a new element to a vector set, or update its vector if it alrea
 group: vector_set
 hidden: false
 linkTitle: VADD
+railroad_diagram: /images/railroad/vadd.svg
 since: 8.0.0
 summary: Add a new element to a vector set, or update its vector if it already exists.
 syntax_fmt: "VADD key [REDUCE dim] (FP32 | VALUES num) vector element [CAS] [NOQUANT | Q8 | BIN]\n  [EF build-exploration-factor] [SETATTR attributes] [M numlinks]"

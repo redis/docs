@@ -75,11 +75,11 @@ key_specs:
     type: range
   update: true
 linkTitle: HEXPIRE
+railroad_diagram: /images/railroad/hexpire.svg
 since: 7.4.0
 summary: Set expiry for hash field using relative time to expire (seconds)
 syntax_fmt: "HEXPIRE key seconds [NX | XX | GT | LT] FIELDS\_numfields field\n  [field\
   \ ...]"
-syntax_str: "seconds [NX | XX | GT | LT] FIELDS\_numfields field [field ...]"
 title: HEXPIRE
 ---
 Set an expiration (TTL or time to live) on one or more fields of a given hash key. You must specify at least one field.
@@ -119,7 +119,7 @@ Starting with Redis 8, the Redis Query Engine has enhanced behavior when handlin
 
 ## Examples
 
-{{< clients-example set="cmds_hash" step="hexpire" >}}
+{{< clients-example set="cmds_hash" step="hexpire" description="Field expiration: Set TTL on individual hash fields using HEXPIRE with conditional options (NX, XX, GT, LT) when you need fine-grained control over field lifecycle" difficulty="intermediate" >}}
 HEXPIRE no-key 20 NX FIELDS 2 field1 field2
 (nil)
 HSET mykey field1 "hello" field2 "world"

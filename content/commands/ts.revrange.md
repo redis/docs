@@ -115,6 +115,7 @@ group: timeseries
 hidden: false
 linkTitle: TS.REVRANGE
 module: TimeSeries
+railroad_diagram: /images/railroad/ts.revrange.svg
 since: 1.4.0
 stack_path: docs/data-types/timeseries
 summary: Query a range in reverse direction
@@ -125,10 +126,6 @@ syntax_fmt: "TS.REVRANGE key fromTimestamp toTimestamp [LATEST]\n  [FILTER_BY_TS
   Timestamp [Timestamp ...]] [FILTER_BY_VALUE min max]\n  [COUNT\_count] [[ALIGN\_\
   value] AGGREGATION\_<AVG | FIRST | LAST | MIN\n  | MAX | SUM | RANGE | COUNT | STD.P\
   \ | STD.S | VAR.P | VAR.S | TWA>\n  bucketDuration [BUCKETTIMESTAMP] [EMPTY]]"
-syntax_str: "fromTimestamp toTimestamp [LATEST] [FILTER_BY_TS\_Timestamp [Timestamp\
-  \ ...]] [FILTER_BY_VALUE min max] [COUNT\_count] [[ALIGN\_value] AGGREGATION\_<AVG\
-  \ | FIRST | LAST | MIN | MAX | SUM | RANGE | COUNT | STD.P | STD.S | VAR.P | VAR.S\
-  \ | TWA> bucketDuration [BUCKETTIMESTAMP] [EMPTY]]"
 title: TS.REVRANGE
 ---
 
@@ -391,7 +388,6 @@ Similarly, when the end timestamp for the range query is explicitly stated, you 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

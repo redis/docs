@@ -45,10 +45,10 @@ history:
 - - 6.2.0
   - '`CLIENT PAUSE WRITE` mode added along with the `mode` option.'
 linkTitle: CLIENT PAUSE
+railroad_diagram: /images/railroad/client-pause.svg
 since: 3.0.0
 summary: Suspends commands processing.
 syntax_fmt: CLIENT PAUSE timeout [WRITE | ALL]
-syntax_str: '[WRITE | ALL]'
 title: CLIENT PAUSE
 ---
 `CLIENT PAUSE` is a connections control command able to suspend all the Redis clients for the specified amount of time (in milliseconds).

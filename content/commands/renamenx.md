@@ -61,12 +61,17 @@ key_specs:
     type: range
   insert: true
 linkTitle: RENAMENX
+railroad_diagram: /images/railroad/renamenx.svg
 since: 1.0.0
 summary: Renames a key only when the target key name doesn't exist.
 syntax_fmt: RENAMENX key newkey
-syntax_str: newkey
 title: RENAMENX
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Renames `key` to `newkey` if `newkey` does not yet exist.
 It returns an error when `key` does not exist.
 

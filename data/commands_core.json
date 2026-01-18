@@ -886,6 +886,30 @@
                         "type": "pure-token",
                         "display_text": "not",
                         "token": "NOT"
+                    },
+                    {
+                        "name": "diff",
+                        "type": "pure-token",
+                        "display_text": "diff",
+                        "token": "DIFF"
+                    },
+                    {
+                        "name": "diff1",
+                        "type": "pure-token",
+                        "display_text": "diff1",
+                        "token": "DIFF1"
+                    },
+                    {
+                        "name": "andor",
+                        "type": "pure-token",
+                        "display_text": "andor",
+                        "token": "ANDOR"
+                    },
+                    {
+                        "name": "one",
+                        "type": "pure-token",
+                        "display_text": "one",
+                        "token": "ONE"
                     }
                 ]
             },
@@ -1927,6 +1951,18 @@
             [
                 "7.0.3",
                 "Added `ssub` field."
+            ],
+            [
+                "7.2.0",
+                "Added `lib-name` and `lib-ver` fields."
+            ],
+            [
+                "7.4.0",
+                "Added `watch` field."
+            ],
+            [
+                "8.0.0",
+                "Added `io-thread` field."
             ]
         ],
         "acl_categories": [
@@ -2799,6 +2835,89 @@
             "no_async_loading"
         ]
     },
+    "CLUSTER MIGRATION": {
+        "summary": "Start, monitor and cancel slot migration.",
+        "since": "8.4.0",
+        "group": "cluster",
+        "complexity": "O(N) where N is the total number of the slots between the start slot and end slot arguments.",
+        "acl_categories": [
+            "@admin",
+            "@slow",
+            "@dangerous"
+        ],
+        "arity": -4,
+        "arguments": [
+            {
+                "name": "subcommand",
+                "type": "oneof",
+                "arguments": [
+                    {
+                        "name": "import",
+                        "type": "block",
+                        "token": "IMPORT",
+                        "multiple": true,
+                        "arguments": [
+                            {
+                                "name": "start-slot",
+                                "type": "integer",
+                                "display_text": "start-slot"
+                            },
+                            {
+                                "name": "end-slot",
+                                "type": "integer",
+                                "display_text": "end-slot"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "cancel",
+                        "type": "oneof",
+                        "token": "CANCEL",
+                        "arguments": [
+                            {
+                                "name": "task-id",
+                                "type": "string",
+                                "display_text": "task-id",
+                                "token": "ID"
+                            },
+                            {
+                                "name": "all",
+                                "type": "pure-token",
+                                "display_text": "all",
+                                "token": "ALL"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "status",
+                        "type": "oneof",
+                        "token": "STATUS",
+                        "arguments": [
+                            {
+                                "name": "task-id",
+                                "type": "string",
+                                "display_text": "task-id",
+                                "token": "ID",
+                                "optional": true
+                            },
+                            {
+                                "name": "all",
+                                "type": "pure-token",
+                                "display_text": "all",
+                                "token": "ALL",
+                                "optional": true
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "command_flags": [
+            "admin",
+            "stale",
+            "no_async_loading"
+        ]
+    },
     "CLUSTER MYID": {
         "summary": "Returns the ID of a node.",
         "since": "3.0.0",
@@ -3075,6 +3194,87 @@
             "nondeterministic_output"
         ]
     },
+    "CLUSTER SLOT-STATS": {
+        "summary": "Return an array of slot usage statistics for slots assigned to the current node.",
+        "since": "8.2.0",
+        "group": "cluster",
+        "complexity": "O(N) where N is the total number of slots based on arguments. O(N*log(N)) with ORDERBY subcommand.",
+        "acl_categories": [
+            "@slow"
+        ],
+        "arity": -4,
+        "arguments": [
+            {
+                "name": "filter",
+                "type": "oneof",
+                "arguments": [
+                    {
+                        "name": "slotsrange",
+                        "type": "block",
+                        "token": "SLOTSRANGE",
+                        "arguments": [
+                            {
+                                "name": "start-slot",
+                                "type": "integer",
+                                "display_text": "start-slot"
+                            },
+                            {
+                                "name": "end-slot",
+                                "type": "integer",
+                                "display_text": "end-slot"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "orderby",
+                        "type": "block",
+                        "token": "ORDERBY",
+                        "arguments": [
+                            {
+                                "name": "metric",
+                                "type": "string",
+                                "display_text": "metric"
+                            },
+                            {
+                                "name": "limit",
+                                "type": "integer",
+                                "display_text": "limit",
+                                "token": "LIMIT",
+                                "optional": true
+                            },
+                            {
+                                "name": "order",
+                                "type": "oneof",
+                                "optional": true,
+                                "arguments": [
+                                    {
+                                        "name": "asc",
+                                        "type": "pure-token",
+                                        "display_text": "asc",
+                                        "token": "ASC"
+                                    },
+                                    {
+                                        "name": "desc",
+                                        "type": "pure-token",
+                                        "display_text": "desc",
+                                        "token": "DESC"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "command_flags": [
+            "loading",
+            "stale"
+        ],
+        "hints": [
+            "nondeterministic_output",
+            "request_policy:all_shards"
+        ]
+    },
     "CLUSTER SLOTS": {
         "summary": "Returns the mapping of cluster slots to nodes.",
         "since": "3.0.0",
@@ -3102,6 +3302,123 @@
         ],
         "doc_flags": [
             "deprecated"
+        ],
+        "hints": [
+            "nondeterministic_output"
+        ]
+    },
+    "CLUSTER SYNCSLOTS": {
+        "summary": "Internal command for atomic slot migration protocol between cluster nodes.",
+        "since": "8.4.0",
+        "group": "cluster",
+        "complexity": "O(1)",
+        "acl_categories": [
+            "@admin",
+            "@slow",
+            "@dangerous"
+        ],
+        "arity": -3,
+        "arguments": [
+            {
+                "name": "subcommand",
+                "type": "oneof",
+                "arguments": [
+                    {
+                        "name": "sync",
+                        "type": "block",
+                        "token": "SYNC",
+                        "arguments": [
+                            {
+                                "name": "task-id",
+                                "type": "string",
+                                "display_text": "task-id"
+                            },
+                            {
+                                "name": "slot-range",
+                                "type": "block",
+                                "multiple": true,
+                                "arguments": [
+                                    {
+                                        "name": "start-slot",
+                                        "type": "integer",
+                                        "display_text": "start-slot"
+                                    },
+                                    {
+                                        "name": "end-slot",
+                                        "type": "integer",
+                                        "display_text": "end-slot"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "task-id",
+                        "type": "string",
+                        "display_text": "task-id",
+                        "token": "RDBCHANNEL"
+                    },
+                    {
+                        "name": "snapshot-eof",
+                        "type": "pure-token",
+                        "display_text": "snapshot-eof",
+                        "token": "SNAPSHOT-EOF"
+                    },
+                    {
+                        "name": "stream-eof",
+                        "type": "pure-token",
+                        "display_text": "stream-eof",
+                        "token": "STREAM-EOF"
+                    },
+                    {
+                        "name": "ack",
+                        "type": "block",
+                        "token": "ACK",
+                        "arguments": [
+                            {
+                                "name": "state",
+                                "type": "string",
+                                "display_text": "state"
+                            },
+                            {
+                                "name": "offset",
+                                "type": "integer",
+                                "display_text": "offset"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "error",
+                        "type": "string",
+                        "display_text": "error",
+                        "token": "FAIL"
+                    },
+                    {
+                        "name": "conf",
+                        "type": "block",
+                        "token": "CONF",
+                        "arguments": [
+                            {
+                                "name": "option",
+                                "type": "string",
+                                "display_text": "option",
+                                "multiple": true
+                            },
+                            {
+                                "name": "value",
+                                "type": "string",
+                                "display_text": "value",
+                                "multiple": true
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "command_flags": [
+            "admin",
+            "stale",
+            "no_async_loading"
         ],
         "hints": [
             "nondeterministic_output"
@@ -3732,6 +4049,126 @@
         "hints": [
             "request_policy:multi_shard",
             "response_policy:agg_sum"
+        ]
+    },
+    "DELEX": {
+        "summary": "Conditionally removes the specified key based on value or digest comparison.",
+        "since": "8.4.0",
+        "group": "string",
+        "complexity": "O(1) for IFEQ/IFNE, O(N) for IFDEQ/IFDNE where N is the length of the string value.",
+        "acl_categories": [
+            "@write",
+            "@string",
+            "@fast"
+        ],
+        "arity": -2,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "delete": true,
+                "variable_flags": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "condition",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "ifeq-value",
+                        "type": "string",
+                        "display_text": "ifeq-value",
+                        "token": "IFEQ"
+                    },
+                    {
+                        "name": "ifne-value",
+                        "type": "string",
+                        "display_text": "ifne-value",
+                        "token": "IFNE"
+                    },
+                    {
+                        "name": "ifdeq-digest",
+                        "type": "integer",
+                        "display_text": "ifdeq-digest",
+                        "token": "IFDEQ"
+                    },
+                    {
+                        "name": "ifdne-digest",
+                        "type": "integer",
+                        "display_text": "ifdne-digest",
+                        "token": "IFDNE"
+                    }
+                ]
+            }
+        ],
+        "command_flags": [
+            "write",
+            "fast"
+        ]
+    },
+    "DIGEST": {
+        "summary": "Returns the XXH3 hash of a string value.",
+        "since": "8.4.0",
+        "group": "string",
+        "complexity": "O(N) where N is the length of the string value.",
+        "acl_categories": [
+            "@read",
+            "@string",
+            "@fast"
+        ],
+        "arity": 2,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RO": true,
+                "access": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            }
+        ],
+        "command_flags": [
+            "readonly",
+            "fast"
         ]
     },
     "DISCARD": {
@@ -7061,7 +7498,6 @@
         ],
         "command_flags": [
             "write",
-            "denyoom",
             "fast"
         ]
     },
@@ -7160,7 +7596,6 @@
         ],
         "command_flags": [
             "write",
-            "denyoom",
             "fast"
         ]
     },
@@ -7319,6 +7754,170 @@
         ],
         "hints": [
             "nondeterministic_output_order"
+        ]
+    },
+    "HGETDEL": {
+        "summary": "Returns the value of a field and deletes it from the hash.",
+        "since": "8.0.0",
+        "group": "hash",
+        "complexity": "O(N) where N is the number of specified fields",
+        "acl_categories": [
+            "@write",
+            "@hash",
+            "@fast"
+        ],
+        "arity": -5,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "access": true,
+                "delete": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "fields",
+                "type": "block",
+                "token": "FIELDS",
+                "arguments": [
+                    {
+                        "name": "numfields",
+                        "type": "integer",
+                        "display_text": "numfields"
+                    },
+                    {
+                        "name": "field",
+                        "type": "string",
+                        "display_text": "field",
+                        "multiple": true
+                    }
+                ]
+            }
+        ],
+        "command_flags": [
+            "write",
+            "fast"
+        ]
+    },
+    "HGETEX": {
+        "summary": "Get the value of one or more fields of a given hash key, and optionally set their expiration.",
+        "since": "8.0.0",
+        "group": "hash",
+        "complexity": "O(N) where N is the number of specified fields",
+        "acl_categories": [
+            "@write",
+            "@hash",
+            "@fast"
+        ],
+        "arity": -5,
+        "key_specs": [
+            {
+                "notes": "RW and UPDATE because it changes the TTL",
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "access": true,
+                "update": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "expiration",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "seconds",
+                        "type": "integer",
+                        "display_text": "seconds",
+                        "token": "EX"
+                    },
+                    {
+                        "name": "milliseconds",
+                        "type": "integer",
+                        "display_text": "milliseconds",
+                        "token": "PX"
+                    },
+                    {
+                        "name": "unix-time-seconds",
+                        "type": "unix-time",
+                        "display_text": "unix-time-seconds",
+                        "token": "EXAT"
+                    },
+                    {
+                        "name": "unix-time-milliseconds",
+                        "type": "unix-time",
+                        "display_text": "unix-time-milliseconds",
+                        "token": "PXAT"
+                    },
+                    {
+                        "name": "persist",
+                        "type": "pure-token",
+                        "display_text": "persist",
+                        "token": "PERSIST"
+                    }
+                ]
+            },
+            {
+                "name": "fields",
+                "type": "block",
+                "token": "FIELDS",
+                "arguments": [
+                    {
+                        "name": "numfields",
+                        "type": "integer",
+                        "display_text": "numfields"
+                    },
+                    {
+                        "name": "field",
+                        "type": "string",
+                        "display_text": "field",
+                        "multiple": true
+                    }
+                ]
+            }
+        ],
+        "command_flags": [
+            "write",
+            "fast"
         ]
     },
     "HINCRBY": {
@@ -7796,7 +8395,6 @@
         ],
         "command_flags": [
             "write",
-            "denyoom",
             "fast"
         ]
     },
@@ -7895,7 +8493,6 @@
         ],
         "command_flags": [
             "write",
-            "denyoom",
             "fast"
         ]
     },
@@ -8021,6 +8618,9 @@
         "command_flags": [
             "readonly",
             "fast"
+        ],
+        "hints": [
+            "nondeterministic_output"
         ]
     },
     "HRANDFIELD": {
@@ -8228,6 +8828,136 @@
             "fast"
         ]
     },
+    "HSETEX": {
+        "summary": "Set the value of one or more fields of a given hash key, and optionally set their expiration.",
+        "since": "8.0.0",
+        "group": "hash",
+        "complexity": "O(N) where N is the number of fields being set.",
+        "acl_categories": [
+            "@write",
+            "@hash",
+            "@fast"
+        ],
+        "arity": -6,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "update": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "condition",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "fnx",
+                        "type": "pure-token",
+                        "display_text": "fnx",
+                        "token": "FNX"
+                    },
+                    {
+                        "name": "fxx",
+                        "type": "pure-token",
+                        "display_text": "fxx",
+                        "token": "FXX"
+                    }
+                ]
+            },
+            {
+                "name": "expiration",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "seconds",
+                        "type": "integer",
+                        "display_text": "seconds",
+                        "token": "EX"
+                    },
+                    {
+                        "name": "milliseconds",
+                        "type": "integer",
+                        "display_text": "milliseconds",
+                        "token": "PX"
+                    },
+                    {
+                        "name": "unix-time-seconds",
+                        "type": "unix-time",
+                        "display_text": "unix-time-seconds",
+                        "token": "EXAT"
+                    },
+                    {
+                        "name": "unix-time-milliseconds",
+                        "type": "unix-time",
+                        "display_text": "unix-time-milliseconds",
+                        "token": "PXAT"
+                    },
+                    {
+                        "name": "keepttl",
+                        "type": "pure-token",
+                        "display_text": "keepttl",
+                        "token": "KEEPTTL"
+                    }
+                ]
+            },
+            {
+                "name": "fields",
+                "type": "block",
+                "token": "FIELDS",
+                "arguments": [
+                    {
+                        "name": "numfields",
+                        "type": "integer",
+                        "display_text": "numfields"
+                    },
+                    {
+                        "name": "data",
+                        "type": "block",
+                        "multiple": true,
+                        "arguments": [
+                            {
+                                "name": "field",
+                                "type": "string",
+                                "display_text": "field"
+                            },
+                            {
+                                "name": "value",
+                                "type": "string",
+                                "display_text": "value"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "command_flags": [
+            "write",
+            "denyoom",
+            "fast"
+        ]
+    },
     "HSETNX": {
         "summary": "Sets the value of a field in a hash only when the field doesn't exist.",
         "since": "2.0.0",
@@ -8391,6 +9121,9 @@
         "command_flags": [
             "readonly",
             "fast"
+        ],
+        "hints": [
+            "nondeterministic_output"
         ]
     },
     "HVALS": {
@@ -10388,6 +11121,128 @@
         "command_flags": [
             "write",
             "denyoom"
+        ],
+        "hints": [
+            "request_policy:multi_shard",
+            "response_policy:all_succeeded"
+        ]
+    },
+    "MSETEX": {
+        "summary": "Atomically sets multiple string keys with a shared expiration in a single operation. Supports flexible argument parsing where condition and expiration flags can appear in any order.",
+        "since": "8.4.0",
+        "group": "string",
+        "complexity": "O(N) where N is the number of keys to set.",
+        "acl_categories": [
+            "@write",
+            "@string",
+            "@slow"
+        ],
+        "arity": -4,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "keynum",
+                    "spec": {
+                        "keynumidx": 0,
+                        "firstkey": 1,
+                        "keystep": 2
+                    }
+                },
+                "OW": true,
+                "update": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "numkeys",
+                "type": "integer",
+                "display_text": "numkeys"
+            },
+            {
+                "name": "data",
+                "type": "block",
+                "multiple": true,
+                "arguments": [
+                    {
+                        "name": "key",
+                        "type": "key",
+                        "display_text": "key",
+                        "key_spec_index": 0
+                    },
+                    {
+                        "name": "value",
+                        "type": "string",
+                        "display_text": "value"
+                    }
+                ]
+            },
+            {
+                "name": "condition",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "nx",
+                        "type": "pure-token",
+                        "display_text": "nx",
+                        "token": "NX"
+                    },
+                    {
+                        "name": "xx",
+                        "type": "pure-token",
+                        "display_text": "xx",
+                        "token": "XX"
+                    }
+                ]
+            },
+            {
+                "name": "expiration",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "seconds",
+                        "type": "integer",
+                        "display_text": "seconds",
+                        "token": "EX"
+                    },
+                    {
+                        "name": "milliseconds",
+                        "type": "integer",
+                        "display_text": "milliseconds",
+                        "token": "PX"
+                    },
+                    {
+                        "name": "unix-time-seconds",
+                        "type": "unix-time",
+                        "display_text": "unix-time-seconds",
+                        "token": "EXAT"
+                    },
+                    {
+                        "name": "unix-time-milliseconds",
+                        "type": "unix-time",
+                        "display_text": "unix-time-milliseconds",
+                        "token": "PXAT"
+                    },
+                    {
+                        "name": "keepttl",
+                        "type": "pure-token",
+                        "display_text": "keepttl",
+                        "token": "KEEPTTL"
+                    }
+                ]
+            }
+        ],
+        "command_flags": [
+            "write",
+            "denyoom",
+            "movablekeys"
         ],
         "hints": [
             "request_policy:multi_shard",
@@ -12867,6 +13722,10 @@
             [
                 "7.0.0",
                 "Allowed the `NX` and `GET` options to be used together."
+            ],
+            [
+                "8.4.0",
+                "Added 'IFEQ', 'IFNE', 'IFDEQ', 'IFDNE' options."
             ]
         ],
         "acl_categories": [
@@ -12927,6 +13786,34 @@
                         "type": "pure-token",
                         "display_text": "xx",
                         "token": "XX"
+                    },
+                    {
+                        "name": "ifeq-value",
+                        "type": "string",
+                        "display_text": "ifeq-value",
+                        "token": "IFEQ",
+                        "since": "8.4.0"
+                    },
+                    {
+                        "name": "ifne-value",
+                        "type": "string",
+                        "display_text": "ifne-value",
+                        "token": "IFNE",
+                        "since": "8.4.0"
+                    },
+                    {
+                        "name": "ifdeq-digest",
+                        "type": "integer",
+                        "display_text": "ifdeq-digest",
+                        "token": "IFDEQ",
+                        "since": "8.4.0"
+                    },
+                    {
+                        "name": "ifdne-digest",
+                        "type": "integer",
+                        "display_text": "ifdne-digest",
+                        "token": "IFDNE",
+                        "since": "8.4.0"
                     }
                 ]
             },
@@ -14836,6 +15723,53 @@
             "response_policy:agg_sum"
         ]
     },
+    "TRIMSLOTS": {
+        "summary": "Trim the keys that belong to specified slots.",
+        "since": "8.4.0",
+        "group": "server",
+        "complexity": "O(N) where N is the total number of keys in all databases",
+        "acl_categories": [
+            "@keyspace",
+            "@write",
+            "@slow",
+            "@dangerous"
+        ],
+        "arity": -5,
+        "arguments": [
+            {
+                "name": "ranges",
+                "type": "block",
+                "token": "RANGES",
+                "arguments": [
+                    {
+                        "name": "numranges",
+                        "type": "integer",
+                        "display_text": "numranges"
+                    },
+                    {
+                        "name": "slots",
+                        "type": "block",
+                        "multiple": true,
+                        "arguments": [
+                            {
+                                "name": "startslot",
+                                "type": "integer",
+                                "display_text": "startslot"
+                            },
+                            {
+                                "name": "endslot",
+                                "type": "integer",
+                                "display_text": "endslot"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "command_flags": [
+            "write"
+        ]
+    },
     "TTL": {
         "summary": "Returns the expiration time in seconds of a key.",
         "since": "1.0.0",
@@ -15025,6 +15959,791 @@
             "allow_busy"
         ]
     },
+    "VADD": {
+        "summary": "Add one or more elements to a vector set, or update its vector if it already exists",
+        "since": "8.0.0",
+        "group": "module",
+        "arity": -5,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "access": true,
+                "update": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "reduce",
+                "type": "block",
+                "token": "REDUCE",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "dim",
+                        "type": "integer",
+                        "display_text": "dim"
+                    }
+                ]
+            },
+            {
+                "name": "format",
+                "type": "oneof",
+                "arguments": [
+                    {
+                        "name": "fp32",
+                        "type": "pure-token",
+                        "display_text": "fp32",
+                        "token": "FP32"
+                    },
+                    {
+                        "name": "values",
+                        "type": "pure-token",
+                        "display_text": "values",
+                        "token": "VALUES"
+                    }
+                ]
+            },
+            {
+                "name": "vector",
+                "type": "string",
+                "display_text": "vector"
+            },
+            {
+                "name": "element",
+                "type": "string",
+                "display_text": "element"
+            },
+            {
+                "name": "cas",
+                "type": "pure-token",
+                "display_text": "cas",
+                "token": "CAS",
+                "optional": true
+            },
+            {
+                "name": "quant_type",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "noquant",
+                        "type": "pure-token",
+                        "display_text": "noquant",
+                        "token": "NOQUANT"
+                    },
+                    {
+                        "name": "bin",
+                        "type": "pure-token",
+                        "display_text": "bin",
+                        "token": "BIN"
+                    },
+                    {
+                        "name": "q8",
+                        "type": "pure-token",
+                        "display_text": "q8",
+                        "token": "Q8"
+                    }
+                ]
+            },
+            {
+                "name": "build-exploration-factor",
+                "type": "integer",
+                "display_text": "build-exploration-factor",
+                "token": "EF",
+                "optional": true
+            },
+            {
+                "name": "attributes",
+                "type": "string",
+                "display_text": "attributes",
+                "token": "SETATTR",
+                "optional": true
+            },
+            {
+                "name": "numlinks",
+                "type": "integer",
+                "display_text": "numlinks",
+                "token": "M",
+                "optional": true
+            }
+        ],
+        "command_flags": [
+            "write",
+            "denyoom",
+            "module"
+        ],
+        "module": "vectorset"
+    },
+    "VCARD": {
+        "summary": "Return the number of elements in a vector set",
+        "since": "8.0.0",
+        "group": "module",
+        "arity": 2,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "access": true,
+                "update": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            }
+        ],
+        "command_flags": [
+            "readonly",
+            "module",
+            "fast"
+        ],
+        "module": "vectorset"
+    },
+    "VDIM": {
+        "summary": "Return the dimension of vectors in the vector set",
+        "since": "8.0.0",
+        "group": "module",
+        "arity": 2,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "access": true,
+                "update": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            }
+        ],
+        "command_flags": [
+            "readonly",
+            "module",
+            "fast"
+        ],
+        "module": "vectorset"
+    },
+    "VEMB": {
+        "summary": "Return the vector associated with an element",
+        "since": "8.0.0",
+        "group": "module",
+        "arity": -3,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "access": true,
+                "update": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "element",
+                "type": "string",
+                "display_text": "element"
+            },
+            {
+                "name": "raw",
+                "type": "pure-token",
+                "display_text": "raw",
+                "token": "RAW",
+                "optional": true
+            }
+        ],
+        "command_flags": [
+            "readonly",
+            "module",
+            "fast"
+        ],
+        "module": "vectorset"
+    },
+    "VGETATTR": {
+        "summary": "Retrieve the JSON attributes of elements",
+        "since": "8.0.0",
+        "group": "module",
+        "arity": 3,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "access": true,
+                "update": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "element",
+                "type": "string",
+                "display_text": "element"
+            }
+        ],
+        "command_flags": [
+            "readonly",
+            "module",
+            "fast"
+        ],
+        "module": "vectorset"
+    },
+    "VINFO": {
+        "summary": "Return information about a vector set",
+        "since": "8.0.0",
+        "group": "module",
+        "arity": 2,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "access": true,
+                "update": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            }
+        ],
+        "command_flags": [
+            "readonly",
+            "module",
+            "fast"
+        ],
+        "module": "vectorset"
+    },
+    "VISMEMBER": {
+        "summary": "Check if an element exists in a vector set",
+        "since": "8.2.0",
+        "group": "module",
+        "arity": 3,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "access": true,
+                "update": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "element",
+                "type": "string",
+                "display_text": "element"
+            }
+        ],
+        "command_flags": [
+            "readonly",
+            "module"
+        ],
+        "module": "vectorset"
+    },
+    "VLINKS": {
+        "summary": "Return the neighbors of an element at each layer in the HNSW graph",
+        "since": "8.0.0",
+        "group": "module",
+        "arity": -3,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "access": true,
+                "update": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "element",
+                "type": "string",
+                "display_text": "element"
+            },
+            {
+                "name": "withscores",
+                "type": "pure-token",
+                "display_text": "withscores",
+                "token": "WITHSCORES",
+                "optional": true
+            }
+        ],
+        "command_flags": [
+            "readonly",
+            "module",
+            "fast"
+        ],
+        "module": "vectorset"
+    },
+    "VRANDMEMBER": {
+        "summary": "Return one or multiple random members from a vector set",
+        "since": "8.0.0",
+        "group": "module",
+        "arity": -2,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "access": true,
+                "update": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "count",
+                "type": "integer",
+                "display_text": "count",
+                "optional": true
+            }
+        ],
+        "command_flags": [
+            "readonly",
+            "module"
+        ],
+        "module": "vectorset"
+    },
+    "VRANGE": {
+        "summary": "Return vector set elements in a lex range",
+        "since": "8.4.0",
+        "group": "module",
+        "arity": -4,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "access": true,
+                "update": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "start",
+                "type": "string",
+                "display_text": "start"
+            },
+            {
+                "name": "end",
+                "type": "string",
+                "display_text": "end"
+            },
+            {
+                "name": "count",
+                "type": "integer",
+                "display_text": "count",
+                "optional": true
+            }
+        ],
+        "command_flags": [
+            "readonly",
+            "module"
+        ],
+        "module": "vectorset"
+    },
+    "VREM": {
+        "summary": "Remove an element from a vector set",
+        "since": "8.0.0",
+        "group": "module",
+        "arity": 3,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "access": true,
+                "update": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "element",
+                "type": "string",
+                "display_text": "element"
+            }
+        ],
+        "command_flags": [
+            "write",
+            "module"
+        ],
+        "module": "vectorset"
+    },
+    "VSETATTR": {
+        "summary": "Associate or remove the JSON attributes of elements",
+        "since": "8.0.0",
+        "group": "module",
+        "arity": 4,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "access": true,
+                "update": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "element",
+                "type": "string",
+                "display_text": "element"
+            },
+            {
+                "name": "json",
+                "type": "string",
+                "display_text": "json"
+            }
+        ],
+        "command_flags": [
+            "write",
+            "module",
+            "fast"
+        ],
+        "module": "vectorset"
+    },
+    "VSIM": {
+        "summary": "Return elements by vector similarity",
+        "since": "8.0.0",
+        "group": "module",
+        "arity": -4,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "access": true,
+                "update": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "format",
+                "type": "oneof",
+                "arguments": [
+                    {
+                        "name": "ele",
+                        "type": "pure-token",
+                        "display_text": "ele",
+                        "token": "ELE"
+                    },
+                    {
+                        "name": "fp32",
+                        "type": "pure-token",
+                        "display_text": "fp32",
+                        "token": "FP32"
+                    },
+                    {
+                        "name": "values",
+                        "type": "pure-token",
+                        "display_text": "values",
+                        "token": "VALUES"
+                    }
+                ]
+            },
+            {
+                "name": "vector_or_element",
+                "type": "string",
+                "display_text": "vector_or_element"
+            },
+            {
+                "name": "withscores",
+                "type": "pure-token",
+                "display_text": "withscores",
+                "token": "WITHSCORES",
+                "optional": true
+            },
+            {
+                "name": "withattribs",
+                "type": "pure-token",
+                "display_text": "withattribs",
+                "token": "WITHATTRIBS",
+                "optional": true
+            },
+            {
+                "name": "count",
+                "type": "integer",
+                "display_text": "count",
+                "token": "COUNT",
+                "optional": true
+            },
+            {
+                "name": "max_distance",
+                "type": "double",
+                "display_text": "max_distance",
+                "token": "EPSILON",
+                "optional": true
+            },
+            {
+                "name": "search-exploration-factor",
+                "type": "integer",
+                "display_text": "search-exploration-factor",
+                "token": "EF",
+                "optional": true
+            },
+            {
+                "name": "expression",
+                "type": "string",
+                "display_text": "expression",
+                "token": "FILTER",
+                "optional": true
+            },
+            {
+                "name": "max-filtering-effort",
+                "type": "integer",
+                "display_text": "max-filtering-effort",
+                "token": "FILTER-EF",
+                "optional": true
+            },
+            {
+                "name": "truth",
+                "type": "pure-token",
+                "display_text": "truth",
+                "token": "TRUTH",
+                "optional": true
+            },
+            {
+                "name": "nothread",
+                "type": "pure-token",
+                "display_text": "nothread",
+                "token": "NOTHREAD",
+                "optional": true
+            }
+        ],
+        "command_flags": [
+            "readonly",
+            "module"
+        ],
+        "module": "vectorset"
+    },
     "WAIT": {
         "summary": "Blocks until the asynchronous replication of all preceding write commands sent by the connection is completed.",
         "since": "3.0.0",
@@ -15193,6 +16912,99 @@
             "fast"
         ]
     },
+    "XACKDEL": {
+        "summary": "Acknowledges and deletes one or multiple messages for a stream consumer group.",
+        "since": "8.2.0",
+        "group": "stream",
+        "complexity": "O(1) for each message ID processed.",
+        "acl_categories": [
+            "@write",
+            "@stream",
+            "@fast"
+        ],
+        "arity": -6,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "update": true,
+                "delete": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "group",
+                "type": "string",
+                "display_text": "group"
+            },
+            {
+                "name": "condition",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "keepref",
+                        "type": "pure-token",
+                        "display_text": "keepref",
+                        "token": "KEEPREF"
+                    },
+                    {
+                        "name": "delref",
+                        "type": "pure-token",
+                        "display_text": "delref",
+                        "token": "DELREF"
+                    },
+                    {
+                        "name": "acked",
+                        "type": "pure-token",
+                        "display_text": "acked",
+                        "token": "ACKED"
+                    }
+                ]
+            },
+            {
+                "name": "ids",
+                "type": "block",
+                "token": "IDS",
+                "arguments": [
+                    {
+                        "name": "numids",
+                        "type": "integer",
+                        "display_text": "numids"
+                    },
+                    {
+                        "name": "id",
+                        "type": "string",
+                        "display_text": "id",
+                        "multiple": true
+                    }
+                ]
+            }
+        ],
+        "command_flags": [
+            "write",
+            "fast"
+        ]
+    },
     "XADD": {
         "summary": "Appends a new message to a stream. Creates the key if it doesn't exist.",
         "since": "5.0.0",
@@ -15206,6 +17018,10 @@
             [
                 "7.0.0",
                 "Added support for the `<ms>-*` explicit ID form."
+            ],
+            [
+                "8.2.0",
+                "Added the `KEEPREF`, `DELREF` and `ACKED` options."
             ]
         ],
         "acl_categories": [
@@ -15249,6 +17065,31 @@
                 "token": "NOMKSTREAM",
                 "since": "6.2.0",
                 "optional": true
+            },
+            {
+                "name": "condition",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "keepref",
+                        "type": "pure-token",
+                        "display_text": "keepref",
+                        "token": "KEEPREF"
+                    },
+                    {
+                        "name": "delref",
+                        "type": "pure-token",
+                        "display_text": "delref",
+                        "token": "DELREF"
+                    },
+                    {
+                        "name": "acked",
+                        "type": "pure-token",
+                        "display_text": "acked",
+                        "token": "ACKED"
+                    }
+                ]
             },
             {
                 "name": "trim",
@@ -15592,6 +17433,93 @@
                 "type": "string",
                 "display_text": "id",
                 "multiple": true
+            }
+        ],
+        "command_flags": [
+            "write",
+            "fast"
+        ]
+    },
+    "XDELEX": {
+        "summary": "Deletes one or multiple entries from the stream.",
+        "since": "8.2.0",
+        "group": "stream",
+        "complexity": "O(1) for each single item to delete in the stream, regardless of the stream size.",
+        "acl_categories": [
+            "@write",
+            "@stream",
+            "@fast"
+        ],
+        "arity": -5,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "delete": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "condition",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "keepref",
+                        "type": "pure-token",
+                        "display_text": "keepref",
+                        "token": "KEEPREF"
+                    },
+                    {
+                        "name": "delref",
+                        "type": "pure-token",
+                        "display_text": "delref",
+                        "token": "DELREF"
+                    },
+                    {
+                        "name": "acked",
+                        "type": "pure-token",
+                        "display_text": "acked",
+                        "token": "ACKED"
+                    }
+                ]
+            },
+            {
+                "name": "ids",
+                "type": "block",
+                "token": "IDS",
+                "arguments": [
+                    {
+                        "name": "numids",
+                        "type": "integer",
+                        "display_text": "numids"
+                    },
+                    {
+                        "name": "id",
+                        "type": "string",
+                        "display_text": "id",
+                        "multiple": true
+                    }
+                ]
             }
         ],
         "command_flags": [
@@ -16493,6 +18421,13 @@
                 "optional": true
             },
             {
+                "name": "min-idle-time",
+                "type": "integer",
+                "display_text": "min-idle-time",
+                "token": "CLAIM",
+                "optional": true
+            },
+            {
                 "name": "noack",
                 "type": "pure-token",
                 "display_text": "noack",
@@ -16673,6 +18608,10 @@
             [
                 "6.2.0",
                 "Added the `MINID` trimming strategy and the `LIMIT` option."
+            ],
+            [
+                "8.2.0",
+                "Added the `KEEPREF`, `DELREF` and `ACKED` options."
             ]
         ],
         "acl_categories": [
@@ -16762,6 +18701,31 @@
                         "token": "LIMIT",
                         "since": "6.2.0",
                         "optional": true
+                    },
+                    {
+                        "name": "condition",
+                        "type": "oneof",
+                        "optional": true,
+                        "arguments": [
+                            {
+                                "name": "keepref",
+                                "type": "pure-token",
+                                "display_text": "keepref",
+                                "token": "KEEPREF"
+                            },
+                            {
+                                "name": "delref",
+                                "type": "pure-token",
+                                "display_text": "delref",
+                                "token": "DELREF"
+                            },
+                            {
+                                "name": "acked",
+                                "type": "pure-token",
+                                "display_text": "acked",
+                                "token": "ACKED"
+                            }
+                        ]
                     }
                 ]
             }

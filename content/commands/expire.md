@@ -67,10 +67,10 @@ key_specs:
     type: range
   update: true
 linkTitle: EXPIRE
+railroad_diagram: /images/railroad/expire.svg
 since: 1.0.0
 summary: Sets the expiration time of a key in seconds.
 syntax_fmt: EXPIRE key seconds [NX | XX | GT | LT]
-syntax_str: seconds [NX | XX | GT | LT]
 title: EXPIRE
 ---
 Set a timeout on `key`.
@@ -137,7 +137,7 @@ are now fixed.
 
 ## Examples
 
-{{< clients-example cmds_generic expire >}}
+{{< clients-example set="cmds_generic" step="expire" description="Foundational: Set key expiration time using EXPIRE (supports conditional options NX/XX/GT/LT, returns 1 if set or 0 if not)" difficulty="beginner" >}}
 > SET mykey "Hello"
 "OK"
 > EXPIRE mykey 10
@@ -171,7 +171,6 @@ TTL mykey
 EXPIRE mykey 10 NX
 TTL mykey
 {{% /redis-cli %}}
-
 
 ## Pattern: Navigation session
 

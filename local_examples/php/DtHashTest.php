@@ -1,4 +1,5 @@
 // EXAMPLE: hash_tutorial
+// BINDER_ID php-dt-hash
 <?php
 
 require 'vendor/autoload.php';

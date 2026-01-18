@@ -22,10 +22,10 @@ description: Returns a count of unique pattern subscriptions.
 group: pubsub
 hidden: false
 linkTitle: PUBSUB NUMPAT
+railroad_diagram: /images/railroad/pubsub-numpat.svg
 since: 2.8.0
 summary: Returns a count of unique pattern subscriptions.
 syntax_fmt: PUBSUB NUMPAT
-syntax_str: ''
 title: PUBSUB NUMPAT
 ---
 Returns the number of unique patterns that are subscribed to by clients (that are performed using the [`PSUBSCRIBE`]({{< relref "/commands/psubscribe" >}}) command).

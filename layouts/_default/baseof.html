@@ -53,6 +53,7 @@
 
     <script src='{{ "js/index.js" | relURL }}' defer></script>
     {{ partial "segment.html" . }}
+    {{ partial "fullstory.html" . }}
     {{ if .Params.math }}
         {{ partial "mathjax.html" }}
     {{ end }}
@@ -107,6 +108,11 @@
     <!-- Hierarchy functionality -->
     {{ if .Page.Store.Get "hasHierarchy" }}
     <script src="{{ "js/hierarchy.js" | relURL }}"></script>
+    {{ end }}
+
+    <!-- Decision tree functionality -->
+    {{ if .Page.Store.Get "hasDecisionTree" }}
+    <script src="{{ "js/decision-tree.js" | relURL }}"></script>
     {{ end }}
   </body>
 </html>

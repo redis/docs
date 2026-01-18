@@ -39,10 +39,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: TYPE
+railroad_diagram: /images/railroad/type.svg
 since: 1.0.0
 summary: Determines the type of value stored at a key.
 syntax_fmt: TYPE key
-syntax_str: ''
 title: TYPE
 ---
 Returns the string representation of the type of the value stored at `key`.

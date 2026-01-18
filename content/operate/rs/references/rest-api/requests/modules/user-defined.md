@@ -79,7 +79,7 @@ Returns a JSON array of custom module artifacts.
 POST /v2/modules/user-defined
 ```
 
-Creates a module object in the cluster configuration store (CCS). After calling this endpoint, you still need to upload the module's `.so` file to each node by calling [`POST /v2/local/modules/user-defined/artifacts`](#post-local-user-defined-artifacts) on each node.
+Creates a module object in the cluster configuration store (CCS). After calling this endpoint, you still need to upload the module's `.zip` file, which contains the `.so` and `module.json` files, to each node by calling [`POST /v2/local/modules/user-defined/artifacts`](#post-local-user-defined-artifacts) on each node.
 
 #### Permissions
 
@@ -169,6 +169,18 @@ POST /v2/local/modules/user-defined/artifacts
 ```
 
 A local API to upload a custom module's artifact to the current node. You must call this API on each cluster node.
+
+The module must be packaged as a `.zip` file containing:
+
+- **module.json**: A metadata file with module information including:
+  - `module_name`: The actual module name
+  - `version`: Numeric version
+  - `semantic_version`: Semantic version string (for example, "1.0.0")
+  - `min_redis_version`: Minimum compatible Redis version
+  - `commands`: List of commands the module provides
+  - `capabilities`: List of module capabilities
+
+- **Module binary**: The compiled `.so` file for the target platform
 
 #### Permissions
 

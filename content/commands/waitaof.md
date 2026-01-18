@@ -35,11 +35,11 @@ hints:
 - request_policy:all_shards
 - response_policy:agg_min
 linkTitle: WAITAOF
+railroad_diagram: /images/railroad/waitaof.svg
 since: 7.2.0
 summary: Blocks until all of the preceding write commands sent by the connection are
   written to the append-only file of the master and/or replicas.
 syntax_fmt: WAITAOF numlocal numreplicas timeout
-syntax_str: numreplicas timeout
 title: WAITAOF
 ---
 This command blocks the current client until all previous write commands by that client are acknowledged as having been fsynced to the AOF of the local Redis and/or at least the specified number of replicas.

@@ -131,7 +131,7 @@ The Dialect version 2 enhancements also introduce simplified syntax for logical 
 
 ## `DIALECT 3` (Deprecated)
 
-Dialect version 3 was introduced in the [2.6](https://github.com/RediSearch/RediSearch/releases/tag/v2.6.3) release. This version introduced support for multi-value indexing and querying of attributes for any attribute type ( [TEXT]({{< relref "develop/ai/search-and-query/indexing/#index-json-arrays-as-text" >}}), [TAG]({{< relref "develop/ai/search-and-query/indexing/#index-json-arrays-as-tag" >}}), [NUMERIC]({{< relref "develop/ai/search-and-query/indexing/#index-json-arrays-as-numeric" >}}), [GEO]({{< relref "develop/ai/search-and-query/indexing/#index-json-arrays-as-geo" >}}) and [VECTOR]({{< relref "develop/ai/search-and-query/indexing/#index-json-arrays-as-vector" >}})) defined by a [JSONPath]({{< relref "/develop/data-types/json/path" >}}) leading to an array or multiple scalar values. Support for [GEOSHAPE]({{< relref "/develop/ai/search-and-query/query/geo-spatial" >}}) queries was also introduced in this dialect.
+Dialect version 3 was introduced in the [2.6](https://github.com/RediSearch/RediSearch/releases/tag/v2.6.3) release. This version introduced support for multi-value indexing and querying of attributes for any attribute type ( [TEXT]({{< relref "develop/ai/search-and-query/indexing/#index-json-arrays-as-text" >}}), [TAG]({{< relref "develop/ai/search-and-query/indexing/#index-json-arrays-as-tag" >}}), [NUMERIC]({{< relref "develop/ai/search-and-query/indexing/#index-json-arrays-as-numeric" >}}), [GEO]({{< relref "develop/ai/search-and-query/indexing/#index-json-arrays-as-geo" >}}) and [VECTOR]({{< relref "develop/ai/search-and-query/indexing/#index-json-arrays-as-vector" >}})) defined by a [JSONPath]({{< relref "/develop/data-types/json/path" >}}) leading to an array or multiple scalar values. Support for [GEOSHAPE]({{< relref "/develop/ai/search-and-query/query/geo-spatial" >}}) queries was also introduced in this version.
 
 The primary difference between dialects version 2 and version 3 is that JSON is returned rather than scalars for multi-value attributes. Apart from specifying `DIALECT 3` at the end of a [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) command, there are no other syntactic changes. Dialect version 1 remains the default dialect. To use dialect version 3, append `DIALECT 3` to your query command.
 
@@ -191,10 +191,6 @@ Now search, with and without `DIALECT 3`.
 
     Both elements are returned.
 
-{{% alert title=Note %}}
-DIALECT 3 is required for shape-based (`POINT` or `POLYGON`) geospatial queries.
-{{% /alert %}}
-
 ## `DIALECT 4` (Deprecated)
 
 Dialect version 4 was introduced in the [2.8](https://github.com/RediSearch/RediSearch/releases/tag/v2.8.4) release. It introduces performance optimizations for sorting operations on [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) and [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}). Apart from specifying `DIALECT 4` at the end of a [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) command, there are no other syntactic changes. Dialect version 1 remains the default dialect. To use dialect version 4, append `DIALECT 4` to your query command.
@@ -207,6 +203,8 @@ Dialect version 4 will improve performance in four different scenarios:
 1. **Partial range** - applied when there is a `SORTBY` on a numeric field, either with no filter or with a filter by the same numeric field. Such queries will iterate on a range large enough to satisfy the `LIMIT` of requested results.
 1. **Hybrid** - applied when there is a `SORTBY` on a numeric field in addition to another non-numeric filter. It could be the case that some results will get filtered, leaving too small a range to satisfy any specified `LIMIT`. In such cases, the iterator then is re-wound and additional iterations occur to collect result up to the requested `LIMIT`.
 1. **No optimization** - If there is a sort by score or by a non-numeric field, there is no other option but to retrieve all results and compare their values to the search parameters.
+
+You can also use `WITHOUTCOUNT` in place of `DIALECT 4` when used with either FT.SEARCH or FT.AGGREGATE.
 
 ## Use `FT.EXPLAINCLI` to compare dialects
 	

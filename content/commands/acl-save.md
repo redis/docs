@@ -27,10 +27,10 @@ hints:
 - request_policy:all_nodes
 - response_policy:all_succeeded
 linkTitle: ACL SAVE
+railroad_diagram: /images/railroad/acl-save.svg
 since: 6.0.0
 summary: Saves the effective ACL rules in the configured ACL file.
 syntax_fmt: ACL SAVE
-syntax_str: ''
 title: ACL SAVE
 ---
 When Redis is configured to use an ACL file (with the `aclfile` configuration

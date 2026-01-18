@@ -34,13 +34,18 @@ group: json
 hidden: false
 linkTitle: JSON.MSET
 module: JSON
+railroad_diagram: /images/railroad/json.mset.svg
 since: 2.6.0
 stack_path: docs/data-types/json
 summary: Sets or updates the JSON value of one or more keys
 syntax_fmt: JSON.MSET key path value [key path value ...]
-syntax_str: ''
 title: JSON.MSET
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Set or update one or more JSON values according to the specified `key`-`path`-`value` triplets
 
 `JSON.MSET` is atomic, hence, all given additions or updates are either applied or not. It is not possible for clients to see that some of the keys were updated while others are unchanged.

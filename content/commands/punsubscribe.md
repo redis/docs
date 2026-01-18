@@ -30,11 +30,11 @@ description: Stops listening to messages published to channels that match one or
 group: pubsub
 hidden: false
 linkTitle: PUNSUBSCRIBE
+railroad_diagram: /images/railroad/punsubscribe.svg
 since: 2.0.0
 summary: Stops listening to messages published to channels that match one or more
   patterns.
 syntax_fmt: PUNSUBSCRIBE [pattern [pattern ...]]
-syntax_str: ''
 title: PUNSUBSCRIBE
 ---
 Unsubscribes the client from the given patterns, or from all of them if none is

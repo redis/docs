@@ -47,10 +47,10 @@ key_specs:
     type: range
   insert: true
 linkTitle: APPEND
+railroad_diagram: /images/railroad/append.svg
 since: 2.0.0
 summary: Appends a string to the value of a key. Creates the key if it doesn't exist.
 syntax_fmt: APPEND key value
-syntax_str: value
 title: APPEND
 ---
 If `key` already exists and is a string, this command appends the `value` at the
@@ -66,7 +66,6 @@ APPEND mykey "Hello"
 APPEND mykey " World"
 GET mykey
 {{% /redis-cli %}}
-
 
 ## Pattern: Time series
 

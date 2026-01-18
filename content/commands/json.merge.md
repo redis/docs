@@ -30,12 +30,12 @@ group: json
 hidden: false
 linkTitle: JSON.MERGE
 module: JSON
+railroad_diagram: /images/railroad/json.merge.svg
 since: 2.6.0
 stack_path: docs/data-types/json
 summary: Merges a given JSON value into matching paths. Consequently, JSON values
   at matching paths are updated, deleted, or expanded with new children
 syntax_fmt: JSON.MERGE key path value
-syntax_str: path value
 title: JSON.MERGE
 ---
 Merge a given JSON value into matching paths. Consequently, JSON values at matching paths are updated, deleted, or expanded with new children.
@@ -125,7 +125,6 @@ redis> JSON.GET doc $
 {{< / highlight >}}
 
 </details>
-
 
 <details open>
 <summary><b>Merge changes in multi-paths</b></summary>

@@ -63,13 +63,18 @@ key_specs:
       keystep: 1
     type: keynum
 linkTitle: LMPOP
+railroad_diagram: /images/railroad/lmpop.svg
 since: 7.0.0
 summary: Returns multiple elements from a list after removing them. Deletes the list
   if the last element was popped.
 syntax_fmt: "LMPOP numkeys key [key ...] <LEFT | RIGHT> [COUNT\_count]"
-syntax_str: "key [key ...] <LEFT | RIGHT> [COUNT\_count]"
 title: LMPOP
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Pops one or more elements from the first non-empty list key from the list of provided key names.
 
 `LMPOP` and [`BLMPOP`]({{< relref "/commands/blmpop" >}}) are similar to the following, more limited, commands:

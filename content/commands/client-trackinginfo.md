@@ -23,10 +23,10 @@ description: Returns information about server-assisted client-side caching for t
 group: connection
 hidden: false
 linkTitle: CLIENT TRACKINGINFO
+railroad_diagram: /images/railroad/client-trackinginfo.svg
 since: 6.2.0
 summary: Returns information about server-assisted client-side caching for the connection.
 syntax_fmt: CLIENT TRACKINGINFO
-syntax_str: ''
 title: CLIENT TRACKINGINFO
 ---
 The command returns information about the current client connection's use of the [server assisted client side caching]({{< relref "/develop/clients/client-side-caching" >}}) feature.

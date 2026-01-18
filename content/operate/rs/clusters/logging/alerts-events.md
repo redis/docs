@@ -26,7 +26,6 @@ The following alerts and events can appear in `syslog` and the Cluster Manager U
 | high_latency | Latency is higher than `<threshold>` milliseconds | True: warning, False: info | BDB alert; Has threshold parameter in the key/value section of the log entry |
 | high_syncer_lag | Sync lag is higher than `<threshold>` seconds | True: warning, False: info | BDB alert; Has threshold parameter in the key/value section of the log entry |
 | high_throughput | Throughput is higher than `<threshold>` RPS (requests per second) | True: warning, False: info | BDB alert; Has threshold parameter in the key/value section of the log entry |
-| inconsistent_redis_sw | Not all databases are running the same open source version | True: warning, False: info | Cluster alert |
 | inconsistent_rl_sw | Not all nodes in the cluster are running the same Redis Labs Enterprise Cluster version | True: warning, False: info | Cluster alert |
 | insufficient_disk_aofrw | Node has insufficient disk space for AOF rewrite | True: error, False: info | Node alert |
 | memory | Node memory has reached `<threshold>`% of its capacity | True: warning, False: info | Node alert; Has global_threshold parameter in the key/value section of the log entry |

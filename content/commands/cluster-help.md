@@ -20,10 +20,10 @@ description: Returns helpful text about the different subcommands.
 group: cluster
 hidden: true
 linkTitle: CLUSTER HELP
+railroad_diagram: /images/railroad/cluster-help.svg
 since: 5.0.0
 summary: Returns helpful text about the different subcommands.
 syntax_fmt: CLUSTER HELP
-syntax_str: ''
 title: CLUSTER HELP
 ---
 The `CLUSTER HELP` command returns a helpful text describing the different subcommands.

@@ -56,10 +56,10 @@ key_specs:
       keystep: 1
     type: keynum
 linkTitle: EVALSHA_RO
+railroad_diagram: /images/railroad/evalsha_ro.svg
 since: 7.0.0
 summary: Executes a read-only server-side Lua script by SHA1 digest.
 syntax_fmt: EVALSHA_RO sha1 numkeys [key [key ...]] [arg [arg ...]]
-syntax_str: numkeys [key [key ...]] [arg [arg ...]]
 title: EVALSHA_RO
 ---
 This is a read-only variant of the [`EVALSHA`]({{< relref "/commands/evalsha" >}}) command that cannot execute commands that modify data.

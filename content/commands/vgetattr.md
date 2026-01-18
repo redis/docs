@@ -14,6 +14,7 @@ description: Retrieve the JSON attributes of elements.
 group: vector_set
 hidden: false
 linkTitle: VGETATTR
+railroad_diagram: /images/railroad/vgetattr.svg
 since: 8.0.0
 summary: Retrieve the JSON attributes of elements.
 syntax_fmt: "VGETATTR key element"

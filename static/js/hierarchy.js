@@ -165,10 +165,25 @@ function createHierarchyFromYAML(yamlText, hierarchyType, preElement, noIcons) {
         text.setAttribute('y', y);
         text.setAttribute('font-family', '"Space Mono", monospace');
         text.setAttribute('font-size', '14');
-        text.setAttribute('fill', '#333');
+        text.setAttribute('fill', item.link ? '#0066cc' : '#333');
         text.setAttribute('dominant-baseline', 'middle');
+        if (item.link) {
+            text.style.cursor = 'pointer';
+            text.style.textDecoration = 'underline';
+        }
         text.textContent = item.name;
-        svg.appendChild(text);
+
+        if (item.link) {
+            // Wrap text in an <a> element for clickability
+            const link = document.createElementNS('http://www.w3.org/2000/svg', 'a');
+            link.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', item.link);
+            link.setAttribute('target', '_blank');
+            link.style.cursor = 'pointer';
+            link.appendChild(text);
+            svg.appendChild(link);
+        } else {
+            svg.appendChild(text);
+        }
 
         // Draw description/comment if available
         if (item.description) {
@@ -202,6 +217,7 @@ function flattenHierarchy(name, nodeData, depth, items) {
         name: name,
         depth: depth,
         description: cleanDescription(nodeData._meta?.description),
+        link: nodeData._meta?.link || null,
         isEllipsis: isEllipsis
     });
 

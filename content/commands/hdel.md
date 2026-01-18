@@ -48,11 +48,11 @@ key_specs:
       limit: 0
     type: range
 linkTitle: HDEL
+railroad_diagram: /images/railroad/hdel.svg
 since: 2.0.0
 summary: Deletes one or more fields and their values from a hash. Deletes the hash
   if no fields remain.
 syntax_fmt: HDEL key field [field ...]
-syntax_str: field [field ...]
 title: HDEL
 ---
 Removes the specified fields from the hash stored at `key`.
@@ -63,7 +63,7 @@ If `key` does not exist, it is treated as an empty hash and this command returns
 
 ## Examples
 
-{{< clients-example set="cmds_hash" step="hdel" >}}
+{{< clients-example set="cmds_hash" step="hdel" description="Foundational: Delete one or more fields from a hash using HDEL (returns count of deleted fields, ignores non-existent fields)" difficulty="beginner" >}}
 HSET myhash field1 "foo"
 (integer) 1
 HDEL myhash field1

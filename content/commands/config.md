@@ -17,10 +17,10 @@ description: A container for server configuration commands.
 group: server
 hidden: true
 linkTitle: CONFIG
+railroad_diagram: /images/railroad/config.svg
 since: 2.0.0
 summary: A container for server configuration commands.
 syntax_fmt: CONFIG
-syntax_str: ''
 title: CONFIG
 ---
 This is a container command for runtime configuration commands.

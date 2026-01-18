@@ -14,6 +14,7 @@ description: Return the dimension of vectors in the vector set.
 group: vector_set
 hidden: false
 linkTitle: VDIM
+railroad_diagram: /images/railroad/vdim.svg
 since: 8.0.0
 summary: Return the dimension of vectors in the vector set.
 syntax_fmt: "VDIM key"

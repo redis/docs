@@ -26,10 +26,10 @@ description: Changes the selected database.
 group: connection
 hidden: false
 linkTitle: SELECT
+railroad_diagram: /images/railroad/select.svg
 since: 1.0.0
 summary: Changes the selected database.
 syntax_fmt: SELECT index
-syntax_str: ''
 title: SELECT
 ---
 Select the Redis logical database having the specified zero-based numeric index.

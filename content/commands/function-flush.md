@@ -38,10 +38,10 @@ hints:
 - request_policy:all_shards
 - response_policy:all_succeeded
 linkTitle: FUNCTION FLUSH
+railroad_diagram: /images/railroad/function-flush.svg
 since: 7.0.0
 summary: Deletes all libraries and functions.
 syntax_fmt: FUNCTION FLUSH [ASYNC | SYNC]
-syntax_str: ''
 title: FUNCTION FLUSH
 ---
 Deletes all the libraries.

@@ -1,0 +1,65 @@
+<svg class="railroad-diagram" height="79" viewBox="0 0 899.5 79" width="899.5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs>
+<style type="text/css"><![CDATA[
+svg.railroad-diagram { background-color: transparent; }
+.terminal rect { fill: #DC382D !important; stroke: #DC382D !important; }
+.terminal text { fill: white !important; font-weight: bold; }
+.nonterminal rect { fill: none !important; stroke: #DC382D !important; stroke-width: 2; }
+.nonterminal text { fill: #DC382D !important; font-weight: bold; }
+path { stroke: #DC382D !important; stroke-width: 2; fill: none; }
+circle { fill: #DC382D !important; stroke: #DC382D !important; }
+]]></style>
+</defs>
+<g transform="translate(.5 .5)">
+<style>/* <![CDATA[ */
+	svg.railroad-diagram {
+		background-color: transparent;
+	}
+	svg.railroad-diagram path {
+		stroke-width:3;
+		stroke: #DC382D;
+		fill:rgba(0,0,0,0);
+	}
+	svg.railroad-diagram text {
+		font:bold 14px monospace;
+		text-anchor:middle;
+	}
+	svg.railroad-diagram text.label{
+		text-anchor:start;
+	}
+	svg.railroad-diagram text.comment{
+		font:italic 12px monospace;
+	}
+	svg.railroad-diagram rect{
+		stroke-width:3;
+		stroke: #DC382D;
+		fill: none;
+	}
+	svg.railroad-diagram rect.group-box {
+		stroke: #DC382D;
+		stroke-dasharray: 10 5;
+		fill: none;
+	}
+
+/* ]]> */
+</style><g>
+<path d="M20 38v20m10 -20v20m-10 -10h20"></path></g><path d="M40 48h10"></path><g>
+<path d="M50 48h0.0"></path><path d="M849.5 48h0.0"></path><g class="terminal ">
+<path d="M50.0 48h0.0"></path><path d="M138.0 48h0.0"></path><rect height="22" rx="10" ry="10" width="88.0" x="50.0" y="37"></rect><text x="94.0" y="52">FAILOVER</text></g><path d="M138.0 48h10"></path><g>
+<path d="M148.0 48h0.0"></path><path d="M485.5 48h0.0"></path><path d="M148.0 48a10 10 0 0 0 10 -10v-8a10 10 0 0 1 10 -10"></path><g>
+<path d="M168.0 20h297.5"></path></g><path d="M465.5 20a10 10 0 0 1 10 10v8a10 10 0 0 0 10 10"></path><path d="M148.0 48h20"></path><g>
+<path d="M168.0 48h0.0"></path><path d="M465.5 48h0.0"></path><g class="terminal ">
+<path d="M168.0 48h0.0"></path><path d="M205.0 48h0.0"></path><rect height="22" rx="10" ry="10" width="37.0" x="168.0" y="37"></rect><text x="186.5" y="52">TO</text></g><path d="M205.0 48h10"></path><path d="M215.0 48h10"></path><g class="non-terminal ">
+<path d="M225.0 48h0.0"></path><path d="M279.0 48h0.0"></path><rect height="22" width="54.0" x="225.0" y="37"></rect><text x="252.0" y="52">host</text></g><path d="M279.0 48h10"></path><path d="M289.0 48h10"></path><g class="non-terminal ">
+<path d="M299.0 48h0.0"></path><path d="M353.0 48h0.0"></path><rect height="22" width="54.0" x="299.0" y="37"></rect><text x="326.0" y="52">port</text></g><path d="M353.0 48h10"></path><g>
+<path d="M363.0 48h0.0"></path><path d="M465.5 48h0.0"></path><path d="M363.0 48a10 10 0 0 0 10 -10v0a10 10 0 0 1 10 -10"></path><g>
+<path d="M383.0 28h62.5"></path></g><path d="M445.5 28a10 10 0 0 1 10 10v0a10 10 0 0 0 10 10"></path><path d="M363.0 48h20"></path><g class="terminal ">
+<path d="M383.0 48h0.0"></path><path d="M445.5 48h0.0"></path><rect height="22" rx="10" ry="10" width="62.5" x="383.0" y="37"></rect><text x="414.25" y="52">FORCE</text></g><path d="M445.5 48h20"></path></g></g><path d="M465.5 48h20"></path></g><g>
+<path d="M485.5 48h0.0"></path><path d="M588.0 48h0.0"></path><path d="M485.5 48a10 10 0 0 0 10 -10v0a10 10 0 0 1 10 -10"></path><g>
+<path d="M505.5 28h62.5"></path></g><path d="M568.0 28a10 10 0 0 1 10 10v0a10 10 0 0 0 10 10"></path><path d="M485.5 48h20"></path><g class="terminal ">
+<path d="M505.5 48h0.0"></path><path d="M568.0 48h0.0"></path><rect height="22" rx="10" ry="10" width="62.5" x="505.5" y="37"></rect><text x="536.75" y="52">ABORT</text></g><path d="M568.0 48h20"></path></g><g>
+<path d="M588.0 48h0.0"></path><path d="M849.5 48h0.0"></path><path d="M588.0 48a10 10 0 0 0 10 -10v0a10 10 0 0 1 10 -10"></path><g>
+<path d="M608.0 28h221.5"></path></g><path d="M829.5 28a10 10 0 0 1 10 10v0a10 10 0 0 0 10 10"></path><path d="M588.0 48h20"></path><g>
+<path d="M608.0 48h0.0"></path><path d="M829.5 48h0.0"></path><g class="terminal ">
+<path d="M608.0 48h0.0"></path><path d="M687.5 48h0.0"></path><rect height="22" rx="10" ry="10" width="79.5" x="608.0" y="37"></rect><text x="647.75" y="52">TIMEOUT</text></g><path d="M687.5 48h10"></path><path d="M697.5 48h10"></path><g class="non-terminal ">
+<path d="M707.5 48h0.0"></path><path d="M829.5 48h0.0"></path><rect height="22" width="122.0" x="707.5" y="37"></rect><text x="768.5" y="52">milliseconds</text></g></g><path d="M829.5 48h20"></path></g></g><path d="M849.5 48h10"></path><path d="M 859.5 48 h 20 m -10 -10 v 20 m 10 -20 v 20"></path></g></svg>

@@ -2,6 +2,16 @@
 title: Error handling
 description: Learn how to handle errors when using Redis client libraries.
 linkTitle: Error handling
+scope: overview
+relatedPages:
+- /develop/clients/redis-py/error-handling
+- /develop/clients/dotnet/error-handling
+- /develop/clients/nodejs/error-handling
+- /develop/clients/jedis/error-handling
+- /develop/clients/go/error-handling
+topics:
+- error-handling
+- resilience
 weight: 50
 ---
 

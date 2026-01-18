@@ -28,10 +28,10 @@ hidden: false
 hints:
 - nondeterministic_output
 linkTitle: CLUSTER GETKEYSINSLOT
+railroad_diagram: /images/railroad/cluster-getkeysinslot.svg
 since: 3.0.0
 summary: Returns the key names in a hash slot.
 syntax_fmt: CLUSTER GETKEYSINSLOT slot count
-syntax_str: count
 title: CLUSTER GETKEYSINSLOT
 ---
 The command returns an array of keys names stored in the contacted node and

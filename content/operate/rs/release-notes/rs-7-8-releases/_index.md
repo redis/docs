@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-compatibleOSSVersion: Redis 7.4.0
+compatibleOSSVersion: Redis 7.4, 7.2, 6.2
 description: Redis Community Edition 7.4 features. Hash field expiration. Client-side caching support. Metrics stream engine preview. New APIs to check database availability, rebalance shards, fail over shards, and control database traffic. Cluster Manager UI enhancements for node actions, database tags, and database configuration. User manager role. Log rotation based on both size and time. Module management enhancements. Configurable minimum password length. Configurable license expiration alert threshold.
 hideListLinks: true
 linkTitle: 7.8.x releases
@@ -147,6 +147,23 @@ If your database currently uses triggers and functions, you need to:
     If any triggers and functions libraries remain in the database, the RDB snapshot won't load on a cluster without RedisGears.
 
 1. Migrate your database to a new database without the RedisGears module.
+
+### Reserved ports
+
+Make sure the following ports are open before upgrading Redis Enterprise Software.
+
+Ports reserved as of Redis Enterprise Software version 7.8.2:
+
+| Port | Process name | Usage | 
+|------|--------------|-------|
+| 3347 | cert_exporter | Reports cluster certificate metrics |
+| 3348 | process_exporter | Reports process metrics for DMC and Redis processes |
+| 3349 | cluster_wd_exporter | Reports cluster watchdog metrics |
+| 3350 | db_controller | Internode communication |
+| 9091 | node_exporter | Reports host node metrics related to CPU, memory, disk, and more |
+| 9125 | statsd_exporter | Reports push metrics related to the DMC and syncer, and some cluster and node metrics |
+
+See [Ports and port ranges used by Redis Enterprise Software]({{<relref "/operate/rs/networking/port-configurations#ports-and-port-ranges-used-by-redis-enterprise-software">}}) for a complete list.
 
 ### Deprecations
 

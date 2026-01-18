@@ -7,6 +7,7 @@ categories:
 - rc
 description: null
 weight: 40
+draft: true
 ---
 
 The [FLUSHALL]({{< relref "/commands/flushall" >}}) command provides a fast way to remove all data from a database.

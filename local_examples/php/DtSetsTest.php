@@ -1,4 +1,5 @@
 // EXAMPLE: sets_tutorial
+// BINDER_ID php-dt-set
 <?php
 
 require 'vendor/autoload.php';
@@ -76,11 +77,12 @@ extends PredisTestCase
         // STEP_END
         // REMOVE_START
         $this->assertEquals(3, $res8);
-        $r->del('bikes:racing:france');
         $r->del('bikes:racing:usa');
         // REMOVE_END
 
         // STEP_START sadd_smembers
+        $r->del('bikes:racing:france');
+
         $res9 = $r->sadd('bikes:racing:france', ['bike:1', 'bike:2', 'bike:3']);
         echo $res9 . PHP_EOL;
         // >>> 3
@@ -123,6 +125,10 @@ extends PredisTestCase
         // REMOVE_END
 
         // STEP_START multisets
+        $r->del('bikes:racing:france');
+        $r->del('bikes:racing:usa');
+        $r->del('bikes:racing:italy');
+            
         $r->sadd('bikes:racing:france', ['bike:1', 'bike:2', 'bike:3']);
         $r->sadd('bikes:racing:usa', ['bike:1', 'bike:4']);
         $r->sadd('bikes:racing:italy', ['bike:1', 'bike:2', 'bike:3', 'bike:4']);
@@ -158,6 +164,8 @@ extends PredisTestCase
         // REMOVE_END
 
         // STEP_START srem
+        $r->del('bikes:racing:france');
+
         $r->sadd('bikes:racing:france', ['bike:1', 'bike:2', 'bike:3', 'bike:4', 'bike:5']);
 
         $res19 = $r->srem('bikes:racing:france', ['bike:1']);

@@ -17,10 +17,10 @@ description: A container for consumer groups commands.
 group: stream
 hidden: true
 linkTitle: XGROUP
+railroad_diagram: /images/railroad/xgroup.svg
 since: 5.0.0
 summary: A container for consumer groups commands.
 syntax_fmt: XGROUP
-syntax_str: ''
 title: XGROUP
 ---
 This is a container command for stream consumer group management commands.

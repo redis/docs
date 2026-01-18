@@ -1,0 +1,56 @@
+<svg class="railroad-diagram" height="71" viewBox="0 0 796.5 71" width="796.5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs>
+<style type="text/css"><![CDATA[
+svg.railroad-diagram { background-color: transparent; }
+.terminal rect { fill: #DC382D !important; stroke: #DC382D !important; }
+.terminal text { fill: white !important; font-weight: bold; }
+.nonterminal rect { fill: none !important; stroke: #DC382D !important; stroke-width: 2; }
+.nonterminal text { fill: #DC382D !important; font-weight: bold; }
+path { stroke: #DC382D !important; stroke-width: 2; fill: none; }
+circle { fill: #DC382D !important; stroke: #DC382D !important; }
+]]></style>
+</defs>
+<g transform="translate(.5 .5)">
+<style>/* <![CDATA[ */
+	svg.railroad-diagram {
+		background-color: transparent;
+	}
+	svg.railroad-diagram path {
+		stroke-width:3;
+		stroke: #DC382D;
+		fill:rgba(0,0,0,0);
+	}
+	svg.railroad-diagram text {
+		font:bold 14px monospace;
+		text-anchor:middle;
+	}
+	svg.railroad-diagram text.label{
+		text-anchor:start;
+	}
+	svg.railroad-diagram text.comment{
+		font:italic 12px monospace;
+	}
+	svg.railroad-diagram rect{
+		stroke-width:3;
+		stroke: #DC382D;
+		fill: none;
+	}
+	svg.railroad-diagram rect.group-box {
+		stroke: #DC382D;
+		stroke-dasharray: 10 5;
+		fill: none;
+	}
+
+/* ]]> */
+</style><g>
+<path d="M20 30v20m10 -20v20m-10 -10h20"></path></g><path d="M40 40h10"></path><g>
+<path d="M50 40h0.0"></path><path d="M746.5 40h0.0"></path><g class="terminal ">
+<path d="M50.0 40h0.0"></path><path d="M138.0 40h0.0"></path><rect height="22" rx="10" ry="10" width="88.0" x="50.0" y="29"></rect><text x="94.0" y="44">FT.ALTER</text></g><path d="M138.0 40h10"></path><path d="M148.0 40h10"></path><g class="non-terminal ">
+<path d="M158.0 40h0.0"></path><path d="M220.5 40h0.0"></path><rect height="22" width="62.5" x="158.0" y="29"></rect><text x="189.25" y="44">index</text></g><path d="M220.5 40h10"></path><g>
+<path d="M230.5 40h0.0"></path><path d="M418.0 40h0.0"></path><path d="M230.5 40a10 10 0 0 0 10 -10v0a10 10 0 0 1 10 -10"></path><g>
+<path d="M250.5 20h147.5"></path></g><path d="M398.0 20a10 10 0 0 1 10 10v0a10 10 0 0 0 10 10"></path><path d="M230.5 40h20"></path><g class="terminal ">
+<path d="M250.5 40h0.0"></path><path d="M398.0 40h0.0"></path><rect height="22" rx="10" ry="10" width="147.5" x="250.5" y="29"></rect><text x="324.25" y="44">SKIPINITIALSCAN</text></g><path d="M398.0 40h20"></path></g><path d="M418.0 40h10"></path><g class="terminal ">
+<path d="M428.0 40h0.0"></path><path d="M499.0 40h0.0"></path><rect height="22" rx="10" ry="10" width="71.0" x="428.0" y="29"></rect><text x="463.5" y="44">SCHEMA</text></g><path d="M499.0 40h10"></path><path d="M509.0 40h10"></path><g class="terminal ">
+<path d="M519.0 40h0.0"></path><path d="M564.5 40h0.0"></path><rect height="22" rx="10" ry="10" width="45.5" x="519.0" y="29"></rect><text x="541.75" y="44">ADD</text></g><path d="M564.5 40h10"></path><path d="M574.5 40h10"></path><g class="non-terminal ">
+<path d="M584.5 40h0.0"></path><path d="M647.0 40h0.0"></path><rect height="22" width="62.5" x="584.5" y="29"></rect><text x="615.75" y="44">field</text></g><path d="M647.0 40h10"></path><path d="M657.0 40h10"></path><g class="non-terminal ">
+<path d="M667.0 40h0.0"></path><path d="M746.5 40h0.0"></path><rect height="22" width="79.5" x="667.0" y="29"></rect><text x="706.75" y="44">options</text></g></g><path d="M746.5 40h10"></path><path d="M 756.5 40 h 20 m -10 -10 v 20 m 10 -20 v 20"></path></g></svg>

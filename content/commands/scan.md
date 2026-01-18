@@ -50,12 +50,17 @@ history:
 - - 6.0.0
   - Added the `TYPE` subcommand.
 linkTitle: SCAN
+railroad_diagram: /images/railroad/scan.svg
 since: 2.8.0
 summary: Iterates over the key names in the database.
 syntax_fmt: "SCAN cursor [MATCH\_pattern] [COUNT\_count] [TYPE\_type]"
-syntax_str: "[MATCH\_pattern] [COUNT\_count] [TYPE\_type]"
 title: SCAN
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 The `SCAN` command and the closely related commands [`SSCAN`]({{< relref "/commands/sscan" >}}), [`HSCAN`]({{< relref "/commands/hscan" >}}) and [`ZSCAN`]({{< relref "/commands/zscan" >}}) are used in order to incrementally iterate over a collection of elements.
 
 * `SCAN` iterates the set of keys in the currently selected Redis database.
@@ -155,7 +160,7 @@ To do so, just append the `MATCH <pattern>` arguments at the end of the `SCAN` c
 
 This is an example of iteration using **MATCH**:
 
-{{< clients-example cmds_generic scan1 >}}
+{{< clients-example set="cmds_generic" step="scan1" description="Set iteration: Iterate set members with pattern matching using SSCAN MATCH (cursor-based iteration, non-blocking)" difficulty="intermediate" >}}
 > sadd myset 1 2 3 foo foobar feelsgood
 (integer) 6
 > sscan myset 0 match f*
@@ -167,7 +172,7 @@ This is an example of iteration using **MATCH**:
 
 It is important to note that the **MATCH** filter is applied after elements are retrieved from the collection, just before returning data to the client. This means that if the pattern matches very little elements inside the collection, `SCAN` will likely return no elements in most iterations. An example is shown below:
 
-{{< clients-example cmds_generic scan2 >}}
+{{< clients-example set="cmds_generic" step="scan2" description="Keyspace iteration: Iterate database keys with pattern matching using SCAN MATCH and COUNT (demonstrates cursor iteration with sparse results)" difficulty="intermediate" >}}
 > scan 0 MATCH *11*
 1) "288"
 2) 1) "key:911"
@@ -217,7 +222,7 @@ You can use the `TYPE` option to ask `SCAN` to only return objects that match a 
 
 The `type` argument is the same string name that the [`TYPE`]({{< relref "/commands/type" >}}) command returns. Note a quirk where some Redis types, such as GeoHashes, HyperLogLogs, Bitmaps, and Bitfields, may internally be implemented using other Redis types, such as a string or zset, so can't be distinguished from other keys of that same type by `SCAN`. For example, a ZSET and GEOHASH:
 
-{{< clients-example cmds_generic scan3 >}}
+{{< clients-example set="cmds_generic" step="scan3" description="Iterate keyspace by type: Iterate database keys filtered by type using SCAN TYPE (filters keys by data type, useful for type-specific operations)" difficulty="intermediate" >}}
 > GEOADD geokey 0 0 value
 (integer) 1
 > ZADD zkey 1000 value
@@ -238,7 +243,7 @@ It is important to note that the **TYPE** filter is also applied after elements 
 
 When using [`HSCAN`]({{< relref "/commands/hscan" >}}), you can use the `NOVALUES` option to make Redis return only the keys in the hash table without their corresponding values.
 
-{{< clients-example cmds_generic scan4 >}}
+{{< clients-example set="cmds_generic" step="scan4" description="Hash iteration: Iterate hash fields with optional NOVALUES using HSCAN (returns field-value pairs or fields only)" difficulty="intermediate" >}}
 > HSET myhash a 1 b 2
 OK
 > HSCAN myhash 0

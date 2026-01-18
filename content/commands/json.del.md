@@ -27,11 +27,11 @@ group: json
 hidden: false
 linkTitle: JSON.DEL
 module: JSON
+railroad_diagram: /images/railroad/json.del.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Deletes a value
 syntax_fmt: JSON.DEL key [path]
-syntax_str: '[path]'
 title: JSON.DEL
 ---
 Delete a value
@@ -91,7 +91,6 @@ redis> JSON.GET doc $
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
 
-
 ## Return information
 
 {{< multitabs id="json-del-return-info"
@@ -114,6 +113,4 @@ redis> JSON.GET doc $
 
 * [RedisJSON]({{< relref "/develop/data-types/json/" >}})
 * [Index and search JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}})
-
-
 

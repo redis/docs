@@ -11,6 +11,10 @@ linkTitle: Database operations
 weight: $weight
 ---
 
+The following metrics are available in the Redis Enterprise Cluster Manager UI.
+
+{{<image filename="images/rs/screenshots/metrics/db-metrics.png" alt="The database metrics page.">}}
+
 ## Evicted objects/sec
 
 Number of objects evicted from the database per second.

@@ -21,10 +21,10 @@ description: Returns a count of commands.
 group: server
 hidden: false
 linkTitle: COMMAND COUNT
+railroad_diagram: /images/railroad/command-count.svg
 since: 2.8.13
 summary: Returns a count of commands.
 syntax_fmt: COMMAND COUNT
-syntax_str: ''
 title: COMMAND COUNT
 ---
 Returns [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) of number of total commands in this Redis server.

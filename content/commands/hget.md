@@ -43,17 +43,17 @@ key_specs:
       limit: 0
     type: range
 linkTitle: HGET
+railroad_diagram: /images/railroad/hget.svg
 since: 2.0.0
 summary: Returns the value of a field in a hash.
 syntax_fmt: HGET key field
-syntax_str: field
 title: HGET
 ---
 Returns the value associated with `field` in the hash stored at `key`.
 
 ## Examples
 
-{{< clients-example cmds_hash hget >}}
+{{< clients-example set="cmds_hash" step="hget" description="Foundational: Retrieve a single field value from a hash using HGET (returns nil if field or key doesn't exist)" difficulty="beginner" >}}
 > HSET myhash field1 "foo"
 (integer) 1
 > HGET myhash field1

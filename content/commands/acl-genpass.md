@@ -27,11 +27,11 @@ description: Generates a pseudorandom, secure password that can be used to ident
 group: server
 hidden: false
 linkTitle: ACL GENPASS
+railroad_diagram: /images/railroad/acl-genpass.svg
 since: 6.0.0
 summary: Generates a pseudorandom, secure password that can be used to identify ACL
   users.
 syntax_fmt: ACL GENPASS [bits]
-syntax_str: ''
 title: ACL GENPASS
 ---
 ACL users need a solid password in order to authenticate to the server without

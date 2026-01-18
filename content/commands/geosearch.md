@@ -159,14 +159,12 @@ key_specs:
       limit: 0
     type: range
 linkTitle: GEOSEARCH
+railroad_diagram: /images/railroad/geosearch.svg
 since: 6.2.0
 summary: Queries a geospatial index for members inside an area of a box or a circle.
 syntax_fmt: "GEOSEARCH key <FROMMEMBER\_member | FROMLONLAT\_longitude latitude>\n\
   \  <BYRADIUS\_radius <M | KM | FT | MI> | BYBOX\_width height <M | KM |\n  FT |\
   \ MI>> [ASC | DESC] [COUNT\_count [ANY]] [WITHCOORD] [WITHDIST]\n  [WITHHASH]"
-syntax_str: "<FROMMEMBER\_member | FROMLONLAT\_longitude latitude> <BYRADIUS\_radius\
-  \ <M | KM | FT | MI> | BYBOX\_width height <M | KM | FT | MI>> [ASC | DESC] [COUNT\_\
-  count [ANY]] [WITHCOORD] [WITHDIST] [WITHHASH]"
 title: GEOSEARCH
 ---
 Return the members of a sorted set populated with geospatial information using [`GEOADD`]({{< relref "/commands/geoadd" >}}), which are within the borders of the area specified by a given shape. This command extends the [`GEORADIUS`]({{< relref "/commands/georadius" >}}) command, so in addition to searching within circular areas, it supports searching within rectangular areas.

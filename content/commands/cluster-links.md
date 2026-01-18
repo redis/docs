@@ -21,10 +21,10 @@ hidden: false
 hints:
 - nondeterministic_output
 linkTitle: CLUSTER LINKS
+railroad_diagram: /images/railroad/cluster-links.svg
 since: 7.0.0
 summary: Returns a list of all TCP links to and from peer nodes.
 syntax_fmt: CLUSTER LINKS
-syntax_str: ''
 title: CLUSTER LINKS
 ---
 Each node in a Redis Cluster maintains a pair of long-lived TCP link with each peer in the cluster: One for sending outbound messages towards the peer and one for receiving inbound messages from the peer.

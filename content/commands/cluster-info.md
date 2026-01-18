@@ -21,10 +21,10 @@ hidden: false
 hints:
 - nondeterministic_output
 linkTitle: CLUSTER INFO
+railroad_diagram: /images/railroad/cluster-info.svg
 since: 3.0.0
 summary: Returns information about the state of a node.
 syntax_fmt: CLUSTER INFO
-syntax_str: ''
 title: CLUSTER INFO
 ---
 `CLUSTER INFO` provides [`INFO`]({{< relref "/commands/info" >}}) style information about Redis Cluster vital parameters.

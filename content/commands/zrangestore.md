@@ -91,13 +91,18 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZRANGESTORE
+railroad_diagram: /images/railroad/zrangestore.svg
 since: 6.2.0
 summary: Stores a range of members from sorted set in a key.
 syntax_fmt: "ZRANGESTORE dst src min max [BYSCORE | BYLEX] [REV] [LIMIT\_offset\n\
   \  count]"
-syntax_str: "src min max [BYSCORE | BYLEX] [REV] [LIMIT\_offset count]"
 title: ZRANGESTORE
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 This command is like [`ZRANGE`]({{< relref "/commands/zrange" >}}), but stores the result in the `<dst>` destination key.
 
 ## Examples

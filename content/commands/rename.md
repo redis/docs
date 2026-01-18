@@ -56,12 +56,17 @@ key_specs:
     type: range
   update: true
 linkTitle: RENAME
+railroad_diagram: /images/railroad/rename.svg
 since: 1.0.0
 summary: Renames a key and overwrites the destination.
 syntax_fmt: RENAME key newkey
-syntax_str: newkey
 title: RENAME
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Renames `key` to `newkey`.
 It returns an error when `key` does not exist.
 If `newkey` already exists it is overwritten, when this happens `RENAME` executes an implicit [`DEL`]({{< relref "/commands/del" >}}) operation, so if the deleted key contains a very big value it may cause high latency even if `RENAME` itself is usually a constant-time operation.
@@ -75,7 +80,6 @@ SET mykey "Hello"
 RENAME mykey myotherkey
 GET myotherkey
 {{% /redis-cli %}}
-
 
 ## Behavior change history
 

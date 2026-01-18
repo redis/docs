@@ -65,10 +65,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: BITCOUNT
+railroad_diagram: /images/railroad/bitcount.svg
 since: 2.6.0
 summary: Counts the number of set bits (population counting) in a string.
 syntax_fmt: BITCOUNT key [start end [BYTE | BIT]]
-syntax_str: '[start end [BYTE | BIT]]'
 title: BITCOUNT
 ---
 Count the number of set bits (population counting) in a string.
@@ -98,7 +98,6 @@ BITCOUNT mykey 1 1
 BITCOUNT mykey 1 1 BYTE
 BITCOUNT mykey 5 30 BIT
 {{% /redis-cli %}}
-
 
 ## Pattern: real-time metrics using bitmaps
 

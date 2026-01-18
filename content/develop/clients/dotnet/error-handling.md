@@ -2,6 +2,13 @@
 title: Error handling
 description: Learn how to handle errors when using NRedisStack.
 linkTitle: Error handling
+scope: implementation
+relatedPages:
+- /develop/clients/error-handling
+- /develop/clients/dotnet/produsage
+topics:
+- error-handling
+- resilience
 weight: 60
 ---
 

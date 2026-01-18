@@ -47,11 +47,11 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZPOPMAX
+railroad_diagram: /images/railroad/zpopmax.svg
 since: 5.0.0
 summary: Returns the highest-scoring members from a sorted set after removing them.
   Deletes the sorted set if the last member was popped.
 syntax_fmt: ZPOPMAX key [count]
-syntax_str: '[count]'
 title: ZPOPMAX
 ---
 Removes and returns up to `count` members with the highest scores in the sorted

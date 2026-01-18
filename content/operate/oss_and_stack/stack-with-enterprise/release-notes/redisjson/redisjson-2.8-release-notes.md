@@ -15,10 +15,21 @@ weight: 95
 
 ## Requirements
 
-RedisJSON v2.8.15 requires:
+RedisJSON v2.8.16 requires:
 
 - Minimum Redis compatibility version (database): 7.4
 - Minimum Redis Enterprise Software version (cluster): 7.8
+
+## v2.8.16 (November 2025)
+
+This is a maintenance release for RedisJSON 2.8.
+
+Update urgency: `LOW`: No need to upgrade unless there are new features you want to use.
+
+Details:
+
+Bug fixes:
+- [#1446](https://github.com/redisjson/redisjson/pull/1446) Rare race condition in async flush (MOD-12014).
 
 ## v2.8.15 (October 2025)
 

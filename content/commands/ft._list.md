@@ -21,15 +21,14 @@ group: search
 hidden: false
 linkTitle: FT._LIST
 module: Search
+railroad_diagram: /images/railroad/ft._list.svg
 since: 2.0.0
 stack_path: docs/interact/search-and-query
 summary: Returns a list of all existing indexes
 syntax_fmt: FT._LIST
-syntax_str: ''
 title: FT._LIST
 ---
 Returns a list of all existing indexes.
-
 
 {{% alert title="Temporary command" color="info" %}}
 The prefix `_` in the command indicates, this is a temporary command.

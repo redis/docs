@@ -78,14 +78,13 @@ key_specs:
   notes: RW and UPDATE because it changes the TTL
   update: true
 linkTitle: HGETEX
+railroad_diagram: /images/railroad/hgetex.svg
 since: 8.0.0
 summary: Get the value of one or more fields of a given hash key, and optionally set
   their expiration.
 syntax_fmt: "HGETEX key [EX\_seconds | PX\_milliseconds | EXAT\_unix-time-seconds\
   \ |\n  PXAT\_unix-time-milliseconds | PERSIST] FIELDS\_numfields field\n  [field\
   \ ...]"
-syntax_str: "[EX\_seconds | PX\_milliseconds | EXAT\_unix-time-seconds | PXAT\_unix-time-milliseconds\
-  \ | PERSIST] FIELDS\_numfields field [field ...]"
 title: HGETEX
 ---
 

@@ -26,10 +26,10 @@ description: Lists the ACL categories, or the commands inside a category.
 group: server
 hidden: false
 linkTitle: ACL CAT
+railroad_diagram: /images/railroad/acl-cat.svg
 since: 6.0.0
 summary: Lists the ACL categories, or the commands inside a category.
 syntax_fmt: ACL CAT [category]
-syntax_str: ''
 title: ACL CAT
 ---
 The command shows the available ACL categories if called without arguments.

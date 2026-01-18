@@ -45,11 +45,11 @@ key_specs:
   notes: RW because it may change the internal representation of the key, and propagate
     to replicas
 linkTitle: PFCOUNT
+railroad_diagram: /images/railroad/pfcount.svg
 since: 2.8.9
 summary: Returns the approximated cardinality of the set(s) observed by the HyperLogLog
   key(s).
 syntax_fmt: PFCOUNT key [key ...]
-syntax_str: ''
 title: PFCOUNT
 ---
 When called with a single key, returns the approximated cardinality computed by the HyperLogLog data structure stored at the specified variable, which is 0 if the variable does not exist.
@@ -76,7 +76,6 @@ PFADD some-other-hll 1 2 3
 PFCOUNT hll some-other-hll
 {{% /redis-cli %}}
 
-
 Performances
 ---
 
@@ -96,6 +95,11 @@ this command are semantically different and have different performances.
 
 HyperLogLog representation
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 
 Redis HyperLogLogs are represented using a double representation: the *sparse* representation suitable for HLLs counting a small number of elements (resulting in a small number of registers set to non-zero value), and a *dense* representation suitable for higher cardinalities. Redis automatically switches from the sparse to the dense representation when needed.
 

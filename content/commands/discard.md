@@ -24,10 +24,10 @@ description: Discards a transaction.
 group: transactions
 hidden: false
 linkTitle: DISCARD
+railroad_diagram: /images/railroad/discard.svg
 since: 2.0.0
 summary: Discards a transaction.
 syntax_fmt: DISCARD
-syntax_str: ''
 title: DISCARD
 ---
 Flushes all previously queued commands in a [transaction][tt] and restores the

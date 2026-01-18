@@ -34,14 +34,11 @@ group: search
 hidden: false
 linkTitle: FT.ALTER
 module: Search
+railroad_diagram: /images/railroad/ft.alter.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Adds a new field to the index
-syntax: 'FT.ALTER {index} [SKIPINITIALSCAN] SCHEMA ADD {attribute} {options} ...
-
-  '
 syntax_fmt: FT.ALTER index [SKIPINITIALSCAN] SCHEMA ADD field options
-syntax_str: '[SKIPINITIALSCAN] SCHEMA ADD field options'
 title: FT.ALTER
 ---
 
@@ -123,6 +120,4 @@ One of the following:
 ## Related topics
 
 - [RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
-
-
 

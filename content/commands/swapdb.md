@@ -31,10 +31,10 @@ description: Swaps two Redis databases.
 group: server
 hidden: false
 linkTitle: SWAPDB
+railroad_diagram: /images/railroad/swapdb.svg
 since: 4.0.0
 summary: Swaps two Redis databases.
 syntax_fmt: SWAPDB index1 index2
-syntax_str: index2
 title: SWAPDB
 ---
 This command swaps two Redis databases, so that immediately all the

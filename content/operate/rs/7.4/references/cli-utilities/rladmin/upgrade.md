@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Upgrades the version of a module or Redis Enterprise Software for a database.
+description: Upgrades the version of a module or Redis for a database.
 headerRange: '[1-2]'
 linkTitle: upgrade
 toc: 'true'
@@ -13,11 +13,9 @@ weight: $weight
 url: '/operate/rs/7.4/references/cli-utilities/rladmin/upgrade/'
 ---
 
-Upgrades the version of a module or Redis Enterprise Software for a database.
-
 ## `upgrade db`
 
-Schedules a restart of the primary and replica processes of a database and then upgrades the database to the latest version of Redis Enterprise Software.
+Schedules a restart of the primary and replica processes of a database and then upgrades the database to the latest version of Redis.
 
 For more information, see [Upgrade an existing Redis Software Deployment]({{< relref "/operate/rs/7.4/installing-upgrading/upgrading" >}}).
 
@@ -47,7 +45,7 @@ As of v6.2.4, the default behavior for `upgrade db` has changed.  It is now cont
 | force_discard              |                          | Forces `discard_data` if replication or persistence is enabled                                                   |
 | keep_crdt_protocol_version |                          | Keeps the current CRDT protocol version                                                                                |
 | keep_redis_version       |                          | Upgrades to a new patch release, not to the latest major.minor version                                                 |
-| latest_with_modules        |                          | Upgrades the Redis Enterprise Software version and all modules in the database                                                             |
+| latest_with_modules        |                          | Upgrades the Redis version and all modules in the database                                                             |
 | parallel_shards_upgrade    | integer <br />'all'        | Maximum number of shards to upgrade all at once                                                                        |
 | preserve_roles             |                          | Performs an additional failover to guarantee the shards' roles are preserved                                             |
 | redis_version              | Redis version            | Upgrades the database to the specified version instead of the latest version                                               |

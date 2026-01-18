@@ -29,10 +29,10 @@ description: Returns the count of subscribers of shard channels.
 group: pubsub
 hidden: false
 linkTitle: PUBSUB SHARDNUMSUB
+railroad_diagram: /images/railroad/pubsub-shardnumsub.svg
 since: 7.0.0
 summary: Returns the count of subscribers of shard channels.
 syntax_fmt: PUBSUB SHARDNUMSUB [shardchannel [shardchannel ...]]
-syntax_str: ''
 title: PUBSUB SHARDNUMSUB
 ---
 Returns the number of subscribers for the specified shard channels.

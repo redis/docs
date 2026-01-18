@@ -85,11 +85,11 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZRANGE
+railroad_diagram: /images/railroad/zrange.svg
 since: 1.2.0
 summary: Returns members in a sorted set within a range of indexes.
 syntax_fmt: "ZRANGE key start stop [BYSCORE | BYLEX] [REV] [LIMIT\_offset count]\n\
   \  [WITHSCORES]"
-syntax_str: "start stop [BYSCORE | BYLEX] [REV] [LIMIT\_offset count] [WITHSCORES]"
 title: ZRANGE
 ---
 Returns the specified range of elements in the sorted set stored at `<key>`.
@@ -196,7 +196,7 @@ The binary nature of the comparison allows to use sorted sets as a general purpo
 
 ## Examples
 
-{{< clients-example cmds_sorted_set zrange1 >}}
+{{< clients-example set="cmds_sorted_set" step="zrange1" description="Foundational: Retrieve a range of members from a sorted set by index using ZRANGE (supports negative indexes, inclusive range)" difficulty="beginner" >}}
 > ZADD myzset 1 "one" 2 "two" 3 "three"
 (integer) 3
 > ZRANGE myzset 0 -1
@@ -212,7 +212,7 @@ The binary nature of the comparison allows to use sorted sets as a general purpo
 
 The following example using `WITHSCORES` shows how the command returns always an array, but this time, populated with *element_1*, *score_1*, *element_2*, *score_2*, ..., *element_N*, *score_N*.
 
-{{< clients-example cmds_sorted_set zrange2 >}}
+{{< clients-example set="cmds_sorted_set" step="zrange2" description="Return scores with members: Retrieve members with their scores from a sorted set using ZRANGE with WITHSCORES option" difficulty="intermediate" >}}
 > ZADD myzset 1 "one" 2 "two" 3 "three"
 (integer) 3
 > ZRANGE myzset 0 1 WITHSCORES
@@ -224,7 +224,7 @@ The following example using `WITHSCORES` shows how the command returns always an
 
 This example shows how to query the sorted set by score, excluding the value `1` and up to infinity, returning only the second element of the result:
 
-{{< clients-example cmds_sorted_set zrange3 >}}
+{{< clients-example set="cmds_sorted_set" step="zrange3" description="Query by score: Query a sorted set by score range using ZRANGE with BYSCORE and LIMIT options (supports exclusive ranges and pagination)" difficulty="intermediate" >}}
 > ZADD myzset 1 "one" 2 "two" 3 "three"
 (integer) 3
 > ZRANGE myzset (1 +inf BYSCORE LIMIT 1 1

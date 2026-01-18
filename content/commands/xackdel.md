@@ -72,10 +72,10 @@ key_specs:
     type: range
   update: true
 linkTitle: XACKDEL
+railroad_diagram: /images/railroad/xackdel.svg
 since: 8.2.0
 summary: Acknowledges and conditionally deletes one or multiple entries for a stream consumer group.
 syntax_fmt: "XACKDEL key group [KEEPREF | DELREF | ACKED] IDS\_numids id [id ...]"
-syntax_str: "group [KEEPREF | DELREF | ACKED] IDS\_numids id [id ...]"
 title: XACKDEL
 ---
 

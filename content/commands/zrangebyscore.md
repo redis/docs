@@ -70,11 +70,11 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZRANGEBYSCORE
-replaced_by: '[`ZRANGE`]({{< relref "/commands/zrange" >}}) with the `BYSCORE` argument'
+railroad_diagram: /images/railroad/zrangebyscore.svg
+replaced_by: '`ZRANGE` with the `BYSCORE` argument'
 since: 1.0.5
 summary: Returns members in a sorted set within a range of scores.
 syntax_fmt: "ZRANGEBYSCORE key min max [WITHSCORES] [LIMIT\_offset count]"
-syntax_str: "min max [WITHSCORES] [LIMIT\_offset count]"
 title: ZRANGEBYSCORE
 ---
 Returns all the elements in the sorted set at `key` with a score between `min`
@@ -130,7 +130,6 @@ ZRANGEBYSCORE myzset 1 2
 ZRANGEBYSCORE myzset (1 2
 ZRANGEBYSCORE myzset (1 (2
 {{% /redis-cli %}}
-
 
 ## Pattern: weighted random selection of an element
 

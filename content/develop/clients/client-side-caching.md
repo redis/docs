@@ -13,6 +13,14 @@ categories:
 description: Server-assisted, client-side caching in Redis
 linkTitle: Client-side caching
 title: Client-side caching introduction
+scope: overview
+relatedPages:
+- /develop/clients/redis-py/connect#connect-using-client-side-caching
+- /develop/clients/nodejs/connect#connect-using-client-side-caching
+- /develop/clients/jedis/connect#connect-using-client-side-caching
+topics:
+- client-side-caching
+- performance
 weight: 30
 ---
 

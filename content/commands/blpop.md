@@ -50,13 +50,18 @@ key_specs:
       limit: 0
     type: range
 linkTitle: BLPOP
+railroad_diagram: /images/railroad/blpop.svg
 since: 2.0.0
 summary: Removes and returns the first element in a list. Blocks until an element
   is available otherwise. Deletes the list if the last element was popped.
 syntax_fmt: BLPOP key [key ...] timeout
-syntax_str: timeout
 title: BLPOP
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 `BLPOP` is a blocking list pop primitive.
 It is the blocking version of [`LPOP`]({{< relref "/commands/lpop" >}}) because it blocks the connection when there
 are no elements to pop from any of the given lists.

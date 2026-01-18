@@ -48,7 +48,7 @@ You can read more about the `PARAMS` argument in the [FT.SEARCH]({{< relref "com
 
 The following example shows you how to query for three bikes based on their description embeddings, and by using the field alias `vector`. The result is returned in ascending order based on the distance. You can see that the query only returns the fields `__vector_score` and `description`. The field `__vector_score` is present by default. Because you can have multiple vector fields in your schema, the vector score field name depends on the name of the vector field. If you change the field name `@vector` to `@foo`, the score field name changes to `__foo_score`.
 
-{{< clients-example query_vector vector1 >}}
+{{< clients-example set="query_vector" step="vector1" description="K-nearest neighbors: Find the k closest vectors to a query vector using KNN when you need to retrieve similar items based on embeddings" difficulty="beginner" >}}
 FT.SEARCH idx:bikes_vss "(*)=>[KNN 3 @vector $query_vector]" PARAMS 2 "query_vector" "Z\xf8\x15:\xf23\xa1\xbfZ\x1dI>\r\xca9..." SORTBY "__vector_score" ASC RETURN 2 "__vector_score" "description" DIALECT 2
 {{< /clients-example >}}
 
@@ -95,7 +95,7 @@ By default, [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) returns only the
 
 The example below shows a radius query that returns the description and the distance within a radius of `0.5`. The result is sorted by the distance.
 
-{{< clients-example query_vector vector2 >}}
+{{< clients-example set="query_vector" step="vector2" description="Radius search: Find all vectors within a specified distance threshold using VECTOR_RANGE when you need to retrieve similar items with a distance constraint" difficulty="intermediate" >}}
 FT.SEARCH idx:bikes_vss "@vector:[VECTOR_RANGE 0.5 $query_vector]=>{$YIELD_DISTANCE_AS: vector_dist}" PARAMS 2 "query_vector" "Z\xf8\x15:\xf23\xa1\xbfZ\x1dI>\r\xca9..." SORTBY vector_dist ASC RETURN 2 vector_dist description DIALECT 2
 {{< /clients-example >}}
 
@@ -116,7 +116,7 @@ In Redis cluster environments, you can optimize vector search performance using 
 
 Retrieve 100 nearest neighbors with each shard providing 60% of the requested results:
 
-{{< clients-example query_vector vector3 >}}
+{{< clients-example set="query_vector" step="vector3" description="Cluster optimization: Optimize KNN queries in cluster environments using SHARD_K_RATIO to balance accuracy and performance when you need efficient distributed vector search" difficulty="advanced" >}}
 FT.SEARCH idx:bikes_vss "(*)=>[KNN 100 @vector $query_vector]=>{$SHARD_K_RATIO: 0.6; $YIELD_DISTANCE_AS: vector_distance}" PARAMS 2 "query_vector" "Z\xf8\x15:\xf23\xa1\xbfZ\x1dI>\r\xca9..." SORTBY vector_distance ASC RETURN 2 "vector_distance" "description" DIALECT 2
 {{< /clients-example >}}
 
@@ -124,7 +124,7 @@ FT.SEARCH idx:bikes_vss "(*)=>[KNN 100 @vector $query_vector]=>{$SHARD_K_RATIO: 
 
 You can combine `$SHARD_K_RATIO` with pre-filtering to optimize searches on specific subsets of data:
 
-{{< clients-example query_vector vector4 >}}
+{{< clients-example set="query_vector" step="vector4" description="Filtered vector search: Combine pre-filtering with KNN and cluster optimization to search within a subset of data when you need to find similar items matching specific criteria" difficulty="advanced" >}}
 FT.SEARCH idx:bikes_vss "(@brand:trek)=>[KNN 50 @vector $query_vector]=>{$SHARD_K_RATIO: 0.4; $YIELD_DISTANCE_AS: similarity}" PARAMS 2 "query_vector" "Z\xf8\x15:\xf23\xa1\xbfZ\x1dI>\r\xca9..." SORTBY similarity ASC RETURN 2 "similarity" "description" DIALECT 2
 {{< /clients-example >}}
 

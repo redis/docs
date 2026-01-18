@@ -43,10 +43,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: LINDEX
+railroad_diagram: /images/railroad/lindex.svg
 since: 1.0.0
 summary: Returns an element from a list by its index.
 syntax_fmt: LINDEX key index
-syntax_str: index
 title: LINDEX
 ---
 Returns the element at index `index` in the list stored at `key`.

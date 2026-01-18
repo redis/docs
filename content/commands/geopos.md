@@ -44,10 +44,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: GEOPOS
+railroad_diagram: /images/railroad/geopos.svg
 since: 3.2.0
 summary: Returns the longitude and latitude of members from a geospatial index.
 syntax_fmt: GEOPOS key [member [member ...]]
-syntax_str: '[member [member ...]]'
 title: GEOPOS
 ---
 Return the positions (longitude,latitude) of all the specified members of the geospatial index represented by the sorted set at *key*.

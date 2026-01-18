@@ -71,7 +71,7 @@ Before you follow this guide, be aware of the following limitations:
 
 1. Select **Save Database** to begin updating the database.
 
-    {{<image filename="images/rc/button-database-save.png" alt="Use the **Save Database** button to save your changes, deploy the database, and to start data migration." >}}
+    {{<image filename="images/rc/button-database-save.png" alt="Use the **Save Database** button to save your changes, deploy the database, and to start data migration." width="150px" >}}
 
     Initially, the database status is __Pending__, which means the update task is still running.  
 
@@ -83,7 +83,7 @@ Before you follow this guide, be aware of the following limitations:
 
     When data has fully migrated to the target database, database status reports `Synced`.  
 
-    {{<image filename="images/rc/migrate-data-status-synced.png" alt="When the data is migrated, the target database status displays `Synced`." >}}
+    {{<image filename="images/rc/migrate-data-status-synced.png" alt="When the data is migrated, the target database status displays `Synced`." width=100px >}}
 
     Active-Passive sync lets you migrate data while apps and other connections are using the source database. Once the data is migrated, you should migrate active connections to the target database before you move on.
 

@@ -1,11 +1,11 @@
 ---
-Title: Redis Cloud Essentials and Redis Flex plans
+Title: Redis Cloud Essentials plans
 alwaysopen: false
 categories:
 - docs
 - operate
 - rc
-description: Provides detailed information on Redis Cloud Essentials and Redis Flex plans
+description: Provides detailed information on Redis Cloud Essentials plans.
 weight: $weight
 ---
 
@@ -23,7 +23,7 @@ If you need additional resources, you can [upgrade your subscription]({{< relref
 
 ## Current plans
 
-These plans are currently offered for all new and upgraded Essentials subscriptions (updated December 2024).
+These plans are currently offered for all new and upgraded Essentials subscriptions (updated December 2025).
 
 ### Redis Cloud Essentials plans
 
@@ -42,7 +42,7 @@ These plans are currently offered for all new and upgraded Essentials subscripti
 
 3. <a name="table-note-3" style="display: block; height: 80px; margin-top: -80px;"></a> Assumes request size of 1 KiB. Maximums are capped by actual MB/s reached. To find the MB/s limit, divide the Maximum throughput by 1024.
 
-### Redis Flex plans
+### Redis Cloud Essentials plans with Redis Flex
 
 {{<table-scrollable>}}
 | **DB&nbsp;size**<sup>[1](#table-note-1-flex)</sup> | **1 GB** | **2.5 GB** | **5 GB** | **12 GB** | **25 GB** | **50 GB** | **100 GB** |

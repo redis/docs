@@ -41,10 +41,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: GETDEL
+railroad_diagram: /images/railroad/getdel.svg
 since: 6.2.0
 summary: Returns the string value of a key after deleting the key.
 syntax_fmt: GETDEL key
-syntax_str: ''
 title: GETDEL
 ---
 Get the value of `key` and delete the key.

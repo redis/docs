@@ -37,10 +37,10 @@ description: Simulates the execution of a command by a user, without executing t
 group: server
 hidden: false
 linkTitle: ACL DRYRUN
+railroad_diagram: /images/railroad/acl-dryrun.svg
 since: 7.0.0
 summary: Simulates the execution of a command by a user, without executing the command.
 syntax_fmt: ACL DRYRUN username command [arg [arg ...]]
-syntax_str: command [arg [arg ...]]
 title: ACL DRYRUN
 ---
 Simulate the execution of a given command by a given user.

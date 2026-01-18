@@ -32,10 +32,10 @@ description: Loads a module.
 group: server
 hidden: false
 linkTitle: MODULE LOAD
+railroad_diagram: /images/railroad/module-load.svg
 since: 4.0.0
 summary: Loads a module.
 syntax_fmt: MODULE LOAD path [arg [arg ...]]
-syntax_str: '[arg [arg ...]]'
 title: MODULE LOAD
 ---
 Loads a module from a dynamic library at runtime.

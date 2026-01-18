@@ -57,12 +57,17 @@ key_specs:
   notes: We cannot tell how the keys will be used so we assume the worst, RW and UPDATE
   update: true
 linkTitle: EVAL
+railroad_diagram: /images/railroad/eval.svg
 since: 2.6.0
 summary: Executes a server-side Lua script.
 syntax_fmt: EVAL script numkeys [key [key ...]] [arg [arg ...]]
-syntax_str: numkeys [key [key ...]] [arg [arg ...]]
 title: EVAL
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Invoke the execution of a server-side Lua script.
 
 The first argument is the script's source code.

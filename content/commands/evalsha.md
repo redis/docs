@@ -56,12 +56,17 @@ key_specs:
     type: keynum
   update: true
 linkTitle: EVALSHA
+railroad_diagram: /images/railroad/evalsha.svg
 since: 2.6.0
 summary: Executes a server-side Lua script by SHA1 digest.
 syntax_fmt: EVALSHA sha1 numkeys [key [key ...]] [arg [arg ...]]
-syntax_str: numkeys [key [key ...]] [arg [arg ...]]
 title: EVALSHA
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Evaluate a script from the server's cache by its SHA1 digest.
 
 The server caches scripts by using the [`SCRIPT LOAD`]({{< relref "/commands/script-load" >}}) command.

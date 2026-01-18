@@ -43,11 +43,11 @@ key_specs:
     type: range
   update: true
 linkTitle: INCR
+railroad_diagram: /images/railroad/incr.svg
 since: 1.0.0
 summary: Increments the integer value of a key by one. Uses 0 as initial value if
   the key doesn't exist.
 syntax_fmt: INCR key
-syntax_str: ''
 title: INCR
 ---
 Increments the number stored at `key` by one.
@@ -67,7 +67,7 @@ representation of the integer.
 
 ## Examples
 
-{{< clients-example cmds_string incr >}}
+{{< clients-example set="cmds_string" step="incr" description="Foundational: Increment the integer value of a key by one using INCR (initializes to 0 if key doesn't exist)" difficulty="beginner" >}}
 > SET mykey "10"
 "OK"
 > INCR mykey

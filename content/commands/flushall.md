@@ -45,12 +45,17 @@ history:
 - - 6.2.0
   - Added the `SYNC` flushing mode modifier.
 linkTitle: FLUSHALL
+railroad_diagram: /images/railroad/flushall.svg
 since: 1.0.0
 summary: Removes all keys from all databases.
 syntax_fmt: FLUSHALL [ASYNC | SYNC]
-syntax_str: ''
 title: FLUSHALL
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Delete all the keys of all the existing databases, not just the currently selected one.
 This command never fails.
 
@@ -62,7 +67,7 @@ It is possible to use one of the following modifiers to dictate the flushing mod
 * `ASYNC`: flushes the databases asynchronously
 * `SYNC`: flushes the databases synchronously
 
-{{< clients-example cmds_servermgmt flushall >}}
+{{< clients-example set="cmds_servermgmt" step="flushall" description="Full delete: Delete all keys from all databases using FLUSHALL (dangerous operation, supports ASYNC/SYNC modes, clears RDB file)" difficulty="advanced" >}}
 FLUSHALL SYNC
 {{< /clients-example >}}
 

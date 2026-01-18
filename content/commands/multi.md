@@ -24,12 +24,17 @@ description: Starts a transaction.
 group: transactions
 hidden: false
 linkTitle: MULTI
+railroad_diagram: /images/railroad/multi.svg
 since: 1.2.0
 summary: Starts a transaction.
 syntax_fmt: MULTI
-syntax_str: ''
 title: MULTI
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Marks the start of a [transaction][tt] block.
 Subsequent commands will be queued for atomic execution using [`EXEC`]({{< relref "/commands/exec" >}}).
 

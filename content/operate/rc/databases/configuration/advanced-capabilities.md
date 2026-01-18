@@ -20,7 +20,7 @@ Available options depend on your database plan and **Type**.
 
 All Redis Cloud Essentials databases with versions prior to Redis 8.0 support [Redis Stack]({{< relref "/operate/oss_and_stack/" >}}), which enables the most frequently used capabilities.
 
-{{<image filename="images/rc/new-database-general-type-free-stack.png" alt="For Essentials, the Type setting in the General section includes an option for Redis." width="300px">}}
+{{<image filename="images/rc/new-database-general-type-free-stack.png" alt="For Essentials, the Type setting in the General section includes an option for Redis." width="75%">}}
 
 When the database **Type** is set to _Redis_, the Advanced capabilities section of the database details page displays the advanced capabilities included with the database and their versions.
 
@@ -67,7 +67,7 @@ Use the [Search and query sizing calculator](https://redis.io/redisearch-sizing-
 
 The query performance factor adds extra compute power specifically for search and query. When you create a Pro database with search and query, you can increase your search queries per second by the selected factor.
 
-{{<image filename="images/rc/database-details-query-performance-factor-pro.png" alt="For Pro databases, you can select the query performance factor for your database." width="75%">}}
+{{<image filename="images/rc/database-details-query-performance-factor-pro.png" alt="For Pro databases, you can select the query performance factor for your database." width="50%">}}
 
 We recommend testing your application with a test database to see your baseline queries per second and determine how much you want to boost your query performance. After you have determined your queries per second and your desired performance factor, [create a new database]({{< relref "/operate/rc/databases/create-database" >}}) with the desired performance factor and [migrate data]({{< relref "/operate/rc/databases/migrate-databases" >}}) from the test database to your new database.
 

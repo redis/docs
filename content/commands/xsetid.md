@@ -59,10 +59,10 @@ key_specs:
     type: range
   update: true
 linkTitle: XSETID
+railroad_diagram: /images/railroad/xsetid.svg
 since: 5.0.0
 summary: An internal command for replicating stream values.
 syntax_fmt: "XSETID key last-id [ENTRIESADDED\_entries-added]\n  [MAXDELETEDID\_max-deleted-id]"
-syntax_str: "last-id [ENTRIESADDED\_entries-added] [MAXDELETEDID\_max-deleted-id]"
 title: XSETID
 ---
 The `XSETID` command is an internal command.

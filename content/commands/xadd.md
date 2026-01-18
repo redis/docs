@@ -15,22 +15,6 @@ arguments:
   token: NOMKSTREAM
   type: pure-token
 - arguments:
-  - display_text: keepref
-    name: keepref
-    token: KEEPREF
-    type: pure-token
-  - display_text: delref
-    name: delref
-    token: DELREF
-    type: pure-token
-  - display_text: acked
-    name: acked
-    token: ACKED
-    type: pure-token
-  name: condition
-  optional: true
-  type: oneof
-- arguments:
   - arguments:
     - display_text: maxlen
       name: maxlen
@@ -114,8 +98,6 @@ history:
   - Added the `NOMKSTREAM` option, `MINID` trimming strategy and the `LIMIT` option.
 - - 7.0.0
   - Added support for the `<ms>-*` explicit ID form.
-- - 8.2.0
-  - Added the `KEEPREF`, `DELREF` and `ACKED` options.
 key_specs:
 - RW: true
   begin_search:
@@ -131,12 +113,11 @@ key_specs:
   notes: UPDATE instead of INSERT because of the optional trimming feature
   update: true
 linkTitle: XADD
+railroad_diagram: /images/railroad/xadd.svg
 since: 5.0.0
 summary: Appends a new message to a stream. Creates the key if it doesn't exist.
-syntax_fmt: "XADD key [NOMKSTREAM] [KEEPREF | DELREF | ACKED] [<MAXLEN | MINID>\n\
-  \  [= | ~] threshold [LIMIT\_count]] <* | id> field value [field value\n  ...]"
-syntax_str: "[NOMKSTREAM] [KEEPREF | DELREF | ACKED] [<MAXLEN | MINID> [= | ~] threshold\
-  \ [LIMIT\_count]] <* | id> field value [field value ...]"
+syntax_fmt: "XADD key [NOMKSTREAM] [KEEPREF | DELREF | ACKED] [<MAXLEN | MINID> [= | ~] threshold\n  [LIMIT\_\
+  count]] <* | id> field value [field value ...]"
 title: XADD
 ---
 
@@ -185,17 +166,42 @@ If no option is specified, `KEEPREF` is used by default. Unlike the `XDELEX` and
 </details>
 
 <details open>
-<summary><code>MAXLEN | MINID [= | ~] threshold [LIMIT count]</code></summary>
+<summary><code>MAXLEN | MINID [= | ~] threshold [LIMIT count]></code></summary>
 
 Trims the stream to maintain a specific size or remove old entries:
-- `MAXLEN`: Limits the stream to a maximum number of entries
-- `MINID`: Removes entries with IDs lower than the specified threshold (available since Redis 6.2.0)
-- `=`: Exact trimming (default)
-- `~`: Approximate trimming (more efficient)
-- `threshold`: The maximum number of entries (for MAXLEN) or minimum ID (for MINID)
-- `LIMIT count`: Limits the number of entries to examine during trimming (available since Redis 6.2.0)
+
+<details open>
+<summary><code>MAXLEN | MINID</code></summary>
+
+The trimming strategy:
+- `MAXLEN`: Evicts entries as long as the stream's length exceeds the specified threshold
+- `MINID`: Evicts entries with IDs lower than the specified threshold (available since Redis 6.2.0)
 </details>
 
+<details open>
+<summary><code>= | ~</code></summary>
+
+The trimming operator:
+- `=`: Exact trimming (default) - trims to the exact threshold
+- `~`: Approximate trimming - more efficient, may leave slightly more entries than the threshold
+</details>
+
+<details open>
+<summary><code>threshold</code></summary>
+
+The trimming threshold:
+- For `MAXLEN`: `threshold` is a non-negative integer specifying the maximum number of entries that may remain in the stream after trimming. Redis enforces this by removing the oldest entries - that is, the entries with the lowest stream IDs - so that only the newest entries are kept.
+- For `MINID`: `threshold` is a stream ID. All entries whose IDs are less than `threshold` are trimmed. All entries with IDs greater than or equal to `threshold` are kept.
+</details>
+
+<details open>
+<summary><code>LIMIT count</code></summary>
+
+Limits the number of entries to examine during trimming. Available since Redis 6.2.0. When not specified, Redis uses a default value of 100 * the number of entries in a macro node. Specifying 0 disables the limiting mechanism entirely.
+</details>
+
+</details>
+  
 Each entry consists of a list of field-value pairs.
 Redis stores the field-value pairs in the same order you provide them.
 Commands that read the stream, such as [`XRANGE`]({{< relref "/commands/xrange" >}}) or [`XREAD`]({{< relref "/commands/xread" >}}), return the fields and values in exactly the same order you added them with `XADD`.

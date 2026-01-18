@@ -25,10 +25,10 @@ description: Resets the connection.
 group: connection
 hidden: false
 linkTitle: RESET
+railroad_diagram: /images/railroad/reset.svg
 since: 6.2.0
 summary: Resets the connection.
 syntax_fmt: RESET
-syntax_str: ''
 title: RESET
 ---
 This command performs a full reset of the connection's server-side context, 

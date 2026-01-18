@@ -37,10 +37,10 @@ history:
 - - 6.0.0
   - Added ACL style (username and password).
 linkTitle: AUTH
+railroad_diagram: /images/railroad/auth.svg
 since: 1.0.0
 summary: Authenticates the connection.
 syntax_fmt: AUTH [username] password
-syntax_str: password
 title: AUTH
 ---
 The AUTH command authenticates the current connection in two cases:
@@ -51,7 +51,7 @@ The AUTH command authenticates the current connection in two cases:
 Redis versions prior of Redis 6 were only able to understand the one argument
 version of the command:
 
-{{< clients-example cmds_cnxmgmt auth1 >}}
+{{< clients-example set="cmds_cnxmgmt" step="auth1" description="Foundational: Authenticate with a password using AUTH when the Redis server is protected by requirepass" difficulty="beginner" >}}
 AUTH "temp-pass"
 {{< /clients-example >}}
 
@@ -64,7 +64,7 @@ Otherwise, an error is returned and the clients needs to try a new password.
 
 When Redis ACLs are used, the command should be given in an extended way:
 
-{{< clients-example cmds_cnxmgmt auth2 >}}
+{{< clients-example set="cmds_cnxmgmt" step="auth2" description="ACL authentication: Authenticate with username and password using AUTH when Redis ACL system is enabled (Redis 6.0+)" difficulty="intermediate" >}}
 AUTH "test-user" "strong_password"
 {{< /clients-example >}}
 

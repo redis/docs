@@ -21,10 +21,10 @@ description: Returns the authenticated username of the current connection.
 group: server
 hidden: false
 linkTitle: ACL WHOAMI
+railroad_diagram: /images/railroad/acl-whoami.svg
 since: 6.0.0
 summary: Returns the authenticated username of the current connection.
 syntax_fmt: ACL WHOAMI
-syntax_str: ''
 title: ACL WHOAMI
 ---
 Return the username the current connection is authenticated with.

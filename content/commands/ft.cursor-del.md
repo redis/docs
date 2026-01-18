@@ -23,14 +23,11 @@ group: search
 hidden: false
 linkTitle: FT.CURSOR DEL
 module: Search
+railroad_diagram: /images/railroad/ft.cursor-del.svg
 since: 1.1.0
 stack_path: docs/interact/search-and-query
 summary: Deletes a cursor
-syntax: 'FT.CURSOR DEL index cursor_id
-
-  '
 syntax_fmt: FT.CURSOR DEL index cursor_id
-syntax_str: cursor_id
 title: FT.CURSOR DEL
 ---
 

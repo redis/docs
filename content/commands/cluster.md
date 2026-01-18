@@ -17,10 +17,10 @@ description: A container for Redis Cluster commands.
 group: cluster
 hidden: true
 linkTitle: CLUSTER
+railroad_diagram: /images/railroad/cluster.svg
 since: 3.0.0
 summary: A container for Redis Cluster commands.
 syntax_fmt: CLUSTER
-syntax_str: ''
 title: CLUSTER
 ---
 This is a container command for Redis Cluster commands.

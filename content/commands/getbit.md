@@ -43,10 +43,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: GETBIT
+railroad_diagram: /images/railroad/getbit.svg
 since: 2.2.0
 summary: Returns a bit value by offset.
 syntax_fmt: GETBIT key offset
-syntax_str: offset
 title: GETBIT
 ---
 Returns the bit value at _offset_ in the string value stored at _key_.

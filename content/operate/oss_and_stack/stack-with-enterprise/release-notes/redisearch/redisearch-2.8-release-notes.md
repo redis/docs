@@ -13,10 +13,33 @@ weight: 91
 ---
 ## Requirements
 
-RediSearch v2.8.31 requires:
+RediSearch v2.8.32 requires:
 
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
+
+## v2.8.32 (November 2025)
+
+This is a maintenance release for RediSearch 2.8.
+
+Update urgency: `LOW`: No need to upgrade unless there are new features you want to use.
+
+Improvements:
+- [#7157](https://github.com/RediSearch/RediSearch/pull/7157) Show background indexing OOM warning in `FT.AGGREGATE` reply in RESP3.
+- [#7380](https://github.com/RediSearch/RediSearch/pull/7380) Rename `FT.PROFILE` counter fields.
+- [#7366](https://github.com/RediSearch/RediSearch/pull/7366) Reduce temporary memory overhead upon index load from RDB.
+- [#7393](https://github.com/RediSearch/RediSearch/pull/7393) Enhance `FT.PROFILE` with vector search execution details.
+- [#7480](https://github.com/RediSearch/RediSearch/pull/7480) Ensure full profile output on timeout with RETURN policy.
+
+Bug Fixes:
+- [#7216](https://github.com/RediSearch/RediSearch/pull/7216) Fix a concurrency issue on Reducer in `FT.AGGREGATE`.
+- [#7259](https://github.com/RediSearch/RediSearch/pull/7259) Fix underflow in BM25STD.
+- [#7278](https://github.com/RediSearch/RediSearch/pull/7278) Report used memory as unsigned long long to avoid underflows.
+- [#7340](https://github.com/RediSearch/RediSearch/pull/7340) Fix a rare leak in GC.
+- [#7462](https://github.com/RediSearch/RediSearch/pull/7462) Fix Fork GC potential double-free on error path.
+- [#7525](https://github.com/RediSearch/RediSearch/pull/7525) Avoid draining workers thread pool from `FLUSHDB` callback to avoid potential deadlocks.
+
+Full Changelog: https://github.com/RediSearch/RediSearch/compare/v2.8.31...v2.8.32
 
 ## v2.8.31 (October 2025)
 
@@ -39,7 +62,7 @@ Bug fixes:
 - [#6672](https://github.com/RediSearch/RediSearch/pull/6672) Fix potential file descriptor leak when OOM.
 - [#6763](https://github.com/RediSearch/RediSearch/pull/6763) Fix potential deadlock during RDB loading in cases where the `INFO` command is sent to the server.
 
-**Full Changelog**: https://github.com/RediSearch/RediSearch/compare/v2.8.29...v2.8.30.
+Full Changelog: https://github.com/RediSearch/RediSearch/compare/v2.8.29...v2.8.30.
 
 ## v2.8.29 (August 2025)
 

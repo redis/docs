@@ -19,10 +19,10 @@ description: Returns the ID of a node.
 group: cluster
 hidden: false
 linkTitle: CLUSTER MYID
+railroad_diagram: /images/railroad/cluster-myid.svg
 since: 3.0.0
 summary: Returns the ID of a node.
 syntax_fmt: CLUSTER MYID
-syntax_str: ''
 title: CLUSTER MYID
 ---
 Returns the node's id.

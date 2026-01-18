@@ -60,12 +60,17 @@ key_specs:
     type: range
   insert: true
 linkTitle: SMOVE
+railroad_diagram: /images/railroad/smove.svg
 since: 1.0.0
 summary: Moves a member from one set to another.
 syntax_fmt: SMOVE source destination member
-syntax_str: destination member
 title: SMOVE
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Move `member` from the set at `source` to the set at `destination`.
 This operation is atomic.
 In every given moment the element will appear to be a member of `source` **or**

@@ -86,15 +86,19 @@ key_specs:
       limit: 2
     type: range
 linkTitle: XREADGROUP
+railroad_diagram: /images/railroad/xreadgroup.svg
 since: 5.0.0
 summary: Returns new or historical messages from a stream for a consumer in a group.
   Blocks until a message is available otherwise.
 syntax_fmt: "XREADGROUP GROUP\_group consumer [COUNT\_count] [BLOCK\_milliseconds]\n\
   \  [CLAIM\_min-idle-time] [NOACK] STREAMS\_key [key ...] id [id ...]"
-syntax_str: "[COUNT\_count] [BLOCK\_milliseconds] [CLAIM\_min-idle-time] [NOACK] STREAMS\_key [key ...] id\
-  \ [id ...]"
 title: XREADGROUP
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 The `XREADGROUP` command is a special version of the [`XREAD`]({{< relref "/commands/xread" >}}) command
 with support for consumer groups. Probably you will have to understand the
 [`XREAD`]({{< relref "/commands/xread" >}}) command before reading this page will makes sense.
@@ -159,7 +163,7 @@ are no differences in this regard.
 
 ## The CLAIM option
 
-When `CLAIM min-idle-time` is specified, Redis will first try to claim messages which have been pending for at least min-idle-time milliseconds from the consumer group of each specified stream key. The pending messages with the highest idle time would be claimed first. Note that the `CLAIM min-idle-time` condition may become true for some pending entries during the `BLOCK milliseconds` period (if specified).
+The `CLAIM` option was added as part of Redis 8.4. When `CLAIM min-idle-time` is specified, Redis will first try to claim messages which have been pending for at least min-idle-time milliseconds from the consumer group of each specified stream key. The pending messages with the highest idle time would be claimed first. Note that the `CLAIM min-idle-time` condition may become true for some pending entries during the `BLOCK milliseconds` period (if specified).
 
 If there are no such messages, Redis will continue as normal (consume incoming messages).
 

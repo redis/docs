@@ -75,12 +75,11 @@ key_specs:
     type: range
   update: true
 linkTitle: HEXPIREAT
+railroad_diagram: /images/railroad/hexpireat.svg
 since: 7.4.0
 summary: Set expiry for hash field using an absolute Unix timestamp (seconds)
 syntax_fmt: "HEXPIREAT key unix-time-seconds [NX | XX | GT | LT] FIELDS\_numfields\n\
   \  field [field ...]"
-syntax_str: "unix-time-seconds [NX | XX | GT | LT] FIELDS\_numfields field [field\
-  \ ...]"
 title: HEXPIREAT
 ---
 `HEXPIREAT` has the same effect and semantics as [`HEXPIRE`]({{< relref "/commands/hexpire" >}}), but instead of

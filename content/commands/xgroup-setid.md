@@ -60,10 +60,10 @@ key_specs:
     type: range
   update: true
 linkTitle: XGROUP SETID
+railroad_diagram: /images/railroad/xgroup-setid.svg
 since: 5.0.0
 summary: Sets the last-delivered ID of a consumer group.
 syntax_fmt: "XGROUP SETID key group <id | $> [ENTRIESREAD\_entries-read]"
-syntax_str: "group <id | $> [ENTRIESREAD\_entries-read]"
 title: XGROUP SETID
 ---
 Set the **last delivered ID** for a consumer group.

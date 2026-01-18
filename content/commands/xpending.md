@@ -75,11 +75,11 @@ key_specs:
       limit: 0
     type: range
 linkTitle: XPENDING
+railroad_diagram: /images/railroad/xpending.svg
 since: 5.0.0
 summary: Returns the information and entries from a stream consumer group's pending
   entries list.
 syntax_fmt: "XPENDING key group [[IDLE\_min-idle-time] start end count [consumer]]"
-syntax_str: "group [[IDLE\_min-idle-time] start end count [consumer]]"
 title: XPENDING
 ---
 Fetching data from a stream via a consumer group, and not acknowledging

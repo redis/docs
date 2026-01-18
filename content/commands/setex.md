@@ -50,12 +50,12 @@ key_specs:
     type: range
   update: true
 linkTitle: SETEX
-replaced_by: '[`SET`]({{< relref "/commands/set" >}}) with the `EX` argument'
+railroad_diagram: /images/railroad/setex.svg
+replaced_by: '`SET` with the `EX` argument'
 since: 2.0.0
 summary: Sets the string value and expiration time of a key. Creates the key if it
   doesn't exist.
 syntax_fmt: SETEX key seconds value
-syntax_str: seconds value
 title: SETEX
 ---
 Set `key` to hold the string `value` and set `key` to timeout after a given

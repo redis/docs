@@ -44,7 +44,7 @@ You have several options when it comes to securing your Redis Cloud databases. F
 - [Role-based access control]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control" >}})
 - [TLS]({{< relref "/operate/rc/security/database-security/tls-ssl" >}})
 - [Network security]({{< relref "/operate/rc/security/database-security/network-security" >}}) using
-[VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}}) and [CIDR whitelist]({{< relref "/operate/rc/security/cidr-whitelist" >}})
+- [VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}}) and [CIDR whitelist]({{< relref "/operate/rc/security/cidr-whitelist" >}})
 
 ## API security
 

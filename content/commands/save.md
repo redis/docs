@@ -24,10 +24,10 @@ description: Synchronously saves the database(s) to disk.
 group: server
 hidden: false
 linkTitle: SAVE
+railroad_diagram: /images/railroad/save.svg
 since: 1.0.0
 summary: Synchronously saves the database(s) to disk.
 syntax_fmt: SAVE
-syntax_str: ''
 title: SAVE
 ---
 The `SAVE` commands performs a **synchronous** save of the dataset producing a

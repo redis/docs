@@ -40,8 +40,6 @@ If you're new to Redis Cloud, see the [Quick Start]({{< relref "/operate/rc/rc-q
 
 - [Secure database access]({{< relref "/operate/rc/security/database-security/" >}})
 
-- [Flush database data]({{< relref "/operate/rc/databases/flush-data" >}})
-
 ## Configuration details
 
 These topics provide background details that can help you tailor your databases to better fit your needs.

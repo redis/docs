@@ -51,10 +51,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: HTTL
+railroad_diagram: /images/railroad/httl.svg
 since: 7.4.0
 summary: Returns the TTL in seconds of a hash field.
 syntax_fmt: "HTTL key FIELDS\_numfields field [field ...]"
-syntax_str: "FIELDS\_numfields field [field ...]"
 title: HTTL
 ---
 Returns the remaining TTL (time to live) of a hash key's field(s) that have a set expiration.

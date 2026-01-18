@@ -45,10 +45,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: PTTL
+railroad_diagram: /images/railroad/pttl.svg
 since: 2.6.0
 summary: Returns the expiration time in milliseconds of a key.
 syntax_fmt: PTTL key
-syntax_str: ''
 title: PTTL
 ---
 Like [`TTL`]({{< relref "/commands/ttl" >}}) this command returns the remaining time to live of a key that has an

@@ -80,13 +80,18 @@ key_specs:
     type: range
   insert: true
 linkTitle: LMOVE
+railroad_diagram: /images/railroad/lmove.svg
 since: 6.2.0
 summary: Returns an element after popping it from one list and pushing it to another.
   Deletes the list if the last element was moved.
 syntax_fmt: LMOVE source destination <LEFT | RIGHT> <LEFT | RIGHT>
-syntax_str: destination <LEFT | RIGHT> <LEFT | RIGHT>
 title: LMOVE
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Atomically returns and removes the first/last element (head/tail depending on
 the `wherefrom` argument) of the list stored at `source`, and pushes the
 element at the first/last element (head/tail depending on the `whereto`
@@ -118,7 +123,6 @@ LMOVE mylist myotherlist LEFT RIGHT
 LRANGE mylist 0 -1
 LRANGE myotherlist 0 -1
 {{% /redis-cli %}}
-
 
 ## Pattern: Reliable queue
 

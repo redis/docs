@@ -55,11 +55,11 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZREVRANGE
-replaced_by: '[`ZRANGE`]({{< relref "/commands/zrange" >}}) with the `REV` argument'
+railroad_diagram: /images/railroad/zrevrange.svg
+replaced_by: '`ZRANGE` with the `REV` argument'
 since: 1.2.0
 summary: Returns members in a sorted set within a range of indexes in reverse order.
 syntax_fmt: ZREVRANGE key start stop [WITHSCORES]
-syntax_str: start stop [WITHSCORES]
 title: ZREVRANGE
 ---
 Returns the specified range of elements in the sorted set stored at `key`.

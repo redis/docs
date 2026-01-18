@@ -23,14 +23,11 @@ group: search
 hidden: true
 linkTitle: FT.CONFIG HELP
 module: Search
+railroad_diagram: /images/railroad/ft.config-help.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Help description of runtime configuration options
-syntax: 'FT.CONFIG HELP option
-
-  '
 syntax_fmt: FT.CONFIG HELP option
-syntax_str: ''
 title: FT.CONFIG HELP
 ---
 

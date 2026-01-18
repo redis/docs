@@ -21,7 +21,7 @@ Redis Cloud supports databases on the following cloud providers:
 
 Redis Cloud supports databases in the following Amazon Web Services (AWS) regions.
 
-Redis Cloud Pro databases on AWS support [VPC Peering]({{< relref "/operate/rc/security/vpc-peering#aws-vpc-peering" >}}) and [Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}).
+Redis Cloud Pro databases on AWS support [VPC Peering]({{< relref "/operate/rc/security/vpc-peering#aws-vpc-peering" >}}), [Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}), and [AWS PrivateLink]({{< relref "/operate/rc/security/aws-privatelink" >}}).
 
 {{< multitabs id="aws-regions"
     tab1="Americas"

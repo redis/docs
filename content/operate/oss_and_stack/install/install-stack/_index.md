@@ -11,7 +11,7 @@ title: Install Redis Open Source
 weight: 2
 ---
 
-Redis Open Source has been tested on the following platforms:
+[Redis Open Source]({{< relref "/operate/oss_and_stack/" >}}) has been tested on the following platforms:
 
 - Ubuntu 22.04 (Jammy Jellyfish) and 24.04 (Noble Numbat).
 - Rocky Linux 8.10 and 9.5.

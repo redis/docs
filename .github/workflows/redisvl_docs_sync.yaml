@@ -40,8 +40,7 @@ jobs:
 
       - name: 'Install deps'
         run: |
-          pip3 install -U sphinx
-          pip3 install sphinx_design sphinx_copybutton nbsphinx sphinx_favicon myst_nb sphinx_markdown_builder==0.6.8 jupyter
+          pip3 install sphinx sphinx_design sphinx_copybutton nbsphinx==0.9.7 sphinx_favicon myst_nb sphinx_markdown_builder==0.6.8 jupyter
 
       - name: 'Fetch redisvl repo'
         run: |

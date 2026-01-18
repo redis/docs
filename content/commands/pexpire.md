@@ -67,10 +67,10 @@ key_specs:
     type: range
   update: true
 linkTitle: PEXPIRE
+railroad_diagram: /images/railroad/pexpire.svg
 since: 2.6.0
 summary: Sets the expiration time of a key in milliseconds.
 syntax_fmt: PEXPIRE key milliseconds [NX | XX | GT | LT]
-syntax_str: milliseconds [NX | XX | GT | LT]
 title: PEXPIRE
 ---
 This command works exactly like [`EXPIRE`]({{< relref "/commands/expire" >}}) but the time to live of the key is

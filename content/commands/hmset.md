@@ -54,12 +54,11 @@ key_specs:
     type: range
   update: true
 linkTitle: HMSET
-replaced_by: '[`HSET`]({{< relref "/commands/hset" >}}) with multiple field-value
-  pairs'
+railroad_diagram: /images/railroad/hmset.svg
+replaced_by: '`HSET` with multiple field-value pairs'
 since: 2.0.0
 summary: Sets the values of multiple fields.
 syntax_fmt: HMSET key field value [field value ...]
-syntax_str: field value [field value ...]
 title: HMSET
 ---
 Sets the specified fields to their respective values in the hash stored at

@@ -34,11 +34,11 @@ group: bf
 hidden: false
 linkTitle: BF.RESERVE
 module: Bloom
+railroad_diagram: /images/railroad/bf.reserve.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Creates a new Bloom Filter
 syntax_fmt: "BF.RESERVE key error_rate capacity [EXPANSION\_expansion]\n  [NONSCALING]"
-syntax_str: "error_rate capacity [EXPANSION\_expansion] [NONSCALING]"
 title: BF.RESERVE
 ---
 Creates an empty Bloom filter with a single sub-filter for the initial specified capacity and with an upper bound `error_rate`.
@@ -122,7 +122,6 @@ OK
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

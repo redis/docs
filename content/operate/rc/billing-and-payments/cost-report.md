@@ -12,7 +12,7 @@ weight: 39
 
 The Redis Cloud cost report gives you a detailed breakdown of your Redis Cloud subscription usage and associated charges. You can use it to track, audit, and optimize your Redis Cloud spending across Essentials and Pro subscription plans.
 
-You can download the cost report from the [**Billing and payments**]({{< relref "/operate/rc/billing-and-payments" >}}) and [**Usage reports**]({{< relref "/operate/rc/logs-reports/usage-reports" >}}) pages.
+You can download the cost report from the [**Billing and payments**]({{< relref "/operate/rc/billing-and-payments" >}}) and [**Usage reports**]({{< relref "/operate/rc/logs-reports/usage-reports" >}}) pages. You can also use the [Redis Cloud REST API](#rest-api) to get a cost report in [FOCUS](https://focus.finops.org/) format.
 
 {{< embed-md "rc-cost-report-csv.md" >}}
 
@@ -91,3 +91,10 @@ All columns after the **Total cost** column show the key values for any [tags]({
 
 {{< embed-md "rc-pro-billing-units.md" >}}
 
+## Get FOCUS format using REST API
+
+You can use the [Redis Cloud REST API]({{< relref "/operate/rc/api" >}}) to get a cost report in [FinOps Open Cost and Usage Specification (FOCUS)](https://focus.finops.org/) compatible format.
+
+{{< embed-md "rc-cost-report-api.md" >}}
+
+The cost report returned from the Redis Cloud REST API contains fields from the [FOCUS column library](https://focus.finops.org/focus-columns/). See [Generate FOCUS-compliant cost report with REST API]({{< relref "/operate/rc/api/examples/generate-cost-report" >}}) for more details.

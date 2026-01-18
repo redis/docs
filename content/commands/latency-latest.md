@@ -28,10 +28,10 @@ hints:
 - request_policy:all_nodes
 - response_policy:special
 linkTitle: LATENCY LATEST
+railroad_diagram: /images/railroad/latency-latest.svg
 since: 2.8.13
 summary: Returns the latest latency samples for all events.
 syntax_fmt: LATENCY LATEST
-syntax_str: ''
 title: LATENCY LATEST
 ---
 The `LATENCY LATEST` command reports the latest latency events logged.

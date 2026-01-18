@@ -55,10 +55,10 @@ key_specs:
     type: range
   update: true
 linkTitle: HSET
+railroad_diagram: /images/railroad/hset.svg
 since: 2.0.0
 summary: Creates or modifies the value of a field in a hash.
 syntax_fmt: HSET key field value [field value ...]
-syntax_str: field value [field value ...]
 title: HSET
 ---
 Sets the specified fields to their respective values in the hash stored at `key`.
@@ -68,7 +68,7 @@ If `key` doesn't exist, a new key holding a hash is created.
 
 ## Examples
 
-{{< clients-example cmds_hash hset >}}
+{{< clients-example set="cmds_hash" step="hset" description="Foundational: Set one or more field-value pairs in a hash using HSET (creates hash if needed, overwrites existing fields, returns count of new fields)" difficulty="beginner" >}}
 > HSET myhash field1 "Hello"
 (integer) 1
 > HGET myhash field1

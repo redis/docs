@@ -62,14 +62,19 @@ key_specs:
       limit: 2
     type: range
 linkTitle: XREAD
+railroad_diagram: /images/railroad/xread.svg
 since: 5.0.0
 summary: Returns messages from multiple streams with IDs greater than the ones requested.
   Blocks until a message is available otherwise.
 syntax_fmt: "XREAD [COUNT\_count] [BLOCK\_milliseconds] STREAMS\_key [key ...] id\n\
   \  [id ...]"
-syntax_str: "[BLOCK\_milliseconds] STREAMS\_key [key ...] id [id ...]"
 title: XREAD
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Read data from one or multiple streams, only returning entries with an
 ID greater than the last received ID reported by the caller.
 This command has an option to block if items are not available, in a similar

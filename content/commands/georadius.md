@@ -161,18 +161,21 @@ key_specs:
     type: range
   update: true
 linkTitle: GEORADIUS
-replaced_by: '[`GEOSEARCH`]({{< relref "/commands/geosearch" >}}) and [`GEOSEARCHSTORE`]({{<
-  relref "/commands/geosearchstore" >}}) with the `BYRADIUS` argument'
+railroad_diagram: /images/railroad/georadius.svg
+replaced_by: '`GEOSEARCH` and `GEOSEARCHSTORE` with the `BYRADIUS` argument'
 since: 3.2.0
 summary: Queries a geospatial index for members within a distance from a coordinate,
   optionally stores the result.
 syntax_fmt: "GEORADIUS key longitude latitude radius <M | KM | FT | MI>\n  [WITHCOORD]\
   \ [WITHDIST] [WITHHASH] [COUNT\_count [ANY]] [ASC | DESC]\n  [STORE\_key | STOREDIST\_\
   key]"
-syntax_str: "longitude latitude radius <M | KM | FT | MI> [WITHCOORD] [WITHDIST] [WITHHASH]\
-  \ [COUNT\_count [ANY]] [ASC | DESC] [STORE\_key | STOREDIST\_key]"
 title: GEORADIUS
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Return the members of a sorted set populated with geospatial information using [`GEOADD`]({{< relref "/commands/geoadd" >}}), which are within the borders of the area specified with the center location and the maximum distance from the center (the radius).
 
 This manual page also covers the [`GEORADIUS_RO`]({{< relref "/commands/georadius_ro" >}}) and [`GEORADIUSBYMEMBER_RO`]({{< relref "/commands/georadiusbymember_ro" >}}) variants (see the section below for more information).

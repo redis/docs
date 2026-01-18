@@ -73,3 +73,7 @@ res = lang_cache.delete_query(
 
 print(res)
 # STEP_END
+
+# STEP_START flush
+lang_cache.flush()
+# STEP_END

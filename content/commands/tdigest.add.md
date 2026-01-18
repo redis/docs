@@ -28,11 +28,11 @@ group: tdigest
 hidden: false
 linkTitle: TDIGEST.ADD
 module: Bloom
+railroad_diagram: /images/railroad/tdigest.add.svg
 since: 2.4.0
 stack_path: docs/data-types/probabilistic
 summary: Adds one or more observations to a t-digest sketch
 syntax_fmt: TDIGEST.ADD key value [value ...]
-syntax_str: value [value ...]
 title: TDIGEST.ADD
 ---
 Adds one or more observations to a t-digest sketch.
@@ -66,7 +66,6 @@ redis> TDIGEST.ADD t string
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

@@ -48,13 +48,18 @@ key_specs:
     type: range
   insert: true
 linkTitle: MSETNX
+railroad_diagram: /images/railroad/msetnx.svg
 since: 1.0.1
 summary: Atomically modifies the string values of one or more keys only when all keys
   don't exist.
 syntax_fmt: MSETNX key value [key value ...]
-syntax_str: ''
 title: MSETNX
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Sets the given keys to their respective values.
 `MSETNX` will not perform any operation at all even if just a single key already
 exists.

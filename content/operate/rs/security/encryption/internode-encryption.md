@@ -137,6 +137,8 @@ Customer-provided internode encryption certificates must meet the following requ
 
 - Certificates must use an RSA key. Using other key types, such as ECDSA or EdDSA, might prevent internode encryption from working.
 
+- Certificates must be created with the TLS Web Client Authentication attribute enabled.
+
 ### Upload customer-provided certificates
 
 You can upload either:

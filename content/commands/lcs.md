@@ -63,10 +63,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: LCS
+railroad_diagram: /images/railroad/lcs.svg
 since: 7.0.0
 summary: Finds the longest common substring.
 syntax_fmt: "LCS key1 key2 [LEN] [IDX] [MINMATCHLEN\_min-match-len] [WITHMATCHLEN]"
-syntax_str: "key2 [LEN] [IDX] [MINMATCHLEN\_min-match-len] [WITHMATCHLEN]"
 title: LCS
 ---
 

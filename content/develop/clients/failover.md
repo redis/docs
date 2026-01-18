@@ -10,8 +10,8 @@ categories:
 - kubernetes
 - clients
 description: Improve reliability using the failover/failback features of client libraries.
-linkTitle: Failover/failback
-title: Failover and failback
+linkTitle: Geographic failover
+title: Client-side geographic failover
 topics:
 - failover
 - failback
@@ -25,7 +25,7 @@ weight: 50
 ---
 
 Some Redis client libraries support
-[failover and failback](https://en.wikipedia.org/wiki/Failover)
+[Client-side geographic failover](https://en.wikipedia.org/wiki/Failover)
 to improve the availability of connections to Redis databases. Use this page
 to get a general overview of the concepts and then see the documentation for
 your client library to learn how to configure it for failover and failback:

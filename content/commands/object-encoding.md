@@ -40,10 +40,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: OBJECT ENCODING
+railroad_diagram: /images/railroad/object-encoding.svg
 since: 2.2.3
 summary: Returns the internal encoding of a Redis object.
 syntax_fmt: OBJECT ENCODING key
-syntax_str: ''
 title: OBJECT ENCODING
 ---
 Returns the internal encoding for the Redis object stored at `<key>`
