@@ -135,6 +135,14 @@ Usage: redis-di dump-support-package [OPTIONS]
 
   Trace only rejected change records
 
+  - `log_days`:
+
+    - Type: <IntRange 0<=x>
+    - Default: `2`
+    - Usage: `--log-days`
+
+    Number of days to look back for log files
+
 - `help`:
 
   - Type: BOOL
@@ -172,5 +180,7 @@ Options:
   --max-change-records INTEGER RANGE
                                   Maximum traced change records  [x>=1]
   --trace-only-rejected           Trace only rejected change records
+  --log-days INTEGER RANGE        Number of days to look back for log files
+                                  [default: 2; 0<=x]
   --help                          Show this message and exit.
 ```
