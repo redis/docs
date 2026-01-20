@@ -35,7 +35,7 @@ To enable cluster-aware clients, edit the REC and REDB custom resources with the
 
 1. Edit the RedisEnterpriseCluster (REC) custom resource to add the `ossClusterSettings` section to the `spec` section.
 
-Set `externalAccessType` to `LoadBalancer` and add any `serviceAnnotations` as required by your service provider.
+Set `externalAccessType` to `LoadBalancer` and add any `serviceAnnotations`, if required by your service provider.
 
 ```yaml
 ossClusterSettings:
