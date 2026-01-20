@@ -1,4 +1,4 @@
-<svg class="railroad-diagram" height="71" viewBox="0 0 559.5 71" width="559.5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg class="railroad-diagram" height="62" viewBox="0 0 213.5 62" width="213.5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <defs>
 <style type="text/css"><![CDATA[
 svg.railroad-diagram { background-color: transparent; }
@@ -43,16 +43,5 @@ circle { fill: #DC382D !important; stroke: #DC382D !important; }
 
 /* ]]> */
 </style><g>
-<path d="M20 30v20m10 -20v20m-10 -10h20"></path></g><path d="M40 40h10"></path><g>
-<path d="M50 40h0.0"></path><path d="M509.5 40h0.0"></path><g class="terminal ">
-<path d="M50.0 40h0.0"></path><path d="M95.5 40h0.0"></path><rect height="22" rx="10" ry="10" width="45.5" x="50.0" y="29"></rect><text x="72.75" y="44">GET</text></g><path d="M95.5 40h10"></path><g>
-<path d="M105.5 40h0.0"></path><path d="M307.5 40h0.0"></path><path d="M105.5 40a10 10 0 0 0 10 -10v0a10 10 0 0 1 10 -10"></path><g>
-<path d="M125.5 20h162.0"></path></g><path d="M287.5 20a10 10 0 0 1 10 10v0a10 10 0 0 0 10 10"></path><path d="M105.5 40h20"></path><g>
-<path d="M125.5 40h0.0"></path><path d="M287.5 40h0.0"></path><g class="terminal ">
-<path d="M125.5 40h0.0"></path><path d="M196.5 40h0.0"></path><rect height="22" rx="10" ry="10" width="71.0" x="125.5" y="29"></rect><text x="161.0" y="44">MINCPU</text></g><path d="M196.5 40h10"></path><path d="M206.5 40h10"></path><g class="non-terminal ">
-<path d="M216.5 40h0.0"></path><path d="M287.5 40h0.0"></path><rect height="22" width="71.0" x="216.5" y="29"></rect><text x="252.0" y="44">mincpu</text></g></g><path d="M287.5 40h20"></path></g><g>
-<path d="M307.5 40h0.0"></path><path d="M509.5 40h0.0"></path><path d="M307.5 40a10 10 0 0 0 10 -10v0a10 10 0 0 1 10 -10"></path><g>
-<path d="M327.5 20h162.0"></path></g><path d="M489.5 20a10 10 0 0 1 10 10v0a10 10 0 0 0 10 10"></path><path d="M307.5 40h20"></path><g>
-<path d="M327.5 40h0.0"></path><path d="M489.5 40h0.0"></path><g class="terminal ">
-<path d="M327.5 40h0.0"></path><path d="M398.5 40h0.0"></path><rect height="22" rx="10" ry="10" width="71.0" x="327.5" y="29"></rect><text x="363.0" y="44">MINNET</text></g><path d="M398.5 40h10"></path><path d="M408.5 40h10"></path><g class="non-terminal ">
-<path d="M418.5 40h0.0"></path><path d="M489.5 40h0.0"></path><rect height="22" width="71.0" x="418.5" y="29"></rect><text x="454.0" y="44">minnet</text></g></g><path d="M489.5 40h20"></path></g></g><path d="M509.5 40h10"></path><path d="M 519.5 40 h 20 m -10 -10 v 20 m 10 -20 v 20"></path></g></svg>
+<path d="M20 21v20m10 -20v20m-10 -10h20"></path></g><path d="M40 31h10"></path><g class="terminal ">
+<path d="M50 31h0.0"></path><path d="M163.5 31h0.0"></path><rect height="22" rx="10" ry="10" width="113.5" x="50.0" y="20"></rect><text x="106.75" y="35">HOTKEYS GET</text></g><path d="M163.5 31h10"></path><path d="M 173.5 31 h 20 m -10 -10 v 20 m 10 -20 v 20"></path></g></svg>

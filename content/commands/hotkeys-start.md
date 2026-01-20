@@ -1,21 +1,47 @@
 ---
+acl_categories:
+- '@admin'
+- '@slow'
+- '@dangerous'
 arguments:
-- name: k
+- arguments:
+  - display_text: count
+    name: count
+    type: integer
+  - display_text: cpu
+    name: cpu
+    optional: true
+    token: CPU
+    type: pure-token
+  - display_text: net
+    name: net
+    optional: true
+    token: NET
+    type: pure-token
+  name: metrics
+  token: METRICS
+  type: block
+- display_text: k
+  name: k
   optional: true
   token: COUNT
   type: integer
-- name: seconds
+- display_text: seconds
+  name: seconds
   optional: true
   token: DURATION
   type: integer
-- name: ratio
+- display_text: ratio
+  name: ratio
   optional: true
   token: SAMPLE
   type: integer
 - arguments:
-  - name: count
+  - display_text: count
+    name: count
     type: integer
-  - multiple: true
+  - display_text: slot
+    multiple: true
     name: slot
     type: integer
   name: slots
@@ -34,8 +60,8 @@ categories:
 - kubernetes
 - clients
 command_flags:
-- ADMIN
-- NOSCRIPT
+- admin
+- noscript
 complexity: O(1)
 container: HOTKEYS
 description: Starts hotkeys tracking.
@@ -48,17 +74,35 @@ reply_schema:
   const: OK
 since: 8.6.0
 summary: Starts hotkeys tracking.
-syntax_fmt: "HOTKEYS START [COUNT\_k] [DURATION\_seconds] [SAMPLE\_ratio]\n  [SLOTS\_\
-  count slot [slot ...]]"
+syntax_fmt: HOTKEYS START METRICS count [CPU] [NET] [COUNT k] [DURATION seconds] [SAMPLE ratio] [SLOTS count slot [slot ...]]
 title: HOTKEYS START
 ---
-Starts hotkeys tracking.
+Starts hotkeys tracking with specified metrics.
+
+This command initiates a hotkey tracking session. You must specify which metrics to track using the required `METRICS` parameter.
+An error is returned if a tracking session is already in progress.
+
+The tracking session continues until manually stopped with [`HOTKEYS STOP`]({{< relref "/commands/hotkeys-stop" >}}) or automatically stopped after the specified duration.
+
+## Arguments
+
+<details open><summary><code>METRICS count [CPU] [NET]</code></summary>
+
+**Required.** Specifies which metrics to track and how many hotkeys to track.
+
+- `count` - The number of metrics to collect (required).
+- `CPU` - Track hotkeys by CPU time percentage (optional).
+- `NET` - Track hotkeys by network bytes percentage (optional).
+
+At least one of `CPU` or `NET` must be specified.
+
+</details>
 
 ## Optional arguments
 
 <details open><summary><code>COUNT</code></summary>
 
-The maximum number of hotkeys to track and return. Specifies the value of K for the top-K hotkeys tracking. Must be between 10 and 64. Default behavior tracks a reasonable number of hotkeys.
+Specifies the value of K for the top-K hotkeys tracking.
 
 </details>
 
@@ -80,6 +124,12 @@ Specifies which hash slots to track in a cluster environment. Takes a count foll
 
 </details>
 
+## Redis Enterprise and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+
 ## Return information
 
 {{< multitabs id="return-info"
@@ -91,21 +141,11 @@ One of the following:
 - [Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) reply: `OK` when tracking is successfully started.
 - [Error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): when invalid parameters are provided.
 
-Example:
-```
-+OK
-```
-
 -tab-sep-
 
 One of the following:
 
 - [Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) reply: `OK` when tracking is successfully started.
 - [Error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): when invalid parameters are provided.
-
-Example:
-```
-+OK
-```
 
 {{< /multitabs >}}
