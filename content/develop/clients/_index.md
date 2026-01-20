@@ -126,7 +126,7 @@ between the options for each language.
     library that is implemented using C extensions to PHP for better performance. However, it is
     not actively supported or documented by the Redis team.
 
-## Client library decision tree
+### Client library decision tree
 
 Use the decision tree below to help you choose the right client library for your needs,
 based on the recommendations in the previous sections:
@@ -134,38 +134,75 @@ based on the recommendations in the previous sections:
 ```decision-tree {id="client-recommendation"}
 id: client-recommendation
 scope: clients
-indentWidth: 30
-rootQuestion: languageQuestion
+indentWidth: 28
+rootQuestion: singleClientLanguageQuestion
 questions:
-    languageQuestion:
-        text: What is your primary programming language?
-        whyAsk: Different languages have different client libraries available
-        answers:
-            yes:
-                value: Python
-                nextQuestion: pythonUseCase
-            no:
-                value: Other
-                nextQuestion: otherLanguageQuestion
-
-    pythonUseCase:
+    singleClientLanguageQuestion:
         text: |
-            Do you need object mapping (ORM-like)
-            functionality?
+            Are you using Go, Rust, C, C++, Dart, or Ruby?
         whyAsk: |
-            RedisOM provides a high-level API for working with Redis data structures,
-            while redis-py and RedisVL offer lower-level control
+            These languages have only one recommended client library,
+            so the choice is straightforward
         answers:
             yes:
-                value: Yes
+                value: "Yes"
                 outcome:
-                    label: Use RedisOM
-                    id: redisOMPythonOutcome
+                    label: |
+                        These languages only have one recommended client library. Use
+                        the client library for your language listed in the table above.
+                    id: singleClientLanguageOutcome
             no:
-                value: No
-                nextQuestion: pythonClientChoice
+                value: "No"
+                nextQuestion: multiClientLanguageQuestion
 
-    pythonClientChoice:
+    multiClientLanguageQuestion:
+        text: |
+            Are you using Python, JavaScript, Java, or C#/.NET
+            and require object mapping (ORM-like) functionality?
+        whyAsk: |
+            RedisOM provides a high-level API for these languages.
+            If you don't need OM, we'll help you choose the best low-level client
+        answers:
+            yes:
+                value: "Yes"
+                outcome:
+                    label: |
+                        Use RedisOM for your language
+                        (available for Python, JavaScript, Java, and C#/.NET)
+                    id: redisOMOutcome
+            no:
+                value: "No"
+                nextQuestion: lowLevelClientQuestion
+
+    lowLevelClientQuestion:
+        text: Which language are you using?
+        whyAsk: |
+            Different languages have different low-level client libraries
+            optimized for their ecosystems
+        answers:
+            python:
+                value: Python
+                nextQuestion: pythonLowLevelQuestion
+            javascript:
+                value: JavaScript
+                outcome:
+                    label: Use node-redis
+                    id: nodeRedisOutcome
+            java:
+                value: Java
+                nextQuestion: javaLowLevelQuestion
+            dotnet:
+                value: "C# / .NET"
+                outcome:
+                    label: Use NRedisStack
+                    id: nredisStackOutcome
+            php:
+                value: PHP
+                outcome:
+                    label: Use Predis
+                    id: predisOutcome
+
+    pythonLowLevelQuestion:
         text: |
             Are you building an AI/ML application
             that requires vector search?
@@ -173,118 +210,31 @@ questions:
             RedisVL is specialized for AI/ML workflows with vector data,
             while redis-py is better for general-purpose use
         answers:
-            yes:
-                value: AI/ML
+            aiml:
+                value: "AI/ML"
                 outcome:
                     label: Use RedisVL
                     id: redisVLOutcome
-            no:
+            general:
                 value: General
                 outcome:
                     label: Use redis-py
                     id: redisPyOutcome
 
-    otherLanguageQuestion:
-        text: What is your programming language?
-        whyAsk: Each language has specific recommended client libraries
-        answers:
-            yes:
-                value: JavaScript
-                nextQuestion: javascriptOMQuestion
-            no:
-                value: Java
-                nextQuestion: javaQuestion
-
-    javascriptOMQuestion:
-        text: Do you need object mapping (ORM-like) functionality?
-        whyAsk: |
-            RedisOM provides a high-level API for working with Redis data structures,
-            while node-redis offers lower-level control
-        answers:
-            yes:
-                value: Yes
-                outcome:
-                    label: Use RedisOM
-                    id: redisOMJSOutcome
-            no:
-                value: No
-                outcome:
-                    label: Use node-redis
-                    id: nodeRedisOutcome
-
-    javaQuestion:
-        text: |
-            Do you need object mapping (ORM-like)
-            functionality?
-        whyAsk: |
-            RedisOM provides a high-level API for working with Redis data structures
-        answers:
-            yes:
-                value: Yes
-                outcome:
-                    label: Use RedisOM
-                    id: redisOMJavaOutcome
-            no:
-                value: No
-                nextQuestion: javaClientChoice
-
-    javaClientChoice:
+    javaLowLevelQuestion:
         text: Do you need async or reactive operations?
         whyAsk: |
             Jedis supports only synchronous operations with a simpler API,
             while Lettuce supports async and reactive patterns
         answers:
-            yes:
-                value: Yes
+            async:
+                value: Async
                 outcome:
                     label: Use Lettuce
                     id: lettuceOutcome
-            no:
-                value: No
+            sync:
+                value: Sync
                 outcome:
                     label: Use Jedis
                     id: jedisOutcome
-
-    otherLanguageQuestion2:
-        text: What is your programming language?
-        whyAsk: Each language has specific recommended client libraries
-        answers:
-            yes:
-                value: "C# / .NET"
-                nextQuestion: dotnetOMQuestion
-            no:
-                value: Other
-                nextQuestion: otherLanguageQuestion3
-
-    dotnetOMQuestion:
-        text: Do you need object mapping (ORM-like) functionality?
-        whyAsk: |
-            RedisOM provides a high-level API for working with Redis data structures,
-            while NRedisStack offers lower-level control
-        answers:
-            yes:
-                value: Yes
-                outcome:
-                    label: Use RedisOM
-                    id: redisOMDotnetOutcome
-            no:
-                value: No
-                outcome:
-                    label: Use NRedisStack
-                    id: nredisStackOutcome
-
-    otherLanguageQuestion3:
-        text: What is your programming language?
-        whyAsk: Each language has specific recommended client libraries
-        answers:
-            yes:
-                value: "Go, C, Rust, PHP"
-                outcome:
-                    label: See language table
-                    id: singleClientOutcome
-            no:
-                value: Other
-                outcome:
-                    label: See community clients
-                    id: communityClientOutcome
 ```
