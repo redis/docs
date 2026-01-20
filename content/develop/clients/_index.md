@@ -94,6 +94,9 @@ between the options for each language.
     for most use cases.
 -   [`ioredis`](https://github.com/redis/ioredis) is an older library that is still supported, but
     lacks some of the newer features and performance optimizations of `node-redis`.
+    Note that there is a migration guide available if you are interested in converting
+    your `ioredis` project to `node-redis`
+    (see [Migrate from ioredis]({{< relref "/develop/clients/nodejs/migration" >}})).
 -   [RedisOM for Node.js](https://github.com/redis/redis-om-node) is an object mapping library that
     provides a high-level API for working with Redis data structures.
 
@@ -129,7 +132,8 @@ between the options for each language.
 ### Client library decision tree
 
 Use the decision tree below to help you choose the right client library for your needs,
-based on the recommendations in the previous sections:
+based on the recommendations in the previous sections. Note that you should regard the
+conclusions as a guideline for your research, not as a definitive answer.
 
 ```decision-tree {id="client-recommendation"}
 id: client-recommendation
@@ -181,42 +185,38 @@ questions:
             optimized for their ecosystems
         answers:
             python:
-                value: Python
+                value: Py
                 nextQuestion: pythonLowLevelQuestion
             javascript:
-                value: JavaScript
-                outcome:
-                    label: Use node-redis
-                    id: nodeRedisOutcome
+                value: JS
+                nextQuestion: javascriptLowLevelQuestion
             java:
                 value: Java
                 nextQuestion: javaLowLevelQuestion
+            php:
+                value: PHP
+                nextQuestion: phpLowLevelQuestion
             dotnet:
-                value: "C# / .NET"
+                value: "C#"
                 outcome:
                     label: Use NRedisStack
                     id: nredisStackOutcome
-            php:
-                value: PHP
-                outcome:
-                    label: Use Predis
-                    id: predisOutcome
 
     pythonLowLevelQuestion:
         text: |
             Are you building an AI/ML application
-            that requires vector search?
+            mainly based around high-dimensional vector operations?
         whyAsk: |
             RedisVL is specialized for AI/ML workflows with vector data,
             while redis-py is better for general-purpose use
         answers:
-            aiml:
-                value: "AI/ML"
+            yes:
+                value: "Yes"
                 outcome:
                     label: Use RedisVL
                     id: redisVLOutcome
-            general:
-                value: General
+            No:
+                value: "No"
                 outcome:
                     label: Use redis-py
                     id: redisPyOutcome
@@ -227,14 +227,50 @@ questions:
             Jedis supports only synchronous operations with a simpler API,
             while Lettuce supports async and reactive patterns
         answers:
-            async:
-                value: Async
+            yes:
+                value: "Yes"
                 outcome:
                     label: Use Lettuce
                     id: lettuceOutcome
-            sync:
-                value: Sync
+            no:
+                value: "No"
                 outcome:
                     label: Use Jedis
                     id: jedisOutcome
+
+    javascriptLowLevelQuestion:
+        text: Do you have an existing codebase using ioredis?
+        whyAsk: |
+            If you're already using ioredis, you can continue with it.
+            For new projects, node-redis is the recommended choice
+        answers:
+            yes:
+                value: "Yes"
+                outcome:
+                    label: |
+                        Use ioredis (but see the migration guide if you want to update to node-redis)
+                    id: ioredisOutcome
+            no:
+                value: "No"
+                outcome:
+                    label: Use node-redis
+                    id: nodeRedisOutcome
+
+    phpLowLevelQuestion:
+        text: |
+            Is maximum performance a higher priority than full support and documentation?
+        whyAsk: |
+            PhpRedis is a C extension with better performance,
+            while Predis is a pure PHP implementation that's is better supported and documented
+        answers:
+            yes:
+                value: "Yes"
+                outcome:
+                    label: Use PhpRedis
+                    id: phpredisOutcome
+            no:
+                value: "No"
+                outcome:
+                    label: Use Predis
+                    id: predisOutcome
 ```
