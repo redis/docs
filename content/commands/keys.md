@@ -36,6 +36,11 @@ summary: Returns all key names that match a pattern.
 syntax_fmt: KEYS pattern
 title: KEYS
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Returns all keys matching `pattern`.
 
 While the time complexity for this operation is O(N), the constant times are

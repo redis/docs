@@ -1,67 +1,3 @@
----
-Title: Monitoring v2
-alwaysopen: false
-categories:
-- docs
-- operate
-- rs
-- kubernetes
-description: The new metrics engine for monitoring Redis Enterprise Software.
-hideListLinks: true
-linkTitle: Monitoring v2
-weight: 60
----
-
-The new metrics stream engine is generally available as of [Redis Enterprise Software version 8.0]({{<relref "/operate/rs/release-notes/rs-8-0-releases">}}).
-
-The new metrics stream engine:
-
-- Exposes the v2 Prometheus scraping endpoint at `https://<IP>:8070/v2`.
-
-- Exports all time-series metrics to external monitoring tools such as Grafana, DataDog, NewRelic, and Dynatrace using Prometheus.
-
-- Enables real-time monitoring, including full monitoring during maintenance operations, which provides full visibility into performance during events such as shards' failovers and scaling operations.
-
-## Integrate with external monitoring tools
-
-To integrate Redis Enterprise metrics into your monitoring environment, see the integration guides for [Prometheus and Grafana]({{< relref "/operate/rs/monitoring/prometheus_and_grafana" >}}).
-
-For a detailed tutorial to deploy a complete monitoring stack with Prometheus and Grafana, see [Redis Software Observability with Prometheus and Grafana](https://redis.io/learn/operate/observability/redis-software-prometheus-and-grafana).
-
-Filter [Libraries and tools]({{<relref "/integrate">}}) by "observability" for additional tools and guides.
-
-## Prometheus metrics v2
-
-For a list of all available v2 metrics, see [Prometheus metrics v2]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v2">}}).
-
-The v2 scraping endpoint also exposes metrics for `node_exporter` version 1.8.1. For more information, see the [Prometheus node_exporter GitHub repository](https://github.com/prometheus/node_exporter).
-
-## Transition from Prometheus v1 to Prometheus v2
-
-If you are already using the existing scraping endpoint for integration, do the following to transition from v1 metrics to v2 metrics:
-
-1. Change the `metrics_path` in your Prometheus configuration file from `/` to `/v2` to use the new scraping endpoint.
-
-    Here's an example of the updated scraping configuration in `prometheus.yml`:
-
-    ```yaml
-    scrape_configs:
-      # Scrape Redis Enterprise
-      - job_name: redis-enterprise
-        scrape_interval: 30s
-        scrape_timeout: 30s
-        metrics_path: /v2
-        scheme: https
-        tls_config:
-          insecure_skip_verify: true
-        static_configs:
-          - targets: ["<cluster_name>:8070"]
-    ```
-
-1. Use the metrics tables in [this guide]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v1-to-v2">}}) to transition from v1 metrics to equivalent v2 PromQL.
-
-It is possible to scrape both existing and new endpoints simultaneously, allowing advanced dashboard preparation and a smooth transition.
-
 ## Best practices for monitoring
 
 Follow these best practices when monitoring your Redis Enterprise Software cluster using the metrics stream engine.
@@ -117,4 +53,4 @@ For database performance, availability, and efficiency, monitor the following me
 | Security – cert-based | <span class="break-all">`endpoint_successful_cba_authentication`</span>,<br /><span class="break-all">`endpoint_failed_cba_authentication`</span>,<br /><span class="break-all">`endpoint_disconnected_cba_client`</span> | Monitor certificate authentication status and failures. | Counter |
 | Security – password | <span class="break-all">`endpoint_disconnected_user_password_client`</span> | Monitor password-authentication client disconnects and correlate with policy changes. | Counter |
 | Security – ACL | <span class="break-all">`redis_server_acl_access_denied_auth`</span>,<br /><span class="break-all">`redis_server_acl_access_denied_cmd`</span>,<br /><span class="break-all">`redis_server_acl_access_denied_key`</span>,<br /><span class="break-all">`redis_server_acl_access_denied_channel`</span> | Monitor unauthorized access attempts and incorrectly scoped ACLs. | Counter |
-| Configuration | <span class="break-all">`db_config`</span>| This is an information metric that holds database configuration within labels such as: db_name, db_version, db_port, tls_mode. | counter | 
+| Configuration | <span class="break-all">`db_config`</span>| This is an information metric that holds database configuration within labels such as: db_name, db_version, db_port, tls_mode. | counter |

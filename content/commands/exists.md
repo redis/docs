@@ -52,13 +52,18 @@ summary: Determines whether one or more keys exist.
 syntax_fmt: EXISTS key [key ...]
 title: EXISTS
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Returns if `key` exists.
 
 The user should be aware that if the same existing key is mentioned in the arguments multiple times, it will be counted multiple times. So if `somekey` exists, `EXISTS somekey somekey` will return 2.
 
 ## Examples
 
-{{< clients-example set="cmds_generic" step="exists" >}}
+{{< clients-example set="cmds_generic" step="exists" description="Foundational: Check if one or more keys exist using EXISTS (returns count of existing keys, useful for conditional logic)" difficulty="beginner" >}}
 SET key1 "Hello"
 EXISTS key1
 EXISTS nosuchkey

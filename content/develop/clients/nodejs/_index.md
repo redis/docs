@@ -43,19 +43,19 @@ npm install redis
 
 ## Connect and test
 
-Connect to localhost on port 6379. 
+Connect to localhost on port 6379.
 
-{{< clients-example set="landing" step="connect" lang_filter="Node.js" >}}
+{{< clients-example set="landing" step="connect" lang_filter="Node.js" description="Foundational: Create a client connection to a Redis server using node-redis" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 Store and retrieve a simple string.
 
-{{< clients-example set="landing" step="set_get_string" lang_filter="Node.js" >}}
+{{< clients-example set="landing" step="set_get_string" lang_filter="Node.js" description="Foundational: Set and retrieve string values using SET and GET commands" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 Store and retrieve a map.
 
-{{< clients-example set="landing" step="set_get_hash" lang_filter="Node.js" >}}
+{{< clients-example set="landing" step="set_get_hash" lang_filter="Node.js" description="Foundational: Store and retrieve hash data structures using HSET and HGET commands" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 To connect to a different host or port, use a connection string in the format `redis[s]://[[username][:password]@][host][:port][/db-number]`:
@@ -69,7 +69,7 @@ To check if the client is connected and ready to send commands, use `client.isRe
 
 When you have finished using a connection, close it with `client.quit()`.
 
-{{< clients-example set="landing" step="close" lang_filter="Node.js" >}}
+{{< clients-example set="landing" step="close" lang_filter="Node.js" description="Foundational: Close a Redis client connection using the quit() method" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## More information

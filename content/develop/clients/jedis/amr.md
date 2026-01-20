@@ -133,7 +133,7 @@ TokenAuthConfig authConfig = EntraIDTokenAuthConfigBuilder.builder()
 When you have created your `TokenAuthConfig` instance, you are ready to
 connect to AMR.
 The example below shows how to include the `TokenAuthConfig` details in a
-`JedisClientConfig` instance and use it with the `RedisClient` connection.
+`JedisClientConfig` instance and use it with the `RedisClusterClient` connection.
 The connection uses
 [Transport Layer Security (TLS)](https://en.wikipedia.org/wiki/Transport_Layer_Security),
 which is recommended and enabled by default for managed identities. See
@@ -159,7 +159,8 @@ JedisClientConfig config = DefaultJedisClientConfig.builder()
         .ssl(true).sslSocketFactory(sslFactory)
         .build();
 
-RedisClient jedis = RedisClient.builder()
+// AMR databases have clustering enabled by default.
+RedisClusterClient jedis = RedisClusterClient.builder()
         .hostAndPort(new HostAndPort("<host>", <port>))
         .clientConfig(config)
         .build();

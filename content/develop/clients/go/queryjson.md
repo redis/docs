@@ -48,7 +48,7 @@ haven't already done so.
 
 Add the following dependencies:
 
-{{< clients-example go_home_json import >}}
+{{< clients-example set="go_home_json" step="import" description="Foundational: Import go-redis package, which includes support for Redis query engine operations" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Create data
@@ -56,7 +56,7 @@ Add the following dependencies:
 Create some test data to add to your database. The example data shown
 below is compatible with both JSON and hash objects.
 
-{{< clients-example go_home_json create_data >}}
+{{< clients-example set="go_home_json" step="create_data" description="Foundational: Create sample user data structures for indexing and querying" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Add the index
@@ -66,7 +66,7 @@ basic connection but see
 [Connect to the server]({{< relref "/develop/clients/go/connect" >}})
 to learn more about the available connection options.
 
-{{< clients-example go_home_json connect >}}
+{{< clients-example set="go_home_json" step="connect" description="Foundational: Establish a connection to Redis with RESP2 protocol for query engine operations" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 {{< note >}}The connection options in the example specify
@@ -110,7 +110,7 @@ to provide an alias for the JSON path expression. You can use
 the alias in queries as a short and intuitive way to refer to the
 expression, instead of typing it in full:
 
-{{< clients-example go_home_json make_index >}}
+{{< clients-example set="go_home_json" step="make_index" description="Foundational: Create a search index for JSON documents with field definitions and key prefix filtering" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Add the data
@@ -120,7 +120,7 @@ Add the three sets of user data to the database as
 If you use keys with the `user:` prefix then Redis will index the
 objects automatically as you add them:
 
-{{< clients-example go_home_json add_data >}}
+{{< clients-example set="go_home_json" step="add_data" description="Foundational: Store JSON documents with automatic indexing using JSONSet with matching key prefix" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Query the data
@@ -130,26 +130,26 @@ You can now use the index to search the JSON objects. The
 below searches for objects that have the text "Paul" in any field
 and have an `age` value in the range 30 to 40:
 
-{{< clients-example go_home_json query1 >}}
+{{< clients-example set="go_home_json" step="query1" description="Query data: Execute a full-text search with numeric range filtering using FTSearchWithArgs" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 Specify query options to return only the `city` field:
 
-{{< clients-example go_home_json query2 >}}
+{{< clients-example set="go_home_json" step="query2" description="Restrict query results: Limit query results to specific fields using FTSearchOptions to reduce data transfer" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 You can also use the same query with the `CountOnly` option
 enabled to get the number of documents found without
 returning the documents themselves.
 
-{{< clients-example go_home_json query2count_only >}}
+{{< clients-example set="go_home_json" step="query2count_only" description="Performance optimization: Get document count without retrieving results using CountOnly option for better performance" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 Use an
 [aggregation query]({{< relref "/develop/ai/search-and-query/query/aggregation" >}})
 to count all users in each city.
 
-{{< clients-example go_home_json query3 >}}
+{{< clients-example set="go_home_json" step="query3" description="Aggregation: Perform aggregation queries to group and count documents by field values using FTAggregateWithArgs" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 ## Differences with hash documents
@@ -164,7 +164,7 @@ object when you create the index. The code below shows these changes with
 a new index called `hash-idx:users`, which is otherwise the same as
 the `idx:users` index used for JSON documents in the previous examples.
 
-{{< clients-example go_home_json make_hash_index >}}
+{{< clients-example set="go_home_json" step="make_hash_index" description="Foundational: Create a search index for hash documents with OnHash option and simplified field schema" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 You use [`HSet()`]({{< relref "/commands/hset" >}}) to add the hash
@@ -172,7 +172,7 @@ documents instead of [`JSONSet()`]({{< relref "/commands/json.set" >}}),
 but the same flat `userX` maps work equally well with either
 hash or JSON:
 
-{{< clients-example go_home_json add_hash_data >}}
+{{< clients-example set="go_home_json" step="add_hash_data" description="Foundational: Store hash documents with automatic indexing using HSet with matching key prefix" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 The query commands work the same here for hash as they do for JSON (but
@@ -181,7 +181,7 @@ almost the same except that the fields are returned directly in the
 `Document` object map of the result (for JSON, the fields are all enclosed
 in a string under the key "$"):
 
-{{< clients-example go_home_json query1_hash >}}
+{{< clients-example set="go_home_json" step="query1_hash" description="Query data: Execute search queries on hash documents with slightly different result structure compared to JSON" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 ## More information

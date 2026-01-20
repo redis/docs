@@ -51,6 +51,11 @@ summary: Remove all keys from the current database.
 syntax_fmt: FLUSHDB [ASYNC | SYNC]
 title: FLUSHDB
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Delete all the keys of the currently selected DB.
 This command never fails.
 

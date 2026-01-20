@@ -60,6 +60,11 @@ summary: Removes and returns the member with the highest score from one or more 
 syntax_fmt: BZPOPMAX key [key ...] timeout
 title: BZPOPMAX
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 `BZPOPMAX` is the blocking variant of the sorted set [`ZPOPMAX`]({{< relref "/commands/zpopmax" >}}) primitive.
 
 It is the blocking version because it blocks the connection when there are no

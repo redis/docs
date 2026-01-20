@@ -53,7 +53,7 @@ of the reply is twice the size of the hash.
 
 ## Examples
 
-{{< clients-example cmds_hash hgetall >}}
+{{< clients-example set="cmds_hash" step="hgetall" description="Foundational: Retrieve all fields and values from a hash using HGETALL (returns alternating field-value pairs, useful for loading entire hash data)" difficulty="beginner" >}}
 redis> HSET myhash field1 "Hello"
 (integer) 1
 redis> HSET myhash field2 "World"
