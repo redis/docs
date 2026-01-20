@@ -55,19 +55,48 @@ questions:
 
 - **`text`** (required): The question text. Can span multiple lines using YAML's `|` literal block syntax
 - **`whyAsk`** (required): Explanation of why this question matters. Helps AI agents understand the decision logic
-- **`answers`** (required): Object with `yes` and `no` keys
+- **`answers`** (required): Object with answer keys (can be `yes`/`no` for binary trees, or arbitrary keys for multiway branching)
 
 ### Answer Object
 
-Each answer (`yes` or `no`) contains:
+Each answer contains:
 
-- **`value`** (required): Display text ("Yes" or "No")
+- **`value`** (required): Display text (e.g., "Yes", "No", "Python", "JavaScript", etc.)
 - **`outcome`** (optional): Terminal recommendation
   - `label`: Text to display (e.g., "Use JSON")
   - `id`: Unique identifier for this outcome
 - **`nextQuestion`** (optional): ID of the next question to ask
 
 **Note**: Each answer must have either `outcome` or `nextQuestion`, not both.
+
+### Multiway Branching
+
+Instead of limiting answers to `yes` and `no`, you can use arbitrary answer keys for multiway branching:
+
+```yaml
+languageQuestion:
+    text: What is your primary programming language?
+    whyAsk: Different languages have different client libraries
+    answers:
+        python:
+            value: Python
+            nextQuestion: pythonUseCase
+        javascript:
+            value: JavaScript
+            nextQuestion: javascriptOMQuestion
+        java:
+            value: Java
+            nextQuestion: javaQuestion
+        other:
+            value: Other
+            nextQuestion: otherLanguageQuestion
+```
+
+**Benefits**:
+- Reduces tree depth by allowing multiple branches from a single question
+- More natural for questions with 3+ distinct options
+- Cleaner than binary yes/no chains
+- Answers are stacked vertically in the diagram
 
 ### Outcome Object
 
@@ -138,8 +167,10 @@ scope: documents
 7. **Use meaningful scopes**: Choose scope values that clearly indicate the tree's domain (e.g., `documents`, `collections`, `sequences`)
 8. **Add sentiment for suitability trees**: If your tree determines whether something is suitable (not just choosing between options), use `sentiment: "positive"` and `sentiment: "negative"` to provide visual feedback
 9. **Be consistent with sentiment**: In a suitability tree, ensure all positive outcomes have `sentiment: "positive"` and all negative outcomes have `sentiment: "negative"` for clarity
-10. **Control answer order**: The order of `yes` and `no` in the YAML controls the visual layout. For early rejection patterns, put `no` first so negative outcomes appear on the left side of the diagram
+10. **Control answer order**: The order of answers in the YAML controls the visual layout. For early rejection patterns, put negative outcomes first so they appear at the top of the diagram
 11. **Adjust indent width for deeply nested trees**: If your tree has many levels and becomes too wide, use `indentWidth="25"` (or lower) in the code block fence to reduce horizontal spacing between parent and child nodes
+12. **Use multiway branching for 3+ options**: Instead of chaining binary yes/no questions, use multiway branching with descriptive answer keys (e.g., `python`, `javascript`, `java`) to reduce tree depth and improve readability
+13. **Keep answer values short**: Answer labels appear on connecting lines, so keep them concise (1-3 words) to fit neatly in the diagram
 
 ## Example: Redis Data Type Selection
 
