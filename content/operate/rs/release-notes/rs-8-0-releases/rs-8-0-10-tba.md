@@ -72,7 +72,19 @@ Redis Enterprise Software now supports ARM architecture on RHEL 9 and Ubuntu 22.
     { "metrics_exporter_expose_bdb_name": true }
     ```
 
-- Added `node_wd` v2 metrics for monitoring the health of shards, the DMC, and endpoints.
+- Added new v2 metrics for monitoring the health of shards, the DMC, and endpoints:
+
+    - shard_ping_failures 
+
+    - shard_ping_failure_duration_seconds 
+
+    - dmc_ping_failures
+
+    - dmc_ping_failure_duration_seconds
+
+    - endpoint_ping_failures
+
+    - endpoint_ping_failure_duration_seconds
 
 ### Redis database versions
 

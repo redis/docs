@@ -28,6 +28,8 @@
 | <span class="break-all">endpoint_other_requests_latency_histogram</span> | histogram | Latency (in µs) histogram of other commands |
 | <span class="break-all">endpoint_other_requests_latency_histogram_bucket</span> | histogram | Latency histograms for commands other than read or write commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_other_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
 | endpoint_other_responses | counter | Number of other responses |
+| <span class="break-all">endpoint_ping_failures</span> | gauge | Number of consecutive endpoint ping failures. Labels: endpoint_uid |
+| <span class="break-all">endpoint_ping_failure_duration_seconds</span> | gauge | Duration of ongoing endpoint failures (0 when healthy). Labels: endpoint_uid |
 | endpoint_proxy_disconnections | counter | Number of client disconnections initiated by the proxy |
 | <span class="break-all">endpoint_rate_limit_ok</span> | gauge | Rate limit status based on the last 2 intervals.<br />0 = rate limit was recently exceeded<br />1 = rate limit was not recently exceeded |
 | <span class="break-all">endpoint_rate_limit_overflows</span> | counter | Total number of rate limit overflows |
@@ -65,12 +67,8 @@
 | <span class="break-all">node_provisional_memory_bytes</span> | gauge | Amount of RAM that is available for provisioning to databases out of the total RAM allocated for databases |
 | <span class="break-all">node_provisional_memory_no_overbooking_bytes</span> | gauge | Amount of RAM that is available for provisioning to databases out of the total RAM allocated for databases, without taking into account overbooking |
 | node_metrics_up | gauge | Node is part of the cluster and is connected |
-| <span class="break-all">node_wd_dmc_ping_failures</span> | gauge | Number of consecutive DMC ping failures |
-| <span class="break-all">node_wd_dmc_ping_failure_duration_seconds</span> | gauge | Duration of ongoing DMC failures (0 when healthy) |
-| <span class="break-all">node_wd_endpoint_ping_failures</span> | gauge | Number of consecutive endpoint ping failures. Labels: endpoint_uid |
-| <span class="break-all">node_wd_endpoint_ping_failure_duration_seconds</span> | gauge | Duration of ongoing endpoint failures (0 when healthy). Labels: endpoint_uid |
-| <span class="break-all">node_wd_shard_ping_failures</span> | gauge | Number of consecutive ping failures for a shard. Labels: shard_uid, role |
-| <span class="break-all">node_wd_shard_ping_failure_duration_seconds</span> | gauge | Duration of ongoing failures (0 when healthy). Labels: shard_uid, role |
+| <span class="break-all">dmc_ping_failures</span> | gauge | Number of consecutive DMC ping failures |
+| <span class="break-all">dmc_ping_failure_duration_seconds</span> | gauge | Duration of ongoing DMC failures (0 when healthy) |
 
 ## Cluster metrics
 
@@ -278,6 +276,8 @@
 | <span class="break-all">redis_server_search_workers_high_priority_pending_jobs</span> | The number of pending high-priority jobs in worker threads, such as query execution. <sup>[2](#tnote-2)</sup> |
 | <span class="break-all">redis_server_search_workers_admin_priority_pending_jobs</span> | The number of pending admin-priority jobs in worker threads, such as threadpool configuration changes. <sup>[3](#tnote-3)</sup> |
 | <span class="break-all">redis_server_search_coord_high_priority_pending_jobs</span> | The number of pending jobs in the coordinator thread queue. Coordinator threads only have a high-priority queue and are primarily used for query distribution. <sup>[2](#tnote-2)</sup> |
+| <span class="break-all">shard_ping_failures</span> | gauge | Number of consecutive ping failures for a shard. Labels: shard_uid, role |
+| <span class="break-all">shard_ping_failure_duration_seconds</span> | gauge | Duration of ongoing failures (0 when healthy). Labels: shard_uid, role |
 
 1. <a name="tnote-1"></a> Available since RediSearch 2.6.
 2. <a name="tnote-2"></a> Available since RediSearch 2.8.
