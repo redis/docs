@@ -291,21 +291,21 @@ per time series, aggregates samples into time buckets, where:
 
     | `aggregator` | Description                                                                    |
     | ------------ | ------------------------------------------------------------------------------ |
-    | `avg`        | Arithmetic mean of all non-NaN values (ignores NaN values since Redis 8.6)    |
-    | `sum`        | Sum of all non-NaN values (ignores NaN values since Redis 8.6)                |
-    | `min`        | Minimum non-NaN value (ignores NaN values since Redis 8.6)                    |
-    | `max`        | Maximum non-NaN value (ignores NaN values since Redis 8.6)                    |
-    | `range`      | Difference between maximum non-NaN value and minimum non-NaN value (ignores NaN values since Redis 8.6) |
-    | `count`      | Number of non-NaN values (ignores NaN values since Redis 8.6)                 |
+    | `avg`        | Arithmetic mean of all non-NaN values (ignores NaN values)    |
+    | `sum`        | Sum of all non-NaN values (ignores NaN values)                |
+    | `min`        | Minimum non-NaN value (ignores NaN values)                    |
+    | `max`        | Maximum non-NaN value (ignores NaN values)                    |
+    | `range`      | Difference between maximum non-NaN value and minimum non-NaN value (ignores NaN values) |
+    | `count`      | Number of non-NaN values (ignores NaN values)                 |
     | `countNaN`   | Number of NaN values (since Redis 8.6)                                        |
     | `countAll`   | Number of all values, both NaN and non-NaN (since Redis 8.6)                  |
-    | `first`      | Value with lowest timestamp in the bucket (ignores NaN values since Redis 8.6) |
-    | `last`       | Value with highest timestamp in the bucket (ignores NaN values since Redis 8.6) |
-    | `std.p`      | Population standard deviation of the non-NaN values (ignores NaN values since Redis 8.6) |
-    | `std.s`      | Sample standard deviation of the non-NaN values (ignores NaN values since Redis 8.6) |
-    | `var.p`      | Population variance of the non-NaN values (ignores NaN values since Redis 8.6) |
-    | `var.s`      | Sample variance of the non-NaN values (ignores NaN values since Redis 8.6)    |
-    | `twa`        | Time-weighted average over the bucket's timeframe (ignores NaN values since Redis 8.6) |
+    | `first`      | Value with lowest timestamp in the bucket (ignores NaN values) |
+    | `last`       | Value with highest timestamp in the bucket (ignores NaN values) |
+    | `std.p`      | Population standard deviation of the non-NaN values (ignores NaN values) |
+    | `std.s`      | Sample standard deviation of the non-NaN values (ignores NaN values) |
+    | `var.p`      | Population variance of the non-NaN values (ignores NaN values) |
+    | `var.s`      | Sample variance of the non-NaN values (ignores NaN values)    |
+    | `twa`        | Time-weighted average over the bucket's timeframe (ignores NaN values). Added in RedisTimeSeries v1.8. |
 
   - `bucketDuration` is duration of each bucket, in milliseconds.
   
@@ -356,18 +356,18 @@ When combined with `AGGREGATION` the `GROUPBY`/`REDUCE` is applied post aggregat
 
     | `reducer` | Description                                                                                     |
     | --------- | ----------------------------------------------------------------------------------------------- |
-    | `avg`     | Arithmetic mean of all non-NaN values (ignores NaN values since Redis 8.6)                     |
-    | `sum`     | Sum of all non-NaN values (ignores NaN values since Redis 8.6)                                 |
-    | `min`     | Minimum non-NaN value (ignores NaN values since Redis 8.6)                                     |
-    | `max`     | Maximum non-NaN value (ignores NaN values since Redis 8.6)                                     |
-    | `range`   | Difference between maximum non-NaN value and minimum non-NaN value (ignores NaN values since Redis 8.6) |
-    | `count`   | Number of non-NaN values (ignores NaN values since Redis 8.6)                                  |
+    | `avg`     | Arithmetic mean of all non-NaN values (ignores NaN values). Added in RedisTimeSeries v1.8.                     |
+    | `sum`     | Sum of all non-NaN values (ignores NaN values)                                 |
+    | `min`     | Minimum non-NaN value (ignores NaN values)                                     |
+    | `max`     | Maximum non-NaN value (ignores NaN values)                                     |
+    | `range`   | Difference between maximum non-NaN value and minimum non-NaN value (ignores NaN values). Added in RedisTimeSeries v1.8. |
+    | `count`   | Number of non-NaN values (ignores NaN values). Added in RedisTimeSeries v1.8.                                  |
     | `countNaN`| Number of NaN values (since Redis 8.6)                                                         |
     | `countAll`| Number of all values, both NaN and non-NaN (since Redis 8.6)                                   |
-    | `std.p`   | Population standard deviation of all non-NaN values (ignores NaN values since Redis 8.6)       |
-    | `std.s`   | Sample standard deviation of all non-NaN values (ignores NaN values since Redis 8.6)           |
-    | `var.p`   | Population variance of all non-NaN values (ignores NaN values since Redis 8.6)                 |
-    | `var.s`   | Sample variance of all non-NaN values (ignores NaN values since Redis 8.6)                     |
+    | `std.p`   | Population standard deviation of all non-NaN values (ignores NaN values). Added in RedisTimeSeries v1.8.       |
+    | `std.s`   | Sample standard deviation of all non-NaN values (ignores NaN values). Added in RedisTimeSeries v1.8.           |
+    | `var.p`   | Population variance of all non-NaN values (ignores NaN values). Added in RedisTimeSeries v1.8.                 |
+    | `var.s`   | Sample variance of all non-NaN values (ignores NaN values). Added in RedisTimeSeries v1.8.                     |
 
 <note><b>Notes:</b> 
   - The produced time series is named `<label>=<value>`

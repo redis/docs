@@ -112,7 +112,7 @@ is key name for the time series.
 
 <details open><summary><code>subtrahend</code></summary> 
 
-is numeric value of the subtrahend (double). Starting from Redis 8.6, an error is returned if the subtrahend is NaN.
+is numeric value of the subtrahend (double). An error is returned if the subtrahend is NaN.
 </details>
 
 <note><b>Notes</b>
