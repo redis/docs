@@ -261,7 +261,7 @@ questions:
             Is maximum performance a higher priority than full support and documentation?
         whyAsk: |
             PhpRedis is a C extension with better performance,
-            while Predis is a pure PHP implementation that's is better supported and documented
+            while Predis is a pure PHP implementation that is better supported and documented
         answers:
             yes:
                 value: "Yes"
