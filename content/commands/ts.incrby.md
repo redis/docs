@@ -112,7 +112,7 @@ is key name for the time series.
 
 <details open><summary><code>addend</code></summary> 
 
-is numeric value of the addend (double). Starting from Redis 8.6, an error is returned if the addend is NaN.
+is numeric value of the addend (double). An error is returned if the addend is NaN.
 </details>
 
 <note><b>Notes</b>

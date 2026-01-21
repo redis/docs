@@ -390,6 +390,8 @@ The available aggregation functions are:
 - `max`: Maximum value
 - `range`: Difference between the highest and the lowest value
 - `count`: Number of values
+- `countNaN`: Number of NaN values (since Redis 8.6)
+- `countAll`: Number of all values, both NaN and non-NaN (since Redis 8.6)
 - `first`: Value with lowest timestamp in the bucket
 - `last`:  Value with highest timestamp in the bucket
 - `std.p`: Population standard deviation of the values
@@ -397,8 +399,6 @@ The available aggregation functions are:
 - `var.p`: Population variance of the values
 - `var.s`: Sample variance of the values
 - `twa`: Time-weighted average over the bucket's timeframe (since RedisTimeSeries v1.8)
-- `countNaN`: Number of NaN values (since Redis 8.6)
-- `countAll`: Number of all values, both NaN and non-NaN (since Redis 8.6)
 
 For example, the example below shows an aggregation with the `avg` function over all
 five data points in the `rg:2` time series. The bucket size is 2ms, so there are three
@@ -576,7 +576,7 @@ NaN values are useful in scenarios where you need to distinguish between:
 
 - **Adding NaN values**: Use [`TS.ADD`]({{< relref "commands/ts.add/" >}}) and [`TS.MADD`]({{< relref "commands/ts.madd/" >}}) to insert NaN values
 - **Querying NaN values**: All raw measurement queries ([`TS.GET`]({{< relref "commands/ts.get/" >}}), [`TS.RANGE`]({{< relref "commands/ts.range/" >}}), etc.) include NaN values in results
-- **Aggregation with NaN**: All existing aggregation functions ignore NaN values. Use `countNaN` and `countAll` to count NaN and total values
+- **Aggregation with NaN**: All existing aggregation functions except `countNaN` and `countAll` ignore NaN values. Use `countNaN` and `countAll` to count NaN and total values
 - **Increment/Decrement**: [`TS.INCRBY`]({{< relref "commands/ts.incrby/" >}}) and [`TS.DECRBY`]({{< relref "commands/ts.decrby/" >}}) return errors when the current value or operand is NaN
 - **Duplicate policies**: Special handling for `MIN`, `MAX`, and `SUM` policies when mixing NaN and non-NaN values
 - **Filtering**: [`FILTER_BY_VALUE`]({{< relref "commands/ts.range#filter_by_value-min-max-since-redistimeseries-v16" >}}) parameters cannot be NaN values

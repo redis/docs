@@ -240,7 +240,7 @@ When used together with `AGGREGATION`: samples are filtered before being aggrega
 <details open>
 <summary><code>FILTER_BY_VALUE min max</code> (since RedisTimeSeries v1.6)</summary>
 
-filters samples by minimum and maximum values. Starting from Redis 8.6, `min` and `max` cannot be NaN values.
+filters samples by minimum and maximum values. `min` and `max` cannot be NaN values.
 
 When used together with `AGGREGATION`: samples are filtered before being aggregated.
 </details>
