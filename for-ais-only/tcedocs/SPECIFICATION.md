@@ -30,10 +30,11 @@ This specification is for developers who need to:
 4. [File Structure and Conventions](#file-structure-and-conventions)
 5. [Configuration](#configuration)
 6. [Working with Examples](#working-with-examples)
-7. [Extension Points](#extension-points)
-8. [Build Process](#build-process)
-9. [Troubleshooting](#troubleshooting)
-10. [Appendix](#appendix)
+7. [CLI Command Extraction](#cli-command-extraction)
+8. [Extension Points](#extension-points)
+9. [Build Process](#build-process)
+10. [Troubleshooting](#troubleshooting)
+11. [Appendix](#appendix)
 
 ---
 
@@ -1584,6 +1585,412 @@ python3 build/local_examples.py  # Rebuild to remove from metadata
 1. Verify `STEP_START`/`STEP_END` markers are properly closed
 2. Check metadata in `examples.json` for correct line ranges
 3. Ensure step name matches between source and shortcode
+
+---
+
+## CLI Command Extraction
+
+### Purpose and Motivation
+
+The CLI Command Extraction feature automatically extracts Redis CLI commands from code examples and enriches them with metadata from `data/commands_core.json`. This metadata is exposed to AI agents and documentation systems to better understand what each code example demonstrates.
+
+**Why this matters**:
+- **AI Understanding**: AI agents can understand the semantic intent of code examples by knowing which Redis commands are being used
+- **Cross-language Comprehension**: The same CLI command appears in multiple language examples (Python, Node.js, Java, etc.). Knowing the CLI command helps understand language-specific implementations
+- **Documentation Enrichment**: Metadata can be used to generate command reference links, summaries, and complexity information alongside examples
+- **Semantic Search**: Future search systems can find examples by the commands they use, not just by text matching
+
+### Architecture Overview
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    CLI Command Extraction                        │
+│                                                                   │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │ 1. Parse CLI Content from {{< clients-example >}} blocks │   │
+│  │    - Extract lines starting with ">"                     │   │
+│  │    - Identify command names (first token after ">")      │   │
+│  │    - Handle multi-word commands (e.g., "ACL CAT")        │   │
+│  │    - Handle dot notation (e.g., "JSON.SET")              │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│                           ▼                                       │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │ 2. Normalize Command Names                               │   │
+│  │    - Convert to uppercase                                │   │
+│  │    - Handle aliases and variations                       │   │
+│  │    - Deduplicate within same snippet                     │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│                           ▼                                       │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │ 3. Enrich with Command Metadata                          │   │
+│  │    - Look up in data/commands_core.json                  │   │
+│  │    - Extract: summary, group, complexity, since          │   │
+│  │    - Generate command reference link                     │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│                           ▼                                       │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │ 4. Store in Example Metadata                             │   │
+│  │    - Add "cli_commands" field to examples.json           │   │
+│  │    - Structure: array of command objects                 │   │
+│  │    - Include in both remote and local examples           │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│                           ▼                                       │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │ 5. Expose to Templates and AI Systems                    │   │
+│  │    - Available in Hugo templates via examples.json       │   │
+│  │    - Available to AI agents via metadata                 │   │
+│  │    - Can be rendered in UI or used for search            │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│                                                                   │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Implementation Strategy
+
+#### Phase 1: CLI Content Parsing
+
+**Location**: New module `build/components/cli_parser.py`
+
+**Responsibilities**:
+- Parse CLI content from `{{< clients-example >}}` shortcode blocks
+- Extract command names from lines starting with `>`
+- Handle multi-word commands (e.g., `ACL CAT`, `SCRIPT LOAD`)
+- Handle dot notation (e.g., `JSON.SET`, `GRAPH.QUERY`)
+- Return list of unique command names found in snippet
+
+**Algorithm**:
+```
+For each line in CLI content:
+  1. Check if line starts with ">" (redis-cli prompt)
+  2. Extract text after ">"
+  3. Split on whitespace to get tokens
+  4. First token is the command name
+  5. Check if second token is also part of command (for multi-word commands)
+  6. Normalize to uppercase
+  7. Add to set (for deduplication)
+Return sorted list of unique commands
+```
+
+**Edge Cases to Handle**:
+- Comments in CLI output (lines starting with `#`)
+- Output lines (not commands) - identified by lack of `>` prefix
+- Empty lines
+- Commands with arguments (extract only command name)
+- Subcommands (e.g., `ACL CAT` vs `ACL DELUSER`)
+- Dot notation commands (e.g., `JSON.SET`)
+- Case variations (normalize to uppercase)
+
+#### Phase 2: Command Metadata Enrichment
+
+**Location**: New module `build/components/command_enricher.py`
+
+**Responsibilities**:
+- Load `data/commands_core.json`
+- For each extracted command name, look up metadata
+- Handle command aliases and variations
+- Generate command reference link
+- Return enriched command objects
+
+**Metadata Schema** (per command):
+```json
+{
+  "name": "HSET",
+  "summary": "Creates or modifies the value of a field in a hash.",
+  "group": "hash",
+  "complexity": "O(1) for each field/value pair added, so O(N) to add N field/value pairs when the command is called with multiple field/value pairs.",
+  "since": "2.0.0",
+  "link": "/commands/hset"
+}
+```
+
+**Link Generation**:
+- Format: `/commands/{command_name_lowercase}`
+- Example: `HSET` → `/commands/hset`
+- Multi-word commands: `ACL CAT` → `/commands/acl-cat`
+- Dot notation: `JSON.SET` → `/commands/json.set`
+
+#### Phase 3: Integration with Example Processing
+
+**Location**: Modifications to `build/local_examples.py` and `build/components/component.py`
+
+**Integration Points**:
+
+1. **In `local_examples.py`** (around line 180-200):
+```python
+# After creating example_metadata dict
+example_metadata = {
+    'source': source_file,
+    'language': language,
+    'target': target_file,
+    'highlight': example.highlight,
+    'hidden': example.hidden,
+    'named_steps': example.named_steps,
+    'sourceUrl': None
+}
+
+# NEW: Extract and enrich CLI commands if this is a CLI example
+if language == 'cli':  # or check if content contains CLI commands
+    cli_commands = extract_cli_commands(example.content)
+    enriched_commands = enrich_commands(cli_commands)
+    example_metadata['cli_commands'] = enriched_commands
+
+examples_data[example_id][client_name] = example_metadata
+```
+
+2. **In `component.py`** (around line 270-290):
+```python
+# After setting other metadata fields
+example_metadata['highlight'] = e.highlight
+example_metadata['hidden'] = e.hidden
+example_metadata['named_steps'] = e.named_steps
+
+# NEW: Extract and enrich CLI commands
+cli_commands = extract_cli_commands(e.content)
+enriched_commands = enrich_commands(cli_commands)
+if enriched_commands:
+    example_metadata['cli_commands'] = enriched_commands
+
+examples_data[example_id][client_name] = example_metadata
+```
+
+#### Phase 4: Metadata Storage
+
+**Location**: `data/examples.json`
+
+**Updated Structure**:
+```json
+{
+  "hash_tutorial": {
+    "Python": {
+      "source": "...",
+      "language": "python",
+      "target": "...",
+      "highlight": ["1-10"],
+      "hidden": [],
+      "named_steps": {"connect": "1-5"},
+      "sourceUrl": "...",
+      "cli_commands": [
+        {
+          "name": "HSET",
+          "summary": "Creates or modifies the value of a field in a hash.",
+          "group": "hash",
+          "complexity": "O(1) for each field/value pair added...",
+          "since": "2.0.0",
+          "link": "/commands/hset"
+        },
+        {
+          "name": "HGET",
+          "summary": "Returns the value of a field in a hash.",
+          "group": "hash",
+          "complexity": "O(1)",
+          "since": "2.0.0",
+          "link": "/commands/hget"
+        }
+      ]
+    }
+  }
+}
+```
+
+**Key Design Decisions**:
+- `cli_commands` is an optional field (only present if commands found)
+- Commands are deduplicated (each command appears once per example)
+- Commands are ordered by first appearance in snippet
+- Metadata is stored at the language level (different languages may have different CLI examples)
+
+#### Phase 5: Exposure to Templates and AI Systems
+
+**For Hugo Templates**:
+```go-html-template
+{{ $example := index $clientExamples $client }}
+{{ if isset $example "cli_commands" }}
+  {{ range $example.cli_commands }}
+    <div class="command-badge">
+      <a href="{{ .link }}">{{ .name }}</a>
+      <span class="summary">{{ .summary }}</span>
+    </div>
+  {{ end }}
+{{ end }}
+```
+
+**For AI Systems**:
+- Metadata is available in `data/examples.json`
+- Can be loaded and parsed by AI agents
+- Provides semantic understanding of example intent
+- Enables cross-language pattern matching
+
+### Command Name Parsing Rules
+
+#### Single-Word Commands
+```
+> SET key value
+  ↓
+  Command: SET
+```
+
+#### Multi-Word Commands (Subcommands)
+```
+> ACL CAT
+  ↓
+  Command: ACL CAT
+
+> SCRIPT LOAD "return 1"
+  ↓
+  Command: SCRIPT LOAD
+```
+
+**Multi-word command detection**:
+- Check if first two tokens together form a known command in `commands_core.json`
+- If yes, use both tokens
+- If no, use only first token
+- Examples: `ACL CAT`, `SCRIPT LOAD`, `CLIENT LIST`, `CONFIG GET`
+
+#### Dot Notation Commands
+```
+> JSON.SET doc $ '{"a":1}'
+  ↓
+  Command: JSON.SET
+
+> GRAPH.QUERY mygraph "MATCH (n) RETURN n"
+  ↓
+  Command: GRAPH.QUERY
+```
+
+**Dot notation detection**:
+- Check if first token contains a dot (`.`)
+- If yes, use entire first token as command name
+- Examples: `JSON.SET`, `JSON.GET`, `GRAPH.QUERY`, `GRAPH.DELETE`
+
+#### Commands with Arguments
+```
+> HSET bike:1 model Deimos brand Ergonom
+  ↓
+  Command: HSET (arguments ignored)
+
+> HINCRBY bike:1 price 100
+  ↓
+  Command: HINCRBY (arguments ignored)
+```
+
+**Argument handling**:
+- Extract only the command name (first token, or first two tokens for subcommands)
+- Ignore all arguments and values
+- This is correct because we're documenting what command is used, not how it's called
+
+### Handling Command Variations and Aliases
+
+**Deprecated Commands**:
+- Some commands are deprecated (e.g., `HMSET` is deprecated in favor of `HSET`)
+- If a deprecated command is found, include it but note the deprecation
+- Include the `replaced_by` field from `commands_core.json` if available
+
+**Command Aliases**:
+- Some commands have aliases (e.g., `SUBSTR` is an alias for `GETRANGE`)
+- Normalize aliases to their canonical form
+- Store the canonical name in metadata
+
+**Handling Missing Commands**:
+- If a command is not found in `commands_core.json`, still include it
+- Use a minimal metadata object with just the name
+- Log a warning for documentation purposes
+- Example: Custom commands or module commands not in core
+
+### Data Flow Example
+
+**Input**: Markdown file with CLI example
+```markdown
+{{< clients-example set="hash_tutorial" step="set_get_all" >}}
+> HSET bike:1 model Deimos brand Ergonom type 'Enduro bikes' price 4972
+(integer) 4
+> HGET bike:1 model
+"Deimos"
+> HGETALL bike:1
+1) "model"
+2) "Deimos"
+...
+{{< /clients-example >}}
+```
+
+**Step 1: Parse CLI Content**
+```
+Input lines:
+  "> HSET bike:1 model Deimos brand Ergonom type 'Enduro bikes' price 4972"
+  "(integer) 4"
+  "> HGET bike:1 model"
+  '"Deimos"'
+  "> HGETALL bike:1"
+  "1) "model""
+  ...
+
+Extracted commands:
+  ["HSET", "HGET", "HGETALL"]
+```
+
+**Step 2: Enrich with Metadata**
+```
+Lookup in commands_core.json:
+  HSET → {summary: "Creates or modifies...", group: "hash", ...}
+  HGET → {summary: "Returns the value...", group: "hash", ...}
+  HGETALL → {summary: "Returns all fields...", group: "hash", ...}
+```
+
+**Step 3: Store in Metadata**
+```json
+{
+  "hash_tutorial": {
+    "Python": {
+      "cli_commands": [
+        {"name": "HSET", "summary": "...", "link": "/commands/hset"},
+        {"name": "HGET", "summary": "...", "link": "/commands/hget"},
+        {"name": "HGETALL", "summary": "...", "link": "/commands/hgetall"}
+      ]
+    }
+  }
+}
+```
+
+**Step 4: Use in Templates or AI Systems**
+- Hugo templates can render command badges with links
+- AI agents can understand that this example demonstrates hash operations
+- Search systems can find examples by command name
+
+### Implementation Checklist
+
+**Phase 1: CLI Parser**
+- [ ] Create `build/components/cli_parser.py`
+- [ ] Implement `extract_cli_commands(content)` function
+- [ ] Handle single-word commands
+- [ ] Handle multi-word commands (subcommands)
+- [ ] Handle dot notation commands
+- [ ] Handle edge cases (comments, output lines, empty lines)
+- [ ] Write unit tests for parser
+
+**Phase 2: Command Enricher**
+- [ ] Create `build/components/command_enricher.py`
+- [ ] Implement `load_commands_metadata()` function
+- [ ] Implement `enrich_commands(command_names)` function
+- [ ] Handle missing commands gracefully
+- [ ] Generate correct command reference links
+- [ ] Write unit tests for enricher
+
+**Phase 3: Integration**
+- [ ] Modify `build/local_examples.py` to call extraction
+- [ ] Modify `build/components/component.py` to call extraction
+- [ ] Ensure `cli_commands` field is optional
+- [ ] Test with existing examples
+
+**Phase 4: Validation**
+- [ ] Verify `data/examples.json` contains `cli_commands` field
+- [ ] Verify command names are correct
+- [ ] Verify metadata is accurate
+- [ ] Verify links are correct
+- [ ] Test with multiple examples
+
+**Phase 5: Documentation**
+- [ ] Update this specification with implementation details
+- [ ] Document the metadata schema
+- [ ] Provide examples of usage in templates
+- [ ] Document how AI agents should use this metadata
 
 ---
 
