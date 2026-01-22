@@ -34,8 +34,8 @@ An API object that represents a managed database in the cluster.
 | authentication_ssl_crdt_certs | {{<code>}}[{<br />  "client_cert": string<br />}, ...]{{</code>}} List of authorized CRDT certificates<br />**client_cert**: X.509 PEM (base64) encoded certificate |
 | authorized_names | array of strings; Additional certified names (deprecated as of Redis Enterprise v6.4.2; use authorized_subjects instead) |
 | authorized_subjects | {{<code>}}[{<br />  "CN": string,<br />  "O": string,<br />  "OU": [array of strings],<br />  "L": string,<br />  "ST": string,<br />  "C": string<br />}, ...]{{</code>}} A list of valid subjects used for additional certificate validations during TLS client authentication. All subject attributes are case-sensitive.<br />**Required subject fields**:<br />"CN" for Common Name<br />**Optional subject fields:**<br />"O" for Organization<br />"OU" for Organizational Unit (array of strings)<br />"L" for Locality (city)<br />"ST" for State/Province<br />"C" for 2-letter country code |
-| auto_shards_balancing | boolean (default: false); Automatically balance database shards |
-| <span class="break-all">auto_shards_balancing_grace_period</span> | integer (default: 120); Time to wait before auto sharding is initiated |
+| auto_shards_balancing | boolean (default: false); Automatically balance database shards. This field is for future use and should not be changed. |
+| <span class="break-all">auto_shards_balancing_grace_period</span> | integer (default: 120); Time to wait before auto sharding is initiated. This field is for future use and should not be changed. |
 | auto_upgrade | boolean (default:&nbsp;false); Upgrade the database automatically after a cluster upgrade |
 | avoid_nodes | array of strings; Cluster node UIDs to avoid when placing the database's shards and binding its endpoints |
 | background_op | Deprecated as of Redis Enterprise Software v7.8.2. Use [`GET /v1/actions/bdb/<bdb_uid>`]({{<relref "/operate/rs/references/rest-api/requests/actions/bdb">}}) instead.<br />{{<code>}}[{<br />  "status": string,<br />  "name": string,<br />  "error": object,<br />  "progress": number<br />}, ...]{{</code>}} (read-only); **progress**: Percent of completed steps in current operation |
@@ -150,8 +150,8 @@ An API object that represents a managed database in the cluster.
 | shard_block_crossslot_keys | boolean (default:&nbsp;false); In Lua scripts, prevent use of keys from different hash slots within the range owned by the current shard |
 | shard_block_foreign_keys | boolean (default:&nbsp;true); In Lua scripts, `foreign_keys` prevent use of keys which could reside in a different shard (foreign keys) |
 | shard_key_regex | Custom keyname-based sharding rules.<br />`[{"regex": string}, ...]`<br />To use the default rules you should set the value to: <br />`[{"regex": ".*\\{(?<tag>.*)\\}.*"}, {"regex": "(?<tag>.*)"}]` |
-| <span class="break-all">shard_imbalance_threshold</span> | number (default: 314572800); Automatically balances shards only if their imbalance is greater than this threshold |
-| <span class="break-all">shard_imbalance_threshold_percentage</span> | integer (default: 20); Automatically balances shards only if their imbalance percentage is greater than this threshold |
+| <span class="break-all">shard_imbalance_threshold</span> | number (default: 314572800); Automatically balances shards only if their imbalance is greater than this threshold. This field is for future use and should not be changed. |
+| <span class="break-all">shard_imbalance_threshold_percentage</span> | integer (default: 20); Automatically balances shards only if their imbalance percentage is greater than this threshold. This field is for future use and should not be changed. |
 | shard_list | array of integers; Cluster unique IDs of all database shards. |
 | sharding | boolean (default:&nbsp;false); Cluster mode (server-side sharding). When true, shard hashing rules must be provided by either `oss_sharding` or `shard_key_regex` |
 | shards_count | integer, <nobr>(range: 1-512)</nobr> (default:&nbsp;1); Number of database server-side shards |
