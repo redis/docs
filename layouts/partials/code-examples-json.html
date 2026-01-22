@@ -48,7 +48,7 @@
         {{- if isset $exampleData "steps_commands" -}}
           {{- if isset $exampleData.steps_commands $stepName -}}
             {{- $commands = index $exampleData.steps_commands $stepName -}}
-            {{- /* Build command objects with ACL categories */ -}}
+            {{- /* Build command objects with ACL categories and complexity */ -}}
             {{- range $cmdName := $commands -}}
               {{- /* Try to find command in multiple data files */ -}}
               {{- $cmdData := (index $.Site.Data.commands_core $cmdName) | default (index $.Site.Data.commands_redisearch $cmdName) | default (index $.Site.Data.commands_redisjson $cmdName) | default (index $.Site.Data.commands_redistimeseries $cmdName) | default (index $.Site.Data.commands_redisbloom $cmdName) -}}
@@ -56,6 +56,18 @@
               {{- if $cmdData -}}
                 {{- if $cmdData.acl_categories -}}
                   {{- $cmdObj = merge $cmdObj (dict "acl_categories" $cmdData.acl_categories) -}}
+                {{- end -}}
+                {{- /* Extract Big-O complexity notation */ -}}
+                {{- if $cmdData.complexity -}}
+                  {{- $complexity := $cmdData.complexity -}}
+                  {{- /* Extract just the O(...) part using regex */ -}}
+                  {{- $complexityMatch := findRE `^O\([^)]*\)(?:\s+amortized)?` $complexity -}}
+                  {{- if $complexityMatch -}}
+                    {{- $complexityBigO := index $complexityMatch 0 -}}
+                    {{- $cmdObj = merge $cmdObj (dict "complexity" $complexityBigO) -}}
+                  {{- else if eq $complexity "Depends on subcommand." -}}
+                    {{- $cmdObj = merge $cmdObj (dict "complexity" "Depends on subcommand") -}}
+                  {{- end -}}
                 {{- end -}}
               {{- end -}}
               {{- $commandsWithMetadata = $commandsWithMetadata | append $cmdObj -}}
