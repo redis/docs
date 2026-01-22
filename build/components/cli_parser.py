@@ -159,7 +159,9 @@ def is_likely_subcommand(token):
     # Remove quotes if present
     token = token.strip('\'"')
 
-    # Known Redis subcommands (common ones)
+    # Known Redis subcommands (true subcommands, not arguments)
+    # Note: BITOP operations (AND, OR, XOR, NOT, DIFF, DIFF1, ANDOR, ONE)
+    # are arguments to BITOP, not true subcommands, so they're excluded
     known_subcommands = {
         'CAT', 'LOAD', 'LIST', 'FLUSH', 'KILL', 'GETNAME', 'SETNAME',
         'HELP', 'INFO', 'RESET', 'REWRITE', 'SAVE', 'BGSAVE', 'LASTSAVE',
@@ -179,26 +181,14 @@ def is_likely_subcommand(token):
         'SPUBLISH', 'SSUBSCRIBE', 'SUNSUBSCRIBE', 'PEXPIRE', 'PEXPIREAT',
         'PTTL', 'EXPIRE', 'EXPIREAT', 'TTL', 'PERSIST', 'KEYS', 'RANDOMKEY',
         'RENAME', 'RENAMENX', 'MOVE', 'SWAPDB', 'SELECT', 'FLUSHDB',
-        'FLUSHALL', 'DBSIZE', 'AND', 'OR', 'XOR', 'NOT', 'DIFF', 'DIFF1',
-        'ANDOR', 'ONE'
+        'FLUSHALL', 'DBSIZE'
     }
 
     token_upper = token.upper()
 
-    # Check if it's a known subcommand
-    if token_upper in known_subcommands:
-        return True
-
-    # Additional heuristics:
-    # - Must be longer than 1 character (single letters are usually keys)
-    # - Must not contain numbers (which are usually values)
-    # - Must not contain underscores (which are usually variable names)
-    if (len(token) > 1 and
-        not any(c.isdigit() for c in token) and
-        '_' not in token):
-        # Only consider it a subcommand if it's all letters
-        if token.replace('-', '').isalpha():
-            return True
-
-    return False
+    # Only return True if it's explicitly a known subcommand
+    # Do NOT use heuristics that could match regular arguments (like key names)
+    # This avoids false positives where arguments like "POINTS" or "BIKES"
+    # are mistaken for subcommands
+    return token_upper in known_subcommands
 
