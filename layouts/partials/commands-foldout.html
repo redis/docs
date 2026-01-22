@@ -22,23 +22,22 @@
         </span>
     </button>
     <div class="commands-details hidden px-2 py-2">
-        <ul class="commands-list-detailed space-y-2">
+        <ul class="commands-list-detailed space-y-1">
             {{ range $commands }}
                 {{ $cmdName := . }}
                 {{/* Try to find command in multiple data files */}}
                 {{ $cmdData := (index site.Data.commands_core $cmdName) | default (index site.Data.commands_redisearch $cmdName) | default (index site.Data.commands_redisjson $cmdName) | default (index site.Data.commands_redistimeseries $cmdName) | default (index site.Data.commands_redisbloom $cmdName) }}
                 <li class="text-xs text-slate-300 border-l border-slate-600 pl-2">
                     {{ if $cmdData }}
-                        <div class="flex items-start justify-between gap-2">
-                            <div class="flex-1">
-                                <a href="{{ absURL (printf "commands/%s/" (lower (replace $cmdName " " "-"))) }}"
-                                   class="font-semibold text-slate-200 hover:text-white hover:underline">
-                                    {{ $cmdName }}
-                                </a>
-                                {{ if $cmdData.summary }}
-                                <p class="text-slate-400 mt-1">{{ $cmdData.summary }}</p>
-                                {{ end }}
-                            </div>
+                        <div class="flex flex-col">
+                            <a href="{{ absURL (printf "commands/%s/" (lower (replace $cmdName " " "-"))) }}"
+                               class="font-mono text-slate-200 hover:text-white hover:underline"
+                               style="font-family: 'Space Mono', monospace;">
+                                {{ $cmdName }}
+                            </a>
+                            {{ if $cmdData.summary }}
+                            <span class="text-slate-400">{{ $cmdData.summary }}</span>
+                            {{ end }}
                         </div>
                     {{ else }}
                         <span class="font-semibold text-slate-200">{{ $cmdName }}</span>
