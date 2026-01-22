@@ -98,6 +98,6 @@ Release Candidates are feature-complete pre-releases. Pre-releases are not suita
 ### Metrics
 - [#14610](https://github.com/redis/redis/pull/14610) `acl_access_denied_tls_cert` - failed TLS certificate–based authentication attempts.
 
-### known bugs and limitations
+### Known bugs and limitations
 
 - Redis Query Engine: In case of load rebalancing operations (such as Atomic Slot Migration) taking place during the lifetime of a cursor, there is a chance that some results may be missing.
