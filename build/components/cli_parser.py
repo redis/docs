@@ -100,13 +100,14 @@ def extract_command_name(tokens):
         return first_token_upper
 
     # Check if this is a multi-word command (first two tokens together)
-    # This will be validated against commands_core.json later
+    # Only consider it a multi-word command if the second token is
+    # a known subcommand (not just any alphanumeric token)
     if len(tokens) >= 2:
         second_token = tokens[1]
 
         # Check if second token looks like a subcommand (not a key/argument)
-        # Subcommands are typically all-uppercase and short
-        # Arguments often contain special chars or are quoted
+        # Known subcommands: CAT, LOAD, LIST, FLUSH, KILL, GETNAME, SETNAME, etc.
+        # Arguments are typically: keys, values, numbers, or single letters
         if is_likely_subcommand(second_token):
             multi_word = f"{first_token_upper} {second_token.upper()}"
             return multi_word
@@ -120,9 +121,9 @@ def is_likely_redis_command(token):
     Heuristic to determine if a token is likely a Redis command.
 
     Redis commands are typically:
-    - All uppercase letters (and numbers/hyphens/dots)
-    - Not containing lowercase letters (which would indicate code variables)
+    - Alphanumeric letters (uppercase or lowercase), numbers, hyphens, dots
     - Not containing special characters like = or (
+    - Not containing spaces
 
     Args:
         token: String token to check
@@ -130,9 +131,10 @@ def is_likely_redis_command(token):
     Returns:
         True if likely a Redis command, False otherwise
     """
-    # Redis commands are all uppercase (or contain dots for module commands)
-    # Filter out code like "res30" which has lowercase letters
-    if re.match(r'^[A-Z0-9._-]+$', token):
+    # Redis commands can be uppercase or lowercase (both are valid in CLI)
+    # Filter out code like "res30 =" which has special characters
+    # Allow dots for module commands (JSON.SET, GRAPH.QUERY, etc.)
+    if re.match(r'^[A-Za-z0-9._-]+$', token):
         return True
 
     return False
@@ -143,9 +145,10 @@ def is_likely_subcommand(token):
     Heuristic to determine if a token is likely a subcommand.
 
     Subcommands are typically:
-    - All uppercase letters (and numbers/hyphens)
-    - Not quoted
-    - Not containing special characters like : or .
+    - Known Redis subcommands (CAT, LOAD, LIST, FLUSH, KILL, etc.)
+    - Longer than 1 character (single letters are usually keys)
+    - Not containing numbers (which are usually values)
+    - Not containing underscores (which are usually variable names)
 
     Args:
         token: String token to check
@@ -156,10 +159,46 @@ def is_likely_subcommand(token):
     # Remove quotes if present
     token = token.strip('\'"')
 
-    # Check if it looks like a subcommand
-    # Subcommands are typically alphanumeric, hyphens, underscores
-    if re.match(r'^[A-Z0-9_-]+$', token):
+    # Known Redis subcommands (common ones)
+    known_subcommands = {
+        'CAT', 'LOAD', 'LIST', 'FLUSH', 'KILL', 'GETNAME', 'SETNAME',
+        'HELP', 'INFO', 'RESET', 'REWRITE', 'SAVE', 'BGSAVE', 'LASTSAVE',
+        'SHUTDOWN', 'SLAVEOF', 'REPLICAOF', 'ROLE', 'SYNC', 'PSYNC',
+        'REPLCONF', 'WAIT', 'COMMAND', 'CONFIG', 'DEBUG', 'MONITOR',
+        'SLOWLOG', 'LATENCY', 'MEMORY', 'MODULE', 'ACL', 'CLIENT',
+        'CLUSTER', 'READONLY', 'READWRITE', 'ASKING', 'RESTORE', 'MIGRATE',
+        'OBJECT', 'TOUCH', 'UNLINK', 'DUMP', 'SCAN', 'HSCAN', 'SSCAN',
+        'ZSCAN', 'SORT', 'COPY', 'LMOVE', 'BLMOVE', 'LPOS', 'GETEX',
+        'GETDEL', 'SMOVE', 'ZMSCORE', 'ZDIFF', 'ZINTER', 'ZUNION',
+        'ZRANGEBYLEX', 'ZREVRANGEBYLEX', 'ZRANGEBYSCORE', 'ZREVRANGEBYSCORE',
+        'ZPOPMIN', 'ZPOPMAX', 'BZPOPMIN', 'BZPOPMAX', 'XINFO', 'XGROUP',
+        'XREADGROUP', 'XACK', 'XCLAIM', 'XAUTOCLAIM', 'XPENDING', 'XTRIM',
+        'XLEN', 'XRANGE', 'XREVRANGE', 'XREAD', 'XADD', 'XDEL', 'SCRIPT',
+        'EVAL', 'EVALSHA', 'FUNCTION', 'FCALL', 'FCALL_RO', 'PUBSUB',
+        'PSUBSCRIBE', 'PUNSUBSCRIBE', 'SUBSCRIBE', 'UNSUBSCRIBE', 'PUBLISH',
+        'SPUBLISH', 'SSUBSCRIBE', 'SUNSUBSCRIBE', 'PEXPIRE', 'PEXPIREAT',
+        'PTTL', 'EXPIRE', 'EXPIREAT', 'TTL', 'PERSIST', 'KEYS', 'RANDOMKEY',
+        'RENAME', 'RENAMENX', 'MOVE', 'SWAPDB', 'SELECT', 'FLUSHDB',
+        'FLUSHALL', 'DBSIZE', 'AND', 'OR', 'XOR', 'NOT', 'DIFF', 'DIFF1',
+        'ANDOR', 'ONE'
+    }
+
+    token_upper = token.upper()
+
+    # Check if it's a known subcommand
+    if token_upper in known_subcommands:
         return True
+
+    # Additional heuristics:
+    # - Must be longer than 1 character (single letters are usually keys)
+    # - Must not contain numbers (which are usually values)
+    # - Must not contain underscores (which are usually variable names)
+    if (len(token) > 1 and
+        not any(c.isdigit() for c in token) and
+        '_' not in token):
+        # Only consider it a subcommand if it's all letters
+        if token.replace('-', '').isalpha():
+            return True
 
     return False
 

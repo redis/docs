@@ -31,10 +31,11 @@ This specification is for developers who need to:
 5. [Configuration](#configuration)
 6. [Working with Examples](#working-with-examples)
 7. [CLI Command Extraction](#cli-command-extraction)
-8. [Extension Points](#extension-points)
-9. [Build Process](#build-process)
-10. [Troubleshooting](#troubleshooting)
-11. [Appendix](#appendix)
+8. [Commands Display UI](#commands-display-ui)
+9. [Extension Points](#extension-points)
+10. [Build Process](#build-process)
+11. [Troubleshooting](#troubleshooting)
+12. [Appendix](#appendix)
 
 ---
 
@@ -1991,6 +1992,257 @@ Lookup in commands_core.json:
 - [ ] Document the metadata schema
 - [ ] Provide examples of usage in templates
 - [ ] Document how AI agents should use this metadata
+
+---
+
+## Commands Display UI
+
+### Purpose and Design
+
+The Commands Display UI shows the Redis commands used in each code example in an interactive, non-intrusive way. This feature helps users quickly understand what commands an example demonstrates without reading through the code.
+
+**Design Goals**:
+- **Non-intrusive**: Doesn't interfere with code reading when closed
+- **Persistent**: Stays open for repeated reference once opened
+- **Stable layout**: Opening/closing doesn't shift the example box or code
+- **Accessible**: Works on all screen sizes and devices
+- **Responsive**: Updates when user switches between language tabs
+
+### UI Implementation
+
+#### Location and Placement
+
+**Container**: Footer bar of the code example box (`layouts/partials/tabs/wrapper.html`)
+
+**Position**: Foldout section placed above the existing quickstart link
+- Provides visual separation from code content
+- Keeps supplementary information grouped together
+- Maintains consistent footer layout across all examples
+
+**Visual Hierarchy**:
+```
+┌─────────────────────────────────────────────────────┐
+│ Code Example Box                                    │
+│                                                     │
+│ [Language Selector] [Run in Browser] [Copy] [...]  │
+│ ┌─────────────────────────────────────────────────┐│
+│ │ Syntax-highlighted code                         ││
+│ │                                                 ││
+│ └─────────────────────────────────────────────────┘│
+│ ┌─────────────────────────────────────────────────┐│
+│ │ ▼ Commands: HSET, HGET, HGETALL                 │ ← Foldout (closed)
+│ │ 📚 Quick-Start: redis-py                        │
+│ └─────────────────────────────────────────────────┘│
+└─────────────────────────────────────────────────────┘
+```
+
+When expanded:
+```
+┌─────────────────────────────────────────────────────┐
+│ ▼ Commands: HSET, HGET, HGETALL                     │ ← Foldout (open)
+│   • HSET - Creates or modifies hash fields          │
+│   • HGET - Returns a hash field value               │
+│   • HGETALL - Returns all hash fields and values    │
+│ 📚 Quick-Start: redis-py                            │
+└─────────────────────────────────────────────────────┘
+```
+
+#### HTML Structure
+
+**Foldout Container** (in footer):
+```html
+<div class="commands-foldout">
+  <button class="commands-toggle" aria-expanded="false">
+    <span class="toggle-icon">▼</span>
+    <span class="commands-label">Commands:</span>
+    <span class="commands-list">HSET, HGET, HGETALL</span>
+  </button>
+  <div class="commands-details" hidden>
+    <ul class="commands-list-detailed">
+      <li><strong>HSET</strong> - Creates or modifies hash fields</li>
+      <li><strong>HGET</strong> - Returns a hash field value</li>
+      <li><strong>HGETALL</strong> - Returns all hash fields and values</li>
+    </ul>
+  </div>
+</div>
+```
+
+**CSS Classes** (Tailwind):
+- `commands-foldout`: Container for entire foldout section
+- `commands-toggle`: Button that opens/closes the foldout
+- `toggle-icon`: Chevron/arrow icon that rotates on toggle
+- `commands-label`: "Commands:" text label
+- `commands-list`: Comma-separated command names (shown when closed)
+- `commands-details`: Container for expanded details (hidden by default)
+- `commands-list-detailed`: Unordered list of commands with descriptions
+
+#### Styling Considerations
+
+**Responsive Design**:
+- **Desktop (≥768px)**: Full command names and descriptions visible
+- **Tablet (480px-768px)**: Abbreviated descriptions or icon-only mode
+- **Mobile (<480px)**: Consider showing only command count or icon indicator
+
+**Visual Feedback**:
+- **Hover state**: Button background changes, cursor becomes pointer
+- **Active state**: Button appears pressed/highlighted
+- **Toggle animation**: Chevron rotates smoothly (0° → 180°)
+- **Expanded state**: Details slide down smoothly
+
+**Color Scheme**:
+- **Text**: Match existing footer text color (slate-300)
+- **Hover**: Slightly lighter (slate-200)
+- **Background**: Subtle highlight on hover (slate-700/10)
+- **Icons**: Match text color, rotate on toggle
+
+#### Data Source
+
+**Metadata Field**: `commands` array in page metadata
+- **Location**: `codeExamples[].commands` in page metadata JSON
+- **Format**: Array of command name strings (e.g., `["HSET", "HGET", "HGETALL"]`)
+- **Populated by**: `code-examples-json.html` partial (extracts from `examples.json`)
+- **Availability**: Only present if example has associated commands
+
+**Extraction Logic** (in `layouts/partials/code-examples-json.html`):
+1. Parse anchor ID to extract example set and step name
+2. Look up `steps_commands` in `data/examples.json`
+3. Extract command array for the specific step
+4. Add `commands` field to example object in metadata
+
+#### JavaScript Behavior
+
+**Toggle Functionality**:
+```javascript
+// Pseudo-code for toggle behavior
+document.querySelectorAll('.commands-toggle').forEach(button => {
+  button.addEventListener('click', () => {
+    const details = button.nextElementSibling;
+    const isExpanded = button.getAttribute('aria-expanded') === 'true';
+
+    // Toggle visibility
+    details.hidden = isExpanded;
+    button.setAttribute('aria-expanded', !isExpanded);
+
+    // Rotate icon
+    const icon = button.querySelector('.toggle-icon');
+    icon.style.transform = isExpanded ? 'rotate(0deg)' : 'rotate(180deg)';
+
+    // Persist state (optional)
+    localStorage.setItem(`commands-expanded-${exampleId}`, !isExpanded);
+  });
+});
+```
+
+**State Persistence** (Optional Enhancement):
+- Store expanded/collapsed state in localStorage
+- Key format: `commands-expanded-{exampleId}`
+- Restore state on page load
+- Allows users to keep their preferred view across page visits
+
+**Language Tab Synchronization**:
+- When user switches language tabs, update commands display
+- Extract commands from new language's metadata
+- Animate transition if commands change
+- Maintain expanded/collapsed state across language switches
+
+#### Accessibility Requirements
+
+**ARIA Attributes**:
+- `aria-expanded`: Indicates if foldout is open or closed
+- `aria-label`: Descriptive label for screen readers
+- `role="button"`: Semantic role for toggle element
+
+**Keyboard Navigation**:
+- Toggle button must be focusable (tab key)
+- Enter/Space key should toggle open/closed
+- Focus visible indicator (outline or highlight)
+
+**Screen Reader Support**:
+- Announce "Commands, button, collapsed" or "expanded"
+- Announce command list when expanded
+- Describe command names and summaries clearly
+
+#### Mobile Considerations
+
+**Touch Targets**:
+- Minimum 44x44px touch target for toggle button
+- Adequate spacing between interactive elements
+- No hover-only interactions (use active/focus states)
+
+**Screen Space**:
+- On very small screens (<480px), consider:
+  - Showing only command count: "Commands (3)"
+  - Icon-only toggle with tooltip
+  - Abbreviated command names
+  - Single-column command list
+
+**Orientation Changes**:
+- Foldout state should persist across orientation changes
+- Layout should adapt smoothly to landscape/portrait
+
+#### Performance Considerations
+
+**Rendering**:
+- Commands list is static (no dynamic updates needed)
+- Foldout toggle is lightweight (no API calls)
+- No impact on page load time
+
+**Memory**:
+- Minimal additional DOM elements
+- Small localStorage footprint (one boolean per example)
+- No event listeners on scroll or resize
+
+#### Future Enhancements
+
+**Phase 2 (Post-MVP)**:
+- Add command complexity indicators (O(1), O(N), etc.)
+- Add command group badges (hash, string, set, etc.)
+- Add links to command documentation
+- Add command search/filter within foldout
+- Add "copy all commands" button
+- Add command usage statistics
+
+**Phase 3 (Advanced)**:
+- Show related commands (commands often used together)
+- Highlight commands in code when hovering over command list
+- Add command execution simulator
+- Add command performance comparison
+
+### Implementation Checklist
+
+**Phase 1: Metadata Extraction** ✅ (Already Complete)
+- [x] Extract commands from `examples.json` in `code-examples-json.html`
+- [x] Add `commands` field to example metadata
+- [x] Verify commands appear in page metadata JSON
+
+**Phase 2: HTML and Styling**
+- [ ] Add foldout HTML structure to `layouts/partials/tabs/wrapper.html`
+- [ ] Add Tailwind CSS classes for styling
+- [ ] Implement responsive design for mobile/tablet
+- [ ] Add toggle icon (chevron/arrow SVG)
+- [ ] Test layout on different screen sizes
+
+**Phase 3: JavaScript Interactivity**
+- [ ] Implement toggle click handler
+- [ ] Implement keyboard navigation (Enter/Space)
+- [ ] Implement icon rotation animation
+- [ ] Implement state persistence (localStorage)
+- [ ] Implement language tab synchronization
+
+**Phase 4: Accessibility**
+- [ ] Add ARIA attributes (aria-expanded, aria-label)
+- [ ] Test with screen readers
+- [ ] Verify keyboard navigation works
+- [ ] Verify focus indicators are visible
+- [ ] Test with accessibility tools
+
+**Phase 5: Testing and Refinement**
+- [ ] Test on multiple browsers (Chrome, Firefox, Safari, Edge)
+- [ ] Test on mobile devices (iOS, Android)
+- [ ] Test with multiple examples on same page
+- [ ] Test with examples that have no commands
+- [ ] Test with examples that have many commands
+- [ ] Gather user feedback on UX
 
 ---
 

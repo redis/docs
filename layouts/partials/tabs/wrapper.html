@@ -145,11 +145,13 @@
         {{ $dataLang := replace (or (index $tab "language") "redis-cli") "C#" "dotnet" }}
         {{ $dataLang := replace $dataLang "." "-" }}
         {{ $binderId := index $tab "binderId" }}
+        {{ $commands := index $tab "commands" }}
 
         <div class="panel {{ if ne $i 0 }}panel-hidden{{ end }} w-full mt-0 {{ if not $showFooter}}pb-8{{end}}"
              id="{{ $pid }}"
              data-lang="{{ $dataLang }}"
              {{ if $binderId }}data-binder-id="{{ $binderId }}"{{ end }}
+             {{ if $commands }}data-commands="{{ delimit $commands "," }}"{{ end }}
              data-codetabs-id="{{ $id }}"
              role="tabpanel"
              tabindex="0"
@@ -157,8 +159,35 @@
             {{ index $tab "content" }}
 
             {{ if $showFooter }}
-            <div class="cli-footer flex items-center justify-between rounded-b-md bg-slate-900 mt-0 px-4 pt-0 mb-0 transition-opacity ease-in-out duration-300 opacity-0 invisible
+            <div class="cli-footer flex flex-col rounded-b-md bg-slate-900 mt-0 px-4 pt-0 mb-0 transition-opacity ease-in-out duration-300 opacity-0 invisible
 group-hover:opacity-100 group-hover:visible">
+
+            {{/* Commands foldout section */}}
+            {{ if $commands }}
+            <div class="commands-foldout border-b border-slate-700 py-2">
+                <button class="commands-toggle w-full flex items-center justify-between text-left text-xs text-slate-300 hover:text-white hover:bg-slate-800 px-2 py-1 rounded transition-colors"
+                        aria-expanded="false"
+                        data-codetabs-id="{{ $id }}"
+                        onclick="toggleCommandsFoldout(this)">
+                    <span class="flex items-center gap-2 flex-1">
+                        <span class="toggle-icon inline-block transition-transform duration-200">▼</span>
+                        <span class="commands-label font-semibold">Commands:</span>
+                        <span class="commands-list text-slate-400">{{ delimit $commands ", " }}</span>
+                    </span>
+                </button>
+                <div class="commands-details hidden px-2 py-2">
+                    <ul class="commands-list-detailed space-y-1">
+                        {{ range $commands }}
+                        <li class="text-xs text-slate-300">
+                            <span class="font-semibold text-slate-200">{{ . }}</span>
+                        </li>
+                        {{ end }}
+                    </ul>
+                </div>
+            </div>
+            {{ end }}
+
+            <div class="flex items-center justify-between">
             {{ if eq (index $tab "title") "redis-cli" }}
                 {{ $displayName := index $tab "displayName" }}
                 {{ $hasCustomTabName := and $displayName (ne $displayName $cliName) }}
@@ -217,7 +246,8 @@ group-hover:opacity-100 group-hover:visible">
                 {{ end }}
               </div>
            {{ end }}
-           </div>
+            </div>
+            </div>
            {{ end }}
         </div>
 
@@ -227,6 +257,28 @@ group-hover:opacity-100 group-hover:visible">
 <!-- spellchecker-enable -->
 
 <script>
+// Global function to toggle commands foldout
+window.toggleCommandsFoldout = window.toggleCommandsFoldout || function(button) {
+    const details = button.nextElementSibling;
+    const isExpanded = button.getAttribute('aria-expanded') === 'true';
+    const icon = button.querySelector('.toggle-icon');
+
+    // Toggle visibility
+    details.classList.toggle('hidden');
+    button.setAttribute('aria-expanded', !isExpanded);
+
+    // Rotate icon
+    if (icon) {
+        icon.style.transform = isExpanded ? 'rotate(0deg)' : 'rotate(180deg)';
+    }
+
+    // Persist state in localStorage
+    const codetabsId = button.getAttribute('data-codetabs-id');
+    if (codetabsId) {
+        localStorage.setItem(`commands-expanded-${codetabsId}`, !isExpanded);
+    }
+};
+
 // Global function to update all binder links on the page
 // This is called whenever the language selection changes
 window.updateAllBinderLinks = window.updateAllBinderLinks || function() {
@@ -289,6 +341,21 @@ window.updateAllBinderLinks = window.updateAllBinderLinks || function() {
     // codetabs.js is deferred, so it runs after DOM is ready, but we need to wait for it to complete
     setTimeout(() => {
         window.updateAllBinderLinks();
+
+        // Restore commands foldout state from localStorage
+        const commandsToggle = document.querySelector(`[data-codetabs-id="${codetabsId}"].commands-toggle`);
+        if (commandsToggle) {
+            const isExpanded = localStorage.getItem(`commands-expanded-${codetabsId}`) === 'true';
+            if (isExpanded) {
+                const details = commandsToggle.nextElementSibling;
+                const icon = commandsToggle.querySelector('.toggle-icon');
+                details.classList.remove('hidden');
+                commandsToggle.setAttribute('aria-expanded', 'true');
+                if (icon) {
+                    icon.style.transform = 'rotate(180deg)';
+                }
+            }
+        }
     }, 100);
 
     // Update all binder links when language changes
