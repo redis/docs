@@ -11,11 +11,11 @@ weight: 20
 url: '/operate/rs/7.22/databases/configure/oss-cluster-api/'
 ---
 
-Review [Redis OSS Cluster API]({{< relref "/operate/rs/7.22/clusters/optimize/oss-cluster-api" >}}) to determine if you should enable this feature for your database.
+Review [OSS Cluster API]({{< relref "/operate/rs/7.22/clusters/optimize/oss-cluster-api" >}}) to determine if you should enable this feature for your database.
 
 ## Prerequisites
 
-The Redis OSS Cluster API is supported only when a database meets specific criteria.  
+The OSS Cluster API is supported only when a database meets specific criteria.
 
 The database must:
 
