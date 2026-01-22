@@ -151,7 +151,7 @@
              id="{{ $pid }}"
              data-lang="{{ $dataLang }}"
              {{ if $binderId }}data-binder-id="{{ $binderId }}"{{ end }}
-             {{ if $commands }}data-commands="{{ delimit $commands "," }}"{{ end }}
+             {{ if $commands }}data-required-commands="{{ delimit $commands "," }}"{{ end }}
              data-codetabs-id="{{ $id }}"
              role="tabpanel"
              tabindex="0"
