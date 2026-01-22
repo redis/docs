@@ -27,7 +27,8 @@
                 {{ $cmdName := . }}
                 {{/* Try to find command in multiple data files */}}
                 {{ $cmdData := (index site.Data.commands_core $cmdName) | default (index site.Data.commands_redisearch $cmdName) | default (index site.Data.commands_redisjson $cmdName) | default (index site.Data.commands_redistimeseries $cmdName) | default (index site.Data.commands_redisbloom $cmdName) }}
-                <li class="text-xs text-slate-300 border-l border-slate-600 pl-2">
+                <li class="text-xs text-slate-300 border-l border-slate-600 pl-2"
+                    {{ if $cmdData }}{{ if $cmdData.acl_categories }}data-acl-categories="{{ delimit $cmdData.acl_categories "," }}"{{ end }}{{ end }}>
                     {{ if $cmdData }}
                         <div class="flex flex-col">
                             <a href="{{ absURL (printf "commands/%s/" (lower (replace $cmdName " " "-"))) }}"

@@ -29,6 +29,7 @@
 
   {{- /* Extract commands from examples.json if this is a step example */ -}}
   {{- $commands := slice -}}
+  {{- $commandsWithMetadata := slice -}}
   {{- /* Extract the codetabs ID from the data attribute */ -}}
   {{- $codetabsId := "" -}}
   {{- if findRE `data-codetabs-id="([^"]*)"` $match -}}
@@ -47,6 +48,18 @@
         {{- if isset $exampleData "steps_commands" -}}
           {{- if isset $exampleData.steps_commands $stepName -}}
             {{- $commands = index $exampleData.steps_commands $stepName -}}
+            {{- /* Build command objects with ACL categories */ -}}
+            {{- range $cmdName := $commands -}}
+              {{- /* Try to find command in multiple data files */ -}}
+              {{- $cmdData := (index $.Site.Data.commands_core $cmdName) | default (index $.Site.Data.commands_redisearch $cmdName) | default (index $.Site.Data.commands_redisjson $cmdName) | default (index $.Site.Data.commands_redistimeseries $cmdName) | default (index $.Site.Data.commands_redisbloom $cmdName) -}}
+              {{- $cmdObj := dict "name" $cmdName -}}
+              {{- if $cmdData -}}
+                {{- if $cmdData.acl_categories -}}
+                  {{- $cmdObj = merge $cmdObj (dict "acl_categories" $cmdData.acl_categories) -}}
+                {{- end -}}
+              {{- end -}}
+              {{- $commandsWithMetadata = $commandsWithMetadata | append $cmdObj -}}
+            {{- end -}}
           {{- end -}}
         {{- end -}}
       {{- end -}}
@@ -108,8 +121,8 @@
   {{- if gt (len $languages) 0 -}}
     {{- $example = merge $example (dict "languages" $languages) -}}
   {{- end -}}
-  {{- if gt (len $commands) 0 -}}
-    {{- $example = merge $example (dict "commands" $commands) -}}
+  {{- if gt (len $commandsWithMetadata) 0 -}}
+    {{- $example = merge $example (dict "commands" $commandsWithMetadata) -}}
   {{- end -}}
   {{- $examples = $examples | append $example -}}
 {{- end -}}
