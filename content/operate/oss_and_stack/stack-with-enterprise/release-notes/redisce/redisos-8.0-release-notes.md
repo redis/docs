@@ -9,7 +9,7 @@ description: Redis Open Source 8.0 release notes.
 linkTitle: v8.0.0 (May 2025)
 min-version-db: blah
 min-version-rs: blah
-weight: 40
+weight: 80
 ---
 ## Redis Open Source 8.0.5 (November 2025)
 

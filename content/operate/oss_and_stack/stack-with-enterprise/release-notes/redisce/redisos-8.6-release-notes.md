@@ -1,0 +1,103 @@
+---
+Title: Redis Open Source 8.6 release notes
+alwaysopen: false
+categories:
+- docs
+- operate
+- stack
+description: Redis Open Source 8.6 release notes.
+linkTitle: v8.6.0 (January 2026)
+min-version-db: blah
+min-version-rs: blah
+weight: 20
+---
+
+## Redis Open Source 8.6-RC1 (January 2026)
+
+This is the first Release Candidate of Redis 8.6 in Redis Open Source.
+
+Release Candidates are feature-complete pre-releases. Pre-releases are not suitable for production use.
+
+### Binary distributions
+
+- Alpine and Debian Docker images - https://hub.docker.com/_/redis
+- Install using snap - see https://github.com/redis/redis-snap
+- Install using brew - see https://github.com/redis/homebrew-redis
+- Install using RPM - see https://github.com/redis/redis-rpm
+- Install using Debian APT - see https://github.com/redis/redis-debian
+
+### Operating systems we test Redis 8.6 on
+
+- Ubuntu 22.04 (Jammy Jellyfish), 24.04 (Noble Numbat)
+- Rocky Linux 8.10, 9.5, 10.1
+- AlmaLinux 8.10, 9.5, 10.1
+- Debian 12 (Bookworm), Debian 13 (Trixie)
+- 14 (Sonoma), 15 (Sequoia)
+
+### New Features (compared to 8.4.0)
+
+- [#14615](https://github.com/redis/redis/pull/14615) Streams: `XADD` idempotency (at-most-once guarantee) with new `IDMPAUTO` and `IDMP` arguments.
+- [#14624](https://github.com/redis/redis/pull/14624) New eviction policies - least recently modified: `volatile-lrm` and `allkeys-lrm`.
+- [#14680](https://github.com/redis/redis/pull/14680) Hot keys detection and reporting; new command: `HOTKEYS`.
+- [#14610](https://github.com/redis/redis/pull/14610) TLS certificate-based automatic client authentication.
+- RedisTimeSeries/RedisTimeSeries[#1853](https://github.com/redistimeseries/redistimeseries/pull/1853) Time series: support NaN values; new aggregators: `COUNTNAN` and `COUNTALL`.
+
+### Security and privacy fixes
+
+- [#14645](https://github.com/redis/redis/pull/14645) Hide personally identifiable information from ACL log.
+- [#14659](https://github.com/redis/redis/pull/14659) ACL: Key-pattern bypass in `MSETEX`.
+- RedisTimeSeries/RedisTimeSeries[#1837](https://github.com/redistimeseries/redistimeseries/pull/1837), RedisJSON/RedisJSON[#1474](https://github.com/redisjson/redisjson/pull/1474) Hide personally identifiable information from server log.
+- RedisBloom/RedisBloom[#950](https://github.com/redisbloom/redisbloom/pull/950) Out-of-bounds read when loading an invalid RDB file (MOD-12802).
+
+### Bug fixes (compared to 8.4.0)
+
+- [#14545](https://github.com/redis/redis/pull/14545) ACL: AOF loading fails if ACL rules are changed and don't allow some commands in `MULTI`-`EXEC`.
+- [#14637](https://github.com/redis/redis/pull/14637) Atomic slot migration: wrong adjacent slot range behavior.
+- [#14567](https://github.com/redis/redis/pull/14567) Atomic slot migration: support delay trimming slots after finishing migrating slots.
+- [#14623](https://github.com/redis/redis/pull/14623) Streams: `XTRIM`/`XADD` with approx mode (`~`) don’t delete entries for `DELREF`/`ACKED` strategies.
+- [#14552](https://github.com/redis/redis/pull/14552) Streams: Incorrect behavior when using `XDELEX...ACKED` after `XGROUP DESTROY`.
+- [#14537](https://github.com/redis/redis/pull/14537) `SCAN`: restore original filter order (revert change introduced in 8.2).
+- [#14581](https://github.com/redis/redis/pull/14581) Rare server hang at shutdown.
+- [#14597](https://github.com/redis/redis/pull/14597) Panic when cluster node is uninitialized.
+- [#14583](https://github.com/redis/redis/pull/14583) `FLUSHALL ASYNC` on a writable replica may block the main thread for an extended period.
+- [#14504](https://github.com/redis/redis/pull/14504) Cluster: fix race condition in broadcast configuration.
+- [#14416](https://github.com/redis/redis/pull/14416) Fixed argument position handling in Redis APIs.
+- RedisTimeSeries/RedisTimeSeries[#1784](https://github.com/redistimeseries/redistimeseries/pull/1784), RedisTimeSeries/RedisTimeSeries[#1839](https://github.com/redistimeseries/redistimeseries/pull/1839), RedisBloom/RedisBloom[#952](https://github.com/redisbloom/redisbloom/pull/952), RedisJSON/RedisJSON[#1477](https://github.com/redisjson/redisjson/pull/1477) Atomic slot migration support.
+- RedisBloom/RedisBloom[#946](https://github.com/redisbloom/redisbloom/pull/946) `MEMORY USAGE`: fix reported value (MOD-12799).
+- RedisJSON/RedisJSON[#1473](https://github.com/redisjson/redisjson/pull/1473) Adding escapes to already-escaped characters (MOD-8137).
+- RedisJSON/RedisJSON[#1475](https://github.com/redisjson/redisjson/pull/1475) `JSON.CLEAR` does not error if more than one path is specified (MOD-13109).
+
+### Performance and resource utilization improvements (compared to 8.4.0)
+
+- [#14608](https://github.com/redis/redis/pull/14608) Reply copy-avoidance path to reduce memory copies for bulk string replies.
+- [#14595](https://github.com/redis/redis/pull/14595) Hash: unify field name and value into a single struct.
+- [#14701](https://github.com/redis/redis/pull/14701) Sorted set: unify score and value into a single struct.
+- [#14662](https://github.com/redis/redis/pull/14662) Optimize listpack iterator on hash fields.
+- [#14699](https://github.com/redis/redis/pull/14699) Optimize set commands with expiration.
+- [#14700](https://github.com/redis/redis/pull/14700) Optimize prefetching.
+- [#14715](https://github.com/redis/redis/pull/14715) Optimize prefetch sizing logic.
+- [#14636](https://github.com/redis/redis/pull/14636) Optimize `ZRANK`.
+- [#14676](https://github.com/redis/redis/pull/14676) Utilize hardware clock by default on ARM AArch64.
+- [#14575](https://github.com/redis/redis/pull/14575) Disable RDB compression when diskless replication is used.
+
+
+### Modules API
+- [#14445](https://github.com/redis/redis/pull/14445)
+  - `RM_CreateKeyMetaClass` - define a new key-metadata class.
+  - `RM_ReleaseKeyMetaClass` - release a key-metadata class.
+  - `RM_SetKeyMeta` - attach or update a metadata value for a key under a specific metadata-key class.
+  - `RM_GetKeyMeta` - get a metadata value for a key under a specific metadata-key class.
+
+### Configuration parameters
+
+- [#14624](https://github.com/redis/redis/pull/14624) `maxmemory-policy`: new eviction policies: `volatile-lrm`, `allkeys-lrm`.
+- [#14615](https://github.com/redis/redis/pull/14615) `stream-idmp-duration`, `stream-idmp-maxsize` - defaults for streams idempotent production.
+- [#14610](https://github.com/redis/redis/pull/14610) `tls-auth-clients-user` TLS certificate-based automatic client authentication.
+- [#14596](https://github.com/redis/redis/pull/14596) `flushdb` option for `repl-diskless-load`: always flush the entire dataset before diskless load.
+
+### Metrics
+- [#14610](https://github.com/redis/redis/pull/14610) `acl_access_denied_tls_cert` - failed TLS certificate–based authentication attempts.
+
+### known bugs and limitations
+
+- Redis Query Engine: In case of load rebalancing operations (such as Atomic Slot Migration) taking place during the lifetime of a cursor, there is a chance that some results may be missing.
