@@ -449,7 +449,8 @@
         "tags": [
           "Users"
         ],
-        "x-publish-docs": true
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
       }
     },
     "/v1/users/password": {
