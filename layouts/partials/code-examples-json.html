@@ -27,6 +27,32 @@
     {{- $difficulty = replaceRE `.*data-difficulty="([^"]*)".*` `$1` $match -}}
   {{- end -}}
 
+  {{- /* Extract commands from examples.json if this is a step example */ -}}
+  {{- $commands := slice -}}
+  {{- /* Extract the codetabs ID from the data attribute */ -}}
+  {{- $codetabsId := "" -}}
+  {{- if findRE `data-codetabs-id="([^"]*)"` $match -}}
+    {{- $codetabsId = replaceRE `.*data-codetabs-id="([^"]*)".*` `$1` $match -}}
+  {{- end -}}
+  {{- /* Parse codetabs ID to extract example set and step name */ -}}
+  {{- /* Format: {example_id}-step{step_name} */ -}}
+  {{- if and $codetabsId (findRE `-step` $codetabsId) -}}
+    {{- $parts := split $codetabsId "-step" -}}
+    {{- if eq (len $parts) 2 -}}
+      {{- $exampleId := index $parts 0 -}}
+      {{- $stepName := index $parts 1 -}}
+      {{- /* Look up commands in examples.json */ -}}
+      {{- if isset $.Site.Data.examples $exampleId -}}
+        {{- $exampleData := index $.Site.Data.examples $exampleId -}}
+        {{- if isset $exampleData "steps_commands" -}}
+          {{- if isset $exampleData.steps_commands $stepName -}}
+            {{- $commands = index $exampleData.steps_commands $stepName -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+
   {{- /* Extract the codetabs ID from the data attribute */ -}}
   {{- $codetabsId := "" -}}
   {{- if findRE `data-codetabs-id="([^"]*)"` $match -}}
@@ -68,7 +94,7 @@
     {{- end -}}
   {{- end -}}
 
-  {{- /* Create example object with the ID and optional description/difficulty/codetabsId/languages */ -}}
+  {{- /* Create example object with the ID and optional description/difficulty/codetabsId/languages/commands */ -}}
   {{- $example := dict "id" $id -}}
   {{- if $description -}}
     {{- $example = merge $example (dict "description" $description) -}}
@@ -81,6 +107,9 @@
   {{- end -}}
   {{- if gt (len $languages) 0 -}}
     {{- $example = merge $example (dict "languages" $languages) -}}
+  {{- end -}}
+  {{- if gt (len $commands) 0 -}}
+    {{- $example = merge $example (dict "commands" $commands) -}}
   {{- end -}}
   {{- $examples = $examples | append $example -}}
 {{- end -}}
