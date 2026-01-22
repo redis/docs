@@ -160,7 +160,7 @@
 
             {{ if $showFooter }}
             <div class="cli-footer flex flex-col rounded-b-md bg-slate-900 mt-0 px-4 pt-0 mb-0 transition-opacity ease-in-out duration-300 opacity-0 invisible
-group-hover:opacity-100 group-hover:visible">
+group-hover:opacity-100 group-hover:visible commands-foldout-open:opacity-100 commands-foldout-open:visible">
 
             {{/* Commands foldout section */}}
             {{ if $commands }}
@@ -252,10 +252,20 @@ window.toggleCommandsFoldout = window.toggleCommandsFoldout || function(button) 
         icon.style.transform = isExpanded ? 'rotate(0deg)' : 'rotate(180deg)';
     }
 
-    // Persist state in localStorage
+    // Toggle the footer visibility class on the currently visible panel
     const codetabsId = button.getAttribute('data-codetabs-id');
     if (codetabsId) {
-        localStorage.setItem(`commands-expanded-${codetabsId}`, !isExpanded);
+        const codetabsContainer = document.getElementById(codetabsId);
+        if (codetabsContainer) {
+            // Find the currently visible panel (not hidden)
+            const visiblePanel = codetabsContainer.querySelector('.panel:not(.panel-hidden)');
+            if (visiblePanel) {
+                const footer = visiblePanel.querySelector('.cli-footer');
+                if (footer) {
+                    footer.classList.toggle('commands-foldout-open');
+                }
+            }
+        }
     }
 };
 
@@ -321,21 +331,6 @@ window.updateAllBinderLinks = window.updateAllBinderLinks || function() {
     // codetabs.js is deferred, so it runs after DOM is ready, but we need to wait for it to complete
     setTimeout(() => {
         window.updateAllBinderLinks();
-
-        // Restore commands foldout state from localStorage
-        const commandsToggle = document.querySelector(`[data-codetabs-id="${codetabsId}"].commands-toggle`);
-        if (commandsToggle) {
-            const isExpanded = localStorage.getItem(`commands-expanded-${codetabsId}`) === 'true';
-            if (isExpanded) {
-                const details = commandsToggle.nextElementSibling;
-                const icon = commandsToggle.querySelector('.toggle-icon');
-                details.classList.remove('hidden');
-                commandsToggle.setAttribute('aria-expanded', 'true');
-                if (icon) {
-                    icon.style.transform = 'rotate(180deg)';
-                }
-            }
-        }
     }, 100);
 
     // Update all binder links when language changes
