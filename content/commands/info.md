@@ -390,6 +390,7 @@ Here is the meaning of all fields in the **stats** section:
 *   `acl_access_denied_cmd`: Number of commands rejected because of access denied to the command
 *   `acl_access_denied_key`: Number of commands rejected because of access denied to a key
 *   `acl_access_denied_channel`: Number of commands rejected because of access denied to a channel
+*   `acl_access_denied_tls_cert`: Number of failed TLS certificate–based authentication attempts
 *   `cluster_incompatible_ops`: Number of cluster-incompatible commands. This metric appears only if the `cluster-compatibility-sample-ratio` configuration parameter is not 0. Added in Redis 8.0.
 
 
