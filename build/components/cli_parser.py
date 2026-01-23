@@ -14,7 +14,7 @@ def extract_cli_commands(content):
     """
     Extract Redis CLI command names from example content.
 
-    Only extracts actual CLI commands (lines with redis-cli prompt "> ").
+    Only extracts actual CLI commands (lines with redis-cli prompt "> " or "redis> ").
     Ignores lines that happen to start with ">" but are not CLI commands
     (e.g., C# generic type declarations like "> res30 = ...").
 
@@ -39,14 +39,17 @@ def extract_cli_commands(content):
         if not line or line.startswith('#'):
             continue
 
-        # Look for redis-cli prompt ("> " with space after)
+        # Look for redis-cli prompt ("> " or "redis> " with space after)
         # This distinguishes CLI commands from code that happens to start with ">"
-        if not line.startswith('> '):
-            continue
-
-        # Extract command from line starting with "> "
-        # Format: "> COMMAND arg1 arg2 ..."
-        command_part = line[2:].strip()
+        command_part = None
+        if line.startswith('redis> '):
+            # Extract command from line starting with "redis> "
+            # Format: "redis> COMMAND arg1 arg2 ..."
+            command_part = line[7:].strip()
+        elif line.startswith('> '):
+            # Extract command from line starting with "> "
+            # Format: "> COMMAND arg1 arg2 ..."
+            command_part = line[2:].strip()
 
         if not command_part:
             continue

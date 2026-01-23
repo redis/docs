@@ -57,10 +57,12 @@ In `data/examples.json`, under each example and language:
 | Input | Extracted Command |
 |-------|-------------------|
 | `> SET key value` | `SET` |
+| `redis> SET key value` | `SET` |
 | `> ACL CAT` | `ACL CAT` |
+| `redis> ACL CAT` | `ACL CAT` |
 | `> JSON.SET doc $ '{}'` | `JSON.SET` |
 | `> HSET key field value` | `HSET` |
-| `(integer) 1` | *(ignored - no `>` prefix)* |
+| `(integer) 1` | *(ignored - no prompt prefix)* |
 | `"value"` | *(ignored - output line)* |
 
 ## Files to Create/Modify

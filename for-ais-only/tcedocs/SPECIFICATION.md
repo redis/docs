@@ -1655,7 +1655,7 @@ The CLI Command Extraction feature automatically extracts Redis CLI commands fro
 
 **Responsibilities**:
 - Parse CLI content from `{{< clients-example >}}` shortcode blocks
-- Extract command names from lines starting with `>`
+- Extract command names from lines starting with `>` or `redis>`
 - Handle multi-word commands (e.g., `ACL CAT`, `SCRIPT LOAD`)
 - Handle dot notation (e.g., `JSON.SET`, `GRAPH.QUERY`)
 - Return list of unique command names found in snippet
@@ -1663,8 +1663,8 @@ The CLI Command Extraction feature automatically extracts Redis CLI commands fro
 **Algorithm**:
 ```
 For each line in CLI content:
-  1. Check if line starts with ">" (redis-cli prompt)
-  2. Extract text after ">"
+  1. Check if line starts with ">" or "redis>" (redis-cli prompt)
+  2. Extract text after the prompt
   3. Split on whitespace to get tokens
   4. First token is the command name
   5. Check if second token is also part of command (for multi-word commands)
@@ -1672,6 +1672,10 @@ For each line in CLI content:
   7. Add to set (for deduplication)
 Return sorted list of unique commands
 ```
+
+**Supported Prompt Formats**:
+- `> COMMAND` - Standard redis-cli prompt
+- `redis> COMMAND` - Alternative redis-cli prompt format (commonly used in documentation)
 
 **Edge Cases to Handle**:
 - Comments in CLI output (lines starting with `#`)

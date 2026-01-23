@@ -51,7 +51,7 @@ def extract_command_names(content: str) -> List[str]:
     """
     Extract Redis command names from CLI content.
 
-    Parses lines starting with "> " and extracts command names.
+    Parses lines starting with "> " or "redis> " and extracts command names.
     Handles single-word (SET), multi-word (ACL CAT), and dot notation
     (JSON.SET) commands.
 
@@ -68,7 +68,7 @@ def extract_command_names(content: str) -> List[str]:
 
     for line in lines:
         stripped = line.strip()
-        if stripped.startswith('> '):
+        if stripped.startswith('> ') or stripped.startswith('redis> '):
             cli_lines.append(stripped)
 
     # Extract command names from CLI lines
