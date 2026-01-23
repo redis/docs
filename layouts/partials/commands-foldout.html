@@ -31,11 +31,24 @@
                     {{ if $cmdData }}{{ if $cmdData.acl_categories }}data-acl-categories="{{ delimit $cmdData.acl_categories "," }}"{{ end }}{{ end }}>
                     {{ if $cmdData }}
                         <div class="flex flex-col">
-                            <a href="{{ absURL (printf "commands/%s/" (lower (replace $cmdName " " "-"))) }}"
-                               class="font-mono text-slate-200 hover:text-white hover:underline"
-                               style="font-family: 'Space Mono', monospace;">
-                                {{ $cmdName }}
-                            </a>
+                            <div class="flex items-center gap-1">
+                                <a href="{{ absURL (printf "commands/%s/" (lower (replace $cmdName " " "-"))) }}"
+                                   class="font-mono text-slate-200 hover:text-white hover:underline"
+                                   style="font-family: 'Space Mono', monospace;">
+                                    {{ $cmdName }}
+                                </a>
+                                {{ if $cmdData.acl_categories }}
+                                <span class="text-slate-500">
+                                    (
+                                    <a href="{{ absURL "operate/oss_and_stack/management/security/acl/#command-categories" }}"
+                                       class="text-slate-400 hover:text-slate-300 hover:underline"
+                                       title="ACL Categories">
+                                        {{ delimit $cmdData.acl_categories ", " }}
+                                    </a>
+                                    )
+                                </span>
+                                {{ end }}
+                            </div>
                             {{ if $cmdData.summary }}
                             <span class="text-slate-400">{{ $cmdData.summary }}</span>
                             {{ end }}
