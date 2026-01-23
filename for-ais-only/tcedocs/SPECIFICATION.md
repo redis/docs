@@ -32,10 +32,11 @@ This specification is for developers who need to:
 6. [Working with Examples](#working-with-examples)
 7. [CLI Command Extraction](#cli-command-extraction)
 8. [Commands Display UI](#commands-display-ui)
-9. [Extension Points](#extension-points)
-10. [Build Process](#build-process)
-11. [Troubleshooting](#troubleshooting)
-12. [Appendix](#appendix)
+9. [Metadata-Driven UI Enhancements](#metadata-driven-ui-enhancements-patterns-and-best-practices)
+10. [Extension Points](#extension-points)
+11. [Build Process](#build-process)
+12. [Troubleshooting](#troubleshooting)
+13. [Appendix](#appendix)
 
 ---
 
@@ -2197,7 +2198,8 @@ document.querySelectorAll('.commands-toggle').forEach(button => {
 **Phase 2 (Post-MVP)**:
 - Add command complexity indicators (O(1), O(N), etc.)
 - Add command group badges (hash, string, set, etc.)
-- Add links to command documentation
+- Add links to command documentation ✅ (Implemented with ACL categories)
+- Add ACL category information with links to category definitions ✅ (Implemented)
 - Add command search/filter within foldout
 - Add "copy all commands" button
 - Add command usage statistics
@@ -2207,6 +2209,7 @@ document.querySelectorAll('.commands-toggle').forEach(button => {
 - Highlight commands in code when hovering over command list
 - Add command execution simulator
 - Add command performance comparison
+- Add links to other command metadata fields (complexity, group, etc.)
 
 ### Implementation Checklist
 
@@ -2243,6 +2246,185 @@ document.querySelectorAll('.commands-toggle').forEach(button => {
 - [ ] Test with examples that have no commands
 - [ ] Test with examples that have many commands
 - [ ] Gather user feedback on UX
+
+---
+
+## Metadata-Driven UI Enhancements: Patterns and Best Practices
+
+### Overview
+
+This section documents patterns and best practices for enhancing the UI with metadata that's already available in the command data files (e.g., `data/commands_core.json`). This approach allows for rich, contextual UI features without requiring changes to the build pipeline.
+
+**Real-world example**: Adding ACL category information to the commands display with individual links to category definitions.
+
+### Pattern: Metadata-Driven Links
+
+When you want to display metadata from command data files and make it linkable, follow this pattern:
+
+#### 1. Identify the Metadata
+
+First, understand what metadata is available in your data files:
+
+```json
+// data/commands_core.json
+{
+  "HSET": {
+    "name": "HSET",
+    "summary": "Creates or modifies the value of a field in a hash.",
+    "group": "hash",
+    "complexity": "O(1) for each field/value pair...",
+    "since": "2.0.0",
+    "acl_categories": ["@keyspace", "@write", "@fast"],
+    "link": "/commands/hset"
+  }
+}
+```
+
+**Key insight**: The command data already contains rich metadata. Check what's available before adding new data sources.
+
+#### 2. Make the Metadata Accessible in Templates
+
+The command data is already loaded in Hugo as `site.Data.commands_core`, `site.Data.commands_redisearch`, etc. You can access it directly in templates:
+
+```hugo
+{{ $cmdData := (index site.Data.commands_core $cmdName) }}
+{{ if $cmdData.acl_categories }}
+  {{ range $cmdData.acl_categories }}
+    {{ . }}  <!-- e.g., "@keyspace", "@write", "@fast" -->
+  {{ end }}
+{{ end }}
+```
+
+#### 3. Create Anchor Points in Documentation
+
+For metadata that should be linkable, add anchor elements (`<a id="..."></a>`) in the relevant documentation page:
+
+```markdown
+* <a id="keyspace"></a>**keyspace** - Writing or reading from keys...
+* <a id="write"></a>**write** - Writing to keys...
+* <a id="fast"></a>**fast** - Fast O(1) commands...
+```
+
+**Important**: Place anchors *before* the content you want to link to, not around it. This preserves the visual styling of the content while making it linkable.
+
+#### 4. Generate Links in Templates
+
+In your template, loop through the metadata and generate individual links:
+
+```hugo
+{{ if $cmdData.acl_categories }}
+  <span class="text-slate-500">
+    (
+    {{ range $idx, $category := $cmdData.acl_categories }}
+      {{ if gt $idx 0 }}<span class="text-slate-500">, </span>{{ end }}
+      {{ $categoryId := lower (replace $category "@" "") }}
+      <a href="{{ absURL (printf "path/to/page/#%s" $categoryId) }}"
+         class="text-slate-400 hover:text-slate-300 hover:underline"
+         title="{{ $category }}">
+        {{ $category }}
+      </a>
+    {{ end }}
+    )
+  </span>
+{{ end }}
+```
+
+**Key techniques**:
+- Use `range` with index to handle separators (commas) between items
+- Use `lower` and `replace` to normalize IDs (remove "@" prefix, convert to lowercase)
+- Use `absURL` to generate correct URLs regardless of site configuration
+- Use `printf` to construct URLs dynamically
+- Add `title` attributes for accessibility
+
+#### 5. Handle Data Normalization
+
+When converting metadata to anchor IDs, normalize consistently:
+
+```hugo
+{{ $categoryId := lower (replace $category "@" "") }}
+<!-- "@keyspace" becomes "keyspace" -->
+<!-- "@write" becomes "write" -->
+```
+
+**Why this matters**:
+- Metadata often uses prefixes (e.g., "@" for ACL categories) that shouldn't appear in URLs
+- Anchor IDs should be lowercase for consistency
+- Always normalize the same way in both the documentation and the template
+
+### Pattern: Conditional Metadata Display
+
+When metadata may not be available for all items, use conditional rendering:
+
+```hugo
+{{ if $cmdData }}
+  {{ if $cmdData.acl_categories }}
+    <!-- Display ACL categories -->
+  {{ end }}
+{{ else }}
+  <!-- Fallback for commands without metadata -->
+  <span class="font-semibold text-slate-200">{{ $cmdName }}</span>
+{{ end }}
+```
+
+**Benefits**:
+- Graceful degradation when metadata is missing
+- No broken links or empty elements
+- Clear fallback behavior
+
+### Pattern: Styling Metadata Display
+
+When displaying metadata alongside primary content, use visual hierarchy:
+
+```hugo
+<div class="flex items-center gap-1">
+  <a href="..." class="font-mono text-slate-200 hover:text-white">
+    {{ $cmdName }}
+  </a>
+  {{ if $cmdData.acl_categories }}
+  <span class="text-slate-500">
+    (
+    <!-- Links with slightly less prominent color -->
+    <a href="..." class="text-slate-400 hover:text-slate-300">
+      {{ $category }}
+    </a>
+    )
+  </span>
+  {{ end }}
+</div>
+```
+
+**Design principles**:
+- Primary content (command name) uses prominent color
+- Metadata (categories) uses less prominent color
+- Parentheses use the same color as metadata
+- Hover states are consistent across all links
+- Spacing is minimal but clear
+
+### Checklist for Adding Metadata-Driven Features
+
+When implementing a new metadata-driven UI feature:
+
+- [ ] **Identify metadata**: What data is available in the command files?
+- [ ] **Check accessibility**: Is the metadata available in templates via `site.Data`?
+- [ ] **Plan anchors**: Where should anchor points be placed in documentation?
+- [ ] **Normalize IDs**: How will you convert metadata to valid anchor IDs?
+- [ ] **Handle missing data**: What happens if metadata is unavailable?
+- [ ] **Test edge cases**: Multiple items, special characters, long text
+- [ ] **Verify links**: Do all generated links work correctly?
+- [ ] **Check styling**: Is the visual hierarchy clear?
+- [ ] **Test responsiveness**: Does it work on mobile/tablet?
+- [ ] **Document the feature**: Update this section with your pattern
+
+### Common Pitfalls and Solutions
+
+| Problem | Solution |
+|---------|----------|
+| Hugo template function not found (e.g., `trimPrefix`) | Use built-in functions only: `lower`, `replace`, `printf`, `range`, etc. Check Hugo docs for available functions. |
+| Anchor IDs don't match generated links | Normalize consistently in both places. Use the same `lower` and `replace` operations. |
+| Links appear but don't navigate | Verify anchor elements are placed correctly in the documentation (before content, not around it). |
+| Metadata missing for some commands | Use `if` conditions to check for metadata before displaying. Provide fallback content. |
+| Special characters in metadata break URLs | Normalize metadata before using in URLs. Remove prefixes, convert to lowercase, escape special characters. |
+| Styling looks wrong on mobile | Use responsive Tailwind classes. Test on actual mobile devices, not just browser dev tools. |
 
 ---
 
