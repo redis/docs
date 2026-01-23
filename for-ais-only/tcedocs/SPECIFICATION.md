@@ -21,6 +21,8 @@ This specification is for developers who need to:
 - Fix a build issue → [Troubleshooting](#troubleshooting)
 - Understand the build → [Build Process](#build-process)
 - Find configuration → [Configuration](#configuration)
+- Write tests for a feature → [Testing](#testing)
+- Verify my changes work → [Testing](#testing)
 
 ## Table of Contents
 
@@ -34,9 +36,10 @@ This specification is for developers who need to:
 8. [Commands Display UI](#commands-display-ui)
 9. [Metadata-Driven UI Enhancements](#metadata-driven-ui-enhancements-patterns-and-best-practices)
 10. [Extension Points](#extension-points)
-11. [Build Process](#build-process)
-12. [Troubleshooting](#troubleshooting)
-13. [Appendix](#appendix)
+11. [Testing](#testing)
+12. [Build Process](#build-process)
+13. [Troubleshooting](#troubleshooting)
+14. [Appendix](#appendix)
 
 ---
 
@@ -2463,6 +2466,169 @@ See [Appendix: Adding a Language](#adding-a-language) for complete step-by-step 
 - Customize quickstart link format
 - Modify GitHub source link appearance
 - Add custom footer content or branding
+
+---
+
+## Testing
+
+### Overview
+
+The code example system includes automated tests for critical components. Tests are located in the `build/` directory and can be run independently of the full build process.
+
+**Why testing matters**:
+- Catches regressions when modifying parsers or extractors
+- Validates edge cases (multi-word commands, dot notation, different prompt formats)
+- Ensures new features work correctly before integration
+- Provides documentation of expected behavior
+
+### Test Files
+
+| Test File | Purpose | Coverage |
+|-----------|---------|----------|
+| `build/test_cli_parser.py` | CLI command extraction | Both `>` and `redis>` prompts, mixed formats |
+| `build/test_command_lists.py` | Command list feature | CLI parser, markdown parser, enricher, integration |
+| `build/jupyterize/test_jupyterize.py` | Jupyter notebook conversion | Language-specific boilerplate, code unwrapping |
+| `build/test_railroad.py` | Railroad diagram generation | Command syntax visualization |
+
+### Running Tests
+
+```bash
+# Run CLI parser tests
+python3 build/test_cli_parser.py
+
+# Run command list feature tests
+python3 build/test_command_lists.py
+
+# Run Jupyter notebook tests
+python3 build/jupyterize/test_jupyterize.py
+
+# Run railroad diagram tests
+python3 build/test_railroad.py
+
+# Run all tests
+python3 build/test_cli_parser.py && python3 build/test_command_lists.py
+```
+
+### Test Structure
+
+Each test file follows this pattern:
+
+```python
+#!/usr/bin/env python3
+"""Test description."""
+
+import sys
+import os
+
+# Add build directory to path
+sys.path.insert(0, os.path.dirname(__file__))
+
+from components.module_name import function_name
+
+def test_feature_name():
+    """Test description."""
+    # Arrange: Set up test data
+    input_data = "..."
+
+    # Act: Call the function
+    result = function_name(input_data)
+
+    # Assert: Verify the result
+    assert result == expected_value, f"Expected {expected_value}, got {result}"
+    print("✓ Test passed")
+
+def main():
+    """Run all tests."""
+    try:
+        test_feature_name()
+        print("✅ All tests passed!")
+        return 0
+    except AssertionError as e:
+        print(f"❌ Test failed: {e}")
+        return 1
+
+if __name__ == '__main__':
+    sys.exit(main())
+```
+
+### Testing the CLI Command Extraction Feature
+
+When adding or modifying CLI command extraction, test these scenarios:
+
+**1. Prompt Format Support**:
+```python
+# Test both prompt formats
+content_with_gt = "> SET key value"
+content_with_redis = "redis> SET key value"
+# Both should extract 'SET'
+```
+
+**2. Command Types**:
+```python
+# Single-word commands
+"> SET key value"  # Should extract: SET
+
+# Multi-word commands
+"> ACL CAT"  # Should extract: ACL CAT
+
+# Dot notation
+"> JSON.SET doc $ '{}'"  # Should extract: JSON.SET
+```
+
+**3. Output Filtering**:
+```python
+# Output lines should be ignored
+"> SET key value
+(integer) 1
+> GET key
+\"value\""
+# Should extract: SET, GET (not the output lines)
+```
+
+**4. Deduplication**:
+```python
+# Duplicate commands should be deduplicated
+"> SET key1 value1
+> SET key2 value2
+> GET key1"
+# Should extract: SET, GET (SET appears only once)
+```
+
+**5. Edge Cases**:
+```python
+# Empty lines and comments should be ignored
+"> SET key value
+# This is a comment
+> GET key"
+# Should extract: SET, GET
+
+# Mixed prompt formats in same content
+"> SET key value
+redis> GET key"
+# Should extract: SET, GET
+```
+
+### Adding Tests for New Features
+
+When implementing a new feature (e.g., new command enrichment, new parser):
+
+1. **Create a test file**: `build/test_feature_name.py`
+2. **Write unit tests**: Test individual functions in isolation
+3. **Write integration tests**: Test how components work together
+4. **Test edge cases**: Empty input, missing data, special characters
+5. **Test error handling**: Invalid input, missing files, malformed data
+6. **Run tests**: Verify all tests pass before committing
+7. **Document tests**: Add comments explaining what each test validates
+
+### Checklist for Feature Implementation
+
+- [ ] **Unit tests written**: Each function has at least one test
+- [ ] **Integration tests written**: Components work together correctly
+- [ ] **Edge cases tested**: Empty input, special characters, boundary conditions
+- [ ] **Error handling tested**: Invalid input, missing files, malformed data
+- [ ] **All tests pass**: Run test file and verify output
+- [ ] **Tests documented**: Comments explain what each test validates
+- [ ] **Tests added to CI/CD**: If applicable, add to GitHub Actions workflow
 
 ---
 
