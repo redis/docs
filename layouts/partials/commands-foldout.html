@@ -40,11 +40,15 @@
                                 {{ if $cmdData.acl_categories }}
                                 <span class="text-slate-500">
                                     (
-                                    <a href="{{ absURL "operate/oss_and_stack/management/security/acl/#command-categories" }}"
-                                       class="text-slate-400 hover:text-slate-300 hover:underline"
-                                       title="ACL Categories">
-                                        {{ delimit $cmdData.acl_categories ", " }}
-                                    </a>
+                                    {{ range $idx, $category := $cmdData.acl_categories }}
+                                        {{ if gt $idx 0 }}<span class="text-slate-500">, </span>{{ end }}
+                                        {{ $categoryId := lower (replace $category "@" "") }}
+                                        <a href="{{ absURL (printf "operate/oss_and_stack/management/security/acl/#%s" $categoryId) }}"
+                                           class="text-slate-400 hover:text-slate-300 hover:underline"
+                                           title="{{ $category }}">
+                                            {{ $category }}
+                                        </a>
+                                    {{ end }}
                                     )
                                 </span>
                                 {{ end }}
