@@ -166,9 +166,9 @@ questions:
             no:
                 value: "No"
                 outcome:
-                    label: "❌ RDI requirements for the source database can't be met"
-                    id: adminRejected
-                    sentiment: "negative"
+                    label: "⚠️ Further review needed - consult your database administrator"
+                    id: adminReviewNeeded
+                    sentiment: "indeterminate"
             yes:
                 value: "Yes"
                 outcome:
