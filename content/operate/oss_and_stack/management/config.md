@@ -42,6 +42,7 @@ backslashed hexadecimal notation "\\xff".
 
 The list of configuration directives, along with comments describing their meaning and intended usage, is available in the self-documented sample files `redis.conf` and `redis-full.conf` files shipped with the Redis distributions.
 
+* Configuration files for Redis 8.6: [redis-full.conf](https://raw.githubusercontent.com/redis/redis/8.6/redis-full.conf) and [redis.conf](https://raw.githubusercontent.com/redis/redis/8.6/redis.conf).
 * Configuration files for Redis 8.4: [redis-full.conf](https://raw.githubusercontent.com/redis/redis/8.4/redis-full.conf) and [redis.conf](https://raw.githubusercontent.com/redis/redis/8.4/redis.conf).
 * Configuration files for Redis 8.2: [redis-full.conf](https://raw.githubusercontent.com/redis/redis/8.2/redis-full.conf) and [redis.conf](https://raw.githubusercontent.com/redis/redis/8.2/redis.conf).
 * Configuration files for Redis 8.0: [redis-full.conf](https://raw.githubusercontent.com/redis/redis/8.0/redis-full.conf) and [redis.conf](https://raw.githubusercontent.com/redis/redis/8.0/redis.conf).

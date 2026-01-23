@@ -11,13 +11,13 @@ title: Install Redis Open Source
 weight: 2
 ---
 
-Redis Open Source has been tested on the following platforms:
+The latest version of Redis Open Source has been tested on the following platforms:
 
 - Ubuntu 22.04 (Jammy Jellyfish) and 24.04 (Noble Numbat).
-- Rocky Linux 8.10 and 9.5.
-- AlmaLinux 8.10 and 9.5.
+- Rocky Linux 8.10, 9.5, and 10.1.
+- AlmaLinux 8.10, 9.5, and 10.1.
 - Debian 12 (Bookworm) and 13 (Trixie).
-- macOS 13 (Ventura), 14 (Sonoma), and 15 (Sequoia).
+- macOS 14 (Sonoma), and 15 (Sequoia).
 
 Follow the links below for installation instructions for your OS and distribution.
 
