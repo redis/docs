@@ -88,6 +88,17 @@ arguments:
   optional: true
   token: SKIPINITIALSCAN
   type: pure-token
+- arguments:
+  - name: enable
+    token: ENABLE
+    type: pure-token
+  - name: disable
+    token: DISABLE
+    type: pure-token
+  name: indexall
+  optional: true
+  token: INDEXALL
+  type: oneof
 - name: schema
   token: SCHEMA
   type: pure-token
@@ -178,14 +189,14 @@ syntax: "FT.CREATE index \n  [ON HASH | JSON] \n  [PREFIX count prefix [prefix .
   \ \n  [SCORE default_score] \n  [SCORE_FIELD score_attribute] \n  [PAYLOAD_FIELD\
   \ payload_attribute] \n  [MAXTEXTFIELDS] \n  [TEMPORARY seconds] \n  [NOOFFSETS]\
   \ \n  [NOHL] \n  [NOFIELDS] \n  [NOFREQS] \n  [STOPWORDS count [stopword ...]] \n\
-  \  [SKIPINITIALSCAN]\n  SCHEMA field_name [AS alias] TEXT | TAG | NUMERIC | GEO\
+  \  [SKIPINITIALSCAN]\n  [INDEXALL <ENABLE | DISABLE>]\n  SCHEMA field_name [AS alias] TEXT | TAG | NUMERIC | GEO\
   \ | VECTOR | GEOSHAPE [ SORTABLE [UNF]] \n  [NOINDEX] [ field_name [AS alias] TEXT\
   \ | TAG | NUMERIC | GEO | VECTOR | GEOSHAPE [ SORTABLE [UNF]] [NOINDEX] ...]\n"
 syntax_fmt: "FT.CREATE index [ON\_<HASH | JSON>] [PREFIX\_count prefix [prefix\n \
   \ ...]] [FILTER\_filter] [LANGUAGE\_default_lang]\n  [LANGUAGE_FIELD\_lang_attribute]\
   \ [SCORE\_default_score]\n  [SCORE_FIELD\_score_attribute] [PAYLOAD_FIELD\_payload_attribute]\n\
   \  [MAXTEXTFIELDS] [TEMPORARY\_seconds] [NOOFFSETS] [NOHL] [NOFIELDS]\n  [NOFREQS]\
-  \ [STOPWORDS\_count [stopword [stopword ...]]]\n  [SKIPINITIALSCAN] SCHEMA field_name\
+  \ [STOPWORDS\_count [stopword [stopword ...]]]\n  [SKIPINITIALSCAN] [INDEXALL <ENABLE | DISABLE>] SCHEMA field_name\
   \ [AS\_alias] <TEXT | TAG |\n  NUMERIC | GEO | VECTOR> [WITHSUFFIXTRIE] [INDEXEMPTY]\n\
   \  [INDEXMISSING] [SORTABLE [UNF]] [NOINDEX] [field_name [AS\_alias]\n  <TEXT |\
   \ TAG | NUMERIC | GEO | VECTOR> [WITHSUFFIXTRIE]\n  [INDEXEMPTY] [INDEXMISSING]\
@@ -385,6 +396,12 @@ If not set, FT.CREATE takes the default list of stopwords. If `{count}` is set t
 <summary><code>SKIPINITIALSCAN</code></summary> 
 
 if set, does not scan and index.
+</details>
+
+<a name="INDEXALL"></a><details open>
+<summary><code>INDEXALL {ENABLE | DISABLE}</code></summary> 
+
+introduced in v8.0, maintains an internal index of all existing document IDs, enabling optimized wildcard queries (`FT.SEARCH idx *`). Without `INDEXALL`, wildcard queries iterate through all document IDs ever assigned, including deleted ones, which can degrade performance in heavy update scenarios where many document IDs become invalid over time. With `INDEXALL` enabled, wildcard queries read directly from a compact index of only existing documents. Default is `DISABLE`.
 </details>
         
 <note><b>Notes:</b>
