@@ -27,7 +27,6 @@ railroad_diagram: /images/railroad/readwrite.svg
 since: 3.0.0
 summary: Enables read-write queries for a connection to a Reids Cluster replica node.
 syntax_fmt: READWRITE
-syntax_str: ''
 title: READWRITE
 ---
 Disables read queries for a connection to a Redis Cluster replica node.

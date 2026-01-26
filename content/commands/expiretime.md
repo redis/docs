@@ -44,7 +44,6 @@ railroad_diagram: /images/railroad/expiretime.svg
 since: 7.0.0
 summary: Returns the expiration time of a key as a Unix timestamp.
 syntax_fmt: EXPIRETIME key
-syntax_str: ''
 title: EXPIRETIME
 ---
 Returns the absolute Unix timestamp (since January 1, 1970) in seconds at which the given key will expire.

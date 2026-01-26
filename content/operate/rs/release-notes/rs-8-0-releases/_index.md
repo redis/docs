@@ -39,6 +39,8 @@ This version offers:
 
 - Customer-managed certificates for internode encryption
 
+- Smart client handoffs
+
 ## Detailed release notes
 
 For more detailed release notes, select a build version from the following table:
@@ -151,7 +153,7 @@ See [Ports and port ranges used by Redis Enterprise Software]({{<relref "/operat
 
 The existing [internal monitoring engine]({{<relref "/operate/rs/monitoring/v1_monitoring">}}) is deprecated. We recommend transitioning to the new [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}) for improved performance, enhanced integration capabilities, and modernized metrics streaming.
 
-V1 Prometheus metrics are deprecated but still available. To transition to the new metrics stream engine, either migrate your existing dashboards using [this guide]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v1-to-v2">}}) or use [new preconfigured dashboards]({{<relref "/operate/rs/monitoring/prometheus_and_grafana#v2-metrics-dashboards">}}).
+V1 Prometheus metrics are deprecated but still available. To transition to the new metrics stream engine, either migrate your existing dashboards using [this guide]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v1-to-v2">}}) or use [new preconfigured dashboards]({{<relref "/integrate/prometheus-with-redis-enterprise#v2-metrics-dashboards">}}).
 
 As part of the transition to the metrics stream engine, some internal cluster manager alerts were deprecated in favor of external monitoring solutions. See the [alerts transition plan]({{<relref "/operate/rs/references/alerts/alerts-v1-to-v2">}}) for guidance.
 
@@ -193,7 +195,11 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 ## Known issues
 
-- RS131972: Creating an ACL that contains a line break in the Cluster Manager UI can cause shard migration to fail due to ACL errors.
+- RS180550: You cannot set up SSO when the Cluster Manager UI is exposed through an IPv6-based load balancer or gateway.
+
+    As a workaround, use an IPv4-based address for the SSO service base address, or register a DNS name that resolves to the IPv6 address.
+
+- RS131972: Creating an ACL that contains a line break in the Cluster Manager UI can cause shard migration to fail due to ACL errors. This issue was fixed in Redis Enterprise Software version 8.0.6.
 
 - RS155734: Endpoint availability metrics do not work as expected due to a calculation error.
 

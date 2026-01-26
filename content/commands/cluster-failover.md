@@ -40,7 +40,6 @@ railroad_diagram: /images/railroad/cluster-failover.svg
 since: 3.0.0
 summary: Forces a replica to perform a manual failover of its master.
 syntax_fmt: CLUSTER FAILOVER [FORCE | TAKEOVER]
-syntax_str: ''
 title: CLUSTER FAILOVER
 ---
 This command, that can only be sent to a Redis Cluster replica node, forces

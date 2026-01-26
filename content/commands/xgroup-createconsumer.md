@@ -50,7 +50,6 @@ railroad_diagram: /images/railroad/xgroup-createconsumer.svg
 since: 6.2.0
 summary: Creates a consumer in a consumer group.
 syntax_fmt: XGROUP CREATECONSUMER key group consumer
-syntax_str: group consumer
 title: XGROUP CREATECONSUMER
 ---
 Create a consumer named `<consumername>` in the consumer group `<groupname>` of the stream that's stored at `<key>`.

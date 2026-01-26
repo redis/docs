@@ -30,7 +30,15 @@ See [Metrics stream engine for monitoring v2]({{<relref "/operate/rs/monitoring/
 
 ## Integrate with external monitoring tools
 
-To integrate Redis Enterprise metrics into your monitoring environment, see the integration guides for [Prometheus and Grafana]({{< relref "/operate/rs/monitoring/prometheus_and_grafana" >}}).
+To integrate Redis Enterprise metrics into your monitoring environment, see the following integration guides:
+
+- [Grafana]({{<relref "/integrate/prometheus-with-redis-enterprise">}})
+
+- [Datadog]({{<relref "/integrate/datadog-with-redis-enterprise">}})
+
+- [Dynatrace]({{<relref "/integrate/dynatrace-with-redis-enterprise">}})
+
+- [New Relic]({{<relref "/integrate/new-relic-with-redis-enterprise">}})
 
 For a detailed tutorial to deploy a complete monitoring stack with Prometheus and Grafana, see [Redis Software Observability with Prometheus and Grafana](https://redis.io/learn/operate/observability/redis-software-prometheus-and-grafana).
 

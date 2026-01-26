@@ -37,7 +37,6 @@ railroad_diagram: /images/railroad/bgsave.svg
 since: 1.0.0
 summary: Asynchronously saves the database(s) to disk.
 syntax_fmt: BGSAVE [SCHEDULE]
-syntax_str: ''
 title: BGSAVE
 ---
 Save the DB in background.

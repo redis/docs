@@ -24,7 +24,6 @@ railroad_diagram: /images/railroad/asking.svg
 since: 3.0.0
 summary: Signals that a cluster client is following an -ASK redirect.
 syntax_fmt: ASKING
-syntax_str: ''
 title: ASKING
 ---
 When a cluster client receives an `-ASK` redirect, the `ASKING` command is sent to the target node followed by the command which was redirected.

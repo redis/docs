@@ -33,7 +33,6 @@ summary: Returns, for each input value (floating-point), the estimated rank of t
   value (the number of observations in the sketch that are smaller than the value
   + half the number of observations that are equal to the value)
 syntax_fmt: TDIGEST.RANK key value [value ...]
-syntax_str: value [value ...]
 title: TDIGEST.RANK
 ---
 Returns, for each floating-point input value, the estimated rank of the value (_the number of observations in the sketch that are smaller than the value_ + _half the number of observations that are equal to the value_).

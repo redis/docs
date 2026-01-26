@@ -26,11 +26,7 @@ railroad_diagram: /images/railroad/ft.aliasadd.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Adds an alias to the index
-syntax: 'FT.ALIASADD alias index
-
-  '
 syntax_fmt: FT.ALIASADD alias index
-syntax_str: index
 title: FT.ALIASADD
 ---
 

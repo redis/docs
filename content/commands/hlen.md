@@ -43,7 +43,6 @@ railroad_diagram: /images/railroad/hlen.svg
 since: 2.0.0
 summary: Returns the number of fields in a hash.
 syntax_fmt: HLEN key
-syntax_str: ''
 title: HLEN
 ---
 Returns the number of fields contained in the hash stored at `key`.

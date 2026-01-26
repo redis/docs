@@ -35,7 +35,6 @@ replaced_by: '`CLUSTER SHARDS`'
 since: 3.0.0
 summary: Returns the mapping of cluster slots to nodes.
 syntax_fmt: CLUSTER SLOTS
-syntax_str: ''
 title: CLUSTER SLOTS
 ---
 `CLUSTER SLOTS` returns details about which cluster slots map to which Redis instances. 

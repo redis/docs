@@ -90,7 +90,6 @@ since: 3.0.0
 summary: An internal command for migrating keys in a cluster.
 syntax_fmt: "RESTORE-ASKING key ttl serialized-value [REPLACE] [ABSTTL]\n  [IDLETIME\_\
   seconds] [FREQ\_frequency]"
-syntax_str: "ttl serialized-value [REPLACE] [ABSTTL] [IDLETIME\_seconds] [FREQ\_frequency]"
 title: RESTORE-ASKING
 ---
 The `RESTORE-ASKING` command is an internal command.

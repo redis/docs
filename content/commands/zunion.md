@@ -78,10 +78,13 @@ since: 6.2.0
 summary: Returns the union of multiple sorted sets.
 syntax_fmt: "ZUNION numkeys key [key ...] [WEIGHTS\_weight [weight ...]]\n  [AGGREGATE\_\
   <SUM | MIN | MAX>] [WITHSCORES]"
-syntax_str: "key [key ...] [WEIGHTS\_weight [weight ...]] [AGGREGATE\_<SUM | MIN |\
-  \ MAX>] [WITHSCORES]"
 title: ZUNION
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 This command is similar to [`ZUNIONSTORE`]({{< relref "/commands/zunionstore" >}}), but instead of storing the resulting
 sorted set, it is returned to the client.
 

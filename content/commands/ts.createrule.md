@@ -83,10 +83,13 @@ syntax: "TS.CREATERULE sourceKey destKey \n  AGGREGATION aggregator bucketDurati
 syntax_fmt: "TS.CREATERULE sourceKey destKey AGGREGATION\_<AVG | FIRST | LAST |\n\
   \  MIN | MAX | SUM | RANGE | COUNT | STD.P | STD.S | VAR.P | VAR.S |\n  TWA> bucketDuration\
   \ [alignTimestamp]"
-syntax_str: "destKey AGGREGATION\_<AVG | FIRST | LAST | MIN | MAX | SUM | RANGE |\
-  \ COUNT | STD.P | STD.S | VAR.P | VAR.S | TWA> bucketDuration [alignTimestamp]"
 title: TS.CREATERULE
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 
 Create a compaction rule
 
@@ -160,23 +163,23 @@ For example, if `bucketDuration` is 24 hours (`24 * 3600 * 1000`), setting `alig
 Create a time series to store the temperatures measured in Tel Aviv.
 
 {{< highlight bash >}}
-127.0.0.1:6379> TS.CREATE temp:TLV LABELS type temp location TLV
+127.0.0.1:6379> TS.CREATE temp:{TLV} LABELS type temp location TLV
 OK
 {{< / highlight >}}
 
 Next, create a compacted time series named _dailyAvgTemp_ containing one compacted sample per 24 hours: the time-weighted average of all measurements taken from midnight to next midnight.
 
 {{< highlight bash >}}
-127.0.0.1:6379> TS.CREATE dailyAvgTemp:TLV LABELS type temp location TLV
-127.0.0.1:6379> TS.CREATERULE temp:TLV dailyAvgTemp:TLV AGGREGATION twa 86400000 
+127.0.0.1:6379> TS.CREATE dailyAvgTemp:{TLV} LABELS type temp location TLV
+127.0.0.1:6379> TS.CREATERULE temp:{TLV} dailyAvgTemp:{TLV} AGGREGATION twa 86400000 
 {{< / highlight >}}
 
 Now, also create a compacted time series named _dailyDiffTemp_. This time series will contain one compacted sample per 24 hours: the difference between the minimum and the maximum temperature measured between 06:00 and 06:00 next day.
  Here, 86400000 is the number of milliseconds in 24 hours, 21600000 is the number of milliseconds in 6 hours.
 
 {{< highlight bash >}}
-127.0.0.1:6379> TS.CREATE dailyDiffTemp:TLV LABELS type temp location TLV
-127.0.0.1:6379> TS.CREATERULE temp:TLV dailyDiffTemp:TLV AGGREGATION range 86400000 21600000
+127.0.0.1:6379> TS.CREATE dailyDiffTemp:{TLV} LABELS type temp location TLV
+127.0.0.1:6379> TS.CREATERULE temp:{TLV} dailyDiffTemp:{TLV} AGGREGATION range 86400000 21600000
 {{< / highlight >}}
 
 </details>
@@ -186,7 +189,6 @@ Now, also create a compacted time series named _dailyDiffTemp_. This time series
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

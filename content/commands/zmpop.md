@@ -68,9 +68,13 @@ since: 7.0.0
 summary: Returns the highest- or lowest-scoring members from one or more sorted sets
   after removing them. Deletes the sorted set if the last member was popped.
 syntax_fmt: "ZMPOP numkeys key [key ...] <MIN | MAX> [COUNT\_count]"
-syntax_str: "key [key ...] <MIN | MAX> [COUNT\_count]"
 title: ZMPOP
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Pops one or more elements, that are member-score pairs, from the first non-empty sorted set in the provided list of key names.
 
 `ZMPOP` and [`BZMPOP`]({{< relref "/commands/bzmpop" >}}) are similar to the following, more limited, commands:

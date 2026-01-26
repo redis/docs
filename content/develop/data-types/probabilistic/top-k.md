@@ -56,7 +56,7 @@ In the example below, "pedals" displaces "handlebars", which is returned after "
  * Use [`TOPK.LIST`]({{< relref "commands/topk.list/" >}}) to list the items entered thus far.
 ​
  * Use [`TOPK.QUERY`]({{< relref "commands/topk.query/" >}}) to see if an item is on the top K list. Just like [`TOPK.ADD`]({{< relref "commands/topk.add/" >}}) multiple items can be queried at the same time.
-{{< clients-example topk_tutorial topk >}}
+{{< clients-example set="topk_tutorial" step="topk" description="Top-K operations: Use TOPK.RESERVE to initialize a sketch, TOPK.ADD to track item frequencies, TOPK.LIST to retrieve top items, and TOPK.QUERY to check membership when you need to identify the most frequent items in a data stream" difficulty="intermediate" >}}
 > TOPK.RESERVE bikes:keywords 5 2000 7 0.925
 OK
 > TOPK.ADD bikes:keywords store seat handlebars handles pedals tires store seat

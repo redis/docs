@@ -52,7 +52,6 @@ railroad_diagram: /images/railroad/replicaof.svg
 since: 5.0.0
 summary: Configures a server as replica of another, or promotes it to a master.
 syntax_fmt: REPLICAOF <host port | NO ONE>
-syntax_str: ''
 title: REPLICAOF
 ---
 The `REPLICAOF` command can change the replication settings of a replica on the fly.

@@ -32,7 +32,6 @@ since: 1.0.0
 stack_path: docs/data-types/json
 summary: Deletes a value
 syntax_fmt: JSON.FORGET key [path]
-syntax_str: '[path]'
 title: JSON.FORGET
 ---
 See [`JSON.DEL`]({{< relref "commands/json.del/" >}}).

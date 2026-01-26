@@ -97,6 +97,13 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         </td>
         <td>false</td>
       </tr><tr>
+        <td><a href="#specauditing">auditing</a></td>
+        <td>object</td>
+        <td>
+          Cluster-level configuration for auditing database connection and authentication events. Includes both the audit listener connection parameters and the default policy for new databases.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td><a href="#specbackup">backup</a></td>
         <td>object</td>
         <td>
@@ -128,7 +135,7 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         <td>clusterCredentialSecretName</td>
         <td>string</td>
         <td>
-          Secret Name/Path to use for Cluster Credentials. To be used only if ClusterCredentialSecretType is vault. If left blank, will use cluster name.<br/>
+          Name or path of the secret containing cluster credentials. Defaults to the cluster name if left blank. For Kubernetes secrets (default):  Must be set to the cluster name or left blank. The secret can be pre-created with 'username' and 'password' fields, or otherwise it will be automatically created with a default username and auto-generated password. For Vault secrets:  Can be customized with the path of the secret within Vault. The secret must be pre-created in Vault before REC creation.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -165,7 +172,7 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         <td>createServiceAccount</td>
         <td>boolean</td>
         <td>
-          Whether to create service account<br/>
+          Creates a service account for Redis Enterprise.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -214,7 +221,7 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         <td><a href="#specingressorroutespec">ingressOrRouteSpec</a></td>
         <td>object</td>
         <td>
-          Access configurations for the Redis Enterprise Cluster and Databases. At most one of ingressOrRouteSpec or activeActive fields can be set at the same time.<br/>
+          Access configurations for the Redis Enterprise cluster and databases. At most one of ingressOrRouteSpec or activeActive fields can be set at the same time.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -265,7 +272,7 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         <td><a href="#specpersistentspec">persistentSpec</a></td>
         <td>object</td>
         <td>
-          Specification for Redis Enterprise Cluster persistence<br/>
+          Persistent storage configuration for Redis Enterprise cluster.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -395,14 +402,14 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         <td><a href="#specredisonflashspec">redisOnFlashSpec</a></td>
         <td>object</td>
         <td>
-          Stores configurations specific to redis on flash. If provided, the cluster will be capable of creating redis on flash databases.<br/>
+          Auto Tiering (Redis on Flash) configuration. When provided, the cluster can create Auto Tiering databases.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>redisUpgradePolicy</td>
         <td>enum</td>
         <td>
-          Redis upgrade policy to be set on the Redis Enterprise Cluster. Possible values: major/latest This value is used by the cluster to choose the Redis version of the database when an upgrade is performed. The Redis Enterprise Cluster includes multiple versions of OSS Redis that can be used for databases.<br/>
+          Redis upgrade policy to be set on the Redis Enterprise cluster. Possible values: major/latest This value is used by the cluster to choose the Redis version of the database when an upgrade is performed. The Redis Enterprise cluster includes multiple versions of OSS Redis that can be used for databases.<br/>
           <br/>
             <i>Enum</i>: major, latest<br/>
         </td>
@@ -425,7 +432,7 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         <td>serviceAccountName</td>
         <td>string</td>
         <td>
-          Name of the service account to use<br/>
+          Name of the service account to use for Redis Enterprise.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -457,17 +464,24 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         </td>
         <td>false</td>
       </tr><tr>
+        <td><a href="#specsso">sso</a></td>
+        <td>object</td>
+        <td>
+          Cluster-level SSO configuration for authentication to the Cluster Manager UI.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td>uiAnnotations</td>
         <td>map[string]string</td>
         <td>
-          Annotations for Redis Enterprise UI service. This annotations will override the overlapping global annotations set under spec.services.servicesAnnotations The specified annotations will not override annotations that already exist and didn't originate from the operator, except for the 'redis.io/last-keys' annotation which is reserved.<br/>
+          Additional annotations for the Redis Enterprise UI service. These annotations override overlapping global annotations set under spec.services.servicesAnnotations. The specified annotations will not override annotations that already exist and didn't originate from the operator, except for the 'redis.io/last-keys' annotation which is reserved.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>uiServiceType</td>
         <td>enum</td>
         <td>
-          Type of service used to expose Redis Enterprise UI (https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types)<br/>
+          Service type for exposing the Redis Enterprise UI (https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types).<br/>
           <br/>
             <i>Enum</i>: ClusterIP, NodePort, LoadBalancer, ExternalName<br/>
         </td>
@@ -476,7 +490,7 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         <td><a href="#specupgradespec">upgradeSpec</a></td>
         <td>object</td>
         <td>
-          Specification for upgrades of Redis Enterprise<br/>
+          Redis Enterprise upgrade configuration<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -484,6 +498,13 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         <td>object</td>
         <td>
           The configuration of the usage meter.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specuserdefinedmodules">userDefinedModules</a></td>
+        <td>[]object</td>
+        <td>
+          List of user-defined modules to be downloaded and installed during cluster bootstrap The modules on the list will be downloaded on cluster creation, upgrade, scale-out and recovery and installed on all nodes. Note that changing this field for a running cluster will trigger a rolling update.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -553,6 +574,93 @@ Specification for ActiveActive setup. At most one of ingressOrRouteSpec or activ
         <td>map[string]string</td>
         <td>
           Used for ingress controllers such as ha-proxy or nginx in GKE<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.auditing
+<sup><sup>[↩ Parent](#spec)</sup></sup>
+
+Cluster-level configuration for auditing database connection and authentication events. Includes both the audit listener connection parameters and the default policy for new databases.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td><a href="#specauditingconfig">config</a></td>
+        <td>object</td>
+        <td>
+          Configuration for the audit listener connection<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>dbConnsAuditing</td>
+        <td>boolean</td>
+        <td>
+          Cluster-wide default policy for database connection auditing. When set to true, connection auditing will be enabled by default for all new databases. Existing databases are not affected and can override this setting individually.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.auditing.config
+<sup><sup>[↩ Parent](#specauditing)</sup></sup>
+
+Configuration for the audit listener connection
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>auditAddress</td>
+        <td>string</td>
+        <td>
+          TCP/IP address or file path where audit notifications will be sent. For TCP protocol: IP address of the audit listener. For local protocol: file path for audit output (development/testing only).<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>auditProtocol</td>
+        <td>enum</td>
+        <td>
+          Protocol used to send audit notifications. Valid values: "TCP" or "local". For production systems, use "TCP". "local" is for development/testing only.<br/>
+          <br/>
+            <i>Enum</i>: TCP, local<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>auditPort</td>
+        <td>integer</td>
+        <td>
+          Port number where audit notifications will be sent (TCP protocol only).<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>auditReconnectInterval</td>
+        <td>integer</td>
+        <td>
+          Interval in seconds between attempts to reconnect to the audit listener.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>auditReconnectMaxAttempts</td>
+        <td>integer</td>
+        <td>
+          Maximum number of attempts to reconnect to the audit listener. Set to 0 for infinite attempts.<br/>
         </td>
         <td>false</td>
       </tr></tbody>
@@ -744,55 +852,70 @@ RS Cluster Certificates. Used to modify the certificates used by the cluster. Se
         <td>apiCertificateSecretName</td>
         <td>string</td>
         <td>
-          Secret name to use for cluster's API certificate. If left blank, a cluster-provided certificate will be used.<br/>
+          Secret name to use for cluster's API certificate. The secret must contain the following structure - A key 'name' with the value 'api'. - A key 'certificate' with the value of the certificate in PEM format. - A key 'key' with the value of the private key. If left blank, a cluster-provided certificate will be used.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>cmCertificateSecretName</td>
         <td>string</td>
         <td>
-          Secret name to use for cluster's CM (Cluster Manager) certificate. If left blank, a cluster-provided certificate will be used.<br/>
+          Secret name to use for cluster's CM (Cluster Manager) certificate. The secret must contain the following structure - A key 'name' with the value 'cm'. - A key 'certificate' with the value of the certificate in PEM format. - A key 'key' with the value of the private key. If left blank, a cluster-provided certificate will be used.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>cpInternodeEncryptionCertificateSecretName</td>
         <td>string</td>
         <td>
-          Secret name to use for control plane internode encryption certificate. If left blank, a cluster-provided certificate will be used.<br/>
+          Secret name to use for cluster's Control Plane Internode Encryption (CPINE) certificate. The secret must contain the following structure - A key 'name' with the value 'ccs_internode_encryption'. - A key 'certificate' with the value of the certificate in PEM format. - A key 'key' with the value of the private key. If left blank, a cluster-provided certificate will be used.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>dpInternodeEncryptionCertificateSecretName</td>
         <td>string</td>
         <td>
-          Secret name to use for data plane internode encryption certificate. If left blank, a cluster-provided certificate will be used.<br/>
+          Secret name to use for cluster's Data Plane Internode Encryption (DPINE) certificate. The secret must contain the following structure - A key 'name' with the value 'data_internode_encryption'. - A key 'certificate' with the value of the certificate in PEM format. - A key 'key' with the value of the private key. If left blank, a cluster-provided certificate will be used.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>ldapClientCertificateSecretName</td>
         <td>string</td>
-          Secret name to use for cluster's LDAP client certificate. If left blank, LDAP client certificate authentication will be disabled.<br/>
+        <td>
+          Secret name to use for cluster's LDAP client certificate. The secret must contain the following structure - A key 'name' with the value 'ldap_client'. - A key 'certificate' with the value of the certificate in PEM format. - A key 'key' with the value of the private key. If left blank, LDAP client certificate authentication will be disabled.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>metricsExporterCertificateSecretName</td>
         <td>string</td>
         <td>
-          Secret name to use for cluster's Metrics Exporter certificate. If left blank, a cluster-provided certificate will be used.<br/>
+          Secret name to use for cluster's Metrics Exporter certificate. The secret must contain the following structure - A key 'name' with the value 'metrics_exporter'. - A key 'certificate' with the value of the certificate in PEM format. - A key 'key' with the value of the private key. If left blank, a cluster-provided certificate will be used.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>proxyCertificateSecretName</td>
         <td>string</td>
         <td>
-          Secret name to use for cluster's Proxy certificate. If left blank, a cluster-provided certificate will be used.<br/>
+          Secret name to use for cluster's Proxy certificate. The secret must contain the following structure - A key 'name' with the value 'proxy'. - A key 'certificate' with the value of the certificate in PEM format. - A key 'key' with the value of the private key. If left blank, a cluster-provided certificate will be used.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>ssoIssuerCertificateSecretName</td>
+        <td>string</td>
+        <td>
+          Secret name to use for the SSO Identity Provider (IdP) certificate. This is the public certificate from your SAML Identity Provider used to verify SAML assertions. The secret must contain 'name' and 'certificate' fields (no 'key' field needed for IdP cert). This is optional - if using IdP metadata XML, the IdP certificate is included in the metadata.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>ssoServiceCertificateSecretName</td>
+        <td>string</td>
+        <td>
+          Secret name to use for cluster's SSO service certificate. Used for SAML-based SSO authentication to the Cluster Manager. The secret must contain 'name', 'certificate', and 'key' fields (same format as other cluster certificates). If left blank, SSO will not be configured.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>syncerCertificateSecretName</td>
         <td>string</td>
         <td>
-          Secret name to use for cluster's Syncer certificate. If left blank, a cluster-provided certificate will be used.<br/>
+          Secret name to use for cluster's Syncer certificate. The secret must contain the following structure - A key 'name' with the value 'syncer'. - A key 'certificate' with the value of the certificate in PEM format. - A key 'key' with the value of the private key. If left blank, a cluster-provided certificate will be used.<br/>
         </td>
         <td>false</td>
       </tr></tbody>
@@ -905,7 +1028,7 @@ HostAlias holds the mapping between IP and hostnames that will be injected as an
 ### spec.ingressOrRouteSpec
 <sup><sup>[↩ Parent](#spec)</sup></sup>
 
-Access configurations for the Redis Enterprise Cluster and Databases. At most one of ingressOrRouteSpec or activeActive fields can be set at the same time.
+Access configurations for the Redis Enterprise cluster and databases. At most one of ingressOrRouteSpec or activeActive fields can be set at the same time.
 
 <table>
     <thead>
@@ -1276,7 +1399,7 @@ An API object that represents the cluster's OCSP configuration. To enable OCSP, 
 ### spec.persistentSpec
 <sup><sup>[↩ Parent](#spec)</sup></sup>
 
-Specification for Redis Enterprise Cluster persistence
+Persistent storage configuration for Redis Enterprise cluster.
 
 <table>
     <thead>
@@ -1369,14 +1492,14 @@ Mitigation setting for STS pods stuck in "ContainerCreating"
         <td>enabled</td>
         <td>boolean</td>
         <td>
-          Whether to detect and attempt to mitigate pod startup issues<br/>
+          Enables detection and mitigation of pod startup issues.<br/>
         </td>
         <td>true</td>
       </tr><tr>
         <td>startingThresholdSeconds</td>
         <td>integer</td>
         <td>
-          Time in seconds to wait for a pod to be stuck while starting up before action is taken. If set to 0, will be treated as if disabled.<br/>
+          Time in seconds to wait before taking action on a pod stuck during startup. Set to 0 to disable.<br/>
           <br/>
             <i>Format</i>: int32<br/>
         </td>
@@ -2269,7 +2392,7 @@ Compute resource requirements for Services Rigger pod
 ### spec.redisOnFlashSpec
 <sup><sup>[↩ Parent](#spec)</sup></sup>
 
-Stores configurations specific to redis on flash. If provided, the cluster will be capable of creating redis on flash databases.
+Auto Tiering (Redis on Flash) configuration. When provided, the cluster can create Auto Tiering databases.
 
 <table>
     <thead>
@@ -2348,7 +2471,7 @@ The security configuration that will be applied to RS pods.
         <td><a href="#specsecuritycontextresourcelimits">resourceLimits</a></td>
         <td>object</td>
         <td>
-          Settings pertaining to resource limits management by the Redis Enterprise Node container.<br/>
+          Settings pertaining to resource limits management by the Redis Enterprise node container.<br/>
         </td>
         <td>false</td>
       </tr></tbody>
@@ -2383,7 +2506,7 @@ Policy controlling whether to enable read-only root filesystem for the Redis Ent
 ### spec.securityContext.resourceLimits
 <sup><sup>[↩ Parent](#specsecuritycontext)</sup></sup>
 
-Settings pertaining to resource limits management by the Redis Enterprise Node container.
+Settings pertaining to resource limits management by the Redis Enterprise node container.
 
 <table>
     <thead>
@@ -3242,7 +3365,7 @@ Slave high availability mechanism configuration.
         <td>slaveHAGracePeriod</td>
         <td>integer</td>
         <td>
-          Time in seconds between when a node fails, and when slave high availability mechanism starts relocating shards. If set to 0, will not affect cluster configuration.<br/>
+          Grace period in seconds between node failure and when the high availability mechanism starts relocating shards. Set to 0 to not affect cluster configuration.<br/>
           <br/>
             <i>Format</i>: int32<br/>
         </td>
@@ -3251,10 +3374,159 @@ Slave high availability mechanism configuration.
 </table>
 
 
+### spec.sso
+<sup><sup>[↩ Parent](#spec)</sup></sup>
+
+Cluster-level SSO configuration for authentication to the Cluster Manager UI.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>enabled</td>
+        <td>boolean</td>
+        <td>
+          Enables SSO for Cluster Manager authentication. SSO requires the following configuration - Service Provider certificate (spec.certificates.ssoServiceCertificateSecretName), Identity Provider certificate (spec.certificates.ssoIssuerCertificateSecretName), IdP metadata or manual issuer configuration (spec.sso.saml.idpMetadataSecretName or spec.sso.saml.issuer), and Base address for Service Provider URLs (auto-determined from UI service or set via spec.sso.saml.serviceProvider.baseAddress).<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td><a href="#specssosaml">saml</a></td>
+        <td>object</td>
+        <td>
+          SAML-based SSO configuration. Currently,SAML is the only supported SSO protocol.<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>enforceSSO</td>
+        <td>boolean</td>
+        <td>
+          Enforces SSO-only authentication for the Cluster Manager. When true, local username/password authentication is disabled for non-admin users. When false (default), both SSO and local authentication are available.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.sso.saml
+<sup><sup>[↩ Parent](#specsso)</sup></sup>
+
+SAML-based SSO configuration. Currently,SAML is the only supported SSO protocol.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>idpMetadataSecretName</td>
+        <td>string</td>
+        <td>
+          Name of a secret in the same namespace that contains the Identity Provider (IdP) metadata XML. The secret must contain a key named 'idp_metadata' with the IdP metadata XML content. The XML can be plain text or base64-encoded; the operator handles encoding as needed. Obtain this metadata from your SAML Identity Provider (e.g., Okta or Azure AD). This is the recommended configuration method, as it's less error-prone. Either idpMetadataSecretName or issuer must be specified. If both are provided, idpMetadataSecretName takes precedence and issuer is ignored.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specssosamlissuer">issuer</a></td>
+        <td>object</td>
+        <td>
+          Manual Identity Provider (IdP) configuration. Use this when IdP metadata XML is unavailable. Either idpMetadataSecretName or issuer must be specified. If both are provided, idpMetadataSecretName takes precedence and issuer is ignored.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specssosamlserviceprovider">serviceProvider</a></td>
+        <td>object</td>
+        <td>
+          Service Provider (SP) configuration.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>spMetadataSecretName</td>
+        <td>string</td>
+        <td>
+          Name of a secret where the operator stores the Service Provider (SP) metadata XML. The operator creates this secret with a key named 'sp_metadata' that contains the base64-encoded SP metadata XML. Upload this metadata to your Identity Provider. If not specified, defaults to "<cluster-name>-sso-sp-metadata". If not specified, the Service Provider metadata isn't stored in a K8s secret, but can still be obtained directly from the cluster's UI and/or API. Note: This secret is only created when the cluster is configured to use Kubernetes secrets (spec.clusterCredentialSecretType is unset or set to "kubernetes"). When using Vault secrets, the operator does not create this secret. Users can obtain the SP metadata directly from the Redis Enterprise Server API endpoint: GET /v1/cluster/sso/saml/metadata/sp and store it in Vault themselves if needed.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.sso.saml.issuer
+<sup><sup>[↩ Parent](#specssosaml)</sup></sup>
+
+Manual Identity Provider (IdP) configuration. Use this when IdP metadata XML is unavailable. Either idpMetadataSecretName or issuer must be specified. If both are provided, idpMetadataSecretName takes precedence and issuer is ignored.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>entityID</td>
+        <td>string</td>
+        <td>
+          Identity Provider entity ID (issuer identifier). Example: "urn:sso:example:idp" or "https://idp.example.com".<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>loginURL</td>
+        <td>string</td>
+        <td>
+          Identity Provider SSO login URL where SAML authentication requests are sent. Example: "https://idp.example.com/sso/saml".<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>logoutURL</td>
+        <td>string</td>
+        <td>
+          Identity Provider single logout URL where SAML logout requests are sent.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.sso.saml.serviceProvider
+<sup><sup>[↩ Parent](#specssosaml)</sup></sup>
+
+Service Provider (SP) configuration.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>baseAddress</td>
+        <td>string</td>
+        <td>
+          Base address used to construct Service Provider (SP) URLs, such as the ACS URL and SLO URL. Format: [<scheme>://]<hostname>[:<port>]. Examples: "https://redis-ui.example.com:9443" (recommended - explicit scheme), "redis-ui.example.com:9443" (defaults to https://), "http://redis-ui.example.com:9443" (NOT recommended for production). If the scheme is not specified, the operator automatically prepends "https://". WARNING: Using "http://" is NOT recommended for production environments as it transmits sensitive SAML assertions in plaintext. Only use "http://" for testing/development purposes. If set, this value is used to construct the SP URLs. If unset, the base address is automatically determined from the REC Cluster Manager UI service: - If the UI service type is LoadBalancer (configured via spec.uiServiceType), the load balancer address is used. - Otherwise, the cluster-internal DNS name is used (e.g., rec-ui.svc.cluster.local). - The port defaults to 8443 if not specified. Usage guidelines: - For LoadBalancer services: Leave this field blank to use the default REC UI service, or set it explicitly to the LoadBalancer address for custom services. - For Ingress: Set this to the ingress hostname and port (typically 443), e.g., "https://redis-ui.example.com:443".<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
 ### spec.upgradeSpec
 <sup><sup>[↩ Parent](#spec)</sup></sup>
 
-Specification for upgrades of Redis Enterprise
+Redis Enterprise upgrade configuration
 
 <table>
     <thead>
@@ -3269,7 +3541,7 @@ Specification for upgrades of Redis Enterprise
         <td>autoUpgradeRedisEnterprise</td>
         <td>boolean</td>
         <td>
-          Whether to upgrade Redis Enterprise automatically when operator is upgraded<br/>
+          Enables automatic Redis Enterprise upgrades when the operator is upgraded.<br/>
         </td>
         <td>true</td>
       </tr></tbody>
@@ -3455,6 +3727,134 @@ ResourceClaim references one entry in PodSpec.ResourceClaims.
           Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.<br/>
         </td>
         <td>true</td>
+      </tr></tbody>
+</table>
+
+
+### spec.userDefinedModules[]
+<sup><sup>[↩ Parent](#spec)</sup></sup>
+
+UserDefinedModule represents a user-defined Redis module to be downloaded and installed during bootstrap
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>name</td>
+        <td>string</td>
+        <td>
+          Name of the module<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td><a href="#specuserdefinedmodulessource">source</a></td>
+        <td>object</td>
+        <td>
+          Source location for downloading the module<br/>
+        </td>
+        <td>true</td>
+      </tr></tbody>
+</table>
+
+
+### spec.userDefinedModules[].source
+<sup><sup>[↩ Parent](#specuserdefinedmodules)</sup></sup>
+
+Source location for downloading the module
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td><a href="#specuserdefinedmodulessourcehttp">http</a></td>
+        <td>object</td>
+        <td>
+          HTTP source configuration for downloading the module via HTTP<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specuserdefinedmodulessourcehttps">https</a></td>
+        <td>object</td>
+        <td>
+          HTTPS source configuration for downloading the module via HTTPS<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.userDefinedModules[].source.http
+<sup><sup>[↩ Parent](#specuserdefinedmodulessource)</sup></sup>
+
+HTTP source configuration for downloading the module via HTTP
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>url</td>
+        <td>string</td>
+        <td>
+          URL to download the module from (must use http:// scheme)<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>credentialsSecret</td>
+        <td>string</td>
+        <td>
+          Name of the Kubernetes secret containing credentials for downloading the module, if needed. The secret must contain 'username' and 'password' keys.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.userDefinedModules[].source.https
+<sup><sup>[↩ Parent](#specuserdefinedmodulessource)</sup></sup>
+
+HTTPS source configuration for downloading the module via HTTPS
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>url</td>
+        <td>string</td>
+        <td>
+          URL to download the module from (must use https:// scheme)<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>credentialsSecret</td>
+        <td>string</td>
+        <td>
+          Name of the Kubernetes secret containing credentials for downloading the module, if needed. The secret must contain 'username' and 'password' keys.<br/>
+        </td>
+        <td>false</td>
       </tr></tbody>
 </table>
 
@@ -3747,7 +4147,7 @@ Volume represents a named volume in a pod that may be accessed by any container 
         <td><a href="#statuspersistencestatus">persistenceStatus</a></td>
         <td>object</td>
         <td>
-          The status of the Persistent Volume Claims that are used for Redis Enterprise Cluster persistence. The status will correspond to the status of one or more of the PVCs (failed/resizing if one of them is in resize or failed to resize)<br/>
+          The status of the Persistent Volume Claims that are used for Redis Enterprise cluster persistence. The status will correspond to the status of one or more of the PVCs (failed/resizing if one of them is in resize or failed to resize)<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -4078,7 +4478,7 @@ An API object that represents the cluster's OCSP status
 ### status.persistenceStatus
 <sup><sup>[↩ Parent](#status)</sup></sup>
 
-The status of the Persistent Volume Claims that are used for Redis Enterprise Cluster persistence. The status will correspond to the status of one or more of the PVCs (failed/resizing if one of them is in resize or failed to resize)
+The status of the Persistent Volume Claims that are used for Redis Enterprise cluster persistence. The status will correspond to the status of one or more of the PVCs (failed/resizing if one of them is in resize or failed to resize)
 
 <table>
     <thead>

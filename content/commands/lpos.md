@@ -63,7 +63,6 @@ railroad_diagram: /images/railroad/lpos.svg
 since: 6.0.6
 summary: Returns the index of matching elements in a list.
 syntax_fmt: "LPOS key element [RANK\_rank] [COUNT\_num-matches] [MAXLEN\_len]"
-syntax_str: "element [RANK\_rank] [COUNT\_num-matches] [MAXLEN\_len]"
 title: LPOS
 ---
 The command returns the index of matching elements inside a Redis list.

@@ -58,9 +58,13 @@ summary: Removes and returns the member with the lowest score from one or more s
   sets. Blocks until a member is available otherwise. Deletes the sorted set if the
   last element was popped.
 syntax_fmt: BZPOPMIN key [key ...] timeout
-syntax_str: timeout
 title: BZPOPMIN
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 `BZPOPMIN` is the blocking variant of the sorted set [`ZPOPMIN`]({{< relref "/commands/zpopmin" >}}) primitive.
 
 It is the blocking version because it blocks the connection when there are no

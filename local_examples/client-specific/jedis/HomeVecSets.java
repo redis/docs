@@ -3,7 +3,7 @@
 package com.redis.app;
 // REMOVE_END
 // STEP_START import
-import redis.clients.jedis.UnifiedJedis;
+import redis.clients.jedis.RedisClient;
 import redis.clients.jedis.params.VAddParams;
 import redis.clients.jedis.params.VSimParams;
 
@@ -101,7 +101,7 @@ public class HomeVecSets {
     // STEP_END
 
     // STEP_START add_data
-        UnifiedJedis jedis = new UnifiedJedis("redis://localhost:6379");
+        RedisClient jedis = new RedisClient("redis://localhost:6379");
         // REMOVE_START
         jedis.del("famousPeople");
         // REMOVE_END

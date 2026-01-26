@@ -55,7 +55,6 @@ railroad_diagram: /images/railroad/zrevrank.svg
 since: 2.0.0
 summary: Returns the index of a member in a sorted set ordered by descending scores.
 syntax_fmt: ZREVRANK key member [WITHSCORE]
-syntax_str: member [WITHSCORE]
 title: ZREVRANK
 ---
 Returns the rank of `member` in the sorted set stored at `key`, with the scores

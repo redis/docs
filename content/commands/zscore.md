@@ -47,7 +47,6 @@ railroad_diagram: /images/railroad/zscore.svg
 since: 1.2.0
 summary: Returns the score of a member in a sorted set.
 syntax_fmt: ZSCORE key member
-syntax_str: member
 title: ZSCORE
 ---
 Returns the score of `member` in the sorted set at `key`.

@@ -33,7 +33,6 @@ summary: Returns, for each input value (floating-point), the estimated reverse r
   of the value (the number of observations in the sketch that are larger than the
   value + half the number of observations that are equal to the value)
 syntax_fmt: TDIGEST.REVRANK key value [value ...]
-syntax_str: value [value ...]
 title: TDIGEST.REVRANK
 ---
 Returns, for each floating-point input value, the estimated reverse rank of the value (_the number of observations in the sketch that are larger than the value_ + _half the number of observations that are equal to the value_).

@@ -53,7 +53,6 @@ railroad_diagram: /images/railroad/rpushx.svg
 since: 2.2.0
 summary: Appends an element to a list only when the list exists.
 syntax_fmt: RPUSHX key element [element ...]
-syntax_str: element [element ...]
 title: RPUSHX
 ---
 Inserts specified values at the tail of the list stored at `key`, only if `key`

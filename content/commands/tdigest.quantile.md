@@ -31,7 +31,6 @@ stack_path: docs/data-types/probabilistic
 summary: Returns, for each input fraction, an estimation of the value (floating point)
   that is smaller than the given fraction of observations
 syntax_fmt: TDIGEST.QUANTILE key quantile [quantile ...]
-syntax_str: quantile [quantile ...]
 title: TDIGEST.QUANTILE
 ---
 Returns, for each input fraction, a floating-point estimation of the value that is smaller than the given fraction of observations.
@@ -75,7 +74,6 @@ redis> TDIGEST.QUANTILE t 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

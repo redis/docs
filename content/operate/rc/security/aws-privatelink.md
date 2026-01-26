@@ -58,6 +58,7 @@ Before you can connect to Redis Cloud with an AWS PrivateLink VPC resource endpo
     - Subnets in the same region as your Redis Cloud database.
     - Settings to allow **DNS resolution** and **DNS hostnames**. See [View and update DNS attributes for your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-dns-updating.html) for more information.
 - Permission to create and manage VPC endpoints or Service networks in AWS.
+- AWS CLI version 2.32 or greater if using the AWS CLI.
 
 ## Set up PrivateLink connection
 
@@ -130,7 +131,7 @@ Follow the guide to [create a VPC resource endpoint in the AWS console](https://
 - **Type**: Select **Resources**.
 - **Resource configurations**: Select the configuration with the same Resource Configuration ID as the one shown in the Redis Cloud console.
 - **VPC**: Select your VPC from the list.
-- **Addtional settings**: Select **Enable private DNS name** and set **Private DNS Preference** to **Verified domains only** or **Verified domains and specified domains**.
+- **Additional settings**: Select **Enable private DNS name** and set **Private DNS Preference** to **Verified domains only** or **Verified domains and specified domains**.
 - **Subnets**: Select the subnets to create endpoint network resources in.
 - **Security groups**: Select any security groups you want to associate with the resource endpoint, including the security group that allows access to the necessary ports, as described in the [prerequisites](#prerequisites)
 
@@ -201,3 +202,7 @@ To disassociate a PrivateLink connection:
 1. Select **Disassociate VPC endpoint** or **Disassociate service network** to confirm.
 
 After disassociating the connection, you can delete the VPC resource endpoint or service network in the AWS console.
+
+## Learn more
+
+See [Connect to Redis Cloud with AWS PrivateLink](https://www.youtube.com/watch?v=i3aTmcyFihY) for a short video tutorial on how to connect to Redis Cloud with AWS PrivateLink.

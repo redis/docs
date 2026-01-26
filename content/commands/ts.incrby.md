@@ -96,8 +96,6 @@ syntax: "TS.INCRBY key addend \n  [TIMESTAMP timestamp] \n  [RETENTION retention
   \ ...]]\n"
 syntax_fmt: "TS.INCRBY key value [TIMESTAMP\_timestamp]\n  [RETENTION\_retentionPeriod]\
   \ [UNCOMPRESSED] [CHUNK_SIZE\_size]\n  [LABELS\_label value [label value ...]]"
-syntax_str: "value [TIMESTAMP\_timestamp] [RETENTION\_retentionPeriod] [UNCOMPRESSED]\
-  \ [CHUNK_SIZE\_size] [LABELS\_label value [label value ...]]"
 title: TS.INCRBY
 ---
 
@@ -239,7 +237,6 @@ The timestamp is filled automatically.
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

@@ -45,7 +45,6 @@ railroad_diagram: /images/railroad/sunsubscribe.svg
 since: 7.0.0
 summary: Stops listening to messages posted to shard channels.
 syntax_fmt: SUNSUBSCRIBE [shardchannel [shardchannel ...]]
-syntax_str: ''
 title: SUNSUBSCRIBE
 ---
 Unsubscribes the client from the given shard channels, or from all of them if none is given.

@@ -36,7 +36,6 @@ railroad_diagram: /images/railroad/latency-history.svg
 since: 2.8.13
 summary: Returns timestamp-latency samples for an event.
 syntax_fmt: LATENCY HISTORY event
-syntax_str: ''
 title: LATENCY HISTORY
 ---
 The `LATENCY HISTORY` command returns the raw data of the `event`'s latency spikes time series.

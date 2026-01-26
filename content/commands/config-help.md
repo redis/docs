@@ -24,7 +24,6 @@ railroad_diagram: /images/railroad/config-help.svg
 since: 5.0.0
 summary: Returns helpful text about the different subcommands.
 syntax_fmt: CONFIG HELP
-syntax_str: ''
 title: CONFIG HELP
 ---
 The `CONFIG HELP` command returns a helpful text describing the different subcommands.

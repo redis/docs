@@ -37,7 +37,6 @@ since: 1.0.0
 stack_path: docs/data-types/json
 summary: Inserts the JSON scalar(s) value at the specified index in the array at path
 syntax_fmt: JSON.ARRINSERT key path index value [value ...]
-syntax_str: path index value [value ...]
 title: JSON.ARRINSERT
 ---
 Insert the `json` values into the array at `path` before the `index` (shifts to the right)
@@ -125,7 +124,6 @@ redis> JSON.GET item:1 $.colors
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

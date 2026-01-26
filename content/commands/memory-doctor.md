@@ -25,7 +25,6 @@ railroad_diagram: /images/railroad/memory-doctor.svg
 since: 4.0.0
 summary: Outputs a memory problems report.
 syntax_fmt: MEMORY DOCTOR
-syntax_str: ''
 title: MEMORY DOCTOR
 ---
 The `MEMORY DOCTOR` command reports about different memory-related issues that

@@ -121,7 +121,7 @@ Here, you can:
 
 - Set up a [VPC peering]({{< relref "/operate/rc/security/vpc-peering.md" >}}) relationship between the virtual private cloud (VPC) hosting your subscription and another VPC.
 
-- Set up a [CIDR allow list]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/subscription-whitelist" >}}) containing IP addresses or security groups permitted to access your subscription (_AWS Cloud accounts only_).
+- Set up a [CIDR allow list]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/subscription-whitelist" >}}) containing IP addresses or security groups permitted to access your subscription (_[Bring your own Cloud]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud" >}}) only_).
 
 - Set up [Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}}) (*Google Cloud only*), [Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}) (*AWS only*), or [AWS PrivateLink]({{< relref "/operate/rc/security/aws-privatelink" >}}) (*AWS only*).
 

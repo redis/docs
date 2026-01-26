@@ -1,5 +1,7 @@
 {{ $id := .Scratch.Get "example" }}
 {{ $step := .Scratch.Get "step" }}
+{{ $description := .Scratch.Get "description" }}
+{{ $difficulty := .Scratch.Get "difficulty" }}
 {{ $lang := .Scratch.Get "lang" }}
 {{ $redisCommands := .Scratch.Get "redisCommands" }}
 {{ $redisCommandsLineLimit := (or (.Scratch.Get "maxLines") 100) }}
@@ -7,6 +9,17 @@
 {{ $cliFooterLinkText := .Scratch.Get "cli_footer_link_text" }}
 {{ $cliFooterLinkUrl := .Scratch.Get "cli_footer_link_url" }}
 {{ $showFooter := .Scratch.Get "show_footer" | default true }}
+
+{{/* Extract commands for this step from examples.json */}}
+{{ $commands := slice }}
+{{ if isset $.Site.Data.examples $id }}
+  {{ $exampleData := index $.Site.Data.examples $id }}
+  {{ if isset $exampleData "steps_commands" }}
+    {{ if isset $exampleData.steps_commands $step }}
+      {{ $commands = index $exampleData.steps_commands $step }}
+    {{ end }}
+  {{ end }}
+{{ end }}
 
 {{ if not (isset $.Site.Data.examples $id) }}
     {{ warnf "[tabbed-clients-example] Example not found %q for %q" $id $.Page }}
@@ -24,7 +37,11 @@
         {{ $highlightOptions = printf "linenos=false,hl_lines=1-%d" $redisCommandsLineLimitInt }}
     {{ end }}
     {{ $redisCliContent := highlight (trim $redisCommands "\n") "plaintext" $highlightOptions }}
-    {{ $tabs = $tabs | append (dict "title" "redis-cli" "displayName" $cliTabName "content" $redisCliContent "limit" $redisCommandsLineLimit "customFooterLinkText" $cliFooterLinkText "customFooterLinkUrl" $cliFooterLinkUrl) }}
+    {{ $cliTab := dict "title" "redis-cli" "displayName" $cliTabName "content" $redisCliContent "limit" $redisCommandsLineLimit "customFooterLinkText" $cliFooterLinkText "customFooterLinkUrl" $cliFooterLinkUrl }}
+    {{ if gt (len $commands) 0 }}
+        {{ $cliTab = merge $cliTab (dict "commands" $commands) }}
+    {{ end }}
+    {{ $tabs = $tabs | append $cliTab }}
 {{ end }}
 
 {{ $clientExamples := index $.Site.Data.examples $id }}
@@ -64,9 +81,21 @@
         {{/* Extract binderId if it exists */}}
         {{ $binderId := index $example "binderId" }}
 
-        {{ $tabs = $tabs | append (dict "title" $client "language" $client "quickstartSlug" $quickstartSlug "content" $content "sourceUrl" (index $example "sourceUrl") "binderId" $binderId) }}
+        {{/* Map display names for clients */}}
+        {{ $displayName := $client }}
+        {{ if eq $client "Node.js" }}
+            {{ $displayName = "JavaScript (node-redis)" }}
+        {{ else if eq $client "ioredis" }}
+            {{ $displayName = "JavaScript (ioredis)" }}
+        {{ end }}
+
+        {{ $clientTab := dict "title" $client "displayName" $displayName "language" $client "quickstartSlug" $quickstartSlug "content" $content "sourceUrl" (index $example "sourceUrl") "binderId" $binderId }}
+        {{ if gt (len $commands) 0 }}
+            {{ $clientTab = merge $clientTab (dict "commands" $commands) }}
+        {{ end }}
+        {{ $tabs = $tabs | append $clientTab }}
     {{ end }}
 {{ end }}
 
-{{ $params := dict "id" (printf "%s-step%s" $id $step) "tabs" $tabs "showFooter" $showFooter }}
+{{ $params := dict "id" (printf "%s-step%s" $id $step) "tabs" $tabs "showFooter" $showFooter "exampleId" $step "description" $description "difficulty" $difficulty }}
 {{ partial "tabs/wrapper.html" $params }}

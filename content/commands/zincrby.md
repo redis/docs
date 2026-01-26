@@ -52,7 +52,6 @@ railroad_diagram: /images/railroad/zincrby.svg
 since: 1.2.0
 summary: Increments the score of a member in a sorted set.
 syntax_fmt: ZINCRBY key increment member
-syntax_str: increment member
 title: ZINCRBY
 ---
 Increments the score of `member` in the sorted set stored at `key` by

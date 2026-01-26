@@ -27,9 +27,13 @@ railroad_diagram: /images/railroad/exec.svg
 since: 1.2.0
 summary: Executes all commands in a transaction.
 syntax_fmt: EXEC
-syntax_str: ''
 title: EXEC
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Executes all previously queued commands in a [transaction][tt] and restores the
 connection state to normal.
 

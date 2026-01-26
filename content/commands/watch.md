@@ -46,9 +46,13 @@ railroad_diagram: /images/railroad/watch.svg
 since: 2.2.0
 summary: Monitors changes to keys to determine the execution of a transaction.
 syntax_fmt: WATCH key [key ...]
-syntax_str: ''
 title: WATCH
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Marks the given keys to be watched for conditional execution of a
 [transaction][tt].
 

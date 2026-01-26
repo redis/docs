@@ -1,7 +1,7 @@
 // EXAMPLE: landing
 // BINDER_ID jedis-landing
 // STEP_START import
-import redis.clients.jedis.UnifiedJedis;
+import redis.clients.jedis.RedisClient;
 import java.util.HashMap;
 import java.util.Map;
 // STEP_END
@@ -11,7 +11,7 @@ public class LandingExample {
     @Test
     public void run() {
         // STEP_START connect
-        UnifiedJedis jedis = new UnifiedJedis("redis://localhost:6379");
+        RedisClient jedis = new RedisClient("redis://localhost:6379");
         // STEP_END
 
         // STEP_START set_get_string

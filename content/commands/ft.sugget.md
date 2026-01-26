@@ -50,7 +50,6 @@ summary: Gets completion suggestions for a prefix
 syntax: "FT.SUGGET key prefix \n  [FUZZY] \n  [WITHSCORES] \n  [WITHPAYLOADS] \n \
   \ [MAX max]\n"
 syntax_fmt: "FT.SUGGET key prefix [FUZZY] [WITHSCORES] [WITHPAYLOADS] [MAX\_max]"
-syntax_str: "prefix [FUZZY] [WITHSCORES] [WITHPAYLOADS] [MAX\_max]"
 title: FT.SUGGET
 ---
 
@@ -118,7 +117,7 @@ FT.SUGGET returns an array reply, which is a list of the top suggestions matchin
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
-| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | Not supported on clustered databases. |
 
 ## Return information
 

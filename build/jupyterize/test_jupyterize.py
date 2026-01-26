@@ -13,24 +13,28 @@ import json
 # Add parent directory to path
 sys.path.insert(0, os.path.dirname(__file__))
 
-from jupyterize import jupyterize, detect_language, validate_input, parse_file
+from jupyterize import jupyterize
+from validator import InputValidator
+from parser import FileParser
 
 
 def test_language_detection():
     """Test language detection from file extensions."""
     print("Testing language detection...")
 
-    assert detect_language('example.py') == 'python'
-    assert detect_language('example.js') == 'node.js'
-    assert detect_language('example.go') == 'go'
-    assert detect_language('example.cs') == 'c#'
-    assert detect_language('example.java') == 'java'
-    assert detect_language('example.php') == 'php'
-    assert detect_language('example.rs') == 'rust'
+    validator = InputValidator()
+
+    assert validator.detect_language('example.py') == 'python'
+    assert validator.detect_language('example.js') == 'node.js'
+    assert validator.detect_language('example.go') == 'go'
+    assert validator.detect_language('example.cs') == 'c#'
+    assert validator.detect_language('example.java') == 'java'
+    assert validator.detect_language('example.php') == 'php'
+    assert validator.detect_language('example.rs') == 'rust'
 
     # Test unsupported extension
     try:
-        detect_language('example.txt')
+        validator.detect_language('example.txt')
         assert False, "Should have raised ValueError"
     except ValueError as e:
         assert "Unsupported file extension" in str(e)
@@ -516,7 +520,7 @@ r = redis.Redis()
 
 
 def test_go_boilerplate_injection():
-    """Test Go boilerplate injection (func main() {} appended to first cell)."""
+    """Test Go boilerplate injection (client config and func main() {} appended to first cell)."""
     print("\nTesting Go boilerplate injection...")
 
     # Create test file with Go code
@@ -556,12 +560,16 @@ fmt.Println("Hello")
         assert nb['metadata']['kernelspec']['name'] == 'gophernotes', \
             f"Kernel should be gophernotes, got {nb['metadata']['kernelspec']['name']}"
 
-        # First cell should contain imports AND func main() {}
+        # First cell should contain imports, client config, and func main() {}
         # (boilerplate is appended to first cell for Go, not separate)
         first_cell = nb['cells'][0]
         first_cell_source = ''.join(first_cell['source'])
         assert 'import (' in first_cell_source, \
             f"First cell should contain imports, got: {first_cell_source}"
+        assert 'redis.NewClient' in first_cell_source, \
+            f"First cell should contain redis.NewClient, got: {first_cell_source}"
+        assert 'MaintNotificationsConfig' in first_cell_source, \
+            f"First cell should contain MaintNotificationsConfig, got: {first_cell_source}"
         assert 'func main() {}' in first_cell_source, \
             f"First cell should contain 'func main() {{}}', got: {first_cell_source}"
 
@@ -772,6 +780,81 @@ $r->get('foo');
             os.unlink(output_file)
 
 
+def test_php_unwrapping():
+    """Test that PHP class/method wrappers are removed."""
+    print("\nTesting PHP unwrapping...")
+
+    test_content = """// EXAMPLE: test_php_unwrap
+<?php
+
+require 'vendor/autoload.php';
+
+use Predis\\Client as PredisClient;
+
+class DtSetsTest
+{
+    public function testDtSet() {
+        $r = new PredisClient([
+            'scheme'   => 'tcp',
+            'host'     => '127.0.0.1',
+            'port'     => 6379,
+            'password' => '',
+            'database' => 0,
+        ]);
+
+        // STEP_START test_step
+        $res = $r->sadd('test_key', ['value1']);
+        echo $res . PHP_EOL;
+        // STEP_END
+    }
+}
+"""
+
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.php', delete=False) as f:
+        f.write(test_content)
+        test_file = f.name
+
+    try:
+        # Convert
+        output_file = test_file.replace('.php', '.ipynb')
+        result = jupyterize(test_file, output_file, verbose=False)
+
+        # Load and validate notebook
+        with open(output_file) as f:
+            nb = json.load(f)
+
+        # Verify kernel is php
+        assert nb['metadata']['kernelspec']['name'] == 'php', \
+            f"Kernel should be php, got {nb['metadata']['kernelspec']['name']}"
+
+        # Verify class and method wrappers are removed
+        all_code = ''.join(''.join(cell['source']) for cell in nb['cells'])
+        assert 'class DtSetsTest' not in all_code, \
+            "Should not contain class declaration"
+        assert 'public function testDtSet' not in all_code, \
+            "Should not contain method declaration"
+
+        # Verify actual code is present
+        assert '$r = new PredisClient' in all_code, \
+            "Should contain connection code"
+        assert '$r->sadd' in all_code, \
+            "Should contain actual Redis command"
+        assert 'require' in all_code, \
+            "Should contain require statement"
+
+        # Verify we have 2 cells (preamble + step)
+        assert len(nb['cells']) == 2, \
+            f"Should have 2 cells, got {len(nb['cells'])}"
+
+        print("✓ PHP unwrapping test passed")
+
+    finally:
+        if os.path.exists(test_file):
+            os.unlink(test_file)
+        if output_file and os.path.exists(output_file):
+            os.unlink(output_file)
+
+
 def main():
     """Run all tests."""
     print("=" * 60)
@@ -811,6 +894,7 @@ def main():
 
         # Language-specific feature tests (PHP)
         test_php_no_step_metadata()
+        test_php_unwrapping()
 
         # Regression tests
         test_csharp_for_loop_braces()

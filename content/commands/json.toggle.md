@@ -30,7 +30,6 @@ since: 2.0.0
 stack_path: docs/data-types/json
 summary: Toggles a boolean value
 syntax_fmt: JSON.TOGGLE key path
-syntax_str: path
 title: JSON.TOGGLE
 ---
 Toggle a Boolean value stored at `path`
@@ -98,7 +97,6 @@ redis> JSON.GET doc $
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

@@ -37,7 +37,6 @@ since: 3.0.0
 summary: Blocks until the asynchronous replication of all preceding write commands
   sent by the connection is completed.
 syntax_fmt: WAIT numreplicas timeout
-syntax_str: timeout
 title: WAIT
 ---
 

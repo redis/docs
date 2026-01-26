@@ -14,7 +14,7 @@ weight: 49
 tocEmbedHeaders: true
 ---
 
-You can [integrate Redis Enterprise Software with Prometheus and Grafana]({{<relref "/operate/rs/monitoring/prometheus_and_grafana">}}) to create dashboards for important metrics.
+You can integrate Redis Enterprise Software with Prometheus and tools such as [Grafana]({{<relref "/integrate/prometheus-with-redis-enterprise">}}), [Datadog]({{<relref "/integrate/datadog-with-redis-enterprise">}}), [Dynatrace]({{<relref "/integrate/dynatrace-with-redis-enterprise">}}), or [New Relic]({{<relref "/integrate/new-relic-with-redis-enterprise">}}) to create dashboards for important metrics.
 
 As of Redis Enterprise Software version 7.8.2, [PromQL (Prometheus Query Language)](https://prometheus.io/docs/prometheus/latest/querying/basics/) metrics are available. V1 metrics are deprecated but still available.
 

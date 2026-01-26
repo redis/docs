@@ -29,7 +29,6 @@ railroad_diagram: /images/railroad/cluster-bumpepoch.svg
 since: 3.0.0
 summary: Advances the cluster config epoch.
 syntax_fmt: CLUSTER BUMPEPOCH
-syntax_str: ''
 title: CLUSTER BUMPEPOCH
 ---
 Advances the cluster config epoch.

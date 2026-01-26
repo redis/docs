@@ -51,7 +51,6 @@ since: 1.0.0
 summary: Decrements a number from the integer value of a key. Uses 0 as initial value
   if the key doesn't exist.
 syntax_fmt: DECRBY key decrement
-syntax_str: decrement
 title: DECRBY
 ---
 The `DECRBY` command reduces the value stored at the specified `key` by the specified `decrement`.

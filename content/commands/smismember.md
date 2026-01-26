@@ -48,7 +48,6 @@ railroad_diagram: /images/railroad/smismember.svg
 since: 6.2.0
 summary: Determines whether multiple members belong to a set.
 syntax_fmt: SMISMEMBER key member [member ...]
-syntax_str: member [member ...]
 title: SMISMEMBER
 ---
 Returns whether each `member` is a member of the set stored at `key`.

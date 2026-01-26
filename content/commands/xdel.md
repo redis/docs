@@ -49,7 +49,6 @@ railroad_diagram: /images/railroad/xdel.svg
 since: 5.0.0
 summary: Returns the number of messages after removing them from a stream.
 syntax_fmt: XDEL key id [id ...]
-syntax_str: id [id ...]
 title: XDEL
 ---
 Removes the specified entries from a stream, and returns the number of entries

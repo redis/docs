@@ -9,9 +9,9 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Improve reliability using the failover/failback features of redis-py.
-linkTitle: Failover/failback
-title: Failover and failback
+description: Improve reliability using the failover features of redis-py.
+linkTitle: Geographic failover
+title: Client-side geographic failover
 topics:
 - failover
 - failback
@@ -25,10 +25,10 @@ weight: 65
 bannerText: This feature is currently in preview and may be subject to change.
 ---
 
-redis-py supports [failover and failback](https://en.wikipedia.org/wiki/Failover)
+redis-py supports [Client-side geographic failover](https://en.wikipedia.org/wiki/Failover)
 to improve the availability of connections to Redis databases. This page explains
-how to configure redis-py for failover and failback. For an overview of the concepts,
-see the main [Failover/failback]({{< relref "/develop/clients/failover" >}}) page.
+how to configure redis-py for failover. For an overview of the concepts,
+see the main [Client-side geographic failover]({{< relref "/develop/clients/failover" >}}) page.
 
 ## Failover configuration
 

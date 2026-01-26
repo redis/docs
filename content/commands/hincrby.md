@@ -54,7 +54,6 @@ since: 2.0.0
 summary: Increments the integer value of a field in a hash by a number. Uses 0 as
   initial value if the field doesn't exist.
 syntax_fmt: HINCRBY key field increment
-syntax_str: field increment
 title: HINCRBY
 ---
 Increments the number stored at `field` in the hash stored at `key` by

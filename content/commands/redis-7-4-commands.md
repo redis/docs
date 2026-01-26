@@ -21,6 +21,8 @@ This page provides a comprehensive reference of all Redis commands available in 
 
 {{< note >}}
 Redis 7.4 includes all commands from previous versions plus new commands introduced in 7.4. Commands marked with **⭐ New in 7.4** were added in this release.
+
+Command page links take you to the *current implementation* of each command.
 {{< /note >}}
 
 ## Quick Navigation

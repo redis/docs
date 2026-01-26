@@ -51,7 +51,6 @@ railroad_diagram: /images/railroad/lset.svg
 since: 1.0.0
 summary: Sets the value of an element in a list by its index.
 syntax_fmt: LSET key index element
-syntax_str: index element
 title: LSET
 ---
 Sets the list element at `index` to `element`.

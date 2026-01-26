@@ -442,6 +442,10 @@ select {
   min-height: 32px;
 }
 
+.cli-footer.commands-foldout-open {
+  @apply opacity-100 visible;
+}
+
 .cli-footer a.rounded {
   @apply bg-red-900/80 hover:bg-red-700/80 text-white;
 }
@@ -952,6 +956,8 @@ input[type="radio"] {
 code {
   @apply font-monogeist;
 }
+
+
 
 /* no-click turns off border and click event on small icons */
 a[href*="#no-click"], img[src*="#no-click"] {

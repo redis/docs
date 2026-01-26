@@ -34,7 +34,6 @@ railroad_diagram: /images/railroad/command-getkeysandflags.svg
 since: 7.0.0
 summary: Extracts the key names and access flags for an arbitrary command.
 syntax_fmt: COMMAND GETKEYSANDFLAGS command [arg [arg ...]]
-syntax_str: '[arg [arg ...]]'
 title: COMMAND GETKEYSANDFLAGS
 ---
 Returns [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of keys from a full Redis command and their usage flags.

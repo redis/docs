@@ -25,7 +25,6 @@ railroad_diagram: /images/railroad/command-help.svg
 since: 5.0.0
 summary: Returns helpful text about the different subcommands.
 syntax_fmt: COMMAND HELP
-syntax_str: ''
 title: COMMAND HELP
 ---
 The `COMMAND HELP` command returns a helpful text describing the different subcommands.

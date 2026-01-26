@@ -27,11 +27,7 @@ railroad_diagram: /images/railroad/ft.dictadd.svg
 since: 1.4.0
 stack_path: docs/interact/search-and-query
 summary: Adds terms to a dictionary
-syntax: 'FT.DICTADD dict term [term ...]
-
-  '
 syntax_fmt: FT.DICTADD dict term [term ...]
-syntax_str: term [term ...]
 title: FT.DICTADD
 ---
 

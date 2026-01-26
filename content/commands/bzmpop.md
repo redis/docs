@@ -75,9 +75,13 @@ summary: Removes and returns a member by score from one or more sorted sets. Blo
   until a member is available otherwise. Deletes the sorted set if the last element
   was popped.
 syntax_fmt: "BZMPOP timeout numkeys key [key ...] <MIN | MAX> [COUNT\_count]"
-syntax_str: "numkeys key [key ...] <MIN | MAX> [COUNT\_count]"
 title: BZMPOP
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 `BZMPOP` is the blocking variant of [`ZMPOP`]({{< relref "/commands/zmpop" >}}).
 
 When any of the sorted sets contains elements, this command behaves exactly like [`ZMPOP`]({{< relref "/commands/zmpop" >}}).

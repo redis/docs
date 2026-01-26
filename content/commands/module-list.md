@@ -28,7 +28,6 @@ railroad_diagram: /images/railroad/module-list.svg
 since: 4.0.0
 summary: Returns all loaded modules.
 syntax_fmt: MODULE LIST
-syntax_str: ''
 title: MODULE LIST
 ---
 Returns information about the modules loaded to the server.

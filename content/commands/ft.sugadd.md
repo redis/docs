@@ -45,7 +45,6 @@ stack_path: docs/interact/search-and-query
 summary: Adds a suggestion string to an auto-complete suggestion dictionary
 syntax: FT.SUGADD key string score [INCR] [PAYLOAD payload]
 syntax_fmt: "FT.SUGADD key string score [INCR] [PAYLOAD\_payload]"
-syntax_str: "string score [INCR] [PAYLOAD\_payload]"
 title: FT.SUGADD
 ---
 
@@ -104,7 +103,7 @@ saves an extra payload with the suggestion, that can be fetched by adding the `W
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
-| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | Not supported on clustered databases. |
 
 ## Return information
 

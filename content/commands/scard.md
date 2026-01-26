@@ -43,7 +43,6 @@ railroad_diagram: /images/railroad/scard.svg
 since: 1.0.0
 summary: Returns the number of members in a set.
 syntax_fmt: SCARD key
-syntax_str: ''
 title: SCARD
 ---
 Returns the set cardinality (number of elements) of the set stored at `key`.

@@ -49,6 +49,7 @@ An API object that represents the cluster.
 | min_data_TLS_version | '1.2'<br />'1.3' | The minimum version of TLS protocol which is supported at the data path |
 | min_sentinel_TLS_version | '1.2'<br />'1.3' | The minimum version of TLS protocol which is supported at the data path |
 | name | string | Cluster's fully qualified domain name (read-only) |
+| options_method_forbidden | boolean (default: false) | Make OPTIONS http method forbidden over CNM HTTPS port. |
 | password_complexity | boolean (default:&nbsp;false) | Enforce password complexity policy |
 | password_expiration_duration | integer (default:&nbsp;0) | The number of days a password is valid until the user is required to replace it |
 | proxy_certificate | string | Cluster's proxy certificate |
@@ -57,7 +58,6 @@ An API object that represents the cluster.
 | reserved_ports | array of strings | List of reserved ports and/or port ranges to avoid using for database endpoints (for example `"reserved_ports": ["11000", "13000-13010"]`) |
 | s3_ca_cert | string | Filepath to the PEM-encoded CA certificate to use for validating TLS connections to the S3 server |
 | s3_url | string | Specifies the URL for S3 export and import |
-| saslauthd_ldap_conf | string | saslauthd LDAP configuration |
 | sentinel_cipher_suites | array | Specifies the list of enabled ciphers for the sentinel service. The supported ciphers are those implemented by the [cipher_suites.go](<https://golang.org/src/crypto/tls/cipher_suites.go>) package. |
 | sentinel_cipher_suites_tls_1_3 | string | Specifies the list of enabled TLS 1.3 ciphers for the discovery (sentinel) service. The supported ciphers are those implemented by the [cipher_suites.go](<https://golang.org/src/crypto/tls/cipher_suites.go>) package.(read-only) |
 | sentinel_tls_mode | 'allowed'<br />'disabled' <br />'required' | Determines whether the discovery service allows, blocks, or requires TLS connections (previously named `sentinel_ssl_policy`)<br />**allowed**: Allows both TLS and non-TLS connections<br />**disabled**: Allows only non-TLS connections<br />**required**: Allows only TLS connections |

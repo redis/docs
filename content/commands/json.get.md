@@ -46,7 +46,6 @@ stack_path: docs/data-types/json
 summary: Gets the value at one or more paths in JSON serialized form
 syntax_fmt: "JSON.GET key [INDENT\_indent] [NEWLINE\_newline] [SPACE\_space] [path\n\
   \  [path ...]]"
-syntax_str: "[INDENT\_indent] [NEWLINE\_newline] [SPACE\_space] [path [path ...]]"
 title: JSON.GET
 ---
 Return the value at `path` in JSON serialized form
@@ -133,7 +132,6 @@ redis> JSON.GET doc ..a $..b
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

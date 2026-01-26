@@ -27,11 +27,7 @@ railroad_diagram: /images/railroad/ft.dictdel.svg
 since: 1.4.0
 stack_path: docs/interact/search-and-query
 summary: Deletes terms from a dictionary
-syntax: 'FT.DICTDEL dict term [term ...]
-
-  '
 syntax_fmt: FT.DICTDEL dict term [term ...]
-syntax_str: term [term ...]
 title: FT.DICTDEL
 ---
 

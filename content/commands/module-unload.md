@@ -31,7 +31,6 @@ railroad_diagram: /images/railroad/module-unload.svg
 since: 4.0.0
 summary: Unloads a module.
 syntax_fmt: MODULE UNLOAD name
-syntax_str: ''
 title: MODULE UNLOAD
 ---
 Unloads a module.

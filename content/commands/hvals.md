@@ -45,14 +45,13 @@ railroad_diagram: /images/railroad/hvals.svg
 since: 2.0.0
 summary: Returns all values in a hash.
 syntax_fmt: HVALS key
-syntax_str: ''
 title: HVALS
 ---
 Returns all values in the hash stored at `key`.
 
 ## Examples
 
-{{< clients-example cmds_hash hvals >}}
+{{< clients-example set="cmds_hash" step="hvals" description="Foundational: Retrieve all values from a hash using HVALS (returns only values without field names, useful when you only need the data)" difficulty="beginner" >}}
 redis> HSET myhash field1 "Hello"
 (integer) 1
 redis> HSET myhash field2 "World"

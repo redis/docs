@@ -16,6 +16,8 @@ import logging
 from components.example import Example
 from components.util import mkdir_p
 from components.structured_data import load_dict, dump_dict
+from components.cli_parser import extract_cli_commands
+from components.command_enricher import enrich_commands
 
 
 # File extension to language mapping
@@ -59,6 +61,10 @@ def get_client_name_from_language(language: str) -> str:
 def get_client_name_from_language_and_path(language: str, path: str) -> str:
     """Get client name from language with path-based overrides.
 
+    For JavaScript (.js) files, override based on path substrings:
+    - If 'ioredis' in path -> ioredis
+    - Otherwise -> Node.js
+
     For Java (.java) files, override based on path substrings:
     - If 'lettuce-sync' in path -> Lettuce-Sync
     - If 'lettuce-async' in path -> Java-Async
@@ -66,6 +72,9 @@ def get_client_name_from_language_and_path(language: str, path: str) -> str:
 
     Substring checks are case-sensitive and can appear anywhere in the path.
     """
+    if language == 'node.js':
+        if 'ioredis' in path:
+            return 'ioredis'
     if language == 'java':
         if 'lettuce-sync' in path:
             return 'Lettuce-Sync'
@@ -189,6 +198,13 @@ def process_local_examples(local_examples_dir: str = 'local_examples',
             # Add binderId only if it exists
             if example.binder_id:
                 example_metadata['binderId'] = example.binder_id
+
+            # Extract and enrich CLI commands if present
+            cli_commands = extract_cli_commands(example.content)
+            if cli_commands:
+                enriched_commands = enrich_commands(cli_commands)
+                example_metadata['cli_commands'] = enriched_commands
+                logging.debug(f"Found {len(cli_commands)} CLI commands in {example_id}")
 
             examples_data[example_id][client_name] = example_metadata
             logging.info(f"Processed {client_name} example for {example_id}")

@@ -86,7 +86,6 @@ railroad_diagram: /images/railroad/xtrim.svg
 since: 5.0.0
 summary: Deletes messages from the beginning of a stream.
 syntax_fmt: "XTRIM key <MAXLEN | MINID> [= | ~] threshold [LIMIT\_count] [KEEPREF | DELREF | ACKED]"
-syntax_str: "<MAXLEN | MINID> [= | ~] threshold [LIMIT\_count] [KEEPREF | DELREF | ACKED]"
 title: XTRIM
 ---
 

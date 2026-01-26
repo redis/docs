@@ -28,7 +28,6 @@ railroad_diagram: /images/railroad/pfselftest.svg
 since: 2.8.9
 summary: An internal command for testing HyperLogLog values.
 syntax_fmt: PFSELFTEST
-syntax_str: ''
 title: PFSELFTEST
 ---
 The `PFSELFTEST` command is an internal command.

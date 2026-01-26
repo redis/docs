@@ -46,7 +46,6 @@ railroad_diagram: /images/railroad/hstrlen.svg
 since: 3.2.0
 summary: Returns the length of the value of a field.
 syntax_fmt: HSTRLEN key field
-syntax_str: field
 title: HSTRLEN
 ---
 Returns the string length of the value associated with `field` in the hash stored at `key`. If the `key` or the `field` do not exist, 0 is returned.

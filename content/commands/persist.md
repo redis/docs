@@ -44,7 +44,6 @@ railroad_diagram: /images/railroad/persist.svg
 since: 2.2.0
 summary: Removes the expiration time of a key.
 syntax_fmt: PERSIST key
-syntax_str: ''
 title: PERSIST
 ---
 Remove the existing timeout on `key`, turning the key from _volatile_ (a key

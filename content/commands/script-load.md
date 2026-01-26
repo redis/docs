@@ -32,7 +32,6 @@ railroad_diagram: /images/railroad/script-load.svg
 since: 2.6.0
 summary: Loads a server-side Lua script to the script cache.
 syntax_fmt: SCRIPT LOAD script
-syntax_str: ''
 title: SCRIPT LOAD
 ---
 Load a script into the scripts cache, without executing it.

@@ -22,6 +22,17 @@ a more advanced Java client that also supports asynchronous and reactive connect
 The sections below explain how to install `Jedis` and connect your application
 to a Redis database.
 
+{{< note >}}Jedis 7.2.0 introduced a new client connection API:
+
+| New API class | Replaces | Use case |
+| :-- | :-- | :-- |
+| `RedisClient` | `UnifiedJedis`, `JedisPool`, `JedisPooled` | Single connection (with connection pooling) |
+| `RedisClusterClient` | `JedisCluster` | Redis Cluster connections |
+| `RedisSentinelClient` | `JedisSentinelPool` | Redis Sentinel connections |
+
+The old client classes are now considered deprecated.
+{{< /note >}}
+
 `Jedis` requires a running Redis server. See [here]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis Open Source installation instructions.
 
 ## Install
@@ -34,7 +45,7 @@ To include `Jedis` as a dependency in your application, edit the dependency file
   <dependency>
       <groupId>redis.clients</groupId>
       <artifactId>jedis</artifactId>
-      <version>7.0.0</version>
+      <version>7.2.0</version>
   </dependency>
   ```
 
@@ -46,7 +57,7 @@ To include `Jedis` as a dependency in your application, edit the dependency file
   }
   //...
   dependencies {
-      implementation 'redis.clients:jedis:7.0.0'
+      implementation 'redis.clients:jedis:7.2.0'
       //...
   }
   ```
@@ -60,28 +71,28 @@ To include `Jedis` as a dependency in your application, edit the dependency file
 
 Add the following imports to your source file:
 
-{{< clients-example set="landing" step="import" lang_filter="Java-Sync" >}}
+{{< clients-example set="landing" step="import" lang_filter="Java-Sync" description="Foundational: Import required Jedis classes for Redis client functionality" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 Connect to localhost on port 6379:
 
-{{< clients-example set="landing" step="connect" lang_filter="Java-Sync" >}}
+{{< clients-example set="landing" step="connect" lang_filter="Java-Sync" description="Foundational: Connect to a Redis server and establish a client connection" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 After you have connected, you can check the connection by storing and
 retrieving a simple [string]({{< relref "/develop/data-types/strings" >}}) value:
 
-{{< clients-example set="landing" step="set_get_string" lang_filter="Java-Sync" >}}
+{{< clients-example set="landing" step="set_get_string" lang_filter="Java-Sync" description="Foundational: Set and retrieve string values using SET and GET commands" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 Store and retrieve a [hash]({{< relref "/develop/data-types/hashes" >}}):
 
-{{< clients-example set="landing" step="set_get_hash" lang_filter="Java-Sync" >}}
+{{< clients-example set="landing" step="set_get_hash" lang_filter="Java-Sync" description="Foundational: Store and retrieve hash data structures using HSET and HGETALL" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 Close the connection when you're done:
 
-{{< clients-example set="landing" step="close" lang_filter="Java-Sync" >}}
+{{< clients-example set="landing" step="close" lang_filter="Java-Sync" description="Foundational: Properly close a Redis client connection to release resources" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## More information

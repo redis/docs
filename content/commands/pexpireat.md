@@ -71,7 +71,6 @@ railroad_diagram: /images/railroad/pexpireat.svg
 since: 2.6.0
 summary: Sets the expiration time of a key to a Unix milliseconds timestamp.
 syntax_fmt: PEXPIREAT key unix-time-milliseconds [NX | XX | GT | LT]
-syntax_str: unix-time-milliseconds [NX | XX | GT | LT]
 title: PEXPIREAT
 ---
 `PEXPIREAT` has the same effect and semantic as [`EXPIREAT`]({{< relref "/commands/expireat" >}}), but the Unix time at

@@ -52,6 +52,12 @@ If a Redis Enterprise Software cluster consists of three nodes (the recommended 
 To enable rack-zone awareness, you need to configure it for the
 cluster, nodes, and [databases](#enable-database-rack-zone-awareness).
 
+{{<note>}}
+- After rack-zone awareness is enabled for a cluster, it cannot be turned off.
+
+- After a rack ID is assigned to a node, it cannot be changed.
+{{</note>}}
+
 ### New cluster
 
 You can set up rack-zone awareness for the cluster and its nodes during [cluster creation]({{< relref "/operate/rs/clusters/new-cluster-setup" >}}):

@@ -11,6 +11,10 @@ weight: 16
 url: '/operate/kubernetes/7.22/re-clusters/auto-tiering/'
 ---
 
+{{<note>}}
+This page applies to Redis Enterprise for Kubernetes version 7.22.2-22. If you use version 8.0.2-2 or later, see [Redis Flex](https://redis.io/docs/latest/operate/kubernetes/re-clusters/redis-flex).
+{{</note>}}
+
 ## Prerequisites
 
 Redis Enterprise Software for Kubernetes supports using Auto Tiering (previously known as Redis on Flash), which extends your node memory to use both RAM and flash storage. SSDs (solid state drives) can store infrequently used (warm) values while your keys and frequently used (hot) values are still stored in RAM. This improves performance and lowers costs for large datasets.

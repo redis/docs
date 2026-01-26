@@ -33,7 +33,6 @@ railroad_diagram: /images/railroad/vrange.svg
 since: 8.4.0
 summary: Return elements in a lexicographical range
 syntax_fmt: VRANGE key start end [count]
-syntax_str: start end [count]
 title: VRANGE
 ---
 The `VRANGE` command provides a stateless iterator for the elements inside a vector set. It allows you to retrieve all the elements inside a vector set in small amounts for each call, without an explicit cursor, and with guarantees about what you will miss in case the vector set is changing (elements added and/or removed) during the iteration.

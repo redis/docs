@@ -46,7 +46,6 @@ railroad_diagram: /images/railroad/hexists.svg
 since: 2.0.0
 summary: Determines whether a field exists in a hash.
 syntax_fmt: HEXISTS key field
-syntax_str: field
 title: HEXISTS
 ---
 Returns if `field` is an existing field in the hash stored at `key`.

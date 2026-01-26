@@ -66,7 +66,6 @@ railroad_diagram: /images/railroad/shutdown.svg
 since: 1.0.0
 summary: Synchronously saves the database(s) to disk and shuts down the Redis server.
 syntax_fmt: SHUTDOWN [NOSAVE | SAVE] [NOW] [FORCE] [ABORT]
-syntax_str: '[NOW] [FORCE] [ABORT]'
 title: SHUTDOWN
 ---
 The command behavior is the following:

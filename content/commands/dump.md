@@ -48,7 +48,6 @@ railroad_diagram: /images/railroad/dump.svg
 since: 2.6.0
 summary: Returns a serialized representation of the value stored at a key.
 syntax_fmt: DUMP key
-syntax_str: ''
 title: DUMP
 ---
 Serialize the value stored at key in a Redis-specific format and return it to
