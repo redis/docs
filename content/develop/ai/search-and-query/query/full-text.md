@@ -123,14 +123,14 @@ FT.SEARCH idx:bicycle "%%optamised%%"
 
 ### Fuzzy search on a specific attribute
 
-To perform a fuzzy search on a specific text field, use the `@field:(...)` syntax with the fuzzy term inside parentheses. Do **not** wrap the fuzzy term in quotes, as this changes the search behavior.
+To perform a fuzzy search on a specific text field, use the `@field:(...)` syntax with the fuzzy term inside parentheses.
 
 ```
 FT.SEARCH index "@field:(%word%)"
 ```
 
-{{% alert title="Important" color="warning" %}}
-Do not use quotes around the fuzzy term when targeting a specific field. Wrapping the term in quotes (e.g., `@field:("%word%")`) converts the query into an exact phrase search, and the `%` characters are treated as literal characters rather than fuzzy operators.
+{{% alert title="Important" %}}
+Do not use quotes around the fuzzy term when targeting a specific field. Wrapping the term in quotes (for example, `@field:("%word%")`) converts the query into an exact match search, and the `%` characters are treated as literal characters rather than fuzzy operators.
 {{% /alert  %}}
 
 The following example shows the correct way to perform a fuzzy search with distance one on the `description` field:
