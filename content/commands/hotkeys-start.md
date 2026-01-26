@@ -120,7 +120,7 @@ Sampling ratio for probabilistic tracking. Each key is sampled with probability 
 
 <details open><summary><code>SLOTS</code></summary>
 
-Specifies which hash slots to track in a cluster environment; ignored if not in a cluster. Takes a count followed by that many slot numbers. Only keys that hash to the specified slots will be tracked. Useful for tracking hotkeys on specific shards in a Redis cluster.
+Specifies which hash slots to track in a cluster environment. Takes a count followed by that many slot numbers. Only keys that hash to the specified slots will be tracked. Useful for tracking hotkeys on specific shards in a Redis cluster. Using `SLOTS` when not in cluster mode will result in an error.
 
 </details>
 
