@@ -7,7 +7,7 @@ rootQuestion: cacheTarget
 questions:
     cacheTarget:
         text: |
-            Do you want to use Redis as the target database for caching data?
+            Do you want to use Redis as the target database?
         whyAsk: |
             RDI is specifically designed to keep Redis in sync with a primary database. If you don't need Redis as a cache, RDI is not the right tool.
         answers:
