@@ -38,7 +38,10 @@ You can use the Cluster Manager UI, the `rladmin` utility, or the REST API to en
 
 When you enable OSS Cluster API support for an existing database, the change applies to new connections but does not affect existing connections. Clients must close existing connections and reconnect to apply the change.
 
-### Cluster Manager UI method
+{{< multitabs id="enable-oss-cluster-api" 
+tab1="Cluster Manager UI"
+tab2="rladmin"
+tab3="REST API" >}}
 
 When you use the Cluster Manager UI to enable the OSS Cluster API, it automatically configures the [prerequisites]({{< relref "/operate/rs/databases/configure/oss-cluster-api#prerequisites" >}}).
 
@@ -52,13 +55,13 @@ To enable the OSS Cluster API for an existing database in the Cluster Manager UI
 
 1. Select **OSS Cluster API**.
 
-    {{<image filename="images/rs/screenshots/databases/config-clustering-oss-cluster-api-7-8-2.png" alt="Use the *OSS Cluster API* setting to enable the API for the selected database.">}}
+    <img src="../../../../../images/rs/screenshots/databases/config-clustering-oss-cluster-api-7-8-2.png" alt="Use the *OSS Cluster API* setting to enable the API for the selected database.">
 
 1. Select **Save**.
 
 You can also use the Cluster Manager UI to enable the setting when creating a new database.
 
-### Command-line method
+-tab-sep-
 
 You can use the [`rladmin` utility]({{< relref "/operate/rs/references/cli-utilities/rladmin/" >}}) to enable the OSS Cluster API for Redis Enterprise Software databases, including Replica Of databases.
 
@@ -79,7 +82,7 @@ $ rladmin info db test | grep oss_cluster:
 
 The OSS Cluster API setting applies to the specified database only; it does not apply to the cluster.
 
-### REST API method
+-tab-sep-
 
 You can enable the OSS Cluster API when you [create a database]({{<relref "/operate/rs/references/rest-api/requests/bdbs#post-bdbs-v1">}}) using the REST API:
 
@@ -97,6 +100,8 @@ To enable the OSS Cluster API for an existing database, you can use an [update d
 PUT /v1/bdbs/<database-id>
 { "oss_cluster": true }
 ```
+
+{{< /multitabs >}}
 
 ### Active-Active databases
 
