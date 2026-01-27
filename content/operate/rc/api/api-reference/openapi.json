@@ -11984,11 +11984,6 @@
             "description": "Optional. Changes the password used to access the database with the 'default' user. Can only be set if 'protocol' is 'redis'.",
             "example": "P@ssw0rd"
           },
-          "passwordless": {
-            "type": "boolean",
-            "description": "Optional. When 'true', indicates the user's explicit intent to have an empty/no password for the database. Cannot be set simultaneously with 'password'.",
-            "example": true
-          },
           "saslUsername": {
             "type": "string",
             "description": "Optional. Changes the Memcached (SASL) username to access the database. Can only be set if 'protocol' is 'memcached'.",
@@ -16234,11 +16229,6 @@
             "type": "string",
             "description": "Optional. Password to access the database. If not set, a random 32-character alphanumeric password will be automatically generated. Can only be set if 'protocol' is 'redis'."
           },
-          "passwordless": {
-            "type": "boolean",
-            "description": "Optional. When 'true', indicates the user's explicit intent to have an empty/no password for the database. Cannot be set simultaneously with 'password'. Only supported for single-region subscriptions.",
-            "example": true
-          },
           "saslUsername": {
             "type": "string",
             "description": "Optional. Memcached (SASL) Username to access the database. If not set, the username will be set to a 'mc-' prefix followed by a random 5 character long alphanumeric. Can only be set if 'protocol' is 'memcached'."
@@ -16512,7 +16502,6 @@
               "DATABASE_SIZE_LIMIT_NOT_DEFINED",
               "DATABASE_SIZE_LIMIT_INVALID_TOO_MANY_MEMORY_SPECIFICATIONS",
               "DATABASE_PASSWORD_IS_BLANK",
-              "DATABASE_PASSWORDLESS_NOT_ALLOWED",
               "DATABASE_PASSWORD_IS_TOO_LONG",
               "DATABASE_REDIS_SEARCH_MODULE_VALUE_IS_NOT_INTEGER",
               "DATABASE_REDIS_SEARCH_MODULE_VALUE_NOT_IN_RANGE",
@@ -16606,6 +16595,7 @@
               "DATABASE_REDIS_VERSION_IS_REQUIRED",
               "DATABASE_REDIS_VERSION_INVALID_VALUE",
               "INCOMPATIBLE_TF_PROVIDER",
+              "DESIRED_SOFTWARE_VERSION_IS_NOT_SUPPORTED",
               "CONNECTIVITY_REQUESTS_ON_CUSTOMER_MANAGED_VPC_SUBSCRIPTION",
               "VPC_PEERING_NOT_ACTIVE",
               "VPC_PEERING_GENERAL_ERROR",
@@ -16724,7 +16714,6 @@
               "FLEXIBLE_DATABASE_ALERT_NOT_SUPPORTED",
               "ACTIVE_ACTIVE_DATABASE_REPLICA_OF_NOT_SUPPORTED",
               "ACTIVE_ACTIVE_DATABASE_PERIODIC_BACK_UP_PATH_NOT_ALLOWED",
-              "ACTIVE_ACTIVE_DATABASE_PASSWORDLESS_NOT_SUPPORTED",
               "ACTIVE_ACTIVE_CHANGE_REQUEST_PLANNING_FAILED",
               "ACTIVE_ACTIVE_CHANGE_REQUEST_PLANNING_EXPIRED",
               "ACTIVE_ACTIVE_MISSING_LOCAL_THROUGHPUT_MEASUREMENT",
@@ -16759,8 +16748,6 @@
               "UPDATING_LOCAL_PROPERTIES_NOT_ALLOWED_WITH_SINGLE_REGION_SUBSCRIPTION",
               "DISABLING_THE_DEFAULT_USER_AND_UPDATING_A_NEW_PASSWORD_IS_NOT_ALLOWED",
               "NOT_ALLOWED_TO_UPDATE_A_DATABASE_PASSWORD_WHEN_DEFAULT_USER_IS_DISABLED",
-              "DATABASE_PASSWORDLESS_AND_PASSWORD_BOTH_SET",
-              "DATABASE_PASSWORDLESS_FALSE_WITH_EMPTY_PASSWORD",
               "UPDATING_SINGLE_REGION_DATABASE_NOT_ALLOWED_WITH_ACTIVE_ACTIVE_SUBSCRIPTION",
               "GETTING_ACTIVE_ACTIVE_SUBSCRIPTION_VPC_PEERINGS_IS_NOT_ALLOWED_WITH_SINGLE_REGION_SUBSCRIPTION",
               "UPDATING_SINGLE_REGION_CIDR_WHITE_LIST_IS_NOT_ALLOWED_WITH_ACTIVE_ACTIVE_SUBSCRIPTION",
@@ -16829,6 +16816,7 @@
               "PAYMENT_INVALID_CARD_TYPE",
               "PAYMENT_CVV_MISSING",
               "PAYMENT_GENERAL_ERROR",
+              "PAYMENT_HOLD_FAILED",
               "ACL_USER_NAME_ALREADY_EXISTS",
               "ACL_USER_NAME_NOT_VALID",
               "ACL_USER_NOT_FOUND",
