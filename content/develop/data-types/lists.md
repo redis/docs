@@ -47,7 +47,7 @@ See the [complete series of list commands]({{< relref "/commands/" >}}?group=lis
 ## Examples
 
 * Treat a list like a queue (first in, first out):
-{{< clients-example list_tutorial queue >}}
+{{< clients-example set="list_tutorial" step="queue" description="Queue pattern: Use LPUSH to add items and RPOP to remove them in FIFO order when you need to process items in the order they were added" difficulty="beginner" >}}
 > LPUSH bikes:repairs bike:1
 (integer) 1
 > LPUSH bikes:repairs bike:2
@@ -59,7 +59,7 @@ See the [complete series of list commands]({{< relref "/commands/" >}}?group=lis
 {{< /clients-example >}}
 
 * Treat a list like a stack (first in, last out):
-{{< clients-example list_tutorial stack >}}
+{{< clients-example set="list_tutorial" step="stack" description="Stack pattern: Use LPUSH to add items and LPOP to remove them in LIFO order when you need to process items in reverse order" difficulty="beginner" >}}
 > LPUSH bikes:repairs bike:1
 (integer) 1
 > LPUSH bikes:repairs bike:2
@@ -71,13 +71,13 @@ See the [complete series of list commands]({{< relref "/commands/" >}}?group=lis
 {{< /clients-example >}}
 
 * Check the length of a list:
-{{< clients-example list_tutorial llen >}}
+{{< clients-example set="list_tutorial" step="llen" description="Foundational: Get the number of elements in a list using LLEN to check list size" difficulty="beginner" >}}
 > LLEN bikes:repairs
 (integer) 0
 {{< /clients-example >}}
 
 * Atomically pop an element from one list and push to another:
-{{< clients-example list_tutorial lmove_lrange >}}
+{{< clients-example set="list_tutorial" step="lmove_lrange" description="Atomic transfer: Use LMOVE to move elements between lists in a single operation when you need to transfer items without race conditions" difficulty="intermediate" >}}
 > LPUSH bikes:repairs bike:1
 (integer) 1
 > LPUSH bikes:repairs bike:2
@@ -91,7 +91,7 @@ See the [complete series of list commands]({{< relref "/commands/" >}}?group=lis
 {{< /clients-example >}}
 
 * To limit the length of a list you can call [`LTRIM`]({{< relref "/commands/ltrim" >}}):
-{{< clients-example list_tutorial ltrim.1 >}}
+{{< clients-example set="list_tutorial" step="ltrim.1" description="Capped lists: Use LTRIM to keep only a specific range of elements when you need to maintain a fixed-size list" difficulty="intermediate" >}}
 > DEL bikes:repairs
 (integer) 1
 > RPUSH bikes:repairs bike:1 bike:2 bike:3 bike:4 bike:5
@@ -145,7 +145,7 @@ left (at the head), while the [`RPUSH`]({{< relref "/commands/rpush" >}}) comman
 element into a list, on the right (at the tail). Finally the
 [`LRANGE`]({{< relref "/commands/lrange" >}}) command extracts ranges of elements from lists:
 
-{{< clients-example list_tutorial lpush_rpush >}}
+{{< clients-example set="list_tutorial" step="lpush_rpush" description="Foundational: Add elements to both ends of a list using LPUSH (left/head) and RPUSH (right/tail) to build ordered sequences" difficulty="beginner" >}}
 > DEL bikes:repairs
 (integer) 1
 > RPUSH bikes:repairs bike:1
@@ -171,7 +171,7 @@ the final [`LPUSH`]({{< relref "/commands/lpush" >}}) appended the element on th
 Both commands are *variadic commands*, meaning that you are free to push
 multiple elements into a list in a single call:
 
-{{< clients-example list_tutorial variadic >}}
+{{< clients-example set="list_tutorial" step="variadic" description="Variadic operations: Add multiple elements in a single command using LPUSH or RPUSH when you need to reduce round trips to the server" difficulty="beginner" >}}
 > DEL bikes:repairs
 (integer) 1
 > RPUSH bikes:repairs bike:1 bike:2 bike:3
@@ -193,7 +193,7 @@ of the list. We'll add three elements and pop three elements, so at the end of t
 sequence of commands the list is empty and there are no more elements to
 pop:
 
-{{< clients-example list_tutorial lpop_rpop >}}
+{{< clients-example set="list_tutorial" step="lpop_rpop" description="Foundational: Remove and retrieve elements from both ends of a list using LPOP (left/head) and RPOP (right/tail) to consume items" difficulty="beginner" >}}
 > DEL bikes:repairs
 (integer) 1
 > RPUSH bikes:repairs bike:1 bike:2 bike:3
@@ -247,7 +247,7 @@ the elements outside the given range are removed.
 For example, if you're adding bikes on the end of a list of repairs, but only
 want to worry about the 3 that have been on the list the longest:
 
-{{< clients-example list_tutorial ltrim >}}
+{{< clients-example set="list_tutorial" step="ltrim" description="Capped lists: Use LTRIM with positive indexes to keep a range of elements from the beginning when you need to maintain a fixed-size list" difficulty="intermediate" >}}
 > DEL bikes:repairs
 (integer) 1
 > RPUSH bikes:repairs bike:1 bike:2 bike:3 bike:4 bike:5
@@ -266,7 +266,7 @@ useful pattern: doing a List push operation + a List trim operation together
 to add a new element and discard elements exceeding a limit. Using 
 [`LTRIM`]({{< relref "/commands/ltrim" >}}) with negative indexes can then be used to keep only the 3 most recently added:
 
-{{< clients-example list_tutorial ltrim_end_of_list >}}
+{{< clients-example set="list_tutorial" step="ltrim_end_of_list" description="Capped lists with negative indexes: Use LTRIM with negative indexes to keep the most recent elements when you need to maintain a fixed-size list of latest items" difficulty="intermediate" >}}
 > DEL bikes:repairs
 (integer) 1
 > RPUSH bikes:repairs bike:1 bike:2 bike:3 bike:4 bike:5
@@ -315,7 +315,7 @@ timeout is reached.
 
 This is an example of a [`BRPOP`]({{< relref "/commands/brpop" >}}) call we could use in the worker:
 
-{{< clients-example list_tutorial brpop >}}
+{{< clients-example set="list_tutorial" step="brpop" description="Blocking operations: Use BRPOP to wait for elements with a timeout when you need to implement producer-consumer patterns without polling" difficulty="intermediate" >}}
 > DEL bikes:repairs
 (integer) 1
 > RPUSH bikes:repairs bike:1 bike:2
@@ -370,7 +370,7 @@ Basically we can summarize the behavior with three rules:
 
 Examples of rule 1:
 
-{{< clients-example list_tutorial rule_1 >}}
+{{< clients-example set="list_tutorial" step="rule_1" description="Automatic creation: Redis automatically creates a list when you push to a non-existent key, simplifying initialization" difficulty="beginner" >}}
 > DEL new_bikes
 (integer) 0
 > LPUSH new_bikes bike:1 bike:2 bike:3
@@ -379,7 +379,7 @@ Examples of rule 1:
 
 However we can't perform operations against the wrong type if the key exists:
 
-{{< clients-example list_tutorial rule_1.1 >}}
+{{< clients-example set="list_tutorial" step="rule_1.1" description="Type safety: Redis prevents operations on wrong data types, returning WRONGTYPE error when you try to use list commands on non-list keys" difficulty="beginner" >}}
 > DEL new_bikes
 (integer) 1
 > SET new_bikes bike:1
@@ -392,7 +392,7 @@ string
 
 Example of rule 2:
 
-{{< clients-example list_tutorial rule_2 >}}
+{{< clients-example set="list_tutorial" step="rule_2" description="Automatic removal: Redis automatically deletes empty lists, freeing memory when the last element is removed" difficulty="beginner" >}}
 > DEL bikes:repairs
 (integer) 1
 > LPUSH bikes:repairs bike:1 bike:2 bike:3
@@ -413,7 +413,7 @@ The key no longer exists after all the elements are popped.
 
 Example of rule 3:
 
-{{< clients-example list_tutorial rule_3 >}}
+{{< clients-example set="list_tutorial" step="rule_3" description="Nil handling: Read-only commands on non-existent keys return empty results (0 or nil) instead of errors, treating them as empty lists" difficulty="beginner" >}}
 > DEL bikes:repairs
 (integer) 0
 > LLEN bikes:repairs

@@ -70,7 +70,7 @@ It can also take the following values:
 
 When no parameter is provided, the `default` option is assumed.
 
-{{< clients-example cmds_servermgmt info >}}
+{{< clients-example set="cmds_servermgmt" step="info" description="Foundational: Get server information and statistics using INFO (supports optional section filtering, returns key-value pairs)" difficulty="beginner" >}}
 INFO
 {{< /clients-example >}}
 

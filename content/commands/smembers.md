@@ -53,7 +53,7 @@ This has the same effect as running [`SINTER`]({{< relref "/commands/sinter" >}}
 
 ## Examples
 
-{{< clients-example cmds_set smembers >}}
+{{< clients-example set="cmds_set" step="smembers" description="Foundational: Retrieve all members of a set using SMEMBERS (returns unordered collection, useful for iterating all set members)" difficulty="beginner" >}}
 redis> SADD myset "Hello"
 (integer) 1
 redis> SADD myset "World"

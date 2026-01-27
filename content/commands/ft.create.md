@@ -3,6 +3,7 @@ acl_categories:
 - '@search'
 arguments:
 - name: index
+  summary: Specifies the name of the index.
   type: string
 - arguments:
   - name: hash
@@ -13,7 +14,24 @@ arguments:
     type: pure-token
   name: data_type
   optional: true
+  summary: Specifies the type of data to index, such as HASH or JSON.
   token: 'ON'
+  type: oneof
+- arguments:
+  - name: enable
+    summary: Maintains an inverted index of all document IDs for wildcard queries.
+    token: ENABLE
+    type: pure-token
+  - name: disable
+    summary: Does not maintain an inverted index of all document IDs (default behavior).
+    token: DISABLE
+    type: pure-token
+  name: indexall
+  optional: true
+  since: 8.0.0
+  summary: When enabled, maintains an inverted index of all document IDs to optimize
+    wildcard queries in heavy update scenarios.
+  token: INDEXALL
   type: oneof
 - arguments:
   - name: count
@@ -21,56 +39,74 @@ arguments:
     type: integer
   - multiple: true
     name: prefix
+    summary: Filters indexed documents to include only keys that start with the specified
+      prefix.
     type: string
   name: prefix
   optional: true
+  summary: Filters indexed documents to include only keys that start with the specified
+    prefix.
   type: block
 - name: filter
   optional: true
+  summary: Applies a numeric range filter to restrict results to documents with field
+    values within the specified range.
   token: FILTER
   type: string
 - name: default_lang
   optional: true
+  summary: Defines the default language for the index.
   token: LANGUAGE
   type: string
 - name: lang_attribute
   optional: true
+  summary: Specifies the attribute from which the language is determined.
   token: LANGUAGE_FIELD
   type: string
 - name: default_score
   optional: true
+  summary: Sets the default score for documents in the index.
   token: SCORE
   type: double
 - name: score_attribute
   optional: true
+  summary: Specifies the attribute from which the score is derived.
   token: SCORE_FIELD
   type: string
 - name: payload_attribute
   optional: true
+  summary: Defines the attribute used for payloads in the index.
   token: PAYLOAD_FIELD
   type: string
 - name: maxtextfields
   optional: true
+  summary: Increases the maximum number of text fields allowed in the schema.
   token: MAXTEXTFIELDS
   type: pure-token
 - name: seconds
   optional: true
+  summary: Specifies the duration (in seconds) for which the index remains active
+    (temporary index).
   token: TEMPORARY
   type: double
 - name: nooffsets
   optional: true
+  summary: Disables storage of term offsets for index entries.
   token: NOOFFSETS
   type: pure-token
 - name: nohl
   optional: true
+  summary: Disables support for highlighting in search results.
   token: NOHL
   type: pure-token
 - name: nofields
   optional: true
+  summary: Omits returning fields from search results.
   token: NOFIELDS
   type: pure-token
 - name: nofreqs
   optional: true
+  summary: Disables storage of term frequencies in the index.
   token: NOFREQS
   type: pure-token
 - arguments:
@@ -82,13 +118,18 @@ arguments:
     type: string
   name: stopwords
   optional: true
+  summary: Defines custom stop words for the index, which will be ignored during full-text
+    search.
   token: STOPWORDS
   type: block
 - name: skipinitialscan
   optional: true
+  summary: Skips the initial scan of the database when creating the index.
   token: SKIPINITIALSCAN
   type: pure-token
 - name: schema
+  summary: Defines the fields in the index and their properties, such as type (`TEXT`,
+    `TAG`, `NUMERIC`, etc.).
   token: SCHEMA
   type: pure-token
 - arguments:
@@ -145,6 +186,7 @@ arguments:
     type: pure-token
   multiple: true
   name: field
+  summary: Specifies a field in the index schema with its properties.
   type: block
 categories:
 - docs
@@ -178,14 +220,14 @@ syntax: "FT.CREATE index \n  [ON HASH | JSON] \n  [PREFIX count prefix [prefix .
   \ \n  [SCORE default_score] \n  [SCORE_FIELD score_attribute] \n  [PAYLOAD_FIELD\
   \ payload_attribute] \n  [MAXTEXTFIELDS] \n  [TEMPORARY seconds] \n  [NOOFFSETS]\
   \ \n  [NOHL] \n  [NOFIELDS] \n  [NOFREQS] \n  [STOPWORDS count [stopword ...]] \n\
-  \  [SKIPINITIALSCAN]\n  SCHEMA field_name [AS alias] TEXT | TAG | NUMERIC | GEO\
+  \  [SKIPINITIALSCAN]\n  [INDEXALL <ENABLE | DISABLE>]\n  SCHEMA field_name [AS alias] TEXT | TAG | NUMERIC | GEO\
   \ | VECTOR | GEOSHAPE [ SORTABLE [UNF]] \n  [NOINDEX] [ field_name [AS alias] TEXT\
   \ | TAG | NUMERIC | GEO | VECTOR | GEOSHAPE [ SORTABLE [UNF]] [NOINDEX] ...]\n"
 syntax_fmt: "FT.CREATE index [ON\_<HASH | JSON>] [PREFIX\_count prefix [prefix\n \
   \ ...]] [FILTER\_filter] [LANGUAGE\_default_lang]\n  [LANGUAGE_FIELD\_lang_attribute]\
   \ [SCORE\_default_score]\n  [SCORE_FIELD\_score_attribute] [PAYLOAD_FIELD\_payload_attribute]\n\
   \  [MAXTEXTFIELDS] [TEMPORARY\_seconds] [NOOFFSETS] [NOHL] [NOFIELDS]\n  [NOFREQS]\
-  \ [STOPWORDS\_count [stopword [stopword ...]]]\n  [SKIPINITIALSCAN] SCHEMA field_name\
+  \ [STOPWORDS\_count [stopword [stopword ...]]]\n  [SKIPINITIALSCAN] [INDEXALL <ENABLE | DISABLE>] SCHEMA field_name\
   \ [AS\_alias] <TEXT | TAG |\n  NUMERIC | GEO | VECTOR> [WITHSUFFIXTRIE] [INDEXEMPTY]\n\
   \  [INDEXMISSING] [SORTABLE [UNF]] [NOINDEX] [field_name [AS\_alias]\n  <TEXT |\
   \ TAG | NUMERIC | GEO | VECTOR> [WITHSUFFIXTRIE]\n  [INDEXEMPTY] [INDEXMISSING]\
@@ -385,6 +427,12 @@ If not set, FT.CREATE takes the default list of stopwords. If `{count}` is set t
 <summary><code>SKIPINITIALSCAN</code></summary> 
 
 if set, does not scan and index.
+</details>
+
+<a name="INDEXALL"></a><details open>
+<summary><code>INDEXALL {ENABLE | DISABLE}</code></summary>
+
+introduced in v8.0, maintains a compact index of existing document IDs to optimize wildcard queries, for example, `FT.SEARCH idx *`. When disabled, wildcard queries scan all IDs ever assigned—including deleted ones—which can hurt performance in write-heavy workloads. The default is DISABLE.
 </details>
         
 <note><b>Notes:</b>

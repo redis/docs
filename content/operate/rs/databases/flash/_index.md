@@ -47,12 +47,11 @@ The benefits associated with Redis Flex are dependent on the use case.
 Redis Flex is ideal when your:
 
 - working set is significantly smaller than your dataset (high RAM hit rate)
-- average key size is smaller than average value size (all key names are stored in RAM)
+- average key size is smaller than average value size
 - most recent data is the most frequently used (high RAM hit rate)
 
 Redis Flex is not recommended for:
 
-- Long key names (all key names are stored in RAM)
 - Broad access patterns (any value could be pulled into RAM)
 - Large working sets (working set is stored in RAM)
 - Frequently moved data (moving to and from RAM too often can impact performance)
@@ -62,14 +61,13 @@ Redis Flex is not intended to be used for persistent storage. Redis Enterprise S
 ## Where is my data?
 
 When using Redis Flex, RAM storage holds:
-- All keys (names)
 - Key indexes
 - Dictionaries
-- Hot data (working set)
+- Hot data (working set), including frequently accessed keys and values
 
-All data is accessed through RAM. If a value in flash memory is accessed, it becomes part of the working set and is moved to RAM. These values are referred to as "hot data".
+All data is accessed through RAM. If a key or value in flash memory is accessed, it becomes part of the working set and is moved to RAM. This data is referred to as "hot data".
 
-Inactive or infrequently accessed data is referred to as "warm data" and stored in flash memory. When more space is needed in RAM, warm data is moved from RAM to flash storage.
+Inactive or infrequently accessed data is referred to as "warm data" and stored in flash memory. When more space is needed in RAM, warm keys and values are moved from RAM to flash storage.
 
 {{<note>}} When using Redis Flex with RediSearch, it’s important to note that RediSearch indexes are also stored in RAM.{{</note>}}
 

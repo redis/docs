@@ -66,7 +66,7 @@ See also the [`PTTL`]({{< relref "/commands/pttl" >}}) command that returns the 
 
 ## Examples
 
-{{< clients-example cmds_generic ttl >}}
+{{< clients-example set="cmds_generic" step="ttl" description="Foundational: Check remaining time-to-live of a key using TTL (returns seconds remaining, -1 if no expiry, -2 if key doesn't exist)" difficulty="beginner" >}}
 > SET mykey "Hello"
 "OK"
 > EXPIRE mykey 10

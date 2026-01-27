@@ -168,7 +168,7 @@ If the user inserts all the elements in a sorted set with the same score (for ex
 
 ## Examples
 
-{{< clients-example cmds_sorted_set zadd >}}
+{{< clients-example set="cmds_sorted_set" step="zadd" description="Foundational: Add one or more members to a sorted set with scores using ZADD (creates sorted set if needed, updates scores if member exists)" difficulty="beginner" >}}
 > ZADD myzset 1 "one"
 (integer) 1
 > ZADD myzset 1 "uno"

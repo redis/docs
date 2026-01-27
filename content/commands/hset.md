@@ -68,7 +68,7 @@ If `key` doesn't exist, a new key holding a hash is created.
 
 ## Examples
 
-{{< clients-example cmds_hash hset >}}
+{{< clients-example set="cmds_hash" step="hset" description="Foundational: Set one or more field-value pairs in a hash using HSET (creates hash if needed, overwrites existing fields, returns count of new fields)" difficulty="beginner" >}}
 > HSET myhash field1 "Hello"
 (integer) 1
 > HGET myhash field1

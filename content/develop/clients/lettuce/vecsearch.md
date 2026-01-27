@@ -91,7 +91,7 @@ compileOnly 'ai.djl:api:0.33.0'
 
 Import the following classes in your source file:
 
-{{< clients-example set="home_query_vec" step="import" lang_filter="Java-Async,Java-Reactive" >}}
+{{< clients-example set="home_query_vec" step="import" lang_filter="Java-Async,Java-Reactive" description="Foundational: Import Lettuce, DJL, and embedding model libraries for vector search" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Define a helper method
@@ -101,7 +101,7 @@ you must encode the `float` components of the vector
 array as a `byte` string. The helper method `floatArrayToByteBuffer()`
 shown below does this for you:
 
-{{< clients-example set="home_query_vec" step="helper_method" lang_filter="Java-Async,Java-Reactive" >}}
+{{< clients-example set="home_query_vec" step="helper_method" lang_filter="Java-Async,Java-Reactive" description="Foundational: Convert float arrays to ByteBuffer format for storing vectors in hash objects" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Create an embedding model instance
@@ -118,7 +118,7 @@ The [`Predictor`](https://javadoc.io/doc/ai.djl/api/latest/ai/djl/inference/Pred
 class implements the model to generate the embeddings. The code below
 creates an instance of `Predictor` that uses the `all-MiniLM-L6-v2` model:
 
-{{< clients-example set="home_query_vec" step="model" lang_filter="Java-Async,Java-Reactive" >}}
+{{< clients-example set="home_query_vec" step="model" lang_filter="Java-Async,Java-Reactive" description="Practical pattern: Initialize a DJL Predictor with the all-MiniLM-L6-v2 embedding model" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Create the index
@@ -139,7 +139,7 @@ The code below shows how to declare one connection with the
 block. You also need two separate instances of `RedisAsyncCommands` to
 use the two connections:
 
-{{< clients-example set="home_query_vec" step="connect" lang_filter="Java-Async,Java-Reactive" >}}
+{{< clients-example set="home_query_vec" step="connect" lang_filter="Java-Async,Java-Reactive" description="Practical pattern: Create dual connections with ByteBufferCodec and StringCodec for vector operations" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 Next, create the index.
@@ -160,7 +160,7 @@ and 384 dimensions, as required by the `all-MiniLM-L6-v2` embedding model.
 The `CreateArgs` object specifies hash objects for storage and a
 prefix `doc:` that identifies the hash objects to index.
 
-{{< clients-example set="home_query_vec" step="create_index" lang_filter="Java-Async,Java-Reactive" >}}
+{{< clients-example set="home_query_vec" step="create_index" lang_filter="Java-Async,Java-Reactive" description="Foundational: Create a vector search index with HNSW algorithm, L2 distance metric, and 384-dimensional embeddings" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 ## Add data
@@ -183,7 +183,7 @@ that the `predict()` call is in a `try`/`catch` block because it will throw
 exceptions if it can't download the embedding model (you should add code to handle
 the exceptions in production code).
 
-{{< clients-example set="home_query_vec" step="add_data" lang_filter="Java-Async,Java-Reactive" >}}
+{{< clients-example set="home_query_vec" step="add_data" lang_filter="Java-Async,Java-Reactive" description="Foundational: Generate embeddings and store hash documents with vector data using ByteBufferCodec" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 ## Run a query
@@ -202,7 +202,7 @@ The query is a
 [K nearest neighbors (KNN)]({{< relref "/develop/ai/search-and-query/vectors#knn-vector-search" >}})
 search that sorts the results in order of vector distance from the query vector.
 
-{{< clients-example set="home_query_vec" step="query" lang_filter="Java-Async,Java-Reactive" >}}
+{{< clients-example set="home_query_vec" step="query" lang_filter="Java-Async,Java-Reactive" description="Semantic search: Execute a KNN vector search with semantic similarity ranking on hash documents" difficulty="advanced" >}}
 {{< /clients-example >}}
 
 Assuming you have added the code from the steps above to your source file,
@@ -237,7 +237,7 @@ every query. Also, you must specify `CreateArgs.TargetType.JSON` when you create
 The code below shows these differences, but the index is otherwise very similar to
 the one created previously for hashes:
 
-{{< clients-example set="home_query_vec" step="json_schema" lang_filter="Java-Async,Java-Reactive" >}}
+{{< clients-example set="home_query_vec" step="json_schema" lang_filter="Java-Async,Java-Reactive" description="Foundational: Create a vector search index on JSON documents with JSON paths and field aliases" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 An important difference with JSON indexing is that the vectors are
@@ -250,7 +250,7 @@ instead of [`hset()`]({{< relref "/commands/hset" >}}). Use instances
 of `JSONObject` to supply the data instead of `Map`, as you would for
 hash objects.
 
-{{< clients-example set="home_query_vec" step="json_data" lang_filter="Java-Async,Java-Reactive" >}}
+{{< clients-example set="home_query_vec" step="json_data" lang_filter="Java-Async,Java-Reactive" description="Foundational: Store JSON documents with vector embeddings as float arrays using JSON.SET" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 The query is almost identical to the one for the hash documents. This
@@ -260,7 +260,7 @@ is that the vector parameter for the query is still specified as a
 binary string, even though the data for the `embedding` field of the JSON
 was specified as an array.
 
-{{< clients-example set="home_query_vec" step="json_query" lang_filter="Java-Async,Java-Reactive" >}}
+{{< clients-example set="home_query_vec" step="json_query" lang_filter="Java-Async,Java-Reactive" description="Semantic search: Execute a KNN vector search on JSON documents with semantic similarity ranking" difficulty="advanced" >}}
 {{< /clients-example >}}
 
 The distance values are not identical to the hash query because the

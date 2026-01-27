@@ -65,7 +65,7 @@ to `count` elements, depending on the list's length.
 
 ## Examples
 
-{{< clients-example cmds_list lpop >}}
+{{< clients-example set="cmds_list" step="lpop" description="Foundational: Remove and return the first element(s) from a list using LPOP (supports optional count parameter to pop multiple elements)" difficulty="beginner" >}}
 redis> RPUSH mylist "one" "two" "three" "four" "five"
 (integer) 5
 redis> LPOP mylist

@@ -80,6 +80,11 @@ syntax_fmt: "ZUNION numkeys key [key ...] [WEIGHTS\_weight [weight ...]]\n  [AGG
   <SUM | MIN | MAX>] [WITHSCORES]"
 title: ZUNION
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 This command is similar to [`ZUNIONSTORE`]({{< relref "/commands/zunionstore" >}}), but instead of storing the resulting
 sorted set, it is returned to the client.
 

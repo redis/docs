@@ -67,7 +67,7 @@ go get github.com/knights-analytics/hugot
 
 Add the following imports to your module's main program file:
 
-{{< clients-example set="home_query_vec" step="import" lang_filter="Go" >}}
+{{< clients-example set="home_query_vec" step="import" lang_filter="Go" description="Foundational: Import required packages for vector search and embedding operations" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Add a helper function
@@ -79,7 +79,7 @@ must convert this array to a `byte` string before adding it as a hash field.
 The function shown below uses Go's [`binary`](https://pkg.go.dev/encoding/binary)
 package to produce the `byte` string:
 
-{{< clients-example set="home_query_vec" step="helper" lang_filter="Go" >}}
+{{< clients-example set="home_query_vec" step="helper" lang_filter="Go" description="Foundational: Create a helper function to convert float32 embeddings to binary format for hash storage" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 Note that if you are using [JSON]({{< relref "/develop/data-types/json" >}})
@@ -93,7 +93,7 @@ below).
 In the `main()` function, connect to Redis and delete any index previously
 created with the name `vector_idx`:
 
-{{< clients-example set="home_query_vec" step="connect" lang_filter="Go" >}}
+{{< clients-example set="home_query_vec" step="connect" lang_filter="Go" description="Foundational: Connect to Redis and clean up existing vector indexes" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 Next, create the index.
@@ -102,13 +102,13 @@ three fields: the text content to index, a
 [tag]({{< relref "/develop/ai/search-and-query/advanced-concepts/tags" >}})
 field to represent the "genre" of the text, and the embedding vector generated from
 the original text content. The `embedding` field specifies
-[HNSW]({{< relref "/develop/ai/search-and-query/vectors#hnsw-index" >}}) 
+[HNSW]({{< relref "/develop/ai/search-and-query/vectors#hnsw-index" >}})
 indexing, the
 [L2]({{< relref "/develop/ai/search-and-query/vectors#distance-metrics" >}})
 vector distance metric, `Float32` values to represent the vector's components,
 and 384 dimensions, as required by the `all-MiniLM-L6-v2` embedding model.
 
-{{< clients-example set="home_query_vec" step="create_index" lang_filter="Go" >}}
+{{< clients-example set="home_query_vec" step="create_index" lang_filter="Go" description="Foundational: Create a vector search index with HNSW algorithm and L2 distance metric for hash documents" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 ## Create an embedder instance
@@ -118,7 +118,7 @@ generate the embeddings. Use the code below to create an
 instance that uses the `sentence-transformers/all-MiniLM-L6-v2`
 model:
 
-{{< clients-example set="home_query_vec" step="embedder" lang_filter="Go" >}}
+{{< clients-example set="home_query_vec" step="embedder" lang_filter="Go" description="Practical pattern: Initialize a feature extraction pipeline for generating text embeddings" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Add data
@@ -135,7 +135,7 @@ The `Embeddings` field of `FeatureExtractionOutput` contains the array of float
 values that you need for the index. Use the `floatsToBytes()` function defined
 above to convert this array to a `byte` string.
 
-{{< clients-example set="home_query_vec" step="add_data" lang_filter="Go" >}}
+{{< clients-example set="home_query_vec" step="add_data" lang_filter="Go" description="Foundational: Generate embeddings and store hash documents with vector fields using HSet" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 ## Run a query
@@ -152,7 +152,7 @@ the indexing, and passes it as a parameter when the query executes
 [Vector search]({{< relref "/develop/ai/search-and-query/query/vector-search" >}})
 for more information about using query parameters with embeddings).
 
-{{< clients-example set="home_query_vec" step="query" lang_filter="Go" >}}
+{{< clients-example set="home_query_vec" step="query" lang_filter="Go" description="Vector similarity search: Find semantically similar documents by comparing query embeddings with indexed vectors using L2 distance" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 The code is now ready to run, but note that it may take a while to complete when
@@ -184,7 +184,7 @@ every query. Also, you must set `OnJSON` to `true` when you create the index.
 The code below shows these differences, but the index is otherwise very similar to
 the one created previously for hashes:
 
-{{< clients-example set="home_query_vec" step="json_index" lang_filter="Go" >}}
+{{< clients-example set="home_query_vec" step="json_index" lang_filter="Go" description="Foundational: Create a vector search index for JSON documents with OnJSON option and JSON path specifications" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 Use [`JSONSet()`]({{< relref "/commands/json.set" >}}) to add the data
@@ -196,7 +196,7 @@ specified using lists instead of binary strings. The loop below is similar
 to the one used previously to add the hash data, but it doesn't use the
 `floatsToBytes()` function to encode the `float32` array.
 
-{{< clients-example set="home_query_vec" step="json_data" lang_filter="Go" >}}
+{{< clients-example set="home_query_vec" step="json_data" lang_filter="Go" description="Foundational: Store JSON documents with vector embeddings as arrays using JSONSet" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 The query is almost identical to the one for the hash documents. This
@@ -206,7 +206,7 @@ is that the vector parameter for the query is still specified as a
 binary string (using the `floatsToBytes()` method), even though the data for
 the `embedding` field of the JSON was specified as an array.
 
-{{< clients-example set="home_query_vec" step="json_query" lang_filter="Go" >}}
+{{< clients-example set="home_query_vec" step="json_query" lang_filter="Go" description="Vector query: Execute vector similarity search on JSON documents using path aliases for cleaner queries" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 Apart from the `jdoc:` prefixes for the keys, the result from the JSON

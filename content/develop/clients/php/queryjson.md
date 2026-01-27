@@ -48,14 +48,14 @@ haven't already done so.
 
 Add the following dependencies:
 
-{{< clients-example set="php_home_json" step="import" >}}
+{{< clients-example set="php_home_json" step="import" description="Foundational: Import required dependencies for Redis query engine and JSON operations" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Create data
 
 Create some test data to add to your database:
 
-{{< clients-example set="php_home_json" step="create_data" >}}
+{{< clients-example set="php_home_json" step="create_data" description="Foundational: Create sample JSON data structures for indexing and querying" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Add the index
@@ -65,7 +65,7 @@ basic connection but see
 [Connect to the server]({{< relref "/develop/clients/php/connect" >}})
 to learn more about the available connection options.
 
-{{< clients-example set="php_home_json" step="connect" >}}
+{{< clients-example set="php_home_json" step="connect" description="Foundational: Connect to a Redis server and establish a client connection" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 Create an
@@ -74,7 +74,7 @@ In this example, only JSON documents with the key prefix `user:` are indexed.
 For more information, see
 [Query syntax]({{< relref "/develop/ai/search-and-query/query/" >}}).
 
-{{< clients-example set="php_home_json" step="make_index" >}}
+{{< clients-example set="php_home_json" step="make_index" description="Foundational: Create a search index for JSON documents with field schema and prefix filtering" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 ## Add the data
@@ -84,7 +84,7 @@ Add the three sets of user data to the database as
 If you use keys with the `user:` prefix then Redis will index the
 objects automatically as you add them:
 
-{{< clients-example set="php_home_json" step="add_data" >}}
+{{< clients-example set="php_home_json" step="add_data" description="Foundational: Store JSON documents with indexed key prefixes for automatic indexing" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Query the data
@@ -94,19 +94,19 @@ You can now use the index to search the JSON objects. The
 below searches for objects that have the text "Paul" in any field
 and have an `age` value in the range 30 to 40:
 
-{{< clients-example set="php_home_json" step="query1" >}}
+{{< clients-example set="php_home_json" step="query1" description="Query data: Execute full-text and range queries on indexed JSON documents using FT.SEARCH" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 Specify query options to return only the `city` field:
 
-{{< clients-example set="php_home_json" step="query2" >}}
+{{< clients-example set="php_home_json" step="query2" description="Restrict query results: Use query options to return specific fields from search results" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 Use an
 [aggregation query]({{< relref "/develop/ai/search-and-query/query/aggregation" >}})
 to count all users in each city.
 
-{{< clients-example set="php_home_json" step="query3" >}}
+{{< clients-example set="php_home_json" step="query3" description="Aggregation: Use aggregation queries to group and count results from indexed documents" difficulty="advanced" >}}
 {{< /clients-example >}}
 
 ## Differences with hash documents
@@ -121,7 +121,7 @@ when you create the index. The code below shows these changes with
 a new index called `hash-idx:users`, which is otherwise the same as
 the `idx:users` index used for JSON documents in the previous examples.
 
-{{< clients-example set="php_home_json" step="make_hash_index" >}}
+{{< clients-example set="php_home_json" step="make_hash_index" description="Foundational: Create a search index for hash documents with HASH type specification" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 You use [`hmset()`]({{< relref "/commands/hset" >}}) to add the hash
@@ -129,7 +129,7 @@ documents instead of [`jsonset()`]({{< relref "/commands/json.set" >}}).
 Supply the fields as an array directly, without using
 [`json_encode()`](https://www.php.net/manual/en/function.json-encode.php).
 
-{{< clients-example set="php_home_json" step="add_hash_data" >}}
+{{< clients-example set="php_home_json" step="add_hash_data" description="Foundational: Store hash documents using HSET for indexed retrieval" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 The query commands work the same here for hash as they do for JSON (but
@@ -137,7 +137,7 @@ the name of the hash index is different). The format of the result is
 almost the same except that the fields are returned directly in the
 result array rather than in a JSON string with `$` as its key:
 
-{{< clients-example set="php_home_json" step="query1_hash" >}}
+{{< clients-example set="php_home_json" step="query1_hash" description="Query data: Query hash documents using the same search syntax as JSON with different result formatting" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 ## More information

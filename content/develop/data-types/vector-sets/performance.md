@@ -45,7 +45,7 @@ The examples below show how the different modes affect a simple vector.
 Note that even with `NOQUANT` mode, the values change slightly,
 due to floating point rounding.
 
-{{< clients-example vecset_tutorial add_quant >}}
+{{< clients-example set="vecset_tutorial" step="add_quant" description="Quantization modes: Compare Q8, NOQUANT, and BIN quantization modes using VADD and VEMB to understand the tradeoffs between precision, memory, and performance" difficulty="advanced" >}}
 > VADD quantSetQ8 VALUES 2 1.262185 1.958231 quantElement Q8
 (integer) 1
 > VEMB quantSetQ8 quantElement

@@ -76,13 +76,13 @@ Create a Python virtual environment and install the following dependencies using
 
 You will also need the following imports in your Python code:
 
-{{< clients-example search_vss imports />}}
+{{< clients-example set="search_vss" step="imports" description="Foundational: Import required Python packages for vector database operations including redis, pandas, and sentence-transformers" difficulty="beginner" />}}
 
 ## Connect
 
 Connect to Redis. By default, Redis returns binary responses. To decode them, you pass the `decode_responses` parameter set to `True`:
 
-{{< clients-example search_vss connect />}}
+{{< clients-example set="search_vss" step="connect" description="Foundational: Connect to a Redis server with decode_responses enabled to receive decoded strings instead of bytes" difficulty="beginner" />}}
 <br/>
 {{% alert title="Tip" color="warning" %}}
 Instead of using a local Redis server, you can copy and paste the connection details from the Redis Cloud database configuration page. Here is an example connection string of a Cloud database that is hosted in the AWS region `us-east-1` and listens on port 16379: `redis-16379.c283.us-east-1-4.ec2.cloud.redislabs.com:16379`. The connection string has the format `host:port`. You must also copy and paste the username and password of your Cloud database. The line of code for connecting with the default user changes then to `client = redis.Redis(host="redis-16379.c283.us-east-1-4.ec2.cloud.redislabs.com", port=16379, password="your_password_here", decode_responses=True)`.
@@ -113,20 +113,20 @@ The `description` field contains free-form text descriptions of bikes and will b
 ###  1. Fetch the demo data
 You need to first fetch the demo dataset as a JSON array:
 
-{{< clients-example search_vss get_data />}}
+{{< clients-example set="search_vss" step="get_data" description="Foundational: Fetch the demo dataset as a JSON array to prepare data for vector database operations" difficulty="beginner" />}}
 
 Inspect the structure of one of the bike JSON documents:
 
-{{< clients-example search_vss dump_data />}}
+{{< clients-example set="search_vss" step="dump_data" description="Foundational: Inspect the structure of a single document from the demo dataset to understand the data format" difficulty="beginner" />}}
 
 ### 2. Store the demo data in Redis
 Now iterate over the `bikes`  array to store the data as [JSON]({{< relref "/develop/data-types/json/" >}}) documents in Redis by using the [JSON.SET]({{< relref "commands/json.set/" >}}) command. The below code uses a [pipeline]({{< relref "/develop/using-commands/pipelining" >}}) to minimize the network round-trip times:
 
-{{< clients-example search_vss load_data />}}
+{{< clients-example set="search_vss" step="load_data" description="Practical pattern: Store demo data as JSON documents in Redis using JSON.SET with pipelining to minimize network round-trips" difficulty="beginner" />}}
 
 Once loaded, you can retrieve a specific attribute from one of the JSON documents in Redis using a [JSONPath](https://goessner.net/articles/JsonPath/) expression:
 
-{{< clients-example search_vss get />}}
+{{< clients-example set="search_vss" step="get" description="Foundational: Retrieve a specific attribute from a JSON document in Redis using JSONPath expressions" difficulty="beginner" />}}
 
 ### 3. Select a text embedding model
 
@@ -141,19 +141,19 @@ embedder = SentenceTransformer('msmarco-distilbert-base-v4')
 ### 4. Generate text embeddings
 Iterate over all the Redis keys with the prefix `bikes:`:
 
-{{< clients-example search_vss get_keys />}}
+{{< clients-example set="search_vss" step="get_keys" description="Foundational: Retrieve all Redis keys with a specific prefix to identify documents for processing" difficulty="beginner" />}}
 
 Use the keys as input to the [JSON.MGET]({{< relref "commands/json.mget/" >}}) command, along with the `$.description` field, to collect the descriptions in a list. Then, pass the list of descriptions to the `.encode()` method:
 
-{{< clients-example search_vss generate_embeddings />}}
+{{< clients-example set="search_vss" step="generate_embeddings" description="Create embeddings: Generate text embeddings from document descriptions using SentenceTransformers model to create vector representations" difficulty="intermediate" />}}
 
 Insert the vectorized descriptions to the bike documents in Redis using the [JSON.SET]({{< relref "commands/json.set" >}}) command. The following command inserts a new field into each of the documents under the JSONPath `$.description_embeddings`. Once again, do this using a pipeline to avoid unnecessary network round-trips:
 
-{{< clients-example search_vss load_embeddings />}}
+{{< clients-example set="search_vss" step="load_embeddings" description="Practical pattern: Insert generated vector embeddings into JSON documents using JSON.SET with pipelining for efficient batch updates" difficulty="intermediate" />}}
 
 Inspect one of the updated bike documents using the [JSON.GET]({{< relref "commands/json.get" >}}) command:
 
-{{< clients-example search_vss dump_example />}}
+{{< clients-example set="search_vss" step="dump_example" description="Foundational: Inspect an updated document containing both original data and generated vector embeddings using JSON.GET" difficulty="intermediate" />}}
 
 {{% alert title="Note" color="warning" %}}
 When storing a vector embedding within a JSON document, the embedding is stored as a JSON array. In the example above, the array was shortened considerably for the sake of readability.
@@ -166,7 +166,7 @@ When storing a vector embedding within a JSON document, the embedding is stored 
 
 You must create an index to query document metadata or to perform vector searches. Use the [FT.CREATE]({{< relref "commands/ft.create" >}}) command:
 
-{{< clients-example search_vss create_index >}}
+{{< clients-example set="search_vss" step="create_index" description="Foundational: Create an index on JSON documents with vector field using FT.CREATE with FLAT indexing and COSINE distance metric" difficulty="intermediate" >}}
 FT.CREATE idx:bikes_vss ON JSON
   PREFIX 1 bikes: SCORE 1.0
   SCHEMA
@@ -192,7 +192,7 @@ You can find further details about all these options in the [vector reference do
 
 As soon as you execute the [FT.CREATE]({{< relref "commands/ft.create" >}}) command, the indexing process runs in the background. In a short time, all JSON documents should be indexed and ready to be queried. To validate that, you can use the [FT.INFO]({{< relref "commands/ft.info" >}}) command, which provides details and statistics about the index. Of particular interest are the number of documents successfully indexed and the number of failures:
 
-{{< clients-example search_vss validate_index >}}
+{{< clients-example set="search_vss" step="validate_index" description="Practical pattern: Check the state and statistics of an index using FT.INFO to verify successful indexing of documents" difficulty="intermediate" >}}
 FT.INFO idx:bikes_vss
 {{< /clients-example >}}
 
@@ -204,11 +204,11 @@ This quick start guide focuses on vector search. However, you can learn more abo
 
 The following code snippet shows a list of text queries you will use to perform vector search in Redis:
 
-{{< clients-example search_vss def_bulk_queries />}}
+{{< clients-example set="search_vss" step="def_bulk_queries" description="Foundational: Define a list of text queries to use for vector search operations" difficulty="beginner" />}}
 
 First, encode each input query as a vector embedding using the same SentenceTransformers model:
 
-{{< clients-example search_vss enc_bulk_queries />}}
+{{< clients-example set="search_vss" step="enc_bulk_queries" description="Create query embeddings: Encode text queries as vector embeddings using the same SentenceTransformers model used for document embeddings" difficulty="intermediate" />}}
 
 <br/>
 {{% alert title="Tip" color="warning" %}}
@@ -260,7 +260,7 @@ With the template for the query in place, you can execute all queries in a loop.
 
 Then, loop over the matched documents and create a list of results that can be converted into a Pandas table to visualize the results:
 
-{{< clients-example search_vss define_bulk_query />}}
+{{< clients-example set="search_vss" step="define_bulk_query" description="Query data: Execute multiple vector search queries and format results into a Pandas table for visualization and analysis" difficulty="advanced" />}}
 
 The query results show the individual queries' top three matches (our K parameter) along with the bike's id, brand, and model for each query.
 
@@ -270,7 +270,7 @@ For example, for the query "Best Mountain bikes for kids", the highest similarit
 
 From the description, this bike is an excellent match for younger children, and the embeddings accurately captured the semantics of the description.
 
-{{< clients-example search_vss run_knn_query />}}
+{{< clients-example set="search_vss" step="run_knn_query" description="Semantic search: Execute K-nearest neighbors vector search using FT.SEARCH with KNN algorithm to find semantically similar documents" difficulty="advanced" />}}
 
 | query | score | id | brand | model | description |
 | :--- | :--- | :--- | :--- | :--- | :--- |

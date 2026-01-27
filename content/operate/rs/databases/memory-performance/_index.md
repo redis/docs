@@ -44,7 +44,7 @@ For more info on data persistence see [Database persistence with Redis Enterpris
 
 ## Auto Tiering 
 
-By default, Redis Enterprise Software stores your data entirely in [RAM](https://en.wikipedia.org/wiki/Random-access_memory) for improved performance. [Redis Flex and Auto Tiering]({{< relref "/operate/rs/databases/flash/" >}}) enable your data to span both RAM and [SSD](https://en.wikipedia.org/wiki/Solid-state_drive) storage ([flash memory](https://en.wikipedia.org/wiki/Flash_memory)). Keys are always stored in RAM, but Auto Tiering manages the location of their values. Frequently used (hot) values are stored on RAM, but infrequently used (warm) values are moved to flash memory. This saves on expensive RAM space, which give you comparable performance at a lower cost for large datasets.
+By default, Redis Enterprise Software stores your data entirely in [RAM](https://en.wikipedia.org/wiki/Random-access_memory) for improved performance. [Redis Flex and Auto Tiering]({{< relref "/operate/rs/databases/flash/" >}}) enable your data to span both RAM and [SSD](https://en.wikipedia.org/wiki/Solid-state_drive) storage ([flash memory](https://en.wikipedia.org/wiki/Flash_memory)). Redis Flex tiers both keys and values to flash storage, ensuring that warm (infrequently accessed) data does not consume RAM. Auto Tiering stores keys in RAM but manages the location of their values. Frequently used (hot) data is stored in RAM, but infrequently used (warm) data is moved to flash memory. This saves on expensive RAM space, which gives you comparable performance at a lower cost for large datasets.
 
 For more info, see [Redis Flex and Auto Tiering]({{< relref "/operate/rs/databases/flash/" >}}).
 
