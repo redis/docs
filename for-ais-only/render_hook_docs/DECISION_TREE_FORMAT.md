@@ -105,6 +105,7 @@ languageQuestion:
 - **`sentiment`** (optional): Indicates the nature of the outcome for visual styling
   - `"positive"`: Renders with green styling (e.g., "Use this option")
   - `"negative"`: Renders with red styling (e.g., "Don't use this option")
+  - `"indeterminate"`: Renders with yellow/amber styling (e.g., "Further analysis needed")
   - Omitted: Defaults to red (neutral/warning styling)
 
 **Note**: The `sentiment` field is particularly useful for **suitability trees** (where outcomes are binary: suitable vs. unsuitable) as opposed to **selection trees** (where all outcomes are valid options). See [Tree Types](#tree-types) below.
