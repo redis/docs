@@ -47,17 +47,17 @@ When you use the Cluster Manager UI to enable the OSS Cluster API, it automatica
 
 To enable the OSS Cluster API for an existing database in the Cluster Manager UI:
 
-1. From the database's **Configuration** tab, select **Edit**.
+1. From the database's **Configuration** tab, click **Edit**.
 
 1. Expand the **Clustering** section.
 
-1. Select **Enable sharding**.
+1. Enable **Sharding**.
 
 1. Select **OSS Cluster API**.
 
-    <img src="../../../../../images/rs/screenshots/databases/config-clustering-oss-cluster-api-7-8-2.png" alt="Use the *OSS Cluster API* setting to enable the API for the selected database.">
+    <img src="../../../../../images/rs/screenshots/databases/config-clustering-oss-cluster-api-7-22.png" alt="Use the *OSS Cluster API* setting to enable the API for the selected database.">
 
-1. Select **Save**.
+1. Click **Save**.
 
 You can also use the Cluster Manager UI to enable the setting when creating a new database.
 
@@ -107,6 +107,30 @@ PUT /v1/bdbs/<database-id>
 
 The OSS Cluster API setting applies to all instances of the Active-Active database across participating clusters. To enable the OSS Cluster API for Active-Active databases, use the [Cluster Manager UI](#cluster-manager-ui) or the [`crdb-cli`]({{<relref "/operate/rs/references/cli-utilities/crdb-cli">}}) utility.
 
+{{< multitabs id="enable-oss-cluster-api-active-active" 
+tab1="Cluster Manager UI"
+tab2="crdb-cli" >}}
+
+When you use the Cluster Manager UI to enable the OSS Cluster API, it automatically configures the [prerequisites]({{< relref "/operate/rs/databases/configure/oss-cluster-api#prerequisites" >}}).
+
+To enable the OSS Cluster API for an existing Active-Active database in the Cluster Manager UI:
+
+1. From the database's **Configuration** tab, click **Edit**.
+
+1. Expand the **Clustering** section.
+
+1. Sharding must be enabled during Active-Active database creation.
+
+1. Select **OSS Cluster API**.
+
+    <img src="../../../../../images/rs/screenshots/databases/config-clustering-oss-cluster-api-active-active-7-22.png" alt="Use the *OSS Cluster API* setting to enable the API for the selected database.">
+
+1. Click **Save**.
+
+You can also use the Cluster Manager UI to enable the setting when creating a new database.
+
+-tab-sep-
+
 To create an Active-Active database and enable the OSS Cluster API with `crdb-cli`:
 
 ```sh
@@ -138,6 +162,8 @@ To enable the OSS Cluster API for an existing Active-Active database with `crdb-
         --oss-cluster true
     ```
 
+{{< /multitabs >}}
+
 ## Change preferred IP type
 
 By default, using [`CLUSTER SLOTS`]({{<relref "/commands/cluster-slots">}}) and [`CLUSTER SHARDS`]({{<relref "/commands/cluster-shards">}}) in a Redis Enterprise Software cluster exposes the internal IP addresses for databases with the OSS Cluster API enabled.
@@ -150,24 +176,41 @@ $ rladmin tune db db:<database-id> oss_cluster_api_preferred_ip_type external
 
 ## Turn off OSS Cluster API support
 
-To deactivate OSS Cluster API support for a database, either:
+To deactivate OSS Cluster API support for a database, use one of the following methods:
 
-- Use the Cluster Manager UI to turn off the **OSS Cluster API** in the **Clustering** section of the database **Configuration** settings.
+{{< multitabs id="turn-off-oss-cluster-api" 
+tab1="Cluster Manager UI"
+tab2="rladmin"
+tab3="crdb-cli" >}}
 
-- Use the appropriate utility to deactivate the OSS Cluster API setting.
+To turn off the OSS Cluster API for standard databases or Active-Active databases in the Cluster Manager UI:
 
-    For standard databases, including Replica Of, use `rladmin`:
+1. From the database's **Configuration** tab, click **Edit**.
 
-    ```sh
-    $ rladmin tune db <name or ID> oss_cluster disabled
-    ```
+1. Expand the **Clustering** section.
 
-    For Active-Active databases, use the Cluster Manager UI or `crdb-cli`:
+1. Clear the **OSS Cluster API** checkbox.
 
-    ```sh
-    $ crdb-cli crdb update --crdb-guid <CRDB-GUID> \
+1. Click **Save**.
+
+-tab-sep-
+
+For standard databases, including Replica Of, you can use `rladmin` to turn off the OSS Cluster API:
+
+```sh
+$ rladmin tune db <name or ID> oss_cluster disabled
+```
+
+-tab-sep-
+
+For Active-Active databases, you can use `crdb-cli` to turn off the OSS Cluster API:
+
+```sh
+$ crdb-cli crdb update --crdb-guid <CRDB-GUID> \
         --oss-cluster false
-    ```
+```
+
+{{< /multitabs >}}
 
 When you turn off OSS Cluster API support for an existing database, the change applies to new connections but does not affect existing connections. Clients must close existing connections and reconnect to apply the change.
 
