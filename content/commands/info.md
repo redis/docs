@@ -61,6 +61,7 @@ The optional parameter can be used to select a specific section of information:
 *   `keyspace`: Database-related statistics
 *   `keysizes`: Statistics on the distribution of key sizes for each data type
 *   `errorstats`: Redis error statistics
+*   `hotkeys`: Hotkeys tracking information
 
 It can also take the following values:
 
@@ -495,6 +496,12 @@ For each error type, the following line is added:
 
 If the server detects that this section was flooded with an excessive number of errors, it will be disabled, show a single `ERRORSTATS_DISABLED` error, and print the errors to the server log.
 This can be reset by `CONFIG RESETSTAT`.
+
+The **hotkeys** section provides information about hotkeys tracking. It consists of the following fields:
+
+*   `tracking_active`: Boolean flag (0 or 1) indicating whether hotkeys tracking is currently active.
+*   `used_memory`: Memory overhead in bytes of the structures used for hotkeys tracking.
+*   `cpu_time`: Time in milliseconds spent updating the hotkey tracking structures.
 
 The **sentinel** section is only available in Redis Sentinel instances. It consists of the following fields:
 
