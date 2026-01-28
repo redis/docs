@@ -50,7 +50,7 @@
 {{- $codeFenceLangs = merge $codeFenceLangs (dict "rust" "rust") -}}
 
 {{- /* Process each clients-example shortcode */ -}}
-{{- $pattern := `\{\{<\s*clients-example\s+(?:set|id)="([^"]+)"(?:\s+step="([^"]*)")?(?:\s+description="([^"]*)")?[^>]*>\s*([\s\S]*?)\s*\{\{<\s*/clients-example\s*>\}\}` -}}
+{{- $pattern := `\{\{<\s*clients-example\s+(?:set|id)="([^"]+)"(?:\s+step="([^"]*)")?(?:\s+description="([^"]*)")?(?:\s+difficulty="([^"]*)")?[^>]*>\s*([\s\S]*?)\s*\{\{<\s*/clients-example\s*>\}\}` -}}
 
 {{- $processed := $content -}}
 {{- $matches := findRE $pattern $content -}}
@@ -59,7 +59,19 @@
   {{- $exampleId := replaceRE $pattern `$1` $match -}}
   {{- $stepName := replaceRE $pattern `$2` $match -}}
   {{- $description := replaceRE $pattern `$3` $match -}}
-  {{- $cliContent := replaceRE $pattern `$4` $match -}}
+  {{- $difficulty := replaceRE $pattern `$4` $match -}}
+  {{- $cliContent := replaceRE $pattern `$5` $match -}}
+
+  {{- /* Unescape HTML entities in description */ -}}
+  {{- if $description -}}
+    {{- $description = $description | replaceRE "&#34;" "\"" -}}
+    {{- $description = $description | replaceRE "&quot;" "\"" -}}
+    {{- $description = $description | replaceRE "&lt;" "<" -}}
+    {{- $description = $description | replaceRE "&gt;" ">" -}}
+    {{- $description = $description | replaceRE "&amp;" "&" -}}
+    {{- $description = $description | replaceRE "&#39;" "'" -}}
+    {{- $description = $description | replaceRE "&apos;" "'" -}}
+  {{- end -}}
 
   {{- /* Get example data */ -}}
   {{- $exampleData := index $.Site.Data.examples $exampleId -}}
@@ -75,6 +87,73 @@
       {{- $replacement = printf "%s%s\n\n" $replacement $description -}}
     {{- end -}}
 
+    {{- /* Add difficulty level if provided */ -}}
+    {{- if $difficulty -}}
+      {{- $diffDisplay := $difficulty -}}
+      {{- if eq $difficulty "beginner" -}}
+        {{- $diffDisplay = "Beginner" -}}
+      {{- else if eq $difficulty "intermediate" -}}
+        {{- $diffDisplay = "Intermediate" -}}
+      {{- else if eq $difficulty "advanced" -}}
+        {{- $diffDisplay = "Advanced" -}}
+      {{- end -}}
+      {{- $replacement = printf "%s**Difficulty:** %s\n\n" $replacement $diffDisplay -}}
+    {{- end -}}
+
+    {{- /* Add commands information if available */ -}}
+    {{- $stepsCommands := index $exampleData "steps_commands" -}}
+    {{- if and $stepsCommands $stepName (isset $stepsCommands $stepName) -}}
+      {{- $commands := index $stepsCommands $stepName -}}
+      {{- if $commands -}}
+        {{- $replacement = printf "%s**Commands:** %s\n\n" $replacement (delimit $commands ", ") -}}
+      {{- end -}}
+    {{- end -}}
+
+    {{- /* Collect all language examples and build availability list */ -}}
+    {{- $langExamples := slice -}}
+    {{- $redisCliLang := dict -}}
+    {{- $availableLangs := slice -}}
+
+    {{- /* Add Redis CLI to availability list if we have CLI content */ -}}
+    {{- if $cliContent -}}
+      {{- $availableLangs = $availableLangs | append "Redis CLI" -}}
+    {{- end -}}
+
+    {{- /* Collect all other languages */ -}}
+    {{- range $lang, $langData := $exampleData -}}
+      {{- if ne $lang "steps_commands" -}}
+        {{- if eq $lang "redis-cli" -}}
+          {{- $redisCliLang = dict "key" $lang "data" $langData -}}
+        {{- else -}}
+          {{- $langCode := index $langData "language" -}}
+          {{- $displayName := index $keyNames $lang -}}
+          {{- if not $displayName -}}
+            {{- $displayName = index $langNames $langCode -}}
+          {{- end -}}
+          {{- if not $displayName -}}
+            {{- $displayName = $lang -}}
+          {{- end -}}
+          {{- $langExamples = $langExamples | append (dict "key" $lang "data" $langData "displayName" $displayName) -}}
+          {{- $availableLangs = $availableLangs | append $displayName -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+
+    {{- /* Sort available languages alphabetically (except Redis CLI which stays first) */ -}}
+    {{- $sortedLangs := slice -}}
+    {{- $sortedLangs = $sortedLangs | append "Redis CLI" -}}
+    {{- $otherLangs := slice -}}
+    {{- range $lang := $availableLangs -}}
+      {{- if ne $lang "Redis CLI" -}}
+        {{- $otherLangs = $otherLangs | append $lang -}}
+      {{- end -}}
+    {{- end -}}
+    {{- $otherLangs = sort $otherLangs -}}
+    {{- range $lang := $otherLangs -}}
+      {{- $sortedLangs = $sortedLangs | append $lang -}}
+    {{- end -}}
+    {{- $availableLangs = $sortedLangs -}}
+
     {{- /* Add CLI example first if provided */ -}}
     {{- if $cliContent -}}
       {{- /* Clean up the CLI content - remove leading/trailing whitespace and stray }} */ -}}
@@ -82,12 +161,27 @@
       {{- $replacement = printf "%s**Redis CLI:**\n\n```\n%s\n```\n\n" $replacement $cliContent -}}
     {{- end -}}
 
-    {{- /* Collect all language examples for sorting */ -}}
-    {{- $langExamples := slice -}}
-    {{- range $lang, $langData := $exampleData -}}
-      {{- if ne $lang "steps_commands" -}}
-        {{- $langExamples = $langExamples | append (dict "key" $lang "data" $langData) -}}
+    {{- /* Add language availability summary */ -}}
+    {{- $replacement = printf "%s**Available in:** %s\n\n" $replacement (delimit $availableLangs ", ") -}}
+
+    {{- /* Sort language examples by display name (alphabetically) */ -}}
+    {{- $sortedLangExamples := slice -}}
+    {{- range $sortedLang := $otherLangs -}}
+      {{- range $langExample := $langExamples -}}
+        {{- if eq $langExample.displayName $sortedLang -}}
+          {{- $sortedLangExamples = $sortedLangExamples | append $langExample -}}
+        {{- end -}}
       {{- end -}}
+    {{- end -}}
+    {{- $langExamples = $sortedLangExamples -}}
+
+    {{- /* Rebuild language examples with Redis CLI first */ -}}
+    {{- if $redisCliLang -}}
+      {{- $finalLangs := slice $redisCliLang -}}
+      {{- range $langExample := $langExamples -}}
+        {{- $finalLangs = $finalLangs | append $langExample -}}
+      {{- end -}}
+      {{- $langExamples = $finalLangs -}}
     {{- end -}}
 
     {{- /* Add code examples for each language */ -}}
