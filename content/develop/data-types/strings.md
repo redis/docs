@@ -17,8 +17,7 @@ weight: 10
 ---
 
 Redis strings store sequences of bytes, including text, serialized objects, and binary arrays.
-As such, strings are the simplest type of value you can associate with
-a Redis key.
+As such, strings are the simplest type of value you can associate with a Redis key.
 They're often used for caching, but they support additional functionality that lets you implement counters and perform bitwise operations, too.
 
 Since Redis keys are strings, when we use the string type as a value too,
@@ -40,7 +39,7 @@ the key is associated with a non-string value. So [`SET`]({{< relref "/commands/
 Values can be strings (including binary data) of every kind, for instance you
 can store a jpeg image inside a value. A value can't be bigger than 512 MB.
 
-The [`SET`]({{< relref "/commands/set" >}}) command has interesting options, that are provided as additional
+The [`SET`]({{< relref "/commands/set" >}}) command has interesting options that are provided as additional
 arguments. For example, I may ask [`SET`]({{< relref "/commands/set" >}}) to fail if the key already exists,
 or the opposite, that it only succeed if the key already exists:
 
