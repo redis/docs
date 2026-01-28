@@ -60,8 +60,8 @@ When creating a database, you select the database version (e.g., Redis 8.2). Red
 
 For existing databases: 
 
-- **Redis 8+**: Minor version auto-upgrades are available (with opt-out for Pro users)
-- **Redis 7 and earlier**: Auto-upgrade for minor versions is not supported; all upgrades must be done manually. See [Upgrade database version]({{< relref "/operate/rc/databases/version-management/upgrade-version" >}}) for more details.
+- **Redis 8.4+**: Minor version auto-upgrades are available (with opt-out for Pro users)
+- **Redis 8.2 and earlier**: Auto-upgrade for minor versions is not supported; all upgrades must be done manually. See [Upgrade database version]({{< relref "/operate/rc/databases/version-management/upgrade-version" >}}) for more details.
 
 ### Plan differences
 
