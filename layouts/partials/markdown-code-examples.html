@@ -123,7 +123,45 @@
     {{- if and $stepsCommands $stepName (isset $stepsCommands $stepName) -}}
       {{- $commands := index $stepsCommands $stepName -}}
       {{- if $commands -}}
-        {{- $replacement = printf "%s**Commands:** %s\n\n" $replacement (delimit $commands ", ") -}}
+        {{- $commandNames := slice -}}
+        {{- $commandsWithComplexity := slice -}}
+        {{- range $cmdName := $commands -}}
+          {{- $commandNames = $commandNames | append $cmdName -}}
+          {{- /* Try to find command in multiple data files */ -}}
+          {{- $cmdData := (index $.Site.Data.commands_core $cmdName) | default (index $.Site.Data.commands_redisearch $cmdName) | default (index $.Site.Data.commands_redisjson $cmdName) | default (index $.Site.Data.commands_redistimeseries $cmdName) | default (index $.Site.Data.commands_redisbloom $cmdName) -}}
+          {{- if $cmdData -}}
+            {{- $complexity := "" -}}
+            {{- if $cmdData.complexity -}}
+              {{- /* Extract just the O(...) part using regex */ -}}
+              {{- $complexityMatch := findRE `^O\([^)]*\)(?:\s+amortized)?` $cmdData.complexity -}}
+              {{- if $complexityMatch -}}
+                {{- $complexity = index $complexityMatch 0 -}}
+              {{- else if eq $cmdData.complexity "Depends on subcommand." -}}
+                {{- $complexity = "Depends on subcommand" -}}
+              {{- end -}}
+            {{- end -}}
+            {{- $commandsWithComplexity = $commandsWithComplexity | append (dict "name" $cmdName "complexity" $complexity) -}}
+          {{- else -}}
+            {{- $commandsWithComplexity = $commandsWithComplexity | append (dict "name" $cmdName "complexity" "") -}}
+          {{- end -}}
+        {{- end -}}
+        {{- $replacement = printf "%s**Commands:** %s\n\n" $replacement (delimit $commandNames ", ") -}}
+        {{- /* Add complexity information if available */ -}}
+        {{- $hasComplexity := false -}}
+        {{- range $cmd := $commandsWithComplexity -}}
+          {{- if $cmd.complexity -}}
+            {{- $hasComplexity = true -}}
+          {{- end -}}
+        {{- end -}}
+        {{- if $hasComplexity -}}
+          {{- $replacement = printf "%s**Complexity:**\n" $replacement -}}
+          {{- range $cmd := $commandsWithComplexity -}}
+            {{- if $cmd.complexity -}}
+              {{- $replacement = printf "%s- %s: %s\n" $replacement $cmd.name $cmd.complexity -}}
+            {{- end -}}
+          {{- end -}}
+          {{- $replacement = printf "%s\n" $replacement -}}
+        {{- end -}}
       {{- end -}}
     {{- end -}}
 
