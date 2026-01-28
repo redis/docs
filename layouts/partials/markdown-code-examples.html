@@ -50,7 +50,7 @@
 {{- $codeFenceLangs = merge $codeFenceLangs (dict "rust" "rust") -}}
 
 {{- /* Process each clients-example shortcode */ -}}
-{{- $pattern := `\{\{<\s*clients-example\s+(?:set|id)="([^"]+)"(?:\s+step="([^"]*)")?[^>]*>\s*([\s\S]*?)\s*\{\{<\s*/clients-example\s*>\}\}` -}}
+{{- $pattern := `\{\{<\s*clients-example\s+(?:set|id)="([^"]+)"(?:\s+step="([^"]*)")?(?:\s+description="([^"]*)")?[^>]*>\s*([\s\S]*?)\s*\{\{<\s*/clients-example\s*>\}\}` -}}
 
 {{- $processed := $content -}}
 {{- $matches := findRE $pattern $content -}}
@@ -58,7 +58,8 @@
 {{- range $match := $matches -}}
   {{- $exampleId := replaceRE $pattern `$1` $match -}}
   {{- $stepName := replaceRE $pattern `$2` $match -}}
-  {{- $cliContent := replaceRE $pattern `$3` $match -}}
+  {{- $description := replaceRE $pattern `$3` $match -}}
+  {{- $cliContent := replaceRE $pattern `$4` $match -}}
 
   {{- /* Get example data */ -}}
   {{- $exampleData := index $.Site.Data.examples $exampleId -}}
@@ -67,14 +68,17 @@
     {{- $replacement := "" -}}
 
     {{- /* Add section header for this example group */ -}}
-    {{- if $stepName -}}
-      {{- $replacement = printf "#### Code Examples\n\n" -}}
-    {{- else -}}
-      {{- $replacement = printf "#### Code Examples\n\n" -}}
+    {{- $replacement = printf "#### Code Examples\n\n" -}}
+
+    {{- /* Add description if provided */ -}}
+    {{- if $description -}}
+      {{- $replacement = printf "%s%s\n\n" $replacement $description -}}
     {{- end -}}
 
     {{- /* Add CLI example first if provided */ -}}
     {{- if $cliContent -}}
+      {{- /* Clean up the CLI content - remove leading/trailing whitespace and stray }} */ -}}
+      {{- $cliContent = replaceRE "^\\s*\\}\\}\\s*" "" $cliContent -}}
       {{- $replacement = printf "%s**Redis CLI:**\n\n```\n%s\n```\n\n" $replacement $cliContent -}}
     {{- end -}}
 
@@ -146,6 +150,11 @@
         {{- $codeFenceLang := index $codeFenceLangs $langCode -}}
         {{- if not $codeFenceLang -}}
           {{- $codeFenceLang = $langCode -}}
+        {{- end -}}
+
+        {{- /* Standardize Java variants to just 'java' for code fences */ -}}
+        {{- if or (eq $codeFenceLang "java-async") (eq $codeFenceLang "java-reactive") -}}
+          {{- $codeFenceLang = "java" -}}
         {{- end -}}
 
         {{- $replacement = printf "%s**%s:**\n\n```%s\n%s\n```\n\n" $replacement $displayName $codeFenceLang $displayContent -}}
