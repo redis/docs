@@ -117,6 +117,7 @@ Redis database versions have the following end-of-life dates:
 
 | Redis version | End-of-life (EOL) |
 |---------------|-------------------|
+| **Redis 8.4** | TBD |
 | **Redis 8.2** | TBD |
 | **Redis 8.0** | TBD |
 | **Redis 7.4** | December 1, 2029 |
