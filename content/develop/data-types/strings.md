@@ -26,10 +26,10 @@ we are mapping a string to another string. The string data type is useful
 for a number of use cases, like caching HTML fragments or pages.
 
 {{< clients-example set="set_tutorial" step="set_get" description="Foundational: Set and retrieve string values using SET and GET (overwrites existing values)" >}}
-    > SET bike:1 Deimos
-    OK
-    > GET bike:1
-    "Deimos"
+> SET bike:1 Deimos
+OK
+> GET bike:1
+"Deimos"
 {{< /clients-example >}}
 
 As you can see using the [`SET`]({{< relref "/commands/set" >}}) and the [`GET`]({{< relref "/commands/get" >}}) commands are the way we set
@@ -45,10 +45,10 @@ arguments. For example, I may ask [`SET`]({{< relref "/commands/set" >}}) to fai
 or the opposite, that it only succeed if the key already exists:
 
 {{< clients-example set="set_tutorial" step="setnx_xx" description="Conditional SET operations: Use NX and XX options to control key existence when you need atomic compare-and-set behavior" difficulty="intermediate" >}}
-    > set bike:1 bike nx
-    (nil)
-    > set bike:1 bike xx
-    OK
+> SET bike:1 bike NX
+(nil)
+> SET bike:1 bike XX
+OK
 {{< /clients-example >}}
 
 There are a number of other commands for operating on strings. For example
@@ -65,12 +65,12 @@ command is also useful for reduced latency. For this reason there are
 the [`MSET`]({{< relref "/commands/mset" >}}) and [`MGET`]({{< relref "/commands/mget" >}}) commands:
 
 {{< clients-example set="set_tutorial" step="mset" description="Set and retrieve multiple values using MSET and MGET when you need to reduce round trips to the server" >}}
-    > mset bike:1 "Deimos" bike:2 "Ares" bike:3 "Vanth"
-    OK
-    > mget bike:1 bike:2 bike:3
-    1) "Deimos"
-    2) "Ares"
-    3) "Vanth"
+> MSET bike:1 "Deimos" bike:2 "Ares" bike:3 "Vanth"
+OK
+> MGET bike:1 bike:2 bike:3
+1) "Deimos"
+2) "Ares"
+3) "Vanth"
 {{< /clients-example >}}
 
 When [`MGET`]({{< relref "/commands/mget" >}}) is used, Redis returns an array of values.
@@ -80,12 +80,12 @@ Even if strings are the basic values of Redis, there are interesting operations
 you can perform with them. For instance, one is atomic increment:
 
 {{< clients-example set="set_tutorial" step="incr" description="Atomic counters: Increment string values using INCR and INCRBY when you need thread-safe operations (initializes to 0 if key doesn't exist)" >}}
-    > set total_crashes 0
-    OK
-    > incr total_crashes
-    (integer) 1
-    > incrby total_crashes 10
-    (integer) 11
+> SET total_crashes 0
+OK
+> INCR total_crashes
+(integer) 1
+> INCRBY total_crashes 10
+(integer) 11
 {{< /clients-example >}}
 
 The [`INCR`]({{< relref "/commands/incr" >}}) command parses the string value as an integer,
