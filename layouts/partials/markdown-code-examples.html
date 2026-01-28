@@ -1,0 +1,161 @@
+{{- /* Render code examples with all languages for Markdown output */ -}}
+{{- /* This partial processes clients-example shortcodes and renders them as Markdown code blocks */ -}}
+{{- /* Enhanced for AI agent readability with language labels and grouping */ -}}
+
+{{- $content := .RawContent -}}
+
+{{- /* Unescape HTML entities in the raw content */ -}}
+{{- $content = $content | replaceRE "&#34;" "\"" -}}
+{{- $content = $content | replaceRE "&quot;" "\"" -}}
+{{- $content = $content | replaceRE "&lt;" "<" -}}
+{{- $content = $content | replaceRE "&gt;" ">" -}}
+{{- $content = $content | replaceRE "&amp;" "&" -}}
+{{- $content = $content | replaceRE "&#39;" "'" -}}
+
+{{- /* Language display name mapping */ -}}
+{{- $langNames := dict -}}
+{{- $langNames = merge $langNames (dict "redis-cli" "Redis CLI") -}}
+{{- $langNames = merge $langNames (dict "c#" "C#") -}}
+{{- $langNames = merge $langNames (dict "go" "Go") -}}
+{{- $langNames = merge $langNames (dict "java" "Java") -}}
+{{- $langNames = merge $langNames (dict "javascript" "JavaScript (Node.js)") -}}
+{{- $langNames = merge $langNames (dict "node.js" "JavaScript (Node.js)") -}}
+{{- $langNames = merge $langNames (dict "php" "PHP") -}}
+{{- $langNames = merge $langNames (dict "python" "Python") -}}
+{{- $langNames = merge $langNames (dict "rust" "Rust") -}}
+
+{{- /* Language key to display name mapping for special cases */ -}}
+{{- $keyNames := dict -}}
+{{- $keyNames = merge $keyNames (dict "C#-Sync" "C# (Synchronous)") -}}
+{{- $keyNames = merge $keyNames (dict "C#-Async" "C# (Asynchronous)") -}}
+{{- $keyNames = merge $keyNames (dict "Java-Sync" "Java (Synchronous - Jedis)") -}}
+{{- $keyNames = merge $keyNames (dict "Java-Async" "Java (Asynchronous - Lettuce)") -}}
+{{- $keyNames = merge $keyNames (dict "Java-Reactive" "Java (Reactive - Lettuce)") -}}
+{{- $keyNames = merge $keyNames (dict "Rust-Sync" "Rust (Synchronous)") -}}
+{{- $keyNames = merge $keyNames (dict "Rust-Async" "Rust (Asynchronous)") -}}
+{{- $keyNames = merge $keyNames (dict "Node.js" "JavaScript (Node.js)") -}}
+{{- $keyNames = merge $keyNames (dict "Python" "Python") -}}
+{{- $keyNames = merge $keyNames (dict "Go" "Go") -}}
+{{- $keyNames = merge $keyNames (dict "PHP" "PHP") -}}
+
+{{- /* Standard language code mapping for code fences */ -}}
+{{- $codeFenceLangs := dict -}}
+{{- $codeFenceLangs = merge $codeFenceLangs (dict "c#" "csharp") -}}
+{{- $codeFenceLangs = merge $codeFenceLangs (dict "go" "go") -}}
+{{- $codeFenceLangs = merge $codeFenceLangs (dict "java" "java") -}}
+{{- $codeFenceLangs = merge $codeFenceLangs (dict "node.js" "javascript") -}}
+{{- $codeFenceLangs = merge $codeFenceLangs (dict "javascript" "javascript") -}}
+{{- $codeFenceLangs = merge $codeFenceLangs (dict "php" "php") -}}
+{{- $codeFenceLangs = merge $codeFenceLangs (dict "python" "python") -}}
+{{- $codeFenceLangs = merge $codeFenceLangs (dict "rust" "rust") -}}
+
+{{- /* Process each clients-example shortcode */ -}}
+{{- $pattern := `\{\{<\s*clients-example\s+(?:set|id)="([^"]+)"(?:\s+step="([^"]*)")?[^>]*>\s*([\s\S]*?)\s*\{\{<\s*/clients-example\s*>\}\}` -}}
+
+{{- $processed := $content -}}
+{{- $matches := findRE $pattern $content -}}
+
+{{- range $match := $matches -}}
+  {{- $exampleId := replaceRE $pattern `$1` $match -}}
+  {{- $stepName := replaceRE $pattern `$2` $match -}}
+  {{- $cliContent := replaceRE $pattern `$3` $match -}}
+
+  {{- /* Get example data */ -}}
+  {{- $exampleData := index $.Site.Data.examples $exampleId -}}
+  {{- if $exampleData -}}
+    {{- /* Build replacement with all languages */ -}}
+    {{- $replacement := "" -}}
+
+    {{- /* Add section header for this example group */ -}}
+    {{- if $stepName -}}
+      {{- $replacement = printf "#### Code Examples\n\n" -}}
+    {{- else -}}
+      {{- $replacement = printf "#### Code Examples\n\n" -}}
+    {{- end -}}
+
+    {{- /* Add CLI example first if provided */ -}}
+    {{- if $cliContent -}}
+      {{- $replacement = printf "%s**Redis CLI:**\n\n```\n%s\n```\n\n" $replacement $cliContent -}}
+    {{- end -}}
+
+    {{- /* Collect all language examples for sorting */ -}}
+    {{- $langExamples := slice -}}
+    {{- range $lang, $langData := $exampleData -}}
+      {{- if ne $lang "steps_commands" -}}
+        {{- $langExamples = $langExamples | append (dict "key" $lang "data" $langData) -}}
+      {{- end -}}
+    {{- end -}}
+
+    {{- /* Add code examples for each language */ -}}
+    {{- range $langExample := $langExamples -}}
+      {{- $lang := $langExample.key -}}
+      {{- $langData := $langExample.data -}}
+      {{- $langCode := index $langData "language" -}}
+      {{- $targetPath := index $langData "target" -}}
+      {{- $namedSteps := index $langData "named_steps" -}}
+
+      {{- /* Get the line range for this step if specified */ -}}
+      {{- $lineRange := "" -}}
+      {{- if and $stepName $namedSteps (isset $namedSteps $stepName) -}}
+        {{- $lineRange = index $namedSteps $stepName -}}
+      {{- end -}}
+
+      {{- /* Read the file content */ -}}
+      {{- $fileContent := "" -}}
+      {{- if fileExists $targetPath -}}
+        {{- $fileContent = readFile $targetPath -}}
+      {{- end -}}
+
+      {{- if $fileContent -}}
+        {{- /* Extract lines if range specified */ -}}
+        {{- $displayContent := $fileContent -}}
+        {{- if $lineRange -}}
+          {{- $parts := split $lineRange "-" -}}
+          {{- if eq (len $parts) 2 -}}
+            {{- $startLine := (index $parts 0 | int) -}}
+            {{- $endLine := (index $parts 1 | int) -}}
+            {{- $lines := split $fileContent "\n" -}}
+            {{- $selectedLines := slice -}}
+            {{- range $i, $line := $lines -}}
+              {{- if and (ge (add $i 1) $startLine) (le (add $i 1) $endLine) -}}
+                {{- $selectedLines = $selectedLines | append $line -}}
+              {{- end -}}
+            {{- end -}}
+            {{- $displayContent = delimit $selectedLines "\n" -}}
+          {{- end -}}
+        {{- end -}}
+
+        {{- /* Unescape HTML entities */ -}}
+        {{- $displayContent = $displayContent | replaceRE "&#34;" "\"" -}}
+        {{- $displayContent = $displayContent | replaceRE "&quot;" "\"" -}}
+        {{- $displayContent = $displayContent | replaceRE "&lt;" "<" -}}
+        {{- $displayContent = $displayContent | replaceRE "&gt;" ">" -}}
+        {{- $displayContent = $displayContent | replaceRE "&amp;" "&" -}}
+        {{- $displayContent = $displayContent | replaceRE "&#39;" "'" -}}
+
+        {{- /* Get display name for language */ -}}
+        {{- $displayName := index $keyNames $lang -}}
+        {{- if not $displayName -}}
+          {{- $displayName = index $langNames $langCode -}}
+        {{- end -}}
+        {{- if not $displayName -}}
+          {{- $displayName = $lang -}}
+        {{- end -}}
+
+        {{- /* Get standard code fence language */ -}}
+        {{- $codeFenceLang := index $codeFenceLangs $langCode -}}
+        {{- if not $codeFenceLang -}}
+          {{- $codeFenceLang = $langCode -}}
+        {{- end -}}
+
+        {{- $replacement = printf "%s**%s:**\n\n```%s\n%s\n```\n\n" $replacement $displayName $codeFenceLang $displayContent -}}
+      {{- end -}}
+    {{- end -}}
+
+    {{- /* Replace the shortcode with the rendered examples */ -}}
+    {{- $processed = replace $processed $match $replacement 1 -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $processed -}}
+
