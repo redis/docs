@@ -27,6 +27,57 @@
     {{- $difficulty = replaceRE `.*data-difficulty="([^"]*)".*` `$1` $match -}}
   {{- end -}}
 
+  {{- /* Extract commands from examples.json if this is a step example */ -}}
+  {{- $commands := slice -}}
+  {{- $commandsWithMetadata := slice -}}
+  {{- /* Extract the codetabs ID from the data attribute */ -}}
+  {{- $codetabsId := "" -}}
+  {{- if findRE `data-codetabs-id="([^"]*)"` $match -}}
+    {{- $codetabsId = replaceRE `.*data-codetabs-id="([^"]*)".*` `$1` $match -}}
+  {{- end -}}
+  {{- /* Parse codetabs ID to extract example set and step name */ -}}
+  {{- /* Format: {example_id}-step{step_name} */ -}}
+  {{- if and $codetabsId (findRE `-step` $codetabsId) -}}
+    {{- $parts := split $codetabsId "-step" -}}
+    {{- if eq (len $parts) 2 -}}
+      {{- $exampleId := index $parts 0 -}}
+      {{- $stepName := index $parts 1 -}}
+      {{- /* Look up commands in examples.json */ -}}
+      {{- if isset $.Site.Data.examples $exampleId -}}
+        {{- $exampleData := index $.Site.Data.examples $exampleId -}}
+        {{- if isset $exampleData "steps_commands" -}}
+          {{- if isset $exampleData.steps_commands $stepName -}}
+            {{- $commands = index $exampleData.steps_commands $stepName -}}
+            {{- /* Build command objects with ACL categories and complexity */ -}}
+            {{- range $cmdName := $commands -}}
+              {{- /* Try to find command in multiple data files */ -}}
+              {{- $cmdData := (index $.Site.Data.commands_core $cmdName) | default (index $.Site.Data.commands_redisearch $cmdName) | default (index $.Site.Data.commands_redisjson $cmdName) | default (index $.Site.Data.commands_redistimeseries $cmdName) | default (index $.Site.Data.commands_redisbloom $cmdName) -}}
+              {{- $cmdObj := dict "name" $cmdName -}}
+              {{- if $cmdData -}}
+                {{- if $cmdData.acl_categories -}}
+                  {{- $cmdObj = merge $cmdObj (dict "acl_categories" $cmdData.acl_categories) -}}
+                {{- end -}}
+                {{- /* Extract Big-O complexity notation */ -}}
+                {{- if $cmdData.complexity -}}
+                  {{- $complexity := $cmdData.complexity -}}
+                  {{- /* Extract just the O(...) part using regex */ -}}
+                  {{- $complexityMatch := findRE `^O\([^)]*\)(?:\s+amortized)?` $complexity -}}
+                  {{- if $complexityMatch -}}
+                    {{- $complexityBigO := index $complexityMatch 0 -}}
+                    {{- $cmdObj = merge $cmdObj (dict "complexity" $complexityBigO) -}}
+                  {{- else if eq $complexity "Depends on subcommand." -}}
+                    {{- $cmdObj = merge $cmdObj (dict "complexity" "Depends on subcommand") -}}
+                  {{- end -}}
+                {{- end -}}
+              {{- end -}}
+              {{- $commandsWithMetadata = $commandsWithMetadata | append $cmdObj -}}
+            {{- end -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+
   {{- /* Extract the codetabs ID from the data attribute */ -}}
   {{- $codetabsId := "" -}}
   {{- if findRE `data-codetabs-id="([^"]*)"` $match -}}
@@ -68,7 +119,7 @@
     {{- end -}}
   {{- end -}}
 
-  {{- /* Create example object with the ID and optional description/difficulty/codetabsId/languages */ -}}
+  {{- /* Create example object with the ID and optional description/difficulty/codetabsId/languages/commands */ -}}
   {{- $example := dict "id" $id -}}
   {{- if $description -}}
     {{- $example = merge $example (dict "description" $description) -}}
@@ -81,6 +132,9 @@
   {{- end -}}
   {{- if gt (len $languages) 0 -}}
     {{- $example = merge $example (dict "languages" $languages) -}}
+  {{- end -}}
+  {{- if gt (len $commandsWithMetadata) 0 -}}
+    {{- $example = merge $example (dict "commands" $commandsWithMetadata) -}}
   {{- end -}}
   {{- $examples = $examples | append $example -}}
 {{- end -}}

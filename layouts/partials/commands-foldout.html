@@ -1,0 +1,69 @@
+{{/*
+  Commands foldout partial - displays commands with summaries and links
+
+  Parameters:
+  - commands: List of command names
+  - id: Unique ID for the codetabs instance
+*/}}
+
+{{ $commands := .commands }}
+{{ $id := .id }}
+
+{{ if $commands }}
+<div class="commands-foldout border-b border-slate-700 py-2">
+    <button class="commands-toggle w-full flex items-center justify-between text-left text-xs text-slate-300 hover:text-white hover:bg-slate-800 px-2 py-1 rounded transition-colors"
+            aria-expanded="false"
+            data-codetabs-id="{{ $id }}"
+            onclick="toggleCommandsFoldout(this)">
+        <span class="flex items-center gap-2 flex-1">
+            <span class="toggle-icon inline-block transition-transform duration-200">▼</span>
+            <span class="commands-label font-semibold">Commands:</span>
+            <span class="commands-list text-slate-400">{{ delimit $commands ", " }}</span>
+        </span>
+    </button>
+    <div class="commands-details hidden px-2 py-2">
+        <ul class="commands-list-detailed space-y-1">
+            {{ range $commands }}
+                {{ $cmdName := . }}
+                {{/* Try to find command in multiple data files */}}
+                {{ $cmdData := (index site.Data.commands_core $cmdName) | default (index site.Data.commands_redisearch $cmdName) | default (index site.Data.commands_redisjson $cmdName) | default (index site.Data.commands_redistimeseries $cmdName) | default (index site.Data.commands_redisbloom $cmdName) }}
+                <li class="text-xs text-slate-300 border-l border-slate-600 pl-2"
+                    {{ if $cmdData }}{{ if $cmdData.acl_categories }}data-acl-categories="{{ delimit $cmdData.acl_categories "," }}"{{ end }}{{ end }}>
+                    {{ if $cmdData }}
+                        <div class="flex flex-col">
+                            <div class="flex items-center gap-1">
+                                <a href="{{ absURL (printf "commands/%s/" (lower (replace $cmdName " " "-"))) }}"
+                                   class="font-mono text-slate-200 hover:text-white hover:underline"
+                                   style="font-family: 'Space Mono', monospace;">
+                                    {{ $cmdName }}
+                                </a>
+                                {{ if $cmdData.acl_categories }}
+                                <span class="text-slate-500">
+                                    (
+                                    {{ range $idx, $category := $cmdData.acl_categories }}
+                                        {{ if gt $idx 0 }}<span class="text-slate-500">, </span>{{ end }}
+                                        {{ $categoryId := lower (replace $category "@" "") }}
+                                        <a href="{{ absURL (printf "operate/oss_and_stack/management/security/acl/#%s" $categoryId) }}"
+                                           class="text-slate-400 hover:text-slate-300 hover:underline"
+                                           title="{{ $category }}">
+                                            {{ $category }}
+                                        </a>
+                                    {{ end }}
+                                    )
+                                </span>
+                                {{ end }}
+                            </div>
+                            {{ if $cmdData.summary }}
+                            <span class="text-slate-400">{{ $cmdData.summary }}</span>
+                            {{ end }}
+                        </div>
+                    {{ else }}
+                        <span class="font-semibold text-slate-200">{{ $cmdName }}</span>
+                    {{ end }}
+                </li>
+            {{ end }}
+        </ul>
+    </div>
+</div>
+{{ end }}
+

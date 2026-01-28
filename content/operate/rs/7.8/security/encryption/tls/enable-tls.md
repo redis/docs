@@ -18,7 +18,7 @@ You can use TLS authentication for one or more of the following types of communi
 - Communication to and from your database to other clusters for synchronization using [Active-Active]({{< relref "/operate/rs/7.8/databases/active-active/_index.md" >}})
 
 {{<note>}}
-When you enable or turn off TLS, the change applies to new connections but does not affect existing connections. Clients must close existing connections and reconnect to apply the change.
+When you enable or turn off TLS, the change applies to new connections but does not affect existing connections. You must update TLS parameters in the client's connection configuration, then clients must close existing connections and reconnect to apply the change.
 {{</note>}}
 
 ## Enable TLS for client connections {#client}
@@ -27,13 +27,15 @@ To enable TLS for client connections:
 
 1. From your database's **Security** tab, select **Edit**.
 
-1. In the **TLS - Transport Layer Security for secure connections** section, make sure the checkbox is selected.
+1. Expand the **TLS - Transport Layer Security for secure connections** section, then select **On**.
 
 1. In the **Apply TLS for** section, select **Clients and databases + Between databases**.
 
 1. Select **Save**.
 
-To enable mutual TLS for client connections:
+### Enable mutual TLS
+
+Optionally, you can enable mutual TLS for client connections:
 
 1. Select **Mutual TLS (Client authentication)**.
 
@@ -74,11 +76,34 @@ To enable mutual TLS for client connections:
 
 1. Select **Save**.
 
-By default, Redis Enterprise Software validates client certificate expiration dates.  You can use `rladmin` to turn off this behavior.
+### Validate client certificate expiration
+
+By default, Redis Enterprise Software validates client certificate expiration dates.  You can use [`rladmin tune db`]({{<relref "/operate/rs/7.8/references/cli-utilities/rladmin/tune#tune-db">}}) to turn off this behavior.
 
 ```sh
-rladmin tune db < db:id | name > mtls_allow_outdated_certs enabled
+rladmin tune db < db:id | name > mtls_allow_outdated_certs { enabled | disabled }
 ```
+
+### Connect over TLS
+
+To connect to a Redis Enterprise Software database over TLS using [`redis-cli`]({{<relref "/operate/rs/7.8/references/cli-utilities/redis-cli">}}):
+
+1. Download or copy the server (or proxy) certificate from the Cluster Manager UI (**Cluster > Security > Certificates > Server authentication**) or from a cluster node (`/etc/opt/redislabs/proxy_cert.pem`).
+
+1. Copy the certificate to each client machine.
+
+1. If your database doesn't require client authentication with mutual TLS, provide the server certificate when you connect:
+
+    ```sh
+    redis-cli -h <endpoint> -p <port> --tls --cacert proxy_cert.pem
+    ```
+
+1. If your database requires client authentication with mutual TLS, provide your client's private and public keys along with the Redis Enterprise Software server certificate when you connect:
+
+    ```sh
+    redis-cli -h <endpoint> -p <port> --tls --cacert proxy_cert.pem \
+        --cert redis_user.crt --key redis_user_private.key
+    ```
 
 ## Enable TLS for Active-Active cluster connections
 
