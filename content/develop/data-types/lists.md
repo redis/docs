@@ -47,7 +47,7 @@ See the [complete series of list commands]({{< relref "/commands/" >}}?group=lis
 ## Examples
 
 * Treat a list like a queue (first in, first out):
-{{< clients-example set="list_tutorial" step="queue" description="Queue pattern: Use LPUSH to add items and RPOP to remove them in FIFO order when you need to process items in the order they were added" difficulty="beginner" >}}
+{{< clients-example set="list_tutorial" step="queue" description="Queue pattern: Use LPUSH to add items and RPOP to remove them in FIFO order when you need to process items in the order they were added" difficulty="beginner" buildsUpon="lpush_rpush, lpop_rpop" >}}
 > LPUSH bikes:repairs bike:1
 (integer) 1
 > LPUSH bikes:repairs bike:2
@@ -59,7 +59,7 @@ See the [complete series of list commands]({{< relref "/commands/" >}}?group=lis
 {{< /clients-example >}}
 
 * Treat a list like a stack (first in, last out):
-{{< clients-example set="list_tutorial" step="stack" description="Stack pattern: Use LPUSH to add items and LPOP to remove them in LIFO order when you need to process items in reverse order" difficulty="beginner" >}}
+{{< clients-example set="list_tutorial" step="stack" description="Stack pattern: Use LPUSH to add items and LPOP to remove them in LIFO order when you need to process items in reverse order" difficulty="beginner" buildsUpon="lpush_rpush" >}}
 > LPUSH bikes:repairs bike:1
 (integer) 1
 > LPUSH bikes:repairs bike:2
@@ -77,7 +77,7 @@ See the [complete series of list commands]({{< relref "/commands/" >}}?group=lis
 {{< /clients-example >}}
 
 * Atomically pop an element from one list and push to another:
-{{< clients-example set="list_tutorial" step="lmove_lrange" description="Atomic transfer: Use LMOVE to move elements between lists in a single operation when you need to transfer items without race conditions" difficulty="intermediate" >}}
+{{< clients-example set="list_tutorial" step="lmove_lrange" description="Atomic transfer: Use LMOVE to move elements between lists in a single operation when you need to transfer items without race conditions" difficulty="intermediate" buildsUpon="lpush_rpush, lpop_rpop" >}}
 > LPUSH bikes:repairs bike:1
 (integer) 1
 > LPUSH bikes:repairs bike:2
