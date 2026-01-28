@@ -25,7 +25,7 @@ Since Redis keys are strings, when we use the string type as a value too,
 we are mapping a string to another string. The string data type is useful
 for a number of use cases, like caching HTML fragments or pages.
 
-{{< clients-example set="set_tutorial" step="set_get" description="Foundational: Set and retrieve string values using SET and GET (overwrites existing values)" >}}
+{{< clients-example set="set_tutorial" step="set_get" description="Foundational: Set and retrieve string values using SET and GET (overwrites existing values)" difficulty="beginner" >}}
 > SET bike:1 Deimos
 OK
 > GET bike:1
@@ -64,7 +64,7 @@ The ability to set or retrieve the value of multiple keys in a single
 command is also useful for reduced latency. For this reason there are
 the [`MSET`]({{< relref "/commands/mset" >}}) and [`MGET`]({{< relref "/commands/mget" >}}) commands:
 
-{{< clients-example set="set_tutorial" step="mset" description="Set and retrieve multiple values using MSET and MGET when you need to reduce round trips to the server" >}}
+{{< clients-example set="set_tutorial" step="mset" description="Set and retrieve multiple values using MSET and MGET when you need to reduce round trips to the server" difficulty="beginner" >}}
 > MSET bike:1 "Deimos" bike:2 "Ares" bike:3 "Vanth"
 OK
 > MGET bike:1 bike:2 bike:3
@@ -79,7 +79,7 @@ When [`MGET`]({{< relref "/commands/mget" >}}) is used, Redis returns an array o
 Even if strings are the basic values of Redis, there are interesting operations
 you can perform with them. For instance, one is atomic increment:
 
-{{< clients-example set="set_tutorial" step="incr" description="Atomic counters: Increment string values using INCR and INCRBY when you need thread-safe operations (initializes to 0 if key doesn't exist)" >}}
+{{< clients-example set="set_tutorial" step="incr" description="Atomic counters: Increment string values using INCR and INCRBY when you need thread-safe operations (initializes to 0 if key doesn't exist)" difficulty="beginner" >}}
 > SET total_crashes 0
 OK
 > INCR total_crashes
