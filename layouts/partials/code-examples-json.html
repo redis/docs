@@ -27,6 +27,19 @@
     {{- $difficulty = replaceRE `.*data-difficulty="([^"]*)".*` `$1` $match -}}
   {{- end -}}
 
+  {{- /* Extract the buildsUpon if it exists and convert to array */ -}}
+  {{- $buildsUpon := slice -}}
+  {{- if findRE `data-builds-upon="([^"]*)"` $match -}}
+    {{- $buildsUponStr := replaceRE `.*data-builds-upon="([^"]*)".*` `$1` $match -}}
+    {{- $parts := split $buildsUponStr "," -}}
+    {{- range $part := $parts -}}
+      {{- $trimmed := trim $part " " -}}
+      {{- if $trimmed -}}
+        {{- $buildsUpon = $buildsUpon | append $trimmed -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+
   {{- /* Extract commands from examples.json if this is a step example */ -}}
   {{- $commands := slice -}}
   {{- $commandsWithMetadata := slice -}}
@@ -126,6 +139,9 @@
   {{- end -}}
   {{- if $difficulty -}}
     {{- $example = merge $example (dict "difficulty" $difficulty) -}}
+  {{- end -}}
+  {{- if gt (len $buildsUpon) 0 -}}
+    {{- $example = merge $example (dict "buildsUpon" $buildsUpon) -}}
   {{- end -}}
   {{- if $codetabsId -}}
     {{- $example = merge $example (dict "codetabsId" $codetabsId) -}}

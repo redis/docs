@@ -10,6 +10,20 @@
 {{ $cliFooterLinkUrl := .Scratch.Get "cli_footer_link_url" }}
 {{ $showFooter := .Scratch.Get "show_footer" | default true }}
 
+{{/* Parse buildsUpon parameter into an array */}}
+{{ $buildsUponStr := .Scratch.Get "buildsUpon" }}
+{{ $buildsUpon := slice }}
+{{ if $buildsUponStr }}
+  {{/* Split by comma and trim whitespace from each element */}}
+  {{ $parts := split $buildsUponStr "," }}
+  {{ range $part := $parts }}
+    {{ $trimmed := trim $part " " }}
+    {{ if $trimmed }}
+      {{ $buildsUpon = $buildsUpon | append $trimmed }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
 {{/* Extract commands for this step from examples.json */}}
 {{ $commands := slice }}
 {{ if isset $.Site.Data.examples $id }}
@@ -98,4 +112,7 @@
 {{ end }}
 
 {{ $params := dict "id" (printf "%s-step%s" $id $step) "tabs" $tabs "showFooter" $showFooter "exampleId" $step "description" $description "difficulty" $difficulty }}
+{{ if gt (len $buildsUpon) 0 }}
+  {{ $params = merge $params (dict "buildsUpon" $buildsUpon) }}
+{{ end }}
 {{ partial "tabs/wrapper.html" $params }}
