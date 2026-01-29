@@ -12,6 +12,7 @@
   - dft_tab_link_title: Custom first tab footer link title (optional)
   - dft_tab_url: Custom first tab footer link URL (optional)
   - show_footer: Show footer (optional, default: true)
+  - buildsUpon: Comma-separated list of step IDs this example builds upon (optional)
 
   Positional parameters (for backward compatibility):
   - 0: example set name
@@ -42,6 +43,7 @@
   {{ .Scratch.Set "cli_tab_name" (.Get "dft_tab_name") }}
   {{ .Scratch.Set "cli_footer_link_text" (.Get "dft_tab_link_title") }}
   {{ .Scratch.Set "cli_footer_link_url" (.Get "dft_tab_url") }}
+  {{ .Scratch.Set "buildsUpon" (.Get "buildsUpon") }}
   {{ if eq (.Get "footer") "hide" }}
     {{ .Scratch.Set "show_footer" false }}
   {{ end }}
@@ -56,6 +58,7 @@
   {{ .Scratch.Set "cli_tab_name" (.Get 4) }}
   {{ .Scratch.Set "cli_footer_link_text" (.Get 5) }}
   {{ .Scratch.Set "cli_footer_link_url" (.Get 6) }}
+  {{ .Scratch.Set "buildsUpon" "" }}
 {{ end }}
 
 {{ .Scratch.Set "redisCommands" .Inner }}
