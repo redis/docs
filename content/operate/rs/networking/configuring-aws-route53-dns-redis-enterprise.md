@@ -9,7 +9,7 @@ description: How to configure AWS Route 53 DNS
 linkTitle: AWS Route 53 DNS
 weight: $weight
 ---
-Redis Enterprise Software uses DNS to achieve high availability and fail-over regardless of where it is installed.
+Redis Software uses DNS to achieve high availability and fail-over regardless of where it is installed.
 
 
 ## What is AWS Route 53?

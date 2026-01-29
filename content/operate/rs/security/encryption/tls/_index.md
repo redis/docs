@@ -10,7 +10,7 @@ hideListLinks: true
 linkTitle: TLS
 weight: 10
 ---
-[Transport Layer Security (TLS)](https://en.wikipedia.org/wiki/Transport_Layer_Security), a successor to SSL, ensures the privacy of data sent between applications and Redis databases. TLS also secures connections between Redis Enterprise Software nodes.
+[Transport Layer Security (TLS)](https://en.wikipedia.org/wiki/Transport_Layer_Security), a successor to SSL, ensures the privacy of data sent between applications and Redis databases. TLS also secures connections between Redis Software nodes.
 
 You can [use TLS authentication]({{< relref "/operate/rs/security/encryption/tls/enable-tls" >}}) for the following types of communication:
 

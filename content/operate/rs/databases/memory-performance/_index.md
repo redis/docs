@@ -11,7 +11,7 @@ hideListLinks: true
 linktitle: Memory and performance
 weight: 70
 ---
-Redis Enterprise Software has multiple mechanisms in its
+Redis Software has multiple mechanisms in its
 architecture to help optimize storage and performance.
 
 ## Memory limits
@@ -34,17 +34,17 @@ For more information, see [eviction policies]({{< relref "/operate/rs/databases/
 
 Both RAM memory and flash memory are at risk of data loss if a server or process fails. Persisting your data to disk helps protect it against loss in those situations. You can configure persistence at the time of database creation, or by editing the database’s configuration.
 
-There are two main types of persistence strategies in Redis Enterprise Software: append-only files (AoF) and snapshots.
+There are two main types of persistence strategies in Redis Software: append-only files (AoF) and snapshots.
 
 Append-only files (AoF) keep a record of data changes and writes each change to the end of a file, allowing you to recover the dataset by replaying the writes in the append-only log.
 
 Snapshots capture all the data as it exists in one moment in time and writes it to disk, allowing you to recover the entire dataset as it existed at that moment in time.
 
-For more info on data persistence see [Database persistence with Redis Enterprise Software]({{< relref "/operate/rs/databases/configure/database-persistence.md" >}}) or [Durable Redis](https://redis.com/redis-enterprise/technology/durable-redis/).
+For more info on data persistence see [Database persistence with Redis Software]({{< relref "/operate/rs/databases/configure/database-persistence.md" >}}) or [Durable Redis](https://redis.com/redis-enterprise/technology/durable-redis/).
 
 ## Auto Tiering 
 
-By default, Redis Enterprise Software stores your data entirely in [RAM](https://en.wikipedia.org/wiki/Random-access_memory) for improved performance. [Redis Flex and Auto Tiering]({{< relref "/operate/rs/databases/flash/" >}}) enable your data to span both RAM and [SSD](https://en.wikipedia.org/wiki/Solid-state_drive) storage ([flash memory](https://en.wikipedia.org/wiki/Flash_memory)). Redis Flex tiers both keys and values to flash storage, ensuring that warm (infrequently accessed) data does not consume RAM. Auto Tiering stores keys in RAM but manages the location of their values. Frequently used (hot) data is stored in RAM, but infrequently used (warm) data is moved to flash memory. This saves on expensive RAM space, which gives you comparable performance at a lower cost for large datasets.
+By default, Redis Software stores your data entirely in [RAM](https://en.wikipedia.org/wiki/Random-access_memory) for improved performance. [Redis Flex and Auto Tiering]({{< relref "/operate/rs/databases/flash/" >}}) enable your data to span both RAM and [SSD](https://en.wikipedia.org/wiki/Solid-state_drive) storage ([flash memory](https://en.wikipedia.org/wiki/Flash_memory)). Redis Flex tiers both keys and values to flash storage, ensuring that warm (infrequently accessed) data does not consume RAM. Auto Tiering stores keys in RAM but manages the location of their values. Frequently used (hot) data is stored in RAM, but infrequently used (warm) data is moved to flash memory. This saves on expensive RAM space, which gives you comparable performance at a lower cost for large datasets.
 
 For more info, see [Redis Flex and Auto Tiering]({{< relref "/operate/rs/databases/flash/" >}}).
 
@@ -54,7 +54,7 @@ The location of the primary and replica shards on the cluster nodes can impact y
 Primary shards and their corresponding replica shards are always placed on separate nodes for data resiliency and high availability.
 The shard placement policy helps to maintain optimal performance and resiliency.
 
-Redis Enterprise Software has two shard placement policies available:
+Redis Software has two shard placement policies available:
 
 - **dense**: puts as many shards as possible on the smallest number of nodes
 - **sparse**: spread the shards across as many nodes as possible
@@ -63,11 +63,11 @@ For more info about the shard placement policy, see [Shard placement policy]({{<
 
 ## Metrics
 
-From the Redis Enterprise Software Cluster Manager UI, you can monitor the performance of your clusters, nodes, databases, and shards with real-time metrics. You can also enable alerts for node, cluster, or database events such as high memory usage or throughput.
+From the Redis Software Cluster Manager UI, you can monitor the performance of your clusters, nodes, databases, and shards with real-time metrics. You can also enable alerts for node, cluster, or database events such as high memory usage or throughput.
 
-With the Redis Enterprise Software API, you can also integrate Redis Enterprise metrics into other monitoring environments, such as Prometheus.
+With the Redis Software API, you can also integrate Redis Enterprise metrics into other monitoring environments, such as Prometheus.
 
-For more info about monitoring with Redis Enterprise Software, see [Monitoring with metrics and alerts]({{< relref "/operate/rs/monitoring" >}}), and [Memory statistics]({{< relref "/operate/rs/databases/memory-performance/memory-limit#memory-metrics" >}}).
+For more info about monitoring with Redis Software, see [Monitoring with metrics and alerts]({{< relref "/operate/rs/monitoring" >}}), and [Memory statistics]({{< relref "/operate/rs/databases/memory-performance/memory-limit#memory-metrics" >}}).
 
 ## Scaling databases
 

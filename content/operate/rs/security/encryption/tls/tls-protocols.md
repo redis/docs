@@ -23,12 +23,12 @@ The communications for which you can modify TLS protocols are:
 You can configure TLS protocols with the [Cluster Manager UI](#edit-tls-ui), [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/config" >}}), or the [REST API]({{< relref "/operate/rs/references/rest-api/requests/cluster#put-cluster" >}}).
 
 {{<warning>}}
-- After you set the minimum TLS version, Redis Enterprise Software does not accept communications with TLS versions older than the specified version.
+- After you set the minimum TLS version, Redis Software does not accept communications with TLS versions older than the specified version.
 
 - If you set TLS 1.3 as the minimum TLS version, clients must support TLS 1.3 to connect to Redis Enterprise.
 {{</warning>}}
 
-TLS support depends on the operating system. You cannot enable support for protocols or versions that aren't supported by the operating system running Redis Enterprise Software.  In addition, updates to the operating system or to Redis Enterprise Software can impact protocol and version support.  
+TLS support depends on the operating system. You cannot enable support for protocols or versions that aren't supported by the operating system running Redis Software.  In addition, updates to the operating system or to Redis Software can impact protocol and version support.  
 
 If you have trouble enabling specific versions of TLS, verify that they're supported by your operating system and that they're configured correctly.
 

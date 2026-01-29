@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Documents the permissions used with Redis Enterprise Software REST API
+description: Documents the permissions used with Redis Software REST API
   calls.
 linkTitle: Permissions
 weight: 60

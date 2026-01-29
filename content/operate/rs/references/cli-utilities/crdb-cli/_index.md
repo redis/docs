@@ -12,7 +12,7 @@ weight: $weight
 ---
 
 An [Active-Active database]({{< relref "/operate/rs/databases/active-active/_index.md" >}}) (also known as CRDB or conflict-free replicated database)
-replicates your data across Redis Enterprise Software clusters located in geographically distributed regions.
+replicates your data across Redis Software clusters located in geographically distributed regions.
 Active-Active databases allow read-write access in all locations, making them ideal for distributed applications that require fast response times and disaster recovery.
 
 The Active-Active database on an individual cluster is called an **instance**.
@@ -30,7 +30,7 @@ To programmatically maintain an Active-Active database and its instances, you ca
 
 ## Use the crdb-cli
 
-To use the `crdb-cli` tool, use SSH to sign in to a Redis Enterprise host with a user that belongs to the group that Redis Enterprise Software was installed with (Default: **redislabs**).
+To use the `crdb-cli` tool, use SSH to sign in to a Redis Enterprise host with a user that belongs to the group that Redis Software was installed with (Default: **redislabs**).
 If you sign in with a non-root user, you must add `/opt/redislabs/bin/` to your `PATH` environment variables.
 
 `crdb-cli` commands use the syntax: `crdb-cli <command> <arguments>` to let you:

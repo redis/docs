@@ -5,13 +5,13 @@ categories:
 - docs
 - operate
 - rs
-description: An overview of access control in Redis Enterprise Software.
+description: An overview of access control in Redis Software.
 hideListLinks: false
 linkTitle: Access control
 weight: 10
 ---
 
-Redis Enterprise Software lets you use role-based access control (RBAC) to manage users' access privileges. RBAC requires you to do the following:
+Redis Software lets you use role-based access control (RBAC) to manage users' access privileges. RBAC requires you to do the following:
 
 1. Create roles and define each role's access privileges.
 

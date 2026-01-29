@@ -1,22 +1,22 @@
 ---
-Title: Install Redis Enterprise Software on Linux
+Title: Install Redis Software on Linux
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
-description: Install Redis Enterprise Software on Linux.
+description: Install Redis Software on Linux.
 linkTitle: Install on Linux
 weight: 10
 ---
 
-After you [download a Redis Enterprise Software installation package]({{< relref "/operate/rs/installing-upgrading/install/prepare-install/download-install-package" >}}), install it on one of the nodes in the cluster.
+After you [download a Redis Software installation package]({{< relref "/operate/rs/installing-upgrading/install/prepare-install/download-install-package" >}}), install it on one of the nodes in the cluster.
 
 For installation on machines without an internet connection, see [Offline installation]({{< relref "/operate/rs/installing-upgrading/install/offline-installation" >}}).
 
 ## Install on Linux
 
-To install Redis Enterprise Software, use the command line:
+To install Redis Software, use the command line:
 
 1. Copy the installation package to the node.
 
@@ -57,7 +57,7 @@ To install Redis Enterprise Software, use the command line:
 
     **For custom installation directories:**
 
-    If you need to specify custom storage paths for persistent or ephemeral storage during cluster setup, you must install Redis Enterprise Software to custom directories.
+    If you need to specify custom storage paths for persistent or ephemeral storage during cluster setup, you must install Redis Software to custom directories.
 
     ```sh
     sudo ./install.sh --install-dir <path> --config-dir <path> --var-dir <path>
@@ -66,8 +66,8 @@ To install Redis Enterprise Software, use the command line:
     For detailed information about custom installations, see [Customize installation directories]({{< relref "/operate/rs/installing-upgrading/install/customize-install-directories" >}}).
 
     {{< note >}}
-- The Redis Enterprise Software files are installed in the default [file locations]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/file-locations.md" >}}) unless you specify custom directories.
-- By default, Redis Enterprise Software runs on the OS as the `redislabs` user and `redislabs` group. If needed, you can [specify a different user and group]({{< relref "/operate/rs/installing-upgrading/install/customize-user-and-group.md" >}}) during the installation.
+- The Redis Software files are installed in the default [file locations]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/file-locations.md" >}}) unless you specify custom directories.
+- By default, Redis Software runs on the OS as the `redislabs` user and `redislabs` group. If needed, you can [specify a different user and group]({{< relref "/operate/rs/installing-upgrading/install/customize-user-and-group.md" >}}) during the installation.
 - You must either be the root user or use `sudo` to run the installation script.
     {{< /note >}}
 
@@ -100,7 +100,7 @@ To skip the installation questions, use one of the following methods:
 
 If you want to use Redis Flex or Auto Tiering for your databases, review the prerequisites, storage requirements, and [other considerations]({{< relref "/operate/rs/databases/flash/" >}}) and prepare and format the flash memory.
 
-After you install Redis Enterprise Software, use the `prepare_flash` script to prepare and format flash memory:
+After you install Redis Software, use the `prepare_flash` script to prepare and format flash memory:
 
 ```sh
 sudo /opt/redislabs/sbin/prepare_flash.sh
@@ -128,18 +128,18 @@ To learn more about customization and find answers to related questions, see:
 
 ## Limitations
 
-Several Redis Enterprise Software installation reference files are installed to the directory `/etc/opt/redislabs/` even if you use [custom installation directories]({{< relref "/operate/rs/installing-upgrading/install/customize-install-directories" >}}).
+Several Redis Software installation reference files are installed to the directory `/etc/opt/redislabs/` even if you use [custom installation directories]({{< relref "/operate/rs/installing-upgrading/install/customize-install-directories" >}}).
 
-As a workaround to install Redis Enterprise Software without using any root directories, do the following before installing Redis Enterprise Software:
+As a workaround to install Redis Software without using any root directories, do the following before installing Redis Software:
 
-1. Create all custom, non-root directories you want to use with Redis Enterprise Software.
+1. Create all custom, non-root directories you want to use with Redis Software.
 
 1. Mount `/etc/opt/redislabs` to one of the custom, non-root directories.
 
 ## Next steps
 
 1. [Create]({{< relref "/operate/rs/clusters/new-cluster-setup.md" >}})
-    or [join]({{< relref "/operate/rs/clusters/add-node.md" >}}) an existing Redis Enterprise Software cluster.
+    or [join]({{< relref "/operate/rs/clusters/add-node.md" >}}) an existing Redis Software cluster.
 
 1. [Create a database]({{< relref "/operate/rs/databases/create" >}}).
 

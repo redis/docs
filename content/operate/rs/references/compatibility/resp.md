@@ -26,7 +26,7 @@ Redis Enterprise versions that support RESP3 continue to support RESP2.
 
 ## Enable RESP3 for a database {#enable-resp3}
 
-To use RESP3 with a Redis Enterprise Software database:
+To use RESP3 with a Redis Software database:
 
 1. Upgrade Redis servers to version 7.2 or later.
 

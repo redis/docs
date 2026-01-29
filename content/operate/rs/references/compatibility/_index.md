@@ -12,13 +12,13 @@ linkTitle: Redis Open Source compatibility
 weight: $weight
 tocEmbedHeaders: true
 ---
-Both Redis Enterprise Software and [Redis Cloud]({{< relref "/operate/rc" >}}) are compatible with Redis Open Source. 
+Both Redis Software and [Redis Cloud]({{< relref "/operate/rc" >}}) are compatible with Redis Open Source. 
 
 {{< embed-md "rc-rs-oss-compatibility.md"  >}}
 
 ## RESP compatibility
 
-Redis Enterprise Software and Redis Cloud support RESP2 and RESP3. See [RESP compatibility with Redis Enterprise]({{< relref "/operate/rs/references/compatibility/resp" >}}) for more information.
+Redis Software and Redis Cloud support RESP2 and RESP3. See [RESP compatibility with Redis Enterprise]({{< relref "/operate/rs/references/compatibility/resp" >}}) for more information.
 
 ## Client-side caching compatibility
 

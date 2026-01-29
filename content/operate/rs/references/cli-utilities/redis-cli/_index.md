@@ -19,15 +19,15 @@ If you want to run Redis commands without `redis-cli`, you can [connect to a dat
 
 ## Install `redis-cli`
 
-When you install Redis Enterprise Software or Redis Open Source, it also installs the `redis-cli` command-line utility.
+When you install Redis Software or Redis Open Source, it also installs the `redis-cli` command-line utility.
 
 To learn how to install Redis and `redis-cli`, see the following installation guides:
 
 - [Redis Open Source]({{< relref "/operate/oss_and_stack/install/install-stack/" >}})
 
-- [Redis Enterprise Software]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}})
+- [Redis Software]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}})
 
-- [Redis Enterprise Software with Docker]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}})
+- [Redis Software with Docker]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}})
 
 ## Connect to a database
 
@@ -52,13 +52,13 @@ $ redis-cli -h <endpoint> -p <port>
 
 ### Connect over TLS
 
-To connect to a Redis Enterprise Software or Redis Cloud database over TLS:
+To connect to a Redis Software or Redis Cloud database over TLS:
 
 1. Download or copy the Redis Enterprise server (or proxy) certificates.
 
     - For Redis Cloud, see [Download certificates]({{< relref "/operate/rc/security/database-security/tls-ssl#download-certificates" >}}) for detailed instructions on how to download the server certificates (`redis_ca.pem`) from the [Redis Cloud console](https://cloud.redis.io/).
 
-    - For Redis Enterprise Software, copy the proxy certificate from the Cluster Manager UI (**Cluster > Security > Certificates > Server authentication**) or from a cluster node (`/etc/opt/redislabs/proxy_cert.pem`).
+    - For Redis Software, copy the proxy certificate from the Cluster Manager UI (**Cluster > Security > Certificates > Server authentication**) or from a cluster node (`/etc/opt/redislabs/proxy_cert.pem`).
 
 1. Copy the certificate to each client machine.
 

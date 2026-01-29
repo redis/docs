@@ -5,13 +5,13 @@ categories:
 - docs
 - operate
 - rs
-description: Reference for Redis Enterprise Software command-line utilities, including rladmin, redis-cli, crdb-cli, and rlcheck.
+description: Reference for Redis Software command-line utilities, including rladmin, redis-cli, crdb-cli, and rlcheck.
 hideListLinks: true
 linkTitle: Command-line utilities
 weight: $weight
 ---
 
-Redis Enterprise Software includes a set of utilities to help you manage and test your cluster. To use a utility, run it from the command line.
+Redis Software includes a set of utilities to help you manage and test your cluster. To use a utility, run it from the command line.
 
 ## Public utilities
 
@@ -21,7 +21,7 @@ Administrators can use these CLI tools to manage and test a Redis Enterprise clu
 
 ## Internal utilities
 
-The `/opt/redislabs/bin/` directory also contains utilities used internally by Redis Enterprise Software and for troubleshooting.
+The `/opt/redislabs/bin/` directory also contains utilities used internally by Redis Software and for troubleshooting.
 
 {{<warning>}}
 Do not use these tools for normal operations.

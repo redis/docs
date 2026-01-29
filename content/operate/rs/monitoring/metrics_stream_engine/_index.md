@@ -6,14 +6,14 @@ categories:
 - operate
 - rs
 - kubernetes
-description: The new metrics engine for monitoring Redis Enterprise Software.
+description: The new metrics engine for monitoring Redis Software.
 hideListLinks: true
 linkTitle: Monitoring v2
 weight: 60
 tocEmbedHeaders: true
 ---
 
-The new metrics stream engine is generally available as of [Redis Enterprise Software version 8.0]({{<relref "/operate/rs/release-notes/rs-8-0-releases">}}).
+The new metrics stream engine is generally available as of [Redis Software version 8.0]({{<relref "/operate/rs/release-notes/rs-8-0-releases">}}).
 
 The new metrics stream engine:
 

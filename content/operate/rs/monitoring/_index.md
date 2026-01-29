@@ -6,14 +6,14 @@ categories:
 - operate
 - rs
 - kubernetes
-description: Use the metrics that measure the performance of your Redis Enterprise Software clusters, nodes, databases, and shards to track the performance of your databases.
+description: Use the metrics that measure the performance of your Redis Software clusters, nodes, databases, and shards to track the performance of your databases.
 hideListLinks: true
 linkTitle: Monitoring
 weight: 70
 aliases: [/operate/rs/clusters/monitoring/, /operate/rs/7.4/clusters/monitoring/]
 ---
 
-You can use the metrics that measure the performance of your Redis Enterprise Software clusters, nodes, databases, and shards
+You can use the metrics that measure the performance of your Redis Software clusters, nodes, databases, and shards
 to monitor the performance of your databases.
 
 ## View metrics and configure alerts
@@ -24,7 +24,7 @@ See [Metrics and alerts for monitoring v1]({{<relref "/operate/rs/monitoring/v1_
 
 ## Metrics stream engine
 
-The new metrics stream engine is generally available as of [Redis Enterprise Software version 8.0]({{<relref "/operate/rs/release-notes/rs-8-0-releases">}}) This new engine exposes the v2 Prometheus scraping endpoint at `https://<IP>:8070/v2`, exports all time-series metrics to external monitoring tools, and enables real-time monitoring.
+The new metrics stream engine is generally available as of [Redis Software version 8.0]({{<relref "/operate/rs/release-notes/rs-8-0-releases">}}) This new engine exposes the v2 Prometheus scraping endpoint at `https://<IP>:8070/v2`, exports all time-series metrics to external monitoring tools, and enables real-time monitoring.
 
 See [Metrics stream engine for monitoring v2]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}) for more information.
 

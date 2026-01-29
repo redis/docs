@@ -87,7 +87,7 @@ To remove a node using the Cluster Manager UI:
 
 1. Click **Remove**.
 
-    Redis Enterprise Software examines the node and the cluster, then takes the actions required to remove the node, such as migrating shards to other nodes. After the process finishes, the node is no longer shown in the UI.
+    Redis Software examines the node and the cluster, then takes the actions required to remove the node, such as migrating shards to other nodes. After the process finishes, the node is no longer shown in the UI.
 
     {{<note>}}
 At any point, you can click the **Cancel removal** button to stop the process. When cancelled, the current internal action is completed, and then the process stops.

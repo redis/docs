@@ -50,9 +50,9 @@ To export data from a database using the Cluster Manager UI:
 
 Data can be exported to a local mount point, transferred to [a URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier) using FTP/SFTP, or stored on cloud provider storage.
 
-When saved to a local mount point or a cloud provider, export locations need to be available to [the group and user]({{< relref "/operate/rs/installing-upgrading/install/customize-user-and-group.md" >}}) running Redis Enterprise Software, `redislabs:redislabs` by default.  
+When saved to a local mount point or a cloud provider, export locations need to be available to [the group and user]({{< relref "/operate/rs/installing-upgrading/install/customize-user-and-group.md" >}}) running Redis Software, `redislabs:redislabs` by default.  
 
-Redis Enterprise Software needs the ability to view permissions and update objects in the storage location. Implementation details vary according to the provider and your configuration. To learn more, consult the provider's documentation.
+Redis Software needs the ability to view permissions and update objects in the storage location. Implementation details vary according to the provider and your configuration. To learn more, consult the provider's documentation.
 
 The following sections provide general guidelines.  Because provider features change frequently, use your provider's documentation for the latest info.
 
@@ -150,7 +150,7 @@ To export data to an [Amazon Web Services](https://aws.amazon.com/) (AWS) Simple
 
 1. [Create an access key](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey) for that user if you do not already have one.
 
-1. In the Redis Enterprise Software Cluster Manager UI, when you enter the export location details:
+1. In the Redis Software Cluster Manager UI, when you enter the export location details:
 
     - Select **AWS S3**.
 
@@ -196,7 +196,7 @@ To export to a [Google Cloud](https://developers.google.com/console/) storage bu
 
     - Select "Storage Legacy Bucket Writer" from the **Role** list.
 
-1. In the Redis Enterprise Software Cluster Manager UI, when you enter the export location details:
+1. In the Redis Software Cluster Manager UI, when you enter the export location details:
 
     - Select **Google Cloud Storage**.
 
@@ -222,7 +222,7 @@ To export to Microsoft Azure Blob Storage, sign in to the Azure portal and then:
 
 1. [Manage storage account access keys](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage) to find the storage account name and account keys.
 
-1. In the Redis Enterprise Software Cluster Manager UI, when you enter the export location details:
+1. In the Redis Software Cluster Manager UI, when you enter the export location details:
 
     - Select **Azure Blob Storage**.
 

@@ -21,7 +21,7 @@ all write commands are synchronized from the sources to the destination.
 Replica Of lets you distribute the read load of your application across multiple databases or
 synchronize the database, either within Redis Enterprise or external to Redis Enterprise, to another database.
 
-You can [create Active-Passive]({{< relref "/operate/rs/databases/import-export/replica-of/create.md" >}}) databases on Redis Enterprise Software or Redis Cloud.
+You can [create Active-Passive]({{< relref "/operate/rs/databases/import-export/replica-of/create.md" >}}) databases on Redis Software or Redis Cloud.
 
 [Active-Active Geo-Distribution (CRDB)]({{< relref "/operate/rs/databases/active-active" >}})
 provides these benefits and also provides write access to all of the database replicas.
@@ -169,8 +169,8 @@ always be turned on by default. For example:
 It is advised that you test compression out in a lower environment
 before enabling it in production.
 
-In the Redis Enterprise Software management UI, when designating a
-Replica Of source from a different Redis Enterprise Software cluster,
+In the Redis Software Cluster Manager UI, when designating a
+Replica Of source from a different Redis Software cluster,
 there is also an option to enable compression. When enabled, gzip
 compression with level -6 is utilized.
 

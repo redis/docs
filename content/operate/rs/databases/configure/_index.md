@@ -12,7 +12,7 @@ toc: 'true'
 weight: 20
 ---
 
-You can manage your Redis Enterprise Software databases with several tools:
+You can manage your Redis Software databases with several tools:
 
 - [Cluster Manager UI](#edit-database-settings) (the web-based user interface)
 
@@ -28,7 +28,7 @@ You can manage your Redis Enterprise Software databases with several tools:
 
 ## Edit database settings
 
-You can change the configuration of a Redis Enterprise Software database at any time.<!--more-->
+You can change the configuration of a Redis Software database at any time.<!--more-->
 
 To edit the configuration of a database using the Cluster Manager UI:
 
@@ -83,7 +83,7 @@ after the database is created.
 
 When you create a new in-memory database, you can enable multiple Redis Stack [**Capabilities**]({{<relref "/operate/oss_and_stack/stack-with-enterprise">}}).
 
-Databases created with or upgraded to Redis version 8 or later automatically enable the capabilities (modules) bundled with Redis Enterprise Software as follows:
+Databases created with or upgraded to Redis version 8 or later automatically enable the capabilities (modules) bundled with Redis Software as follows:
 
 {{<embed-md "rs-8-enabled-modules.md">}}
 

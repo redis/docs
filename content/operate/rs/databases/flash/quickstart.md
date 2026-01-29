@@ -15,16 +15,16 @@ This page guides you through a quick setup of [Redis Flex and Auto Tiering]({{< 
 
 For production environments, you can find more detailed installation instructions in the [install and setup]({{< relref "/operate/rs/installing-upgrading" >}}) section.
 
-The steps to set up a Redis Enterprise Software cluster using Redis Flex
+The steps to set up a Redis Software cluster using Redis Flex
 with a single node are:
 
-1. Install Redis Enterprise Software or run it in a Docker
+1. Install Redis Software or run it in a Docker
     container.
-1. Set up a Redis Enterprise Software cluster with Redis Flex.
+1. Set up a Redis Software cluster with Redis Flex.
 1. Create a new database with Redis Flex enabled.
 1. Connect to your new database.
 
-## Install Redis Enterprise Software
+## Install Redis Software
 
 ### Bare metal, VM, Cloud instance
 
@@ -48,7 +48,7 @@ To install on bare metal, a virtual machine, or an instance:
 
 ### Docker-based installation {#dockerbased-installation}
 
-For testing purposes, you can run a Redis Enterprise Software
+For testing purposes, you can run a Redis Software
 Docker container on Windows, MacOS, and Linux.
 
 ```sh
@@ -57,7 +57,7 @@ docker run -d --cap-add sys_resource --name rp -p 8443:8443 -p 12000:12000 redis
 
 ## Prepare and format flash memory
 
-After you [install Redis Enterprise Software](#install-redis-enterprise-software), use the `prepare_flash` script to prepare and format flash memory:
+After you [install Redis Software](#install-redis-enterprise-software), use the `prepare_flash` script to prepare and format flash memory:
 
 ```sh
 sudo /opt/redislabs/sbin/prepare_flash.sh
@@ -74,7 +74,7 @@ sudo lsblk
 ## Set up a cluster and enable Redis Flex
 
 1. Direct your browser to `https://localhost:8443` on the host machine to
-see the Redis Enterprise Software Cluster Manager UI.
+see the Redis Software Cluster Manager UI.
 
     {{<note>}}
 Depending on your browser, you may see a certificate error.

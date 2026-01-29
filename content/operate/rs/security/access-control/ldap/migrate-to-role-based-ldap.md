@@ -10,11 +10,11 @@ description: Describes how to migrate existing cluster-based LDAP deployments to
 weight: 55
 ---
 
-Redis Enterprise Software supports LDAP through a [role-based mechanism]({{< relref "/operate/rs/security/access-control/ldap/" >}}), first introduced [in v6.0.20]({{< relref "/operate/rs/release-notes/rs-6-0-20-april-2021" >}}).
+Redis Software supports LDAP through a [role-based mechanism]({{< relref "/operate/rs/security/access-control/ldap/" >}}), first introduced [in v6.0.20]({{< relref "/operate/rs/release-notes/rs-6-0-20-april-2021" >}}).
 
-Earlier versions of Redis Enterprise Software supported a cluster-based mechanism; however, that mechanism was removed in v6.2.12.
+Earlier versions of Redis Software supported a cluster-based mechanism; however, that mechanism was removed in v6.2.12.
 
-If you're using the cluster-based mechanism to enable LDAP authentication, you need to migrate to the role-based mechanism before upgrading to Redis Enterprise Software v6.2.12 or later.
+If you're using the cluster-based mechanism to enable LDAP authentication, you need to migrate to the role-based mechanism before upgrading to Redis Software v6.2.12 or later.
 
 ## Migration checklist
 
@@ -71,4 +71,4 @@ To test your LDAP integration, you can:
 - Enable and configure [role-based LDAP]({{< relref "/operate/rs/security/access-control/ldap/enable-role-based-ldap" >}})
 - Map LDAP groups to [access control roles]({{< relref "/operate/rs/security/access-control/ldap/map-ldap-groups-to-roles" >}})
 - Update database ACLs to [authorize LDAP access]({{< relref "/operate/rs/security/access-control/ldap/update-database-acls" >}})
-- Learn more about Redis Enterprise Software [security and practices]({{< relref "/operate/rs/security/" >}})
+- Learn more about Redis Software [security and practices]({{< relref "/operate/rs/security/" >}})

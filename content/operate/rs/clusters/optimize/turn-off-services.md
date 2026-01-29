@@ -9,7 +9,7 @@ description: Turn off services to free memory and improve performance.
 linktitle: Free system memory
 weight: $weight
 ---
-The Redis Enterprise Software cluster nodes host a range of services that support the cluster processes.
+The Redis Software cluster nodes host a range of services that support the cluster processes.
 In most deployments, either all of these services are required,
 or there are enough memory resources on the nodes for the database requirements.
 

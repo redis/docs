@@ -43,11 +43,11 @@ Additional factors for  databases with Auto Tiering enabled:
 
 - [**database persistence**]({{< relref "/operate/rs/databases/configure/database-persistence.md" >}}): Auto Tiering uses dual database persistence where both the primary and replica shards persist to disk. This may add some processor and network overhead, especially in cloud configurations with network attached storage.
 
-## What happens when Redis Enterprise Software is low on RAM?
+## What happens when Redis Software is low on RAM?
 
-Redis Enterprise Software manages node memory so that data is entirely in RAM (unless using Auto Tiering). If not enough RAM is available, Redis Enterprise prevents adding more data into the databases.
+Redis Software manages node memory so that data is entirely in RAM (unless using Auto Tiering). If not enough RAM is available, Redis Enterprise prevents adding more data into the databases.
 
-Redis Enterprise Software protects the existing data and prevents the database from being able to store data into the shards.
+Redis Software protects the existing data and prevents the database from being able to store data into the shards.
 
 You can configure the cluster to move the data to another node, or even discard it according to the [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy.md" >}}) set on each database by the administrator.
 

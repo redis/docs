@@ -10,14 +10,14 @@ linkTitle: Configure cluster DNS
 weight: $weight
 ---
 
-By default, Redis Enterprise Software deployments use DNS to communicate between nodes.  You can also use the [Discovery Service]({{< relref "/operate/rs/databases/durability-ha/discovery-service.md" >}}), which uses IP addresses to connect and complies with the [Redis Sentinel API]({{< relref "/operate/oss_and_stack/management/sentinel" >}}) supported by Redis Open Source.
+By default, Redis Software deployments use DNS to communicate between nodes.  You can also use the [Discovery Service]({{< relref "/operate/rs/databases/durability-ha/discovery-service.md" >}}), which uses IP addresses to connect and complies with the [Redis Sentinel API]({{< relref "/operate/oss_and_stack/management/sentinel" >}}) supported by Redis Open Source.
 
 Each node in a Redis Enterprise cluster includes a small DNS server to manage internal functions, such as high availability, automatic failover, automatic migration, and so on.
 Nodes should only run the DNS server included with the software.  Running additional DNS servers can lead to unexpected behavior.
 
 ## Cluster name and connection management
 
-Whether you're administering Redis Enterprise Software or accessing databases, there are two ways to connect:
+Whether you're administering Redis Software or accessing databases, there are two ways to connect:
 
 - URL-based connections - URL-based connections use DNS to resolve the fully qualified cluster domain name (FQDN).  This means that DNS records might need to be updated when topology changes, such as adding (or removing) nodes from the cluster.  
 
@@ -29,7 +29,7 @@ Whether you're administering Redis Enterprise Software or accessing databases, t
 
 ## URL-based connections
 
-The fully qualified domain name (FQDN) is the unique cluster identifier that enables clients to connect to the different components of Redis Enterprise Software.
+The fully qualified domain name (FQDN) is the unique cluster identifier that enables clients to connect to the different components of Redis Software.
 The FQDN is a crucial component of the high-availability mechanism because it's used internally to enable and implement automatic and transparent failover of nodes, databases, shards, and endpoints.
 
 {{< note >}}
@@ -57,7 +57,7 @@ Use DNS if you:
     For example:
 
     - Your domain is: `mydomain.com`
-    - You would like to name the Redis Enterprise Software cluster `mycluster`
+    - You would like to name the Redis Software cluster `mycluster`
     - You have three nodes in the cluster:
         - node1 (IP address 1.1.1.1)
         - node2 (2.2.2.2)
@@ -89,7 +89,7 @@ Before adopting mDNS, verify that it's supported by each client you wish to use 
 
 Configuring the cluster to support mDNS requires you to assign the cluster a `.local` name.
 
-For example, if you want to name the Redis Enterprise Software cluster `rediscluster`, specify the FQDN name as `rediscluster.local`.
+For example, if you want to name the Redis Software cluster `rediscluster`, specify the FQDN name as `rediscluster.local`.
 
 When using the DNS or mDNS option, failover can be done transparently and the DNS is updated automatically to point to the IP address of the new primary node.
 

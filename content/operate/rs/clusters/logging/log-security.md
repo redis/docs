@@ -19,11 +19,11 @@ To do this, modify the syslog or rsyslog configuration on your operating system 
 
 ## Log rotation
 
-Redis Enterprise Software's job scheduler runs `logrotate` every five minutes to examine logs stored on the operating system and rotate them based on the log rotation configuration. You can find the log rotation configuration file at `$pkgconfdir/logrotate.conf` as of Redis Enterprise Software version 7.2 (`pkgconfdir` is `/opt/redislabs/config` by default, but can be changed in a custom installation).
+Redis Software's job scheduler runs `logrotate` every five minutes to examine logs stored on the operating system and rotate them based on the log rotation configuration. You can find the log rotation configuration file at `$pkgconfdir/logrotate.conf` as of Redis Software version 7.2 (`pkgconfdir` is `/opt/redislabs/config` by default, but can be changed in a custom installation).
 
 By default, log rotation occurs when a log exceeds 200 MB. We recommend sending log files to a remote logging server so you can maintain them more effectively.
 
-The following log rotation policy is enabled by default in Redis Enterprise Software, but you can modify it as needed.
+The following log rotation policy is enabled by default in Redis Software, but you can modify it as needed.
 
 ```sh
 ${logdir}/*.log {

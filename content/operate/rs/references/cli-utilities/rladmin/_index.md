@@ -11,7 +11,7 @@ linkTitle: rladmin (manage cluster)
 weight: $weight
 ---
 
-`rladmin` is a command-line utility that lets you perform administrative tasks such as failover, migration, and endpoint binding on a Redis Enterprise Software cluster. You can also use `rladmin` to edit cluster and database configurations.
+`rladmin` is a command-line utility that lets you perform administrative tasks such as failover, migration, and endpoint binding on a Redis Software cluster. You can also use `rladmin` to edit cluster and database configurations.
 
 Although you can use the Cluster Manager UI for some of these tasks, others are unique to the `rladmin` command-line tool.
 
@@ -23,7 +23,7 @@ Although you can use the Cluster Manager UI for some of these tasks, others are 
 
 To open the `rladmin` shell:
 
-1. Sign in to a Redis Enterprise Software node with an account that is a member of the **redislabs** group.
+1. Sign in to a Redis Software node with an account that is a member of the **redislabs** group.
 
     The `rladmin` binary is located in `/opt/redislabs/bin`. If you don't have this directory in your `PATH`, you may want to add it. Otherwise, you can use `bash -l <username>` to sign in as a user with permissions for that directory.
 

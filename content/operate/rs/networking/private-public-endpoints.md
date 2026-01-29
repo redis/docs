@@ -10,7 +10,7 @@ linkTitle: Public and private endpoints
 title: "Enable private and\_public database endpoints"
 weight: $weight
 ---
-Each node in Redis Enterprise can be configured with [private and external IP addresses]({{< relref "/operate/rs/networking/multi-ip-ipv6.md" >}}). By default, Redis Enterprise Software databases expose a single endpoint, e.g. cluster.com (FQDN), using the external IP addresses, making it available to the public network (e.g. the internet). Additionally, the cluster can be configured to expose a private FQDN, which utilizes the private IP addresses for access from the private network only (e.g. VPC or an internal network).
+Each node in Redis Enterprise can be configured with [private and external IP addresses]({{< relref "/operate/rs/networking/multi-ip-ipv6.md" >}}). By default, Redis Software databases expose a single endpoint, e.g. cluster.com (FQDN), using the external IP addresses, making it available to the public network (e.g. the internet). Additionally, the cluster can be configured to expose a private FQDN, which utilizes the private IP addresses for access from the private network only (e.g. VPC or an internal network).
 
 When you create a cluster via the UI, you can configure it to expose private and public endpoints.
 This is common for environments such as cloud platforms and enterprises.

@@ -13,11 +13,11 @@ weight: 5
 
 ## Deployment security
 
-When deploying Redis Enterprise Software to production, we recommend the following practices:
+When deploying Redis Software to production, we recommend the following practices:
 
 - **Deploy Redis Enterprise inside a trusted network**:  Redis Enterprise is database software and should be deployed on a trusted network not accessible to the public internet. Deploying Redis Enterprise in a trusted network reduces the likelihood that someone can obtain unauthorized access to your data or the ability to manage your database configuration.
 
-- **Implement anti-virus exclusions**: To ensure that anti-virus solutions that scan files or intercept processes to protect memory do not interfere with Redis Enterprise software, you should ensure that anti-virus exclusions are implemented across all nodes in their Redis Enterprise cluster in a consistent policy. This helps ensure that anti-virus software does not impact the availability of your Redis Enterprise cluster.
+- **Implement anti-virus exclusions**: To ensure that anti-virus solutions that scan files or intercept processes to protect memory do not interfere with Redis Software, you should ensure that anti-virus exclusions are implemented across all nodes in their Redis Enterprise cluster in a consistent policy. This helps ensure that anti-virus software does not impact the availability of your Redis Enterprise cluster.
 
     If you are replacing your existing antivirus solution or installing/supporting Redis Enterprise, make sure that the below paths are excluded:
 
@@ -27,7 +27,7 @@ For antivirus solutions that intercept processes, binary files may have to be ex
 
     | **Path** | **Description** |
     |------------|-----------------|
-    | /opt/redislabs | Main installation directory for all Redis Enterprise Software binaries |
+    | /opt/redislabs | Main installation directory for all Redis Software binaries |
     | /opt/redislabs/bin | Binaries for all the utilities for command line access and managements such as "rladmin" or "redis-cli" |
     | /opt/redislabs/config | System configuration files |
     | /opt/redislabs/lib | System library files |
@@ -45,7 +45,7 @@ For antivirus solutions that intercept processes, binary files may have to be ex
 
 - **Control the level of access to your system**: Redis Enterprise lets you decide which users can access the cluster, which users can access databases, and which users can access both. We recommend preventing database users from accessing the cluster. See [Access control]({{<relref "/operate/rs/security/access-control">}}) for more information.
 
-- **Enable LDAP authentication**: If your organization uses the Lightweight Directory Access Protocol (LDAP), we recommend enabling Redis Enterprise Software support for role-based LDAP authentication.
+- **Enable LDAP authentication**: If your organization uses the Lightweight Directory Access Protocol (LDAP), we recommend enabling Redis Software support for role-based LDAP authentication.
 
 - **Require HTTPS for API endpoints**: Redis Enterprise comes with a REST API to help automate tasks. This API is available in both an encrypted and unencrypted endpoint for backward compatibility. You can [disable the unencrypted endpoint]({{<relref "/operate/rs/references/rest-api/encryption#require-https-for-api-endpoints">}}) with no loss in functionality.
 

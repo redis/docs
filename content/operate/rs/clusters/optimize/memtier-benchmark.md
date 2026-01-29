@@ -6,20 +6,20 @@ categories:
 - operate
 - rs
 description: Use the `memtier_benchmark` tool to perform a performance benchmark of
-  Redis Enterprise Software.
+  Redis Software.
 linkTitle: Benchmark
 weight: $weight
 ---
 
-Use the `memtier_benchmark` tool to perform a performance benchmark of Redis Enterprise Software.
+Use the `memtier_benchmark` tool to perform a performance benchmark of Redis Software.
 
 Prerequisites:
 
-- Redis Enterprise Software installed
+- Redis Software installed
 - A cluster configured
 - A database created
 
-For help with the prerequisites, see the [Redis Enterprise Software quickstart]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}}).
+For help with the prerequisites, see the [Redis Software quickstart]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}}).
 
 It is recommended to run memtier_benchmark on a separate node that is
 not part of the cluster being tested. If you run it on a node of the

@@ -10,10 +10,10 @@ linktitle: Get started
 weight: 20
 ---
 
-To get started, this article will help you set up an Active-Active database, formerly known as CRDB (conflict-free replicated database), spanning across two Redis Enterprise Software
+To get started, this article will help you set up an Active-Active database, formerly known as CRDB (conflict-free replicated database), spanning across two Redis Software
 clusters for test and development environments. Here are the steps:
 
-1. Run two Redis Enterprise Software Docker containers.
+1. Run two Redis Software Docker containers.
 
 1. Set up each container as a cluster.
 
@@ -21,8 +21,8 @@ clusters for test and development environments. Here are the steps:
 
 1. Test connectivity to the Active-Active database.
 
-To run an Active-Active database on installations from the [Redis Enterprise Software download package]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}}),
-set up two Redis Enterprise Software installations and continue from Step 2.
+To run an Active-Active database on installations from the [Redis Software download package]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}}),
+set up two Redis Software installations and continue from Step 2.
 
 {{<note>}}
 This getting started guide is for development or demonstration environments.
@@ -31,7 +31,7 @@ For production environments, see [Create an Active-Active geo-replicated databas
 
 ## Run two containers
 
-To spin up two Redis Enterprise Software containers, run these commands:
+To spin up two Redis Software containers, run these commands:
 
 ```sh
 docker run -d --cap-add sys_resource -h rs1_node1 --name rs1_node1 -p 8443:8443 -p 9443:9443 -p 12000:12000 redislabs/redis
@@ -52,7 +52,7 @@ The `-p` options map the Cluster Manager UI port (8443), REST API port (9443), a
 ## Set up two clusters
 
 1. For cluster 1, go to `https://localhost:8443` in a browser on the
-host machine to access the Redis Enterprise Software Cluster Manager UI.
+host machine to access the Redis Software Cluster Manager UI.
 
     {{<note>}}
 Depending on your browser, you may see a certificate error. Continue to the website.
@@ -60,7 +60,7 @@ Depending on your browser, you may see a certificate error. Continue to the webs
 
 1. Click **Create new cluster**:
 
-    {{<image filename="images/rs/screenshots/cluster/setup/create-cluster.png" alt="When you first install Redis Enterprise Software, you need to set up a cluster." >}}
+    {{<image filename="images/rs/screenshots/cluster/setup/create-cluster.png" alt="When you first install Redis Software, you need to set up a cluster." >}}
 
 1. Enter an email and password for the administrator account, then click **Next** to proceed to cluster setup:
 
@@ -87,7 +87,7 @@ Depending on your browser, you may see a certificate error. Continue to the webs
 
     - For the **Cluster name (FQDN)**, enter a different name, such as `cluster2.local`.
 
-Now you have two Redis Enterprise Software clusters with FQDNs
+Now you have two Redis Software clusters with FQDNs
 `cluster1.local` and `cluster2.local`.
 
 {{<note>}}

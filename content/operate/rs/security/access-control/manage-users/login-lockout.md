@@ -11,7 +11,7 @@ toc: 'true'
 weight: 40
 ---
 
-Redis Enterprise Software secures user access in a few different ways, including automatically:
+Redis Software secures user access in a few different ways, including automatically:
 
 - Locking user accounts after a series of authentication failures (invalid passwords)
 

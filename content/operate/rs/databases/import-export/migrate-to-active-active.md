@@ -10,7 +10,7 @@ linktitle: Migrate to Active-Active
 weight: $weight
 ---
 
-If you have data in a single-region Redis Enterprise Software database that you want to migrate to an [Active-Active database]({{< relref "/operate/rs/databases/active-active" >}}),
+If you have data in a single-region Redis Software database that you want to migrate to an [Active-Active database]({{< relref "/operate/rs/databases/active-active" >}}),
 you'll need to create a new Active-Active database and migrate the data into the new database as a [Replica Of]({{< relref "/operate/rs/databases/import-export/replica-of/" >}}) the existing database.
 This process will gradually populate the data in the Active-Active database.
 
@@ -59,7 +59,7 @@ To migrate a database to Active-Active in the same Redis Enterprise cluster:
 ### Migrate from a different cluster
 
 {{< note >}}
-For a source database on a different Redis Enterprise Software cluster,
+For a source database on a different Redis Software cluster,
 you can [compress the replication data]({{< relref "/operate/rs/databases/import-export/replica-of#data-compression-for-replica-of" >}}) to save bandwidth.
 {{< /note >}}
 

@@ -10,7 +10,7 @@ title: Audit connection events
 weight: 15
 ---
 
-Starting with version 6.2.18, Redis Enterprise Software lets you audit database connection and authentication events.  This helps you track and troubleshoot connection activity.
+Starting with version 6.2.18, Redis Software lets you audit database connection and authentication events.  This helps you track and troubleshoot connection activity.
 
 The following events are tracked:
 
@@ -24,7 +24,7 @@ Example external listeners include:
 
 - [`ncat`](https://nmap.org/ncat/): useful for debugging but not suitable for production environments.
 
-- Imperva Sonar: a third-party service available for purchase separately from Redis Enterprise Software. See [Redis Onboarding Steps](https://docs.imperva.com/bundle/onboarding-databases-to-sonar-reference-guide/page/Redis-Onboarding-Steps_48368215.html) for more information.
+- Imperva Sonar: a third-party service available for purchase separately from Redis Software. See [Redis Onboarding Steps](https://docs.imperva.com/bundle/onboarding-databases-to-sonar-reference-guide/page/Redis-Onboarding-Steps_48368215.html) for more information.
 
 For development and testing environments, notifications can be saved to a local file; however, this is neither supported nor intended for production environments.
 
@@ -68,7 +68,7 @@ To enable auditing for your cluster, use:
        audit_protocol local audit_address <socket-file>
     ```
 
-    The socket file (and path) must be accessible by the user and group running Redis Enterprise Software.
+    The socket file (and path) must be accessible by the user and group running Redis Software.
 
 - the [REST API]({{< relref "/operate/rs/references/rest-api/requests/cluster/auditing-db-conns#put-cluster-audit-db-conns" >}})
 

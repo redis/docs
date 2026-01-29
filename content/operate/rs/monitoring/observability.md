@@ -1,5 +1,5 @@
 ---
-Title: Redis Enterprise Software observability and monitoring guidance
+Title: Redis Software observability and monitoring guidance
 alwaysopen: false
 categories:
 - docs

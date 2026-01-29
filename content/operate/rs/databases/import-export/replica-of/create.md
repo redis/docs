@@ -15,7 +15,7 @@ To create a replica connection, you define a database as a replica of a source d
 
 Sources databases can be:
 
-- Located in the same Redis Enterprise Software cluster
+- Located in the same Redis Software cluster
 - Located in a different Redis Enterprise cluster
 - Hosted by a different deployment, e.g. Redis Cloud
 - Redis Open Source databases

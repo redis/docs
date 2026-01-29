@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 - rc
-description: Documents the metrics that are tracked with Redis Enterprise Software.
+description: Documents the metrics that are tracked with Redis Software.
 hideListLinks: true
 linkTitle: Metrics
 weight: $weight
@@ -26,11 +26,11 @@ See the following topics for metrics definitions:
 ## Prometheus metrics
 
 To collect and display metrics data from your databases and other cluster components,
-you can connect your [Prometheus](https://prometheus.io/) and [Grafana](https://grafana.com/) server to your Redis Enterprise Software cluster. We recommend you use Prometheus and Grafana to view metrics history and trends.
+you can connect your [Prometheus](https://prometheus.io/) and [Grafana](https://grafana.com/) server to your Redis Software cluster. We recommend you use Prometheus and Grafana to view metrics history and trends.
 
 See [Prometheus integration]({{< relref "/operate/rs/monitoring/get-started" >}}) to learn how to connect Prometheus and Grafana to your Redis Enterprise database.
 
-The new metrics stream engine that exposes the v2 Prometheus scraping endpoint at `https://<IP>:8070/v2` is generally available as of Redis Enterprise Software version 8.0.
+The new metrics stream engine that exposes the v2 Prometheus scraping endpoint at `https://<IP>:8070/v2` is generally available as of Redis Software version 8.0.
 This new engine exports all time-series metrics to external monitoring tools such as Grafana, DataDog, NewRelic, and Dynatrace using Prometheus.
 
 The new engine enables real-time monitoring, including full monitoring during maintenance operations, providing full visibility into performance during events such as shards' failovers and scaling operations.

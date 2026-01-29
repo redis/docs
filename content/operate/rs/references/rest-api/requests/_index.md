@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Documents the requests supported by the Redis Enterprise Software REST
+description: Documents the requests supported by the Redis Software REST
   API calls.
 hideListLinks: true
 linkTitle: Requests

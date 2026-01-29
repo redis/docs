@@ -13,7 +13,7 @@ weight: 10
 ---
 You can import, [export]({{< relref "/operate/rs/databases/import-export/export-data" >}}),
 or [backup]({{< relref "/operate/rs/databases/import-export/schedule-backups" >}})
-files of a specific Redis Enterprise Software database to restore data.
+files of a specific Redis Software database to restore data.
 You can either import from a single file or from multiple files,
 such as when you want to import from a backup of a clustered database.
 
@@ -74,9 +74,9 @@ See the following storage location sections for REST API request examples for ea
 
 Data can be imported from a local mount point, transferred to [a URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier) using FTP/SFTP, or stored on cloud provider storage.
 
-When importing from a local mount point or a cloud provider, import locations need to be available to [the group and user]({{< relref "/operate/rs/installing-upgrading/install/customize-user-and-group.md" >}}) running Redis Enterprise Software, `redislabs:redislabs` by default.  
+When importing from a local mount point or a cloud provider, import locations need to be available to [the group and user]({{< relref "/operate/rs/installing-upgrading/install/customize-user-and-group.md" >}}) running Redis Software, `redislabs:redislabs` by default.  
 
-Redis Enterprise Software needs the ability to view objects in the storage location. Implementation details vary according to the provider and your configuration. To learn more, consult the provider's documentation.
+Redis Software needs the ability to view objects in the storage location. Implementation details vary according to the provider and your configuration. To learn more, consult the provider's documentation.
 
 The following sections provide general guidelines.  Because provider features change frequently, use your provider's documentation for the latest info.
 
@@ -224,7 +224,7 @@ Before you choose to import data from an [Amazon Web Services](https://aws.amazo
 - The path to the file in your bucket in the format: `s3://[bucketname]/[path]/[filename].rdb`
 - [Access key ID and Secret access key](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey) for an [IAM user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html#id_users_create_console) with permission to read files from the bucket. 
 
-In the Redis Enterprise Software Cluster Manager UI, when you enter the export location details:
+In the Redis Software Cluster Manager UI, when you enter the export location details:
 
 - Select **AWS S3**.
 
@@ -280,7 +280,7 @@ Before you import data from a [Google Cloud](https://developers.google.com/conso
 - A [JSON service account key](https://cloud.google.com/iam/docs/creating-managing-service-account-keys#creating) for your account
 - A [principal](https://cloud.google.com/storage/docs/access-control/using-iam-permissions#bucket-add) for your bucket with the `client_email` from the service account key and a [role](https://cloud.google.com/storage/docs/access-control/iam-roles) with permissions to get files from the bucket (such as the **Storage Legacy Object Reader** role, which grants `storage.objects.get` permissions)
 
-In the Redis Enterprise Software Cluster Manager UI, when you enter the import location details:
+In the Redis Software Cluster Manager UI, when you enter the import location details:
 
 - Select **Google Cloud Storage**.
 
@@ -327,7 +327,7 @@ Before you choose to import from Azure Blob Storage, make sure that you have:
 
     Azure SAS support requires Redis Software version 6.0.20.  To learn more about Azure SAS, see [Grant limited access to Azure Storage resources using shared access signatures](https://docs.microsoft.com/en-us/azure/storage/common/storage-sas-overview).
 
-In the Redis Enterprise Software Cluster Manager UI, when you enter the import location details:
+In the Redis Software Cluster Manager UI, when you enter the import location details:
 
 - Select **Azure Blob Storage**.
 

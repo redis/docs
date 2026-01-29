@@ -4,7 +4,7 @@ categories:
 - docs
 - operate
 - rs
-description: Describes how Redis Enterprise Software integrates LDAP authentication
+description: Describes how Redis Software integrates LDAP authentication
   and authorization. Also describes how to enable LDAP for your deployment of Redis
   Enterprise Software.
 hideListLinks: true
@@ -13,7 +13,7 @@ title: LDAP authentication
 weight: 50
 ---
 
-Redis Enterprise Software supports [Lightweight Directory Access Protocol](https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol) (LDAP) authentication and authorization through its [role-based access controls]({{< relref "/operate/rs/security/access-control" >}}) (RBAC).  You can use LDAP to authorize access to the Cluster Manager UI and to control database access.
+Redis Software supports [Lightweight Directory Access Protocol](https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol) (LDAP) authentication and authorization through its [role-based access controls]({{< relref "/operate/rs/security/access-control" >}}) (RBAC).  You can use LDAP to authorize access to the Cluster Manager UI and to control database access.
 
 You can configure LDAP roles using the Redis Enterprise Cluster Manager UI or [REST API]({{< relref "/operate/rs/references/rest-api/requests/ldap_mappings/" >}}).
 
@@ -77,5 +77,5 @@ If you already have appropriate roles, you can update them to include LDAP group
 - Enable and configure [role-based LDAP]({{< relref "/operate/rs/security/access-control/ldap/enable-role-based-ldap" >}})
 - Map LDAP groups to [access control roles]({{< relref "/operate/rs/security/access-control/ldap/map-ldap-groups-to-roles" >}})
 - Update database ACLs to [authorize LDAP access]({{< relref "/operate/rs/security/access-control/ldap/update-database-acls" >}})
-- Learn more about Redis Enterprise Software [security and practices]({{< relref "/operate/rs/security/" >}})
+- Learn more about Redis Software [security and practices]({{< relref "/operate/rs/security/" >}})
 

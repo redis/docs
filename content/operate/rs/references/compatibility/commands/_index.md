@@ -12,7 +12,7 @@ linkTitle: Commands
 weight: 30
 ---
 
-Learn which Redis Open Source commands are compatible with Redis Enterprise Software and [Redis Cloud]({{< relref "/operate/rc" >}}).
+Learn which Redis Open Source commands are compatible with Redis Software and [Redis Cloud]({{< relref "/operate/rc" >}}).
 
 Select a command group for more details about compatibility with standard and Active-Active Redis Enterprise.
 

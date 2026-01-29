@@ -40,7 +40,7 @@ The architecture is shown in the following diagram with a 3-node Redis Enterpris
 
 ### Prerequisites
 
-- [Install]({{< relref "/operate/rs/installing-upgrading" >}}) the latest version of Redis Enterprise Software on your clusters
+- [Install]({{< relref "/operate/rs/installing-upgrading" >}}) the latest version of Redis Software on your clusters
 - Configure the cluster with the cluster name (FQDN) even though DNS is not in use.
     Remember that the same cluster name is used to issue the license keys.
     We recommend that you use a ".local" suffix in the FQDN.
@@ -106,7 +106,7 @@ especially if they are directly connected on IP addresses that have changed.
 ## Intercluster communication considerations
 
 Redis Enterprise supports several topologies that allow intercluster replication, such as [Replica Of]({{< relref "/operate/rs/databases/import-export/replica-of/" >}}) and [Active-Active]({{< relref "/operate/rs/databases/active-active/" >}}) deployment options.
-When your Redis Enterprise software clusters are behind load balancers, you must allow some network services to be open and defined in the load balancers to allow the replication to work.
+When your Redis Software clusters are behind load balancers, you must allow some network services to be open and defined in the load balancers to allow the replication to work.
 
 ### Replica Of
 

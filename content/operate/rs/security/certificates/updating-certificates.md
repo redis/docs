@@ -68,7 +68,7 @@ rladmin cluster certificate set cm certificate_file cluster.pem key_file key.pem
 
 To replace a certificate using the REST API, use an [update cluster certificates]({{<relref "/operate/rs/references/rest-api/requests/cluster/certificates">}}) request.
 
-For Redis Enterprise Software versions 7.22.2 and later, use:
+For Redis Software versions 7.22.2 and later, use:
 
 ```sh
 PUT https://<host>:<port>/v1/cluster/certificates
@@ -83,7 +83,7 @@ PUT https://<host>:<port>/v1/cluster/certificates
 }
 ```
 
-For Redis Enterprise Software versions 7.22.0 and earlier, use:
+For Redis Software versions 7.22.0 and earlier, use:
 
 ```sh
 PUT https://<host>:<port>/v1/cluster/update_cert

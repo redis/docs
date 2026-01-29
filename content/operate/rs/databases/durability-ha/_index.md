@@ -11,7 +11,7 @@ hideListLinks: true
 linktitle: Durability and availability
 weight: 60
 ---
-Redis Enterprise Software comes with several features that make your data more durable and accessible. The following features can help protect your data in cases of failures or outages and help keep your data available when you need it.
+Redis Software comes with several features that make your data more durable and accessible. The following features can help protect your data in cases of failures or outages and help keep your data available when you need it.
 
 ## Replication
 
@@ -35,4 +35,4 @@ When you [replicate your database]({{<relref "/operate/rs/databases/durability-h
 
 ## Discovery service
 
-The [discovery service]({{<relref "/operate/rs/databases/durability-ha/discovery-service">}}) provides an IP-based connection management service used when connecting to Redis Enterprise Software databases. It lets your application discover which node hosts the database endpoint. The discovery service API complies with the [Redis Sentinel API]({{< relref "/operate/oss_and_stack/management/sentinel" >}}#sentinel-api).
+The [discovery service]({{<relref "/operate/rs/databases/durability-ha/discovery-service">}}) provides an IP-based connection management service used when connecting to Redis Software databases. It lets your application discover which node hosts the database endpoint. The discovery service API complies with the [Redis Sentinel API]({{< relref "/operate/oss_and_stack/management/sentinel" >}}#sentinel-api).

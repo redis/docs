@@ -1,24 +1,24 @@
 ---
-Title: Plan Redis Enterprise Software deployment
+Title: Plan Redis Software deployment
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
-description: Plan a deployment of Redis Enterprise Software.
+description: Plan a deployment of Redis Software.
 hideListLinks: true
 linkTitle: Plan deployment
 weight: 4
 ---
 
-Before installing Redis Enterprise Software, you need to:
+Before installing Redis Software, you need to:
 
 - Set up your hardware. See [Hardware requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md" >}}) and [Persistent and ephemeral node storage 
 ]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}}) for more information.
 
 - Choose your [deployment platform]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/supported-platforms.md" >}}).
 
-    Redis Enterprise Software supports a variety of platforms, including:
+    Redis Software supports a variety of platforms, including:
 
     - Multiple Linux distributions (Ubuntu, Red Hat Enterprise Linux (RHEL), IBM CentOS, Oracle Linux)
     - [Amazon AWS AMI]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/configuring-aws-instances" >}})
@@ -40,6 +40,6 @@ After you finish planning your deployment, you can:
 
 - [Download an installation package]({{< relref "/operate/rs/installing-upgrading/install/prepare-install/download-install-package" >}}).
 
-- [Prepare to install]({{< relref "/operate/rs/installing-upgrading/install/prepare-install" >}}) Redis Enterprise Software.
+- [Prepare to install]({{< relref "/operate/rs/installing-upgrading/install/prepare-install" >}}) Redis Software.
 
 - [View installation questions]({{< relref "/operate/rs/installing-upgrading/install/manage-installation-questions" >}}) and prepare answers before installation.

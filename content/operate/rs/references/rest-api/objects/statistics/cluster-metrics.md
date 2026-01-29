@@ -5,14 +5,14 @@ categories:
 - docs
 - operate
 - rs
-description: Documents the cluster metrics used with Redis Enterprise Software REST
+description: Documents the cluster metrics used with Redis Software REST
   API calls.
 linkTitle: cluster metrics
 weight: $weight
 ---
 
 {{<banner-article>}}
-The v1 statistics REST API endpoints are deprecated as of Redis Enterprise Software version 7.22. Use the [metrics stream engine for monitoring v2]({{< relref "/operate/rs/monitoring/metrics_stream_engine" >}}) instead for real-time monitoring and metrics collection.
+The v1 statistics REST API endpoints are deprecated as of Redis Software version 7.22. Use the [metrics stream engine for monitoring v2]({{< relref "/operate/rs/monitoring/metrics_stream_engine" >}}) instead for real-time monitoring and metrics collection.
 {{</banner-article>}}
 
 | Metric name | Type | Description |

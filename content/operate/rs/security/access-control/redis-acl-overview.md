@@ -1,11 +1,11 @@
 ---
-Title: Overview of Redis ACLs in Redis Enterprise Software
+Title: Overview of Redis ACLs in Redis Software
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
-description: An overview of Redis ACLs, syntax, and ACL command support in Redis Enterprise Software.
+description: An overview of Redis ACLs, syntax, and ACL command support in Redis Software.
 linkTitle: Redis ACL overview
 weight: 17
 ---
@@ -14,7 +14,7 @@ Redis access control lists (Redis ACLs) allow you to define named permissions fo
 
 ## Predefined Redis ACLs
 
-Redis Enterprise Software provides one predefined Redis ACL named **Full Access**. This ACL allows all commands on all keys and cannot be edited.
+Redis Software provides one predefined Redis ACL named **Full Access**. This ACL allows all commands on all keys and cannot be edited.
 
 ## Redis ACL syntax
 
@@ -98,23 +98,23 @@ In the following example, the base rule allows `GET key1` and the selector allow
 
 Redis database version 6.2 introduced pub/sub ACL rules that determine which [pub/sub channels]({{< relref "/develop/pubsub" >}}) a user can access.
 
-The configuration option `acl-pubsub-default`, added in Redis Enterprise Software version 6.4.2, determines the cluster-wide default level of access for all pub/sub channels. Redis Enterprise Software uses the following pub/sub permissions by default:
+The configuration option `acl-pubsub-default`, added in Redis Software version 6.4.2, determines the cluster-wide default level of access for all pub/sub channels. Redis Software uses the following pub/sub permissions by default:
 
 - For versions 6.4.2 and 7.2, `acl-pubsub-default` is permissive (`allchannels` or `&*`) by default to accommodate earlier Redis versions.
 
 - In future versions, `acl-pubsub-default` will change to restrictive (`resetchannels`). Restrictive permissions block all pub/sub channels by default, unless explicitly permitted by an ACL rule.
 
-If you use ACLs and pub/sub channels, you should review your databases and ACL settings and plan to transition your cluster to restrictive pub/sub permissions in preparation for future Redis Enterprise Software releases.
+If you use ACLs and pub/sub channels, you should review your databases and ACL settings and plan to transition your cluster to restrictive pub/sub permissions in preparation for future Redis Software releases.
 
 ### Prepare for restrictive pub/sub permissions
 
-To secure pub/sub channels and prepare your cluster for future Redis Enterprise Software releases that default to restrictive pub/sub permissions:
+To secure pub/sub channels and prepare your cluster for future Redis Software releases that default to restrictive pub/sub permissions:
 
 1. Upgrade Redis databases:
 
-    - For Redis Enterprise Software version 6.4.2, upgrade all databases in the cluster to Redis DB version 6.2.
+    - For Redis Software version 6.4.2, upgrade all databases in the cluster to Redis DB version 6.2.
     
-    - For Redis Enterprise Software version 7.2, upgrade all databases in the cluster to Redis DB version 7.2 or 6.2.
+    - For Redis Software version 7.2, upgrade all databases in the cluster to Redis DB version 7.2 or 6.2.
 
 1. Create or update ACLs with permissions for specific channels using the `resetchannels &channel` format.
 
@@ -182,11 +182,11 @@ PUT /v1/cluster/policy
 
 ## ACL command support
 
-Redis Enterprise Software does not support certain Redis ACL commands. Instead, you can manage access controls from the Cluster Manager UI.
+Redis Software does not support certain Redis ACL commands. Instead, you can manage access controls from the Cluster Manager UI.
 
 {{<embed-md "acl-command-compatibility.md">}}
 
-Redis ACLs also have the following differences in Redis Enterprise Software:
+Redis ACLs also have the following differences in Redis Software:
 
 - The `MULTI`, `EXEC`, `DISCARD` commands are always allowed, but ACLs are enforced on `MULTI` subcommands.
 
@@ -198,7 +198,7 @@ Redis ACLs also have the following differences in Redis Enterprise Software:
 
 - The following password configuration syntax is not supported: `'>', '<', '#!', 'resetpass'`
 
-    To configure passwords in Redis Enterprise Software, use one of the following methods:
+    To configure passwords in Redis Software, use one of the following methods:
 
     - [`rladmin cluster reset_password`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/reset_password" >}}):
     

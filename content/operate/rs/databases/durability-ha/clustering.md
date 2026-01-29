@@ -14,7 +14,7 @@ Source available [Redis](https://redis.io/docs/latest/get-started/) is a single-
 to provide speed and simplicity.
 A single Redis process is bound by the CPU core that it is running on and available memory on the server.
 
-Redis Enterprise Software supports database clustering to allow customers
+Redis Software supports database clustering to allow customers
 to spread the load of a Redis process over multiple cores and the RAM of multiple servers.
 A database cluster is a set of Redis processes where each process manages a subset of the database keyspace.
 

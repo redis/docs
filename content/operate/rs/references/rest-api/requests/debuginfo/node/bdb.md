@@ -5,14 +5,14 @@ categories:
 - docs
 - operate
 - rs
-description: Documents the Redis Enterprise Software REST API debuginfo/node/bdb requests.
+description: Documents the Redis Software REST API debuginfo/node/bdb requests.
 headerRange: '[1-2]'
 linkTitle: bdb
 weight: $weight
 ---
 
 {{<banner-article>}}
-This REST API path is deprecated as of Redis Enterprise Software version 7.4.2. Use the new path [`/v1/bdbs/debuginfo`]({{< relref "/operate/rs/references/rest-api/requests/bdbs/debuginfo" >}}) instead.
+This REST API path is deprecated as of Redis Software version 7.4.2. Use the new path [`/v1/bdbs/debuginfo`]({{< relref "/operate/rs/references/rest-api/requests/bdbs/debuginfo" >}}) instead.
 {{</banner-article>}}
 
 | Method | Path | Description |

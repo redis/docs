@@ -13,7 +13,7 @@ weight: 25
 [Active-Active geo-replicated databases]({{< relref "/operate/rs/databases/active-active" >}}) (formerly known as CRDBs) give applications write access
 to replicas of the dataset in different geographical locations.
 
-The participating Redis Enterprise Software clusters that host the instances can be distributed in different geographic locations.
+The participating Redis Software clusters that host the instances can be distributed in different geographic locations.
 Every instance of an Active-Active database can receive write operations, and all operations are [synchronized]({{< relref "/operate/rs/databases/active-active/develop#example-of-synchronization" >}}) to all instances without conflict.
 
 ## Steps to create an Active-Active database
@@ -27,7 +27,7 @@ Every instance of an Active-Active database can receive write operations, and al
 
 ## Prerequisites
 
-- Two or more machines with the same version of Redis Enterprise Software installed
+- Two or more machines with the same version of Redis Software installed
 - Network connectivity and cluster FQDN name resolution between all participating clusters
 - [Network time service]({{< relref "/operate/rs/databases/active-active#network-time-service-ntp-or-chrony" >}}) listener (ntpd) configured and running on each node in all clusters
 
