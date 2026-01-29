@@ -87,7 +87,7 @@ Databases created with or upgraded to Redis version 8 or later automatically ena
 
 {{<embed-md "rs-8-enabled-modules.md">}}
 
-For Auto Tiering databases, you can enable capabilities that support Auto Tiering. See [Redis Enterprise and Redis Stack feature compatibility 
+For Auto Tiering databases, you can enable capabilities that support Auto Tiering. See [Redis Software and Redis Stack feature compatibility 
 ]({{< relref "/operate/oss_and_stack/stack-with-enterprise/enterprise-capabilities" >}}) for compatibility details.
 
 {{<note>}}
@@ -195,7 +195,7 @@ With [**Replica Of**]({{<relref "/operate/rs/databases/import-export/replica-of/
 
 [RESP]({{<relref "/develop/reference/protocol-spec">}})  (Redis Serialization Protocol) is the protocol clients use to communicate with Redis databases. If you enable RESP3 support, the database will support the RESP3 protocol in addition to RESP2.
 
-For more information about Redis Software's compatibility with RESP3, see [RESP compatibility with Redis Enterprise]({{<relref "/operate/rs/references/compatibility/resp">}}).
+For more information about Redis Software's compatibility with RESP3, see [RESP compatibility with Redis Software]({{<relref "/operate/rs/references/compatibility/resp">}}).
 
 ### Internode encryption
 

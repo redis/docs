@@ -30,7 +30,7 @@ Depending on which policy you choose, Redis Software uses different
 thresholds to make operation-related decisions.
 
 The default policy is `high` failure detection sensitivity for `local-network` environments. If you are
-running Redis Enterprise in a cloud environment, you should change the
+running Redis Software in a cloud environment, you should change the
 configuration.
 
 ## Change failure detection sensitivity

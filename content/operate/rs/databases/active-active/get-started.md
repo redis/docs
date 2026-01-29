@@ -1,5 +1,5 @@
 ---
-Title: Get started with Redis Enterprise Active-Active databases
+Title: Get started with Redis Software Active-Active databases
 alwaysopen: false
 categories:
 - docs
@@ -17,7 +17,7 @@ clusters for test and development environments. Here are the steps:
 
 1. Set up each container as a cluster.
 
-1. Create a new Redis Enterprise Active-Active database.
+1. Create a new Redis Software Active-Active database.
 
 1. Test connectivity to the Active-Active database.
 

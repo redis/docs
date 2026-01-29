@@ -4,7 +4,7 @@ categories:
 - docs
 - operate
 - rs
-description: Update certificates in a Redis Enterprise cluster.
+description: Update certificates in a Redis Software cluster.
 linkTitle: Update certificates
 title: Update certificates
 weight: 20

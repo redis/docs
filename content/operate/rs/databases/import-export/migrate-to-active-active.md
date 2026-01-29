@@ -28,13 +28,13 @@ When data migration is finished, turn off migration and connect your application
 - If you used the mDNS protocol for the cluster name (FQDN),
 the [client mDNS prerequisites]({{< relref "/operate/rs/networking/mdns" >}}) must be met in order to communicate with other clusters.
 
-## Migrate from a Redis Enterprise cluster
+## Migrate from a Redis Software cluster
 
-You can migrate a Redis Enterprise database from the [same cluster](#migrate-from-the-same-cluster) or a [different cluster](#migrate-from-a-different-cluster).
+You can migrate a Redis Software database from the [same cluster](#migrate-from-the-same-cluster) or a [different cluster](#migrate-from-a-different-cluster).
 
 ### Migrate from the same cluster
 
-To migrate a database to Active-Active in the same Redis Enterprise cluster:
+To migrate a database to Active-Active in the same Redis Software cluster:
 
 1. Create a new Active-Active database. For prerequisites and detailed instructions, see [Create an Active-Active geo-replicated database]({{< relref "/operate/rs/databases/active-active/create" >}}).
 
@@ -63,7 +63,7 @@ For a source database on a different Redis Software cluster,
 you can [compress the replication data]({{< relref "/operate/rs/databases/import-export/replica-of#data-compression-for-replica-of" >}}) to save bandwidth.
 {{< /note >}}
 
-To migrate a database to Active-Active in different Redis Enterprise clusters:
+To migrate a database to Active-Active in different Redis Software clusters:
 
 1. Sign in to the Cluster Manager UI of the cluster hosting the source database.
 

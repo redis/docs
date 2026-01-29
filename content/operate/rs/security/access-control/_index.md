@@ -19,7 +19,7 @@ Redis Software lets you use role-based access control (RBAC) to manage users' ac
 
 ## Cluster access versus database access
 
-Redis Enterprise allows two separate paths of access:
+Redis Software allows two separate paths of access:
 
 - **Cluster access** allows performing management-related actions, such as creating databases and viewing statistics.
 

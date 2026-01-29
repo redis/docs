@@ -10,7 +10,7 @@ title: Configure TLS protocol
 weight: 50
 ---
 
-You can change TLS protocols to improve the security of your Redis Enterprise cluster and databases. The default settings are in line with industry best practices, but you can customize them to match the security policy of your organization.
+You can change TLS protocols to improve the security of your Redis Software cluster and databases. The default settings are in line with industry best practices, but you can customize them to match the security policy of your organization.
 
 ## Configure TLS protocol
 
@@ -25,7 +25,7 @@ You can configure TLS protocols with the [Cluster Manager UI](#edit-tls-ui), [`r
 {{<warning>}}
 - After you set the minimum TLS version, Redis Software does not accept communications with TLS versions older than the specified version.
 
-- If you set TLS 1.3 as the minimum TLS version, clients must support TLS 1.3 to connect to Redis Enterprise.
+- If you set TLS 1.3 as the minimum TLS version, clients must support TLS 1.3 to connect to Redis Software.
 {{</warning>}}
 
 TLS support depends on the operating system. You cannot enable support for protocols or versions that aren't supported by the operating system running Redis Software.  In addition, updates to the operating system or to Redis Software can impact protocol and version support.  

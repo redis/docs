@@ -1,5 +1,5 @@
 ---
-Title: Benchmarking Redis Enterprise
+Title: Benchmarking Redis Software
 alwaysopen: false
 categories:
 - docs

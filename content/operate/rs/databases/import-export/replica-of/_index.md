@@ -11,15 +11,15 @@ linkTitle: Replica Of
 weight: $weight
 aliases: /operate/rs/administering/active-passive/
 ---
-In Redis Enterprise, the Replica Of feature provides active-passive geo-distribution to applications  for read-only access
+In Redis Software, the Replica Of feature provides active-passive geo-distribution to applications  for read-only access
 to replicas of the dataset from different geographical locations.
-The Redis Enterprise implementation of active-passive replication is called Replica Of.
+The Redis Software implementation of active-passive replication is called Replica Of.
 
 In Replica Of, an administrator designates a database as a replica (destination) of one or more databases (sources).
 After the initial data load from source to destination is completed,
 all write commands are synchronized from the sources to the destination.
 Replica Of lets you distribute the read load of your application across multiple databases or
-synchronize the database, either within Redis Enterprise or external to Redis Enterprise, to another database.
+synchronize the database, either within Redis Software or external to Redis Software, to another database.
 
 You can [create Active-Passive]({{< relref "/operate/rs/databases/import-export/replica-of/create.md" >}}) databases on Redis Software or Redis Cloud.
 
@@ -142,7 +142,7 @@ based encryption.
 
 ## Data compression for Replica Of
 
-When the Replica Of is defined across different Redis Enterprise
+When the Replica Of is defined across different Redis Software
 Software clusters, it may be beneficial to compress the data that flows
 through the network (depending on where the clusters physically reside
 and the available network).

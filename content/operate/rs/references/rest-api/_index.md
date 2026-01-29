@@ -72,7 +72,7 @@ When an endpoint supports multiple versions, each version is documented on the c
 
 ### Requests
 
-Redis Enterprise REST API requests support the following HTTP headers:
+Redis Software REST API requests support the following HTTP headers:
 
 | Header | Supported/Required Values |
 |--------|---------------------------|
@@ -84,7 +84,7 @@ If the client specifies an invalid header, the request will fail with a [`400 Ba
 
 ### Responses
 
-Redis Enterprise REST API responses support the following HTTP headers:
+Redis Software REST API responses support the following HTTP headers:
 
 | Header | Supported/Required Values |
 |--------|---------------------------|
@@ -107,7 +107,7 @@ If you omit certain JSON object fields from a request, they may be assigned defa
 
 [HTTP status codes](https://www.rfc-editor.org/rfc/rfc9110.html#name-status-codes) indicate the result of an API request. This can be `200 OK` if the server accepted the request, or it can be one of many error codes.
 
-The most common responses for a Redis Enterprise API request are:
+The most common responses for a Redis Software API request are:
 
 | Response | Condition/Required handling |
 |----------|-----------------------------|

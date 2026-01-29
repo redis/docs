@@ -26,11 +26,11 @@ This checklist covers the basic process:
 
 1.  Create or identify an LDAP group that contains the app team members.
 
-1.  Verify or configure the Redis Enterprise ACLs.
+1.  Verify or configure the Redis Software ACLs.
 
 1.  Configure each database ACL.
 
-1.  Remove the earlier "external" (LDAP) users from Redis Enterprise.
+1.  Remove the earlier "external" (LDAP) users from Redis Software.
 
 1.  _(Recommended)_ Update cluster configuration to replace the cluster-based configuration file.
 

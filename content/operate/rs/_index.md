@@ -11,9 +11,9 @@ weight: 10
 linkTitle: Redis Software
 ---
 
-[Redis Enterprise](https://redis.io/enterprise/) is a self-managed, enterprise-grade version of Redis.
+[Redis Software](https://redis.io/software/) is a self-managed, enterprise-grade version of Redis.
 
-With Redis Enterprise, you get many enterprise-grade capabilities, including:
+With Redis Software, you get many enterprise-grade capabilities, including:
 - Linear scalability
 - High availability, backups, and recovery
 - Predictable performance

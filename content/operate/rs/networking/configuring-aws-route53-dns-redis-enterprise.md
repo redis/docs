@@ -37,7 +37,7 @@ Once created, it will appear in the list of **Hosted zones**
 
 ## Create glue records
 
-A **glue record** is a type of DNS record that helps prevent circular dependencies by providing the IP addresses of your nameservers. To create glue records in Route 53, you first need to set up a hosted zone for your domain. You will create a separate A record for each node in your Redis Enterprise cluster. The **Record name** will be a subdomain definition of the NS record you will define and the **value** should be set to the IP address of the node in your cluster.
+A **glue record** is a type of DNS record that helps prevent circular dependencies by providing the IP addresses of your nameservers. To create glue records in Route 53, you first need to set up a hosted zone for your domain. You will create a separate A record for each node in your Redis Software cluster. The **Record name** will be a subdomain definition of the NS record you will define and the **value** should be set to the IP address of the node in your cluster.
 
 {{< image filename="/images/rs/05-NS1Configuration-en.png" >}}
 
@@ -53,7 +53,7 @@ When you create a new hosted zone in Route 53 for your domain, a set of NS recor
 You will need to create a new NS record which will point to the glue records created in the previous step.
 
 {{<note>}}
-It is important to make sure that the **Record Name** of the NS record equals the FQDN (Fully Qualified Domain Name) of your Redis Enterprise cluster. If not, DNS resolution will not function correctly.
+It is important to make sure that the **Record Name** of the NS record equals the FQDN (Fully Qualified Domain Name) of your Redis Software cluster. If not, DNS resolution will not function correctly.
 {{</note>}}
 
 {{< image filename="/images/rs/07-NSRecord-en.png" >}}

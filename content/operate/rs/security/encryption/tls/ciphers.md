@@ -10,7 +10,7 @@ title: Configure cipher suites
 weight: 60
 ---
 
-Ciphers are algorithms that help secure connections between clients and servers. You can change the ciphers to improve the security of your Redis Enterprise cluster and databases. The default settings are in line with industry best practices, but you can customize them to match the security policy of your organization.
+Ciphers are algorithms that help secure connections between clients and servers. You can change the ciphers to improve the security of your Redis Software cluster and databases. The default settings are in line with industry best practices, but you can customize them to match the security policy of your organization.
 
 ## TLS 1.2 cipher suites
 

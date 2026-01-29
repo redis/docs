@@ -81,7 +81,7 @@ To create a new database and configure additional settings:
 
     - **Single Region**
 
-    - **Active-Active database** - Multiple participating Redis Enterprise clusters can host instances of the same [Active-Active database]({{< relref "/operate/rs/databases/active-active" >}}) in different geographic locations. Every instance can receive write operations, which are synchronized across all instances without conflict.
+    - **Active-Active database** - Multiple participating Redis Software clusters can host instances of the same [Active-Active database]({{< relref "/operate/rs/databases/active-active" >}}) in different geographic locations. Every instance can receive write operations, which are synchronized across all instances without conflict.
 
     {{<note>}}
 For Active-Active databases, see [Create an Active-Active geo-replicated database]({{< relref "/operate/rs/databases/active-active/create" >}}).

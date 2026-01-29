@@ -21,7 +21,7 @@ Redis Software traffic is divided into internal traffic and external traffic:
 
 - "External traffic" refers to communications between clients and databases and connections to the Cluster Manager UI.
 
-When only one IP address exists on a machine that serves as a Redis Enterprise node, it is used for both internal and external traffic.
+When only one IP address exists on a machine that serves as a Redis Software node, it is used for both internal and external traffic.
 
 ## Multiple IP addresses
 
@@ -171,4 +171,4 @@ if you use the node's IP, provide the node's internal IP address.
 
 - All nodes must use the same protocol for internal traffic.
 
-- If a Redis Enterprise node's host machine has both IPv4 and IPv6 addresses, internal communication within the node initially uses IPv4 until the bootstrap process finishes.
+- If a Redis Software node's host machine has both IPv4 and IPv6 addresses, internal communication within the node initially uses IPv4 until the bootstrap process finishes.

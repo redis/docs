@@ -30,11 +30,11 @@ The v1 statistics REST API endpoints are deprecated as of Redis Software version
 | cpu_user | float | CPU time portion spent by users-pace processes (0-1, multiply by 100 to get percent) |
 | cur_aof_rewrites | float | Number of current AOF rewrites by shards on this node |
 | egress_bytes | float | Rate of outgoing network traffic to the node (bytes/sec) |
-| ephemeral_storage_avail | float | Disk space available to Redis Enterprise processes on configured ephemeral disk (bytes) |
+| ephemeral_storage_avail | float | Disk space available to Redis Software processes on configured ephemeral disk (bytes) |
 | ephemeral_storage_free | float | Free disk space on configured ephemeral disk (bytes) |
 | free_memory | float | Free memory on the node (bytes) |
 | ingress_bytes | float | Rate of incoming network traffic to the node (bytes/sec) |
-| persistent_storage_avail | float | Disk space available to Redis Enterprise processes on configured persistent disk (bytes) |
+| persistent_storage_avail | float | Disk space available to Redis Software processes on configured persistent disk (bytes) |
 | persistent_storage_free | float | Free disk space on configured persistent disk (bytes) |
 | provisional_flash | float | Amount of flash available for new shards on this node, taking into account overbooking, max Redis servers, reserved flash, and provision and migration thresholds (bytes) |
 | provisional_memory | float | Amount of RAM available for new shards on this node, taking into account overbooking, max Redis servers, reserved memory, and provision and migration thresholds (bytes) |

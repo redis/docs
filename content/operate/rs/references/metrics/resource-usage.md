@@ -10,7 +10,7 @@ linkTitle: Resource usage
 weight: $weight
 ---
 
-The following metrics are available in the Redis Enterprise Cluster Manager UI.
+The following metrics are available in the Redis Software Cluster Manager UI.
 
 ## Connections
 

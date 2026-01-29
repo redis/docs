@@ -18,7 +18,7 @@ to monitor the performance of your databases.
 
 ## View metrics and configure alerts
 
-In the Redis Enterprise Cluster Manager UI, you can view metrics, configure alerts, and send notifications based on alert parameters. You can also access metrics and configure alerts through the REST API.
+In the Redis Software Cluster Manager UI, you can view metrics, configure alerts, and send notifications based on alert parameters. You can also access metrics and configure alerts through the REST API.
 
 See [Metrics and alerts for monitoring v1]({{<relref "/operate/rs/monitoring/v1_monitoring">}}) for more information.
 
@@ -30,7 +30,7 @@ See [Metrics stream engine for monitoring v2]({{<relref "/operate/rs/monitoring/
 
 ## Integrate with external monitoring tools
 
-To integrate Redis Enterprise metrics into your monitoring environment, see the following integration guides:
+To integrate Redis Software metrics into your monitoring environment, see the following integration guides:
 
 - [Grafana]({{<relref "/integrate/prometheus-with-redis-enterprise">}})
 

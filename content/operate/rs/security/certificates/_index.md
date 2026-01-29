@@ -23,10 +23,10 @@ Here's the list of supported certificates that create secure, encrypted connecti
 |------------------|:---------------:|-------------|
 | `api` | <span title="Yes">&#x2705;</span> | Encrypts [REST API]({{< relref "/operate/rs/references/rest-api/" >}}) requests and responses. |
 | `ccs_internode_encryption` | <span title="Yes">&#x2705;</span> | Control plane [internode encryption]({{< relref "/operate/rs/security/encryption/internode-encryption" >}}). Encrypts internal traffic for cluster management. |
-| `cm` | <span title="Yes">&#x2705;</span> | Secures connections to the Redis Enterprise Cluster Manager UI. |
+| `cm` | <span title="Yes">&#x2705;</span> | Secures connections to the Redis Software Cluster Manager UI. |
 | `data_internode_encryption` | <span title="Yes">&#x2705;</span> | Data plane [internode encryption]({{< relref "/operate/rs/security/encryption/internode-encryption" >}}). Encrypts internal data traffic between shards and the data management controller (DMC). |
 | `ldap_client` | <span title="No">:x:</span> | Secures connections between LDAP clients and LDAP servers. |
-| `metrics_exporter` | <span title="Yes">&#x2705;</span> | Sends Redis Enterprise metrics to external [monitoring tools]({{< relref "/operate/rs/monitoring/" >}}) over a secure connection. |
+| `metrics_exporter` | <span title="Yes">&#x2705;</span> | Sends Redis Software metrics to external [monitoring tools]({{< relref "/operate/rs/monitoring/" >}}) over a secure connection. |
 | `mtls_trusted_ca` | <span title="No">:x:</span>  | Required to enable certificate-based authentication for secure, passwordless access to the REST API. |
 | `proxy` | <span title="Yes">&#x2705;</span> | Creates secure, encrypted connections between clients and databases. |
 | `sso_issuer` | <span title="No">:x:</span> | Identity provider certificate for [single sign-on (SSO)]({{< relref "/operate/rs/security/access-control/saml-sso" >}}). |

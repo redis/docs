@@ -1,11 +1,11 @@
 ---
-Title: RESP compatibility with Redis Enterprise
+Title: RESP compatibility with Redis Software
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
-description: Redis Enterprise supports RESP2 and RESP3.
+description: Redis Software supports RESP2 and RESP3.
 linkTitle: RESP
 toc: 'true'
 weight: 80
@@ -15,12 +15,12 @@ RESP (Redis Serialization Protocol) is the protocol that clients use to communic
 
 ## Supported RESP versions
 
-- RESP2 is supported by all Redis Enterprise versions.
+- RESP2 is supported by all Redis Software versions.
 
-- RESP3 is supported by Redis Enterprise 7.2 and later.
+- RESP3 is supported by Redis Software 7.2 and later.
 
 {{<note>}}
-Redis Enterprise versions that support RESP3 continue to support RESP2.
+Redis Software versions that support RESP3 continue to support RESP2.
 {{</note>}}
 
 
@@ -32,7 +32,7 @@ To use RESP3 with a Redis Software database:
 
     For Active-Active and Replica Of databases:
  
-    1. Upgrade all participating clusters to Redis Enterprise version 7.2.x or later.
+    1. Upgrade all participating clusters to Redis Software version 7.2.x or later.
  
     1. Upgrade all databases to version 7.x or later.
 

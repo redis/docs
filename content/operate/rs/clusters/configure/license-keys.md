@@ -36,7 +36,7 @@ To view the cluster license key, use:
     For a list of returned fields, see the [response section]({{< relref "/operate/rs/references/rest-api/requests/license#get-response" >}}).
 
 {{<note>}}
-As of version 7.2, Redis Enterprise enforces shard limits by shard types, RAM or flash, instead of the total number of shards. The flash shards limit only appears in the UI if Auto Tiering is enabled.
+As of version 7.2, Redis Software enforces shard limits by shard types, RAM or flash, instead of the total number of shards. The flash shards limit only appears in the UI if Auto Tiering is enabled.
 {{</note>}}
 
 ## Update cluster license
@@ -60,7 +60,7 @@ You can update the cluster license key:
     1. Select **Save**.
 
 You can update an existing cluster key at any time.
-Redis Enterprise checks its validity for the following:
+Redis Software checks its validity for the following:
 - Cluster name
 - Activation and expiration dates
 - Shard usage and limits
@@ -130,7 +130,7 @@ To change the cluster license alert settings, use one of the following methods:
 
 ## Monitor cluster license
 
-As of version 7.2, Redis Enterprise exposes the license quotas and the shards consumption metrics in the Cluster Manager UI or via the [Prometheus integration]({{< relref "/integrate/prometheus-with-redis-enterprise/" >}}).
+As of version 7.2, Redis Software exposes the license quotas and the shards consumption metrics in the Cluster Manager UI or via the [Prometheus integration]({{< relref "/integrate/prometheus-with-redis-enterprise/" >}}).
 
 The `cluster_shards_limit` metric displays the total shard limit by shard type.
 

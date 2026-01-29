@@ -24,7 +24,7 @@ Here's an example of the updated scraping configuration in `prometheus.yml`:
 
 ```yaml
 scrape_configs:
-  # Scrape Redis Enterprise
+  # Scrape Redis Software
   - job_name: redis-enterprise
     scrape_interval: 30s
     scrape_timeout: 30s

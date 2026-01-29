@@ -1,5 +1,5 @@
 ---
-Title: Redis Enterprise REST API requests
+Title: Redis Software REST API requests
 alwaysopen: false
 categories:
 - docs

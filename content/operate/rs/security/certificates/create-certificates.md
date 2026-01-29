@@ -4,13 +4,13 @@ categories:
 - docs
 - operate
 - rs
-description: Create self-signed certificates to install on a Redis Enterprise cluster.
+description: Create self-signed certificates to install on a Redis Software cluster.
 linkTitle: Create certificates
 title: Create certificates
 weight: 10
 ---
 
-When you first install Redis Software, self-signed certificates are created to enable encryption for Redis Enterprise endpoints.  These certificates expire after a year (365 days) and must be renewed.
+When you first install Redis Software, self-signed certificates are created to enable encryption for Redis Software endpoints.  These certificates expire after a year (365 days) and must be renewed.
 
 You can renew these certificates by replacing them with new self-signed certificates or by replacing them with certificates signed by a [certificate authority](https://en.wikipedia.org/wiki/Certificate_authority) (CA).
 

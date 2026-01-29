@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Manage Redis Enterprise clusters and databases.
+description: Manage Redis Software clusters and databases.
 hideListLinks: true
 linkTitle: rladmin (manage cluster)
 weight: $weight

@@ -45,7 +45,7 @@ Additional factors for  databases with Auto Tiering enabled:
 
 ## What happens when Redis Software is low on RAM?
 
-Redis Software manages node memory so that data is entirely in RAM (unless using Auto Tiering). If not enough RAM is available, Redis Enterprise prevents adding more data into the databases.
+Redis Software manages node memory so that data is entirely in RAM (unless using Auto Tiering). If not enough RAM is available, Redis Software prevents adding more data into the databases.
 
 Redis Software protects the existing data and prevents the database from being able to store data into the shards.
 
@@ -61,11 +61,11 @@ manage memory so that you can also use flash memory (SSD) to store data.
 which can result in data loss.
 3. If the eviction policy does not allow eviction, you'll receive
 out of memory (OOM) messages.
-4. If shards can't free memory, Redis Enterprise relies on the OS processes to stop replicas,
+4. If shards can't free memory, Redis Software relies on the OS processes to stop replicas,
 but tries to avoid stopping primary shards.
 
 We recommend that you have a [monitoring platform]({{< relref "/operate/rs/monitoring/" >}}) that alerts you before a system gets low on RAM.
-You must maintain sufficient free memory to make sure that you have a healthy Redis Enterprise installation.
+You must maintain sufficient free memory to make sure that you have a healthy Redis Software installation.
 
 ## Adaptive memory allocation
 

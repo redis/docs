@@ -19,7 +19,7 @@ An API object that represents a node in the cluster.
 | addr | string | Internal IP address of node |
 | architecture | string | Hardware architecture (read-only) |
 | bigredis_storage_path | string | Flash storage path (read-only) |
-| bigstore_driver | 'ibm-capi-ga1'<br />'ibm-capi-ga2'<br />'ibm-capi-ga4'<br />'speedb'<br />'rocksdb' | Bigstore driver name or none (deprecated as of Redis Enterprise v7.2, use the [cluster object]({{< relref "/operate/rs/references/rest-api/objects/cluster" >}})'s `bigstore_driver` instead) |
+| bigstore_driver | 'ibm-capi-ga1'<br />'ibm-capi-ga2'<br />'ibm-capi-ga4'<br />'speedb'<br />'rocksdb' | Bigstore driver name or none (deprecated as of Redis Software v7.2, use the [cluster object]({{< relref "/operate/rs/references/rest-api/objects/cluster" >}})'s `bigstore_driver` instead) |
 | bigstore_enabled | boolean | If `true`, then flash storage is enabled on this node for [Redis Flex and Auto Tiering]({{<relref "/operate/rs/databases/flash">}}) databases. Configurable during [bootstrapping]({{<relref "/operate/rs/references/rest-api/requests/bootstrap#post-bootstrap">}}). After bootstrapping, it is read-only. |
 | bigstore_size | integer | Storage size of bigstore storage (read-only) |
 | cores | integer | Total number of CPU cores (read-only) |
@@ -36,13 +36,13 @@ An API object that represents a node in the cluster.
 | os_version | string | Installed OS version (human-readable) (read-only) |
 | persistent_storage_path | string | Persistent storage path (read-only) |
 | persistent_storage_size | number | Persistent storage size (bytes) (read- only) |
-| public_addr | string | Public IP address of node (deprecated as of Redis Enterprise v4.3.3, use external_addr instead) |
+| public_addr | string | Public IP address of node (deprecated as of Redis Software v4.3.3, use external_addr instead) |
 | rack_id | string | Rack ID where node is installed |
 | recovery_path | string | Recovery files path |
 | second_rack_id | string | Second rack ID where node is installed |
 | shard_count | integer | Number of shards on the node (read-only) |
 | shard_list | array of integers | Cluster unique IDs of all node shards |
-| software_version | string | Installed Redis Enterprise cluster software version (read-only) |
+| software_version | string | Installed Redis Software cluster software version (read-only) |
 | status | 'active'<br />'decommissioning'<br />'down'<br />'provisioning' | Node status (read-only) |
 | supported_database_versions | {{<code>}}
 [{

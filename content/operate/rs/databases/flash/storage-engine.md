@@ -59,7 +59,7 @@ To get the current cluster level default storage engine run:
      curl -k -u <username>:<password> -X GET -H "Content-Type: application/json" https://localhost:9443/v1/cluster
      ```
 
-Versions of Redis Enterprise 7.2 and later provide a metric called `bdb_bigstore_shard_count` to help track the shard count per database, filtered by `bdb_id` and by storage engine as shown below:
+Versions of Redis Software 7.2 and later provide a metric called `bdb_bigstore_shard_count` to help track the shard count per database, filtered by `bdb_id` and by storage engine as shown below:
 
 
   ```sh
@@ -67,4 +67,4 @@ Versions of Redis Enterprise 7.2 and later provide a metric called `bdb_bigstore
   bdb_bigstore_shard_count{bdb="1",cluster="mycluster.local",driver="speedb"} 2.0
   ```
 
-For more about metrics for Redis Enterprise’s integration with Prometheus, see [Prometheus integration]({{< relref "/integrate/prometheus-with-redis-enterprise/prometheus-metrics-definitions" >}}).
+For more about metrics for Redis Software’s integration with Prometheus, see [Prometheus integration]({{< relref "/integrate/prometheus-with-redis-enterprise/prometheus-metrics-definitions" >}}).

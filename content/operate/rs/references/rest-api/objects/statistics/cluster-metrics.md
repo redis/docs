@@ -29,11 +29,11 @@ The v1 statistics REST API endpoints are deprecated as of Redis Software version
 | cpu_system | float | CPU time portion spent in kernel on the cluster, the value is weighted between all nodes based on number of cores in each node (0-1, multiply by 100 to get percent) |
 | cpu_user | float | CPU time portion spent by users-pace processes on the cluster. The value is weighted between all nodes based on number of cores in each node (0-1, multiply by 100 to get percent). |
 | egress_bytes | float | Sum of rate of outgoing network traffic on all cluster nodes (bytes/sec) |
-| ephemeral_storage_avail | float | Sum of disk space available to Redis Enterprise processes on configured ephemeral disk on all cluster nodes (bytes) |
+| ephemeral_storage_avail | float | Sum of disk space available to Redis Software processes on configured ephemeral disk on all cluster nodes (bytes) |
 | ephemeral_storage_free | float | Sum of free disk space on configured ephemeral disk on all cluster nodes (bytes) |
 | free_memory | float | Sum of free memory in all cluster nodes (bytes) |
 | ingress_bytes | float | Sum of rate of incoming network traffic on all cluster nodes (bytes/sec) |
-| persistent_storage_avail | float | Sum of disk space available to Redis Enterprise processes on configured persistent disk on all cluster nodes (bytes) |
+| persistent_storage_avail | float | Sum of disk space available to Redis Software processes on configured persistent disk on all cluster nodes (bytes) |
 | persistent_storage_free | float | Sum of free disk space on configured persistent disk on all cluster nodes (bytes) |
 | provisional_flash | float | Sum of provisional flash in all nodes (bytes) |
 | provisional_memory | float | Sum of provisional memory in all nodes (bytes) |

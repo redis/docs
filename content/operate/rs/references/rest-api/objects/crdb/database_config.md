@@ -16,7 +16,7 @@ An object that represents the database configuration.
 |------|------------|-------------|
 | aof_policy | **'appendfsync-every-sec'** <br />'appendfsync-always' | Policy for Append-Only File data persistence |
 | <span class="break-all">authentication_admin_pass</span> | string | Administrative databases access token |
-| <span class="break-all">authentication_redis_pass</span> | string | Redis AUTH password (deprecated as of Redis Enterprise v7.2, replaced with multiple passwords feature in version 6.0.X) |
+| <span class="break-all">authentication_redis_pass</span> | string | Redis AUTH password (deprecated as of Redis Software v7.2, replaced with multiple passwords feature in version 6.0.X) |
 | bigstore | boolean (default: false) | Database driver is Auto Tiering |
 | bigstore_ram_size | integer (default: 0) | Memory size of RAM size |
 | cert | string | Optional PEM-encoded server certificate for the underlying database instance |

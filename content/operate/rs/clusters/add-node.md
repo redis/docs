@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Add a node to your existing Redis Enterprise cluster.
+description: Add a node to your existing Redis Software cluster.
 linktitle: Add a node
 weight: 20
 ---

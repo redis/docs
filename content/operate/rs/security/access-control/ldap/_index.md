@@ -15,7 +15,7 @@ weight: 50
 
 Redis Software supports [Lightweight Directory Access Protocol](https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol) (LDAP) authentication and authorization through its [role-based access controls]({{< relref "/operate/rs/security/access-control" >}}) (RBAC).  You can use LDAP to authorize access to the Cluster Manager UI and to control database access.
 
-You can configure LDAP roles using the Redis Enterprise Cluster Manager UI or [REST API]({{< relref "/operate/rs/references/rest-api/requests/ldap_mappings/" >}}).
+You can configure LDAP roles using the Redis Software Cluster Manager UI or [REST API]({{< relref "/operate/rs/references/rest-api/requests/ldap_mappings/" >}}).
 
 ## How it works
 
@@ -43,7 +43,7 @@ For database access, the user needs to belong to an LDAP group mapped to a role 
 
 ## Prerequisites 
 
-Before you enable LDAP in Redis Enterprise, you need:
+Before you enable LDAP in Redis Software, you need:
 
 1. The following LDAP details:
 
@@ -52,11 +52,11 @@ Before you enable LDAP in Redis Enterprise, you need:
     - Bind credentials, including Distinguished Name, password, and (optionally) client public and private keys for certificate authentication.  
     - Authentication query details, whether template or query.  
     - Authorization query details, whether attribute or query.  
-    - The Distinguished Names of LDAP groups you’ll use to authorize access to Redis Enterprise resources. 
+    - The Distinguished Names of LDAP groups you’ll use to authorize access to Redis Software resources. 
 
-1. The LDAP groups that correspond to the levels of access you wish to authorize.  Each LDAP group will be mapped to a Redis Enterprise access control role.
+1. The LDAP groups that correspond to the levels of access you wish to authorize.  Each LDAP group will be mapped to a Redis Software access control role.
 
-1. A Redis Enterprise access control role for each LDAP group. Before you enable LDAP, you need to set up [role-based access controls]({{< relref "/operate/rs/security/access-control" >}}) (RBAC).
+1. A Redis Software access control role for each LDAP group. Before you enable LDAP, you need to set up [role-based access controls]({{< relref "/operate/rs/security/access-control" >}}) (RBAC).
 
 ## Enable LDAP
 

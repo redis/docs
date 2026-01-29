@@ -30,7 +30,7 @@ To programmatically maintain an Active-Active database and its instances, you ca
 
 ## Use the crdb-cli
 
-To use the `crdb-cli` tool, use SSH to sign in to a Redis Enterprise host with a user that belongs to the group that Redis Software was installed with (Default: **redislabs**).
+To use the `crdb-cli` tool, use SSH to sign in to a Redis Software host with a user that belongs to the group that Redis Software was installed with (Default: **redislabs**).
 If you sign in with a non-root user, you must add `/opt/redislabs/bin/` to your `PATH` environment variables.
 
 `crdb-cli` commands use the syntax: `crdb-cli <command> <arguments>` to let you:

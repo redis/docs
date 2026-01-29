@@ -49,8 +49,7 @@ the database name to explicitly ask for the internal endpoint. to query
 the internal endpoint explicitly with database name "db1", you can pass
 in the database name as "db1\@internal".
 
-If you'd like to examine the metadata returned from Redis Enterprise
-Software Discovery Service you can connect to port 8001 with redis-cli
+If you'd like to examine the metadata returned from Redis Software Discovery Service you can connect to port 8001 with redis-cli
 utility and execute "SENTINEL masters". Following is a sample output
 from one of the nodes of a Redis Software cluster:
 

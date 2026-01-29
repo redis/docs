@@ -5,11 +5,11 @@ categories:
 - docs
 - operate
 - rs
-description: Remove a node from your Redis Enterprise cluster.
+description: Remove a node from your Redis Software cluster.
 linkTitle: Remove node
 weight: 80
 ---
-You might want to remove a node from a Redis Enterprise cluster for one of the following reasons:
+You might want to remove a node from a Redis Software cluster for one of the following reasons:
 
 - To [permanently remove a node](#permanently-remove-a-node) if you no longer need the extra capacity.
 - To [replace a faulty node](#replace-a-faulty-node) with a healthy node.

@@ -13,7 +13,7 @@ tocEmbedHeaders: true
 The Redis Software product lifecycle fully reflects the [subscription agreement](https://redis.io/legal/software-agreement/).
 However, for any discrepancy between the two policies, the subscription agreement prevails.
 
-Redis Enterprise modules follow the [modules lifecycle]({{< relref "/operate/oss_and_stack/stack-with-enterprise/modules-lifecycle" >}}).
+Redis Software modules follow the [modules lifecycle]({{< relref "/operate/oss_and_stack/stack-with-enterprise/modules-lifecycle" >}}).
 
 ## Redis Software cluster version lifecycle
 

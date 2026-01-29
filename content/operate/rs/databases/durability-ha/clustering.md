@@ -18,7 +18,7 @@ Redis Software supports database clustering to allow customers
 to spread the load of a Redis process over multiple cores and the RAM of multiple servers.
 A database cluster is a set of Redis processes where each process manages a subset of the database keyspace.
 
-The keyspace of a Redis Enterprise cluster is partitioned into database shards.
+The keyspace of a Redis Software cluster is partitioned into database shards.
 Each shard resides on a single node and is managed by that node.
 Each node in a Redis database cluster can manage multiple shards.
 The key space in the shards is divided into hash slots.
@@ -61,7 +61,7 @@ is 3, you can increase the number of shards to 6, 9, or 12.
 
 ### Standard hashing policy
 
-When using the standard hashing policy, a clustered Redis Enterprise database behaves similarly to a standard [Redis Open Source cluster]({{< relref "/operate/oss_and_stack/reference/cluster-spec" >}}#hash-tags), except when using multiple hash tags in a key's name. We recommend using only a single hash tag in a key name for hashing in Redis Enterprise.
+When using the standard hashing policy, a clustered Redis Software database behaves similarly to a standard [Redis Open Source cluster]({{< relref "/operate/oss_and_stack/reference/cluster-spec" >}}#hash-tags), except when using multiple hash tags in a key's name. We recommend using only a single hash tag in a key name for hashing in Redis Software.
 
 - **Keys with a hash tag**: a key's hash tag is any substring between
     `{` and `}` in the key's name. When a key's name

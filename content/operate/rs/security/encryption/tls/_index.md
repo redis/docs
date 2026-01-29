@@ -22,7 +22,7 @@ You can [use TLS authentication]({{< relref "/operate/rs/security/encryption/tls
 
 TLS protocols and ciphers define the overall suite of algorithms that clients are able to connect to the servers with.
 
-You can change the [TLS protocols]({{< relref "/operate/rs/security/encryption/tls/tls-protocols" >}}) and [ciphers]({{< relref "/operate/rs/security/encryption/tls/ciphers" >}}) to improve the security of your Redis Enterprise cluster and databases. The default settings are in line with industry best practices, but you can customize them to match the security policy of your organization.
+You can change the [TLS protocols]({{< relref "/operate/rs/security/encryption/tls/tls-protocols" >}}) and [ciphers]({{< relref "/operate/rs/security/encryption/tls/ciphers" >}}) to improve the security of your Redis Software cluster and databases. The default settings are in line with industry best practices, but you can customize them to match the security policy of your organization.
 
 ## Troubleshooting
 

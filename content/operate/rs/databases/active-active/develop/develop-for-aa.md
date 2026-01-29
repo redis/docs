@@ -48,7 +48,7 @@ updates to other participating clusters and other member Active-Active databases
 Databases provide various approaches to address some of these concerns:
 
 - Active-Passive Geo-distributed deployments: With active-passive
-    distributions, all writes go to an active cluster. Redis Enterprise
+    distributions, all writes go to an active cluster. Redis Software
     provides a "Replica Of" capability that provides a similar approach.
     This can be employed when the workload is heavily balanced towards
     read and few writes. However, WAN performance and availability
@@ -97,8 +97,8 @@ execute them in script-replication mode.
 
 ## Eviction
 
-The default policy for Active-Active databases is _noeviction_ mode. Redis Enterprise version 6.0.20 and later support all eviction policies for Active-Active databases, unless [Redis Flex or Auto Tiering]({{< relref "/operate/rs/databases/flash" >}})(previously known as Redis on Flash) is enabled.
-For details, see [eviction for Active-Active databases (Redis Enterprise)]({{< relref "/operate/rs/databases/memory-performance/eviction-policy#active-active-database-eviction" >}}) or [eviction for Active-Active databases (Redis Cloud)]({{< relref "/operate/rc/databases/configuration/data-eviction-policies#active-active-replication-considerations" >}}).
+The default policy for Active-Active databases is _noeviction_ mode. Redis Software version 6.0.20 and later support all eviction policies for Active-Active databases, unless [Redis Flex or Auto Tiering]({{< relref "/operate/rs/databases/flash" >}})(previously known as Redis on Flash) is enabled.
+For details, see [eviction for Active-Active databases (Redis Software)]({{< relref "/operate/rs/databases/memory-performance/eviction-policy#active-active-database-eviction" >}}) or [eviction for Active-Active databases (Redis Cloud)]({{< relref "/operate/rc/databases/configuration/data-eviction-policies#active-active-replication-considerations" >}}).
 
 ## Expiration
 

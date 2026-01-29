@@ -83,7 +83,7 @@ For these tests, the load generation host uses a c4.8xlarge instance type.
 
 ### Create a Auto Tiering test database
 
-You can use the Redis Enterprise Cluster Manager UI to create a test database.
+You can use the Redis Software Cluster Manager UI to create a test database.
 We recommend that you use a separate database for each test case with these requirements:
 
 |  **Parameter** | **With replication** | **Without replication** | **Description** |

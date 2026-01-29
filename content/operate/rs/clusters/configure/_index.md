@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Configuration options for your Redis Enterprise cluster.
+description: Configuration options for your Redis Software cluster.
 hideListLinks: false
 linktitle: Configure
 weight: 50

@@ -65,32 +65,32 @@ For more info about the shard placement policy, see [Shard placement policy]({{<
 
 From the Redis Software Cluster Manager UI, you can monitor the performance of your clusters, nodes, databases, and shards with real-time metrics. You can also enable alerts for node, cluster, or database events such as high memory usage or throughput.
 
-With the Redis Software API, you can also integrate Redis Enterprise metrics into other monitoring environments, such as Prometheus.
+With the Redis Software API, you can also integrate Redis Software metrics into other monitoring environments, such as Prometheus.
 
 For more info about monitoring with Redis Software, see [Monitoring with metrics and alerts]({{< relref "/operate/rs/monitoring" >}}), and [Memory statistics]({{< relref "/operate/rs/databases/memory-performance/memory-limit#memory-metrics" >}}).
 
 ## Scaling databases
 
-Each Redis Enterprise cluster can contain multiple databases. In Redis,
+Each Redis Software cluster can contain multiple databases. In Redis,
 databases represent data that belong to a single application, tenant, or
-microservice. Redis Enterprise is built to scale to 100s of databases
+microservice. Redis Software is built to scale to 100s of databases
 per cluster to provide flexible and efficient multi-tenancy models.
 
 Each database can contain few or many Redis shards. Sharding is
 transparent to Redis applications. Master shards in the database process
 data operations for a given subset of keys. The number of shards per
 database is configurable and depend on the throughput needs of the
-applications. Databases in Redis Enterprise can be resharded into more
+applications. Databases in Redis Software can be resharded into more
 Redis shards to scale throughput while maintaining sub-millisecond
 latencies. Resharding is performed without downtime.
 
 {{< image filename="/images/rs/sharding.png" >}}
 
-Redis Enterprise places master shards and replicas in separate
+Redis Software places master shards and replicas in separate
 nodes, racks, and zones, and uses in-memory replication to protect data
 against failures.
 
-In Redis Enterprise, each database has a quota of RAM. The quota cannot
+In Redis Software, each database has a quota of RAM. The quota cannot
 exceed the limits of the RAM available on the node. However, with Redis
 Enterprise Flash, RAM is extended to the local flash drive (SATA, NVMe
 SSDs etc). The total quota of the database can take advantage of both

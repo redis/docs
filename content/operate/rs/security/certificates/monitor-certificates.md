@@ -4,7 +4,7 @@ categories:
 - docs
 - operate
 - rs
-description: Monitor certificates on a Redis Enterprise cluster.
+description: Monitor certificates on a Redis Software cluster.
 linkTitle: Monitor certificates
 title: Monitor certificates
 weight: 10

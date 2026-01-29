@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Administrative tasks and information related to the Redis Enterprise
+description: Administrative tasks and information related to the Redis Software
   cluster.
 hideListLinks: false
 linktitle: Clusters

@@ -13,7 +13,7 @@ toc: 'true'
 weight: $weight
 ---
 
-Moves Redis Enterprise shards or endpoints to a new node in the same cluster.
+Moves Redis Software shards or endpoints to a new node in the same cluster.
 
 For more information about shard migration use cases and considerations, see [Migrate database shards]({{<relref "/operate/rs/databases/migrate-shards">}}).
 

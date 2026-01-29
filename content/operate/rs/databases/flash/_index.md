@@ -20,7 +20,7 @@ Frequently used data, called hot data, belongs in the fastest memory level to de
 Data that is accessed less frequently, called warm data, can be kept in a slightly slower memory tier.
 Redis Flex maintains hot data in DRAM, keeps warm data in SSDs, and transfers data between tiers automatically.
 
-Redis Flex is based on a high-performance storage engine (Speedb) that manages the complexity of using SSDs and DRAM as the total available memory for databases in a Redis Enterprise cluster. This implementation offers a performance boost of up to 10k operations per second per core of the database, doubling the performance of Redis on Flash.
+Redis Flex is based on a high-performance storage engine (Speedb) that manages the complexity of using SSDs and DRAM as the total available memory for databases in a Redis Software cluster. This implementation offers a performance boost of up to 10k operations per second per core of the database, doubling the performance of Redis on Flash.
 
 Just like all-RAM databases, Redis Flex databases are compatible with existing Redis applications.
 

@@ -54,7 +54,7 @@ $ redis-cli -h <endpoint> -p <port>
 
 To connect to a Redis Software or Redis Cloud database over TLS:
 
-1. Download or copy the Redis Enterprise server (or proxy) certificates.
+1. Download or copy the Redis Software server (or proxy) certificates.
 
     - For Redis Cloud, see [Download certificates]({{< relref "/operate/rc/security/database-security/tls-ssl#download-certificates" >}}) for detailed instructions on how to download the server certificates (`redis_ca.pem`) from the [Redis Cloud console](https://cloud.redis.io/).
 
@@ -62,13 +62,13 @@ To connect to a Redis Software or Redis Cloud database over TLS:
 
 1. Copy the certificate to each client machine.
 
-1. If your database doesn't require client authentication, provide the Redis Enterprise server certificate (`redis_ca.pem` for Cloud or `proxy_cert.pem` for Software) when you connect:
+1. If your database doesn't require client authentication, provide the Redis Software server certificate (`redis_ca.pem` for Cloud or `proxy_cert.pem` for Software) when you connect:
 
     ```sh
     redis-cli -h <endpoint> -p <port> --tls --cacert <redis_cert>.pem
     ```
 
-1. If your database requires client authentication, provide your client's private and public keys along with the Redis Enterprise server certificate (`redis_ca.pem` for Cloud or `proxy_cert.pem` for Software) when you connect:
+1. If your database requires client authentication, provide your client's private and public keys along with the Redis Software server certificate (`redis_ca.pem` for Cloud or `proxy_cert.pem` for Software) when you connect:
 
     ```sh
     redis-cli -h <endpoint> -p <port> --tls --cacert <redis_cert>.pem \

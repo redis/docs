@@ -136,7 +136,7 @@ When you change the cluster's default pub/sub permissions to restrictive, `&*` i
 
 ### Change default pub/sub permissions
 
-As of Redis Enterprise version 6.4.2, you can configure `acl_pubsub_default`, which determines the default pub/sub permissions for all databases in the cluster. You can set `acl_pubsub_default` to the following values:
+As of Redis Software version 6.4.2, you can configure `acl_pubsub_default`, which determines the default pub/sub permissions for all databases in the cluster. You can set `acl_pubsub_default` to the following values:
 
 - `resetchannels` is restrictive and blocks access to all channels by default.
 
@@ -192,7 +192,7 @@ Redis ACLs also have the following differences in Redis Software:
 
 - Nested selectors are not supported.
 
-    For example, the following selectors are not valid in Redis Enterprise: <nobr>`+GET ~key1 (+SET (+SET ~key2) ~key3)`</nobr>
+    For example, the following selectors are not valid in Redis Software: <nobr>`+GET ~key1 (+SET (+SET ~key2) ~key3)`</nobr>
 
 - Key and pub/sub patterns do not allow the following characters: `'(', ')'`
 

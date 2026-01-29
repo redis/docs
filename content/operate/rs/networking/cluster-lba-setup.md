@@ -1,19 +1,19 @@
 ---
-Title: Set up a Redis Enterprise cluster behind a load balancer
+Title: Set up a Redis Software cluster behind a load balancer
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
-description: Set up a Redis Enterprise cluster using a load balancer instead of DNS to direct traffic to cluster nodes.
+description: Set up a Redis Software cluster using a load balancer instead of DNS to direct traffic to cluster nodes.
 linkTitle: Cluster load balancer setup
 weight: $weight
 ---
-To set up a Redis Enterprise cluster in an environment that doesn't allow DNS, you can use a load balancer (LB) to direct traffic to the cluster nodes.
+To set up a Redis Software cluster in an environment that doesn't allow DNS, you can use a load balancer (LB) to direct traffic to the cluster nodes.
 
 ## DNS role for databases
 
-Normally, Redis Enterprise uses DNS to provide dynamic database endpoints.
+Normally, Redis Software uses DNS to provide dynamic database endpoints.
 A DNS name such as `redis-12345.clustername.domain` gives clients access to the database resource:
 
 - If multiple proxies are in use, the DNS name resolves to multiple IP addresses so clients can load balance.
@@ -25,14 +25,14 @@ but the benefits of load balancing and automatic updates to IP addresses won't b
 ## Network architecture with load balancer
 
 You can compensate for the lack of DNS resolution with load balancers that can expose services and provide service discovery.
-A load balancer is configured in front of the Redis Enterprise cluster, exposing several logical services:
+A load balancer is configured in front of the Redis Software cluster, exposing several logical services:
 
 - Control plane services, such as the Cluster Manager UI
 - Data plane services, such as database endpoints for client application connections
 
-Depending on which Redis Enterprise services you want to access outside the cluster, you may need to configure the load balancers separately.
-One or more virtual IPs (VIPs) are defined on the load balancer to expose Redis Enterprise services.
-The architecture is shown in the following diagram with a 3-node Redis Enterprise cluster with one database (DB1) configured on port 12000:
+Depending on which Redis Software services you want to access outside the cluster, you may need to configure the load balancers separately.
+One or more virtual IPs (VIPs) are defined on the load balancer to expose Redis Software services.
+The architecture is shown in the following diagram with a 3-node Redis Software cluster with one database (DB1) configured on port 12000:
 
 {{< image filename="/images/rs/cluster-behind-load-balancer-top-down.png" alt="cluster-behind-load-balancer-top-down" >}}
 
@@ -53,10 +53,10 @@ The architecture is shown in the following diagram with a 3-node Redis Enterpris
     - Rest API on port 9443 for secure HTTPS connections and port 8080 for HTTP
     - Database ports 10000-19999
 
-Other ports are shown in the list of [Redis Enterprise network ports]({{< relref "/operate/rs/networking/port-configurations" >}}).
+Other ports are shown in the list of [Redis Software network ports]({{< relref "/operate/rs/networking/port-configurations" >}}).
 
 {{< note >}}
-Sticky, secured connections are needed only for the Redis Enterprise Cluster Manager UI on port 8443.
+Sticky, secured connections are needed only for the Redis Software Cluster Manager UI on port 8443.
 
 - Certain load balancers provide specific logic to close idle connections. Either turn off this feature or make sure the applications connecting to Redis use reconnection logic.
 - Make sure the load balancer is fast enough to resolve connections between two clusters or applications that are connected to Redis databases through a load balancer.
@@ -86,26 +86,26 @@ rladmin tune cluster default_shards_placement sparse
 
 ### Configure database
 
-After you update the cluster settings and configure the load balancers, you can go to the Redis Enterprise Cluster Manager UI at `https://load-balancer-virtual-ip:8443/` and [create a new database]({{< relref "/operate/rs/databases/create.md" >}}).
+After you update the cluster settings and configure the load balancers, you can go to the Redis Software Cluster Manager UI at `https://load-balancer-virtual-ip:8443/` and [create a new database]({{< relref "/operate/rs/databases/create.md" >}}).
 
 To create an Active-Active database, use the `crdb-cli` utility. See the [`crdb-cli` reference]({{< relref "/operate/rs/references/cli-utilities/crdb-cli" >}}) for more information about creating Active-Active databases from the command line.
 
 ### Update load balancer configuration when cluster configuration changes
 
-When your Redis Enterprise cluster is behind a load balancer, you must update the load balancer when the cluster topology and IP addresses change.
+When your Redis Software cluster is behind a load balancer, you must update the load balancer when the cluster topology and IP addresses change.
 Some common cases that require you to update the load balancer are:
 
-- Adding new nodes to the Redis Enterprise cluster
-- Removing nodes from the Redis Enterprise cluster
-- Maintenance for Redis Enterprise cluster nodes
-- IP address changes for Redis Enterprise cluster nodes
+- Adding new nodes to the Redis Software cluster
+- Removing nodes from the Redis Software cluster
+- Maintenance for Redis Software cluster nodes
+- IP address changes for Redis Software cluster nodes
 
 After these changes, make sure that the Redis connections in your applications can connect to the Redis database,
 especially if they are directly connected on IP addresses that have changed.
 
 ## Intercluster communication considerations
 
-Redis Enterprise supports several topologies that allow intercluster replication, such as [Replica Of]({{< relref "/operate/rs/databases/import-export/replica-of/" >}}) and [Active-Active]({{< relref "/operate/rs/databases/active-active/" >}}) deployment options.
+Redis Software supports several topologies that allow intercluster replication, such as [Replica Of]({{< relref "/operate/rs/databases/import-export/replica-of/" >}}) and [Active-Active]({{< relref "/operate/rs/databases/active-active/" >}}) deployment options.
 When your Redis Software clusters are behind load balancers, you must allow some network services to be open and defined in the load balancers to allow the replication to work.
 
 ### Replica Of

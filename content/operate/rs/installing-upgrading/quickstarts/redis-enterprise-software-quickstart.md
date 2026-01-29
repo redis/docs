@@ -61,7 +61,7 @@ For detailed configuration instructions, see your cloud provider's documentation
 
 To install Redis Software:
 
-1. Download the installation files from the [Redis Enterprise Download Center](https://redis.io/downloads/#software)
+1. Download the installation files from the [Redis Software Download Center](https://redis.io/downloads/#Redis_Software)
 and copy the download package to a machine with a Linux-based OS. 
 
     {{< note >}}

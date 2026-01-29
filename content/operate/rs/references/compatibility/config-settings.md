@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 - rc
-description: Redis Open Source configuration settings supported by Redis Enterprise.
+description: Redis Open Source configuration settings supported by Redis Software.
 linkTitle: Configuration settings
 weight: 50
 ---

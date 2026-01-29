@@ -15,7 +15,7 @@ Redis Software includes a set of utilities to help you manage and test your clus
 
 ## Public utilities
 
-Administrators can use these CLI tools to manage and test a Redis Enterprise cluster. You can find the binaries in the `/opt/redislabs/bin/` directory.
+Administrators can use these CLI tools to manage and test a Redis Software cluster. You can find the binaries in the `/opt/redislabs/bin/` directory.
 
 {{<table-children columnNames="Utility,Description" columnSources="LinkTitle,Description" enableLinks="LinkTitle">}}
 
@@ -42,4 +42,4 @@ Do not use these tools for normal operations.
 | rl_rdbloader | Load RDB backup files to a server. |
 | rlutil | Maintenance utility. |
 | shard-cli | `redis-cli` connected to a shard. |
-| supervisorctl | Manages the lifecycles of Redis Enterprise services. |
+| supervisorctl | Manages the lifecycles of Redis Software services. |
