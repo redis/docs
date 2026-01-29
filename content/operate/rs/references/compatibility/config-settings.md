@@ -13,7 +13,7 @@ weight: 50
 
 Redis Software and [Redis Cloud]({{< relref "/operate/rc" >}}) only support a subset of [Redis Open Source configuration settings]({{<relref "/operate/oss_and_stack/management/config">}}). Using [`CONFIG GET`]({{< relref "/commands/config-get" >}}) or [`CONFIG SET`]({{< relref "/commands/config-set" >}}) with unsupported configuration settings returns an error.
 
-| Setting | Redis<br />Enterprise | Redis<br />Cloud | Notes |
+| Setting | Redis<br />Software | Redis<br />Cloud | Notes |
 |:--------|:----------------------|:-----------------|:------|
 | activerehashing | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 | busy-reply-threshold | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | Value must be between 0 and 60000 milliseconds. |
