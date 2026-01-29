@@ -32,6 +32,7 @@ job that:
 - Adds a prefix of `aws` and a suffix of `gcp` to the key
 
 ```yaml
+name: Default job with prefix and suffix
 source:
   table: "*"
   row_format: full
@@ -116,6 +117,7 @@ using the
 the default logic.
 
 ```yaml
+name: Rename field example
 source:
   server_name: redislabs
   schema: dbo

@@ -43,6 +43,7 @@ the key calculation in the `output` section.
 The full example is shown below:
 
 ```yaml
+name: Remove hiredate from employee
 source:
   db: chinook
   table: employee
@@ -115,6 +116,7 @@ if you specify them under a `fields` subsection. The example below is similar
 to the previous one but also removes the `birthdate` field: 
 
 ```yaml
+name: Remove multiple date fields from employee
 source:
   db: chinook
   table: employee

@@ -28,6 +28,7 @@ In this case, the result will be a Redis stream with the name based on the key e
 In the example, only three original fields are passed in the message payload: `InvoiceId` (as `message_id`), `BillingCountry` (as `country`), `Total` (as `Total`, no alias provided) and `op_code`, which is implicitly added to all messages sent to streams.    
 
 ```yaml
+name: Write invoice events to stream
 source:
   schema: public
   table: invoice
