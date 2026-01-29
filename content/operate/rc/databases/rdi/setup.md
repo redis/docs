@@ -106,7 +106,6 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
     - Under **Load balancer targets selection policy** select **Enable cross-zone load balancing**.
     Click the **Save Changes** button.
 
-
 ### Create endpoint service {#create-endpoint-service-ec2}
 
 In the [AWS Management Console](https://console.aws.amazon.com/), use the **Services** menu to locate and select **Networking & Content Delivery** > **VPC**. There, select **PrivateLink and Lattice** > **Endpoint services**. [Create an endpoint service](https://docs.aws.amazon.com/vpc/latest/privatelink/create-endpoint-service.html) with the following settings:
