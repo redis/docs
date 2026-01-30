@@ -43,7 +43,7 @@ You can represent this scenario using a bitmap whose key references the current 
 
 * Rider 123 pings the server on January 1, 2024 within the 00:00 hour. You can then confirm that rider 123 pinged the server. You can also check to see if rider 456 has pinged the server for that same hour.
 
-{{< clients-example set="bitmap_tutorial" step="ping" description="Foundational: Set and get individual bits using SETBIT and GETBIT to track binary states" difficulty="beginner" >}}
+{{< clients-example set="bitmap_tutorial" step="ping" description="Foundational: Set and get individual bits using SETBIT and GETBIT to track binary states" >}}
 > SETBIT pings:2024-01-01-00:00 123 1
 (integer) 0
 > GETBIT pings:2024-01-01-00:00 123
@@ -84,7 +84,7 @@ There are three commands operating on group of bits:
 Both [`BITPOS`]({{< relref "/commands/bitpos" >}}) and [`BITCOUNT`]({{< relref "/commands/bitcount" >}}) are able to operate with byte ranges of the
 string, instead of running for the whole length of the string. We can trivially see the number of bits that have been set in a bitmap.
 
-{{< clients-example set="bitmap_tutorial" step="bitcount" description="Bit counting: Use BITCOUNT to count the number of set bits in a bitmap when you need to get population counts" difficulty="beginner" buildsUpon="ping" >}}
+{{< clients-example set="bitmap_tutorial" step="bitcount" description="Bit counting: Use BITCOUNT to count the number of set bits in a bitmap when you need to get population counts" buildsUpon="ping" >}}
 > BITCOUNT pings:2024-01-01-00:00
 (integer) 1
 {{< /clients-example >}}
