@@ -46,7 +46,7 @@ and follow the instructions for the cloud platform of your choice.
 
 ## View metrics
 
-The Redis Cloud Integration for Dynatrace contains pre-defined dashboards to aid in monitoring your Redis Enterprise deployment.
+The Redis Cloud Integration for Dynatrace contains pre-defined dashboards to aid in monitoring your Redis Software deployment.
 
 The following dashboards are currently available:
 
