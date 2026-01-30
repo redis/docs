@@ -47,7 +47,7 @@ See the [complete series of list commands]({{< relref "/commands/" >}}?group=lis
 ## Examples
 
 * Treat a list like a queue (first in, first out):
-{{< clients-example set="list_tutorial" step="queue" description="Queue pattern: Use LPUSH to add items and RPOP to remove them in FIFO order when you need to process items in the order they were added" difficulty="beginner" buildsUpon="lpush_rpush, lpop_rpop" >}}
+{{< clients-example set="list_tutorial" step="queue" description="Queue pattern: Use LPUSH to add items and RPOP to remove them in FIFO order when you need to process items in the order they were added" buildsUpon="lpush_rpush, lpop_rpop" >}}
 > LPUSH bikes:repairs bike:1
 (integer) 1
 > LPUSH bikes:repairs bike:2
@@ -59,7 +59,7 @@ See the [complete series of list commands]({{< relref "/commands/" >}}?group=lis
 {{< /clients-example >}}
 
 * Treat a list like a stack (first in, last out):
-{{< clients-example set="list_tutorial" step="stack" description="Stack pattern: Use LPUSH to add items and LPOP to remove them in LIFO order when you need to process items in reverse order" difficulty="beginner" buildsUpon="lpush_rpush" >}}
+{{< clients-example set="list_tutorial" step="stack" description="Stack pattern: Use LPUSH to add items and LPOP to remove them in LIFO order when you need to process items in reverse order" buildsUpon="lpush_rpush" >}}
 > LPUSH bikes:repairs bike:1
 (integer) 1
 > LPUSH bikes:repairs bike:2
@@ -71,7 +71,7 @@ See the [complete series of list commands]({{< relref "/commands/" >}}?group=lis
 {{< /clients-example >}}
 
 * Check the length of a list:
-{{< clients-example set="list_tutorial" step="llen" description="Foundational: Get the number of elements in a list using LLEN to check list size" difficulty="beginner" >}}
+{{< clients-example set="list_tutorial" step="llen" description="Foundational: Get the number of elements in a list using LLEN to check list size" >}}
 > LLEN bikes:repairs
 (integer) 0
 {{< /clients-example >}}
@@ -145,7 +145,7 @@ left (at the head), while the [`RPUSH`]({{< relref "/commands/rpush" >}}) comman
 element into a list, on the right (at the tail). Finally the
 [`LRANGE`]({{< relref "/commands/lrange" >}}) command extracts ranges of elements from lists:
 
-{{< clients-example set="list_tutorial" step="lpush_rpush" description="Foundational: Add elements to both ends of a list using LPUSH (left/head) and RPUSH (right/tail) to build ordered sequences" difficulty="beginner" >}}
+{{< clients-example set="list_tutorial" step="lpush_rpush" description="Foundational: Add elements to both ends of a list using LPUSH (left/head) and RPUSH (right/tail) to build ordered sequences" >}}
 > DEL bikes:repairs
 (integer) 1
 > RPUSH bikes:repairs bike:1
@@ -171,7 +171,7 @@ the final [`LPUSH`]({{< relref "/commands/lpush" >}}) appended the element on th
 Both commands are *variadic commands*, meaning that you are free to push
 multiple elements into a list in a single call:
 
-{{< clients-example set="list_tutorial" step="variadic" description="Variadic operations: Add multiple elements in a single command using LPUSH or RPUSH when you need to reduce round trips to the server" difficulty="beginner" buildsUpon="lpush_rpush" >}}
+{{< clients-example set="list_tutorial" step="variadic" description="Variadic operations: Add multiple elements in a single command using LPUSH or RPUSH when you need to reduce round trips to the server" buildsUpon="lpush_rpush" >}}
 > DEL bikes:repairs
 (integer) 1
 > RPUSH bikes:repairs bike:1 bike:2 bike:3
@@ -193,7 +193,7 @@ of the list. We'll add three elements and pop three elements, so at the end of t
 sequence of commands the list is empty and there are no more elements to
 pop:
 
-{{< clients-example set="list_tutorial" step="lpop_rpop" description="Foundational: Remove and retrieve elements from both ends of a list using LPOP (left/head) and RPOP (right/tail) to consume items" difficulty="beginner" >}}
+{{< clients-example set="list_tutorial" step="lpop_rpop" description="Foundational: Remove and retrieve elements from both ends of a list using LPOP (left/head) and RPOP (right/tail) to consume items" >}}
 > DEL bikes:repairs
 (integer) 1
 > RPUSH bikes:repairs bike:1 bike:2 bike:3
@@ -370,7 +370,7 @@ Basically we can summarize the behavior with three rules:
 
 Examples of rule 1:
 
-{{< clients-example set="list_tutorial" step="rule_1" description="Automatic creation: Redis automatically creates a list when you push to a non-existent key, simplifying initialization" difficulty="beginner" >}}
+{{< clients-example set="list_tutorial" step="rule_1" description="Automatic creation: Redis automatically creates a list when you push to a non-existent key, simplifying initialization" >}}
 > DEL new_bikes
 (integer) 0
 > LPUSH new_bikes bike:1 bike:2 bike:3
@@ -379,7 +379,7 @@ Examples of rule 1:
 
 However we can't perform operations against the wrong type if the key exists:
 
-{{< clients-example set="list_tutorial" step="rule_1.1" description="Type safety: Redis prevents operations on wrong data types, returning WRONGTYPE error when you try to use list commands on non-list keys" difficulty="beginner" buildsUpon="rule_1" >}}
+{{< clients-example set="list_tutorial" step="rule_1.1" description="Type safety: Redis prevents operations on wrong data types, returning WRONGTYPE error when you try to use list commands on non-list keys" buildsUpon="rule_1" >}}
 > DEL new_bikes
 (integer) 1
 > SET new_bikes bike:1
@@ -392,7 +392,7 @@ string
 
 Example of rule 2:
 
-{{< clients-example set="list_tutorial" step="rule_2" description="Automatic removal: Redis automatically deletes empty lists, freeing memory when the last element is removed" difficulty="beginner" buildsUpon="lpush_rpush, lpop_rpop" >}}
+{{< clients-example set="list_tutorial" step="rule_2" description="Automatic removal: Redis automatically deletes empty lists, freeing memory when the last element is removed" buildsUpon="lpush_rpush, lpop_rpop" >}}
 > DEL bikes:repairs
 (integer) 1
 > LPUSH bikes:repairs bike:1 bike:2 bike:3
@@ -413,7 +413,7 @@ The key no longer exists after all the elements are popped.
 
 Example of rule 3:
 
-{{< clients-example set="list_tutorial" step="rule_3" description="Nil handling: Read-only commands on non-existent keys return empty results (0 or nil) instead of errors, treating them as empty lists" difficulty="beginner" >}}
+{{< clients-example set="list_tutorial" step="rule_3" description="Nil handling: Read-only commands on non-existent keys return empty results (0 or nil) instead of errors, treating them as empty lists" >}}
 > DEL bikes:repairs
 (integer) 0
 > LLEN bikes:repairs
