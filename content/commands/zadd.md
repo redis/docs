@@ -168,7 +168,7 @@ If the user inserts all the elements in a sorted set with the same score (for ex
 
 ## Examples
 
-{{< clients-example cmds_sorted_set zadd >}}
+{{< clients-example set="cmds_sorted_set" step="zadd" description="Foundational: Add one or more members to a sorted set with scores using ZADD (creates sorted set if needed, updates scores if member exists)" difficulty="beginner" >}}
 > ZADD myzset 1 "one"
 (integer) 1
 > ZADD myzset 1 "uno"
@@ -195,9 +195,9 @@ ZADD myzset 2 "two" 3 "three"
 ZRANGE myzset 0 -1 WITHSCORES
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

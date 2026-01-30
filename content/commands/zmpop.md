@@ -70,6 +70,11 @@ summary: Returns the highest- or lowest-scoring members from one or more sorted 
 syntax_fmt: "ZMPOP numkeys key [key ...] <MIN | MAX> [COUNT\_count]"
 title: ZMPOP
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Pops one or more elements, that are member-score pairs, from the first non-empty sorted set in the provided list of key names.
 
 `ZMPOP` and [`BZMPOP`]({{< relref "/commands/bzmpop" >}}) are similar to the following, more limited, commands:
@@ -100,9 +105,9 @@ ZRANGE myzset2 0 -1 WITHSCORES
 EXISTS myzset myzset2
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

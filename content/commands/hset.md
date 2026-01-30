@@ -68,7 +68,7 @@ If `key` doesn't exist, a new key holding a hash is created.
 
 ## Examples
 
-{{< clients-example cmds_hash hset >}}
+{{< clients-example set="cmds_hash" step="hset" description="Foundational: Set one or more field-value pairs in a hash using HSET (creates hash if needed, overwrites existing fields, returns count of new fields)" difficulty="beginner" >}}
 > HSET myhash field1 "Hello"
 (integer) 1
 > HGET myhash field1
@@ -99,9 +99,9 @@ HGET myhash field3
 HGETALL myhash
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

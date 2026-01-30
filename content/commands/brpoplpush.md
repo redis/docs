@@ -79,6 +79,11 @@ summary: Pops an element from a list, pushes it to another list and returns it. 
 syntax_fmt: BRPOPLPUSH source destination timeout
 title: BRPOPLPUSH
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 `BRPOPLPUSH` is the blocking variant of [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}).
 When `source` contains elements, this command behaves exactly like [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}).
 When used inside a [`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) block or a Lua script, this command behaves exactly like [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}).
@@ -96,9 +101,9 @@ Please see the pattern description in the [`RPOPLPUSH`]({{< relref "/commands/rp
 
 Please see the pattern description in the [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}) documentation.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |
 

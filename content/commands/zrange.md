@@ -196,7 +196,7 @@ The binary nature of the comparison allows to use sorted sets as a general purpo
 
 ## Examples
 
-{{< clients-example cmds_sorted_set zrange1 >}}
+{{< clients-example set="cmds_sorted_set" step="zrange1" description="Foundational: Retrieve a range of members from a sorted set by index using ZRANGE (supports negative indexes, inclusive range)" difficulty="beginner" >}}
 > ZADD myzset 1 "one" 2 "two" 3 "three"
 (integer) 3
 > ZRANGE myzset 0 -1
@@ -212,7 +212,7 @@ The binary nature of the comparison allows to use sorted sets as a general purpo
 
 The following example using `WITHSCORES` shows how the command returns always an array, but this time, populated with *element_1*, *score_1*, *element_2*, *score_2*, ..., *element_N*, *score_N*.
 
-{{< clients-example cmds_sorted_set zrange2 >}}
+{{< clients-example set="cmds_sorted_set" step="zrange2" description="Return scores with members: Retrieve members with their scores from a sorted set using ZRANGE with WITHSCORES option" difficulty="intermediate" >}}
 > ZADD myzset 1 "one" 2 "two" 3 "three"
 (integer) 3
 > ZRANGE myzset 0 1 WITHSCORES
@@ -224,7 +224,7 @@ The following example using `WITHSCORES` shows how the command returns always an
 
 This example shows how to query the sorted set by score, excluding the value `1` and up to infinity, returning only the second element of the result:
 
-{{< clients-example cmds_sorted_set zrange3 >}}
+{{< clients-example set="cmds_sorted_set" step="zrange3" description="Query by score: Query a sorted set by score range using ZRANGE with BYSCORE and LIMIT options (supports exclusive ranges and pagination)" difficulty="intermediate" >}}
 > ZADD myzset 1 "one" 2 "two" 3 "three"
 (integer) 3
 > ZRANGE myzset (1 +inf BYSCORE LIMIT 1 1
@@ -240,9 +240,9 @@ ZRANGE myzset 2 3
 ZRANGE myzset -2 -1
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

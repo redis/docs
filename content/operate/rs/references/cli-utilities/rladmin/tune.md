@@ -89,11 +89,11 @@ rladmin tune cluster
 | repl_diskless                          | `enabled`<br />`disabled`       | Activates or deactivates diskless replication (can be overridden per database)                                              |
 | resp3_default | `enabled` <br /> `disabled` | Determines the default value of the `resp3` option upon upgrading a database to version 7.2 (defaults to `enabled`) |
 | show_internals                         | `enabled`<br />`disabled`       | Controls the visibility of internal databases that are only used for the cluster's management                                |
-| slave_ha                               | `enabled` <br /> `disabled`   | Activates or deactivates [replica high availability]({{< relref "/operate/rs/databases/configure/replica-ha" >}}) in the cluster<br />(enabled by default; use [`rladmin tune db`](#tune-db) to change `slave_ha` for a specific database)<br /><br />Deprecated as of Redis Enterprise Software v7.2.4. |
+| slave_ha                               | `enabled` <br /> `disabled`   | Activates or deactivates [replica high availability]({{< relref "/operate/rs/databases/configure/replica-ha" >}}) in the cluster<br />(enabled by default; use [`rladmin tune db`](#tune-db) to change `slave_ha` for a specific database)<br /><br />Deprecated as of Redis Software v7.2.4. |
 | slave_ha_bdb_cooldown_period           | time in seconds (default: 7200) | Time (in seconds) a database must wait after its shards are relocated by [replica high availability]({{< relref "/operate/rs/databases/configure/replica-ha" >}}) before it can go through another shard migration if another node fails (default is 2 hours) |
 | slave_ha_cooldown_period               | time in seconds (default: 3600) | Time (in seconds) [replica high availability]({{< relref "/operate/rs/databases/configure/replica-ha" >}}) must wait after relocating shards due to node failure before performing another shard migration for any database in the cluster (default is 1 hour) |
 | slave_ha_grace_period                  | time in seconds (default: 600) | Time (in seconds) between when a node fails and when [replica high availability]({{< relref "/operate/rs/databases/configure/replica-ha" >}}) starts relocating shards to another node      |
-| watchdog_profile                       | `cloud` <br /> `local-network` | Watchdog profiles with preconfigured thresholds and timeouts (deprecated as of Redis Enterprise Software v6.4.2-69; use <span class="break-all">`failure_detection_sensitivity`</span> instead)<br />• `cloud` is suitable for common cloud environments and has a higher tolerance for latency variance (also called network jitter).<br />• `local-network` is suitable for dedicated LANs and has better failure detection and failover times. |
+| watchdog_profile                       | `cloud` <br /> `local-network` | Watchdog profiles with preconfigured thresholds and timeouts (deprecated as of Redis Software v6.4.2-69; use <span class="break-all">`failure_detection_sensitivity`</span> instead)<br />• `cloud` is suitable for common cloud environments and has a higher tolerance for latency variance (also called network jitter).<br />• `local-network` is suitable for dedicated LANs and has better failure detection and failover times. |
 
 ### Returns
 
@@ -148,7 +148,7 @@ rladmin tune db { db:<id> | <name> }
         [ syncer_mode { distributed | centralized }]
         [ syncer_monitoring { enabled | disabled } ]
         [ mtls_allow_weak_hashing { enabled | disabled } ]
-        [ mtls_allow_outdated_cert { enabled | disabled } ]
+        [ mtls_allow_outdated_certs { enabled | disabled } ]
         [ data_internode_encryption { enabled | disabled } ]
         [ db_conns_auditing { enabled | disabled } ]
         [ resp3 { enabled | disabled } ]
@@ -184,7 +184,7 @@ rladmin tune db { db:<id> | <name> }
 | mkms                                 | `enabled`<br /> `disabled`       | Activates multi-key multi-slot commands                                                                                               |
 | module_config_params | string | Configures module arguments at runtime. Enclose `module_config_params` within quotation marks. |
 | module_name | `search`<br />`ReJSON`<br />`graph`<br />`timeseries`<br />`bf`<br />`rg` | The module to configure with `module_config_params` |
-| mtls_allow_outdated_cert             | `enabled`<br /> `disabled`       | Activates outdated certificates in mTLS connections                                   |
+| mtls_allow_outdated_certs             | `enabled`<br /> `disabled`       | If enabled, allows outdated certificates in mTLS connections                                   |
 | mtls_allow_weak_hashing              | `enabled`<br /> `disabled`       | Activates weak hashing (less than 2048 bits) in mTLS connections                       |
 | oss_cluster                          | `enabled`<br /> `disabled`       | Activates OSS cluster API                                                                                                             |
 | oss_cluster_api_preferred_ip_type    | `internal`<br /> `external`      | IP type for the endpoint and database in the OSS cluster API (default is internal)                                     |

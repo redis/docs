@@ -16,7 +16,7 @@ To replace a failed node:
 1. Prepare a new node identical to the old one.
 
 1.  Install and
-    configure Redis Enterprise Software on the node. See [Install and setup]({{< relref "/operate/rs/installing-upgrading" >}}) for more information.
+    configure Redis Software on the node. See [Install and setup]({{< relref "/operate/rs/installing-upgrading" >}}) for more information.
 
     {{< note >}}
 If you are using [Redis Flex or Auto Tiering]({{< relref "/operate/rs/databases/flash/" >}}), make sure the required flash storage is set up on this new node.
@@ -31,7 +31,7 @@ If you are using [Redis Flex or Auto Tiering]({{< relref "/operate/rs/databases/
     and that the new node will replace the faulty node.
 
     {{< note >}}
-- If there is a faulty node in the cluster to which you are adding a node, Redis Enterprise Software will use the new node to replace the faulty one.
+- If there is a faulty node in the cluster to which you are adding a node, Redis Software will use the new node to replace the faulty one.
 - Any existing [DNS records]({{< relref "/operate/rs/networking/cluster-dns" >}}) must be updated
 each time a node is added or replaced.
     {{< /note >}}

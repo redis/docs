@@ -10,7 +10,7 @@ linkTitle: certificates
 weight: $weight
 ---
 
-An API object that represents a certificate used by a Redis Enterprise Software cluster.
+An API object that represents a certificate used by a Redis Software cluster.
 
 | Name | Type/Value | Description |
 |------|------------|-------------|

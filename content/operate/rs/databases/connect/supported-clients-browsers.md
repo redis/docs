@@ -8,19 +8,19 @@ description: Info about Redis client libraries and supported clients when using 
   discovery service.
 weight: 10
 ---
-You can connect to Redis Enterprise Software databases programmatically using client libraries.
+You can connect to Redis Software databases programmatically using client libraries.
 
 ## Redis client libraries
 
-To connect an application to a Redis database hosted by Redis Enterprise Software, use a [client library]({{< relref "/develop/clients" >}}) appropriate for your programming language.
+To connect an application to a Redis database hosted by Redis Software, use a [client library]({{< relref "/develop/clients" >}}) appropriate for your programming language.
 
 You can also use the `redis-cli` utility to connect to a database from the command line.
 
-For examples of each approach, see the [Redis Enterprise Software quickstart]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}}).
+For examples of each approach, see the [Redis Software quickstart]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}}).
 
-Note: You cannot use client libraries to configure Redis Enterprise Software.  Instead, use:
+Note: You cannot use client libraries to configure Redis Software.  Instead, use:
 
-- The Redis Enterprise Software [Cluster Manager UI]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}})
+- The Redis Software [Cluster Manager UI]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}})
 - The [REST API]({{< relref "/operate/rs/references/rest-api" >}})
 - Command-line utilities, such as [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}})
 

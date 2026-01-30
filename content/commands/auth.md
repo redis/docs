@@ -51,7 +51,7 @@ The AUTH command authenticates the current connection in two cases:
 Redis versions prior of Redis 6 were only able to understand the one argument
 version of the command:
 
-{{< clients-example cmds_cnxmgmt auth1 >}}
+{{< clients-example set="cmds_cnxmgmt" step="auth1" description="Foundational: Authenticate with a password using AUTH when the Redis server is protected by requirepass" difficulty="beginner" >}}
 AUTH "temp-pass"
 {{< /clients-example >}}
 
@@ -64,7 +64,7 @@ Otherwise, an error is returned and the clients needs to try a new password.
 
 When Redis ACLs are used, the command should be given in an extended way:
 
-{{< clients-example cmds_cnxmgmt auth2 >}}
+{{< clients-example set="cmds_cnxmgmt" step="auth2" description="ACL authentication: Authenticate with username and password using AUTH when Redis ACL system is enabled (Redis 6.0+)" difficulty="intermediate" >}}
 AUTH "test-user" "strong_password"
 {{< /clients-example >}}
 
@@ -80,9 +80,9 @@ a lot of passwords in parallel in very short time, so make sure to generate a
 strong and very long password so that this attack is infeasible.
 A good way to generate strong passwords is via the [`ACL GENPASS`]({{< relref "/commands/acl-genpass" >}}) command.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

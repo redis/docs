@@ -53,7 +53,7 @@ This has the same effect as running [`SINTER`]({{< relref "/commands/sinter" >}}
 
 ## Examples
 
-{{< clients-example cmds_set smembers >}}
+{{< clients-example set="cmds_set" step="smembers" description="Foundational: Retrieve all members of a set using SMEMBERS (returns unordered collection, useful for iterating all set members)" difficulty="beginner" >}}
 redis> SADD myset "Hello"
 (integer) 1
 redis> SADD myset "World"
@@ -71,9 +71,9 @@ SADD myset "World"
 SMEMBERS myset
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

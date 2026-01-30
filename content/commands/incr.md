@@ -67,7 +67,7 @@ representation of the integer.
 
 ## Examples
 
-{{< clients-example cmds_string incr >}}
+{{< clients-example set="cmds_string" step="incr" description="Foundational: Increment the integer value of a key by one using INCR (initializes to 0 if key doesn't exist)" difficulty="beginner" >}}
 > SET mykey "10"
 "OK"
 > INCR mykey
@@ -221,9 +221,9 @@ the [`MULTI`]({{< relref "/commands/multi" >}}) / [`EXEC`]({{< relref "/commands
 However this race will just miss an API call under rare conditions, so the rate
 limiting will still work correctly.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

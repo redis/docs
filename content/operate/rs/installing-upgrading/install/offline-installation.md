@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: If you install Redis Enterprise Software on a machine with no internet
+description: If you install Redis Software on a machine with no internet
   connection, you need to perform two tasks manually.
 linkTitle: Offline installation
 weight: 60
@@ -14,12 +14,12 @@ By default, the installation process requires an internet connection to
 enable installing dependency packages and for [synchronizing the
 operating system clock]({{< relref "/operate/rs/clusters/configure/sync-clocks.md" >}}) against an NTP server.
 
-If you install Redis Enterprise Software on a machine without an
+If you install Redis Software on a machine without an
 internet connection, you need to perform two tasks manually.
 
 ## Install required dependency packages
 
-When you install Redis Enterprise Software on a machine that is not connected to the internet, the installation process fails and displays an error message informing you it failed to automatically install dependencies. Review the installation steps in the console to see which missing dependencies the process attempted to install. Install all these dependency packages and then run the installation again.
+When you install Redis Software on a machine that is not connected to the internet, the installation process fails and displays an error message informing you it failed to automatically install dependencies. Review the installation steps in the console to see which missing dependencies the process attempted to install. Install all these dependency packages and then run the installation again.
 
 ## Set up NTP time synchronization
 

@@ -69,6 +69,11 @@ summary: Stores the difference of multiple sorted sets in a key.
 syntax_fmt: ZDIFFSTORE destination numkeys key [key ...]
 title: ZDIFFSTORE
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Computes the difference between the first and all successive input sorted sets
 and stores the result in `destination`. The total number of input keys is
 specified by `numkeys`.
@@ -89,9 +94,9 @@ ZDIFFSTORE out 2 zset1 zset2
 ZRANGE out 0 -1 WITHSCORES
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

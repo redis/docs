@@ -81,7 +81,7 @@ Using the Redis Bloom filter for this type of application provides these benefit
 Consider a bike manufacturer that makes a million different kinds of bikes and you'd like to avoid using a duplicate model name in new models. A Bloom filter can be used to detect duplicates. In the example that follows,  you'll create a filter with space for a million entries and with a 0.1% error rate. Add one model name and check if it exists. Then add multiple model names and check if they exist.
 
 
-{{< clients-example bf_tutorial bloom >}}
+{{< clients-example set="bf_tutorial" step="bloom" description="Bloom filter operations: Use BF.RESERVE to create a filter, BF.ADD and BF.MADD to add items, and BF.EXISTS and BF.MEXISTS to check membership when you need space-efficient probabilistic set membership testing" difficulty="intermediate" >}}
 > BF.RESERVE bikes:models 0.001 1000000
 OK
 > BF.ADD bikes:models "Smoky Mountain Striker"
@@ -169,6 +169,6 @@ Checking for an item is O(K) or O(K*n) for stacked filters, where n is the numbe
 ### Blog posts
 1. [RedisBloom Quick Start Tutorial](https://docs.redis.com/latest/modules/redisbloom/redisbloom-quickstart/)
 1. [Developing with Bloom Filters](https://redis.io/blog/bloom-filter/)
-1. [RedisBloom on Redis Enterprise](https://redis.com/redis-enterprise/redis-bloom/)
+1. [RedisBloom on Redis Software](https://redis.com/redis-enterprise/redis-bloom/)
 1. [Probably and No: Redis, RedisBloom, and Bloom Filters](https://redis.com/blog/redis-redisbloom-bloom-filters/)
 

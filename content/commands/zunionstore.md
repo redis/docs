@@ -92,6 +92,11 @@ syntax_fmt: "ZUNIONSTORE destination numkeys key [key ...] [WEIGHTS\_weight\n  [
   \ ...]] [AGGREGATE\_<SUM | MIN | MAX>]"
 title: ZUNIONSTORE
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Computes the union of `numkeys` sorted sets given by the specified keys, and
 stores the result in `destination`.
 It is mandatory to provide the number of input keys (`numkeys`) before passing
@@ -127,9 +132,9 @@ ZUNIONSTORE out 2 zset1 zset2 WEIGHTS 2 3
 ZRANGE out 0 -1 WITHSCORES
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

@@ -1,5 +1,6 @@
 ---
 aliases:
+- /interact/search-and-query/search/aggregations/
 - /develop/interact/search-and-query/advanced-concepts/aggregations
 categories:
 - docs
@@ -563,7 +564,7 @@ FT.AGGREGATE idx query WITHCURSOR MAXIDLE 10000
 
 During a cursor’s lifetime, CURSOR READ may return results that exclude newer updates.
 
-Also, note that in case of any load rebalancing operations (such as Atomic Slot Migration) occurring during the lifetime of a cursor, some results may be missing. In a Redis Enterprise deployment, these operations may happen behind the scenes without any user intervention.
+Also, note that in case of any load rebalancing operations (such as Atomic Slot Migration) occurring during the lifetime of a cursor, some results may be missing. In a Redis Software deployment, these operations may happen behind the scenes without any user intervention.
 
 ### Other cursor commands
 

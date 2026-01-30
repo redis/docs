@@ -94,6 +94,11 @@ syntax_fmt: "XREADGROUP GROUP\_group consumer [COUNT\_count] [BLOCK\_millisecond
   \  [CLAIM\_min-idle-time] [NOACK] STREAMS\_key [key ...] id [id ...]"
 title: XREADGROUP
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 The `XREADGROUP` command is a special version of the [`XREAD`]({{< relref "/commands/xread" >}}) command
 with support for consumer groups. Probably you will have to understand the
 [`XREAD`]({{< relref "/commands/xread" >}}) command before reading this page will makes sense.
@@ -264,9 +269,9 @@ Reading the [Redis Streams introduction]({{< relref "/develop/data-types/streams
 suggested in order to understand more about the streams overall behavior
 and semantics.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

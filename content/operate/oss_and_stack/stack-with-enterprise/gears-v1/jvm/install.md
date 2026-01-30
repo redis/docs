@@ -11,13 +11,13 @@ toc: 'true'
 weight: 20
 ---
 
-Before you can use RedisGears with the JVM, you need to install the RedisGears module and JVM plugin on your Redis Enterprise cluster and enable them for a database.
+Before you can use RedisGears with the JVM, you need to install the RedisGears module and JVM plugin on your Redis Software cluster and enable them for a database.
 
 ## Prerequisites
 
-1. Redis Enterprise v6.0.12 or later
+1. Redis Software v6.0.12 or later
 
-1. [Created a Redis Enterprise cluster]({{< relref "/operate/rs/clusters/new-cluster-setup" >}})
+1. [Created a Redis Software cluster]({{< relref "/operate/rs/clusters/new-cluster-setup" >}})
 
 1. [Added nodes to the cluster]({{< relref "/operate/rs/clusters/add-node" >}})
 
@@ -25,7 +25,7 @@ Before you can use RedisGears with the JVM, you need to install the RedisGears m
 
 ## Enable RedisGears for a database
 
-1. From the Redis Enterprise admin console's **databases** page, select the **Add** button to create a new database:
+1. From the Redis Software admin console's **databases** page, select the **Add** button to create a new database:
 
     {{<image filename="images/rs/icon_add.png" width="30px" alt="The Add icon">}}
 

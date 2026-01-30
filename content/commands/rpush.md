@@ -70,7 +70,7 @@ containing `a` as first element, `b` as second element and `c` as third element.
 
 ## Examples
 
-{{< clients-example cmds_list rpush >}}
+{{< clients-example set="cmds_list" step="rpush" description="Foundational: Add one or more elements to the tail of a list using RPUSH (creates list if needed, returns new list length)" difficulty="beginner" >}}
 redis> RPUSH mylist "hello"
 (integer) 1
 redis> RPUSH mylist "world"
@@ -88,9 +88,9 @@ RPUSH mylist "world"
 LRANGE mylist 0 -1
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

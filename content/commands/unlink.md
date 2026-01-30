@@ -52,6 +52,11 @@ summary: Asynchronously deletes one or more keys.
 syntax_fmt: UNLINK key [key ...]
 title: UNLINK
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 This command is very similar to [`DEL`]({{< relref "/commands/del" >}}): it removes the specified keys.
 Just like [`DEL`]({{< relref "/commands/del" >}}) a key is ignored if it does not exist. However the command
 performs the actual memory reclaiming in a different thread, so it is not
@@ -67,9 +72,9 @@ SET key2 "World"
 UNLINK key1 key2 key3
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

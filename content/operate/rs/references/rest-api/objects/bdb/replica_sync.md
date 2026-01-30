@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Documents the bdb replica_sync field used with Redis Enterprise Software
+description: Documents the bdb replica_sync field used with Redis Software
   REST API calls.
 linkTitle: replica_sync
 weight: $weight

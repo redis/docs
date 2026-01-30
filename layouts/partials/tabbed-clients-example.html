@@ -10,6 +10,31 @@
 {{ $cliFooterLinkUrl := .Scratch.Get "cli_footer_link_url" }}
 {{ $showFooter := .Scratch.Get "show_footer" | default true }}
 
+{{/* Parse buildsUpon parameter into an array */}}
+{{ $buildsUponStr := .Scratch.Get "buildsUpon" }}
+{{ $buildsUpon := slice }}
+{{ if $buildsUponStr }}
+  {{/* Split by comma and trim whitespace from each element */}}
+  {{ $parts := split $buildsUponStr "," }}
+  {{ range $part := $parts }}
+    {{ $trimmed := trim $part " " }}
+    {{ if $trimmed }}
+      {{ $buildsUpon = $buildsUpon | append $trimmed }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{/* Extract commands for this step from examples.json */}}
+{{ $commands := slice }}
+{{ if isset $.Site.Data.examples $id }}
+  {{ $exampleData := index $.Site.Data.examples $id }}
+  {{ if isset $exampleData "steps_commands" }}
+    {{ if isset $exampleData.steps_commands $step }}
+      {{ $commands = index $exampleData.steps_commands $step }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
 {{ if not (isset $.Site.Data.examples $id) }}
     {{ warnf "[tabbed-clients-example] Example not found %q for %q" $id $.Page }}
 {{ end }}
@@ -26,7 +51,11 @@
         {{ $highlightOptions = printf "linenos=false,hl_lines=1-%d" $redisCommandsLineLimitInt }}
     {{ end }}
     {{ $redisCliContent := highlight (trim $redisCommands "\n") "plaintext" $highlightOptions }}
-    {{ $tabs = $tabs | append (dict "title" "redis-cli" "displayName" $cliTabName "content" $redisCliContent "limit" $redisCommandsLineLimit "customFooterLinkText" $cliFooterLinkText "customFooterLinkUrl" $cliFooterLinkUrl) }}
+    {{ $cliTab := dict "title" "redis-cli" "displayName" $cliTabName "content" $redisCliContent "limit" $redisCommandsLineLimit "customFooterLinkText" $cliFooterLinkText "customFooterLinkUrl" $cliFooterLinkUrl }}
+    {{ if gt (len $commands) 0 }}
+        {{ $cliTab = merge $cliTab (dict "commands" $commands) }}
+    {{ end }}
+    {{ $tabs = $tabs | append $cliTab }}
 {{ end }}
 
 {{ $clientExamples := index $.Site.Data.examples $id }}
@@ -74,9 +103,16 @@
             {{ $displayName = "JavaScript (ioredis)" }}
         {{ end }}
 
-        {{ $tabs = $tabs | append (dict "title" $client "displayName" $displayName "language" $client "quickstartSlug" $quickstartSlug "content" $content "sourceUrl" (index $example "sourceUrl") "binderId" $binderId) }}
+        {{ $clientTab := dict "title" $client "displayName" $displayName "language" $client "quickstartSlug" $quickstartSlug "content" $content "sourceUrl" (index $example "sourceUrl") "binderId" $binderId }}
+        {{ if gt (len $commands) 0 }}
+            {{ $clientTab = merge $clientTab (dict "commands" $commands) }}
+        {{ end }}
+        {{ $tabs = $tabs | append $clientTab }}
     {{ end }}
 {{ end }}
 
 {{ $params := dict "id" (printf "%s-step%s" $id $step) "tabs" $tabs "showFooter" $showFooter "exampleId" $step "description" $description "difficulty" $difficulty }}
+{{ if gt (len $buildsUpon) 0 }}
+  {{ $params = merge $params (dict "buildsUpon" $buildsUpon) }}
+{{ end }}
 {{ partial "tabs/wrapper.html" $params }}

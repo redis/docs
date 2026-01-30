@@ -51,7 +51,7 @@ Returns all values in the hash stored at `key`.
 
 ## Examples
 
-{{< clients-example cmds_hash hvals >}}
+{{< clients-example set="cmds_hash" step="hvals" description="Foundational: Retrieve all values from a hash using HVALS (returns only values without field names, useful when you only need the data)" difficulty="beginner" >}}
 redis> HSET myhash field1 "Hello"
 (integer) 1
 redis> HSET myhash field2 "World"
@@ -69,9 +69,9 @@ HSET myhash field2 "World"
 HVALS myhash
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

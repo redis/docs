@@ -13,6 +13,8 @@ tocEmbedHeaders: true
 url: '/operate/rs/7.4/installing-upgrading/upgrading/upgrade-cluster/'
 ---
 
+## Supported upgrade paths
+
 {{<embed-md "rs-upgrade-paths.md">}}
 
 See the [Redis Enterprise Software product lifecycle]({{<relref "/operate/rs/7.4/installing-upgrading/product-lifecycle">}}) for more information about release numbers and the end-of-life schedule.

@@ -62,6 +62,11 @@ summary: Renames a key and overwrites the destination.
 syntax_fmt: RENAME key newkey
 title: RENAME
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Renames `key` to `newkey`.
 It returns an error when `key` does not exist.
 If `newkey` already exists it is overwritten, when this happens `RENAME` executes an implicit [`DEL`]({{< relref "/commands/del" >}}) operation, so if the deleted key contains a very big value it may cause high latency even if `RENAME` itself is usually a constant-time operation.
@@ -80,9 +85,9 @@ GET myotherkey
 
 *   `>= 3.2.0`: The command no longer returns an error when source and destination names are the same.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active\*</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active\*</nobr></span> | For Active-Active or clustered databases, the original key and new key must be in the same hash slot.<br /><br />\*Not supported for stream consumer group info. |
 

@@ -65,7 +65,7 @@ to `count` elements, depending on the list's length.
 
 ## Examples
 
-{{< clients-example cmds_list rpop >}}
+{{< clients-example set="cmds_list" step="rpop" description="Foundational: Remove and return the last element(s) from a list using RPOP (supports optional count parameter to pop multiple elements from tail)" difficulty="beginner" >}}
 redis> RPUSH mylist "one" "two" "three" "four" "five"
 (integer) 5
 redis> RPOP mylist
@@ -87,9 +87,9 @@ RPOP mylist 2
 LRANGE mylist 0 -1
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

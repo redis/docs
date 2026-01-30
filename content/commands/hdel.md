@@ -63,7 +63,7 @@ If `key` does not exist, it is treated as an empty hash and this command returns
 
 ## Examples
 
-{{< clients-example set="cmds_hash" step="hdel" >}}
+{{< clients-example set="cmds_hash" step="hdel" description="Foundational: Delete one or more fields from a hash using HDEL (returns count of deleted fields, ignores non-existent fields)" difficulty="beginner" >}}
 HSET myhash field1 "foo"
 (integer) 1
 HDEL myhash field1
@@ -80,9 +80,9 @@ HDEL myhash field1
 HDEL myhash field2
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

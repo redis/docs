@@ -18,6 +18,7 @@ weight: 100
 If you want to write results to multiple keys, you can do so by defining multiple `redis.write` subsections in the `output` section of the job file. Each instance of `redis.write` can specify a different key, data format, and other parameters. For example, you can create two different keys for the same data, one with a default key format and another with a custom key format and mapping.
 
 ```yaml
+name: Write to multiple keys with different formats
 output:
   - uses: redis.write
     with:

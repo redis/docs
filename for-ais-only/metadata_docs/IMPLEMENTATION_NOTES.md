@@ -152,6 +152,46 @@ Then referenced this in templates via `index $.Site.Params.clientsConfig $tabTit
 
 **Takeaway**: Always test on at least 2-3 different page types to ensure the feature is robust and handles optional fields correctly.
 
+### 11. Document Optional Metadata Fields Thoroughly
+
+**Lesson**: Optional metadata fields require clear documentation about when to use them and what they mean.
+
+**Context**: The `buildsUpon` field was added to code examples to indicate learning progression, but without clear guidance, content authors didn't know when to use it.
+
+**Solution**: Created comprehensive documentation including:
+- Field definition in PAGE_METADATA_FORMAT.md
+- Usage guidance in tcedocs/README.md with patterns and best practices
+- AI agent guide explaining how to consume the metadata
+- Validation rules specifying constraints and error handling
+
+**Takeaway**: For optional metadata fields, provide:
+1. **What it is**: Clear definition and purpose
+2. **When to use it**: Specific guidance on when the field should be present
+3. **How to use it**: Examples and patterns
+4. **How to consume it**: Guidance for downstream tools and AI agents
+5. **Validation rules**: Constraints and error handling
+
+### 12. Provide Multiple Documentation Layers
+
+**Lesson**: Different audiences need different documentation.
+
+**Context**: The `buildsUpon` feature needed documentation for:
+- Content authors (when/how to use it)
+- AI agents (how to consume and use the metadata)
+- Build system (validation rules and constraints)
+
+**Solution**: Created separate documentation files:
+- `PAGE_METADATA_FORMAT.md` - Metadata structure and examples
+- `tcedocs/README.md` - Content author guide with patterns
+- `BUILDSUPON_AI_AGENT_GUIDE.md` - AI agent consumption patterns
+- `BUILDSUPON_VALIDATION_RULES.md` - Validation rules and constraints
+
+**Takeaway**: For complex features, create multiple documentation files targeting different audiences:
+- **Specification docs** for implementers
+- **User guides** for content authors
+- **Integration guides** for downstream tools
+- **Validation docs** for build systems
+
 ## Implementation Checklist for Future Metadata Features
 
 When implementing new metadata features, follow this order:
@@ -176,7 +216,7 @@ When implementing new metadata features, follow this order:
 
 ### Phase 2: Documentation
 
-4. **Create documentation** (`build/metadata_docs/FEATURE_NAME_FORMAT.md`)
+4. **Create documentation** (`for-ais-only/metadata_docs/FEATURE_NAME_FORMAT.md`)
    - Explain the purpose and structure
    - Show examples for different scenarios
    - Document embedding locations (HTML, Markdown, data attributes)

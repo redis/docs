@@ -70,6 +70,11 @@ summary: Returns multiple elements from a list after removing them. Deletes the 
 syntax_fmt: "LMPOP numkeys key [key ...] <LEFT | RIGHT> [COUNT\_count]"
 title: LMPOP
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Pops one or more elements from the first non-empty list key from the list of provided key names.
 
 `LMPOP` and [`BLMPOP`]({{< relref "/commands/blmpop" >}}) are similar to the following, more limited, commands:
@@ -99,9 +104,9 @@ LMPOP 2 mylist mylist2 right count 10
 EXISTS mylist mylist2
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

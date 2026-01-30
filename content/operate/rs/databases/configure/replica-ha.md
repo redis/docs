@@ -12,7 +12,7 @@ weight: 50
 ---
 
 When you enable [database replication]({{< relref "/operate/rs/databases/durability-ha/replication.md" >}}),
-Redis Enterprise Software creates a replica of each primary shard.  The replica shard will always be 
+Redis Software creates a replica of each primary shard.  The replica shard will always be 
 located on a different node than the primary shard to make your data highly available.  If the primary shard 
 fails or if the node hosting the primary shard fails, then the replica is promoted to primary.
 

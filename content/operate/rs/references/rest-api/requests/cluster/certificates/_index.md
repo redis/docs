@@ -16,7 +16,7 @@ weight: $weight
 |--------|------|-------------|
 | [GET](#get-cluster-certificates) | `/v1/cluster/certificates` | Get cluster certificates |
 | [PUT](#put-cluster-certificates) | `/v1/cluster/certificates` | Update cluster certificates |
-| [PUT](#put-cluster-update_cert) | `/v1/cluster/update_cert` | Update a cluster certificate (deprecated as of Redis Enterprise Software version 7.22.2) |
+| [PUT](#put-cluster-update_cert) | `/v1/cluster/update_cert` | Update a cluster certificate (deprecated as of Redis Software version 7.22.2) |
 | [DELETE](#delete-cluster-certificate) | `/v1/cluster/certificates/{certificate_name}` | Delete cluster certificate |
 
 ## Get cluster certificates {#get-cluster-certificates}
@@ -137,7 +137,7 @@ PUT /v1/cluster/update_cert
 ```
 
 {{<note>}}
-This REST API path is deprecated as of Redis Enterprise Software 7.22.2 and will be removed in a future version. Use [`PUT /v1/cluster/certificates`](#put-cluster-certificates) instead.
+This REST API path is deprecated as of Redis Software 7.22.2 and will be removed in a future version. Use [`PUT /v1/cluster/certificates`](#put-cluster-certificates) instead.
 {{</note>}}
 
 Replaces an existing certificate on all nodes within the cluster with a new certificate. The new certificate must pass validation before it can replace the old certificate.

@@ -119,7 +119,7 @@ Starting with Redis 8, the Redis Query Engine has enhanced behavior when handlin
 
 ## Examples
 
-{{< clients-example set="cmds_hash" step="hexpire" >}}
+{{< clients-example set="cmds_hash" step="hexpire" description="Field expiration: Set TTL on individual hash fields using HEXPIRE with conditional options (NX, XX, GT, LT) when you need fine-grained control over field lifecycle" difficulty="intermediate" >}}
 HEXPIRE no-key 20 NX FIELDS 2 field1 field2
 (nil)
 HSET mykey field1 "hello" field2 "world"
@@ -140,9 +140,9 @@ HEXPIRE mykey 10 FIELDS 3 field1 field2 field3
 HGETALL mykey
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
