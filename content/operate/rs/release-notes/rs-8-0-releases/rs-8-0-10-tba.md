@@ -1,5 +1,5 @@
 ---
-Title: Redis Enterprise Software release notes 8.0.10-tba (January 2026)
+Title: Redis Software release notes 8.0.10-tba (January 2026)
 alwaysopen: false
 categories:
 - docs
@@ -11,7 +11,7 @@ linkTitle: 8.0.10-tba (January 2026)
 weight: 88
 ---
 
-​[​Redis Enterprise Software version 8.0.6](https://redis.io/downloads/#Redis_Software) is now available! This release includes API enhancements that warranted a new minor version instead of a maintenance release for version 8.0.6. However, you can upgrade from 8.0.2 or 8.0.6 to 8.0.10 without issue.
+​[​Redis Software version 8.0.6](https://redis.io/downloads/#Redis_Software) is now available! This release includes API enhancements that warranted a new minor version instead of a maintenance release for version 8.0.6. However, you can upgrade from 8.0.2 or 8.0.6 to 8.0.10 without issue.
 
 ## Highlights
 
@@ -61,7 +61,7 @@ Redis Flex databases running on Redis 8.4 have major operational optimizations:
 
 #### ARM support for RHEL 9 and Ubuntu 22.04
 
-Redis Enterprise Software now supports ARM architecture on RHEL 9 and Ubuntu 22.04, enabling deployments on cost-efficient, high-performance ARM-based servers.
+Redis Software now supports ARM architecture on RHEL 9 and Ubuntu 22.04, enabling deployments on cost-efficient, high-performance ARM-based servers.
 
 ### Enhancements
 
@@ -88,13 +88,13 @@ Redis Enterprise Software now supports ARM architecture on RHEL 9 and Ubuntu 22.
 
 ### Redis database versions
 
-Redis Enterprise Software version 8.0.10 includes the following Redis database versions: 8.4.0, 8.2.1, 8.0.2, 7.4.3, 7.2.7, and 6.2.13.
+Redis Software version 8.0.10 includes the following Redis database versions: 8.4.0, 8.2.1, 8.0.2, 7.4.3, 7.2.7, and 6.2.13.
 
 The [default Redis database version]({{<relref "/operate/rs/databases/configure/db-defaults#database-version">}}) is 8.4.
 
 ### Redis feature sets
 
-Redis Enterprise Software includes multiple feature sets, compatible with different Redis database versions.
+Redis Software includes multiple feature sets, compatible with different Redis database versions.
 
 The following table shows which Redis modules are compatible with each Redis database version included in this release.
 
@@ -153,11 +153,11 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 ### Supported platforms
 
-The following table provides a snapshot of supported platforms as of this Redis Enterprise Software release. See the [supported platforms reference]({{< relref "/operate/rs/references/supported-platforms" >}}) for more details about operating system compatibility.
+The following table provides a snapshot of supported platforms as of this Redis Software release. See the [supported platforms reference]({{< relref "/operate/rs/references/supported-platforms" >}}) for more details about operating system compatibility.
 
-<span title="Check mark icon">&#x2705;</span> Supported – The platform is supported for this version of Redis Enterprise Software and Redis Stack modules.
+<span title="Check mark icon">&#x2705;</span> Supported – The platform is supported for this version of Redis Software and Redis Stack modules.
 
-<span title="Warning icon" class="font-serif">:warning:</span> Deprecation warning – The platform is still supported for this version of Redis Enterprise Software, but support will be removed in a future release.
+<span title="Warning icon" class="font-serif">:warning:</span> Deprecation warning – The platform is still supported for this version of Redis Software, but support will be removed in a future release.
 
 | Redis Software<br />major versions | 8.0 | 7.22 | 7.8 | 7.4 | 7.2 | 6.4 | 6.2 |
 |---------------------------------|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
@@ -183,7 +183,7 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 3. <a name="table-note-3"></a>See the [Redis Enterprise for Kubernetes documentation]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions" >}}) for details about support per version and Kubernetes distribution.
 
-4. <a name="table-note-4"></a>[Docker images]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}}) of Redis Enterprise Software are certified for development and testing only.
+4. <a name="table-note-4"></a>[Docker images]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}}) of Redis Software are certified for development and testing only.
 
 5. <a name="table-note-5"></a>Supported only if [FIPS was enabled during RHEL installation](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/security_hardening/switching-rhel-to-fips-mode_security-hardening#proc_installing-the-system-with-fips-mode-enabled_switching-rhel-to-fips-mode) to ensure FIPS compliance.
 
@@ -213,7 +213,7 @@ For Active-Active databases running Redis database version 8.4, the `ACKED` opti
 
 #### Rolling upgrade limitation for clusters with custom or deprecated modules
 
-Due to module handling changes introduced in Redis Enterprise Software version 8.0, upgrading a cluster that contains custom or deprecated modules, such as RedisGraph and RedisGears v2, can become stuck when adding a new node to the cluster during a rolling upgrade.
+Due to module handling changes introduced in Redis Software version 8.0, upgrading a cluster that contains custom or deprecated modules, such as RedisGraph and RedisGears v2, can become stuck when adding a new node to the cluster during a rolling upgrade.
 
 #### Module commands limitation during Active-Active database upgrades to Redis 8.0
 
@@ -237,11 +237,11 @@ The following legacy UI features are not yet available in the new Cluster Manage
 
 #### Redis Open Source security fixes compatibility
 
-As part of Redis's commitment to security, Redis Enterprise Software implements the latest [security fixes](https://github.com/redis/redis/releases) available with [Redis Open Source](https://github.com/redis/redis). Redis Enterprise Software has already included the fixes for the relevant CVEs.
+As part of Redis's commitment to security, Redis Software implements the latest [security fixes](https://github.com/redis/redis/releases) available with [Redis Open Source](https://github.com/redis/redis). Redis Software has already included the fixes for the relevant CVEs.
 
-Some CVEs announced for Redis Open Source do not affect Redis Enterprise Software due to different or additional functionality available in Redis Enterprise Software that is not available in Redis Open Source.
+Some CVEs announced for Redis Open Source do not affect Redis Software due to different or additional functionality available in Redis Software that is not available in Redis Open Source.
 
-Redis Enterprise Software 8.0.10-tba supports Redis Open Source 8.4, 8.2, 8.0, 7.4, 7.2, and 6.2. Below is the list of Redis Open Source CVEs and other security vulnerabilities fixed by version.
+Redis Software 8.0.10-tba supports Redis Open Source 8.4, 8.2, 8.0, 7.4, 7.2, and 6.2. Below is the list of Redis Open Source CVEs and other security vulnerabilities fixed by version.
 
 Redis 8.2.x:
 

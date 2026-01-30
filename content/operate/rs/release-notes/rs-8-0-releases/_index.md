@@ -127,7 +127,7 @@ Ports reserved as of Redis Software version 7.8.2:
 | 9091 | node_exporter | Reports host node metrics related to CPU, memory, disk, and more |
 | 9125 | statsd_exporter | Reports push metrics related to the DMC and syncer, and some cluster and node metrics |
 
-See [Ports and port ranges used by Redis Software]({{<relref "/operate/rs/networking/port-configurations#ports-and-port-ranges-used-by-redis-enterprise-software">}}) for a complete list.
+See [Ports and port ranges used by Redis Software]({{<relref "/operate/rs/networking/port-configurations#ports-and-port-ranges-used-by-redis-software">}}) for a complete list.
 
 ### Deprecations
 
