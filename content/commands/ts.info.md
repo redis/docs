@@ -52,7 +52,7 @@ is key name of the time series.
 is an optional flag to get a more detailed information about the chunks.
 </details>
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

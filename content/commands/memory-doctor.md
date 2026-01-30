@@ -30,7 +30,7 @@ title: MEMORY DOCTOR
 The `MEMORY DOCTOR` command reports about different memory-related issues that
 the Redis server experiences, and advises about possible remedies.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

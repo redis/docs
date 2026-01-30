@@ -44,7 +44,7 @@ The following is a non-exhaustive list of values that are reset:
 * Persistence statistics
 * Active defragmentation statistics
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

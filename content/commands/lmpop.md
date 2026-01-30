@@ -104,7 +104,7 @@ LMPOP 2 mylist mylist2 right count 10
 EXISTS mylist mylist2
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

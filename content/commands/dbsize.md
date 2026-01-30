@@ -38,7 +38,7 @@ This command's behavior varies in clustered Redis environments. See the [multi-k
 
 Return the number of keys in the currently-selected database.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

@@ -117,7 +117,7 @@ redis> BF.RESERVE bf_non 0.01 1000 NONSCALING
 OK
 {{< / highlight >}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

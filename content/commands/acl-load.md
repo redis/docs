@@ -48,7 +48,7 @@ sure to have an *all or nothing* behavior, that is:
 -ERR /tmp/foo:1: Unknown command or category name in ACL...
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

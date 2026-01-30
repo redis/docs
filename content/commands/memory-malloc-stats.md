@@ -33,7 +33,7 @@ the memory allocator.
 This command is currently implemented only when using **jemalloc** as an
 allocator, and evaluates to a benign NOOP for all others.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

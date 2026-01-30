@@ -372,5 +372,5 @@ Ready to build your AI agent with Redis?
 
 **Deploy and scale:**
 - [Redis Cloud]({{< relref "/operate/rc" >}}) for managed Redis hosting
-- [Redis Enterprise]({{< relref "/operate/rs" >}}) for on-premises deployment
+- [Redis Software]({{< relref "/operate/rs" >}}) for on-premises deployment
 - [Performance optimization]({{< relref "/operate/rs/databases/memory-performance" >}}) best practices

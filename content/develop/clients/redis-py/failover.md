@@ -214,10 +214,10 @@ and checks that it gives the expected response. Any unexpected response
 or exception indicates an unhealthy server. Although `PingHealthCheck` is
 very simple, it is a good basic approach for most Redis deployments.
 
-#### `LagAwareHealthCheck` (Redis Enterprise only) {#lag-aware-health-check}
+#### `LagAwareHealthCheck` (Redis Software only) {#lag-aware-health-check}
 
 `LagAwareHealthCheck` is designed specifically for
-Redis Enterprise [Active-Active]({{< relref "/operate/rs/databases/active-active" >}})
+Redis Software [Active-Active]({{< relref "/operate/rs/databases/active-active" >}})
 deployments. It determines the health of the server by using the
 [REST API]({{< relref "/operate/rs/references/rest-api" >}}) to check the
 synchronization lag between a specific database and the others in the Active-Active
@@ -267,7 +267,7 @@ The `LagAwareHealthCheck` constructor accepts the following options:
 
 | Option | Description |
 | --- | --- |
-| `rest_api_port` | Port number for Redis Enterprise REST API (default is 9443). |
+| `rest_api_port` | Port number for Redis Software REST API (default is 9443). |
 | `lag_aware_tolerance` | Tolerable synchronization lag between databases in milliseconds (default is 100ms). |
 | `timeout` | REST API request timeout in seconds (default is 30 seconds). |
 | `auth_basic` | Tuple of (username, password) for basic authentication. |

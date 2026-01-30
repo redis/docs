@@ -434,7 +434,7 @@ Here's an example of running the `FT.PROFILE` command for a vector query.
 {{< /highlight >}}
 </details>
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:-----------------|:------|

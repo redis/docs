@@ -272,8 +272,8 @@ MultiDbConfig.DatabaseConfig dbConfig =
 ### `LagAwareStrategy` (preview)
 
 `LagAwareStrategy` (currently in preview) is designed specifically for
-Redis Enterprise [Active-Active]({{< relref "/operate/rs/databases/active-active" >}})
-deployments. It uses the Redis Enterprise REST API to check database availability
+Redis Software [Active-Active]({{< relref "/operate/rs/databases/active-active" >}})
+deployments. It uses the Redis Software REST API to check database availability
 and can also optionally check replication lag.
 
 `LagAwareStrategy` determines the health of the server using the

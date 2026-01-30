@@ -137,7 +137,7 @@ Add two items to a filter, then return error if the filter does not already exis
 BF.INSERT filter NOCREATE ITEMS foo bar
 {{< / highlight >}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|

@@ -52,7 +52,7 @@ Here are the next steps to get you started:
 The Redis Query Engine is available in Redis Open Source, Redis Software, and Redis Cloud.
 See
 [Install Redis Open Source]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) or
-[Install Redis Enterprise]({{< relref "/operate/rs/installing-upgrading/install" >}})
+[Install Redis Software]({{< relref "/operate/rs/installing-upgrading/install" >}})
 for full installation instructions.
 
 ## License and source code

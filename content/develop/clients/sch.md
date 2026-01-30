@@ -25,7 +25,7 @@ weight: 50
 ---
 
 *Smart client handoffs (SCH)* is a feature of Redis Cloud and
-Redis Enterprise servers that lets them actively notify clients
+Redis Software servers that lets them actively notify clients
 about planned server maintenance shortly before it happens. This
 lets a client reconnect or otherwise respond gracefully without significant
 interruptions in service.
@@ -54,7 +54,7 @@ All non-blocking operations are safe to use with SCH.
 ## Enable SCH
 
 SCH is enabled by default on Redis Cloud, but you must enable it
-explicitly on Redis Enterprise servers by using the
+explicitly on Redis Software servers by using the
 [v1/cluster]({{< relref "/operate/rs/references/rest-api/requests/cluster" >}})
 REST API request to set the `client_maint_notifications` option to `true`.
 The example below shows how to do this using the
@@ -70,7 +70,7 @@ curl -k -X PUT -H "accept: application/json" \
 
 {{< note >}}SCH is not supported for
 [Kubernetes]({{< relref "/operate/kubernetes" >}}) clusters
-and is supported on Redis Enterprise only for
+and is supported on Redis Software only for
 [rolling upgrades]({{< relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster#rolling-upgrade" >}}).
 {{< /note >}}
 

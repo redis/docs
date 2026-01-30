@@ -55,7 +55,7 @@ offering
 
 1. [Redis Cloud](https://redis.io/cloud), a fully managed cloud offering
 2. [Redis Stack](https://redis.io/docs/getting-started/install-stack/docker/), a local docker image for testing and development
-3. [Redis Enterprise](https://redis.com/redis-enterprise/), a commercial self-hosted
+3. [Redis Software](https://redis.com/redis-enterprise/), a commercial self-hosted
 
 ### Redis Cloud
 
@@ -73,11 +73,11 @@ docker run -d --name redis-stack -p 6379:6379 -p 8001:8001 redis/redis-stack:lat
 
 This will also spin up the [Redis Insight GUI](https://redis.io/insight/) at `http://localhost:8001`.
 
-### Redis Enterprise (self-hosted)
+### Redis Software (self-hosted)
 
-Redis Enterprise is a commercial offering that can be self-hosted. You can download the latest version [here](https://redis.io/downloads/).
+Redis Software is a commercial offering that can be self-hosted. You can download the latest version [here](https://redis.io/downloads/).
 
-If you are considering a self-hosted Redis Enterprise deployment on Kubernetes, there is the [Redis Enterprise Operator](https://docs.redis.com/latest/kubernetes/) for Kubernetes. This will allow you to easily deploy and manage a Redis Enterprise cluster on Kubernetes.
+If you are considering a self-hosted Redis Software deployment on Kubernetes, there is the [Redis Software Operator](https://docs.redis.com/latest/kubernetes/) for Kubernetes. This will allow you to easily deploy and manage a Redis Software cluster on Kubernetes.
 
 ### Redis Sentinel
 

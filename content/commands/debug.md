@@ -35,7 +35,7 @@ title: DEBUG
 The `DEBUG` command is an internal command.
 It is meant to be used for developing and testing Redis.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
