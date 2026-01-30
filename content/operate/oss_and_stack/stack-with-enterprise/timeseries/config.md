@@ -1,11 +1,11 @@
 ---
-Title: Time series configuration compatibility with Redis Enterprise
+Title: Time series configuration compatibility with Redis Software
 alwaysopen: false
 categories:
 - docs
 - operate
 - stack
-description: Time series configuration settings supported by Redis Enterprise Software and Redis Cloud.
+description: Time series configuration settings supported by Redis Software and Redis Cloud.
 linkTitle: Configuration
 toc: 'false'
 weight: 30
@@ -13,7 +13,7 @@ weight: 30
 
 ## Configure time series in Redis Software
 
-[Redis Enterprise Software]({{< relref "/operate/rs" >}}) lets you manually change any [RedisTimeSeries configuration setting]({{< relref "/develop/data-types/timeseries/" >}}configuration/#redistimeseries-configuration-parameters).
+[Redis Software]({{< relref "/operate/rs" >}}) lets you manually change any [RedisTimeSeries configuration setting]({{< relref "/develop/data-types/timeseries/" >}}configuration/#redistimeseries-configuration-parameters).
 
 To change RedisTimeSeries configuration using the Redis Software Cluster Manager UI:
 

@@ -28,7 +28,7 @@ Here are some general guidelines:
 
 - [Advanced capabilities]({{< relref "/operate/rc/databases/configuration/advanced-capabilities" >}}) also consume memory. For search databases, consider index size when you size your database. See [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more info.
 
-Memory limits in Redis Cloud are subject to the same considerations as Redis Enterprise Software; to learn more, see [Database memory limits]({{< relref "/operate/rs/databases/memory-performance/memory-limit" >}}).
+Memory limits in Redis Cloud are subject to the same considerations as Redis Software; to learn more, see [Database memory limits]({{< relref "/operate/rs/databases/memory-performance/memory-limit" >}}).
 
 ## Throughput
 

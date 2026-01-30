@@ -63,7 +63,7 @@ You can also use the Cluster Manager UI to enable the setting when creating a ne
 
 -tab-sep-
 
-You can use the [`rladmin` utility]({{< relref "/operate/rs/references/cli-utilities/rladmin/" >}}) to enable the OSS Cluster API for Redis Enterprise Software databases, including Replica Of databases.
+You can use the [`rladmin` utility]({{< relref "/operate/rs/references/cli-utilities/rladmin/" >}}) to enable the OSS Cluster API for Redis Software databases, including Replica Of databases.
 
 For Active-Active (CRDB) databases, [use the crdb-cli utility](#active-active-databases).
 
@@ -166,7 +166,7 @@ To enable the OSS Cluster API for an existing Active-Active database with `crdb-
 
 ## Change preferred IP type
 
-By default, using [`CLUSTER SLOTS`]({{<relref "/commands/cluster-slots">}}) and [`CLUSTER SHARDS`]({{<relref "/commands/cluster-shards">}}) in a Redis Enterprise Software cluster exposes the internal IP addresses for databases with the OSS Cluster API enabled.
+By default, using [`CLUSTER SLOTS`]({{<relref "/commands/cluster-slots">}}) and [`CLUSTER SHARDS`]({{<relref "/commands/cluster-shards">}}) in a Redis Software cluster exposes the internal IP addresses for databases with the OSS Cluster API enabled.
 
 To use external IP addresses instead of internal IP addresses, run the following [`rladmin tune db`]({{<relref "operate/rs/references/cli-utilities/rladmin/tune#tune-db">}}) command for each affected database:
 

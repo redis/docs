@@ -102,6 +102,9 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
     - **Type**: Select **HTTP**.
     - **Source**: Select **Anywhere - IPv4**.
     Select **Save rules** to save your changes.
+1. Select **Actions** > **Edit Load Balancer Attributes**.
+    - Under **Load balancer targets selection policy** select **Enable cross-zone load balancing**.
+    Click the **Save Changes** button.
 
 ### Create endpoint service {#create-endpoint-service-ec2}
 
@@ -197,6 +200,9 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
     - **Type**: Select **HTTP**.
     - **Source**: Select **Anywhere - IPv4**.
     Select **Save rules** to save your changes.
+1. Select **Actions** > **Edit Load Balancer Attributes**.
+    - Under **Load balancer targets selection policy** select **Enable cross-zone load balancing**.
+    Click the **Save Changes** button.
 
 ### Create endpoint service {#create-endpoint-service-rds}
 

@@ -215,6 +215,12 @@
           rect.setAttribute('stroke', '#d9534f');
           rect.setAttribute('stroke-width', '1');
           rect.setAttribute('stroke-dasharray', '3,3');
+        } else if (item.sentiment === 'indeterminate') {
+          // Yellow/amber for indeterminate outcomes (requires further analysis)
+          rect.setAttribute('fill', '#fff8e6');
+          rect.setAttribute('stroke', '#f0ad4e');
+          rect.setAttribute('stroke-width', '1');
+          rect.setAttribute('stroke-dasharray', '3,3');
         } else {
           // Default red for outcomes without explicit sentiment
           rect.setAttribute('fill', '#ffe6e6');

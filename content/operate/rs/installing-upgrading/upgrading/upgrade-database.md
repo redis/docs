@@ -1,11 +1,11 @@
 ---
-Title: Upgrade a Redis Enterprise Software database
+Title: Upgrade a Redis Software database
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
-description: Upgrade a Redis Enterprise Software database.
+description: Upgrade a Redis Software database.
 linkTitle: Upgrade database
 weight: 50
 ---
@@ -20,7 +20,7 @@ To view available Redis database versions:
 
 - Send a [`GET /nodes` REST API request]({{< relref "/operate/rs/references/rest-api/requests/nodes" >}}) and see `supported_database_versions` in the response.
 
-The default Redis database version differs between Redis Enterprise releases as follows:
+The default Redis database version differs between Redis Software releases as follows:
 
 <a name="db-versions-table"></a>
 | Redis<br />Software | Bundled Redis<br />DB versions | Default DB version<br />(upgraded/new databases) |
@@ -41,7 +41,7 @@ Before upgrading a database:
 
 - Review the relevant [release notes]({{< relref "/operate/rs/release-notes" >}}) for any preparation instructions.
 
-- Verify that both the [current database version and the target database version are supported](#db-versions-table) by the cluster's Redis Enterprise Software version.
+- Verify that both the [current database version and the target database version are supported](#db-versions-table) by the cluster's Redis Software version.
 
     To determine the current database version:
 

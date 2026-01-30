@@ -23,6 +23,7 @@ Oracle supports the following date and time data types:
 
 - `DATE` - represented by Debezium as a 64-bit integer representing the milliseconds since epoch
   ```yaml
+  name: Format Oracle DATE field
   transform:
   - uses: add_field
     with:
@@ -44,6 +45,7 @@ You can format it similarly to `DATE`, but you need to divide the value by the a
   SQLite supports both `TIMESTAMP WITH TIME ZONE` and `TIMESTAMP WITH LOCAL TIME ZONE`. You can format them using the `STRFTIME` function.
 
   ```yaml
+  name: Format Oracle TIMESTAMP WITH TIME ZONE
   transform:
     - uses: add_field
       with:
@@ -66,6 +68,7 @@ SQL Server supports the following date and time data types:
 
 - `date` - represented by Debezium as number of days since epoch (1970-01-01). You can multiply the value by 86400 (the number of seconds in a day) to convert it to seconds since epoch and then use the `STRFTIME` or `DATE` functions to format it.
   ```yaml
+  name: Format SQL Server date field
   transform:
     - uses: add_field
       with:
@@ -74,7 +77,7 @@ SQL Server supports the following date and time data types:
             language: sql
             # Uses the default DATE format
             expression: DATE(event_date * 86400, 'unixepoch')
-  
+
           - field: with_custom_date_format
             language: sql
             # Uses the default DATE format
@@ -83,6 +86,7 @@ SQL Server supports the following date and time data types:
 
 - `datetime`, `smalldatetime` - represented by Debezium as number of milliseconds since epoch. Divide the value by 1000 to convert it to seconds since epoch and then use the `STRFTIME` function to format it.
   ```yaml
+  name: Format SQL Server datetime field
   transform:
     - uses: add_field
       with:
@@ -96,6 +100,7 @@ SQL Server supports the following date and time data types:
 
 - `time` - the number of milliseconds since midnight.
   ```yaml
+  name: Format SQL Server time field
   transform:
     - uses: add_field
       with:
@@ -107,6 +112,7 @@ SQL Server supports the following date and time data types:
 
 - `datetimeoffset` - represented as a timestamp with timezone information (for example, `2025-05-27T15:21:42.864Z` or `2025-01-02T14:45:30.123+05:00`). 
   ```yaml
+  name: Format SQL Server datetimeoffset field
   transform:
   - uses: add_field
     with:
@@ -131,6 +137,7 @@ PostgreSQL supports the following date and time data types:
 
 - `date` - represented by Debezium as number of days since epoch (1970-01-01). You can multiply the value by 86400 (the number of seconds in a day) to convert it to seconds since epoch and then use the `STRFTIME` or `DATE` functions to format it.
   ```yaml
+    name: Format PostgreSQL date field
     transform:
         - uses: add_field
           with:
@@ -143,6 +150,7 @@ PostgreSQL supports the following date and time data types:
 
 - `time` - the time of microseconds since midnight.
   ```yaml
+  name: Format PostgreSQL time field
   transform:
     - uses: add_field
       with:
@@ -155,6 +163,7 @@ PostgreSQL supports the following date and time data types:
 
 - `time with time zone` - a string representation of the time with timezone information, where the timezone is GMT (for example, `07:15:00Z`).
   ```yaml
+  name: Format PostgreSQL time with time zone
   transform:
     - uses: add_field
       with:
@@ -166,6 +175,7 @@ PostgreSQL supports the following date and time data types:
 
 - `timestamp` - represented by Debezium as a 64-bit integer containing the microseconds since epoch. You can use the `STRFTIME` function to format it.
   ```yaml
+  name: Format PostgreSQL timestamp field
   transform:
     - uses: add_field
       with:
@@ -178,6 +188,7 @@ PostgreSQL supports the following date and time data types:
 
 - `timestamp with time zone` - represented by Debezium as a string containing the timestamp with time zone information, where the timezone is GMT (for example, `2025-06-07T10:15:00.000000Z`).
   ```yaml
+  name: Format PostgreSQL timestamp with time zone
   transform:
     - uses: add_field
       with:

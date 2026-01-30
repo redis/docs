@@ -90,7 +90,7 @@ When errors are reported, the server may return a JSON object with    `error_cod
 | missing_module | Module is not present in cluster.| 
 | module_downgrade_unsupported | Module downgrade is not allowed.| 
 | redis_incompatible_version | Module min_redis_version is bigger than the current Redis version.| 
-| redis_pack_incompatible_version | Module min_redis_pack_version is bigger than the current Redis Enterprise version.| 
+| redis_pack_incompatible_version | Module min_redis_pack_version is bigger than the current Redis Software version.| 
 | unsupported_module_capabilities | New version of module does support all the capabilities needed for the database configuration| 
 
 ### Status codes {#post-status-codes} 

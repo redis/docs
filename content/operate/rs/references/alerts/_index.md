@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 - rc
-description: Documents the alerts that are tracked with Redis Enterprise Software.
+description: Documents the alerts that are tracked with Redis Software.
 hideListLinks: true
 linkTitle: Alerts
 weight: $weight

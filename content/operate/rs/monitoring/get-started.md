@@ -1,21 +1,21 @@
 ---
 LinkTitle: Get started
-Title: Get started with monitoring Redis Enterprise Software
+Title: Get started with monitoring Redis Software
 alwaysopen: false
 categories:
 - docs
 - integrate
 - rs
-description: Collect and visualize Redis Enterprise Software metrics.
+description: Collect and visualize Redis Software metrics.
 group: observability
-summary: Collect and visualize your Redis Enterprise Software metrics.
+summary: Collect and visualize your Redis Software metrics.
 type: integration
 weight: 5
 tocEmbedHeaders: true
 aliases: /operate/rs/monitoring/prometheus_and_grafana/
 ---
 
-You can use Prometheus and compatible integrations to collect and visualize your Redis Enterprise Software metrics.
+You can use Prometheus and compatible integrations to collect and visualize your Redis Software metrics.
 
 Metrics are exposed at the cluster, node, database, shard, and proxy levels.
 
@@ -26,11 +26,11 @@ You can use Prometheus integrations to:
 
 - Set up automatic alerts for all resources
 
-- Display Redis Enterprise Software metrics alongside data from other systems
+- Display Redis Software metrics alongside data from other systems
 
 ## Prometheus integrations
 
-You can integrate Redis Enterprise Software with Prometheus and one of the following tools to collect and visualize your deployment's metrics:
+You can integrate Redis Software with Prometheus and one of the following tools to collect and visualize your deployment's metrics:
 
 - [Grafana]({{<relref "/integrate/prometheus-with-redis-enterprise">}})
 
@@ -50,7 +50,7 @@ To get started with Prometheus:
 
 1. Within that directory, create a configuration file called `prometheus.yml`.
 
-1. Add the following contents to the configuration file and replace `<cluster_name>` with your Redis Enterprise Software cluster's FQDN:
+1. Add the following contents to the configuration file and replace `<cluster_name>` with your Redis Software cluster's FQDN:
 
     {{< multitabs id="prometheus-config-yml" 
 tab1="v2 (metrics stream engine)"
@@ -79,7 +79,7 @@ scrape_configs:
     static_configs:
       - targets: ["localhost:9090"]
 
-# scrape Redis Enterprise Software
+# scrape Redis Software
   - job_name: redis-enterprise
     scrape_interval: 30s
     scrape_timeout: 30s
@@ -116,7 +116,7 @@ scrape_configs:
     static_configs:
       - targets: ["localhost:9090"]
 
-# scrape Redis Enterprise Software
+# scrape Redis Software
   - job_name: redis-enterprise
     scrape_interval: 30s
     scrape_timeout: 30s
@@ -164,12 +164,12 @@ We recommend running Prometheus in Docker only for development and testing.
 
     1. In your browser, sign in to Prometheus at `http://localhost:9090` to make sure the server is running.
 
-    1. Select **Status** and then **Targets** to check that Prometheus is collecting data from your Redis Enterprise Software cluster.
+    1. Select **Status** and then **Targets** to check that Prometheus is collecting data from your Redis Software cluster.
 
-        {{<image filename="images/rs/prometheus-target.png" alt="The Redis Enterprise Software target showing that Prometheus is connected to the Redis Enterprise Software Cluster.">}}
+        {{<image filename="images/rs/prometheus-target.png" alt="The Redis Software target showing that Prometheus is connected to the Redis Software Cluster.">}}
 
         If Prometheus is connected to the cluster, you can type **node_up** in the Expression field on the Prometheus home page to see the cluster metrics.
 
-1. Integrate Redis Enterprise Software and your Prometheus server with one of the [compatible tools](#prometheus-integrations). For help, see the integration guide and official documentation for your chosen tool.
+1. Integrate Redis Software and your Prometheus server with one of the [compatible tools](#prometheus-integrations). For help, see the integration guide and official documentation for your chosen tool.
 
 1. Add dashboards for cluster, database, node, and shard metrics.

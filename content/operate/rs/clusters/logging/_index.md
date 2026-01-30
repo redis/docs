@@ -5,14 +5,14 @@ categories:
 - docs
 - operate
 - rs
-description: Management actions performed with Redis Enterprise are logged to make
+description: Management actions performed with Redis Software are logged to make
   sure system management tasks are appropriately performed or monitored by administrators
   and for compliance with regulatory standards.
 hideListLinks: true
 linkTitle: Logging
 weight: 95
 ---
-Management actions performed with Redis Enterprise are logged to make sure system management tasks are appropriately performed or monitored by administrators and for compliance with regulatory standards.
+Management actions performed with Redis Software are logged to make sure system management tasks are appropriately performed or monitored by administrators and for compliance with regulatory standards.
 
 Log entries contain the
 following information:
@@ -36,7 +36,7 @@ You can use the **Logs** screen to review what actions a user has performed, suc
 
 ## View logs in the UI
 
-Redis Enterprise provides log files for auditing cluster management actions and troubleshooting. You can view these logs in the UI and on the host operating system.
+Redis Software provides log files for auditing cluster management actions and troubleshooting. You can view these logs in the UI and on the host operating system.
 
 To view event logs in the new Cluster Manager UI, go to **Cluster > Logs**.
 
@@ -44,11 +44,11 @@ To view event logs in the new Cluster Manager UI, go to **Cluster > Logs**.
 
 Server logs can be found by default in the directory `/var/opt/redislabs/log/`.
 
-These log files are used by the Redis support team to troubleshoot issues. The logs you will most frequently interact with is 'event_log.log'. This log file is where logs of configuration actions within Redis are stored and is useful to determine events that occur within Redis Enterprise.
+These log files are used by the Redis support team to troubleshoot issues. The logs you will most frequently interact with is 'event_log.log'. This log file is where logs of configuration actions within Redis are stored and is useful to determine events that occur within Redis Software.
 
 ## Configure log timestamps
 
-Redis Enterprise allows you to configure log timestamps. To configure log timestamps in the new Cluster Manager UI:
+Redis Software allows you to configure log timestamps. To configure log timestamps in the new Cluster Manager UI:
 
 1. Go to **Cluster > Configuration > General**.
 

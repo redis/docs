@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Documents the Redis Enterprise Software REST API /nodes/debuginfo requests.
+description: Documents the Redis Software REST API /nodes/debuginfo requests.
 headerRange: '[1-2]'
 linkTitle: debuginfo
 weight: $weight

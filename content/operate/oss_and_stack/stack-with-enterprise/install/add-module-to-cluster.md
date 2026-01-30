@@ -10,12 +10,12 @@ linkTitle: Install on a cluster
 weight: 10
 ---
 
-[Redis Enterprise Software]({{< relref "/operate/rs" >}}) comes packaged with several modules that provide additional Redis capabilities such as [search and query]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search">}}), [JSON]({{<relref "/operate/oss_and_stack/stack-with-enterprise/json">}}), [time series]({{<relref "/operate/oss_and_stack/stack-with-enterprise/timeseries">}}), and [probabilistic data structures]({{<relref "/operate/oss_and_stack/stack-with-enterprise/bloom">}}). As of version 8.0, Redis Enterprise Software includes multiple feature sets, compatible with different Redis database versions. You can view the installed modules, their versions, and their minimum compatible Redis database versions from **Cluster > Modules** in the Cluster Manager UI.
+[Redis Software]({{< relref "/operate/rs" >}}) comes packaged with several modules that provide additional Redis capabilities such as [search and query]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search">}}), [JSON]({{<relref "/operate/oss_and_stack/stack-with-enterprise/json">}}), [time series]({{<relref "/operate/oss_and_stack/stack-with-enterprise/timeseries">}}), and [probabilistic data structures]({{<relref "/operate/oss_and_stack/stack-with-enterprise/bloom">}}). As of version 8.0, Redis Software includes multiple feature sets, compatible with different Redis database versions. You can view the installed modules, their versions, and their minimum compatible Redis database versions from **Cluster > Modules** in the Cluster Manager UI.
 
 To use other modules or upgrade an existing module to a more recent version, you need to install the new module package on your cluster.
 
 {{<warning>}}
-Some module versions are not supported or recommended for use with Redis Enterprise Software.
+Some module versions are not supported or recommended for use with Redis Software.
 {{</warning>}}
 
 ## Module package requirements
@@ -34,7 +34,7 @@ The module must be packaged as a `.zip` file containing:
 
 ## Get packaged modules
 
-To install or upgrade a module on a [Redis Enterprise Software]({{< relref "/operate/rs" >}}) cluster, you need a module package.
+To install or upgrade a module on a [Redis Software]({{< relref "/operate/rs" >}}) cluster, you need a module package.
 
 - For versions of official Redis modules that are not available from the [Redis download center](https://redis.io/downloads/), [contact support](https://redis.io/support/).
 
@@ -44,7 +44,7 @@ To install or upgrade a module on a [Redis Enterprise Software]({{< relref "/ope
 
 ## Add user-defined modules during bootstrapping (Redis Software v8.0.6 and later) {#bootstrap-user-defined-module}
 
-As of Redis Enterprise Software version 8.0.6, you can include `user_defined_modules` in REST API requests to [initiate boostrap operations]({{<relref "/operate/rs/references/rest-api/requests/bootstrap#post-bootstrap">}}) such as `create_cluster`, `join_cluster`, or `recover_cluster`. Each node in the cluster independently downloads and installs the specified modules during its bootstrap process.
+As of Redis Software version 8.0.6, you can include `user_defined_modules` in REST API requests to [initiate boostrap operations]({{<relref "/operate/rs/references/rest-api/requests/bootstrap#post-bootstrap">}}) such as `create_cluster`, `join_cluster`, or `recover_cluster`. Each node in the cluster independently downloads and installs the specified modules during its bootstrap process.
 
 `user_defined_modules` has the following JSON schema:
 
@@ -273,7 +273,7 @@ If you see `"module.json missing"` errors:
 
 ## Add a user-defined module to a cluster (Redis Software v8.0.x and later) {#add-user-defined-module-to-cluster}
 
-To add a custom module to a cluster running Redis Enterprise Software version 8.0.x or later, use the following REST API requests:
+To add a custom module to a cluster running Redis Software version 8.0.x or later, use the following REST API requests:
 
 1. [Upload the custom module configuration]({{< relref "/operate/rs/references/rest-api/requests/modules/user-defined#post-user-defined-module" >}}). Replace the values in the following example with your own.
 
@@ -311,7 +311,7 @@ To add a custom module to a cluster running Redis Enterprise Software version 8.
 
 ## Add a module to a cluster (Redis Software v7.22.x and earlier) {#add-a-module-to-a-cluster}
 
-Use one of the following methods to add a module to a cluster running Redis Enterprise Software version 7.22.x or earlier:
+Use one of the following methods to add a module to a cluster running Redis Software version 7.22.x or earlier:
 
 {{< multitabs id="install-modules" 
         tab1="Cluster Manager UI"

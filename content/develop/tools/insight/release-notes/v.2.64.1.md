@@ -13,7 +13,7 @@ Update urgency: `HIGH`: There is a critical bug that may affect a subset of user
 
 ### Details
 
-- [#4236](https://github.com/RedisInsight/RedisInsight/pull/4236) Reverts the change to use JSONPath ($) by default rather than (.). These changes could cause issues with shards in Redis Enterprise Active-Active databases.
+- [#4236](https://github.com/RedisInsight/RedisInsight/pull/4236) Reverts the change to use JSONPath ($) by default rather than (.). These changes could cause issues with shards in Redis Software Active-Active databases.
 
 **SHA-256 Checksums**
 | Package | SHA-256 |
