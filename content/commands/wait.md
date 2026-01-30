@@ -95,7 +95,7 @@ In the following example the first call to `WAIT` does not use a timeout and ask
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active\*</nobr></span> | <span title="Not supported">&#x274c; Standard**</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | \*For Active-Active databases, `WAIT` commands are supported for primary and replica shard replication. You can contact support to enable `WAIT` for local replicas only. `WAIT` is not supported for cross-instance replication.<br></br>\*\*`WAIT` commands are supported on Redis Cloud Flexible subscriptions. |
 
