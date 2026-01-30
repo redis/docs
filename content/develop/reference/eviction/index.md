@@ -208,7 +208,7 @@ before every eviction with the `maxmemory-samples` configuration directive:
 maxmemory-samples 5
 ```
 
-See this [eviction policy page]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}) for more information on the options available in Redis Software.
+See these pages for information on eviction policies in: (1) [Redis Software]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}) and (2) [Redis Cloud]({{< relref "/operate/rc/databases/configuration/data-eviction-policies" >}}).
 
 The reason Redis does not use a true LRU implementation is because it
 costs more memory. However, the approximation is virtually equivalent for an
