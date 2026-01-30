@@ -1,27 +1,27 @@
 ---
-Title: Redis Enterprise Software product lifecycle
+Title: Redis Software product lifecycle
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
-description: The product lifecycle of Redis Enterprise Software cluster versions and bundled Redis database versions.
+description: The product lifecycle of Redis Software cluster versions and bundled Redis database versions.
 linkTitle: Product lifecycle
 weight: 100
 tocEmbedHeaders: true
 ---
-The Redis Enterprise Software product lifecycle fully reflects the [subscription agreement](https://redis.io/legal/software-agreement/).
+The Redis Software product lifecycle fully reflects the [subscription agreement](https://redis.io/legal/software-agreement/).
 However, for any discrepancy between the two policies, the subscription agreement prevails.
 
-Redis Enterprise modules follow the [modules lifecycle]({{< relref "/operate/oss_and_stack/stack-with-enterprise/modules-lifecycle" >}}).
+Redis Software modules follow the [modules lifecycle]({{< relref "/operate/oss_and_stack/stack-with-enterprise/modules-lifecycle" >}}).
 
-## Redis Enterprise Software cluster version lifecycle
+## Redis Software cluster version lifecycle
 
-This section describes the lifecycle policy for Redis Enterprise Software cluster versions.
+This section describes the lifecycle policy for Redis Software cluster versions.
 
 ### Cluster version release numbers
 
-Redis Enterprise Software uses a four-place numbering scheme to designate released cluster versions.
+Redis Software uses a four-place numbering scheme to designate released cluster versions.
 The format is "Major1.Major2.Minor-Build".
 
 - Major sections of the version number represents fundamental changes and additions in
@@ -33,12 +33,12 @@ The format is "Major1.Major2.Minor-Build".
 - Build number is incremented with any changes to the product. Build number is
     incremented with each build when any change is made to the binaries.
 
-Redis Enterprise Software typically gets two major releases every year but the product shipping cycles may vary.
+Redis Software typically gets two major releases every year but the product shipping cycles may vary.
 Maintenance releases, typically available on the last minor release of the current major1.major2 release are typically made available on a monthly cadence, although cycles may vary.
 
 ### Cluster version end-of-life schedule {#endoflife-schedule}
 
-For Redis Enterprise Software cluster versions 6.2 and later, the end-of-life (EOL) for each major release occurs 24 months after the formal release of the subsequent major version. Monthly maintenance will be provided on the last minor release of the major1.major2 releases.
+For Redis Software cluster versions 6.2 and later, the end-of-life (EOL) for each major release occurs 24 months after the formal release of the subsequent major version. Monthly maintenance will be provided on the last minor release of the major1.major2 releases.
 This update to the EOL policy allows a lead time of at least 24 months to upgrade to the new cluster version after it is available.
 
 
@@ -56,9 +56,9 @@ This update to the EOL policy allows a lead time of at least 24 months to upgrad
 | 5.4 – December 2018                       | December 31, 2020  |
 | 5.2 – June 2018                           | December 31, 2019  |
 
-The following timeline chart visualizes the Redis Enterprise Software product lifecycle, showing release dates and end-of-life dates for each major version:
+The following timeline chart visualizes the Redis Software product lifecycle, showing release dates and end-of-life dates for each major version:
 
-```timeline {title="Redis Enterprise Software product lifecycle"}
+```timeline {title="Redis Software product lifecycle"}
 8.0: Oct 2025 - TBD
 7.22: May 2025 - Oct 30, 2027
 7.8: Nov 2024 - May 30, 2027
@@ -76,7 +76,7 @@ The following timeline chart visualizes the Redis Enterprise Software product li
 
 {{<embed-md "rs-upgrade-paths.md">}}
 
-For detailed upgrade instructions, see [Upgrade a Redis Enterprise Software cluster]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster">}}).
+For detailed upgrade instructions, see [Upgrade a Redis Software cluster]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster">}}).
 
 {{<note>}}
 Redis Enterprise for Kubernetes has its own support lifecycle, which accounts for the Kubernetes distribution lifecycle. For details, see [Supported Kubernetes distributions]({{<relref "/operate/kubernetes/reference/supported_k8s_distributions">}}).
@@ -84,7 +84,7 @@ Redis Enterprise for Kubernetes has its own support lifecycle, which accounts fo
 
 ## Redis database version management
 
-The following sections describe the lifecycle policy for Redis database versions bundled with Redis Enterprise Software.
+The following sections describe the lifecycle policy for Redis database versions bundled with Redis Software.
 
 ### Redis database version structure
 
@@ -98,7 +98,7 @@ Redis database versions use a **MAJOR.MINOR.PATCH** versioning scheme:
 
 ### Redis database version support policy
 
-As of Redis Enterprise Software version 8.0.x, Redis database versions follow a long-term and short-term support model as follows:
+As of Redis Software version 8.0.x, Redis database versions follow a long-term and short-term support model as follows:
 
 - **Long-term support**: The first minor release and last minor release of each major database version receive extended support of 5 years.
 
@@ -123,4 +123,4 @@ Redis database versions have the following end-of-life dates:
 | **Redis 7.2** | December 1, 2029 |
 | **Redis 6.2** | April 1, 2027 |
 
-For detailed database upgrade instructions, see [Upgrade a Redis Enterprise Software database]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-database">}}) or [Upgrade an Active-Active database]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-active-active">}}).
+For detailed database upgrade instructions, see [Upgrade a Redis Software database]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-database">}}) or [Upgrade an Active-Active database]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-active-active">}}).

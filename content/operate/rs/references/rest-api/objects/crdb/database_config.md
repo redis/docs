@@ -16,7 +16,7 @@ An object that represents the database configuration.
 |------|------------|-------------|
 | aof_policy | **'appendfsync-every-sec'** <br />'appendfsync-always' | Policy for Append-Only File data persistence |
 | <span class="break-all">authentication_admin_pass</span> | string | Administrative databases access token |
-| <span class="break-all">authentication_redis_pass</span> | string | Redis AUTH password (deprecated as of Redis Enterprise v7.2, replaced with multiple passwords feature in version 6.0.X) |
+| <span class="break-all">authentication_redis_pass</span> | string | Redis AUTH password (deprecated as of Redis Software v7.2, replaced with multiple passwords feature in version 6.0.X) |
 | bigstore | boolean (default: false) | Database driver is Auto Tiering |
 | bigstore_ram_size | integer (default: 0) | Memory size of RAM size |
 | cert | string | Optional PEM-encoded server certificate for the underlying database instance |
@@ -25,7 +25,7 @@ An object that represents the database configuration.
 | max_aof_file_size | integer | Maximum AOF file size in bytes |
 | max_aof_load_time | integer (default: 3600) | Maximum AOF reload time in seconds |
 | memory_size | integer (default: 0) | Database memory size limit in bytes. 0 is unlimited. |
-| module_list | array of module objects | List of modules to be loaded to all participating clusters of the Active-Active database<br />{{<code>}}[{<br />  "module_id": string,<br />  "module_args": string,<br />  "module_name": string,<br />  "semantic_version": string,<br />}, ...]{{</code>}}<br />**module_id**: Module UID (deprecated; use `module_name` instead)<br />**module_args**: Module command-line arguments (pattern does not allow special characters &,\<,>,")<br />**module_name**: Module's name<br />**semantic_version**: Module's semantic version (deprecated; use `module_args` instead)<br /><br />**module_id** and **semantic_version** are optional as of Redis Enterprise Software v7.4.2 and deprecated as of v7.8.2. |
+| module_list | array of module objects | List of modules to be loaded to all participating clusters of the Active-Active database<br />{{<code>}}[{<br />  "module_id": string,<br />  "module_args": string,<br />  "module_name": string,<br />  "semantic_version": string,<br />}, ...]{{</code>}}<br />**module_id**: Module UID (deprecated; use `module_name` instead)<br />**module_args**: Module command-line arguments (pattern does not allow special characters &,\<,>,")<br />**module_name**: Module's name<br />**semantic_version**: Module's semantic version (deprecated; use `module_args` instead)<br /><br />**module_id** and **semantic_version** are optional as of Redis Software v7.4.2 and deprecated as of v7.8.2. |
 | oss_cluster | boolean (default: false) | Enables OSS Cluster mode |
 | <span class="break-all">oss_cluster_api_preferred_ip_type</span> | 'internal'<br />'external' | Indicates preferred IP type in OSS cluster API |
 | oss_sharding | boolean (default: false) | An alternative to `shard_key_regex` for using the common case of the OSS shard hashing policy |

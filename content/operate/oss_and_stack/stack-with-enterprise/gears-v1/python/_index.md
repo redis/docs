@@ -12,13 +12,13 @@ linkTitle: Run with Python
 weight: 71
 ---
 
-With the RedisGears Python plugin, you can write RedisGears functions in [Python](https://www.python.org/) and run them on a [Redis Enterprise]({{< relref "/operate/rs/" >}}) cluster.
+With the RedisGears Python plugin, you can write RedisGears functions in [Python](https://www.python.org/) and run them on a [Redis Software]({{< relref "/operate/rs/" >}}) cluster.
 
 The Python plugin allows both batch processing and event-driven processing.
 
-Before you can run RedisGears with Python, you will need to [install the RedisGears module and the Python plugin]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1/installing-redisgears#install-redisgears" >}}) on your Redis Enterprise cluster and [enable them for your database]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1/python/install" >}}).
+Before you can run RedisGears with Python, you will need to [install the RedisGears module and the Python plugin]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1/installing-redisgears#install-redisgears" >}}) on your Redis Software cluster and [enable them for your database]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1/python/install" >}}).
 
-Once you have written your code, upload it to a node on your Redis Enterprise cluster. Use the `RG.PYEXECUTE` command with the `redis-cli` command-line tool to run your code.
+Once you have written your code, upload it to a node on your Redis Software cluster. Use the `RG.PYEXECUTE` command with the `redis-cli` command-line tool to run your code.
 
 ## More info
 

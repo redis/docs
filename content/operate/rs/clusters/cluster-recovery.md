@@ -10,7 +10,7 @@ description: How to use the cluster configuration file and database data to reco
 linktitle: Recover a cluster
 weight: 70
 ---
-When a Redis Enterprise Software cluster fails,
+When a Redis Software cluster fails,
 you must use the cluster configuration file and database data to recover the cluster.
 
 {{< note >}}
@@ -29,7 +29,7 @@ These files are stored in the [persistent storage location]({{< relref "/operate
 
 The cluster recovery process includes:
 
-1. Install Redis Enterprise Software on the nodes of the new cluster.
+1. Install Redis Software on the nodes of the new cluster.
 1. Mount the persistent storage with the recovery files from the original cluster to the nodes of the new cluster.
 1. Recover the cluster configuration on the first node in the new cluster.
 1. Join the remaining nodes to the new cluster.
@@ -48,15 +48,15 @@ The cluster recovery process includes:
 
 ## Recover the cluster
 
-1. (Optional) If you want to recover the cluster to the original cluster nodes, uninstall Redis Enterprise Software from the nodes.
+1. (Optional) If you want to recover the cluster to the original cluster nodes, uninstall Redis Software from the nodes.
 
-1. [Install Redis Enterprise Software]({{< relref "/operate/rs/installing-upgrading/install/install-on-linux" >}}) on the new cluster nodes.
+1. [Install Redis Software]({{< relref "/operate/rs/installing-upgrading/install/install-on-linux" >}}) on the new cluster nodes.
 
     The new servers must have the same basic hardware and software configuration as the original servers, including:
 
     - The same number of nodes
     - At least the same amount of memory
-    - The same Redis Enterprise Software version
+    - The same Redis Software version
     - The same installation user and paths
 
     {{< note >}}

@@ -10,9 +10,9 @@ description: Describes how to enable role-based LDAP authentication and authoriz
 weight: 25
 ---
 
-Redis Enterprise Software uses a role-based mechanism to enable LDAP authentication and authorization.  
+Redis Software uses a role-based mechanism to enable LDAP authentication and authorization.  
 
-When a user attempts to access Redis Enterprise resources using LDAP credentials, the credentials are passed to the LDAP server in a bind request. If the request succeeds, the user’s groups are searched for a group that authorizes access to the original resource.
+When a user attempts to access Redis Software resources using LDAP credentials, the credentials are passed to the LDAP server in a bind request. If the request succeeds, the user’s groups are searched for a group that authorizes access to the original resource.
 
 Role-based LDAP lets you authorize cluster management users (previously known as _external users_) and database users. As with any access control role, you can define the level of access authorized by the role.
 
@@ -67,7 +67,7 @@ These settings define the authentication query:
 | **Filter** | _(query search)_ Example: `(cn=%u)` |
 | **Scope**  | _(query search)_ Must be _baseObject_, _singleLevel_, or _wholeSubtree_ |
 
-In this example, `%u` is replaced by the username attempting to access the Redis Enterprise resource.
+In this example, `%u` is replaced by the username attempting to access the Redis Software resource.
 
 ### Authorization query
 
@@ -81,7 +81,7 @@ These settings define the group authorization query:
 | **Filter** | _(query search)_ Example: `(members=%D)` |
 | **Scope**  | _(query search)_ Must be _baseObject_, _singleLevel_, or _wholeSubtree_ |
 
-In this example, `%D` is replaced by the Distinguished Name of the user attempting to access the Redis Enterprise resource.
+In this example, `%D` is replaced by the Distinguished Name of the user attempting to access the Redis Software resource.
 
 ### Authentication timeout
 

@@ -147,7 +147,7 @@ $ redis-cli --raw
 The Redis JSON data type is part of Redis Open Source and it is also available in Redis Software and Redis Cloud.
 See
 [Install Redis Open Source]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) or
-[Install Redis Enterprise]({{< relref "/operate/rs/installing-upgrading/install" >}})
+[Install Redis Software]({{< relref "/operate/rs/installing-upgrading/install" >}})
 for full installation instructions.
 
 ## Limitation

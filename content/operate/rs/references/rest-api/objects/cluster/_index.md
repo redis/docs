@@ -81,10 +81,10 @@ An API object that represents the cluster.
 | smtp_password | string | SMTP server password |
 | smtp_port | integer | SMTP server port for automated emails |
 | smtp_tls_mode | "none"<br />"starttls"<br />"tls" | Specifies which TLS mode to use for SMTP access |
-| smtp_use_tls | boolean (default: false) | Use TLS for SMTP access (deprecated as of Redis Enterprise v4.3.3, use smtp_tls_mode field instead) |
+| smtp_use_tls | boolean (default: false) | Use TLS for SMTP access (deprecated as of Redis Software v4.3.3, use smtp_tls_mode field instead) |
 | smtp_username | string | SMTP server username (pattern does not allow special characters &,\<,>,") |
 | syncer_certificate | string | Cluster's syncer certificate |
 | upgrade_mode | boolean (default: false) | Is cluster currently in upgrade mode |
 | use_external_ipv6 | boolean (default: true) | Should redislabs services listen on ipv6 |
-| use_ipv6 | boolean (default: true) | Should redislabs services listen on ipv6 (deprecated as of Redis Enterprise v6.4.2, replaced with use_external_ipv6) |
+| use_ipv6 | boolean (default: true) | Should redislabs services listen on ipv6 (deprecated as of Redis Software v6.4.2, replaced with use_external_ipv6) |
 | wait_command | boolean (default: true) | Supports Redis wait command (read-only) |
