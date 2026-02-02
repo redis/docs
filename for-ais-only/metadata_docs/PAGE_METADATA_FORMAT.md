@@ -43,7 +43,11 @@ Redis documentation pages include AI-friendly metadata that helps AI agents unde
 - **`codeExamples`** (array): Array of code examples found on the page
   - **`id`** (string): Unique identifier for the code example
   - **`description`** (string, optional): Description of what the code example demonstrates
-  - **`difficulty`** (string, optional): Difficulty level - one of `"beginner"`, `"intermediate"`, `"advanced"`
+  - **`difficulty`** (string, optional): Difficulty level - one of `"beginner"`, `"intermediate"`, `"advanced"` (defaults to `"beginner"`)
+  - **`buildsUpon`** (array, optional): Array of example step IDs that this example builds upon
+    - Used to indicate learning progression and dependencies between examples
+    - Example: `["set_get"]` means this example requires understanding the "set_get" example first
+    - Multiple dependencies: `["lpush_rpush", "lpop_rpop"]` indicates this example builds on both
   - **`codetabsId`** (string, optional): DOM element ID of the codetabs container
   - **`languages`** (array): Array of language-specific code variants
     - **`id`** (string): Display name of the language (e.g., `"Python"`, `"Node.js"`, `"Java-Sync"`)
@@ -95,37 +99,54 @@ Redis documentation pages include AI-friendly metadata that helps AI agents unde
 
 ```json
 {
-  "title": "SET command",
-  "description": "Set the string value of a key",
+  "title": "String operations",
+  "description": "Learn how to work with string values in Redis",
   "location": "head",
-  "categories": ["docs", "commands"],
+  "categories": ["docs", "develop"],
   "codeExamples": [
     {
-      "id": "set_basic",
-      "description": "Basic SET command usage",
+      "id": "set_get",
+      "description": "Foundational: Set and retrieve string values using SET and GET",
       "difficulty": "beginner",
-      "codetabsId": "set_basic_example",
+      "codetabsId": "set_get_example",
       "languages": [
         {
           "id": "Python",
-          "panelId": "set_basic_python",
+          "panelId": "set_get_python",
           "langId": "python",
           "clientId": "redis-py",
           "clientName": "redis-py"
-        },
+        }
+      ]
+    },
+    {
+      "id": "setnx_xx",
+      "description": "Conditional SET operations: Use NX and XX options for atomic compare-and-set",
+      "difficulty": "intermediate",
+      "buildsUpon": ["set_get"],
+      "codetabsId": "setnx_xx_example",
+      "languages": [
         {
-          "id": "Node.js",
-          "panelId": "set_basic_nodejs",
-          "langId": "javascript",
-          "clientId": "node-redis",
-          "clientName": "node-redis"
-        },
+          "id": "Python",
+          "panelId": "setnx_xx_python",
+          "langId": "python",
+          "clientId": "redis-py",
+          "clientName": "redis-py"
+        }
+      ]
+    },
+    {
+      "id": "mset",
+      "description": "Set and retrieve multiple values using MSET and MGET",
+      "buildsUpon": ["set_get"],
+      "codetabsId": "mset_example",
+      "languages": [
         {
-          "id": "Java-Sync",
-          "panelId": "set_basic_java_sync",
-          "langId": "java",
-          "clientId": "lettuce",
-          "clientName": "Lettuce"
+          "id": "Python",
+          "panelId": "mset_python",
+          "langId": "python",
+          "clientId": "redis-py",
+          "clientName": "redis-py"
         }
       ]
     }

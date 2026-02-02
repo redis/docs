@@ -1,5 +1,5 @@
 ---
-Title: Rack-zone awareness in Redis Enterprise Software
+Title: Rack-zone awareness in Redis Software
 alwaysopen: false
 categories:
 - docs
@@ -13,7 +13,7 @@ weight: 70
 ---
 Rack-zone awareness helps ensure high availability in the event of a rack or zone failure.
 
-When you enable rack-zone awareness in a Redis Enterprise Software cluster, you assign
+When you enable rack-zone awareness in a Redis Software cluster, you assign
 a [rack-zone ID](#rack-zone-id-rules) to each node. This ID is used to map the node to a
 physical rack or logical zone. The cluster can then ensure that primary shards, corresponding replica shards, and associated endpoints are placed on [nodes in different racks or zones](#node-layout-guidelines).
 
@@ -30,7 +30,7 @@ Rack-zone awareness affects various cluster, node, and database actions, such as
 The rack-zone ID must comply with the following rules:
 
 - Maximum length of 63 characters.
-- Characters consist of letters, digits, and hyphens ('-'). Underscores ('_') are also accepted as of Redis Enterprise Software [6.4.2-61]({{< relref "/operate/rs/release-notes/rs-6-4-2-releases/rs-6-4-2-61" >}}).
+- Characters consist of letters, digits, and hyphens ('-'). Underscores ('_') are also accepted as of Redis Software [6.4.2-61]({{< relref "/operate/rs/release-notes/rs-6-4-2-releases/rs-6-4-2-61" >}}).
 - ID starts with a letter and ends with a letter or a digit.
 
 {{< note >}}
@@ -41,7 +41,7 @@ Rack-zone IDs are **case-insensitive** (uppercase and lowercase letter are treat
 
 Avoid placing the majority of nodes in one availability zone.
 
-If a Redis Enterprise Software cluster consists of three nodes (the recommended minimum), follow these guidelines:
+If a Redis Software cluster consists of three nodes (the recommended minimum), follow these guidelines:
 
 - For high availability, the three nodes must be distributed across three *distinct* racks or zones.
 
@@ -92,7 +92,7 @@ If you did not configure rack-zone awareness during cluster creation, you can co
 
 ## Set up two-dimensional rack-zone awareness
 
-As of Redis Enterprise Software version 7.22, you can assign a `second_rack_id` to set up two-dimensional rack-zone awareness.
+As of Redis Software version 7.22, you can assign a `second_rack_id` to set up two-dimensional rack-zone awareness.
 
 You can use two-dimensional rack-zone awareness to create logical zones within a zone or rack.
 

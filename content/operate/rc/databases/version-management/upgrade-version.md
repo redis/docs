@@ -26,6 +26,7 @@ Please keep in mind the following before upgrading your database version:
     - [Redis 7.4]({{< relref "/operate/rc/changelog/version-release-notes/7-4" >}})
     - [Redis 8.0]({{< relref "/operate/rc/changelog/version-release-notes/8-0" >}})
     - [Redis 8.2]({{< relref "/operate/rc/changelog/version-release-notes/8-2" >}})
+    - [Redis 8.4]({{< relref "/operate/rc/changelog/version-release-notes/8-4" >}})
 
 - You must upgrade the target database in an [Active-Passive]({{< relref "/operate/rc/databases/migrate-databases#sync-using-active-passive" >}}) setup before you upgrade the source database to prevent compatibility issues.
 {{< /note >}}

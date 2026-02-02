@@ -13,13 +13,13 @@ weight: 5
 
 ## Deployment security
 
-When deploying Redis Enterprise Software to production, we recommend the following practices:
+When deploying Redis Software to production, we recommend the following practices:
 
-- **Deploy Redis Enterprise inside a trusted network**:  Redis Enterprise is database software and should be deployed on a trusted network not accessible to the public internet. Deploying Redis Enterprise in a trusted network reduces the likelihood that someone can obtain unauthorized access to your data or the ability to manage your database configuration.
+- **Deploy Redis Software inside a trusted network**:  Redis Software is database software and should be deployed on a trusted network not accessible to the public internet. Deploying Redis Software in a trusted network reduces the likelihood that someone can obtain unauthorized access to your data or the ability to manage your database configuration.
 
-- **Implement anti-virus exclusions**: To ensure that anti-virus solutions that scan files or intercept processes to protect memory do not interfere with Redis Enterprise software, you should ensure that anti-virus exclusions are implemented across all nodes in their Redis Enterprise cluster in a consistent policy. This helps ensure that anti-virus software does not impact the availability of your Redis Enterprise cluster.
+- **Implement anti-virus exclusions**: To ensure that anti-virus solutions that scan files or intercept processes to protect memory do not interfere with Redis Software, you should ensure that anti-virus exclusions are implemented across all nodes in their Redis Software cluster in a consistent policy. This helps ensure that anti-virus software does not impact the availability of your Redis Software cluster.
 
-    If you are replacing your existing antivirus solution or installing/supporting Redis Enterprise, make sure that the below paths are excluded:
+    If you are replacing your existing antivirus solution or installing/supporting Redis Software, make sure that the below paths are excluded:
 
     {{< note >}}
 For antivirus solutions that intercept processes, binary files may have to be excluded directly depending on the requirements of your anti-virus vendor.
@@ -27,15 +27,15 @@ For antivirus solutions that intercept processes, binary files may have to be ex
 
     | **Path** | **Description** |
     |------------|-----------------|
-    | /opt/redislabs | Main installation directory for all Redis Enterprise Software binaries |
+    | /opt/redislabs | Main installation directory for all Redis Software binaries |
     | /opt/redislabs/bin | Binaries for all the utilities for command line access and managements such as "rladmin" or "redis-cli" |
     | /opt/redislabs/config | System configuration files |
     | /opt/redislabs/lib | System library files |
     | /opt/redislabs/sbin | System binaries for tweaking provisioning |
 
-- **Send logs to a remote logging server**: Redis Enterprise is configured to send logs by default to syslog. To send these logs to a remote logging server you must [configure syslog]({{<relref "/operate/rs/clusters/logging/log-security">}}) based the requirements of the remote logging server vendor. Remote logging helps ensure that the logs are not deleted so that you can rotate the logs to prevent your server disk from filling up.
+- **Send logs to a remote logging server**: Redis Software is configured to send logs by default to syslog. To send these logs to a remote logging server, you must [configure syslog]({{<relref "/operate/rs/clusters/logging/log-security">}}) based on the requirements of the remote logging server vendor. Remote logging helps ensure that the logs are not deleted so that you can rotate the logs to prevent your server disk from filling up.
 
-- **Deploy clusters with an odd number of 3 or more nodes**: Redis is an available and partition-tolerant database. We recommend that Redis Enterprise be deployed in a cluster of an odd number of 3 or more nodes so that you are able to successfully failover in the event of a failure.
+- **Deploy clusters with an odd number of 3 or more nodes**: Redis is an available and partition-tolerant database. We recommend that Redis Software be deployed in a cluster of an odd number of 3 or more nodes so that you are able to successfully failover in the event of a failure.
 
 - **Reboot nodes in a sequence rather than all at once**: It is best practice to frequently maintain reboot schedules. If you reboot too many servers at once, it is possible to cause a quorum failure that results in loss of availability of the database. We recommend that rebooting be done in a phased manner so that quorum is not lost. For example, to maintain quorum in a 3 node cluster, at least 2 nodes must be up at all times. Only one server should be rebooted at any given time to maintain quorum.
 
@@ -43,24 +43,24 @@ For antivirus solutions that intercept processes, binary files may have to be ex
 
 ## Cluster security
 
-- **Control the level of access to your system**: Redis Enterprise lets you decide which users can access the cluster, which users can access databases, and which users can access both. We recommend preventing database users from accessing the cluster. See [Access control]({{<relref "/operate/rs/security/access-control">}}) for more information.
+- **Control the level of access to your system**: Redis Software lets you decide which users can access the cluster, which users can access databases, and which users can access both. We recommend preventing database users from accessing the cluster. See [Access control]({{<relref "/operate/rs/security/access-control">}}) for more information.
 
-- **Enable LDAP authentication**: If your organization uses the Lightweight Directory Access Protocol (LDAP), we recommend enabling Redis Enterprise Software support for role-based LDAP authentication.
+- **Enable LDAP authentication**: If your organization uses the Lightweight Directory Access Protocol (LDAP), we recommend enabling Redis Software support for role-based LDAP authentication.
 
-- **Require HTTPS for API endpoints**: Redis Enterprise comes with a REST API to help automate tasks. This API is available in both an encrypted and unencrypted endpoint for backward compatibility. You can [disable the unencrypted endpoint]({{<relref "/operate/rs/references/rest-api/encryption#require-https-for-api-endpoints">}}) with no loss in functionality.
+- **Require HTTPS for API endpoints**: Redis Software comes with a REST API to help automate tasks. This API is available in both an encrypted and unencrypted endpoint for backward compatibility. You can [disable the unencrypted endpoint]({{<relref "/operate/rs/references/rest-api/encryption#require-https-for-api-endpoints">}}) with no loss in functionality.
 
 ## Database security
 
-Redis Enterprise offers several database security controls to help protect your data against unauthorized access and to improve the operational security of your database. The following section details configurable security controls available for implementation.
+Redis Software offers several database security controls to help protect your data against unauthorized access and to improve the operational security of your database. The following section details configurable security controls available for implementation.
 
 - **Use strong Redis passwords**: A frequent recommendation in the security industry is to use strong passwords to authenticate users. This helps to prevent brute force password guessing attacks against your database. Its important to check that your password aligns with your organizations security policy.
 
-- **Deactivate default user access**: Redis Enterprise comes with a "default" user for backwards compatibility with applications designed with versions of Redis prior to Redis Enterprise 6. The default user is turned on by default. This allows you to access the database without specifying a username and only using a shared secret. For applications designed to use access control lists, we recommend that you [deactivate default user access]({{<relref "/operate/rs/security/access-control/manage-users/default-user#deactivate-default-user">}}).
+- **Deactivate default user access**: Redis Software comes with a "default" user for backwards compatibility with applications designed with versions of Redis prior to Redis Software 6. The default user is turned on by default. This allows you to access the database without specifying a username and only using a shared secret. For applications designed to use access control lists, we recommend that you [deactivate default user access]({{<relref "/operate/rs/security/access-control/manage-users/default-user#deactivate-default-user">}}).
 
 - **Configure Transport Layer Security (TLS)**: Similar to the control plane, you can also [configure TLS protocols]({{<relref "/operate/rs/security/encryption/tls/tls-protocols">}}) to help support your security and compliance needs.
 
-- **Enable client certificate authentication**: To prevent unauthorized access to your data, Redis Enterprise databases support the [TLS protocol]({{<relref "/operate/rs/security/encryption/tls#client-certificate-authentication">}}), which includes authentication and encryption. Client certificate authentication can be used to ensure only authorized hosts can access the database.
+- **Enable client certificate authentication**: To prevent unauthorized access to your data, Redis Software databases support the [TLS protocol]({{<relref "/operate/rs/security/encryption/tls#client-certificate-authentication">}}), which includes authentication and encryption. Client certificate authentication can be used to ensure only authorized hosts can access the database.
 
 - **Install trusted certificates**: Redis implements self-signed certificates for the database proxy and replication service, but many organizations prefer to [use their own certificates]({{<relref "/operate/rs/security/certificates/create-certificates">}}).
 
-- **Configure and verify database backups**: Implementing a disaster recovery strategy is an important part of data security. Redis Enterprise supports [database backups to many destinations]({{<relref "/operate/rs/databases/import-export/schedule-backups">}}).
+- **Configure and verify database backups**: Implementing a disaster recovery strategy is an important part of data security. Redis Software supports [database backups to many destinations]({{<relref "/operate/rs/databases/import-export/schedule-backups">}}).

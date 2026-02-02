@@ -13,7 +13,7 @@ weight: 25
 
 The following table lists JSON commands. See the command links for more information about each command's syntax, arguments, and examples.
 
-| Command | Redis<br />Enterprise | Redis<br />Cloud | Description |
+| Command | Redis<br />Software | Redis<br />Cloud | Description |
 |:--------|:----------------------|:-----------------|:------|
 | [JSON.ARRAPPEND]({{< relref "commands/json.arrappend" >}}) | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> | Appends an element to a JSON array. |
 | [JSON.ARRINDEX]({{< relref "commands/json.arrindex" >}}) | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> | Returns the index of a value's first occurrence in a JSON array. |

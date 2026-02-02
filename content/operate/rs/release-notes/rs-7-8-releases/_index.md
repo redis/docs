@@ -150,9 +150,9 @@ If your database currently uses triggers and functions, you need to:
 
 ### Reserved ports
 
-Make sure the following ports are open before upgrading Redis Enterprise Software.
+Make sure the following ports are open before upgrading Redis Software.
 
-Ports reserved as of Redis Enterprise Software version 7.8.2:
+Ports reserved as of Redis Software version 7.8.2:
 
 | Port | Process name | Usage | 
 |------|--------------|-------|
@@ -163,7 +163,7 @@ Ports reserved as of Redis Enterprise Software version 7.8.2:
 | 9091 | node_exporter | Reports host node metrics related to CPU, memory, disk, and more |
 | 9125 | statsd_exporter | Reports push metrics related to the DMC and syncer, and some cluster and node metrics |
 
-See [Ports and port ranges used by Redis Enterprise Software]({{<relref "/operate/rs/networking/port-configurations#ports-and-port-ranges-used-by-redis-enterprise-software">}}) for a complete list.
+See [Ports and port ranges used by Redis Software]({{<relref "/operate/rs/networking/port-configurations#ports-and-port-ranges-used-by-redis-enterprise-software">}}) for a complete list.
 
 ### Deprecations
 
@@ -241,9 +241,9 @@ To use Ubuntu-based images after this change, you can specify the operating syst
 
 The following table provides a snapshot of supported platforms as of this Redis Software release. See the [supported platforms reference]({{< relref "/operate/rs/references/supported-platforms" >}}) for more details about operating system compatibility.
 
-<span title="Check mark icon">&#x2705;</span> Supported – The platform is supported for this version of Redis Enterprise Software and Redis Stack modules.
+<span title="Check mark icon">&#x2705;</span> Supported – The platform is supported for this version of Redis Software and Redis Stack modules.
 
-<span title="Warning icon" class="font-serif">:warning:</span> Deprecation warning – The platform is still supported for this version of Redis Enterprise Software, but support will be removed in a future release.
+<span title="Warning icon" class="font-serif">:warning:</span> Deprecation warning – The platform is still supported for this version of Redis Software, but support will be removed in a future release.
 
 | Redis Software<br />major versions | 7.22 | 7.8 | 7.4 | 7.2 | 6.4 | 6.2 |
 |---------------------------------|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
@@ -269,7 +269,7 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 3. <a name="table-note-3"></a>See the [Redis Enterprise for Kubernetes documentation]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions" >}}) for details about support per version and Kubernetes distribution.
 
-4. <a name="table-note-4"></a>[Docker images]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}}) of Redis Enterprise Software are certified for development and testing only.
+4. <a name="table-note-4"></a>[Docker images]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}}) of Redis Software are certified for development and testing only.
 
 5. <a name="table-note-5"></a>Supported only if [FIPS was enabled during RHEL installation](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/security_hardening/switching-rhel-to-fips-mode_security-hardening#proc_installing-the-system-with-fips-mode-enabled_switching-rhel-to-fips-mode) to ensure FIPS compliance.
 
@@ -293,7 +293,7 @@ The following table provides a snapshot of supported platforms as of this Redis 
         ldd /opt/redislabs/bin/rl_rdbloader
         ```
 
-    This issue was fixed in [Redis Enterprise Software version 7.8.6-36]({{<relref "/operate/rs/release-notes/rs-7-8-releases/rs-7-8-6-36">}}).
+    This issue was fixed in [Redis Software version 7.8.6-36]({{<relref "/operate/rs/release-notes/rs-7-8-releases/rs-7-8-6-36">}}).
 
 
 ## Known limitations

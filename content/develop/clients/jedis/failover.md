@@ -220,6 +220,15 @@ MultiDbClient client = MultiDbClient.builder()
         .build();
 ```
 
+## Failback configuration
+
+The `MultiDbConfig` builder lets you configure the failback behavior using the following options:
+
+| Builder method | Default value | Description|
+| --- | --- | --- |
+| `failbackSupported()` | `true` | Enable/disable failback (it is enabled by default). |
+| `failbackCheckInterval()` | `120000` | Interval in milliseconds to check if the unhealthy database has recovered. |
+
 ## Health check configuration
 
 Each health check consists of one or more separate "probes", each of which is a simple
@@ -272,8 +281,8 @@ MultiDbConfig.DatabaseConfig dbConfig =
 ### `LagAwareStrategy` (preview)
 
 `LagAwareStrategy` (currently in preview) is designed specifically for
-Redis Enterprise [Active-Active]({{< relref "/operate/rs/databases/active-active" >}})
-deployments. It uses the Redis Enterprise REST API to check database availability
+Redis Software [Active-Active]({{< relref "/operate/rs/databases/active-active" >}})
+deployments. It uses the Redis Software REST API to check database availability
 and can also optionally check replication lag.
 
 `LagAwareStrategy` determines the health of the server using the

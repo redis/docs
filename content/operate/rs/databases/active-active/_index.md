@@ -6,13 +6,13 @@ categories:
 - operate
 - rs
 - kubernetes
-description: Overview of the Active-Active database in Redis Enterprise Software
+description: Overview of the Active-Active database in Redis Software
 hideListLinks: true
 linktitle: Active-Active
 weight: 40
 ---
-In Redis Enterprise, Active-Active geo-distribution is based on [CRDT technology](https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type).
-The Redis Enterprise implementation of CRDT is called an Active-Active database (formerly known as CRDB).
+In Redis Software, Active-Active geo-distribution is based on [CRDT technology](https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type).
+The Redis Software implementation of CRDT is called an Active-Active database (formerly known as CRDB).
 With Active-Active databases, applications can read and write to the same data set from different geographical locations seamlessly and with latency less than one millisecond (ms),
 without changing the way the application connects to the database.
 
@@ -21,13 +21,13 @@ Active-Active databases also provide disaster recovery and accelerated data read
 
 ## High availability
 
-The [high availability]({{< relref "/operate/rs/databases/durability-ha/" >}}) that Active-Active replication provides is built upon a number of Redis Enterprise Software features (such as [clustering]({{< relref "/operate/rs/databases/durability-ha/clustering.md" >}}), [replication]({{< relref "/operate/rs/databases/durability-ha/replication.md" >}}), and [replica HA]({{< relref "/operate/rs/databases/configure/replica-ha.md" >}})) as well as some features unique to Active-Active ([multi-primary replication]({{<relref "#multi-primary-replication/">}}), [automatic conflict resolution]({{<relref "#conflict-resolution/">}}), and [strong eventual consistency]({{<relref "#strong-eventual-consistency/">}})).
+The [high availability]({{< relref "/operate/rs/databases/durability-ha/" >}}) that Active-Active replication provides is built upon a number of Redis Software features (such as [clustering]({{< relref "/operate/rs/databases/durability-ha/clustering.md" >}}), [replication]({{< relref "/operate/rs/databases/durability-ha/replication.md" >}}), and [replica HA]({{< relref "/operate/rs/databases/configure/replica-ha.md" >}})) as well as some features unique to Active-Active ([multi-primary replication]({{<relref "#multi-primary-replication/">}}), [automatic conflict resolution]({{<relref "#conflict-resolution/">}}), and [strong eventual consistency]({{<relref "#strong-eventual-consistency/">}})).
 
 Clustering and replication are used together in Active-Active databases to distribute multiple copies of the dataset across multiple nodes and multiple clusters. As a result, a node or cluster is less likely to become a single point of failure. If a primary node or primary shard fails, a replica is automatically promoted to primary. To avoid having one node hold all copies of certain data, the [replica HA]({{< relref "/operate/rs/databases/configure/replica-ha.md" >}}) feature (enabled by default) automatically migrates replica shards to available nodes.
 
 ## Multi-primary replication
 
-In Redis Enterprise Software, replication copies data from primary shards to replica shards. Active-Active geo-distributed replication also copies both primary and replica shards to other clusters. Each Active-Active database needs to span at least two clusters; these are called participating clusters.
+In Redis Software, replication copies data from primary shards to replica shards. Active-Active geo-distributed replication also copies both primary and replica shards to other clusters. Each Active-Active database needs to span at least two clusters; these are called participating clusters.
 
 Each participating cluster hosts an instance of your database, and each instance has its own primary node. Having multiple primary nodes means you can connect to the proxy in any of your participating clusters. Connecting to the closest cluster geographically enables near-local latency. Multi-primary replication (previously referred to as multi-master replication) also means that your users still have access to the database if one of the participating clusters fails.
 
@@ -53,7 +53,7 @@ When developing with CRDTs for Active-Active databases, you need to consider som
 
 Maintaining strong consistency for replicated databases comes with tradeoffs in scalability and availability. Redis Active-Active databases use a strong eventual consistency model, which means that local values may differ across replicas for short periods of time, but they all eventually converge to one consistent state. Redis uses vector clocks and the CRDT conflict resolution to strengthen consistency between replicas. You can also enable the causal consistency feature to preserve the order of operations as they are synchronized among replicas.
 
-Other Redis Enterprise Software features can also be used to enhance the performance, scalability, or durability of your Active-Active database. These include [data persistence]({{< relref "/operate/rs/databases/configure/database-persistence.md" >}}), [multiple active proxies]({{< relref "/operate/rs/databases/configure/proxy-policy.md" >}}), [distributed synchronization]({{< relref "/operate/rs/databases/active-active/synchronization-mode.md" >}}), [OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api.md" >}}), and [rack-zone awareness]({{< relref "/operate/rs/clusters/configure/rack-zone-awareness.md" >}}).
+Other Redis Software features can also be used to enhance the performance, scalability, or durability of your Active-Active database. These include [data persistence]({{< relref "/operate/rs/databases/configure/database-persistence.md" >}}), [multiple active proxies]({{< relref "/operate/rs/databases/configure/proxy-policy.md" >}}), [distributed synchronization]({{< relref "/operate/rs/databases/active-active/synchronization-mode.md" >}}), [OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api.md" >}}), and [rack-zone awareness]({{< relref "/operate/rs/clusters/configure/rack-zone-awareness.md" >}}).
 
 ## Next steps
 

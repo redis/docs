@@ -22,7 +22,7 @@ Prior to v1.2, RedisGears only supported Python. However, an internal C API exis
 
 ## Getting started with RedisGears
 
-RedisGears is implemented by a Redis module. To use RedisGears, you'll need to make sure that your Redis deployment has the module installed. [Redis Enterprise Software](https://docs.redislabs.com/latest/rs/) supports the module natively.
+RedisGears is implemented by a Redis module. To use RedisGears, you'll need to make sure that your Redis deployment has the module installed. [Redis Software](https://docs.redislabs.com/latest/rs/) supports the module natively.
 
 If you're running Redis Open Source, you'll also need to [install the RedisGears module]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1/installing-redisgears" >}}) before using it.
 

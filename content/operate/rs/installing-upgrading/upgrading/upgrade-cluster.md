@@ -20,9 +20,11 @@ To upgrade a cluster's Redis Software version, use one of the following methods:
 
 - [Rolling upgrade](#rolling-upgrade) - Minimize downtime by adding new nodes with an updated Redis Software version to the cluster, one at a time, while keeping the rest of the cluster operational. This method is recommended for production environments that require continuous availability.
 
+## Supported upgrade paths
+
 {{<embed-md "rs-upgrade-paths.md">}}
 
-See the [Redis Enterprise Software product lifecycle]({{<relref "/operate/rs/installing-upgrading/product-lifecycle">}}) for more information about release numbers and the end-of-life schedule.
+See the [Redis Software product lifecycle]({{<relref "/operate/rs/installing-upgrading/product-lifecycle">}}) for more information about release numbers and the end-of-life schedule.
 
 {{<note>}}
 Redis Enterprise for Kubernetes has its own support lifecycle, which accounts for the Kubernetes distribution lifecycle. For details, see [Supported Kubernetes distributions]({{<relref "/operate/kubernetes/reference/supported_k8s_distributions">}}).
@@ -36,7 +38,7 @@ Before upgrading a cluster:
 
 - Verify that you meet the upgrade path requirements for the target cluster version and review the relevant [release notes]({{< relref "/operate/rs/release-notes" >}}) for any preparation instructions.
 
-- Before you upgrade a cluster from Redis Enterprise Software version 6.2.x to 7.8.x, you must follow these steps if the cluster has any databases with Redis version 6.0:
+- Before you upgrade a cluster from Redis Software version 6.2.x to 7.8.x, you must follow these steps if the cluster has any databases with Redis version 6.0:
 
     1. Set the Redis upgrade policy to `latest`:
 
@@ -46,13 +48,13 @@ Before upgrading a cluster:
 
     1. [Upgrade Redis 6.0 databases]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-database">}}) to Redis 6.2.
 
-- [Upgrade your databases]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-database">}}) to a version that is supported by the target Redis Enterprise Software version before upgrading the cluster. We recommend you upgrade the databases to the latest supported version if possible. Make sure to test the upgrade in a non-production environment to determine any impact.
+- [Upgrade your databases]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-database">}}) to a version that is supported by the target Redis Software version before upgrading the cluster. We recommend you upgrade the databases to the latest supported version if possible. Make sure to test the upgrade in a non-production environment to determine any impact.
 
 - Avoid changing the database configuration or performing other cluster management operations during the cluster upgrade process, as this might cause unexpected results.
 
 - Upgrade the cluster's primary (master) node first. To identify the primary node, use one of the following methods:
 
-    - **Nodes** screen in the new Cluster Manager UI (only available for Redis Enterprise versions 7.2 and later)
+    - **Nodes** screen in the new Cluster Manager UI (only available for Redis Software versions 7.2 and later)
 
     - [`rladmin status nodes`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-nodes" >}}) command
     
@@ -75,7 +77,7 @@ Starting with the primary node, follow these steps for every node in the cluster
 Do not proceed if any shard, node, or endpoint is not `OK`.
     {{</warning>}}
 
-1.  Download the Redis Enterprise Software installation package to the machine running the node from the Download Center on [https://cloud.redis.io](https://cloud.redis.io).  
+1.  Download the Redis Software installation package to the machine running the node from the Download Center on [https://cloud.redis.io](https://cloud.redis.io).  
 
 1.  Extract the installation package:
 
@@ -138,7 +140,7 @@ To perform a rolling upgrade of the cluster, use one of the following methods:
 
 1. [Remove a node]({{< relref "/operate/rs/clusters/remove-node#remove-a-node" >}}) with the earlier Redis Software version from the cluster.
 
-1. Uninstall Redis Enterprise Software from the removed node:
+1. Uninstall Redis Software from the removed node:
 
     ```sh
     sudo ./rl_uninstall.sh
@@ -169,7 +171,7 @@ To perform a rolling upgrade of the cluster, use one of the following methods:
         The output lists the result of each verification test:
 
         ```sh
-        ##### Welcome to Redis Enterprise Cluster settings verification utility ####
+        ##### Welcome to Redis Software Cluster settings verification utility ####
         Running test: verify_bootstrap_status
 		                PASS
         ...

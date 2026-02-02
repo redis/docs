@@ -10,7 +10,7 @@ linkTitle: Ensure port availability
 weight: 40
 ---
 
-Before [installing Redis Enterprise Software]({{< relref "/operate/rs/installing-upgrading/install" >}}), make sure all required ports are available.
+Before [installing Redis Software]({{< relref "/operate/rs/installing-upgrading/install" >}}), make sure all required ports are available.
 
 {{<embed-md "port-availability-embed.md">}}
 

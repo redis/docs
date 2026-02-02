@@ -119,7 +119,7 @@ After the databases are recovered, make sure your Redis clients can successfully
 
 ## Configure automatic recovery
 
-If you enable the automatic recovery cluster policy, Redis Enterprise tries to quickly recover as much data as possible from before the disaster.
+If you enable the automatic recovery cluster policy, Redis Software tries to quickly recover as much data as possible from before the disaster.
 
 To enable automatic recovery, use one of the following methods:
 
@@ -146,7 +146,7 @@ PUT /v1/cluster/policy
 
 {{< /multitabs >}}
 
-Redis Enterprise tries to recover databases from the best existing persistence files. If a persistence file isn't available, which can happen if its host node is down, the automatic recovery process waits for it to become available.
+Redis Software tries to recover databases from the best existing persistence files. If a persistence file isn't available, which can happen if its host node is down, the automatic recovery process waits for it to become available.
 
 For each database, you can set the `recovery_wait_time` to define how many seconds the database waits for a persistence file to become available before recovery. After the wait time elapses, the recovery process continues, which can result in partial or full data loss. The default value is `-1`, which means to wait forever. Short wait times can increase the risk of potential data loss.
 
