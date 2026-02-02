@@ -17,14 +17,12 @@ Usage: redis-di trace [OPTIONS]
 ## Options
 
 - `log_level`:
-
   - Type: Choice(['TRACE', 'DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'])
   - Default: `info`
   - Usage: `--log-level
 -l`
 
 - `rdi_host` (REQUIRED):
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-host`
@@ -32,7 +30,6 @@ Usage: redis-di trace [OPTIONS]
   Host/IP of RDI Database
 
 - `rdi_port` (REQUIRED):
-
   - Type: <IntRange 1<=x<=65535>
   - Default: `none`
   - Usage: `--rdi-port`
@@ -40,7 +37,6 @@ Usage: redis-di trace [OPTIONS]
   Port of RDI Database
 
 - `rdi_user`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-user`
@@ -48,7 +44,6 @@ Usage: redis-di trace [OPTIONS]
   RDI Database Username
 
 - `rdi_password`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-password`
@@ -56,7 +51,6 @@ Usage: redis-di trace [OPTIONS]
   RDI Database Password
 
 - `rdi_key`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-key`
@@ -64,7 +58,6 @@ Usage: redis-di trace [OPTIONS]
   Private key file to authenticate with
 
 - `rdi_cert`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-cert`
@@ -72,7 +65,6 @@ Usage: redis-di trace [OPTIONS]
   Client certificate file to authenticate with
 
 - `rdi_cacert`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-cacert`
@@ -80,7 +72,6 @@ Usage: redis-di trace [OPTIONS]
   CA certificate file to verify with
 
 - `rdi_key_password`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-key-password`
@@ -88,7 +79,6 @@ Usage: redis-di trace [OPTIONS]
   Password for unlocking an encrypted private key
 
 - `max_change_records`:
-
   - Type: <IntRange x>=1>
   - Default: `10`
   - Usage: `--max-change-records`
@@ -96,7 +86,6 @@ Usage: redis-di trace [OPTIONS]
   Maximum traced change records
 
 - `timeout` (REQUIRED):
-
   - Type: <IntRange 1<=x<=600>
   - Default: `20`
   - Usage: `--timeout`
@@ -104,7 +93,6 @@ Usage: redis-di trace [OPTIONS]
   Stops the trace after exceeding this timeout (in seconds)
 
 - `trace_only_rejected`:
-
   - Type: BOOL
   - Default: `false`
   - Usage: `--trace-only-rejected`
@@ -112,7 +100,6 @@ Usage: redis-di trace [OPTIONS]
   Trace only rejected change records
 
 - `help`:
-
   - Type: BOOL
   - Default: `false`
   - Usage: `--help`

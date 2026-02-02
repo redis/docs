@@ -1,7 +1,7 @@
 ---
-Title: redis-di dump-support-package
-linkTitle: redis-di dump-support-package
-description: Dumps RDI support package
+Title: redis-di reset-internal
+linkTitle: redis-di reset-internal
+description: Resets the pipeline into initial full sync mode (internal use only)
 weight: 10
 alwaysopen: false
 categories: ["redis-di"]
@@ -11,7 +11,7 @@ aliases:
 ## Usage
 
 ```
-Usage: redis-di dump-support-package [OPTIONS]
+Usage: redis-di reset-internal [OPTIONS]
 ```
 
 ## Options
@@ -21,13 +21,6 @@ Usage: redis-di dump-support-package [OPTIONS]
   - Default: `info`
   - Usage: `--log-level
 -l`
-
-- `rdi_namespace`:
-  - Type: STRING
-  - Default: `rdi`
-  - Usage: `--rdi-namespace`
-
-  RDI Kubernetes namespace
 
 - `rdi_host` (REQUIRED):
   - Type: STRING
@@ -85,48 +78,6 @@ Usage: redis-di dump-support-package [OPTIONS]
 
   Password for unlocking an encrypted private key
 
-- `directory`:
-  - Type: STRING
-  - Default: `.`
-  - Usage: `--dir`
-
-  Directory where the support file should be generated
-
-- `dump_rejected`:
-  - Type: INT
-  - Default: `none`
-  - Usage: `--dump-rejected`
-
-  Dumps rejected records
-
-- `trace_timeout`:
-  - Type: <IntRange 1<=x<=600>
-  - Default: `none`
-  - Usage: `--trace-timeout`
-
-  Stops the trace after exceeding this timeout (in seconds)
-
-- `max_change_records`:
-  - Type: <IntRange x>=1>
-  - Default: `10`
-  - Usage: `--max-change-records`
-
-  Maximum traced change records
-
-- `trace_only_rejected`:
-  - Type: BOOL
-  - Default: `false`
-  - Usage: `--trace-only-rejected`
-
-  Trace only rejected change records
-
-- `log_days`:
-  - Type: <IntRange x>=0>
-  - Default: `2`
-  - Usage: `--log-days`
-
-  Number of days to look back for log files
-
 - `help`:
   - Type: BOOL
   - Default: `false`
@@ -137,14 +88,13 @@ Usage: redis-di dump-support-package [OPTIONS]
 ## CLI help
 
 ```
-Usage: redis-di dump-support-package [OPTIONS]
+Usage: redis-di reset-internal [OPTIONS]
 
-  Dumps RDI support package
+  Resets the pipeline into initial full sync mode (internal use only)
 
 Options:
   -l, --log-level [TRACE|DEBUG|INFO|WARNING|ERROR|CRITICAL]
                                   [default: INFO]
-  --rdi-namespace TEXT            RDI Kubernetes namespace  [default: rdi]
   --rdi-host TEXT                 Host/IP of RDI Database  [required]
   --rdi-port INTEGER RANGE        Port of RDI Database  [1<=x<=65535;
                                   required]
@@ -155,15 +105,5 @@ Options:
   --rdi-cacert TEXT               CA certificate file to verify with
   --rdi-key-password TEXT         Password for unlocking an encrypted private
                                   key
-  --dir TEXT                      Directory where the support file should be
-                                  generated  [default: .]
-  --dump-rejected INTEGER         Dumps rejected records
-  --trace-timeout INTEGER RANGE   Stops the trace after exceeding this timeout
-                                  (in seconds)  [1<=x<=600]
-  --max-change-records INTEGER RANGE
-                                  Maximum traced change records  [x>=1]
-  --trace-only-rejected           Trace only rejected change records
-  --log-days INTEGER RANGE        Number of days to look back for log files
-                                  [default: 2; x>=0]
   --help                          Show this message and exit.
 ```
