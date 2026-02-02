@@ -220,6 +220,15 @@ MultiDbClient client = MultiDbClient.builder()
         .build();
 ```
 
+## Failback configuration
+
+The `MultiDbConfig` builder lets you configure the failback behavior using the following options:
+
+| Builder method | Default value | Description|
+| --- | --- | --- |
+| `failbackSupported()` | `true` | Enable/disable failback (it is enabled by default). |
+| `failbackCheckInterval()` | `120000` | Interval in milliseconds to check if the unhealthy database has recovered. |
+
 ## Health check configuration
 
 Each health check consists of one or more separate "probes", each of which is a simple
