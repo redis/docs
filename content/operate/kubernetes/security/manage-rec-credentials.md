@@ -38,39 +38,6 @@ The credentials can be used to access the Redis Enterprise admin console or the 
 
     This outputs the password and username in plain text. In this example, the plain text password is `12345678` and the username is `demo@example.com`.
 
-## Change the cluster credential secret
-
-You can change the `clusterCredentialSecretName` field to point to a different Kubernetes secret after cluster creation. 
-
-### Prerequisites
-
-- The new secret must exist before you update the REC specification.
-- The new secret must contain valid `username` and `password` fields.
-- The credentials in the new secret must match valid admin user credentials in the Redis Enterprise cluster.
-
-### Change the secret name
-
-1. Create a new secret with valid cluster credentials:
-
-    ```sh
-    kubectl create secret generic <new-secret-name> \
-      --from-literal=username=<admin-username> \
-      --from-literal=password=<admin-password>
-    ```
-
-1. Update the REC specification to reference the new secret:
-
-    ```yaml
-    spec:
-      clusterCredentialSecretName: <new-secret-name>
-    ```
-
-1. Verify the operator recognizes the new secret by checking the REC status and operator logs.
-
-{{<note>}}
-For Vault-managed secrets, the secret must be pre-created in Vault at the specified path. See [HashiCorp Vault integration]({{< relref "/operate/kubernetes/security/vault" >}}) for details.
-{{</note>}}
-
 ## Change the Redis Enterprise cluster (REC) credentials
 
 ### Change the REC password for the current username
