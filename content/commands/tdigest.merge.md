@@ -95,17 +95,17 @@ If `destination-key` already exists and `OVERRIDE` is specified, the key is over
 
 ## Examples
 {{< highlight bash >}}
-redis> TDIGEST.CREATE s1
+redis> TDIGEST.CREATE {metrics}:m1
 OK
-redis> TDIGEST.CREATE s2
+redis> TDIGEST.CREATE {metrics}:m2
 OK
-redis> TDIGEST.ADD s1 10.0 20.0
+redis> TDIGEST.ADD {metrics}:m1 10.0 20.0
 OK
-redis> TDIGEST.ADD s2 30.0 40.0
+redis> TDIGEST.ADD {metrics}:m2 30.0 40.0
 OK
-redis> TDIGEST.MERGE sM 2 s1 s2
+redis> TDIGEST.MERGE {metrics}:m 2 {metrics}:m1 {metrics}:m2
 OK
-redis> TDIGEST.BYRANK sM 0 1 2 3 4
+redis> TDIGEST.BYRANK {metrics}:m 0 1 2 3 4
 1) "10"
 2) "20"
 3) "30"
