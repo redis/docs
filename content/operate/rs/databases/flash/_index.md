@@ -115,7 +115,7 @@ On-premises environments support more deployment options than other environments
   - [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}})
   - [Probabilistic data structures]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom" >}})
 
-The following Redis Software features are not supported when using Redis Flex.
+- The following Redis Software features are not supported when using Redis Flex:
   - [Search and query]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}) 
   - [Time series]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries" >}})
   - [Active-Active distributed databases]({{<relref "/operate/rs/databases/active-active">}})
