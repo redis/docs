@@ -112,13 +112,13 @@ When you begin planning the deployment of Redis Flex in production, we recommend
 On-premises environments support more deployment options than other environments such as:
 
 - Using Redis Stack features:
-  - [Search and query]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}) 
   - [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}})
-  - [Time series]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries" >}})
   - [Probabilistic data structures]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom" >}})
 
-
-{{<note>}}You should get the Redis technical team's approval before you enable Redis Flex for [Active-Active distributed databases]({{<relref "/operate/rs/databases/active-active">}}). {{</note>}}
+The following Redis Software features are not supported when using Redis Flex.
+  - [Search and query]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}) 
+  - [Time series]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries" >}})
+  - [Active-Active distributed databases]({{<relref "/operate/rs/databases/active-active">}})
 
 {{<warning>}} Redis Flex is not supported running on network attached storage (NAS), storage area network (SAN), or with local HDD drives. {{</warning>}}
 
