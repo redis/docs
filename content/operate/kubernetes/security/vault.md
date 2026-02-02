@@ -325,16 +325,12 @@ Multi-cluster considerations: When deploying across multiple Kubernetes clusters
    {{<table-scrollable>}}
    | Field | Description | Example |
    |-------|-------------|---------|
-   | `clusterCredentialSecretName` | Path of the secret in Vault containing cluster credentials. Can be changed after cluster creation to point to a different Vault secret. The new secret must be pre-created in Vault. | `rec` |
+   | `clusterCredentialSecretName` | Path of the secret in Vault containing cluster credentials. Can be customized during cluster creation but cannot be changed afterward. The secret must be pre-created in Vault. | `rec` |
    | `clusterCredentialSecretType` | Must be set to `vault` | `vault` |
    | `clusterCredentialSecretRole` | Vault role for cluster authentication | `redis-enterprise-rec-<K8S_NAMESPACE>` |
    | `vaultCASecret` | Kubernetes secret containing Vault's CA certificate | `vault-ca-cert` |
    | `podAnnotations` | Vault agent annotations for pod-level configuration | See example above |
    {{</table-scrollable>}}
-
-   {{<note>}}
-   You can change the `clusterCredentialSecretName` field after cluster creation to point to a different secret in Vault. The new secret must be pre-created in Vault with valid `username` and `password` fields that match admin credentials in the Redis Enterprise cluster.
-   {{</note>}}
 
 ## Create Redis Enterprise databases
 

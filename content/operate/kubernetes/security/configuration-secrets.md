@@ -64,11 +64,13 @@ By default, the operator automatically creates a secret with a random username a
 
 ### Customize the credential secret
 
-You can customize the credential secret name using the `clusterCredentialSecretName` field in your REC specification. The secret must contain `username` and `password` fields.
+You can customize the credential secret name during cluster creation using the `clusterCredentialSecretName` field in your REC specification. The secret must contain `username` and `password` fields.
 
-You can change the `clusterCredentialSecretName` field to point to a different secret after cluster creation. The new secret must exist and contain valid admin credentials that work with the Redis Enterprise cluster.
+{{<note>}}
+The `clusterCredentialSecretName` field cannot be changed after cluster creation.
+{{</note>}}
 
-For detailed instructions, see [Change the cluster credential secret]({{< relref "/operate/kubernetes/security/manage-rec-credentials#change-the-cluster-credential-secret" >}}).
+For detailed instructions, see [Customize the credential secret name]({{< relref "/operate/kubernetes/security/manage-rec-credentials#customize-the-credential-secret-name" >}}).
 
 ## TLS certificate configuration
 
