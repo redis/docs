@@ -80,8 +80,8 @@ Defines which tables to capture and how to handle their data
 | Name                                                                                              | Type       | Description                                                                                                                                                                            | Required |
 | ------------------------------------------------------------------------------------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
 | **snapshot_sql**                                                                                  | `string`   | Custom SQL statement to use for the initial data snapshot, allowing fine-grained control over what data is captured<br/>                                                               |          |
-| [**columns**](#sourcestablesadditionalpropertiescolumns)<br/>(Columns to capture)                 | `string[]` | List of specific columns to capture for changes. If not specified, all columns will be captured<br/>                                                                                   |          |
-| [**exclude_columns**](#sourcestablesadditionalpropertiesexclude_columns)<br/>(Columns to exclude) | `string[]` | List of specific columns to exclude from capture. If not specified, no columns will be excluded<br/>                                                                                   |          |
+| [**columns**](#sourcestablesadditionalpropertiescolumns)<br/>(Columns to capture)                 | `string[]` | List of specific columns to capture for changes. If not specified, all columns will be captured. Note: This property cannot be used for MongoDB connections<br/>                       |          |
+| [**exclude_columns**](#sourcestablesadditionalpropertiesexclude_columns)<br/>(Columns to exclude) | `string[]` | List of specific columns to exclude from capture. If not specified, no columns will be excluded. Note: This property can only be used for MongoDB connections<br/>                     |          |
 | [**keys**](#sourcestablesadditionalpropertieskeys)<br/>(Message keys)                             | `string[]` | Optional list of columns to use as a composite unique identifier. Only required when the table lacks a primary key or unique constraint. Must form a unique combination of fields<br/> |          |
 
 **Additional Properties:** not allowed  
@@ -89,47 +89,32 @@ Defines which tables to capture and how to handle their data
 
 ##### sources\.tables\.additionalProperties\.columns\[\]: Columns to capture
 
-List of specific columns to capture for changes. If not specified, all columns will be captured
+List of specific columns to capture for changes. If not specified, all columns will be captured. Note: This property cannot be used for MongoDB connections
 
-**Items**
-
-**Item Type:** `string`  
 <a name="sourcestablesadditionalpropertiesexclude_columns"></a>
 
 ##### sources\.tables\.additionalProperties\.exclude_columns\[\]: Columns to exclude
 
-List of specific columns to exclude from capture. If not specified, no columns will be excluded
+List of specific columns to exclude from capture. If not specified, no columns will be excluded. Note: This property can only be used for MongoDB connections
 
-**Items**
-
-**Item Type:** `string`  
 <a name="sourcestablesadditionalpropertieskeys"></a>
 
 ##### sources\.tables\.additionalProperties\.keys\[\]: Message keys
 
 Optional list of columns to use as a composite unique identifier. Only required when the table lacks a primary key or unique constraint. Must form a unique combination of fields
 
-**Items**
-
-**Item Type:** `string`  
 <a name="sourcesschemas"></a>
 
 ### sources\.schemas\[\]: Schema names
 
 Schema names to capture from the source database (schema.include.list)
 
-**Items**
-
-**Item Type:** `string`  
 <a name="sourcesdatabases"></a>
 
 ### sources\.databases\[\]: Database names
 
 Database names to capture from the source database (database.include.list)
 
-**Items**
-
-**Item Type:** `string`  
 <a name="sourcesadvanced"></a>
 
 ### sources\.advanced: Advanced configuration
