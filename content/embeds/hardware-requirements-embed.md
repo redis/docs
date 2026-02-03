@@ -6,6 +6,18 @@ The hardware requirements for Redis Software are different for development and p
 
 - In a production environment, you must have enough resources to handle the load on the database and recover from failures.
 
+## Architecture
+
+Redis Software supports AMD64 (x86_64) and ARM64 architectures as shown in the following table:
+
+| Operating system | AMD64 (x86_64) support | ARM64 support |
+|------------------|----------------|-------|
+| RHEL 9           | <span title="Supported">:white_check_mark:</span> Redis Software 7.4.2 and later | <span title="Supported">:white_check_mark:</span> Redis Software 8.0.10 and later |
+| RHEL 8           | <span title="Supported">:white_check_mark:</span> Redis Software 6.2.8 and later | <span title="Not supported">:x:</span> Not supported |
+| Ubuntu 22        | <span title="Supported">:white_check_mark:</span> Redis Software 7.8.4-66 and later | <span title="Supported">:white_check_mark:</span> Redis Software 8.0.2 and later |
+| Ubuntu 20        | <span title="Supported">:white_check_mark:</span> Redis Software 6.4.2-43 and later | <span title="Not supported">:x:</span> Not supported |
+| Amazon Linux 2   | <span title="Supported">:white_check_mark:</span> Redis Software 6.4.2-69 and later | <span title="Not supported">:x:</span> Not supported |
+
 ## Development environment
 
 You can build your development environment with non-production hardware, such as a laptop, desktop, or small VM or instance,
