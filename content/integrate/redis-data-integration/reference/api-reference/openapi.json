@@ -16,7 +16,8 @@
             "description": "Successful Response",
             "content": { "application/json": { "schema": {} } }
           }
-        }
+        },
+        "security": []
       }
     },
     "/api/v1/login": {
@@ -42,7 +43,8 @@
               }
             }
           }
-        }
+        },
+        "security": []
       }
     },
     "/api/v1/pipelines/start": {
@@ -2745,15 +2747,24 @@
       "put": {
         "tags": ["secure", "secrets"],
         "summary": "Set Multi Key Secret",
-        "description": "Stores multiple key-value pairs under a single secret name in the key store.\nNOTE: {secret_name} is legacy and is not used - calculated automatically\n\nArgs:\n    secret_keys (SecretKeyModel): The secret key/value pairs to set.\n\nReturns:\n    OperationResponse: The operation response.",
+        "description": "Stores multiple key-value pairs under a single secret name in the key store.\nNOTE: {secret_name} is legacy and is not used - calculated automatically\n\nArgs:\n    secret_name (str): The secret name (legacy, not used - kept for backward compatibility).\n    secret_keys (SecretKeyModel): The secret key/value pairs to set.\n\nReturns:\n    OperationResponse: The operation response.",
         "operationId": "set_multi_key_secret_api_v1_secrets__secret_name__put",
+        "security": [{ "JWTBearer": [] }],
+        "parameters": [
+          {
+            "name": "secret_name",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Secret Name" }
+          }
+        ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": { "$ref": "#/components/schemas/SecretKeyModel" }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
@@ -2784,8 +2795,7 @@
               }
             }
           }
-        },
-        "security": [{ "JWTBearer": [] }]
+        }
       }
     },
     "/api/v1/secrets": {
@@ -3101,7 +3111,6 @@
             "schema": {
               "type": "string",
               "description": "Pipeline name",
-              "required": true,
               "title": "Name"
             },
             "description": "Pipeline name"
@@ -3162,7 +3171,6 @@
             "schema": {
               "type": "string",
               "description": "Pipeline name",
-              "required": true,
               "title": "Name"
             },
             "description": "Pipeline name"
@@ -3247,7 +3255,6 @@
             "schema": {
               "type": "string",
               "description": "Pipeline name",
-              "required": true,
               "title": "Name"
             },
             "description": "Pipeline name"
@@ -3342,7 +3349,6 @@
             "schema": {
               "type": "string",
               "description": "Pipeline name",
-              "required": true,
               "title": "Name"
             },
             "description": "Pipeline name"
@@ -3398,7 +3404,6 @@
             "schema": {
               "type": "string",
               "description": "Pipeline name",
-              "required": true,
               "title": "Name"
             },
             "description": "Pipeline name"
@@ -3463,7 +3468,6 @@
             "schema": {
               "type": "string",
               "description": "Pipeline name",
-              "required": true,
               "title": "Name"
             },
             "description": "Pipeline name"
@@ -3526,7 +3530,6 @@
             "schema": {
               "type": "string",
               "description": "Pipeline name",
-              "required": true,
               "title": "Name"
             },
             "description": "Pipeline name"
@@ -3589,7 +3592,6 @@
             "schema": {
               "type": "string",
               "description": "Pipeline name",
-              "required": true,
               "title": "Name"
             },
             "description": "Pipeline name"
@@ -3652,7 +3654,6 @@
             "schema": {
               "type": "string",
               "description": "Pipeline name",
-              "required": true,
               "title": "Name"
             },
             "description": "Pipeline name"
@@ -3721,7 +3722,6 @@
             "schema": {
               "type": "string",
               "description": "Pipeline name",
-              "required": true,
               "title": "Name"
             },
             "description": "Pipeline name"
@@ -3733,7 +3733,6 @@
             "schema": {
               "type": "string",
               "description": "Metric collection name",
-              "required": true,
               "title": "Collection Name"
             },
             "description": "Metric collection name"
@@ -3798,7 +3797,8 @@
               }
             }
           }
-        }
+        },
+        "security": [{ "HTTPBearer": [] }]
       }
     }
   },
@@ -4360,8 +4360,7 @@
           "config": {
             "additionalProperties": true,
             "type": "object",
-            "title": "Config",
-            "default": {}
+            "title": "Config"
           }
         },
         "additionalProperties": false,
@@ -4473,16 +4472,14 @@
               "$ref": "#/components/schemas/redis_di_api__models__errors__Error"
             },
             "type": "array",
-            "title": "Errors",
-            "default": []
+            "title": "Errors"
           },
           "components": {
             "items": {
               "$ref": "#/components/schemas/PipelineComponentResponse"
             },
             "type": "array",
-            "title": "Components",
-            "default": []
+            "title": "Components"
           },
           "current": { "type": "boolean", "title": "Current", "default": false }
         },
@@ -4503,16 +4500,14 @@
               "$ref": "#/components/schemas/redis_di_api__models__errors__Error"
             },
             "type": "array",
-            "title": "Errors",
-            "default": []
+            "title": "Errors"
           },
           "components": {
             "items": {
               "$ref": "#/components/schemas/PipelineComponentResponse"
             },
             "type": "array",
-            "title": "Components",
-            "default": []
+            "title": "Components"
           },
           "current": { "type": "boolean", "title": "Current", "default": false }
         },
@@ -4527,8 +4522,7 @@
           "config": {
             "additionalProperties": true,
             "type": "object",
-            "title": "Config",
-            "default": {}
+            "title": "Config"
           }
         },
         "additionalProperties": false,
@@ -5079,8 +5073,7 @@
           "details": {
             "additionalProperties": true,
             "type": "object",
-            "title": "Details",
-            "default": {}
+            "title": "Details"
           }
         },
         "type": "object",
@@ -5161,6 +5154,14 @@
         "title": "Error"
       }
     },
-    "securitySchemes": { "JWTBearer": { "type": "http", "scheme": "bearer" } }
-  }
+    "securitySchemes": {
+      "JWTBearer": { "type": "http", "scheme": "bearer" },
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "servers": [{ "url": "/", "description": "Default server" }]
 }

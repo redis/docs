@@ -123,13 +123,13 @@ Advanced configuration options for fine-tuning the collector
 
 **Properties**
 
-| Name                                                                             | Type     | Description                                                                                            | Required |
-| -------------------------------------------------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------ | -------- |
-| [**sink**](#sourcesadvancedsink)<br/>(RDI Collector stream writer configuration) | `object` | Advanced configuration properties for RDI Collector stream writer connection and behaviour<br/>        |          |
-| [**source**](#sourcesadvancedsource)<br/>(Advanced source settings)              | `object` | Advanced configuration properties for the source database connection and CDC behavior<br/>             |          |
-| [**quarkus**](#sourcesadvancedquarkus)<br/>(Quarkus runtime settings)            | `object` | Advanced configuration properties for the Quarkus runtime environment<br/>                             |          |
-| [**flink**](#sourcesadvancedflink)<br/>(Advanced Flink settings)                 | `object` | Advanced configuration properties for Flink<br/>                                                       |          |
-| **java_options**<br/>(Advanced Java options)                                     | `string` | These Java options will be passed to the command line command when launching the source collector<br/> |          |
+| Name                                                                             | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                | Required |
+| -------------------------------------------------------------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| [**sink**](#sourcesadvancedsink)<br/>(RDI Collector stream writer configuration) | `object` | Advanced configuration properties for RDI Collector stream writer connection and behaviour. When using collector type 'cdc', see the full list of properties at - https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream . When using a property from that list, remove the `debezium.sink.` prefix. When using collector type 'flink', see the full list of properties at <br/> |          |
+| [**source**](#sourcesadvancedsource)<br/>(Advanced source settings)              | `object` | Advanced configuration properties for the source database connection and CDC behavior<br/>                                                                                                                                                                                                                                                                                                                                 |          |
+| [**quarkus**](#sourcesadvancedquarkus)<br/>(Quarkus runtime settings)            | `object` | Advanced configuration properties for the Quarkus runtime environment<br/>                                                                                                                                                                                                                                                                                                                                                 |          |
+| [**flink**](#sourcesadvancedflink)<br/>(Advanced Flink settings)                 | `object` | Advanced configuration properties for Flink<br/>                                                                                                                                                                                                                                                                                                                                                                           |          |
+| **java_options**<br/>(Advanced Java options)                                     | `string` | These Java options will be passed to the command line command when launching the source collector<br/>                                                                                                                                                                                                                                                                                                                     |          |
 
 **Additional Properties:** not allowed  
 **Minimal Properties:** 1  
@@ -146,7 +146,7 @@ flink: {}
 
 #### sources\.advanced\.sink: RDI Collector stream writer configuration
 
-Advanced configuration properties for RDI Collector stream writer connection and behaviour
+Advanced configuration properties for RDI Collector stream writer connection and behaviour. When using collector type 'cdc', see the full list of properties at - https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream . When using a property from that list, remove the `debezium.sink.` prefix. When using collector type 'flink', see the full list of properties at
 
 **Additional Properties**
 
