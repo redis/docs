@@ -18,7 +18,6 @@ Configuration file for Redis Data Integration (RDI) source collectors and target
 | [**processors**](#processors)<br/>(Data processing configuration) | `object`, `null` | Configuration settings that control how data is processed, including batch sizes, error handling, and performance tuning<br/>                                             |          |
 | [**targets**](#targets)<br/>(Target connections)                  | `object`         | Configuration for target Redis databases where processed data will be written<br/>                                                                                        |          |
 | [**secret\-providers**](#secret-providers)<br/>(Secret providers) | `object`         | Configuration for secret management providers<br/>                                                                                                                        |          |
-| [**jobs**](#jobs)                                                 | `object[]`       |                                                                                                                                                                           |          |
 
 **Additional Properties:** not allowed  
 <a name="sources"></a>
@@ -27,12 +26,189 @@ Configuration file for Redis Data Integration (RDI) source collectors and target
 
 Defines source collectors and their configurations. Each key represents a unique source identifier, and its value contains specific configuration for that collector
 
-**Properties (Pattern)**
+**Properties** (key: `.*`)
 
-| Name     | Type | Description | Required |
-| -------- | ---- | ----------- | -------- |
-| **\.\*** |      |             |          |
+| Name                                                          | Type       | Description                                                                          | Required |
+| ------------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------ | -------- |
+| **connection**                                                |            |                                                                                      | yes      |
+| **type**<br/>(Collector type)                                 | `string`   | Type of the source collector.<br/>Default: `"cdc"`<br/>Enum: `"cdc"`, `"flink"`<br/> | yes      |
+| **active**<br/>(Collector enabled)                            | `boolean`  | Flag to enable or disable the source collector<br/>Default: `true`<br/>              | no       |
+| [**logging**](#sourceslogging)<br/>(Logging configuration)    | `object`   | Logging configuration for the source collector<br/>                                  | no       |
+| [**tables**](#sourcestables)<br/>(Tables to capture)          | `object`   | Defines which tables to capture and how to handle their data<br/>                    | no       |
+| [**schemas**](#sourcesschemas)<br/>(Schema names)             | `string[]` | Schema names to capture from the source database (schema.include.list)<br/>          | no       |
+| [**databases**](#sourcesdatabases)<br/>(Database names)       | `string[]` | Database names to capture from the source database (database.include.list)<br/>      | no       |
+| [**advanced**](#sourcesadvanced)<br/>(Advanced configuration) | `object`   | Advanced configuration options for fine-tuning the collector<br/>                    | no       |
 
+<a name="sourceslogging"></a>
+
+### sources\.logging: Logging configuration
+
+Logging configuration for the source collector
+
+**Properties**
+
+| Name                          | Type     | Description                                                                                                                     | Required |
+| ----------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| **level**<br/>(Logging level) | `string` | Logging level for the source collector<br/>Default: `"info"`<br/>Enum: `"trace"`, `"debug"`, `"info"`, `"warn"`, `"error"`<br/> |          |
+
+**Additional Properties:** not allowed  
+**Example**
+
+```yaml
+level: info
+```
+
+<a name="sourcestables"></a>
+
+### sources\.tables: Tables to capture
+
+Defines which tables to capture and how to handle their data
+
+**Additional Properties**
+
+| Name                                                            | Type             | Description | Required |
+| --------------------------------------------------------------- | ---------------- | ----------- | -------- |
+| [**Additional Properties**](#sourcestablesadditionalproperties) | `object`, `null` |             |          |
+
+**Minimal Properties:** 1  
+<a name="sourcestablesadditionalproperties"></a>
+
+#### sources\.tables\.additionalProperties: object,null
+
+**Properties**
+
+| Name                                                                                              | Type       | Description                                                                                                                                                                            | Required |
+| ------------------------------------------------------------------------------------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| **snapshot_sql**                                                                                  | `string`   | Custom SQL statement to use for the initial data snapshot, allowing fine-grained control over what data is captured<br/>                                                               |          |
+| [**columns**](#sourcestablesadditionalpropertiescolumns)<br/>(Columns to capture)                 | `string[]` | List of specific columns to capture for changes. If not specified, all columns will be captured<br/>                                                                                   |          |
+| [**exclude_columns**](#sourcestablesadditionalpropertiesexclude_columns)<br/>(Columns to exclude) | `string[]` | List of specific columns to exclude from capture. If not specified, no columns will be excluded<br/>                                                                                   |          |
+| [**keys**](#sourcestablesadditionalpropertieskeys)<br/>(Message keys)                             | `string[]` | Optional list of columns to use as a composite unique identifier. Only required when the table lacks a primary key or unique constraint. Must form a unique combination of fields<br/> |          |
+
+**Additional Properties:** not allowed  
+<a name="sourcestablesadditionalpropertiescolumns"></a>
+
+##### sources\.tables\.additionalProperties\.columns\[\]: Columns to capture
+
+List of specific columns to capture for changes. If not specified, all columns will be captured
+
+**Items**
+
+**Item Type:** `string`  
+<a name="sourcestablesadditionalpropertiesexclude_columns"></a>
+
+##### sources\.tables\.additionalProperties\.exclude_columns\[\]: Columns to exclude
+
+List of specific columns to exclude from capture. If not specified, no columns will be excluded
+
+**Items**
+
+**Item Type:** `string`  
+<a name="sourcestablesadditionalpropertieskeys"></a>
+
+##### sources\.tables\.additionalProperties\.keys\[\]: Message keys
+
+Optional list of columns to use as a composite unique identifier. Only required when the table lacks a primary key or unique constraint. Must form a unique combination of fields
+
+**Items**
+
+**Item Type:** `string`  
+<a name="sourcesschemas"></a>
+
+### sources\.schemas\[\]: Schema names
+
+Schema names to capture from the source database (schema.include.list)
+
+**Items**
+
+**Item Type:** `string`  
+<a name="sourcesdatabases"></a>
+
+### sources\.databases\[\]: Database names
+
+Database names to capture from the source database (database.include.list)
+
+**Items**
+
+**Item Type:** `string`  
+<a name="sourcesadvanced"></a>
+
+### sources\.advanced: Advanced configuration
+
+Advanced configuration options for fine-tuning the collector
+
+**Properties**
+
+| Name                                                                             | Type     | Description                                                                                            | Required |
+| -------------------------------------------------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------ | -------- |
+| [**sink**](#sourcesadvancedsink)<br/>(RDI Collector stream writer configuration) | `object` | Advanced configuration properties for RDI Collector stream writer connection and behaviour<br/>        |          |
+| [**source**](#sourcesadvancedsource)<br/>(Advanced source settings)              | `object` | Advanced configuration properties for the source database connection and CDC behavior<br/>             |          |
+| [**quarkus**](#sourcesadvancedquarkus)<br/>(Quarkus runtime settings)            | `object` | Advanced configuration properties for the Quarkus runtime environment<br/>                             |          |
+| [**flink**](#sourcesadvancedflink)<br/>(Advanced Flink settings)                 | `object` | Advanced configuration properties for Flink<br/>                                                       |          |
+| **java_options**<br/>(Advanced Java options)                                     | `string` | These Java options will be passed to the command line command when launching the source collector<br/> |          |
+
+**Additional Properties:** not allowed  
+**Minimal Properties:** 1  
+**Example**
+
+```yaml
+sink: {}
+source: {}
+quarkus: {}
+flink: {}
+```
+
+<a name="sourcesadvancedsink"></a>
+
+#### sources\.advanced\.sink: RDI Collector stream writer configuration
+
+Advanced configuration properties for RDI Collector stream writer connection and behaviour
+
+**Additional Properties**
+
+| Name                      | Type                          | Description | Required |
+| ------------------------- | ----------------------------- | ----------- | -------- |
+| **Additional Properties** | `string`, `number`, `boolean` |             |          |
+
+**Minimal Properties:** 1  
+<a name="sourcesadvancedsource"></a>
+
+#### sources\.advanced\.source: Advanced source settings
+
+Advanced configuration properties for the source database connection and CDC behavior
+
+**Additional Properties**
+
+| Name                      | Type                          | Description | Required |
+| ------------------------- | ----------------------------- | ----------- | -------- |
+| **Additional Properties** | `string`, `number`, `boolean` |             |          |
+
+**Minimal Properties:** 1  
+<a name="sourcesadvancedquarkus"></a>
+
+#### sources\.advanced\.quarkus: Quarkus runtime settings
+
+Advanced configuration properties for the Quarkus runtime environment
+
+**Additional Properties**
+
+| Name                      | Type                          | Description | Required |
+| ------------------------- | ----------------------------- | ----------- | -------- |
+| **Additional Properties** | `string`, `number`, `boolean` |             |          |
+
+**Minimal Properties:** 1  
+<a name="sourcesadvancedflink"></a>
+
+#### sources\.advanced\.flink: Advanced Flink settings
+
+Advanced configuration properties for Flink
+
+**Additional Properties**
+
+| Name                      | Type                          | Description | Required |
+| ------------------------- | ----------------------------- | ----------- | -------- |
+| **Additional Properties** | `string`, `number`, `boolean` |             |          |
+
+**Minimal Properties:** 1  
 <a name="processors"></a>
 
 ## processors: Data processing configuration
@@ -43,7 +219,7 @@ Configuration settings that control how data is processed, including batch sizes
 
 | Name                                                                        | Type                | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | Required |
 | --------------------------------------------------------------------------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| **type**<br/>(Processor type)                                               | `string`            | Processor type, either 'classic' or 'flink'<br/>Default: `"classic"`<br/>Enum: `"classic"`, `"flink"`<br/>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |          |
+| **type**<br/>(Processor type)                                               | `string`            | Processor type, either 'classic' or 'flink'<br/>Default: `"classic"`<br/>Enum: `"classic"`<br/>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |          |
 | **on_failed_retry_interval**<br/>(Retry interval on failure)                | `integer`, `string` | Number of seconds to wait before retrying a failed operation<br/>Default: `5`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |          |
 | **read_batch_size**                                                         | `integer`, `string` | Maximum number of records to process in a single batch<br/>Default: `2000`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |          |
 | **read_batch_timeout_ms**<br/>(Read batch timeout)                          | `integer`           | Maximum time in milliseconds to wait for a batch to fill before processing<br/>Default: `100`<br/>Minimum: `1`<br/>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |          |
@@ -106,7 +282,6 @@ Advanced configuration options for fine-tuning the processor
 | [**source**](#processorsadvancedsource)<br/>(Advanced source settings)          | `object` | Advanced configuration properties for the source<br/>    |          |
 | [**sink**](#processorsadvancedsink)<br/>(Advanced sink settings)                | `object` | Advanced configuration properties for the sink<br/>      |          |
 | [**processor**](#processorsadvancedprocessor)<br/>(Advanced processor settings) | `object` | Advanced configuration properties for the processor<br/> |          |
-| [**flink**](#processorsadvancedflink)<br/>(Advanced Flink settings)             | `object` | Advanced configuration properties for Flink<br/>         |          |
 
 **Additional Properties:** not allowed  
 **Minimal Properties:** 1  
@@ -116,7 +291,6 @@ Advanced configuration options for fine-tuning the processor
 source: {}
 sink: {}
 processor: {}
-flink: {}
 ```
 
 <a name="processorsadvancedsource"></a>
@@ -158,19 +332,6 @@ Advanced configuration properties for the processor
 | **Additional Properties** | `string`, `number`, `boolean` |             |          |
 
 **Minimal Properties:** 1  
-<a name="processorsadvancedflink"></a>
-
-#### processors\.advanced\.flink: Advanced Flink settings
-
-Advanced configuration properties for Flink
-
-**Additional Properties**
-
-| Name                      | Type                          | Description | Required |
-| ------------------------- | ----------------------------- | ----------- | -------- |
-| **Additional Properties** | `string`, `number`, `boolean` |             |          |
-
-**Minimal Properties:** 1  
 <a name="targets"></a>
 
 ## targets: Target connections
@@ -189,35 +350,16 @@ Configuration for target Redis databases where processed data will be written
 
 Configuration for secret management providers
 
-**Properties (Pattern)**
-
-| Name                                                      | Type     | Description | Required |
-| --------------------------------------------------------- | -------- | ----------- | -------- |
-| [**\.\***](#secret-providers)<br/>(Secret provider entry) | `object` |             | yes      |
-
-<a name="secret-providers"></a>
-
-#### secret\-providers\.\.\*: Secret provider entry
-
-**Properties**
+**Properties** (key: `.*`)
 
 | Name                                                                    | Type     | Description                                                       | Required |
 | ----------------------------------------------------------------------- | -------- | ----------------------------------------------------------------- | -------- |
 | **type**<br/>(Provider type)                                            | `string` | Type of secret provider service<br/>Enum: `"aws"`, `"vault"`<br/> | yes      |
 | [**parameters**](#secret-providersparameters)<br/>(Provider parameters) | `object` | Configuration parameters for the secret provider<br/>             | yes      |
 
-**Additional Properties:** not allowed  
-**Example**
-
-```yaml
-parameters:
-  objects:
-    - {}
-```
-
 <a name="secret-providersparameters"></a>
 
-##### secret\-providers\.\.\*\.parameters: Provider parameters
+### secret\-providers\.parameters: Provider parameters
 
 Configuration parameters for the secret provider
 
@@ -236,25 +378,11 @@ objects:
 
 <a name="secret-providersparametersobjects"></a>
 
-###### secret\-providers\.\.\*\.parameters\.objects\[\]: Secrets objects array
+#### secret\-providers\.parameters\.objects\[\]: Secrets objects array
 
 List of secret objects to fetch from the provider
 
 **Items: Secret object**
-
-**No properties.**
-
-**Example**
-
-```yaml
-- {}
-```
-
-<a name="jobs"></a>
-
-## jobs\[\]: array
-
-**Items**
 
 **No properties.**
 
