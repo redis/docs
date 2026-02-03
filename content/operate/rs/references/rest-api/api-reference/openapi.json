@@ -94,6 +94,10 @@
             "description": "Alert name",
             "type": "string"
           },
+          "severity": {
+            "description": "Severity level of the alert",
+            "type": "string"
+          },
           "threshold": {
             "description": "Threshold for the alert",
             "type": "string"
@@ -499,6 +503,12 @@
       "Node": {
         "description": "Node information.",
         "properties": {
+          "active_alerts": {
+            "items": {
+              "$ref": "#/components/schemas/Alert"
+            },
+            "type": "array"
+          },
           "detailed_status": {
             "description": "Node detailed status",
             "enum": [
@@ -883,18 +893,18 @@
       "StateMachine": {
         "description": "State machine information",
         "properties": {
-          "actions": {
-            "description": "State machine actions",
-            "type": "string"
-          },
           "name": {
             "description": "State machine name",
+            "type": "string"
+          },
+          "state": {
+            "description": "State machine state",
             "type": "string"
           }
         },
         "required": [
           "name",
-          "actions"
+          "state"
         ],
         "type": "object"
       },
