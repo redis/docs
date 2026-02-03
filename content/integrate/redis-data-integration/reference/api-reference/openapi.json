@@ -2413,8 +2413,16 @@
       "post": {
         "tags": ["secure"],
         "summary": "Job Dry Run",
-        "description": "Executes a job using input data in a dry-run mode.\n\nAccepts both JSON and YAML content types:\n- application/json: JSON payload\n- application/yaml, application/x-yaml, text/yaml: YAML payload",
+        "description": "Executes a job using input data in a dry-run mode.",
         "operationId": "job_dry_run_api_v1_pipelines_jobs_dry_run_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/JobDryRunBody" }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -3038,8 +3046,7 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/PipelineCreateRequest",
-                "description": "Pipeline details",
-                "required": true
+                "description": "Pipeline details"
               }
             }
           }
@@ -3194,8 +3201,7 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/PipelineUpdateRequest",
-                "description": "Pipeline details",
-                "required": true
+                "description": "Pipeline details"
               }
             }
           }
@@ -3278,8 +3284,7 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/PipelinePatchRequest",
-                "description": "Partial pipeline details",
-                "required": true
+                "description": "Partial pipeline details"
               }
             }
           }
@@ -4256,6 +4261,56 @@
         "title": "InfoResponse",
         "description": "Response model containing information about the API."
       },
+      "Job": {
+        "properties": {
+          "source": { "$ref": "#/components/schemas/Source" },
+          "transform": {
+            "anyOf": [
+              {
+                "items": { "$ref": "#/components/schemas/Transform" },
+                "type": "array"
+              },
+              { "type": "null" }
+            ],
+            "title": "Transform"
+          },
+          "output": {
+            "items": { "$ref": "#/components/schemas/Output" },
+            "type": "array",
+            "title": "Output"
+          },
+          "name": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Name",
+            "examples": ["Alex"]
+          }
+        },
+        "type": "object",
+        "required": ["source", "output"],
+        "title": "Job"
+      },
+      "JobDryRunBody": {
+        "properties": {
+          "job": {
+            "$ref": "#/components/schemas/Job",
+            "title": "Job settings to dry run with."
+          },
+          "input_data": {
+            "items": { "additionalProperties": true, "type": "object" },
+            "type": "array",
+            "title": "Input Data",
+            "examples": [
+              [
+                { "COUNTRY": "IL", "FNAME": "John", "LAST_NAME": "Lennon" },
+                { "COUNTRY": "US", "FNAME": "John", "LAST_NAME": "Doe" }
+              ]
+            ]
+          }
+        },
+        "type": "object",
+        "required": ["job", "input_data"],
+        "title": "JobDryRunBody"
+      },
       "JobDryRunSuccessResponse": {
         "properties": {
           "transformation": {
@@ -4297,6 +4352,26 @@
         "required": ["status"],
         "title": "OperationResponse",
         "description": "Represents the response of an operation."
+      },
+      "Output": {
+        "properties": {
+          "uses": {
+            "type": "string",
+            "title": "Uses",
+            "examples": ["redis.write"]
+          },
+          "with": {
+            "anyOf": [
+              { "$ref": "#/components/schemas/WithInput" },
+              { "$ref": "#/components/schemas/WithFields" },
+              { "$ref": "#/components/schemas/WithConnection" }
+            ],
+            "title": "With"
+          }
+        },
+        "type": "object",
+        "required": ["uses", "with"],
+        "title": "Output"
       },
       "Pipeline": {
         "properties": {
@@ -4754,6 +4829,31 @@
         "enum": ["running", "failed", "paused", "completed", "N/A"],
         "title": "SnapshotStatus"
       },
+      "Source": {
+        "properties": {
+          "schema": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Schema",
+            "examples": ["public"]
+          },
+          "table": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Table",
+            "examples": ["employee"]
+          },
+          "row_format": {
+            "anyOf": [
+              { "type": "string", "enum": ["full", "partial"] },
+              { "type": "null" }
+            ],
+            "title": "Row Format",
+            "examples": ["full"]
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "title": "Source"
+      },
       "SourcesOutput": {
         "properties": {
           "sources": {
@@ -5052,6 +5152,26 @@
         "title": "TraceRequest",
         "description": "Request model for the trace endpoint."
       },
+      "Transform": {
+        "properties": {
+          "uses": {
+            "type": "string",
+            "title": "Uses",
+            "examples": ["add_field"]
+          },
+          "with": {
+            "anyOf": [
+              { "$ref": "#/components/schemas/WithInput" },
+              { "$ref": "#/components/schemas/WithFields" },
+              { "$ref": "#/components/schemas/WithConnection" }
+            ],
+            "title": "With"
+          }
+        },
+        "type": "object",
+        "required": ["uses", "with"],
+        "title": "Transform"
+      },
       "ValidationError": {
         "properties": {
           "loc": {
@@ -5065,6 +5185,70 @@
         "type": "object",
         "required": ["loc", "msg", "type"],
         "title": "ValidationError"
+      },
+      "WithConnection": {
+        "properties": {
+          "connection": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Connection",
+            "examples": ["target"]
+          },
+          "data_type": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Data Type",
+            "examples": ["hash"]
+          },
+          "args": {
+            "anyOf": [
+              { "additionalProperties": true, "type": "object" },
+              { "type": "null" }
+            ],
+            "title": "Args",
+            "examples": [{ "member": "value" }]
+          },
+          "key": { "$ref": "#/components/schemas/WithInput" }
+        },
+        "type": "object",
+        "required": ["key"],
+        "title": "WithConnection"
+      },
+      "WithFields": {
+        "properties": {
+          "fields": {
+            "items": { "$ref": "#/components/schemas/WithInput" },
+            "type": "array",
+            "title": "Fields"
+          }
+        },
+        "type": "object",
+        "required": ["fields"],
+        "title": "WithFields"
+      },
+      "WithInput": {
+        "properties": {
+          "expression": {
+            "type": "string",
+            "title": "Expression",
+            "examples": [
+              "FNAME || ' ' || LAST_NAME",
+              "concat([fname, ' ' , last_name])"
+            ]
+          },
+          "field": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Field",
+            "description": "This field it available only for a subset of with expressions e.g. `add_field`, `remove_field`.",
+            "examples": ["FullName"]
+          },
+          "language": {
+            "type": "string",
+            "title": "Language",
+            "examples": ["sql", "jmespath"]
+          }
+        },
+        "type": "object",
+        "required": ["expression", "language"],
+        "title": "WithInput"
       },
       "redis_di_api__models__errors__Error": {
         "properties": {
