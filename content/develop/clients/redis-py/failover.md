@@ -124,6 +124,14 @@ cfg = MultiDbConfig(
 )
 ```
 
+### Failback configuration
+
+The `MultiDbConfig` constructor provides the following option to configure the failback behavior:
+
+| Option | Description |
+| --- | --- |
+| `auto_fallback_interval` | Time interval between automatic failback attempts. Set this to `-1` to disable automatic failback. Default value is `30` seconds (which means failback is enabled by default). |
+
 ### General failover configuration
 
 There are also a few other options you can pass to the `MultiDbConfig` constructor to control the failover behavior:
@@ -132,7 +140,6 @@ There are also a few other options you can pass to the `MultiDbConfig` construct
 | --- | --- |
 | `failover_attempts` | Number of attempts to fail over to a new endpoint before giving up. Default is `10`. |
 | `failover_delay` | Time interval between successive failover attempts. Default is `12` seconds. |
-| `auto_fallback_interval` | Time interval between automatic failback attempts. Default is `30` seconds. |
 | `event_dispatcher` | `EventDispatcher` object to use for emitting events. Supply this to register custom event listeners (see [Failover callbacks](#failover-callbacks) below for more information). |
 
 ### Failover callbacks
@@ -187,18 +194,26 @@ client = MultiDBClient(config)
 ## Health check configuration
 
 Each health check consists of one or more separate "probes", each of which is a simple
-test (such as a [`PING`]({{< relref "/commands/ping" >}}) command) to determine if the database is available. The results of the separate probes are combined
-using a configurable policy to determine if the database is healthy. `MultiDbConfig` provides the following options to configure the health check behavior:
+test (such as a [`PING`]({{< relref "/commands/ping" >}}) command) to determine if the
+database is available. The results of the separate probes are combined
+using a configurable policy to determine if the database is healthy.
+
+Note that
+an initial health check is performed on each database when you create the client or when
+you add a new database. This initial health check has a separate configuration from the
+periodic health checks, so you can use a stricter policy here to ensure you don't add
+a database that is already unhealthy.
+
+`MultiDbConfig` provides the following options to configure the health check behavior:
 
 | Option | Description |
 | --- | --- |
 | `health_check_interval` | Time interval between successive health checks (each of which may consist of multiple probes). Default is `5` seconds. |
 | `health_check_probes` | Number of separate probes performed during each health check. Default is `3`. |
 | `health_check_probes_delay` | Delay between probes during a health check. Default is `0.5` seconds. |
-| `health_check_policy` | `HealthCheckPolicies` enum value to specify the policy for determining database health from the separate probes of a health check. The options are `HealthCheckPolicies.ALL` (all probes must succeed), `HealthCheckPolicies.ANY` (at least one probe must succeed), and `HealthCheckPolicies.MAJORITY` (more than half the probes must succeed). The default policy is `HealthCheckPolicies.MAJORITY`. |
+| `health_check_policy` | `HealthCheckPolicies` enum value to specify the policy for determining database health from the separate probes of a health check. The options are `HealthCheckPolicies.HEALTHY_ALL` (all probes must succeed), `HealthCheckPolicies.HEALTHY_ANY` (at least one probe must succeed), and `HealthCheckPolicies.HEALTHY_MAJORITY` (more than half the probes must succeed). The default policy is `HealthCheckPolicies.HEALTHY_MAJORITY`. |
 | `health_check` | Custom list of `HealthCheck` objects to specify how to perform each probe during a health check. This defaults to just the simple [`PingHealthCheck`](#pinghealthcheck-default). |
-
-
+| `initial_health_check_policy` | `InitialHealthCheck` enum value to specify the policy to use during the initial health check. The options are `InitialHealthCheck.ALL_HEALTHY` (all probes must succeed), `InitialHealthCheck.ANY_HEALTHY` (at least one probe must succeed), and `InitialHealthCheck.MAJORITY_HEALTHY` (more than half the probes must succeed). The default policy is `InitialHealthCheck.ALL_HEALTHY`. |
 
 ### Health check strategies
 
@@ -328,10 +343,6 @@ You can add and remove database endpoints, and update their weights:
 ```py
 from redis.multidb.client import MultiDBClient
 from redis.multidb.config import MultiDbConfig, DatabaseConfig
-from redis.multidb.database import Database
-from redis.multidb.circuit import PBCircuitBreakerAdapter
-import pybreaker
-from redis import Redis
 
 cfg = MultiDbConfig(
     databases_config = [
@@ -347,20 +358,25 @@ cfg = MultiDbConfig(
 )
 client = MultiDBClient(cfg)
 
-# Add a database programmatically.
-other = Database(
-    client=Redis.from_url("redis://redis-south.example.com/0"),
-    circuit=PBCircuitBreakerAdapter(pybreaker.CircuitBreaker(reset_timeout=5.0)),
-    weight=0.5,
-    health_check_url=None,
+# Add a database programmatically. The `skip_unhealthy` parameter defaults
+# to `True`, which avoids adding the database if it is unhealthy, but you
+# can override this by setting it to `False` explicitly.
+other = DatabaseConfig(
+    client_kwargs={"host": "redis-south.example.com", "port": "14000"},
+    weight=0.5
 )
-client.add_database(other)
+client.add_database(other, skip_unhealthy=True)
 
-# Update the new database's weight.
-client.update_database_weight(other, 0.9)
+# Get a list of databases, sorted by weight.
+databases = client.get_databases()
 
-# Remove the database from the failover set.
-client.remove_database(other)
+# Update the weights of each database whose weight is less than 1.
+for db in databases:
+    if db.weight < 1.0:
+        client.update_database_weight(db, 0.9)
+
+# Remove a database from the failover set.
+client.remove_database(databases[0])
 ```
 
 ### Manual failback
