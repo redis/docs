@@ -124,6 +124,14 @@ cfg = MultiDbConfig(
 )
 ```
 
+### Failback configuration
+
+The `MultiDbConfig` constructor provides the following option to configure the failback behavior:
+
+| Option | Description |
+| --- | --- |
+| `auto_fallback_interval` | Time interval between automatic failback attempts. Set this to `-1` to disable automatic failback. Default value is `30` seconds (which means failback is enabled by default). |
+
 ### General failover configuration
 
 There are also a few other options you can pass to the `MultiDbConfig` constructor to control the failover behavior:
@@ -132,7 +140,6 @@ There are also a few other options you can pass to the `MultiDbConfig` construct
 | --- | --- |
 | `failover_attempts` | Number of attempts to fail over to a new endpoint before giving up. Default is `10`. |
 | `failover_delay` | Time interval between successive failover attempts. Default is `12` seconds. |
-| `auto_fallback_interval` | Time interval between automatic failback attempts. Default is `30` seconds. |
 | `event_dispatcher` | `EventDispatcher` object to use for emitting events. Supply this to register custom event listeners (see [Failover callbacks](#failover-callbacks) below for more information). |
 
 ### Failover callbacks
